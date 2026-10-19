@@ -22,5 +22,3 @@ claimed-at:
 **Files.** src/core2/modules/press.ts, src/core2/data/press/parameters.json
 
 **Notes.** Remaining closure: see `world-press-outlet-revenue-wage-gap`.
-
-**Status Oct 17 (claude).** The same cause (a local outlet opens with no cash and its first payday falls before its first month's revenue) was fixed on main by the opening cash buffer and payroll-tax cover in `people-press-small-town-outlets-close` (#4999) and the schedule-hours fix in `world-press-outlet-revenue-wage-gap` (#5013); in Cobb Island, Maryland none of the five local outlets closed through January 2027. The draft #4988 builds the same buffer at 27 days and now conflicts with #4999 on the lines in `openPress`. The CTO may close this item and #4988.
