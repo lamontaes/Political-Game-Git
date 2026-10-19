@@ -35,3 +35,31 @@ describe(`archive news words (${world.place.key}, seed ${seed})`, () => {
     }
   }, 120_000);
 });
+
+describe(`archive law news words (${world.place.key}, seed ${seed})`, () => {
+  it("words an archived law that took effect, naming the law and the date", () => {
+    const stories = coreAPI(world.core)
+      .moduleState(NEWS_MODULE_ID)
+      .table("stories")
+      .rows() as unknown as {
+      id: string;
+      kind: string;
+      date: string;
+      facts: Record<string, string>;
+    }[];
+    const laws = stories.filter(
+      (row) => row.facts.recordKind === "law-took-effect",
+    );
+    expect(laws.length).toBeGreaterThan(0);
+    const worded = laws
+      .map((story) => ({ story, words: wordArchiveStory(world.core, story) }))
+      .filter((row) => row.words);
+    expect(worded.length, "a law has a name on the catalog").toBeGreaterThan(0);
+    for (const { story, words } of worded) {
+      expect(words!.lede).toMatch(
+        /^.+ took effect on [A-Z][a-z]+ \d+, \d{4}\.$/,
+      );
+      expect(words!.sourceRecordIds).toContain(story.id);
+    }
+  }, 120_000);
+});
