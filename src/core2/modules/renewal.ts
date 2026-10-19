@@ -9,6 +9,11 @@ import {
   type BirthCouple,
 } from "../births-plan";
 import { buildNewborn } from "../births-people";
+import {
+  decideUnplanned,
+  unplannedExposure,
+  UNPLANNED_STOPGAP,
+} from "../births-unplanned";
 import { applyCountedFlows } from "../births-counted";
 import { nextMonthDay } from "../residents";
 import type { CoreAPI, CoreModule, Source } from "../types";
@@ -146,12 +151,137 @@ function review(
       source: planSource,
       facts: { pregnancyId, planId, dueDate, conceivedAt: asOf },
     });
-  } else if (!opening)
+  } else if (!opening) {
+    conceiveUnplanned(api, row, parents[0]!.placeId);
     scheduleReview(
       api,
       row,
       dateAfter(api, renewalParameter(api, "renewalReviewDays")),
     );
+  }
+}
+
+/**
+ * A couple that chose to wait still carries exposure each review; a whole unit
+ * is an unplanned pregnancy, and the mother decides what to do with it from
+ * her records, the law in force where she lives and the trip to a provider.
+ * The player's own household never conceives here: no engine makes that choice
+ * for the controlled person (SG-PEOPLE-unplanned-pregnancy).
+ */
+function conceiveUnplanned(
+  api: CoreAPI,
+  row: BirthCouple,
+  placeId: string,
+): void {
+  if (
+    row.motherId === api.state.playerId ||
+    row.otherParentId === api.state.playerId
+  )
+    return;
+  api.stopgap(UNPLANNED_STOPGAP);
+  const carryRow = table(api, "exposure").get(row.id);
+  const carry =
+    Number(carryRow?.carry ?? 0) + unplannedExposure(api, row, api.state.date);
+  if (carry < renewalParameter(api, "one")) {
+    table(api, "exposure").put({ id: row.id, carry });
+    return;
+  }
+  table(api, "exposure").put({
+    id: row.id,
+    carry: carry - renewalParameter(api, "one"),
+  });
+  const decision = decideUnplanned(api, row, api.state.date);
+  const planId = `${row.id}:unplanned:${api.state.date}`;
+  const planSource: Source = {
+    tag: "ESTIMATED",
+    asOf: api.state.date,
+    citation:
+      "Unplanned pregnancy from the couple's exposure and the mother's own weighing of it.",
+    estimatedFrom:
+      "Household cushion and the mother's age curve; the restriction law in force and an estimated trip to a provider. SG-PEOPLE-unplanned-pregnancy.",
+  };
+  table(api, "plans").put({
+    id: planId,
+    coupleId: row.id,
+    date: api.state.date,
+    recordedAt: api.state.date,
+    opening: false,
+    unplanned: true,
+    motherId: row.motherId,
+    otherParentId: row.otherParentId,
+    agreed: decision.continues,
+    decisions: [decision] as unknown as ModuleRow["decisions"],
+    lawId: decision.lawId,
+    source: planSource as unknown as ModuleRow["source"],
+  });
+  const pregnancyId = `${planId}:pregnancy`;
+  const facts = {
+    pregnancyId,
+    planId,
+    unplanned: "true",
+    restricted: String(decision.restricted),
+    lawId: decision.lawId ?? "none recorded",
+    miles: String(decision.miles),
+  };
+  if (!decision.continues) {
+    table(api, "pregnancies").put({
+      id: pregnancyId,
+      planId,
+      coupleId: row.id,
+      motherId: row.motherId,
+      otherParentId: row.otherParentId,
+      conceivedAt: api.state.date,
+      opening: false,
+      unplanned: true,
+      status: "ended",
+      lawId: decision.lawId,
+      source: planSource as unknown as ModuleRow["source"],
+    });
+    api.emit({
+      id: `${pregnancyId}:ended`,
+      date: api.state.date,
+      kind: "pregnancy-ended",
+      personIds: [row.motherId, row.otherParentId],
+      placeId,
+      source: planSource,
+      facts,
+    });
+    return;
+  }
+  const dueDate = addDays(
+    makeIsoDate(api.state.date),
+    renewalParameter(api, "renewalGestationDays"),
+  );
+  table(api, "pregnancies").put({
+    id: pregnancyId,
+    planId,
+    coupleId: row.id,
+    motherId: row.motherId,
+    otherParentId: row.otherParentId,
+    conceivedAt: api.state.date,
+    opening: false,
+    unplanned: true,
+    dueDate,
+    status: "pregnant",
+    lawId: decision.lawId,
+    source: planSource as unknown as ModuleRow["source"],
+  });
+  api.moduleCalendar(RENEWAL_MODULE_ID).schedule({
+    key: `${pregnancyId}:delivery`,
+    date: dueDate,
+    kind: "delivery",
+    source: planSource,
+    sourceRecordIds: [pregnancyId],
+  });
+  api.emit({
+    id: `${pregnancyId}:recorded`,
+    date: api.state.date,
+    kind: "pregnancy-recorded",
+    personIds: [row.motherId, row.otherParentId],
+    placeId,
+    source: planSource,
+    facts: { ...facts, dueDate, conceivedAt: api.state.date },
+  });
 }
 
 /** The counted population's flows run on the first of each month. */
@@ -370,6 +500,8 @@ export const RENEWAL_MODULE: CoreModule = {
           byParent: { fields: ["motherId"] },
         },
       },
+      /** Exposure a waiting couple has carried toward an unplanned pregnancy. */
+      exposure: {},
       countedIllness: {
         indexes: { byPlace: { fields: ["placeId"] } },
       },
