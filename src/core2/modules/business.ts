@@ -1994,6 +1994,34 @@ export function ownerOf(
   )?.ownerId;
 }
 
+/**
+ * A person who already owns a business the book was added for (an outlet's
+ * publisher, say) is recorded as its owner, so the owner's draws, hiring and
+ * closing decisions run on it like any owner-operator's. No profit is owed
+ * before the day of enrollment.
+ */
+export function enrollBusinessOwner(
+  api: CoreAPI,
+  input: {
+    readonly organizationId: string;
+    readonly ownerId: string;
+    /** Why this person owns it, kept on the record. */
+    readonly basis: string;
+  },
+): void {
+  store(api).table("owners").put({
+    id: input.organizationId,
+    isOwner: true,
+    ownerId: input.ownerId,
+    since: api.state.date,
+    basis: input.basis,
+    salesThrough: 0,
+    wagesThrough: 0,
+    operatingThrough: 0,
+    retainedMinor: 0,
+  });
+}
+
 const BDS = bdsRates as unknown as {
   states: Record<string, { entryPct: number; exitPct: number }>;
   nationExitPct: number;
