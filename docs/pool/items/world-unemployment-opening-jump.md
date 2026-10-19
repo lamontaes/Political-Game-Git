@@ -5,10 +5,10 @@ area: world
 kind: bug
 priority: 2
 size: M
-status: claimed
+status: blocked
 claimed-by: claude/political-game-pool-3xfqef-2
 pr: #4913
-blocked-on:
+blocked-on: world-local-sales-below-opening-forecast
 source: added with npm run pool -- add
 claimed-at: 2026-10-19T22:23:51.875Z
 ---
