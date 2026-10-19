@@ -28,12 +28,7 @@ import { GRIEF, griefToday, recordDeath } from "../grief";
 import { ENCOUNTERS } from "../encounters";
 import { runDuePlannedActs } from "../free-block";
 import { OPENING_KIN } from "../opening-kin";
-import type {
-  ActOffer,
-  CoreAPI,
-  PersonState,
-  Relationship,
-} from "../types";
+import type { ActOffer, CoreAPI, PersonState, Relationship } from "../types";
 import { offer } from "./life";
 import type {
   HistoryWriter,
