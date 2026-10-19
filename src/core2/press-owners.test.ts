@@ -20,6 +20,7 @@ import { openRecord } from "./modules/record";
 import {
   attackOutlet,
   deskContext,
+  leakToReporter,
   openPress,
   PRESS_MODULE_ID,
   storiesPrinted,
@@ -185,5 +186,83 @@ describe("the press's owner and tip reads", () => {
       (s) => s.kind === "press.exposed",
     );
     expect(exposed.length, where).toBe(ran ? 1 : 0);
+  });
+
+  it("a leak is a tip the leaker chose to give: the reporter still decides to dig and the owner to run it, and the reporter knows who gave it", () => {
+    const { core, outlet, where } = world();
+    const api = coreAPI(core);
+    const town = [...core.people.values()]
+      .filter(
+        (p) =>
+          p.alive &&
+          p.placeId === outlet.placeId &&
+          !p.id.startsWith("person:press"),
+      )
+      .sort((a, b) => a.id.localeCompare(b.id));
+    const [official, offerer, leaker] = town;
+    const reporter = outlet.reporterIds[0]!;
+    const crimeId = `crime:fixture-leak:${seed}`;
+    api.moduleState(CORRUPTION_MODULE_ID).table("crimes").put({
+      id: crimeId,
+      kind: "bribe",
+      date: core.date,
+      offererId: offerer!.id,
+      officialId: official!.id,
+      amountMinor: 50_000,
+      subjectId: "fixture",
+      offered: true,
+      taken: true,
+      reasons: {},
+    });
+    // Someone not in the press was told, and told in turn by the offerer.
+    api.emit({
+      id: `${crimeId}:told:${offerer!.id}:${core.date}`,
+      date: core.date,
+      kind: "crime.told",
+      personIds: [leaker!.id],
+      witnessIds: [offerer!.id],
+      placeId: outlet.placeId,
+      facts: { [`crime:${crimeId}`]: "bribe-taken" },
+      source: { tag: "SOURCED", citation: "fixture", asOf: core.date },
+    });
+    const before = api
+      .moduleState(PRESS_MODULE_ID)
+      .table("tips")
+      .get(crimeId) as { storyId: string | null } | undefined;
+    // A person who does not know of it cannot leak it.
+    expect(() =>
+      leakToReporter(api, {
+        leakerId: reporter,
+        reporterId: reporter,
+        crimeId,
+      }),
+    ).toThrow();
+    const row = leakToReporter(api, {
+      leakerId: leaker!.id,
+      reporterId: reporter,
+      crimeId,
+    }) as {
+      leaked?: boolean;
+      knowerId: string;
+      dig: number | null;
+      run: number | null;
+      storyId: string | null;
+      tip: number;
+    };
+    if (before?.storyId) {
+      // Already in print by its own path: the leak does not print it twice.
+      expect(row.leaked, where).toBeUndefined();
+      expect(row.storyId, where).toBe(before.storyId);
+      return;
+    }
+    expect(row.leaked, where).toBe(true);
+    expect(row.knowerId, where).toBe(leaker!.id);
+    expect(row.tip, where).toBeGreaterThan(0);
+    const ran = (row.dig ?? 0) > 0 && (row.run ?? 0) > 0;
+    expect(!!row.storyId, where).toBe(ran);
+    // The reporter knows who gave it to them.
+    expect(api.knows(reporter, `leak:${crimeId}`)?.value, where).toBe(
+      leaker!.id,
+    );
   });
 });
