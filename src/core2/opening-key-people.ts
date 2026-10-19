@@ -14,7 +14,11 @@ import {
   memberKey,
   members,
 } from "./modules/legislature";
-import { OFFICES_MODULE_ID, townSeats } from "./modules/offices";
+import {
+  OFFICES_MODULE_ID,
+  seatsOfOffices,
+  townSeats,
+} from "./modules/offices";
 import { officialOf } from "./modules/officials";
 import { corePlaceByJurisdictionId } from "./place-lookup";
 import { coreAPI } from "./state";
@@ -137,7 +141,16 @@ export function keyPeopleOf(
   const own = new Map<string, KeyReason>();
   for (const [reason, kinds] of Object.entries(DATA.ownOffices))
     for (const kind of kinds) own.set(kind, reason as KeyReason);
-  for (const { office, seat, holder } of townSeats(api)) {
+  // The President and Vice President are known to everyone, including a
+  // territory's town whose voters do not choose them (owner ruling, Oct 19).
+  const over = townSeats(api);
+  const heads = seatsOfOffices(
+    api,
+    (offices(api).rows() as unknown as OfficeRow[]).filter(
+      (row) => row.kind === "president" || row.kind === "vice-president",
+    ) as never,
+  ).filter(({ seat }) => !over.some((row) => row.seat.id === seat.id));
+  for (const { office, seat, holder } of [...over, ...heads]) {
     if (!holder) continue;
     const reason: KeyReason | undefined =
       office.kind === "president" || office.kind === "vice-president"
