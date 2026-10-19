@@ -88,9 +88,9 @@ console.log(
   `  civic (join, organize, approach): ${share(matching(/join|organiz|approach|civic/))}; ATUS 13.6% organizational, civic and religious (5.3% volunteering)`,
 );
 // Rest is the "recover" effect; one rest act takes the leisure total
-// (workWakingRecoveryHours, ATUS Table 3 leisure and sports 5.16 h a day) today,
+// (restDayHours, ATUS Table 3 leisure and sports 5.16 h a day) today,
 // so this line holds the leisure share still while that length is lowered.
-const restHours = parameter("workWakingRecoveryHours");
+const restHours = parameter("restDayHours");
 const restActs = [...byAction]
   .filter(([key]) =>
     core.data.actions.some((row) => row.id === key && row.effect === "recover"),
