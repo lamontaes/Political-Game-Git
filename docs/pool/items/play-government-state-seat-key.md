@@ -6,11 +6,11 @@ kind: bug
 priority: 3
 size: S
 status: in-pr
-claimed-by: claude/government-state-seat-key
+claimed-by:
 pr: #4946
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-17T16:38:15.629Z
+claimed-at:
 ---
 
 **What.** TODO
@@ -22,3 +22,5 @@ claimed-at: 2026-10-17T16:38:15.629Z
 **Files.** TODO
 
 **Notes.** TODO
+
+Sent back 2026-10-18 from PR #4946 (branch claude/government-state-seat-key): Merging current main (cc1fa97169) conflicts in docs/pool/items/play-government-screen-capitals.md, docs/release/changes/play-government-screen-capitals.md, src/core2/offices-local-names.test.ts, src/core2/offices-local.ts. Resolve these conflicts on this branch and push before local validation can run.; finish on that branch, merge main into it first.
