@@ -5,11 +5,12 @@ area: world
 kind: cleanup
 priority: 2
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/work-schedules-roster
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-19T18:37:13.328Z
 ---
 
 **What.** TODO
