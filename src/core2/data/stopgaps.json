@@ -3027,8 +3027,8 @@
     "why": "Public payroll from treasuries is OPUS-CORE's (public employers pay as outside payers today).",
     "addedBy": "OPUS-GOV",
     "addedAt": "2026-10-13",
-    "replacement": "The appointee's post becomes a public job paid from the government's treasury through CORE's public payroll.",
-    "status": "open"
+    "replacement": "Resolved Oct 19: the state cabinet the governor picks are full people on the state payroll (job:public:state:<post>:<person>), the one replaced leaves it; a town head or an agency head is paid the same way. A world with no treasury open has no payroll, which is not a played world (pool item gov-stopgap-executive-missing-engine).",
+    "status": "resolved"
   },
   {
     "id": "SG-GOV-executive-powers-research",
