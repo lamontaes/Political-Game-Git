@@ -5,12 +5,12 @@ area: people
 kind: bug
 priority: 2
 size: S
-status: in-pr
+status: claimed
 claimed-by: claude/stance-causes-bounded
 pr: #5062
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-18T20:38:09.285Z
+claimed-at: 2026-10-19T19:17:08.053Z
 ---
 
 **What.** TODO
@@ -22,3 +22,5 @@ claimed-at: 2026-10-18T20:38:09.285Z
 **Files.** TODO
 
 **Notes.** TODO
+
+Sent back 2026-10-19 from PR #5062 (branch claude/stance-causes-bounded): Morning check and Oct 19 audit: the change keeps a fixed latest-24-cause cap for core-stance-causes-grow-without-limit. The audit explicitly sends #5062 back over this locked number; replace the cap with retention derived from the actual records and their consumers, without an arbitrary fixed history length; finish on that branch, merge main into it first.
