@@ -2487,11 +2487,11 @@
     "file": "src/core2/modules/jobs.ts",
     "line": 601,
     "whatItFakes": "A layoff names the business itself as who decided it.",
-    "why": "Businesses have no recorded owners or managers until businesses growing (M1-08).",
+    "why": "Businesses have no recorded owners or managers until businesses growing (M1-08). Resolved Oct 19, 2026: a layoff is decided by the recorded owner, else by the firm's best-paid full worker still on the staff (managerOf in modules/jobs.ts); only a firm with no one left decides as itself.",
     "addedBy": "OPUS-WORLD",
     "addedAt": "2026-10-12",
     "replacement": "The owner or manager person recorded by M1-08, deciding from their own traits and the books.",
-    "status": "open"
+    "status": "resolved"
   },
   {
     "id": "SG-WORLD-jobs-benefits-terms",
