@@ -31,7 +31,7 @@ for k,s in enumerate([x for x in d["scenes"] if x.get("root")],1):
     root["lines"]=opening+[x for x in root["lines"] if x["text"] not in have]
     asker=opening[0]["speaker"] if opening else "they"
     scenes.append({"id":s["id"],"n":k,"purpose":s.get("purpose",""),"type":s.get("type",""),"key":it.get("key",""),"endpoint":it.get("endpoint",""),
-      "asker":asker,"who":"","narration":s.get("narration",[]),"root":root})
+      "asker":asker,"who":"","context":s.get("context"),"narration":s.get("narration",[]),"root":root})
 data={"id":d.get("id","batch-14"),"place":d.get("place",""),"scenes":scenes}
 import re
 payload=json.dumps(data,ensure_ascii=False).replace("</","<\\/")

@@ -1,4 +1,4 @@
-<title>Batch 15 Table Read</title>
+<title>Words Table Read</title>
 <meta name="claude:viewport-fit-sides" content="cover" />
 <link
   rel="stylesheet"
@@ -145,6 +145,9 @@
     font-size: 0.8rem;
     color: var(--ink-2);
     margin: 0 0 18px;
+  }
+  .who-is p {
+    margin: 0 0 4px;
   }
   .who-is {
     font-size: 0.82rem;
@@ -498,6 +501,19 @@
         }),
       );
       if (scene.who) page.append(el("p", { class: "who-is", text: scene.who }));
+      // Who these two are and why the scene is happening, from the world's
+      // records (owner, Oct 19), so a line can be judged against the relationship.
+      if (scene.context) {
+        const c = scene.context;
+        page.append(
+          el("div", { class: "who-is" }, [
+            el("p", { text: "You play " + c.asked.name + ": " + c.asked.role + "." }),
+            el("p", { text: c.asker.name + ": " + c.asker.role + "." }),
+            el("p", { text: "Between them: " + c.relation + "." }),
+            el("p", { text: "Why this scene: " + c.why.join("; ") + "." }),
+          ]),
+        );
+      }
       scene.narration.forEach((t, k) =>
         page.append(
           el("div", { class: "cue" }, [

@@ -692,18 +692,6 @@
           "opener": "host"
         },
         {
-          "match": {
-            "label": "feeling:event:person-birth",
-            "counterpart": "some"
-          },
-          "bind": {
-            "honoree": "subject",
-            "host": "household",
-            "guests": "kin"
-          },
-          "opener": "host"
-        },
-        {
           "awaitingProducer": "election-result",
           "causeEngine": "elections",
           "bind": {
@@ -1414,13 +1402,25 @@
       ],
       "setting": ["home", "other-home"],
       "timing": "effective-date",
-      "causes": [],
-      "awaiting": ["record:care-responsibility"],
+      "causes": [
+        {
+          "match": {
+            "label": "feeling:event:health.serious-illness",
+            "counterpart": "none"
+          },
+          "bind": { "cared-for": "subject", "caregiver": "kin" },
+          "opener": "cared-for"
+        }
+      ],
       "tag": {
         "key": "routine",
         "endpoint": "personal",
         "registers": ["conversation", "scene-words", "journal"]
-      }
+      },
+      "purpose": "care-visit",
+      "asker": "cared-for",
+      "asked": "caregiver",
+      "stakes": ["relative"]
     },
     {
       "key": "advice",
@@ -2591,7 +2591,11 @@
         "key": "routine",
         "endpoint": "political",
         "registers": ["filing-visit", "counter", "journal"]
-      }
+      },
+      "purpose": "filing-clerk",
+      "asker": "clerk",
+      "asked": "candidate",
+      "stakes": ["office", "opponent"]
     },
     {
       "key": "layoff",
@@ -3329,6 +3333,53 @@
         "endpoint": "bill",
         "registers": ["scene-talk", "scene-words"]
       }
+    },
+    {
+      "key": "new-baby",
+      "note": "A birth on record brings someone close to the new parent to the door (owner, Oct 16: the engine must build a conversation for having a baby).",
+      "roles": [
+        {
+          "key": "parent",
+          "fill": "subject",
+          "count": "one",
+          "moves": ["tell", "thank", "confess", "request"],
+          "wants": ["engage", "trust"],
+          "bearing": "glad"
+        },
+        {
+          "key": "visitor",
+          "fill": "kin",
+          "count": "one",
+          "moves": ["greet", "ask", "comfort", "offer"],
+          "wants": ["help-others", "engage"],
+          "bearing": "tender"
+        }
+      ],
+      "setting": ["home"],
+      "timing": "at-cause",
+      "causes": [
+        {
+          "match": {
+            "label": "feeling:event:person-birth",
+            "counterpart": "some"
+          },
+          "bind": {
+            "parent": "subject",
+            "visitor": "kin"
+          },
+          "opener": "visitor",
+          "opening": "greet"
+        }
+      ],
+      "tag": {
+        "key": "honor",
+        "endpoint": "personal",
+        "registers": ["conversation", "scene-words", "journal"]
+      },
+      "purpose": "new-baby",
+      "asker": "visitor",
+      "asked": "parent",
+      "stakes": ["kid"]
     }
   ]
 }

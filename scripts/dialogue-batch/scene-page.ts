@@ -33,6 +33,7 @@ import type { Fact } from "../../src/director/render";
 import { properName, spoken, spokenWhen } from "../../src/director/words";
 import { ageOnDate, makeIsoDate } from "../../src/core2/kernel/dates";
 import { policyNames } from "../../src/bench/words";
+import { filingClerkFor } from "../../src/core2/modules/filing-clerk";
 import situationFile from "../../src/director/data/situation-types.json" with { type: "json" };
 import rulesFile from "../../src/director/data/scene-talk-rules.json" with { type: "json" };
 import profilesFile from "../../src/director/data/grading-profiles.json" with { type: "json" };
@@ -90,6 +91,24 @@ const realPerson = (value: string | undefined | null): string | undefined => {
   return term?.personId && core.people.has(term.personId)
     ? term.personId
     : undefined;
+};
+/** People serving in an office now: never cast as a plain resident (a voter, a petitioner, a witness). */
+const serving17 = new Set(
+  terms
+    .filter((row) => row.status === "serving")
+    .map((row) => realPerson(row.personId))
+    .filter((id): id is string => !!id),
+);
+/** An adult with no office: who a plain resident's part is cast from (owner, Oct 19: the context must fit). */
+const citizen = (id: string) => {
+  const row = core.people.get(id);
+  return (
+    !!row &&
+    row.alive &&
+    row.tier !== "husk" &&
+    !serving17.has(id) &&
+    ageOnDate(makeIsoDate(row.birthDate), makeIsoDate(core.date)) >= 18
+  );
 };
 const nameOf = (personId: string) => {
   const row = core.people.get(personId);
@@ -406,7 +425,13 @@ const problemOf: Record<string, string> = {
   "feeling:event:housing.eviction": "problem-eviction",
   "feeling:event:health.serious-illness": "problem-illness",
 };
-const board = "office:gus2025:101811:board";
+// The town's own body, from the records (never a named place; owner, one rule for all 56).
+const board =
+  bodies.find((id) =>
+    ["local", "county"].includes(String(offices.get(id)?.level)),
+  ) ??
+  bodies[0] ??
+  "";
 const members = order(serving(board), "hours", (row) => row.personId);
 let memberAt = 0;
 for (const label of Object.keys(problemOf)) {
@@ -928,7 +953,9 @@ for (const remark of order(remarks, "remark", (row) => row.id)) {
   const resident = order(
     [...core.people.values()].filter(
       (row: any) =>
-        row.alive && row.tier !== "husk" && row.id !== member?.personId,
+        citizen(row.id) &&
+        row.id !== member?.personId &&
+        row.placeId === core.people.get(member?.personId ?? "")?.placeId,
     ),
     "recall-resident",
     (row: any) => row.id,
@@ -973,21 +1000,21 @@ for (const hall of order(
   const host = realPerson(hall.hostId);
   const guest = (hall.attendeeIds ?? [])
     .map((x: string) => realPerson(x))
-    .find((x: string | undefined) => x && x !== host);
-  const bill = order(titled, "hearing", (row) => row.bill.id)[0];
-  if (!host || !guest || !bill) continue;
+    .find((x: string | undefined) => x && x !== host && citizen(x));
+  const billFacts = billFact("hearing");
+  if (!host || !guest || !billFacts.bill) continue;
   newSpec(
     "public-hearing",
     host,
     guest,
     {
-      bill: fact(quoted(bill.title), [bill.bill.id]),
+      ...billFacts,
       self: fact(nameOf(guest), [guest]),
       ...(townOf(guest)
         ? { place: fact(townOf(guest)!.text, [townOf(guest)!.id]) }
         : {}),
     },
-    [hall.id, bill.bill.id, host, guest],
+    [hall.id, ...billFacts.bill.sourceRecordIds, host, guest],
     [
       "the hearing is a recorded town hall; the bill on the agenda is chosen from the bill table",
       "no speaking-time record exists, so `minutes` is left out",
@@ -1010,7 +1037,12 @@ const reaches = order(
     const affected = realPerson(reach.targetId);
     const title = names[String(reach.key)];
     const what = String(reach.what ?? "");
-    if (!affected || !title || !/^(may|must|can|cannot)\b/.test(what))
+    if (
+      !affected ||
+      !citizen(affected) ||
+      !title ||
+      !/^(may|must|can|cannot)\b/.test(what)
+    )
       return [];
     return [{ reach, affected, title, what }];
   }),
@@ -1163,25 +1195,30 @@ for (const row of order(
   const appointer = realPerson(row.appointedBy);
   const holder = realPerson(row.holderId);
   const post = appointer ? postOf(appointer) : undefined;
+  // Only an executive appoints (a governor, a mayor, a county executive).
+  if (!post || !/governor|mayor|executive|manager/.test(post.title)) continue;
   const aide = staff.find(
     (s) =>
       realPerson(s.officialId) === appointer &&
       core.people.has(s.personId) &&
       s.personId !== holder,
   );
-  if (!appointer || !holder || !post || !aide) continue;
+  // The post is filled already, so the one offered it is a member who does
+  // not hold it (a stand-in for the player being asked).
+  const offered = aMember(`appointee:${row.id}`, appointer);
+  if (!appointer || !aide || !offered || offered.personId === holder) continue;
   newSpec(
     "appointment",
     aide.personId,
-    holder,
+    offered.personId,
     {
       office: fact(spokenPost(row.title), [row.id]),
       executive: fact(post.title, [post.term.id]),
       ...billFact("appointment"),
     },
-    [row.id, aide.id, appointer, holder],
+    [row.id, aide.id, appointer, offered.personId],
     [
-      "the appointment is the executive's record and the caller is on the executive's staff; no record says which vote drew the appointer's eye, so a bill from the bill table stands in",
+      "the appointment is the executive's record and the caller is on the executive's staff; a member stands in as the one offered the post, and a bill from the bill table as the vote that drew the executive's eye",
     ],
   );
   break;
@@ -1329,12 +1366,22 @@ for (const [typeKey, label] of [
     "race17",
     (row) => row.id,
   );
+  // Someone the candidate knows runs the campaign; a stranger only when
+  // nobody they know is in the world (owner, Oct 19: the context must fit).
   const supporterOf = (personId: string) =>
     order(
       [
         ...(core.people.get(personId)?.knownIds ?? []),
         ...(core.people.get(personId)?.familyIds ?? []),
         ...relatives(personId),
+      ].filter(
+        (id) => id !== personId && citizen(id) && core.people.get(id)?.alive,
+      ),
+      "supporter",
+      (x) => x,
+    )[0] ??
+    order(
+      [
         ...[...core.people.values()]
           .filter(
             (row: any) =>
@@ -1456,22 +1503,24 @@ for (const [typeKey, status] of [
 // polling place: a voter and a stand-in poll worker (the polling-place record names no workers).
 {
   const place = rows("core2-voting-v1", "pollingPlaces")[0];
-  const voter = order(
-    [...core.people.values()].filter(
-      (row: any) =>
-        row.alive && row.tier !== "husk" && row.placeId === place?.placeId,
-    ),
+  // The voter is an adult; a candidate on record where one lives here, so
+  // "I'm on the ballot" is only said by someone who filed.
+  const residents = [...core.people.values()].filter(
+    (row: any) => row.placeId === place?.placeId && citizen(row.id),
+  );
+  const filers = new Set(
+    filings.map((f) => realPerson(f.personId)).filter(Boolean),
+  );
+  const voter = (order(
+    residents.filter((row: any) => filers.has(row.id)),
     "voter",
     (row: any) => row.id,
-  )[0] as any;
+  )[0] ?? order(residents, "voter", (row: any) => row.id)[0]) as any;
+  const filed = voter
+    ? filings.find((f) => realPerson(f.personId) === voter.id)
+    : undefined;
   const worker = order(
-    [...core.people.values()].filter(
-      (row: any) =>
-        row.alive &&
-        row.tier !== "husk" &&
-        row.id !== voter?.id &&
-        row.placeId === place?.placeId,
-    ),
+    residents.filter((row: any) => row.id !== voter?.id),
     "worker17",
     (row: any) => row.id,
   )[0] as any;
@@ -1481,7 +1530,10 @@ for (const [typeKey, status] of [
       "polling-place",
       worker.id,
       voter.id,
-      { place: fact(`the polling place in ${town.text}`, [place.id, town.id]) },
+      {
+        place: fact(`the polling place in ${town.text}`, [place.id, town.id]),
+        ...(filed ? { candidate: fact(nameOf(voter.id), [filed.id]) } : {}),
+      },
       [place.id, worker.id, voter.id],
       [
         "the polling place is the voting engine's; it records no poll workers, so a resident stands in as one",
@@ -1504,7 +1556,7 @@ for (const [typeKey, status] of [
                 row.placeId === core.people.get(adviser.personId)?.placeId,
             )
             .map((row: any) => row.id as string),
-        ].filter((id) => core.people.get(id)?.alive && id !== adviser.personId),
+        ].filter((id) => citizen(id) && id !== adviser.personId),
         "deciding",
         (x) => x,
       )[0]
@@ -1528,6 +1580,145 @@ for (const [typeKey, status] of [
         "no mentorship record exists in this world, so a member advises someone they know",
       ],
     );
+}
+
+/* ------------------------------------------------- the new ones of batch 18 */
+// filing: a candidate files where the place files, and the clerk on record
+// has already taken a rival's filing for the same race.
+for (const filing of order(filings, "filing18", (row) => row.id)) {
+  const candidate = realPerson(filing.personId);
+  const contest = contests.get(filing.contestId);
+  const rival = filings
+    .filter(
+      (row) =>
+        row.contestId === filing.contestId &&
+        row.personId !== filing.personId &&
+        row.filedOn <= filing.filedOn &&
+        // In this cycle: a filing within a season of this one, not an old one.
+        Date.parse(filing.filedOn) - Date.parse(row.filedOn) <=
+          120 * 86_400_000 &&
+        realPerson(row.personId),
+    )
+    .sort((a, b) => a.filedOn.localeCompare(b.filedOn))[0];
+  if (!candidate || !contest || !rival || !filing.filedWith) continue;
+  // A world cached before the executive's agency table existed cannot name a
+  // state's election chief; the clerk is then stood in.
+  let clerk: ReturnType<typeof filingClerkFor> = null;
+  try {
+    clerk = filingClerkFor(api, filing.contestId);
+  } catch {
+    clerk = null;
+  }
+  const clerkId = clerk ? realPerson(clerk.personId) : undefined;
+  const standIn = clerkId
+    ? undefined
+    : order(
+        [...core.people.values()].filter(
+          (row: any) =>
+            citizen(row.id) &&
+            row.id !== candidate &&
+            row.placeId === core.people.get(candidate)?.placeId,
+        ),
+        "clerk18",
+        (row: any) => row.id,
+      )[0]?.id;
+  const asker = clerkId ?? standIn;
+  if (!asker || asker === candidate) continue;
+  const opponent = realPerson(rival.personId)!;
+  newSpec(
+    "filing",
+    asker,
+    candidate,
+    {
+      office: fact(officeName(contest), [contest.id]),
+      where: fact(String(filing.filedWith), [filing.id]),
+      opponent: fact(nameOf(opponent), [rival.id, opponent]),
+      // Said on the day the candidate files, so "this morning", "last week".
+      when: fact(spokenWhen(rival.filedOn, filing.filedOn), [rival.id]),
+    },
+    [filing.id, rival.id, contest.id, asker, candidate, opponent],
+    [
+      clerkId
+        ? "the filing and the rival's filing are the elections engine's; the clerk is the one the records name for this race"
+        : "the filing and the rival's filing are the elections engine's; the records name no clerk for this race, so a resident stands in",
+    ],
+  );
+  break;
+}
+
+// care: someone seriously ill (the health engine's onset event) asks a
+// relative who visits to tell another relative.
+for (const event of order(
+  [...core.durableLog.values()].filter(
+    (row: any) => row.kind === "health.serious-illness",
+  ),
+  "care18",
+  (row: any) => row.id,
+) as any[]) {
+  const ill = realPerson(event.personIds?.[0]);
+  if (!ill || !core.people.get(ill)?.alive) continue;
+  const [visitor, relative] = order(
+    [
+      ...new Set([
+        ...(core.people.get(ill)!.familyIds ?? []),
+        ...relatives(ill),
+      ]),
+    ].filter((id) => id !== ill && core.people.get(id)?.alive),
+    "care18",
+    (x) => x,
+  );
+  if (!visitor || !relative) continue;
+  newSpec(
+    "care",
+    ill,
+    visitor,
+    { relative: fact(nameOf(relative), [relative]) },
+    [event.id, ill, visitor, relative],
+    [
+      "the illness is the health engine's onset record; the visitor and the one still to be told are both in the ill person's family",
+    ],
+  );
+  break;
+}
+
+// a new baby: someone close to the new parent comes by.
+for (const { personId, moment } of ledgerMoments(
+  "feeling:event:person-birth",
+)) {
+  const kid = moment.counterpartIds
+    .map((id: string) => core.people.get(id))
+    .find(
+      (row: any) =>
+        row?.alive &&
+        ageOnDate(makeIsoDate(row.birthDate), makeIsoDate(core.date)) < 2,
+    );
+  if (!kid) continue;
+  const visitor = order(
+    [
+      ...(core.people.get(personId)!.familyIds ?? []),
+      ...core.people.get(personId)!.knownIds,
+    ].filter(
+      (id) =>
+        id !== personId &&
+        id !== kid.id &&
+        !relatives(personId).includes(id) &&
+        core.people.get(id)?.alive,
+    ),
+    "baby18",
+    (x) => x,
+  )[0];
+  if (!visitor) continue;
+  newSpec(
+    "new-baby",
+    visitor,
+    personId,
+    { kid: fact(kid.givenName, [kid.id]) },
+    [moment.id, kid.id, visitor, personId],
+    [
+      "the birth is the people engine's record; the visitor is family or someone the parent knows, outside the household",
+    ],
+  );
+  break;
 }
 
 /* --------------------------------------------------------------- compose */
@@ -1856,6 +2047,57 @@ function tryCast(type: any, spec: Spec): Chosen | { reason: string } {
   };
 }
 
+/* --------------------------------------------------- context for the grader */
+// Who the two people are and what links them, from the records, so the owner
+// can judge whether a line fits the relationship (owner, Oct 19: "you might
+// say something to your mom that you would never say to a coworker").
+// Development tooling: the page's context panel, never game text.
+const contextRole = (id: string): string => {
+  const person = core.people.get(id);
+  if (!person) return "no person record";
+  const parts: string[] = [];
+  const age = ageOnDate(makeIsoDate(person.birthDate), makeIsoDate(core.date));
+  parts.push(`${age} years old`);
+  const post = postOf(id);
+  if (post) parts.push(`serving as ${post.title}`);
+  const job = !post && person.jobId ? core.jobs.get(person.jobId) : undefined;
+  const org = job ? core.organizations.get(job.organizationId) : undefined;
+  if (job && org)
+    parts.push(
+      `works as ${job.title.toLowerCase()} at ${properName(org.name)}`,
+    );
+  const town = townOf(id);
+  if (town) parts.push(`lives in ${town.text}`);
+  return parts.join("; ");
+};
+const relationOf = (a: string, b: string): string => {
+  const pa = core.people.get(a);
+  const pb = core.people.get(b);
+  if (!pa || !pb) return "no record links them";
+  const kin = (pa.pastFacts ?? []).find(
+    (row: any) =>
+      row.kind.startsWith("family:") && row.facts?.otherPersonId === b,
+  );
+  if (kin)
+    return `family: ${nameOf(b)} is ${nameOf(a)}'s ${kin.kind.slice("family:".length)}`;
+  const kinBack = (pb.pastFacts ?? []).find(
+    (row: any) =>
+      row.kind.startsWith("family:") && row.facts?.otherPersonId === a,
+  );
+  if (kinBack)
+    return `family: ${nameOf(a)} is ${nameOf(b)}'s ${kinBack.kind.slice("family:".length)}`;
+  if (pa.householdId && pa.householdId === pb.householdId)
+    return "they live in the same household";
+  const ja = pa.jobId ? core.jobs.get(pa.jobId) : undefined;
+  const jb = pb.jobId ? core.jobs.get(pb.jobId) : undefined;
+  if (ja && jb && ja.organizationId === jb.organizationId)
+    return "coworkers: they work for the same employer";
+  if (postOf(a) && postOf(b)) return "colleagues: both hold office";
+  if (pa.knownIds.has(b) || pb.knownIds.has(a))
+    return "they know each other (an acquaintance on record, no closer tie)";
+  return "strangers: no record links them";
+};
+
 const scenes: ComposedScene[] = [];
 const pieceGaps = new Map<string, string[]>();
 const usedCasts = new Set<string>();
@@ -2048,6 +2290,19 @@ const json = {
       })),
       longestPath: leadOf(scene).talk.depth,
       nodes: leadOf(scene).talk.nodes,
+      context: {
+        asker: {
+          name: nameOf(scene.askerId),
+          role: contextRole(scene.askerId),
+        },
+        asked: {
+          name: nameOf(scene.askedId),
+          role: contextRole(scene.askedId),
+        },
+        relation: relationOf(scene.askerId, scene.askedId),
+        why: scene.standIn,
+        records: scene.records,
+      },
       root: slim(leadOf(scene).talk.tree, scene.sourceText),
     })),
     ...directorChosen.map((row) => ({

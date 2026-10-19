@@ -1,6 +1,6 @@
 # Scenes, batch-18
 
-Place: Briarcliffe Acres, South Carolina (the cached played world, seed 4dc8c68c7f9f1be1bf4f5f72985993062aba54b9c1bc15b6be27866dab973774). 14 scenes: 14 with a purpose, one for each situation type, staged as proof scenes from the world's real people and records (their producers are awaited), and 0 that the director fires in the cached year from a cause record, each of a different situation type. No two scenes share a narration, an open or a statement. Words come only from data/english/parts/scene-talk.json and the conversation bank.
+Place: Briarcliffe Acres, South Carolina (the cached played world, seed 4dc8c68c7f9f1be1bf4f5f72985993062aba54b9c1bc15b6be27866dab973774). 16 scenes: 16 with a purpose, one for each situation type, staged as proof scenes from the world's real people and records (their producers are awaited), and 0 that the director fires in the cached year from a cause record, each of a different situation type. No two scenes share a narration, an open or a statement. Words come only from data/english/parts/scene-talk.json and the conversation bank.
 
 Grade each line 1 to 5 on naturalness, prose, sentence structure, length (too short, right, too long), creativity and trait fit.
 
@@ -10,16 +10,22 @@ Grade each line 1 to 5 on naturalness, prose, sentence structure, length (too sh
 - Scene 2, apology (owed-apology): the asker is cold; push-back, walking away.
 - Scene 3, first-day (first-day-ropes): the asker is warm; push-back, walking away.
 - Scene 4, last-day (last-day-farewell): the asker is boastful; push-back, walking away.
-- Scene 5, advice (mentor-advice): the asker is cold; push-back, walking away.
-- Scene 6, polling-place (poll-problem): the asker is warm; walking away.
+- Scene 5, advice (mentor-advice): the asker is warm; push-back, walking away.
+- Scene 6, polling-place (poll-problem): the asker is cold; walking away.
 - Scene 7, race-won (victory-night): the asker is stubborn; push-back, walking away.
 - Scene 8, race-lost (concession-call): the asker is cold; push-back, walking away.
 - Scene 9, floor-vote (floor-switch): the asker is anxious; a bargain, push-back, walking away.
 - Scene 10, bill-signed (signing-ask): the asker is warm; a bargain, walking away.
 - Scene 11, veto (veto-call): the asker is cold; a bargain, push-back, walking away.
-- Scene 12, appointment (appointment-offer): the asker is anxious; push-back, walking away.
+- Scene 12, appointment (appointment-offer): the asker is cold; push-back, walking away.
 - Scene 13, recall (recall-confront): the asker is warm; push-back, walking away.
 - Scene 14, public-hearing (hearing-testify): the asker is cold; walking away.
+- Scene 15, filing (filing-clerk): the asker is stubborn; walking away.
+- Scene 16, new-baby (new-baby): the asker is cold; walking away.
+
+## Situations not staged
+
+- care: the cached world holds no records to stage it with
 
 ## What was stood in
 
@@ -29,8 +35,10 @@ Grade each line 1 to 5 on naturalness, prose, sentence structure, length (too sh
 - no mentorship record exists in this world, so a member advises someone they know
 - no recall petition record exists in this world, so a resident stands in as the petitioner
 - no speaking-time record exists, so `minutes` is left out
-- the appointment is the executive's record and the caller is on the executive's staff; no record says which vote drew the appointer's eye, so a bill from the bill table stands in
+- the appointment is the executive's record and the caller is on the executive's staff; a member stands in as the one offered the post, and a bill from the bill table as the vote that drew the executive's eye
+- the birth is the people engine's record; the visitor is family or someone the parent knows, outside the household
 - the desk record is the executive's; the sponsor is the bill's sponsor
+- the filing and the rival's filing are the elections engine's; the records name no clerk for this race, so a resident stands in
 - the hearing is a recorded town hall; the bill on the agenda is chosen from the bill table
 - the leaving is the person's recorded moment; the asker is someone who works where it happened (no manager record exists)
 - the polling place is the voting engine's; it records no poll workers, so a resident stands in as one
@@ -41,82 +49,82 @@ Grade each line 1 to 5 on naturalness, prose, sentence structure, length (too sh
 
 ## Scene 1: argument (threat, ends in personal) — proof scene
 
-*Tests neighbor-argument; the asker is warm; push-back, walking away. Records: reach:law:US-SC:state:us-policy-positions:government-operations.require-photo-id-to-vote:general:starting:voters:person_afc456064ce4a478:2026-10-12, law:US-SC:state:us-policy-positions:government-operations.require-photo-id-to-vote:general:starting, official:term:seat:US-SC:lower:124:0:2026-10-12, person_afc456064ce4a478.*
+*Tests neighbor-argument; the asker is warm; push-back, walking away. Records: reach:law:US-SC:state:us-policy-positions:government-operations.require-photo-id-to-vote:general:starting:voters:person_afc457064ce4a62b:2026-10-12, law:US-SC:state:us-policy-positions:government-operations.require-photo-id-to-vote:general:starting, official:term:seat:US-SC:lower:061:0:2026-10-12, person_afc457064ce4a62b.*
 
-> You're in the cereal aisle when Brittany Mendez parks a cart across from you.
+> You're in the cereal aisle when Nathan Mendez parks a cart across from you.
 
 **Profile warm** (outcome resolved)
 
-**Brittany Mendez:** So you're the one who voted for "Require photo id to vote".
+**Nathan Mendez:** So you're the one who voted for "Require photo id to vote".
 
-**Brittany Mendez:** Since "Require photo id to vote" passed, I have to show a photo ID to vote. You did that.
+**Nathan Mendez:** Since "Require photo id to vote" passed, I have to show a photo ID to vote. You did that.
 
 You could say:
 
 1. What happened, exactly?  *(the page follows this one)*
 2. Which part of it hit you? I ask because if it's landing wrong on your street, I want to know.
-3. Then come to a meeting and say it, instead of ambushing me by the cereal.
+3. You think I wanted this?
 4. Come to the meeting Thursday. I'll sit next to you while you say it.
-5. I'm sorry. I mean that. I have to go.
+5. Write down your number. I'll call you this week.
 
-**Brittany Mendez:** It's one more thing I'm told to do, and I never had a problem before it. Nobody asked people like me before you voted.
+**Nathan Mendez:** It's one more thing I'm told to do, and I never had a problem before it. Nobody asked people like me before you voted.
 
 You could say:
 
 1. That's on me. I voted for what I thought it would fix, and I didn't think enough about people in your spot. Tell me what it's done to you, and I'll look at it this week.  *(the page follows this one)*
-2. You think I wanted this?
-3. Write down your number. I'll call you this week.
+2. Then come to a meeting and say it, instead of ambushing me by the cereal.
+3. Not here. Call my office.
 
-**Brittany Mendez:** You're not the one living with it.
+**Nathan Mendez:** You're not the one living with it.
 
-**The whole exchange** (19 nodes; longest path 3 replies; ★ is the branch warm's traits lean toward):
+**The whole exchange** (20 nodes; longest path 3 replies; ★ is the branch warm's traits lean toward):
 
 - You ★: What happened, exactly?
-  - Brittany Mendez: It's one more thing I'm told to do, and I never had a problem before it. Nobody asked people like me before you voted.
+  - Nathan Mendez: It's one more thing I'm told to do, and I never had a problem before it. Nobody asked people like me before you voted.
   - You ★: That's on me. I voted for what I thought it would fix, and I didn't think enough about people in your spot. Tell me what it's done to you, and I'll look at it this week.
-    - Brittany Mendez: You're not the one living with it.
+    - Nathan Mendez: You're not the one living with it.
     - *Ends: You owned it*
-  - You: You think I wanted this?
-    - Brittany Mendez: You voted for it, didn't you?
-    - You: I did. Did you read it, or just the flyer?
-      - Brittany Mendez: I read enough to know what it costs me.
-      - *Ends: A scene in the aisle: Brittany Mendez: Think about that before your next vote.*
-    - You: Then come say that Thursday, in front of all of us. I'll put you first on the list.
-      - Brittany Mendez: Okay. Thursday.
-      - *Ends: They'll be there Thursday*
-    - You: Not here. Call my office.
-      - *Ends: Brushed them off: Brittany Mendez: That's what I figured. Everybody says call the office.*
-  - You: Write down your number. I'll call you this week.
-    - *Ends: Brushed them off: Narrator: Brittany Mendez writes a number on the back of a receipt, hands it over, and pushes the cart away.*
+  - You: Then come to a meeting and say it, instead of ambushing me by the cereal.
+    - Nathan Mendez: I'm saying it right here. Where you shop. Where my neighbors can hear.
+    - You: Then let's do it right here. Ask me anything you want.
+      - *Ends: A scene in the aisle: Nathan Mendez: Think about that before your next vote.*
+    - You: I'm sorry. I mean that. I have to go.
+      - *Ends: Brushed them off: Nathan Mendez: Sure you will.*
+  - You: Not here. Call my office.
+    - *Ends: Brushed them off: Nathan Mendez: That's what I figured. Everybody says call the office.*
 - You: Which part of it hit you? I ask because if it's landing wrong on your street, I want to know.
-  - Brittany Mendez: You're not the one living with it.
-  - You: You think I wanted this?
-    - Brittany Mendez: You voted for it, didn't you?
-    - You: I did. Did you read it, or just the flyer?
-      - Brittany Mendez: I read enough to know what it costs me.
-      - *Ends: A scene in the aisle: Brittany Mendez: Think about that before your next vote.*
-    - You: Then come say that Thursday, in front of all of us. I'll put you first on the list.
-      - Brittany Mendez: I've been to three meetings. Nobody up there listened.
-      - *Ends: Left it there: Brittany Mendez: Think about that before your next vote.*
+  - Nathan Mendez: You're not the one living with it.
+  - You: Then come to a meeting and say it, instead of ambushing me by the cereal.
+    - Nathan Mendez: I'm saying it right here. Where you shop. Where my neighbors can hear.
+    - You: Fine. Say it louder, then. I'll answer every word of it.
+      - *Ends: A scene in the aisle: Nathan Mendez: Think about that before your next vote.*
     - You: Not here. Call my office.
-      - *Ends: Brushed them off: Brittany Mendez: That's what I figured. Everybody says call the office.*
-  - You: Write down your number. I'll call you this week.
-    - *Ends: Brushed them off: Narrator: Brittany Mendez writes a number on the back of a receipt, hands it over, and pushes the cart away.*
-- You: Then come to a meeting and say it, instead of ambushing me by the cereal.
-  - Brittany Mendez: I'm saying it right here. Where you shop. Where my neighbors can hear.
-  - You: Fine. Say it louder, then. I'll answer every word of it.
-    - *Ends: A scene in the aisle: Brittany Mendez: Think about that before your next vote.*
-  - You: Write down your number. I'll call you this week.
-    - *Ends: Brushed them off: Narrator: Brittany Mendez writes a number on the back of a receipt, hands it over, and pushes the cart away.*
+      - *Ends: Brushed them off: Nathan Mendez: That's what I figured. Everybody says call the office.*
+  - You: I'm sorry. I mean that. I have to go.
+    - *Ends: Brushed them off: Nathan Mendez: Sure you will.*
+- You: You think I wanted this?
+  - Nathan Mendez: You voted for it, didn't you?
+  - You: I did. Did you read it, or just the flyer?
+    - Nathan Mendez: I read enough to know what it costs me.
+    - You: Then come to a meeting and say it, instead of ambushing me by the cereal.
+      - Nathan Mendez: I'm saying it right here. Where you shop. Where my neighbors can hear.
+      - *Ends: A scene in the aisle: Nathan Mendez: Think about that before your next vote.*
+    - You: Not here. Call my office.
+      - *Ends: Brushed them off: Nathan Mendez: That's what I figured. Everybody says call the office.*
+  - You: Then come say that Thursday, in front of all of us. I'll put you first on the list.
+    - Nathan Mendez: Okay. Thursday.
+    - *Ends: They'll be there Thursday*
+  - You: I'm sorry. I mean that. I have to go.
+    - *Ends: Brushed them off: Nathan Mendez: Sure you will.*
 - You: Come to the meeting Thursday. I'll sit next to you while you say it.
-  - Brittany Mendez: Okay. Thursday.
+  - Nathan Mendez: Okay. Thursday.
   - *Ends: They'll be there Thursday*
-- You: I'm sorry. I mean that. I have to go.
-  - *Ends: Brushed them off: Brittany Mendez: Sure you will.*
+- You: Write down your number. I'll call you this week.
+  - *Ends: Brushed them off: Narrator: Nathan Mendez writes a number on the back of a receipt, hands it over, and pushes the cart away.*
 
-Other personalities: cold leans to “Then come to a meeting and say it, instead of ambushing me by the cereal.” and it ends open; stubborn leans to “You think I wanted this?” and it ends open; anxious leans to “What happened, exactly?” and it ends open; boastful leans to “Which part of it hit you? I ask because if it's landing wrong on your street, I want to know.” and it ends open.
+Other personalities: cold leans to “You think I wanted this?” and it ends open; stubborn leans to “Then come to a meeting and say it, instead of ambushing me by the cereal.” and it ends open; anxious leans to “What happened, exactly?” and it ends open; boastful leans to “Which part of it hit you? I ask because if it's landing wrong on your street, I want to know.” and it ends open.
 
-<sub>L1 narrate/narrate/scene-talk/braced/14w1s [scene-talk.narrate-narrate.you-re-in-the-cereal-aisle-when-name-parks-a-cart-across-from-you]; L2 open/greet/scene-talk/braced/12w1s [scene-talk.open-greet.so-you-re-the-one-who-voted-for-bill]; L3 state/confront/scene-talk/braced/19w2s [scene-talk.state-confront.since-bill-passed-effect-you-did-that]; L4 reply/ask/scene-talk/calm/3w1s [scene-talk.reply-ask.what-happened-exactly]; L5 reply/tell/scene-talk/calm/20w2s [scene-talk.reply-tell.which-part-of-it-hit-you-i-ask-because-if-it-s-landing-wrong-on-your-s]; L6 reply/confront/scene-talk/braced/15w1s [scene-talk.reply-confront.then-come-to-a-meeting-and-say-it-instead-of-ambushing-me-by-the-cerea]; L7 reply/offer/scene-talk/calm/14w2s [scene-talk.reply-offer.come-to-the-meeting-thursday-i-ll-sit-next-to-you-while-you-say-it]; L8 reply/leave/scene-talk/calm/9w3s [scene-talk.reply-leave.i-m-sorry-i-mean-that-i-have-to-go]; L9 follow/answer/scene-talk/braced/24w2s [scene-talk.follow-answer.it-s-one-more-thing-i-m-told-to-do-and-i-never-had-a-problem-before-it]; L10 reply/tell/scene-talk/contrite/36w3s [scene-talk.reply-tell.that-s-on-me-i-voted-for-what-i-thought-it-would-fix-and-i-didn-t-thin]; L11 reply/confront/scene-talk/braced/5w1s [scene-talk.reply-confront.you-think-i-wanted-this]; L12 reply/leave/scene-talk/calm/9w2s [scene-talk.reply-leave.write-down-your-number-i-ll-call-you-this-week]; L13 follow/disagree/scene-talk/hurt/7w1s [scene-talk.follow-disagree.you-re-not-the-one-living-with-it]</sub>
+<sub>L1 narrate/narrate/scene-talk/braced/14w1s [scene-talk.narrate-narrate.you-re-in-the-cereal-aisle-when-name-parks-a-cart-across-from-you]; L2 open/greet/scene-talk/braced/12w1s [scene-talk.open-greet.so-you-re-the-one-who-voted-for-bill]; L3 state/confront/scene-talk/braced/19w2s [scene-talk.state-confront.since-bill-passed-effect-you-did-that]; L4 reply/ask/scene-talk/calm/3w1s [scene-talk.reply-ask.what-happened-exactly]; L5 reply/tell/scene-talk/calm/20w2s [scene-talk.reply-tell.which-part-of-it-hit-you-i-ask-because-if-it-s-landing-wrong-on-your-s]; L6 reply/confront/scene-talk/braced/5w1s [scene-talk.reply-confront.you-think-i-wanted-this]; L7 reply/offer/scene-talk/calm/14w2s [scene-talk.reply-offer.come-to-the-meeting-thursday-i-ll-sit-next-to-you-while-you-say-it]; L8 reply/leave/scene-talk/calm/9w2s [scene-talk.reply-leave.write-down-your-number-i-ll-call-you-this-week]; L9 follow/answer/scene-talk/braced/24w2s [scene-talk.follow-answer.it-s-one-more-thing-i-m-told-to-do-and-i-never-had-a-problem-before-it]; L10 reply/tell/scene-talk/contrite/36w3s [scene-talk.reply-tell.that-s-on-me-i-voted-for-what-i-thought-it-would-fix-and-i-didn-t-thin]; L11 reply/confront/scene-talk/braced/15w1s [scene-talk.reply-confront.then-come-to-a-meeting-and-say-it-instead-of-ambushing-me-by-the-cerea]; L12 reply/leave/scene-talk/guarded/5w2s [scene-talk.reply-leave.not-here-call-my-office]; L13 follow/disagree/scene-talk/hurt/7w1s [scene-talk.follow-disagree.you-re-not-the-one-living-with-it]</sub>
 
 ## Scene 2: apology (routine, ends in personal) — proof scene
 
@@ -393,11 +401,11 @@ Other personalities: warm leans to “Are you staying on with whoever's next?”
 
 ## Scene 5: advice (routine, ends in personal) — proof scene
 
-*Tests mentor-advice; the asker is cold; push-back, walking away. Records: term:seat:US-SC:lower:029:0:2027-01-01:elected, official:term:seat:US-SC:lower:029:0:2026-10-12, official:term:seat:US-SC:upper:039:0:2026-10-12.*
+*Tests mentor-advice; the asker is warm; push-back, walking away. Records: term:seat:US-SC:lower:029:0:2027-01-01:elected, official:term:seat:US-SC:lower:029:0:2026-10-12, person:press:outlet:television:1:jurisdiction_258c647381fe1a77:owner:0.*
 
-> James Cook held office long before you did. You asked for coffee because you can't decide whether to run for State Representative this year.
+> James Cook has held office for years. You asked for coffee because you can't decide whether to run for State Representative this year.
 
-**Profile cold** (outcome open)
+**Profile warm** (outcome open)
 
 **James Cook:** You look like you haven't slept.
 
@@ -405,35 +413,53 @@ Other personalities: warm leans to “Are you staying on with whoever's next?”
 
 You could say:
 
-1. Were you ever in my spot?
-2. If I wait, somebody else takes it, and I'm waiting another eight years.  *(the page follows this one)*
+1. Were you ever in my spot?  *(the page follows this one)*
+2. If I wait, somebody else takes it, and I'm waiting another eight years.
 3. That's what I was afraid you'd say. And probably right.
 4. I've already told people I'm running. Backing out now costs me something too.
+
+**James Cook:** I ran too early and lost it close. Then I waited, and won it going away.
+
+You could say:
+
+1. Close is a door. I'd rather knock on it now.  *(the page follows this one)*
+2. Going away. Okay. That's what I needed to hear.
+3. I should go think.
 
 **James Cook:** Maybe. Or you lose, and nobody remembers you in eight years either.
 
 You could say:
 
-1. So you'd really sit it out?
-2. Then help me win it now. I'll raise the money while I run.  *(the page follows this one)*
-3. I should go think.
+1. So you'd really sit it out?  *(the page follows this one)*
+2. Then help me win it now. I'll raise the money while I run.
+3. Let me sleep on it. I'll call you Sunday.
 
-**The whole exchange** (25 nodes; longest path 4 replies; ★ is the branch cold's traits lean toward):
+**James Cook:** I'd sit it out and spend the year raising money and making friends. Then, when you run, nobody can take it from you.
 
-- You: Were you ever in my spot?
+You could say:
+
+1. A year is a long time to be patient in this town.  *(the page follows this one)*
+2. A year of friends. Okay. I can do that.
+
+**James Cook:** So is eight.
+
+**The whole exchange** (19 nodes; longest path 4 replies; ★ is the branch warm's traits lean toward):
+
+- You ★: Were you ever in my spot?
   - James Cook: I ran too early and lost it close. Then I waited, and won it going away.
-  - You: Close is a door. I'd rather knock on it now.
+  - You ★: Close is a door. I'd rather knock on it now.
     - James Cook: Maybe. Or you lose, and nobody remembers you in eight years either.
-    - You: So you'd really sit it out?
+    - You ★: So you'd really sit it out?
       - James Cook: I'd sit it out and spend the year raising money and making friends. Then, when you run, nobody can take it from you.
-      - You: A year is a long time to be patient in this town.
+      - You ★: A year is a long time to be patient in this town.
         - James Cook: So is eight.
         - *Ends: Your own way*
       - You: A year of friends. Okay. I can do that.
         - James Cook: I'll make some calls. If you wait, you wait with friends.
         - *Ends: You took the advice: James Cook: Finish your coffee. It's on me.*
     - You: Then help me win it now. I'll raise the money while I run.
-      - *Ends: Your own way*
+      - James Cook: If you're running anyway, I'll help. I'm just telling you what I'd do.
+      - *Ends: You'll run, with their help*
     - You: Let me sleep on it. I'll call you Sunday.
       - *Ends: Thinking it over: James Cook: Whatever you decide, call me before you announce.*
   - You: Going away. Okay. That's what I needed to hear.
@@ -444,22 +470,9 @@ You could say:
       - *Ends: Thinking it over: James Cook: Whatever you decide, call me before you announce.*
   - You: I should go think.
     - *Ends: Thinking it over: James Cook: Whatever you decide, call me before you announce.*
-- You ★: If I wait, somebody else takes it, and I'm waiting another eight years.
-  - James Cook: Maybe. Or you lose, and nobody remembers you in eight years either.
-  - You: So you'd really sit it out?
-    - James Cook: I'd sit it out and spend the year raising money and making friends. Then, when you run, nobody can take it from you.
-    - You: A year is a long time to be patient in this town.
-      - James Cook: So is eight.
-      - *Ends: Your own way*
-    - You: A year of friends. Okay. I can do that.
-      - James Cook: I'll make some calls. If you wait, you wait with friends.
-      - *Ends: You took the advice: James Cook: Finish your coffee. It's on me.*
-    - You: Let me sleep on it. I'll call you Sunday.
-      - *Ends: Thinking it over: James Cook: Whatever you decide, call me before you announce.*
-  - You ★: Then help me win it now. I'll raise the money while I run.
-    - *Ends: Your own way*
-  - You: I should go think.
-    - *Ends: Thinking it over: James Cook: Whatever you decide, call me before you announce.*
+- You: If I wait, somebody else takes it, and I'm waiting another eight years.
+  - James Cook: If you're running anyway, I'll help. I'm just telling you what I'd do.
+  - *Ends: You'll run, with their help*
 - You: That's what I was afraid you'd say. And probably right.
   - James Cook: I'll make some calls. If you wait, you wait with friends.
   - You: I'd like that. Thank you.
@@ -471,20 +484,18 @@ You could say:
   - You: My family, my staff, and the party chair. In that order.
     - James Cook: Then you've told the right people. The rest can wait a week.
     - *Ends: Thinking it over*
-  - You: Let me sleep on it. I'll call you Sunday.
+  - You: I should go think.
     - *Ends: Thinking it over: James Cook: Whatever you decide, call me before you announce.*
 
-Other personalities: warm leans to “Were you ever in my spot?” and it ends resolved; anxious leans to “Were you ever in my spot?” and it ends open.
-
-<sub>L1 narrate/narrate/scene-talk/calm/24w2s [scene-talk.narrate-narrate.name-held-office-long-before-you-did-you-asked-for-coffee-because-you-]; L2 open/greet/scene-talk/calm/6w1s [scene-talk.open-greet.you-look-like-you-haven-t-slept]; L3 state/tell/scene-talk/calm/26w3s [scene-talk.state-tell.here-s-what-i-d-do-and-you-won-t-like-it-wait-a-cycle-run-for-office-w]; L4 reply/ask/scene-talk/curious/6w1s [scene-talk.reply-ask.were-you-ever-in-my-spot]; L5 reply/disagree/scene-talk/braced/13w1s [scene-talk.reply-disagree.if-i-wait-somebody-else-takes-it-and-i-m-waiting-another-eight-years]; L6 reply/thank/scene-talk/calm/10w2s [scene-talk.reply-thank.that-s-what-i-was-afraid-you-d-say-and-probably-right]; L7 reply/tell/scene-talk/braced/13w2s [scene-talk.reply-tell.i-ve-already-told-people-i-m-running-backing-out-now-costs-me-somethin]; L29 follow/press/scene-talk/calm/12w2s [scene-talk.follow-press.maybe-or-you-lose-and-nobody-remembers-you-in-eight-years-either]; L30 reply/ask/scene-talk/curious/6w1s [scene-talk.reply-ask.so-you-d-really-sit-it-out]; L31 reply/disagree/scene-talk/braced/13w2s [scene-talk.reply-disagree.then-help-me-win-it-now-i-ll-raise-the-money-while-i-run]; L32 reply/leave/scene-talk/calm/4w1s [scene-talk.reply-leave.i-should-go-think]</sub>
+<sub>L1 narrate/narrate/scene-talk/calm/23w2s [scene-talk.narrate-narrate.name-has-held-office-for-years-you-asked-for-coffee-because-you-can-t-]; L2 open/greet/scene-talk/calm/6w1s [scene-talk.open-greet.you-look-like-you-haven-t-slept]; L3 state/tell/scene-talk/calm/26w3s [scene-talk.state-tell.here-s-what-i-d-do-and-you-won-t-like-it-wait-a-cycle-run-for-office-w]; L4 reply/ask/scene-talk/curious/6w1s [scene-talk.reply-ask.were-you-ever-in-my-spot]; L5 reply/disagree/scene-talk/braced/13w1s [scene-talk.reply-disagree.if-i-wait-somebody-else-takes-it-and-i-m-waiting-another-eight-years]; L6 reply/thank/scene-talk/calm/10w2s [scene-talk.reply-thank.that-s-what-i-was-afraid-you-d-say-and-probably-right]; L7 reply/tell/scene-talk/braced/13w2s [scene-talk.reply-tell.i-ve-already-told-people-i-m-running-backing-out-now-costs-me-somethin]; L8 follow/answer/scene-talk/calm/16w2s [scene-talk.follow-answer.i-ran-too-early-and-lost-it-close-then-i-waited-and-won-it-going-away]; L9 reply/disagree/scene-talk/braced/10w2s [scene-talk.reply-disagree.close-is-a-door-i-d-rather-knock-on-it-now]; L10 reply/thank/scene-talk/calm/9w3s [scene-talk.reply-thank.going-away-okay-that-s-what-i-needed-to-hear]; L11 reply/leave/scene-talk/calm/4w1s [scene-talk.reply-leave.i-should-go-think]; L12 follow/press/scene-talk/calm/12w2s [scene-talk.follow-press.maybe-or-you-lose-and-nobody-remembers-you-in-eight-years-either]; L13 reply/ask/scene-talk/curious/6w1s [scene-talk.reply-ask.so-you-d-really-sit-it-out]; L14 reply/disagree/scene-talk/braced/13w2s [scene-talk.reply-disagree.then-help-me-win-it-now-i-ll-raise-the-money-while-i-run]; L15 reply/leave/scene-talk/calm/9w2s [scene-talk.reply-leave.let-me-sleep-on-it-i-ll-call-you-sunday]; L16 follow/answer/scene-talk/calm/23w2s [scene-talk.follow-answer.i-d-sit-it-out-and-spend-the-year-raising-money-and-making-friends-the]; L17 reply/disagree/scene-talk/braced/12w1s [scene-talk.reply-disagree.a-year-is-a-long-time-to-be-patient-in-this-town]; L18 reply/thank/scene-talk/calm/9w3s [scene-talk.reply-thank.a-year-of-friends-okay-i-can-do-that]; L19 follow/press/scene-talk/calm/3w1s [scene-talk.follow-press.so-is-eight]</sub>
 
 ## Scene 6: polling-place (routine, ends in political) — proof scene
 
-*Tests poll-problem; the asker is warm; walking away. Records: polling-place:jurisdiction_258c647381fe1a77:1, person_5d10eff8d8fac4d7, person_d3f3c35743a30c20.*
+*Tests poll-problem; the asker is cold; walking away. Records: polling-place:jurisdiction_258c647381fe1a77:1, person_5d10eff8d8fac4d7, person_1514420acc194dc5.*
 
 > You give your name at the table in the polling place in Briarcliffe Acres. Sarah Strickland runs a finger down the list twice.
 
-**Profile warm** (outcome open)
+**Profile cold** (outcome open)
 
 **Sarah Strickland:** Spell the last name for me?
 
@@ -492,19 +503,17 @@ Other personalities: warm leans to “Were you ever in my spot?” and it ends r
 
 You could say:
 
-1. I've voted here for years. What changed?  *(the page follows this one)*
-2. I'm on the ballot. Check again.
+1. I've voted here for years. What changed?
+2. I'm on the ballot. Check again.  *(the page follows this one)*
 3. Can you call the county office and check?
 4. Then give me a provisional ballot.
 
-**Sarah Strickland:** They redrew the lines. Your street moved to another precinct.
+**Sarah Strickland:** I know who you are. I'm sorry. I still can't hand you a ballot that isn't yours.
 
 You could say:
 
-1. Then call the county. If they moved me, I want it in writing.  *(the page follows this one)*
-2. Nobody told me. If it happened to me, how many others?
-3. Fine. Provisional. I'm not leaving without voting.
-4. Forget it. I'll go across town.
+1. Then call the county, please. I'll stand over here.  *(the page follows this one)*
+2. Forget it. I'll go across town.
 
 **Sarah Strickland:** I'll call. Stand to the side, and it'll take ten minutes.
 
@@ -515,16 +524,16 @@ You could say:
 
 **Sarah Strickland:** Polls close at eight. You've got time.
 
-**The whole exchange** (22 nodes; longest path 3 replies; ★ is the branch warm's traits lean toward):
+**The whole exchange** (22 nodes; longest path 3 replies; ★ is the branch cold's traits lean toward):
 
-- You ★: I've voted here for years. What changed?
+- You: I've voted here for years. What changed?
   - Sarah Strickland: They redrew the lines. Your street moved to another precinct.
-  - You ★: Then call the county. If they moved me, I want it in writing.
+  - You: Then call the county. If they moved me, I want it in writing.
     - Sarah Strickland: I'll call. Stand to the side, and it'll take ten minutes.
     - You: Ten minutes. I'll wait.
       - Sarah Strickland: County says you're on the list across town. You can vote there, or vote provisional here.
       - *Ends: A provisional ballot: Sarah Strickland: Next in line, please.*
-    - You ★: I'll come back after work.
+    - You: I'll come back after work.
       - *Ends: Left without voting: Sarah Strickland: Polls close at eight. You've got time.*
   - You: Nobody told me. If it happened to me, how many others?
     - Sarah Strickland: I don't know. You're not the first one today. I'll write it in the log so the county sees it.
@@ -541,14 +550,14 @@ You could say:
     - *Ends: A provisional ballot: Sarah Strickland: Next in line, please.*
   - You: Forget it. I'll go across town.
     - *Ends: Left without voting: Sarah Strickland: Polls close at eight. You've got time.*
-- You: I'm on the ballot. Check again.
+- You ★: I'm on the ballot. Check again.
   - Sarah Strickland: I know who you are. I'm sorry. I still can't hand you a ballot that isn't yours.
-  - You: Then call the county, please. I'll stand over here.
+  - You ★: Then call the county, please. I'll stand over here.
     - Sarah Strickland: I'll call. Stand to the side, and it'll take ten minutes.
     - You: Ten minutes. I'll wait.
       - Sarah Strickland: County says you're on the list across town. You can vote there, or vote provisional here.
       - *Ends: A provisional ballot: Sarah Strickland: Next in line, please.*
-    - You: I'll come back after work.
+    - You ★: I'll come back after work.
       - *Ends: Left without voting: Sarah Strickland: Polls close at eight. You've got time.*
   - You: Forget it. I'll go across town.
     - *Ends: Left without voting: Sarah Strickland: Polls close at eight. You've got time.*
@@ -567,7 +576,9 @@ You could say:
   - Sarah Strickland: Fill this out. It counts once they check you.
   - *Ends: A provisional ballot: Sarah Strickland: Next in line, please.*
 
-<sub>L1 narrate/narrate/scene-talk/braced/23w2s [scene-talk.narrate-narrate.you-give-your-name-at-the-table-in-place-name-runs-a-finger-down-the-l]; L2 open/greet/scene-talk/calm/6w1s [scene-talk.open-greet.spell-the-last-name-for-me]; L3 state/deliver-news/scene-talk/calm/10w2s [scene-talk.state-deliver-news.i-m-sorry-you-re-not-on-the-list-for-this-precinct]; L4 reply/ask/scene-talk/braced/7w2s [scene-talk.reply-ask.i-ve-voted-here-for-years-what-changed]; L5 reply/confront/scene-talk/braced/6w2s [scene-talk.reply-confront.i-m-on-the-ballot-check-again]; L6 reply/request/scene-talk/calm/8w1s [scene-talk.reply-request.can-you-call-the-county-office-and-check]; L7 reply/accept/scene-talk/calm/6w1s [scene-talk.reply-accept.then-give-me-a-provisional-ballot]; L8 follow/answer/scene-talk/calm/10w2s [scene-talk.follow-answer.they-redrew-the-lines-your-street-moved-to-another-precinct]; L9 reply/request/scene-talk/braced/13w2s [scene-talk.reply-request.then-call-the-county-if-they-moved-me-i-want-it-in-writing]; L10 reply/confront/scene-talk/braced/11w2s [scene-talk.reply-confront.nobody-told-me-if-it-happened-to-me-how-many-others]; L11 reply/accept/scene-talk/braced/7w3s [scene-talk.reply-accept.fine-provisional-i-m-not-leaving-without-voting]; L12 reply/leave/scene-talk/braced/6w2s [scene-talk.reply-leave.forget-it-i-ll-go-across-town]; L13 follow/offer/scene-talk/calm/11w2s [scene-talk.follow-offer.i-ll-call-stand-to-the-side-and-it-ll-take-ten-minutes]; L14 reply/accept/scene-talk/calm/4w2s [scene-talk.reply-accept.ten-minutes-i-ll-wait]; L15 reply/leave/scene-talk/calm/5w1s [scene-talk.reply-leave.i-ll-come-back-after-work]; L18 close/accept/scene-talk/calm/7w2s [scene-talk.close-accept.polls-close-at-eight-you-ve-got-time]</sub>
+Other personalities: warm leans to “I've voted here for years. What changed?” and it ends open.
+
+<sub>L1 narrate/narrate/scene-talk/braced/23w2s [scene-talk.narrate-narrate.you-give-your-name-at-the-table-in-place-name-runs-a-finger-down-the-l]; L2 open/greet/scene-talk/calm/6w1s [scene-talk.open-greet.spell-the-last-name-for-me]; L3 state/deliver-news/scene-talk/calm/10w2s [scene-talk.state-deliver-news.i-m-sorry-you-re-not-on-the-list-for-this-precinct]; L4 reply/ask/scene-talk/braced/7w2s [scene-talk.reply-ask.i-ve-voted-here-for-years-what-changed]; L5 reply/confront/scene-talk/braced/6w2s [scene-talk.reply-confront.i-m-on-the-ballot-check-again]; L6 reply/request/scene-talk/calm/8w1s [scene-talk.reply-request.can-you-call-the-county-office-and-check]; L7 reply/accept/scene-talk/calm/6w1s [scene-talk.reply-accept.then-give-me-a-provisional-ballot]; L30 follow/apologize/scene-talk/contrite/17w3s [scene-talk.follow-apologize.i-know-who-you-are-i-m-sorry-i-still-can-t-hand-you-a-ballot-that-isn-]; L31 reply/request/scene-talk/calm/9w2s [scene-talk.reply-request.then-call-the-county-please-i-ll-stand-over-here]; L32 reply/leave/scene-talk/braced/6w2s [scene-talk.reply-leave.forget-it-i-ll-go-across-town]; L33 follow/offer/scene-talk/calm/11w2s [scene-talk.follow-offer.i-ll-call-stand-to-the-side-and-it-ll-take-ten-minutes]; L34 reply/accept/scene-talk/calm/4w2s [scene-talk.reply-accept.ten-minutes-i-ll-wait]; L35 reply/leave/scene-talk/calm/5w1s [scene-talk.reply-leave.i-ll-come-back-after-work]; L38 close/accept/scene-talk/calm/7w2s [scene-talk.close-accept.polls-close-at-eight-you-ve-got-time]</sub>
 
 ## Scene 7: race-won (honor, ends in political) — proof scene
 
@@ -953,91 +964,89 @@ Other personalities: warm leans to “Why? You told me you'd sign it.” and it 
 
 ## Scene 12: appointment (honor, ends in political) — proof scene
 
-*Tests appointment-offer; the asker is anxious; push-back, walking away. Records: appointment:town:city-clerk, staffer:person_08d41d9395e9824b:person_81b2e7de83ededc8, person_08d41d9395e9824b, person_08d41c9395e98098.*
+*Tests appointment-offer; the asker is cold; push-back, walking away. Records: appointment:US-SC:human-services, staffer:official:term:seat:US-SC:governor:2026-10-12:person:aide:official:term:seat:US-SC:governor:2026-10-12:0, official:term:seat:US-SC:governor:2026-10-12, official:term:seat:US-SC:upper:019:0:2026-10-12.*
 
-> Clara Morris from the council member's office calls while you're between meetings.
+> Anna Mathews calls from the governor's office.
 
-**Profile anxious** (outcome refused)
+**Profile cold** (outcome refused)
 
-**Clara Morris:** It's good news, I promise.
+**Anna Mathews:** It's good news, I promise.
 
-**Clara Morris:** The council member read your vote on "Medicaid work requirement" and wants you as city clerk. I'll be honest: it means giving up your seat.
+**Anna Mathews:** The governor read your vote on "Medicaid work requirement" and wants you as human services secretary. I'll be honest: it means giving up your seat.
 
 You could say:
 
-1. Tell the council member yes.
+1. Tell the governor yes.
 2. Why me? We've never met.
-3. Then no. Thank the council member for me.  *(the page follows this one)*
+3. Then no. Thank the governor for me.  *(the page follows this one)*
 
-**Clara Morris:** Think it over. It's not offered twice.
+**Anna Mathews:** Think it over. It's not offered twice.
 
 You could say:
 
 1. I'll pass. My district sent me to do a job, and I'm not done.  *(the page follows this one)*
 2. Let me sleep on it. I'll call you Tuesday.
 
-**Clara Morris:** The offer's good until Friday. After that, it's somebody else's.
+**Anna Mathews:** The offer's good until Friday. After that, it's somebody else's.
 
-**The whole exchange** (18 nodes; longest path 4 replies; ★ is the branch anxious's traits lean toward):
+**The whole exchange** (17 nodes; longest path 3 replies; ★ is the branch cold's traits lean toward):
 
-- You: Tell the council member yes.
-  - Clara Morris: Wonderful. The paperwork comes Monday.
+- You: Tell the governor yes.
+  - Anna Mathews: Wonderful. The paperwork comes Monday.
   - *Ends: You took the post*
 - You: Why me? We've never met.
-  - Clara Morris: That's the point. You voted against the council member's own people on "Medicaid work requirement". The council member wants somebody who'll say no.
+  - Anna Mathews: That's the point. You voted against the governor's own people on "Medicaid work requirement". The governor wants somebody who'll say no.
   - You: Then yes.
-    - Clara Morris: Wonderful. The paperwork comes Monday.
+    - Anna Mathews: Wonderful. The paperwork comes Monday.
     - *Ends: You took the post*
-  - You: Then tell the council member I'll talk. Not yes. I'll talk.
-    - Clara Morris: That's all I was told to get. I'll set it up.
+  - You: Then tell the governor I'll talk. Not yes. I'll talk.
+    - Anna Mathews: That's all I was told to get. I'll set it up.
     - *Ends: You'll talk to them*
-  - You: My district sent me to that seat. I'm not handing it back for a title.
-    - Clara Morris: The offer's good until Friday. After that, it's somebody else's.
+  - You: Then it's not for me. Thank the governor.
+    - Anna Mathews: Think it over. It's not offered twice.
     - You: I'll pass. My district sent me to do a job, and I'm not done.
-      - Clara Morris: Think it over. It's not offered twice.
+      - Anna Mathews: The offer's good until Friday. After that, it's somebody else's.
       - *Ends: You kept your seat*
-    - You: Let me talk to my family. I'll call you Friday.
-      - *Ends: Thinking it over: Clara Morris: Don't make me chase you.*
-  - You: Give up my seat? Why would I do that?
-    - Clara Morris: Because as city clerk, you'd be the one deciding instead of the one asking. And because the council member asked for you by name.
-    - You: Then it's not for me. Thank the council member.
-      - Clara Morris: The offer's good until Friday. After that, it's somebody else's.
+    - You: Let me sleep on it. I'll call you Tuesday.
+      - *Ends: Thinking it over: Anna Mathews: Don't make me chase you.*
+  - You: What would I actually be doing?
+    - Anna Mathews: Running the office and answering to the governor. You'd have more say over what gets done than you do now.
+    - You: That's more than I've got now. I'll do it.
+      - Anna Mathews: Wonderful. The paperwork comes Monday.
+      - *Ends: You took the post*
+    - You: I'd rather ask from my own seat. Thank the governor for me.
+      - Anna Mathews: The offer's good until Friday. After that, it's somebody else's.
       - *Ends: You kept your seat*
-    - You: What would I actually be doing?
-      - Clara Morris: Running the office and answering to the council member. You'd have more say over what gets done than you do now.
-      - You: That's more than I've got now. I'll do it.
-        - Clara Morris: Wonderful. The paperwork comes Monday.
-        - *Ends: You took the post*
-      - You: I'd rather ask from my own seat. Thank the council member for me.
-        - Clara Morris: The offer's good until Friday. After that, it's somebody else's.
-        - *Ends: You kept your seat*
-    - You: Let me talk to my family. I'll call you Friday.
-      - *Ends: Thinking it over: Clara Morris: Don't make me chase you.*
-  - You: Let me sleep on it. I'll call you Tuesday.
-    - *Ends: Thinking it over: Clara Morris: Don't make me chase you.*
-- You ★: Then no. Thank the council member for me.
-  - Clara Morris: Think it over. It's not offered twice.
+    - You: Give up my seat? Why would I do that?
+      - Anna Mathews: Because as human services secretary, you'd be the one deciding instead of the one asking. And because the governor asked for you by name.
+      - *Ends: Left it there*
+    - You: Let me sleep on it. I'll call you Tuesday.
+      - *Ends: Thinking it over: Anna Mathews: Don't make me chase you.*
+  - You: Let me talk to my family. I'll call you Friday.
+    - *Ends: Thinking it over: Anna Mathews: Don't make me chase you.*
+- You ★: Then no. Thank the governor for me.
+  - Anna Mathews: Think it over. It's not offered twice.
   - You ★: I'll pass. My district sent me to do a job, and I'm not done.
-    - Clara Morris: The offer's good until Friday. After that, it's somebody else's.
+    - Anna Mathews: The offer's good until Friday. After that, it's somebody else's.
     - *Ends: You kept your seat*
   - You: Let me sleep on it. I'll call you Tuesday.
-    - *Ends: Thinking it over: Clara Morris: Don't make me chase you.*
+    - *Ends: Thinking it over: Anna Mathews: Don't make me chase you.*
 
-Other personalities: warm leans to “Tell the council member yes.” and it ends resolved; cold leans to “Then no. Thank the council member for me.” and it ends refused; stubborn leans to “Then no. Thank the council member for me.” and it ends refused.
+Other personalities: warm leans to “What would I actually be doing?” and it ends open; stubborn leans to “Then no. Thank the governor for me.” and it ends refused; anxious leans to “Then no. Thank the governor for me.” and it ends refused; boastful leans to “Why me? We've never met.” and it ends open.
 
-<sub>L1 narrate/narrate/scene-talk/calm/12w1s [scene-talk.narrate-narrate.name-from-the-executive-s-office-calls-while-you-re-between-meetings]; L2 open/greet/scene-talk/glad/5w1s [scene-talk.open-greet.it-s-good-news-i-promise]; L3 state/offer/scene-talk/calm/25w2s [scene-talk.state-offer.the-executive-read-your-vote-on-bill-and-wants-you-as-office-i-ll-be-h]; L4 reply/agree/scene-talk/glad/5w1s [scene-talk.reply-agree.tell-the-executive-yes]; L5 reply/ask/scene-talk/guarded/5w2s [scene-talk.reply-ask.why-me-we-ve-never-met]; L6 reply/decline/scene-talk/calm/8w2s [scene-talk.reply-decline.then-no-thank-the-executive-for-me]; L33 follow/press/scene-talk/calm/7w2s [scene-talk.follow-press.think-it-over-it-s-not-offered-twice]; L34 reply/decline/scene-talk/calm/14w2s [scene-talk.reply-decline.i-ll-pass-my-district-sent-me-to-do-a-job-and-i-m-not-done]; L35 reply/leave/scene-talk/calm/9w2s [scene-talk.reply-leave.let-me-sleep-on-it-i-ll-call-you-tuesday]; L36 follow/press/scene-talk/calm/10w2s [scene-talk.follow-press.the-offer-s-good-until-friday-after-that-it-s-somebody-else-s]</sub>
+<sub>L1 narrate/narrate/scene-talk/curious/7w1s [scene-talk.narrate-narrate.name-calls-from-the-executive-s-office]; L2 open/greet/scene-talk/glad/5w1s [scene-talk.open-greet.it-s-good-news-i-promise]; L3 state/offer/scene-talk/calm/25w2s [scene-talk.state-offer.the-executive-read-your-vote-on-bill-and-wants-you-as-office-i-ll-be-h]; L4 reply/agree/scene-talk/glad/4w1s [scene-talk.reply-agree.tell-the-executive-yes]; L5 reply/ask/scene-talk/guarded/5w2s [scene-talk.reply-ask.why-me-we-ve-never-met]; L6 reply/decline/scene-talk/calm/7w2s [scene-talk.reply-decline.then-no-thank-the-executive-for-me]; L31 follow/press/scene-talk/calm/7w2s [scene-talk.follow-press.think-it-over-it-s-not-offered-twice]; L32 reply/decline/scene-talk/calm/14w2s [scene-talk.reply-decline.i-ll-pass-my-district-sent-me-to-do-a-job-and-i-m-not-done]; L33 reply/leave/scene-talk/calm/9w2s [scene-talk.reply-leave.let-me-sleep-on-it-i-ll-call-you-tuesday]; L34 follow/press/scene-talk/calm/10w2s [scene-talk.follow-press.the-offer-s-good-until-friday-after-that-it-s-somebody-else-s]</sub>
 
 ## Scene 13: recall (threat, ends in political) — proof scene
 
-*Tests recall-confront; the asker is warm; push-back, walking away. Records: term:seat:US-SC:lower:079:0:2027-01-01:elected, official:term:seat:US-SC:lower:105:0:2026-10-12, official:term:seat:US-SC:lower:079:0:2026-10-12.*
+*Tests recall-confront; the asker is warm; push-back, walking away. Records: term:seat:US-SC:lower:079:0:2027-01-01:elected, official:cabinet:US:interior:2, official:term:seat:US-SC:lower:079:0:2026-10-12.*
 
-> Samuel Workman is at a folding table outside the grocery store with a clipboard and a stack of petitions. You'd have to walk right past.
+> Carl Rose is at a folding table outside the grocery store with a clipboard and a stack of petitions. You'd have to walk right past.
 
 **Profile warm** (outcome resolved)
 
-**Samuel Workman:** You got a minute? I'm not here to yell.
+**Carl Rose:** You got a minute? I'm not here to yell.
 
-**Samuel Workman:** We're collecting signatures to recall you. You voted for "Public broadband", and people here are paying for it.
+**Carl Rose:** We're collecting signatures to recall you. You voted for "Public broadband", and people here are paying for it.
 
 You could say:
 
@@ -1045,71 +1054,71 @@ You could say:
 2. Fine. I'll stand right here and answer anybody who walks up.
 3. Go ahead. I'll win the vote.
 4. It's your right. Good luck with it.
-5. I'll answer this at the next council meeting.
+5. I'll answer this at my next town hall.
 
-**Samuel Workman:** Read the top. Your vote on "Public broadband" is the reason they give.
+**Carl Rose:** Read the top. Your vote on "Public broadband" is the reason they give.
 
 You could say:
 
 1. Then put my answer next to it. Let people read both before they sign.  *(the page follows this one)*
 2. You've got my vote on there. Did you put down why I cast it?
 
-**Samuel Workman:** Write it on the back. I'll let them read it.
+**Carl Rose:** Write it on the back. I'll let them read it.
 
 **The whole exchange** (18 nodes; longest path 3 replies; ★ is the branch warm's traits lean toward):
 
 - You ★: Can I see it?
-  - Samuel Workman: Read the top. Your vote on "Public broadband" is the reason they give.
+  - Carl Rose: Read the top. Your vote on "Public broadband" is the reason they give.
   - You ★: Then put my answer next to it. Let people read both before they sign.
-    - Samuel Workman: Write it on the back. I'll let them read it.
+    - Carl Rose: Write it on the back. I'll let them read it.
     - *Ends: You answered at their table*
   - You: You've got my vote on there. Did you put down why I cast it?
-    - Samuel Workman: Nobody here cares why. They care what it cost.
+    - Carl Rose: Nobody here cares why. They care what it cost.
     - You: Then they should hear what it would have cost without it.
-      - Samuel Workman: Then tell them. They're standing right behind you.
+      - Carl Rose: Then tell them. They're standing right behind you.
       - *Ends: You took it to the crowd*
     - You: Then I'll tell them myself why I voted for it, one at a time if I have to.
-      - Samuel Workman: Go ahead. They're right here.
+      - Carl Rose: Go ahead. They're right here.
       - *Ends: You answered at their table*
 - You: Fine. I'll stand right here and answer anybody who walks up.
-  - Samuel Workman: Then say that to them. They're the ones signing.
+  - Carl Rose: Then say that to them. They're the ones signing.
   - You: I will, if you stop telling them half of it.
-    - Samuel Workman: Then we'll both be here Saturday.
+    - Carl Rose: Then we'll both be here Saturday.
     - *Ends: You walked away*
   - You: Then I'll tell them myself why I voted for it, one at a time if I have to.
-    - Samuel Workman: Go ahead. They're right here.
+    - Carl Rose: Go ahead. They're right here.
     - *Ends: You answered at their table*
 - You: Go ahead. I'll win the vote.
-  - Samuel Workman: Say it to them, not to me. I just hold the clipboard.
+  - Carl Rose: Say it to them, not to me. I just hold the clipboard.
   - You: You're holding more than a clipboard. You're holding my name.
-    - Samuel Workman: Then earn it back.
+    - Carl Rose: Then earn it back.
     - *Ends: You dared them to try*
   - You: Then I'll tell them myself why I voted for it, one at a time if I have to.
-    - Samuel Workman: Go ahead. They're right here.
+    - Carl Rose: Go ahead. They're right here.
     - *Ends: You answered at their table*
 - You: It's your right. Good luck with it.
-  - Samuel Workman: Don't walk past. Tell me why you voted for it.
+  - Carl Rose: Don't walk past. Tell me why you voted for it.
   - You: I voted for it because the other choice was a cut that hurt more people. Put me on the forum. I'll say that and take questions until they run out.
-    - Samuel Workman: Then we'll set it up. I'll hold you to it.
+    - Carl Rose: Then we'll set it up. I'll hold you to it.
     - *Ends: A meeting set*
   - You: I'm not debating you at a card table.
-    - Samuel Workman: Say it to them, not to me. I just hold the clipboard.
+    - Carl Rose: Say it to them, not to me. I just hold the clipboard.
     - You: You're holding more than a clipboard. You're holding my name.
-      - Samuel Workman: Then earn it back.
+      - Carl Rose: Then earn it back.
       - *Ends: You walked away*
     - You: Then I'll tell them myself why I voted for it, one at a time if I have to.
-      - Samuel Workman: Go ahead. They're right here.
+      - Carl Rose: Go ahead. They're right here.
       - *Ends: You answered at their table*
-- You: I'll answer this at the next council meeting.
-  - *Ends: You walked away: Samuel Workman: We'll be here every Saturday.*
+- You: I'll answer this at my next town hall.
+  - *Ends: You walked away: Carl Rose: We'll have the signatures by Friday.*
 
 Other personalities: cold leans to “Fine. I'll stand right here and answer anybody who walks up.” and it ends open; anxious leans to “It's your right. Good luck with it.” and it ends resolved; boastful leans to “Go ahead. I'll win the vote.” and it ends resolved.
 
-<sub>L1 narrate/narrate/scene-talk/braced/25w2s [scene-talk.narrate-narrate.name-is-at-a-folding-table-outside-the-grocery-store-with-a-clipboard-]; L2 open/greet/scene-talk/calm/9w2s [scene-talk.open-greet.you-got-a-minute-i-m-not-here-to-yell]; L3 state/confront/scene-talk/braced/18w2s [scene-talk.state-confront.we-re-collecting-signatures-to-recall-you-you-voted-for-bill-and-peopl]; L4 reply/ask/scene-talk/calm/4w1s [scene-talk.reply-ask.can-i-see-it]; L5 reply/confront/scene-talk/braced/11w2s [scene-talk.reply-confront.fine-i-ll-stand-right-here-and-answer-anybody-who-walks-up]; L6 reply/boast/scene-talk/proud/6w2s [scene-talk.reply-boast.go-ahead-i-ll-win-the-vote]; L7 reply/deflect/scene-talk/guarded/7w2s [scene-talk.reply-deflect.it-s-your-right-good-luck-with-it]; L8 reply/leave/scene-talk/calm/8w1s [scene-talk.reply-leave.i-ll-answer-this-at-the-next-council-meeting]; L9 follow/answer/scene-talk/braced/13w2s [scene-talk.follow-answer.read-the-top-your-vote-on-bill-is-the-reason-they-give]; L10 reply/tell/scene-talk/calm/14w2s [scene-talk.reply-tell.then-put-my-answer-next-to-it-let-people-read-both-before-they-sign]; L11 reply/confront/scene-talk/braced/14w2s [scene-talk.reply-confront.you-ve-got-my-vote-on-there-did-you-put-down-why-i-cast-it]; L12 follow/accept/scene-talk/guarded/10w2s [scene-talk.follow-accept.write-it-on-the-back-i-ll-let-them-read-it]</sub>
+<sub>L1 narrate/narrate/scene-talk/braced/25w2s [scene-talk.narrate-narrate.name-is-at-a-folding-table-outside-the-grocery-store-with-a-clipboard-]; L2 open/greet/scene-talk/calm/9w2s [scene-talk.open-greet.you-got-a-minute-i-m-not-here-to-yell]; L3 state/confront/scene-talk/braced/18w2s [scene-talk.state-confront.we-re-collecting-signatures-to-recall-you-you-voted-for-bill-and-peopl]; L4 reply/ask/scene-talk/calm/4w1s [scene-talk.reply-ask.can-i-see-it]; L5 reply/confront/scene-talk/braced/11w2s [scene-talk.reply-confront.fine-i-ll-stand-right-here-and-answer-anybody-who-walks-up]; L6 reply/boast/scene-talk/proud/6w2s [scene-talk.reply-boast.go-ahead-i-ll-win-the-vote]; L7 reply/deflect/scene-talk/guarded/7w2s [scene-talk.reply-deflect.it-s-your-right-good-luck-with-it]; L8 reply/leave/scene-talk/calm/8w1s [scene-talk.reply-leave.i-ll-answer-this-at-my-next-town-hall]; L9 follow/answer/scene-talk/braced/13w2s [scene-talk.follow-answer.read-the-top-your-vote-on-bill-is-the-reason-they-give]; L10 reply/tell/scene-talk/calm/14w2s [scene-talk.reply-tell.then-put-my-answer-next-to-it-let-people-read-both-before-they-sign]; L11 reply/confront/scene-talk/braced/14w2s [scene-talk.reply-confront.you-ve-got-my-vote-on-there-did-you-put-down-why-i-cast-it]; L12 follow/accept/scene-talk/guarded/10w2s [scene-talk.follow-accept.write-it-on-the-back-i-ll-let-them-read-it]</sub>
 
 ## Scene 14: public-hearing (routine, ends in bill) — proof scene
 
-*Tests hearing-testify; the asker is cold; walking away. Records: town-hall:person_b280d0db0a3f25fe:2026-10-19, bill:office:US-SC:legislature-lower:2027-02-27:official:term:seat:US-SC:lower:074:0:2026-10-12:60, person_b280d0db0a3f25fe, person_463149b7c47ebf78.*
+*Tests hearing-testify; the asker is cold; walking away. Records: town-hall:person_b280d0db0a3f25fe:2026-10-19, bill:office:US-SC:legislature-lower:2027-02-27:official:term:seat:US-SC:lower:074:0:2026-10-12:60, person_b280d0db0a3f25fe, person:press:outlet:radio:0:jurisdiction_258c647381fe1a77:reporter:0.*
 
 > It's public comment on "Rent stabilization". Kristen Li calls your name, and you step up to the microphone.
 
@@ -1121,10 +1130,10 @@ Other personalities: cold leans to “Fine. I'll stand right here and answer any
 
 You could say:
 
-1. Sarah Torres, Briarcliffe Acres. Nobody on my street was asked about "Rent stabilization". Hear from the people it affects before you vote.
-2. Sarah Torres, Briarcliffe Acres. Put the vote on hold for a week, and hear from the people this affects.
-3. Sarah Torres, Briarcliffe Acres. You decided this before tonight, and you know it.
-4. Sarah Torres, Briarcliffe Acres. Has anybody up there talked to the people this affects?  *(the page follows this one)*
+1. Joseph Austin, Briarcliffe Acres. Nobody on my street was asked about "Rent stabilization". Hear from the people it affects before you vote.
+2. Joseph Austin, Briarcliffe Acres. Put the vote on hold for a week, and hear from the people this affects.
+3. Joseph Austin, Briarcliffe Acres. You decided this before tonight, and you know it.
+4. Joseph Austin, Briarcliffe Acres. Has anybody up there talked to the people this affects?  *(the page follows this one)*
 
 **Kristen Li:** Staff, can you answer that?
 
@@ -1138,14 +1147,14 @@ You could say:
 
 **The whole exchange** (24 nodes; longest path 4 replies; ★ is the branch cold's traits lean toward):
 
-- You: Sarah Torres, Briarcliffe Acres. Nobody on my street was asked about "Rent stabilization". Hear from the people it affects before you vote.
+- You: Joseph Austin, Briarcliffe Acres. Nobody on my street was asked about "Rent stabilization". Hear from the people it affects before you vote.
   - Kristen Li: Is your concern the bill, or how it was done?
   - You: How it was done. Ask us first, and I'll sit down.
     - Kristen Li: Thank you. It's in the record.
     - *Ends: Your testimony is on the record*
-  - You: Thank you. I'll be back for the vote.
+  - You: That's my time. I'll be back for the vote.
     - *Ends: You left the podium: Kristen Li: The record will show you were here.*
-- You: Sarah Torres, Briarcliffe Acres. Put the vote on hold for a week, and hear from the people this affects.
+- You: Joseph Austin, Briarcliffe Acres. Put the vote on hold for a week, and hear from the people this affects.
   - Kristen Li: Staff will bring us who it affects by the next meeting.
   - You: Then I'd like that in writing, please.
     - Kristen Li: We can't respond to that during public comment.
@@ -1158,9 +1167,9 @@ You could say:
     - You: Friday. I'll be watching for it.
       - Kristen Li: You'll have it.
       - *Ends: They owe you an answer by Friday*
-  - You: Thank you. I'll be back for the vote.
+  - You: That's my time. I'll be back for the vote.
     - *Ends: You left the podium: Kristen Li: The record will show you were here.*
-- You: Sarah Torres, Briarcliffe Acres. You decided this before tonight, and you know it.
+- You: Joseph Austin, Briarcliffe Acres. You decided this before tonight, and you know it.
   - Kristen Li: Please address the chair, not the members.
   - You: I'm sorry. I'll address the chair.
     - Kristen Li: Go ahead. You have a minute left.
@@ -1175,11 +1184,11 @@ You could say:
       - You: Friday. I'll be watching for it.
         - Kristen Li: You'll have it.
         - *Ends: They owe you an answer by Friday*
-    - You: That's my time. I'll be back for the vote.
+    - You: Thank you. I'll be back for the vote.
       - *Ends: You left the podium: Kristen Li: The record will show you were here.*
-  - You: Thank you. I'll be back for the vote.
+  - You: That's my time. I'll be back for the vote.
     - *Ends: Gaveled down: Kristen Li: The record will show you were here.*
-- You ★: Sarah Torres, Briarcliffe Acres. Has anybody up there talked to the people this affects?
+- You ★: Joseph Austin, Briarcliffe Acres. Has anybody up there talked to the people this affects?
   - Kristen Li: Staff, can you answer that?
   - You ★: Then I'd like that in writing, please.
     - Kristen Li: Staff will bring us who it affects by the next meeting.
@@ -1195,7 +1204,116 @@ You could say:
   - You: Thank you. I'll be back for the vote.
     - *Ends: You left the podium: Kristen Li: The record will show you were here.*
 
-Other personalities: warm leans to “Sarah Torres, Briarcliffe Acres. Has anybody up there talked to the people this affects?” and it ends open; anxious leans to “Sarah Torres, Briarcliffe Acres. Has anybody up there talked to the people this affects?” and it ends open.
+Other personalities: warm leans to “Joseph Austin, Briarcliffe Acres. Has anybody up there talked to the people this affects?” and it ends open.
 
 <sub>L1 narrate/narrate/scene-talk/braced/18w2s [scene-talk.narrate-narrate.it-s-public-comment-on-bill-name-calls-your-name-and-you-step-up-to-th]; L2 open/call-to-order/scene-talk/calm/4w1s [scene-talk.open-call-to-order.you-have-three-minutes]; L3 state/call-to-order/scene-talk/calm/9w1s [scene-talk.state-call-to-order.please-state-your-name-and-address-for-the-record]; L4 reply/tell/scene-talk/braced/22w3s [scene-talk.reply-tell.self-place-nobody-on-my-street-was-asked-about-bill-hear-from-the-peop]; L5 reply/request/scene-talk/calm/19w2s [scene-talk.reply-request.self-place-put-the-vote-on-hold-for-a-week-and-hear-from-the-people-th]; L6 reply/confront/scene-talk/braced/13w2s [scene-talk.reply-confront.self-place-you-decided-this-before-tonight-and-you-know-it]; L7 reply/ask/scene-talk/braced/14w2s [scene-talk.reply-ask.self-place-has-anybody-up-there-talked-to-the-people-this-affects]; L39 follow/answer/scene-talk/calm/5w1s [scene-talk.follow-answer.staff-can-you-answer-that]; L40 reply/request/scene-talk/calm/7w1s [scene-talk.reply-request.then-i-d-like-that-in-writing-please]; L41 reply/thank/scene-talk/calm/2w1s [scene-talk.reply-thank.thank-you]; L42 reply/leave/scene-talk/calm/8w2s [scene-talk.reply-leave.thank-you-i-ll-be-back-for-the-vote]; L43 follow/answer/scene-talk/calm/11w1s [scene-talk.follow-answer.staff-will-bring-us-who-it-affects-by-the-next-meeting]</sub>
+
+## Scene 15: filing (routine, ends in political) — proof scene
+
+*Tests filing-clerk; the asker is stubborn; walking away. Records: filing:contest:seat:US-SC:us-senate:0:2026-11-03:official:term:seat:US-SC:lower:076:0:2026-10-12, filing:contest:seat:US-SC:us-senate:0:2026-11-03:official:term:seat:US-SC:us-senate:0:2026-10-12, contest:seat:US-SC:us-senate:0:2026-11-03, official:cabinet:US:agriculture:1, official:term:seat:US-SC:lower:076:0:2026-10-12, official:term:seat:US-SC:us-senate:0:2026-10-12.*
+
+> The South Carolina State Election Commission is nearly empty when you come in to file for U.S. Senator. Robin Winters looks up from the counter.
+
+**Profile stubborn** (outcome resolved)
+
+**Robin Winters:** Morning. Here to file?
+
+**Robin Winters:** You're not the first for U.S. Senator. Kevin Sanders filed today.
+
+You could say:
+
+1. What was Kevin Sanders like?
+2. I know. That's why I'm here.
+3. Did Kevin Sanders say anything about me?  *(the page follows this one)*
+4. Maybe I'll sleep on it one more night.
+
+**Robin Winters:** I take the forms. I don't carry messages.
+
+You could say:
+
+1. Fair enough. Where do I sign?  *(the page follows this one)*
+2. Forget I asked.
+
+**Robin Winters:** Sign here, and here. Once it's checked, you're on the ballot.
+
+**The whole exchange** (9 nodes; longest path 2 replies; ★ is the branch stubborn's traits lean toward):
+
+- You: What was Kevin Sanders like?
+  - Robin Winters: Polite. Brought a pen from home. Asked who else had filed.
+  - You: Then let's get mine in.
+    - Robin Winters: Sign here, and here. Once it's checked, you're on the ballot.
+    - *Ends: You filed, and sized up the race*
+  - You: Then I'll bring a better pen.
+    - Robin Winters: Good. Sign here, and here.
+    - *Ends: You filed, and sized up the race*
+- You: I know. That's why I'm here.
+  - Robin Winters: Then let's make it official. Sign here, and here.
+  - *Ends: You filed*
+- You ★: Did Kevin Sanders say anything about me?
+  - Robin Winters: I take the forms. I don't carry messages.
+  - You ★: Fair enough. Where do I sign?
+    - Robin Winters: Sign here, and here. Once it's checked, you're on the ballot.
+    - *Ends: You filed*
+  - You: Forget I asked.
+    - *Ends: Not today: Robin Winters: Already forgotten. The forms will be here.*
+- You: Maybe I'll sleep on it one more night.
+  - *Ends: Not today: Robin Winters: The forms will be here when you're ready.*
+
+Other personalities: warm leans to “What was Kevin Sanders like?” and it ends resolved; cold leans to “Did Kevin Sanders say anything about me?” and it ends open; boastful leans to “I know. That's why I'm here.” and it ends resolved.
+
+<sub>L1 narrate/narrate/scene-talk/calm/25w3s [scene-talk.narrate-narrate.the-where-is-nearly-empty-when-you-come-in-to-file-for-office-name-loo]; L2 open/greet/scene-talk/calm/4w2s [scene-talk.open-greet.morning-here-to-file]; L3 state/tell/scene-talk/calm/11w3s [scene-talk.state-tell.you-re-not-the-first-for-office-opponent-filed-when]; L4 reply/ask/scene-talk/curious/5w1s [scene-talk.reply-ask.what-was-opponent-like]; L5 reply/tell/scene-talk/braced/6w2s [scene-talk.reply-tell.i-know-that-s-why-i-m-here]; L6 reply/confront/scene-talk/curious/7w1s [scene-talk.reply-confront.did-opponent-say-anything-about-me]; L7 reply/leave/scene-talk/anxious/8w1s [scene-talk.reply-leave.maybe-i-ll-sleep-on-it-one-more-night]; L14 follow/refuse/scene-talk/guarded/8w2s [scene-talk.follow-refuse.i-take-the-forms-i-don-t-carry-messages]; L15 reply/agree/scene-talk/calm/6w2s [scene-talk.reply-agree.fair-enough-where-do-i-sign]; L16 reply/leave/scene-talk/calm/3w1s [scene-talk.reply-leave.forget-i-asked]; L17 follow/accept/scene-talk/calm/11w2s [scene-talk.follow-accept.sign-here-and-here-once-it-s-checked-you-re-on-the-ballot]</sub>
+
+## Scene 16: new-baby (honor, ends in personal) — proof scene
+
+*Tests new-baby; the asker is cold; walking away. Records: person_9b07dce1ad468405:2026-12-26:person_ebcd5ecc7918b927:birth, person_ebcd5ecc7918b927, person_afc457064ce4a62b, person_9b07dce1ad468405.*
+
+> Nathan Mendez comes by with a covered dish to meet Haris.
+
+**Profile cold** (outcome resolved)
+
+**Nathan Mendez:** Let me see that baby.
+
+**Nathan Mendez:** So how are you actually doing? Not the baby. You.
+
+You could say:
+
+1. Tired. Happy. Mostly tired.  *(the page follows this one)*
+2. Honestly? I'm scared I'm doing it wrong.
+3. Could you hold Haris for an hour so I can sleep?
+4. Do you want to hold Haris?
+
+**Nathan Mendez:** That's the right answer. Anybody who says different is lying.
+
+**The whole exchange** (11 nodes; longest path 2 replies; ★ is the branch cold's traits lean toward):
+
+- You ★: Tired. Happy. Mostly tired.
+  - Nathan Mendez: That's the right answer. Anybody who says different is lying.
+  - *Ends: A good visit*
+- You: Honestly? I'm scared I'm doing it wrong.
+  - Nathan Mendez: Everybody is. The ones who say they aren't just hide it better.
+  - You: Thank you. I needed to hear that.
+    - Nathan Mendez: Anytime. That's what I'm here for.
+    - *Ends: You said you were scared*
+  - You: Then could you stay an hour so I can sleep?
+    - Nathan Mendez: Go. I've got Haris. Take two hours.
+    - *Ends: You got some sleep*
+  - You: I should feed Haris soon.
+    - *Ends: You said you were scared: Nathan Mendez: Go on. I'll let myself out.*
+- You: Could you hold Haris for an hour so I can sleep?
+  - Nathan Mendez: Go. I've got Haris. Take two hours.
+  - *Ends: You got some sleep*
+- You: Do you want to hold Haris?
+  - Nathan Mendez: I thought you'd never ask.
+  - You: Careful with the head. There you go.
+    - Nathan Mendez: Look at that. Haris likes me.
+    - *Ends: They held the baby*
+  - You: Hold on to Haris for an hour? I need to sleep.
+    - Nathan Mendez: Go. I've got Haris. Take two hours.
+    - *Ends: You got some sleep*
+  - You: I should feed Haris soon.
+    - *Ends: They held the baby: Nathan Mendez: Go on. I'll let myself out.*
+
+Other personalities: warm leans to “Do you want to hold Haris?” and it ends resolved.
+
+<sub>L1 narrate/narrate/scene-talk/glad/11w1s [scene-talk.narrate-narrate.name-comes-by-with-a-covered-dish-to-meet-kid]; L2 open/greet/scene-talk/glad/5w1s [scene-talk.open-greet.let-me-see-that-baby]; L3 state/ask/scene-talk/tender/10w3s [scene-talk.state-ask.so-how-are-you-actually-doing-not-the-baby-you]; L4 reply/tell/scene-talk/glad/4w3s [scene-talk.reply-tell.tired-happy-mostly-tired]; L5 reply/confess/scene-talk/anxious/7w2s [scene-talk.reply-confess.honestly-i-m-scared-i-m-doing-it-wrong]; L6 reply/request/scene-talk/anxious/11w1s [scene-talk.reply-request.could-you-hold-kid-for-an-hour-so-i-can-sleep]; L7 reply/ask/scene-talk/glad/6w1s [scene-talk.reply-ask.do-you-want-to-hold-kid]; L8 follow/accept/scene-talk/glad/10w2s [scene-talk.follow-accept.that-s-the-right-answer-anybody-who-says-different-is-lying]</sub>
 

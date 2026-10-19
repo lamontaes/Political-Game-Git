@@ -1574,6 +1574,77 @@ L('reply','confront',Y,'first-day-ropes',[("Then why are you still here?","curio
 L('follow','confront',A,'first-day-ropes',[("Because somebody has to show the new people where the keys go.","glad")],after="Then why are you still here?")
 L('reply','confront',Y,'first-day-ropes',[("Then maybe everybody's wrong.","braced")],after="Ask away. You'll hear the same thing from everybody.")
 L('follow','confront',A,'first-day-ropes',[("Maybe. Find me in a year and tell me.","guarded")],after="Then maybe everybody's wrong.")
+# ---- batch 18: three new situations (filing at the clerk's, a serious illness, a new baby) ----
+KEY.update({"filing-clerk":"routine","care-visit":"routine","new-baby":"honor"})
+F='filing-clerk'
+L(N,N,R,F,[("The {where} is nearly empty when you come in to file for {office}. {name} looks up from the counter.","calm")])
+L('open','greet',A,F,[("Morning. Here to file?","calm")])
+L('state','tell',A,F,[("You're not the first for {office}. {opponent} filed {when}.","calm")])
+L('reply','ask',Y,F,[("What was {opponent} like?","curious")])
+L('follow','answer',A,F,[("Polite. Brought a pen from home. Asked who else had filed.","calm")],after="What was {opponent} like?")
+L('reply','agree',Y,F,[("Then let's get mine in.","calm")],after='answer')
+L('reply','boast',Y,F,[("Then I'll bring a better pen.","proud")],after='answer')
+L('follow','accept',A,F,[("Sign here, and here. Once it's checked, you're on the ballot.","calm")],after='agree')
+L('follow','accept',A,F,[("Good. Sign here, and here.","glad")],after='boast')
+L('reply','tell',Y,F,[("I know. That's why I'm here.","braced")])
+L('follow','accept',A,F,[("Then let's make it official. Sign here, and here.","calm")],after='tell')
+L('reply','confront',Y,F,[("Did {opponent} say anything about me?","curious")])
+L('follow','refuse',A,F,[("I take the forms. I don't carry messages.","guarded")],after='confront')
+L('reply','agree',Y,F,[("Fair enough. Where do I sign?","calm")],after='refuse')
+L('reply','leave',Y,F,[("Maybe I'll sleep on it one more night.","anxious")])
+L('close','accept',A,F,[("The forms will be here when you're ready.","calm")],after='leave',outcome='open')
+L('close','thank',A,F,[("Good luck out there.","glad")],outcome='resolved')
+F='care-visit'
+L(N,N,R,F,[("{name} is propped up in bed when you come in. The doctors have called it serious.","solemn")])
+L('open','greet',A,F,[("There you are. Sit down. You're making me tired standing up.","tender")])
+L('state','request',A,F,[("I need you to tell {relative}. I can't make myself do it.","tender")])
+L('reply','agree',Y,F,[("I'll call {relative} tonight.","tender")])
+L('follow','thank',A,F,[("Thank you. Tell it gently. You're better at that than I am.","tender")],after='agree')
+L('reply','ask',Y,F,[("What did the doctor actually say?","anxious")])
+L('follow','answer',A,F,[("That it's serious, and that I'm supposed to rest. I've never been any good at resting.","calm")],after='ask')
+L('reply','agree',Y,F,[("Then rest. I'll call {relative}.","tender")],after='answer')
+L('reply','comfort',Y,F,[("Then I'll sit right here and make sure you do.","tender")],after='answer')
+L('reply','comfort',Y,F,[("You don't have to do anything right now but get better.","tender")])
+L('follow','press',A,F,[("I know. But I can't rest until {relative} knows.","tender")],after='comfort')
+L('reply','deflect',Y,F,[("Let's not talk about that yet. Did you eat anything today?","anxious")])
+L('follow','press',A,F,[("Don't change the subject. Will you call {relative}?","hurt")],after='deflect')
+L('reply','agree',Y,F,[("All right. I'll call tonight.","tender")],after='press')
+L('reply','deflect',Y,F,[("I'll get you some soup first. Then we'll talk.","anxious")],after='press')
+L('reply','leave',Y,F,[("I'll come back tomorrow. Try to sleep.","tender")])
+L('close','react',A,F,[("{name} is asleep before you reach the door.","tender")],after='leave',outcome='open')
+L('close','thank',A,F,[("Come back tomorrow. Bring the crossword.","tender")],outcome='resolved')
+L('close','warn',A,F,[("Don't wait too long. Please.","hurt")],outcome='open')
+F='new-baby'
+L(N,N,R,F,[("{name} comes by with a covered dish to meet {kid}.","glad")])
+L('open','greet',A,F,[("Let me see that baby.","glad")])
+L('state','ask',A,F,[("So how are you actually doing? Not the baby. You.","tender")])
+L('reply','tell',Y,F,[("Tired. Happy. Mostly tired.","glad")])
+L('follow','accept',A,F,[("That's the right answer. Anybody who says different is lying.","glad")],after='tell')
+L('reply','confess',Y,F,[("Honestly? I'm scared I'm doing it wrong.","anxious")])
+L('follow','comfort',A,F,[("Everybody is. The ones who say they aren't just hide it better.","tender")],after='confess')
+L('reply','thank',Y,F,[("Thank you. I needed to hear that.","tender")],after='comfort')
+L('follow','accept',A,F,[("Anytime. That's what I'm here for.","tender")],after='thank')
+L('reply','request',Y,F,[("Could you hold {kid} for an hour so I can sleep?","anxious")])
+L('follow','accept',A,F,[("Go. I've got {kid}. Take two hours.","glad")],after='request')
+L('reply','ask',Y,F,[("Do you want to hold {kid}?","glad")])
+L('follow','answer',A,F,[("I thought you'd never ask.","glad")],after='ask')
+L('reply','tell',Y,F,[("Careful with the head. There you go.","tender")],after='answer')
+L('follow','accept',A,F,[("Look at that. {kid} likes me.","glad")],after="Careful with the head. There you go.")
+L('reply','request',Y,F,[("Hold on to {kid} for an hour? I need to sleep.","anxious")],after='answer')
+L('reply','request',Y,F,[("Then could you stay an hour so I can sleep?","anxious")],after='comfort')
+L('reply','leave',Y,F,[("I should feed {kid} soon.","calm")])
+L('close','accept',A,F,[("Go on. I'll let myself out.","tender")],after='leave',outcome='open')
+L('close','thank',A,F,[("Call me if you need anything. I mean it.","tender")],outcome='resolved')
+for e in E:
+    if e['text']=="I'm on the ballot. Check again.": e['req']=['candidate']
+DROPT({"{name} held office long before you did. You asked for coffee because you can't decide whether to run for {office} this year."})
+L(N,N,R,'mentor-advice',[("{name} has held office for years. You asked for coffee because you can't decide whether to run for {office} this year.","calm")])
+L('close','warn',A,'neighbor-argument',[("Here's one: why didn't anybody ask us first? Think about that before your next vote.","braced")],after="Then let's do it right here. Ask me anything you want.",outcome='open')
+RELINK("If you're running anyway, I'll help. I'm just telling you what I'd do.",'disagree')
+L('reply','leave',Y,'filing-clerk',[("Forget I asked.","calm")],after='refuse')
+L('close','accept',A,'filing-clerk',[("Already forgotten. The forms will be here.","calm")],after="Forget I asked.",outcome='open')
+DROPT({"I'll answer this at the next council meeting."})
+L('reply','leave',Y,'recall-confront',[("I'll answer this at my next town hall.","calm")])
 # ---------------- build ----------------
 def slug(t): return re.sub(r'-+','-',re.sub(r'[^a-z0-9]+','-',t.lower())).strip('-')[:70]
 parts={}; textkey={}
@@ -1604,6 +1675,9 @@ bank['slots'].update({
  "source":"Who told the speaker, by relation or name, from the news-received record.",
  "votes":"How many votes are counted for the bill, from the whip count.",
  "needed":"How many votes the bill needs to pass, from the chamber's rules.",
+ "candidate":"Present when the person in the scene filed for office, from the filing record.",
+ "where":"Where the place takes filings for the race (the clerk, the registrar, the board of elections), from the filing record.",
+ "relative":"A relative of the person in the scene, by name, from the family records.",
  "executive":"The executive's post as people say it (\"governor\", \"mayor\"), from the office record of the desk's executive.",
 })
 json.dump(bank,open(p,'w'),indent=2,ensure_ascii=False); open(p,'a').write('\n')

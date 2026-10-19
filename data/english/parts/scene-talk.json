@@ -20,7 +20,10 @@
     "deceased": "The person who died, by name, from the death record.",
     "effect": "What a law changed for this person, from the law-reach record.",
     "self": "The player's own full name, from the player's person record.",
-    "executive": "The executive's post as people say it (\"governor\", \"mayor\"), from the office record of the desk's executive."
+    "executive": "The executive's post as people say it (\"governor\", \"mayor\"), from the office record of the desk's executive.",
+    "where": "Where the place takes filings for the race (the clerk, the registrar, the board of elections), from the filing record.",
+    "relative": "A relative of the person in the scene, by name, from the family records.",
+    "candidate": "Present when the person in the scene filed for office, from the filing record."
   },
   "maxWords": 70,
   "parts": [
@@ -32495,7 +32498,8 @@
           "move": "confront",
           "role": "asked",
           "purpose": "poll-problem",
-          "key": "routine"
+          "key": "routine",
+          "requiresFacts": ["candidate"]
         }
       ],
       "bearing": "braced",
@@ -36814,31 +36818,6 @@
       }
     },
     {
-      "key": "scene-talk.narrate-narrate.name-held-office-long-before-you-did-you-asked-for-coffee-because-you-",
-      "move": "narrate-narrate",
-      "kind": "spoken",
-      "text": "{name} held office long before you did. You asked for coffee because you can't decide whether to run for {office} this year.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "narrate",
-          "move": "narrate",
-          "role": "narrator",
-          "purpose": "mentor-advice",
-          "key": "routine"
-        }
-      ],
-      "bearing": "calm",
-      "shippable": true,
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "narrate",
-        "key": "routine"
-      }
-    },
-    {
       "key": "scene-talk.reply-ask.were-you-ever-in-my-spot",
       "move": "reply-ask",
       "kind": "spoken",
@@ -36954,7 +36933,7 @@
           "role": "asker",
           "purpose": "mentor-advice",
           "key": "routine",
-          "after": "scene-talk.reply-disagree.then-help-me-win-it-now-i-ll-raise-the-money-while-i-run"
+          "after": "disagree"
         }
       ],
       "bearing": "calm",
@@ -37870,31 +37849,6 @@
       }
     },
     {
-      "key": "scene-talk.reply-leave.i-ll-answer-this-at-the-next-council-meeting",
-      "move": "reply-leave",
-      "kind": "spoken",
-      "text": "I'll answer this at the next council meeting.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "leave",
-          "role": "asked",
-          "purpose": "recall-confront",
-          "key": "threat"
-        }
-      ],
-      "bearing": "calm",
-      "shippable": true,
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "leave",
-        "key": "threat"
-      }
-    },
-    {
       "key": "scene-talk.follow-confront.then-say-that-to-them-they-re-the-ones-signing",
       "move": "follow-confront",
       "kind": "spoken",
@@ -38747,6 +38701,1572 @@
       "tag": {
         "move": "confront",
         "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.the-where-is-nearly-empty-when-you-come-in-to-file-for-office-name-loo",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "The {where} is nearly empty when you come in to file for {office}. {name} looks up from the counter.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "filing-clerk",
+          "key": "routine"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "narrate",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.morning-here-to-file",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "Morning. Here to file?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "filing-clerk",
+          "key": "routine"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "greet",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell.you-re-not-the-first-for-office-opponent-filed-when",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "You're not the first for {office}. {opponent} filed {when}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "purpose": "filing-clerk",
+          "key": "routine"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "tell",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.what-was-opponent-like",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "What was {opponent} like?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "filing-clerk",
+          "key": "routine"
+        }
+      ],
+      "bearing": "curious",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "ask",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.polite-brought-a-pen-from-home-asked-who-else-had-filed",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Polite. Brought a pen from home. Asked who else had filed.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "filing-clerk",
+          "key": "routine",
+          "after": "scene-talk.reply-ask.what-was-opponent-like"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "answer",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.then-let-s-get-mine-in",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Then let's get mine in.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "filing-clerk",
+          "key": "routine",
+          "after": "answer"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "agree",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-boast.then-i-ll-bring-a-better-pen",
+      "move": "reply-boast",
+      "kind": "spoken",
+      "text": "Then I'll bring a better pen.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "boast",
+          "role": "asked",
+          "purpose": "filing-clerk",
+          "key": "routine",
+          "after": "answer"
+        }
+      ],
+      "bearing": "proud",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "boast",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.sign-here-and-here-once-it-s-checked-you-re-on-the-ballot",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Sign here, and here. Once it's checked, you're on the ballot.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "filing-clerk",
+          "key": "routine",
+          "after": "agree"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "accept",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.good-sign-here-and-here",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Good. Sign here, and here.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "filing-clerk",
+          "key": "routine",
+          "after": "boast"
+        }
+      ],
+      "bearing": "glad",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "accept",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.i-know-that-s-why-i-m-here",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "I know. That's why I'm here.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "filing-clerk",
+          "key": "routine"
+        }
+      ],
+      "bearing": "braced",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "tell",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.then-let-s-make-it-official-sign-here-and-here",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Then let's make it official. Sign here, and here.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "filing-clerk",
+          "key": "routine",
+          "after": "tell"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "accept",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-confront.did-opponent-say-anything-about-me",
+      "move": "reply-confront",
+      "kind": "spoken",
+      "text": "Did {opponent} say anything about me?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "confront",
+          "role": "asked",
+          "purpose": "filing-clerk",
+          "key": "routine"
+        }
+      ],
+      "bearing": "curious",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "confront",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.follow-refuse.i-take-the-forms-i-don-t-carry-messages",
+      "move": "follow-refuse",
+      "kind": "spoken",
+      "text": "I take the forms. I don't carry messages.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "refuse",
+          "role": "asker",
+          "purpose": "filing-clerk",
+          "key": "routine",
+          "after": "confront"
+        }
+      ],
+      "bearing": "guarded",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "refuse",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.fair-enough-where-do-i-sign",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Fair enough. Where do I sign?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "filing-clerk",
+          "key": "routine",
+          "after": "refuse"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "agree",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.maybe-i-ll-sleep-on-it-one-more-night",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "Maybe I'll sleep on it one more night.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "filing-clerk",
+          "key": "routine"
+        }
+      ],
+      "bearing": "anxious",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "leave",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.close-accept.the-forms-will-be-here-when-you-re-ready",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "The forms will be here when you're ready.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "filing-clerk",
+          "key": "routine",
+          "after": "leave",
+          "outcome": "open"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "accept",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.close-thank.good-luck-out-there",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "Good luck out there.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "filing-clerk",
+          "key": "routine",
+          "outcome": "resolved"
+        }
+      ],
+      "bearing": "glad",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "thank",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-is-propped-up-in-bed-when-you-come-in-the-doctors-have-called-it-",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} is propped up in bed when you come in. The doctors have called it serious.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "care-visit",
+          "key": "routine"
+        }
+      ],
+      "bearing": "solemn",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "narrate",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.there-you-are-sit-down-you-re-making-me-tired-standing-up",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "There you are. Sit down. You're making me tired standing up.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "care-visit",
+          "key": "routine"
+        }
+      ],
+      "bearing": "tender",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "greet",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.i-need-you-to-tell-relative-i-can-t-make-myself-do-it",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I need you to tell {relative}. I can't make myself do it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "care-visit",
+          "key": "routine"
+        }
+      ],
+      "bearing": "tender",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "request",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.i-ll-call-relative-tonight",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "I'll call {relative} tonight.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "care-visit",
+          "key": "routine"
+        }
+      ],
+      "bearing": "tender",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "agree",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.thank-you-tell-it-gently-you-re-better-at-that-than-i-am",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Thank you. Tell it gently. You're better at that than I am.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "care-visit",
+          "key": "routine",
+          "after": "agree"
+        }
+      ],
+      "bearing": "tender",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "thank",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.what-did-the-doctor-actually-say",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "What did the doctor actually say?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "care-visit",
+          "key": "routine"
+        }
+      ],
+      "bearing": "anxious",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "ask",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.that-it-s-serious-and-that-i-m-supposed-to-rest-i-ve-never-been-any-go",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "That it's serious, and that I'm supposed to rest. I've never been any good at resting.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "care-visit",
+          "key": "routine",
+          "after": "ask"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "answer",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.then-rest-i-ll-call-relative",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Then rest. I'll call {relative}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "care-visit",
+          "key": "routine",
+          "after": "answer"
+        }
+      ],
+      "bearing": "tender",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "agree",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-comfort.then-i-ll-sit-right-here-and-make-sure-you-do",
+      "move": "reply-comfort",
+      "kind": "spoken",
+      "text": "Then I'll sit right here and make sure you do.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "comfort",
+          "role": "asked",
+          "purpose": "care-visit",
+          "key": "routine",
+          "after": "answer"
+        }
+      ],
+      "bearing": "tender",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "comfort",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-comfort.you-don-t-have-to-do-anything-right-now-but-get-better",
+      "move": "reply-comfort",
+      "kind": "spoken",
+      "text": "You don't have to do anything right now but get better.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "comfort",
+          "role": "asked",
+          "purpose": "care-visit",
+          "key": "routine"
+        }
+      ],
+      "bearing": "tender",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "comfort",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.i-know-but-i-can-t-rest-until-relative-knows",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "I know. But I can't rest until {relative} knows.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "care-visit",
+          "key": "routine",
+          "after": "comfort"
+        }
+      ],
+      "bearing": "tender",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "press",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-deflect.let-s-not-talk-about-that-yet-did-you-eat-anything-today",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "Let's not talk about that yet. Did you eat anything today?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "care-visit",
+          "key": "routine"
+        }
+      ],
+      "bearing": "anxious",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "deflect",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.don-t-change-the-subject-will-you-call-relative",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "Don't change the subject. Will you call {relative}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "care-visit",
+          "key": "routine",
+          "after": "deflect"
+        }
+      ],
+      "bearing": "hurt",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "press",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.all-right-i-ll-call-tonight",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "All right. I'll call tonight.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "care-visit",
+          "key": "routine",
+          "after": "press"
+        }
+      ],
+      "bearing": "tender",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "agree",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-deflect.i-ll-get-you-some-soup-first-then-we-ll-talk",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "I'll get you some soup first. Then we'll talk.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "care-visit",
+          "key": "routine",
+          "after": "press"
+        }
+      ],
+      "bearing": "anxious",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "deflect",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.i-ll-come-back-tomorrow-try-to-sleep",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I'll come back tomorrow. Try to sleep.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "care-visit",
+          "key": "routine"
+        }
+      ],
+      "bearing": "tender",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "leave",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.close-react.name-is-asleep-before-you-reach-the-door",
+      "move": "close-react",
+      "kind": "spoken",
+      "text": "{name} is asleep before you reach the door.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "react",
+          "role": "asker",
+          "purpose": "care-visit",
+          "key": "routine",
+          "after": "leave",
+          "outcome": "open"
+        }
+      ],
+      "bearing": "tender",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "react",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.close-thank.come-back-tomorrow-bring-the-crossword",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "Come back tomorrow. Bring the crossword.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "care-visit",
+          "key": "routine",
+          "outcome": "resolved"
+        }
+      ],
+      "bearing": "tender",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "thank",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.close-warn.don-t-wait-too-long-please",
+      "move": "close-warn",
+      "kind": "spoken",
+      "text": "Don't wait too long. Please.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "care-visit",
+          "key": "routine",
+          "outcome": "open"
+        }
+      ],
+      "bearing": "hurt",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "warn",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-comes-by-with-a-covered-dish-to-meet-kid",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} comes by with a covered dish to meet {kid}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "new-baby",
+          "key": "honor"
+        }
+      ],
+      "bearing": "glad",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "narrate",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.let-me-see-that-baby",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "Let me see that baby.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "new-baby",
+          "key": "honor"
+        }
+      ],
+      "bearing": "glad",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "greet",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.state-ask.so-how-are-you-actually-doing-not-the-baby-you",
+      "move": "state-ask",
+      "kind": "spoken",
+      "text": "So how are you actually doing? Not the baby. You.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "new-baby",
+          "key": "honor"
+        }
+      ],
+      "bearing": "tender",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "ask",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.tired-happy-mostly-tired",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "Tired. Happy. Mostly tired.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "new-baby",
+          "key": "honor"
+        }
+      ],
+      "bearing": "glad",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "tell",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.that-s-the-right-answer-anybody-who-says-different-is-lying",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "That's the right answer. Anybody who says different is lying.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "new-baby",
+          "key": "honor",
+          "after": "tell"
+        }
+      ],
+      "bearing": "glad",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "accept",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-confess.honestly-i-m-scared-i-m-doing-it-wrong",
+      "move": "reply-confess",
+      "kind": "spoken",
+      "text": "Honestly? I'm scared I'm doing it wrong.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "confess",
+          "role": "asked",
+          "purpose": "new-baby",
+          "key": "honor"
+        }
+      ],
+      "bearing": "anxious",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "confess",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.follow-comfort.everybody-is-the-ones-who-say-they-aren-t-just-hide-it-better",
+      "move": "follow-comfort",
+      "kind": "spoken",
+      "text": "Everybody is. The ones who say they aren't just hide it better.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "comfort",
+          "role": "asker",
+          "purpose": "new-baby",
+          "key": "honor",
+          "after": "confess"
+        }
+      ],
+      "bearing": "tender",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "comfort",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-thank.thank-you-i-needed-to-hear-that",
+      "move": "reply-thank",
+      "kind": "spoken",
+      "text": "Thank you. I needed to hear that.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "thank",
+          "role": "asked",
+          "purpose": "new-baby",
+          "key": "honor",
+          "after": "comfort"
+        }
+      ],
+      "bearing": "tender",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "thank",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.anytime-that-s-what-i-m-here-for",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Anytime. That's what I'm here for.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "new-baby",
+          "key": "honor",
+          "after": "thank"
+        }
+      ],
+      "bearing": "tender",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "accept",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-request.could-you-hold-kid-for-an-hour-so-i-can-sleep",
+      "move": "reply-request",
+      "kind": "spoken",
+      "text": "Could you hold {kid} for an hour so I can sleep?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "request",
+          "role": "asked",
+          "purpose": "new-baby",
+          "key": "honor"
+        }
+      ],
+      "bearing": "anxious",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "request",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.go-i-ve-got-kid-take-two-hours",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Go. I've got {kid}. Take two hours.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "new-baby",
+          "key": "honor",
+          "after": "request"
+        }
+      ],
+      "bearing": "glad",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "accept",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.do-you-want-to-hold-kid",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "Do you want to hold {kid}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "new-baby",
+          "key": "honor"
+        }
+      ],
+      "bearing": "glad",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "ask",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.i-thought-you-d-never-ask",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "I thought you'd never ask.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "new-baby",
+          "key": "honor",
+          "after": "ask"
+        }
+      ],
+      "bearing": "glad",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "answer",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.careful-with-the-head-there-you-go",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "Careful with the head. There you go.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "new-baby",
+          "key": "honor",
+          "after": "answer"
+        }
+      ],
+      "bearing": "tender",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "tell",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.look-at-that-kid-likes-me",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Look at that. {kid} likes me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "new-baby",
+          "key": "honor",
+          "after": "scene-talk.reply-tell.careful-with-the-head-there-you-go"
+        }
+      ],
+      "bearing": "glad",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "accept",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-request.hold-on-to-kid-for-an-hour-i-need-to-sleep",
+      "move": "reply-request",
+      "kind": "spoken",
+      "text": "Hold on to {kid} for an hour? I need to sleep.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "request",
+          "role": "asked",
+          "purpose": "new-baby",
+          "key": "honor",
+          "after": "answer"
+        }
+      ],
+      "bearing": "anxious",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "request",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-request.then-could-you-stay-an-hour-so-i-can-sleep",
+      "move": "reply-request",
+      "kind": "spoken",
+      "text": "Then could you stay an hour so I can sleep?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "request",
+          "role": "asked",
+          "purpose": "new-baby",
+          "key": "honor",
+          "after": "comfort"
+        }
+      ],
+      "bearing": "anxious",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "request",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.i-should-feed-kid-soon",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I should feed {kid} soon.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "new-baby",
+          "key": "honor"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "leave",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.close-accept.go-on-i-ll-let-myself-out",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "Go on. I'll let myself out.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "new-baby",
+          "key": "honor",
+          "after": "leave",
+          "outcome": "open"
+        }
+      ],
+      "bearing": "tender",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "accept",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.close-thank.call-me-if-you-need-anything-i-mean-it",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "Call me if you need anything. I mean it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "new-baby",
+          "key": "honor",
+          "outcome": "resolved"
+        }
+      ],
+      "bearing": "tender",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "thank",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-has-held-office-for-years-you-asked-for-coffee-because-you-can-t-",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} has held office for years. You asked for coffee because you can't decide whether to run for {office} this year.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "mentor-advice",
+          "key": "routine"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "narrate",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.close-warn.here-s-one-why-didn-t-anybody-ask-us-first-think-about-that-before-you",
+      "move": "close-warn",
+      "kind": "spoken",
+      "text": "Here's one: why didn't anybody ask us first? Think about that before your next vote.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "neighbor-argument",
+          "key": "threat",
+          "after": "scene-talk.reply-confront.then-let-s-do-it-right-here-ask-me-anything-you-want",
+          "outcome": "open"
+        }
+      ],
+      "bearing": "braced",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "warn",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.forget-i-asked",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "Forget I asked.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "filing-clerk",
+          "key": "routine",
+          "after": "refuse"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "leave",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.close-accept.already-forgotten-the-forms-will-be-here",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "Already forgotten. The forms will be here.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "filing-clerk",
+          "key": "routine",
+          "after": "scene-talk.reply-leave.forget-i-asked",
+          "outcome": "open"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "accept",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.i-ll-answer-this-at-my-next-town-hall",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I'll answer this at my next town hall.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "recall-confront",
+          "key": "threat"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "leave",
+        "key": "threat"
       }
     }
   ]

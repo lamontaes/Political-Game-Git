@@ -3595,6 +3595,10 @@
           {
             "move": "press",
             "pulls": {}
+          },
+          {
+            "move": "accept",
+            "pulls": {}
           }
         ],
         "thank": [
@@ -3653,6 +3657,234 @@
           "keeps": "none",
           "when": {
             "reply": ["tell", "answer", "leave"]
+          }
+        },
+        {
+          "id": "left-there",
+          "label": "Left it there",
+          "keeps": "none",
+          "when": {}
+        }
+      ]
+    },
+    "filing-clerk": {
+      "state": "tell",
+      "replies": ["ask", "tell", "confront", "leave"],
+      "follow": {
+        "ask": [
+          {
+            "move": "answer",
+            "pulls": {}
+          }
+        ],
+        "tell": [
+          {
+            "move": "accept",
+            "pulls": {}
+          }
+        ],
+        "confront": [
+          {
+            "move": "refuse",
+            "pulls": {}
+          }
+        ],
+        "agree": [
+          {
+            "move": "accept",
+            "pulls": {}
+          }
+        ],
+        "boast": [
+          {
+            "move": "accept",
+            "pulls": {}
+          }
+        ]
+      },
+      "again": {
+        "answer": ["agree", "boast", "leave"],
+        "refuse": ["agree", "leave"]
+      },
+      "endings": [
+        {
+          "id": "cold-feet",
+          "label": "Not today",
+          "keeps": "none",
+          "when": {
+            "reply": ["leave"]
+          }
+        },
+        {
+          "id": "sized-up",
+          "label": "You filed, and sized up the race",
+          "keeps": "none",
+          "when": {
+            "anyReply": ["ask"],
+            "asker": ["accept"]
+          }
+        },
+        {
+          "id": "filed",
+          "label": "You filed",
+          "keeps": "promise",
+          "when": {
+            "asker": ["accept"]
+          }
+        },
+        {
+          "id": "left-there",
+          "label": "Left it there",
+          "keeps": "none",
+          "when": {}
+        }
+      ]
+    },
+    "care-visit": {
+      "state": "request",
+      "replies": ["agree", "ask", "comfort", "deflect"],
+      "follow": {
+        "agree": [
+          {
+            "move": "thank",
+            "pulls": {}
+          }
+        ],
+        "ask": [
+          {
+            "move": "answer",
+            "pulls": {}
+          }
+        ],
+        "comfort": [
+          {
+            "move": "press",
+            "pulls": {}
+          }
+        ],
+        "deflect": [
+          {
+            "move": "press",
+            "pulls": {}
+          }
+        ]
+      },
+      "again": {
+        "answer": ["agree", "comfort", "leave"],
+        "press": ["agree", "deflect", "leave"]
+      },
+      "endings": [
+        {
+          "id": "will-tell",
+          "label": "You'll break the news",
+          "keeps": "promise",
+          "when": {
+            "reply": ["agree"]
+          }
+        },
+        {
+          "id": "stayed",
+          "label": "You stayed with them",
+          "keeps": "none",
+          "when": {
+            "reply": ["comfort"]
+          }
+        },
+        {
+          "id": "changed-subject",
+          "label": "You changed the subject",
+          "keeps": "none",
+          "when": {
+            "reply": ["deflect"]
+          }
+        },
+        {
+          "id": "let-them-rest",
+          "label": "You let them rest",
+          "keeps": "none",
+          "when": {
+            "reply": ["leave"]
+          }
+        },
+        {
+          "id": "left-there",
+          "label": "Left it there",
+          "keeps": "none",
+          "when": {}
+        }
+      ]
+    },
+    "new-baby": {
+      "state": "ask",
+      "replies": ["tell", "confess", "request", "ask"],
+      "follow": {
+        "tell": [
+          {
+            "move": "accept",
+            "pulls": {}
+          }
+        ],
+        "confess": [
+          {
+            "move": "comfort",
+            "pulls": {}
+          }
+        ],
+        "request": [
+          {
+            "move": "accept",
+            "pulls": {}
+          }
+        ],
+        "ask": [
+          {
+            "move": "answer",
+            "pulls": {}
+          }
+        ],
+        "thank": [
+          {
+            "move": "accept",
+            "pulls": {}
+          }
+        ]
+      },
+      "again": {
+        "comfort": ["thank", "request", "leave"],
+        "answer": ["tell", "request", "leave"]
+      },
+      "endings": [
+        {
+          "id": "got-sleep",
+          "label": "You got some sleep",
+          "keeps": "none",
+          "when": {
+            "reply": ["request"],
+            "asker": ["accept"]
+          }
+        },
+        {
+          "id": "said-it",
+          "label": "You said you were scared",
+          "keeps": "none",
+          "when": {
+            "anyReply": ["confess"]
+          }
+        },
+        {
+          "id": "held-the-baby",
+          "label": "They held the baby",
+          "keeps": "none",
+          "when": {
+            "anyReply": ["ask"]
+          }
+        },
+        {
+          "id": "good-visit",
+          "label": "A good visit",
+          "keeps": "none",
+          "when": {
+            "reply": ["tell", "thank"]
           }
         },
         {
