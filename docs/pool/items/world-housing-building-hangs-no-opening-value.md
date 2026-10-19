@@ -5,11 +5,12 @@ area: world
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/housing-no-opening-value
+pr: #5048
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-18T10:01:32.047Z
 ---
 
 **What.** A town whose opening has no owner-occupied home or no rent records an opening home value or rent of zero on its housing stock row. The first month a value exists, building divides today's value by that zero, the number of starts becomes infinite, and the monthly building loop starts projects for ever, so the game never returns. In the played world from the start with seed pc8 (Millwood, Georgia, 1,762 people, 25 rental units) the headless path check ran for 28 minutes without finishing; stopped, it stood in the housing builder's month on December 1, 2025. The first month a value exists should become the base the town's building is measured against, since no opening figure was ever set.
