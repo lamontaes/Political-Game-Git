@@ -7,7 +7,7 @@ priority: 3
 size: S
 status: in-pr
 claimed-by: claude/bargaining-premium-source
-pr: #5206
+pr: #5201
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-19T22:24:40.039Z
