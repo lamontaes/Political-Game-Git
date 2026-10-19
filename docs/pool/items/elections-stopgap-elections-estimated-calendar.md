@@ -26,3 +26,5 @@ claimed-at: 2026-10-19T23:29:34.405Z
 Oct 19 (claude/filing-deadline-georgia): Georgia's row now reads its statute (O.C.G.A. 21-2-132(c)(3): the third Monday in August to the following Friday), and Nevada (first Monday in March plus 11 days), West Virginia (last Saturday of January) and Kentucky (second Tuesday in August) and Arizona (120 days before) are read the same way, so 16 places remain `unread`. Searched Indiana (the 88-day primary rule is measured from the primary, which the rule kinds cannot express yet) and Mississippi (the search showed no statute text); both are left. Each remaining row needs the statute text read from the code itself, not a search excerpt.
 
 Oct 19 (later): West Virginia, Arizona and Nevada are now SOURCED, read from the official code pages (code.wvlegislature.gov, azleg.gov, leg.state.nv.us). Georgia and Kentucky stay ESTIMATED: the Georgia code page and the Kentucky statute (a compressed PDF) could not be read from the official site here.
+
+Wyoming is also SOURCED (W.S. 22-23-302 and 22-2-104(b), from the Title 22 PDF at wyoleg.gov): 15 places remain `unread`.

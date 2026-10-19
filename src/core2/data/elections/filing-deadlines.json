@@ -523,13 +523,15 @@
     },
     "US-WY": {
       "rule": {
-        "kind": "unread",
-        "reason": "The law counts the deadline from a primary or another date this calendar does not hold for towns."
+        "kind": "weekday-of-month",
+        "month": 8,
+        "weekday": 1,
+        "nth": 3,
+        "plusDays": -80
       },
-      "ruleText": "Cities and towns with primaries: application filed 96 to 81 days before the primary; others by charter",
-      "citation": "Wyo. Stat. 22-23-302",
-      "tag": "ESTIMATED",
-      "estimatedFrom": "Statute or county page named in the citation, read from a search excerpt or secondary summary and not checked against the current code (filing-requirements.json estimate flag)."
+      "ruleText": "A candidate for municipal office files an application and fee with the municipal clerk not more than 96 days and not later than 81 days before the municipal primary, which is held with the statewide primary on the first Tuesday after the third Monday in August of even-numbered years",
+      "citation": "W.S. 22-23-302 and 22-2-104(b), read from the Wyoming Statutes Title 22 at wyoleg.gov Oct 19, 2026",
+      "tag": "SOURCED"
     },
     "US-DC": {
       "rule": {

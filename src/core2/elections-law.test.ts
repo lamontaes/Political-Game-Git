@@ -132,6 +132,11 @@ describe(`election law from data (place ${drawn.name}, ${drawn.state}, seed ${se
     expect(municipalFilingDeadline("US-AZ", "2026-03-10")?.date).toBe(
       "2025-11-10",
     );
+    // Wyoming's filing closes 81 days before the primary, which is the first
+    // Tuesday after the third Monday in August: August 18, 2026, so May 29.
+    expect(municipalFilingDeadline("US-WY", "2026-11-03")?.date).toBe(
+      "2026-05-29",
+    );
     // Every one of the 56 places has a row with a citation and a tag.
     const rows = Object.values(
       filingDeadlines.places as Record<
