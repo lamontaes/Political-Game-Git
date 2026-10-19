@@ -22,3 +22,5 @@ claimed-at: 2026-10-19T18:46:21.988Z
 **Files.** src/core2/modules/drives.ts, src/core2/life.ts, scripts/speed-years/run.ts
 
 **Notes.** Measured Oct 19 on a cloud machine (slow; compare ratios, not seconds): build 69.3 s, year 1 330.8 s, year 2 333.8 s, year 3 657.3 s, seed 7c1d. Commit a04e82f0f6 already limited the daily drive scoring to the player's circle, which is why years 1 and 2 match. Not yet profiled.
+
+Profiled Oct 19 (same place and seed, first 90 days of year 3, CPU profile by self time): garbage collection 21.3 percent, the people module's daily handler 6.9, postCashJournal 3.2, availableActs 3.1, makeIsoDate 3.1, projectCashJournal 2.5, free-block candidates 2.3, parameter lookups 2.3. No single hot function: the profile is flat apart from garbage collection, so year 3 is slow because memory grows (more records kept each year), not because one loop is. This overlaps core-year-speed-activate-and-gc, claimed by another session; take the growth in kept records (journal and history rows per person) after that item lands, and re-measure year 3.
