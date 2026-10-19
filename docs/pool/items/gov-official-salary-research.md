@@ -22,3 +22,5 @@ claimed-at:
 **Files.** data/source/official-office-pay/facts.json, data/research/offices/official-salaries-2026.json, src/core2/modules/official-pay.ts
 
 **Notes.** Split out of gov-official-salary-through-payroll (Oct 16), which pays officials by paycheck and carries each figure's provenance. Ballotpedia and NCSL both refused automated reads in that session.
+
+Tried Oct 19 (claude, claude/political-game-pool-l9cym2), not built. Justia returned 403 to an automated read; a state legislature's own site worked but came back as a PDF whose text had to be extracted. Kentucky shows why the figures are hard to read from a statute: KRS 64.480 sets the lieutenant governor and other row officers by a yearly cost-of-living computation the Department for Local Government publishes, so the current dollars are in that year's computation, not in the statute text. Expect the same for other states with indexed pay. Take it one state at a time from the state's own current pay schedule, not the statute.
