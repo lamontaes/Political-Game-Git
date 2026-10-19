@@ -4,9 +4,9 @@ title: "Scene narration (scene-words.json), then people bringing things up (brin
 area: words
 kind: feature
 priority: 2
-status: claimed
+status: in-pr
 claimed-by: claude/law-decision-headlines
-pr:
+pr: #5233
 blocked-on:
 milestone:
 source: "docs/coordination/words.md line 34 (unchecked checklist line)"

@@ -4,10 +4,10 @@ title: "Stopgaps in opening-capital (estimated-private-opening-cash-crosswalk): 
 area: core
 kind: stopgap
 priority: 3
-status: open
+status: blocked
 claimed-by:
 pr:
-blocked-on:
+blocked-on: research data: the row's replacement needs sourced data (Recorded firm opening balances and capital provenance, or a matched ALL-debit/balance cohort adapter with honest distributions and measured crosswalk ...)
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/data/opening-capital.json, kind estimated-private-opening-cash-crosswalk"
 ---
