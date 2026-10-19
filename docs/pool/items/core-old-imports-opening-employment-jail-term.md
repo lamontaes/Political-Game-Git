@@ -5,11 +5,12 @@ area: core
 kind: cleanup
 priority: 2
 size: S
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/old-imports-jail-term
+pr: #5073
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-19T18:12:30.665Z
 ---
 
 **What.** TODO

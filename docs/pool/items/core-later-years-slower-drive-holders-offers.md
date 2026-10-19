@@ -10,7 +10,7 @@ claimed-by: claude/later-years-slower
 pr:
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-19T18:12:02.680Z
+claimed-at: 2026-10-19T18:46:21.988Z
 ---
 
 **What.** A town's later game years run slower than its first, and the cause named when this was filed is that drive holders are offered more acts each year. A commit already stopped scoring a full choice daily for every holder, so the first two years now run level. The third year still runs about twice as long as the first two, so something else still grows with the years. Find what grows between year 2 and year 3 with a CPU profile of year 3, and fix it at the root by acting on the day something changes instead of scanning.
