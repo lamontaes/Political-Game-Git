@@ -38,6 +38,7 @@ import {
 import type { Parameter } from "../parameters";
 import { JOBS_PARAMETERS } from "./jobs";
 import { scaleOutsideSales } from "../residents-economy";
+import { residentCounts } from "./residents";
 import { coarseSteps, type PreStartModule } from "../pre-start";
 import {
   REGIONAL_PARAMETERS,
@@ -120,7 +121,7 @@ function townIncomeGrowth(
   places: readonly string[],
   month: string,
   p: MacroParameter,
-): number | null {
+): { pct: number; months: number } | null {
   const paid = api.state.finance.paidIncomeByPlaceMonth;
   const sum = (at: string) =>
     places.reduce<number | null>((total, place) => {
@@ -145,9 +146,69 @@ function townIncomeGrowth(
     const now = run(month, months),
       before = run(yearAgo, months);
     if (now !== null && before !== null && before > p("zero"))
-      return (now / before - p("one")) * p("macroHundred");
+      return {
+        pct: (now / before - p("one")) * p("macroHundred"),
+        months,
+      };
   }
   return null;
+}
+
+/**
+ * What the town's paid income grows by before its own months can say: the
+ * nation's payroll income (jobs times hourly pay) over the same twelve
+ * months, which the macro history records from before the opening. A town's
+ * growth differs from the nation's by a few points either way; that spread is
+ * the estimate's, and the town's own months replace it as they come in.
+ */
+function incomeGrowthEstimate(
+  api: CoreAPI,
+  month: string,
+  p: MacroParameter,
+): number | undefined {
+  const months = store(api).table("months");
+  const income = (at: string) => {
+    const row = months.get(`macro-month:${at}`) as unknown as
+      MacroMonth | undefined;
+    return row ? row.payrollJobsThousands * row.hourlyEarnings : undefined;
+  };
+  const now = income(month),
+    before = income(shiftMonth(month, -p("macroMonthsPerYear"), p));
+  if (now === undefined || before === undefined || before <= p("zero"))
+    return undefined;
+  return (now / before - p("one")) * p("macroHundred");
+}
+
+/**
+ * The growth the national step hears from the town: the estimate while the
+ * town has no comparable months, then the town's own growth with a weight
+ * that rises by a twelfth for each month it covers.
+ */
+function townGrowthHeard(
+  api: CoreAPI,
+  placeIds: readonly string[],
+  month: string,
+  p: MacroParameter,
+):
+  | {
+      pct: number;
+      estimatePct: number;
+      ownPct?: number;
+      ownWeight: number;
+    }
+  | undefined {
+  const estimate = incomeGrowthEstimate(api, month, p);
+  if (estimate === undefined) return undefined;
+  const own = townIncomeGrowth(api, placeIds, month, p);
+  const weight = own
+    ? Math.min(p("one"), own.months / p("macroMonthsPerYear"))
+    : p("zero");
+  return {
+    pct: own ? weight * own.pct + (p("one") - weight) * estimate : estimate,
+    estimatePct: estimate,
+    ...(own ? { ownPct: own.pct } : {}),
+    ownWeight: weight,
+  };
 }
 
 function publishConditions(
@@ -202,23 +263,32 @@ function runMonth(api: CoreAPI, state: MacroStateRow): void {
     `macro-month:${state.latestMonth}`,
   ) as unknown as MacroMonth;
   const month = shiftMonth(state.latestMonth, p("one"), p);
-  const growth = townIncomeGrowth(
+  const heard = townGrowthHeard(
     api,
     state.placeIds,
     shiftMonth(month, -p("one"), p),
     p,
   );
-  // Without comparable paid-income records, omit local feedback and its observation.
-  if (growth === null) api.stopgap("SG-WORLD-macro-income-history");
-  const row = stepMacroMonth(
-    previous,
-    state.policyRatePct,
-    growth ?? undefined,
-    state.townResidents,
-    p,
-  );
+  const row = {
+    ...stepMacroMonth(
+      previous,
+      state.policyRatePct,
+      heard?.pct,
+      state.townResidents,
+      p,
+    ),
+    ...(heard
+      ? {
+          townGrowthEstimatePct: heard.estimatePct,
+          townGrowthOwnWeight: heard.ownWeight,
+          ...(heard.ownPct === undefined
+            ? {}
+            : { townGrowthOwnPct: heard.ownPct }),
+        }
+      : {}),
+  };
   // The town's own income growth, once a year of it is recorded, is what the national step heard from the town.
-  months.put({ ...(row as unknown as { id: string }) });
+  months.put(row as unknown as { id: string });
   if (regionalRegistered(api)) stepRegional(api, previous, row);
   const next = { ...state, latestMonth: row.month };
   store(api).table("state").put(next);
@@ -300,7 +370,15 @@ function open(api: CoreAPI): MacroStateRow {
       Math.floor(opening.policyRatePct / step) * step + step / p("two"),
     ),
     placeIds,
-    townResidents: core.people.size - board.members.length,
+    // The town's people: the full people (less the board's) and the counted
+    // residents of its places, each record times the households it stands for.
+    townResidents:
+      core.people.size -
+      board.members.length +
+      residentCounts(core).reduce(
+        (n, row) => n + (placeIds.includes(row.placeId) ? row.people : 0),
+        0,
+      ),
   };
   store(api)
     .table("state")

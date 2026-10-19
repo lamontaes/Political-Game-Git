@@ -1,5 +1,19 @@
 /** Recorded counterparties, indexed monthly reviews and bills; no daily population scan. */
-import type { CoreAPI, CoreModule, SalesReceiptNotice } from "../types";
+import type {
+  CoreAPI,
+  CoreModule,
+  CountedWagesNotice,
+  SalesReceiptNotice,
+} from "../types";
+
+/** Offer one payday of counted workers to every module that listens (e.g. the employer's payroll taxes). */
+export function notifyCountedWages(
+  api: CoreAPI,
+  notice: CountedWagesNotice,
+): void {
+  for (const module of api.state.modules.values())
+    module.onCountedWages?.(api, notice);
+}
 
 /** Offer one paid sale to every module that listens (e.g. sales tax). */
 export function notifySalesReceipt(

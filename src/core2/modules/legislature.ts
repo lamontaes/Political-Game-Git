@@ -1,3 +1,4 @@
+import type { OfficeInput } from "../offices-local";
 import { snapshotExplicitControlV1 } from "../player-control-state-v1";
 import {
   lineItemVetoOf,
@@ -97,6 +98,7 @@ import { decisionFromScores, scoreOffers } from "../choice";
 import { decisionKinds } from "../trait-decisions";
 import { discretionaryHours } from "./work";
 import { COMMITTEES, committeeForSection } from "../legislature-committees";
+import { addDays, makeIsoDate } from "../kernel/dates";
 import {
   bodyNumbering,
   designation,
@@ -163,6 +165,8 @@ export interface BillRow {
   readonly id: string;
   /** The body's own designation: "LB 12", "H.R. 25", "S. 3", "2025-12". */
   readonly number: string;
+  /** Structured title at introduction; English renders these record parts. */
+  readonly title?: BillTitle;
   /**
    * What the bill is in its body (a bill for an act, or an ordinance) and the
    * enacting clause the law prescribes for it, with that law's citation.
@@ -175,6 +179,8 @@ export interface BillRow {
   readonly bodyOfficeId: string;
   readonly sponsorId: string;
   readonly introduced: string;
+  /** The committee record that reported the bill to the floor of its first chamber, where its body has committees. */
+  readonly committeeId?: string;
   readonly provisions: readonly Provision[];
   readonly costEstimate: {
     readonly workersRaised: number;
@@ -484,6 +490,7 @@ function councilBudget(
     }
     result = roll(kept);
   }
+  if (!kept.length) result = { ...result, adopted: false };
   for (const row of result.rows) table(api, "votes").put(row);
   // Each chamber's roll call on the budget is public record the press reads,
   // like any bill's.
@@ -565,7 +572,7 @@ function councilBudget(
   clearBudgetPriorities(api, gov.id);
   table(api, "bills").put({
     ...bill,
-    provisions: kept,
+    provisions: kept.length ? kept : provisions,
     kind: "budget",
     status: adopted ? "enacted" : "failed",
   } as unknown as ModuleRow);
@@ -928,7 +935,7 @@ function numberAndForm(
       kind: numbering.kind,
       enactingClause: numbering.enactingClause.replace(
         "{body}",
-        body.governmentName,
+        body.bodyName ?? body.governmentName,
       ),
       enactingSource: numbering.enactingSource,
     },
@@ -1385,25 +1392,26 @@ export function draftBill(
     deals: [],
     ...checkedText(api, input.bodyOfficeId, input.provisions),
   };
-  table(api, "bills").put(bill as unknown as ModuleRow);
+  const titled = { ...bill, title: billTitle(bill) };
+  table(api, "bills").put(titled as unknown as ModuleRow);
   // A sponsor who is a full person introduced it: a record their journal reads.
   const sponsor = api.state.people.get(input.sponsorId);
   if (sponsor)
     api.emit({
-      id: `office.introduced:${bill.id}`,
+      id: `office.introduced:${titled.id}`,
       date: api.state.date,
       kind: "office.introduced",
       personIds: [input.sponsorId],
       placeId: sponsor.placeId,
       source: {
         tag: "SOURCED",
-        citation: `Introduction of ${bill.number}`,
+        citation: `Introduction of ${titled.number}`,
         asOf: api.state.date,
       },
       publicRecord: true,
-      facts: { billId: bill.id, number: bill.number },
+      facts: { billId: titled.id, number: titled.number },
     });
-  return bill;
+  return titled;
 }
 
 /**
@@ -1417,6 +1425,10 @@ function checkedText(
   bodyOfficeId: string,
   provisions: readonly Provision[],
 ): Pick<BillRow, "provisions" | "costEstimate" | "authority" | "status"> {
+  if (!provisions.length)
+    throw new Error("A bill must have at least one provision.");
+  if (provisions.some((p) => !subjectKey(p).trim()))
+    throw new Error("Every bill provision must name its subject.");
   const body = bodyOf(api, bodyOfficeId);
   const level =
     body?.kind === "us-house" || body?.kind === "us-senate"
@@ -1481,8 +1493,9 @@ export function reviseBill(
     ...bill,
     ...checkedText(api, bill.bodyOfficeId, provisions),
   };
-  table(api, "bills").put(next as unknown as ModuleRow);
-  return next;
+  const titled = { ...next, title: billTitle(next) };
+  table(api, "bills").put(titled as unknown as ModuleRow);
+  return titled;
 }
 
 /** Everyone serving in a body: every seat of the office, the town's or not. */
@@ -1525,22 +1538,35 @@ export function bodyOf(
       readonly kind: string;
       readonly jurisdiction: string;
       readonly governmentName: string;
+      readonly bodyName?: string;
     }
   | undefined {
-  if (officeId === FEDERAL_HOUSE)
-    return {
-      id: officeId,
-      kind: "us-house",
-      jurisdiction: "US",
-      governmentName: "the Congress of the United States",
-    };
-  if (officeId === FEDERAL_SENATE)
-    return {
-      id: officeId,
-      kind: "us-senate",
-      jurisdiction: "US",
-      governmentName: "the Congress of the United States",
-    };
+  if (officeId === FEDERAL_HOUSE || officeId === FEDERAL_SENATE) {
+    const kind = officeId === FEDERAL_HOUSE ? "us-house" : "us-senate";
+    const row = (
+      api
+        .moduleState(OFFICES_MODULE_ID)
+        .table("offices")
+        .rows() as unknown as OfficeInput[]
+    ).find((office) =>
+      kind === "us-house" ? office.kind.startsWith(kind) : office.kind === kind,
+    );
+    // The body is the chamber, whatever kind its first office row is: in the
+    // District of Columbia and the territories that row is the delegate's.
+    // A world whose state has no senators (a territory) still has a Senate
+    // that sits, so its body takes the House's row for its name and source.
+    const named =
+      row ??
+      (
+        api
+          .moduleState(OFFICES_MODULE_ID)
+          .table("offices")
+          .rows() as unknown as OfficeInput[]
+      ).find((office) => office.kind.startsWith("us-house"));
+    return named
+      ? { ...named, id: officeId, kind, jurisdiction: "US" }
+      : undefined;
+  }
   return api
     .moduleState(OFFICES_MODULE_ID)
     .table("offices")
@@ -2486,6 +2512,8 @@ export interface CommitteeRecord {
   readonly id: string;
   readonly billId: string;
   readonly chamber: string;
+  /** The day the committee met on the bill. */
+  readonly date: string;
   readonly committee: string;
   readonly chairId: string;
   readonly memberIds: readonly string[];
@@ -2529,6 +2557,11 @@ function committeeStage(
   const all = members(api, chamber);
   if (all.length <= campaignParameter("committeeOfTheWholeMaximum"))
     return null;
+  // A committee that already met on the bill (on its own day, ahead of the floor) is not convened again.
+  const met = table(api, "committees").get(
+    `committee:${bill.id}:${chamber}`,
+  ) as unknown as CommitteeRecord | undefined;
+  if (met) return met;
   // stopgapId: SG-GOV-committee-structure
   api.stopgap("SG-GOV-committee-structure");
   const ranked = [...all].sort(
@@ -2666,6 +2699,7 @@ function committeeStage(
     id: `committee:${bill.id}:${chamber}`,
     billId: bill.id,
     chamber,
+    date: api.state.date,
     committee: committeeFor(bill),
     chairId: memberKey(chair),
     memberIds: roster.map(memberKey),
@@ -3014,6 +3048,11 @@ function countVote(api: CoreAPI, billId: string): BillRow {
       table(api, "bills").put(held as unknown as ModuleRow);
       return held;
     }
+    // The floor's vote cites the report that sent the bill to it.
+    if (committee && !bill.committeeId) {
+      bill = { ...bill, committeeId: committee.id };
+      table(api, "bills").put(bill as unknown as ModuleRow);
+    }
     bill = floorAmendments(api, bill, chamber);
     const counted = chamberVote(api, bill, chamber);
     // A tie: the presiding officer who may break one does (the Vice President
@@ -3305,6 +3344,8 @@ function decideAtDesk(
         billId: bill.id,
         number: bill.number,
         passed: String(override.passed),
+        sponsorId: bill.sponsorId,
+        executiveId: executive.personId ?? "",
         tallies: override.tallies
           .map((t) => `${t.chamber}:${t.yes}/${t.needed}/${t.members}`)
           .join(","),
@@ -3812,11 +3853,52 @@ function enact(
   return next;
 }
 
+/**
+ * A body with committees takes a scheduled bill to its committee on a day of
+ * its own, ahead of the floor: the committee hears it, marks it up and
+ * reports it or holds it, and a held bill never reaches the floor's agenda.
+ * Only the bill's first chamber meets this way; a later chamber's committee
+ * sits when the bill reaches it. Where the date was not scheduled (a vote
+ * held at once) the committee still meets inside the vote, as it did.
+ * Returns the record, or null where the body has no committee.
+ */
+// stopgapId: SG-GOV-committee-day-hooks
+export function holdCommittee(
+  api: CoreAPI,
+  billId: string,
+): CommitteeRecord | null {
+  const bill = table(api, "bills").get(billId) as unknown as BillRow;
+  if (bill.status !== "drafted") return null;
+  api.stopgap("SG-GOV-committee-day-hooks");
+  const record = committeeStage(api, bill, chambersOf(api, bill)[0]!);
+  if (record && !record.reported) {
+    const held = table(api, "bills").get(billId) as unknown as BillRow;
+    table(api, "bills").put({
+      ...held,
+      status: "failed",
+    } as unknown as ModuleRow);
+    // The bill's fate is on the record as it is when a vote ends it.
+    for (const hook of afterVoteHooks) hook(api, billId);
+  }
+  return record;
+}
+
 function legislatureCalendar(
   api: CoreAPI,
   work: Readonly<ModuleCalendarWork>,
 ): void {
-  if (work.kind === "council-meeting") holdVote(api, work.sourceRecordIds[0]!);
+  if (work.kind === "committee-meeting")
+    holdCommittee(api, work.sourceRecordIds[0]!);
+  if (work.kind === "council-meeting") {
+    const billId = work.sourceRecordIds[0]!;
+    const bill = table(api, "bills").get(billId) as unknown as
+      BillRow | undefined;
+    // A bill its committee held never reaches the floor.
+    const held = bill
+      ? committeeRecords(api, billId).some((c) => !c.reported)
+      : false;
+    if (!held) holdVote(api, billId);
+  }
   if (work.kind === "signing-deadline")
     deadlinePassed(api, work.sourceRecordIds[0]!);
 }
@@ -3951,6 +4033,27 @@ export function scheduleVote(api: CoreAPI, billId: string): string {
     source: sitting.source,
     sourceRecordIds: [billId],
   });
+  // A body with committees takes the bill to its committee a week ahead of
+  // the floor, when the sitting is far enough off to leave a day before it.
+  const first = chambersOf(api, bill)[0]!;
+  if (
+    members(api, first).length > campaignParameter("committeeOfTheWholeMaximum")
+  ) {
+    const tomorrow = addDays(makeIsoDate(api.state.date), 1);
+    const ahead = addDays(
+      makeIsoDate(sitting.date),
+      -campaignParameter("committeeLeadDays"),
+    );
+    const date = ahead > tomorrow ? ahead : tomorrow;
+    if (date < sitting.date)
+      api.moduleCalendar(LEGISLATURE_MODULE_ID).schedule({
+        key: `committee:${billId}`,
+        date,
+        kind: "committee-meeting",
+        source: sitting.source,
+        sourceRecordIds: [billId],
+      });
+  }
   return sitting.date;
 }
 

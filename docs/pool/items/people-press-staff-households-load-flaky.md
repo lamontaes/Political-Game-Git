@@ -5,12 +5,12 @@ area: people
 kind: bug
 priority: 3
 size: S
-status: open
-claimed-by:
-pr:
+status: done
+claimed-by: claude/press-staff-flaky
+pr: #4816
 blocked-on:
 source: added with npm run pool -- add
-claimed-at:
+claimed-at: 2026-10-16T20:41:46.581Z
 ---
 
 **What.** `src/core2/press-staff-households.test.ts` (a town outlet's reporters have a household with a home, kin and costs) failed in a parallel run in Johnstown, Nebraska and passed alone on the same seed. The test builds a played world in a drawn place, advances a year, and checks each reporter's cash against a year's pay. Find what differs between the two runs (a leaked global such as `setBookkeeping(false)`, which the test sets and never restores, a shared registry, or the year throwing in a place and seed) and make the test independent of the run around it.

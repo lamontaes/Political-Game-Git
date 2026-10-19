@@ -20,6 +20,8 @@ export function startPublicJob(
     readonly hourlyMinor: number;
     /** The most the post may pay a day (what its budget line carries); the hourly rate is cut to fit. */
     readonly maxDailyMinor?: number;
+    /** Where to find a job whose schedule and payday the new one follows, when the employer's own place holds none (a state office with no staff schedule of its own follows the town's). */
+    readonly scheduleFromPlaceId?: string;
     readonly citation: string;
   },
 ): string | null {
@@ -41,7 +43,8 @@ export function startPublicJob(
   }
   // The longest-hours job where the employer sits to follow, a public
   // employer's first (the person may live elsewhere).
-  const where = c.organizations.get(input.employerId)!.placeId;
+  const where =
+    input.scheduleFromPlaceId ?? c.organizations.get(input.employerId)!.placeId;
   const templates = [...c.jobs.values()]
     .filter(
       (j) =>
@@ -67,7 +70,7 @@ export function startPublicJob(
       ? c.work.payrollCalendars.get(calendarId)
       : undefined;
     if (!commitment || !calendar) continue;
-    const hourlyMinor =
+    const postedHourlyMinor =
       input.maxDailyMinor === undefined
         ? input.hourlyMinor
         : Math.min(
@@ -75,6 +78,19 @@ export function startPublicJob(
             Math.floor(input.maxDailyMinor / template.hoursDaily),
           );
     // A post its line cannot pay at all is held unpaid.
+    if (postedHourlyMinor <= 0) return null;
+    // Payroll pays the hourly rate for the minutes the schedule runs. The
+    // template's schedule can run longer than the hours its job states (a
+    // recorded work week against the SOC proxy's hours), so the rate is set
+    // over the scheduled minutes: the post's pay is what its line posts.
+    const statedWeekMinutes = template.hoursDaily * 7 * 60;
+    const hourlyMinor =
+      commitment.expectedWeeklyMinutes > 0
+        ? Math.round(
+            (postedHourlyMinor * statedWeekMinutes) /
+              commitment.expectedWeeklyMinutes,
+          )
+        : postedHourlyMinor;
     if (hourlyMinor <= 0) return null;
     // The post replaces whatever job they held.
     if (person.jobId && c.jobs.get(person.jobId)?.endsAt === undefined)
@@ -99,7 +115,7 @@ export function startPublicJob(
         title: input.title,
         hourlyMinor,
         hoursDaily: template.hoursDaily,
-        wageDailyMinor: Math.round(hourlyMinor * template.hoursDaily),
+        wageDailyMinor: Math.round(postedHourlyMinor * template.hoursDaily),
         source,
       },
       {

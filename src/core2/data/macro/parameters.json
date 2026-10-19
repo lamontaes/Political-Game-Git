@@ -467,8 +467,7 @@
       "high": 2.5,
       "unit": "points of national output per point of national output of outlay change",
       "citation": "CBO, 'Estimated Impact of the American Recovery and Reinvestment Act', 2015: 0.4 to 2.5 by type of outlay; government purchases about 1.2 at one year (Monacelli, Perotti and Trigari 2010, Journal of Monetary Economics 57(5))."
-    },
-    "stopgapId": "SG-WORLD-macro-public-budget"
+    }
   },
   "macroNominalOutputDollars": {
     "value": 29184900000000,
@@ -485,10 +484,5 @@
       "unit": "months",
       "citation": "One month reads paydays as growth; six leaves the town out of the national step for most of its first year and a half."
     }
-  },
-  "macroTownIncomeHistoryMonths": {
-    "value": 14,
-    "tag": "SOURCED",
-    "citation": "The months before the opening whose town paid income the opening economy records: the twelve a first-year twelve-month comparison needs, plus the macroTownGrowthMinMonths minus one further back its shortest year-earlier run reaches, so every comparison in the first year has its base (SG-WORLD-macro-income-history's replacement)."
   }
 }

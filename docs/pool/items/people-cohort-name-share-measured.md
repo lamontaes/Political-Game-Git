@@ -5,12 +5,12 @@ area: people
 kind: research
 priority: 3
 size: S
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/cohort-name-share
+pr: #5082
 blocked-on:
 source: added with npm run pool -- add
-claimed-at:
+claimed-at: 2026-10-19T18:24:54.224Z
 ---
 
 **What.** `COHORT_GIVEN_NAME_SHARE` in `src/core2/gov-rules/given-name-cohorts.ts` is 0.6: only that share of generated people take a name drawn from their birth year's top 100; the rest keep the ordinary draw's name. The comment on it says the value is authored, not measured. The real share is how many births in a decade the top 100 names account for, which differs by decade and sex, and the SSA decade pages publish it. Replace the one number with a per-decade, per-sex share from those pages, in the data file beside the name tables, with its citation.
@@ -22,3 +22,5 @@ claimed-at:
 **Files.** src/core2/gov-rules/given-name-cohorts.ts, src/core2/data/names/given-names-by-decade.json
 
 **Notes.** Found 2026-10-16 while porting the name draw into core (people-port-names, PR #4638), which carried the constant over unchanged so names would stay identical. The Social Security Administration publishes the decade pages at ssa.gov; the working environment could not reach it when the table was first built.
+
+Tried Oct 17 (claude session), not built: `https://www.ssa.gov/oact/babynames/decades/names1980s.html` returns HTTP 403 to the web fetch tool in this environment, so the decade pages cannot be read here. The share per decade and sex is the sum of a decade's top-100 counts divided by that decade's births by sex (`numberUSbirths.html`); either source works for a session that can reach ssa.gov, or from the SSA's national-names zip (names by year) if a mirror is allowed.

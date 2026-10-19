@@ -22,8 +22,8 @@
  * Run: node --max-old-space-size=8192 --import tsx --test tests/golden-path/federal-dollar.node-test.ts
  * (plain node:test under tsx, as the played-world suite runs). A random seed
  * when PLAYED_WORLD_SEED is unset; the place is drawn from all 56 by the seed.
- * A year whose Congress does not pass the line skips and says so, as the
- * played-world suite treats a subject that never came up.
+ * A year whose Congress does not pass the line draws the next place (up to
+ * six); if none passes it, the test fails, never skips.
  */
 import { randomBytes } from "node:crypto";
 import { performance } from "node:perf_hooks";
@@ -48,7 +48,7 @@ import federalBase from "../../data/research/money/federal-budget-fy2025.json" w
 
 const OPENING_DATE = gameStartDate();
 const seed = process.env.PLAYED_WORLD_SEED ?? randomBytes(20).toString("hex");
-const place = drawPlace(seed, "federal-dollar");
+let place = drawPlace(seed, "federal-dollar");
 const start = OPENING_DATE;
 const end = addDays(makeIsoDate(start), 365);
 /** The federal line dev mode passes: Social Security, the line whose payments
@@ -213,19 +213,31 @@ describe(`the federal dollar's chain (seed ${seed})`, () => {
   let passed: boolean;
 
   before(() => {
-    withChange = play({ [LINE]: lineChangeMinor });
-    atBase = play({});
-    chain = chainOf(withChange);
-    control = chainOf(atBase);
-    const base = baseBudget(
-      withChange.api,
-      withChange.federal,
-      Number(chain.budgetRow?.fiscalYear ?? 0),
+    // Congress votes the line or not by its members' own reasons, so a given
+    // place may not pass it; the next drawn place is tried, up to six.
+    const tried: string[] = [];
+    for (let attempt = 0; attempt < 6; attempt += 1) {
+      place = drawPlace(`${seed}:${attempt}`, "federal-dollar");
+      withChange = play({ [LINE]: lineChangeMinor });
+      chain = chainOf(withChange);
+      const base = baseBudget(
+        withChange.api,
+        withChange.federal,
+        Number(chain.budgetRow?.fiscalYear ?? 0),
+      );
+      passed =
+        chain.budgetRow !== undefined &&
+        total(chain.budgetRow.spendingMinor as Record<string, number>) !==
+          total(base.spendingMinor);
+      tried.push(`${place.key}: ${passed ? "passed" : "not passed"}`);
+      if (passed) break;
+    }
+    assert.ok(
+      passed,
+      `Congress passed the line in none of: ${tried.join("; ")}`,
     );
-    passed =
-      chain.budgetRow !== undefined &&
-      total(chain.budgetRow.spendingMinor as Record<string, number>) !==
-        total(base.spendingMinor);
+    atBase = play({});
+    control = chainOf(atBase);
     console.log(
       JSON.stringify({
         federalDollar: {
@@ -246,11 +258,7 @@ describe(`the federal dollar's chain (seed ${seed})`, () => {
     );
   });
 
-  it("Congress adopts the passed federal budget line", (t) => {
-    if (!chain.budgetRow || !passed)
-      return t.skip(
-        "Congress did not pass the federal budget line this year (a budget that fails is carried forward), so the subject never came up",
-      );
+  it("Congress adopts the passed federal budget line", () => {
     assert.ok(
       (chain.budgetRow!.spendingMinor as Record<string, number>)[LINE]! >
         (control.budgetRow?.spendingMinor as Record<string, number>)[LINE]!,
@@ -258,8 +266,7 @@ describe(`the federal dollar's chain (seed ${seed})`, () => {
     );
   });
 
-  it("the treasury's closes paid named recipients by journal entry", (t) => {
-    if (!passed) return t.skip("no federal budget change this year");
+  it("the treasury's closes paid named recipients by journal entry", () => {
     assert.ok(
       chain.paymentIds.length,
       "the federal treasury closed months but recorded no payment ids",
@@ -282,8 +289,7 @@ describe(`the federal dollar's chain (seed ${seed})`, () => {
     );
   });
 
-  it("named payees received the dollars and spent them at named sellers", (t) => {
-    if (!passed) return t.skip("no federal budget change this year");
+  it("named payees received the dollars and spent them at named sellers", () => {
     // Full people: the Social Security line's change landed on recipients by
     // record id. Counted households: the purchase flows with sales receipts.
     assert.ok(
@@ -300,8 +306,7 @@ describe(`the federal dollar's chain (seed ${seed})`, () => {
     );
   });
 
-  it("the jobs and tax engines read the sellers' sales", (t) => {
-    if (!passed) return t.skip("no federal budget change this year");
+  it("the jobs and tax engines read the sellers' sales", () => {
     assert.ok(
       chain.salesTaxCollectedMinor > 0,
       "no sales tax was collected on the town's sales",
@@ -312,8 +317,7 @@ describe(`the federal dollar's chain (seed ${seed})`, () => {
     );
   });
 
-  it("the town's paid income moved and the national month row heard it", (t) => {
-    if (!passed) return t.skip("no federal budget change this year");
+  it("the town's paid income moved and the national month row heard it", () => {
     // The macro read: the town's paid income is the only route the budget's
     // dollars move national output now (owner, Oct 16).
     assert.ok(
