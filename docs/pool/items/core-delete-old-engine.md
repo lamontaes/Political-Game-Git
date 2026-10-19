@@ -9,7 +9,7 @@ status: blocked
 claimed-by:
 pr:
 after:
-blocked-on: core-old-engine-01-zero-dice-guard-repoint, core-old-engine-02-gov-rules-duplicates, core-old-engine-03-schedules-jobs-traits-history, core-old-engine-04-opening-population-no-throwaway-world, core-old-engine-05-health-onset-lift, core-old-engine-06-place-lookup-and-scripts, core-old-engine-07-appearance-and-delete
+blocked-on: core-old-engine-01-zero-dice-guard-repoint, core-old-engine-02-gov-rules-duplicates, core-old-engine-03-schedules-jobs-traits-history, core-old-engine-04-opening-population-no-throwaway-world, core-old-engine-05-health-onset-lift, core-old-engine-06-place-lookup-and-scripts, core-old-engine-07-appearance-and-delete, release-old-core-typecheck
 source: "owner ruling, Oct 19; docs/reports/repo-audit-2026-10-19.md section A and G2"
 ---
 
