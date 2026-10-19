@@ -5,11 +5,12 @@ area: words
 kind: wiring
 priority: 3
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/stance-moments-g08lgv
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-19T23:16:32.971Z
 ---
 
 **What.** TODO
