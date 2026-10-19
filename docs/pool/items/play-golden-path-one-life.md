@@ -5,9 +5,9 @@ area: play
 kind: wiring
 priority: 1
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/golden-path-one-life
-pr:
+pr: #5141
 after:
 blocked-on:
 source: "audit Oct 19 (docs/reports/audit-2026-10-19.md, Part A 'What it fakes' 1, Part B); acting CTO"
