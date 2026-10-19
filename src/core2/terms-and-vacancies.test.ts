@@ -83,6 +83,27 @@ function world(placeKey: string) {
   openElections(core);
   return core;
 }
+/**
+ * A world in the first drawn place that has what a test reads (a place the
+ * golden path pins is the only one tried); none having it fails by name.
+ */
+function worldWith(
+  salt: string,
+  has: (core: ReturnType<typeof world>) => boolean,
+) {
+  const tried: string[] = [];
+  const pinned = process.env.GOLDEN_PATH_PLACE_KEY;
+  for (let attempt = 0; attempt < (pinned ? 1 : 8); attempt += 1) {
+    const placeKey =
+      pinned ?? randomPlace(attempt ? `${salt}:${attempt}` : salt).key;
+    const core = world(placeKey);
+    if (has(core)) return { placeKey, core };
+    tried.push(placeKey);
+  }
+  throw new Error(
+    `no place had the case for "${salt}" (seed ${seed}): ${tried.join("; ")}`,
+  );
+}
 const contestsOf = (api: ReturnType<typeof coreAPI>) =>
   api
     .moduleState(ELECTIONS_MODULE_ID)
@@ -135,14 +156,16 @@ describe("terms end on schedule, vacancies open, and the player votes", () => {
   });
 
   it("a holder who moves out of the office's area leaves the seat, filled by the office's rule", () => {
-    const placeKey =
-      process.env.GOLDEN_PATH_PLACE_KEY ?? randomPlace("moves").key;
-    const core = world(placeKey);
-    const api = coreAPI(core);
-    const held = townSeats(api).filter(
-      (s) => s.holder?.personId && LOCAL.includes(s.office.level),
+    const heldIn = (api: ReturnType<typeof coreAPI>) =>
+      townSeats(api).filter(
+        (s) => s.holder?.personId && LOCAL.includes(s.office.level),
+      );
+    const { placeKey, core } = worldWith(
+      "moves",
+      (c) => heldIn(coreAPI(c)).length > 0,
     );
-    if (!held.length) return;
+    const api = coreAPI(core);
+    const held = heldIn(api);
     const { office, seat, holder } = pick(held, "seat");
     const personId = holder!.personId!;
     // The moves engine marks the mover inactive, then records the move; with
@@ -266,21 +289,28 @@ describe("terms end on schedule, vacancies open, and the player votes", () => {
   }, 600_000);
 
   it("a player who didn't mark a ballot didn't vote; one marked at the polls counts", () => {
-    const placeKey =
-      process.env.GOLDEN_PATH_PLACE_KEY ?? randomPlace("player").key;
-    const core = world(placeKey);
+    // The first election day with more than one race on the ballot.
+    const dayWithRaces = (api: ReturnType<typeof coreAPI>) => {
+      const days = [...new Set(contestsOf(api).map((c) => c.electionDate))];
+      return days
+        .sort()
+        .find(
+          (d) => contestsOf(api).filter((c) => c.electionDate === d).length > 1,
+        );
+    };
+    const { placeKey, core } = worldWith(
+      "player",
+      (c) => dayWithRaces(coreAPI(c)) !== undefined,
+    );
     openCampaigns(core);
     openParties(core);
     openVoting(core);
     const api = coreAPI(core);
-    // The first election day with more than one race on the ballot.
-    const days = [...new Set(contestsOf(api).map((c) => c.electionDate))];
     const on = (day: string) =>
       contestsOf(api)
         .filter((c) => c.electionDate === day)
         .sort((a, b) => a.id.localeCompare(b.id));
-    const day = days.sort().find((d) => on(d).length > 1);
-    if (!day) return;
+    const day = dayWithRaces(api)!;
     const races = on(day);
     for (const c of races) fileStandingCandidates(api, c.id);
     const ballots = (contestId: string) =>
