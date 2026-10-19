@@ -6137,6 +6137,33 @@
       "tag": {
         "move": "tell"
       }
+    },
+    {
+      "key": "journal.household-livelihood.we-got-by-on-what-employer-paid",
+      "move": "household-livelihood",
+      "kind": "spoken",
+      "text": "We got by on what {employer} paid.",
+      "uses": [
+        {
+          "move": "household-livelihood",
+          "subject": "household",
+          "role": "line",
+          "choice": "livelihood",
+          "journal": [
+            {
+              "kindPrefix": "household:livelihood",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item words-past-fact-renderings)",
+      "date": "2026-10-19",
+      "tag": {
+        "move": "tell"
+      }
     }
   ]
 }

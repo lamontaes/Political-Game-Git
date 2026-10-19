@@ -1151,6 +1151,10 @@
     {
       "kindPrefix": "work:",
       "parameter": "directorPastWorkStart"
+    },
+    {
+      "kindPrefix": "household:livelihood",
+      "parameter": "directorPastWorkStart"
     }
   ],
   "pastEraHits": [

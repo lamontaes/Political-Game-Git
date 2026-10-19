@@ -84,6 +84,11 @@
       "entry": "setting"
     },
     {
+      "kindPrefix": "household:livelihood",
+      "turn": false,
+      "entry": "story"
+    },
+    {
       "kindPrefix": "job-started",
       "turn": false,
       "hasOtherLine": true,

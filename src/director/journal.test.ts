@@ -60,6 +60,19 @@ function resolves(state: CoreState, id: string): boolean {
 }
 
 describe(`the journal in ${base.placeMetadata?.placeName} (seed ${seed})`, () => {
+  it("words the household's livelihood from its past fact", () => {
+    const fact = (core.people.get(player.id)!.pastFacts ?? []).find(
+      (row) => row.kind === "household:livelihood" && row.facts?.jobIds,
+    );
+    expect(fact, "the player's household has a livelihood fact").toBeDefined();
+    const lines = chapters.flatMap((chapter) => chapter.lines);
+    const told = lines.find((line) =>
+      /^We got by on what .+ paid\.$/.test(line.text),
+    );
+    expect(told, "the livelihood line").toBeDefined();
+    expect(told!.sourceRecordIds).toContain(fact!.id);
+  });
+
   it("tells the life in chapters, each line traced to a record", () => {
     expect(chapters.length).toBeGreaterThan(0);
     // A workplace or a school never titles a chapter (owner, batch 7).
