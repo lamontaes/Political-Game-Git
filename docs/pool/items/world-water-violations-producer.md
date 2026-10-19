@@ -5,12 +5,12 @@ area: world
 kind: wiring
 priority: 2
 size: M
-status: claimed
-claimed-by: claude/political-game-pool-pdqjm6
+status: blocked
+claimed-by:
 pr:
-blocked-on:
+blocked-on: spec: the item text is an empty shell; a water-system condition model needs a design
 source: added with npm run pool -- add
-claimed-at: 2026-10-19T22:40:13.129Z
+claimed-at:
 ---
 
 **What.** TODO

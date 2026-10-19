@@ -5,12 +5,12 @@ area: world
 kind: stopgap
 priority: 2
 size: M
-status: claimed
-claimed-by: claude/political-game-pool-pdqjm6
+status: blocked
+claimed-by:
 pr:
-blocked-on:
+blocked-on: design: an aggregate chooser for counted groups (counted pulls already use the full person's reasons)
 source: added with npm run pool -- add
-claimed-at: 2026-10-19T22:40:06.161Z
+claimed-at:
 ---
 
 **What.** TODO
