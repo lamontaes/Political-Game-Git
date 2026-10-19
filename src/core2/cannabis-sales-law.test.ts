@@ -1,4 +1,5 @@
 /** Legal cannabis sales move residents' spending to the town's retailers, in a generated town. */
+import { usesCannabis } from "./modules/place-prices";
 import { randomBytes } from "node:crypto";
 import { expect, it } from "vitest";
 import { buildBenchWorld } from "../bench/world";
@@ -133,3 +134,16 @@ it("pays the town's retailers from named buyers while the sales law is in force,
     if (attempt(drawPlace(`${seed}:${i}`, "laws-cannabis"))) return;
   throw new Error(`No drawn place had a sales tax in force: seed ${seed}`);
 }, 900_000);
+
+it("reads a named adult's use from their own seeded record, at the sourced prevalence", () => {
+  const prevalence = 0.22;
+  const people = Array.from({ length: 4000 }, (_, i) => `person_${i}`);
+  const users = people.filter((id) => usesCannabis(id, prevalence));
+  // The same person is the same answer every call.
+  for (const id of people.slice(0, 50))
+    expect(usesCannabis(id, prevalence)).toBe(usesCannabis(id, prevalence));
+  // Seeded generation of who uses it lands on the sourced share.
+  expect(users.length / people.length).toBeGreaterThan(0.19);
+  expect(users.length / people.length).toBeLessThan(0.25);
+  expect(usesCannabis("person_1", 0)).toBe(false);
+});
