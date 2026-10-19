@@ -5,11 +5,12 @@ area: world
 kind: stopgap
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/housing-landlord-owners
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-19T22:29:57.106Z
 ---
 
 **What.** TODO
