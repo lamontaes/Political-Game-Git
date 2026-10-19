@@ -5,11 +5,12 @@ area: words
 kind: cleanup
 priority: 3
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/batch-delete
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-19T19:18:12.900Z
 ---
 
 **What.** TODO
