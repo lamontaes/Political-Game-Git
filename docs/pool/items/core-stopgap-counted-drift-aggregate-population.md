@@ -21,3 +21,5 @@ source: "src/core2/data/stopgaps.json, src/core2/modules/counted-drift.ts, kind 
 **Files.** src/core2/modules/counted-drift.ts
 
 **Notes.** First row: The wider population's deaths and births come from rates applied to the counts each month: SSA cohort life tables scaled by the state's 2017 age-adjusted death rate against the nation's (NCHS), and NCHS 2024 national bir
+
+Checked Oct 19 (claude): every stopgap row this item names is already resolved in src/core2/data/stopgaps.json: SG-CORE-counted-drift is resolved in stopgaps.json (Deleted Oct 17 (claude/counted-drift-delete): the counted births and deaths are the renewal engine's counted flows (src/core2/births-counted...); SG-CORE-counted-drift-named-workers is resolved in stopgaps.json (When a named worker leaves, the agreement names another qualified worker at the supplier or ends (the finance engine's public supplier rules...); SG-CORE-counted-moves is resolved in stopgaps.json (Deleted Oct 17 (claude/counted-drift-delete): counted people move between places from causes in the counted-moves engine (src/core2/modules/...). The CTO can drop this item.

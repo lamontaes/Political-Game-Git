@@ -23,3 +23,5 @@ source: "src/core2/data/stopgaps.json, src/core2/data/parameters.json, kind reti
 **Notes.** First row: Compatibility key only. New retirement views and outside-flow owners start at zero; no prepaid stock, annual-flow-to-cash conversion or survival buffer remains in this candidate.
 
 **Checked Oct 17.** Stale: both rows (SG-P8-param-openingRetirementFundingLiquidShare and SG-P8-param-openingRetirementPayerReserveMonths) are already `resolved` in src/core2/data/stopgaps.json. Nothing to build; the CTO can drop this item.
+
+Checked Oct 19 (claude): every stopgap row this item names is already resolved in src/core2/data/stopgaps.json: SG-P8-param-openingRetirementPayerReserveMonths is resolved in stopgaps.json (Remove the legacy parameter after root callers/saved evidence are migrated; genuine due-source and signed-flow accounting remain separate ob...); SG-P8-param-openingRetirementFundingLiquidShare is resolved in stopgaps.json (Retain historical source records; remove unused compatibility key in a separately reviewed save migration. Done Oct 13 (OPUS-CORE): the reti...). The CTO can drop this item.

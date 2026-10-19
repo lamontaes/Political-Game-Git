@@ -22,3 +22,5 @@ source: "trial PR #4990's finding; acting CTO, Oct 19"
 **Files.** src/core2/modules/macro.ts, src/core2/budgets-treasury.ts, src/core2/data/macro/parameters.json
 
 **Notes.** Found by the GLM 5.3 trial on branch trial/glm/federal-dollar (#4990). Waits on world-macro-federal-dollar-finish so the chain it extends is on main first.
+
+Checked Oct 19 (claude): every stopgap row this item names is already resolved in src/core2/data/stopgaps.json: SG-WORLD-macro-public-budget is resolved in stopgaps.json (Resolved Oct 16 (owner ruling, no fiscal multiplier): the macro engine carries no budget impulse or multiplier. A public dollar moves output...). The CTO can drop this item.
