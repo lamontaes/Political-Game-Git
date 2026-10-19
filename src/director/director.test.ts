@@ -534,6 +534,15 @@ describe("story director on the new core", () => {
     expect(folded("celebration", "election-result")).toBe(true);
     expect(folded("first-meeting", "canvass-visit")).toBe(true);
     expect(folded("visit", "canvass-visit")).toBe(true);
+    // A move away is a record the core writes, so the departure scene reads it.
+    expect(folded("departure", "left-home")).toBe(false);
+    expect(
+      types
+        .find((row) => row.key === "departure")!
+        .causes.some(
+          (row) => row.match?.label === "feeling:event:person.moved-away",
+        ),
+    ).toBe(true);
   });
 
   it("lets a sole earner's job loss take over the screen as news for the household, and stop a skip", () => {

@@ -360,6 +360,20 @@ export function composeJournal(
       const employer = employerOf(person.jobId);
       if (employer) facts.employer = employer;
     }
+    if (moment.causeKind === "household:livelihood") {
+      // The household's earners on day one, from the past fact's own job ids.
+      const jobIds = String(fact?.facts?.jobIds ?? "")
+        .split(" ")
+        .filter(Boolean);
+      const employer = employerOf(
+        jobIds.find((id) => core.jobs.has(id)) ?? jobIds[0],
+      );
+      if (!employer) return null;
+      facts.employer = {
+        ...employer,
+        sourceRecordIds: [fact!.id, ...employer.sourceRecordIds],
+      };
+    }
     if (moment.causeKind.startsWith("job-")) {
       const job =
         core.jobs.get(moment.causeId) ??

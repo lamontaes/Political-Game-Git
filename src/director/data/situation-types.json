@@ -130,13 +130,16 @@
       "timing": "effective-date",
       "causes": [
         {
-          "awaitingProducer": "left-home",
           "bind": {
             "leaving": "subject",
             "staying": "household"
           },
           "opener": "leaving",
-          "opening": "farewell"
+          "opening": "farewell",
+          "match": {
+            "label": "feeling:event:person.moved-away",
+            "counterpart": "none"
+          }
         },
         {
           "bind": {
