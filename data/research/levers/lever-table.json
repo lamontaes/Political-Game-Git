@@ -1,5 +1,5 @@
 {
-  "about": "Spec 3 of 04 SYSTEM SPECS: every one of the 61 kinds of bill part in the 220-measure enacted sample (data/research/bill-samples, measured in docs/research/bill-parts-catalog.md) mapped to one of the six levers of the decision register (Sept. 26), the record it changes, the fiscal-note formula, and whether an enacted-law writer reads it on main. A fiscal-note input the world does not hold is UNKNOWN, never zero. Compliance and enforcement cost sizes are provisional game values.",
+  "about": "Spec 3 of 04 SYSTEM SPECS: every one of the 61 kinds of bill part in the 220-measure enacted sample (data/research/bill-samples, measured in docs/research/bill-parts-catalog.md) mapped to one of the six levers of the decision register (Sept. 26), the record it changes, the fiscal-note formula, and whether an enacted-law writer reads it on main. A missing fiscal-note input uses its documented ESTIMATED FROM AVERAGE basis and comparison places, never zero. Compliance and enforcement cost sizes are provisional game values.",
   "measuredAt": {
     "main": "c9e9a672",
     "samples": "data/research/bill-samples"

@@ -1,4 +1,4 @@
-import { detExp, logistic } from "../world-setup/deterministic-math";
+import { detExp, logistic } from "../../core2/kernel/deterministic-math";
 import type { MacroEra } from "./kernel";
 import { MACRO_ERA_POLICY } from "./policy";
 

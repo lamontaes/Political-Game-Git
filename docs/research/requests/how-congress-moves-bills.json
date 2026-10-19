@@ -15,6 +15,22 @@
     {
       "source": "docs/research/requests/how-state-legislators-vote-without-a-stated-position.json",
       "whatItDidNotSettle": "Asks the same about state legislatures. Congress is more polarized, has the filibuster and a far larger bill volume, so the state answer cannot be borrowed."
+    },
+    {
+      "source": "https://www.archives.gov/founding-docs/constitution-transcript",
+      "whatItDidNotSettle": "Cross-party sponsor/committee no-action, vote-unanimity and cloture series remain open."
+    },
+    {
+      "source": "https://code.dccouncil.gov/us/dc/council/code/sections/1-206.02",
+      "whatItDidNotSettle": "Cross-party sponsor/committee no-action, vote-unanimity and cloture series remain open."
+    },
+    {
+      "source": "https://dccouncil.gov/wp-content/uploads/2025/01/CP-26-Council-Rules-FINAL-12-31-24.pdf",
+      "whatItDidNotSettle": "Cross-party sponsor/committee no-action, vote-unanimity and cloture series remain open."
+    },
+    {
+      "source": "https://clerk.house.gov/reference-files/House-Calendar-118th-Congress.pdf",
+      "whatItDidNotSettle": "Cross-party sponsor/committee no-action, vote-unanimity and cloture series remain open."
     }
   ],
   "requestedBy": "Congress passes laws thread (technical team lead)",
@@ -28,5 +44,17 @@
     "how-state-legislators-vote-without-a-stated-position",
     "what-each-level-of-government-may-legislate",
     "us-congress-rules-verification"
-  ]
+  ],
+  "answer": {
+    "summary": "118th Congress official recap records 10,555 House bills, 5,646 Senate bills, 274 public laws, 13 vetoed measures and no overrides. Laws include joint resolutions, so match origins and measure types before computing rates. Referral, reporting, floor passage and enactment are separate events.",
+    "sources": [
+      "https://www.archives.gov/founding-docs/constitution-transcript",
+      "https://code.dccouncil.gov/us/dc/council/code/sections/1-206.02",
+      "https://dccouncil.gov/wp-content/uploads/2025/01/CP-26-Council-Rules-FINAL-12-31-24.pdf",
+      "https://clerk.house.gov/reference-files/House-Calendar-118th-Congress.pdf"
+    ],
+    "answeredBy": "CODEX-RESEARCH-2",
+    "answeredAt": "2026-10-11T05:05:05.262998+00:00",
+    "stillOpen": "Cross-party sponsor/committee no-action, vote-unanimity and cloture series remain open."
+  }
 }

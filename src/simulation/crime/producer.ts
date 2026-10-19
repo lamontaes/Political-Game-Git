@@ -5,7 +5,7 @@ import {
   dateAtAge,
   makeIsoDate,
   spokenDate,
-} from "../dates";
+} from "../../core2/kernel/dates";
 import { scheduleFutureDueItem } from "../future-transitions";
 import { lifePlaceByJurisdictionId } from "../life-places";
 import { householdLocationAt, peopleInHouseholdAt } from "../life-queries";
@@ -19,7 +19,7 @@ import {
   ARRESTING_OFFICER_ROLE,
   countyRowOfficerForJurisdiction,
 } from "../justice/county-offices";
-import { stableHash } from "../ids";
+import { stableHash } from "../../core2/kernel/ids";
 import {
   crimeCutoff,
   crimeKnownTiesAt,
@@ -36,6 +36,7 @@ import type {
 } from "../types";
 import { isPersonAliveAt } from "../vitality";
 import { recordWorldEvent } from "../world";
+import { scheduleCountyOfficeReflections } from "../justice/county-office-reflection";
 import {
   worldOpeningRecord,
   worldOpeningVersionOf,
@@ -1059,6 +1060,7 @@ function recordArrests(
       context: EMPTY_CONTEXT,
     });
     const arrest = next.history.events.at(-1)!;
+    next = scheduleCountyOfficeReflections(next, arrest.id);
     for (const participant of incident.participants) {
       next = recordEventKnowledge(next, {
         stableKey: `${arrest.stableKey}:knows:${participant.personId}`,

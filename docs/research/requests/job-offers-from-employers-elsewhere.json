@@ -19,9 +19,91 @@
     {
       "source": "src/simulation/local-business-counts.ts and src/simulation/local-economy.ts (the recorded-employer data the town businesses are built from)",
       "whatItDidNotSettle": "It builds the employers of the player's own town. Nothing yet builds one employer in another place on demand, or matches a resident's occupation to that place's sectors and pay."
+    },
+    {
+      "source": "DOLWHDstate minimumwagesummaryretrievedOct11,2026",
+      "url": "https://www.dol.gov/agencies/whd/minimum-wage/state",
+      "retrievedAt": "2026-10-11",
+      "terms": {
+        "status": "US-government-work",
+        "url": "https://www.govinfo.gov/content/pkg/USCODE-2024-title17/html/USCODE-2024-title17-sec105.htm",
+        "notice": "17 USC105 government works; statistics/facts only, not third-party content or logos."
+      },
+      "sourceCoverage": [
+        "AL",
+        "AK",
+        "AZ",
+        "AR",
+        "CA",
+        "CO",
+        "CT",
+        "DE",
+        "DC",
+        "FL",
+        "GA",
+        "HI",
+        "ID",
+        "IL",
+        "IN",
+        "IA",
+        "KS",
+        "KY",
+        "LA",
+        "ME",
+        "MD",
+        "MA",
+        "MI",
+        "MN",
+        "MS",
+        "MO",
+        "MT",
+        "NE",
+        "NV",
+        "NH",
+        "NJ",
+        "NM",
+        "NY",
+        "NC",
+        "ND",
+        "OH",
+        "OK",
+        "OR",
+        "PA",
+        "RI",
+        "SC",
+        "SD",
+        "TN",
+        "TX",
+        "UT",
+        "VT",
+        "VA",
+        "WA",
+        "WV",
+        "WI",
+        "WY"
+      ]
     }
   ],
   "title": "Job offers from a place's own recorded employers: built, and what remains",
   "usableAnswer": "For each occupation group the game records beyond the eight business kinds, the industries that hire it and the place's pay for it (BLS OEWS industry-by-occupation tables), so a professional's offer elsewhere comes from an employer in their own field.",
-  "whyItMatters": "A resident who moves for work should go to a real kind of employer in a real place, at that place's pay, so that what they earn there, and what they send or spend, follows from the record."
+  "whyItMatters": "A resident who moves for work should go to a real kind of employer in a real place, at that place's pay, so that what they earn there, and what they send or spend, follows from the record.",
+  "answer": {
+    "status": "answered-with-gaps",
+    "answeredAt": "2026-10-11",
+    "answeredBy": "CODEX-RESEARCH (Priorities0-1)",
+    "findings": {
+      "files": [
+        "data/research/jobs/roadmap-r3-jolts-table1-aug2026.json",
+        "data/research/jobs/roadmap-r3-jolts-table2-aug2026.json",
+        "data/research/jobs/roadmap-r3-jolts-table4-aug2026.json",
+        "data/research/jobs/roadmap-r3-jolts-table5-aug2026.json",
+        "data/research/jobs/roadmap-r3-jolts-table7-aug2026.json",
+        "data/research/jobs/roadmap-r3-unemployment-duration-2025.json",
+        "data/research/jobs/roadmap-r3-oews-sector-staffing-2025.json",
+        "data/research/jobs/roadmap-r3-state-wage-floor-summary.json",
+        "data/research/jobs/roadmap-r3-calibration-findings.json"
+      ],
+      "result": "CurrentJOLTSindustry/regionandsizeopenings,hires,quitsandlayoffs; CPS2025duration; OEWS2025detailedoccupationstaffingwithinsectorsandwagepercentiles; DOLstatesummaryrates. Timetofill,localordinances,publicownerbreakdownsandteenlifecourseprobabilitiesremainunsettled; ratesareaggregatechecks,notactoroutcomes."
+    }
+  }
 }

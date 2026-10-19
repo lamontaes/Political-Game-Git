@@ -1,0 +1,694 @@
+{
+  "schema": "english-part-grades/1",
+  "batches": ["batch-1", "batch-2", "batch-7", "batch-9-relayed", "batch-9"],
+  "parts": {
+    "address.campaign-thanks.its-great-to-be-back-in-place": {
+      "good": 0,
+      "bad": 1,
+      "fix": 0,
+      "sharedGood": 0,
+      "sharedBad": 0,
+      "sharedFix": 0
+    },
+    "address.chair-run-meeting.is-there-a-motion": {
+      "good": 0,
+      "bad": 1,
+      "fix": 0,
+      "sharedGood": 0,
+      "sharedBad": 0,
+      "sharedFix": 0
+    },
+    "address.chair-run-meeting.the-motion-carries": {
+      "good": 1,
+      "bad": 0,
+      "fix": 0,
+      "sharedGood": 0,
+      "sharedBad": 0,
+      "sharedFix": 0
+    },
+    "address.concession-concede.thank-you-for-everything": {
+      "good": 1,
+      "bad": 0,
+      "fix": 0,
+      "sharedGood": 0,
+      "sharedBad": 0,
+      "sharedFix": 0
+    },
+    "address.concession-concede.this-is-not-the-end": {
+      "good": 1,
+      "bad": 0,
+      "fix": 0,
+      "sharedGood": 0,
+      "sharedBad": 0,
+      "sharedFix": 0
+    },
+    "address.concession-concede.we-didnt-win": {
+      "good": 1,
+      "bad": 0,
+      "fix": 0,
+      "sharedGood": 0,
+      "sharedBad": 0,
+      "sharedFix": 0
+    },
+    "address.concession-concede.we-will-be-back": {
+      "good": 1,
+      "bad": 0,
+      "fix": 0,
+      "sharedGood": 0,
+      "sharedBad": 0,
+      "sharedFix": 0
+    },
+    "address.hearing-open.thank-you-all-for-being-here": {
+      "good": 1,
+      "bad": 0,
+      "fix": 0,
+      "sharedGood": 0,
+      "sharedBad": 0,
+      "sharedFix": 0
+    },
+    "address.house-floor-tribute-close.i-congratulate-name": {
+      "good": 0,
+      "bad": 0,
+      "fix": 1,
+      "sharedGood": 0,
+      "sharedBad": 0,
+      "sharedFix": 0
+    },
+    "address.public-comment-ask.we-need-your-help": {
+      "good": 0,
+      "bad": 0,
+      "fix": 1,
+      "sharedGood": 0,
+      "sharedBad": 0,
+      "sharedFix": 0
+    },
+    "address.victory-claim.im-honored": {
+      "good": 1,
+      "bad": 0,
+      "fix": 0,
+      "sharedGood": 0,
+      "sharedBad": 0,
+      "sharedFix": 0
+    },
+    "bank:hearing.answer.thank-you-for-the-question": {
+      "good": 0,
+      "bad": 1,
+      "fix": 0,
+      "sharedGood": 0,
+      "sharedBad": 0,
+      "sharedFix": 0
+    },
+    "bank:hearing.answer.yes-thank-you": {
+      "good": 1,
+      "bad": 0,
+      "fix": 0,
+      "sharedGood": 0,
+      "sharedBad": 0,
+      "sharedFix": 0
+    },
+    "bank:hearing.chair-procedure.good-afternoon": {
+      "good": 1,
+      "bad": 0,
+      "fix": 0,
+      "sharedGood": 0,
+      "sharedBad": 0,
+      "sharedFix": 0
+    },
+    "bank:hearing.thanks.thank-you-all": {
+      "good": 1,
+      "bad": 0,
+      "fix": 0,
+      "sharedGood": 0,
+      "sharedBad": 0,
+      "sharedFix": 0
+    },
+    "bank:hearing.thanks.thank-you-chairman": {
+      "good": 1,
+      "bad": 0,
+      "fix": 0,
+      "sharedGood": 0,
+      "sharedBad": 0,
+      "sharedFix": 0
+    },
+    "bank:hearing.thanks.thank-you-mr-chairman": {
+      "good": 1,
+      "bad": 0,
+      "fix": 0,
+      "sharedGood": 0,
+      "sharedBad": 0,
+      "sharedFix": 0
+    },
+    "bank:meeting.opener.i-rise-to-speak-briefly-in-gratitude-today": {
+      "good": 1,
+      "bad": 0,
+      "fix": 0,
+      "sharedGood": 0,
+      "sharedBad": 0,
+      "sharedFix": 0
+    },
+    "bank:meeting.procedural.may-i-inquire-about-how-much-time-is-remaining": {
+      "good": 0,
+      "bad": 0,
+      "fix": 1,
+      "sharedGood": 0,
+      "sharedBad": 0,
+      "sharedFix": 0
+    },
+    "bank:meeting.procedural.reserving-the-right-to-object": {
+      "good": 1,
+      "bad": 0,
+      "fix": 0,
+      "sharedGood": 0,
+      "sharedBad": 0,
+      "sharedFix": 0
+    },
+    "bank:talk-choice.greet.good-morning": {
+      "good": 0,
+      "bad": 1,
+      "fix": 0,
+      "sharedGood": 0,
+      "sharedBad": 0,
+      "sharedFix": 0
+    },
+    "bank:talk-choice.greet.good-to-see-you": {
+      "good": 1,
+      "bad": 0,
+      "fix": 0,
+      "sharedGood": 0,
+      "sharedBad": 0,
+      "sharedFix": 0
+    },
+    "bank:talk-choice.scene.what-happened": {
+      "good": 0,
+      "bad": 0,
+      "fix": 1,
+      "sharedGood": 0,
+      "sharedBad": 0,
+      "sharedFix": 0
+    },
+    "conversation.farewell-leave-bye.take-care-of-yourself": {
+      "good": 1,
+      "bad": 0,
+      "fix": 0,
+      "sharedGood": 0,
+      "sharedBad": 0,
+      "sharedFix": 0
+    },
+    "conversation.mutual-raise-seen.have-you-seen-name": {
+      "good": 1,
+      "bad": 0,
+      "fix": 0,
+      "sharedGood": 0,
+      "sharedBad": 0,
+      "sharedFix": 0
+    },
+    "day-opening:core:day-1": {
+      "good": 0,
+      "bad": 0,
+      "fix": 0,
+      "sharedGood": 0,
+      "sharedBad": 2,
+      "sharedFix": 0
+    },
+    "day-opening:core:day-2": {
+      "good": 0,
+      "bad": 0,
+      "fix": 0,
+      "sharedGood": 0,
+      "sharedBad": 0,
+      "sharedFix": 1
+    },
+    "day-opening:core:housemate-2": {
+      "good": 0,
+      "bad": 0,
+      "fix": 0,
+      "sharedGood": 0,
+      "sharedBad": 0,
+      "sharedFix": 1
+    },
+    "day-opening:core:nothing-waiting-3": {
+      "good": 0,
+      "bad": 0,
+      "fix": 0,
+      "sharedGood": 0,
+      "sharedBad": 0,
+      "sharedFix": 1
+    },
+    "day-opening:core:nothing-waiting-4": {
+      "good": 0,
+      "bad": 0,
+      "fix": 0,
+      "sharedGood": 0,
+      "sharedBad": 1,
+      "sharedFix": 0
+    },
+    "day-opening:core:nothing-waiting-5": {
+      "good": 0,
+      "bad": 0,
+      "fix": 0,
+      "sharedGood": 0,
+      "sharedBad": 1,
+      "sharedFix": 0
+    },
+    "hearing.chair-procedure.all-right": {
+      "good": 1,
+      "bad": 0,
+      "fix": 0,
+      "sharedGood": 0,
+      "sharedBad": 0,
+      "sharedFix": 0
+    },
+    "hearing.thanks.thank-you-chair": {
+      "good": 1,
+      "bad": 0,
+      "fix": 0,
+      "sharedGood": 0,
+      "sharedBad": 0,
+      "sharedFix": 0
+    },
+    "interview.official-commit.im-committed-to-issue": {
+      "good": 0,
+      "bad": 1,
+      "fix": 0,
+      "sharedGood": 0,
+      "sharedBad": 0,
+      "sharedFix": 0
+    },
+    "journal.death-line-funeral.relation-was-age": {
+      "good": 0,
+      "bad": 2,
+      "fix": 0,
+      "sharedGood": 0,
+      "sharedBad": 0,
+      "sharedFix": 0
+    },
+    "journal.election-line-own-result.it-was-close": {
+      "good": 0,
+      "bad": 0,
+      "fix": 1,
+      "sharedGood": 0,
+      "sharedBad": 0,
+      "sharedFix": 0
+    },
+    "journal.family-line-born.relation-was-born": {
+      "good": 1,
+      "bad": 0,
+      "fix": 0,
+      "sharedGood": 0,
+      "sharedBad": 0,
+      "sharedFix": 0
+    },
+    "journal.home-line-moved.i-came-to-place": {
+      "good": 0,
+      "bad": 0,
+      "fix": 1,
+      "sharedGood": 0,
+      "sharedBad": 0,
+      "sharedFix": 0
+    },
+    "journal.home-line-moved.i-moved-back-to-place": {
+      "good": 0,
+      "bad": 0,
+      "fix": 1,
+      "sharedGood": 0,
+      "sharedBad": 0,
+      "sharedFix": 0
+    },
+    "journal.law-backdrop-took-effect.the-bill-passed": {
+      "good": 0,
+      "bad": 2,
+      "fix": 0,
+      "sharedGood": 0,
+      "sharedBad": 0,
+      "sharedFix": 0
+    },
+    "journal.memoir-hard.that-was-tough": {
+      "good": 1,
+      "bad": 0,
+      "fix": 0,
+      "sharedGood": 0,
+      "sharedBad": 0,
+      "sharedFix": 0
+    },
+    "journal.memoir-hook.i-didnt-know-at-the-time": {
+      "good": 1,
+      "bad": 0,
+      "fix": 0,
+      "sharedGood": 0,
+      "sharedBad": 0,
+      "sharedFix": 0
+    },
+    "journal.memoir-hook.i-didnt-know-it-at-the-time": {
+      "good": 0,
+      "bad": 1,
+      "fix": 0,
+      "sharedGood": 0,
+      "sharedBad": 0,
+      "sharedFix": 0
+    },
+    "journal.memoir-hook.i-didnt-know-that-at-the-time": {
+      "good": 1,
+      "bad": 0,
+      "fix": 0,
+      "sharedGood": 0,
+      "sharedBad": 0,
+      "sharedFix": 0
+    },
+    "journal.memoir-hook.ill-never-forget-it": {
+      "good": 0,
+      "bad": 1,
+      "fix": 0,
+      "sharedGood": 0,
+      "sharedBad": 0,
+      "sharedFix": 0
+    },
+    "journal.memoir-hook.that-was-the-beginning": {
+      "good": 0,
+      "bad": 0,
+      "fix": 1,
+      "sharedGood": 0,
+      "sharedBad": 0,
+      "sharedFix": 0
+    },
+    "journal.memoir-hook.thats-how-it-started": {
+      "good": 0,
+      "bad": 0,
+      "fix": 1,
+      "sharedGood": 0,
+      "sharedBad": 0,
+      "sharedFix": 0
+    },
+    "journal.office-line-filing.i-went-to-filing-office": {
+      "good": 0,
+      "bad": 2,
+      "fix": 0,
+      "sharedGood": 0,
+      "sharedBad": 0,
+      "sharedFix": 0
+    },
+    "journal.school-line-started.i-attended-school": {
+      "good": 0,
+      "bad": 1,
+      "fix": 0,
+      "sharedGood": 0,
+      "sharedBad": 0,
+      "sharedFix": 0
+    },
+    "journal.school-line-started.i-graduated-from-school": {
+      "good": 0,
+      "bad": 1,
+      "fix": 0,
+      "sharedGood": 0,
+      "sharedBad": 0,
+      "sharedFix": 0
+    },
+    "journal.school-line-started.i-went-on-to-school": {
+      "good": 0,
+      "bad": 2,
+      "fix": 0,
+      "sharedGood": 0,
+      "sharedBad": 0,
+      "sharedFix": 0
+    },
+    "journal.school-line-started.then-i-went-to-school": {
+      "good": 0,
+      "bad": 2,
+      "fix": 0,
+      "sharedGood": 0,
+      "sharedBad": 0,
+      "sharedFix": 0
+    },
+    "journal.work-line-started.i-went-to-work-at-employer": {
+      "good": 0,
+      "bad": 1,
+      "fix": 0,
+      "sharedGood": 0,
+      "sharedBad": 0,
+      "sharedFix": 0
+    },
+    "journal.work-other-started.relation-went-to-work": {
+      "good": 0,
+      "bad": 1,
+      "fix": 0,
+      "sharedGood": 0,
+      "sharedBad": 0,
+      "sharedFix": 0
+    },
+    "journal:chapter:phase:chapter:6": {
+      "good": 0,
+      "bad": 1,
+      "fix": 0,
+      "sharedGood": 0,
+      "sharedBad": 0,
+      "sharedFix": 0
+    },
+    "journal:chapter:year:1967": {
+      "good": 0,
+      "bad": 0,
+      "fix": 1,
+      "sharedGood": 0,
+      "sharedBad": 0,
+      "sharedFix": 0
+    },
+    "journal:chapter:year:1982": {
+      "good": 0,
+      "bad": 1,
+      "fix": 0,
+      "sharedGood": 0,
+      "sharedBad": 0,
+      "sharedFix": 0
+    },
+    "journal:chapter:year:1990": {
+      "good": 0,
+      "bad": 1,
+      "fix": 0,
+      "sharedGood": 0,
+      "sharedBad": 0,
+      "sharedFix": 0
+    },
+    "journal:chapter:year:1994": {
+      "good": 0,
+      "bad": 1,
+      "fix": 0,
+      "sharedGood": 0,
+      "sharedBad": 0,
+      "sharedFix": 0
+    },
+    "journal:chapter:year:2005": {
+      "good": 0,
+      "bad": 1,
+      "fix": 0,
+      "sharedGood": 0,
+      "sharedBad": 0,
+      "sharedFix": 0
+    },
+    "journal:chapter:year:2007": {
+      "good": 0,
+      "bad": 0,
+      "fix": 1,
+      "sharedGood": 0,
+      "sharedBad": 0,
+      "sharedFix": 0
+    },
+    "journal:chapter:year:2015": {
+      "good": 0,
+      "bad": 0,
+      "fix": 1,
+      "sharedGood": 0,
+      "sharedBad": 0,
+      "sharedFix": 0
+    },
+    "journal:chapter:year:2026": {
+      "good": 0,
+      "bad": 0,
+      "fix": 1,
+      "sharedGood": 0,
+      "sharedBad": 0,
+      "sharedFix": 0
+    },
+    "legislation.clause.provision-is-repealed": {
+      "good": 1,
+      "bad": 0,
+      "fix": 0,
+      "sharedGood": 0,
+      "sharedBad": 0,
+      "sharedFix": 0
+    },
+    "legislation.long-title.to-provide-for-purpose-and-for-other-purposes": {
+      "good": 2,
+      "bad": 0,
+      "fix": 0,
+      "sharedGood": 0,
+      "sharedBad": 0,
+      "sharedFix": 0
+    },
+    "legislation.short-title.this-act-may-be-cited-as-the-act": {
+      "good": 3,
+      "bad": 0,
+      "fix": 0,
+      "sharedGood": 0,
+      "sharedBad": 0,
+      "sharedFix": 0
+    },
+    "legislation.short-title.this-title-may-be-cited-as-the": {
+      "good": 2,
+      "bad": 0,
+      "fix": 0,
+      "sharedGood": 0,
+      "sharedBad": 0,
+      "sharedFix": 0
+    },
+    "life-reply.first-greeting:closer:ask-followup": {
+      "good": 0,
+      "bad": 0,
+      "fix": 0,
+      "sharedGood": 0,
+      "sharedBad": 0,
+      "sharedFix": 1
+    },
+    "life-reply.first-greeting:core:core": {
+      "good": 0,
+      "bad": 0,
+      "fix": 0,
+      "sharedGood": 0,
+      "sharedBad": 0,
+      "sharedFix": 1
+    },
+    "meeting.procedural.i-could-not-make-today-s-vote": {
+      "good": 0,
+      "bad": 1,
+      "fix": 0,
+      "sharedGood": 0,
+      "sharedBad": 0,
+      "sharedFix": 0
+    },
+    "meeting.procedural.i-move-to-proceed-to-legislative-session": {
+      "good": 0,
+      "bad": 1,
+      "fix": 0,
+      "sharedGood": 0,
+      "sharedBad": 0,
+      "sharedFix": 0
+    },
+    "meeting.procedural.i-was-unavoidably-absent-and-unable-to-vote": {
+      "good": 0,
+      "bad": 1,
+      "fix": 0,
+      "sharedGood": 0,
+      "sharedBad": 0,
+      "sharedFix": 0
+    },
+    "meeting.procedural.i-was-unavoidably-detained": {
+      "good": 0,
+      "bad": 1,
+      "fix": 0,
+      "sharedGood": 0,
+      "sharedBad": 0,
+      "sharedFix": 0
+    },
+    "meeting.procedural.i-withdraw-my-motion-to-proceed": {
+      "good": 0,
+      "bad": 1,
+      "fix": 0,
+      "sharedGood": 0,
+      "sharedBad": 0,
+      "sharedFix": 0
+    },
+    "meeting.procedural.may-i-inquire-as-to-how-much-time-i-have-remaining": {
+      "good": 0,
+      "bad": 1,
+      "fix": 0,
+      "sharedGood": 0,
+      "sharedBad": 0,
+      "sharedFix": 0
+    },
+    "meeting.procedural.may-i-inquire-as-to-how-much-time-is-remaining": {
+      "good": 0,
+      "bad": 1,
+      "fix": 0,
+      "sharedGood": 0,
+      "sharedBad": 0,
+      "sharedFix": 0
+    },
+    "meeting.procedural.may-i-inquire-as-to-the-time-remaining": {
+      "good": 0,
+      "bad": 1,
+      "fix": 0,
+      "sharedGood": 0,
+      "sharedBad": 0,
+      "sharedFix": 0
+    },
+    "meeting.procedural.may-i-inquire-how-much-time-is-remaining": {
+      "good": 0,
+      "bad": 1,
+      "fix": 0,
+      "sharedGood": 0,
+      "sharedBad": 0,
+      "sharedFix": 0
+    },
+    "minutes.discussion.participants-discussed-topic": {
+      "good": 1,
+      "bad": 0,
+      "fix": 0,
+      "sharedGood": 0,
+      "sharedBad": 0,
+      "sharedFix": 0
+    },
+    "minutes.discussion.the-manager-then-turned-to-topic": {
+      "good": 0,
+      "bad": 1,
+      "fix": 0,
+      "sharedGood": 0,
+      "sharedBad": 0,
+      "sharedFix": 0
+    },
+    "minutes.discussion.the-manager-turned-first-to-topic": {
+      "good": 0,
+      "bad": 1,
+      "fix": 0,
+      "sharedGood": 0,
+      "sharedBad": 0,
+      "sharedFix": 0
+    },
+    "minutes.discussion.the-manager-turned-next-to-topic": {
+      "good": 1,
+      "bad": 0,
+      "fix": 0,
+      "sharedGood": 0,
+      "sharedBad": 0,
+      "sharedFix": 0
+    },
+    "minutes.discussion.the-staff-provided-an-update-on-topic": {
+      "good": 1,
+      "bad": 0,
+      "fix": 0,
+      "sharedGood": 0,
+      "sharedBad": 0,
+      "sharedFix": 0
+    },
+    "minutes.vote.voting-against-this-action-members": {
+      "good": 1,
+      "bad": 0,
+      "fix": 0,
+      "sharedGood": 0,
+      "sharedBad": 0,
+      "sharedFix": 0
+    },
+    "notice.election.notice-of-election": {
+      "good": 1,
+      "bad": 0,
+      "fix": 0,
+      "sharedGood": 0,
+      "sharedBad": 0,
+      "sharedFix": 0
+    },
+    "notice.ordinance.council-ordinances": {
+      "good": 0,
+      "bad": 1,
+      "fix": 0,
+      "sharedGood": 0,
+      "sharedBad": 0,
+      "sharedFix": 0
+    }
+  }
+}

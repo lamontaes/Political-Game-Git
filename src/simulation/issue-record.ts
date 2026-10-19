@@ -1,4 +1,4 @@
-import { ageOnDate } from "./dates";
+import { ageOnDate } from "../core2/kernel/dates";
 import { governingOfficeForPerson } from "./governing/state-governing";
 import { stateKeyForJurisdiction } from "./life-places";
 import { measureById } from "./legislation";

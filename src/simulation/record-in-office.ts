@@ -13,15 +13,16 @@ import {
 import type { EntityId, IsoDate, World } from "./types";
 
 /**
- * UNRESEARCHED. How far a governor's record on the economy moves their
- * starting position when they run again. A blanket game rule, not an estimate
- * of retrospective voting; filed with the research queue as
- * `record-in-office-electoral-magnitudes`. Starting weights are drawn from
- * 850 to 1150 in `campaigns.ts`, so the cap is half that spread.
+ * ESTIMATED FROM RECORDED CAMPAIGN WEIGHTS. How far a governor's record on the
+ * economy moves their starting position when they run again. The comparison
+ * set is the 850–1150 starting-weight range recorded for generated contests
+ * in `campaigns.ts`: one unemployment point is one fifth of that range, and
+ * the cap is half the range. This is a game-scale estimate, not a measured
+ * estimate of retrospective voting.
  */
-export const UNRESEARCHED_RECORD_IN_OFFICE = {
-  version: "record-in-office-unresearched-v1",
-  provenance: "unresearched-blanket-rule",
+export const ESTIMATED_RECORD_IN_OFFICE = {
+  version: "record-in-office-estimated-v1",
+  provenance: "estimated-from-recorded-campaign-weights",
   /** Weight per percentage point the unemployment rate fell in office. */
   weightPerUnemploymentPoint: 60,
   maxAbsoluteWeight: 150,
@@ -79,7 +80,7 @@ export function recordInOffice(
   const atStart = unemploymentOn(world, office.jurisdictionId, since);
   const now = unemploymentOn(world, office.jurisdictionId, asOf);
   if (atStart === null || now === null) return null;
-  const rule = UNRESEARCHED_RECORD_IN_OFFICE;
+  const rule = ESTIMATED_RECORD_IN_OFFICE;
   const raw = Math.round((atStart - now) * rule.weightPerUnemploymentPoint);
   return {
     officeTitle: office.title,

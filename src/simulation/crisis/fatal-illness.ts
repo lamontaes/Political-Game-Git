@@ -1,4 +1,4 @@
-import { addDays, daysBetween } from "../dates";
+import { addDays, daysBetween } from "../../core2/kernel/dates";
 import {
   activePartnershipsAt,
   householdMembershipsAt,
@@ -16,8 +16,8 @@ import {
   FATAL_ILLNESS_PROGNOSIS_AT,
   fatalIllnessEpisodeKey,
   remainingDaysAfterOnset,
-} from "./death-causes";
-import { MULTIPLIER_ONE } from "./hazard";
+} from "../../core2/death-causes";
+import { MULTIPLIER_ONE } from "../../core2/health-hazard";
 import { beginHealthEpisode } from "./health";
 import {
   mortalityExposureStarts,

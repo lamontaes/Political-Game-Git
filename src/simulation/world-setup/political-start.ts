@@ -1,15 +1,20 @@
 import { canonicalJson } from "../canonical-json";
 import { ELECTORAL_ALLOCATION } from "../national-election-rules";
-import { sha256Hex } from "../sha256";
+import { sha256Hex } from "../../core2/kernel/sha256";
 import type { World } from "../types";
-import calibrationJson from "./electoral-calibration.generated.json" with { type: "json" };
+import calibrationJson from "../../core2/data/elections/electoral-calibration.generated.json" with { type: "json" };
 import {
   CENSUS_REGION_ORDER,
   censusRegionOf,
   censusRegionStates,
-} from "./census-regions";
-import type { CensusRegion } from "./census-regions";
-import { clampShare, logistic, logit, roundTo } from "./deterministic-math";
+} from "../../core2/reference/census-regions";
+import type { CensusRegion } from "../../core2/reference/census-regions";
+import {
+  clampShare,
+  logistic,
+  logit,
+  roundTo,
+} from "../../core2/kernel/deterministic-math";
 import { CRUNCH46_POLICY } from "./policy";
 import type {
   GeneratedPresidency,

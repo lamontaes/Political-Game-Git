@@ -1,5 +1,5 @@
 import statehood from "../../../data/research/congress/statehood-seats.json" with { type: "json" };
-import { addDays } from "../dates";
+import { addDays } from "../../core2/kernel/dates";
 import { NATIONAL_ELECTION_JURISDICTION } from "../national-election-geography";
 import type { EntityId, IsoDate, World } from "../types";
 import { lawInForce } from "./law-in-force";

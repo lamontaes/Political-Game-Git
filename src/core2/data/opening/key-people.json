@@ -1,0 +1,31 @@
+{
+  "about": "Who the opening and the Politics screen call key people (owner ruling, Oct 15, 2026, afternoon, OWNER-DECISIONS.md): the president and vice president; the state's legislators; the most powerful person in each chamber (the one chamber where a state has only one); and the player's own representatives (their council member, state legislators, U.S. representative and senators). Nothing else is key at the opening. The most powerful person in a chamber is the holder of the post its rules give the power to assign members to committees and choose their chairs.",
+  "reasons": [
+    "president",
+    "vice-president",
+    "chamber-leader",
+    "own-us-senator",
+    "own-us-representative",
+    "own-state-legislator",
+    "own-council-member",
+    "state-legislator"
+  ],
+  "ownOffices": {
+    "own-us-senator": ["us-senate"],
+    "own-us-representative": ["us-house"],
+    "own-state-legislator": [
+      "legislature-lower",
+      "legislature-upper",
+      "legislature-unicameral"
+    ],
+    "own-council-member": ["council"]
+  },
+  "mostPowerfulPost": {
+    "us-house": "speaker",
+    "us-senate": "majority-leader",
+    "legislature-lower": "speaker",
+    "legislature-upper": "president-pro-tempore",
+    "legislature-unicameral": "speaker"
+  },
+  "mostPowerfulBasis": "data/research/legislature/chamber-leadership.json assignmentAuthority and chairSelectionAuthority: the House and the unicameral chamber's committee on committees and the state House's speaker act through the Speaker; the Senate's party caucuses act through the majority leader; a state senate's own president (its president pro tempore, where the lieutenant governor only presides) assigns and chooses."
+}

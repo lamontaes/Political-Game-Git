@@ -1,0 +1,567 @@
+{
+  "source": {
+    "hud": "HUD FY2025 income limits; src/simulation/living-world/town-rent.generated.ts",
+    "householdIncome": "U.S. Census Bureau, CPS Table H-8, 2023 median household income",
+    "eligibility": "24 CFR 982.201(b); very-low-income scope",
+    "estimatedFrom": "HUD FY2025 income limits (24 CFR 982.201) and Census CPS Table H-8, 2023 household income. ESTIMATED FROM AVERAGE: state HUD areas represent unread local areas; unread jurisdictions use the median of the 50 compiled HUD state limits and 51 CPS household medians. Missing household income is estimated, never recorded as wages or zero.",
+    "hudSamplePlaces": [
+      "US-AK",
+      "US-AL",
+      "US-AR",
+      "US-AS",
+      "US-AZ",
+      "US-CA",
+      "US-CO",
+      "US-DC",
+      "US-DE",
+      "US-FL",
+      "US-GA",
+      "US-GU",
+      "US-HI",
+      "US-IA",
+      "US-ID",
+      "US-IL",
+      "US-IN",
+      "US-KS",
+      "US-KY",
+      "US-LA",
+      "US-MD",
+      "US-MI",
+      "US-MN",
+      "US-MO",
+      "US-MP",
+      "US-MS",
+      "US-MT",
+      "US-NC",
+      "US-ND",
+      "US-NE",
+      "US-NJ",
+      "US-NM",
+      "US-NV",
+      "US-NY",
+      "US-OH",
+      "US-OK",
+      "US-OR",
+      "US-PA",
+      "US-PR",
+      "US-SC",
+      "US-SD",
+      "US-TN",
+      "US-TX",
+      "US-UT",
+      "US-VA",
+      "US-VI",
+      "US-WA",
+      "US-WI",
+      "US-WV",
+      "US-WY"
+    ],
+    "incomeSamplePlaces": [
+      "US-AK",
+      "US-AL",
+      "US-AR",
+      "US-AZ",
+      "US-CA",
+      "US-CO",
+      "US-CT",
+      "US-DC",
+      "US-DE",
+      "US-FL",
+      "US-GA",
+      "US-HI",
+      "US-IA",
+      "US-ID",
+      "US-IL",
+      "US-IN",
+      "US-KS",
+      "US-KY",
+      "US-LA",
+      "US-MA",
+      "US-MD",
+      "US-ME",
+      "US-MI",
+      "US-MN",
+      "US-MO",
+      "US-MS",
+      "US-MT",
+      "US-NC",
+      "US-ND",
+      "US-NE",
+      "US-NH",
+      "US-NJ",
+      "US-NM",
+      "US-NV",
+      "US-NY",
+      "US-OH",
+      "US-OK",
+      "US-OR",
+      "US-PA",
+      "US-RI",
+      "US-SC",
+      "US-SD",
+      "US-TN",
+      "US-TX",
+      "US-UT",
+      "US-VA",
+      "US-VT",
+      "US-WA",
+      "US-WI",
+      "US-WV",
+      "US-WY"
+    ],
+    "adultIncome": "HUD adult household income reporting; 24 CFR 5.609. Income of members below this age is used where recorded; missing child wages are not assumed."
+  },
+  "familySizeFactors": [0.7, 0.8, 0.9, 1, 1.08, 1.16, 1.24, 1.32],
+  "eachAdditionalFactor": 0.08,
+  "rows": [
+    {
+      "jurisdictionKey": "US-AK",
+      "veryLow4Dollars": 59644.0,
+      "householdIncomeDollars": 98190,
+      "limitEstimated": false,
+      "incomeEstimated": false,
+      "estimatedFrom": "HUD FY2025 income limits (24 CFR 982.201) and Census CPS Table H-8, 2023 household income. ESTIMATED FROM AVERAGE: state HUD areas represent unread local areas; unread jurisdictions use the median of the 50 compiled HUD state limits and 51 CPS household medians. Missing household income is estimated, never recorded as wages or zero."
+    },
+    {
+      "jurisdictionKey": "US-AL",
+      "veryLow4Dollars": 43836.0,
+      "householdIncomeDollars": 60660,
+      "limitEstimated": false,
+      "incomeEstimated": false,
+      "estimatedFrom": "HUD FY2025 income limits (24 CFR 982.201) and Census CPS Table H-8, 2023 household income. ESTIMATED FROM AVERAGE: state HUD areas represent unread local areas; unread jurisdictions use the median of the 50 compiled HUD state limits and 51 CPS household medians. Missing household income is estimated, never recorded as wages or zero."
+    },
+    {
+      "jurisdictionKey": "US-AR",
+      "veryLow4Dollars": 41342.0,
+      "householdIncomeDollars": 63250,
+      "limitEstimated": false,
+      "incomeEstimated": false,
+      "estimatedFrom": "HUD FY2025 income limits (24 CFR 982.201) and Census CPS Table H-8, 2023 household income. ESTIMATED FROM AVERAGE: state HUD areas represent unread local areas; unread jurisdictions use the median of the 50 compiled HUD state limits and 51 CPS household medians. Missing household income is estimated, never recorded as wages or zero."
+    },
+    {
+      "jurisdictionKey": "US-AS",
+      "veryLow4Dollars": 29500.0,
+      "householdIncomeDollars": 80860,
+      "limitEstimated": false,
+      "incomeEstimated": true,
+      "estimatedFrom": "HUD FY2025 income limits (24 CFR 982.201) and Census CPS Table H-8, 2023 household income. ESTIMATED FROM AVERAGE: state HUD areas represent unread local areas; unread jurisdictions use the median of the 50 compiled HUD state limits and 51 CPS household medians. Missing household income is estimated, never recorded as wages or zero."
+    },
+    {
+      "jurisdictionKey": "US-AZ",
+      "veryLow4Dollars": 52164.0,
+      "householdIncomeDollars": 82660,
+      "limitEstimated": false,
+      "incomeEstimated": false,
+      "estimatedFrom": "HUD FY2025 income limits (24 CFR 982.201) and Census CPS Table H-8, 2023 household income. ESTIMATED FROM AVERAGE: state HUD areas represent unread local areas; unread jurisdictions use the median of the 50 compiled HUD state limits and 51 CPS household medians. Missing household income is estimated, never recorded as wages or zero."
+    },
+    {
+      "jurisdictionKey": "US-CA",
+      "veryLow4Dollars": 72492.0,
+      "householdIncomeDollars": 89870,
+      "limitEstimated": false,
+      "incomeEstimated": false,
+      "estimatedFrom": "HUD FY2025 income limits (24 CFR 982.201) and Census CPS Table H-8, 2023 household income. ESTIMATED FROM AVERAGE: state HUD areas represent unread local areas; unread jurisdictions use the median of the 50 compiled HUD state limits and 51 CPS household medians. Missing household income is estimated, never recorded as wages or zero."
+    },
+    {
+      "jurisdictionKey": "US-CO",
+      "veryLow4Dollars": 64437.0,
+      "householdIncomeDollars": 96640,
+      "limitEstimated": false,
+      "incomeEstimated": false,
+      "estimatedFrom": "HUD FY2025 income limits (24 CFR 982.201) and Census CPS Table H-8, 2023 household income. ESTIMATED FROM AVERAGE: state HUD areas represent unread local areas; unread jurisdictions use the median of the 50 compiled HUD state limits and 51 CPS household medians. Missing household income is estimated, never recorded as wages or zero."
+    },
+    {
+      "jurisdictionKey": "US-CT",
+      "veryLow4Dollars": 51129.5,
+      "householdIncomeDollars": 92240,
+      "limitEstimated": true,
+      "incomeEstimated": false,
+      "estimatedFrom": "HUD FY2025 income limits (24 CFR 982.201) and Census CPS Table H-8, 2023 household income. ESTIMATED FROM AVERAGE: state HUD areas represent unread local areas; unread jurisdictions use the median of the 50 compiled HUD state limits and 51 CPS household medians. Missing household income is estimated, never recorded as wages or zero."
+    },
+    {
+      "jurisdictionKey": "US-DC",
+      "veryLow4Dollars": 81950.0,
+      "householdIncomeDollars": 111000,
+      "limitEstimated": false,
+      "incomeEstimated": false,
+      "estimatedFrom": "HUD FY2025 income limits (24 CFR 982.201) and Census CPS Table H-8, 2023 household income. ESTIMATED FROM AVERAGE: state HUD areas represent unread local areas; unread jurisdictions use the median of the 50 compiled HUD state limits and 51 CPS household medians. Missing household income is estimated, never recorded as wages or zero."
+    },
+    {
+      "jurisdictionKey": "US-DE",
+      "veryLow4Dollars": 55084.0,
+      "householdIncomeDollars": 86340,
+      "limitEstimated": false,
+      "incomeEstimated": false,
+      "estimatedFrom": "HUD FY2025 income limits (24 CFR 982.201) and Census CPS Table H-8, 2023 household income. ESTIMATED FROM AVERAGE: state HUD areas represent unread local areas; unread jurisdictions use the median of the 50 compiled HUD state limits and 51 CPS household medians. Missing household income is estimated, never recorded as wages or zero."
+    },
+    {
+      "jurisdictionKey": "US-FL",
+      "veryLow4Dollars": 52438.0,
+      "householdIncomeDollars": 72200,
+      "limitEstimated": false,
+      "incomeEstimated": false,
+      "estimatedFrom": "HUD FY2025 income limits (24 CFR 982.201) and Census CPS Table H-8, 2023 household income. ESTIMATED FROM AVERAGE: state HUD areas represent unread local areas; unread jurisdictions use the median of the 50 compiled HUD state limits and 51 CPS household medians. Missing household income is estimated, never recorded as wages or zero."
+    },
+    {
+      "jurisdictionKey": "US-GA",
+      "veryLow4Dollars": 50575.0,
+      "householdIncomeDollars": 72420,
+      "limitEstimated": false,
+      "incomeEstimated": false,
+      "estimatedFrom": "HUD FY2025 income limits (24 CFR 982.201) and Census CPS Table H-8, 2023 household income. ESTIMATED FROM AVERAGE: state HUD areas represent unread local areas; unread jurisdictions use the median of the 50 compiled HUD state limits and 51 CPS household medians. Missing household income is estimated, never recorded as wages or zero."
+    },
+    {
+      "jurisdictionKey": "US-GU",
+      "veryLow4Dollars": 48450.0,
+      "householdIncomeDollars": 80860,
+      "limitEstimated": false,
+      "incomeEstimated": true,
+      "estimatedFrom": "HUD FY2025 income limits (24 CFR 982.201) and Census CPS Table H-8, 2023 household income. ESTIMATED FROM AVERAGE: state HUD areas represent unread local areas; unread jurisdictions use the median of the 50 compiled HUD state limits and 51 CPS household medians. Missing household income is estimated, never recorded as wages or zero."
+    },
+    {
+      "jurisdictionKey": "US-HI",
+      "veryLow4Dollars": 72355.0,
+      "householdIncomeDollars": 97360,
+      "limitEstimated": false,
+      "incomeEstimated": false,
+      "estimatedFrom": "HUD FY2025 income limits (24 CFR 982.201) and Census CPS Table H-8, 2023 household income. ESTIMATED FROM AVERAGE: state HUD areas represent unread local areas; unread jurisdictions use the median of the 50 compiled HUD state limits and 51 CPS household medians. Missing household income is estimated, never recorded as wages or zero."
+    },
+    {
+      "jurisdictionKey": "US-IA",
+      "veryLow4Dollars": 51542.0,
+      "householdIncomeDollars": 80860,
+      "limitEstimated": false,
+      "incomeEstimated": false,
+      "estimatedFrom": "HUD FY2025 income limits (24 CFR 982.201) and Census CPS Table H-8, 2023 household income. ESTIMATED FROM AVERAGE: state HUD areas represent unread local areas; unread jurisdictions use the median of the 50 compiled HUD state limits and 51 CPS household medians. Missing household income is estimated, never recorded as wages or zero."
+    },
+    {
+      "jurisdictionKey": "US-ID",
+      "veryLow4Dollars": 48594.0,
+      "householdIncomeDollars": 73910,
+      "limitEstimated": false,
+      "incomeEstimated": false,
+      "estimatedFrom": "HUD FY2025 income limits (24 CFR 982.201) and Census CPS Table H-8, 2023 household income. ESTIMATED FROM AVERAGE: state HUD areas represent unread local areas; unread jurisdictions use the median of the 50 compiled HUD state limits and 51 CPS household medians. Missing household income is estimated, never recorded as wages or zero."
+    },
+    {
+      "jurisdictionKey": "US-IL",
+      "veryLow4Dollars": 56326.0,
+      "householdIncomeDollars": 87820,
+      "limitEstimated": false,
+      "incomeEstimated": false,
+      "estimatedFrom": "HUD FY2025 income limits (24 CFR 982.201) and Census CPS Table H-8, 2023 household income. ESTIMATED FROM AVERAGE: state HUD areas represent unread local areas; unread jurisdictions use the median of the 50 compiled HUD state limits and 51 CPS household medians. Missing household income is estimated, never recorded as wages or zero."
+    },
+    {
+      "jurisdictionKey": "US-IN",
+      "veryLow4Dollars": 48447.0,
+      "householdIncomeDollars": 76910,
+      "limitEstimated": false,
+      "incomeEstimated": false,
+      "estimatedFrom": "HUD FY2025 income limits (24 CFR 982.201) and Census CPS Table H-8, 2023 household income. ESTIMATED FROM AVERAGE: state HUD areas represent unread local areas; unread jurisdictions use the median of the 50 compiled HUD state limits and 51 CPS household medians. Missing household income is estimated, never recorded as wages or zero."
+    },
+    {
+      "jurisdictionKey": "US-KS",
+      "veryLow4Dollars": 48865.0,
+      "householdIncomeDollars": 84830,
+      "limitEstimated": false,
+      "incomeEstimated": false,
+      "estimatedFrom": "HUD FY2025 income limits (24 CFR 982.201) and Census CPS Table H-8, 2023 household income. ESTIMATED FROM AVERAGE: state HUD areas represent unread local areas; unread jurisdictions use the median of the 50 compiled HUD state limits and 51 CPS household medians. Missing household income is estimated, never recorded as wages or zero."
+    },
+    {
+      "jurisdictionKey": "US-KY",
+      "veryLow4Dollars": 44167.0,
+      "householdIncomeDollars": 61980,
+      "limitEstimated": false,
+      "incomeEstimated": false,
+      "estimatedFrom": "HUD FY2025 income limits (24 CFR 982.201) and Census CPS Table H-8, 2023 household income. ESTIMATED FROM AVERAGE: state HUD areas represent unread local areas; unread jurisdictions use the median of the 50 compiled HUD state limits and 51 CPS household medians. Missing household income is estimated, never recorded as wages or zero."
+    },
+    {
+      "jurisdictionKey": "US-LA",
+      "veryLow4Dollars": 41435.0,
+      "householdIncomeDollars": 57650,
+      "limitEstimated": false,
+      "incomeEstimated": false,
+      "estimatedFrom": "HUD FY2025 income limits (24 CFR 982.201) and Census CPS Table H-8, 2023 household income. ESTIMATED FROM AVERAGE: state HUD areas represent unread local areas; unread jurisdictions use the median of the 50 compiled HUD state limits and 51 CPS household medians. Missing household income is estimated, never recorded as wages or zero."
+    },
+    {
+      "jurisdictionKey": "US-MA",
+      "veryLow4Dollars": 51129.5,
+      "householdIncomeDollars": 106500,
+      "limitEstimated": true,
+      "incomeEstimated": false,
+      "estimatedFrom": "HUD FY2025 income limits (24 CFR 982.201) and Census CPS Table H-8, 2023 household income. ESTIMATED FROM AVERAGE: state HUD areas represent unread local areas; unread jurisdictions use the median of the 50 compiled HUD state limits and 51 CPS household medians. Missing household income is estimated, never recorded as wages or zero."
+    },
+    {
+      "jurisdictionKey": "US-MD",
+      "veryLow4Dollars": 70457.0,
+      "householdIncomeDollars": 102000,
+      "limitEstimated": false,
+      "incomeEstimated": false,
+      "estimatedFrom": "HUD FY2025 income limits (24 CFR 982.201) and Census CPS Table H-8, 2023 household income. ESTIMATED FROM AVERAGE: state HUD areas represent unread local areas; unread jurisdictions use the median of the 50 compiled HUD state limits and 51 CPS household medians. Missing household income is estimated, never recorded as wages or zero."
+    },
+    {
+      "jurisdictionKey": "US-ME",
+      "veryLow4Dollars": 51129.5,
+      "householdIncomeDollars": 75740,
+      "limitEstimated": true,
+      "incomeEstimated": false,
+      "estimatedFrom": "HUD FY2025 income limits (24 CFR 982.201) and Census CPS Table H-8, 2023 household income. ESTIMATED FROM AVERAGE: state HUD areas represent unread local areas; unread jurisdictions use the median of the 50 compiled HUD state limits and 51 CPS household medians. Missing household income is estimated, never recorded as wages or zero."
+    },
+    {
+      "jurisdictionKey": "US-MI",
+      "veryLow4Dollars": 48856.0,
+      "householdIncomeDollars": 76960,
+      "limitEstimated": false,
+      "incomeEstimated": false,
+      "estimatedFrom": "HUD FY2025 income limits (24 CFR 982.201) and Census CPS Table H-8, 2023 household income. ESTIMATED FROM AVERAGE: state HUD areas represent unread local areas; unread jurisdictions use the median of the 50 compiled HUD state limits and 51 CPS household medians. Missing household income is estimated, never recorded as wages or zero."
+    },
+    {
+      "jurisdictionKey": "US-MN",
+      "veryLow4Dollars": 60601.0,
+      "householdIncomeDollars": 90340,
+      "limitEstimated": false,
+      "incomeEstimated": false,
+      "estimatedFrom": "HUD FY2025 income limits (24 CFR 982.201) and Census CPS Table H-8, 2023 household income. ESTIMATED FROM AVERAGE: state HUD areas represent unread local areas; unread jurisdictions use the median of the 50 compiled HUD state limits and 51 CPS household medians. Missing household income is estimated, never recorded as wages or zero."
+    },
+    {
+      "jurisdictionKey": "US-MO",
+      "veryLow4Dollars": 49658.0,
+      "householdIncomeDollars": 78290,
+      "limitEstimated": false,
+      "incomeEstimated": false,
+      "estimatedFrom": "HUD FY2025 income limits (24 CFR 982.201) and Census CPS Table H-8, 2023 household income. ESTIMATED FROM AVERAGE: state HUD areas represent unread local areas; unread jurisdictions use the median of the 50 compiled HUD state limits and 51 CPS household medians. Missing household income is estimated, never recorded as wages or zero."
+    },
+    {
+      "jurisdictionKey": "US-MP",
+      "veryLow4Dollars": 29050.0,
+      "householdIncomeDollars": 80860,
+      "limitEstimated": false,
+      "incomeEstimated": true,
+      "estimatedFrom": "HUD FY2025 income limits (24 CFR 982.201) and Census CPS Table H-8, 2023 household income. ESTIMATED FROM AVERAGE: state HUD areas represent unread local areas; unread jurisdictions use the median of the 50 compiled HUD state limits and 51 CPS household medians. Missing household income is estimated, never recorded as wages or zero."
+    },
+    {
+      "jurisdictionKey": "US-MS",
+      "veryLow4Dollars": 39439.0,
+      "householdIncomeDollars": 55060,
+      "limitEstimated": false,
+      "incomeEstimated": false,
+      "estimatedFrom": "HUD FY2025 income limits (24 CFR 982.201) and Census CPS Table H-8, 2023 household income. ESTIMATED FROM AVERAGE: state HUD areas represent unread local areas; unread jurisdictions use the median of the 50 compiled HUD state limits and 51 CPS household medians. Missing household income is estimated, never recorded as wages or zero."
+    },
+    {
+      "jurisdictionKey": "US-MT",
+      "veryLow4Dollars": 48693.0,
+      "householdIncomeDollars": 79220,
+      "limitEstimated": false,
+      "incomeEstimated": false,
+      "estimatedFrom": "HUD FY2025 income limits (24 CFR 982.201) and Census CPS Table H-8, 2023 household income. ESTIMATED FROM AVERAGE: state HUD areas represent unread local areas; unread jurisdictions use the median of the 50 compiled HUD state limits and 51 CPS household medians. Missing household income is estimated, never recorded as wages or zero."
+    },
+    {
+      "jurisdictionKey": "US-NC",
+      "veryLow4Dollars": 48953.0,
+      "householdIncomeDollars": 68610,
+      "limitEstimated": false,
+      "incomeEstimated": false,
+      "estimatedFrom": "HUD FY2025 income limits (24 CFR 982.201) and Census CPS Table H-8, 2023 household income. ESTIMATED FROM AVERAGE: state HUD areas represent unread local areas; unread jurisdictions use the median of the 50 compiled HUD state limits and 51 CPS household medians. Missing household income is estimated, never recorded as wages or zero."
+    },
+    {
+      "jurisdictionKey": "US-ND",
+      "veryLow4Dollars": 56124.0,
+      "householdIncomeDollars": 76960,
+      "limitEstimated": false,
+      "incomeEstimated": false,
+      "estimatedFrom": "HUD FY2025 income limits (24 CFR 982.201) and Census CPS Table H-8, 2023 household income. ESTIMATED FROM AVERAGE: state HUD areas represent unread local areas; unread jurisdictions use the median of the 50 compiled HUD state limits and 51 CPS household medians. Missing household income is estimated, never recorded as wages or zero."
+    },
+    {
+      "jurisdictionKey": "US-NE",
+      "veryLow4Dollars": 52591.0,
+      "householdIncomeDollars": 89190,
+      "limitEstimated": false,
+      "incomeEstimated": false,
+      "estimatedFrom": "HUD FY2025 income limits (24 CFR 982.201) and Census CPS Table H-8, 2023 household income. ESTIMATED FROM AVERAGE: state HUD areas represent unread local areas; unread jurisdictions use the median of the 50 compiled HUD state limits and 51 CPS household medians. Missing household income is estimated, never recorded as wages or zero."
+    },
+    {
+      "jurisdictionKey": "US-NH",
+      "veryLow4Dollars": 51129.5,
+      "householdIncomeDollars": 98780,
+      "limitEstimated": true,
+      "incomeEstimated": false,
+      "estimatedFrom": "HUD FY2025 income limits (24 CFR 982.201) and Census CPS Table H-8, 2023 household income. ESTIMATED FROM AVERAGE: state HUD areas represent unread local areas; unread jurisdictions use the median of the 50 compiled HUD state limits and 51 CPS household medians. Missing household income is estimated, never recorded as wages or zero."
+    },
+    {
+      "jurisdictionKey": "US-NJ",
+      "veryLow4Dollars": 66810.0,
+      "householdIncomeDollars": 91590,
+      "limitEstimated": false,
+      "incomeEstimated": false,
+      "estimatedFrom": "HUD FY2025 income limits (24 CFR 982.201) and Census CPS Table H-8, 2023 household income. ESTIMATED FROM AVERAGE: state HUD areas represent unread local areas; unread jurisdictions use the median of the 50 compiled HUD state limits and 51 CPS household medians. Missing household income is estimated, never recorded as wages or zero."
+    },
+    {
+      "jurisdictionKey": "US-NM",
+      "veryLow4Dollars": 42169.0,
+      "householdIncomeDollars": 60980,
+      "limitEstimated": false,
+      "incomeEstimated": false,
+      "estimatedFrom": "HUD FY2025 income limits (24 CFR 982.201) and Census CPS Table H-8, 2023 household income. ESTIMATED FROM AVERAGE: state HUD areas represent unread local areas; unread jurisdictions use the median of the 50 compiled HUD state limits and 51 CPS household medians. Missing household income is estimated, never recorded as wages or zero."
+    },
+    {
+      "jurisdictionKey": "US-NV",
+      "veryLow4Dollars": 51557.0,
+      "householdIncomeDollars": 81310,
+      "limitEstimated": false,
+      "incomeEstimated": false,
+      "estimatedFrom": "HUD FY2025 income limits (24 CFR 982.201) and Census CPS Table H-8, 2023 household income. ESTIMATED FROM AVERAGE: state HUD areas represent unread local areas; unread jurisdictions use the median of the 50 compiled HUD state limits and 51 CPS household medians. Missing household income is estimated, never recorded as wages or zero."
+    },
+    {
+      "jurisdictionKey": "US-NY",
+      "veryLow4Dollars": 71170.0,
+      "householdIncomeDollars": 81600,
+      "limitEstimated": false,
+      "incomeEstimated": false,
+      "estimatedFrom": "HUD FY2025 income limits (24 CFR 982.201) and Census CPS Table H-8, 2023 household income. ESTIMATED FROM AVERAGE: state HUD areas represent unread local areas; unread jurisdictions use the median of the 50 compiled HUD state limits and 51 CPS household medians. Missing household income is estimated, never recorded as wages or zero."
+    },
+    {
+      "jurisdictionKey": "US-OH",
+      "veryLow4Dollars": 49330.0,
+      "householdIncomeDollars": 73770,
+      "limitEstimated": false,
+      "incomeEstimated": false,
+      "estimatedFrom": "HUD FY2025 income limits (24 CFR 982.201) and Census CPS Table H-8, 2023 household income. ESTIMATED FROM AVERAGE: state HUD areas represent unread local areas; unread jurisdictions use the median of the 50 compiled HUD state limits and 51 CPS household medians. Missing household income is estimated, never recorded as wages or zero."
+    },
+    {
+      "jurisdictionKey": "US-OK",
+      "veryLow4Dollars": 43949.0,
+      "householdIncomeDollars": 67330,
+      "limitEstimated": false,
+      "incomeEstimated": false,
+      "estimatedFrom": "HUD FY2025 income limits (24 CFR 982.201) and Census CPS Table H-8, 2023 household income. ESTIMATED FROM AVERAGE: state HUD areas represent unread local areas; unread jurisdictions use the median of the 50 compiled HUD state limits and 51 CPS household medians. Missing household income is estimated, never recorded as wages or zero."
+    },
+    {
+      "jurisdictionKey": "US-OR",
+      "veryLow4Dollars": 53767.0,
+      "householdIncomeDollars": 88740,
+      "limitEstimated": false,
+      "incomeEstimated": false,
+      "estimatedFrom": "HUD FY2025 income limits (24 CFR 982.201) and Census CPS Table H-8, 2023 household income. ESTIMATED FROM AVERAGE: state HUD areas represent unread local areas; unread jurisdictions use the median of the 50 compiled HUD state limits and 51 CPS household medians. Missing household income is estimated, never recorded as wages or zero."
+    },
+    {
+      "jurisdictionKey": "US-PA",
+      "veryLow4Dollars": 52462.0,
+      "householdIncomeDollars": 79820,
+      "limitEstimated": false,
+      "incomeEstimated": false,
+      "estimatedFrom": "HUD FY2025 income limits (24 CFR 982.201) and Census CPS Table H-8, 2023 household income. ESTIMATED FROM AVERAGE: state HUD areas represent unread local areas; unread jurisdictions use the median of the 50 compiled HUD state limits and 51 CPS household medians. Missing household income is estimated, never recorded as wages or zero."
+    },
+    {
+      "jurisdictionKey": "US-PR",
+      "veryLow4Dollars": 17805.0,
+      "householdIncomeDollars": 80860,
+      "limitEstimated": false,
+      "incomeEstimated": true,
+      "estimatedFrom": "HUD FY2025 income limits (24 CFR 982.201) and Census CPS Table H-8, 2023 household income. ESTIMATED FROM AVERAGE: state HUD areas represent unread local areas; unread jurisdictions use the median of the 50 compiled HUD state limits and 51 CPS household medians. Missing household income is estimated, never recorded as wages or zero."
+    },
+    {
+      "jurisdictionKey": "US-RI",
+      "veryLow4Dollars": 51129.5,
+      "householdIncomeDollars": 81860,
+      "limitEstimated": true,
+      "incomeEstimated": false,
+      "estimatedFrom": "HUD FY2025 income limits (24 CFR 982.201) and Census CPS Table H-8, 2023 household income. ESTIMATED FROM AVERAGE: state HUD areas represent unread local areas; unread jurisdictions use the median of the 50 compiled HUD state limits and 51 CPS household medians. Missing household income is estimated, never recorded as wages or zero."
+    },
+    {
+      "jurisdictionKey": "US-SC",
+      "veryLow4Dollars": 45763.0,
+      "householdIncomeDollars": 69100,
+      "limitEstimated": false,
+      "incomeEstimated": false,
+      "estimatedFrom": "HUD FY2025 income limits (24 CFR 982.201) and Census CPS Table H-8, 2023 household income. ESTIMATED FROM AVERAGE: state HUD areas represent unread local areas; unread jurisdictions use the median of the 50 compiled HUD state limits and 51 CPS household medians. Missing household income is estimated, never recorded as wages or zero."
+    },
+    {
+      "jurisdictionKey": "US-SD",
+      "veryLow4Dollars": 51620.0,
+      "householdIncomeDollars": 81740,
+      "limitEstimated": false,
+      "incomeEstimated": false,
+      "estimatedFrom": "HUD FY2025 income limits (24 CFR 982.201) and Census CPS Table H-8, 2023 household income. ESTIMATED FROM AVERAGE: state HUD areas represent unread local areas; unread jurisdictions use the median of the 50 compiled HUD state limits and 51 CPS household medians. Missing household income is estimated, never recorded as wages or zero."
+    },
+    {
+      "jurisdictionKey": "US-TN",
+      "veryLow4Dollars": 46954.0,
+      "householdIncomeDollars": 72700,
+      "limitEstimated": false,
+      "incomeEstimated": false,
+      "estimatedFrom": "HUD FY2025 income limits (24 CFR 982.201) and Census CPS Table H-8, 2023 household income. ESTIMATED FROM AVERAGE: state HUD areas represent unread local areas; unread jurisdictions use the median of the 50 compiled HUD state limits and 51 CPS household medians. Missing household income is estimated, never recorded as wages or zero."
+    },
+    {
+      "jurisdictionKey": "US-TX",
+      "veryLow4Dollars": 50717.0,
+      "householdIncomeDollars": 79060,
+      "limitEstimated": false,
+      "incomeEstimated": false,
+      "estimatedFrom": "HUD FY2025 income limits (24 CFR 982.201) and Census CPS Table H-8, 2023 household income. ESTIMATED FROM AVERAGE: state HUD areas represent unread local areas; unread jurisdictions use the median of the 50 compiled HUD state limits and 51 CPS household medians. Missing household income is estimated, never recorded as wages or zero."
+    },
+    {
+      "jurisdictionKey": "US-UT",
+      "veryLow4Dollars": 58818.0,
+      "householdIncomeDollars": 101200,
+      "limitEstimated": false,
+      "incomeEstimated": false,
+      "estimatedFrom": "HUD FY2025 income limits (24 CFR 982.201) and Census CPS Table H-8, 2023 household income. ESTIMATED FROM AVERAGE: state HUD areas represent unread local areas; unread jurisdictions use the median of the 50 compiled HUD state limits and 51 CPS household medians. Missing household income is estimated, never recorded as wages or zero."
+    },
+    {
+      "jurisdictionKey": "US-VA",
+      "veryLow4Dollars": 61648.0,
+      "householdIncomeDollars": 96490,
+      "limitEstimated": false,
+      "incomeEstimated": false,
+      "estimatedFrom": "HUD FY2025 income limits (24 CFR 982.201) and Census CPS Table H-8, 2023 household income. ESTIMATED FROM AVERAGE: state HUD areas represent unread local areas; unread jurisdictions use the median of the 50 compiled HUD state limits and 51 CPS household medians. Missing household income is estimated, never recorded as wages or zero."
+    },
+    {
+      "jurisdictionKey": "US-VI",
+      "veryLow4Dollars": 44099.0,
+      "householdIncomeDollars": 80860,
+      "limitEstimated": false,
+      "incomeEstimated": true,
+      "estimatedFrom": "HUD FY2025 income limits (24 CFR 982.201) and Census CPS Table H-8, 2023 household income. ESTIMATED FROM AVERAGE: state HUD areas represent unread local areas; unread jurisdictions use the median of the 50 compiled HUD state limits and 51 CPS household medians. Missing household income is estimated, never recorded as wages or zero."
+    },
+    {
+      "jurisdictionKey": "US-VT",
+      "veryLow4Dollars": 51129.5,
+      "householdIncomeDollars": 85190,
+      "limitEstimated": true,
+      "incomeEstimated": false,
+      "estimatedFrom": "HUD FY2025 income limits (24 CFR 982.201) and Census CPS Table H-8, 2023 household income. ESTIMATED FROM AVERAGE: state HUD areas represent unread local areas; unread jurisdictions use the median of the 50 compiled HUD state limits and 51 CPS household medians. Missing household income is estimated, never recorded as wages or zero."
+    },
+    {
+      "jurisdictionKey": "US-WA",
+      "veryLow4Dollars": 64329.0,
+      "householdIncomeDollars": 93440,
+      "limitEstimated": false,
+      "incomeEstimated": false,
+      "estimatedFrom": "HUD FY2025 income limits (24 CFR 982.201) and Census CPS Table H-8, 2023 household income. ESTIMATED FROM AVERAGE: state HUD areas represent unread local areas; unread jurisdictions use the median of the 50 compiled HUD state limits and 51 CPS household medians. Missing household income is estimated, never recorded as wages or zero."
+    },
+    {
+      "jurisdictionKey": "US-WI",
+      "veryLow4Dollars": 53370.0,
+      "householdIncomeDollars": 79690,
+      "limitEstimated": false,
+      "incomeEstimated": false,
+      "estimatedFrom": "HUD FY2025 income limits (24 CFR 982.201) and Census CPS Table H-8, 2023 household income. ESTIMATED FROM AVERAGE: state HUD areas represent unread local areas; unread jurisdictions use the median of the 50 compiled HUD state limits and 51 CPS household medians. Missing household income is estimated, never recorded as wages or zero."
+    },
+    {
+      "jurisdictionKey": "US-WV",
+      "veryLow4Dollars": 41108.0,
+      "householdIncomeDollars": 60410,
+      "limitEstimated": false,
+      "incomeEstimated": false,
+      "estimatedFrom": "HUD FY2025 income limits (24 CFR 982.201) and Census CPS Table H-8, 2023 household income. ESTIMATED FROM AVERAGE: state HUD areas represent unread local areas; unread jurisdictions use the median of the 50 compiled HUD state limits and 51 CPS household medians. Missing household income is estimated, never recorded as wages or zero."
+    },
+    {
+      "jurisdictionKey": "US-WY",
+      "veryLow4Dollars": 52287.0,
+      "householdIncomeDollars": 77200,
+      "limitEstimated": false,
+      "incomeEstimated": false,
+      "estimatedFrom": "HUD FY2025 income limits (24 CFR 982.201) and Census CPS Table H-8, 2023 household income. ESTIMATED FROM AVERAGE: state HUD areas represent unread local areas; unread jurisdictions use the median of the 50 compiled HUD state limits and 51 CPS household medians. Missing household income is estimated, never recorded as wages or zero."
+    }
+  ],
+  "adultIncomeMinimumAge": 18
+}

@@ -1,6 +1,11 @@
-import { addDays, daysBetween, makeIsoDate, spokenDate } from "./dates";
+import {
+  addDays,
+  daysBetween,
+  makeIsoDate,
+  spokenDate,
+} from "../core2/kernel/dates";
 import { scheduleFutureDueItem } from "./future-transitions";
-import { createStableId } from "./ids";
+import { createStableId } from "../core2/kernel/ids";
 import { resolveLegislativeEffectiveDate } from "./legislative-effective-date";
 import { statuteEffectiveRule } from "./governing/statute-effective-date";
 import { enactingGovernmentForPack } from "./legislation-drafting";
@@ -3334,8 +3339,9 @@ export function recordEnactment(
     "Enactment",
   );
   const pack = legislativeRulePackForWorld(world, measure.rulePackId);
+  const government = enactingGovernmentForPack(pack)?.government;
   const scaleTags =
-    world.jurisdictions[measure.jurisdictionId]?.kind === "state"
+    government === "state" || government === "territory"
       ? ["importance:major"]
       : [];
 
@@ -3348,7 +3354,6 @@ export function recordEnactment(
     )
     .at(-1);
 
-  const government = enactingGovernmentForPack(pack)?.government;
   const stateRule =
     government === "state" || government === "territory"
       ? statuteEffectiveRule(pack.jurisdictionKey)

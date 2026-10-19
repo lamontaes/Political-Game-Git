@@ -1,8 +1,8 @@
 import { districtIdentityCatalog } from "../../districts/catalog";
 import { listDistrictIdentities } from "../../districts/query";
-import { makeIsoDate } from "../dates";
+import { makeIsoDate } from "../../core2/kernel/dates";
 import { US_STATE_USPS } from "../nationwide-world/state-executive-candidacy-packs";
-import type { IsoDate } from "../types";
+import type { IsoDate } from "../../core2/kernel/brands";
 import type { ChamberKey } from "./contract";
 
 /** Institutional facts only. People, parties and tenures are fictional. */

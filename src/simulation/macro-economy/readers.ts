@@ -67,26 +67,6 @@ export interface ActiveMacroShockView {
   readonly endedAt: IsoDate | null;
 }
 
-/** Shocks recorded by a date whose disruption had not ended by then. */
-export function publicMacroShocksAt(
-  world: World,
-  asOfDate: IsoDate,
-): readonly ActiveMacroShockView[] {
-  const store = world.macroEconomy;
-  if (!store) return [];
-  const ends = new Map(
-    store.shockEnds
-      .filter((end) => end.recordedAt <= asOfDate)
-      .map((end) => [end.shockKey, end.endedAt]),
-  );
-  return store.shocks
-    .filter(
-      (shock) =>
-        shock.observedState === "public" && shock.recordedAt <= asOfDate,
-    )
-    .map((shock) => ({ shock, endedAt: ends.get(shock.key) ?? null }));
-}
-
 /** Which recorded month a date falls in, for callers that label periods. */
 export function macroMonthKey(date: IsoDate): string {
   return monthKeyOf(date);

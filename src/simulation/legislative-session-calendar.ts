@@ -1,5 +1,5 @@
-import { addDays, daysBetween, makeIsoDate } from "./dates";
-import type { IsoDate } from "./types";
+import { addDays, daysBetween, makeIsoDate } from "../core2/kernel/dates";
+import type { IsoDate } from "../core2/kernel/brands";
 
 export type SessionCalendarRecurrence =
   | { readonly kind: "interval"; readonly days: number }

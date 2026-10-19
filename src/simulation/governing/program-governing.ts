@@ -8,7 +8,7 @@ import {
   PASSENGER_RAIL_PROGRAM_KEY,
   EXPAND_PASSENGER_RAIL_QUESTION,
 } from "../federal-passenger-rail";
-import { addDays } from "../dates";
+import { addDays } from "../../core2/kernel/dates";
 import {
   draftLineageComponents,
   draftLineageForMeasure,
@@ -46,7 +46,7 @@ import { localFiscalAuthorityScopeForRulePackId } from "../municipal-government"
 import { admitLocalFiscalMeasure } from "../local-fiscal-authority";
 import { NATIONAL_ELECTION_JURISDICTION } from "../national-election-geography";
 import { createOrganization } from "../life";
-import { stableHash } from "../ids";
+import { stableHash } from "../../core2/kernel/ids";
 import { programFamilyTitle } from "./program-families";
 import {
   programVariant,

@@ -1,4 +1,7 @@
 import { initializePersonCitizenship } from "./citizenship-creation";
+import { assertStoryMomentIntegrity, storyMoments } from "./story/moments";
+import { assertStoryPeopleIntegrity, storyPeople } from "./story-people-store";
+import { assertStoryThreadIntegrity, storyThreadStates } from "./story/threads";
 import { assertPersonCitizenshipIntegrity } from "./citizenship";
 import { assertWorkPayCoverageIntegrity } from "./pay-coverage-query";
 import { assertEarnedLawPayIntegrity } from "./earned-law-pay-integrity";
@@ -83,7 +86,7 @@ import {
   makeSimulationMoment,
   simulationMomentOnLocalDate,
   simulationMinutesBetween,
-} from "./dates";
+} from "../core2/kernel/dates";
 import { assertSetupPriorIntegrity, clonePriors } from "./setup-priors";
 import { assertMacroEconomyIntegrity } from "./macro-economy/store";
 import { assertTownFinanceIntegrity } from "./living-world/town-finances";
@@ -150,7 +153,7 @@ import {
   eventsInvolving,
 } from "./history";
 import type { HistoricalEventInput } from "./history";
-import { createStableId } from "./ids";
+import { createStableId } from "../core2/kernel/ids";
 import {
   assertLifeHistoryIntegrity,
   lifeEntityAvailableAt,
@@ -185,7 +188,7 @@ import {
   policySemanticsEntityAvailableAt,
   policySemanticsEntityExists,
 } from "./policy-semantics";
-import { normalizeSeed } from "./rng";
+import { normalizeSeed } from "../core2/kernel/rng";
 import {
   assertResourceHousingIntegrity,
   resourceHousingEntityAvailableAt,
@@ -649,7 +652,28 @@ function markValidated(world: World): void {
   lastValidatedWorld = world;
 }
 
+let worldChecksOff = 0;
+
+/**
+ * Run a generator without World integrity checks (play, where bookkeeping is
+ * off). Tests and the bench keep them.
+ */
+export function withoutWorldChecks<T>(run: () => T): T {
+  worldChecksOff += 1;
+  try {
+    return run();
+  } finally {
+    worldChecksOff -= 1;
+  }
+}
+
+/** Let go of the last checked World (e.g. a generator's temporary World once it's done). */
+export function forgetLastValidatedWorld(): void {
+  lastValidatedWorld = null;
+}
+
 export function assertWorldIntegrity(world: World): void {
+  if (worldChecksOff > 0) return;
   if (VALIDATED_WORLDS.has(world)) return;
   if (integrityDeferredDepth > 0) return;
   const last = lastValidatedWorld;
@@ -2123,6 +2147,10 @@ function validateHistoryIntegrity(
         ...permitStatuses(world),
         ...(history.legalOutcomeConsequences ?? []),
         ...childhoodRecordEntries(world),
+        ...storyMoments(world),
+        ...(history.storyIntakeMarks ?? []),
+        ...storyPeople(world),
+        ...storyThreadStates(world),
         ...(history.districtResidenceIntervals ?? []),
         ...(history.officeWorkflowPreferences ?? []),
         ...(history.officeStaffPositions ?? []),
@@ -2328,6 +2356,15 @@ function validateHistoryIntegrity(
   for (const entry of childhoodRecordEntries(world))
     assertUniqueId(ids, entry.id);
   assertChildhoodRecordIntegrity(world);
+  for (const moment of storyMoments(world)) assertUniqueId(ids, moment.id);
+  for (const mark of world.history.storyIntakeMarks ?? [])
+    assertUniqueId(ids, mark.id);
+  assertStoryMomentIntegrity(world);
+  // A story person's id is the one they keep once written out, so it is
+  // checked against the other story people, not against every id.
+  assertStoryPeopleIntegrity(world);
+  for (const state of storyThreadStates(world)) assertUniqueId(ids, state.id);
+  assertStoryThreadIntegrity(world);
   for (const proposal of history.legislativeProposals ?? []) {
     assertUniqueId(ids, proposal.id);
     if (!world.people[proposal.sponsorPersonId]) {
@@ -2387,6 +2424,7 @@ function validateHistoryIntegrity(
   const officeIds = new Set([
     ...history.workRelationships.map((record) => record.id),
     ...history.organizationParticipations.map((record) => record.id),
+    ...Object.keys(world.judiciary?.seats ?? {}),
   ]);
   for (const record of history.officeWorkflowPreferences ?? []) {
     assertUniqueId(ids, record.id);

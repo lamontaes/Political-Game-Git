@@ -1,0 +1,92 @@
+{
+  "rows": {
+    "us-policy-positions:justice-public-safety.end-cash-bail": [
+      {
+        "id": "justice-person-exposure:end-cash-bail",
+        "kind": "justice-person-exposure",
+        "when": "case-stage",
+        "who": {
+          "selector": "justice.pretrial-defendant",
+          "predicates": []
+        },
+        "what": "record-cash-bail-exposure",
+        "decision": {
+          "op": "record",
+          "key": "effect",
+          "type": "decision"
+        },
+        "conditions": [
+          {
+            "capability": "justice.saved-cash-bail-effect",
+            "parameters": {}
+          }
+        ],
+        "lag": {
+          "days": 0,
+          "sourceIds": [
+            "src/simulation/justice/pretrial.ts",
+            "src/simulation/justice/prosecution.ts",
+            "src/simulation/justice/jail-terms.ts"
+          ]
+        },
+        "onRepeal": "preserve-completed",
+        "evidence": {
+          "sourceIds": [
+            "src/simulation/justice/pretrial.ts",
+            "src/simulation/justice/prosecution.ts",
+            "src/simulation/justice/jail-terms.ts",
+            "data/research/justice/money-bail-2026.json"
+          ],
+          "population": "A named defendant in a recorded pretrial release or hold event.",
+          "scope": "Only an event carrying the operative cash-bail law stamp; a cost is recorded only for an actually held person with an unpaid saved bail amount, and a gain only for an actually released person where the operative law removes money bail.",
+          "why": "The saved court event records how the operative cash-bail rule reached this defendant.",
+          "uncertainty": "A paid, refundable bail deposit is not counted as a loss; a quiet case or a judge's hold without a saved cash-bail amount creates no cash-bail exposure."
+        }
+      }
+    ],
+    "us-policy-positions:justice-public-safety.mandatory-minimum-sentences": [
+      {
+        "id": "justice-person-exposure:mandatory-minimum-sentences",
+        "kind": "justice-person-exposure",
+        "when": "case-stage",
+        "who": {
+          "selector": "justice.sentenced-defendant",
+          "predicates": []
+        },
+        "what": "record-mandatory-minimum-exposure",
+        "amount": {
+          "op": "term",
+          "key": "floor",
+          "unit": "months"
+        },
+        "conditions": [
+          {
+            "capability": "justice.saved-minimum-sentence-effect",
+            "parameters": {}
+          }
+        ],
+        "lag": {
+          "days": 0,
+          "sourceIds": [
+            "src/simulation/law-consequences/legal-outcome.ts",
+            "src/simulation/justice/court-reasoning.ts",
+            "src/simulation/justice/jail-terms.ts"
+          ]
+        },
+        "onRepeal": "preserve-completed",
+        "evidence": {
+          "sourceIds": [
+            "src/simulation/law-consequences/legal-outcome.ts",
+            "src/simulation/justice/court-reasoning.ts",
+            "src/simulation/justice/jail-terms.ts",
+            "data/research/laws/catalog-terms-batch-02.json"
+          ],
+          "population": "A named defendant whose saved sentence meets the numeric floor in an actual operative law record.",
+          "scope": "The specific covered offense and the numeric floor saved by the final enacted law term; the sentence event and legal-outcome consequence must identify the same person and law.",
+          "why": "The court's saved minimum-sentence consequence records the legal floor applied to this defendant.",
+          "uncertainty": "No yes/no answer, charge, or unrecorded term alone proves exposure; no invented custody amount is attached."
+        }
+      }
+    ]
+  }
+}

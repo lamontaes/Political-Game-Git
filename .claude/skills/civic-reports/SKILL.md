@@ -40,6 +40,16 @@ Reports that are not about play (audits, investigations, pull request
 descriptions) keep steps 1, 2, 4 and 5. A pull request description also
 opens with "Before:" and "After:" paragraphs, per the project's rules.
 
+## What every report carries
+
+- **Plain words before PR numbers.** Say what changed for the player first.
+  Numbers of pull requests come after, never instead.
+- **Every number carries its why.** Name the cause with file and line, or
+  write "not found". A number with neither is not ready to send.
+- **Grade each level** as works, works with the gap named, or doesn't.
+- **The furthest step a player reaches** on the golden path is reported,
+  never an audit percentage.
+
 ## Sentences
 
 - American English: labor, color, center, license, labeled, catalog, period,

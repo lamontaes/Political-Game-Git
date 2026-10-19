@@ -5,6 +5,7 @@ import {
   type LegislativeRulePack,
   type RuleSourceRef,
 } from "./legislature-rules";
+import { stateNameForUsps } from "./state-reference";
 
 export const STANDING_COMMITTEE_RULE_VERSION = "standing-committee/v1";
 /** The citation the researched-pack check admits under a chamber's committees. */
@@ -58,15 +59,6 @@ export function standingCommittee(
   };
 }
 
-const STATE_NAMES: Readonly<Record<string, string>> = {
-  "us-mn-legislature-v1": "Minnesota",
-  "us-il-general-assembly-v1": "Illinois",
-  "us-md-general-assembly-v1": "Maryland",
-  "us-mo-general-assembly-v1": "Missouri",
-  "us-nv-legislature-v1": "Nevada",
-  "us-oh-general-assembly-v1": "Ohio",
-};
-
 const derived = new WeakMap<LegislativeRulePack, LegislativeRulePack>();
 
 /**
@@ -82,7 +74,9 @@ export function withCommitteeStandIns(
     return pack;
   let played = derived.get(pack);
   if (!played) {
-    const stateName = STATE_NAMES[pack.packId] ?? pack.displayName;
+    const usps = /^US-([A-Z]{2})$/.exec(pack.jurisdictionKey)?.[1];
+    const stateName =
+      (usps ? stateNameForUsps(usps) : null) ?? pack.displayName;
     played = {
       ...pack,
       chambers: pack.chambers.map((chamber) =>

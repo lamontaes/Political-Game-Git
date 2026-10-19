@@ -20,9 +20,42 @@
     {
       "source": "docs/research/requests/campaign-expenditure-reports.json",
       "whatItDidNotSettle": "Asks what a spending-report line must carry, not who must register, by when, or which reports fall due."
+    },
+    {
+      "source": "https://www.fec.gov/help-candidates-and-committees/candidate-taking-receipts/contribution-limits/",
+      "whatItDidNotSettle": "Complete 56-place state/territory trigger, penalty, periodic schedule and public-on-receipt table remains open."
+    },
+    {
+      "source": "https://www.fec.gov/help-candidates-and-committees/registering-candidate/",
+      "whatItDidNotSettle": "Complete 56-place state/territory trigger, penalty, periodic schedule and public-on-receipt table remains open."
+    },
+    {
+      "source": "https://www.fec.gov/updates/statistical-summary-of-24-month-campaign-activity-of-the-2023-2024-election-cycle/",
+      "whatItDidNotSettle": "Complete 56-place state/territory trigger, penalty, periodic schedule and public-on-receipt table remains open."
+    },
+    {
+      "source": "https://www.revisor.mn.gov/statutes/cite/10A.105",
+      "whatItDidNotSettle": "Complete 56-place state/territory trigger, penalty, periodic schedule and public-on-receipt table remains open."
+    },
+    {
+      "source": "https://www.nebraskalegislature.gov/laws/statutes.php?statute=49-1446",
+      "whatItDidNotSettle": "Complete 56-place state/territory trigger, penalty, periodic schedule and public-on-receipt table remains open."
     }
   ],
   "title": "Campaign committee registration, treasurer, one-committee rules and report deadlines, by state",
   "usableAnswer": "One row per state and territory: registration form name, deadline and trigger event with any threshold, treasurer requirement, one-committee rule, periodic report schedule with business or calendar days, public-on-receipt yes or no, and late-filing penalty, each with a citation. UNKNOWN where no source settles it.",
-  "whyItMatters": "A campaign's filings are where a reporter or rival first finds something wrong: a committee that never registered, a report filed late, a second committee. With a placeholder deadline in 53 places the game cannot tell a player whether a real state would have fined them."
+  "whyItMatters": "A campaign's filings are where a reporter or rival first finds something wrong: a committee that never registered, a report filed late, a second committee. With a placeholder deadline in 53 places the game cannot tell a player whether a real state would have fined them.",
+  "answer": {
+    "summary": "At federal level, crossing more than $5,000 raised/spent triggers FEC Form 2 within 15 days; the designated committee files Form 1 within 10 days and needs a treasurer. Minnesota requires one principal committee for each office sought. Neither financial registration nor FEC receipt of a form qualifies a candidate for a state ballot.",
+    "sources": [
+      "https://www.fec.gov/help-candidates-and-committees/candidate-taking-receipts/contribution-limits/",
+      "https://www.fec.gov/help-candidates-and-committees/registering-candidate/",
+      "https://www.fec.gov/updates/statistical-summary-of-24-month-campaign-activity-of-the-2023-2024-election-cycle/",
+      "https://www.revisor.mn.gov/statutes/cite/10A.105",
+      "https://www.nebraskalegislature.gov/laws/statutes.php?statute=49-1446"
+    ],
+    "answeredBy": "CODEX-RESEARCH-2",
+    "answeredAt": "2026-10-11T04:57:22.841855+00:00",
+    "stillOpen": "Complete 56-place state/territory trigger, penalty, periodic schedule and public-on-receipt table remains open."
+  }
 }

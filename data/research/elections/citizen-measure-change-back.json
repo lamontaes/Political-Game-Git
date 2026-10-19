@@ -1,0 +1,2303 @@
+{
+  "id": "citizen-measure-change-back",
+  "asOf": "2026-10-06",
+  "sampleNote": "One reviewed statewide clause: duration median2 years; amendment share median2/3. Municipal rules are explicitly estimates from this statewide sample, pending municipal research. After protection expires, the existing ordinary legislative rules apply.",
+  "places": {
+    "US-AL": {
+      "name": "Alabama",
+      "statute": {
+        "protectionYears": 2,
+        "amendmentShareDuringProtection": {
+          "numerator": 2,
+          "denominator": 3,
+          "base": "all-elected-members-per-house"
+        },
+        "legislativeRepealDuringProtection": false,
+        "directVoterChangeAllowed": true,
+        "basis": "estimated-from-average",
+        "reason": "ESTIMATED FROM AVERAGE: median protection duration and amendment vote share from the one reviewed statewide citizen-law clause; repeal restriction follows that sampled clause. This is not a finding about this place or its municipalities.",
+        "sources": [
+          {
+            "url": "https://leg.wa.gov/media/o3fg0ey1/washington-state-constitution.pdf",
+            "citation": "Article II, section 1(c)",
+            "reviewedAt": "2026-10-06"
+          }
+        ]
+      },
+      "ordinance": {
+        "protectionYears": 2,
+        "amendmentShareDuringProtection": {
+          "numerator": 2,
+          "denominator": 3,
+          "base": "all-elected-members-per-house"
+        },
+        "legislativeRepealDuringProtection": false,
+        "directVoterChangeAllowed": true,
+        "basis": "estimated-from-average",
+        "reason": "ESTIMATED FROM AVERAGE: median protection duration and amendment vote share from the one reviewed statewide citizen-law clause; repeal restriction follows that sampled clause. This is not a finding about this place or its municipalities.",
+        "sources": [
+          {
+            "url": "https://leg.wa.gov/media/o3fg0ey1/washington-state-constitution.pdf",
+            "citation": "Article II, section 1(c)",
+            "reviewedAt": "2026-10-06"
+          }
+        ]
+      }
+    },
+    "US-AK": {
+      "name": "Alaska",
+      "statute": {
+        "protectionYears": 2,
+        "amendmentShareDuringProtection": {
+          "numerator": 2,
+          "denominator": 3,
+          "base": "all-elected-members-per-house"
+        },
+        "legislativeRepealDuringProtection": false,
+        "directVoterChangeAllowed": true,
+        "basis": "estimated-from-average",
+        "reason": "ESTIMATED FROM AVERAGE: median protection duration and amendment vote share from the one reviewed statewide citizen-law clause; repeal restriction follows that sampled clause. This is not a finding about this place or its municipalities.",
+        "sources": [
+          {
+            "url": "https://leg.wa.gov/media/o3fg0ey1/washington-state-constitution.pdf",
+            "citation": "Article II, section 1(c)",
+            "reviewedAt": "2026-10-06"
+          }
+        ]
+      },
+      "ordinance": {
+        "protectionYears": 2,
+        "amendmentShareDuringProtection": {
+          "numerator": 2,
+          "denominator": 3,
+          "base": "all-elected-members-per-house"
+        },
+        "legislativeRepealDuringProtection": false,
+        "directVoterChangeAllowed": true,
+        "basis": "estimated-from-average",
+        "reason": "ESTIMATED FROM AVERAGE: median protection duration and amendment vote share from the one reviewed statewide citizen-law clause; repeal restriction follows that sampled clause. This is not a finding about this place or its municipalities.",
+        "sources": [
+          {
+            "url": "https://leg.wa.gov/media/o3fg0ey1/washington-state-constitution.pdf",
+            "citation": "Article II, section 1(c)",
+            "reviewedAt": "2026-10-06"
+          }
+        ]
+      }
+    },
+    "US-AZ": {
+      "name": "Arizona",
+      "statute": {
+        "protectionYears": 2,
+        "amendmentShareDuringProtection": {
+          "numerator": 2,
+          "denominator": 3,
+          "base": "all-elected-members-per-house"
+        },
+        "legislativeRepealDuringProtection": false,
+        "directVoterChangeAllowed": true,
+        "basis": "estimated-from-average",
+        "reason": "ESTIMATED FROM AVERAGE: median protection duration and amendment vote share from the one reviewed statewide citizen-law clause; repeal restriction follows that sampled clause. This is not a finding about this place or its municipalities.",
+        "sources": [
+          {
+            "url": "https://leg.wa.gov/media/o3fg0ey1/washington-state-constitution.pdf",
+            "citation": "Article II, section 1(c)",
+            "reviewedAt": "2026-10-06"
+          }
+        ]
+      },
+      "ordinance": {
+        "protectionYears": 2,
+        "amendmentShareDuringProtection": {
+          "numerator": 2,
+          "denominator": 3,
+          "base": "all-elected-members-per-house"
+        },
+        "legislativeRepealDuringProtection": false,
+        "directVoterChangeAllowed": true,
+        "basis": "estimated-from-average",
+        "reason": "ESTIMATED FROM AVERAGE: median protection duration and amendment vote share from the one reviewed statewide citizen-law clause; repeal restriction follows that sampled clause. This is not a finding about this place or its municipalities.",
+        "sources": [
+          {
+            "url": "https://leg.wa.gov/media/o3fg0ey1/washington-state-constitution.pdf",
+            "citation": "Article II, section 1(c)",
+            "reviewedAt": "2026-10-06"
+          }
+        ]
+      }
+    },
+    "US-AR": {
+      "name": "Arkansas",
+      "statute": {
+        "protectionYears": 2,
+        "amendmentShareDuringProtection": {
+          "numerator": 2,
+          "denominator": 3,
+          "base": "all-elected-members-per-house"
+        },
+        "legislativeRepealDuringProtection": false,
+        "directVoterChangeAllowed": true,
+        "basis": "estimated-from-average",
+        "reason": "ESTIMATED FROM AVERAGE: median protection duration and amendment vote share from the one reviewed statewide citizen-law clause; repeal restriction follows that sampled clause. This is not a finding about this place or its municipalities.",
+        "sources": [
+          {
+            "url": "https://leg.wa.gov/media/o3fg0ey1/washington-state-constitution.pdf",
+            "citation": "Article II, section 1(c)",
+            "reviewedAt": "2026-10-06"
+          }
+        ]
+      },
+      "ordinance": {
+        "protectionYears": 2,
+        "amendmentShareDuringProtection": {
+          "numerator": 2,
+          "denominator": 3,
+          "base": "all-elected-members-per-house"
+        },
+        "legislativeRepealDuringProtection": false,
+        "directVoterChangeAllowed": true,
+        "basis": "estimated-from-average",
+        "reason": "ESTIMATED FROM AVERAGE: median protection duration and amendment vote share from the one reviewed statewide citizen-law clause; repeal restriction follows that sampled clause. This is not a finding about this place or its municipalities.",
+        "sources": [
+          {
+            "url": "https://leg.wa.gov/media/o3fg0ey1/washington-state-constitution.pdf",
+            "citation": "Article II, section 1(c)",
+            "reviewedAt": "2026-10-06"
+          }
+        ]
+      }
+    },
+    "US-CA": {
+      "name": "California",
+      "statute": {
+        "protectionYears": 2,
+        "amendmentShareDuringProtection": {
+          "numerator": 2,
+          "denominator": 3,
+          "base": "all-elected-members-per-house"
+        },
+        "legislativeRepealDuringProtection": false,
+        "directVoterChangeAllowed": true,
+        "basis": "estimated-from-average",
+        "reason": "ESTIMATED FROM AVERAGE: median protection duration and amendment vote share from the one reviewed statewide citizen-law clause; repeal restriction follows that sampled clause. This is not a finding about this place or its municipalities.",
+        "sources": [
+          {
+            "url": "https://leg.wa.gov/media/o3fg0ey1/washington-state-constitution.pdf",
+            "citation": "Article II, section 1(c)",
+            "reviewedAt": "2026-10-06"
+          }
+        ]
+      },
+      "ordinance": {
+        "protectionYears": 2,
+        "amendmentShareDuringProtection": {
+          "numerator": 2,
+          "denominator": 3,
+          "base": "all-elected-members-per-house"
+        },
+        "legislativeRepealDuringProtection": false,
+        "directVoterChangeAllowed": true,
+        "basis": "estimated-from-average",
+        "reason": "ESTIMATED FROM AVERAGE: median protection duration and amendment vote share from the one reviewed statewide citizen-law clause; repeal restriction follows that sampled clause. This is not a finding about this place or its municipalities.",
+        "sources": [
+          {
+            "url": "https://leg.wa.gov/media/o3fg0ey1/washington-state-constitution.pdf",
+            "citation": "Article II, section 1(c)",
+            "reviewedAt": "2026-10-06"
+          }
+        ]
+      }
+    },
+    "US-CO": {
+      "name": "Colorado",
+      "statute": {
+        "protectionYears": 2,
+        "amendmentShareDuringProtection": {
+          "numerator": 2,
+          "denominator": 3,
+          "base": "all-elected-members-per-house"
+        },
+        "legislativeRepealDuringProtection": false,
+        "directVoterChangeAllowed": true,
+        "basis": "estimated-from-average",
+        "reason": "ESTIMATED FROM AVERAGE: median protection duration and amendment vote share from the one reviewed statewide citizen-law clause; repeal restriction follows that sampled clause. This is not a finding about this place or its municipalities.",
+        "sources": [
+          {
+            "url": "https://leg.wa.gov/media/o3fg0ey1/washington-state-constitution.pdf",
+            "citation": "Article II, section 1(c)",
+            "reviewedAt": "2026-10-06"
+          }
+        ]
+      },
+      "ordinance": {
+        "protectionYears": 2,
+        "amendmentShareDuringProtection": {
+          "numerator": 2,
+          "denominator": 3,
+          "base": "all-elected-members-per-house"
+        },
+        "legislativeRepealDuringProtection": false,
+        "directVoterChangeAllowed": true,
+        "basis": "estimated-from-average",
+        "reason": "ESTIMATED FROM AVERAGE: median protection duration and amendment vote share from the one reviewed statewide citizen-law clause; repeal restriction follows that sampled clause. This is not a finding about this place or its municipalities.",
+        "sources": [
+          {
+            "url": "https://leg.wa.gov/media/o3fg0ey1/washington-state-constitution.pdf",
+            "citation": "Article II, section 1(c)",
+            "reviewedAt": "2026-10-06"
+          }
+        ]
+      }
+    },
+    "US-CT": {
+      "name": "Connecticut",
+      "statute": {
+        "protectionYears": 2,
+        "amendmentShareDuringProtection": {
+          "numerator": 2,
+          "denominator": 3,
+          "base": "all-elected-members-per-house"
+        },
+        "legislativeRepealDuringProtection": false,
+        "directVoterChangeAllowed": true,
+        "basis": "estimated-from-average",
+        "reason": "ESTIMATED FROM AVERAGE: median protection duration and amendment vote share from the one reviewed statewide citizen-law clause; repeal restriction follows that sampled clause. This is not a finding about this place or its municipalities.",
+        "sources": [
+          {
+            "url": "https://leg.wa.gov/media/o3fg0ey1/washington-state-constitution.pdf",
+            "citation": "Article II, section 1(c)",
+            "reviewedAt": "2026-10-06"
+          }
+        ]
+      },
+      "ordinance": {
+        "protectionYears": 2,
+        "amendmentShareDuringProtection": {
+          "numerator": 2,
+          "denominator": 3,
+          "base": "all-elected-members-per-house"
+        },
+        "legislativeRepealDuringProtection": false,
+        "directVoterChangeAllowed": true,
+        "basis": "estimated-from-average",
+        "reason": "ESTIMATED FROM AVERAGE: median protection duration and amendment vote share from the one reviewed statewide citizen-law clause; repeal restriction follows that sampled clause. This is not a finding about this place or its municipalities.",
+        "sources": [
+          {
+            "url": "https://leg.wa.gov/media/o3fg0ey1/washington-state-constitution.pdf",
+            "citation": "Article II, section 1(c)",
+            "reviewedAt": "2026-10-06"
+          }
+        ]
+      }
+    },
+    "US-DE": {
+      "name": "Delaware",
+      "statute": {
+        "protectionYears": 2,
+        "amendmentShareDuringProtection": {
+          "numerator": 2,
+          "denominator": 3,
+          "base": "all-elected-members-per-house"
+        },
+        "legislativeRepealDuringProtection": false,
+        "directVoterChangeAllowed": true,
+        "basis": "estimated-from-average",
+        "reason": "ESTIMATED FROM AVERAGE: median protection duration and amendment vote share from the one reviewed statewide citizen-law clause; repeal restriction follows that sampled clause. This is not a finding about this place or its municipalities.",
+        "sources": [
+          {
+            "url": "https://leg.wa.gov/media/o3fg0ey1/washington-state-constitution.pdf",
+            "citation": "Article II, section 1(c)",
+            "reviewedAt": "2026-10-06"
+          }
+        ]
+      },
+      "ordinance": {
+        "protectionYears": 2,
+        "amendmentShareDuringProtection": {
+          "numerator": 2,
+          "denominator": 3,
+          "base": "all-elected-members-per-house"
+        },
+        "legislativeRepealDuringProtection": false,
+        "directVoterChangeAllowed": true,
+        "basis": "estimated-from-average",
+        "reason": "ESTIMATED FROM AVERAGE: median protection duration and amendment vote share from the one reviewed statewide citizen-law clause; repeal restriction follows that sampled clause. This is not a finding about this place or its municipalities.",
+        "sources": [
+          {
+            "url": "https://leg.wa.gov/media/o3fg0ey1/washington-state-constitution.pdf",
+            "citation": "Article II, section 1(c)",
+            "reviewedAt": "2026-10-06"
+          }
+        ]
+      }
+    },
+    "US-DC": {
+      "name": "District of Columbia",
+      "statute": {
+        "protectionYears": 2,
+        "amendmentShareDuringProtection": {
+          "numerator": 2,
+          "denominator": 3,
+          "base": "all-elected-members-per-house"
+        },
+        "legislativeRepealDuringProtection": false,
+        "directVoterChangeAllowed": true,
+        "basis": "estimated-from-average",
+        "reason": "ESTIMATED FROM AVERAGE: median protection duration and amendment vote share from the one reviewed statewide citizen-law clause; repeal restriction follows that sampled clause. This is not a finding about this place or its municipalities.",
+        "sources": [
+          {
+            "url": "https://leg.wa.gov/media/o3fg0ey1/washington-state-constitution.pdf",
+            "citation": "Article II, section 1(c)",
+            "reviewedAt": "2026-10-06"
+          }
+        ]
+      },
+      "ordinance": {
+        "protectionYears": 2,
+        "amendmentShareDuringProtection": {
+          "numerator": 2,
+          "denominator": 3,
+          "base": "all-elected-members-per-house"
+        },
+        "legislativeRepealDuringProtection": false,
+        "directVoterChangeAllowed": true,
+        "basis": "estimated-from-average",
+        "reason": "ESTIMATED FROM AVERAGE: median protection duration and amendment vote share from the one reviewed statewide citizen-law clause; repeal restriction follows that sampled clause. This is not a finding about this place or its municipalities.",
+        "sources": [
+          {
+            "url": "https://leg.wa.gov/media/o3fg0ey1/washington-state-constitution.pdf",
+            "citation": "Article II, section 1(c)",
+            "reviewedAt": "2026-10-06"
+          }
+        ]
+      }
+    },
+    "US-FL": {
+      "name": "Florida",
+      "statute": {
+        "protectionYears": 2,
+        "amendmentShareDuringProtection": {
+          "numerator": 2,
+          "denominator": 3,
+          "base": "all-elected-members-per-house"
+        },
+        "legislativeRepealDuringProtection": false,
+        "directVoterChangeAllowed": true,
+        "basis": "estimated-from-average",
+        "reason": "ESTIMATED FROM AVERAGE: median protection duration and amendment vote share from the one reviewed statewide citizen-law clause; repeal restriction follows that sampled clause. This is not a finding about this place or its municipalities.",
+        "sources": [
+          {
+            "url": "https://leg.wa.gov/media/o3fg0ey1/washington-state-constitution.pdf",
+            "citation": "Article II, section 1(c)",
+            "reviewedAt": "2026-10-06"
+          }
+        ]
+      },
+      "ordinance": {
+        "protectionYears": 2,
+        "amendmentShareDuringProtection": {
+          "numerator": 2,
+          "denominator": 3,
+          "base": "all-elected-members-per-house"
+        },
+        "legislativeRepealDuringProtection": false,
+        "directVoterChangeAllowed": true,
+        "basis": "estimated-from-average",
+        "reason": "ESTIMATED FROM AVERAGE: median protection duration and amendment vote share from the one reviewed statewide citizen-law clause; repeal restriction follows that sampled clause. This is not a finding about this place or its municipalities.",
+        "sources": [
+          {
+            "url": "https://leg.wa.gov/media/o3fg0ey1/washington-state-constitution.pdf",
+            "citation": "Article II, section 1(c)",
+            "reviewedAt": "2026-10-06"
+          }
+        ]
+      }
+    },
+    "US-GA": {
+      "name": "Georgia",
+      "statute": {
+        "protectionYears": 2,
+        "amendmentShareDuringProtection": {
+          "numerator": 2,
+          "denominator": 3,
+          "base": "all-elected-members-per-house"
+        },
+        "legislativeRepealDuringProtection": false,
+        "directVoterChangeAllowed": true,
+        "basis": "estimated-from-average",
+        "reason": "ESTIMATED FROM AVERAGE: median protection duration and amendment vote share from the one reviewed statewide citizen-law clause; repeal restriction follows that sampled clause. This is not a finding about this place or its municipalities.",
+        "sources": [
+          {
+            "url": "https://leg.wa.gov/media/o3fg0ey1/washington-state-constitution.pdf",
+            "citation": "Article II, section 1(c)",
+            "reviewedAt": "2026-10-06"
+          }
+        ]
+      },
+      "ordinance": {
+        "protectionYears": 2,
+        "amendmentShareDuringProtection": {
+          "numerator": 2,
+          "denominator": 3,
+          "base": "all-elected-members-per-house"
+        },
+        "legislativeRepealDuringProtection": false,
+        "directVoterChangeAllowed": true,
+        "basis": "estimated-from-average",
+        "reason": "ESTIMATED FROM AVERAGE: median protection duration and amendment vote share from the one reviewed statewide citizen-law clause; repeal restriction follows that sampled clause. This is not a finding about this place or its municipalities.",
+        "sources": [
+          {
+            "url": "https://leg.wa.gov/media/o3fg0ey1/washington-state-constitution.pdf",
+            "citation": "Article II, section 1(c)",
+            "reviewedAt": "2026-10-06"
+          }
+        ]
+      }
+    },
+    "US-HI": {
+      "name": "Hawaii",
+      "statute": {
+        "protectionYears": 2,
+        "amendmentShareDuringProtection": {
+          "numerator": 2,
+          "denominator": 3,
+          "base": "all-elected-members-per-house"
+        },
+        "legislativeRepealDuringProtection": false,
+        "directVoterChangeAllowed": true,
+        "basis": "estimated-from-average",
+        "reason": "ESTIMATED FROM AVERAGE: median protection duration and amendment vote share from the one reviewed statewide citizen-law clause; repeal restriction follows that sampled clause. This is not a finding about this place or its municipalities.",
+        "sources": [
+          {
+            "url": "https://leg.wa.gov/media/o3fg0ey1/washington-state-constitution.pdf",
+            "citation": "Article II, section 1(c)",
+            "reviewedAt": "2026-10-06"
+          }
+        ]
+      },
+      "ordinance": {
+        "protectionYears": 2,
+        "amendmentShareDuringProtection": {
+          "numerator": 2,
+          "denominator": 3,
+          "base": "all-elected-members-per-house"
+        },
+        "legislativeRepealDuringProtection": false,
+        "directVoterChangeAllowed": true,
+        "basis": "estimated-from-average",
+        "reason": "ESTIMATED FROM AVERAGE: median protection duration and amendment vote share from the one reviewed statewide citizen-law clause; repeal restriction follows that sampled clause. This is not a finding about this place or its municipalities.",
+        "sources": [
+          {
+            "url": "https://leg.wa.gov/media/o3fg0ey1/washington-state-constitution.pdf",
+            "citation": "Article II, section 1(c)",
+            "reviewedAt": "2026-10-06"
+          }
+        ]
+      }
+    },
+    "US-ID": {
+      "name": "Idaho",
+      "statute": {
+        "protectionYears": 2,
+        "amendmentShareDuringProtection": {
+          "numerator": 2,
+          "denominator": 3,
+          "base": "all-elected-members-per-house"
+        },
+        "legislativeRepealDuringProtection": false,
+        "directVoterChangeAllowed": true,
+        "basis": "estimated-from-average",
+        "reason": "ESTIMATED FROM AVERAGE: median protection duration and amendment vote share from the one reviewed statewide citizen-law clause; repeal restriction follows that sampled clause. This is not a finding about this place or its municipalities.",
+        "sources": [
+          {
+            "url": "https://leg.wa.gov/media/o3fg0ey1/washington-state-constitution.pdf",
+            "citation": "Article II, section 1(c)",
+            "reviewedAt": "2026-10-06"
+          }
+        ]
+      },
+      "ordinance": {
+        "protectionYears": 2,
+        "amendmentShareDuringProtection": {
+          "numerator": 2,
+          "denominator": 3,
+          "base": "all-elected-members-per-house"
+        },
+        "legislativeRepealDuringProtection": false,
+        "directVoterChangeAllowed": true,
+        "basis": "estimated-from-average",
+        "reason": "ESTIMATED FROM AVERAGE: median protection duration and amendment vote share from the one reviewed statewide citizen-law clause; repeal restriction follows that sampled clause. This is not a finding about this place or its municipalities.",
+        "sources": [
+          {
+            "url": "https://leg.wa.gov/media/o3fg0ey1/washington-state-constitution.pdf",
+            "citation": "Article II, section 1(c)",
+            "reviewedAt": "2026-10-06"
+          }
+        ]
+      }
+    },
+    "US-IL": {
+      "name": "Illinois",
+      "statute": {
+        "protectionYears": 2,
+        "amendmentShareDuringProtection": {
+          "numerator": 2,
+          "denominator": 3,
+          "base": "all-elected-members-per-house"
+        },
+        "legislativeRepealDuringProtection": false,
+        "directVoterChangeAllowed": true,
+        "basis": "estimated-from-average",
+        "reason": "ESTIMATED FROM AVERAGE: median protection duration and amendment vote share from the one reviewed statewide citizen-law clause; repeal restriction follows that sampled clause. This is not a finding about this place or its municipalities.",
+        "sources": [
+          {
+            "url": "https://leg.wa.gov/media/o3fg0ey1/washington-state-constitution.pdf",
+            "citation": "Article II, section 1(c)",
+            "reviewedAt": "2026-10-06"
+          }
+        ]
+      },
+      "ordinance": {
+        "protectionYears": 2,
+        "amendmentShareDuringProtection": {
+          "numerator": 2,
+          "denominator": 3,
+          "base": "all-elected-members-per-house"
+        },
+        "legislativeRepealDuringProtection": false,
+        "directVoterChangeAllowed": true,
+        "basis": "estimated-from-average",
+        "reason": "ESTIMATED FROM AVERAGE: median protection duration and amendment vote share from the one reviewed statewide citizen-law clause; repeal restriction follows that sampled clause. This is not a finding about this place or its municipalities.",
+        "sources": [
+          {
+            "url": "https://leg.wa.gov/media/o3fg0ey1/washington-state-constitution.pdf",
+            "citation": "Article II, section 1(c)",
+            "reviewedAt": "2026-10-06"
+          }
+        ]
+      }
+    },
+    "US-IN": {
+      "name": "Indiana",
+      "statute": {
+        "protectionYears": 2,
+        "amendmentShareDuringProtection": {
+          "numerator": 2,
+          "denominator": 3,
+          "base": "all-elected-members-per-house"
+        },
+        "legislativeRepealDuringProtection": false,
+        "directVoterChangeAllowed": true,
+        "basis": "estimated-from-average",
+        "reason": "ESTIMATED FROM AVERAGE: median protection duration and amendment vote share from the one reviewed statewide citizen-law clause; repeal restriction follows that sampled clause. This is not a finding about this place or its municipalities.",
+        "sources": [
+          {
+            "url": "https://leg.wa.gov/media/o3fg0ey1/washington-state-constitution.pdf",
+            "citation": "Article II, section 1(c)",
+            "reviewedAt": "2026-10-06"
+          }
+        ]
+      },
+      "ordinance": {
+        "protectionYears": 2,
+        "amendmentShareDuringProtection": {
+          "numerator": 2,
+          "denominator": 3,
+          "base": "all-elected-members-per-house"
+        },
+        "legislativeRepealDuringProtection": false,
+        "directVoterChangeAllowed": true,
+        "basis": "estimated-from-average",
+        "reason": "ESTIMATED FROM AVERAGE: median protection duration and amendment vote share from the one reviewed statewide citizen-law clause; repeal restriction follows that sampled clause. This is not a finding about this place or its municipalities.",
+        "sources": [
+          {
+            "url": "https://leg.wa.gov/media/o3fg0ey1/washington-state-constitution.pdf",
+            "citation": "Article II, section 1(c)",
+            "reviewedAt": "2026-10-06"
+          }
+        ]
+      }
+    },
+    "US-IA": {
+      "name": "Iowa",
+      "statute": {
+        "protectionYears": 2,
+        "amendmentShareDuringProtection": {
+          "numerator": 2,
+          "denominator": 3,
+          "base": "all-elected-members-per-house"
+        },
+        "legislativeRepealDuringProtection": false,
+        "directVoterChangeAllowed": true,
+        "basis": "estimated-from-average",
+        "reason": "ESTIMATED FROM AVERAGE: median protection duration and amendment vote share from the one reviewed statewide citizen-law clause; repeal restriction follows that sampled clause. This is not a finding about this place or its municipalities.",
+        "sources": [
+          {
+            "url": "https://leg.wa.gov/media/o3fg0ey1/washington-state-constitution.pdf",
+            "citation": "Article II, section 1(c)",
+            "reviewedAt": "2026-10-06"
+          }
+        ]
+      },
+      "ordinance": {
+        "protectionYears": 2,
+        "amendmentShareDuringProtection": {
+          "numerator": 2,
+          "denominator": 3,
+          "base": "all-elected-members-per-house"
+        },
+        "legislativeRepealDuringProtection": false,
+        "directVoterChangeAllowed": true,
+        "basis": "estimated-from-average",
+        "reason": "ESTIMATED FROM AVERAGE: median protection duration and amendment vote share from the one reviewed statewide citizen-law clause; repeal restriction follows that sampled clause. This is not a finding about this place or its municipalities.",
+        "sources": [
+          {
+            "url": "https://leg.wa.gov/media/o3fg0ey1/washington-state-constitution.pdf",
+            "citation": "Article II, section 1(c)",
+            "reviewedAt": "2026-10-06"
+          }
+        ]
+      }
+    },
+    "US-KS": {
+      "name": "Kansas",
+      "statute": {
+        "protectionYears": 2,
+        "amendmentShareDuringProtection": {
+          "numerator": 2,
+          "denominator": 3,
+          "base": "all-elected-members-per-house"
+        },
+        "legislativeRepealDuringProtection": false,
+        "directVoterChangeAllowed": true,
+        "basis": "estimated-from-average",
+        "reason": "ESTIMATED FROM AVERAGE: median protection duration and amendment vote share from the one reviewed statewide citizen-law clause; repeal restriction follows that sampled clause. This is not a finding about this place or its municipalities.",
+        "sources": [
+          {
+            "url": "https://leg.wa.gov/media/o3fg0ey1/washington-state-constitution.pdf",
+            "citation": "Article II, section 1(c)",
+            "reviewedAt": "2026-10-06"
+          }
+        ]
+      },
+      "ordinance": {
+        "protectionYears": 2,
+        "amendmentShareDuringProtection": {
+          "numerator": 2,
+          "denominator": 3,
+          "base": "all-elected-members-per-house"
+        },
+        "legislativeRepealDuringProtection": false,
+        "directVoterChangeAllowed": true,
+        "basis": "estimated-from-average",
+        "reason": "ESTIMATED FROM AVERAGE: median protection duration and amendment vote share from the one reviewed statewide citizen-law clause; repeal restriction follows that sampled clause. This is not a finding about this place or its municipalities.",
+        "sources": [
+          {
+            "url": "https://leg.wa.gov/media/o3fg0ey1/washington-state-constitution.pdf",
+            "citation": "Article II, section 1(c)",
+            "reviewedAt": "2026-10-06"
+          }
+        ]
+      }
+    },
+    "US-KY": {
+      "name": "Kentucky",
+      "statute": {
+        "protectionYears": 2,
+        "amendmentShareDuringProtection": {
+          "numerator": 2,
+          "denominator": 3,
+          "base": "all-elected-members-per-house"
+        },
+        "legislativeRepealDuringProtection": false,
+        "directVoterChangeAllowed": true,
+        "basis": "estimated-from-average",
+        "reason": "ESTIMATED FROM AVERAGE: median protection duration and amendment vote share from the one reviewed statewide citizen-law clause; repeal restriction follows that sampled clause. This is not a finding about this place or its municipalities.",
+        "sources": [
+          {
+            "url": "https://leg.wa.gov/media/o3fg0ey1/washington-state-constitution.pdf",
+            "citation": "Article II, section 1(c)",
+            "reviewedAt": "2026-10-06"
+          }
+        ]
+      },
+      "ordinance": {
+        "protectionYears": 2,
+        "amendmentShareDuringProtection": {
+          "numerator": 2,
+          "denominator": 3,
+          "base": "all-elected-members-per-house"
+        },
+        "legislativeRepealDuringProtection": false,
+        "directVoterChangeAllowed": true,
+        "basis": "estimated-from-average",
+        "reason": "ESTIMATED FROM AVERAGE: median protection duration and amendment vote share from the one reviewed statewide citizen-law clause; repeal restriction follows that sampled clause. This is not a finding about this place or its municipalities.",
+        "sources": [
+          {
+            "url": "https://leg.wa.gov/media/o3fg0ey1/washington-state-constitution.pdf",
+            "citation": "Article II, section 1(c)",
+            "reviewedAt": "2026-10-06"
+          }
+        ]
+      }
+    },
+    "US-LA": {
+      "name": "Louisiana",
+      "statute": {
+        "protectionYears": 2,
+        "amendmentShareDuringProtection": {
+          "numerator": 2,
+          "denominator": 3,
+          "base": "all-elected-members-per-house"
+        },
+        "legislativeRepealDuringProtection": false,
+        "directVoterChangeAllowed": true,
+        "basis": "estimated-from-average",
+        "reason": "ESTIMATED FROM AVERAGE: median protection duration and amendment vote share from the one reviewed statewide citizen-law clause; repeal restriction follows that sampled clause. This is not a finding about this place or its municipalities.",
+        "sources": [
+          {
+            "url": "https://leg.wa.gov/media/o3fg0ey1/washington-state-constitution.pdf",
+            "citation": "Article II, section 1(c)",
+            "reviewedAt": "2026-10-06"
+          }
+        ]
+      },
+      "ordinance": {
+        "protectionYears": 2,
+        "amendmentShareDuringProtection": {
+          "numerator": 2,
+          "denominator": 3,
+          "base": "all-elected-members-per-house"
+        },
+        "legislativeRepealDuringProtection": false,
+        "directVoterChangeAllowed": true,
+        "basis": "estimated-from-average",
+        "reason": "ESTIMATED FROM AVERAGE: median protection duration and amendment vote share from the one reviewed statewide citizen-law clause; repeal restriction follows that sampled clause. This is not a finding about this place or its municipalities.",
+        "sources": [
+          {
+            "url": "https://leg.wa.gov/media/o3fg0ey1/washington-state-constitution.pdf",
+            "citation": "Article II, section 1(c)",
+            "reviewedAt": "2026-10-06"
+          }
+        ]
+      }
+    },
+    "US-ME": {
+      "name": "Maine",
+      "statute": {
+        "protectionYears": 2,
+        "amendmentShareDuringProtection": {
+          "numerator": 2,
+          "denominator": 3,
+          "base": "all-elected-members-per-house"
+        },
+        "legislativeRepealDuringProtection": false,
+        "directVoterChangeAllowed": true,
+        "basis": "estimated-from-average",
+        "reason": "ESTIMATED FROM AVERAGE: median protection duration and amendment vote share from the one reviewed statewide citizen-law clause; repeal restriction follows that sampled clause. This is not a finding about this place or its municipalities.",
+        "sources": [
+          {
+            "url": "https://leg.wa.gov/media/o3fg0ey1/washington-state-constitution.pdf",
+            "citation": "Article II, section 1(c)",
+            "reviewedAt": "2026-10-06"
+          }
+        ]
+      },
+      "ordinance": {
+        "protectionYears": 2,
+        "amendmentShareDuringProtection": {
+          "numerator": 2,
+          "denominator": 3,
+          "base": "all-elected-members-per-house"
+        },
+        "legislativeRepealDuringProtection": false,
+        "directVoterChangeAllowed": true,
+        "basis": "estimated-from-average",
+        "reason": "ESTIMATED FROM AVERAGE: median protection duration and amendment vote share from the one reviewed statewide citizen-law clause; repeal restriction follows that sampled clause. This is not a finding about this place or its municipalities.",
+        "sources": [
+          {
+            "url": "https://leg.wa.gov/media/o3fg0ey1/washington-state-constitution.pdf",
+            "citation": "Article II, section 1(c)",
+            "reviewedAt": "2026-10-06"
+          }
+        ]
+      }
+    },
+    "US-MD": {
+      "name": "Maryland",
+      "statute": {
+        "protectionYears": 2,
+        "amendmentShareDuringProtection": {
+          "numerator": 2,
+          "denominator": 3,
+          "base": "all-elected-members-per-house"
+        },
+        "legislativeRepealDuringProtection": false,
+        "directVoterChangeAllowed": true,
+        "basis": "estimated-from-average",
+        "reason": "ESTIMATED FROM AVERAGE: median protection duration and amendment vote share from the one reviewed statewide citizen-law clause; repeal restriction follows that sampled clause. This is not a finding about this place or its municipalities.",
+        "sources": [
+          {
+            "url": "https://leg.wa.gov/media/o3fg0ey1/washington-state-constitution.pdf",
+            "citation": "Article II, section 1(c)",
+            "reviewedAt": "2026-10-06"
+          }
+        ]
+      },
+      "ordinance": {
+        "protectionYears": 2,
+        "amendmentShareDuringProtection": {
+          "numerator": 2,
+          "denominator": 3,
+          "base": "all-elected-members-per-house"
+        },
+        "legislativeRepealDuringProtection": false,
+        "directVoterChangeAllowed": true,
+        "basis": "estimated-from-average",
+        "reason": "ESTIMATED FROM AVERAGE: median protection duration and amendment vote share from the one reviewed statewide citizen-law clause; repeal restriction follows that sampled clause. This is not a finding about this place or its municipalities.",
+        "sources": [
+          {
+            "url": "https://leg.wa.gov/media/o3fg0ey1/washington-state-constitution.pdf",
+            "citation": "Article II, section 1(c)",
+            "reviewedAt": "2026-10-06"
+          }
+        ]
+      }
+    },
+    "US-MA": {
+      "name": "Massachusetts",
+      "statute": {
+        "protectionYears": 2,
+        "amendmentShareDuringProtection": {
+          "numerator": 2,
+          "denominator": 3,
+          "base": "all-elected-members-per-house"
+        },
+        "legislativeRepealDuringProtection": false,
+        "directVoterChangeAllowed": true,
+        "basis": "estimated-from-average",
+        "reason": "ESTIMATED FROM AVERAGE: median protection duration and amendment vote share from the one reviewed statewide citizen-law clause; repeal restriction follows that sampled clause. This is not a finding about this place or its municipalities.",
+        "sources": [
+          {
+            "url": "https://leg.wa.gov/media/o3fg0ey1/washington-state-constitution.pdf",
+            "citation": "Article II, section 1(c)",
+            "reviewedAt": "2026-10-06"
+          }
+        ]
+      },
+      "ordinance": {
+        "protectionYears": 2,
+        "amendmentShareDuringProtection": {
+          "numerator": 2,
+          "denominator": 3,
+          "base": "all-elected-members-per-house"
+        },
+        "legislativeRepealDuringProtection": false,
+        "directVoterChangeAllowed": true,
+        "basis": "estimated-from-average",
+        "reason": "ESTIMATED FROM AVERAGE: median protection duration and amendment vote share from the one reviewed statewide citizen-law clause; repeal restriction follows that sampled clause. This is not a finding about this place or its municipalities.",
+        "sources": [
+          {
+            "url": "https://leg.wa.gov/media/o3fg0ey1/washington-state-constitution.pdf",
+            "citation": "Article II, section 1(c)",
+            "reviewedAt": "2026-10-06"
+          }
+        ]
+      }
+    },
+    "US-MI": {
+      "name": "Michigan",
+      "statute": {
+        "protectionYears": 2,
+        "amendmentShareDuringProtection": {
+          "numerator": 2,
+          "denominator": 3,
+          "base": "all-elected-members-per-house"
+        },
+        "legislativeRepealDuringProtection": false,
+        "directVoterChangeAllowed": true,
+        "basis": "estimated-from-average",
+        "reason": "ESTIMATED FROM AVERAGE: median protection duration and amendment vote share from the one reviewed statewide citizen-law clause; repeal restriction follows that sampled clause. This is not a finding about this place or its municipalities.",
+        "sources": [
+          {
+            "url": "https://leg.wa.gov/media/o3fg0ey1/washington-state-constitution.pdf",
+            "citation": "Article II, section 1(c)",
+            "reviewedAt": "2026-10-06"
+          }
+        ]
+      },
+      "ordinance": {
+        "protectionYears": 2,
+        "amendmentShareDuringProtection": {
+          "numerator": 2,
+          "denominator": 3,
+          "base": "all-elected-members-per-house"
+        },
+        "legislativeRepealDuringProtection": false,
+        "directVoterChangeAllowed": true,
+        "basis": "estimated-from-average",
+        "reason": "ESTIMATED FROM AVERAGE: median protection duration and amendment vote share from the one reviewed statewide citizen-law clause; repeal restriction follows that sampled clause. This is not a finding about this place or its municipalities.",
+        "sources": [
+          {
+            "url": "https://leg.wa.gov/media/o3fg0ey1/washington-state-constitution.pdf",
+            "citation": "Article II, section 1(c)",
+            "reviewedAt": "2026-10-06"
+          }
+        ]
+      }
+    },
+    "US-MN": {
+      "name": "Minnesota",
+      "statute": {
+        "protectionYears": 2,
+        "amendmentShareDuringProtection": {
+          "numerator": 2,
+          "denominator": 3,
+          "base": "all-elected-members-per-house"
+        },
+        "legislativeRepealDuringProtection": false,
+        "directVoterChangeAllowed": true,
+        "basis": "estimated-from-average",
+        "reason": "ESTIMATED FROM AVERAGE: median protection duration and amendment vote share from the one reviewed statewide citizen-law clause; repeal restriction follows that sampled clause. This is not a finding about this place or its municipalities.",
+        "sources": [
+          {
+            "url": "https://leg.wa.gov/media/o3fg0ey1/washington-state-constitution.pdf",
+            "citation": "Article II, section 1(c)",
+            "reviewedAt": "2026-10-06"
+          }
+        ]
+      },
+      "ordinance": {
+        "protectionYears": 2,
+        "amendmentShareDuringProtection": {
+          "numerator": 2,
+          "denominator": 3,
+          "base": "all-elected-members-per-house"
+        },
+        "legislativeRepealDuringProtection": false,
+        "directVoterChangeAllowed": true,
+        "basis": "estimated-from-average",
+        "reason": "ESTIMATED FROM AVERAGE: median protection duration and amendment vote share from the one reviewed statewide citizen-law clause; repeal restriction follows that sampled clause. This is not a finding about this place or its municipalities.",
+        "sources": [
+          {
+            "url": "https://leg.wa.gov/media/o3fg0ey1/washington-state-constitution.pdf",
+            "citation": "Article II, section 1(c)",
+            "reviewedAt": "2026-10-06"
+          }
+        ]
+      }
+    },
+    "US-MS": {
+      "name": "Mississippi",
+      "statute": {
+        "protectionYears": 2,
+        "amendmentShareDuringProtection": {
+          "numerator": 2,
+          "denominator": 3,
+          "base": "all-elected-members-per-house"
+        },
+        "legislativeRepealDuringProtection": false,
+        "directVoterChangeAllowed": true,
+        "basis": "estimated-from-average",
+        "reason": "ESTIMATED FROM AVERAGE: median protection duration and amendment vote share from the one reviewed statewide citizen-law clause; repeal restriction follows that sampled clause. This is not a finding about this place or its municipalities.",
+        "sources": [
+          {
+            "url": "https://leg.wa.gov/media/o3fg0ey1/washington-state-constitution.pdf",
+            "citation": "Article II, section 1(c)",
+            "reviewedAt": "2026-10-06"
+          }
+        ]
+      },
+      "ordinance": {
+        "protectionYears": 2,
+        "amendmentShareDuringProtection": {
+          "numerator": 2,
+          "denominator": 3,
+          "base": "all-elected-members-per-house"
+        },
+        "legislativeRepealDuringProtection": false,
+        "directVoterChangeAllowed": true,
+        "basis": "estimated-from-average",
+        "reason": "ESTIMATED FROM AVERAGE: median protection duration and amendment vote share from the one reviewed statewide citizen-law clause; repeal restriction follows that sampled clause. This is not a finding about this place or its municipalities.",
+        "sources": [
+          {
+            "url": "https://leg.wa.gov/media/o3fg0ey1/washington-state-constitution.pdf",
+            "citation": "Article II, section 1(c)",
+            "reviewedAt": "2026-10-06"
+          }
+        ]
+      }
+    },
+    "US-MO": {
+      "name": "Missouri",
+      "statute": {
+        "protectionYears": 2,
+        "amendmentShareDuringProtection": {
+          "numerator": 2,
+          "denominator": 3,
+          "base": "all-elected-members-per-house"
+        },
+        "legislativeRepealDuringProtection": false,
+        "directVoterChangeAllowed": true,
+        "basis": "estimated-from-average",
+        "reason": "ESTIMATED FROM AVERAGE: median protection duration and amendment vote share from the one reviewed statewide citizen-law clause; repeal restriction follows that sampled clause. This is not a finding about this place or its municipalities.",
+        "sources": [
+          {
+            "url": "https://leg.wa.gov/media/o3fg0ey1/washington-state-constitution.pdf",
+            "citation": "Article II, section 1(c)",
+            "reviewedAt": "2026-10-06"
+          }
+        ]
+      },
+      "ordinance": {
+        "protectionYears": 2,
+        "amendmentShareDuringProtection": {
+          "numerator": 2,
+          "denominator": 3,
+          "base": "all-elected-members-per-house"
+        },
+        "legislativeRepealDuringProtection": false,
+        "directVoterChangeAllowed": true,
+        "basis": "estimated-from-average",
+        "reason": "ESTIMATED FROM AVERAGE: median protection duration and amendment vote share from the one reviewed statewide citizen-law clause; repeal restriction follows that sampled clause. This is not a finding about this place or its municipalities.",
+        "sources": [
+          {
+            "url": "https://leg.wa.gov/media/o3fg0ey1/washington-state-constitution.pdf",
+            "citation": "Article II, section 1(c)",
+            "reviewedAt": "2026-10-06"
+          }
+        ]
+      }
+    },
+    "US-MT": {
+      "name": "Montana",
+      "statute": {
+        "protectionYears": 2,
+        "amendmentShareDuringProtection": {
+          "numerator": 2,
+          "denominator": 3,
+          "base": "all-elected-members-per-house"
+        },
+        "legislativeRepealDuringProtection": false,
+        "directVoterChangeAllowed": true,
+        "basis": "estimated-from-average",
+        "reason": "ESTIMATED FROM AVERAGE: median protection duration and amendment vote share from the one reviewed statewide citizen-law clause; repeal restriction follows that sampled clause. This is not a finding about this place or its municipalities.",
+        "sources": [
+          {
+            "url": "https://leg.wa.gov/media/o3fg0ey1/washington-state-constitution.pdf",
+            "citation": "Article II, section 1(c)",
+            "reviewedAt": "2026-10-06"
+          }
+        ]
+      },
+      "ordinance": {
+        "protectionYears": 2,
+        "amendmentShareDuringProtection": {
+          "numerator": 2,
+          "denominator": 3,
+          "base": "all-elected-members-per-house"
+        },
+        "legislativeRepealDuringProtection": false,
+        "directVoterChangeAllowed": true,
+        "basis": "estimated-from-average",
+        "reason": "ESTIMATED FROM AVERAGE: median protection duration and amendment vote share from the one reviewed statewide citizen-law clause; repeal restriction follows that sampled clause. This is not a finding about this place or its municipalities.",
+        "sources": [
+          {
+            "url": "https://leg.wa.gov/media/o3fg0ey1/washington-state-constitution.pdf",
+            "citation": "Article II, section 1(c)",
+            "reviewedAt": "2026-10-06"
+          }
+        ]
+      }
+    },
+    "US-NE": {
+      "name": "Nebraska",
+      "statute": {
+        "protectionYears": 2,
+        "amendmentShareDuringProtection": {
+          "numerator": 2,
+          "denominator": 3,
+          "base": "all-elected-members-per-house"
+        },
+        "legislativeRepealDuringProtection": false,
+        "directVoterChangeAllowed": true,
+        "basis": "estimated-from-average",
+        "reason": "ESTIMATED FROM AVERAGE: median protection duration and amendment vote share from the one reviewed statewide citizen-law clause; repeal restriction follows that sampled clause. This is not a finding about this place or its municipalities.",
+        "sources": [
+          {
+            "url": "https://leg.wa.gov/media/o3fg0ey1/washington-state-constitution.pdf",
+            "citation": "Article II, section 1(c)",
+            "reviewedAt": "2026-10-06"
+          }
+        ]
+      },
+      "ordinance": {
+        "protectionYears": 2,
+        "amendmentShareDuringProtection": {
+          "numerator": 2,
+          "denominator": 3,
+          "base": "all-elected-members-per-house"
+        },
+        "legislativeRepealDuringProtection": false,
+        "directVoterChangeAllowed": true,
+        "basis": "estimated-from-average",
+        "reason": "ESTIMATED FROM AVERAGE: median protection duration and amendment vote share from the one reviewed statewide citizen-law clause; repeal restriction follows that sampled clause. This is not a finding about this place or its municipalities.",
+        "sources": [
+          {
+            "url": "https://leg.wa.gov/media/o3fg0ey1/washington-state-constitution.pdf",
+            "citation": "Article II, section 1(c)",
+            "reviewedAt": "2026-10-06"
+          }
+        ]
+      }
+    },
+    "US-NV": {
+      "name": "Nevada",
+      "statute": {
+        "protectionYears": 2,
+        "amendmentShareDuringProtection": {
+          "numerator": 2,
+          "denominator": 3,
+          "base": "all-elected-members-per-house"
+        },
+        "legislativeRepealDuringProtection": false,
+        "directVoterChangeAllowed": true,
+        "basis": "estimated-from-average",
+        "reason": "ESTIMATED FROM AVERAGE: median protection duration and amendment vote share from the one reviewed statewide citizen-law clause; repeal restriction follows that sampled clause. This is not a finding about this place or its municipalities.",
+        "sources": [
+          {
+            "url": "https://leg.wa.gov/media/o3fg0ey1/washington-state-constitution.pdf",
+            "citation": "Article II, section 1(c)",
+            "reviewedAt": "2026-10-06"
+          }
+        ]
+      },
+      "ordinance": {
+        "protectionYears": 2,
+        "amendmentShareDuringProtection": {
+          "numerator": 2,
+          "denominator": 3,
+          "base": "all-elected-members-per-house"
+        },
+        "legislativeRepealDuringProtection": false,
+        "directVoterChangeAllowed": true,
+        "basis": "estimated-from-average",
+        "reason": "ESTIMATED FROM AVERAGE: median protection duration and amendment vote share from the one reviewed statewide citizen-law clause; repeal restriction follows that sampled clause. This is not a finding about this place or its municipalities.",
+        "sources": [
+          {
+            "url": "https://leg.wa.gov/media/o3fg0ey1/washington-state-constitution.pdf",
+            "citation": "Article II, section 1(c)",
+            "reviewedAt": "2026-10-06"
+          }
+        ]
+      }
+    },
+    "US-NH": {
+      "name": "New Hampshire",
+      "statute": {
+        "protectionYears": 2,
+        "amendmentShareDuringProtection": {
+          "numerator": 2,
+          "denominator": 3,
+          "base": "all-elected-members-per-house"
+        },
+        "legislativeRepealDuringProtection": false,
+        "directVoterChangeAllowed": true,
+        "basis": "estimated-from-average",
+        "reason": "ESTIMATED FROM AVERAGE: median protection duration and amendment vote share from the one reviewed statewide citizen-law clause; repeal restriction follows that sampled clause. This is not a finding about this place or its municipalities.",
+        "sources": [
+          {
+            "url": "https://leg.wa.gov/media/o3fg0ey1/washington-state-constitution.pdf",
+            "citation": "Article II, section 1(c)",
+            "reviewedAt": "2026-10-06"
+          }
+        ]
+      },
+      "ordinance": {
+        "protectionYears": 2,
+        "amendmentShareDuringProtection": {
+          "numerator": 2,
+          "denominator": 3,
+          "base": "all-elected-members-per-house"
+        },
+        "legislativeRepealDuringProtection": false,
+        "directVoterChangeAllowed": true,
+        "basis": "estimated-from-average",
+        "reason": "ESTIMATED FROM AVERAGE: median protection duration and amendment vote share from the one reviewed statewide citizen-law clause; repeal restriction follows that sampled clause. This is not a finding about this place or its municipalities.",
+        "sources": [
+          {
+            "url": "https://leg.wa.gov/media/o3fg0ey1/washington-state-constitution.pdf",
+            "citation": "Article II, section 1(c)",
+            "reviewedAt": "2026-10-06"
+          }
+        ]
+      }
+    },
+    "US-NJ": {
+      "name": "New Jersey",
+      "statute": {
+        "protectionYears": 2,
+        "amendmentShareDuringProtection": {
+          "numerator": 2,
+          "denominator": 3,
+          "base": "all-elected-members-per-house"
+        },
+        "legislativeRepealDuringProtection": false,
+        "directVoterChangeAllowed": true,
+        "basis": "estimated-from-average",
+        "reason": "ESTIMATED FROM AVERAGE: median protection duration and amendment vote share from the one reviewed statewide citizen-law clause; repeal restriction follows that sampled clause. This is not a finding about this place or its municipalities.",
+        "sources": [
+          {
+            "url": "https://leg.wa.gov/media/o3fg0ey1/washington-state-constitution.pdf",
+            "citation": "Article II, section 1(c)",
+            "reviewedAt": "2026-10-06"
+          }
+        ]
+      },
+      "ordinance": {
+        "protectionYears": 2,
+        "amendmentShareDuringProtection": {
+          "numerator": 2,
+          "denominator": 3,
+          "base": "all-elected-members-per-house"
+        },
+        "legislativeRepealDuringProtection": false,
+        "directVoterChangeAllowed": true,
+        "basis": "estimated-from-average",
+        "reason": "ESTIMATED FROM AVERAGE: median protection duration and amendment vote share from the one reviewed statewide citizen-law clause; repeal restriction follows that sampled clause. This is not a finding about this place or its municipalities.",
+        "sources": [
+          {
+            "url": "https://leg.wa.gov/media/o3fg0ey1/washington-state-constitution.pdf",
+            "citation": "Article II, section 1(c)",
+            "reviewedAt": "2026-10-06"
+          }
+        ]
+      }
+    },
+    "US-NM": {
+      "name": "New Mexico",
+      "statute": {
+        "protectionYears": 2,
+        "amendmentShareDuringProtection": {
+          "numerator": 2,
+          "denominator": 3,
+          "base": "all-elected-members-per-house"
+        },
+        "legislativeRepealDuringProtection": false,
+        "directVoterChangeAllowed": true,
+        "basis": "estimated-from-average",
+        "reason": "ESTIMATED FROM AVERAGE: median protection duration and amendment vote share from the one reviewed statewide citizen-law clause; repeal restriction follows that sampled clause. This is not a finding about this place or its municipalities.",
+        "sources": [
+          {
+            "url": "https://leg.wa.gov/media/o3fg0ey1/washington-state-constitution.pdf",
+            "citation": "Article II, section 1(c)",
+            "reviewedAt": "2026-10-06"
+          }
+        ]
+      },
+      "ordinance": {
+        "protectionYears": 2,
+        "amendmentShareDuringProtection": {
+          "numerator": 2,
+          "denominator": 3,
+          "base": "all-elected-members-per-house"
+        },
+        "legislativeRepealDuringProtection": false,
+        "directVoterChangeAllowed": true,
+        "basis": "estimated-from-average",
+        "reason": "ESTIMATED FROM AVERAGE: median protection duration and amendment vote share from the one reviewed statewide citizen-law clause; repeal restriction follows that sampled clause. This is not a finding about this place or its municipalities.",
+        "sources": [
+          {
+            "url": "https://leg.wa.gov/media/o3fg0ey1/washington-state-constitution.pdf",
+            "citation": "Article II, section 1(c)",
+            "reviewedAt": "2026-10-06"
+          }
+        ]
+      }
+    },
+    "US-NY": {
+      "name": "New York",
+      "statute": {
+        "protectionYears": 2,
+        "amendmentShareDuringProtection": {
+          "numerator": 2,
+          "denominator": 3,
+          "base": "all-elected-members-per-house"
+        },
+        "legislativeRepealDuringProtection": false,
+        "directVoterChangeAllowed": true,
+        "basis": "estimated-from-average",
+        "reason": "ESTIMATED FROM AVERAGE: median protection duration and amendment vote share from the one reviewed statewide citizen-law clause; repeal restriction follows that sampled clause. This is not a finding about this place or its municipalities.",
+        "sources": [
+          {
+            "url": "https://leg.wa.gov/media/o3fg0ey1/washington-state-constitution.pdf",
+            "citation": "Article II, section 1(c)",
+            "reviewedAt": "2026-10-06"
+          }
+        ]
+      },
+      "ordinance": {
+        "protectionYears": 2,
+        "amendmentShareDuringProtection": {
+          "numerator": 2,
+          "denominator": 3,
+          "base": "all-elected-members-per-house"
+        },
+        "legislativeRepealDuringProtection": false,
+        "directVoterChangeAllowed": true,
+        "basis": "estimated-from-average",
+        "reason": "ESTIMATED FROM AVERAGE: median protection duration and amendment vote share from the one reviewed statewide citizen-law clause; repeal restriction follows that sampled clause. This is not a finding about this place or its municipalities.",
+        "sources": [
+          {
+            "url": "https://leg.wa.gov/media/o3fg0ey1/washington-state-constitution.pdf",
+            "citation": "Article II, section 1(c)",
+            "reviewedAt": "2026-10-06"
+          }
+        ]
+      }
+    },
+    "US-NC": {
+      "name": "North Carolina",
+      "statute": {
+        "protectionYears": 2,
+        "amendmentShareDuringProtection": {
+          "numerator": 2,
+          "denominator": 3,
+          "base": "all-elected-members-per-house"
+        },
+        "legislativeRepealDuringProtection": false,
+        "directVoterChangeAllowed": true,
+        "basis": "estimated-from-average",
+        "reason": "ESTIMATED FROM AVERAGE: median protection duration and amendment vote share from the one reviewed statewide citizen-law clause; repeal restriction follows that sampled clause. This is not a finding about this place or its municipalities.",
+        "sources": [
+          {
+            "url": "https://leg.wa.gov/media/o3fg0ey1/washington-state-constitution.pdf",
+            "citation": "Article II, section 1(c)",
+            "reviewedAt": "2026-10-06"
+          }
+        ]
+      },
+      "ordinance": {
+        "protectionYears": 2,
+        "amendmentShareDuringProtection": {
+          "numerator": 2,
+          "denominator": 3,
+          "base": "all-elected-members-per-house"
+        },
+        "legislativeRepealDuringProtection": false,
+        "directVoterChangeAllowed": true,
+        "basis": "estimated-from-average",
+        "reason": "ESTIMATED FROM AVERAGE: median protection duration and amendment vote share from the one reviewed statewide citizen-law clause; repeal restriction follows that sampled clause. This is not a finding about this place or its municipalities.",
+        "sources": [
+          {
+            "url": "https://leg.wa.gov/media/o3fg0ey1/washington-state-constitution.pdf",
+            "citation": "Article II, section 1(c)",
+            "reviewedAt": "2026-10-06"
+          }
+        ]
+      }
+    },
+    "US-ND": {
+      "name": "North Dakota",
+      "statute": {
+        "protectionYears": 2,
+        "amendmentShareDuringProtection": {
+          "numerator": 2,
+          "denominator": 3,
+          "base": "all-elected-members-per-house"
+        },
+        "legislativeRepealDuringProtection": false,
+        "directVoterChangeAllowed": true,
+        "basis": "estimated-from-average",
+        "reason": "ESTIMATED FROM AVERAGE: median protection duration and amendment vote share from the one reviewed statewide citizen-law clause; repeal restriction follows that sampled clause. This is not a finding about this place or its municipalities.",
+        "sources": [
+          {
+            "url": "https://leg.wa.gov/media/o3fg0ey1/washington-state-constitution.pdf",
+            "citation": "Article II, section 1(c)",
+            "reviewedAt": "2026-10-06"
+          }
+        ]
+      },
+      "ordinance": {
+        "protectionYears": 2,
+        "amendmentShareDuringProtection": {
+          "numerator": 2,
+          "denominator": 3,
+          "base": "all-elected-members-per-house"
+        },
+        "legislativeRepealDuringProtection": false,
+        "directVoterChangeAllowed": true,
+        "basis": "estimated-from-average",
+        "reason": "ESTIMATED FROM AVERAGE: median protection duration and amendment vote share from the one reviewed statewide citizen-law clause; repeal restriction follows that sampled clause. This is not a finding about this place or its municipalities.",
+        "sources": [
+          {
+            "url": "https://leg.wa.gov/media/o3fg0ey1/washington-state-constitution.pdf",
+            "citation": "Article II, section 1(c)",
+            "reviewedAt": "2026-10-06"
+          }
+        ]
+      }
+    },
+    "US-OH": {
+      "name": "Ohio",
+      "statute": {
+        "protectionYears": 2,
+        "amendmentShareDuringProtection": {
+          "numerator": 2,
+          "denominator": 3,
+          "base": "all-elected-members-per-house"
+        },
+        "legislativeRepealDuringProtection": false,
+        "directVoterChangeAllowed": true,
+        "basis": "estimated-from-average",
+        "reason": "ESTIMATED FROM AVERAGE: median protection duration and amendment vote share from the one reviewed statewide citizen-law clause; repeal restriction follows that sampled clause. This is not a finding about this place or its municipalities.",
+        "sources": [
+          {
+            "url": "https://leg.wa.gov/media/o3fg0ey1/washington-state-constitution.pdf",
+            "citation": "Article II, section 1(c)",
+            "reviewedAt": "2026-10-06"
+          }
+        ]
+      },
+      "ordinance": {
+        "protectionYears": 2,
+        "amendmentShareDuringProtection": {
+          "numerator": 2,
+          "denominator": 3,
+          "base": "all-elected-members-per-house"
+        },
+        "legislativeRepealDuringProtection": false,
+        "directVoterChangeAllowed": true,
+        "basis": "estimated-from-average",
+        "reason": "ESTIMATED FROM AVERAGE: median protection duration and amendment vote share from the one reviewed statewide citizen-law clause; repeal restriction follows that sampled clause. This is not a finding about this place or its municipalities.",
+        "sources": [
+          {
+            "url": "https://leg.wa.gov/media/o3fg0ey1/washington-state-constitution.pdf",
+            "citation": "Article II, section 1(c)",
+            "reviewedAt": "2026-10-06"
+          }
+        ]
+      }
+    },
+    "US-OK": {
+      "name": "Oklahoma",
+      "statute": {
+        "protectionYears": 2,
+        "amendmentShareDuringProtection": {
+          "numerator": 2,
+          "denominator": 3,
+          "base": "all-elected-members-per-house"
+        },
+        "legislativeRepealDuringProtection": false,
+        "directVoterChangeAllowed": true,
+        "basis": "estimated-from-average",
+        "reason": "ESTIMATED FROM AVERAGE: median protection duration and amendment vote share from the one reviewed statewide citizen-law clause; repeal restriction follows that sampled clause. This is not a finding about this place or its municipalities.",
+        "sources": [
+          {
+            "url": "https://leg.wa.gov/media/o3fg0ey1/washington-state-constitution.pdf",
+            "citation": "Article II, section 1(c)",
+            "reviewedAt": "2026-10-06"
+          }
+        ]
+      },
+      "ordinance": {
+        "protectionYears": 2,
+        "amendmentShareDuringProtection": {
+          "numerator": 2,
+          "denominator": 3,
+          "base": "all-elected-members-per-house"
+        },
+        "legislativeRepealDuringProtection": false,
+        "directVoterChangeAllowed": true,
+        "basis": "estimated-from-average",
+        "reason": "ESTIMATED FROM AVERAGE: median protection duration and amendment vote share from the one reviewed statewide citizen-law clause; repeal restriction follows that sampled clause. This is not a finding about this place or its municipalities.",
+        "sources": [
+          {
+            "url": "https://leg.wa.gov/media/o3fg0ey1/washington-state-constitution.pdf",
+            "citation": "Article II, section 1(c)",
+            "reviewedAt": "2026-10-06"
+          }
+        ]
+      }
+    },
+    "US-OR": {
+      "name": "Oregon",
+      "statute": {
+        "protectionYears": 2,
+        "amendmentShareDuringProtection": {
+          "numerator": 2,
+          "denominator": 3,
+          "base": "all-elected-members-per-house"
+        },
+        "legislativeRepealDuringProtection": false,
+        "directVoterChangeAllowed": true,
+        "basis": "estimated-from-average",
+        "reason": "ESTIMATED FROM AVERAGE: median protection duration and amendment vote share from the one reviewed statewide citizen-law clause; repeal restriction follows that sampled clause. This is not a finding about this place or its municipalities.",
+        "sources": [
+          {
+            "url": "https://leg.wa.gov/media/o3fg0ey1/washington-state-constitution.pdf",
+            "citation": "Article II, section 1(c)",
+            "reviewedAt": "2026-10-06"
+          }
+        ]
+      },
+      "ordinance": {
+        "protectionYears": 2,
+        "amendmentShareDuringProtection": {
+          "numerator": 2,
+          "denominator": 3,
+          "base": "all-elected-members-per-house"
+        },
+        "legislativeRepealDuringProtection": false,
+        "directVoterChangeAllowed": true,
+        "basis": "estimated-from-average",
+        "reason": "ESTIMATED FROM AVERAGE: median protection duration and amendment vote share from the one reviewed statewide citizen-law clause; repeal restriction follows that sampled clause. This is not a finding about this place or its municipalities.",
+        "sources": [
+          {
+            "url": "https://leg.wa.gov/media/o3fg0ey1/washington-state-constitution.pdf",
+            "citation": "Article II, section 1(c)",
+            "reviewedAt": "2026-10-06"
+          }
+        ]
+      }
+    },
+    "US-PA": {
+      "name": "Pennsylvania",
+      "statute": {
+        "protectionYears": 2,
+        "amendmentShareDuringProtection": {
+          "numerator": 2,
+          "denominator": 3,
+          "base": "all-elected-members-per-house"
+        },
+        "legislativeRepealDuringProtection": false,
+        "directVoterChangeAllowed": true,
+        "basis": "estimated-from-average",
+        "reason": "ESTIMATED FROM AVERAGE: median protection duration and amendment vote share from the one reviewed statewide citizen-law clause; repeal restriction follows that sampled clause. This is not a finding about this place or its municipalities.",
+        "sources": [
+          {
+            "url": "https://leg.wa.gov/media/o3fg0ey1/washington-state-constitution.pdf",
+            "citation": "Article II, section 1(c)",
+            "reviewedAt": "2026-10-06"
+          }
+        ]
+      },
+      "ordinance": {
+        "protectionYears": 2,
+        "amendmentShareDuringProtection": {
+          "numerator": 2,
+          "denominator": 3,
+          "base": "all-elected-members-per-house"
+        },
+        "legislativeRepealDuringProtection": false,
+        "directVoterChangeAllowed": true,
+        "basis": "estimated-from-average",
+        "reason": "ESTIMATED FROM AVERAGE: median protection duration and amendment vote share from the one reviewed statewide citizen-law clause; repeal restriction follows that sampled clause. This is not a finding about this place or its municipalities.",
+        "sources": [
+          {
+            "url": "https://leg.wa.gov/media/o3fg0ey1/washington-state-constitution.pdf",
+            "citation": "Article II, section 1(c)",
+            "reviewedAt": "2026-10-06"
+          }
+        ]
+      }
+    },
+    "US-RI": {
+      "name": "Rhode Island",
+      "statute": {
+        "protectionYears": 2,
+        "amendmentShareDuringProtection": {
+          "numerator": 2,
+          "denominator": 3,
+          "base": "all-elected-members-per-house"
+        },
+        "legislativeRepealDuringProtection": false,
+        "directVoterChangeAllowed": true,
+        "basis": "estimated-from-average",
+        "reason": "ESTIMATED FROM AVERAGE: median protection duration and amendment vote share from the one reviewed statewide citizen-law clause; repeal restriction follows that sampled clause. This is not a finding about this place or its municipalities.",
+        "sources": [
+          {
+            "url": "https://leg.wa.gov/media/o3fg0ey1/washington-state-constitution.pdf",
+            "citation": "Article II, section 1(c)",
+            "reviewedAt": "2026-10-06"
+          }
+        ]
+      },
+      "ordinance": {
+        "protectionYears": 2,
+        "amendmentShareDuringProtection": {
+          "numerator": 2,
+          "denominator": 3,
+          "base": "all-elected-members-per-house"
+        },
+        "legislativeRepealDuringProtection": false,
+        "directVoterChangeAllowed": true,
+        "basis": "estimated-from-average",
+        "reason": "ESTIMATED FROM AVERAGE: median protection duration and amendment vote share from the one reviewed statewide citizen-law clause; repeal restriction follows that sampled clause. This is not a finding about this place or its municipalities.",
+        "sources": [
+          {
+            "url": "https://leg.wa.gov/media/o3fg0ey1/washington-state-constitution.pdf",
+            "citation": "Article II, section 1(c)",
+            "reviewedAt": "2026-10-06"
+          }
+        ]
+      }
+    },
+    "US-SC": {
+      "name": "South Carolina",
+      "statute": {
+        "protectionYears": 2,
+        "amendmentShareDuringProtection": {
+          "numerator": 2,
+          "denominator": 3,
+          "base": "all-elected-members-per-house"
+        },
+        "legislativeRepealDuringProtection": false,
+        "directVoterChangeAllowed": true,
+        "basis": "estimated-from-average",
+        "reason": "ESTIMATED FROM AVERAGE: median protection duration and amendment vote share from the one reviewed statewide citizen-law clause; repeal restriction follows that sampled clause. This is not a finding about this place or its municipalities.",
+        "sources": [
+          {
+            "url": "https://leg.wa.gov/media/o3fg0ey1/washington-state-constitution.pdf",
+            "citation": "Article II, section 1(c)",
+            "reviewedAt": "2026-10-06"
+          }
+        ]
+      },
+      "ordinance": {
+        "protectionYears": 2,
+        "amendmentShareDuringProtection": {
+          "numerator": 2,
+          "denominator": 3,
+          "base": "all-elected-members-per-house"
+        },
+        "legislativeRepealDuringProtection": false,
+        "directVoterChangeAllowed": true,
+        "basis": "estimated-from-average",
+        "reason": "ESTIMATED FROM AVERAGE: median protection duration and amendment vote share from the one reviewed statewide citizen-law clause; repeal restriction follows that sampled clause. This is not a finding about this place or its municipalities.",
+        "sources": [
+          {
+            "url": "https://leg.wa.gov/media/o3fg0ey1/washington-state-constitution.pdf",
+            "citation": "Article II, section 1(c)",
+            "reviewedAt": "2026-10-06"
+          }
+        ]
+      }
+    },
+    "US-SD": {
+      "name": "South Dakota",
+      "statute": {
+        "protectionYears": 2,
+        "amendmentShareDuringProtection": {
+          "numerator": 2,
+          "denominator": 3,
+          "base": "all-elected-members-per-house"
+        },
+        "legislativeRepealDuringProtection": false,
+        "directVoterChangeAllowed": true,
+        "basis": "estimated-from-average",
+        "reason": "ESTIMATED FROM AVERAGE: median protection duration and amendment vote share from the one reviewed statewide citizen-law clause; repeal restriction follows that sampled clause. This is not a finding about this place or its municipalities.",
+        "sources": [
+          {
+            "url": "https://leg.wa.gov/media/o3fg0ey1/washington-state-constitution.pdf",
+            "citation": "Article II, section 1(c)",
+            "reviewedAt": "2026-10-06"
+          }
+        ]
+      },
+      "ordinance": {
+        "protectionYears": 2,
+        "amendmentShareDuringProtection": {
+          "numerator": 2,
+          "denominator": 3,
+          "base": "all-elected-members-per-house"
+        },
+        "legislativeRepealDuringProtection": false,
+        "directVoterChangeAllowed": true,
+        "basis": "estimated-from-average",
+        "reason": "ESTIMATED FROM AVERAGE: median protection duration and amendment vote share from the one reviewed statewide citizen-law clause; repeal restriction follows that sampled clause. This is not a finding about this place or its municipalities.",
+        "sources": [
+          {
+            "url": "https://leg.wa.gov/media/o3fg0ey1/washington-state-constitution.pdf",
+            "citation": "Article II, section 1(c)",
+            "reviewedAt": "2026-10-06"
+          }
+        ]
+      }
+    },
+    "US-TN": {
+      "name": "Tennessee",
+      "statute": {
+        "protectionYears": 2,
+        "amendmentShareDuringProtection": {
+          "numerator": 2,
+          "denominator": 3,
+          "base": "all-elected-members-per-house"
+        },
+        "legislativeRepealDuringProtection": false,
+        "directVoterChangeAllowed": true,
+        "basis": "estimated-from-average",
+        "reason": "ESTIMATED FROM AVERAGE: median protection duration and amendment vote share from the one reviewed statewide citizen-law clause; repeal restriction follows that sampled clause. This is not a finding about this place or its municipalities.",
+        "sources": [
+          {
+            "url": "https://leg.wa.gov/media/o3fg0ey1/washington-state-constitution.pdf",
+            "citation": "Article II, section 1(c)",
+            "reviewedAt": "2026-10-06"
+          }
+        ]
+      },
+      "ordinance": {
+        "protectionYears": 2,
+        "amendmentShareDuringProtection": {
+          "numerator": 2,
+          "denominator": 3,
+          "base": "all-elected-members-per-house"
+        },
+        "legislativeRepealDuringProtection": false,
+        "directVoterChangeAllowed": true,
+        "basis": "estimated-from-average",
+        "reason": "ESTIMATED FROM AVERAGE: median protection duration and amendment vote share from the one reviewed statewide citizen-law clause; repeal restriction follows that sampled clause. This is not a finding about this place or its municipalities.",
+        "sources": [
+          {
+            "url": "https://leg.wa.gov/media/o3fg0ey1/washington-state-constitution.pdf",
+            "citation": "Article II, section 1(c)",
+            "reviewedAt": "2026-10-06"
+          }
+        ]
+      }
+    },
+    "US-TX": {
+      "name": "Texas",
+      "statute": {
+        "protectionYears": 2,
+        "amendmentShareDuringProtection": {
+          "numerator": 2,
+          "denominator": 3,
+          "base": "all-elected-members-per-house"
+        },
+        "legislativeRepealDuringProtection": false,
+        "directVoterChangeAllowed": true,
+        "basis": "estimated-from-average",
+        "reason": "ESTIMATED FROM AVERAGE: median protection duration and amendment vote share from the one reviewed statewide citizen-law clause; repeal restriction follows that sampled clause. This is not a finding about this place or its municipalities.",
+        "sources": [
+          {
+            "url": "https://leg.wa.gov/media/o3fg0ey1/washington-state-constitution.pdf",
+            "citation": "Article II, section 1(c)",
+            "reviewedAt": "2026-10-06"
+          }
+        ]
+      },
+      "ordinance": {
+        "protectionYears": 2,
+        "amendmentShareDuringProtection": {
+          "numerator": 2,
+          "denominator": 3,
+          "base": "all-elected-members-per-house"
+        },
+        "legislativeRepealDuringProtection": false,
+        "directVoterChangeAllowed": true,
+        "basis": "estimated-from-average",
+        "reason": "ESTIMATED FROM AVERAGE: median protection duration and amendment vote share from the one reviewed statewide citizen-law clause; repeal restriction follows that sampled clause. This is not a finding about this place or its municipalities.",
+        "sources": [
+          {
+            "url": "https://leg.wa.gov/media/o3fg0ey1/washington-state-constitution.pdf",
+            "citation": "Article II, section 1(c)",
+            "reviewedAt": "2026-10-06"
+          }
+        ]
+      }
+    },
+    "US-UT": {
+      "name": "Utah",
+      "statute": {
+        "protectionYears": 2,
+        "amendmentShareDuringProtection": {
+          "numerator": 2,
+          "denominator": 3,
+          "base": "all-elected-members-per-house"
+        },
+        "legislativeRepealDuringProtection": false,
+        "directVoterChangeAllowed": true,
+        "basis": "estimated-from-average",
+        "reason": "ESTIMATED FROM AVERAGE: median protection duration and amendment vote share from the one reviewed statewide citizen-law clause; repeal restriction follows that sampled clause. This is not a finding about this place or its municipalities.",
+        "sources": [
+          {
+            "url": "https://leg.wa.gov/media/o3fg0ey1/washington-state-constitution.pdf",
+            "citation": "Article II, section 1(c)",
+            "reviewedAt": "2026-10-06"
+          }
+        ]
+      },
+      "ordinance": {
+        "protectionYears": 2,
+        "amendmentShareDuringProtection": {
+          "numerator": 2,
+          "denominator": 3,
+          "base": "all-elected-members-per-house"
+        },
+        "legislativeRepealDuringProtection": false,
+        "directVoterChangeAllowed": true,
+        "basis": "estimated-from-average",
+        "reason": "ESTIMATED FROM AVERAGE: median protection duration and amendment vote share from the one reviewed statewide citizen-law clause; repeal restriction follows that sampled clause. This is not a finding about this place or its municipalities.",
+        "sources": [
+          {
+            "url": "https://leg.wa.gov/media/o3fg0ey1/washington-state-constitution.pdf",
+            "citation": "Article II, section 1(c)",
+            "reviewedAt": "2026-10-06"
+          }
+        ]
+      }
+    },
+    "US-VT": {
+      "name": "Vermont",
+      "statute": {
+        "protectionYears": 2,
+        "amendmentShareDuringProtection": {
+          "numerator": 2,
+          "denominator": 3,
+          "base": "all-elected-members-per-house"
+        },
+        "legislativeRepealDuringProtection": false,
+        "directVoterChangeAllowed": true,
+        "basis": "estimated-from-average",
+        "reason": "ESTIMATED FROM AVERAGE: median protection duration and amendment vote share from the one reviewed statewide citizen-law clause; repeal restriction follows that sampled clause. This is not a finding about this place or its municipalities.",
+        "sources": [
+          {
+            "url": "https://leg.wa.gov/media/o3fg0ey1/washington-state-constitution.pdf",
+            "citation": "Article II, section 1(c)",
+            "reviewedAt": "2026-10-06"
+          }
+        ]
+      },
+      "ordinance": {
+        "protectionYears": 2,
+        "amendmentShareDuringProtection": {
+          "numerator": 2,
+          "denominator": 3,
+          "base": "all-elected-members-per-house"
+        },
+        "legislativeRepealDuringProtection": false,
+        "directVoterChangeAllowed": true,
+        "basis": "estimated-from-average",
+        "reason": "ESTIMATED FROM AVERAGE: median protection duration and amendment vote share from the one reviewed statewide citizen-law clause; repeal restriction follows that sampled clause. This is not a finding about this place or its municipalities.",
+        "sources": [
+          {
+            "url": "https://leg.wa.gov/media/o3fg0ey1/washington-state-constitution.pdf",
+            "citation": "Article II, section 1(c)",
+            "reviewedAt": "2026-10-06"
+          }
+        ]
+      }
+    },
+    "US-VA": {
+      "name": "Virginia",
+      "statute": {
+        "protectionYears": 2,
+        "amendmentShareDuringProtection": {
+          "numerator": 2,
+          "denominator": 3,
+          "base": "all-elected-members-per-house"
+        },
+        "legislativeRepealDuringProtection": false,
+        "directVoterChangeAllowed": true,
+        "basis": "estimated-from-average",
+        "reason": "ESTIMATED FROM AVERAGE: median protection duration and amendment vote share from the one reviewed statewide citizen-law clause; repeal restriction follows that sampled clause. This is not a finding about this place or its municipalities.",
+        "sources": [
+          {
+            "url": "https://leg.wa.gov/media/o3fg0ey1/washington-state-constitution.pdf",
+            "citation": "Article II, section 1(c)",
+            "reviewedAt": "2026-10-06"
+          }
+        ]
+      },
+      "ordinance": {
+        "protectionYears": 2,
+        "amendmentShareDuringProtection": {
+          "numerator": 2,
+          "denominator": 3,
+          "base": "all-elected-members-per-house"
+        },
+        "legislativeRepealDuringProtection": false,
+        "directVoterChangeAllowed": true,
+        "basis": "estimated-from-average",
+        "reason": "ESTIMATED FROM AVERAGE: median protection duration and amendment vote share from the one reviewed statewide citizen-law clause; repeal restriction follows that sampled clause. This is not a finding about this place or its municipalities.",
+        "sources": [
+          {
+            "url": "https://leg.wa.gov/media/o3fg0ey1/washington-state-constitution.pdf",
+            "citation": "Article II, section 1(c)",
+            "reviewedAt": "2026-10-06"
+          }
+        ]
+      }
+    },
+    "US-WA": {
+      "name": "Washington",
+      "statute": {
+        "protectionYears": 2,
+        "amendmentShareDuringProtection": {
+          "numerator": 2,
+          "denominator": 3,
+          "base": "all-elected-members-per-house"
+        },
+        "legislativeRepealDuringProtection": false,
+        "directVoterChangeAllowed": true,
+        "basis": "read-source",
+        "reason": "During the first two years, the legislature may amend with two-thirds of all elected members of each house, but may not repeal. The voters may amend or repeal at a regular or special election.",
+        "sources": [
+          {
+            "url": "https://leg.wa.gov/media/o3fg0ey1/washington-state-constitution.pdf",
+            "citation": "Article II, section 1(c)",
+            "reviewedAt": "2026-10-06"
+          }
+        ]
+      },
+      "ordinance": {
+        "protectionYears": 2,
+        "amendmentShareDuringProtection": {
+          "numerator": 2,
+          "denominator": 3,
+          "base": "all-elected-members-per-house"
+        },
+        "legislativeRepealDuringProtection": false,
+        "directVoterChangeAllowed": true,
+        "basis": "estimated-from-average",
+        "reason": "ESTIMATED FROM AVERAGE: median protection duration and amendment vote share from the one reviewed statewide citizen-law clause; repeal restriction follows that sampled clause. This is not a finding about this place or its municipalities.",
+        "sources": [
+          {
+            "url": "https://leg.wa.gov/media/o3fg0ey1/washington-state-constitution.pdf",
+            "citation": "Article II, section 1(c)",
+            "reviewedAt": "2026-10-06"
+          }
+        ]
+      }
+    },
+    "US-WV": {
+      "name": "West Virginia",
+      "statute": {
+        "protectionYears": 2,
+        "amendmentShareDuringProtection": {
+          "numerator": 2,
+          "denominator": 3,
+          "base": "all-elected-members-per-house"
+        },
+        "legislativeRepealDuringProtection": false,
+        "directVoterChangeAllowed": true,
+        "basis": "estimated-from-average",
+        "reason": "ESTIMATED FROM AVERAGE: median protection duration and amendment vote share from the one reviewed statewide citizen-law clause; repeal restriction follows that sampled clause. This is not a finding about this place or its municipalities.",
+        "sources": [
+          {
+            "url": "https://leg.wa.gov/media/o3fg0ey1/washington-state-constitution.pdf",
+            "citation": "Article II, section 1(c)",
+            "reviewedAt": "2026-10-06"
+          }
+        ]
+      },
+      "ordinance": {
+        "protectionYears": 2,
+        "amendmentShareDuringProtection": {
+          "numerator": 2,
+          "denominator": 3,
+          "base": "all-elected-members-per-house"
+        },
+        "legislativeRepealDuringProtection": false,
+        "directVoterChangeAllowed": true,
+        "basis": "estimated-from-average",
+        "reason": "ESTIMATED FROM AVERAGE: median protection duration and amendment vote share from the one reviewed statewide citizen-law clause; repeal restriction follows that sampled clause. This is not a finding about this place or its municipalities.",
+        "sources": [
+          {
+            "url": "https://leg.wa.gov/media/o3fg0ey1/washington-state-constitution.pdf",
+            "citation": "Article II, section 1(c)",
+            "reviewedAt": "2026-10-06"
+          }
+        ]
+      }
+    },
+    "US-WI": {
+      "name": "Wisconsin",
+      "statute": {
+        "protectionYears": 2,
+        "amendmentShareDuringProtection": {
+          "numerator": 2,
+          "denominator": 3,
+          "base": "all-elected-members-per-house"
+        },
+        "legislativeRepealDuringProtection": false,
+        "directVoterChangeAllowed": true,
+        "basis": "estimated-from-average",
+        "reason": "ESTIMATED FROM AVERAGE: median protection duration and amendment vote share from the one reviewed statewide citizen-law clause; repeal restriction follows that sampled clause. This is not a finding about this place or its municipalities.",
+        "sources": [
+          {
+            "url": "https://leg.wa.gov/media/o3fg0ey1/washington-state-constitution.pdf",
+            "citation": "Article II, section 1(c)",
+            "reviewedAt": "2026-10-06"
+          }
+        ]
+      },
+      "ordinance": {
+        "protectionYears": 2,
+        "amendmentShareDuringProtection": {
+          "numerator": 2,
+          "denominator": 3,
+          "base": "all-elected-members-per-house"
+        },
+        "legislativeRepealDuringProtection": false,
+        "directVoterChangeAllowed": true,
+        "basis": "estimated-from-average",
+        "reason": "ESTIMATED FROM AVERAGE: median protection duration and amendment vote share from the one reviewed statewide citizen-law clause; repeal restriction follows that sampled clause. This is not a finding about this place or its municipalities.",
+        "sources": [
+          {
+            "url": "https://leg.wa.gov/media/o3fg0ey1/washington-state-constitution.pdf",
+            "citation": "Article II, section 1(c)",
+            "reviewedAt": "2026-10-06"
+          }
+        ]
+      }
+    },
+    "US-WY": {
+      "name": "Wyoming",
+      "statute": {
+        "protectionYears": 2,
+        "amendmentShareDuringProtection": {
+          "numerator": 2,
+          "denominator": 3,
+          "base": "all-elected-members-per-house"
+        },
+        "legislativeRepealDuringProtection": false,
+        "directVoterChangeAllowed": true,
+        "basis": "estimated-from-average",
+        "reason": "ESTIMATED FROM AVERAGE: median protection duration and amendment vote share from the one reviewed statewide citizen-law clause; repeal restriction follows that sampled clause. This is not a finding about this place or its municipalities.",
+        "sources": [
+          {
+            "url": "https://leg.wa.gov/media/o3fg0ey1/washington-state-constitution.pdf",
+            "citation": "Article II, section 1(c)",
+            "reviewedAt": "2026-10-06"
+          }
+        ]
+      },
+      "ordinance": {
+        "protectionYears": 2,
+        "amendmentShareDuringProtection": {
+          "numerator": 2,
+          "denominator": 3,
+          "base": "all-elected-members-per-house"
+        },
+        "legislativeRepealDuringProtection": false,
+        "directVoterChangeAllowed": true,
+        "basis": "estimated-from-average",
+        "reason": "ESTIMATED FROM AVERAGE: median protection duration and amendment vote share from the one reviewed statewide citizen-law clause; repeal restriction follows that sampled clause. This is not a finding about this place or its municipalities.",
+        "sources": [
+          {
+            "url": "https://leg.wa.gov/media/o3fg0ey1/washington-state-constitution.pdf",
+            "citation": "Article II, section 1(c)",
+            "reviewedAt": "2026-10-06"
+          }
+        ]
+      }
+    },
+    "US-GU": {
+      "name": "Guam",
+      "statute": {
+        "protectionYears": 2,
+        "amendmentShareDuringProtection": {
+          "numerator": 2,
+          "denominator": 3,
+          "base": "all-elected-members-per-house"
+        },
+        "legislativeRepealDuringProtection": false,
+        "directVoterChangeAllowed": true,
+        "basis": "estimated-from-average",
+        "reason": "ESTIMATED FROM AVERAGE: median protection duration and amendment vote share from the one reviewed statewide citizen-law clause; repeal restriction follows that sampled clause. This is not a finding about this place or its municipalities.",
+        "sources": [
+          {
+            "url": "https://leg.wa.gov/media/o3fg0ey1/washington-state-constitution.pdf",
+            "citation": "Article II, section 1(c)",
+            "reviewedAt": "2026-10-06"
+          }
+        ]
+      },
+      "ordinance": {
+        "protectionYears": 2,
+        "amendmentShareDuringProtection": {
+          "numerator": 2,
+          "denominator": 3,
+          "base": "all-elected-members-per-house"
+        },
+        "legislativeRepealDuringProtection": false,
+        "directVoterChangeAllowed": true,
+        "basis": "estimated-from-average",
+        "reason": "ESTIMATED FROM AVERAGE: median protection duration and amendment vote share from the one reviewed statewide citizen-law clause; repeal restriction follows that sampled clause. This is not a finding about this place or its municipalities.",
+        "sources": [
+          {
+            "url": "https://leg.wa.gov/media/o3fg0ey1/washington-state-constitution.pdf",
+            "citation": "Article II, section 1(c)",
+            "reviewedAt": "2026-10-06"
+          }
+        ]
+      }
+    },
+    "US-VI": {
+      "name": "U.S. Virgin Islands",
+      "statute": {
+        "protectionYears": 2,
+        "amendmentShareDuringProtection": {
+          "numerator": 2,
+          "denominator": 3,
+          "base": "all-elected-members-per-house"
+        },
+        "legislativeRepealDuringProtection": false,
+        "directVoterChangeAllowed": true,
+        "basis": "estimated-from-average",
+        "reason": "ESTIMATED FROM AVERAGE: median protection duration and amendment vote share from the one reviewed statewide citizen-law clause; repeal restriction follows that sampled clause. This is not a finding about this place or its municipalities.",
+        "sources": [
+          {
+            "url": "https://leg.wa.gov/media/o3fg0ey1/washington-state-constitution.pdf",
+            "citation": "Article II, section 1(c)",
+            "reviewedAt": "2026-10-06"
+          }
+        ]
+      },
+      "ordinance": {
+        "protectionYears": 2,
+        "amendmentShareDuringProtection": {
+          "numerator": 2,
+          "denominator": 3,
+          "base": "all-elected-members-per-house"
+        },
+        "legislativeRepealDuringProtection": false,
+        "directVoterChangeAllowed": true,
+        "basis": "estimated-from-average",
+        "reason": "ESTIMATED FROM AVERAGE: median protection duration and amendment vote share from the one reviewed statewide citizen-law clause; repeal restriction follows that sampled clause. This is not a finding about this place or its municipalities.",
+        "sources": [
+          {
+            "url": "https://leg.wa.gov/media/o3fg0ey1/washington-state-constitution.pdf",
+            "citation": "Article II, section 1(c)",
+            "reviewedAt": "2026-10-06"
+          }
+        ]
+      }
+    },
+    "US-PR": {
+      "name": "Puerto Rico",
+      "statute": {
+        "protectionYears": 2,
+        "amendmentShareDuringProtection": {
+          "numerator": 2,
+          "denominator": 3,
+          "base": "all-elected-members-per-house"
+        },
+        "legislativeRepealDuringProtection": false,
+        "directVoterChangeAllowed": true,
+        "basis": "estimated-from-average",
+        "reason": "ESTIMATED FROM AVERAGE: median protection duration and amendment vote share from the one reviewed statewide citizen-law clause; repeal restriction follows that sampled clause. This is not a finding about this place or its municipalities.",
+        "sources": [
+          {
+            "url": "https://leg.wa.gov/media/o3fg0ey1/washington-state-constitution.pdf",
+            "citation": "Article II, section 1(c)",
+            "reviewedAt": "2026-10-06"
+          }
+        ]
+      },
+      "ordinance": {
+        "protectionYears": 2,
+        "amendmentShareDuringProtection": {
+          "numerator": 2,
+          "denominator": 3,
+          "base": "all-elected-members-per-house"
+        },
+        "legislativeRepealDuringProtection": false,
+        "directVoterChangeAllowed": true,
+        "basis": "estimated-from-average",
+        "reason": "ESTIMATED FROM AVERAGE: median protection duration and amendment vote share from the one reviewed statewide citizen-law clause; repeal restriction follows that sampled clause. This is not a finding about this place or its municipalities.",
+        "sources": [
+          {
+            "url": "https://leg.wa.gov/media/o3fg0ey1/washington-state-constitution.pdf",
+            "citation": "Article II, section 1(c)",
+            "reviewedAt": "2026-10-06"
+          }
+        ]
+      }
+    },
+    "US-AS": {
+      "name": "American Samoa",
+      "statute": {
+        "protectionYears": 2,
+        "amendmentShareDuringProtection": {
+          "numerator": 2,
+          "denominator": 3,
+          "base": "all-elected-members-per-house"
+        },
+        "legislativeRepealDuringProtection": false,
+        "directVoterChangeAllowed": true,
+        "basis": "estimated-from-average",
+        "reason": "ESTIMATED FROM AVERAGE: median protection duration and amendment vote share from the one reviewed statewide citizen-law clause; repeal restriction follows that sampled clause. This is not a finding about this place or its municipalities.",
+        "sources": [
+          {
+            "url": "https://leg.wa.gov/media/o3fg0ey1/washington-state-constitution.pdf",
+            "citation": "Article II, section 1(c)",
+            "reviewedAt": "2026-10-06"
+          }
+        ]
+      },
+      "ordinance": {
+        "protectionYears": 2,
+        "amendmentShareDuringProtection": {
+          "numerator": 2,
+          "denominator": 3,
+          "base": "all-elected-members-per-house"
+        },
+        "legislativeRepealDuringProtection": false,
+        "directVoterChangeAllowed": true,
+        "basis": "estimated-from-average",
+        "reason": "ESTIMATED FROM AVERAGE: median protection duration and amendment vote share from the one reviewed statewide citizen-law clause; repeal restriction follows that sampled clause. This is not a finding about this place or its municipalities.",
+        "sources": [
+          {
+            "url": "https://leg.wa.gov/media/o3fg0ey1/washington-state-constitution.pdf",
+            "citation": "Article II, section 1(c)",
+            "reviewedAt": "2026-10-06"
+          }
+        ]
+      }
+    },
+    "US-MP": {
+      "name": "Northern Mariana Islands",
+      "statute": {
+        "protectionYears": 2,
+        "amendmentShareDuringProtection": {
+          "numerator": 2,
+          "denominator": 3,
+          "base": "all-elected-members-per-house"
+        },
+        "legislativeRepealDuringProtection": false,
+        "directVoterChangeAllowed": true,
+        "basis": "estimated-from-average",
+        "reason": "ESTIMATED FROM AVERAGE: median protection duration and amendment vote share from the one reviewed statewide citizen-law clause; repeal restriction follows that sampled clause. This is not a finding about this place or its municipalities.",
+        "sources": [
+          {
+            "url": "https://leg.wa.gov/media/o3fg0ey1/washington-state-constitution.pdf",
+            "citation": "Article II, section 1(c)",
+            "reviewedAt": "2026-10-06"
+          }
+        ]
+      },
+      "ordinance": {
+        "protectionYears": 2,
+        "amendmentShareDuringProtection": {
+          "numerator": 2,
+          "denominator": 3,
+          "base": "all-elected-members-per-house"
+        },
+        "legislativeRepealDuringProtection": false,
+        "directVoterChangeAllowed": true,
+        "basis": "estimated-from-average",
+        "reason": "ESTIMATED FROM AVERAGE: median protection duration and amendment vote share from the one reviewed statewide citizen-law clause; repeal restriction follows that sampled clause. This is not a finding about this place or its municipalities.",
+        "sources": [
+          {
+            "url": "https://leg.wa.gov/media/o3fg0ey1/washington-state-constitution.pdf",
+            "citation": "Article II, section 1(c)",
+            "reviewedAt": "2026-10-06"
+          }
+        ]
+      }
+    }
+  }
+}

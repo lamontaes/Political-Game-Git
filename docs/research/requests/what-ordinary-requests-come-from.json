@@ -20,9 +20,33 @@
     {
       "source": "docs/research/requests/what-ordinary-invitations-are-for.json",
       "whatItDidNotSettle": "Covers invitations to occasions, not requests for help."
+    },
+    {
+      "source": "AmeriCorps/Census CPS CEV2023 state findings",
+      "url": "https://data.americorps.gov/resource/4r6x-re58.json?$limit=5000",
+      "whatItSettled": "State contact/help/member incidence, not per-tie survival or invitation calendar."
+    },
+    {
+      "source": "Pew Research Center2025 social connections; probability survey6204 US adults",
+      "url": "https://www.pewresearch.org/social-trends/2025/01/16/where-men-and-women-turn-for-emotional-support-and-social-connection/",
+      "whatItSettled": "Weekly friend contact benchmark with mode and denominator; Pew notices/disclaimer retained."
+    },
+    {
+      "source": "ASARB Religion Census FAQ terms",
+      "url": "https://www.usreligioncensus.org/faq",
+      "whatItDidNotSettle": "Redistribution/game derivative table grant not established; no data extracted."
     }
   ],
   "title": "What prompts an ordinary request for help",
   "usableAnswer": "A short list of common prompts that map onto records the game keeps (a move, a new baby or a new job, a car or appliance breaking down, an illness in the family, a child needing a ride or care, a deadline at work or school), each with what is typically asked, a typical time or money cost for the helper, typical notice, and how the relationship (kin, friend, coworker, neighbor) changes what is asked. A realistic range is enough.",
-  "whyItMatters": "Without it a friend's request is either one fixed story or nothing. The owner's rule is that dialogue grows from what the world recorded; this list decides which recorded circumstances may produce a request, so none is invented."
+  "whyItMatters": "Without it a friend's request is either one fixed story or nothing. The owner's rule is that dialogue grows from what the world recorded; this list decides which recorded circumstances may produce a request, so none is invented.",
+  "answer": {
+    "status": "answered-with-gaps",
+    "answeredAt": "2026-10-11",
+    "answeredBy": "CODEX-RESEARCH (Priorities0-1)",
+    "findings": {
+      "findings": "CEV2023 informal helping and organizational engagement vary by state; the derived state table provides the available aggregate calibration. Needs in the requester’s life (care, transport, practical tasks, emotional support) and helper’s actual capacity determine asks.",
+      "gaps": "No source-supported ask frequency, dollar amount, lead time or repeated-request limit by tie type found. Do not turn informal-helping rate into a daily ask chance."
+    }
+  }
 }

@@ -46,6 +46,7 @@ export interface PoliticalBeliefFormationFactor {
   readonly sourceType: DecisionSourceType;
   readonly importance: DecisionImportance;
   readonly confidence: MindConfidence;
+  readonly weightScale?: number;
   readonly explanation: string;
   readonly sourceRefs: readonly MindSourceReference[];
 }
@@ -157,6 +158,9 @@ export function evaluatePoliticalBeliefFormation(
         direction: "supports" as const,
         importance: factor.importance,
         confidence: factor.confidence,
+        ...(factor.weightScale === undefined
+          ? {}
+          : { weightScale: factor.weightScale }),
         explanation: factor.explanation,
         sourceRefs: factor.sourceRefs,
       };
@@ -334,7 +338,7 @@ export function applyNpcPoliticalBeliefFormation(
   let next = recordDurableDecisionTrace(world, proposal.evaluation);
   const trace = next.history.decisionTraces.at(-1);
   if (!trace || trace.decisionId !== proposal.evaluation.decisionId) {
-    throw new Error("Political belief decision trace was not recorded.");
+    throw new Error("Political belief decision trace is absent after writing.");
   }
   if (proposal.outcome === "no-opinion" || proposal.outcome === "defer") {
     if (proposal.beliefDimensions !== null) {

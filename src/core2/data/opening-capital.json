@@ -1,0 +1,62 @@
+{
+  "version": "p8-sourced-opening-employer-capital-candidate-v2",
+  "source": {
+    "citation": "JPMorgan Chase Institute, Cash Is King: Flows, Balances, and Buffer Days, September 2016; https://www.jpmorganchase.com/content/dam/jpmc/jpmorgan-chase-and-co/institute/pdf/jpmc-institute-small-business-report.pdf; original PDF SHA256 e4ddf6731fd32b239ec9d0afd308791c3b0155fe9f8396b4d80a8221e268eef7; Figures 5–7, printed pages 14–16. Exact classification mapping and overall-fallback decision preserved in data/research/money/opening-employer-cash-buffers.json.",
+    "vintage": "February–October 2015 cash observations; publication September 2016",
+    "limit": "JPMC observes average bank-account balances divided by ALL cash debits in a selected, metropolitan Chase sample, including employer and nonemployer businesses. Payroll plus IRS accounting nonwage costs is an unmeasured cash-debit proxy: accounting costs can include noncash depreciation and omit tax, capital expenditure, debt service, owner draws and other debits. Generated legal form, total firm size, banking coverage, 2021/local/territorial applicability and the source of the owner capital are unobserved. No owner contribution, appropriation, lending transaction, refill, future deficit or survival guarantee is established."
+  },
+  "excludedOrganizationKinds": [
+    "nonprofit",
+    "public-institution",
+    "government"
+  ],
+  "overallIndustry": "all-small-businesses",
+  "medianDaysParameterByIndustry": {
+    "all-small-businesses": "openingEmployerCashBufferDaysAll",
+    "restaurants": "openingEmployerCashBufferDaysRestaurants",
+    "repair-and-maintenance": "openingEmployerCashBufferDaysRepair",
+    "retail": "openingEmployerCashBufferDaysRetail",
+    "construction": "openingEmployerCashBufferDaysConstruction",
+    "personal-services": "openingEmployerCashBufferDaysPersonalServices",
+    "wholesalers": "openingEmployerCashBufferDaysWholesale",
+    "metal-and-machinery": "openingEmployerCashBufferDaysMetalMachinery",
+    "health-care-services": "openingEmployerCashBufferDaysHealthCare",
+    "high-tech-manufacturing": "openingEmployerCashBufferDaysHighTechManufacturing",
+    "other-professional-services": "openingEmployerCashBufferDaysProfessionalServices",
+    "high-tech-services": "openingEmployerCashBufferDaysHighTechServices",
+    "real-estate": "openingEmployerCashBufferDaysRealEstate"
+  },
+  "industryByClassification": {
+    "enterprise:food-service": "restaurants",
+    "enterprise:repair": "repair-and-maintenance",
+    "enterprise:retail": "retail",
+    "enterprise:construction": "construction",
+    "enterprise:personal-services": "personal-services",
+    "enterprise:wholesale": "wholesalers",
+    "service:clinic": "health-care-services",
+    "service:hospital": "health-care-services",
+    "service:nursing-home": "health-care-services",
+    "enterprise:professional-services": "other-professional-services",
+    "enterprise:legal-services": "other-professional-services",
+    "enterprise:real-estate": "real-estate"
+  },
+  "stopgapId": "SG-P8-opening-private-cash-buffer",
+  "openingPriorNamespace": "p8:opening-employer-cash-buffer:WHO:v2",
+  "tailSpanParameter": "openingEmployerCashBufferTailSpan",
+  "spreadStopgapId": "SG-P8-opening-private-cash-buffer-spread",
+  "spreadTargetRef": "EMPIRICAL-OPENING-EMPLOYER-CASH-BUFFER-SPREAD",
+  "openingPriorAssumptions": {
+    "stopgapId": "SG-P8-opening-private-cash-buffer-spread",
+    "observed": "Only each industry's q25, median and q75 anchors are observed in the frozen JPMC source. The empirical IQR remains the ESTIMATED median parameter's numeric spread and the supplemental DAYS check target.",
+    "unmeasured": "Stable uniform firm startup ranks, piecewise-linear interpolation, extrapolated tails and the local employer cash-debit crosswalk are assumptions. They do not constitute an observed full distribution or individual firm measurement.",
+    "endpointRecipe": "low=max(zero,q25-tailSpan*(median-q25)); high=q75+tailSpan*(q75-median). Nonnegative cash is a mathematical constraint, not a survival floor. Tail span is an open TUNABLE with an independent blocked empirical target.",
+    "identityScope": "World seed plus firm ID in this domain only; no date, requested future year, projected deficit, outcome draw or runtime refill input. Quantile is assigned during fresh population opening generation only."
+  },
+  "unsupportedOpening": {
+    "stopgapId": "SG-P8-opening-unsupported-owner-funding",
+    "status": "modeled-zero-funded-opening-pending-dated-funding",
+    "citation": "Modeled fresh zero-funded prototype journal opening pending genuine dated institution funding under REVIEW16; not an observed bank balance or a private-business cash-buffer estimate.",
+    "estimatedFrom": "The prototype has no established genuine dated opening funding for this fresh institution, nonbusiness or unknown owner. Exact technical zero initializes an explicitly unfunded model state. Not an observed zero balance. No appropriation, receipt, owner equity, lender draw, private JPMC estimate, survival floor or refill is invented.",
+    "replacementModules": ["public-budget", "national"]
+  }
+}

@@ -1,157 +1,128 @@
-/**
- * Export what states pay their governor and legislators, from the locked
- * Book of the States tables.
- *
- * Reads the saved table pages in `data/source/book-of-the-states/raw/`
- * (The Book of the States 2023, Council of State Governments: table 4.3, The
- * Governors, table 3.9, Legislative Compensation, and table 5.4, Compensation
- * of Judges) and writes
- * `src/simulation/office-pay.generated.ts`: one annual salary in whole dollars
- * per state or territory. Governor salaries are as of January 1, 2022;
- * legislator salaries are the 2023 regular-session annual salary.
- *
- * Only a plain annual figure is written. A legislature paid a per diem, a
- * weekly amount, or two different salaries by chamber (Utah, Vermont,
- * Virginia), or nothing, is left out rather than written as zero or guessed.
- * Run with `npm run export:office-pay`; `-- --check` fails when the committed
- * output is stale.
- */
-
+/** Export independently sourced government salary facts, never publisher tables. */
+import { createHash } from "node:crypto";
 import { readFileSync, writeFileSync } from "node:fs";
 import { STATES } from "../../../src/simulation/state-reference";
 
 export const OFFICE_PAY_OUTPUT_PATH = "src/simulation/office-pay.generated.ts";
-const RAW = "data/source/book-of-the-states/raw";
-const LOCK = "data/source/book-of-the-states/artifact-lock.json";
-const UPDATES = "data/source/office-pay-updates/updates.json";
+export const OFFICE_PAY_FACTS_PATH =
+  "data/source/official-office-pay/facts.json";
+export const SALARY_OFFICES = [
+  "governor",
+  "state-legislator",
+  "trial-court-judge",
+] as const;
 
-const decode = (text: string) =>
-  text
-    .replace(/<[^>]+>/g, "")
-    .replace(/&nbsp;|&#160;/g, " ")
-    .replace(/&amp;/g, "&")
-    .replace(/&#8217;|&rsquo;/g, "’")
-    .replace(/\s+/g, " ")
-    .trim();
-
-function tableRows(file: string): string[][] {
-  const html = readFileSync(`${RAW}/${file}`, "utf8");
-  return [...html.matchAll(/<tr[^>]*>([\s\S]*?)<\/tr>/g)].map((row) =>
-    [...row[1]!.matchAll(/<t[dh][^>]*>([\s\S]*?)<\/t[dh]>/g)].map((cell) =>
-      decode(cell[1]!),
-    ),
-  );
+type SalaryOffice = (typeof SALARY_OFFICES)[number];
+export interface OfficialSalaryFact {
+  state: string;
+  office: SalaryOffice;
+  annualDollars: number;
+  status: "SOURCED";
+  sourceUrl: string;
+  locator: string;
+  referencePeriod: string;
+  verification: string;
+}
+interface OfficialSalaryJournal {
+  schema: string;
+  accessedAt: string;
+  facts: OfficialSalaryFact[];
 }
 
-const usps = new Map(
-  Object.entries(STATES).map(([code, state]) => [state.name, code]),
-);
-usps.set("Northern Mariana Islands", "MP");
-usps.set("U.S. Virgin Islands", "VI");
-usps.set("American Samoa", "AS");
-usps.set("Guam", "GU");
-usps.set("Puerto Rico", "PR");
-const codeFor = (name: string): string | null =>
-  usps.get(name.replace(/[*†‡]+$/g, "").trim()) ?? null;
-
-/** A single plain annual dollar figure, or null. */
-function plainDollars(text: string): number | null {
-  const match = /^\$?\s?(\d{1,3}(?:,\d{3})+|\d+)(?:\.\d+)?\.?$/.exec(
-    text.trim(),
-  );
-  return match ? Number(match[1]!.replace(/,/g, "")) : null;
+/** These legacy hosts publish the government's own compensation records. */
+const LEGACY_OFFICIAL_HOSTS = new Set([
+  "cnmilaw.org",
+  "www.opaguam.org",
+  "www.kslegresearch.org",
+  "media.ark.org",
+  "www.dopusvi.org",
+  "laws.flrules.org",
+  "legvi.org",
+  "www.ctas.tennessee.edu",
+  "billstatus.ls.state.ms.us",
+]);
+export function validateSalaryJournal(journal: OfficialSalaryJournal): void {
+  if (journal.schema !== "official-office-pay/v1" || !journal.accessedAt)
+    throw new Error("Invalid official salary journal");
+  const seen = new Set<string>();
+  for (const fact of journal.facts) {
+    const key = `${fact.state}:${fact.office}`;
+    const url = new URL(fact.sourceUrl);
+    if (
+      !STATES[fact.state] ||
+      !SALARY_OFFICES.includes(fact.office) ||
+      !Number.isSafeInteger(fact.annualDollars) ||
+      fact.annualDollars <= 0 ||
+      fact.status !== "SOURCED" ||
+      !fact.locator ||
+      !fact.referencePeriod ||
+      !fact.verification ||
+      seen.has(key) ||
+      url.protocol !== "https:" ||
+      (!url.hostname.endsWith(".gov") &&
+        !url.hostname.endsWith(".state.al.us") &&
+        !url.hostname.endsWith(".state.nj.us") &&
+        !url.hostname.endsWith(".state.nv.us") &&
+        !LEGACY_OFFICIAL_HOSTS.has(url.hostname)) ||
+      /bookofthestates|csg\.org|ncsl\.org/i.test(fact.sourceUrl)
+    )
+      throw new Error(`Invalid or duplicate official salary fact: ${key}`);
+    seen.add(key);
+  }
 }
 
 export function renderOfficePayModule(): string {
-  const governors = new Map<string, number>();
-  for (const cells of tableRows("table-2023-4-3.html")) {
-    const code = cells[1] ? codeFor(cells[1]) : null;
-    const dollars = cells[2] ? plainDollars(cells[2]) : null;
-    if (code && dollars !== null && dollars > 0) governors.set(code, dollars);
-  }
-  const legislators = new Map<string, number>();
-  for (const cells of tableRows("table-2023-3-9.html")) {
-    const code = cells[1] ? codeFor(cells[1]) : null;
-    const dollars = cells[3] ? plainDollars(cells[3]) : null;
-    // The saved page holds the table twice: first with 2022 figures (mileage
-    // 58.5 cents), then with the 2023 figures the title names (65.5 cents).
-    // Later rows replace earlier ones, so the 2023 figure stands.
-    if (code && dollars !== null && dollars > 0) legislators.set(code, dollars);
-  }
-  // Table 5.4: the general trial courts' salary is the last column.
-  const judges = new Map<string, number>();
-  for (const cells of tableRows("table-2023-5-4.html")) {
-    const code = cells[1] ? codeFor(cells[1]) : null;
-    const dollars = cells[8] ? plainDollars(cells[8]) : null;
-    if (code && dollars !== null && dollars > 0) judges.set(code, dollars);
-  }
-  // A newer official source than the 2023 tables replaces that state's row.
-  const updates = (
-    JSON.parse(readFileSync(UPDATES, "utf8")) as {
-      updates: {
-        office: "governor" | "state-legislator" | "trial-court-judge";
-        state: string;
-        annualDollars: number;
-        effectiveFrom: string;
-        source: string;
-      }[];
-    }
-  ).updates;
-  for (const update of updates) {
-    const table =
-      update.office === "governor"
-        ? governors
-        : update.office === "trial-court-judge"
-          ? judges
-          : legislators;
-    table.set(update.state, update.annualDollars);
-  }
-  const lock = JSON.parse(readFileSync(LOCK, "utf8")) as {
-    asOf: string;
-    artifacts: { sha256: string }[];
-  };
+  const raw = readFileSync(OFFICE_PAY_FACTS_PATH, "utf8");
+  const journal = JSON.parse(raw) as OfficialSalaryJournal;
+  validateSalaryJournal(journal);
+  const rows = (office: SalaryOffice) =>
+    journal.facts
+      .filter((fact) => fact.office === office)
+      .sort((a, b) => a.state.localeCompare(b.state))
+      .map((fact) => `${fact.state}:${fact.annualDollars}`)
+      .join(";");
   const meta = {
     source:
-      "Council of State Governments, The Book of the States 2023, table 4.3 (governors' salaries, as of January 1, 2022) and table 3.9 (legislators' annual salary, 2023) and table 5.4 (general trial court judges' salary).",
-    lockedSha256: lock.artifacts.map((artifact) => artifact.sha256),
-    asOf: lock.asOf,
-    governors: governors.size,
-    legislators: legislators.size,
-    judges: judges.size,
-    newerThanTables: updates.map((update) => ({
-      office: update.office,
-      state: update.state,
-      annualDollars: update.annualDollars,
-      effectiveFrom: update.effectiveFrom,
-      source: update.source,
+      "Current official office pay checked October 11, 2026, including applicable statutory adjustments; each fact cites its effective year and term. Missing annual figures use the existing labeled official-source estimate.",
+    journalSha256: createHash("sha256").update(raw).digest("hex"),
+    asOf: journal.accessedAt,
+    governors: journal.facts.filter((fact) => fact.office === "governor")
+      .length,
+    legislators: journal.facts.filter(
+      (fact) => fact.office === "state-legislator",
+    ).length,
+    judges: journal.facts.filter((fact) => fact.office === "trial-court-judge")
+      .length,
+    citations: journal.facts.map((fact) => ({
+      state: fact.state,
+      office: fact.office,
+      annualDollars: fact.annualDollars,
+      status: fact.status,
+      sourceUrl: fact.sourceUrl,
+      locator: fact.locator,
+      referencePeriod: fact.referencePeriod,
     })),
   };
-  const join = (map: Map<string, number>) =>
-    [...map]
-      .sort(([a], [b]) => a.localeCompare(b))
-      .map(([code, dollars]) => `${code}:${dollars}`)
-      .join(";");
   return `/**
  * GENERATED — do not edit by hand.
- *
- * Written by \`scripts/source/regional-money/export-office-pay.ts\` from the
- * locked Book of the States tables. A state whose pay is not one plain annual
- * figure is absent, never zero.
+ * Official salary facts from data/source/official-office-pay/facts.json.
+ * Current-pay effective years and terms are explicit. Missing annual figures are absent,
+ * never zero; the existing salary reader estimates them from official facts.
  */
 
 export const OFFICE_PAY_META = ${JSON.stringify(meta, null, 2)} as const;
 
-/** \`state or territory postal code:governor's annual salary in dollars\`. */
+/** State or territory postal code:governor annual salary in dollars. */
 export const GOVERNOR_SALARY_ROWS =
-  ${JSON.stringify(join(governors))};
+  ${JSON.stringify(rows("governor"))};
 
-/** \`state or territory postal code:legislator's annual salary in dollars\`. */
+/** State or territory postal code:legislator annual salary in dollars. */
 export const LEGISLATOR_SALARY_ROWS =
-  ${JSON.stringify(join(legislators))};
+  ${JSON.stringify(rows("state-legislator"))};
 
-/** \`state or territory postal code:general trial court judge's annual salary in dollars\`. */
+/** State or territory postal code:general trial court judge annual salary in dollars. */
 export const TRIAL_JUDGE_SALARY_ROWS =
-  ${JSON.stringify(join(judges))};
+  ${JSON.stringify(rows("trial-court-judge"))};
 `;
 }
 

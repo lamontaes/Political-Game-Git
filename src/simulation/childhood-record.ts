@@ -1,8 +1,8 @@
-import { ageOnDate, makeIsoDate } from "./dates";
+import { ageOnDate, makeIsoDate } from "../core2/kernel/dates";
 import { eventById } from "./event-index";
 import { appendedList, recordsByStringField } from "./history-index";
 import { organizationProfileAt } from "./life-queries";
-import { createStableId } from "./ids";
+import { createStableId } from "../core2/kernel/ids";
 import { activeChildAuthoritiesAt } from "./life-queries";
 import type { ChildhoodRecordEntry, EntityId, World } from "./types";
 

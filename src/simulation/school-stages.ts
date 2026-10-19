@@ -1,4 +1,4 @@
-import { ageOnDate, makeIsoDate } from "./dates";
+import { ageOnDate, makeIsoDate } from "../core2/kernel/dates";
 import {
   futureDueItemStateAt,
   scheduleFutureDueItem,
@@ -25,7 +25,7 @@ import {
   educationEnrollmentStateAt,
   organizationProfileAt,
 } from "./life-queries";
-import { SeededRng } from "./rng";
+import { SeededRng } from "../core2/kernel/rng";
 import { generateSchoolNames, SCHOOL_NAMES_V3_VERSION } from "./school-names";
 import {
   localInstitutionProvenance,

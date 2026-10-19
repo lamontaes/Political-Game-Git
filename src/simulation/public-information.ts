@@ -1,6 +1,6 @@
 import { eventById } from "./event-index";
-import { makeIsoDate } from "./dates";
-import { createStableId } from "./ids";
+import { makeIsoDate } from "../core2/kernel/dates";
+import { createStableId } from "../core2/kernel/ids";
 import { personName } from "./people";
 import { mediaOutletKey } from "./press/records";
 import { PUBLIC_PROGRAM_EVENT_PREFIX } from "./public-program-integrity";

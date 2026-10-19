@@ -1,7 +1,10 @@
+import { districtIdentityCatalog } from "../districts/catalog";
+import { districtIdentityByRecordId } from "../districts/query";
 import {
   congressSeatIdentityForOfficeKey,
   congressionalDistrictName,
 } from "./nationwide-world/congress-candidacy-packs";
+import { stateNameForUsps } from "./state-reference";
 import type { ElectiveOfficeRef } from "./types";
 
 /**
@@ -20,9 +23,18 @@ export function contestDistrictGeography(
 ): CampaignDistrictGeography | null {
   const binding = office.districtBinding ?? null;
   if (binding) {
+    // The district's own Gazetteer name ("State House District 76",
+    // "Assembly District 12"), after its state's name.
+    const identity = districtIdentityByRecordId(
+      districtIdentityCatalog(),
+      binding.recordId,
+    );
+    const name =
+      identity?.sourceName ??
+      `${binding.chamber.replaceAll("-", " ")} district ${identity?.districtCode ?? binding.geoid}`;
     return {
       key: `district:${binding.vintage}:${binding.chamber}:${binding.geoid}`,
-      label: `${binding.stateUsps} ${binding.chamber.replaceAll("-", " ")} district ${binding.geoid}`,
+      label: `${stateNameForUsps(binding.stateUsps) ?? binding.stateUsps} ${name}`,
     };
   }
   const seat = congressSeatIdentityForOfficeKey(office.officeKey)?.seat;

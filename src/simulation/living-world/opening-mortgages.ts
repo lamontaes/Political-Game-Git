@@ -1,4 +1,4 @@
-import { ageOnDate, completedMonthsBetween } from "../dates";
+import { ageOnDate, completedMonthsBetween } from "../../core2/kernel/dates";
 import {
   activeDwellingOccupanciesAt,
   activeHousingTenuresAt,

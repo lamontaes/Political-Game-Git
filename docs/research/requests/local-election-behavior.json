@@ -14,9 +14,42 @@
     {
       "source": "src/simulation/living-world/local-elections.ts",
       "whatItDidNotSettle": "Marks the default election day, stagger, primary and filing lead times and the draw of who runs, retires and votes as PLACEHOLDERS; the calendar per state is read elsewhere but not these behaviors."
+    },
+    {
+      "source": "https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf",
+      "whatItDidNotSettle": "Population/type-specific measured candidate counts, turnout, unopposed and retirement shares plus local five-kind sampling remain open."
+    },
+    {
+      "source": "https://www.archives.gov/founding-docs/constitution-transcript",
+      "whatItDidNotSettle": "Population/type-specific measured candidate counts, turnout, unopposed and retirement shares plus local five-kind sampling remain open."
+    },
+    {
+      "source": "https://www.azleg.gov/ars/16/00204.htm",
+      "whatItDidNotSettle": "Population/type-specific measured candidate counts, turnout, unopposed and retirement shares plus local five-kind sampling remain open."
+    },
+    {
+      "source": "https://legislature.maine.gov/statutes/30-A/title30-Asec2525.html",
+      "whatItDidNotSettle": "Population/type-specific measured candidate counts, turnout, unopposed and retirement shares plus local five-kind sampling remain open."
+    },
+    {
+      "source": "https://www.leg.state.fl.us/Statutes/index.cfm?App_mode=Display_Statute&URL=0000-0099/0099/Sections/0099.012.html",
+      "whatItDidNotSettle": "Population/type-specific measured candidate counts, turnout, unopposed and retirement shares plus local five-kind sampling remain open."
     }
   ],
   "title": "How local elections are actually run: timing, staggering, who runs and turnout",
   "usableAnswer": "Per government type and population band: the typical stagger pattern, primary lead days, filing deadline lead days, candidates per seat, unopposed share, incumbent retirement rate and turnout share of registered voters, each with a named public source (state election codes, NCSL, Ballotpedia local election data, Census voting supplement, or published local turnout studies) and its year.",
-  "whyItMatters": "Local elections in the game use a first-Tuesday default, even stagger, fixed primary and filing lead times and drawn candidate counts and turnout, none read from any town, so who wins and how many people vote is invented in every town."
+  "whyItMatters": "Local elections in the game use a first-Tuesday default, even stagger, fixed primary and filing lead times and drawn candidate counts and turnout, none read from any town, so who wins and how many people vote is invented in every town.",
+  "answer": {
+    "summary": "Separate statutory calendar/term/stagger rules from measured electoral behavior. Federal primary dates are observed calendar facts; population bands cannot substitute for charters. No reviewed representative local panel supports universal filing leads, turnout, retirement or unopposed shares. Existing inferred Congress-to-local deadlines remain estimates rather than legal rules.",
+    "sources": [
+      "https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf",
+      "https://www.archives.gov/founding-docs/constitution-transcript",
+      "https://www.azleg.gov/ars/16/00204.htm",
+      "https://legislature.maine.gov/statutes/30-A/title30-Asec2525.html",
+      "https://www.leg.state.fl.us/Statutes/index.cfm?App_mode=Display_Statute&URL=0000-0099/0099/Sections/0099.012.html"
+    ],
+    "answeredBy": "CODEX-RESEARCH-2",
+    "answeredAt": "2026-10-11T04:55:58.902164+00:00",
+    "stillOpen": "Population/type-specific measured candidate counts, turnout, unopposed and retirement shares plus local five-kind sampling remain open."
+  }
 }

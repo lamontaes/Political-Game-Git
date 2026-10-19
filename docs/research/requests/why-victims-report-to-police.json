@@ -30,9 +30,20 @@
     {
       "source": "Bureau of Justice Statistics, Repeat Violent Victimization, 2005-14, NCJ 250567",
       "whatItDidNotSettle": "How common repeat victimization is (a fifth of victims, half of violent victimizations); it gives no share reported for repeat against single victimizations."
+    },
+    {
+      "source": "https://bjs.ojp.gov/document/cv24.pdf",
+      "whatItDidNotSettle": "All56 state/local rates, clearance cohorts, crime causal coefficients, victim aftermath, disposition by custody/plea/trial and education effects remain unverified."
     }
   ],
   "title": "Why crime victims report to police, or keep quiet",
   "usableAnswer": "Adjusted odds ratios (or shares with seriousness held equal) for reporting by victim-offender relationship, the victim's age, and the victim's earlier police contact, from a named NCVS analysis or comparable survey, so each placeholder weight can be read as data.",
-  "whyItMatters": "Whether a crime reaches the police log decides what the local paper, the police and the prosecutor ever see, and a player who changes a town's ties or its police changes who reports."
+  "whyItMatters": "Whether a crime reaches the police log decides what the local paper, the police and the prosecutor ever see, and a player who changes a town's ties or its police changes who reports.",
+  "answer": {
+    "summary": "BJS documents nonreporting reasons and descriptive reporting proportions. Injury/weapon and relationship differences are observational, so no independent temperament, age, prior-contact or acquaintance reporting multiplier is established.",
+    "sources": ["https://bjs.ojp.gov/document/cv24.pdf"],
+    "answeredBy": "CODEX-RESEARCH-2",
+    "answeredAt": "2026-10-11T05:15:52.611668+00:00",
+    "stillOpen": "All56 state/local rates, clearance cohorts, crime causal coefficients, victim aftermath, disposition by custody/plea/trial and education effects remain unverified."
+  }
 }

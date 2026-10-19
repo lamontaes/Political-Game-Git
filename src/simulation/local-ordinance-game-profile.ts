@@ -10,11 +10,11 @@ import {
   governmentUnit,
   governmentUnitJurisdictionId,
   governmentUnitsForPlace,
-} from "./government-units";
-import type { GovernmentUnitIdentity } from "./government-units";
+} from "../core2/reference/government-units";
+import type { GovernmentUnitIdentity } from "../core2/reference/government-units";
 import { countyGoverningBodyRules } from "./nationwide-world/county-governing-body-rules";
 import { typicalCouncilSeats } from "./nationwide-world/typical-council-size";
-import { governmentUnitDisplayName } from "./nationwide-world/government-unit-names";
+import { governmentUnitDisplayName } from "../core2/gov-rules/government-unit-names";
 import {
   knownRule,
   majorityOf,
@@ -27,7 +27,7 @@ import type {
   MunicipalGovernment,
   MunicipalReading,
 } from "./municipal-government";
-import type { EntityId } from "./types";
+import type { EntityId } from "../core2/kernel/brands";
 
 export const LOCAL_ORDINANCE_GAME_PROFILE_VERSION = "local-ordinance-game/v1";
 export const LOCAL_FISCAL_GAME_AUTHORITY_VERSION =

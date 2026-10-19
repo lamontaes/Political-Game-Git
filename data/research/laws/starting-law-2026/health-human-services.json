@@ -1,0 +1,991 @@
+{
+  "questions": {
+    "us-policy-positions:health-human-services.expand-medicaid-eligibility": {
+      "source": "KFF, Status of State Medicaid Expansion Decisions (2026): 41 including D.C. adopted, 10 have not.",
+      "note": "Places first left out were read on 9/29/2026; any still unread take the most common answer among similar places, marked ESTIMATED FROM AVERAGE.",
+      "answers": {
+        "US-AK": {
+          "answer": "yes",
+          "source": "https://health.alaska.gov/media/qfph4aef/alaska-community-engagement-requirements-modeling-feb-2026.pdf",
+          "note": "Alaska adult Medicaid expansion limit: 138% of the federal poverty level.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+              "key": "income-limit",
+              "value": 138,
+              "unit": "share-of-federal-poverty-level"
+            }
+          ]
+        },
+        "US-AL": {
+          "answer": "no"
+        },
+        "US-AR": {
+          "answer": "yes",
+          "source": "https://humanservices.arkansas.gov/divisions-shared-services/county-operations/medicaid-quick-reference-chart/",
+          "note": "Arkansas adult Medicaid expansion limit: 138% of the federal poverty level.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+              "key": "income-limit",
+              "value": 138,
+              "unit": "share-of-federal-poverty-level"
+            }
+          ]
+        },
+        "US-AS": {
+          "answer": "no",
+          "source": "https://www.macpac.gov/wp-content/uploads/2019/07/Medicaid-and-CHIP-in-the-Territories.pdf",
+          "note": "American Samoa runs Medicaid under a waiver that pays for care in proportion to residents under 200 percent of the poverty level with no individual enrollment, so it has not expanded to the adult group (MACPAC, February 2021)."
+        },
+        "US-AZ": {
+          "answer": "yes",
+          "source": "https://epm.azahcccs.gov/EligibilityPolicyManual/Policy/Chapter_400_AHCCCS_Medical_Assistance_Programs/MA0401.htm",
+          "note": "Arizona AHCCCS adult-group threshold is 133% of the federal poverty level; the official policy manual is the basis used here.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+              "key": "income-limit",
+              "value": 133,
+              "unit": "share-of-federal-poverty-level"
+            }
+          ]
+        },
+        "US-CA": {
+          "answer": "yes",
+          "source": "https://www.dhcs.ca.gov/individuals/Pages/AffordableCareActLinks.aspx",
+          "note": "California adult Medicaid expansion limit: 138% of the federal poverty level.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+              "key": "income-limit",
+              "value": 138,
+              "unit": "share-of-federal-poverty-level"
+            }
+          ]
+        },
+        "US-CO": {
+          "answer": "yes",
+          "source": "https://www.healthfirstcolorado.gov/will-health-first-colorado-still-cover-my-medical-bills-before-im-officially-enrolled/",
+          "note": "Colorado Health First adult group income limit is up to 133% of the federal poverty level.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+              "key": "income-limit",
+              "value": 133,
+              "unit": "share-of-federal-poverty-level"
+            }
+          ]
+        },
+        "US-CT": {
+          "answer": "yes",
+          "source": "https://portal.ct.gov/dss/knowledge-base/articles/healthcare-coverage/husky-d",
+          "note": "Connecticut HUSKY D adult limit: 138% of the federal poverty level.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+              "key": "income-limit",
+              "value": 138,
+              "unit": "share-of-federal-poverty-level"
+            }
+          ]
+        },
+        "US-DC": {
+          "answer": "yes",
+          "source": "https://dhcf.dc.gov/page/medicaid-income-limits",
+          "note": "District adult expansion limit is 133% FPL plus the 5 percentage-point MAGI disregard, effective January 1, 2026.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+              "key": "income-limit",
+              "value": 138,
+              "unit": "share-of-federal-poverty-level"
+            }
+          ]
+        },
+        "US-DE": {
+          "answer": "yes",
+          "source": "https://dhss.delaware.gov/dmma/home/medicaid-engage/",
+          "note": "Delaware adult expansion limit is 133% FPL plus the 5 percentage-point MAGI disregard.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+              "key": "income-limit",
+              "value": 138,
+              "unit": "share-of-federal-poverty-level"
+            }
+          ]
+        },
+        "US-FL": {
+          "answer": "no"
+        },
+        "US-GA": {
+          "answer": "no",
+          "note": "Pathways covers some adults with a work requirement; not the expansion."
+        },
+        "US-GU": {
+          "answer": "yes",
+          "source": "https://www.medicaid.gov/medicaid-spa/2021-05-13/108316",
+          "note": "CMS-approved Guam SPA GU-21-0002 states that, effective January 1, 2021, 138% of Guam local poverty is equivalent to 150% of the federal poverty level.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+              "key": "income-limit",
+              "value": 150,
+              "unit": "share-of-federal-poverty-level"
+            }
+          ]
+        },
+        "US-HI": {
+          "answer": "yes",
+          "source": "https://humanservices.hawaii.gov/aca/",
+          "note": "Hawaii adult expansion coverage is for income under 138% of the federal poverty level.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+              "key": "income-limit",
+              "value": 138,
+              "unit": "share-of-federal-poverty-level"
+            }
+          ]
+        },
+        "US-IA": {
+          "answer": "yes",
+          "source": "https://hhs.iowa.gov/medicaid/plans-programs/iowa-health-wellness-plan",
+          "note": "Iowa Wellness Plan threshold for adults 19–64 is 133% of the federal poverty level; current eligibility standard effective April 1, 2026.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+              "key": "income-limit",
+              "value": 133,
+              "unit": "share-of-federal-poverty-level"
+            }
+          ]
+        },
+        "US-ID": {
+          "answer": "yes",
+          "source": "https://healthandwelfare.idaho.gov/services-programs/medicaid-health/medicaid-expansion",
+          "note": "Idaho adult expansion income limit: 138% of the federal poverty level.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+              "key": "income-limit",
+              "value": 138,
+              "unit": "share-of-federal-poverty-level"
+            }
+          ]
+        },
+        "US-IL": {
+          "answer": "yes",
+          "source": "https://hfs.illinois.gov/info/fedresctr/medicaidfedpolicychfs.html",
+          "note": "Illinois adult expansion income limit: 138% of the federal poverty level.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+              "key": "income-limit",
+              "value": 138,
+              "unit": "share-of-federal-poverty-level"
+            }
+          ]
+        },
+        "US-IN": {
+          "answer": "yes",
+          "source": "https://secure.in.gov/fssa/hip/about-hip/frequently-asked-questions/",
+          "note": "Indiana HIP adult eligibility threshold is effectively 138% FPL; the agency FAQ states the program threshold.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+              "key": "income-limit",
+              "value": 138,
+              "unit": "share-of-federal-poverty-level"
+            }
+          ]
+        },
+        "US-KS": {
+          "answer": "no"
+        },
+        "US-KY": {
+          "answer": "yes",
+          "source": "https://kynect.ky.gov/benefits/s/medicaid-kchip-program?language=en_US",
+          "note": "Kentucky adult expansion income limit: 138% of the federal poverty level.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+              "key": "income-limit",
+              "value": 138,
+              "unit": "share-of-federal-poverty-level"
+            }
+          ]
+        },
+        "US-LA": {
+          "answer": "yes",
+          "source": "https://ldh.la.gov/assets/medicaid/Rulemaking/FinalRules/May2016FinalRules.pdf",
+          "note": "Louisiana adult expansion threshold is 133% FPL plus the 5 percentage-point MAGI disregard.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+              "key": "income-limit",
+              "value": 138,
+              "unit": "share-of-federal-poverty-level"
+            }
+          ]
+        },
+        "US-MA": {
+          "answer": "yes",
+          "source": "https://budget.digital.mass.gov/summary/fy26/enacted/health-and-human-services/health-and-human-services/40000940/",
+          "note": "Massachusetts enacted FY2026 budget specifies coverage through 133% of the federal poverty level; no higher numerical threshold is asserted.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+              "key": "income-limit",
+              "value": 133,
+              "unit": "share-of-federal-poverty-level"
+            }
+          ]
+        },
+        "US-MD": {
+          "answer": "yes",
+          "source": "https://regs.maryland.gov/us/md/exec/comar/10.09.24/index.full.html",
+          "note": "Maryland adult group threshold: 133% of the federal poverty level.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+              "key": "income-limit",
+              "value": 133,
+              "unit": "share-of-federal-poverty-level"
+            }
+          ]
+        },
+        "US-ME": {
+          "answer": "yes",
+          "source": "https://www.legislature.maine.gov/legis/statutes/22/title22sec3174-G.html",
+          "note": "MaineCare adult threshold is 133% FPL plus the 5 percentage-point MAGI disregard.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+              "key": "income-limit",
+              "value": 138,
+              "unit": "share-of-federal-poverty-level"
+            }
+          ]
+        },
+        "US-MI": {
+          "answer": "yes",
+          "source": "https://www.michigan.gov/healthymiplan",
+          "note": "Healthy Michigan Plan adult income limit: 133% of the federal poverty level.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+              "key": "income-limit",
+              "value": 133,
+              "unit": "share-of-federal-poverty-level"
+            }
+          ]
+        },
+        "US-MN": {
+          "answer": "yes",
+          "source": "https://www.revisor.mn.gov/statutes/cite/256B.056",
+          "note": "Minnesota adult threshold is 133% FPL plus the 5 percentage-point MAGI disregard.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+              "key": "income-limit",
+              "value": 138,
+              "unit": "share-of-federal-poverty-level"
+            }
+          ]
+        },
+        "US-MO": {
+          "answer": "yes",
+          "source": "https://oa.mo.gov/sites/default/files/FY26_DSS_Programs_Book.pdf",
+          "note": "Missouri adult expansion income limit: 138% of the federal poverty level.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+              "key": "income-limit",
+              "value": 138,
+              "unit": "share-of-federal-poverty-level"
+            }
+          ]
+        },
+        "US-MP": {
+          "answer": "no",
+          "source": "https://www.macpac.gov/wp-content/uploads/2019/07/Medicaid-and-CHIP-in-the-Territories.pdf",
+          "note": "The Northern Mariana Islands set Medicaid eligibility using SSI income and asset standards under a waiver and did not expand to the ACA adult group (MACPAC, February 2021)."
+        },
+        "US-MS": {
+          "answer": "no"
+        },
+        "US-MT": {
+          "answer": "yes",
+          "source": "https://www.dphhs.mt.gov/medicaidchanges/faqs",
+          "note": "Montana current agency guidance reports the adult expansion limit as approximately 138% FPL; the statutory base is 133% with applicable MAGI disregard.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+              "key": "income-limit",
+              "value": 138,
+              "unit": "share-of-federal-poverty-level"
+            }
+          ]
+        },
+        "US-NC": {
+          "answer": "yes",
+          "source": "https://medicaid.ncdhhs.gov/north-carolina-expands-medicaid",
+          "note": "North Carolina expansion adults ages 19–64 are covered up to 138% FPL.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+              "key": "income-limit",
+              "value": 138,
+              "unit": "share-of-federal-poverty-level"
+            }
+          ]
+        },
+        "US-ND": {
+          "answer": "yes",
+          "source": "https://www.hhs.nd.gov/healthcare/medicaid-expansion",
+          "note": "North Dakota expansion coverage income limit: 138% of the federal poverty level.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+              "key": "income-limit",
+              "value": 138,
+              "unit": "share-of-federal-poverty-level"
+            }
+          ]
+        },
+        "US-NE": {
+          "answer": "yes",
+          "source": "https://dhhs.ne.gov/Pages/Medicaid-Expansion.aspx",
+          "note": "Nebraska expansion coverage income limit: 138% of the federal poverty level.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+              "key": "income-limit",
+              "value": 138,
+              "unit": "share-of-federal-poverty-level"
+            }
+          ]
+        },
+        "US-NH": {
+          "answer": "yes",
+          "source": "https://www.medicaid.gov/renew-info/NH",
+          "note": "CMS reports New Hampshire adult group coverage through 138% FPL.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+              "key": "income-limit",
+              "value": 138,
+              "unit": "share-of-federal-poverty-level"
+            }
+          ]
+        },
+        "US-NJ": {
+          "answer": "yes",
+          "source": "https://njfamilycare.dhs.state.nj.us/who_eligbl.aspx",
+          "note": "New Jersey adult Medicaid eligibility limit: 138% of the federal poverty level.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+              "key": "income-limit",
+              "value": 138,
+              "unit": "share-of-federal-poverty-level"
+            }
+          ]
+        },
+        "US-NM": {
+          "answer": "yes",
+          "source": "https://www.srca.nm.gov/parts/title08/08.296.0500.html",
+          "note": "New Mexico adult threshold is 133% FPL plus the 5 percentage-point MAGI disregard.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+              "key": "income-limit",
+              "value": 138,
+              "unit": "share-of-federal-poverty-level"
+            }
+          ]
+        },
+        "US-NV": {
+          "answer": "yes",
+          "source": "https://prod.dss.nv.gov/programs/Medicaid/general-medical-information/",
+          "note": "Nevada adult expansion income limit: 138% of the federal poverty level.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+              "key": "income-limit",
+              "value": 138,
+              "unit": "share-of-federal-poverty-level"
+            }
+          ]
+        },
+        "US-NY": {
+          "answer": "yes",
+          "source": "https://www.health.ny.gov/health_care/medicaid/publications/adm/13adm3",
+          "note": "New York adult group threshold is 133% FPL plus the 5 percentage-point MAGI disregard.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+              "key": "income-limit",
+              "value": 138,
+              "unit": "share-of-federal-poverty-level"
+            }
+          ]
+        },
+        "US-OH": {
+          "answer": "yes",
+          "source": "https://content.govdelivery.com/accounts/OHMEDICAID/bulletins/426e8bb",
+          "note": "Ohio Medicaid agency September 2026 guidance gives the adult expansion threshold as 138% FPL.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+              "key": "income-limit",
+              "value": 138,
+              "unit": "share-of-federal-poverty-level"
+            }
+          ]
+        },
+        "US-OK": {
+          "answer": "yes",
+          "source": "https://oklahoma.gov/ohca/about/medicaid-expansion/expansion.html",
+          "note": "Oklahoma adult expansion threshold is 133% FPL plus the 5 percentage-point MAGI disregard.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+              "key": "income-limit",
+              "value": 138,
+              "unit": "share-of-federal-poverty-level"
+            }
+          ]
+        },
+        "US-OR": {
+          "answer": "yes",
+          "source": "https://healthcare.oregon.gov/marketplace/blog/pages/financial-help-explained.aspx",
+          "note": "Oregon Health Plan adult expansion limit: 138% FPL; Oregon also has a separate Bridge program through 200% FPL.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+              "key": "income-limit",
+              "value": 138,
+              "unit": "share-of-federal-poverty-level"
+            }
+          ]
+        },
+        "US-PA": {
+          "answer": "yes",
+          "source": "https://www.pa.gov/agencies/dhs/resources/medicaid/medicaid-general-eligibility",
+          "note": "Pennsylvania adult expansion threshold is 133% FPL plus the 5 percentage-point MAGI disregard.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+              "key": "income-limit",
+              "value": 138,
+              "unit": "share-of-federal-poverty-level"
+            }
+          ]
+        },
+        "US-PR": {
+          "answer": "yes",
+          "source": "https://www.medicaid.gov/medicaid/spa/downloads/PR-23-0001.pdf",
+          "note": "Puerto Rico SPA specifies 133% of local poverty plus the 5-point disregard; the SPA defines local poverty as 85% of federal poverty, so the equivalent is 1.38 × 0.85 = 117.3% FPL.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+              "key": "income-limit",
+              "value": 117.3,
+              "unit": "share-of-federal-poverty-level"
+            }
+          ]
+        },
+        "US-RI": {
+          "answer": "yes",
+          "source": "https://eohhs.ri.gov/consumer/adults/medicaid-adults",
+          "note": "Rhode Island adult threshold is 133% FPL plus the 5 percentage-point MAGI disregard.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+              "key": "income-limit",
+              "value": 138,
+              "unit": "share-of-federal-poverty-level"
+            }
+          ]
+        },
+        "US-SC": {
+          "answer": "no"
+        },
+        "US-SD": {
+          "answer": "yes",
+          "source": "https://dss.sd.gov/medicaid/HR1.aspx",
+          "note": "South Dakota expansion adult income limit: 138% FPL.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+              "key": "income-limit",
+              "value": 138,
+              "unit": "share-of-federal-poverty-level"
+            }
+          ]
+        },
+        "US-TN": {
+          "answer": "no"
+        },
+        "US-TX": {
+          "answer": "no"
+        },
+        "US-UT": {
+          "answer": "yes",
+          "source": "https://medicaid.utah.gov/expansion/",
+          "note": "Utah adult expansion income limit: 138% of the federal poverty level.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+              "key": "income-limit",
+              "value": 138,
+              "unit": "share-of-federal-poverty-level"
+            }
+          ]
+        },
+        "US-VA": {
+          "answer": "yes",
+          "source": "https://www.dmas.virginia.gov/for-applicants/populations-served/for-adults/adults-aged-19-64/",
+          "note": "Virginia adult expansion eligibility limit: 138% of the federal poverty level.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+              "key": "income-limit",
+              "value": 138,
+              "unit": "share-of-federal-poverty-level"
+            }
+          ]
+        },
+        "US-VI": {
+          "answer": "yes",
+          "source": "https://www.medicaid.gov/State-resource-center/Medicaid-State-Plan-Amendments/Downloads/VI/VI-13-010.pdf",
+          "note": "The territory adult-group threshold is 133 percent of the Virgin Islands poverty level; territory threshold, not FPL.",
+          "cite": "CMS-approved U.S. Virgin Islands Medicaid SPA VI-13-010",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+              "key": "income-limit",
+              "value": 133,
+              "unit": "share-of-local-poverty-level"
+            }
+          ]
+        },
+        "US-VT": {
+          "answer": "yes",
+          "source": "https://dvha.vermont.gov/medicaid-changes",
+          "note": "Vermont adult expansion eligibility limit: 138% of the federal poverty level.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+              "key": "income-limit",
+              "value": 138,
+              "unit": "share-of-federal-poverty-level"
+            }
+          ]
+        },
+        "US-WA": {
+          "answer": "yes",
+          "source": "https://www.hca.wa.gov/free-or-low-cost-health-care/i-help-others-apply-and-access-apple-health/health-care-adults",
+          "note": "Washington adult threshold is 133% FPL plus the 5 percentage-point MAGI disregard.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+              "key": "income-limit",
+              "value": 138,
+              "unit": "share-of-federal-poverty-level"
+            }
+          ]
+        },
+        "US-WI": {
+          "answer": "no",
+          "note": "Covers adults to 100% of poverty without adopting the expansion."
+        },
+        "US-WV": {
+          "answer": "yes",
+          "source": "https://dhhr.wv.gov/bms/BMSPUB/Documents/Guide%20to%20Medicaid%202023.pdf",
+          "note": "West Virginia adult expansion limit: 138% of the federal poverty level.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+              "key": "income-limit",
+              "value": 138,
+              "unit": "share-of-federal-poverty-level"
+            }
+          ]
+        },
+        "US-WY": {
+          "answer": "no"
+        }
+      }
+    },
+    "us-policy-positions:health-human-services.work-requirement-for-assistance": {
+      "source": "Public Law 119-21 (the 2025 budget reconciliation law), per KFF and CHCS summaries: SNAP work rules widened (ages 55 to 64; parents of children 14 and older) from Nov. 1, 2025. Georgia's Pathways since July 1, 2023 applies to Medicaid, not food or income assistance, and is under the Medicaid question.",
+      "note": "The federal law answers yes for every place.",
+      "answers": {
+        "US": {
+          "answer": "yes",
+          "operativeAt": "2025-11-01",
+          "cite": "P.L. 119-21, §10101",
+          "source": "https://www.congress.gov/119/plaws/publ21/PLAW-119publ21.pdf",
+          "note": "Federal SNAP general work standard: at least 80 hours per month under P.L. 119-21 §10101; program coverage and exemptions are not reduced to a single numeric term here.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:health-human-services.work-requirement-for-assistance",
+              "key": "hours",
+              "value": 80,
+              "unit": "hours"
+            }
+          ]
+        }
+      }
+    },
+    "us-policy-positions:health-human-services.medicaid-work-requirement": {
+      "source": "Public Law 119-21: Medicaid community engagement (80 hours a month of work, training or study) for expansion adults 19 to 64, by Jan. 1, 2027 unless a state starts sooner (KFF, CHCS). Georgia Pathways since July 1, 2023.",
+      "note": "Every place without a requirement on 1/1/2026 answers no (KFF, 9/24/2026); Nebraska, Montana and Iowa start early.",
+      "answers": {
+        "US": {
+          "answer": "yes",
+          "operativeAt": "2027-01-01",
+          "source": "https://www.congress.gov/119/plaws/publ21/PLAW-119publ21.pdf",
+          "note": "P.L. 119-21 §71119 establishes 80 hours per month or a qualifying earnings alternative; federal start date remains the existing January 1, 2027.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:health-human-services.medicaid-work-requirement",
+              "key": "hours",
+              "value": 80,
+              "unit": "hours"
+            }
+          ]
+        },
+        "US-AK": {
+          "answer": "no",
+          "source": "https://www.kff.org/medicaid/issue-brief/medicaid-waiver-tracker-approved-and-pending-section-1115-waivers-by-state/",
+          "note": "No Medicaid work requirement was in force on 1/1/2026; the federal one starts 1/1/2027."
+        },
+        "US-AL": {
+          "answer": "no",
+          "source": "https://www.kff.org/medicaid/issue-brief/medicaid-waiver-tracker-approved-and-pending-section-1115-waivers-by-state/",
+          "note": "No Medicaid work requirement was in force on 1/1/2026; the federal one starts 1/1/2027."
+        },
+        "US-AR": {
+          "answer": "no",
+          "source": "https://www.kff.org/medicaid/issue-brief/medicaid-waiver-tracker-approved-and-pending-section-1115-waivers-by-state/",
+          "note": "No Medicaid work requirement was in force on 1/1/2026; the federal one starts 1/1/2027."
+        },
+        "US-AS": {
+          "answer": "no",
+          "source": "https://www.kff.org/medicaid/issue-brief/medicaid-waiver-tracker-approved-and-pending-section-1115-waivers-by-state/",
+          "note": "No Medicaid work requirement was in force on 1/1/2026; the federal one starts 1/1/2027."
+        },
+        "US-AZ": {
+          "answer": "no",
+          "source": "https://www.kff.org/medicaid/issue-brief/medicaid-waiver-tracker-approved-and-pending-section-1115-waivers-by-state/",
+          "note": "No Medicaid work requirement was in force on 1/1/2026; the federal one starts 1/1/2027."
+        },
+        "US-CA": {
+          "answer": "no",
+          "source": "https://www.kff.org/medicaid/issue-brief/medicaid-waiver-tracker-approved-and-pending-section-1115-waivers-by-state/",
+          "note": "No Medicaid work requirement was in force on 1/1/2026; the federal one starts 1/1/2027."
+        },
+        "US-CO": {
+          "answer": "no",
+          "source": "https://www.kff.org/medicaid/issue-brief/medicaid-waiver-tracker-approved-and-pending-section-1115-waivers-by-state/",
+          "note": "No Medicaid work requirement was in force on 1/1/2026; the federal one starts 1/1/2027."
+        },
+        "US-CT": {
+          "answer": "no",
+          "source": "https://www.kff.org/medicaid/issue-brief/medicaid-waiver-tracker-approved-and-pending-section-1115-waivers-by-state/",
+          "note": "No Medicaid work requirement was in force on 1/1/2026; the federal one starts 1/1/2027."
+        },
+        "US-DC": {
+          "answer": "no",
+          "source": "https://www.kff.org/medicaid/issue-brief/medicaid-waiver-tracker-approved-and-pending-section-1115-waivers-by-state/",
+          "note": "No Medicaid work requirement was in force on 1/1/2026; the federal one starts 1/1/2027."
+        },
+        "US-DE": {
+          "answer": "no",
+          "source": "https://www.kff.org/medicaid/issue-brief/medicaid-waiver-tracker-approved-and-pending-section-1115-waivers-by-state/",
+          "note": "No Medicaid work requirement was in force on 1/1/2026; the federal one starts 1/1/2027."
+        },
+        "US-FL": {
+          "answer": "no",
+          "source": "https://www.kff.org/medicaid/issue-brief/medicaid-waiver-tracker-approved-and-pending-section-1115-waivers-by-state/",
+          "note": "No Medicaid work requirement was in force on 1/1/2026; the federal one starts 1/1/2027."
+        },
+        "US-GA": {
+          "answer": "yes",
+          "operativeAt": "2023-07-01",
+          "source": "https://pathways.georgia.gov/eligibility",
+          "note": "Georgia Pathways requires 80 qualifying hours per month; existing operative date retained.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:health-human-services.medicaid-work-requirement",
+              "key": "hours",
+              "value": 80,
+              "unit": "hours"
+            }
+          ]
+        },
+        "US-GU": {
+          "answer": "no",
+          "source": "https://www.kff.org/medicaid/issue-brief/medicaid-waiver-tracker-approved-and-pending-section-1115-waivers-by-state/",
+          "note": "No Medicaid work requirement was in force on 1/1/2026; the federal one starts 1/1/2027."
+        },
+        "US-HI": {
+          "answer": "no",
+          "source": "https://www.kff.org/medicaid/issue-brief/medicaid-waiver-tracker-approved-and-pending-section-1115-waivers-by-state/",
+          "note": "No Medicaid work requirement was in force on 1/1/2026; the federal one starts 1/1/2027."
+        },
+        "US-IA": {
+          "answer": "yes",
+          "operativeAt": "2026-12-01",
+          "before": {
+            "answer": "no"
+          },
+          "source": "https://hhs.iowa.gov/medicaid/plans-programs/iowa-health-wellness-plan/ihawp-community-engagement-requirements",
+          "note": "Iowa HHS sets 80 hours per month; an alternative qualifying amount may also satisfy the rule; existing prospective date retained.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:health-human-services.medicaid-work-requirement",
+              "key": "hours",
+              "value": 80,
+              "unit": "hours"
+            }
+          ]
+        },
+        "US-ID": {
+          "answer": "no",
+          "source": "https://www.kff.org/medicaid/issue-brief/medicaid-waiver-tracker-approved-and-pending-section-1115-waivers-by-state/",
+          "note": "No Medicaid work requirement was in force on 1/1/2026; the federal one starts 1/1/2027."
+        },
+        "US-IL": {
+          "answer": "no",
+          "source": "https://www.kff.org/medicaid/issue-brief/medicaid-waiver-tracker-approved-and-pending-section-1115-waivers-by-state/",
+          "note": "No Medicaid work requirement was in force on 1/1/2026; the federal one starts 1/1/2027."
+        },
+        "US-IN": {
+          "answer": "no",
+          "source": "https://www.kff.org/medicaid/issue-brief/medicaid-waiver-tracker-approved-and-pending-section-1115-waivers-by-state/",
+          "note": "No Medicaid work requirement was in force on 1/1/2026; the federal one starts 1/1/2027."
+        },
+        "US-KS": {
+          "answer": "no",
+          "source": "https://www.kff.org/medicaid/issue-brief/medicaid-waiver-tracker-approved-and-pending-section-1115-waivers-by-state/",
+          "note": "No Medicaid work requirement was in force on 1/1/2026; the federal one starts 1/1/2027."
+        },
+        "US-KY": {
+          "answer": "no",
+          "source": "https://www.kff.org/medicaid/issue-brief/medicaid-waiver-tracker-approved-and-pending-section-1115-waivers-by-state/",
+          "note": "No Medicaid work requirement was in force on 1/1/2026; the federal one starts 1/1/2027."
+        },
+        "US-LA": {
+          "answer": "no",
+          "source": "https://www.kff.org/medicaid/issue-brief/medicaid-waiver-tracker-approved-and-pending-section-1115-waivers-by-state/",
+          "note": "No Medicaid work requirement was in force on 1/1/2026; the federal one starts 1/1/2027."
+        },
+        "US-MA": {
+          "answer": "no",
+          "source": "https://www.kff.org/medicaid/issue-brief/medicaid-waiver-tracker-approved-and-pending-section-1115-waivers-by-state/",
+          "note": "No Medicaid work requirement was in force on 1/1/2026; the federal one starts 1/1/2027."
+        },
+        "US-MD": {
+          "answer": "no",
+          "source": "https://www.kff.org/medicaid/issue-brief/medicaid-waiver-tracker-approved-and-pending-section-1115-waivers-by-state/",
+          "note": "No Medicaid work requirement was in force on 1/1/2026; the federal one starts 1/1/2027."
+        },
+        "US-ME": {
+          "answer": "no",
+          "source": "https://www.kff.org/medicaid/issue-brief/medicaid-waiver-tracker-approved-and-pending-section-1115-waivers-by-state/",
+          "note": "No Medicaid work requirement was in force on 1/1/2026; the federal one starts 1/1/2027."
+        },
+        "US-MI": {
+          "answer": "no",
+          "source": "https://www.kff.org/medicaid/issue-brief/medicaid-waiver-tracker-approved-and-pending-section-1115-waivers-by-state/",
+          "note": "No Medicaid work requirement was in force on 1/1/2026; the federal one starts 1/1/2027."
+        },
+        "US-MN": {
+          "answer": "no",
+          "source": "https://www.kff.org/medicaid/issue-brief/medicaid-waiver-tracker-approved-and-pending-section-1115-waivers-by-state/",
+          "note": "No Medicaid work requirement was in force on 1/1/2026; the federal one starts 1/1/2027."
+        },
+        "US-MO": {
+          "answer": "no",
+          "source": "https://www.kff.org/medicaid/issue-brief/medicaid-waiver-tracker-approved-and-pending-section-1115-waivers-by-state/",
+          "note": "No Medicaid work requirement was in force on 1/1/2026; the federal one starts 1/1/2027."
+        },
+        "US-MP": {
+          "answer": "no",
+          "source": "https://www.kff.org/medicaid/issue-brief/medicaid-waiver-tracker-approved-and-pending-section-1115-waivers-by-state/",
+          "note": "No Medicaid work requirement was in force on 1/1/2026; the federal one starts 1/1/2027."
+        },
+        "US-MS": {
+          "answer": "no",
+          "source": "https://www.kff.org/medicaid/issue-brief/medicaid-waiver-tracker-approved-and-pending-section-1115-waivers-by-state/",
+          "note": "No Medicaid work requirement was in force on 1/1/2026; the federal one starts 1/1/2027."
+        },
+        "US-MT": {
+          "answer": "yes",
+          "operativeAt": "2026-07-01",
+          "before": {
+            "answer": "no"
+          },
+          "source": "https://www.dphhs.mt.gov/medicaidchanges/faqs",
+          "note": "Montana requires 80 hours per month or an alternative $580 monthly qualifying earnings amount; existing operative date retained.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:health-human-services.medicaid-work-requirement",
+              "key": "hours",
+              "value": 80,
+              "unit": "hours"
+            }
+          ]
+        },
+        "US-NC": {
+          "answer": "no",
+          "source": "https://www.kff.org/medicaid/issue-brief/medicaid-waiver-tracker-approved-and-pending-section-1115-waivers-by-state/",
+          "note": "No Medicaid work requirement was in force on 1/1/2026; the federal one starts 1/1/2027."
+        },
+        "US-ND": {
+          "answer": "no",
+          "source": "https://www.kff.org/medicaid/issue-brief/medicaid-waiver-tracker-approved-and-pending-section-1115-waivers-by-state/",
+          "note": "No Medicaid work requirement was in force on 1/1/2026; the federal one starts 1/1/2027."
+        },
+        "US-NE": {
+          "answer": "yes",
+          "operativeAt": "2026-05-01",
+          "before": {
+            "answer": "no"
+          },
+          "source": "https://dhhs.ne.gov/Pages/WorkRequirements.aspx",
+          "note": "Nebraska requires 80 hours per month, with listed earnings and half-time education alternatives; existing operative date retained.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:health-human-services.medicaid-work-requirement",
+              "key": "hours",
+              "value": 80,
+              "unit": "hours"
+            }
+          ]
+        },
+        "US-NH": {
+          "answer": "no",
+          "source": "https://www.kff.org/medicaid/issue-brief/medicaid-waiver-tracker-approved-and-pending-section-1115-waivers-by-state/",
+          "note": "No Medicaid work requirement was in force on 1/1/2026; the federal one starts 1/1/2027."
+        },
+        "US-NJ": {
+          "answer": "no",
+          "source": "https://www.kff.org/medicaid/issue-brief/medicaid-waiver-tracker-approved-and-pending-section-1115-waivers-by-state/",
+          "note": "No Medicaid work requirement was in force on 1/1/2026; the federal one starts 1/1/2027."
+        },
+        "US-NM": {
+          "answer": "no",
+          "source": "https://www.kff.org/medicaid/issue-brief/medicaid-waiver-tracker-approved-and-pending-section-1115-waivers-by-state/",
+          "note": "No Medicaid work requirement was in force on 1/1/2026; the federal one starts 1/1/2027."
+        },
+        "US-NV": {
+          "answer": "no",
+          "source": "https://www.kff.org/medicaid/issue-brief/medicaid-waiver-tracker-approved-and-pending-section-1115-waivers-by-state/",
+          "note": "No Medicaid work requirement was in force on 1/1/2026; the federal one starts 1/1/2027."
+        },
+        "US-NY": {
+          "answer": "no",
+          "source": "https://www.kff.org/medicaid/issue-brief/medicaid-waiver-tracker-approved-and-pending-section-1115-waivers-by-state/",
+          "note": "No Medicaid work requirement was in force on 1/1/2026; the federal one starts 1/1/2027."
+        },
+        "US-OH": {
+          "answer": "no",
+          "source": "https://www.kff.org/medicaid/issue-brief/medicaid-waiver-tracker-approved-and-pending-section-1115-waivers-by-state/",
+          "note": "No Medicaid work requirement was in force on 1/1/2026; the federal one starts 1/1/2027."
+        },
+        "US-OK": {
+          "answer": "no",
+          "source": "https://www.kff.org/medicaid/issue-brief/medicaid-waiver-tracker-approved-and-pending-section-1115-waivers-by-state/",
+          "note": "No Medicaid work requirement was in force on 1/1/2026; the federal one starts 1/1/2027."
+        },
+        "US-OR": {
+          "answer": "no",
+          "source": "https://www.kff.org/medicaid/issue-brief/medicaid-waiver-tracker-approved-and-pending-section-1115-waivers-by-state/",
+          "note": "No Medicaid work requirement was in force on 1/1/2026; the federal one starts 1/1/2027."
+        },
+        "US-PA": {
+          "answer": "no",
+          "source": "https://www.kff.org/medicaid/issue-brief/medicaid-waiver-tracker-approved-and-pending-section-1115-waivers-by-state/",
+          "note": "No Medicaid work requirement was in force on 1/1/2026; the federal one starts 1/1/2027."
+        },
+        "US-PR": {
+          "answer": "no",
+          "source": "https://www.kff.org/medicaid/issue-brief/medicaid-waiver-tracker-approved-and-pending-section-1115-waivers-by-state/",
+          "note": "No Medicaid work requirement was in force on 1/1/2026; the federal one starts 1/1/2027."
+        },
+        "US-RI": {
+          "answer": "no",
+          "source": "https://www.kff.org/medicaid/issue-brief/medicaid-waiver-tracker-approved-and-pending-section-1115-waivers-by-state/",
+          "note": "No Medicaid work requirement was in force on 1/1/2026; the federal one starts 1/1/2027."
+        },
+        "US-SC": {
+          "answer": "no",
+          "source": "https://www.kff.org/medicaid/issue-brief/medicaid-waiver-tracker-approved-and-pending-section-1115-waivers-by-state/",
+          "note": "No Medicaid work requirement was in force on 1/1/2026; the federal one starts 1/1/2027."
+        },
+        "US-SD": {
+          "answer": "no",
+          "source": "https://www.kff.org/medicaid/issue-brief/medicaid-waiver-tracker-approved-and-pending-section-1115-waivers-by-state/",
+          "note": "No Medicaid work requirement was in force on 1/1/2026; the federal one starts 1/1/2027."
+        },
+        "US-TN": {
+          "answer": "no",
+          "source": "https://www.kff.org/medicaid/issue-brief/medicaid-waiver-tracker-approved-and-pending-section-1115-waivers-by-state/",
+          "note": "No Medicaid work requirement was in force on 1/1/2026; the federal one starts 1/1/2027."
+        },
+        "US-TX": {
+          "answer": "no",
+          "source": "https://www.kff.org/medicaid/issue-brief/medicaid-waiver-tracker-approved-and-pending-section-1115-waivers-by-state/",
+          "note": "No Medicaid work requirement was in force on 1/1/2026; the federal one starts 1/1/2027."
+        },
+        "US-UT": {
+          "answer": "no",
+          "source": "https://www.kff.org/medicaid/issue-brief/medicaid-waiver-tracker-approved-and-pending-section-1115-waivers-by-state/",
+          "note": "No Medicaid work requirement was in force on 1/1/2026; the federal one starts 1/1/2027."
+        },
+        "US-VA": {
+          "answer": "no",
+          "source": "https://www.kff.org/medicaid/issue-brief/medicaid-waiver-tracker-approved-and-pending-section-1115-waivers-by-state/",
+          "note": "No Medicaid work requirement was in force on 1/1/2026; the federal one starts 1/1/2027."
+        },
+        "US-VI": {
+          "answer": "no",
+          "source": "https://www.kff.org/medicaid/issue-brief/medicaid-waiver-tracker-approved-and-pending-section-1115-waivers-by-state/",
+          "note": "No Medicaid work requirement was in force on 1/1/2026; the federal one starts 1/1/2027."
+        },
+        "US-VT": {
+          "answer": "no",
+          "source": "https://www.kff.org/medicaid/issue-brief/medicaid-waiver-tracker-approved-and-pending-section-1115-waivers-by-state/",
+          "note": "No Medicaid work requirement was in force on 1/1/2026; the federal one starts 1/1/2027."
+        },
+        "US-WA": {
+          "answer": "no",
+          "source": "https://www.kff.org/medicaid/issue-brief/medicaid-waiver-tracker-approved-and-pending-section-1115-waivers-by-state/",
+          "note": "No Medicaid work requirement was in force on 1/1/2026; the federal one starts 1/1/2027."
+        },
+        "US-WI": {
+          "answer": "no",
+          "source": "https://www.kff.org/medicaid/issue-brief/medicaid-waiver-tracker-approved-and-pending-section-1115-waivers-by-state/",
+          "note": "No Medicaid work requirement was in force on 1/1/2026; the federal one starts 1/1/2027."
+        },
+        "US-WV": {
+          "answer": "no",
+          "source": "https://www.kff.org/medicaid/issue-brief/medicaid-waiver-tracker-approved-and-pending-section-1115-waivers-by-state/",
+          "note": "No Medicaid work requirement was in force on 1/1/2026; the federal one starts 1/1/2027."
+        },
+        "US-WY": {
+          "answer": "no",
+          "source": "https://www.kff.org/medicaid/issue-brief/medicaid-waiver-tracker-approved-and-pending-section-1115-waivers-by-state/",
+          "note": "No Medicaid work requirement was in force on 1/1/2026; the federal one starts 1/1/2027."
+        }
+      }
+    }
+  }
+}

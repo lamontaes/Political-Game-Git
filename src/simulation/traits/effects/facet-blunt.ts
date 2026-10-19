@@ -11,7 +11,6 @@ export const facetBluntEffects: readonly TraitEffectDeclaration[] = [
         option: "counter",
         trait: BLUNT,
         pole: "high",
-        explanation: "They say plainly what would need to change.",
       },
     ],
   },

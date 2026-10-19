@@ -745,7 +745,6 @@ describe("what the fit layer refuses", () => {
     for (const file of [
       "src/presentation/garment-fit.ts",
       "src/presentation/character-components.ts",
-      "src/presentation/character-render-plan.ts",
     ]) {
       const source = fs.readFileSync(path.join(ROOT, file), "utf-8");
       expect(source).not.toMatch(/from "(node:)?fs"/);

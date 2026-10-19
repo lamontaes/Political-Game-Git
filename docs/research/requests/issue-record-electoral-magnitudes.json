@@ -19,9 +19,22 @@
     {
       "source": "src/simulation/types.ts PrivateBeliefRecord",
       "whatItDidNotSettle": "Gives each voter a position, conviction, salience and flexibility on a question. Nothing in the repository says how any of those translate into an electoral reaction."
+    },
+    {
+      "source": "https://www.cambridge.org/core/journals/american-political-science-review/article/rollcall-vote-selection-implications-for-the-study-of-legislative-politics/FFAD60FB9CA9BBD54F02DE44A1FF0264",
+      "whatItDidNotSettle": "US all-level economy/disaster/scandal/record effects, donor/endorsement losses, duration and broken-promise coefficients not established."
     }
   ],
   "title": "How much a vote on one issue moves a voter who cares about it",
   "usableAnswer": "A per-issue effect size in vote-share or approval points for a legislator's or governor's vote against a voter's position, with the study it comes from; a ratio or ordering for low versus top issue importance; the share of voters who know their state legislator's vote on a salient and on an ordinary bill; and how studies treat a record that went both ways. Each with its source and the office level it was measured for.",
-  "whyItMatters": "The owner wants support won or lost on the record in office. The game now does that at placeholder sizes: too large and one unpopular vote ends a career, too small and a legislator's votes never matter. It also assumes every voter knows every recorded vote, which is surely wrong."
+  "whyItMatters": "The owner wants support won or lost on the record in office. The game now does that at placeholder sizes: too large and one unpopular vote ends a career, too small and a legislator's votes never matter. It also assumes every voter knows every recorded vote, which is surely wrong.",
+  "answer": {
+    "summary": "CC BY roll-call-selection study shows recorded votes are a selected sample of legislative decisions. No issue-salience multiplier, voter-awareness share or mixed-record electoral coefficient adopted; state-accountability article rights remain unsettled.",
+    "sources": [
+      "https://www.cambridge.org/core/journals/american-political-science-review/article/rollcall-vote-selection-implications-for-the-study-of-legislative-politics/FFAD60FB9CA9BBD54F02DE44A1FF0264"
+    ],
+    "answeredBy": "CODEX-RESEARCH-2",
+    "answeredAt": "2026-10-11T05:19:25.459410+00:00",
+    "stillOpen": "US all-level economy/disaster/scandal/record effects, donor/endorsement losses, duration and broken-promise coefficients not established."
+  }
 }

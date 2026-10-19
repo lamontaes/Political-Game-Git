@@ -1,4 +1,4 @@
-import { addDays } from "./dates";
+import { addDays } from "../core2/kernel/dates";
 import { assertLifeHistorySourceAvailable } from "./life-sources";
 import {
   createMindProvenance,

@@ -16,9 +16,32 @@
     {
       "source": "D.C. Code §§ 1-204.04, 1-204.12 and 1-206.02, locked in data/source/municipal-governance/raw from the Council's law-xml-codified repository",
       "whatItDidNotSettle": "The statute gives the Mayor's options and the deemed-approval rule, not how often each happens."
+    },
+    {
+      "source": "https://www.archives.gov/founding-docs/constitution-transcript",
+      "whatItDidNotSettle": "Exact audited sign/veto/unsigned cohort counts and current executive-action window/exceptions remain open."
+    },
+    {
+      "source": "https://ltgov.alaska.gov/information/alaskas-constitution/",
+      "whatItDidNotSettle": "Exact audited sign/veto/unsigned cohort counts and current executive-action window/exceptions remain open."
+    },
+    {
+      "source": "https://code.dccouncil.gov/us/dc/council/code/sections/1-204.04",
+      "whatItDidNotSettle": "Exact audited sign/veto/unsigned cohort counts and current executive-action window/exceptions remain open."
     }
   ],
   "title": "How often the D.C. Mayor signs, lets pass unsigned, or returns a Council act",
   "usableAnswer": "Three shares with their counts and years, the override count, a line on which acts are returned, and the typical days to act.",
-  "whyItMatters": "In play, a Mayor the player does not control signs every act on the last day to act. That is a placeholder (MUNICIPAL_EXECUTIVE_PLACEHOLDER_ID in src/simulation/municipal-ordinance-procedure.ts); a Mayor who never returns an act makes the override route unreachable except for a player who is Mayor."
+  "whyItMatters": "In play, a Mayor the player does not control signs every act on the last day to act. That is a placeholder (MUNICIPAL_EXECUTIVE_PLACEHOLDER_ID in src/simulation/municipal-ordinance-procedure.ts); a Mayor who never returns an act makes the override route unreachable except for a player who is Mayor.",
+  "answer": {
+    "summary": "D.C. executive action must be counted separately from later congressional review;1-204.04 is the governing Council Act provision. Existing source interpretations do not establish sign/veto/unsigned percentages for a Council Period.",
+    "sources": [
+      "https://www.archives.gov/founding-docs/constitution-transcript",
+      "https://ltgov.alaska.gov/information/alaskas-constitution/",
+      "https://code.dccouncil.gov/us/dc/council/code/sections/1-204.04"
+    ],
+    "answeredBy": "CODEX-RESEARCH-2",
+    "answeredAt": "2026-10-11T05:09:23.641831+00:00",
+    "stillOpen": "Exact audited sign/veto/unsigned cohort counts and current executive-action window/exceptions remain open."
+  }
 }

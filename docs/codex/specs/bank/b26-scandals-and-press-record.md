@@ -33,7 +33,7 @@ Your town has a reporter who knows you. She calls for a quote when a story names
 
 1. **One answer, five real choices.**
    - New `respondToMatter(world, {matterId, personId, response, meaning})` in `press/responses.ts` writes one `MatterResponseRecord`.
-   - Add `apologize` and `attack-source` to `MATTER_RESPONSES`. `go quiet` is `decline-comment` plus cancelling the person's public appearances until they choose otherwise. `resign` calls `recordOfficeConsequence`.
+   - Add `apologize` and `attack-source` to `MATTER_RESPONSES`. `go quiet` is `decline-comment` plus canceling the person's public appearances until they choose otherwise. `resign` calls `recordOfficeConsequence`.
    - A false denial or false attack is also a recorded claim with intent deceive.
    - `PressAnswerChoice`, `OfficeAnswerKind` and `respondToComplaint` become thin callers, with `Replaces:` lines.
    - NPC subjects choose from the same five through `evaluateDecision`: their traits, what can be proved against them, party calls, and the next election.

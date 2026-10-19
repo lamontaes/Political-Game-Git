@@ -100,15 +100,17 @@ export interface MeasuredRamp {
 
 /** The painting's own skin luminance at its shadow, base and highlight. */
 export function measureSkinLuminance(raster: Raster): MeasuredRamp {
-  const values: number[] = [];
   const { data } = raster;
+  const all = new Float64Array(data.length / 4);
+  let count = 0;
   for (let i = 0; i < data.length; i += 4) {
     if (isSkinPixel(data[i]!, data[i + 1]!, data[i + 2]!, data[i + 3]!)) {
-      values.push(luminance(data[i]!, data[i + 1]!, data[i + 2]!));
+      all[count++] = luminance(data[i]!, data[i + 1]!, data[i + 2]!);
     }
   }
-  if (values.length === 0) throw new Error("No skin pixels were found.");
-  values.sort((a, b) => a - b);
+  if (count === 0) throw new Error("No skin pixels were found.");
+  // A typed array sorts by numeric value, as the percentiles need.
+  const values = all.subarray(0, count).sort();
   const at = (fraction: number) =>
     values[Math.min(values.length - 1, Math.floor(values.length * fraction))]!;
   const shadow = at(0.06);
@@ -124,10 +126,29 @@ export function measureSkinLuminance(raster: Raster): MeasuredRamp {
   return { shadow, base, highlight };
 }
 
-function rampColor(ramp: SkinRamp, t: number): Rgb {
-  const shadow = parseHex(ramp.shadow);
-  const base = parseHex(ramp.base);
-  const highlight = parseHex(ramp.highlight);
+/** A ramp's three colors, read from their hex once rather than per pixel. */
+interface ParsedRamp {
+  readonly shadow: Rgb;
+  readonly base: Rgb;
+  readonly highlight: Rgb;
+}
+
+const PARSED_RAMPS = new WeakMap<SkinRamp, ParsedRamp>();
+
+function parsedRamp(ramp: SkinRamp): ParsedRamp {
+  let parsed = PARSED_RAMPS.get(ramp);
+  if (!parsed) {
+    parsed = {
+      shadow: parseHex(ramp.shadow),
+      base: parseHex(ramp.base),
+      highlight: parseHex(ramp.highlight),
+    };
+    PARSED_RAMPS.set(ramp, parsed);
+  }
+  return parsed;
+}
+
+function rampColor({ shadow, base, highlight }: ParsedRamp, t: number): Rgb {
   if (t < 0) {
     const f = Math.max(0.2, 1 + t * 0.8);
     return { r: shadow.r * f, g: shadow.g * f, b: shadow.b * f };
@@ -160,6 +181,7 @@ export function recolorSkin(
   /** Garment regions take precedence where their painted coverage is stronger. */
   cloth: readonly Raster[] = [],
 ): Raster {
+  const ramp = parsedRamp(target);
   const data = new Uint8ClampedArray(raster.data);
   for (let i = 0; i < data.length; i += 4) {
     const r = data[i]!;
@@ -177,7 +199,7 @@ export function recolorSkin(
       !isSkinPixel(r, g, b, data[i + 3]!)
     )
       continue;
-    const color = rampColor(target, rampPosition(luminance(r, g, b), source));
+    const color = rampColor(ramp, rampPosition(luminance(r, g, b), source));
     data[i] = color.r;
     data[i + 1] = color.g;
     data[i + 2] = color.b;

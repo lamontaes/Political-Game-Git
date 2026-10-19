@@ -15,9 +15,32 @@
     {
       "source": "src/simulation/election-contests.ts evaluateDeterministicContestOutcome",
       "whatItDidNotSettle": "The recorded tallies are a stand-in (1,000 to 10,000 votes a candidate) and cannot be used for a margin; `how-an-election-night-should-come-out` owns realistic results."
+    },
+    {
+      "source": "https://www.pewresearch.org/2024/05/07/attention-to-local-news/",
+      "whatItDidNotSettle": "Aggregate output/reach counts by result category and office level remain open; no fixed story quota inferred."
+    },
+    {
+      "source": "https://www.pewresearch.org/journalism/2024/05/07/sources-of-local-news/",
+      "whatItDidNotSettle": "Aggregate output/reach counts by result category and office level remain open; no fixed story quota inferred."
+    },
+    {
+      "source": "https://www.pewresearch.org/journalism/2024/07/24/how-americans-get-local-political-news/",
+      "whatItDidNotSettle": "Aggregate output/reach counts by result category and office level remain open; no fixed story quota inferred."
     }
   ],
   "title": "How much coverage an election result gets, and at what reach",
   "usableAnswer": "A short table: for each kind of result (upset of an incumbent, open-seat win, routine re-election of a long-serving incumbent, a first-time winner, a party flip, a landslide or a near tie), the reach it typically gets at each office level (local, state, national) and roughly how many stories, with an example per row. Say which of these a newsroom judges from the result alone and which need something the game would have to record, such as a candidate's national profile.",
-  "whyItMatters": "Every election result now reaches the news as an ordinary story, weighted like any other named event about an office. Nothing yet makes a stunning upset national or a routine re-election a brief. Until this is answered the result is covered at the ordinary weight and marked as a placeholder in the code."
+  "whyItMatters": "Every election result now reaches the news as an ordinary story, weighted like any other named event about an office. Nothing yet makes a stunning upset national or a routine re-election a brief. Until this is answered the result is covered at the ordinary weight and marked as a placeholder in the code.",
+  "answer": {
+    "summary": "Self-reported local-news source use cannot identify coverage counts for party flips, upsets or close races. Those result categories require recorded incumbency, prior party control and certified margin; candidate national profile is an additional fact, not implied by victory.",
+    "sources": [
+      "https://www.pewresearch.org/2024/05/07/attention-to-local-news/",
+      "https://www.pewresearch.org/journalism/2024/05/07/sources-of-local-news/",
+      "https://www.pewresearch.org/journalism/2024/07/24/how-americans-get-local-political-news/"
+    ],
+    "answeredBy": "CODEX-RESEARCH-2",
+    "answeredAt": "2026-10-11T05:03:31.652405+00:00",
+    "stillOpen": "Aggregate output/reach counts by result category and office level remain open; no fixed story quota inferred."
+  }
 }

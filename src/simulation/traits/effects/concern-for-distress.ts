@@ -13,15 +13,11 @@ export const concernForDistressEffects: readonly TraitEffectDeclaration[] = [
         option: "petition",
         trait: "personality-v1:concern-for-distress",
         pole: "high",
-        explanation:
-          "They understand what the person is going through and press the petition on their behalf.",
       },
       {
         option: "wait",
         trait: "personality-v1:concern-for-distress",
         pole: "low",
-        explanation:
-          "They give little weight to the person's suffering and do not act on it.",
       },
     ],
   },

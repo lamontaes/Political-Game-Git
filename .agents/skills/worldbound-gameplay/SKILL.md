@@ -17,8 +17,7 @@ meaning and relevant open QAR1 choices. Read only the existing consumer and writ
 paths the change touches. Existing starting points include
 `src/simulation/legislation-content-contracts.ts`,
 `legislation-program-families.ts`, `legislation-drafting.ts`,
-`life-opportunities.ts`, `people-study-plan.ts`, `decisions.ts`,
-`src/presentation/contextual-scene-producers.ts` and their actual current callers.
+`life-opportunities.ts`, `decisions.ts` and their actual current callers.
 Locate renamed paths normally; do not recreate a second engine when a name moved.
 
 ## Procedure

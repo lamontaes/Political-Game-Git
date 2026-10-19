@@ -1,5 +1,5 @@
 import { applyLawConsequences } from "../enacted-law-effects";
-import { createStableId } from "../ids";
+import { createStableId } from "../../core2/kernel/ids";
 import { householdLocationAt } from "../life-queries";
 import { lifePlaceByJurisdictionId } from "../life-places";
 import { SNAP_WORK_REQUIREMENT_QUESTION } from "../law-consequences/modules/snap-participation/rows";

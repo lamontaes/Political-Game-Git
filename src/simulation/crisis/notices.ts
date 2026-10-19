@@ -1,4 +1,4 @@
-import { ageOnDate } from "../dates";
+import { ageOnDate } from "../../core2/kernel/dates";
 import type { EntityId, EventVisibility, IsoDate, World } from "../types";
 import {
   PROVISIONAL_DISASTER_POLICY,
@@ -196,14 +196,6 @@ export interface CrisisEnvelope {
   readonly knowledgeSourceIds: readonly EntityId[];
   readonly causalParents: readonly EntityId[];
   readonly recordSchemaVersion: string;
-}
-
-export function crisisEnvelopeDedupeKey(
-  envelope: CrisisEnvelope,
-  consumer: string,
-  consumerVersion: string,
-): string {
-  return `${envelope.recordId}|${consumer}|${consumerVersion}|${envelope.recordSchemaVersion}`;
 }
 
 function homeOf(world: World, personId: EntityId): EntityId[] {

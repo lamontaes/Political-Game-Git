@@ -1,0 +1,68 @@
+[
+  {
+    "key": "va-restoration",
+    "requestedUrl": "https://www.commonwealth.virginia.gov/judicial-system/restoration-of-rights/",
+    "retrievedAt": "2026-10-02T23:42:43.920102+00:00",
+    "error": "HTTP Error 404: Not Found"
+  },
+  {
+    "key": "ut-20a-2-101",
+    "requestedUrl": "https://le.utah.gov/xcode/Title20A/Chapter2/C20A-2-S101_1800010118000101.pdf",
+    "retrievedAt": "2026-10-02T23:42:44.560036+00:00",
+    "error": "HTTP Error 503: Service Unavailable"
+  },
+  {
+    "key": "ct-ch143",
+    "requestedUrl": "https://www.cga.ct.gov/current/pub/chap_143.htm",
+    "retrievedAt": "2026-10-02T23:40:03.075434+00:00",
+    "error": "HTTP Error 503: Service Unavailable"
+  },
+  {
+    "key": "vt-17-2121-retry",
+    "requestedUrl": "https://legislature.vermont.gov/statutes/section/17/043/02121",
+    "retrievedAt": "2026-10-02T23:40:03.076926+00:00",
+    "error": "HTTP Error 503: Service Unavailable"
+  },
+  {
+    "key": "ri-constitution-full",
+    "requestedUrl": "https://webserver.rilegislature.gov/RiConstitution/constfull.html",
+    "retrievedAt": "2026-10-02T23:38:52.506750+00:00",
+    "error": "HTTP Error 404: Not Found"
+  },
+  {
+    "key": "ct-sots-conviction",
+    "requestedUrl": "https://portal.ct.gov/sots/election-services/voter-information/voting-rights-of-convicted-felons",
+    "retrievedAt": "2026-10-02T23:38:53.031778+00:00",
+    "error": "HTTP Error 404: Not Found"
+  },
+  {
+    "key": "ri-constitution-art-2",
+    "requestedUrl": "https://www.rilegislature.gov/riconstitution/Pages/ArtII.aspx",
+    "retrievedAt": "2026-10-02T23:37:58.842799+00:00",
+    "error": "HTTP Error 404: Not Found"
+  },
+  {
+    "key": "hi-election-felons",
+    "requestedUrl": "https://elections.hawaii.gov/resources/frequently-asked-questions/",
+    "retrievedAt": "2026-10-02T23:37:58.843214+00:00",
+    "error": "HTTP Error 404: Not Found"
+  },
+  {
+    "key": "vt-17-2121",
+    "requestedUrl": "https://legislature.vermont.gov/statutes/section/17/043/02121",
+    "retrievedAt": "2026-10-02T23:37:59.104303+00:00",
+    "error": "HTTP Error 503: Service Unavailable"
+  },
+  {
+    "key": "hi-11-2",
+    "requestedUrl": "https://www.capitol.hawaii.gov/hrscurrent/Vol01_Ch0001-0042F/HRS0011/HRS_0011-0002.htm",
+    "retrievedAt": "2026-10-02T23:35:56.013211+00:00",
+    "error": "HTTP Error 403: Forbidden"
+  },
+  {
+    "key": "ri-constitution-2",
+    "requestedUrl": "https://webserver.rilegislature.gov/RiConstitution/C02.html",
+    "retrievedAt": "2026-10-02T23:35:56.013581+00:00",
+    "error": "HTTP Error 404: Not Found"
+  }
+]

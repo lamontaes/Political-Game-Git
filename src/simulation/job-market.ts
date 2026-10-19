@@ -9,8 +9,8 @@ import {
   dateAtAge,
   daysBetween,
   makeIsoDate,
-} from "./dates";
-import { createStableId } from "./ids";
+} from "../core2/kernel/dates";
+import { createStableId } from "../core2/kernel/ids";
 import { createWorkRelationship, recordWorkStatus } from "./life";
 import {
   activeWorkRelationshipsAt,
@@ -26,8 +26,8 @@ import {
 import { ensureLifePathPersonalPosition } from "./life-paths2-resources";
 import { localBusinessWageMinor } from "./recorded-employer";
 import { recordedTownEmployer } from "./living-world/town-businesses";
-import { governmentUnit } from "./government-units";
-import { governmentUnitDisplayName } from "./nationwide-world/government-unit-names";
+import { governmentUnit } from "../core2/reference/government-units";
+import { governmentUnitDisplayName } from "../core2/gov-rules/government-unit-names";
 import {
   ensureHomeLocalGovernments,
   homeLocalGovernmentUnits,
@@ -962,23 +962,19 @@ function openingBlocked(
   openingId: EntityId,
 ): string | null {
   const opening = jobOpening(world, openingId);
-  if (!opening || !openingTakesApplications(world, opening))
-    return "This opening is no longer taking applications.";
-  const played = isPlayed(world, personId);
+  if (!opening || !openingTakesApplications(world, opening)) return "Closed";
   if (
     applicationsFor(world, personId).some(
       (application) => application.openingId === openingId,
     )
   )
-    return played
-      ? "You have already applied for this job."
-      : "They have already applied for this job.";
+    return "Already applied";
   if (
     activeWorkRelationshipsAt(world, personId).some(
       (entry) => entry.relationship.organizationId === opening.organizationId,
     )
   )
-    return played ? "You already work here." : "They already work here.";
+    return "Works here";
   return null;
 }
 

@@ -373,7 +373,7 @@ Done: A121
 6. **A137** [not-started] (Team 5) A person's childhood (including a parent's death, illness, law trouble) should not be drawn by percent.
    - Next: In people-upbringing.ts replace drawMoney (:75) with the recorded parents' household income band when parents exist, else 'unknown' that prose omits; prove in people-upbringing.test.ts that two seeds give the same upbringing for the same parents.
 7. **A139** [not-started] (Team 5) The 48/48/4 gender split is unmarked and wrong.
-   - Next: Replace the split at person-identity.ts:208 with cited constants (ACS sex ratio; Pew non-binary share) labelled with their sources; prove in a person-identity test that a large sample matches those shares within rounding.
+   - Next: Replace the split at person-identity.ts:208 with cited constants (ACS sex ratio; Pew non-binary share) labeled with their sources; prove in a person-identity test that a large sample matches those shares within rounding.
 8. **A148** [not-started] (Team 5) The player's opening family and town households' work status and housing should not be drawn levels.
    - Next: First bounded step: in presentation/production-world.ts (:1199) ask in setup whether the other parent is living, nonresident or deceased (the player's fact) instead of the pick; prove in src/presentation/production-world.test.ts that no setup produces 'deceased' without the player's answer.
 9. **A140** [not-started] (Team 5) School term dates should be one calendar per school, not drawn per child.

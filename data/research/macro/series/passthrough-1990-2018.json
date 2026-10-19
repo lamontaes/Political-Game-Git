@@ -1,0 +1,8 @@
+{
+  "coefficient": 1.0011276180155062,
+  "intercept": -0.18269947457673302,
+  "standardErrorHAC12": 0.38869604787369266,
+  "sampleCount": 338,
+  "units": "mortgage-percentage-points per policy-percentage-point",
+  "interpretation": "descriptive association, not a causal policy estimate"
+}

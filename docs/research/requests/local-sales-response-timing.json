@@ -20,9 +20,34 @@
     {
       "source": "Nguyen and Soh, Employment Multipliers over the Business Cycle, World Bank Policy Research Working Paper 8105, 2017",
       "whatItDidNotSettle": "Reports year-by-year county offsets of job changes, not the build-up of local-serving sales toward a long-run elasticity; not converted."
+    },
+    {
+      "source": "BLS QCEW2025annualemploymentandwages",
+      "url": "https://data.bls.gov/cew/data/api/2025/a/industry/81.csv",
+      "retrievedAt": "2026-10-11",
+      "terms": {
+        "status": "public-domain-US",
+        "url": "https://www.bls.gov/bls/linksite.htm",
+        "notice": "BLS publications public domain except previously copyrighted photographs/illustrations; credit BLS; no emblem use."
+      },
+      "sourceCoverage": ["VI"]
     }
   ],
   "title": "How fast a town's local sales catch up with its pay",
   "usableAnswer": "The share of the long-run local-serving response realized at one, three and ten years after a lasting local payroll change (or a half-life), from a named study using county or metro panels, so the half-life can be read as data rather than set by hand.",
-  "whyItMatters": "It decides whether a plant closing or a raise shows on main street within a season or over years, which is what a player watching the town after their law sees."
+  "whyItMatters": "It decides whether a plant closing or a raise shows on main street within a season or over years, which is what a player watching the town after their law sees.",
+  "answer": {
+    "status": "answered-with-gaps",
+    "answeredAt": "2026-10-11",
+    "answeredBy": "CODEX-RESEARCH (Priorities0-1)",
+    "findings": {
+      "files": [
+        "data/research/regional/roadmap-r1-laus-annual-2000-2025.json",
+        "data/research/regional/roadmap-r1-gap-persistence.json",
+        "data/research/regional/roadmap-r1-qcew-state-industry-2025.json",
+        "data/research/regional/roadmap-r1-findings.json"
+      ],
+      "result": "OfficialLAUSannual2000–2025andQCEWstateindustry2025; derivedannualgapAR1withresidual/observedspreadexplicitlydescriptive,notcausalreturntime. Useworkplaceindustryexposureandactualemployerorders; separateedition/releasedatefromobservationdate. HUDplace-rentlevels,GDP/metrohistoryandcausallocalsalesmultipliersremainunsettled."
+    }
+  }
 }

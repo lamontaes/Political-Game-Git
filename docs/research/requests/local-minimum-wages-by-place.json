@@ -11,9 +11,91 @@
     {
       "source": "data/research/money/minimum-wage-2026.json (federal and state rates, 2026)",
       "whatItDidNotSettle": "Carries no city or county minimum, so the local part of a job's floor is not modeled."
+    },
+    {
+      "source": "DOLWHDstate minimumwagesummaryretrievedOct11,2026",
+      "url": "https://www.dol.gov/agencies/whd/minimum-wage/state",
+      "retrievedAt": "2026-10-11",
+      "terms": {
+        "status": "US-government-work",
+        "url": "https://www.govinfo.gov/content/pkg/USCODE-2024-title17/html/USCODE-2024-title17-sec105.htm",
+        "notice": "17 USC105 government works; statistics/facts only, not third-party content or logos."
+      },
+      "sourceCoverage": [
+        "AL",
+        "AK",
+        "AZ",
+        "AR",
+        "CA",
+        "CO",
+        "CT",
+        "DE",
+        "DC",
+        "FL",
+        "GA",
+        "HI",
+        "ID",
+        "IL",
+        "IN",
+        "IA",
+        "KS",
+        "KY",
+        "LA",
+        "ME",
+        "MD",
+        "MA",
+        "MI",
+        "MN",
+        "MS",
+        "MO",
+        "MT",
+        "NE",
+        "NV",
+        "NH",
+        "NJ",
+        "NM",
+        "NY",
+        "NC",
+        "ND",
+        "OH",
+        "OK",
+        "OR",
+        "PA",
+        "RI",
+        "SC",
+        "SD",
+        "TN",
+        "TX",
+        "UT",
+        "VT",
+        "VA",
+        "WA",
+        "WV",
+        "WI",
+        "WY"
+      ]
     }
   ],
   "title": "City and county minimum wages by place",
   "usableAnswer": "One row per city or county with its own minimum wage: jurisdiction, current hourly rate, employer-size tiers, scheduled increases, the ordinance or statute that set it, and a public source the game can refresh. Places with no local minimum need no row: the floor is then the higher of the federal and state rate.",
-  "whyItMatters": "A job's pay floor is the highest of the federal, state and local minimum where the job is. Until local rates are read, a worker in a city with its own higher minimum is paid the state or federal floor. Until each rate is read, the game starts from the most common real rule (no local minimum) and marks it as estimated from the average."
+  "whyItMatters": "A job's pay floor is the highest of the federal, state and local minimum where the job is. Until local rates are read, a worker in a city with its own higher minimum is paid the state or federal floor. Until each rate is read, the game starts from the most common real rule (no local minimum) and marks it as estimated from the average.",
+  "answer": {
+    "status": "answered-with-gaps",
+    "answeredAt": "2026-10-11",
+    "answeredBy": "CODEX-RESEARCH (Priorities0-1)",
+    "findings": {
+      "files": [
+        "data/research/jobs/roadmap-r3-jolts-table1-aug2026.json",
+        "data/research/jobs/roadmap-r3-jolts-table2-aug2026.json",
+        "data/research/jobs/roadmap-r3-jolts-table4-aug2026.json",
+        "data/research/jobs/roadmap-r3-jolts-table5-aug2026.json",
+        "data/research/jobs/roadmap-r3-jolts-table7-aug2026.json",
+        "data/research/jobs/roadmap-r3-unemployment-duration-2025.json",
+        "data/research/jobs/roadmap-r3-oews-sector-staffing-2025.json",
+        "data/research/jobs/roadmap-r3-state-wage-floor-summary.json",
+        "data/research/jobs/roadmap-r3-calibration-findings.json"
+      ],
+      "result": "CurrentJOLTSindustry/regionandsizeopenings,hires,quitsandlayoffs; CPS2025duration; OEWS2025detailedoccupationstaffingwithinsectorsandwagepercentiles; DOLstatesummaryrates. Timetofill,localordinances,publicownerbreakdownsandteenlifecourseprobabilitiesremainunsettled; ratesareaggregatechecks,notactoroutcomes."
+    }
+  }
 }
