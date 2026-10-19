@@ -56,12 +56,6 @@
       "citation": "How much less an engaged person's stance moves on one event: people who follow politics closely resist new messages more (Zaller 1992, The Nature and Origins of Mass Opinion). No study sets the size; spread 0.25 to 0.75.",
       "stopgapId": "SG-P15-views-first-version"
     },
-    "stanceCausesKept": {
-      "value": 24,
-      "tag": "TUNABLE",
-      "citation": "How many of the latest causes a stance keeps for the player's circle (and every person when bookkeeping is on). The readers ask only about causes after a date or by one event's id, so older ones are dropped. A cap keeps a stance heard about every day from growing without limit (a stance reached 2,850 causes in three years in one drawn town). Spread 12 to 48.",
-      "stopgapId": "SG-P15-views-first-version"
-    },
     "stanceStep": {
       "value": 0.1,
       "tag": "TUNABLE",
