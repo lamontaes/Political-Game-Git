@@ -21,7 +21,7 @@ const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(20).toString("hex");
 
 it(`a federal-floor wage complaint reaches a member of Congress, who raises the pay (seed ${seed})`, () => {
   const tried: string[] = [];
-  for (let life = 0; life < 8; life += 1) {
+  for (let life = 0; life < 24; life += 1) {
     const place = drawPlace(`${seed}:${life}`, "federal-casework");
     setBookkeeping(false);
     const { core } = buildBenchWorld(place.seed, gameStartDate(), {
