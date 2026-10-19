@@ -147,9 +147,7 @@
       "clipboard",
       "laptop",
       "carrying"
-    ],
-    "testify-at-hearing": ["speaking", "explaining"],
-    "lobby-legislator": ["talking", "explaining", "handshake"]
+    ]
   },
   "workActs": ["work-shift", "attend-scheduled-work-date-segment"],
   "homePlaces": [
