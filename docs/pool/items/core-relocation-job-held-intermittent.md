@@ -5,11 +5,12 @@ area: core
 kind: bug
 priority: 2
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/relocation-dead-member
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-19T20:40:54.006Z
 ---
 
 **What.** TODO
