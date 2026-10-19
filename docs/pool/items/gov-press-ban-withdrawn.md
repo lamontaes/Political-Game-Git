@@ -5,12 +5,13 @@ area: gov
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/press-ban-withdrawn
 pr:
 after:
 blocked-on:
 source: "owner ruling Oct 16 evening (docs/coordination/OWNER-DECISIONS.md); audit Oct 19, Part A on #4663"
+claimed-at: 2026-10-19T19:58:32.047Z
 ---
 
 **What.** The owner withdrew the "reporters and outlet owners can't hold office" rule on Oct 16 (OWNER-DECISIONS, Oct 16 evening): the defect was auto-appointment of a reporter to an empty seat at the opening, not eligibility, and "a reporter who wants to run may run." #4663 extended the ban instead, so a reporter who wants to run still cannot, and `pressConflict` in `src/core2/press-conflict.ts` is still read by `candidacy.ts`, `elections.ts`, `candidate-pool.ts` and `offices.ts`. Remove the eligibility ban and resolve `SG-GOV-press-office-owner-confirmation`; keep the fix that an empty seat is not filled by appointment from press staff (or anyone) outside the place's own vacancy rule from data, and find why `suitedResidents` ranked an outlet's head first. Press employment alone must not disqualify a candidate.
