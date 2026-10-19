@@ -157,6 +157,24 @@
         "tag": "ESTIMATED",
         "citation": "Michigan: the governor issues the writ under U.S. Const. art. I sec. 2 cl. 4 with no state deadline for a U.S. House vacancy (as in the 2017 Conyers vacancy, filled the following November); the statute itself was not read. The estimate dates it."
       }
+    },
+    "US-VT": {
+      "usHouse": {
+        "kind": "days-after-vacancy",
+        "days": 120,
+        "tag": "ESTIMATED",
+        "citation": "17 V.S.A. 2621 (read in a statute aggregator): the governor calls a special election and a special primary for a U.S. House vacancy, the election within six months of the vacancy unless the vacancy falls near a general election; the six-month cap is the only day rule, so 120 days is a midpoint inside a 60-to-180-day spread",
+        "spread": [60, 180]
+      }
+    },
+    "US-MT": {
+      "usHouse": {
+        "kind": "days-after-vacancy",
+        "days": 92,
+        "tag": "ESTIMATED",
+        "citation": "Montana's 2015 law on U.S. House vacancies (MCA title 13, chapter 25; a 2016 news report, the code text unread): a special election between 85 and 100 days after the vacancy",
+        "spread": [85, 100]
+      }
     }
   }
 }
