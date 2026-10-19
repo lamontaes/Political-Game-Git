@@ -318,3 +318,83 @@ describe(`the outcomes the web now produces, in a generated town (seed ${seed})`
     }
   }, 300_000);
 });
+
+// The same outcomes move when their cause does: each state law the added
+// outcomes wait on is enacted on one day, and after its lag the link's effect
+// is its researched size and the outcome is its base moved by it.
+const ADDED_LAW_LINKS = [
+  "same-day-registration-to-youth-turnout",
+  "medicaid-expansion-to-mortality",
+  "end-cash-bail-to-pretrial-detention",
+  "right-to-counsel-to-evictions",
+  "child-access-law-to-youth-gun-deaths",
+  "min-age-to-youth-gun-suicide",
+] as const;
+
+describe(`the outcomes the web now produces move with their laws, in a generated town (seed ${seed})`, () => {
+  const place = drawPlace(seed, "outcome-web-produced-laws");
+  it(`${place.name}, ${place.state}: after its lag, each law moves its outcome by the researched size`, () => {
+    const core = createLifeCore(
+      withWorldEconomy(
+        generatedOpening(place, {
+          twoLevel: true,
+          settings: { population: 1500 },
+        }),
+      ),
+      {
+        data: worldCoreData(),
+        modules: [...WORLD_MODULES, OUTCOME_WEB_MODULE],
+      },
+    );
+    const api = coreAPI(core);
+    const town = core.people.get(core.playerId!)!.placeId;
+    advanceCore(core, `${Y}-02-09`);
+    for (const key of ADDED_LAW_LINKS) {
+      const series = link(key).from.replace(/^law:/, "");
+      api.emit({
+        id: `law-took-effect:test:${key}`,
+        date: core.date,
+        kind: "law-took-effect",
+        personIds: [],
+        placeId: town,
+        source: {
+          tag: "SOURCED",
+          asOf: core.date,
+          citation: "Test enactment.",
+        },
+        publicRecord: true,
+        facts: {
+          lawId: `law:test:${key}`,
+          series,
+          level: "state",
+          jurisdiction: `state:${place.state}`,
+          tier: "standard",
+          value: "1",
+          unit: "",
+        },
+      });
+    }
+    const lagged = Math.max(
+      ...ADDED_LAW_LINKS.map((key) => link(key).lagMonths),
+    );
+    const reads = `${String(Number(Y) + 1)}-${String(2 + lagged - 12 + 2).padStart(2, "0")}`;
+    advanceCore(core, `${reads}-05`);
+    const row = monthOf(api, town, reads);
+    for (const key of ADDED_LAW_LINKS) {
+      const one = link(key);
+      expect(row.effects[key], key).toBeCloseTo(one.size!, 8);
+      const base = row.bases[one.to]!;
+      const effects = Object.entries(row.effects)
+        .filter(([other]) => link(other).to === one.to)
+        .map(([, effect]) => effect);
+      expect(row.values[one.to], key).toBeCloseTo(
+        scaleOf(one.to) === "level"
+          ? base + effects.reduce((n, e) => n + e, 0)
+          : base * effects.reduce((n, e) => n * (1 + e), 1),
+        6,
+      );
+      // It moved: the outcome is not its base.
+      expect(row.values[one.to], key).not.toBe(base);
+    }
+  }, 900_000);
+});
