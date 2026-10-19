@@ -6,6 +6,7 @@ import { drawPlace } from "../../scripts/core2-year/place";
 import { addDays, makeIsoDate } from "./kernel/dates";
 import { advanceCore } from "./life";
 import { gameStartDate } from "./game-start";
+import { treasuryMonthsOf } from "./budgets-treasury";
 import { coreAPI } from "./state";
 import type { CoreState } from "./types";
 
@@ -92,6 +93,18 @@ describe(`the budget season (${place.name}, seed ${seed})`, () => {
         expect(heard.date <= v.date, "hearing before the vote").toBe(true);
         expect(v.date < a.date, "vote before the year starts").toBe(true);
       }
+      // The treasury pays the voted budget after the year starts: a close
+      // under this budget's id moves money on its lines.
+      const paid = treasuryMonthsOf(api, gov).filter(
+        (m) =>
+          m.budgetId === `budget:${gov}:${fy}` &&
+          m.date >= a.date &&
+          m.paymentIds.length > 0,
+      );
+      expect(
+        paid.length,
+        `${gov} ${fy}: a close paid under the voted budget`,
+      ).toBeGreaterThan(0);
       proven += 1;
     }
     expect(proven, "a government that ran the whole season").toBeGreaterThan(0);
