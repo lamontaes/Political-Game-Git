@@ -43,8 +43,8 @@ import {
   governmentUnit,
   governmentUnitJurisdictionId,
   governmentUnitsForPlace,
-} from "./government-units";
-import type { GovernmentUnitIdentity } from "./government-units";
+} from "../core2/reference/government-units";
+import type { GovernmentUnitIdentity } from "../core2/reference/government-units";
 import {
   LOCAL_FISCAL_GAME_AUTHORITY_VERSION,
   LOCAL_ORDINANCE_GAME_PROFILE_VERSION,

@@ -1,4 +1,4 @@
-/** Moved from src/simulation/dates.ts, which now re-exports it. */
+/** The core's calendar dates. */
 import type { IsoDate, SimulationMoment } from "./brands";
 
 const ISO_DATE_PATTERN = /^(\d{4})-(\d{2})-(\d{2})$/;

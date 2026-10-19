@@ -1,8 +1,8 @@
 import { publicTaxAccountEvidenceForIdentity } from "../tax-policy";
 import { bindFederalClaimsForPaidStateInstallment } from "../federal-state-program-payments";
 import { farmProgramPaymentAt } from "../federal-farm-payments";
-import { createStableId } from "../ids";
-import { addDays, spokenDate } from "../dates";
+import { createStableId } from "../../core2/kernel/ids";
+import { addDays, spokenDate } from "../../core2/kernel/dates";
 import { scheduleFutureDueItem } from "../future-transitions";
 import { stateJurisdictionForKey } from "../life-places";
 import { resourcePositionAt } from "../resource-queries";

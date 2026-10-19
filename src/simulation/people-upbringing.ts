@@ -9,9 +9,9 @@ import {
   recordById,
   recordsByStringField,
 } from "./history-index";
-import { dateAtAge, daysBetween } from "./dates";
+import { dateAtAge, daysBetween } from "../core2/kernel/dates";
 import { townJobRate, townPayPercentile } from "./living-world/town-pay";
-import { stableHash } from "./ids";
+import { stableHash } from "../core2/kernel/ids";
 import {
   annualPovertyLineMinor,
   recordedMonthlyPayByPerson,

@@ -1,4 +1,4 @@
-import { createStableId } from "./ids";
+import { createStableId } from "../core2/kernel/ids";
 import { eventById } from "./event-index";
 import { appropriationPinnedPaymentsMinorUnits } from "./public-appropriation-balance";
 import {

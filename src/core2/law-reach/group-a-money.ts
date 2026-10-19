@@ -9,17 +9,17 @@
  * - Dedicated parks funding: the parks line of the government that passed it
  *   rises by the dedicated share; a repeal takes the same amount back out.
  */
+import { paidLeaveProgram, paidLeavePremium } from "../paid-leave";
 import type { CoreAPI, CoreState } from "../types";
 import type { ModuleRow } from "../module-data";
 import type { WorkPayrollJournalReceipt } from "../work-payroll-cash";
-import type { PolicyHandler } from "../modules/law-effects";
+import type { PolicyHandler } from "./host";
 import {
   amendBudget,
   BUDGETS_MODULE_ID,
-  budgetPriorities,
+  adoptedLine,
   budgetsOf,
   governments,
-  proposedBudget,
   type BudgetRow,
   type GovernmentRow,
 } from "../modules/budgets";
@@ -71,17 +71,14 @@ export function budgetToday(
   );
 }
 
-/** A line's amount before any amendment this year: the base budget less the executive's priorities. */
+/** A line's amount before any amendment this year: the line as adopted. */
 export function baseLine(
   api: CoreAPI,
   gov: GovernmentRow,
   budget: BudgetRow,
   line: string,
 ): number {
-  const base = proposedBudget(api, gov, budget.fiscalYear, "base")
-    .spendingMinor[line];
-  const priority = budgetPriorities(api, gov.id)?.changes[line] ?? 0;
-  return Math.max(0, (base ?? 0) - priority);
+  return adoptedLine(api, gov, budget.fiscalYear, line);
 }
 
 // --- paid family leave -------------------------------------------------------------
@@ -109,16 +106,19 @@ function leavePremium(
   api: CoreAPI,
   receipt: Readonly<WorkPayrollJournalReceipt>,
 ): void {
-  const program = mechanicRow(api, LEAVE_KEY);
-  if (!program?.active || receipt.paidMinor <= 0) return;
+  const program = paidLeaveProgram(api);
+  if (!program || receipt.paidMinor <= 0) return;
   const person = api.state.people.get(receipt.personId);
   if (!person || person.placeId !== lawChain(api).townPlaceId) return;
-  const premium = Math.min(
-    Math.round(receipt.paidMinor * Number(program.facts.share)),
-    Math.max(0, person.liquidMinor),
+  // Capped by the cash the premium is taken from: what isn't set aside.
+  const accounts = api.accounts();
+  const premium = paidLeavePremium(
+    receipt.paidMinor,
+    Math.max(0, accounts.balance(accounts.main(person.id))),
+    program.share,
   );
   if (premium <= 0) return;
-  const treasury = String(program.facts.treasuryId);
+  const treasury = program.treasuryId;
   const record = {
     id: `leave-premium:${receipt.id}`,
     date: api.state.date,
@@ -126,8 +126,9 @@ function leavePremium(
     payrollReceiptId: receipt.id,
     premiumMinor: premium,
     paidMinor: receipt.paidMinor,
-    governmentId: String(program.facts.governmentId),
-    reason: `Paid family leave premium under ${program.facts.lawId}`,
+    governmentId: program.governmentId,
+    lawId: program.lawId,
+    reason: `Paid family leave premium under ${program.lawId}`,
     postings: [
       {
         id: `${receipt.id}:leave:out`,

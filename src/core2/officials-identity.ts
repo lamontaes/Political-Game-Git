@@ -10,7 +10,7 @@
  * No real names: a full name matching a real current officeholder is redrawn,
  * name only.
  */
-import { SeededRng } from "../simulation/rng";
+import { SeededRng } from "./kernel/rng";
 import { generatePersonIdentity } from "./gov-rules/person-identity";
 import { drawCohortGivenName } from "./gov-rules/given-name-cohorts";
 import {
@@ -24,7 +24,7 @@ import {
   type InventedPersonRole,
 } from "./gov-rules/invented-person-age";
 import { isRealOfficeholderName } from "./officials-names";
-import { makeIsoDate } from "../simulation/dates";
+import { makeIsoDate } from "./kernel/dates";
 
 export interface OfficialIdentity {
   readonly givenName: string;

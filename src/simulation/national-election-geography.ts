@@ -1,5 +1,5 @@
-import { createStableId } from "./ids";
-import { makeIsoDate } from "./dates";
+import { createStableId } from "../core2/kernel/ids";
+import { makeIsoDate } from "../core2/kernel/dates";
 import { stateJurisdictionForKey } from "./life-places";
 import {
   NATIONAL_ELECTION_SOURCES,

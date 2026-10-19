@@ -19,7 +19,7 @@
  * ideology, or appearance) are inferred or derived from name strings.
  */
 
-import PLACE_NAME_CORPORA from "../../simulation/place-name-corpora.json" with { type: "json" };
+import PLACE_NAME_CORPORA from "../data/names/place-name-corpora.json" with { type: "json" };
 
 export interface NameCorpusProvenance {
   readonly source: string;

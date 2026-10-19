@@ -25,7 +25,7 @@
  * hold the first without the second for as long as they like.
  */
 
-import { createStableId } from "./ids";
+import { createStableId } from "../core2/kernel/ids";
 import { recordsByStringField } from "./history-index";
 import type { FutureTransitionHandlerRegistry } from "./types";
 import {
@@ -37,7 +37,7 @@ import { lifePlaceByKey } from "./life-places";
 import {
   governmentUnit,
   governmentUnitJurisdictionId,
-} from "./government-units";
+} from "../core2/reference/government-units";
 import {
   LOCAL_ORDINANCE_GAME_PROFILE_VERSION,
   localFiscalGameAuthorityForRulePackId,
@@ -68,7 +68,7 @@ import {
   workItemState,
 } from "./time-work";
 import { assertWorldIntegrity, recordWorldEvent } from "./world";
-import { addSimulationMinutes } from "./dates";
+import { addSimulationMinutes } from "../core2/kernel/dates";
 import { introduceMeasure } from "./legislation";
 import { recordFiledProvision } from "./legislative-politics";
 import type {

@@ -3,7 +3,7 @@
 // staging spot by depth and turned to face the room.
 import { existsSync, readFileSync } from "node:fs";
 import { PNG } from "pngjs";
-import { ageOnDate, makeIsoDate } from "../simulation/dates";
+import { ageOnDate, makeIsoDate } from "../core2/kernel/dates";
 import {
   BACKDROP_ASPECT,
   type PlaceStaging,

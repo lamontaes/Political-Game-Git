@@ -13,11 +13,7 @@ import { coreAPI } from "./state";
 import { LAWS_MODULE_ID, lawChain, lawInForce, openLaws } from "./modules/laws";
 import type { LawRowInput } from "./laws-starting";
 import history from "../../data/research/laws/minimum-wage-history-2000-2026.json" with { type: "json" };
-import {
-  lifePlaceCoverage,
-  lifePlaceSearch,
-  lifePlaceStateIdentities,
-} from "../simulation/life-places";
+import { searchCorePlaces, corePlaceStateIdentities } from "./place-lookup";
 
 const START = "2026-01-05";
 const seed =
@@ -27,7 +23,7 @@ function pick<T>(list: readonly T[], salt: string): T {
   const hash = createHash("sha256").update(`${seed}:${salt}`).digest("hex");
   return list[parseInt(hash.slice(0, 8), 16) % list.length]!;
 }
-const states = [...lifePlaceStateIdentities()]
+const states = [...corePlaceStateIdentities()]
   .map((s) => s.jurisdictionKey)
   .sort();
 type Step = { effectiveDate: string; rateMinor: number };
@@ -41,7 +37,7 @@ describe("the minimum wage's history since 2000", () => {
   it("runs unbroken into the starting law and answers past dates", () => {
     const state = pick(states, "state");
     const places = [
-      ...lifePlaceSearch("", lifePlaceCoverage().placeCount, {
+      ...searchCorePlaces("", Number.MAX_SAFE_INTEGER, {
         stateJurisdictionKey: state,
         scope: "locality",
       }),

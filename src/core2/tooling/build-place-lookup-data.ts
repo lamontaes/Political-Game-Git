@@ -23,7 +23,7 @@ import { legislativeWorkKey } from "../../simulation/legislative-work-key";
 import {
   NATIONAL_COUNTIES_META,
   NATIONAL_COUNTIES_ROWS,
-} from "../../simulation/national-counties.generated";
+} from "../reference/national-counties.generated";
 import { SEATS_OF_GOVERNMENT_ROWS } from "../../simulation/seats-of-government.generated";
 import { STATES } from "../../simulation/state-reference";
 

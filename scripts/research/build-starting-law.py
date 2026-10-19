@@ -9,7 +9,9 @@ Inputs (all under data/research):
   money/minimum-wage-dated-matrix-2026.json     federal and state minimum wages
   money/federal-income-tax-schedules.json       IRS 2026 schedules
   money/state-income-tax-2026.json              state single-filer schedules
-  laws/local-starting-law/*.json                local and benefit research
+  money/state-corporate-income-tax-2026.json    state corporate income tax rates and brackets
+  money/death-taxes-2026.json                   estate and inheritance taxes
+  laws/local-starting-law/*.json                local and benefit research (incl. territory corporate income tax)
   laws/starting-law-2026/labor-workforce.json   local minimum-wage authority
 
 Run: python3 scripts/research/build-starting-law.py
@@ -17,6 +19,7 @@ Run: python3 scripts/research/build-starting-law.py
 
 import json
 import pathlib
+import re
 
 ROOT = pathlib.Path(__file__).resolve().parents[2]
 RESEARCH = ROOT / "data/research"
@@ -150,6 +153,55 @@ def payroll_taxes(rows):
                     False, unit="percent-of-wages", terms={"additionalRate": 0.9, "additionalOver": 200000}))
 
 
+def business_taxes(rows):
+    """Taxes a business pays on wages and profit (data/research/money/business-taxes-2026.json)."""
+    taxes = load(RESEARCH / "money/business-taxes-2026.json")
+    futa = taxes["federalUnemploymentTax"]
+    rows.append(row("US", "federal", "federal-unemployment-tax", futa["value"], futa["effectiveDate"],
+                    FOREVER, futa["source"], False, unit="percent-of-wages",
+                    terms={k: futa[k] for k in ("wageBase", "grossRate", "stateCredit", "notCovered")},
+                    retrieved=taxes["retrieved"]))
+    corporate = taxes["corporateIncomeTax"]
+    rows.append(row("US", "federal", "corporate-income-tax", corporate["value"], corporate["effectiveDate"],
+                    FOREVER, corporate["source"], False, unit="percent-flat", retrieved=taxes["retrieved"]))
+    suta = taxes["stateUnemploymentTax"]
+    states = load(RESEARCH / "money/minimum-wage-dated-matrix-2026.json")["places"]
+    for state in sorted(states):
+        if state in futa["notCovered"]:
+            continue
+        rows.append(row(state, "state", "state-unemployment-tax", suta["value"], suta["effectiveDate"],
+                        FOREVER, suta["source"], suta["estimate"], unit="percent-of-wages",
+                        terms={"wageBase": suta["wageBase"]}, retrieved=taxes["retrieved"]))
+
+
+STATE_DEATH_TAX_SLIDE = 10040000
+
+
+def death_taxes(rows):
+    """Estate and inheritance taxes (data/research/money/death-taxes-2026.json)."""
+    taxes = load(RESEARCH / "money/death-taxes-2026.json")
+    for phase in taxes["federal"]:
+        rows.append(row("US", "federal", "estate-tax", phase["maxRate"], phase["effectiveDate"], FOREVER,
+                        phase["source"], phase["estimate"], unit="percent-top-rate",
+                        terms={k: phase[k] for k in ("exemption", "minRate", "slideOver")},
+                        retrieved=taxes["retrieved"]))
+    for state, law in sorted(taxes["estate"].items()):
+        slide = STATE_DEATH_TAX_SLIDE if law["minRate"] < law["maxRate"] else 0
+        rows.append(row(state, "state", "estate-tax", law["maxRate"], taxes["estateFrom"], FOREVER,
+                        f"{taxes['source']}. {taxes['estateEstimateNote']}"
+                        + (f" {taxes['slideOverNote']}" if slide else ""),
+                        True, unit="percent-top-rate",
+                        terms={"exemption": law["exemption"], "minRate": law["minRate"], "slideOver": slide},
+                        retrieved=taxes["retrieved"]))
+    for state, law in sorted(taxes["inheritance"].items()):
+        top = max([c["maxRate"] for c in law["classes"].values()] + [law["others"]["maxRate"]])
+        rows.append(row(state, "state", "inheritance-tax", top, taxes["estateFrom"], FOREVER,
+                        f"{law['source']} Exemptions and rates: {taxes['source']}.",
+                        True, unit="percent-top-rate",
+                        terms={"classes": law["classes"], "others": law["others"]},
+                        retrieved=taxes["retrieved"]))
+
+
 def local_wage_authority(rows):
     questions = load(RESEARCH / "laws/starting-law-2026/labor-workforce.json")["questions"]
     question = questions["us-policy-positions:labor-workforce.local-minimum-wage-authority"]
@@ -213,6 +265,33 @@ def income_taxes(rows):
                                                         "brackets": brackets}},
                                "otherTaxes": place.get("otherTaxes")},
                         note="Residents pay the territory's income tax in place of the federal income tax on local income."))
+    # State corporate income tax (the federal row is above). A place with no
+    # corporate income tax gets no row: the reader treats a missing row as no tax.
+    corporate_states = load(RESEARCH / "money/state-corporate-income-tax-2026.json")
+    corporate_source = corporate_states["source"]["url"]
+    for state, place in corporate_states["places"].items():
+        if place["corporateIncomeTax"] == "none":
+            continue
+        brackets = [{"over": b["overIncome"], "rate": b["ratePercent"]} for b in place["brackets"]]
+        flat = place["corporateIncomeTax"] == "flat"
+        terms = {"system": place["corporateIncomeTax"], "brackets": brackets}
+        if place.get("rateAppliesToEntireNetIncome"):
+            terms["rateAppliesToEntireNetIncome"] = True
+        rows.append(row(state, "state", "corporate-income-tax", brackets[-1]["rate"], "2026-01-01", FOREVER,
+                        corporate_source, False, unit="percent-flat" if flat else "percent-top-rate",
+                        terms=terms, note=place.get("note"), retrieved=corporate_states["source"]["retrieved"]))
+    territory_corporate = (optional("territory-corporate-income-tax-2026.json") or {}).get("places", {})
+    for state, place in territory_corporate.items():
+        source = place["source"]
+        terms = {"system": place["system"], "mirrorsFederal": place["mirrorsFederal"], "replacesFederal": True}
+        for key in ("normalRatePercent", "surtax"):
+            if key in place:
+                terms[key] = place[key]
+        rows.append(row(state, "state", "corporate-income-tax", place["ratePercent"], "2026-01-01", FOREVER,
+                        f"{source['title']} ({source['url']})", place.get("estimate", False),
+                        unit="percent-top-rate" if "surtax" in place or place["system"].startswith("own") else "percent-flat",
+                        terms=terms,
+                        note=place.get("estimatedFrom") or "A corporation pays the territory's tax in place of the federal corporate income tax."))
     local = optional("local-income-tax.json")
     for item in (local or {}).get("states", []):
         rows.append(row(item["stateKey"], "state", "local-income-tax-authority", 1 if item["allowed"] else 0,
@@ -304,6 +383,7 @@ def benefits(rows):
                                "baseEarnings": place.get("baseEarnings"),
                                "weeklyBenefitFraction": formula.get("fraction"),
                                "weeklyBenefitAppliesTo": formula.get("fractionAppliesTo"),
+                               "weeklyBenefitBasisQuarters": basis_quarters(formula.get("fractionAppliesTo")),
                                "weeklyBenefitText": formula.get("text"),
                                "waitingWeek": (place.get("waitingWeek") or {}).get("required"),
                                "maxWeeks": weeks.get("value2026") or weeks.get("maximum"),
@@ -312,6 +392,26 @@ def benefits(rows):
     extra = optional("benefit-gaps.json")
     for item in (extra or {}).get("rows", []):
         rows.append(item)
+
+
+def basis_quarters(text):
+    """How many quarters of wages a weekly benefit fraction applies to, from the row's own words.
+
+    0 means a weekly wage already (an average weekly wage or high quarter / 13),
+    1 the high quarter, 2 the two highest quarters, 4 the base period's year;
+    None when the row's words name none of them (the claim then falls to the
+    program's median weekly share).
+    """
+    t = (text or "").lower()
+    if re.search(r"aww|average weekly wage|hqw/13", t):
+        return 0
+    if re.search(r"2 highest|2 consecutive|last 2|sum of 2", t):
+        return 2
+    if re.search(r"high.quarter", t):
+        return 1
+    if re.search(r"base.period|annual", t):
+        return 4
+    return None
 
 
 def property_taxes():
@@ -339,6 +439,8 @@ def main():
     minimum_wages(rows)
     local_wage_authority(rows)
     payroll_taxes(rows)
+    business_taxes(rows)
+    death_taxes(rows)
     income_taxes(rows)
     sales_taxes(rows)
     benefits(rows)

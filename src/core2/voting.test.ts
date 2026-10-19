@@ -3,9 +3,9 @@
  *
  * Election day falls on the place's real date; named people vote as
  * themselves, each vote from what that person knows and thinks and turnout
- * from their own circumstances, with no roll; the wider electorate votes as
- * groups; exit polls report what voters told the pollster; the winner takes
- * the seat on the start date. State and federal races covering the town run
+ * from their own circumstances, with no roll; the wider electorate votes on
+ * the counted residents' engine; exit polls report what voters told the
+ * pollster; the winner takes the seat on the start date. State and federal races covering the town run
  * on the same engine in the same year.
  */
 import { createHash } from "node:crypto";
@@ -39,17 +39,13 @@ import {
   type BallotRow,
 } from "./modules/voting";
 import { PLATFORM_QUESTIONS } from "./campaign-views";
-import {
-  lifePlaceCoverage,
-  lifePlaceSearch,
-  lifePlaceStateIdentities,
-} from "../simulation/life-places";
+import { searchCorePlaces, corePlaceStateIdentities } from "./place-lookup";
 
 const START = "2026-01-05";
 const seed =
   process.env.GOLDEN_PATH_SEED ??
   createHash("sha256").update(`voting:${Date.now()}`).digest("hex");
-const states = [...lifePlaceStateIdentities()]
+const states = [...corePlaceStateIdentities()]
   .map((s) => s.jurisdictionKey)
   .sort();
 function pick<T>(list: readonly T[], salt: string): T {
@@ -59,7 +55,7 @@ function pick<T>(list: readonly T[], salt: string): T {
 function randomPlace(salt = "") {
   const state = pick(states, `state${salt}`);
   const places = [
-    ...lifePlaceSearch("", lifePlaceCoverage().placeCount, {
+    ...searchCorePlaces("", Number.MAX_SAFE_INTEGER, {
       stateJurisdictionKey: state,
       scope: "locality",
     }),
@@ -88,7 +84,7 @@ function placeWithOpenRace(): string {
 }
 
 describe("M2-07 elections", () => {
-  it("votes come from each person's own reasons, groups vote as groups, and the winner takes the seat on its date", () => {
+  it("votes come from each person's own reasons, the wider electorate votes on the same engine, and the winner takes the seat on its date", () => {
     const place = process.env.GOLDEN_PATH_PLACE_KEY ?? placeWithOpenRace();
     const core = createLifeCore(
       buildPopulation({
@@ -170,8 +166,18 @@ describe("M2-07 elections", () => {
     // Every candidate, resident or official, has a name to show.
     for (const id of candidates)
       expect(candidateIdentity(api, id)?.familyName, id).toBeTruthy();
-    for (const id of filed.map((f) => f.personId))
-      expect(candidates).toContain(id);
+    // A filer is on the general ballot unless a primary before it knocked
+    // them out (their filing is then withdrawn).
+    for (const f of filed.filter((f) => !candidates.includes(f.personId))) {
+      const now = api
+        .moduleState(ELECTIONS_MODULE_ID)
+        .table("filings")
+        .get(f.id) as unknown as FilingRow;
+      expect(
+        now.status === "withdrawn" && contest!.primaryDate !== null,
+        `${place}: ${f.personId} is off the ballot without losing a primary`,
+      ).toBe(true);
+    }
     // Every named adult has a ballot with their own reasons; votes add up.
     const ballots = api
       .moduleState(VOTING_MODULE_ID)
@@ -181,6 +187,11 @@ describe("M2-07 elections", () => {
     const cast = ballots.filter((b) => b.voted);
     expect(cast.length).toBe(result.namedTurnout);
     for (const b of cast.filter((x) => x.choice !== null)) {
+      // A candidate in the race backs themselves.
+      if (candidates.includes(b.voterId)) {
+        expect(b.choice).toBe(b.voterId);
+        continue;
+      }
       const best = Object.entries(b.appeal).sort(
         (x, y) => y[1].total - x[1].total || x[0].localeCompare(y[0]),
       )[0]![0];

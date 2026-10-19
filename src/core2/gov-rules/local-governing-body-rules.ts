@@ -1,7 +1,7 @@
 /**
  * Ported from the old engine's `nationwide-world/local-governing-body-rules.ts`.
  */
-import type { GovernmentUnitIdentity } from "../../simulation/government-units";
+import type { GovernmentUnitIdentity } from "../reference/government-units";
 import { countyGoverningBodyRules } from "./county-governing-body-rules";
 import { isMayorSeatClass } from "./local-chief-executive-rules";
 import {

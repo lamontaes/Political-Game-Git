@@ -1,4 +1,4 @@
-import { addDays, daysBetween } from "../dates";
+import { addDays, daysBetween } from "../../core2/kernel/dates";
 import type {
   EntityId,
   FutureTransitionHandler,
@@ -6,10 +6,9 @@ import type {
   World,
 } from "../types";
 import { isPersonAliveAt } from "../vitality";
+import { CONDITION_PACK, conditionHazard } from "../../core2/condition-pack";
 import {
   CONDITION_PACK_ORIGIN,
-  CONDITION_PACK,
-  conditionHazard,
   conditionOfOnsetItem,
   conditionOnsetDay,
   onsetCauseFactor,

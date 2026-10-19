@@ -16,7 +16,13 @@
 import goods from "../data/prices/goods.json" with { type: "json" };
 import pricesParameters from "../data/prices/parameters.json" with { type: "json" };
 import type { Parameter } from "../parameters";
-import { residentPerson, residentsRuntime } from "./residents";
+import { residentsRuntime } from "./residents";
+import { notifySalesReceipt } from "./finance";
+import { countedPayment } from "../counted-money";
+import { LAWS_MODULE_ID, lawChain, lawInForce } from "./laws";
+import { BUDGETS_MODULE_ID, governments } from "./budgets";
+import lawParameters from "../data/laws/reach-group-b-parameters.json" with { type: "json" };
+import { DEFAULT_BUSINESS_BOOKS_DATA } from "../business-books";
 import { transferCash } from "../world-transfer";
 import type { CoreAPI, CoreModule, CoreState, Source } from "../types";
 
@@ -31,8 +37,8 @@ interface Rule {
   id: string;
   placeId: string;
   good: Good;
-  kind: "share" | "price" | "per-unit" | "offer" | "road";
-  /** Share change in price ("share"), a price in cents ("price"), cents a unit ("per-unit"), a monthly price ("offer"), or the share of roads in poor condition ("road"). */
+  kind: "share" | "price" | "per-unit" | "offer" | "road" | "sale";
+  /** Share change in price ("share"), a price in cents ("price"), cents a unit ("per-unit"), a monthly price ("offer"), the share of roads in poor condition ("road"), or a resident's yearly spending ("sale"). */
   value: number;
   refundable?: boolean;
   /** The fuel tax a mileage fee replaces is refunded. */
@@ -251,6 +257,12 @@ export function monthlyChange(
         refundMinor: b.monthlyPriceMinor * b.subscriptionShare,
       };
     }
+    case "sale": {
+      // Residents who now buy from the town's licensed sellers no longer send
+      // that spending out of the town; the sellers' share of it is theirs.
+      const spend = (rule.value * scale * persons) / MONTHS;
+      return { payMinor: spend, refundMinor: spend };
+    }
     case "road": {
       const r = g["vehicle-repair"];
       const change =
@@ -289,70 +301,329 @@ function outsideOf(c: CoreState, placeId: string): string | undefined {
   )?.id;
 }
 
+interface Seller {
+  readonly id: string;
+  readonly weight: number;
+}
+
+/**
+ * The town's open retail businesses and their weights (the demand they have
+ * been serving): where a legal sale of a licensed good goes. Sorted so the
+ * remainder of a rounded split always lands on the same seller.
+ */
+function licensedSellers(c: CoreState, placeId: string): readonly Seller[] {
+  const sellers: Seller[] = [];
+  for (const [id, book] of c.finance.businesses) {
+    const org = c.organizations.get(id);
+    const classification =
+      org?.classification ??
+      DEFAULT_BUSINESS_BOOKS_DATA.classifications.find(
+        (row) => row.kindId === book.kindId,
+      )?.classification ??
+      "";
+    if (
+      book.closedAt ||
+      !org ||
+      org.outsideFlow ||
+      org.placeId !== placeId ||
+      !classification.startsWith("enterprise:retail")
+    )
+      continue;
+    sellers.push({ id, weight: Math.max(book.annualDemandMinor, 1) });
+  }
+  return sellers.sort(
+    (a, b) => b.weight - a.weight || a.id.localeCompare(b.id),
+  );
+}
+
+/** A whole-cent split of an amount by weight; the first seller takes the rounding. */
+function splitBy(amount: number, sellers: readonly Seller[]): number[] {
+  const total = sellers.reduce((n, s) => n + s.weight, 0);
+  const parts = sellers.map((s) => Math.floor((amount * s.weight) / total));
+  parts[0] = (parts[0] ?? 0) + (amount - parts.reduce((n, x) => n + x, 0));
+  return parts;
+}
+
+/**
+ * A price law's sale is a paid sale like any other: the sales tax in force
+ * collects on what the seller was actually paid, through the same receipt.
+ */
+function saleReceipt(
+  api: CoreAPI,
+  rule: Rule,
+  id: string,
+  sellerId: string,
+  buyerIds: readonly string[],
+  paidMinor: number,
+  counted: boolean,
+): void {
+  if (!(paidMinor > 0)) return;
+  notifySalesReceipt(api, {
+    id,
+    date: api.state.date,
+    sellerId,
+    buyerIds,
+    kind: rule.good,
+    paidMinor,
+    placeId: rule.placeId,
+    counted,
+  });
+}
+
 function settle(
   api: CoreAPI,
   id: string,
   rule: Rule,
   accountOwnerId: string,
   change: { payMinor: number; refundMinor: number },
+  countedHouseholdId?: string,
+  outsideId?: string,
+  sellers: readonly Seller[] = [],
 ): void {
   const c = core(api),
-    outside = outsideOf(c, rule.placeId);
+    outside = outsideId ?? outsideOf(c, rule.placeId);
   if (!outside) return;
+  // A sale with no seller in town stays where it was: nothing moves.
+  if (rule.kind === "sale" && !sellers.length) return;
   const to =
     (rule.kind === "offer" ? rule.providerId : rule.payeeId) ?? outside;
   const refund = Math.round(change.refundMinor),
     pay = Math.round(change.payMinor);
+  // The existing journal source names the law that changed this payment.
+  // A cash difference is not, by itself, knowledge of who caused it.
+  const sourceId = `${id}:${rule.cause}`;
+  if (countedHouseholdId) {
+    if (refund > 0)
+      countedPayment(api, {
+        id: `${sourceId}:refund`,
+        placeId: rule.placeId,
+        householdId: countedHouseholdId,
+        otherOwnerId: outside,
+        amountMinor: -refund,
+        reasonKey: "price",
+        source: rule.source,
+      });
+    if (pay > 0 && rule.kind === "sale") {
+      const parts = splitBy(pay, sellers);
+      sellers.forEach((seller, i) => {
+        if (parts[i]! > 0)
+          saleReceipt(
+            api,
+            rule,
+            `${sourceId}:pay:${seller.id}`,
+            seller.id,
+            [countedHouseholdId],
+            countedPayment(api, {
+              id: `${sourceId}:pay:${seller.id}`,
+              placeId: rule.placeId,
+              householdId: countedHouseholdId,
+              otherOwnerId: seller.id,
+              amountMinor: parts[i]!,
+              reasonKey: "price",
+              source: rule.source,
+            }),
+            true,
+          );
+      });
+    } else if (pay > 0)
+      countedPayment(api, {
+        id: `${sourceId}:pay`,
+        placeId: rule.placeId,
+        householdId: countedHouseholdId,
+        otherOwnerId: to,
+        amountMinor: pay,
+        reasonKey: "price",
+        source: rule.source,
+      });
+    return;
+  }
   if (refund > 0)
     transferCash(
       api,
-      `${id}:refund`,
+      `${sourceId}:refund`,
       outside,
       accountOwnerId,
       refund,
       rule.source,
     );
-  if (pay > 0 && to !== accountOwnerId)
-    transferCash(api, `${id}:pay`, accountOwnerId, to, pay, rule.source);
+  if (pay > 0 && rule.kind === "sale") {
+    const parts = splitBy(pay, sellers);
+    sellers.forEach((seller, i) => {
+      if (parts[i]! > 0)
+        saleReceipt(
+          api,
+          rule,
+          `${sourceId}:pay:${seller.id}`,
+          seller.id,
+          [accountOwnerId],
+          transferCash(
+            api,
+            `${sourceId}:pay:${seller.id}`,
+            accountOwnerId,
+            seller.id,
+            parts[i]!,
+            rule.source,
+          ),
+          false,
+        );
+    });
+  } else if (pay > 0 && to !== accountOwnerId)
+    transferCash(api, `${sourceId}:pay`, accountOwnerId, to, pay, rule.source);
+}
+
+/** Read statutes where the existing price engine is about to charge use. */
+function readPriceLaws(api: CoreAPI): void {
+  if (!api.state.modules.has(LAWS_MODULE_ID)) return;
+  const placeId = lawChain(api).townPlaceId;
+  const p = lawParameters.parameters;
+  const sync = (
+    question: string,
+    rule: Omit<Rule, "id" | "since" | "placeId" | "cause" | "source">,
+    gap: string,
+    publicPayee = false,
+  ) => {
+    const law = lawInForce(api, question);
+    const id = `${placeId}:${rule.good}:${rule.kind}`;
+    const cause = `law:${question}:`;
+    if (law.value !== 1 || !law.governing) {
+      // End only this statute's price, not a separately recorded service rule.
+      if (
+        String(store(api).table("rules").get(id)?.cause ?? "").startsWith(cause)
+      )
+        endPlaceRule(api, placeId, rule.good, rule.kind);
+      return;
+    }
+    api.stopgap(gap);
+    const treasury = api.state.modules.has(BUDGETS_MODULE_ID)
+      ? governments(api).find((g) => g.id === law.governing!.jurisdiction)
+          ?.organizationId
+      : undefined;
+    if (publicPayee && !treasury) {
+      if (
+        String(store(api).table("rules").get(id)?.cause ?? "").startsWith(cause)
+      )
+        endPlaceRule(api, placeId, rule.good, rule.kind);
+      return;
+    }
+    put(api, {
+      ...rule,
+      placeId,
+      cause: `${cause}${law.governing.id}`,
+      ...(publicPayee
+        ? rule.kind === "offer"
+          ? { providerId: treasury }
+          : { payeeId: treasury }
+        : {}),
+      source: {
+        tag: "ESTIMATED",
+        asOf: api.state.date,
+        citation: `${law.governing.id}; ${String(law.governing.source)}; ${goods.source.citation}`,
+        estimatedFrom:
+          "Recorded household earnings and size with the consumption and statutory-cost parameters in data/prices and data/laws/reach-group-b-parameters.json.",
+      },
+    });
+  };
+  // stopgapId: SG-GOV-REACH-B-energy-price — calibrated consumption and
+  // policy sizes, not metered utility bills or a delivered explanation yet.
+  sync(
+    "us-policy-positions:environment-energy.clean-electricity-standard",
+    {
+      good: "electricity",
+      kind: "share",
+      value: p.cleanElectricityPriceShare.value,
+    },
+    "SG-GOV-REACH-B-energy-price",
+  );
+  sync(
+    "us-policy-positions:environment-energy.price-carbon",
+    {
+      good: "fuel",
+      kind: "share",
+      value:
+        (p.carbonPricePerTonDollars.value *
+          p.householdTonsPerYear.value *
+          p.centsPerDollar.value) /
+        goods.goods.fuel.ceAnnualMinor,
+    },
+    "SG-GOV-REACH-B-energy-price",
+    true,
+  );
+  // stopgapId: SG-GOV-REACH-B-retail-price — container use and redemption
+  // still use household estimates rather than individual return decisions.
+  sync(
+    "us-policy-positions:environment-energy.bottle-deposit",
+    {
+      good: "beverage-container",
+      kind: "per-unit",
+      value: p.bottleDepositCents.value,
+      refundable: true,
+    },
+    "SG-GOV-REACH-B-retail-price",
+  );
+  // stopgapId: SG-GOV-REACH-B-mileage-fee-price
+  sync(
+    "us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax",
+    {
+      good: "vehicle-miles",
+      kind: "per-unit",
+      value: p.mileageFeeCentsPerMile.value,
+      replacesFuelTax: true,
+    },
+    "SG-GOV-REACH-B-mileage-fee-price",
+    true,
+  );
+  // stopgapId: SG-GOV-REACH-B-broadband-bill
+  sync(
+    "us-policy-positions:transportation-infrastructure.public-broadband",
+    {
+      good: "broadband",
+      kind: "offer",
+      value: p.broadbandMonthlyDollars.value * p.centsPerDollar.value,
+    },
+    "SG-GOV-REACH-B-broadband-bill",
+    true,
+  );
+  // stopgapId: SG-GOV-REACH-B-transit-fare-price
+  sync(
+    "us-policy-positions:transportation-infrastructure.fare-free-transit",
+    {
+      good: "transit-fare",
+      kind: "price",
+      value: 0,
+    },
+    "SG-GOV-REACH-B-transit-fare-price",
+  );
+  // stopgapId: SG-GOV-REACH-A-cannabis-market — the town's existing retail
+  // businesses sell; no dedicated dispensary, license or tax yet.
+  // Legal adult-use sales: residents buy from the town's licensed sellers.
+  sync(
+    "us-policy-positions:business-commerce.legalize-cannabis-sales",
+    {
+      good: "cannabis",
+      kind: "sale",
+      value: api.parameter("pricesCannabisSpendPerResidentMinor"),
+    },
+    "SG-GOV-REACH-A-cannabis-market",
+  );
 }
 
 /** Each month: every rule's change in spending, settled for each full household and each place's counted households together. */
 function month(api: CoreAPI): void {
   const c = core(api);
+  readPriceLaws(api);
   const rules = store(api)
     .table("rules")
     .query("all", [true]) as unknown as Rule[];
   if (!rules.length) return;
   const rt = residentsRuntime(c);
-  const counted = new Map<
-    string,
-    { households: number; persons: number; pay: number }
-  >();
-  if (rt) {
-    for (const row of rt.households.values()) {
-      const at = counted.get(row.household.placeId) ?? {
-        households: 0,
-        persons: 0,
-        pay: 0,
-      };
-      at.households += 1;
-      at.persons += row.household.memberIds.length;
-      counted.set(row.household.placeId, at);
-    }
-    for (const [jobId, flow] of rt.wageFlowByJob) {
-      const job = rt.jobs.get(jobId);
-      if (!job || job.endsAt || flow.endedAt) continue;
-      const placeId = residentPerson(c, job.personId)?.placeId;
-      const at = placeId && counted.get(placeId);
-      if (at)
-        at.pay +=
-          (job.wageDailyMinor * api.parameter("jobsDaysPerYear")) / MONTHS;
-    }
-  }
   for (const rule of rules) {
+    const sellers =
+      rule.kind === "sale" ? licensedSellers(c, rule.placeId) : [];
     for (const household of c.households.values()) {
       if (household.placeId !== rule.placeId) continue;
-      const members = household.memberIds.filter((id) => c.people.has(id));
+      const members = household.memberIds.filter(
+        (id) => c.people.get(id)?.alive,
+      );
       if (!members.length) continue;
       let pay = 0;
       for (const id of members) {
@@ -366,7 +637,14 @@ function month(api: CoreAPI): void {
         scaleFor(api, pay, rule.good),
         members.length,
       );
-      const payer = [...members].sort(
+      // The controlled person's money moves only by their own choice (owner,
+      // Oct 14), and a dependent one (no job) pays nothing of the household's
+      // bills: the household's price changes fall on the others.
+      const payers = members.filter(
+        (id) => id !== c.playerId || c.people.get(id)!.jobId,
+      );
+      if (!payers.length) continue;
+      const payer = payers.sort(
         (a, b) => c.people.get(b)!.liquidMinor - c.people.get(a)!.liquidMinor,
       )[0]!;
       settle(
@@ -375,24 +653,57 @@ function month(api: CoreAPI): void {
         rule,
         payer,
         change,
+        undefined,
+        undefined,
+        sellers,
       );
     }
-    const pool = counted.get(rule.placeId);
-    const account = rt?.input.accounts.find(
-      (row) => row.placeId === rule.placeId,
-    )?.accountId;
-    if (pool && pool.households > 0 && account) {
-      const each = monthlyChange(
+    // Apply the same nonlinear consumption rule to each counted household.
+    // Averaging incomes before applying the elasticity changes the total.
+    // Households of one group draw on one fund, so their rounded changes are
+    // summed and settled once per group (the total is the same as settling
+    // each in turn: each pays what the fund holds, in order).
+    const outside = outsideOf(c, rule.placeId);
+    const byGroup = new Map<
+      number,
+      { household: string; payMinor: number; refundMinor: number }
+    >();
+    for (const household of rt?.store.liveHouseholds() ?? []) {
+      if (household.gone || household.placeId !== rule.placeId) continue;
+      const persons = rt!.store.countedCount(household);
+      if (!persons) continue;
+      let pay = 0;
+      for (const recorded of household.jobs) {
+        const job = rt!.jobs.get(recorded.id);
+        if (job && job.endsAt === undefined)
+          pay +=
+            (job.wageDailyMinor * api.parameter("jobsDaysPerYear")) / MONTHS;
+      }
+      const change = monthlyChange(
         rule,
-        scaleFor(api, pool.pay / pool.households, rule.good),
-        pool.persons / pool.households,
+        scaleFor(api, pay, rule.good),
+        persons,
       );
-      const change = {
-        payMinor: each.payMinor * pool.households,
-        refundMinor: each.refundMinor * pool.households,
+      const total = byGroup.get(household.group) ?? {
+        household: household.id,
+        payMinor: 0,
+        refundMinor: 0,
       };
-      settle(api, `price:${rule.id}:${c.date}:counted`, rule, account, change);
+      total.payMinor += Math.round(change.payMinor);
+      total.refundMinor += Math.round(change.refundMinor);
+      byGroup.set(household.group, total);
     }
+    for (const [group, total] of byGroup)
+      settle(
+        api,
+        `price:${rule.id}:${c.date}:group-${group}`,
+        rule,
+        "",
+        total,
+        total.household,
+        outside,
+        sellers,
+      );
     // Businesses pay a dearer energy price on their own energy costs.
     if (rule.kind === "share")
       for (const [organizationId, book] of c.finance.businesses) {

@@ -2,7 +2,7 @@
  * Ported from the old engine's `nationwide-world/county-row-offices.ts`.
  */
 import table from "../../../data/research/government/county-row-offices-by-state.json" with { type: "json" };
-import type { GovernmentUnitIdentity } from "../../simulation/government-units";
+import type { GovernmentUnitIdentity } from "../reference/government-units";
 import { countyGoverningBodyRules } from "./county-governing-body-rules";
 
 /**

@@ -15,7 +15,7 @@ import {
   draftScope,
   type CompiledBillDraft,
 } from "../legislation-drafting";
-import { addDays } from "../dates";
+import { addDays } from "../../core2/kernel/dates";
 import {
   introduceMeasure,
   measureActions,
@@ -32,7 +32,7 @@ import { principledLeaning } from "./officeholder-principles";
 import {
   censusRegionOf,
   censusRegionStates,
-} from "../world-setup/census-regions";
+} from "../../core2/reference/census-regions";
 import { publicBudgetFor } from "../public-budgets/store";
 import { recordWorldEvent } from "../world";
 import {

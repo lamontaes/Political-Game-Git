@@ -12,13 +12,20 @@ import { buildPopulation } from "./population";
 import { advanceCore, createLifeCore } from "./life";
 import { coreAPI } from "./state";
 import { lawChain, openLaws } from "./modules/laws";
-import { openOffices, townSeats } from "./modules/offices";
+import { OFFICES_MODULE_ID, openOffices, townSeats } from "./modules/offices";
 import { openElections } from "./modules/elections";
 import { openCampaigns } from "./modules/campaigns";
 import { openRecord } from "./modules/record";
-import { mayorVeto, openLegislature } from "./modules/legislature";
+import {
+  FEDERAL_SENATE,
+  bodyOf,
+  mayorVeto,
+  members,
+  openLegislature,
+} from "./modules/legislature";
 import {
   appoint,
+  experienceFromAge,
   appointmentsIn,
   issueOrder,
   openExecutive,
@@ -27,11 +34,7 @@ import {
 } from "./modules/executive";
 import { answerIn } from "./modules/world-legislating";
 import { governments, openBudgets } from "./modules/budgets";
-import {
-  lifePlaceCoverage,
-  lifePlaceSearch,
-  lifePlaceStateIdentities,
-} from "../simulation/life-places";
+import { searchCorePlaces, corePlaceStateIdentities } from "./place-lookup";
 
 const START = "2026-01-05";
 const seed =
@@ -44,7 +47,7 @@ function pick<T>(list: readonly T[], salt: string): T {
 function world(states: readonly string[], salt: string) {
   const state = pick(states, `${salt}:state`);
   const places = [
-    ...lifePlaceSearch("", lifePlaceCoverage().placeCount, {
+    ...searchCorePlaces("", Number.MAX_SAFE_INTEGER, {
       stateJurisdictionKey: state,
       scope: "locality",
     }),
@@ -72,7 +75,7 @@ function world(states: readonly string[], salt: string) {
     where: `seed ${seed}, ${state} place ${key}`,
   };
 }
-const all = [...lifePlaceStateIdentities()]
+const all = [...corePlaceStateIdentities()]
   .map((s) => s.jurisdictionKey)
   .sort();
 
@@ -128,7 +131,9 @@ describe("the executive's desk", () => {
     }
     const state = lawChain(api).stateKey;
     const cabinet = appointmentsIn(api, state);
-    const governor = townSeats(api).some((s) => s.office.kind === "governor");
+    const governor = townSeats(api).some(
+      (s) => s.office.kind === "governor" && s.holder,
+    );
     if (governor) expect(cabinet.length, where).toBeGreaterThan(0);
     for (const row of cabinet)
       expect(row.identity?.familyName.length).toBeGreaterThan(0);
@@ -154,6 +159,48 @@ describe("the executive's desk", () => {
     );
   }, 300_000);
 
+  it("a territory's legislature has its recorded seats, so its governor's cabinet is confirmed", () => {
+    // Guam, American Samoa, the Northern Marianas and the Virgin Islands have
+    // no district geography or roster in the data; each chamber's recorded
+    // seats are elected at large (SG-GOV-territory-legislature-districts).
+    for (const territory of ["US-GU", "US-AS", "US-MP", "US-VI"]) {
+      const { api, where } = world([territory], `territory:${territory}`);
+      const offices = api
+        .moduleState(OFFICES_MODULE_ID)
+        .table("offices")
+        .query("byJurisdiction", [territory]) as unknown as {
+        id: string;
+        kind: string;
+        seats: number;
+      }[];
+      const bodies = offices.filter((o) => /^legislature-/.test(o.kind));
+      expect(bodies.length, `${where}: no legislature`).toBeGreaterThan(0);
+      for (const body of bodies) {
+        expect(
+          body.seats,
+          `${where}: ${body.kind} has no seats`,
+        ).toBeGreaterThan(0);
+        expect(members(api, body.id).length, `${where}: ${body.kind}`).toBe(
+          body.seats,
+        );
+      }
+      // The Senate sits though a territory elects no senators: a bill a
+      // senator files finds its body.
+      expect(
+        bodyOf(api, FEDERAL_SENATE),
+        `${where}: federal senate`,
+      ).toBeDefined();
+      const governor = townSeats(api).some(
+        (s) => s.office.kind === "governor" && s.holder,
+      );
+      if (governor)
+        expect(
+          appointmentsIn(api, territory).length,
+          `${where}: cabinet`,
+        ).toBeGreaterThan(0);
+    }
+  }, 600_000);
+
   it("a governor who may restore voting rights by order does, and it becomes the state's law", () => {
     const states = ["US-IA", "US-KY", "US-VA"];
     const { core, api, where } = world(states, "order");
@@ -178,4 +225,25 @@ describe("the executive's desk", () => {
     advanceCore(core, "2026-01-10");
     expect(answerIn(api, state, question), where).toBe(-1);
   }, 300_000);
+
+  it("appointment qualification rises smoothly with adult years, so a young adult is eligible but rarely preferred", () => {
+    const date = "2026-06-01";
+    const born = (age: number) => ({ birthDate: `${2026 - age}-01-01` });
+    let previous = experienceFromAge(born(18), date);
+    expect(previous).toBe(0);
+    let biggestStep = 0;
+    for (let age = 19; age <= 90; age += 1) {
+      const now = experienceFromAge(born(age), date);
+      expect(now).toBeGreaterThan(previous);
+      biggestStep = Math.max(biggestStep, now - previous);
+      previous = now;
+    }
+    // No jump at 25 or anywhere else: the largest one-year gain is small.
+    expect(biggestStep).toBeLessThan(0.02);
+    // A 22-year-old counts (more than zero) but trails a 45-year-old.
+    expect(experienceFromAge(born(22), date)).toBeGreaterThan(0);
+    expect(experienceFromAge(born(22), date)).toBeLessThan(
+      experienceFromAge(born(45), date),
+    );
+  });
 });

@@ -5,6 +5,7 @@ import { advanceCore, createLifeCore } from "./life";
 import type { StaffingReceipt } from "./opening-staffing";
 import { generatedOpening } from "./tooling/generated-world";
 import type { CoreState } from "./types";
+import { daysAfterStart } from "./tooling/test-days";
 
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(16).toString("hex");
 const place = drawPlace(seed, "core2-staffing");
@@ -40,7 +41,7 @@ describe(`staffing to customers in ${place.name}, ${place.state} (seed ${seed})`
       if (person.jobId) expect(jobs.has(person.jobId)).toBe(true);
     const core = createLifeCore(input);
     const start = total(core);
-    advanceCore(core, "2021-02-01");
+    advanceCore(core, daysAfterStart(31));
     expect(total(core)).toBe(start);
   }, 300_000);
 });

@@ -1,5 +1,5 @@
-import { ageOnDate, makeIsoDate } from "../simulation/dates";
-import { lifePlaceStateIdentities } from "../simulation/life-places";
+import { ageOnDate, makeIsoDate } from "../core2/kernel/dates";
+import { corePlaceStateIdentities } from "../core2/place-lookup";
 import { realLocalities } from "../core2/places";
 import { buildPopulation } from "../core2/population";
 import { buildDeepPast } from "../core2/deep-past";
@@ -21,12 +21,17 @@ import { openParties } from "../core2/modules/parties";
 import { openVoting } from "../core2/modules/voting";
 import { openRecord } from "../core2/modules/record";
 import { openBudgets } from "../core2/modules/budgets";
+import { openOfficialPay } from "../core2/modules/official-pay";
+import { openHomelessCount } from "../core2/modules/homeless-count";
+import { openEstates } from "../core2/estates";
+import { openEmployerTaxes } from "../core2/modules/employer-taxes";
 import { openLegislature } from "../core2/modules/legislature";
 import { openOfficials } from "../core2/modules/officials";
-import { openLawEffects } from "../core2/modules/law-effects";
+import { openLawReach } from "../core2/law-reach/host";
 import { OUTCOME_WEB_MODULE } from "../core2/modules/outcome-web";
 import { openStaff } from "../core2/modules/staff";
 import { openLeadership } from "../core2/modules/leadership";
+import { openSuccession } from "../core2/modules/succession";
 import { openExecutive } from "../core2/modules/executive";
 import { openInterestGroups } from "../core2/modules/interest-groups";
 import { openWorldLegislating } from "../core2/modules/world-legislating";
@@ -35,7 +40,10 @@ import { openBallotMeasures } from "../core2/modules/ballot-measures";
 import { openRecalls } from "../core2/modules/recalls";
 import { openPress } from "../core2/modules/press";
 import { openMeetings } from "../core2/modules/meetings";
+import { officeDayData, openOfficeDay } from "../core2/office-day-levels";
 import { openCases } from "../core2/modules/constituent-cases";
+import { openJustice } from "../core2/modules/justice";
+import { openThePast } from "../core2/past";
 import { peopleData, peopleModules } from "../director/play-modules";
 import { renewalData } from "../core2/births-setup";
 import type { CoreInput, CoreState } from "../core2/types";
@@ -43,17 +51,20 @@ import { collapseToTwoLevels, fullPeople } from "../core2/residents";
 import { buildOpeningEconomy } from "../core2/opening-economy";
 import { addOutsideMarket } from "../core2/opening-outside-market";
 import { buildOpeningPeerContacts } from "../core2/opening-peer-network";
+import { withPublicSchoolDistrict } from "../core2/opening-public-schools";
+import { withPrivateTuition } from "../core2/opening-private-tuition";
+import { representativeSample } from "../core2/representative-sample";
 import { initialFocusPeople } from "../core2/focus";
-import { withCountedVoterGroups } from "../core2/opening-voter-groups";
 import { releaseRecentHistory } from "../simulation/history-index";
 import { forgetLastValidatedWorld } from "../simulation/world";
 import { selectBenchPlace } from "./place-selection.mjs";
+import { recordOpeningStory } from "../director/opening-story";
 import {
-  applyWorldSettings,
-  checkWorldSettings,
-  scaleOutsideDemand,
+  applyOpeningSettings as applyWorldSettings,
+  checkSettings as checkWorldSettings,
+  scaleOutsideSales,
   type WorldSettings,
-} from "./world-settings";
+} from "../core2/world-settings";
 
 export interface BenchResident {
   id: string;
@@ -91,14 +102,27 @@ const ENTRY_AGE = 18;
  * not people the town's day runs, even where they share the place.
  */
 export function entrantOf(input: CoreInput, placeId: string): string {
+  return entrantChoice(input, placeId).id;
+}
+
+/**
+ * The entrant and what the pick rests on: `estimated` is true when nobody
+ * here is 17 or 18 and the resident nearest 18 stands in, younger first so
+ * the 18th birthday still comes in play. Fails only where no resident lives.
+ */
+export function entrantChoice(
+  input: CoreInput,
+  placeId: string,
+): { id: string; age: number; estimated: boolean } {
   const at = makeIsoDate(input.startedAt);
-  const ages = input.people
+  const residents = input.people
     .filter((person) => person.placeId === placeId && person.tier !== "husk")
     .map((person) => ({
       id: person.id,
       age: ageOnDate(makeIsoDate(person.birthDate), at),
       birthDate: person.birthDate,
-    }))
+    }));
+  const near = residents
     .filter((row) => row.age === ENTRY_AGE || row.age === ENTRY_AGE - 1)
     .sort(
       (a, b) =>
@@ -108,39 +132,23 @@ export function entrantOf(input: CoreInput, placeId: string): string {
           : b.birthDate.localeCompare(a.birthDate)) ||
         a.id.localeCompare(b.id),
     );
-  if (!ages[0]) throw new Error("No resident at or near 18 here.");
-  return ages[0].id;
-}
-
-/**
- * The core requires every full person's relatives to be full people too, so
- * the kept circle grows to its family closure (relatives and their
- * households) before the rest of the town becomes counts.
- */
-function familyClosure(input: CoreInput): Set<string> {
-  const keep = fullPeople(input);
-  const people = new Map(input.people.map((row) => [row.id, row]));
-  const homes = new Map(input.households.map((row) => [row.id, row]));
-  const queue = [...keep];
-  while (queue.length) {
-    const person = people.get(queue.pop()!);
-    if (!person) continue;
-    const next = [
-      ...person.familyIds,
-      ...(homes.get(person.householdId)?.memberIds ?? []),
-    ];
-    for (const id of next)
-      if (!keep.has(id)) {
-        keep.add(id);
-        queue.push(id);
-      }
-  }
-  return keep;
+  if (near[0]) return { id: near[0].id, age: near[0].age, estimated: false };
+  // Nobody is 17 or 18: the nearest age to 18, the younger of two equally
+  // near, the one whose birthday comes soonest within an age.
+  const nearest = residents.sort(
+    (a, b) =>
+      Math.abs(a.age - ENTRY_AGE) - Math.abs(b.age - ENTRY_AGE) ||
+      a.age - b.age ||
+      a.birthDate.localeCompare(b.birthDate) ||
+      a.id.localeCompare(b.id),
+  )[0];
+  if (!nearest) throw new Error("No resident here.");
+  return { id: nearest.id, age: nearest.age, estimated: true };
 }
 
 /** The stages a world builds in, by key; the screen names each (`loading` in controls.json). */
 export type BuildStage =
-  "people" | "past" | "economy" | "core" | "government" | "done";
+  "people" | "past" | "economy" | "core" | "government" | "opening" | "done";
 type BuildOptions = {
   placeKey?: string;
   minimumPeople?: number;
@@ -150,6 +158,12 @@ type BuildOptions = {
    * filled in when met. The player is the 17-year-old who turns 18 soonest.
    */
   twoLevel?: boolean;
+  /**
+   * With `twoLevel`: real households each counted household of the town
+   * stands for (default one). A town opened from a sample of its Census
+   * count sets it; every reader of a count multiplies by it.
+   */
+  countScale?: number;
   /** A custom world (M6-04): what the player changed from real data. */
   settings?: WorldSettings;
   /**
@@ -203,7 +217,7 @@ function* benchWorldStages(
   yield "people";
   const place = options.placeKey
     ? realLocalities().find((row) => row.key === options.placeKey)
-    : selectBenchPlace(seed, lifePlaceStateIdentities(), realLocalities());
+    : selectBenchPlace(seed, corePlaceStateIdentities(), realLocalities());
   if (!place) throw new Error(`Unknown place key: ${options.placeKey}`);
   const settings = options.settings ?? {};
   checkWorldSettings(settings);
@@ -218,8 +232,20 @@ function* benchWorldStages(
     cohortAge: ENTRY_AGE - 1,
   });
   yield "past";
-  const input = applyWorldSettings(
+  const schools = withPublicSchoolDistrict(
     enrichCivicInputs(buildDeepPast(population)),
+  );
+  // Public pay must exist before the custom world's wage multiplier runs.
+  const input = applyWorldSettings(
+    schools.receipt
+      ? {
+          ...schools.input,
+          placeMetadata: {
+            ...(schools.input.placeMetadata ?? {}),
+            openingPublicSchools: JSON.stringify(schools.receipt),
+          },
+        }
+      : schools.input,
     settings,
   );
   yield "economy";
@@ -239,53 +265,64 @@ function* benchWorldStages(
       ...withPlayer,
       focusPersonIds: [...initialFocusPeople(withPlayer)].sort(),
     };
-    const kept = familyClosure(withPlayer);
+    const circle = fullPeople(withPlayer);
+    const sample = representativeSample(withPlayer, circle);
+    const kept = new Set([...circle, ...sample.personIds]);
+    withPlayer = {
+      ...withPlayer,
+      placeMetadata: {
+        ...(withPlayer.placeMetadata ?? {}),
+        representativeWeights: JSON.stringify(sample.weights),
+        representativeStrata: JSON.stringify(sample.strata),
+      },
+    };
     const countedHouseholdIds = new Set(
       withPlayer.households
         .filter((home) => !home.memberIds.some((id) => kept.has(id)))
         .map((home) => home.id),
     );
-    let economy: CoreInput;
-    try {
-      economy = addOutsideMarket(
+    const economy: CoreInput = addOutsideMarket(
+      withPrivateTuition(
         buildOpeningEconomy(withPlayer, {
           finance: { countedHouseholdIds },
           customers: { countedHouseholdIds },
         }).input,
-      );
-    } catch (error) {
-      // Stopgap SG-PLAY-opening-economy-fallback: a kin move dated after the
-      // opening day fails the core's income check; such a town opens on the
-      // finance-only route instead, without the outside market.
-      if (!/outside recipient lifetime\/opening/.test(String(error)))
-        throw error;
-      economy = { ...withPlayer, finance: createOpeningFinance(withPlayer) };
-    }
+      ),
+    );
     // The world economy goes on after the collapse, as on the core's
     // generated route: housing gives counted households rent and mortgage
     // flows, and the core's stand-in owner payouts come off. People it adds
     // (the central bank's board) are named officials and stay full people.
-    opening = scaleOutsideDemand(
-      withCountedVoterGroups(
-        withWorldEconomy(
-          collapseToTwoLevels(economy, { keep: familyClosure(economy) }),
-        ),
+    opening = scaleOutsideSales(
+      settings.economy?.outsideDemand ?? 1,
+      withWorldEconomy(
+        collapseToTwoLevels(economy, {
+          keep: kept,
+          ...(options.countScale && options.countScale !== 1
+            ? {
+                weights: {
+                  [place.context.jurisdiction.id]: options.countScale,
+                },
+              }
+            : {}),
+        }),
       ),
-      settings,
     );
     releaseRecentHistory();
     forgetLastValidatedWorld();
   } else
-    opening = withWorldEconomy({
-      ...input,
-      finance: createOpeningFinance(input),
-    });
+    opening = withWorldEconomy(
+      withPrivateTuition({
+        ...input,
+        finance: createOpeningFinance(input),
+      }),
+    );
   yield "core";
   options.onOpening?.(opening);
   const director = createDirector();
   const core = createLifeCore(opening, {
     observer: false,
-    data: renewalData(worldCoreData(peopleData(DEFAULT_DATA))),
+    data: officeDayData(renewalData(worldCoreData(peopleData(DEFAULT_DATA)))),
     modules: [
       ...WORLD_MODULES,
       // One area of the world moving another (M3-04): reads the economy's
@@ -311,12 +348,19 @@ function* benchWorldStages(
   openVoting(core);
   openRecord(core);
   openBudgets(core);
+  // Officials are paid from the treasuries budgets just opened (OPUS-CORE).
+  openOfficialPay(core);
+  openHomelessCount(core);
+  openEstates(core);
+  openEmployerTaxes(core);
   openLegislature(core);
   // Chambers elect their leaders and seat committees; the executives
   // appoint their department heads and cabinets (OPUS-GOV).
   openLeadership(core);
   openExecutive(core, seed);
-  openLawEffects(core);
+  // The president's cabinet and the line of succession (OPUS-GOV).
+  openSuccession(core);
+  openLawReach(core);
   // Everything that works through the government above, in the order the
   // modules' own tests open them: officials' staff, interest groups (hooks
   // on every bill's vote), other governments' lawmaking, state and federal
@@ -331,7 +375,22 @@ function* benchWorldStages(
   openPress(core);
   openMeetings(core);
   openCases(core);
+  // The officeholder's day (OFFICE-LOCAL): each local body's own meeting
+  // calendar, the meeting as a scene, the player's chosen stops and the
+  // character's own votes and desk decisions when the player does not stop.
+  openOfficeDay(core, seed);
+  // Prosecutors, trials and prisons: reads the corruption engine's records.
+  openJustice(core);
+  // The world has a past (OPUS-CORE): prior elections, voting records, law
+  // histories, the year's news and what the public knows, before day one.
+  openThePast(core, seed);
   director.start(core);
+  yield "opening";
+  // The opening, told as a story from the records (owner, Oct 14, 2026): the
+  // President's address and that night's news, composed once while the
+  // world loads and kept on the director's ledger for the screens.
+  if (playerId)
+    director.ledger.opening = recordOpeningStory(core, playerId) ?? undefined;
   const placeId = place.context.jurisdiction.id;
   const residents = [...core.people.values()]
     .filter((person) => person.placeId === placeId)

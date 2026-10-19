@@ -1,5 +1,5 @@
 import { evaluateDecision, isSelectedDecision } from "./decisions";
-import { addDays, ageOnDate } from "./dates";
+import { addDays, ageOnDate } from "../core2/kernel/dates";
 import { formatStatutoryDate } from "./legislation-content-contracts";
 import {
   activeWorkRelationshipsAt,

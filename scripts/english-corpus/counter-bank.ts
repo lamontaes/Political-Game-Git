@@ -3,8 +3,8 @@
  * visit to a county or town office counter: the clerk greets the next person,
  * the person says why they came, the clerk answers from the office's records
  * (the fee, the form, the deadline, which office handles it) and closes. Every
- * line is a sentence said or written in public-domain records with the
- * office's record facts in its slots; a line whose facts the visit doesn't
+ * line is a piece mined from public-domain records or authored to the
+ * calibrated patterns, with the office's record facts in its slots; a line whose facts the visit doesn't
  * carry is left out.
  *
  * Filing for office is the filing visit (`filing-bank.ts`); this is every
@@ -17,14 +17,14 @@
  * OPUS-WORDS owns this file until PEOPLE folds it into the director.
  */
 import bankJson from "../../data/english/parts/counter.json" with { type: "json" };
-import { heldByGrades } from "../../src/presentation/english-grades";
+import { heldByGrades } from "../../src/english/english-grades";
 import {
   composeGroundedLine,
   type ComposedLineBank,
   type LinePartVariant,
   type SpeechAct,
-} from "../../src/presentation/english-composition";
-import type { GroundedEnglishPacket } from "../../src/presentation/grounded-english";
+} from "../../src/english/english-composition";
+import type { GroundedEnglishPacket } from "../../src/english/grounded-english";
 
 interface MinedPart {
   key: string;

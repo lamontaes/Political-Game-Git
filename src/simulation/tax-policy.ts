@@ -27,8 +27,8 @@ import {
   stateTaxPowerEvidenceFor,
 } from "./state-tax-authority";
 import { canonicalJson } from "./canonical-json";
-import { addDays, makeIsoDate } from "./dates";
-import { createStableId } from "./ids";
+import { addDays, makeIsoDate } from "../core2/kernel/dates";
+import { createStableId } from "../core2/kernel/ids";
 import {
   currentMeasureProvisions,
   recordFiledProvision,

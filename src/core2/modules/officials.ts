@@ -19,6 +19,7 @@
  * independent. Nothing is rolled: who each person is was drawn once when the
  * world was made, and every vote follows from it.
  */
+import { stateStake } from "../budget-stakes";
 import calibration from "../../../data/source/electoral-calibration-2024/corpus.json" with { type: "json" };
 import partyCounts from "../../../data/research/offices/legislature-party-counts-2026.json" with { type: "json" };
 import senateClasses from "../../../data/research/offices/senate-classes-2026.json" with { type: "json" };
@@ -28,6 +29,7 @@ import { coreAPI, fillInIdentity, registerModule } from "../state";
 import type { CoreAPI, CoreModule, CoreState, Source } from "../types";
 import type { ModuleRow } from "../module-data";
 import { campaignParameter, publicOffset } from "../campaign-views";
+import { caseShift } from "./views";
 import { partyName, partySide } from "../appointments";
 import { drawOfficialIdentity } from "../officials-identity";
 import {
@@ -41,7 +43,9 @@ import {
   type IndependentRecord,
   type SignatureIssue,
 } from "../officials-roster";
-import { OFFICES_MODULE_ID, vacateSeat, type TermRow } from "./offices";
+import { recordPresident } from "../officials-president";
+import { OFFICES_MODULE_ID, type TermRow } from "./offices";
+import { VIEWS_DATA, stanceOn } from "./views";
 
 export const OFFICIALS_MODULE_ID = "core2-officials-v1";
 
@@ -78,6 +82,8 @@ export interface OfficialRow {
   readonly standsFor: number;
   /** When someone else took the seat (they're a former official since). */
   readonly ended: string | null;
+  /** False for a nominee the confirming bodies passed over: considered, never seated. */
+  readonly seated?: false;
 }
 
 export const OFFICIALS_MODULE: CoreModule = {
@@ -512,6 +518,16 @@ export function openOfficials(core: CoreState): void {
     .get("town") as unknown as { worldSeed: string; stateKey: string };
   const all = specs(api, loaded.worldSeed, loaded.stateKey);
   seatAll(api, loaded.worldSeed, all, true);
+  // The sitting President's own record: home state, office before, the 2024
+  // election and the states the campaign reached.
+  for (const row of officialsIn(api, "US:president"))
+    recordPresident(core, {
+      seed: loaded.worldSeed,
+      personId: row.id,
+      party: row.party,
+      townState: loaded.stateKey,
+      date: api.state.date,
+    });
   table(api, "loaded").put({ id: "opening", officials: all.length });
 }
 
@@ -599,6 +615,10 @@ function seatAll(
       gender: identity.gender,
       ...(spec.party ? { party: spec.party } : {}),
       seatKey: spec.seatId,
+      // A vice president, even one nominated to a vacancy, must be eligible to be president.
+      ...(spec.officeKind === "vice-president"
+        ? { eligibleForPresidency: true }
+        : {}),
       traits: drawn.traits,
       tier: OFFICIALS_DATA.tier,
       source: source(api.state.date),
@@ -934,6 +954,8 @@ export interface OfficialParts {
   readonly wing: number;
   readonly ambition: number;
   readonly press: number;
+  /** For a member of Congress, what the bill's budget lines send their state (part of `constituents`). */
+  readonly stateStake: number;
 }
 
 interface BodyRead {
@@ -1028,7 +1050,13 @@ export function officialParts(
           0,
         )
     : 0;
-  const views = weight("views") * own + reasonPull;
+  // What has been said to them since the opening moves them, as a case made
+  // to a town member does (the views engine).
+  const moved = stances.reduce(
+    (sum, s) => sum + caseShift(api, row.id, s.question) * s.position,
+    0,
+  );
+  const views = weight("views") * (own + moved) + reasonPull;
   const district = stances.reduce(
     (sum, s) => sum + supportAt(row.districtLean, s.question) * s.position,
     0,
@@ -1037,7 +1065,26 @@ export function officialParts(
     (sum, s) => sum + supportAt(row.stateLean, s.question) * s.position,
     0,
   );
-  const constituents = weight("district") * district;
+  // A member of Congress also weighs what a budget line sends their state
+  // against the national average, on a doubling scale: twice the average
+  // pulls a full point toward more, half a full point toward less (a sliding
+  // scale, no threshold; an outlier like a capital's headquarters spending
+  // counts no more than twice).
+  const stake =
+    row.bodyKind === "us-house" || row.bodyKind === "us-senate"
+      ? stances.reduce(
+          (sum, s) =>
+            sum +
+            Math.max(
+              -1,
+              Math.min(1, Math.log2(stateStake(row.stateKey, s.question))),
+            ) *
+              s.position,
+          0,
+        )
+      : 0;
+  const stakePart = weight("stateStake") * stake;
+  const constituents = weight("district") * district + stakePart;
   let party = 0;
   let wing = 0;
   if (row.bodyKind !== "executive") {
@@ -1048,7 +1095,11 @@ export function officialParts(
     if (side !== 0) {
       // The leader says which way; how much the party cares says how hard.
       const lead = read.leader.get(side) ?? Math.sign(read.care.get(side) ?? 0);
-      const pull = independent ? weight("caucus") : weight("party");
+      // A state chamber's members feel it at a calibrated fraction of Congress's.
+      // stopgapId: SG-LAWS-state-party-loyalty-target
+      const pull =
+        (independent ? weight("caucus") : weight("party")) *
+        (row.bodyKind === "legislature" ? weight("statePartyLoyalty") : 1);
       party = pull * row.loyalty * lead * Math.abs(read.care.get(side) ?? 0);
     }
     wing =
@@ -1083,7 +1134,15 @@ export function officialParts(
     weight("press") *
     visibility *
     stances.reduce((sum, s) => sum + publicOffset(s.question) * s.position, 0);
-  return { views, constituents, party, wing, ambition, press };
+  return {
+    views,
+    constituents,
+    party,
+    wing,
+    ambition,
+    press,
+    stateStake: stakePart,
+  };
 }
 
 /** A would-be candidate's reasons for running, as recorded. */
@@ -1333,15 +1392,6 @@ function tookOffice(api: CoreAPI, personId: string, seatId: string): void {
   const base =
     held ?? (ran?.drawn ? { ...ran.drawn, independent: null } : null);
   if (!base) return;
-  if (held) {
-    const below = (
-      api
-        .moduleState(OFFICES_MODULE_ID)
-        .table("terms")
-        .query("bySeatStatus", [held.seatId, "serving"]) as unknown as TermRow[]
-    ).some((t) => t.personId === personId);
-    if (below) vacateSeat(api, held.seatId, "took higher office");
-  }
   const party = term.party ?? held?.party ?? ran?.party ?? null;
   const lean = seatLean(
     facts.stateKey,
@@ -1399,7 +1449,15 @@ export function officialStance(
   question: string,
 ): number | null {
   const row = officialOf(api, memberId);
-  return row ? ownStance(row.ideal, row.signature, question) : null;
+  if (!row) return null;
+  // Their opening position, moved by what they have heard since, as any
+  // resident's view is (views.ts `viewOn`): a case made to them, a story
+  // they read, a vote they took.
+  const opening = ownStance(row.ideal, row.signature, question);
+  const moved =
+    VIEWS_DATA.parameters.stanceViewWeight!.value *
+    stanceOn(api, memberId, question);
+  return Math.max(-1, Math.min(1, opening + moved));
 }
 
 /**

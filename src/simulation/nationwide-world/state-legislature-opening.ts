@@ -1,7 +1,7 @@
 import {
   inventedPersonAge,
   inventedPersonBirthDate,
-} from "../invented-person-age";
+} from "../../core2/gov-rules/invented-person-age";
 import { indexFollowingAppends } from "../history-index";
 import {
   applyCharacterHistoryPlan,
@@ -16,8 +16,8 @@ import { candidacyPackById, stateCandidacyPack } from "../candidacy-packs";
 import { legislativeTermForRelationship } from "../legislative-office-terms";
 import { legislativeTermLimitInForce } from "./state-legislative-term-limits";
 import type { CandidacyPack, ElectiveOfficeOption } from "../candidacy-packs";
-import { addDays } from "../dates";
-import { createStableId } from "../ids";
+import { addDays } from "../../core2/kernel/dates";
+import { createStableId } from "../../core2/kernel/ids";
 import { stateJurisdictionForKey } from "../life-places";
 import {
   LIVING_WORLD_KEYS,
@@ -30,7 +30,7 @@ import {
   DISTINCT_GIVEN_NAME_GENERATION_VERSION,
 } from "../people";
 import { generatePersonIdentity } from "../person-identity";
-import { SeededRng } from "../rng";
+import { SeededRng } from "../../core2/kernel/rng";
 import type {
   EntityId,
   FutureDueItem,
@@ -66,7 +66,7 @@ import {
   logistic,
   logit,
   standardNormal,
-} from "../world-setup/deterministic-math";
+} from "../../core2/kernel/deterministic-math";
 import legislatorsTable from "../../../data/research/laws/legislators-2023.json" with { type: "json" };
 import { districtIdentityCatalog } from "../../districts/catalog";
 import {

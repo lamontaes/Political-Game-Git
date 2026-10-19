@@ -9,6 +9,7 @@
  * Census Bureau itself counts as 0 read 0. This is the reference figure the
  * world starts from, not a live count.
  */
+import acsPlaces from "../../../data/research/money/place-population-acs-2024.json" with { type: "json" };
 import placePopulationTable from "../../../data/tables/place-population.json" with { type: "json" };
 
 let table: ReadonlyMap<string, number> | null = null;
@@ -27,4 +28,25 @@ function load(): ReadonlyMap<string, number> {
 /** The town's reference population, or null where the game does not hold it. */
 export function placePopulation(placeGeoid: string): number | null {
   return load().get(placeGeoid) ?? null;
+}
+
+/**
+ * The American Community Survey's 2020-2024 five-year count for the places
+ * the 2025 estimate leaves out (census-designated places and the like).
+ */
+const ACS_PLACE_POPULATION = acsPlaces.places as Readonly<
+  Record<string, number>
+>;
+
+export type PlacePopulationSource = "census-estimate-2025" | "acs-2020-2024";
+
+/** The 2025 estimate where one exists, else the ACS count, else null. */
+export function placeReferencePopulation(
+  placeGeoid: string,
+): { readonly value: number; readonly source: PlacePopulationSource } | null {
+  const estimate = placePopulation(placeGeoid);
+  if (estimate !== null)
+    return { value: estimate, source: "census-estimate-2025" };
+  const acs = ACS_PLACE_POPULATION[placeGeoid];
+  return acs === undefined ? null : { value: acs, source: "acs-2020-2024" };
 }

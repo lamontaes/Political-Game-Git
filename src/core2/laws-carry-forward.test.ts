@@ -16,11 +16,7 @@ import {
 } from "./laws-starting";
 import { resolveLawInForce } from "./laws-in-force";
 import { withholdingFor } from "./tax-withholding";
-import {
-  lifePlaceCoverage,
-  lifePlaceSearch,
-  lifePlaceStateIdentities,
-} from "../simulation/life-places";
+import { searchCorePlaces, corePlaceStateIdentities } from "./place-lookup";
 
 const seed =
   process.env.GOLDEN_PATH_SEED ??
@@ -57,11 +53,11 @@ describe("starting law carries forward until a law changes it", () => {
 
   it("income tax and Social Security are still withheld years after the opening, in a random place", () => {
     const state = pick(
-      [...lifePlaceStateIdentities()].map((s) => s.jurisdictionKey).sort(),
+      [...corePlaceStateIdentities()].map((s) => s.jurisdictionKey).sort(),
       "state",
     );
     const places = [
-      ...lifePlaceSearch("", lifePlaceCoverage().placeCount, {
+      ...searchCorePlaces("", Number.MAX_SAFE_INTEGER, {
         stateJurisdictionKey: state,
         scope: "locality",
       }),

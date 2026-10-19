@@ -2,7 +2,7 @@ import { eventById } from "./event-index";
 import { ensurePeopleTraits } from "./people-traits";
 import type { AdultAftermathKind } from "./adult-situations";
 import { applyCharacterHistoryPlan } from "./character-history";
-import { addDays, makeIsoDate } from "./dates";
+import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import { evaluateDecision, isSelectedDecision } from "./decisions";
 import { createFutureTransitionHandlerRegistry } from "./future-transitions";
 import {

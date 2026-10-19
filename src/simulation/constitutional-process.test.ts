@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
-import { addDays, makeIsoDate } from "./dates";
-import { createStableId } from "./ids";
+import { addDays, makeIsoDate } from "../core2/kernel/dates";
+import { createStableId } from "../core2/kernel/ids";
 import { createWorld, advanceWorld, assertWorldIntegrity } from "./world";
 import { serializeWorld, deserializeWorld } from "./serialization";
 import {

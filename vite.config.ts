@@ -18,8 +18,6 @@ import {
 const buildIdentity = resolveBuildIdentity(process.cwd());
 
 import { identifiedBuild } from "./scripts/dev-lab/vite-identity";
-import { artDeskBridge } from "./scripts/dev-lab/art-desk-bridge";
-import { artbenchBridge } from "./scripts/dev-lab/artbench-bridge";
 import { RoundRobinSequencer } from "./scripts/dev-lab/round-robin-sequencer";
 
 // The play page is the game's only page, so it ships as the client's root
@@ -54,8 +52,6 @@ export default defineConfig({
     react(),
     sites(),
     identifiedBuild(),
-    artDeskBridge(process.cwd()),
-    artbenchBridge({ workspace: process.cwd() }),
   ],
   define: buildIdentityDefines(buildIdentity),
   // This repository has thousands of source modules and several HTML entry
@@ -100,6 +96,12 @@ export default defineConfig({
       // Immutable private pack authoring snapshots also use node:test.
       // Their original validators run with Node, not through Vitest discovery.
       "art/authoring/**",
+      // These four use `node:test` and run with `node --test` (see package.json
+      // and the workflows), so Vitest finds no suite in them.
+      "scripts/law-consequence-modules/generate-manifest.test.mjs",
+      "scripts/secrets/scan-tracked-secrets.test.mjs",
+      "scripts/trait-effects/generate-manifest.test.mjs",
+      "src/bench/place-selection.test.mjs",
     ],
   },
 });

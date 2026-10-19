@@ -20,7 +20,7 @@ export {
   SUPREME_COURT_ID,
   SUPREME_COURT_APPOINTMENT_PROFILE,
 } from "./supreme-court-appointment-profile";
-import { addDays, makeIsoDate } from "../dates";
+import { addDays, makeIsoDate } from "../../core2/kernel/dates";
 import { evaluateDecision, isSelectedDecision } from "../decisions";
 import { currentFederalTenure } from "../federal-tenures";
 import { scheduleFutureDueItem } from "../future-transitions";

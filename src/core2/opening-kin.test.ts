@@ -1,7 +1,7 @@
 import { beforeAll, describe, expect, it } from "vitest";
-import { ageOnDate, makeIsoDate } from "../simulation/dates";
-import { stableHash } from "../simulation/ids";
-import { lifePlaceStateIdentities } from "../simulation/life-places";
+import { ageOnDate, makeIsoDate } from "./kernel/dates";
+import { stableHash } from "./kernel/ids";
+import { corePlaceStateIdentities } from "./place-lookup";
 import moverRates from "../../data/research/migration/mover-rates-acs-2024.json" with { type: "json" };
 import { buildOpeningKin, OPENING_KIN } from "./opening-kin";
 import { buildPopulation } from "./population";
@@ -14,7 +14,7 @@ const startedAt = "2021-01-01";
 
 /** One locality drawn from all 56 states and territories by the seed, never named in logic. */
 function drawnPlace(drawSeed: string) {
-  const states = [...lifePlaceStateIdentities()].sort((a, b) =>
+  const states = [...corePlaceStateIdentities()].sort((a, b) =>
     stableHash(`${drawSeed}:${a.jurisdictionKey}`).localeCompare(
       stableHash(`${drawSeed}:${b.jurisdictionKey}`),
     ),
@@ -161,6 +161,37 @@ describe("generated opening kin", () => {
       minimumPeople: p("populationTestIncrement"),
     });
     expect(shape(other)).not.toEqual(shape(opening));
+  });
+});
+
+describe("kin moves never fall after the opening", () => {
+  // Regression: Scenic, Arizona once crashed on a kin move dated after the
+  // start (a move line crossed at the opening age ran a day past the calendar).
+  // The clamp is in opening-kin.ts; this pins it in two drawn places, one at
+  // this file's start date and one at the game's.
+  it.each([
+    ["this file's start", seed, startedAt],
+    ["the game's start", "p15-kin-moves-game-start", "2025-01-20"],
+  ])("dates every move at or before %s", (_label, drawSeed, start) => {
+    const place = drawnPlace(drawSeed);
+    const input = buildPopulation({
+      seed: drawSeed,
+      startedAt: start,
+      placeKey: place.place.key,
+      minimumPeople: p("populationTestIncrement"),
+    });
+    const where = `${place.state} ${place.place.key}, seed ${drawSeed}`;
+    let moves = 0;
+    let example = "";
+    for (const person of input.people)
+      for (const fact of person.pastFacts ?? []) {
+        if (!fact.id.includes(":move:")) continue;
+        moves += 1;
+        example = fact.id;
+        expect(fact.date <= start, `${where} ${fact.id}`).toBe(true);
+      }
+    expect(moves, where).toBeGreaterThan(0);
+    expect(example, where).toMatch(/:move:\d{4}-\d{2}-\d{2}$/);
   });
 });
 

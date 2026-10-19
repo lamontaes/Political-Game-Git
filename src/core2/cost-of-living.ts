@@ -5,9 +5,11 @@
  * housing that fall behind and can end in eviction) and one everyday-living
  * amount a month, paid from what its members hold.
  *
- * The everyday amount is the household's opening purchases: the BLS Consumer
- * Expenditure Survey's spending for its region and size (living-costs-data),
- * at the town's sellers in the shares the opening gave them. Every household
+ * The everyday amount starts as the household's opening purchases: the BLS
+ * Consumer Expenditure Survey's spending for its region and size
+ * (living-costs-data), at the town's sellers in the shares the opening gave
+ * them (by each seller's recorded capacity). Each month it follows the
+ * sellers' prices and the members' pay against what it was. Every household
  * purchase the opening or fill-in hands the core arrives here as one plan per
  * household, not one bill per store on a payday calendar.
  *
@@ -37,6 +39,8 @@ export interface LivingPlan {
   lastAt?: IsoDate;
   lastRequestedMinor: number;
   lastPaidMinor: number;
+  /** The members' daily pay when the household first spent: what spending follows. */
+  baselineDailyPayMinor?: number;
 }
 
 /** A household purchase: a budget a household spends at a seller, not a debt. */
@@ -96,7 +100,7 @@ export function admitEverydayPurchase(
         asOf: input.source.asOf,
         citation: input.source.citation,
         estimatedFrom:
-          "The household's opening purchases (BLS Consumer Expenditure Survey spending for its region and size), merged into one monthly everyday-living amount at the town's sellers.",
+          "The household's opening purchases (BLS Consumer Expenditure Survey spending for its region and size), merged into one monthly everyday-living amount at the town's sellers, then moved each month by the sellers' price level and the members' pay.",
       },
       lastRequestedMinor: 0,
       lastPaidMinor: 0,
@@ -149,6 +153,16 @@ function mainBalance(core: CoreState, ownerId: string): number {
   return Math.max(0, owner.liquidMinor - allocated);
 }
 
+/** The members' current daily pay, from their open jobs. */
+function dailyPay(core: CoreState, memberIds: readonly string[]): number {
+  let pay = 0;
+  for (const id of memberIds) {
+    const job = core.jobs.get(core.people.get(id)?.jobId ?? "");
+    if (job && job.endsAt === undefined) pay += job.wageDailyMinor;
+  }
+  return pay;
+}
+
 /** What the household's home and debts cost this month, kept back first. */
 function housingThisMonth(core: CoreState, householdId: string): number {
   let owed = 0;
@@ -183,13 +197,6 @@ function settle(
     (n, person) => n + mainBalance(core, person!.id),
     0,
   );
-  const budget = Math.max(
-    0,
-    Math.min(
-      plan.monthlyMinor,
-      held - housingThisMonth(core, plan.householdId),
-    ),
-  );
   // Sellers still open take the closed ones' shares, in proportion.
   const open = [...plan.sellers]
     .filter(([id]) => {
@@ -198,6 +205,35 @@ function settle(
     })
     .sort((a, b) => a[0].localeCompare(b[0]));
   const weight = open.reduce((n, [, amount]) => n + amount, 0);
+  // The month's amount follows what the household's sellers charge now against
+  // their opening prices, and its members' pay against what it was. With no
+  // pay now (or none to begin with) it is limited by what the members hold.
+  let priceFactor = 1;
+  if (weight > 0) {
+    priceFactor = 0;
+    for (const [id, amount] of open) {
+      const book = core.finance.businesses.get(id);
+      priceFactor +=
+        (amount / weight) *
+        (book && book.anchorPrice > 0 ? book.price / book.anchorPrice : 1);
+    }
+  }
+  const pay = dailyPay(
+    core,
+    members.map((person) => person!.id),
+  );
+  plan.baselineDailyPayMinor ??= pay;
+  const payFactor =
+    plan.baselineDailyPayMinor > 0 && pay > 0
+      ? pay / plan.baselineDailyPayMinor
+      : 1;
+  const requestedMinor = Math.round(
+    plan.monthlyMinor * priceFactor * payFactor,
+  );
+  const budget = Math.max(
+    0,
+    Math.min(requestedMinor, held - housingThisMonth(core, plan.householdId)),
+  );
   let paidTotal = 0,
     left = budget,
     payer = 0;
@@ -239,7 +275,7 @@ function settle(
     });
   }
   plan.lastAt = date;
-  plan.lastRequestedMinor = plan.monthlyMinor;
+  plan.lastRequestedMinor = requestedMinor;
   plan.lastPaidMinor = paidTotal;
   const totals = core.finance.totalsByKind.get(EVERYDAY_LIVING_KIND) ?? {
     requestedMinor: 0,
@@ -250,9 +286,9 @@ function settle(
   };
   core.finance.totalsByKind.set(EVERYDAY_LIVING_KIND, {
     ...totals,
-    requestedMinor: totals.requestedMinor + plan.monthlyMinor,
+    requestedMinor: totals.requestedMinor + requestedMinor,
     paidMinor: totals.paidMinor + paidTotal,
-    unfundedMinor: totals.unfundedMinor + (plan.monthlyMinor - paidTotal),
+    unfundedMinor: totals.unfundedMinor + (requestedMinor - paidTotal),
   });
 }
 

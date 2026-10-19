@@ -62,6 +62,22 @@ export const AMERICAN_ENGLISH_EXEMPT: readonly {
     reason: "real names from federal school and ownership records",
   },
   {
+    pattern:
+      /^src\/core2\/data\/(places\/(county-names|localities|place-lookup)|business\/nonattainment)\.json$/,
+    reason:
+      "real place and county names from Census and EPA records (Centre, Harbour, Storey)",
+  },
+  {
+    pattern: /^src\/bench\/[a-z-]+-receipt\.json$/,
+    reason:
+      "receipts the bench verifier wrote and reads back; regenerated rather than edited",
+  },
+  {
+    pattern: /^docs\/coordination\/DECISION-REGISTER\.md$/,
+    reason:
+      "a copy of the owner's Drive register, re-copied from Drive rather than edited here",
+  },
+  {
     pattern: /^fixtures\/source\//,
     reason: "fixtures mirroring sourced records byte for byte",
   },

@@ -1,7 +1,7 @@
-import { makeIsoDate } from "../dates";
-import { createStableId } from "../ids";
+import { makeIsoDate } from "../../core2/kernel/dates";
+import { createStableId } from "../../core2/kernel/ids";
 import { researchedPublicCashOpeningProfile } from "../public-budgets/opening-cash-profile";
-import { SeededRng } from "../rng";
+import { SeededRng } from "../../core2/kernel/rng";
 import {
   drawLegislativeStartingProcedures,
   LEGISLATIVE_STARTING_PROCEDURES_VERSION,
@@ -15,7 +15,7 @@ import {
   openUniform,
   roundTo,
   standardNormal,
-} from "./deterministic-math";
+} from "../../core2/kernel/deterministic-math";
 import { WORLD_CONDITION_ID_KIND, worldConditionRecords } from "./integrity";
 import { CRUNCH46_POLICY } from "./policy";
 import type {

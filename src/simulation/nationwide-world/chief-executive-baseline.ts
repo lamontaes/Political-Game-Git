@@ -2,7 +2,7 @@ import {
   CHIEF_EXECUTIVE_BASELINE_META,
   CHIEF_EXECUTIVE_BASELINE_ROWS,
 } from "./chief-executive-baseline.generated";
-import type { IsoDate } from "../types";
+import type { IsoDate } from "../../core2/kernel/brands";
 
 /**
  * Which office is each jurisdiction's chief executive, and how long its

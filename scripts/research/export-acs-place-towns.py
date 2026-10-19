@@ -24,7 +24,7 @@ its residents in each county subdivision (summary level 070, largest first),
 and each such subdivision's population (summary level 060). The public
 budgets read it (src/simulation/public-budgets/opening.ts, servingGovernment),
 and so does the town or township a place's local law comes from
-(src/simulation/government-units.ts, townshipGovernmentUnitsForPlace).
+(src/core2/reference/government-units.ts, townshipGovernmentUnitsForPlace).
 
 Run: python3 scripts/research/export-acs-place-towns.py <acsdt5y2024-b01003.dat>
 """

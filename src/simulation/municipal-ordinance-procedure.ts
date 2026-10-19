@@ -32,7 +32,7 @@ import { applyInstitutionStep } from "./governing/legislative-clock";
 import { councilSitsOnAuthoredCalendar } from "./municipal-seat-identity";
 import { recordWorldEvent } from "./world";
 
-import { addDays } from "./dates";
+import { addDays } from "../core2/kernel/dates";
 import { applyEnactedLawEffects } from "./enacted-law-effects";
 import { scheduleFutureDueItem } from "./future-transitions";
 import { admitLocalFiscalMeasure } from "./local-fiscal-authority";

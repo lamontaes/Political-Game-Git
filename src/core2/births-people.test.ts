@@ -5,7 +5,7 @@ import { createRenewalCore } from "./births-setup";
 import { buildNewborn } from "./births-people";
 import { advanceCore, availableActs } from "./life";
 import { RENEWAL_MODULE_ID } from "./modules/renewal";
-import { addDays, makeIsoDate } from "../simulation/dates";
+import { addDays, makeIsoDate } from "./kernel/dates";
 import type { CoreInput } from "./types";
 
 function family(): CoreInput {

@@ -5,7 +5,7 @@ import {
   dateAtAge,
   makeIsoDate,
   spokenDate,
-} from "../dates";
+} from "../../core2/kernel/dates";
 import { scheduleFutureDueItem } from "../future-transitions";
 import { lifePlaceByJurisdictionId } from "../life-places";
 import { householdLocationAt, peopleInHouseholdAt } from "../life-queries";
@@ -19,7 +19,7 @@ import {
   ARRESTING_OFFICER_ROLE,
   countyRowOfficerForJurisdiction,
 } from "../justice/county-offices";
-import { stableHash } from "../ids";
+import { stableHash } from "../../core2/kernel/ids";
 import {
   crimeCutoff,
   crimeKnownTiesAt,

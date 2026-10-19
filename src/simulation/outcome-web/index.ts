@@ -1,5 +1,5 @@
 import web from "../../../data/research/outcome-web/links.json" with { type: "json" };
-import { addDays, daysBetween } from "../dates";
+import { addDays, daysBetween } from "../../core2/kernel/dates";
 import {
   macroConditionsAt,
   macroScopeForJurisdiction,

@@ -6,10 +6,7 @@
  * a mechanic runs (minimum wages, the leave premium, budget lines' staff and
  * money, election costs) it runs through the engine that owns the thing.
  */
-import {
-  registerPolicyHandler,
-  type PolicyHandler,
-} from "../modules/law-effects";
+import { registerPolicyHandler, type PolicyHandler } from "./host";
 import { applyRecords, POLICIES } from "./group-a-records";
 import {
   federalMinimumWage,
@@ -17,9 +14,9 @@ import {
   raiseMinimumWage,
 } from "./group-a-wages";
 import { paidLeave, parksFunding } from "./group-a-money";
-import { multifamilyZoning, rightToCounsel } from "./group-a-housing";
 import { staffing } from "./group-a-staffing";
 import { votingLaw } from "./group-a-voting";
+import { rightToWork } from "./group-a-union";
 
 const records: PolicyHandler = (api, change) =>
   applyRecords(api, change.key, change.lawId, change.inForce);
@@ -29,14 +26,23 @@ const MECHANICS: Readonly<Record<string, readonly PolicyHandler[]>> = {
   none: [records],
   // The outcome web carries the law's effect on the town's measures.
   "outcome-web": [],
-  "multifamily-zoning": [records, multifamilyZoning],
-  "right-to-counsel": [records, rightToCounsel],
+  // Credit reads the law at quotation; no blanket personal knowledge write.
+  "consumer-loan-quote": [],
+  // Housing reads the law when renewing full leases and counted rent flows.
+  // Eligibility alone must not tell every adult that their rent changed.
+  "rent-renewal": [],
+  "housing-construction": [],
+  "eviction-counsel": [],
+  // The legislature's authority check reads home rule when the council
+  // proposes a question the state has not settled (policy-authority.ts).
+  "policy-authority": [],
   "federal-minimum-wage": [records, federalMinimumWage],
   "raise-minimum-wage": [records, raiseMinimumWage],
   "local-wage-authority": [records, localWageAuthority],
   "paid-leave-premium": [paidLeave],
   "parks-funding": [parksFunding],
   staffing: [staffing],
+  "right-to-work": [records, rightToWork],
   voting: [votingLaw],
   "office-limits": [votingLaw],
 };

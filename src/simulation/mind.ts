@@ -1,5 +1,5 @@
 import { eventById } from "./event-index";
-import { makeIsoDate } from "./dates";
+import { makeIsoDate } from "../core2/kernel/dates";
 import {
   appendAppraisalRecord,
   appendGoalStateRecord,
@@ -16,7 +16,7 @@ import type {
   PerceptionRecordInput,
   TemporaryStateRecordInput,
 } from "./history";
-import { createStableId } from "./ids";
+import { createStableId } from "../core2/kernel/ids";
 import { recordById, recordsByStringField } from "./history-index";
 import { lifeEntityExists } from "./life-integrity";
 import { resourceHousingEntityExists } from "./resource-integrity";

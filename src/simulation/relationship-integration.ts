@@ -6,7 +6,7 @@ import {
 } from "./records";
 import { createMindProvenance, recordAppraisal } from "./mind";
 import { recordLifeCommitment } from "./life";
-import { makeIsoDate } from "./dates";
+import { makeIsoDate } from "../core2/kernel/dates";
 import type {
   AppraisalMeaning,
   EntityId,

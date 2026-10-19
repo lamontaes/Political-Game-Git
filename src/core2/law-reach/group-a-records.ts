@@ -3,7 +3,7 @@
  * the record half of every policy. On the day a policy becomes law for the
  * town, every named person, organization and officeholder its selector
  * matches (from their own records: age, work, household, employer, seat)
- * gets the effect on their record and knows it; counted groups get one row
+ * gets a legal reach record; counted groups get one row
  * with their count. A repeal ends every open row the same day.
  */
 import reach from "../data/laws/reach-group-a.json" with { type: "json" };
@@ -20,7 +20,13 @@ import type { ModuleRow } from "../module-data";
 import type { ModuleCalendarWork } from "../module-calendar";
 import type { CashJournalSourceSlot } from "../journal-state";
 import type { WorkPayrollJournalReceipt } from "../work-payroll-cash";
-import { countedResidents } from "../electorate";
+import { reachOf } from "../counted-reach";
+import { isNoncitizen } from "../citizenship";
+import { citizenShareOf } from "../electorate-places";
+import {
+  firearmOwnershipRate,
+  householdOwnsFirearm,
+} from "../firearm-ownership";
 import { lawChain, LAWS_MODULE_ID } from "../modules/laws";
 import { OFFICES_MODULE_ID, type TermRow } from "../modules/offices";
 import type { LawRowInput } from "../laws-starting";
@@ -47,6 +53,10 @@ export interface ReachSpec {
     readonly employed?: boolean;
     readonly gender?: string;
     readonly withChildBelow?: string;
+    /** Only people who are not citizens (see `isNoncitizen`). */
+    readonly noncitizen?: boolean;
+    /** Only households that keep a firearm (a drawn fact, `firearm-ownership.ts`). */
+    readonly firearmHousehold?: boolean;
     readonly group?: string;
     readonly employing?: boolean;
   };
@@ -246,7 +256,7 @@ export const tomorrow = (date: string) =>
 
 /**
  * The levels (with their jurisdictions) whose latest law in force on a
- * policy says yes: the same reading as law-effects' `inForceHere`.
+ * policy says yes: the same reading as the law-reach host's `inForceHere`.
  */
 export function yesLevels(
   api: CoreAPI,
@@ -324,6 +334,14 @@ export function townOrganizations(
     .sort((a, b) => a.id.localeCompare(b.id));
 }
 
+/** The share of the town's adults who are citizens: its ACS count, blended with its state's. */
+function townCitizenShare(api: CoreAPI): number {
+  return citizenShareOf(
+    api.state.placeMetadata.placeKey as string | undefined,
+    lawChain(api).stateKey.slice(3),
+  );
+}
+
 function personMatches(
   api: CoreAPI,
   person: Readonly<PersonState>,
@@ -335,6 +353,11 @@ function personMatches(
   if (select.ageBelow && age >= reachParameter(select.ageBelow)) return false;
   if (select.employed && !person.jobId) return false;
   if (select.gender && person.looks?.gender !== select.gender) return false;
+  if (
+    select.noncitizen &&
+    !isNoncitizen(api.state.seed, person.id, townCitizenShare(api))
+  )
+    return false;
   if (select.withChildBelow) {
     const below = reachParameter(select.withChildBelow);
     const household = api.state.households.get(person.householdId);
@@ -344,6 +367,11 @@ function personMatches(
     });
     if (!hasChild) return false;
   }
+  if (
+    select.firearmHousehold &&
+    !householdOwnsFirearm(api, person.householdId, lawChain(api).stateKey)
+  )
+    return false;
   return true;
 }
 
@@ -354,10 +382,36 @@ export function townAdults(api: CoreAPI): number {
   const named = townPeople(api).filter(
     (p) => ageOn(p.birthDate, date) >= adult,
   ).length;
-  const counted = countedResidents(api.state as CoreState).filter(
-    (p) => ageOn(p.birthDate, date) >= adult,
-  ).length;
-  return named + counted;
+  const counted = reachOf(api.state as CoreState, lawChain(api).townPlaceId, {
+    ageFrom: adult,
+  }).counted.people;
+  return named + Math.round(counted);
+}
+
+/** The town's counted members a selector reaches (`reachOf`, counted tier), rounded. */
+function countedReach(
+  api: CoreAPI,
+  select: NonNullable<ReachSpec["select"]>,
+): number {
+  const p = (key: string | undefined) =>
+    key === undefined ? undefined : reachParameter(key);
+  const reach = reachOf(api.state as CoreState, lawChain(api).townPlaceId, {
+    ...(select.ageFrom ? { ageFrom: p(select.ageFrom)! } : {}),
+    ...(select.ageBelow ? { ageBelow: p(select.ageBelow)! } : {}),
+    ...(select.employed ? { employed: true } : {}),
+    ...(select.gender ? { gender: select.gender } : {}),
+    ...(select.noncitizen
+      ? { noncitizen: { citizenShare: townCitizenShare(api) } }
+      : {}),
+    ...(select.withChildBelow
+      ? { withChildBelow: p(select.withChildBelow)! }
+      : {}),
+  });
+  // Counted households keep a firearm at their state's rate, as a group.
+  const share = select.firearmHousehold
+    ? firearmOwnershipRate(lawChain(api).stateKey)
+    : 1;
+  return Math.round(reach.counted.people * share);
 }
 
 export interface Target {
@@ -368,12 +422,21 @@ export interface Target {
 
 function targetsOf(api: CoreAPI, spec: ReachSpec): readonly Target[] {
   const select = spec.select ?? {};
-  const date = api.state.date;
   switch (spec.target) {
-    case "people":
-      return townPeople(api)
+    case "people": {
+      // One rule, both tiers: each full person matched one by one, and the
+      // counted groups' members matched by the same rule, as one count.
+      const named = townPeople(api)
         .filter((p) => personMatches(api, p, select))
-        .map((p) => ({ id: p.id, personId: p.id, count: null }));
+        .map((p): Target => ({ id: p.id, personId: p.id, count: null }));
+      const counted = countedReach(api, select);
+      return counted
+        ? [
+            ...named,
+            { id: `counted:${spec.id}`, personId: null, count: counted },
+          ]
+        : named;
+    }
     case "organizations":
       return townOrganizations(api, select.group ?? "", select.employing).map(
         (o) => ({ id: o.id, personId: null, count: null }),
@@ -387,14 +450,7 @@ function targetsOf(api: CoreAPI, spec: ReachSpec): readonly Target[] {
       return out;
     }
     case "counted": {
-      const count = countedResidents(api.state as CoreState).filter((p) => {
-        const age = ageOn(p.birthDate, date);
-        if (select.ageFrom && age < reachParameter(select.ageFrom))
-          return false;
-        if (select.ageBelow && age >= reachParameter(select.ageBelow))
-          return false;
-        return true;
-      }).length;
+      const count = countedReach(api, select);
       return count ? [{ id: `counted:${spec.id}`, personId: null, count }] : [];
     }
     case "estimated": {
@@ -446,7 +502,8 @@ export function reachOn(api: CoreAPI, targetId: string): readonly ReachRow[] {
 
 /**
  * Put a policy's record effects on everyone it reaches (in force) or end
- * them (repealed). Idempotent: a second level saying yes adds no rows.
+ * them (repealed). These records are not delivered notices and create no
+ * knowledge; news, conversations and notices own that. Idempotent: a second level saying yes adds no rows.
  */
 export function applyRecords(
   api: CoreAPI,
@@ -464,15 +521,6 @@ export function applyRecords(
   if (!inForce) {
     for (const row of open) {
       table.put({ ...row, endedOn: date } as unknown as ModuleRow);
-      if (row.target !== "counted" && row.target !== "estimated")
-        if (api.state.people.has(row.targetId))
-          api.observe(row.targetId, {
-            key: `law-reach:${key}`,
-            value: "repealed",
-            learnedAt: date,
-            sourceId: lawId || row.lawId,
-            access: "public",
-          });
     }
     return;
   }
@@ -525,14 +573,6 @@ export function writeRows(
     };
     table.put(row as unknown as ModuleRow);
     holding.set(target.id, row);
-    if (target.personId && !held)
-      api.observe(target.personId, {
-        key: `law-reach:${key}`,
-        value: spec.kind,
-        learnedAt: date,
-        sourceId: lawId,
-        access: "public",
-      });
   }
 }
 
@@ -542,19 +582,10 @@ export function endRows(
   key: string,
   specId: string,
   keep: ReadonlySet<string>,
-  lawId: string,
 ): void {
   const table = reachTable(api, "reach");
   for (const row of openReach(api, key)) {
     if (row.spec !== specId || keep.has(row.targetId)) continue;
     table.put({ ...row, endedOn: api.state.date } as unknown as ModuleRow);
-    if (api.state.people.has(row.targetId))
-      api.observe(row.targetId, {
-        key: `law-reach:${key}`,
-        value: "ended",
-        learnedAt: api.state.date,
-        sourceId: lawId,
-        access: "public",
-      });
   }
 }

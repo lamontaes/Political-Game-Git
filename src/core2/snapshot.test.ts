@@ -12,6 +12,7 @@ import {
 } from "./snapshot";
 import { generatedOpening } from "./tooling/generated-world";
 import type { CoreState } from "./types";
+import { daysAfterStart } from "./tooling/test-days";
 
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(16).toString("hex");
 const place = drawPlace(seed, "core2-snapshot");
@@ -52,7 +53,7 @@ describe(`a world snapshot in ${place.name}, ${place.state} (seed ${seed})`, () 
     });
     const original = createLifeCore(input);
     expect(uncoveredModules(original)).toEqual([]);
-    advanceCore(original, "2021-03-01");
+    advanceCore(original, daysAfterStart(59));
     // Engines installed on first use are covered too.
     expect(uncoveredModules(original)).toEqual([]);
     const saved = JSON.stringify(snapshotWorld(original));
@@ -60,9 +61,9 @@ describe(`a world snapshot in ${place.name}, ${place.state} (seed ${seed})`, () 
     expect(gzipSync(saved).length).toBeLessThan(40e6);
     const loaded = createLifeCore(input);
     restoreWorld(loaded, JSON.parse(saved) as WorldSnapshot);
-    expect(loaded.date).toBe("2021-03-01");
-    advanceCore(original, "2021-04-15");
-    advanceCore(loaded, "2021-04-15");
+    expect(loaded.date).toBe(daysAfterStart(59));
+    advanceCore(original, daysAfterStart(104));
+    advanceCore(loaded, daysAfterStart(104));
     const a = content(original),
       b = content(loaded);
     expect(Object.keys(b).sort()).toEqual(Object.keys(a).sort());

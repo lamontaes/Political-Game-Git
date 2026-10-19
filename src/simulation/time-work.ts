@@ -22,8 +22,8 @@ import {
   simulationMomentAtLocalTime,
   simulationMomentEpochMinute,
   simulationMinutesBetween,
-} from "./dates";
-import { createStableId } from "./ids";
+} from "../core2/kernel/dates";
+import { createStableId } from "../core2/kernel/ids";
 import { lifeEntityAvailableAt, lifeEntityExists } from "./life-integrity";
 import { pressEntityAvailableAt, pressEntityExists } from "./press/integrity";
 import {

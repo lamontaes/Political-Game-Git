@@ -8,7 +8,7 @@ import type {
 } from "./campaign-life-types";
 import { contestDistrictGeography } from "./campaign-geography";
 import { campaignWeeklyPlanRecords } from "./campaign-queries";
-import { addDays } from "./dates";
+import { addDays } from "../core2/kernel/dates";
 import type {
   CampaignActionKind,
   CampaignActionRecord,

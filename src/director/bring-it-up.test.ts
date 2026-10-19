@@ -68,8 +68,12 @@ describe(`people bring it up in ${input.placeMetadata?.placeName} (seed ${seed})
         core.jobs.get(core.people.get(id)!.jobId!)!.organizationId !== org,
     )!;
     const said = bringItUp(core, worker.id, friendId)!;
-    expect(said.lines.map((row) => row.text)[0]).toMatch(/ closed\.$/);
-    expect(said.lines[1]!.text).toMatch(/^That was .+(?:'s|s') doing\.$/);
+    expect(said.lines.map((row) => row.text)[0]).toMatch(
+      / (?:closed|is closed|shut down|is gone)\.$/,
+    );
+    // The blame is a mined sentence, and it cites the record it follows.
+    expect(said.lines).toHaveLength(2);
+    expect(said.lines[1]!.sourceRecordIds).toContain(said.change.eventId);
     const [heard] = changesKnownTo(core, friendId);
     expect(believedCause(core, friendId, heard!)).toMatchObject({
       how: "told",

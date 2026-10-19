@@ -1,12 +1,8 @@
 /**
  * Ported from the old engine's `invented-person-age.ts`.
  */
-import {
-  ageOnDate,
-  isoDateFromParts,
-  makeIsoDate,
-} from "../../simulation/dates";
-import type { SeededRng } from "../../simulation/rng";
+import { ageOnDate, isoDateFromParts, makeIsoDate } from "../kernel/dates";
+import type { SeededRng } from "../kernel/rng";
 import type { IsoDate } from "./types";
 
 /**

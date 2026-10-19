@@ -1,3 +1,4 @@
+import { countedMoves } from "./modules/counted-moves";
 import { randomBytes } from "node:crypto";
 import { beforeAll, describe, expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
@@ -7,7 +8,7 @@ import { createRenewalCore } from "./births-setup";
 import { RENEWAL_MODULE_ID } from "./modules/renewal";
 import { residentCounts, residentPerson } from "./modules/residents";
 import { coreAPI, personOrFillIn } from "./state";
-import { addDays, makeIsoDate } from "../simulation/dates";
+import { addDays, makeIsoDate } from "./kernel/dates";
 import type { CoreInput, CoreState } from "./types";
 
 // One random place from all 56, named with its seed in the test title.
@@ -73,8 +74,13 @@ describe(`counted population drift in ${place.name} (seed ${seed})`, () => {
     );
     const end = residentCounts(core).reduce((n, row) => n + row.people, 0);
     expect(rows.some((row) => row.endPeople !== row.startPeople)).toBe(true);
-    // Fill-in during the run (none here) is the only other way out of the counts.
-    expect(end).toBe(start + moved);
+    // People also move from causes on the counted-moves engine; fill-in
+    // during the run (none here) is the only other way out of the counts.
+    const moves = countedMoves(coreAPI(core)).reduce(
+      (n, row) => n + (row.direction === "in" ? row.people : -row.people),
+      0,
+    );
+    expect(end).toBe(start + moved + moves);
   });
 
   it("records each counted baby in the town's births, marked as counted", () => {

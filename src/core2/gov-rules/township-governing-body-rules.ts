@@ -6,8 +6,8 @@ import placeTowns from "../../../data/research/money/place-towns-acs-2024.json" 
 import {
   governmentUnitStates,
   governmentUnitsForState,
-} from "../../simulation/government-units";
-import type { GovernmentUnitIdentity } from "../../simulation/government-units";
+} from "../reference/government-units";
+import type { GovernmentUnitIdentity } from "../reference/government-units";
 import {
   countyGoverningBodyRules,
   type CountyGoverningBodyRules,

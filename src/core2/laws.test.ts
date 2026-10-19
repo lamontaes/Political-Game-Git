@@ -22,11 +22,7 @@ import {
 } from "./modules/laws";
 import { resolveLawInForce } from "./laws-in-force";
 import { lawChainForPlace, type LawRowInput } from "./laws-starting";
-import {
-  lifePlaceCoverage,
-  lifePlaceSearch,
-  lifePlaceStateIdentities,
-} from "../simulation/life-places";
+import { searchCorePlaces, corePlaceStateIdentities } from "./place-lookup";
 
 const START = "2026-01-05";
 const seed =
@@ -42,6 +38,12 @@ const research = {
     "data/research/laws/local-starting-law/local-minimum-wage.json",
   ),
   stateIncome: json("data/research/money/state-income-tax-2026.json"),
+  stateCorporate: json(
+    "data/research/money/state-corporate-income-tax-2026.json",
+  ),
+  territoryCorporate: json(
+    "data/research/laws/local-starting-law/territory-corporate-income-tax-2026.json",
+  ),
   federalIncome: json("data/research/money/federal-income-tax-schedules.json"),
   sales: json("data/research/laws/local-starting-law/sales-tax.json"),
   property: json(
@@ -60,7 +62,7 @@ const research = {
 
 function localities(stateKey: string) {
   return [
-    ...lifePlaceSearch("", lifePlaceCoverage().placeCount, {
+    ...searchCorePlaces("", Number.MAX_SAFE_INTEGER, {
       stateJurisdictionKey: stateKey,
       scope: "locality",
     }),
@@ -72,7 +74,7 @@ function draw(states: readonly string[], salt: string) {
   const places = localities(state);
   return places[parseInt(hash.slice(8, 16), 16) % places.length]!;
 }
-const allStates = [...lifePlaceStateIdentities()]
+const allStates = [...corePlaceStateIdentities()]
   .map((s) => s.jurisdictionKey)
   .sort();
 const territories = ["US-AS", "US-GU", "US-MP", "US-PR", "US-VI"];
@@ -250,6 +252,75 @@ describe("M1-01 laws in force, every level", () => {
 
   it("a random territory: every tracked series matches its source", () => {
     checkPlace(draw(territories, "territory").key);
+  });
+
+  it("a random place's state corporate income tax is the researched row, added to the federal rate, or none", () => {
+    const place = draw([...allStates, ...territories], "corporate");
+    const core = world(place.key);
+    const api = coreAPI(core);
+    const stateKey = lawChain(api).stateKey;
+    const answer = lawInForce(api, "corporate-income-tax");
+    const federal = answer.levels.find((l) => l.level === "federal")!.row;
+    const state = answer.levels.find((l) => l.level === "state")!.row;
+    // The federal rate is the same everywhere (26 U.S.C. 11(b)).
+    expect(federal?.value).toBe(21);
+    const researched =
+      research.stateCorporate.places[stateKey] ??
+      research.territoryCorporate.places[stateKey];
+    govReport(
+      "laws",
+      JSON.stringify({
+        place: place.name,
+        seed,
+        state: stateKey,
+        corporate: state ? `${state.value} ${state.unit}` : "none",
+      }),
+    );
+    if (!researched || researched.corporateIncomeTax === "none") {
+      expect(state).toBeNull();
+      expect(answer.value).toBe(21);
+      return;
+    }
+    expect(state).not.toBeNull();
+    const top =
+      researched.brackets?.at(-1)?.ratePercent ?? researched.ratePercent;
+    expect(state!.value).toBe(top);
+    expect(state!.source).toMatch(
+      /taxfoundation\.org|govinfo|bir\.vi|cnmilaw|asbar|pwc/i,
+    );
+    // A state's tax adds to the federal; a territory's stands in its place.
+    if (researched.mirrorsFederal !== undefined) {
+      expect(
+        answer.levels.find((l) => l.level === "federal")?.setAside,
+      ).toMatch(/territory/);
+      expect(answer.value).toBe(top);
+    } else expect(answer.value).toBeCloseTo(21 + top, 6);
+  });
+
+  it("every place that levies a state corporate income tax has a row, and no other has", () => {
+    const starting = json("src/core2/data/laws/starting-law.json")
+      .jurisdictions as Record<string, { series: string; level: string }[]>;
+    const levied = Object.entries({
+      ...research.stateCorporate.places,
+      ...research.territoryCorporate.places,
+    })
+      .filter(
+        ([, place]) =>
+          (place as { corporateIncomeTax?: string }).corporateIncomeTax !==
+          "none",
+      )
+      .map(([key]) => key)
+      .sort();
+    const have = Object.entries(starting)
+      .filter(([, rows]) =>
+        rows.some(
+          (r) => r.series === "corporate-income-tax" && r.level === "state",
+        ),
+      )
+      .map(([key]) => key)
+      .sort();
+    expect(have).toEqual(levied);
+    expect(levied.length).toBe(50);
   });
 
   it("a state that preempts local minimum wages sets a city's ordinance aside; one that allows them lets it govern", () => {

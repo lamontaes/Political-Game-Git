@@ -11,8 +11,8 @@ import {
 } from "./history-index";
 import { assertPublicFundingMandate } from "./public-fiscal";
 import { assertProgramInstallmentBasis } from "./public-program-integrity";
-import { makeIsoDate } from "./dates";
-import { createStableId } from "./ids";
+import { makeIsoDate } from "../core2/kernel/dates";
+import { createStableId } from "../core2/kernel/ids";
 import {
   activeDwellingOccupanciesAt,
   dwellingOccupancyStateHistory,

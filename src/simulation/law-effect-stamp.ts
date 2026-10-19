@@ -1,4 +1,4 @@
-import { makeIsoDate } from "./dates";
+import { makeIsoDate } from "../core2/kernel/dates";
 import { isCountyServiceProgram } from "./law-consequences/service-delivered-data";
 import type { LawInForce } from "./governing/law-in-force";
 import type {
@@ -14,7 +14,7 @@ import {
   comparableAmountApplicabilityKey,
   lawTermScopeKey,
 } from "./law-consequence-types";
-import type { EntityId, IsoDate } from "./types";
+import type { EntityId, IsoDate } from "../core2/kernel/brands";
 
 /** Attribution on an actual saved consequence, not a claim that it occurred. */
 export interface LawEffectStamp {

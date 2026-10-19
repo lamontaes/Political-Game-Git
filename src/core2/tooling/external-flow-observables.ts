@@ -1,5 +1,5 @@
 /** Developer accounting: outside owners keep flows and zero liquid cash. */
-import { makeIsoDate } from "../../simulation/dates";
+import { makeIsoDate } from "../kernel/dates";
 import { parameter } from "../parameters";
 import type { CoreState } from "../types";
 

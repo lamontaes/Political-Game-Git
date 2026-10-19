@@ -10,29 +10,35 @@
  * world's seed, as all generation does. One row per place per month records
  * what moved; nothing is kept per counted person per day.
  */
-import { makeIsoDate } from "../simulation/dates";
-import { createStableId } from "../simulation/ids";
-import { SeededRng } from "../simulation/rng";
-import { drawCanonicalNamedIdentity } from "../simulation/people";
-import { generatePersonIdentity } from "../simulation/person-identity";
+import { addDays, makeIsoDate } from "./kernel/dates";
+import { SERIOUS_EPISODE_REMAINING_DAYS } from "./death-causes";
 import {
-  lifePlaceByJurisdictionId,
-  lifePlaceByKey,
-} from "../simulation/life-places";
-import { STATES } from "../simulation/state-reference";
-import { YOUNGEST_AGE_AT_BIRTH } from "../simulation/birth-rates";
+  bookCountedIllness,
+  countedCourseDays,
+  endCountedIllness,
+  illInPlace,
+} from "./counted-illness";
+import { createStableId } from "./kernel/ids";
+import { SeededRng } from "./kernel/rng";
+import { drawCanonicalNamedIdentity } from "./person-names";
+import { generatePersonIdentity } from "./gov-rules/person-identity";
 import {
-  bedroomsForHousehold,
-  hudRentRowFor,
-} from "../simulation/living-world/town-rent";
-import type { EntityId } from "../simulation/types";
+  corePlaceByJurisdictionId,
+  corePlaceByKey,
+  coreStateName,
+} from "./place-lookup";
+import { parameter } from "./parameters";
+import { bedroomsForHousehold, hudRentRowFor } from "./hud-rents";
+import type { EntityId } from "./kernel/brands";
 import natality2023 from "../../data/research/renewal/natality-2023.json" with { type: "json" };
 import natality2024 from "../../data/research/renewal/natality-2024.json" with { type: "json" };
 import areaNames from "../../data/research/renewal/area-names.json" with { type: "json" };
 import moverRates from "../../data/research/migration/mover-rates-acs-2024.json" with { type: "json" };
 import lifeTables from "./data/ssa-cohort-life-tables.json" with { type: "json" };
+import stateMortality from "./data/state-mortality.json" with { type: "json" };
 import moveRows from "./data/moves/parameters.json" with { type: "json" };
 import { renewalParameter } from "./births-parameters";
+import { DEFAULT_HEALTH_DATA, severityImpulse } from "./modules/health";
 import { openingTemperaments } from "./opening-personality";
 import {
   addCountedPerson,
@@ -42,9 +48,13 @@ import {
   departCountedHousehold,
   removeCountedPerson,
 } from "./modules/residents";
-import { voterGroups } from "./voter-groups";
-import { countedVoterGroupId } from "./opening-voter-groups";
 import type { ResidentHouseholdRecord } from "./residents";
+import { COUNTED_MOVES_MODULE_ID } from "./modules/counted-moves";
+import {
+  OUTCOME_WEB_MODULE_ID,
+  outcomeWebFactor,
+  placeOutcome,
+} from "./modules/outcome-web";
 import type { ModuleRow } from "./module-data";
 import type { CoreAPI, PersonInput, PlaceId, Source } from "./types";
 
@@ -52,7 +62,11 @@ export const COUNTED_FLOWS_STOPGAP = "SG-PW8-counted-arrivals";
 /** Unit conversions only: NCHS rates are per 1,000 women; HUD figures are dollars. */
 const PER_THOUSAND = 1000,
   CENTS_PER_DOLLAR = 100,
-  MS_PER_DAY = 86_400_000;
+  MS_PER_DAY = 86_400_000,
+  /** The month the first run steps back by to find the illnesses already under way. */
+  DAYS_PER_COUNT_MONTH = 30;
+/** The youngest age at which anybody becomes a parent. */
+const YOUNGEST_PARENT_AGE = parameter("minimumParentAgeAtBirth");
 
 type AgeRates = Readonly<Record<string, number | null>>;
 interface NatalityArea {
@@ -70,6 +84,48 @@ const source = (date: string): Source => ({
     "Counted population flows: NCHS final natality 2024 (2023 where a 2024 cell is suppressed) by mother's age and state; SSA Actuarial Study No. 120 cohort life tables; ACS 2024 one-year county departure rates by age and arrival rates by state. Rates applied to counted totals; records chosen by their circumstances.",
 });
 
+/** The monthly death record reaches the full people who already know its subject. */
+export function notifyCountedDeaths(
+  api: CoreAPI,
+  row: { id: string; placeId: PlaceId; deaths: readonly string[] },
+): void {
+  for (const deceasedId of row.deaths) {
+    // Unmet residents remain counted identities; a notification never fills
+    // somebody in or gives them an invented past or medical cause.
+    const deceased = api.state.husks.get(deceasedId);
+    if (!deceased) continue;
+    // stopgapId: SG-CORE-counted-death-relations
+    // Opening full-to-counted family ties may have no closeness record.
+    // Notify them, but leave grief to the existing relationship reader.
+    api.stopgap("SG-CORE-counted-death-relations");
+    const witnesses = new Set(deceased.familyIds ?? []);
+    for (const key of api.state.relationshipsByPerson.get(deceasedId) ?? []) {
+      const tie = api.state.relationships.get(key);
+      if (tie)
+        witnesses.add(tie.actorId === deceasedId ? tie.otherId : tie.actorId);
+    }
+    const witnessIds = [...witnesses]
+      .filter((id) => id !== deceasedId && api.state.people.get(id)?.alive)
+      .sort();
+    if (!witnessIds.length) continue;
+    const kind = DEFAULT_HEALTH_DATA.deathEventKind;
+    const id = `${kind}:${deceasedId}:${api.state.date}`;
+    api.emit({
+      id,
+      kind,
+      date: api.state.date,
+      placeId: row.placeId,
+      personIds: [deceasedId],
+      witnessIds,
+      publicRecord: true,
+      news: true,
+      ...severityImpulse(api, DEFAULT_HEALTH_DATA.deathSeverity),
+      source: source(api.state.date),
+      facts: { [`event:${id}:countsId`]: row.id },
+    });
+  }
+}
+
 /** The place's state, as the research files name it (else the world's own state). */
 function stateOf(
   api: CoreAPI,
@@ -77,11 +133,11 @@ function stateOf(
 ): { key: string; name: string } {
   const worldKey = api.state.placeMetadata?.placeKey;
   const key =
-    lifePlaceByJurisdictionId(placeId as EntityId)?.stateJurisdictionKey ??
-    (worldKey ? lifePlaceByKey(worldKey)?.stateJurisdictionKey : undefined);
+    corePlaceByJurisdictionId(placeId as EntityId)?.stateJurisdictionKey ??
+    (worldKey ? corePlaceByKey(worldKey)?.stateJurisdictionKey : undefined);
   if (!key) throw new Error(`No state recorded for ${placeId}`);
   const aliases = areaNames.aliases as Record<string, string>;
-  return { key, name: aliases[key] ?? STATES[key.slice(3)]!.name };
+  return { key, name: aliases[key] ?? coreStateName(key.slice(3))! };
 }
 
 /** Births per woman a year by age band: the state's 2024 rate, else 2023, else national. */
@@ -95,7 +151,7 @@ function birthRates(stateName: string): Map<[number, number], number> {
   const rates = new Map<[number, number], number>();
   for (const band of Object.keys(national)) {
     const [low, high] = band.split("-").map(Number) as [number, number];
-    if (low < YOUNGEST_AGE_AT_BIRTH) continue;
+    if (low < YOUNGEST_PARENT_AGE) continue;
     const per1000 =
       areas.map((area) => area?.ageRates[band]).find((rate) => rate != null) ??
       national[band] ??
@@ -106,7 +162,7 @@ function birthRates(stateName: string): Map<[number, number], number> {
 }
 
 /** SSA cohort qx: the chance of dying within the year at this age, by sex and birth year. */
-function cohortDeathChance(
+export function cohortDeathChance(
   gender: string | undefined,
   birthYear: number,
   age: number,
@@ -161,10 +217,18 @@ const monthlyShare = (perYear: number, months: number) =>
 
 interface Carry {
   births: number;
-  deaths: number;
+  /** Each cohort's expected deaths not yet realized, by `deathCohort` key. */
+  deaths: Record<string, number>;
   departures: number;
   arrivals: number;
 }
+
+/** The row of the death carry for debts that belong to no one living. */
+const DEATH_POOL = "pool";
+
+/** The cohort a counted person dies with: sex and birth year, the life table's own columns. */
+const deathCohort = (person: PersonInput) =>
+  `${person.looks?.gender === "male" ? "m" : "f"}:${person.birthDate.slice(0, 4)}`;
 
 /** Whole years from birth to `date` (ISO strings; the same rule as ageOnDate). */
 const ageOf = (person: PersonInput, date: string) =>
@@ -183,8 +247,8 @@ function partnerOf(
     (row) =>
       row.id !== woman.id &&
       woman.familyIds.includes(row.id) &&
-      ageOf(row, date) >= YOUNGEST_AGE_AT_BIRTH &&
-      Math.abs(ageOf(row, date) - age) < YOUNGEST_AGE_AT_BIRTH,
+      ageOf(row, date) >= YOUNGEST_PARENT_AGE &&
+      Math.abs(ageOf(row, date) - age) < YOUNGEST_PARENT_AGE,
   );
 }
 
@@ -207,7 +271,7 @@ function birthStanding(
   const children = record.people.filter(
     (row) =>
       woman.familyIds.includes(row.id) &&
-      age - ageOf(row, date) >= YOUNGEST_AGE_AT_BIRTH,
+      age - ageOf(row, date) >= YOUNGEST_PARENT_AGE,
   ).length;
   const wages = record.jobs.reduce((n, job) => n + job.wageDailyMinor, 0);
   const ratio = (wages * p("daysPerMeanYear")) / median;
@@ -243,25 +307,28 @@ export function applyCountedFlows(
     month = date.slice(0, 7);
   const p = (key: string) => renewalParameter(api, key);
   const months = p("monthsPerYear");
-  const groups = voterGroups(core);
-  // The youngest age in the ACS departure bands, and the voting age.
+  // The youngest age in the ACS departure bands.
   const adultAge = moveParameter("movesMinimumAge");
-  const shiftVoters = (placeId: string, person: PersonInput, by: number) => {
-    const id = countedVoterGroupId(placeId, person.birthDate, date);
-    const group = id ? groups.get(id) : undefined;
-    if (group) groups.put({ ...group, size: Math.max(0, group.size + by) });
-  };
   const store = api.moduleState("core2-renewal-v1");
   for (const [placeId, households] of countedHouseholdsByPlace(core)) {
     const state = stateOf(api, placeId);
     const movers = (moverRates.places as Record<string, MoverPlace>)[state.key];
     if (!movers) throw new Error(`No ACS mover rates for ${state.key}`);
     const rates = birthRates(state.name);
+    // Counted women follow the same rate as full ones, times how far the
+    // place's own conditions (unemployment, home prices) have moved it.
+    const webOn = core.modules.has(OUTCOME_WEB_MODULE_ID);
+    const webBirths = webOn
+      ? placeOutcome(api, placeId, "births.rate")
+      : undefined;
+    const webBirthsFactor = webOn
+      ? outcomeWebFactor(api, placeId, "births.rate")
+      : 1;
     const carryRow = store.table(carryTable).get(placeId);
     // Stored rows are read-only; work on a copy.
     const carry: Carry = {
       births: Number(carryRow?.births ?? 0),
-      deaths: Number(carryRow?.deaths ?? 0),
+      deaths: { ...((carryRow?.deaths as Record<string, number>) ?? {}) },
       departures: Number(carryRow?.departures ?? 0),
       arrivals: Number(carryRow?.arrivals ?? 0),
     };
@@ -276,44 +343,179 @@ export function applyCountedFlows(
       startHouseholds: start.households,
       births: [] as string[],
       deaths: [] as string[],
+      /** Counted people who fell seriously ill this month, and who is ill at its end. */
+      fellIll: [] as string[],
+      /** At a place's first month: those already ill, their illness begun before the opening. */
+      openingIll: [] as string[],
+      ill: 0,
+      /** What each death left to the household that outlived it, by heir. */
+      estates: [] as {
+        deceasedId: string;
+        heirId: string;
+        amountMinor: number;
+      }[],
       departedHouseholds: [] as string[],
       departedPeople: 0,
       arrivedHouseholds: [] as string[],
       arrivedPeople: 0,
       expected: { births: 0, deaths: 0, departures: 0, arrivals: 0 },
+      // The outcome web's factor on the place's birth rate this month, and
+      // the web month record it was read from (null where the web is off).
+      webBirths: webBirthsFactor,
+      webRecordId: webBirths?.recordId ?? null,
       endPeople: 0,
       endHouseholds: 0,
     };
 
-    // Deaths: each record's cohort chance, summed; the most at risk first.
-    const risks = people
-      .map((person) => ({
-        person,
-        risk: monthlyShare(
-          deathChance(
-            person.looks?.gender,
-            Number(person.birthDate.slice(0, 4)),
-            ageOf(person, date),
-          ),
-          months,
-        ),
-      }))
-      .sort(
-        (a, b) =>
-          b.risk - a.risk ||
-          compare(a.person.birthDate, b.person.birthDate) ||
-          compare(a.person.id, b.person.id),
-      );
-    row.expected.deaths = risks.reduce((n, entry) => n + entry.risk, 0);
-    carry.deaths += row.expected.deaths;
-    for (const { person } of risks) {
-      if (carry.deaths < 1) break;
-      carry.deaths -= 1;
-      if (ageOf(person, date) >= YOUNGEST_AGE_AT_BIRTH)
-        shiftVoters(placeId, person, -1);
-      removeCountedPerson(core, person.id);
+    // Deaths follow a serious illness, as a full person's do. The ill whose
+    // course has run die now. Each cohort's life-table chance, times its
+    // healthy members, is the share of an onset it is owed this month; an
+    // illness goes to the cohort owed the most (largest remainder), so
+    // illnesses fall on cohorts in proportion to their hazard and not only
+    // on the oldest, and the fraction owed is carried forward. No dice.
+    // The state's age-adjusted death rate against the nation's (NCHS) scales
+    // everyone there alike, so it sets how many fall ill and die, not who; a
+    // territory the dataset lacks takes the national rate.
+    const mortality =
+      (stateMortality.ratioByState as Record<string, number>)[state.key] ?? 1;
+    const lead = (person: PersonInput, on: string) =>
+      countedCourseDays(ageOf(person, on));
+    const byId = new Map(people.map((person) => [person.id, person]));
+    const ill = new Map(
+      illInPlace(api, placeId).map((found) => [found.id, found]),
+    );
+    for (const found of [...ill.values()].sort(
+      (a, b) => compare(a.dueDate, b.dueDate) || compare(a.id, b.id),
+    )) {
+      const person = byId.get(found.id);
+      if (!person) {
+        // Filled in or moved away: the group no longer holds them.
+        ill.delete(found.id);
+        endCountedIllness(api, found.id);
+        continue;
+      }
+      if (found.dueDate > date) continue;
+      ill.delete(found.id);
+      endCountedIllness(api, found.id);
+      for (const heir of removeCountedPerson(core, person.id))
+        row.estates.push({ deceasedId: person.id, ...heir });
       row.deaths.push(person.id);
     }
+    const well = people.filter(
+      (person) => !ill.has(person.id) && !row.deaths.includes(person.id),
+    );
+    const owed: Record<string, number> = { ...carry.deaths };
+    const fall = (
+      healthy: PersonInput[],
+      on: string,
+      debts: Record<string, number>,
+    ) => {
+      const cohorts = new Map<string, PersonInput[]>();
+      for (const person of healthy) {
+        const key = deathCohort(person);
+        cohorts.set(key, [...(cohorts.get(key) ?? []), person]);
+      }
+      let expected = 0;
+      for (const [key, members] of cohorts) {
+        // Each member's own chance at their own age, summed.
+        const share = members.reduce(
+          (n, member) =>
+            n +
+            monthlyShare(
+              Math.min(
+                1,
+                deathChance(
+                  member.looks?.gender,
+                  Number(member.birthDate.slice(0, 4)),
+                  ageOf(member, on),
+                ) * mortality,
+              ),
+              months,
+            ),
+          0,
+        );
+        expected += share;
+        debts[key] = (debts[key] ?? 0) + share;
+      }
+      // The whole illnesses owed (the sum of every cohort's debt) begin,
+      // each in the cohort owed the most; a cohort that pays goes below
+      // zero and waits its turn again. A cohort with nobody left owes
+      // nothing.
+      let whole = Math.floor(
+        Object.values(debts).reduce((n, debt) => n + debt, 0) + 1e-9,
+      );
+      while (whole > 0) {
+        let pick: string | undefined;
+        for (const [key, debt] of Object.entries(debts))
+          if (
+            cohorts.get(key)?.length &&
+            (pick === undefined ||
+              debt > debts[pick]! ||
+              (debt === debts[pick] && compare(key, pick) < 0))
+          )
+            pick = key;
+        if (pick === undefined) break;
+        const person = cohorts
+          .get(pick)!
+          .sort((a, b) => compare(a.id, b.id))
+          .shift()!;
+        debts[pick]! -= 1;
+        whole -= 1;
+        const due = addDays(makeIsoDate(on), lead(person, on));
+        // An illness whose course ended before the first day played is a
+        // death that happened before the opening: nobody here is booked.
+        if (due <= date) continue;
+        bookCountedIllness(api, {
+          id: person.id,
+          placeId,
+          onsetDate: makeIsoDate(on),
+          dueDate: due,
+          countsId: row.id,
+        });
+        ill.set(person.id, {
+          id: person.id,
+          placeId,
+          onsetDate: makeIsoDate(on),
+          dueDate: due,
+          countsId: row.id,
+        });
+        (on === date ? row.fellIll : row.openingIll).push(person.id);
+      }
+      return expected;
+    };
+    // The first month of a place has people already ill: the illnesses that
+    // began in the months before the opening and have not yet run out.
+    // They are found by the same rule, month by month back from today.
+    if (!carryRow)
+      for (
+        let back = Math.ceil(
+          SERIOUS_EPISODE_REMAINING_DAYS.longest / DAYS_PER_COUNT_MONTH,
+        );
+        back > 0;
+        back -= 1
+      ) {
+        const before = addDays(makeIsoDate(date), -back * DAYS_PER_COUNT_MONTH);
+        fall(
+          people.filter((person) => !ill.has(person.id)),
+          before,
+          {},
+        );
+      }
+    row.expected.deaths = fall(
+      well.filter((person) => !ill.has(person.id)),
+      date,
+      owed,
+    );
+    carry.deaths = owed;
+    // A cohort with nobody left keeps no row, but what it owed or overpaid
+    // stays in the town's pool, so the year's total still matches the tables.
+    const present = new Set(well.map(deathCohort));
+    for (const key of Object.keys(owed))
+      if (key !== DEATH_POOL && !present.has(key)) {
+        owed[DEATH_POOL] = (owed[DEATH_POOL] ?? 0) + owed[key]!;
+        delete owed[key];
+      }
+    row.ill = ill.size;
 
     // Births: the state's rate for every counted woman of each age, summed;
     // the households whose circumstances stand best toward a child first.
@@ -338,7 +540,7 @@ export function applyCountedFlows(
           ([[low, high]]) => age >= low && age <= high,
         )?.[1];
         if (!rate) continue;
-        row.expected.births += monthlyShare(rate, months);
+        row.expected.births += monthlyShare(rate * webBirthsFactor, months);
         const recent = record.people.some(
           (row) =>
             woman.familyIds.includes(row.id) &&
@@ -391,7 +593,12 @@ export function applyCountedFlows(
     // summed; whole households leave, those least held in place first.
     const job = moveParameter("movesJobHold"),
       kids = moveParameter("movesChildrenHold");
-    const leaving = (countedHouseholdsByPlace(core).get(placeId) ?? [])
+    // Where counted moves run (one model, two tiers), people move from
+    // causes there; this keeps births and deaths only.
+    const movesFromCauses = core.modules.has(COUNTED_MOVES_MODULE_ID);
+    const leaving = (
+      movesFromCauses ? [] : (countedHouseholdsByPlace(core).get(placeId) ?? [])
+    )
       .map((record) => {
         const adults = record.people.filter(
           (row) => ageOf(row, date) >= adultAge,
@@ -426,8 +633,6 @@ export function applyCountedFlows(
     for (const { record, adults } of leaving) {
       if (carry.departures < adults) break;
       carry.departures -= adults;
-      for (const person of record.people)
-        if (ageOf(person, date) >= adultAge) shiftVoters(placeId, person, -1);
       const gone = departCountedHousehold(core, record.household.id);
       if (gone?.accountId && gone.cashShare > 0) {
         const accounts = api.accounts(),
@@ -454,8 +659,9 @@ export function applyCountedFlows(
     // same ranking); who they are is generated from the world's seed.
     const now = countedHouseholdsByPlace(core).get(placeId) ?? [];
     const count = now.reduce((n, record) => n + record.people.length, 0);
-    row.expected.arrivals =
-      monthlyShare(movers.arrivalsPerResidentPerYear, months) * count;
+    row.expected.arrivals = movesFromCauses
+      ? 0
+      : monthlyShare(movers.arrivalsPerResidentPerYear, months) * count;
     carry.arrivals += row.expected.arrivals;
     const shapes = leaving.length ? leaving.map((entry) => entry.record) : now;
     for (let index = 0; shapes.length && carry.arrivals >= 1; index++) {
@@ -474,8 +680,6 @@ export function applyCountedFlows(
         date,
       );
       admitCountedHousehold(core, record);
-      for (const person of record.people)
-        if (ageOf(person, date) >= adultAge) shiftVoters(placeId, person, 1);
       row.arrivedHouseholds.push(record.household.id);
       row.arrivedPeople += record.people.length;
     }
@@ -485,6 +689,7 @@ export function applyCountedFlows(
     row.endPeople = end.reduce((n, record) => n + record.people.length, 0);
     store.table(rowsTable).put(row as unknown as ModuleRow);
     store.table(carryTable).put({ id: placeId, ...carry });
+    notifyCountedDeaths(api, row);
   }
 }
 

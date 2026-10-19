@@ -3,7 +3,7 @@
  * old engine's `types.ts` so nothing here reaches back into it. The date type
  * is the shared date helper's own, so a date made there is a date here.
  */
-import type { makeIsoDate } from "../../simulation/dates";
+import type { makeIsoDate } from "../kernel/dates";
 
 /** A calendar date, "YYYY-MM-DD", checked by `makeIsoDate`. */
 export type IsoDate = ReturnType<typeof makeIsoDate>;

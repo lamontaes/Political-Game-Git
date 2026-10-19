@@ -1,7 +1,7 @@
 import type { ExecutiveAuthorityRulePack } from "./executive-authority-rules";
 import type { LawDelegationTerm } from "./law-consequence-types";
 import type { LawInForce } from "./governing/law-in-force";
-import type { EntityId } from "./types";
+import type { EntityId } from "../core2/kernel/brands";
 
 export type ExecutiveActionClause =
   | {

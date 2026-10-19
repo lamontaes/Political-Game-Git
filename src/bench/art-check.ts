@@ -15,7 +15,7 @@ import { gameStartDate } from "../core2/game-start";
 import { BenchPlayer } from "./player";
 import { governmentView } from "./government";
 import { openBenchFilingVisit } from "./filing";
-import { openingShots } from "./opening";
+import { openingFrames } from "./opening";
 import { townPlaces, visitPlace } from "./places";
 import { backdropFile, backdropPath, benchScene, hasBackdrop } from "./scene";
 import scenePlaces from "./data/scene-places.json" with { type: "json" };
@@ -64,13 +64,14 @@ function check(
   }
 }
 
-for (const shot of openingShots(core, me))
+const story = w.director.ledger.opening;
+for (const frame of story ? openingFrames(core, me, story).frames : [])
   check(
-    `opening ${shot.place}`,
-    shot.place,
-    shot.backdrop.file,
-    shot.people,
-    shot.people.length,
+    `opening ${frame.place}`,
+    frame.place,
+    frame.backdrop.file,
+    frame.people,
+    frame.cast.length,
   );
 
 const household =

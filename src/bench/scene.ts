@@ -1,8 +1,5 @@
 import manifest from "../../art/backdrops/manifest.json" with { type: "json" };
-import {
-  homePlaceFor,
-  workplacePlaceFor,
-} from "../presentation/place-backdrops";
+import { homePlaceFor, workplacePlaceFor } from "./backdrop-places";
 import {
   BACKDROP_ASPECT,
   backdropStaging,
@@ -392,9 +389,11 @@ export function scenePlace(
   personId: string,
   packet?: PlayerPacketV1,
   minuteOfDay = packet?.at.minuteOfDay ?? 12 * 60,
+  atHome = false,
 ): { place: string; why: string; targetId?: string } {
   const person = core.people.get(personId)!;
-  const act = doing(core, personId, packet);
+  // The opening's day ends at home after the address (owner, Oct 14, 2026).
+  const act = atHome ? undefined : doing(core, personId, packet);
   const tries = act ? (ACTIONS[act.actionId] ?? ["@home"]) : ["@home"];
   for (const step of tries) {
     const place =
@@ -433,7 +432,7 @@ export function backdropFile(place: string, minuteOfDay: number) {
 }
 
 /** Who is there: the household at home, coworkers at work, else the act's other person. */
-function presentIds(
+export function presentIds(
   core: CoreState,
   personId: string,
   place: string,
@@ -466,6 +465,9 @@ function presentIds(
     for (const id of counted) if (!core.people.has(id)) fillInPerson(core, id);
     return [...full, ...counted.filter(alive)];
   }
+  // A bedroom is someone's own room: nobody is drawn in it unless the records
+  // put them there, and an act's target is not placed by the room's picture.
+  if (isBedroom(place)) return [];
   if (
     targetId &&
     targetId !== personId &&
@@ -473,8 +475,8 @@ function presentIds(
     alive(targetId)
   )
     return [targetId];
-  // At home the household is there, except in someone's own bedroom.
-  if (homeRooms(core, personId).has(place) && !isBedroom(place))
+  // At home the household is there.
+  if (homeRooms(core, personId).has(place))
     return (core.households.get(person.householdId)?.memberIds ?? [])
       .filter((id) => id !== personId)
       .filter(alive);
@@ -707,9 +709,17 @@ export function benchScene(
   core: CoreState,
   personId: string,
   packet?: PlayerPacketV1,
+  /** The opening day: home after the address, by rule (owner, Oct 14, 2026). */
+  openingEvening?: number,
 ): BenchScene {
-  const { place, why, targetId } = scenePlace(core, personId, packet);
-  const minute = packet?.at.minuteOfDay ?? 12 * 60;
+  const minute = packet?.at.minuteOfDay ?? openingEvening ?? 12 * 60;
+  const { place, why, targetId } = scenePlace(
+    core,
+    personId,
+    packet,
+    minute,
+    openingEvening !== undefined,
+  );
   const ids = [personId, ...presentIds(core, personId, place, why, targetId)];
   const { people, unplaced } = stagePeople(
     core,

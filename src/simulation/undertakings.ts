@@ -1,4 +1,4 @@
-import { compareSimulationMoments } from "./dates";
+import { compareSimulationMoments } from "../core2/kernel/dates";
 import { favorRecords } from "./favors";
 import { measurePropositionAnswer } from "./issue-record";
 import { measureById } from "./legislation";

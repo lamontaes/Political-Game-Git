@@ -116,7 +116,7 @@ describe("indexed person calendar", () => {
     expect(snapshot(core)).toEqual(before);
   });
 
-  it("runs player, explicit circle, town, and county actors daily despite their coarse tiers", () => {
+  it("runs player, explicit circle, town, and county actors daily despite their coarse tiers, never an inactive husk", () => {
     const core = fixture(
       [
         person("person:player", "monthly"),
@@ -145,7 +145,6 @@ describe("indexed person calendar", () => {
         ["person:circle", p("one")],
         ["person:town", p("one")],
         ["person:county", p("one")],
-        ["person:focused-inactive", p("one")],
       ]),
     );
     expect(core.peopleByPlace.get(county)).toContain("person:county");
@@ -169,7 +168,7 @@ describe("indexed person calendar", () => {
     ]);
   });
 
-  it("runs every living full actor daily in observer mode while retaining husks and deceased actors", () => {
+  it("runs every living active full actor daily in observer mode while retaining husks and deceased actors", () => {
     const living = [
       person("person:weekly", "weekly"),
       person("person:monthly", "monthly"),
@@ -197,7 +196,13 @@ describe("indexed person calendar", () => {
       new Map(
         duePeople(core, "2021-01-02").map((row) => [row.personId, row.days]),
       ),
-    ).toEqual(new Map(living.map((actor) => [actor.id, p("one")])));
+    ).toEqual(
+      new Map(
+        living
+          .filter((actor) => actor.tier !== "husk")
+          .map((actor) => [actor.id, p("one")]),
+      ),
+    );
     expect(core.people.has("person:retained-husk")).toBe(false);
     expect(core.husks.has("person:retained-husk")).toBe(true);
     expect(snapshot(core)).toEqual(before);

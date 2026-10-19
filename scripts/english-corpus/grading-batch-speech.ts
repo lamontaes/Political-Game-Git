@@ -18,10 +18,10 @@ import { enrichCivicInputs } from "../../src/core2/civic-inputs";
 import { buildDeepPast } from "../../src/core2/deep-past";
 import { buildPopulation } from "../../src/core2/population";
 import { lifePlaceByJurisdictionId } from "../../src/simulation/life-places";
-import { ageOnDate, makeIsoDate } from "../../src/simulation/dates";
+import { ageOnDate, makeIsoDate } from "../../src/core2/kernel/dates";
 import { properName, spoken } from "../../src/director/words";
-import { composeGroundedLine } from "../../src/presentation/english-composition";
-import type { GroundedEnglishPacket } from "../../src/presentation/grounded-english";
+import { composeGroundedLine } from "../../src/english/english-composition";
+import type { GroundedEnglishPacket } from "../../src/english/grounded-english";
 import { ADDRESS_BANK, ADDRESS_REGISTERS, composeTurn } from "./address-bank";
 import interviewJson from "../../data/english/parts/interview.json" with { type: "json" };
 import headlinesJson from "../../data/english/parts/headlines.json" with { type: "json" };
@@ -215,7 +215,7 @@ for (const seed of seeds) {
           part: key ?? null,
           parts: key ? [key] : [],
           composer:
-            "composeAddress / composeGroundedLine (src/presentation/english-composition.ts), words from data/english/parts/address.json",
+            "composeAddress / composeGroundedLine (src/english/english-composition.ts), words from data/english/parts/address.json",
           kind: "meeting",
           cell: cell("meeting", register, placeName),
           seed,

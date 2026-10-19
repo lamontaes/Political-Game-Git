@@ -4,582 +4,6 @@
   "historicalInventory": "Original 334-marker docs/codex/codex-declared-assumptions.json is absent from this source head. This is a current-source inventory, not proof of review of that historical artifact.",
   "markers": [
     {
-      "file": "src/education/catalog.ts",
-      "line": 34,
-      "text": "* PLACEHOLDER, NOT RESEARCHED: after the directory's year, the latest row is",
-      "occurrence": 1,
-      "disposition": "rebuild",
-      "rebuildStep": "A166",
-      "reason": "A166 review backlog: source explicitly declares an assumption. No uniquely identified existing audit item names this file; a researched replacement and specific receiving step remain required. This record does not approve the value or claim that repair is complete."
-    },
-    {
-      "file": "src/education/study-provider.ts",
-      "line": 96,
-      "text": "* PLACEHOLDER(research: who-gets-into-college-and-what-it-costs): length, pace",
-      "occurrence": 1,
-      "disposition": "rebuild",
-      "rebuildStep": "A166",
-      "reason": "A166 review backlog: source explicitly declares an assumption. No uniquely identified existing audit item names this file; a researched replacement and specific receiving step remain required. This record does not approve the value or claim that repair is complete."
-    },
-    {
-      "file": "src/education/study-provider.ts",
-      "line": 157,
-      "text": "* PLACEHOLDER(research: when-college-applications-are-decided-and-terms-begin):",
-      "occurrence": 1,
-      "disposition": "rebuild",
-      "rebuildStep": "A166",
-      "reason": "A166 review backlog: source explicitly declares an assumption. No uniquely identified existing audit item names this file; a researched replacement and specific receiving step remain required. This record does not approve the value or claim that repair is complete."
-    },
-    {
-      "file": "src/education/study-provider.ts",
-      "line": 165,
-      "text": "* PLACEHOLDER(research: when-college-applications-are-decided-and-terms-begin):",
-      "occurrence": 2,
-      "disposition": "rebuild",
-      "rebuildStep": "A166",
-      "reason": "A166 review backlog: source explicitly declares an assumption. No uniquely identified existing audit item names this file; a researched replacement and specific receiving step remain required. This record does not approve the value or claim that repair is complete."
-    },
-    {
-      "file": "src/education/study-provider.ts",
-      "line": 406,
-      "text": "// PLACEHOLDER(research: who-gets-into-college-and-what-it-costs): every",
-      "occurrence": 1,
-      "disposition": "rebuild",
-      "rebuildStep": "A166",
-      "reason": "A166 review backlog: source explicitly declares an assumption. No uniquely identified existing audit item names this file; a researched replacement and specific receiving step remain required. This record does not approve the value or claim that repair is complete."
-    },
-    {
-      "file": "src/environment/scenes/residence-large-house-wave2.ts",
-      "line": 155,
-      "text": "\"PLACEHOLDER(wave2): candidate geometry only. Replace after owner pixel review and exact-image scene/actor proof. No approved or installed character placement is asserted.\",",
-      "occurrence": 1,
-      "disposition": "acceptable",
-      "rebuildStep": null,
-      "reason": "Acceptable only as explicit_unknowns warning metadata: it declares unapproved candidate geometry, not a game value or approved asset. Pixel review and scene/actor proof remain required; this does not approve the coordinates."
-    },
-    {
-      "file": "src/environment/scenes/residence-large-house-wave2.ts",
-      "line": 308,
-      "text": "\"PLACEHOLDER(wave2): candidate geometry only. Replace after owner pixel review and exact-image scene/actor proof. No approved or installed character placement is asserted.\",",
-      "occurrence": 2,
-      "disposition": "acceptable",
-      "rebuildStep": null,
-      "reason": "Acceptable only as explicit_unknowns warning metadata: it declares unapproved candidate geometry, not a game value or approved asset. Pixel review and scene/actor proof remain required; this does not approve the coordinates."
-    },
-    {
-      "file": "src/environment/scenes/residence-large-house-wave2.ts",
-      "line": 461,
-      "text": "\"PLACEHOLDER(wave2): candidate geometry only. Replace after owner pixel review and exact-image scene/actor proof. No approved or installed character placement is asserted.\",",
-      "occurrence": 3,
-      "disposition": "acceptable",
-      "rebuildStep": null,
-      "reason": "Acceptable only as explicit_unknowns warning metadata: it declares unapproved candidate geometry, not a game value or approved asset. Pixel review and scene/actor proof remain required; this does not approve the coordinates."
-    },
-    {
-      "file": "src/environment/scenes/residence-large-house-wave2.ts",
-      "line": 614,
-      "text": "\"PLACEHOLDER(wave2): candidate geometry only. Replace after owner pixel review and exact-image scene/actor proof. No approved or installed character placement is asserted.\",",
-      "occurrence": 4,
-      "disposition": "acceptable",
-      "rebuildStep": null,
-      "reason": "Acceptable only as explicit_unknowns warning metadata: it declares unapproved candidate geometry, not a game value or approved asset. Pixel review and scene/actor proof remain required; this does not approve the coordinates."
-    },
-    {
-      "file": "src/environment/scenes/residence-mobile-home-wave2.ts",
-      "line": 186,
-      "text": "\"PLACEHOLDER(wave2): candidate geometry only. Replace after owner pixel review and exact-image scene/actor proof. No approved or installed character placement is asserted.\",",
-      "occurrence": 1,
-      "disposition": "acceptable",
-      "rebuildStep": null,
-      "reason": "Acceptable only as explicit_unknowns warning metadata: it declares unapproved candidate geometry, not a game value or approved asset. Pixel review and scene/actor proof remain required; this does not approve the coordinates."
-    },
-    {
-      "file": "src/environment/scenes/residence-mobile-home-wave2.ts",
-      "line": 369,
-      "text": "\"PLACEHOLDER(wave2): candidate geometry only. Replace after owner pixel review and exact-image scene/actor proof. No approved or installed character placement is asserted.\",",
-      "occurrence": 2,
-      "disposition": "acceptable",
-      "rebuildStep": null,
-      "reason": "Acceptable only as explicit_unknowns warning metadata: it declares unapproved candidate geometry, not a game value or approved asset. Pixel review and scene/actor proof remain required; this does not approve the coordinates."
-    },
-    {
-      "file": "src/environment/scenes/residence-mobile-home-wave2.ts",
-      "line": 552,
-      "text": "\"PLACEHOLDER(wave2): candidate geometry only. Replace after owner pixel review and exact-image scene/actor proof. No approved or installed character placement is asserted.\",",
-      "occurrence": 3,
-      "disposition": "acceptable",
-      "rebuildStep": null,
-      "reason": "Acceptable only as explicit_unknowns warning metadata: it declares unapproved candidate geometry, not a game value or approved asset. Pixel review and scene/actor proof remain required; this does not approve the coordinates."
-    },
-    {
-      "file": "src/environment/scenes/residence-mobile-home-wave2.ts",
-      "line": 735,
-      "text": "\"PLACEHOLDER(wave2): candidate geometry only. Replace after owner pixel review and exact-image scene/actor proof. No approved or installed character placement is asserted.\",",
-      "occurrence": 4,
-      "disposition": "acceptable",
-      "rebuildStep": null,
-      "reason": "Acceptable only as explicit_unknowns warning metadata: it declares unapproved candidate geometry, not a game value or approved asset. Pixel review and scene/actor proof remain required; this does not approve the coordinates."
-    },
-    {
-      "file": "src/environment/scenes/residence-rowhouse-wave2.ts",
-      "line": 155,
-      "text": "\"PLACEHOLDER(wave2): candidate geometry only. Replace after owner pixel review and exact-image scene/actor proof. No approved or installed character placement is asserted.\",",
-      "occurrence": 1,
-      "disposition": "acceptable",
-      "rebuildStep": null,
-      "reason": "Acceptable only as explicit_unknowns warning metadata: it declares unapproved candidate geometry, not a game value or approved asset. Pixel review and scene/actor proof remain required; this does not approve the coordinates."
-    },
-    {
-      "file": "src/environment/scenes/residence-rowhouse-wave2.ts",
-      "line": 308,
-      "text": "\"PLACEHOLDER(wave2): candidate geometry only. Replace after owner pixel review and exact-image scene/actor proof. No approved or installed character placement is asserted.\",",
-      "occurrence": 2,
-      "disposition": "acceptable",
-      "rebuildStep": null,
-      "reason": "Acceptable only as explicit_unknowns warning metadata: it declares unapproved candidate geometry, not a game value or approved asset. Pixel review and scene/actor proof remain required; this does not approve the coordinates."
-    },
-    {
-      "file": "src/environment/scenes/residence-rowhouse-wave2.ts",
-      "line": 461,
-      "text": "\"PLACEHOLDER(wave2): candidate geometry only. Replace after owner pixel review and exact-image scene/actor proof. No approved or installed character placement is asserted.\",",
-      "occurrence": 3,
-      "disposition": "acceptable",
-      "rebuildStep": null,
-      "reason": "Acceptable only as explicit_unknowns warning metadata: it declares unapproved candidate geometry, not a game value or approved asset. Pixel review and scene/actor proof remain required; this does not approve the coordinates."
-    },
-    {
-      "file": "src/environment/scenes/residence-rowhouse-wave2.ts",
-      "line": 614,
-      "text": "\"PLACEHOLDER(wave2): candidate geometry only. Replace after owner pixel review and exact-image scene/actor proof. No approved or installed character placement is asserted.\",",
-      "occurrence": 4,
-      "disposition": "acceptable",
-      "rebuildStep": null,
-      "reason": "Acceptable only as explicit_unknowns warning metadata: it declares unapproved candidate geometry, not a game value or approved asset. Pixel review and scene/actor proof remain required; this does not approve the coordinates."
-    },
-    {
-      "file": "src/environment/scenes/residence-rural-farmhouse-wave2.ts",
-      "line": 155,
-      "text": "\"PLACEHOLDER(wave2): candidate geometry only. Replace after owner pixel review and exact-image scene/actor proof. No approved or installed character placement is asserted.\",",
-      "occurrence": 1,
-      "disposition": "acceptable",
-      "rebuildStep": null,
-      "reason": "Acceptable only as explicit_unknowns warning metadata: it declares unapproved candidate geometry, not a game value or approved asset. Pixel review and scene/actor proof remain required; this does not approve the coordinates."
-    },
-    {
-      "file": "src/environment/scenes/residence-rural-farmhouse-wave2.ts",
-      "line": 308,
-      "text": "\"PLACEHOLDER(wave2): candidate geometry only. Replace after owner pixel review and exact-image scene/actor proof. No approved or installed character placement is asserted.\",",
-      "occurrence": 2,
-      "disposition": "acceptable",
-      "rebuildStep": null,
-      "reason": "Acceptable only as explicit_unknowns warning metadata: it declares unapproved candidate geometry, not a game value or approved asset. Pixel review and scene/actor proof remain required; this does not approve the coordinates."
-    },
-    {
-      "file": "src/environment/scenes/residence-rural-farmhouse-wave2.ts",
-      "line": 461,
-      "text": "\"PLACEHOLDER(wave2): candidate geometry only. Replace after owner pixel review and exact-image scene/actor proof. No approved or installed character placement is asserted.\",",
-      "occurrence": 3,
-      "disposition": "acceptable",
-      "rebuildStep": null,
-      "reason": "Acceptable only as explicit_unknowns warning metadata: it declares unapproved candidate geometry, not a game value or approved asset. Pixel review and scene/actor proof remain required; this does not approve the coordinates."
-    },
-    {
-      "file": "src/environment/scenes/residence-rural-farmhouse-wave2.ts",
-      "line": 614,
-      "text": "\"PLACEHOLDER(wave2): candidate geometry only. Replace after owner pixel review and exact-image scene/actor proof. No approved or installed character placement is asserted.\",",
-      "occurrence": 4,
-      "disposition": "acceptable",
-      "rebuildStep": null,
-      "reason": "Acceptable only as explicit_unknowns warning metadata: it declares unapproved candidate geometry, not a game value or approved asset. Pixel review and scene/actor proof remain required; this does not approve the coordinates."
-    },
-    {
-      "file": "src/environment/scenes/residence-rural-farmhouse-wave2.ts",
-      "line": 767,
-      "text": "\"PLACEHOLDER(wave2): candidate geometry only. Replace after owner pixel review and exact-image scene/actor proof. No approved or installed character placement is asserted.\",",
-      "occurrence": 5,
-      "disposition": "acceptable",
-      "rebuildStep": null,
-      "reason": "Acceptable only as explicit_unknowns warning metadata: it declares unapproved candidate geometry, not a game value or approved asset. Pixel review and scene/actor proof remain required; this does not approve the coordinates."
-    },
-    {
-      "file": "src/environment/scenes/residence-small-apartment-wave2.ts",
-      "line": 155,
-      "text": "\"PLACEHOLDER(wave2): candidate geometry only. Replace after owner pixel review and exact-image scene/actor proof. No approved or installed character placement is asserted.\",",
-      "occurrence": 1,
-      "disposition": "acceptable",
-      "rebuildStep": null,
-      "reason": "Acceptable only as explicit_unknowns warning metadata: it declares unapproved candidate geometry, not a game value or approved asset. Pixel review and scene/actor proof remain required; this does not approve the coordinates."
-    },
-    {
-      "file": "src/environment/scenes/residence-small-apartment-wave2.ts",
-      "line": 308,
-      "text": "\"PLACEHOLDER(wave2): candidate geometry only. Replace after owner pixel review and exact-image scene/actor proof. No approved or installed character placement is asserted.\",",
-      "occurrence": 2,
-      "disposition": "acceptable",
-      "rebuildStep": null,
-      "reason": "Acceptable only as explicit_unknowns warning metadata: it declares unapproved candidate geometry, not a game value or approved asset. Pixel review and scene/actor proof remain required; this does not approve the coordinates."
-    },
-    {
-      "file": "src/environment/scenes/residence-small-apartment-wave2.ts",
-      "line": 461,
-      "text": "\"PLACEHOLDER(wave2): candidate geometry only. Replace after owner pixel review and exact-image scene/actor proof. No approved or installed character placement is asserted.\",",
-      "occurrence": 3,
-      "disposition": "acceptable",
-      "rebuildStep": null,
-      "reason": "Acceptable only as explicit_unknowns warning metadata: it declares unapproved candidate geometry, not a game value or approved asset. Pixel review and scene/actor proof remain required; this does not approve the coordinates."
-    },
-    {
-      "file": "src/environment/scenes/residence-small-apartment-wave2.ts",
-      "line": 614,
-      "text": "\"PLACEHOLDER(wave2): candidate geometry only. Replace after owner pixel review and exact-image scene/actor proof. No approved or installed character placement is asserted.\",",
-      "occurrence": 4,
-      "disposition": "acceptable",
-      "rebuildStep": null,
-      "reason": "Acceptable only as explicit_unknowns warning metadata: it declares unapproved candidate geometry, not a game value or approved asset. Pixel review and scene/actor proof remain required; this does not approve the coordinates."
-    },
-    {
-      "file": "src/environment/scenes/residence-suburban-house-wave2.ts",
-      "line": 174,
-      "text": "\"PLACEHOLDER(wave2): candidate geometry only. Replace after owner pixel review and exact-image scene/actor proof. No approved or installed character placement is asserted.\",",
-      "occurrence": 1,
-      "disposition": "acceptable",
-      "rebuildStep": null,
-      "reason": "Acceptable only as explicit_unknowns warning metadata: it declares unapproved candidate geometry, not a game value or approved asset. Pixel review and scene/actor proof remain required; this does not approve the coordinates."
-    },
-    {
-      "file": "src/environment/scenes/residence-suburban-house-wave2.ts",
-      "line": 345,
-      "text": "\"PLACEHOLDER(wave2): candidate geometry only. Replace after owner pixel review and exact-image scene/actor proof. No approved or installed character placement is asserted.\",",
-      "occurrence": 2,
-      "disposition": "acceptable",
-      "rebuildStep": null,
-      "reason": "Acceptable only as explicit_unknowns warning metadata: it declares unapproved candidate geometry, not a game value or approved asset. Pixel review and scene/actor proof remain required; this does not approve the coordinates."
-    },
-    {
-      "file": "src/environment/scenes/residence-suburban-house-wave2.ts",
-      "line": 516,
-      "text": "\"PLACEHOLDER(wave2): candidate geometry only. Replace after owner pixel review and exact-image scene/actor proof. No approved or installed character placement is asserted.\",",
-      "occurrence": 3,
-      "disposition": "acceptable",
-      "rebuildStep": null,
-      "reason": "Acceptable only as explicit_unknowns warning metadata: it declares unapproved candidate geometry, not a game value or approved asset. Pixel review and scene/actor proof remain required; this does not approve the coordinates."
-    },
-    {
-      "file": "src/environment/scenes/residence-suburban-house-wave2.ts",
-      "line": 687,
-      "text": "\"PLACEHOLDER(wave2): candidate geometry only. Replace after owner pixel review and exact-image scene/actor proof. No approved or installed character placement is asserted.\",",
-      "occurrence": 4,
-      "disposition": "acceptable",
-      "rebuildStep": null,
-      "reason": "Acceptable only as explicit_unknowns warning metadata: it declares unapproved candidate geometry, not a game value or approved asset. Pixel review and scene/actor proof remain required; this does not approve the coordinates."
-    },
-    {
-      "file": "src/player/CampaignActionChoicesPanel.tsx",
-      "line": 92,
-      "text": "{/* PLACEHOLDER(wave2): unknown cash cost has no player cost line. */}",
-      "occurrence": 1,
-      "disposition": "rebuild",
-      "rebuildStep": "A166",
-      "reason": "A166 review backlog: source explicitly declares an assumption. No uniquely identified existing audit item names this file; a researched replacement and specific receiving step remain required. This record does not approve the value or claim that repair is complete."
-    },
-    {
-      "file": "src/player/CampaignOwnMoney.tsx",
-      "line": 14,
-      "text": "/** PLACEHOLDER amounts offered, in cents, until real giving patterns land. */",
-      "occurrence": 1,
-      "disposition": "rebuild",
-      "rebuildStep": "A166",
-      "reason": "A166 review backlog: source explicitly declares an assumption. No uniquely identified existing audit item names this file; a researched replacement and specific receiving step remain required. This record does not approve the value or claim that repair is complete."
-    },
-    {
-      "file": "src/player/ObserverWorkspace.tsx",
-      "line": 263,
-      "text": "{/* PLACEHOLDER(overnight): Claude/CC1 must review these new record labels before publication. */}",
-      "occurrence": 1,
-      "disposition": "rebuild",
-      "rebuildStep": "A166",
-      "reason": "A166 review backlog: source explicitly declares an assumption. No uniquely identified existing audit item names this file; a researched replacement and specific receiving step remain required. This record does not approve the value or claim that repair is complete."
-    },
-    {
-      "file": "src/player/OrdinaryMeetingPanel.tsx",
-      "line": 98,
-      "text": "{/* PLACEHOLDER(overnight): Resident lines await the English engine's exact-word review. */}",
-      "occurrence": 1,
-      "disposition": "rebuild",
-      "rebuildStep": "A166",
-      "reason": "A166 review backlog: source explicitly declares an assumption. No uniquely identified existing audit item names this file; a researched replacement and specific receiving step remain required. This record does not approve the value or claim that repair is complete."
-    },
-    {
-      "file": "src/player/OrdinaryMeetingPanel.tsx",
-      "line": 211,
-      "text": "{/* PLACEHOLDER(overnight): These exact speech choices are COPY-PENDING in the canonical producer. */}",
-      "occurrence": 1,
-      "disposition": "rebuild",
-      "rebuildStep": "A166",
-      "reason": "A166 review backlog: source explicitly declares an assumption. No uniquely identified existing audit item names this file; a researched replacement and specific receiving step remain required. This record does not approve the value or claim that repair is complete."
-    },
-    {
-      "file": "src/player/OrdinaryMeetingPanel.tsx",
-      "line": 331,
-      "text": "{/* PLACEHOLDER(overnight): The canonical writer currently uses a 15-minute visit. */}",
-      "occurrence": 1,
-      "disposition": "rebuild",
-      "rebuildStep": "A166",
-      "reason": "A166 review backlog: source explicitly declares an assumption. No uniquely identified existing audit item names this file; a researched replacement and specific receiving step remain required. This record does not approve the value or claim that repair is complete."
-    },
-    {
-      "file": "src/presentation/appearance-engine/fabric.ts",
-      "line": 26,
-      "text": "* The first fabric colors. PLACEHOLDER(wave2): picked by eye for the first",
-      "occurrence": 1,
-      "disposition": "rebuild",
-      "rebuildStep": "A166",
-      "reason": "A166 review backlog: source explicitly declares an assumption. No uniquely identified existing audit item names this file; a researched replacement and specific receiving step remain required. This record does not approve the value or claim that repair is complete."
-    },
-    {
-      "file": "src/presentation/appearance-engine/face-extras.ts",
-      "line": 51,
-      "text": "// PLACEHOLDER(facial-hair): a British survey standing in for American men,",
-      "occurrence": 1,
-      "disposition": "rebuild",
-      "rebuildStep": "A166",
-      "reason": "A166 review backlog: source explicitly declares an assumption. No uniquely identified existing audit item names this file; a researched replacement and specific receiving step remain required. This record does not approve the value or claim that repair is complete."
-    },
-    {
-      "file": "src/presentation/appearance-engine/face-extras.ts",
-      "line": 215,
-      "text": "*    PLACEHOLDER(accessories) until a source is found.",
-      "occurrence": 1,
-      "disposition": "rebuild",
-      "rebuildStep": "A166",
-      "reason": "A166 review backlog: source explicitly declares an assumption. No uniquely identified existing audit item names this file; a researched replacement and specific receiving step remain required. This record does not approve the value or claim that repair is complete."
-    },
-    {
-      "file": "src/presentation/appearance-engine/face-extras.ts",
-      "line": 224,
-      "text": "// PLACEHOLDER(accessories): not countable from a head-and-shoulders portrait.",
-      "occurrence": 1,
-      "disposition": "rebuild",
-      "rebuildStep": "A166",
-      "reason": "A166 review backlog: source explicitly declares an assumption. No uniquely identified existing audit item names this file; a researched replacement and specific receiving step remain required. This record does not approve the value or claim that repair is complete."
-    },
-    {
-      "file": "src/presentation/appearance-engine/face-extras.ts",
-      "line": 226,
-      "text": "// PLACEHOLDER(accessories): the share of MARRIED people who wear a wedding",
-      "occurrence": 1,
-      "disposition": "rebuild",
-      "rebuildStep": "A166",
-      "reason": "A166 review backlog: source explicitly declares an assumption. No uniquely identified existing audit item names this file; a researched replacement and specific receiving step remain required. This record does not approve the value or claim that repair is complete."
-    },
-    {
-      "file": "src/presentation/appearance-engine/pack.ts",
-      "line": 15,
-      "text": "* the painting. PLACEHOLDER(wave2): picked by eye.",
-      "occurrence": 1,
-      "disposition": "rebuild",
-      "rebuildStep": "A166",
-      "reason": "A166 review backlog: source explicitly declares an assumption. No uniquely identified existing audit item names this file; a researched replacement and specific receiving step remain required. This record does not approve the value or claim that repair is complete."
-    },
-    {
-      "file": "src/presentation/appearance-engine/pack.ts",
-      "line": 694,
-      "text": "* outfit names a palette for each of its parts. PLACEHOLDER(wave2): picked by",
-      "occurrence": 1,
-      "disposition": "rebuild",
-      "rebuildStep": "A166",
-      "reason": "A166 review backlog: source explicitly declares an assumption. No uniquely identified existing audit item names this file; a researched replacement and specific receiving step remain required. This record does not approve the value or claim that repair is complete."
-    },
-    {
-      "file": "src/presentation/appearance-engine/pose-chooser.ts",
-      "line": 91,
-      "text": "// PLACEHOLDER(wave2): 0.15 per trait step, picked by eye.",
-      "occurrence": 1,
-      "disposition": "rebuild",
-      "rebuildStep": "A166",
-      "reason": "A166 review backlog: source explicitly declares an assumption. No uniquely identified existing audit item names this file; a researched replacement and specific receiving step remain required. This record does not approve the value or claim that repair is complete."
-    },
-    {
-      "file": "src/presentation/appearance-engine/recipe.ts",
-      "line": 43,
-      "text": "/** Share of adults in each build, drawn from the seed. PLACEHOLDER(wave2). */",
-      "occurrence": 1,
-      "disposition": "rebuild",
-      "rebuildStep": "A166",
-      "reason": "A166 review backlog: source explicitly declares an assumption. No uniquely identified existing audit item names this file; a researched replacement and specific receiving step remain required. This record does not approve the value or claim that repair is complete."
-    },
-    {
-      "file": "src/presentation/appearance-engine/recipe.ts",
-      "line": 83,
-      "text": "* PLACEHOLDER(wave2) shares.",
-      "occurrence": 1,
-      "disposition": "rebuild",
-      "rebuildStep": "A166",
-      "reason": "A166 review backlog: source explicitly declares an assumption. No uniquely identified existing audit item names this file; a researched replacement and specific receiving step remain required. This record does not approve the value or claim that repair is complete."
-    },
-    {
-      "file": "src/presentation/appearance-engine/skin.ts",
-      "line": 26,
-      "text": "* luminance percentiles). PLACEHOLDER(wave2): shade 7 is shade 6 darkened by",
-      "occurrence": 1,
-      "disposition": "rebuild",
-      "rebuildStep": "A166",
-      "reason": "A166 review backlog: source explicitly declares an assumption. No uniquely identified existing audit item names this file; a researched replacement and specific receiving step remain required. This record does not approve the value or claim that repair is complete."
-    },
-    {
-      "file": "src/presentation/contextual-scene-producers.ts",
-      "line": 107,
-      "text": "* SET BY HAND: how long after a town hall its question stays open, about as",
-      "occurrence": 1,
-      "disposition": "rebuild",
-      "rebuildStep": "A166",
-      "reason": "A166 review backlog: source explicitly declares an assumption. No uniquely identified existing audit item names this file; a researched replacement and specific receiving step remain required. This record does not approve the value or claim that repair is complete."
-    },
-    {
-      "file": "src/presentation/dress-code.ts",
-      "line": 75,
-      "text": "* November through March. PLACEHOLDER(wave2): one season for every state; a",
-      "occurrence": 1,
-      "disposition": "rebuild",
-      "rebuildStep": "A166",
-      "reason": "A166 review backlog: source explicitly declares an assumption. No uniquely identified existing audit item names this file; a researched replacement and specific receiving step remain required. This record does not approve the value or claim that repair is complete."
-    },
-    {
-      "file": "src/presentation/formative-context.ts",
-      "line": 321,
-      "text": "/** PLACEHOLDER, pacing only: how long a baby is still \"a new child\". */",
-      "occurrence": 1,
-      "disposition": "rebuild",
-      "rebuildStep": "A147",
-      "reason": "Existing audit A147 explicitly names this file: Childhood scene pacing. Replace this marker with sourced records; mapping is not approval of its value."
-    },
-    {
-      "file": "src/presentation/law-effects-prose.ts",
-      "line": 122,
-      "text": "// PLACEHOLDER: the effect of this part is waiting on research. The",
-      "occurrence": 1,
-      "disposition": "rebuild",
-      "rebuildStep": "A166",
-      "reason": "A166 review backlog: source explicitly declares an assumption. No uniquely identified existing audit item names this file; a researched replacement and specific receiving step remain required. This record does not approve the value or claim that repair is complete."
-    },
-    {
-      "file": "src/presentation/legislative-bargaining-actions.ts",
-      "line": 398,
-      "text": "// PLACEHOLDER(research: how-bargaining-limits-and-pay-counteroffers-are-set): a flat $8.6M, not sourced.",
-      "occurrence": 1,
-      "disposition": "rebuild",
-      "rebuildStep": "A166",
-      "reason": "A166 review backlog: source explicitly declares an assumption. No uniquely identified existing audit item names this file; a researched replacement and specific receiving step remain required. This record does not approve the value or claim that repair is complete."
-    },
-    {
-      "file": "src/presentation/legislative-bargaining-brief.ts",
-      "line": 56,
-      "text": "// PLACEHOLDER(research: how-bargaining-limits-and-pay-counteroffers-are-set): the three amounts below and the $8,000,000",
-      "occurrence": 1,
-      "disposition": "rebuild",
-      "rebuildStep": "A166",
-      "reason": "A166 review backlog: source explicitly declares an assumption. No uniquely identified existing audit item names this file; a researched replacement and specific receiving step remain required. This record does not approve the value or claim that repair is complete."
-    },
-    {
-      "file": "src/presentation/legislative-bargaining.ts",
-      "line": 700,
-      "text": "// PLACEHOLDER(research: how-bargaining-limits-and-pay-counteroffers-are-set): the times-8 multiple is not sourced.",
-      "occurrence": 1,
-      "disposition": "rebuild",
-      "rebuildStep": "A166",
-      "reason": "A166 review backlog: source explicitly declares an assumption. No uniquely identified existing audit item names this file; a researched replacement and specific receiving step remain required. This record does not approve the value or claim that repair is complete."
-    },
-    {
-      "file": "src/presentation/life-talk-running.ts",
-      "line": 42,
-      "text": "* PLACEHOLDER, NOT REVIEWED: every reply line here is interim copy awaiting",
-      "occurrence": 1,
-      "disposition": "rebuild",
-      "rebuildStep": "A166",
-      "reason": "A166 review backlog: source explicitly declares an assumption. No uniquely identified existing audit item names this file; a researched replacement and specific receiving step remain required. This record does not approve the value or claim that repair is complete."
-    },
-    {
-      "file": "src/presentation/life-talk-topics.ts",
-      "line": 32,
-      "text": "* PLACEHOLDER, NOT RESEARCH. What counts as news and how a listener answers are",
-      "occurrence": 1,
-      "disposition": "rebuild",
-      "rebuildStep": "A166",
-      "reason": "A166 review backlog: source explicitly declares an assumption. No uniquely identified existing audit item names this file; a researched replacement and specific receiving step remain required. This record does not approve the value or claim that repair is complete."
-    },
-    {
-      "file": "src/presentation/life-talk-topics.ts",
-      "line": 198,
-      "text": "* PLACEHOLDER: the answers themselves are interim, pending the research",
-      "occurrence": 1,
-      "disposition": "rebuild",
-      "rebuildStep": "A166",
-      "reason": "A166 review backlog: source explicitly declares an assumption. No uniquely identified existing audit item names this file; a researched replacement and specific receiving step remain required. This record does not approve the value or claim that repair is complete."
-    },
-    {
-      "file": "src/presentation/ordinary-meeting-actions.ts",
-      "line": 303,
-      "text": "// PLACEHOLDER(overnight): Fifteen minutes is the authored short-visit",
-      "occurrence": 1,
-      "disposition": "rebuild",
-      "rebuildStep": "A166",
-      "reason": "A166 review backlog: source explicitly declares an assumption. No uniquely identified existing audit item names this file; a researched replacement and specific receiving step remain required. This record does not approve the value or claim that repair is complete."
-    },
-    {
-      "file": "src/presentation/people-directory.ts",
-      "line": 87,
-      "text": "* PLACEHOLDER, NOT RESEARCH: filed as `how-many-colleagues-a-person-knows`.",
-      "occurrence": 1,
-      "disposition": "rebuild",
-      "rebuildStep": "A166",
-      "reason": "A166 review backlog: source explicitly declares an assumption. No uniquely identified existing audit item names this file; a researched replacement and specific receiving step remain required. This record does not approve the value or claim that repair is complete."
-    },
-    {
-      "file": "src/presentation/place-backdrops.ts",
-      "line": 91,
-      "text": "* PLACEHOLDER(wave2): sunrise and sunset by month, in local minutes, for about",
-      "occurrence": 1,
-      "disposition": "rebuild",
-      "rebuildStep": "A166",
-      "reason": "A166 review backlog: source explicitly declares an assumption. No uniquely identified existing audit item names this file; a researched replacement and specific receiving step remain required. This record does not approve the value or claim that repair is complete."
-    },
-    {
-      "file": "src/presentation/place-backdrops.ts",
-      "line": 125,
-      "text": "* PLACEHOLDER(wave2): about one day in five is rainy, the same for every",
-      "occurrence": 1,
-      "disposition": "rebuild",
-      "rebuildStep": "A166",
-      "reason": "A166 review backlog: source explicitly declares an assumption. No uniquely identified existing audit item names this file; a researched replacement and specific receiving step remain required. This record does not approve the value or claim that repair is complete."
-    },
-    {
-      "file": "src/presentation/production-world.ts",
-      "line": 251,
-      "text": "* PLACEHOLDER, NOT RESEARCHED: the same-sex share, and that a parent who died",
-      "occurrence": 1,
-      "disposition": "rebuild",
-      "rebuildStep": "A148",
-      "reason": "Existing audit A148 explicitly names this file: The player's opening family and town\u2026. Replace this marker with sourced records; mapping is not approval of its value."
-    },
-    {
-      "file": "src/presentation/social-invitation.ts",
-      "line": 31,
-      "text": "* PLACEHOLDER, NOT RESEARCHED: filed as `what-ordinary-invitations-are-for`,",
-      "occurrence": 1,
-      "disposition": "rebuild",
-      "rebuildStep": "A166",
-      "reason": "A166 review backlog: source explicitly declares an assumption. No uniquely identified existing audit item names this file; a researched replacement and specific receiving step remain required. This record does not approve the value or claim that repair is complete."
-    },
-    {
-      "file": "src/presentation/transit-report-reading.ts",
-      "line": 12,
-      "text": "/** PLACEHOLDER(wave2): focused attention to one published report. */",
-      "occurrence": 1,
-      "disposition": "rebuild",
-      "rebuildStep": "A166",
-      "reason": "A166 review backlog: source explicitly declares an assumption. No uniquely identified existing audit item names this file; a researched replacement and specific receiving step remain required. This record does not approve the value or claim that repair is complete."
-    },
-    {
       "file": "src/simulation/age-of-majority.ts",
       "line": 36,
       "text": "* PLACEHOLDER(research: age-of-majority-by-state). A presentation threshold",
@@ -622,7 +46,7 @@
       "occurrence": 1,
       "disposition": "rebuild",
       "rebuildStep": "A122",
-      "reason": "Existing audit A122 explicitly names this file: Volunteer contacts, field-work effects and\u2026. Replace this marker with sourced records; mapping is not approval of its value."
+      "reason": "Existing audit A122 explicitly names this file: Volunteer contacts, field-work effects and…. Replace this marker with sourced records; mapping is not approval of its value."
     },
     {
       "file": "src/simulation/campaign-money-sources.ts",
@@ -847,7 +271,7 @@
       "occurrence": 1,
       "disposition": "rebuild",
       "rebuildStep": "A131",
-      "reason": "Existing audit A131 explicitly names this file: Crime victims and whether crimes are reported\u2026. Replace this marker with sourced records; mapping is not approval of its value."
+      "reason": "Existing audit A131 explicitly names this file: Crime victims and whether crimes are reported…. Replace this marker with sourced records; mapping is not approval of its value."
     },
     {
       "file": "src/simulation/crime/producer.ts",
@@ -856,7 +280,7 @@
       "occurrence": 1,
       "disposition": "rebuild",
       "rebuildStep": "A131",
-      "reason": "Existing audit A131 explicitly names this file: Crime victims and whether crimes are reported\u2026. Replace this marker with sourced records; mapping is not approval of its value."
+      "reason": "Existing audit A131 explicitly names this file: Crime victims and whether crimes are reported…. Replace this marker with sourced records; mapping is not approval of its value."
     },
     {
       "file": "src/simulation/crime/reporting.ts",
@@ -973,7 +397,7 @@
       "occurrence": 1,
       "disposition": "rebuild",
       "rebuildStep": "A132",
-      "reason": "Existing audit A132 explicitly names this file: Disasters, their footprint and damage should\u2026. Replace this marker with sourced records; mapping is not approval of its value."
+      "reason": "Existing audit A132 explicitly names this file: Disasters, their footprint and damage should…. Replace this marker with sourced records; mapping is not approval of its value."
     },
     {
       "file": "src/simulation/crisis/official-funeral.ts",
@@ -1009,7 +433,7 @@
       "occurrence": 1,
       "disposition": "rebuild",
       "rebuildStep": "A141",
-      "reason": "Existing audit A141 explicitly names this file: Finishing paid study time should not by itself\u2026. Replace this marker with sourced records; mapping is not approval of its value."
+      "reason": "Existing audit A141 explicitly names this file: Finishing paid study time should not by itself…. Replace this marker with sourced records; mapping is not approval of its value."
     },
     {
       "file": "src/simulation/education-study-progression.ts",
@@ -1018,7 +442,7 @@
       "occurrence": 1,
       "disposition": "rebuild",
       "rebuildStep": "A141",
-      "reason": "Existing audit A141 explicitly names this file: Finishing paid study time should not by itself\u2026. Replace this marker with sourced records; mapping is not approval of its value."
+      "reason": "Existing audit A141 explicitly names this file: Finishing paid study time should not by itself…. Replace this marker with sourced records; mapping is not approval of its value."
     },
     {
       "file": "src/simulation/enacted-law-effects.ts",
@@ -1027,7 +451,7 @@
       "occurrence": 1,
       "disposition": "rebuild",
       "rebuildStep": "A18",
-      "reason": "Existing audit A18 explicitly names this file: Remove the transit special case inside the\u2026. Replace this marker with sourced records; mapping is not approval of its value."
+      "reason": "Existing audit A18 explicitly names this file: Remove the transit special case inside the…. Replace this marker with sourced records; mapping is not approval of its value."
     },
     {
       "file": "src/simulation/favor-collection.ts",
@@ -1192,15 +616,6 @@
       "reason": "A166 review backlog: source explicitly declares an assumption. No uniquely identified existing audit item names this file; a researched replacement and specific receiving step remain required. This record does not approve the value or claim that repair is complete."
     },
     {
-      "file": "src/simulation/governing/law-effect-paths.ts",
-      "line": 197,
-      "text": "// the bill's own term, not a fixed rate. PLACEHOLDER: the ridership that",
-      "occurrence": 1,
-      "disposition": "rebuild",
-      "rebuildStep": "A166",
-      "reason": "A166 review backlog: source explicitly declares an assumption. No uniquely identified existing audit item names this file; a researched replacement and specific receiving step remain required. This record does not approve the value or claim that repair is complete."
-    },
-    {
       "file": "src/simulation/governing/legislative-clock.ts",
       "line": 971,
       "text": "// PLACEHOLDER until research question how-congress-moves-bills is",
@@ -1306,7 +721,7 @@
       "occurrence": 1,
       "disposition": "rebuild",
       "rebuildStep": "A90",
-      "reason": "Existing audit A90 explicitly names this file: Spending after enactment should not depend on a\u2026. Replace this marker with sourced records; mapping is not approval of its value."
+      "reason": "Existing audit A90 explicitly names this file: Spending after enactment should not depend on a…. Replace this marker with sourced records; mapping is not approval of its value."
     },
     {
       "file": "src/simulation/governing/supreme-court-appointment-profile.ts",
@@ -1603,7 +1018,7 @@
       "occurrence": 1,
       "disposition": "rebuild",
       "rebuildStep": "A35",
-      "reason": "Existing audit A35 explicitly names this file: When a law reaches a person, starting laws and\u2026. Replace this marker with sourced records; mapping is not approval of its value."
+      "reason": "Existing audit A35 explicitly names this file: When a law reaches a person, starting laws and…. Replace this marker with sourced records; mapping is not approval of its value."
     },
     {
       "file": "src/simulation/law-exposure.ts",
@@ -1612,7 +1027,7 @@
       "occurrence": 1,
       "disposition": "rebuild",
       "rebuildStep": "A35",
-      "reason": "Existing audit A35 explicitly names this file: When a law reaches a person, starting laws and\u2026. Replace this marker with sourced records; mapping is not approval of its value."
+      "reason": "Existing audit A35 explicitly names this file: When a law reaches a person, starting laws and…. Replace this marker with sourced records; mapping is not approval of its value."
     },
     {
       "file": "src/simulation/law-exposure.ts",
@@ -1621,7 +1036,7 @@
       "occurrence": 1,
       "disposition": "rebuild",
       "rebuildStep": "A35",
-      "reason": "Existing audit A35 explicitly names this file: When a law reaches a person, starting laws and\u2026. Replace this marker with sourced records; mapping is not approval of its value."
+      "reason": "Existing audit A35 explicitly names this file: When a law reaches a person, starting laws and…. Replace this marker with sourced records; mapping is not approval of its value."
     },
     {
       "file": "src/simulation/law-exposure.ts",
@@ -1630,7 +1045,7 @@
       "occurrence": 1,
       "disposition": "rebuild",
       "rebuildStep": "A35",
-      "reason": "Existing audit A35 explicitly names this file: When a law reaches a person, starting laws and\u2026. Replace this marker with sourced records; mapping is not approval of its value."
+      "reason": "Existing audit A35 explicitly names this file: When a law reaches a person, starting laws and…. Replace this marker with sourced records; mapping is not approval of its value."
     },
     {
       "file": "src/simulation/legislative-member-decisions.ts",
@@ -1711,7 +1126,7 @@
       "occurrence": 1,
       "disposition": "rebuild",
       "rebuildStep": "A143",
-      "reason": "Existing audit A143 explicitly names this file: Whether an NPC accepts session work should not\u2026. Replace this marker with sourced records; mapping is not approval of its value."
+      "reason": "Existing audit A143 explicitly names this file: Whether an NPC accepts session work should not…. Replace this marker with sourced records; mapping is not approval of its value."
     },
     {
       "file": "src/simulation/living-world/civic-actions.ts",
@@ -1720,7 +1135,7 @@
       "occurrence": 1,
       "disposition": "rebuild",
       "rebuildStep": "A157",
-      "reason": "Existing audit A157 explicitly names this file: A resident's civic attendance event should\u2026. Replace this marker with sourced records; mapping is not approval of its value."
+      "reason": "Existing audit A157 explicitly names this file: A resident's civic attendance event should…. Replace this marker with sourced records; mapping is not approval of its value."
     },
     {
       "file": "src/simulation/living-world/civic-actions.ts",
@@ -1729,7 +1144,7 @@
       "occurrence": 1,
       "disposition": "rebuild",
       "rebuildStep": "A157",
-      "reason": "Existing audit A157 explicitly names this file: A resident's civic attendance event should\u2026. Replace this marker with sourced records; mapping is not approval of its value."
+      "reason": "Existing audit A157 explicitly names this file: A resident's civic attendance event should…. Replace this marker with sourced records; mapping is not approval of its value."
     },
     {
       "file": "src/simulation/living-world/congress-aggregate-outcome.ts",
@@ -1873,7 +1288,7 @@
       "occurrence": 1,
       "disposition": "rebuild",
       "rebuildStep": "A159",
-      "reason": "Existing audit A159 explicitly names this file: Officials' standing and interest groups use\u2026. Replace this marker with sourced records; mapping is not approval of its value."
+      "reason": "Existing audit A159 explicitly names this file: Officials' standing and interest groups use…. Replace this marker with sourced records; mapping is not approval of its value."
     },
     {
       "file": "src/simulation/living-world/official-views.ts",
@@ -1882,7 +1297,7 @@
       "occurrence": 1,
       "disposition": "rebuild",
       "rebuildStep": "A159",
-      "reason": "Existing audit A159 explicitly names this file: Officials' standing and interest groups use\u2026. Replace this marker with sourced records; mapping is not approval of its value."
+      "reason": "Existing audit A159 explicitly names this file: Officials' standing and interest groups use…. Replace this marker with sourced records; mapping is not approval of its value."
     },
     {
       "file": "src/simulation/living-world/official-views.ts",
@@ -1891,7 +1306,7 @@
       "occurrence": 1,
       "disposition": "rebuild",
       "rebuildStep": "A159",
-      "reason": "Existing audit A159 explicitly names this file: Officials' standing and interest groups use\u2026. Replace this marker with sourced records; mapping is not approval of its value."
+      "reason": "Existing audit A159 explicitly names this file: Officials' standing and interest groups use…. Replace this marker with sourced records; mapping is not approval of its value."
     },
     {
       "file": "src/simulation/living-world/official-views.ts",
@@ -1900,7 +1315,7 @@
       "occurrence": 1,
       "disposition": "rebuild",
       "rebuildStep": "A159",
-      "reason": "Existing audit A159 explicitly names this file: Officials' standing and interest groups use\u2026. Replace this marker with sourced records; mapping is not approval of its value."
+      "reason": "Existing audit A159 explicitly names this file: Officials' standing and interest groups use…. Replace this marker with sourced records; mapping is not approval of its value."
     },
     {
       "file": "src/simulation/living-world/official-views.ts",
@@ -1909,7 +1324,7 @@
       "occurrence": 1,
       "disposition": "rebuild",
       "rebuildStep": "A159",
-      "reason": "Existing audit A159 explicitly names this file: Officials' standing and interest groups use\u2026. Replace this marker with sourced records; mapping is not approval of its value."
+      "reason": "Existing audit A159 explicitly names this file: Officials' standing and interest groups use…. Replace this marker with sourced records; mapping is not approval of its value."
     },
     {
       "file": "src/simulation/living-world/official-views.ts",
@@ -1918,7 +1333,7 @@
       "occurrence": 1,
       "disposition": "rebuild",
       "rebuildStep": "A159",
-      "reason": "Existing audit A159 explicitly names this file: Officials' standing and interest groups use\u2026. Replace this marker with sourced records; mapping is not approval of its value."
+      "reason": "Existing audit A159 explicitly names this file: Officials' standing and interest groups use…. Replace this marker with sourced records; mapping is not approval of its value."
     },
     {
       "file": "src/simulation/living-world/official-views.ts",
@@ -1927,7 +1342,7 @@
       "occurrence": 1,
       "disposition": "rebuild",
       "rebuildStep": "A159",
-      "reason": "Existing audit A159 explicitly names this file: Officials' standing and interest groups use\u2026. Replace this marker with sourced records; mapping is not approval of its value."
+      "reason": "Existing audit A159 explicitly names this file: Officials' standing and interest groups use…. Replace this marker with sourced records; mapping is not approval of its value."
     },
     {
       "file": "src/simulation/living-world/official-views.ts",
@@ -1936,7 +1351,7 @@
       "occurrence": 1,
       "disposition": "rebuild",
       "rebuildStep": "A159",
-      "reason": "Existing audit A159 explicitly names this file: Officials' standing and interest groups use\u2026. Replace this marker with sourced records; mapping is not approval of its value."
+      "reason": "Existing audit A159 explicitly names this file: Officials' standing and interest groups use…. Replace this marker with sourced records; mapping is not approval of its value."
     },
     {
       "file": "src/simulation/living-world/official-views.ts",
@@ -1945,7 +1360,7 @@
       "occurrence": 1,
       "disposition": "rebuild",
       "rebuildStep": "A159",
-      "reason": "Existing audit A159 explicitly names this file: Officials' standing and interest groups use\u2026. Replace this marker with sourced records; mapping is not approval of its value."
+      "reason": "Existing audit A159 explicitly names this file: Officials' standing and interest groups use…. Replace this marker with sourced records; mapping is not approval of its value."
     },
     {
       "file": "src/simulation/living-world/official-views.ts",
@@ -1954,7 +1369,7 @@
       "occurrence": 1,
       "disposition": "rebuild",
       "rebuildStep": "A159",
-      "reason": "Existing audit A159 explicitly names this file: Officials' standing and interest groups use\u2026. Replace this marker with sourced records; mapping is not approval of its value."
+      "reason": "Existing audit A159 explicitly names this file: Officials' standing and interest groups use…. Replace this marker with sourced records; mapping is not approval of its value."
     },
     {
       "file": "src/simulation/living-world/official-views.ts",
@@ -1963,7 +1378,7 @@
       "occurrence": 1,
       "disposition": "rebuild",
       "rebuildStep": "A159",
-      "reason": "Existing audit A159 explicitly names this file: Officials' standing and interest groups use\u2026. Replace this marker with sourced records; mapping is not approval of its value."
+      "reason": "Existing audit A159 explicitly names this file: Officials' standing and interest groups use…. Replace this marker with sourced records; mapping is not approval of its value."
     },
     {
       "file": "src/simulation/living-world/official-views.ts",
@@ -1972,7 +1387,7 @@
       "occurrence": 1,
       "disposition": "rebuild",
       "rebuildStep": "A159",
-      "reason": "Existing audit A159 explicitly names this file: Officials' standing and interest groups use\u2026. Replace this marker with sourced records; mapping is not approval of its value."
+      "reason": "Existing audit A159 explicitly names this file: Officials' standing and interest groups use…. Replace this marker with sourced records; mapping is not approval of its value."
     },
     {
       "file": "src/simulation/living-world/political-reflection.ts",
@@ -1999,7 +1414,7 @@
       "occurrence": 1,
       "disposition": "rebuild",
       "rebuildStep": "A61",
-      "reason": "Existing audit A61 explicitly names this file: A town bank's balance-sheet ratios should not\u2026. Replace this marker with sourced records; mapping is not approval of its value."
+      "reason": "Existing audit A61 explicitly names this file: A town bank's balance-sheet ratios should not…. Replace this marker with sourced records; mapping is not approval of its value."
     },
     {
       "file": "src/simulation/living-world/town-finances.ts",
@@ -2008,7 +1423,7 @@
       "occurrence": 1,
       "disposition": "rebuild",
       "rebuildStep": "A61",
-      "reason": "Existing audit A61 explicitly names this file: A town bank's balance-sheet ratios should not\u2026. Replace this marker with sourced records; mapping is not approval of its value."
+      "reason": "Existing audit A61 explicitly names this file: A town bank's balance-sheet ratios should not…. Replace this marker with sourced records; mapping is not approval of its value."
     },
     {
       "file": "src/simulation/living-world/town-finances.ts",
@@ -2017,7 +1432,7 @@
       "occurrence": 1,
       "disposition": "rebuild",
       "rebuildStep": "A61",
-      "reason": "Existing audit A61 explicitly names this file: A town bank's balance-sheet ratios should not\u2026. Replace this marker with sourced records; mapping is not approval of its value."
+      "reason": "Existing audit A61 explicitly names this file: A town bank's balance-sheet ratios should not…. Replace this marker with sourced records; mapping is not approval of its value."
     },
     {
       "file": "src/simulation/living-world/town-finances.ts",
@@ -2026,7 +1441,7 @@
       "occurrence": 1,
       "disposition": "rebuild",
       "rebuildStep": "A61",
-      "reason": "Existing audit A61 explicitly names this file: A town bank's balance-sheet ratios should not\u2026. Replace this marker with sourced records; mapping is not approval of its value."
+      "reason": "Existing audit A61 explicitly names this file: A town bank's balance-sheet ratios should not…. Replace this marker with sourced records; mapping is not approval of its value."
     },
     {
       "file": "src/simulation/living-world/town-finances.ts",
@@ -2035,7 +1450,7 @@
       "occurrence": 1,
       "disposition": "rebuild",
       "rebuildStep": "A61",
-      "reason": "Existing audit A61 explicitly names this file: A town bank's balance-sheet ratios should not\u2026. Replace this marker with sourced records; mapping is not approval of its value."
+      "reason": "Existing audit A61 explicitly names this file: A town bank's balance-sheet ratios should not…. Replace this marker with sourced records; mapping is not approval of its value."
     },
     {
       "file": "src/simulation/living-world/town-finances.ts",
@@ -2044,7 +1459,7 @@
       "occurrence": 1,
       "disposition": "rebuild",
       "rebuildStep": "A61",
-      "reason": "Existing audit A61 explicitly names this file: A town bank's balance-sheet ratios should not\u2026. Replace this marker with sourced records; mapping is not approval of its value."
+      "reason": "Existing audit A61 explicitly names this file: A town bank's balance-sheet ratios should not…. Replace this marker with sourced records; mapping is not approval of its value."
     },
     {
       "file": "src/simulation/living-world/town-finances.ts",
@@ -2053,7 +1468,7 @@
       "occurrence": 1,
       "disposition": "rebuild",
       "rebuildStep": "A61",
-      "reason": "Existing audit A61 explicitly names this file: A town bank's balance-sheet ratios should not\u2026. Replace this marker with sourced records; mapping is not approval of its value."
+      "reason": "Existing audit A61 explicitly names this file: A town bank's balance-sheet ratios should not…. Replace this marker with sourced records; mapping is not approval of its value."
     },
     {
       "file": "src/simulation/living-world/town-finances.ts",
@@ -2062,7 +1477,7 @@
       "occurrence": 1,
       "disposition": "rebuild",
       "rebuildStep": "A61",
-      "reason": "Existing audit A61 explicitly names this file: A town bank's balance-sheet ratios should not\u2026. Replace this marker with sourced records; mapping is not approval of its value."
+      "reason": "Existing audit A61 explicitly names this file: A town bank's balance-sheet ratios should not…. Replace this marker with sourced records; mapping is not approval of its value."
     },
     {
       "file": "src/simulation/living-world/town-finances.ts",
@@ -2071,7 +1486,7 @@
       "occurrence": 1,
       "disposition": "rebuild",
       "rebuildStep": "A61",
-      "reason": "Existing audit A61 explicitly names this file: A town bank's balance-sheet ratios should not\u2026. Replace this marker with sourced records; mapping is not approval of its value."
+      "reason": "Existing audit A61 explicitly names this file: A town bank's balance-sheet ratios should not…. Replace this marker with sourced records; mapping is not approval of its value."
     },
     {
       "file": "src/simulation/living-world/town-homes.ts",
@@ -2233,7 +1648,7 @@
       "occurrence": 1,
       "disposition": "rebuild",
       "rebuildStep": "A65",
-      "reason": "Existing audit A65 explicitly names this file: Central bank board members' views on inflation\u2026. Replace this marker with sourced records; mapping is not approval of its value."
+      "reason": "Existing audit A65 explicitly names this file: Central bank board members' views on inflation…. Replace this marker with sourced records; mapping is not approval of its value."
     },
     {
       "file": "src/simulation/macro-economy/central-bank.ts",
@@ -2242,7 +1657,7 @@
       "occurrence": 1,
       "disposition": "rebuild",
       "rebuildStep": "A65",
-      "reason": "Existing audit A65 explicitly names this file: Central bank board members' views on inflation\u2026. Replace this marker with sourced records; mapping is not approval of its value."
+      "reason": "Existing audit A65 explicitly names this file: Central bank board members' views on inflation…. Replace this marker with sourced records; mapping is not approval of its value."
     },
     {
       "file": "src/simulation/macro-economy/central-bank.ts",
@@ -2251,7 +1666,7 @@
       "occurrence": 1,
       "disposition": "rebuild",
       "rebuildStep": "A65",
-      "reason": "Existing audit A65 explicitly names this file: Central bank board members' views on inflation\u2026. Replace this marker with sourced records; mapping is not approval of its value."
+      "reason": "Existing audit A65 explicitly names this file: Central bank board members' views on inflation…. Replace this marker with sourced records; mapping is not approval of its value."
     },
     {
       "file": "src/simulation/macro-economy/central-bank.ts",
@@ -2260,7 +1675,7 @@
       "occurrence": 1,
       "disposition": "rebuild",
       "rebuildStep": "A65",
-      "reason": "Existing audit A65 explicitly names this file: Central bank board members' views on inflation\u2026. Replace this marker with sourced records; mapping is not approval of its value."
+      "reason": "Existing audit A65 explicitly names this file: Central bank board members' views on inflation…. Replace this marker with sourced records; mapping is not approval of its value."
     },
     {
       "file": "src/simulation/macro-economy/central-bank.ts",
@@ -2269,7 +1684,7 @@
       "occurrence": 1,
       "disposition": "rebuild",
       "rebuildStep": "A65",
-      "reason": "Existing audit A65 explicitly names this file: Central bank board members' views on inflation\u2026. Replace this marker with sourced records; mapping is not approval of its value."
+      "reason": "Existing audit A65 explicitly names this file: Central bank board members' views on inflation…. Replace this marker with sourced records; mapping is not approval of its value."
     },
     {
       "file": "src/simulation/macro-economy/central-bank.ts",
@@ -2278,7 +1693,7 @@
       "occurrence": 1,
       "disposition": "rebuild",
       "rebuildStep": "A65",
-      "reason": "Existing audit A65 explicitly names this file: Central bank board members' views on inflation\u2026. Replace this marker with sourced records; mapping is not approval of its value."
+      "reason": "Existing audit A65 explicitly names this file: Central bank board members' views on inflation…. Replace this marker with sourced records; mapping is not approval of its value."
     },
     {
       "file": "src/simulation/macro-economy/central-bank.ts",
@@ -2287,7 +1702,7 @@
       "occurrence": 1,
       "disposition": "rebuild",
       "rebuildStep": "A65",
-      "reason": "Existing audit A65 explicitly names this file: Central bank board members' views on inflation\u2026. Replace this marker with sourced records; mapping is not approval of its value."
+      "reason": "Existing audit A65 explicitly names this file: Central bank board members' views on inflation…. Replace this marker with sourced records; mapping is not approval of its value."
     },
     {
       "file": "src/simulation/macro-economy/central-bank.ts",
@@ -2296,7 +1711,7 @@
       "occurrence": 1,
       "disposition": "rebuild",
       "rebuildStep": "A65",
-      "reason": "Existing audit A65 explicitly names this file: Central bank board members' views on inflation\u2026. Replace this marker with sourced records; mapping is not approval of its value."
+      "reason": "Existing audit A65 explicitly names this file: Central bank board members' views on inflation…. Replace this marker with sourced records; mapping is not approval of its value."
     },
     {
       "file": "src/simulation/macro-economy/central-bank.ts",
@@ -2305,7 +1720,7 @@
       "occurrence": 1,
       "disposition": "rebuild",
       "rebuildStep": "A65",
-      "reason": "Existing audit A65 explicitly names this file: Central bank board members' views on inflation\u2026. Replace this marker with sourced records; mapping is not approval of its value."
+      "reason": "Existing audit A65 explicitly names this file: Central bank board members' views on inflation…. Replace this marker with sourced records; mapping is not approval of its value."
     },
     {
       "file": "src/simulation/macro-economy/credit.ts",
@@ -2386,7 +1801,7 @@
       "occurrence": 1,
       "disposition": "rebuild",
       "rebuildStep": "A64",
-      "reason": "Existing audit A64 explicitly names this file: Real payments should not be turned into economy\u2026. Replace this marker with sourced records; mapping is not approval of its value."
+      "reason": "Existing audit A64 explicitly names this file: Real payments should not be turned into economy…. Replace this marker with sourced records; mapping is not approval of its value."
     },
     {
       "file": "src/simulation/macro-economy/policy.ts",
@@ -2395,7 +1810,7 @@
       "occurrence": 1,
       "disposition": "rebuild",
       "rebuildStep": "A64",
-      "reason": "Existing audit A64 explicitly names this file: Real payments should not be turned into economy\u2026. Replace this marker with sourced records; mapping is not approval of its value."
+      "reason": "Existing audit A64 explicitly names this file: Real payments should not be turned into economy…. Replace this marker with sourced records; mapping is not approval of its value."
     },
     {
       "file": "src/simulation/macro-economy/policy.ts",
@@ -2404,7 +1819,7 @@
       "occurrence": 1,
       "disposition": "rebuild",
       "rebuildStep": "A64",
-      "reason": "Existing audit A64 explicitly names this file: Real payments should not be turned into economy\u2026. Replace this marker with sourced records; mapping is not approval of its value."
+      "reason": "Existing audit A64 explicitly names this file: Real payments should not be turned into economy…. Replace this marker with sourced records; mapping is not approval of its value."
     },
     {
       "file": "src/simulation/macro-economy/sources.ts",
@@ -2431,7 +1846,7 @@
       "occurrence": 1,
       "disposition": "rebuild",
       "rebuildStep": "A113",
-      "reason": "Existing audit A113 explicitly names this file: The presidency should be decided by national\u2026. Replace this marker with sourced records; mapping is not approval of its value."
+      "reason": "Existing audit A113 explicitly names this file: The presidency should be decided by national…. Replace this marker with sourced records; mapping is not approval of its value."
     },
     {
       "file": "src/simulation/nationwide-world/presidential-turnover.ts",
@@ -2440,7 +1855,7 @@
       "occurrence": 1,
       "disposition": "rebuild",
       "rebuildStep": "A113",
-      "reason": "Existing audit A113 explicitly names this file: The presidency should be decided by national\u2026. Replace this marker with sourced records; mapping is not approval of its value."
+      "reason": "Existing audit A113 explicitly names this file: The presidency should be decided by national…. Replace this marker with sourced records; mapping is not approval of its value."
     },
     {
       "file": "src/simulation/nationwide-world/senate-vacancy-law.ts",
@@ -2485,7 +1900,7 @@
       "occurrence": 1,
       "disposition": "rebuild",
       "rebuildStep": "A119",
-      "reason": "Existing audit A119 explicitly names this file: Invented candidates' years of residence should\u2026. Replace this marker with sourced records; mapping is not approval of its value."
+      "reason": "Existing audit A119 explicitly names this file: Invented candidates' years of residence should…. Replace this marker with sourced records; mapping is not approval of its value."
     },
     {
       "file": "src/simulation/nationwide-world/state-legislature-opening.ts",
@@ -2557,7 +1972,7 @@
       "occurrence": 1,
       "disposition": "rebuild",
       "rebuildStep": "A114",
-      "reason": "Existing audit A114 explicitly names this file: Party nominations should come from recorded\u2026. Replace this marker with sourced records; mapping is not approval of its value."
+      "reason": "Existing audit A114 explicitly names this file: Party nominations should come from recorded…. Replace this marker with sourced records; mapping is not approval of its value."
     },
     {
       "file": "src/simulation/nominations/party-nominations.ts",
@@ -2566,7 +1981,7 @@
       "occurrence": 1,
       "disposition": "rebuild",
       "rebuildStep": "A114",
-      "reason": "Existing audit A114 explicitly names this file: Party nominations should come from recorded\u2026. Replace this marker with sourced records; mapping is not approval of its value."
+      "reason": "Existing audit A114 explicitly names this file: Party nominations should come from recorded…. Replace this marker with sourced records; mapping is not approval of its value."
     },
     {
       "file": "src/simulation/official-view-reads.ts",
@@ -2614,24 +2029,6 @@
       "reason": "A166 review backlog: source explicitly declares an assumption. No uniquely identified existing audit item names this file; a researched replacement and specific receiving step remain required. This record does not approve the value or claim that repair is complete."
     },
     {
-      "file": "src/simulation/ordinary-meeting-presence.ts",
-      "line": 33,
-      "text": "// PLACEHOLDER(overnight): COPY-PENDING exact public-comment wording awaits",
-      "occurrence": 1,
-      "disposition": "rebuild",
-      "rebuildStep": "A166",
-      "reason": "A166 review backlog: source explicitly declares an assumption. No uniquely identified existing audit item names this file; a researched replacement and specific receiving step remain required. This record does not approve the value or claim that repair is complete."
-    },
-    {
-      "file": "src/simulation/ordinary-meeting-presence.ts",
-      "line": 622,
-      "text": "// PLACEHOLDER(overnight): Where the town's council is not seated, the",
-      "occurrence": 1,
-      "disposition": "rebuild",
-      "rebuildStep": "A166",
-      "reason": "A166 review backlog: source explicitly declares an assumption. No uniquely identified existing audit item names this file; a researched replacement and specific receiving step remain required. This record does not approve the value or claim that repair is complete."
-    },
-    {
       "file": "src/simulation/outcome-web/place-outcomes.ts",
       "line": 109,
       "text": "* its own ordinances act there. PLACEHOLDER: a city starts at its state's",
@@ -2662,33 +2059,6 @@
       "file": "src/simulation/patronage/appointments.ts",
       "line": 581,
       "text": "* debt's size follows what the post meant to the appointee: SET BY HAND, a",
-      "occurrence": 1,
-      "disposition": "rebuild",
-      "rebuildStep": "A166",
-      "reason": "A166 review backlog: source explicitly declares an assumption. No uniquely identified existing audit item names this file; a researched replacement and specific receiving step remain required. This record does not approve the value or claim that repair is complete."
-    },
-    {
-      "file": "src/simulation/people-contact.ts",
-      "line": 1025,
-      "text": "* PLACEHOLDER, NOT RESEARCH: the day counts and the steps are calibration",
-      "occurrence": 1,
-      "disposition": "rebuild",
-      "rebuildStep": "A166",
-      "reason": "A166 review backlog: source explicitly declares an assumption. No uniquely identified existing audit item names this file; a researched replacement and specific receiving step remain required. This record does not approve the value or claim that repair is complete."
-    },
-    {
-      "file": "src/simulation/people-contact.ts",
-      "line": 1430,
-      "text": "* PLACEHOLDER, NOT RESEARCH: how much one evening together counts for is",
-      "occurrence": 1,
-      "disposition": "rebuild",
-      "rebuildStep": "A166",
-      "reason": "A166 review backlog: source explicitly declares an assumption. No uniquely identified existing audit item names this file; a researched replacement and specific receiving step remain required. This record does not approve the value or claim that repair is complete."
-    },
-    {
-      "file": "src/simulation/people-contact.ts",
-      "line": 1504,
-      "text": "* moves nothing by itself. PLACEHOLDER, NOT RESEARCH: how much a canceled",
       "occurrence": 1,
       "disposition": "rebuild",
       "rebuildStep": "A166",
@@ -3061,7 +2431,7 @@
       "occurrence": 1,
       "disposition": "rebuild",
       "rebuildStep": "A142",
-      "reason": "Existing audit A142 explicitly names this file: Relationship fading uses unsupported cutoffs\u2026. Replace this marker with sourced records; mapping is not approval of its value."
+      "reason": "Existing audit A142 explicitly names this file: Relationship fading uses unsupported cutoffs…. Replace this marker with sourced records; mapping is not approval of its value."
     },
     {
       "file": "src/simulation/relationship-absence.ts",
@@ -3070,7 +2440,7 @@
       "occurrence": 1,
       "disposition": "rebuild",
       "rebuildStep": "A142",
-      "reason": "Existing audit A142 explicitly names this file: Relationship fading uses unsupported cutoffs\u2026. Replace this marker with sourced records; mapping is not approval of its value."
+      "reason": "Existing audit A142 explicitly names this file: Relationship fading uses unsupported cutoffs…. Replace this marker with sourced records; mapping is not approval of its value."
     },
     {
       "file": "src/simulation/relationship-absence.ts",
@@ -3079,7 +2449,7 @@
       "occurrence": 1,
       "disposition": "rebuild",
       "rebuildStep": "A142",
-      "reason": "Existing audit A142 explicitly names this file: Relationship fading uses unsupported cutoffs\u2026. Replace this marker with sourced records; mapping is not approval of its value."
+      "reason": "Existing audit A142 explicitly names this file: Relationship fading uses unsupported cutoffs…. Replace this marker with sourced records; mapping is not approval of its value."
     },
     {
       "file": "src/simulation/relationship-absence.ts",
@@ -3088,7 +2458,7 @@
       "occurrence": 1,
       "disposition": "rebuild",
       "rebuildStep": "A142",
-      "reason": "Existing audit A142 explicitly names this file: Relationship fading uses unsupported cutoffs\u2026. Replace this marker with sourced records; mapping is not approval of its value."
+      "reason": "Existing audit A142 explicitly names this file: Relationship fading uses unsupported cutoffs…. Replace this marker with sourced records; mapping is not approval of its value."
     },
     {
       "file": "src/simulation/relationship-absence.ts",
@@ -3097,16 +2467,16 @@
       "occurrence": 2,
       "disposition": "rebuild",
       "rebuildStep": "A142",
-      "reason": "Existing audit A142 explicitly names this file: Relationship fading uses unsupported cutoffs\u2026. Replace this marker with sourced records; mapping is not approval of its value."
+      "reason": "Existing audit A142 explicitly names this file: Relationship fading uses unsupported cutoffs…. Replace this marker with sourced records; mapping is not approval of its value."
     },
     {
       "file": "src/simulation/school-stages.ts",
       "line": 53,
-      "text": "* PLACEHOLDER, NOT RESEARCHED \u2014 the same calendar a summarized childhood uses",
+      "text": "* PLACEHOLDER, NOT RESEARCHED — the same calendar a summarized childhood uses",
       "occurrence": 1,
       "disposition": "rebuild",
       "rebuildStep": "A140",
-      "reason": "Existing audit A140 explicitly names this file: School term dates should be one calendar per\u2026. Replace this marker with sourced records; mapping is not approval of its value."
+      "reason": "Existing audit A140 explicitly names this file: School term dates should be one calendar per…. Replace this marker with sourced records; mapping is not approval of its value."
     },
     {
       "file": "src/simulation/standing-committee.ts",
@@ -3184,6 +2554,42 @@
       "file": "src/simulation/crisis/medicare-drug-negotiation.ts",
       "line": 15,
       "text": "* PLACEHOLDER(research: per-person-medicare-drug-negotiation-savings): actual",
+      "occurrence": 1,
+      "disposition": "rebuild",
+      "rebuildStep": "A166",
+      "reason": "A166 review backlog: source explicitly declares an assumption. No uniquely identified existing audit item names this file; a researched replacement and specific receiving step remain required. This record does not approve the value or claim that repair is complete."
+    },
+    {
+      "file": "src/core2/condition-pack.ts",
+      "line": 158,
+      "text": "// PLACEHOLDER(research: chronic-condition-income-gradients): the 2026 pack",
+      "occurrence": 1,
+      "disposition": "rebuild",
+      "rebuildStep": "A166",
+      "reason": "A166 review backlog: source explicitly declares an assumption. No uniquely identified existing audit item names this file; a researched replacement and specific receiving step remain required. This record does not approve the value or claim that repair is complete."
+    },
+    {
+      "file": "src/core2/condition-pack.ts",
+      "line": 258,
+      "text": "? `${CONDITION_PACK_KEY}: ${condition.label}, ${grade.key}, recorded at age ${Math.floor(age)}, multiplies mortality strain by ${weight.toFixed(2)} (PLACEHOLDER).`",
+      "occurrence": 1,
+      "disposition": "rebuild",
+      "rebuildStep": "A166",
+      "reason": "A166 review backlog: source explicitly declares an assumption. No uniquely identified existing audit item names this file; a researched replacement and specific receiving step remain required. This record does not approve the value or claim that repair is complete."
+    },
+    {
+      "file": "src/core2/death-causes.ts",
+      "line": 66,
+      "text": "* PLACEHOLDER(research: how-long-a-serious-illness-lasts-by-age). How many",
+      "occurrence": 1,
+      "disposition": "rebuild",
+      "rebuildStep": "A166",
+      "reason": "A166 review backlog: source explicitly declares an assumption. No uniquely identified existing audit item names this file; a researched replacement and specific receiving step remain required. This record does not approve the value or claim that repair is complete."
+    },
+    {
+      "file": "src/core2/death-causes.ts",
+      "line": 81,
+      "text": "* PLACEHOLDER(research: causes-of-death-by-age). The share of the remaining",
       "occurrence": 1,
       "disposition": "rebuild",
       "rebuildStep": "A166",

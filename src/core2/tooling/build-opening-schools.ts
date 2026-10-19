@@ -9,7 +9,7 @@
 import { createHash } from "node:crypto";
 import { readdirSync, readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
-import { countyGeoidsForPlace } from "../../simulation/government-units";
+import { countyGeoidsForPlace } from "../reference/government-units";
 import type { StateInstitutionsFile } from "../../simulation/local-institutions-data";
 
 const DIRECTORY = "data/research/places/local-institutions";

@@ -29,7 +29,7 @@ import {
   lawEffectStamp,
   type LawEffectStampedRecord,
 } from "../law-effect-stamp";
-import { addDays } from "../dates";
+import { addDays } from "../../core2/kernel/dates";
 import { lawInForce, lawInForceAtStart } from "../governing/law-in-force";
 import {
   macroMonthHistory,

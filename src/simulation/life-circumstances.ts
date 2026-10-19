@@ -4,7 +4,7 @@ import {
   ageOnDate,
   compareSimulationMoments,
   simulationMomentAtLocalTime,
-} from "./dates";
+} from "../core2/kernel/dates";
 import { playedEpisodeStages } from "./life-episodes";
 import { LIFE_PATHS2_CATALOG } from "./life-paths2-catalog";
 import { lifePathEntryReason } from "./life-paths2";

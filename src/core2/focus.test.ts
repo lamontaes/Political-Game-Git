@@ -182,7 +182,8 @@ describe("normal play circle and tier scope", () => {
     const detailed = createLifeCore({ ...input(), focusPlaceIds: [county] });
     const watched = createLifeCore(input(), { observer: true });
     for (const core of [detailed, watched]) {
-      expect(duePeople(core, "2021-01-02")).toHaveLength(9);
+      // A husk (inactive tier) is never due, under any focus.
+      expect(duePeople(core, "2021-01-02")).toHaveLength(8);
       const activations = new Map<string, number>();
       advanceCore(core, "2021-01-02", {
         controller: (decision) => {
@@ -194,7 +195,9 @@ describe("normal play circle and tier scope", () => {
         },
       });
       for (const person of core.people.values())
-        expect(activations.get(person.id)).toBe(1);
+        expect(activations.get(person.id)).toBe(
+          person.id === "inactive" ? undefined : 1,
+        );
     }
   });
 });

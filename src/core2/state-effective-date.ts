@@ -3,10 +3,10 @@
  * researched default rule (`data/research/laws/local-starting-law/state-effective-dates.json`,
  * from constitutions and codes) through the lifted `stateStatuteOperativeAt`,
  * counting from the session's recorded end where the rule does
- * (`data/research/laws/state-session-calendars-2026.json`).
+ * (`data/research/laws/state-session-calendars.json`).
  */
 import rules from "../../data/research/laws/local-starting-law/state-effective-dates.json" with { type: "json" };
-import sessions from "../../data/research/laws/state-session-calendars-2026.json" with { type: "json" };
+import sessions from "../../data/research/laws/state-session-calendars.json" with { type: "json" };
 import {
   stateStatuteOperativeAt,
   type StatuteEffectiveRule,
@@ -37,6 +37,7 @@ const SUPPORTED = new Set([
   "days-after-session-end",
   "next-year-date-by-passage",
   "january-after-days",
+  "first-of-month-after",
 ]);
 
 /** The date an act enacted on `enactedAt` takes effect, and the rule's citation; null where the rule can't say. */

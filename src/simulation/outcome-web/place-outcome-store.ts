@@ -1,5 +1,5 @@
 import bases from "../../../data/research/outcome-web/place-outcome-bases-2024.json" with { type: "json" };
-import { countyPopulationSharesForPlace } from "../government-units";
+import { countyPopulationSharesForPlace } from "../../core2/reference/government-units";
 import {
   lifePlaceByJurisdictionId,
   stateJurisdictionForKey,

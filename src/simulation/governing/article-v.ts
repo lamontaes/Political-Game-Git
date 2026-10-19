@@ -8,7 +8,7 @@ import {
   recordArticleVRatification,
 } from "../constitutional-process";
 import { hasStableKey } from "../history-index";
-import { addDays, makeIsoDate } from "../dates";
+import { addDays, makeIsoDate } from "../../core2/kernel/dates";
 import { scheduleFutureDueItem } from "../future-transitions";
 import { stateCandidacyPack } from "../candidacy-packs";
 import {

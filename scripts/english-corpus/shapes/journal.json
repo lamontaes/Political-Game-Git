@@ -807,6 +807,1550 @@
         "I had a debate.",
         "We had a debate."
       ]
+    },
+    {
+      "move": "memoir-when-age",
+      "subject": "memoir",
+      "role": "whenAge",
+      "choice": "when-age",
+      "journal": [
+        {
+          "kindPrefix": "memoir:",
+          "field": "whenAge"
+        }
+      ],
+      "candidates": [
+        {
+          "text": "When I was {age}.",
+          "clause": true
+        },
+        {
+          "text": "When I was {age} years old.",
+          "clause": true
+        },
+        {
+          "text": "When I was about {age}.",
+          "clause": true
+        },
+        {
+          "text": "By the time I was {age}.",
+          "clause": true
+        },
+        {
+          "text": "The year I turned {age}.",
+          "clause": true
+        },
+        {
+          "text": "By the time I was {age} years old.",
+          "clause": true
+        },
+        {
+          "text": "When I turned {age}.",
+          "clause": true
+        },
+        {
+          "text": "At the age of {age}.",
+          "clause": true
+        },
+        {
+          "text": "When I was only {age}.",
+          "clause": true
+        },
+        {
+          "text": "When I was just {age}.",
+          "clause": true
+        },
+        {
+          "text": "When I was about {age} years old.",
+          "clause": true
+        },
+        {
+          "text": "When I was only {age} years old.",
+          "clause": true
+        },
+        {
+          "text": "When I was just {age} years old.",
+          "clause": true
+        },
+        {
+          "text": "At {age} years old.",
+          "clause": true
+        },
+        {
+          "text": "At {age}.",
+          "clause": true
+        },
+        {
+          "text": "When I was {age} years of age.",
+          "clause": true
+        },
+        {
+          "text": "When I was about {age} or {age}.",
+          "clause": true
+        },
+        {
+          "text": "When I was twelve.",
+          "clause": true
+        },
+        {
+          "text": "When I was 15.",
+          "clause": true
+        },
+        {
+          "text": "When I was barely {age}.",
+          "clause": true
+        },
+        {
+          "text": "When I was nearly {age}.",
+          "clause": true
+        },
+        {
+          "text": "When I was almost {age}.",
+          "clause": true
+        }
+      ],
+      "note": "Opening clause: the composer turns the final period into a comma and puts an event after it."
+    },
+    {
+      "move": "memoir-age-line",
+      "subject": "memoir",
+      "role": "ageLine",
+      "choice": "age-line",
+      "journal": [
+        {
+          "kindPrefix": "memoir:",
+          "field": "ageLine"
+        }
+      ],
+      "candidates": [
+        "I was {age} years old.",
+        "I was {age}.",
+        "I was only {age} years old.",
+        "I was just {age} years old.",
+        "I was about {age} years old.",
+        "I was only {age}.",
+        "I was just {age}.",
+        "I was about {age}.",
+        "I was a young man.",
+        "I was a young woman.",
+        "I was {age} at the time.",
+        "I was {age} years old at the time."
+      ]
+    },
+    {
+      "move": "memoir-young",
+      "subject": "memoir",
+      "role": "young",
+      "choice": "young",
+      "journal": [
+        {
+          "kindPrefix": "memoir:",
+          "field": "young"
+        }
+      ],
+      "candidates": [
+        {
+          "text": "When I was young.",
+          "clause": true
+        },
+        {
+          "text": "When I was a kid.",
+          "clause": true
+        },
+        {
+          "text": "When I was little.",
+          "clause": true
+        },
+        {
+          "text": "When I was a child.",
+          "clause": true
+        },
+        {
+          "text": "When I was a young man.",
+          "clause": true
+        },
+        {
+          "text": "When I was a young woman.",
+          "clause": true
+        },
+        {
+          "text": "When I was growing up.",
+          "clause": true
+        },
+        {
+          "text": "As a kid.",
+          "clause": true
+        },
+        {
+          "text": "As a child.",
+          "clause": true
+        },
+        {
+          "text": "As a young man.",
+          "clause": true
+        },
+        {
+          "text": "As a young woman.",
+          "clause": true
+        },
+        {
+          "text": "When I was a little girl.",
+          "clause": true
+        },
+        {
+          "text": "When I was a little boy.",
+          "clause": true
+        },
+        {
+          "text": "When I was a young boy.",
+          "clause": true
+        },
+        {
+          "text": "When I was a young girl.",
+          "clause": true
+        },
+        {
+          "text": "When I was in school.",
+          "clause": true
+        },
+        {
+          "text": "When I was younger.",
+          "clause": true
+        },
+        {
+          "text": "When I was a teenager.",
+          "clause": true
+        },
+        {
+          "text": "When I was in high school.",
+          "clause": true
+        },
+        {
+          "text": "When I was a boy.",
+          "clause": true
+        },
+        {
+          "text": "When I was a girl.",
+          "clause": true
+        },
+        {
+          "text": "When I was a little kid.",
+          "clause": true
+        },
+        {
+          "text": "When I was five years old.",
+          "clause": true
+        },
+        {
+          "text": "When I was in the 10th grade.",
+          "clause": true
+        },
+        {
+          "text": "When I was a senior in high school.",
+          "clause": true
+        },
+        {
+          "text": "When I was a junior in high school.",
+          "clause": true
+        },
+        {
+          "text": "When I was in college.",
+          "clause": true
+        },
+        {
+          "text": "When I was a student.",
+          "clause": true
+        },
+        {
+          "text": "When I was a young kid.",
+          "clause": true
+        }
+      ],
+      "note": "Opening clause: the composer turns the final period into a comma."
+    },
+    {
+      "move": "memoir-hook",
+      "subject": "memoir",
+      "role": "hook",
+      "choice": "hook",
+      "journal": [
+        {
+          "kindPrefix": "memoir:",
+          "field": "hook"
+        }
+      ],
+      "candidates": [
+        "I had no idea.",
+        "I had no idea what I was getting into.",
+        "I didn't know it then.",
+        "I didn't know it at the time.",
+        "I did not know it at the time.",
+        "I didn't know it at the time.",
+        "I had no idea what was ahead.",
+        "I had no idea what was coming.",
+        "I had no idea what it would mean.",
+        "I had no idea what that would mean.",
+        "Looking back.",
+        "That changed everything.",
+        "That changed my life.",
+        "It changed my life.",
+        "It changed everything.",
+        "That was the beginning.",
+        "That was a turning point.",
+        "It was a turning point.",
+        "That was the turning point.",
+        "I'll never forget it.",
+        "I'll never forget that day.",
+        "I will never forget it.",
+        "I will never forget that day.",
+        "I'll never forget that.",
+        "I never forgot it.",
+        "I didn't realize it then.",
+        "I didn't realize it at the time.",
+        "I didn't know what that meant.",
+        "I never knew.",
+        "I had no clue.",
+        "Little did I know.",
+        "That was the start.",
+        "That's how it started.",
+        "That's how it began.",
+        "That's where it started.",
+        "That's where it began.",
+        "That was where it started.",
+        "That's when everything changed.",
+        "Everything changed.",
+        "Things changed.",
+        "That stayed with me.",
+        "It stayed with me.",
+        "That has stayed with me.",
+        "I think about it often.",
+        "I still think about it.",
+        "I think about that a lot.",
+        "That shaped me.",
+        "It shaped my life.",
+        "That shaped my life.",
+        "It shaped who I am.",
+        "That shaped who I am.",
+        "We had no idea.",
+        "I never looked back.",
+        "I never forgot that.",
+        "I didn't know that at the time.",
+        "I did not know that at the time.",
+        "I had no idea at the time.",
+        "We didn't know it at the time.",
+        "I didn't know at the time."
+      ]
+    },
+    {
+      "move": "memoir-remember",
+      "subject": "memoir",
+      "role": "remember",
+      "choice": "remember",
+      "journal": [
+        {
+          "kindPrefix": "memoir:",
+          "field": "remember"
+        }
+      ],
+      "candidates": [
+        "{name} and I went to school together.",
+        "We went to school together.",
+        "I met {name} at {school}.",
+        "I met {name} in {school}.",
+        "I've known {name} since {school}.",
+        "I have known {name} since {school}.",
+        "{name} and I were in school together.",
+        "{name} was my best friend.",
+        "{name} was a good friend.",
+        "{name} was a friend of mine.",
+        "I knew {name} at {school}.",
+        "I knew {name} in {school}.",
+        "{name} was in my class.",
+        "{name} was in my class at {school}.",
+        "{name} and I worked together.",
+        "I worked with {name}.",
+        "I worked with {name} at {employer}.",
+        "I met {name} at {employer}.",
+        "I met {name} there.",
+        "{name} and I were friends.",
+        "{name} and I were good friends.",
+        "{name} and I became friends.",
+        "{name} and I have been friends ever since.",
+        "{name} and I go way back.",
+        "I've known {name} for years.",
+        "I've known {name} a long time.",
+        "I have known {name} for years.",
+        "I have known {name} for a long time.",
+        "We were in school together.",
+        "We were in the same class.",
+        "We were in the same class at {school}.",
+        "{name} was a classmate of mine.",
+        "I knew {name} from school.",
+        "I knew {name} from {school}.",
+        "I knew {name} back then.",
+        "We worked together.",
+        "We worked together at {employer}.",
+        "We grew up together.",
+        "{name} and I grew up together.",
+        "I grew up with {name}.",
+        "We were friends.",
+        "We were classmates.",
+        "We were neighbors.",
+        "We became friends.",
+        "We were friends later on.",
+        "We became friends and still are.",
+        "{name} and I were neighbors.",
+        "{name} and I were classmates."
+      ]
+    },
+    {
+      "move": "memoir-became",
+      "subject": "memoir",
+      "role": "became",
+      "choice": "became",
+      "journal": [
+        {
+          "kindPrefix": "memoir:",
+          "field": "became"
+        }
+      ],
+      "candidates": [
+        "{name} became {office}.",
+        "{name} became the {office}.",
+        "{name} was elected {office}.",
+        "{name} was elected to {office}.",
+        "{name} ran for {office}.",
+        "{name} ran for the {office}.",
+        "{name} went on to become {office}.",
+        "{name} went on to be {office}.",
+        "{name} became a {office}.",
+        "{name} is now {office}.",
+        "{name} is {office} now.",
+        "{name} later became {office}.",
+        "{name} would become {office}.",
+        "{name} ended up as {office}.",
+        "{name} ended up being {office}.",
+        "{name} won.",
+        "{name} lost.",
+        "{name} was a candidate.",
+        "{name} was running for {office}.",
+        "{name} ran for {office} that year.",
+        "{name} ran against me.",
+        "{name} ran against me for {office}.",
+        "{name} was my opponent.",
+        "{name} was my opponent that year.",
+        "{name} ran the campaign.",
+        "{name} ran my campaign.",
+        "{name} managed my campaign.",
+        "{name} helped me.",
+        "{name} helped me with the campaign.",
+        "{name} worked on my campaign.",
+        "{name} worked for me.",
+        "{name} worked for me then.",
+        "{name} worked on the campaign.",
+        "{name} was on the council.",
+        "{name} was on the school board.",
+        "He became {office}.",
+        "He was elected {office}.",
+        "He was elected to {office}.",
+        "He ran for {office}.",
+        "He went on to become {office}.",
+        "He went on to be {office}.",
+        "He later became {office}.",
+        "He then became {office}.",
+        "He was appointed {office}.",
+        "He was appointed to {office}.",
+        "He is now {office}.",
+        "He was elected {office} that year.",
+        "He became {office} later on.",
+        "He became {office} after a while.",
+        "He ran for {office} the next year.",
+        "He ran for {office} in the next election.",
+        "He became {office} the next year.",
+        "He was elected {office} the next year.",
+        "He won {office}.",
+        "He ran for {office} again.",
+        "He became {office} after that.",
+        "He later ran for {office}.",
+        "He went on to run for {office}.",
+        "He went on to serve as {office}.",
+        "He went on to win {office}.",
+        "He became {office} in the end.",
+        "Later he became {office}.",
+        "Then he became {office}.",
+        "Eventually he became {office}.",
+        "Later he ran for {office}.",
+        "Then he ran for {office}.",
+        "Eventually he ran for {office}.",
+        "Later he was elected {office}.",
+        "Then he was elected {office}.",
+        "Eventually he was elected {office}.",
+        "Later he was elected to {office}.",
+        "Then he was elected to {office}.",
+        "Eventually he was elected to {office}.",
+        "Later he went on to become {office}.",
+        "Then he went on to become {office}.",
+        "Eventually he went on to become {office}.",
+        "Later he was appointed {office}.",
+        "Then he was appointed {office}.",
+        "Eventually he was appointed {office}.",
+        "She became {office}.",
+        "She was elected {office}.",
+        "She was elected to {office}.",
+        "She ran for {office}.",
+        "She went on to become {office}.",
+        "She went on to be {office}.",
+        "She later became {office}.",
+        "She then became {office}.",
+        "She was appointed {office}.",
+        "She was appointed to {office}.",
+        "She is now {office}.",
+        "She was elected {office} that year.",
+        "She became {office} later on.",
+        "She became {office} after a while.",
+        "She ran for {office} the next year.",
+        "She ran for {office} in the next election.",
+        "She became {office} the next year.",
+        "She was elected {office} the next year.",
+        "She won {office}.",
+        "She ran for {office} again.",
+        "She became {office} after that.",
+        "She later ran for {office}.",
+        "She went on to run for {office}.",
+        "She went on to serve as {office}.",
+        "She went on to win {office}.",
+        "She became {office} in the end.",
+        "Later she became {office}.",
+        "Then she became {office}.",
+        "Eventually she became {office}.",
+        "Later she ran for {office}.",
+        "Then she ran for {office}.",
+        "Eventually she ran for {office}.",
+        "Later she was elected {office}.",
+        "Then she was elected {office}.",
+        "Eventually she was elected {office}.",
+        "Later she was elected to {office}.",
+        "Then she was elected to {office}.",
+        "Eventually she was elected to {office}.",
+        "Later she went on to become {office}.",
+        "Then she went on to become {office}.",
+        "Eventually she went on to become {office}.",
+        "Later she was appointed {office}.",
+        "Then she was appointed {office}.",
+        "Eventually she was appointed {office}.",
+        "{name} was appointed {office}."
+      ]
+    },
+    {
+      "move": "memoir-decided",
+      "subject": "memoir",
+      "role": "decided",
+      "choice": "decided",
+      "journal": [
+        {
+          "kindPrefix": "memoir:",
+          "field": "decided"
+        }
+      ],
+      "candidates": [
+        "I decided to run.",
+        "I decided to run for {office}.",
+        "That's when I decided to run.",
+        "That is when I decided to run.",
+        "That's why I decided to run.",
+        "That is why I decided to run.",
+        "I decided to run for {office} myself.",
+        "I decided to run myself.",
+        "So I decided to run.",
+        "So I decided to run for {office}.",
+        "I made up my mind to run.",
+        "I made the decision to run.",
+        "I made a decision to run.",
+        "I made the decision to run for {office}.",
+        "I thought, I'll run.",
+        "I decided to run for office.",
+        "I decided I would run.",
+        "I decided I'd run.",
+        "I decided that I would run.",
+        "I decided that I would run for {office}.",
+        "That's when I decided to run for {office}.",
+        "That's what made me decide to run.",
+        "That's what made me run.",
+        "I ran for {office}.",
+        "I ran for {office} in the next election.",
+        "So I ran.",
+        "I ran.",
+        "I filed to run.",
+        "I filed to run for {office}.",
+        "I never thought I'd run for office.",
+        "I never thought I would run for office.",
+        "I never thought I would be elected.",
+        "I never thought I'd be elected.",
+        "I never thought I would win.",
+        "I never thought I'd win.",
+        "I never expected to run for office.",
+        "I never planned to run for office.",
+        "I never intended to run for office.",
+        "I never planned to run.",
+        "I never expected to win.",
+        "I never thought of running for office.",
+        "I never imagined I would run for office.",
+        "I never imagined I'd run for office.",
+        "I never imagined I would win.",
+        "I decided to run for governor.",
+        "I decided to run for Congress.",
+        "I decided to run for the Senate.",
+        "I decided to run for mayor.",
+        "I decided to run for city council.",
+        "I decided to run for the state senate.",
+        "I decided to run for sheriff.",
+        "I made up my mind.",
+        "I decided to do it.",
+        "I never thought I'd be chair.",
+        "I never thought I would be chair.",
+        "I never thought I'd be a candidate.",
+        "I never thought I'd be a mayor.",
+        "I never thought I would be a candidate."
+      ]
+    },
+    {
+      "move": "memoir-hard",
+      "subject": "memoir",
+      "role": "hard",
+      "choice": "hard",
+      "journal": [
+        {
+          "kindPrefix": "memoir:",
+          "field": "hard"
+        }
+      ],
+      "candidates": [
+        {
+          "text": "It was hard.",
+          "requiresFacts": ["hard-time"]
+        },
+        {
+          "text": "It was a hard time.",
+          "requiresFacts": ["hard-time"]
+        },
+        {
+          "text": "It was a tough time.",
+          "requiresFacts": ["hard-time"]
+        },
+        {
+          "text": "It was a difficult time.",
+          "requiresFacts": ["hard-time"]
+        },
+        {
+          "text": "It was tough.",
+          "requiresFacts": ["hard-time"]
+        },
+        {
+          "text": "It was difficult.",
+          "requiresFacts": ["hard-time"]
+        },
+        {
+          "text": "It was very hard.",
+          "requiresFacts": ["hard-time"]
+        },
+        {
+          "text": "It was really hard.",
+          "requiresFacts": ["hard-time"]
+        },
+        {
+          "text": "It was a hard time for us.",
+          "requiresFacts": ["hard-time"]
+        },
+        {
+          "text": "It was a hard time for my family.",
+          "requiresFacts": ["hard-time"]
+        },
+        {
+          "text": "It was a hard time for all of us.",
+          "requiresFacts": ["hard-time"]
+        },
+        {
+          "text": "It was a tough time for us.",
+          "requiresFacts": ["hard-time"]
+        },
+        {
+          "text": "It was a tough time for my family.",
+          "requiresFacts": ["hard-time"]
+        },
+        {
+          "text": "It was a tough time for all of us.",
+          "requiresFacts": ["hard-time"]
+        },
+        {
+          "text": "It was hard on us.",
+          "requiresFacts": ["hard-time"]
+        },
+        {
+          "text": "It was hard on my family.",
+          "requiresFacts": ["hard-time"]
+        },
+        {
+          "text": "It was hard on all of us.",
+          "requiresFacts": ["hard-time"]
+        },
+        {
+          "text": "It was hard on everybody.",
+          "requiresFacts": ["hard-time"]
+        },
+        {
+          "text": "Times were hard.",
+          "requiresFacts": ["hard-time"]
+        },
+        {
+          "text": "Times were tough.",
+          "requiresFacts": ["hard-time"]
+        },
+        {
+          "text": "Times were hard then.",
+          "requiresFacts": ["hard-time"]
+        },
+        {
+          "text": "We didn't have much.",
+          "requiresFacts": ["hard-time"]
+        },
+        {
+          "text": "We did not have much.",
+          "requiresFacts": ["hard-time"]
+        },
+        {
+          "text": "We didn't have a lot.",
+          "requiresFacts": ["hard-time"]
+        },
+        {
+          "text": "We didn't have much money.",
+          "requiresFacts": ["hard-time"]
+        },
+        {
+          "text": "My mother raised us.",
+          "requiresFacts": ["hard-time"]
+        },
+        {
+          "text": "My mother raised us alone.",
+          "requiresFacts": ["hard-time"]
+        },
+        {
+          "text": "My mother raised us by herself.",
+          "requiresFacts": ["hard-time"]
+        },
+        {
+          "text": "My mother raised us on her own.",
+          "requiresFacts": ["hard-time"]
+        },
+        {
+          "text": "My mom raised us.",
+          "requiresFacts": ["hard-time"]
+        },
+        {
+          "text": "My mom raised us alone.",
+          "requiresFacts": ["hard-time"]
+        },
+        {
+          "text": "My mom raised us by herself.",
+          "requiresFacts": ["hard-time"]
+        },
+        {
+          "text": "My mom raised us on her own.",
+          "requiresFacts": ["hard-time"]
+        },
+        {
+          "text": "My father raised us.",
+          "requiresFacts": ["hard-time"]
+        },
+        {
+          "text": "My dad raised us.",
+          "requiresFacts": ["hard-time"]
+        },
+        {
+          "text": "My dad raised us alone.",
+          "requiresFacts": ["hard-time"]
+        },
+        {
+          "text": "My dad raised us by himself.",
+          "requiresFacts": ["hard-time"]
+        },
+        {
+          "text": "We got by.",
+          "requiresFacts": ["hard-time"]
+        },
+        {
+          "text": "We managed.",
+          "requiresFacts": ["hard-time"]
+        },
+        {
+          "text": "We got through it.",
+          "requiresFacts": ["hard-time"]
+        },
+        {
+          "text": "We got through it together.",
+          "requiresFacts": ["hard-time"]
+        },
+        {
+          "text": "We made it through together.",
+          "requiresFacts": ["hard-time"]
+        },
+        {
+          "text": "We all pitched in.",
+          "requiresFacts": ["hard-time"]
+        },
+        {
+          "text": "Everybody pitched in.",
+          "requiresFacts": ["hard-time"]
+        },
+        {
+          "text": "Everyone pitched in.",
+          "requiresFacts": ["hard-time"]
+        },
+        {
+          "text": "We had to grow up fast.",
+          "requiresFacts": ["hard-time"]
+        },
+        {
+          "text": "I had to grow up fast.",
+          "requiresFacts": ["hard-time"]
+        },
+        {
+          "text": "I had to go to work.",
+          "requiresFacts": ["hard-time"]
+        },
+        {
+          "text": "I had to go to work young.",
+          "requiresFacts": ["hard-time"]
+        },
+        {
+          "text": "I had to work.",
+          "requiresFacts": ["hard-time"]
+        },
+        {
+          "text": "I had to get a job.",
+          "requiresFacts": ["hard-time"]
+        },
+        {
+          "text": "I had to help out.",
+          "requiresFacts": ["hard-time"]
+        },
+        {
+          "text": "I had to help my family.",
+          "requiresFacts": ["hard-time"]
+        },
+        {
+          "text": "I had to help my mother.",
+          "requiresFacts": ["hard-time"]
+        },
+        {
+          "text": "That was hard.",
+          "requiresFacts": ["hard-time"]
+        },
+        {
+          "text": "That was tough.",
+          "requiresFacts": ["hard-time"]
+        },
+        {
+          "text": "That was difficult.",
+          "requiresFacts": ["hard-time"]
+        },
+        {
+          "text": "It was a tough time for me.",
+          "requiresFacts": ["hard-time"]
+        },
+        {
+          "text": "It was a hard time for me.",
+          "requiresFacts": ["hard-time"]
+        },
+        {
+          "text": "It was very difficult.",
+          "requiresFacts": ["hard-time"]
+        },
+        {
+          "text": "It was a very hard time.",
+          "requiresFacts": ["hard-time"]
+        },
+        {
+          "text": "It was a very difficult time.",
+          "requiresFacts": ["hard-time"]
+        },
+        {
+          "text": "It was an awful time.",
+          "requiresFacts": ["hard-time"]
+        },
+        {
+          "text": "It was a terrible time.",
+          "requiresFacts": ["hard-time"]
+        },
+        {
+          "text": "It was a rough time.",
+          "requiresFacts": ["hard-time"]
+        },
+        {
+          "text": "It was rough.",
+          "requiresFacts": ["hard-time"]
+        },
+        {
+          "text": "It was really tough.",
+          "requiresFacts": ["hard-time"]
+        },
+        {
+          "text": "It was really difficult.",
+          "requiresFacts": ["hard-time"]
+        },
+        {
+          "text": "It was very tough.",
+          "requiresFacts": ["hard-time"]
+        }
+      ]
+    },
+    {
+      "move": "memoir-hard-death",
+      "subject": "memoir",
+      "role": "hardDeath",
+      "choice": "hard-death",
+      "journal": [
+        {
+          "kindPrefix": "memoir:",
+          "field": "hardDeath"
+        }
+      ],
+      "candidates": [
+        {
+          "text": "{relation} died when I was {age}.",
+          "requiresFacts": ["died-young"]
+        },
+        {
+          "text": "{relation} died when I was {age} years old.",
+          "requiresFacts": ["died-young"]
+        },
+        {
+          "text": "{relation} died when I was young.",
+          "requiresFacts": ["died-young"]
+        },
+        {
+          "text": "{relation} died when I was a kid.",
+          "requiresFacts": ["died-young"]
+        },
+        {
+          "text": "{relation} died when I was little.",
+          "requiresFacts": ["died-young"]
+        },
+        {
+          "text": "{relation} died when I was a child.",
+          "requiresFacts": ["died-young"]
+        },
+        {
+          "text": "{relation} died when I was a teenager.",
+          "requiresFacts": ["died-young"]
+        },
+        {
+          "text": "{relation} died when I was in high school.",
+          "requiresFacts": ["died-young"]
+        },
+        {
+          "text": "{relation} died when I was in school.",
+          "requiresFacts": ["died-young"]
+        },
+        {
+          "text": "{relation} passed away when I was {age}.",
+          "requiresFacts": ["died-young"]
+        },
+        {
+          "text": "{relation} passed away when I was young.",
+          "requiresFacts": ["died-young"]
+        },
+        {
+          "text": "{relation} passed away when I was a kid.",
+          "requiresFacts": ["died-young"]
+        },
+        {
+          "text": "{relation} passed when I was young.",
+          "requiresFacts": ["died-young"]
+        },
+        {
+          "text": "{relation} passed away when I was little.",
+          "requiresFacts": ["died-young"]
+        },
+        {
+          "text": "{relation} was killed when I was {age}.",
+          "requiresFacts": ["died-young"]
+        },
+        {
+          "text": "{relation} was killed when I was young.",
+          "requiresFacts": ["died-young"]
+        },
+        {
+          "text": "I was {age} when {relation} died.",
+          "requiresFacts": ["died-young"]
+        },
+        {
+          "text": "I was {age} when my father died.",
+          "requiresFacts": ["died-young"]
+        },
+        {
+          "text": "I was {age} when my mother died.",
+          "requiresFacts": ["died-young"]
+        },
+        {
+          "text": "I was {age} when my dad died.",
+          "requiresFacts": ["died-young"]
+        },
+        {
+          "text": "I was {age} when my mom died.",
+          "requiresFacts": ["died-young"]
+        },
+        {
+          "text": "I was only {age} when {relation} died.",
+          "requiresFacts": ["died-young"]
+        },
+        {
+          "text": "I was only {age} years old when {relation} died.",
+          "requiresFacts": ["died-young"]
+        },
+        {
+          "text": "I was only {age} when my father died.",
+          "requiresFacts": ["died-young"]
+        },
+        {
+          "text": "I was only {age} when my mother died.",
+          "requiresFacts": ["died-young"]
+        },
+        {
+          "text": "I was just {age} when {relation} died.",
+          "requiresFacts": ["died-young"]
+        },
+        {
+          "text": "I was just {age} when my father died.",
+          "requiresFacts": ["died-young"]
+        },
+        {
+          "text": "I was just {age} when my mother died.",
+          "requiresFacts": ["died-young"]
+        },
+        {
+          "text": "I was young when {relation} died.",
+          "requiresFacts": ["died-young"]
+        },
+        {
+          "text": "I was young when my father died.",
+          "requiresFacts": ["died-young"]
+        },
+        {
+          "text": "I was young when my mother died.",
+          "requiresFacts": ["died-young"]
+        },
+        {
+          "text": "I was a kid when {relation} died.",
+          "requiresFacts": ["died-young"]
+        },
+        {
+          "text": "I was a kid when my father died.",
+          "requiresFacts": ["died-young"]
+        },
+        {
+          "text": "I was a kid when my mother died.",
+          "requiresFacts": ["died-young"]
+        },
+        {
+          "text": "I was little when {relation} died.",
+          "requiresFacts": ["died-young"]
+        },
+        {
+          "text": "I was little when my father died.",
+          "requiresFacts": ["died-young"]
+        },
+        {
+          "text": "I was little when my mother died.",
+          "requiresFacts": ["died-young"]
+        },
+        {
+          "text": "I was a child when {relation} died.",
+          "requiresFacts": ["died-young"]
+        },
+        {
+          "text": "I was a child when my father died.",
+          "requiresFacts": ["died-young"]
+        },
+        {
+          "text": "I was a child when my mother died.",
+          "requiresFacts": ["died-young"]
+        },
+        {
+          "text": "I lost {relation} when I was {age}.",
+          "requiresFacts": ["died-young"]
+        },
+        {
+          "text": "I lost {relation} when I was young.",
+          "requiresFacts": ["died-young"]
+        },
+        {
+          "text": "I lost my father when I was {age}.",
+          "requiresFacts": ["died-young"]
+        },
+        {
+          "text": "I lost my mother when I was {age}.",
+          "requiresFacts": ["died-young"]
+        },
+        {
+          "text": "I lost my father when I was young.",
+          "requiresFacts": ["died-young"]
+        },
+        {
+          "text": "I lost my mother when I was young.",
+          "requiresFacts": ["died-young"]
+        },
+        {
+          "text": "I lost my dad when I was young.",
+          "requiresFacts": ["died-young"]
+        },
+        {
+          "text": "I lost my mom when I was young.",
+          "requiresFacts": ["died-young"]
+        },
+        {
+          "text": "I lost my father when I was a kid.",
+          "requiresFacts": ["died-young"]
+        },
+        {
+          "text": "I lost my mother when I was a kid.",
+          "requiresFacts": ["died-young"]
+        },
+        {
+          "text": "My father died when I was young.",
+          "requiresFacts": ["died-young"]
+        },
+        {
+          "text": "My mother died when I was young.",
+          "requiresFacts": ["died-young"]
+        },
+        {
+          "text": "My dad died when I was young.",
+          "requiresFacts": ["died-young"]
+        },
+        {
+          "text": "My mom died when I was young.",
+          "requiresFacts": ["died-young"]
+        },
+        {
+          "text": "My father died when I was a kid.",
+          "requiresFacts": ["died-young"]
+        },
+        {
+          "text": "My mother died when I was a kid.",
+          "requiresFacts": ["died-young"]
+        },
+        {
+          "text": "My father died when I was a boy.",
+          "requiresFacts": ["died-young"]
+        },
+        {
+          "text": "My father died when I was little.",
+          "requiresFacts": ["died-young"]
+        },
+        {
+          "text": "My mother died when I was little.",
+          "requiresFacts": ["died-young"]
+        },
+        {
+          "text": "My father died when I was a child.",
+          "requiresFacts": ["died-young"]
+        },
+        {
+          "text": "My mother died when I was a child.",
+          "requiresFacts": ["died-young"]
+        },
+        {
+          "text": "My father died when I was a teenager.",
+          "requiresFacts": ["died-young"]
+        },
+        {
+          "text": "My mother died when I was a teenager.",
+          "requiresFacts": ["died-young"]
+        },
+        {
+          "text": "My father died when I was in high school.",
+          "requiresFacts": ["died-young"]
+        },
+        {
+          "text": "My mother died when I was in high school.",
+          "requiresFacts": ["died-young"]
+        },
+        {
+          "text": "My father died when I was {age}.",
+          "requiresFacts": ["died-young"]
+        },
+        {
+          "text": "My mother died when I was {age}.",
+          "requiresFacts": ["died-young"]
+        },
+        {
+          "text": "My dad died when I was {age}.",
+          "requiresFacts": ["died-young"]
+        },
+        {
+          "text": "My mom died when I was {age}.",
+          "requiresFacts": ["died-young"]
+        },
+        {
+          "text": "My father died when I was {age} years old.",
+          "requiresFacts": ["died-young"]
+        },
+        {
+          "text": "My mother died when I was {age} years old.",
+          "requiresFacts": ["died-young"]
+        },
+        {
+          "text": "My father passed away when I was young.",
+          "requiresFacts": ["died-young"]
+        },
+        {
+          "text": "My mother passed away when I was young.",
+          "requiresFacts": ["died-young"]
+        },
+        {
+          "text": "My father passed away when I was {age}.",
+          "requiresFacts": ["died-young"]
+        },
+        {
+          "text": "My mother passed away when I was {age}.",
+          "requiresFacts": ["died-young"]
+        },
+        {
+          "text": "My father passed when I was young.",
+          "requiresFacts": ["died-young"]
+        },
+        {
+          "text": "My mother passed when I was young.",
+          "requiresFacts": ["died-young"]
+        },
+        {
+          "text": "My father was killed when I was young.",
+          "requiresFacts": ["died-young"]
+        },
+        {
+          "text": "My father was killed when I was {age}.",
+          "requiresFacts": ["died-young"]
+        }
+      ],
+      "note": "Said only when the person's own record shows the relative's death at the stated age."
+    },
+    {
+      "move": "memoir-lost",
+      "subject": "memoir",
+      "role": "lost",
+      "choice": "lost",
+      "journal": [
+        {
+          "kindPrefix": "memoir:",
+          "field": "lost"
+        }
+      ],
+      "candidates": [
+        {
+          "text": "I lost my first race.",
+          "requiresFacts": ["lost-race"]
+        },
+        {
+          "text": "I lost that race.",
+          "requiresFacts": ["lost-race"]
+        },
+        {
+          "text": "I lost that election.",
+          "requiresFacts": ["lost-race"]
+        },
+        {
+          "text": "I lost the election.",
+          "requiresFacts": ["lost-race"]
+        },
+        {
+          "text": "I lost the first time.",
+          "requiresFacts": ["lost-race"]
+        },
+        {
+          "text": "I lost my first election.",
+          "requiresFacts": ["lost-race"]
+        },
+        {
+          "text": "I lost the first one.",
+          "requiresFacts": ["lost-race"]
+        },
+        {
+          "text": "I lost my first campaign.",
+          "requiresFacts": ["lost-race"]
+        },
+        {
+          "text": "I lost my first time out.",
+          "requiresFacts": ["lost-race"]
+        },
+        {
+          "text": "I lost my first time.",
+          "requiresFacts": ["lost-race"]
+        },
+        {
+          "text": "I lost.",
+          "requiresFacts": ["lost-race"]
+        },
+        {
+          "text": "We lost.",
+          "requiresFacts": ["lost-race"]
+        },
+        {
+          "text": "We lost that race.",
+          "requiresFacts": ["lost-race"]
+        },
+        {
+          "text": "We lost that election.",
+          "requiresFacts": ["lost-race"]
+        },
+        {
+          "text": "We lost the election.",
+          "requiresFacts": ["lost-race"]
+        },
+        {
+          "text": "We lost the first time.",
+          "requiresFacts": ["lost-race"]
+        },
+        {
+          "text": "We lost the first one.",
+          "requiresFacts": ["lost-race"]
+        },
+        {
+          "text": "We lost the first race.",
+          "requiresFacts": ["lost-race"]
+        },
+        {
+          "text": "We lost the first election.",
+          "requiresFacts": ["lost-race"]
+        },
+        {
+          "text": "We lost the first campaign.",
+          "requiresFacts": ["lost-race"]
+        },
+        {
+          "text": "We lost by a small margin.",
+          "requiresFacts": ["lost-race"]
+        },
+        {
+          "text": "We lost by just a few votes.",
+          "requiresFacts": ["lost-race"]
+        },
+        {
+          "text": "We lost by a few votes.",
+          "requiresFacts": ["lost-race"]
+        },
+        {
+          "text": "We lost narrowly.",
+          "requiresFacts": ["lost-race"]
+        },
+        {
+          "text": "We lost, but we learned a lot.",
+          "requiresFacts": ["lost-race"]
+        },
+        {
+          "text": "I lost, but I learned a lot.",
+          "requiresFacts": ["lost-race"]
+        },
+        {
+          "text": "I lost that first race.",
+          "requiresFacts": ["lost-race"]
+        },
+        {
+          "text": "I lost that first election.",
+          "requiresFacts": ["lost-race"]
+        },
+        {
+          "text": "I lost that one.",
+          "requiresFacts": ["lost-race"]
+        },
+        {
+          "text": "I lost that first one.",
+          "requiresFacts": ["lost-race"]
+        },
+        {
+          "text": "I ran and I lost.",
+          "requiresFacts": ["lost-race"]
+        },
+        {
+          "text": "I ran and lost.",
+          "requiresFacts": ["lost-race"]
+        },
+        {
+          "text": "I ran, and I lost.",
+          "requiresFacts": ["lost-race"]
+        },
+        {
+          "text": "I came up short.",
+          "requiresFacts": ["lost-race"]
+        },
+        {
+          "text": "We came up short.",
+          "requiresFacts": ["lost-race"]
+        },
+        {
+          "text": "I fell short.",
+          "requiresFacts": ["lost-race"]
+        },
+        {
+          "text": "We fell short.",
+          "requiresFacts": ["lost-race"]
+        },
+        {
+          "text": "We fell short that year.",
+          "requiresFacts": ["lost-race"]
+        },
+        {
+          "text": "I didn't win.",
+          "requiresFacts": ["lost-race"]
+        },
+        {
+          "text": "We didn't win.",
+          "requiresFacts": ["lost-race"]
+        },
+        {
+          "text": "I did not win.",
+          "requiresFacts": ["lost-race"]
+        },
+        {
+          "text": "We did not win.",
+          "requiresFacts": ["lost-race"]
+        },
+        {
+          "text": "We didn't win that race.",
+          "requiresFacts": ["lost-race"]
+        },
+        {
+          "text": "I didn't win that race.",
+          "requiresFacts": ["lost-race"]
+        },
+        {
+          "text": "I didn't win that election.",
+          "requiresFacts": ["lost-race"]
+        },
+        {
+          "text": "We didn't win that election.",
+          "requiresFacts": ["lost-race"]
+        },
+        {
+          "text": "We didn't win the first time.",
+          "requiresFacts": ["lost-race"]
+        },
+        {
+          "text": "I didn't win the first time.",
+          "requiresFacts": ["lost-race"]
+        },
+        {
+          "text": "I was defeated.",
+          "requiresFacts": ["lost-race"]
+        },
+        {
+          "text": "I was defeated that year.",
+          "requiresFacts": ["lost-race"]
+        },
+        {
+          "text": "I was defeated in that race.",
+          "requiresFacts": ["lost-race"]
+        },
+        {
+          "text": "I was defeated in that election.",
+          "requiresFacts": ["lost-race"]
+        },
+        {
+          "text": "We were defeated.",
+          "requiresFacts": ["lost-race"]
+        },
+        {
+          "text": "I got beat.",
+          "requiresFacts": ["lost-race"]
+        },
+        {
+          "text": "We got beat.",
+          "requiresFacts": ["lost-race"]
+        },
+        {
+          "text": "I got beat that year.",
+          "requiresFacts": ["lost-race"]
+        },
+        {
+          "text": "I got beat that time.",
+          "requiresFacts": ["lost-race"]
+        },
+        {
+          "text": "We got beat that time.",
+          "requiresFacts": ["lost-race"]
+        },
+        {
+          "text": "I lost by a point.",
+          "requiresFacts": ["lost-race"]
+        },
+        {
+          "text": "I lost big.",
+          "requiresFacts": ["lost-race"]
+        },
+        {
+          "text": "I lost by two percentage points.",
+          "requiresFacts": ["lost-race"]
+        },
+        {
+          "text": "I lost that one, right.",
+          "requiresFacts": ["lost-race"]
+        },
+        {
+          "text": "I lost on that one.",
+          "requiresFacts": ["lost-race"]
+        },
+        {
+          "text": "I lost in the primary.",
+          "requiresFacts": ["lost-race"]
+        },
+        {
+          "text": "I lost the primary.",
+          "requiresFacts": ["lost-race"]
+        },
+        {
+          "text": "We lost the primary.",
+          "requiresFacts": ["lost-race"]
+        },
+        {
+          "text": "I lost the general election.",
+          "requiresFacts": ["lost-race"]
+        },
+        {
+          "text": "We lost the general election.",
+          "requiresFacts": ["lost-race"]
+        },
+        {
+          "text": "I lost by a small margin.",
+          "requiresFacts": ["lost-race"]
+        },
+        {
+          "text": "I lost by a few votes.",
+          "requiresFacts": ["lost-race"]
+        },
+        {
+          "text": "I lost by a hair.",
+          "requiresFacts": ["lost-race"]
+        },
+        {
+          "text": "I lost the race.",
+          "requiresFacts": ["lost-race"]
+        },
+        {
+          "text": "We lost the race.",
+          "requiresFacts": ["lost-race"]
+        },
+        {
+          "text": "I lost the first race.",
+          "requiresFacts": ["lost-race"]
+        },
+        {
+          "text": "I lost the race that year.",
+          "requiresFacts": ["lost-race"]
+        },
+        {
+          "text": "I lost that year.",
+          "requiresFacts": ["lost-race"]
+        }
+      ]
     }
   ]
 }

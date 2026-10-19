@@ -9,8 +9,8 @@ import {
   dateAtAge,
   daysBetween,
   makeIsoDate,
-} from "./dates";
-import { createStableId } from "./ids";
+} from "../core2/kernel/dates";
+import { createStableId } from "../core2/kernel/ids";
 import { createWorkRelationship, recordWorkStatus } from "./life";
 import {
   activeWorkRelationshipsAt,
@@ -26,8 +26,8 @@ import {
 import { ensureLifePathPersonalPosition } from "./life-paths2-resources";
 import { localBusinessWageMinor } from "./recorded-employer";
 import { recordedTownEmployer } from "./living-world/town-businesses";
-import { governmentUnit } from "./government-units";
-import { governmentUnitDisplayName } from "./nationwide-world/government-unit-names";
+import { governmentUnit } from "../core2/reference/government-units";
+import { governmentUnitDisplayName } from "../core2/gov-rules/government-unit-names";
 import {
   ensureHomeLocalGovernments,
   homeLocalGovernmentUnits,

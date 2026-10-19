@@ -14,7 +14,7 @@ import {
 } from "./life-places";
 import { workRoleAt } from "./life-queries";
 import stateHouseholdIncome2023 from "../../data/research/money/state-household-income-cps-2023.json" with { type: "json" };
-import { censusRegionOf } from "./world-setup/census-regions";
+import { censusRegionOf } from "../core2/reference/census-regions";
 import {
   enactedRuleChangeAt,
   officePayLawOfficeKey,

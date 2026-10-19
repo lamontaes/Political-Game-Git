@@ -110,16 +110,22 @@ describe(`votes in the played world: ${world.place.key} (seed ${seed})`, () => {
     for (const result of results) {
       const contest = contests().find((c) => c.id === result.contestId);
       if (!contest || !local(contest) || !result.countedEligible) continue;
+      // A seat nobody filed for has no name on its ballot: everyone who
+      // turned out left it blank, and no one wins it.
+      if (!Object.keys(result.totals).length) {
+        expect(result.winnerId, result.id).toBeNull();
+        continue;
+      }
       const namedBallots = ballots.filter(
         (b) => b.contestId === result.contestId && b.voted && b.choice,
       ).length;
       const total = Object.values(result.totals).reduce((a, b) => a + b, 0);
       expect(total, result.id).toBeGreaterThan(namedBallots);
-      const byGroup = Object.values(result.countedByGroup ?? {}).reduce(
-        (sum, votes) => sum + Object.values(votes).reduce((a, b) => a + b, 0),
+      const counted = Object.values(result.countedVotes).reduce(
+        (a, b) => a + b,
         0,
       );
-      expect(byGroup, result.id).toBeGreaterThan(0);
+      expect(counted, result.id).toBeGreaterThan(0);
     }
   });
 

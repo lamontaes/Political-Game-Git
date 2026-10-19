@@ -20,6 +20,10 @@ export interface WithholdingLine {
   readonly tax: "income" | "social-security" | "medicare";
   readonly minor: number;
   readonly lawId: string;
+  /** The law row read is a carried-back or otherwise estimated figure. */
+  readonly estimate: boolean;
+  /** For a flat local rate: the base the law row names, as it was applied. */
+  readonly base?: "wages" | "AGI" | "taxable income";
 }
 
 interface Schedule {
@@ -44,6 +48,21 @@ export function scheduleTax(schedule: Schedule, annualDollars: number): number {
     tax += ((Math.min(taxable, top) - bracket.over) * bracket.rate) / 100;
   }
   return tax;
+}
+
+/**
+ * The deduction a local tax on "taxable income" takes off first: the state's
+ * standard deduction where its schedule carries one, else the federal one
+ * (the usual starting point for a local base). Dollars a year.
+ */
+function localStandardDeduction(answer: LawInForceAnswer): number {
+  for (const wanted of ["state", "federal"] as const) {
+    const level = answer.levels.find((l) => l.level === wanted);
+    if (!level?.row || level.setAside) continue;
+    const deduction = single(level.row)?.standardDeduction;
+    if (typeof deduction === "number" && deduction > 0) return deduction;
+  }
+  return 0;
 }
 
 function single(row: LawRowInput): Schedule | null {
@@ -71,12 +90,28 @@ export function withholdingFor(input: {
     const row = level.row;
     if (!row || level.setAside || row.value === null) continue;
     const schedule = single(row);
+    // A flat rate: a starting row's "percent-flat", or an enacted act's
+    // "percent" with no bracket schedule (audit 3: city tax collected $0).
+    const flat = row.unit === "percent-flat" || row.unit === "percent";
+    // The base the row names (audit 14): wages and AGI are the paycheck's own
+    // pay (this model has no pre-tax adjustments); "taxable income" is pay
+    // after the standard deduction.
+    const named = String(row.terms?.base ?? "").toLowerCase();
+    const base: WithholdingLine["base"] | undefined = flat
+      ? named === "taxable income"
+        ? "taxable income"
+        : named === "agi"
+          ? "AGI"
+          : "wages"
+      : undefined;
+    const taxed =
+      base === "taxable income"
+        ? Math.max(0, annual - localStandardDeduction(input.incomeTax))
+        : annual;
     const yearly = schedule
       ? scheduleTax(schedule, annual)
-      : // A flat rate: a starting row's "percent-flat", or an enacted act's
-        // "percent" with no bracket schedule (audit 3: city tax collected $0).
-        row.unit === "percent-flat" || row.unit === "percent"
-        ? (annual * row.value) / 100
+      : flat
+        ? (taxed * row.value) / 100
         : 0;
     const minor = Math.round((yearly / periods) * 100);
     if (minor > 0)
@@ -86,6 +121,8 @@ export function withholdingFor(input: {
         tax: "income",
         minor,
         lawId: row.id,
+        estimate: row.estimate === true,
+        ...(base && !schedule ? { base } : {}),
       });
   }
   const ss = input.socialSecurity.governing;
@@ -103,6 +140,7 @@ export function withholdingFor(input: {
         tax: "social-security",
         minor,
         lawId: ss.id,
+        estimate: ss.estimate === true,
       });
   }
   const medicare = input.medicare.governing;
@@ -127,6 +165,7 @@ export function withholdingFor(input: {
         tax: "medicare",
         minor,
         lawId: medicare.id,
+        estimate: medicare.estimate === true,
       });
   }
   return lines;

@@ -618,8 +618,8 @@
     },
     {
       "parameter": "stressBaseline",
-      "tag": "TUNABLE",
-      "currentValueForTraceabilityOnly": 0.25,
+      "tag": "ESTIMATED",
+      "currentValueForTraceabilityOnly": 0.314,
       "checkRange": {
         "ref": "P9-OUTCOME-WHOLE-LIFE"
       },
@@ -775,7 +775,7 @@
     {
       "parameter": "companyHorizonDays",
       "tag": "TUNABLE",
-      "currentValueForTraceabilityOnly": 7,
+      "currentValueForTraceabilityOnly": 14,
       "checkRange": {
         "ref": "P9-OUTCOME-WHOLE-LIFE"
       },
@@ -1244,30 +1244,6 @@
       "reviewNote": "Applicability-blocked. The official snippet average concerns retired-worker monthly benefits in late 2025, while this module generates fictional prior awards/fund accounts for a 2021 opening. It supplies no retirement participation, covered-career, trait, claiming, individual dispersion or cash-buffer parameter bound."
     },
     {
-      "parameter": "openingRetirementPayerReserveMonths",
-      "checkRange": {
-        "ref": "EMPIRICAL-OPENING-RETIREMENT-INCOME"
-      },
-      "mappingStatus": "applicability-blocked; no valid parameter-specific calibration",
-      "reviewNote": "Applicability-blocked. The official snippet average concerns retired-worker monthly benefits in late 2025, while this module generates fictional prior awards/fund accounts for a 2021 opening. It supplies no retirement participation, covered-career, trait, claiming, individual dispersion or cash-buffer parameter bound."
-    },
-    {
-      "parameter": "openingRetirementFundingEnvelopeShare",
-      "checkRange": {
-        "ref": "EMPIRICAL-RETIREMENT-FUNDING-FLOWS"
-      },
-      "mappingStatus": "applicability-blocked; no valid parameter-specific calibration",
-      "reviewNote": "Applicability-blocked: Treasury FY2025 national Social Security functional outlays identify a real aggregate annual flow, not retirement-only covered-person membership, a 2021 represented portfolio appropriation, opening liquid balances or either allocation coefficient."
-    },
-    {
-      "parameter": "openingRetirementFundingLiquidShare",
-      "checkRange": {
-        "ref": "EMPIRICAL-RETIREMENT-FUNDING-FLOWS"
-      },
-      "mappingStatus": "applicability-blocked; no valid parameter-specific calibration",
-      "reviewNote": "Applicability-blocked: Treasury FY2025 national Social Security functional outlays identify a real aggregate annual flow, not retirement-only covered-person membership, a 2021 represented portfolio appropriation, opening liquid balances or either allocation coefficient."
-    },
-    {
       "parameter": "openingCustomerPeriodMonths",
       "checkRange": {
         "ref": "EMPIRICAL-OPENING-CUSTOMER-BUDGET-CALIBRATION"
@@ -1277,14 +1253,6 @@
     },
     {
       "parameter": "openingCustomerAgreementLeadDays",
-      "checkRange": {
-        "ref": "EMPIRICAL-OPENING-CUSTOMER-BUDGET-CALIBRATION"
-      },
-      "mappingStatus": "applicability-blocked; no valid parameter-specific calibration",
-      "reviewNote": "Applicability-blocked: CEX aggregate annual consumer-unit means and standard errors are not individual budget dispersion, invoice cadence, agreement timing or outside-family trip counts. Public construction and SCF stock priors likewise do not identify these three model parameters. No matched generated-world or coefficient calibration has been executed."
-    },
-    {
-      "parameter": "openingCustomerOutsideHouseholdCountPerMarket",
       "checkRange": {
         "ref": "EMPIRICAL-OPENING-CUSTOMER-BUDGET-CALIBRATION"
       },
@@ -1534,32 +1502,6 @@
       "limitation": "P9 output comparison is a concrete end-to-end target. The target suite cannot identify this parameter separately and no numeric bound is asserted."
     },
     {
-      "parameter": "fallingOutConflictWeight",
-      "tag": "TUNABLE",
-      "currentValueForTraceabilityOnly": 0.35,
-      "checkRange": {
-        "ref": "P9-OUTCOME-WHOLE-LIFE"
-      },
-      "mappingStatus": "joint-P9-output-target; not individual coefficient calibration",
-      "productionPath": "P15 shared past (src/core2/opening-falling-outs.ts): falling-outs between people who shared a class or workgroup.",
-      "calibrationRange": null,
-      "calibrated": false,
-      "limitation": "P9 output comparison is a concrete end-to-end target. The target suite cannot identify this parameter separately and no numeric bound is asserted."
-    },
-    {
-      "parameter": "fallingOutReliabilityWeight",
-      "tag": "TUNABLE",
-      "currentValueForTraceabilityOnly": 0.35,
-      "checkRange": {
-        "ref": "P9-OUTCOME-WHOLE-LIFE"
-      },
-      "mappingStatus": "joint-P9-output-target; not individual coefficient calibration",
-      "productionPath": "P15 shared past (src/core2/opening-falling-outs.ts): falling-outs between people who shared a class or workgroup.",
-      "calibrationRange": null,
-      "calibrated": false,
-      "limitation": "P9 output comparison is a concrete end-to-end target. The target suite cannot identify this parameter separately and no numeric bound is asserted."
-    },
-    {
       "parameter": "unmodeledLeisureValuePerHour",
       "tag": "TUNABLE",
       "currentValueForTraceabilityOnly": 0.46,
@@ -1571,19 +1513,6 @@
       "calibrationRange": null,
       "calibrated": false,
       "limitation": "Calibrated to the ATUS share of people who socialize on a given day; the target suite cannot identify this parameter separately and no numeric bound is asserted."
-    },
-    {
-      "parameter": "favorSharedHoursPerYear",
-      "tag": "TUNABLE",
-      "currentValueForTraceabilityOnly": 50,
-      "checkRange": {
-        "ref": "P9-OUTCOME-WHOLE-LIFE"
-      },
-      "mappingStatus": "joint-P9-output-target; not individual coefficient calibration",
-      "productionPath": "P15 shared past (src/core2/opening-favors.ts): closeness at a move from years shared before it.",
-      "calibrationRange": null,
-      "calibrated": false,
-      "limitation": "P9 output comparison is a concrete end-to-end target. The target suite cannot identify this parameter separately and no numeric bound is asserted."
     },
     {
       "parameter": "openingPayrollPrivatePhaseSpanFraction",
@@ -1904,9 +1833,9 @@
       "limitation": "P9 output comparison is a concrete end-to-end target. The target suite cannot identify this parameter separately and no numeric bound is asserted."
     },
     {
-      "parameter": "donationLivingCostDays",
+      "parameter": "donationShareOfSpare",
       "tag": "TUNABLE",
-      "currentValueForTraceabilityOnly": 1,
+      "currentValueForTraceabilityOnly": 0.001,
       "checkRange": {
         "ref": "P9-OUTCOME-WHOLE-LIFE"
       },
@@ -7642,32 +7571,12 @@
       "reason": "Applicability-blocked. The official snippet average concerns retired-worker monthly benefits in late 2025, while this module generates fictional prior awards/fund accounts for a 2021 opening. It supplies no retirement participation, covered-career, trait, claiming, individual dispersion or cash-buffer parameter bound."
     },
     {
-      "parameter": "openingRetirementPayerReserveMonths",
-      "ref": "EMPIRICAL-OPENING-RETIREMENT-INCOME",
-      "reason": "Applicability-blocked. The official snippet average concerns retired-worker monthly benefits in late 2025, while this module generates fictional prior awards/fund accounts for a 2021 opening. It supplies no retirement participation, covered-career, trait, claiming, individual dispersion or cash-buffer parameter bound."
-    },
-    {
-      "parameter": "openingRetirementFundingEnvelopeShare",
-      "ref": "EMPIRICAL-RETIREMENT-FUNDING-FLOWS",
-      "reason": "Applicability-blocked: Treasury FY2025 national Social Security functional outlays identify a real aggregate annual flow, not retirement-only covered-person membership, a 2021 represented portfolio appropriation, opening liquid balances or either allocation coefficient."
-    },
-    {
-      "parameter": "openingRetirementFundingLiquidShare",
-      "ref": "EMPIRICAL-RETIREMENT-FUNDING-FLOWS",
-      "reason": "Applicability-blocked: Treasury FY2025 national Social Security functional outlays identify a real aggregate annual flow, not retirement-only covered-person membership, a 2021 represented portfolio appropriation, opening liquid balances or either allocation coefficient."
-    },
-    {
       "parameter": "openingCustomerPeriodMonths",
       "ref": "EMPIRICAL-OPENING-CUSTOMER-BUDGET-CALIBRATION",
       "reason": "Applicability-blocked: CEX aggregate annual consumer-unit means and standard errors are not individual budget dispersion, invoice cadence, agreement timing or outside-family trip counts. Public construction and SCF stock priors likewise do not identify these three model parameters. No matched generated-world or coefficient calibration has been executed."
     },
     {
       "parameter": "openingCustomerAgreementLeadDays",
-      "ref": "EMPIRICAL-OPENING-CUSTOMER-BUDGET-CALIBRATION",
-      "reason": "Applicability-blocked: CEX aggregate annual consumer-unit means and standard errors are not individual budget dispersion, invoice cadence, agreement timing or outside-family trip counts. Public construction and SCF stock priors likewise do not identify these three model parameters. No matched generated-world or coefficient calibration has been executed."
-    },
-    {
-      "parameter": "openingCustomerOutsideHouseholdCountPerMarket",
       "ref": "EMPIRICAL-OPENING-CUSTOMER-BUDGET-CALIBRATION",
       "reason": "Applicability-blocked: CEX aggregate annual consumer-unit means and standard errors are not individual budget dispersion, invoice cadence, agreement timing or outside-family trip counts. Public construction and SCF stock priors likewise do not identify these three model parameters. No matched generated-world or coefficient calibration has been executed."
     },

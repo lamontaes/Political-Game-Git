@@ -1,0 +1,24 @@
+{
+  "citation": "Traits a public sees in an official from what they say and do on camera, in debates and in the news (owner, Oct 14, 2026: 'everyone knows he is loud and bombastic and selfish'; Sept 26 trait ruling for the trait names). A person's other traits stay internal and come out only through what they do in play.",
+  "traits": [
+    "people-mind-v1:sociability",
+    "people-mind-v1:conflict",
+    "people-mind-v1:reliability",
+    "people-mind-v1:deliberation",
+    "people-mind-v1:risk",
+    "personality-v1:facet-generous",
+    "personality-v1:facet-duty-bound",
+    "personality-v1:facet-practical",
+    "personality-v1:facet-enterprising"
+  ],
+  "reputationTraits": {
+    "value": 3,
+    "tag": "TUNABLE",
+    "citation": "How many of a figure's visible traits make up their public reputation: the ones furthest from the middle. Spread 2 to 5."
+  },
+  "statedPositions": {
+    "value": 3,
+    "tag": "TUNABLE",
+    "citation": "How many of a figure's positions the public knows: their own causes first, then the questions they stand on most strongly. Spread 2 to 6."
+  }
+}

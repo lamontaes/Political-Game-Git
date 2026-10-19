@@ -1,5 +1,5 @@
 /** The guard's world preparation (scripts/core2-guard/month.mjs), with a chosen start date. */
-import { ageOnDate, makeIsoDate } from "../../simulation/dates";
+import { ageOnDate, makeIsoDate } from "../kernel/dates";
 import { enrichCivicInputs } from "../civic-inputs";
 import { buildDeepPast } from "../deep-past";
 import { initialFocusPeople } from "../focus";

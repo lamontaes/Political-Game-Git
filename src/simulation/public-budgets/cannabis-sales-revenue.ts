@@ -10,7 +10,7 @@ import {
   readFinalEnactedLawTerm,
 } from "../governing/final-law-term-query";
 import market from "../../../data/research/money/cannabis-retail-market.json" with { type: "json" };
-import { makeIsoDate } from "../dates";
+import { makeIsoDate } from "../../core2/kernel/dates";
 import { lawInForce, lawInForceAtStart } from "../governing/law-in-force";
 import type { EntityId, IsoDate, World } from "../types";
 import { CANNABIS_TAX_EFFECT, TAX_QUESTION_EFFECTS } from "./rules";

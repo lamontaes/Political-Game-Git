@@ -1,5 +1,5 @@
 import powers from "../../data/research/powers-catalog/catalog.json" with { type: "json" };
-import type { IsoDate } from "./types";
+import type { IsoDate } from "../core2/kernel/brands";
 import type { TaxPowerEvidence } from "./tax-types";
 import { STATES } from "./state-reference";
 

@@ -1,4 +1,4 @@
-/** Moved from src/simulation/ids.ts, which now re-exports it. */
+/** The core's stable ids and hashes. */
 import type { EntityId, EntityKind } from "./brands";
 
 /**

@@ -5,15 +5,15 @@ import {
 } from "./civil-personnel-rules";
 import { isLivelihoodGoalKey } from "./people-goal-pursuit-content";
 import { CIVIL_PERSONNEL_SOURCE_PROJECTION } from "./civil-personnel-sources.generated";
-import { addDays, daysBetween, makeIsoDate } from "./dates";
-import { addSimulationMinutes } from "./dates";
+import { addDays, daysBetween, makeIsoDate } from "../core2/kernel/dates";
+import { addSimulationMinutes } from "../core2/kernel/dates";
 import {
   evaluateDecision,
   isSelectedDecision,
   recordDurableDecisionTrace,
 } from "./decisions";
 import { recordEvidenceArtifact, recordEvidenceDiscovery } from "./evidence";
-import { createStableId } from "./ids";
+import { createStableId } from "../core2/kernel/ids";
 import { createWorkRelationship, recordWorkStatus } from "./life";
 import {
   lifePlaceByJurisdictionId,

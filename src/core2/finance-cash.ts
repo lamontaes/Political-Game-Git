@@ -321,10 +321,13 @@ function incomeAward(
     r.field(values, "status") !== r.field(rule, "status") ||
     payers.length !== session.one ||
     r.field(values, "payerId") !== payers[session.zero] ||
-    Number(r.field(values, "monthlyMinor")) !== r.field(row, "amountMinor") ||
+    (r.field(term, "adjustedMinor") ??
+      Number(r.field(values, "monthlyMinor"))) !==
+      r.field(row, "amountMinor") ||
     (r.field(values, "kindId") && r.field(values, "kindId") !== kindId) ||
     (r.field(values, "householdId") &&
-      r.field(values, "householdId") !== homeId) ||
+      r.field(values, "householdId") !==
+        (r.field(term, "recordedHouseholdId") ?? homeId)) ||
     Object.keys(required ?? {}).some(
       (key) => r.field(values, key) !== r.field(required!, key),
     )
@@ -949,11 +952,20 @@ function visitorLodgingRecords(
     throw new Error(
       "Actual visitor identity, visit and market contradict their owner or geography.",
     );
+  // The visitors come from a place the world doesn't live in: not one of the
+  // town's own places. Full people elsewhere (officials in their states,
+  // residents who moved away) don't make it simulated geography. A world
+  // with no town places named falls back to anyone living there.
+  const visible = r.field(session.core, "visiblePlaceIds");
   const residents = r.mapGet(
     r.field(session.core, "peopleByPlace"),
     market.originPlaceId,
   );
-  if (residents && r.size(residents) > session.zero)
+  if (
+    r.size(visible) > session.zero
+      ? r.member(visible, market.originPlaceId)
+      : residents && r.size(residents) > session.zero
+  )
     throw new Error(
       "Actual outside visitor origin overlaps admitted resident geography.",
     );

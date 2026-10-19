@@ -2,7 +2,7 @@ import { feltDebtConsiderations } from "./favors";
 import { heardOfRefusalConsiderations } from "./favor-collection";
 import { eventById } from "./event-index";
 import { homePartyChapters } from "./living-world/party-chapters";
-import { addDays, ageOnDate } from "./dates";
+import { addDays, ageOnDate } from "../core2/kernel/dates";
 import {
   evaluateDecision,
   isSelectedDecision,
@@ -30,7 +30,7 @@ import { registeredTraitConsiderations } from "./trait-readings";
 import { CONTACT_ANSWER_DECISION } from "./people-contact-decisions";
 import { recordEventKnowledge, recordRelationshipInteraction } from "./records";
 import { assessRelationshipContinuity } from "./relationship-integration";
-import { simulationMomentAtLocalTime } from "./dates";
+import { simulationMomentAtLocalTime } from "../core2/kernel/dates";
 import {
   cancelScheduledActivity,
   createScheduledActivity,

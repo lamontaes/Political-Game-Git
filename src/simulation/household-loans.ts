@@ -2,8 +2,8 @@ import { recordEventKnowledge } from "./records";
 import { recordWorldEvent } from "./world";
 import { lifePlaceByJurisdictionId } from "./life-places";
 import { moneyText } from "./money-text";
-import { createStableId } from "./ids";
-import { makeIsoDate } from "./dates";
+import { createStableId } from "../core2/kernel/ids";
+import { makeIsoDate } from "../core2/kernel/dates";
 import { createOrganization } from "./life";
 import {
   createResourceFlow,

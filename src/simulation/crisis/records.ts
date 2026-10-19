@@ -1,13 +1,13 @@
-import { MULTIPLIER_ONE } from "./hazard";
-import { makeIsoDate } from "../dates";
+import { MULTIPLIER_ONE } from "../../core2/health-hazard";
+import { makeIsoDate } from "../../core2/kernel/dates";
 import {
   appendedList,
   growingIndex,
   type GrowingIndexKind,
 } from "../history-index";
-import { createStableId } from "../ids";
+import { createStableId } from "../../core2/kernel/ids";
 import type { EntityId, IsoDate, World } from "../types";
-import { MORTALITY_CALIBRATION_CATEGORIES } from "./mortality-table";
+import { MORTALITY_CALIBRATION_CATEGORIES } from "../../core2/health-mortality-table";
 import {
   CRISIS_MORTALITY_MODEL,
   CRISIS_RECORD_SCHEMA,

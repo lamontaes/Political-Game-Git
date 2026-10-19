@@ -5,7 +5,7 @@
  * `nominations/filing-gap.ts`.
  */
 import nominationRules from "../../../data/research/elections/party-nomination-rules-2026.json" with { type: "json" };
-import { makeIsoDate } from "../../simulation/dates";
+import { makeIsoDate } from "../kernel/dates";
 import type { IsoDate } from "./types";
 
 /**
@@ -16,7 +16,9 @@ import type { IsoDate } from "./types";
  * usable 2026 row in `data/research/elections/party-nomination-rules-2026.json`
  * (the FEC's 2026 Congressional Primary Dates and Candidate Filing Deadlines
  * for Ballot Access: 85 days, range 63 to 149). The same for every town in all
- * 56 places until its own filing deadline is read.
+ * 56 places until its own filing deadline is read: used only where the
+ * state's rule in `src/core2/data/elections/filing-deadlines.json` is
+ * unread (registered: SG-GOV-filing-deadline-estimate).
  */
 export const FILING_LEAD_DAYS: number = (() => {
   const places = nominationRules.places as Record<

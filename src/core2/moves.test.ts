@@ -1,9 +1,9 @@
 import { describe, expect, it } from "vitest";
-import { ageOnDate, makeIsoDate } from "../simulation/dates";
+import { ageOnDate, makeIsoDate } from "./kernel/dates";
 import {
-  lifePlaceByJurisdictionId,
-  lifePlaceStateIdentities,
-} from "../simulation/life-places";
+  corePlaceByJurisdictionId,
+  corePlaceStateIdentities,
+} from "./place-lookup";
 import natality from "../../data/research/renewal/natality-2024.json" with { type: "json" };
 import { createRenewalCore } from "./births-setup";
 import { RENEWAL_MODULE_ID } from "./modules/renewal";
@@ -55,7 +55,7 @@ const adults = [...core.people.values()].filter(
   (row) => row.alive && row.tier !== "husk" && bandOf(row.birthDate),
 );
 const state =
-  lifePlaceByJurisdictionId(adults[0]!.placeId as never)
+  corePlaceByJurisdictionId(adults[0]!.placeId as never)
     ?.stateJurisdictionKey ?? "";
 const acs = (RATES.places[state] ?? RATES.national).departurePerYearByAge;
 // Half a year keeps the check inside the golden-path budget.
@@ -80,7 +80,7 @@ const NATALITY = natality as unknown as {
   areas: Record<string, { ageRates: Record<string, number | null> }>;
 };
 const stateName =
-  lifePlaceStateIdentities().find((row) => row.jurisdictionKey === state)
+  corePlaceStateIdentities().find((row) => row.jurisdictionKey === state)
     ?.name ?? "";
 const birthRates = (
   NATALITY.areas[stateName] ?? NATALITY.areas["United States"]!
@@ -150,6 +150,31 @@ describe(`moves over half a year in ${input.placeMetadata?.placeName} (seed ${se
     }
   });
 
+  it("builds each pull from the person's records, never a draw: the opening reads their pushes and holds", () => {
+    const pulls = api.moduleState("moves").table("pulls").rows() as unknown as {
+      causes: Record<string, number>;
+      reads: Record<string, readonly string[]>;
+      openingNet?: number;
+    }[];
+    const opened = pulls.filter((row) => row.causes.opening !== undefined);
+    expect(opened.length).toBeGreaterThan(0);
+    for (const row of opened) {
+      expect(row.reads.opening?.length).toBeGreaterThan(0);
+      expect(row.openingNet).toBeTypeOf("number");
+    }
+    // Higher net push stands further along at the opening.
+    const sorted = [...opened].sort((a, b) => a.openingNet! - b.openingNet!);
+    for (let i = 1; i < sorted.length; i += 1)
+      expect(sorted[i]!.causes.opening!).toBeGreaterThanOrEqual(
+        sorted[i - 1]!.causes.opening!,
+      );
+    for (const row of departures)
+      for (const key of Object.keys(row.reasons).filter((k) =>
+        k.startsWith("push:"),
+      ))
+        expect(row.reads[key.slice("push:".length)]?.length).toBeGreaterThan(0);
+  });
+
   it("moves leavers to their destination: their place, household and the town's residents change with them", () => {
     // Break 13 of the October 12 three-year trace: every leaver still had
     // the town as their place and their household kept them.
@@ -182,9 +207,10 @@ describe(`moves over half a year in ${input.placeMetadata?.placeName} (seed ${se
     expect(residents.some((row) => left.has(row.id))).toBe(false);
   });
 
-  it("never moves someone away from the household their recorded income is paid into", () => {
-    // A pension or Social Security award names its household; the core
-    // refuses the next payment once its person lives elsewhere.
+  it("pays a mover's recorded income into the household where they live now", () => {
+    // A pension or Social Security award follows its person: its term names
+    // the household they live in, and the saved award still names the one
+    // it was written for.
     for (const row of core.finance.contracts.values()) {
       const term = row.recipientIncome;
       if (!term || row.endedAt) continue;
@@ -193,6 +219,10 @@ describe(`moves over half a year in ${input.placeMetadata?.placeName} (seed ${se
       expect(core.households.get(term.householdId)!.memberIds).toContain(
         person.id,
       );
+      if (term.movedOn) {
+        expect(term.recordedHouseholdId).toBeDefined();
+        expect(term.recordedHouseholdId).not.toBe(term.householdId);
+      }
     }
   });
 
@@ -257,41 +287,62 @@ describe(`moves over half a year in ${input.placeMetadata?.placeName} (seed ${se
     expect(cash()).toBe(openingCash - outsideNet);
   });
 
-  it("moves an evicted household out of its home, and a relative's move pulls their kin", () => {
-    const evicted = [...core.people.values()].find(
+  it("adds an eviction's push to the evicted, and a relative's move to their kin", () => {
+    const stayer = [...core.people.values()].find(
       (row) =>
         row.alive &&
         row.tier !== "husk" &&
-        row.id !== core.playerId &&
-        !core.households
-          .get(row.householdId)
-          ?.memberIds.includes(core.playerId ?? "") &&
         ageOnDate(makeIsoDate(row.birthDate), makeIsoDate(core.date)) >= 18,
     )!;
-    const left = () =>
+    const before =
       (
-        api.moduleState("moves").table("departures").rows() as unknown as {
-          withIds: string[];
-          reasons: Record<string, number>;
-        }[]
-      ).find((row) => row.withIds.includes(evicted.id));
-    expect(left()).toBeUndefined();
+        api.moduleState("moves").table("pulls").get(stayer.id) as
+          { causes: Record<string, number> } | undefined
+      )?.causes["housing.eviction"] ?? 0;
     api.emit({
-      id: `fixture-eviction:${evicted.id}`,
+      id: `fixture-eviction:${stayer.id}`,
       date: core.date,
       kind: "housing.eviction",
-      personIds: [evicted.id],
-      placeId: evicted.placeId,
+      personIds: [stayer.id],
+      placeId: stayer.placeId,
       publicRecord: true,
-      source: { tag: "SOURCED", citation: "Fixture removal.", asOf: core.date },
+      source: { tag: "SOURCED", citation: "Fixture filing.", asOf: core.date },
     });
-    const departure = left();
-    // A job a saved agreement names, or a household's income award, can hold the move.
-    if (departure) {
-      expect(departure.reasons["housing.eviction"]).toBeGreaterThan(0);
-      expect(core.people.get(evicted.id)!.tier).toBe("husk");
-    }
-    const followed = departures.length
+    const after = (
+      api.moduleState("moves").table("pulls").get(stayer.id) as {
+        causes: Record<string, number>;
+      }
+    ).causes["housing.eviction"]!;
+    expect(after).toBeGreaterThan(before);
+    // Kin follow only where a leaver had a parent, child or sibling who
+    // stayed: the records now send first the people with no one holding them.
+    const parentsOf = (id: string) =>
+      [...core.familyLinks.values()]
+        .filter((link) => link.kind !== "partner" && link.personIds[1] === id)
+        .map((link) => link.personIds[0]);
+    const childrenOf = (id: string) =>
+      [...core.familyLinks.values()]
+        .filter((link) => link.kind !== "partner" && link.personIds[0] === id)
+        .map((link) => link.personIds[1]);
+    const leftKin = departures.some((row) =>
+      row.withIds.some((id) =>
+        [
+          ...parentsOf(id),
+          ...childrenOf(id),
+          ...parentsOf(id).flatMap(childrenOf),
+        ].some((other) => {
+          const person = core.people.get(other);
+          return (
+            !row.withIds.includes(other) &&
+            person?.alive &&
+            person.tier !== "husk" &&
+            ageOnDate(makeIsoDate(person.birthDate), makeIsoDate(core.date)) >=
+              18
+          );
+        }),
+      ),
+    );
+    const followed = leftKin
       ? (
           api.moduleState("moves").table("pulls").rows() as unknown as {
             causes: Record<string, number>;

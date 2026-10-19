@@ -1,5 +1,5 @@
 import { eventById } from "./event-index";
-import { makeIsoDate } from "./dates";
+import { makeIsoDate } from "../core2/kernel/dates";
 import {
   EVIDENCE_DISCOVERY_EVENT_TAG,
   EVIDENCE_DISCOVERY_EVENT_TYPE,
@@ -9,7 +9,7 @@ import {
   evidenceDiscoverySummary,
   evidenceEntityAvailableAt,
 } from "./evidence-integrity";
-import { createStableId } from "./ids";
+import { createStableId } from "../core2/kernel/ids";
 import { recordEventKnowledge } from "./records";
 import type {
   EntityId,

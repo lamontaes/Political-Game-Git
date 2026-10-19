@@ -103,7 +103,7 @@ export async function prepareWorld({ seed, placeKey, startDate }) {
     moduleAt("src/core2/opening-peer-network.ts"),
     moduleAt("src/core2/focus.ts"),
     moduleAt("src/core2/parameters.ts"),
-    moduleAt("src/simulation/dates.ts"),
+    moduleAt("src/core2/kernel/dates.ts"),
   ]);
   const phases = {},
     timed = (name, fn) => {
@@ -175,7 +175,7 @@ export async function runMonth({ seed, placeKey, output, startDate }) {
     moduleAt("src/core2/tooling/opening-input-budget.ts"),
     moduleAt("src/core2/tooling/measured-json.ts"),
     moduleAt("src/core2/life.ts"),
-    moduleAt("src/simulation/dates.ts"),
+    moduleAt("src/core2/kernel/dates.ts"),
   ]);
   const registry = JSON.parse(
     readFileSync("src/core2/tooling/opening-input-budgets.json", "utf8"),

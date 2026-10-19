@@ -21,14 +21,14 @@ import {
 } from "../districts/query";
 import type { DistrictChamber, DistrictIdentity } from "../districts/types";
 import type { ElectiveOfficeOption } from "./candidacy-packs";
-import { makeIsoDate } from "./dates";
+import { makeIsoDate } from "../core2/kernel/dates";
 import { homeJurisdictionResidenceSince } from "./nationwide-world/residence-duration";
 import {
   appendedList,
   hasStableKey,
   recordsWithFieldValue,
 } from "./history-index";
-import { createStableId } from "./ids";
+import { createStableId } from "../core2/kernel/ids";
 import { largestPopulationShareDistrict } from "../districts/place-population-share";
 import { lifePlaceByJurisdictionId } from "./life-places";
 import { factsForPerson } from "./people";

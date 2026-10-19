@@ -40,17 +40,13 @@ import {
   requestInterview,
 } from "./modules/press";
 import { PLATFORM_QUESTIONS } from "./campaign-views";
-import {
-  lifePlaceCoverage,
-  lifePlaceSearch,
-  lifePlaceStateIdentities,
-} from "../simulation/life-places";
+import { searchCorePlaces, corePlaceStateIdentities } from "./place-lookup";
 
 const START = "2026-01-05";
 const seed =
   process.env.GOLDEN_PATH_SEED ??
   createHash("sha256").update(`press:${Date.now()}`).digest("hex");
-const states = [...lifePlaceStateIdentities()]
+const states = [...corePlaceStateIdentities()]
   .map((s) => s.jurisdictionKey)
   .sort();
 function pick<T>(list: readonly T[], salt: string): T {
@@ -80,7 +76,7 @@ describe("campaign interviews", () => {
     for (let attempt = 0; attempt < 8; attempt += 1) {
       const state = pick(states, `state:${attempt}`);
       const places = [
-        ...lifePlaceSearch("", lifePlaceCoverage().placeCount, {
+        ...searchCorePlaces("", Number.MAX_SAFE_INTEGER, {
           stateJurisdictionKey: state,
           scope: "locality",
         }),
@@ -104,7 +100,9 @@ describe("campaign interviews", () => {
       const outlets = openPress(core);
       const api = coreAPI(core);
       // A town with no local newspaper or news radio is a news desert; draw again.
-      const print = outlets.find((o) => o.kind !== "television");
+      const print = outlets.find(
+        (o) => o.tier !== "national" && o.kind !== "television",
+      );
       if (!print) continue;
       // Followers are the town's adults, by their age band's real habits.
       const town = [
@@ -248,6 +246,69 @@ describe("campaign interviews", () => {
   }, 300_000);
 });
 
+describe("a reporter who runs", () => {
+  // Scotland Neck, North Carolina (seed d48dca5fc9c0): a local reporter filed
+  // for council, their own paper asked them for an interview, and the paper
+  // sent the candidate as their own reporter; the core refused the meeting.
+  // Since the CTO's ruling of October 14, 2026 (pending the owner's
+  // confirmation; SG-GOV-press-office-owner-confirmation) press staff and
+  // owners cannot file while they work for or own an outlet, so the paper
+  // never has a candidate on its own staff: the filing is refused, by the
+  // rule, and nothing is asked of them.
+  it("is refused a filing while on an outlet's staff, so their paper never interviews its own reporter", () => {
+    const tried: string[] = [];
+    for (let attempt = 0; attempt < 12; attempt += 1) {
+      const state = pick(states, `rstate:${attempt}`);
+      const places = [
+        ...searchCorePlaces("", Number.MAX_SAFE_INTEGER, {
+          stateJurisdictionKey: state,
+          scope: "locality",
+        }),
+      ].sort((a, b) => a.key.localeCompare(b.key));
+      const key = pick(places, `rplace:${attempt}`).key;
+      const where = `seed ${seed}, ${state} place ${key}`;
+      tried.push(where);
+      const core = createLifeCore(
+        buildPopulation({
+          seed,
+          placeKey: key,
+          startedAt: START,
+          minimumPeople: 300,
+        }),
+      );
+      openLaws(core);
+      openOffices(core, seed);
+      openElections(core);
+      openCampaigns(core);
+      openRecord(core);
+      const outlets = openPress(core);
+      const api = coreAPI(core);
+      const paper = outlets.find(
+        (o) => o.tier !== "national" && (o.reporterIds ?? []).length > 0,
+      );
+      if (!paper) continue;
+      const reporter = paper.reporterIds![0]!;
+      const contest = openContests(api)[0];
+      if (!contest) continue;
+      const result = fileCandidacy(api, {
+        personId: reporter,
+        contestId: contest.id,
+        platform: [`${pick(PLATFORM_QUESTIONS, "r1")}=1`],
+      });
+      expect(result.status, where).toBe("refused");
+      if (result.status === "refused")
+        expect(
+          result.unmet.map((check) => check.rule),
+          where,
+        ).toContain("press-employment");
+      return;
+    }
+    throw new Error(
+      `no town with a local paper and an open contest: ${tried.join("; ")}`,
+    );
+  }, 300_000);
+});
+
 describe("interviews with state and federal candidates", () => {
   // Regression (wire-all-modules, Oct 12): in the played world, outlets ask
   // the state and federal candidates on the town's ballot, who aren't full
@@ -258,7 +319,7 @@ describe("interviews with state and federal candidates", () => {
     for (let attempt = 0; attempt < 16; attempt += 1) {
       const state = pick(states, `official:state:${attempt}`);
       const places = [
-        ...lifePlaceSearch("", lifePlaceCoverage().placeCount, {
+        ...searchCorePlaces("", Number.MAX_SAFE_INTEGER, {
           stateJurisdictionKey: state,
           scope: "locality",
         }),

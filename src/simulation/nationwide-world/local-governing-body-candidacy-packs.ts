@@ -1,6 +1,9 @@
-import { governmentUnitDisplayName } from "./government-unit-names";
-import { governmentUnit, municipioUnit } from "../government-units";
-import type { GovernmentUnitIdentity } from "../government-units";
+import { governmentUnitDisplayName } from "../../core2/gov-rules/government-unit-names";
+import {
+  governmentUnit,
+  municipioUnit,
+} from "../../core2/reference/government-units";
+import type { GovernmentUnitIdentity } from "../../core2/reference/government-units";
 import { knownRule, unknownRule } from "../legislature-rules";
 import {
   governingBodySeatAgeEstimate,

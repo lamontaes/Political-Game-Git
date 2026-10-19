@@ -9,9 +9,9 @@ import {
   countyGovernmentUnit,
   countyGovernmentUnitsForPlace,
   governmentUnitsForPlace,
-} from "../../simulation/government-units";
-import type { GovernmentUnitIdentity } from "../../simulation/government-units";
-import type { LifePlace } from "../../simulation/life-places";
+} from "../reference/government-units";
+import type { GovernmentUnitIdentity } from "../reference/government-units";
+import type { CorePlace } from "../place-lookup";
 import {
   countyEquivalentTerm,
   type CountyEquivalentTerm,
@@ -59,7 +59,7 @@ function countyRelationEmpty(term: CountyEquivalentTerm): string {
 
 /** Which government units serve one place. Reads only. */
 export function placeLocalGovernmentUnits(
-  place: LifePlace | null,
+  place: CorePlace | null,
 ): HomeLocalGovernmentUnits {
   const none = (
     placeScope: HomeLocalGovernmentUnits["placeScope"],

@@ -5,7 +5,7 @@ import {
   governmentUnitJurisdictionId,
   countyGeoidsForPlace,
   PLACE_COUNTY_RELATIONS_META,
-} from "../simulation/government-units";
+} from "./reference/government-units";
 import { createStableId } from "./kernel/ids";
 import { corePlaceByJurisdictionId } from "./place-lookup";
 import type { EntityId } from "./kernel/brands";

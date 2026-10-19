@@ -10,6 +10,7 @@
  * available, and unaudited.
  */
 import corpus from "../../../data/municipal-elections/92O-national-state-baseline.json" with { type: "json" };
+import unresolvedRecall from "../data/elections/recall-threshold-unresolved.json" with { type: "json" };
 import type {
   MunicipalElectionTiming,
   MunicipalRecallDoctrine,
@@ -96,16 +97,12 @@ const FORM_CONDITIONAL_RECALL: Readonly<
 /**
  * States with a statewide recall whose signature requirement is tiered,
  * ranged or compound (population tiers, a ward condition, a second petition),
- * so no one threshold is read.
+ * so no one threshold is read. Which states, why and the source are data:
+ * `src/core2/data/elections/recall-threshold-unresolved.json`.
  */
-const UNRESOLVED_RECALL_THRESHOLD: ReadonlySet<string> = new Set([
-  "CA",
-  "DC",
-  "FL",
-  "LA",
-  "MT",
-  "WA",
-]);
+const UNRESOLVED_RECALL_THRESHOLD: ReadonlySet<string> = new Set(
+  Object.keys((unresolvedRecall as { states: Record<string, unknown> }).states),
+);
 
 type CorpusRow = (typeof corpus.jurisdictions)[number];
 

@@ -1,4 +1,4 @@
-import type { GovernmentUnitIdentity } from "../../simulation/government-units";
+import type { GovernmentUnitIdentity } from "../reference/government-units";
 import {
   municipalGovernmentForUnit,
   primaryReading,

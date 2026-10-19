@@ -12,7 +12,7 @@ import { resolve } from "node:path";
 import { chromium } from "playwright";
 import { coreAPI } from "../../src/core2/state";
 import { buildBenchWorld } from "../../src/bench/world";
-import { openingShots } from "../../src/bench/opening";
+import { openingFrames } from "../../src/bench/opening";
 import * as scene from "../../src/bench/scene";
 import scenePlaces from "../../src/bench/data/scene-places.json" with { type: "json" };
 import { drawPlace } from "../../tests/golden-path/place";
@@ -57,7 +57,9 @@ function shotsFor(seed: string) {
       name: `${String(shots.length + 1).padStart(2, "0")}-${name}`,
       ...s,
     });
-  for (const s of openingShots(core, me)) add(`intro-${s.place}`, s);
+  const story = w.director.ledger.opening;
+  for (const s of story ? openingFrames(core, me, story).frames : [])
+    add(`intro-${s.place}`, s);
   add("home", scene.benchScene(core, me));
   // A workplace: someone in the household with a job, on shift.
   const household =

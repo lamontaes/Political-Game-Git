@@ -8,6 +8,7 @@ import {
 import { advanceCore, createLifeCore } from "./life";
 import { parameter } from "./parameters";
 import { generatedOpening } from "./tooling/generated-world";
+import { daysAfterStart } from "./tooling/test-days";
 
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(16).toString("hex");
 const place = drawPlace(seed, "core2-condense-decisions");
@@ -20,7 +21,7 @@ describe(`old reasons condense in ${place.name}, ${place.state} (seed ${seed})`,
         settings: { population: 1500 },
       }),
     );
-    advanceCore(core, "2021-02-20");
+    advanceCore(core, daysAfterStart(50));
     const window = parameter("circleDecisionDetailDays");
     const cutoff = new Date(`${core.date}T00:00:00Z`);
     cutoff.setUTCDate(cutoff.getUTCDate() - window);

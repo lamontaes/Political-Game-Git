@@ -7,13 +7,17 @@
  * the town each day.
  */
 import { addDays, makeIsoDate } from "../kernel/dates";
-import ages from "../data/social-security-ages.json" with { type: "json" };
 import incomeData from "../data/opening-income.json" with { type: "json" };
 import fundingData from "../data/opening-income-funding.json" with { type: "json" };
 import { retirementClaimAgeMonths } from "../retirement-claim";
+import {
+  startingSocialSecurityAges,
+  type SocialSecurityAges,
+} from "../social-security-law";
+import { LAWS_MODULE_ID, socialSecurityAges } from "./laws";
 import { addResidentFlow, endFlowPart } from "../residents-economy";
 import { decisionLean } from "../trait-decisions";
-import { residentPerson, residentsRuntime } from "./residents";
+import { residentsRuntime } from "./residents";
 import type {
   CoreAPI,
   CoreModule,
@@ -79,12 +83,22 @@ interface Claimant {
   traits: Readonly<Record<string, number>>;
 }
 
+/**
+ * The ages the law sets, in force today where the laws are open (Congress
+ * can change them), else as enacted on day one.
+ */
+function agesFor(api: CoreAPI, birthDate: string): SocialSecurityAges {
+  return api.state.modules.has(LAWS_MODULE_ID)
+    ? socialSecurityAges(api, birthDate)
+    : startingSocialSecurityAges(birthDate);
+}
+
 function claimDateOf(api: CoreAPI, person: Claimant): IsoDate | undefined {
   const p = (key: string) => api.parameter(key);
   const cost = person.livingCostDailyMinor;
   const months = retirementClaimAgeMonths(
     {
-      birthYear: Number(person.birthDate.slice(0, 4)),
+      ages: agesFor(api, person.birthDate),
       bufferMonths:
         cost > 0
           ? person.liquidMinor / ((cost * p("daysPerMeanYear")) / 12)
@@ -121,27 +135,36 @@ function index(api: CoreAPI, rt: Runtime): void {
   const year = core.date.slice(0, 4);
   if (rt.countedIndexedYear !== year) {
     rt.countedIndexedYear = year;
-    const [y, m] = core.date.split("-").map(Number) as [number, number];
-    const soonest = ages.earliestClaimAgeMonths - 24;
-    for (const record of residentsRuntime(core)?.households.values() ?? [])
-      for (const person of record.people) {
-        if (rt.known.has(person.id)) continue;
-        const [by, bm] = person.birthDate.split("-").map(Number) as [
-          number,
-          number,
-        ];
-        if ((y - by) * 12 + (m - bm) < soonest) continue;
-        rt.known.add(person.id);
+    const [year0, month0] = core.date.split("-").map(Number) as [
+      number,
+      number,
+    ];
+    // The earliest claim age does not depend on the birth date.
+    const soonest = agesFor(api, core.date).earliestMonths - 24;
+    const store = residentsRuntime(core)?.store;
+    for (const h of store?.liveHouseholds() ?? [])
+      for (const member of store!.countedMembers(h)) {
+        const id = store!.ids[member]!;
+        if (rt.known.has(id)) continue;
+        const born = store!.born[member]!;
+        const [by, bm] = born.split("-").map(Number) as [number, number];
+        if ((year0 - by) * 12 + (month0 - bm) < soonest) continue;
+        rt.known.add(id);
         if (
-          record.contracts.some(
+          h.incomeContracts.some(
             (row) =>
               row.kind === "income.retirement" &&
-              row.recipientIncome?.personId === person.id,
+              row.recipientIncome?.personId === id,
           )
         )
           continue;
-        const date = claimDateOf(api, person);
-        if (date && date > core.date) schedule(rt, date, person.id);
+        const date = claimDateOf(api, {
+          birthDate: born,
+          liquidMinor: store!.liquid[member]!,
+          livingCostDailyMinor: store!.living[member]!,
+          traits: store!.packedTraits(member),
+        });
+        if (date && date > core.date) schedule(rt, date, id);
       }
   }
   if (
@@ -189,14 +212,24 @@ function moveToPerson(api: CoreAPI, rt: Runtime, personId: PersonId): void {
 function claim(api: CoreAPI, rt: Runtime, personId: PersonId): void {
   const core = api.state;
   const full = core.people.get(personId);
-  const person = full ?? residentPerson(core, personId);
+  // A counted claimant is read from their group's columns, not built as a record.
+  const counted = full ? undefined : residentsRuntime(core);
+  const member = counted?.store.countedMember(personId);
+  const person =
+    full ??
+    (counted && member !== undefined
+      ? {
+          birthDate: counted.store.born[member]!,
+          placeId: counted.store.text(counted.store.placeIx[member]!)!,
+          traits: counted.store.packedTraits(member),
+        }
+      : undefined);
   if (!person || (full && (!full.alive || receivesRetirement(core, personId))))
     return;
   const residentsId = full
     ? undefined
-    : residentsRuntime(core)?.input.accounts.find(
-        (row) => row.placeId === person.placeId,
-      )?.accountId;
+    : counted?.input.accounts.find((row) => row.placeId === person.placeId)
+        ?.accountId;
   if (!full && !residentsId) return;
   const p = (key: string) => api.parameter(key);
   const keys = incomeData.parameters;

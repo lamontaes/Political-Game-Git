@@ -1,5 +1,5 @@
 import { groupedJsonTable } from "../core2/reference/lazy-data";
-import { countyGeoidsForPlace } from "./government-units";
+import { countyGeoidsForPlace } from "../core2/reference/government-units";
 import { lifePlaceByJurisdictionId } from "./life-places";
 import {
   EMPTY_LOCAL_INSTITUTIONS,

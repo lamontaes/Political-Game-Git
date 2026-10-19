@@ -40,7 +40,7 @@ const DOMAIN = join(ROOT, "data/source/electoral-calibration-2024");
 const RAW = join(DOMAIN, "raw");
 const RUNTIME_OUT = join(
   ROOT,
-  "src/simulation/world-setup/electoral-calibration.generated.json",
+  "src/core2/data/elections/electoral-calibration.generated.json",
 );
 const IDENTITIES = join(ROOT, "src/districts/identities.generated.json");
 const PDFJS = join(ROOT, "node_modules/pdfjs-dist/legacy/build/pdf.mjs");

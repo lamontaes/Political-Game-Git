@@ -1,4 +1,4 @@
-import type { IsoDate } from "./types";
+import type { IsoDate } from "../core2/kernel/brands";
 
 /**
  * What the game has come to think this player cares about.

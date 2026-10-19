@@ -6,7 +6,7 @@
  * inferred: the people the world invents get their identity from the same
  * seeded generator that gives them a name and a birth date.
  */
-import type { SeededRng } from "../../simulation/rng";
+import type { SeededRng } from "../kernel/rng";
 import type { GenderIdentityKey, PersonIdentity, PronounSetKey } from "./types";
 
 export type { GenderIdentityKey, PersonIdentity, PronounSetKey };

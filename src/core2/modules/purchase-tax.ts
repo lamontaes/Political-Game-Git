@@ -47,6 +47,36 @@ export interface PurchaseTaxState extends PurchaseTaxInput {
 const runtimes = new WeakMap<CoreState, Map<string, PurchaseTaxState>>();
 registerWorldMapPart("core2-purchase-tax", runtimes);
 
+/** Sales tax a seller couldn't remit: the next remittance adds it and pays it first. */
+export interface SalesTaxArrears {
+  id: string;
+  taxId: string;
+  sellerId: string;
+  amountMinor: number;
+  /** First day tax went unremitted (kept until the arrears clear). */
+  since: IsoDate;
+  /** The tax law row in force (its id). */
+  lawRowId: string;
+}
+
+const arrearsRuntimes = new WeakMap<CoreState, Map<string, SalesTaxArrears>>();
+registerWorldMapPart("core2-purchase-tax-arrears", arrearsRuntimes);
+
+function arrearsRows(core: CoreState): Map<string, SalesTaxArrears> {
+  let rows = arrearsRuntimes.get(core);
+  if (!rows) {
+    rows = new Map();
+    arrearsRuntimes.set(core, rows);
+  }
+  return rows;
+}
+
+export function purchaseTaxArrears(
+  core: CoreState,
+): ReadonlyMap<string, Readonly<SalesTaxArrears>> {
+  return arrearsRows(core);
+}
+
 function taxes(core: CoreState): Map<string, PurchaseTaxState> {
   let rows = runtimes.get(core);
   if (!rows) {
@@ -105,16 +135,30 @@ function collect(api: CoreAPI, sale: SalesReceiptNotice): void {
       continue;
     const amountMinor = taxInside(sale.paidMinor, tax.ratePercent);
     if (amountMinor <= 0) continue;
+    // Tax left unremitted earlier is added to this remittance and paid first.
+    const key = `${tax.id}:${seller.id}`,
+      prior = arrearsRows(core).get(key),
+      owed = amountMinor + (prior?.amountMinor ?? 0);
     const receipt = transfer(core, api, {
       id: `${tax.id}:${sale.id}`,
       from: core.cashJournal.residualAccountByOwner.get(seller.id)!,
       to: tax.payeeAccountId,
-      amountMinor,
+      amountMinor: owed,
       reasonKey: "tax.sales",
       source: tax.source,
       partial: true,
     });
     tax.collectedMinor += receipt.paidMinor;
+    if (receipt.shortMinor > 0)
+      arrearsRows(core).set(key, {
+        id: key,
+        taxId: tax.id,
+        sellerId: seller.id,
+        amountMinor: receipt.shortMinor,
+        since: prior?.since ?? sale.date,
+        lawRowId: tax.id,
+      });
+    else if (prior) arrearsRows(core).delete(key);
   }
 }
 

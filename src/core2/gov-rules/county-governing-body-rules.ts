@@ -4,10 +4,10 @@
 import readings from "../../../data/research/local-government/county-governing-bodies.json" with { type: "json" };
 import acsPlaces from "../../../data/research/money/place-population-acs-2024.json" with { type: "json" };
 import budgetBases from "../../../data/research/money/public-budget-bases.json" with { type: "json" };
-import type { GovernmentUnitIdentity } from "../../simulation/government-units";
-import { municipioUnit } from "../../simulation/government-units";
+import type { GovernmentUnitIdentity } from "../reference/government-units";
+import { municipioUnit } from "../reference/government-units";
 
-export { municipioUnit } from "../../simulation/government-units";
+export { municipioUnit } from "../reference/government-units";
 
 /**
  * COUNTY GOVERNING BODIES (Build 25, CTO ruling of September 29, 1:54 a.m.):

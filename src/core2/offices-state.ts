@@ -10,6 +10,7 @@
  * each seat from the public-domain rosters in
  * `data/research/offices/legislature-party-counts-2026.json`.
  */
+import representation from "./data/offices/federal-representation.json" with { type: "json" };
 import stateOfficeResearch from "../../data/research/offices/state-offices.json" with { type: "json" };
 import calibration from "../../data/source/electoral-calibration-2024/corpus.json" with { type: "json" };
 import federalExecutiveResearch from "../../data/research/offices/federal-executive-2026.json" with { type: "json" };
@@ -118,7 +119,21 @@ const federalExecutive = federalExecutiveResearch as unknown as Record<
   "president" | "vicePresident",
   { party: string }
 >;
-const TERRITORIES = new Set(["US-PR", "US-GU", "US-VI", "US-AS", "US-MP"]);
+/** Places represented in Congress differently from a state (data, never a name in logic). */
+const REPRESENTATION = (
+  representation as unknown as {
+    places: Record<
+      string,
+      {
+        houseMember: string;
+        termYears: number;
+        senators: number;
+        presidentialElectors: boolean;
+        citation: string;
+      }
+    >;
+  }
+).places;
 
 const METHODS: Readonly<Record<string, VacancyRule["method"]>> = {
   "special-election": "special-election",
@@ -211,15 +226,26 @@ function roster(
   return parties.places[stateKey]?.[chamber]?.seatParties ?? {};
 }
 
-/** The roster district a Census district is, by code or by name. */
-function rosterDistrict(rows: Roster, d: DistrictIdentity): string | null {
+/**
+ * The roster districts a Census district is, by code or by name. A district
+ * whose members are elected in lettered seats (Idaho's "10A" and "10B" in one
+ * district 10) matches every lettered seat of its number, in letter order, so
+ * its roster has all its members.
+ */
+function rosterDistricts(rows: Roster, d: DistrictIdentity): string[] {
   const keys = new Set([
     districtKey(d.districtCode),
     districtKey(d.sourceName ?? ""),
   ]);
-  for (const name of Object.keys(rows))
-    if (keys.has(districtKey(name))) return name;
-  return null;
+  const exact = Object.keys(rows).filter((name) => keys.has(districtKey(name)));
+  if (exact.length) return exact.slice(0, 1);
+  const numbers = [...keys].filter((key) => /^\d+$/.test(key));
+  return Object.keys(rows)
+    .filter((name) => {
+      const lettered = /^0*(\d+)[A-Za-z]$/.exec(name.trim());
+      return lettered !== null && numbers.includes(lettered[1]!);
+    })
+    .sort();
 }
 
 /** Whether the place holds this family's regular election in the start year, and if not, when next. */
@@ -322,7 +348,7 @@ export function federalOffices(
       termStarts: "01-20",
       elected: true,
       districted: false,
-      coversTown: !TERRITORIES.has(stateKey),
+      coversTown: REPRESENTATION[stateKey]?.presidentialElectors ?? true,
       source: "U.S. Const. art. II, § 1; amend. XXII; amend. XXV",
       estimate: false,
       vacancyRule: {
@@ -341,7 +367,7 @@ export function federalOffices(
         officeId: `office:US:${kind}`,
         district: null,
         index: 0,
-        coversTown: !TERRITORIES.has(stateKey),
+        coversTown: REPRESENTATION[stateKey]?.presidentialElectors ?? true,
         party:
           federalExecutive[kind === "president" ? "president" : "vicePresident"]
             .party,
@@ -353,7 +379,7 @@ export function federalOffices(
     executive("vice-president", "Vice President"),
   );
   const congress = parties.congress[stateKey] ?? {};
-  if (!TERRITORIES.has(stateKey) && stateKey !== "US-DC") {
+  if ((REPRESENTATION[stateKey]?.senators ?? 2) > 0) {
     const id = `office:${stateKey}:us-senate`;
     offices.push({
       office: {
@@ -361,6 +387,7 @@ export function federalOffices(
         level: "federal",
         jurisdiction: stateKey,
         governmentName: "United States Senate",
+        bodyName: "United States Senate",
         kind: "us-senate",
         title: "U.S. Senator",
         seats: 2,
@@ -394,29 +421,24 @@ export function federalOffices(
   const house = districts(usps, "congressional");
   const mine = townDistrict(placeGeoid, usps, "congressional", date);
   const id = `office:${stateKey}:us-house`;
-  const delegate = TERRITORIES.has(stateKey) || stateKey === "US-DC";
+  const special = REPRESENTATION[stateKey];
+  const delegate = special !== undefined;
+  const houseTerm = special?.termYears ?? 2;
   offices.push({
     office: {
       id,
       level: "federal",
       jurisdiction: stateKey,
       governmentName: "United States House of Representatives",
+      bodyName: "United States House of Representatives",
       kind: delegate ? "us-house-delegate" : "us-house",
-      title:
-        stateKey === "US-PR"
-          ? "Resident Commissioner"
-          : delegate
-            ? "Delegate"
-            : "U.S. Representative",
+      title: special?.houseMember ?? "U.S. Representative",
       seats: Math.max(house.length, 1),
-      termYears: stateKey === "US-PR" ? 4 : 2,
+      termYears: houseTerm,
       // Every seat is up together: terms end at noon on January 3 of an odd
-      // year (U.S. Const. amend. XX, § 1); Puerto Rico's commissioner is
-      // elected with the presidency.
-      nextElectionYear: congressionalElectionYear(
-        date,
-        stateKey === "US-PR" ? 4 : 2,
-      ),
+      // year (U.S. Const. amend. XX, § 1); a four-year member is elected with
+      // the presidency.
+      nextElectionYear: congressionalElectionYear(date, houseTerm),
       termStarts: "01-03",
       elected: true,
       districted: !delegate,
@@ -574,9 +596,9 @@ export function stateOffices(
         }),
       );
     for (const d of geography) {
-      const name = rosterDistrict(rows, d);
-      if (name !== null) matched.add(name);
-      const members = name !== null ? rows[name]! : [];
+      const names = rosterDistricts(rows, d);
+      for (const name of names) matched.add(name);
+      const members = names.flatMap((name) => rows[name]!);
       add(
         d.districtCode,
         members.length ? members : [null],
@@ -585,12 +607,24 @@ export function stateOffices(
     }
     for (const [name, members] of Object.entries(rows))
       if (!matched.has(name) && /large/i.test(name)) add(name, members, true);
+    // A chamber with a recorded size but no district geography or roster (a
+    // territory's legislature): its seats are elected by the whole territory
+    // until the districts are read, so the body can meet and vote.
+    if (!seats.length && chamberRead?.seats) {
+      stopgap("SG-GOV-territory-legislature-districts");
+      add(
+        "At-large",
+        Array.from({ length: chamberRead.seats }, () => null),
+        true,
+      );
+    }
     offices.push({
       office: {
         id,
         level: "state",
         jurisdiction: stateKey,
         governmentName: chamberRead?.name ?? stateKey,
+        bodyName: chamberRead?.name ?? stateKey,
         kind: `legislature-${key}`,
         title:
           key === "lower"

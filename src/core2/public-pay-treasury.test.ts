@@ -5,6 +5,7 @@ import { advanceCore, createLifeCore } from "./life";
 import { coreAPI } from "./state";
 import { generatedOpening } from "./tooling/generated-world";
 import type { CoreState } from "./types";
+import { daysAfterStart } from "./tooling/test-days";
 
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(16).toString("hex");
 const place = drawPlace(seed, "core2-public-pay-treasury");
@@ -73,7 +74,7 @@ describe(`public pay from a treasury in ${place.name}, ${place.state} (seed ${se
   it("pays public wages from the treasury's cash", () => {
     const { core, api, authorityIds } = world(100_000_000);
     const start = cash(core) + outsideNet(core);
-    advanceCore(core, "2021-02-28");
+    advanceCore(core, daysAfterStart(58));
     const spent =
       100_000_000 - core.organizations.get("treasury:test")!.liquidMinor;
     // The treasury pays exactly the public wages that were paid: positive
@@ -87,7 +88,7 @@ describe(`public pay from a treasury in ${place.name}, ${place.state} (seed ${se
   it("records what an empty treasury couldn't cover, and wages are still paid", () => {
     const { core, api, authorityIds } = world(0);
     const start = cash(core) + outsideNet(core);
-    advanceCore(core, "2021-02-28");
+    advanceCore(core, daysAfterStart(58));
     expect(core.organizations.get("treasury:test")!.liquidMinor).toBe(0);
     // What the empty treasury couldn't cover is every public wage paid.
     expect(

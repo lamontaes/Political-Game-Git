@@ -23,7 +23,7 @@ import {
   governmentFiscalMetricDefinitions,
 } from "./world-metrics";
 import { canonicalJson } from "./canonical-json";
-import { createStableId } from "./ids";
+import { createStableId } from "../core2/kernel/ids";
 import {
   TRANSIT_METRIC_INPUT,
   TRANSIT_MECHANISM_INPUT,

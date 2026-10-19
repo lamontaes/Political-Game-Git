@@ -1,4 +1,21 @@
 {
+  "creditDepositWalletMonths": {
+    "value": 3,
+    "tag": "TUNABLE",
+    "citation": "Conservative cash buffer while payment paths are connected to deposit withdrawals; JPMorgan Chase Institute, Cash is King (2016), reports median business balances covering 27 days of outflows. This is a wallet reserve, not a target for total savings.",
+    "stopgapId": "SG-WORLD-deposit-wallet-buffer",
+    "spread": { "low": 1, "high": 6, "unit": "months of recorded costs" }
+  },
+  "creditDepositLiquidityShare": {
+    "value": 0.1,
+    "tag": "TUNABLE",
+    "citation": "Liquidity kept against deposit withdrawals, separate from the capital constraint; calibrated against the repository FDIC community-bank balance sheets. This is a bank policy, not a statutory reserve requirement.",
+    "spread": {
+      "low": 0.05,
+      "high": 0.3,
+      "unit": "share of customer deposits retained as cash"
+    }
+  },
   "creditBankEquityShareOfDeposits": {
     "value": 0.086,
     "tag": "SOURCED",
@@ -199,5 +216,14 @@
     "value": 1.15,
     "tag": "SOURCED",
     "citation": "SBA SOP 50 10 7.1 and 50 10 8: a 7(a) loan to a new business needs projected cash flow of at least 1.15 times its debt service."
+  },
+  "creditIncomeRecordDays": {
+    "value": 14,
+    "tag": "TUNABLE",
+    "citation": "How many days of a job's work record a lender needs before it counts the pay actually earned from hours worked rather than the job's wage rate: two weeks, the most common pay period (BLS, 'Length of pay periods in the Current Employment Statistics survey', 2023: biweekly is the most common).",
+    "spread": {
+      "low": 7,
+      "high": 31
+    }
   }
 }

@@ -186,31 +186,271 @@
     "citation": "BLS American Time Use Survey 2025, Table 1, 'Time spent in primary activities and percent of the civilian population engaging in each activity, averages per day' (released 2026-06-25), https://www.bls.gov/news.release/atus.t01.htm: volunteering (organizational and civic activities), 2.18 hours per participant-day (5.3% of people on an average day); religious and spiritual 1.41 hours.",
     "estimatedFrom": "One civic act (join, organize, approach) is one participant-day of volunteering; the 5.3% participation share is the outcome check."
   },
-  "stressBaseline": {
-    "value": 0.25,
+  "causeGroupMonthlySpendShare": {
+    "value": 0.75,
+    "tag": "ESTIMATED",
+    "citation": "The share of its money a cause group spends each month on its cause. BBB Wise Giving Alliance Standard 8 asks a charity to spend at least 65% of its total expenses on programs (https://give.org/donor-landing-page/bbb-standards-for-charity-accountability); Charity Navigator's program expense ratio for advocacy groups commonly runs 70% to 85%. A small volunteer group holds little reserve, so it spends most of what it has each month.",
+    "estimatedFrom": "Program expense ratios (BBB Wise Giving Alliance; Charity Navigator); spread 0.5 to 1."
+  },
+  "causeGroupAdMinimumMinor": {
+    "value": 10000,
     "tag": "TUNABLE",
-    "citation": "No direct source for this coefficient, duration or prototype limit; tunable. Empirical calibration or owner budget approval is pending and blocks prototype release.",
+    "citation": "The smallest ad buy a local outlet sells, in cents ($100): a group whose month's spending is below it buys nothing and saves toward it. Small-market radio spots and weekly-newspaper display ads are sold from tens to a few hundred dollars an insertion; the value is a starting point inside that.",
     "spread": {
-      "status": "unmeasured",
-      "reason": "No empirical parameter bounds have been identified. Related outcome statistics or inherited model assumptions do not establish bounds on this parameter."
-    },
-    "stopgapId": "SG-P8-param-stressBaseline",
-    "checkRange": {
-      "ref": "P9-OUTCOME-WHOLE-LIFE"
+      "low": 2500,
+      "high": 50000,
+      "unit": "cents",
+      "citation": "From one short radio spot to a quarter-page in a small daily."
+    }
+  },
+  "countedGivingShare": {
+    "value": 0.496,
+    "tag": "ESTIMATED",
+    "citation": "The share of U.S. households that give to charity in a year: 49.6% in 2018 (Lilly Family School of Philanthropy, Philanthropy Panel Study, 'The Giving Environment', 2021).",
+    "estimatedFrom": "Applied to the counted adults who share a cause group's concern, as the share of them who give at all.",
+    "spread": {
+      "low": 0.4,
+      "high": 0.66,
+      "unit": "share of households",
+      "citation": "49.6% in 2018 against 66.2% in 2000 in the same study."
+    }
+  },
+  "officeReplyDays": {
+    "value": 7,
+    "tag": "ESTIMATED",
+    "citation": "Days from a resident's visit to a town office until its staff answer: five business days (seven calendar days), the Town of Lakeshore, Ontario customer service policy adopted in 2024 (https://www.lakeshore.ca/news/posts/lakeshore-moves-forward-with-customer-service-improvements/). Toronto acknowledges within two business days (https://www.toronto.ca/city-government/accountability-operations-customer-service/city-administration/staff-directory-divisions-and-customer-service/service-promise-standards/); Greater Sudbury answers mail within ten business days (https://www.greatersudbury.ca/city-hall/news-and-public-notices/2019/city-launches-new-customer-service-initiatives/).",
+    "estimatedFrom": "Municipal customer-service standards; spread 2 to 14 calendar days. No US-wide survey of town office reply times was found."
+  },
+  "stressBaseline": {
+    "value": 0.314,
+    "tag": "ESTIMATED",
+    "citation": "Klein et al. (2016), 'Psychological stress in the German general population: PSS-10 norm values', BMC Psychiatry 16:159, N=2,463, Table 4 (https://pmc.ncbi.nlm.nih.gov/articles/PMC4877813), read in full on 2026-10-16. The value is the opening stress of a newcomer and the average the modeled population is checked against; each person's own resting stress is computed by restingStress from their situation.",
+    "estimatedFrom": "The average person's resting stress, as a share of the 40-point PSS-10 scale: 12.57 of 40 (SD 6.42) in the German general-population norm. The U.S. norm (Cohen & Janicki-Deverts 2012, J. Applied Social Psychology 42:1320-1334) was not retrievable here and runs higher; the spread covers it.",
+    "spread": {
+      "low": 0.3,
+      "high": 0.42,
+      "unit": "share of the PSS-10 scale (points / 40)",
+      "citation": "Klein et al. (2016), 'Psychological stress in the German general population: PSS-10 norm values', BMC Psychiatry 16:159, N=2,463, Table 4 (https://pmc.ncbi.nlm.nih.gov/articles/PMC4877813), read in full on 2026-10-16. The value is the opening stress of a newcomer and the average the modeled population is checked against; each person's own resting stress is computed by restingStress from their situation."
+    }
+  },
+  "restingStressFloor": {
+    "value": 0.271,
+    "tag": "ESTIMATED",
+    "citation": "The part of resting stress that no recorded situation explains: the intercept of the resting-stress sum, set so the modeled population's average equals stressBaseline (the PSS-10 norm) in a drawn place.",
+    "estimatedFrom": "Calibrated to stressBaseline; the intercept moves with the weights below.",
+    "spread": {
+      "low": 0.1,
+      "high": 0.3,
+      "unit": "share of the PSS-10 scale (points / 40)",
+      "citation": "Klein et al. (2016), 'Psychological stress in the German general population: PSS-10 norm values', BMC Psychiatry 16:159, N=2,463, Table 4 (https://pmc.ncbi.nlm.nih.gov/articles/PMC4877813), read in full on 2026-10-16."
+    }
+  },
+  "restingStressMoneyWeight": {
+    "value": 0.065,
+    "tag": "ESTIMATED",
+    "citation": "Klein et al. (2016), 'Psychological stress in the German general population: PSS-10 norm values', BMC Psychiatry 16:159, N=2,463, Table 4 (https://pmc.ncbi.nlm.nih.gov/articles/PMC4877813), read in full on 2026-10-16.",
+    "estimatedFrom": "The PSS-10 gap between the lowest and highest income group in the German norm: 13.83 against 11.36, 2.47 points of 40.",
+    "spread": {
+      "low": 0.04,
+      "high": 0.1,
+      "unit": "share of the PSS-10 scale (points / 40)",
+      "citation": "Klein et al. (2016), 'Psychological stress in the German general population: PSS-10 norm values', BMC Psychiatry 16:159, N=2,463, Table 4 (https://pmc.ncbi.nlm.nih.gov/articles/PMC4877813), read in full on 2026-10-16."
+    }
+  },
+  "restingStressMoneyHalfMonths": {
+    "value": 1,
+    "tag": "ESTIMATED",
+    "citation": "No survey of stress by months of cash was found; the half-point is an estimate with this spread.",
+    "estimatedFrom": "Months of living costs held in cash at which money pressure is half its largest. Typical savings guidance asks for three to six months; a month is where a shock first bites.",
+    "spread": {
+      "low": 0.5,
+      "high": 3,
+      "unit": "months of living costs",
+      "citation": "No survey of stress by months of cash was found; the half-point is an estimate with this spread."
+    }
+  },
+  "restingStressJoblessWeight": {
+    "value": 0.077,
+    "tag": "ESTIMATED",
+    "citation": "Klein et al. (2016), 'Psychological stress in the German general population: PSS-10 norm values', BMC Psychiatry 16:159, N=2,463, Table 4 (https://pmc.ncbi.nlm.nih.gov/articles/PMC4877813), read in full on 2026-10-16.",
+    "estimatedFrom": "The PSS-10 gap between unemployed and employed people in the German norm: 15.39 against 12.32, 3.07 points of 40.",
+    "spread": {
+      "low": 0.05,
+      "high": 0.1,
+      "unit": "share of the PSS-10 scale (points / 40)",
+      "citation": "Klein et al. (2016), 'Psychological stress in the German general population: PSS-10 norm values', BMC Psychiatry 16:159, N=2,463, Table 4 (https://pmc.ncbi.nlm.nih.gov/articles/PMC4877813), read in full on 2026-10-16."
+    }
+  },
+  "restingStressWorkAgeFrom": {
+    "value": 16,
+    "tag": "ESTIMATED",
+    "citation": "Klein et al. (2016) Table 4: employment status groups; no age cut-offs are given, so these are estimates.",
+    "estimatedFrom": "Age at which being without a job starts to count as being out of work. The ramp is a sliding scale between these ages; the German norm's retired group (12.14) sits at the employed level.",
+    "spread": {
+      "low": 11,
+      "high": 21,
+      "unit": "years of age",
+      "citation": "Klein et al. (2016) Table 4: employment status groups; no age cut-offs are given, so these are estimates."
+    }
+  },
+  "restingStressWorkAgeFullFrom": {
+    "value": 25,
+    "tag": "ESTIMATED",
+    "citation": "Klein et al. (2016) Table 4: employment status groups; no age cut-offs are given, so these are estimates.",
+    "estimatedFrom": "Age from which being without a job counts in full. The ramp is a sliding scale between these ages; the German norm's retired group (12.14) sits at the employed level.",
+    "spread": {
+      "low": 20,
+      "high": 30,
+      "unit": "years of age",
+      "citation": "Klein et al. (2016) Table 4: employment status groups; no age cut-offs are given, so these are estimates."
+    }
+  },
+  "restingStressWorkAgeFullTo": {
+    "value": 55,
+    "tag": "ESTIMATED",
+    "citation": "Klein et al. (2016) Table 4: employment status groups; no age cut-offs are given, so these are estimates.",
+    "estimatedFrom": "Age to which being without a job counts in full. The ramp is a sliding scale between these ages; the German norm's retired group (12.14) sits at the employed level.",
+    "spread": {
+      "low": 50,
+      "high": 60,
+      "unit": "years of age",
+      "citation": "Klein et al. (2016) Table 4: employment status groups; no age cut-offs are given, so these are estimates."
+    }
+  },
+  "restingStressWorkAgeTo": {
+    "value": 70,
+    "tag": "ESTIMATED",
+    "citation": "Klein et al. (2016) Table 4: employment status groups; no age cut-offs are given, so these are estimates.",
+    "estimatedFrom": "Age by which being without a job no longer counts as being out of work (retirement). The ramp is a sliding scale between these ages; the German norm's retired group (12.14) sits at the employed level.",
+    "spread": {
+      "low": 65,
+      "high": 75,
+      "unit": "years of age",
+      "citation": "Klein et al. (2016) Table 4: employment status groups; no age cut-offs are given, so these are estimates."
+    }
+  },
+  "restingStressYouthWeight": {
+    "value": 0.033,
+    "tag": "ESTIMATED",
+    "citation": "Klein et al. (2016), 'Psychological stress in the German general population: PSS-10 norm values', BMC Psychiatry 16:159, N=2,463, Table 4 (https://pmc.ncbi.nlm.nih.gov/articles/PMC4877813), read in full on 2026-10-16.",
+    "estimatedFrom": "The PSS-10 gap between ages 14-19 and the adult groups in the German norm: 14.05 against 12.74, 1.3 points of 40.",
+    "spread": {
+      "low": 0.02,
+      "high": 0.05,
+      "unit": "share of the PSS-10 scale (points / 40)",
+      "citation": "Klein et al. (2016), 'Psychological stress in the German general population: PSS-10 norm values', BMC Psychiatry 16:159, N=2,463, Table 4 (https://pmc.ncbi.nlm.nih.gov/articles/PMC4877813), read in full on 2026-10-16."
+    }
+  },
+  "restingStressYouthFromAge": {
+    "value": 19,
+    "tag": "ESTIMATED",
+    "citation": "Klein et al. (2016), 'Psychological stress in the German general population: PSS-10 norm values', BMC Psychiatry 16:159, N=2,463, Table 4 (https://pmc.ncbi.nlm.nih.gov/articles/PMC4877813), read in full on 2026-10-16.",
+    "estimatedFrom": "Age up to which the youth gap holds in full; it fades to nothing by restingStressYouthToAge.",
+    "spread": {
+      "low": 17,
+      "high": 21,
+      "unit": "years of age",
+      "citation": "Klein et al. (2016), 'Psychological stress in the German general population: PSS-10 norm values', BMC Psychiatry 16:159, N=2,463, Table 4 (https://pmc.ncbi.nlm.nih.gov/articles/PMC4877813), read in full on 2026-10-16."
+    }
+  },
+  "restingStressYouthToAge": {
+    "value": 30,
+    "tag": "ESTIMATED",
+    "citation": "Klein et al. (2016), 'Psychological stress in the German general population: PSS-10 norm values', BMC Psychiatry 16:159, N=2,463, Table 4 (https://pmc.ncbi.nlm.nih.gov/articles/PMC4877813), read in full on 2026-10-16.",
+    "estimatedFrom": "Age by which the youth gap is gone (the 20-39 group is at the population average).",
+    "spread": {
+      "low": 25,
+      "high": 40,
+      "unit": "years of age",
+      "citation": "Klein et al. (2016), 'Psychological stress in the German general population: PSS-10 norm values', BMC Psychiatry 16:159, N=2,463, Table 4 (https://pmc.ncbi.nlm.nih.gov/articles/PMC4877813), read in full on 2026-10-16."
+    }
+  },
+  "restingStressElderWeight": {
+    "value": 0.02,
+    "tag": "ESTIMATED",
+    "citation": "Klein et al. (2016), 'Psychological stress in the German general population: PSS-10 norm values', BMC Psychiatry 16:159, N=2,463, Table 4 (https://pmc.ncbi.nlm.nih.gov/articles/PMC4877813), read in full on 2026-10-16.",
+    "estimatedFrom": "The PSS-10 gap between ages 60 and over and the population in the German norm: 11.94 against 12.57, about 0.8 points of 40.",
+    "spread": {
+      "low": 0.01,
+      "high": 0.04,
+      "unit": "share of the PSS-10 scale (points / 40)",
+      "citation": "Klein et al. (2016), 'Psychological stress in the German general population: PSS-10 norm values', BMC Psychiatry 16:159, N=2,463, Table 4 (https://pmc.ncbi.nlm.nih.gov/articles/PMC4877813), read in full on 2026-10-16."
+    }
+  },
+  "restingStressElderFromAge": {
+    "value": 50,
+    "tag": "ESTIMATED",
+    "citation": "Klein et al. (2016), 'Psychological stress in the German general population: PSS-10 norm values', BMC Psychiatry 16:159, N=2,463, Table 4 (https://pmc.ncbi.nlm.nih.gov/articles/PMC4877813), read in full on 2026-10-16.",
+    "estimatedFrom": "Age at which the fall begins; it is complete by restingStressElderToAge.",
+    "spread": {
+      "low": 45,
+      "high": 55,
+      "unit": "years of age",
+      "citation": "Klein et al. (2016), 'Psychological stress in the German general population: PSS-10 norm values', BMC Psychiatry 16:159, N=2,463, Table 4 (https://pmc.ncbi.nlm.nih.gov/articles/PMC4877813), read in full on 2026-10-16."
+    }
+  },
+  "restingStressElderToAge": {
+    "value": 70,
+    "tag": "ESTIMATED",
+    "citation": "Klein et al. (2016), 'Psychological stress in the German general population: PSS-10 norm values', BMC Psychiatry 16:159, N=2,463, Table 4 (https://pmc.ncbi.nlm.nih.gov/articles/PMC4877813), read in full on 2026-10-16.",
+    "estimatedFrom": "Age at which the full older-age reduction holds.",
+    "spread": {
+      "low": 60,
+      "high": 75,
+      "unit": "years of age",
+      "citation": "Klein et al. (2016), 'Psychological stress in the German general population: PSS-10 norm values', BMC Psychiatry 16:159, N=2,463, Table 4 (https://pmc.ncbi.nlm.nih.gov/articles/PMC4877813), read in full on 2026-10-16."
+    }
+  },
+  "restingStressBroodingWeight": {
+    "value": 0.25,
+    "tag": "ESTIMATED",
+    "citation": "How much a person who broods dwells on stress, and a person low in brooding is spared it: the shift at the largest recorded brooding trait value (a recorded trait of one tenth of that value moves it a tenth as far). No verified survey table of PSS-10 by personality trait was found; neuroticism-type traits are among the strongest correlates of perceived stress, so the weight lets an extreme trait account for about 10 PSS-10 points (1.5 SD of the norm), since recorded traits cluster near the middle of their range (SD about 0.11 of the maximum).",
+    "estimatedFrom": "How much a person who broods dwells on stress: the largest shift a recorded brooding trait gives. No verified survey table of PSS-10 by personality trait was found; the size follows the usual finding that neuroticism-type traits are among the strongest correlates of perceived stress, and is set so the modeled spread is a fraction of the norm SD (6.42 points, 0.16).",
+    "spread": {
+      "low": 0.1,
+      "high": 0.4,
+      "unit": "share of the PSS-10 scale (points / 40)",
+      "citation": "Estimated from the width of the PSS-10 norm SD in Klein et al. (2016); no trait-specific table was retrieved."
+    }
+  },
+  "restingStressCalmWeight": {
+    "value": 0.2,
+    "tag": "ESTIMATED",
+    "citation": "Estimated from the width of the PSS-10 norm SD in Klein et al. (2016); no trait-specific table was retrieved.",
+    "estimatedFrom": "How much a calm person's stress is lowered, and a person low in calm raised, at the largest recorded trait value. Estimated like restingStressBroodingWeight.",
+    "spread": {
+      "low": 0.08,
+      "high": 0.35,
+      "unit": "share of the PSS-10 scale (points / 40)",
+      "citation": "Estimated from the width of the PSS-10 norm SD in Klein et al. (2016); no trait-specific table was retrieved."
+    }
+  },
+  "restingStressHealthWeight": {
+    "value": 0.077,
+    "tag": "ESTIMATED",
+    "citation": "Klein et al. (2016), 'Psychological stress in the German general population: PSS-10 norm values', BMC Psychiatry 16:159, N=2,463, Table 4 (https://pmc.ncbi.nlm.nih.gov/articles/PMC4877813), read in full on 2026-10-16.",
+    "estimatedFrom": "A health problem that asks all of a person's time (care need 1) weighs as much as being out of work. No survey table of PSS-10 by health status was retrieved, so the unemployed gap (3.07 points of 40) stands in as the size of a major life burden.",
+    "spread": {
+      "low": 0.04,
+      "high": 0.12,
+      "unit": "share of the PSS-10 scale (points / 40)",
+      "citation": "Klein et al. (2016), 'Psychological stress in the German general population: PSS-10 norm values', BMC Psychiatry 16:159, N=2,463, Table 4 (https://pmc.ncbi.nlm.nih.gov/articles/PMC4877813), read in full on 2026-10-16."
     }
   },
   "moodBaseline": {
     "value": 0,
-    "tag": "TUNABLE",
-    "citation": "No direct source for this coefficient, duration or prototype limit; tunable. Empirical calibration or owner budget approval is pending and blocks prototype release.",
-    "stopgapId": "SG-P8-param-moodBaseline",
+    "tag": "ESTIMATED",
+    "citation": "A definition, not a measured figure: the mood channel is signed affect relative to each person's own set point (affect research treats day-to-day mood as deviation around a stable personal baseline; Kuppens, Oravecz & Tuerlinckx 2010, J. Pers. Soc. Psychol. 99(6), 'Feelings change: accounting for individual differences in the temporal dynamics of affect'). Before any recorded event a person sits at their own set point, which is 0 on this scale.",
     "spread": {
-      "status": "unmeasured",
-      "reason": "No empirical parameter bounds have been identified. Related outcome statistics or inherited model assumptions do not establish bounds on this parameter."
+      "low": 0,
+      "high": 0,
+      "unit": "signed affect relative to the person's set point",
+      "citation": "Definitional; see citation."
     },
     "checkRange": {
       "ref": "P9-OUTCOME-WHOLE-LIFE"
-    }
+    },
+    "estimatedFrom": "Zero by construction; individual differences live in traits and appraisal weights, not in this baseline."
   },
   "moodHalfLifeDays": {
     "value": 1,
@@ -345,9 +585,9 @@
     }
   },
   "companyHorizonDays": {
-    "value": 7,
+    "value": 14,
     "tag": "TUNABLE",
-    "citation": "No direct source for this coefficient, duration or prototype limit; tunable. Empirical calibration or owner budget approval is pending and blocks prototype release.",
+    "citation": "No direct source for this coefficient, duration or prototype limit; tunable. Set by the M0-07 check against ATUS 2019 time with family outside the household (28 minutes a day, 170 hours a year): at 7 days adults visited relatives outside the home for 351 to 364 hours a year in four of six drawn places (2.1 times ATUS, over the check's limit of twice), at 14 days for 231 to 268 hours a year in twelve drawn places (1.4 to 1.6 times). Empirical calibration of the need itself is still pending.",
     "stopgapId": "SG-P8-param-companyHorizonDays",
     "spread": {
       "status": "unmeasured",
@@ -629,6 +869,11 @@
     "value": 365,
     "tag": "SOURCED",
     "citation": "P8 one simulated civil year measured from January 2021; actual UTC date endpoint."
+  },
+  "childUpperAge": {
+    "value": 18,
+    "tag": "SOURCED",
+    "citation": "The age below which a household member is the speaker's child at home, as the age of majority: 18 in 47 states, 19 in two, 21 in one (state statutes on the age of majority; Legal Information Institute, 'Age of majority')."
   },
   "benchmarkAdultMinimumAge": {
     "value": 18,
@@ -1609,42 +1854,48 @@
   },
   "businessCrowdingResponse": {
     "value": 0.1,
-    "tag": "TUNABLE",
-    "citation": "Old town-finances crowdingPriceResponse is explicitly PLACEHOLDER; no observed firm price adjustment coefficient is claimed.",
-    "stopgapId": "SG-P8-business-books-dynamics",
+    "tag": "ESTIMATED",
+    "citation": "Nakamura and Steinsson (2008), 'Five Facts about Prices,' Quarterly Journal of Economics 123(4), Table I (https://business.columbia.edu/sites/default/files-efs/pubfiles/3556/fivefacts.pdf): median monthly frequency of regular price change 8.7-11.9%.",
     "spread": {
-      "status": "unmeasured",
-      "reason": "Requires matched capacity/utilization/price changes; no identified coefficient range is available."
+      "low": 0.03,
+      "high": 0.24,
+      "unit": "monthly log price change per unit of excess demand",
+      "citation": "f from 0.087 to 0.119 (Nakamura and Steinsson 2008) over e from 3 (rival sellers, Broda and Weinstein 2006) to 0.5 (market demand)."
     },
     "checkRange": {
       "ref": "P9-OUTCOME-WHOLE-LIFE"
-    }
+    },
+    "estimatedFrom": "Derived: a firm closes about the monthly change frequency f of its price gap each month, and clearing excess demand x takes a price move of x over the demand elasticity e it faces, so the response is about f/e; f = 0.10 and e = 1 give 0.1."
   },
   "businessPriceStepMaximum": {
     "value": 0.05,
     "tag": "TUNABLE",
-    "citation": "Old town-finances priceStepMax is an authored per-review cap; this pure calculator does not establish a review cadence or measured cap.",
+    "citation": "A per-review cap on the price move from demand pressure. Nakamura and Steinsson (2008), 'Five Facts about Prices,' QJE 123(4): the median absolute size of a regular consumer price change is 8.5% (6.1% to 14.2% by major group), made about once every 8 to 11 months; a monthly cap of 5% keeps a monthly review's move below one typical change.",
     "stopgapId": "SG-P8-business-books-dynamics",
     "spread": {
-      "status": "unmeasured",
-      "reason": "No matched review-period price-step distribution identifies this cap; cadence and coefficient calibration remain open."
+      "low": 0.05,
+      "high": 0.142,
+      "unit": "largest monthly log price change",
+      "citation": "Nakamura and Steinsson (2008): per-change sizes 6.1%-14.2% by major group; the cap is checked from 0.05 up to that range."
     },
     "checkRange": {
       "ref": "P9-OUTCOME-WHOLE-LIFE"
     }
   },
   "businessRivalPriceElasticity": {
-    "value": 3,
-    "tag": "TUNABLE",
-    "citation": "Old town-finances rivalPriceElasticity is explicitly PLACEHOLDER; capacity times relative-price weight is an uncalibrated allocation model.",
-    "stopgapId": "SG-P8-business-books-dynamics",
+    "value": 2.7,
+    "tag": "ESTIMATED",
+    "citation": "Broda and Weinstein (2006), 'Globalization and the Gains from Variety,' Quarterly Journal of Economics 121(2), Table 4 (FRBNY Staff Report 180, https://www.newyorkfed.org/medialibrary/media/research/staff_reports/sr180.html): median elasticity of substitution between varieties, 1990-2001, 2.7 at SITC-5.",
     "spread": {
-      "status": "unmeasured",
-      "reason": "Requires actual within-market price, capacity and spending-share observations; no coefficient bounds measured."
+      "low": 1.6,
+      "high": 9.7,
+      "unit": "elasticity of substitution between rival sellers",
+      "citation": "Broda and Weinstein (2006), SITC-5 10th and 90th percentiles, 1990-2001."
     },
     "checkRange": {
       "ref": "P9-OUTCOME-WHOLE-LIFE"
-    }
+    },
+    "estimatedFrom": "US import varieties by source country, used for rival local sellers of one kind; close local substitutes are likely more elastic than the median."
   },
   "businessRepaymentShare": {
     "value": 0.5,
@@ -1755,15 +2006,15 @@
     "checkRange": {
       "ref": "EMPIRICAL-OPENING-RETIREMENT-INCOME"
     },
-    "value": 0.75,
+    "value": 0.685,
     "tag": "ESTIMATED",
     "citation": "SSA, Social Security Bulletin 65(1), 'Outcome Indicators' (https://www.ssa.gov/policy/docs/ssb/v65n1/v65n1p70.html): share of quarters with covered earnings from age 22 to the year before first claiming, men retiring in 2002 0.84, women 0.66. CRS R47330 (SSA estimates for 1950–1959 cohorts): 62% of workers surviving to 67 have 35 or more covered years between 22 and 67.",
-    "estimatedFrom": "The simple average of the men's and women's shares, 0.75; one value for everyone until people's own work histories carry it.",
+    "estimatedFrom": "The source counts quarters from age 22; the game's adults start at 18 (openingRetirementCareerStartAgeYears), so each share is turned into covered years over the claim age less 22 and divided by the years from 18: 0.75 (the men's and women's shares averaged) times (64.08 - 22) / (64.08 - 18) = 0.685, using the opening's measured mean claim age of 64.08. One value for everyone until people's own work histories carry it.",
     "spread": {
-      "low": 0.66,
-      "high": 0.84,
-      "unit": "share of adult years with covered earnings",
-      "citation": "SSA Bulletin 65(1): women 0.66, men 0.84."
+      "low": 0.603,
+      "high": 0.767,
+      "unit": "share of adult years (from 18) with covered earnings",
+      "citation": "SSA Bulletin 65(1): women 0.66 and men 0.84 from age 22, each times (64.08 - 22) / (64.08 - 18)."
     }
   },
   "openingRetirementCoveredTraitPull": {
@@ -1815,52 +2066,10 @@
     "tag": "SOURCED",
     "citation": "SSA, Annual Statistical Supplement 2021, Table 5.B6 (December 2020), https://www.ssa.gov/policy/docs/statcomps/supplement/2021/5b.html: the 95th percentile benefit, computed from the published bins, is 1.88 times the mean."
   },
-  "openingRetirementPayerReserveMonths": {
-    "value": 0,
-    "tag": "TUNABLE",
-    "citation": "Deprecated compatibility parameter. CTO REVIEW 15 rejects prepaid retirement reserve stocks: new paying views and the outside-flow owner start at zero independent of this key. Dated genuine obligations, not annual outlays or survival targets, authorize later outside payments. Zero is the accounting policy, not an unobserved Treasury/program cash value.",
-    "estimatedFrom": "Retired stock-generation control; it is retained only for compatibility and supplies no new opening cash.",
-    "spread": {
-      "status": "unmeasured",
-      "reason": "Unused historical stock coefficient; active outside-due flows do not read it. No observed payer cash-stock dispersion is claimed."
-    },
-    "stopgapId": "SG-P8-param-openingRetirementPayerReserveMonths",
-    "checkRange": {
-      "ref": "EMPIRICAL-OPENING-RETIREMENT-INCOME"
-    }
-  },
   "openingRetirementPeriodMonths": {
     "value": 1,
     "tag": "SOURCED",
     "citation": "Sourced monthly benefit cadence only. The first bill on the first day of the next month and later fixed-day successors in opening-income.ts remain an explicitly ESTIMATED calendar prior. They do not implement 20 CFR 404.1807 insured-worker cycling, exceptions or holiday/early-payment rules; see src/core2/data/research/retirement-opening-2021.json observations.ssaPaymentDayRule2020."
-  },
-  "openingRetirementFundingEnvelopeShare": {
-    "value": 0,
-    "tag": "TUNABLE",
-    "citation": "Retired compatibility parameter. REVIEW 15 retirement funding reads exact saved due income terms; this key supplies no stock, flow allocation, cap or end.",
-    "estimatedFrom": "Historical stopgap retained for source/save compatibility only; no active funding producer reads this key.",
-    "spread": {
-      "status": "unmeasured",
-      "reason": "National outlays do not identify a portfolio allocation, individual amount distribution or payer liquid-stock interval."
-    },
-    "stopgapId": "SG-P8-param-openingRetirementFundingEnvelopeShare",
-    "checkRange": {
-      "ref": "EMPIRICAL-RETIREMENT-FUNDING-FLOWS"
-    }
-  },
-  "openingRetirementFundingLiquidShare": {
-    "value": 0,
-    "tag": "TUNABLE",
-    "citation": "Retired compatibility parameter. REVIEW 15 retirement funding reads exact saved due income terms; this key supplies no stock, flow allocation, cap or end.",
-    "estimatedFrom": "Historical stopgap retained for source/save compatibility only; no active funding producer reads this key.",
-    "spread": {
-      "status": "unmeasured",
-      "reason": "Unused historical stock coefficient; exact recorded due-income flows replace stock allocation. No observed program liquid-stock interval is claimed."
-    },
-    "stopgapId": "SG-P8-param-openingRetirementFundingLiquidShare",
-    "checkRange": {
-      "ref": "EMPIRICAL-RETIREMENT-FUNDING-FLOWS"
-    }
   },
   "openingRetirementFundingPublicAnnualOutlayMinor": {
     "value": 95236200000000,
@@ -2322,38 +2531,6 @@
     "citation": "A disclosed quarter of the local general-public-buildings per-resident aggregate is represented by the admitted office buyer accounts. Census aggregates all local units; this coverage is an uncalibrated opening proxy. Applicability: Published aggregate mean and sampling error are not individual dispersion. No individual budget/account spread or crosswalk calibration has been measured.",
     "estimatedFrom": "A disclosed quarter of the local general-public-buildings per-resident aggregate is represented by the admitted office buyer accounts. Census aggregates all local units; this coverage is an uncalibrated opening proxy.",
     "stopgapId": "SG-P8-opening-customer-public-procurement"
-  },
-  "openingCustomerOutsideHouseholdCountPerMarket": {
-    "value": 1,
-    "tag": "TUNABLE",
-    "citation": "One named visiting family per admitted shared-county outside market is a bounded fictional opening roster, not a demand or firm-survival target.",
-    "spread": {
-      "status": "unmeasured",
-      "reason": "Published aggregate mean and sampling error are not individual dispersion. No individual budget/account spread or crosswalk calibration has been measured."
-    },
-    "checkRange": {
-      "ref": "EMPIRICAL-OPENING-CUSTOMER-BUDGET-CALIBRATION"
-    },
-    "estimatedFrom": "One named visiting family per admitted shared-county outside market is a bounded fictional opening roster, not a demand or firm-survival target.",
-    "stopgapId": "SG-P8-opening-customer-outside-households"
-  },
-  "openingCustomerOutsideHouseholdLiquidUsd": {
-    "value": 7400,
-    "tag": "SOURCED",
-    "citation": "Federal Reserve SCF 2022 historical nominal tables, transaction-account holding families in income percentiles 40–59.9, median $7,400. data/research/money/scf-transaction-accounts-2022.json; https://www.federalreserve.gov/econres/files/scf2022_tables_public_nominal_historical.xlsx. One family pool, never per member. Applicability: Published aggregate mean and sampling error are not individual dispersion. No individual budget/account spread or crosswalk calibration has been measured.",
-    "stopgapId": "SG-P8-opening-customer-outside-households"
-  },
-  "openingCustomerOutsideHouseholdIncomePriorUsd": {
-    "value": 70259,
-    "tag": "SOURCED",
-    "citation": "SCF 2022 nominal median family income, income percentiles 40–59.9, $70,259; independent generation context only. It is not a recurring cash credit. Applicability: Published aggregate mean and sampling error are not individual dispersion. No individual budget/account spread or crosswalk calibration has been measured.",
-    "stopgapId": "SG-P8-opening-customer-outside-households"
-  },
-  "openingCustomerOutsideLodgingAnnualUsd": {
-    "value": 905.72,
-    "tag": "SOURCED",
-    "citation": "BLS CEX All consumer units 2024, B1401, Lodging on out of town trips [I], https://www.bls.gov/cex/tables/calendar-year/mean/cu-all-detail-2024.xlsx. Unconditional annual consumer-unit mean; not promised delivery or a trip count. Applicability: Published aggregate mean and sampling error are not individual dispersion. No individual budget/account spread or crosswalk calibration has been measured.",
-    "stopgapId": "SG-P8-opening-customer-outside-households"
   },
   "openingCustomerLocalBuildingTotalUsd_US": {
     "value": 13644072000,
@@ -3377,39 +3554,6 @@
     "tag": "SOURCED",
     "citation": "U.S. public schools end with grade 12 (the existing game school-calendar.ts: grades 9-12 in high school)."
   },
-  "fallingOutBaseRatePerYear": {
-    "value": 0.0155,
-    "tag": "ESTIMATED",
-    "citation": "YouGov, February 24-27, 2023, 31,380 U.S. adults: 68% have decided to end a friendship and followed through; https://yougov.com/en-us/articles/45676-americans-ended-friendship-breakups-poll",
-    "estimatedFrom": "Solved so 68% of adults have at least one falling-out among the people they shared a class or workgroup with, pooled over six generated towns (seeds p15-fall-a to -f: Grand Mound, Washington; Monument, Colorado; Heber, Utah; Bay Minette, Alabama; Tice, Florida; Summit, New Jersey; 12,963 adults; 1.34 falling-outs per adult). Each generated peer stands for the missing members of a full class or workgroup, so circles sampled from big places count fully. YouGov counts any friendship over a lifetime, not only classmates and coworkers.",
-    "stopgapId": "SG-P15-falling-outs"
-  },
-  "fallingOutConflictWeight": {
-    "value": 0.35,
-    "tag": "TUNABLE",
-    "citation": "Rise in the yearly falling-out rate per level of each person's conflict trait (log scale); no direct source.",
-    "stopgapId": "SG-P15-falling-outs",
-    "spread": {
-      "status": "unmeasured",
-      "reason": "No empirical range identified for how temperament changes the rate of falling out."
-    },
-    "checkRange": {
-      "ref": "P9-OUTCOME-WHOLE-LIFE"
-    }
-  },
-  "fallingOutReliabilityWeight": {
-    "value": 0.35,
-    "tag": "TUNABLE",
-    "citation": "Fall in the yearly falling-out rate per level of each person's reliability (log scale); no direct source.",
-    "stopgapId": "SG-P15-falling-outs",
-    "spread": {
-      "status": "unmeasured",
-      "reason": "No empirical range identified for how temperament changes the rate of falling out."
-    },
-    "checkRange": {
-      "ref": "P9-OUTCOME-WHOLE-LIFE"
-    }
-  },
   "householdChildAgeYears": {
     "value": 18,
     "tag": "SOURCED",
@@ -3427,26 +3571,6 @@
     "checkRange": {
       "ref": "P9-OUTCOME-WHOLE-LIFE"
     }
-  },
-  "favorSharedHoursPerYear": {
-    "value": 50,
-    "tag": "TUNABLE",
-    "citation": "Hours of time together a year of sharing a class or workgroup counts for when judging closeness at a later need; Hall (2019) finds about 50 hours make a casual friend and that hours working together count less than socializing; no direct source for a year's worth.",
-    "stopgapId": "SG-P15-favors",
-    "spread": {
-      "status": "unmeasured",
-      "reason": "No empirical range for hours of friendship time per shared school or work year."
-    },
-    "checkRange": {
-      "ref": "P9-OUTCOME-WHOLE-LIFE"
-    }
-  },
-  "favorRatePerNeed": {
-    "value": 0.169,
-    "tag": "ESTIMATED",
-    "citation": "Talker Research for Safeway Moving, March 19-25, 2025, 2,000 U.S. adults (opt-in commercial poll): 39% first ask friends for help moving; https://talkerresearch.com/more-than-a-third-secretly-hate-being-asked-to-help-with-moving/",
-    "estimatedFrom": "Solved so 39% of residents' recorded moves draw a favor from at least one person they shared a class or workgroup with, each sampled peer standing for the missing members of a full group; pooled over six generated towns (seeds p15-fall-a to -f; 6,613 recorded moves into the county, 0.71 favors per move). Asking friends first is not the same as receiving a favor, and the poll is opt-in.",
-    "stopgapId": "SG-P15-favors"
   },
   "openingPayrollBlsAllPrivateWeeklyWeight": {
     "value": 32.4,
@@ -3846,6 +3970,17 @@
       "ref": "P9-OUTCOME-WHOLE-LIFE"
     }
   },
+  "driveKeepHomeHalfLifeDays": {
+    "value": 180,
+    "tag": "TUNABLE",
+    "citation": "Half-life of the resolve to secure a home, without new events or acts: about the length of a homelessness episode (most sheltered stays end within six months, HUD Annual Homeless Assessment Report 2023, Part 2), after which the pull eases.",
+    "spread": {
+      "low": 90,
+      "high": 365,
+      "unit": "days",
+      "citation": "A season to a year."
+    }
+  },
   "driveStatusHalfLifeDays": {
     "value": 365,
     "tag": "TUNABLE",
@@ -4015,17 +4150,15 @@
       "ref": "P9-OUTCOME-WHOLE-LIFE"
     }
   },
-  "donationLivingCostDays": {
-    "value": 1,
+  "donationShareOfSpare": {
+    "value": 0.001,
     "tag": "TUNABLE",
-    "citation": "One donation equals this many days of the donor's own recorded living cost. P10 prototype starting value; no direct source for this coefficient. Calibration against P9 life replays and bereaved/activist cohort spreads is pending and blocks release.",
-    "stopgapId": "SG-P10-params-uncalibrated",
+    "citation": "The share of a person's cash above their buffer (moneyBufferDays of living cost) they give in one gift to a cause they hold at full strength; a weaker hold gives proportionally less. Checked against what U.S. households give to causes like these: Giving USA 2024 reports $374.40 billion of individual giving in 2023, about 16% of all giving going to public-society benefit and environment and animal groups, about $456 a year per household over the Census Bureau's 131.4 million households. Measured: Trenton, North Carolina (seed bdbb4f011961), two played years, the 18 people who gave gave a mean of $449.42 a year (scripts/core2-year/giving-proof.ts). Givers choose to give about 80 times a year, where real donors give a few times; the share is set for the yearly total.",
     "spread": {
-      "status": "unmeasured",
-      "reason": "Annual household giving surveys report yearly totals, not per-gift amounts in days of living cost."
-    },
-    "checkRange": {
-      "ref": "P9-OUTCOME-WHOLE-LIFE"
+      "low": 0.0003,
+      "high": 0.005,
+      "unit": "share of spare cash per gift",
+      "citation": "Within this range a played year's mean yearly giving per giver stays within about a third to five times the Giving USA per-household figure."
     }
   },
   "volunteerHours": {
@@ -4223,6 +4356,17 @@
       "ref": "P9-OUTCOME-WHOLE-LIFE"
     }
   },
+  "responseSecureHomeFit": {
+    "value": 3.0,
+    "tag": "TUNABLE",
+    "citation": "How strongly losing a home, or facing an eviction, pushes toward a resolve to secure a home again. Carrying on keeps its baseline (responseCarryOnBaseline), so a fit near 3 lets most people form the resolve while those whose traits lean toward keeping things the same carry on (owner, Oct 14: 'not being homeless is some people's motivation'). Measured: Washington, D.C. (seed 646c5d940e1a), a home loss given to 7 jobless adults on February 19, 2025 (dev mode): 5 formed it and 2 carried on; at 1.5, 1 of 7; at 4.0, 7 of 7.",
+    "spread": {
+      "low": 2.0,
+      "high": 4.0,
+      "unit": "fit",
+      "citation": "From one in three forming it to all of them, in the same check."
+    }
+  },
   "responseAmbitionFit": {
     "value": 1.9,
     "tag": "TUNABLE",
@@ -4259,7 +4403,7 @@
   "resilienceHashDigits": {
     "value": 8,
     "tag": "SOURCED",
-    "citation": "Half of the existing stable hash's sixteen hexadecimal digits (64-bit FNV-1a, src/simulation/ids.ts); two 32-bit halves feed the existing fixed-point survival-line helper (src/simulation/crisis/fixed-point.ts). A generation key, not a behavioral draw."
+    "citation": "Half of the existing stable hash's sixteen hexadecimal digits (64-bit FNV-1a, src/core2/kernel/ids.ts); two 32-bit halves feed the existing fixed-point survival-line helper (src/core2/kernel/fixed-point.ts). A generation key, not a behavioral draw."
   },
   "driveClosureImpulse": {
     "value": 0.47,
@@ -4273,6 +4417,71 @@
     "citation": "Losing one's home to eviction, sized like losing one's job: the Social Readjustment Rating Scale has no eviction item (its nearest, 'Foreclosure of mortgage or loan', is 30 life-change units; 'Fired at work' is 47; Holmes and Rahe 1967), and Desmond and Kimbro (2015, Social Forces 94(1):295-324) find evicted mothers' depression twice that of matched mothers, so the foreclosure item understates it. At 0.30 no one of 101 evicted residents in a drawn town formed a drive; at 0.47, 6 to 8% hold a grudge against the landlord.",
     "estimatedFrom": "Holmes and Rahe (1967) and Desmond and Kimbro (2015); spread 0.3 to 0.47"
   },
+  "driveHomeLostImpulse": {
+    "value": 0.47,
+    "tag": "ESTIMATED",
+    "citation": "Losing one's home (doubled up with kin, in a shelter or on the street), sized like an eviction (driveEvictionImpulse): the Social Readjustment Rating Scale's nearest items are 'Foreclosure of mortgage or loan' at 30 and 'Fired at work' at 47 life-change units (Holmes and Rahe 1967), and homelessness follows the eviction that caused it.",
+    "estimatedFrom": "Holmes and Rahe (1967), as for driveEvictionImpulse; spread 0.3 to 0.6"
+  },
+  "healthShelteredHazardFactor": {
+    "value": 2.0,
+    "tag": "ESTIMATED",
+    "citation": "How much faster strain toward serious illness and death builds for a person in a homeless shelter. Homeless people in high-income countries die at two to five times the rate of the general population (Fazel, Geddes and Kushel 2014, 'The health of homeless people in high-income countries', The Lancet 384(9953):1529-1540); sheltered people sit at the low end.",
+    "estimatedFrom": "Fazel, Geddes and Kushel (2014); the low end of their range for sheltered adults",
+    "spread": {
+      "low": 1.5,
+      "high": 3.0,
+      "unit": "times the housed rate",
+      "citation": "Within Fazel et al.'s range for sheltered adults."
+    }
+  },
+  "healthUnshelteredHazardFactor": {
+    "value": 3.5,
+    "tag": "ESTIMATED",
+    "citation": "How much faster strain builds for a person sleeping outside: the upper part of Fazel et al.'s two-to-five-times range, because unsheltered adults die at higher rates than sheltered ones (Roncarati et al. 2018, 'Mortality Among Unsheltered Homeless Adults in Boston, Massachusetts, 2000-2009', JAMA Internal Medicine 178(9):1242-1248).",
+    "estimatedFrom": "Fazel, Geddes and Kushel (2014) and Roncarati et al. (2018)",
+    "spread": {
+      "low": 2.5,
+      "high": 5.0,
+      "unit": "times the housed rate",
+      "citation": "The upper half of Fazel et al.'s range."
+    }
+  },
+  "healthDoubledUpHazardFactor": {
+    "value": 1.2,
+    "tag": "TUNABLE",
+    "citation": "How much faster strain builds for a person doubled up with relatives after losing their home: crowded and unstable housing raises the risk of illness, well short of a shelter's (the sheltered factor's lower bound is 1.5).",
+    "spread": {
+      "low": 1.0,
+      "high": 1.5,
+      "unit": "times the housed rate",
+      "citation": "From no change to the sheltered factor's low end."
+    }
+  },
+  "healthEvictionHazardFactor": {
+    "value": 1.1,
+    "tag": "ESTIMATED",
+    "citation": "How much faster strain builds in the years after an eviction: eviction raises hospital and emergency department use and lowers earnings for about two years (Collinson, Humphries, Mader, Reed, Tannenbaum and van Dijk 2024, 'Eviction and Poverty in American Cities', The Quarterly Journal of Economics 139(1):57-120).",
+    "estimatedFrom": "Collinson et al. (2024); a modest rise, as their effects on health care use are modest",
+    "spread": {
+      "low": 1.0,
+      "high": 1.3,
+      "unit": "times the rate before",
+      "citation": "From no change to a third higher."
+    }
+  },
+  "healthEvictionEffectDays": {
+    "value": 730,
+    "tag": "ESTIMATED",
+    "citation": "How long an eviction's effect on health lasts: about two years after the filing (Collinson et al. 2024).",
+    "estimatedFrom": "Collinson et al. (2024)",
+    "spread": {
+      "low": 365,
+      "high": 1095,
+      "unit": "days",
+      "citation": "One to three years."
+    }
+  },
   "schoolCohortPopulationShare": {
     "value": 0.0129,
     "tag": "ESTIMATED",
@@ -4284,24 +4493,6 @@
     "tag": "ESTIMATED",
     "citation": "Net 30 is the most common U.S. business-to-business invoice term; Federal Reserve Bank of Atlanta / Small Business Credit Survey and trade-credit literature (e.g., Petersen and Rajan 1997, Review of Financial Studies 10(3)) describe 30-day terms as the norm.",
     "estimatedFrom": "Outside supplier bills for a firm's costs are paid one month after the sales that incur them; spread 10 to 60 days across industries."
-  },
-  "ownerDistributionBufferMultiple": {
-    "value": 1,
-    "tag": "ESTIMATED",
-    "citation": "JPMorgan Chase Institute, Cash Is King: Flows, Balances, and Buffer Days (2016): the median small business holds 27 days of outflows (16 for restaurants to 47 for real estate), the level firms actually keep; openingEmployerCashBufferDays* carry the industry medians.",
-    "estimatedFrom": "Firms pay owners the cash above one median buffer, so balances settle where observed firms hold them. At 2, every firm climbed toward twice its opening cash (Vonore, Tennessee: employers' cash $43.6M → $93.6M in a year); at 1 it stays near its opening level ($53.0M), with 2 of 27 closed.",
-    "spread": {
-      "low": 1,
-      "high": 2,
-      "unit": "multiples of the industry median buffer",
-      "citation": "JPMCI 2016 interquartile buffer ranges run about half to double the median."
-    }
-  },
-  "ownerDistributionLocalShare": {
-    "value": 0.6,
-    "tag": "TUNABLE",
-    "citation": "Share of a small-town firm's owner payouts received by owners living in the town; ownership of each firm is not modeled yet.",
-    "checkedAgainst": "Spread 0.3 to 0.9; the rest goes to owners outside the town."
   },
   "fullTimeWeeklyHours": {
     "value": 35,
@@ -4598,6 +4789,17 @@
       "citation": "A season to a three-year term; checked against the memory check (scripts/core2-guard/memory.mjs) and the journal."
     }
   },
+  "experiencedKeyRetentionDays": {
+    "value": 90,
+    "tag": "TUNABLE",
+    "citation": "Owner ruling, Oct 12 (running memory stays small): how long a person keeps the bare 'I lived through this event' key after the day, once it is no longer the source of a drive they hold. Its only readers are the same-day appraisal and a drive's update; the event's own facts stay.",
+    "spread": {
+      "low": 30,
+      "high": 365,
+      "unit": "days",
+      "citation": "A month to a year; checked against the 450-day play digest (unchanged) and the yearly heap in scripts/core2-year/years-profile.ts."
+    }
+  },
   "openingTeacherAnnualWageUsd": {
     "value": 63970,
     "tag": "SOURCED",
@@ -4679,6 +4881,87 @@
       "high": 7.5,
       "unit": "hours",
       "citation": "Typical public school days across states and districts."
+    }
+  },
+  "willAgeWeight": {
+    "value": 1.0,
+    "tag": "TUNABLE",
+    "citation": "How much each year past willAgeMidpointYears adds to a person's lean toward having made a will, in midpoint-lengths: older people far more often have one. Checked against Gallup (May 2016, 'Majority in U.S. Do Not Have a Will'): 44% of U.S. adults have a will, rising with age to about two in three past 65.",
+    "spread": {
+      "low": 0.5,
+      "high": 2.0,
+      "unit": "lean per midpoint-length of age",
+      "citation": "From a gentle rise with age to most older adults having one."
+    }
+  },
+  "willAgeMidpointYears": {
+    "value": 50,
+    "tag": "TUNABLE",
+    "citation": "The age at which a person with no lean either way is as likely to have made a will as not; with the trait lean averaging zero, about half of 50-year-olds have one, between Gallup's 44% of all adults and its two in three past 65 (Gallup, May 2016).",
+    "spread": {
+      "low": 40,
+      "high": 60,
+      "unit": "years",
+      "citation": "Ages where Gallup's share of will-holders crosses one half."
+    }
+  },
+  "probateDays": {
+    "value": 270,
+    "tag": "ESTIMATED",
+    "citation": "How long an estate waits in probate before the heirs take: most estates take six months to a year, longer when contested (American Bar Association, 'Guide to Wills and Estates', probate chapter).",
+    "estimatedFrom": "ABA guidance: six months to a year; nine months used",
+    "spread": {
+      "low": 180,
+      "high": 540,
+      "unit": "days",
+      "citation": "Six months to eighteen months."
+    }
+  },
+  "trustWealthMidpointMinor": {
+    "value": 500000000,
+    "tag": "ESTIMATED",
+    "citation": "The estate, in cents, at which a person with no lean either way is as likely to have set up a living trust as not, and at which half of it sits in the trust. Few families hold trusts and holding rises steeply with wealth (Federal Reserve, Survey of Consumer Finances 2022, trust and managed-assets questions); the midpoint is placed near the wealth of the top few percent, an estimate and not a reading of any table.",
+    "estimatedFrom": "The Survey of Consumer Finances' pattern of trust holding by wealth, placed at about five million dollars",
+    "spread": {
+      "low": 100000000,
+      "high": 1000000000,
+      "unit": "cents of estate",
+      "citation": "From one million to ten million dollars."
+    }
+  },
+  "trustWealthWeight": {
+    "value": 1.0,
+    "tag": "TUNABLE",
+    "citation": "How much each e-fold of an estate past trustWealthMidpointMinor adds to a person's lean toward having set up a living trust. Trust holding climbs from rare among ordinary families to common among the very wealthy (Federal Reserve, Survey of Consumer Finances 2022).",
+    "spread": {
+      "low": 0.5,
+      "high": 2.0,
+      "unit": "lean per e-fold of estate",
+      "citation": "From a gentle rise with wealth to most of the very wealthy holding a trust."
+    }
+  },
+  "cohortSearchMinimumHouseholds": {
+    "value": 400,
+    "tag": "TUNABLE",
+    "citation": "How many households the opening draws, at least, to find one holding a child of the player's cohort age in a town whose own sample shows none. Measured Oct 15, 2026: in Freedom Acres, Arizona, Princeton, Arkansas (Census population 3) and Danvers, Montana (population 6), a family with a child of age 17 turned up within 8 to 23 further draws; the old cap, the town's own household count, was 3 to 36.",
+    "spread": {
+      "low": 100,
+      "high": 2000,
+      "unit": "households",
+      "citation": "From about four times the longest search measured to the point a draw costs a visible fraction of the opening's build time."
+    }
+  },
+  "careNeedHalfExcessHazard": {
+    "value": 6,
+    "tag": "TUNABLE",
+    "citation": "The combined chronic-condition hazard weight above ordinary health (the weight that sets a person's illness onset) that asks for half of full care from a relative at home. A grown relative's care need is excess / (excess + this). Checked on three generated towns over 90 days (seeds care-a, care-b, care-c; Filley, Nebraska; Slaughter Beach and Ardencroft, Delaware): values of 3 and 6 gave the same share of person-days caring for household members (21.5%, 3.4% and 48.8%, against 18.8%, 0.2% and 43.6% with children alone; ATUS 2025 Table 1 household care 22.0% of person-days), because a relative who asks for any care draws the act; the value sets how strongly. No direct source for the value itself.",
+    "stopgapId": "SG-P8-life-utility",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Calibrated to one ATUS share; no empirical range for how much condition hazard asks for care in these score units."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
     }
   }
 }

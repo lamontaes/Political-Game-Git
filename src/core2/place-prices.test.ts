@@ -10,6 +10,7 @@ import {
 } from "./modules/place-prices";
 import { worldCoreData } from "./modules/world";
 import { coreAPI } from "./state";
+import { collapseToTwoLevels } from "./residents";
 import type { CoreInput, Source } from "./types";
 
 const start = "2021-01-01",
@@ -87,6 +88,65 @@ function input(): CoreInput {
 }
 
 describe("prices a law sets", () => {
+  it("charges the same consumption total when unequal-income households are counted", () => {
+    const base = input();
+    const fixture: CoreInput = {
+      ...base,
+      playerId: "worker",
+      focusPersonIds: ["worker"],
+      people: [
+        ...base.people,
+        {
+          ...base.people[0]!,
+          id: "high-earner",
+          householdId: "household:high-earner",
+          jobId: "job:high-earner",
+        },
+      ],
+      households: [
+        ...base.households,
+        {
+          ...base.households[0]!,
+          id: "household:high-earner",
+          memberIds: ["high-earner"],
+        },
+      ],
+      jobs: [
+        ...base.jobs,
+        {
+          ...base.jobs[0]!,
+          id: "job:high-earner",
+          personId: "high-earner",
+          wageDailyMinor: 100_000,
+        },
+      ],
+    };
+    const run = (counted: boolean) => {
+      const core = createLifeCore(
+        counted ? collapseToTwoLevels(fixture) : fixture,
+        {
+          data: worldCoreData(),
+          modules: [PLACE_PRICES_MODULE],
+        },
+      );
+      const api = coreAPI(core);
+      advanceCore(core, "2021-01-02");
+      adjustPrice(api, {
+        placeId: place,
+        good: "electricity",
+        share: 0.1,
+        payeeId: utility,
+        cause: "fixture-electricity",
+        source: src,
+      });
+      advanceCore(core, "2021-02-04");
+      expect(core.cashJournal.totals.grossDebitMinor).toBe(
+        core.cashJournal.totals.grossCreditMinor,
+      );
+      return core.organizations.get(utility)!.liquidMinor;
+    };
+    expect(run(true)).toBe(run(false));
+  });
   it("a dearer electricity price moves each household's extra spending to the utility; fare-free transit refunds riders' fares from outside", () => {
     const core = createLifeCore(input(), {
         data: worldCoreData(),

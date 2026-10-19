@@ -18,7 +18,7 @@
  *
  * Enacted game taxes (`tax-policy.ts`) are a separate route and untouched.
  */
-import { createStableId } from "./ids";
+import { createStableId } from "../core2/kernel/ids";
 import { appendedList, recordById } from "./history-index";
 import {
   federalIncomeTaxUnderLaw,

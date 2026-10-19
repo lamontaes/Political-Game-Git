@@ -6,7 +6,7 @@ import {
 } from "./campaigns";
 import { suggestedAdvertising } from "./campaign-weekly-plans";
 import { contestDistrictGeography } from "./campaign-geography";
-import { inventedPersonBirthDate } from "./invented-person-age";
+import { inventedPersonBirthDate } from "../core2/gov-rules/invented-person-age";
 import { eventById } from "./event-index";
 import { jailTermOn } from "./justice/jail-terms";
 import {
@@ -32,7 +32,7 @@ import {
 } from "./campaign-queries";
 import { planCampaignOperatingWeek } from "./campaign-operating-costs";
 import { recordSupportShift } from "./campaign-support";
-import { addDays } from "./dates";
+import { addDays } from "../core2/kernel/dates";
 import {
   evaluateDecision,
   isSelectedDecision,
@@ -44,7 +44,7 @@ import {
   requireElectionContest,
 } from "./election-contests";
 import { scheduleFutureDueItem } from "./future-transitions";
-import { createStableId } from "./ids";
+import { createStableId } from "../core2/kernel/ids";
 import { createOrganization, createOrganizationParticipation } from "./life";
 import { publicPartyAffiliation } from "./living-world/congress";
 import { homePartyChapters } from "./living-world/party-chapters";
@@ -55,7 +55,7 @@ import { generatePersonIdentity } from "./person-identity";
 import { recordEventKnowledge, recordRelationshipInteraction } from "./records";
 import { resourcePositionAt } from "./resource-queries";
 import { createResourcePosition } from "./resources";
-import { SeededRng } from "./rng";
+import { SeededRng } from "../core2/kernel/rng";
 import type {
   CampaignRecord,
   DecisionConsideration,

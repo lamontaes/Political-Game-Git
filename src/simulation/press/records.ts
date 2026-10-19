@@ -1,4 +1,4 @@
-import type { EntityId, IsoDate } from "../types";
+import type { EntityId, IsoDate } from "../../core2/kernel/brands";
 
 /**
  * PRESS46 record family (CRUNCH46 §10, ALIVE44 chunks 4–5).

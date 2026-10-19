@@ -1,5 +1,5 @@
-import { governmentUnitDisplayName } from "./government-unit-names";
-import type { GovernmentUnitIdentity } from "../government-units";
+import { governmentUnitDisplayName } from "../../core2/gov-rules/government-unit-names";
+import type { GovernmentUnitIdentity } from "../../core2/reference/government-units";
 import { townCouncilProfileReading } from "../town-council-profile-inputs";
 
 /**

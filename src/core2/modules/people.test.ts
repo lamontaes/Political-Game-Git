@@ -1,6 +1,6 @@
 import { createHash } from "node:crypto";
 import { describe, expect, it } from "vitest";
-import { addDays, makeIsoDate } from "../../simulation/dates";
+import { addDays, makeIsoDate } from "../kernel/dates";
 import { enrichCivicInputs } from "../civic-inputs";
 import { currentCloseness } from "../closeness";
 import { buildDeepPast } from "../deep-past";

@@ -12,7 +12,7 @@ import {
   campaignStateRecords,
   campaigns,
 } from "./campaign-queries";
-import { createStableId } from "./ids";
+import { createStableId } from "../core2/kernel/ids";
 import { municipalSeatChoiceByKey } from "./municipal-seat-identity";
 import type {
   CampaignActionRecord,

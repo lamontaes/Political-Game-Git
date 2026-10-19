@@ -11,13 +11,23 @@
  *   takes off more for the young, less with age; all-mail voting takes off
  *   part of the work-time cost of getting to the polls.
  * - `felonyDisenfranchisedShare`: the share of the counted adults who can't
- *   vote for a felony conviction, less those a restoration law returns.
+ *   vote for a felony conviction in the town's state, less those a restoration
+ *   law returns; `barredFromVoting` for a named person.
  * - `termLimitReached` and `lobbyingBarredUntil`: an officeholder's limits.
  */
 import type { CoreAPI, CoreState, PersonState } from "../types";
+import felonyData from "../data/elections/felony-disenfranchisement.json" with { type: "json" };
+import { electionsParameter } from "../elections-calendar";
+import { corePlaceByKey } from "../place-lookup";
 import { campaignParameter } from "../campaign-views";
+import { incarceratedMayVote } from "../justice-law";
 import { OFFICES_MODULE_ID, type TermRow } from "../modules/offices";
-import type { PolicyHandler } from "../modules/law-effects";
+import {
+  convictionsOf,
+  inCustody,
+  sentenceUnfinished,
+} from "../modules/justice";
+import type { PolicyHandler } from "./host";
 import {
   ageOn,
   applyRecords,
@@ -106,15 +116,51 @@ export function electionLawTurnoutCost(
 }
 
 /**
- * The share of the counted adults who can't vote for a felony conviction
- * (stand-in rate until conviction records exist: SG-GOV-REACH-A-convictions),
- * less those a restoration law in force returns to the rolls.
+ * The share of the counted adults who can't vote for a felony conviction:
+ * the town's state's own share (The Sentencing Project, Locked Out 2024,
+ * `data/elections/felony-disenfranchisement.json`), less the part a
+ * restoration law in force returns to the rolls (those who have finished
+ * their sentences). D.C. and the territories, which the report leaves out,
+ * take the national share until conviction records exist
+ * (SG-GOV-REACH-A-convictions).
  */
 export function felonyDisenfranchisedShare(api: CoreAPI): number {
-  const base = reachParameter("disenfranchisedShare");
+  const stateKey = corePlaceByKey(
+    String(api.state.placeMetadata.placeKey ?? ""),
+  )?.stateJurisdictionKey;
+  const shares = felonyData.states as Record<string, number>;
+  const own = stateKey ? shares[stateKey] : undefined;
+  if (own === undefined) {
+    // stopgapId: SG-GOV-REACH-A-convictions
+    api.stopgap("SG-GOV-REACH-A-convictions");
+  }
+  const base = own ?? felonyData.nationalShare;
   return electionLaws(api).has(RESTORE_VOTE)
-    ? base - reachParameter("restoredVoterShare")
+    ? base * (1 - electionsParameter("restoredFractionOfDisenfranchised"))
     : base;
+}
+
+/**
+ * Whether a named person's own record bars them from voting. Maine,
+ * Vermont, the District of Columbia and Puerto Rico let people vote from
+ * prison (`incarceratedMayVote`) and never bar anyone. Elsewhere a person
+ * serving a prison term is barred, and after it a felony conviction on the
+ * justice record bars them until the sentence is served where the state's law
+ * in force restores the vote (`RESTORE_VOTE`), and for good where it does
+ * not. Counted adults carry the state's share of the same rule
+ * (`felonyDisenfranchisedShare`). The justice engine's cases are all
+ * felony-grade, so any conviction on record counts.
+ */
+export function barredFromVoting(api: CoreAPI, personId: string): boolean {
+  const stateKey = corePlaceByKey(
+    String(api.state.placeMetadata.placeKey ?? ""),
+  )?.stateJurisdictionKey;
+  if (incarceratedMayVote(api, stateKey ?? "").may) return false;
+  if (inCustody(api, personId)) return true;
+  if (!convictionsOf(api, personId).length) return false;
+  return (
+    !electionLaws(api).has(RESTORE_VOTE) || sentenceUnfinished(api, personId)
+  );
 }
 
 function termsOf(api: CoreAPI, personId: string): readonly TermRow[] {

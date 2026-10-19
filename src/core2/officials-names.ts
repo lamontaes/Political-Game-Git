@@ -4,7 +4,7 @@
  * normalized names (`scripts/research/export-real-officeholder-names.py`), so
  * neither the repository nor the game carries the names themselves.
  */
-import { sha256Hex } from "../simulation/sha256";
+import { sha256Hex } from "./kernel/sha256";
 import nameHashes from "../../data/research/offices/real-officeholder-name-hashes.json" with { type: "json" };
 
 let hashes: ReadonlySet<string> | null = null;

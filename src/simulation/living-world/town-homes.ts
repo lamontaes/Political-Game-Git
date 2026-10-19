@@ -41,7 +41,7 @@
  * No rent, price or mortgage payment is recorded here.
  */
 
-import { ageOnDate, addDays } from "../dates";
+import { ageOnDate, addDays } from "../../core2/kernel/dates";
 import { lifePlaceByJurisdictionId } from "../life-places";
 import {
   createDwelling,
@@ -61,7 +61,7 @@ import type {
 } from "../types";
 import { recordWorldEvent } from "../world";
 import { recordDirectEventMemories } from "../records";
-import { TOWN_RESIDENTS_VERSION } from "./town-residents";
+import { TOWN_RESIDENTS_VERSION } from "../../core2/town-households";
 import { startTownJobPay } from "./town-pay";
 import { ensureOpeningMortgages } from "./opening-mortgages";
 import { homePurchaseTerms } from "../home-purchase";

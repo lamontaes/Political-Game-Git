@@ -19,6 +19,13 @@ Check federal, state, county, city/township, D.C. and territory authority as app
 
 For variable nonlegal effects, trace the existing per-world size draw, evidence range, stable identity and saved continuation. Exact legal amounts and dates retain their sourced jurisdiction values. Do not replace researched variation with a universal midpoint or redraw values each turn. Keep research estimates distinct from actor decision rules and causal proof.
 
+## The chain is the acceptance (owner, Oct 14, 2026)
+
+A trace is finished only when it follows one dollar or one rule to a named
+person and back out: the law in force changing, the payment or view that
+reached that person, the choice that moved, and the director's line. Name each
+step by record id. Most people are untouched; name the ones who were.
+
 ## Hand-back: six lines per law
 
 Start with law ID/name, owner, source head and candidate head, then:

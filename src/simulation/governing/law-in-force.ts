@@ -1,7 +1,7 @@
 import { recordById, recordByStableKey } from "../history-index";
 import { operativeDateForEnactment } from "../legislative-effective-date";
 import startingLaw from "../../../data/research/laws/starting-law-2026/index";
-import { makeIsoDate } from "../dates";
+import { makeIsoDate } from "../../core2/kernel/dates";
 import {
   enactmentStatuteDateContext,
   stateRuleBasis,

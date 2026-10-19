@@ -1,4 +1,4 @@
-import { makeIsoDate } from "../dates";
+import { makeIsoDate } from "../../core2/kernel/dates";
 import { eventIndexOf } from "../event-index";
 import type { IsoDate, World } from "../types";
 import {

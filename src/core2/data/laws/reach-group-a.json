@@ -132,8 +132,31 @@
     },
     "us-policy-positions:labor-workforce.right-to-work": {
       "source": "State right-to-work laws (National Conference of State Legislatures, Right-to-Work States, 2024).",
-      "mechanic": "outcome-web",
-      "reaches": []
+      "mechanic": "right-to-work",
+      "reaches": [
+        {
+          "id": "workers",
+          "target": "people",
+          "select": {
+            "employed": true
+          },
+          "kind": "right",
+          "what": "may not be required to pay a union as a condition of work",
+          "enforcer": "the state attorney general",
+          "penalty": "civil damages"
+        },
+        {
+          "id": "unions",
+          "target": "organizations",
+          "select": {
+            "group": "unions"
+          },
+          "kind": "rule",
+          "what": "may not collect fees from workers who don't join",
+          "enforcer": "the state attorney general",
+          "penalty": "civil damages"
+        }
+      ]
     },
     "us-policy-positions:business-commerce.legalize-cannabis-sales": {
       "source": "State adult-use cannabis laws: sales to adults 21 and over through licensed retailers (National Conference of State Legislatures, Cannabis Overview, 2024).",
@@ -142,12 +165,26 @@
     },
     "us-policy-positions:business-commerce.cap-consumer-loan-rates": {
       "source": "Military Lending Act (10 U.S.C. 987) and state rate caps of 36% a year (National Consumer Law Center, State Rate Caps, 2024).",
-      "mechanic": "outcome-web",
-      "reaches": []
+      "mechanic": "consumer-loan-quote",
+      "stopgapId": "SG-GOV-REACH-A-consumer-credit",
+      "reaches": [
+        {
+          "id": "borrowers",
+          "target": "people",
+          "select": {
+            "ageFrom": "adultAge"
+          },
+          "kind": "right",
+          "what": "may not be charged more than the capped rate on a consumer loan",
+          "enforcer": "the state financial regulator",
+          "penalty": "the loan's excess interest is void"
+        }
+      ]
     },
     "us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones": {
       "source": "State and city laws allowing two to four homes on single-family lots (Oregon HB 2001 of 2019, California SB 9 of 2021, Minneapolis 2040 plan).",
-      "mechanic": "multifamily-zoning",
+      "mechanic": "housing-construction",
+      "stopgapId": "SG-GOV-REACH-A-housing-supply",
       "reaches": [
         {
           "id": "builders",
@@ -180,17 +217,55 @@
     },
     "us-policy-positions:housing-land-use.inclusionary-requirement": {
       "source": "Inclusionary housing ordinances: a share of new homes set aside as affordable (Grounded Solutions Network, Inclusionary Housing Database, 2021).",
-      "mechanic": "outcome-web",
-      "reaches": []
+      "mechanic": "housing-construction",
+      "stopgapId": "SG-GOV-REACH-A-affordable-units",
+      "reaches": [
+        {
+          "id": "builders",
+          "target": "organizations",
+          "select": {
+            "group": "builders"
+          },
+          "kind": "compliance",
+          "what": "must set aside a share of new homes as affordable",
+          "enforcer": "the housing department",
+          "penalty": "permit denial or an in-lieu fee"
+        }
+      ]
     },
     "us-policy-positions:housing-land-use.rent-stabilization": {
       "source": "Rent stabilization laws capping yearly rent increases (California AB 1482 of 2019, Oregon SB 608 of 2019, St. Paul ordinance of 2021).",
-      "mechanic": "outcome-web",
-      "reaches": []
+      "mechanic": "rent-renewal",
+      "stopgapId": "SG-GOV-REACH-A-rent-contracts",
+      "reaches": [
+        {
+          "id": "tenants",
+          "target": "people",
+          "select": {
+            "ageFrom": "adultAge"
+          },
+          "kind": "price",
+          "what": "may not have their rent raised more than the capped share a year if they rent",
+          "enforcer": "the rent board",
+          "penalty": "refund of the excess rent and a civil fine"
+        },
+        {
+          "id": "landlords",
+          "target": "organizations",
+          "select": {
+            "group": "builders"
+          },
+          "kind": "compliance",
+          "what": "may not raise a tenant's rent more than the capped share a year",
+          "enforcer": "the rent board",
+          "penalty": "refund of the excess rent and a civil fine"
+        }
+      ]
     },
     "us-policy-positions:housing-land-use.right-to-counsel-in-eviction": {
       "source": "City right-to-counsel ordinances (National Coalition for a Civil Right to Counsel, 2024).",
-      "mechanic": "right-to-counsel",
+      "mechanic": "eviction-counsel",
+      "stopgapId": "SG-GOV-REACH-A-eviction-cases",
       "reaches": [
         {
           "id": "city",
@@ -362,12 +437,12 @@
           "enforcer": "the civilian oversight board",
           "penalty": "a subpoena from the board"
         }
-      ]
+      ],
+      "stopgapId": "SG-GOV-REACH-A-police-oversight"
     },
     "us-policy-positions:justice-public-safety.partner-with-federal-immigration-enforcement": {
       "source": "Section 287(g) agreements between local police and Immigration and Customs Enforcement (ICE, Delegation of Immigration Authority, 2025).",
       "mechanic": "none",
-      "stopgapId": "SG-GOV-REACH-A-citizenship",
       "reaches": [
         {
           "id": "department",
@@ -382,8 +457,11 @@
         },
         {
           "id": "noncitizens",
-          "target": "estimated",
-          "share": "noncitizenShare",
+          "target": "people",
+          "select": {
+            "ageFrom": "adultAge",
+            "noncitizen": true
+          },
           "kind": "rule",
           "what": "may be held by local police for immigration agents",
           "enforcer": "the police department",
@@ -439,19 +517,20 @@
           "enforcer": "the juvenile court",
           "penalty": "charges dismissed from the wrong court"
         }
-      ]
+      ],
+      "stopgapId": "SG-GOV-REACH-A-juvenile-age"
     },
     "us-policy-positions:justice-public-safety.child-access-prevention": {
       "source": "Child access prevention laws on storing guns (Giffords Law Center, Child Access Prevention, 2024).",
       "mechanic": "none",
-      "stopgapId": "SG-GOV-REACH-A-firearms",
       "reaches": [
         {
           "id": "parents",
           "target": "people",
           "select": {
             "ageFrom": "adultAge",
-            "withChildBelow": "childAgeBelow"
+            "withChildBelow": "childAgeBelow",
+            "firearmHousehold": true
           },
           "kind": "compliance",
           "what": "must lock up any gun where a child could reach it",
@@ -487,7 +566,8 @@
           "enforcer": "police department",
           "penalty": "misdemeanor for carrying without a permit"
         }
-      ]
+      ],
+      "stopgapId": "SG-GOV-REACH-A-carry-permit"
     },
     "us-policy-positions:justice-public-safety.raise-handgun-purchase-age": {
       "source": "Laws setting a handgun purchase age of 21 (18 U.S.C. 922(b)(1); Giffords Law Center, Minimum Age, 2024).",
@@ -516,7 +596,8 @@
           "enforcer": "police department",
           "penalty": "misdemeanor for the seller"
         }
-      ]
+      ],
+      "stopgapId": "SG-GOV-REACH-A-handgun-age"
     },
     "us-policy-positions:justice-public-safety.stand-your-ground": {
       "source": "Stand-your-ground laws removing the duty to retreat (Giffords Law Center, Stand Your Ground, 2024).",
@@ -533,7 +614,8 @@
           "enforcer": "the court",
           "penalty": "none: a defense at trial"
         }
-      ]
+      ],
+      "stopgapId": "SG-GOV-REACH-A-stand-your-ground"
     },
     "us-policy-positions:civil-family-community.ban-discrimination-in-housing-and-work": {
       "source": "Local human rights ordinances (National League of Cities summaries).",
@@ -562,7 +644,8 @@
           "enforcer": "human rights commission",
           "penalty": "civil fine and damages"
         }
-      ]
+      ],
+      "stopgapId": "SG-GOV-REACH-A-discrimination"
     },
     "us-policy-positions:civil-family-community.dedicated-parks-funding": {
       "source": "Dedicated park funding measures (Trust for Public Land, LandVote database, 2024).",
@@ -618,7 +701,8 @@
           "enforcer": "the state health department",
           "penalty": "license loss and criminal charges"
         }
-      ]
+      ],
+      "stopgapId": "SG-GOV-REACH-A-abortion"
     },
     "us-policy-positions:technology-privacy.age-verification-for-social-media": {
       "source": "Social media age verification laws (Utah SB 152 of 2023; Louisiana Act 456 of 2023).",
@@ -647,7 +731,8 @@
           "enforcer": "the state attorney general",
           "penalty": "civil fine per violation"
         }
-      ]
+      ],
+      "stopgapId": "SG-GOV-REACH-A-age-verification"
     },
     "us-policy-positions:technology-privacy.restrict-government-facial-recognition": {
       "source": "Limits on government facial recognition (San Francisco Stop Secret Surveillance Ordinance, 2019; Massachusetts Act of 2020).",
@@ -675,7 +760,8 @@
           "enforcer": "the court",
           "penalty": "discipline and evidence thrown out"
         }
-      ]
+      ],
+      "stopgapId": "SG-GOV-REACH-A-facial-recognition"
     },
     "us-policy-positions:technology-privacy.consumer-data-privacy-law": {
       "source": "State consumer data privacy laws (California Consumer Privacy Act, 2018; Virginia Consumer Data Protection Act, 2021).",
@@ -704,7 +790,8 @@
           "enforcer": "the state attorney general",
           "penalty": "civil fine per violation"
         }
-      ]
+      ],
+      "stopgapId": "SG-GOV-REACH-A-data-privacy"
     },
     "us-policy-positions:government-operations.all-mail-voting": {
       "source": "All-mail elections (Colorado, Oregon, Utah and Washington; Gerber, Huber and Hill, Political Science Research and Methods, 2013).",
@@ -840,31 +927,8 @@
     },
     "us-policy-positions:government-operations.broaden-local-authority": {
       "source": "Home rule grants to cities (National League of Cities, Cities 101: Delegation of Power, 2020).",
-      "mechanic": "none",
-      "reaches": [
-        {
-          "id": "city",
-          "target": "organizations",
-          "select": {
-            "group": "cityGovernment"
-          },
-          "kind": "right",
-          "what": "may act on any local matter the state hasn't ruled on",
-          "enforcer": "the state courts",
-          "penalty": "none: a power the state grants"
-        },
-        {
-          "id": "council",
-          "target": "officeholders",
-          "select": {
-            "group": "legislators"
-          },
-          "kind": "right",
-          "what": "may pass ordinances on any local matter the state hasn't ruled on",
-          "enforcer": "the state courts",
-          "penalty": "none: a power the state grants"
-        }
-      ]
+      "mechanic": "policy-authority",
+      "reaches": []
     },
     "us-policy-positions:government-operations.legislative-term-limits": {
       "source": "Legislative term limits (National Conference of State Legislatures, The Term-Limited States, 2024).",

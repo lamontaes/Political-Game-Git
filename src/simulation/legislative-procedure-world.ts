@@ -10,7 +10,7 @@ import {
   type RuleSourceRef,
 } from "./legislature-rules";
 import { rulePackById } from "./legislature-rule-packs";
-import { makeIsoDate } from "./dates";
+import { makeIsoDate } from "../core2/kernel/dates";
 import type { EntityId, IsoDate, World } from "./types";
 import type { LegislativeStartingProceduresRecord } from "./world-setup/types";
 

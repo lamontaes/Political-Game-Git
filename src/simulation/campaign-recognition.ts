@@ -2,7 +2,7 @@ import {
   campaignActionResultRecords,
   campaignActions,
 } from "./campaign-queries";
-import { ageOnDate } from "./dates";
+import { ageOnDate } from "../core2/kernel/dates";
 import { eventById } from "./event-index";
 import { householdMembershipsAt } from "./life-queries";
 import { recordsByKey } from "./history-index";

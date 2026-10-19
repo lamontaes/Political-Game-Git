@@ -21,11 +21,7 @@ import {
   openBudgets,
 } from "./modules/budgets";
 import { GOV_MEASURES, govMeasure } from "./gov-measures";
-import {
-  lifePlaceCoverage,
-  lifePlaceSearch,
-  lifePlaceStateIdentities,
-} from "../simulation/life-places";
+import { searchCorePlaces, corePlaceStateIdentities } from "./place-lookup";
 
 const START = "2026-10-01";
 const seed =
@@ -39,11 +35,11 @@ function pick<T>(list: readonly T[], salt: string): T {
 describe("GOV measures for the outcome web", () => {
   it("read the town's law, results and budget", () => {
     const state = pick(
-      [...lifePlaceStateIdentities()].map((s) => s.jurisdictionKey).sort(),
+      [...corePlaceStateIdentities()].map((s) => s.jurisdictionKey).sort(),
       "state",
     );
     const places = [
-      ...lifePlaceSearch("", lifePlaceCoverage().placeCount, {
+      ...searchCorePlaces("", Number.MAX_SAFE_INTEGER, {
         stateJurisdictionKey: state,
         scope: "locality",
       }),

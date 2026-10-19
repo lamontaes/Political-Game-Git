@@ -1,10 +1,16 @@
 import { describe, expect, it } from "vitest";
-import { stableHash } from "../simulation/ids";
-import { ageOnDate, makeIsoDate } from "../simulation/dates";
-import { lifePlaceStateIdentities } from "../simulation/life-places";
+import { stableHash } from "./kernel/ids";
+import { ageOnDate, makeIsoDate } from "./kernel/dates";
+import { corePlaceStateIdentities } from "./place-lookup";
 import { buildDeepPast } from "./deep-past";
 import { createLifeCore } from "./life";
-import { stancesOf, viewOf, viewsModule, VIEWS_KEYS } from "./modules/views";
+import {
+  countedEngagement,
+  stancesOf,
+  viewOf,
+  viewsModule,
+  VIEWS_KEYS,
+} from "./modules/views";
 import { buildPopulation } from "./population";
 import { realLocalities } from "./places";
 import { applyCoreEvent, coreAPI } from "./state";
@@ -15,7 +21,7 @@ import { applyCoreEvent, coreAPI } from "./state";
 
 /** One locality from a state drawn from all 56 by the seed. */
 function drawnPlace(seed: string) {
-  const states = [...lifePlaceStateIdentities()].sort((a, b) =>
+  const states = [...corePlaceStateIdentities()].sort((a, b) =>
     stableHash(`${seed}:${a.jurisdictionKey}`).localeCompare(
       stableHash(`${seed}:${b.jurisdictionKey}`),
     ),
@@ -100,6 +106,25 @@ describe("political views", () => {
     for (const row of views) expect(row.basis).toMatch(/^ces-2024:/);
   });
 
+  it("reads a counted resident's engagement as their filled-in view would", () => {
+    const { adults, api, core } = towns[0]!;
+    const seen = new Set<string>();
+    let compared = 0;
+    for (const row of adults) {
+      const reading = countedEngagement(api, row, row);
+      expect(reading).toBeGreaterThan(0);
+      expect(reading).toBeLessThanOrEqual(1);
+      const key = `${row.placeId}|${ageOnDate(makeIsoDate(row.birthDate), makeIsoDate(core.startedAt))}`;
+      // The first reading of a place and age reads that person's own cell, so
+      // it is exactly the view they would be filled in with.
+      if (seen.has(key)) continue;
+      seen.add(key);
+      expect(reading).toBeCloseTo(viewOf(api, row.id)!.engagement, 12);
+      compared += 1;
+    }
+    expect(compared).toBeGreaterThan(5);
+  });
+
   it("carries each person's education and faith, as the survey does", () => {
     const { views } = towns[0]!;
     const group = (faith: string) =>
@@ -146,5 +171,89 @@ describe("political views", () => {
       expect(stance!.causes[0]!.eventId).toBe("fixture-plant-closing");
     }
     for (const row of others) expect(stancesOf(api, row.id)).toEqual([]);
+  });
+
+  // Knowing is a read (owner, Oct 14, 2026): a change a law made moves a
+  // person's stance on that law only once they learned of it, and the stance
+  // cites how.
+  it("ties a change to a law only for someone who learned of the law", () => {
+    const { core, api, adults } = towns[1]!;
+    const [felt, told] = adults;
+    const effect = (id: string, personId: string, learnedFrom?: string) =>
+      applyCoreEvent(core, {
+        id,
+        date: core.date,
+        kind: "fixture.check-smaller",
+        personIds: [personId],
+        placeId: felt!.placeId,
+        topic: "fixture:benefit-law",
+        desiredChange: "repeal",
+        moodImpulse: -0.2,
+        facts: {
+          lawId: "law:fixture",
+          ...(learnedFrom ? { learnedFrom } : {}),
+        },
+        source: { tag: "SOURCED", citation: "Fixture event.", asOf: core.date },
+      });
+    effect("fixture-felt", felt!.id);
+    expect(stancesOf(api, felt!.id)).toEqual([]);
+    // A story they never heard doesn't count either.
+    effect("fixture-felt-unheard", felt!.id, "news:fixture-story");
+    expect(stancesOf(api, felt!.id)).toEqual([]);
+    api.observe(told!.id, {
+      key: "news:fixture-story",
+      value: "law-took-effect",
+      learnedAt: core.date,
+      sourceId: "fixture-story",
+      access: "perceived",
+    });
+    effect("fixture-told", told!.id, "news:fixture-story");
+    const [stance] = stancesOf(api, told!.id);
+    expect(stance).toMatchObject({
+      topic: "fixture:benefit-law",
+      desiredChange: "repeal",
+    });
+    expect(stance!.causes[0]).toMatchObject({
+      eventId: "fixture-told",
+      learnedFrom: "news:fixture-story",
+    });
+  });
+
+  // A case made again by the same speaker wears out (pool: gov-needs-opus-gov-74).
+  it("moves a listener less each time the same speaker makes the same case", () => {
+    const { core, api, adults } = towns[1]!;
+    const [speaker, listener] = adults.slice(2);
+    const hear = (id: string) =>
+      applyCoreEvent(core, {
+        id,
+        date: core.date,
+        kind: "fixture.case-made",
+        personIds: [speaker!.id],
+        witnessIds: [listener!.id],
+        placeId: speaker!.placeId,
+        topic: "fixture:wear-out",
+        desiredChange: "raise-it",
+        moodImpulse: -0.3,
+        source: { tag: "SOURCED", citation: "Fixture event.", asOf: core.date },
+      });
+    hear("fixture-case-1");
+    hear("fixture-case-2");
+    hear("fixture-case-3");
+    const [stance] = stancesOf(api, listener!.id).filter(
+      (row) => row.topic === "fixture:wear-out",
+    );
+    const [first, second, third] = stance!.causes.map((cause) => cause.change);
+    // Each hearing is recorded with its event and the speaker, and moves the
+    // listener less than the one before.
+    expect(stance!.causes.map((cause) => cause.eventId)).toEqual([
+      "fixture-case-1",
+      "fixture-case-2",
+      "fixture-case-3",
+    ]);
+    expect(
+      stance!.causes.every((cause) => cause.speakerId === speaker!.id),
+    ).toBe(true);
+    expect(second!).toBeLessThan(first!);
+    expect(third!).toBeLessThan(second!);
   });
 });

@@ -1,6 +1,6 @@
 import { ORDINANCE_MEASURE_TITLE } from "./measure-title";
-import { governmentUnit } from "./government-units";
-import type { GovernmentUnitIdentity } from "./government-units";
+import { governmentUnit } from "../core2/reference/government-units";
+import type { GovernmentUnitIdentity } from "../core2/reference/government-units";
 import {
   knownRule,
   majorityOf,
@@ -17,7 +17,7 @@ import {
   municipioUnit,
 } from "./nationwide-world/county-governing-body-rules";
 import { boardGoverningBodyRules } from "./nationwide-world/township-governing-body-rules";
-import { governmentUnitDisplayName } from "./nationwide-world/government-unit-names";
+import { governmentUnitDisplayName } from "../core2/gov-rules/government-unit-names";
 
 /**
  * A playable council for a town whose own charter the game has not read.

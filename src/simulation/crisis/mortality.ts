@@ -1,5 +1,9 @@
 import conditionPack from "../../../data/research/health/chronic-condition-pack-2026.json" with { type: "json" };
-import { addDays, isoDateFromParts, makeIsoDate } from "../dates";
+import {
+  addDays,
+  isoDateFromParts,
+  makeIsoDate,
+} from "../../core2/kernel/dates";
 import {
   scheduleFutureDueItem,
   scheduledFutureDueItemsThrough,
@@ -14,18 +18,18 @@ import type {
 } from "../types";
 import { isPersonAliveAt, recordPersonDeath } from "../vitality";
 import { assertWorldIntegrity } from "../world";
-import { FIXED_LN2 } from "./fixed-point";
+import { FIXED_LN2 } from "../../core2/kernel/fixed-point";
 import {
   firstThresholdDay,
   MULTIPLIER_ONE,
   thresholdUnits,
   type HazardMultiplierChange,
   type HazardProfile,
-} from "./hazard";
+} from "../../core2/health-hazard";
 import {
   SSA_2023_TABLE_ID,
   type MortalityCalibrationCategory,
-} from "./mortality-table";
+} from "../../core2/health-mortality-table";
 import {
   CONDITION_ONSET_KEY,
   recordStartingConditions,
@@ -39,7 +43,7 @@ import {
   FATAL_ILLNESS_ONSET_KEY,
   deathCauseSummary,
   seriousEpisodeOnsetStableKey,
-} from "./death-causes";
+} from "../../core2/death-causes";
 import {
   ensureHealthCoveragePass,
   HEALTH_COVERAGE_KEY,
@@ -80,7 +84,7 @@ import {
 
 export const MORTALITY_WINDOW_KEY = "crisis:mortality-window" as const;
 export const MORTALITY_DEATH_KEY = "crisis:mortality-death" as const;
-export { MORTALITY_CAUSE_KEY } from "./death-causes";
+export { MORTALITY_CAUSE_KEY } from "../../core2/death-causes";
 
 /**
  * The one strain threshold, in hazard units, the same for everyone. Ruling 29

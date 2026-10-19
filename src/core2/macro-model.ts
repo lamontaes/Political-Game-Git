@@ -18,8 +18,14 @@ export interface MacroMonth {
   primeRatePct: number;
   treasury10Pct: number;
   mortgage30Pct: number;
-  /** The town's own paid-income growth that entered this month, annual percent; absent for history. */
+  /** The town's own paid-income growth that entered this month, annual percent; absent when no comparable paid-income history exists. */
   townIncomeGrowthPct?: number;
+  /** The nation's payroll-income growth the town was assumed to share, annual percent. */
+  townGrowthEstimatePct?: number;
+  /** The weight on the town's own paid-income growth in what the national step heard: 0 with no comparable months, 1 at twelve. */
+  townGrowthOwnWeight?: number;
+  /** The town's own paid-income growth over its comparable months, annual percent; absent until it has any. */
+  townGrowthOwnPct?: number;
 }
 
 interface HistoryRow {
@@ -160,7 +166,7 @@ export function historyMonths(
 export function stepMacroMonth(
   previous: Readonly<MacroMonth>,
   policyRatePct: number,
-  townIncomeGrowthPct: number,
+  townIncomeGrowthPct: number | undefined,
   townResidents: number,
   p: MacroParameter,
 ): MacroMonth {
@@ -171,11 +177,13 @@ export function stepMacroMonth(
   const realRate = previous.policyRatePct - previous.inflationPct;
   // One town is its share of the nation: its own income growth over the trend.
   const town =
-    townResidents *
-    p("macroTownWeightPerPerson") *
-    (townIncomeGrowthPct -
-      p("macroTrendGrowthPct") -
-      p("macroInflationAnchorPct"));
+    townIncomeGrowthPct === undefined
+      ? p("zero")
+      : townResidents *
+        p("macroTownWeightPerPerson") *
+        (townIncomeGrowthPct -
+          p("macroTrendGrowthPct") -
+          p("macroInflationAnchorPct"));
   const outputGapPct =
     p("macroOutputGapPersistence") * previous.outputGapPct -
     p("macroRealRateEffectOnGap") * (realRate - p("macroNeutralRealRatePct")) +
@@ -227,7 +235,7 @@ export function stepMacroMonth(
       p("macroMortgageIntercept") +
       p("macroMortgagePersistence") * previous.mortgage30Pct +
       p("macroMortgagePerPolicy") * policyRatePct,
-    townIncomeGrowthPct,
+    ...(townIncomeGrowthPct === undefined ? {} : { townIncomeGrowthPct }),
   };
 }
 
