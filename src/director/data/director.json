@@ -437,6 +437,12 @@
       "citation": "Buying a home, sized as the Social Readjustment Rating Scale's 'Mortgage over $10,000', 31 life-change units divided by 100 (Holmes and Rahe 1967).",
       "estimatedFrom": "Holmes and Rahe (1967); spread 0.2 to 0.4"
     },
+    "directorHomeMovedImpact": {
+      "value": 0.2,
+      "tag": "ESTIMATED",
+      "citation": "Moving to a new home, sized as the Social Readjustment Rating Scale's 'Change in residence', 20 life-change units divided by 100 (Holmes and Rahe 1967).",
+      "estimatedFrom": "Holmes and Rahe (1967); spread 0.15 to 0.3"
+    },
     "directorBusinessFoundedImpact": {
       "value": 0.39,
       "tag": "ESTIMATED",
@@ -1264,6 +1270,11 @@
       "eventKind": "housing.purchase",
       "channel": "feeling",
       "impactParameter": "directorHomePurchaseImpact"
+    },
+    {
+      "eventKind": "housing.moved",
+      "channel": "feeling",
+      "impactParameter": "directorHomeMovedImpact"
     },
     {
       "eventKind": "organization.founded",

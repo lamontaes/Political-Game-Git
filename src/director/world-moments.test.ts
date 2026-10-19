@@ -52,6 +52,7 @@ const KINDS = [
   "organization.founded",
   "housing.eviction",
   "housing.purchase",
+  "housing.moved",
   "person.moved-away",
   "person-birth",
 ];
