@@ -22,3 +22,5 @@ claimed-at: 2026-10-19T22:49:44.749Z
 **Files.** src/core2/housing-property-tax.ts, src/core2/data/stopgaps.json, src/core2/housing-property-tax.test.ts
 
 **Notes.** First row: Property tax is paid a twelfth each month, as through a mortgage escrow, for every owner.
+
+Claude, Oct 19: the replacement needs each county's real due dates and installment counts for all 56 places as sourced data (no such file exists under data/research), plus a mortgage-escrow split. That is a research-data job first (Codex's line); the code change in src/core2/housing-property-tax.ts is small once the data exists.

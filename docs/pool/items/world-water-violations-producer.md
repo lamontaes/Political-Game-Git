@@ -22,3 +22,5 @@ claimed-at:
 **Files.** TODO
 
 **Notes.** TODO
+
+Claude, Oct 19: the item text was an empty shell and the engine it names does not exist. It needs a design for a water system's condition (what ages, what is paid to keep it, what a violation is) before a producer can be written; the sized water link is in src/core2/data/outcome-web. Add the spec, then build.

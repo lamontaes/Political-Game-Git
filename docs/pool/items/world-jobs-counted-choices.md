@@ -22,3 +22,5 @@ claimed-at:
 **Files.** TODO
 
 **Notes.** TODO
+
+Claude, Oct 19: counted retire, quit and look already score with the same reasons and trait lean as a full person (jobs.ts countedSeekers and strongestPulls apportion by the summed pull). What is left is a design call: whether that apportionment counts as the 'aggregate chooser' the stopgap names, or counted workers must run the per-person chooser. Needs the CTO's ruling before building; the retire path no longer uses the place average (PR #5224).
