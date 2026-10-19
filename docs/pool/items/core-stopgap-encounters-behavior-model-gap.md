@@ -6,7 +6,7 @@ kind: stopgap
 priority: 3
 status: in-pr
 claimed-by: claude/pool-encounters-meetings
-pr: #5261
+pr: #5265
 blocked-on:
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/data/encounters.json, kind behavior-model-gap"

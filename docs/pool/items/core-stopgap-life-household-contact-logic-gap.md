@@ -10,7 +10,7 @@ pr:
 blocked-on:
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/modules/life.ts, kind household-contact-logic-gap"
-claimed-at: 2026-10-19T23:15:10.365Z
+claimed-at: 2026-10-19T23:29:39.452Z
 ---
 
 **What.** Replace or clear the 1 open household-contact-logic-gap stopgap row(s) in src/core2/modules/life.ts: SG-P8-household-shared-time-contact. Each fake is replaced by the mechanic, or the feature that needs it is deleted.
