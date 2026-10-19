@@ -42,3 +42,25 @@ describe(`the card of a public figure (${world.place.key}, seed ${seed})`, () =>
     ).toBeNull();
   });
 });
+
+describe(`the sentences about a public figure (${world.place.key}, seed ${seed})`, () => {
+  it("words the president's party and service from the public record, citing its id", () => {
+    const figures = api
+      .moduleState(PAST_MODULE_ID)
+      .table("figures")
+      .rows() as unknown as PublicFigureRow[];
+    const president = figures.find((f) => f.officeId.endsWith(":president"))!;
+    const card = knownCard(world.core, world.playerId!, president.personId);
+    const name = card.name;
+    const lines = card.publicSentences;
+    if (president.party)
+      expect(lines.map((l) => l.text)).toContain(
+        `${name} is a ${president.party}.`,
+      );
+    expect(
+      lines.some((l) => /has been the .+ since [A-Z][a-z]+ \d/.test(l.text)),
+    ).toBe(true);
+    for (const line of lines)
+      expect(line.sourceRecordIds).toContain(president.id);
+  });
+});
