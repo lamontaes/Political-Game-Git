@@ -17,7 +17,7 @@ claimed-at: 2026-10-19T21:50:24.814Z
 
 **Rules.** No dice: the sponsor's choice follows each member's position on the bill with the section in it, never a roll. An effect is a read: the trade reads every member's position before it is adopted.
 
-**Done when.** legislature-committees.test.ts passes in drawn places, and every accepted committee trade in a two-year played world (buildBenchWorld) shows support after greater than support before.
+**Done when.** The test src/core2/legislature-committees.test.ts passes in several drawn places from all 56, and every accepted committee trade in a two-year played world built with buildBenchWorld shows the bill's support after the trade greater than before it, by bill record id.
 
 **Files.** src/core2/modules/legislature.ts
 
