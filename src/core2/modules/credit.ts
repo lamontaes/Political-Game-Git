@@ -25,7 +25,11 @@ import type {
   Source,
   PersonInput,
 } from "../types";
-import { linkCreditLineToPrime, quotedLineRate } from "./macro";
+import {
+  linkCreditLineToPrime,
+  MACRO_MODULE_ID,
+  quotedLineRate,
+} from "./macro";
 import { countedPayment } from "../counted-money";
 import {
   residentsRuntime,
@@ -456,7 +460,10 @@ function review(api: CoreAPI): void {
     if (!ownerId && c.organizations.get(id)?.publicPayAuthority) continue;
     const monthlySales = books.annualDemandMinor / p("macroMonthsPerYear");
     // The decider weighs the rate the bank will charge this borrower, risk spread and all.
-    const rate = quotedLineRate(api, lineTerms(api, books).spreadPct);
+    // A world without the macro engine quotes no rate, so the cost of borrowing weighs nothing.
+    const rate = c.modules.has(MACRO_MODULE_ID)
+      ? quotedLineRate(api, lineTerms(api, books).spreadPct)
+      : p("zero");
     const reasons = {
       baseline: p("creditBorrowBaseline"),
       need: p("creditBorrowNeedWeight") * Math.min(p("one"), requested / cover),
