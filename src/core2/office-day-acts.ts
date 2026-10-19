@@ -41,6 +41,11 @@ import {
 } from "./modules/press";
 import { appoint, appointmentsIn, postsToFill } from "./modules/executive";
 import { lawChain } from "./modules/laws";
+import {
+  BUDGETS_MODULE_ID,
+  governments,
+  setBudgetPriorities,
+} from "./modules/budgets";
 import { deliverSpeech } from "./modules/speech";
 import { personLean, personStance, questionAxis } from "./campaign-views";
 import { POLICY_QUESTIONS } from "./policy-answers";
@@ -97,6 +102,7 @@ export const OFFICE_ACTS: readonly ActionDefinition[] = [
     "engage",
     "take-risk",
   ]),
+  act("send-budget", "sendBudgetActHours", ["cooperate", "follow-rules"]),
   act(
     "name-department-head",
     "nameHeadActHours",
@@ -161,6 +167,12 @@ const LOCAL_PARAMETERS = {
     estimatedFrom: "The season most annual addresses fall in.",
     spread: [2, 6],
   },
+  sendBudgetActHours: HOURS(
+    3,
+    "A mayor or county executive settling the budget they send the council: a few hours with the finance director over the departments' requests (GFOA, Best Practices: Budgeting; the proposal is the executive's to prepare).",
+    "Typical executive review of a proposed local budget before it is sent.",
+    [1, 8],
+  ),
   colleagueActHours: HOURS(
     0.5,
     "A member asking a colleague for their vote on a pending bill: a half-hour conversation, by phone or over coffee.",
@@ -250,6 +262,8 @@ export interface Prepared {
   readonly outletId?: string;
   /** The person the player names to a vacant town post, and the post, in place of the appointer's own first choice. */
   readonly nominee?: { readonly post: string; readonly personId: string };
+  /** The line changes a mayor or county executive sends the council in the budget season, by line. */
+  readonly budget?: Readonly<Record<string, number>>;
   /** A deal to offer a colleague, by member, when talking about the player's bill. */
   readonly deals?: Readonly<Record<string, "favor" | "back-their-item">>;
 }
@@ -265,7 +279,8 @@ export function officeActProviders(host: OfficeActHost) {
     ): ActOffer[] =>
       holds(api, actor) &&
       (action.id !== "state-of-the-city" || addressDue(api, host, actor.id)) &&
-      (action.id !== "town-hall" || townHallDue(api, host, actor.id))
+      (action.id !== "town-hall" || townHallDue(api, host, actor.id)) &&
+      (action.id !== "send-budget" || budgetOpenFor(api, host, actor.id))
         ? [
             {
               definition: action,
@@ -353,6 +368,45 @@ function addressDue(
     executive &&
     !host.given(api, personId, "state-of-the-city", api.state.date.slice(0, 4))
   );
+}
+
+/**
+ * The government a mayor or county executive sends a budget to while its
+ * season is open: the proposal has been sent by rule and the body has not
+ * yet taken its vote, and they have not sent their own this season.
+ */
+function budgetOpenFor(
+  api: CoreAPI,
+  host: OfficeActHost,
+  personId: string,
+): string | null {
+  if (!api.state.modules.has(BUDGETS_MODULE_ID)) return null;
+  const offices = api.moduleState("core2-offices-v1").table("offices");
+  const level = host
+    .officesOf(api, personId)
+    .map(
+      (id) =>
+        (offices.get(id) as unknown as { kind: string } | undefined)?.kind,
+    )
+    .map((kind) =>
+      kind === "mayor" ? "city" : kind === "county-executive" ? "county" : "",
+    )
+    .find(Boolean);
+  if (!level) return null;
+  const gov = governments(api).find((g) => g.level === level);
+  if (!gov) return null;
+  const legislature = api.moduleState(LEGISLATURE_MODULE_ID);
+  const open = (
+    legislature.table("budgetProposals").rows() as unknown as { id: string }[]
+  ).find(
+    (r) =>
+      r.id.startsWith(`${gov.id}:`) &&
+      !legislature.table("budgetDecisions").get(r.id),
+  );
+  if (!open) return null;
+  return host.given(api, personId, "send-budget", api.state.date.slice(0, 4))
+    ? null
+    : gov.id;
 }
 
 /** A town hall is held on a cadence: not again until the interval has passed since the official's last. */
@@ -581,6 +635,33 @@ export function officeActHandlers(host: OfficeActHost) {
         detail: `${topic.desiredChange} ${topic.question}; ${audience.size} heard it`,
       });
       host.clearPrepared(api, actorId, "state-of-the-city");
+    },
+    /**
+     * The executive sends the council their own budget: the line changes the
+     * player prepared, else the executive's own rule already sent. The
+     * council's vote reads what is set here.
+     */
+    "send-budget": (api: CoreAPI, actorId: string) => {
+      const govId = budgetOpenFor(api, host, actorId);
+      if (!govId) return;
+      const prepared = host.prepared(api, actorId, "send-budget");
+      if (prepared?.budget)
+        setBudgetPriorities(api, {
+          governmentId: govId,
+          setBy: actorId,
+          changes: prepared.budget,
+        });
+      host.keep(api, {
+        personId: actorId,
+        kind: "send-budget",
+        how: prepared?.budget ? "did" : "own-choice",
+        recordId: `priorities:${govId}`,
+        position: null,
+        detail: prepared?.budget
+          ? `${Object.keys(prepared.budget).length} lines changed`
+          : "the executive's own rule stands",
+      });
+      host.clearPrepared(api, actorId, "send-budget");
     },
     /**
      * The appointing official fills a vacant town post: the candidate their

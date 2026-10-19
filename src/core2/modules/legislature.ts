@@ -389,6 +389,7 @@ function councilBudget(
   const decision = ahead ?? decideBudget(api, gov, fy);
   if (!decision) return null;
   if (ahead) table(api, "budgetDecisions").remove(id);
+  table(api, "budgetProposals").remove(id);
   return settleBudget(api, gov, fy, decision);
 }
 
