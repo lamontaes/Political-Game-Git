@@ -4,10 +4,10 @@ title: "Stopgaps in opening-schools (estimated-behavior): 1 open"
 area: people
 kind: stopgap
 priority: 3
-status: open
+status: blocked
 claimed-by:
 pr:
-blocked-on:
+blocked-on: research data: the row's replacement needs sourced data (NCES EDGE school attendance boundaries (SABS) with the household's location, private school (PSS) and homeschool shares by state, and historical CCD d...)
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/data/opening-schools.json, kind estimated-behavior"
 ---
