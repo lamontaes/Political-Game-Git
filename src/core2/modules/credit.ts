@@ -31,7 +31,7 @@ import {
   residentsRuntime,
   householdCash,
   householdCashReader,
-  residentPerson,
+  residentFacts,
 } from "./residents";
 import { chooseAct, traitLean } from "../choice";
 import { transferCash } from "../world-transfer";
@@ -982,7 +982,7 @@ function serviceLoans(api: CoreAPI, bankId: string): void {
         loan.paymentMinor + loan.pastDueMinor,
       );
     const person =
-      c.people.get(loan.borrowerId) ?? residentPerson(c, loan.borrowerId);
+      c.people.get(loan.borrowerId) ?? residentFacts(c, loan.borrowerId);
     const cashBefore = borrowerCash(api, loan.borrowerId);
     const paid = personalLoanTransfer(
       api,

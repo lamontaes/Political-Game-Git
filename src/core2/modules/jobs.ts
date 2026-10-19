@@ -28,7 +28,7 @@ import { LAWS_MODULE_ID, lawInForce } from "./laws";
 import { inCustody } from "./justice";
 import { regionalMonth } from "./regional";
 import { isDemoted } from "../counted-groups";
-import { residentPerson, residentsRuntime } from "./residents";
+import { residentFacts, residentsRuntime } from "./residents";
 import { MOVED_AWAY_EVENT } from "./moves";
 import { endClaim, fileClaim, payClaims } from "../jobs-benefits";
 import { meetAtWork } from "../encounters";
@@ -194,7 +194,7 @@ function traitsOf(
 ): Readonly<Record<string, number>> {
   return (
     core(api).people.get(personId)?.traits ??
-    residentPerson(core(api), personId)?.traits ??
+    residentFacts(core(api), personId)?.traits ??
     {}
   );
 }
@@ -1180,7 +1180,7 @@ function layOff(
   // Read before the event: an event can fill a counted worker in, after which
   // the counts no longer hold them.
   const placeId = (c.people.get(job.personId) ??
-    residentPerson(c, job.personId))!.placeId;
+    residentFacts(c, job.personId))!.placeId;
   api.emit({
     id: `event:work.job-lost:${api.state.date}:${job.id}`,
     date: api.state.date,
@@ -1561,7 +1561,7 @@ function runWeek(api: CoreAPI): void {
   for (const seeker of counted) {
     if (inCustody(api, seeker.personId)) continue;
     // A seeker who died or moved away with their household is no one to hire.
-    if (!c.people.has(seeker.personId) && !residentPerson(c, seeker.personId)) {
+    if (!c.people.has(seeker.personId) && !residentFacts(c, seeker.personId)) {
       store(api).table("countedSeekers").remove(seeker.personId);
       continue;
     }
@@ -1959,7 +1959,7 @@ function reviewCountedRetirements(api: CoreAPI): void {
       if (pinnedJobs(c).has(job.id)) continue;
       // An owner retires through their business (the business module's closing choice), not off its payroll.
       if (ownerOf(api, organizationId) === job.personId) continue;
-      const person = residentPerson(c, job.personId);
+      const person = residentFacts(c, job.personId);
       if (!person) continue;
       const age =
         daysBetween(makeIsoDate(person.birthDate), makeIsoDate(c.date)) /
@@ -1989,7 +1989,7 @@ function reviewCountedRetirements(api: CoreAPI): void {
     endCountedJob(c, job.id);
     // Their income goes on as their place's retirees' does (stand-in until their own claim is modeled).
     stopgap("SG-WORLD-jobs-counted-retiree-income");
-    const placeId = residentPerson(c, job.personId)?.placeId;
+    const placeId = residentFacts(c, job.personId)?.placeId;
     if (placeId) addCountedRetiree(c, placeId, job.personId);
     record(api, {
       personId: job.personId,
@@ -2105,7 +2105,7 @@ function reviewCountedQuits(api: CoreAPI): void {
     for (const job of countedJobsOf(c, organizationId)) {
       if (pinnedJobs(c).has(job.id) || inCustody(api, job.personId)) continue;
       if (ownerOf(api, organizationId) === job.personId) continue;
-      const person = residentPerson(c, job.personId);
+      const person = residentFacts(c, job.personId);
       const pay = job.hourlyMinor ?? 0;
       if (!person || pay <= 0) continue;
       const payGap = Math.max(0, (going.get(roleOf(job)) ?? pay) / pay - 1);
@@ -2184,7 +2184,7 @@ function reviewCountedLooking(api: CoreAPI): void {
         continue;
       // An owner runs their own business; they don't look for a job elsewhere.
       if (ownerOf(api, organizationId) === job.personId) continue;
-      const person = residentPerson(c, job.personId);
+      const person = residentFacts(c, job.personId);
       const pay = job.hourlyMinor ?? 0;
       if (!person || pay <= 0) continue;
       const payGap = Math.max(
@@ -2783,7 +2783,7 @@ export const JOBS_MODULE: CoreModule = {
       // The job ends with the employer today; its wage flow stops paying at its next date.
       if (!job.endsAt && !endCountedJob(core(api), job.id))
         rt!.jobs.set(job.id, { ...job, endsAt: api.state.date });
-      const person = residentPerson(core(api), job.personId);
+      const person = residentFacts(core(api), job.personId);
       if (!person) continue;
       record(api, {
         personId: job.personId,

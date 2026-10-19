@@ -1351,6 +1351,36 @@ export function residentPerson(
     .find((row) => row.id === id);
 }
 
+/** What the engines read about someone still counted: their columns, with no person record built. */
+export interface ResidentFacts {
+  readonly id: PersonId;
+  readonly placeId: string;
+  readonly birthDate: IsoDate;
+  readonly householdId: string;
+  readonly jobId?: string;
+  /** Read in place from the group's columns. */
+  readonly traits: Readonly<Record<string, number>>;
+}
+
+/** A counted person's place, birth date, job and traits read from the columns; undefined once they are filled in, dead or moved. */
+export function residentFacts(
+  core: CoreState,
+  personId: PersonId,
+): ResidentFacts | undefined {
+  const store = runtimes.get(core)?.store;
+  const m = store?.countedMember(personId);
+  if (!store || m === undefined) return undefined;
+  const jobId = store.jobId[m];
+  return {
+    id: personId,
+    placeId: store.strings[store.placeIx[m]!]!,
+    birthDate: store.born[m]! as IsoDate,
+    householdId: store.households[store.household[m]!]!.id,
+    ...(jobId ? { jobId } : {}),
+    traits: store.packedTraits(m),
+  };
+}
+
 registerCountedPersonSource(residentPerson);
 
 /** Whether a counted (or filled-in) person was in the opening's counts, so has a past before it. */
