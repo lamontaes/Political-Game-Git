@@ -5,9 +5,9 @@ area: laws
 kind: research
 priority: 2
 size: L
-status: claimed
+status: in-pr
 claimed-by: claude/political-game-pool-l9cym2-e
-pr:
+pr: #5198
 blocked-on:
 source: "split from laws-stopgap-reach-group-b-faked-mechanic, Oct 16"
 claimed-at: 2026-10-19T22:01:14.190Z

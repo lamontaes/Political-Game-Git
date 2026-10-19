@@ -5,12 +5,13 @@ area: play
 kind: feature
 priority: 2
 size: S
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/play-mark-gap
+pr: #5204
 blocked-on:
 after: words-scene-talk-in-play
 source: added with npm run pool -- add
+claimed-at: 2026-10-19T22:19:07.353Z
 ---
 
 **What.** A player can mark a line or a scene as a gap while playing, so the owner and checkers can flag prose that does not read right. The mark sits on the scene screen as a control and writes one record naming the scene and line. The marks list for the bench so words sessions can read them.

@@ -10,6 +10,7 @@ pr:
 blocked-on:
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/data/civic-inputs.json, kind civic-data-vintage-and-permission"
+claimed-at:
 ---
 
 **What.** Replace or clear the 1 open civic-data-vintage-and-permission stopgap row(s) in src/core2/data/civic-inputs.json: SG-P8-civic-inputs. Each fake is replaced by the mechanic, or the feature that needs it is deleted.
