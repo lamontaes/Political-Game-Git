@@ -5,10 +5,10 @@ area: world
 kind: bug
 priority: 2
 size: M
-status: claimed
+status: blocked
 claimed-by: claude/hires-below-jolts
 pr: #4716
-blocked-on:
+blocked-on: world-local-sales-below-opening-forecast
 source: added with npm run pool -- add
 claimed-at: 2026-10-19T19:45:04.645Z
 ---
