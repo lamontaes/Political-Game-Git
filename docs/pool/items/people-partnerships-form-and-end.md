@@ -5,10 +5,10 @@ area: people
 kind: feature
 priority: 2
 size: L
-status: in-pr
+status: blocked
 claimed-by: claude/partnerships
 pr: #5189
-blocked-on:
+blocked-on: people-partnerships-full-people-form
 source: added with npm run pool -- add
 claimed-at: 2026-10-19T22:09:20.815Z
 ---
