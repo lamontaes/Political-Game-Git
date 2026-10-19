@@ -1164,9 +1164,10 @@ function layOff(
   // the hire is full now, but their job can still live only in the counted books.
   if (c.jobs.has(job.id)) api.endJob(job.id, `jobs:layoff:${api.state.date}`);
   else endCountedJob(c, job.id);
-  // The owner decides; a business without a recorded owner decides as itself.
+  // The owner decides. An organization with no recorded owner (a public
+  // employer, which has a governing body, not a proprietor) decides as itself,
+  // and the record says so.
   const decidedBy = ownerOf(api, organizationId);
-  if (!decidedBy) stopgap("SG-WORLD-jobs-layoff-decider");
   record(api, {
     personId: job.personId,
     organizationId,

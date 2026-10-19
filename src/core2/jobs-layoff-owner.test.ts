@@ -1,0 +1,63 @@
+/**
+ * A layoff in a business names its owner as who decided it (pool item
+ * gov-standins-jobs, SG-WORLD-jobs-layoff-decider): in a played year in a
+ * drawn place, no layoff at a business names the business itself, and the
+ * owner on its books is the one named.
+ */
+import { randomBytes } from "node:crypto";
+import { expect, it } from "vitest";
+import { buildBenchWorld } from "../bench/world";
+import { drawPlace } from "../../scripts/core2-year/place";
+import { setBookkeeping } from "./bookkeeping";
+import { gameStartDate } from "./game-start";
+import { addDays, makeIsoDate } from "./kernel/dates";
+import { advanceCore } from "./life";
+import { ownerOf } from "./modules/business";
+import { coreAPI } from "./state";
+
+const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
+type Change = {
+  id: string;
+  organizationId: string;
+  personId: string;
+  decidedBy: string;
+};
+
+it("a layoff at a business is decided by its owner, never by the business itself", () => {
+  setBookkeeping(false);
+  const tried: string[] = [];
+  for (let draw = 0; draw < 6; draw += 1) {
+    const place = drawPlace(`${seed}:${draw}`, "layoff-owner");
+    const world = buildBenchWorld(place.seed, gameStartDate(), {
+      twoLevel: true,
+      placeKey: place.key,
+    });
+    const api = coreAPI(world.core);
+    advanceCore(world.core, addDays(makeIsoDate(world.core.date), 365));
+    const layoffs = api
+      .moduleState("jobs")
+      .table("changes")
+      .query("byKind", ["layoff"]) as unknown as Change[];
+    tried.push(
+      `${place.name} (${place.key}), seed ${place.seed}: ${layoffs.length}`,
+    );
+    const owned = layoffs.filter((row) => ownerOf(api, row.organizationId));
+    if (!owned.length) continue;
+    for (const row of owned)
+      expect(row.decidedBy, `${place.name}: ${row.id}`).not.toBe(
+        row.organizationId,
+      );
+    // The owner on the books is the one who decided, for at least one layoff.
+    expect(
+      owned.some((row) => row.decidedBy === ownerOf(api, row.organizationId)),
+      `${place.name}: ${owned.length} layoffs, none by the current owner`,
+    ).toBe(true);
+    console.log(
+      `LAYOFF-OWNER ${place.name} (${place.key}), seed ${place.seed}: ${owned.length} layoffs at owned businesses, ${owned.filter((row) => row.decidedBy === ownerOf(api, row.organizationId)).length} decided by the owner on the books today`,
+    );
+    return;
+  }
+  throw new Error(
+    `no layoff at an owned business in 6 draws: ${tried.join("; ")}`,
+  );
+}, 3_600_000);

@@ -2491,7 +2491,8 @@
     "addedBy": "OPUS-WORLD",
     "addedAt": "2026-10-12",
     "replacement": "The owner or manager person recorded by M1-08, deciding from their own traits and the books.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "Done Oct 19 (gov-standins-jobs): a layoff names the business's recorded owner as who decided it (ownerOf, from the business module), who weighs the books and the worker's tenure and reliability; an organization with no recorded owner (a public employer, whose governing body decides) is named as itself, which is what it is. The marker is removed."
   },
   {
     "id": "SG-WORLD-jobs-benefits-terms",
