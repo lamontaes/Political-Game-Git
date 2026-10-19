@@ -983,6 +983,7 @@ export interface BudgetSeasonSteps {
     api: CoreAPI,
     gov: GovernmentRow,
     date: string,
+    step: "hearing" | "vote",
   ) => string;
   readonly propose: (
     api: CoreAPI,
@@ -1040,7 +1041,12 @@ function scheduleBudgetSeason(
     const date =
       kind === "budget-proposal"
         ? target
-        : budgetSeason.onMeetingDay(api, gov, target);
+        : budgetSeason.onMeetingDay(
+            api,
+            gov,
+            target,
+            kind === "budget-hearing" ? "hearing" : "vote",
+          );
     const key = `${kind}:${gov.id}:${fy}`;
     if (date <= api.state.date || date >= start || calendar.get(key)) continue;
     calendar.schedule({

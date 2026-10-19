@@ -100,7 +100,7 @@ import { decisionKinds } from "../trait-decisions";
 import { discretionaryHours } from "./work";
 import { COMMITTEES, committeeForSection } from "../legislature-committees";
 import { addDays, makeIsoDate } from "../kernel/dates";
-import { nextMeeting } from "../office-day-calendar";
+import { meetingRule, meetsOn, nextMeeting } from "../office-day-calendar";
 import {
   bodyNumbering,
   designation,
@@ -704,25 +704,39 @@ function storedProposal(
 }
 
 /**
- * A local body hears and votes its budget at a regular meeting: the first
- * one on its own rule (office-day-calendar.ts) on or after the season's day.
+ * A local body hears and votes its budget at a regular meeting on its own
+ * rule (office-day-calendar.ts): the hearing at the first on or after the
+ * season's day, the vote at the last on or before it.
  * A state or Congress sits on the day the season names.
  */
 function budgetMeetingDay(
   api: CoreAPI,
   gov: GovernmentRow,
   date: string,
+  step: "hearing" | "vote",
 ): string {
   if (gov.level === "federal" || gov.level === "state") return date;
   const chambers = budgetChambers(api, gov);
   if (!chambers) return date;
-  const next = nextMeeting(
-    api,
-    chambers.introducedIn,
-    addDays(makeIsoDate(date), -1),
-    lawChain(api).countyGeoids[0],
+  const countyGeoid = lawChain(api).countyGeoids[0];
+  const rule = meetingRule(api, chambers.introducedIn, countyGeoid);
+  if (!rule) return date;
+  // The hearing is the first meeting on or after the day; the vote is the
+  // last meeting on or before it, so a body that meets once a month still
+  // votes before its year starts.
+  if (step === "vote")
+    for (let i = 0; i < 40; i++) {
+      const day = addDays(makeIsoDate(date), -i);
+      if (meetsOn(rule, day)) return day;
+    }
+  return (
+    nextMeeting(
+      api,
+      chambers.introducedIn,
+      addDays(makeIsoDate(date), -1),
+      countyGeoid,
+    )?.date ?? date
   );
-  return next?.date ?? date;
 }
 
 /**
