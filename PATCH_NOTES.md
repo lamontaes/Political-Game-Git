@@ -296,6 +296,16 @@ Repaired after an independent audit, before review:
 - A promise can only be conditioned on something the game can actually settle.
   One condition on the list could never come true and is gone.
 
+## PRE-ALPHA 0.19.1
+
+_Released October 19, 2026._
+
+### Fixed
+
+- **A small town no longer freezes the game when its first home is bought** In a
+  small town with no owned homes at the start, the game no longer hangs the
+  month building first becomes possible.
+
 ## PRE-ALPHA 0.19.0
 
 _Released October 17, 2026._
