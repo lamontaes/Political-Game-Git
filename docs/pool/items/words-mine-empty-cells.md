@@ -4,9 +4,9 @@ title: "Order 3: mine the empty cells of the coverage table"
 area: words
 kind: research
 priority: 2
-status: claimed
+status: in-pr
 claimed-by: claude/political-game-pool-g08lgv
-pr:
+pr: #5187
 blocked-on:
 milestone:
 source: "words-and-director order 3"

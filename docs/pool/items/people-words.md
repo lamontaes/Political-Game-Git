@@ -4,9 +4,9 @@ title: "Words:"
 area: people
 kind: feature
 priority: 2
-status: claimed
+status: in-pr
 claimed-by: claude/political-game-pool-76ksvw
-pr:
+pr: #5180
 blocked-on:
 milestone:
 source: "docs/coordination/OPUS-PEOPLE.md line 19 (unchecked checklist line)"
