@@ -107,6 +107,11 @@
         "tag": "ESTIMATED",
         "citation": "M.G.L. ch. 54 sec. 140 (read in a statute aggregator, not the official General Laws): a vacancy election for a U.S. House seat is held not less than 145 nor more than 160 days after the vacancy",
         "spread": [145, 160]
+      },
+      "stateLegislative": {
+        "kind": "governor-sets-date",
+        "tag": "ESTIMATED",
+        "citation": "M.G.L. c. 54 sec. 141 (via search): the speaker issues precepts and the House sets the election day, a Tuesday; no day count in the excerpt (section 142 for senators not read). The estimate dates it."
       }
     },
     "US-TN": {
@@ -303,6 +308,11 @@
         "kind": "governor-sets-date",
         "tag": "ESTIMATED",
         "citation": "Va. Code 24.2-209: the governor issues a writ of election to fill a U.S. House vacancy; the state Department of Elections says Virginia law has no timeline for when the election is held (24.2-682 adds only that it is on a Tuesday and outside the 55 days before a general or primary election). The estimate dates it."
+      },
+      "stateLegislative": {
+        "kind": "governor-sets-date",
+        "tag": "ESTIMATED",
+        "citation": "Va. Code 24.2-216 (law.lis.virginia.gov, via search): the writ is issued within 30 days of the vacancy or its notice, by the governor outside the session and the presiding officer during it; a vacancy between December 10 and March 1 is filled within 30 days of the vacancy; otherwise the law sets no day count (no election within 75 days of the term's end). The estimate dates it."
       }
     },
     "US-IN": {
@@ -359,6 +369,11 @@
         "kind": "governor-sets-date",
         "tag": "ESTIMATED",
         "citation": "Kentucky: Utah House staff, 'Timing of State Elections to Fill a Vacancy in the U.S. House of Representatives: A Survey of the 50 States' (May 4, 2017), which groups the state among those that give the governor discretion when to call the election (the statute was not read). The estimate dates it."
+      },
+      "stateLegislative": {
+        "kind": "governor-sets-date",
+        "tag": "ESTIMATED",
+        "citation": "KRS 118.730 (via search): the presiding officer issues the writ during a session and the governor otherwise, and the writ designates the day of the election; no day count (notice deadlines of 35, 56 or 63 days appear in different sources). The estimate dates it."
       }
     },
     "US-LA": {
@@ -385,6 +400,11 @@
         "kind": "next-general",
         "tag": "ESTIMATED",
         "citation": "Maine: the same 2017 Utah House staff survey groups it among the three states (Arkansas, Maine, Ohio) that run a vacancy election on the same schedule as a regular general election; the statute was not read"
+      },
+      "stateLegislative": {
+        "kind": "governor-sets-date",
+        "tag": "ESTIMATED",
+        "citation": "21-A M.R.S. 382 (legislature.maine.gov, via search): the governor proclaims the vacancy and orders a special election under section 366 where a municipality asks that it be filled; nominees are chosen no sooner than the 15th day after the proclamation; no election day count. The estimate dates it."
       }
     },
     "US-WV": {
@@ -401,6 +421,13 @@
         "kind": "governor-sets-date",
         "tag": "ESTIMATED",
         "citation": "26 O.S. 12-101 as restated in 2019 to 2021 bills (enacted text unconfirmed): the governor calls the special election by a writ within 30 days of the vacancy; the law gives the election day no day count. The estimate dates it."
+      },
+      "stateLegislative": {
+        "kind": "days-after-vacancy",
+        "days": 70,
+        "tag": "ESTIMATED",
+        "citation": "26 O.S. 12-110 as summarized by the Oklahoma Policy Institute (via search; the statute text was not found): the governor calls the special election within 30 days of the vacancy, with a 3-day filing period starting at least 10 days after the proclamation, a special primary at least 20 days after filing closes and a special general at least 20 days after the primary (53 days after the proclamation at the least; a proclamation up to 30 days out makes about 53 to 83 days, nominal 70)",
+        "spread": [53, 90]
       }
     },
     "US-SC": {
@@ -465,6 +492,13 @@
         "citation": "Miss. Code 23-15-853 (read in a development mirror, current text unchecked): the governor orders the special election to fill a House vacancy within 60 days after the vacancy and the election is held at least 60 days after the order; the day inside that window is not fixed, so 90 days is an estimate in a 60-to-150-day spread",
         "days": 90,
         "spread": [60, 150]
+      },
+      "stateLegislative": {
+        "kind": "days-after-vacancy",
+        "days": 90,
+        "tag": "ESTIMATED",
+        "citation": "Miss. Code 23-15-851 (two versions in search results that differ on notice, 40 or 60 days): the governor issues the writ within 30 days of the vacancy with at least 40 to 60 days' notice, so the election falls about 60 to 90 days or more after the vacancy; 90 days is the upper estimate in a 60-to-120-day spread",
+        "spread": [60, 120]
       }
     },
     "US-HI": {
