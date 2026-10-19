@@ -34,6 +34,13 @@
         "tag": "ESTIMATED",
         "citation": "Iowa Code 69.14 as described in GAO-24-107789 (Sept 18, 2024), 'Preliminary Observations on State Laws and Perspectives on Holding Special Elections to Fill House Vacancies', p. 6 and notes 22-25: the governor orders the election within 5 days of the vacancy with at least 40 days' notice, on a Tuesday (about 45 to 60 days, nominal 50)",
         "spread": [45, 60]
+      },
+      "stateLegislative": {
+        "kind": "days-after-vacancy",
+        "days": 50,
+        "tag": "ESTIMATED",
+        "citation": "Iowa Code 69.14 as described in GAO-24-107789: the governor orders the election within 5 days of the vacancy with at least 40 days' notice, on a Tuesday (about 45 to 60 days)",
+        "spread": [45, 60]
       }
     },
     "US-NY": {
@@ -43,6 +50,13 @@
         "tag": "ESTIMATED",
         "citation": "N.Y. Election Law 6-114: the special election for a congressional vacancy is held not less than 70 nor more than 80 days after the governor's proclamation (the text struck by bills A1860 of 2023 and A1610 of 2025, which would make it 90 days; the proclamation's own timing is not counted here, so the days run from the proclamation, not the vacancy)",
         "spread": [70, 80]
+      },
+      "stateLegislative": {
+        "kind": "days-after-vacancy",
+        "days": 35,
+        "tag": "ESTIMATED",
+        "citation": "N.Y. Election Law 6-114, the text struck in a 2011 bill (via search): a special election for a legislative vacancy not less than 30 nor more than 40 days after the governor's proclamation; the proclamation's own timing is not counted",
+        "spread": [30, 40]
       }
     },
     "US-WA": {
@@ -60,6 +74,13 @@
         "days": 45,
         "tag": "ESTIMATED",
         "citation": "O.C.G.A. 21-2-543, as described by the Georgia Secretary of State's guidance (reported at ballot-access.org, 2007): the governor issues a writ of election within 10 days of the vacancy and the election is held no sooner than 30 days after the writ; no maximum was found, so the spread is the 40-day minimum to about ten weeks, and the section's current text is not checked",
+        "spread": [40, 70]
+      },
+      "stateLegislative": {
+        "kind": "days-after-vacancy",
+        "days": 55,
+        "tag": "ESTIMATED",
+        "citation": "O.C.G.A. 21-2-544 (as quoted in a search result): a General Assembly vacancy during a session gets a writ within 10 days of the vacancy and an election 30 to 60 days after the writ (about 40 to 70 days; the rule for a vacancy outside a session is not modeled)",
         "spread": [40, 70]
       }
     },
@@ -135,6 +156,24 @@
         "tag": "ESTIMATED",
         "citation": "Tex. Election Code 204.021 (a U.S. House vacancy is filled by special election as for the legislature) and 203.004(a) (the first uniform election date on or after the 36th day after the governor orders it, unless an emergency), with the uniform dates of 41.001(a) (the first Saturday in May and the first Tuesday after the first Monday in November) as the search results quote them; the governor's order is assumed on the vacancy day, since the law sets no deadline",
         "spread": [36, 200]
+      },
+      "stateLegislative": {
+        "kind": "next-uniform-date",
+        "orderLagDays": 0,
+        "minDaysAfterOrder": 36,
+        "uniformDates": [
+          {
+            "month": 5,
+            "weekday": 6,
+            "nth": 1
+          },
+          {
+            "general": true
+          }
+        ],
+        "tag": "ESTIMATED",
+        "citation": "Tex. Election Code 203.004(a) (a legislative vacancy election on the first uniform election date on or after the 36th day after the governor orders it, unless an emergency), with the uniform dates of 41.001(a); the order is assumed on the vacancy day",
+        "spread": [36, 200]
       }
     },
     "US-OH": {
@@ -149,6 +188,11 @@
         "kind": "governor-sets-date",
         "tag": "ESTIMATED",
         "citation": "Ala. Code 17-15-3 and 17-15-4 as quoted in a secondary source: special elections for representatives in Congress are ordered by the governor's proclamation on the day the governor directs; no day count. The estimate dates it."
+      },
+      "stateLegislative": {
+        "kind": "governor-sets-date",
+        "tag": "ESTIMATED",
+        "citation": "Alabama: NCSL's 'Filling Legislative Vacancies' summary, as quoted in a search result, lists the state among those with no set special-election deadline for a legislative vacancy; the statute was not read. The estimate dates it."
       }
     },
     "US-MI": {
@@ -156,6 +200,11 @@
         "kind": "governor-sets-date",
         "tag": "ESTIMATED",
         "citation": "Michigan: the governor issues the writ under U.S. Const. art. I sec. 2 cl. 4 with no state deadline for a U.S. House vacancy (as in the 2017 Conyers vacancy, filled the following November); the statute itself was not read. The estimate dates it."
+      },
+      "stateLegislative": {
+        "kind": "governor-sets-date",
+        "tag": "ESTIMATED",
+        "citation": "Michigan: NCSL's 'Filling Legislative Vacancies' summary, as quoted in a search result, lists the state among those with no set special-election deadline for a legislative vacancy; the statute was not read. The estimate dates it."
       }
     },
     "US-VT": {
@@ -217,6 +266,13 @@
         "kind": "governor-sets-date",
         "tag": "ESTIMATED",
         "citation": "Del. Code tit. 15, sec. 7301 (read in a statute aggregator): an election to fill a U.S. House vacancy is held on such day as the Governor shall appoint; the 30-to-35-day window of sec. 7102 is for General Assembly vacancies. The estimate dates it."
+      },
+      "stateLegislative": {
+        "kind": "days-after-vacancy",
+        "days": 33,
+        "tag": "ESTIMATED",
+        "citation": "Del. Code tit. 15 sec. 7102 (statute aggregator): a General Assembly vacancy election 30 to 35 days after the governor's order",
+        "spread": [30, 35]
       }
     },
     "US-RI": {
@@ -272,6 +328,11 @@
         "kind": "governor-sets-date",
         "tag": "ESTIMATED",
         "citation": "Florida: Utah House staff, 'Timing of State Elections to Fill a Vacancy in the U.S. House of Representatives: A Survey of the 50 States' (May 4, 2017), which groups the state among those that give the governor discretion when to call the election (the statute was not read). The estimate dates it."
+      },
+      "stateLegislative": {
+        "kind": "governor-sets-date",
+        "tag": "ESTIMATED",
+        "citation": "Florida: NCSL's 'Filling Legislative Vacancies' summary, as quoted in a search result, lists the state among those with no set special-election deadline for a legislative vacancy; the statute was not read. The estimate dates it."
       }
     },
     "US-MO": {
@@ -355,6 +416,13 @@
         "citation": "Conn. Gen. Stat. 9-212 (read in a third-party statute mirror, not on cga.ct.gov): the governor issues the writs within 10 days of the vacancy and the special election is held 60 days after the writs issue, on a weekday, merged into a regular November election when the vacancy falls 125 to 63 days before it (70 days; the section's other timing rules are not modeled)",
         "days": 70,
         "spread": [70, 72]
+      },
+      "stateLegislative": {
+        "kind": "days-after-vacancy",
+        "days": 56,
+        "tag": "ESTIMATED",
+        "citation": "Connecticut governor's office statement as quoted in NCSL's table (via search): a writ within 10 days of a General Assembly vacancy and the election on the 46th day after the writ (about 56 days); the statute was not read",
+        "spread": [51, 56]
       }
     },
     "US-NM": {
@@ -408,6 +476,13 @@
         "kind": "governor-sets-date",
         "tag": "ESTIMATED",
         "citation": "Wis. Stat. 8.50(4) (via search; the current text was not retrieved): the governor orders a special election to fill the vacancy with no deadline for the order; once ordered, 8.50(2)(a) holds it about 62 to 77 days later. The estimate dates it."
+      },
+      "stateLegislative": {
+        "kind": "days-after-vacancy",
+        "days": 70,
+        "tag": "ESTIMATED",
+        "citation": "Wis. Stat. 8.50(2)(a) as excerpted in a 2023 bill (via search): a special election generally 62 to 77 days after the order; there is no deadline for the governor to order it",
+        "spread": [62, 77]
       }
     },
     "US-UT": {
@@ -422,6 +497,13 @@
         "kind": "governor-sets-date",
         "tag": "ESTIMATED",
         "citation": "Minn. Stat. 204D.29 and other relevant statutes, as cited in the governor's writ for the 2022 First District vacancy (the writ set Tuesday, August 9, 2022, months after the February vacancy); the 2005 text of 204D.19 (election within 28 days of the writ) is superseded for the House and the current statute was not read. The estimate dates it."
+      },
+      "stateLegislative": {
+        "kind": "days-after-vacancy",
+        "days": 35,
+        "tag": "ESTIMATED",
+        "citation": "Minn. Stat. 204D.19 subd. 2 (read on the revisor's site): when the legislature will be in session the governor issues the writ within 5 days and the election is held as soon as possible and no more than 35 days after the writ (subd. 1 and 3 fill other vacancies at the general election or the next session)",
+        "spread": [10, 40]
       }
     }
   }

@@ -327,6 +327,33 @@ describe(`election law from data (place ${drawn.name}, ${drawn.state}, seed ${se
     expect(colorado.basis).toBe("estimated");
   });
 
+  it("a state legislative vacancy is dated by the state's law where the data reads it", () => {
+    const seat = (state: string) =>
+      ({
+        ...town(state),
+        level: "state",
+        kind: "legislature-upper",
+        jurisdiction: state,
+      }) as OfficeInput;
+    for (const [state, days, cite] of [
+      ["US-GA", 55, "21-2-544"],
+      ["US-MN", 35, "204D.19"],
+      ["US-DE", 33, "7102"],
+      ["US-NY", 35, "6-114"],
+    ] as const) {
+      const read = specialElectionDate({
+        office: seat(state),
+        stateKey: state,
+        vacancyDate: "2026-03-01",
+      });
+      const expected = new Date(Date.parse("2026-03-01") + days * 86_400_000)
+        .toISOString()
+        .slice(0, 10);
+      expect(read.electionDate, state).toBe(expected);
+      expect(read.source, state).toContain(cite);
+    }
+  });
+
   it("a term starts on the office's own rule, the data's default where none is read", () => {
     const office = town("US-NC");
     const start = termStartAfter(office, "2026-11-03");
