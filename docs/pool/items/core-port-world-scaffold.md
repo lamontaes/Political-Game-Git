@@ -5,10 +5,10 @@ area: core
 kind: wiring
 priority: 2
 size: M
-status: claimed
+status: blocked
 claimed-by: claude/port-world-scaffold
 pr:
-blocked-on:
+blocked-on: core-old-imports-opening-employment
 source: "split from core-remaining-port-the-opening-town-builder-population (an L item), Oct 15"
 claimed-at: 2026-10-19T18:35:36.559Z
 ---
