@@ -20,4 +20,4 @@ source: "src/core2/data/stopgaps.json, src/core2/housing-property-tax.ts, kind a
 
 **Files.** src/core2/housing-property-tax.ts
 
-**Notes.** First row: Every owner pays the state's average effective property tax rate, to the outside account, with no assessment cap.
+**Notes.** Built on claude/political-game-pool-yucp92-g. The budgets engine already registered the rate, cap and payee from the law in force; four drawn towns billed the state-average fallback zero times in a played quarter. The fallback and its stopgap row are deleted. The state average still sizes the opening's outside living cost (housing.ts).

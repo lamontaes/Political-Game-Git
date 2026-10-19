@@ -1,11 +1,7 @@
 /** Property tax bills on owners: a twelfth of assessed value times the rate each month, with an assessment cap where the law sets one. */
 import { afterEach, describe, expect, it } from "vitest";
 import { advanceCore, createLifeCore } from "./life";
-import {
-  billPropertyTax,
-  registerPropertyTax,
-  stateEffectiveRate,
-} from "./housing-property-tax";
+import { billPropertyTax, registerPropertyTax } from "./housing-property-tax";
 import { HOUSING_MODULE } from "./modules/housing";
 import { worldCoreData } from "./modules/world";
 import { coreAPI } from "./state";
@@ -82,7 +78,7 @@ function input(): CoreInput {
 afterEach(() => registerPropertyTax(() => undefined));
 
 describe("property tax bills", () => {
-  it("without a county rate in force, the owner pays the state's average effective rate outside the town", () => {
+  it("without a law in force, nothing is billed", () => {
     const core = createLifeCore(input(), {
         data: worldCoreData(),
         modules: [HOUSING_MODULE],
@@ -90,15 +86,15 @@ describe("property tax bills", () => {
       api = coreAPI(core);
     advanceCore(core, "2021-01-02");
     const table = api.moduleState("housing").table("assessments");
-    const homes = [
+    const paid = billPropertyTax(api, table, [
       {
         householdId: "household:owner",
         placeId: place,
         valueMinor: 40_000_000,
       },
-    ];
-    const paid = billPropertyTax(api, table, homes);
-    expect(paid).toBe(Math.round((40_000_000 * stateEffectiveRate("NJ")) / 12));
+    ]);
+    expect(paid).toBe(0);
+    expect(table.rows()).toHaveLength(0);
   });
   it.each([false, true])(
     "a 2% cap limits next January's bill for full and counted owners (counted=%s)",
