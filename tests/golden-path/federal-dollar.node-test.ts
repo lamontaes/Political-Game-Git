@@ -23,7 +23,7 @@
  * (plain node:test under tsx, as the played-world suite runs). A random seed
  * when PLAYED_WORLD_SEED is unset; the place is drawn from all 56 by the seed.
  * A year whose Congress does not pass the line draws the next place (up to
- * six); if none passes it, the test fails, never skips.
+ * ten); if none passes it, the test fails, never skips.
  */
 import { randomBytes } from "node:crypto";
 import { performance } from "node:perf_hooks";
@@ -81,7 +81,11 @@ const total = (record: Readonly<Record<string, number>>) =>
  * player passes in dev mode (re-asserted daily until Congress votes, so the
  * president's own February request cannot overwrite it); `{}` holds the year's
  * budget at its base. */
-function play(changes: Readonly<Record<string, number>>) {
+function play(
+  changes: Readonly<Record<string, number>>,
+  /** Stop at once (returning null) if Congress has voted the base budget in. */
+  bailUnlessChanged = false,
+) {
   const world = buildBenchWorld(seed, OPENING_DATE, {
     twoLevel: true,
     placeKey: place.key,
@@ -105,6 +109,21 @@ function play(changes: Readonly<Record<string, number>>) {
       });
     }
     day = next;
+    // The fiscal year's vote has come in by the middle of October; a budget
+    // that did not take the line makes the rest of this year pointless.
+    if (bailUnlessChanged && day === addDays(makeIsoDate(start), 280)) {
+      const row = budgetsOf(api, federal.id)
+        .filter((b) => b.startsOn > OPENING_DATE)
+        .at(0);
+      const base = row && baseBudget(api, federal, Number(row.fiscalYear));
+      if (
+        !row ||
+        !base ||
+        total(row.spendingMinor as Record<string, number>) ===
+          total(base.spendingMinor)
+      )
+        return null;
+    }
   }
   return {
     world,
@@ -128,7 +147,7 @@ interface Chain {
 }
 
 /** The chain's links, read from one played world's own records. */
-function chainOf(run: ReturnType<typeof play>): Chain {
+function chainOf(run: NonNullable<ReturnType<typeof play>>): Chain {
   const { core, api, federal, world } = run;
   const budgetRow = budgetsOf(api, federal.id)
     .filter((row) => row.startsOn > start)
@@ -210,31 +229,24 @@ function chainOf(run: ReturnType<typeof play>): Chain {
 }
 
 describe(`the federal dollar's chain (seed ${seed})`, () => {
-  let withChange: ReturnType<typeof play>;
-  let atBase: ReturnType<typeof play>;
+  let withChange: NonNullable<ReturnType<typeof play>>;
+  let atBase: NonNullable<ReturnType<typeof play>>;
   let chain: Chain;
   let control: Chain;
-  let passed: boolean;
+  let passed = false;
 
   before(() => {
     // Congress votes the line or not by its members' own reasons, so a given
-    // place may not pass it; the next drawn place is tried, up to six.
+    // place may not pass it; the next drawn place is tried, up to ten.
     const tried: string[] = [];
-    for (let attempt = 0; attempt < 6; attempt += 1) {
+    for (let attempt = 0; attempt < 10 && !passed; attempt += 1) {
       place = drawPlace(`${seed}:${attempt}`, "federal-dollar");
-      withChange = play({ [LINE]: lineChangeMinor });
+      const run = play({ [LINE]: lineChangeMinor }, true);
+      tried.push(`${place.key}: ${run ? "passed" : "not passed"}`);
+      if (!run) continue;
+      withChange = run;
       chain = chainOf(withChange);
-      const base = baseBudget(
-        withChange.api,
-        withChange.federal,
-        Number(chain.budgetRow?.fiscalYear ?? 0),
-      );
-      passed =
-        chain.budgetRow !== undefined &&
-        total(chain.budgetRow.spendingMinor as Record<string, number>) !==
-          total(base.spendingMinor);
-      tried.push(`${place.key}: ${passed ? "passed" : "not passed"}`);
-      if (passed) break;
+      passed = true;
     }
     assert.ok(
       passed,
