@@ -30,3 +30,4 @@ Oct 19 (later): West Virginia, Arizona and Nevada are now SOURCED, read from the
 Wyoming is also SOURCED (W.S. 22-23-302 and 22-2-104(b), from the Title 22 PDF at wyoleg.gov): 15 places remain `unread`.
 Michigan is also SOURCED (MCL 168.644e, from legislature.mi.gov): 14 places remain `unread`.
 New Hampshire (SOURCED, RSA 669:19) and Mississippi (ESTIMATED, from the 2025 qualifying guide) are also read: 12 places remain `unread`.
+Pennsylvania (ESTIMATED, 25 P.S. 2873: tenth Tuesday before the third-Tuesday-in-May primary) is also read: 11 places remain `unread`.

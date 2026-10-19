@@ -392,13 +392,16 @@
     },
     "US-PA": {
       "rule": {
-        "kind": "unread",
-        "reason": "The law counts the deadline from a primary or another date this calendar does not hold for towns."
+        "kind": "weekday-of-month",
+        "month": 5,
+        "weekday": 2,
+        "nth": 3,
+        "plusDays": -70
       },
-      "ruleText": "Odd years: nomination petitions to the county board 10th Tuesday before the May primary",
-      "citation": "25 P.S. 2872.1, 2873, 2913",
+      "ruleText": "All nomination petitions are filed with the county board of elections on or before the tenth Tuesday before the primary; the municipal primary is the third Tuesday in May (2023: March 7 for the May 16 primary)",
+      "citation": "25 P.S. 2873(d), 2913; Pennsylvania Department of State 2023 Municipal Election Calendar",
       "tag": "ESTIMATED",
-      "estimatedFrom": "Statute or county page named in the citation, read from a search excerpt or secondary summary and not checked against the current code (filing-requirements.json estimate flag)."
+      "estimatedFrom": "A mirror of 25 P.S. 2873, county election offices' statements of the rule, and the Department of State's 2023 municipal calendar (March 7, 2023); the official code text was not retrieved."
     },
     "US-RI": {
       "rule": {

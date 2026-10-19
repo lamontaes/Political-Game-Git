@@ -151,6 +151,11 @@ describe(`election law from data (place ${drawn.name}, ${drawn.state}, seed ${se
     expect(municipalFilingDeadline("US-MS", "2025-06-03")?.date).toBe(
       "2025-01-31",
     );
+    // Pennsylvania's petitions close the tenth Tuesday before the third-Tuesday
+    // May primary: March 7, 2023 for the May 16 primary.
+    expect(municipalFilingDeadline("US-PA", "2023-11-07")?.date).toBe(
+      "2023-03-07",
+    );
     // Every one of the 56 places has a row with a citation and a tag.
     const rows = Object.values(
       filingDeadlines.places as Record<
