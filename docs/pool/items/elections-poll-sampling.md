@@ -4,9 +4,9 @@ title: "Poll sampling and ballot foundations (B07 P4, #2486)"
 area: elections
 kind: feature
 priority: 2
-status: claimed
+status: in-pr
 claimed-by: session29-b07-p4
-pr: #2486
+pr: #5091
 blocked-on:
 milestone:
 source: "open PR #2486"
