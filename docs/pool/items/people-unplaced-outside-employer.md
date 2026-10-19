@@ -5,12 +5,12 @@ area: people
 kind: stopgap
 priority: 2
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/unplaced-outside-employer
 pr: #5076
 blocked-on:
 source: added with npm run pool -- add
-claimed-at:
+claimed-at: 2026-10-19T21:35:15.158Z
 ---
 
 **What.** TODO
