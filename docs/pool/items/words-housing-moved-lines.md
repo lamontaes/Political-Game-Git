@@ -5,11 +5,12 @@ area: words
 kind: wiring
 priority: 2
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/political-game-pool-khi2o3
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-19T21:55:48.320Z
 ---
 
 **What.** TODO
