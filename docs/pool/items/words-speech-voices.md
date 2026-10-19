@@ -5,11 +5,12 @@ area: people
 kind: feature
 priority: 2
 size: M
-status: open
-claimed-by:
+status: blocked
+claimed-by: claude/political-game-pool-7xkkii
 pr:
-blocked-on:
+blocked-on: words-speech-part-words
 source: added with npm run pool -- add
+claimed-at: 2026-10-19T21:57:07.733Z
 ---
 
 **What.** TODO
