@@ -354,6 +354,8 @@ describe("law reach, group B: every policy reaches people through its engine", (
     const work = Q("health-human-services.medicaid-work-requirement");
     enact(expand, 1, "state");
     expect(reached(expand), `${where} expansion`).toBeGreaterThan(0);
+    // Counted before the work requirement, which then ends coverage for some of them.
+    const eligibleBefore = reached(expand);
     const date = makeIsoDate(api.state.date);
     for (const row of openPeople(expand)) {
       const p = core.people.get(row.personId)!;
@@ -362,7 +364,7 @@ describe("law reach, group B: every policy reaches people through its engine", (
       expect(age).toBeLessThan(65);
     }
     enact(work, 1, "state");
-    expect(reached(work)).toBeLessThanOrEqual(reached(expand));
+    expect(reached(work)).toBeLessThanOrEqual(eligibleBefore);
     const weekly = (80 * 12 * 60) / 52;
     for (const row of openPeople(work)) {
       const minutes = [
@@ -374,7 +376,7 @@ describe("law reach, group B: every policy reaches people through its engine", (
       expect(minutes).toBeLessThan(weekly);
     }
     report.medicaid = {
-      eligible: reached(expand),
+      eligible: eligibleBefore,
       endedForHours: reached(work),
     };
     enact(work, 0, "state");
