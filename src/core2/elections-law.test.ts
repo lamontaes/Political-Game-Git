@@ -271,6 +271,40 @@ describe(`election law from data (place ${drawn.name}, ${drawn.state}, seed ${se
     }
   });
 
+  it("Texas dates a U.S. House vacancy on the first uniform date after the 36th day, and a governor-sets state says its law was read", () => {
+    const house = (state: string) =>
+      ({
+        ...town(state),
+        level: "federal",
+        kind: "us-house",
+        jurisdiction: state,
+      }) as OfficeInput;
+    // 2026-01-05 + 36 days = 2026-02-10: the first uniform date after it is the first Saturday in May.
+    const spring = specialElectionDate({
+      office: house("US-TX"),
+      stateKey: "US-TX",
+      vacancyDate: "2026-01-05",
+    });
+    expect(spring.electionDate).toBe("2026-05-02");
+    expect(spring.source).toContain("203.004");
+    // 2026-06-01 + 36 days = 2026-07-07: the next uniform date is the November general election day.
+    const fall = specialElectionDate({
+      office: house("US-TX"),
+      stateKey: "US-TX",
+      vacancyDate: "2026-06-01",
+    });
+    expect(fall.electionDate).toBe("2026-11-03");
+    // Ohio's governor sets the day: the estimate dates it and the source cites the law.
+    const ohio = specialElectionDate({
+      office: house("US-OH"),
+      stateKey: "US-OH",
+      vacancyDate: "2026-03-01",
+    });
+    expect(ohio.basis).toBe("estimated");
+    expect(ohio.source).toContain("3521.03");
+    expect(ohio.electionDate).toBe("2026-05-30");
+  });
+
   it("a term starts on the office's own rule, the data's default where none is read", () => {
     const office = town("US-NC");
     const start = termStartAfter(office, "2026-11-03");

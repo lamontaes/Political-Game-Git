@@ -1,5 +1,5 @@
 {
-  "about": "When a state's law schedules the special election for a vacancy, by office family. kind: days-after-vacancy (days, a nominal value inside the statutory window), next-general (no special election; the seat waits for the next general election, an appointee serving), unread (the estimate in parameters.json stands in: SG-GOV-special-election-timing). The method (special election, appointment, succession) is read from data/research/offices/state-offices.json by offices-state.ts; this table is only the date. Read by src/core2/elections-calendar.ts specialElectionDate.",
+  "about": "When a state's law schedules the special election for a vacancy, by office family. kind: days-after-vacancy (days, a nominal value inside the statutory window), next-general (no special election; the seat waits for the next general election, an appointee serving), unread (the estimate in parameters.json stands in: SG-GOV-special-election-timing). The method (special election, appointment, succession) is read from data/research/offices/state-offices.json by offices-state.ts; this table is only the date. Read by src/core2/elections-calendar.ts specialElectionDate. Two more kinds: next-uniform-date (the first of the state's uniform dates on or after a number of days after the governor's order, which is assumed to come orderLagDays after the vacancy) and governor-sets-date (the law leaves the day to the governor, so the estimate in parameters.json dates it and the citation records that the law was read).",
   "stopgap": "SG-GOV-special-election-timing",
   "states": {
     "US-CA": {
@@ -115,6 +115,47 @@
         "tag": "ESTIMATED",
         "citation": "Ark. Code 7-8-104 (the governor orders the election by proclamation to the county sheriffs) and 7-7-105 (a special election not more than 150 days after the vacancy, unless the governor finds it impracticable), read in a statute aggregator; the statute gives only the 150-day cap, so the nominal 120 days is a midpoint estimate inside a 60-to-150-day spread",
         "spread": [60, 150]
+      }
+    },
+    "US-TX": {
+      "usHouse": {
+        "kind": "next-uniform-date",
+        "orderLagDays": 0,
+        "minDaysAfterOrder": 36,
+        "uniformDates": [
+          {
+            "month": 5,
+            "weekday": 6,
+            "nth": 1
+          },
+          {
+            "general": true
+          }
+        ],
+        "tag": "ESTIMATED",
+        "citation": "Tex. Election Code 204.021 (a U.S. House vacancy is filled by special election as for the legislature) and 203.004(a) (the first uniform election date on or after the 36th day after the governor orders it, unless an emergency), with the uniform dates of 41.001(a) (the first Saturday in May and the first Tuesday after the first Monday in November) as the search results quote them; the governor's order is assumed on the vacancy day, since the law sets no deadline",
+        "spread": [36, 200]
+      }
+    },
+    "US-OH": {
+      "usHouse": {
+        "kind": "governor-sets-date",
+        "tag": "ESTIMATED",
+        "citation": "Ohio Rev. Code 3521.03: the governor issues a writ of election for a special election on a date the writ specifies, with no day count; R.C. 3513.32 lets the governor direct a primary before it. The estimate dates it."
+      }
+    },
+    "US-AL": {
+      "usHouse": {
+        "kind": "governor-sets-date",
+        "tag": "ESTIMATED",
+        "citation": "Ala. Code 17-15-3 and 17-15-4 as quoted in a secondary source: special elections for representatives in Congress are ordered by the governor's proclamation on the day the governor directs; no day count. The estimate dates it."
+      }
+    },
+    "US-MI": {
+      "usHouse": {
+        "kind": "governor-sets-date",
+        "tag": "ESTIMATED",
+        "citation": "Michigan: the governor issues the writ under U.S. Const. art. I sec. 2 cl. 4 with no state deadline for a U.S. House vacancy (as in the 2017 Conyers vacancy, filled the following November); the statute itself was not read. The estimate dates it."
       }
     }
   }
