@@ -5,7 +5,7 @@ area: director
 kind: cleanup
 priority: 3
 size: M
-status: in-pr
+status: done
 claimed-by: claude/retire-stage-speech
 pr: #5484
 blocked-on:
