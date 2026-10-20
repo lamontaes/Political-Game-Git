@@ -69,6 +69,7 @@ import {
   clearBudgetPriorities,
   departmentRequests,
   enactBudget,
+  governments,
   registerBudgetVote,
   type BudgetRow,
   type GovernmentRow,
@@ -678,6 +679,16 @@ function executivePriorities(
     if (change !== 0) changes[line] = change;
   }
   return { setBy: key, changes };
+}
+
+/** The changes the government's executive would propose for a fiscal year from their own lean (the rule the council reads when none are set). */
+export function executiveBudgetChanges(
+  api: CoreAPI,
+  governmentId: string,
+  fy: number,
+): { setBy: string; changes: Record<string, number> } | null {
+  const gov = governments(api).find((g) => g.id === governmentId);
+  return gov ? executivePriorities(api, gov, fy) : null;
 }
 
 /**
