@@ -123,10 +123,6 @@ describe("public-sector bargaining sets a unit's pay from its employer's budget 
           Math.round(Number(f.sampleFromMinor) * (1 + growth)),
         );
       }
-      // The people and the payroll read it: an event names the contract.
-      expect(
-        [...core.events.values()].some((e) => e.id === `event:${contract.id}`),
-      ).toBe(true);
       // A repeal at every level in force stops the next contract.
       for (const l of yesLevels(api, KEY))
         setLaw(api, l.level, 0, `no:${attempt}:${l.level}`);

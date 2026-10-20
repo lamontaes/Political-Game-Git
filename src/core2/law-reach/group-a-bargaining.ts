@@ -194,25 +194,6 @@ onReachCalendar(KIND, (api, work) => {
           : {}),
       },
     });
-    api.emit({
-      id: `event:${id}`,
-      date: core.date,
-      kind: "bargaining.contract",
-      personIds: jobs
-        .map((j) => j.personId)
-        .filter((p): p is string => !!p && core.people.has(p)),
-      placeId: lawChain(api).townPlaceId,
-      publicRecord: true,
-      news: false,
-      source,
-      facts: {
-        governmentId: gov.id,
-        classification,
-        line: unit.line,
-        raisePct: String(Math.round(growth * 10_000) / 100),
-        measureId: yes[0]!.lawId,
-      },
-    });
   }
   const start = `${fy}-${gov.fiscalYearStart}`;
   const retry = addDays(makeIsoDate(core.date), RETRY_DAYS);
