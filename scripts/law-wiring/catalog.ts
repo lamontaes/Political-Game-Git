@@ -301,7 +301,32 @@ export interface WebLinkRow {
 }
 const LINKS = (webLinks as unknown as { links: WebLinkRow[] }).links;
 
-/** Link 6 from data: the researched outcome-web links that start from this law. */
+/**
+ * Laws that reach the outcome web through a measure an engine sets from the
+ * law (the wage change, the police staffing, school spending), not a link
+ * from the law itself: the measures their links start from.
+ */
+const MEASURES: Readonly<Record<string, readonly string[]>> = {
+  "minimum-wage": [
+    "labor.minimum-wage-change-pct",
+    "labor.minimum-wage-to-median",
+  ],
+  "us-policy-positions:labor-workforce.raise-minimum-wage": [
+    "labor.minimum-wage-change-pct",
+    "labor.minimum-wage-to-median",
+  ],
+  "us-policy-positions:labor-workforce.local-minimum-wage-authority": [
+    "labor.minimum-wage-change-pct",
+  ],
+  "budget-line:police": ["police.officers-per-1000"],
+  "budget-line:schools": ["school.spending-per-student"],
+  "budget-line:highways": ["roads.condition", "roads.poor-condition-pct"],
+  "budget-line:corrections": ["justice.incarcerated-per-100k"],
+  "property-tax": ["tax.property-rate"],
+  "corporate-income-tax": ["tax.state-corporate-rate"],
+};
+
+/** Link 6 from data: the researched outcome-web links that start from this law or a measure it sets. */
 export function webLinksOf(law: LawEntry): readonly WebLinkRow[] {
   const froms =
     law.kind === "budget-line"
@@ -310,5 +335,6 @@ export function webLinksOf(law: LawEntry): readonly WebLinkRow[] {
           `budget:${law.key.slice("budget-line:".length)}`,
         ]
       : [`law:${law.key}`, `law.${law.key}`];
+  froms.push(...(MEASURES[law.key] ?? []));
   return LINKS.filter((l) => froms.includes(l.from));
 }
