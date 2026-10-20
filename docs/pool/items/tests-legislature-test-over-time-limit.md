@@ -5,12 +5,12 @@ area: gov
 kind: bug
 priority: 3
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/legislature-test-time
 pr: #5374
 blocked-on:
 source: added with npm run pool -- add
-claimed-at:
+claimed-at: 2026-10-20T04:38:34.485Z
 ---
 
 **What.** Running src/core2 test files on clean main on Oct 20, `src/core2/legislature.test.ts` failed twice in two different ways that did not reproduce alone. In a 92-file run, the golden-path test "an ordinance raising the minimum wage passes or fails on members' reasons" failed at the check that every member who did not abstain has a recorded vote reason for the bill (line 245); it passed six times by itself and once in a full-file run. In that full-file run, "a budget without an executive carries department lines without doubling funding" ran 122 seconds against the file's 120 second limit and failed. Find whether the first is a missing vote reason on some draw (an Ask why defect) or load, and cut the second test's time or give it a deliberate limit with a reason.
