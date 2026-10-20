@@ -5,12 +5,12 @@ area: gov
 kind: research
 priority: 3
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/fs11vb-ldr
 pr: #5352
 blocked-on:
 source: added with npm run pool -- add
-claimed-at:
+claimed-at: 2026-10-20T14:31:04.502Z
 ---
 
 **What.** TODO
