@@ -5,12 +5,12 @@ area: people
 kind: feature
 priority: 2
 size: M
-status: claimed
-claimed-by: claude/coverage-counted
+status: open
+claimed-by:
 pr:
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-20T03:20:30.758Z
+claimed-at:
 ---
 
 **What.** Full people hold a coverage record and the policyholder pays a monthly premium, but the wider population is counted and holds none, so a town's counted households pay no premium (stopgap SG-PEOPLE-coverage-counted). Give each counted group a coverage share by plan, set by the same rule as a full person (age, employer rank, the law in force) times the group's weight, and a premium flow per covered counted household to the outside account that fill-in takes back contract by contract. Counted and full households in the same town should then pay premiums by one rule.
