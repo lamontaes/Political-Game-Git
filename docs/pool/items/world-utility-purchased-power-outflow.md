@@ -5,12 +5,12 @@ area: world
 kind: bug
 priority: 3
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/political-game-pool-yucp92-af
 pr:
 blocked-on: world-utility-staff-never-paid
 source: added with npm run pool -- add
-claimed-at:
+claimed-at: 2026-10-20T07:58:59.763Z
 ---
 
 **What.** TODO
