@@ -5,11 +5,12 @@ area: laws
 kind: stopgap
 priority: 3
 size: M
-status: open
-claimed-by:
+status: blocked
+claimed-by: claude/political-game-pool-yucp92-bb
 pr:
-blocked-on:
+blocked-on: the people schools engine: enroll(child, school, pre-k) with household child-care cost, and college tuition read by household spending; neither exists
 source: added with npm run pool -- add
+claimed-at: 2026-10-20T02:32:10.048Z
 ---
 
 **What.** SG-GOV-REACH-B-preschool-enrollment and -tuition. Universal preschool is an eligibility record on 3- and 4-year-olds with no enrollment, and the higher-education line records support with no tuition charged. Add child enrollment in a school (program pre-k) that lowers the family's child-care cost, and a tuition per institution that 18-to-24-year-old students' households pay and the support line reduces.

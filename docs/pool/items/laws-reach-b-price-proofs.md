@@ -5,11 +5,12 @@ area: laws
 kind: stopgap
 priority: 3
 size: M
-status: open
-claimed-by:
-pr:
-blocked-on:
+status: blocked
+claimed-by: claude/political-game-pool-yucp92-hh
+pr: #5310
+blocked-on: records that do not exist: households' miles driven, fuel bought, transit rides and broadband bills are consumption estimates because no engine records them; the item text is also an empty shell
 source: added with npm run pool -- add
+claimed-at: 2026-10-20T03:51:27.412Z
 ---
 
 **What.** SG-GOV-REACH-B-transit-fare-price, -mileage-fee-price, -broadband-bill and -energy-price. The price engine already reads each law and refunds or charges full and counted households, but the fare, miles, broadband bill and metered electricity are national estimates. Replace each estimate with the household's own record where one exists (its bus trips, its vehicle miles, its internet contract, its metered use), and prove the chain for one household per law: the law record, the journal payment, the notice the household received, the stance it formed and the director's line.

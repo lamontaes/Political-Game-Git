@@ -5,11 +5,12 @@ area: laws
 kind: stopgap
 priority: 3
 size: M
-status: open
-claimed-by:
+status: blocked
+claimed-by: claude/pool-medicaid
 pr:
-blocked-on:
+blocked-on: missing-engine-health-coverage-and-medical-spending
 source: added with npm run pool -- add
+claimed-at: 2026-10-20T02:30:18.002Z
 ---
 
 **What.** SG-GOV-REACH-B-medicaid-coverage. Medicaid expansion and its work requirement are eligibility records on adults and counted shares, but no one's coverage or medical cost changes. Add a coverage record on a person (plan, from, to) and a counted-group coverage share, written when the law makes an adult eligible and they enroll from their income and health, and read by the household spending engine when it prices medical care.
