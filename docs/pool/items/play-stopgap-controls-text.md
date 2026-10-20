@@ -4,9 +4,9 @@ title: "Stopgaps in controls (text): 1 open"
 area: play
 kind: stopgap
 priority: 3
-status: claimed
+status: in-pr
 claimed-by: claude/political-game-pool-76ksvw
-pr:
+pr: #5180
 blocked-on:
 milestone:
 source: "src/core2/data/stopgaps.json, src/bench/data/controls.json, kind text"
