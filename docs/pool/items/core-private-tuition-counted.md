@@ -22,3 +22,5 @@ source: added with npm run pool -- add
 **Files.** src/core2/opening-private-tuition.ts, src/core2/modules/residents.ts
 
 **Notes.** Part 2 of 3 split from core-stopgap-opening-private-tuition-aggregate-spending (Oct 20).
+
+Oct 20 (claude/tuition-counted, stacked on #5504): counted families are ranked with the full families each August by cash per child (each record times its weight against the quota); their tuition is the household part of the school merged purchase flow (`setCountedTuition`, `countedTuitionPlans`, `countedSchoolFamilies` in modules/residents.ts), opened if no counted family paid that school yet. Fill-in turns the part into a living-plan seller, unchanged in school and amount. Stopgap SG-CORE-private-tuition-counted-reenroll resolved. Test: private-tuition-counted.test.ts (drawn place, ranked, paid, filled in). Not done: a family that returns to the counts keeps no tuition until the next August (demotion only maps contracts whose id ends in the household), and a counted record that overshoots the quota takes its whole weight.
