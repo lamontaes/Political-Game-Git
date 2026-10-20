@@ -5,7 +5,7 @@ area: core
 kind: bug
 priority: 3
 size: S
-status: in-pr
+status: done
 claimed-by: claude/stopgap-hits
 pr: #5452
 blocked-on:

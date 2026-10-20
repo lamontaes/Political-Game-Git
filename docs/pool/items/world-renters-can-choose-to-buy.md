@@ -22,3 +22,7 @@ claimed-at: 2026-10-20T15:57:02.511Z
 **Files.** src/core2/modules/housing.ts, src/core2/data/housing/parameters.json
 
 **Notes.** Found Oct 18 splitting world-home-turnover. Measured by wrapping `buyHomes`: 433 considered, 433 chose rent, 37 skipped for no income, 9 for arrears.
+
+Sent back 2026-10-20 from PR #5736 (branch claude/renters-buy): src/core2/modules/housing.ts:1023 adds the new purchase pulls only for full households; the body explicitly says counted renter households cannot buy. There is no stopgap row or code marker in this PR registering that missing tier. Apply the same decision to both tiers, or register the temporary omission with its replacement as AGENTS.md requires. The release note must also describe the actual tier reach.; finish on that branch, merge main into it first.
+
+Correction 2026-10-20 from Codex merger on PR #5736: the send-back above is withdrawn; SG-WORLD-housing-new-home-buyers and its housing-construction.ts marker already register the counted-renter omission. No code change is required for that point; the item is restored to in-pr pending local gating.
