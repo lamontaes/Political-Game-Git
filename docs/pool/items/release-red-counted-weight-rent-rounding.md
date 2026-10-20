@@ -5,11 +5,12 @@ area: world
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/fs11vb-rent
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-20T12:34:51.727Z
 ---
 
 **What.** In counted-weight-money.test.ts the rent of a household with weight 3 came to 200985 minor against a bound of 200957 (one household paid 66985; 3 times that is 200955, plus 2 slack): rent:household_ec01b40aad5f78fa@2025-02-01 in Weiser, Idaho (place 1686140), seed 65d017ef5d56e8007221da855421dc483eaf11453c97617bf168bebdcaf03857. Find whether the counted group pays more than the single household times its weight, or the weight is rounded differently from the single household's rent, and fix it at the cause.
