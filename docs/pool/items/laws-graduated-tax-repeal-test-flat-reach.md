@@ -5,7 +5,7 @@ area: laws
 kind: bug
 priority: 3
 size: S
-status: in-pr
+status: done
 claimed-by: claude/law-reach-graduated-repeal
 pr: #5326
 blocked-on:
