@@ -5,11 +5,12 @@ area: laws
 kind: research
 priority: 2
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/outcome-links-research
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-20T09:59:06.613Z
 ---
 
 **What.** Twenty-seven laws reach people and move money but move no outcome-web measure, because no researched link starts from the law or from a measure an engine sets from it. src/core2/data/laws/outcome-research-gaps.json lists each law with the outcome its research would measure. Research each link's strength, shape and lag from the literature and add it to links.json, then build it in the outcome web.
