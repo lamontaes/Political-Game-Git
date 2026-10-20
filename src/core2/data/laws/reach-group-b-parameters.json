@@ -26,6 +26,11 @@
       "tag": "SOURCED",
       "source": "U.S. currency; the core keeps money in cents (minor units)."
     },
+    "percentPerWhole": {
+      "value": 100,
+      "tag": "SOURCED",
+      "source": "A percent is a hundredth; the Medicaid match law (42 U.S.C. 1396d(b)) states the federal share in percent."
+    },
     "reviewEveryMonths": {
       "value": 1,
       "tag": "TUNABLE",
@@ -47,6 +52,11 @@
       "tag": "SOURCED",
       "source": "42 U.S.C. 1396a(a)(10)(A)(i)(VIII) and 1396a(e)(14)(I): 133% of the poverty line plus the 5-point income disregard."
     },
+    "medicaidMonthlyMedicalDollars": {
+      "value": 74.25,
+      "tag": "SOURCED",
+      "source": "BLS Consumer Expenditure Survey 2024, Table 1800 (national): prescription drugs $658 plus medical supplies $233 a year per consumer unit, over 12 months. It stands for the medical spending a covered adult no longer pays."
+    },
     "medicaidExpansionAgeFrom": {
       "value": 19,
       "tag": "SOURCED",
@@ -66,6 +76,60 @@
       "value": 14,
       "tag": "SOURCED",
       "source": "Pub. L. 119-21 (2025), sec. 71119: parents and caretakers of a dependent child 13 or younger are exempt."
+    },
+    "snapGrossIncomeShare": {
+      "value": 1.3,
+      "tag": "SOURCED",
+      "source": "7 CFR 273.9(a)(1): gross monthly income at or under 130 percent of the poverty line."
+    },
+    "snapNetIncomeShare": {
+      "value": 1.0,
+      "tag": "SOURCED",
+      "source": "7 CFR 273.9(a)(2): net monthly income at or under 100 percent of the poverty line."
+    },
+    "snapEarnedIncomeDeductionShare": {
+      "value": 0.2,
+      "tag": "SOURCED",
+      "source": "7 CFR 273.9(d)(2): 20 percent of earned income is deducted."
+    },
+    "snapContributionShare": {
+      "value": 0.3,
+      "tag": "SOURCED",
+      "source": "7 U.S.C. 2017(a) and 7 CFR 273.10(e)(2)(ii)(A): a household is expected to spend 30 percent of its net income on food; the benefit is the maximum allotment less that."
+    },
+    "snapMinimumBenefitShare": {
+      "value": 0.08,
+      "tag": "SOURCED",
+      "source": "7 CFR 273.10(e)(2)(ii)(C)(1): one- and two-person households that qualify get at least 8 percent of the one-person maximum allotment, rounded down to the dollar."
+    },
+    "snapMinimumBenefitMaxSize": {
+      "value": 2,
+      "tag": "SOURCED",
+      "source": "7 CFR 273.10(e)(2)(ii)(C)(1): the minimum benefit is for households of one or two."
+    },
+    "snapStandardDeductionSize1To3Dollars": {
+      "value": 204,
+      "tag": "ESTIMATED",
+      "source": "USDA FNS SNAP standard deductions, FY2025 (48 states and D.C.), households of 1 to 3. Later years run about 2 to 3 percent higher; the benefit moves by about $1 for each dollar.",
+      "spread": [204, 210]
+    },
+    "snapStandardDeductionSize4Dollars": {
+      "value": 217,
+      "tag": "ESTIMATED",
+      "source": "USDA FNS SNAP standard deductions, FY2025 (48 states and D.C.), households of 4.",
+      "spread": [217, 224]
+    },
+    "snapStandardDeductionSize5Dollars": {
+      "value": 254,
+      "tag": "ESTIMATED",
+      "source": "USDA FNS SNAP standard deductions, FY2025 (48 states and D.C.), households of 5.",
+      "spread": [254, 262]
+    },
+    "snapStandardDeductionSize6PlusDollars": {
+      "value": 291,
+      "tag": "ESTIMATED",
+      "source": "USDA FNS SNAP standard deductions, FY2025 (48 states and D.C.), households of 6 or more.",
+      "spread": [291, 300]
     },
     "snapWorkHoursPerWeek": {
       "value": 20,
@@ -101,6 +165,16 @@
       "value": 1.3,
       "tag": "SOURCED",
       "source": "7 U.S.C. 2014(c): SNAP gross income limit, 130% of the poverty line (the common test for means-tested assistance)."
+    },
+    "preschoolStateSpendingPerChildDollars": {
+      "value": 7888,
+      "tag": "SOURCED",
+      "source": "NIEER, The State of Preschool 2024 (2023-24 school year): state spending per enrolled child, $7,888 (all sources, $8,857)."
+    },
+    "preschoolEnrolledShare": {
+      "value": 0.7,
+      "tag": "ESTIMATED",
+      "source": "Boston's universal preschool enrolled about 70% of four-year-olds (Gray-Lobe, Pathak and Walters 2023); the national rate without a universal program is 37% of four-year-olds and 8% of three-year-olds (NIEER 2024). Spread 0.4 to 0.9."
     },
     "preschoolAgeFrom": {
       "value": 3,
