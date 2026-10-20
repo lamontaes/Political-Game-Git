@@ -22,3 +22,5 @@ claimed-at:
 **Files.** src/core2/modules/renewal.ts, scripts/core2-year/table-trace.ts
 
 **Notes.** Found by the table trace pass (core-wiring-gaps-trace-pass), report docs/reports/table-trace-2026-10-17.md.
+
+Sent back 2026-10-20 from PR #4980 (branch claude/renewal-unread-tables): Code conflict with main in src/core2/births-counted.ts; finish on that branch, merge main into it first.
