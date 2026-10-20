@@ -5,11 +5,12 @@ area: office
 kind: feature
 priority: 2
 size: L
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/budget-hearing-agenda
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-20T06:41:35.954Z
 ---
 
 **What.** Today the budget bill is drafted and voted in one call at the year's start (legislature.ts adopt path, budgets enacted or failed), so it never sits on a meeting agenda and a seated player with the every-meeting stop is never held at a budget meeting. Place the bill on the agenda of the body's meeting before the fiscal year starts (placeOnAgenda), vote it at that meeting through the same holdVote the other items use, and let the seated player speak (speakOnItem) or take it up; a computer-run body still votes it on the same day.
