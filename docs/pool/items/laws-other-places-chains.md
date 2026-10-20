@@ -5,13 +5,13 @@ area: laws
 kind: feature
 priority: 3
 size: L
-status: blocked
-claimed-by: claude/political-game-pool-yucp92-cc
+status: open
+claimed-by:
 pr:
 blocked-on:
 after: laws-other-places-chains-record,laws-other-places-chains-enacted
 source: added with npm run pool -- add
-claimed-at: 2026-10-20T02:33:08.059Z
+claimed-at:
 ---
 
 **What.** This is the roll-up for recording other places' law chains as worlds, so a worker's residence law and a neighbor jurisdiction's enacted acts are read. Today only the town's chain is recorded (stopgap SG-WORLD-withholding-residence-law, found by gov-stopgap-budgets-assumed-data). It is built in two parts: laws-other-places-chains-record (each residence's chain and starting rows recorded in the laws module) and laws-other-places-chains-enacted (an act enacted elsewhere is written to the same table and read by withholding). When both are done this item is closed by checking one worker's paycheck end to end.
