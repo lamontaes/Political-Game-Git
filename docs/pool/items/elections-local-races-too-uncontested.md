@@ -5,9 +5,9 @@ area: elections
 kind: bug
 priority: 2
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/pool-elections-local-races-too-uncontested
-pr:
+pr: #5592
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-20T05:59:10.132Z
