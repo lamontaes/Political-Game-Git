@@ -5,10 +5,10 @@ area: words
 kind: feature
 priority: 3
 size: M
-status: claimed
+status: blocked
 claimed-by: claude/ribbon-cut-news
 pr:
-blocked-on:
+blocked-on: office-cut-a-ribbon-needs-a-record-of
 source: added with npm run pool -- add
 claimed-at: 2026-10-20T06:43:55.648Z
 ---
