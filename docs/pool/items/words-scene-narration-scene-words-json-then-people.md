@@ -4,9 +4,9 @@ title: "Scene narration (scene-words.json), then people bringing things up (brin
 area: words
 kind: feature
 priority: 2
-status: open
+status: in-pr
 claimed-by:
-pr:
+pr: #5233
 blocked-on:
 milestone:
 source: "docs/coordination/words.md line 34 (unchecked checklist line)"
