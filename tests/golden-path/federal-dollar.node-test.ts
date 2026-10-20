@@ -1,6 +1,5 @@
 /**
- * The federal dollar's chain, asserted in a played world (trial work order,
- * Oct 16): the town builds exactly as the player gets it (`buildBenchWorld`,
+ * The federal dollar's chain, asserted in a played world (trial work order): the town builds exactly as the player gets it (`buildBenchWorld`,
  * two-level, every module the bench installs) and runs a game year. In one
  * world the player passes a federal budget line in dev mode — Social Security
  * up a twentieth, on the same writer the president's own February request
@@ -17,7 +16,7 @@
  *   the sellers' demand → the town's paid income, which the national month
  *   row reads. National output no longer answers the budget through a
  *   coefficient: the change is read only through the dollars that landed
- *   (owner, Oct 16), so the control world's last month is the "before".
+ *   so the control world's last month is the "before".
  *
  * Run: node --max-old-space-size=8192 --import tsx --test tests/golden-path/federal-dollar.node-test.ts
  * (plain node:test under tsx, as the played-world suite runs). A random seed
@@ -335,7 +334,7 @@ describe(`the federal dollar's chain (seed ${seed})`, () => {
 
   it("the town's paid income moved and the national month row heard it", () => {
     // The macro read: the town's paid income is the only route the budget's
-    // dollars move national output now (owner, Oct 16).
+    // dollars move national output now.
     assert.ok(
       chain.townPaidIncomeByMonth.length >= 3,
       "the town has no paid-income months for the national step to read",

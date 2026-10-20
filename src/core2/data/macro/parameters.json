@@ -438,7 +438,7 @@
   "macroFederalOutlayResponseBand": {
     "value": 1.2,
     "tag": "ESTIMATED",
-    "citation": "National output's response within a year to a change in federal outlays worth one point of national output: about 1.2 for government purchases (Monacelli, Perotti and Trigari 2010, Journal of Monetary Economics 57(5)) and 0.4 to 2.5 by type of outlay (CBO, 'Estimated Impact of the American Recovery and Reinvestment Act', 2015). A calibration band, read by the federal-dollar report (scripts/world-proofs/federal-dollar-year.ts) against the response the played world's own dollars produce; no line of logic moves a number with it (owner, Oct 16).",
+    "citation": "National output's response within a year to a change in federal outlays worth one point of national output: about 1.2 for government purchases (Monacelli, Perotti and Trigari 2010, Journal of Monetary Economics 57(5)) and 0.4 to 2.5 by type of outlay (CBO, 'Estimated Impact of the American Recovery and Reinvestment Act', 2015). A calibration band, read by the federal-dollar report (scripts/world-proofs/federal-dollar-year.ts) against the response the played world's own dollars produce; no line of logic moves a number with it.",
     "estimatedFrom": "Monacelli, Perotti and Trigari 2010; CBO 2015 ranges by outlay type",
     "spread": {
       "low": 0.4,

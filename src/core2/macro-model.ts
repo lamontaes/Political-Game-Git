@@ -177,7 +177,7 @@ export function stepMacroMonth(
   const realRate = previous.policyRatePct - previous.inflationPct;
   // One town is its share of the nation: its own income growth over the trend.
   // Public budgets reach the national step only here, as the wages, benefits
-  // and business receipts actually paid in town (owner, Oct 16: no implicit
+  // and business receipts actually paid in town (no implicit
   // multiplier; the federal-dollar report checks the response against
   // macroFederalOutlayResponseBand).
   const town =

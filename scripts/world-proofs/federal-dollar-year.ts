@@ -1,5 +1,5 @@
 /**
- * Follow the federal dollar (trial work order, Oct 16): two played worlds
+ * Follow the federal dollar (trial work order): two played worlds
  * built the same way (`buildBenchWorld`, two-level, every module the bench
  * installs), run a game year. In one world the player passes a federal budget
  * line in dev mode — Social Security up a twentieth, on the same writer the
