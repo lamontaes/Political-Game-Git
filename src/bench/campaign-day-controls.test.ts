@@ -21,6 +21,7 @@ import {
 } from "../core2/modules/elections";
 import {
   campaignFor,
+  causesFor,
   doorsKnockedOf,
   openCampaigns,
 } from "../core2/modules/campaigns";
@@ -121,11 +122,33 @@ it("shows the day's choices with control names and runs the one taken through th
     kind: "canvass",
   });
   expect(taken.doorsKnocked, `doors knocked: ${where}`).toBeGreaterThan(0);
-  // The doors open as a scene on a street, naming the households that answered.
-  expect(taken.scene?.place, where).toMatch(/^door-knocking-/);
-  expect(taken.households.length, `households that answered: ${where}`).toBe(
-    taken.reached,
+  // The doors open as a scene on a street, naming the households that
+  // answered, when someone answered; on a day nobody did there is no scene
+  // and no household. The households are the distinct households of the
+  // people the engine recorded a door cause for (one household can give
+  // several causes, so this is not the count of causes reached).
+  const answered = [...core.people.values()].filter((person) =>
+    causesFor(api, person.id, personId).some((cause) => cause.act === "door"),
   );
+  const answeredHouseholds = new Set(
+    answered.map((person) => person.householdId),
+  );
+  expect(
+    new Set(taken.households),
+    `households that answered: ${where}`,
+  ).toEqual(answeredHouseholds);
+  expect(taken.reached, `causes recorded: ${where}`).toBeGreaterThanOrEqual(
+    answered.length,
+  );
+  if (answered.length > 0) {
+    expect(taken.scene?.place, where).toMatch(/^door-knocking-/);
+  } else {
+    expect(
+      taken.scene,
+      `no scene when nobody answered: ${where}`,
+    ).toBeUndefined();
+    expect(taken.households, where).toEqual([]);
+  }
   expect(
     doorsKnockedOf(api, campaignFor(api, filing!.id).id).length,
     where,
