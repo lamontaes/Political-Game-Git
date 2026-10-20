@@ -14,7 +14,7 @@ import { countedPayment } from "../counted-money";
 import { depositsHeld, withdrawSavings } from "../accounts";
 import businessData from "../data/business/business.json" with { type: "json" };
 import businessParameters from "../data/business/parameters.json" with { type: "json" };
-import { addDays, daysBetween, makeIsoDate } from "../kernel/dates";
+import { addDays, makeIsoDate, daysBetweenText } from "../kernel/dates";
 import { ageOnDate } from "../kernel/dates";
 import type { Parameter } from "../parameters";
 import { stopgap } from "../stopgaps";
@@ -411,7 +411,7 @@ function successorOf(
       (person) =>
         person?.alive &&
         !owners.has(person.id) &&
-        daysBetween(makeIsoDate(person.birthDate), makeIsoDate(c.date)) /
+        daysBetweenText(person.birthDate, c.date) /
           api.parameter("jobsDaysPerYear") >=
           api.parameter("businessFounderMinimumAge"),
     )
@@ -877,7 +877,7 @@ function bookedMonth(
         BusinessTradingMonth | undefined)
     : undefined;
   const from = previous?.date ?? row.since;
-  const days = daysBetween(makeIsoDate(from), makeIsoDate(api.state.date));
+  const days = daysBetweenText(from, api.state.date);
   store(api).table("trading").put({
     id: tradingId,
     organizationId: row.id,
@@ -1572,8 +1572,7 @@ function foundings(api: CoreAPI): void {
       a.id.localeCompare(b.id),
     )) {
       const age =
-        daysBetween(makeIsoDate(person.birthDate), makeIsoDate(c.date)) /
-        p("jobsDaysPerYear");
+        daysBetweenText(person.birthDate, c.date) / p("jobsDaysPerYear");
       if (
         !person.alive ||
         person.placeId !== market.placeId ||
@@ -1616,8 +1615,7 @@ function foundings(api: CoreAPI): void {
       for (const m of counted!.countedMembers(h)) {
         const personId = counted!.ids[m]!;
         const age =
-          daysBetween(makeIsoDate(counted!.born[m]!), makeIsoDate(c.date)) /
-          p("jobsDaysPerYear");
+          daysBetweenText(counted!.born[m]!, c.date) / p("jobsDaysPerYear");
         if (
           owners.has(personId) ||
           age < p("businessFounderMinimumAge") ||

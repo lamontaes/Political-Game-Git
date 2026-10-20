@@ -24,7 +24,12 @@ import { coreAPI, registerModule } from "../state";
 import { BUDGETS_MODULE_ID, governments, withholdPay } from "./budgets";
 import { notePublicPay } from "../budgets-treasury";
 import { OFFICIALS_MODULE_ID, type OfficialRow } from "./officials";
-import { addDays, daysBetween, makeIsoDate } from "../kernel/dates";
+import {
+  addDays,
+  daysBetween,
+  makeIsoDate,
+  daysBetweenText,
+} from "../kernel/dates";
 import type { ModuleRow } from "../module-data";
 import type { CoreAPI, CoreModule, CoreState, Source } from "../types";
 import payFacts from "../../../data/source/official-office-pay/facts.json" with { type: "json" };
@@ -288,10 +293,7 @@ function payMonth(api: CoreAPI): void {
   for (const raw of table(api, "pay").rows()) {
     const row = raw as unknown as PayRow;
     const through = row.endedOn && row.endedOn < today ? row.endedOn : today;
-    const days = Math.max(
-      0,
-      daysBetween(makeIsoDate(row.paidFrom), makeIsoDate(through)),
-    );
+    const days = Math.max(0, daysBetweenText(row.paidFrom, through));
     const yearDays = daysBetween(
       makeIsoDate(`${Number(today.slice(0, 4)) - 1}${today.slice(4)}`),
       today,

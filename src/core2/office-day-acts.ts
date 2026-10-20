@@ -21,7 +21,7 @@ import type {
 } from "./types";
 import type { ModuleRow } from "./module-data";
 import { extendData } from "./data";
-import { daysBetween, makeIsoDate } from "./kernel/dates";
+import { daysBetweenText } from "./kernel/dates";
 import { officeActKits, type OfficeActKit } from "./office-day-registry";
 import { snapshotExplicitControlV1 } from "./player-control-state-v1";
 import {
@@ -364,7 +364,7 @@ export function townHallDue(
   const last = host.lastGiven(api, personId, "town-hall");
   return (
     !last ||
-    daysBetween(makeIsoDate(last), makeIsoDate(api.state.date)) >=
+    daysBetweenText(last, api.state.date) >=
       api.parameter("townHallIntervalDays")
   );
 }

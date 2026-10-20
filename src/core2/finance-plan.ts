@@ -1,6 +1,6 @@
 import { bookkeeping } from "./bookkeeping";
 /** Internal read-only preparation. It grants no source authority and never writes cash. */
-import { daysBetween, makeIsoDate } from "./kernel/dates";
+import { makeIsoDate, daysBetweenText } from "./kernel/dates";
 import {
   cashJournalFieldDelete,
   cashJournalFieldWrite,
@@ -1225,10 +1225,7 @@ function accruedInterest(
   const r = session.reads,
     m = session.metadata,
     data = session.policy()!;
-  const elapsed = daysBetween(
-    makeIsoDate(m.field(row, "lastAccruedAt")),
-    makeIsoDate(session.date),
-  );
+  const elapsed = daysBetweenText(m.field(row, "lastAccruedAt"), session.date);
   const rate =
     m.field(row, "annualInterestRate") ??
     session.parameter(r.field(row, "annualInterestParameter"));

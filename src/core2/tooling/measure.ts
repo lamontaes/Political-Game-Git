@@ -3,7 +3,13 @@ import { mkdirSync, readFileSync, readdirSync, writeFileSync } from "node:fs";
 import { dirname, relative, resolve, sep } from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
 import { performance } from "node:perf_hooks";
-import { addDays, ageOnDate, daysBetween, makeIsoDate } from "../kernel/dates";
+import {
+  addDays,
+  ageOnDate,
+  daysBetween,
+  makeIsoDate,
+  daysBetweenText,
+} from "../kernel/dates";
 import { stableHash } from "../kernel/ids";
 import { buildDeepPast } from "../deep-past";
 import { enrichCivicInputs } from "../civic-inputs";
@@ -854,10 +860,7 @@ async function runCore(
   const completed = performance.now();
   const after = memorySample();
   const elapsedMilliseconds = completed - started;
-  const expectedDays = daysBetween(
-    makeIsoDate(input.startedAt),
-    makeIsoDate(throughDate),
-  );
+  const expectedDays = daysBetweenText(input.startedAt, throughDate);
   if (advanceReceipt.simulatedDays !== expectedDays)
     throw new Error(
       `Life loop advanced ${advanceReceipt.simulatedDays} days; expected ${expectedDays} from ${input.startedAt} through ${throughDate}.`,

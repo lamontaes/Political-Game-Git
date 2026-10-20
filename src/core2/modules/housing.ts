@@ -7,7 +7,7 @@
  */
 import { countyPopulationSharesForPlace } from "../reference/government-units";
 import { corePlaceByKey } from "../place-lookup";
-import { addDays, daysBetween, makeIsoDate } from "../kernel/dates";
+import { addDays, makeIsoDate, daysBetweenText } from "../kernel/dates";
 import housingData from "../data/housing/housing.json" with { type: "json" };
 import housingParameters from "../data/housing/parameters.json" with { type: "json" };
 import type { Parameter } from "../parameters";
@@ -1072,10 +1072,7 @@ function review(api: CoreAPI): void {
       continue;
     if (store(api).table("cases").query("openByLease", [id, true]).length)
       continue;
-    const days = daysBetween(
-      makeIsoDate(row.firstUnpaidAt),
-      makeIsoDate(c.date),
-    );
+    const days = daysBetweenText(row.firstUnpaidAt, c.date);
     if (days <= law.gracePeriodDays) continue;
     const owed = row.amountMinor > 0 ? row.arrearsMinor / row.amountMinor : 0;
     const months = days / daysPerMonth(api);

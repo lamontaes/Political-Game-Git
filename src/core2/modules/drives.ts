@@ -1,5 +1,5 @@
 import drivesJson from "../data/drives.json" with { type: "json" };
-import { daysBetween, makeIsoDate } from "../kernel/dates";
+import { daysBetweenText } from "../kernel/dates";
 import { chooseAct } from "../choice";
 import { availableActs } from "../life";
 import { extendData } from "../data";
@@ -264,7 +264,7 @@ export function currentStrength(
   drive: Readonly<HeldDrive>,
   date: IsoDate = api.state.date,
 ): number {
-  const elapsed = daysBetween(makeIsoDate(drive.anchorDate), makeIsoDate(date));
+  const elapsed = daysBetweenText(drive.anchorDate, date);
   return (
     drive.anchorStrength *
     Math.pow(api.parameter("two"), -elapsed / drive.halfLifeDays)
@@ -599,8 +599,7 @@ export function respond(
     const pressure = seen.attention * magnitude;
     // Agency to form a lasting drive of one's own rises smoothly through adolescence.
     const age =
-      daysBetween(makeIsoDate(actor.birthDate), makeIsoDate(api.state.date)) /
-      p("daysPerMeanYear");
+      daysBetweenText(actor.birthDate, api.state.date) / p("daysPerMeanYear");
     const agency =
       p("one") /
       (p("one") +
@@ -1137,7 +1136,7 @@ function raiseFromCounted(
       // Adults, as the counted population's adults are counted.
       if (
         !person?.alive ||
-        daysBetween(makeIsoDate(person.birthDate), makeIsoDate(c.date)) /
+        daysBetweenText(person.birthDate, c.date) /
           api.parameter("daysPerMeanYear") <
           api.parameter("benchmarkAdultMinimumAge")
       )

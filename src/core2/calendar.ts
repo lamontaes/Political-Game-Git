@@ -1,4 +1,9 @@
-import { daysBetween, isoDateFromParts, makeIsoDate } from "./kernel/dates";
+import {
+  daysBetween,
+  isoDateFromParts,
+  makeIsoDate,
+  daysBetweenText,
+} from "./kernel/dates";
 import { parameter } from "./parameters";
 import type { CoreState, IsoDate, PersonState, TierDefinition } from "./types";
 
@@ -27,7 +32,7 @@ function elapsedDays(
   actor: Readonly<PersonState>,
   date: IsoDate,
 ): number {
-  const days = daysBetween(makeIsoDate(actor.lastActDate), makeIsoDate(date));
+  const days = daysBetweenText(actor.lastActDate, date);
   if (days < parameter("zero", core.data.parameters))
     throw new Error(`Actor has a future last act date: ${actor.id}`);
   return days;

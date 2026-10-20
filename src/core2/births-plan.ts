@@ -1,4 +1,9 @@
-import { addDays, ageOnDate, daysBetween, makeIsoDate } from "./kernel/dates";
+import {
+  addDays,
+  ageOnDate,
+  makeIsoDate,
+  daysBetweenText,
+} from "./kernel/dates";
 import { bedroomsForHousehold, hudRentRowFor } from "./hud-rents";
 import type { EntityId } from "./kernel/brands";
 import { healthReport } from "./modules/health";
@@ -97,11 +102,9 @@ export function birthCircumstances(
     .sort();
   const since = Math.max(
     p("zero"),
-    daysBetween(
-      makeIsoDate(
-        births.at(-p("one")) ?? partnershipStart(api, couple, births),
-      ),
-      makeIsoDate(asOf),
+    daysBetweenText(
+      births.at(-p("one")) ?? partnershipStart(api, couple, births),
+      asOf,
     ) /
       p("daysPerMeanYear") /
       p("renewalTimingPeakYears"),
@@ -171,7 +174,7 @@ export function birthCircumstances(
     recovery: births.length
       ? -p("renewalRecoveryWeight") *
         Math.exp(
-          -daysBetween(makeIsoDate(births.at(-p("one"))!), makeIsoDate(asOf)) /
+          -daysBetweenText(births.at(-p("one"))!, asOf) /
             p("renewalRecoveryDays"),
         )
       : p("zero"),

@@ -5,8 +5,8 @@ import {
   addDays,
   ageOnDate,
   dateAtAge,
-  daysBetween,
   makeIsoDate,
+  daysBetweenText,
 } from "../kernel/dates";
 import {
   CONDITION_PACK,
@@ -169,10 +169,7 @@ function householdMonthlyPay(api: CoreAPI): Map<string, number | null> {
 }
 
 function exactAge(api: CoreAPI, birthDate: IsoDate, date: IsoDate): number {
-  return (
-    daysBetween(makeIsoDate(birthDate), makeIsoDate(date)) /
-    api.parameter("daysPerMeanYear")
-  );
+  return daysBetweenText(birthDate, date) / api.parameter("daysPerMeanYear");
 }
 
 /**

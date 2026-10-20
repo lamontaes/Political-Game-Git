@@ -11,7 +11,7 @@ import depositRows from "../../../data/tables/town-deposits.json" with { type: "
 import regions from "../data/regional/regions.json" with { type: "json" };
 import { countyPopulationSharesForPlace } from "../reference/government-units";
 import { corePlaceByKey } from "../place-lookup";
-import { addDays, daysBetween, makeIsoDate } from "../kernel/dates";
+import { addDays, makeIsoDate, daysBetweenText } from "../kernel/dates";
 import creditData from "../data/credit/credit.json" with { type: "json" };
 import territoryData from "../data/credit/territories.json" with { type: "json" };
 import creditParameters from "../data/credit/parameters.json" with { type: "json" };
@@ -798,7 +798,7 @@ function earnedDaily(
     if (!ledger) break;
     const since =
       commitment.startsAt > c.startedAt ? commitment.startsAt : c.startedAt;
-    const days = daysBetween(makeIsoDate(since), makeIsoDate(c.date));
+    const days = daysBetweenText(since, c.date);
     if (days < api.parameter("creditIncomeRecordDays")) break;
     return ledger.earnedMinor / days;
   }
@@ -1083,7 +1083,7 @@ function householdApplications(
         (row) =>
           row.standing === "charged-off" &&
           (!row.chargedOffAt ||
-            daysBetween(makeIsoDate(row.chargedOffAt), makeIsoDate(c.date)) <
+            daysBetweenText(row.chargedOffAt, c.date) <
               p("creditReportYears") * p("jobsDaysPerYear")),
       )
       .map((row) => row.householdId),

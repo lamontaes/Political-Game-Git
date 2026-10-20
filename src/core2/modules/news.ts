@@ -16,7 +16,7 @@
  * Each story's deliveries are scheduled once, when it is recorded, and read by
  * date, so no day scans the whole town.
  */
-import { addDays, daysBetween, makeIsoDate } from "../kernel/dates";
+import { addDays, makeIsoDate, daysBetweenText } from "../kernel/dates";
 import { corePlaceByJurisdictionId } from "../place-lookup";
 import rows from "../data/news/parameters.json" with { type: "json" };
 import type { Parameter } from "../parameters";
@@ -463,8 +463,7 @@ export function createNewsModule(
       if (!counts.get(notice.actorId) && !counts.get(notice.otherId)) return;
       const maxAge = n(api, "newsMaxAgeDays");
       const fresh = (story: Story) =>
-        daysBetween(makeIsoDate(story.date), makeIsoDate(api.state.date)) <=
-        maxAge;
+        daysBetweenText(story.date, api.state.date) <= maxAge;
       // A story still fresh today was heard on or after its own date, so only
       // what the teller heard within the story life is read (same order).
       const since = addDays(makeIsoDate(api.state.date), -maxAge);

@@ -7,7 +7,7 @@ import {
 /** Conserving finance writers. Estimates never credit the authoritative cash ledger. */
 import { countedJobsOf } from "./residents-economy";
 import { admitEverydayPurchase, isEverydayPurchase } from "./cost-of-living";
-import { ageOnDate, daysBetween, makeIsoDate } from "./kernel/dates";
+import { ageOnDate, makeIsoDate, daysBetweenText } from "./kernel/dates";
 import { projectSalesReceiptBudgetPool } from "./finance-sales-budgets";
 import {
   settleFinanceContractJournal,
@@ -1122,10 +1122,7 @@ export function repriceCreditFacility(
   if (!row) throw new Error("Repricing requires a recorded credit facility.");
   currentSource(source, core.date);
   amount(api, annualInterestRate, "repriced annual interest rate");
-  const elapsed = daysBetween(
-    makeIsoDate(row.lastAccruedAt),
-    makeIsoDate(core.date),
-  );
+  const elapsed = daysBetweenText(row.lastAccruedAt, core.date);
   const oldRate =
     row.annualInterestRate ?? api.parameter(row.annualInterestParameter);
   const days = api.parameter(

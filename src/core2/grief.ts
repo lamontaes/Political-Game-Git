@@ -11,7 +11,7 @@
  * relative's grief is their closeness to the person who died, halving every
  * half-life of their own.
  */
-import { daysBetween, makeIsoDate } from "./kernel/dates";
+import { daysBetweenText } from "./kernel/dates";
 import { stableHash } from "./kernel/ids";
 import { inverseStandardNormal } from "./kernel/deterministic-math";
 import { currentCloseness } from "./closeness";
@@ -124,8 +124,7 @@ export function griefToday(
     grief +=
       row.grief *
       api.parameter("two") **
-        (-daysBetween(makeIsoDate(row.date), makeIsoDate(api.state.date)) /
-          halfLife);
+        (-daysBetweenText(row.date, api.state.date) / halfLife);
   return {
     grief: Math.min(api.parameter("one"), grief),
     sourceIds: rows.map((row) => row.eventId),

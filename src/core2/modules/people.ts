@@ -16,7 +16,7 @@
  * Part 4: after a death, relatives grieve (grief.ts); grief pulls toward rest
  * and family and holds back organizing as it fades.
  */
-import { daysBetween, makeIsoDate } from "../kernel/dates";
+import { daysBetween, makeIsoDate, daysBetweenText } from "../kernel/dates";
 import {
   CLOSENESS,
   closenessBetween,
@@ -48,7 +48,7 @@ const seeded = new WeakSet<object>();
 function shareHomeTime(api: CoreAPI): void {
   const core = api.state;
   const p = (key: string) => api.parameter(key);
-  const day = daysBetween(makeIsoDate(core.startedAt), makeIsoDate(core.date));
+  const day = daysBetweenText(core.startedAt, core.date);
   const week = p("daysPerWeek");
   const opening = !seeded.has(core);
   if (!opening && (day <= p("zero") || day % week !== p("zero"))) return;

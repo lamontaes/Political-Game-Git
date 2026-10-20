@@ -1,4 +1,4 @@
-import { daysBetween, makeIsoDate } from "./kernel/dates";
+import { makeIsoDate, daysBetweenText } from "./kernel/dates";
 import dataJson from "./data/business-books.json" with { type: "json" };
 import { PARAMETERS, parameter, type Parameter } from "./parameters";
 import type { Source } from "./types";
@@ -228,7 +228,7 @@ export function projectMarket(
   const { data, p } = settings(options),
     zero = p("zero"),
     one = p("one");
-  const elapsed = daysBetween(makeIsoDate(input.from), makeIsoDate(input.to));
+  const elapsed = daysBetweenText(input.from, input.to);
   nonnegative(elapsed, "elapsed market days", zero);
   currentSource(input.source, input.to);
   for (const [field, value] of Object.entries({
