@@ -5,12 +5,12 @@ area: core
 kind: bug
 priority: 2
 size: M
-status: blocked
-claimed-by: claude/political-game-pool-yucp92-ca
+status: open
+claimed-by:
 pr: #5090
 blocked-on: owner: meeting the 1.2 times target changes who a holder contacts (rank known people weekly or offer only contacts whose tie pull can top the day); the exact cut does not move the time (PR 5734)
 source: added with npm run pool -- add
-claimed-at: 2026-10-20T16:35:06.809Z
+claimed-at:
 ---
 
 **What.** A town's year takes longer each year it is played. Bedford, Wyoming (seed 9a4dd331ace7, place 5606045, run seed audit-oct17, one process, four-core container) ran 36.8, 54.5 and 81.9 seconds for years one to three; American Samoa 146, 220 and 342; the Northern Mariana Islands 180, 231 and 760. A profile of years one and three in Bedford puts the growth in people's daily choices: the daily choice code (`activate`) goes from 5.2 s to 58 s, with `availableActs` and `scoreOffers` the biggest parts. The count of people choosing is roughly flat, but the acts offered per choice grow: 11 offers a call in year one, 31 in year two and 66 in year three, with 1.36 million offers in year three against 117,000 in year one.
