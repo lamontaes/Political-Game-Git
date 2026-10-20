@@ -37,7 +37,15 @@ import {
 import type { ModuleRow } from "../module-data";
 import type { CoreAPI, CoreEventInput, CoreModule, CoreState } from "../types";
 import { townMetrics, WORLD_METRICS_MODULE_ID } from "./world-metrics";
+import { schoolMeasure } from "../school-measures";
 import { GOV_MEASURES, govMeasure, govMeasureRecord } from "../gov-measures";
+
+/** The outcomes whose level the school engine measures (spending is recorded but stays the web's ledger, which no link reads from it). */
+const SCHOOL_MEASURED = new Set([
+  "school.math-proficient-pct",
+  "school.reading-proficient-pct",
+  "school.graduation-pct",
+]);
 
 export const OUTCOME_WEB_MODULE_ID = "core2-outcome-web-v1";
 const STATE_ID = "outcome-web:state";
@@ -399,6 +407,15 @@ function recordMonth(api: CoreAPI, placeId: string, state: WebState): WebMonth {
     }
     bases[outcome] = base;
     r.values[outcome] = level ? base + added : base * product;
+    // An outcome the school engine measures stands on its records: the share
+    // its students reached last school year, citing that record.
+    const measured = SCHOOL_MEASURED.has(outcome)
+      ? schoolMeasure(api, placeId, outcome)
+      : null;
+    if (measured) {
+      r.values[outcome] = measured.value;
+      engineSources[outcome] = measured.recordId;
+    }
   }
   const row: WebMonth = {
     id: `web:${placeId}:${month}`,
