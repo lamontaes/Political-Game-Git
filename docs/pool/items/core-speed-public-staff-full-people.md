@@ -5,12 +5,12 @@ area: core
 kind: bug
 priority: 1
 size: M
-status: claimed
-claimed-by: claude/political-game-pool-yucp92-zz
-pr: #5551
+status: done
+claimed-by: claude/fs11vb-speed
+pr: #5568
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-20T06:25:13.030Z
+claimed-at: 2026-10-20T06:38:51.121Z
 ---
 
 **What.** PR #5044 (school staff pay) made the public school district a funded employer, and staff of a funded employer are kept as full people because pay for a counted public workforce is not built. In Long Hill, Connecticut (seed m7b) the bisected year went from 220.3 s (e715c5bc7) to 256.7 s (0a4bf1e41), +36 s, with about 13 s more after the next merge, because every extra full person acts each day: perform, activate, work onDay, relationship changes and news telling. Pay the district's teachers (and any other funded department's staff) as a counted workforce through the treasury, the way a counted worker is paid by an employer, or give the staff the weekly tier a town's other public workers use, so a dense town's year stops growing with its teacher count, without changing who is paid or how much.
@@ -24,3 +24,5 @@ claimed-at: 2026-10-20T06:25:13.030Z
 **Notes.** TODO
 
 Sent back 2026-10-20 from PR #5551 (branch claude/counted-school-staff): the school-pay test replaces the nonempty full-teacher assertion with a combined full-plus-counted total, so either tier can go untested; prove each payroll path exists and is paid independently; finish on that branch, merge main into it first.
+
+Sent back 2026-10-20 from PR #5568 (branch claude/political-game-pool-yucp92-zz): independent tier assertions are fixed, but the existing full-teacher timeout doubles from 900000 to 1800000 ms without a stated reason; restore it or document the measured need; finish on that branch, merge main into it first.
