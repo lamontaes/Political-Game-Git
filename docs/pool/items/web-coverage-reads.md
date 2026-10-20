@@ -13,7 +13,7 @@ after: people-coverage-counted
 source: added with npm run pool -- add
 ---
 
-**What.** Five links move health coverage only in the web's ledger (unemployment-to-uninsured, medicaid-expansion-to-coverage, work-requirement-to-coverage, marriage-equality-to-coverage, medicaid-expansion-to-medical-debt), stopgap SG-EW-HEALTH-coverage-record. When the coverage record from PR #5475 is on main, the coverage decision multiplies its own rate by webReach(api, placeId, 'health.uninsured-pct', subject) with age, sex and income fifth; unemployment-to-uninsured already carries a researched moderator by sex and age (Cawley, Moriya and Simon 2015).
+**What.** Five links move health coverage only in the web's ledger (unemployment-to-uninsured, medicaid-expansion-to-coverage, work-requirement-to-coverage, marriage-equality-to-coverage, medicaid-expansion-to-medical-debt), stopgap SG-EW-HEALTH-coverage-record. When the coverage record from PR #5475 is on main, the coverage decision multiplies its own rate by webReach(api, placeId, 'health.uninsured-pct', subject) with age, sex and income fifth; unemployment-to-uninsured already carries a researched moderator by sex and age (Cawley, Moriya and Simon 2015). Until then a lost job leaves a person's coverage exactly as it was.
 
 **Rules.** An effect is a read, not a record; one model, two tiers; no dice.
 
