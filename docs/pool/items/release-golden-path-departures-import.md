@@ -5,9 +5,9 @@ area: release
 kind: bug
 priority: 1
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/golden-path-departures
-pr:
+pr: #5630
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-20T09:37:10.041Z
