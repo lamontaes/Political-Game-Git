@@ -46,6 +46,8 @@ describe(`employers refill the jobs workers leave (seed ${seed})`, () => {
         id: string;
         organizationId: string;
         reasonKey: string;
+        status: string;
+        filledBy?: string;
         replacesJobId?: string;
         replacesPersonId?: string;
       }[];
@@ -83,6 +85,19 @@ describe(`employers refill the jobs workers leave (seed ${seed})`, () => {
         followed.map((row) => row.id),
         `${world.place.key} (seed ${drawSeed}): no replacement follows a recorded separation`,
       ).not.toEqual([]);
+      // A filled opening ends in a recorded hire of the person who filled it.
+      const hires = (
+        state.table("changes").rows() as unknown as {
+          kind: string;
+          personId: string;
+        }[]
+      ).filter((change) => change.kind === "hire");
+      const filled = replacements.filter((row) => row.status === "filled");
+      for (const row of filled)
+        expect(
+          hires.some((change) => change.personId === row.filledBy),
+          `${world.place.key} (seed ${drawSeed}): ${row.id} filled by ${row.filledBy} with no hire on record`,
+        ).toBe(true);
       return;
     }
     throw new Error(
