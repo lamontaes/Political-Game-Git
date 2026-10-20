@@ -5,12 +5,12 @@ area: play
 kind: feature
 priority: 3
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/political-game-pool-yucp92-ae
 pr:
 blocked-on: office-budget-season-mayor-act
 source: added with npm run pool -- add
-claimed-at:
+claimed-at: 2026-10-20T07:51:36.925Z
 ---
 
 **What.** TODO
