@@ -22,6 +22,7 @@ import { openVoting } from "../core2/modules/voting";
 import { openRecord } from "../core2/modules/record";
 import { openBudgets } from "../core2/modules/budgets";
 import { openOfficialPay } from "../core2/modules/official-pay";
+import { openCrime } from "../core2/modules/crime";
 import { openCoverage } from "../core2/modules/coverage";
 import { openHomelessCount } from "../core2/modules/homeless-count";
 import { openEstates } from "../core2/estates";
@@ -356,6 +357,8 @@ function* benchWorldStages(
   // Officials are paid from the treasuries budgets just opened (OPUS-CORE).
   openOfficialPay(core);
   openHomelessCount(core);
+  // Crimes that happen to households, from the national rates and the web's factors (OPUS-CORE).
+  openCrime(core);
   openEstates(core);
   openEmployerTaxes(core);
   openLegislature(core);

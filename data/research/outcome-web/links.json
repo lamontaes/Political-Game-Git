@@ -453,7 +453,8 @@
         "status": "applied",
         "requiredConnection": "Applied as a proportional change in the rate of leaving: 1.18 / 100,000 per crime per resident, over the 0.295 five-year share who left (Table 4), 0.00004 per reported crime per 100,000 residents, read as the average of the last 60 months (the paper's five-year change)."
       },
-      "notes": "Size by the paper's own conversion: the study counts all reported index crimes (violent and property, 'similar coefficients on both types') per resident and the game's cause is violent crime per 100,000 residents, so one more violent crime per 100,000 is one more reported crime per 100,000. 95% interval of the coefficient (0.063 to 2.297) gives the range. The paper measures a one-time loss over five years from a five-year rise in crime; the web applies it as a sustained rate while the level stays up, which overstates a level that stays high for many years. By schooling the relative response is nearly flat (Table 6a divided by Table 4 Goers: more than 12 years 1.54/0.413 = 3.7, 12 years 1.27/0.292 = 4.3, under 12 years 0.77/0.172 = 4.5), so no income moderator is added. Chain: the cause crime.violent is the web's own kept value today (moved by the crime links, e.g. unemployment and policing laws); it has no engine record, so the chain is law or unemployment -> crime.violent (web ledger) -> leaving (moves.ts and counted-moves.ts).",
+      "notes": "Unsupported until a unit adapter exists: the study measures people leaving per added reported crime, but the game keeps violent crime per 100,000, not total reported crime per resident; see the research packet in researchSizing. The new core reads the cause from the victimization records (reported to police a year, per resident); the link still waits on a researched size and a unit adapter. Size by the paper's own conversion: the study counts all reported index crimes (violent and property, 'similar coefficients on both types') per resident and the game's cause is violent crime per 100,000 residents, so one more violent crime per 100,000 is one more reported crime per 100,000. 95% interval of the coefficient (0.063 to 2.297) gives the range. The paper measures a one-time loss over five years from a five-year rise in crime; the web applies it as a sustained rate while the level stays up, which overstates a level that stays high for many years. By schooling the relative response is nearly flat (Table 6a divided by Table 4 Goers: more than 12 years 1.54/0.413 = 3.7, 12 years 1.27/0.292 = 4.3, under 12 years 0.77/0.172 = 4.5), so no income moderator is added. Chain: the cause crime.violent is the web's own kept value today (moved by the crime links, e.g. unemployment and policing laws); it has no engine record, so the chain is law or unemployment -> crime.violent (web ledger) -> leaving (moves.ts and counted-moves.ts).",
+      "readFrom": "crime.reported-per-capita",
       "range": [2.1e-6, 7.8e-5],
       "phaseInMonths": 60,
       "varies": [
@@ -4199,7 +4200,9 @@
       "evidence": "researched",
       "range": [0.01, 0.01],
       "floor": 0.25,
-      "ceiling": 3
+      "ceiling": 3,
+      "readFrom": "crime.violent-victimization-index",
+      "notes": "The new core reads the cause from the victimization records' own index of robbery and assault per person 12 and older, 100 at the town's first month (src/core2/modules/crime.ts), not from the web's ledger; `from` stays as the old engine reads it."
     },
     {
       "key": "crime-level-to-robbery",
@@ -4221,7 +4224,9 @@
       "evidence": "researched",
       "range": [0.01, 0.01],
       "floor": 0.25,
-      "ceiling": 3
+      "ceiling": 3,
+      "readFrom": "crime.violent-victimization-index",
+      "notes": "The new core reads the cause from the victimization records' own index of robbery and assault per person 12 and older, 100 at the town's first month (src/core2/modules/crime.ts), not from the web's ledger; `from` stays as the old engine reads it."
     },
     {
       "key": "crime-level-to-assault",
@@ -4243,7 +4248,9 @@
       "evidence": "researched",
       "range": [0.01, 0.01],
       "floor": 0.25,
-      "ceiling": 3
+      "ceiling": 3,
+      "readFrom": "crime.violent-victimization-index",
+      "notes": "The new core reads the cause from the victimization records' own index of robbery and assault per person 12 and older, 100 at the town's first month (src/core2/modules/crime.ts), not from the web's ledger; `from` stays as the old engine reads it."
     },
     {
       "key": "crime-level-to-vandalism",
@@ -4265,7 +4272,9 @@
       "evidence": "researched",
       "range": [0.01, 0.01],
       "floor": 0.25,
-      "ceiling": 3
+      "ceiling": 3,
+      "readFrom": "crime.violent-victimization-index",
+      "notes": "The new core reads the cause from the victimization records' own index of robbery and assault per person 12 and older, 100 at the town's first month (src/core2/modules/crime.ts), not from the web's ledger; `from` stays as the old engine reads it."
     },
     {
       "key": "births-level-to-births",
