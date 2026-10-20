@@ -5,7 +5,7 @@ area: core
 kind: feature
 priority: 2
 size: M
-status: in-pr
+status: done
 claimed-by: claude/pool-family-link
 pr: #4961
 blocked-on:
