@@ -11,6 +11,7 @@
  * by its own effect. Acts planned for a later date are kept here and happen on
  * that date, so their effects land when they occur.
  */
+import { pairKey } from "./kernel/pair-key";
 import { addDays, daysBetween, makeIsoDate } from "./kernel/dates";
 import type { ScoredOffer } from "./choice";
 import {
@@ -304,7 +305,7 @@ function candidates(
     let tie: TiePull | undefined;
     if (definition.effect === FREE_BLOCK.contactEffect && binding) {
       const relationship = core.relationships.get(
-        [actor.id, row.offer.targetId].sort().join(":"),
+        pairKey(actor.id, row.offer.targetId),
       );
       const lost = relationship ? hoursLost(core, relationship) : zero;
       const pull =

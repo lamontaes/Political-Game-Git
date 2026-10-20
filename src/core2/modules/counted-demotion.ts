@@ -11,6 +11,7 @@
  * place's counted tier, so meeting one again brings the same people back.
  * Named officials, the player's household and circle are never demoted.
  */
+import { pairKey } from "../kernel/pair-key";
 import {
   COUNTED_PLACE_PREFIX,
   countedPlaceOf,
@@ -106,8 +107,7 @@ function protectedPeople(api: CoreAPI): Set<PersonId> {
 /** When the player last had contact with this person (their relationship), if ever. */
 function lastPlayerContact(core: CoreState, id: PersonId): string | undefined {
   if (!core.playerId) return undefined;
-  return core.relationships.get([core.playerId, id].sort().join(":"))
-    ?.lastContactDate;
+  return core.relationships.get(pairKey(core.playerId, id))?.lastContactDate;
 }
 
 /** A demoted person's record, as the counts keep it. */

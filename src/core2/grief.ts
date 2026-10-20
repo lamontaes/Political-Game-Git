@@ -11,6 +11,7 @@
  * relative's grief is their closeness to the person who died, halving every
  * half-life of their own.
  */
+import { pairKey } from "./kernel/pair-key";
 import { daysBetween, makeIsoDate } from "./kernel/dates";
 import { stableHash } from "./kernel/ids";
 import { inverseStandardNormal } from "./kernel/deterministic-math";
@@ -96,9 +97,7 @@ export function recordDeath(
       if (id === deceasedId) continue;
       const person = api.state.people.get(id);
       if (!person?.alive || !person.familyIds.has(deceasedId)) continue;
-      const tie = api.state.relationships.get(
-        [id, deceasedId].sort().join(":"),
-      );
+      const tie = api.state.relationships.get(pairKey(id, deceasedId));
       if (!tie) continue;
       const rows = store.get(id) ?? [];
       rows.push({

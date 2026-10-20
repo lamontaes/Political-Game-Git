@@ -20,6 +20,7 @@
  *
  * Views form when first read, so a person filled in later gets theirs too.
  */
+import { pairKey } from "../kernel/pair-key";
 import { stableHash } from "../kernel/ids";
 import { ageOnDate, makeIsoDate } from "../kernel/dates";
 import { corePlaceByJurisdictionId } from "../place-lookup";
@@ -394,9 +395,7 @@ export function standingWith(
             (v("leanMax") - v("leanMin")),
       )
     : half;
-  const tie = api.state.relationships.get(
-    [listener.id, speakerId].sort().join(":"),
-  );
+  const tie = api.state.relationships.get(pairKey(listener.id, speakerId));
   const closeness = tie ? currentCloseness(api.state, tie) : v("zero");
   const partyOf = (id: string) =>
     api.state.modules.has(PARTIES_STORE)
