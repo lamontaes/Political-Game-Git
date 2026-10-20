@@ -5,11 +5,12 @@ area: words
 kind: feature
 priority: 1
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/words-journal-relative-moved-away
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-20T11:05:18.454Z
 ---
 
 **What.** The held hand-written sentences in data/english/parts/journal.json left the journal entry for a relative who moved away with no shippable part, so the game shows nothing there until the English engine writes it. Compose or mine the line for the journal entry for a relative who moved away from the person.moved-away record from the moves engine, as engine-written bank parts with their source, and have the director use it. The player would read the line again, written by the engine from the record.
