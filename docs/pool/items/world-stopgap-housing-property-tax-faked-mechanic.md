@@ -4,13 +4,13 @@ title: "Stopgaps in housing-property-tax (faked-mechanic): 1 open"
 area: world
 kind: stopgap
 priority: 2
-status: in-pr
-claimed-by: claude/property-tax-billing-g08lgv
+status: open
+claimed-by:
 pr: #5249
 blocked-on: sourced county due dates for all 56 places (research data)
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/housing-property-tax.ts, kind faked-mechanic"
-claimed-at: 2026-10-19T22:53:25.013Z
+claimed-at:
 ---
 
 **What.** The stopgap row(s) SG-WORLD-property-tax-monthly in src/core2/housing-property-tax.ts mark a shortcut that is still live in play. Today property tax is paid a twelfth each month, as through a mortgage escrow, for every owner. The row stays open until the real mechanic replaces the fake, or the feature that needs the fake is deleted. This item replaces it and clears the row in src/core2/data/stopgaps.json.
