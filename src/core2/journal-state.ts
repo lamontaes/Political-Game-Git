@@ -1133,6 +1133,23 @@ function checkMetadata(
   }
 }
 
+/** The runtime maps a writer proves it did not replace (checked only while bookkeeping is on). */
+const RUNTIME_MAP_FIELDS = [
+  "accounts",
+  "accountsByOwner",
+  "accountCountByOwner",
+  "residualAccountByOwner",
+  "externalFlowsByOwner",
+  "sourceProviders",
+  "totalsByOwner",
+  "totalsByAccount",
+  "latestByOwner",
+  "latestByAccount",
+  "detailedReceipts",
+  "detailedByOwner",
+  "requiredBySource",
+] as const;
+
 /** All original rows are rechecked after the last provider call and before the first write. */
 export function postCashJournal(
   runtime: CashJournalRuntime,
@@ -1147,7 +1164,8 @@ export function postCashJournal(
       // Bookkeeping proves nothing moved under the writer; play only commits.
       controlSnapshot = bookkeeping()
         ? snapshotExplicitControlV1(state)
-        : undefined;
+        : undefined,
+      checks = bookkeeping();
     const request: CashJournalInput = {
       id: input.id,
       date: input.date,
@@ -1162,24 +1180,10 @@ export function postCashJournal(
       sequence = runtime.nextSequence;
     directField(runtime, "nextSequence");
     directField(runtime, "totals");
-    const runtimeFields = [
-      "accounts",
-      "accountsByOwner",
-      "accountCountByOwner",
-      "residualAccountByOwner",
-      "externalFlowsByOwner",
-      "sourceProviders",
-      "totalsByOwner",
-      "totalsByAccount",
-      "latestByOwner",
-      "latestByAccount",
-      "detailedReceipts",
-      "detailedByOwner",
-      "requiredBySource",
-    ] as const;
-    const originalMaps = runtimeFields.map(
-      (key) => [key, runtime[key]] as const,
-    );
+    // Only the checks below read these; play does not build them.
+    const originalMaps = checks
+      ? RUNTIME_MAP_FIELDS.map((key) => [key, runtime[key]] as const)
+      : [];
     const people = state.people,
       organizations = state.organizations;
     const focus = state.focusPersonIds,
@@ -1221,7 +1225,7 @@ export function postCashJournal(
     // copy); bookkeeping hands back a copy so a stray write can't reach it.
     const returned = bookkeeping() ? copyProjection(projection) : projection;
     const beforeTotals = runtime.totals,
-      totalsSnapshot = { ...beforeTotals };
+      totalsSnapshot = checks ? { ...beforeTotals } : undefined;
     const nextTotals = plusTotals(
       beforeTotals,
       projection.grossDebitMinor,
@@ -1272,7 +1276,8 @@ export function postCashJournal(
       for (const [id, amount] of values) {
         const before = totalsMap.get(id),
           change = changes.get(id)!;
-        if (before) priorCounters.push({ live: before, before: { ...before } });
+        if (before && checks)
+          priorCounters.push({ live: before, before: { ...before } });
         journalWrites.push(
           cashJournalMapSet(
             totalsMap,
@@ -1366,7 +1371,6 @@ export function postCashJournal(
         }
       }
     }
-    const checks = bookkeeping();
     const reservedObjects = new Set<object>(
       checks
         ? [
@@ -1524,7 +1528,7 @@ export function postCashJournal(
         live.grossCreditMinor === before.grossCreditMinor;
       if (
         runtime.totals !== beforeTotals ||
-        !sameTotals(runtime.totals, totalsSnapshot) ||
+        !sameTotals(runtime.totals, totalsSnapshot!) ||
         priorCounters.some((row) => !sameTotals(row.live, row.before)) ||
         retainedOwnerIndexes.some(
           (row) =>
@@ -1677,22 +1681,7 @@ export function completeCashJournalSource(
     const sequence = runtime.nextSequence,
       beforeTotals = runtime.totals;
     const totalsSnapshot = { ...beforeTotals };
-    const runtimeFields = [
-      "accounts",
-      "accountsByOwner",
-      "accountCountByOwner",
-      "residualAccountByOwner",
-      "externalFlowsByOwner",
-      "sourceProviders",
-      "totalsByOwner",
-      "totalsByAccount",
-      "latestByOwner",
-      "latestByAccount",
-      "detailedReceipts",
-      "detailedByOwner",
-      "requiredBySource",
-    ] as const;
-    const originalMaps = runtimeFields.map(
+    const originalMaps = RUNTIME_MAP_FIELDS.map(
       (key) => [key, runtime[key]] as const,
     );
     const provider = runtime.sourceProviders.get(request.kind);
