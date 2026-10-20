@@ -44,6 +44,37 @@ const DATA = foreclosureData as unknown as {
   places: Record<string, StateSteps>;
 };
 
+/**
+ * The typical days from first filing to sale for each foreclosure process: the
+ * median of the places whose own average is published (ATTOM, Q2 2026), so a
+ * place without one takes its process's median, not the nation's, which a few
+ * slow judicial places pull up.
+ */
+const PROCESS_TYPICAL_DAYS = (() => {
+  const by = new Map<string, number[]>();
+  for (const row of Object.values(DATA.places))
+    if (row.typicalDaysToComplete !== null)
+      by.set(row.process, [
+        ...(by.get(row.process) ?? []),
+        row.typicalDaysToComplete,
+      ]);
+  return new Map(
+    [...by].map(([process, days]) => {
+      const sorted = [...days].sort((a, b) => a - b);
+      const mid = sorted.length >> 1;
+      // Whole days.
+      return [
+        process,
+        Math.round(
+          sorted.length % 2
+            ? sorted[mid]!
+            : (sorted[mid - 1]! + sorted[mid]!) / 2,
+        ),
+      ] as const;
+    }),
+  );
+})();
+
 /** A mortgage the housing engine holds. */
 export interface MortgageRow {
   readonly id: string;
@@ -77,11 +108,14 @@ export function foreclosureSteps(usps: string): StateSteps & {
     statute: row?.statute ?? "",
     confidence: row?.confidence ?? "low",
     // Sales follow the state's average time from first filing to sale; the
-    // nation's where none is published (the statute's notices are the floor).
+    // median of its process where none is published, the nation's only for a
+    // process no place has an average for (the statute's notices are the floor).
     daysToSale: Math.max(
       1,
       statutory,
-      row?.typicalDaysToComplete ?? DATA.nationalTypicalDaysToComplete,
+      row?.typicalDaysToComplete ??
+        PROCESS_TYPICAL_DAYS.get(row?.process ?? "judicial") ??
+        DATA.nationalTypicalDaysToComplete,
     ),
     redemptionDays: Math.max(0, row?.redemptionDaysAfterSale ?? 0),
   };
