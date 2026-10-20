@@ -5,13 +5,14 @@ area: gov
 kind: research
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/political-game-pool-yucp92-s
 pr:
 after:
 blocked-on:
 milestone:
 source: "post-merge audit Oct 19 evening, item 7 (PR #5166)"
+claimed-at: 2026-10-20T01:27:02.279Z
 ---
 
 **What.** PR #5166 decides public contract awards to town businesses by four cited TUNABLE weights, each with a spread. The weights should set calibrated bands, not decide the award; the officials' reads should decide it. Confirm that the weights are calibrated bands, and replace the fixed rule with the officials' reads where it still decides.
