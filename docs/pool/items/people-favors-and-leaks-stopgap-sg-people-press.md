@@ -4,10 +4,10 @@ title: "Favors and leaks (stopgap SG-PEOPLE-press-favors-and-leaks)."
 area: people
 kind: feature
 priority: 2
-status: claimed
+status: blocked
 claimed-by: claude/political-game-pool-yucp92-bd
 pr: #5163
-blocked-on:
+blocked-on: words: the leak as a conversation move needs a conversation part worded by the English engine (data/english/parts/conversation.json), which only the Words line (Opus) mines; the engine half (leakToReporter) is merged
 milestone:
 source: "docs/coordination/OPUS-PEOPLE.md line 20 (unchecked checklist line)"
 claimed-at: 2026-10-20T13:14:15.020Z
