@@ -23,7 +23,7 @@ import {
 import type { FinanceContractInput } from "../finance-types";
 import type { ResidentFlowInput } from "../residents";
 import { MACRO_PARAMETERS } from "./macro";
-import { bankYes, lendMortgage, monthlyIncome } from "./credit";
+import { bankYes, lendMortgage, monthlyIncome, mortgageRoom } from "./credit";
 import { chooseAct } from "../choice";
 import { CREDIT_PARAMETERS } from "./credit";
 import { DEFAULT_DATA } from "../data";
@@ -1158,6 +1158,8 @@ function buyHomesCounted(api: CoreAPI): void {
     let households = 0;
     for (const i of rt.store.groups[h.group]!.households)
       households += rt.store.weightOf(rt.store.households[i]!);
+    // stopgapId: SG-WORLD-housing-counted-means
+    api.stopgap("SG-WORLD-housing-counted-means");
     const means =
       households > 0 ? fundBalance(api, rt, h.group) / households : 0;
     const outside = [...c.organizations.values()].find(
@@ -1184,7 +1186,14 @@ function buyHomesCounted(api: CoreAPI): void {
     const principal = Math.floor(
       (value - down) * bankYes(api, payment, income),
     );
-    if (principal <= 0 || bank.liquidMinor < principal * times) continue;
+    // The loans all the households this record stands for take together must
+    // fit the bank's cash and its lending room, as one full household's does.
+    if (
+      principal <= 0 ||
+      bank.liquidMinor < principal * times ||
+      mortgageRoom(api) < principal * times
+    )
+      continue;
     // Each household it stands for takes a finished new house in town if one is left.
     const sellers = new Map<string, number>();
     for (let n = 0; n < times; n += 1) {

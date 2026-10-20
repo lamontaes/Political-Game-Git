@@ -4867,5 +4867,17 @@
     "addedAt": "2026-10-17",
     "replacement": "Each department's employing government read from the Census of Governments employment file by function, so a county health department, a fire district or a state agency's field office pays its own staff.",
     "status": "open"
+  },
+  {
+    "id": "SG-WORLD-housing-counted-means",
+    "kind": "owner-decision",
+    "file": "src/core2/modules/housing.ts",
+    "line": 1167,
+    "whatItFakes": "A counted renter household has no cash of its own, so what it can put down on a home is its group's fund divided by the households the group stands for. Whether a counted household's down payment is that share, the cash its members hold at the opening, or something read from its income and savings is the owner's call.",
+    "why": "Counted households' money is pooled by group (one model, two tiers); the Oct 20 ruling that a filled-in relative's cash follows their household's real income covers a filled-in person, not a counted household buying a home. No ruling exists for the purchase.",
+    "addedBy": "claude/housing-construction-stopgap",
+    "addedAt": "2026-10-20",
+    "replacement": "The owner's ruling on a counted household's down-payment means (docs/coordination/OWNER-DECISIONS.md), read from the household's own records.",
+    "status": "open"
   }
 ]

@@ -109,6 +109,14 @@ describe(`counted renters buy homes (seed ${seed})`, () => {
     // A town whose employers hold too little cash to fund a down payment
     // has no buyer to read.
     if (gift < renters.length * 100_000_000) return;
+    const owned = () =>
+      (
+        api
+          .moduleState(HOUSING_MODULE_ID)
+          .table("dwellings")
+          .rows() as unknown as { tenure: string }[]
+      ).filter((row) => row.tenure === "own").length;
+    const ownedBefore = owned();
     advanceCore(core, addDays(makeIsoDate(core.date), 2));
     const bought = (
       api
@@ -124,6 +132,11 @@ describe(`counted renters buy homes (seed ${seed})`, () => {
       bought.length,
       `at least one counted household bought (${renters.length} funded renters, ${gift} given)`,
     ).toBeGreaterThan(0);
+    // The town's owner households before and after: each buyer is a new owner.
+    console.log(
+      `counted-buy: ${bought.length} counted households bought; owner households ${ownedBefore} -> ${owned()}`,
+    );
+    expect(owned()).toBeGreaterThanOrEqual(ownedBefore + bought.length);
     for (const row of bought.filter((r) => r.loanMinor > 10_000)) {
       expect(rt.flows.get(`rent:${row.householdId}`)?.endedAt).toBeDefined();
       const part = [...rt.flows.values()].find(
