@@ -184,7 +184,7 @@ function officialsCoverBody(
       : body.kind.startsWith("us-house")
         ? "US:us-house"
         : `${body.jurisdiction}:${body.kind}`;
-  return officialsIn(api, key).length > 0;
+  return officialsIn(api, key).length > P.zero;
 }
 
 /**
