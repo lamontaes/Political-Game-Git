@@ -4,7 +4,7 @@ title: "Stopgaps in housing-property-tax (assumed-data): 1 open"
 area: world
 kind: stopgap
 priority: 3
-status: in-pr
+status: done
 claimed-by: claude/political-game-pool-yucp92-g
 pr: #5270
 blocked-on:
