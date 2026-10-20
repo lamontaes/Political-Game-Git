@@ -22,3 +22,5 @@ claimed-at: 2026-10-20T00:09:25.050Z
 **Files.** data/source/official-office-pay/facts.json, data/research/offices/official-salaries-2026.json, src/core2/modules/official-pay.ts
 
 **Notes.** Split out of gov-official-salary-through-payroll (Oct 16), which pays officials by paycheck and carries each figure's provenance. Ballotpedia and NCSL both refused automated reads in that session.
+
+Oct 20 (claude): the table-level test is built (`src/core2/official-salary-table.test.ts`: every figure for the 56 places is a sourced fact or sits in a group with a spread and is marked estimate). The research itself is not done: the lieutenant governors, attorneys general, secretaries of state and treasurers (4 offices in 56 places), the legislators of 27 places, and the governors of Alabama, Indiana, Kentucky, D.C. and American Samoa still need a statute or schedule each. A session with a way to read state statutes should take them a few states at a time, adding a fact per figure to `data/source/official-office-pay/facts.json`.
