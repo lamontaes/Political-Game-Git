@@ -1,17 +1,16 @@
 /**
  * Personality in the press engine (civic family): who keeps up with the
- * local news. A drawn place's played world (seed `c1`, the place `drawPlace`
- * names), every resident a full person, played 60 days. No study gives a size
+ * local news. A drawn place's played world (a place drawn from all 56 from a fresh seed, played over the window around its own next election), every resident a full person, played 60 days. No study gives a size
  * for this, so the decision runs at the general weight.
  */
 import { drawPlace } from "../../../tests/golden-path/place";
 import { beforeAll, describe, expect, it } from "vitest";
-import { adultsOf, drawnWorld } from "../trait-test-kit";
+import { adultsOf, drawnRaceWorld, RUN_SEED } from "../trait-test-kit";
 import { decisionLean } from "../trait-decisions";
 import { followersOf, outletsHere } from "./press";
 import type { CoreAPI, CoreState, PersonState } from "../types";
 
-const SEED = process.env.GOLDEN_PATH_SEED ?? "c1";
+const SEED = `${RUN_SEED}:press`;
 
 let core: CoreState;
 let api: CoreAPI;
@@ -19,13 +18,10 @@ let adults: PersonState[];
 
 // Building and playing a drawn town 60 days takes about 20 seconds.
 beforeAll(() => {
-  ({ core, api } = drawnWorld(
-    SEED,
-    drawPlace(SEED, "trait-wiring"),
-    "2025-03-21",
-  ));
+  ({ core, api } = drawnRaceWorld(SEED, drawPlace(SEED, "trait-wiring"), 60));
   adults = adultsOf(core);
-});
+  // Reason for the hook's time: the drawn place is built twice (its election calendar, then every resident as a full person) and played for the window, 1 to 5 minutes on a shared machine.
+}, 600_000);
 
 describe("press.follow-news reads the person's calibrated lean toward following", () => {
   it("the town's adults who follow a local outlet lean more toward keeping up with the news than those who follow none", () => {

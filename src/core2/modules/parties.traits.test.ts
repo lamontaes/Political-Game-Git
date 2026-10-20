@@ -1,17 +1,17 @@
 /**
  * Personality in the parties engine (civic family): who joins the party they
  * are tied to, who goes to its meetings, and whom members back as chair. A
- * drawn place's played world (seed `c1`, the place `drawPlace` names), every
+ * drawn place's played world (a place drawn from all 56 from a fresh seed, played over the window around its own next election), every
  * resident a full person, played 120 days.
  */
 import { drawPlace } from "../../../tests/golden-path/place";
 import { beforeAll, describe, expect, it } from "vitest";
-import { drawnWorld } from "../trait-test-kit";
+import { drawnRaceWorld, RUN_SEED } from "../trait-test-kit";
 import { decisionLean } from "../trait-decisions";
 import { PARTIES_MODULE_ID, partyMeetings, type PartyRow } from "./parties";
 import type { CoreAPI, CoreState } from "../types";
 
-const SEED = process.env.GOLDEN_PATH_SEED ?? "c1";
+const SEED = `${RUN_SEED}:parties`;
 
 let core: CoreState;
 let api: CoreAPI;
@@ -20,16 +20,13 @@ let parties: PartyRow[];
 // Building and playing a drawn town 120 days takes about 30 seconds, inside
 // the 60 second hook limit.
 beforeAll(() => {
-  ({ core, api } = drawnWorld(
-    SEED,
-    drawPlace(SEED, "trait-wiring"),
-    "2025-05-20",
-  ));
+  ({ core, api } = drawnRaceWorld(SEED, drawPlace(SEED, "trait-wiring"), 120));
   parties = api
     .moduleState(PARTIES_MODULE_ID)
     .table("parties")
     .rows() as unknown as PartyRow[];
-});
+  // Reason for the hook's time: the drawn place is built twice (its election calendar, then every resident as a full person) and played for the window, 1 to 5 minutes on a shared machine.
+}, 600_000);
 
 const mean = (xs: number[]) => xs.reduce((a, b) => a + b, 0) / xs.length;
 

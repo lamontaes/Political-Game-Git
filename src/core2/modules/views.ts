@@ -403,17 +403,15 @@ export function standingWith(
     ? Math.min(
         v("one"),
         nearTrust *
-          Math.max(
-            v("zero"),
-            v("one") +
-              decisionTraitWeight(api.state, "views.trust") *
-                decisionLean(
-                  api.state,
-                  hearer,
-                  "views.trust",
-                  "trust",
-                  "distrust",
-                ),
+          Math.exp(
+            decisionTraitWeight(api.state, "views.trust") *
+              decisionLean(
+                api.state,
+                hearer,
+                "views.trust",
+                "trust",
+                "distrust",
+              ),
           ),
       )
     : nearTrust;
@@ -610,18 +608,17 @@ export const viewsModule: CoreModule = {
       // their own traits (openness and agreeableness toward yielding).
       // stopgapId: SG-TRAITS-persuasion-size
       const hearer = api.state.people.get(personId);
+      // A multiplier, never zero: the most resistant hearer still moves a little.
       const yielding = hearer
-        ? Math.max(
-            v("zero"),
-            v("one") +
-              decisionTraitWeight(api.state, "views.persuasion") *
-                decisionLean(
-                  api.state,
-                  hearer,
-                  "views.persuasion",
-                  "yield",
-                  "resist",
-                ),
+        ? Math.exp(
+            decisionTraitWeight(api.state, "views.persuasion") *
+              decisionLean(
+                api.state,
+                hearer,
+                "views.persuasion",
+                "yield",
+                "resist",
+              ),
           )
         : v("one");
       const change =

@@ -3,7 +3,7 @@
  * story moves a hearer (outcome.persuasion, outcome.news-reaction: a printed
  * story reaches readers as an event through the same path) and how far they
  * trust a speaker (outcome.trust-generalized). A drawn place's population
- * (seed `c2`, the place `drawPlace` names) hears one speech in two cores built
+ * (a place drawn from all 56 from a fresh seed) hears one speech in two cores built
  * from the same input, one with the persuasion weight as it stands and one
  * with it at zero. No study gives a one-occasion size, so both run at the
  * general weight (SG-TRAITS-persuasion-size).
@@ -14,12 +14,12 @@ import { createLifeCore } from "../life";
 import { buildPopulation } from "../population";
 import { coreAPI } from "../state";
 import { decisionLean } from "../trait-decisions";
-import { weightOf, withTraitWeight } from "../trait-test-kit";
+import { weightOf, withTraitWeight, RUN_SEED } from "../trait-test-kit";
 import { drawPlace } from "../../../tests/golden-path/place";
 import { deliverSpeech, speechModule, type Retelling } from "./speech";
 import { standingWith, viewOf, viewsModule } from "./views";
 
-const SEED = process.env.GOLDEN_PATH_SEED ?? "c2";
+const SEED = `${RUN_SEED}:views`;
 const place = drawPlace(SEED, "trait-wiring");
 const input = buildPopulation({
   seed: SEED,
@@ -59,7 +59,7 @@ describe(`a speech heard in ${place.name} (seed ${SEED})`, () => {
   const played = hear(null);
   const flat = hear(0);
 
-  it("moves each hearer by the speech's size times one plus the weight times their lean toward yielding, and by the plain size when personality is flat", () => {
+  it("moves each hearer by the speech's size times e to the weight times their lean toward yielding, and by the plain size when personality is flat", () => {
     const w = weightOf(played.core, "views.persuasion");
     const flatMoved = new Map(
       flat.retellings.map((r) => [r.listenerId, r.moved]),
@@ -80,7 +80,7 @@ describe(`a speech heard in ${place.name} (seed ${SEED})`, () => {
       .sort((a, b) => a.lean - b.lean);
     expect(rows.length).toBeGreaterThan(100);
     for (const row of rows)
-      expect(row.ratio, row.id).toBeCloseTo(Math.max(0, 1 + w * row.lean), 6);
+      expect(row.ratio, row.id).toBeCloseTo(Math.exp(w * row.lean), 6);
     const third = Math.floor(rows.length / 3);
     const mean = (part: typeof rows) =>
       part.reduce((sum, r) => sum + r.ratio, 0) / part.length;

@@ -1,14 +1,15 @@
 /**
  * Personality in the news engine (civic family): who passes a story on, and
  * who takes in a story a neighbor tells them. A drawn place's played world
- * (seed `d1`, the place `drawPlace` names), every resident a full person,
+ * (a place drawn from all 56 from a fresh seed, played over the window around its own next election), every resident a full person,
  * played 60 days.
  */
 import { drawPlace } from "../../../tests/golden-path/place";
 import { beforeAll, describe, expect, it } from "vitest";
 import {
   adultsOf,
-  drawnWorld,
+  drawnRaceWorld,
+  RUN_SEED,
   studyLogOdds,
   withTraitWeight,
 } from "../trait-test-kit";
@@ -17,7 +18,7 @@ import { believesClaim } from "../heard-claims";
 import { newsKey, storiesOwedAtContact } from "./news";
 import type { CoreAPI, CoreState, PersonState } from "../types";
 
-const SEED = process.env.GOLDEN_PATH_SEED ?? "d1";
+const SEED = `${RUN_SEED}:news`;
 
 let core: CoreState;
 let api: CoreAPI;
@@ -26,13 +27,10 @@ let adults: PersonState[];
 // Building and playing a drawn town 60 days takes about 25 seconds, inside
 // the 60 second hook limit.
 beforeAll(() => {
-  ({ core, api } = drawnWorld(
-    SEED,
-    drawPlace(SEED, "trait-wiring"),
-    "2025-03-21",
-  ));
+  ({ core, api } = drawnRaceWorld(SEED, drawPlace(SEED, "trait-wiring"), 60));
   adults = adultsOf(core);
-});
+  // Reason for the hook's time: the drawn place is built twice (its election calendar, then every resident as a full person) and played for the window, 1 to 5 minutes on a shared machine.
+}, 600_000);
 
 /** Mean stories owed at a contact in the third leaning most toward telling, over the third leaning least, logged. */
 function logRateGap(): number {

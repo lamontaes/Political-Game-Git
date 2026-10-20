@@ -1,14 +1,14 @@
 /**
  * Personality in the voting engine (civic family): who turns out, who backs
  * the incumbent and who tells an exit pollster. A drawn place's played world
- * (seed `c1`, the place `drawPlace` names, played through its March 4, 2025
- * town election), every resident a full person.
+ * (a place drawn from all 56 from a fresh seed, played over the weeks to just after its own next election), every resident a full person.
  */
 import { drawPlace } from "../../../tests/golden-path/place";
 import { beforeAll, describe, expect, it } from "vitest";
 import {
   adultsOf,
-  drawnWorld,
+  drawnRaceWorld,
+  RUN_SEED,
   netLogOdds,
   studyLogOdds,
   withTraitWeight,
@@ -23,7 +23,7 @@ import {
 } from "./voting";
 import type { CoreAPI, CoreState, PersonState } from "../types";
 
-const SEED = process.env.GOLDEN_PATH_SEED ?? "c1";
+const SEED = `${RUN_SEED}:voting`;
 
 let core: CoreState;
 let api: CoreAPI;
@@ -32,13 +32,10 @@ let adults: PersonState[];
 // Building and playing a drawn town to its election takes about 20 seconds,
 // inside the 60 second hook limit.
 beforeAll(() => {
-  ({ core, api } = drawnWorld(
-    SEED,
-    drawPlace(SEED, "trait-wiring"),
-    "2025-03-05",
-  ));
+  ({ core, api } = drawnRaceWorld(SEED, drawPlace(SEED, "trait-wiring"), 44));
   adults = adultsOf(core);
-});
+  // Reason for the hook's time: the drawn place is built twice (its election calendar, then every resident as a full person) and played for the window, 1 to 5 minutes on a shared machine.
+}, 600_000);
 
 describe("voting.turnout reads one calibrated trait term", () => {
   it("the third leaning most toward voting has Mondak's openness-sized odds over the third leaning least, net of circumstances", () => {

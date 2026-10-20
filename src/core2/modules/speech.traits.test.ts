@@ -1,7 +1,7 @@
 /**
  * Personality in the speech engine (civic family): who retells a speech at
  * home, and who in the household takes the retelling in. A drawn place's
- * population (seed `c2`, the place `drawPlace` names) hears one speech, once
+ * population (a place drawn from all 56 from a fresh seed) hears one speech, once
  * with the retelling decision's trait weight as it stands and once with it at
  * zero, in two cores built from the same input.
  */
@@ -12,12 +12,12 @@ import { buildPopulation } from "../population";
 import { coreAPI } from "../state";
 import { believesClaim } from "../heard-claims";
 import { decisionLean } from "../trait-decisions";
-import { thirdsLogOdds, withTraitWeight } from "../trait-test-kit";
+import { thirdsLogOdds, withTraitWeight, RUN_SEED } from "../trait-test-kit";
 import { drawPlace } from "../../../tests/golden-path/place";
 import { deliverSpeech, speechModule, type Retelling } from "./speech";
 import { viewsModule } from "./views";
 
-const SEED = process.env.GOLDEN_PATH_SEED ?? "c2";
+const SEED = `${RUN_SEED}:speech`;
 const place = drawPlace(SEED, "trait-wiring");
 const input = buildPopulation({
   seed: SEED,

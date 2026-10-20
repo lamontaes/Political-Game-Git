@@ -5,11 +5,14 @@
  * leaning least, and the gap a study reports, carried to the same thirds the
  * way `scripts/traits/trait-calibrate.ts` carries it.
  */
+import { randomBytes } from "node:crypto";
 import decisionTable from "../../data/content/trait-decisions.json" with { type: "json" };
 import research from "../../data/research/trait-effect-sizes.json" with { type: "json" };
 import { buildBenchWorld } from "../bench/world";
 import { gameStartDate } from "./game-start";
+import { makeIsoDate } from "./kernel/dates";
 import { advanceCore } from "./life";
+import { ELECTIONS_MODULE_ID, type ContestRow } from "./modules/elections";
 import { coreAPI } from "./state";
 import { setTraitProbe, type FormulaProbeRow } from "./trait-probe";
 import type { CoreAPI, CoreState, PersonState } from "./types";
@@ -128,8 +131,10 @@ export function drawnWorld(
   until: string,
   /** Sees every formula decision the days weigh (the cases `leanedYes` was asked about). */
   onFormula?: (row: FormulaProbeRow) => void,
+  /** The first day of play (the game's start unless a race window moves it). */
+  start = gameStartDate(),
 ): { core: CoreState; api: CoreAPI; placeName: string; placeKey: string } {
-  const world = buildBenchWorld(seed, gameStartDate(), {
+  const world = buildBenchWorld(seed, start, {
     twoLevel: false,
     placeKey: place.key,
   });
@@ -140,7 +145,7 @@ export function drawnWorld(
     setTraitProbe(undefined);
   }
   console.log(
-    `trait test: seed ${seed}, ${place.name} (${place.key}), through ${until}`,
+    `trait test: seed ${seed}, ${place.name} (${place.key}), ${start} through ${until}`,
   );
   return {
     core: world.core,
@@ -148,6 +153,55 @@ export function drawnWorld(
     placeName: place.name,
     placeKey: place.key,
   };
+}
+
+/** One seed per test run (or GOLDEN_PATH_SEED to replay one); each test file salts it with its own name. */
+export const RUN_SEED =
+  process.env.GOLDEN_PATH_SEED ?? randomBytes(20).toString("hex");
+
+/**
+ * A place drawn from all 56 for one test file, played over the `days` that
+ * end `after` days past the place's own next race on its election calendar
+ * (read from a first build), so the window always holds an election day, its
+ * campaigns and its count, whatever place is drawn.
+ */
+export function drawnRaceWorld(
+  seed: string,
+  /** The place `drawPlace(seed, "trait-wiring")` named. */
+  place: { key: string; name: string },
+  days: number,
+  onFormula?: (row: FormulaProbeRow) => void,
+  after = 2,
+): { core: CoreState; api: CoreAPI; placeName: string; placeKey: string } {
+  const opening = gameStartDate();
+  const calendar = coreAPI(
+    buildBenchWorld(seed, opening, { twoLevel: true, placeKey: place.key })
+      .core,
+  )
+    .moduleState(ELECTIONS_MODULE_ID)
+    .table("contests")
+    .rows() as unknown as ContestRow[];
+  const next = calendar
+    .map((c) => c.electionDate)
+    .filter((date) => date > opening)
+    .sort()[0];
+  if (!next)
+    throw new Error(
+      `${place.name} (${place.key}), seed ${seed}: no race on its election calendar`,
+    );
+  const shift = (date: string, by: number) => {
+    const d = new Date(`${date}T00:00:00Z`);
+    d.setUTCDate(d.getUTCDate() + by);
+    return d.toISOString().slice(0, 10);
+  };
+  const start = [opening, shift(next, after - days)].sort().at(-1)!;
+  return drawnWorld(
+    seed,
+    place,
+    shift(start, days),
+    onFormula,
+    makeIsoDate(start),
+  );
 }
 
 /** Adults alive on the world's date, in id order. */

@@ -1,15 +1,15 @@
 /**
  * Personality in the meetings engine (civic family): who stands up at a
  * public meeting, who fills a town hall's room, and which officials hold a
- * town hall. A drawn place's played world (seed `c1`, the place `drawPlace`
- * names), every resident a full person, played 120 days with the probe on so
+ * town hall. A drawn place's played world (a place drawn from all 56 from a fresh seed, played over the window around its own next election), every resident a full person, played 120 days with the probe on so
  * the cases the hosts weighed are on record.
  */
 import { drawPlace } from "../../../tests/golden-path/place";
 import { beforeAll, describe, expect, it } from "vitest";
 import {
   adultsOf,
-  drawnWorld,
+  drawnRaceWorld,
+  RUN_SEED,
   netLogOdds,
   studyLogOdds,
   thirdsLogOdds,
@@ -21,7 +21,7 @@ import { questionAxis } from "../campaign-views";
 import { meetingParameter, standUpDrive, townHallDrives } from "./meetings";
 import type { CoreAPI, CoreState, PersonState } from "../types";
 
-const SEED = process.env.GOLDEN_PATH_SEED ?? "c1";
+const SEED = `${RUN_SEED}:meetings`;
 
 let core: CoreState;
 let api: CoreAPI;
@@ -32,10 +32,10 @@ const hostCases: number[] = [];
 // Building and playing a drawn town 120 days takes about 30 seconds, inside
 // the 60 second hook limit.
 beforeAll(() => {
-  ({ core, api } = drawnWorld(
+  ({ core, api } = drawnRaceWorld(
     SEED,
     drawPlace(SEED, "trait-wiring"),
-    "2025-05-20",
+    120,
     (row) => {
       if (
         row.decisionId === "meetings.hold-town-hall" &&
@@ -45,7 +45,8 @@ beforeAll(() => {
     },
   ));
   adults = adultsOf(core);
-});
+  // Reason for the hook's time: the drawn place is built twice (its election calendar, then every resident as a full person) and played for the window, 1 to 5 minutes on a shared machine.
+}, 600_000);
 
 describe("meetings.take-part reads one calibrated trait term", () => {
   it("the third leaning most toward taking part stands up at public comment at Mondak's extraversion-sized odds over the third leaning least, net of circumstances", () => {

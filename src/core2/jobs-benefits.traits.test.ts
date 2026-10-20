@@ -2,17 +2,17 @@
  * Personality in unemployment claims (civic family): a worker laid off
  * through no choice of their own files for the state's benefit when the base
  * reason and their traits' lean toward filing together favor it. A drawn
- * place's played world (seed `c1`, the place `drawPlace` names), every
+ * place's played world (a place drawn from all 56 from a fresh seed, played over the window around its own next election), every
  * resident a full person; each adult is laid off from the same job in turn.
  */
 import { drawPlace } from "../../tests/golden-path/place";
 import { beforeAll, describe, expect, it } from "vitest";
 import { fileClaim, unemploymentTerms } from "./jobs-benefits";
 import { decisionLean } from "./trait-decisions";
-import { adultsOf, drawnWorld, weightOf } from "./trait-test-kit";
+import { adultsOf, drawnRaceWorld, RUN_SEED, weightOf } from "./trait-test-kit";
 import type { CoreAPI, CoreState, JobInput, PersonState } from "./types";
 
-const SEED = process.env.GOLDEN_PATH_SEED ?? "c1";
+const SEED = `${RUN_SEED}:jobs-benefits`;
 
 let core: CoreState;
 let api: CoreAPI;
@@ -20,13 +20,10 @@ let adults: PersonState[];
 
 // Building and playing a drawn town 30 days takes about 15 seconds.
 beforeAll(() => {
-  ({ core, api } = drawnWorld(
-    SEED,
-    drawPlace(SEED, "trait-wiring"),
-    "2025-02-19",
-  ));
+  ({ core, api } = drawnRaceWorld(SEED, drawPlace(SEED, "trait-wiring"), 30));
   adults = adultsOf(core);
-});
+  // Reason for the hook's time: the drawn place is built twice (its election calendar, then every resident as a full person) and played for the window, 1 to 5 minutes on a shared machine.
+}, 600_000);
 
 describe("jobs-benefits.file-claim reads the worker's calibrated lean toward filing", () => {
   it("laid-off workers who did not file lean away from filing more than those who did, and each claim cites the worker", () => {

@@ -1,19 +1,18 @@
 /**
  * Personality in the interest-groups engine (civic family): who joins a side's
  * group, which owners join an employers' association and who speaks for a
- * group. A drawn place's played world (seed `c1`, the place `drawPlace`
- * names), every resident a full person, played 120 days.
+ * group. A drawn place's played world (a place drawn from all 56 from a fresh seed, played over the window around its own next election), every resident a full person, played 120 days.
  */
 import { drawPlace } from "../../../tests/golden-path/place";
 import { beforeAll, describe, expect, it } from "vitest";
-import { drawnWorld, weightOf } from "../trait-test-kit";
+import { drawnRaceWorld, RUN_SEED, weightOf } from "../trait-test-kit";
 import { decisionLean } from "../trait-decisions";
 import { personLean } from "../campaign-views";
 import { viewOn } from "./views";
 import { INTEREST_GROUPS_MODULE_ID, type GroupRow } from "./interest-groups";
 import type { CoreAPI, CoreState } from "../types";
 
-const SEED = process.env.GOLDEN_PATH_SEED ?? "c1";
+const SEED = `${RUN_SEED}:interest-groups`;
 
 let core: CoreState;
 let api: CoreAPI;
@@ -22,16 +21,13 @@ let groups: GroupRow[];
 // Building and playing a drawn town 120 days takes about 30 seconds, inside
 // the 60 second hook limit.
 beforeAll(() => {
-  ({ core, api } = drawnWorld(
-    SEED,
-    drawPlace(SEED, "trait-wiring"),
-    "2025-05-20",
-  ));
+  ({ core, api } = drawnRaceWorld(SEED, drawPlace(SEED, "trait-wiring"), 120));
   groups = api
     .moduleState(INTEREST_GROUPS_MODULE_ID)
     .table("groups")
     .rows() as unknown as GroupRow[];
-});
+  // Reason for the hook's time: the drawn place is built twice (its election calendar, then every resident as a full person) and played for the window, 1 to 5 minutes on a shared machine.
+}, 600_000);
 
 const mean = (xs: number[]) => xs.reduce((a, b) => a + b, 0) / xs.length;
 
