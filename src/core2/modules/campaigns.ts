@@ -109,6 +109,23 @@ export interface GiftRow {
   readonly lastDate: string;
 }
 
+/**
+ * A world candidate's ask for money that reached the controlled person: theirs
+ * to answer. The engine never moves the player's money on its own.
+ */
+export interface AskRow {
+  readonly id: string;
+  readonly campaignId: string;
+  readonly donorId: string;
+  readonly candidateId: string;
+  /** What the person would give by their own reasons and cash; they may give another sum. */
+  readonly suggestedMinor: number;
+  readonly askedOn: string;
+  readonly status: "pending" | "given" | "declined" | "lapsed";
+  readonly answeredOn?: string;
+  readonly givenMinor?: number;
+}
+
 export interface ImpressionRow {
   readonly id: string;
   readonly voterId: string;
@@ -241,6 +258,13 @@ export const CAMPAIGNS_MODULE: CoreModule = {
         indexes: {
           byCampaign: { fields: ["campaignId"] },
           byDonor: { fields: ["donorId"] },
+        },
+      },
+      /** Asks for money that reached the controlled person, until they answer. */
+      asks: {
+        indexes: {
+          byDonor: { fields: ["donorId"] },
+          byCampaign: { fields: ["campaignId"] },
         },
       },
       /** Contests the town votes in whose campaigns are under way. */
@@ -1176,31 +1200,57 @@ export function askForDonation(
   filingId: string,
   donorId: string,
 ): number {
+  const amount = donationWanted(api, filingId, donorId).amount;
+  if (amount <= 0) return 0;
+  return giveDonation(api, filingId, donorId, amount);
+}
+
+/**
+ * What a person would give a candidate by their own reasons and cash, and the
+ * most the law lets them give beyond what they've already given.
+ */
+function donationWanted(
+  api: CoreAPI,
+  filingId: string,
+  donorId: string,
+): { amount: number; room: number; spare: number } {
   const campaign = campaignFor(api, filingId);
   const donor = api.state.people.get(donorId);
-  if (!donor?.alive || ageOn(donor, api.state.date) < 18) return 0;
+  if (!donor?.alive || ageOn(donor, api.state.date) < 18)
+    return { amount: 0, room: 0, spare: 0 };
   const reason = donorReason(api, filingId, donorId);
   const spare =
     donor.liquidMinor -
     campaignParameter("caseCushionMonths") * 30 * donor.livingCostDailyMinor;
-  if (reason <= 0 || spare <= 0) return 0;
   const limit = contributionLimit(api, campaign.contestId);
-  const gift = giftOf(api, filingId, donorId);
-  const given = gift?.totalMinor ?? 0;
-  const wanted =
-    spare *
-    Math.min(1, reason) *
-    campaignParameter("donationShareOfCashPerWarmth");
-  // Whole dollars: what they'd give in all, less what they've given.
+  const given = giftOf(api, filingId, donorId)?.totalMinor ?? 0;
   // A candidate's own money has no limit (Buckley v. Valeo, 424 U.S. 1,
   // 1976; state limits on contributions likewise cover others' gifts).
   const room =
     limit.minor === null || donorId === campaign.candidateId
       ? Infinity
       : limit.minor - given;
+  if (reason <= 0 || spare <= 0) return { amount: 0, room, spare };
+  const wanted =
+    spare *
+    Math.min(1, reason) *
+    campaignParameter("donationShareOfCashPerWarmth");
+  // Whole dollars: what they'd give in all, less what they've given.
   const amount =
     Math.floor(Math.max(0, Math.min(wanted - given, room)) / 100) * 100;
-  if (amount <= 0) return 0;
+  return { amount, room, spare };
+}
+
+/** The money moves from the donor's account to the campaign's through the journal, and their running total is kept in one row. */
+function giveDonation(
+  api: CoreAPI,
+  filingId: string,
+  donorId: string,
+  amount: number,
+): number {
+  const campaign = campaignFor(api, filingId);
+  const limit = contributionLimit(api, campaign.contestId);
+  const given = giftOf(api, filingId, donorId)?.totalMinor ?? 0;
   postMoney(
     api,
     DONATION_KIND,
@@ -1223,6 +1273,97 @@ export function askForDonation(
     raisedMinor: campaignFor(api, filingId).raisedMinor + amount,
   });
   return amount;
+}
+
+/**
+ * A world candidate's ask reaches the controlled person as a request: one
+ * open at a time per campaign, none once they have refused this candidate.
+ * The suggested sum is what the engine would have taken by their reasons.
+ */
+function askPlayer(api: CoreAPI, filingId: string, personId: string): void {
+  const donor = api.state.people.get(personId);
+  if (!donor?.alive || ageOn(donor, api.state.date) < 18) return;
+  const mine = (
+    table(api, "asks").query("byDonor", [personId]) as unknown as AskRow[]
+  ).filter((row) => row.campaignId === filingId);
+  if (mine.some((row) => row.status === "pending" || row.status === "declined"))
+    return;
+  const wanted = donationWanted(api, filingId, personId);
+  if (wanted.spare <= 0 || wanted.room <= 0) return;
+  table(api, "asks").put({
+    id: `ask:${filingId}:${personId}:${api.state.date}`,
+    campaignId: filingId,
+    donorId: personId,
+    candidateId: campaignFor(api, filingId).candidateId,
+    suggestedMinor: wanted.amount,
+    askedOn: api.state.date,
+    status: "pending",
+  } satisfies AskRow as unknown as ModuleRow);
+}
+
+/** An ask is open while its candidate is still on the ballot and the election has not passed. */
+function askOpen(api: CoreAPI, row: AskRow): boolean {
+  const filing = filingOf(api, row.campaignId);
+  const contest = filing
+    ? (elections(api, "contests").get(filing.contestId) as unknown as
+        { electionDate: string } | undefined)
+    : undefined;
+  return (
+    row.status === "pending" &&
+    filing?.status === "on-ballot" &&
+    !!contest &&
+    contest.electionDate >= api.state.date
+  );
+}
+
+/** The requests for money waiting on a person's answer, newest first. */
+export function donationAsksFor(api: CoreAPI, personId: string): AskRow[] {
+  return (
+    table(api, "asks").query("byDonor", [personId]) as unknown as AskRow[]
+  )
+    .filter((row) => askOpen(api, row))
+    .sort((a, b) => b.askedOn.localeCompare(a.askedOn));
+}
+
+/**
+ * The person's answer to an ask: give a sum (the suggested one unless they
+ * size it), or decline. False when the ask is no longer open or the sum is
+ * not one they can give: whole dollars, within what they hold and within the
+ * law's limit.
+ */
+export function answerDonationAsk(
+  api: CoreAPI,
+  askId: string,
+  answer: "give" | "decline",
+  amountMinor?: number,
+): boolean {
+  const row = table(api, "asks").get(askId) as unknown as AskRow | undefined;
+  if (!row || !askOpen(api, row)) return false;
+  const settle = (patch: Partial<AskRow>) =>
+    table(api, "asks").put({
+      ...row,
+      ...patch,
+      answeredOn: api.state.date,
+    } as unknown as ModuleRow);
+  if (answer === "decline") {
+    settle({ status: "declined" });
+    return true;
+  }
+  const donor = api.state.people.get(row.donorId);
+  const amount = amountMinor ?? row.suggestedMinor;
+  const { room } = donationWanted(api, row.campaignId, row.donorId);
+  if (
+    !donor?.alive ||
+    !Number.isInteger(amount) ||
+    amount <= 0 ||
+    amount % 100 !== 0 ||
+    amount > donor.liquidMinor ||
+    amount > room
+  )
+    return false;
+  giveDonation(api, row.campaignId, row.donorId, amount);
+  settle({ status: "given", givenMinor: amount });
+  return true;
 }
 
 /**
@@ -2122,14 +2263,17 @@ export function campaignTurn(
   // The candidate backs their own campaign first, by the same reasons.
   if (candidate?.alive) askForDonation(api, filingId, candidate.id);
   // The controlled person's money moves only by their own choice (owner,
-  // Oct 14: the engine offers, the player decides), so a world campaign's
-  // asks skip them; an ask that reaches them is a request they answer.
+  // Oct 14: the engine offers, the player decides), so an ask that reaches
+  // them is a request they answer.
   const playerId = (api.state as CoreState).playerId;
-  const pool = reachablePeople(api, campaign).filter((id) => id !== playerId);
+  const pool = reachablePeople(api, campaign);
   const asks = Math.min(pool.length, campaignParameter("donorAsksPerTurn"));
   const from = pool.length ? (campaign.askCursor ?? 0) % pool.length : 0;
-  for (let i = 0; i < asks; i += 1)
-    askForDonation(api, filingId, pool[(from + i) % pool.length]!);
+  for (let i = 0; i < asks; i += 1) {
+    const id = pool[(from + i) % pool.length]!;
+    if (id === playerId) askPlayer(api, filingId, id);
+    else askForDonation(api, filingId, id);
+  }
   save(api, {
     ...campaignFor(api, filingId),
     askCursor: pool.length ? (from + asks) % pool.length : 0,
