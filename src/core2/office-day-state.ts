@@ -875,6 +875,7 @@ function stateOfTheState(
     const id = `speech:state-of-the-state:${entry.id}:${stance.question}`;
     deliverSpeech(api, {
       id,
+      occasion: "address",
       speakerId: office.personId,
       placeId: lawChain(api).townPlaceId,
       topic: stance.question,

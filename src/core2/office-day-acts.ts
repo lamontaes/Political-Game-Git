@@ -620,6 +620,7 @@ export function officeActHandlers(host: OfficeActHost) {
       const id = `state-of-the-city:${actorId}:${api.state.date}`;
       deliverSpeech(api, {
         id,
+        occasion: "address",
         speakerId: actorId,
         placeId: lawChain(api).townPlaceId,
         topic: topic.question,

@@ -2642,6 +2642,7 @@ export function attackOutlet(
       id,
       speakerId: input.speakerId,
       placeId: outlet.placeId,
+      occasion: "press",
       topic: outlet.organizationId,
       desiredChange: DISTRUST,
       audienceIds: input.audienceIds,

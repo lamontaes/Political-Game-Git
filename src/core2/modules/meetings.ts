@@ -301,6 +301,7 @@ function publicComment(api: CoreAPI, billId: string): void {
       if (api.state.people.get(r.personId)?.alive)
         deliverSpeech(api, {
           id: `speech:remark:${bill.id}:${r.personId}`,
+          occasion: "meeting",
           speakerId: r.personId,
           placeId: lawChain(api).townPlaceId,
           topic: stance.question,

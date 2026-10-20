@@ -32,8 +32,17 @@ const s = (api: CoreAPI, key: string) => {
   return row.value;
 };
 
+/** What a speech was given at. */
+export type SpeechOccasion =
+  "campaign" | "meeting" | "hearing" | "party-meeting" | "address" | "press";
+
+/** The fact on a heard speech that names the occasion it was given at. */
+export const SPEECH_OCCASION_KEY = "speech:occasion";
+
 export interface SpeechInput {
   id: string;
+  /** What the speech was given at; the story director and the journal read it. */
+  occasion?: SpeechOccasion;
   speakerId: PersonId;
   placeId: string;
   topic: string;
@@ -101,7 +110,10 @@ export function deliverSpeech(api: CoreAPI, speech: SpeechInput): Retelling[] {
   if (!speaker) throw new Error(`No such speaker: ${speech.speakerId}`);
   const impulse = s(api, "speechImpulse");
   // The views engine moves each listener by the speaker's standing with them.
-  const facts = { [VIEWS_SPEAKER_KEY]: speech.speakerId };
+  const facts: Record<string, string> = {
+    [VIEWS_SPEAKER_KEY]: speech.speakerId,
+    ...(speech.occasion ? { [SPEECH_OCCASION_KEY]: speech.occasion } : {}),
+  };
   const source = {
     tag: "SOURCED" as const,
     citation:
@@ -162,7 +174,12 @@ export function deliverSpeech(api: CoreAPI, speech: SpeechInput): Retelling[] {
         desiredChange: speech.desiredChange,
         moodImpulse: impulse,
         // Retold at home, it is the listener's case to their family.
-        facts: { [VIEWS_SPEAKER_KEY]: listenerId },
+        facts: {
+          [VIEWS_SPEAKER_KEY]: listenerId,
+          ...(speech.occasion
+            ? { [SPEECH_OCCASION_KEY]: speech.occasion }
+            : {}),
+        },
         source,
       });
     const row: Retelling = {

@@ -2,7 +2,11 @@ import { describe, expect, it } from "vitest";
 import { ageOnDate, makeIsoDate } from "./kernel/dates";
 import { buildDeepPast } from "./deep-past";
 import { createLifeCore } from "./life";
-import { deliverSpeech, speechModule } from "./modules/speech";
+import {
+  deliverSpeech,
+  SPEECH_OCCASION_KEY,
+  speechModule,
+} from "./modules/speech";
 import { stancesOf, viewOf, viewsModule } from "./modules/views";
 import { buildPopulation } from "./population";
 import { coreAPI } from "./state";
@@ -61,6 +65,36 @@ describe(`a speech in ${input.placeMetadata?.placeName} (seed ${seed})`, () => {
         true,
       );
     }
+  });
+
+  it("says what it was given at", () => {
+    const heard: Record<string, Record<string, string> | undefined> = {};
+    api.subscribeEvents(
+      "speech-occasion",
+      ["speech.heard", "speech.retold"],
+      (_api, event) => {
+        heard[event.id] = event.facts;
+      },
+    );
+    for (const [id, occasion] of [
+      ["occasion-hearing", "hearing"],
+      ["occasion-none", undefined],
+    ] as const)
+      deliverSpeech(api, {
+        id,
+        ...(occasion ? { occasion } : {}),
+        speakerId: speaker.id,
+        placeId: speaker.placeId,
+        topic: "fixture:library",
+        desiredChange: "build-library",
+        audienceIds: audience,
+      });
+    expect(heard["occasion-hearing"]?.[SPEECH_OCCASION_KEY]).toBe("hearing");
+    expect(heard["occasion-none"]).toBeDefined();
+    expect(heard["occasion-none"]?.[SPEECH_OCCASION_KEY]).toBeUndefined();
+    for (const [id, facts] of Object.entries(heard))
+      if (id.startsWith("occasion-hearing:retold:"))
+        expect(facts?.[SPEECH_OCCASION_KEY]).toBe("hearing");
   });
 
   it("is retold by some listeners, not all, and the retelling moves their household", () => {

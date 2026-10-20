@@ -3033,6 +3033,7 @@ function committeeStage(
       if (api.state.people.get(w.personId)?.alive && room.length)
         deliverSpeech(api, {
           id: `speech:hearing:${bill.id}:${chamber}:${w.personId}`,
+          occasion: "hearing",
           speakerId: w.personId,
           placeId: lawChain(api).townPlaceId,
           topic: question.question,

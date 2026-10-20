@@ -742,6 +742,7 @@ function partyMeeting(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
     if (topic && audienceIds.length && core.modules.has(SPEECH_MODULE_ID))
       deliverSpeech(api, {
         id: `speech:party-meeting:${party.id}:${date}`,
+        occasion: "party-meeting",
         speakerId: leaderId,
         placeId: town,
         topic: topic.question,
