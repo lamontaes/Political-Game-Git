@@ -5,12 +5,12 @@ area: gov
 kind: stopgap
 priority: 3
 status: claimed
-claimed-by: claude/pool-press-enroll
-pr:
+claimed-by: claude/political-game-pool-3xfqef
+pr: #5273
 blocked-on:
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/modules/press.ts, kind missing-mechanic"
-claimed-at: 2026-10-19T23:22:30.405Z
+claimed-at: 2026-10-20T06:40:09.880Z
 ---
 
 **What.** Replace or clear the 4 open missing-mechanic stopgap row(s) in src/core2/modules/press.ts: SG-PEOPLE-press-interview-conversation, SG-PEOPLE-press-favors-and-leaks, SG-PEOPLE-press-endorsements, SG-PEOPLE-press-employer-enrollment. Each fake is replaced by the mechanic, or the feature that needs it is deleted.
@@ -22,3 +22,6 @@ claimed-at: 2026-10-19T23:22:30.405Z
 **Files.** src/core2/modules/press.ts
 
 **Notes.** First row: An interview's answers carry the conversation's moves (plain, further, turn, brief) and the lie as record data, but the screen does not yet open the interview through the director's conversation, so the player cannot see
+
+SG-PEOPLE-press-employer-enrollment was resolved in PR #5273 via enrollBusinessOwner in modules/business.ts. 3 rows remain open (SG-PEOPLE-press-interview-conversation, SG-PEOPLE-press-favors-and-leaks, SG-PEOPLE-press-endorsements).
+
