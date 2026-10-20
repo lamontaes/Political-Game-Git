@@ -695,7 +695,7 @@ export function collapseToTwoLevels(
     citation:
       "Each household's assigned living cost (BLS CEX basket plus HUD Fair Market Rent) less what it buys from recorded local sellers.",
     estimatedFrom:
-      "Paid on the 1st to landlords, lenders and sellers outside the town; no local landlord or housing market is modeled yet.",
+      "Paid on the 1st to landlords, lenders and sellers outside the town.",
   };
   const countedOutside = new Map<
     PlaceId,

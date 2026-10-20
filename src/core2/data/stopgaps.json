@@ -1318,7 +1318,8 @@
     "addedAt": "2026-10-12",
     "replacement": "Outside demand from the national and regional economy engines (OPUS-WORLD): exports, government programs and visitors as their own dated buyers.",
     "status": "resolved",
-    "resolution": "Closed as a labeled estimate (stopgaps/people-core audit, Oct 14; redone Oct 19): the outside buyers' flow is each firm's researched industry share of receipts (src/core2/data/outside-market.json, with value, low and high), and the macro and regional engines already scale it every month (scaleOutsideSales, limitOutsideSales); nothing tops a firm up to its projection."
+    "resolvedAt": "2026-10-20",
+    "resolution": "Closed as a labeled estimate: the outside buyers' flow is each firm's researched industry share of receipts (src/core2/data/outside-market.json, with value, low and high), and the macro and regional engines already scale it every month (scaleOutsideSales, limitOutsideSales); nothing tops a firm up to its projection."
   },
   {
     "id": "SG-CORE-owner-distributions",
@@ -1343,7 +1344,8 @@
     "addedAt": "2026-10-12",
     "replacement": "Recorded jobs for every employed resident: town firms in the missing industries (health care, education, government) and commutes to employers in other places (LEHD LODES origin-destination flows), with their own pay.",
     "status": "resolved",
-    "resolution": "Closed as a labeled estimate (stopgaps/people-core audit, Oct 14; redone Oct 19): counted workers the opening could not place earn the place's ACS median earnings, a modeled population's out-of-town pay with its ESTIMATED source and spread on the flow, not a faked mechanic."
+    "resolvedAt": "2026-10-20",
+    "resolution": "Closed as a labeled estimate: counted workers the opening could not place earn the place's ACS median earnings, a modeled population's out-of-town pay with its ESTIMATED source and spread on the flow, not a faked mechanic."
   },
   {
     "id": "SG-CORE-voluntary-closure-final-pay",
@@ -1368,7 +1370,8 @@
     "addedAt": "2026-10-12",
     "replacement": "The outside-spending model (category location-quotient leakage) that pays the non-local basket to outside sellers by category. Rent and mortgages are already paid to recorded landlords and the bank by OPUS-WORLD's housing engine (checked Oct 16, Rush Valley, Utah, seed rent1); turn the rest off with collapseToTwoLevels(input, { outsideLivingCosts: false }) once the model exists.",
     "status": "resolved",
-    "resolution": "Closed as a labeled estimate (stopgaps/people-core audit, Oct 14; redone Oct 19): the counted wider population is a modeled population, so the part of its living cost not bought from a recorded local seller is a CEX and HUD estimate with its source on the flow, and rent and mortgages are already paid to recorded landlords and the bank by the housing engine."
+    "resolvedAt": "2026-10-20",
+    "resolution": "Closed as a labeled estimate: the counted wider population is a modeled population, so the part of its living cost not bought from a recorded local seller is a CEX and HUD estimate with its source on the flow, and rent and mortgages are already paid to recorded landlords and the bank by the housing engine."
   },
   {
     "id": "SG-CORE-identity-fill-in-traits",
