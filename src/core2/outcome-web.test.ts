@@ -375,9 +375,13 @@ describe(`the outcomes the web now produces move with their laws, in a generated
       });
     }
     const lagged = Math.max(
-      ...ADDED_LAW_LINKS.map((key) => link(key).lagMonths),
+      ...ADDED_LAW_LINKS.map(
+        (key) => link(key).lagMonths + (link(key).phaseInMonths ?? 0),
+      ),
     );
-    const reads = `${String(Number(Y) + 1)}-${String(2 + lagged - 12 + 2).padStart(2, "0")}`;
+    // Law enacted in February of Y; read two months after lag and phase-in end.
+    const monthIndex = 1 + lagged + 2;
+    const reads = `${String(Number(Y) + Math.floor(monthIndex / 12))}-${String((monthIndex % 12) + 1).padStart(2, "0")}`;
     advanceCore(core, `${reads}-05`);
     const row = monthOf(api, town, reads);
     for (const key of ADDED_LAW_LINKS) {
