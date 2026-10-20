@@ -83,7 +83,7 @@ describe("a settlement under the right to counsel is a notice", () => {
               `event:housing.settlement-notice:${row.id}:`,
             ),
           ),
-          `${where}: ${row.id}`,
+          `${where}: ${row.id} ${JSON.stringify(held[0])} settledAt ${row.settledAt}`,
         ).toBe(true);
       }
       return;
