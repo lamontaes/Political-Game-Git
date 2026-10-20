@@ -5,9 +5,9 @@ area: gov
 kind: bug
 priority: 1
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/staff-worked-today
-pr:
+pr: #5361
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-20T00:54:48.818Z
