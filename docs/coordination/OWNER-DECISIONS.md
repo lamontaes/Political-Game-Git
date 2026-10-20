@@ -4,7 +4,7 @@ The CTO's only writer. When two rulings conflict, the most recent wins unless th
 
 ## Open
 
-(none; every question asked is ruled below)
+- **Should a family's beliefs, the schools nearby and a child's needs decide which families send a child to private school?** (asked Oct 20 by claude, pool item `people-school-choice-views-and-nearby`; stopgap `SG-CORE-private-tuition-average`.) Today private enrollment follows cash per child and the town's private share only. The registers hold no ruling on school choice (searched DECISION-REGISTER.md and this file for school, tuition, private, religion and belief). The nearest rulings: faith "has a place; for some people it shapes votes and relationships, for some it is a view, for some it is surface; the weight is per person from their record" (Faith, below), and schools and colleges stay in the data by name. The simplest version that follows the standing rules, built only if ruled yes: a family's enrollment reads three records, each a sliding term and never a roll: (1) the parents' recorded views on education spending and religion (the views engine), (2) the distance in the place data to the nearest private school and to the public school, (3) the child's recorded needs. Which of the three, if any, should the game read? Default if not answered: none; cash per child alone, as built.
 
 ## Oct 20: rulings (owner, spoken; recorded by the CTO)
 

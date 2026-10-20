@@ -23,3 +23,5 @@ claimed-at: 2026-10-20T03:51:53.501Z
 **Files.** docs/coordination/OWNER-DECISIONS.md, src/core2/opening-private-tuition.ts
 
 **Notes.** Part 3 of 3 split from core-stopgap-opening-private-tuition-aggregate-spending (Oct 20).
+
+Asked Oct 20 (claude): the question is under Open in docs/coordination/OWNER-DECISIONS.md with the registers searched and the default (cash per child alone, as built). No new owner-decision stopgap row was added, because that kind blocks the release build and the existing SG-CORE-private-tuition-average row already records the gap; the CTO can promote it. The test in private-tuition-reenroll.test.ts waits on a ruling and on core-private-tuition-yearly-reenrollment.
