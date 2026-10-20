@@ -91,7 +91,9 @@
       "anchor": "Property offense; sized below burglary until researched on its own",
       "source": "Raphael and Winter-Ebmer 2001 (property crime); vandalism not measured separately",
       "from": "labor.unemployment-pct",
-      "evidence": "provisional"
+      "evidence": "provisional",
+      "range": [0.015, 0.025],
+      "rangeSource": "Raphael and Winter-Ebmer 2001, Journal of Law and Economics 44(1), tables of state-panel elasticities: the table could not be retrieved in full text (only the abstract and replication summaries were reachable), so no interval was read. Repo default of 25% of the size applied; unverified against the table."
     },
     {
       "key": "unemployment-to-robbery",
@@ -110,7 +112,9 @@
       "anchor": "Violent offenses respond much less than property offenses",
       "source": "Raphael and Winter-Ebmer 2001",
       "from": "labor.unemployment-pct",
-      "evidence": "provisional"
+      "evidence": "provisional",
+      "range": [0.015, 0.025],
+      "rangeSource": "Raphael and Winter-Ebmer 2001, Journal of Law and Economics 44(1), tables of state-panel elasticities: the table could not be retrieved in full text (only the abstract and replication summaries were reachable), so no interval was read. Repo default of 25% of the size applied; unverified against the table."
     },
     {
       "key": "unemployment-to-assault",
@@ -129,7 +133,9 @@
       "anchor": "Violent crime responds weakly to unemployment",
       "source": "Raphael and Winter-Ebmer 2001",
       "from": "labor.unemployment-pct",
-      "evidence": "provisional"
+      "evidence": "provisional",
+      "range": [0.0075, 0.0125],
+      "rangeSource": "Raphael and Winter-Ebmer 2001, Journal of Law and Economics 44(1), tables of state-panel elasticities: the table could not be retrieved in full text (only the abstract and replication summaries were reachable), so no interval was read. Repo default of 25% of the size applied; unverified against the table."
     },
     {
       "key": "police-to-violent-crime",
@@ -1701,7 +1707,9 @@
       "source": "Diamond, McQuade and Qian 2019 (AER)",
       "from": "law:us-policy-positions:housing-land-use.rent-stabilization",
       "evidence": "researched",
-      "notes": " The engine reads this link's factor in its apartment starts (src/core2/housing-construction.ts buildMonth)."
+      "notes": " The engine reads this link's factor in its apartment starts (src/core2/housing-construction.ts buildMonth).",
+      "range": [-0.292, 0.002],
+      "rangeSource": "Diamond, McQuade and Qian, NBER w24181, Figure 5(b) \"Renters/Average Population 1990-1994\": \"β = -0.145 (0.075)\", the post-2006 treatment effect and its standard error; 95% interval -0.145 +/- 1.96 x 0.075 = [-0.292, 0.002]. The text rounds this to \"reduced rental housing supply by 15%\"."
     },
     {
       "key": "rent-control-to-tenant-stays",
@@ -1745,7 +1753,8 @@
         }
       ],
       "notes": "Diamond, McQuade and Qian report the effect as a 20% reduction in renter mobility (NBER WP 24181: 'the beneficiaries of rent control are between 10 and 20% more likely to remain at their 1994 address'); the center (-0.20) is kept and the range is 10 to 20. The effect is a level shift in the share who stay, not a build-up, so no phase-in. Renters only: the renter-moves rate is read by moves.ts and counted-moves.ts for tenants. Evictions of covered tenants are the eviction engine's.",
-      "range": [-0.2, -0.1]
+      "range": [-0.2, -0.1],
+      "rangeSource": "Diamond, McQuade and Qian, NBER w24181, Table 2 column 3 \"Same Address\", 2000-2004: treatment effect 0.0354 (se 0.0088) on control mean 0.1827 (19.4% , \"nearly 20%\"); 95% interval 0.0354 +/- 1.96 x 0.0088 = [0.018, 0.053], i.e. [10.0%, 28.8%] of the control mean. Expressed in the link's own sign (renter moves fall as staying rises)."
     },
     {
       "key": "rent-burden-to-homelessness",
@@ -2272,7 +2281,9 @@
       "source": "East, Luck, Mansour and Velasquez 2023 (JOLE)",
       "from": "law:us-policy-positions:justice-public-safety.partner-with-federal-immigration-enforcement",
       "evidence": "researched",
-      "notes": "Unsupported until a producer computes undocumented employment: the cause is now the law on local 287(g) partnerships, a question the game asks, but undocumented employment is not a kept place outcome."
+      "notes": "Unsupported until a producer computes undocumented employment: the cause is now the law on local 287(g) partnerships, a question the game asks, but undocumented employment is not a kept place outcome.",
+      "range": [-0.0713, -0.0428],
+      "rangeSource": "The source gives only a point estimate, so the repo default of 25% of the size is applied. East et al. 2023 (JOLE) tables were not retrievable (the reachable 2020 and 2018 drafts report different outcome definitions)."
     },
     {
       "key": "enforcement-to-us-born-employment",
@@ -2292,7 +2303,9 @@
       "source": "East et al. 2023 (JOLE)",
       "from": "law:us-policy-positions:justice-public-safety.partner-with-federal-immigration-enforcement",
       "evidence": "researched",
-      "notes": "Unsupported until a producer computes U.S.-born employment: the cause is now the law on local 287(g) partnerships, a question the game asks, but U.S.-born employment is not a kept place outcome."
+      "notes": "Unsupported until a producer computes U.S.-born employment: the cause is now the law on local 287(g) partnerships, a question the game asks, but U.S.-born employment is not a kept place outcome.",
+      "range": [-0.0063, -0.0037],
+      "rangeSource": "The source gives only a point estimate, so the repo default of 25% of the size is applied. East et al. 2023 (JOLE) tables were not retrievable (the reachable 2020 and 2018 drafts report different outcome definitions)."
     },
     {
       "key": "child-tax-credit-to-births",
@@ -2411,7 +2424,9 @@
       "anchor": "About +6% infant mortality 2021-2023",
       "source": "Gemmill et al. 2025 (JAMA)",
       "from": "law:us-policy-positions:civil-family-community.restrict-abortion",
-      "evidence": "researched"
+      "evidence": "researched",
+      "range": [0.045, 0.075],
+      "rangeSource": "The source gives only a point estimate, so the repo default of 25% of the size is applied. Gemmill et al. 2025 (JAMA, doi 10.1001/jama.2024.28517): coverage reports a relative rise of 5.6%, and the full-text interval could not be retrieved."
     },
     {
       "key": "abortion-denied-to-financial-distress",
@@ -2474,7 +2489,9 @@
       "who": "Parents of eligible enrolled young children whose care constraint changes; the cited maternal estimate is not all women or every household.",
       "lagWhy": "The existing12-month lag represents enrollment and labor response. Verify the D.C./Quebec study time window and whether the effect is percentage points or a relative participation change.",
       "aboutZero": false,
-      "notes": "Moderators: searched for splits by mother's education or income, age and sex (Malik 2018 gives only the pooled +10 points; Rossin-Slater, Ruhm and Waldfogel 2013 give leave-taking but not employment by group; Cengiz et al. 2019 and CBO report pooled low-wage job effects), none found that the subjects can carry, so the link is left unvaried."
+      "notes": "Moderators: searched for splits by mother's education or income, age and sex (Malik 2018 gives only the pooled +10 points; Rossin-Slater, Ruhm and Waldfogel 2013 give leave-taking but not employment by group; Cengiz et al. 2019 and CBO report pooled low-wage job effects), none found that the subjects can carry, so the link is left unvaried.",
+      "range": [0.1125, 0.1875],
+      "rangeSource": "The source gives only a point estimate, so the repo default of 25% of the size is applied. Malik 2018 gives about 10 points on a base near 65% (D.C. mothers 65% in 2008, 76.4% in 2016); Baker, Gruber and Milligan report no interval retrieved here."
     },
     {
       "key": "voter-id-to-turnout",
@@ -2494,7 +2511,9 @@
       "source": "Cantoni and Pons 2021 (QJE)",
       "from": "law:us-policy-positions:government-operations.require-photo-id-to-vote",
       "evidence": "about-zero",
-      "notes": "The election laws act on a voter's turnout through the law reach (electionLawTurnoutCost, felonyDisenfranchisedShare, barredFromVoting), so the voting engine leaves this link out of the web factor it applies (turnout-web.ts) and the law moves turnout once; the link stays in the web's ledger as the researched size the law reach is checked against. Cantoni and Pons find no significant effect for any group, so it is unvaried."
+      "notes": "The election laws act on a voter's turnout through the law reach (electionLawTurnoutCost, felonyDisenfranchisedShare, barredFromVoting), so the voting engine leaves this link out of the web factor it applies (turnout-web.ts) and the law moves turnout once; the link stays in the web's ledger as the researched size the law reach is checked against. Cantoni and Pons find no significant effect for any group, so it is unvaried.",
+      "range": [-0.066, 0.062],
+      "rangeSource": "Cantoni and Pons 2021 (QJE; NBER w25522), Table I Panel B column 4 (most demanding specification): \"1(Strict ID Law) -.001 (.014)\", outcome mean .428; 95% interval -0.001 +/- 1.96 x 0.014 = [-0.028, 0.026] points, divided by the mean .428 = [-0.066, 0.062] proportional. The abstract states the interval as \"[-3.0; 2.8pp]\"."
     },
     {
       "key": "same-day-registration-to-youth-turnout",
@@ -2788,7 +2807,7 @@
         "evidenceLimit": "Inherited repository source/anchor read; primary study verification and any new conversion remain Team9 research work."
       },
       "aboutZero": false,
-      "notes": "Not hooked by design: crisis/health-coverage.ts already applies this row's 9.4% to the death hazard of each covered low-income person aged 55 to 64, so a place death rate that also applied it would count the law twice, and would wrongly cut every 55- to 64-year-old's deaths by a low-income group's share. A state base now exists (CDC 2022 deaths at 55 to 64, data.cdc.gov 9bhg-hcku, over ACS B01001 population); a producer of health.mortality-55-64 should count the recorded deaths instead. The size is now the place-wide average: 9.4% (7.0% in year 0 to 11.9% in year 3, range 7.0 to 11.9) among the low-income sample times its one-fifth share; the lowest income fifth takes the full cut. The effect is already 7.0% in year 0, so a ramp from zero would misstate it and no phase-in is set.",
+      "notes": "Not hooked by design: crisis/health-coverage.ts already applies this row's 9.4% to the death hazard of each covered low-income person aged 55 to 64, so a place death rate that also applied it would count the law twice, and would wrongly cut every 55- to 64-year-old's deaths by a low-income group's share. A state base now exists (CDC 2022 deaths at 55 to 64, data.cdc.gov 9bhg-hcku, over ACS B01001 population); a producer of health.mortality-55-64 should count the recorded deaths instead. No phase-in: the paper reports a 7.0 percent reduction already in year 0, so a ramp from zero would understate the first years. The size is now the place-wide average: 9.4% (7.0% in year 0 to 11.9% in year 3, range 7.0 to 11.9) among the low-income sample times its one-fifth share; the lowest income fifth takes the full cut. The effect is already 7.0% in year 0, so a ramp from zero would misstate it and no phase-in is set.",
       "range": [-0.0238, -0.014],
       "varies": [
         {
@@ -2825,7 +2844,8 @@
           "quote": "\"We include only individuals who either are in families with income at or under 138 percent of the FPL or who have less than a high school degree.\" \"Using this model, we estimate an average reduction in annual mortality of 0.132 percentage points. This represents a reduction in mortality of about 9.4 percent relative to the sample mean\". For ages 55 to 64 in families at 400% of the poverty level or more: \"small but, for some years, statistically significant reductions in mortality\".",
           "estimatedFrom": "The 9.4% is the cut among the low-income sample, so the whole 55-to-64 population's cut is smaller. The lowest national income fifth (households under about 138% of the poverty level) stands for the sample and takes the full effect; the higher fifths take none (the paper finds only small changes at 400% of the poverty level and above). The link's size is the sample's 9.4% times the sample's one-fifth share, so the average over all 55- to 64-year-olds is a fifth of it and the lowest fifth gets the full 9.4%."
         }
-      ]
+      ],
+      "rangeSource": "Miller, Johnson and Wherry 2021 (QJE; NBER w26081), Table I: Expansion x Post \"-0.00132 (0.00050)\" on annual mortality (9.4% of the sample mean, \"0.132 percentage point decline\"); 95% interval = -9.4% +/- 1.96 x (0.00050/0.00132 x 9.4%) = [-16.4%, -2.4%]."
     },
     {
       "key": "medicaid-expansion-to-medical-debt",
@@ -3142,7 +3162,9 @@
       "evidence": "researched",
       "from": "law:us-policy-positions:justice-public-safety.restore-voting-after-sentence",
       "to": "voting.turnout-pct",
-      "notes": "The election laws act on a voter's turnout through the law reach (electionLawTurnoutCost, felonyDisenfranchisedShare, barredFromVoting), so the voting engine leaves this link out of the web factor it applies (turnout-web.ts) and the law moves turnout once; the link stays in the web's ledger as the researched size the law reach is checked against. The research gives no split by age or income beyond the size, so the link is unvaried."
+      "notes": "The election laws act on a voter's turnout through the law reach (electionLawTurnoutCost, felonyDisenfranchisedShare, barredFromVoting), so the voting engine leaves this link out of the web factor it applies (turnout-web.ts) and the law moves turnout once; the link stays in the web's ledger as the researched size the law reach is checked against. The research gives no split by age or income beyond the size, so the link is unvaried.",
+      "range": [0, 0],
+      "rangeSource": "The size is computed per place from the law and turnout data in this row's anchor (turnout of restored people 0.14, range 0.12 to 0.22); the national link size is 0 and the place sizes carry the spread. Range [0, 0] records the national zero."
     },
     {
       "key": "housing-by-right-to-new-buildings",
@@ -3162,7 +3184,9 @@
       "evidence": "researched",
       "from": "law:us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones",
       "to": "housing.new-large-buildings",
-      "notes": " The engine reads this link's factor in its apartment starts (src/core2/housing-construction.ts buildMonth) and no longer scales starts by the share of land zoned for apartments, which was the same law counted a second time."
+      "notes": " The engine reads this link's factor in its apartment starts (src/core2/housing-construction.ts buildMonth) and no longer scales starts by the share of land zoned for apartments, which was the same law counted a second time.",
+      "range": [0.75, 1.25],
+      "rangeSource": "The source gives only a point estimate, so the repo default of 25% of the size is applied. The size 1.0 is a recorded midpoint calibration from Pew (Jan 4, 2024), Terner Center (2022) and Anagol, Ferreira and Rexer (NBER w29440), not one estimate with an interval."
     },
     {
       "key": "right-to-counsel-to-evictions",
@@ -3182,7 +3206,9 @@
       "evidence": "researched",
       "from": "law:us-policy-positions:housing-land-use.right-to-counsel-in-eviction",
       "to": "housing.eviction",
-      "notes": "Not hooked by design: living-world/town-rent.ts already decides each eviction case with the tenant's lawyer present, so a place eviction rate that also applied this link would count the law twice; a producer of housing.eviction should count those recorded cases instead. The engine already produces this effect from its own records (a case with a paid lawyer settles on a payment plan instead of a judgment, src/core2/modules/housing.ts housing-hearing), so the housing engine does not multiply its notice or judgment rates by this link again. Nothing reads the web's kept housing.eviction number; it stays because the law test in src/core2/outcome-web.test.ts checks this link's effect on it, and the engine's own judgments are the separate housing.eviction-orders measure."
+      "notes": "Not hooked by design: living-world/town-rent.ts already decides each eviction case with the tenant's lawyer present, so a place eviction rate that also applied this link would count the law twice; a producer of housing.eviction should count those recorded cases instead. The engine already produces this effect from its own records (a case with a paid lawyer settles on a payment plan instead of a judgment, src/core2/modules/housing.ts housing-hearing), so the housing engine does not multiply its notice or judgment rates by this link again. Nothing reads the web's kept housing.eviction number; it stays because the law test in src/core2/outcome-web.test.ts checks this link's effect on it, and the engine's own judgments are the separate housing.eviction-orders measure.",
+      "range": [-0.778, -0.448],
+      "rangeSource": "Cassidy and Currie 2022, NBER w29836, conclusion: \"the probability of ultimately being evicted (between 44.8 and 77.8 percent)\", the paper's own bounds for the reduction (not a statistical interval); the size -0.62 is the repo's middle."
     },
     {
       "key": "housing-first-to-homelessness",
@@ -4334,7 +4360,9 @@
       "owner": "F-cloud",
       "evidence": "about-zero",
       "anchor": "Teacher duty-to-bargain laws had only a modest effect on schooling, consistent with earlier null results on graduation; their measured effect is lower adult earnings for men (3.9%), a measure the game does not keep",
-      "source": "Lovenheim and Willen 2019, AEJ: Economic Policy 11(3)"
+      "source": "Lovenheim and Willen 2019, AEJ: Economic Policy 11(3)",
+      "range": [0, 0],
+      "rangeSource": "Lovenheim and Willen 2019 (AEJ: Economic Policy 11(3); NBER w24782): \"The lack of strong educational attainment effects is somewhat surprising\"; the degree-attainment table interval was not converted here. Range [0, 0] records the null."
     },
     {
       "key": "juvenile-court-age-to-crime",
@@ -4353,7 +4381,9 @@
       "owner": "F-cloud",
       "evidence": "about-zero",
       "anchor": "Connecticut raised the age of juvenile jurisdiction: no loss of deterrence and no rise in crime among the teens it covered",
-      "source": "Loeffler and Chalfin 2017, Criminology and Public Policy 16(1)"
+      "source": "Loeffler and Chalfin 2017, Criminology and Public Policy 16(1)",
+      "range": [0, 0],
+      "rangeSource": "Loeffler and Chalfin 2017 (Criminology and Public Policy 16(1)): no rise in crime among covered teens; the paper was not retrievable, so no interval was read. Range [0, 0] records the null."
     },
     {
       "key": "crisis-response-to-crime",
@@ -4406,7 +4436,9 @@
       "owner": "F-cloud",
       "evidence": "about-zero",
       "anchor": "College- and career-ready standards brought no gain in the first seven years; estimates were mostly negative and not significant",
-      "source": "Song, Garet and Yang 2022 (IES C-SAIL, ERIC ED620442)"
+      "source": "Song, Garet and Yang 2022 (IES C-SAIL, ERIC ED620442)",
+      "range": [0, 0],
+      "rangeSource": "Song, Garet and Yang 2022 (C-SAIL, ERIC ED620442): estimates \"mostly negative and not significant\"; the paper was not retrievable here, so no interval was read. Range [0, 0] records the null."
     },
     {
       "key": "teacher-minimum-salary-to-graduation",
@@ -4489,7 +4521,9 @@
       "anchor": "The official poverty rate counts cash income before taxes, so a sales tax cannot move it; the real effect is on food insecurity (removing the tax cuts it 3.2% for households under $30,000), a measure the game does not keep",
       "source": "Zheng, Zhao, Buck, Burney, Kaiser and Wilson 2021, Food Policy 101",
       "notes": "Not moved: the official poverty measure counts cash income before taxes, so a sales-tax change cannot move it. The engine measure counts exactly that, so the web correctly does nothing here.",
-      "carriedBy": "src/core2/world-poverty.ts: the measure counts income before taxes"
+      "carriedBy": "src/core2/world-poverty.ts: the measure counts income before taxes",
+      "range": [0, 0],
+      "rangeSource": "Zheng et al. 2021 (Food Policy 101); the official poverty rate counts cash income before taxes, so a sales tax exemption has no path to it by definition. The effect on food insecurity is not a game measure. Range [0, 0] is the definitional zero, not a sampled interval."
     },
     {
       "key": "civilian-oversight-to-crime",
@@ -4542,7 +4576,9 @@
         "months": 0,
         "evidenceLimit": "Inherited repository source/anchor read; primary study verification and any new conversion remain Team9 research work."
       },
-      "aboutZero": true
+      "aboutZero": true,
+      "range": [0, 0],
+      "rangeSource": "Doleac and Mukherjee 2022 and Alexeev 2026: the opioid-theft effect is too small a slice of all crime to move the aggregate; the real effect is on overdose deaths, not a game measure. Range [0, 0] records the size and no interval was retrieved."
     },
     {
       "key": "licensing-reform-to-poverty",
@@ -4605,7 +4641,9 @@
       "evidence": "about-zero",
       "anchor": "California's term limits brought no rise, and perhaps a fall, in legislative-race turnout; nothing shows a statewide change",
       "source": "Nalder 2007, State Politics and Policy Quarterly 7(2)",
-      "notes": "The election laws act on a voter's turnout through the law reach (electionLawTurnoutCost, felonyDisenfranchisedShare, barredFromVoting), so the voting engine leaves this link out of the web factor it applies (turnout-web.ts) and the law moves turnout once; the link stays in the web's ledger as the researched size the law reach is checked against. The effect is about zero, so it is unvaried."
+      "notes": "The election laws act on a voter's turnout through the law reach (electionLawTurnoutCost, felonyDisenfranchisedShare, barredFromVoting), so the voting engine leaves this link out of the web factor it applies (turnout-web.ts) and the law moves turnout once; the link stays in the web's ledger as the researched size the law reach is checked against. The effect is about zero, so it is unvaried.",
+      "range": [0, 0],
+      "rangeSource": "Nalder 2007 (State Politics and Policy Quarterly 7(2)): no rise in legislative-race turnout; the paper was not retrievable here, so no interval was read. Range [0, 0] records the null."
     },
     {
       "key": "library-funding-to-math",
@@ -4624,7 +4662,9 @@
       "owner": "F-cloud",
       "evidence": "about-zero",
       "anchor": "Library investment raised children's reading scores 0.01 to 0.04 standard deviations, not math; reading is not a measure the game keeps",
-      "source": "Gilpin, Karger and Nencka 2024, AEJ: Economic Policy"
+      "source": "Gilpin, Karger and Nencka 2024, AEJ: Economic Policy",
+      "range": [0, 0],
+      "rangeSource": "Gilpin, Karger and Nencka 2024 (AEJ: Economic Policy): reading scores rose 0.01 to 0.04 standard deviations; the paper reports no math effect, so math carries a structural zero. Range [0, 0] is the structural zero; the paper's math interval was not retrieved."
     },
     {
       "key": "income-tax-to-poverty",
@@ -4645,7 +4685,9 @@
       "anchor": "The official poverty rate counts cash income before taxes, so an income tax cannot move it; high earners leaving is small",
       "source": "Census official poverty definition; Young, Varner, Lurie and Prisinzano 2016, American Sociological Review",
       "notes": "Carried by definition: the poverty measure counts income before taxes, so an income tax does not move it; the engine measure agrees. The web does not move poverty.",
-      "carriedBy": "src/core2/world-poverty.ts: the measure counts income before taxes"
+      "carriedBy": "src/core2/world-poverty.ts: the measure counts income before taxes",
+      "range": [0, 0],
+      "rangeSource": "Census official poverty definition (money income before taxes): an income tax has no path to the official poverty rate by definition. Range [0, 0] is the definitional zero, not a sampled interval."
     },
     {
       "key": "graduated-income-tax-to-poverty",
@@ -4666,7 +4708,9 @@
       "anchor": "The official poverty rate counts cash income before taxes, so the tax's shape cannot move it",
       "source": "Census official poverty definition",
       "notes": "Carried by definition: the poverty measure counts income before taxes; the engine measure agrees.",
-      "carriedBy": "src/core2/world-poverty.ts: the measure counts income before taxes"
+      "carriedBy": "src/core2/world-poverty.ts: the measure counts income before taxes",
+      "range": [0, 0],
+      "rangeSource": "Census official poverty definition (money income before taxes): the tax's shape has no path to the official poverty rate by definition. Range [0, 0] is the definitional zero, not a sampled interval."
     },
     {
       "key": "facial-recognition-limit-to-crime",
@@ -4721,7 +4765,9 @@
       "anchor": "State employment protections raised gay men's wages 2.7% and lowered lesbian women's employment, too small a group to move a state's poverty rate. Enforcing one costs about nothing: the fiscal notes for Utah SB 296 (2015) and West Virginia HB 2266 (2023) each show $0, and the West Virginia commission expected no rise in complaints",
       "source": "Burn 2018, Journal of Labor Research; Utah Legislative Fiscal Analyst, S.B. 296 fiscal note (3/9/2015); West Virginia Human Rights Commission, HB 2266 fiscal note (1/18/2023)",
       "notes": "Not moved: the research finds a wage effect too small to move a state's poverty rate (about zero), and no engine ties pay to a protected-class law. The engine measure shows whatever incomes do.",
-      "carriedBy": "src/core2/world-poverty.ts: about zero in the research; whatever incomes do shows in the measure"
+      "carriedBy": "src/core2/world-poverty.ts: about zero in the research; whatever incomes do shows in the measure",
+      "range": [0, 0],
+      "rangeSource": "Burn 2018 (Journal of Labor Research) and the Utah SB 296 and West Virginia HB 2266 fiscal notes ($0): the affected group is too small to move a state poverty rate. No interval was retrieved; range [0, 0] records the null."
     },
     {
       "key": "incentive-cap-to-poverty",
@@ -4742,7 +4788,9 @@
       "anchor": "Incentive deals add about 1,500 jobs in the target industry and no broader growth, so capping them changes no broad outcome",
       "source": "Slattery and Zidar 2020, Journal of Economic Perspectives 34(2)",
       "notes": "Not moved: the research finds no broad growth effect; if an incentive changes where a firm hires, the jobs engine's pay reaches the measure.",
-      "carriedBy": "src/core2/world-poverty.ts: about zero in the research; hiring changes reach it through pay"
+      "carriedBy": "src/core2/world-poverty.ts: about zero in the research; hiring changes reach it through pay",
+      "range": [0, 0],
+      "rangeSource": "Slattery and Zidar 2020 (JEP 34(2)): incentive deals add about 1,500 jobs in the target industry and no broader growth. No interval was retrieved; range [0, 0] records the null."
     },
     {
       "key": "by-right-permitting-to-homelessness",
@@ -4806,7 +4854,9 @@
       "owner": "F-cloud",
       "evidence": "about-zero",
       "anchor": "Inclusionary rules raised prices and slowed building in Boston's suburbs and had no significant effect around San Francisco; the few below-market homes and the slower building roughly cancel",
-      "source": "Schuetz, Meltzer and Been 2011, Urban Studies"
+      "source": "Schuetz, Meltzer and Been 2011, Urban Studies",
+      "range": [0, 0],
+      "rangeSource": "Schuetz, Meltzer and Been 2011 (Urban Studies): effects around San Francisco are \"no significant effect\" and the price and building effects roughly cancel. No interval was retrieved; range [0, 0] records the null."
     },
     {
       "strength": "moderate",
@@ -4845,7 +4895,9 @@
       "evidence": "about-zero",
       "anchor": "New Jersey nearly ended money bail in 2017 with about a 2-point rise in pretrial rearrest and no measurable rise in violent crime",
       "source": "Anderson, Redcross, Valentine and Miratrix 2019, MDRC",
-      "from": "law:us-policy-positions:justice-public-safety.end-cash-bail"
+      "from": "law:us-policy-positions:justice-public-safety.end-cash-bail",
+      "range": [0, 0],
+      "rangeSource": "Anderson et al. 2019 (MDRC): no measurable rise in violent crime; the report PDF was not retrievable here, so no interval was read. Range [0, 0] records the null."
     },
     {
       "strength": "about-zero",
@@ -4864,7 +4916,9 @@
       "evidence": "about-zero",
       "anchor": "Legal retail cannabis in Colorado and Washington showed no lasting effect on violent crime against comparison states",
       "source": "Dragone, Prarolo, Vanin and Zanella 2019, Journal of Economic Behavior and Organization 159",
-      "from": "law:us-policy-positions:business-commerce.legalize-cannabis-sales"
+      "from": "law:us-policy-positions:business-commerce.legalize-cannabis-sales",
+      "range": [0, 0],
+      "rangeSource": "Dragone et al. 2019 (JEBO 159; IZA DP 10522) Table 3 gives per-100,000 county rates: murder 0.23 (0.45), assault -1.30 (8.79), robbery -1.26 (1.92), rape -4.21 (1.26); the rate bases needed to convert these to proportions were not read. Range [0, 0] records the null for murder, assault and robbery."
     },
     {
       "strength": "about-zero",
@@ -4883,7 +4937,9 @@
       "evidence": "about-zero",
       "anchor": "At today's incarceration levels, longer or mandatory sentences have little effect on crime",
       "source": "Roodman 2017, The Impacts of Incarceration on Crime (Open Philanthropy)",
-      "from": "law:us-policy-positions:justice-public-safety.mandatory-minimum-sentences"
+      "from": "law:us-policy-positions:justice-public-safety.mandatory-minimum-sentences",
+      "range": [0, 0],
+      "rangeSource": "Roodman 2017 (Open Philanthropy): little effect at today's incarceration levels; the report was not retrievable here, so no interval was read. Range [0, 0] records the null."
     },
     {
       "strength": "weak",
@@ -5044,7 +5100,9 @@
       "anchor": "The official poverty measure uses money income before taxes, and the top rate reaches no one near the line",
       "source": "U.S. Census Bureau, How the Census Bureau measures poverty",
       "notes": "Carried by definition: the poverty measure counts income before taxes; the engine measure agrees.",
-      "carriedBy": "src/core2/world-poverty.ts: the measure counts income before taxes"
+      "carriedBy": "src/core2/world-poverty.ts: the measure counts income before taxes",
+      "range": [0, 0],
+      "rangeSource": "Census Bureau, \"How the Census Bureau measures poverty\": the official measure uses money income before taxes. Range [0, 0] is the definitional zero, not a sampled interval."
     },
     {
       "key": "student-loan-forgiveness-to-poverty",
@@ -5065,7 +5123,9 @@
       "anchor": "Debt relief is not money income, which is what the official poverty measure counts",
       "source": "U.S. Census Bureau, How the Census Bureau measures poverty",
       "notes": "Carried by definition: debt relief is not money income; the engine measure agrees.",
-      "carriedBy": "src/core2/world-poverty.ts: debt relief is not money income"
+      "carriedBy": "src/core2/world-poverty.ts: debt relief is not money income",
+      "range": [0, 0],
+      "rangeSource": "Census Bureau, \"How the Census Bureau measures poverty\": debt relief is not money income. Range [0, 0] is the definitional zero, not a sampled interval."
     },
     {
       "key": "grocery-exemption-to-food-insecurity",
@@ -5262,7 +5322,9 @@
       "owner": "F-cloud",
       "evidence": "about-zero",
       "anchor": "Price changes at public colleges did not move degree attainment; spending did",
-      "source": "Deming and Walters 2017 (NBER w23736)"
+      "source": "Deming and Walters 2017 (NBER w23736)",
+      "range": [-0.017, 0.006],
+      "rangeSource": "Deming and Walters 2017 (NBER w23736), Table 4 Panel A \"Log tuition\" on log certificates and degrees at T+2: \"0.184 (0.187)\" gives a 95% elasticity interval [-0.183, 0.551]; \"Tuition freezes lower in-state tuition by about 3 percent\", so the freeze effect is -0.03 x [-0.183, 0.551] = [-0.017, 0.006]. The paper: \"no statistically significant impact of price changes on log total awards in any year\"."
     },
     {
       "key": "income-tax-to-out-migration",
@@ -5282,7 +5344,9 @@
       "evidence": "about-zero",
       "anchor": "Taxes move few people: even millionaires rarely leave high-tax states",
       "source": "Young, Varner, Lurie and Prisinzano 2016, American Sociological Review",
-      "notes": "About zero for the population, kept at zero. Young, Varner, Lurie and Prisinzano 2016: 'millionaire tax flight is occurring, but only at the margins of statistical and socioeconomic significance'; the annual millionaire migration rate is 2.4 percent against 2.9 percent for the general population. Moretti and Wilson 2017 (AER) find a long-run elasticity of about 1.7 for star scientists at the 99th percentile of income, who are about 1% of people, so the average person's rate does not move. The researched response is concentrated in the top income fifth, and the engines already carry it from their own records: counted-moves.ts (pullBetween) reads the town state's income-tax law in force and the other states' 2026 table into the income pull, by wage, so a web read on the same law would count it twice. Full people have no tax pull yet (stopgap SG-WEB-moves-full-tax-pull). No moderator rows: a weight on a size of zero moves nothing."
+      "notes": "About zero for the population, kept at zero. Young, Varner, Lurie and Prisinzano 2016: 'millionaire tax flight is occurring, but only at the margins of statistical and socioeconomic significance'; the annual millionaire migration rate is 2.4 percent against 2.9 percent for the general population. Moretti and Wilson 2017 (AER) find a long-run elasticity of about 1.7 for star scientists at the 99th percentile of income, who are about 1% of people, so the average person's rate does not move. The researched response is concentrated in the top income fifth, and the engines already carry it from their own records: counted-moves.ts (pullBetween) reads the town state's income-tax law in force and the other states' 2026 table into the income pull, by wage, so a web read on the same law would count it twice. Full people have no tax pull yet (stopgap SG-WEB-moves-full-tax-pull). No moderator rows: a weight on a size of zero moves nothing.",
+      "range": [0, 0],
+      "rangeSource": "Young et al. 2016 (ASR): even millionaires rarely leave high-tax states. No interval was retrieved; range [0, 0] records the null."
     },
     {
       "key": "graduated-income-tax-to-out-migration",
@@ -5302,7 +5366,9 @@
       "evidence": "about-zero",
       "anchor": "Taxes move few people: even millionaires rarely leave high-tax states",
       "source": "Young, Varner, Lurie and Prisinzano 2016, American Sociological Review",
-      "notes": "About zero for the population, kept at zero. Young, Varner, Lurie and Prisinzano 2016: 'millionaire tax flight is occurring, but only at the margins of statistical and socioeconomic significance'; the annual millionaire migration rate is 2.4 percent against 2.9 percent for the general population. Moretti and Wilson 2017 (AER) find a long-run elasticity of about 1.7 for star scientists at the 99th percentile of income, who are about 1% of people, so the average person's rate does not move. The researched response is concentrated in the top income fifth, and the engines already carry it from their own records: counted-moves.ts (pullBetween) reads the town state's income-tax law in force and the other states' 2026 table into the income pull, by wage, so a web read on the same law would count it twice. Full people have no tax pull yet (stopgap SG-WEB-moves-full-tax-pull). No moderator rows: a weight on a size of zero moves nothing."
+      "notes": "About zero for the population, kept at zero. Young, Varner, Lurie and Prisinzano 2016: 'millionaire tax flight is occurring, but only at the margins of statistical and socioeconomic significance'; the annual millionaire migration rate is 2.4 percent against 2.9 percent for the general population. Moretti and Wilson 2017 (AER) find a long-run elasticity of about 1.7 for star scientists at the 99th percentile of income, who are about 1% of people, so the average person's rate does not move. The researched response is concentrated in the top income fifth, and the engines already carry it from their own records: counted-moves.ts (pullBetween) reads the town state's income-tax law in force and the other states' 2026 table into the income pull, by wage, so a web read on the same law would count it twice. Full people have no tax pull yet (stopgap SG-WEB-moves-full-tax-pull). No moderator rows: a weight on a size of zero moves nothing.",
+      "range": [0, 0],
+      "rangeSource": "Young et al. 2016 (ASR): even millionaires rarely leave high-tax states. No interval was retrieved; range [0, 0] records the null."
     },
     {
       "key": "balanced-budget-to-borrowing-cost",
@@ -5463,7 +5529,9 @@
         "evidenceLimit": "Inherited repository source/anchor read; primary study verification and any new conversion remain Team9 research work."
       },
       "aboutZero": true,
-      "notes": "Moderators: searched for splits by mother's education or income, age and sex (Malik 2018 gives only the pooled +10 points; Rossin-Slater, Ruhm and Waldfogel 2013 give leave-taking but not employment by group; Cengiz et al. 2019 and CBO report pooled low-wage job effects), none found that the subjects can carry, so the link is left unvaried."
+      "notes": "Moderators: searched for splits by mother's education or income, age and sex (Malik 2018 gives only the pooled +10 points; Rossin-Slater, Ruhm and Waldfogel 2013 give leave-taking but not employment by group; Cengiz et al. 2019 and CBO report pooled low-wage job effects), none found that the subjects can carry, so the link is left unvaried.",
+      "range": [0, 0],
+      "rangeSource": "Jia, Jin and Wagman 2021; Janssen et al. 2022 (NBER w30028): the cost falls on a small share of workers, too few to move median earnings. No interval was retrieved; range [0, 0] records the null."
     },
     {
       "key": "library-materials-to-reading",
@@ -5504,7 +5572,9 @@
       "anchor": "State employment protections raised gay men's wages 2.7% and lowered lesbian women's employment, too small a group to move poverty; a city's ordinance reaches fewer people still",
       "source": "Burn 2018, Journal of Labor Research",
       "notes": "Not moved: about zero by the research; no engine ties pay to a local nondiscrimination ordinance. The engine measure shows whatever incomes do.",
-      "carriedBy": "src/core2/world-poverty.ts: about zero in the research; whatever incomes do shows in the measure"
+      "carriedBy": "src/core2/world-poverty.ts: about zero in the research; whatever incomes do shows in the measure",
+      "range": [0, 0],
+      "rangeSource": "Burn 2018 (Journal of Labor Research): the affected group is too small to move poverty, and a city reaches fewer still. No interval was retrieved; range [0, 0] records the null."
     },
     {
       "key": "highway-money-for-transit-to-service",
