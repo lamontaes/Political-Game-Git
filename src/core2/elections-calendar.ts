@@ -569,8 +569,41 @@ export function staggeredSeatElection(input: {
   return held.length ? held[index % held.length]! : null;
 }
 
+interface TermStartRule {
+  readonly month: number;
+  readonly nth: number;
+  readonly weekday: number;
+  readonly offsetDays: number;
+}
 interface TermStartRow {
-  readonly monthDay: string;
+  readonly monthDay?: string;
+  readonly rule?: TermStartRule;
+}
+interface TermStartTable {
+  default: TermStartRow & { monthDay: string };
+  states: Record<string, Record<string, TermStartRow>>;
+}
+
+function termStartRow(office: OfficeInput): TermStartRow | undefined {
+  const stateKey = office.jurisdiction.startsWith("US-")
+    ? office.jurisdiction.slice(0, 5)
+    : "";
+  return (termStartData as unknown as TermStartTable).states[stateKey]?.[
+    officeFamily(office)
+  ];
+}
+
+/** The first start a state's weekday rule gives after the election day. */
+function ruleStartAfter(rule: TermStartRule, electionDate: string): string {
+  const year = Number(electionDate.slice(0, 4));
+  for (const y of [year, year + 1]) {
+    const start = addDays(
+      makeIsoDate(nthWeekday(y, rule.month, rule.weekday, rule.nth)),
+      rule.offsetDays,
+    );
+    if (start > electionDate) return start;
+  }
+  throw new Error(`No term start after ${electionDate}.`);
 }
 /**
  * The start day of a term where the office carries none: the state's row for
@@ -578,16 +611,9 @@ interface TermStartRow {
  * default (an estimate: SG-GOV-term-end-estimate).
  */
 function termStartDefault(office: OfficeInput): string {
-  const data = termStartData as unknown as {
-    default: TermStartRow;
-    states: Record<string, Record<string, TermStartRow>>;
-  };
-  const stateKey = office.jurisdiction.startsWith("US-")
-    ? office.jurisdiction.slice(0, 5)
-    : "";
   return (
-    data.states[stateKey]?.[officeFamily(office)]?.monthDay ??
-    data.default.monthDay
+    termStartRow(office)?.monthDay ??
+    (termStartData as unknown as TermStartTable).default.monthDay
   );
 }
 
@@ -613,6 +639,8 @@ export function termStartAfter(
     )
       return read.dates.termStarts;
   }
+  const rule = office.termStarts ? undefined : termStartRow(office)?.rule;
+  if (rule) return ruleStartAfter(rule, electionDate);
   const starts = office.termStarts ?? termStartDefault(office);
   const year = Number(electionDate.slice(0, 4));
   const same = `${year}-${starts}`;

@@ -4,12 +4,13 @@ title: "Main line:"
 area: words
 kind: feature
 priority: 2
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/words-main-line
+pr: #5242
 blocked-on:
 milestone:
 source: "docs/coordination/words.md line 46 (unchecked checklist line)"
+claimed-at: 2026-10-19T22:16:26.286Z
 ---
 
 **What.** The Words main line is the journal as a memoir with procedural revisions and the director's scenes, which the owner ruled come first. Today the journal states each event once and never revises it. Build the memoir shape: first-person entries grounded in records, with later entries revising earlier ones when the record changes the meaning ('I thought it was nothing; it turned out to be the start of everything'), only when the record shows it. Batch 9 is the first page for this, and its grades steer the rounds. The player would notice a journal that reads like a life told back, with the older entries gaining hindsight.

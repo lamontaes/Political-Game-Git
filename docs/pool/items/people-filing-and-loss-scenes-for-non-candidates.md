@@ -6,19 +6,21 @@ kind: bug
 priority: 2
 size: S
 status: claimed
-claimed-by: claude/scene-subject-named
-pr:
+claimed-by: claude/people-filing-and-loss-scenes-for-non-candidates
+pr: #5056
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-18T17:33:44.996Z
+claimed-at: 2026-10-20T01:35:48.149Z
 ---
 
-**What.** A watched person tied to a candidate got a filing scene casting them as the candidate, and a person tied to a race got a race-lost scene casting them as the loser, though the filing and result records name only the people who ran. A probe of three generated towns over a year found 62 of 84 filing scenes and all 153 race-lost scenes staged for people the record does not name. The director gives an event's moment to anyone tied to a person it names, and these scene kinds bind the moment's person as the candidate. The same fault as the hearing scene for a listener.
+**What.** TODO
 
-**Rules.** No hand-written player text; ask why: the scene must cite a record that names the person it is about. An effect is a read: the director reads the cause record's people at the moment it stages the scene.
+**Rules.** TODO
 
-**Done when.** In a one-year run of the played world (buildBenchWorld) in a drawn place and a seed the builder did not choose, every filing, race-lost and hearing scene is for a person the cause record names, shown by scene and record ids; a test in src/director proves it and fails on main.
+**Done when.** TODO
 
-**Files.** src/director/data/situation-types.json, src/director/scene-subject-named.test.ts.
+**Files.** TODO
 
-**Notes.** Uses the `causeNames` match condition added with the hearing fix. Other kinds that bind the person as a participant (recall, appointment, scandal, floor vote) were not seen unnamed in the three towns probed; the test covers the three seen.
+**Notes.** TODO
+
+Sent back 2026-10-20 from PR #5056 (branch claude/scene-subject-named): Merge main 355f7abbdb8d into claude/scene-subject-named conflicts in: src/director/data/situation-types.json, src/director/scheduling.ts. Resolve these files with a normal merge before changed-file validation; no integrated green head exists.; finish on that branch, merge main into it first.
