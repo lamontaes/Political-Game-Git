@@ -2245,15 +2245,15 @@
   },
   {
     "id": "SG-P10-cause-group-founding",
-    "kind": "missing-mechanic",
+    "kind": "owner-decision",
     "file": "src/core2/data/drives.json",
     "line": 552,
-    "whatItFakes": "A resident founds a cause group instantly with no charter, registration, dues or officers.",
+    "whatItFakes": "A resident founds a cause group in one act on a recorded drive, with no charter, registration, dues or officers. Whether founding a group should cost the player anything (dues, officers, a charter) or stay one act is the owner's call.",
     "why": "Organizing needs a place for others to join; the nonprofit and association engine is not built.",
     "addedBy": "OPUS-DRIVES",
     "addedAt": "2026-10-09",
-    "replacement": "Resolved Oct 20: founding is one act on a recorded drive by design. A charter, registration or dues would be paperwork a resident does not do in this game (AGENTS.md: this is a game, not a spreadsheet); the group is an organization record with its founder as a member, and members' dues belong to the interest-groups engine where a bill's cost makes a group worth paying for. The question for the owner is in the PR body.",
-    "status": "resolved"
+    "replacement": "The owner's ruling on whether founding a group costs anything the player does (docs/coordination/OWNER-DECISIONS.md); if it does, interest-groups engine work in the government area.",
+    "status": "open"
   },
   {
     "id": "SG-P10-testify-unbuilt",

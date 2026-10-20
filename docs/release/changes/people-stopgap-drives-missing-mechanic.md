@@ -3,4 +3,4 @@ id: people-stopgap-drives-missing-mechanic
 impact: none
 ---
 
-No change a player can see: the last open drives stopgap, founding a cause group, is resolved as the design, one act on a recorded drive with no charter or registration.
+No change a player can see: founding a cause group stays one act on a recorded drive, and the open question of whether it should cost anything is now registered for the owner.
