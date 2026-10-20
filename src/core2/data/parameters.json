@@ -1296,6 +1296,52 @@
       "citation": "Weight at r = .1 and r = .3 of the single-occasion range (half and one and a half times the r = .2 weight). "
     }
   },
+  "traitWeightRelationshipsWarmTo": {
+    "value": 1.15,
+    "tag": "ESTIMATED",
+    "citation": "Jokela, Alvergne, Pollet & Lummaa 2011, 'Reproductive behavior and personality traits of the Five Factor Model', European Journal of Personality, Table 2: odds of a first marriage 1.35 per SD of extraversion, the nearest sourced measure of how readily warm, outgoing people form close ties (Selfhout et al. 2010 report the direction for friendship selection without an extractable size). The weight is ln(1.35) over the person-level standard deviation of the warm-to lean, 0.262, measured over 1,813 full people of a drawn place (buildBenchWorld seed sd1), so a pair one standard deviation warmer builds closeness 1.35 times as fast.",
+    "estimatedFrom": "ln(1.35) / 0.262 = 1.15",
+    "spread": {
+      "low": 0.83,
+      "high": 1.45,
+      "unit": "weight",
+      "citation": "Men 1.53 and women 1.22 per SD (same table) give ln(1.22)/0.262 to ln(1.53)/0.262; the low end also covers a lean spread up to 0.31."
+    }
+  },
+  "traitWeightRelationshipsFallOut": {
+    "value": 1.01,
+    "tag": "ESTIMATED",
+    "citation": "Roberts, Kuncel, Shiner, Caspi & Goldberg 2007, 'The power of personality', Perspectives on Psychological Science: agreeableness and divorce, r = -0.18, the nearest sourced measure of how much a quarrel costs a tie between people who hold on to it (Jensen-Campbell & Graziano 2001 give the direction for conflict). Converted to 1.39 times the loss per SD (logit pi/sqrt(3) times r/sqrt(1-r^2)) and divided by the person-level standard deviation of the fall-out lean, 0.326, measured over 1,813 full people of a drawn place (buildBenchWorld seed sd1).",
+    "estimatedFrom": "ln(1.39) / 0.326 = 1.01",
+    "spread": {
+      "low": 0.6,
+      "high": 1.4,
+      "unit": "weight",
+      "citation": "The conscientiousness (r = -0.13) and neuroticism (r = 0.17) divorce correlations in the same paper bound the size from 1.27 to 1.39 per SD; the high end allows a smaller lean spread."
+    }
+  },
+  "relationshipsWarmToLeanCenter": {
+    "value": 0.129,
+    "tag": "ESTIMATED",
+    "citation": "The mean warm-to lean of 1,813 full people in a drawn place (buildBenchWorld seed sd1), subtracted so the average pair keeps the closeness model's hours (Hall 2019).",
+    "spread": {
+      "low": 0.08,
+      "high": 0.18,
+      "unit": "lean",
+      "citation": "The mean moves with each place's age and sex mix; checked against the standard deviation 0.262 over the root of the people counted."
+    }
+  },
+  "relationshipsFallOutLeanCenter": {
+    "value": -0.083,
+    "tag": "ESTIMATED",
+    "citation": "The mean fall-out lean of 1,813 full people in a drawn place (buildBenchWorld seed sd1), subtracted so the average quarrel costs the hours the engine that wrote it set.",
+    "spread": {
+      "low": -0.13,
+      "high": -0.03,
+      "unit": "lean",
+      "citation": "The mean moves with each place's age and sex mix; checked against the standard deviation 0.326."
+    }
+  },
   "traitWeightOfficeDayStateClemency": {
     "value": 1,
     "tag": "TUNABLE",
