@@ -39,6 +39,7 @@ import {
   type TermRow,
 } from "./modules/offices";
 import { lobbyingBarredUntil } from "./law-reach/group-a-voting";
+import { currentStaff, townOrganizations } from "./law-reach/group-a-records";
 import { drawPlace } from "../../tests/golden-path/place";
 
 const P = "us-policy-positions:government-operations.";
@@ -194,7 +195,18 @@ describe(`government operations laws are applied by their engines (seed ${seed})
           (a, b) => b.fiscalYear - a.fiscalYear,
         )[0];
         const base = budget?.spendingMinor.administration ?? 0;
-        const delta = Math.max(10_000_000, Math.round(base * 0.3));
+        // Staffing follows the line in whole positions: the raise funds at least one more at the town's largest employer.
+        const staff = Math.max(
+          1,
+          ...townOrganizations(api, "cityGovernment").map(
+            (o) => currentStaff(api, o.id).length,
+          ),
+        );
+        const delta = Math.max(
+          10_000_000,
+          Math.round(base * 0.3),
+          Math.ceil(base / staff),
+        );
         amendBudget(api, {
           governmentId: gov.id,
           line: "administration",
