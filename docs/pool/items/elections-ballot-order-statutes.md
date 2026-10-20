@@ -5,7 +5,7 @@ area: elections
 kind: research
 priority: 2
 size: M
-status: open
+status: in-pr
 claimed-by:
 pr: #5621
 blocked-on:
