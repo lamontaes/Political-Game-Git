@@ -4,10 +4,10 @@ title: "Stopgaps in employer-taxes (missing-engine): 2 open"
 area: world
 kind: stopgap
 priority: 3
-status: open
+status: blocked
 claimed-by:
 pr:
-blocked-on:
+blocked-on: research data: the row's replacement needs recorded, empirical or sourced data (The counted owner group's share of the profit taxed by the income tax law in force where they live, as a flow of the owner group. Business premises re...)
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/modules/employer-taxes.ts, kind missing-engine"
 ---
