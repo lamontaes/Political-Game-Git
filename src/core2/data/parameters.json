@@ -5598,6 +5598,17 @@
       "citation": "A week (the routine retention window, routineRetentionDays) to a season; checked against the memory guard and the 'why' view."
     }
   },
+  "playerDecisionDetailDays": {
+    "value": 365,
+    "tag": "TUNABLE",
+    "citation": "Owner ruling, Oct 20 (memory): after a year keep the summary and reasons of the player's routine decisions, not every detail. How long the player's own routine act keeps every option's score before only its chosen reasons remain.",
+    "spread": {
+      "low": 180,
+      "high": 730,
+      "unit": "days",
+      "citation": "Half a year to two years; checked against the memory guard (scripts/core2-guard/memory.mjs) and the 'why' view."
+    }
+  },
   "circleActRetentionMonths": {
     "value": 12,
     "tag": "TUNABLE",
