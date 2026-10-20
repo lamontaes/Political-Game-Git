@@ -4,7 +4,7 @@ title: "Stopgaps in life (household-contact-logic-gap): 1 open"
 area: core
 kind: stopgap
 priority: 3
-status: claimed
+status: in-pr
 claimed-by: claude/household-contact-stopgap
 pr: #5279
 blocked-on:
