@@ -1,0 +1,942 @@
+{
+  "method": "see basis",
+  "cohortMedianAgeFirstMarriage": {
+    "note": "fixed point of the CPS period median (Census Table MS-2, 1890-2025): the age a at which a cohort born in b reaches the period median in year b+a; cohorts born after 1997 hold the 2025 value (not yet observed)",
+    "table": {
+      "1920": {
+        "women": 21.3,
+        "men": 24.0,
+        "yearOfMedianMarriageWomen": 1941
+      },
+      "1925": {
+        "women": 20.7,
+        "men": 23.2,
+        "yearOfMedianMarriageWomen": 1946
+      },
+      "1930": {
+        "women": 20.3,
+        "men": 22.8,
+        "yearOfMedianMarriageWomen": 1950
+      },
+      "1935": {
+        "women": 20.2,
+        "men": 22.6,
+        "yearOfMedianMarriageWomen": 1955
+      },
+      "1940": {
+        "women": 20.3,
+        "men": 22.8,
+        "yearOfMedianMarriageWomen": 1960
+      },
+      "1945": {
+        "women": 20.5,
+        "men": 23.1,
+        "yearOfMedianMarriageWomen": 1966
+      },
+      "1950": {
+        "women": 20.9,
+        "men": 23.2,
+        "yearOfMedianMarriageWomen": 1971
+      },
+      "1955": {
+        "women": 21.4,
+        "men": 24.6,
+        "yearOfMedianMarriageWomen": 1976
+      },
+      "1960": {
+        "women": 22.7,
+        "men": 25.6,
+        "yearOfMedianMarriageWomen": 1983
+      },
+      "1965": {
+        "women": 23.8,
+        "men": 26.4,
+        "yearOfMedianMarriageWomen": 1989
+      },
+      "1970": {
+        "women": 24.5,
+        "men": 26.8,
+        "yearOfMedianMarriageWomen": 1994
+      },
+      "1975": {
+        "women": 25.1,
+        "men": 26.9,
+        "yearOfMedianMarriageWomen": 2000
+      },
+      "1980": {
+        "women": 25.4,
+        "men": 27.6,
+        "yearOfMedianMarriageWomen": 2005
+      },
+      "1985": {
+        "women": 26.6,
+        "men": 29.3,
+        "yearOfMedianMarriageWomen": 2012
+      },
+      "1990": {
+        "women": 27.7,
+        "men": 30.5,
+        "yearOfMedianMarriageWomen": 2018
+      },
+      "1995": {
+        "women": 28.5,
+        "men": 30.8,
+        "yearOfMedianMarriageWomen": 2023
+      },
+      "2000": {
+        "women": 28.4,
+        "men": 30.8,
+        "yearOfMedianMarriageWomen": 2028
+      },
+      "2005": {
+        "women": 28.4,
+        "men": 30.8,
+        "yearOfMedianMarriageWomen": 2033
+      },
+      "2010": {
+        "women": 28.4,
+        "men": 30.8,
+        "yearOfMedianMarriageWomen": 2038
+      }
+    }
+  },
+  "marriageToFirstBirthGapYearsByMotherAgeAtFirstBirth": {
+    "note": "ACS 2022-2024 1-year PUMS: women who gave birth in the last 12 months, one own child in household and no older children, married once (MARHT=1, MARHYP known), age = interview age; gap = birth year mean minus marriage year mean + 0.5 midyear correction; resolution about 0.5 year; negative or near-zero = birth before or at marriage",
+    "rows": [
+      {
+        "motherAge": "15-19",
+        "sampleWomen": 109,
+        "weightedWomen": 14852,
+        "median": 0.5,
+        "p10": -0.5,
+        "p25": -0.5,
+        "p75": 0.5,
+        "p90": 1.5,
+        "mean": 0.46,
+        "shareBirthBeforeOrAtMarriage": 0.334
+      },
+      {
+        "motherAge": "20-24",
+        "sampleWomen": 2482,
+        "weightedWomen": 293695,
+        "median": 1.5,
+        "p10": 0.5,
+        "p25": 0.5,
+        "p75": 2.5,
+        "p90": 3.5,
+        "mean": 1.65,
+        "shareBirthBeforeOrAtMarriage": 0.078
+      },
+      {
+        "motherAge": "25-29",
+        "sampleWomen": 7386,
+        "weightedWomen": 765114,
+        "median": 2.5,
+        "p10": 0.5,
+        "p25": 1.5,
+        "p75": 3.5,
+        "p90": 5.5,
+        "mean": 2.83,
+        "shareBirthBeforeOrAtMarriage": 0.027
+      },
+      {
+        "motherAge": "30-34",
+        "sampleWomen": 8990,
+        "weightedWomen": 902792,
+        "median": 3.5,
+        "p10": 0.5,
+        "p25": 1.5,
+        "p75": 5.5,
+        "p90": 7.5,
+        "mean": 3.94,
+        "shareBirthBeforeOrAtMarriage": 0.014
+      },
+      {
+        "motherAge": "35-39",
+        "sampleWomen": 3933,
+        "weightedWomen": 399605,
+        "median": 4.5,
+        "p10": 0.5,
+        "p25": 2.5,
+        "p75": 7.5,
+        "p90": 11.5,
+        "mean": 5.34,
+        "shareBirthBeforeOrAtMarriage": 0.021
+      },
+      {
+        "motherAge": "40-44",
+        "sampleWomen": 752,
+        "weightedWomen": 78048,
+        "median": 6.5,
+        "p10": 1.5,
+        "p25": 2.5,
+        "p75": 11.5,
+        "p90": 16.5,
+        "mean": 7.77,
+        "shareBirthBeforeOrAtMarriage": 0.02
+      },
+      {
+        "motherAge": "45-50",
+        "sampleWomen": 103,
+        "weightedWomen": 10169,
+        "median": 6.5,
+        "p10": 1.5,
+        "p25": 3.5,
+        "p75": 12.5,
+        "p90": 22.5,
+        "mean": 9.29,
+        "shareBirthBeforeOrAtMarriage": 0.016
+      },
+      {
+        "motherAge": "15-50",
+        "sampleWomen": 23755,
+        "weightedWomen": 2464275,
+        "median": 2.5,
+        "p10": 0.5,
+        "p25": 1.5,
+        "p75": 4.5,
+        "p90": 7.5,
+        "mean": 3.67,
+        "shareBirthBeforeOrAtMarriage": 0.029
+      }
+    ]
+  },
+  "neverMarriedShareOfFirstBirths": {
+    "note": "same sample; never married includes cohabiting",
+    "rows": [
+      {
+        "motherAge": "15-19",
+        "firstBirthMothersSample": 349,
+        "neverMarriedShare": 0.694
+      },
+      {
+        "motherAge": "20-24",
+        "firstBirthMothersSample": 3893,
+        "neverMarriedShare": 0.407
+      },
+      {
+        "motherAge": "25-29",
+        "firstBirthMothersSample": 8646,
+        "neverMarriedShare": 0.157
+      },
+      {
+        "motherAge": "30-34",
+        "firstBirthMothersSample": 10025,
+        "neverMarriedShare": 0.076
+      },
+      {
+        "motherAge": "35-39",
+        "firstBirthMothersSample": 4703,
+        "neverMarriedShare": 0.094
+      },
+      {
+        "motherAge": "40-44",
+        "firstBirthMothersSample": 1087,
+        "neverMarriedShare": 0.132
+      },
+      {
+        "motherAge": "45-50",
+        "firstBirthMothersSample": 149,
+        "neverMarriedShare": 0.112
+      }
+    ],
+    "allAges": 0.168,
+    "firstBirthSample": 28852
+  },
+  "retrospectiveCouplesCheck": {
+    "note": "first-marriage couples (both MARHT=1, married now) with children of the reference person at home; oldest child's age gives first birth; biased low for young wives (couples without children yet excluded) and high for older wives (first child may have left)",
+    "rows": [
+      {
+        "wifeAge": "25-29",
+        "couples": 39118,
+        "median": 1.5,
+        "p25": -0.5,
+        "p75": 2.5
+      },
+      {
+        "wifeAge": "30-34",
+        "couples": 90134,
+        "median": 1.5,
+        "p25": 0.5,
+        "p75": 3.5
+      },
+      {
+        "wifeAge": "35-39",
+        "couples": 118676,
+        "median": 1.5,
+        "p25": 0.5,
+        "p75": 3.5
+      },
+      {
+        "wifeAge": "40-44",
+        "couples": 108926,
+        "median": 2.5,
+        "p25": 0.5,
+        "p75": 4.5
+      }
+    ],
+    "couples": 424796
+  },
+  "statesAndDC": {
+    "AL": {
+      "medianAgeFirstMarriageMen": 29.2,
+      "medianAgeFirstMarriageWomen": 27.1,
+      "moeMen": 0.3,
+      "moeWomen": 0.3,
+      "shiftMenVsNation": -1.4,
+      "shiftWomenVsNation": -1.6,
+      "recentBirthsWithSpousePresent": 0.59,
+      "recentBirthsUnmarriedPartnerHousehold": 0.091,
+      "recentBirthsOtherArrangement": 0.32
+    },
+    "AK": {
+      "medianAgeFirstMarriageMen": 29.7,
+      "medianAgeFirstMarriageWomen": 26.5,
+      "moeMen": 0.7,
+      "moeWomen": 0.6,
+      "shiftMenVsNation": -0.9,
+      "shiftWomenVsNation": -2.2,
+      "recentBirthsWithSpousePresent": 0.707,
+      "recentBirthsUnmarriedPartnerHousehold": 0.138,
+      "recentBirthsOtherArrangement": 0.155
+    },
+    "AZ": {
+      "medianAgeFirstMarriageMen": 30.8,
+      "medianAgeFirstMarriageWomen": 28.5,
+      "moeMen": 0.2,
+      "moeWomen": 0.3,
+      "shiftMenVsNation": 0.2,
+      "shiftWomenVsNation": -0.2,
+      "recentBirthsWithSpousePresent": 0.602,
+      "recentBirthsUnmarriedPartnerHousehold": 0.154,
+      "recentBirthsOtherArrangement": 0.245
+    },
+    "AR": {
+      "medianAgeFirstMarriageMen": 27.7,
+      "medianAgeFirstMarriageWomen": 26.0,
+      "moeMen": 0.4,
+      "moeWomen": 0.3,
+      "shiftMenVsNation": -2.9,
+      "shiftWomenVsNation": -2.7,
+      "recentBirthsWithSpousePresent": 0.595,
+      "recentBirthsUnmarriedPartnerHousehold": 0.128,
+      "recentBirthsOtherArrangement": 0.277
+    },
+    "CA": {
+      "medianAgeFirstMarriageMen": 31.8,
+      "medianAgeFirstMarriageWomen": 30.0,
+      "moeMen": 0.1,
+      "moeWomen": 0.1,
+      "shiftMenVsNation": 1.2,
+      "shiftWomenVsNation": 1.3,
+      "recentBirthsWithSpousePresent": 0.639,
+      "recentBirthsUnmarriedPartnerHousehold": 0.111,
+      "recentBirthsOtherArrangement": 0.25
+    },
+    "CO": {
+      "medianAgeFirstMarriageMen": 30.6,
+      "medianAgeFirstMarriageWomen": 28.5,
+      "moeMen": 0.2,
+      "moeWomen": 0.2,
+      "shiftMenVsNation": 0.0,
+      "shiftWomenVsNation": -0.2,
+      "recentBirthsWithSpousePresent": 0.749,
+      "recentBirthsUnmarriedPartnerHousehold": 0.086,
+      "recentBirthsOtherArrangement": 0.165
+    },
+    "CT": {
+      "medianAgeFirstMarriageMen": 31.6,
+      "medianAgeFirstMarriageWomen": 30.1,
+      "moeMen": 0.3,
+      "moeWomen": 0.2,
+      "shiftMenVsNation": 1.0,
+      "shiftWomenVsNation": 1.4,
+      "recentBirthsWithSpousePresent": 0.684,
+      "recentBirthsUnmarriedPartnerHousehold": 0.095,
+      "recentBirthsOtherArrangement": 0.221
+    },
+    "DE": {
+      "medianAgeFirstMarriageMen": 31.0,
+      "medianAgeFirstMarriageWomen": 29.4,
+      "moeMen": 0.5,
+      "moeWomen": 0.3,
+      "shiftMenVsNation": 0.4,
+      "shiftWomenVsNation": 0.7,
+      "recentBirthsWithSpousePresent": 0.594,
+      "recentBirthsUnmarriedPartnerHousehold": 0.127,
+      "recentBirthsOtherArrangement": 0.279
+    },
+    "DC": {
+      "medianAgeFirstMarriageMen": 32.2,
+      "medianAgeFirstMarriageWomen": 31.5,
+      "moeMen": 0.6,
+      "moeWomen": 0.5,
+      "shiftMenVsNation": 1.6,
+      "shiftWomenVsNation": 2.8,
+      "recentBirthsWithSpousePresent": 0.607,
+      "recentBirthsUnmarriedPartnerHousehold": 0.048,
+      "recentBirthsOtherArrangement": 0.345
+    },
+    "FL": {
+      "medianAgeFirstMarriageMen": 31.2,
+      "medianAgeFirstMarriageWomen": 29.3,
+      "moeMen": 0.3,
+      "moeWomen": 0.2,
+      "shiftMenVsNation": 0.6,
+      "shiftWomenVsNation": 0.6,
+      "recentBirthsWithSpousePresent": 0.575,
+      "recentBirthsUnmarriedPartnerHousehold": 0.124,
+      "recentBirthsOtherArrangement": 0.301
+    },
+    "GA": {
+      "medianAgeFirstMarriageMen": 30.4,
+      "medianAgeFirstMarriageWomen": 28.3,
+      "moeMen": 0.2,
+      "moeWomen": 0.2,
+      "shiftMenVsNation": -0.2,
+      "shiftWomenVsNation": -0.4,
+      "recentBirthsWithSpousePresent": 0.598,
+      "recentBirthsUnmarriedPartnerHousehold": 0.096,
+      "recentBirthsOtherArrangement": 0.306
+    },
+    "HI": {
+      "medianAgeFirstMarriageMen": 31.0,
+      "medianAgeFirstMarriageWomen": 28.8,
+      "moeMen": 0.8,
+      "moeWomen": 0.5,
+      "shiftMenVsNation": 0.4,
+      "shiftWomenVsNation": 0.1,
+      "recentBirthsWithSpousePresent": 0.634,
+      "recentBirthsUnmarriedPartnerHousehold": 0.112,
+      "recentBirthsOtherArrangement": 0.254
+    },
+    "ID": {
+      "medianAgeFirstMarriageMen": 27.4,
+      "medianAgeFirstMarriageWomen": 25.8,
+      "moeMen": 0.5,
+      "moeWomen": 0.3,
+      "shiftMenVsNation": -3.2,
+      "shiftWomenVsNation": -2.9,
+      "recentBirthsWithSpousePresent": 0.752,
+      "recentBirthsUnmarriedPartnerHousehold": 0.102,
+      "recentBirthsOtherArrangement": 0.146
+    },
+    "IL": {
+      "medianAgeFirstMarriageMen": 31.0,
+      "medianAgeFirstMarriageWomen": 29.5,
+      "moeMen": 0.2,
+      "moeWomen": 0.1,
+      "shiftMenVsNation": 0.4,
+      "shiftWomenVsNation": 0.8,
+      "recentBirthsWithSpousePresent": 0.644,
+      "recentBirthsUnmarriedPartnerHousehold": 0.108,
+      "recentBirthsOtherArrangement": 0.248
+    },
+    "IN": {
+      "medianAgeFirstMarriageMen": 29.2,
+      "medianAgeFirstMarriageWomen": 26.8,
+      "moeMen": 0.2,
+      "moeWomen": 0.2,
+      "shiftMenVsNation": -1.4,
+      "shiftWomenVsNation": -1.9,
+      "recentBirthsWithSpousePresent": 0.638,
+      "recentBirthsUnmarriedPartnerHousehold": 0.13,
+      "recentBirthsOtherArrangement": 0.232
+    },
+    "IA": {
+      "medianAgeFirstMarriageMen": 29.3,
+      "medianAgeFirstMarriageWomen": 27.0,
+      "moeMen": 0.3,
+      "moeWomen": 0.2,
+      "shiftMenVsNation": -1.3,
+      "shiftWomenVsNation": -1.7,
+      "recentBirthsWithSpousePresent": 0.712,
+      "recentBirthsUnmarriedPartnerHousehold": 0.144,
+      "recentBirthsOtherArrangement": 0.144
+    },
+    "KS": {
+      "medianAgeFirstMarriageMen": 28.8,
+      "medianAgeFirstMarriageWomen": 26.5,
+      "moeMen": 0.3,
+      "moeWomen": 0.2,
+      "shiftMenVsNation": -1.8,
+      "shiftWomenVsNation": -2.2,
+      "recentBirthsWithSpousePresent": 0.693,
+      "recentBirthsUnmarriedPartnerHousehold": 0.124,
+      "recentBirthsOtherArrangement": 0.183
+    },
+    "KY": {
+      "medianAgeFirstMarriageMen": 28.0,
+      "medianAgeFirstMarriageWomen": 26.4,
+      "moeMen": 0.3,
+      "moeWomen": 0.2,
+      "shiftMenVsNation": -2.6,
+      "shiftWomenVsNation": -2.3,
+      "recentBirthsWithSpousePresent": 0.622,
+      "recentBirthsUnmarriedPartnerHousehold": 0.133,
+      "recentBirthsOtherArrangement": 0.245
+    },
+    "LA": {
+      "medianAgeFirstMarriageMen": 30.1,
+      "medianAgeFirstMarriageWomen": 28.3,
+      "moeMen": 0.3,
+      "moeWomen": 0.5,
+      "shiftMenVsNation": -0.5,
+      "shiftWomenVsNation": -0.4,
+      "recentBirthsWithSpousePresent": 0.497,
+      "recentBirthsUnmarriedPartnerHousehold": 0.133,
+      "recentBirthsOtherArrangement": 0.37
+    },
+    "ME": {
+      "medianAgeFirstMarriageMen": 30.2,
+      "medianAgeFirstMarriageWomen": 28.5,
+      "moeMen": 0.4,
+      "moeWomen": 0.4,
+      "shiftMenVsNation": -0.4,
+      "shiftWomenVsNation": -0.2,
+      "recentBirthsWithSpousePresent": 0.654,
+      "recentBirthsUnmarriedPartnerHousehold": 0.154,
+      "recentBirthsOtherArrangement": 0.192
+    },
+    "MD": {
+      "medianAgeFirstMarriageMen": 31.5,
+      "medianAgeFirstMarriageWomen": 29.6,
+      "moeMen": 0.2,
+      "moeWomen": 0.2,
+      "shiftMenVsNation": 0.9,
+      "shiftWomenVsNation": 0.9,
+      "recentBirthsWithSpousePresent": 0.642,
+      "recentBirthsUnmarriedPartnerHousehold": 0.099,
+      "recentBirthsOtherArrangement": 0.259
+    },
+    "MA": {
+      "medianAgeFirstMarriageMen": 31.8,
+      "medianAgeFirstMarriageWomen": 30.6,
+      "moeMen": 0.3,
+      "moeWomen": 0.2,
+      "shiftMenVsNation": 1.2,
+      "shiftWomenVsNation": 1.9,
+      "recentBirthsWithSpousePresent": 0.681,
+      "recentBirthsUnmarriedPartnerHousehold": 0.109,
+      "recentBirthsOtherArrangement": 0.21
+    },
+    "MI": {
+      "medianAgeFirstMarriageMen": 30.6,
+      "medianAgeFirstMarriageWomen": 28.6,
+      "moeMen": 0.1,
+      "moeWomen": 0.2,
+      "shiftMenVsNation": 0.0,
+      "shiftWomenVsNation": -0.1,
+      "recentBirthsWithSpousePresent": 0.648,
+      "recentBirthsUnmarriedPartnerHousehold": 0.136,
+      "recentBirthsOtherArrangement": 0.216
+    },
+    "MN": {
+      "medianAgeFirstMarriageMen": 30.4,
+      "medianAgeFirstMarriageWomen": 28.4,
+      "moeMen": 0.2,
+      "moeWomen": 0.2,
+      "shiftMenVsNation": -0.2,
+      "shiftWomenVsNation": -0.3,
+      "recentBirthsWithSpousePresent": 0.73,
+      "recentBirthsUnmarriedPartnerHousehold": 0.126,
+      "recentBirthsOtherArrangement": 0.144
+    },
+    "MS": {
+      "medianAgeFirstMarriageMen": 28.9,
+      "medianAgeFirstMarriageWomen": 27.4,
+      "moeMen": 0.6,
+      "moeWomen": 0.4,
+      "shiftMenVsNation": -1.7,
+      "shiftWomenVsNation": -1.3,
+      "recentBirthsWithSpousePresent": 0.471,
+      "recentBirthsUnmarriedPartnerHousehold": 0.111,
+      "recentBirthsOtherArrangement": 0.418
+    },
+    "MO": {
+      "medianAgeFirstMarriageMen": 29.0,
+      "medianAgeFirstMarriageWomen": 26.9,
+      "moeMen": 0.2,
+      "moeWomen": 0.2,
+      "shiftMenVsNation": -1.6,
+      "shiftWomenVsNation": -1.8,
+      "recentBirthsWithSpousePresent": 0.668,
+      "recentBirthsUnmarriedPartnerHousehold": 0.124,
+      "recentBirthsOtherArrangement": 0.208
+    },
+    "MT": {
+      "medianAgeFirstMarriageMen": 30.0,
+      "medianAgeFirstMarriageWomen": 27.1,
+      "moeMen": 0.3,
+      "moeWomen": 0.4,
+      "shiftMenVsNation": -0.6,
+      "shiftWomenVsNation": -1.6,
+      "recentBirthsWithSpousePresent": 0.724,
+      "recentBirthsUnmarriedPartnerHousehold": 0.12,
+      "recentBirthsOtherArrangement": 0.157
+    },
+    "NE": {
+      "medianAgeFirstMarriageMen": 28.9,
+      "medianAgeFirstMarriageWomen": 26.8,
+      "moeMen": 0.4,
+      "moeWomen": 0.3,
+      "shiftMenVsNation": -1.7,
+      "shiftWomenVsNation": -1.9,
+      "recentBirthsWithSpousePresent": 0.682,
+      "recentBirthsUnmarriedPartnerHousehold": 0.139,
+      "recentBirthsOtherArrangement": 0.179
+    },
+    "NV": {
+      "medianAgeFirstMarriageMen": 31.1,
+      "medianAgeFirstMarriageWomen": 29.1,
+      "moeMen": 0.3,
+      "moeWomen": 0.3,
+      "shiftMenVsNation": 0.5,
+      "shiftWomenVsNation": 0.4,
+      "recentBirthsWithSpousePresent": 0.574,
+      "recentBirthsUnmarriedPartnerHousehold": 0.148,
+      "recentBirthsOtherArrangement": 0.277
+    },
+    "NH": {
+      "medianAgeFirstMarriageMen": 31.1,
+      "medianAgeFirstMarriageWomen": 29.3,
+      "moeMen": 0.3,
+      "moeWomen": 0.3,
+      "shiftMenVsNation": 0.5,
+      "shiftWomenVsNation": 0.6,
+      "recentBirthsWithSpousePresent": 0.712,
+      "recentBirthsUnmarriedPartnerHousehold": 0.13,
+      "recentBirthsOtherArrangement": 0.159
+    },
+    "NJ": {
+      "medianAgeFirstMarriageMen": 31.4,
+      "medianAgeFirstMarriageWomen": 29.9,
+      "moeMen": 0.2,
+      "moeWomen": 0.2,
+      "shiftMenVsNation": 0.8,
+      "shiftWomenVsNation": 1.2,
+      "recentBirthsWithSpousePresent": 0.702,
+      "recentBirthsUnmarriedPartnerHousehold": 0.093,
+      "recentBirthsOtherArrangement": 0.205
+    },
+    "NM": {
+      "medianAgeFirstMarriageMen": 31.0,
+      "medianAgeFirstMarriageWomen": 27.8,
+      "moeMen": 0.5,
+      "moeWomen": 0.8,
+      "shiftMenVsNation": 0.4,
+      "shiftWomenVsNation": -0.9,
+      "recentBirthsWithSpousePresent": 0.542,
+      "recentBirthsUnmarriedPartnerHousehold": 0.168,
+      "recentBirthsOtherArrangement": 0.289
+    },
+    "NY": {
+      "medianAgeFirstMarriageMen": 31.8,
+      "medianAgeFirstMarriageWomen": 30.4,
+      "moeMen": 0.2,
+      "moeWomen": 0.2,
+      "shiftMenVsNation": 1.2,
+      "shiftWomenVsNation": 1.7,
+      "recentBirthsWithSpousePresent": 0.667,
+      "recentBirthsUnmarriedPartnerHousehold": 0.095,
+      "recentBirthsOtherArrangement": 0.238
+    },
+    "NC": {
+      "medianAgeFirstMarriageMen": 29.8,
+      "medianAgeFirstMarriageWomen": 27.8,
+      "moeMen": 0.2,
+      "moeWomen": 0.3,
+      "shiftMenVsNation": -0.8,
+      "shiftWomenVsNation": -0.9,
+      "recentBirthsWithSpousePresent": 0.625,
+      "recentBirthsUnmarriedPartnerHousehold": 0.121,
+      "recentBirthsOtherArrangement": 0.254
+    },
+    "ND": {
+      "medianAgeFirstMarriageMen": 29.1,
+      "medianAgeFirstMarriageWomen": 26.9,
+      "moeMen": 0.6,
+      "moeWomen": 0.5,
+      "shiftMenVsNation": -1.5,
+      "shiftWomenVsNation": -1.8,
+      "recentBirthsWithSpousePresent": 0.752,
+      "recentBirthsUnmarriedPartnerHousehold": 0.103,
+      "recentBirthsOtherArrangement": 0.145
+    },
+    "OH": {
+      "medianAgeFirstMarriageMen": 30.1,
+      "medianAgeFirstMarriageWomen": 28.1,
+      "moeMen": 0.2,
+      "moeWomen": 0.2,
+      "shiftMenVsNation": -0.5,
+      "shiftWomenVsNation": -0.6,
+      "recentBirthsWithSpousePresent": 0.621,
+      "recentBirthsUnmarriedPartnerHousehold": 0.138,
+      "recentBirthsOtherArrangement": 0.241
+    },
+    "OK": {
+      "medianAgeFirstMarriageMen": 28.4,
+      "medianAgeFirstMarriageWomen": 26.3,
+      "moeMen": 0.3,
+      "moeWomen": 0.2,
+      "shiftMenVsNation": -2.2,
+      "shiftWomenVsNation": -2.4,
+      "recentBirthsWithSpousePresent": 0.634,
+      "recentBirthsUnmarriedPartnerHousehold": 0.121,
+      "recentBirthsOtherArrangement": 0.244
+    },
+    "OR": {
+      "medianAgeFirstMarriageMen": 30.6,
+      "medianAgeFirstMarriageWomen": 28.9,
+      "moeMen": 0.3,
+      "moeWomen": 0.3,
+      "shiftMenVsNation": 0.0,
+      "shiftWomenVsNation": 0.2,
+      "recentBirthsWithSpousePresent": 0.702,
+      "recentBirthsUnmarriedPartnerHousehold": 0.135,
+      "recentBirthsOtherArrangement": 0.163
+    },
+    "PA": {
+      "medianAgeFirstMarriageMen": 31.0,
+      "medianAgeFirstMarriageWomen": 29.3,
+      "moeMen": 0.2,
+      "moeWomen": 0.2,
+      "shiftMenVsNation": 0.4,
+      "shiftWomenVsNation": 0.6,
+      "recentBirthsWithSpousePresent": 0.664,
+      "recentBirthsUnmarriedPartnerHousehold": 0.12,
+      "recentBirthsOtherArrangement": 0.217
+    },
+    "RI": {
+      "medianAgeFirstMarriageMen": 31.7,
+      "medianAgeFirstMarriageWomen": 30.4,
+      "moeMen": 0.6,
+      "moeWomen": 0.4,
+      "shiftMenVsNation": 1.1,
+      "shiftWomenVsNation": 1.7,
+      "recentBirthsWithSpousePresent": 0.637,
+      "recentBirthsUnmarriedPartnerHousehold": 0.163,
+      "recentBirthsOtherArrangement": 0.2
+    },
+    "SC": {
+      "medianAgeFirstMarriageMen": 29.8,
+      "medianAgeFirstMarriageWomen": 28.2,
+      "moeMen": 0.3,
+      "moeWomen": 0.3,
+      "shiftMenVsNation": -0.8,
+      "shiftWomenVsNation": -0.5,
+      "recentBirthsWithSpousePresent": 0.567,
+      "recentBirthsUnmarriedPartnerHousehold": 0.103,
+      "recentBirthsOtherArrangement": 0.33
+    },
+    "SD": {
+      "medianAgeFirstMarriageMen": 28.8,
+      "medianAgeFirstMarriageWomen": 26.5,
+      "moeMen": 0.7,
+      "moeWomen": 0.4,
+      "shiftMenVsNation": -1.8,
+      "shiftWomenVsNation": -2.2,
+      "recentBirthsWithSpousePresent": 0.706,
+      "recentBirthsUnmarriedPartnerHousehold": 0.136,
+      "recentBirthsOtherArrangement": 0.158
+    },
+    "TN": {
+      "medianAgeFirstMarriageMen": 28.5,
+      "medianAgeFirstMarriageWomen": 27.2,
+      "moeMen": 0.2,
+      "moeWomen": 0.2,
+      "shiftMenVsNation": -2.1,
+      "shiftWomenVsNation": -1.5,
+      "recentBirthsWithSpousePresent": 0.639,
+      "recentBirthsUnmarriedPartnerHousehold": 0.097,
+      "recentBirthsOtherArrangement": 0.264
+    },
+    "TX": {
+      "medianAgeFirstMarriageMen": 29.9,
+      "medianAgeFirstMarriageWomen": 27.7,
+      "moeMen": 0.2,
+      "moeWomen": 0.1,
+      "shiftMenVsNation": -0.7,
+      "shiftWomenVsNation": -1.0,
+      "recentBirthsWithSpousePresent": 0.622,
+      "recentBirthsUnmarriedPartnerHousehold": 0.103,
+      "recentBirthsOtherArrangement": 0.276
+    },
+    "UT": {
+      "medianAgeFirstMarriageMen": 26.9,
+      "medianAgeFirstMarriageWomen": 25.1,
+      "moeMen": 0.3,
+      "moeWomen": 0.2,
+      "shiftMenVsNation": -3.7,
+      "shiftWomenVsNation": -3.6,
+      "recentBirthsWithSpousePresent": 0.828,
+      "recentBirthsUnmarriedPartnerHousehold": 0.06,
+      "recentBirthsOtherArrangement": 0.112
+    },
+    "VT": {
+      "medianAgeFirstMarriageMen": 30.8,
+      "medianAgeFirstMarriageWomen": 29.8,
+      "moeMen": 0.4,
+      "moeWomen": 0.4,
+      "shiftMenVsNation": 0.2,
+      "shiftWomenVsNation": 1.1,
+      "recentBirthsWithSpousePresent": 0.73,
+      "recentBirthsUnmarriedPartnerHousehold": 0.116,
+      "recentBirthsOtherArrangement": 0.154
+    },
+    "VA": {
+      "medianAgeFirstMarriageMen": 30.5,
+      "medianAgeFirstMarriageWomen": 28.5,
+      "moeMen": 0.2,
+      "moeWomen": 0.2,
+      "shiftMenVsNation": -0.1,
+      "shiftWomenVsNation": -0.2,
+      "recentBirthsWithSpousePresent": 0.68,
+      "recentBirthsUnmarriedPartnerHousehold": 0.09,
+      "recentBirthsOtherArrangement": 0.23
+    },
+    "WA": {
+      "medianAgeFirstMarriageMen": 30.4,
+      "medianAgeFirstMarriageWomen": 28.1,
+      "moeMen": 0.2,
+      "moeWomen": 0.3,
+      "shiftMenVsNation": -0.2,
+      "shiftWomenVsNation": -0.6,
+      "recentBirthsWithSpousePresent": 0.736,
+      "recentBirthsUnmarriedPartnerHousehold": 0.112,
+      "recentBirthsOtherArrangement": 0.152
+    },
+    "WV": {
+      "medianAgeFirstMarriageMen": 29.5,
+      "medianAgeFirstMarriageWomen": 27.2,
+      "moeMen": 0.4,
+      "moeWomen": 0.4,
+      "shiftMenVsNation": -1.1,
+      "shiftWomenVsNation": -1.5,
+      "recentBirthsWithSpousePresent": 0.596,
+      "recentBirthsUnmarriedPartnerHousehold": 0.129,
+      "recentBirthsOtherArrangement": 0.276
+    },
+    "WI": {
+      "medianAgeFirstMarriageMen": 30.5,
+      "medianAgeFirstMarriageWomen": 28.5,
+      "moeMen": 0.2,
+      "moeWomen": 0.2,
+      "shiftMenVsNation": -0.1,
+      "shiftWomenVsNation": -0.2,
+      "recentBirthsWithSpousePresent": 0.705,
+      "recentBirthsUnmarriedPartnerHousehold": 0.139,
+      "recentBirthsOtherArrangement": 0.156
+    },
+    "WY": {
+      "medianAgeFirstMarriageMen": 28.4,
+      "medianAgeFirstMarriageWomen": 26.2,
+      "moeMen": 0.9,
+      "moeWomen": 0.7,
+      "shiftMenVsNation": -2.2,
+      "shiftWomenVsNation": -2.5,
+      "recentBirthsWithSpousePresent": 0.738,
+      "recentBirthsUnmarriedPartnerHousehold": 0.135,
+      "recentBirthsOtherArrangement": 0.127
+    }
+  },
+  "puertoRico": {
+    "medianAgeFirstMarriageMen": 34.3,
+    "medianAgeFirstMarriageWomen": 33.2,
+    "moeMen": 0.6,
+    "moeWomen": 0.5,
+    "shiftMenVsNation": 3.7,
+    "shiftWomenVsNation": 4.5,
+    "recentBirthsWithSpousePresent": 0.302,
+    "recentBirthsUnmarriedPartnerHousehold": 0.243,
+    "recentBirthsOtherArrangement": 0.455
+  },
+  "territoriesFromIslandAreasCensus2020": {
+    "GU": {
+      "menMedianFirstMarriageEquivalent": 30.7,
+      "womenMedianFirstMarriageEquivalent": 28.6,
+      "smamCoarseMen": 32.0,
+      "smamCoarseWomen": 30.35,
+      "neverMarriedShareWomenByBand15-17,18-19,20-24,25-34,35-44,45-54": [
+        0.994,
+        0.964,
+        0.849,
+        0.543,
+        0.269,
+        0.163
+      ],
+      "predictionErrorSD_years": 0.39
+    },
+    "VI": {
+      "menMedianFirstMarriageEquivalent": 33.3,
+      "womenMedianFirstMarriageEquivalent": 31.5,
+      "smamCoarseMen": 33.94,
+      "smamCoarseWomen": 32.6,
+      "neverMarriedShareWomenByBand15-17,18-19,20-24,25-34,35-44,45-54": [
+        0.994,
+        0.983,
+        0.93,
+        0.722,
+        0.485,
+        0.352
+      ],
+      "predictionErrorSD_years": 0.39
+    },
+    "AS": {
+      "menMedianFirstMarriageEquivalent": 27.4,
+      "womenMedianFirstMarriageEquivalent": 25.8,
+      "smamCoarseMen": 29.58,
+      "smamCoarseWomen": 28.27,
+      "neverMarriedShareWomenByBand15-17,18-19,20-24,25-34,35-44,45-54": [
+        0.995,
+        0.977,
+        0.795,
+        0.394,
+        0.173,
+        0.116
+      ],
+      "predictionErrorSD_years": 0.39
+    },
+    "MP": {
+      "menMedianFirstMarriageEquivalent": 31.2,
+      "womenMedianFirstMarriageEquivalent": 29.4,
+      "smamCoarseMen": 32.36,
+      "smamCoarseWomen": 31.0,
+      "neverMarriedShareWomenByBand15-17,18-19,20-24,25-34,35-44,45-54": [
+        0.996,
+        0.963,
+        0.887,
+        0.601,
+        0.313,
+        0.206
+      ],
+      "predictionErrorSD_years": 0.39
+    }
+  },
+  "regressionForTerritories": {
+    "men": {
+      "slope": 1.3416189235234959,
+      "intercept": -12.243417921902683,
+      "residSD": 0.38948845142086785
+    },
+    "women": {
+      "slope": 1.3171469274394445,
+      "intercept": -11.388948716451461,
+      "residSD": 0.3764214104885452
+    }
+  },
+  "nationalAcs5yrMedianAgeFirstMarriage": {
+    "men": 30.6,
+    "women": 28.7
+  },
+  "cpsMs2_2025": {
+    "men": 30.8,
+    "women": 28.4
+  },
+  "nationalBirthsLast12Months": {
+    "total": 3984335,
+    "spousePresent": 2562813,
+    "unmarriedPartnerHousehold": 453383,
+    "otherLivingArrangement": 968139
+  }
+}

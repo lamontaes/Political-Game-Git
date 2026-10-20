@@ -6,10 +6,11 @@ kind: stopgap
 priority: 2
 status: open
 claimed-by:
-pr:
+pr: #5124
 blocked-on:
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/office-day-federal-president.ts, kind missing-record"
+claimed-at:
 ---
 
 **What.** Two missing-record stopgaps remain in the president's day. SG-OFFICE-FED-trip-residents: the people a traveling president meets in another town are recorded identities of that place with no household, job or records beyond the meeting. SG-OFFICE-FED-situation-room: the situation room never opens because main keeps no crisis record. Fill in a met person from the other place's coarser counts as the player's town does, and open the situation room on the crisis records once disasters land. The player would notice meeting a real resident of another town, with a job and family, and a briefing when a crisis happens.
@@ -21,3 +22,6 @@ source: "src/core2/data/stopgaps.json, src/core2/office-day-federal-president.ts
 **Files.** src/core2/office-day-federal-president.ts, src/core2/modules/residents.ts, src/core2/data/stopgaps.json
 
 **Notes.** First row: The people a traveler meets in a town other than the player's are recorded identities of that place (drawn from the world's seed and the town), with no household, job or other records there beyond the meeting.
+
+Oct 20 (cto): PR #5124 merged. SG-OFFICE-FED-situation-room resolved (situation room opens on FEMA disaster records, daily brief observes crisis). SG-OFFICE-FED-trip-residents remains open.
+

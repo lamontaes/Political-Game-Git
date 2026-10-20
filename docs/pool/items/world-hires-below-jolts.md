@@ -7,10 +7,11 @@ priority: 2
 size: M
 status: open
 claimed-by:
-pr: #4716
+pr:
 blocked-on:
+after: world-customers-move-between-sellers
 source: added with npm run pool -- add
-claimed-at:
+claimed-at: 2026-10-20T00:22:54.758Z
 ---
 
 **What.** In the played year in Anon Raices, Puerto Rico (seed 1977d40995, January 20, 2025 to January 20, 2026) businesses hired 15 times over 1,212 employed person-months, 1.24% a month, where the JOLTS band is 3.04% to 4.0%. Quits (1.57%) and layoffs (1.40%) are inside their bands, so employment falls from 99 to 89. A position opens only when someone leaves or the employer is under its target, so layoffs and closures never reopen and 15 hires replace only 25 of the quits, retirements and deaths, while 93 jobseekers wait with no open position. Find what limits openings (`need` and the gap in `src/core2/modules/jobs.ts`) and what a growing or recovering firm should read to open more.
@@ -47,4 +48,12 @@ Sent back 2026-10-16 from PR #4716 (branch claude/world-hires-below-jolts): Merg
 
 Looked at 2026-10-16 (claude session), reproduced: `npx tsx scripts/world-proofs/session-b-layoffs.ts 1977d40995` (Anon Raices, Puerto Rico, place 7203174) gives hires 1.08% a month (13), quits 0.67% (8) and layoffs 1.33% (16), the first two outside their JOLTS bands, with 99 jobseekers and no open position at the end. Not built: the cause is not a limit on openings. `jobs.ts` opens a position when a worker leaves (need grows by one at once) or when a firm's target staff exceeds its staff plus postings (need grows by `jobsStaffGapActedPerMonth` of the gap), and both work; but every firm's target is its own opening staff scaled by its own sales, and no firm's sales ever grow at another's expense. So a firm that lays off never re-hires (its target fell), and no firm hires to grow, while real churn is firms growing and shrinking against each other: separations of 3.3% a month are matched by hires of 3.6%. Raising hires into the band without that would be tuning a seed. It needs `world-customers-move-between-sellers` first (customers move between sellers month by month, so shrinking firms lay off and growing ones hire); `world-local-sales-below-opening-forecast` also sets targets too low. Re-run this proof after those two land.
 
+Tried Oct 17 (claude, built, measured, not shipped): staff follows each firm's own sales instead of the books' capacity. In `reviewEmployers` the observed staff was `openingStaff x sales per day / (capacity x price ratio)`, so a firm whose opening buyers cover only part of its book demand reads as shrinking from its first month. I replaced the capacity with the firm's own first trading month (`salesPerDay` kept as an anchor on the employer row), so staff follows the firm's sales against its own baseline. One-year runs of `scripts/world-proofs/session-b-layoffs.ts` against the main baseline: Pistol River, Oregon (seed e1252a4b6f) employment 2,175 to 1,758 against 2,175 to 1,517, hires 4.33% a month against 2.04%, quits 3.60% against 2.68%, layoffs 1.76% against 1.56%; Maysville, Missouri (d0117c6930) 245 to 216 (was 244 to 187 in the Oct 16 table), hires 4.00% (inside the band), quits 3.27%, layoffs 1.14%; Center Sandwich, New Hampshire (6ad286e790) 56 to 47, hires 1.10%, quits 1.57%, layoffs 1.42%; Pinch, West Virginia (7b819f6077) grew 589 to 653 with hires 8.96% and quits 7.30%, layoffs 0.27%. So employment falls about a third less and hiring rises toward its band, but a single month's sales is a noisy baseline: quits and hires double where sales swing (Pinch) and quits leave their band in four of four places. The anchor needs a smoothed baseline (and a reason for the smoothing length from the sales data's own seasonality), and the remaining decline comes from the loss pressure on near-zero opening margins (`affordableStaff`), which still needs `world-local-sales-below-opening-forecast`. Nothing is left on a branch.
+
 Oct 17 (claude): merged main into claude/world-hires-below-jolts with no conflicts; the branch now differs from main in nothing (its note and declaration are already on main), so PR #4716 carries no change. The CTO may close it. The item itself stays open on world-customers-move-between-sellers.
+
+Measured Oct 20 (claude/political-game-pool-3xfqef-5), the same proof on main and on PR #5203's leaver-refill fix (`reviewEmployers` owes a leaver's job when the firm is short of staff, which a stale negative `need` had swallowed): Anon Raices, Puerto Rico (place 7203174, seed 1977d40995) hires 18 (1.42% a month) on main against 26 (2.04%) with the fix; Pistol River, Oregon (place 4158050, seed e1252a4b6f) 446 (2.03%) against 453 (2.06%). Both stay under the 3.04% floor; no position stands open at the end in either, cash error zero. So the fix recovers hires where firms were short and leaves the bulk of the gap to the item's root cause (targets set by sales, `world-customers-move-between-sellers`, `world-local-sales-below-opening-forecast`). Re-run after those two land.
+
+Oct 20: PR #4716 carried findings only, so its number is cleared; the item stays blocked on world-customers-move-between-sellers.
+
+Oct 20: Switched from blocked to the automatic after: gate on world-customers-move-between-sellers, so it opens by itself the moment those items are done.

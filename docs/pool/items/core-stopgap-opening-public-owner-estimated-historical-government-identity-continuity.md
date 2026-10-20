@@ -4,10 +4,10 @@ title: "Stopgaps in opening-public-owner (estimated-historical-government-identi
 area: core
 kind: stopgap
 priority: 3
-status: open
+status: dropped
 claimed-by:
 pr:
-blocked-on:
+blocked-on: research-opening-customers-sourced-parameters
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/opening-public-owner.ts, kind estimated-historical-government-identity-continuity"
 ---
@@ -21,3 +21,5 @@ source: "src/core2/data/stopgaps.json, src/core2/opening-public-owner.ts, kind e
 **Files.** src/core2/opening-public-owner.ts
 
 **Notes.** First row: Carries a genuinely observed active 2017 county identity forward to the opening date using its official stable GID/PID alias and an already existing canonical county account. Intermediate identity-change history and actu
+
+Folded into research-opening-customers-sourced-parameters (CTO, Oct 19, 2026).
