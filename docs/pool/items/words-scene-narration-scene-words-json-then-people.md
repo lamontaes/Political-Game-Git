@@ -6,8 +6,8 @@ kind: feature
 priority: 2
 status: open
 claimed-by:
-pr: #5233
-blocked-on:
+pr: #5706
+blocked-on: words: the merger accepts edits under src/director and data/english only from the Words session; the CTO must confirm a non-Words branch or hand this to the Words line (merger comment, Oct 20)
 milestone:
 source: "docs/coordination/words.md line 34 (unchecked checklist line)"
 claimed-at:
@@ -30,3 +30,5 @@ Measured Oct 19 (claude/news-headlines-worded), not built. What the News screen 
 Sent back 2026-10-20 from PR #5241 (branch claude/news-headlines-more): Merge main 355f7abbdb8d into claude/news-headlines-more conflicts in: src/bench/calendar.ts. Resolve these files with a normal merge before changed-file validation; no integrated green head exists.; finish on that branch, merge main into it first. Current replacement claim and PR are preserved.
 
 Sent back 2026-10-20 from PR #5233 (branch claude/law-decision-headlines): the release note still promises law headlines whose authored parts are now not shippable, so they cannot show; finish on that branch, merge main into it first.
+
+Sent back 2026-10-20 from PR #5706 (branch claude/political-game-pool-yucp92-bo): data/english/parts/headlines.json:1 and the added src/director headline composers are Words-owned paths. The body explicitly identifies this as a pool session rather than the Words session, so the merger morning check refuses these edits. Route this change through the Words session; also retain the item-specific played-world proof when resubmitting.; finish on that branch, merge main into it first.
