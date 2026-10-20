@@ -16,6 +16,12 @@ import {
 } from "../condition-pack";
 import { remainingDaysAfterOnset } from "../death-causes";
 import {
+  DEATH_WEB_REFRESH_DAY,
+  deathWebFactor,
+  markWaitingHealthLinks,
+} from "../health-web";
+import { incomeBandOf } from "../counted-income-fifth";
+import {
   firstThresholdDay,
   MULTIPLIER_ONE,
   thresholdUnits,
@@ -117,6 +123,8 @@ interface HealthPlan {
   conditionKey?: string;
   /** Housing status changes, oldest first: the date and the factor on strain from then. */
   housing: { date: Day; factor: number }[];
+  /** The outcome web's factor on this person's death hazard, from each month it moved, oldest first. */
+  web: { date: Day; factor: number }[];
   evictedOn?: Day;
 }
 
@@ -270,6 +278,7 @@ function assignPerson(
     micros,
     ...(strongest ? { conditionKey: strongest.key } : {}),
     housing: [],
+    web: [],
   });
   scheduleOnset(api, data, row, person, from);
 }
@@ -287,6 +296,7 @@ function segments(api: CoreAPI, plan: HealthPlan) {
   const dates = [
     plan.from,
     ...plan.housing.map((row) => row.date),
+    ...plan.web.map((row) => row.date),
     ...(plan.evictedOn && evictionEnds ? [plan.evictedOn, evictionEnds] : []),
   ]
     .filter((date) => date >= plan.from)
@@ -302,9 +312,12 @@ function segments(api: CoreAPI, plan: HealthPlan) {
       date < evictionEnds
         ? p("healthEvictionHazardFactor")
         : p("one");
+    const web =
+      [...plan.web].reverse().find((row) => row.date <= date)?.factor ??
+      p("one");
     return {
       effectiveAt: date,
-      micros: Math.round(plan.micros * housing * evicted),
+      micros: Math.round(plan.micros * housing * evicted * web),
     };
   });
 }
@@ -384,6 +397,39 @@ function housingChanged(
     } else plan.evictedOn = date;
     api.stopgap(data.stopgapId);
     scheduleOnset(api, data, row, person, date);
+  }
+}
+
+/**
+ * Once a month, after the outcome web has written its month, each person's
+ * death hazard takes the web's factor for their age and income fifth (the
+ * same factor a counted person's chance of a serious illness takes). A
+ * change books a new segment from today and moves the onset; past strain
+ * keeps the factors it was earned under. An illness already begun runs its
+ * course.
+ */
+function refreshWebFactors(api: CoreAPI, data: HealthData, row: HealthRuntime) {
+  const day = Number(api.state.date.slice(8, 10));
+  if (day !== DEATH_WEB_REFRESH_DAY) return;
+  markWaitingHealthLinks(api);
+  const p = (key: string) => api.parameter(key);
+  const today = makeIsoDate(api.state.date);
+  const pay = householdMonthlyPay(api);
+  for (const [id, plan] of row.plans) {
+    const person = api.state.people.get(id);
+    if (!person?.alive || row.cases.get(id)?.onsetEventId) continue;
+    const monthly = pay.get(person.householdId);
+    const web = deathWebFactor(
+      api,
+      person.placeId,
+      Math.floor(exactAge(api, person.birthDate, today)),
+      monthly == null ? undefined : incomeBandOf(monthly * p("monthsPerYear")),
+    ).factor;
+    const last = plan.web.at(-1)?.factor ?? p("one");
+    if (web === last) continue;
+    plan.web.push({ date: today, factor: web });
+    api.stopgap(data.stopgapId);
+    scheduleOnset(api, data, row, person, today);
   }
 }
 
@@ -552,6 +598,7 @@ export function createHealthModule(
       const row = runtime(api.state);
       if (!row.initialized) initialize(api, data, row);
       else admitNewcomers(api, data, row);
+      if (row.initialized) refreshWebFactors(api, data, row);
       const date = makeIsoDate(api.state.date);
       for (const id of [...(row.onsetsByDate.get(date) ?? [])].sort()) {
         const person = api.state.people.get(id);
@@ -647,4 +694,12 @@ export function healthReport(core: Readonly<CoreState>) {
     conditionsByPerson: row?.conditionsByPerson ?? new Map(),
     resilienceLines: row?.resilienceLines ?? new Map(),
   };
+}
+
+/** The outcome web's factor now on one person's death hazard (1 where it has moved nothing). */
+export function healthDeathWebOf(
+  state: Readonly<CoreState>,
+  personId: PersonId,
+): number {
+  return runtimes.get(state)?.plans.get(personId)?.web.at(-1)?.factor ?? 1;
 }
