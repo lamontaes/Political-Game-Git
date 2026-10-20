@@ -5,9 +5,9 @@ area: office
 kind: feature
 priority: 3
 size: L
-status: claimed
+status: in-pr
 claimed-by: claude/budget-staff-advice
-pr:
+pr: #5313
 blocked-on:
 milestone: M5
 source: "docs/roadmap/later-specs-draft.md M5-02"
