@@ -70,15 +70,17 @@
       "id": "outcome.job-performance",
       "title": "An ordinary worker's performance at work",
       "engine": "src/core2/modules/jobs.ts",
-      "wired": false,
-      "why": "Workers have no performance record outside aides; nothing reads conscientiousness for it."
+      "wired": "partly",
+      "why": "An ordinary worker has no performance record once hired: nothing reads conscientiousness for output, discipline or promotion (Barrick & Mount 1991, rho 0.22).",
+      "evidence": "src/core2/modules/jobs.ts:1679 employers rank applicants by fit, which reads the applicant's reliability (jobsFitReliabilityWeight)"
     },
     {
       "id": "outcome.earnings",
       "title": "Promotion and pay by temperament",
       "engine": "src/core2/modules/jobs.ts",
-      "wired": false,
-      "why": "Pay comes from the job's wage row; no raise or promotion reads the worker's traits."
+      "wired": "partly",
+      "why": "Pay is the job's own rate (src/core2/modules/jobs.ts:2679); no raise or promotion reads the worker's traits (Gensowski 2018: 16.7% of lifetime earnings per SD of conscientiousness).",
+      "evidence": "Through hiring: reliability raises an applicant's fit (src/core2/modules/jobs.ts:1679), so reliable people are hired sooner"
     },
     {
       "id": "outcome.health-behaviors",
