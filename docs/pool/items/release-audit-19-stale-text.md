@@ -22,3 +22,5 @@ claimed-at: 2026-10-20T04:32:12.345Z
 **Files.** src/core2/data/stopgaps.json, docs/pool/items
 
 **Notes.** Item 19 of docs/reports/merge-audit-2026-10-20.md, split from release-merge-audit-oct20-fixes.
+
+**Result (Oct 20).** SG-WORLD-credit-island-deposits and SG-CORE-territory-places now say what the data holds (island villages carry Census county codes the FDIC table does not number; only Guam finds its county row); src/core2/territory-deposits.test.ts records it for every village. References to the deleted generator are gone from .prettierignore, the retirement map, the keeps list, core.md and two pool items. people-partnership-rates-check names its real dependency (people-partnership-counted); #5334 item people-views-opening-stance-per-question was already blocked on research; people-port-traits-upbringing has its pr link (#5101).
