@@ -22,3 +22,5 @@ claimed-at:
 **Files.** src/core2/modules/renewal.ts, src/core2/family-link-change.test.ts
 
 **Notes.** TODO
+
+Sent back 2026-10-20 from PR #5395 (branch claude/people-births-partnered): Merging current origin/main conflicts in src/core2/modules/renewal.ts. Resolve that code conflict, preserving the current renewal behavior and the new family.partnered reader, then rerun the changed-file gate and the couples-row-by-link proof. Its parent #4961 is still open, so this fixer remains targeted there; a branch merge will not mark a pool item done.; finish on that branch, merge main into it first.
