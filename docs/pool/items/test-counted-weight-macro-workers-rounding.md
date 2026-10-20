@@ -5,12 +5,12 @@ area: core
 kind: bug
 priority: 3
 size: S
-status: claimed
-claimed-by: claude/macro-workers-rounding
+status: open
+claimed-by:
 pr:
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-20T09:19:47.157Z
+claimed-at:
 ---
 
 **What.** On seed 81f3003b4329071a3e587bb803de9acf3816104a8fcfb0e6ca02e3ba1d4276ff, place 5034675, the workers sum at SCALE 3 is 3.2 times the base. Find whether rounding of per-household worker counts or a real scaling error causes it, and fix the source.
@@ -22,3 +22,5 @@ claimed-at: 2026-10-20T09:19:47.157Z
 **Files.** src/core2/counted-weight-macro.test.ts, src/core2/modules/residents.ts
 
 **Notes.** TODO
+
+Oct 20 (claude/macro-workers-rounding): reproduced on seed 81f3003b4329071a3e587bb803de9acf3816104a8fcfb0e6ca02e3ba1d4276ff, place 5034675 (countScale 3 via buildBenchWorld twoLevel). residentCounts at scale 1: people 744, households 539, workers 53; at scale 3: people 986.0, households 650.7, workers 178.1; identical after the 2-day advance, so it is the opening, not drift. People grow only 1.33 times and households 1.21 times at "scale 3", so the counted set is not the same records with three times the weight (weights are uniform per place in `weightOf`, so the opening collapses a different set of households); workers then grow 3.36 times. Next: compare which household records `collapseToTwoLevels` keeps versus collapses at scale 1 and 3 (src/core2/residents.ts line 262 on; `keep` and `weights`), and decide whether the test should compare like for like or the collapse should hold the counted set fixed. Nothing changed in the repo.
