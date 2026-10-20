@@ -30,3 +30,5 @@ Rows:
 **Notes.** Folded from: gov-stopgap-justice-law-assumed-data, gov-stopgap-officials-assumed-data, gov-stopgap-parameters-uncalibrated-tunable. Rows that are not numbers (missing mechanics in law reach, for example) stay registered; this item sources what they will read.
 
 Oct 20 (pool feeder): research done in docs/research/pool-feeder-oct20/research-gov-sourced-parameters.md (3 rows: 0 sourced, 3 estimated, 0 mechanic).
+
+Looked at Oct 20 (claude, claude/political-game-pool-yucp92-x), nothing sourced. The three rows each need a per-place table the repository does not hold: the sentencing range for bribery of a public official in each of the 56 places (statute text), each statewide executive's party from a public roster, and Pew local-news habit data to calibrate outlet delay, story age and stories per contact. Each is dozens of separate public pages with citations, a researcher's job (.agents/skills/researcher/SKILL.md), not something to type from memory; none is a number that can be set without its source.

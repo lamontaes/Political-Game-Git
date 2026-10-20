@@ -5,12 +5,12 @@ area: people
 kind: research
 priority: 2
 size: M
-status: open
-claimed-by:
-pr:
-blocked-on:
+status: in-pr
+claimed-by: claude/residents-county-employment
+pr: #5690
+blocked-on: researcher: per-place or calibration sourcing, each row cited; first row's replacement: Valid county B23001 civilian employed/resident-age observations, suppression/MOE handling and territorial equivalents. (parameter
 source: "collapsed Oct 19, 2026 from people-stopgap-resident-employment-missing-local-observation, people-stopgap-residents-aggregate-cadence, people-stopgap-residents-assumed-data"
-claimed-at:
+claimed-at: 2026-10-20T13:19:45.139Z
 ---
 
 **What.** Apply the rows in docs/research/pool-feeder-oct20/research-residents-sourced-parameters.md to the residents parameter table and resolve the three stopgap rows listed below. Refresh the national employment ratios in resident-employment.json to the current CPS, keep the county scale as a labeled ESTIMATE with its spread, report counted-worker absence and turnover against the BLS rates, and replace strict income-order district filling with the noisy ordering at correlation 0.35. County ACS tables need a free Census key, so the district and county rows stay estimates until a builder with a key reads them.
