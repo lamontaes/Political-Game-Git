@@ -5,12 +5,12 @@ area: docs
 kind: bug
 priority: 3
 size: S
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/political-game-pool-76ksvw
+pr: #5180
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-20T00:38:43.263Z
+claimed-at: 2026-10-20T05:22:12.344Z
 ---
 
 **What.** The two audit reports in docs/reports (merge-audit-2026-10-20.md and post-merge-audit-2026-10-19.md) broke the report standard in seven places: "cancelled" spelled the British way, a clock time and a method word in the lead, and four sentences of 49 to 92 words. They failed scripts/report-check/report-check.test.ts on main. Reword each so the check passes without changing what the reports say.
