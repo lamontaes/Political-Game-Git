@@ -5,7 +5,7 @@ area: gov
 kind: bug
 priority: 3
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/staffing-prior-line
 pr: #5628
 blocked-on:

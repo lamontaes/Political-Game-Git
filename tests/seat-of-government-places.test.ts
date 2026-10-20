@@ -58,13 +58,14 @@ describe("seats of government stay inside their own jurisdiction", () => {
         expect(loaded!.place.sourceGeoid).toBe(row.placeGeoid);
       } else {
         expect(loaded!.place.key).toBe(row.placeKey);
-        expect(loaded!.place.sourceGeoid).toBeUndefined();
+        // An island-area village carries its Census Island Areas GEOID.
+        expect(loaded!.place.sourceGeoid).toMatch(/^\d{7,10}$/);
       }
     }
     expect(seatOfGovernmentPlace("unrecorded-government")).toBeNull();
   });
 
-  it("preserves local island identities and their placeholder provenance", () => {
+  it("keeps local island identities, now from the Census Island Areas list", () => {
     const estimated = table.rows.filter(
       (row) => row.matchStatus === "estimated-territory-place",
     );
@@ -80,7 +81,7 @@ describe("seats of government stay inside their own jurisdiction", () => {
       expect(row.placeGeoid).toBeUndefined();
       expect(row.estimateReason).toContain("placeholder provenance");
       expect(loaded.place.context.jurisdiction.provenance.status).toBe(
-        "placeholder",
+        "approved",
       );
       expect(loaded.place.capabilities).toEqual({
         legislativeScenarioKey: null,
