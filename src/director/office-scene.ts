@@ -515,7 +515,7 @@ export interface HearingExchange {
  * question about the bill, the witness takes it, and the chair follows up:
  * pressing for a plain yes or no where the committee's vote was within
  * `hearingTightMargin`, else with a short question. A hearing with no
- * witness or no living speaker has no exchange. The wording is picked by the
+ * living chair or respondent has no exchange. The wording is picked by the
  * renderer's stable hash of the hearing; no roll decides anything.
  */
 export function hearingExchange(
@@ -523,11 +523,14 @@ export function hearingExchange(
   hearing: CommitteeRecord,
 ): HearingExchange | null {
   const rows = OFFICE_SCENE_ROWS;
-  const witnessId = hearing.witnesses[P.zero]?.personId as PersonId | undefined;
   const chairId = hearing.chairId as PersonId;
-  if (!witnessId) return null;
-  if (!core.people.get(chairId)?.alive || !core.people.get(witnessId)?.alive)
-    return null;
+  // The first witness answers; a hearing with none puts the chair's question
+  // to the first member of the committee who sits and lives.
+  const witnessId = [
+    ...hearing.witnesses.map((w) => w.personId),
+    ...hearing.memberIds.filter((id) => id !== hearing.chairId),
+  ].find((id) => core.people.get(id)?.alive) as PersonId | undefined;
+  if (!witnessId || !core.people.get(chairId)?.alive) return null;
   const say = (
     holderId: PersonId,
     keys: readonly string[],
