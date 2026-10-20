@@ -4,12 +4,13 @@ title: "Stopgaps in work (authored-timetable): 1 open"
 area: core
 kind: stopgap
 priority: 3
-status: open
+status: blocked
 claimed-by:
 pr:
-blocked-on:
+blocked-on: research data: the row's replacement needs recorded, empirical or sourced data (Source-backed schedule and leave records with matched occupation/weekday and within-role spread; preserve actual input calendars....)
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/data/work.json, kind authored-timetable"
+claimed-at:
 ---
 
 **What.** Replace or clear the 1 open authored-timetable stopgap row(s) in src/core2/data/work.json: SG-P8-work-schedule-data. Each fake is replaced by the mechanic, or the feature that needs it is deleted.

@@ -1772,7 +1772,12 @@
         {
           "match": {
             "label": "cause:event:election-result",
-            "causeFact": { "key": "winnerId", "is": "subject" }
+            "causeFacts": [
+              {
+                "key": "winnerId",
+                "is": "subject"
+              }
+            ]
           },
           "causeEngine": "elections",
           "causeRecord": "election-result",
@@ -1831,7 +1836,12 @@
         {
           "match": {
             "label": "cause:event:election-result",
-            "causeFact": { "key": "winnerId", "is": "other" }
+            "causeFacts": [
+              {
+                "key": "winnerId",
+                "is": "other"
+              }
+            ]
           },
           "causeEngine": "elections",
           "causeRecord": "election-result",
@@ -1900,7 +1910,9 @@
       "timing": "at-cause",
       "causes": [
         {
-          "awaitingProducer": "legislative-vote",
+          "match": {
+            "label": "cause:event:legislative-vote"
+          },
           "causeEngine": "legislature",
           "causeRecord": "legislative-vote",
           "bind": {
@@ -1959,14 +1971,27 @@
         {
           "match": {
             "label": "cause:event:executive-action",
+<<<<<<< HEAD
             "causeFact": { "key": "sponsorId", "is": "subject" },
             "causeFactEquals": { "key": "action", "value": "signed" }
+=======
+            "causeFacts": [
+              {
+                "key": "action",
+                "equals": ["signed"]
+              },
+              {
+                "key": "executiveId",
+                "is": "other"
+              }
+            ]
+>>>>>>> origin/main
           },
           "causeEngine": "legislature",
           "causeRecord": "executive-action",
           "bind": {
             "sponsor": "subject",
-            "signer": "chair",
+            "signer": "executive",
             "press": "press"
           },
           "opener": "signer",
@@ -2019,14 +2044,27 @@
         {
           "match": {
             "label": "cause:event:executive-action",
+<<<<<<< HEAD
             "causeFact": { "key": "sponsorId", "is": "subject" },
             "causeFactEquals": { "key": "action", "value": "vetoed" }
+=======
+            "causeFacts": [
+              {
+                "key": "action",
+                "equals": ["vetoed"]
+              },
+              {
+                "key": "executiveId",
+                "is": "other"
+              }
+            ]
+>>>>>>> origin/main
           },
           "causeEngine": "legislature",
           "causeRecord": "executive-action",
           "bind": {
             "sponsor": "subject",
-            "executive": "chair",
+            "executive": "executive",
             "press": "press"
           },
           "opener": "executive",
@@ -2136,7 +2174,6 @@
       "timing": "at-cause",
       "causes": [
         {
-          "awaitingProducer": "recall-petition",
           "causeEngine": "recalls",
           "causeRecord": "recall-petition",
           "bind": {
@@ -2145,7 +2182,16 @@
             "family": "household"
           },
           "opener": "petitioners",
-          "opening": "blame"
+          "opening": "blame",
+          "match": {
+            "label": "cause:event:recall-petition",
+            "causeFacts": [
+              {
+                "key": "memberId",
+                "is": "subject"
+              }
+            ]
+          }
         },
         {
           "match": {
@@ -2249,15 +2295,18 @@
       "timing": "at-cause",
       "causes": [
         {
-          "awaitingProducer": "press-approached",
           "causeEngine": "press",
-          "causeRecord": "office.approached",
+          "causeRecord": "interview-published",
           "bind": {
             "reporter": "press",
             "official": "subject"
           },
           "opener": "reporter",
-          "opening": "greet"
+          "opening": "greet",
+          "match": {
+            "label": "cause:event:interview-published",
+            "selfNamed": true
+          }
         }
       ],
       "tag": {
@@ -2298,7 +2347,6 @@
       "timing": "at-cause",
       "causes": [
         {
-          "awaitingProducer": "scandal-story-received",
           "causeEngine": "press",
           "causeRecord": "press.exposed",
           "bind": {
@@ -2307,7 +2355,11 @@
             "family": "household"
           },
           "opener": "reporter",
-          "opening": "confront"
+          "opening": "confront",
+          "match": {
+            "label": "feeling:event:press.exposed",
+            "selfNamed": true
+          }
         }
       ],
       "tag": {

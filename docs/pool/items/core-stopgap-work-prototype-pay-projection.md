@@ -4,10 +4,10 @@ title: "Stopgaps in work (prototype-pay-projection): 1 open"
 area: core
 kind: stopgap
 priority: 3
-status: open
+status: blocked
 claimed-by:
 pr:
-blocked-on:
+blocked-on: research data: the row's replacement needs recorded, empirical or sourced data (Recorded compensation contract/cadence/laws, equivalent partition and amount/remainder conservation; separate revenue/consumption contracts....)
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/modules/work.ts, kind prototype-pay-projection"
 ---

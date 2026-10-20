@@ -5,9 +5,9 @@ area: director
 kind: feature
 priority: 3
 size: L
-status: claimed
+status: in-pr
 claimed-by: claude/director-m4-verify-2
-pr:
+pr: #5350
 blocked-on:
 milestone: M4
 source: "docs/roadmap/later-specs-draft.md M4-06"
