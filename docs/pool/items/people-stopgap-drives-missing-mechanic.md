@@ -22,3 +22,5 @@ claimed-at: 2026-10-19T23:43:32.982Z
 **Files.** src/core2/data/drives.json
 
 **Notes.** First row: A resident founds a cause group instantly with no charter, registration, dues or officers.
+
+Oct 19 (claude, claude/drives-unbuilt-acts): the three `unbuilt-system` act rows (testify-at-hearing, run-for-office, lobby-legislator) and their handlers are deleted and `SG-P10-testify-unbuilt`, `SG-P10-candidacy-unbuilt` and `SG-P10-lobbying-unbuilt` resolved: the hearings, candidacy and interest-groups modules already own those routes, so a drive act would be a parallel one. Their bench scene places and figure poses are deleted too. Left for the Words line: the `testify-at-hearing`, `run-for-office` and `lobby-legislator` entries in `data/english/parts/choice-names.json` and `data/content/trait-decisions.json`, which the English engine may use for other scenes. `SG-P10-cause-group-founding` stays open.
