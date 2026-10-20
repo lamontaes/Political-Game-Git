@@ -5,13 +5,13 @@ area: gov
 kind: wiring
 priority: 2
 size: M
-status: claimed
-claimed-by: claude/medicaid-reader
+status: open
+claimed-by:
 pr:
 blocked-on:
 after: people-coverage-record-monthly-pass,world-medical-spending-categories
 source: added with npm run pool -- add
-claimed-at: 2026-10-20T12:31:12.340Z
+claimed-at:
 ---
 
 **What.** The law-reach engine writes Medicaid eligibility and work-requirement records on named adults and counted groups (stopgap SG-GOV-REACH-B-medicaid-coverage), but no engine reads them, so no one's coverage or medical bill changes. Make the coverage engine read those records: an adult under the income limit in a state with the expansion in force gets a Medicaid coverage record, the work-requirement law ends it for those under the hours limit, and the household's out-of-pocket flow falls accordingly. Repealing the law ends the records.
