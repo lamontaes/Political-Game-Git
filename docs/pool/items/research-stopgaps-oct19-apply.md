@@ -22,3 +22,5 @@ claimed-at: 2026-10-20T03:19:38.197Z
 **Files.** data/research/stopgaps-oct19/, src/core2/data/stopgaps.json
 
 **Notes.** The rows still blocked on the Census API key are named in the README.
+
+Applied Oct 20 (claude, second PR): SG-WORLD-housing-foreclosure-steps (process-class median fill computed from the data's 14 published averages, 174 / 2007 / 2293 days; `PROCESS_TYPICAL_DAYS` in housing-foreclosure.ts; test housing-foreclosure-days.test.ts; row kept open, text revised). Skipped on purpose: SG-WORLD-macro-mortgage-spread, whose basis says the FRED series is Freddie Mac PMMS that the CTO excluded, so its table can only check a government series, not ship.

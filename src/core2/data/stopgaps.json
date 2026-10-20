@@ -4410,7 +4410,7 @@
     "kind": "assumed-data",
     "file": "src/core2/housing-foreclosure.ts",
     "line": 66,
-    "whatItFakes": "A state's foreclosure timeline that was not read from its statute (or that has no published average) is taken from secondary summaries or the national average days to complete.",
+    "whatItFakes": "A state's foreclosure timeline that was not read from its statute is taken from secondary summaries; a place with no published average days to complete takes the median of its process (nonjudicial 174, judicial 2007, both 2293 days, from the 14 places with ATTOM averages), not the national average.",
     "why": "Foreclosure statutes and timelines were gathered for 56 places in one pass; places below high confidence still need their statute text read.",
     "addedBy": "OPUS-WORLD",
     "addedAt": "2026-10-14",
