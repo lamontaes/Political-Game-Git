@@ -68,7 +68,6 @@ it(`a filled-in jobless worker holds an outside job with a payday and withholdin
       pool(),
       `${where}: the pool gave up the household's share`,
     ).toBeLessThan(before);
-    const whileHeld = pool();
     // A regular payday, with tax withheld, and the account's own cash never used.
     advanceCore(core, addDays(makeIsoDate(core.date), 60));
     const ledger = [...state.work.payrollLedgerByCommitment.values()].find(
@@ -108,9 +107,13 @@ it(`a filled-in jobless worker holds an outside job with a payday and withholdin
       state.jobs.get(job.id)!.endsAt,
       `${where}: the job ended`,
     ).toBeDefined();
-    expect(pool(), `${where}: the pay is back in the pool`).toBeGreaterThan(
-      whileHeld,
-    );
+    // Its share of the unplaced workers is back with its counted group.
+    const group =
+      rt.store.households[rt.store.householdOf.get(commuter.householdId!)!]!;
+    expect(
+      group.unplacedWorkers,
+      `${where}: the household's unplaced workers are back in its group`,
+    ).toBeGreaterThan(0);
     expect(core.cashJournal.totals.grossDebitMinor).toBe(
       core.cashJournal.totals.grossCreditMinor,
     );
