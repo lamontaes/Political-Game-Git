@@ -5,12 +5,13 @@ area: world
 kind: wiring
 priority: 2
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/macro-outlays
 pr:
 after: world-macro-federal-dollar-finish
 blocked-on:
 source: "trial PR #4990's finding; acting CTO, Oct 19"
+claimed-at: 2026-10-20T02:00:59.251Z
 ---
 
 **What.** One town is its share of the nation, so a federal line the player passes barely moves national output when only the town's own chain is followed (1.8e-8 of output in the trial). The outside account's outlays and other places' budgets reach the same payout engines as indexed totals, counted at the coarser tier, so national output is the sum over all places of dollars paid and spent, the town in full and the rest by index. This is the registered replacement of SG-WORLD-macro-public-budget; the stopgap is resolved when the indexed totals are read.
