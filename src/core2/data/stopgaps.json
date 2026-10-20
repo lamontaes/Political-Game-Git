@@ -4867,5 +4867,65 @@
     "addedAt": "2026-10-17",
     "replacement": "Each department's employing government read from the Census of Governments employment file by function, so a county health department, a fire district or a state agency's field office pays its own staff.",
     "status": "open"
+  },
+  {
+    "id": "SG-CORE-crime-exposure-marginals",
+    "kind": "estimated-data",
+    "file": "src/core2/modules/crime.ts",
+    "line": 491,
+    "whatItFakes": "Which household is victimized is ranked by income, tenure and household kind (burglary) and by each member's age and income (violent crime), each read from a separate BJS table and multiplied as if independent. Property crime other than burglary uses the burglary ranking because BJS publishes no income or tenure cut for it in the tables used. The ranking overstates the gap between poor renters and rich owners; the place's expected count does not depend on it.",
+    "why": "Only marginal tables are published in the reports read (BJS cv24, vdhb).",
+    "addedBy": "effect-web-crime",
+    "addedAt": "2026-10-20",
+    "replacement": "A joint rate by income, tenure and household kind from the NCVS public-use file or the NCVS Victimization Analysis Tool, and a property-crime cut of its own for theft and motor vehicle theft.",
+    "status": "open"
+  },
+  {
+    "id": "SG-CORE-crime-offenders",
+    "kind": "missing-engine",
+    "file": "src/core2/modules/crime.ts",
+    "line": 493,
+    "whatItFakes": "Crimes happen to households with no offender: nobody decides to offend, so a victimization has no perpetrator, motive or relationship to the victim.",
+    "why": "The owner ruled that a full crime engine (offenders deciding to offend, police, courts) comes later; the web needs only victimization records.",
+    "addedBy": "effect-web-crime",
+    "addedAt": "2026-10-20",
+    "replacement": "An offending engine where people decide to offend from their own traits, money and circumstances, so the national rate is a check on its total.",
+    "status": "open"
+  },
+  {
+    "id": "SG-CORE-crime-arrests",
+    "kind": "missing-engine",
+    "file": "src/core2/modules/crime.ts",
+    "line": 495,
+    "whatItFakes": "No arrest follows a reported crime: there is no police behavior to make one, so the reported count is the end of the record.",
+    "why": "FBI clearance rates by offense type (UCR) apply only to crimes known to police and would need police and court engines to say who is arrested and charged; applying a rate alone would only be a number.",
+    "addedBy": "effect-web-crime",
+    "addedAt": "2026-10-20",
+    "replacement": "Police and court engines that arrest, charge and sentence from the records, with the FBI clearance rates as the check on their totals.",
+    "status": "open"
+  },
+  {
+    "id": "SG-CORE-crime-vandalism",
+    "kind": "missing-data",
+    "file": "src/core2/modules/crime.ts",
+    "line": 497,
+    "whatItFakes": "Vandalism is not a victimization record: the NCVS has no national vandalism rate, so no household is victimized by it, and the web's crime.vandalism index (unemployment-to-vandalism, crime-level-to-vandalism) moves in the ledger only.",
+    "why": "BJS does not publish a vandalism rate in Criminal Victimization 2024; the web keeps vandalism as an index on the place's own start.",
+    "addedBy": "effect-web-crime",
+    "addedAt": "2026-10-20",
+    "replacement": "A sourced national rate for vandalism or criminal mischief (the NCVS household supplement or NIBRS destruction of property), then a record type like the others.",
+    "status": "open"
+  },
+  {
+    "id": "SG-CORE-crime-firearm-homicide",
+    "kind": "missing-mechanic",
+    "file": "src/core2/modules/crime.ts",
+    "line": 499,
+    "whatItFakes": "A firearm homicide is a death, so the victimization records do not make it: crime.firearm-homicide (stand-your-ground-to-homicide, concealed-carry-permit-to-firearm-homicide) stays in the web's ledger and no death follows from it.",
+    "why": "The NCVS excludes homicide, and a death belongs to the death engine's own causes.",
+    "addedBy": "effect-web-crime",
+    "addedAt": "2026-10-20",
+    "replacement": "The death engine reading the web's factor for firearm homicide on each person's cause-specific mortality.",
+    "status": "open"
   }
 ]

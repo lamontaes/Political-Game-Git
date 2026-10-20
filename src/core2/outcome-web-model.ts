@@ -32,6 +32,11 @@ export type Shape =
 export interface WebLink {
   readonly key: string;
   readonly from: string;
+  /**
+   * The measure the new core reads the cause from when it is not `from` (the
+   * old engine's name): an engine's own records, e.g. the victimization index.
+   */
+  readonly readFrom?: string;
   readonly to: string;
   readonly shape: Shape;
   readonly size: number | null;
@@ -100,7 +105,9 @@ interface BaseDefinition {
   readonly places: Readonly<Record<string, number>>;
 }
 
-export const WEB_LINKS = web.links as unknown as readonly WebLink[];
+export const WEB_LINKS = (web.links as unknown as readonly WebLink[]).map(
+  (link) => (link.readFrom ? { ...link, from: link.readFrom } : link),
+);
 export const WEB_VERSION = web.version;
 /** The date the research's base levels describe; laws in force then are the baseline. */
 export const CALIBRATED_AT = web.calibratedAt;
@@ -127,9 +134,12 @@ const ENGINE = local.engineMeasures as Readonly<
     string,
     {
       readonly owner: string;
-      /** The field of a world-metrics month row the measure reads. */
+      /** The field of a month row the measure reads (world-metrics', else the engine's own table). */
       readonly field: string;
       readonly unitScale: number;
+      /** An engine that keeps its own month rows by place: its module and table (rows have `placeId`, `date`, `id`). */
+      readonly module?: string;
+      readonly table?: string;
     }
   >
 >;

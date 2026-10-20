@@ -177,12 +177,13 @@ function readEngine(
 ): { value: number; recordId: string | null } | null {
   const definition = engineMeasure(measure);
   if (!definition) return null;
-  // Engine measures are read from the economy's monthly rows (world-metrics).
-  if (!(api.state as CoreState).modules.has(WORLD_METRICS_MODULE_ID))
-    return null;
+  // Engine measures are read from the economy's monthly rows (world-metrics),
+  // or from the month rows of the engine that owns them.
+  const owner = definition.module ?? WORLD_METRICS_MODULE_ID;
+  if (!(api.state as CoreState).modules.has(owner)) return null;
   const recorded = api
-    .moduleState(WORLD_METRICS_MODULE_ID)
-    .table("months")
+    .moduleState(owner)
+    .table(definition.table ?? "months")
     .query("byPlace", [placeId]) as unknown as readonly ({
     date: string;
     id: string;
