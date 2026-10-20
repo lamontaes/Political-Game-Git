@@ -192,6 +192,11 @@
       "class": "no study number",
       "why": "Claiming age moves by weight times lean times claimTraitPullYears; the only study found is an unverified abstract (data/research/trait-effect-sizes.json), so the weight stays at the general 1.",
       "fix": "Find a claim-age study with a number and set the weight."
+    },
+    "credit.borrow": {
+      "class": "no study number",
+      "why": "Brown and Taylor 2014 report extraversion's link to the level of unsecured debt (21.70 percentage points per standard deviation), not to the probability of borrowing, so the study gives no size for this decision; the general trait weight of 1 stands. Borrowing now goes through the shared two-way formula for full and counted people alike.",
+      "fix": "Calibrate against a study that reports the probability of taking on consumer credit by trait."
     }
   }
 }

@@ -5129,14 +5129,12 @@
     }
   },
   "traitWeightCreditBorrow": {
-    "value": 3.8,
-    "tag": "ESTIMATED",
-    "citation": "Brown and Taylor 2014, Household finances and the 'Big Five' personality traits (Journal of Economic Psychology 45): one standard deviation of extraversion goes with 21.7 percentage points more unsecured debt among single people. Taken as a probability swing, the odds ratio between the thirds is 7.6. Weight set with scripts/traits/trait-calibrate.ts (place key 3223500, seed 7ae8589566f5, 365 played days, 10,268 personal and business calls); 3.8 reaches 6.2 and no weight reaches 7.6 because the shortfall and cost reasons dominate. The paper's unit is ambiguous (a percentage change in the level of debt), so this is likely an upper bound.",
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "The trait weight of the credit.borrow decision. Starts at the general traitWeight (1); calibrated against its row in data/research/trait-effect-sizes.json with scripts/traits/trait-calibrate.ts.",
     "spread": {
-      "low": 1,
-      "high": 5,
-      "unit": "weight",
-      "citation": "Weight 1 gives an odds ratio of 1.6 in the same calls; 5 gives about 7. No interval in the study."
+      "status": "unmeasured",
+      "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
     }
   },
   "traitWeightCandidacyRun": {

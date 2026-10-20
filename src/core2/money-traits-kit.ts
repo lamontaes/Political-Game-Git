@@ -1,3 +1,4 @@
+import { randomBytes } from "node:crypto";
 /**
  * Shared pieces of the money-family trait tests (`*.traits.test.ts`): people
  * drawn the way the game draws who exists, a small real core around them, and
@@ -14,9 +15,13 @@ import type { CoreModule, CoreState } from "./types";
 
 const START = "2026-10-01";
 
-/** The place and seed a test draws from, named in its failure messages. */
+/** A seed drawn fresh each run (or GOLDEN_PATH_SEED to replay one), for every test in the file. */
+const RUN_SEED =
+  process.env.GOLDEN_PATH_SEED ?? randomBytes(20).toString("hex");
+
+/** The place and seed a test draws from all 56, named in its failure messages. */
 export function testPlace(name: string) {
-  return drawPlace(`money-traits:${name}`, "money-traits");
+  return drawPlace(`${RUN_SEED}:${name}`, "money-traits");
 }
 
 /** Adults drawn with the opening temperament draw (real norms by age and sex). */

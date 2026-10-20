@@ -1097,12 +1097,7 @@
       "id": "credit.borrow",
       "trait": "extraversion",
       "outcome": "unsecured debt, single individuals (BHPS, UK)",
-      "effect": {
-        "kind": "pp-per-sd",
-        "value": 21.7,
-        "low": null,
-        "high": null
-      },
+      "effect": null,
       "source": {
         "authors": "Brown, S., & Taylor, K.",
         "year": 2014,
@@ -1112,7 +1107,7 @@
       },
       "quote": "For example, a one standard deviation increase in extraversion is associated with a 21.70 percentage point increase in unsecured debt.",
       "quoteVerified": true,
-      "notes": "UK British Household Panel Survey. The paper's unit for the debt outcome is ambiguous (reads as percent change in the level of debt, not a probability). Couples: one SD of agreeableness is associated with an increase in unsecured debt of over 22 percentage points. Conscientiousness is inversely associated with unsecured debt in every sample. Probability of holding other debt: extraversion +2.44 pp per SD (singles). Greene, Shy & Stavins (2023) separately find that less conscientious, more open, and more agreeable card holders are more likely to revolve credit card debt (no coefficients extracted)."
+      "notes": "UK British Household Panel Survey. The paper's unit for the debt outcome is ambiguous (reads as percent change in the level of debt, not a probability). Couples: one SD of agreeableness is associated with an increase in unsecured debt of over 22 percentage points. Conscientiousness is inversely associated with unsecured debt in every sample. Probability of holding other debt: extraversion +2.44 pp per SD (singles). Greene, Shy & Stavins (2023) separately find that less conscientious, more open, and more agreeable card holders are more likely to revolve credit card debt (no coefficients extracted). The reported 21.7 is a change in the level of unsecured debt, not a probability of borrowing, so it gives no size for the borrow decision; the effect is left empty and the direction stands."
     },
     {
       "id": "outcome.marriage-formation",

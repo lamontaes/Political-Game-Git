@@ -9,7 +9,6 @@
  */
 import { describe, expect, it } from "vitest";
 import { scoreOffers, decisionFromScores } from "./choice";
-import { personalBorrowingDecision } from "./modules/credit";
 import { retirementClaimAgeMonths } from "./retirement-claim";
 import {
   decisionLean,
@@ -24,11 +23,9 @@ import {
   testPlace,
   thirdsOddsRatio,
 } from "./money-traits-kit";
-import { coreAPI } from "./state";
 import circumstances from "./money-traits-circumstances.json" with { type: "json" };
 import jobsData from "./data/jobs/jobs.json" with { type: "json" };
 import businessData from "./data/business/business.json" with { type: "json" };
-import creditData from "./data/credit/credit.json" with { type: "json" };
 import type { ActionDefinition, ActOffer } from "./types";
 
 const place = testPlace("money");
@@ -149,7 +146,6 @@ describe(`money-family trait decisions, ${label}`, () => {
       jobsData.actions.decline,
       1.49,
     ],
-    ["credit.borrow", creditData.actions.borrow, creditData.actions.wait, 7.59],
   ];
   for (const [id, yes, no, target] of formula)
     it(`${id}: counted and personal answers move with personality (${target}x between the thirds)`, () => {
@@ -158,28 +154,6 @@ describe(`money-family trait decisions, ${label}`, () => {
         Math.max(1.2, target / BAND),
       );
     });
-
-  it("credit.borrow: the personal loan decision is the formula above, reasons and all", () => {
-    const core = coreWithPeople(traits);
-    const api = coreAPI(core);
-    const w = decisionTraitWeight(core, "credit.borrow");
-    expect(w).toBeGreaterThan(1);
-    const rows = traits.map((t, i) => ({
-      lean: leanBetweenKinds(
-        core,
-        t,
-        creditData.actions.borrow.actKinds,
-        creditData.actions.wait.actKinds,
-      ),
-      yes: personalBorrowingDecision(
-        api,
-        { id: `person:${i}`, traits: t },
-        0.5,
-        0.5,
-      ).borrow,
-    }));
-    expect(thirdsOddsRatio(rows), label).toBeGreaterThan(1.2);
-  });
 
   // Summed pulls: the trait term shifts each counted person's log odds, so the
   // odds between the thirds are e to the weight times the thirds' lean gap.
