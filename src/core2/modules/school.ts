@@ -19,10 +19,19 @@ import type {
   ActionDefinition,
   CoreAPI,
   CoreModule,
+  CoreState,
   PersonState,
 } from "../types";
 
-export const SCHOOL_MODULE_ID = "core2-school-days-v1";
+import { SCHOOL_MODULE_ID } from "../school-measures";
+import {
+  decideSchoolOutcome,
+  recordSchoolSpending,
+  schoolStartYear,
+} from "../school-outcomes";
+import outcomes from "../data/school/outcomes.json" with { type: "json" };
+
+export { SCHOOL_MODULE_ID };
 
 const ageOn = (birthDate: string, date: string) => {
   const years = Number(date.slice(0, 4)) - Number(birthDate.slice(0, 4));
@@ -219,7 +228,67 @@ function schoolDay(api: CoreAPI): void {
 }
 
 function attended(api: CoreAPI, personId: string, schoolId: string): void {
-  table(api).put({ id: personId, date: api.state.date, schoolId });
+  const date = api.state.date;
+  const year = schoolStartYear(date, data.schoolYear.firstDay);
+  const row = table(api).get(personId) as unknown as
+    { year?: number; days?: number } | undefined;
+  // The year's tally is what the school engine ranks students by each spring.
+  const days = (row?.year === year ? (row.days ?? 0) : 0) + 1;
+  table(api).put({ id: personId, date, schoolId, year, days });
+}
+
+/**
+ * A full student's share of the school days since the year began (or since
+ * the world opened) that they attended; undefined where there was no school.
+ */
+function attendanceShare(api: CoreAPI, startYear: number) {
+  const opened = (api.state as CoreState).startedAt;
+  const first = `${startYear}-${data.schoolYear.firstDay}`;
+  const from = opened > first ? opened : first;
+  let held = 0;
+  for (
+    let t = Date.parse(`${from}T00:00:00Z`);
+    t <= Date.parse(`${api.state.date}T00:00:00Z`);
+    t += 86_400_000
+  )
+    if (isSchoolDay(new Date(t).toISOString().slice(0, 10), stateOf(api)))
+      held += 1;
+  return (personId: string): number | undefined => {
+    if (!held) return undefined;
+    const row = table(api).get(personId) as unknown as
+      { year?: number; days?: number } | undefined;
+    return Math.min(1, (row?.year === startYear ? (row.days ?? 0) : 0) / held);
+  };
+}
+
+/** The school year's outcome records, once a year each: the spring tests and the end-of-year graduation. */
+function schoolOutcomes(api: CoreAPI): void {
+  const date = api.state.date;
+  const startYear = schoolStartYear(date, data.schoolYear.firstDay);
+  const md = date.slice(5);
+  const done = api.moduleState(SCHOOL_MODULE_ID).table("done");
+  const testsKey = `tests:${startYear}`;
+  const lastDay = lastDayOfYear(startYear, stateOf(api));
+  if (date >= lastDay && !done.get(`graduation:${startYear}`)) {
+    done.put({ id: `graduation:${startYear}`, date } as never);
+    decideSchoolOutcome(
+      api,
+      "graduation",
+      startYear,
+      attendanceShare(api, startYear),
+    );
+  } else if (
+    md >= outcomes.testingDay &&
+    md < data.schoolYear.firstDay &&
+    date < lastDay &&
+    !done.get(testsKey)
+  ) {
+    done.put({ id: testsKey, date } as never);
+    const attendance = attendanceShare(api, startYear);
+    decideSchoolOutcome(api, "math", startYear, attendance);
+    decideSchoolOutcome(api, "reading", startYear, attendance);
+    recordSchoolSpending(api, startYear);
+  }
 }
 
 const isPlayer = (api: CoreAPI, actor: Readonly<PersonState>) =>
@@ -227,9 +296,25 @@ const isPlayer = (api: CoreAPI, actor: Readonly<PersonState>) =>
 
 export const SCHOOL_MODULE: CoreModule = {
   id: SCHOOL_MODULE_ID,
-  state: { schemaVersion: 1, tables: { attended: {} } },
+  state: {
+    schemaVersion: 1,
+    tables: {
+      attended: {},
+      done: {},
+      carry: {},
+      results: {
+        indexes: {
+          byPerson: { fields: ["personId"] },
+          byPlace: { fields: ["placeId"] },
+        },
+      },
+      groups: { indexes: { byPlace: { fields: ["placeId"] } } },
+      measures: { indexes: { byPlace: { fields: ["placeId"] } } },
+    },
+  },
   onDay: (api) => {
     schoolDay(api);
+    schoolOutcomes(api);
     return undefined;
   },
   needEvaluators: {

@@ -4836,27 +4836,27 @@
     "status": "open"
   },
   {
-    "id": "SG-WEB-housing-links-unsized",
-    "kind": "missing-mechanic",
-    "file": "src/core2/modules/outcome-web.ts",
-    "line": 447,
-    "whatItFakes": "Two housing links move nothing: air-conditioning use does not rise or fall with the electricity price, and the share of income a place's renters pay in rent does not change how many people are homeless.",
-    "why": "The cited research gives no usable size: the electricity-price link has no published slope and no engine reads the air-conditioning share; the rent-burden link has thresholds at 22 and 32 percent but no slope (Zillow and UNH 2018; Colburn and Aldern 2022).",
-    "addedBy": "OPUS-WEB",
+    "id": "SG-SCHOOL-college-completion",
+    "kind": "missing-engine",
+    "file": "src/core2/school-outcomes.ts",
+    "line": 1,
+    "whatItFakes": "The share of adults with a bachelor's degree (school.college-completion-pct) stays the web's ledger number (base times the links' factors); no engine decides who completes college.",
+    "why": "The measure is a stock of everyone 25 and older, and the core records no degrees or college enrollment on a person, so there is nothing for a student's June record to roll into; building it needs a college-going and degree record.",
+    "addedBy": "EFFECT-WEB-SCHOOLS",
     "addedAt": "2026-10-20",
-    "replacement": "A sized link (a published slope per point of burden or per cent of price) read by an engine that decides air-conditioning use and by the homeless review.",
+    "replacement": "A college engine that gives each graduate an enrollment and completion record by the same standing rule, and a degree on each adult, read back as this measure.",
     "status": "open"
   },
   {
-    "id": "SG-WEB-disaster-severity",
-    "kind": "missing-mechanic",
-    "file": "src/core2/modules/outcome-web.ts",
-    "line": 448,
-    "whatItFakes": "A severe disaster does not lower home values: the link needs the disaster's death toll and the disasters module records only the FEMA declaration and its payments.",
-    "why": "Boustan, Kahn, Rhode and Yanguas 2020 size the price effect for disasters with at least 20 deaths; no record of deaths per disaster exists, and home values are not a factor the sales engine reads.",
-    "addedBy": "OPUS-WEB",
+    "id": "SG-SCHOOL-equalized-funding-budget",
+    "kind": "missing-engine",
+    "file": "src/core2/school-outcomes.ts",
+    "line": 1,
+    "whatItFakes": "The equalized-funding law's link into spending per student is the web's number; no law handler moves the schools budget line, so the school spending measure does not follow the law.",
+    "why": "No handler in src/core2/law-reach moves the education budget for education.equalize-school-funding (law handlers belong to the law-wiring area).",
+    "addedBy": "EFFECT-WEB-SCHOOLS",
     "addedAt": "2026-10-20",
-    "replacement": "Deaths and damage recorded on each disaster by the disasters module, and the housing sales engine reading the web's home-price factor.",
+    "replacement": "A law-reach handler that moves the schools line of the budget in force (moveBudget), which the school engine's spending measure then reads.",
     "status": "open"
   },
   {
@@ -4869,6 +4869,30 @@
     "addedBy": "EFFECT-WEB-WIRING",
     "addedAt": "2026-10-20",
     "replacement": "A conditions term in the plan score that reads webReach for the woman's own age and tenure, leaving out the links her own records already carry (unemployment), with a weight calibrated in a played year so full births move by the researched size, as counted births do.",
+    "status": "open"
+  },
+  {
+    "id": "SG-SCHOOL-hispanic-enrollment",
+    "kind": "missing-engine",
+    "file": "src/core2/school-outcomes.ts",
+    "line": 1,
+    "whatItFakes": "The share of public school students who are Hispanic (school.hispanic-enrollment) stays the web's ledger; no engine decides it, so the enforcement link into it moves only that number.",
+    "why": "The core records no ethnicity on a student and no enrollment by ethnicity, so there is nothing for the link to change.",
+    "addedBy": "EFFECT-WEB-SCHOOLS",
+    "addedAt": "2026-10-20",
+    "replacement": "An enrollment record by ethnicity (from the opening's school enrollment) that the immigration-enforcement law changes by who stays enrolled, read back as this measure.",
+    "status": "open"
+  },
+  {
+    "id": "SG-SCHOOL-links-not-running",
+    "kind": "missing-engine",
+    "file": "src/core2/school-outcomes.ts",
+    "line": 1,
+    "whatItFakes": "Thirteen researched links into school outcomes do not run: carbon-monoxide-to-absence, class-size-to-scores, prek-to-graduation, family-income-to-scores, police-killing-to-graduation, school-move-to-scores, daca-to-graduation (no researched size yet); school-spending-to-attainment, child-coverage-to-graduation, homicide-nearby-to-scores (person-level exposure over years or an acute event, which needs a per-student exposure record); lead-to-reading, heat-to-learning, home-internet-to-scores (the cause is not recorded, or the size is about zero).",
+    "why": "Each lacks a size from research, a recorded cause, or a per-student exposure history; the school engine reads only links that run.",
+    "addedBy": "EFFECT-WEB-SCHOOLS",
+    "addedAt": "2026-10-20",
+    "replacement": "Size each from its research, record its cause (class size, blood lead, school-year heat, broadband) or a per-student exposure record, and the engine's existing read of the web factor reaches it.",
     "status": "open"
   },
   {
@@ -5073,6 +5097,30 @@
     "addedBy": "claude/fs11vb-coverage-record",
     "addedAt": "2026-10-20",
     "replacement": "A coverage share per counted group, read by the same rule as a full person times the group's weight, and a premium flow per covered counted household (pool item people-coverage-counted).",
+    "status": "open"
+  },
+  {
+    "id": "SG-WEB-housing-links-unsized",
+    "kind": "missing-mechanic",
+    "file": "src/core2/modules/outcome-web.ts",
+    "line": 447,
+    "whatItFakes": "Two housing links move nothing: air-conditioning use does not rise or fall with the electricity price, and the share of income a place's renters pay in rent does not change how many people are homeless.",
+    "why": "The cited research gives no usable size: the electricity-price link has no published slope and no engine reads the air-conditioning share; the rent-burden link has thresholds at 22 and 32 percent but no slope (Zillow and UNH 2018; Colburn and Aldern 2022).",
+    "addedBy": "OPUS-WEB",
+    "addedAt": "2026-10-20",
+    "replacement": "A sized link (a published slope per point of burden or per cent of price) read by an engine that decides air-conditioning use and by the homeless review.",
+    "status": "open"
+  },
+  {
+    "id": "SG-WEB-disaster-severity",
+    "kind": "missing-mechanic",
+    "file": "src/core2/modules/outcome-web.ts",
+    "line": 448,
+    "whatItFakes": "A severe disaster does not lower home values: the link needs the disaster's death toll and the disasters module records only the FEMA declaration and its payments.",
+    "why": "Boustan, Kahn, Rhode and Yanguas 2020 size the price effect for disasters with at least 20 deaths; no record of deaths per disaster exists, and home values are not a factor the sales engine reads.",
+    "addedBy": "OPUS-WEB",
+    "addedAt": "2026-10-20",
+    "replacement": "Deaths and damage recorded on each disaster by the disasters module, and the housing sales engine reading the web's home-price factor.",
     "status": "open"
   },
   {

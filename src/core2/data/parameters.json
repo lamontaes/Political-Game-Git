@@ -5981,5 +5981,15 @@
       "unit": "score per unit of care need",
       "citation": "The 1.2% to 2.5% lost-worktime band of data/research/stopgaps-oct19/A-people-behavior-1.json."
     }
+  },
+  "schoolStandingAttendanceWeight": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "Weight of a student's share of school days attended in the standing that orders students within an income fifth (attendance is the strongest school-side predictor of achievement; checked against NAEP's absence gradient)."
+  },
+  "schoolStandingTraitWeight": {
+    "value": 0.5,
+    "tag": "TUNABLE",
+    "citation": "Weight of the student's study traits (studious, voluntary effort) in that standing, half an attendance weight; ordering only, never the level, which is the researched base."
   }
 }
