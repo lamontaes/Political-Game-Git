@@ -132,6 +132,12 @@ export const PROPER_NAMES: readonly {
     names: ["Sulphur"],
     reason: "FEMA's official incident name, Sulphur Fire, kept as declared",
   },
+  {
+    pattern: /^docs\/pool\/INDEX\.md$/,
+    names: ["cancelled", "labelled"],
+    reason:
+      "the generated index links items by their persisted ids (release-main-runs-cancelled-by-pool-pushes, release-spelling-labelled-stopgaps); identifiers keep their spelling",
+  },
 ];
 
 /** True when this British form is an official proper name allowed in this file. */
