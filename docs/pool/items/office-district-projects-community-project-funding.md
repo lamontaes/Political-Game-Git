@@ -4,9 +4,9 @@ title: "District projects (community project funding):"
 area: office
 kind: feature
 priority: 2
-status: claimed
+status: in-pr
 claimed-by: claude/community-projects
-pr:
+pr: #5170
 blocked-on:
 milestone:
 source: "docs/coordination/OFFICE-FEDERAL.md line 20 (unchecked checklist line)"

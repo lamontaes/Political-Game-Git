@@ -102,8 +102,21 @@ export const OFFICIALS_MODULE: CoreModule = {
       candidates: { indexes: { byContest: { fields: ["contestId"] } } },
     },
   },
-  eventKinds: ["took-office"],
+  eventKinds: ["took-office", "life.death"],
   onEvent: (api, event) => {
+    // An official who dies leaves the seat that day; the pay and the seat's
+    // next holder follow from the row's end.
+    if (event.kind === "life.death") {
+      for (const personId of event.personIds) {
+        const row = officialOf(api, personId);
+        if (row && row.ended === null)
+          table(api, "officials").put({
+            ...row,
+            ended: api.state.date,
+          } as unknown as ModuleRow);
+      }
+      return;
+    }
     const seatId = event.facts?.["seatId"];
     const winner = event.personIds[0];
     if (typeof seatId === "string" && winner) tookOffice(api, winner, seatId);
