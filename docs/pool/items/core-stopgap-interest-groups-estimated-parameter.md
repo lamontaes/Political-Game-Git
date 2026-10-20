@@ -4,9 +4,9 @@ title: "Stopgaps in interest-groups (estimated-parameter): 1 open"
 area: core
 kind: stopgap
 priority: 3
-status: claimed
+status: in-pr
 claimed-by: claude/ig-bound-cost
-pr: #5278
+pr: #5474
 blocked-on:
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/modules/interest-groups.ts, kind estimated-parameter"
