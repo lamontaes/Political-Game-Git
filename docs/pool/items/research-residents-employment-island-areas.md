@@ -5,9 +5,9 @@ area: people
 kind: research
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/island-employment
-pr:
+pr: #5764
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-20T23:20:54.096Z
