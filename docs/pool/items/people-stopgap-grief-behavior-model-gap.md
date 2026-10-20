@@ -4,10 +4,10 @@ title: "Stopgaps in grief (behavior-model-gap): 1 open"
 area: people
 kind: stopgap
 priority: 3
-status: open
+status: blocked
 claimed-by:
 pr:
-blocked-on:
+blocked-on: research data: the row's replacement needs recorded, empirical or sourced data (A grief measure matched to a bereavement instrument (for example the grief items Bonanno et al. used), choice weights checked against observed behavio...)
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/data/grief.json, kind behavior-model-gap"
 ---

@@ -4,10 +4,10 @@ title: "Stopgaps in residents (missing-jobs): 1 open"
 area: people
 kind: stopgap
 priority: 3
-status: open
+status: blocked
 claimed-by:
 pr:
-blocked-on:
+blocked-on: research data: the row's replacement needs recorded, empirical or sourced data (Recorded jobs for every employed resident: town firms in the missing industries (health care, education, government) and commutes to employers in othe...)
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/residents.ts, kind missing-jobs"
 ---

@@ -4,10 +4,10 @@ title: "Stopgaps in retirement-claims (program-stand-in): 1 open"
 area: world
 kind: stopgap
 priority: 3
-status: open
+status: blocked
 claimed-by:
 pr:
-blocked-on:
+blocked-on: research data: the row's replacement needs recorded, empirical or sourced data (GOV's Social Security program: claims read the law in force and awards follow each person's recorded earnings....)
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/modules/retirement-claims.ts, kind program-stand-in"
 ---

@@ -4,10 +4,10 @@ title: "Stopgaps in finance-state (receipt-budget-proxy): 1 open"
 area: world
 kind: stopgap
 priority: 3
-status: open
+status: blocked
 claimed-by:
 pr:
-blocked-on:
+blocked-on: research data: the row's replacement needs recorded, empirical or sourced data (Recorded firm-specific procurement/inventory terms or an independently validated procurement-to-actual-sales crosswalk and payment calendar; a funded ...)
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/finance-state.ts, kind receipt-budget-proxy"
 ---
