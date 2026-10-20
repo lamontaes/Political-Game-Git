@@ -15,6 +15,7 @@ import type { CoreAPI, CoreModule, CoreState, Source } from "../types";
 import type { ModuleCalendarWork } from "../module-calendar";
 import type { ModuleRow } from "../module-data";
 import { lawApplied } from "../law-reach/applied";
+import { countedWeight } from "../law-reach/pay-reach";
 import { residentsRuntime } from "./residents";
 import { rerateCountedJobs } from "../residents-economy";
 import { POLICY_QUESTIONS } from "../policy-answers";
@@ -641,12 +642,13 @@ export function raiseToFloor(
       continue;
     raised.set(job.id, floor);
     const held = groups.get(employer.id) ?? { count: 0, amountMinor: 0 };
+    const weight = countedWeight(core, job.personId);
     // The daily pay the raise adds for this worker.
     groups.set(employer.id, {
-      count: held.count + 1,
+      count: held.count + weight,
       amountMinor:
         held.amountMinor +
-        (job.wageDailyMinor * (floor - (job.hourlyMinor ?? floor))) /
+        (weight * job.wageDailyMinor * (floor - (job.hourlyMinor ?? floor))) /
           (job.hourlyMinor || floor),
     });
   }

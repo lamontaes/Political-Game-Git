@@ -6,7 +6,19 @@
  * `add` for each job the engine raised, then `flush` once.
  */
 import { lawApplied } from "./applied";
+import { residentsRuntime } from "../modules/residents";
 import type { CoreAPI, CoreState, JobInput } from "../types";
+
+/**
+ * The people a counted resident stands for: the count of the household they
+ * belong to (1 for anyone who is not counted), as the counted payroll reads it.
+ */
+export function countedWeight(core: CoreState, personId: string): number {
+  const rt = residentsRuntime(core);
+  const m = rt?.store.countedMember(personId);
+  if (!rt || m === undefined) return 1;
+  return rt.store.weightOf(rt.store.households[rt.store.household[m]!]!);
+}
 
 export interface PayReach {
   /** `amountMinor`: the daily pay the raise adds for this worker. */
@@ -38,13 +50,14 @@ export function payReach(
           amountMinor,
         });
       else {
+        const weight = countedWeight(core, job.personId);
         const held = groups.get(job.organizationId) ?? {
           count: 0,
           amountMinor: 0,
         };
         groups.set(job.organizationId, {
-          count: held.count + 1,
-          amountMinor: held.amountMinor + amountMinor,
+          count: held.count + weight,
+          amountMinor: held.amountMinor + amountMinor * weight,
         });
       }
     },

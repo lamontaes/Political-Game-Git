@@ -14,6 +14,21 @@ import type { ModuleTable } from "./module-state";
 import { lawInForce, LAWS_MODULE_ID } from "./modules/laws";
 import { BUDGETS_MODULE_ID, governments } from "./modules/budgets";
 import { lawApplied } from "./law-reach/applied";
+import { countedWeight } from "./law-reach/pay-reach";
+
+/** Who a claim's law reached: the person, or for a counted resident the people they stand for. */
+function claimant(
+  core: CoreState,
+  personId: string,
+): { targetId: string; target: "person" | "group"; count: number } {
+  if (core.people.has(personId))
+    return { targetId: personId, target: "person", count: 1 };
+  return {
+    targetId: `counted-claimants:${personId}`,
+    target: "group",
+    count: countedWeight(core, personId),
+  };
+}
 import type { LawRowInput } from "./laws-starting";
 import { residentPerson, residentsRuntime } from "./modules/residents";
 import { decisionLean } from "./trait-decisions";
@@ -215,8 +230,7 @@ export function fileClaim(
     lawApplied(api, {
       key: "unemployment-insurance",
       lawId: terms.lawId,
-      targetId: job.personId,
-      target: "person",
+      ...claimant(c, job.personId),
       engine: "jobs",
       what: "claim-filed",
     });
@@ -227,8 +241,7 @@ export function fileClaim(
     lawApplied(api, {
       key: "unemployment-weekly-maximum",
       lawId: terms.maximumLawId,
-      targetId: job.personId,
-      target: "person",
+      ...claimant(c, job.personId),
       engine: "jobs",
       what: "weekly-benefit-capped",
     });
@@ -276,8 +289,7 @@ export function payClaims(api: CoreAPI, table: ModuleTable): void {
       lawApplied(api, {
         key: "unemployment-insurance",
         lawId: row.lawId,
-        targetId: row.personId,
-        target: "person",
+        ...claimant(c, row.personId),
         engine: "jobs",
         what: "benefit-paid",
         amountMinor: paid,

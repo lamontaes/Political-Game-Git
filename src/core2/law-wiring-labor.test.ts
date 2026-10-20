@@ -313,7 +313,12 @@ function run(specId: string) {
   need(filed.full !== "" || filed.counted !== "", "no claim could be filed");
   for (const who of [filed.full, filed.counted].filter(Boolean))
     need(
-      ui.some((r) => r.targetId === who && r.amountMinor > 0),
+      ui.some(
+        (r) =>
+          (r.targetId === who || r.targetId === `counted-claimants:${who}`) &&
+          r.amountMinor > 0 &&
+          r.count >= 1,
+      ),
       `unemployment-insurance: no benefit paid to ${who}`,
     );
   need(
