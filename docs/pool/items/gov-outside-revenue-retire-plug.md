@@ -23,3 +23,5 @@ claimed-at: 2026-10-20T02:01:25.963Z
 **Files.** src/core2/modules/budgets.ts, src/core2/budgets-treasury.ts, src/core2/data/outside-flows.json, src/core2/data/stopgaps.json
 
 **Notes.** Rewritten to the quality gate 2026-10-15 (the item was a stub when added with `npm run pool -- add`).
+
+Released Oct 20 (claude): siblings gov-outside-revenue-fees is still claimed and gov-outside-revenue-real-payers is blocked, so the plug still carries flows; retire it after both are done.
