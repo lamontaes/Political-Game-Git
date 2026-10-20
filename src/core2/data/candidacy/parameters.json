@@ -64,7 +64,7 @@
     "citation": "How many policy questions a runner states a position on when filing: the ones where their own views are strongest. Local candidate questionnaires and campaign sites typically lead with two to five issues (Ballotpedia Candidate Connection surveys). Spread 2 to 5."
   },
   "candidacyStandingCircle": {
-    "value": 25,
+    "value": 50,
     "tag": "TUNABLE",
     "citation": "The number of people who know someone at which their standing in town counts in full. Being asked or encouraged by people one knows is among the strongest spurs to run (Lawless and Fox 2010, It Still Takes a Candidate, ch. 5); a local campaign's first volunteers and signers come from that circle. Spread 25 to 150.",
     "stopgapId": "SG-P15-candidacy-weights"
@@ -111,7 +111,7 @@
     "stopgapId": "SG-P15-candidacy-weights"
   },
   "candidacyRecordGapWeight": {
-    "value": 1,
+    "value": 2,
     "tag": "TUNABLE",
     "citation": "How strongly an incumbent's record against one's own views (0 to 1: the average, over the incumbent's recorded votes, of how strongly one's current view opposes each) pulls one to challenge them. Policy disagreement with the officeholder is a leading reason challengers give for running (Maisel and Stone 1997, Legislative Studies Quarterly 22(1):79-96; Lawless and Fox 2010, ch. 4). Spread 0.5 to 2.",
     "stopgapId": "SG-P15-candidacy-weights"
