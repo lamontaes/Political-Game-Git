@@ -5,9 +5,9 @@ area: core
 kind: wiring
 priority: 2
 size: M
-status: claimed
+status: done
 claimed-by: claude/town-districts-records
-pr:
+pr: #5144
 after:
 blocked-on:
 source: "CTO ruling Oct 15 (town council seats); audit Oct 19, Part A 'What it fakes' 4"
@@ -23,3 +23,5 @@ claimed-at: 2026-10-19T20:27:08.496Z
 **Files.** src/core2/modules/residents.ts, src/core2/electorate-places.ts, src/core2/data/stopgaps.json
 
 **Notes.** people-od-town-districts is the owner-decision item; it closes with this.
+
+Oct 20: PR #5144 merged to main and showed a council's shape is already read from place records; wards from dwellings stay in gov-ward-map-from-dwellings.

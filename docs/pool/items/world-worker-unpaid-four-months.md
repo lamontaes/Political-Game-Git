@@ -5,9 +5,9 @@ area: world
 kind: bug
 priority: 2
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/worker-unpaid-four-months
-pr:
+pr: #5011
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-18T00:04:58.775Z

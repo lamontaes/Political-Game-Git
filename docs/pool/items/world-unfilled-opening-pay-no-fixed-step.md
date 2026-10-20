@@ -5,9 +5,9 @@ area: world
 kind: bug
 priority: 2
 size: M
-status: claimed
+status: done
 claimed-by: claude/unfilled-pay-by-books
-pr:
+pr: #5146
 after:
 blocked-on:
 source: "owner ruling Oct 16 (no cap, no fixed step); acting CTO, Oct 19, closing PR #4992"
@@ -23,3 +23,5 @@ claimed-at: 2026-10-19T20:22:31.720Z
 **Files.** src/core2/modules/jobs.ts, src/core2/data/parameters.json
 
 **Notes.** The read-only crash in the same path is jobs-raise-unfilled-pay-read-only (#4967); land that first or on the same branch. The GLM Flash trial (#4992) that was to do this opened no PR.
+
+Oct 20: PR #5146 merged to main: an unfilled opening is raised from the employer's books and its owner, with no fixed step or wait.

@@ -7,9 +7,10 @@ priority: 2
 size: M
 status: open
 claimed-by:
-pr:
+pr: #5178
 blocked-on:
 source: added with npm run pool -- add
+claimed-at:
 ---
 
 **What.** TODO
@@ -21,3 +22,5 @@ source: added with npm run pool -- add
 **Files.** TODO
 
 **Notes.** TODO
+
+Sent back 2026-10-20 from PR #5178 (branch claude/political-game-pool-khi2o3): edits src/director by a session that is not the Words session; finish on that branch, merge main into it first.
