@@ -14,6 +14,7 @@
 import bankJson from "../../data/english/parts/interview.json" with { type: "json" };
 import { heldByGrades } from "../english/english-grades";
 import { questionName } from "./question-names";
+import { votesOf } from "../core2/modules/record";
 import { renderLine, type Fact, type Variant } from "./render";
 import {
   ELECTIONS_MODULE_ID,
@@ -23,6 +24,7 @@ import {
 import {
   PRESS_MODULE_ID,
   answerInterview,
+  leakToReporter,
   candidateAnswers,
   speakerOf,
   standingOn,
@@ -67,7 +69,9 @@ const needs = (part: MinedPart) =>
   part.uses.flatMap((use) => use.requiresFacts ?? []);
 
 export interface TalkChoice {
-  readonly move: InterviewMove | "decline";
+  readonly move: InterviewMove | "decline" | "leak";
+  /** For a leak: the rival whose recorded vote on the question is passed to the reporter. */
+  readonly leakAbout?: string;
   readonly text: string;
   /** The position it states; null when declining. */
   readonly position: number | null;
@@ -168,6 +172,7 @@ export function openInterviewTalk(
       accept: (p: MinedPart) => boolean,
       at: number | null,
       ids: readonly string[],
+      leakAbout?: string,
     ) => {
       const line = say(
         row.candidateId,
@@ -183,6 +188,7 @@ export function openInterviewTalk(
           position: at,
           sourceRecordIds: ids,
           variantKey: line.variantKey ?? "",
+          ...(leakAbout ? { leakAbout } : {}),
         });
     };
     const plain = (p: MinedPart) => !slotsOf(p).length && !needs(p).length;
@@ -218,6 +224,21 @@ export function openInterviewTalk(
       offer("turn", "opponent", (p) => slotsOf(p).length === 0, position, [
         row.id,
       ]);
+    // A leak: the rival's recorded vote on this question, passed to the
+    // reporter off the record. It is offered only when the bank has a
+    // wording for it, and none is mined yet.
+    // stopgapId: SG-PEOPLE-press-leak-wording
+    api.stopgap("SG-PEOPLE-press-leak-wording");
+    const rivalVote = rivalVoteOn(api, row, question);
+    if (rivalVote)
+      offer(
+        "leak",
+        "leak",
+        () => true,
+        position,
+        [rivalVote.id, row.id],
+        rivalVote.personId,
+      );
     // Declining: the wordings that refuse the question outright.
     offer(
       "decline",
@@ -256,24 +277,37 @@ export function finishInterviewTalk(
   talk: InterviewTalk,
   picks: Readonly<Record<string, InterviewMove | "decline">>,
 ): InterviewRow {
+  const row = api
+    .moduleState(PRESS_MODULE_ID)
+    .table("interviews")
+    .get(talk.interviewId) as unknown as InterviewRow;
   const answers: InterviewAnswer[] = talk.steps.map((step) => {
     const choice =
       step.choices.find((c) => c.move === picks[step.question]) ??
       step.choices.find((c) => c.move === "plain") ??
       step.choices[0];
+    if (choice?.move === "leak" && choice.leakAbout && row.reporterId) {
+      leakToReporter(api, {
+        leakerId: row.candidateId,
+        reporterId: row.reporterId,
+        aboutId: choice.leakAbout,
+        question: step.question,
+      });
+      return {
+        question: step.question,
+        position: choice.position,
+        move: "plain" as InterviewMove,
+      };
+    }
     if (!choice || choice.move === "decline" || choice.position === null)
       return { question: step.question, position: null, move: "plain" };
     return {
       question: step.question,
       position: choice.position,
-      move: choice.move,
+      move: choice.move as InterviewMove,
     };
   });
   // A question the conversation did not ask is answered from the candidate's standing.
-  const row = api
-    .moduleState(PRESS_MODULE_ID)
-    .table("interviews")
-    .get(talk.interviewId) as unknown as InterviewRow;
   const asked = new Set(talk.steps.map((step) => step.question));
   answers.push(
     ...candidateAnswers(
@@ -283,4 +317,17 @@ export function finishInterviewTalk(
     ),
   );
   return answerInterview(api, talk.interviewId, answers);
+}
+
+/** A rival's latest recorded vote on a question, in the same race. */
+function rivalVoteOn(api: CoreAPI, row: InterviewRow, question: string) {
+  if (!row.contestId) return null;
+  for (const f of ballot(api, row.contestId))
+    if (f.status === "on-ballot" && f.personId !== row.candidateId) {
+      const vote = votesOf(api, f.personId)
+        .filter((v) => v.stance.question === question)
+        .at(-1);
+      if (vote) return vote;
+    }
+  return null;
 }

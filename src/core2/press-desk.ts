@@ -298,6 +298,17 @@ const FLIP: Readonly<Record<string, string>> = {
   repeal: "enact",
 };
 
+/** A leaked story's facts as its readers get them: the leaker stays with the reporter. */
+function withoutLeaker(
+  facts: Readonly<Record<string, string>> | undefined,
+): Record<string, string> {
+  return Object.fromEntries(
+    Object.entries(facts ?? {}).filter(
+      ([key]) => key !== "leakedBy" && key !== "leakedTo",
+    ),
+  );
+}
+
 /** Print a story: record it and send it to the outlet's followers. */
 export function printItem(
   api: CoreAPI,
@@ -355,7 +366,7 @@ export function printItem(
       framing: slant,
       moodImpulse: (ctx.parameter("storyImpulse") * (1 + Math.abs(slant))) / 2,
       facts: {
-        ...item.facts,
+        ...withoutLeaker(item.facts),
         sourceRecordId: item.id,
         // What a reader can bring up: which outlet printed what. The reporter
         // makes the story's case, so a reader moves by their standing with
@@ -502,9 +513,25 @@ export function runDesk(
   for (const reporterId of outlet.reporterIds) {
     if (!api.state.people.get(reporterId)?.alive) continue;
     const scored = base
-      .filter((row) => !taken.has(row.item.id))
+      .filter(
+        (row) =>
+          !taken.has(row.item.id) &&
+          // A leak was given to one reporter, and is theirs alone.
+          (!row.item.facts?.leakedTo || row.item.facts.leakedTo === reporterId),
+      )
       .map((row) => {
         const drive = driveTerm(api, reporterId, row.item);
+        // A friend named in a story weighs against filing it; a leak from
+        // someone the reporter trusts weighs for it (reads the closeness a
+        // favor or a leak writes).
+        const friend = Math.max(
+          0,
+          ...row.item.subjectIds.map((id) => closeness(api, reporterId, id)),
+        );
+        const leaker = row.item.facts?.leakedBy;
+        const trusted = leaker
+          ? Math.max(0, closeness(api, reporterId, leaker))
+          : 0;
         return {
           ...row,
           drive,
@@ -514,7 +541,9 @@ export function runDesk(
               p("storyReaderCareWeight") * row.readerCare +
               p("storyPeopleWeight") * row.people +
               p("storyRenownWeight") * row.renown +
-              p("storyDriveWeight") * drive),
+              p("storyDriveWeight") * drive -
+              p("storyFriendWeight") * friend +
+              p("storyLeakWeight") * trusted),
         };
       })
       .sort((a, b) => b.score - a.score || a.item.id.localeCompare(b.item.id));

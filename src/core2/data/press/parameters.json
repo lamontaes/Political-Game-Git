@@ -511,6 +511,30 @@
       "tag": "TUNABLE",
       "source": "Weight of how many public figures a story names (a president, a governor, a member of Congress) in what a reporter picks: elite persons are a news value in their own right (Galtung and Ruge 1965, The Structure of Foreign News, Journal of Peace Research 2(1):64-91). Spread 0.5 to 2.",
       "spread": [0.5, 2]
+    },
+    "storyFriendWeight": {
+      "value": 0.5,
+      "tag": "TUNABLE",
+      "source": "How far a reporter's closeness to a person a story names weighs against filing it (reporters hold back or soften stories on friends and sources: Gans 1979, Deciding What's News; Sigal 1973 on reporter-source relations). A sliding term on the story's score, at most this share of its base.",
+      "spread": [0.2, 0.8]
+    },
+    "storyLeakWeight": {
+      "value": 1,
+      "tag": "TUNABLE",
+      "source": "How far a reporter's closeness to the person who leaked a story to them raises its score (leaks flow along trusted source relationships: Sigal 1973; Hess 1984, The Government/Press Connection).",
+      "spread": [0.5, 2]
+    },
+    "favorHours": {
+      "value": 2,
+      "tag": "TUNABLE",
+      "source": "Hours of time together the core's relationship writer records for a favor done for a reporter (a tip, an introduction, a quote on short notice), so closeness grows as with any contact.",
+      "spread": [1, 6]
+    },
+    "leakHours": {
+      "value": 1,
+      "tag": "TUNABLE",
+      "source": "Hours of time together recorded when a source passes a reporter a leak.",
+      "spread": [0.5, 3]
     }
   }
 }
