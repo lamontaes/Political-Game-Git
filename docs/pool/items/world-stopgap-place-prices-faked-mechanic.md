@@ -4,9 +4,9 @@ title: "Stopgaps in place-prices (faked-mechanic): 2 open"
 area: world
 kind: stopgap
 priority: 2
-status: claimed
+status: in-pr
 claimed-by: claude/political-game-pool-yucp92-bz
-pr: #5190
+pr: #5729
 blocked-on:
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/modules/place-prices.ts, kind faked-mechanic"
