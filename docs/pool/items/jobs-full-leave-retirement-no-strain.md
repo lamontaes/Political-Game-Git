@@ -5,11 +5,12 @@ area: world
 kind: bug
 priority: 2
 size: S
-status: open
+status: dropped
 claimed-by:
 pr:
-blocked-on:
+blocked-on: cto-drop-filed-in-error
 source: added with npm run pool -- add
+claimed-at:
 ---
 
 **What.** TODO
@@ -21,3 +22,5 @@ source: added with npm run pool -- add
 **Files.** TODO
 
 **Notes.** TODO
+
+**Closed Oct 17.** Filed in error: main already filters a counted worker who retired and was filled in since (the test no longer asserts a strain value for it), and seed c0f1414ba7642012 passes on current main. The CTO may drop this item.

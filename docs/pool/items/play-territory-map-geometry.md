@@ -4,13 +4,13 @@ title: "Map geometry for the five territories"
 area: play
 kind: feature
 priority: 3
-status: open
-claimed-by:
-pr:
+status: done
+claimed-by: claude/territory-map-packs
+pr: #4874
 blocked-on:
 milestone:
 source: 'docs/coordination/play.md "Needs from other sessions" (line 147); triage in play-needs-play-147'
-claimed-at:
+claimed-at: 2026-10-17T05:18:23.703Z
 ---
 
 **What.** The map packs in src/maps/geometry/states cover the 50 states and D.C. only. Puerto Rico, Guam, the U.S. Virgin Islands, American Samoa and the Northern Mariana Islands have no geometry, so a player in one of those places sees no map. Generate their packs from the same public boundary source, with the same lineage record as the others.

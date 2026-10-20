@@ -851,7 +851,7 @@ export interface OfficeJobRow {
 const COUNTY_KINDS = new Set(["county-board", "county-executive"]);
 
 /** Seat new local holders in their office job; end the job of a term that ended. */
-function reviewOfficeJobs(api: CoreAPI): void {
+export function reviewOfficeJobs(api: CoreAPI): void {
   const seed =
     (table(api, "world").get("seed") as unknown as { seed: string } | undefined)
       ?.seed ?? "";
@@ -864,7 +864,12 @@ function reviewOfficeJobs(api: CoreAPI): void {
     const ended = term?.endDate ?? api.state.date;
     if (row.jobId) {
       // Calendar work runs before the day's work, so the job ends cleanly.
-      const job = (api.state as CoreState).jobs.get(row.jobId);
+      const state = api.state as CoreState;
+      const job = state.jobs.get(row.jobId);
+      // A holder who played their day before this ran (the controlled
+      // character) worked today already: the job ends in tomorrow's review.
+      if (state.work.lastAttendanceByJob.get(row.jobId)?.date === state.date)
+        continue;
       if (job && job.endsAt === undefined)
         api.endJob(row.jobId, `office-ended:${row.seatId}:${ended}`);
     }

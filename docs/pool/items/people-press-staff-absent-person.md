@@ -5,10 +5,10 @@ area: people
 kind: bug
 priority: 1
 size: S
-status: open
+status: dropped
 claimed-by:
 pr:
-blocked-on:
+blocked-on: cto-drop-not-reproducible
 milestone:
 source: "found running src/core2/price-laws.test.ts in a random place, Oct 15"
 claimed-at:

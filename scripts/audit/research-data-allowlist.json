@@ -82,12 +82,40 @@
       "reason": "Raw enacted-bill sample, the evidence the lever table and docs/research/bill-samples were measured from; the game reads what was measured, not the sample."
     },
     {
-      "file": "data/research/outcome-web/cloud-f-new-measure-bases-2024.draft.json",
-      "reason": "Research record behind CLOUD F's place outcomes; the values the game uses live in place-outcome-bases-2024.json."
-    },
-    {
       "file": "data/research/laws/coordinator-crime-population-sizing.json",
       "reason": "A sizing receipt (source head, coefficient source, runtime proof) for a decision already applied in links.json."
+    },
+    {
+      "file": "data/research/licenses/roadmap-r37-source-rights-register.json",
+      "reason": "Roadmap R37 register of the rights and licenses of the sources the game draws on; evidence for the release review, not a table the simulation reads."
+    },
+    {
+      "file": "data/research/licenses/roadmap-r37-unit-inventory.json",
+      "reason": "Roadmap R37 inventory of the research units checked for rights; evidence for the release review, not a table the simulation reads."
+    },
+    {
+      "file": "data/research/licenses/roadmap-r37-url-register-01.json",
+      "reason": "Roadmap R37 register of the source URLs checked for rights and licenses; evidence for the release review, not a table the simulation reads."
+    },
+    {
+      "file": "data/research/licenses/roadmap-r37-url-register-02.json",
+      "reason": "Roadmap R37 register of the source URLs checked for rights and licenses; evidence for the release review, not a table the simulation reads."
+    },
+    {
+      "file": "data/research/licenses/roadmap-r37-url-register-03.json",
+      "reason": "Roadmap R37 register of the source URLs checked for rights and licenses; evidence for the release review, not a table the simulation reads."
+    },
+    {
+      "file": "data/research/licenses/roadmap-r37-url-register-04.json",
+      "reason": "Roadmap R37 register of the source URLs checked for rights and licenses; evidence for the release review, not a table the simulation reads."
+    },
+    {
+      "file": "data/research/licenses/roadmap-r37-url-register-05.json",
+      "reason": "Roadmap R37 register of the source URLs checked for rights and licenses; evidence for the release review, not a table the simulation reads."
+    },
+    {
+      "file": "data/research/outcome-web/cloud-f-new-measure-bases-2024.draft.json",
+      "reason": "Research record behind CLOUD F's place outcomes; the values the game uses live in place-outcome-bases-2024.json."
     },
     {
       "file": "data/research/outcome-web/social-media-age-verification-contracts.json",
@@ -342,11 +370,6 @@
     {
       "prefix": "data/research/legislatures/",
       "files": 2,
-      "reason": "Research evidence gathered for this area; no code under src/ or scripts/ reads these files yet. Found unread on Oct 16 when the scanner stopped counting a quoted \"data/research/\" prefix as a read of everything under it."
-    },
-    {
-      "prefix": "data/research/licenses/",
-      "files": 7,
       "reason": "Research evidence gathered for this area; no code under src/ or scripts/ reads these files yet. Found unread on Oct 16 when the scanner stopped counting a quoted \"data/research/\" prefix as a read of everything under it."
     },
     {

@@ -42,7 +42,8 @@ describe(`new homes in a played year (seed ${seed})`, () => {
     const opening = gameStartDate();
     const seen: string[] = [];
     let moved: { place: string; move: Move; project: Project } | null = null;
-    for (let draw = 0; draw < 12 && !moved; draw++) {
+    let anyEarly = false;
+    for (let draw = 0; draw < 12 && !(moved && anyEarly); draw++) {
       const place = drawPlace(`${seed}:${draw}`, "housing-pipeline");
       const world = buildBenchWorld(`${seed}:${draw}`, opening, {
         twoLevel: true,
@@ -57,9 +58,11 @@ describe(`new homes in a played year (seed ${seed})`, () => {
       seen.push(
         `${place.name} (${place.key}): ${projects.length} projects, ${moves.length} moves`,
       );
-      // Work under way at the opening was started before it.
+      // Work under way at the opening was started before it. A small town may
+      // have none under way (its builders start after the opening), so the
+      // check is across the places drawn.
       const early = projects.filter((p) => p.startedAt < opening);
-      if (projects.length) expect(early.length).toBeGreaterThan(0);
+      if (early.length) anyEarly = true;
       for (const move of moves) {
         const project = projects.find((p) => p.id === move.projectId)!;
         // A household moves only into a finished building; one that was
@@ -73,8 +76,12 @@ describe(`new homes in a played year (seed ${seed})`, () => {
     }
     console.log(`housing-pipeline: ${seen.join("; ")}`);
     expect(
+      anyEarly,
+      `no building was under way at the opening in: ${seen.join("; ")}`,
+    ).toBe(true);
+    expect(
       moved,
       `no household moved into a new rental in: ${seen.join("; ")}`,
     ).not.toBeNull();
-  }, 1_800_000);
+  }, 4_800_000);
 });

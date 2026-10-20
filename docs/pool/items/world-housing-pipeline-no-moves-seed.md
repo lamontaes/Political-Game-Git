@@ -5,9 +5,9 @@ area: world
 kind: bug
 priority: 3
 size: S
-status: claimed
+status: done
 claimed-by: claude/housing-pipeline-seed
-pr:
+pr: #4864
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-17T02:24:01.791Z

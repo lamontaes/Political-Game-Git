@@ -5,7 +5,7 @@ area: director
 kind: wiring
 priority: 1
 size: M
-status: open
+status: in-pr
 claimed-by:
 pr: #4600
 blocked-on:
@@ -29,3 +29,7 @@ Sent back 2026-10-16 from PR #4600 (branch claude/director-civic-producers-gover
 Sent back 2026-10-16 from PR #4600 (branch claude/director-civic-producers-government): Merging current main into claude/director-civic-producers-government conflicts in docs/pool/items/director-civic-producers-government-rest.md, src/director/civic-roles.ts, src/director/data/director.json. Resolve and push these conflicts on this branch before local checks can run; finish on that branch, merge main into it first.
 
 Sent back 2026-10-17 from PR #4600 (branch claude/director-civic-producers-government): merging main conflicts in src/director/civic-roles.ts, src/director/data/director.json (code or data, left for the author); resolve and push; finish on that branch, merge main into it first.
+
+Sent back 2026-10-17 from PR #4600 (branch claude/director-civic-producers-government): Morning check: the new src/director/government-scenes.test.ts returns successfully when no full-person seat exists and again when the bill was not voted. Both paths bypass every floor-vote/signing/veto assertion. Draw an eligible generated-world case with bounded retries and fail if none reaches the case, then preserve the scene and role assertions. A logged reason followed by return is still a skipped acceptance test.; finish on that branch, merge main into it first.
+
+Sent back 2026-10-19 from PR #4600 (branch claude/director-civic-producers-government): Morning check: src/director/government-scenes.test.ts returns successfully without assertions when no eligible body exists (lines 50–54) or the bill never reaches a vote (lines 102–110); these silent passes skip the acceptance case. Draw another place and fail if the case is never reached; finish on that branch, merge main into it first.

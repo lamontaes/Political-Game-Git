@@ -5,12 +5,13 @@ area: play
 kind: feature
 priority: 3
 size: L
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/political-game-pool-76ksvw
 pr:
 blocked-on:
 milestone: M6
 source: "docs/roadmap/later-specs-draft.md M6-04"
+claimed-at: 2026-10-20T01:14:36.124Z
 ---
 
 **What.** A new game starts from real data in a random place, or from a customized world (place, demographics, ideology, turnout, party strength, economy and more), like _The Political Process_'s advanced options. (Owner: OPUS-PLAY (the new-game screen), with OPUS-CORE (world generation).)
