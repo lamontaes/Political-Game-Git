@@ -5,11 +5,12 @@ area: world
 kind: bug
 priority: 3
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/political-game-pool-yucp92-cc
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-20T17:08:04.588Z
 ---
 
 **What.** In the census-weight economy test (seed e0b6b155233c130bd7bdad92b2923cab26347ad3b132618f600f7a7fe85a7694, Merrick, New York, Census 21,744) the rental stock less vacancies is 3.6 percent of the counted households. A real town of that kind runs about 10 percent or more renting. Find whether the rental stock is scaled by the Census count the way owned homes are, and fix the share.
