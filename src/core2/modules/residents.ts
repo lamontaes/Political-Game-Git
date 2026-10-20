@@ -701,6 +701,32 @@ function spendable(core: CoreState, ownerId: string): number {
   return Math.max(0, owner.liquidMinor - allocated);
 }
 
+/**
+ * What a household's living cost takes from each member who can pay it: the
+ * bill's payer first, then the others living there in id order, each from what
+ * they hold, until the amount is met.
+ */
+function livingLegs(
+  core: CoreState,
+  householdId: string,
+  payerId: string,
+  amount: number,
+): { payerId: string; amount: number }[] {
+  const members = (core.households.get(householdId)?.memberIds ?? [])
+    .filter((id) => id !== payerId && core.people.get(id)?.alive)
+    .sort();
+  const legs: { payerId: string; amount: number }[] = [];
+  let left = amount;
+  for (const id of [payerId, ...members]) {
+    if (left <= 0) break;
+    const pay = Math.min(left, spendable(core, id));
+    if (pay <= 0) continue;
+    legs.push({ payerId: id, amount: pay });
+    left -= pay;
+  }
+  return legs;
+}
+
 function end(flow: FlowState, date: IsoDate, reason: string): void {
   flow.endedAt = date;
   flow.endedReason = reason;
@@ -999,9 +1025,17 @@ function settle(api: CoreAPI, rt: ResidentsRuntime, flow: FlowState): void {
   } else {
     const payer = core.organizations.get(flow.payerId);
     const outside = payer?.outsideFlow !== undefined;
+    // A household's living cost is paid by the bill's payer first, then by the
+    // household's other living members, each from what they hold.
+    const legs =
+      carries && payerPerson && !outside
+        ? livingLegs(core, payerPerson.householdId, flow.payerId, requested)
+        : [{ payerId: flow.payerId, amount: 0 }];
     paid = outside
       ? requested
-      : Math.min(requested, spendable(core, flow.payerId));
+      : carries && payerPerson
+        ? legs.reduce((n, leg) => n + leg.amount, 0)
+        : Math.min(requested, spendable(core, flow.payerId));
     if (countedPaid && paid > 0) {
       // Each counted group is paid its part, less what the law withholds.
       const net = payGroups(api, rt, {
@@ -1034,6 +1068,9 @@ function settle(api: CoreAPI, rt: ResidentsRuntime, flow: FlowState): void {
                 : Math.round((365 / 12) * flow.cadence.every),
           });
       }
+    } else if (paid > 0 && carries && payerPerson && !outside) {
+      for (const leg of legs)
+        if (leg.amount > 0) post(api, flow, leg.amount, leg.payerId);
     } else if (paid > 0) post(api, flow, paid);
   }
   if (carries) flow.arrearsMinor = requested - paid;
@@ -1115,7 +1152,12 @@ function settle(api: CoreAPI, rt: ResidentsRuntime, flow: FlowState): void {
   });
 }
 
-function post(api: CoreAPI, flow: FlowState, paid: number): void {
+function post(
+  api: CoreAPI,
+  flow: FlowState,
+  paid: number,
+  payerId: string = flow.payerId,
+): void {
   const core = api.state;
   const governments =
     flow.financeKind === FIXED_SPENDING
@@ -1129,10 +1171,10 @@ function post(api: CoreAPI, flow: FlowState, paid: number): void {
   if (governments.length) {
     const toGovernments = governments.reduce((n, row) => n + row.deltaMinor, 0);
     transferSplit(core, api, {
-      id: `${flow.id}@${core.date}`,
+      id: `${flow.id}@${core.date}${payerId === flow.payerId ? "" : `:${payerId}`}`,
       lines: [
         {
-          accountId: core.cashJournal.residualAccountByOwner.get(flow.payerId)!,
+          accountId: core.cashJournal.residualAccountByOwner.get(payerId)!,
           deltaMinor: -paid,
         },
         {
@@ -1147,8 +1189,8 @@ function post(api: CoreAPI, flow: FlowState, paid: number): void {
     return;
   }
   transfer(core, api, {
-    id: `${flow.id}@${core.date}`,
-    from: core.cashJournal.residualAccountByOwner.get(flow.payerId)!,
+    id: `${flow.id}@${core.date}${payerId === flow.payerId ? "" : `:${payerId}`}`,
+    from: core.cashJournal.residualAccountByOwner.get(payerId)!,
     to: core.cashJournal.residualAccountByOwner.get(flow.payeeId)!,
     amountMinor: paid,
     reasonKey: flow.financeKind,
