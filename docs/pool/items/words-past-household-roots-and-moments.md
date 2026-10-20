@@ -5,12 +5,12 @@ area: words
 kind: feature
 priority: 3
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/journal-roots-g08lgv
 pr: #5226
 blocked-on:
 source: added with npm run pool -- add
-claimed-at:
+claimed-at: 2026-10-20T02:03:09.611Z
 ---
 
 **What.** TODO
