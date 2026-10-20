@@ -5,12 +5,12 @@ area: gov
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
-pr:
+status: done
+claimed-by: claude/pool-payroll-test
+pr: #5380
 blocked-on: gov-dead-official-still-seated
 source: added with npm run pool -- add
-claimed-at:
+claimed-at: 2026-10-20T01:06:50.224Z
 ---
 
 **What.** TODO
