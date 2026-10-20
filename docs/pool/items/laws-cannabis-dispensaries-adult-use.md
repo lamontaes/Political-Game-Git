@@ -5,10 +5,11 @@ area: laws
 kind: wiring
 priority: 3
 size: L
-status: blocked
-claimed-by: claude/political-game-pool-b6g0dl
+status: open
+claimed-by:
 pr:
-blocked-on: laws-cannabis-dispensaries
+blocked-on:
+after: laws-cannabis-dispensaries
 source: added with npm run pool -- add
 claimed-at: 2026-10-19T23:27:38.803Z
 ---
@@ -22,3 +23,5 @@ claimed-at: 2026-10-19T23:27:38.803Z
 **Files.** src/core2/modules/place-prices.ts, src/core2/modules/business.ts, src/core2/data/stopgaps.json
 
 **Notes.** Split Oct 19 by claude/political-game-pool-b6g0dl.
+
+Oct 20: Switched from blocked to the automatic after: gate on laws-cannabis-dispensaries, so it opens by itself the moment those items are done.
