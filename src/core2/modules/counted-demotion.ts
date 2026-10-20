@@ -19,6 +19,7 @@ import {
 import { addCountedJob } from "../residents-economy";
 import { MORTGAGE_PREFIX, countedMortgageFlowId } from "../housing-mortgages";
 import { stableHash } from "../kernel/ids";
+import { extendPublicPayAuthority } from "../public-work-pay";
 import { endLivingPlan } from "../cost-of-living";
 import { OFFICES_MODULE_ID, type TermRow } from "./offices";
 import {
@@ -180,6 +181,12 @@ export function demoteHousehold(
         id: `${row.id}:counted:${date}`,
         jobId: counted.id,
       });
+      // At a public employer the counted job stays on its public pay authority, so the treasury pays it when the worker is filled in again.
+      extendPublicPayAuthority(
+        core,
+        row.organizationId,
+        `${row.id}:counted:${date}`,
+      );
       const calendar = row.payrollCalendarId
         ? core.work.payrollCalendars.get(row.payrollCalendarId)
         : undefined;
