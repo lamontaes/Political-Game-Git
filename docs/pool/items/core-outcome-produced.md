@@ -5,9 +5,9 @@ area: core
 kind: wiring
 priority: 2
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/outcome-produced
-pr:
+pr: #5083
 blocked-on:
 source: "split from core-stopgap-outcome-web-faked-mechanic (SG-WEB-outcome-drift), Oct 15"
 claimed-at: 2026-10-19T18:27:17.606Z
