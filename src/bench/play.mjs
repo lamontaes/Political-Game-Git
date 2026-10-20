@@ -2550,6 +2550,17 @@ const sheets = {
             .map(([k, n]) => `${k} ${n}`)
             .join(" · "),
         ),
+        race.places.length
+          ? el(
+              "div",
+              {},
+              el("b", { textContent: `${labels.wonIn} ` }),
+              race.places
+                .slice(0, 6)
+                .map((p) => `${p.name} ${p.leader ?? ""} · ${number(p.cast)}`)
+                .join(" · "),
+            )
+          : "",
         race.ballot
           ? el(
               "div",
