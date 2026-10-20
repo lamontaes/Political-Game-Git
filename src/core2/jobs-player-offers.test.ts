@@ -119,6 +119,30 @@ describe("the player's job offers", { timeout: 900_000 }, () => {
         (jobs.table("offers").get(offer.id) as unknown as JobOfferRow).status,
       ).toBe("accepted");
       expect(stopsAt()).toEqual([]);
+      // The director watches the player, so the new job reaches their story: a first-day scene on a following day.
+      // The offer's stops are released by the answer; let any open stop pass, then live ten days.
+      const pass = () => {
+        for (let guard = 0; guard < 200; guard += 1) {
+          if (player.pollingPlace) player.leavePolls();
+          const open = player.packet;
+          if (!open || open.kind !== "stop") return;
+          player.resume({ kind: "stop", pauseId: open.pauseId });
+        }
+      };
+      pass();
+      for (let day = 0; day < 10; day += 1) {
+        player.advance("day");
+        pass();
+      }
+      const firstDay = director.ledger.people
+        .get(playerId)
+        ?.schedule.find((row) =>
+          row.bindings.some((binding) => binding.typeKey === "first-day"),
+        );
+      expect(
+        firstDay,
+        `a first-day scene for ${playerId} after accepting ${offer.id} (${place.key}, seed ${seed})`,
+      ).toBeDefined();
       console.log(`player-job-offers: accepted ${offer.id} as ${job.id}`);
       return;
     }
