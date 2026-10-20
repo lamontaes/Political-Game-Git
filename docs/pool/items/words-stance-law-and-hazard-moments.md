@@ -5,12 +5,12 @@ area: words
 kind: wiring
 priority: 3
 size: M
-status: claimed
-claimed-by: claude/hazard-law-moments
+status: open
+claimed-by:
 pr:
 blocked-on:
 source: "words.md line 50 (Arrogance, anger and fear); found Oct 19"
-claimed-at: 2026-10-20T05:33:08.104Z
+claimed-at:
 ---
 
 **What.** The English engine has threats and alarms (the `warning` and `accusation` situation types, tagged threat), but nothing fires them: both have `causes: []` in `src/director/data/situation-types.json`, and the records they would read are not person-level. A disaster begins as one public `hazard.disaster` event with no people in it (`begin` in `src/core2/modules/disasters.ts`), so no person is warned; a law's effect on a person is recorded only for Social Security (`law.effect-learned`, `budgets-treasury.ts`), so no person threatens over it. Add person-level records the director can match: a warning a person receives from someone who heard the disaster story (read from the press story the person heard, so a person is warned only if they learned of it), and a threat from a person whose recorded loss from a law they learned of is large against their means. Each fires its situation with the cause record id.
