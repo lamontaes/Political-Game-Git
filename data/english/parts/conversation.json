@@ -16079,6 +16079,1678 @@
         "move": "comfort",
         "key": "loss"
       }
+    },
+    {
+      "key": "conversation.charge-raise.i-ve-been-charged",
+      "move": "charge-raise",
+      "kind": "spoken",
+      "text": "I've been charged.",
+      "uses": [
+        {
+          "move": "charge-raise",
+          "subject": "charge",
+          "role": "raise",
+          "choice": "raise"
+        }
+      ],
+      "shippable": false,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item words-justice-hearing-verdict-bank)",
+      "date": "2026-10-19",
+      "tag": {
+        "move": "tell",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "conversation.charge-raise.they-charged-me",
+      "move": "charge-raise",
+      "kind": "spoken",
+      "text": "They charged me.",
+      "uses": [
+        {
+          "move": "charge-raise",
+          "subject": "charge",
+          "role": "raise",
+          "choice": "raise"
+        }
+      ],
+      "shippable": false,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item words-justice-hearing-verdict-bank)",
+      "date": "2026-10-19",
+      "tag": {
+        "move": "tell",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "conversation.charge-raise.i-ve-been-charged-with-a-crime",
+      "move": "charge-raise",
+      "kind": "spoken",
+      "text": "I've been charged with a crime.",
+      "uses": [
+        {
+          "move": "charge-raise",
+          "subject": "charge",
+          "role": "raise",
+          "choice": "raise"
+        }
+      ],
+      "shippable": false,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item words-justice-hearing-verdict-bank)",
+      "date": "2026-10-19",
+      "tag": {
+        "move": "tell",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "conversation.charge-ask.did-you-do-this",
+      "move": "charge-ask",
+      "kind": "spoken",
+      "text": "Did you do this?",
+      "uses": [
+        {
+          "move": "charge-ask",
+          "subject": "charge",
+          "role": "ask",
+          "choice": "ask"
+        }
+      ],
+      "shippable": false,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item words-justice-hearing-verdict-bank)",
+      "date": "2026-10-19",
+      "tag": {
+        "move": "ask",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "conversation.charge-ask.is-what-they-say-true",
+      "move": "charge-ask",
+      "kind": "spoken",
+      "text": "Is what they say true?",
+      "uses": [
+        {
+          "move": "charge-ask",
+          "subject": "charge",
+          "role": "ask",
+          "choice": "ask"
+        }
+      ],
+      "shippable": false,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item words-justice-hearing-verdict-bank)",
+      "date": "2026-10-19",
+      "tag": {
+        "move": "ask",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "conversation.charge-ask.did-you-do-what-they-say",
+      "move": "charge-ask",
+      "kind": "spoken",
+      "text": "Did you do what they say?",
+      "uses": [
+        {
+          "move": "charge-ask",
+          "subject": "charge",
+          "role": "ask",
+          "choice": "ask"
+        }
+      ],
+      "shippable": false,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item words-justice-hearing-verdict-bank)",
+      "date": "2026-10-19",
+      "tag": {
+        "move": "ask",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "conversation.charge-answer-confess.yes-i-did-it",
+      "move": "charge-answer-confess",
+      "kind": "spoken",
+      "text": "Yes. I did it.",
+      "uses": [
+        {
+          "move": "charge-answer-confess",
+          "subject": "charge",
+          "role": "answer",
+          "choice": "confess"
+        }
+      ],
+      "shippable": false,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item words-justice-hearing-verdict-bank)",
+      "date": "2026-10-19",
+      "tag": {
+        "move": "confess",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "conversation.charge-answer-confess.i-did-it",
+      "move": "charge-answer-confess",
+      "kind": "spoken",
+      "text": "I did it.",
+      "uses": [
+        {
+          "move": "charge-answer-confess",
+          "subject": "charge",
+          "role": "answer",
+          "choice": "confess"
+        }
+      ],
+      "shippable": false,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item words-justice-hearing-verdict-bank)",
+      "date": "2026-10-19",
+      "tag": {
+        "move": "confess",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "conversation.charge-answer-confess.yes-i-did",
+      "move": "charge-answer-confess",
+      "kind": "spoken",
+      "text": "Yes, I did.",
+      "uses": [
+        {
+          "move": "charge-answer-confess",
+          "subject": "charge",
+          "role": "answer",
+          "choice": "confess"
+        }
+      ],
+      "shippable": false,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item words-justice-hearing-verdict-bank)",
+      "date": "2026-10-19",
+      "tag": {
+        "move": "confess",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "conversation.charge-answer-deflect.there-s-more-to-it",
+      "move": "charge-answer-deflect",
+      "kind": "spoken",
+      "text": "There's more to it.",
+      "uses": [
+        {
+          "move": "charge-answer-deflect",
+          "subject": "charge",
+          "role": "answer",
+          "choice": "deflect"
+        }
+      ],
+      "shippable": false,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item words-justice-hearing-verdict-bank)",
+      "date": "2026-10-19",
+      "tag": {
+        "move": "deflect",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "conversation.charge-answer-deflect.that-s-for-the-court-to-sort-out",
+      "move": "charge-answer-deflect",
+      "kind": "spoken",
+      "text": "That's for the court to sort out.",
+      "uses": [
+        {
+          "move": "charge-answer-deflect",
+          "subject": "charge",
+          "role": "answer",
+          "choice": "deflect"
+        }
+      ],
+      "shippable": false,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item words-justice-hearing-verdict-bank)",
+      "date": "2026-10-19",
+      "tag": {
+        "move": "deflect",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "conversation.charge-answer-deflect.it-s-not-that-simple",
+      "move": "charge-answer-deflect",
+      "kind": "spoken",
+      "text": "It's not that simple.",
+      "uses": [
+        {
+          "move": "charge-answer-deflect",
+          "subject": "charge",
+          "role": "answer",
+          "choice": "deflect"
+        }
+      ],
+      "shippable": false,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item words-justice-hearing-verdict-bank)",
+      "date": "2026-10-19",
+      "tag": {
+        "move": "deflect",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "conversation.charge-answer-refuse.i-can-t-talk-about-it",
+      "move": "charge-answer-refuse",
+      "kind": "spoken",
+      "text": "I can't talk about it.",
+      "uses": [
+        {
+          "move": "charge-answer-refuse",
+          "subject": "charge",
+          "role": "answer",
+          "choice": "refuse"
+        }
+      ],
+      "shippable": false,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item words-justice-hearing-verdict-bank)",
+      "date": "2026-10-19",
+      "tag": {
+        "move": "refuse",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "conversation.charge-answer-refuse.i-won-t-discuss-it",
+      "move": "charge-answer-refuse",
+      "kind": "spoken",
+      "text": "I won't discuss it.",
+      "uses": [
+        {
+          "move": "charge-answer-refuse",
+          "subject": "charge",
+          "role": "answer",
+          "choice": "refuse"
+        }
+      ],
+      "shippable": false,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item words-justice-hearing-verdict-bank)",
+      "date": "2026-10-19",
+      "tag": {
+        "move": "refuse",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "conversation.charge-answer-refuse.i-m-not-going-to-talk-about-that",
+      "move": "charge-answer-refuse",
+      "kind": "spoken",
+      "text": "I'm not going to talk about that.",
+      "uses": [
+        {
+          "move": "charge-answer-refuse",
+          "subject": "charge",
+          "role": "answer",
+          "choice": "refuse"
+        }
+      ],
+      "shippable": false,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item words-justice-hearing-verdict-bank)",
+      "date": "2026-10-19",
+      "tag": {
+        "move": "refuse",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "conversation.charge-answer-tell.they-ve-charged-me",
+      "move": "charge-answer-tell",
+      "kind": "spoken",
+      "text": "They've charged me.",
+      "uses": [
+        {
+          "move": "charge-answer-tell",
+          "subject": "charge",
+          "role": "answer",
+          "choice": "tell"
+        }
+      ],
+      "shippable": false,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item words-justice-hearing-verdict-bank)",
+      "date": "2026-10-19",
+      "tag": {
+        "move": "tell",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "conversation.charge-answer-tell.i-m-charged-with-a-crime",
+      "move": "charge-answer-tell",
+      "kind": "spoken",
+      "text": "I'm charged with a crime.",
+      "uses": [
+        {
+          "move": "charge-answer-tell",
+          "subject": "charge",
+          "role": "answer",
+          "choice": "tell"
+        }
+      ],
+      "shippable": false,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item words-justice-hearing-verdict-bank)",
+      "date": "2026-10-19",
+      "tag": {
+        "move": "tell",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "conversation.charge-reply-answer-comfort.i-m-sorry",
+      "move": "charge-reply-answer-comfort",
+      "kind": "spoken",
+      "text": "I'm sorry.",
+      "uses": [
+        {
+          "move": "charge-reply-answer-comfort",
+          "subject": "charge-reply",
+          "role": "answer",
+          "choice": "comfort"
+        }
+      ],
+      "shippable": false,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item words-justice-hearing-verdict-bank)",
+      "date": "2026-10-19",
+      "tag": {
+        "move": "comfort",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "conversation.charge-reply-answer-comfort.i-m-here",
+      "move": "charge-reply-answer-comfort",
+      "kind": "spoken",
+      "text": "I'm here.",
+      "uses": [
+        {
+          "move": "charge-reply-answer-comfort",
+          "subject": "charge-reply",
+          "role": "answer",
+          "choice": "comfort"
+        }
+      ],
+      "shippable": false,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item words-justice-hearing-verdict-bank)",
+      "date": "2026-10-19",
+      "tag": {
+        "move": "comfort",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "conversation.charge-reply-answer-comfort.that-s-hard",
+      "move": "charge-reply-answer-comfort",
+      "kind": "spoken",
+      "text": "That's hard.",
+      "uses": [
+        {
+          "move": "charge-reply-answer-comfort",
+          "subject": "charge-reply",
+          "role": "answer",
+          "choice": "comfort"
+        }
+      ],
+      "shippable": false,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item words-justice-hearing-verdict-bank)",
+      "date": "2026-10-19",
+      "tag": {
+        "move": "comfort",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "conversation.charge-reply-answer-promise.i-ll-stand-by-you",
+      "move": "charge-reply-answer-promise",
+      "kind": "spoken",
+      "text": "I'll stand by you.",
+      "uses": [
+        {
+          "move": "charge-reply-answer-promise",
+          "subject": "charge-reply",
+          "role": "answer",
+          "choice": "promise"
+        }
+      ],
+      "shippable": false,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item words-justice-hearing-verdict-bank)",
+      "date": "2026-10-19",
+      "tag": {
+        "move": "promise",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "conversation.charge-reply-answer-promise.i-ll-help-however-i-can",
+      "move": "charge-reply-answer-promise",
+      "kind": "spoken",
+      "text": "I'll help however I can.",
+      "uses": [
+        {
+          "move": "charge-reply-answer-promise",
+          "subject": "charge-reply",
+          "role": "answer",
+          "choice": "promise"
+        }
+      ],
+      "shippable": false,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item words-justice-hearing-verdict-bank)",
+      "date": "2026-10-19",
+      "tag": {
+        "move": "promise",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "conversation.charge-reply-answer-promise.you-re-not-alone-in-this",
+      "move": "charge-reply-answer-promise",
+      "kind": "spoken",
+      "text": "You're not alone in this.",
+      "uses": [
+        {
+          "move": "charge-reply-answer-promise",
+          "subject": "charge-reply",
+          "role": "answer",
+          "choice": "promise"
+        }
+      ],
+      "shippable": false,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item words-justice-hearing-verdict-bank)",
+      "date": "2026-10-19",
+      "tag": {
+        "move": "promise",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "conversation.charge-reply-answer-ask.what-happened",
+      "move": "charge-reply-answer-ask",
+      "kind": "spoken",
+      "text": "What happened?",
+      "uses": [
+        {
+          "move": "charge-reply-answer-ask",
+          "subject": "charge-reply",
+          "role": "answer",
+          "choice": "ask"
+        }
+      ],
+      "shippable": false,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item words-justice-hearing-verdict-bank)",
+      "date": "2026-10-19",
+      "tag": {
+        "move": "ask",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "conversation.charge-reply-answer-ask.what-are-they-saying",
+      "move": "charge-reply-answer-ask",
+      "kind": "spoken",
+      "text": "What are they saying?",
+      "uses": [
+        {
+          "move": "charge-reply-answer-ask",
+          "subject": "charge-reply",
+          "role": "answer",
+          "choice": "ask"
+        }
+      ],
+      "shippable": false,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item words-justice-hearing-verdict-bank)",
+      "date": "2026-10-19",
+      "tag": {
+        "move": "ask",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "conversation.charge-reply-answer-ask.what-do-you-need",
+      "move": "charge-reply-answer-ask",
+      "kind": "spoken",
+      "text": "What do you need?",
+      "uses": [
+        {
+          "move": "charge-reply-answer-ask",
+          "subject": "charge-reply",
+          "role": "answer",
+          "choice": "ask"
+        }
+      ],
+      "shippable": false,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item words-justice-hearing-verdict-bank)",
+      "date": "2026-10-19",
+      "tag": {
+        "move": "ask",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "conversation.charge-reply-answer-blame.you-should-have-known-better",
+      "move": "charge-reply-answer-blame",
+      "kind": "spoken",
+      "text": "You should have known better.",
+      "uses": [
+        {
+          "move": "charge-reply-answer-blame",
+          "subject": "charge-reply",
+          "role": "answer",
+          "choice": "blame"
+        }
+      ],
+      "shippable": false,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item words-justice-hearing-verdict-bank)",
+      "date": "2026-10-19",
+      "tag": {
+        "move": "blame",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "conversation.charge-reply-answer-blame.you-brought-this-on-yourself",
+      "move": "charge-reply-answer-blame",
+      "kind": "spoken",
+      "text": "You brought this on yourself.",
+      "uses": [
+        {
+          "move": "charge-reply-answer-blame",
+          "subject": "charge-reply",
+          "role": "answer",
+          "choice": "blame"
+        }
+      ],
+      "shippable": false,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item words-justice-hearing-verdict-bank)",
+      "date": "2026-10-19",
+      "tag": {
+        "move": "blame",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "conversation.charge-reply-answer-blame.this-is-on-you",
+      "move": "charge-reply-answer-blame",
+      "kind": "spoken",
+      "text": "This is on you.",
+      "uses": [
+        {
+          "move": "charge-reply-answer-blame",
+          "subject": "charge-reply",
+          "role": "answer",
+          "choice": "blame"
+        }
+      ],
+      "shippable": false,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item words-justice-hearing-verdict-bank)",
+      "date": "2026-10-19",
+      "tag": {
+        "move": "blame",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "conversation.conviction-raise.i-ve-been-convicted",
+      "move": "conviction-raise",
+      "kind": "spoken",
+      "text": "I've been convicted.",
+      "uses": [
+        {
+          "move": "conviction-raise",
+          "subject": "conviction",
+          "role": "raise",
+          "choice": "raise"
+        }
+      ],
+      "shippable": false,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item words-justice-hearing-verdict-bank)",
+      "date": "2026-10-19",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "conversation.conviction-raise.they-found-me-guilty",
+      "move": "conviction-raise",
+      "kind": "spoken",
+      "text": "They found me guilty.",
+      "uses": [
+        {
+          "move": "conviction-raise",
+          "subject": "conviction",
+          "role": "raise",
+          "choice": "raise"
+        }
+      ],
+      "shippable": false,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item words-justice-hearing-verdict-bank)",
+      "date": "2026-10-19",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "conversation.conviction-raise.the-court-found-me-guilty",
+      "move": "conviction-raise",
+      "kind": "spoken",
+      "text": "The court found me guilty.",
+      "uses": [
+        {
+          "move": "conviction-raise",
+          "subject": "conviction",
+          "role": "raise",
+          "choice": "raise"
+        }
+      ],
+      "shippable": false,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item words-justice-hearing-verdict-bank)",
+      "date": "2026-10-19",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "conversation.conviction-ask.what-did-the-court-decide",
+      "move": "conviction-ask",
+      "kind": "spoken",
+      "text": "What did the court decide?",
+      "uses": [
+        {
+          "move": "conviction-ask",
+          "subject": "conviction",
+          "role": "ask",
+          "choice": "ask"
+        }
+      ],
+      "shippable": false,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item words-justice-hearing-verdict-bank)",
+      "date": "2026-10-19",
+      "tag": {
+        "move": "ask",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "conversation.conviction-ask.what-was-the-verdict",
+      "move": "conviction-ask",
+      "kind": "spoken",
+      "text": "What was the verdict?",
+      "uses": [
+        {
+          "move": "conviction-ask",
+          "subject": "conviction",
+          "role": "ask",
+          "choice": "ask"
+        }
+      ],
+      "shippable": false,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item words-justice-hearing-verdict-bank)",
+      "date": "2026-10-19",
+      "tag": {
+        "move": "ask",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "conversation.conviction-answer-tell.i-was-convicted",
+      "move": "conviction-answer-tell",
+      "kind": "spoken",
+      "text": "I was convicted.",
+      "uses": [
+        {
+          "move": "conviction-answer-tell",
+          "subject": "conviction",
+          "role": "answer",
+          "choice": "tell"
+        }
+      ],
+      "shippable": false,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item words-justice-hearing-verdict-bank)",
+      "date": "2026-10-19",
+      "tag": {
+        "move": "tell",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "conversation.conviction-answer-tell.they-found-me-guilty",
+      "move": "conviction-answer-tell",
+      "kind": "spoken",
+      "text": "They found me guilty.",
+      "uses": [
+        {
+          "move": "conviction-answer-tell",
+          "subject": "conviction",
+          "role": "answer",
+          "choice": "tell"
+        }
+      ],
+      "shippable": false,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item words-justice-hearing-verdict-bank)",
+      "date": "2026-10-19",
+      "tag": {
+        "move": "tell",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "conversation.conviction-answer-apologize.i-m-sorry-i-let-you-down",
+      "move": "conviction-answer-apologize",
+      "kind": "spoken",
+      "text": "I'm sorry I let you down.",
+      "uses": [
+        {
+          "move": "conviction-answer-apologize",
+          "subject": "conviction",
+          "role": "answer",
+          "choice": "apologize"
+        }
+      ],
+      "shippable": false,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item words-justice-hearing-verdict-bank)",
+      "date": "2026-10-19",
+      "tag": {
+        "move": "apologize",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "conversation.conviction-answer-apologize.i-m-sorry-this-fell-on-you",
+      "move": "conviction-answer-apologize",
+      "kind": "spoken",
+      "text": "I'm sorry this fell on you.",
+      "uses": [
+        {
+          "move": "conviction-answer-apologize",
+          "subject": "conviction",
+          "role": "answer",
+          "choice": "apologize"
+        }
+      ],
+      "shippable": false,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item words-justice-hearing-verdict-bank)",
+      "date": "2026-10-19",
+      "tag": {
+        "move": "apologize",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "conversation.conviction-answer-apologize.i-owe-you-an-apology",
+      "move": "conviction-answer-apologize",
+      "kind": "spoken",
+      "text": "I owe you an apology.",
+      "uses": [
+        {
+          "move": "conviction-answer-apologize",
+          "subject": "conviction",
+          "role": "answer",
+          "choice": "apologize"
+        }
+      ],
+      "shippable": false,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item words-justice-hearing-verdict-bank)",
+      "date": "2026-10-19",
+      "tag": {
+        "move": "apologize",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "conversation.conviction-answer-confess.i-did-it-and-i-ll-answer-for-it",
+      "move": "conviction-answer-confess",
+      "kind": "spoken",
+      "text": "I did it, and I'll answer for it.",
+      "uses": [
+        {
+          "move": "conviction-answer-confess",
+          "subject": "conviction",
+          "role": "answer",
+          "choice": "confess"
+        }
+      ],
+      "shippable": false,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item words-justice-hearing-verdict-bank)",
+      "date": "2026-10-19",
+      "tag": {
+        "move": "confess",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "conversation.conviction-answer-confess.i-did-what-they-said",
+      "move": "conviction-answer-confess",
+      "kind": "spoken",
+      "text": "I did what they said.",
+      "uses": [
+        {
+          "move": "conviction-answer-confess",
+          "subject": "conviction",
+          "role": "answer",
+          "choice": "confess"
+        }
+      ],
+      "shippable": false,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item words-justice-hearing-verdict-bank)",
+      "date": "2026-10-19",
+      "tag": {
+        "move": "confess",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "conversation.conviction-answer-refuse.i-d-rather-not-talk-about-it",
+      "move": "conviction-answer-refuse",
+      "kind": "spoken",
+      "text": "I'd rather not talk about it.",
+      "uses": [
+        {
+          "move": "conviction-answer-refuse",
+          "subject": "conviction",
+          "role": "answer",
+          "choice": "refuse"
+        }
+      ],
+      "shippable": false,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item words-justice-hearing-verdict-bank)",
+      "date": "2026-10-19",
+      "tag": {
+        "move": "refuse",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "conversation.conviction-answer-refuse.i-won-t-discuss-it",
+      "move": "conviction-answer-refuse",
+      "kind": "spoken",
+      "text": "I won't discuss it.",
+      "uses": [
+        {
+          "move": "conviction-answer-refuse",
+          "subject": "conviction",
+          "role": "answer",
+          "choice": "refuse"
+        }
+      ],
+      "shippable": false,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item words-justice-hearing-verdict-bank)",
+      "date": "2026-10-19",
+      "tag": {
+        "move": "refuse",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "conversation.conviction-reply-answer-comfort.i-m-sorry",
+      "move": "conviction-reply-answer-comfort",
+      "kind": "spoken",
+      "text": "I'm sorry.",
+      "uses": [
+        {
+          "move": "conviction-reply-answer-comfort",
+          "subject": "conviction-reply",
+          "role": "answer",
+          "choice": "comfort"
+        }
+      ],
+      "shippable": false,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item words-justice-hearing-verdict-bank)",
+      "date": "2026-10-19",
+      "tag": {
+        "move": "comfort",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "conversation.conviction-reply-answer-comfort.i-m-here",
+      "move": "conviction-reply-answer-comfort",
+      "kind": "spoken",
+      "text": "I'm here.",
+      "uses": [
+        {
+          "move": "conviction-reply-answer-comfort",
+          "subject": "conviction-reply",
+          "role": "answer",
+          "choice": "comfort"
+        }
+      ],
+      "shippable": false,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item words-justice-hearing-verdict-bank)",
+      "date": "2026-10-19",
+      "tag": {
+        "move": "comfort",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "conversation.conviction-reply-answer-comfort.that-s-hard",
+      "move": "conviction-reply-answer-comfort",
+      "kind": "spoken",
+      "text": "That's hard.",
+      "uses": [
+        {
+          "move": "conviction-reply-answer-comfort",
+          "subject": "conviction-reply",
+          "role": "answer",
+          "choice": "comfort"
+        }
+      ],
+      "shippable": false,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item words-justice-hearing-verdict-bank)",
+      "date": "2026-10-19",
+      "tag": {
+        "move": "comfort",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "conversation.conviction-reply-answer-promise.i-ll-stand-by-you",
+      "move": "conviction-reply-answer-promise",
+      "kind": "spoken",
+      "text": "I'll stand by you.",
+      "uses": [
+        {
+          "move": "conviction-reply-answer-promise",
+          "subject": "conviction-reply",
+          "role": "answer",
+          "choice": "promise"
+        }
+      ],
+      "shippable": false,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item words-justice-hearing-verdict-bank)",
+      "date": "2026-10-19",
+      "tag": {
+        "move": "promise",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "conversation.conviction-reply-answer-promise.i-ll-be-here-when-it-s-over",
+      "move": "conviction-reply-answer-promise",
+      "kind": "spoken",
+      "text": "I'll be here when it's over.",
+      "uses": [
+        {
+          "move": "conviction-reply-answer-promise",
+          "subject": "conviction-reply",
+          "role": "answer",
+          "choice": "promise"
+        }
+      ],
+      "shippable": false,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item words-justice-hearing-verdict-bank)",
+      "date": "2026-10-19",
+      "tag": {
+        "move": "promise",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "conversation.conviction-reply-answer-promise.you-re-not-alone-in-this",
+      "move": "conviction-reply-answer-promise",
+      "kind": "spoken",
+      "text": "You're not alone in this.",
+      "uses": [
+        {
+          "move": "conviction-reply-answer-promise",
+          "subject": "conviction-reply",
+          "role": "answer",
+          "choice": "promise"
+        }
+      ],
+      "shippable": false,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item words-justice-hearing-verdict-bank)",
+      "date": "2026-10-19",
+      "tag": {
+        "move": "promise",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "conversation.conviction-reply-answer-ask.what-happens-now",
+      "move": "conviction-reply-answer-ask",
+      "kind": "spoken",
+      "text": "What happens now?",
+      "uses": [
+        {
+          "move": "conviction-reply-answer-ask",
+          "subject": "conviction-reply",
+          "role": "answer",
+          "choice": "ask"
+        }
+      ],
+      "shippable": false,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item words-justice-hearing-verdict-bank)",
+      "date": "2026-10-19",
+      "tag": {
+        "move": "ask",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "conversation.conviction-reply-answer-ask.what-do-you-need",
+      "move": "conviction-reply-answer-ask",
+      "kind": "spoken",
+      "text": "What do you need?",
+      "uses": [
+        {
+          "move": "conviction-reply-answer-ask",
+          "subject": "conviction-reply",
+          "role": "answer",
+          "choice": "ask"
+        }
+      ],
+      "shippable": false,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item words-justice-hearing-verdict-bank)",
+      "date": "2026-10-19",
+      "tag": {
+        "move": "ask",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "conversation.conviction-reply-answer-blame.you-did-this-to-yourself",
+      "move": "conviction-reply-answer-blame",
+      "kind": "spoken",
+      "text": "You did this to yourself.",
+      "uses": [
+        {
+          "move": "conviction-reply-answer-blame",
+          "subject": "conviction-reply",
+          "role": "answer",
+          "choice": "blame"
+        }
+      ],
+      "shippable": false,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item words-justice-hearing-verdict-bank)",
+      "date": "2026-10-19",
+      "tag": {
+        "move": "blame",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "conversation.conviction-reply-answer-blame.this-is-your-doing",
+      "move": "conviction-reply-answer-blame",
+      "kind": "spoken",
+      "text": "This is your doing.",
+      "uses": [
+        {
+          "move": "conviction-reply-answer-blame",
+          "subject": "conviction-reply",
+          "role": "answer",
+          "choice": "blame"
+        }
+      ],
+      "shippable": false,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item words-justice-hearing-verdict-bank)",
+      "date": "2026-10-19",
+      "tag": {
+        "move": "blame",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "conversation.conviction-reply-answer-blame.you-had-this-coming",
+      "move": "conviction-reply-answer-blame",
+      "kind": "spoken",
+      "text": "You had this coming.",
+      "uses": [
+        {
+          "move": "conviction-reply-answer-blame",
+          "subject": "conviction-reply",
+          "role": "answer",
+          "choice": "blame"
+        }
+      ],
+      "shippable": false,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item words-justice-hearing-verdict-bank)",
+      "date": "2026-10-19",
+      "tag": {
+        "move": "blame",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "conversation.acquittal-raise.i-was-acquitted",
+      "move": "acquittal-raise",
+      "kind": "spoken",
+      "text": "I was acquitted.",
+      "uses": [
+        {
+          "move": "acquittal-raise",
+          "subject": "acquittal",
+          "role": "raise",
+          "choice": "raise"
+        }
+      ],
+      "shippable": false,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item words-justice-hearing-verdict-bank)",
+      "date": "2026-10-19",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "conversation.acquittal-raise.they-found-me-not-guilty",
+      "move": "acquittal-raise",
+      "kind": "spoken",
+      "text": "They found me not guilty.",
+      "uses": [
+        {
+          "move": "acquittal-raise",
+          "subject": "acquittal",
+          "role": "raise",
+          "choice": "raise"
+        }
+      ],
+      "shippable": false,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item words-justice-hearing-verdict-bank)",
+      "date": "2026-10-19",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "conversation.acquittal-raise.the-court-found-me-not-guilty",
+      "move": "acquittal-raise",
+      "kind": "spoken",
+      "text": "The court found me not guilty.",
+      "uses": [
+        {
+          "move": "acquittal-raise",
+          "subject": "acquittal",
+          "role": "raise",
+          "choice": "raise"
+        }
+      ],
+      "shippable": false,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item words-justice-hearing-verdict-bank)",
+      "date": "2026-10-19",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "conversation.acquittal-ask.what-did-the-court-decide",
+      "move": "acquittal-ask",
+      "kind": "spoken",
+      "text": "What did the court decide?",
+      "uses": [
+        {
+          "move": "acquittal-ask",
+          "subject": "acquittal",
+          "role": "ask",
+          "choice": "ask"
+        }
+      ],
+      "shippable": false,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item words-justice-hearing-verdict-bank)",
+      "date": "2026-10-19",
+      "tag": {
+        "move": "ask",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "conversation.acquittal-ask.what-was-the-verdict",
+      "move": "acquittal-ask",
+      "kind": "spoken",
+      "text": "What was the verdict?",
+      "uses": [
+        {
+          "move": "acquittal-ask",
+          "subject": "acquittal",
+          "role": "ask",
+          "choice": "ask"
+        }
+      ],
+      "shippable": false,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item words-justice-hearing-verdict-bank)",
+      "date": "2026-10-19",
+      "tag": {
+        "move": "ask",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "conversation.acquittal-answer-tell.i-was-acquitted",
+      "move": "acquittal-answer-tell",
+      "kind": "spoken",
+      "text": "I was acquitted.",
+      "uses": [
+        {
+          "move": "acquittal-answer-tell",
+          "subject": "acquittal",
+          "role": "answer",
+          "choice": "tell"
+        }
+      ],
+      "shippable": false,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item words-justice-hearing-verdict-bank)",
+      "date": "2026-10-19",
+      "tag": {
+        "move": "tell",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "conversation.acquittal-answer-tell.they-found-me-not-guilty",
+      "move": "acquittal-answer-tell",
+      "kind": "spoken",
+      "text": "They found me not guilty.",
+      "uses": [
+        {
+          "move": "acquittal-answer-tell",
+          "subject": "acquittal",
+          "role": "answer",
+          "choice": "tell"
+        }
+      ],
+      "shippable": false,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item words-justice-hearing-verdict-bank)",
+      "date": "2026-10-19",
+      "tag": {
+        "move": "tell",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "conversation.acquittal-answer-thank.thanks-for-asking",
+      "move": "acquittal-answer-thank",
+      "kind": "spoken",
+      "text": "Thanks for asking.",
+      "uses": [
+        {
+          "move": "acquittal-answer-thank",
+          "subject": "acquittal",
+          "role": "answer",
+          "choice": "thank"
+        }
+      ],
+      "shippable": false,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item words-justice-hearing-verdict-bank)",
+      "date": "2026-10-19",
+      "tag": {
+        "move": "thank",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "conversation.acquittal-answer-thank.thank-you-for-asking",
+      "move": "acquittal-answer-thank",
+      "kind": "spoken",
+      "text": "Thank you for asking.",
+      "uses": [
+        {
+          "move": "acquittal-answer-thank",
+          "subject": "acquittal",
+          "role": "answer",
+          "choice": "thank"
+        }
+      ],
+      "shippable": false,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item words-justice-hearing-verdict-bank)",
+      "date": "2026-10-19",
+      "tag": {
+        "move": "thank",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "conversation.acquittal-answer-refuse.that-s-all-i-ll-say",
+      "move": "acquittal-answer-refuse",
+      "kind": "spoken",
+      "text": "That's all I'll say.",
+      "uses": [
+        {
+          "move": "acquittal-answer-refuse",
+          "subject": "acquittal",
+          "role": "answer",
+          "choice": "refuse"
+        }
+      ],
+      "shippable": false,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item words-justice-hearing-verdict-bank)",
+      "date": "2026-10-19",
+      "tag": {
+        "move": "refuse",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "conversation.acquittal-answer-refuse.i-d-rather-leave-it-there",
+      "move": "acquittal-answer-refuse",
+      "kind": "spoken",
+      "text": "I'd rather leave it there.",
+      "uses": [
+        {
+          "move": "acquittal-answer-refuse",
+          "subject": "acquittal",
+          "role": "answer",
+          "choice": "refuse"
+        }
+      ],
+      "shippable": false,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item words-justice-hearing-verdict-bank)",
+      "date": "2026-10-19",
+      "tag": {
+        "move": "refuse",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "conversation.acquittal-answer-deflect.let-s-talk-about-something-else",
+      "move": "acquittal-answer-deflect",
+      "kind": "spoken",
+      "text": "Let's talk about something else.",
+      "uses": [
+        {
+          "move": "acquittal-answer-deflect",
+          "subject": "acquittal",
+          "role": "answer",
+          "choice": "deflect"
+        }
+      ],
+      "shippable": false,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item words-justice-hearing-verdict-bank)",
+      "date": "2026-10-19",
+      "tag": {
+        "move": "deflect",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "conversation.acquittal-answer-deflect.it-s-behind-me-now",
+      "move": "acquittal-answer-deflect",
+      "kind": "spoken",
+      "text": "It's behind me now.",
+      "uses": [
+        {
+          "move": "acquittal-answer-deflect",
+          "subject": "acquittal",
+          "role": "answer",
+          "choice": "deflect"
+        }
+      ],
+      "shippable": false,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item words-justice-hearing-verdict-bank)",
+      "date": "2026-10-19",
+      "tag": {
+        "move": "deflect",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "conversation.acquittal-reply-answer-congratulate.that-s-good-news",
+      "move": "acquittal-reply-answer-congratulate",
+      "kind": "spoken",
+      "text": "That's good news.",
+      "uses": [
+        {
+          "move": "acquittal-reply-answer-congratulate",
+          "subject": "acquittal-reply",
+          "role": "answer",
+          "choice": "congratulate"
+        }
+      ],
+      "shippable": false,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item words-justice-hearing-verdict-bank)",
+      "date": "2026-10-19",
+      "tag": {
+        "move": "congratulate",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "conversation.acquittal-reply-answer-congratulate.good-to-hear",
+      "move": "acquittal-reply-answer-congratulate",
+      "kind": "spoken",
+      "text": "Good to hear.",
+      "uses": [
+        {
+          "move": "acquittal-reply-answer-congratulate",
+          "subject": "acquittal-reply",
+          "role": "answer",
+          "choice": "congratulate"
+        }
+      ],
+      "shippable": false,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item words-justice-hearing-verdict-bank)",
+      "date": "2026-10-19",
+      "tag": {
+        "move": "congratulate",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "conversation.acquittal-reply-answer-congratulate.good-news",
+      "move": "acquittal-reply-answer-congratulate",
+      "kind": "spoken",
+      "text": "Good news.",
+      "uses": [
+        {
+          "move": "acquittal-reply-answer-congratulate",
+          "subject": "acquittal-reply",
+          "role": "answer",
+          "choice": "congratulate"
+        }
+      ],
+      "shippable": false,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item words-justice-hearing-verdict-bank)",
+      "date": "2026-10-19",
+      "tag": {
+        "move": "congratulate",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "conversation.acquittal-reply-answer-comfort.you-can-put-it-behind-you",
+      "move": "acquittal-reply-answer-comfort",
+      "kind": "spoken",
+      "text": "You can put it behind you.",
+      "uses": [
+        {
+          "move": "acquittal-reply-answer-comfort",
+          "subject": "acquittal-reply",
+          "role": "answer",
+          "choice": "comfort"
+        }
+      ],
+      "shippable": false,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item words-justice-hearing-verdict-bank)",
+      "date": "2026-10-19",
+      "tag": {
+        "move": "comfort",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "conversation.acquittal-reply-answer-comfort.that-s-behind-you-now",
+      "move": "acquittal-reply-answer-comfort",
+      "kind": "spoken",
+      "text": "That's behind you now.",
+      "uses": [
+        {
+          "move": "acquittal-reply-answer-comfort",
+          "subject": "acquittal-reply",
+          "role": "answer",
+          "choice": "comfort"
+        }
+      ],
+      "shippable": false,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item words-justice-hearing-verdict-bank)",
+      "date": "2026-10-19",
+      "tag": {
+        "move": "comfort",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "conversation.acquittal-reply-answer-ask.what-happens-now",
+      "move": "acquittal-reply-answer-ask",
+      "kind": "spoken",
+      "text": "What happens now?",
+      "uses": [
+        {
+          "move": "acquittal-reply-answer-ask",
+          "subject": "acquittal-reply",
+          "role": "answer",
+          "choice": "ask"
+        }
+      ],
+      "shippable": false,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item words-justice-hearing-verdict-bank)",
+      "date": "2026-10-19",
+      "tag": {
+        "move": "ask",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "conversation.acquittal-reply-answer-ask.what-do-you-need",
+      "move": "acquittal-reply-answer-ask",
+      "kind": "spoken",
+      "text": "What do you need?",
+      "uses": [
+        {
+          "move": "acquittal-reply-answer-ask",
+          "subject": "acquittal-reply",
+          "role": "answer",
+          "choice": "ask"
+        }
+      ],
+      "shippable": false,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item words-justice-hearing-verdict-bank)",
+      "date": "2026-10-19",
+      "tag": {
+        "move": "ask",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "conversation.acquittal-reply-answer-blame.you-got-lucky",
+      "move": "acquittal-reply-answer-blame",
+      "kind": "spoken",
+      "text": "You got lucky.",
+      "uses": [
+        {
+          "move": "acquittal-reply-answer-blame",
+          "subject": "acquittal-reply",
+          "role": "answer",
+          "choice": "blame"
+        }
+      ],
+      "shippable": false,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item words-justice-hearing-verdict-bank)",
+      "date": "2026-10-19",
+      "tag": {
+        "move": "blame",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "conversation.acquittal-reply-answer-blame.you-were-lucky",
+      "move": "acquittal-reply-answer-blame",
+      "kind": "spoken",
+      "text": "You were lucky.",
+      "uses": [
+        {
+          "move": "acquittal-reply-answer-blame",
+          "subject": "acquittal-reply",
+          "role": "answer",
+          "choice": "blame"
+        }
+      ],
+      "shippable": false,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item words-justice-hearing-verdict-bank)",
+      "date": "2026-10-19",
+      "tag": {
+        "move": "blame",
+        "key": "news-received"
+      }
     }
   ]
 }
