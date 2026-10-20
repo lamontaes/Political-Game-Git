@@ -539,7 +539,7 @@ export function openingStance(
 ): number {
   const base = personStance(lean, question);
   const row = LOADINGS[question.replace(/^us-policy-positions:/, "")];
-  if (!row) return base;
+  if (!row || !api.state.modules.has(VIEWS_MODULE_ID)) return base;
   const view = viewOf(api, personId);
   if (!view || view.faithFromAverage === undefined) return base;
   return (
