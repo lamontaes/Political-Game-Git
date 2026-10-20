@@ -1,4 +1,4 @@
-import type { TraitEffectDeclaration } from "../../trait-packs";
+import type { TraitEffectDeclaration } from "../../../core2/trait-packs";
 
 /**
  * A skeptical person asks what supports a claim before relying on it. On a

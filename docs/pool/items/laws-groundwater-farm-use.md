@@ -5,11 +5,12 @@ area: laws
 kind: research
 priority: 2
 size: M
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/peaceful-ritchie-03780x
+pr: #5076
 blocked-on:
 source: "split from laws-stopgap-reach-group-b-faked-mechanic, Oct 16"
+claimed-at: 2026-10-19T21:44:57.210Z
 ---
 
 **What.** Groundwater law now reaches the existing agricultural output limit and the outside-sales flows, but a generic withdrawal share and irrigation elasticity stand in for actual farm pumping, irrigated acreage and crop response (SG-GOV-REACH-B-business-cost). Read each place's farm water use and crop exposure, the statutory allocations and the independent restrictions, and apply them at production. Non-farm use and resource services take only their own records.
