@@ -5,16 +5,8 @@
       "stopgapId": "SG-LAW-wiring-checker-window",
       "laws": {
         "budget-line:corrections": ["reach", "allPlaces"],
-        "corporate-income-tax": ["reach", "systems", "repeal", "allPlaces"],
-        "estate-tax": ["reach", "systems", "repeal", "allPlaces"],
+        "estate-tax": ["reach", "repeal", "allPlaces"],
         "inheritance-tax": ["reach", "systems", "repeal", "allPlaces"],
-        "unemployment-insurance": ["reach", "systems", "repeal", "allPlaces"],
-        "unemployment-weekly-maximum": [
-          "reach",
-          "systems",
-          "repeal",
-          "allPlaces"
-        ],
         "us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal": [
           "repeal",
           "allPlaces"
@@ -54,13 +46,12 @@
           "reach",
           "allPlaces"
         ],
-        "us-policy-positions:government-operations.all-mail-voting": ["money"],
-        "us-policy-positions:housing-land-use.rent-stabilization": [
+        "us-policy-positions:housing-land-use.right-to-counsel-in-eviction": [
           "repeal",
           "allPlaces"
         ],
-        "us-policy-positions:housing-land-use.right-to-counsel-in-eviction": [
-          "repeal",
+        "us-policy-positions:justice-public-safety.civilian-oversight-of-police": [
+          "reach",
           "allPlaces"
         ],
         "us-policy-positions:justice-public-safety.permit-to-carry-concealed": [
@@ -91,7 +82,6 @@
       "stopgapId": "SG-LAW-wiring-read-in-law-reach",
       "laws": {
         "medicaid-match": ["systems"],
-        "minimum-wage": ["systems"],
         "snap-maximum": ["systems"],
         "us-federal-positions:labor-commerce.raise-federal-minimum-wage": [
           "systems"
@@ -109,24 +99,6 @@
         "us-policy-positions:fiscal.balanced-operating-budget": ["systems"],
         "us-policy-positions:fiscal.fund-pensions-to-schedule": ["systems"],
         "us-policy-positions:fiscal.minimum-reserve-balance": ["systems"],
-        "us-policy-positions:government-operations.all-mail-voting": [
-          "systems"
-        ],
-        "us-policy-positions:government-operations.automatic-voter-registration": [
-          "systems"
-        ],
-        "us-policy-positions:government-operations.ban-lobbying-after-office": [
-          "systems"
-        ],
-        "us-policy-positions:government-operations.legislative-term-limits": [
-          "systems"
-        ],
-        "us-policy-positions:government-operations.require-photo-id-to-vote": [
-          "systems"
-        ],
-        "us-policy-positions:government-operations.same-day-voter-registration": [
-          "systems"
-        ],
         "us-policy-positions:health-human-services.expand-medicaid-eligibility": [
           "systems"
         ],
@@ -134,9 +106,6 @@
           "systems"
         ],
         "us-policy-positions:health-human-services.work-requirement-for-assistance": [
-          "systems"
-        ],
-        "us-policy-positions:justice-public-safety.restore-voting-after-sentence": [
           "systems"
         ],
         "us-policy-positions:labor-workforce.raise-minimum-wage": ["systems"],
@@ -214,13 +183,7 @@
           "web"
         ],
         "us-policy-positions:education.raise-teacher-minimum-salary": ["web"],
-        "us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties": [
-          "web"
-        ],
         "us-policy-positions:fiscal.exempt-groceries-from-sales-tax": ["web"],
-        "us-policy-positions:justice-public-safety.civilian-oversight-of-police": [
-          "web"
-        ],
         "us-policy-positions:labor-workforce.local-minimum-wage-authority": [
           "web"
         ],

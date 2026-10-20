@@ -19,8 +19,8 @@
 | Local income tax rate                        | taxes-finance      | yes    | yes    | yes   | yes     | yes   | SG  | yes     | SG     | yes       | stopgapped |
 | Local sales tax rate                         | taxes-finance      | yes    | yes    | yes   | yes     | yes   | SG  | yes     | yes    | yes       | stopgapped |
 | Property tax rate                            | taxes-finance      | yes    | yes    | yes   | yes     | yes   | SG  | yes     | yes    | yes       | stopgapped |
-| Corporate income tax rate                    | taxes-finance      | yes    | yes    | SG    | SG      | yes   | SG  | yes     | SG     | SG        | stopgapped |
-| Estate tax rate                              | taxes-finance      | yes    | yes    | SG    | SG      | yes   | SG  | yes     | SG     | SG        | stopgapped |
+| Corporate income tax rate                    | taxes-finance      | yes    | yes    | yes   | yes     | yes   | SG  | yes     | yes    | yes       | stopgapped |
+| Estate tax rate                              | taxes-finance      | yes    | yes    | SG    | yes     | yes   | SG  | yes     | SG     | SG        | stopgapped |
 | Inheritance tax rate                         | taxes-finance      | yes    | yes    | SG    | SG      | yes   | SG  | yes     | SG     | SG        | stopgapped |
 | adopt income tax                             | taxes-finance      | yes    | yes    | SG    | yes     | yes   | n/a | yes     | SG     | SG        | stopgapped |
 | cap property tax growth                      | taxes-finance      | yes    | yes    | SG    | yes     | yes   | yes | yes     | yes    | SG        | stopgapped |
@@ -33,14 +33,14 @@
 | Spending: welfareAndMedicaid                 | assistance         | yes    | yes    | yes   | yes     | yes   | SG  | SG      | yes    | yes       | stopgapped |
 | Federal unemployment tax rate                | assistance         | yes    | yes    | yes   | yes     | yes   | SG  | yes     | yes    | yes       | stopgapped |
 | State unemployment tax rate                  | assistance         | yes    | yes    | yes   | yes     | yes   | SG  | yes     | yes    | yes       | stopgapped |
-| Unemployment weekly maximum                  | assistance         | yes    | yes    | SG    | SG      | yes   | SG  | yes     | SG     | SG        | stopgapped |
+| Unemployment weekly maximum                  | assistance         | yes    | yes    | yes   | yes     | yes   | SG  | yes     | yes    | yes       | stopgapped |
 | Social Security tax rate                     | assistance         | yes    | yes    | yes   | yes     | yes   | SG  | yes     | yes    | yes       | stopgapped |
 | allow multifamily in single family zones     | housing            | yes    | yes    | yes   | yes     | yes   | SG  | yes     | yes    | yes       | stopgapped |
 | Spending: housing                            | housing            | yes    | yes    | yes   | yes     | yes   | SG  | SG      | yes    | yes       | stopgapped |
 | inclusionary requirement                     | housing            | yes    | yes    | yes   | yes     | yes   | SG  | yes     | yes    | yes       | stopgapped |
-| rent stabilization                           | housing            | yes    | yes    | SG    | SG      | SG    | yes | yes     | SG     | SG        | stopgapped |
-| right to counsel in eviction                 | housing            | yes    | yes    | SG    | SG      | yes   | SG  | yes     | SG     | SG        | stopgapped |
-| Minimum wage                                 | labor              | yes    | yes    | yes   | SG      | yes   | SG  | yes     | yes    | yes       | stopgapped |
+| rent stabilization                           | housing            | yes    | yes    | yes   | yes     | yes   | yes | yes     | yes    | yes       | wired      |
+| right to counsel in eviction                 | housing            | yes    | yes    | SG    | yes     | yes   | SG  | yes     | SG     | SG        | stopgapped |
+| Minimum wage                                 | labor              | yes    | yes    | yes   | yes     | yes   | SG  | yes     | yes    | yes       | stopgapped |
 | raise federal minimum wage                   | labor              | yes    | yes    | yes   | SG      | yes   | SG  | yes     | yes    | yes       | stopgapped |
 | local minimum wage authority                 | labor              | yes    | yes    | n/a   | SG      | yes   | SG  | yes     | yes    | yes       | stopgapped |
 | raise minimum wage                           | labor              | yes    | yes    | yes   | SG      | yes   | SG  | yes     | yes    | yes       | stopgapped |
@@ -48,35 +48,35 @@
 | public sector collective bargaining          | labor              | yes    | yes    | SG    | SG      | yes   | n/a | yes     | yes    | yes       | stopgapped |
 | right to work                                | labor              | yes    | yes    | yes   | SG      | yes   | yes | yes     | yes    | yes       | stopgapped |
 | legalize cannabis sales                      | business           | yes    | yes    | yes   | yes     | yes   | n/a | yes     | yes    | yes       | wired      |
-| cap consumer loan rates                      | business           | yes    | yes    | SG    | yes     | SG    | yes | yes     | yes    | SG        | stopgapped |
+| cap consumer loan rates                      | business           | yes    | yes    | SG    | yes     | yes   | yes | yes     | yes    | SG        | stopgapped |
 | ban new gas hookups                          | energy-environment | yes    | yes    | yes   | yes     | yes   | SG  | yes     | yes    | yes       | stopgapped |
 | clean electricity standard                   | energy-environment | yes    | yes    | SG    | yes     | yes   | yes | yes     | yes    | SG        | stopgapped |
-| clean air plan for polluted counties         | energy-environment | yes    | yes    | SG    | yes     | yes   | SG  | yes     | SG     | SG        | stopgapped |
+| clean air plan for polluted counties         | energy-environment | yes    | yes    | SG    | yes     | yes   | yes | yes     | SG     | SG        | stopgapped |
 | Spending: naturalResources                   | energy-environment | yes    | yes    | yes   | yes     | yes   | SG  | SG      | yes    | yes       | stopgapped |
 | bottle deposit                               | energy-environment | yes    | yes    | SG    | yes     | yes   | yes | yes     | yes    | SG        | stopgapped |
 | price carbon                                 | energy-environment | yes    | yes    | yes   | yes     | yes   | SG  | yes     | yes    | yes       | stopgapped |
 | Spending: police                             | justice            | yes    | yes    | yes   | yes     | yes   | SG  | yes     | SG     | yes       | stopgapped |
-| civilian oversight of police                 | justice            | yes    | yes    | yes   | yes     | yes   | SG  | yes     | yes    | yes       | stopgapped |
+| civilian oversight of police                 | justice            | yes    | yes    | SG    | yes     | yes   | yes | yes     | yes    | SG        | stopgapped |
 | partner with federal immigration enforcement | justice            | yes    | yes    | yes   | yes     | yes   | SG  | yes     | yes    | yes       | stopgapped |
 | end cash bail                                | justice            | yes    | yes    | yes   | yes     | yes   | SG  | yes     | yes    | yes       | stopgapped |
 | Spending: corrections                        | justice            | yes    | yes    | SG    | yes     | yes   | n/a | SG      | SG     | SG        | stopgapped |
-| restore voting after sentence                | justice            | yes    | yes    | yes   | SG      | yes   | SG  | yes     | yes    | yes       | stopgapped |
+| restore voting after sentence                | justice            | yes    | yes    | yes   | yes     | yes   | SG  | yes     | yes    | yes       | stopgapped |
 | raise juvenile court age                     | justice            | yes    | yes    | SG    | yes     | yes   | n/a | yes     | SG     | SG        | stopgapped |
 | child access prevention                      | justice            | yes    | yes    | yes   | yes     | yes   | SG  | yes     | yes    | yes       | stopgapped |
 | permit to carry concealed                    | justice            | yes    | yes    | SG    | yes     | yes   | yes | yes     | yes    | SG        | stopgapped |
 | raise handgun purchase age                   | justice            | yes    | yes    | SG    | yes     | yes   | SG  | yes     | yes    | SG        | stopgapped |
 | stand your ground                            | justice            | yes    | yes    | SG    | yes     | yes   | yes | yes     | yes    | SG        | stopgapped |
 | Spending: fire                               | justice            | yes    | yes    | yes   | yes     | yes   | SG  | yes     | SG     | yes       | stopgapped |
-| all mail voting                              | government         | yes    | yes    | yes   | SG      | SG    | n/a | yes     | yes    | yes       | stopgapped |
-| automatic voter registration                 | government         | yes    | yes    | yes   | SG      | yes   | yes | yes     | yes    | yes       | stopgapped |
+| all mail voting                              | government         | yes    | yes    | yes   | yes     | yes   | n/a | yes     | yes    | yes       | wired      |
+| automatic voter registration                 | government         | yes    | yes    | yes   | yes     | yes   | yes | yes     | yes    | yes       | wired      |
 | independent redistricting                    | government         | yes    | yes    | SG    | SG      | yes   | yes | yes     | yes    | yes       | stopgapped |
-| require photo id to vote                     | government         | yes    | yes    | yes   | SG      | yes   | n/a | yes     | yes    | yes       | stopgapped |
-| same day voter registration                  | government         | yes    | yes    | yes   | SG      | yes   | SG  | yes     | yes    | yes       | stopgapped |
-| ban lobbying after office                    | government         | yes    | yes    | n/a   | SG      | yes   | SG  | yes     | yes    | yes       | stopgapped |
+| require photo id to vote                     | government         | yes    | yes    | yes   | yes     | yes   | n/a | yes     | yes    | yes       | wired      |
+| same day voter registration                  | government         | yes    | yes    | yes   | yes     | yes   | SG  | yes     | yes    | yes       | stopgapped |
+| ban lobbying after office                    | government         | yes    | yes    | n/a   | yes     | yes   | SG  | yes     | yes    | yes       | stopgapped |
 | Public pay floor                             | government         | SG     | yes    | SG    | yes     | SG    | SG  | yes     | SG     | SG        | stopgapped |
 | Spending: administration                     | government         | yes    | yes    | SG    | yes     | yes   | SG  | SG      | SG     | yes       | stopgapped |
 | broaden local authority                      | government         | yes    | yes    | SG    | SG      | yes   | SG  | yes     | SG     | SG        | stopgapped |
-| legislative term limits                      | government         | yes    | yes    | n/a   | SG      | yes   | n/a | yes     | yes    | yes       | stopgapped |
+| legislative term limits                      | government         | yes    | yes    | n/a   | yes     | yes   | n/a | yes     | yes    | yes       | wired      |
 | ban discrimination in housing and work       | rights             | yes    | yes    | yes   | yes     | yes   | SG  | yes     | yes    | yes       | stopgapped |
 | dedicated parks funding                      | rights             | yes    | yes    | yes   | SG      | yes   | SG  | yes     | yes    | yes       | stopgapped |
 | restrict abortion                            | rights             | yes    | yes    | yes   | yes     | yes   | yes | yes     | yes    | yes       | wired      |
@@ -88,7 +88,7 @@
 | Spending: parks                              | parks-culture      | yes    | yes    | yes   | yes     | yes   | SG  | yes     | SG     | yes       | stopgapped |
 | local-income-tax-authority                   | starting law       | yes    | SG     | SG    | SG      | yes   | SG  | yes     | SG     | SG        | stopgapped |
 | local-minimum-wage-authority                 | starting law       | yes    | yes    | SG    | yes     | yes   | SG  | yes     | SG     | SG        | stopgapped |
-| unemployment-insurance                       | starting law       | yes    | yes    | SG    | SG      | yes   | SG  | yes     | SG     | SG        | stopgapped |
+| unemployment-insurance                       | starting law       | yes    | yes    | yes   | yes     | yes   | SG  | yes     | n/a    | yes       | stopgapped |
 
 ## Why each link is missing
 
@@ -111,11 +111,11 @@
 
 **shift highway funds to transit** (`us-policy-positions:transportation-infrastructure.shift-highway-funds-to-transit`)
 
-- reach: its event or subject did not occur in the checker's 35-day window in a drawn town (SG-LAW-wiring-checker-window)
+- reach: its event or subject did not occur in the checker's run in a drawn town (SG-LAW-wiring-checker-window)
 - systems: applied by its law-reach module on the engine's step (SG-LAW-wiring-read-in-law-reach)
-- web: its built links did not move their measure in the checker's 35-day run (SG-LAW-outcome-link-not-fired)
-- repeal: its event or subject did not occur in the checker's 35-day window in a drawn town (SG-LAW-wiring-checker-window)
-- allPlaces: its event or subject did not occur in the checker's 35-day window in a drawn town (SG-LAW-wiring-checker-window)
+- web: its built links did not move their measure in the checker's run (SG-LAW-outcome-link-not-fired)
+- repeal: its event or subject did not occur in the checker's run in a drawn town (SG-LAW-wiring-checker-window)
+- allPlaces: its event or subject did not occur in the checker's run in a drawn town (SG-LAW-wiring-checker-window)
 
 **Medicare tax rate** (`medicare-tax`)
 
@@ -165,8 +165,8 @@
 **raise teacher minimum salary** (`us-policy-positions:education.raise-teacher-minimum-salary`)
 
 - systems: applied by its law-reach module on the engine's step (SG-LAW-wiring-read-in-law-reach)
-- money: its event or subject did not occur in the checker's 35-day window in a drawn town (SG-LAW-wiring-checker-window)
-- web: its built links did not move their measure in the checker's 35-day run (SG-LAW-outcome-link-not-fired)
+- money: its event or subject did not occur in the checker's run in a drawn town (SG-LAW-wiring-checker-window)
+- web: its built links did not move their measure in the checker's run (SG-LAW-outcome-link-not-fired)
 
 **Spending: higherEducation** (`budget-line:higherEducation`)
 
@@ -188,49 +188,44 @@
 
 **Corporate income tax rate** (`corporate-income-tax`)
 
-- reach: its event or subject did not occur in the checker's 35-day window in a drawn town (SG-LAW-wiring-checker-window)
-- systems: its event or subject did not occur in the checker's 35-day window in a drawn town (SG-LAW-wiring-checker-window)
 - web: a researched link names an outcome the web does not produce (SG-LAW-outcome-not-produced)
-- repeal: its event or subject did not occur in the checker's 35-day window in a drawn town (SG-LAW-wiring-checker-window)
-- allPlaces: its event or subject did not occur in the checker's 35-day window in a drawn town (SG-LAW-wiring-checker-window)
 
 **Estate tax rate** (`estate-tax`)
 
-- reach: its event or subject did not occur in the checker's 35-day window in a drawn town (SG-LAW-wiring-checker-window)
-- systems: its event or subject did not occur in the checker's 35-day window in a drawn town (SG-LAW-wiring-checker-window)
+- reach: its event or subject did not occur in the checker's run in a drawn town (SG-LAW-wiring-checker-window)
 - web: no researched outcome-web link starts from this law or a measure it sets; the research would measure wealth transfers and charitable giving (SG-LAW-outcome-link-unresearched)
-- repeal: its event or subject did not occur in the checker's 35-day window in a drawn town (SG-LAW-wiring-checker-window)
-- allPlaces: its event or subject did not occur in the checker's 35-day window in a drawn town (SG-LAW-wiring-checker-window)
+- repeal: its event or subject did not occur in the checker's run in a drawn town (SG-LAW-wiring-checker-window)
+- allPlaces: its event or subject did not occur in the checker's run in a drawn town (SG-LAW-wiring-checker-window)
 
 **Inheritance tax rate** (`inheritance-tax`)
 
-- reach: its event or subject did not occur in the checker's 35-day window in a drawn town (SG-LAW-wiring-checker-window)
-- systems: its event or subject did not occur in the checker's 35-day window in a drawn town (SG-LAW-wiring-checker-window)
+- reach: its event or subject did not occur in the checker's run in a drawn town (SG-LAW-wiring-checker-window)
+- systems: its event or subject did not occur in the checker's run in a drawn town (SG-LAW-wiring-checker-window)
 - web: no researched outcome-web link starts from this law or a measure it sets; the research would measure wealth transfers to heirs (SG-LAW-outcome-link-unresearched)
-- repeal: its event or subject did not occur in the checker's 35-day window in a drawn town (SG-LAW-wiring-checker-window)
-- allPlaces: its event or subject did not occur in the checker's 35-day window in a drawn town (SG-LAW-wiring-checker-window)
+- repeal: its event or subject did not occur in the checker's run in a drawn town (SG-LAW-wiring-checker-window)
+- allPlaces: its event or subject did not occur in the checker's run in a drawn town (SG-LAW-wiring-checker-window)
 
 **adopt income tax** (`us-policy-positions:fiscal.adopt-income-tax`)
 
-- reach: its event or subject did not occur in the checker's 35-day window in a drawn town (SG-LAW-wiring-checker-window)
+- reach: its event or subject did not occur in the checker's run in a drawn town (SG-LAW-wiring-checker-window)
 - web: its researched outcome links put the effect at about zero (data/research/outcome-web/links.json), so there is nothing for the web to move
-- repeal: its event or subject did not occur in the checker's 35-day window in a drawn town (SG-LAW-wiring-checker-window)
-- allPlaces: its event or subject did not occur in the checker's 35-day window in a drawn town (SG-LAW-wiring-checker-window)
+- repeal: its event or subject did not occur in the checker's run in a drawn town (SG-LAW-wiring-checker-window)
+- allPlaces: its event or subject did not occur in the checker's run in a drawn town (SG-LAW-wiring-checker-window)
 
 **cap property tax growth** (`us-policy-positions:fiscal.cap-property-tax-growth`)
 
-- reach: its event or subject did not occur in the checker's 35-day window in a drawn town (SG-LAW-wiring-checker-window)
-- allPlaces: its event or subject did not occur in the checker's 35-day window in a drawn town (SG-LAW-wiring-checker-window)
+- reach: its event or subject did not occur in the checker's run in a drawn town (SG-LAW-wiring-checker-window)
+- allPlaces: its event or subject did not occur in the checker's run in a drawn town (SG-LAW-wiring-checker-window)
 
 **exempt groceries from sales tax** (`us-policy-positions:fiscal.exempt-groceries-from-sales-tax`)
 
-- web: its built links did not move their measure in the checker's 35-day run (SG-LAW-outcome-link-not-fired)
+- web: its built links did not move their measure in the checker's run (SG-LAW-outcome-link-not-fired)
 
 **graduated income tax** (`us-policy-positions:fiscal.graduated-income-tax`)
 
-- reach: its event or subject did not occur in the checker's 35-day window in a drawn town (SG-LAW-wiring-checker-window)
+- reach: its event or subject did not occur in the checker's run in a drawn town (SG-LAW-wiring-checker-window)
 - web: its researched outcome links put the effect at about zero (data/research/outcome-web/links.json), so there is nothing for the web to move
-- allPlaces: its event or subject did not occur in the checker's 35-day window in a drawn town (SG-LAW-wiring-checker-window)
+- allPlaces: its event or subject did not occur in the checker's run in a drawn town (SG-LAW-wiring-checker-window)
 
 **balanced operating budget** (`us-policy-positions:fiscal.balanced-operating-budget`)
 
@@ -264,11 +259,7 @@
 
 **Unemployment weekly maximum** (`unemployment-weekly-maximum`)
 
-- reach: its event or subject did not occur in the checker's 35-day window in a drawn town (SG-LAW-wiring-checker-window)
-- systems: its event or subject did not occur in the checker's 35-day window in a drawn town (SG-LAW-wiring-checker-window)
 - web: no researched outcome-web link starts from this law or a measure it sets; the research would measure unemployment duration and household income (SG-LAW-outcome-link-unresearched)
-- repeal: its event or subject did not occur in the checker's 35-day window in a drawn town (SG-LAW-wiring-checker-window)
-- allPlaces: its event or subject did not occur in the checker's 35-day window in a drawn town (SG-LAW-wiring-checker-window)
 
 **Social Security tax rate** (`social-security-tax`)
 
@@ -287,42 +278,32 @@
 
 - web: every link is unbuilt: about-zero (registered SG-GOV-REACH-A-affordable-units)
 
-**rent stabilization** (`us-policy-positions:housing-land-use.rent-stabilization`)
-
-- reach: law-reach row (group A, mechanic rent-renewal) has no handler registered: the mechanic list is empty, so no reach record is written (registered SG-GOV-REACH-A-rent-contracts)
-- systems: no engine reads it (only lawmaking, news or the outcome web, if anything) (registered SG-GOV-REACH-A-rent-contracts)
-- money: no money flow: nobody pays or receives anything because of it (registered SG-GOV-REACH-A-rent-contracts)
-- repeal: its event or subject did not occur in the checker's 35-day window in a drawn town (SG-LAW-wiring-checker-window)
-- allPlaces: its event or subject did not occur in the checker's 35-day window in a drawn town (SG-LAW-wiring-checker-window)
-
 **right to counsel in eviction** (`us-policy-positions:housing-land-use.right-to-counsel-in-eviction`)
 
 - reach: law-reach row (group A, mechanic eviction-counsel) has no handler registered: the mechanic list is empty, so no reach record is written (registered SG-GOV-REACH-A-eviction-cases)
-- systems: no engine reads it (only lawmaking, news or the outcome web, if anything) (registered SG-GOV-REACH-A-eviction-cases)
 - web: every link is unbuilt: outcome-not-produced (registered SG-GOV-REACH-A-eviction-cases)
-- repeal: its event or subject did not occur in the checker's 35-day window in a drawn town (SG-LAW-wiring-checker-window)
-- allPlaces: its event or subject did not occur in the checker's 35-day window in a drawn town (SG-LAW-wiring-checker-window)
+- repeal: its event or subject did not occur in the checker's run in a drawn town (SG-LAW-wiring-checker-window)
+- allPlaces: its event or subject did not occur in the checker's run in a drawn town (SG-LAW-wiring-checker-window)
 
 **Minimum wage** (`minimum-wage`)
 
-- systems: applied by its law-reach module on the engine's step (SG-LAW-wiring-read-in-law-reach)
-- web: its built links did not move their measure in the checker's 35-day run (SG-LAW-outcome-link-not-fired)
+- web: its built links did not move their measure in the checker's run (SG-LAW-outcome-link-not-fired)
 
 **raise federal minimum wage** (`us-federal-positions:labor-commerce.raise-federal-minimum-wage`)
 
 - systems: applied by its law-reach module on the engine's step (SG-LAW-wiring-read-in-law-reach)
-- web: its built links did not move their measure in the checker's 35-day run (SG-LAW-outcome-link-not-fired)
+- web: its built links did not move their measure in the checker's run (SG-LAW-outcome-link-not-fired)
 
 **local minimum wage authority** (`us-policy-positions:labor-workforce.local-minimum-wage-authority`)
 
 - reach: it applies to officeholders and legislative bodies, who are always full people, so no counted group is in its reach
 - systems: read only when a body drafts a bill under it, and the checker drafts none (SG-LAW-wiring-read-on-drafting)
-- web: its built links did not move their measure in the checker's 35-day run (SG-LAW-outcome-link-not-fired)
+- web: its built links did not move their measure in the checker's run (SG-LAW-outcome-link-not-fired)
 
 **raise minimum wage** (`us-policy-positions:labor-workforce.raise-minimum-wage`)
 
 - systems: applied by its law-reach module on the engine's step (SG-LAW-wiring-read-in-law-reach)
-- web: its built links did not move their measure in the checker's 35-day run (SG-LAW-outcome-link-not-fired)
+- web: its built links did not move their measure in the checker's run (SG-LAW-outcome-link-not-fired)
 
 **paid family leave** (`us-policy-positions:labor-workforce.paid-family-leave`)
 
@@ -344,9 +325,8 @@
 
 **cap consumer loan rates** (`us-policy-positions:business-commerce.cap-consumer-loan-rates`)
 
-- reach: its event or subject did not occur in the checker's 35-day window in a drawn town (SG-LAW-wiring-checker-window)
-- money: no money flow: nobody pays or receives anything because of it (registered SG-GOV-REACH-A-consumer-credit)
-- allPlaces: its event or subject did not occur in the checker's 35-day window in a drawn town (SG-LAW-wiring-checker-window)
+- reach: its event or subject did not occur in the checker's run in a drawn town (SG-LAW-wiring-checker-window)
+- allPlaces: its event or subject did not occur in the checker's run in a drawn town (SG-LAW-wiring-checker-window)
 
 **ban new gas hookups** (`us-policy-positions:environment-energy.ban-new-gas-hookups`)
 
@@ -354,15 +334,14 @@
 
 **clean electricity standard** (`us-policy-positions:environment-energy.clean-electricity-standard`)
 
-- reach: its event or subject did not occur in the checker's 35-day window in a drawn town (SG-LAW-wiring-checker-window)
-- allPlaces: its event or subject did not occur in the checker's 35-day window in a drawn town (SG-LAW-wiring-checker-window)
+- reach: its event or subject did not occur in the checker's run in a drawn town (SG-LAW-wiring-checker-window)
+- allPlaces: its event or subject did not occur in the checker's run in a drawn town (SG-LAW-wiring-checker-window)
 
 **clean air plan for polluted counties** (`us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties`)
 
-- reach: its event or subject did not occur in the checker's 35-day window in a drawn town (SG-LAW-wiring-checker-window)
-- web: its built links did not move their measure in the checker's 35-day run (SG-LAW-outcome-link-not-fired)
-- repeal: its event or subject did not occur in the checker's 35-day window in a drawn town (SG-LAW-wiring-checker-window)
-- allPlaces: its event or subject did not occur in the checker's 35-day window in a drawn town (SG-LAW-wiring-checker-window)
+- reach: its event or subject did not occur in the checker's run in a drawn town (SG-LAW-wiring-checker-window)
+- repeal: its event or subject did not occur in the checker's run in a drawn town (SG-LAW-wiring-checker-window)
+- allPlaces: its event or subject did not occur in the checker's run in a drawn town (SG-LAW-wiring-checker-window)
 
 **Spending: naturalResources** (`budget-line:naturalResources`)
 
@@ -371,8 +350,8 @@
 
 **bottle deposit** (`us-policy-positions:environment-energy.bottle-deposit`)
 
-- reach: its event or subject did not occur in the checker's 35-day window in a drawn town (SG-LAW-wiring-checker-window)
-- allPlaces: its event or subject did not occur in the checker's 35-day window in a drawn town (SG-LAW-wiring-checker-window)
+- reach: its event or subject did not occur in the checker's run in a drawn town (SG-LAW-wiring-checker-window)
+- allPlaces: its event or subject did not occur in the checker's run in a drawn town (SG-LAW-wiring-checker-window)
 
 **price carbon** (`us-policy-positions:environment-energy.price-carbon`)
 
@@ -380,12 +359,13 @@
 
 **Spending: police** (`budget-line:police`)
 
-- web: its built links did not move their measure in the checker's 35-day run (SG-LAW-outcome-link-not-fired)
+- web: its built links did not move their measure in the checker's run (SG-LAW-outcome-link-not-fired)
 - repeal: rows under the raise stay open until staffing next acts (SG-LAW-budget-line-reach-not-ended)
 
 **civilian oversight of police** (`us-policy-positions:justice-public-safety.civilian-oversight-of-police`)
 
-- web: its built links did not move their measure in the checker's 35-day run (SG-LAW-outcome-link-not-fired)
+- reach: its event or subject did not occur in the checker's run in a drawn town (SG-LAW-wiring-checker-window)
+- allPlaces: its event or subject did not occur in the checker's run in a drawn town (SG-LAW-wiring-checker-window)
 
 **partner with federal immigration enforcement** (`us-policy-positions:justice-public-safety.partner-with-federal-immigration-enforcement`)
 
@@ -397,23 +377,22 @@
 
 **Spending: corrections** (`budget-line:corrections`)
 
-- reach: its event or subject did not occur in the checker's 35-day window in a drawn town (SG-LAW-wiring-checker-window)
+- reach: its event or subject did not occur in the checker's run in a drawn town (SG-LAW-wiring-checker-window)
 - web: its researched outcome links put the effect at about zero (data/research/outcome-web/links.json), so there is nothing for the web to move
 - knowing: the checker amends the line directly, which is not news; in play the bill is (SG-LAW-wiring-budget-news)
 - repeal: rows under the raise stay open until staffing next acts (SG-LAW-budget-line-reach-not-ended)
-- allPlaces: its event or subject did not occur in the checker's 35-day window in a drawn town (SG-LAW-wiring-checker-window)
+- allPlaces: its event or subject did not occur in the checker's run in a drawn town (SG-LAW-wiring-checker-window)
 
 **restore voting after sentence** (`us-policy-positions:justice-public-safety.restore-voting-after-sentence`)
 
-- systems: applied by its law-reach module on the engine's step (SG-LAW-wiring-read-in-law-reach)
 - web: built links did not move their measure in the run (cause not read by the web, or the measure is not kept for this place) (registered SG-GOV-REACH-A-convictions)
 
 **raise juvenile court age** (`us-policy-positions:justice-public-safety.raise-juvenile-court-age`)
 
-- reach: its event or subject did not occur in the checker's 35-day window in a drawn town (SG-LAW-wiring-checker-window)
+- reach: its event or subject did not occur in the checker's run in a drawn town (SG-LAW-wiring-checker-window)
 - web: its researched outcome links put the effect at about zero (data/research/outcome-web/links.json), so there is nothing for the web to move
-- repeal: its event or subject did not occur in the checker's 35-day window in a drawn town (SG-LAW-wiring-checker-window)
-- allPlaces: its event or subject did not occur in the checker's 35-day window in a drawn town (SG-LAW-wiring-checker-window)
+- repeal: its event or subject did not occur in the checker's run in a drawn town (SG-LAW-wiring-checker-window)
+- allPlaces: its event or subject did not occur in the checker's run in a drawn town (SG-LAW-wiring-checker-window)
 
 **child access prevention** (`us-policy-positions:justice-public-safety.child-access-prevention`)
 
@@ -421,19 +400,19 @@
 
 **permit to carry concealed** (`us-policy-positions:justice-public-safety.permit-to-carry-concealed`)
 
-- reach: its event or subject did not occur in the checker's 35-day window in a drawn town (SG-LAW-wiring-checker-window)
-- allPlaces: its event or subject did not occur in the checker's 35-day window in a drawn town (SG-LAW-wiring-checker-window)
+- reach: its event or subject did not occur in the checker's run in a drawn town (SG-LAW-wiring-checker-window)
+- allPlaces: its event or subject did not occur in the checker's run in a drawn town (SG-LAW-wiring-checker-window)
 
 **raise handgun purchase age** (`us-policy-positions:justice-public-safety.raise-handgun-purchase-age`)
 
-- reach: its event or subject did not occur in the checker's 35-day window in a drawn town (SG-LAW-wiring-checker-window)
+- reach: its event or subject did not occur in the checker's run in a drawn town (SG-LAW-wiring-checker-window)
 - web: a researched link names an outcome the web does not produce (SG-LAW-outcome-not-produced)
-- allPlaces: its event or subject did not occur in the checker's 35-day window in a drawn town (SG-LAW-wiring-checker-window)
+- allPlaces: its event or subject did not occur in the checker's run in a drawn town (SG-LAW-wiring-checker-window)
 
 **stand your ground** (`us-policy-positions:justice-public-safety.stand-your-ground`)
 
-- reach: its event or subject did not occur in the checker's 35-day window in a drawn town (SG-LAW-wiring-checker-window)
-- allPlaces: its event or subject did not occur in the checker's 35-day window in a drawn town (SG-LAW-wiring-checker-window)
+- reach: its event or subject did not occur in the checker's run in a drawn town (SG-LAW-wiring-checker-window)
+- allPlaces: its event or subject did not occur in the checker's run in a drawn town (SG-LAW-wiring-checker-window)
 
 **Spending: fire** (`budget-line:fire`)
 
@@ -442,13 +421,7 @@
 
 **all mail voting** (`us-policy-positions:government-operations.all-mail-voting`)
 
-- systems: applied by its law-reach module on the engine's step (SG-LAW-wiring-read-in-law-reach)
-- money: its event or subject did not occur in the checker's 35-day window in a drawn town (SG-LAW-wiring-checker-window)
 - web: its researched outcome links put the effect at about zero (data/research/outcome-web/links.json), so there is nothing for the web to move
-
-**automatic voter registration** (`us-policy-positions:government-operations.automatic-voter-registration`)
-
-- systems: applied by its law-reach module on the engine's step (SG-LAW-wiring-read-in-law-reach)
 
 **independent redistricting** (`us-policy-positions:government-operations.independent-redistricting`)
 
@@ -457,18 +430,15 @@
 
 **require photo id to vote** (`us-policy-positions:government-operations.require-photo-id-to-vote`)
 
-- systems: applied by its law-reach module on the engine's step (SG-LAW-wiring-read-in-law-reach)
 - web: its researched outcome links put the effect at about zero (data/research/outcome-web/links.json), so there is nothing for the web to move
 
 **same day voter registration** (`us-policy-positions:government-operations.same-day-voter-registration`)
 
-- systems: applied by its law-reach module on the engine's step (SG-LAW-wiring-read-in-law-reach)
 - web: a researched link names an outcome the web does not produce (SG-LAW-outcome-not-produced)
 
 **ban lobbying after office** (`us-policy-positions:government-operations.ban-lobbying-after-office`)
 
 - reach: it applies to officeholders and legislative bodies, who are always full people, so no counted group is in its reach
-- systems: applied by its law-reach module on the engine's step (SG-LAW-wiring-read-in-law-reach)
 - web: no researched outcome-web link starts from this law or a measure it sets; the research would measure lobbying spending and policy capture (SG-LAW-outcome-link-unresearched)
 
 **Public pay floor** (`public-pay-floor`)
@@ -498,7 +468,6 @@
 **legislative term limits** (`us-policy-positions:government-operations.legislative-term-limits`)
 
 - reach: it applies to officeholders and legislative bodies, who are always full people, so no counted group is in its reach
-- systems: applied by its law-reach module on the engine's step (SG-LAW-wiring-read-in-law-reach)
 - web: its researched outcome links put the effect at about zero (data/research/outcome-web/links.json), so there is nothing for the web to move
 
 **ban discrimination in housing and work** (`us-policy-positions:civil-family-community.ban-discrimination-in-housing-and-work`)
@@ -526,13 +495,13 @@
 **limit groundwater withdrawal** (`us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal`)
 
 - reach: handler registered (group B, mechanic farm-output) but it recorded nobody in Prescott, Michigan, US-MI (seed a91c03e7d2b84f10) or Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8) (registered SG-GOV-REACH-B-business-cost)
-- repeal: its event or subject did not occur in the checker's 35-day window in a drawn town (SG-LAW-wiring-checker-window)
-- allPlaces: its event or subject did not occur in the checker's 35-day window in a drawn town (SG-LAW-wiring-checker-window)
+- repeal: its event or subject did not occur in the checker's run in a drawn town (SG-LAW-wiring-checker-window)
+- allPlaces: its event or subject did not occur in the checker's run in a drawn town (SG-LAW-wiring-checker-window)
 
 **protect farmland from development** (`us-policy-positions:agriculture-natural-resources.protect-farmland-from-development`)
 
-- reach: its event or subject did not occur in the checker's 35-day window in a drawn town (SG-LAW-wiring-checker-window)
-- allPlaces: its event or subject did not occur in the checker's 35-day window in a drawn town (SG-LAW-wiring-checker-window)
+- reach: its event or subject did not occur in the checker's run in a drawn town (SG-LAW-wiring-checker-window)
+- allPlaces: its event or subject did not occur in the checker's run in a drawn town (SG-LAW-wiring-checker-window)
 
 **Spending: parks** (`budget-line:parks`)
 
@@ -557,8 +526,5 @@
 
 **unemployment-insurance** (`unemployment-insurance`)
 
-- reach: its event or subject did not occur in the checker's 35-day window in a drawn town (SG-LAW-wiring-checker-window)
-- systems: its event or subject did not occur in the checker's 35-day window in a drawn town (SG-LAW-wiring-checker-window)
 - web: no researched outcome-web link starts from this law or a measure it sets; the research would measure unemployment duration and household income (SG-LAW-outcome-link-unresearched)
-- repeal: its event or subject did not occur in the checker's 35-day window in a drawn town (SG-LAW-wiring-checker-window)
-- allPlaces: its event or subject did not occur in the checker's 35-day window in a drawn town (SG-LAW-wiring-checker-window)
+- repeal: a claim keeps the weekly benefit and weeks fixed when it is filed (state unemployment law), so a claim filed under the changed terms is paid on them after the old terms are put back

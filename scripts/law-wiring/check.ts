@@ -682,7 +682,9 @@ function checkLaw(
   const money = snapshotMoney();
   const reads = trace.reads.get(law.key) ?? new Map();
   const controlReads = control.reads.get(law.key) ?? new Map();
-  const reach = reachOf(core, law.key, opening ? null : ids);
+  // Only reach under the rows the checker changed (or repealed) counts: a body in
+  // play may enact the law again during a long window, and its rows are its own.
+  const reach = reachOf(core, law.key, ids);
   const links = webLinksOf(law);
   const web = webEffects(
     core,

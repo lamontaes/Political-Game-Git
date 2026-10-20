@@ -21,7 +21,7 @@
     "budget-line:corrections": {
       "reach": {
         "status": "stopgap",
-        "why": "its event or subject did not occur in the checker's 35-day window in a drawn town",
+        "why": "its event or subject did not occur in the checker's run in a drawn town",
         "id": "SG-LAW-wiring-checker-window"
       },
       "web": {
@@ -40,7 +40,7 @@
       },
       "allPlaces": {
         "status": "stopgap",
-        "why": "its event or subject did not occur in the checker's 35-day window in a drawn town",
+        "why": "its event or subject did not occur in the checker's run in a drawn town",
         "id": "SG-LAW-wiring-checker-window"
       }
     },
@@ -96,7 +96,7 @@
     "budget-line:police": {
       "web": {
         "status": "stopgap",
-        "why": "its built links did not move their measure in the checker's 35-day run",
+        "why": "its built links did not move their measure in the checker's run",
         "id": "SG-LAW-outcome-link-not-fired"
       },
       "repeal": {
@@ -125,51 +125,26 @@
       }
     },
     "corporate-income-tax": {
-      "reach": {
-        "status": "stopgap",
-        "why": "its event or subject did not occur in the checker's 35-day window in a drawn town",
-        "id": "SG-LAW-wiring-checker-window"
-      },
-      "systems": {
-        "status": "stopgap",
-        "why": "its event or subject did not occur in the checker's 35-day window in a drawn town",
-        "id": "SG-LAW-wiring-checker-window"
-      },
       "web": {
         "status": "stopgap",
         "why": "a researched link names an outcome the web does not produce",
         "id": "SG-LAW-outcome-not-produced"
-      },
-      "repeal": {
-        "status": "stopgap",
-        "why": "its event or subject did not occur in the checker's 35-day window in a drawn town",
-        "id": "SG-LAW-wiring-checker-window"
-      },
-      "allPlaces": {
-        "status": "stopgap",
-        "why": "its event or subject did not occur in the checker's 35-day window in a drawn town",
-        "id": "SG-LAW-wiring-checker-window"
       }
     },
     "estate-tax": {
       "reach": {
         "status": "stopgap",
-        "why": "its event or subject did not occur in the checker's 35-day window in a drawn town",
-        "id": "SG-LAW-wiring-checker-window"
-      },
-      "systems": {
-        "status": "stopgap",
-        "why": "its event or subject did not occur in the checker's 35-day window in a drawn town",
+        "why": "its event or subject did not occur in the checker's run in a drawn town",
         "id": "SG-LAW-wiring-checker-window"
       },
       "repeal": {
         "status": "stopgap",
-        "why": "its event or subject did not occur in the checker's 35-day window in a drawn town",
+        "why": "its event or subject did not occur in the checker's run in a drawn town",
         "id": "SG-LAW-wiring-checker-window"
       },
       "allPlaces": {
         "status": "stopgap",
-        "why": "its event or subject did not occur in the checker's 35-day window in a drawn town",
+        "why": "its event or subject did not occur in the checker's run in a drawn town",
         "id": "SG-LAW-wiring-checker-window"
       }
     },
@@ -183,22 +158,22 @@
     "inheritance-tax": {
       "reach": {
         "status": "stopgap",
-        "why": "its event or subject did not occur in the checker's 35-day window in a drawn town",
+        "why": "its event or subject did not occur in the checker's run in a drawn town",
         "id": "SG-LAW-wiring-checker-window"
       },
       "systems": {
         "status": "stopgap",
-        "why": "its event or subject did not occur in the checker's 35-day window in a drawn town",
+        "why": "its event or subject did not occur in the checker's run in a drawn town",
         "id": "SG-LAW-wiring-checker-window"
       },
       "repeal": {
         "status": "stopgap",
-        "why": "its event or subject did not occur in the checker's 35-day window in a drawn town",
+        "why": "its event or subject did not occur in the checker's run in a drawn town",
         "id": "SG-LAW-wiring-checker-window"
       },
       "allPlaces": {
         "status": "stopgap",
-        "why": "its event or subject did not occur in the checker's 35-day window in a drawn town",
+        "why": "its event or subject did not occur in the checker's run in a drawn town",
         "id": "SG-LAW-wiring-checker-window"
       }
     },
@@ -254,14 +229,9 @@
       }
     },
     "minimum-wage": {
-      "systems": {
-        "status": "stopgap",
-        "why": "applied by its law-reach module on the engine's step",
-        "id": "SG-LAW-wiring-read-in-law-reach"
-      },
       "web": {
         "status": "stopgap",
-        "why": "its built links did not move their measure in the checker's 35-day run",
+        "why": "its built links did not move their measure in the checker's run",
         "id": "SG-LAW-outcome-link-not-fired"
       }
     },
@@ -307,47 +277,9 @@
       }
     },
     "unemployment-insurance": {
-      "reach": {
-        "status": "stopgap",
-        "why": "its event or subject did not occur in the checker's 35-day window in a drawn town",
-        "id": "SG-LAW-wiring-checker-window"
-      },
-      "systems": {
-        "status": "stopgap",
-        "why": "its event or subject did not occur in the checker's 35-day window in a drawn town",
-        "id": "SG-LAW-wiring-checker-window"
-      },
       "repeal": {
-        "status": "stopgap",
-        "why": "its event or subject did not occur in the checker's 35-day window in a drawn town",
-        "id": "SG-LAW-wiring-checker-window"
-      },
-      "allPlaces": {
-        "status": "stopgap",
-        "why": "its event or subject did not occur in the checker's 35-day window in a drawn town",
-        "id": "SG-LAW-wiring-checker-window"
-      }
-    },
-    "unemployment-weekly-maximum": {
-      "reach": {
-        "status": "stopgap",
-        "why": "its event or subject did not occur in the checker's 35-day window in a drawn town",
-        "id": "SG-LAW-wiring-checker-window"
-      },
-      "systems": {
-        "status": "stopgap",
-        "why": "its event or subject did not occur in the checker's 35-day window in a drawn town",
-        "id": "SG-LAW-wiring-checker-window"
-      },
-      "repeal": {
-        "status": "stopgap",
-        "why": "its event or subject did not occur in the checker's 35-day window in a drawn town",
-        "id": "SG-LAW-wiring-checker-window"
-      },
-      "allPlaces": {
-        "status": "stopgap",
-        "why": "its event or subject did not occur in the checker's 35-day window in a drawn town",
-        "id": "SG-LAW-wiring-checker-window"
+        "status": "n/a",
+        "why": "a claim keeps the weekly benefit and weeks fixed when it is filed (state unemployment law), so a claim filed under the changed terms is paid on them after the old terms are put back"
       }
     },
     "us-federal-positions:labor-commerce.raise-federal-minimum-wage": {
@@ -358,43 +290,43 @@
       },
       "web": {
         "status": "stopgap",
-        "why": "its built links did not move their measure in the checker's 35-day run",
+        "why": "its built links did not move their measure in the checker's run",
         "id": "SG-LAW-outcome-link-not-fired"
       }
     },
     "us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal": {
       "repeal": {
         "status": "stopgap",
-        "why": "its event or subject did not occur in the checker's 35-day window in a drawn town",
+        "why": "its event or subject did not occur in the checker's run in a drawn town",
         "id": "SG-LAW-wiring-checker-window"
       },
       "allPlaces": {
         "status": "stopgap",
-        "why": "its event or subject did not occur in the checker's 35-day window in a drawn town",
+        "why": "its event or subject did not occur in the checker's run in a drawn town",
         "id": "SG-LAW-wiring-checker-window"
       }
     },
     "us-policy-positions:agriculture-natural-resources.protect-farmland-from-development": {
       "reach": {
         "status": "stopgap",
-        "why": "its event or subject did not occur in the checker's 35-day window in a drawn town",
+        "why": "its event or subject did not occur in the checker's run in a drawn town",
         "id": "SG-LAW-wiring-checker-window"
       },
       "allPlaces": {
         "status": "stopgap",
-        "why": "its event or subject did not occur in the checker's 35-day window in a drawn town",
+        "why": "its event or subject did not occur in the checker's run in a drawn town",
         "id": "SG-LAW-wiring-checker-window"
       }
     },
     "us-policy-positions:business-commerce.cap-consumer-loan-rates": {
       "reach": {
         "status": "stopgap",
-        "why": "its event or subject did not occur in the checker's 35-day window in a drawn town",
+        "why": "its event or subject did not occur in the checker's run in a drawn town",
         "id": "SG-LAW-wiring-checker-window"
       },
       "allPlaces": {
         "status": "stopgap",
-        "why": "its event or subject did not occur in the checker's 35-day window in a drawn town",
+        "why": "its event or subject did not occur in the checker's run in a drawn town",
         "id": "SG-LAW-wiring-checker-window"
       }
     },
@@ -426,12 +358,12 @@
       },
       "money": {
         "status": "stopgap",
-        "why": "its event or subject did not occur in the checker's 35-day window in a drawn town",
+        "why": "its event or subject did not occur in the checker's run in a drawn town",
         "id": "SG-LAW-wiring-checker-window"
       },
       "web": {
         "status": "stopgap",
-        "why": "its built links did not move their measure in the checker's 35-day run",
+        "why": "its built links did not move their measure in the checker's run",
         "id": "SG-LAW-outcome-link-not-fired"
       }
     },
@@ -445,53 +377,48 @@
     "us-policy-positions:environment-energy.bottle-deposit": {
       "reach": {
         "status": "stopgap",
-        "why": "its event or subject did not occur in the checker's 35-day window in a drawn town",
+        "why": "its event or subject did not occur in the checker's run in a drawn town",
         "id": "SG-LAW-wiring-checker-window"
       },
       "allPlaces": {
         "status": "stopgap",
-        "why": "its event or subject did not occur in the checker's 35-day window in a drawn town",
+        "why": "its event or subject did not occur in the checker's run in a drawn town",
         "id": "SG-LAW-wiring-checker-window"
       }
     },
     "us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties": {
       "reach": {
         "status": "stopgap",
-        "why": "its event or subject did not occur in the checker's 35-day window in a drawn town",
+        "why": "its event or subject did not occur in the checker's run in a drawn town",
         "id": "SG-LAW-wiring-checker-window"
-      },
-      "web": {
-        "status": "stopgap",
-        "why": "its built links did not move their measure in the checker's 35-day run",
-        "id": "SG-LAW-outcome-link-not-fired"
       },
       "repeal": {
         "status": "stopgap",
-        "why": "its event or subject did not occur in the checker's 35-day window in a drawn town",
+        "why": "its event or subject did not occur in the checker's run in a drawn town",
         "id": "SG-LAW-wiring-checker-window"
       },
       "allPlaces": {
         "status": "stopgap",
-        "why": "its event or subject did not occur in the checker's 35-day window in a drawn town",
+        "why": "its event or subject did not occur in the checker's run in a drawn town",
         "id": "SG-LAW-wiring-checker-window"
       }
     },
     "us-policy-positions:environment-energy.clean-electricity-standard": {
       "reach": {
         "status": "stopgap",
-        "why": "its event or subject did not occur in the checker's 35-day window in a drawn town",
+        "why": "its event or subject did not occur in the checker's run in a drawn town",
         "id": "SG-LAW-wiring-checker-window"
       },
       "allPlaces": {
         "status": "stopgap",
-        "why": "its event or subject did not occur in the checker's 35-day window in a drawn town",
+        "why": "its event or subject did not occur in the checker's run in a drawn town",
         "id": "SG-LAW-wiring-checker-window"
       }
     },
     "us-policy-positions:fiscal.adopt-income-tax": {
       "reach": {
         "status": "stopgap",
-        "why": "its event or subject did not occur in the checker's 35-day window in a drawn town",
+        "why": "its event or subject did not occur in the checker's run in a drawn town",
         "id": "SG-LAW-wiring-checker-window"
       },
       "web": {
@@ -500,12 +427,12 @@
       },
       "repeal": {
         "status": "stopgap",
-        "why": "its event or subject did not occur in the checker's 35-day window in a drawn town",
+        "why": "its event or subject did not occur in the checker's run in a drawn town",
         "id": "SG-LAW-wiring-checker-window"
       },
       "allPlaces": {
         "status": "stopgap",
-        "why": "its event or subject did not occur in the checker's 35-day window in a drawn town",
+        "why": "its event or subject did not occur in the checker's run in a drawn town",
         "id": "SG-LAW-wiring-checker-window"
       }
     },
@@ -519,19 +446,19 @@
     "us-policy-positions:fiscal.cap-property-tax-growth": {
       "reach": {
         "status": "stopgap",
-        "why": "its event or subject did not occur in the checker's 35-day window in a drawn town",
+        "why": "its event or subject did not occur in the checker's run in a drawn town",
         "id": "SG-LAW-wiring-checker-window"
       },
       "allPlaces": {
         "status": "stopgap",
-        "why": "its event or subject did not occur in the checker's 35-day window in a drawn town",
+        "why": "its event or subject did not occur in the checker's run in a drawn town",
         "id": "SG-LAW-wiring-checker-window"
       }
     },
     "us-policy-positions:fiscal.exempt-groceries-from-sales-tax": {
       "web": {
         "status": "stopgap",
-        "why": "its built links did not move their measure in the checker's 35-day run",
+        "why": "its built links did not move their measure in the checker's run",
         "id": "SG-LAW-outcome-link-not-fired"
       }
     },
@@ -545,7 +472,7 @@
     "us-policy-positions:fiscal.graduated-income-tax": {
       "reach": {
         "status": "stopgap",
-        "why": "its event or subject did not occur in the checker's 35-day window in a drawn town",
+        "why": "its event or subject did not occur in the checker's run in a drawn town",
         "id": "SG-LAW-wiring-checker-window"
       },
       "web": {
@@ -554,7 +481,7 @@
       },
       "allPlaces": {
         "status": "stopgap",
-        "why": "its event or subject did not occur in the checker's 35-day window in a drawn town",
+        "why": "its event or subject did not occur in the checker's run in a drawn town",
         "id": "SG-LAW-wiring-checker-window"
       }
     },
@@ -566,37 +493,15 @@
       }
     },
     "us-policy-positions:government-operations.all-mail-voting": {
-      "systems": {
-        "status": "stopgap",
-        "why": "applied by its law-reach module on the engine's step",
-        "id": "SG-LAW-wiring-read-in-law-reach"
-      },
-      "money": {
-        "status": "stopgap",
-        "why": "its event or subject did not occur in the checker's 35-day window in a drawn town",
-        "id": "SG-LAW-wiring-checker-window"
-      },
       "web": {
         "status": "n/a",
         "why": "its researched outcome links put the effect at about zero (data/research/outcome-web/links.json), so there is nothing for the web to move"
-      }
-    },
-    "us-policy-positions:government-operations.automatic-voter-registration": {
-      "systems": {
-        "status": "stopgap",
-        "why": "applied by its law-reach module on the engine's step",
-        "id": "SG-LAW-wiring-read-in-law-reach"
       }
     },
     "us-policy-positions:government-operations.ban-lobbying-after-office": {
       "reach": {
         "status": "n/a",
         "why": "it applies to officeholders and legislative bodies, who are always full people, so no counted group is in its reach"
-      },
-      "systems": {
-        "status": "stopgap",
-        "why": "applied by its law-reach module on the engine's step",
-        "id": "SG-LAW-wiring-read-in-law-reach"
       }
     },
     "us-policy-positions:government-operations.broaden-local-authority": {
@@ -633,33 +538,18 @@
         "status": "n/a",
         "why": "it applies to officeholders and legislative bodies, who are always full people, so no counted group is in its reach"
       },
-      "systems": {
-        "status": "stopgap",
-        "why": "applied by its law-reach module on the engine's step",
-        "id": "SG-LAW-wiring-read-in-law-reach"
-      },
       "web": {
         "status": "n/a",
         "why": "its researched outcome links put the effect at about zero (data/research/outcome-web/links.json), so there is nothing for the web to move"
       }
     },
     "us-policy-positions:government-operations.require-photo-id-to-vote": {
-      "systems": {
-        "status": "stopgap",
-        "why": "applied by its law-reach module on the engine's step",
-        "id": "SG-LAW-wiring-read-in-law-reach"
-      },
       "web": {
         "status": "n/a",
         "why": "its researched outcome links put the effect at about zero (data/research/outcome-web/links.json), so there is nothing for the web to move"
       }
     },
     "us-policy-positions:government-operations.same-day-voter-registration": {
-      "systems": {
-        "status": "stopgap",
-        "why": "applied by its law-reach module on the engine's step",
-        "id": "SG-LAW-wiring-read-in-law-reach"
-      },
       "web": {
         "status": "stopgap",
         "why": "a researched link names an outcome the web does not produce",
@@ -692,27 +582,15 @@
         "id": "SG-LAW-wiring-read-in-law-reach"
       }
     },
-    "us-policy-positions:housing-land-use.rent-stabilization": {
-      "repeal": {
-        "status": "stopgap",
-        "why": "its event or subject did not occur in the checker's 35-day window in a drawn town",
-        "id": "SG-LAW-wiring-checker-window"
-      },
-      "allPlaces": {
-        "status": "stopgap",
-        "why": "its event or subject did not occur in the checker's 35-day window in a drawn town",
-        "id": "SG-LAW-wiring-checker-window"
-      }
-    },
     "us-policy-positions:housing-land-use.right-to-counsel-in-eviction": {
       "repeal": {
         "status": "stopgap",
-        "why": "its event or subject did not occur in the checker's 35-day window in a drawn town",
+        "why": "its event or subject did not occur in the checker's run in a drawn town",
         "id": "SG-LAW-wiring-checker-window"
       },
       "allPlaces": {
         "status": "stopgap",
-        "why": "its event or subject did not occur in the checker's 35-day window in a drawn town",
+        "why": "its event or subject did not occur in the checker's run in a drawn town",
         "id": "SG-LAW-wiring-checker-window"
       }
     },
@@ -724,10 +602,15 @@
       }
     },
     "us-policy-positions:justice-public-safety.civilian-oversight-of-police": {
-      "web": {
+      "reach": {
         "status": "stopgap",
-        "why": "its built links did not move their measure in the checker's 35-day run",
-        "id": "SG-LAW-outcome-link-not-fired"
+        "why": "its event or subject did not occur in the checker's run in a drawn town",
+        "id": "SG-LAW-wiring-checker-window"
+      },
+      "allPlaces": {
+        "status": "stopgap",
+        "why": "its event or subject did not occur in the checker's run in a drawn town",
+        "id": "SG-LAW-wiring-checker-window"
       }
     },
     "us-policy-positions:justice-public-safety.end-cash-bail": {
@@ -747,19 +630,19 @@
     "us-policy-positions:justice-public-safety.permit-to-carry-concealed": {
       "reach": {
         "status": "stopgap",
-        "why": "its event or subject did not occur in the checker's 35-day window in a drawn town",
+        "why": "its event or subject did not occur in the checker's run in a drawn town",
         "id": "SG-LAW-wiring-checker-window"
       },
       "allPlaces": {
         "status": "stopgap",
-        "why": "its event or subject did not occur in the checker's 35-day window in a drawn town",
+        "why": "its event or subject did not occur in the checker's run in a drawn town",
         "id": "SG-LAW-wiring-checker-window"
       }
     },
     "us-policy-positions:justice-public-safety.raise-handgun-purchase-age": {
       "reach": {
         "status": "stopgap",
-        "why": "its event or subject did not occur in the checker's 35-day window in a drawn town",
+        "why": "its event or subject did not occur in the checker's run in a drawn town",
         "id": "SG-LAW-wiring-checker-window"
       },
       "web": {
@@ -769,14 +652,14 @@
       },
       "allPlaces": {
         "status": "stopgap",
-        "why": "its event or subject did not occur in the checker's 35-day window in a drawn town",
+        "why": "its event or subject did not occur in the checker's run in a drawn town",
         "id": "SG-LAW-wiring-checker-window"
       }
     },
     "us-policy-positions:justice-public-safety.raise-juvenile-court-age": {
       "reach": {
         "status": "stopgap",
-        "why": "its event or subject did not occur in the checker's 35-day window in a drawn town",
+        "why": "its event or subject did not occur in the checker's run in a drawn town",
         "id": "SG-LAW-wiring-checker-window"
       },
       "web": {
@@ -785,31 +668,24 @@
       },
       "repeal": {
         "status": "stopgap",
-        "why": "its event or subject did not occur in the checker's 35-day window in a drawn town",
+        "why": "its event or subject did not occur in the checker's run in a drawn town",
         "id": "SG-LAW-wiring-checker-window"
       },
       "allPlaces": {
         "status": "stopgap",
-        "why": "its event or subject did not occur in the checker's 35-day window in a drawn town",
+        "why": "its event or subject did not occur in the checker's run in a drawn town",
         "id": "SG-LAW-wiring-checker-window"
-      }
-    },
-    "us-policy-positions:justice-public-safety.restore-voting-after-sentence": {
-      "systems": {
-        "status": "stopgap",
-        "why": "applied by its law-reach module on the engine's step",
-        "id": "SG-LAW-wiring-read-in-law-reach"
       }
     },
     "us-policy-positions:justice-public-safety.stand-your-ground": {
       "reach": {
         "status": "stopgap",
-        "why": "its event or subject did not occur in the checker's 35-day window in a drawn town",
+        "why": "its event or subject did not occur in the checker's run in a drawn town",
         "id": "SG-LAW-wiring-checker-window"
       },
       "allPlaces": {
         "status": "stopgap",
-        "why": "its event or subject did not occur in the checker's 35-day window in a drawn town",
+        "why": "its event or subject did not occur in the checker's run in a drawn town",
         "id": "SG-LAW-wiring-checker-window"
       }
     },
@@ -825,7 +701,7 @@
       },
       "web": {
         "status": "stopgap",
-        "why": "its built links did not move their measure in the checker's 35-day run",
+        "why": "its built links did not move their measure in the checker's run",
         "id": "SG-LAW-outcome-link-not-fired"
       }
     },
@@ -848,7 +724,7 @@
       },
       "web": {
         "status": "stopgap",
-        "why": "its built links did not move their measure in the checker's 35-day run",
+        "why": "its built links did not move their measure in the checker's run",
         "id": "SG-LAW-outcome-link-not-fired"
       }
     },
@@ -862,7 +738,7 @@
     "us-policy-positions:transportation-infrastructure.shift-highway-funds-to-transit": {
       "reach": {
         "status": "stopgap",
-        "why": "its event or subject did not occur in the checker's 35-day window in a drawn town",
+        "why": "its event or subject did not occur in the checker's run in a drawn town",
         "id": "SG-LAW-wiring-checker-window"
       },
       "systems": {
@@ -872,17 +748,17 @@
       },
       "web": {
         "status": "stopgap",
-        "why": "its built links did not move their measure in the checker's 35-day run",
+        "why": "its built links did not move their measure in the checker's run",
         "id": "SG-LAW-outcome-link-not-fired"
       },
       "repeal": {
         "status": "stopgap",
-        "why": "its event or subject did not occur in the checker's 35-day window in a drawn town",
+        "why": "its event or subject did not occur in the checker's run in a drawn town",
         "id": "SG-LAW-wiring-checker-window"
       },
       "allPlaces": {
         "status": "stopgap",
-        "why": "its event or subject did not occur in the checker's 35-day window in a drawn town",
+        "why": "its event or subject did not occur in the checker's run in a drawn town",
         "id": "SG-LAW-wiring-checker-window"
       }
     }
