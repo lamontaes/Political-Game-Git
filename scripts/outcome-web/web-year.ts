@@ -7,8 +7,14 @@
  *
  *   node --import tsx scripts/outcome-web/web-year.ts <seed> [--out file]
  */
-import { readdirSync, readFileSync, statSync, writeFileSync } from "node:fs";
-import { join } from "node:path";
+import {
+  existsSync,
+  readdirSync,
+  readFileSync,
+  statSync,
+  writeFileSync,
+} from "node:fs";
+import { dirname, join } from "node:path";
 import { performance } from "node:perf_hooks";
 import { buildBenchWorld } from "../../src/bench/world";
 import { DevMode } from "../../src/bench/dev-mode";
@@ -47,13 +53,21 @@ function engineRead(): Set<string> {
       /electorate-inputs/.test(path)
     )
       continue;
-    const text = readFileSync(path, "utf8");
+    const own = readFileSync(path, "utf8");
     if (
-      !/webReach|webFactorFor|outcomeWebFactor|placeOutcome|turnoutWeb/.test(
-        text,
+      !/webReach|webFactorFor|outcomeWebFactor|placeOutcome|turnoutWeb|deathWebFactor/.test(
+        own,
       )
     )
       continue;
+    // An engine may name the measures it reads in a data file it imports.
+    const text = [
+      own,
+      ...[...own.matchAll(/from "(\.[^"]+\.json)"/g)]
+        .map((m) => join(dirname(path), m[1]!))
+        .filter((file) => existsSync(file))
+        .map((file) => readFileSync(file, "utf8")),
+    ].join("\n");
     for (const m of text.matchAll(/"([a-z][a-z0-9-]*\.[a-z0-9.:-]+)"/g))
       found.add(m[1]!);
   }
