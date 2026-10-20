@@ -22,4 +22,4 @@ claimed-at: 2026-10-19T23:33:49.661Z
 
 **Files.** data/english/calibration.json (new), scripts/dialogue-batch/apply-grades.ts, src/presentation/english-composition.ts, src/director/conversation.ts
 
-**Notes.** Part of words-grading-bench. Needs data points from words-bench-datapoints to grade.
+**Notes.** Built Oct 19 (partial): piece running grades and register target length, the numeric fold in apply-grades, and the read in composeGroundedLine (src/english/english-calibration.ts). Per-trait pulls, move pairs and reply ranking are words-calibration-traits-pairs-replies. Proved with fixtures in scripts/dialogue-batch/calibration.test.ts; no played-world year was run. Part of words-grading-bench. Needs data points from words-bench-datapoints to grade.
