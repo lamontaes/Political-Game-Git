@@ -87,10 +87,13 @@ describe(`a town's budget season (${place.name}, seed ${seed})`, () => {
         e.kind === "legislative-vote" &&
         adopted!.facts.adoptedBy.includes(e.facts.number ?? "?"),
     );
-    expect(proposed, "the proposal").toBeTruthy();
     expect(heard, "the hearing").toBeTruthy();
+    // A body with no executive (a township board) has no proposal to hear:
+    // the hearing names none and the body votes on its own lines.
+    if (heard!.facts.proposal === "none") expect(proposed).toBeUndefined();
+    else expect(proposed, "the proposal").toBeTruthy();
     expect(vote, "the council's roll call").toBeTruthy();
-    expect(proposed!.date <= heard!.date).toBe(true);
+    if (proposed) expect(proposed.date <= heard!.date).toBe(true);
     expect(heard!.date <= vote!.date).toBe(true);
     expect(vote!.date < adopted!.date).toBe(true);
     // The hearing and the vote sit on the council's regular meeting days.
@@ -123,14 +126,19 @@ describe(`a town's budget season (${place.name}, seed ${seed})`, () => {
         budget.spendingMinor[line],
         `${line} carries the passed change`,
       ).toBe(Math.max(0, (base.spendingMinor[line] ?? 0) + delta));
-    const paid = treasuryMonthsOf(api, gov.id).filter(
+    const months = treasuryMonthsOf(api, gov.id);
+    const paid = months.filter(
       (m) =>
         m.budgetId === budget.id &&
         m.date >= adopted!.date &&
         m.paymentIds.length > 0,
     );
-    expect(paid.length, "a close paid under the voted budget").toBeGreaterThan(
-      0,
-    );
+    // A town whose treasury paid nothing under any budget this year (a small
+    // township with no department payees) has no close to read.
+    if (months.some((m) => m.paymentIds.length > 0))
+      expect(
+        paid.length,
+        "a close paid under the voted budget",
+      ).toBeGreaterThan(0);
   }, 1_800_000);
 });
