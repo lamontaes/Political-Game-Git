@@ -5,12 +5,12 @@ area: world
 kind: feature
 priority: 2
 size: M
-status: claimed
-claimed-by: claude/counted-estate-home
+status: open
+claimed-by:
 pr:
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-20T17:17:42.415Z
+claimed-at:
 ---
 
 **What.** world-estate-sells-the-home sells a full household's home when probate closes. A counted household's last owner dying (counted estates, removeCountedPerson) leaves the group's home owned forever on the dwellings table, so counted groups never put homes on the market from deaths. A counted household's home should be sold by the same rule times the households its record stands for: the lender paid first from the group's mortgage part, the surplus to the heirs the counted estate names, the home back on the market with a sales row that names the death.
@@ -22,3 +22,5 @@ claimed-at: 2026-10-20T17:17:42.415Z
 **Files.** src/core2/estates.ts, src/core2/housing-sale.ts, src/core2/modules/residents.ts
 
 **Notes.** TODO
+
+Oct 20 (claude, paused by the CTO for the usage reset): stopped mid-build on branch claude/counted-estate-home (stacked on claude/estate-sells-home, PR #5735). Written and typechecking, not tested: `sellHome` takes a `counted` argument (weight, group surplus callback) and `removeCountedPerson` calls `sellCountedHome` when the last member dies. Still to do: a test in counted-estates.test.ts or a new file (counted household that owns its home, every member removed with removeCountedPerson in a bench world, then the sale row, lender paid, surplus in the group fund, journal balanced), the housing/estates/counted tests, a release declaration, PR.
