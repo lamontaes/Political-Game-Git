@@ -20,7 +20,9 @@ import type { CoreState } from "./types";
 const label = process.env.CALIBRATION_SEED ?? "c";
 const LOCAL = ["city", "county", "township"];
 
-describe("uncontested local races", () => {
+// Six worlds of 600 days take over an hour, so this runs only when asked:
+// CALIBRATION_RUN=1 npx vitest run src/core2/candidacy-calibration.test.ts
+describe.skipIf(!process.env.CALIBRATION_RUN)("uncontested local races", () => {
   it("fall between 50 and 80 percent across six drawn places", () => {
     let contests = 0;
     let uncontested = 0;
