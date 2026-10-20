@@ -5,12 +5,12 @@ area: world
 kind: cleanup
 priority: 2
 size: M
-status: open
-claimed-by:
-pr:
+status: done
+claimed-by: claude/work-schedules-roster
+pr: #5097
 blocked-on:
 source: split from world-port-work-schedules
-claimed-at: 
+claimed-at: 2026-10-19T18:50:58.598Z
 ---
 
 **What.** The opening still builds each worker's schedule by calling `workSchedulesFor` in the old engine, which indexes the employer's roster from the old world's work relationships and reads life-queries, time-work, work-absence and town-employment. The pattern tables are already in the core (src/core2/work-patterns.ts). Write the roster rule fresh on the opening's own job rows: staff who share a rotating pattern at one employer take turns, so a hospital or a diner is staffed through the week. Then delete `workSchedulesFor` once its six old-engine readers are ported or removed.
