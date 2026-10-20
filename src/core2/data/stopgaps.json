@@ -3155,7 +3155,7 @@
     "kind": "aggregate-spending",
     "file": "src/core2/opening-private-tuition.ts",
     "line": 1,
-    "whatItFakes": "Each household with school-age children pays its children's share of the town's private tuition (the national private share times the average tuition) to the town's private school; no family chooses a school, and no child is enrolled.",
+    "whatItFakes": "Each household with school-age children pays its children's share of the town's private tuition (the town's state's private share of students, NCES fall 2021, times the national average tuition) to the town's private school; no family chooses a school, and no child is enrolled.",
     "why": "Private schools had no customers at all, so they closed in every town.",
     "addedBy": "OPUS-CORE",
     "addedAt": "2026-10-12",

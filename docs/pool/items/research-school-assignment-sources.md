@@ -21,3 +21,5 @@ source: added with npm run pool -- add
 **Files.** src/core2/data/opening-schools.json, data/research/people/, src/core2/data/stopgaps.json
 
 **Notes.** TODO
+
+Partly built Oct 20 (claude/political-game-pool-yucp92-z): the private share by state is sourced from NCES Digest Table 205.80 (private K-12, fall 2021) over that plus Table 203.20 (public, fall 2021), in data/research/people/nces-private-enrollment-share-fall-2021.json (50 states and D.C. SOURCED, from 1.8 to 17.7 percent; the five territories take the 8.9 percent median, ESTIMATED). opening-private-tuition.ts reads it for the town's state, and the national openingPrivateSchoolShare parameter is deleted. Not done: the homeschool share by state (the Census Bureau's Household Pulse surveys have it, but the Census API needs a key this session does not have) and the school-boundary lookup. SG-P15-school-assignment stays open.

@@ -1,18 +1,30 @@
 /**
  * Private school tuition at the opening. Each household with children aged
  * 5–17 pays its children's share of private tuition to the town's private
- * school: children × the private share of school-age children (NCES) × the
+ * school: children × the private share of the state's students (NCES) × the
  * average private tuition (NCES Digest Table 205.50), monthly. It is the
  * town's aggregate spread over its families, like the CE survey's averages,
  * not a choice of which family goes private. A town without a private school
  * pays none here (the spending stays with the household's other costs).
  */
 import { ageOnDate, makeIsoDate } from "./kernel/dates";
+import shares from "../../data/research/people/nces-private-enrollment-share-fall-2021.json" with { type: "json" };
+import { corePlaceByKey } from "./place-lookup";
 import data from "./data/opening-private-tuition.json" with { type: "json" };
 import { parameter as p } from "./parameters";
 import { stopgap } from "./stopgaps";
 import type { FinanceContractInput } from "./finance-types";
 import type { CoreInput, Source } from "./types";
+
+/** The private share of students in the town's state (NCES, fall 2021); the median where the state has no row. */
+function privateShareOf(input: CoreInput): number {
+  const key = input.placeMetadata?.placeKey;
+  const state = key ? corePlaceByKey(key)?.stateJurisdictionKey : undefined;
+  const row = (shares.states as Readonly<Record<string, { share: number }>>)[
+    state ?? ""
+  ];
+  return row?.share ?? shares.median;
+}
 
 export function withPrivateTuition(input: CoreInput): CoreInput {
   if (!input.finance) return input;
@@ -26,10 +38,9 @@ export function withPrivateTuition(input: CoreInput): CoreInput {
   const first = new Date(`${start}T00:00:00Z`);
   first.setUTCMonth(first.getUTCMonth() + 1, 1);
   const dueAt = makeIsoDate(first.toISOString().slice(0, 10));
+  const share = privateShareOf(input);
   const perChildMonthly =
-    (p("openingPrivateSchoolShare") *
-      p("openingPrivateTuitionAnnualUsd") *
-      p("minorPerDollar")) /
+    (share * p("openingPrivateTuitionAnnualUsd") * p("minorPerDollar")) /
     p("monthsPerYear");
   const contracts: FinanceContractInput[] = [];
   const sorted = [...schools].sort((a, b) => a.id.localeCompare(b.id));
@@ -66,7 +77,7 @@ export function withPrivateTuition(input: CoreInput): CoreInput {
       tag: "ESTIMATED",
       asOf: start,
       citation: data.citation,
-      estimatedFrom: `${children} children aged ${p("openingSchoolAgeFirst")}–${p("openingSchoolAgeLast")} × private share ${p("openingPrivateSchoolShare")} × average tuition $${p("openingPrivateTuitionAnnualUsd")} a year; the town's private tuition spread over its families.`,
+      estimatedFrom: `${children} children aged ${p("openingSchoolAgeFirst")}–${p("openingSchoolAgeLast")} × private share ${share} × average tuition $${p("openingPrivateTuitionAnnualUsd")} a year; the town's private tuition spread over its families.`,
     };
     contracts.push({
       id: `opening-private-tuition:${home.id}:${school.id}`,

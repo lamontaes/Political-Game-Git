@@ -2,6 +2,7 @@ import { randomBytes } from "node:crypto";
 import { describe, expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { parameter as p } from "./parameters";
+import shares from "../../data/research/people/nces-private-enrollment-share-fall-2021.json" with { type: "json" };
 import { generatedOpening } from "./tooling/generated-world";
 
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(16).toString("hex");
@@ -27,7 +28,7 @@ describe(`private tuition in ${place.name}, ${place.state} (seed ${seed})`, () =
     expect(tuition.length).toBeGreaterThan(0);
     const homes = new Map(input.households.map((row) => [row.id, row]));
     const perChild =
-      (p("openingPrivateSchoolShare") *
+      (shares.states[place.state as keyof typeof shares.states].share *
         p("openingPrivateTuitionAnnualUsd") *
         p("minorPerDollar")) /
       p("monthsPerYear");
