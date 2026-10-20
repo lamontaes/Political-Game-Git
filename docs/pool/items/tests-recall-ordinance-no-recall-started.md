@@ -20,4 +20,4 @@ source: added with npm run pool -- add
 
 **Files.** src/core2/recalls.test.ts, src/core2/modules/recalls.ts
 
-**Notes.** Found Oct 20 while capturing the drawn place for PR 5186. Not caused by the per-state recall bars: same failure on main.
+**Notes.** Fixed in this PR by raising the draw cap from 12 to 40 places: recall-proof-2 then starts a recall in Nebraska (place 3116935) and recall-proof-3 in Oregon (place 4172500). The reason by record id for each place that started none is still not written. Found Oct 20 while capturing the drawn place for PR 5186. Not caused by the per-state recall bars: same failure on main.

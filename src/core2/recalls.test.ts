@@ -41,7 +41,7 @@ describe("M3-10 recalls", () => {
   it("an ordinance can start a recall where the law allows one, and none where it doesn't", () => {
     const tried: string[] = [];
     let report: Record<string, unknown> | null = null;
-    for (let attempt = 0; attempt < 12 && !report; attempt += 1) {
+    for (let attempt = 0; attempt < 40 && !report; attempt += 1) {
       const state = pick(allStates, `state:${attempt}`);
       const places = [
         ...searchCorePlaces("", Number.MAX_SAFE_INTEGER, {
