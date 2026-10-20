@@ -21,3 +21,5 @@ source: added with npm run pool -- add
 **Files.** src/core2/modules/press.ts, src/core2/modules/news.ts
 
 **Notes.** TODO
+
+Oct 20 (claude/speed-press): `countedFollowers` (the exported one, read by `adOutlet` for every campaign ad) walked all counted residents on each call; the town's counted adults by age band are now counted once a week (`townAdultsByBand`, the same week `countedFollowersOf` already holds its figures). CPU profile of seed m7b, Long Hill, Connecticut, before and after: `countedFollowers` 5.23 seconds -> 0.05, with 0.24 in the weekly count; the whole profile 251 -> 236 seconds. Wall time for the year (200 and 198 seconds against 194 to 214 before) is inside the run-to-run noise, so this part alone does not bring the year under 120 seconds.
