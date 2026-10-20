@@ -22,3 +22,5 @@ claimed-at: 2026-10-20T04:32:33.775Z
 **Files.** src/core2
 
 **Notes.** Item 15 of docs/reports/merge-audit-2026-10-20.md, split from release-merge-audit-oct20-fixes.
+
+**Result (Oct 20).** The two energy-price rules (clean electricity standard, carbon price) now live once, in energyPriceRules() in place-prices.ts, read by readPriceLaws and by businessEnergyCostYear; the business arithmetic (other costs times the fuel share times the price change) is businessEnergyChange, which the monthly settlement divides by twelve and the year figure rounds. A test in place-prices.test.ts checks twelve months equal the year. The decision on purpose: an employer with no books has no operating costs to price, so it does not organize over an energy-price law; it will when it gets books (the business engine opens them), and nothing else is faked for it. The test does not run the month through the journal (it checks the shared rule); the played-world year was not run.

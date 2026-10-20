@@ -78,5 +78,7 @@ export function filingWordsFromBank(
       ]),
     ),
     accept: of("player", "accept"),
+    file: of("player", "file", "office"),
+    filed: of("clerk", "filed", "office"),
   };
 }

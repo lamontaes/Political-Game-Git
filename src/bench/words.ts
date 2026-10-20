@@ -18,18 +18,23 @@ export function relationWord(
   return words[gender as keyof typeof words] ?? words.other ?? null;
 }
 
-/** The schools a person's past records, in order, as written on their records. */
+/**
+ * The schools a person's past records, in order, as written on their records.
+ * A school that serves two stages in a row (a K-8 school's elementary and
+ * middle years) is one line, the first stage's record naming it.
+ */
 export function schoolsOf(core: CoreState, personId: string) {
-  return (
-    (core.people.get(personId)?.pastFacts ?? [])
-      // The school stages themselves, not the classmates met there.
-      .filter((fact) => fact.facts?.schoolName && fact.facts.stage)
-      .sort((a, b) => a.date.localeCompare(b.date))
-      .map((fact) => ({
-        name: properName(fact.facts!.schoolName!),
-        date: fact.date,
-        recordId: fact.id,
-      }))
+  const stages = (core.people.get(personId)?.pastFacts ?? [])
+    // The school stages themselves, not the classmates met there.
+    .filter((fact) => fact.facts?.schoolName && fact.facts.stage)
+    .sort((a, b) => a.date.localeCompare(b.date))
+    .map((fact) => ({
+      name: properName(fact.facts!.schoolName!),
+      date: fact.date,
+      recordId: fact.id,
+    }));
+  return stages.filter(
+    (row, at) => at === 0 || stages[at - 1]!.name !== row.name,
   );
 }
 
@@ -88,5 +93,36 @@ export function policyNames(): Record<string, string> {
     }
   };
   walk(billCatalog);
+  return names;
+}
+
+/**
+ * Every act's name as a short control label ("Take a break", "Look after"),
+ * from the bank: the most-used wording without a slot, else the most-used
+ * wording with its slot taken out. Served to the play screen with the other
+ * control names.
+ */
+export function actionNames(): Record<string, string> {
+  const names: Record<string, string> = {};
+  const parts = (choiceBank.parts as ChoicePart[]).filter(
+    (part) => part.shippable,
+  );
+  for (const move of new Set(parts.map((part) => part.move))) {
+    const part = choiceName(move, undefined);
+    const text = part
+      ? part.text
+      : parts
+          .filter((row) => row.move === move)
+          .sort(
+            (a, b) =>
+              b.transcriptsUsing - a.transcriptsUsing ||
+              a.key.localeCompare(b.key),
+          )[0]!
+          .text.replace(SLOT, "");
+    names[move] = text
+      .replace(/\s+/g, " ")
+      .replace(/[\s.!?]+$/, "")
+      .trim();
+  }
   return names;
 }

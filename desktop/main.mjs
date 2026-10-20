@@ -17,6 +17,7 @@
  * directory, independent of where the application is installed.
  */
 
+import { markCleanQuit, takePreviousCrash } from "./crash-marker.mjs";
 import { readFileSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
@@ -361,6 +362,13 @@ if (!app.requestSingleInstanceLock()) {
   });
 
   app.whenReady().then(() => {
+    // Did the last run end badly? The play server (started on the first
+    // request) offers the bug report when it did.
+    process.env.OCD_PREVIOUS_CRASH = takePreviousCrash(
+      path.join(app.getPath("userData"), "run"),
+    )
+      ? "1"
+      : "0";
     protocol.handle(APP_SCHEME, (request) =>
       serveAppRequest(contentRoot, request, playApi),
     );
@@ -414,7 +422,10 @@ if (!app.requestSingleInstanceLock()) {
     });
   });
 
-  app.on("will-quit", () => playApi.stop());
+  app.on("will-quit", () => {
+    markCleanQuit(path.join(app.getPath("userData"), "run"));
+    playApi.stop();
+  });
 
   app.on("window-all-closed", () => {
     if (!holdQuit) app.quit();

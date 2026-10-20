@@ -12,7 +12,7 @@ import type {
   ScheduleRigidity,
   WorkAuthority,
   WorkRelationshipKind,
-} from "../simulation/types";
+} from "./work-types";
 
 export interface Role {
   readonly title: string;

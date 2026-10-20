@@ -115,3 +115,28 @@ describe(`mined scenes and bring-it-up in ${base.placeMetadata?.placeName} (seed
     }
   }, 120_000);
 });
+
+describe("the scene leads for a law taking effect and a meeting held", () => {
+  const leads = sceneWordsFromBank().leads;
+  const parts = SCENE_BANK.parts as unknown as {
+    key: string;
+    origin?: string;
+    author?: string;
+    date?: string;
+    uses: { role: string }[];
+  }[];
+  it.each(["law-takes-effect", "public-hearing"])(
+    "%s has several wordings, each authored with author and date",
+    (typeKey) => {
+      const lead = leads.find((row) => row.typeKey === typeKey);
+      expect(lead?.variants.length).toBeGreaterThanOrEqual(3);
+      for (const part of parts.filter((row) =>
+        row.uses.some((use) => use.role === typeKey),
+      )) {
+        expect(part.origin, part.key).toBe("authored");
+        expect(part.author, part.key).toBeTruthy();
+        expect(part.date, part.key).toMatch(/^\d{4}-\d{2}-\d{2}$/);
+      }
+    },
+  );
+});

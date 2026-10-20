@@ -22,3 +22,5 @@ claimed-at: 2026-10-20T04:19:41.038Z
 **Files.** src/core2/news.test.ts, src/core2/office-proof.test.ts
 
 **Notes.** Item 1 of docs/reports/merge-audit-2026-10-20.md, split from release-merge-audit-oct20-fixes.
+
+**Result (Oct 20).** news.test.ts draws up to twelve towns until one sits in a county and asserts the county story reaches residents; office-proof.test.ts draws up to six places until one has both a sitting governor and a sitting legislator and fails on exhaustion; the early returns are gone. Both files pass (7 tests). The governor test timeout stays at 1,800,000 ms with its reason in the test (it plays up to 450 days before the ten days); no measured run time was taken here. The separate no-county test was not added: a town in no county has no county record to assert on.

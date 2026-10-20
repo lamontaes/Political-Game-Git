@@ -9779,6 +9779,13 @@
           "role": "answer",
           "choice": "yes",
           "stages": ["heard"]
+        },
+        {
+          "move": "imprisoned-answer-yes",
+          "subject": "imprisoned",
+          "role": "answer",
+          "choice": "yes",
+          "stages": ["heard"]
         }
       ],
       "transcriptsUsing": 2,
@@ -9841,6 +9848,13 @@
         {
           "move": "news-answer-yes",
           "subject": "news",
+          "role": "answer",
+          "choice": "yes",
+          "stages": ["heard"]
+        },
+        {
+          "move": "imprisoned-answer-yes",
+          "subject": "imprisoned",
           "role": "answer",
           "choice": "yes",
           "stages": ["heard"]
@@ -9951,6 +9965,13 @@
           "role": "answer",
           "choice": "yes",
           "stages": ["heard"]
+        },
+        {
+          "move": "imprisoned-answer-yes",
+          "subject": "imprisoned",
+          "role": "answer",
+          "choice": "yes",
+          "stages": ["heard"]
         }
       ],
       "transcriptsUsing": 513,
@@ -10012,6 +10033,13 @@
           "subject": "eviction-reply",
           "role": "answer",
           "choice": "ask"
+        },
+        {
+          "move": "imprisoned-answer-no",
+          "subject": "imprisoned",
+          "role": "answer",
+          "choice": "no",
+          "stages": ["not-heard"]
         }
       ],
       "transcriptsUsing": 243,
@@ -10400,6 +10428,12 @@
           "subject": "eviction-cause-reply",
           "role": "answer",
           "choice": "comfort"
+        },
+        {
+          "move": "imprisoned-answer-react",
+          "subject": "imprisoned",
+          "role": "answer",
+          "choice": "react"
         }
       ],
       "transcriptsUsing": 249,
@@ -10507,6 +10541,12 @@
           "subject": "eviction-cause-reply",
           "role": "answer",
           "choice": "comfort"
+        },
+        {
+          "move": "imprisoned-answer-react",
+          "subject": "imprisoned",
+          "role": "answer",
+          "choice": "react"
         }
       ],
       "transcriptsUsing": 42,
@@ -10597,6 +10637,12 @@
         {
           "move": "news-answer-react",
           "subject": "news",
+          "role": "answer",
+          "choice": "react"
+        },
+        {
+          "move": "imprisoned-answer-react",
+          "subject": "imprisoned",
           "role": "answer",
           "choice": "react"
         }
@@ -16078,6 +16124,134 @@
       "tag": {
         "move": "comfort",
         "key": "loss"
+      }
+    },
+    {
+      "key": "conversation.imprisoned-raise-heard.did-you-hear-about-name",
+      "move": "imprisoned-raise-heard",
+      "kind": "spoken",
+      "text": "Did you hear about {name}?",
+      "uses": [
+        {
+          "move": "imprisoned-raise-heard",
+          "subject": "imprisoned",
+          "role": "raise",
+          "choice": "heard"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item words-justice-imprisoned-talk)",
+      "date": "2026-10-19",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "conversation.imprisoned-raise-heard.have-you-heard-about-name",
+      "move": "imprisoned-raise-heard",
+      "kind": "spoken",
+      "text": "Have you heard about {name}?",
+      "uses": [
+        {
+          "move": "imprisoned-raise-heard",
+          "subject": "imprisoned",
+          "role": "raise",
+          "choice": "heard"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item words-justice-imprisoned-talk)",
+      "date": "2026-10-19",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "conversation.imprisoned-raise-heard.name-has-been-sent-to-prison",
+      "move": "imprisoned-raise-heard",
+      "kind": "spoken",
+      "text": "{name} has been sent to prison.",
+      "uses": [
+        {
+          "move": "imprisoned-raise-heard",
+          "subject": "imprisoned",
+          "role": "raise",
+          "choice": "heard"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item words-justice-imprisoned-talk)",
+      "date": "2026-10-19",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "conversation.imprisoned-raise-heard.name-is-in-prison-now",
+      "move": "imprisoned-raise-heard",
+      "kind": "spoken",
+      "text": "{name} is in prison now.",
+      "uses": [
+        {
+          "move": "imprisoned-raise-heard",
+          "subject": "imprisoned",
+          "role": "raise",
+          "choice": "heard"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item words-justice-imprisoned-talk)",
+      "date": "2026-10-19",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "conversation.imprisoned-answer-no.no-i-hadnt-heard",
+      "move": "imprisoned-answer-no",
+      "kind": "spoken",
+      "text": "No, I hadn't heard.",
+      "uses": [
+        {
+          "move": "imprisoned-answer-no",
+          "subject": "imprisoned",
+          "role": "answer",
+          "choice": "no",
+          "stages": ["not-heard"]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item words-justice-imprisoned-talk)",
+      "date": "2026-10-19",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "conversation.imprisoned-answer-no.i-didnt-know",
+      "move": "imprisoned-answer-no",
+      "kind": "spoken",
+      "text": "I didn't know.",
+      "uses": [
+        {
+          "move": "imprisoned-answer-no",
+          "subject": "imprisoned",
+          "role": "answer",
+          "choice": "no",
+          "stages": ["not-heard"]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item words-justice-imprisoned-talk)",
+      "date": "2026-10-19",
+      "tag": {
+        "move": "tell"
       }
     }
   ]

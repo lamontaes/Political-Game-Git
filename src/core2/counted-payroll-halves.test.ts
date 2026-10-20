@@ -86,8 +86,16 @@ it("a counted worker's hire, raise and end reach both halves of a twice-a-month 
       rt.flows.get(first.id)!.perDayMinorByJob!["job:test-hired"],
       where,
     ).toBeDefined();
+    // Both halves carry the hire, at the same pay.
     const together = halves("job:test-hired");
-    expect(together.length, where).toBeGreaterThanOrEqual(1);
+    expect(together.length, where).toBe(2);
+    expect(
+      together.map((flow) => flow.perDayMinorByJob!["job:test-hired"]),
+      where,
+    ).toEqual([
+      first.perDayMinorByJob!["job:test-hired"],
+      first.perDayMinorByJob!["job:test-hired"],
+    ]);
     // An end drops the worker from both halves.
     expect(endCountedJob(core, jobId), where).toBeDefined();
     expect(halves(jobId), `${where}: still paid by a half`).toHaveLength(0);

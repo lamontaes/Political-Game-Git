@@ -306,13 +306,16 @@ export function composeGroundedLine(
     // that read best and sit nearest the register's length.
     const table = context.calibration ?? CALIBRATION;
     const liked = (variants: readonly LinePartVariant[]) =>
-      preferGraded(variants, (variant) =>
-        calibrationScore(
-          `${bankKey}:${part}:${variant.key}`,
-          context.register,
-          variant.kind === "template" ? wordCount(variant.text) : undefined,
-          table,
-        ),
+      preferGraded(
+        variants,
+        (variant) =>
+          calibrationScore(
+            `${bankKey}:${part}:${variant.key}`,
+            context.register,
+            variant.kind === "template" ? wordCount(variant.text) : undefined,
+            table,
+          ),
+        table,
       );
     const tiers = [
       liked(unheld.filter(isFresh)),

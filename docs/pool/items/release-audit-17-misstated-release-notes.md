@@ -22,3 +22,5 @@ claimed-at: 2026-10-20T04:32:24.175Z
 **Files.** docs/release/changes
 
 **Notes.** Item 17 of docs/reports/merge-audit-2026-10-20.md, split from release-merge-audit-oct20-fixes.
+
+**Result (Oct 20).** Corrected four declarations to say what changed: special-election timing (51 House and 30 legislative rows, 22 House rows still on the flat estimate), counted-views delete (drift removed), household membership (impact patch: lease payers handed to those who stay), territory places (capped at the 10,000 sample). #5021 and #5258 were checked: the words-local-authority-spelling declaration states only the renamed law, and the budget-season declaration already says no screen offers the act; no change.

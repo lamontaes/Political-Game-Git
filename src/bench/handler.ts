@@ -16,6 +16,7 @@ import {
   campaignDay,
   campaignView,
   debateAnswer,
+  interviewAnswer,
   speechBegin,
   speechGive,
   speechPick,
@@ -88,7 +89,8 @@ import type { CoreState } from "../core2/types";
 import { benchProgress } from "./progress";
 import { townPlaces, visitPlace } from "./places";
 import { lawChanges } from "./changes";
-import { choiceName, policyNames } from "./words";
+import { noteProblem, reportPreview, reportToSend } from "./report";
+import { actionNames, choiceName, policyNames } from "./words";
 import controls from "./data/controls.json" with { type: "json" };
 
 // This is a reference to engine-owned state, not a parallel state or writer.
@@ -256,6 +258,17 @@ export async function benchRequest(
                 : {}),
               ...(url.searchParams.get("placeKey")
                 ? { placeKey: url.searchParams.get("placeKey")! }
+                : {}),
+              // The person chosen in the creator is built into the world at
+              // their age, so their past fits it.
+              ...(url.searchParams.get("person")
+                ? {
+                    playerBirthday: (({ birthYear, birthMonth, birthDay }) => ({
+                      year: birthYear,
+                      month: birthMonth,
+                      day: birthDay,
+                    }))(readChosenPerson(url.searchParams.get("person")!)),
+                  }
                 : {}),
             },
             (stage) => {
@@ -608,7 +621,11 @@ export async function benchRequest(
         return;
       }
       if (request.method === "GET" && url.pathname === "/api/controls") {
-        send(200, { ...controls, policyNames: policyNames() });
+        send(200, {
+          ...controls,
+          actions: actionNames(),
+          policyNames: policyNames(),
+        });
         return;
       }
       if (request.method === "GET" && url.pathname === "/api/progress") {
@@ -902,6 +919,36 @@ export async function benchRequest(
         );
         return;
       }
+      if (
+        request.method === "POST" &&
+        url.pathname === "/api/campaign/interview"
+      ) {
+        if (!player?.personId) throw new Error("Choose a resident first.");
+        send(
+          200,
+          interviewAnswer(
+            requireCore(),
+            player.personId,
+            url.searchParams.get("interviewId") ?? "",
+            JSON.parse(url.searchParams.get("moves") ?? "[]"),
+          ),
+        );
+        return;
+      }
+      // The bug report: shown first, sent only when the player presses send.
+      if (request.method === "GET" && url.pathname === "/api/report") {
+        send(200, reportPreview(core));
+        return;
+      }
+      // Whether the last run ended badly (the desktop shell sets it at start).
+      if (request.method === "GET" && url.pathname === "/api/report/state") {
+        send(200, { afterCrash: process.env.OCD_PREVIOUS_CRASH === "1" });
+        return;
+      }
+      if (request.method === "POST" && url.pathname === "/api/report/send") {
+        send(200, reportToSend(core));
+        return;
+      }
       if (request.method === "POST" && url.pathname === "/api/filing/open") {
         if (!player?.personId) throw new Error("Choose a resident first.");
         filingVisit = openBenchFilingVisit(
@@ -1180,9 +1227,9 @@ export async function benchRequest(
       send(404, { error: "Unknown bench route." });
     })();
   } catch (error) {
-    send(400, {
-      error: error instanceof Error ? error.message : String(error),
-    });
+    const message = error instanceof Error ? error.message : String(error);
+    noteProblem(url.pathname, message);
+    send(400, { error: message });
   }
   return reply;
 }

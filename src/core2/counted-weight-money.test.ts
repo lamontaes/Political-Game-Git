@@ -33,6 +33,8 @@ interface Entry {
   readonly weight?: number;
   /** Wages: pay-weighted mean household weight of the jobs the flow pays. */
   readonly wageScale?: number;
+  /** Wages: the flow's counted jobs' pay per day, unweighted. */
+  readonly dailyPay?: number;
 }
 
 function play(seed: string, key: string, countScale: number) {
@@ -59,6 +61,7 @@ function play(seed: string, key: string, countScale: number) {
       const flow = rt.flows.get(flowId!);
       let weight: number | undefined;
       let wageScale: number | undefined;
+      let dailyPay: number | undefined;
       if (flowId!.startsWith("rent:")) {
         const ix = rt.store.householdOf.get(flowId!.slice("rent:".length));
         if (ix !== undefined)
@@ -75,12 +78,15 @@ function play(seed: string, key: string, countScale: number) {
             perDay *
             rt.store.weightOf(rt.store.households[rt.store.household[m]!]!);
         }
-        if (plain > 0) wageScale = weighted / plain;
+        if (plain > 0) {
+          wageScale = weighted / plain;
+          dailyPay = plain;
+        }
         // The independent figure is the code's own for these flows.
         if (wageScale !== undefined)
           expect(flowScale(rt, flow)).toBeCloseTo(wageScale, 9);
       }
-      entries.set(id, { out, tax, weight, wageScale });
+      entries.set(id, { out, tax, weight, wageScale, dailyPay });
     }
     return post(entry);
   };
@@ -89,12 +95,34 @@ function play(seed: string, key: string, countScale: number) {
 }
 
 it("rent and pay of counted households are moved times their weights, and the books balance", () => {
-  const draw = drawPlace(
-    randomBytes(32).toString("hex"),
-    "census-weight-money",
-  );
+  // A very small town has too few counted rents or payrolls to compare (Solen,
+  // North Dakota: two): draw on, up to five places, until a town has enough,
+  // and fail loudly if none does.
+  const root = randomBytes(32).toString("hex");
+  // COUNTED_WEIGHT_SEED and COUNTED_WEIGHT_KEY replay a reported failure.
+  let draw = process.env.COUNTED_WEIGHT_SEED
+    ? {
+        ...drawPlace(root, "census-weight-money"),
+        seed: process.env.COUNTED_WEIGHT_SEED,
+        key: process.env.COUNTED_WEIGHT_KEY!,
+      }
+    : drawPlace(root, "census-weight-money");
+  let base = play(draw.seed, draw.key, 1);
+  const enough = (entries: typeof base.entries) => {
+    const ids = [...entries.keys()];
+    return (
+      ids.filter((id) => id.startsWith("rent:")).length > 8 &&
+      ids.filter((id) => !id.startsWith("rent:")).length > 8
+    );
+  };
+  for (let attempt = 1; attempt < 5 && !enough(base.entries); attempt += 1) {
+    draw = drawPlace(root, `census-weight-money-${attempt}`);
+    base = play(draw.seed, draw.key, 1);
+  }
   const where = `${draw.name} [${draw.key}], seed ${draw.seed}`;
-  const base = play(draw.seed, draw.key, 1);
+  expect(enough(base.entries), `${where}: too few rents or payrolls`).toBe(
+    true,
+  );
   const scaled = play(draw.seed, draw.key, SCALE);
 
   // A town of one-household records changes nothing.
@@ -130,7 +158,13 @@ it("rent and pay of counted households are moved times their weights, and the bo
       if (Math.abs(many.out - expected) <= 2) rentsInFull += 1;
     } else if (many.wageScale !== undefined) {
       wages += 1;
-      const expected = one.out * many.wageScale;
+      // The two worlds' payrolls can differ a little (a hire, a raise), so the
+      // base is what the baseline paid per dollar of daily pay, applied to
+      // this world's own daily pay, times the weights.
+      const expected =
+        one.dailyPay && many.dailyPay
+          ? (one.out / one.dailyPay) * many.dailyPay * many.wageScale
+          : one.out * many.wageScale;
       // An employer short of cash pays less; none pays more.
       expect(many.out, `${where} ${id}`).toBeLessThanOrEqual(
         Math.ceil(expected) + 4,

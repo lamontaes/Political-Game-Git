@@ -2206,6 +2206,292 @@
       "tag": {
         "move": "answer"
       }
+    },
+    {
+      "key": "choice-names.organize-meeting.hold-a-meeting",
+      "move": "organize-meeting",
+      "kind": "spoken",
+      "text": "Hold a meeting.",
+      "uses": [
+        {
+          "move": "organize-meeting",
+          "subject": "action",
+          "role": "organize-meeting",
+          "choice": "organize-meeting"
+        }
+      ],
+      "transcriptsUsing": 0,
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item play-stopgap-controls-text)",
+      "date": "2026-10-20",
+      "tag": {
+        "move": "request"
+      }
+    },
+    {
+      "key": "choice-names.office-hours.office-hours",
+      "move": "office-hours",
+      "kind": "spoken",
+      "text": "Office hours.",
+      "uses": [
+        {
+          "move": "office-hours",
+          "subject": "action",
+          "role": "office-hours",
+          "choice": "office-hours"
+        }
+      ],
+      "transcriptsUsing": 0,
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item play-stopgap-controls-text)",
+      "date": "2026-10-20",
+      "tag": {
+        "move": "request"
+      }
+    },
+    {
+      "key": "choice-names.town-hall.town-hall",
+      "move": "town-hall",
+      "kind": "spoken",
+      "text": "Town hall.",
+      "uses": [
+        {
+          "move": "town-hall",
+          "subject": "action",
+          "role": "town-hall",
+          "choice": "town-hall"
+        }
+      ],
+      "transcriptsUsing": 0,
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item play-stopgap-controls-text)",
+      "date": "2026-10-20",
+      "tag": {
+        "move": "request"
+      }
+    },
+    {
+      "key": "choice-names.interview.interview",
+      "move": "interview",
+      "kind": "spoken",
+      "text": "Interview.",
+      "uses": [
+        {
+          "move": "interview",
+          "subject": "action",
+          "role": "interview",
+          "choice": "interview"
+        }
+      ],
+      "transcriptsUsing": 0,
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item play-stopgap-controls-text)",
+      "date": "2026-10-20",
+      "tag": {
+        "move": "request"
+      }
+    },
+    {
+      "key": "choice-names.meet-department-head.meet",
+      "move": "meet-department-head",
+      "kind": "spoken",
+      "text": "Meet.",
+      "uses": [
+        {
+          "move": "meet-department-head",
+          "subject": "action",
+          "role": "meet-department-head",
+          "choice": "meet-department-head"
+        }
+      ],
+      "transcriptsUsing": 0,
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item play-stopgap-controls-text)",
+      "date": "2026-10-20",
+      "tag": {
+        "move": "request"
+      }
+    },
+    {
+      "key": "choice-names.name-department-head.name-a-department-head",
+      "move": "name-department-head",
+      "kind": "spoken",
+      "text": "Name a department head.",
+      "uses": [
+        {
+          "move": "name-department-head",
+          "subject": "action",
+          "role": "name-department-head",
+          "choice": "name-department-head"
+        }
+      ],
+      "transcriptsUsing": 0,
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item play-stopgap-controls-text)",
+      "date": "2026-10-20",
+      "tag": {
+        "move": "request"
+      }
+    },
+    {
+      "key": "choice-names.talk-to-colleague.talk-about-your-bill",
+      "move": "talk-to-colleague",
+      "kind": "spoken",
+      "text": "Talk about your bill.",
+      "uses": [
+        {
+          "move": "talk-to-colleague",
+          "subject": "action",
+          "role": "talk-to-colleague",
+          "choice": "talk-to-colleague"
+        }
+      ],
+      "transcriptsUsing": 0,
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item play-stopgap-controls-text)",
+      "date": "2026-10-20",
+      "tag": {
+        "move": "request"
+      }
+    },
+    {
+      "key": "choice-names.vote.vote",
+      "move": "vote",
+      "kind": "spoken",
+      "text": "Vote.",
+      "uses": [
+        {
+          "move": "vote",
+          "subject": "action",
+          "role": "vote",
+          "choice": "vote"
+        }
+      ],
+      "transcriptsUsing": 0,
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item play-stopgap-controls-text)",
+      "date": "2026-10-20",
+      "tag": {
+        "move": "request"
+      }
+    },
+    {
+      "key": "choice-names.sign.sign",
+      "move": "sign",
+      "kind": "spoken",
+      "text": "Sign.",
+      "uses": [
+        {
+          "move": "sign",
+          "subject": "action",
+          "role": "sign",
+          "choice": "sign"
+        }
+      ],
+      "transcriptsUsing": 0,
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item play-stopgap-controls-text)",
+      "date": "2026-10-20",
+      "tag": {
+        "move": "request"
+      }
+    },
+    {
+      "key": "choice-names.veto.veto",
+      "move": "veto",
+      "kind": "spoken",
+      "text": "Veto.",
+      "uses": [
+        {
+          "move": "veto",
+          "subject": "action",
+          "role": "veto",
+          "choice": "veto"
+        }
+      ],
+      "transcriptsUsing": 0,
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item play-stopgap-controls-text)",
+      "date": "2026-10-20",
+      "tag": {
+        "move": "request"
+      }
+    },
+    {
+      "key": "choice-names.case.case",
+      "move": "case",
+      "kind": "spoken",
+      "text": "Case.",
+      "uses": [
+        {
+          "move": "case",
+          "subject": "action",
+          "role": "case",
+          "choice": "case"
+        }
+      ],
+      "transcriptsUsing": 0,
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item play-stopgap-controls-text)",
+      "date": "2026-10-20",
+      "tag": {
+        "move": "request"
+      }
+    },
+    {
+      "key": "choice-names.speak.spoke",
+      "move": "speak",
+      "kind": "spoken",
+      "text": "Spoke.",
+      "uses": [
+        {
+          "move": "speak",
+          "subject": "action",
+          "role": "speak",
+          "choice": "speak"
+        }
+      ],
+      "transcriptsUsing": 0,
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item play-stopgap-controls-text)",
+      "date": "2026-10-20",
+      "tag": {
+        "move": "request"
+      }
+    },
+    {
+      "key": "choice-names.state-of-the-city.state-of-the-city",
+      "move": "state-of-the-city",
+      "kind": "spoken",
+      "text": "State of the city.",
+      "uses": [
+        {
+          "move": "state-of-the-city",
+          "subject": "action",
+          "role": "state-of-the-city",
+          "choice": "state-of-the-city"
+        }
+      ],
+      "transcriptsUsing": 0,
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item play-stopgap-controls-text)",
+      "date": "2026-10-20",
+      "tag": {
+        "move": "request"
+      }
     }
   ]
 }

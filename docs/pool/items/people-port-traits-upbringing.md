@@ -7,7 +7,7 @@ priority: 2
 size: M
 status: claimed
 claimed-by: claude/port-traits
-pr:
+pr: #5101
 blocked-on:
 source: "split from core-remaining-port-the-opening-town-builder-population (an L item), Oct 15"
 claimed-at: 2026-10-20T03:55:25.661Z

@@ -23,3 +23,5 @@ claimed-at:
 **Files.** see spec
 
 **Notes.** Priority 3 until scheduled. Verify how much is built before starting.
+
+Checked Oct 20 (claude, claude/political-game-pool-76ksvw), one clause of five: "no developer or proof pages in the shipped build" now has a guard (`src/bench/shipped-build-no-developer-pages.test.ts`): the client builds from `src/bench/play.html` alone, `desktop/play-api-host.mjs` runs the play server with `developer: false`, and `/api/build` is refused with 404 when it is off. Not looked at: the nightly cloud build, updates through Steam on Windows and Mac, Mac signing and notarization (`desktop/electron-builder.yml` has `identity: null` and `notarize: false` until credentials exist), and "Report a bug" and the after-crash prompt sending a log only when the player presses send (no such control was found in `src/bench` or `desktop`; that part looks unbuilt).

@@ -22,3 +22,5 @@ claimed-at: 2026-10-20T04:32:30.623Z
 **Files.** src/core2/modules/residents.test.ts
 
 **Notes.** Item 11 of docs/reports/merge-audit-2026-10-20.md, split from release-merge-audit-oct20-fixes.
+
+**Result (Oct 20).** counted-payroll-halves.test.ts now asserts the hire reaches both halves (exactly two flows, same pay), not at least one. The tripled 900,000 ms timeouts in residents.test.ts are back to 300,000 ms: on two drawn places the slowest test took 23 s and 13 s, so the longer limit hid nothing. Full residents.test.ts passed (14 tests) in Mangilao, Guam, seed 8e581672105d269243e3cd87f036436d; in the first run in Whetstone, Arizona, 15 of 17 tests across the two files passed before the test worker exited unexpectedly (not reproduced on the rerun; filed here, not diagnosed).

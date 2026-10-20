@@ -1,3 +1,4 @@
+import { interviewLines } from "../director/interview";
 import { coreAPI } from "../core2/state";
 import {
   askForDonation,
@@ -24,7 +25,14 @@ import {
   debatesIn,
   type DebateRow,
 } from "../core2/modules/meetings";
-import type { InterviewAnswer } from "../core2/modules/press";
+import {
+  candidateAnswers,
+  interviewsFor,
+  answerInterview,
+  type InterviewAnswer,
+  type InterviewMove,
+  type InterviewRow,
+} from "../core2/modules/press";
 import {
   beginSpeech,
   chooseSpeechPart,
@@ -75,6 +83,21 @@ export function campaignView(core: CoreState, personId: string) {
           hours: choice.hours,
           available: choice.available,
         })),
+        // Interviews an outlet has invited the candidate to, with the reporter's lines so far.
+        interviews: interviewsFor(api, personId)
+          .filter(
+            (row) => row.filingId === filing.id && row.status === "invited",
+          )
+          .map((row) => ({
+            id: row.id,
+            date: row.date,
+            outletId: row.outletId,
+            questions: row.questions,
+            lines: interviewLines(core, row).map((line) => ({
+              speaker: line.speaker,
+              text: line.text,
+            })),
+          })),
         // Debates the outlet has invited the candidates to, waiting for their answers.
         debates: debatesIn(api, filing.contestId)
           .filter((row) => row.status === "invited")
@@ -241,6 +264,67 @@ export function debateAnswer(
   return answerDebate(api, debateId, answers);
 }
 
+const MOVES: readonly InterviewMove[] = [
+  "plain",
+  "further",
+  "turn",
+  "brief",
+  "lie",
+];
+
+/**
+ * The player answers an interview waiting for them: how they say each
+ * question's answer (plainly, with a further fact, turning it on a rival,
+ * briefly, or the lie). Their positions are their own record's; a lie is the
+ * opposite side of it.
+ */
+export function interviewAnswer(
+  core: CoreState,
+  personId: string,
+  interviewId: string,
+  moves: readonly { question: string; move: string }[],
+) {
+  const api = coreAPI(core);
+  const row = interviewsFor(api, personId).find(
+    (i) => i.id === interviewId && i.status === "invited",
+  );
+  if (!row) throw new Error("No interview is waiting for your answers.");
+  const filing = row.filingId
+    ? campaignView(core, personId).campaigns.find(
+        (c) => c.filing.id === row.filingId,
+      )?.filing
+    : undefined;
+  const own = candidateAnswers(
+    api,
+    row.questions,
+    filing ?? { personId, party: null, filing: null },
+  );
+  const answers: InterviewAnswer[] = own.map((answer) => {
+    const move = moves.find((m) => m.question === answer.question)?.move;
+    if (move !== undefined && !MOVES.includes(move as InterviewMove))
+      throw new Error("Unknown way of answering.");
+    const chosen = (move ?? "plain") as InterviewMove;
+    return {
+      ...answer,
+      move: chosen,
+      position:
+        chosen === "lie" && answer.position !== null
+          ? -answer.position
+          : answer.position,
+    };
+  });
+  const done: InterviewRow = answerInterview(api, row.id, answers);
+  return {
+    id: done.id,
+    status: done.status,
+    lines: interviewLines(core, done).map((line) => ({
+      speaker: line.speaker,
+      text: line.text,
+      sourceRecordIds: line.sourceRecordIds,
+    })),
+  };
+}
+
 /** The player takes one of the campaign day's choices; the engine runs it and every dollar goes through its journal. */
 export function campaignDay(
   core: CoreState,
@@ -274,6 +358,15 @@ export function campaignDay(
           id: result.interview.id,
           outletId: result.interview.outletId,
           status: result.interview.status,
+          // What was said: the reporter's questions and the candidate's answers.
+          lines:
+            result.interview.status === "published"
+              ? interviewLines(core, result.interview).map((line) => ({
+                  speaker: line.speaker,
+                  text: line.text,
+                  sourceRecordIds: line.sourceRecordIds,
+                }))
+              : [],
         }
       : null,
   };

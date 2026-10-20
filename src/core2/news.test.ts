@@ -103,19 +103,36 @@ describe(`news in ${input.placeMetadata?.placeName} (seed ${seed})`, () => {
   });
 
   it("carries a county's story to the residents inside it", () => {
-    const countyId = subject.countyId;
-    // The default seed's town sits in a county; a drawn place with no county
-    // has no county story to carry.
-    if (!countyId) {
-      expect(
-        process.env.GOLDEN_PATH_SEED,
-        "the default seed has a county",
-      ).toBeTruthy();
-      return;
+    // Draw towns until one sits in a county (a town in none has no county
+    // record to carry); the run fails if none of twelve does.
+    let world: { core: typeof core; subject: typeof subject } | undefined;
+    for (let attempt = 0; attempt < 12 && !world; attempt += 1) {
+      const drawn = buildDeepPast(
+        buildPopulation({
+          seed: `${seed}-county-${attempt}`,
+          startedAt: "2021-01-01",
+          minimumPeople: 500,
+        }),
+      );
+      const drawnCore = createLifeCore(drawn, {
+        modules: [viewsModule, newsModule],
+      });
+      const drawnSubject = [...drawnCore.people.values()].find(
+        (row) => row.tier !== "husk" && row.alive,
+      )!;
+      if (drawnSubject.countyId)
+        world = { core: drawnCore, subject: drawnSubject };
     }
-    applyCoreEvent(core, {
+    expect(
+      world,
+      "no drawn town sat in a county in twelve tries",
+    ).toBeDefined();
+    const countyId = world!.subject.countyId!;
+    const countyCore = world!.core;
+    const countyApi = coreAPI(countyCore);
+    applyCoreEvent(countyCore, {
       id: "fixture-county-story",
-      date: core.date,
+      date: countyCore.date,
       kind: "county.budget-passed",
       personIds: [],
       placeId: countyId,
@@ -123,12 +140,16 @@ describe(`news in ${input.placeMetadata?.placeName} (seed ${seed})`, () => {
       source: {
         tag: "SOURCED",
         citation: "Fixture county record.",
-        asOf: core.date,
+        asOf: countyCore.date,
       },
     });
-    advanceCore(core, addDays(makeIsoDate(core.date), 10));
-    const heard = residents.filter((id) =>
-      api.knows(id, newsKey("fixture-county-story")),
+    advanceCore(countyCore, addDays(makeIsoDate(countyCore.date), 10));
+    const heard = [
+      ...(countyCore.peopleByPlace.get(world!.subject.placeId) ?? []),
+    ].filter(
+      (id) =>
+        countyCore.people.get(id)?.alive &&
+        countyApi.knows(id, newsKey("fixture-county-story")),
     );
     expect(heard.length).toBeGreaterThan(0);
   });

@@ -16,6 +16,7 @@ const { drawPlace } = await at("scripts/core2-year/place.ts");
 const { createLifeCore, advanceCore } = await at("src/core2/life.ts");
 const { lifePlaceByKey } = await at("src/simulation/life-places.ts");
 const { customPolitics } = await at("src/core2/electorate.ts");
+const { addDays, makeIsoDate } = await at("src/core2/kernel/dates.ts");
 const seed = value(
   "--seed",
   process.env.GOLDEN_PATH_SEED ??
@@ -127,7 +128,8 @@ const cash = () =>
     (row) => row.netMinor,
   );
 const before = cash();
-advanceCore(core, "2021-02-01");
+// A month on from wherever the world opens (it opens on the one start date).
+advanceCore(core, addDays(makeIsoDate(core.date), 31));
 check(
   "every dollar balances for a month",
   cash() === before,

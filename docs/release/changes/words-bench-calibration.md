@@ -1,8 +1,6 @@
 ---
 id: words-bench-calibration
-impact: minor
-section: Improved
-title: Graded lines improve the wording of later ones
+impact: none
 ---
 
-When a line is graded for naturalness, prose or length, the game now leans toward the wording that read well and the line length that suited the setting.
+The engine reads a table of the owner's grades when it chooses a piece. No piece is graded yet, so no line reads differently until grades exist.

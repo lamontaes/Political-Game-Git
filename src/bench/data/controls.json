@@ -1,28 +1,5 @@
 {
   "about": "Control names for the play screen: what each choice button does and the label for what ended a skip, named like any other control. They are not lines anyone says; the English engine's words replace them when it has them.",
-  "stopgapId": "SG-PLAY-act-control-names",
-  "actions": {
-    "work-shift": "Go to work",
-    "rest": "Rest",
-    "contact-known-person": "Get in touch",
-    "care-for-relative": "Look after",
-    "join-association": "Join",
-    "organize-meeting": "Hold a meeting",
-    "approach-office": "Visit the office",
-    "look-up-local-institution": "Look up",
-    "office-hours": "Office hours",
-    "town-hall": "Town hall",
-    "interview": "Interview",
-    "meet-department-head": "Meet",
-    "name-department-head": "Name a department head",
-    "talk-to-colleague": "Talk about your bill",
-    "vote": "Vote",
-    "sign": "Sign",
-    "veto": "Veto",
-    "case": "Case",
-    "speak": "Spoke",
-    "state-of-the-city": "State of the city"
-  },
   "endedBy": {
     "start": "Shift starts",
     "end": "Shift ends",
@@ -70,7 +47,9 @@
     "interview": "Ask for an interview",
     "raise-money": "Call donors",
     "rest": "Rest",
-    "hours": "hours"
+    "hours": "hours",
+    "reporter": "Reporter",
+    "candidate": "You"
   },
   "venues": {
     "rally-courthouse-square": "Courthouse square",
@@ -111,7 +90,10 @@
     "fullScreenUnavailable": "Full screen is unavailable.",
     "continue": "Continue",
     "skipOpening": "Skip opening",
-    "quitToTitle": "Quit to title"
+    "quitToTitle": "Quit to title",
+    "reportBug": "Report a bug",
+    "saveReport": "Save the report",
+    "cancelReport": "Cancel"
   },
   "polling": {
     "leaveBlank": "Leave blank",
@@ -259,6 +241,7 @@
     "yes": "Yes",
     "no": "No",
     "vacant": "Vacant",
+    "district": "District",
     "searchIssues": "Search issues",
     "back": "Back",
     "next": "Continue",
@@ -307,5 +290,16 @@
     "jobsLost": "Jobs lost",
     "sales": "Sales",
     "costs": "Costs"
+  },
+  "interviewScreen": {
+    "title": "Interview invitation",
+    "answer": "Answer",
+    "moves": {
+      "plain": "Say it plainly",
+      "further": "Add a fact from my record",
+      "turn": "Turn it on my rival",
+      "brief": "Keep it short",
+      "lie": "Say what is not so"
+    }
   }
 }

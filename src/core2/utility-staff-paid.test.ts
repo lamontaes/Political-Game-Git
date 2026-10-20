@@ -46,6 +46,10 @@ it("a utility is paid by households and pays its staff", () => {
       (flow) =>
         flow.kind === "wages" && flow.payerId === utility.id && !flow.endedAt,
     );
+    expect(
+      staff.length,
+      `${where}: wage flows paid by the utility`,
+    ).toBeGreaterThan(0);
     for (const flow of staff)
       expect(
         flow.lastPaidMinor ?? 0,

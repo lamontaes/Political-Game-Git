@@ -17,6 +17,9 @@ export interface VisitWords {
   terms: Variant[];
   rules: Readonly<Record<string, Variant[]>>;
   accept: Variant[];
+  /** The player saying they file for the office, and the clerk's word that it is filed. */
+  file: Variant[];
+  filed: Variant[];
 }
 /** The default words are the mined clerk bank's. */
 export const FILING_VISIT_WORDS: VisitWords = filingWordsFromBank();
@@ -232,6 +235,40 @@ export function pickContest(
     offer("accept", words.accept, { kind: "done" });
     return visit;
   }
-  offer("file", words.accept, { kind: "file", contestId });
+  offer("file", words.file.length ? words.file : words.accept, {
+    kind: "file",
+    contestId,
+  });
+  return visit;
+}
+
+/**
+ * The clerk's word that the papers are in, citing the filing record the
+ * filing wrote; said after the player files.
+ */
+export function confirmFiled(
+  core: Readonly<CoreState>,
+  visit: FilingVisit,
+  contestId: string,
+  filingId: string,
+  words: VisitWords = FILING_VISIT_WORDS,
+): FilingVisit {
+  const contest = visit.contests.find((row) => row.id === contestId);
+  if (!contest) throw new Error(`Not an offered office: ${contestId}`);
+  const line = say(
+    core,
+    visit,
+    "clerk",
+    "filed",
+    words.filed,
+    {
+      office: {
+        text: contest.title,
+        sourceRecordIds: [contest.id, filingId],
+      },
+    },
+    words.version,
+  );
+  if (line) visit.lines.push({ speaker: "clerk", ...line });
   return visit;
 }

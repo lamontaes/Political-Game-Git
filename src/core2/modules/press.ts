@@ -49,6 +49,8 @@ import {
   parsePlatform,
   type CampaignRow,
   type ImpressionRow,
+  endorsementPick,
+  endorseTo,
 } from "./campaigns";
 import { promisesOf, votesOf } from "./record";
 import { partySide } from "../appointments";
@@ -254,6 +256,8 @@ export const PRESS_MODULE: CoreModule = {
           byReporter: { fields: ["reporterId"] },
         },
       },
+      // Outlets' editorial endorsements, one per outlet and contest.
+      endorsements: { indexes: { byOutlet: { fields: ["outletId"] } } },
       interviews: {
         indexes: {
           byOutlet: { fields: ["outletId"] },
@@ -1572,8 +1576,6 @@ export function answerInterview(
     InterviewRow | undefined;
   if (!row || row.status !== "invited")
     throw new Error(`No interview waiting: ${interviewId}`);
-  // stopgapId: SG-PEOPLE-press-interview-conversation
-  api.stopgap("SG-PEOPLE-press-interview-conversation");
   const speaker = speakerOf(api, row);
   const given = row.questions.map((question): InterviewAnswer => {
     const answer = answers.find((a) => a.question === question);
@@ -2462,8 +2464,6 @@ function pressWeek(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
   if (work.kind !== "press-week") return;
   scheduleWeek(api, api.state.date);
   refreshPressStaff(api);
-  // stopgapId: SG-PEOPLE-press-endorsements
-  api.stopgap("SG-PEOPLE-press-endorsements");
   // The week's stories: each reporter files from the fresh wire.
   const wire = freshWire(api);
   // A national outlet covers the nation and the town's own state; a town's
@@ -2500,6 +2500,8 @@ function pressWeek(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
       )
         refuse(api, row);
   if (!contests.length) return;
+  for (const outlet of outletsHere(api))
+    for (const contest of contests) endorse(api, outlet, contest.id);
   const filings = contests
     .flatMap((c) => ballot(api, c.id))
     .filter((f) => f.status === "on-ballot")
@@ -2546,6 +2548,34 @@ function pressWeek(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
       if (willing < pressParameter("interviewShyness")) refuse(api, row);
       else publish(api, row, candidateAnswers(api, row.questions, f));
     }
+}
+
+/**
+ * An outlet endorses in the run-up to a contest it covers: its head, from the
+ * views they hold (the outlet's line) and their own traits, backs the
+ * candidate whose platform they agree with most, and only that one; they stay
+ * out when none beats their own lean. It is said once per outlet and contest
+ * and heard by the outlet's followers, who are reached by it as by any
+ * endorsement (the cause rows the voting engine reads).
+ */
+function endorse(api: CoreAPI, outlet: OutletRow, contestId: string): void {
+  const id = `endorsement:${outlet.id}:${contestId}`;
+  if (table(api, "endorsements").get(id)) return;
+  const headId = outlet.headId;
+  if (!headId || !api.state.people.get(headId)?.alive) return;
+  const pick = endorsementPick(api, contestId, headId);
+  if (!pick) return;
+  const audience = followersOf(api, outlet.id);
+  endorseTo(api, pick.campaignId, headId, audience, pick.target);
+  table(api, "endorsements").put({
+    id,
+    outletId: outlet.id,
+    contestId,
+    campaignId: pick.campaignId,
+    headId,
+    date: api.state.date,
+    heardBy: audience.length,
+  } as unknown as ModuleRow);
 }
 
 /**

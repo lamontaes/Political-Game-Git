@@ -1,10 +1,12 @@
 /** Prices a law sets for a place: households' spending moves through the ledger to the law's payee or back from outside. */
 import { describe, expect, it } from "vitest";
 import goods from "./data/prices/goods.json" with { type: "json" };
+import lawParameters from "./data/laws/reach-group-b-parameters.json" with { type: "json" };
 import { advanceCore, createLifeCore } from "./life";
 import {
   PLACE_PRICES_MODULE,
   adjustPrice,
+  businessEnergyChange,
   businessEnergyCostYear,
   monthlyChange,
   setPlacePrice,
@@ -217,5 +219,26 @@ describe("prices a law sets", () => {
         1_000_000,
       ),
     ).toBeNull();
+  });
+  it("a year of the law's energy cost is twelve months of what the settlement charges", () => {
+    // The settlement and the year figure share one rule (businessEnergyChange);
+    // the monthly charge is a twelfth of it, so twelve months make the year.
+    const core = createLifeCore(input(), {
+        data: worldCoreData(),
+        modules: [PLACE_PRICES_MODULE],
+      }),
+      api = coreAPI(core);
+    for (const [question, good, value] of [
+      [
+        "us-policy-positions:environment-energy.clean-electricity-standard",
+        "electricity",
+        lawParameters.parameters.cleanElectricityPriceShare.value,
+      ],
+    ] as const) {
+      const other = 3_600_000;
+      const year = businessEnergyCostYear(api, question, other)!;
+      const monthly = businessEnergyChange(api, { good, value }, other) / 12;
+      expect(Math.abs(year - 12 * monthly), question).toBeLessThanOrEqual(0.5);
+    }
   });
 });

@@ -26,20 +26,35 @@ import {
 import { drawPlace } from "../../scripts/core2-year/place";
 
 const seed = process.env.OFFICE_STATE_SEED || randomBytes(8).toString("hex");
-const place = drawPlace(seed, "office-state");
-console.log(`office-day-state: ${place.name} (${place.key}), seed ${seed}`);
-const world = buildBenchWorld(seed, gameStartDate(), {
-  twoLevel: true,
-  placeKey: place.key,
-});
+// Some territorial office data has no sitting state seat to play: draw on,
+// up to six places, until one has both a sitting governor and a sitting
+// representative or senator, and fail if none does.
+function drawWorld() {
+  for (let attempt = 0; attempt < 6; attempt += 1) {
+    const place = drawPlace(
+      seed,
+      attempt ? `office-state-${attempt}` : "office-state",
+    );
+    console.log(`office-day-state: ${place.name} (${place.key}), seed ${seed}`);
+    const world = buildBenchWorld(seed, gameStartDate(), {
+      twoLevel: true,
+      placeKey: place.key,
+    });
+    const api = coreAPI(world.core);
+    const seats = townSeats(api);
+    const governor = seats.find((s) => s.office.kind === "governor")?.holder
+      ?.personId;
+    const member = seats.find((s) => s.office.kind.startsWith("legislature-"))
+      ?.holder?.personId;
+    if (governor && member) return { place, world, api, governor, member };
+  }
+  throw new Error(
+    `seed ${seed}: no drawn place in six had both a sitting governor and a sitting legislator`,
+  );
+}
+const { place, world, api, governor, member } = drawWorld();
 const core = world.core;
-const api = coreAPI(core);
 const player = new BenchPlayer(core, world.director);
-const seats = townSeats(api);
-const governor = seats.find((s) => s.office.kind === "governor")?.holder
-  ?.personId;
-const member = seats.find((s) => s.office.kind.startsWith("legislature-"))
-  ?.holder?.personId;
 
 /** Play day by day through `date`, doing what the stops hold as the character would. */
 function playThrough(date: string, personId: string) {
@@ -80,18 +95,6 @@ describe(`ten days in a state office (${place.name}, seed ${seed})`, () => {
     ["governor", governor],
   ] as const) {
     it(`plays ten days as the state's ${role}`, () => {
-      // Some territorial office data has no state seat to play: then no seat
-      // of that kind has a sitting holder at all.
-      if (!who) {
-        const kind = role === "governor" ? "governor" : "legislature-";
-        expect(
-          seats.filter(
-            (s) => s.office.kind.startsWith(kind) && s.holder?.personId,
-          ),
-          `${place.name} (${place.key}) has no seat to play`,
-        ).toEqual([]);
-        return;
-      }
       // The governor's days that carry the address and the budget are the
       // ones worth ten days; start the evening before the first of them.
       let from = core.date;
@@ -122,6 +125,9 @@ describe(`ten days in a state office (${place.name}, seed ${seed})`, () => {
       expect(core.date >= to).toBe(true);
       // The office day wrote something: an entry done or an act kept.
       expect(lines.length).toBeGreaterThan(0);
+      // The timeout stays long on purpose: the governor's run first plays day by
+      // day, as the character, up to 450 days to the address or the budget, and
+      // a dense state can take many minutes on a shared machine.
     }, 1_800_000);
   }
 });

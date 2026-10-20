@@ -2,6 +2,7 @@ import { randomBytes } from "node:crypto";
 import { describe, expect, it } from "vitest";
 import { gameStartDate } from "../core2/game-start";
 import { NEWS_MODULE_ID } from "../core2/modules/news";
+import { OFFICES_MODULE_ID } from "../core2/modules/offices";
 import { coreAPI } from "../core2/state";
 import { wordArchiveStory } from "./archive-words";
 import { drawPlace } from "../../scripts/core2-year/place";
@@ -27,13 +28,32 @@ describe(`archive news words (${world.place.key}, seed ${seed})`, () => {
       (row) => row.facts.recordKind === "election-result",
     );
     expect(results.length).toBeGreaterThan(0);
+    let officeWorded = 0;
     for (const story of results) {
       const worded = wordArchiveStory(world.core, story);
       expect(worded, story.id).not.toBeNull();
       const winner = world.core.people.get(story.facts.winnerId!)!;
       expect(worded!.lede ?? worded!.headline).toContain(winner.familyName);
+      // Said with the office the race was for when its record names one, so a
+      // reader is told which election it was.
+      const officeId = story.facts.officeId;
+      const office = officeId
+        ? (
+            coreAPI(world.core)
+              .moduleState(OFFICES_MODULE_ID)
+              .table("offices")
+              .get(officeId) as { title?: string } | undefined
+          )?.title
+        : undefined;
+      if (office) officeWorded += worded!.lede?.includes(office) ? 1 : 0;
       expect(worded!.sourceRecordIds).toContain(story.id);
     }
+    // Some of the results are said with their office (the bank keeps a plain
+    // line too, so not every one is).
+    console.log(
+      `archive-words: ${officeWorded} of ${results.length} results name the office (${world.place.key}, seed ${seed})`,
+    );
+    expect(officeWorded).toBeGreaterThan(0);
   }, 120_000);
 });
 

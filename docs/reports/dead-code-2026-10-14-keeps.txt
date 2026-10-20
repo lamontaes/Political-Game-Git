@@ -314,7 +314,6 @@ src/core2/public-payroll.ts
 src/core2/tooling/build-opening-schools.ts
   -> src/simulation/government-units.ts
   -> src/simulation/local-institutions-data.ts
-src/core2/tooling/build-place-lookup-data.ts
   -> src/simulation/demo-jurisdiction-context.ts  [tangle]
   -> src/simulation/legislation-scenarios.ts  [tangle]
   -> src/simulation/legislative-work-key.ts  [tangle]

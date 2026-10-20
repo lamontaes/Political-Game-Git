@@ -8,7 +8,7 @@ size: S
 status: blocked
 claimed-by:
 pr:
-blocked-on: spec: the item text is an empty TODO shell; the done-when must be written before it can be built (pool-todo-shells-need-spec)
+blocked-on: people-partnership-counted (the partnership rules the check measures are not built yet; the item text is complete)
 after: people-partnership-counted
 source: added with npm run pool -- add
 claimed-at:

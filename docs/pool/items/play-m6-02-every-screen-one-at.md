@@ -22,3 +22,5 @@ source: "docs/roadmap/later-specs-draft.md M6-02"
 **Files.** see spec
 
 **Notes.** Priority 3 until scheduled. Verify how much is built before starting.
+
+Measured Oct 20 (claude, claude/political-game-pool-76ksvw) in a real browser, window 1672 by 941, new game, at the start and after a day (`src/bench/no-scroll.browser.mjs`): all eleven sheets (calendar, people, politics, news, journal, who, money, jobs, travel, guide, options) pass "no free scrolling": a sheet taller than its window pages through the pager (`pageIn` moves the box; its overflow is hidden) and shows the pager. My first run reported Politics (2,631 pixels) and Guide (611) as scrolling; that measured the paged content's height, which is not scrolling, and the two items I filed on it (`play-politics-sheet-scrolls`, `play-guide-sheet-scrolls`) are dropped. The owner's sign-off per screen, the Kit 12 and 13 look and the shell are not something a script judges.

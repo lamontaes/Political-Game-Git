@@ -46,6 +46,10 @@ it("opens funded, pays its staff, and sells a campaign its polls and mail", () =
       (flow) =>
         flow.kind === "wages" && flow.payerId === firm.id && !flow.endedAt,
     );
+    expect(
+      flows.length,
+      `${where}: wage flows paid by the firm`,
+    ).toBeGreaterThan(0);
     for (const flow of flows)
       expect(
         flow.lastPaidMinor ?? 0,

@@ -1937,7 +1937,7 @@
   "workRoutineRetentionWeeks": {
     "value": 4,
     "tag": "TUNABLE",
-    "citation": "An engineering memory budget, not a measure of anything in the world: the owner ruled that running memory stays small and keeps a condensed index, not every log record (owner, Oct 12, 2026, DECISION-REGISTER 'Speed and memory'). Number of quiet completed weekly work rollups kept per worker; full focus results, cumulative totals and open obligations are kept separately. Only the dev-why bench reads old rollups.",
+    "citation": "An engineering memory budget, not a measure of anything in the world: running memory stays small and keeps a condensed index, not every log record (DECISION-REGISTER, 'Speed and memory'). Number of quiet completed weekly work rollups kept per worker; full focus results, cumulative totals and open obligations are kept separately. Only the dev-why bench reads old rollups.",
     "spread": {
       "low": 1,
       "high": 13,
@@ -5179,7 +5179,7 @@
   "responseSecureHomeFit": {
     "value": 3.0,
     "tag": "TUNABLE",
-    "citation": "How strongly losing a home, or facing an eviction, pushes toward a resolve to secure a home again. Carrying on keeps its baseline (responseCarryOnBaseline), so a fit near 3 lets most people form the resolve while those whose traits lean toward keeping things the same carry on (owner, Oct 14: 'not being homeless is some people's motivation'). Measured: Washington, D.C. (seed 646c5d940e1a), a home loss given to 7 jobless adults on February 19, 2025 (dev mode): 5 formed it and 2 carried on; at 1.5, 1 of 7; at 4.0, 7 of 7.",
+    "citation": "How strongly losing a home, or facing an eviction, pushes toward a resolve to secure a home again. Carrying on keeps its baseline (responseCarryOnBaseline), so a fit near 3 lets most people form the resolve while those whose traits lean toward keeping things the same carry on. Measured: Washington, D.C. (seed 646c5d940e1a), a home loss given to 7 jobless adults on February 19, 2025 (dev mode): 5 formed it and 2 carried on; at 1.5, 1 of 7; at 4.0, 7 of 7.",
     "spread": {
       "low": 2.0,
       "high": 4.0,

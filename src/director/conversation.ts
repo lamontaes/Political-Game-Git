@@ -517,6 +517,27 @@ function relationsOf(
   return out;
 }
 
+const IMPRISONED_LABEL = "feeling:event:justice.imprisoned";
+
+/**
+ * A recent imprisonment of someone that a person's own ledger names: the
+ * moment is theirs (a relative, a friend) and the jailed person is its
+ * counterpart, so they could only tell it because it happened to someone
+ * they know.
+ */
+function imprisonmentKnownTo(
+  core: Readonly<CoreState>,
+  director: Director | undefined,
+  personId: PersonId,
+  aboutId: PersonId,
+) {
+  return recentMoments(core, director, personId).find(
+    (moment) =>
+      moment.label === IMPRISONED_LABEL &&
+      moment.counterpartIds.includes(aboutId),
+  );
+}
+
 /** The subjects a speaker can raise with a listener, from the speaker's records. */
 export function subjectsBetween(
   core: Readonly<CoreState>,
@@ -668,21 +689,37 @@ export function subjectsBetween(
     if (id === listenerId || id === speakerId || !listener.knownIds.has(id))
       continue;
     if (!core.people.get(id)?.alive || !happened(id)) continue;
-    out.push({
-      id: `mutual:${id}`,
-      kind: "mutual",
-      aboutId: id,
-      facts: {
-        name: {
-          text: spokenName(core, [speakerId, listenerId], id),
-          sourceRecordIds: [speaker.knownIdSources?.[id]?.sourceFactId ?? id],
+    // Someone sent to prison, whom the speaker's own record names, is a
+    // subject of its own.
+    const jailed = imprisonmentKnownTo(core, director, speakerId, id);
+    if (jailed)
+      out.push({
+        id: `imprisoned:${id}`,
+        kind: "imprisoned",
+        aboutId: id,
+        facts: {
+          name: {
+            text: spokenName(core, [speakerId, listenerId], id),
+            sourceRecordIds: [jailed.causeId],
+          },
         },
-        first: {
-          text: core.people.get(id)!.givenName,
-          sourceRecordIds: [speaker.knownIdSources?.[id]?.sourceFactId ?? id],
+      });
+    else
+      out.push({
+        id: `mutual:${id}`,
+        kind: "mutual",
+        aboutId: id,
+        facts: {
+          name: {
+            text: spokenName(core, [speakerId, listenerId], id),
+            sourceRecordIds: [speaker.knownIdSources?.[id]?.sourceFactId ?? id],
+          },
+          first: {
+            text: core.people.get(id)!.givenName,
+            sourceRecordIds: [speaker.knownIdSources?.[id]?.sourceFactId ?? id],
+          },
         },
-      },
-    });
+      });
   }
   // The speaker's relatives the listener has not met, named by relation.
   const relationOf = relationsOf(speaker);
@@ -721,6 +758,24 @@ export function subjectsBetween(
     const words = JOURNAL_DATA.relationWords[row.relation];
     const word = words?.[relative.looks?.gender ?? "other"] ?? words?.other;
     if (!word) continue;
+    // A relative just sent to prison is not asked after as if nothing
+    // happened: they are the imprisoned subject, once.
+    const jailed = imprisonmentKnownTo(core, director, speakerId, id);
+    if (jailed) {
+      if (!out.some((row) => row.id === `imprisoned:${id}`))
+        out.push({
+          id: `imprisoned:${id}`,
+          kind: "imprisoned",
+          aboutId: id,
+          facts: {
+            name: {
+              text: spokenName(core, [speakerId, listenerId], id),
+              sourceRecordIds: [jailed.causeId],
+            },
+          },
+        });
+      continue;
+    }
     out.push({
       id: `family:${id}`,
       kind: "family",
@@ -829,6 +884,7 @@ function replyFacts(
   core: Readonly<CoreState>,
   listenerId: PersonId,
   subject: Subject,
+  director?: Director,
 ): { facts: Facts; stage: string } | null {
   const listener = core.people.get(listenerId)!;
   switch (subject.kind) {
@@ -925,6 +981,18 @@ function replyFacts(
           }
         : null;
     }
+    case "imprisoned":
+      return {
+        facts: subject.facts,
+        stage: imprisonmentKnownTo(
+          core,
+          director,
+          listenerId,
+          subject.aboutId as PersonId,
+        )
+          ? "heard"
+          : "not-heard",
+      };
     case "news":
       return {
         facts: subject.facts,
@@ -944,6 +1012,7 @@ function playerFacts(
   core: Readonly<CoreState>,
   playerId: PersonId,
   last: LastLine,
+  director?: Director,
 ): { facts: Facts; stage?: string } {
   const player = core.people.get(playerId)!;
   const facts: Facts = {};
@@ -1006,6 +1075,15 @@ function playerFacts(
   if (last.kind === "news" && last.subject.aboutId)
     stage = changesKnownTo(core, playerId).some(
       (row) => row.eventId === last.subject.aboutId,
+    )
+      ? "heard"
+      : "not-heard";
+  if (last.kind === "imprisoned" && last.subject.aboutId)
+    stage = imprisonmentKnownTo(
+      core,
+      director,
+      playerId,
+      last.subject.aboutId as PersonId,
     )
       ? "heard"
       : "not-heard";
@@ -1209,7 +1287,11 @@ function raiseSubject(
     ...line,
   });
   // Someone both know, or news both may know, is shared: neither raises it again.
-  if (subject.kind === "mutual" || subject.kind === "news")
+  if (
+    subject.kind === "mutual" ||
+    subject.kind === "news" ||
+    subject.kind === "imprisoned"
+  )
     conversation.used.push(subject.id);
   // Theirs, not the player's: no own record the player could lie about.
   const raised: Subject = {
@@ -1672,7 +1754,7 @@ function offerChoices(
   conversation.choices = [];
   conversation.lies = [];
   const bank = data.subjects[last.kind];
-  const own = playerFacts(core, playerId, last);
+  const own = playerFacts(core, playerId, last, conversation.director);
   const facts = { ...own.facts, ...last.facts };
   const stage = own.stage ?? last.stage;
   const turn = conversation.lines.length;
@@ -2284,7 +2366,7 @@ export function say(
   }
   conversation.used.push(raised.id);
   if (raised.own) tell(`${eventId}:told`, raised.own);
-  const reply = replyFacts(core, otherId, raised);
+  const reply = replyFacts(core, otherId, raised, conversation.director);
   const kind = data.replyKinds[raised.kind] ?? raised.kind;
   const line = reply
     ? words(

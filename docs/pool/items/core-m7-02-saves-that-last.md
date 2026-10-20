@@ -23,3 +23,5 @@ claimed-at:
 **Files.** see spec
 
 **Notes.** Priority 3 until scheduled. Verify how much is built before starting.
+
+Checked Oct 20 (claude, claude/political-game-pool-76ksvw): M7-02's own command (`scripts/core2-year/saves.mjs`) runs and all four checks pass, seed b41051e99299ea7b9ccb6d0853d89531: a save loads to the same world (3 commands replayed to 2025-02-17); a save from an older build (core2-api-v1) loads through the upgrade path, skipping a retired command; it keeps playing with every dollar balanced (to 2025-03-19); and its next save loads under this build. Note the dates: the script plays a world that opens in 2025, not on the current single start date, so it is not the world a new game opens today. Not checked: the desktop's own saves (portable save export and the browser store, `desktop/scripts/save-integrity-test.mjs`), and the save size budget. `passes` is the CTO's to set.
