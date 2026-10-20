@@ -5,12 +5,12 @@ area: people
 kind: wiring
 priority: 2
 size: S
-status: open
-claimed-by:
+status: in-pr
+claimed-by: claude/births-reads-partnered
 pr: #5395
 blocked-on:
 source: added with npm run pool -- add
-claimed-at:
+claimed-at: 2026-10-20T20:28:55.406Z
 ---
 
 **What.** Core now has api.setPartnersV1, which adds or ends a partner link between two people and emits family.partnered or family.separated. The births engine (src/core2/modules/renewal.ts) builds its couples only once, at the opening, so a couple formed in play is never reviewed for a child. Make the engine read the event: build the couple from the link and review it from that day. The finished change is on branch claude/births-reads-partnered (coupleFromLink, shared with the opening, and an onEvent for family.partnered); land it through People.
