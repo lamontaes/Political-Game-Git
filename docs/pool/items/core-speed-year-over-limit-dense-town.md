@@ -5,12 +5,12 @@ area: core
 kind: bug
 priority: 1
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/fs11vb-dense
 pr: #5372
 blocked-on: its children, the core-speed-* items (alloc, journal, date parse, gc churn, pair key); this umbrella is done when they bring the year under 120 s
 source: added with npm run pool -- add
-claimed-at:
+claimed-at: 2026-10-20T14:25:29.752Z
 ---
 
 **What.** Measured Oct 20, 2026 on a 4-core cloud container with nothing else running: npm run speed:year -- --seed m7b --exclusive, a played year in Long Hill, Connecticut, takes 194, 200 and 214 seconds in three runs, over the 120-second limit in AGENTS.md. The same command on seed m7a, Discovery Harbor, Hawaii, takes 52 seconds, so the cost follows the town's size. A CPU profile of the 251 seconds shows no single hotspot: garbage collection is 52 seconds, and the largest named functions are 3 to 6 seconds each. This umbrella item is done when the parts filed beside it, found by that profile, bring the year under the limit.
