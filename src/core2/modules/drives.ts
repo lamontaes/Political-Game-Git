@@ -791,9 +791,14 @@ export function respond(
 }
 
 /** Keeps the most recent traces within the registered budget; counts stay exact. */
-function retain<T>(api: CoreAPI, rows: T[], row: T) {
+function retain<T>(
+  api: CoreAPI,
+  rows: T[],
+  row: T,
+  limitKey = "driveTraceRetention",
+) {
   rows.push(row);
-  const limit = api.parameter("driveTraceRetention");
+  const limit = api.parameter(limitKey);
   if (rows.length > limit + limit)
     rows.splice(api.parameter("zero"), rows.length - limit);
 }
@@ -868,7 +873,16 @@ function drivesOf(api: CoreAPI, actorId: PersonId, offer: ActOffer) {
 function recordAct(api: CoreAPI, drive: HeldDrive, row: DriveActTrace) {
   drive.actCount += api.parameter("one");
   drive.lastTracedAct = `${row.date}:${row.actionId}`;
-  retain(api, drive.acts, row);
+  // The why of an act is kept whole for the player and the people they deal
+  // with; for anyone else only the latest few (owner, Oct 11: keep it simple).
+  retain(
+    api,
+    drive.acts,
+    row,
+    keepsWhy(api.state as CoreState, drive.personId, row.targetId)
+      ? "driveTraceRetention"
+      : "driveActTraceRetention",
+  );
   reinforce(
     api,
     drive,

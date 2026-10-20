@@ -5124,6 +5124,17 @@
       "ref": "P9-OUTCOME-WHOLE-LIFE"
     }
   },
+  "driveActTraceRetention": {
+    "value": 20,
+    "tag": "TUNABLE",
+    "citation": "Owner ruling, Oct 11 ('save why reasons only for the player and the people they deal with') and Oct 12 (running memory stays small): the most recent act traces a drive keeps for a person nobody asks about; counts (actCount) stay exact and the player's and their circle's keep driveTraceRetention.",
+    "spread": {
+      "low": 5,
+      "high": 200,
+      "unit": "act traces per drive",
+      "citation": "A few recent acts to a season of acts; checked against the memory guard (scripts/core2-guard/memory.mjs)."
+    }
+  },
   "driveTraceRetention": {
     "value": 2000,
     "tag": "TUNABLE",
