@@ -5,9 +5,9 @@ area: people
 kind: research
 priority: 2
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/school-days-by-state
-pr:
+pr: #5414
 blocked-on:
 source: "collapsed Oct 19, 2026 from people-stopgap-opening-schools-estimated-behavior, people-stopgap-school-behavior"
 claimed-at: 2026-10-20T02:15:10.016Z
