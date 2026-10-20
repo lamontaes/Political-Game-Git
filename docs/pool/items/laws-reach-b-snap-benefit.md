@@ -5,12 +5,12 @@ area: laws
 kind: stopgap
 priority: 3
 size: M
-status: claimed
-claimed-by: claude/reach-b-snap
+status: open
+claimed-by:
 pr:
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-20T00:06:05.059Z
+claimed-at:
 ---
 
 **What.** TODO
