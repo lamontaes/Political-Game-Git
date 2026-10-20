@@ -5,12 +5,12 @@ area: laws
 kind: stopgap
 priority: 3
 size: M
-status: in-pr
-claimed-by: claude/snap-benefit
+status: open
+claimed-by:
 pr: #5443
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-20T02:29:31.351Z
+claimed-at:
 ---
 
 **What.** TODO
@@ -22,3 +22,5 @@ claimed-at: 2026-10-20T02:29:31.351Z
 **Files.** TODO
 
 **Notes.** TODO
+
+Sent back 2026-10-20 from PR #5443 (branch claude/snap-benefit): the played-year test returns early where no SNAP law is in force; redraw instead; finish on that branch, merge main into it first.
