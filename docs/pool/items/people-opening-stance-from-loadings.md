@@ -5,12 +5,13 @@ area: people
 kind: wiring
 priority: 3
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/stance-from-loadings
 pr:
 blocked-on:
 after: research-opening-stance-loadings
 source: added with npm run pool -- add
+claimed-at: 2026-10-20T04:06:05.232Z
 ---
 
 **What.** viewOn is lean times a question's axis plus what the person has heard. data/research/people/opening-stance-loadings.json (CES 2020, PR 5489) gives, for eight policy questions, how faith, a four-year degree and lean move the stance with intervals. Make the opening stance on those questions add the faith and degree loadings (people need a faith and an education record, or a stand-in registered as a stopgap), and leave the other 46 questions on the lean axis alone, ESTIMATED.
