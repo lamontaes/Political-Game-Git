@@ -22,3 +22,5 @@ source: "docs/roadmap/later-specs-draft.md M6-01"
 **Files.** see spec
 
 **Notes.** Priority 3 until scheduled. Verify how much is built before starting.
+
+Checked Oct 20 (claude, claude/political-game-pool-76ksvw): the sequence (President, Congress, state, family, then home; everyone pointed out for a recorded reason) is covered by `src/director/opening-story.test.ts`, and the claim that two new games' openings differ is now covered by `src/director/opening-differ.test.ts`: Dubois, Wyoming (5621415) against Erwin, South Dakota (4619860), seed odseed1, same stages, different people and a different address. Not checked here: the letterbox and cutaway presentation in the browser, "every number is in the ledger button", loading during the loading screen, and Escape opening only options and quit.
