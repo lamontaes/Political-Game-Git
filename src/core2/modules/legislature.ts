@@ -1940,12 +1940,17 @@ export function memberKey(term: TermRow): string {
 
 /**
  * A member's lean: a state or federal official's own position (their ideal
- * point, OPUS-OFFICIALS), or a town resident's own lean.
+ * point, OPUS-OFFICIALS), or a town resident's own lean. A resident still in
+ * the counts leans by the same ranking from their counted record.
  */
-export function leanOf(api: CoreAPI, memberId: string): number {
+export function leanOf(
+  api: CoreAPI,
+  memberId: string,
+  counted?: Readonly<Pick<PersonState, "id" | "traits">>,
+): number {
   const official = officialOf(api, memberId);
   if (official) return officialLean(official);
-  const person = api.state.people.get(memberId);
+  const person = api.state.people.get(memberId) ?? counted;
   if (person) return personLean(api.state.people, person, townLean(api));
   // A holder the officials engine hasn't seated (a world without it) leans
   // with nothing: no party line stands in for a person.

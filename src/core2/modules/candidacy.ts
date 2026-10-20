@@ -158,26 +158,7 @@ export function candidacyReasons(
       one,
       closenessBetween(api.state, person.id, contest.incumbentId),
     );
-  // How the incumbent has voted against what they think: each vote on the
-  // record, by how strongly their current view on its question opposes it.
-  let recordGap = zero;
-  if (contest.incumbentId && contest.incumbentId !== person.id) {
-    const votes = votesOf(api, contest.incumbentId);
-    if (votes.length) {
-      const lean = leanOf(api, person.id);
-      recordGap =
-        votes.reduce(
-          (sum, vote) =>
-            sum +
-            Math.max(
-              zero,
-              -viewOn(api, person.id, vote.stance.question, lean) *
-                Math.sign(vote.stance.position),
-            ),
-          zero,
-        ) / votes.length;
-    }
-  }
+  const recordGap = recordGapOf(api, person, contest);
   const reasons = reasonsFrom(
     api,
     {
@@ -189,7 +170,7 @@ export function candidacyReasons(
       engagement: view?.engagement ?? zero,
       cause,
       incumbentTie,
-      recordGap: Math.min(one, recordGap),
+      recordGap,
     },
     contest,
   );
@@ -224,6 +205,54 @@ export function candidacyReasons(
         Math.max(one, currentRank - FAMILY_RANK[race.family] + one)
       : zero;
   return withPoolReasons(api, reasons, pool);
+}
+
+/**
+ * How far the incumbent's recorded votes go against what a person thinks,
+ * 0 to 1: each vote on the record, by how strongly their current view on its
+ * question opposes it. A resident still in the counts reads their view by the
+ * same rule, from their counted record's lean.
+ */
+function recordGapOf(
+  api: CoreAPI,
+  person: Readonly<Pick<PersonState, "id" | "traits">>,
+  contest: OpenContest,
+  counted = false,
+): number {
+  const zero = api.parameter("zero");
+  if (!contest.incumbentId || contest.incumbentId === person.id) return zero;
+  const votes = votesOf(api, contest.incumbentId);
+  if (!votes.length) return zero;
+  const lean = leanOf(api, person.id, counted ? person : undefined);
+  return Math.min(
+    api.parameter("one"),
+    votes.reduce(
+      (sum, vote) =>
+        sum +
+        Math.max(
+          zero,
+          -viewOn(api, person.id, vote.stance.question, lean) *
+            Math.sign(vote.stance.position),
+        ),
+      zero,
+    ) / votes.length,
+  );
+}
+
+/**
+ * How many people know a resident still in the counts: those the opening's
+ * acquaintance rule gives everyone, filled in or not (deep-past.ts, the same
+ * rule that builds their circle when they are filled in): a school peer
+ * group, and a workgroup at their employer where they work.
+ */
+function countedKnown(api: CoreAPI, voter: CountedVoter): number {
+  const one = api.parameter("one");
+  const school = api.parameter("openingPeerGroupSize") - one;
+  const work =
+    voter.weeklyMinutes > api.parameter("zero")
+      ? api.parameter("openingCoworkerGroupSize") - one
+      : api.parameter("zero");
+  return school + work;
 }
 
 function withPoolReasons(
@@ -269,11 +298,11 @@ export function countedCandidacyReasons(
         voter.weeklyMinutes /
         api.parameter("minutesPerHour") /
         c(api, "candidacyWorkDaysPerWeek"),
-      known: record?.knownIds.length ?? zero,
+      known: countedKnown(api, voter),
       engagement: countedEngagement(api, voter, record),
       cause: zero,
       incumbentTie: zero,
-      recordGap: zero,
+      recordGap: recordGapOf(api, voter, contest, true),
     },
     contest,
   );
@@ -779,7 +808,7 @@ function committedOn(
   return out;
 }
 
-/** Each counted adult's pull to run apart from the seat's own reach, cached for the year. */
+/** Each counted adult's pull to run apart from the seat itself, cached for the year. */
 const countedBases = new WeakMap<
   object,
   { year: string; rows: { voter: CountedVoter; base: number }[] }
@@ -804,15 +833,17 @@ function countedScreen(
       rows: countedResidents(api.state as CoreState)
         .filter((voter) => voter.placeId === townPlaceId)
         .map((voter) => {
+          // The pull apart from the seat: an open town seat with no one
+          // running yet, which bounds every seat's pull from above but for
+          // the incumbent's record, which only a seat with one can add.
           const reasons = countedCandidacyReasons(api, voter, {
-            ...open,
-            wideScope: undefined,
+            contestId: open.contestId,
+            officeName: open.officeName,
+            filingDeadline: open.filingDeadline,
+            sourceIds: open.sourceIds,
           });
           let base = api.parameter("zero");
-          // The seat's own reach (a countywide race) only lowers the pull,
-          // so the rest bounds it from above.
-          for (const [key, value] of Object.entries(reasons))
-            if (key !== "reach") base += value;
+          for (const value of Object.values(reasons)) base += value;
           return { voter, base };
         })
         .sort(
@@ -822,6 +853,10 @@ function countedScreen(
     countedBases.set(api.state, held);
   }
   const bar = c(api, "candidacyStayOutPull");
+  // The most an incumbent's record can add to the cached pull.
+  const record = open.incumbentId
+    ? c(api, "candidacyRecordGapWeight")
+    : api.parameter("zero");
   // Old enough to file: born on or before this day minus the minimum age.
   const today = api.state.date;
   const bornBy = `${Number(today.slice(0, 4)) - minimumAge}${today.slice(4)}`;
@@ -832,7 +867,7 @@ function countedScreen(
   const drawn: PersonId[] = [];
   for (const { voter, base } of held.rows) {
     // Sorted by pull: past here no one clears the bar.
-    if (!open.wideScope && base <= bar) break;
+    if (!open.wideScope && base + record <= bar) break;
     if (voter.birthDate > bornBy || api.state.people.has(voter.id)) continue;
     const reasons = countedCandidacyReasons(api, voter, open);
     let pull = api.parameter("zero");
