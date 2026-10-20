@@ -5,12 +5,12 @@ area: world
 kind: feature
 priority: 3
 size: M
-status: in-pr
-claimed-by: claude/union-membership-record
+status: open
+claimed-by:
 pr: #5302
 blocked-on:
 source: split from core-stopgap-membership-dues-assumed-data, Oct 19
-claimed-at: 2026-10-19T23:58:24.553Z
+claimed-at:
 ---
 
 **What.** TODO
