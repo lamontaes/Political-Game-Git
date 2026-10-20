@@ -22,3 +22,5 @@ claimed-at:
 **Files.** src/core2/work-attendance.ts,src/core2/modules/staff.ts
 
 **Notes.** Found while finishing PR 5712 (staff-paid-territory-no-payroll-template): the merger's failing case was an aide who attended nothing, not a payroll gap.
+
+Sent back 2026-10-20 from PR #5762 (branch claude/staff-aides-attendance): The item already records that the job ends after a month. reviewAttendance dismissing the aide is the consequence of missing work, not the reason they missed all 18 scheduled days. Done when requires every scheduled aide to have attended time or a recorded reason for each missed day, shown by a test beside staff-paid-every-place.test.ts naming the full job id. This PR adds only aggregate totals and a dismissal description; no per-day reason records or that named test are supplied. Keep the finding, but do not mark the attendance question complete or ask to drop it until the required daily cause evidence and regression are present.; finish on that branch, merge main into it first.
