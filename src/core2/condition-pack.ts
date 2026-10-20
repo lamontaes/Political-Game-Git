@@ -136,7 +136,22 @@ export function startingConditionAssignments(
     cells.set(cellKey, cell);
   }
   const conditionCount = CONDITION_PACK.length;
-  for (const cell of cells.values()) {
+  // A small place's single-age cells hold a few people, and rounding each
+  // cell alone drops every condition whose expected count there is under a
+  // half: the place would hold far fewer conditions than its prevalence says.
+  // What a cell's rounding leaves over (up or down) is carried into the place's
+  // next cell, in age order, so the place's total follows the prevalence.
+  const carried = new Map<string, number>();
+  const inOrder = (key: string) => JSON.parse(key) as [string, number, string];
+  for (const [, cell] of [...cells.entries()].sort(([a], [b]) => {
+    const [placeA, ageA, categoryA] = inOrder(a);
+    const [placeB, ageB, categoryB] = inOrder(b);
+    return (
+      (placeA < placeB ? -1 : placeA > placeB ? 1 : 0) ||
+      ageA - ageB ||
+      (categoryA < categoryB ? -1 : categoryA > categoryB ? 1 : 0)
+    );
+  })) {
     cell.sort((left, right) => {
       const leftIncome = left.monthlyHouseholdIncomeMinor;
       const rightIncome = right.monthlyHouseholdIncomeMinor;
@@ -158,20 +173,15 @@ export function startingConditionAssignments(
       // PLACEHOLDER(research: chronic-condition-income-gradients): the 2026 pack
       // has no condition-specific income gradient; keep even spacing until one
       // is sourced.
-      const count = Math.min(
-        cell.length,
-        Math.max(
-          0,
-          Math.round(
-            cell.reduce(
-              (total, person) =>
-                total +
-                conditionPrevalence(condition, person.age, person.category),
-              0,
-            ),
-          ),
-        ),
+      const expected = cell.reduce(
+        (total, person) =>
+          total + conditionPrevalence(condition, person.age, person.category),
+        0,
       );
+      const carryKey = `${cell[0]!.placeKey}|${condition.key}`;
+      const wanted = expected + (carried.get(carryKey) ?? 0);
+      const count = Math.min(cell.length, Math.max(0, Math.round(wanted)));
+      carried.set(carryKey, wanted - count);
       if (count === 0) continue;
       if (count === cell.length) {
         for (const person of cell)
