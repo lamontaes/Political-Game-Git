@@ -5,12 +5,12 @@ area: gov
 kind: bug
 priority: 3
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/staffing-prior-line
-pr:
+pr: #5628
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-20T08:28:53.046Z
+claimed-at: 2026-10-20T14:36:56.093Z
 ---
 
 **What.** group-a-staffing.ts sets positions = baseStaff times (adopted line / baseLine). In Berryville, Virginia (seed 82848b09ce02d78dbbb96d3254e21ee1e13370927be3178b95cdf7a36aaf5607) the schools line was raised by a third over last year's line yet funded 43 positions against 44 teachers, because last year's line sat below the Census base. Size the change against the line before it, so a raise never funds fewer positions than the staff in place and a cut never funds more.
@@ -22,3 +22,5 @@ claimed-at: 2026-10-20T08:28:53.046Z
 **Files.** src/core2/law-reach/group-a-staffing.ts, src/core2/law-reach/group-a-money.ts
 
 **Notes.** TODO
+
+Sent back 2026-10-20 from PR #5628 (branch claude/staffing-prior-line): school teachers are counted workers since #5568, so the budget-line-schools-staffing test's named-teacher precondition never holds and it fails in every draw with main merged in; prove the line change on the district's counted payroll; finish on that branch, merge main into it first.
