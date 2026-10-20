@@ -4,7 +4,7 @@ import type {
   TraitMovability,
   TraitPack,
   TraitScale,
-} from "./trait-packs";
+} from "../core2/trait-packs";
 import { personalityTraitEffects } from "./traits/effects";
 
 /**

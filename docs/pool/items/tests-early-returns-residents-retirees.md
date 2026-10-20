@@ -5,12 +5,12 @@ area: core
 kind: cleanup
 priority: 3
 size: S
-status: in-pr
-claimed-by: claude/residents-test-draws
+status: open
+claimed-by:
 pr: #5037
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-18T02:41:05.105Z
+claimed-at:
 ---
 
 **What.** TODO
@@ -22,3 +22,5 @@ claimed-at: 2026-10-18T02:41:05.105Z
 **Files.** TODO
 
 **Notes.** TODO
+
+Sent back 2026-10-20 from PR #5037 (branch claude/residents-test-draws): Merge main 974dd83da259 into claude/residents-test-draws conflicts in: src/core2/residents.test.ts. Resolve these files with a normal merge before changed-file validation; no integrated green head exists.; finish on that branch, merge main into it first.

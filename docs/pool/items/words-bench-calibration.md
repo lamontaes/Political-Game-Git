@@ -5,12 +5,13 @@ area: words
 kind: feature
 priority: 1
 size: M
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/words-bench-calibration
+pr: #5286
 blocked-on:
 after: words-bench-datapoints
 source: added with npm run pool -- add
+claimed-at: 2026-10-19T23:33:49.661Z
 ---
 
 **What.** Fold the owner's grades into a table the engine reads. `data/english/calibration.json` holds only weights, each marked TUNABLE with its spread: per trait the pull toward each bearing and toward longer or shorter lines, per register the target length in words and sentence count, per piece its running grade, and per move pair whether that arrangement read naturally. `scripts/dialogue-batch/apply-grades.ts` accepts the new shape `{"i","line","axes":{...},"note","prefer"}` (axes: naturalness, prose, sentence structure, length, creativity, trait fit, lie plausibility, each 1 to 5) beside the old shapes and moves the weights a small step per grade. The engine reads the table when it chooses and arranges pieces (`src/presentation/english-composition.ts`) and ranks replies (`src/director/conversation.ts`). The player would notice wording that improves across the board after a grade, not line by line.

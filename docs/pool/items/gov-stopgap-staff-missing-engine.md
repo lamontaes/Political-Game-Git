@@ -4,9 +4,9 @@ title: "Stopgaps in staff (missing-engine): 4 open"
 area: gov
 kind: stopgap
 priority: 3
-status: claimed
+status: in-pr
 claimed-by: claude/staff-hire-employed
-pr:
+pr: #5248
 blocked-on:
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/modules/staff.ts, kind missing-engine"

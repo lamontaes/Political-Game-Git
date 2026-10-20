@@ -2,11 +2,19 @@ import { randomBytes } from "node:crypto";
 import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
+import { DEFAULT_DATA } from "./data";
 import { advanceCore, createLifeCore } from "./life";
 import { residentPerson, residentsRuntime } from "./modules/residents";
 import { enactLaw, openLaws } from "./modules/laws";
-import { claimDateOf, retirementClaims } from "./modules/retirement-claims";
+import {
+  claimRetirementNow,
+  retirementClaims,
+} from "./modules/retirement-claims";
+import { PARAMETERS } from "./parameters";
+import { retirementClaimAgeMonths } from "./retirement-claim";
+import { startingSocialSecurityAges } from "./social-security-law";
 import { coreAPI, fillInPerson } from "./state";
+import { decisionLean } from "./trait-decisions";
 import { generatedOpening } from "./tooling/generated-world";
 import type { CoreState } from "./types";
 import { daysAfterStart } from "./tooling/test-days";
@@ -38,29 +46,45 @@ describe(`retirement claims during play in ${place.name}, ${place.state} (seed $
           row.birthDate > "1962-12-31",
       )
       .sort((a, b) => a.id.localeCompare(b.id))[0]!;
-    // The engine's own claim date for them settles the birth date, so the
-    // test never second-guesses the lean or the law's ages. The birth year
-    // sets the full retirement age, so settle the two together.
-    const target = new Date(`${input.startedAt}T00:00:00Z`);
-    target.setUTCMonth(target.getUTCMonth() + 2);
+    const weights = {
+      anchorYearsBeforeFull:
+        PARAMETERS.openingRetirementClaimAnchorYearsBeforeFull!.value,
+      traitPullYears: PARAMETERS.openingRetirementClaimTraitPullYears!.value,
+      needPullYears: PARAMETERS.openingRetirementClaimNeedPullYears!.value,
+      fullBufferMonths:
+        PARAMETERS.openingRetirementClaimFullBufferMonths!.value,
+    };
+    // The birth year sets the full retirement age, so settle the two together.
     let birthDate = "1959-01-01";
-    let core = createLifeCore(input);
-    for (let pass = 0; pass < 6; pass++) {
-      core = createLifeCore({
-        ...input,
-        people: input.people.map((row) =>
-          row.id === adult.id ? { ...row, birthDate } : row,
-        ),
-      });
-      const date = claimDateOf(coreAPI(core), core.people.get(adult.id)!);
-      const off = Math.round(
-        (target.getTime() - Date.parse(`${date}T00:00:00Z`)) / 86_400_000,
+    for (let pass = 0; pass < 4; pass++) {
+      const months = retirementClaimAgeMonths(
+        {
+          ages: startingSocialSecurityAges(birthDate),
+          bufferMonths:
+            adult.livingCostDailyMinor > 0
+              ? adult.liquidMinor /
+                ((adult.livingCostDailyMinor * 365.2425) / 12)
+              : weights.fullBufferMonths,
+          patience: decisionLean(
+            { data: DEFAULT_DATA },
+            adult,
+            "retirement.claim-age",
+            "wait-to-claim",
+            "claim-now",
+          ),
+        },
+        weights,
       );
-      if (Math.abs(off) <= 20) break;
-      const moved = new Date(`${birthDate}T00:00:00Z`);
-      moved.setUTCDate(moved.getUTCDate() + off);
-      birthDate = moved.toISOString().slice(0, 10);
+      const birth = new Date(`${input.startedAt}T00:00:00Z`);
+      birth.setUTCMonth(birth.getUTCMonth() + 2 - months);
+      birthDate = birth.toISOString().slice(0, 10);
     }
+    const core = createLifeCore({
+      ...input,
+      people: input.people.map((row) =>
+        row.id === adult.id ? { ...row, birthDate } : row,
+      ),
+    });
     const api = coreAPI(core);
     const start = total(core);
     advanceCore(core, daysAfterStart(365));
@@ -164,5 +188,33 @@ describe(`retirement claims during play in ${place.name}, ${place.state} (seed $
       expect(row.monthlyMinor).toBeGreaterThan(0);
       expect(residentsRuntime(core)!.flows.get(row.obligationId)).toBeDefined();
     }
+  }, 600_000);
+
+  it("a counted worker who leaves work for good claims at once from their own record, once", () => {
+    const core = createLifeCore(generatedOpening(place, { twoLevel: true }));
+    const api = coreAPI(core);
+    advanceCore(core, daysAfterStart(2));
+    const store = residentsRuntime(core)!.store;
+    const claimed = new Set(retirementClaims(core).keys());
+    let pick: string | undefined;
+    for (const h of store.liveHouseholds())
+      for (const member of store.countedMembers(h)) {
+        const id = store.ids[member]!;
+        const born = Number(store.born[member]!.slice(0, 4));
+        if (born <= 1950 && !claimed.has(id) && (!pick || id < pick)) pick = id;
+      }
+    expect(
+      pick,
+      `${place.name}: a counted person aged 70 or more (seed ${seed})`,
+    ).toBeDefined();
+    expect(claimRetirementNow(api, pick!)).toBe(true);
+    const claim = retirementClaims(core).get(pick!)!;
+    expect(claim.counted).toBe(true);
+    expect(claim.monthlyMinor).toBeGreaterThan(0);
+    expect(residentsRuntime(core)!.flows.get(claim.obligationId)).toBeDefined();
+    // Asking again, or the claim date coming round, adds no second award.
+    const flows = residentsRuntime(core)!.flows.size;
+    expect(claimRetirementNow(api, pick!)).toBe(true);
+    expect(residentsRuntime(core)!.flows.size).toBe(flows);
   }, 600_000);
 });
