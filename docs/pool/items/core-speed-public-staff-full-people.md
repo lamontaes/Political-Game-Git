@@ -24,3 +24,5 @@ claimed-at:
 **Notes.** TODO
 
 Sent back 2026-10-20 from PR #5551 (branch claude/counted-school-staff): the school-pay test replaces the nonempty full-teacher assertion with a combined full-plus-counted total, so either tier can go untested; prove each payroll path exists and is paid independently; finish on that branch, merge main into it first.
+
+Sent back 2026-10-20 from PR #5568 (branch claude/political-game-pool-yucp92-zz): independent tier assertions are fixed, but the existing full-teacher timeout doubles from 900000 to 1800000 ms without a stated reason; restore it or document the measured need; finish on that branch, merge main into it first.
