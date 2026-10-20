@@ -22,3 +22,5 @@ claimed-at:
 **Files.** src/core2/player-money-year.test.ts, src/core2/opening-finance.ts, src/core2/modules/finance.ts
 
 **Notes.** TODO
+
+Sent back 2026-10-20 from PR #5571 (branch claude/player-year-settlements): the contract-settlement assertion now accepts generic residents debits and can pass while rent or mortgage goes unpaid; assert the route required by recorded tenure and contracts instead; finish on that branch, merge main into it first.
