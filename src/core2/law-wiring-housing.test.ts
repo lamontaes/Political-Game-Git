@@ -196,7 +196,7 @@ function runOnce(place: ReturnType<typeof drawPlace>): string[] {
     );
     check(
       rowsOn(api, KEYS.inclusionary).some((r) => r.amountMinor > 0),
-      "inclusionary moved no money (forgone rent)",
+      `inclusionary moved no money (forgone rent): ${JSON.stringify(projects.filter((p) => p.lawIds?.inclusionary).slice(0, 3))}`,
     );
     const setAside = (
       api.moduleState("housing").table("affordable").rows() as unknown as {
@@ -246,7 +246,7 @@ function runOnce(place: ReturnType<typeof drawPlace>): string[] {
               r.targetId === row.householdId &&
               r.amountMinor === row.counselPaidMinor,
           ),
-        `case ${row.id}: the counsel payment was not paid, or not the one the household's row records`,
+        `case ${row.id}: the counsel payment was not paid, or not the one the household's row records (paid ${row.counselPaidMinor}; rows ${JSON.stringify(counsel.filter((r) => r.targetId === row.householdId || r.targetId === row.counselPayerId))}; cases ${cases.filter((x) => x.householdId === row.householdId).length})`,
       );
     }
 
