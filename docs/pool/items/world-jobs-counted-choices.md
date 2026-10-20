@@ -5,7 +5,7 @@ area: world
 kind: stopgap
 priority: 2
 size: M
-status: blocked
+status: open
 claimed-by:
 pr:
 blocked-on:
