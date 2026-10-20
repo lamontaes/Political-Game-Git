@@ -4,9 +4,9 @@ title: "Stopgaps in press (missing-mechanic): 4 open"
 area: gov
 kind: stopgap
 priority: 3
-status: claimed
+status: in-pr
 claimed-by: claude/political-game-pool-3xfqef
-pr: #5273
+pr: #5581
 blocked-on:
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/modules/press.ts, kind missing-mechanic"
