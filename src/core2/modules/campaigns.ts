@@ -18,7 +18,6 @@ import { customPolitics, registerElectorate } from "../electorate";
 import { partySide } from "../appointments";
 import { residentsRuntime } from "./residents";
 import { fillInPerson } from "../state";
-import { parameter } from "../parameters";
 import { keepsWhy } from "../why-kept";
 import { closenessBetween } from "../closeness";
 import { decisionLean, leanedScore, leanedYes } from "../trait-decisions";
@@ -971,6 +970,32 @@ function atWork(
 }
 
 /**
+ * Whether someone gives their evenings to a campaign before personality: how
+ * much they like the candidate, how close they are, against the hours their
+ * work already takes, past the volunteer threshold.
+ */
+export function volunteerReason(
+  api: CoreAPI,
+  campaign: CampaignRow,
+  person: Readonly<PersonState>,
+): number {
+  const warmth =
+    impressionOf(api, person.id, campaign.candidateId)?.warmth ?? 0;
+  const core = api.state as CoreState;
+  const tie = closenessBetween(core, person.id, campaign.candidateId);
+  const family = person.familyIds.has(campaign.candidateId) ? 1 : 0;
+  const weeklyWork = [...(core.work.commitmentsByPerson.get(person.id) ?? [])]
+    .map((id) => core.work.commitments.get(id)?.expectedWeeklyMinutes ?? 0)
+    .reduce((a, b) => a + b, 0);
+  return (
+    warmth +
+    campaignParameter("volunteerClosenessWeight") * (tie + family) -
+    weeklyWork / campaignParameter("turnoutWorkWeekMinutes") -
+    campaignParameter("volunteerThreshold")
+  );
+}
+
+/**
  * Ask someone to volunteer. They say yes when liking the candidate,
  * closeness, an outgoing or dutiful temperament outweigh the hours their
  * work already takes.
@@ -987,28 +1012,13 @@ export function askToVolunteer(
     ageOn(person, api.state.date) < campaignParameter("minimumVolunteerAge")
   )
     return false;
-  const warmth = impressionOf(api, personId, campaign.candidateId)?.warmth ?? 0;
-  // Whether they give their evenings to it: how much they like the
-  // candidate, how close they are, every trait's lean toward volunteering,
-  // against the hours their work already takes.
-  const core = api.state as CoreState;
-  const tie = closenessBetween(core, personId, campaign.candidateId);
-  const family = person.familyIds.has(campaign.candidateId) ? 1 : 0;
-  const weeklyWork = [...(core.work.commitmentsByPerson.get(personId) ?? [])]
-    .map((id) => core.work.commitments.get(id)?.expectedWeeklyMinutes ?? 0)
-    .reduce((a, b) => a + b, 0);
-  const bare =
-    warmth +
-    campaignParameter("volunteerClosenessWeight") * (tie + family) -
-    weeklyWork / campaignParameter("turnoutWorkWeekMinutes") -
-    campaignParameter("volunteerThreshold");
   const yes = leanedYes(
     api.state,
     person,
     "campaigns.volunteer",
     "volunteer",
     "decline",
-    bare,
+    volunteerReason(api, campaign, person),
   );
   if (yes && !campaign.volunteerIds.includes(personId))
     save(api, {
@@ -1853,6 +1863,18 @@ export function pollMargin(lead: number, contacted: number): number | null {
   );
 }
 
+/** Someone called for a poll: their age past the response threshold, before personality (older residents answer more). */
+export function answerPollReason(
+  person: Readonly<Pick<PersonState, "birthDate">>,
+  date: string,
+): number {
+  return (
+    (ageOn(person, date) - campaignParameter("doorAnswerPivotAge")) /
+      campaignParameter("doorAnswerAgeSpan") -
+    campaignParameter("pollAnswerThreshold")
+  );
+}
+
 /**
  * Commission a poll: the pollster calls adults in the town in a fixed order
  * from the pollster's list (the sampling frame), and records what each said.
@@ -1915,9 +1937,7 @@ export function commissionPoll(
         "campaigns.answer-poll",
         "answer",
         "no-opinion",
-        (ageOn(person, date) - campaignParameter("doorAnswerPivotAge")) /
-          campaignParameter("doorAnswerAgeSpan") -
-          campaignParameter("pollAnswerThreshold"),
+        answerPollReason(person, date),
       )
     )
       respondents.push(person);
@@ -2122,8 +2142,7 @@ export function askForSupport(api: CoreAPI, filingId: string): void {
   const closest = candidate
     ? [...new Set([...candidate.familyIds, ...candidate.knownIds])]
         .filter(
-          (id) =>
-            id !== playerId && id !== candidate.id && !asked.has(id),
+          (id) => id !== playerId && id !== candidate.id && !asked.has(id),
         )
         .map((id) => ({
           id,

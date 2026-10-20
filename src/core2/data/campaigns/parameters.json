@@ -667,10 +667,10 @@
       "spread": [0.2, 1]
     },
     "volunteerThreshold": {
-      "value": 0.61,
+      "value": 1,
       "tag": "TUNABLE",
-      "source": "How strong someone's pull to volunteer must be, before personality: their warmth and closeness to the candidate, less their hours of work. Personality adds the calibrated campaigns.volunteer weight times their lean. Set so the same 3.8% of the people a candidate asks say yes as under the earlier hand-set trait scale (about 4% of adults worked or volunteered for a campaign in 2020, ANES; a candidate's friends and family volunteer at several times that), measured over Newfane VT, Ute IA, Clifton KS and Cameron SC for a played year each.",
-      "spread": [0.3, 1.2]
+      "source": "How strong someone's pull to volunteer must be, before personality: their warmth and closeness to the candidate, less their hours of work. Personality adds the calibrated campaigns.volunteer weight times their lean. Set at the value where about 0.9% of the people a candidate asks say yes across Newfane VT, Ute IA, Clifton KS and Cameron SC for a played year each, and where the share of a candidate's acquaintances who volunteer stays inside the 31% top of the range src/core2/campaign-calibration.test.ts holds (about 4% of adults worked or volunteered for a campaign in 2020, ANES; a candidate's friends and family volunteer at several times that). A weaker, researched personality term leaves closeness to decide, so the threshold sits above where the earlier hand-set trait scale put the pool's rate.",
+      "spread": [0.6, 1.4]
     },
     "doorAnswerPivotAge": {
       "value": 55,

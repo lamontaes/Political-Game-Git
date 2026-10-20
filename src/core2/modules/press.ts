@@ -20,7 +20,6 @@ import rows from "../data/press/parameters.json" with { type: "json" };
 import nationalJson from "../data/press/national.json" with { type: "json" };
 import { coreAPI, fillInPerson, registerModule } from "../state";
 import { addDays, makeIsoDate } from "../kernel/dates";
-import { parameter } from "../parameters";
 import { decisionLean, leanedYes } from "../trait-decisions";
 import type {
   CoreAPI,

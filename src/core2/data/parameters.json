@@ -879,12 +879,12 @@
     }
   },
   "traitWeightCampaignsVolunteer": {
-    "value": 0.48,
+    "value": 0.15,
     "tag": "ESTIMATED",
-    "citation": "Mondak, Hibbing, Canache, Seligson and Anderson (2010), Personality and Civic Engagement, American Political Science Review 104(1), Table 2, worked for a party or candidate, openness logit 2.02 over the trait's full range (95% interval 0.57 to 3.47): target odds ratio 2.41 between thirds. Found with the cross-product calibration of the played years of Newfane VT, Ute IA, Clifton KS and Cameron SC (seeds c1, d1, d3, d12, 365 days each, scripts/traits/trait-wiring-audit.ts): every kept reason total met with every kept trait lean, the weight at which the odds of the studied option between the top and bottom third of lean match the study's, with the threshold moved so the share who say yes is unchanged. Reached 2.41.",
+    "citation": "Mondak, Hibbing, Canache, Seligson and Anderson (2010), Personality and Civic Engagement, American Political Science Review 104(1), Table 2, worked for a party or candidate, openness logit 2.02 over the trait's full range (95% interval 0.57 to 3.47): target odds ratio 2.41 between thirds. Found with the cross-product calibration of the played years of Newfane VT, Ute IA, Clifton KS and Cameron SC (seeds c1, d1, d3, d12, 365 days each, scripts/traits/trait-wiring-audit.ts): every kept reason total met with every kept trait lean, the weight at which the odds of the studied option between the top and bottom third of lean match the study's, with the volunteer threshold set at 1.0 (the largest the campaign calibration test's range of acquaintances who volunteer allows without losing the closest circle). Reached 2.42.",
     "spread": {
-      "low": 0.14,
-      "high": 0.82,
+      "low": 0.042,
+      "high": 0.26,
       "unit": "weight",
       "citation": "Scaled linearly from the study's reported interval (or half to one and a half times where none is reported) to the weight."
     }

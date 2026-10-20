@@ -78,45 +78,20 @@
       "why": "Same as voting.turnout.",
       "fix": "Same as voting.turnout."
     },
-    "voting.stand-again": {
-      "class": "runs only on a date outside the year",
-      "why": "Same as voting.turnout.",
-      "fix": "Same as voting.turnout."
-    },
-    "campaigns.open-door": {
-      "class": "runs only on a date outside the year",
-      "why": "Needs a filed, on-ballot race (src/core2/modules/campaigns.ts:2323); filings opened in 1 of 3 places measured.",
-      "fix": "Same as voting.turnout."
-    },
-    "campaigns.donate": {
-      "class": "runs only on a date outside the year",
-      "why": "Same as campaigns.open-door.",
-      "fix": "Same as voting.turnout."
-    },
     "campaigns.rival-hours": {
-      "class": "runs only on a date outside the year",
-      "why": "Same as campaigns.open-door.",
-      "fix": "Same as voting.turnout."
+      "class": "runs; its trait weight is not yet read",
+      "why": "Runs in every place with a race, but campaignTurn still multiplies the lean by traitDecisionWeight (src/core2/modules/campaigns.ts, campaignTurn), the lines the open rival-campaign-day pull request rewrites.",
+      "fix": "After that pull request merges, replace the traitDecisionWeight term with leanedScore(..., 'campaigns.rival-hours', 'campaign', 'rest', 1) and calibrate."
     },
     "campaigns.answer-poll": {
-      "class": "runs only on a date outside the year",
-      "why": "Same as campaigns.open-door, plus a poll fund (src/core2/modules/campaigns.ts:2253).",
-      "fix": "Same as voting.turnout."
-    },
-    "campaigns.retell": {
-      "class": "runs only on a date outside the year",
-      "why": "Same as campaigns.open-door.",
-      "fix": "Same as voting.turnout."
-    },
-    "campaigns.volunteer": {
-      "class": "no trigger (player only)",
-      "why": "Only the bench's developer call asks (src/bench/campaign.ts:168); a world candidate never asks anyone to volunteer.",
-      "fix": "In campaignTurn, ask reachable people to volunteer as it asks for donations."
+      "class": "rare by nature",
+      "why": "Needs a campaign that has set aside enough for a poll (src/core2/modules/campaigns.ts, pollFund against pollMinimumInterviews); no local campaign in four played places did.",
+      "fix": "Weight calibrated from the adults of a drawn town (campaigns.traits.test.ts); the call-time path runs when a state or federal campaign raises enough."
     },
     "campaigns.endorse": {
-      "class": "no trigger (player only)",
-      "why": "Only the bench's developer call asks (src/bench/campaign.ts:182).",
-      "fix": "In campaignTurn, ask the people closest to the candidate for endorsements."
+      "class": "runs; its trait weight is not yet read",
+      "why": "A candidate now asks the people closest to them (askForSupport, called from campaignTurn); askForEndorsement still multiplies the lean by traitDecisionWeight (src/core2/modules/campaigns.ts, askForEndorsement), the lines the open press-endorsement pull request rewrites.",
+      "fix": "After that pull request merges, replace the traitDecisionWeight term with decisionTraitWeight(api.state, 'campaigns.endorse') and run trait-calibrate.ts."
     },
     "offices.accept-appointment": {
       "class": "rare",
@@ -142,11 +117,6 @@
       "class": "no trigger (player only)",
       "why": "Read only in a conversation the player opens (src/director/bring-it-up.ts:105).",
       "fix": "Player-only by design."
-    },
-    "press.accept-interview": {
-      "class": "runs only on a date outside the year",
-      "why": "Interviews are scheduled only within weeks of an election (src/core2/modules/press.ts:2460).",
-      "fix": "Same as voting.turnout."
     },
     "press.dig": {
       "class": "runs only on a date outside the year",
