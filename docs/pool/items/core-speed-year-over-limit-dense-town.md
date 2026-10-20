@@ -21,4 +21,4 @@ claimed-at:
 
 **Files.** src/core2/life.ts, src/core2/modules/press.ts, src/core2/kernel/dates.ts, scripts/speed-years/run.ts
 
-**Notes.** TODO
+**Notes.** Profiled Oct 20 (seed m7b, Long Hill, CT, 4 cores): 176.6 s wall, 210 s sampled. Self time: garbage collector 38.9 s; postCashJournal 5.9; makeIsoDate 4.3; releaseResidentHousehold 4.2; projectCashJournal 4.0; people.ts anon 3.6; parameter 3.4 (already map-cached); state.ts anon 3.2; portfolios 2.5; countedFollowers 2.4; availableActs 2.2. Flat: no function above 6 s, so the cut has to come from allocation churn (GC is 19%) and several 2 to 6 s items. Child filed: core-speed-cash-journal-posting. Next steps: a heap allocation profile (--heap-prof) to find what churns the GC, then children per top allocator.
