@@ -5,12 +5,12 @@ area: office
 kind: feature
 priority: 2
 status: in-pr
-claimed-by: claude/public-project-ribbon
-pr: #5132
+claimed-by: claude/cut-ribbon
+pr: #5535
 blocked-on:
 milestone:
 source: "docs/coordination/OFFICE-LOCAL.md line 33 (unchecked checklist line)"
-claimed-at: 2026-10-19T19:41:04.629Z
+claimed-at: 2026-10-20T05:20:26.990Z
 ---
 
 **What.** Checked against main on Oct 16: OPEN. There is no public project record: public works are budget lines that pay town businesses by share (`budgets-treasury.ts`), and the only project record is private housing (`housing.ts` `ProjectRow`). Next: A public project record: a budget line becomes a project with contractor payments, finishes on a date and emits a record the office day reads for a ribbon-cutting act. The player would notice the act on the politics screen as a choice among people, never a form.
