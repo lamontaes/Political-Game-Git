@@ -5,11 +5,12 @@ area: world
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/credit-pulls-own-state
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-20T07:16:03.900Z
 ---
 
 **What.** On main, src/core2/modules/credit.ts review calls strongestPulls from jobs.ts for counted owners deciding whether their business borrows, and strongestPulls keeps its carry in the jobs module's state table. A world that installs credit without jobs then stops on the first day with 'Module has no registered state'. Eight tests fail on main: six in src/core2/business.test.ts and two in src/core2/credit-audit.test.ts. The helper's carry belongs to the module that asks, so credit keeps its own.
