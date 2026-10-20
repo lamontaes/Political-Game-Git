@@ -4867,5 +4867,17 @@
     "addedAt": "2026-10-17",
     "replacement": "Each department's employing government read from the Census of Governments employment file by function, so a county health department, a fire district or a state agency's field office pays its own staff.",
     "status": "open"
+  },
+  {
+    "id": "SG-LAW-outcome-link-unresearched",
+    "kind": "missing-data",
+    "file": "src/core2/data/laws/outcome-research-gaps.json",
+    "line": 7,
+    "whatItFakes": "27 laws (listed in outcome-research-gaps.json, each with the outcome its research would measure) move no outcome-web measure: no researched link starts from the law or from a measure an engine sets from it, so the web holds those outcomes at their base whatever the law does.",
+    "why": "data/research/outcome-web/links.json has no link from these laws or their measures; the laws' reach, engine reads and money are wired, but an outcome link needs a researched strength, shape and lag before the web can move anything.",
+    "addedBy": "claude/law-wiring-audit",
+    "addedAt": "2026-10-20",
+    "replacement": "A researched link per law in links.json (strength, shape, lag, source), built by the outcome-web line, after which each row leaves outcome-research-gaps.json.",
+    "status": "open"
   }
 ]
