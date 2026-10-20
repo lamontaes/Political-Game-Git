@@ -1140,7 +1140,7 @@ function partyRows(party) {
     const m = party.member;
     const line = row(
       words.member,
-      `${m.name} · ${words.agreement} ${m.agreement === null ? "" : m.agreement.toFixed(2)}`,
+      `${m.name} · ${words.agreement} ${m.agreement === null ? "" : `${Math.round(m.agreement * 100)}%`}`,
     );
     // The tie's record, for the checks that read it.
     line.dataset.tieId = m.tieId;
