@@ -1,6 +1,6 @@
 # A town's causes now reach its people, unevenly, as the research says
 
-The CTO has one call to make: whether monthly crimes against households, with no offenders or arrests, fit the owner's October 16, 2026 ruling that a crime engine comes later. The owner has one question: should people's opinions on policy shift when they hear the town got poorer, more dangerous or dearer? Today they hear it and it reaches their vote, but their stances do not move. Of 221 researched causes, 109 now change what happens to people, against 5 this morning, and 15 land differently by age, sex, income or home. The per-person reach is merged, and fifteen more pull requests wait for the merging sessions.
+The CTO has one call to make: whether monthly crimes against households, with no offenders or arrests, fit the owner's October 16, 2026 ruling that a crime engine comes later. The owner has one question: should people's opinions on policy shift when they hear the town got poorer, more dangerous or dearer? Today they hear it and it reaches their vote, but their stances do not move. Of 221 researched causes, 109 now change what happens to people, against 5 this morning, and 15 land differently by age, sex, income or home. Thirteen of the sixteen fixes are on main; schools, labor and crime wait for the merging sessions, and this report's branch lands last.
 
 ## Before and after
 
@@ -85,9 +85,27 @@ The other four do not move in three months. The uninsured share, poverty and gra
 
 ## What happens next
 
-- **Merged to main:** per-person reach #5557, the audit #5564, health #5627, knowing #5637, moves #5612, births #5567, housing #5611, voting #5563 and causes of death #5650.
-- **Still open, each merged with main:** schools #5609, poverty #5610, labor #5617, prices #5618, crime #5619, sizes #5624 and moderators #5648. The last piece is #5639, the branch carrying the unwired list and this report.
-- **Overlap the merger will meet:** poverty (#5610) and labor (#5617) add the same `carriedBy` support to `outcome-web-model.ts`, so whichever lands second merges cleanly.
+- **Merged to main:** per-person reach #5557, the audit #5564, health #5627, knowing #5637, moves #5612, births #5567, housing #5611, voting #5563, causes of death #5650, sizes #5624, prices #5618, moderators #5648 and poverty #5610.
+- **Still open, each merged with main and merging cleanly:**
+  - schools #5609: holds the school outcome records, school spending, and the twin's re-shift;
+  - labor #5617: pay, participation, the low-wage stopgap and the retirement onset carried by the jobs engine;
+  - crime #5619: holds the victimization records and the story-gated crime in the vote.
+- **The last piece:** #5639 carries the unwired list, the matrix, this report and the twin-check fixes.
+- **Golden-path specs that fail on main as well:** M2-01 (`gov-opening-past-terms-gap-a-day`), M3-09 (`gov-corruption-small-territory-bribe`), and M2-05 and M2-07 (`people-opening-stance-needs-views-module`).
+
+## For the next session
+
+Start here, in this order:
+
+1. Read the latest "Cloud merger:" comment on each of #5609, #5617, #5619 and #5639, and fix whatever it names on that PR's own branch.
+2. After any merge to main, merge main into the other open branches. The data files (stopgaps.json, links.json, parameters.json, the pool index) are additive on both sides: keep every row from both, and keep main's text for parameters.json. Never `commit -a` during a merge, and check that the branch's diff against the merge base deletes nothing.
+3. Land #5639 last. On its branch, regenerate the unwired list with `node --import tsx scripts/outcome-web/write-unwired.ts` (run it twice, then prettier), and rerun the matrix with `node --import tsx scripts/outcome-web/effect-matrix.ts`.
+4. Next work, from the pool:
+   - `web-calibrate-choice-terms` (its first attempt's numbers are in the item);
+   - `web-coverage-reads`;
+   - the low-wage gap `SG-LABOR-low-wage-unreviewed`;
+   - `world-counted-households-zero-income`.
+
 - **Sources not reached:** 12 links had a possible split in research the helper could not open (paywall or blocked); they stay unvaried until a session with library access reads them.
 
 Method: the static matrix is `scripts/outcome-web/effect-matrix.ts`. The played years are `scripts/outcome-web/web-year.ts` with seeds ewyear-a and ewyear-b. The twin check is `src/core2/outcome-web-twins.test.ts` with seed ew20oct26.
