@@ -5,12 +5,12 @@ area: gov
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/electorate-weight-red
 pr: #5318
 blocked-on:
 source: added with npm run pool -- add
-claimed-at:
+claimed-at: 2026-10-20T03:48:23.791Z
 ---
 
 **What.** TODO
