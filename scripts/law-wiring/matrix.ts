@@ -9,6 +9,7 @@
 import { readFileSync, writeFileSync } from "node:fs";
 import stopgaps from "../../src/core2/data/stopgaps.json" with { type: "json" };
 import declared from "./declared.json" with { type: "json" };
+import researchGaps from "../../src/core2/data/laws/outcome-research-gaps.json" with { type: "json" };
 import {
   allLaws,
   changeInData,
@@ -98,6 +99,15 @@ const NOT_AN_EFFECT = [
   "src/english/",
   "src/bench/",
 ];
+/** Laws with no researched outcome link, each with its registered stopgap. */
+const RESEARCH_GAPS = new Map(
+  (
+    researchGaps as {
+      laws: { key: string; outcome: string; stopgapId: string }[];
+    }
+  ).laws.map((row) => [row.key, row]),
+);
+
 /** Links a law does not have by its statute, or a stopgap for one law's link, by law key and link. */
 const DECLARED = (
   declared as unknown as {
@@ -269,12 +279,19 @@ function moneyLink(law: LawEntry, runs: { place: string; r: Result }[]): Link {
 
 function webLink(law: LawEntry, runs: { place: string; r: Result }[]): Link {
   const links = webLinksOf(law);
+  const gap = RESEARCH_GAPS.get(law.key);
   if (!links.length)
-    return {
-      status: "missing",
-      evidence: "data/research/outcome-web/links.json",
-      why: "no researched outcome-web link starts from this law",
-    };
+    return gap && stopgapOf(gap.stopgapId)?.open
+      ? {
+          status: "stopgap",
+          evidence: "src/core2/data/laws/outcome-research-gaps.json",
+          why: `no researched outcome-web link starts from this law or a measure it sets; the research would measure ${gap.outcome} (${gap.stopgapId})`,
+        }
+      : {
+          status: "missing",
+          evidence: "data/research/outcome-web/links.json",
+          why: "no researched outcome-web link starts from this law",
+        };
   const fired = runs.flatMap(({ place, r }) =>
     (r.web?.fired ?? []).map((f) => ({ place, f })),
   );

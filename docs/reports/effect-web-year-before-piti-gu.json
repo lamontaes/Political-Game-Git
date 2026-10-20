@@ -1,0 +1,53 @@
+{
+  "seed": "ewyear-a",
+  "place": "Piti, Guam, US-GU (territory:GU:piti)",
+  "buildSeconds": 10,
+  "yearSeconds": 50,
+  "webMonths": 13,
+  "linksMoving": 18,
+  "linksMovingAnEngineRead": 2,
+  "reaching": {
+    "unemployment-to-births": {
+      "months": 13,
+      "maxAbs": 0.10225446428571429,
+      "to": "births.rate"
+    },
+    "abortion-ban-to-births": {
+      "months": 3,
+      "maxAbs": 0.023,
+      "to": "births.rate"
+    }
+  },
+  "chains": [],
+  "recordKinds": {
+    "bill-amendment": 1,
+    "bill-held-in-committee": 27,
+    "budget-adopted": 2,
+    "budget-line-changed": 12,
+    "business.closed": 1,
+    "business.staff-reduced": 19,
+    "case.made": 14,
+    "cause-group.ad-ran": 1,
+    "cause.shared": 7,
+    "chamber-organized": 4,
+    "committee-hearing": 23,
+    "executive-action": 24,
+    "inauguration": 1,
+    "law-took-effect": 32,
+    "law.effect-learned": 2,
+    "legislative-vote": 25,
+    "life.death": 3,
+    "news.read": 136,
+    "office.voted": 19,
+    "organization.closed": 1,
+    "organization.recorded": 19,
+    "person.acted": 3522,
+    "person.moved-away": 1,
+    "person.recorded": 171,
+    "president.address": 1,
+    "speech.heard": 12,
+    "speech.retold": 12,
+    "vote-recorded": 345,
+    "work.job-lost": 1
+  }
+}
