@@ -5,9 +5,9 @@ area: world
 kind: bug
 priority: 3
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/audit-14
-pr:
+pr: #5516
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-20T04:46:46.000Z

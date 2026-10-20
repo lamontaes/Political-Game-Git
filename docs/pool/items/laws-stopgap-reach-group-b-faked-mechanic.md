@@ -4,10 +4,11 @@ title: "Stopgaps in reach-group-b (faked-mechanic): 2 open"
 area: laws
 kind: stopgap
 priority: 2
-status: blocked
+status: open
 claimed-by:
 pr:
-blocked-on: laws-property-tax-cap-statutes, laws-groundwater-farm-use
+blocked-on:
+after: laws-property-tax-cap-statutes, laws-groundwater-farm-use
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/data/laws/reach-group-b.json, kind faked-mechanic"
 claimed-at: 2026-10-16T02:49:58.475Z
@@ -26,3 +27,5 @@ claimed-at: 2026-10-16T02:49:58.475Z
 **Split (Oct 16).** Both rows need research the engine cannot invent: the cap statutes (`laws-property-tax-cap-statutes`) and farm water use (`laws-groundwater-farm-use`). This item is done when both rows are resolved.
 
 Oct 20: The Oct 16 claim has no PR and is over two days old, so the claim is cleared.
+
+Oct 20: Switched from blocked to the automatic after: gate on laws-property-tax-cap-statutes, laws-groundwater-farm-use, so it opens by itself the moment those items are done.
