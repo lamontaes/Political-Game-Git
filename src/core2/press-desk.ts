@@ -13,6 +13,7 @@
  * change it favors, and its readers are moved by their standing with the
  * reporter who wrote it.
  */
+import { OUTCOME_MONTH_KIND } from "./outcome-news";
 import { addDays, makeIsoDate } from "./kernel/dates";
 import { questionAxis } from "./campaign-views";
 import { closenessBetween } from "./closeness";
@@ -475,6 +476,13 @@ export function runDesk(
   // town) and the counted followers, who are read by the same rule as a
   // full follower.
   const involved = (item: WireItem): number => {
+    // A month's move in the town's conditions reaches every follower in
+    // proportion to its size (the largest relative move among its facts).
+    if (item.kind === OUTCOME_MONTH_KIND)
+      return (
+        Math.min(1, Number(item.facts?.magnitude ?? 0)) *
+        (followers.length + ctx.countedFollowers(outlet))
+      );
     const lawId = item.facts?.lawId;
     const key = item.facts?.series;
     if (item.kind !== "law-took-effect" || !lawId || !key) return 0;

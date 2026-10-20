@@ -25,3 +25,5 @@ claimed-at: 2026-10-20T06:40:09.880Z
 
 SG-PEOPLE-press-employer-enrollment was resolved in PR #5273 via enrollBusinessOwner in modules/business.ts. 3 rows remain open (SG-PEOPLE-press-interview-conversation, SG-PEOPLE-press-favors-and-leaks, SG-PEOPLE-press-endorsements).
 
+
+Oct 20 (PR #5581): SG-PEOPLE-press-endorsements built. The other two rows are split into their own items so this one can close with the PR: gov-press-interview-conversation (director conversation) and gov-press-favors-and-leaks (after it).
