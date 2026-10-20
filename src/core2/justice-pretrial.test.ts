@@ -130,7 +130,7 @@ describe(`pretrial bail, ${where}`, () => {
     expect(freed, `${where}: no defendant freed`).toBeGreaterThan(0);
   }, 1_200_000);
 
-  it("moves posted bail from the defendant's cash to the treasury and back when the trial opens", () => {
+  it("holds posted bail in a court escrow the treasury cannot spend and returns all of it when the trial opens", () => {
     const bail = justiceParameters.pretrialBailMinor.value;
     const rich = adults.filter((p) => (p.liquidMinor ?? 0) >= bail * 2);
     expect(rich.length, where).toBeGreaterThan(0);
@@ -144,6 +144,7 @@ describe(`pretrial bail, ${where}`, () => {
       expect(pretrialOf(c)!.decision, `${where}: ${person.id}`).toBe("posted");
       const fines = api.moduleState(JUSTICE_MODULE_ID).table("fines");
       const held = fines.get(`bail:${c.id}`) as unknown as {
+        treasuryId: string;
         postings: { accountId: string; deltaMinor: number }[];
       };
       expect(held, `${where}: no bail record for ${c.id}`).toBeDefined();
@@ -153,24 +154,29 @@ describe(`pretrial bail, ${where}`, () => {
       expect(held.postings[0]!.accountId, where).toBe(
         `cash:${person.id}:residual`,
       );
+      // The bail sits in the court escrow, not in the treasury's spendable cash.
+      const escrow = `account:${held.treasuryId}:court-escrow`;
+      expect(held.postings[1]!.accountId, where).toBe(escrow);
       expect(core.cashJournal.nextSequence, where).toBeGreaterThan(before);
+      expect(
+        core.cashJournal.accounts.get(escrow)!.allocatedMinor,
+        where,
+      ).toBeGreaterThanOrEqual(bail);
       advanceCore(core, addDays(makeIsoDate(c.trialDate!), 1));
       const back = fines.get(`bail-return:${c.id}`) as unknown as
-        | {
-            shortMinor?: number;
-            postings: { accountId: string; deltaMinor: number }[];
-          }
-        | undefined;
-      // The treasury hands back what it still holds (SG-GOV-bail-not-escrowed);
-      // the rest is recorded as short. No return at all means it held nothing.
-      const returned = back
-        ? back.postings.find(
-            (x) => x.accountId === `cash:${person.id}:residual`,
-          )!.deltaMinor
-        : 0;
-      expect(returned + (back?.shortMinor ?? bail - returned), where).toBe(
-        bail,
-      );
+        { postings: { accountId: string; deltaMinor: number }[] } | undefined;
+      // All of it comes back, from the escrow, whatever the treasury spent.
+      expect(back, `${where}: bail not returned for ${c.id}`).toBeDefined();
+      expect(
+        back!.postings.find((x) => x.accountId === escrow)!.deltaMinor,
+        where,
+      ).toBe(-bail);
+      expect(
+        back!.postings.find(
+          (x) => x.accountId === `cash:${person.id}:residual`,
+        )!.deltaMinor,
+        where,
+      ).toBe(bail);
       return;
     }
     throw new Error(`${where}: no defendant went to trial`);
