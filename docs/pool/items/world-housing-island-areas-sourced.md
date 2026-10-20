@@ -5,12 +5,12 @@ area: world
 kind: research
 priority: 2
 size: S
-status: in-pr
-claimed-by: claude/housing-island-areas
+status: open
+claimed-by:
 pr: #5431
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-20T11:44:09.062Z
+claimed-at:
 ---
 
 **What.** American Samoa, Guam, the Northern Marianas and the Virgin Islands have no ACS tenure or rent table, so the housing engine starts them from the nation's owner share and household-weighted county medians (SG-WORLD-housing-island-areas). The Census Bureau's 2020 Island Areas Censuses give each its own owner share, median monthly gross rent and median home value. Put those four rows in the housing data with their citations, read them where the engine now reads the nation's, date the home values to April 2020 so the price index moves them to the start, and resolve the stopgap row.
