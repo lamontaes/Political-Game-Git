@@ -5,9 +5,9 @@ area: world
 kind: feature
 priority: 2
 size: L
-status: claimed
+status: in-pr
 claimed-by: claude/other-places-coarse
-pr:
+pr: #5555
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-20T05:44:10.336Z
