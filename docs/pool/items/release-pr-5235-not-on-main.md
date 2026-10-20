@@ -5,11 +5,12 @@ area: release
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/pr-5235-reland
+pr: #5348
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-20T00:53:45.335Z
 ---
 
 **What.** PR #5235 (words-archive-law-budget-ledes) merged into its parent branch claude/words-past-archive-news, not into main, so its archived law lede change stayed off main while the pool item was marked done. The fix is to open a PR from that branch tip (54b5d4c or newer) to main, merge it, and set words-archive-law-budget-ledes back to in-pr until it lands, then done with the new PR number. The build reads main, so until this lands players do not see archived laws worded in the news.

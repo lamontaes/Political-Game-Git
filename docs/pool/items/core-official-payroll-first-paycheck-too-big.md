@@ -6,11 +6,11 @@ kind: bug
 priority: 2
 size: S
 status: claimed
-claimed-by: claude/pool-official-pay-total
+claimed-by: claude/pool-payroll-test
 pr:
 blocked-on: gov-dead-official-still-seated
 source: added with npm run pool -- add
-claimed-at: 2026-10-20T00:28:59.443Z
+claimed-at: 2026-10-20T01:06:50.224Z
 ---
 
 **What.** TODO

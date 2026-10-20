@@ -5,11 +5,12 @@ area: release
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/release-decl-5147
+pr: #5354
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-20T00:52:52.434Z
 ---
 
 **What.** Pull requests #5147 (early access checklist) and #5264 (the household contact pool item) merged to main with no declaration in docs/release/changes/, so the release gate refuses to publish the range they are in. Add both declarations in one PR, each with impact none, as #5126 did for #5123. Before the PR, check the latest finished Release run on main, because the recent runs on main are cancelled by later pushes and none has finished.
