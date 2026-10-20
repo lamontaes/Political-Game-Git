@@ -63,8 +63,7 @@ if (process.argv[1]?.endsWith("write-unwired.ts")) {
     (row) => !row.id.startsWith("SG-WEB-unread-") || byId.has(row.id),
   );
   for (const [id, links] of byId) {
-    const line =
-      lines.findIndex((l) => l.includes(`"stopgapId": "${id}"`)) + 1;
+    const line = lines.findIndex((l) => l.includes(`"stopgapId": "${id}"`)) + 1;
     const outcome = links[0]!.outcome;
     const noMeasure = links[0]!.reason.startsWith("no measure");
     const entry = {
