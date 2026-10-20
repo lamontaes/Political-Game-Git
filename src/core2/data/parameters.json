@@ -1199,12 +1199,13 @@
   "workRoutineRetentionWeeks": {
     "value": 4,
     "tag": "TUNABLE",
-    "citation": "No measured bound for this prototype parameter. Number of quiet completed weekly work rollups retained per worker; full focus results and open obligations stay separate.",
+    "citation": "An engineering memory budget, not a measure of anything in the world: the owner ruled that running memory stays small and keeps a condensed index, not every log record (owner, Oct 12, 2026, DECISION-REGISTER 'Speed and memory'). Number of quiet completed weekly work rollups kept per worker; full focus results, cumulative totals and open obligations are kept separately. Only the dev-why bench reads old rollups.",
     "spread": {
-      "status": "unmeasured",
-      "reason": "Calibration not run; this value is not claimed as an empirical estimate."
+      "low": 1,
+      "high": 13,
+      "unit": "weeks",
+      "citation": "Read from the code, not measured: the only reader of old rollups is the bench's why-trace (src/bench/dev-why.ts), a debug switch; the memory guard (scripts/core2-guard/memory.mjs) is the check to run before widening it."
     },
-    "stopgapId": "SG-P8-work-result-retention",
     "checkRange": {
       "ref": "P9-OUTCOME-WHOLE-LIFE"
     }

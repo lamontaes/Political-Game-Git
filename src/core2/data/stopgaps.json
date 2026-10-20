@@ -524,8 +524,8 @@
     "why": "Retention span is an owner budget assumption, not a human forgetting measurement; later readers and legal obligations need audit.",
     "addedBy": "SOL-1258",
     "addedAt": "2026-10-09",
-    "replacement": "Owner-approved bounded retention plus reader/callback/reload assertions; preserve consequential evidence and full focus history.",
-    "status": "open"
+    "replacement": "Resolved Oct 20: the owner ruled running memory stays small (Oct 12, DECISION-REGISTER 'Speed and memory'), so the retention span is a tunable engineering memory budget, tagged TUNABLE with its spread, and only the dev-why bench reads old rollups (pool item owner-stopgap-memory-budgets).",
+    "status": "resolved"
   },
   {
     "id": "SG-P8-business-books-priors",
