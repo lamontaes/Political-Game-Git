@@ -4,7 +4,6 @@ import { advanceCore } from "./life";
 import { coreAPI } from "./state";
 import { gameStartDate } from "./game-start";
 import { lawChain } from "./modules/laws";
-import { RENEWAL_MODULE_ID } from "./modules/renewal";
 import { drawPlace } from "../../tests/golden-path/place";
 import type { CoreState } from "./types";
 
@@ -17,8 +16,9 @@ const source = (core: CoreState) => ({
   citation: "A test forms and ends a partnership.",
 });
 
-// Two people become partners in play, and the births engine takes the couple up;
-// another pair stops being partners, and their record says so.
+// Two people become partners in play and another pair stops being partners;
+// each person's record says so, and the event reaches the engines. The births
+// engine's own reader is the People item people-births-reads-family-partnered.
 it(`forms and ends partner links (seed ${seed})`, () => {
   for (let attempt = 0; attempt < 6; attempt += 1) {
     const place = drawPlace(`${seed}:${attempt}`, "family-link");
@@ -101,15 +101,6 @@ function partnersIn(place: ReturnType<typeof drawPlace>): boolean {
         ),
       `${id}'s record`,
     ).toBe(true);
-  // The births engine reviews the new couple from the next day.
-  day(1);
-  const row = api
-    .moduleState(RENEWAL_MODULE_ID)
-    .table("couples")
-    .get(link.id) as unknown as
-    { status: string; motherId: string } | undefined;
-  expect(row?.status, "the couple's row").toBe("active");
-  expect(row?.motherId).toBe(mother.id);
   expect(() =>
     api.setPartnersV1({
       personIds: [mother.id, other.id],
