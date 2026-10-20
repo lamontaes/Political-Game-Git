@@ -29,6 +29,7 @@ import { currentCloseness } from "../closeness";
 import keysJson from "../data/views/ces-2024-views.json" with { type: "json" };
 import viewsJson from "../data/views/views.json" with { type: "json" };
 import drivesJson from "../data/drives.json" with { type: "json" };
+import stanceLoadings from "../../../data/research/people/opening-stance-loadings.json" with { type: "json" };
 import type {
   CoreAPI,
   CoreModule,
@@ -483,8 +484,72 @@ export function viewOn(
     Math.min(
       v("one"),
       personStance(lean, question) +
+        openingLoadingShift(api, personId, question) +
         v("stanceViewWeight") * stanceOn(api, personId, question),
     ),
+  );
+}
+
+interface Loading {
+  readonly value: number;
+}
+const LOADINGS = stanceLoadings.questions as unknown as Record<
+  string,
+  { loadings: { faith: Loading; college: Loading } }
+>;
+const PREDICTORS = stanceLoadings.predictors;
+const profiles = new WeakMap<
+  object,
+  Map<PersonId, { faith: number; college: number } | null>
+>();
+
+/**
+ * Where a person sits on the survey's faith index (0 to 1, from their faith
+ * group's CES 2020 mean) and whether they hold a four-year degree, from the
+ * same education and faith records their opening view is read with.
+ */
+function faithAndDegree(api: CoreAPI, personId: PersonId) {
+  const held = profiles.get(api.state) ?? new Map();
+  profiles.set(api.state, held);
+  if (held.has(personId)) return held.get(personId) ?? null;
+  const person = api.state.people.get(personId);
+  let out: { faith: number; college: number } | null = null;
+  if (person) {
+    const fact = (kind: string, key: string) =>
+      person.pastFacts?.find((row) => row.kind === kind)?.facts?.[key];
+    const profile = profileFor(person, api.state.seed, api.state.startedAt);
+    const educ =
+      fact(PROFILE_FACT_KINDS.education, "level") ?? profile?.education;
+    const group = fact(PROFILE_FACT_KINDS.faith, "group") ?? profile?.faith;
+    const faith = group
+      ? (PREDICTORS.faithMeanByGroup as Record<string, number>)[group]
+      : undefined;
+    if (faith !== undefined && educ !== undefined)
+      out = { faith, college: educ === "college" ? v("one") : v("zero") };
+  }
+  held.set(personId, out);
+  return out;
+}
+
+/**
+ * What a person's faith and degree add to their opening stance on a question
+ * the 2020 Cooperative Election Study asked (`opening-stance-loadings.json`):
+ * each loading times how far they sit from the average person, so the town's
+ * mean stance stays on the lean axis. A question with no survey item, or a
+ * person with no recorded faith or education, adds nothing (ESTIMATED).
+ */
+export function openingLoadingShift(
+  api: CoreAPI,
+  personId: PersonId,
+  question: string,
+): number {
+  const loadings = LOADINGS[question]?.loadings;
+  if (!loadings) return v("zero");
+  const own = faithAndDegree(api, personId);
+  if (!own) return v("zero");
+  return (
+    loadings.faith.value * (own.faith - PREDICTORS.nationalFaithMean) +
+    loadings.college.value * (own.college - PREDICTORS.collegeShare)
   );
 }
 

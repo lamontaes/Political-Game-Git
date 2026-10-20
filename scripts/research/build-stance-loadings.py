@@ -54,13 +54,30 @@ def logit(X, y, w, iters=50):
 
 
 def main(src, out):
-    cols = ["pid7", "pew_churatd", "pew_religimp", "educ", "commonweight"] + [v[0] for v in ITEMS.values()]
+    cols = ["pid7", "pew_churatd", "pew_religimp", "educ", "religpew", "commonweight"] + [v[0] for v in ITEMS.values()]
     df = pd.read_csv(src, usecols=cols)
     df = df.dropna(subset=["pid7", "pew_churatd", "pew_religimp", "educ", "commonweight"])
     df = df[(df.pid7 <= 7) & (df.pew_churatd <= 6) & (df.pew_religimp <= 4)].copy()
     df["lean"] = (df.pid7 - 4) / 3  # -1 strong Democrat .. +1 strong Republican
     df["faith"] = ((6 - df.pew_churatd) / 5 + (4 - df.pew_religimp) / 3) / 2  # 0 never and unimportant .. 1 weekly and very important
     df["college"] = (df.educ >= 5).astype(float)
+    # The game's faith groups (as in the views data) from religpew: Protestant,
+    # Catholic, none (atheist, agnostic, nothing in particular) and every other
+    # faith. The mean faith index of each group, and of everyone, lets the engine
+    # add a loading for how far a person sits from the average, so the town's
+    # mean stance stays on the lean axis.
+    group_of = lambda r: "protestant" if r == 1 else "catholic" if r == 2 else "none" if r in (9, 10, 11) else "other-faith"
+    known = df.dropna(subset=["religpew"]).copy()
+    known["group"] = known.religpew.map(group_of)
+    weight = df.commonweight
+    predictors = {
+        "faithMeanByGroup": {
+            g: round(float(np.average(s.faith, weights=s.commonweight)), 4)
+            for g, s in sorted(known.groupby("group"))
+        },
+        "nationalFaithMean": round(float(np.average(known.faith, weights=known.commonweight)), 4),
+        "collegeShare": round(float(np.average(df.college, weights=weight)), 4),
+    }
     result = {}
     for question, (item, text, match) in ITEMS.items():
         d = df[df[item].isin([1, 2])]
@@ -92,6 +109,7 @@ def main(src, out):
             "weight": "commonweight",
             "respondents": int(len(df)),
         },
+        "predictors": predictors,
         "script": "scripts/research/build-stance-loadings.py",
         "questions": result,
     }
