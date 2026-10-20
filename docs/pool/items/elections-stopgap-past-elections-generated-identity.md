@@ -4,7 +4,7 @@ title: "Stopgaps in past-elections (generated-identity): 1 open"
 area: elections
 kind: stopgap
 priority: 3
-status: blocked
+status: open
 claimed-by:
 pr:
 blocked-on:
@@ -12,6 +12,7 @@ milestone:
 after:
 size: M
 source: "src/core2/data/stopgaps.json, src/core2/past-elections.ts, kind generated-identity"
+claimed-at: 
 ---
 
 **What.** Replace SG-CORE-past-named-only in buildPriorElections (src/core2/past-elections.ts). The prior election's challenger is a name from pastIdentityName with personId null, and a law's sponsor or signer who left before day one and a seat's earlier holders are names too, so none can be met. Register each such person as a RecordedIdentity (name, birth date, party, place, the seat and the vote they ran in) in the same step that writes the PastCandidate, set the candidate's personId to that identity id, and make personOrFillIn (src/core2/state.ts) fill them in with fillInIdentity when the player meets or looks them up, with the party, the seat, the vote count and share, and the year already written as their past facts. Someone who died or moved before day one is recorded as such rather than filled in as alive in town.
