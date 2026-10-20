@@ -5,11 +5,12 @@ area: world
 kind: bug
 priority: 3
 size: S
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/units-place-matches
+pr: #5053
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-18T15:22:42.076Z
 ---
 
 **What.** Counted over the 19,483 incorporated places in the Census population file (`data/research/places/roadmap-r11-population-v2025-*.csv`, geography kind incorporated-place), only 19 have no government unit in the 2025 Census government listing the game reads (`governmentUnitsForPlace` and the township units): eight consolidated or balance governments (Athens-Clarke County and Echols County, Georgia; Greeley County, Kansas; Louisville/Jefferson County, Kentucky; Butte-Silver Bow, Montana; Nashville-Davidson, Tennessee; Urban Honolulu), whose government is the county's, and eleven cities and towns: Howard, Kansas; Tribune, Kansas; Blandville, Keene, Poplar Hills, St. Mary, South Park View and Vicco, Kentucky; Easthampton, Massachusetts; Minnetonka Beach, Minnesota; Plantersville and Poetry, Texas. Manley Hot Springs, Alaska, which started this, is not in the incorporated list at all (the Census file treats it as a statistical place), so the missing town government there follows the Census's own classification. Match the eleven to their governments in the listing, or record why none exists.
