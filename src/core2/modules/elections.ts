@@ -19,6 +19,7 @@ import { campaignParameter } from "../campaign-views";
 import { PARTIES_MODULE_ID, partiesHere, partyTie } from "./parties";
 import { partyName } from "../appointments";
 import fallbackData from "../data/elections/filing-fallbacks.json" with { type: "json" };
+import federalQualifications from "../data/elections/federal-qualifications.json" with { type: "json" };
 import filingTerms from "../../../data/research/elections/candidate-filing-terms.json" with { type: "json" };
 import filingRequirementResearch from "../../../data/research/elections/filing-requirements.json" with { type: "json" };
 import filingOffice from "../../../data/research/elections/filing-office.json" with { type: "json" };
@@ -244,11 +245,33 @@ export function filingRulesFor(
   contest: ContestRow,
   side: FilingSide,
 ): FilingRequirements {
-  const rules = filingRequirements(town(api).stateKey, contest.family, side);
-  if (rules.fallbacks.length) {
+  const stateRules = filingRequirements(
+    town(api).stateKey,
+    contest.family,
+    side,
+  );
+  if (stateRules.fallbacks.length) {
     // stopgapId: SG-GOV-filing-fallbacks
     api.stopgap("SG-GOV-filing-fallbacks");
   }
+  // A Senate or presidential candidate meets the Constitution's age, which a
+  // state's age for its own statewide offices cannot lower.
+  const federal = (
+    federalQualifications.minimumAge as Record<
+      string,
+      { value: number; citation: string }
+    >
+  )[contest.officeId.slice(contest.officeId.lastIndexOf(":") + 1)];
+  const rules =
+    federal && federal.value > stateRules.minimumAge
+      ? {
+          ...stateRules,
+          minimumAge: federal.value,
+          source: [federal.citation, stateRules.source]
+            .filter(Boolean)
+            .join(" ; "),
+        }
+      : stateRules;
   // A side's own deadline is read for the 2026 cycle only; other years'
   // contests keep the deadline from their own calendar.
   return contest.electionDate.startsWith("2026-")

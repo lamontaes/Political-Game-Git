@@ -5,10 +5,10 @@ area: laws
 kind: wiring
 priority: 2
 size: L
-status: claimed
+status: blocked
 claimed-by: claude/political-game-pool-yucp92-n
 pr:
-blocked-on:
+blocked-on: laws-outcome-civil-tech
 source: added with npm run pool -- add
 claimed-at: 2026-10-20T00:47:27.993Z
 ---
