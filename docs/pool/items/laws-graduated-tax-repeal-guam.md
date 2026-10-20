@@ -5,11 +5,12 @@ area: laws
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/graduated-tax-guam
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-20T03:18:33.727Z
 ---
 
 **What.** On main, law-reach-group-b.test.ts fails its graduated income tax case with GOLDEN_PATH_SEED 741e1fe731e2aef3a39de315f1d07c4368754d2d0409b3bbeacc39f43896b2b6 and GOLDEN_PATH_PLACE_KEY territory:GU:inarajan: after the repeal, the people-reach rows for us-policy-positions:fiscal.graduated-income-tax are still open (endedOn null) instead of ended. The town's governments are federal and state only. Find why the repeal does not end the rows there and fix it at the root.
