@@ -5,9 +5,9 @@ area: core
 kind: wiring
 priority: 2
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/web-calibrate
-pr:
+pr: #5654
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-20T10:18:11.482Z
