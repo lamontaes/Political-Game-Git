@@ -14,7 +14,7 @@ import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import { advanceCore } from "../core2/life";
 import { budgetPriorities, governments } from "../core2/modules/budgets";
 import { memberKey } from "../core2/modules/legislature";
-import { officeHost, prepareAct } from "../core2/modules/office-day";
+import { officeHost } from "../core2/modules/office-day";
 import { townSeats } from "../core2/modules/offices";
 import { budgetProposalDue, officeActHandlers } from "../core2/office-day-acts";
 import { coreAPI } from "../core2/state";
