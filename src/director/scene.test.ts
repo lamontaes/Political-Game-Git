@@ -125,7 +125,7 @@ describe(`scenes in ${base.placeMetadata?.placeName} (seed ${seed})`, () => {
     expect(homes).toBeGreaterThan(0);
   });
 
-  it("opens each scene with one narrator paragraph of at least three sentences, before anyone speaks", () => {
+  it("opens each scene with one narrator paragraph of the engine's sentences, before anyone speaks", () => {
     let checked = 0;
     for (const book of director.ledger.people.values())
       for (const entry of book.schedule) {
@@ -134,8 +134,17 @@ describe(`scenes in ${base.placeMetadata?.placeName} (seed ${seed})`, () => {
         if (!scene.narration.length) continue;
         // One paragraph, not two short lines.
         expect(scene.narration).toHaveLength(1);
-        const sentences = scene.narration[0]!.text.match(/[.!?](\s|$)/g);
-        expect(sentences?.length ?? 0).toBeGreaterThanOrEqual(3);
+        const text = scene.narration[0]!.text;
+        const sentences = text.match(/[.!?](\s|$)/g);
+        // The setting and who is there are composed by the engine. The
+        // situation lead after them is hand-written and held (owner, Oct 6,
+        // EN-1 to EN-3; pool item words-scene-situation-leads), so the
+        // paragraph is the engine's sentences alone: whole, filled from the
+        // scene's records, with no placeholder left in it.
+        expect(sentences?.length ?? 0).toBeGreaterThanOrEqual(1);
+        expect(text.trim()).toMatch(/[.!?]$/);
+        expect(text).not.toMatch(/\{\{|\}\}|undefined/);
+        expect(scene.narration[0]!.sourceRecordIds.length).toBeGreaterThan(0);
         checked += 1;
       }
     expect(checked).toBeGreaterThan(0);

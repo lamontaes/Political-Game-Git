@@ -41,9 +41,20 @@ advanceCore(core, "2021-02-15");
 const withoutLeads = { ...SCENE_WORDS, leads: [] };
 const where = `${base.placeMetadata?.placeName}, seed ${seed}`;
 
+// The sentence about what is happening is hand-written in scene-words.json,
+// and the owner ruled (Oct 6, EN-1 to EN-3) that no text the English engine
+// did not write ships. Those leads are held (words-authored-parts-shippable-
+// sweep), so a scene is set by the narrator's mined and composed sentences
+// alone until the engine writes the leads (pool item words-scene-situation-
+// leads). Until then no scene may carry a lead, and every scene still cites
+// its records.
 describe(`situation leads in ${where}`, () => {
-  it("adds a sentence for each staged scene whose type has one, citing records", () => {
-    let withLead = 0;
+  it("adds no lead while every lead is hand-written, and still cites records in each scene", () => {
+    expect(
+      SCENE_WORDS.leads.filter((row) => row.variants.length),
+      "leads with shippable variants",
+    ).toEqual([]);
+    let scenes = 0;
     for (const book of director.ledger.people.values())
       for (const entry of book.schedule) {
         if (!entry.bindings.length) continue;
@@ -55,25 +66,21 @@ describe(`situation leads in ${where}`, () => {
           entry,
           withoutLeads,
         )!;
+        scenes += 1;
         const text = scene.narration.map((line) => line.text).join(" ");
-        const before = plain.narration.map((line) => line.text).join(" ");
-        const has = SCENE_WORDS.leads.some(
-          (row) => row.typeKey === scene.typeKey && row.variants.length,
+        expect(text, scene.momentId).toBe(
+          plain.narration.map((line) => line.text).join(" "),
         );
-        if (text === before) continue;
-        withLead += 1;
-        expect(has, `${where}: ${scene.momentId}`).toBe(true);
         expect(text, scene.momentId).not.toMatch(/\{\{|\}\}|undefined/);
-        expect(text, scene.momentId).not.toMatch(/\b(I|my|me)\b/);
         expect(
           scene.narration.flatMap((line) => line.sourceRecordIds).length,
+          scene.momentId,
         ).toBeGreaterThan(0);
       }
-    // A year-old-world's scenes include at least one with a situation lead.
-    expect(withLead, where).toBeGreaterThan(0);
+    expect(scenes, where).toBeGreaterThan(0);
   }, 600_000);
 
-  it("sets a funeral: who has come to say goodbye, never the person who died", () => {
+  it("stages a funeral for the one who watched, without naming the person who died or showing a hand-written line", () => {
     const watched = [...director.ledger.people.keys()]
       .map((id) => core.people.get(id)!)
       .find((row) => row.alive && [...row.knownIds].length > 2)!;
@@ -106,12 +113,15 @@ describe(`situation leads in ${where}`, () => {
     expect(funeral.length, where).toBeGreaterThan(0);
     for (const scene of funeral) {
       const text = scene.narration.map((line) => line.text).join(" ");
-      expect(text, where).toMatch(/goodbye/);
-      // The sentence about the gathering never names the one who died.
-      const gathering = text
-        .split(/(?<=[.!?])\s/)
-        .find((row) => /goodbye/.test(row))!;
-      expect(gathering, where).not.toContain(dead.givenName);
+      expect(scene.typeKey, where).toBe("funeral");
+      // The scene's own records stand behind it.
+      expect(
+        scene.narration.flatMap((line) => line.sourceRecordIds).length,
+        where,
+      ).toBeGreaterThan(0);
+      // Never the one who died, and no hand-written lead about the gathering.
+      expect(text, where).not.toContain(dead.givenName);
+      expect(text, where).not.toMatch(/goodbye/);
     }
   }, 600_000);
 });
