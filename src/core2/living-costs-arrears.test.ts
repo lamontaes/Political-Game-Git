@@ -12,6 +12,7 @@ import { gameStartDate } from "./game-start";
 import { addDays, makeIsoDate } from "./kernel/dates";
 import { advanceCore } from "./life";
 import { residentsRuntime } from "./modules/residents";
+import { coreAPI } from "./state";
 
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(16).toString("hex");
 
@@ -64,3 +65,46 @@ it("leaves households that earn owing under a tenth of their living costs after 
     setBookkeeping(true);
   }
 }, 600_000);
+
+it("writes off a living cost unpaid past the charge-off age, so no household owes more than a few bills", () => {
+  setBookkeeping(false);
+  try {
+    const draw = drawPlace(seed, "living-costs-write-off");
+    const { core } = buildBenchWorld(draw.seed, gameStartDate(), {
+      twoLevel: true,
+      placeKey: draw.key,
+    });
+    const where = `${draw.key} [${draw.state}], seed ${draw.seed}`;
+    const api = coreAPI(core);
+    const bills = api.parameter("livingCostWriteOffBills");
+    // Eight months: a household with no job and no cash misses eight bills.
+    advanceCore(core, addDays(makeIsoDate(core.date), 240));
+    const rt = residentsRuntime(core)!;
+    let written = 0;
+    let worst = 0;
+    for (const flow of rt.flows.values()) {
+      if (flow.financeKind !== "household.outside-living-costs") continue;
+      if (flow.payerId === flow.residentsId) continue;
+      // Owing never passes the ceiling, whoever the household is.
+      expect(
+        flow.arrearsMinor,
+        `${where}: ${flow.id} owes ${flow.arrearsMinor} of a ${flow.amountMinor} bill`,
+      ).toBeLessThanOrEqual(Math.round(flow.amountMinor * bills) + 1);
+      worst = Math.max(
+        worst,
+        flow.arrearsMinor / Math.max(1, flow.amountMinor),
+      );
+      written += flow.writtenOffMinor ?? 0;
+    }
+    // Not vacuous: someone really went unpaid long enough to be written off.
+    expect(
+      written,
+      `${where}: nothing written off (worst ${worst} bills)`,
+    ).toBeGreaterThan(0);
+    expect(core.cashJournal.totals.grossDebitMinor, where).toBe(
+      core.cashJournal.totals.grossCreditMinor,
+    );
+  } finally {
+    setBookkeeping(true);
+  }
+}, 900_000);
