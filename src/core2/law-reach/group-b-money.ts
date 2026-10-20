@@ -28,6 +28,7 @@ import {
   type TownFacts,
 } from "./group-b-people";
 import { getRow, putRow, rowsOf } from "./group-b-store";
+import { appliedTo, lawApplied, type AppliedTarget } from "./applied";
 import { registerLinePayments } from "../budgets-treasury";
 import tuition from "../data/opening-private-tuition.json" with { type: "json" };
 
@@ -36,6 +37,37 @@ export const source = (api: CoreAPI, citation: string): Source => ({
   citation,
   asOf: api.state.date,
 });
+
+/** The engine id law-applied rows from these payments carry. */
+const APPLIED_ENGINE = "law-reach-group-b-payments";
+
+/**
+ * Record that a payment applied a law to a target, with the month's money.
+ * The money counts once a day: a second pass the same day (another law
+ * re-running the payment) records the target again but adds nothing.
+ */
+export function recordApplied(
+  api: CoreAPI,
+  input: {
+    readonly key: string;
+    readonly lawId: string;
+    readonly targetId: string;
+    readonly target: AppliedTarget;
+    readonly what: string;
+    readonly count?: number;
+    readonly amountMinor?: number;
+  },
+): void {
+  const today = api.state.date;
+  const paidToday = appliedTo(api, input.targetId).some(
+    (r) => r.key === input.key && !r.endedOn && r.lastOn === today,
+  );
+  lawApplied(api, {
+    ...input,
+    engine: APPLIED_ENGINE,
+    amountMinor: paidToday ? 0 : (input.amountMinor ?? 0),
+  });
+}
 
 /** The government at a law's or budget's level, if the town has one there. */
 export function governmentAt(
@@ -107,8 +139,8 @@ export interface ServiceRow {
   readonly byGovernment: Readonly<Record<string, number>>;
 }
 
-/** A budget line's level for the town, across every government that carries it. */
-export function serviceLevel(api: CoreAPI, line: string): ServiceRow {
+/** A budget line's level for the town, across every government that carries it (a pure read). */
+export function lineLevel(api: CoreAPI, line: string): Omit<ServiceRow, "id"> {
   let base = 0;
   let delta = 0;
   const byGovernment: Record<string, number> = {};
@@ -122,14 +154,18 @@ export function serviceLevel(api: CoreAPI, line: string): ServiceRow {
     delta += (now - b) * share;
     if (now !== b) byGovernment[gov.id] = Math.round((now - b) * share);
   }
-  const row: ServiceRow = {
-    id: line,
+  return {
     line,
     baseTownMinor: Math.round(base),
     deltaTownMinor: Math.round(delta),
     level: base > 0 ? (base + delta) / base : 1,
     byGovernment,
   };
+}
+
+/** A budget line's level for the town, kept as a row the line's services read. */
+export function serviceLevel(api: CoreAPI, line: string): ServiceRow {
+  const row: ServiceRow = { id: line, ...lineLevel(api, line) };
   putRow(api, "services", row);
   return row;
 }
@@ -369,8 +405,12 @@ export interface AssistanceTimeLimit {
   readonly lawId: string;
   /** The day the requirement took effect. */
   readonly since: string;
+  /** The policy key the requirement is recorded under. */
+  readonly key: string;
   /** Residents (named or counted) it reaches today, by hours and income. */
   readonly reachedIds: ReadonlySet<string>;
+  /** The people each counted row it reaches stands for. */
+  readonly counts: ReadonlyMap<string, number>;
 }
 
 /** Whole months from one day to another. */
@@ -380,6 +420,40 @@ function monthsBetween(from: string, to: string): number {
       reachParameter("monthsPerYear") +
     (Number(to.slice(5, 7)) - Number(from.slice(5, 7)));
   return to.slice(8, 10) < from.slice(8, 10) ? months - 1 : months;
+}
+
+/**
+ * The work requirement was read for these residents: a named person is a
+ * target of its own; the counted rows are one group whose count is the
+ * people they stand for.
+ */
+function appliedToReached(
+  api: CoreAPI,
+  limit: AssistanceTimeLimit,
+  ids: Iterable<string>,
+  what: string,
+): void {
+  let people = 0;
+  for (const id of ids) {
+    if (api.state.people.has(id))
+      recordApplied(api, {
+        key: limit.key,
+        lawId: limit.lawId,
+        targetId: id,
+        target: "person",
+        what,
+      });
+    else people += limit.counts.get(id) ?? 0;
+  }
+  if (people > 0)
+    recordApplied(api, {
+      key: limit.key,
+      lawId: limit.lawId,
+      targetId: `${lawChain(api).townPlaceId}:assistance-adults-under-work-rule:${what}`,
+      target: "group",
+      what,
+      count: Math.max(1, Math.round(people)),
+    });
 }
 
 /** The months ("YYYY-MM") a person has drawn the benefit under the work requirement. */
@@ -428,6 +502,7 @@ export function timeLimitedNow(
         stoppedOn: today,
       });
   }
+  appliedToReached(api, limit, stopped, "assistance-stopped");
   return stopped;
 }
 
@@ -439,8 +514,9 @@ export function recordDraws(
 ): void {
   if (!limit) return;
   const month = api.state.date.slice(0, 7);
-  for (const id of drawing) {
-    if (!limit.reachedIds.has(id)) continue;
+  const reached = [...drawing].filter((id) => limit.reachedIds.has(id));
+  appliedToReached(api, limit, reached, "assistance-draw-counted");
+  for (const id of reached) {
     const row = getRow<DrawRow>(api, "taken", `draw|${id}`);
     if (row?.months.includes(month)) continue;
     putRow(api, "taken", {
@@ -535,6 +611,7 @@ export function payCoverage(
   api: CoreAPI,
   input: {
     readonly key: string;
+    readonly lawId: string;
     readonly inForce: boolean;
     readonly covered: readonly ResidentFacts[];
   },
@@ -547,6 +624,7 @@ export function payCoverage(
     return { named: new Map(), counted: 0 };
   const town = lawChain(api).townPlaceId;
   const state = governmentAt(api, "state");
+  const federal = governmentAt(api, "federal");
   const want = new Map<string, number>();
   const named = new Map<string, Record<string, number>>();
   let counted = 0;
@@ -555,23 +633,66 @@ export function payCoverage(
       reachParameter("medicaidMonthlyMedicalDollars") *
         reachParameter("centsPerDollar"),
     );
+    // The federal share of Medicaid spending is the match in force (a
+    // percent), paid by the federal treasury; the state pays the rest.
+    const match = lawInForce(api, "medicaid-match");
+    const federalShare = federal
+      ? Math.min(
+          1,
+          Math.max(0, (match.value ?? 0) / reachParameter("percentPerWhole")),
+        )
+      : 0;
+    const split = (total: number, to: string) => {
+      const fromFederal = Math.round(total * federalShare);
+      if (total - fromFederal > 0)
+        want.set(`${state.id}|${to}`, total - fromFederal);
+      if (federal && fromFederal > 0)
+        want.set(`${federal.id}|${to}`, fromFederal);
+      return fromFederal;
+    };
     const residentsOrg = residentsRuntime(core)?.input.accounts.find(
       (a) => a.placeId === town,
     )?.accountId;
     let countedPeople = 0;
+    let federalMinor = 0;
     for (const r of input.covered) {
       if (r.named) {
-        want.set(`${state.id}|${r.id}`, monthly);
+        federalMinor += split(monthly, r.id);
         named.set(r.id, { monthlyMinor: monthly });
+        recordApplied(api, {
+          key: input.key,
+          lawId: input.lawId,
+          targetId: r.id,
+          target: "person",
+          what: "medicaid-coverage-paid",
+          amountMinor: monthly,
+        });
       } else countedPeople += (r.weight ?? 1) * (r.scale ?? 1);
     }
     if (residentsOrg && countedPeople > 0) {
       counted = Math.round(countedPeople);
-      want.set(
-        `${state.id}|${residentsOrg}`,
-        Math.floor(monthly * countedPeople),
-      );
+      const total = Math.floor(monthly * countedPeople);
+      federalMinor += split(total, residentsOrg);
+      recordApplied(api, {
+        key: input.key,
+        lawId: input.lawId,
+        targetId: `${town}:medicaid-covered-adults`,
+        target: "group",
+        what: "medicaid-coverage-paid",
+        count: counted,
+        amountMinor: total,
+      });
     }
+    // The match law is read here, at the moment the federal share is paid.
+    if (federal && match.governing && federalMinor > 0)
+      recordApplied(api, {
+        key: "medicaid-match",
+        lawId: match.governing.id,
+        targetId: federal.id,
+        target: "government",
+        what: "federal-share-of-medicaid-paid",
+        amountMinor: federalMinor,
+      });
   }
   reconcileObligations(api, {
     rowKind: "coverage",
@@ -579,7 +700,7 @@ export function payCoverage(
     want,
     line: "welfareAndMedicaid",
     reasonKey: "law-reach:medicaid-coverage",
-    citation: `Medicaid expansion (${input.key}): the state pays a covered adult's medical spending`,
+    citation: `Medicaid expansion (${input.key}): the state and, at the federal match, the federal government pay a covered adult's medical spending`,
   });
   return { named, counted };
 }
@@ -598,6 +719,7 @@ export function payPreschool(
   api: CoreAPI,
   input: {
     readonly key: string;
+    readonly lawId: string;
     readonly inForce: boolean;
     readonly children: readonly ResidentFacts[];
     readonly residents: readonly ResidentFacts[];
@@ -646,6 +768,14 @@ export function payPreschool(
       const pair = `${state.id}|${head.id}`;
       want.set(pair, (want.get(pair) ?? 0) + monthly);
       named.set(head.id, { monthlyMinor: want.get(pair)! });
+      recordApplied(api, {
+        key: input.key,
+        lawId: input.lawId,
+        targetId: child.householdId,
+        target: "household",
+        what: "preschool-paid",
+        amountMinor: monthly,
+      });
     }
     if (residentsOrg && countedChildren > 0) {
       counted = Math.round(countedChildren);
@@ -653,6 +783,15 @@ export function payPreschool(
         `${state.id}|${residentsOrg}`,
         Math.floor(monthly * countedChildren),
       );
+      recordApplied(api, {
+        key: input.key,
+        lawId: input.lawId,
+        targetId: `${town}:preschool-age-children`,
+        target: "group",
+        what: "preschool-paid",
+        count: counted,
+        amountMinor: Math.floor(monthly * countedChildren),
+      });
     }
   }
   reconcileObligations(api, {
@@ -693,7 +832,11 @@ export function voucherShare(api: CoreAPI): number {
  */
 export function payVouchers(
   api: CoreAPI,
-  input: { readonly key: string; readonly inForce: boolean },
+  input: {
+    readonly key: string;
+    readonly lawId: string;
+    readonly inForce: boolean;
+  },
 ): {
   readonly named: ReadonlyMap<string, Record<string, number>>;
   readonly counted: number;
@@ -719,6 +862,14 @@ export function payVouchers(
       const pair = `${state.id}|${payer}`;
       want.set(pair, (want.get(pair) ?? 0) + amount);
       named.set(payer, { monthlyMinor: want.get(pair)! });
+      recordApplied(api, {
+        key: input.key,
+        lawId: input.lawId,
+        targetId: payer,
+        target: "person",
+        what: "private-tuition-voucher-paid",
+        amountMinor: amount,
+      });
     }
     const rt = residentsRuntime(core);
     const residentsOrg = rt?.input.accounts.find(
@@ -737,9 +888,18 @@ export function payVouchers(
       counted += Object.keys(flow.amountByContract ?? {}).length;
     }
     const amount = Math.floor(countedTuition * share);
-    if (residentsOrg && amount > 0)
+    if (residentsOrg && amount > 0) {
       want.set(`${state.id}|${residentsOrg}`, amount);
-    else counted = 0;
+      recordApplied(api, {
+        key: input.key,
+        lawId: input.lawId,
+        targetId: `${town}:private-tuition-households`,
+        target: "group",
+        what: "private-tuition-voucher-paid",
+        count: counted,
+        amountMinor: amount,
+      });
+    } else counted = 0;
   }
   reconcileObligations(api, {
     rowKind: "voucher",

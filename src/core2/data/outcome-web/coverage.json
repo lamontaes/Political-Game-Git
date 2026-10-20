@@ -130,7 +130,9 @@
     "groundwater-limits-to-irrigation-pumping",
     "transit-service-to-ridership",
     "fix-it-first-to-poor-roads",
-    "poor-roads-to-prices"
+    "poor-roads-to-prices",
+    "schools-spending-to-spending-per-student",
+    "health-spending-to-infant-mortality"
   ],
   "waiting": {
     "police-to-low-level-arrests": {

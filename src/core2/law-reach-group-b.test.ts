@@ -400,7 +400,7 @@ describe("law reach, group B: every policy reaches people through its engine", (
     expectEnded(expand);
   });
 
-  it("Medicaid expansion has the state treasury pay each covered adult's medical spending; the work requirement stops it for those it reaches, and a repeal ends it", () => {
+  it("Medicaid expansion has the state and federal treasuries pay each covered adult's medical spending; the work requirement stops it for those it reaches, and a repeal ends it", () => {
     const expand = Q("health-human-services.expand-medicaid-eligibility");
     const work = Q("health-human-services.medicaid-work-requirement");
     const accounts = api.accounts();
@@ -434,8 +434,12 @@ describe("law reach, group B: every policy reaches people through its engine", (
     ).toBeGreaterThan(0);
     expect(paid.length, `${where} coverage payments`).toBeGreaterThan(0);
     for (const r of namedEligible) {
-      const row = paid.find((p) => p.recipientId === r.id);
-      expect(row?.amountMinor, `${where} ${r.id} covered`).toBe(monthly);
+      // The state and, at the match in force, the federal treasury share it.
+      const shares = paid.filter((p) => p.recipientId === r.id);
+      expect(
+        shares.reduce((n, p) => n + p.amountMinor, 0),
+        `${where} ${r.id} covered`,
+      ).toBe(monthly);
     }
     // The treasury pays it: a month on, a covered adult has received it.
     advanceCore(core, after(api.state.date, 35));

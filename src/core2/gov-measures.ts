@@ -15,6 +15,10 @@
  *   latest decided local race (0 to 1).
  * - `budget.parks-added-pct`: the city's parks line above its Census base this
  *   fiscal year, in percent.
+ * - `budget.schools-added-pct` and `budget.healthAndHospitals-added-pct`: the schools
+ *   and the health and hospitals lines above their base this fiscal year
+ *   (before any act changed them), across every government that carries the
+ *   line, weighted by the town's share, in percent.
  * - `labor.minimum-wage`: the governing minimum wage, dollars an hour.
  * - `labor.minimum-wage-to-median`: that wage over the median hourly pay of
  *   the town's current jobs (0 to about 1).
@@ -32,6 +36,8 @@ import {
 } from "./modules/elections";
 import { VOTING_MODULE_ID, resultOf, type ResultRow } from "./modules/voting";
 import { OFFICES_MODULE_ID, type TermRow } from "./modules/offices";
+import { BUDGET_LINE_MEASURES } from "./outcome-web-model";
+import { lineLevel } from "./law-reach/group-b-money";
 import {
   BUDGETS_MODULE_ID,
   baseBudget,
@@ -46,11 +52,15 @@ export const GOV_MEASURES = [
   "election.incumbent-reelection",
   "voting.local-turnout",
   "budget.parks-added-pct",
+  "budget.schools-added-pct",
+  "budget.healthAndHospitals-added-pct",
   "labor.minimum-wage",
   "labor.minimum-wage-to-median",
   "voting.youth-turnout",
   "voting.party-share",
 ] as const;
+
+const BUDGET_LINE_OF = BUDGET_LINE_MEASURES;
 
 const daysBefore = (date: string, days: number) =>
   new Date(Date.parse(`${date}T00:00:00Z`) - days * 86_400_000)
@@ -178,6 +188,11 @@ export function govMeasure(api: CoreAPI, measure: string): number | null {
       const now = budget.spendingMinor.parks ?? 0;
       return base ? ((now - base) / base) * 100 : null;
     }
+    case "budget.schools-added-pct":
+    case "budget.healthAndHospitals-added-pct": {
+      const level = lineLevel(api, BUDGET_LINE_OF[measure]!);
+      return level.baseTownMinor > 0 ? (level.level - 1) * 100 : null;
+    }
     case "labor.minimum-wage": {
       const now = lawInForce(api, "minimum-wage", date).value;
       return now === null ? null : now / 100;
@@ -252,6 +267,22 @@ export function govMeasureRecord(api: CoreAPI, measure: string): string | null {
     return (
       lawInForce(api, "minimum-wage", api.state.date).governing?.id ?? null
     );
+  if (measure in BUDGET_LINE_OF) {
+    // The budget of the government whose line changed most, else the city's.
+    const level = lineLevel(api, BUDGET_LINE_OF[measure]!);
+    const [changed] = Object.entries(level.byGovernment).sort(
+      (a, b) => Math.abs(b[1]) - Math.abs(a[1]) || a[0].localeCompare(b[0]),
+    );
+    const gov = changed
+      ? governments(api).find((g) => g.id === changed[0])
+      : governments(api).find((g) => g.level === "city");
+    if (!gov) return null;
+    return (
+      budgetsOf(api, gov.id)
+        .filter((b) => b.startsOn <= api.state.date)
+        .at(-1)?.id ?? null
+    );
+  }
   if (measure === "budget.parks-added-pct") {
     if (!api.state.modules.has(BUDGETS_MODULE_ID)) return null;
     const city = governments(api).find((g) => g.level === "city");

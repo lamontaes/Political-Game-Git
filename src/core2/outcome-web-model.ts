@@ -93,6 +93,9 @@ const ENGINE = local.engineMeasures as Readonly<
   >
 >;
 export const LAW_PREFIX = "law:";
+/** Government measures that read a budget line's change, and the line each reads. */
+export const BUDGET_LINE_MEASURES = local.budgetLineMeasures
+  .measures as Readonly<Record<string, string>>;
 /** An index outcome reads 100 where the place began. */
 const INDEX_START = local.indexStart;
 
@@ -142,6 +145,7 @@ export function causeAvailable(measure: string): boolean {
   return (
     isLaw(measure) ||
     measure in ENGINE ||
+    measure in BUDGET_LINE_MEASURES ||
     keptOutcome(measure) ||
     derivedOf(measure) !== null
   );

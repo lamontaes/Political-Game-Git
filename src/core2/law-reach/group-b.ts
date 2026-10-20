@@ -54,12 +54,14 @@ import {
   payCoverage,
   payPreschool,
   payVouchers,
+  recordApplied,
   raiseToSalaryFloor,
   residentsOf,
   scalePayroll,
   serviceLevel,
 } from "./group-b-money";
 import { runFoodAid } from "./group-b-food-aid";
+import { lawNoLongerApplies } from "./applied";
 
 type Mechanic =
   | "records"
@@ -245,11 +247,16 @@ function assistanceTimeLimit(
   const row = questionRow(api, ASSISTANCE_WORK);
   const people = data.policies[ASSISTANCE_WORK]?.people;
   if (!row || !people) return null;
+  const reached = selectResidents(facts, people, stateKey);
   return {
+    key: ASSISTANCE_WORK,
     lawId: row.id,
     since: row.effectiveDate,
-    reachedIds: new Set(
-      selectResidents(facts, people, stateKey).map((r) => r.id),
+    reachedIds: new Set(reached.map((r) => r.id)),
+    counts: new Map(
+      reached
+        .filter((r) => !r.named)
+        .map((r) => [r.id, (r.weight ?? 1) * (r.scale ?? 1)]),
     ),
   };
 }
@@ -272,12 +279,52 @@ function medicaidCovered(
   const people = data.policies[MEDICAID_EXPAND]?.people;
   if (!people) return [];
   const covered = selectResidents(facts, people, stateKey);
+  const workRow = questionRow(api, MEDICAID_WORK);
   const workPeople = data.policies[MEDICAID_WORK]?.people;
-  if (!workPeople || !questionInForce(api, MEDICAID_WORK)) return covered;
+  if (!workPeople || !workRow) return covered;
   const ended = new Set(
     selectResidents(facts, workPeople, stateKey).map((r) => r.id),
   );
+  // The requirement is read here, where coverage is decided: each adult it
+  // ends coverage for is recorded against it, and no longer against the
+  // expansion that covered them.
+  let endedCounted = 0;
+  for (const r of covered) {
+    if (!ended.has(r.id)) continue;
+    if (r.named) {
+      lawNoLongerApplies(api, MEDICAID_EXPAND, r.id);
+      recordApplied(api, {
+        key: MEDICAID_WORK,
+        lawId: workRow.id,
+        targetId: r.id,
+        target: "person",
+        what: "medicaid-coverage-ended",
+      });
+    } else endedCounted += (r.weight ?? 1) * (r.scale ?? 1);
+  }
+  if (endedCounted > 0)
+    recordApplied(api, {
+      key: MEDICAID_WORK,
+      lawId: workRow.id,
+      targetId: `${lawChain(api).townPlaceId}:medicaid-adults-over-work-rule`,
+      target: "group",
+      what: "medicaid-coverage-ended",
+      count: Math.round(endedCounted),
+    });
   return covered.filter((r) => !ended.has(r.id));
+}
+
+/** The expansion's payment again, after a law it reads (the work requirement, the match) changed. */
+function rerunMedicaid(api: CoreAPI): void {
+  for (const row of rowsOf<ActiveRow>(api, "active"))
+    if (row.id === MEDICAID_EXPAND)
+      runPolicy(api, MEDICAID_EXPAND, {
+        lawId: row.lawId,
+        level: row.level,
+        inForce: questionInForce(api, MEDICAID_EXPAND),
+        enacting: questionInForce(api, MEDICAID_EXPAND),
+        value: lawRow(api, row.lawId)?.value ?? null,
+      });
 }
 
 /** Teachers the salary floor covers: those the town's public school district employs. */
@@ -492,14 +539,17 @@ function runPolicy(
     case "assistance-time-limit":
       // The welfare line's benefit reads this law when it picks who is paid;
       // run that line again now so a change takes hold today.
-      for (const row of rowsOf<ActiveRow>(api, "active"))
+      for (const row of rowsOf<ActiveRow>(api, "active")) {
         if (row.id === "budget-line:welfareAndMedicaid")
           runBudgetLine(api, "welfareAndMedicaid", row.lawId);
+        // So does the baseline food benefit.
+        if (row.id === FOOD_AID_ACTIVE) payFoodAid(api);
+      }
       return;
     case "school-voucher": {
       // The state treasury pays its share of the tuition the town's
       // households pay the private school; the records are the households paid.
-      const paid = payVouchers(api, { key, inForce });
+      const paid = payVouchers(api, { key, lawId: input.lawId, inForce });
       const heads = facts.residents.filter(
         (r) => r.named && paid.named.has(r.id),
       );
@@ -525,6 +575,7 @@ function runPolicy(
     case "medicaid-coverage": {
       const paid = payCoverage(api, {
         key,
+        lawId: input.lawId,
         inForce,
         covered: inForce ? medicaidCovered(api, facts, chain.stateKey) : [],
       });
@@ -558,6 +609,7 @@ function runPolicy(
           : [];
       const paid = payPreschool(api, {
         key,
+        lawId: input.lawId,
         inForce,
         children,
         residents: facts.residents,
@@ -589,16 +641,7 @@ function runPolicy(
       return; // The housing assessment reads the cap through budgets when billing.
     case "records":
       // The expansion's payment reads this requirement; run it again now.
-      if (key === MEDICAID_WORK)
-        for (const row of rowsOf<ActiveRow>(api, "active"))
-          if (row.id === MEDICAID_EXPAND)
-            runPolicy(api, MEDICAID_EXPAND, {
-              lawId: row.lawId,
-              level: row.level,
-              inForce: questionInForce(api, MEDICAID_EXPAND),
-              enacting: questionInForce(api, MEDICAID_EXPAND),
-              value: lawRow(api, row.lawId)?.value ?? null,
-            });
+      if (key === MEDICAID_WORK) rerunMedicaid(api);
       if (key === "sales-tax") {
         const answer = lawInForce(api, "sales-tax");
         terms.ratePercent = answer.value ?? 0;
@@ -776,6 +819,11 @@ export function registerGroupB(): void {
   if (registered) return;
   registered = true;
   setReachReview(review);
+  // The federal share of Medicaid is paid by the expansion's payment.
+  registerPolicyHandler("medicaid-match", (api) => {
+    forgetTownFacts(api);
+    rerunMedicaid(api);
+  });
   registerPolicyHandler("snap-maximum", (api) => {
     forgetTownFacts(api);
     setActive(

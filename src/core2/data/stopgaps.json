@@ -1644,7 +1644,7 @@
     "kind": "missing-engine",
     "file": "src/core2/data/laws/reach-group-b.json",
     "line": 73,
-    "whatItFakes": "Medicaid expansion pays each covered adult the average medical spending (BLS CEX drugs plus medical supplies) from the state treasury, and its work requirement stops that for the adults it reaches; there are no itemized medical bills or health plans for the payment to settle.",
+    "whatItFakes": "Medicaid expansion pays each covered adult the average medical spending (BLS CEX drugs plus medical supplies), the federal treasury paying the Medicaid match in force and the state treasury the rest, and its work requirement stops that for the adults it reaches; there are no itemized medical bills or health plans for the payment to settle.",
     "why": "The core has no itemized medical bills or health plans for people; the payment is the average spending, not a bill.",
     "addedBy": "OPUS-GOV (sub-agent B)",
     "addedAt": "2026-10-12",
