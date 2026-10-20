@@ -17,6 +17,7 @@ import { filingClerkFor } from "../core2/modules/filing-clerk";
 import { retellingsOf, SPEECH_MODULE_ID } from "../core2/modules/speech";
 import { askToVolunteer, campaignFor } from "../core2/modules/campaigns";
 import { resultOf } from "../core2/modules/voting";
+import { composeScene } from "./scene";
 import { coreAPI } from "../core2/state";
 
 // A race won or lost is a scene for the candidate (owner, Oct 15): the night
@@ -110,6 +111,18 @@ it(`a candidate's night of the count is a won or lost scene citing the result, i
       (asked.get(filing.id) ?? []).filter(
         (id) => core.people.get(id)?.alive && id !== filing.personId,
       ),
+    );
+    // The night's words: a victory for the winner and a concession for the
+    // loser, citing the result record the scene rests on.
+    const staged = composeScene(core, director, filing.personId, entry);
+    expect(
+      staged?.speech,
+      `${filing.personId} ${won ? "won" : "lost"} ${filing.contestId}: no words`,
+    ).toBeDefined();
+    expect(staged!.speech!.speakerId).toBe(filing.personId);
+    expect(staged!.speech!.text.length).toBeGreaterThan(3);
+    expect(staged!.speech!.sourceRecordIds).toContain(
+      `election-result:${filing.contestId}`,
     );
     stated.push(
       `${filing.personId} ${won ? "won" : "lost"} ${filing.contestId} (${scene.setting.kind} ${scene.setting.recordId}; supporters ${supporters.length}, family ${family.length})`,

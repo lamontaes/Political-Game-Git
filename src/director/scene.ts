@@ -382,6 +382,32 @@ export function composeScene(
         speakerId,
       };
   }
+  // The night of the count: the winner claims it and the loser concedes, in
+  // the words of those registers, citing the election's result record.
+  if (binding.typeKey === "race-won" || binding.typeKey === "race-lost") {
+    const speakerId = binding.roles.find((row) => row.role === "candidate")
+      ?.personIds[zero];
+    const winnerId = core.durableLog.get(moment.causeId)?.facts?.winnerId;
+    const api = coreAPI(core as CoreState);
+    const said = speakerId
+      ? wordVenueSpeech(api, {
+          speakerId,
+          venue: binding.typeKey === "race-won" ? "victory" : "concession",
+          recordIds: [moment.causeId],
+          ...(binding.typeKey === "race-lost" &&
+          winnerId &&
+          core.people.has(winnerId as PersonId)
+            ? { opponentId: winnerId }
+            : {}),
+        })
+      : null;
+    if (said && speakerId)
+      speech = {
+        text: said.text,
+        sourceRecordIds: said.sourceRecordIds,
+        speakerId,
+      };
+  }
   return {
     momentId: moment.id,
     typeKey: binding.typeKey,
