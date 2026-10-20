@@ -33,7 +33,7 @@ describe("the release event", () => {
   it("waits for a candidate still validating, never cancels one", () => {
     // Per job, not per workflow: a newer push waits behind building,
     // validation, publishing and packaging; GitHub keeps only the newest
-    // pending run, so nothing is cancelled and every run finishes.
+    // pending run, so nothing is canceled and every run finishes.
     expect(workflow).not.toMatch(/^concurrency:/m);
     for (const [name, next] of [
       ["build_candidate", "validate_candidate"],

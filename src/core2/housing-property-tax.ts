@@ -14,7 +14,6 @@
 import taxData from "./data/housing/property-tax.json" with { type: "json" };
 import { countedPayment } from "./counted-money";
 import type { ModuleTable } from "./module-state";
-import { stopgap } from "./stopgaps";
 import { transferCash } from "./world-transfer";
 import type { CoreAPI, CoreState, Source } from "./types";
 
@@ -62,10 +61,53 @@ export function stateEffectiveRate(usps: string): number {
   return RATES[usps] ?? taxData.national;
 }
 
+/** One bill date: a day of the month, the month's last day, or the nth weekday (1 = Monday). */
+export type PropertyTaxDueDate =
+  | { readonly month: number; readonly day: number | "last" }
+  | { readonly month: number; readonly nth: number; readonly weekday: number };
+
+export interface PropertyTaxDueDates {
+  readonly installments: number;
+  readonly dueDates: readonly PropertyTaxDueDate[];
+  /** Counties or towns set their own dates; these are the most common pattern. */
+  readonly setLocally: boolean;
+  readonly tag: "SOURCED" | "ESTIMATED";
+  readonly estimatedFrom: string;
+}
+
+const DUE_DATES = taxData.dueDates.byState as unknown as Record<
+  string,
+  PropertyTaxDueDates
+>;
+
+/** When a place's property tax is billed: its installments and due dates, from its state's row. */
+export function propertyTaxDueDates(usps: string): PropertyTaxDueDates {
+  const row = DUE_DATES[usps];
+  if (!row) throw new Error(`No property-tax due dates for ${usps}.`);
+  return row;
+}
+
+/**
+ * The property tax rate in force where owners are billed, as a share of home
+ * value, and the law row it stands on; none until a government's rate is
+ * registered (the state average the engine falls back on is not a rate in force).
+ */
+export function propertyTaxRateInForce(
+  api: CoreAPI,
+  placeId: string,
+): { share: number; recordId: string | null } | null {
+  // The rate in force is the town's law; other places are not billed by it.
+  if (api.state.placeMetadata?.housingTown !== placeId) return null;
+  const registered = termsSource?.(api, placeId);
+  return registered
+    ? { share: registered.rate, recordId: registered.lawRowId ?? null }
+    : null;
+}
+
 function terms(api: CoreAPI, placeId: string): PropertyTaxTerms {
   const registered = termsSource?.(api, placeId);
   if (registered) return registered;
-  stopgap("SG-WORLD-property-tax-rate");
+  api.stopgap("SG-WORLD-property-tax-rate");
   return {
     rate: stateEffectiveRate(api.state.placeMetadata?.housingState ?? ""),
     source: {
@@ -101,7 +143,7 @@ export function billPropertyTax(
     year = Number(c.date.slice(0, 4)),
     months = api.parameter("macroMonthsPerYear");
   // Monthly, as escrow pays it; a county's own due dates (once or twice a year) come with its law.
-  stopgap("SG-WORLD-property-tax-monthly");
+  api.stopgap("SG-WORLD-property-tax-monthly");
   const owedRow = (id: string) =>
     arrears.get(ARREARS_PREFIX + id) as unknown as
       PropertyTaxArrearsRow | undefined;

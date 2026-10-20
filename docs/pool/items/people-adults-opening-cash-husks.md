@@ -5,13 +5,14 @@ area: people
 kind: bug
 priority: 1
 size: M
-status: open
-claimed-by:
-pr:
+status: done
+claimed-by: claude/adults-opening-cash
+pr: #5140
 after:
 blocked-on:
 milestone:
 source: PR #4309 (1,002 of 1,289 adults with no cash); acting CTO ruling, Oct 19
+claimed-at: 2026-10-19T20:05:29.273Z
 ---
 
 **What.** At the opening most adults carry no cash and no accounts ("husks"), so campaign-day fundraising, rent and purchases read zeros wherever they touch those people. PR #4309 counted 1,002 of 1,289 adults in a drawn place with no cash at all. Every adult, full or counted, opens with cash and accounts estimated from the place's income distribution and their household's record, so the money engines read a real balance, not a blank.
@@ -23,3 +24,5 @@ source: PR #4309 (1,002 of 1,289 adults with no cash); acting CTO ruling, Oct 19
 **Files.** `src/core2/opening-finance.ts`, `src/core2/opening-income.ts`, `src/core2/modules/residents.ts` (see `opening-resident-cash.test.ts`), `src/core2/data/opening-finance.json`.
 
 **Notes.** From PR #4309's audit of adults with no cash; the acting CTO ruled on Oct 19 that this is a defect for the pool, not a board section.
+
+Oct 20: PR #5140 merged to main: every adult who opens with no cash is explained and the residents' zeros sit inside the survey band.
