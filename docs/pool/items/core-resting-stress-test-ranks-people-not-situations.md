@@ -5,10 +5,11 @@ area: core
 kind: bug
 priority: 3
 size: S
-status: blocked
-claimed-by: claude/resting-stress-test
+status: open
+claimed-by:
 pr:
-blocked-on: people-resting-stress-test-flaky
+blocked-on:
+after: people-resting-stress-test-flaky
 source: added with npm run pool -- add
 claimed-at: 2026-10-20T00:23:27.105Z
 ---
@@ -22,3 +23,5 @@ claimed-at: 2026-10-20T00:23:27.105Z
 **Files.** TODO
 
 **Notes.** TODO
+
+Oct 20: Switched from blocked to the automatic after: gate on people-resting-stress-test-flaky, so it opens by itself the moment those items are done.
