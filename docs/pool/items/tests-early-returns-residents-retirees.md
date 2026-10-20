@@ -5,12 +5,12 @@ area: core
 kind: cleanup
 priority: 3
 size: S
-status: open
-claimed-by:
+status: in-pr
+claimed-by: claude/tests-early-returns-residents-retirees
 pr: #5037
 blocked-on:
 source: added with npm run pool -- add
-claimed-at:
+claimed-at: 2026-10-20T01:35:51.388Z
 ---
 
 **What.** Generated-world tests can pass without checking their claim when their opening lacks a retiree, an earlier payday, an eligible campaign or another required record. PR #5037 replaces eleven such early returns with bounded searches for an eligible opening or assertions proving the negative case. Its residents test conflicts with current main, so integrate the existing branch with a normal merge and preserve both sets of assertions. Finish this repair on that branch rather than starting a duplicate implementation.

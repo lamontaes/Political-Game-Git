@@ -2391,6 +2391,29 @@ const sheets = {
         );
       root.append(home);
     }
+    if (bank?.month)
+      root.append(
+        el(
+          "section",
+          { className: "money-month" },
+          el("h3", { textContent: `${labels.lastMonth} · ${bank.month.date}` }),
+          row(labels.monthHousing, dollars(bank.month.housingMinor)),
+          row(labels.monthEveryday, dollars(bank.month.everydayMinor)),
+          row(labels.monthPaid, dollars(bank.month.paidMinor)),
+          row(labels.monthUnpaid, dollars(bank.month.unpaidMinor)),
+          ...(bank.loanPayments?.length
+            ? [
+                el("h3", { textContent: labels.loanPayments }),
+                ...bank.loanPayments.map((payment) =>
+                  row(
+                    payment.date,
+                    `${dollars(payment.paidMinor)} ${labels.loanPaid} · ${dollars(payment.dueMinor)} ${labels.loanDue}`,
+                  ),
+                ),
+              ]
+            : []),
+        ),
+      );
     if (bank)
       root.append(
         el(
@@ -2615,6 +2638,17 @@ const sheets = {
             .map(([k, n]) => `${k} ${n}`)
             .join(" · "),
         ),
+        race.places.length
+          ? el(
+              "div",
+              {},
+              el("b", { textContent: `${labels.wonIn} ` }),
+              race.places
+                .slice(0, 6)
+                .map((p) => `${p.name} ${p.leader ?? ""} · ${number(p.cast)}`)
+                .join(" · "),
+            )
+          : "",
         race.ballot
           ? el(
               "div",
