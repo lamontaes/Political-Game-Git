@@ -5,12 +5,12 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: in-pr
+claimed-by: claude/core-speed-pair-key
 pr: #5413
 blocked-on:
 source: added with npm run pool -- add
-claimed-at:
+claimed-at: 2026-10-20T20:20:54.014Z
 ---
 
 **What.** An allocation profile of a played year in Discovery Harbor, Hawaii (seed m7a) charges the sort calls in modules/people.ts 120 MB, mostly [a, b].sort().join(':') building a relationship key for every candidate pair every day, and the same pattern sits in state.ts, free-block.ts and others. A pair key is the smaller id, a colon, the larger id; comparing two strings does that with no array.

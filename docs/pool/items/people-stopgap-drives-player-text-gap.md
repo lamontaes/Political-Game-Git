@@ -4,13 +4,13 @@ title: "Stopgaps in drives (player-text-gap): 1 open"
 area: people
 kind: stopgap
 priority: 3
-status: in-pr
-claimed-by: claude/association-names
+status: open
+claimed-by:
 pr: #5287
 blocked-on:
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/modules/drives.ts, kind player-text-gap"
-claimed-at: 2026-10-19T23:42:15.677Z
+claimed-at:
 ---
 
 **What.** Replace or clear the 1 open player-text-gap stopgap row(s) in src/core2/modules/drives.ts: SG-P10-group-name-key. Each fake is replaced by the mechanic, or the feature that needs it is deleted.
@@ -22,3 +22,5 @@ claimed-at: 2026-10-19T23:42:15.677Z
 **Files.** src/core2/modules/drives.ts
 
 **Notes.** First row: A founded cause group carries a structured key in its name field instead of a name.
+
+Sent back 2026-10-20 from PR #5287 (branch claude/association-names): data/english/parts/association-names.json adds eight origin authored entries with shippable true. The morning check refuses authored pieces marked shippable before grading. Keep them held until graded, and make the release claim accurately reflect what can ship; this pool-session change also edits Words-owned src/english, src/director and data/english paths, which must be owned by the Words session.; finish on that branch, merge main into it first.
