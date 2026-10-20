@@ -16,5 +16,7 @@
     "source": "BLS ATUS 2025 Table 3 (src/core2/data/time-use-reference.json): average hours per diary day by age for the activities the game does not model, personal care beyond the sleep the work schedule already reserves, eating and drinking, household work, shopping, care for people outside the home, education, phone and mail, and other. ATUS counts each activity's travel within it."
   },
   "flexibleEffects": ["recover"],
+  "oncePerPlanEffects": ["share-drive"],
+  "oncePerPlanNote": "Telling a neighbor about a cause is one conversation: a plan that spans several days offers it once, not on every day, and the activation after it sees who has been told.",
   "flexibleNote": "Leisure fills what is left of the day up to its ATUS length, so a shorter evening holds a shorter rest rather than none."
 }
