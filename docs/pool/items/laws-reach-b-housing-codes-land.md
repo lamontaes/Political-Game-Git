@@ -5,7 +5,7 @@ area: laws
 kind: stopgap
 priority: 3
 size: M
-status: in-pr
+status: done
 claimed-by: claude/housing-codes-land
 pr: #5457
 blocked-on: the housing engine: land parcels with zoning and a building code that sets new-construction cost and fuel choice; neither exists
