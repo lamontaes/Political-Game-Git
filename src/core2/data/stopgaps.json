@@ -2511,11 +2511,11 @@
     "file": "src/core2/modules/credit.ts",
     "line": 399,
     "whatItFakes": "A business with no recorded owner (a public employer, an ownerless landlord) applies for a line whenever its cash is below a few months of payroll; owned businesses' owners decide.",
-    "why": "Businesses have no recorded owners until businesses growing (M1-08).",
+    "why": "Businesses have no recorded owners until businesses growing (M1-08). Resolved Oct 19, 2026: a firm with no recorded owner is run by its best-paid full worker, who weighs the same reasons as an owner; with no full person, its counted people's summed pulls decide (modules/credit.ts).",
     "addedBy": "OPUS-WORLD",
     "addedAt": "2026-10-12",
     "replacement": "Those organizations' own deciders (a board, a public budget) choose whether to borrow.",
-    "status": "open"
+    "status": "resolved"
   },
   {
     "id": "SG-WORLD-credit-bank-equity-only",
