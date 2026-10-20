@@ -64,7 +64,7 @@
     "citation": "How many policy questions a runner states a position on when filing: the ones where their own views are strongest. Local candidate questionnaires and campaign sites typically lead with two to five issues (Ballotpedia Candidate Connection surveys). Spread 2 to 5."
   },
   "candidacyStandingCircle": {
-    "value": 50,
+    "value": 25,
     "tag": "TUNABLE",
     "citation": "The number of people who know someone at which their standing in town counts in full. Being asked or encouraged by people one knows is among the strongest spurs to run (Lawless and Fox 2010, It Still Takes a Candidate, ch. 5); a local campaign's first volunteers and signers come from that circle. Spread 25 to 150.",
     "stopgapId": "SG-P15-candidacy-weights"
