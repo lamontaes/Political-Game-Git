@@ -44,11 +44,16 @@
     "budget-line:administration": {
       "employers": "cityGovernment",
       "levels": ["city", "county"]
+    },
+    "budget-line:schools": {
+      "employers": "schoolEmployers",
+      "levels": ["city", "county", "state"]
     }
   },
   "extraSelectors": {
     "fireEmployers": ["service:fire"],
-    "correctionsEmployers": ["service:corrections", "service:jail"]
+    "correctionsEmployers": ["service:corrections", "service:jail"],
+    "schoolEmployers": ["service:school"]
   },
   "policies": {
     "minimum-wage": {
@@ -485,88 +490,21 @@
     },
     "us-policy-positions:justice-public-safety.civilian-oversight-of-police": {
       "source": "Civilian police oversight boards (National Association for Civilian Oversight of Law Enforcement, 2021).",
-      "mechanic": "none",
-      "reaches": [
-        {
-          "id": "officers",
-          "target": "staff",
-          "select": {
-            "group": "police"
-          },
-          "kind": "rule",
-          "what": "has complaints against them reviewed by a civilian board",
-          "enforcer": "the civilian oversight board",
-          "penalty": "discipline the board recommends"
-        },
-        {
-          "id": "department",
-          "target": "organizations",
-          "select": {
-            "group": "police"
-          },
-          "kind": "compliance",
-          "what": "must give its records to the civilian oversight board",
-          "enforcer": "the civilian oversight board",
-          "penalty": "a subpoena from the board"
-        }
-      ],
-      "stopgapId": "SG-GOV-REACH-A-police-oversight"
+      "mechanic": "public-safety",
+      "reaches": [],
+      "note": "Applied where the public-safety engine reads the law (src/core2/public-safety.ts); the engine records each application with lawApplied."
     },
     "us-policy-positions:justice-public-safety.partner-with-federal-immigration-enforcement": {
       "source": "Section 287(g) agreements between local police and Immigration and Customs Enforcement (ICE, Delegation of Immigration Authority, 2025).",
-      "mechanic": "none",
-      "reaches": [
-        {
-          "id": "department",
-          "target": "organizations",
-          "select": {
-            "group": "police"
-          },
-          "kind": "compliance",
-          "what": "must hold people for immigration agents when asked",
-          "enforcer": "U.S. Immigration and Customs Enforcement",
-          "penalty": "loss of the partnership agreement"
-        },
-        {
-          "id": "noncitizens",
-          "target": "people",
-          "select": {
-            "ageFrom": "adultAge",
-            "noncitizen": true
-          },
-          "kind": "rule",
-          "what": "may be held by local police for immigration agents",
-          "enforcer": "the police department",
-          "penalty": "detention and removal proceedings"
-        }
-      ]
+      "mechanic": "public-safety",
+      "reaches": [],
+      "note": "Applied where the public-safety engine reads the law (src/core2/public-safety.ts); the engine records each application with lawApplied."
     },
     "us-policy-positions:justice-public-safety.end-cash-bail": {
       "source": "Laws ending money bail (Illinois SAFE-T Act pretrial provisions, 2023; New Jersey Criminal Justice Reform Act, 2017).",
-      "mechanic": "none",
-      "stopgapId": "SG-GOV-REACH-A-pretrial",
-      "reaches": [
-        {
-          "id": "adults",
-          "target": "people",
-          "select": {
-            "ageFrom": "adultAge"
-          },
-          "kind": "right",
-          "what": "may not be held before trial for being unable to pay bail",
-          "enforcer": "the court",
-          "penalty": "release from unlawful detention"
-        },
-        {
-          "id": "pretrial",
-          "target": "estimated",
-          "share": "pretrialJailShare",
-          "kind": "right",
-          "what": "is released before trial without paying bail",
-          "enforcer": "the court",
-          "penalty": "release from unlawful detention"
-        }
-      ]
+      "mechanic": "public-safety",
+      "reaches": [],
+      "note": "Applied where the public-safety engine reads the law (src/core2/public-safety.ts); the engine records each application with lawApplied."
     },
     "us-policy-positions:justice-public-safety.restore-voting-after-sentence": {
       "source": "Laws restoring the vote on completing a sentence (The Sentencing Project, Locked Out 2024).",
@@ -586,130 +524,33 @@
     },
     "us-policy-positions:justice-public-safety.raise-juvenile-court-age": {
       "source": "Raise-the-age laws sending young adults' cases to juvenile court (Vermont Act 201 of 2018; National Conference of State Legislatures, Juvenile Age of Jurisdiction, 2024).",
-      "mechanic": "none",
-      "reaches": [
-        {
-          "id": "young-adults",
-          "target": "people",
-          "select": {
-            "ageFrom": "adultAge",
-            "ageBelow": "juvenileCourtAgeBelow"
-          },
-          "kind": "rule",
-          "what": "has a criminal case heard in juvenile court",
-          "enforcer": "the juvenile court",
-          "penalty": "none: a change of court"
-        },
-        {
-          "id": "department",
-          "target": "organizations",
-          "select": {
-            "group": "police"
-          },
-          "kind": "compliance",
-          "what": "must send young adults' cases under the new age to juvenile court",
-          "enforcer": "the juvenile court",
-          "penalty": "charges dismissed from the wrong court"
-        }
-      ],
-      "stopgapId": "SG-GOV-REACH-A-juvenile-age"
+      "mechanic": "public-safety",
+      "reaches": [],
+      "note": "Applied where the public-safety engine reads the law (src/core2/public-safety.ts); the engine records each application with lawApplied."
     },
     "us-policy-positions:justice-public-safety.child-access-prevention": {
       "source": "Child access prevention laws on storing guns (Giffords Law Center, Child Access Prevention, 2024).",
-      "mechanic": "none",
-      "reaches": [
-        {
-          "id": "parents",
-          "target": "people",
-          "select": {
-            "ageFrom": "adultAge",
-            "withChildBelow": "childAgeBelow",
-            "firearmHousehold": true
-          },
-          "kind": "compliance",
-          "what": "must lock up any gun where a child could reach it",
-          "enforcer": "police department",
-          "penalty": "misdemeanor if a child gets the gun"
-        }
-      ]
+      "mechanic": "public-safety",
+      "reaches": [],
+      "note": "Applied where the public-safety engine reads the law (src/core2/public-safety.ts); the engine records each application with lawApplied."
     },
     "us-policy-positions:justice-public-safety.permit-to-carry-concealed": {
       "source": "Concealed carry permit laws (Giffords Law Center, Concealed Carry, 2024).",
-      "mechanic": "none",
-      "reaches": [
-        {
-          "id": "adults",
-          "target": "people",
-          "select": {
-            "ageFrom": "concealedCarryAge"
-          },
-          "kind": "eligibility",
-          "what": "must hold a permit to carry a concealed handgun",
-          "enforcer": "police department",
-          "penalty": "misdemeanor for carrying without a permit"
-        },
-        {
-          "id": "young-adults",
-          "target": "people",
-          "select": {
-            "ageFrom": "adultAge",
-            "ageBelow": "concealedCarryAge"
-          },
-          "kind": "eligibility",
-          "what": "may not get a permit to carry a concealed handgun",
-          "enforcer": "police department",
-          "penalty": "misdemeanor for carrying without a permit"
-        }
-      ],
-      "stopgapId": "SG-GOV-REACH-A-carry-permit"
+      "mechanic": "public-safety",
+      "reaches": [],
+      "note": "Applied where the public-safety engine reads the law (src/core2/public-safety.ts); the engine records each application with lawApplied."
     },
     "us-policy-positions:justice-public-safety.raise-handgun-purchase-age": {
       "source": "Laws setting a handgun purchase age of 21 (18 U.S.C. 922(b)(1); Giffords Law Center, Minimum Age, 2024).",
-      "mechanic": "none",
-      "reaches": [
-        {
-          "id": "dealers",
-          "target": "organizations",
-          "select": {
-            "group": "retailers"
-          },
-          "kind": "compliance",
-          "what": "may not sell a handgun to anyone under 21",
-          "enforcer": "police department",
-          "penalty": "misdemeanor for the seller"
-        },
-        {
-          "id": "counted-young-adults",
-          "target": "counted",
-          "select": {
-            "ageFrom": "adultAge",
-            "ageBelow": "handgunPurchaseAge"
-          },
-          "kind": "eligibility",
-          "what": "may not buy a handgun from a licensed dealer",
-          "enforcer": "police department",
-          "penalty": "misdemeanor for the seller"
-        }
-      ],
-      "stopgapId": "SG-GOV-REACH-A-handgun-age"
+      "mechanic": "public-safety",
+      "reaches": [],
+      "note": "Applied where the public-safety engine reads the law (src/core2/public-safety.ts); the engine records each application with lawApplied."
     },
     "us-policy-positions:justice-public-safety.stand-your-ground": {
       "source": "Stand-your-ground laws removing the duty to retreat (Giffords Law Center, Stand Your Ground, 2024).",
-      "mechanic": "none",
-      "reaches": [
-        {
-          "id": "adults",
-          "target": "people",
-          "select": {
-            "ageFrom": "adultAge"
-          },
-          "kind": "right",
-          "what": "has no duty to retreat before using force in self-defense",
-          "enforcer": "the court",
-          "penalty": "none: a defense at trial"
-        }
-      ],
-      "stopgapId": "SG-GOV-REACH-A-stand-your-ground"
+      "mechanic": "public-safety",
+      "reaches": [],
+      "note": "Applied where the public-safety engine reads the law (src/core2/public-safety.ts); the engine records each application with lawApplied."
     },
     "us-policy-positions:civil-family-community.ban-discrimination-in-housing-and-work": {
       "source": "Local human rights ordinances (National League of Cities summaries).",
@@ -1051,6 +892,36 @@
           "what": "may serve only a limited number of years in the seat",
           "enforcer": "the board of elections",
           "penalty": "kept off the ballot"
+        }
+      ]
+    },
+    "budget-line:schools": {
+      "source": "School spending pays for teachers and school staff (National Center for Education Statistics, Digest of Education Statistics 2022, Table 208.20 pupil/teacher ratios; Census Bureau, Annual Survey of Public Employment and Payroll, 2022).",
+      "mechanic": "staffing",
+      "reaches": [
+        {
+          "id": "positions",
+          "target": "mechanic",
+          "kind": "service",
+          "what": "is funded for the positions its budget line pays for",
+          "enforcer": "the finance office",
+          "penalty": "none: an appropriation"
+        },
+        {
+          "id": "hired",
+          "target": "mechanic",
+          "kind": "job",
+          "what": "was hired at the public schools with new budget money",
+          "enforcer": "the finance office",
+          "penalty": "none: a job"
+        },
+        {
+          "id": "laid-off",
+          "target": "mechanic",
+          "kind": "job",
+          "what": "was laid off from the public schools when its budget was cut",
+          "enforcer": "the finance office",
+          "penalty": "none: a job lost"
         }
       ]
     }
