@@ -1,6 +1,6 @@
 ---
 id: core-counted-deaths-opening-small-town-red
-title: "counted-deaths-opening.test fails in a small town where 2 counted people died against 13.4 expected (Wiley Ford, West Virginia, seed 277237f6cee1bc958164636cebb4861256472194c83f59c9a78c759bc359320d); the seed shown was the derived place seed, so the failure has not been reproduced"
+title: "counted-deaths-opening.test fails in about a quarter of drawn towns that expect 10 to 15 counted deaths: its floor of half the tables is inside the spread of a small count"
 area: core
 kind: bug
 priority: 3
@@ -21,4 +21,4 @@ claimed-at:
 
 **Files.** TODO
 
-**Notes.** Seen once in a run of src/core2/counted: 2 counted deaths against 13.4 expected in Wiley Ford, West Virginia. The test printed the place seed, not the GOLDEN_PATH_SEED that drew it, so a rerun with the printed value drew a different place and passed twice; that does not show the failure is random. The test now prints the seed that draws it. If it fails again, the 0.5 floor against the tables' expected deaths in a town expecting 13 may be too tight for four months, or counted deaths may lag in some towns.
+**Notes.** Replayable: GOLDEN_PATH_SEED d4 (Naco, Arizona: 4 died, 13.4 expected) and d7 (Le Roy, Minnesota: 3 died, 12.7 expected) failed; 6 of 8 seeds passed. Measured Oct 20 over 14 drawn places with scripts/core2-year/deaths-ratio.ts: in towns expecting 49 to 173 deaths the ratio of deaths to the tables' expected is steady at 0.60 to 0.71 (deaths lag onsets), so a count near 13 has a mean near 8.5 and falls under a flat 6.7 about a quarter of the time. The floor is now half the expected less two standard deviations of that count, and at least one death, so the original bug (nobody dies for months) still fails it. Fixed in the PR that carries this note.
