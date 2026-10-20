@@ -4,10 +4,10 @@ title: "Stopgaps in macro-model (estimated-series): 1 open"
 area: world
 kind: stopgap
 priority: 3
-status: open
+status: blocked
 claimed-by:
 pr:
-blocked-on:
+blocked-on: research data: the row's replacement needs sourced data (A government monthly mortgage-rate series, or monthly HMDA origination dates if CFPB publishes them....)
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/macro-model.ts, kind estimated-series"
 ---
