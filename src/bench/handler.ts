@@ -89,6 +89,7 @@ import type { CoreState } from "../core2/types";
 import { benchProgress } from "./progress";
 import { townPlaces, visitPlace } from "./places";
 import { lawChanges } from "./changes";
+import { noteProblem, reportPreview, reportToSend } from "./report";
 import { actionNames, choiceName, policyNames } from "./words";
 import controls from "./data/controls.json" with { type: "json" };
 
@@ -934,6 +935,15 @@ export async function benchRequest(
         );
         return;
       }
+      // The bug report: shown first, sent only when the player presses send.
+      if (request.method === "GET" && url.pathname === "/api/report") {
+        send(200, reportPreview(core));
+        return;
+      }
+      if (request.method === "POST" && url.pathname === "/api/report/send") {
+        send(200, reportToSend(core));
+        return;
+      }
       if (request.method === "POST" && url.pathname === "/api/filing/open") {
         if (!player?.personId) throw new Error("Choose a resident first.");
         filingVisit = openBenchFilingVisit(
@@ -1212,9 +1222,9 @@ export async function benchRequest(
       send(404, { error: "Unknown bench route." });
     })();
   } catch (error) {
-    send(400, {
-      error: error instanceof Error ? error.message : String(error),
-    });
+    const message = error instanceof Error ? error.message : String(error);
+    noteProblem(url.pathname, message);
+    send(400, { error: message });
   }
   return reply;
 }

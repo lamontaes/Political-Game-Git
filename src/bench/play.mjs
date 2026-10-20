@@ -1,4 +1,4 @@
-/* global document, fetch, URLSearchParams, setTimeout, clearTimeout, setInterval, clearInterval, Image, window, localStorage, requestAnimationFrame, MutationObserver, ResizeObserver, getComputedStyle, __RELEASE_VERSION__ */
+/* global document, fetch, URLSearchParams, setTimeout, clearTimeout, setInterval, clearInterval, Image, window, localStorage, requestAnimationFrame, MutationObserver, ResizeObserver, getComputedStyle, __RELEASE_VERSION__, URL, Blob */
 // The game screen on the new core: one scene, the player card, the menus.
 // Words on screen are record data, engine text and control names only.
 const $ = (id) => document.getElementById(id);
@@ -3400,6 +3400,44 @@ const sheets = {
       });
       actions.append(skip);
     }
+    const report = el("button", {
+      type: "button",
+      textContent: labels.reportBug,
+    });
+    report.dataset.testid = "report-bug";
+    report.addEventListener("click", async () => {
+      // What would be sent, shown first; saving is the player's own act.
+      const preview = await api("/api/report");
+      const shown = el("pre", { className: "option-report" });
+      shown.textContent = JSON.stringify(preview, null, 2);
+      const save = el("button", {
+        type: "button",
+        textContent: labels.saveReport,
+      });
+      save.addEventListener("click", async () => {
+        const sent = await post("/api/report/send");
+        const link = el("a", {
+          href: URL.createObjectURL(
+            new Blob([JSON.stringify(sent.report, null, 2)], {
+              type: "application/json",
+            }),
+          ),
+          download: sent.file,
+        });
+        link.click();
+        URL.revokeObjectURL(link.href);
+      });
+      const cancel = el("button", {
+        type: "button",
+        textContent: labels.cancelReport,
+      });
+      cancel.addEventListener("click", () => openSheet("options"));
+      $("sheet-body").replaceChildren(
+        shown,
+        el("div", { className: "acts" }, save, cancel),
+      );
+    });
+    actions.append(report);
     const quit = el("button", {
       type: "button",
       textContent: labels.quitToTitle,
