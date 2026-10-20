@@ -585,6 +585,14 @@
       {
         "move": "^time$",
         "tag": "close"
+      },
+      {
+        "move": "^member-question$",
+        "tag": "ask"
+      },
+      {
+        "move": "^chair-invite$",
+        "tag": "introduce"
       }
     ],
     "interview": [
@@ -724,6 +732,62 @@
         "move": "^procedural$",
         "tag": "call-to-order",
         "key": "routine"
+      },
+      {
+        "move": "^chair-call$",
+        "tag": "call-to-order"
+      },
+      {
+        "move": "^chair-question$",
+        "tag": "put-question"
+      },
+      {
+        "move": "^chair-result$",
+        "tag": "announce-result"
+      },
+      {
+        "move": "^chair-adjourn$",
+        "tag": "close"
+      },
+      {
+        "move": "^member-ask$",
+        "tag": "request"
+      },
+      {
+        "move": "^member-second$",
+        "tag": "agree"
+      },
+      {
+        "move": "^member-oppose$",
+        "tag": "disagree"
+      },
+      {
+        "move": "^colleague-second$",
+        "tag": "agree"
+      },
+      {
+        "move": "^colleague-oppose$",
+        "tag": "disagree"
+      },
+      {
+        "move": "^colleague-ask$",
+        "tag": "request"
+      },
+      {
+        "move": "^colleague-blame$",
+        "tag": "blame"
+      },
+      {
+        "move": "^public-floor-introduce$",
+        "tag": "introduce"
+      },
+      {
+        "move": "^public-floor-ask$",
+        "tag": "request"
+      },
+      {
+        "move": "^public-floor-thank$",
+        "tag": "thank"
       }
     ],
     "minutes": [

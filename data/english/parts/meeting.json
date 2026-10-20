@@ -1,9 +1,14 @@
 {
   "schema": "english-parts/1",
   "register": "meeting",
-  "description": "Sourced parts for formal meetings and floor debate, mined from the Congressional Record (public domain). Each text is a speaker's first sentence as recorded, with the address to the presiding officer replaced by a slot.",
+  "description": "Sourced parts for formal meetings and floor debate, mined from the Congressional Record (public domain). Each text is a speaker's first sentence as recorded, with the address to the presiding officer replaced by a slot. Authored additions (Oct 19, 2026) fill the floor's empty cells: the chair calling the meeting and putting the question, announcing the result, a member's request for a local project, and colleagues agreeing, disagreeing and blaming.",
   "slots": {
-    "chair": "How the speaker addresses the presiding officer, such as Madam Speaker, Mr. President or Madam Chair."
+    "chair": "How the speaker addresses the presiding officer, such as Madam Speaker, Mr. President or Madam Chair.",
+    "motion": "The motion before the body, from the agenda record, such as the name of the bill.",
+    "project": "A local project a member asks the body to fund, from the budget or request record.",
+    "ayes": "The count of yes votes, from the roll-call record.",
+    "nays": "The count of no votes, from the roll-call record.",
+    "blamed": "The official or body a colleague says caused the problem, from the record that names who acted."
   },
   "maxWords": 16,
   "mining": {
@@ -2158,6 +2163,1071 @@
       "tag": {
         "move": "call-to-order",
         "key": "routine"
+      }
+    },
+    {
+      "key": "meeting.chair-call.the-meeting-will-come-to-order",
+      "move": "chair-call",
+      "kind": "spoken",
+      "text": "The meeting will come to order.",
+      "uses": [
+        {
+          "move": "chair-call",
+          "subject": "chair",
+          "role": "call-to-order",
+          "choice": "chair-call"
+        }
+      ],
+      "shippable": false,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item words-mine-empty-cells), civic-prose",
+      "date": "2026-10-19",
+      "tag": {
+        "move": "call-to-order"
+      }
+    },
+    {
+      "key": "meeting.chair-call.i-call-this-meeting-to-order",
+      "move": "chair-call",
+      "kind": "spoken",
+      "text": "I call this meeting to order.",
+      "uses": [
+        {
+          "move": "chair-call",
+          "subject": "chair",
+          "role": "call-to-order",
+          "choice": "chair-call"
+        }
+      ],
+      "shippable": false,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item words-mine-empty-cells), civic-prose",
+      "date": "2026-10-19",
+      "tag": {
+        "move": "call-to-order"
+      }
+    },
+    {
+      "key": "meeting.chair-call.the-clerk-will-call-the-roll",
+      "move": "chair-call",
+      "kind": "spoken",
+      "text": "The clerk will call the roll.",
+      "uses": [
+        {
+          "move": "chair-call",
+          "subject": "chair",
+          "role": "call-to-order",
+          "choice": "chair-call"
+        }
+      ],
+      "shippable": false,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item words-mine-empty-cells), civic-prose",
+      "date": "2026-10-19",
+      "tag": {
+        "move": "call-to-order"
+      }
+    },
+    {
+      "key": "meeting.chair-question.the-question-is-on-motion",
+      "move": "chair-question",
+      "kind": "spoken",
+      "text": "The question is on {motion}.",
+      "uses": [
+        {
+          "move": "chair-question",
+          "subject": "chair",
+          "role": "put-question",
+          "choice": "chair-question",
+          "requiresFacts": ["motion"]
+        }
+      ],
+      "shippable": false,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item words-mine-empty-cells), civic-prose",
+      "date": "2026-10-19",
+      "tag": {
+        "move": "put-question"
+      }
+    },
+    {
+      "key": "meeting.chair-question.is-there-a-second-to-the-motion",
+      "move": "chair-question",
+      "kind": "spoken",
+      "text": "Is there a second to the motion?",
+      "uses": [
+        {
+          "move": "chair-question",
+          "subject": "chair",
+          "role": "put-question",
+          "choice": "chair-question"
+        }
+      ],
+      "shippable": false,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item words-mine-empty-cells), civic-prose",
+      "date": "2026-10-19",
+      "tag": {
+        "move": "put-question"
+      }
+    },
+    {
+      "key": "meeting.chair-question.all-in-favor-say-aye",
+      "move": "chair-question",
+      "kind": "spoken",
+      "text": "All in favor, say aye.",
+      "uses": [
+        {
+          "move": "chair-question",
+          "subject": "chair",
+          "role": "put-question",
+          "choice": "chair-question"
+        }
+      ],
+      "shippable": false,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item words-mine-empty-cells), civic-prose",
+      "date": "2026-10-19",
+      "tag": {
+        "move": "put-question"
+      }
+    },
+    {
+      "key": "meeting.chair-question.those-opposed-say-no",
+      "move": "chair-question",
+      "kind": "spoken",
+      "text": "Those opposed, say no.",
+      "uses": [
+        {
+          "move": "chair-question",
+          "subject": "chair",
+          "role": "put-question",
+          "choice": "chair-question"
+        }
+      ],
+      "shippable": false,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item words-mine-empty-cells), civic-prose",
+      "date": "2026-10-19",
+      "tag": {
+        "move": "put-question"
+      }
+    },
+    {
+      "key": "meeting.chair-question.the-clerk-will-call-the-roll-on-motion",
+      "move": "chair-question",
+      "kind": "spoken",
+      "text": "The clerk will call the roll on {motion}.",
+      "uses": [
+        {
+          "move": "chair-question",
+          "subject": "chair",
+          "role": "put-question",
+          "choice": "chair-question",
+          "requiresFacts": ["motion"]
+        }
+      ],
+      "shippable": false,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item words-mine-empty-cells), civic-prose",
+      "date": "2026-10-19",
+      "tag": {
+        "move": "put-question"
+      }
+    },
+    {
+      "key": "meeting.chair-question.is-there-any-discussion",
+      "move": "chair-question",
+      "kind": "spoken",
+      "text": "Is there any discussion?",
+      "uses": [
+        {
+          "move": "chair-question",
+          "subject": "chair",
+          "role": "put-question",
+          "choice": "chair-question"
+        }
+      ],
+      "shippable": false,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item words-mine-empty-cells), civic-prose",
+      "date": "2026-10-19",
+      "tag": {
+        "move": "put-question"
+      }
+    },
+    {
+      "key": "meeting.chair-result.the-ayes-are-ayes-and-the-nays-are-nays-the-moti",
+      "move": "chair-result",
+      "kind": "spoken",
+      "text": "The ayes are {ayes} and the nays are {nays}. The motion carries.",
+      "uses": [
+        {
+          "move": "chair-result",
+          "subject": "chair",
+          "role": "announce-result",
+          "choice": "chair-result",
+          "requiresFacts": ["ayes", "nays", "carried"]
+        }
+      ],
+      "shippable": false,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item words-mine-empty-cells), civic-prose",
+      "date": "2026-10-19",
+      "tag": {
+        "move": "announce-result"
+      }
+    },
+    {
+      "key": "meeting.chair-result.the-ayes-are-ayes-and-the-nays-are-nays-the-moti-2",
+      "move": "chair-result",
+      "kind": "spoken",
+      "text": "The ayes are {ayes} and the nays are {nays}. The motion fails.",
+      "uses": [
+        {
+          "move": "chair-result",
+          "subject": "chair",
+          "role": "announce-result",
+          "choice": "chair-result",
+          "requiresFacts": ["ayes", "nays", "failed"]
+        }
+      ],
+      "shippable": false,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item words-mine-empty-cells), civic-prose",
+      "date": "2026-10-19",
+      "tag": {
+        "move": "announce-result"
+      }
+    },
+    {
+      "key": "meeting.chair-result.the-motion-carries",
+      "move": "chair-result",
+      "kind": "spoken",
+      "text": "The motion carries.",
+      "uses": [
+        {
+          "move": "chair-result",
+          "subject": "chair",
+          "role": "announce-result",
+          "choice": "chair-result",
+          "requiresFacts": ["carried"]
+        }
+      ],
+      "shippable": false,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item words-mine-empty-cells), civic-prose",
+      "date": "2026-10-19",
+      "tag": {
+        "move": "announce-result"
+      }
+    },
+    {
+      "key": "meeting.chair-result.the-motion-fails",
+      "move": "chair-result",
+      "kind": "spoken",
+      "text": "The motion fails.",
+      "uses": [
+        {
+          "move": "chair-result",
+          "subject": "chair",
+          "role": "announce-result",
+          "choice": "chair-result",
+          "requiresFacts": ["failed"]
+        }
+      ],
+      "shippable": false,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item words-mine-empty-cells), civic-prose",
+      "date": "2026-10-19",
+      "tag": {
+        "move": "announce-result"
+      }
+    },
+    {
+      "key": "meeting.chair-result.the-motion-is-tabled-until-the-next-meeting",
+      "move": "chair-result",
+      "kind": "spoken",
+      "text": "The motion is tabled until the next meeting.",
+      "uses": [
+        {
+          "move": "chair-result",
+          "subject": "chair",
+          "role": "announce-result",
+          "choice": "chair-result",
+          "requiresFacts": ["tabled"]
+        }
+      ],
+      "shippable": false,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item words-mine-empty-cells), civic-prose",
+      "date": "2026-10-19",
+      "tag": {
+        "move": "announce-result"
+      }
+    },
+    {
+      "key": "meeting.chair-adjourn.is-there-any-further-business",
+      "move": "chair-adjourn",
+      "kind": "spoken",
+      "text": "Is there any further business?",
+      "uses": [
+        {
+          "move": "chair-adjourn",
+          "subject": "chair",
+          "role": "close",
+          "choice": "chair-adjourn"
+        }
+      ],
+      "shippable": false,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item words-mine-empty-cells), civic-prose",
+      "date": "2026-10-19",
+      "tag": {
+        "move": "close"
+      }
+    },
+    {
+      "key": "meeting.chair-adjourn.if-there-is-no-further-business-we-are-adjourned",
+      "move": "chair-adjourn",
+      "kind": "spoken",
+      "text": "If there is no further business, we are adjourned.",
+      "uses": [
+        {
+          "move": "chair-adjourn",
+          "subject": "chair",
+          "role": "close",
+          "choice": "chair-adjourn"
+        }
+      ],
+      "shippable": false,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item words-mine-empty-cells), civic-prose",
+      "date": "2026-10-19",
+      "tag": {
+        "move": "close"
+      }
+    },
+    {
+      "key": "meeting.chair-adjourn.the-meeting-is-adjourned",
+      "move": "chair-adjourn",
+      "kind": "spoken",
+      "text": "The meeting is adjourned.",
+      "uses": [
+        {
+          "move": "chair-adjourn",
+          "subject": "chair",
+          "role": "close",
+          "choice": "chair-adjourn"
+        }
+      ],
+      "shippable": false,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item words-mine-empty-cells), civic-prose",
+      "date": "2026-10-19",
+      "tag": {
+        "move": "close"
+      }
+    },
+    {
+      "key": "meeting.member-ask.chair-i-ask-that-project-be-put-on-this-year-s-l",
+      "move": "member-ask",
+      "kind": "spoken",
+      "text": "{chair}, I ask that {project} be put on this year's list.",
+      "uses": [
+        {
+          "move": "member-ask",
+          "subject": "member",
+          "role": "request",
+          "choice": "member-ask",
+          "requiresFacts": ["project"]
+        }
+      ],
+      "shippable": false,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item words-mine-empty-cells), civic-prose",
+      "date": "2026-10-19",
+      "tag": {
+        "move": "request"
+      }
+    },
+    {
+      "key": "meeting.member-ask.chair-my-district-needs-project-and-i-am-asking",
+      "move": "member-ask",
+      "kind": "spoken",
+      "text": "{chair}, my district needs {project}, and I am asking the body to pay for it.",
+      "uses": [
+        {
+          "move": "member-ask",
+          "subject": "member",
+          "role": "request",
+          "choice": "member-ask",
+          "requiresFacts": ["project"]
+        }
+      ],
+      "shippable": false,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item words-mine-empty-cells), civic-prose",
+      "date": "2026-10-19",
+      "tag": {
+        "move": "request"
+      }
+    },
+    {
+      "key": "meeting.member-ask.chair-i-move-that-we-fund-project-in-this-budget",
+      "move": "member-ask",
+      "kind": "spoken",
+      "text": "{chair}, I move that we fund {project} in this budget.",
+      "uses": [
+        {
+          "move": "member-ask",
+          "subject": "member",
+          "role": "request",
+          "choice": "member-ask",
+          "requiresFacts": ["project"]
+        }
+      ],
+      "shippable": false,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item words-mine-empty-cells), civic-prose",
+      "date": "2026-10-19",
+      "tag": {
+        "move": "request"
+      }
+    },
+    {
+      "key": "meeting.member-ask.chair-i-ask-the-body-to-take-up-project-before-w",
+      "move": "member-ask",
+      "kind": "spoken",
+      "text": "{chair}, I ask the body to take up {project} before we adjourn.",
+      "uses": [
+        {
+          "move": "member-ask",
+          "subject": "member",
+          "role": "request",
+          "choice": "member-ask",
+          "requiresFacts": ["project"]
+        }
+      ],
+      "shippable": false,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item words-mine-empty-cells), civic-prose",
+      "date": "2026-10-19",
+      "tag": {
+        "move": "request"
+      }
+    },
+    {
+      "key": "meeting.member-ask.chair-i-would-like-project-added-to-the-agenda",
+      "move": "member-ask",
+      "kind": "spoken",
+      "text": "{chair}, I would like {project} added to the agenda.",
+      "uses": [
+        {
+          "move": "member-ask",
+          "subject": "member",
+          "role": "request",
+          "choice": "member-ask",
+          "requiresFacts": ["project"]
+        }
+      ],
+      "shippable": false,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item words-mine-empty-cells), civic-prose",
+      "date": "2026-10-19",
+      "tag": {
+        "move": "request"
+      }
+    },
+    {
+      "key": "meeting.member-second.i-second-the-motion",
+      "move": "member-second",
+      "kind": "spoken",
+      "text": "I second the motion.",
+      "uses": [
+        {
+          "move": "member-second",
+          "subject": "member",
+          "role": "agree",
+          "choice": "member-second"
+        }
+      ],
+      "shippable": false,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item words-mine-empty-cells), civic-prose",
+      "date": "2026-10-19",
+      "tag": {
+        "move": "agree"
+      }
+    },
+    {
+      "key": "meeting.member-second.i-support-the-motion",
+      "move": "member-second",
+      "kind": "spoken",
+      "text": "I support the motion.",
+      "uses": [
+        {
+          "move": "member-second",
+          "subject": "member",
+          "role": "agree",
+          "choice": "member-second"
+        }
+      ],
+      "shippable": false,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item words-mine-empty-cells), civic-prose",
+      "date": "2026-10-19",
+      "tag": {
+        "move": "agree"
+      }
+    },
+    {
+      "key": "meeting.member-second.chair-i-will-vote-yes-on-this",
+      "move": "member-second",
+      "kind": "spoken",
+      "text": "{chair}, I will vote yes on this.",
+      "uses": [
+        {
+          "move": "member-second",
+          "subject": "member",
+          "role": "agree",
+          "choice": "member-second"
+        }
+      ],
+      "shippable": false,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item words-mine-empty-cells), civic-prose",
+      "date": "2026-10-19",
+      "tag": {
+        "move": "agree"
+      }
+    },
+    {
+      "key": "meeting.member-second.i-agree-with-the-member-who-just-spoke",
+      "move": "member-second",
+      "kind": "spoken",
+      "text": "I agree with the member who just spoke.",
+      "uses": [
+        {
+          "move": "member-second",
+          "subject": "member",
+          "role": "agree",
+          "choice": "member-second"
+        }
+      ],
+      "shippable": false,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item words-mine-empty-cells), civic-prose",
+      "date": "2026-10-19",
+      "tag": {
+        "move": "agree"
+      }
+    },
+    {
+      "key": "meeting.member-oppose.chair-i-will-vote-no-on-this",
+      "move": "member-oppose",
+      "kind": "spoken",
+      "text": "{chair}, I will vote no on this.",
+      "uses": [
+        {
+          "move": "member-oppose",
+          "subject": "member",
+          "role": "disagree",
+          "choice": "member-oppose"
+        }
+      ],
+      "shippable": false,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item words-mine-empty-cells), civic-prose",
+      "date": "2026-10-19",
+      "tag": {
+        "move": "disagree"
+      }
+    },
+    {
+      "key": "meeting.member-oppose.i-cannot-support-this-motion",
+      "move": "member-oppose",
+      "kind": "spoken",
+      "text": "I cannot support this motion.",
+      "uses": [
+        {
+          "move": "member-oppose",
+          "subject": "member",
+          "role": "disagree",
+          "choice": "member-oppose"
+        }
+      ],
+      "shippable": false,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item words-mine-empty-cells), civic-prose",
+      "date": "2026-10-19",
+      "tag": {
+        "move": "disagree"
+      }
+    },
+    {
+      "key": "meeting.member-oppose.chair-i-disagree-with-the-member-who-just-spoke",
+      "move": "member-oppose",
+      "kind": "spoken",
+      "text": "{chair}, I disagree with the member who just spoke.",
+      "uses": [
+        {
+          "move": "member-oppose",
+          "subject": "member",
+          "role": "disagree",
+          "choice": "member-oppose"
+        }
+      ],
+      "shippable": false,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item words-mine-empty-cells), civic-prose",
+      "date": "2026-10-19",
+      "tag": {
+        "move": "disagree"
+      }
+    },
+    {
+      "key": "meeting.member-oppose.i-do-not-agree-with-the-motion-as-written",
+      "move": "member-oppose",
+      "kind": "spoken",
+      "text": "I do not agree with the motion as written.",
+      "uses": [
+        {
+          "move": "member-oppose",
+          "subject": "member",
+          "role": "disagree",
+          "choice": "member-oppose"
+        }
+      ],
+      "shippable": false,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item words-mine-empty-cells), civic-prose",
+      "date": "2026-10-19",
+      "tag": {
+        "move": "disagree"
+      }
+    },
+    {
+      "key": "meeting.colleague-second.second",
+      "move": "colleague-second",
+      "kind": "spoken",
+      "text": "Second.",
+      "uses": [
+        {
+          "move": "colleague-second",
+          "subject": "colleagues",
+          "role": "agree",
+          "choice": "colleague-second"
+        }
+      ],
+      "shippable": false,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item words-mine-empty-cells), civic-prose",
+      "date": "2026-10-19",
+      "tag": {
+        "move": "agree"
+      }
+    },
+    {
+      "key": "meeting.colleague-second.i-second-that",
+      "move": "colleague-second",
+      "kind": "spoken",
+      "text": "I second that.",
+      "uses": [
+        {
+          "move": "colleague-second",
+          "subject": "colleagues",
+          "role": "agree",
+          "choice": "colleague-second"
+        }
+      ],
+      "shippable": false,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item words-mine-empty-cells), civic-prose",
+      "date": "2026-10-19",
+      "tag": {
+        "move": "agree"
+      }
+    },
+    {
+      "key": "meeting.colleague-second.i-m-with-you-on-this",
+      "move": "colleague-second",
+      "kind": "spoken",
+      "text": "I'm with you on this.",
+      "uses": [
+        {
+          "move": "colleague-second",
+          "subject": "colleagues",
+          "role": "agree",
+          "choice": "colleague-second"
+        }
+      ],
+      "shippable": false,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item words-mine-empty-cells), civic-prose",
+      "date": "2026-10-19",
+      "tag": {
+        "move": "agree"
+      }
+    },
+    {
+      "key": "meeting.colleague-second.that-is-my-view-as-well",
+      "move": "colleague-second",
+      "kind": "spoken",
+      "text": "That is my view as well.",
+      "uses": [
+        {
+          "move": "colleague-second",
+          "subject": "colleagues",
+          "role": "agree",
+          "choice": "colleague-second"
+        }
+      ],
+      "shippable": false,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item words-mine-empty-cells), civic-prose",
+      "date": "2026-10-19",
+      "tag": {
+        "move": "agree"
+      }
+    },
+    {
+      "key": "meeting.colleague-oppose.i-don-t-agree",
+      "move": "colleague-oppose",
+      "kind": "spoken",
+      "text": "I don't agree.",
+      "uses": [
+        {
+          "move": "colleague-oppose",
+          "subject": "colleagues",
+          "role": "disagree",
+          "choice": "colleague-oppose"
+        }
+      ],
+      "shippable": false,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item words-mine-empty-cells), civic-prose",
+      "date": "2026-10-19",
+      "tag": {
+        "move": "disagree"
+      }
+    },
+    {
+      "key": "meeting.colleague-oppose.i-can-t-go-along-with-that",
+      "move": "colleague-oppose",
+      "kind": "spoken",
+      "text": "I can't go along with that.",
+      "uses": [
+        {
+          "move": "colleague-oppose",
+          "subject": "colleagues",
+          "role": "disagree",
+          "choice": "colleague-oppose"
+        }
+      ],
+      "shippable": false,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item words-mine-empty-cells), civic-prose",
+      "date": "2026-10-19",
+      "tag": {
+        "move": "disagree"
+      }
+    },
+    {
+      "key": "meeting.colleague-oppose.i-m-not-with-you-on-this-one",
+      "move": "colleague-oppose",
+      "kind": "spoken",
+      "text": "I'm not with you on this one.",
+      "uses": [
+        {
+          "move": "colleague-oppose",
+          "subject": "colleagues",
+          "role": "disagree",
+          "choice": "colleague-oppose"
+        }
+      ],
+      "shippable": false,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item words-mine-empty-cells), civic-prose",
+      "date": "2026-10-19",
+      "tag": {
+        "move": "disagree"
+      }
+    },
+    {
+      "key": "meeting.colleague-ask.chair-i-ask-that-we-table-this-until-the-next-me",
+      "move": "colleague-ask",
+      "kind": "spoken",
+      "text": "{chair}, I ask that we table this until the next meeting.",
+      "uses": [
+        {
+          "move": "colleague-ask",
+          "subject": "colleagues",
+          "role": "request",
+          "choice": "colleague-ask"
+        }
+      ],
+      "shippable": false,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item words-mine-empty-cells), civic-prose",
+      "date": "2026-10-19",
+      "tag": {
+        "move": "request"
+      }
+    },
+    {
+      "key": "meeting.colleague-ask.chair-i-ask-that-we-hear-from-the-public-before",
+      "move": "colleague-ask",
+      "kind": "spoken",
+      "text": "{chair}, I ask that we hear from the public before we vote.",
+      "uses": [
+        {
+          "move": "colleague-ask",
+          "subject": "colleagues",
+          "role": "request",
+          "choice": "colleague-ask"
+        }
+      ],
+      "shippable": false,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item words-mine-empty-cells), civic-prose",
+      "date": "2026-10-19",
+      "tag": {
+        "move": "request"
+      }
+    },
+    {
+      "key": "meeting.colleague-ask.chair-i-ask-that-the-clerk-read-the-motion-again",
+      "move": "colleague-ask",
+      "kind": "spoken",
+      "text": "{chair}, I ask that the clerk read the motion again.",
+      "uses": [
+        {
+          "move": "colleague-ask",
+          "subject": "colleagues",
+          "role": "request",
+          "choice": "colleague-ask"
+        }
+      ],
+      "shippable": false,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item words-mine-empty-cells), civic-prose",
+      "date": "2026-10-19",
+      "tag": {
+        "move": "request"
+      }
+    },
+    {
+      "key": "meeting.colleague-ask.chair-i-request-a-recess",
+      "move": "colleague-ask",
+      "kind": "spoken",
+      "text": "{chair}, I request a recess.",
+      "uses": [
+        {
+          "move": "colleague-ask",
+          "subject": "colleagues",
+          "role": "request",
+          "choice": "colleague-ask"
+        }
+      ],
+      "shippable": false,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item words-mine-empty-cells), civic-prose",
+      "date": "2026-10-19",
+      "tag": {
+        "move": "request"
+      }
+    },
+    {
+      "key": "meeting.colleague-blame.this-is-blamed-s-doing-and-blamed-should-answer",
+      "move": "colleague-blame",
+      "kind": "spoken",
+      "text": "This is {blamed}'s doing, and {blamed} should answer for it.",
+      "uses": [
+        {
+          "move": "colleague-blame",
+          "subject": "colleagues",
+          "role": "blame",
+          "choice": "colleague-blame",
+          "requiresFacts": ["blamed"]
+        }
+      ],
+      "shippable": false,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item words-mine-empty-cells), civic-prose",
+      "date": "2026-10-19",
+      "tag": {
+        "move": "blame"
+      }
+    },
+    {
+      "key": "meeting.colleague-blame.blamed-caused-this-and-the-record-shows-it",
+      "move": "colleague-blame",
+      "kind": "spoken",
+      "text": "{blamed} caused this, and the record shows it.",
+      "uses": [
+        {
+          "move": "colleague-blame",
+          "subject": "colleagues",
+          "role": "blame",
+          "choice": "colleague-blame",
+          "requiresFacts": ["blamed"]
+        }
+      ],
+      "shippable": false,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item words-mine-empty-cells), civic-prose",
+      "date": "2026-10-19",
+      "tag": {
+        "move": "blame"
+      }
+    },
+    {
+      "key": "meeting.colleague-blame.we-are-here-because-of-what-blamed-did",
+      "move": "colleague-blame",
+      "kind": "spoken",
+      "text": "We are here because of what {blamed} did.",
+      "uses": [
+        {
+          "move": "colleague-blame",
+          "subject": "colleagues",
+          "role": "blame",
+          "choice": "colleague-blame",
+          "requiresFacts": ["blamed"]
+        }
+      ],
+      "shippable": false,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item words-mine-empty-cells), civic-prose",
+      "date": "2026-10-19",
+      "tag": {
+        "move": "blame"
+      }
+    },
+    {
+      "key": "meeting.public-floor-introduce.my-name-is-on-the-sign-in-sheet",
+      "move": "public-floor-introduce",
+      "kind": "spoken",
+      "text": "My name is on the sign-in sheet.",
+      "uses": [
+        {
+          "move": "public-floor-introduce",
+          "subject": "public",
+          "role": "introduce",
+          "choice": "public-floor-introduce"
+        }
+      ],
+      "shippable": false,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item words-mine-empty-cells), civic-prose",
+      "date": "2026-10-19",
+      "tag": {
+        "move": "introduce"
+      }
+    },
+    {
+      "key": "meeting.public-floor-introduce.i-live-here-in-town",
+      "move": "public-floor-introduce",
+      "kind": "spoken",
+      "text": "I live here in town.",
+      "uses": [
+        {
+          "move": "public-floor-introduce",
+          "subject": "public",
+          "role": "introduce",
+          "choice": "public-floor-introduce"
+        }
+      ],
+      "shippable": false,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item words-mine-empty-cells), civic-prose",
+      "date": "2026-10-19",
+      "tag": {
+        "move": "introduce"
+      }
+    },
+    {
+      "key": "meeting.public-floor-ask.chair-may-i-speak-on-this-item",
+      "move": "public-floor-ask",
+      "kind": "spoken",
+      "text": "{chair}, may I speak on this item?",
+      "uses": [
+        {
+          "move": "public-floor-ask",
+          "subject": "public",
+          "role": "request",
+          "choice": "public-floor-ask"
+        }
+      ],
+      "shippable": false,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item words-mine-empty-cells), civic-prose",
+      "date": "2026-10-19",
+      "tag": {
+        "move": "request"
+      }
+    },
+    {
+      "key": "meeting.public-floor-ask.i-would-like-to-speak-on-this-item",
+      "move": "public-floor-ask",
+      "kind": "spoken",
+      "text": "I would like to speak on this item.",
+      "uses": [
+        {
+          "move": "public-floor-ask",
+          "subject": "public",
+          "role": "request",
+          "choice": "public-floor-ask"
+        }
+      ],
+      "shippable": false,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item words-mine-empty-cells), civic-prose",
+      "date": "2026-10-19",
+      "tag": {
+        "move": "request"
+      }
+    },
+    {
+      "key": "meeting.public-floor-thank.thank-you-for-hearing-me",
+      "move": "public-floor-thank",
+      "kind": "spoken",
+      "text": "Thank you for hearing me.",
+      "uses": [
+        {
+          "move": "public-floor-thank",
+          "subject": "public",
+          "role": "thank",
+          "choice": "public-floor-thank"
+        }
+      ],
+      "shippable": false,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item words-mine-empty-cells), civic-prose",
+      "date": "2026-10-19",
+      "tag": {
+        "move": "thank"
+      }
+    },
+    {
+      "key": "meeting.public-floor-thank.thank-you-for-your-time",
+      "move": "public-floor-thank",
+      "kind": "spoken",
+      "text": "Thank you for your time.",
+      "uses": [
+        {
+          "move": "public-floor-thank",
+          "subject": "public",
+          "role": "thank",
+          "choice": "public-floor-thank"
+        }
+      ],
+      "shippable": false,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item words-mine-empty-cells), civic-prose",
+      "date": "2026-10-19",
+      "tag": {
+        "move": "thank"
       }
     }
   ]

@@ -2,8 +2,13 @@
   "schema": "english-parts/1",
   "register": "hearing",
   "description": "Sourced hearing-room parts: how members and witnesses thank, take a question, agree, confirm, apologize, run the clock and yield, mined from congressional hearing transcripts (public domain). hearingsUsing counts how many of the 40 hearings read contain the turn as one of a speaker's first three sentences.",
-  "slots": {},
-  "maxWords": 12,
+  "slots": {
+    "speaker": "The person who just spoke at the hearing, from the sign-in record.",
+    "bill": "The measure the hearing is about, as the bill catalog names it.",
+    "cost": "The cost of the measure, from the fiscal record.",
+    "place": "The town or district the measure reaches, from the place records."
+  },
+  "maxWords": 16,
   "mining": {
     "tool": "scripts/english-mining/mine-hearings.py",
     "read": "40 House and Senate hearings held from March 2020 to December 2025, drawn at random from the govinfo CHRG 2025 sitemap"
@@ -1309,6 +1314,245 @@
       },
       "tag": {
         "move": "close"
+      }
+    },
+    {
+      "key": "hearing.member-question.who-would-this-measure-help",
+      "move": "member-question",
+      "kind": "spoken",
+      "text": "Who would this measure help?",
+      "uses": [
+        {
+          "move": "member-question",
+          "subject": "members",
+          "role": "ask",
+          "choice": "member-question"
+        }
+      ],
+      "shippable": false,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item words-mine-empty-cells), civic-prose",
+      "date": "2026-10-19",
+      "tag": {
+        "move": "ask"
+      }
+    },
+    {
+      "key": "hearing.member-question.what-would-bill-cost-the-town",
+      "move": "member-question",
+      "kind": "spoken",
+      "text": "What would {bill} cost the town?",
+      "uses": [
+        {
+          "move": "member-question",
+          "subject": "members",
+          "role": "ask",
+          "choice": "member-question",
+          "requiresFacts": ["bill", "cost"]
+        }
+      ],
+      "shippable": false,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item words-mine-empty-cells), civic-prose",
+      "date": "2026-10-19",
+      "tag": {
+        "move": "ask"
+      }
+    },
+    {
+      "key": "hearing.member-question.who-pays-for-bill",
+      "move": "member-question",
+      "kind": "spoken",
+      "text": "Who pays for {bill}?",
+      "uses": [
+        {
+          "move": "member-question",
+          "subject": "members",
+          "role": "ask",
+          "choice": "member-question",
+          "requiresFacts": ["bill"]
+        }
+      ],
+      "shippable": false,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item words-mine-empty-cells), civic-prose",
+      "date": "2026-10-19",
+      "tag": {
+        "move": "ask"
+      }
+    },
+    {
+      "key": "hearing.member-question.how-would-bill-change-things-in-place",
+      "move": "member-question",
+      "kind": "spoken",
+      "text": "How would {bill} change things in {place}?",
+      "uses": [
+        {
+          "move": "member-question",
+          "subject": "members",
+          "role": "ask",
+          "choice": "member-question",
+          "requiresFacts": ["bill", "place"]
+        }
+      ],
+      "shippable": false,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item words-mine-empty-cells), civic-prose",
+      "date": "2026-10-19",
+      "tag": {
+        "move": "ask"
+      }
+    },
+    {
+      "key": "hearing.member-question.speaker-do-you-support-bill",
+      "move": "member-question",
+      "kind": "spoken",
+      "text": "{speaker}, do you support {bill}?",
+      "uses": [
+        {
+          "move": "member-question",
+          "subject": "members",
+          "role": "ask",
+          "choice": "member-question",
+          "requiresFacts": ["speaker", "bill"]
+        }
+      ],
+      "shippable": false,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item words-mine-empty-cells), civic-prose",
+      "date": "2026-10-19",
+      "tag": {
+        "move": "ask"
+      }
+    },
+    {
+      "key": "hearing.member-question.speaker-how-long-have-you-lived-in-place",
+      "move": "member-question",
+      "kind": "spoken",
+      "text": "{speaker}, how long have you lived in {place}?",
+      "uses": [
+        {
+          "move": "member-question",
+          "subject": "members",
+          "role": "ask",
+          "choice": "member-question",
+          "requiresFacts": ["speaker", "place"]
+        }
+      ],
+      "shippable": false,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item words-mine-empty-cells), civic-prose",
+      "date": "2026-10-19",
+      "tag": {
+        "move": "ask"
+      }
+    },
+    {
+      "key": "hearing.member-question.can-you-tell-us-more-about-that",
+      "move": "member-question",
+      "kind": "spoken",
+      "text": "Can you tell us more about that?",
+      "uses": [
+        {
+          "move": "member-question",
+          "subject": "members",
+          "role": "ask",
+          "choice": "member-question"
+        }
+      ],
+      "shippable": false,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item words-mine-empty-cells), civic-prose",
+      "date": "2026-10-19",
+      "tag": {
+        "move": "ask"
+      }
+    },
+    {
+      "key": "hearing.member-question.is-there-anyone-here-who-disagrees",
+      "move": "member-question",
+      "kind": "spoken",
+      "text": "Is there anyone here who disagrees?",
+      "uses": [
+        {
+          "move": "member-question",
+          "subject": "members",
+          "role": "ask",
+          "choice": "member-question"
+        }
+      ],
+      "shippable": false,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item words-mine-empty-cells), civic-prose",
+      "date": "2026-10-19",
+      "tag": {
+        "move": "ask"
+      }
+    },
+    {
+      "key": "hearing.chair-invite.our-next-speaker-is-speaker",
+      "move": "chair-invite",
+      "kind": "spoken",
+      "text": "Our next speaker is {speaker}.",
+      "uses": [
+        {
+          "move": "chair-invite",
+          "subject": "chair",
+          "role": "introduce",
+          "choice": "chair-invite",
+          "requiresFacts": ["speaker"]
+        }
+      ],
+      "shippable": false,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item words-mine-empty-cells), civic-prose",
+      "date": "2026-10-19",
+      "tag": {
+        "move": "introduce"
+      }
+    },
+    {
+      "key": "hearing.chair-invite.speaker-you-have-the-floor",
+      "move": "chair-invite",
+      "kind": "spoken",
+      "text": "{speaker}, you have the floor.",
+      "uses": [
+        {
+          "move": "chair-invite",
+          "subject": "chair",
+          "role": "introduce",
+          "choice": "chair-invite",
+          "requiresFacts": ["speaker"]
+        }
+      ],
+      "shippable": false,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item words-mine-empty-cells), civic-prose",
+      "date": "2026-10-19",
+      "tag": {
+        "move": "introduce"
+      }
+    },
+    {
+      "key": "hearing.chair-invite.we-will-hear-next-from-speaker",
+      "move": "chair-invite",
+      "kind": "spoken",
+      "text": "We will hear next from {speaker}.",
+      "uses": [
+        {
+          "move": "chair-invite",
+          "subject": "chair",
+          "role": "introduce",
+          "choice": "chair-invite",
+          "requiresFacts": ["speaker"]
+        }
+      ],
+      "shippable": false,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item words-mine-empty-cells), civic-prose",
+      "date": "2026-10-19",
+      "tag": {
+        "move": "introduce"
       }
     }
   ]
