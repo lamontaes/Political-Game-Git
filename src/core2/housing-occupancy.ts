@@ -50,6 +50,8 @@ export function rentalMovePull(
   );
 }
 
+const INCLUSIONARY =
+  "us-policy-positions:housing-land-use.inclusionary-requirement";
 const RENT_STABILIZATION =
   "us-policy-positions:housing-land-use.rent-stabilization";
 
@@ -275,6 +277,15 @@ export function occupyCompletedRentals(api: CoreAPI): void {
           rentMinor: rent,
           previousRentMinor: tenant.rentMinor,
         });
+      // A full household in a set-aside unit is told in writing what the
+      // inclusionary law saved it against the building's asking rent.
+      if (affordable && tenant.tier === "full")
+        noticeAffordableUnit(api, tenant, {
+          projectId: project.id,
+          unit,
+          askingRentMinor: project.askingRentMinor!,
+          rentMinor: rent,
+        });
       const moveId = `housing-move:${tenant.id}:${c.date}`;
       table(api, "moves").put({
         id: moveId,
@@ -457,6 +468,49 @@ function noticeRentRenewal(
     learnedFacts: { savedMinor: String(saved) },
     noticeCitation: `Renewal notice for ${tenant.leaseId} under ${rent.lawId}`,
     learnedCitation: `Learned from the renewal notice for ${tenant.leaseId} that ${rent.lawId} held the rent below the market`,
+  });
+}
+
+/**
+ * The notice a household gets on moving into a set-aside unit: the building's
+ * asking rent, the rent charged and the law that set the unit aside. Its
+ * oldest adult learns the law saved the household money against the asking
+ * rent, and their view of the law moves by the share saved.
+ */
+function noticeAffordableUnit(
+  api: CoreAPI,
+  tenant: Tenant,
+  unit: {
+    readonly projectId: string;
+    readonly unit: number;
+    readonly askingRentMinor: number;
+    readonly rentMinor: number;
+  },
+): void {
+  const law = lawInForce(api, INCLUSIONARY);
+  const lawId = law.value === 1 ? law.governing?.id : undefined;
+  const saved = unit.askingRentMinor - unit.rentMinor;
+  if (!lawId || saved <= 0 || unit.askingRentMinor <= 0) return;
+  sendLawNotice(api, {
+    memberIds: tenant.memberIds,
+    kind: "housing.affordable-unit-notice",
+    recordId: `${unit.projectId}:${unit.unit}:${tenant.id}`,
+    lawId,
+    topic: INCLUSIONARY,
+    desiredChange: "enact",
+    noticeFacts: {
+      projectId: unit.projectId,
+      unit: String(unit.unit),
+      leaseId: tenant.leaseId,
+      askingRentMinor: String(unit.askingRentMinor),
+      rentMinor: String(unit.rentMinor),
+    },
+    moodImpulse:
+      api.parameter("housingRentSavingImpulseScale") *
+      (saved / unit.askingRentMinor),
+    learnedFacts: { savedMinor: String(saved) },
+    noticeCitation: `Notice of a set-aside unit for ${tenant.leaseId} under ${lawId}`,
+    learnedCitation: `Learned from the notice of a set-aside unit that ${lawId} brought their rent below the asking rent`,
   });
 }
 
