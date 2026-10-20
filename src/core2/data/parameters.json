@@ -2519,12 +2519,19 @@
     "stopgapId": "SG-P8-opening-customer-generation"
   },
   "openingCustomerPublicCleaningBudgetShare": {
-    "value": 0.1,
+    "value": 0.12,
     "tag": "ESTIMATED",
-    "citation": "A disclosed tenth of public-building spending is reserved for contracted custodial operations in the fictional opening appropriation. FAR 37.101 recognizes janitorial service contracts; neither FAR nor Census identifies this fraction. Applicability: Published aggregate mean and sampling error are not individual dispersion. No individual budget/account spread or crosswalk calibration has been measured.",
-    "estimatedFrom": "A disclosed tenth of public-building spending is reserved for contracted custodial operations in the fictional opening appropriation. FAR 37.101 recognizes janitorial service contracts; neither FAR nor Census identifies this fraction.",
+    "citation": "The share of public-building spending reserved for contracted custodial operations in the opening appropriation. IFMA's facility operations benchmark (2000, https://www.fmlink.com/?p=13268) puts janitorial at $1.08 of a $5.59 per rentable square foot cost of janitorial, utilities and maintenance (19 percent); public-building spending also includes capital outlay, so a lower 0.12 is used. FAR 37.101 recognizes janitorial service contracts; no source gives the public share itself.",
+    "estimatedFrom": "IFMA 19 percent of operating cost, reduced for capital outlay in public-building spending; stopgap research Oct 19 (B-people-behavior-2).",
+    "spread": {
+      "low": 0.08,
+      "high": 0.19,
+      "unit": "share of public-building spending",
+      "citation": "High end the IFMA janitorial share of operating cost (0.19); low end the same share with a larger capital-outlay portion removed."
+    },
     "stopgapId": "SG-P8-opening-customer-public-procurement"
   },
+
   "openingCustomerLocalAuthorityBudgetCoverage": {
     "value": 0.25,
     "tag": "ESTIMATED",
