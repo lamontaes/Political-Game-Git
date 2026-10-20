@@ -5,11 +5,12 @@ area: people
 kind: feature
 priority: 3
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/husk-wallet
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-20T03:17:33.850Z
 ---
 
 **What.** Husk-tier relatives open with no cash (liquidMinor 0 in population.ts openingFamilies) and fillInPerson (state.ts) gives a filled-in husk no wallet, so a relative the player meets and who lives in town has nothing in any account while the counted residents around them do. When a husk is filled in, give them the transaction balance a person at their household's recorded income keeps (starting-cash.ts medianTransactionBalance, SCF 2022), taken from the household or the wider population's counted cash so no dollar is created, and mark it ESTIMATED with its spread.
