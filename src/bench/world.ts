@@ -47,6 +47,8 @@ import { openThePast } from "../core2/past";
 import { peopleData, peopleModules } from "../director/play-modules";
 import { renewalData } from "../core2/births-setup";
 import type { CoreInput, CoreState } from "../core2/types";
+import { OPENING_KIN } from "../core2/opening-kin";
+import { scaleFirmsToCensus } from "../core2/census-firms";
 import { placeReferencePopulation } from "../core2/gov-rules/place-population";
 import { collapseToTwoLevels, fullPeople } from "../core2/residents";
 import { buildOpeningEconomy } from "../core2/opening-economy";
@@ -218,9 +220,10 @@ function censusScale(
   const real = place.sourceGeoid
     ? placeReferencePopulation(place.sourceGeoid)?.value
     : undefined;
-  return real !== undefined && real > population.people.length
-    ? real / population.people.length
-    : 1;
+  const sample = population.people.filter(
+    (person) => person.tier !== OPENING_KIN.kinTier,
+  ).length;
+  return real !== undefined && real > sample ? real / sample : 1;
 }
 
 function* benchWorldStages(
@@ -301,12 +304,18 @@ function* benchWorldStages(
         .filter((home) => !home.memberIds.some((id) => kept.has(id)))
         .map((home) => home.id),
     );
+    // The firms are sized to the weighted town before the outside market is
+    // derived from their books, so its buyers and suppliers follow them.
     const economy: CoreInput = addOutsideMarket(
       withPrivateTuition(
-        buildOpeningEconomy(withPlayer, {
-          finance: { countedHouseholdIds },
-          customers: { countedHouseholdIds },
-        }).input,
+        scaleFirmsToCensus(
+          buildOpeningEconomy(withPlayer, {
+            finance: { countedHouseholdIds },
+            customers: { countedHouseholdIds },
+          }).input,
+          place.context.jurisdiction.id,
+          countScale,
+        ),
       ),
     );
     // The world economy goes on after the collapse, as on the core's

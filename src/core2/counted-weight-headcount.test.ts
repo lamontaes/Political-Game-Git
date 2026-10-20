@@ -16,7 +16,7 @@ function openTown(seed: string, key: string, countScale?: number) {
   return buildBenchWorld(seed, gameStartDate(), {
     twoLevel: true,
     placeKey: key,
-    ...(countScale ? { countScale } : {}),
+    countScale: countScale ?? 1,
   }).core as CoreState;
 }
 
