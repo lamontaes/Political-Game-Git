@@ -22,3 +22,5 @@ claimed-at:
 **Files.** src/core2/public-work-pay.ts,src/core2/opening-public-pay.ts,src/core2/modules/school.ts,src/core2/modules/counted-demotion.ts
 
 **Notes.** TODO
+
+Sent back 2026-10-20 from PR #5750 (branch claude/counted-teacher-authority): src/core2/counted-public-pay-authority.test.ts:27-36 can pass with no qualifying commitments: all rows may continue and missing remains empty. Assert a nonempty checked set including a demoted counted public worker. The done-when requires one-year buildBenchWorld runs on m7a and two further drawn places with seeds; the body only reports m7a, and the new test advances 200 days. Supply the two drawn full-year proofs. docs/release/changes/core-year-crash-counted-teacher-commitment-not-in-authority.md:3-6 says impact none and Source-only despite fixing a played-year crash and public pay; use an accurate patch declaration.; finish on that branch, merge main into it first.
