@@ -4,13 +4,14 @@ title: "Stopgaps in finance-state (business-closure): 1 open"
 area: world
 kind: stopgap
 priority: 3
-status: blocked
+status: open
 claimed-by:
 pr:
 blocked-on:
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/finance-state.ts, kind business-closure"
 after: world-business-premises-record
+claimed-at: 
 ---
 
 **What.** `closeBusinessByChoice` in src/core2/finance-state.ts lets an owner close a solvent business: it pays workers their earned wages, pays supplier bills already owed, settles each open credit line from the cash left (the rest is written off) and gives the owner the remainder, but it sells no assets, so a firm's building and equipment add nothing to what lenders and the owner receive. Once world-business-premises-record gives each business premises and equipment, make the closure sell them: the premises and equipment are sold to the outside market at their recorded value less a distress discount (the discount is an ESTIMATED parameter with spread), the proceeds join the cash that pays, in order, the final wages (wage claims first, per the state's wage-claim priority), supplier bills, the lenders' credit lines, and then the owner's distribution. Premises that were leased return to the landlord with no sale. Delete the `SG-CORE-voluntary-closure-final-pay` marker when the sale is in.
