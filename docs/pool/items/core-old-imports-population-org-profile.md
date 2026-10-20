@@ -22,3 +22,5 @@ claimed-at: 2026-10-20T05:42:31.756Z
 **Files.** src/core2/population.ts, src/simulation/life-queries.ts
 
 **Notes.** Split Oct 19 from core-old-imports-population, which was sized M but touches five old-engine modules. The sibling slices are core-old-imports-population-org-profile, core-old-imports-population-traits and core-old-imports-population-town-employment.
+
+Oct 20 (claude/old-imports-org-profile): built. `src/core2/opening-organization-profile.ts` reads every organization's latest profile in one pass; population.ts and opening-employment.ts no longer import `organizationProfileAt` from the old life-queries. The opening's JSON for Christiansted, U.S. Virgin Islands (seed org-profile-check, 250 people, 39 organizations) hashes the same before and after.
