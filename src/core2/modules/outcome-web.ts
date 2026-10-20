@@ -33,13 +33,14 @@ import {
   WEB_VERSION,
   WIRED_INTO,
   type WebLink,
+  OUTCOME_WEB_MODULE_ID,
 } from "../outcome-web-model";
 import type { ModuleRow } from "../module-data";
 import type { CoreAPI, CoreEventInput, CoreModule, CoreState } from "../types";
 import { townMetrics, WORLD_METRICS_MODULE_ID } from "./world-metrics";
 import { GOV_MEASURES, govMeasure, govMeasureRecord } from "../gov-measures";
 
-export const OUTCOME_WEB_MODULE_ID = "core2-outcome-web-v1";
+export { OUTCOME_WEB_MODULE_ID };
 const STATE_ID = "outcome-web:state";
 const RUN_KIND = "outcome-web";
 const SETTINGS = WEB_SETTINGS;
