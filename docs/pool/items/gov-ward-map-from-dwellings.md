@@ -5,11 +5,11 @@ area: gov
 kind: stopgap
 priority: 2
 size: M
-status: claimed
+status: blocked
 claimed-by: claude/ward-map
-pr:
-after: gov-council-election-method, world-dwelling-position
-blocked-on:
+pr: #5106
+after: gov-council-election-method
+blocked-on: world-dwelling-locations
 milestone:
 source: "stopgap SG-GOV-ward-map, added by gov-council-election-method"
 claimed-at: 2026-10-19T19:07:44.446Z
