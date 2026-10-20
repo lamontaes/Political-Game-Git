@@ -22,18 +22,8 @@ const why = (id: string) => whyPanels(core, id, findRecord(core, id));
 describe(`dev why panels: ${world.place.displayName} (seed ${seed})`, () => {
   it("a person's year ledger lists pay, hours and cash, and says when receipts are not itemized", () => {
     advanceCore(core, addDays(makeIsoDate(core.date), 120));
-    // A worker whose receipts the journal itemizes and who has been paid: a
-    // worker at an employer with no pay link has no pay row to list (pool item
-    // world-public-employer-staff-never-paid).
-    const paid = (id: string) =>
-      [...(core.cashJournal.detailedByOwner.get(id) ?? [])].some((receiptId) =>
-        /payroll|wage|salary/i.test(
-          core.cashJournal.detailedReceipts.get(receiptId)?.sourceRef.kind ??
-            "",
-        ),
-      );
     const worker = [...core.people.values()].find(
-      (p) => p.alive && p.jobId && paid(p.id),
+      (p) => p.alive && p.jobId && core.cashJournal.detailedByOwner.has(p.id),
     );
     const followed = worker ?? [...core.people.values()].find((p) => p.alive)!;
     const [ledger] = why(followed.id);

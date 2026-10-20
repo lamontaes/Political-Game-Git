@@ -135,8 +135,16 @@ describe("the executive's desk", () => {
       (s) => s.office.kind === "governor" && s.holder,
     );
     if (governor) expect(cabinet.length, where).toBeGreaterThan(0);
-    for (const row of cabinet)
+    for (const row of cabinet) {
       expect(row.identity?.familyName.length).toBeGreaterThan(0);
+      // A cabinet member the governor picked is a person on the state's payroll.
+      const job = core.jobs.get(core.people.get(row.holderId)?.jobId ?? "");
+      if (governments(api).some((g) => g.level === "state"))
+        expect(
+          governments(api).find((g) => g.level === "state")?.organizationId,
+          `${where} ${row.title}: ${row.holderId}`,
+        ).toBe(job?.organizationId);
+    }
     // The form follows the mayor's real powers.
     const veto = mayorVeto(api);
     if (form !== "council-manager")
