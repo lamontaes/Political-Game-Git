@@ -20,4 +20,4 @@ source: added with npm run pool -- add
 
 **Files.** src/simulation/local-business-counts.ts, src/core2/modules/business.ts, src/bench/world.ts, scripts/core2-year/census-scaled-economy.mjs
 
-**Notes.** TODO
+**Notes.** Found Oct 20 while looking at world-census-weight-economy. Storrs, Connecticut (place 0973980, reference population 15,207, countScale 1.5207, seed census-proof-1), after a played year: people 14,783 against 15,207; establishments in town 41 against 85 expected at Census size; full jobs at those businesses 457 against 981 expected (counted workers' jobs are not yet counted by the script, so that figure is a lower bound). Day zero held 28 establishments. A run of the same seed on main took 32 establishments. The script's job and housing counts are first cuts.
