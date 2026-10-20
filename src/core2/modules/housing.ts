@@ -8,6 +8,7 @@
 import { countyPopulationSharesForPlace } from "../reference/government-units";
 import { corePlaceByKey } from "../place-lookup";
 import { addDays, daysBetween, makeIsoDate } from "../kernel/dates";
+import countyNeighbors from "../data/housing/county-neighbors.json" with { type: "json" };
 import housingData from "../data/housing/housing.json" with { type: "json" };
 import housingParameters from "../data/housing/parameters.json" with { type: "json" };
 import type { Parameter } from "../parameters";
@@ -92,6 +93,7 @@ const RENT_VALUE = housingData.countyRentValue as unknown as Record<
   string,
   [number | null, number | null]
 >;
+const COUNTY_NEIGHBORS = countyNeighbors.neighbors as Record<string, string[]>;
 const PLACE_TENURE = housingData.placeTenure as unknown as Record<
   string,
   [number, number]
@@ -159,16 +161,39 @@ const STATE_RENT_VALUE = (() => {
   );
 })();
 /**
- * A county's median rent and home value. Where the ACS withholds one (a county
- * with too few households), the state's household-weighted median stands in,
- * then the nation's; never zero, which would leave every owner without a home.
+ * The household-weighted median rent and value of the neighboring counties
+ * that publish both (Census county adjacency), for a county the ACS withholds.
  */
-function rentValueOf(county: string): [number | null, number | null] {
+function neighborRentValue(county: string): [number, number] | undefined {
+  let rent = 0;
+  let value = 0;
+  let weight = 0;
+  for (const near of COUNTY_NEIGHBORS[county] ?? []) {
+    const rv = RENT_VALUE[near];
+    const homes = COUNTY_TENURE[near]?.[0];
+    if (!rv?.[0] || !rv[1] || !homes) continue;
+    rent += rv[0] * homes;
+    value += rv[1] * homes;
+    weight += homes;
+  }
+  return weight
+    ? [Math.round(rent / weight), Math.round(value / weight)]
+    : undefined;
+}
+/**
+ * A county's median rent and home value. Where the ACS withholds one (a county
+ * with too few households), the neighboring counties' household-weighted
+ * median stands in, then the state's, then the nation's; never zero, which
+ * would leave every owner without a home.
+ */
+export function rentValueOf(county: string): [number | null, number | null] {
   if (county.startsWith(`${NATION}:`)) return NATIONAL.rentValue;
   const row = RENT_VALUE[county] as [number | null, number | null] | undefined;
   if (row?.[0] && row[1]) return row;
-  stopgap("SG-WORLD-housing-county-estimate");
-  const state = STATE_RENT_VALUE.get(county.slice(0, 2)) ?? NATIONAL.rentValue;
+  const state =
+    neighborRentValue(county) ??
+    STATE_RENT_VALUE.get(county.slice(0, 2)) ??
+    NATIONAL.rentValue;
   return [row?.[0] || state[0], row?.[1] || state[1]];
 }
 const DWELLINGS_KEY = "housingDwellings";

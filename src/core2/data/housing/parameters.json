@@ -167,6 +167,17 @@
       "citation": "Natural-vacancy rent adjustment (Gabriel and Nothaft 1988, 2001); no readable U.S. estimate, kept small; new 50+ unit buildings lower nearby rents about 6% (Asquith, Mast and Reed 2023)."
     }
   },
+  "housingRentSavingImpulseScale": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "How hard a rent renewal held below the market rent lands on a tenant's mood, per share of the market rent it saved (a 5% saving lands as a mood impulse of 0.05). Checked against the same scale as a benefit change (benefitChangeImpulseScale) and the life-event impulses the drives engine reads.",
+    "spread": {
+      "low": 0.5,
+      "high": 2,
+      "unit": "mood impulse per share of market rent saved",
+      "citation": "Same scale as benefitChangeImpulseScale: 0.5 to 2."
+    }
+  },
   "housingNewHomeSupplyMonths": {
     "value": 9,
     "tag": "TUNABLE",
