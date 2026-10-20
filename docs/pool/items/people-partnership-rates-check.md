@@ -5,12 +5,13 @@ area: people
 kind: wiring
 priority: 3
 size: S
-status: open
+status: blocked
 claimed-by:
 pr:
-blocked-on:
+blocked-on: spec: the item text is an empty TODO shell; the done-when must be written before it can be built (pool-todo-shells-need-spec)
 after: people-partnership-counted
 source: added with npm run pool -- add
+claimed-at:
 ---
 
 **What.** The partnership rules (leaving a parent's home, forming a partnership and separating) are built on the weights of a person's own situation, so a played year's totals are unchecked against any real rate. Run a year of the played world in several places and compare the leavings, new partnerships and separations per thousand residents of the right ages with the published rates (the ACS share of 25 to 34 year olds living with a parent, the CDC marriage and divorce rates per thousand), as a check on the totals and never as a way to pick one person's outcome.

@@ -5,12 +5,13 @@ area: people
 kind: feature
 priority: 2
 size: M
-status: open
-claimed-by:
+status: blocked
+claimed-by: claude/pool-partnership
 pr:
-blocked-on:
+blocked-on: people-partnership-forms, people-partnership-ends, people-leave-parents-home
 after: people-partnership-forms,people-partnership-ends,people-leave-parents-home
 source: added with npm run pool -- add
+claimed-at: 2026-10-20T02:35:20.062Z
 ---
 
 **What.** Full people leave a parent's home, partner and separate by a monthly weighing of their own situation (`src/core2/modules/partnerships.ts`); the counted adults of a town never do, so the counted tier's households stay as they were at the opening apart from deaths, births and moves out of town. Give the counted groups the same three rules. A counted young adult in a household with a parent weighs staying against a home of their own by the same weights, read from the group's columns (age, the household's pay and rent) and counted at the group's weight; those who go form a household of their own in the same place. Two counted singles of the same place and group in the age band weigh partnering, and a counted couple under strain weighs separating, by the same terms with the closeness a counted pair is given by the place (a counted person has no recorded ties, so closeness is the typical closeness of the group they share, an estimate).
