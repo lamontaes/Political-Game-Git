@@ -4,9 +4,9 @@ title: "Presidential orders, pardons, the situation room:"
 area: office
 kind: feature
 priority: 2
-status: claimed
+status: in-pr
 claimed-by: claude/presidential-orders
-pr:
+pr: #5184
 blocked-on:
 milestone:
 source: "docs/coordination/OFFICE-FEDERAL.md line 19 (unchecked checklist line)"

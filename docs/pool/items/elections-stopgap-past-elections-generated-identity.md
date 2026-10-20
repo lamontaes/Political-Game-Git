@@ -4,10 +4,10 @@ title: "Stopgaps in past-elections (generated-identity): 1 open"
 area: elections
 kind: stopgap
 priority: 3
-status: open
+status: blocked
 claimed-by:
 pr:
-blocked-on:
+blocked-on: engine or design: Only officeholders and the player's circle are full people (two-level population); the people who lost or left are not filled in yet.
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/past-elections.ts, kind generated-identity"
 ---
