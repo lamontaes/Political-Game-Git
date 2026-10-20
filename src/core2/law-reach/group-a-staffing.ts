@@ -21,6 +21,7 @@ import {
   governments,
   lineBeforeBill,
 } from "../modules/budgets";
+import { countedStaffOf } from "../modules/residents";
 import { budgetToday } from "./group-a-money";
 import {
   ageOn,
@@ -90,7 +91,8 @@ export const staffing: PolicyHandler = (api, change) => {
       held?.fiscalYear === budget.fiscalYear
         ? held.baseStaff
         : employers.length
-          ? currentStaff(api, organizationId).length
+          ? currentStaff(api, organizationId).length +
+            countedStaffOf(api.state as CoreState, organizationId)
           : 0;
     // With no such employer in the town (a county jail elsewhere), the
     // government's record carries the positions the change funds or cuts.
@@ -226,20 +228,23 @@ onReachCalendar(STAFFING_KIND, (api, work) => {
   ) as unknown as StaffingRow | undefined;
   if (!row) return;
   const staff = currentStaff(api, row.organizationId);
+  // The district's counted workers fill positions too: the round hires or
+  // lays off named staff only for what the funded positions leave over.
+  const counted = countedStaffOf(api.state as CoreState, row.organizationId);
   const target = Math.round(row.positions);
   const hired: string[] = [];
   const laidOff: string[] = [];
-  if (target > staff.length && staff.length) {
+  if (target > staff.length + counted && staff.length) {
     const template = staff[0]!;
     for (const personId of candidates(api)) {
-      if (staff.length + hired.length >= target) break;
+      if (staff.length + counted + hired.length >= target) break;
       if (hire(api, row, personId, template, work.source)) hired.push(personId);
       else break;
     }
-  } else if (target < staff.length) {
+  } else if (target < staff.length + counted) {
     // The newest hires go first.
     for (const s of [...staff].reverse()) {
-      if (staff.length - laidOff.length <= target) break;
+      if (staff.length + counted - laidOff.length <= target) break;
       if (!api.state.people.has(s.personId)) continue;
       api.endJob(s.jobId, work.key);
       laidOff.push(s.personId);

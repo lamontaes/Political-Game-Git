@@ -15,6 +15,7 @@ import { addDays, makeIsoDate } from "./kernel/dates";
 import { staffingOf } from "./law-reach/group-a-staffing";
 import { advanceCore } from "./life";
 import { budgetsOf, governments } from "./modules/budgets";
+import { countedStaffOf } from "./modules/residents";
 import { memberKey } from "./modules/legislature";
 import { prepareAct, officeHost } from "./modules/office-day";
 import { townSeats } from "./modules/offices";
@@ -49,7 +50,10 @@ for (const direction of ["cut", "raise"] as const)
         [...core.jobs.values()].filter(
           (j) => j.organizationId === organizationId && !j.endsAt,
         );
-      if (!mayor || !city || !district || teachers(district.id).length < 4) {
+      // The district's teachers: named jobs and counted workers on its payroll.
+      const staffIn = (organizationId: string) =>
+        teachers(organizationId).length + countedStaffOf(core, organizationId);
+      if (!mayor || !city || !district || staffIn(district.id) < 4) {
         tried.push(`${where}: no mayor, city or district with teachers`);
         continue;
       }
@@ -70,6 +74,7 @@ for (const direction of ["cut", "raise"] as const)
       }
       expect(budgetProposalDue(api, officeHost, mayorId), where).not.toBeNull();
       const staffBefore = teachers(district.id).map((j) => j.personId);
+      const staffInPlace = staffIn(district.id);
       // The mayor asks to cut or raise the schools line by a third.
       const change = (direction === "cut" ? -1 : 1) * Math.floor(priorLine / 3);
       prepareAct(api, mayorId, "propose-budget", {
@@ -99,13 +104,17 @@ for (const direction of ["cut", "raise"] as const)
       const row = staffingOf(api, "budget-line:schools", district.id);
       const detail = `${where}: schools line ${priorLine} ${direction} by ${Math.abs(change)}, adopted ${adopted?.id}; ${staffBefore.length} teachers before`;
       expect(row, detail).not.toBeNull();
+      // The base is every teacher in place, named or counted, and the line
+      // after the bill against the line before it funds more or fewer.
+      expect(row!.baseStaff, detail).toBe(staffInPlace);
       expect(row!.positions, detail).toBeCloseTo(
         row!.baseStaff * ((priorLine + change) / priorLine),
       );
       if (direction === "cut") {
-        expect(row!.positions, detail).toBeLessThan(row!.baseStaff);
-        expect(laidOff.length, detail).toBeGreaterThan(0);
-      } else expect(row!.positions, detail).toBeGreaterThan(row!.baseStaff);
+        expect(row!.positions, detail).toBeLessThan(staffInPlace);
+        if (staffBefore.length)
+          expect(laidOff.length, detail).toBeGreaterThan(0);
+      } else expect(row!.positions, detail).toBeGreaterThan(staffInPlace);
       return;
     }
     throw new Error(`no drawn place had the pieces: ${tried.join("; ")}`);

@@ -1372,6 +1372,20 @@ export function countedJob(
   return flow && !flow.endedAt ? job : undefined;
 }
 
+/** How many jobs at an employer are held by people in the wider population, while their wages are still paid (by the employer or the treasury that funds it). */
+export function countedStaffOf(
+  core: CoreState,
+  organizationId: string,
+): number {
+  const rt = runtimes.get(core);
+  if (!rt) return 0;
+  let jobs = 0;
+  for (const [jobId, job] of rt.jobs)
+    if (job.organizationId === organizationId && countedJob(core, jobId))
+      jobs += 1;
+  return jobs;
+}
+
 /**
  * The records' count of people in a school class or workgroup, as the full
  * build saw it, so people filled in later join the same-sized peer group.
