@@ -87,6 +87,10 @@ interface CabinetPost {
 const CABINET = cabinetData as unknown as {
   posts: readonly CabinetPost[];
   confirmation: { body: string; citation: string };
+  crises: {
+    default: string;
+    answeredBy: Readonly<Record<string, string>>;
+  };
 };
 
 export const CABINET_POSTS: readonly string[] = CABINET.posts.map((p) => p.id);
@@ -561,6 +565,17 @@ export function dailyBrief(
     sourceId: `cabinet:US`,
     access: "told",
   });
+  // The situation room: each crisis open today, told to the president with
+  // the department that answers it.
+  const crises = crisesToday(api);
+  for (const crisis of crises)
+    api.observe(presidentId, {
+      key: `brief:crisis:${crisis.recordId}`,
+      value: crisis.department,
+      learnedAt: day,
+      sourceId: crisis.recordId,
+      access: "told",
+    });
   const id = `daily-brief:US:${api.state.date}`;
   officeHost.keep(api, {
     personId: presidentId,
@@ -568,7 +583,7 @@ export function dailyBrief(
     how,
     recordId: id,
     position: null,
-    detail: `${month?.id ?? "no month"}: unemployment ${month?.unemploymentPct ?? "none"}, inflation ${month?.inflationPct ?? "none"}, ${vacant} cabinet vacancies`,
+    detail: `${month?.id ?? "no month"}: unemployment ${month?.unemploymentPct ?? "none"}, inflation ${month?.inflationPct ?? "none"}, ${vacant} cabinet vacancies, ${crises.length} crises in the situation room`,
   });
   return id;
 }
@@ -823,13 +838,54 @@ export function pardonable(api: CoreAPI): readonly string[] {
   return [];
 }
 
+/** A crisis the situation room is open on: the disaster record, and who answers it. */
+export interface Crisis {
+  readonly recordId: string;
+  readonly title: string;
+  readonly incidentType: string;
+  readonly began: string;
+  /** The cabinet post whose department answers it. */
+  readonly postId: string;
+  readonly department: string;
+  /** The confirmed secretary, where the post is held. */
+  readonly secretaryId: string | null;
+}
+
 /**
- * The crises that would call the president to the situation room today.
- * None yet. Stopgap SG-OFFICE-FED-situation-room: main keeps no record of a
- * disaster, attack or other national crisis for the president to meet.
+ * The crises that call the president to the situation room today: every
+ * disaster record (a FEMA declaration's incident, written by the disasters
+ * engine) whose incident began within the days the room stays open on it,
+ * with the department that answers it and its secretary. Read at the moment
+ * the day opens; it records nothing.
  */
-export function crisesToday(api: CoreAPI): readonly string[] {
-  // stopgapId: SG-OFFICE-FED-situation-room
-  api.stopgap("SG-OFFICE-FED-situation-room");
-  return [];
+export function crisesToday(api: CoreAPI): readonly Crisis[] {
+  const core = api.state as CoreState;
+  const open = federalParameter("situationRoomOpenDays");
+  const cabinet = cabinetOf(api);
+  const out: Crisis[] = [];
+  for (const id of core.logByKind.get("hazard.disaster") ?? []) {
+    const record = core.durableLog.get(id);
+    if (!record || record.date > api.state.date) continue;
+    if (
+      (Date.parse(`${api.state.date}T00:00:00Z`) -
+        Date.parse(`${record.date}T00:00:00Z`)) /
+        86_400_000 >=
+      open
+    )
+      continue;
+    const type = String(record.facts?.incidentType ?? "");
+    const postId = CABINET.crises.answeredBy[type] ?? CABINET.crises.default;
+    const post = CABINET.posts.find((row) => row.id === postId)!;
+    out.push({
+      recordId: id,
+      title: String(record.facts?.title ?? ""),
+      incidentType: type,
+      began: record.date,
+      postId,
+      department: post.department,
+      secretaryId:
+        cabinet.find((row) => row.postId === postId)?.holderId ?? null,
+    });
+  }
+  return out.sort((a, b) => a.recordId.localeCompare(b.recordId));
 }
