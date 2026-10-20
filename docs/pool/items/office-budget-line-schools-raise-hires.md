@@ -5,7 +5,7 @@ area: office
 kind: wiring
 priority: 3
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/fs11vb-sch
 pr: #5632
 blocked-on:
