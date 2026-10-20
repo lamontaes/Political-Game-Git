@@ -3014,7 +3014,7 @@
       "key": "scene-words.lead-address-alone.you-step-up-to-the-podium",
       "move": "lead-address-alone",
       "kind": "spoken",
-      "text": "You step up to the podium. The whole country is listening.",
+      "text": "You step up to the podium. The country is listening.",
       "uses": [
         {
           "move": "lead-address-alone",
@@ -3056,7 +3056,7 @@
       "key": "scene-words.lead-address-other.other-hands-you-the-final-draft",
       "move": "lead-address-other",
       "kind": "spoken",
-      "text": "{other} hands you the final draft, and you walk out to the podium.",
+      "text": "{other} hands you the draft. You walk to the podium.",
       "uses": [
         {
           "move": "lead-address-other",
@@ -3077,7 +3077,7 @@
       "key": "scene-words.lead-address-other.other-squeezes-your-arm",
       "move": "lead-address-other",
       "kind": "spoken",
-      "text": "{other} squeezes your arm once. Then it's just you and the microphone.",
+      "text": "{other} squeezes your arm. Then it's you and the microphone.",
       "uses": [
         {
           "move": "lead-address-other",
