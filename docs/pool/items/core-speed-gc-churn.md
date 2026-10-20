@@ -22,3 +22,5 @@ claimed-at:
 **Files.** src/core2/state.ts, src/core2/journal-state.ts, src/core2/module-state.ts, src/core2/life.ts
 
 **Notes.** TODO
+
+Oct 20 (claude/speed-release): `releaseResidentHousehold` (1.9 GB, the third-largest allocator) is the purchase-flow copy already in PR #5057 (`core-release-household-copies-purchase-parts`): its purchase branch copies a merged flow's whole parts map with `{ ...present }` on every release, where the wages branch already uses `ownMap` (copied once, then reused). Tried here and dropped: building the employer calendars map once instead of per release, and iterating flows instead of spreading them into an array; the same sampling profile showed 1.88 -> 1.87 GB, no effect. So this allocator waits on #5057, not on new work. What remains for this item after #5057 and #5388: `projectCashJournal` 2.57 GB, `portfolios` 1.36, the births-counted closure 1.25, `scoreOffers` 1.25, `planFreeTime` 1.0, `availableActs` 0.9, and the native `sort`/`Map`/`Set` frames (about 16 GB), which need a call-site profile.
