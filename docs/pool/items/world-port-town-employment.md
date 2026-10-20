@@ -5,7 +5,7 @@ area: world
 kind: wiring
 priority: 2
 size: M
-status: in-pr
+status: dropped
 claimed-by: claude/port-town-workplaces
 pr: #5093
 blocked-on:
@@ -22,3 +22,5 @@ claimed-at: 2026-10-19T18:44:48.781Z
 **Files.** src/simulation/living-world/town-employment.ts, src/simulation/life-queries.ts, src/simulation/justice/jail-terms.ts, src/core2/opening-employment.ts, src/core2/population.ts
 
 **Notes.** Part of the opening town builder port (docs/coordination/core.md line 27; docs/design/old-core-retirement-map.md). Do the parts in any order; each keeps the town the same.
+
+Oct 19 (claude/port-town-workplaces): the workplace tables half is done. Role, Workplace, TOWN_WORKPLACES, the tenure and part-time tables and townWorkplaceFor moved unchanged to src/core2/town-workplaces.ts; opening-employment.ts and the four old readers import them there, and the old file keeps no copy. Still to port: townEmploymentMix and townWorkplaceWeights (the sourced county and state mix), laborStatus, townResidents, activeWorkers and ensureTownEmployment, which write jobs into the old world.
