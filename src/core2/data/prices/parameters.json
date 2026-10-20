@@ -120,5 +120,16 @@
       "unit": "minor units per resident per year",
       "citation": "Per-resident 2024 sales of California (about $120) to Michigan (about $300)."
     }
+  },
+  "pricesRoadLevelElasticity": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "How far the share of roads in poor condition moves with the highways line against its base. Pavement condition follows maintenance spending, but no published elasticity ties a town's budget line to its poor-road share; one (a line 10 percent above its base leaves 10 percent fewer roads poor) is the neutral prior.",
+    "spread": {
+      "low": 0.5,
+      "high": 2,
+      "unit": "elasticity of poor-road share to highways spending",
+      "citation": "Neutral prior with a factor-of-two spread either way; checked by the played-world proof's change in drivers' repair spending."
+    }
   }
 }

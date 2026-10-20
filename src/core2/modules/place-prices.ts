@@ -182,6 +182,20 @@ export function setRoadCondition(
   });
 }
 
+/**
+ * The share of roads in poor condition when the highways line stands at
+ * `level` times its base: the base share, falling as the line rises and
+ * rising as it falls (never more than every road).
+ */
+export function poorRoadShareAt(api: CoreAPI, level: number): number {
+  const base = goods.goods["vehicle-repair"].poorShareBase;
+  if (level <= 0) return 1;
+  return Math.min(
+    1,
+    base / level ** api.parameter("pricesRoadLevelElasticity"),
+  );
+}
+
 /** A law repealed or a budget restored: the place's rule for the good ends. */
 export function endPlaceRule(
   api: CoreAPI,

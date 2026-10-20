@@ -1801,11 +1801,11 @@
     "kind": "missing-engine",
     "file": "src/core2/data/laws/reach-group-b.json",
     "line": 361,
-    "whatItFakes": "The highways line is a road service level record on drivers and road builders; commute time and vehicle costs don't change.",
-    "why": "There is no road condition or commuting cost in the core.",
+    "whatItFakes": "The highways line sets the share of the town's roads in poor condition (poorRoadShareAt, with a TUNABLE elasticity of 1), and drivers' repair bills follow it through place-prices; commute time does not change.",
+    "why": "There is no commute-time model in the core, so road condition has one reader, vehicle repair spending.",
     "addedBy": "OPUS-GOV (sub-agent B)",
     "addedAt": "2026-10-12",
-    "replacement": "OPUS-WORLD regional engine: setRoadCondition({ placeId, level }) read by commute time and vehicle costs.",
+    "replacement": "A commute-time model that reads the town's poor-road share.",
     "status": "open"
   },
   {
