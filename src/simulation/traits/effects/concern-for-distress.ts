@@ -1,4 +1,4 @@
-import type { TraitEffectDeclaration } from "../../trait-packs";
+import type { TraitEffectDeclaration } from "../../../core2/trait-packs";
 
 /**
  * Compassion is the weight given to suffering a person actually understands. It bears on whether someone petitions for clemency; it is not automatic policy support.
