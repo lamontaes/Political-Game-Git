@@ -5,11 +5,12 @@ area: world
 kind: stopgap
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/political-game-pool-yucp92-an
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-20T10:18:07.870Z
 ---
 
 **What.** SG-WORLD-jobs-offer-deadline-reminder (src/core2/modules/jobs.ts) says a job offer's deadline stops the player's clock once as a reminder, not held, because the play screen had no control to answer an offer. It does now: src/bench/play.mjs shows each offer with Accept and Decline (POST /api/jobs/answer). Make the deadline stop a held stop (hold: true), so the clock cannot pass an unanswered offer's deadline, answering or the employer's lapse releases it (settleOffer already releases the tokens), and resolve the row.
