@@ -223,6 +223,12 @@
       "tag": "SOURCED",
       "source": "GFOA best practice, Fund Balance Guidelines for the General Fund (2015): unrestricted fund balance of no less than two months of regular operating spending."
     },
+    "groceryShareOfRetailSales": {
+      "value": 0.757,
+      "tag": "ESTIMATED",
+      "source": "BLS Consumer Expenditure Survey 2024 (data/research/core-figures/P0-1/ce-region-categories-2024.json): households' retail purchases in the opening are food at home ($6,224 a year) and apparel and services ($2,001), so food at home is 6,224 / 8,225 of what retail sellers sell households. State exemptions cover unprepared food only; the share is the same everywhere.",
+      "spread": [0.7, 0.8]
+    },
     "cleanElectricityPriceShare": {
       "value": 0.03,
       "tag": "ESTIMATED",
