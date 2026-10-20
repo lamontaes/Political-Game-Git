@@ -68,18 +68,6 @@
         {
           "id": "seek-standing",
           "from": "src/core2/data/drives.json#/actions/6"
-        },
-        {
-          "id": "testify-at-hearing",
-          "from": "src/core2/data/drives.json#/actions/7"
-        },
-        {
-          "id": "run-for-office",
-          "from": "src/core2/data/drives.json#/actions/8"
-        },
-        {
-          "id": "lobby-legislator",
-          "from": "src/core2/data/drives.json#/actions/9"
         }
       ]
     },
@@ -1483,7 +1471,7 @@
     },
     {
       "id": "relationships.warm-to",
-      "site": "src/core2/state.ts",
+      "site": "src/core2/closeness.ts",
       "owner": "OPUS-PEOPLE",
       "route": "formula",
       "traitWeightParameter": "traitWeightRelationshipsWarmTo",
@@ -1500,7 +1488,7 @@
     },
     {
       "id": "relationships.fall-out",
-      "site": "src/core2/state.ts",
+      "site": "src/core2/closeness.ts",
       "owner": "OPUS-PEOPLE",
       "route": "formula",
       "traitWeightParameter": "traitWeightRelationshipsFallOut",

@@ -2264,8 +2264,10 @@
     "why": "Core2 has no hearings or legislature.",
     "addedBy": "OPUS-DRIVES",
     "addedAt": "2026-10-09",
-    "replacement": "Resolved Oct 19: the act row is deleted. Testimony is a resident's remark at a hearing or meeting (the meetings module's remarks and hearings), chosen from the resident's own views, so a second drive act would be a parallel route.",
-    "status": "resolved"
+    "replacement": "The legislature/committee module's hearing calendar offering testimony slots.",
+    "status": "resolved",
+    "resolvedAt": "2026-10-19",
+    "resolution": "the act row is deleted. Testimony is a resident's remark at a hearing or meeting (the meetings module's remarks and hearings), chosen from the resident's own views, so a second drive act would be a parallel route."
   },
   {
     "id": "SG-P10-candidacy-unbuilt",
@@ -2276,8 +2278,10 @@
     "why": "Core2 has no elections or filing.",
     "addedBy": "OPUS-DRIVES",
     "addedAt": "2026-10-09",
-    "replacement": "Resolved Oct 19: the act row is deleted. Who runs is decided by the elections and candidacy modules (candidacy.ts, candidate-pool.ts, world-races), so a drive act would be a parallel route.",
-    "status": "resolved"
+    "replacement": "The elections module's filing and campaign acts.",
+    "status": "resolved",
+    "resolvedAt": "2026-10-19",
+    "resolution": "the act row is deleted. Who runs is decided by the elections and candidacy modules (candidacy.ts, candidate-pool.ts, world-races), so a drive act would be a parallel route."
   },
   {
     "id": "SG-P10-lobbying-unbuilt",
@@ -2288,8 +2292,10 @@
     "why": "Core2 has no legislature or member contact system.",
     "addedBy": "OPUS-DRIVES",
     "addedAt": "2026-10-09",
-    "replacement": "Resolved Oct 19: the act row is deleted. Lobbying is the interest-groups module's contact with a legislator, so a drive act would be a parallel route.",
-    "status": "resolved"
+    "replacement": "The legislature module's member-contact and bill-sponsor acts.",
+    "status": "resolved",
+    "resolvedAt": "2026-10-19",
+    "resolution": "the act row is deleted. Lobbying is the interest-groups module's contact with a legislator, so a drive act would be a parallel route."
   },
   {
     "id": "SG-P10-health-minimal-port",
