@@ -5,9 +5,9 @@ area: release
 kind: bug
 priority: 3
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/release-check-shallow
-pr:
+pr: #5290
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-19T23:43:04.122Z
