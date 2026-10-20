@@ -1187,8 +1187,8 @@
     "why": "Councils and legislatures can't vote budgets until M3 (owner, Oct 10: old budget rules until councils vote).",
     "addedBy": "OPUS-GOV",
     "addedAt": "2026-10-12",
-    "replacement": "The council's or legislature's budget vote (M3-05) and the executive's priorities.",
-    "status": "open"
+    "replacement": "Resolved Oct 20: in a played year in Rollingwood TX, East Sandwich MA and Holdrege NE every government (federal, state, county, city) adopted its 2025 budget by its body's recorded vote; the carry-forward remains only as the fallback when no body votes (pool item gov-stopgap-budgets-missing-engine).",
+    "status": "resolved"
   },
   {
     "id": "SG-GOV-veto-override-rule",
