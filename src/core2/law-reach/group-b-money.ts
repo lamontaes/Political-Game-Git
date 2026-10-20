@@ -74,7 +74,7 @@ export function townPopulation(api: CoreAPI): number {
   return townFacts(api, lawChain(api).townPlaceId).modeled;
 }
 
-/** A government's residents, as the budgets module records them (island areas included). */
+/** A government's residents, from the budgets module (island areas included, from the Census). */
 export function residentsOf(_api: CoreAPI, gov: GovernmentRow): number {
   return gov.residents;
 }

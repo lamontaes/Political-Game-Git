@@ -2,11 +2,8 @@
  * Housing, first cut: every household owns or rents its home, in the town's
  * real owner share; renters pay rent to a landlord through a monthly bill
  * that records arrears. An eviction starts only from rent owed past the
- * grace period and follows the place's own steps: notice, cure, filing and
- * removal, each a dated step on the module calendar. Courts come after early
- * access: there is no hearing scene, so a filed case ends in removal once the
- * statute's days from filing to possession have run (hearing and stay), and
- * the household leaves through the moves engine.
+ * grace period and follows the place's own steps: notice, cure, filing,
+ * hearing, judgment and removal, each a dated step on the module calendar.
  */
 import { countyPopulationSharesForPlace } from "../reference/government-units";
 import { corePlaceByKey } from "../place-lookup";
@@ -17,7 +14,7 @@ import type { Parameter } from "../parameters";
 import { stopgap } from "../stopgaps";
 import { depositsHeld, withdrawSavings } from "../accounts";
 import { transferCash } from "../world-transfer";
-import { countedHousingInArrears } from "../counted-money";
+import { countedHousingInArrears, countedPayment } from "../counted-money";
 import type { FinanceContractInput } from "../finance-types";
 import type { ResidentFlowInput } from "../residents";
 import { MACRO_PARAMETERS } from "./macro";
@@ -378,7 +375,8 @@ export function withHousing(input: CoreInput): CoreInput {
       )
       .map((row, i) => [row.id, i]),
   );
-  // The town's rentals are one rental business whose owners mostly live elsewhere (see landlordPayout).
+  // A landlord until businesses growing (M1-08) gives rentals real owners.
+  stopgap("SG-WORLD-housing-landlord");
   const landlordId = `organization:landlord:${town.placeId}`;
   const source: Source = {
     tag: "ESTIMATED",
@@ -473,7 +471,8 @@ export function withHousing(input: CoreInput): CoreInput {
         source,
       });
     else if (account) {
-      // The wider population's cash is pooled by place (two-level population): its rent is paid from the pool until the player meets the household.
+      // The wider population's cash is pooled by place: its rent is paid from the pool, with no per-household arrears (stopgap).
+      stopgap("SG-WORLD-housing-counted-rent");
       flows.push({
         id: `rent:${row.id}`,
         kind: "purchase",
@@ -773,6 +772,8 @@ function amortize(api: CoreAPI): void {
  */
 function landlordPayout(api: CoreAPI): void {
   const c = core(api);
+  // One ownerless landlord until rentals have owners (businesses growing); see the stopgap.
+  stopgap("SG-WORLD-housing-landlord");
   for (const landlord of c.organizations.values()) {
     if (!landlord.id.startsWith("organization:landlord:")) continue;
     const outside = [...c.organizations.values()].find(
@@ -1110,7 +1111,8 @@ function review(api: CoreAPI): void {
         api.parameter("housingNoticeArrearsWeight") * row.months +
         api.parameter("housingNoticeLateWeight") * row.months,
     });
-  // The landlord serves notice by its reasons as a group: months owed and months late, no dice.
+  // One ownerless landlord serves notice; its patience is its reasons, not an owner's yet (see the stopgap).
+  stopgap("SG-WORLD-housing-landlord");
   for (const { id } of landlordPulls(api, late)) {
     const lease = c.finance.contracts.get(id);
     const late = counted.get(id);
@@ -1220,6 +1222,27 @@ function step(api: CoreAPI, caseId: string, kind: string): void {
   const owed = row.counted
     ? countedOwed(api, row.householdId, Number(row.owedAtNoticeMinor))
     : lease!.arrearsMinor;
+  const payCaseArrears = (amount: number) => {
+    if (!row.counted) return payArrears(api, row.leaseId, amount);
+    const rt = residentsRuntime(c);
+    const ix = rt?.store.householdOf.get(row.householdId);
+    const household = ix === undefined ? undefined : rt!.store.households[ix];
+    if (!rt || !household || household.gone) return 0;
+    const paid = countedPayment(api, {
+      id: `arrears:${caseId}:${c.date}`,
+      householdId: row.householdId,
+      placeId: household.placeId,
+      otherOwnerId: row.landlordId,
+      amountMinor: amount,
+      reasonKey: "household.rent",
+      source: { tag: "SOURCED", asOf: c.date, citation: caseId },
+    });
+    rt.arrears.set(
+      household.group,
+      Math.max(0, (rt.arrears.get(household.group) ?? 0) - paid),
+    );
+    return paid;
+  };
   if (kind === "housing-cure-deadline") {
     // The household pays what it can of what it owes before the deadline (after its payday), through the ledger.
     // A counted household pays through its group's account, which takes the arrears with each rent payment.
@@ -1235,114 +1258,81 @@ function step(api: CoreAPI, caseId: string, kind: string): void {
         closedAt: c.date,
         reasonKey: housingData.reasons.cured,
       });
-    // The landlord files; a tenant's lawyer is paid where the law gives one.
-    // With no court scene, removal follows once the statute's days from
-    // filing to possession (hearing and stay) have run.
+    const hearingAt = addDays(
+      makeIsoDate(c.date),
+      Math.max(1, row.law.hearingDays),
+    );
+    put({
+      stage: "filed",
+      filedAt: c.date,
+      hearingAt,
+      owedAtFilingMinor: owed,
+      reasonKey: housingData.reasons.filed,
+    });
+    schedule(api, `hearing:${caseId}`, hearingAt, "housing-hearing", caseId);
+  } else if (kind === "housing-hearing") {
+    // Evictions without courts (owner, Oct 14, OWNER-DECISIONS.md): the hearing is a dated step of the statute that follows its conditions (rent owed, notice given); there is no judge or court scene until courts come.
+    if (owed <= 0)
+      return put({
+        open: false,
+        stage: "dismissed",
+        closedAt: c.date,
+        reasonKey: housingData.reasons.cured,
+      });
     const placeId =
       c.households.get(row.householdId)?.placeId ??
       countedHousehold(c, row.householdId)?.placeId;
     const counsel = placeId ? payCounsel(api, caseId, placeId) : undefined;
-    const removalAt = addDays(
-      makeIsoDate(c.date),
-      Math.max(1, row.law.hearingDays + row.law.stayDays),
-    );
+    put(counsel ?? {});
+    const plan =
+      counsel?.counselPaidMinor ===
+      api.parameter("housingCounselCostPerCaseMinor")
+        ? counselPlan(api, row.householdId, owed)
+        : undefined;
+    if (!plan) return judge(api, caseId, owed);
     put({
       ...counsel,
-      stage: "filed",
-      filedAt: c.date,
-      removalAt,
-      owedAtFilingMinor: owed,
-      reasonKey: housingData.reasons.filed,
+      stage: "settled",
+      settledAt: c.date,
+      owedAtSettlementMinor: owed,
+      planInstallmentMinor: plan.installmentMinor,
+      planMonths: plan.months,
+      planPaymentsMade: 0,
+      reasonKey: housingData.reasons.settled,
     });
-    schedule(api, `removal:${caseId}`, removalAt, "housing-removal", caseId);
-  } else if (kind === "housing-removal") {
-    // Paid in full before the day: the landlord drops the case.
-    if (owed <= 0)
+    schedule(
+      api,
+      `plan:${caseId}:1`,
+      addDays(makeIsoDate(c.date), daysPerMonth(api)),
+      "housing-plan-payment",
+      caseId,
+    );
+  } else if (kind === "housing-plan-payment") {
+    const due = Math.min(owed, Number(row.planInstallmentMinor));
+    const paid = due > 0 ? payCaseArrears(due) : 0;
+    const left = row.counted
+      ? countedOwed(api, row.householdId, Number(row.owedAtNoticeMinor))
+      : c.finance.contracts.get(row.leaseId)!.arrearsMinor;
+    if (left <= 0)
       return put({
         open: false,
-        stage: "cured",
+        stage: "plan-paid",
         closedAt: c.date,
-        reasonKey: housingData.reasons.cured,
+        reasonKey: housingData.reasons.planPaid,
       });
-    remove(api, row, owed);
-  }
-}
-
-/**
- * Removal: the lease ends, the eviction is a public record, and the moves
- * engine (moves.ts, reading housing.eviction) takes the household out of its
- * home the way it moves any leaver.
- */
-function remove(
-  api: CoreAPI,
-  row: {
-    id: string;
-    leaseId: string;
-    householdId: string;
-    landlordId: string;
-    law: Steps;
-    [key: string]: unknown;
-  },
-  owed: number,
-): void {
-  const c = core(api);
-  // A counted household's rent ends and its people are filled in; a full household's lease ends.
-  if (row.counted) removeCountedHousehold(api, row.householdId, owed);
-  else api.endStandingContract(row.leaseId);
-  store(api)
-    .table("cases")
-    .put({
-      ...row,
-      open: false,
-      stage: "removed",
-      removedAt: c.date,
-      closedAt: c.date,
-      owedAtRemovalMinor: owed,
-      reasonKey: housingData.reasons.removal,
-    });
-  const dwellingId = `dwelling:${row.householdId}`;
-  store(api)
-    .table("dwellings")
-    .put({
-      id: dwellingId,
-      householdId: row.householdId,
-      tenure: "removed",
-      kind:
-        (
-          store(api).table("dwellings").get(dwellingId) as
-            { kind?: string } | undefined
-        )?.kind ?? "house",
-      since: c.date,
-      basis: "eviction",
-    });
-  const household = c.households.get(row.householdId);
-  api.emit({
-    id: `event:housing.eviction:${row.id}`,
-    date: c.date,
-    kind: "housing.eviction",
-    personIds: (household?.memberIds ?? []).filter((id) => c.people.has(id)),
-    placeId:
-      household?.placeId ?? c.organizations.get(row.landlordId)?.placeId ?? "",
-    source: {
-      tag: row.law.confidence === "high" ? "SOURCED" : "ESTIMATED",
-      asOf: c.date,
-      citation: String(row.law.statute ?? housingData.source.citation),
-      ...(row.law.confidence === "high"
-        ? {}
-        : {
-            estimatedFrom: `Removal after ${row.leaseId}'s rent went unpaid: notice, filing, and the statute's hearing and stay days.`,
-          }),
-    },
-    publicRecord: true,
-    topic: row.landlordId,
-  });
-  // Where they go: a relative with room, a shelter bed, else the street.
-  placeRemovedHousehold(api, {
-    householdId: row.householdId,
-    caseId: row.id,
-    counted: Boolean(row.counted),
-    usps: steps(api).usps,
-  });
+    // A missed installment sends the case back to the court for judgment.
+    if (paid < due)
+      return judge(api, caseId, left, housingData.reasons.planMissed);
+    const made = Number(row.planPaymentsMade ?? 0) + 1;
+    put({ planPaymentsMade: made });
+    schedule(
+      api,
+      `plan:${caseId}:${made + 1}`,
+      addDays(makeIsoDate(c.date), daysPerMonth(api)),
+      "housing-plan-payment",
+      caseId,
+    );
+  } else if (kind === "housing-removal") remove(api, caseId, owed);
 }
 
 function daysPerMonth(api: CoreAPI): number {
@@ -1607,6 +1597,131 @@ function payCounsel(api: CoreAPI, caseId: string, placeId: string) {
     counselPayerId: payer,
     counselProviderId: provider.id,
   };
+}
+
+/**
+ * With a lawyer, a tenant who owes rent settles for monthly installments on
+ * the arrears the household's pay can carry, instead of a judgment. Nothing
+ * when there's no right to counsel here, or the household's pay can't clear
+ * the arrears within the longest plan.
+ */
+function counselPlan(
+  api: CoreAPI,
+  householdId: string,
+  owed: number,
+): { installmentMinor: number; months: number } | undefined {
+  const c = core(api);
+  const household = c.households.get(householdId);
+  const counted = countedHousehold(c, householdId);
+  if (!household && !counted) return undefined;
+  let daily = 0;
+  for (const id of household?.memberIds ?? []) {
+    const job = c.jobs.get(c.people.get(id)?.jobId ?? "");
+    if (job && job.endsAt === undefined) daily += job.wageDailyMinor;
+  }
+  for (const job of counted?.jobs ?? []) {
+    const current = residentsRuntime(c)?.jobs.get(job.id);
+    if (current && current.endsAt === undefined)
+      daily += current.wageDailyMinor;
+  }
+  const affordable =
+    daily * daysPerMonth(api) * api.parameter("housingCounselPlanShareOfPay");
+  if (!(affordable > 0)) return undefined;
+  const months = Math.ceil(owed / affordable);
+  if (months > api.parameter("housingCounselPlanMaxMonths")) return undefined;
+  return { installmentMinor: Math.ceil(owed / months), months };
+}
+
+/** Judgment for possession: removal after the state's stay. */
+function judge(
+  api: CoreAPI,
+  caseId: string,
+  owed: number,
+  reasonKey: string = housingData.reasons.judgment,
+): void {
+  const c = core(api);
+  const row = store(api).table("cases").get(caseId) as unknown as {
+    id: string;
+    law: Steps;
+    [key: string]: unknown;
+  };
+  // A step the statute gives no days to falls on the next day: the court acts after today's business.
+  const removalAt = addDays(makeIsoDate(c.date), Math.max(1, row.law.stayDays));
+  store(api)
+    .table("cases")
+    .put({
+      ...row,
+      stage: "judgment",
+      judgmentAt: c.date,
+      removalAt,
+      owedAtJudgmentMinor: owed,
+      reasonKey,
+    });
+  schedule(api, `removal:${caseId}`, removalAt, "housing-removal", caseId);
+}
+
+/** The household leaves on the removal date; the lease ends and the eviction is a public record. */
+function remove(api: CoreAPI, caseId: string, owed: number): void {
+  const c = core(api);
+  const row = store(api).table("cases").get(caseId) as unknown as {
+    id: string;
+    leaseId: string;
+    householdId: string;
+    landlordId: string;
+    law: Steps;
+    [key: string]: unknown;
+  };
+  // A counted household's rent ends and its people are filled in; a full household's lease ends.
+  if (row.counted) removeCountedHousehold(api, row.householdId, owed);
+  else api.endStandingContract(row.leaseId);
+  store(api)
+    .table("cases")
+    .put({
+      ...row,
+      open: false,
+      stage: "removed",
+      removedAt: c.date,
+      reasonKey: housingData.reasons.removal,
+      owedAtRemovalMinor: owed,
+    });
+  store(api)
+    .table("dwellings")
+    .put({
+      id: `dwelling:${row.householdId}`,
+      householdId: row.householdId,
+      tenure: "removed",
+      kind:
+        (
+          store(api).table("dwellings").get(`dwelling:${row.householdId}`) as
+            { kind?: string } | undefined
+        )?.kind ?? "house",
+      since: c.date,
+      basis: "eviction",
+    });
+  const household = c.households.get(row.householdId);
+  api.emit({
+    id: `event:housing.eviction:${caseId}`,
+    date: c.date,
+    kind: "housing.eviction",
+    personIds: (household?.memberIds ?? []).filter((id) => c.people.has(id)),
+    placeId:
+      household?.placeId ?? c.organizations.get(row.landlordId)?.placeId ?? "",
+    source: {
+      tag: "ESTIMATED",
+      asOf: c.date,
+      citation: String(row.law.statute ?? housingData.source.citation),
+      estimatedFrom: `Removal after ${row.leaseId}'s rent went unpaid, through notice, filing, hearing and judgment.`,
+    },
+    publicRecord: true,
+    topic: row.landlordId,
+  });
+  // Where they go: a relative with room, a shelter bed, else the street.
+  placeRemovedHousehold(api, {
+    householdId: row.householdId,
+    caseId,
+    counted: Boolean(row.counted),
+    usps: steps(api).usps,
+  });
 }
 
 export const HOUSING_MODULE: CoreModule = {

@@ -85,6 +85,28 @@
       "citation": "Saving the down payment is the main barrier for first-time buyers (NAR 2025 Profile of Home Buyers and Sellers)."
     }
   },
+  "housingCounselPlanShareOfPay": {
+    "value": 0.1,
+    "tag": "TUNABLE",
+    "citation": "Repayment stipulations in housing court spread arrears over months the tenant can carry beyond rent; HUD's 30% rent-burden line leaves roughly a tenth of pay for arrears.",
+    "spread": {
+      "low": 0.05,
+      "high": 0.2,
+      "unit": "share of monthly pay",
+      "citation": "Repayment stipulations in housing court spread arrears over months the tenant can carry beyond rent; HUD's 30% rent-burden line leaves roughly a tenth of pay for arrears."
+    }
+  },
+  "housingCounselPlanMaxMonths": {
+    "value": 12,
+    "tag": "TUNABLE",
+    "citation": "Negotiated repayment plans in housing court run a few months to a year; NYC OCJ FY25 report: 83% of fully represented households were allowed to remain.",
+    "spread": {
+      "low": 3,
+      "high": 12,
+      "unit": "months",
+      "citation": "Negotiated repayment plans in housing court run a few months to a year; NYC OCJ FY25 report: 83% of fully represented households were allowed to remain."
+    }
+  },
   "housingCounselCostPerCaseMinor": {
     "value": 426000,
     "tag": "SOURCED",

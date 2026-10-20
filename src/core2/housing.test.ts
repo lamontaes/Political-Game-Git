@@ -1,8 +1,8 @@
-/** M1-05 checks on a recorded fixture: eviction notice only from unpaid rent, through the place's steps to removal. */
+/** M1-05 checks on a recorded fixture: eviction only from unpaid rent, through the place's steps. */
 import { describe, expect, it } from "vitest";
 import housingData from "./data/housing/housing.json" with { type: "json" };
 import { advanceCore, createLifeCore } from "./life";
-import { HOUSING_MODULE } from "./modules/housing";
+import { HOUSING_MODULE, setRightToCounsel } from "./modules/housing";
 import { worldCoreData } from "./modules/world";
 import { coreAPI } from "./state";
 import { transferCash } from "./world-transfer";
@@ -83,7 +83,7 @@ function input(usps: string): CoreInput {
 }
 
 describe("eviction follows the place's steps", () => {
-  it("serves notice once rent owed outweighs the landlord's patience after the grace period and files after the cure deadline; with no court scene, removal follows once the statute's hearing and stay days have run, the lease ends and the eviction is a public record", () => {
+  it("serves notice once rent owed outweighs the landlord's patience after the grace period, files after the cure deadline, and removes only after judgment", () => {
     const usps = "TX",
       law = housingData.eviction[usps];
     const core = createLifeCore(input(usps), {
@@ -98,7 +98,7 @@ describe("eviction follows the place's steps", () => {
       true,
     );
     const first = cases[0]!;
-    expect(first).toMatchObject({ stage: "removed", open: false });
+    expect(first).toMatchObject({ stage: "removed" });
     const days = (a: unknown, b: unknown) =>
       (Date.parse(String(b)) - Date.parse(String(a))) / 86_400_000;
     // Rent first went unpaid February 1; notice only after the grace period, with rent still owed.
@@ -107,13 +107,12 @@ describe("eviction follows the place's steps", () => {
     );
     expect(Number(first.owedAtNoticeMinor)).toBeGreaterThan(0);
     expect(days(first.noticeAt, first.filedAt)).toBe(law.noticeDays);
-    expect(days(first.filedAt, first.removedAt)).toBe(
-      Math.max(1, law.hearingDays + law.stayDays),
-    );
+    expect(days(first.filedAt, first.judgmentAt)).toBe(law.hearingDays);
+    expect(days(first.judgmentAt, first.removedAt)).toBe(law.stayDays);
     expect(core.eventIds.has(`event:housing.eviction:${first.id}`)).toBe(true);
-    expect(
-      core.finance.contracts.get("lease:household:broke")!.endedAt,
-    ).toBeDefined();
+    expect(core.finance.contracts.get("lease:household:broke")!.endedAt).toBe(
+      first.removedAt,
+    );
     expect(
       core.finance.contracts.get("lease:household:payer")!.endedAt,
     ).toBeUndefined();
@@ -310,6 +309,119 @@ describe("buying a home", () => {
     ).toMatchObject({ tenure: "own", basis: "purchase" });
     expect(cash()).toBe(opening - outsideNet());
   });
+});
+
+describe("right to counsel in eviction", () => {
+  it.each([true, false])(
+    "a lawyer-assisted plan requires funded counsel (funded=%s)",
+    (funded) => {
+      const opening = input("TX");
+      const core = createLifeCore(
+          {
+            ...opening,
+            people: opening.people.map((row) =>
+              row.id === "broke" ? { ...row, jobId: "job:broke" } : row,
+            ),
+            organizations: [
+              ...opening.organizations,
+              {
+                id: "organization:treasury",
+                placeId: place,
+                name: "Treasury",
+                kind: "government",
+                liquidMinor: funded ? 100_000_000 : 0,
+                source: src,
+              },
+              {
+                id: "organization:legal-services",
+                placeId: place,
+                name: "Legal services",
+                kind: "outside",
+                liquidMinor: 0,
+                outsideFlow: src,
+                source: src,
+              },
+              {
+                id: "organization:struggling-shop",
+                placeId: place,
+                name: "Struggling shop",
+                kind: "employer",
+                liquidMinor: 0,
+                source: src,
+              },
+            ],
+            jobs: [
+              {
+                id: "job:broke",
+                personId: "broke",
+                organizationId: "organization:struggling-shop",
+                title: "Clerk",
+                wageDailyMinor: 15_000,
+                hoursDaily: 8,
+                source: src,
+              },
+            ],
+          },
+          { data: worldCoreData(), modules: [HOUSING_MODULE] },
+        ),
+        api = coreAPI(core);
+      advanceCore(core, "2021-01-01");
+      setRightToCounsel(api, place, true, "organization:treasury");
+      // Month by month until the hearing settles the case.
+      for (const day of [
+        "03-01",
+        "04-01",
+        "04-16",
+        "05-01",
+        "05-16",
+        "06-01",
+      ]) {
+        advanceCore(core, `2021-${day}`);
+        const open = (
+          api.moduleState("housing").snapshot().tables.cases as unknown as {
+            stage: string;
+          }[]
+        ).some((row) => row.stage === "settled");
+        if (open) break;
+      }
+      const cases = () =>
+        api.moduleState("housing").snapshot().tables.cases as unknown as Record<
+          string,
+          string | number | boolean
+        >[];
+      const settled = cases().find((row) => row.stage === "settled")!;
+      if (!funded) {
+        expect(settled).toBeUndefined();
+        expect(
+          cases().some(
+            (row) => row.stage === "removed" || row.stage === "judgment",
+          ),
+        ).toBe(true);
+        expect(cases().some((row) => row.counselPaidMinor === 0)).toBe(true);
+        return;
+      }
+      // Its pay goes unpaid while the shop has no cash; a tenth of the $4,500 a month it's owed carries the arrears inside a year.
+      expect(settled).toMatchObject({
+        leaseId: "lease:household:broke",
+        reasonKey: "counsel-negotiated-payment-plan",
+        counselPayerId: "organization:treasury",
+        counselProviderId: "organization:legal-services",
+        counselPaidMinor: api.parameter("housingCounselCostPerCaseMinor"),
+      });
+      expect(Number(settled.planMonths)).toBeLessThanOrEqual(12);
+      // The household's pay arrives; it keeps up rent and the plan.
+      transferCash(api, "fixture:pay", "payer", "broke", 2_000_000, src);
+      advanceCore(core, "2022-03-01");
+      const done = cases().find((row) => row.id === settled.id)!;
+      expect(done).toMatchObject({ stage: "plan-paid", open: false });
+      expect(core.finance.contracts.get("lease:household:broke")!.endedAt).toBe(
+        undefined,
+      );
+      expect(core.eventIds.has(`event:housing.eviction:${settled.id}`)).toBe(
+        false,
+      );
+    },
+  );
 });
 
 describe("a counted household's mortgage", () => {

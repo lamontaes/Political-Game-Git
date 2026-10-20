@@ -916,7 +916,8 @@ function staffReview(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
       0
     )
       continue;
-    // Anyone paid less than the post applies; taking it ends their job.
+    // Anyone the post pays more than they earn now would apply, an employed
+    // one leaving their job for it (`startPublicJob` ends it).
     const choice = staffCandidates(api, officialId)
       .filter((c) => {
         const pay = [...(state.work.commitmentsByPerson.get(c.personId) ?? [])]

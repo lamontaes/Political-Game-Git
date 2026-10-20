@@ -38739,7 +38739,11 @@
     "notice": "rent-past-grace",
     "cured": "paid-within-notice",
     "filed": "rent-still-owed",
-    "removal": "statutory-days-run",
+    "judgment": "rent-owed-and-notice-given",
+    "removal": "judgment-for-possession",
+    "settled": "counsel-negotiated-payment-plan",
+    "planPaid": "payment-plan-completed",
+    "planMissed": "payment-plan-missed",
     "vacated": "tenancy-ended-before-removal"
   },
   "actions": {

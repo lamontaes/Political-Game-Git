@@ -1,5 +1,10 @@
 import { coreAPI } from "../core2/state";
-import { ballotOf, candidateIdentity, resultOf } from "../core2/modules/voting";
+import {
+  ballotOf,
+  candidateIdentity,
+  placesOf,
+  resultOf,
+} from "../core2/modules/voting";
 import type { ContestRow, FilingRow } from "../core2/modules/elections";
 import type { CoreAPI, CoreState } from "../core2/types";
 import { backdropFile, hasBackdrop, stagePeople } from "./scene";
@@ -62,6 +67,20 @@ export function electionResults(core: CoreState, playerId: string) {
       namedTurnout: result.namedTurnout,
       namedEligible: result.namedEligible,
       electorate: result.electorate,
+      /** Where the race was won: each place's leader, with the votes cast there. */
+      places: placesOf(api, contest.id)
+        .map((place) => {
+          const leader = Object.entries(place.votes).sort(
+            (a, b) => b[1] - a[1] || a[0].localeCompare(b[0]),
+          )[0];
+          return {
+            id: place.placeId,
+            name: place.name,
+            cast: place.cast,
+            leader: leader && leader[1] > 0 ? name(leader[0]) : null,
+          };
+        })
+        .sort((a, b) => b.cast - a.cast || a.id.localeCompare(b.id)),
       exitPoll: Object.fromEntries(
         Object.entries(result.exitPoll).map(([id, n]) => [
           id.startsWith("official:") || core.people.has(id) ? name(id) : id,

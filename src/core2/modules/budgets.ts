@@ -273,9 +273,10 @@ interface PlaceBases {
   name: string;
   fiscalYearStart: string;
   population2024?: number;
-  /** Island areas: Puerto Rico's 2025 estimate, the others' 2020 Census counts. */
-  puertoRicoPopulation2025?: number;
+  /** An island area's 2020 Census Island Areas count (Guam, the Virgin Islands, American Samoa, the Northern Marianas). */
   islandAreaPopulation2020?: number;
+  /** Puerto Rico's Census population estimate. */
+  puertoRicoPopulation2025?: number;
   state?: { revenue: Record<string, number>; spending: Record<string, number> };
   local?: { revenue: Record<string, number>; spending: Record<string, number> };
 }
@@ -441,8 +442,8 @@ export function openBudgets(core: CoreState): readonly GovernmentRow[] {
       fiscalYearStart: stateStart,
       residents:
         place?.population2024 ??
-        place?.puertoRicoPopulation2025 ??
         place?.islandAreaPopulation2020 ??
+        place?.puertoRicoPopulation2025 ??
         0,
     }),
   ];

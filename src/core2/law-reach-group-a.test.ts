@@ -473,11 +473,21 @@ describe("audit 13, law breadth group A: every policy reaches people", () => {
   it("legislative term limits bind the council's members, read by the filing check", () => {
     const key =
       "us-policy-positions:government-operations.legislative-term-limits";
-    const council = townSeats(api).find(
-      (s) => s.office.kind === "council" && s.holder?.personId,
-    );
+    // The town's sitting legislator: its council, or the board a town of that
+    // form elects in its place.
+    const legislative = (s: ReturnType<typeof townSeats>[number]) =>
+      selectorGroup("legislators").some((k) => s.office.kind.startsWith(k)) &&
+      s.holder?.personId;
+    const council =
+      townSeats(api).find(
+        (s) => s.office.kind === "council" && s.holder?.personId,
+      ) ?? townSeats(api).find(legislative);
     recordRoundTrip(key, () => {
-      if (!council) return;
+      if (!council) {
+        // No sitting legislator in the town: nobody for the law to bind.
+        expect(townSeats(api).filter(legislative), where).toEqual([]);
+        return;
+      }
       const reached = reachOn(api, council.holder!.personId!).some(
         (r) => r.key === key && r.endedOn === null,
       );
@@ -597,8 +607,26 @@ describe("audit 13, law breadth group A: every policy reaches people", () => {
           funded[0]!.baseStaff * ((2 * amount) / amount),
         );
         expect(up, `${where}: ${key} no hires`).toBeGreaterThan(before);
-        for (const row of hired)
-          expect(core.people.get(row.targetId)?.jobId, where).toBeDefined();
+        for (const row of hired) {
+          const jobId = core.people.get(row.targetId)?.jobId;
+          expect(jobId, where).toBeDefined();
+          // A hire at a public employer is on the employer's public pay
+          // authority, or its first payday would stop the year.
+          const commitment = [...core.work.commitments.values()].find(
+            (c) => c.jobId === jobId,
+          )!;
+          const authority = core.organizations.get(
+            commitment.organizationId,
+          )?.publicPayAuthority;
+          if (authority) {
+            expect(commitment.publicPayAuthorityId, `${where}: ${jobId}`).toBe(
+              authority.id,
+            );
+            expect(authority.workCommitmentIds, `${where}: ${jobId}`).toContain(
+              commitment.id,
+            );
+          }
+        }
       }
       // Cut to half the base: the newest hires and then the newest staff go.
       amendBudget(api, {
