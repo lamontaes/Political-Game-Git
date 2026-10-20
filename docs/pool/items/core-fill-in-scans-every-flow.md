@@ -5,7 +5,7 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: in-pr
+status: done
 claimed-by: claude/fill-in-flow-scan
 pr: #5051
 blocked-on:
