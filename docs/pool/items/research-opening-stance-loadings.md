@@ -5,11 +5,12 @@ area: people
 kind: research
 priority: 2
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/stance-loadings
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-20T04:01:26.592Z
 ---
 
 **What.** viewOn is still the person's lean times a question's axis plus what they have heard. To form an opening stance per question from traits, faith and education, the engine needs a loading for each trait, faith and education level on each policy question's axis, with a spread. Source them from a public survey (the Cooperative Election Study or the General Social Survey, which publish stance by religion, education and the personality measures the game's traits stand for) into data/research/people/ with a reader. Where a question has no survey item, the loading is zero and marked ESTIMATED.
