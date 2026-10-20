@@ -4,13 +4,13 @@ title: "Stopgaps in life (household-contact-logic-gap): 1 open"
 area: core
 kind: stopgap
 priority: 3
-status: claimed
-claimed-by: claude/household-contact-gap
+status: open
+claimed-by:
 pr: #5279
 blocked-on:
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/modules/life.ts, kind household-contact-logic-gap"
-claimed-at: 2026-10-20T06:01:16.986Z
+claimed-at:
 ---
 
 **What.** Replace or clear the 1 open household-contact-logic-gap stopgap row(s) in src/core2/modules/life.ts: SG-P8-household-shared-time-contact. Each fake is replaced by the mechanic, or the feature that needs it is deleted.
