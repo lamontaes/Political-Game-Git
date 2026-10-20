@@ -5,12 +5,12 @@ area: release
 kind: bug
 priority: 2
 size: S
-status: claimed
-claimed-by: claude/core2-timeouts
+status: open
+claimed-by:
 pr:
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-20T00:01:39.535Z
+claimed-at:
 ---
 
 **What.** TODO
