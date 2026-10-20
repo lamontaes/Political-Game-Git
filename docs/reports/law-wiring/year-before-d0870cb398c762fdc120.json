@@ -1,0 +1,441 @@
+{
+ "summary": {
+  "seed": "d0870cb398c762fdc120",
+  "place": {
+   "seed": "c2bb11adc9d15b5db4b79065092041c2c134c789e21adfeb0e88b86b4ca278b7",
+   "key": "5574500",
+   "name": "Sobieski, Wisconsin",
+   "state": "US-WI"
+  },
+  "days": 365,
+  "lawsTookEffect": 18,
+  "reachedSomeone": 13,
+  "movedMoney": 0,
+  "withOutcomeLinks": 14,
+  "movedOutcome": 5
+ },
+ "laws": [
+  {
+   "lawId": "law:county:55083:county:us-policy-positions:justice-public-safety.partner-with-federal-immigration-enforcement:general:2025-02-20:2025-1",
+   "series": "us-policy-positions:justice-public-safety.partner-with-federal-immigration-enforcement",
+   "level": "county",
+   "value": 1,
+   "effectiveDate": "2025-02-20",
+   "reached": 2,
+   "reach": {
+    "full": 0,
+    "groups": 1,
+    "groupPeople": 2,
+    "organizations": 1,
+    "other": 0,
+    "moneyMinor": 0,
+    "sample": [
+     "reach:law:county:55083:county:us-policy-positions:justice-public-safety.partner-with-federal-immigration-enforcement:general:2025-02-20:2025-1:department:organization_afdd99efa65aba83:2025-02-20",
+     "reach:law:county:55083:county:us-policy-positions:justice-public-safety.partner-with-federal-immigration-enforcement:general:2025-02-20:2025-1:noncitizens:counted:noncitizens:2025-02-20"
+    ]
+   },
+   "outcomeLinks": 3,
+   "outcomeMoved": 24,
+   "outcomeSample": [
+    "web:jurisdiction_1d41500994575655:2025-02:enforcement-to-undocumented-employment",
+    "web:jurisdiction_1d41500994575655:2025-02:enforcement-to-us-born-employment"
+   ]
+  },
+  {
+   "lawId": "law:county:55083:county:us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones:general:2025-02-20:2025-2",
+   "series": "us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones",
+   "level": "county",
+   "value": 1,
+   "effectiveDate": "2025-02-20",
+   "reached": 0,
+   "reach": {
+    "full": 0,
+    "groups": 0,
+    "groupPeople": 0,
+    "organizations": 0,
+    "other": 0,
+    "moneyMinor": 0,
+    "sample": []
+   },
+   "outcomeLinks": 1,
+   "outcomeMoved": 0,
+   "outcomeSample": []
+  },
+  {
+   "lawId": "law:US-WI:state:us-policy-positions:education.raise-teacher-minimum-salary:general:2025-02-13:SB 1",
+   "series": "us-policy-positions:education.raise-teacher-minimum-salary",
+   "level": "state",
+   "value": 1,
+   "effectiveDate": "2025-02-13",
+   "reached": 10,
+   "reach": {
+    "full": 8,
+    "groups": 1,
+    "groupPeople": 0,
+    "organizations": 1,
+    "other": 0,
+    "moneyMinor": 0,
+    "sample": [
+     "us-policy-positions:education.raise-teacher-minimum-salary|person_9f7c2fcceaf7b621|2025-02-13",
+     "us-policy-positions:education.raise-teacher-minimum-salary|person_ecb0ab042fcf5d7f|2025-02-13",
+     "us-policy-positions:education.raise-teacher-minimum-salary|person_e8391c2e12587d70|2025-02-13"
+    ]
+   },
+   "outcomeLinks": 1,
+   "outcomeMoved": 0,
+   "outcomeSample": []
+  },
+  {
+   "lawId": "law:US-WI:state:us-policy-positions:fiscal.fund-pensions-to-schedule:general:2025-02-20:SB 2",
+   "series": "us-policy-positions:fiscal.fund-pensions-to-schedule",
+   "level": "state",
+   "value": 0,
+   "effectiveDate": "2025-02-20",
+   "reached": 1,
+   "reach": {
+    "full": 0,
+    "groups": 1,
+    "groupPeople": 0,
+    "organizations": 0,
+    "other": 0,
+    "moneyMinor": 0,
+    "sample": [
+     "us-policy-positions:fiscal.fund-pensions-to-schedule|jurisdiction_1d41500994575655"
+    ]
+   },
+   "outcomeLinks": 1,
+   "outcomeMoved": 12,
+   "outcomeSample": [
+    "web:jurisdiction_1d41500994575655:2025-02:pension-funding-to-borrowing-cost",
+    "web:jurisdiction_1d41500994575655:2025-03:pension-funding-to-borrowing-cost"
+   ]
+  },
+  {
+   "lawId": "law:US-WI:state:us-policy-positions:fiscal.graduated-income-tax:general:2025-02-20:SB 3",
+   "series": "us-policy-positions:fiscal.graduated-income-tax",
+   "level": "state",
+   "value": 0,
+   "effectiveDate": "2025-02-20",
+   "reached": 91,
+   "reach": {
+    "full": 90,
+    "groups": 1,
+    "groupPeople": 0,
+    "organizations": 0,
+    "other": 0,
+    "moneyMinor": 0,
+    "sample": [
+     "us-policy-positions:fiscal.graduated-income-tax|person_04982dbf779f1305|2025-02-20",
+     "us-policy-positions:fiscal.graduated-income-tax|person_05aabd04d8f11d2c|2025-02-20",
+     "us-policy-positions:fiscal.graduated-income-tax|person_05aabe04d8f11edf|2025-02-20"
+    ]
+   },
+   "outcomeLinks": 2,
+   "outcomeMoved": 0,
+   "outcomeSample": []
+  },
+  {
+   "lawId": "law:US-WI:state:us-policy-positions:fiscal.minimum-reserve-balance:general:2025-02-20:SB 4",
+   "series": "us-policy-positions:fiscal.minimum-reserve-balance",
+   "level": "state",
+   "value": 0,
+   "effectiveDate": "2025-02-20",
+   "reached": 1,
+   "reach": {
+    "full": 0,
+    "groups": 1,
+    "groupPeople": 0,
+    "organizations": 0,
+    "other": 0,
+    "moneyMinor": 0,
+    "sample": [
+     "us-policy-positions:fiscal.minimum-reserve-balance|jurisdiction_1d41500994575655"
+    ]
+   },
+   "outcomeLinks": 1,
+   "outcomeMoved": 12,
+   "outcomeSample": [
+    "web:jurisdiction_1d41500994575655:2025-02:reserve-balance-to-borrowing-cost",
+    "web:jurisdiction_1d41500994575655:2025-03:reserve-balance-to-borrowing-cost"
+   ]
+  },
+  {
+   "lawId": "law:US-WI:state:us-policy-positions:fiscal.exempt-groceries-from-sales-tax:general:2025-02-20:SB 4",
+   "series": "us-policy-positions:fiscal.exempt-groceries-from-sales-tax",
+   "level": "state",
+   "value": 1,
+   "effectiveDate": "2025-02-20",
+   "reached": 17,
+   "reach": {
+    "full": 16,
+    "groups": 1,
+    "groupPeople": 0,
+    "organizations": 0,
+    "other": 0,
+    "moneyMinor": 0,
+    "sample": [
+     "us-policy-positions:fiscal.exempt-groceries-from-sales-tax|person_2ae2165776fe29a7|2025-07-20",
+     "us-policy-positions:fiscal.exempt-groceries-from-sales-tax|person_fefffc5ff9e8d9ad|2025-07-20",
+     "us-policy-positions:fiscal.exempt-groceries-from-sales-tax|person_36355a4fa0919b98|2025-07-20"
+    ]
+   },
+   "outcomeLinks": 2,
+   "outcomeMoved": 0,
+   "outcomeSample": []
+  },
+  {
+   "lawId": "law:US-WI:state:income-tax:general:2025-02-20:flatten:law:US-WI:state:us-policy-positions:fiscal.graduated-income-tax:general:2025-02-20:SB 3",
+   "series": "income-tax",
+   "level": "state",
+   "value": 4,
+   "effectiveDate": "2025-02-20",
+   "reached": 90,
+   "reach": {
+    "full": 89,
+    "groups": 1,
+    "groupPeople": 0,
+    "organizations": 0,
+    "other": 0,
+    "moneyMinor": 0,
+    "sample": [
+     "income-tax|person_04982dbf779f1305|2025-02-20",
+     "income-tax|person_05aabd04d8f11d2c|2025-02-20",
+     "income-tax|person_05aabe04d8f11edf|2025-02-20"
+    ]
+   },
+   "outcomeLinks": 0,
+   "outcomeMoved": 0,
+   "outcomeSample": []
+  },
+  {
+   "lawId": "law:US-WI:state:us-policy-positions:health-human-services.expand-medicaid-eligibility:general:2025-02-27:SB 5",
+   "series": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+   "level": "state",
+   "value": 1,
+   "effectiveDate": "2025-02-27",
+   "reached": 18,
+   "reach": {
+    "full": 17,
+    "groups": 1,
+    "groupPeople": 0,
+    "organizations": 0,
+    "other": 0,
+    "moneyMinor": 0,
+    "sample": [
+     "us-policy-positions:health-human-services.expand-medicaid-eligibility|person_04982dbf779f1305|2025-02-27",
+     "us-policy-positions:health-human-services.expand-medicaid-eligibility|person_2ca8b0ac759205d7|2025-02-27",
+     "us-policy-positions:health-human-services.expand-medicaid-eligibility|person_588ab00dde6c27be|2025-02-27"
+    ]
+   },
+   "outcomeLinks": 3,
+   "outcomeMoved": 17,
+   "outcomeSample": [
+    "web:jurisdiction_1d41500994575655:2025-02:medicaid-expansion-to-coverage",
+    "web:jurisdiction_1d41500994575655:2025-03:medicaid-expansion-to-coverage"
+   ]
+  },
+  {
+   "lawId": "law:US-WI:state:us-policy-positions:justice-public-safety.raise-juvenile-court-age:general:2025-02-27:SB 7",
+   "series": "us-policy-positions:justice-public-safety.raise-juvenile-court-age",
+   "level": "state",
+   "value": 1,
+   "effectiveDate": "2025-02-27",
+   "reached": 4,
+   "reach": {
+    "full": 3,
+    "groups": 0,
+    "groupPeople": 0,
+    "organizations": 1,
+    "other": 0,
+    "moneyMinor": 0,
+    "sample": [
+     "reach:law:US-WI:state:us-policy-positions:justice-public-safety.raise-juvenile-court-age:general:2025-02-27:SB 7:young-adults:person_74b286f3b8fc85a5:2025-02-27",
+     "reach:law:US-WI:state:us-policy-positions:justice-public-safety.raise-juvenile-court-age:general:2025-02-27:SB 7:young-adults:person_2ca8afac75920424:2025-02-27",
+     "reach:law:US-WI:state:us-policy-positions:justice-public-safety.raise-juvenile-court-age:general:2025-02-27:SB 7:young-adults:person_a45b993c5fd86233:2025-02-27"
+    ]
+   },
+   "outcomeLinks": 1,
+   "outcomeMoved": 0,
+   "outcomeSample": []
+  },
+  {
+   "lawId": "law:US-WI:state:us-policy-positions:government-operations.ban-lobbying-after-office:general:2025-03-13:SB 9",
+   "series": "us-policy-positions:government-operations.ban-lobbying-after-office",
+   "level": "state",
+   "value": 1,
+   "effectiveDate": "2025-03-13",
+   "reached": 165,
+   "reach": {
+    "full": 165,
+    "groups": 0,
+    "groupPeople": 0,
+    "organizations": 0,
+    "other": 0,
+    "moneyMinor": 0,
+    "sample": [
+     "reach:law:US-WI:state:us-policy-positions:government-operations.ban-lobbying-after-office:general:2025-03-13:SB 9:officials:person_0c69b2217a4af8e4:2025-03-13",
+     "reach:law:US-WI:state:us-policy-positions:government-operations.ban-lobbying-after-office:general:2025-03-13:SB 9:officials:person_32cc8c65aadaea7c:2025-03-13",
+     "reach:law:US-WI:state:us-policy-positions:government-operations.ban-lobbying-after-office:general:2025-03-13:SB 9:officials:person_e8cced5afc045186:2025-03-13"
+    ]
+   },
+   "outcomeLinks": 0,
+   "outcomeMoved": 0,
+   "outcomeSample": []
+  },
+  {
+   "lawId": "law:US-WI:state:us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal:general:2025-03-20:SB 14",
+   "series": "us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal",
+   "level": "state",
+   "value": 0,
+   "effectiveDate": "2025-03-20",
+   "reached": 0,
+   "reach": {
+    "full": 0,
+    "groups": 0,
+    "groupPeople": 0,
+    "organizations": 0,
+    "other": 0,
+    "moneyMinor": 0,
+    "sample": []
+   },
+   "outcomeLinks": 1,
+   "outcomeMoved": 4,
+   "outcomeSample": [
+    "web:jurisdiction_1d41500994575655:2025-03:groundwater-limits-to-irrigation-pumping",
+    "web:jurisdiction_1d41500994575655:2025-04:groundwater-limits-to-irrigation-pumping"
+   ]
+  },
+  {
+   "lawId": "law:US-WI:state:us-policy-positions:transportation-infrastructure.public-broadband:general:2025-03-27:SB 18",
+   "series": "us-policy-positions:transportation-infrastructure.public-broadband",
+   "level": "state",
+   "value": 1,
+   "effectiveDate": "2025-03-27",
+   "reached": 0,
+   "reach": {
+    "full": 0,
+    "groups": 0,
+    "groupPeople": 0,
+    "organizations": 0,
+    "other": 0,
+    "moneyMinor": 0,
+    "sample": []
+   },
+   "outcomeLinks": 1,
+   "outcomeMoved": 0,
+   "outcomeSample": []
+  },
+  {
+   "lawId": "law:US-WI:state:us-policy-positions:government-operations.independent-redistricting:general:2025-04-10:SB 22",
+   "series": "us-policy-positions:government-operations.independent-redistricting",
+   "level": "state",
+   "value": 1,
+   "effectiveDate": "2025-04-10",
+   "reached": 139,
+   "reach": {
+    "full": 139,
+    "groups": 0,
+    "groupPeople": 0,
+    "organizations": 0,
+    "other": 0,
+    "moneyMinor": 0,
+    "sample": [
+     "reach:law:US-WI:state:us-policy-positions:government-operations.independent-redistricting:general:2025-04-10:SB 22:legislators:person_fd2f9b74b02f56d0:2025-04-10",
+     "reach:law:US-WI:state:us-policy-positions:government-operations.independent-redistricting:general:2025-04-10:SB 22:legislators:person_4c46a631b548bcf1:2025-04-10",
+     "reach:law:US-WI:state:us-policy-positions:government-operations.independent-redistricting:general:2025-04-10:SB 22:legislators:person_fa5cae39767e477b:2025-04-10"
+    ]
+   },
+   "outcomeLinks": 1,
+   "outcomeMoved": 0,
+   "outcomeSample": []
+  },
+  {
+   "lawId": "law:US-WI:state:us-policy-positions:government-operations.legislative-term-limits:general:2025-04-10:SB 24",
+   "series": "us-policy-positions:government-operations.legislative-term-limits",
+   "level": "state",
+   "value": 1,
+   "effectiveDate": "2025-04-10",
+   "reached": 139,
+   "reach": {
+    "full": 139,
+    "groups": 0,
+    "groupPeople": 0,
+    "organizations": 0,
+    "other": 0,
+    "moneyMinor": 0,
+    "sample": [
+     "reach:law:US-WI:state:us-policy-positions:government-operations.legislative-term-limits:general:2025-04-10:SB 24:legislators:person_fd2f9b74b02f56d0:2025-04-10",
+     "reach:law:US-WI:state:us-policy-positions:government-operations.legislative-term-limits:general:2025-04-10:SB 24:legislators:person_4c46a631b548bcf1:2025-04-10",
+     "reach:law:US-WI:state:us-policy-positions:government-operations.legislative-term-limits:general:2025-04-10:SB 24:legislators:person_fa5cae39767e477b:2025-04-10"
+    ]
+   },
+   "outcomeLinks": 1,
+   "outcomeMoved": 0,
+   "outcomeSample": []
+  },
+  {
+   "lawId": "law:US-WI:state:us-policy-positions:government-operations.broaden-local-authority:general:2025-04-17:SB 25",
+   "series": "us-policy-positions:government-operations.broaden-local-authority",
+   "level": "state",
+   "value": 0,
+   "effectiveDate": "2025-04-17",
+   "reached": 0,
+   "reach": {
+    "full": 0,
+    "groups": 0,
+    "groupPeople": 0,
+    "organizations": 0,
+    "other": 0,
+    "moneyMinor": 0,
+    "sample": []
+   },
+   "outcomeLinks": 0,
+   "outcomeMoved": 0,
+   "outcomeSample": []
+  },
+  {
+   "lawId": "law:US-WI:state:us-policy-positions:technology-privacy.age-verification-for-social-media:general:2025-05-08:SB 29",
+   "series": "us-policy-positions:technology-privacy.age-verification-for-social-media",
+   "level": "state",
+   "value": 1,
+   "effectiveDate": "2025-05-08",
+   "reached": 38,
+   "reach": {
+    "full": 36,
+    "groups": 1,
+    "groupPeople": 31,
+    "organizations": 1,
+    "other": 0,
+    "moneyMinor": 0,
+    "sample": [
+     "reach:law:US-WI:state:us-policy-positions:technology-privacy.age-verification-for-social-media:general:2025-05-08:SB 29:minors:person_d477b66d06c9cbd0:2025-05-08",
+     "reach:law:US-WI:state:us-policy-positions:technology-privacy.age-verification-for-social-media:general:2025-05-08:SB 29:minors:person_d477b76d06c9cd83:2025-05-08",
+     "reach:law:US-WI:state:us-policy-positions:technology-privacy.age-verification-for-social-media:general:2025-05-08:SB 29:minors:person_d477bc6d06c9d602:2025-05-08"
+    ]
+   },
+   "outcomeLinks": 0,
+   "outcomeMoved": 0,
+   "outcomeSample": []
+  },
+  {
+   "lawId": "law:US-WI:state:us-policy-positions:housing-land-use.rent-stabilization:general:2025-05-08:SB 29",
+   "series": "us-policy-positions:housing-land-use.rent-stabilization",
+   "level": "state",
+   "value": 0,
+   "effectiveDate": "2025-05-08",
+   "reached": 0,
+   "reach": {
+    "full": 0,
+    "groups": 0,
+    "groupPeople": 0,
+    "organizations": 0,
+    "other": 0,
+    "moneyMinor": 0,
+    "sample": []
+   },
+   "outcomeLinks": 2,
+   "outcomeMoved": 0,
+   "outcomeSample": []
+  }
+ ]
+}
