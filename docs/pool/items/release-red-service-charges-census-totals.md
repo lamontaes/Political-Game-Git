@@ -5,11 +5,12 @@ area: gov
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/political-game-pool-3xfqef-8
+pr: #5396
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-20T01:58:04.929Z
 ---
 
 **What.** The service-charges-data test fails in Berry, Kentucky (US-KY), seed ce65df0e4a98d185f9843fabea23f7bb: the table is 13.9 percent off the Census table's own totals, against a bound of 10 percent (service-charges-data.test.ts:54). Find whether the data row for the state or the way the table sums it is wrong. The table should agree with the Census totals within ten percent in every drawn place.

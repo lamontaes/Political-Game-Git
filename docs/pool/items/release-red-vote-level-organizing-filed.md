@@ -5,11 +5,12 @@ area: gov
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/political-game-pool-yucp92-u
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-20T02:04:40.027Z
 ---
 
 **What.** The vote-level test fails in place 4728060, seed 5e9b2e25f59cca2921bd22a176389baf75adf7e9, at vote-level.test.ts:135: a chamber organizing and a committee hearing should be filed at their own government level and are not. Find which record carries the wrong level and fix where it is set. A hearing should be filed at the level of the body that holds it.

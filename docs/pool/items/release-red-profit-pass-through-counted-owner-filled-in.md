@@ -5,11 +5,12 @@ area: world
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/political-game-pool-3xfqef-9
+pr: #5398
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-20T02:00:20.304Z
 ---
 
 **What.** The profit-pass-through test for a counted owner fails in Mantoloking, New Jersey, seed 40a6340376bb8deb9116120b34d4e90e238483e1:counted:0, for the row pass-through:organization_0fd68c3e0cb93c25:2025-07-01: the test expects the owner is not a full person (core.people.has false) and finds they are. Find whether the owner was filled in between the pass-through and the check, or the pass-through ran on a person who was already full and was wrongly marked counted. A counted row must be for a counted owner at the time it is written.
