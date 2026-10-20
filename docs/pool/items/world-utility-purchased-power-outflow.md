@@ -5,13 +5,13 @@ area: world
 kind: bug
 priority: 3
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/political-game-pool-yucp92-af
 pr:
 blocked-on:
 after: world-utility-staff-never-paid
 source: added with npm run pool -- add
-claimed-at:
+claimed-at: 2026-10-20T07:58:59.763Z
 ---
 
 **What.** A county utility now opens with books and takes in household electricity bills (financeKind household.customer.residential-electricity), but after a year it holds nearly all of that as cash: $4.3 million in Yazoo City, Mississippi. Every business book gets an outside-costs flow in src/core2/opening-outside-market.ts that should buy what the firm does not buy locally, accruing the book's annualOtherCostsMinor share of what it receives (the weekly pass in src/core2/modules/residents.ts). Find why the utility's flow pays almost nothing, most likely because the household bills do not count in the book's receivedMinor or the utility kind's sales-cost share is not applied, and fix it so the utility pays its IRS-sourced cost share for purchased power and fuel to the outside market. Then show the cash it keeps is its sourced margin.

@@ -4,13 +4,13 @@ title: "Unemployment claims check work-search contacts per week"
 area: world
 kind: feature
 priority: 3
-size: M
-status: open
-claimed-by:
-pr:
-blocked-on:
+size: S
+status: in-pr
+claimed-by: claude/political-game-pool-yucp92-ad
+pr: #5595
+blocked-on: owner-unemployment-work-search
 source: added with npm run pool -- add
-claimed-at:
+claimed-at: 2026-10-20T07:42:04.098Z
 ---
 
 **What.** State unemployment law rows carry workSearchContactsPerWeek in src/core2/data/laws/starting-law.json (1 to 4, or null where none is asked), and nothing reads it. By the owner's Oct 20 ruling the rule is recorded law that claimants follow in the background, with no form or log for the player. Add the requirement to UnemploymentTerms in src/core2/jobs-benefits.ts and copy it onto the ClaimRow with the law id. Each week, size a claimant's contacts from their own search effort (their drive and traits through decisionLean) and the regional labor market that src/core2/modules/regional.ts already reads, not from posted openings, and in payClaims pay the week at the share contacts/required capped at one, so the benefit slides with search and never flips at a threshold. Record the contacts on the claim row so the claim and week can be cited.

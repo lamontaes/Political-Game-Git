@@ -5,13 +5,12 @@ area: play
 kind: feature
 priority: 3
 size: S
-status: open
-claimed-by:
-pr:
-blocked-on:
-after: office-budget-season-mayor-act
+status: in-pr
+claimed-by: claude/political-game-pool-yucp92-ae
+pr: #5599
+blocked-on: office-budget-season-mayor-act
 source: added with npm run pool -- add
-claimed-at:
+claimed-at: 2026-10-20T07:51:36.925Z
 ---
 
 **What.** The bench's Budgets sheet lets an executive edit lines through setPriority in src/bench/budget.ts, which writes setBudgetPriorities straight into the budgets engine at any time of year. The mayor act now exists (propose-budget in src/core2/office-day-acts.ts, with budgetProposalDue opening the lead-time season), and it reads the player's lines from prepareAct(api, personId, "propose-budget", { budget: { changes } }). Change setPriority to prepare those changes for the act instead of writing them, keep the +/- controls on the budgets sheet in src/bench/play.mjs, and show in budgetView whether the season is open (from budgetProposalDue) and what is waiting to be sent, so the player sees the lines they will send and the act sends them. The direct write is deleted, not kept beside the new path.
