@@ -31,6 +31,8 @@ interface Entry {
   readonly tax: number;
   /** The weight the flow's household stood for when it was paid, for a rent flow. */
   readonly weight?: number;
+  /** Rent: the monthly rent of one household, as this run's own flow carries it. */
+  readonly rent?: number;
   /** Wages: pay-weighted mean household weight of the jobs the flow pays. */
   readonly wageScale?: number;
   /** Wages: the flow's pay per day over all its jobs, and weighted by each counted job's household weight. */
@@ -63,6 +65,7 @@ function play(seed: string, key: string, countScale: number) {
       }
       const flow = rt.flows.get(flowId!);
       let weight: number | undefined;
+      let rent: number | undefined;
       let wageScale: number | undefined;
       let perDay: number | undefined;
       let weightedPerDay: number | undefined;
@@ -71,6 +74,7 @@ function play(seed: string, key: string, countScale: number) {
         const ix = rt.store.householdOf.get(flowId!.slice("rent:".length));
         if (ix !== undefined)
           weight = rt.store.weightOf(rt.store.households[ix]!);
+        rent = (flow as { amountMinor?: number } | undefined)?.amountMinor;
       } else if (flow?.perDayMinorByJob) {
         let plain = 0;
         let weighted = 0;
@@ -95,12 +99,16 @@ function play(seed: string, key: string, countScale: number) {
         if (plain > 0) wageScale = weighted / plain;
         // The independent figure is the code's own for these flows.
         if (wageScale !== undefined)
-          expect(flowScale(rt, flow)).toBeCloseTo(wageScale, 9);
+          expect(
+            flowScale(rt, flow),
+            `${key} seed ${seed} scale ${countScale} flow ${flowId}`,
+          ).toBeCloseTo(wageScale, 9);
       }
       entries.set(id, {
         out,
         tax,
         weight,
+        rent,
         wageScale,
         perDay,
         weightedPerDay,
@@ -113,7 +121,7 @@ function play(seed: string, key: string, countScale: number) {
   return { core, rt, entries };
 }
 
-it("rent and pay of counted households are moved times their weights, and the books balance", () => {
+function compareOne() {
   // A town with no counted renter has no rent to compare: draw again, a
   // few times, and fail if none of the draws pays any (pinned with
   // CWM_SEED and CWM_KEY to replay one).
@@ -159,10 +167,18 @@ it("rent and pay of counted households are moved times their weights, and the bo
       rents += 1;
       // The rent of one household, times as many as the record stands for.
       // A group short of cash pays less (and carries the rest); none pays more.
-      const expected = one.out * many.weight;
+      // The two runs hold the same town but not always the same households
+      // or rents (the opening's allocation follows the counts: here 66985 and
+      // 66995 for one, 99049 and 118079 for another), so the group is
+      // compared with what its own household owes: its rent times its weight.
+      const own = many.rent ?? one.out;
+      expect(many.rent, `${where} ${id}: the flow's own rent`).toBeGreaterThan(
+        0,
+      );
+      const expected = own * many.weight;
       expect(
         many.out,
-        `${where} ${id}: ${one.out} -> ${many.out} for weight ${many.weight}`,
+        `${where} ${id}: ${one.out} -> ${many.out} for weight ${many.weight} (own rent ${own})`,
       ).toBeLessThanOrEqual(Math.ceil(expected) + 2);
       if (Math.abs(many.out - expected) <= 2) rentsInFull += 1;
     } else if (many.wageScale !== undefined) {
@@ -184,22 +200,52 @@ it("rent and pay of counted households are moved times their weights, and the bo
       );
       if (Math.abs(many.out - expected) <= slack) {
         paidInFull += 1;
-        // Withholding: the same rate per worker on as many workers.
+        // Withholding: the same rate per worker on as many workers. It is
+        // withheld per worker on a schedule that rises with pay, and the two
+        // runs' payrolls are made of different jobs, so the group's tax is not
+        // exactly its payroll times the single run's rate: over about twenty
+        // draws the largest gap was 2.13 percent (Pomfret, Maryland), so the
+        // bound is 3 percent.
         const taxExpected =
           (one.tax * expected) / (one.perDay! * Math.round(days));
         expect(
           Math.abs(many.tax - taxExpected),
           `${where} ${id}: tax ${one.tax} -> ${many.tax}`,
-        ).toBeLessThanOrEqual(Math.max(8, taxExpected * 0.05));
+        ).toBeLessThanOrEqual(Math.max(8, taxExpected * 0.03));
         taxed += one.tax > 0 ? 1 : 0;
       }
     }
   }
-  expect(rents, `${where}: rents compared`).toBeGreaterThan(5);
-  expect(wages, `${where}: payrolls compared`).toBeGreaterThan(5);
+  // Too few rents or payrolls compared (a town with almost no counted renters,
+  // or whose employers all ran short of whole days): this draw proves nothing
+  // about them, so the test draws another town, and fails if none compares
+  // more than five of each.
+  if (rents <= 5 || wages <= 5)
+    return { where, base, scaled, rents, wages, compared: false as const };
   expect(rentsInFull, `${where}: rents paid in full`).toBeGreaterThan(0);
   expect(paidInFull, `${where}: payrolls paid in full`).toBeGreaterThan(0);
   expect(taxed, `${where}: payrolls with tax withheld`).toBeGreaterThan(0);
+  return { where, base, scaled, rents, wages, compared: true as const };
+}
+
+it("rent and pay of counted households are moved times their weights, and the books balance", () => {
+  // Draw whole towns, a few times, until one compares enough payrolls; fail
+  // naming each draw if none does.
+  const skipped: string[] = [];
+  let found: ReturnType<typeof compareOne> | undefined;
+  for (let outer = 0; outer < 4 && !found?.compared; outer += 1) {
+    found = compareOne();
+    if (!found.compared)
+      skipped.push(
+        `${found.where}: ${found.rents} rents and ${found.wages} payrolls compared`,
+      );
+    if (process.env.CWM_SEED) break;
+  }
+  expect(
+    found?.compared,
+    `too few rents or payrolls compared in ${skipped.join("; ")}`,
+  ).toBe(true);
+  const { where, base, scaled } = found!;
 
   // A bill an engine sends one household (a tax, a benefit) is for one real
   // household: the record's group pays it as many times as it stands for, and

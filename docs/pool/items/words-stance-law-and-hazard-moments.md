@@ -5,12 +5,12 @@ area: words
 kind: wiring
 priority: 3
 size: M
-status: in-pr
-claimed-by: claude/stance-moments-g08lgv
-pr: #5256
+status: claimed
+claimed-by: claude/hazard-moments
+pr:
 blocked-on:
 source: "words.md line 50 (Arrogance, anger and fear); found Oct 19"
-claimed-at: 2026-10-19T23:16:32.971Z
+claimed-at: 2026-10-20T06:42:53.438Z
 ---
 
 **What.** The English engine has threats and alarms (the `warning` and `accusation` situation types, tagged threat), but nothing fires them: both have `causes: []` in `src/director/data/situation-types.json`, and the records they would read are not person-level. A disaster begins as one public `hazard.disaster` event with no people in it (`begin` in `src/core2/modules/disasters.ts`), so no person is warned; a law's effect on a person is recorded only for Social Security (`law.effect-learned`, `budgets-treasury.ts`), so no person threatens over it. Add person-level records the director can match: a warning a person receives from someone who heard the disaster story (read from the press story the person heard, so a person is warned only if they learned of it), and a threat from a person whose recorded loss from a law they learned of is large against their means. Each fires its situation with the cause record id.
@@ -22,3 +22,5 @@ claimed-at: 2026-10-19T23:16:32.971Z
 **Files.** src/director/data/situation-types.json, src/core2/modules/disasters.ts, src/core2/budgets-treasury.ts, src/director/scheduling.ts
 
 **Notes.** Read Oct 19 (claude/stance-moments-g08lgv), not built. `storiesHeard(api, personId)` in `budgets-treasury.ts` is how a person's heard news is read today. The disaster emit is `begin` in `disasters.ts` (about line 172, `personIds: []`). Core files here belong to the core and world areas; a words session adds the director side and asks for the records.
+
+Oct 20: PR #5256 merged only the spec; the person-level law and hazard records it describes are not built.

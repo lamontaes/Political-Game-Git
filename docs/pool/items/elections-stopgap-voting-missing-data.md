@@ -4,10 +4,10 @@ title: "Stopgaps in voting (missing-data): 2 open"
 area: elections
 kind: stopgap
 priority: 3
-status: blocked
+status: dropped
 claimed-by:
 pr:
-blocked-on: research data: the row's replacement needs sourced data (Each state's polling place facility types from the EAC's full EAVS dataset and the town's own buildings of those kinds (its schools, churches and hall...)
+blocked-on: research-elections-sourced-parameters
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/modules/voting.ts, kind missing-data"
 ---
@@ -21,3 +21,5 @@ source: "src/core2/data/stopgaps.json, src/core2/modules/voting.ts, kind missing
 **Files.** src/core2/modules/voting.ts
 
 **Notes.** First row: Where the town's records hold no government building, its polling places have no building and a kind of "unread"; where they hold one, every precinct votes in it.
+
+Folded into research-elections-sourced-parameters (CTO, Oct 19, 2026).
