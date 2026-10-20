@@ -6,8 +6,11 @@
  * working age, in seeded order; seeded generation of who exists). Each new job
  * copies a recorded teacher's job, timetable and pay calendar (occupation, OEWS
  * pay and school-day hours), and the district copies the town's police
- * department's record, so it is paid the way the town's other public employers
- * are. Opening generation only.
+ * department's record, without its government link or its role as the
+ * paying owner: a district's teachers are counted workers, and a linked
+ * employer's staff would all be full people
+ * (about 12 to 58 more in a town; pool item world-public-school-staff-never-paid).
+ * Opening generation only.
  */
 import { ageOnDate, makeIsoDate } from "./kernel/dates";
 import { stableHash } from "./kernel/ids";
@@ -137,8 +140,20 @@ export function withPublicSchoolDistrict(input: CoreInput): {
   const teachers = candidates.slice(0, Math.min(wanted, unplaced));
   const townName = (input.placeMetadata?.placeName ?? "").split(",")[0]!.trim();
   const organizationId = `organization:public-schools:${town}`;
+  const {
+    publicPayAuthority: _policeAuthority,
+    governmentFacts: _policeGovernment,
+    outsideFlow: _policeOutside,
+    ...policeRecord
+  } = police;
+  const { publicPayAuthorityId: _commitmentAuthority, ...commitmentRecord } =
+    commitment;
+  void _policeAuthority;
+  void _policeGovernment;
+  void _policeOutside;
+  void _commitmentAuthority;
   const district: OrganizationInput = {
-    ...police,
+    ...policeRecord,
     id: organizationId,
     name: `${townName} ${data.nameSuffix}`,
     classification: data.classification,
@@ -150,12 +165,6 @@ export function withPublicSchoolDistrict(input: CoreInput): {
       estimatedFrom: `${children} generated children aged ${p("openingSchoolAgeFirst")}–${p("openingSchoolAgeLast")} × public share ${p("openingPublicSchoolShare")} / pupil-teacher ratio ${p("openingPupilTeacherRatio")} = ${wanted} teachers, limited to ${Math.round(unplaced)} workers the opening couldn't place. Record shape copied from ${police.id}.`,
     },
   };
-  if (district.publicPayAuthority)
-    district.publicPayAuthority = {
-      ...district.publicPayAuthority,
-      id: `${district.publicPayAuthority.id}:${organizationId}`,
-      workCommitmentIds: [],
-    };
   const jobs: JobInput[] = [];
   const commitments: WorkCommitmentInput[] = [];
   for (const person of teachers) {
@@ -167,21 +176,14 @@ export function withPublicSchoolDistrict(input: CoreInput): {
       organizationId,
     });
     commitments.push({
-      ...commitment,
+      ...commitmentRecord,
       id: `work-commitment:${jobId}`,
       jobId,
       personId: person.id,
       organizationId,
       payrollCalendarId: `opening-payroll-calendar:${organizationId}`,
-      ...(district.publicPayAuthority
-        ? { publicPayAuthorityId: district.publicPayAuthority.id }
-        : {}),
     });
   }
-  if (district.publicPayAuthority)
-    district.publicPayAuthority.workCommitmentIds = commitments.map(
-      (row) => row.id,
-    );
   const payroll: WorkPayrollCalendarInput = {
     ...calendar,
     id: `opening-payroll-calendar:${organizationId}`,

@@ -4841,6 +4841,18 @@
     "status": "open"
   },
   {
+    "id": "SG-WORLD-department-government",
+    "kind": "estimated-behavior",
+    "file": "src/core2/opening-department-pay.ts",
+    "line": 90,
+    "whatItFakes": "A town's police, fire, public works and public health departments and its local government offices are paid by the town's own government (its city or village, else its township), a state office in town by its state and a post office by the nation. The opening's data does not say which unit employs a given department, so the link is assumed.",
+    "why": "The departments held no cash and no pay link, so their workers were never paid. The Census of Governments lists functions by government but not which unit staffs a town's own departments.",
+    "addedBy": "claude/public-staff-never-paid",
+    "addedAt": "2026-10-17",
+    "replacement": "Each department's employing government read from the Census of Governments employment file by function, so a county health department, a fire district or a state agency's field office pays its own staff.",
+    "status": "open"
+  },
+  {
     "id": "SG-GOV-committee-day-hooks",
     "kind": "owner-decision",
     "file": "src/core2/modules/legislature.ts",
