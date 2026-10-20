@@ -37,21 +37,31 @@ vi.mock("./counted-money", async (importOriginal) => {
 
 const seed =
   process.env.COUNTED_UNEMPLOYMENT_SEED ?? randomBytes(8).toString("hex");
-const place = drawPlace(seed, "counted-unemployment-keyed");
-it(`pays a counted claimant into their own group (${place.name}, seed ${seed})`, () => {
-  const { core } = buildBenchWorld(place.seed, gameStartDate(), {
-    twoLevel: true,
-    placeKey: place.key,
-  });
-  runtimeOf = () => residentsRuntime(core as unknown as CoreState);
-  advanceCore(core, addDays(makeIsoDate(core.date), 200));
-  const where = `seed ${seed}, ${place.name}`;
-  expect(
-    benefit.length,
-    `${where}: no counted claimant was paid`,
-  ).toBeGreaterThan(0);
-  for (const row of benefit) {
-    expect(row.personId, where).toBeDefined();
-    expect(row.counted, `${where}: ${row.personId} paid place-wide`).toBe(true);
+it(`pays a counted claimant into their own group (seed ${seed})`, () => {
+  // A small town can go 200 days with no claim, so draw again (up to eight
+  // places) and fail only if none of them pays a counted claimant.
+  const tried: string[] = [];
+  for (let attempt = 0; attempt < 8; attempt += 1) {
+    benefit.length = 0;
+    const place = drawPlace(seed, `counted-unemployment-keyed:${attempt}`);
+    tried.push(place.name);
+    const { core } = buildBenchWorld(place.seed, gameStartDate(), {
+      twoLevel: true,
+      placeKey: place.key,
+    });
+    runtimeOf = () => residentsRuntime(core as unknown as CoreState);
+    advanceCore(core, addDays(makeIsoDate(core.date), 200));
+    if (!benefit.length) continue;
+    const where = `seed ${seed}, ${place.name}`;
+    for (const row of benefit) {
+      expect(row.personId, where).toBeDefined();
+      expect(row.counted, `${where}: ${row.personId} paid place-wide`).toBe(
+        true,
+      );
+    }
+    return;
   }
-}, 1_200_000);
+  throw new Error(
+    `no counted claimant was paid in eight drawn places (${tried.join(", ")}; seed ${seed})`,
+  );
+}, 1_800_000);
