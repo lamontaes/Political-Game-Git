@@ -10,7 +10,7 @@ claimed-by: claude/disaster-repairs-no-market
 pr: #5327
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-20T00:22:32.746Z
+claimed-at: 2026-10-20T11:22:10.636Z
 ---
 
 **What.** TODO
@@ -22,3 +22,5 @@ claimed-at: 2026-10-20T00:22:32.746Z
 **Files.** TODO
 
 **Notes.** TODO
+
+Sent back 2026-10-20 from PR #5327 (branch claude/disaster-repairs-no-market): see the Cloud merger comment on that PR for the exact reason; finish on that branch, merge main into it first.
