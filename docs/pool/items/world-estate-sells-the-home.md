@@ -7,9 +7,10 @@ priority: 2
 size: M
 status: open
 claimed-by:
-pr:
+pr: #5735
 blocked-on:
 source: split of world-home-turnover (Oct 18)
+claimed-at:
 ---
 
 **What.** `sellHome` is called from only one place, a household's last members moving away (`moves.departure`), so a home whose owners have all died stays on the dwellings table as owned forever, its mortgage unpaid or paid by a dead person's account. When the last owner of a home dies, the estate sells it when probate closes: the lender is paid first, the surplus goes to the heirs the estate already names, and the home goes back on the town's market with a `sales` row that gives the reason. This gives the town the sales its deaths really cause and frees the home for a buyer.
@@ -21,3 +22,5 @@ source: split of world-home-turnover (Oct 18)
 **Files.** src/core2/housing-sale.ts, src/core2/estates.ts, src/core2/modules/housing.ts
 
 **Notes.** Found Oct 18 splitting world-home-turnover. Read core-counted-estates (done) first for the counted estate path.
+
+Sent back 2026-10-20 from PR #5735 (branch claude/estate-sells-home): docs/pool/items/world-estate-sells-the-home.md:20 requires a one-year played-world proof with the seed in the body and a sale row naming the estate and heirs paid. src/core2/estate-home-sale.test.ts instead forces household members dead, calls settleEstate directly, and advances 40 plus 280 days; its assertions check estate value but never heirs paid. Add the named ordinary-world proof and heir payment ids; retain this forced-death case as an edge test.; finish on that branch, merge main into it first.

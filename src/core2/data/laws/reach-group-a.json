@@ -44,11 +44,16 @@
     "budget-line:administration": {
       "employers": "cityGovernment",
       "levels": ["city", "county"]
+    },
+    "budget-line:schools": {
+      "employers": "schoolEmployers",
+      "levels": ["city", "county", "state"]
     }
   },
   "extraSelectors": {
     "fireEmployers": ["service:fire"],
-    "correctionsEmployers": ["service:corrections", "service:jail"]
+    "correctionsEmployers": ["service:corrections", "service:jail"],
+    "schoolEmployers": ["service:school"]
   },
   "policies": {
     "minimum-wage": {
@@ -886,6 +891,36 @@
           "what": "may serve only a limited number of years in the seat",
           "enforcer": "the board of elections",
           "penalty": "kept off the ballot"
+        }
+      ]
+    },
+    "budget-line:schools": {
+      "source": "School spending pays for teachers and school staff (National Center for Education Statistics, Digest of Education Statistics 2022, Table 208.20 pupil/teacher ratios; Census Bureau, Annual Survey of Public Employment and Payroll, 2022).",
+      "mechanic": "staffing",
+      "reaches": [
+        {
+          "id": "positions",
+          "target": "mechanic",
+          "kind": "service",
+          "what": "is funded for the positions its budget line pays for",
+          "enforcer": "the finance office",
+          "penalty": "none: an appropriation"
+        },
+        {
+          "id": "hired",
+          "target": "mechanic",
+          "kind": "job",
+          "what": "was hired at the public schools with new budget money",
+          "enforcer": "the finance office",
+          "penalty": "none: a job"
+        },
+        {
+          "id": "laid-off",
+          "target": "mechanic",
+          "kind": "job",
+          "what": "was laid off from the public schools when its budget was cut",
+          "enforcer": "the finance office",
+          "penalty": "none: a job lost"
         }
       ]
     }

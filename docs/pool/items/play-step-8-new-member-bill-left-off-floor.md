@@ -5,9 +5,9 @@ area: play
 kind: wiring
 priority: 2
 size: M
-status: claimed
+status: done
 claimed-by: claude/step8-floor
-pr:
+pr: #5726
 blocked-on:
 milestone:
 source: "play-golden-path-one-life, first one-life run, Oct 19"

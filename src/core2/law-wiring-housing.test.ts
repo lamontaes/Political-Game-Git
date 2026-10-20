@@ -10,6 +10,8 @@ import { randomBytes } from "node:crypto";
 import { describe, expect, it } from "vitest";
 import { buildBenchWorld } from "../bench/world";
 import { drawPlace } from "../../tests/golden-path/place";
+import { placeReferencePopulation } from "./gov-rules/place-population";
+import { corePlaceByKey } from "./place-lookup";
 import { townFigures } from "./modules/housing";
 import { advanceCore } from "./life";
 import { coreAPI } from "./state";
@@ -129,7 +131,9 @@ function runOnce(place: ReturnType<typeof drawPlace>): string[] {
     !figures.homeValueMinor ||
     !figures.rentMinor
   )
-    return [`no subject: ${renters} renters, ${landlords} landlords`];
+    return [
+      `no subject: ${renters} renters, ${landlords} landlords, home value ${figures.homeValueMinor}, rent ${figures.rentMinor}`,
+    ];
   try {
     // A body in play may repeal one of these laws before an engine reads it (a council undoing rent
     // stabilization before any lease's anniversary); the test puts it back each month so every read happens under it.
@@ -334,8 +338,16 @@ describe("housing and credit laws reach people and move money", () => {
     const bookkeepingBefore = setBookkeeping(false);
     try {
       const tried: string[] = [];
-      for (let attempt = 0; attempt < 14; attempt++) {
+      let built = 0;
+      for (let attempt = 0; built < 14 && attempt < 400; attempt++) {
         const place = drawPlace(`${base}:${attempt}`, "law-wiring-housing");
+        // A town with fewer people than MIN_RENTERS cannot hold that many renting
+        // households, so it is redrawn before a world is built for it.
+        const people = placeReferencePopulation(
+          corePlaceByKey(place.key)?.sourceGeoid ?? place.key,
+        )?.value;
+        if (people !== undefined && people < MIN_RENTERS) continue;
+        built += 1;
         let failures: string[];
         try {
           failures = runOnce(place);
