@@ -4,7 +4,7 @@ title: "Does the character give the player's money to cause groups on its own wh
 area: core
 kind: owner-decision
 priority: 3
-status: blocked
+status: done
 claimed-by:
 pr:
 blocked-on: owner decision
