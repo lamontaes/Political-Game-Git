@@ -203,6 +203,21 @@ function minor(value: number, zero: number, field: string): void {
     throw new Error("Invalid nonnegative integer journal amount: " + field);
 }
 
+/**
+ * `a + b` of two whole minor amounts, exact or refused: a sum of safe integers
+ * that is itself a safe integer carries no rounding, so no wider number type
+ * is needed to know the total is exact.
+ */
+function sumExact(a: number, b: number, zero: number, field: string): number {
+  if (!Number.isSafeInteger(a) || !Number.isSafeInteger(b))
+    throw new Error("Invalid nonnegative integer journal amount: " + field);
+  const result = a + b;
+  if (!Number.isSafeInteger(result))
+    throw new Error("Journal amount overflows exact minor units: " + field);
+  minor(result, zero, field);
+  return result;
+}
+
 function exact(value: bigint, zero: number, field: string): number {
   const result = Number(value);
   minor(result, zero, field);
@@ -937,18 +952,16 @@ function plusTotals(
     ])
       minor(value, zero, "retained journal totals");
   const next: CashJournalTotals = {
-    count: exact(
-      BigInt(before?.count ?? zero) + BigInt(one),
-      zero,
-      "journal count",
-    ),
-    grossDebitMinor: exact(
-      BigInt(before?.grossDebitMinor ?? zero) + BigInt(debit),
+    count: sumExact(before?.count ?? zero, one, zero, "journal count"),
+    grossDebitMinor: sumExact(
+      before?.grossDebitMinor ?? zero,
+      debit,
       zero,
       "journal debits",
     ),
-    grossCreditMinor: exact(
-      BigInt(before?.grossCreditMinor ?? zero) + BigInt(credit),
+    grossCreditMinor: sumExact(
+      before?.grossCreditMinor ?? zero,
+      credit,
       zero,
       "journal credits",
     ),
@@ -987,30 +1000,31 @@ function volumes(
   byAccount: Map<string, { debit: number; credit: number }>;
   byOwner: Map<string, { debit: number; credit: number }>;
 } {
-  const byAccount = new Map<string, { debit: bigint; credit: bigint }>();
-  const byOwner = new Map<string, { debit: bigint; credit: bigint }>();
+  const byAccount = new Map<string, { debit: number; credit: number }>();
+  const byOwner = new Map<string, { debit: number; credit: number }>();
   for (const posting of projection.postings) {
     for (const [map, id] of [
       [byAccount, posting.accountId],
       [byOwner, accounts.get(posting.accountId)!.ownerId],
     ] as const) {
-      const sum = map.get(id) ?? { debit: BigInt(zero), credit: BigInt(zero) };
-      if (posting.deltaMinor < zero) sum.debit -= BigInt(posting.deltaMinor);
-      else sum.credit += BigInt(posting.deltaMinor);
+      const sum = map.get(id) ?? { debit: zero, credit: zero };
+      // Each side only grows, so a final total that is a safe integer means
+      // every partial sum was exact; the check follows the loop.
+      if (posting.deltaMinor < zero) sum.debit -= posting.deltaMinor;
+      else sum.credit += posting.deltaMinor;
       map.set(id, sum);
     }
   }
-  const amounts = (map: typeof byAccount) =>
-    new Map(
-      [...map].map(([id, row]) => [
-        id,
-        {
-          debit: exact(row.debit, zero, "row gross debits"),
-          credit: exact(row.credit, zero, "row gross credits"),
-        },
-      ]),
-    );
-  return { byAccount: amounts(byAccount), byOwner: amounts(byOwner) };
+  for (const map of [byAccount, byOwner])
+    for (const row of map.values()) {
+      if (!Number.isSafeInteger(row.debit) || !Number.isSafeInteger(row.credit))
+        throw new Error(
+          "Journal amount overflows exact minor units: row gross",
+        );
+      minor(row.debit, zero, "row gross debits");
+      minor(row.credit, zero, "row gross credits");
+    }
+  return { byAccount, byOwner };
 }
 
 function sameMetadata(
@@ -1239,13 +1253,15 @@ export function postCashJournal(
       const before = runtime.externalFlowsByOwner.get(ownerId)!;
       const next: CashJournalExternalFlowTotals = {
         netMinor: flow.afterNetMinor,
-        outgoingMinor: exact(
-          BigInt(before.outgoingMinor) + BigInt(flow.outgoingMinor),
+        outgoingMinor: sumExact(
+          before.outgoingMinor,
+          flow.outgoingMinor,
           zero,
           "outside outgoing total",
         ),
-        incomingMinor: exact(
-          BigInt(before.incomingMinor) + BigInt(flow.incomingMinor),
+        incomingMinor: sumExact(
+          before.incomingMinor,
+          flow.incomingMinor,
           zero,
           "outside incoming total",
         ),
