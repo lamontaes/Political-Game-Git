@@ -6,7 +6,8 @@ import { buildBenchWorld } from "../bench/world";
 import { gameStartDate } from "./game-start";
 import { setBookkeeping } from "./bookkeeping";
 import { OFFICES_MODULE_ID } from "./modules/offices";
-import { preStartHistory, preStartWindow, runPreStart } from "./pre-start";
+import { personCard } from "../bench/card";
+import { preStartHistory } from "./pre-start";
 import { coreAPI } from "./state";
 
 it("lists how an official reached their seat before the start, by record id", () => {
@@ -17,7 +18,7 @@ it("lists how an official reached their seat before the start, by record id", ()
     twoLevel: true,
     placeKey: place.key,
   });
-  runPreStart(core, preStartWindow(core, "2000-01-01", "quarter"));
+  // The bench world runs the pre-start history itself, as a new game does.
   const rows = preStartHistory(core, { kind: "office.seat-reached" });
   expect(rows.length, label).toBeGreaterThan(0);
   const terms = coreAPI(core).moduleState(OFFICES_MODULE_ID).table("terms");
@@ -26,6 +27,15 @@ it("lists how an official reached their seat before the start, by record id", ()
     expect(term, row.id).toBeDefined();
     expect(row.facts.reached, row.id).toBe(term!.reached);
     expect(row.date < core.startedAt, row.id).toBe(true);
+    const holder = row.personIds?.[0];
+    if (!holder) continue;
+    const seat = personCard(core, holder).seats.find(
+      (s) => s.recordId === row.id,
+    );
+    expect(seat, `card of ${holder} lists ${row.id}`).toMatchObject({
+      termId: String(row.facts.termId),
+      reached: String(term!.reached),
+    });
   }
   const phases = preStartHistory(core, { kind: "law.phase" });
   expect(phases.length, label).toBeGreaterThan(0);
