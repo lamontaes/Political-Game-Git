@@ -318,8 +318,9 @@ function suitedResidents(
       // officeholder's full name does not hold a seat.
       if (isRealOfficeholderName(person.givenName, person.familyName))
         return false;
-      // A seat is not filled by a reporter, an editor or an outlet's owner:
-      // the same rule that keeps them off the ballot.
+      // The stand-in that seats a vacant office without an election does not
+      // pick by press job (a reporter put into an empty seat at the opening
+      // was the defect); they may still run and win it at the ballot.
       if (pressConflict(api, person.id)) return false;
       const age = year - Number(person.birthDate.slice(0, 4));
       return age >= 25 && age < 81;
@@ -1185,13 +1186,12 @@ function fillVacancy(
       : null;
   // Where the elections engine runs, the special election is a real race
   // (filing, residents deciding to run, the vote); else a stand-in.
-  const opened =
-    specialElections?.(api, {
-      vacancyId: vacancy.id,
-      seatId: seat.id,
-      electionDate: scheduled.electionDate!,
-      termEnd: previous.endDate,
-    }) ?? false;
+  const opened = specialElections(api, {
+    vacancyId: vacancy.id,
+    seatId: seat.id,
+    electionDate: scheduled.electionDate!,
+    termEnd: previous.endDate,
+  });
   if (!opened)
     api.moduleCalendar(OFFICES_MODULE_ID).schedule({
       key: `special:${seat.id}:${date}`,
@@ -1209,22 +1209,31 @@ function fillVacancy(
     : scheduled;
 }
 
-let specialElections:
-  | ((
-      api: CoreAPI,
-      race: {
-        readonly vacancyId: string;
-        readonly seatId: string;
-        readonly electionDate: string;
-        readonly termEnd: string | null;
-      },
-    ) => boolean)
-  | null = null;
-/** The elections engine opens a real race for a seat awaiting a special election. */
+type SpecialElectionOpener = (
+  api: CoreAPI,
+  race: {
+    readonly vacancyId: string;
+    readonly seatId: string;
+    readonly electionDate: string;
+    readonly termEnd: string | null;
+  },
+) => boolean;
+/** Each engine that opens real races for a seat awaiting a special election, by name. */
+const specialOpeners = new Map<string, SpecialElectionOpener>();
+/** The first engine that takes the seat opens its race; none leaves the stand-in. */
+function specialElections(
+  api: CoreAPI,
+  race: Parameters<SpecialElectionOpener>[1],
+): boolean {
+  for (const open of specialOpeners.values()) if (open(api, race)) return true;
+  return false;
+}
+/** An engine opens a real race for the seats it counts (the town's own, the world's). */
 export function registerSpecialElections(
-  open: NonNullable<typeof specialElections>,
+  open: SpecialElectionOpener,
+  name = "town",
 ): void {
-  specialElections = open;
+  specialOpeners.set(name, open);
 }
 
 /**
@@ -1254,13 +1263,12 @@ export function repeatSpecialElection(
   });
   const repeated: VacancyRow = { ...vacancy, electionDate: next.electionDate };
   table(api, "vacancies").put(repeated as unknown as ModuleRow);
-  const opened =
-    specialElections?.(api, {
-      vacancyId,
-      seatId: vacancy.seatId,
-      electionDate: next.electionDate,
-      termEnd,
-    }) ?? false;
+  const opened = specialElections(api, {
+    vacancyId,
+    seatId: vacancy.seatId,
+    electionDate: next.electionDate,
+    termEnd,
+  });
   if (!opened)
     api.moduleCalendar(OFFICES_MODULE_ID).schedule({
       key: `special:${vacancy.seatId}:${next.electionDate}`,
