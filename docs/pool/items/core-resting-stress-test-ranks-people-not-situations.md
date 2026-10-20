@@ -5,10 +5,10 @@ area: core
 kind: bug
 priority: 3
 size: S
-status: claimed
+status: blocked
 claimed-by: claude/resting-stress-test
 pr:
-blocked-on:
+blocked-on: people-resting-stress-test-flaky
 source: added with npm run pool -- add
 claimed-at: 2026-10-20T00:23:27.105Z
 ---
