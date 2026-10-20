@@ -13,13 +13,13 @@ source: added with npm run pool -- add
 claimed-at: 2026-10-20T13:31:03.988Z
 ---
 
-**What.** TODO
+**What.** The pool index already lists items with unfinished after prerequisites as gated work. The claim command nevertheless accepted those items, so a worker could begin a downstream change while its required input was still in review or blocked. Make claim enforce the same prerequisite statuses as Next up before it changes the item or pushes a claim.
 
-**Rules.** TODO
+**Rules.** The pool is the only backlog: its claim command must enforce the same dependency order that its generated index shows, with a clear refusal identifying every unfinished prerequisite.
 
-**Done when.** TODO
+**Done when.** The claims-and-gates test in scripts/pool/index.test.ts proves an unfinished after prerequisite makes claim refuse with the waiting item named, ordinary claims still work, and a completed prerequisite makes the downstream item appear in Next up. The changed pool tooling passes typecheck, lint, formatting and the release check.
 
-**Files.** TODO
+**Files.** scripts/pool/index.ts, scripts/pool/index.test.ts
 
 **Notes.** TODO
 
