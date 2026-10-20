@@ -22,3 +22,5 @@ claimed-at:
 **Files.** data/english/parts/, src/english/, src/director/journal.ts, src/bench/card.ts
 
 **Notes.** The card's public-knowledge rows (src/bench/play.mjs showPerson) use record field names as labels until this lands.
+
+Sent back 2026-10-20 from PR #5194 (branch claude/words-past-fact-renderings): data/english/parts/journal.json adds an origin authored livelihood line with shippable true, without grading proof. Keep authored text held until graded. The body also says no played-world year was run for this slice; provide the year/record proof named by the item, and keep the split remaining renderings as explicit open work rather than completing the umbrella on a partial slice.; finish on that branch, merge main into it first.
