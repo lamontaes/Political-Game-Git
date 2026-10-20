@@ -327,7 +327,8 @@ const stepFor = (gov: GovernmentRow, name: string) =>
   );
 
 describe("law reach, group B: every policy reaches people through its engine", () => {
-  beforeAll(() => build());
+  // Each draw builds a town (about a second); the hook allows two a draw.
+  beforeAll(() => build(), DRAWS * 2_000);
 
   it("registers a handler for every group B policy and budget line", () => {
     expect(GROUP_B_KEYS.length).toBe(34);
