@@ -203,6 +203,7 @@ export function participationShift(
   )
     measures.push(OLDER_WORK);
   if (!measures.length) return 0;
+  stopgap("SG-LABOR-participation-scale");
   const c = api.state as CoreState;
   let cache = SHIFTS.get(c);
   if (!cache || cache.date !== c.date)
@@ -264,4 +265,5 @@ export function markUnwiredLaborLinks(): void {
   stopgap("SG-LABOR-person-exposure");
   stopgap("SG-LABOR-unsized-links");
   stopgap("SG-LABOR-pretrial-employment");
+  stopgap("SG-LABOR-defense-cause");
 }

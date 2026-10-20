@@ -4951,5 +4951,29 @@
     "addedAt": "2026-10-20",
     "replacement": "A conditions term in the plan score that reads webReach for the woman's own age and tenure, leaving out the links her own records already carry (unemployment), with a weight calibrated in a played year so full births move by the researched size, as counted births do.",
     "status": "open"
+  },
+  {
+    "id": "SG-LABOR-participation-scale",
+    "kind": "uncalibrated-tunable",
+    "file": "src/core2/jobs-web.ts",
+    "line": 1,
+    "whatItFakes": "The size of the web's participation effects on who is at work: the engine adds the log of the web's factor to a deterministic choice score, which reaches the records but is not fitted to the researched size.",
+    "why": "Measured in a played town: an older-work effect of +0.3 (a 30% change in the researched outcome) moved the share of 62 to 67 year olds at work from 0.656 to 0.677, about 3%, because the choice scores are logistic and the entry and exit pulls are small.",
+    "addedBy": "effect-web-labor",
+    "addedAt": "2026-10-20",
+    "replacement": "A weight on the term, fitted in a played year so each group's share moves by the researched size (mothers, married women, ages 62 to 67).",
+    "status": "open"
+  },
+  {
+    "id": "SG-LABOR-defense-cause",
+    "kind": "missing-record",
+    "file": "src/core2/jobs-web.ts",
+    "line": 1,
+    "whatItFakes": "defense-contracts-to-earnings does nothing: its cause federal.defense-boost-pct (extra defense contracts as a share of the state's output) is not recorded by any engine, so the link never runs; the pay level already reads labor.median-earnings and will carry it once the cause exists.",
+    "why": "No federal procurement engine records state contract awards.",
+    "addedBy": "effect-web-labor",
+    "addedAt": "2026-10-20",
+    "replacement": "A federal spending engine recording each state's defense contract awards, read as federal.defense-boost-pct.",
+    "status": "open"
   }
 ]

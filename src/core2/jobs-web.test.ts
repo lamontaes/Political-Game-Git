@@ -8,6 +8,7 @@
  */
 import { randomBytes } from "node:crypto";
 import { describe, expect, it } from "vitest";
+import { worldWith } from "./tooling/world-with";
 import { buildBenchWorld } from "../bench/world";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { gameStartDate } from "./game-start";
@@ -116,9 +117,11 @@ describe(`the labor engine and the outcome web (${place.name}, seed ${seed})`, (
       const key = [MOTHERS, MARRIED_WOMEN, OLDER_WORK]
         .filter((m) => inGroup(m, facts, p))
         .join("+");
+      // Someone in none of the groups is untouched; a shift belongs to a group.
+      if (key === "") expect(shift).toBe(0);
       if (shift !== 0) shifts.set(key, shift);
-      else expect(key === "" || key.length > 0).toBe(true);
     }
+    expect(shifts.size).toBeGreaterThan(0);
     const rt = residentsRuntime(core)!;
     const countedShifts = new Set<number>();
     for (const h of rt.store.liveHouseholds())
@@ -132,29 +135,42 @@ describe(`the labor engine and the outcome web (${place.name}, seed ${seed})`, (
     expect(countedShifts.size).toBeGreaterThan(1);
     expect([...countedShifts].some((s) => s > 0)).toBe(true);
     expect(webReach(api, town, MOTHERS).recordId).toBeTruthy();
-  }, 900_000);
+  }, 900_000); // one played world, 41 days, plus its build
 
   it("a higher participation factor moves who is at work, a higher wage factor moves new pay, a lower low-wage factor shrinks low-wage staff", async () => {
-    const days = 119;
-    const base = build();
-    const lifted = build();
-    // Pay differs by place; set the low-wage line at the town's own middle
-    // hourly pay in both worlds so there are low-wage jobs to act on.
-    const wages = [...base.jobs.values()]
-      .map((job) => job.hourlyMinor ?? 0)
-      .filter((pay) => pay > 0)
-      .sort((x, y) => x - y);
-    const line = wages[Math.floor(wages.length / 2)]!;
-    const key = "jobsLowWageLineHourlyMinor";
-    const kept = base.data.parameters[key]!;
-    try {
-      for (const core of [base, lifted])
-        core.data.parameters[key] = { ...kept, value: line };
-      await trial(base, lifted, days);
-    } finally {
-      for (const core of [base, lifted]) core.data.parameters[key] = kept;
-    }
-  }, 1_800_000);
+    const days = 80;
+    const lowWage = (core: CoreState) =>
+      [...core.jobs.values()].filter(
+        (job) =>
+          job.endsAt === undefined &&
+          (job.hourlyMinor ?? 0) <
+            coreAPI(core).parameter("jobsLowWageLineHourlyMinor"),
+      ).length;
+    // The sourced $15 line: draw a place that has jobs under it to act on.
+    const { world, place: found } = worldWith(
+      seed,
+      "web-labor-lowwage",
+      (w) => {
+        if (lowWage(w.core) < 5) return false;
+        // Each group needs enough people, with some not yet at work, to move.
+        const shares = laborGroupShares(
+          coreAPI(w.core),
+          [...residentsRuntime(w.core)!.store.liveHouseholds()][0]!.placeId,
+        );
+        return [MOTHERS, MARRIED_WOMEN, OLDER_WORK].every((key) => {
+          const row = shares[key as keyof typeof shares];
+          return row.of >= 30 && row.at / row.of < 0.97;
+        });
+      },
+    );
+    const base = world.core;
+    const lifted = buildBenchWorld(found.seed, gameStartDate(), {
+      twoLevel: true,
+      placeKey: found.key,
+    }).core;
+    await trial(base, lifted, days);
+    // Two played worlds of 40 + 80 days each.
+  }, 1_800_000); // two played worlds, 40 + 80 days each, queued behind other sessions
 });
 
 async function trial(base: CoreState, lifted: CoreState, days: number) {
