@@ -18,6 +18,6 @@ source: added with npm run pool -- add
 
 **Done when.** In a played world (buildBenchWorld) in a drawn place and seed, a computer governor takes up a petition and grants or refuses it by their recorded reasons, a granted one frees the named person, and a test in src/core2 names the petition record id and fails when no governor ever acts.
 
-**Files.** src/core2/modules/office-governor.ts, src/core2/office-day-state.ts
+**Files.** src/core2/modules/justice.ts, src/core2/office-day-state.ts
 
 **Notes.** TODO
