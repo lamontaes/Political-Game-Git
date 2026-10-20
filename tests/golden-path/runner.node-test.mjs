@@ -45,6 +45,18 @@ test("accepted regressions block but goals cannot grant or revoke acceptance", a
   assert.equal(broken.regression, true);
   assert.equal(broken.results[0].status, "failed");
 });
+test("a long-running accepted spec runs after the quick ones, goals after both", async () => {
+  const ok = [process.execPath, "-e", "process.exit(0)"];
+  const receipt = await suite([
+    { ...spec("year", true, ok), longRunning: true },
+    spec("goal", false, ok),
+    spec("quick", true, ok),
+  ]);
+  assert.deepEqual(
+    receipt.results.map((row) => row.id),
+    ["quick", "year", "goal"],
+  );
+});
 test("missing accepted command is red, missing goal remains visible", async () => {
   const receipt = await suite([
     spec("goal", false, null),
