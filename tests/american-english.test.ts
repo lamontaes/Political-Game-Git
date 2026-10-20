@@ -353,6 +353,12 @@ const ALLOWED_FILES: readonly {
       "cites the ICMA survey, whose category is 'all by ward or district'",
   },
   {
+    file: /^data\/research\/stopgaps-oct19\/[A-Z]-[a-z-]+\.json$/,
+    words: /^wards?$/i,
+    reason:
+      "researched stopgap values quote real places and statutes: Ward County, Texas, and Nebraska's precinct or ward primary unit",
+  },
+  {
     file: /^data\/research\/(?:elections\/(?:filing-requirements|ballot-measures-2026)|campaigns\/campaign-finance-2026|offices\/state-offices)\.json$/,
     words: /^wards?$/i,
     reason:
