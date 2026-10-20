@@ -293,7 +293,15 @@
     "monthly": "per month",
     "deductions": "Paycheck deductions",
     "assets": "Assets",
-    "debts": "Debts"
+    "debts": "Debts",
+    "lastMonth": "Last month",
+    "monthHousing": "Home costs",
+    "monthEveryday": "Everyday living",
+    "monthPaid": "Paid",
+    "monthUnpaid": "Left unpaid",
+    "loanPayments": "Loan payments",
+    "loanDue": "due",
+    "loanPaid": "paid"
   },
   "staffingNews": {
     "jobsLost": "Jobs lost",
