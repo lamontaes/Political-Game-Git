@@ -1,0 +1,3112 @@
+{
+  "version": 1,
+  "seed": "7ae8589566f5",
+  "place": "3223500",
+  "span": [
+    "2025-01-20",
+    "2026-01-20"
+  ],
+  "yearSeconds": {
+    "played": 209,
+    "flat": 193,
+    "mirror": 229
+  },
+  "buildSeconds": 19,
+  "summary": {
+    "decisions": 82,
+    "ran": 57,
+    "neverRan": [
+      "corruption.tell",
+      "bring-it-up.blame",
+      "conversation.believe-claim",
+      "conversation.reply-reach",
+      "voting.turnout",
+      "voting.back-incumbent",
+      "voting.exit-poll",
+      "voting.stand-again",
+      "ballot-measures.vote",
+      "recalls.vote",
+      "campaigns.volunteer",
+      "campaigns.donate",
+      "campaigns.endorse",
+      "campaigns.open-door",
+      "campaigns.retell",
+      "campaigns.answer-poll",
+      "campaigns.rival-hours",
+      "offices.accept-appointment",
+      "constituent-cases.handle-case",
+      "press.accept-interview",
+      "press.dig",
+      "press.tip",
+      "estates.will",
+      "office-day-state.leader-request",
+      "office-day-state.clemency"
+    ],
+    "calibrated": 0,
+    "outcomes": 23,
+    "outcomesWired": 6,
+    "outcomesPartly": 7
+  },
+  "neighbors": {
+    "pairs": 290,
+    "meanDistancePlayed": 0.47534749096120704,
+    "meanDistanceFlat": 0.4302343034954215,
+    "meanDistanceSelfMirrored": 0.27975981291216934,
+    "sample": [
+      {
+        "a": "person_beeeb699ef2096d2",
+        "b": "person_e5cf7026ee794881",
+        "played": 0.9444444444444444,
+        "flat": 0.4967948717948718,
+        "mirrorSelf": 0.9159401431359793
+      },
+      {
+        "a": "person_a47d21919e31c284",
+        "b": "person_522412e0da5e03b7",
+        "played": 0.18487234021106955,
+        "flat": 0.1849529780564263,
+        "mirrorSelf": 0.15755627009646303
+      },
+      {
+        "a": "person_a47d22919e31c437",
+        "b": "person_e6ebef7b56f60df4",
+        "played": 0.4210866076863015,
+        "flat": 0.3941594120165548,
+        "mirrorSelf": 0.0032154340836012835
+      },
+      {
+        "a": "person_40397f1c738c8741",
+        "b": "person_f7bdb1ccb0f95f4b",
+        "played": 0.12218045112781956,
+        "flat": 0.11678832116788321,
+        "mirrorSelf": 0.36095764272559855
+      },
+      {
+        "a": "person_0255c97c7f4007ed",
+        "b": "person_e43f15851c833f72",
+        "played": 0.25049645390070924,
+        "flat": 0.20155555555555557,
+        "mirrorSelf": 0.019206349206349223
+      }
+    ]
+  },
+  "eventShifts": [
+    {
+      "kind": "work-commitment",
+      "played": 37,
+      "flat": 0,
+      "mirror": 0,
+      "shift": 2
+    },
+    {
+      "kind": "remark",
+      "played": 192,
+      "flat": 0,
+      "mirror": 0,
+      "shift": 2
+    },
+    {
+      "kind": "vote",
+      "played": 74,
+      "flat": 26,
+      "mirror": 25,
+      "shift": 0.98989898989899
+    },
+    {
+      "kind": "law",
+      "played": 30,
+      "flat": 12,
+      "mirror": 12,
+      "shift": 0.8571428571428571
+    },
+    {
+      "kind": "bill",
+      "played": 2375,
+      "flat": 911,
+      "mirror": 987,
+      "shift": 0.825698988697204
+    },
+    {
+      "kind": "town-hall",
+      "played": 8,
+      "flat": 5,
+      "mirror": 4,
+      "shift": 0.6666666666666666
+    },
+    {
+      "kind": "official",
+      "played": 29,
+      "flat": 24,
+      "mirror": 20,
+      "shift": 0.3673469387755102
+    },
+    {
+      "kind": "lobby",
+      "played": 75,
+      "flat": 22,
+      "mirror": 52,
+      "shift": 0.36220472440944884
+    },
+    {
+      "kind": "organization",
+      "played": 37,
+      "flat": 13,
+      "mirror": 28,
+      "shift": 0.27692307692307694
+    },
+    {
+      "kind": "printed",
+      "played": 379,
+      "flat": 310,
+      "mirror": 300,
+      "shift": 0.23269513991163476
+    },
+    {
+      "kind": "person",
+      "played": 23,
+      "flat": 30,
+      "mirror": 29,
+      "shift": 0.23076923076923078
+    },
+    {
+      "kind": "plan",
+      "played": 10,
+      "flat": 8,
+      "mirror": 8,
+      "shift": 0.2222222222222222
+    },
+    {
+      "kind": "business.staff-reduced",
+      "played": 22,
+      "flat": 22,
+      "mirror": 18,
+      "shift": 0.2
+    },
+    {
+      "kind": "filing",
+      "played": 25,
+      "flat": 18,
+      "mirror": 29,
+      "shift": 0.14814814814814814
+    },
+    {
+      "kind": "work.job-lost",
+      "played": 37,
+      "flat": 35,
+      "mirror": 32,
+      "shift": 0.14492753623188406
+    },
+    {
+      "kind": "party-meeting",
+      "played": 298,
+      "flat": 30,
+      "mirror": 341,
+      "shift": 0.13458528951486698
+    },
+    {
+      "kind": "appointment",
+      "played": 9,
+      "flat": 8,
+      "mirror": 8,
+      "shift": 0.11764705882352941
+    },
+    {
+      "kind": "budget",
+      "played": 41,
+      "flat": 41,
+      "mirror": 41,
+      "shift": 0
+    },
+    {
+      "kind": "meeting",
+      "played": 45,
+      "flat": 45,
+      "mirror": 45,
+      "shift": 0
+    },
+    {
+      "kind": "economy.state-jobs-report",
+      "played": 728,
+      "flat": 728,
+      "mirror": 728,
+      "shift": 0
+    },
+    {
+      "kind": "birth",
+      "played": 7,
+      "flat": 7,
+      "mirror": 7,
+      "shift": 0
+    },
+    {
+      "kind": "housing.completed",
+      "played": 11,
+      "flat": 11,
+      "mirror": 11,
+      "shift": 0
+    }
+  ],
+  "unnamedFormulaSites": [],
+  "rows": [
+    {
+      "id": "life.daily-act",
+      "kind": "decision",
+      "route": "chooser",
+      "site": "src/core2/life.ts",
+      "callsInYear": 29520,
+      "chooserCalls": 29520,
+      "formulaCalls": 0,
+      "turnedShare": 0.1477981029810298,
+      "leanGap": {
+        "option": "rest",
+        "lowThird": 0.1642530487804878,
+        "highThird": 0.6551067073170732
+      },
+      "formulaMeanAbsLean": null,
+      "research": [
+        {
+          "id": "life.daily-act",
+          "trait": "extraversion",
+          "outcome": "time spent socializing",
+          "effect": null,
+          "source": null,
+          "quote": "",
+          "quoteVerified": false,
+          "notes": "No verified effect size found."
+        }
+      ],
+      "gap": null,
+      "weight": 1,
+      "weightTag": "TUNABLE",
+      "status": "ran"
+    },
+    {
+      "id": "work.attend-shift",
+      "kind": "decision",
+      "route": "chooser",
+      "site": "src/core2/modules/work.ts",
+      "callsInYear": 50086,
+      "chooserCalls": 50086,
+      "formulaCalls": 0,
+      "turnedShare": 0.039631833246815476,
+      "leanGap": {
+        "option": "decline-scheduled-work-date-segment",
+        "lowThird": 0.005151242887091944,
+        "highThird": 0.11200958370769691
+      },
+      "formulaMeanAbsLean": null,
+      "research": [
+        {
+          "id": "work.attend-shift",
+          "trait": "Big Five (none significant)",
+          "outcome": "absenteeism (meta-analysis)",
+          "effect": null,
+          "source": {
+            "authors": "Salgado, J. F.",
+            "year": 2002,
+            "title": "The Big Five personality dimensions and counterproductive behaviors",
+            "venue": "International Journal of Selection and Assessment 10(1-2), 117-125",
+            "url": "https://doi.org/10.1111/1468-2389.00198"
+          },
+          "quote": "However, none of the Big Five personality measures were found to be predictors of absenteeism or accidents.",
+          "quoteVerified": true,
+          "notes": "Salgado (2002) meta-analysis found no Big Five trait predicted absenteeism; conscientiousness predicted deviant behaviors and turnover (validity about -.16 for conscientiousness and -.13 for agreeableness with counterproductive behavior per a secondary citation, unverified). Effect is null because no significant value exists; use a near-zero effect. Judge, Martocchio & Thoresen (1997) report extraversion and conscientiousness predicting absence in a small sample, but I could not retrieve the abstract."
+        }
+      ],
+      "gap": null,
+      "weight": 1,
+      "weightTag": "TUNABLE",
+      "status": "ran"
+    },
+    {
+      "id": "drives.respond",
+      "kind": "decision",
+      "route": "chooser",
+      "site": "src/core2/modules/drives.ts",
+      "callsInYear": 1471,
+      "chooserCalls": 1471,
+      "formulaCalls": 0,
+      "turnedShare": 0,
+      "leanGap": {
+        "option": "take-up-cause",
+        "lowThird": 0,
+        "highThird": 0.05670103092783505
+      },
+      "formulaMeanAbsLean": null,
+      "research": [
+        {
+          "id": "drives.respond",
+          "trait": "neuroticism",
+          "outcome": "responses to stressors and drives",
+          "effect": null,
+          "source": null,
+          "quote": "",
+          "quoteVerified": false,
+          "notes": "No dedicated study; see outcome.stress-reactivity."
+        }
+      ],
+      "gap": {
+        "class": "weight too small",
+        "why": "Ran 1,471 times; the pick never changed with personality in this place.",
+        "fix": "Calibrate."
+      },
+      "weight": 1,
+      "weightTag": "TUNABLE",
+      "status": "ran"
+    },
+    {
+      "id": "macro.rate-vote",
+      "kind": "decision",
+      "route": "chooser",
+      "site": "src/core2/modules/macro.ts",
+      "callsInYear": 96,
+      "chooserCalls": 96,
+      "formulaCalls": 0,
+      "turnedShare": 0.4479166666666667,
+      "leanGap": {
+        "option": "macro-rate-move",
+        "lowThird": 0,
+        "highThird": 1
+      },
+      "formulaMeanAbsLean": null,
+      "research": null,
+      "gap": null,
+      "weight": 1,
+      "weightTag": "TUNABLE",
+      "status": "ran"
+    },
+    {
+      "id": "business.owner-draw",
+      "kind": "decision",
+      "route": "chooser",
+      "site": "src/core2/modules/business.ts",
+      "callsInYear": 208,
+      "chooserCalls": 208,
+      "formulaCalls": 0,
+      "turnedShare": 0,
+      "leanGap": {
+        "option": "business-owner-keep",
+        "lowThird": 0,
+        "highThird": 0
+      },
+      "formulaMeanAbsLean": null,
+      "research": null,
+      "gap": null,
+      "weight": 1,
+      "weightTag": "TUNABLE",
+      "status": "ran"
+    },
+    {
+      "id": "business.open-location",
+      "kind": "decision",
+      "route": "chooser",
+      "site": "src/core2/modules/business.ts",
+      "callsInYear": 257,
+      "chooserCalls": 257,
+      "formulaCalls": 0,
+      "turnedShare": 0,
+      "leanGap": {
+        "option": "business-owner-keep",
+        "lowThird": 1,
+        "highThird": 1
+      },
+      "formulaMeanAbsLean": null,
+      "research": null,
+      "gap": null,
+      "weight": 1,
+      "weightTag": "TUNABLE",
+      "status": "ran"
+    },
+    {
+      "id": "business.found",
+      "kind": "decision",
+      "route": "chooser",
+      "site": "src/core2/modules/business.ts",
+      "callsInYear": 36326,
+      "chooserCalls": 36326,
+      "formulaCalls": 0,
+      "turnedShare": 0.00008258547596762649,
+      "leanGap": {
+        "option": "business-owner-keep",
+        "lowThird": 0.999587049884374,
+        "highThird": 0.9999174099768748
+      },
+      "formulaMeanAbsLean": null,
+      "research": [
+        {
+          "id": "business.found",
+          "trait": "Big Five (conscientiousness and openness higher; neuroticism and agreeableness lower)",
+          "outcome": "being an entrepreneur versus a manager",
+          "effect": {
+            "kind": "multiple-R",
+            "value": 0.37,
+            "low": null,
+            "high": null
+          },
+          "source": {
+            "authors": "Zhao, H., & Seibert, S. E.",
+            "year": 2006,
+            "title": "The Big Five personality dimensions and entrepreneurial status: A meta-analytical review",
+            "venue": "Journal of Applied Psychology 91(2), 259-271",
+            "url": "https://doi.org/10.1037/0021-9010.91.2.259"
+          },
+          "quote": "Effect sizes for each personality dimension were small, although the multivariate relationship for the full set of personality variables was moderate (R = .37).",
+          "quoteVerified": true,
+          "notes": "Multiple R across all five traits; single-trait effects were small and are not in the abstract. No difference for extraversion."
+        },
+        {
+          "id": "business.found",
+          "trait": "Big Five",
+          "outcome": "entrepreneurial intentions (multiple R) and entrepreneurial performance",
+          "effect": {
+            "kind": "multiple-R",
+            "value": 0.36,
+            "low": null,
+            "high": null
+          },
+          "source": {
+            "authors": "Zhao, H., Seibert, S. E., & Lumpkin, G. T.",
+            "year": 2010,
+            "title": "The relationship of personality to entrepreneurial intentions and performance: A meta-analytic review",
+            "venue": "Journal of Management 36(2), 381-404",
+            "url": "https://doi.org/10.1177/0149206309335187"
+          },
+          "quote": "Multivariate effect sizes were moderate for the full set of Big Five personality variables on entrepreneurial intentions (multiple R = .36) and entrepreneurial performance (multiple R = .31).",
+          "quoteVerified": true,
+          "notes": "Intentions R = .36; performance R = .31. Risk propensity positive for intentions only; agreeableness unrelated to either."
+        }
+      ],
+      "gap": null,
+      "weight": 1,
+      "weightTag": "TUNABLE",
+      "status": "ran"
+    },
+    {
+      "id": "jobs.review-worker",
+      "kind": "decision",
+      "route": "chooser",
+      "site": "src/core2/modules/jobs.ts",
+      "callsInYear": 2059,
+      "chooserCalls": 2059,
+      "formulaCalls": 0,
+      "turnedShare": 0,
+      "leanGap": null,
+      "formulaMeanAbsLean": null,
+      "research": [
+        {
+          "id": "jobs.review-worker",
+          "trait": "conscientiousness; agreeableness",
+          "outcome": "actual turnover (quitting)",
+          "effect": null,
+          "source": {
+            "authors": "Zimmerman, R. D.",
+            "year": 2008,
+            "title": "Understanding the impact of personality traits on individuals' turnover decisions: A meta-analytic path model",
+            "venue": "Personnel Psychology 61(2), 309-348",
+            "url": "https://doi.org/10.1111/j.1744-6570.2008.00115.x"
+          },
+          "quote": "The trait of Emotional Stability best predicted (negatively) employees' intentions to quit, whereas the traits of Conscientiousness and Agreeableness best predicted (negatively) actual turnover decisions.",
+          "quoteVerified": true,
+          "notes": "Direction only; numbers not accessed. Same study as jobs.start-looking."
+        }
+      ],
+      "gap": {
+        "class": "weight too small",
+        "why": "Ran 2,059 times; the pick never changed with personality.",
+        "fix": "Calibrate against turnover research."
+      },
+      "weight": 1,
+      "weightTag": "TUNABLE",
+      "status": "ran"
+    },
+    {
+      "id": "jobs.start-looking",
+      "kind": "decision",
+      "route": "chooser",
+      "site": "src/core2/modules/jobs.ts",
+      "callsInYear": 842,
+      "chooserCalls": 842,
+      "formulaCalls": 0,
+      "turnedShare": 0.04631828978622328,
+      "leanGap": {
+        "option": "jobs-wait",
+        "lowThird": 0.9035714285714286,
+        "highThird": 0.9892857142857143
+      },
+      "formulaMeanAbsLean": null,
+      "research": [
+        {
+          "id": "jobs.start-looking",
+          "trait": "emotional stability",
+          "outcome": "intentions to quit (meta-analytic path model)",
+          "effect": null,
+          "source": {
+            "authors": "Zimmerman, R. D.",
+            "year": 2008,
+            "title": "Understanding the impact of personality traits on individuals' turnover decisions: A meta-analytic path model",
+            "venue": "Personnel Psychology 61(2), 309-348",
+            "url": "https://doi.org/10.1111/j.1744-6570.2008.00115.x"
+          },
+          "quote": "The trait of Emotional Stability best predicted (negatively) employees' intentions to quit, whereas the traits of Conscientiousness and Agreeableness best predicted (negatively) actual turnover decisions.",
+          "quoteVerified": true,
+          "notes": "Direction only. The numeric meta-analytic correlations are in the paper's tables, which I could not access (publisher paywall), so no number is given."
+        }
+      ],
+      "gap": null,
+      "weight": 1,
+      "weightTag": "TUNABLE",
+      "status": "ran"
+    },
+    {
+      "id": "jobs.apply",
+      "kind": "decision",
+      "route": "chooser",
+      "site": "src/core2/modules/jobs.ts",
+      "callsInYear": 545,
+      "chooserCalls": 545,
+      "formulaCalls": 0,
+      "turnedShare": 0,
+      "leanGap": {
+        "option": "jobs-wait",
+        "lowThird": 0,
+        "highThird": 0
+      },
+      "formulaMeanAbsLean": null,
+      "research": [
+        {
+          "id": "jobs.apply",
+          "trait": "multiple personality, self, social and motive antecedents",
+          "outcome": "job search behavior (effort/intensity)",
+          "effect": null,
+          "source": {
+            "authors": "Kanfer, R., Wanberg, C. R., & Kantrowitz, T. M.",
+            "year": 2001,
+            "title": "Job search and employment: A personality-motivational analysis and meta-analytic review",
+            "venue": "Journal of Applied Psychology 86(5), 837-855",
+            "url": "https://doi.org/10.1037/0021-9010.86.5.837"
+          },
+          "quote": "Meta-analytic results indicated that all antecedent variables, except optimism, were significantly related to job search behavior, with estimated population correlations ranging from -.15 to .46.",
+          "quoteVerified": true,
+          "notes": "The abstract gives only the range across all antecedents (-.15 to .46), not trait-specific values; the full text was not retrievable (host failed TLS verification through the proxy and a second fetch returned 503), so no trait-level number is given."
+        }
+      ],
+      "gap": {
+        "class": "weight too small",
+        "why": "Ran 545 times; the pick never changed with personality.",
+        "fix": "Calibrate against job-search research."
+      },
+      "weight": 1,
+      "weightTag": "TUNABLE",
+      "status": "ran"
+    },
+    {
+      "id": "jobs.accept-offer",
+      "kind": "decision",
+      "route": "chooser",
+      "site": "src/core2/modules/jobs.ts",
+      "callsInYear": 1598,
+      "chooserCalls": 1598,
+      "formulaCalls": 0,
+      "turnedShare": 0,
+      "leanGap": {
+        "option": "jobs-decline",
+        "lowThird": 0.8890977443609023,
+        "highThird": 0.9229323308270677
+      },
+      "formulaMeanAbsLean": null,
+      "research": null,
+      "gap": null,
+      "weight": 1,
+      "weightTag": "TUNABLE",
+      "status": "ran"
+    },
+    {
+      "id": "housing.buy-home",
+      "kind": "decision",
+      "route": "chooser",
+      "site": "src/core2/modules/housing.ts",
+      "callsInYear": 638,
+      "chooserCalls": 638,
+      "formulaCalls": 0,
+      "turnedShare": 0,
+      "leanGap": {
+        "option": "housing-keep-renting",
+        "lowThird": 1,
+        "highThird": 1
+      },
+      "formulaMeanAbsLean": null,
+      "research": [
+        {
+          "id": "housing.buy-home",
+          "trait": "none found",
+          "outcome": "homeownership",
+          "effect": null,
+          "source": null,
+          "quote": "",
+          "quoteVerified": false,
+          "notes": "No longitudinal study of personality and becoming a homeowner was found; HRS studies exist on home value and mortgage debt but were not verified."
+        }
+      ],
+      "gap": {
+        "class": "weight too small",
+        "why": "Runs at the housing review but every household keeps renting (the buy baseline and down-payment terms outweigh any lean).",
+        "fix": "Calibrate the buy reasons so some households buy, then the trait weight."
+      },
+      "weight": 1,
+      "weightTag": "TUNABLE",
+      "status": "ran"
+    },
+    {
+      "id": "credit.borrow",
+      "kind": "decision",
+      "route": "chooser",
+      "site": "src/core2/modules/credit.ts",
+      "callsInYear": 16,
+      "chooserCalls": 16,
+      "formulaCalls": 0,
+      "turnedShare": 0,
+      "leanGap": null,
+      "formulaMeanAbsLean": null,
+      "research": [
+        {
+          "id": "credit.borrow",
+          "trait": "extraversion",
+          "outcome": "unsecured debt, single individuals (BHPS, UK)",
+          "effect": {
+            "kind": "pp-per-sd",
+            "value": 21.7,
+            "low": null,
+            "high": null
+          },
+          "source": {
+            "authors": "Brown, S., & Taylor, K.",
+            "year": 2014,
+            "title": "Household finances and the 'Big Five' personality traits",
+            "venue": "Journal of Economic Psychology 45, 197-212",
+            "url": "https://doi.org/10.1016/j.joep.2014.10.006"
+          },
+          "quote": "For example, a one standard deviation increase in extraversion is associated with a 21.70 percentage point increase in unsecured debt.",
+          "quoteVerified": true,
+          "notes": "UK British Household Panel Survey. The paper's unit for the debt outcome is ambiguous (reads as percent change in the level of debt, not a probability). Couples: one SD of agreeableness is associated with an increase in unsecured debt of over 22 percentage points. Conscientiousness is inversely associated with unsecured debt in every sample. Probability of holding other debt: extraversion +2.44 pp per SD (singles). Greene, Shy & Stavins (2023) separately find that less conscientious, more open, and more agreeable card holders are more likely to revolve credit card debt (no coefficients extracted)."
+        }
+      ],
+      "gap": {
+        "class": "rare",
+        "why": "Ran 16 times in the year.",
+        "fix": "Check what triggers borrowing; calibrate."
+      },
+      "weight": 1,
+      "weightTag": "TUNABLE",
+      "status": "ran"
+    },
+    {
+      "id": "candidacy.run",
+      "kind": "decision",
+      "route": "chooser",
+      "site": "src/core2/modules/candidacy.ts",
+      "callsInYear": 10394,
+      "chooserCalls": 10394,
+      "formulaCalls": 0,
+      "turnedShare": 0.0007696748123917645,
+      "leanGap": {
+        "option": "candidacy-stay-out",
+        "lowThird": 0.995958429561201,
+        "highThird": 0.9994226327944573
+      },
+      "formulaMeanAbsLean": null,
+      "research": [
+        {
+          "id": "candidacy.run",
+          "trait": "honesty-humility (HEXACO)",
+          "outcome": "actually having run for political office",
+          "effect": {
+            "kind": "pp-per-iqr",
+            "value": -0.03,
+            "low": null,
+            "high": null
+          },
+          "source": {
+            "authors": "van de Wardt, M., Bundi, P., Loewen, P. J., Rasmussen, A., Sheffer, L., & Varone, F.",
+            "year": 2026,
+            "title": "Too honest and humble to run for office? Citizens' personality traits, nascent ambition, and recruitment",
+            "venue": "European Journal of Political Research 65, 307-327",
+            "url": "https://doi.org/10.1017/S1475676525100224"
+          },
+          "quote": "an IQR increase in honesty-humility (i.e., from 4.5 to 6 on a seven-point scale) corresponds to a 6 percent decrease in the chance of having thought about running, a 9 percent decrease in the chance of feeling qualified to run, a 2 percent decrease in the chance of having been asked to run, and finally, a 3 percent decrease in the chance of actually having run.",
+          "quoteVerified": true,
+          "notes": "Five-country survey (Canada, Denmark, Israel, Netherlands, Switzerland), not the US. Effect is per interquartile range (4.5 to 6 on a 7-point scale), not per SD; source says 'percent' and appears to mean percentage points (it uses 'percentage points' for the gender gap). Lower honesty-humility raises considering (-0.06), feeling qualified (-0.09), being asked (-0.02)."
+        }
+      ],
+      "gap": null,
+      "weight": 1,
+      "weightTag": "TUNABLE",
+      "status": "ran"
+    },
+    {
+      "id": "speech.retell",
+      "kind": "decision",
+      "route": "chooser",
+      "site": "src/core2/modules/speech.ts",
+      "callsInYear": 1160,
+      "chooserCalls": 580,
+      "formulaCalls": 580,
+      "turnedShare": 0.16379310344827586,
+      "leanGap": {
+        "option": "speech-retell",
+        "lowThird": 0.5025906735751295,
+        "highThird": 1
+      },
+      "formulaMeanAbsLean": 0.696052005850297,
+      "research": null,
+      "gap": null,
+      "weight": 1,
+      "weightTag": "TUNABLE",
+      "status": "ran"
+    },
+    {
+      "id": "contracts.award",
+      "kind": "decision",
+      "route": "formula",
+      "site": "src/core2/modules/contracts.ts",
+      "callsInYear": 699,
+      "chooserCalls": 0,
+      "formulaCalls": 699,
+      "turnedShare": null,
+      "leanGap": null,
+      "formulaMeanAbsLean": 0.18418076874582348,
+      "research": null,
+      "gap": null,
+      "weight": 1,
+      "weightTag": "TUNABLE",
+      "status": "ran"
+    },
+    {
+      "id": "corruption.offer",
+      "kind": "decision",
+      "route": "chooser",
+      "site": "src/core2/modules/corruption.ts",
+      "callsInYear": 12,
+      "chooserCalls": 6,
+      "formulaCalls": 6,
+      "turnedShare": 0,
+      "leanGap": null,
+      "formulaMeanAbsLean": 0.6701520153577515,
+      "research": [
+        {
+          "id": "corruption.offer",
+          "trait": "honesty-humility (HEXACO)",
+          "outcome": "workplace deviance (meta-analysis; proxy for unethical behavior)",
+          "effect": {
+            "kind": "correlation",
+            "value": -0.482,
+            "low": null,
+            "high": null
+          },
+          "source": {
+            "authors": "Pletzer, J. L., Bentvelzen, M., Oostrom, J. K., & de Vries, R. E.",
+            "year": 2019,
+            "title": "A meta-analysis of the relations between personality and workplace deviance: Big Five versus HEXACO",
+            "venue": "Journal of Vocational Behavior 112, 369-383",
+            "url": "https://doi.org/10.1016/j.jvb.2019.04.004"
+          },
+          "quote": "Consistent with our expectation, HEXACO Honesty-Humility (ρ = -0.482) showed the strongest correlation with workplace deviance out of all examined personality domains.",
+          "quoteVerified": true,
+          "notes": "Same proxy as corruption.take; no bribery-specific personality study with a usable number was found."
+        }
+      ],
+      "gap": {
+        "class": "weight too small",
+        "why": "Runs about 4 times a year (a lobbyist's first meeting with a member on a bill with employer costs, src/core2/modules/interest-groups.ts:372); the yes score never beats corruptionHonestPull 3, so every offer is declined and the trait never turns one.",
+        "fix": "Weigh the stake against the official's own money need and calibrate the honesty pull from the honesty-humility effect size."
+      },
+      "weight": 1,
+      "weightTag": "TUNABLE",
+      "status": "ran"
+    },
+    {
+      "id": "corruption.take",
+      "kind": "decision",
+      "route": "chooser",
+      "site": "src/core2/modules/corruption.ts",
+      "callsInYear": 4,
+      "chooserCalls": 2,
+      "formulaCalls": 2,
+      "turnedShare": 0,
+      "leanGap": null,
+      "formulaMeanAbsLean": 0.054608848110883575,
+      "research": [
+        {
+          "id": "corruption.take",
+          "trait": "honesty-humility (HEXACO)",
+          "outcome": "workplace deviance (meta-analysis; proxy for unethical behavior)",
+          "effect": {
+            "kind": "correlation",
+            "value": -0.482,
+            "low": null,
+            "high": null
+          },
+          "source": {
+            "authors": "Pletzer, J. L., Bentvelzen, M., Oostrom, J. K., & de Vries, R. E.",
+            "year": 2019,
+            "title": "A meta-analysis of the relations between personality and workplace deviance: Big Five versus HEXACO",
+            "venue": "Journal of Vocational Behavior 112, 369-383",
+            "url": "https://doi.org/10.1016/j.jvb.2019.04.004"
+          },
+          "quote": "Consistent with our expectation, HEXACO Honesty-Humility (ρ = -0.482) showed the strongest correlation with workplace deviance out of all examined personality domains.",
+          "quoteVerified": true,
+          "notes": "Corrected meta-analytic correlation with workplace deviance, not bribery specifically; used as the nearest sourced proxy. Conscientiousness B5 -0.372, agreeableness B5 -0.362, neuroticism +0.192."
+        }
+      ],
+      "gap": {
+        "class": "trigger needs a record nobody writes",
+        "why": "Runs only after an offer says yes (src/core2/modules/corruption.ts:177); no offer did.",
+        "fix": "Same as corruption.offer."
+      },
+      "weight": 1,
+      "weightTag": "TUNABLE",
+      "status": "ran"
+    },
+    {
+      "id": "corruption.tell",
+      "kind": "decision",
+      "route": "chooser",
+      "site": "src/core2/modules/corruption.ts",
+      "callsInYear": 0,
+      "chooserCalls": 0,
+      "formulaCalls": 0,
+      "turnedShare": null,
+      "leanGap": null,
+      "formulaMeanAbsLean": null,
+      "research": null,
+      "gap": {
+        "class": "trigger needs a record nobody writes",
+        "why": "Needs a taken bribe's crime row (src/core2/modules/corruption.ts:215); none was written.",
+        "fix": "Same as corruption.offer."
+      },
+      "weight": 1,
+      "weightTag": "TUNABLE",
+      "status": "never-ran"
+    },
+    {
+      "id": "renewal.plan-child",
+      "kind": "decision",
+      "route": "chooser",
+      "site": "src/core2/births-plan.ts",
+      "callsInYear": 722,
+      "chooserCalls": 722,
+      "formulaCalls": 0,
+      "turnedShare": 0.004155124653739612,
+      "leanGap": {
+        "option": "renewal-wait",
+        "lowThird": 0.9291666666666667,
+        "highThird": 0.9875
+      },
+      "formulaMeanAbsLean": null,
+      "research": [
+        {
+          "id": "renewal.plan-child",
+          "trait": "extraversion, openness (positive), neuroticism (negative)",
+          "outcome": "number of children (WLS and MIDUS, N = 15,729)",
+          "effect": null,
+          "source": {
+            "authors": "Jokela, M., Alvergne, A., Pollet, T. V., & Lummaa, V.",
+            "year": 2011,
+            "title": "Reproductive behavior and personality traits of the Five Factor Model",
+            "venue": "European Journal of Personality 25(6), 487-500",
+            "url": "https://doi.org/10.1002/per.822"
+          },
+          "quote": "High extraversion, high openness to experience, and low neuroticism were associated with larger number of children in both sexes, while high agreeableness and low conscientiousness correlated with larger offspring number in women only.",
+          "quoteVerified": true,
+          "notes": "Direction only; regression coefficients are in the paper's tables and were not extracted. Jokela (2012, Psychological Science) finds higher openness (both sexes) and conscientiousness (women) predict lower fertility in later birth cohorts, so the sign varies by cohort."
+        }
+      ],
+      "gap": null,
+      "weight": 1,
+      "weightTag": "TUNABLE",
+      "status": "ran"
+    },
+    {
+      "id": "jobs.counted-retire",
+      "kind": "decision",
+      "route": "formula",
+      "site": "src/core2/modules/jobs.ts",
+      "callsInYear": 1475,
+      "chooserCalls": 0,
+      "formulaCalls": 1475,
+      "turnedShare": null,
+      "leanGap": null,
+      "formulaMeanAbsLean": 0.4991646173544114,
+      "research": null,
+      "gap": null,
+      "weight": 1,
+      "weightTag": "TUNABLE",
+      "status": "ran"
+    },
+    {
+      "id": "jobs.counted-look",
+      "kind": "decision",
+      "route": "formula",
+      "site": "src/core2/modules/jobs.ts",
+      "callsInYear": 16302,
+      "chooserCalls": 0,
+      "formulaCalls": 16302,
+      "turnedShare": null,
+      "leanGap": null,
+      "formulaMeanAbsLean": 0.5175910540865477,
+      "research": null,
+      "gap": null,
+      "weight": 1,
+      "weightTag": "TUNABLE",
+      "status": "ran"
+    },
+    {
+      "id": "jobs.counted-apply",
+      "kind": "decision",
+      "route": "formula",
+      "site": "src/core2/modules/jobs.ts",
+      "callsInYear": 545,
+      "chooserCalls": 545,
+      "formulaCalls": 0,
+      "turnedShare": 0,
+      "leanGap": {
+        "option": "jobs-wait",
+        "lowThird": 0,
+        "highThird": 0
+      },
+      "formulaMeanAbsLean": null,
+      "research": null,
+      "gap": null,
+      "weight": 1,
+      "weightTag": "TUNABLE",
+      "status": "ran"
+    },
+    {
+      "id": "jobs.counted-accept",
+      "kind": "decision",
+      "route": "formula",
+      "site": "src/core2/modules/jobs.ts",
+      "callsInYear": 1598,
+      "chooserCalls": 1598,
+      "formulaCalls": 0,
+      "turnedShare": 0,
+      "leanGap": {
+        "option": "jobs-decline",
+        "lowThird": 0.8890977443609023,
+        "highThird": 0.9229323308270677
+      },
+      "formulaMeanAbsLean": null,
+      "research": null,
+      "gap": null,
+      "weight": 1,
+      "weightTag": "TUNABLE",
+      "status": "ran"
+    },
+    {
+      "id": "business.counted-found",
+      "kind": "decision",
+      "route": "formula",
+      "site": "src/core2/modules/business.ts",
+      "callsInYear": 290752,
+      "chooserCalls": 0,
+      "formulaCalls": 290752,
+      "turnedShare": null,
+      "leanGap": null,
+      "formulaMeanAbsLean": 0.5114982400003999,
+      "research": null,
+      "gap": null,
+      "weight": 1,
+      "weightTag": "TUNABLE",
+      "status": "ran"
+    },
+    {
+      "id": "retirement.claim-age",
+      "kind": "decision",
+      "route": "formula",
+      "site": "src/core2/modules/retirement-claims.ts",
+      "callsInYear": 4327,
+      "chooserCalls": 0,
+      "formulaCalls": 4327,
+      "turnedShare": null,
+      "leanGap": null,
+      "formulaMeanAbsLean": 0.4163520640956934,
+      "research": [
+        {
+          "id": "retirement.claim-age",
+          "trait": "conscientiousness (later), agreeableness and neuroticism (earlier)",
+          "outcome": "Social Security claiming age",
+          "effect": null,
+          "source": null,
+          "quote": "",
+          "quoteVerified": false,
+          "notes": "Only a conference-abstract summary seen in search results; unverified and not attributable to a named paper, so no number given."
+        }
+      ],
+      "gap": null,
+      "weight": 1,
+      "weightTag": "TUNABLE",
+      "status": "ran"
+    },
+    {
+      "id": "bring-it-up.blame",
+      "kind": "decision",
+      "route": "formula",
+      "site": "src/director/bring-it-up.ts",
+      "callsInYear": 0,
+      "chooserCalls": 0,
+      "formulaCalls": 0,
+      "turnedShare": null,
+      "leanGap": null,
+      "formulaMeanAbsLean": null,
+      "research": null,
+      "gap": {
+        "class": "no trigger (player only)",
+        "why": "Read only in a conversation the player opens (src/director/bring-it-up.ts:105).",
+        "fix": "Player-only by design."
+      },
+      "weight": 1,
+      "weightTag": "TUNABLE",
+      "status": "never-ran"
+    },
+    {
+      "id": "conversation.believe-claim",
+      "kind": "decision",
+      "route": "formula",
+      "site": "src/director/conversation.ts",
+      "callsInYear": 0,
+      "chooserCalls": 0,
+      "formulaCalls": 0,
+      "turnedShare": null,
+      "leanGap": null,
+      "formulaMeanAbsLean": null,
+      "research": [
+        {
+          "id": "conversation.believe-claim",
+          "trait": "agreeableness / openness (not measured); analytic thinking and bullshit receptivity measured instead",
+          "outcome": "perceived accuracy of fake news headlines",
+          "effect": null,
+          "source": {
+            "authors": "Pennycook, G., & Rand, D. G.",
+            "year": 2020,
+            "title": "Who falls for fake news? The roles of bullshit receptivity, overclaiming, familiarity, and analytic thinking",
+            "venue": "Journal of Personality 88(2), 185-200",
+            "url": "https://doi.org/10.1111/jopy.12476"
+          },
+          "quote": "The tendency to ascribe profundity to randomly generated sentences-pseudo-profound bullshit receptivity-correlates positively with perceptions of fake news accuracy, and negatively with the ability to differentiate between fake and real news (media truth discernment).",
+          "quoteVerified": true,
+          "notes": "This study measures cognitive style, not Big Five traits, so no Big Five effect size is given; no verified agreeableness or openness number for belief in claims was found."
+        }
+      ],
+      "gap": {
+        "class": "no trigger (player only)",
+        "why": "Read only when the player's line makes a claim (src/director/conversation.ts:2169).",
+        "fix": "Read it where people pass on claims to each other (speech retell, news pass-on)."
+      },
+      "weight": 1,
+      "weightTag": "TUNABLE",
+      "status": "never-ran"
+    },
+    {
+      "id": "conversation.reply-reach",
+      "kind": "decision",
+      "route": "formula",
+      "site": "src/director/conversation.ts",
+      "callsInYear": 0,
+      "chooserCalls": 0,
+      "formulaCalls": 0,
+      "turnedShare": null,
+      "leanGap": null,
+      "formulaMeanAbsLean": null,
+      "research": null,
+      "gap": {
+        "class": "no trigger (player only)",
+        "why": "Read only in a conversation the player opens.",
+        "fix": "Player-only by design; covered by the player's conversations."
+      },
+      "weight": 1,
+      "weightTag": "TUNABLE",
+      "status": "never-ran"
+    },
+    {
+      "id": "moves.move-away",
+      "kind": "decision",
+      "route": "formula",
+      "site": "src/core2/modules/moves.ts",
+      "callsInYear": 26645,
+      "chooserCalls": 62,
+      "formulaCalls": 26583,
+      "turnedShare": 0,
+      "leanGap": {
+        "option": "stay-put",
+        "lowThird": 0.35,
+        "highThird": 0.25
+      },
+      "formulaMeanAbsLean": 0.2334285119329996,
+      "research": [
+        {
+          "id": "moves.move-away",
+          "trait": "openness to experience",
+          "outcome": "between-state migration over 7-11 years (MIDUS, US)",
+          "effect": {
+            "kind": "odds-ratio-per-sd",
+            "value": 1.19,
+            "low": 1.043,
+            "high": 1.357
+          },
+          "source": {
+            "authors": "Jokela, M.",
+            "year": 2009,
+            "title": "Personality predicts migration within and between U.S. states",
+            "venue": "Journal of Research in Personality 43, 79-83",
+            "url": "https://doi.org/10.1016/j.jrp.2008.09.005"
+          },
+          "quote": "In separate models, between-states migration was predicted by openness (OR = 1.19, SE = 0.08, p = 0.007)",
+          "quoteVerified": true,
+          "notes": "Standardized odds ratio (per SD) from logistic regression; CI computed from the reported SE on the log scale (delta method), not reported in the paper. Within-state: openness OR 1.13 (SE .04), extraversion OR 1.12 (SE .04); conscientiousness, neuroticism, agreeableness null."
+        },
+        {
+          "id": "moves.move-away",
+          "trait": "openness to experience",
+          "outcome": "within-state migration over 7-11 years (MIDUS, US)",
+          "effect": {
+            "kind": "odds-ratio-per-sd",
+            "value": 1.13,
+            "low": 1.054,
+            "high": 1.211
+          },
+          "source": {
+            "authors": "Jokela, M.",
+            "year": 2009,
+            "title": "Personality predicts migration within and between U.S. states",
+            "venue": "Journal of Research in Personality 43, 79-83",
+            "url": "https://doi.org/10.1016/j.jrp.2008.09.005"
+          },
+          "quote": "When assessed in separate logistic regression models, within-state migration was predicted by openness (OR = 1.13, SE = 0.04, p = 0.002) and extraversion (OR = 1.12, SE = 0.04, p = 0.003)",
+          "quoteVerified": true,
+          "notes": "Standardized OR per SD; CI computed from reported SE on the log scale."
+        }
+      ],
+      "gap": null,
+      "weight": 1,
+      "weightTag": "TUNABLE",
+      "status": "ran"
+    },
+    {
+      "id": "voting.turnout",
+      "kind": "decision",
+      "route": "formula",
+      "site": "src/core2/modules/voting.ts",
+      "callsInYear": 0,
+      "chooserCalls": 0,
+      "formulaCalls": 0,
+      "turnedShare": null,
+      "leanGap": null,
+      "formulaMeanAbsLean": null,
+      "research": [
+        {
+          "id": "voting.turnout",
+          "trait": "openness to experience",
+          "outcome": "self-reported voter turnout (2006 CES)",
+          "effect": {
+            "kind": "logit-coef-full-range",
+            "value": 1.26,
+            "low": 0.378,
+            "high": 2.142
+          },
+          "source": {
+            "authors": "Mondak, J. J., Hibbing, M. V., Canache, D., Seligson, M. A., & Anderson, M. R.",
+            "year": 2010,
+            "title": "Personality and Civic Engagement: An Integrative Framework for the Study of Trait Effects on Political Behavior",
+            "venue": "American Political Science Review 104(1), 85-110",
+            "url": "https://doi.org/10.1017/S0003055409990359"
+          },
+          "quote": "Substantively, the largest effects in Table 2 are those for openness and extraversion.",
+          "quoteVerified": true,
+          "notes": "Coefficient is the binomial logit coefficient from Mondak et al. (2010) Table 2 (2006 Cooperative Congressional Election Study, US adults, N about 1,060; controls age, female, black); the trait is scaled 0 to 1 so the coefficient is the log-odds change from lowest to highest trait score, not per SD. low/high = coefficient +/- 1.96 x reported SE. "
+        },
+        {
+          "id": "voting.turnout",
+          "trait": "emotional stability",
+          "outcome": "self-reported voter turnout (2006 CES)",
+          "effect": {
+            "kind": "logit-coef-full-range",
+            "value": -1.42,
+            "low": -2.204,
+            "high": -0.636
+          },
+          "source": {
+            "authors": "Mondak, J. J., Hibbing, M. V., Canache, D., Seligson, M. A., & Anderson, M. R.",
+            "year": 2010,
+            "title": "Personality and Civic Engagement: An Integrative Framework for the Study of Trait Effects on Political Behavior",
+            "venue": "American Political Science Review 104(1), 85-110",
+            "url": "https://doi.org/10.1017/S0003055409990359"
+          },
+          "quote": "Substantively, the largest effects in Table 2 are those for openness and extraversion.",
+          "quoteVerified": true,
+          "notes": "Coefficient is the binomial logit coefficient from Mondak et al. (2010) Table 2 (2006 Cooperative Congressional Election Study, US adults, N about 1,060; controls age, female, black); the trait is scaled 0 to 1 so the coefficient is the log-odds change from lowest to highest trait score, not per SD. low/high = coefficient +/- 1.96 x reported SE. Negative sign for emotional stability (higher neuroticism raises turnout) is flagged by the authors as inconsistent with Gerber et al."
+        }
+      ],
+      "gap": {
+        "class": "runs only on a date outside the year",
+        "why": "The played year runs January 20, 2025 to January 20, 2026; most places hold no election in 2025, so turnout runs only where a 2025 local or state election exists.",
+        "fix": "Seed odd-year local elections where the place holds them; measure in a second year otherwise."
+      },
+      "weight": 1,
+      "weightTag": "TUNABLE",
+      "status": "never-ran"
+    },
+    {
+      "id": "voting.back-incumbent",
+      "kind": "decision",
+      "route": "formula",
+      "site": "src/core2/modules/voting.ts",
+      "callsInYear": 0,
+      "chooserCalls": 0,
+      "formulaCalls": 0,
+      "turnedShare": null,
+      "leanGap": null,
+      "formulaMeanAbsLean": null,
+      "research": null,
+      "gap": {
+        "class": "runs only on a date outside the year",
+        "why": "Same as voting.turnout.",
+        "fix": "Same as voting.turnout."
+      },
+      "weight": 1,
+      "weightTag": "TUNABLE",
+      "status": "never-ran"
+    },
+    {
+      "id": "voting.exit-poll",
+      "kind": "decision",
+      "route": "formula",
+      "site": "src/core2/modules/voting.ts",
+      "callsInYear": 0,
+      "chooserCalls": 0,
+      "formulaCalls": 0,
+      "turnedShare": null,
+      "leanGap": null,
+      "formulaMeanAbsLean": null,
+      "research": null,
+      "gap": {
+        "class": "runs only on a date outside the year",
+        "why": "Same as voting.turnout.",
+        "fix": "Same as voting.turnout."
+      },
+      "weight": 1,
+      "weightTag": "TUNABLE",
+      "status": "never-ran"
+    },
+    {
+      "id": "voting.stand-again",
+      "kind": "decision",
+      "route": "formula",
+      "site": "src/core2/modules/voting.ts",
+      "callsInYear": 0,
+      "chooserCalls": 0,
+      "formulaCalls": 0,
+      "turnedShare": null,
+      "leanGap": null,
+      "formulaMeanAbsLean": null,
+      "research": null,
+      "gap": {
+        "class": "runs only on a date outside the year",
+        "why": "Same as voting.turnout.",
+        "fix": "Same as voting.turnout."
+      },
+      "weight": 1,
+      "weightTag": "TUNABLE",
+      "status": "never-ran"
+    },
+    {
+      "id": "ballot-measures.vote",
+      "kind": "decision",
+      "route": "formula",
+      "site": "src/core2/modules/ballot-measures.ts",
+      "callsInYear": 0,
+      "chooserCalls": 0,
+      "formulaCalls": 0,
+      "turnedShare": null,
+      "leanGap": null,
+      "formulaMeanAbsLean": null,
+      "research": [
+        {
+          "id": "ballot-measures.vote",
+          "trait": "openness to experience",
+          "outcome": "voting yes on novel or change measures",
+          "effect": null,
+          "source": null,
+          "quote": "",
+          "quoteVerified": false,
+          "notes": "No verified study found with a number linking openness to ballot-measure votes."
+        }
+      ],
+      "gap": {
+        "class": "runs only on a date outside the year",
+        "why": "The earliest measure in data/elections/ballot-measures.json is June 16, 2026; the played year ends January 20, 2026.",
+        "fix": "Add odd-year measures or let an ordinance refer a local measure."
+      },
+      "weight": 1,
+      "weightTag": "TUNABLE",
+      "status": "never-ran"
+    },
+    {
+      "id": "recalls.organize",
+      "kind": "decision",
+      "route": "formula",
+      "site": "src/core2/modules/recalls.ts",
+      "callsInYear": 1140,
+      "chooserCalls": 0,
+      "formulaCalls": 1140,
+      "turnedShare": null,
+      "leanGap": null,
+      "formulaMeanAbsLean": 0.4375580670255555,
+      "research": null,
+      "gap": {
+        "class": "no trigger",
+        "why": "Only a county or city ordinance taking effect starts one, and only where the state allows recall without grounds (src/core2/modules/recalls.ts:159, :190); most places have no petition recall or require grounds.",
+        "fix": "Let a reported scandal or crime start a for-cause recall where the state requires grounds."
+      },
+      "weight": 1,
+      "weightTag": "TUNABLE",
+      "status": "ran"
+    },
+    {
+      "id": "recalls.sign",
+      "kind": "decision",
+      "route": "formula",
+      "site": "src/core2/modules/recalls.ts",
+      "callsInYear": 2272,
+      "chooserCalls": 0,
+      "formulaCalls": 2272,
+      "turnedShare": null,
+      "leanGap": null,
+      "formulaMeanAbsLean": 0.4476900583704506,
+      "research": [
+        {
+          "id": "recalls.sign",
+          "trait": "none found",
+          "outcome": "signing a recall or petition",
+          "effect": null,
+          "source": null,
+          "quote": "",
+          "quoteVerified": false,
+          "notes": "No verified personality effect size found."
+        }
+      ],
+      "gap": {
+        "class": "no trigger",
+        "why": "Follows an organizer (src/core2/modules/recalls.ts:299).",
+        "fix": "Same as recalls.organize."
+      },
+      "weight": 1,
+      "weightTag": "TUNABLE",
+      "status": "ran"
+    },
+    {
+      "id": "recalls.vote",
+      "kind": "decision",
+      "route": "formula",
+      "site": "src/core2/modules/recalls.ts",
+      "callsInYear": 0,
+      "chooserCalls": 0,
+      "formulaCalls": 0,
+      "turnedShare": null,
+      "leanGap": null,
+      "formulaMeanAbsLean": null,
+      "research": null,
+      "gap": {
+        "class": "no trigger",
+        "why": "Needs a recall on the ballot (src/core2/modules/recalls.ts:380).",
+        "fix": "Same as recalls.organize."
+      },
+      "weight": 1,
+      "weightTag": "TUNABLE",
+      "status": "never-ran"
+    },
+    {
+      "id": "campaigns.volunteer",
+      "kind": "decision",
+      "route": "formula",
+      "site": "src/core2/modules/campaigns.ts",
+      "callsInYear": 0,
+      "chooserCalls": 0,
+      "formulaCalls": 0,
+      "turnedShare": null,
+      "leanGap": null,
+      "formulaMeanAbsLean": null,
+      "research": [
+        {
+          "id": "campaigns.volunteer",
+          "trait": "openness to experience",
+          "outcome": "worked for a party or candidate",
+          "effect": {
+            "kind": "logit-coef-full-range",
+            "value": 2.02,
+            "low": 0.57,
+            "high": 3.47
+          },
+          "source": {
+            "authors": "Mondak, J. J., Hibbing, M. V., Canache, D., Seligson, M. A., & Anderson, M. R.",
+            "year": 2010,
+            "title": "Personality and Civic Engagement: An Integrative Framework for the Study of Trait Effects on Political Behavior",
+            "venue": "American Political Science Review 104(1), 85-110",
+            "url": "https://doi.org/10.1017/S0003055409990359"
+          },
+          "quote": "Substantively, the largest effects in Table 2 are those for openness and extraversion.",
+          "quoteVerified": true,
+          "notes": "Coefficient is the binomial logit coefficient from Mondak et al. (2010) Table 2 (2006 Cooperative Congressional Election Study, US adults, N about 1,060; controls age, female, black); the trait is scaled 0 to 1 so the coefficient is the log-odds change from lowest to highest trait score, not per SD. low/high = coefficient +/- 1.96 x reported SE. "
+        },
+        {
+          "id": "campaigns.volunteer",
+          "trait": "extraversion",
+          "outcome": "worked for a party or candidate",
+          "effect": {
+            "kind": "logit-coef-full-range",
+            "value": 1.15,
+            "low": -0.104,
+            "high": 2.404
+          },
+          "source": {
+            "authors": "Mondak, J. J., Hibbing, M. V., Canache, D., Seligson, M. A., & Anderson, M. R.",
+            "year": 2010,
+            "title": "Personality and Civic Engagement: An Integrative Framework for the Study of Trait Effects on Political Behavior",
+            "venue": "American Political Science Review 104(1), 85-110",
+            "url": "https://doi.org/10.1017/S0003055409990359"
+          },
+          "quote": "Substantively, the largest effects in Table 2 are those for openness and extraversion.",
+          "quoteVerified": true,
+          "notes": "Coefficient is the binomial logit coefficient from Mondak et al. (2010) Table 2 (2006 Cooperative Congressional Election Study, US adults, N about 1,060; controls age, female, black); the trait is scaled 0 to 1 so the coefficient is the log-odds change from lowest to highest trait score, not per SD. low/high = coefficient +/- 1.96 x reported SE. Only p<.10 in the source table."
+        }
+      ],
+      "gap": {
+        "class": "no trigger (player only)",
+        "why": "Only the bench's developer call asks (src/bench/campaign.ts:168); a world candidate never asks anyone to volunteer.",
+        "fix": "In campaignTurn, ask reachable people to volunteer as it asks for donations."
+      },
+      "weight": 1,
+      "weightTag": "TUNABLE",
+      "status": "never-ran"
+    },
+    {
+      "id": "campaigns.donate",
+      "kind": "decision",
+      "route": "formula",
+      "site": "src/core2/modules/campaigns.ts",
+      "callsInYear": 0,
+      "chooserCalls": 0,
+      "formulaCalls": 0,
+      "turnedShare": null,
+      "leanGap": null,
+      "formulaMeanAbsLean": null,
+      "research": [
+        {
+          "id": "campaigns.donate",
+          "trait": "openness to experience",
+          "outcome": "contributed money to a political party or candidate",
+          "effect": {
+            "kind": "logit-coef-full-range",
+            "value": 1.25,
+            "low": 0.407,
+            "high": 2.093
+          },
+          "source": {
+            "authors": "Mondak, J. J., Hibbing, M. V., Canache, D., Seligson, M. A., & Anderson, M. R.",
+            "year": 2010,
+            "title": "Personality and Civic Engagement: An Integrative Framework for the Study of Trait Effects on Political Behavior",
+            "venue": "American Political Science Review 104(1), 85-110",
+            "url": "https://doi.org/10.1017/S0003055409990359"
+          },
+          "quote": "Substantively, the largest effects in Table 2 are those for openness and extraversion.",
+          "quoteVerified": true,
+          "notes": "Coefficient is the binomial logit coefficient from Mondak et al. (2010) Table 2 (2006 Cooperative Congressional Election Study, US adults, N about 1,060; controls age, female, black); the trait is scaled 0 to 1 so the coefficient is the log-odds change from lowest to highest trait score, not per SD. low/high = coefficient +/- 1.96 x reported SE. "
+        }
+      ],
+      "gap": {
+        "class": "runs only on a date outside the year",
+        "why": "Same as campaigns.open-door.",
+        "fix": "Same as voting.turnout."
+      },
+      "weight": 1,
+      "weightTag": "TUNABLE",
+      "status": "never-ran"
+    },
+    {
+      "id": "campaigns.endorse",
+      "kind": "decision",
+      "route": "formula",
+      "site": "src/core2/modules/campaigns.ts",
+      "callsInYear": 0,
+      "chooserCalls": 0,
+      "formulaCalls": 0,
+      "turnedShare": null,
+      "leanGap": null,
+      "formulaMeanAbsLean": null,
+      "research": [
+        {
+          "id": "campaigns.endorse",
+          "trait": "openness to experience",
+          "outcome": "tried to convince people to vote for or against a candidate",
+          "effect": {
+            "kind": "logit-coef-full-range",
+            "value": 2.07,
+            "low": 1.404,
+            "high": 2.736
+          },
+          "source": {
+            "authors": "Mondak, J. J., Hibbing, M. V., Canache, D., Seligson, M. A., & Anderson, M. R.",
+            "year": 2010,
+            "title": "Personality and Civic Engagement: An Integrative Framework for the Study of Trait Effects on Political Behavior",
+            "venue": "American Political Science Review 104(1), 85-110",
+            "url": "https://doi.org/10.1017/S0003055409990359"
+          },
+          "quote": "Substantively, the largest effects in Table 2 are those for openness and extraversion.",
+          "quoteVerified": true,
+          "notes": "Coefficient is the binomial logit coefficient from Mondak et al. (2010) Table 2 (2006 Cooperative Congressional Election Study, US adults, N about 1,060; controls age, female, black); the trait is scaled 0 to 1 so the coefficient is the log-odds change from lowest to highest trait score, not per SD. low/high = coefficient +/- 1.96 x reported SE. "
+        },
+        {
+          "id": "campaigns.endorse",
+          "trait": "extraversion",
+          "outcome": "tried to convince people to vote for or against a candidate",
+          "effect": {
+            "kind": "logit-coef-full-range",
+            "value": 0.51,
+            "low": -0.039,
+            "high": 1.059
+          },
+          "source": {
+            "authors": "Mondak, J. J., Hibbing, M. V., Canache, D., Seligson, M. A., & Anderson, M. R.",
+            "year": 2010,
+            "title": "Personality and Civic Engagement: An Integrative Framework for the Study of Trait Effects on Political Behavior",
+            "venue": "American Political Science Review 104(1), 85-110",
+            "url": "https://doi.org/10.1017/S0003055409990359"
+          },
+          "quote": "Substantively, the largest effects in Table 2 are those for openness and extraversion.",
+          "quoteVerified": true,
+          "notes": "Coefficient is the binomial logit coefficient from Mondak et al. (2010) Table 2 (2006 Cooperative Congressional Election Study, US adults, N about 1,060; controls age, female, black); the trait is scaled 0 to 1 so the coefficient is the log-odds change from lowest to highest trait score, not per SD. low/high = coefficient +/- 1.96 x reported SE. Only p<.10 in the source table."
+        }
+      ],
+      "gap": {
+        "class": "no trigger (player only)",
+        "why": "Only the bench's developer call asks (src/bench/campaign.ts:182).",
+        "fix": "In campaignTurn, ask the people closest to the candidate for endorsements."
+      },
+      "weight": 1,
+      "weightTag": "TUNABLE",
+      "status": "never-ran"
+    },
+    {
+      "id": "campaigns.open-door",
+      "kind": "decision",
+      "route": "formula",
+      "site": "src/core2/modules/campaigns.ts",
+      "callsInYear": 0,
+      "chooserCalls": 0,
+      "formulaCalls": 0,
+      "turnedShare": null,
+      "leanGap": null,
+      "formulaMeanAbsLean": null,
+      "research": [
+        {
+          "id": "campaigns.open-door",
+          "trait": "extraversion",
+          "outcome": "contacted a member of Congress in the past two years (citizen-side proxy for an official being reachable)",
+          "effect": {
+            "kind": "pp-full-range",
+            "value": 0.22,
+            "low": null,
+            "high": null
+          },
+          "source": {
+            "authors": "Mondak, J. J., Hibbing, M. V., Canache, D., Seligson, M. A., & Anderson, M. R.",
+            "year": 2010,
+            "title": "Personality and Civic Engagement: An Integrative Framework for the Study of Trait Effects on Political Behavior",
+            "venue": "American Political Science Review 104(1), 85-110",
+            "url": "https://doi.org/10.1017/S0003055409990359"
+          },
+          "quote": "With other variables held constant at mean or modal values, the predicted probability of having contacted a member of Congress rises from 0.28 to 0.45 across the values of openness to experience, and from 0.27 to 0.49 across extraversion.",
+          "quoteVerified": true,
+          "notes": "Predicted probability rises 0.27 to 0.49 (22 points) across the full extraversion range; logit coefficient 0.92 (SE .27). This describes a citizen contacting an official, used here as a proxy; no study of officials opening their doors to constituents by personality was found. Not per SD."
+        }
+      ],
+      "gap": {
+        "class": "runs only on a date outside the year",
+        "why": "Needs a filed, on-ballot race (src/core2/modules/campaigns.ts:2323); filings opened in 1 of 3 places measured.",
+        "fix": "Same as voting.turnout."
+      },
+      "weight": 1,
+      "weightTag": "TUNABLE",
+      "status": "never-ran"
+    },
+    {
+      "id": "campaigns.retell",
+      "kind": "decision",
+      "route": "formula",
+      "site": "src/core2/modules/campaigns.ts",
+      "callsInYear": 0,
+      "chooserCalls": 0,
+      "formulaCalls": 0,
+      "turnedShare": null,
+      "leanGap": null,
+      "formulaMeanAbsLean": null,
+      "research": null,
+      "gap": {
+        "class": "runs only on a date outside the year",
+        "why": "Same as campaigns.open-door.",
+        "fix": "Same as voting.turnout."
+      },
+      "weight": 1,
+      "weightTag": "TUNABLE",
+      "status": "never-ran"
+    },
+    {
+      "id": "campaigns.answer-poll",
+      "kind": "decision",
+      "route": "formula",
+      "site": "src/core2/modules/campaigns.ts",
+      "callsInYear": 0,
+      "chooserCalls": 0,
+      "formulaCalls": 0,
+      "turnedShare": null,
+      "leanGap": null,
+      "formulaMeanAbsLean": null,
+      "research": [
+        {
+          "id": "campaigns.answer-poll",
+          "trait": "none found",
+          "outcome": "responding to political polls and surveys",
+          "effect": null,
+          "source": null,
+          "quote": "",
+          "quoteVerified": false,
+          "notes": "No study with a personality effect size on survey or poll response was found and verified."
+        }
+      ],
+      "gap": {
+        "class": "runs only on a date outside the year",
+        "why": "Same as campaigns.open-door, plus a poll fund (src/core2/modules/campaigns.ts:2253).",
+        "fix": "Same as voting.turnout."
+      },
+      "weight": 1,
+      "weightTag": "TUNABLE",
+      "status": "never-ran"
+    },
+    {
+      "id": "campaigns.rival-hours",
+      "kind": "decision",
+      "route": "formula",
+      "site": "src/core2/modules/campaigns.ts",
+      "callsInYear": 0,
+      "chooserCalls": 0,
+      "formulaCalls": 0,
+      "turnedShare": null,
+      "leanGap": null,
+      "formulaMeanAbsLean": null,
+      "research": null,
+      "gap": {
+        "class": "runs only on a date outside the year",
+        "why": "Same as campaigns.open-door.",
+        "fix": "Same as voting.turnout."
+      },
+      "weight": 1,
+      "weightTag": "TUNABLE",
+      "status": "never-ran"
+    },
+    {
+      "id": "parties.join",
+      "kind": "decision",
+      "route": "formula",
+      "site": "src/core2/modules/parties.ts",
+      "callsInYear": 111,
+      "chooserCalls": 0,
+      "formulaCalls": 111,
+      "turnedShare": null,
+      "leanGap": null,
+      "formulaMeanAbsLean": 0.48230744043321305,
+      "research": [
+        {
+          "id": "parties.join",
+          "trait": "none found",
+          "outcome": "joining a political party",
+          "effect": null,
+          "source": null,
+          "quote": "",
+          "quoteVerified": false,
+          "notes": "No study with a usable personality effect size was found. Mondak et al. (2010) work for a party or candidate (openness logit 2.02) is the nearest proxy and is listed under campaigns.volunteer."
+        }
+      ],
+      "gap": null,
+      "weight": 1,
+      "weightTag": "TUNABLE",
+      "status": "ran"
+    },
+    {
+      "id": "parties.attend",
+      "kind": "decision",
+      "route": "formula",
+      "site": "src/core2/modules/parties.ts",
+      "callsInYear": 1864,
+      "chooserCalls": 0,
+      "formulaCalls": 1864,
+      "turnedShare": null,
+      "leanGap": null,
+      "formulaMeanAbsLean": 0.33559647839572915,
+      "research": null,
+      "gap": null,
+      "weight": 1,
+      "weightTag": "TUNABLE",
+      "status": "ran"
+    },
+    {
+      "id": "staff.hire",
+      "kind": "decision",
+      "route": "formula",
+      "site": "src/core2/modules/staff.ts",
+      "callsInYear": 41,
+      "chooserCalls": 0,
+      "formulaCalls": 41,
+      "turnedShare": null,
+      "leanGap": null,
+      "formulaMeanAbsLean": 0.27874828729971035,
+      "research": null,
+      "gap": null,
+      "weight": 1,
+      "weightTag": "TUNABLE",
+      "status": "ran"
+    },
+    {
+      "id": "interest-groups.member-join",
+      "kind": "decision",
+      "route": "formula",
+      "site": "src/core2/modules/interest-groups.ts",
+      "callsInYear": 15732,
+      "chooserCalls": 0,
+      "formulaCalls": 15732,
+      "turnedShare": null,
+      "leanGap": null,
+      "formulaMeanAbsLean": 0.3865070688647611,
+      "research": [
+        {
+          "id": "interest-groups.member-join",
+          "trait": "none found",
+          "outcome": "joining an interest group or civic organization",
+          "effect": null,
+          "source": null,
+          "quote": "",
+          "quoteVerified": false,
+          "notes": "No verified personality effect size found."
+        }
+      ],
+      "gap": null,
+      "weight": 1,
+      "weightTag": "TUNABLE",
+      "status": "ran"
+    },
+    {
+      "id": "interest-groups.employer-join",
+      "kind": "decision",
+      "route": "formula",
+      "site": "src/core2/modules/interest-groups.ts",
+      "callsInYear": 5,
+      "chooserCalls": 0,
+      "formulaCalls": 5,
+      "turnedShare": null,
+      "leanGap": null,
+      "formulaMeanAbsLean": 0.17757559853896018,
+      "research": null,
+      "gap": null,
+      "weight": 1,
+      "weightTag": "TUNABLE",
+      "status": "ran"
+    },
+    {
+      "id": "interest-groups.lobbyist",
+      "kind": "decision",
+      "route": "formula",
+      "site": "src/core2/modules/interest-groups.ts",
+      "callsInYear": 499,
+      "chooserCalls": 0,
+      "formulaCalls": 499,
+      "turnedShare": null,
+      "leanGap": null,
+      "formulaMeanAbsLean": 0.5993008137568068,
+      "research": null,
+      "gap": null,
+      "weight": 1,
+      "weightTag": "TUNABLE",
+      "status": "ran"
+    },
+    {
+      "id": "offices.accept-appointment",
+      "kind": "decision",
+      "route": "formula",
+      "site": "src/core2/modules/offices.ts",
+      "callsInYear": 0,
+      "chooserCalls": 0,
+      "formulaCalls": 0,
+      "turnedShare": null,
+      "leanGap": null,
+      "formulaMeanAbsLean": null,
+      "research": [
+        {
+          "id": "offices.accept-appointment",
+          "trait": "none found",
+          "outcome": "accepting an appointment",
+          "effect": null,
+          "source": null,
+          "quote": "",
+          "quoteVerified": false,
+          "notes": "No verified personality effect size found; see candidacy.run for the nearest evidence on ambition."
+        }
+      ],
+      "gap": {
+        "class": "rare",
+        "why": "Runs only when a serving local official dies or moves away and the post fills by appointment (src/core2/modules/offices.ts:1067).",
+        "fix": "Add resignation as a vacancy cause."
+      },
+      "weight": 1,
+      "weightTag": "TUNABLE",
+      "status": "never-ran"
+    },
+    {
+      "id": "legislature.member-position",
+      "kind": "decision",
+      "route": "formula",
+      "site": "src/core2/modules/legislature.ts",
+      "callsInYear": 12562,
+      "chooserCalls": 0,
+      "formulaCalls": 12562,
+      "turnedShare": null,
+      "leanGap": null,
+      "formulaMeanAbsLean": 0.1971023386687711,
+      "research": [
+        {
+          "id": "legislature.member-position",
+          "trait": "none found",
+          "outcome": "legislator personality and roll-call voting",
+          "effect": null,
+          "source": null,
+          "quote": "",
+          "quoteVerified": false,
+          "notes": "Dietrich, Enos & Sen (2012) could not be located. Ramey, Klingler & Hollibaugh estimate legislators' Big Five from floor speeches and report personality relates to behavior even controlling for ideology, but no number was verified."
+        }
+      ],
+      "gap": null,
+      "weight": 1,
+      "weightTag": "TUNABLE",
+      "status": "ran"
+    },
+    {
+      "id": "legislature.hold-hearing",
+      "kind": "decision",
+      "route": "formula",
+      "site": "src/core2/modules/legislature.ts",
+      "callsInYear": 82,
+      "chooserCalls": 0,
+      "formulaCalls": 82,
+      "turnedShare": null,
+      "leanGap": null,
+      "formulaMeanAbsLean": 0.2158997807963627,
+      "research": null,
+      "gap": null,
+      "weight": 1,
+      "weightTag": "TUNABLE",
+      "status": "ran"
+    },
+    {
+      "id": "legislature.sign-or-veto",
+      "kind": "decision",
+      "route": "formula",
+      "site": "src/core2/modules/legislature.ts",
+      "callsInYear": 28,
+      "chooserCalls": 0,
+      "formulaCalls": 28,
+      "turnedShare": null,
+      "leanGap": null,
+      "formulaMeanAbsLean": 0.30568667590568654,
+      "research": null,
+      "gap": null,
+      "weight": 1,
+      "weightTag": "TUNABLE",
+      "status": "ran"
+    },
+    {
+      "id": "legislature.budget-priorities",
+      "kind": "decision",
+      "route": "formula",
+      "site": "src/core2/modules/legislature.ts",
+      "callsInYear": 3,
+      "chooserCalls": 0,
+      "formulaCalls": 3,
+      "turnedShare": null,
+      "leanGap": null,
+      "formulaMeanAbsLean": 0.1989108485109722,
+      "research": null,
+      "gap": null,
+      "weight": 1,
+      "weightTag": "TUNABLE",
+      "status": "ran"
+    },
+    {
+      "id": "world-legislating.bring-agenda",
+      "kind": "decision",
+      "route": "formula",
+      "site": "src/core2/modules/world-legislating.ts",
+      "callsInYear": 1358,
+      "chooserCalls": 0,
+      "formulaCalls": 1358,
+      "turnedShare": null,
+      "leanGap": null,
+      "formulaMeanAbsLean": 0.24881686449592325,
+      "research": null,
+      "gap": null,
+      "weight": 1,
+      "weightTag": "TUNABLE",
+      "status": "ran"
+    },
+    {
+      "id": "constituent-cases.bring-case",
+      "kind": "decision",
+      "route": "formula",
+      "site": "src/core2/modules/constituent-cases.ts",
+      "callsInYear": 1691,
+      "chooserCalls": 0,
+      "formulaCalls": 1691,
+      "turnedShare": null,
+      "leanGap": null,
+      "formulaMeanAbsLean": 0.37811045826117834,
+      "research": null,
+      "gap": null,
+      "weight": 1,
+      "weightTag": "TUNABLE",
+      "status": "ran"
+    },
+    {
+      "id": "constituent-cases.handle-case",
+      "kind": "decision",
+      "route": "formula",
+      "site": "src/core2/modules/constituent-cases.ts",
+      "callsInYear": 0,
+      "chooserCalls": 0,
+      "formulaCalls": 0,
+      "turnedShare": null,
+      "leanGap": null,
+      "formulaMeanAbsLean": null,
+      "research": [
+        {
+          "id": "constituent-cases.handle-case",
+          "trait": "conscientiousness",
+          "outcome": "job performance (proxy for diligence in casework)",
+          "effect": {
+            "kind": "correlation",
+            "value": 0.22,
+            "low": null,
+            "high": null
+          },
+          "source": {
+            "authors": "Barrick, M. R., & Mount, M. K.",
+            "year": 1991,
+            "title": "The Big Five personality dimensions and job performance: A meta-analysis",
+            "venue": "Personnel Psychology 44(1), 1-26",
+            "url": "https://doi.org/10.1111/j.1744-6570.1991.tb00688.x"
+          },
+          "quote": "Results indicated that one dimension of personality, Conscientiousness, showed consistent relations with all job performance criteria for all occupational groups.",
+          "quoteVerified": true,
+          "notes": "Proxy: no study of constituent-service diligence by personality; uses Barrick & Mount's mean true score correlation .22."
+        }
+      ],
+      "gap": {
+        "class": "no trigger (staff takes the case first)",
+        "why": "A staffer's decision is tried first (src/core2/modules/constituent-cases.ts:451), so the official's own read never runs where an official has staff.",
+        "fix": "Let the official's own lean set what the staffer is told."
+      },
+      "weight": 1,
+      "weightTag": "TUNABLE",
+      "status": "never-ran"
+    },
+    {
+      "id": "staff.follow-through",
+      "kind": "decision",
+      "route": "formula",
+      "site": "src/core2/modules/staff.ts",
+      "callsInYear": 149,
+      "chooserCalls": 0,
+      "formulaCalls": 149,
+      "turnedShare": null,
+      "leanGap": null,
+      "formulaMeanAbsLean": 0.1542469502182847,
+      "research": [
+        {
+          "id": "staff.follow-through",
+          "trait": "conscientiousness",
+          "outcome": "job performance (meta-analytic mean across occupations)",
+          "effect": {
+            "kind": "correlation",
+            "value": 0.22,
+            "low": null,
+            "high": null
+          },
+          "source": {
+            "authors": "Barrick, M. R., & Mount, M. K.",
+            "year": 1991,
+            "title": "The Big Five personality dimensions and job performance: A meta-analysis",
+            "venue": "Personnel Psychology 44(1), 1-26",
+            "url": "https://doi.org/10.1111/j.1744-6570.1991.tb00688.x"
+          },
+          "quote": "Results indicated that one dimension of personality, Conscientiousness, showed consistent relations with all job performance criteria for all occupational groups.",
+          "quoteVerified": true,
+          "notes": "Table 2 mean estimated true score correlation across five occupational groups = .22 (observed mean r = .13; range .20 to .23 across groups)."
+        }
+      ],
+      "gap": null,
+      "weight": 1,
+      "weightTag": "TUNABLE",
+      "status": "ran"
+    },
+    {
+      "id": "jobs-benefits.file-claim",
+      "kind": "decision",
+      "route": "formula",
+      "site": "src/core2/jobs-benefits.ts",
+      "callsInYear": 37,
+      "chooserCalls": 0,
+      "formulaCalls": 37,
+      "turnedShare": null,
+      "leanGap": null,
+      "formulaMeanAbsLean": 0.3336321032260761,
+      "research": null,
+      "gap": null,
+      "weight": 1,
+      "weightTag": "TUNABLE",
+      "status": "ran"
+    },
+    {
+      "id": "news.pass-on",
+      "kind": "decision",
+      "route": "formula",
+      "site": "src/core2/modules/news.ts",
+      "callsInYear": 106728,
+      "chooserCalls": 0,
+      "formulaCalls": 106728,
+      "turnedShare": null,
+      "leanGap": null,
+      "formulaMeanAbsLean": 0.4300929266566124,
+      "research": [
+        {
+          "id": "news.pass-on",
+          "trait": "extraversion",
+          "outcome": "information sharing on social media (meta-analysis, 27 studies, N=31,969)",
+          "effect": {
+            "kind": "standardized-beta",
+            "value": 0.05,
+            "low": null,
+            "high": null
+          },
+          "source": {
+            "authors": "Lin, H., Wang, C., & Sun, Y.",
+            "year": 2024,
+            "title": "How big five personality traits influence information sharing on social media: A meta analysis",
+            "venue": "PLOS ONE 19(6), e0303770",
+            "url": "https://doi.org/10.1371/journal.pone.0303770"
+          },
+          "quote": "The meta-analysis results showed that extraversion (β = 0.05**) had a positive relationship with information sharing behavior on social media.",
+          "quoteVerified": true,
+          "notes": "Pooled standardized beta; CI not given in abstract. Not specific to news; covers information sharing generally."
+        },
+        {
+          "id": "news.pass-on",
+          "trait": "agreeableness",
+          "outcome": "information sharing on social media",
+          "effect": {
+            "kind": "standardized-beta",
+            "value": -0.06,
+            "low": null,
+            "high": null
+          },
+          "source": {
+            "authors": "Lin, H., Wang, C., & Sun, Y.",
+            "year": 2024,
+            "title": "How big five personality traits influence information sharing on social media: A meta analysis",
+            "venue": "PLOS ONE 19(6), e0303770",
+            "url": "https://doi.org/10.1371/journal.pone.0303770"
+          },
+          "quote": "Agreeableness (β = -0.06**), conscientiousness (β = -0.03**), and neuroticism (β = -0.03**) had negative relationships with information sharing behavior on social media.",
+          "quoteVerified": true,
+          "notes": "Pooled standardized beta; conscientiousness -0.03 and neuroticism -0.03 in the same sentence. Openness unclear (too little research)."
+        }
+      ],
+      "gap": null,
+      "weight": 1,
+      "weightTag": "TUNABLE",
+      "status": "ran"
+    },
+    {
+      "id": "press.follow-news",
+      "kind": "decision",
+      "route": "formula",
+      "site": "src/core2/modules/press.ts",
+      "callsInYear": 15718,
+      "chooserCalls": 0,
+      "formulaCalls": 15718,
+      "turnedShare": null,
+      "leanGap": null,
+      "formulaMeanAbsLean": 0.42763145349500836,
+      "research": [
+        {
+          "id": "press.follow-news",
+          "trait": "none found",
+          "outcome": "following political news / political interest",
+          "effect": null,
+          "source": null,
+          "quote": "",
+          "quoteVerified": false,
+          "notes": "No verified personality effect size found. Mondak et al. (2010) report openness effects on political knowledge and efficacy but the numbers were not extracted."
+        }
+      ],
+      "gap": null,
+      "weight": 1,
+      "weightTag": "TUNABLE",
+      "status": "ran"
+    },
+    {
+      "id": "press.accept-interview",
+      "kind": "decision",
+      "route": "formula",
+      "site": "src/core2/modules/press.ts",
+      "callsInYear": 0,
+      "chooserCalls": 0,
+      "formulaCalls": 0,
+      "turnedShare": null,
+      "leanGap": null,
+      "formulaMeanAbsLean": null,
+      "research": null,
+      "gap": {
+        "class": "runs only on a date outside the year",
+        "why": "Interviews are scheduled only within weeks of an election (src/core2/modules/press.ts:2460).",
+        "fix": "Same as voting.turnout."
+      },
+      "weight": 1,
+      "weightTag": "TUNABLE",
+      "status": "never-ran"
+    },
+    {
+      "id": "press.dig",
+      "kind": "decision",
+      "route": "formula",
+      "site": "src/core2/modules/press.ts",
+      "callsInYear": 0,
+      "chooserCalls": 0,
+      "formulaCalls": 0,
+      "turnedShare": null,
+      "leanGap": null,
+      "formulaMeanAbsLean": null,
+      "research": null,
+      "gap": {
+        "class": "runs only on a date outside the year",
+        "why": "Follows an interview answer that contradicts a record (src/core2/modules/press.ts:1753).",
+        "fix": "Same as voting.turnout."
+      },
+      "weight": 1,
+      "weightTag": "TUNABLE",
+      "status": "never-ran"
+    },
+    {
+      "id": "press.tip",
+      "kind": "decision",
+      "route": "formula",
+      "site": "src/core2/modules/press.ts",
+      "callsInYear": 0,
+      "chooserCalls": 0,
+      "formulaCalls": 0,
+      "turnedShare": null,
+      "leanGap": null,
+      "formulaMeanAbsLean": null,
+      "research": null,
+      "gap": {
+        "class": "trigger needs a record nobody writes",
+        "why": "Needs a crime.told event for a taken bribe (src/core2/modules/press.ts:2049).",
+        "fix": "Same as corruption.offer."
+      },
+      "weight": 1,
+      "weightTag": "TUNABLE",
+      "status": "never-ran"
+    },
+    {
+      "id": "meetings.take-part",
+      "kind": "decision",
+      "route": "formula",
+      "site": "src/core2/modules/meetings.ts",
+      "callsInYear": 17532,
+      "chooserCalls": 0,
+      "formulaCalls": 17532,
+      "turnedShare": null,
+      "leanGap": null,
+      "formulaMeanAbsLean": 0.44969429610813755,
+      "research": [
+        {
+          "id": "meetings.take-part",
+          "trait": "extraversion",
+          "outcome": "attended a public meeting with a House member or senator",
+          "effect": {
+            "kind": "logit-coef-full-range",
+            "value": 1.92,
+            "low": 1.195,
+            "high": 2.645
+          },
+          "source": {
+            "authors": "Mondak, J. J., Hibbing, M. V., Canache, D., Seligson, M. A., & Anderson, M. R.",
+            "year": 2010,
+            "title": "Personality and Civic Engagement: An Integrative Framework for the Study of Trait Effects on Political Behavior",
+            "venue": "American Political Science Review 104(1), 85-110",
+            "url": "https://doi.org/10.1017/S0003055409990359"
+          },
+          "quote": "Substantively, the largest effects in Table 2 are those for openness and extraversion.",
+          "quoteVerified": true,
+          "notes": "Coefficient is the binomial logit coefficient from Mondak et al. (2010) Table 2 (2006 Cooperative Congressional Election Study, US adults, N about 1,060; controls age, female, black); the trait is scaled 0 to 1 so the coefficient is the log-odds change from lowest to highest trait score, not per SD. low/high = coefficient +/- 1.96 x reported SE. "
+        },
+        {
+          "id": "meetings.take-part",
+          "trait": "extraversion",
+          "outcome": "attended meetings or election rallies",
+          "effect": {
+            "kind": "logit-coef-full-range",
+            "value": 1.65,
+            "low": 0.67,
+            "high": 2.63
+          },
+          "source": {
+            "authors": "Mondak, J. J., Hibbing, M. V., Canache, D., Seligson, M. A., & Anderson, M. R.",
+            "year": 2010,
+            "title": "Personality and Civic Engagement: An Integrative Framework for the Study of Trait Effects on Political Behavior",
+            "venue": "American Political Science Review 104(1), 85-110",
+            "url": "https://doi.org/10.1017/S0003055409990359"
+          },
+          "quote": "Substantively, the largest effects in Table 2 are those for openness and extraversion.",
+          "quoteVerified": true,
+          "notes": "Coefficient is the binomial logit coefficient from Mondak et al. (2010) Table 2 (2006 Cooperative Congressional Election Study, US adults, N about 1,060; controls age, female, black); the trait is scaled 0 to 1 so the coefficient is the log-odds change from lowest to highest trait score, not per SD. low/high = coefficient +/- 1.96 x reported SE. "
+        }
+      ],
+      "gap": null,
+      "weight": 1,
+      "weightTag": "TUNABLE",
+      "status": "ran"
+    },
+    {
+      "id": "school.attend",
+      "kind": "decision",
+      "route": "chooser",
+      "site": "src/core2/modules/school.ts",
+      "callsInYear": 15874,
+      "chooserCalls": 15874,
+      "formulaCalls": 0,
+      "turnedShare": 0.00031498047121078493,
+      "leanGap": {
+        "option": "stay-home-from-school",
+        "lowThird": 0.000945000945000945,
+        "highThird": 0.000945000945000945
+      },
+      "formulaMeanAbsLean": null,
+      "research": [
+        {
+          "id": "school.attend",
+          "trait": "conscientiousness",
+          "outcome": "academic performance (proxy for attendance and effort)",
+          "effect": {
+            "kind": "correlation",
+            "value": 0.22,
+            "low": null,
+            "high": null
+          },
+          "source": {
+            "authors": "Poropat, A. E.",
+            "year": 2009,
+            "title": "A meta-analysis of the five-factor model of personality and academic performance",
+            "venue": "Psychological Bulletin 135(2), 322-338",
+            "url": "https://doi.org/10.1037/a0014996"
+          },
+          "quote": "Thus, the average relationship of academic performance with Conscientiousness (d = 0.46) can be seen as a medium-sized effect",
+          "quoteVerified": true,
+          "notes": "Table 1: observed r = .19, corrected rho = .22 (k = 138, N = 70,926), d = 0.46; agreeableness rho .07, openness d = 0.24. Measures academic performance, not attendance; no attendance-specific meta-analysis was found."
+        }
+      ],
+      "gap": null,
+      "weight": 1,
+      "weightTag": "TUNABLE",
+      "status": "ran"
+    },
+    {
+      "id": "justice.report",
+      "kind": "decision",
+      "route": "formula",
+      "site": "src/core2/modules/justice.ts",
+      "callsInYear": 2,
+      "chooserCalls": 0,
+      "formulaCalls": 2,
+      "turnedShare": null,
+      "leanGap": null,
+      "formulaMeanAbsLean": 0.10486139563759515,
+      "research": [
+        {
+          "id": "justice.report",
+          "trait": "none found",
+          "outcome": "whistleblowing",
+          "effect": null,
+          "source": null,
+          "quote": "",
+          "quoteVerified": false,
+          "notes": "Mesmer-Magnus & Viswesvaran (2005, Journal of Business Ethics 62(3), 277-297) is the relevant meta-analysis but the retrieved file was a different paper and the abstract could not be retrieved, so no number or quote is given."
+        }
+      ],
+      "gap": {
+        "class": "trigger needs a record nobody writes",
+        "why": "Needs a crime row from corruption (src/core2/modules/justice.ts:250); ran twice from other crimes.",
+        "fix": "Same as corruption.offer."
+      },
+      "weight": 1,
+      "weightTag": "TUNABLE",
+      "status": "ran"
+    },
+    {
+      "id": "justice.prosecute",
+      "kind": "decision",
+      "route": "formula",
+      "site": "src/core2/modules/justice.ts",
+      "callsInYear": 1,
+      "chooserCalls": 0,
+      "formulaCalls": 1,
+      "turnedShare": null,
+      "leanGap": null,
+      "formulaMeanAbsLean": 0.16758840288252044,
+      "research": null,
+      "gap": {
+        "class": "trigger needs a record nobody writes",
+        "why": "Follows a report (src/core2/modules/justice.ts:300).",
+        "fix": "Same as corruption.offer."
+      },
+      "weight": 1,
+      "weightTag": "TUNABLE",
+      "status": "ran"
+    },
+    {
+      "id": "justice.plea",
+      "kind": "decision",
+      "route": "formula",
+      "site": "src/core2/modules/justice.ts",
+      "callsInYear": 2,
+      "chooserCalls": 0,
+      "formulaCalls": 2,
+      "turnedShare": null,
+      "leanGap": null,
+      "formulaMeanAbsLean": 0.4489337822671156,
+      "research": null,
+      "gap": {
+        "class": "trigger needs a record nobody writes",
+        "why": "Follows a charge (src/core2/modules/justice.ts:549).",
+        "fix": "Same as corruption.offer."
+      },
+      "weight": 1,
+      "weightTag": "TUNABLE",
+      "status": "ran"
+    },
+    {
+      "id": "meetings.hold-town-hall",
+      "kind": "decision",
+      "route": "formula",
+      "site": "src/core2/modules/meetings.ts",
+      "callsInYear": 36,
+      "chooserCalls": 0,
+      "formulaCalls": 36,
+      "turnedShare": null,
+      "leanGap": null,
+      "formulaMeanAbsLean": 0.41842026077518246,
+      "research": null,
+      "gap": null,
+      "weight": 1,
+      "weightTag": "TUNABLE",
+      "status": "ran"
+    },
+    {
+      "id": "campaigns.party-firmness",
+      "kind": "decision",
+      "route": "formula",
+      "site": "src/core2/campaign-stances.ts",
+      "callsInYear": 540,
+      "chooserCalls": 0,
+      "formulaCalls": 540,
+      "turnedShare": null,
+      "leanGap": null,
+      "formulaMeanAbsLean": 0.5938190744908042,
+      "research": null,
+      "gap": null,
+      "weight": 1,
+      "weightTag": "TUNABLE",
+      "status": "ran"
+    },
+    {
+      "id": "estates.will",
+      "kind": "decision",
+      "route": "formula",
+      "site": "src/core2/estates.ts",
+      "callsInYear": 0,
+      "chooserCalls": 0,
+      "formulaCalls": 0,
+      "turnedShare": null,
+      "leanGap": null,
+      "formulaMeanAbsLean": null,
+      "research": null,
+      "gap": {
+        "class": "rare",
+        "why": "Runs when someone with an estate dies (src/core2/estates.ts:283).",
+        "fix": "None needed; rare by nature."
+      },
+      "weight": 1,
+      "weightTag": "TUNABLE",
+      "status": "never-ran"
+    },
+    {
+      "id": "estates.trust",
+      "kind": "decision",
+      "route": "formula",
+      "site": "src/core2/estates.ts",
+      "callsInYear": 4,
+      "chooserCalls": 0,
+      "formulaCalls": 4,
+      "turnedShare": null,
+      "leanGap": null,
+      "formulaMeanAbsLean": 0.17323898134601362,
+      "research": null,
+      "gap": null,
+      "weight": 1,
+      "weightTag": "TUNABLE",
+      "status": "ran"
+    },
+    {
+      "id": "legislature.attend-sitting",
+      "kind": "decision",
+      "route": "chooser",
+      "site": "src/core2/modules/legislature.ts",
+      "callsInYear": 864,
+      "chooserCalls": 864,
+      "formulaCalls": 0,
+      "turnedShare": 0.9606481481481481,
+      "leanGap": {
+        "option": "sitting-miss",
+        "lowThird": 0,
+        "highThird": 0.10069444444444445
+      },
+      "formulaMeanAbsLean": null,
+      "research": null,
+      "gap": {
+        "class": "trait decides alone",
+        "why": "Personality turned 96 of 100 picks: attending and missing score almost the same without it, so the trait term settles nearly every sitting (src/core2/modules/legislature.ts:2516).",
+        "fix": "Add the member's duty reasons and calibrate the weight from attendance research."
+      },
+      "weight": 1,
+      "weightTag": "TUNABLE",
+      "status": "ran"
+    },
+    {
+      "id": "legislature.poison-pill",
+      "kind": "decision",
+      "route": "chooser",
+      "site": "src/core2/modules/legislature.ts",
+      "callsInYear": 1,
+      "chooserCalls": 1,
+      "formulaCalls": 0,
+      "turnedShare": 0,
+      "leanGap": null,
+      "formulaMeanAbsLean": null,
+      "research": null,
+      "gap": null,
+      "weight": 1,
+      "weightTag": "TUNABLE",
+      "status": "ran"
+    },
+    {
+      "id": "office-day-state.attend",
+      "kind": "decision",
+      "route": "formula",
+      "site": "src/core2/office-day-state.ts",
+      "callsInYear": 315,
+      "chooserCalls": 0,
+      "formulaCalls": 315,
+      "turnedShare": null,
+      "leanGap": null,
+      "formulaMeanAbsLean": 0.33197594465737224,
+      "research": null,
+      "gap": null,
+      "weight": 1,
+      "weightTag": "TUNABLE",
+      "status": "ran"
+    },
+    {
+      "id": "office-day-state.leader-request",
+      "kind": "decision",
+      "route": "formula",
+      "site": "src/core2/office-day-state.ts",
+      "callsInYear": 0,
+      "chooserCalls": 0,
+      "formulaCalls": 0,
+      "turnedShare": null,
+      "leanGap": null,
+      "formulaMeanAbsLean": null,
+      "research": null,
+      "gap": {
+        "class": "no trigger (player or developer only)",
+        "why": "Only the bench path check calls it (src/bench/path-check.ts:236).",
+        "fix": "Have a legislator who drafted a bill ask the leader for a hearing in doEntry."
+      },
+      "weight": 1,
+      "weightTag": "TUNABLE",
+      "status": "never-ran"
+    },
+    {
+      "id": "appointments.weigh",
+      "kind": "decision",
+      "route": "formula",
+      "site": "src/core2/appointments.ts",
+      "callsInYear": 3,
+      "chooserCalls": 0,
+      "formulaCalls": 3,
+      "turnedShare": null,
+      "leanGap": null,
+      "formulaMeanAbsLean": 0.10376756066411234,
+      "research": null,
+      "gap": null,
+      "weight": 1,
+      "weightTag": "TUNABLE",
+      "status": "ran"
+    },
+    {
+      "id": "jobs.raise-for-opening",
+      "kind": "decision",
+      "route": "formula",
+      "site": "src/core2/modules/jobs.ts",
+      "callsInYear": 126,
+      "chooserCalls": 0,
+      "formulaCalls": 126,
+      "turnedShare": null,
+      "leanGap": null,
+      "formulaMeanAbsLean": 0.18644681942359373,
+      "research": null,
+      "gap": null,
+      "weight": 1,
+      "weightTag": "TUNABLE",
+      "status": "ran"
+    },
+    {
+      "id": "office-day-state.clemency",
+      "kind": "decision",
+      "route": "formula",
+      "site": "src/core2/office-day-state.ts",
+      "callsInYear": 0,
+      "chooserCalls": 0,
+      "formulaCalls": 0,
+      "turnedShare": null,
+      "leanGap": null,
+      "formulaMeanAbsLean": null,
+      "research": null,
+      "gap": {
+        "class": "rare",
+        "why": "A weekly clemency petition for a governor who is not the player is in review on another branch.",
+        "fix": "In flight elsewhere."
+      },
+      "weight": 1,
+      "weightTag": "TUNABLE",
+      "status": "never-ran"
+    },
+    {
+      "id": "outcome.drawn-distribution",
+      "title": "Traits drawn to real norms by age and sex",
+      "engine": "src/core2/opening-personality.ts",
+      "wired": true,
+      "evidence": "src/core2/opening-personality.ts:1 (latent standard scores with sourced NEO facet age and sex differences, cut at 10/20/40/20/10)",
+      "kind": "outcome",
+      "research": null
+    },
+    {
+      "id": "outcome.trait-intercorrelations",
+      "title": "Traits correlate with each other as in real people",
+      "engine": "src/core2/opening-personality.ts",
+      "wired": true,
+      "evidence": "src/core2/opening-personality.ts:73 (registered correlated pairs) and ANCHORED loadings at :31",
+      "kind": "outcome",
+      "research": [
+        {
+          "id": "outcome.trait-intercorrelations",
+          "trait": "Big Five (Stability alpha: low neuroticism, agreeableness, conscientiousness; Plasticity beta: extraversion, openness)",
+          "outcome": "meta-analytic Big Five intercorrelations (K = 212, N = 144,117)",
+          "effect": null,
+          "source": {
+            "authors": "van der Linden, D., te Nijenhuis, J., & Bakker, A. B.",
+            "year": 2010,
+            "title": "The General Factor of Personality: A meta-analysis of Big Five intercorrelations and a criterion-related validity study",
+            "venue": "Journal of Research in Personality 44(3), 315-327",
+            "url": "https://doi.org/10.1016/j.jrp.2010.03.003"
+          },
+          "quote": "The meta-analysis provided supporting evidence for the two meta-factors Stability and Plasticity (or α and β, respectively) and a GFP at the highest hierarchal level.",
+          "quoteVerified": false,
+          "notes": "Quote came from a fetched page summary and could not be matched to retrieved text, so quoteVerified is false. Intercorrelation matrix values not retrieved."
+        }
+      ]
+    },
+    {
+      "id": "outcome.personality-heritability",
+      "title": "Children resemble their parents",
+      "engine": "src/core2/births-people.ts",
+      "wired": "partly",
+      "evidence": "src/core2/births-people.ts:102 draws the newborn with its parents as subjects",
+      "why": "The parents are redrawn from the seed on the birth date rather than read from their recorded traits, so a child resembles a redrawn parent; counted newborns are seeded without inheritance (SG-PW8-counted-newborn-temperament, src/core2/births-counted.ts:586).",
+      "kind": "outcome",
+      "research": [
+        {
+          "id": "outcome.personality-heritability",
+          "trait": "all traits (pooled)",
+          "outcome": "heritability of self-reported personality (62 effect sizes, >100,000 people)",
+          "effect": {
+            "kind": "correlation",
+            "value": 0.4,
+            "low": null,
+            "high": null
+          },
+          "source": {
+            "authors": "Vukasovic, T., & Bratko, D.",
+            "year": 2015,
+            "title": "Heritability of personality: A meta-analysis of behavior genetic studies",
+            "venue": "Psychological Bulletin 141(4), 769-785",
+            "url": "https://doi.org/10.1037/bul0000017"
+          },
+          "quote": "The average effect size was .40, indicating that 40% of individual differences in personality were due to genetic, while 60% are due to environmental influences.",
+          "quoteVerified": true,
+          "notes": "Heritability proportion h2 = .40 overall; twin studies .47 versus family and adoption studies .22 (same abstract: 'twin studies showing higher estimates, .47, compared to family and adoption studies, .22')."
+        }
+      ]
+    },
+    {
+      "id": "outcome.mean-level-change-with-age",
+      "title": "Traits change slowly with age (maturity)",
+      "engine": "none",
+      "wired": false,
+      "why": "No engine writes a trait after a person is built; the trait-lean cache trusts that (src/core2/choice.ts kindLean).",
+      "kind": "outcome",
+      "research": [
+        {
+          "id": "outcome.mean-level-change-with-age",
+          "trait": "social dominance, conscientiousness, emotional stability (up); social vitality and openness (up then down)",
+          "outcome": "mean-level change by age (92 samples)",
+          "effect": null,
+          "source": {
+            "authors": "Roberts, B. W., Walton, K. E., & Viechtbauer, W.",
+            "year": 2006,
+            "title": "Patterns of mean-level change in personality traits across the life course: A meta-analysis of longitudinal studies",
+            "venue": "Psychological Bulletin 132(1), 1-25",
+            "url": "https://doi.org/10.1037/0033-2909.132.1.1"
+          },
+          "quote": "Results showed that people increase in measures of social dominance (a facet of extraversion), conscientiousness, and emotional stability, especially in young adulthood (age 20 to 40).",
+          "quoteVerified": true,
+          "notes": "Abstract gives direction and timing only (agreeableness changes only in old age); the d values by age decade are in the paper's tables, which I could not retrieve."
+        }
+      ]
+    },
+    {
+      "id": "outcome.change-with-life-events",
+      "title": "Traits shift after life events (job loss, marriage, bereavement)",
+      "engine": "none",
+      "wired": false,
+      "why": "No engine writes a trait after a person is built.",
+      "kind": "outcome",
+      "research": null
+    },
+    {
+      "id": "outcome.stress-reactivity",
+      "title": "Resting stress by temperament",
+      "engine": "src/core2/resting-stress.ts",
+      "wired": true,
+      "evidence": "src/core2/resting-stress.ts:115 (brooding raises, calm lowers)",
+      "kind": "outcome",
+      "research": [
+        {
+          "id": "outcome.stress-reactivity",
+          "trait": "neuroticism",
+          "outcome": "share of the distress gap between high- and low-neuroticism people explained by exposure and reactivity to daily stressors (339 people, 6 weeks of daily reports)",
+          "effect": {
+            "kind": "variance-share",
+            "value": 0.4,
+            "low": null,
+            "high": null
+          },
+          "source": {
+            "authors": "Bolger, N., & Schilling, E. A.",
+            "year": 1991,
+            "title": "Personality and the problems of everyday life: The role of neuroticism in exposure and reactivity to daily stressors",
+            "venue": "Journal of Personality 59(3), 355-386",
+            "url": "https://doi.org/10.1111/j.1467-6494.1991.tb00253.x"
+          },
+          "quote": "Exposure and reactivity to these minor stressors explained over 40% of the distress difference between high- and low-neuroticism subjects. Reactivity to stressors accounted for twice as much of the distress difference as exposure to stressors.",
+          "quoteVerified": true,
+          "notes": "Value is the lower bound ('over 40%') of the share explained; reactivity is about two thirds of that and exposure about one third. Not a per-SD coefficient; the per-day slope numbers are in the paper's tables, which I could not retrieve (Mroczek & Almeida 2004 abstract gives no number either)."
+        }
+      ]
+    },
+    {
+      "id": "outcome.emotion-appraisal",
+      "title": "How strongly a person feels an event",
+      "engine": "src/core2/emotion.ts",
+      "wired": true,
+      "evidence": "src/core2/emotion.ts:151 (recorded trait scales the appraisal multiplier)",
+      "kind": "outcome",
+      "research": null
+    },
+    {
+      "id": "outcome.aide-work-quality",
+      "title": "An aide's work quality and learning rate",
+      "engine": "src/core2/modules/staff.ts",
+      "wired": true,
+      "evidence": "src/core2/modules/staff.ts:686 (reliability and deliberation)",
+      "kind": "outcome",
+      "research": null
+    },
+    {
+      "id": "outcome.appointee-qualification",
+      "title": "How qualified a resident is for an appointed post",
+      "engine": "src/core2/modules/executive.ts",
+      "wired": true,
+      "evidence": "src/core2/modules/executive.ts:176 (reliability plus deliberation)",
+      "kind": "outcome",
+      "research": null
+    },
+    {
+      "id": "outcome.job-performance",
+      "title": "An ordinary worker's performance at work",
+      "engine": "src/core2/modules/jobs.ts",
+      "wired": false,
+      "why": "Workers have no performance record outside aides; nothing reads conscientiousness for it.",
+      "kind": "outcome",
+      "research": [
+        {
+          "id": "outcome.job-performance",
+          "trait": "conscientiousness",
+          "outcome": "job performance (job proficiency, training proficiency, personnel data)",
+          "effect": {
+            "kind": "correlation",
+            "value": 0.22,
+            "low": null,
+            "high": null
+          },
+          "source": {
+            "authors": "Barrick, M. R., & Mount, M. K.",
+            "year": 1991,
+            "title": "The Big Five personality dimensions and job performance: A meta-analysis",
+            "venue": "Personnel Psychology 44(1), 1-26",
+            "url": "https://doi.org/10.1111/j.1744-6570.1991.tb00688.x"
+          },
+          "quote": "Results indicated that one dimension of personality, Conscientiousness, showed consistent relations with all job performance criteria for all occupational groups.",
+          "quoteVerified": true,
+          "notes": "Table 2 mean estimated true score correlation .22 across occupations. Extraversion valid for managers (.18) and sales (.15); openness and extraversion predict training proficiency."
+        }
+      ]
+    },
+    {
+      "id": "outcome.earnings",
+      "title": "Promotion and pay by temperament",
+      "engine": "src/core2/modules/jobs.ts",
+      "wired": false,
+      "why": "Pay comes from the job's wage row; no raise or promotion reads the worker's traits.",
+      "kind": "outcome",
+      "research": [
+        {
+          "id": "outcome.earnings",
+          "trait": "conscientiousness",
+          "outcome": "lifetime earnings (men, Terman sample)",
+          "effect": {
+            "kind": "pct-earnings-per-sd",
+            "value": 16.7,
+            "low": null,
+            "high": null
+          },
+          "source": {
+            "authors": "Gensowski, M.",
+            "year": 2018,
+            "title": "Personality, IQ, and lifetime earnings",
+            "venue": "Labour Economics 51, 170-183",
+            "url": "https://doi.org/10.1016/j.labeco.2017.12.004"
+          },
+          "quote": "Men who score one standard deviation higher on Conscientiousness have over half a million USD higher lifetime earnings, a sum of $567,000 that corresponds to 16.7% of average lifetime earnings.",
+          "quoteVerified": true,
+          "notes": "Terman study is a high-IQ US sample (selected), so effects are likely larger than for the general population. Agreeableness: one SD is associated with about 8% lower lifetime earnings ($267,600)."
+        }
+      ]
+    },
+    {
+      "id": "outcome.health-behaviors",
+      "title": "Health behaviors (smoking, drinking, exercise, checkups)",
+      "engine": "src/core2/modules/health.ts",
+      "wired": false,
+      "why": "src/core2/modules/health.ts reads no trait.",
+      "kind": "outcome",
+      "research": [
+        {
+          "id": "outcome.health-behaviors",
+          "trait": "conscientiousness",
+          "outcome": "drug use (largest of the health-behavior domains)",
+          "effect": {
+            "kind": "correlation",
+            "value": -0.28,
+            "low": null,
+            "high": null
+          },
+          "source": {
+            "authors": "Bogg, T., & Roberts, B. W.",
+            "year": 2004,
+            "title": "Conscientiousness and health-related behaviors: A meta-analysis of the leading behavioral contributors to mortality",
+            "venue": "Psychological Bulletin 130(6), 887-919",
+            "url": "https://doi.org/10.1037/0033-2909.130.6.887"
+          },
+          "quote": "The largest predictive relationship found between conscientiousness-related traits and a behavioral domain was for drug use (r = -.28), whereas the smallest was for activity (r = .05).",
+          "quoteVerified": true,
+          "notes": "Other domains (alcohol, eating, risky driving, risky sex, suicide, tobacco, violence) ranged from -.12 to -.25. 194 studies."
+        }
+      ]
+    },
+    {
+      "id": "outcome.mortality",
+      "title": "Illness and death risk by conscientiousness",
+      "engine": "src/core2/modules/health.ts",
+      "wired": false,
+      "why": "src/core2/modules/health.ts reads no trait.",
+      "kind": "outcome",
+      "research": [
+        {
+          "id": "outcome.mortality",
+          "trait": "conscientiousness",
+          "outcome": "longevity / all-cause mortality (20 samples)",
+          "effect": {
+            "kind": "correlation",
+            "value": 0.11,
+            "low": 0.05,
+            "high": 0.17
+          },
+          "source": {
+            "authors": "Kern, M. L., & Friedman, H. S.",
+            "year": 2008,
+            "title": "Do conscientious individuals live longer? A quantitative review",
+            "venue": "Health Psychology 27(5), 505-512",
+            "url": "https://doi.org/10.1037/0278-6133.27.5.505"
+          },
+          "quote": "Higher levels of conscientiousness were significantly and positively related to longevity (r = .11, 95% confidence interval = .05-.17).",
+          "quoteVerified": true,
+          "notes": "Random-effects meta-analysis; strongest for achievement and order facets."
+        }
+      ]
+    },
+    {
+      "id": "outcome.relationship-formation",
+      "title": "Making friends and acquaintances",
+      "engine": "src/core2/modules/life.ts",
+      "wired": "partly",
+      "evidence": "life.daily-act contact-known-person is a chooser option, so sociable people choose contact more",
+      "why": "Who becomes a new acquaintance, and how fast a tie warms, reads no trait.",
+      "kind": "outcome",
+      "research": null
+    },
+    {
+      "id": "outcome.conflict",
+      "title": "Arguments and grudges",
+      "engine": "src/core2/modules/drives.ts",
+      "wired": "partly",
+      "evidence": "drives.respond hold-grudge is a chooser option",
+      "why": "Whether a disagreement becomes a quarrel reads no trait.",
+      "kind": "outcome",
+      "research": null
+    },
+    {
+      "id": "outcome.marriage-formation",
+      "title": "Partnering and marriage",
+      "engine": "src/core2/modules/renewal.ts",
+      "wired": false,
+      "why": "src/core2/modules/renewal.ts reads no trait for partnering.",
+      "kind": "outcome",
+      "research": [
+        {
+          "id": "outcome.marriage-formation",
+          "trait": "conscientiousness (men +, women +); openness (negative)",
+          "outcome": "ever married by age 35 (German SOEP, probit average marginal effects)",
+          "effect": {
+            "kind": "pp-per-sd",
+            "value": 0.055,
+            "low": 0.02952,
+            "high": 0.08048
+          },
+          "source": {
+            "authors": "Lundberg, S.",
+            "year": 2012,
+            "title": "Personality and marital surplus",
+            "venue": "IZA Journal of Labor Economics 1:3",
+            "url": "https://doi.org/10.1186/2193-8997-1-3"
+          },
+          "quote": "The effects of individual personality traits on the marriage probabilities of men and women are quite distinct, though there are two common elements in all specifications—openness to experience decreases marriage for both men and women, while conscientiousness increases the probability of marriage.",
+          "quoteVerified": true,
+          "notes": "Value is the average marginal effect of conscientiousness for men from Table 3 column 2 (0.055, SE 0.013), as a probability change (0.055 = 5.5 points) per SD; women 0.031 (SE 0.010). Openness: women -0.044 (SE 0.010), men -0.034 (SE 0.014). Women: extraversion +0.037 (SE 0.013). Traits were standardized by gender (source text). CI is value +/- 1.96 SE. Germany, cohorts born 1945-1970."
+        }
+      ]
+    },
+    {
+      "id": "outcome.divorce",
+      "title": "Separation and divorce",
+      "engine": "src/core2/modules/renewal.ts",
+      "wired": false,
+      "why": "src/core2/modules/renewal.ts reads no trait for separation.",
+      "kind": "outcome",
+      "research": [
+        {
+          "id": "outcome.divorce",
+          "trait": "neuroticism",
+          "outcome": "divorce (13 prospective studies)",
+          "effect": {
+            "kind": "correlation",
+            "value": 0.17,
+            "low": 0.12,
+            "high": 0.22
+          },
+          "source": {
+            "authors": "Roberts, B. W., Kuncel, N. R., Shiner, R., Caspi, A., & Goldberg, L. R.",
+            "year": 2007,
+            "title": "The power of personality: The comparative validity of personality traits, socioeconomic status, and cognitive ability for predicting important life outcomes",
+            "venue": "Perspectives on Psychological Science 2(4), 313-345",
+            "url": "https://doi.org/10.1111/j.1745-6916.2007.00047.x"
+          },
+          "quote": "the effect of Neuroticism on divorce was .17",
+          "quoteVerified": true,
+          "notes": "Aggregated correlation metric. Agreeableness .18 (CIs -.27 and -.09) and conscientiousness .13 (CIs -.17 and -.09) in the same passage: the text-extracted source lost minus signs, but the CIs and the sentence 'those individuals who were more conscientious and agreeable tended to remain longer in their marriages and avoided divorce' show these are negative (protective)."
+        },
+        {
+          "id": "outcome.divorce",
+          "trait": "conscientiousness",
+          "outcome": "divorce (13 prospective studies)",
+          "effect": {
+            "kind": "correlation",
+            "value": -0.13,
+            "low": -0.17,
+            "high": -0.09
+          },
+          "source": {
+            "authors": "Roberts, B. W., Kuncel, N. R., Shiner, R., Caspi, A., & Goldberg, L. R.",
+            "year": 2007,
+            "title": "The power of personality: The comparative validity of personality traits, socioeconomic status, and cognitive ability for predicting important life outcomes",
+            "venue": "Perspectives on Psychological Science 2(4), 313-345",
+            "url": "https://doi.org/10.1111/j.1745-6916.2007.00047.x"
+          },
+          "quote": "In contrast, those individuals who were more conscientious and agreeable tended to remain longer in their marriages and avoided divorce",
+          "quoteVerified": true,
+          "notes": "Sign inferred: the extracted text reads 'Conscientiousness on divorce was .13 (CIs = .17 and .09)' with minus signs lost; protective direction confirmed by the quoted sentence."
+        },
+        {
+          "id": "outcome.divorce",
+          "trait": "agreeableness",
+          "outcome": "divorce (13 prospective studies)",
+          "effect": {
+            "kind": "correlation",
+            "value": -0.18,
+            "low": -0.27,
+            "high": -0.09
+          },
+          "source": {
+            "authors": "Roberts, B. W., Kuncel, N. R., Shiner, R., Caspi, A., & Goldberg, L. R.",
+            "year": 2007,
+            "title": "The power of personality: The comparative validity of personality traits, socioeconomic status, and cognitive ability for predicting important life outcomes",
+            "venue": "Perspectives on Psychological Science 2(4), 313-345",
+            "url": "https://doi.org/10.1111/j.1745-6916.2007.00047.x"
+          },
+          "quote": "In contrast, those individuals who were more conscientious and agreeable tended to remain longer in their marriages and avoided divorce",
+          "quoteVerified": true,
+          "notes": "Sign inferred as for conscientiousness; reported value .18 (CIs .27 and .09 with signs lost in extraction)."
+        }
+      ]
+    },
+    {
+      "id": "outcome.trust-generalized",
+      "title": "How much a person trusts others",
+      "engine": "src/core2/modules/views.ts",
+      "wired": false,
+      "why": "Views form from the CES cell and the seed; no trait read.",
+      "kind": "outcome",
+      "research": [
+        {
+          "id": "outcome.trust-generalized",
+          "trait": "agreeableness",
+          "outcome": "generalized trust",
+          "effect": null,
+          "source": null,
+          "quote": "",
+          "quoteVerified": false,
+          "notes": "No verified effect size found."
+        }
+      ]
+    },
+    {
+      "id": "outcome.persuasion",
+      "title": "How easily a person's view moves when they hear an argument",
+      "engine": "src/core2/modules/views.ts",
+      "wired": false,
+      "why": "View updates read the message and the source, not the hearer's traits.",
+      "kind": "outcome",
+      "research": [
+        {
+          "id": "outcome.persuasion",
+          "trait": "openness (broad persuadability); trait-matched appeals",
+          "outcome": "evaluation of ads tailored to personality",
+          "effect": null,
+          "source": {
+            "authors": "Hirsh, J. B., Kang, S. K., & Bodenhausen, G. V.",
+            "year": 2012,
+            "title": "Personalized persuasion: Tailoring persuasive appeals to recipients' personality traits",
+            "venue": "Psychological Science 23(6), 578-581",
+            "url": "https://doi.org/10.1177/0956797611436349"
+          },
+          "quote": "In a sample of 324 survey respondents, advertisements were evaluated more positively the more they cohered with participants' dispositional motives.",
+          "quoteVerified": true,
+          "notes": "No effect size in the abstract. Gerber, Huber, Doherty, Dowling & Panagopoulos (2013, Political Behavior) report openness as the trait most responsive to turnout appeals, but I could not verify their numbers."
+        }
+      ]
+    },
+    {
+      "id": "outcome.news-reaction",
+      "title": "How strongly a person reacts to news",
+      "engine": "src/core2/modules/news.ts",
+      "wired": "partly",
+      "evidence": "news.pass-on reads the lean for telling others",
+      "why": "How much a story moves the hearer's view or mood reads no trait.",
+      "kind": "outcome",
+      "research": null
+    },
+    {
+      "id": "outcome.hardship-coping",
+      "title": "How a person copes with hardship (job loss, debt, eviction)",
+      "engine": "src/core2/emotion.ts",
+      "wired": "partly",
+      "evidence": "src/core2/emotion.ts:151 scales the appraisal",
+      "why": "Coping after the event (seeking help, cutting back, drinking) is not a read.",
+      "kind": "outcome",
+      "research": null
+    },
+    {
+      "id": "outcome.known-traits",
+      "title": "Others learn a person's traits only from what they saw",
+      "engine": "src/core2/mind-catalog.ts",
+      "wired": "partly",
+      "evidence": "src/core2/past-public.ts:162 lists a person's strongest traits as public facts",
+      "why": "Opinions of a person do not yet come only from acts witnessed, reputation and conversation.",
+      "kind": "outcome",
+      "research": null
+    },
+    {
+      "id": "outcome.speech-style",
+      "title": "How a person talks",
+      "engine": "src/director",
+      "wired": "partly",
+      "evidence": "src/director/ledger.ts:730 reads a trait for a line's register",
+      "why": "Owned by the English engine; the trait reads it needs are listed by the Words line.",
+      "kind": "outcome",
+      "research": null
+    }
+  ]
+}
