@@ -5,10 +5,10 @@ area: world
 kind: feature
 priority: 2
 size: L
-status: claimed
+status: blocked
 claimed-by: claude/police-patrol-causes
 pr:
-blocked-on:
+blocked-on: OWNER-DECISIONS Oct 16: the crime engine comes later, 'when it gets a little more fleshed out' (owner-crime-engine, p3); the crime measure here is that engine
 source: added with npm run pool -- add
 claimed-at: 2026-10-20T06:01:01.986Z
 ---
