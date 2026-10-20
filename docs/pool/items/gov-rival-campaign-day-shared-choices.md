@@ -5,12 +5,12 @@ area: gov
 kind: wiring
 priority: 3
 size: M
-status: open
-claimed-by:
+status: in-pr
+claimed-by: claude/fs11vb-rival
 pr: #5268
 blocked-on:
 source: added with npm run pool -- add
-claimed-at:
+claimed-at: 2026-10-20T15:34:04.586Z
 ---
 
 **What.** TODO
