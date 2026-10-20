@@ -24,3 +24,6 @@ claimed-at:
 **Notes.** Part of the opening town builder port (docs/coordination/core.md line 27; docs/design/old-core-retirement-map.md). Do the parts in any order; each keeps the town the same.
 
 Oct 19 (claude/port-town-workplaces): the workplace tables half is done. Role, Workplace, TOWN_WORKPLACES, the tenure and part-time tables and townWorkplaceFor moved unchanged to src/core2/town-workplaces.ts; opening-employment.ts and the four old readers import them there, and the old file keeps no copy. Still to port: townEmploymentMix and townWorkplaceWeights (the sourced county and state mix), laborStatus, townResidents, activeWorkers and ensureTownEmployment, which write jobs into the old world.
+
+Oct 20 (cto): sent back PR #5100. EntityId in src/core2/town-employment-mix.ts imported from ../simulation/types (old engine) instead of ./types. Pool item status was also dropped on main when stacked PR #5093 was dropped, causing merge conflict.
+
