@@ -6,11 +6,11 @@ kind: wiring
 priority: 2
 size: S
 status: in-pr
-claimed-by: claude/elections-ads-reach-counted-followers
+claimed-by: claude/ads-counted
 pr: #5328
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-20T00:21:47.380Z
+claimed-at: 2026-10-20T13:15:51.841Z
 ---
 
 **What.** TODO
@@ -22,3 +22,7 @@ claimed-at: 2026-10-20T00:21:47.380Z
 **Files.** TODO
 
 **Notes.** TODO
+
+Sent back 2026-10-20 from PR #5328 (branch claude/ads-counted): merge conflict with main in campaigns.ts, press.ts and campaign-ads.test.ts (code); finish on that branch, merge main into it first.
+
+Correction 2026-10-20: the send-back above for PR #5328 was a mistake (two merger gate runs overlapped in one checkout); the branch merges cleanly with main and is being gated again. No author action needed.

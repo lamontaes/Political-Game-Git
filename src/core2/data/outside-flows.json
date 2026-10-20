@@ -16,6 +16,12 @@
     },
     {
       "kind": "accounts.transfer",
+      "idPrefix": "premium",
+      "matchedBy": "service",
+      "what": "A policyholder's monthly worker share of an employer health plan's premium, paid to an insurer outside the town (coverage)."
+    },
+    {
+      "kind": "accounts.transfer",
       "idPrefix": "unemployment-benefit",
       "matchedBy": "transfer-under-law",
       "what": "Unemployment benefits paid under the state's law to a claimant."
