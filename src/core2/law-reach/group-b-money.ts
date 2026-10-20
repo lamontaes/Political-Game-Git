@@ -22,7 +22,6 @@ import { countedJob, residentsRuntime } from "../modules/residents";
 import type { LawRowInput } from "../laws-starting";
 import {
   graduatedSchedule,
-  jurisdictionResidents,
   reachParameter,
   townFacts,
   type ResidentFacts,
@@ -76,14 +75,9 @@ export function townPopulation(api: CoreAPI): number {
   return townFacts(api, lawChain(api).townPlaceId).modeled;
 }
 
-/** A government's residents, from the budgets module or (island areas) the Census. */
-export function residentsOf(api: CoreAPI, gov: GovernmentRow): number {
-  if (gov.residents > 0 || gov.level !== "state") return gov.residents;
-  const recorded = jurisdictionResidents(gov.id);
-  if (recorded === undefined) return 0;
-  // stopgapId: SG-GOV-REACH-B-territory-residents
-  api.stopgap("SG-GOV-REACH-B-territory-residents");
-  return recorded;
+/** A government's residents, from the budgets module (island areas included, from the Census). */
+export function residentsOf(_api: CoreAPI, gov: GovernmentRow): number {
+  return gov.residents;
 }
 
 /** Modeled residents (named and counted) as a share of the town's real population. */

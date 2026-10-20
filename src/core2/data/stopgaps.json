@@ -8,8 +8,8 @@
     "why": "Taking a public post ends the person's current job, and the core doesn't yet release the records that rely on a job (a business's visitor contracts name its workers' jobs), so ending one mid-contract breaks the finance check.",
     "addedBy": "FIXER-EVERY-MODULE-RUNS",
     "addedAt": "2026-10-13",
-    "replacement": "A job ending that settles or reassigns every contract naming the job (OPUS-CORE), after which employed applicants are back in the pool.",
-    "status": "open"
+    "replacement": "Resolved Oct 19: taking a public post ends the job the person held (startPublicJob), so an aide, a department head and a state cabinet nominee may come from a private job when the post pays more than they earn; someone who has worked today leaves for a post tomorrow. Shown in staff-hire-employed.test.ts (pool item gov-stopgap-staff-missing-engine).",
+    "status": "resolved"
   },
   {
     "id": "SG-P8-relationship-closeness-update",
@@ -524,8 +524,8 @@
     "why": "Retention span is an owner budget assumption, not a human forgetting measurement; later readers and legal obligations need audit.",
     "addedBy": "SOL-1258",
     "addedAt": "2026-10-09",
-    "replacement": "Owner-approved bounded retention plus reader/callback/reload assertions; preserve consequential evidence and full focus history.",
-    "status": "open"
+    "replacement": "Resolved Oct 20: the owner ruled running memory stays small (Oct 12, DECISION-REGISTER 'Speed and memory'), so the retention span is a tunable engineering memory budget, tagged TUNABLE with its spread, and only the dev-why bench reads old rollups (pool item owner-stopgap-memory-budgets).",
+    "status": "resolved"
   },
   {
     "id": "SG-P8-business-books-priors",
@@ -1038,11 +1038,11 @@
     "kind": "estimated-calendar",
     "file": "src/core2/modules/offices.ts",
     "line": 408,
-    "whatItFakes": "The end of each term in progress at the opening for state and local offices: the seats of a body take turns over the years in one term that the office's calendar (the county schedule or the state's municipal election law) holds elections, and each term ends on the start day after its seat's election; where a state's own start rule isn't read, January 1. Federal terms are read: every House seat ends January 3 of an odd year (amend. XX), Senate seats by their real class, the presidency on January 20.",
+    "whatItFakes": "The end of each term in progress at the opening for state and local offices: the seats of a body take turns over the years in one term that the office's calendar (the county schedule or the state's municipal election law) holds elections, and each term ends on the start day after its seat's election; where a state's own start rule isn't read, January 1 (the governors' clauses of AK, CA, CO, DE, FL, HI, IL, IN, LA, MD, ME, NJ, OH, OK, PA, VA, WA and WI, and, as estimates from the usual clause and the current governor's date, AZ, CT, GA, ID, KS, MN, MT, NE, NV, OR, TX, UT, VT and WY are read, in data/elections/term-starts.json). Federal terms are read: every House seat ends January 3 of an odd year (amend. XX), Senate seats by their real class, the presidency on January 20.",
     "why": "Real election calendars and term-start dates for each office are M2's filing and election work.",
     "addedBy": "OPUS-GOV",
     "addedAt": "2026-10-12",
-    "replacement": "Each state's governor start rule (FIXER stand-in figures: AK, HI, FL, DE, LA, VA, ME and the rest), county bodies from county-election-schedule-by-state.json (concurrent or staggered), and municipal timing from the 92O baselines.",
+    "replacement": "The other states' governor start clauses and the state-legislature start days read into data/elections/term-starts.json, and municipal timing from the 92O baselines (county bodies are read: county-election-schedule-by-state.json).",
     "status": "open"
   },
   {
@@ -1050,8 +1050,8 @@
     "kind": "missing-engine",
     "file": "src/core2/modules/offices.ts",
     "line": 981,
-    "whatItFakes": "Where the voting engine isn't running, a special election's seat goes to the best-suited eligible person on the day instead of a vote. With voting open it is a real race. Its date is the state's law for the office where special-election-law.json reads it, else the 90-day estimate (SG-GOV-special-election-timing).",
-    "why": "M2's election engine hasn't been built on core2 yet.",
+    "whatItFakes": "A special election for a seat no race engine counts (a statewide executive seat, a judge, a seat of another body) goes to the best-suited eligible person on the day instead of a vote. The town's own seats are real races in the voting engine, and a House or legislative district outside the town is counted by the world races (named party candidates, the winner serves the unexpired term). The date is the state's law for the office where special-election-law.json reads it, else the 90-day estimate (SG-GOV-special-election-timing).",
+    "why": "The world races count only House and legislative districts; the other kinds have no counted race yet. Narrowed Oct 19 (claude/special-election-races).",
     "addedBy": "OPUS-GOV",
     "addedAt": "2026-10-12",
     "replacement": "Each office's special-election timing from its law (many fill at the next general election).",
@@ -1244,11 +1244,11 @@
     "kind": "missing-engine",
     "file": "src/core2/modules/interest-groups.ts",
     "line": 298,
-    "whatItFakes": "An employers' group's lobbyist is the best-paid town resident working for the member business the bill costs most; businesses themselves decide to join and pay dues.",
-    "why": "Businesses have no owners or managers in core2 yet (OPUS-WORLD's business engine), and lobbyists aren't a hired job yet.",
+    "whatItFakes": "An employers' group's lobbyist is the owner of the member business the bill costs most (when they live in town, are not barred and their traits lean to serve), else the best-paid town resident working for it; the group does not hire one.",
+    "why": "Owners now decide to join and pay dues (Oct 14), but lobbyists aren't a hired job yet.",
     "addedBy": "OPUS-GOV",
     "addedAt": "2026-10-12",
-    "replacement": "The business owners decide to join, and the group hires a lobbyist (a person with a job, a record and memory of each member's votes).",
+    "replacement": "The group hires a lobbyist (a person with a job, a record and memory of each member's votes). Owner as lobbyist done Oct 19.",
     "status": "open"
   },
   {
@@ -1260,8 +1260,8 @@
     "why": "Public payroll from government treasuries isn't wired in core2 yet (requested from OPUS-CORE).",
     "addedBy": "OPUS-GOV",
     "addedAt": "2026-10-12",
-    "replacement": "A work commitment at the post's pay, paid from the government's treasury through the journal, ending any job the staffer leaves for it.",
-    "status": "open"
+    "replacement": "Resolved Oct 20: a staffer whose office employer sits where no job exists to follow (a territory's state or federal office) takes the town's schedule and payday (scheduleFromPlaceId), so every aide hired where budgets are open is on a treasury payroll. Shown in staff-paid-every-place.test.ts (pool item gov-stopgap-staff-missing-engine).",
+    "status": "resolved"
   },
   {
     "id": "SG-GOV-world-race-lean",
@@ -1413,7 +1413,7 @@
     "kind": "missing-mechanic",
     "file": "src/core2/data/laws/reach-group-a.json",
     "line": 132,
-    "whatItFakes": "Public-sector collective bargaining records the right on public workers, their employers and the union, but no contract is bargained and no pay changes.",
+    "whatItFakes": "Public-sector collective bargaining raises public workers' pay by an estimated union premium phased in over the first contract years (src/core2/law-reach/group-a-bargaining.ts), but no contract is bargained: there is no bargaining table, unit or negotiation, and the premium is one average for every public job.",
     "why": "There is no bargaining engine: no union contract, no bargaining unit wage or table.",
     "addedBy": "OPUS-GOV (sub-agent A)",
     "addedAt": "2026-10-12",
@@ -1497,11 +1497,11 @@
     "kind": "missing-mechanic",
     "file": "src/core2/data/laws/reach-group-a.json",
     "line": 311,
-    "whatItFakes": "Rent renewal now reads stabilization for full leases and counted rent flows, but applies the catalog's estimated cap to every rented building and has no delivered renewal notice linking a tenant's stance to the saving.",
-    "why": "Building exemptions and enacted cap terms are not yet resolved; the director needs a received notice of an actual rent change, not eligibility assigned to every adult.",
+    "whatItFakes": "Rent renewal reads stabilization for full leases and counted rent flows, but applies the catalog's estimated cap to every rented building. A full tenant gets a renewal notice (the law, old rent, market rent, charged rent) and learns of the saving; a counted tenant gets no notice.",
+    "why": "Building exemptions and enacted cap terms are not yet resolved; a counted tenant is not a person who can be told.",
     "addedBy": "OPUS-GOV (sub-agent A)",
     "addedAt": "2026-10-12",
-    "replacement": "Resolve the statute's cap and building exemptions from records, then deliver the renewal notice with law, old rent, market rent and charged rent; prove the paid bill, tenant's informed stance and director line.",
+    "replacement": "Resolve the statute's cap and building exemptions from records; counted tenants are told in the same share when they are filled in as a full person.",
     "status": "open"
   },
   {
@@ -1541,7 +1541,10 @@
     "addedBy": "OPUS-GOV (sub-agent A)",
     "addedAt": "2026-10-12",
     "replacement": "GOV: a justice engine with arrests, charges, pretrial detention and release decisions from the law in force.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "The public-safety engine arrests people from the town's crime measures and decides each defendant's wait for trial from the bail law and their cash (src/core2/public-safety.ts); jail days are paid by the county treasury.",
+    "resolvedAt": "2026-10-20",
+    "resolvedBy": "law-wiring-justice"
   },
   {
     "id": "SG-GOV-REACH-A-convictions",
@@ -1585,11 +1588,11 @@
     "file": "src/core2/law-reach/group-b-money.ts",
     "line": 82,
     "whatItFakes": "For an island area the budgets module records no residents, group B shares a budget line's change to the town by the Census population in its own parameter table.",
-    "why": "data/research/money/public-budget-bases.json has no population2024 (and no budget) for Puerto Rico, Guam, the U.S. Virgin Islands, American Samoa or the Northern Mariana Islands.",
+    "why": "data/research/money/public-budget-bases.json has no population2024 (and no budget) for Puerto Rico, Guam, the U.S. Virgin Islands, American Samoa or the Northern Mariana Islands. Resolved Oct 19: public-budget-bases.json already carries each island area's population (islandAreaPopulation2020 and puertoRicoPopulation2025), and the budgets module now reads it into the state government's residents.",
     "addedBy": "OPUS-GOV (sub-agent B)",
     "addedAt": "2026-10-12",
     "replacement": "OPUS-GOV budgets: public-budget-bases.json carries each island area's population and finances (Census Island Areas, PR government finances); group B then reads GovernmentRow.residents only.",
-    "status": "open"
+    "status": "resolved"
   },
   {
     "id": "SG-GOV-REACH-B-public-school-staff",
@@ -1717,11 +1720,11 @@
     "kind": "missing-engine",
     "file": "src/core2/data/laws/reach-group-b.json",
     "line": 232,
-    "whatItFakes": "A ban on new gas hookups is a compliance record on builders and utilities; no building cost or fuel choice changes.",
-    "why": "No construction projects or building fuel choices exist in the core.",
+    "whatItFakes": "A gas-hookup ban raises the housing engine's new-construction cost (modules/housing.ts sets allElectric, housing-construction.ts prices it into single and multifamily starts), but no household's appliance fuel choice or utility bill changes.",
+    "why": "Construction cost by code is read; fuel choice and household energy bills aren't modeled, so the ban's effect on a household stops at the price and supply of new homes.",
     "addedBy": "OPUS-GOV (sub-agent B)",
     "addedAt": "2026-10-12",
-    "replacement": "OPUS-WORLD housing and business engine: new-construction cost and appliance fuel by code in force (setBuildingCode({ placeId, allElectric: true })).",
+    "replacement": "A household energy-bill and appliance-fuel record read by the ban once utilities are modeled.",
     "status": "open"
   },
   {
@@ -1777,11 +1780,11 @@
     "kind": "missing-engine",
     "file": "src/core2/data/laws/reach-group-b.json",
     "line": 328,
-    "whatItFakes": "Farmland protection is a rule record on farms, builders and real-estate firms; no parcel or development changes.",
-    "why": "Land parcels and development aren't modeled.",
+    "whatItFakes": "Farmland protection reduces new-housing starts through the housing engine (zoning farmlandProtected, housing-construction.ts), but there are no land parcels, so which fields stay farmland and what farms earn don't change.",
+    "why": "Development is read as a share of buildable land; individual parcels and farm use aren't modeled.",
     "addedBy": "OPUS-GOV (sub-agent B)",
     "addedAt": "2026-10-12",
-    "replacement": "OPUS-WORLD housing engine: land parcels with zoning, read by new construction (zoneParcels({ placeId, use: \"agricultural\", protected: true })).",
+    "replacement": "Land parcels with a use and an owner, read by new construction and by farm output.",
     "status": "open"
   },
   {
@@ -1897,7 +1900,7 @@
     "kind": "estimated-calendar",
     "file": "src/core2/data/elections/parameters.json",
     "line": 12,
-    "whatItFakes": "The date of a special election where the state's law for that office family is not read: 90 days after the vacancy. Only California's U.S. House and legislative rows are read in special-election-law.json.",
+    "whatItFakes": "The date of a special election where the state's law leaves the day to the governor: 90 days after the vacancy (parameters.json). special-election-law.json reads the law for every state and territory whose legislative vacancies are filled by election (U.S. House rows for 51 places, legislative rows for the rest) and records 33 rows as governor-sets-date; the days-after-vacancy rows are ESTIMATED nominal values inside each statutory window.",
     "why": "Each state's timing statute (days after the vacancy, the governor's call, the next general election) per office family has to be read.",
     "addedBy": "OPUS-GOV-ELECTIONS",
     "addedAt": "2026-10-14",
@@ -1909,7 +1912,7 @@
     "kind": "missing-data",
     "file": "src/core2/modules/voting.ts",
     "line": 593,
-    "whatItFakes": "For 20 of the 56 places the ballot-order rule is read from a secondary source or assumed: the five territories' rules are guesses, and 15 states' primary rule or order within a party is assumed (the rows marked estimate in data/research/elections/ballot-order-2026.json).",
+    "whatItFakes": "For 6 of the 56 places (American Samoa, the Northern Mariana Islands, the Virgin Islands, Pennsylvania, Wisconsin and Indiana) the ballot-order rule is read from a secondary source or partly from search snippets of the law, not its text; the other 14 places the Oct 19 research read are set from the statute.",
     "why": "Ballotpedia's ballot-order page gives one rule per state, usually for the general election; NCSL's table and the state codes were not reachable from the research session.",
     "addedBy": "OPUS-GOV-ELECTIONS",
     "addedAt": "2026-10-14",
@@ -2273,8 +2276,8 @@
     "why": "Core2 has no hearings or legislature.",
     "addedBy": "OPUS-DRIVES",
     "addedAt": "2026-10-09",
-    "replacement": "The legislature/committee module's hearing calendar offering testimony slots.",
-    "status": "open"
+    "replacement": "Resolved Oct 19: the act row is deleted. Testimony is a resident's remark at a hearing or meeting (the meetings module's remarks and hearings), chosen from the resident's own views, so a second drive act would be a parallel route.",
+    "status": "resolved"
   },
   {
     "id": "SG-P10-candidacy-unbuilt",
@@ -2285,8 +2288,8 @@
     "why": "Core2 has no elections or filing.",
     "addedBy": "OPUS-DRIVES",
     "addedAt": "2026-10-09",
-    "replacement": "The elections module's filing and campaign acts.",
-    "status": "open"
+    "replacement": "Resolved Oct 19: the act row is deleted. Who runs is decided by the elections and candidacy modules (candidacy.ts, candidate-pool.ts, world-races), so a drive act would be a parallel route.",
+    "status": "resolved"
   },
   {
     "id": "SG-P10-lobbying-unbuilt",
@@ -2297,8 +2300,8 @@
     "why": "Core2 has no legislature or member contact system.",
     "addedBy": "OPUS-DRIVES",
     "addedAt": "2026-10-09",
-    "replacement": "The legislature module's member-contact and bill-sponsor acts.",
-    "status": "open"
+    "replacement": "Resolved Oct 19: the act row is deleted. Lobbying is the interest-groups module's contact with a legislator, so a drive act would be a parallel route.",
+    "status": "resolved"
   },
   {
     "id": "SG-P10-health-minimal-port",
@@ -2511,11 +2514,11 @@
     "file": "src/core2/modules/credit.ts",
     "line": 399,
     "whatItFakes": "A business with no recorded owner (a public employer, an ownerless landlord) applies for a line whenever its cash is below a few months of payroll; owned businesses' owners decide.",
-    "why": "Businesses have no recorded owners until businesses growing (M1-08).",
+    "why": "Businesses have no recorded owners until businesses growing (M1-08). Resolved Oct 19, 2026: a firm with no recorded owner is run by its best-paid full worker, who weighs the same reasons as an owner; with no full person, its counted people's summed pulls decide (modules/credit.ts).",
     "addedBy": "OPUS-WORLD",
     "addedAt": "2026-10-12",
     "replacement": "Those organizations' own deciders (a board, a public budget) choose whether to borrow.",
-    "status": "open"
+    "status": "resolved"
   },
   {
     "id": "SG-WORLD-credit-bank-equity-only",
@@ -2606,8 +2609,8 @@
     "kind": "faked-mechanic",
     "file": "src/core2/modules/housing.ts",
     "line": 419,
-    "whatItFakes": "The wider population's renters pay rent from their place's pooled residents account, with no household arrears or eviction cases of their own.",
-    "why": "The two-level population pools counted households' cash by place (OPUS-CORE's stopgap), so a single counted household cannot fall behind on its own.",
+    "whatItFakes": "The wider population's renters pay rent from their place's pooled residents account, and the arrears they run up are held per group (households of one kind in one place), not per household; a case is opened and a household removed from the group's pool, but which household in the group is behind is not recorded.",
+    "why": "The two-level population pools counted households' cash by place (OPUS-CORE's stopgap), so the group falls behind together; a single counted household's own shortfall is not kept.",
     "addedBy": "OPUS-WORLD",
     "addedAt": "2026-10-12",
     "replacement": "Per-household cash for counted households (or fill-in when a household falls behind), with arrears and eviction through the same legal steps.",
@@ -2622,7 +2625,9 @@
     "why": "The core rejects the agreement's next payment once the named job ends (\"Visitor qualification no longer resolves its actual product job\"), seen in year two of Absecon, New Jersey.",
     "addedBy": "OPUS-WORLD",
     "addedAt": "2026-10-12",
-    "replacement": "OPUS-CORE lets a visitor agreement re-resolve its qualification to any current qualified worker at the provider; then this filter goes."
+    "replacement": "OPUS-CORE lets a visitor agreement re-resolve its qualification to any current qualified worker at the provider; then this filter goes.",
+    "status": "resolved",
+    "resolvedBy": "Claude session on the pool item world-agreements-re-resolve-worker, October 19, 2026: deleted src/core2/pinned-jobs.ts and the jobs engine's filters on it. A saved agreement already follows its product jobs' real life in finance-cash.ts (productJobRelations: an ended job drops out and the supplier's current staff in the product occupations carry it; with none, the agreement ends), so a named job's holder may now be laid off, quit, retire or move."
   },
   {
     "id": "SG-WORLD-business-counted-owner-choice",
@@ -2664,11 +2669,11 @@
     "kind": "assumed-data",
     "file": "src/core2/modules/credit.ts",
     "line": 116,
-    "whatItFakes": "Where no county deposit row covers a place (American Samoa, the Virgin Islands, places without a county), the town bank's deposits are the territory's FDIC deposits per resident (Guam, Northern Marianas) or the nation's, times the town's people.",
+    "whatItFakes": "American Samoa has no bank branch in the FDIC Summary of Deposits, so its town bank's deposits are the nation's deposits per resident times the town's people. (Guam, the Northern Marianas, Puerto Rico and the Virgin Islands are in the county table with their own FDIC branch deposits, so they no longer use this.)",
     "why": "FDIC Summary of Deposits has no rows for American Samoa or the Virgin Islands in the data, and island villages carry no county code.",
     "addedBy": "OPUS-WORLD",
     "addedAt": "2026-10-12",
-    "replacement": "Each territory's bank branches and deposits from FDIC and territorial banking regulators."
+    "replacement": "American Samoa's bank deposits from its territorial banking regulator or the banks' own reports; checked Oct 19 (claude): the FDIC Summary of Deposits for June 30, 2026 lists 16 branches in Guam, 6 in the Northern Marianas, 260 in Puerto Rico and 20 in the Virgin Islands, all already in data/tables/town-deposits.json, and none in American Samoa."
   },
   {
     "id": "SG-WORLD-housing-island-areas",
@@ -2687,11 +2692,11 @@
     "file": "src/core2/modules/housing.ts",
     "line": 169,
     "whatItFakes": "Where the ACS withholds a county's median rent or home value (a county with very few households: Kalawao, Hawaii; Edwards, Kenedy, Loving and Culberson, Texas), the state's household-weighted county median stands in, then the nation's.",
-    "why": "world-property-tax-zero-home-values: a missing value read as zero left every owner in the county without a home, so no property tax was collected.",
+    "why": "Resolved Oct 19 (gov-standins-housing): a county the ACS withholds takes the household-weighted median of its neighboring counties (Census county adjacency, src/core2/data/housing/county-neighbors.json); the state and nation stand in only if no neighbor publishes. world-property-tax-zero-home-values: a missing value read as zero left every owner in the county without a home. world-property-tax-zero-home-values: a missing value read as zero left every owner in the county without a home, so no property tax was collected.",
     "addedBy": "CLAUDE-WORLD",
     "addedAt": "2026-10-16",
     "replacement": "The county's own median from the ACS 5-year table when it is published, or the median of its neighboring counties.",
-    "status": "open"
+    "status": "resolved"
   },
   {
     "id": "SG-WORLD-business-union-members",
@@ -2817,11 +2822,11 @@
     "file": "src/core2/modules/jobs.ts",
     "line": 1401,
     "whatItFakes": "A counted worker who retires draws their place's opening retirees' average income (Social Security and pensions from outside the town), not a benefit from their own earnings record and claim age.",
-    "why": "Counted people have no earnings records; Social Security claims and benefit formulas are OPUS-CORE's and OPUS-GOV's.",
+    "why": "Counted people have no earnings records; Social Security claims and benefit formulas are OPUS-CORE's and OPUS-GOV's. Resolved Oct 19, 2026: a counted worker who retires claims at once from their own record through claimRetirementNow (modules/retirement-claims.ts), sized as the opening sizes awards; that path stays under SG-CORE-retirement-claims-in-play until the Social Security program.",
     "addedBy": "OPUS-WORLD",
     "addedAt": "2026-10-12",
     "replacement": "The core's Social Security claim for counted retirees, with GOV's benefit rules in force.",
-    "status": "open"
+    "status": "resolved"
   },
   {
     "id": "SG-WEB-outcome-drift",
@@ -2881,7 +2886,8 @@
     "addedBy": "OPUS-PEOPLE",
     "addedAt": "2026-10-12",
     "replacement": "Agreements re-resolve their qualifying worker when a job ends (WORLD/CORE), and the jobs engine exports its pinned-job lookup; then these holders can move like anyone else.",
-    "status": "open"
+    "status": "resolved",
+    "resolvedBy": "Same change, October 19, 2026: the moves engine's copy of the lookup is deleted, so a holder of a job a saved agreement names moves like anyone else and the agreement re-resolves at its next payment (finance-cash.ts productJobRelations)."
   },
   {
     "id": "SG-FIXER-moves-income-household",
@@ -3027,8 +3033,8 @@
     "why": "Public payroll from treasuries is OPUS-CORE's (public employers pay as outside payers today).",
     "addedBy": "OPUS-GOV",
     "addedAt": "2026-10-13",
-    "replacement": "The appointee's post becomes a public job paid from the government's treasury through CORE's public payroll.",
-    "status": "open"
+    "replacement": "Resolved Oct 19: the state cabinet the governor picks are full people on the state payroll (job:public:state:<post>:<person>), the one replaced leaves it; a town head or an agency head is paid the same way. A world with no treasury open has no payroll, which is not a played world (pool item gov-stopgap-executive-missing-engine).",
+    "status": "resolved"
   },
   {
     "id": "SG-GOV-executive-powers-research",
@@ -3108,10 +3114,22 @@
     "file": "src/core2/births-counted.ts",
     "line": 1,
     "whatItFakes": "Households that move into the counted population are generated in the shape of a household already recorded in the place (ages, sexes, who is family), with new names and temperaments from the world's seed, and arrive with no job, contracts, cash or past on record. Counted babies and newcomers' children get temperaments without their parents' inheritance links.",
-    "why": "The counts need arrivals at the ACS rate now; the jobs, purchase and housing engines do not yet take newcomers into their books.",
+    "why": "The counts need arrivals at the ACS rate now; the jobs, purchase and housing engines do not yet take newcomers into their books. Resolved Oct 17 (claude): the births engine's own arrival path is deleted; households move in through the counted-moves engine (src/core2/modules/counted-moves.ts), which is installed with every counted world, and the newborns' temperament part is registered as SG-PW8-counted-newborn-temperament.",
     "addedBy": "PW-8 (Opus builder)",
     "addedAt": "2026-10-13",
     "replacement": "Newcomers are generated by the population builder for the place (OPUS-CORE), join the job seekers (OPUS-WORLD jobs) and take a home and purchase contracts (housing, residents flows).",
+    "status": "resolved"
+  },
+  {
+    "id": "SG-PW8-counted-newborn-temperament",
+    "kind": "generated-record",
+    "file": "src/core2/births-counted.ts",
+    "line": 1,
+    "whatItFakes": "A counted baby gets a temperament drawn from the world's seed for its age and place, without its parents' temperaments passed on.",
+    "why": "Counted parents carry no inheritance links in the counts, so the family model that passes traits to a full person's child has nothing to read.",
+    "addedBy": "claude (split from SG-PW8-counted-arrivals)",
+    "addedAt": "2026-10-17",
+    "replacement": "A counted baby inherits from its counted parents' packed traits through the same family model a full person's child uses.",
     "status": "open"
   },
   {
@@ -3136,18 +3154,18 @@
     "addedBy": "OPUS-CORE",
     "addedAt": "2026-10-12",
     "replacement": "Census 2020 Island Areas place identities (the research request territory-place-identities), read into the same listing. Oct 14 (OPUS-CORE): the candidate list is built (src/core2/data/places/territory-places-census.json, 158 inhabited villages with Census GEOIDs and 2020 populations, every current key kept, by tooling/build-territory-places.ts); the swap waits until PEOPLE's population builder reads places through the core lookup.",
-    "status": "open"
+    "status": "resolved"
   },
   {
     "id": "SG-CORE-private-tuition-average",
     "kind": "aggregate-spending",
     "file": "src/core2/opening-private-tuition.ts",
     "line": 1,
-    "whatItFakes": "Each household with school-age children pays its children's share of the town's private tuition (the national private share times the average tuition) to the town's private school; no family chooses a school, and no child is enrolled.",
+    "whatItFakes": "The town's families with school-age children are ranked by cash per child and the best-off enroll all their children in the private school until the town's private share of school-age children (NCES) is reached, each paying the average private tuition. The family's beliefs, the schools nearby and the child's own needs do not yet enter, and enrollment is fixed at the opening.",
     "why": "Private schools had no customers at all, so they closed in every town.",
     "addedBy": "OPUS-CORE",
     "addedAt": "2026-10-12",
-    "replacement": "PEOPLE's schools engine: each child's enrollment, chosen from the family's income, beliefs and the schools near them, with tuition paid by the families who enroll.",
+    "replacement": "PEOPLE's schools engine: each child's enrollment chosen from the family's income, beliefs and the schools nearby, moving as they change. Means-ranked enrollment replaced the even spread of the town's average on Oct 19.",
     "status": "open"
   },
   {
@@ -3191,7 +3209,7 @@
     "kind": "behavior",
     "file": "src/core2/modules/school.ts",
     "line": 1,
-    "whatItFakes": "Every school-age full person attends the town's public school district (or, in a world opened without it, their town's schools as a place) on the weekdays of one national school calendar (Sept. 1 to June 10, the federal holidays by their dates each year, and fixed winter and spring breaks), for the national average school day. Attending is their own choice through the chooser against a full compulsory pull, so in practice every child goes every day: no illness, truancy or family circumstance keeps one home. No grade, class, teacher, homework, private school or homeschooling.",
+    "whatItFakes": "Every school-age full person attends the town's public school district (or, in a world opened without it, their town's schools as a place) on the weekdays of one national school calendar (Sept. 1 to June 10, cut at the state's required instructional days where it sets them in days (Education Commission of the States, 2018), the federal holidays by their dates each year, and fixed winter and spring breaks), for the national average school day. Attending is their own choice through the chooser against a full compulsory pull, so in practice every child goes every day: no illness, truancy or family circumstance keeps one home. No grade, class, teacher, homework, private school or homeschooling.",
     "why": "School-age people never went to school (M0-13).",
     "addedBy": "OPUS-CORE",
     "addedAt": "2026-10-13",
@@ -3232,7 +3250,8 @@
     "addedBy": "FIXER-LAWMAKING-VOLUME-CAPS",
     "addedAt": "2026-10-13",
     "replacement": "A township level in the law chain (laws-starting.ts) with its own starting law and enactments, so a township board and a village council inside it each legislate for their own jurisdiction.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "The law chain has a township level between the county and the city (laws-starting.ts), and a township board legislates for its own township jurisdiction (the government-unit id) alongside a council in the same place; sales-tax shares and withholding read the level."
   },
   {
     "id": "SG-OFFICIALS-unrecorded-party",
@@ -3397,7 +3416,7 @@
     "kind": "missing-engine",
     "file": "src/core2/modules/laws.ts",
     "line": 471,
-    "whatItFakes": "The public pay floor's employer-to-level map is a first cut (public schools count as town employers), and a later public hire is held to the floor at the next monthly review rather than on the day it is hired. Councils, legislatures and Congress can now draft it from the bill catalog (OPUS-GOV, Oct 14).",
+    "whatItFakes": "The public pay floor's employer-to-level map is a first cut (public schools count as town employers), (a public hire is now held to the floor on the day it is hired, by the jobs engine). Councils, legislatures and Congress can now draft it from the bill catalog (OPUS-GOV, Oct 14).",
     "why": "The CTO ruled (October 14, 2026) that a public-salary base is a standing law at each level and asked dev mode's PR to add the data row and the smallest read hook, for the GOV wiring session to own after merge.",
     "addedBy": "OPUS-PLAY",
     "addedAt": "2026-10-14",
@@ -3749,11 +3768,11 @@
     "kind": "missing-mechanic",
     "file": "src/core2/modules/press.ts",
     "line": 1321,
-    "whatItFakes": "A reporter's closeness to a candidate gives access (asked first, the friendly reporter asks) and gentler copy, but a candidate cannot do a reporter a favor or leak them a story, and a reporter cannot hold a story back for a friend.",
+    "whatItFakes": "A reporter's closeness to a candidate gives access (asked first, the friendly reporter asks) and gentler copy, but a candidate cannot do a reporter a favor, and a reporter cannot hold a story back for a friend. A person who knows of a hidden act can now leak it to a reporter (leakToReporter, press.ts); no conversation move offers it to the player yet.",
     "why": "Favors and leaks need a player act on a reporter (a scene or a conversation move) that the director does not offer yet.",
     "addedBy": "OPUS-PEOPLE",
     "addedAt": "2026-10-14",
-    "replacement": "A leak as a conversation move that puts a record on the reporter's wire with the leaker named in their knowledge, and favors as relationship acts the reporter's drives and closeness read.",
+    "replacement": "A leak offered to the player as a conversation move (the director and the English engine), and favors as relationship acts the reporter's drives and closeness read.",
     "status": "open"
   },
   {
@@ -3847,7 +3866,7 @@
     "kind": "estimated-parameter",
     "file": "src/core2/modules/interest-groups.ts",
     "line": 1,
-    "whatItFakes": "What a policy costs each employer it binds is an estimated share of the employer's payroll (boundEmployerCostShare), not the law's own cost, because most law-reach policies record who is bound and move no money.",
+    "whatItFakes": "For a bound policy other than an energy-pricing law or a data privacy law (priced by the price engine and the business engine's cost review), what it costs each employer it binds is an estimated share of the employer's payroll (boundEmployerCostShare), except laws that price energy (clean electricity standard, carbon price), which cost each employer its own energy costs by the price engine's arithmetic. Other law-reach policies that bind employers record who is bound and move no money.",
     "why": "The CTO's item (Oct 14): employers organize from who loses money on any bill (the owner's Sept 26 ruling). Law-reach measures a money effect per employer only for the wage floor.",
     "addedBy": "OPUS-GOV",
     "addedAt": "2026-10-14",
@@ -3939,7 +3958,8 @@
     "replacement": "The owner's ruling on what a town's districts are; wards as districts if he wants them.",
     "addedBy": "OPUS-CORE (one model, two tiers)",
     "addedAt": "2026-10-14",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "Answered by the owner's Oct 15 ruling and built in gov-council-election-method: each place's council is elected the way its own records say (councilElectionMethod in src/core2/gov-rules/council-election-method.ts: ward seats from a compiled charter, else estimated at large from the ICMA 2018 national shares, basis and citation kept on the office), and offices-local.ts seats the ward seats by part of town. The residents engine's split of a town into state House districts is a different thing (placement of counted voters for state legislative contests, SG-CORE-district-placement) and is not a council shape."
   },
   {
     "id": "SG-CORE-owner-decision-fill-in-outside-kin",
@@ -4046,11 +4066,11 @@
     "file": "src/core2/modules/office-day.ts",
     "line": 505,
     "whatItFakes": "Ordinances other members file at a regular meeting are voted at the start of the meeting's day, before the player's stop at the meeting's hour, so the player's character votes them on its own even when the player is at the meeting.",
-    "why": "The world-legislating engine files and votes in one calendar step at midnight; holding the vote until the player's scene needs a change in OPUS-GOV's engine.",
+    "why": "The world-legislating engine files and votes in one calendar step at midnight; holding the vote until the player's scene needs a change in OPUS-GOV's engine. Resolved Oct 20, 2026: world-legislating files a local meeting's ordinances the day before when the player sits on the body and holds the clock (registerMeetingHold), office-day puts them on the meeting's agenda, and the player takes them up or the meeting closes (office-day-member-filings.test.ts).",
     "addedBy": "OFFICE-LOCAL",
     "addedAt": "2026-10-14",
     "replacement": "world-legislating splits a local meeting into filing (the agenda) and the vote, with a hook that lets office-day hold the vote until the player's meeting scene takes it up.",
-    "status": "open"
+    "status": "resolved"
   },
   {
     "id": "SG-OFFICE-desk-rule-copy",
@@ -4196,7 +4216,8 @@
     "replacement": "The federal day opens the situation room on the crisis records (disasters first), with the cabinet secretary whose department answers it.",
     "addedBy": "OFFICE-FEDERAL",
     "addedAt": "2026-10-14",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "The federal day opens the situation room on the disasters engine's hazard.disaster records (crisesToday in src/core2/office-day-federal-president.ts): each incident stays listed for the situationRoomOpenDays after it begins, with the cabinet department that answers its type (Homeland Security by default, Health and Human Services for a biological incident, Agriculture for a drought) and its confirmed secretary, and the daily brief tells the president. Attacks and other national crises have no records yet; they join the list when an engine writes one."
   },
   {
     "id": "SG-OFFICE-FED-prepared",
@@ -4225,10 +4246,10 @@
   {
     "id": "SG-GOV-REACH-A-police-oversight",
     "kind": "missing-mechanic",
-    "file": "src/core2/data/laws/reach-group-a.json",
-    "line": 513,
-    "whatItFakes": "A civilian board is recorded on the police and the town, but no complaint against an officer is brought or reviewed.",
-    "why": "Session A checked main: justice complaints and investigations concern recorded crimes such as bribery; there is no police-stop misconduct complaint, civilian-board finding or discipline record to consume this law. Re-checked Oct 15, 2026 against src/core2: still no engine records a police-stop complaint, civilian-board finding or officer discipline; the justice engine hears only corruption cases.",
+    "file": "src/core2/public-safety.ts",
+    "line": 1394,
+    "whatItFakes": "The civilian board costs the city a yearly amount per resident and is recorded against the police department, but no complaint against an officer is brought or reviewed.",
+    "why": "No engine records a police-stop complaint, a board finding or officer discipline; the board's cost and its department are built.",
     "addedBy": "OPUS-GOV",
     "addedAt": "2026-10-14",
     "replacement": "GOV: the justice engine files a resident's complaint against an officer from a police stop and the board reviews it, its finding read by the department's discipline.",
@@ -4244,7 +4265,10 @@
     "addedBy": "OPUS-GOV",
     "addedAt": "2026-10-14",
     "replacement": "GOV: the justice engine reads the juvenile age in force when it routes a defendant's case, and the sentence follows that court's range.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "The engine routes each arrested person's case to juvenile or adult court by the juvenile age in force, and the sentence and cost follow that court (src/core2/public-safety.ts).",
+    "resolvedAt": "2026-10-20",
+    "resolvedBy": "law-wiring-justice"
   },
   {
     "id": "SG-GOV-REACH-A-carry-permit",
@@ -4256,7 +4280,10 @@
     "addedBy": "OPUS-GOV",
     "addedAt": "2026-10-14",
     "replacement": "GOV with OPUS-PEOPLE: the justice engine reads the permit law when a carried weapon is part of a case, and the sheriff's office issues permits.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "Adults in gun-owning households apply for, hold and renew permits, paying the state fee and the class through the journal; adults under 21 are refused (src/core2/public-safety.ts).",
+    "resolvedAt": "2026-10-20",
+    "resolvedBy": "law-wiring-justice"
   },
   {
     "id": "SG-GOV-REACH-A-handgun-age",
@@ -4268,7 +4295,10 @@
     "addedBy": "OPUS-GOV",
     "addedAt": "2026-10-14",
     "replacement": "OPUS-WORLD: the business engine's sales read the purchase age when a store sells to a person.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "Young adults in gun-owning households buy handguns from private sellers where no age limit applies and are refused where one does (src/core2/public-safety.ts).",
+    "resolvedAt": "2026-10-20",
+    "resolvedBy": "law-wiring-justice"
   },
   {
     "id": "SG-GOV-REACH-A-stand-your-ground",
@@ -4280,7 +4310,10 @@
     "addedBy": "OPUS-GOV",
     "addedAt": "2026-10-14",
     "replacement": "GOV: the prosecutor's charging decision and the court read the law in force when a case turns on self-defense.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "Self-defense claims in assault cases end at charging where the rule is law, and only those with no safe retreat end there where the duty to retreat applies (src/core2/public-safety.ts).",
+    "resolvedAt": "2026-10-20",
+    "resolvedBy": "law-wiring-justice"
   },
   {
     "id": "SG-GOV-REACH-A-discrimination",
@@ -4505,9 +4538,9 @@
     "id": "SG-GOV-municipal-body-name",
     "kind": "missing-record",
     "file": "src/core2/offices-local.ts",
-    "line": 91,
-    "whatItFakes": "An unread municipal collective is named Council on its office record; charter-specific names are absent from the compiled municipal reader. County and township bodies use their recorded collective name.",
-    "why": "The compiled municipal records retained member classes and sizes but omitted collective names.",
+    "line": 130,
+    "whatItFakes": "A municipal collective in a town whose government the game has not compiled is named after the town and \"Council\"; a compiled town's body takes the name its charter gives it.",
+    "why": "Only the 144 compiled municipal governments carry a charter reading; every other town's charter is unread. Narrowed Oct 19: the compiled readers now carry the body name.",
     "addedBy": "SESSION-C",
     "addedAt": "2026-10-15",
     "replacement": "Carry each charter’s collective body name into the municipal reading and replace the default.",
@@ -4523,18 +4556,6 @@
     "addedBy": "SESSION-C",
     "addedAt": "2026-10-15",
     "replacement": "Source each place’s prohibitions and exceptions, replacing the estimated pairs in the same reader.",
-    "status": "open"
-  },
-  {
-    "id": "SG-PEOPLE-press-employer-enrollment",
-    "kind": "missing-mechanic",
-    "file": "src/core2/modules/press.ts",
-    "line": 567,
-    "whatItFakes": "Press enrolls its already recorded owner directly in the business owner table because the shared business module has no public enrollment function for an existing owner.",
-    "why": "The overnight order requires the smallest registered stand-in while the business interface is under active work; using the normal opening heuristic would incorrectly make a reporter the owner.",
-    "addedBy": "Session D",
-    "addedAt": "2026-10-15",
-    "replacement": "A shared business enrollment API accepting the existing owner and sourced books, used by press without direct table writes.",
     "status": "open"
   },
   {
@@ -4752,7 +4773,8 @@
     "addedBy": "SESSION-C",
     "addedAt": "2026-10-15",
     "replacement": "Owner confirmation or revision of the press-employment conflict rule; apply the chosen rule to all candidate filing paths.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "Done Oct 19 (gov-press-ban-withdrawn): the owner withdrew the ban on Oct 16 (\"a reporter who wants to run may run\"; OWNER-DECISIONS). The press-employment check is gone from checkEligibility, the candidacy chooser and the candidate pool, so press staff file and run like anyone; only the automatic vacancy stand-in still passes over press jobs, because the defect was a reporter seated without an election."
   },
   {
     "id": "SG-LAWS-state-party-loyalty-target",
@@ -4836,6 +4858,234 @@
     "addedBy": "claude/office-committee-meeting",
     "addedAt": "2026-10-17",
     "replacement": "The owner's ruling on which pre-vote hooks run on the committee day (docs/coordination/OWNER-DECISIONS.md).",
+    "status": "open"
+  },
+  {
+    "id": "SG-GOV-clemency-boards",
+    "kind": "missing-engine",
+    "file": "src/core2/office-day-state.ts",
+    "line": 0,
+    "whatItFakes": "In a state where a board, council or senate holds or must concur in clemency (board alone, board with the governor, governor with a board's recommendation, a council's or the senate's consent), the governor's day has no clemency act: the board's own decisions are not simulated, so no prisoner is released there by clemency.",
+    "why": "The governor decides alone only where the state's law says so (governor alone, or a board that only advises); the other authorities need a board or council engine that does not exist yet.",
+    "addedBy": "claude/governor-clemency",
+    "addedAt": "2026-10-17",
+    "replacement": "A clemency board engine (members, petitions, recommendations) and the council or senate consent, read by the governor's act where the law requires it.",
+    "status": "open"
+  },
+  {
+    "id": "SG-WORLD-department-government",
+    "kind": "estimated-behavior",
+    "file": "src/core2/opening-department-pay.ts",
+    "line": 90,
+    "whatItFakes": "A town's police, fire, public works and public health departments and its local government offices are paid by the town's own government (its city or village, else its township), a state office in town by its state and a post office by the nation. The opening's data does not say which unit employs a given department, so the link is assumed.",
+    "why": "The departments held no cash and no pay link, so their workers were never paid. The Census of Governments lists functions by government but not which unit staffs a town's own departments.",
+    "addedBy": "claude/public-staff-never-paid",
+    "addedAt": "2026-10-17",
+    "replacement": "Each department's employing government read from the Census of Governments employment file by function, so a county health department, a fire district or a state agency's field office pays its own staff.",
+    "status": "open"
+  },
+  {
+    "id": "SG-WEB-moves-full-tax-pull",
+    "kind": "missing-mechanic",
+    "file": "src/core2/modules/moves.ts",
+    "line": 818,
+    "whatItFakes": "A full person's leaving does not weigh the state income tax in force: only counted households do (counted-moves.ts reads the town state's income-tax law and the other states' 2026 table into an income pull). The web's income-tax links are about zero (Young, Varner, Lurie and Prisinzano 2016), so they add nothing on top, and adding them would count the tax twice for counted households.",
+    "why": "A full person's destination is chosen after the pull is built, so a tax difference between states has no place to enter the pull until a destination-aware pull exists.",
+    "addedBy": "claude/effect-web-moves",
+    "addedAt": "2026-10-20",
+    "replacement": "A destination-aware pull for full people that uses the same net-of-tax income comparison as pullBetween in counted-moves.ts.",
+    "status": "open"
+  },
+  {
+    "id": "SG-WEB-moves-disaster-severity",
+    "kind": "missing-record",
+    "file": "src/core2/modules/moves.ts",
+    "line": 819,
+    "whatItFakes": "The link from a severe disaster to out-migration (Boustan, Kahn, Rhode and Yanguas 2020) does not run: no record says how many people a disaster killed in a place. The disasters engine holds FEMA declarations (type, begin and declared dates) with no deaths, and the research's effect starts at about 100 deaths.",
+    "why": "A declaration is not a severity; reading one as severe would move every declared place by a guess.",
+    "addedBy": "claude/effect-web-moves",
+    "addedAt": "2026-10-20",
+    "replacement": "A per-place count of deaths from a disaster (the health engine's cause-of-death records within the incident's dates) read as the link's cause disaster.severe.",
+    "status": "open"
+  },
+  {
+    "id": "SG-WEB-births-full-tier",
+    "kind": "missing-mechanic",
+    "file": "src/core2/births-plan.ts",
+    "line": 159,
+    "whatItFakes": "Full couples decide on a child from their own age, children, work, income, room, savings, health and closeness, and none of the outcome web's birth links reach them. Counted women take the web's factor per woman (src/core2/births-counted.ts), so a full woman and a counted woman of the same age, tenure and place differ on the links the full decision does not carry: home prices (owners up, renters down), an enforced abortion ban, and the place's drifting birth level.",
+    "why": "The unemployment link is left out for full couples on purpose: a lost job already lowers their work and income terms, so the web's link would count the same recession twice. The other links have no term in the plan score, and the score is a choice between planning and waiting, not a rate the factor can multiply; turning a factor into a score term needs its own calibration against the births it produces.",
+    "addedBy": "EFFECT-WEB-WIRING",
+    "addedAt": "2026-10-20",
+    "replacement": "A conditions term in the plan score that reads webReach for the woman's own age and tenure, leaving out the links her own records already carry (unemployment), with a weight calibrated in a played year so full births move by the researched size, as counted births do.",
+    "status": "open"
+  },
+  {
+    "id": "SG-TRAITS-counted-health-no-trait",
+    "kind": "partial-model",
+    "file": "src/core2/modules/health.ts",
+    "line": 1,
+    "whatItFakes": "Conscientiousness shifts who falls seriously ill and who holds behavior-driven conditions for full people only; a counted group draws its illnesses and deaths from the life-table share without its members' traits.",
+    "why": "The counted flows (renewal) pick who is ill by the group's share, and a group has no per-member hazard to scale; the factor is rescaled to the opening mean so totals still match the life tables, but the group's own trait mix does not move its rate.",
+    "addedBy": "traits-health",
+    "addedAt": "2026-10-20",
+    "replacement": "Counted illness reads the group's mean of the same factor (exp of the slope times each member's level, from the packed trait columns) when a month's owed illnesses are booked; a person filled in from a group already carries their own.",
+    "status": "open"
+  },
+  {
+    "id": "SG-TRAITS-counted-no-maturity",
+    "kind": "partial-model",
+    "file": "src/core2/modules/trait-change.ts",
+    "line": 1,
+    "whatItFakes": "Counted people's trait columns do not move with age or life events while they are counted; they are brought to their age norm in one step when filled in.",
+    "why": "Their traits are read in place from one packed column per group, shared by the lean cache; changing them each birthday would need a per-member cache drop for every counted person.",
+    "addedBy": "traits-health",
+    "addedAt": "2026-10-20",
+    "replacement": "Groups apply the same yearly shift to their columns by age band once the counted store can drop a member's cached lean.",
+    "status": "open"
+  },
+  {
+    "id": "SG-LAW-outcome-link-unresearched",
+    "kind": "missing-data",
+    "file": "src/core2/data/laws/outcome-research-gaps.json",
+    "line": 7,
+    "whatItFakes": "27 laws (listed in outcome-research-gaps.json, each with the outcome its research would measure) move no outcome-web measure: no researched link starts from the law or from a measure an engine sets from it, so the web holds those outcomes at their base whatever the law does.",
+    "why": "data/research/outcome-web/links.json has no link from these laws or their measures; the laws' reach, engine reads and money are wired, but an outcome link needs a researched strength, shape and lag before the web can move anything.",
+    "addedBy": "claude/law-wiring-audit",
+    "addedAt": "2026-10-20",
+    "replacement": "A researched link per law in links.json (strength, shape, lag, source), built by the outcome-web line, after which each row leaves outcome-research-gaps.json.",
+    "status": "open"
+  },
+  {
+    "id": "SG-EW-HEALTH-coverage-record",
+    "kind": "missing-record",
+    "file": "src/core2/health-web.ts",
+    "line": 1,
+    "whatItFakes": "The web's uninsured-share links (unemployment, Medicaid expansion, the work requirement, marriage equality) and the Medicaid medical-debt link move the web's own health.uninsured-pct number; no person's or counted household's coverage decision reads the factor.",
+    "why": "The coverage record (modules/coverage.ts, counted households included) is on branch claude/coverage-counted (PR 5475) and not on main; the coverage code belongs to another session.",
+    "addedBy": "effect-web-health",
+    "addedAt": "2026-10-20",
+    "replacement": "Once the coverage record is on main, the coverage decision reads webFactorFor(\"health.uninsured-pct\", subject) with the moderators already in links.json (unemployment by sex and age), and medical debt reads the coverage record.",
+    "status": "open"
+  },
+  {
+    "id": "SG-EW-HEALTH-death-cause",
+    "kind": "missing-record",
+    "file": "src/core2/health-web.ts",
+    "line": 1,
+    "whatItFakes": "Deaths carry no cause. The traffic link moves the share of deaths a crash stands for at each age (IIHS rate over the life table's death rate), not a crash-death record. The overdose links (harm reduction, cannabis sales) and the youth firearm links (child access law, minimum handgun age) move only the web's number; no death reads them.",
+    "why": "Overdose and firearm death rates by single age are not in the repo, and a death has no cause field (death-causes.ts holds three plain groups).",
+    "addedBy": "effect-web-health",
+    "addedAt": "2026-10-20",
+    "replacement": "A cause-of-death record on every death, with cause-specific hazards by age (crash, overdose, firearm) from CDC WONDER, read by the people engines; the web's factor then multiplies each cause's hazard.",
+    "status": "open"
+  },
+  {
+    "id": "SG-EW-HEALTH-condition-record",
+    "kind": "missing-record",
+    "file": "src/core2/health-web.ts",
+    "line": 1,
+    "whatItFakes": "Child asthma, teen cannabis use and Medicare out-of-pocket drug cost (gas hookup ban, cannabis sales, drug price negotiation) move only the web's number.",
+    "why": "No condition, use or prescription record exists for a child's asthma, a teen's cannabis use or an enrollee's drug spending; condition-pack.ts holds adult chronic conditions only.",
+    "addedBy": "effect-web-health",
+    "addedAt": "2026-10-20",
+    "replacement": "A childhood asthma condition, a teen substance-use record and Part D spending on the household's books, each decided from the engine's own records times the web's factor.",
+    "status": "open"
+  },
+  {
+    "id": "SG-EW-HEALTH-unsized-links",
+    "kind": "missing-data",
+    "file": "src/core2/health-web.ts",
+    "line": 1,
+    "whatItFakes": "Congestion to premature births, heat to deaths, education to mortality and eviction to hospital visits have no researched size, so nothing moves.",
+    "why": "The links are unsized in links.json and no producer exists for premature births, heat deaths or hospital visits.",
+    "addedBy": "effect-web-health",
+    "addedAt": "2026-10-20",
+    "replacement": "Sized links from fetched research, then the death and birth engines read them like the wired ones.",
+    "status": "open"
+  },
+  {
+    "id": "SG-EW-HEALTH-person-level",
+    "kind": "missing-record",
+    "file": "src/core2/health-web.ts",
+    "line": 1,
+    "whatItFakes": "Coverage to catastrophic bills, medical debt, depression and mortality; job loss to death risk; long hours to heart disease; childhood food stamps to adult health; the earned income credit to low birth weight are person-level links with no cause recorded on the person.",
+    "why": "A person's coverage history, displacement, weekly hours, childhood benefit years and a birth weight are not stored.",
+    "addedBy": "effect-web-health",
+    "addedAt": "2026-10-20",
+    "replacement": "Records on the person for each cause, read by the health engine's hazard like the web's death factor.",
+    "status": "open"
+  },
+  {
+    "id": "SG-WEB-knowing-rent-reader",
+    "kind": "missing-mechanic",
+    "file": "src/core2/outcome-news.ts",
+    "line": 52,
+    "whatItFakes": "The town hears of a rise in housing.rent from the outcome web's month record, but no engine yet reads the web's rent factor when it sets a lease, so the rise the story reports is not in any lease or rent payment.",
+    "why": "The housing family's rent wiring is on its own branch; the news path lists the measure so the town hears of it the month an engine reads it, with no change here.",
+    "addedBy": "EFFECT-WEB-WIRING",
+    "addedAt": "2026-10-20",
+    "replacement": "The housing engine multiplies its lease rent by webFactorFor(housing.rent); then this row and the readBy null in data/news/outcome-news.json are replaced by the reading file.",
+    "status": "open"
+  },
+  {
+    "id": "SG-LAW-justice-youth-firearm-harm",
+    "kind": "missing-mechanic",
+    "file": "src/core2/public-safety.ts",
+    "line": 1537,
+    "whatItFakes": "The web's youth firearm death and suicide rates become an expected count of young people lost in the town each month, but no named child dies of it.",
+    "why": "Counted people die only through the illness-course engine (births-counted.ts); there is no injury death for a child.",
+    "addedBy": "claude/law-wiring",
+    "addedAt": "2026-10-20",
+    "replacement": "PEOPLE: an injury death for full and counted young people, booked from this expected count.",
+    "status": "open"
+  },
+  {
+    "id": "SG-LAW-justice-enforcement-outcome-readers",
+    "kind": "missing-mechanic",
+    "file": "src/core2/public-safety.ts",
+    "line": 1098,
+    "whatItFakes": "The immigration partnership moves the web's Hispanic school enrollment, undocumented employment and U.S.-born employment, but no school or jobs engine reads those measures.",
+    "why": "The detainer holds are built; the three outcomes are kept place measures that no engine consumes.",
+    "addedBy": "claude/law-wiring",
+    "addedAt": "2026-10-20",
+    "replacement": "WORLD and PEOPLE: school enrollment and jobs engines read the kept measures when they enroll and hire.",
+    "status": "open"
+  },
+  {
+    "id": "SG-LAW-justice-named-offender-acts",
+    "kind": "missing-mechanic",
+    "file": "src/core2/public-safety.ts",
+    "line": 677,
+    "whatItFakes": "The named residents' share of ordinary-crime arrests is carried in an unnamed batch of cases; no named person is arrested, held or sentenced by this engine.",
+    "why": "A named person is charged only through an act the engines record (corruption cases today); there is no engine that records an ordinary offense as a named person's own act.",
+    "addedBy": "claude/law-wiring",
+    "addedAt": "2026-10-20",
+    "replacement": "PEOPLE and GOV: an act engine where a named person's drives, record and circumstances decide an offense, then the case flow charges them from that act.",
+    "status": "open"
+  },
+  {
+    "id": "SG-TRAITS-partnerships-no-engine",
+    "kind": "missing-engine",
+    "file": "src/core2/modules/renewal.ts",
+    "line": 272,
+    "whatItFakes": "Couples exist only as the opening drew them: no one partners, marries, separates or divorces during play, so the temperament reads that should decide those (extraversion raises the odds of a first marriage 1.35 per standard deviation and openness lowers them 0.77, Jokela et al. 2011; neuroticism raises divorce r = 0.17, agreeableness lowers it r = -0.18, Roberts et al. 2007) have no decision to read them.",
+    "why": "The partnership engine is gated in the pool (people-partnerships-full-people-form and people-partnerships-full-people-end wait on core family-link and household-membership changes). The effect sizes are in data/research/trait-effect-sizes.json (outcome.marriage-formation, outcome.divorce).",
+    "addedBy": "claude/traits-family",
+    "addedAt": "2026-10-20",
+    "replacement": "When partnerships form and end in play, the forming and ending decisions read both partners' traits through leanedYes with weights calibrated from those rows by scripts/traits/trait-calibrate.ts.",
+    "status": "open"
+  },
+  {
+    "id": "SG-OFFICE-public-project-finish-date",
+    "kind": "missing-record",
+    "file": "src/core2/modules/projects.ts",
+    "line": 61,
+    "whatItFakes": "A public work (a capital line awarded to a town firm for the fiscal year) is finished on the day the next fiscal year's budget takes over, whatever was built. The treasury's payments to the contractor are real; the finish date is the year's end, not a completion the work reached.",
+    "why": "The treasury pays the awarded firm by the month and nothing tracks the work itself: there is no schedule, milestone or completion record for a road, park, housing or school work.",
+    "addedBy": "claude/political-game-pool-yucp92-yy",
+    "addedAt": "2026-10-20",
+    "replacement": "A project record with a start, a cost, milestones the contractor's payments fund and a completion date the funded work reaches, which the office day reads for the ribbon.",
     "status": "open"
   }
 ]
