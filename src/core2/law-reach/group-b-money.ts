@@ -19,6 +19,7 @@ import {
 } from "../modules/budgets";
 import { enactLaw, lawChain, lawInForce } from "../modules/laws";
 import { countedJob, residentsRuntime } from "../modules/residents";
+import { countedHouseholdFund, splitToFunds } from "../counted-money";
 import type { LawRowInput } from "../laws-starting";
 import {
   graduatedSchedule,
@@ -301,6 +302,9 @@ registerLinePayments((api, gov) => {
  * is no longer wanted, or whose amount changed, is ended; a new or changed one
  * opens from tomorrow, a month at a time. A treasury pays what it holds.
  */
+/** A recipient that is an account itself (a counted group's fund), not an owner's main account. */
+const FUND_PREFIX = "account:";
+
 function reconcileObligations(
   api: CoreAPI,
   input: {
@@ -344,7 +348,9 @@ function reconcileObligations(
     accounts.addObligation({
       id: obligationId,
       from: accounts.main(gov.organizationId),
-      to: accounts.main(recipientId),
+      to: recipientId.startsWith(FUND_PREFIX)
+        ? recipientId.slice(FUND_PREFIX.length)
+        : accounts.main(recipientId),
       amountMinor,
       firstDueAt: first,
       cadence: { kind: "months", every: reachParameter("reviewEveryMonths") },
@@ -480,9 +486,24 @@ export function payBenefits(
       terms.monthlyMinor! += perHousehold;
       out.set(head.id, terms);
     }
-    if (counted && residentsOrg)
-      // A fitted weight is not a whole number; an obligation is whole cents.
-      want.set(`${govId}|${residentsOrg}`, Math.floor(perHousehold * counted));
+    if (counted && residentsOrg) {
+      // Each counted household's benefit goes to its own group's fund; a
+      // fitted weight is not a whole number, and an obligation is whole cents.
+      const byFund = new Map<string, number>();
+      for (const head of drawing) {
+        if (head.named) continue;
+        const fund = rt
+          ? countedHouseholdFund(api, rt, head.householdId)
+          : undefined;
+        const key = fund ? `${FUND_PREFIX}${fund}` : residentsOrg;
+        byFund.set(
+          key,
+          (byFund.get(key) ?? 0) + perHousehold * (head.scale ?? 1),
+        );
+      }
+      for (const [recipient, sum] of byFund)
+        want.set(`${govId}|${recipient}`, Math.floor(sum));
+    }
   }
   reconcileObligations(api, {
     rowKind: "benefit",
@@ -554,6 +575,7 @@ export function payVouchers(
       (a) => a.placeId === town,
     )?.accountId;
     let countedTuition = 0;
+    const byFund = new Map<string, number>();
     for (const flow of rt?.flows.values() ?? []) {
       if (
         flow.kind !== "purchase" ||
@@ -564,10 +586,21 @@ export function payVouchers(
         continue;
       countedTuition += flow.amountMinor;
       counted += Object.keys(flow.amountByContract ?? {}).length;
+      // The voucher reaches the groups whose households pay the tuition.
+      const owed = Math.floor(flow.amountMinor * share);
+      const funds = rt && owed > 0 ? splitToFunds(api, rt, flow, owed) : null;
+      if (funds?.size)
+        for (const [fund, part] of funds)
+          byFund.set(fund, (byFund.get(fund) ?? 0) + part);
+      else if (residentsOrg && owed > 0)
+        byFund.set(residentsOrg, (byFund.get(residentsOrg) ?? 0) + owed);
     }
-    const amount = Math.floor(countedTuition * share);
-    if (residentsOrg && amount > 0)
-      want.set(`${state.id}|${residentsOrg}`, amount);
+    if (residentsOrg && countedTuition * share >= 1)
+      for (const [fund, part] of byFund)
+        want.set(
+          `${state.id}|${fund === residentsOrg ? fund : FUND_PREFIX + fund}`,
+          part,
+        );
     else counted = 0;
   }
   reconcileObligations(api, {
