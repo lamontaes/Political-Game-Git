@@ -4,13 +4,14 @@ title: "Stopgaps in work-cash (estimated-modeled-public-pay-obligation-bridge): 
 area: core
 kind: stopgap
 priority: 3
-status: blocked
+status: open
 claimed-by:
 pr:
 blocked-on:
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/work-cash.ts, kind estimated-modeled-public-pay-obligation-bridge"
 after:
+claimed-at: 
 ---
 
 **What.** Public jobs are paid through a modeled public pay authority: `prepareOpeningPublicPayAuthorities` (src/core2/opening-public-pay.ts) links each opening public employer to a treasury, `api.fundPublicPay` in the budgets module draws its wages from that treasury, and `resolvePublicWorkPayDue` (src/core2/public-work-pay.ts) raises the stopgap on every payment because the authority is not tied to any enacted appropriation, deduction or pension. Tie it to the budget: each government's adopted budget carries a personnel line per department (sized to the Census ASPEP March 2021 payroll of about $4,706 per local employee-month, biweekly by default), the authority records the budget line id it spends under, and a pay due is paid only up to what the line and the treasury allow, with the existing public-pay shortfall record when they fall short. Withholding stays with the income tax engine; add the employee and employer pension contribution as the state's retirement-system law row (rates from the Census of Governments pension survey) paid to the system's account. Remove the modeled flag and the marker when every authority names a budget line.
