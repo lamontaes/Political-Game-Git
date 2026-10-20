@@ -1,5 +1,9 @@
 import { initialPersonState } from "./person-state";
-import { closenessAfter, openingClosenessHours } from "./closeness";
+import {
+  closenessAfter,
+  openingClosenessHours,
+  temperedHours,
+} from "./closeness";
 import { validateCompactChoice } from "./compact-choice";
 import { bookkeeping } from "./bookkeeping";
 import { queueDecisionDetail } from "./decision-detail";
@@ -19,6 +23,7 @@ import {
 import { rerateCountedJobs } from "./residents-economy";
 import { endPurchaseTax, setPurchaseTax } from "./modules/purchase-tax";
 import { openingTemperaments } from "./opening-personality";
+import { forgetTraitLean } from "./choice";
 import { giveHealthRecord } from "./modules/health";
 import { COUNTED_PLACE_PREFIX, isDemoted } from "./counted-groups";
 import {
@@ -1053,9 +1058,15 @@ export function coreAPI(core: CoreState): CoreAPI {
       };
       const at = core.date,
         // P15: `change` is hours of time together; closeness fades between contacts.
-        nextLevel = closenessAfter(core, previous, row.kind, change),
         actualActor = core.people.get(actorId),
         actualOther = core.people.get(otherId) ?? core.husks.get(otherId),
+        // Temperament sets how much the time together (or the quarrel) counts.
+        nextLevel = closenessAfter(
+          core,
+          previous,
+          row.kind,
+          temperedHours(core, actualActor, core.people.get(otherId), change),
+        ),
         storedKind = row.kind;
       const originalDecision =
         decision === undefined ? undefined : copyRelationshipEvidence(decision);
@@ -1474,6 +1485,13 @@ export function coreAPI(core: CoreState): CoreAPI {
       if (changes.tier !== undefined && changes.tier !== actor.tier) {
         core.peopleByTier.get(actor.tier)!.delete(personId);
         index(core.peopleByTier, changes.tier, personId);
+      }
+      if (changes.traits) {
+        if (
+          Object.values(changes.traits).some((value) => !Number.isFinite(value))
+        )
+          throw new Error("Non-finite trait update.");
+        forgetTraitLean(actor);
       }
       Object.assign(actor, changes);
       // Explicitly clearing the optional flag restores the core's default rule.

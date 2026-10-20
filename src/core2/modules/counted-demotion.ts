@@ -29,7 +29,7 @@ import {
   returnToCounts,
   returnUnplacedPay,
 } from "./residents";
-import type { ResidentHouseholdRecord } from "../residents";
+import { isSchoolDistrict, type ResidentHouseholdRecord } from "../residents";
 import type { ModuleRow } from "../module-data";
 import type {
   CoreAPI,
@@ -93,7 +93,8 @@ function protectedPeople(api: CoreAPI): Set<PersonId> {
     const employer = core.organizations.get(job.organizationId);
     if (
       employer &&
-      (employer.kind !== "employer" || employer.publicPayAuthority)
+      (employer.kind !== "employer" ||
+        (employer.publicPayAuthority && !isSchoolDistrict(employer)))
     )
       out.add(job.personId);
   }
