@@ -1,6 +1,8 @@
 ---
 id: gov-budget-signing-reaches-the-press
-impact: none
+impact: patch
+section: Changed
+title: The president's budget signature or veto makes the national news
 ---
 
-The president's signature or veto of the federal budget is now weighed as news that binds every reader and names a public figure, so national outlets print it; the budget-desk test no longer fails on some towns.
+When the president or a governor signs or vetoes a budget, national and state outlets weigh it as news that touches every reader, and a serving official counts as a public figure in the story, so the papers print it and the people who follow them hear about it.
