@@ -83,7 +83,9 @@ describe(`a sales tax in ${place.name}, ${place.state} (seed ${seed})`, () => {
       placeId: taxPlace,
       ratePercent: 7,
       payeeAccountId: treasury,
-      ...(exempt ? { exemptClassificationPrefixes: [exempt] } : {}),
+      ...(exempt
+        ? { exemptions: [{ classificationPrefix: exempt, share: 1 }] }
+        : {}),
       source: government.source,
     });
     advanceCore(core, daysAfterStart(50));
