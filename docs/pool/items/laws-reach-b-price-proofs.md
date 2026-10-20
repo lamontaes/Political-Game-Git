@@ -5,12 +5,12 @@ area: laws
 kind: stopgap
 priority: 3
 size: M
-status: claimed
-claimed-by: claude/reach-b-price-proofs
-pr:
+status: open
+claimed-by:
+pr: #5310
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-19T23:48:01.651Z
+claimed-at:
 ---
 
 **What.** TODO

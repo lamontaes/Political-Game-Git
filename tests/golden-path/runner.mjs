@@ -120,8 +120,12 @@ export async function runSuite({
     results = [],
     batchRows = features.filter((r) => r.command && vitestBatch(r.command));
   let batch = null;
+  // Accepted specs first; within each group the long ones (a played year)
+  // last, so one of them cannot spend the budget the quick specs need.
   for (const row of [...features].sort(
-    (a, b) => Number(b.passes) - Number(a.passes),
+    (a, b) =>
+      Number(b.passes) - Number(a.passes) ||
+      Number(a.longRunning === true) - Number(b.longRunning === true),
   )) {
     const batched = batchRows.length > 1 && batchRows.includes(row),
       place = drawPlace(commit, batched ? "vitest-batch" : row.id);
