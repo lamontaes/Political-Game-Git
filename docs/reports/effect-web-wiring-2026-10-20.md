@@ -44,6 +44,18 @@ Two read-only surveys of the engines found the following. Each finding names the
 
 `src/core2/outcome-web-twins.test.ts` builds two worlds the way the game does, from the same seed and place. It shifts one running cause in one of them, in the record the web reads it from, then compares every record kind in the two worlds after the lag. An unshifted pair must match exactly first, or the check proves nothing. Its results are written into the matrix under `twins`.
 
+Measured in Paris, Arkansas (seed ew20oct26) over three months:
+
+- The unshifted twins matched on every record kind, so the two worlds are exact copies apart from the shift.
+- 15 causes the running links read were shifted, one at a time: unemployment by 3 points, and 14 others by a tenth of their level. The others were graduation, violent crime, police per 1,000, poverty, the uninsured share, air particulates, SNAP receipt, broadband, road condition, the rural speed limit, transit service, the property and corporate tax rates, and the place's birth level.
+- For all 15, no record kind outside the web's own tables moved. Not one crime, death, move, lease, wage, ballot or birth differed between the twins.
+- The one engine read on main, counted births, waits 9 months for unemployment, which is past this window. The before-year runs below show it moving.
+
+Before the fixes, two played years in places drawn from all 56:
+
+- Piti, Guam: 18 links moved in the web's ledger during the year, and 2 reached an engine (unemployment and an abortion ban, both to counted births). No chain reached a person. The year took 50 seconds.
+- Grace, Mississippi: 17 links moved, and 1 reached an engine (unemployment to counted births). No chain reached a person. The year took 22 seconds.
+
 ## What happens next
 
 - **Done:** per-person reach, moderators and phase-in, with counted births by the mother's age, on its own pull request.
