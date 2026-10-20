@@ -5,10 +5,10 @@ area: gov
 kind: feature
 priority: 2
 size: M
-status: claimed
+status: blocked
 claimed-by: claude/political-game-pool-yucp92-qq
 pr:
-blocked-on:
+blocked-on: world-police-patrol-and-grievance-causes
 source: split from gov-justice-incident-records (M, really L) by the claiming session, Oct 19
 claimed-at: 2026-10-20T04:53:20.573Z
 ---
