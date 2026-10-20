@@ -5,9 +5,9 @@ area: world
 kind: bug
 priority: 2
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/pool-bds
-pr:
+pr: #5369
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-20T00:53:52.771Z
