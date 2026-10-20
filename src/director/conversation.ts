@@ -56,6 +56,7 @@ import {
   CONVERSATION_RULES,
   MINED_CONVERSATION,
 } from "./mined/conversation-bank";
+import { fitMoves, moveVariantKey } from "../english/move-fit";
 import { renderLine, type Fact } from "./render";
 import { properName, spoken, spokenMonth, spokenWhen } from "./words";
 
@@ -1031,41 +1032,6 @@ const RELATION_WORDS = new Set(
     Object.values(forms),
   ),
 );
-const RELATION_IN_TEXT = /\b(wife|husband|[a-z]+)\b/gi;
-
-/**
- * The wordings that fit the person a line speaks of: a sentence opening with
- * "she" only for a woman, and one naming a relative ("my father") only for
- * that relative.
- */
-function fitAbout(
-  moves: readonly Move[] | undefined,
-  about: Readonly<PersonState> | undefined,
-  relationWord: string | undefined,
-): Move[] | undefined {
-  if (!moves) return moves;
-  const pronoun =
-    about?.looks?.gender === "male"
-      ? "he"
-      : about?.looks?.gender === "female"
-        ? "she"
-        : "they";
-  return moves.filter((move) => {
-    if (move.pronoun && (!about || move.pronoun !== pronoun)) return false;
-    const named = [...move.text.matchAll(RELATION_IN_TEXT)]
-      .map((match) => match[one]!.toLowerCase())
-      .filter(
-        (word) => RELATION_WORDS.has(word) || /^(?:wife|husband)$/.test(word),
-      );
-    return named.every((word) => word === relationWord);
-  });
-}
-
-function variantKey(move: Move): string {
-  return move.part && !move.key.endsWith(move.part)
-    ? `${move.key}.${move.part}`
-    : move.key;
-}
 
 function words(
   core: Readonly<CoreState>,
@@ -1081,9 +1047,12 @@ function words(
 ): Said | null {
   const person = about?.aboutId ? core.people.get(about.aboutId) : undefined;
   const relationWord = about?.facts.relation?.text.split(" ").at(-one);
-  const usable = fitAbout(moves, person, relationWord)?.filter(
-    (row) => !row.requiresFacts?.some((key) => !facts[key]),
-  );
+  const usable = fitMoves(moves, {
+    about: person ? { gender: person.looks?.gender } : undefined,
+    relationWord,
+    relationWords: RELATION_WORDS,
+    facts,
+  });
   const bank = `conversation:${kind}:${part}`;
   const line = renderLine({
     seed: core.seed,
@@ -1092,7 +1061,7 @@ function words(
     bankKey: bank,
     version: data.version,
     variants: usable?.map((row) => ({
-      key: variantKey(row),
+      key: moveVariantKey(row),
       text: row.text,
       ...(row.stages ? { stages: row.stages } : {}),
     })),
@@ -1104,7 +1073,7 @@ function words(
     fallbackSourceId: speakerId,
   });
   if (!line) return null;
-  const chosen = usable?.find((row) => variantKey(row) === line.variantKey);
+  const chosen = usable?.find((row) => moveVariantKey(row) === line.variantKey);
   return {
     text: line.text,
     sourceRecordIds: line.sourceRecordIds,
