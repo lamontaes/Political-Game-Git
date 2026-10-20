@@ -31,7 +31,11 @@ import { proseKindOf, proseRanges } from "../scripts/prose-eval/prose-ranges";
 const ROOT = path.resolve(__dirname, "..");
 
 function trackedFiles(): string[] {
-  return execFileSync("git", ["ls-files"], { cwd: ROOT, encoding: "utf8" })
+  return execFileSync("git", ["ls-files"], {
+    cwd: ROOT,
+    encoding: "utf8",
+    maxBuffer: 256 * 1024 * 1024,
+  })
     .split("\n")
     .filter(Boolean);
 }

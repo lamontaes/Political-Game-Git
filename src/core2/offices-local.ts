@@ -13,7 +13,10 @@ import stateExecutiveGovernments from "../../data/research/local-government/stat
 import countySchedule from "../../data/research/government/county-election-schedule-by-state.json" with { type: "json" };
 import { corePlaceByKey } from "./place-lookup";
 import { placeLocalGovernmentUnits } from "./gov-rules/local-governments";
-import { localGoverningBodyRules } from "./gov-rules/local-governing-body-rules";
+import {
+  localGoverningBodyName,
+  localGoverningBodyRules,
+} from "./gov-rules/local-governing-body-rules";
 import { localChiefExecutiveRules } from "./gov-rules/local-chief-executive-rules";
 import { countyElectedRowOffices } from "./gov-rules/county-row-offices";
 import { councilElectionMethod } from "./gov-rules/council-election-method";
@@ -117,6 +120,17 @@ const STATE_LEVEL_GOVERNMENTS = new Set(
   ),
 );
 
+/**
+ * The council's name: as its charter names it where the town's government is
+ * compiled, else the generic municipal name (SG-GOV-municipal-body-name).
+ */
+function municipalBodyName(unit: GovernmentUnitIdentity): string {
+  const charter = localGoverningBodyName(unit);
+  if (charter) return charter;
+  // stopgapId: SG-GOV-municipal-body-name (a town with no compiled charter)
+  return `${governmentTitleName(unit.name)} ${bodyNames.municipal.value}`;
+}
+
 function cityOffices(unit: GovernmentUnitIdentity): OfficeInput[] {
   const offices: OfficeInput[] = [];
   const body = localGoverningBodyRules(unit);
@@ -132,8 +146,7 @@ function cityOffices(unit: GovernmentUnitIdentity): OfficeInput[] {
       level: "city",
       jurisdiction: unit.id,
       governmentName: unit.name,
-      // stopgapId: SG-GOV-municipal-body-name — charter names not yet in the compiled reader.
-      bodyName: `${governmentTitleName(unit.name)} ${bodyNames.municipal.value}`,
+      bodyName: municipalBodyName(unit),
       kind: "council",
       title: "Council member",
       seats: body.seats.value,

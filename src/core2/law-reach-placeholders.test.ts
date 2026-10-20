@@ -3,8 +3,8 @@
  * placeholder (owner, Oct 13: an effect is a read, not a record). This guard
  * lists every such law-reach policy and requires it to name a stopgap row
  * that is still open, so none can sit in the data unregistered. The only
- * exceptions are the three whose effect is read by another engine; each names
- * who reads it.
+ * exceptions are the two whose effect is read by another engine; each names
+ * who reads it (the sales tax has a mechanic of its own now).
  */
 import { describe, expect, it } from "vitest";
 import groupA from "./data/laws/reach-group-a.json" with { type: "json" };
@@ -19,8 +19,6 @@ interface Policy {
 const READ_ELSEWHERE: Readonly<Record<string, string>> = {
   "minimum-wage":
     "laws.ts raises every job under the floor on its effective date",
-  "sales-tax":
-    "budgets sets each level's sales tax through the core's setPurchaseTax (SG-GOV-REACH-B-sales-tax-collection, resolved)",
   "us-policy-positions:fiscal.exempt-groceries-from-sales-tax":
     "budgets exempts groceries through setPurchaseTax where the exemption is law (SG-GOV-REACH-B-sales-tax-collection, resolved)",
 };
