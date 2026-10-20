@@ -4,9 +4,9 @@ title: "ART-5 classroom and library chair seat positions (#3492)"
 area: art
 kind: feature
 priority: 2
-status: claimed
+status: in-pr
 claimed-by: claude/art-seats
-pr: #3492
+pr: #5339
 blocked-on:
 milestone:
 source: "open PR #3492"
