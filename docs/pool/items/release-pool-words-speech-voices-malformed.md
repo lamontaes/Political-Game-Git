@@ -5,9 +5,9 @@ area: release
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/pool-speech-voices
-pr: #5196
+pr: #5763
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-20T23:20:13.516Z
