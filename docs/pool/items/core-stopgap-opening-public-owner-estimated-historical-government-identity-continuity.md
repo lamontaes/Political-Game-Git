@@ -4,10 +4,10 @@ title: "Stopgaps in opening-public-owner (estimated-historical-government-identi
 area: core
 kind: stopgap
 priority: 3
-status: open
+status: blocked
 claimed-by:
 pr:
-blocked-on:
+blocked-on: research data: the row's replacement needs sourced data (A dated opening government directory or independently sourced legal identity/change history matched to the same official government ID. Preserve the o...)
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/opening-public-owner.ts, kind estimated-historical-government-identity-continuity"
 ---

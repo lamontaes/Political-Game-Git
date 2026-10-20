@@ -4,10 +4,10 @@ title: "Stopgaps in opening-finance (uncalibrated-opening-finance-calendar): 1 o
 area: world
 kind: stopgap
 priority: 3
-status: open
+status: blocked
 claimed-by:
 pr:
-blocked-on:
+blocked-on: research data: the row's replacement needs sourced data (Recorded standing-term calendars or identified dated purchase/budget distributions, explicit operating claim priorities and actual supplier/cost inven...)
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/data/opening-finance.json, kind uncalibrated-opening-finance-calendar"
 ---

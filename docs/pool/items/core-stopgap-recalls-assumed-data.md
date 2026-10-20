@@ -4,10 +4,10 @@ title: "Stopgaps in recalls (assumed-data): 1 open"
 area: core
 kind: stopgap
 priority: 3
-status: open
+status: blocked
 claimed-by:
 pr:
-blocked-on:
+blocked-on: dataset-state-recall-timing-statutes-ncsl-blocked
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/modules/recalls.ts, kind assumed-data"
 ---

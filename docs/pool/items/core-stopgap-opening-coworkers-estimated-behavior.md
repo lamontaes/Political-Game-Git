@@ -4,10 +4,10 @@ title: "Stopgaps in opening-coworkers (estimated-behavior): 1 open"
 area: core
 kind: stopgap
 priority: 3
-status: open
+status: blocked
 claimed-by:
 pr:
-blocked-on:
+blocked-on: research data: the row's replacement needs sourced data (Workgroups from occupation and establishment records (BLS OEWS staffing patterns by industry) and a measured number of coworkers known, with time work...)
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/data/opening-coworkers.json, kind estimated-behavior"
 ---

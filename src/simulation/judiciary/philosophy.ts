@@ -12,7 +12,7 @@ import type {
 } from "../types";
 import { loadedTraitRegistry } from "../trait-registry";
 import { traitReadingOfRecord } from "../trait-readings";
-import { traitDefinitionFromPack } from "../trait-packs";
+import { traitDefinitionFromPack } from "../../core2/trait-packs";
 import { assertWorldIntegrity } from "../world";
 import { DECISION_IMPORTANCE_ORDER } from "../decisions";
 import type {
