@@ -1295,14 +1295,17 @@ function month(api: CoreAPI): void {
           citation: businessData.source.citation,
           estimatedFrom: `The owner's draw: ${share} of ${retained} minor units of profit kept, chosen from their own money and the business's cash.`,
         };
+        // Only cash past the payroll cushion is spare: a draw never takes the
+        // cash the next payroll needs, whatever profit the business has kept.
+        const wanted = Math.min(retained * share, Math.max(0, cash - cushion));
         drawn = found.full
-          ? transferCash(api, id, row.id, account, retained * share, source)
+          ? transferCash(api, id, row.id, account, wanted, source)
           : countedPayment(api, {
               id,
               placeId: owner.placeId,
               personId: owner.id,
               otherOwnerId: row.id,
-              amountMinor: -Math.floor(retained * share),
+              amountMinor: -Math.floor(wanted),
               reasonKey: "owner-draw",
               source,
             });
