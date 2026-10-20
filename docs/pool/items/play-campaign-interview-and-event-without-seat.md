@@ -5,7 +5,7 @@ area: play
 kind: feature
 priority: 2
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/fs11vb-ev
 pr: #5710
 blocked-on:

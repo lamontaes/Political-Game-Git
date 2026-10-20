@@ -1,10 +1,6 @@
-# Git Worktrees and Takeovers
+# Workspaces, branches and takeovers
 
-- separate active coding agents use separate worktrees;
-- takeover source workspace is read-only;
-- dirty work is salvaged through an inspectable patch plus explicitly reviewed untracked files;
-- never clean/reset/stash another agent's tree;
-- normal fast-forward publication only unless force-push is explicitly authorized;
-- fetch/reverify remote head immediately before publishing;
-- if the remote implementation branch unexpectedly moves, STOP rather than overwrite it;
-- record workspace ownership in the handoff.
+- **Workspace:** a cloud container is the session's workspace. On the owner's Mac, use the registered workspace (`npm run storage -- workspace --owner <owner>`) and never add a worktree or clone (see `storage-and-workspaces.md`).
+- **One writer per branch.** Don't push to a branch another session is working on. Claiming a sent-back pool item transfers its branch to you (`pr-fixer`).
+- **Takeover:** treat the previous session's workspace as read-only. Salvage dirty work as an inspectable patch plus reviewed untracked files. Never clean, reset or stash another agent's tree.
+- **Publishing:** plain fast-forward pushes only; never force-push, rebase or amend a pushed branch. Fetch and re-check the remote head right before pushing. If the remote branch moved unexpectedly, stop rather than overwrite it.

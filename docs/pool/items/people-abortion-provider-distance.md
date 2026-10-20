@@ -5,11 +5,12 @@ area: people
 kind: feature
 priority: 3
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/provider-distance
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-20T19:34:41.490Z
 ---
 
 **What.** SG-PEOPLE-unplanned-provider-distance: renewal reads two national averages (restricted and open) for the trip to a provider. Source a place-level distance for all 56 places and read it in decideUnplanned.
