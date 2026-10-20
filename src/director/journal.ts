@@ -238,6 +238,69 @@ function relatives(person: PersonState) {
 }
 
 /**
+ * The household's own story, read from the dated facts the family history
+ * keeps on a person (`core2/past-family.ts`): where they met their partner,
+ * where their family came from, and a parent's new job they remember. Each
+ * moment cites its fact's record id; the place is named from the place
+ * records, and a person only the writer knows by name is skipped.
+ */
+function householdMoments(person: PersonState): JournalMoment[] {
+  return (person.pastFacts ?? []).flatMap((fact): JournalMoment[] => {
+    const base = {
+      id: fact.id,
+      date: fact.date as IsoDate,
+      causeId: fact.id,
+      causeFactId: fact.id,
+      hindsight: zero,
+      impact: zero,
+      echoes: [] as Moment["echoes"],
+    };
+    const place = (placeId: string | undefined): Facts => {
+      const row = placeId ? corePlaceByJurisdictionId(placeId as never) : null;
+      return row
+        ? { place: { text: row.displayName, sourceRecordIds: [fact.id] } }
+        : {};
+    };
+    if (fact.kind === "household:partners-met") {
+      const otherId = fact.facts?.otherPersonId;
+      const actFacts = place(fact.facts?.placeId);
+      return otherId && actFacts.place
+        ? [
+            {
+              ...base,
+              causeKind: fact.kind,
+              counterpartIds: [otherId],
+              actFacts,
+            },
+          ]
+        : [];
+    }
+    if (fact.kind === "household:roots") {
+      const first = (fact.facts?.parentBirthplaces ?? "")
+        .split(" ")
+        .find((id) => id && corePlaceByJurisdictionId(id as never));
+      const actFacts = place(first);
+      return actFacts.place
+        ? [{ ...base, causeKind: fact.kind, counterpartIds: [], actFacts }]
+        : [];
+    }
+    if (
+      fact.kind === "household:moment" &&
+      fact.facts?.about === "parent-new-job" &&
+      fact.facts.otherPersonId
+    )
+      return [
+        {
+          ...base,
+          causeKind: `${fact.kind}:parent-new-job`,
+          counterpartIds: [fact.facts.otherPersonId],
+        },
+      ];
+    return [];
+  });
+}
+
+/**
  * What the person did in office, read from the acts the office-day engine
  * keeps (a vote, a town hall, an interview): each is a moment the journal
  * tells, citing the act's own record and, for a vote, the bill.
@@ -487,6 +550,7 @@ export function composeJournal(
   const moments: JournalMoment[] = [
     ...book.moments,
     ...officeActMoments(core, personId, data),
+    ...householdMoments(person),
   ]
     .filter((moment) => moment.date <= through)
     .sort((a, b) => a.date.localeCompare(b.date) || a.id.localeCompare(b.id));

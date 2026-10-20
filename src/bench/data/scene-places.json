@@ -16,14 +16,7 @@
     "donate-to-cause": ["@home"],
     "volunteer-for-cause": ["@target", "community-room"],
     "confront-grudge-target": ["main-street"],
-    "seek-standing": ["city-hall-hallway"],
-    "testify-at-hearing": [
-      "hearing-room-paneled",
-      "committee-hearing-room",
-      "public-meeting-room"
-    ],
-    "run-for-office": ["county-clerk-office-urban", "clerk-counter"],
-    "lobby-legislator": ["capitol-hallway", "city-hall-hallway"]
+    "seek-standing": ["city-hall-hallway"]
   },
   "organizationKinds": {
     "service:municipal-government": "city-hall",
