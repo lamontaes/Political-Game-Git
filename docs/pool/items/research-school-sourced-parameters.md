@@ -5,7 +5,7 @@ area: people
 kind: research
 priority: 2
 size: M
-status: in-pr
+status: done
 claimed-by: claude/school-days-by-state
 pr: #5414
 blocked-on:

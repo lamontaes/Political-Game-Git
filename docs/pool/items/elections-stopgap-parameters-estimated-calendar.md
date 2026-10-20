@@ -4,13 +4,13 @@ title: "Stopgaps in parameters (estimated-calendar): 1 open"
 area: elections
 kind: stopgap
 priority: 3
-status: open
-claimed-by:
-pr: #5218
+status: in-pr
+claimed-by: claude/special-election-text
+pr: #5447
 blocked-on:
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/data/elections/parameters.json, kind estimated-calendar"
-claimed-at:
+claimed-at: 2026-10-20T03:03:50.270Z
 ---
 
 **What.** Replace or clear the 1 open estimated-calendar stopgap row(s) in src/core2/data/elections/parameters.json: SG-GOV-special-election-timing. Each fake is replaced by the mechanic, or the feature that needs it is deleted.

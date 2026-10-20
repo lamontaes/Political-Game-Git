@@ -5,10 +5,10 @@ area: people
 kind: feature
 priority: 2
 size: L
-status: claimed
+status: blocked
 claimed-by: claude/fs11vb-health-coverage
 pr:
-blocked-on:
+blocked-on: people-coverage-record-monthly-pass
 source: added with npm run pool -- add
 claimed-at: 2026-10-20T03:03:19.238Z
 ---
@@ -21,4 +21,4 @@ claimed-at: 2026-10-20T03:03:19.238Z
 
 **Files.** src/core2/modules/health.ts, src/core2/reference/living-costs-data.ts, src/core2/law-reach/group-b.ts, src/core2/data/stopgaps.json
 
-**Notes.** TODO
+**Notes.** Split Oct 20 (claude, claude/fs11vb-health-coverage) into three items in this order: people-coverage-record-monthly-pass (coverage record and a monthly premium flow), world-medical-spending-categories (the BLS Consumer Expenditure health lines as an out-of-pocket flow; waits on the first) and gov-medicaid-coverage-reader (the Medicaid law reach reads and lowers the bill; waits on both). This item is done when all three are. Why it is not small: `living-costs-data.ts` says health premiums and medical services await separate bindings, and a premium needs a payee (an insurer in town or the outside account), a journal source and the same rule for counted groups, which runs through opening-customers.ts and the residents flows.
