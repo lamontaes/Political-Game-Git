@@ -32,11 +32,22 @@ export type Shape =
 export interface WebLink {
   readonly key: string;
   readonly from: string;
+  /**
+   * The measure the new core reads the cause from when it is not `from` (the
+   * old engine's name): an engine's own records, e.g. the victimization index.
+   */
+  readonly readFrom?: string;
   readonly to: string;
   readonly shape: Shape;
   readonly size: number | null;
   readonly per: string;
   readonly lagMonths: number;
+  /**
+   * Months over which the effect builds after its lag: the cause read is the
+   * average of these months, so a step in the cause reaches its full effect
+   * this many months after the lag (absent, the whole effect at once).
+   */
+  readonly phaseInMonths?: number;
   readonly group: string;
   readonly evidence: string;
   readonly source: string;
@@ -45,9 +56,44 @@ export interface WebLink {
     readonly effectAtFull: number;
     readonly mode?: "scale" | "only-when";
   };
+  /** How the link lands on different people, from its research (src/core2/outcome-web-reach.ts). */
+  readonly varies?: readonly Varies[];
   readonly sizeByPlace?: Readonly<Record<string, { readonly size: number }>>;
   readonly floor?: number;
   readonly ceiling?: number;
+}
+
+/** The circumstance a link's effect varies by: a field an engine knows about its subject. */
+export type VariesBy =
+  | "incomeFifth"
+  | "age"
+  | "sex"
+  | "householdKind"
+  | "tenure"
+  | "work"
+  | "region";
+
+/** One band of a moderator: who is in it, how hard the cause lands there, and the band's national share. */
+export interface VariesBand {
+  /** A value of the subject's field, or for a number, `min` (inclusive) to `max` (exclusive). */
+  readonly is?: string | number;
+  readonly min?: number;
+  readonly max?: number;
+  /** The effect in this band against the others' (the research's ratio, before scaling). */
+  readonly weight: number;
+  /** The band's share of the national population the research's average covers. */
+  readonly share: number;
+}
+
+/** A researched moderator: the bands, the source and the words the weights stand on. */
+export interface Varies {
+  readonly by: VariesBy;
+  readonly bands: readonly VariesBand[];
+  readonly tag: "SOURCED" | "ESTIMATED";
+  /** The paper, table and page. */
+  readonly source: string;
+  readonly quote: string;
+  readonly estimatedFrom?: string;
 }
 
 export type Scale = "share" | "index" | "rate" | "level";
@@ -59,7 +105,11 @@ interface BaseDefinition {
   readonly places: Readonly<Record<string, number>>;
 }
 
-export const WEB_LINKS = web.links as unknown as readonly WebLink[];
+/** The web module's id; here so readers of the web need not load the module itself. */
+export const OUTCOME_WEB_MODULE_ID = "core2-outcome-web-v1";
+export const WEB_LINKS = (web.links as unknown as readonly WebLink[]).map(
+  (link) => (link.readFrom ? { ...link, from: link.readFrom } : link),
+);
 export const WEB_VERSION = web.version;
 /** The date the research's base levels describe; laws in force then are the baseline. */
 export const CALIBRATED_AT = web.calibratedAt;
@@ -88,6 +138,8 @@ const ENGINE = local.engineMeasures as Readonly<
       readonly owner: string;
       /** The field of a world-metrics month row the measure reads. */
       readonly field: string;
+      /** Or a named reader of an engine's own record (src/core2/modules/outcome-web.ts). */
+      readonly reader?: string;
       readonly unitScale: number;
     }
   >
