@@ -41,7 +41,7 @@
     "stopgapId": "SG-P15-candidacy-weights"
   },
   "candidacyStayOutPull": {
-    "value": 4.0,
+    "value": 3.8,
     "tag": "TUNABLE",
     "citation": "The pull of staying out, against which running is weighed, for every adult in town: named people through the chooser and counted residents from their counted records (their own engagement, the value the views engine gives them when filled in). Checked against candidates per local seat: most local seats draw one or two candidates, the incumbent and at most one challenger (Ballotpedia, 'Annual Competitiveness Report', local elections in the 100 largest cities and school districts, 2020 to 2024). In six drawn towns (seeds 02ef01243a3d2b97, 708e6071ef433886, f5e3a5796b3b8ef3, 340b15b3e6772787, 488331b4a95b8a20 and Vayas, Puerto Rico; 5,569 to 8,990 counted adults each), the adults whose recorded pull for a local seat exceeds 5.0 number 3, 0, 8, 2, 3 and 2 (at 4.8: 8, 1, 30, 13, 16 and 4); each runs for one seat, and a crowded race spreads them over the town's seats. The chooser's own run-over-stay-out score sits within 0.12 of the reason sum. Those counts were taken when a money term (cash against the filing fee, weight 1) still sat in the sum, near its full weight for almost everyone (a median of 0.96 to 1.0 across the named adults of two played worlds, Oct 13, 2026); filing fees were removed (owner, Oct 13), and the bar came down by that weight to keep the same people over it. Spread 3.8 to 4.4.",
     "stopgapId": "SG-P15-candidacy-weights"
