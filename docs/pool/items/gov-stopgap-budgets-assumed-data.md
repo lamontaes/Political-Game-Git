@@ -4,7 +4,7 @@ title: "Stopgaps in budgets (assumed-data): 2 open"
 area: gov
 kind: stopgap
 priority: 3
-status: blocked
+status: open
 claimed-by:
 pr:
 blocked-on:
