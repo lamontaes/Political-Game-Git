@@ -4,7 +4,7 @@ title: "Stopgaps in recalls (missing-data): 1 open"
 area: core
 kind: stopgap
 priority: 3
-status: claimed
+status: in-pr
 claimed-by: claude/recall-signature-groups
 pr: #4918
 blocked-on:
