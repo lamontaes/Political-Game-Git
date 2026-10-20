@@ -7,7 +7,7 @@ priority: 2
 size: M
 status: open
 claimed-by:
-pr: #5093
+pr: #5540
 blocked-on:
 source: "split from core-remaining-port-the-opening-town-builder-population (an L item), Oct 15"
 claimed-at:
@@ -27,3 +27,9 @@ Oct 19 (claude/port-town-workplaces): the workplace tables half is done. Role, W
 
 Oct 20 (cto): sent back PR #5100. EntityId in src/core2/town-employment-mix.ts imported from ../simulation/types (old engine) instead of ./types. Pool item status was also dropped on main when stacked PR #5093 was dropped, causing merge conflict.
 
+
+Sent back 2026-10-20 from PR #5540 (branch claude/port-town-employment): new src/core2/town-labor.ts imports old simulation runtime queries and types; port the required reads and types into Core before moving the module there; finish on that branch, merge main into it first.
+
+Looked at Oct 20 (claude/political-game-pool-3xfqef-17), released unbuilt. The send-back on #5540 (branch claude/port-town-employment, commit bd62c320d2) says `src/core2/town-labor.ts` imports old runtime queries and types. Reading the file, the import list is the smaller problem: `laborStatus`, `townOrganizationsOf`, `townResidents` and `activeWorkers` all take the old engine's `World` and read `world.history` (workRelationships, workStatuses, educationEnrollments, householdMemberships, partnerships, personDeaths), `world.people`, `world.personOrder`, `organizationProfileAt` and the care and education queries. Porting the types and queries into core would only move the old `World` shape into core. The real port rewrites these four functions to read core records (`CoreState` people, households, jobs, organizations, and the education and care records the core holds), which depends on how `population.ts` supplies the opening's circumstances (the item `core-remaining-port-the-opening-town-builder-population` and `core-old-imports-population`). A builder starts from `core-old-imports-population` (the opening population builder reading core character history and traits) and ports `town-labor.ts` against the core's records once those exist; the 12-file branch is a useful move of the code but not the finished port.
+
+Sent back 2026-10-20 from PR #5540 (branch claude/port-town-employment): the new src/core2/town-labor.ts imports life-queries and World types from src/simulation; core code must not import the old engine; finish on that branch, merge main into it first.
