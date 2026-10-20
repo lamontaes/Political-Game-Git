@@ -837,10 +837,16 @@ export function doorsKnockedOf(
  * research and public opinion polling) and mail is 541860 (direct mail
  * advertising), both professional services, or a printer (NAICS 323,
  * manufacturing); an evening's venue is a hall, lodge or restaurant room.
+ * A town's campaign-staff firm (political consulting) is the first seller of
+ * polls and mail: campaigns are its customers.
  */
 const SELLER_KINDS: Readonly<Record<Purchase, readonly string[]>> = {
-  poll: ["enterprise:professional-services"],
-  mail: ["enterprise:professional-services", "enterprise:manufacturing"],
+  poll: ["enterprise:political-consulting", "enterprise:professional-services"],
+  mail: [
+    "enterprise:political-consulting",
+    "enterprise:professional-services",
+    "enterprise:manufacturing",
+  ],
   event: [
     "enterprise:recreation",
     "enterprise:lodging",
@@ -848,7 +854,7 @@ const SELLER_KINDS: Readonly<Record<Purchase, readonly string[]>> = {
     "enterprise:restaurant",
   ],
 };
-type Purchase = "poll" | "mail" | "event";
+export type Purchase = "poll" | "mail" | "event";
 const sellerCache = new WeakMap<object, Map<string, string | null>>();
 
 /**
@@ -856,7 +862,7 @@ const sellerCache = new WeakMap<object, Map<string, string | null>>();
  * (the first of the first fitting kind, in the order they're recorded), or
  * a registered stand-in seller where the town has none.
  */
-function seller(api: CoreAPI, purchase: Purchase): string {
+export function seller(api: CoreAPI, purchase: Purchase): string {
   const core = api.state as CoreState;
   const town = townRow(api).townPlaceId;
   const cache = sellerCache.get(core) ?? new Map<string, string | null>();
