@@ -26,8 +26,13 @@
  * A relative still in the wider population inherits like any other: they are
  * filled in as the same person when the estate reaches them.
  *
- * Stopgap: SG-CORE-estate-cash-only (homes, loans and businesses are not
- * settled).
+ * A home whose owners have all died is sold when probate closes: the
+ * outside market pays the dwelling's value, the lender is paid first, and
+ * the surplus goes into the estate, so the estate tax and the heirs' shares
+ * count it (housing-sale.ts). A household whose last living member the
+ * decedent was, and which owns its home, sells it; a counted household's
+ * home is not yet sold (SG-CORE-estate-cash-only: loans, businesses and
+ * counted homes are not settled).
  */
 import data from "./data/estates.json" with { type: "json" };
 import { BUDGETS_MODULE_ID, governments } from "./modules/budgets";
@@ -45,6 +50,7 @@ import {
   handOverContractsAtDeath,
 } from "./finance-state";
 import { addDays, daysBetween, makeIsoDate } from "./kernel/dates";
+import { sellHome } from "./housing-sale";
 import type {
   CoreAPI,
   CoreModule,
@@ -291,6 +297,24 @@ function payContractDebts(
  * at once; the heirs take after probate where the estates module runs (else
  * now). Returns who received what now.
  */
+/** The household whose home the estate sells: the decedent's, when they were its last living member and it owns the home. */
+function homeOfLastOwner(
+  api: CoreAPI,
+  person: Readonly<PersonState>,
+): string | undefined {
+  const c = api.state as CoreState;
+  if (!c.modules.has("housing")) return undefined;
+  const household = c.households.get(person.householdId);
+  if (!household || household.memberIds.some((id) => c.people.get(id)?.alive))
+    return undefined;
+  const dwelling = api
+    .moduleState("housing")
+    .table("dwellings")
+    .get(`dwelling:${household.id}`) as unknown as
+    { tenure?: string } | undefined;
+  return dwelling?.tenure === "own" ? household.id : undefined;
+}
+
 export function settleEstate(
   api: CoreAPI,
   personId: PersonId,
@@ -306,10 +330,13 @@ export function settleEstate(
   payDebts(api, personId, from);
   payContractDebts(api, personId, from);
   const base = accounts.balance(from);
-  if (base <= api.parameter("zero")) return [];
+  // A home still to sell keeps the estate open with no cash in it.
+  const home = homeOfLastOwner(api, person);
+  if (base <= api.parameter("zero") && !home) return [];
   // A living trust pays its beneficiaries now, outside probate; what the
   // trust does not hold goes through probate as before.
-  const trust = trustOf(api, person, base);
+  const trust =
+    base > api.parameter("zero") ? trustOf(api, person, base) : undefined;
   const paid: { toId: string; amountMinor: number }[] = [];
   const carry: Carry = { estateTax: {}, heirs: {} };
   if (trust) {
@@ -395,6 +422,13 @@ function distribute(
   const accounts = api.accounts();
   const from = accounts.main(personId);
   const trust = plan.kind === "trust";
+  // Probate's close sells a home whose owners have all died; its surplus joins the estate.
+  const home = trust ? undefined : homeOfLastOwner(api, person);
+  if (home)
+    sellHome(api, home, "estate.probate-closes", {
+      decedentId: personId,
+      deathEventId,
+    });
   // The trust's part is what it holds; probate's is what is left in the account.
   const estate = trust
     ? Math.min(plan.fundedMinor ?? 0, accounts.balance(from))
