@@ -5,9 +5,9 @@ area: release
 kind: bug
 priority: 1
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/speech-voices-spec
-pr:
+pr: #5765
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-20T23:37:15.794Z
