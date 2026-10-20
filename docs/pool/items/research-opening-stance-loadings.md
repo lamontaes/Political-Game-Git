@@ -5,12 +5,12 @@ area: people
 kind: research
 priority: 2
 size: M
-status: in-pr
-claimed-by: claude/stance-loadings
+status: claimed
+claimed-by: claude/political-game-pool-yucp92-bb
 pr: #5489
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-20T04:01:26.592Z
+claimed-at: 2026-10-20T12:55:46.479Z
 ---
 
 **What.** viewOn is still the person's lean times a question's axis plus what they have heard. To form an opening stance per question from traits, faith and education, the engine needs a loading for each trait, faith and education level on each policy question's axis, with a spread. Source them from a public survey (the Cooperative Election Study or the General Social Survey, which publish stance by religion, education and the personality measures the game's traits stand for) into data/research/people/ with a reader. Where a question has no survey item, the loading is zero and marked ESTIMATED.
@@ -24,3 +24,5 @@ claimed-at: 2026-10-20T04:01:26.592Z
 **Notes.** TODO
 
 Looked at Oct 20 (claude), not claimed: a loading per trait, faith and education level on each policy question's axis is a regression on survey microdata (CES or GSS respondent files), not a published table; this container reaches neither Harvard Dataverse nor the GSS data portal as files, and typing loadings from memory would be inventing them. A researcher with the CES cumulative file can fit them (stance on each CES policy item on the Big Five items, church attendance and education) and write one row per question with the fit's standard error as the spread. The two items after this one (people-opening-stance-formation, elections-counted-voters-read-group-stances) follow from it.
+
+Sent back 2026-10-20 from PR #5489 (branch claude/stance-loadings): see the Cloud merger comment on that PR for the exact reason; finish on that branch, merge main into it first.

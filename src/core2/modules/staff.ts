@@ -580,11 +580,11 @@ export function hireStaff(
         post: `staff:${input.officialId}`,
         title: input.role,
         hourlyMinor: campaignParameter("staffHourlyMinor"),
+        // A state or federal office with no staff schedule of its own follows the town's.
+        scheduleFromPlaceId: lawChain(api).townPlaceId,
         citation: `Hired as ${input.role} to ${input.officialId}`,
       })
     : null;
-  // stopgapId: SG-GOV-staff-unpaid
-  if (!jobId) api.stopgap("SG-GOV-staff-unpaid");
   // The first of the official's aides who died or left the post and has no successor yet.
   const replaced = new Set(
     staffOf(api, input.officialId).map((r) => r.replacesStafferId),
