@@ -5,7 +5,7 @@ area: people
 kind: feature
 priority: 3
 size: S
-status: in-pr
+status: done
 claimed-by: claude/husk-wallet
 pr: #5468
 blocked-on:
