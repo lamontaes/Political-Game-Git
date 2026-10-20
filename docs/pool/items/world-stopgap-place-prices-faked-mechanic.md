@@ -22,3 +22,5 @@ claimed-at:
 **Files.** src/core2/modules/place-prices.ts, src/core2/data/stopgaps.json, src/core2/place-prices.test.ts
 
 **Notes.** First row: The price engine charges container deposits to full and counted households under the live law. Container use and redemption still use household estimates rather than each person's purchases and return decision.
+
+Sent back 2026-10-20 from PR #5190 (branch claude/place-prices-stopgaps): merging main conflicts in src/core2/modules/place-prices.ts and data/content/trait-decisions.json (regenerate trait-coverage.json with scripts/traits/trait-coverage.ts after); finish on that branch, merge main into it first.
