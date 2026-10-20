@@ -5,9 +5,9 @@ area: gov
 kind: research
 priority: 3
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/fs11vb-sc
-pr:
+pr: #5662
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-20T11:07:14.365Z
