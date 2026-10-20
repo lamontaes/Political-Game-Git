@@ -5,9 +5,9 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/speed-pay-period
-pr:
+pr: #5385
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-20T01:40:09.097Z
