@@ -5,12 +5,13 @@ area: laws
 kind: research
 priority: 2
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/outcome-links-rest
 pr:
 blocked-on:
 after: laws-outcome-links-unresearched
 source: added with npm run pool -- add
+claimed-at: 2026-10-20T10:37:21.999Z
 ---
 
 **What.** PR 5653 built the first of the 27 laws that move no outcome (the state higher-education budget line) and made government measures readable causes in the web. Twenty-six laws remain in src/core2/data/laws/outcome-research-gaps.json, each with the outcome its research would measure. Next in order: the budget lines housing (housing.homelessness) and welfareAndMedicaid (household.poverty-pct), which reuse the budget-line measure pattern in gov-measures.ts; then the amount laws (snap-maximum, income-tax, unemployment-weekly-maximum, medicaid-match), which need a cause that reads the amount in force against the start; lines with no kept outcome (fire, healthAndHospitals, administration) need the outcome produced first.
