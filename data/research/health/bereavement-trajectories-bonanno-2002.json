@@ -1,0 +1,65 @@
+{
+  "id": "bonanno-2002-bereavement-trajectories",
+  "publisher": "American Psychological Association (Journal of Personality and Social Psychology)",
+  "vintage": "2002",
+  "table": "Results, 'Trajectories of grief': the five patterns of depression (CES-D) from preloss to 18 months postloss",
+  "title": "Bonanno GA, Wortman CB, Lehman DR, Tweed RG, Haring M, Sonnega J, Carr D, Nesse RM. Resilience to loss and chronic grief: a prospective study from preloss to 18-months postloss. Journal of Personality and Social Psychology 83(5):1150-1164, 2002.",
+  "universe": "205 married older adults in the Changing Lives of Older Couples study who lost a spouse; mean age 72 (SD 6.5). 185 (90.2 percent) fell into the five patterns below.",
+  "geography": "Detroit metropolitan area, Michigan",
+  "sourceUrl": "https://pubmed.ncbi.nlm.nih.gov/12416919/",
+  "retrievedOn": "2026-10-20",
+  "limits": "One loss type (death of a spouse), one age group (older adults), one metro area, depression symptoms (CES-D, converted to z-scores) rather than a mood scale. It calibrates the band of how many bereaved people recover, never one person's outcome. Three patterns under 5 percent of the sample (delayed grief 8, delayed-improved 10, improved-relapsed 2) are listed but were not used by the authors for their main analyses.",
+  "sampleSize": 205,
+  "patterns": [
+    {
+      "key": "resilient",
+      "n": 94,
+      "share": 0.459,
+      "meaning": "Low depression before and after the loss, with no lasting rise."
+    },
+    {
+      "key": "chronic-grief",
+      "n": 32,
+      "share": 0.156,
+      "meaning": "Low depression before the loss, high after it, still high at 18 months."
+    },
+    {
+      "key": "common-grief",
+      "n": 22,
+      "share": 0.107,
+      "meaning": "Low depression before the loss, high at 6 months, back to low by 18 months."
+    },
+    {
+      "key": "depressed-improved",
+      "n": 21,
+      "share": 0.102,
+      "meaning": "High depression before the loss, lower after it."
+    },
+    {
+      "key": "chronic-depression",
+      "n": 16,
+      "share": 0.078,
+      "meaning": "High depression before and after the loss."
+    },
+    {
+      "key": "delayed-grief",
+      "n": 8,
+      "share": 0.039,
+      "meaning": "Low before and at 6 months, high at 18 months."
+    },
+    {
+      "key": "delayed-improved",
+      "n": 10,
+      "share": 0.049,
+      "meaning": "High before, higher at 6 months, lower at 18 months."
+    },
+    {
+      "key": "improved-relapsed",
+      "n": 2,
+      "share": 0.01,
+      "meaning": "High before, lower at 6 months, high again at 18 months."
+    }
+  ],
+  "followUpMonths": [6, 18],
+  "highDepressionCutoff": "80th percentile of preloss CES-D z-scores; 49 high-baseline participants (M 1.61, SD 0.88), 156 low-baseline (M -0.39, SD 0.57)."
+}
