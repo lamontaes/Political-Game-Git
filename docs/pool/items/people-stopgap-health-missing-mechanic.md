@@ -4,13 +4,14 @@ title: "Stopgaps in health (missing-mechanic): 1 open"
 area: people
 kind: stopgap
 priority: 3
-status: blocked
+status: open
 claimed-by:
 pr:
 blocked-on:
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/data/health.json, kind missing-mechanic"
 after: people-health-conditions-begin,people-health-injury
+claimed-at: 
 ---
 
 **What.** This is the roll-up for the health stopgap SG-P10-health-minimal-port: core2 runs only the opening chronic conditions, serious-illness onset and the mortality rule, while conditions beginning during life, coverage, poverty onset causes, injuries and births are absent. Births already run in births-plan.ts, and coverage, premiums and medical bills are separate pool items (people-coverage-record-monthly-pass, people-coverage-counted, world-medical-spending-categories, missing-engine-health-coverage-and-medical-spending). The remaining mechanics are split into people-health-conditions-begin and people-health-injury. Nothing is built under this id; when both parts are done the row is marked resolved.
