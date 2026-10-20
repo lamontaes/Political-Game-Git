@@ -20,7 +20,9 @@ import {
   type FilingRow,
 } from "../core2/modules/elections";
 import {
+  CAMPAIGNS_MODULE_ID,
   campaignFor,
+  type CauseRow,
   doorsKnockedOf,
   openCampaigns,
 } from "../core2/modules/campaigns";
@@ -116,16 +118,36 @@ it("shows the day's choices with control names and runs the one taken through th
   ).toThrow();
 
   // Canvass: the doors knocked on the campaign screen are the engine's own records.
+  const causes = () =>
+    api
+      .moduleState(CAMPAIGNS_MODULE_ID)
+      .table("causes")
+      .rows() as unknown as CauseRow[];
+  const knownCauses = new Set(causes().map((row) => row.id));
   const taken = campaignDay(core, personId, {
     filingId: filing!.id,
     kind: "canvass",
   });
   expect(taken.doorsKnocked, `doors knocked: ${where}`).toBeGreaterThan(0);
-  // The doors open as a scene on a street, naming the households that answered.
-  expect(taken.scene?.place, where).toMatch(/^door-knocking-/);
-  expect(taken.households.length, `households that answered: ${where}`).toBe(
-    taken.reached,
+  // The households that answered are the distinct households of the people the engine recorded reaching.
+  const answered = causes().filter(
+    (row) =>
+      !knownCauses.has(row.id) &&
+      row.act === "door" &&
+      row.actorId === personId,
   );
+  const answeredHouseholds = new Set(
+    answered
+      .map((row) => core.people.get(row.voterId)?.householdId)
+      .filter(Boolean),
+  );
+  expect(taken.reached, `reached: ${where}`).toBe(answered.length);
+  expect(taken.households.length, `households that answered: ${where}`).toBe(
+    answeredHouseholds.size,
+  );
+  // When someone answers, the doors open as a scene on a street.
+  if (taken.households.length)
+    expect(taken.scene?.place, where).toMatch(/^door-knocking-/);
   expect(
     doorsKnockedOf(api, campaignFor(api, filing!.id).id).length,
     where,
