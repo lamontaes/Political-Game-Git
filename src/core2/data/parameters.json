@@ -4162,13 +4162,14 @@
     }
   },
   "volunteerHours": {
-    "value": 2,
-    "tag": "TUNABLE",
-    "citation": "Hours of one volunteering session for a cause group. P10 prototype starting value; no direct source for this coefficient. Calibration against P9 life replays and bereaved/activist cohort spreads is pending and blocks release.",
-    "stopgapId": "SG-P10-params-uncalibrated",
+    "value": 2.18,
+    "tag": "SOURCED",
+    "citation": "BLS American Time Use Survey 2024, Table 1 (https://www.bls.gov/news.release/atus.t01.htm): people who volunteered (organizational and civic activities) on an average day spent 2.18 hours at it (men 2.20, women 2.16). Hours of one volunteering session for a cause group.",
     "spread": {
-      "status": "unmeasured",
-      "reason": "No volunteering-session duration source has been read into the repository yet."
+      "low": 2.16,
+      "high": 2.2,
+      "unit": "hours per participant per day",
+      "citation": "BLS ATUS 2024 Table 1: women 2.16 hours, men 2.20 hours."
     },
     "checkRange": {
       "ref": "P9-OUTCOME-WHOLE-LIFE"
