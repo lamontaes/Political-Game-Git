@@ -5,11 +5,12 @@ area: core
 kind: stopgap
 priority: 3
 size: M
-status: open
-claimed-by:
-pr:
+status: claimed
+claimed-by: claude/fs11vb-rch
+pr: #5340
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-20T14:26:53.554Z
 ---
 
 **What.** Races the town does not vote in (U.S. House seats in other districts and territories) are decided today between the seat holder and each party's typical challenger, with no person behind either name. Give each such race named fictional candidates with a record: who runs comes from the people engines' who-runs decision, seeded generation of who exists, and each candidate has the campaign the town's own races use. The race still counts on the same engine as the town's races. This is the first half of the split of core-world-race-lean-candidates (row SG-GOV-world-race-lean in src/core2/modules/world-races.ts, function decide).
