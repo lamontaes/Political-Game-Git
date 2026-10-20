@@ -5,12 +5,12 @@ area: world
 kind: wiring
 priority: 2
 size: M
-status: claimed
-claimed-by: claude/political-game-pool-76ksvw
+status: open
+claimed-by:
 pr:
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-20T05:32:37.660Z
+claimed-at:
 ---
 
 **What.** world-lodes-commutes is really three jobs. First, split the one residents:unplaced-wages flow per place into two flows with the same finance kind: workers in the town's missing industries (health care, education, government), and commuters, sized by 1 minus the place's live-work share in data/source/lodes-commuting/place-commuting.json (src/core2/commuting-shares.ts), each commuter flow paid from a recorded commute-destination account. Second, make something read the commuter flow: the nonresident local income tax (world-withholding-nonresident-local) and the law-reach counts that already read unplacedWorkers. Third, put town firms in the missing industries. Do the first two together; the third is separate.
