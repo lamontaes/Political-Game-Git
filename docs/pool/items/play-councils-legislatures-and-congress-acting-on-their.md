@@ -4,7 +4,7 @@ title: "Councils, legislatures and Congress acting on their own (world-legislati
 area: play
 kind: feature
 priority: 2
-status: in-pr
+status: dropped
 claimed-by: claude/legislating-speed
 pr: #5059
 blocked-on:
