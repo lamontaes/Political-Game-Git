@@ -5,11 +5,12 @@ area: release
 kind: bug
 priority: 2
 size: L
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/merge-audit-fixes
 pr:
 blocked-on:
 source: "docs/reports/merge-audit-2026-10-20.md"
+claimed-at: 2026-10-20T04:18:13.609Z
 ---
 
 **What.** The October 20 merge audit read the diffs of 55 PRs merged overnight and found three merged after their own send-back, one merged into the wrong branch, old-engine imports and hand-written journal lines on main, and weak tests and misstated release notes. Work the numbered list in the report, one fix per PR, bad ones first.
