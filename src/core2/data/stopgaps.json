@@ -3987,10 +3987,10 @@
     "line": 1,
     "whatItFakes": "Money an engine pays to or takes from a place's counted residents as a whole (an owner's draw to owners who are counted, a pooled property tax bill, a price change on counted households, money left in the place's residents account) is shared by the place's counted groups by their people, not by the households it belongs to.",
     "why": "Those engines (business, housing property tax, place prices, unemployment claims) name a place or a counted person but pay the place's residents account; until each passes the person or household, the groups share it.",
-    "replacement": "Each engine pays counted money through countedPayment with the counted person or household it belongs to (business owners, property tax by owner household, price changes by household), so the right group pays or is paid.",
+    "replacement": "Resolved Oct 20: every engine that pays the counted side names its person or household (business owners' draws, property tax by owner household, price changes by household, unemployment and assistance benefits and school vouchers by household group), so the right group pays or is paid. A year of the played world in five drawn places (Woodway, Texas; Greenville, Delaware; Plainfield, Vermont; North Hudson, Wisconsin; Alder, Montana) paid nothing unkeyed and swept nothing above rounding. What remains is money with no counted party, shared by the place's groups by their people. Shown in counted-money-keyed.test.ts (pool item world-stopgap-counted-money-faked-mechanic).",
     "addedBy": "OPUS-CORE (one model, two tiers)",
     "addedAt": "2026-10-14",
-    "status": "open"
+    "status": "resolved"
   },
   {
     "id": "SG-CORE-district-placement",

@@ -5,6 +5,7 @@ import { drawPlace } from "../../scripts/core2-year/place";
 import { addDays, makeIsoDate } from "./kernel/dates";
 import { advanceCore } from "./life";
 import { gameStartDate } from "./game-start";
+import { unkeyedSharedMinor } from "./counted-money";
 import type { CoreState } from "./types";
 
 // Counted money is keyed (one model, two tiers): in a year of the played
@@ -25,6 +26,6 @@ describe(`counted money is keyed (${place.name}, seed ${seed})`, () => {
     });
     const core = world.core as unknown as CoreState;
     advanceCore(core, addDays(makeIsoDate(core.date), 365));
-    expect(core.stopgapHits.has("SG-CORE-counted-unkeyed-money")).toBe(false);
+    expect(unkeyedSharedMinor(core)).toBe(0);
   }, 1_800_000);
 });

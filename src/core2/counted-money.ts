@@ -13,8 +13,8 @@
  * Whose part a flow is comes from the flow's own parts: a job's pay is its
  * worker's household's group, a household's purchase, mortgage or rent part
  * is that household's group. A part nobody keyed (a bill an engine sends the
- * place as a whole) is shared by the place's groups by their people
- * (SG-CORE-counted-unkeyed-money).
+ * place as a whole, with no counted party) is shared by the place's groups
+ * by their people.
  */
 import { transferSplit } from "./accounts";
 import { paidLeaveProgram, paidLeavePremium } from "./paid-leave";
@@ -26,7 +26,19 @@ import type { CountedHousehold } from "./counted-groups";
 import type { ResidentFlowInput } from "./residents";
 import type { CoreAPI, CoreState, PersonId, PlaceId, Source } from "./types";
 
-export const UNKEYED_STOPGAP = "SG-CORE-counted-unkeyed-money";
+/**
+ * Money that reached a place's counted residents with no counted party named
+ * and had to be shared by the place's groups by their people: payments no
+ * engine keyed, and monthly sweeps above rounding. Zero when every engine
+ * keys its counted payments; the bench and the tests read it.
+ */
+const unkeyedShared = new WeakMap<object, number>();
+export function unkeyedSharedMinor(core: object): number {
+  return unkeyedShared.get(core) ?? 0;
+}
+function noteUnkeyed(core: object, minor: number): void {
+  unkeyedShared.set(core, unkeyedSharedMinor(core) + Math.abs(minor));
+}
 
 /** The parts of a flow the money splits by. */
 type SplitFlow = Pick<
@@ -731,7 +743,7 @@ export function countedPayment(
     times === 1 ? moved : Math.min(Math.abs(asked), Math.round(moved / times));
   if (h && !h.gone) weights = new Map([[h.group, 1]]);
   else {
-    api.stopgap(UNKEYED_STOPGAP);
+    noteUnkeyed(api.state, amountMinor);
     weights = placeWeights(rt, input.placeId);
   }
   const other = api.accounts().main(input.otherOwnerId);
@@ -812,8 +824,8 @@ export function sweepResidual(api: CoreAPI, rt: ResidentsRuntime): void {
     const weights = placeWeights(rt, row.placeId);
     if (!weights.size) continue;
     // Less than a minor unit for each group is the cents left by rounding a
-    // keyed payment, shared by people; anything more is a bill nobody keyed.
-    if (amount >= weights.size) api.stopgap(UNKEYED_STOPGAP);
+    // keyed payment; anything more is money nobody keyed.
+    if (amount >= weights.size) noteUnkeyed(api.state, amount);
     const shares = splitWhole(amount, weights);
     const lines = [
       { accountId: residual, deltaMinor: -amount },
