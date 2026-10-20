@@ -1,0 +1,33 @@
+{
+  "about": "How much each body weighs what a plan does when it chooses among printed plans. A commission set up by law to be independent weighs equal population and the Voting Rights Act and ignores party seats; a legislature weighs seats for its majority party and keeping its members apart, and avoids a plan a court would strike. Weights are TUNABLE: a score of the plan's measured facts, checked in tests against the choices each body should make, never a roll.",
+  "commission": {
+    "evenness": { "value": 1, "tag": "TUNABLE", "spread": [0.5, 2] },
+    "majorityMinorityDistricts": {
+      "value": 0.5,
+      "tag": "TUNABLE",
+      "spread": [0.2, 1]
+    },
+    "pairedMembers": { "value": 0.05, "tag": "TUNABLE", "spread": [0, 0.2] },
+    "drawerSeats": {
+      "value": 0,
+      "tag": "SOURCED",
+      "source": "An independent commission is barred by its charter from favoring a party or incumbent (e.g. Cal. Const. art. XXI, sec. 2(e); Ariz. Const. art. 4, pt. 2, sec. 1(14))."
+    }
+  },
+  "legislature": {
+    "evenness": { "value": 0.1, "tag": "TUNABLE", "spread": [0, 0.5] },
+    "majorityMinorityDistricts": {
+      "value": 0.1,
+      "tag": "TUNABLE",
+      "spread": [0, 0.5]
+    },
+    "pairedMembers": { "value": 0.3, "tag": "TUNABLE", "spread": [0.1, 1] },
+    "drawerSeats": { "value": 1, "tag": "TUNABLE", "spread": [0.5, 2] }
+  },
+  "limitBreach": {
+    "value": 100,
+    "tag": "TUNABLE",
+    "spread": [10, 1000],
+    "source": "A plan over the level's population limit is not drawn: every body avoids it unless nothing else is left."
+  }
+}
