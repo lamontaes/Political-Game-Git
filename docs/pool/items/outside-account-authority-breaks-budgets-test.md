@@ -5,9 +5,9 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/budgets-test-outside-authority
-pr:
+pr: #5590
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-20T07:43:12.004Z
