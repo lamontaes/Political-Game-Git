@@ -52,6 +52,8 @@ interface StaffingRow {
   readonly positions: number;
   readonly lawId: string;
   readonly setOn: string;
+  /** The fiscal year the base staff was taken in; a new year starts from the staff then in place. */
+  readonly fiscalYear?: number;
 }
 
 /** The staffing a budget line funds at one employer, if a change has set it. */
@@ -76,8 +78,8 @@ export const staffing: PolicyHandler = (api, change) => {
   const gov = governments(api).find((g) => g.level === change.level);
   const budget = gov ? budgetToday(api, gov) : null;
   if (!gov || !budget) return;
-  // The line before this year's budget bill and any act amending it: a change
-  // the body adopts (the bill included) is what the line's staff follows.
+  // The line before this year's own budget bill: the amount the staff in place
+  // was sized for, so a bill's raise or cut reaches the people it funds.
   const base = lineBeforeBill(api, gov, budget.fiscalYear, line);
   if (base <= 0) return;
   const ratio = (budget.spendingMinor[line] ?? 0) / base;
@@ -89,11 +91,12 @@ export const staffing: PolicyHandler = (api, change) => {
   for (const organizationId of funded) {
     const held = staffingOf(api, change.key, organizationId);
     const baseStaff =
-      held?.baseStaff ??
-      (employers.length
-        ? currentStaff(api, organizationId).length +
-          countedStaff(api, organizationId).length
-        : 0);
+      held?.fiscalYear === budget.fiscalYear
+        ? held.baseStaff
+        : employers.length
+          ? currentStaff(api, organizationId).length +
+            countedStaff(api, organizationId).length
+          : 0;
     // With no such employer in the town (a county jail elsewhere), the
     // government's record carries the positions the change funds or cuts.
     const positions = employers.length
@@ -108,6 +111,7 @@ export const staffing: PolicyHandler = (api, change) => {
       positions,
       lawId: change.lawId,
       setOn: api.state.date,
+      fiscalYear: budget.fiscalYear,
     };
     table.put(row as unknown as ModuleRow);
     writeRows(api, change.key, change.lawId, specOf(change.key, "positions"), [

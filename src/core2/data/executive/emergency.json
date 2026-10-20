@@ -1,0 +1,21 @@
+{
+  "version": "executive-emergency-v1",
+  "about": "What a governor's declaration of a state of emergency moves. The power itself is each state's own (data/research/executive/executive-powers-2026.json, canOrder key emergency-declaration). Read by declareEmergency in src/core2/modules/executive.ts.",
+  "budgetLine": {
+    "value": "otherPrograms",
+    "tag": "ESTIMATED",
+    "source": "A state's emergency response is paid from its general program spending, which the Census state finance table groups under all other functions (U.S. Census Bureau, State and Local Government Finances 2022, Table 1, Other expenditure).",
+    "spread": "Public safety (fire protection) in states that fund emergency management there."
+  },
+  "nonFederalShare": {
+    "value": 0.25,
+    "tag": "SOURCED",
+    "source": "The federal share of Public Assistance is not less than 75 percent of eligible cost, so the non-federal share is 25 percent (Robert T. Stafford Disaster Relief and Emergency Assistance Act sec. 403(b) and 406(b), 42 U.S.C. 5170b and 5172; 44 CFR 206.203(b))."
+  },
+  "stateShareOfNonFederal": {
+    "value": 0.5,
+    "tag": "TUNABLE",
+    "source": "The part of the non-federal cost the state takes on and the rest left to the county and town. States often cover half or more of the local match for declared disasters (NCSL, State Disaster Assistance 2019; Federal Funds Information for States).",
+    "spread": [0, 1]
+  }
+}
