@@ -5,12 +5,12 @@ area: people
 kind: wiring
 priority: 2
 size: M
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/honest-pull
+pr: #5737
 blocked-on:
 source: added with npm run pool -- add
-claimed-at:
+claimed-at: 2026-10-20T17:02:31.421Z
 ---
 
 **What.** In most drawn towns every bribe offer is declined because the yes case never beats the honest pull of 3, so corruption take, tell, the justice chain and press tips never run in a played year. Weigh the stake against the official's own money need and calibrate the honest pull and the trait weight so the odds between the most and least honest thirds match Pletzer et al. 2019. Keep bribery rare in total, near the Global Corruption Barometer's six percent of people paying a bribe.
