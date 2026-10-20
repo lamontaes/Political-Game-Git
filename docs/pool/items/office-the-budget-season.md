@@ -4,13 +4,13 @@ title: "The budget season:"
 area: office
 kind: feature
 priority: 2
-status: in-pr
-claimed-by: claude/political-game-pool-udtiwn
+status: open
+claimed-by:
 pr: #5217
 blocked-on:
 milestone:
 source: "docs/coordination/OFFICE-LOCAL.md line 30 (unchecked checklist line)"
-claimed-at: 2026-10-20T11:15:30.336Z
+claimed-at:
 ---
 
 **What.** The local budget is passed without a season: the executive's proposal is not an act at its time of year and the council's budget hearing is not on the calendar. Add the budget season: the mayor or executive proposes the budget at the time the body's data sets, the council holds a hearing on the calendar, and the player acts at each step. The player would notice the proposal arriving in its month, a public hearing with speakers, and the vote that sets next year's lines.
