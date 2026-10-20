@@ -7,7 +7,6 @@ import {
   isoDateFromParts,
 } from "./kernel/dates";
 import { createStableId, stableHash } from "./kernel/ids";
-import { jailTermOn } from "../simulation/justice/jail-terms";
 import { organizationProfileAt } from "../simulation/life-queries";
 import {
   activeWorkers,
@@ -239,6 +238,7 @@ export function openingEmploymentFromRecordedRoles(
 ): OpeningEmploymentAllocation {
   stopgap("SG-P8-opening-employment");
   if (data.stopgapId !== "SG-P8-opening-employment") stopgap(data.stopgapId);
+  // No one is serving a sentence when the opening is built: sentences are written by play.
   const residents = townResidents(world, town);
   const employed = activeWorkers(world);
   const recordedPeople = new Set(
@@ -248,7 +248,6 @@ export function openingEmploymentFromRecordedRoles(
     .filter(
       (resident) =>
         !recordedPeople.has(resident.personId) &&
-        !jailTermOn(world, resident.personId) &&
         laborStatus(world, resident) === "employed",
     )
     .map((resident) => ({

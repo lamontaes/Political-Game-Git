@@ -4,10 +4,10 @@ title: "Stopgaps in offices (missing-engine): 1 open"
 area: office
 kind: stopgap
 priority: 3
-status: open
+status: blocked
 claimed-by:
 pr:
-blocked-on:
+blocked-on: engine or design: M2's election engine hasn't been built on core2 yet.
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/modules/offices.ts, kind missing-engine"
 ---
