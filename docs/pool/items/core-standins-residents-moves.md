@@ -22,3 +22,5 @@ claimed-at:
 **Files.** src/core2/modules/residents.ts, src/core2/modules/moves.ts, src/core2/modules/drives.ts, src/core2/modules/health.ts, src/core2/births-plan.ts, src/bench/
 
 **Notes.** SG-P15-moves-pinned-jobs and SG-FIXER-moves-income-household stay open until core-moves-pinned-and-income-stopgaps builds the mechanics. Split from core-people-standins-oct14 (Oct 16): PR #4151 (branch stopgaps/people-core) now conflicts with main in about 40 files and was not merged; its table of rows is in that PR's description.
+
+Sent back 2026-10-20 from PR #5086 (branch claude/standins-residents-moves): deletes stopgap rows SG-P10-testify-unbuilt, SG-P10-candidacy-unbuilt and SG-P10-lobbying-unbuilt; mark them resolved with their replacement instead; finish on that branch, merge main into it first.
