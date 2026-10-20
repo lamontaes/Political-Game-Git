@@ -5099,5 +5099,29 @@
     "addedAt": "2026-10-20",
     "replacement": "A coverage share per counted group, read by the same rule as a full person times the group's weight, and a premium flow per covered counted household (pool item people-coverage-counted).",
     "status": "open"
+  },
+  {
+    "id": "SG-PEOPLE-press-employer-enrollment",
+    "kind": "missing-mechanic",
+    "file": "src/core2/modules/press.ts",
+    "line": 567,
+    "whatItFakes": "Press enrolls its already recorded owner directly in the business owner table because the shared business module has no public enrollment function for an existing owner.",
+    "why": "The overnight order requires the smallest registered stand-in while the business interface is under active work; using the normal opening heuristic would incorrectly make a reporter the owner.",
+    "addedBy": "Session D",
+    "addedAt": "2026-10-15",
+    "replacement": "A shared business enrollment API accepting the existing owner and sourced books, used by press without direct table writes.",
+    "status": "open"
+  },
+  {
+    "id": "SG-GOV-bail-not-escrowed",
+    "kind": "missing-mechanic",
+    "file": "src/core2/modules/justice.ts",
+    "line": 1054,
+    "whatItFakes": "Posted bail goes into the prosecuting government's general treasury cash, so the treasury can spend it before the trial and hand back only what it still holds; the shortfall is recorded on the return, not escrowed.",
+    "why": "The journal has no court fund or escrow account to set bail aside; adding one is a new account kind under the treasury's owner.",
+    "addedBy": "claude",
+    "addedAt": "2026-10-20",
+    "replacement": "A court escrow fund account that holds each bail apart from spendable treasury cash, returned in full at disposition.",
+    "status": "open"
   }
 ]
