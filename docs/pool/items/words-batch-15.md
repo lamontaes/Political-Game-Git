@@ -29,3 +29,4 @@ Sent back 2026-10-16 from PR #4626 (branch words/word-pack): The top of the PR b
 Sent back 2026-10-17 from PR #4626 (branch words/word-pack): The top of the PR body has no named in-session changed-file checks and result. Move the existing check results to the top, then request another merger pass.; finish on that branch, merge main into it first.
 
 Sent back 2026-10-19 from PR #4626 (branch words/word-pack): No in-session changed-file gate result near the top of the PR body; finish on that branch, merge main into it first.
+Sent back 2026-10-19 from PR #4626 (branch words/word-pack): merging main conflicts in the grading bench, civic-roles, scheduling and two director data files; finish on that branch, merge main into it first.

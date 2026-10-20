@@ -4,10 +4,10 @@ title: "Stopgaps in closeness (relationship-closeness-model): 1 open"
 area: core
 kind: stopgap
 priority: 3
-status: claimed
+status: blocked
 claimed-by: claude/closeness-stopgap
 pr:
-blocked-on:
+blocked-on: research-core-sourced-parameters
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/data/closeness.json, kind relationship-closeness-model"
 claimed-at: 2026-10-19T23:28:43.862Z
