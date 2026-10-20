@@ -157,6 +157,29 @@ declare const data: {
       effectAtFull: number;
       mode?: string;
     };
+    phaseInMonths?: number;
+    /** How the link lands on different people (src/core2/outcome-web-reach.ts). */
+    varies?: {
+      by:
+        | "incomeFifth"
+        | "age"
+        | "sex"
+        | "householdKind"
+        | "tenure"
+        | "work"
+        | "region";
+      bands: {
+        is?: string | number;
+        min?: number;
+        max?: number;
+        weight: number;
+        share: number;
+      }[];
+      tag: "SOURCED" | "ESTIMATED";
+      source: string;
+      quote: string;
+      estimatedFrom?: string;
+    }[];
     sizeByPlace?: {
       "US-TN": {
         size: number;

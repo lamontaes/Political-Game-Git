@@ -5,9 +5,9 @@ area: play
 kind: feature
 priority: 2
 size: L
-status: claimed
+status: done
 claimed-by: claude/campaign-acts-scenes
-pr:
+pr: #5549
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-20T05:57:05.783Z

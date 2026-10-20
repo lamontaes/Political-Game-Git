@@ -7,7 +7,7 @@ priority: 2
 size: M
 status: open
 claimed-by:
-pr:
+pr: #5592
 blocked-on:
 source: added with npm run pool -- add
 claimed-at:
@@ -24,3 +24,5 @@ claimed-at:
 **Notes.** Measured Oct 20 (claude/political-game-pool-udtiwn). The original count (97 percent) used contests decided in 400 days, which left 4 local contests in six places. Counting contests whose filing deadline has passed in 600 days (candidates are settled by the deadline) gives 27 local contests in six drawn places (labels c1 to c6, purpose candidacy-calibration) and 23 uncontested, 85 percent: Charlestown, Rhode Island 3 of 5; Chandler, Arizona 4 of 4; Ringsted, Iowa 12 of 14; Falmouth, Virginia, Charlotte Amalie and Montpelier, Louisiana none or 4 of 4. That is 5 points over the 80 percent edge, on a small sample. The test is src/core2/candidacy-calibration.test.ts, run with CALIBRATION_RUN=1 (about an hour). A try at candidacyStayOutPull 3.8 (the bottom of its spread) did not finish: the changed trajectory hit a business bug (pool item world-business-founding-no-purchase-kinds) after 69 minutes. Next: fix that bug, re-run at 3.8, and check the 81 percent incumbent rerun rate still holds.
 
 **Result (Oct 20, claude/political-game-pool-udtiwn).** candidacyStayOutPull 4.0 to 3.85. Same six places and 600 days: 4.0 gave 23 of 27 uncontested (85 percent); 3.8 gave 20 of 27 (74 percent, twice) but breaks the single-seat fixture in candidacy.test.ts (24 runners over a bound of 19.46); 3.85 gives 21 of 27 (78 percent, inside 50 to 80) with 25 of 27 incumbents running again, and every test file I ran passes. Sample is small (27 contests, 4 of the 6 places with local contests). A founding bug the experiment exposed is fixed (world-business-founding-no-purchase-kinds).
+
+Sent back 2026-10-20 from PR #5592 (branch claude/pool-elections-local-races-too-uncontested): the calibration test uses twelve hand-picked fixed seeds whose pooled share happens to land in the band (the first six give 94 percent), so it does not test the engine on a random draw, and it counts multi-seat contests by candidates not seats; finish on that branch, merge main into it first.
