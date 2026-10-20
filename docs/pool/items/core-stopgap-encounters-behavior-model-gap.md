@@ -4,13 +4,13 @@ title: "Stopgaps in encounters (behavior-model-gap): 1 open"
 area: core
 kind: stopgap
 priority: 3
-status: in-pr
-claimed-by: claude/pool-encounters-meetings
+status: open
+claimed-by:
 pr: #5265
 blocked-on:
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/data/encounters.json, kind behavior-model-gap"
-claimed-at: 2026-10-19T23:17:13.826Z
+claimed-at:
 ---
 
 **What.** Replace or clear the 1 open behavior-model-gap stopgap row(s) in src/core2/data/encounters.json: SG-P15-encounters. Each fake is replaced by the mechanic, or the feature that needs it is deleted.
