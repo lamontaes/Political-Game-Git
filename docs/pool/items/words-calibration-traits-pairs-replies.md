@@ -8,7 +8,7 @@ size: M
 status: blocked
 claimed-by: claude/pool-calibration-pairs
 pr:
-blocked-on: words-pack-scene-talk
+blocked-on: Words line: the item text is an empty shell and the work is calibration of the English engine's pair and reply ranking
 source: added with npm run pool -- add
 claimed-at: 2026-10-20T02:33:43.864Z
 ---
