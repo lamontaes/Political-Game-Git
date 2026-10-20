@@ -5,9 +5,9 @@ area: core
 kind: cleanup
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/political-game-pool-yucp92-nn
-pr:
+pr: #5510
 blocked-on:
 source: split from core-old-imports-population
 claimed-at: 2026-10-20T04:37:00.905Z
