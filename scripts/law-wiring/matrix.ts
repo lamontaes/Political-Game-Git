@@ -40,6 +40,7 @@ interface ReachCount {
 }
 interface Result {
   key: string;
+  kind: string;
   error?: string;
   inForceAtOpening: boolean;
   change: string;
@@ -66,6 +67,8 @@ interface Result {
   };
   heard: { people: number; sample: string[] };
   afterUndo: ReachCount;
+  /** Reach still citing the changed row once the old amount is put back (older result files have none). */
+  afterUndoChanged?: ReachCount;
 }
 interface PlaceRun {
   seed: string;
@@ -357,6 +360,14 @@ function repealLink(runs: { place: string; r: Result }[]): Link {
       if (r.reach.open === 0 && r.afterUndo.open > 0) ok += 1;
       notes.push(
         `${place}: opening ${r.openingReach.open} -> after repeal ${r.reach.open} -> re-enacted ${r.afterUndo.open}`,
+      );
+    } else if (r.kind !== "question" && r.afterUndoChanged) {
+      // Putting the old amount back leaves the law applying to the same people under the old row: the changed row's reach must end.
+      if (r.reach.open === 0) continue;
+      had += 1;
+      if (r.afterUndoChanged.open === 0) ok += 1;
+      notes.push(
+        `${place}: ${r.reach.open} open under the changed row -> after the old amount is put back ${r.afterUndoChanged.open} still cite it`,
       );
     } else {
       if (r.reach.open === 0) continue;

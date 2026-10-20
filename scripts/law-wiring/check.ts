@@ -724,6 +724,8 @@ function checkLaw(
   undo();
   step(core, AFTER);
   const after = reachOf(core, law.key, null);
+  // An amount or a budget line is never repealed, only put back: what must stop is the changed row's own reach.
+  const afterUndoChanged = reachOf(core, law.key, ids);
   const readers = new Map<string, number>();
   for (const [f, n] of [...reads, ...controlReads])
     readers.set(f, (readers.get(f) ?? 0) + n);
@@ -751,6 +753,7 @@ function checkLaw(
     },
     heard,
     afterUndo: after,
+    afterUndoChanged,
     seconds: Math.round((Date.now() - started) / 1000),
   };
 }
