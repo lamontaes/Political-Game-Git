@@ -118,10 +118,11 @@ it("a played year moves the player's household money through pay, living costs, 
           total("finance.contract-settlement finance", "outMinor"),
           `${where}: ${dwelling?.tenure} dwelling, no settlement`,
         ).toBeGreaterThan(0);
-      else if (dwelling && taxed) {
+      else {
         // A home owned outright owes the property tax; a household that
         // cannot pay it all keeps the rest as arrears on the record, naming
-        // the law, rather than the bill vanishing.
+        // the law, rather than the bill vanishing. Only where no rate is in
+        // force may the outside living cost carry the housing instead.
         const arrears = api
           .moduleState(HOUSING_MODULE_ID)
           .table("taxArrears")
@@ -129,14 +130,11 @@ it("a played year moves the player's household money through pay, living costs, 
           { amountMinor: number; lawRowId: string } | undefined;
         expect(
           total("accounts.transfer property-tax", "outMinor") +
-            (arrears?.amountMinor ?? 0),
-          `${where}: home owned outright, no property tax paid or owed`,
+            (arrears?.amountMinor ?? 0) +
+            (taxed ? 0 : total("accounts.transfer residents", "outMinor")),
+          `${where}: ${dwelling ? "home owned outright" : "no dwelling record"}${taxed ? "" : ", no rate in force"}, no property tax or outside living cost paid or owed`,
         ).toBeGreaterThan(0);
-      } else
-        expect(
-          total("accounts.transfer residents", "outMinor"),
-          `${where}: ${dwelling ? "owned outright, no tax rate in force" : "no dwelling record"}, no outside living cost paid`,
-        ).toBeGreaterThan(0);
+      }
       expect(
         total("budgets:withholding withholding", "outMinor"),
         where,
