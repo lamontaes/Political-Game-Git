@@ -5,13 +5,14 @@ area: gov
 kind: feature
 priority: 2
 size: S
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/community-inclusion
+pr: #5387
 after:
 blocked-on:
 milestone:
 source: "post-merge audit Oct 19 evening, item 7 (PR #5170)"
+claimed-at: 2026-10-20T01:25:53.337Z
 ---
 
 **What.** PR #5170 includes a community project in a bill only when the project's sponsor is on the same side or sits on the committee. That is a fixed rule with no stopgap row. Replace it with the officials' reads, so a project is included because the officials who can act on it want it, and the rule stops deciding the outcome.

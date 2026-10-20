@@ -5,10 +5,10 @@ area: laws
 kind: stopgap
 priority: 3
 size: L
-status: blocked
+status: dropped
 claimed-by:
 pr:
-blocked-on: research data: the row's replacement needs sourced data (PEOPLE: a leave-taking choice on a birth or a relative's serious illness (health engine), and CORE: a benefit payment from a government treasury to a ...)
+blocked-on: research-law-reach-sourced-parameters
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/data/laws/reach-group-a.json, kind missing-mechanic"
 ---
@@ -22,3 +22,5 @@ source: "src/core2/data/stopgaps.json, src/core2/data/laws/reach-group-a.json, k
 **Files.** src/core2/data/laws/reach-group-a.json
 
 **Notes.** First row: Paid family leave collects the same estimated payroll premium from full workers and counted groups but pays no leave. The generic contribution omits jurisdiction-specific employee/employer splits, wage caps and covered-e
+
+Folded into research-law-reach-sourced-parameters (CTO, Oct 19, 2026).

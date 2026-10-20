@@ -1043,7 +1043,17 @@ describe("law reach, group B: every policy reaches people through its engine", (
     enact(key, 1, "state");
     const openBefore = openOrgs(key).length,
       school = openOrgs(key)[0];
-    if (!school) return; // a town with no private school has nothing to end
+    if (!school) {
+      // A town with no private school has nothing to end: the reach finds
+      // none because the town holds none.
+      expect(
+        [...core.organizations.values()].filter(
+          (o) => o.classification === "service:private-school",
+        ),
+        where,
+      ).toEqual([]);
+      return;
+    }
     api.emit({
       id: `event:business.closed:${school.organizationId}`,
       date: api.state.date,
