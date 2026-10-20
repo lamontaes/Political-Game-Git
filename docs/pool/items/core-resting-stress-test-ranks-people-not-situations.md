@@ -5,7 +5,7 @@ area: core
 kind: bug
 priority: 3
 size: S
-status: in-pr
+status: done
 claimed-by: claude/political-game-pool-yucp92-ai
 pr: #5631
 blocked-on:
