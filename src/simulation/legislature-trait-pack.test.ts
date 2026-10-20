@@ -19,8 +19,8 @@ import { peopleTraitPack } from "./people-trait-pack";
 import { PEOPLE_MIND_VERSION } from "./people-trait-definitions";
 import { registeredTraitConsiderations } from "./trait-readings";
 import { loadedTraitRegistry } from "./trait-registry";
-import { loadTraitPacks, traitDefinitionFromPack } from "./trait-packs";
-import type { TraitPack } from "./trait-packs";
+import { loadTraitPacks, traitDefinitionFromPack } from "../core2/trait-packs";
+import type { TraitPack } from "../core2/trait-packs";
 
 const TRAIT = `${LEGISLATURE_PACK}:showing-their-hand`;
 

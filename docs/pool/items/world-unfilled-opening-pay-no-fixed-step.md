@@ -5,9 +5,9 @@ area: world
 kind: bug
 priority: 2
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/unfilled-pay-by-books
-pr:
+pr: #5146
 after:
 blocked-on:
 source: "owner ruling Oct 16 (no cap, no fixed step); acting CTO, Oct 19, closing PR #4992"
