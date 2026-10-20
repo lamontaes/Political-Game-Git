@@ -4,10 +4,10 @@ title: "Stopgaps in opening-private-tuition (aggregate-spending): 1 open"
 area: core
 kind: stopgap
 priority: 3
-status: open
+status: blocked
 claimed-by:
 pr: #5294
-blocked-on:
+blocked-on: core-private-tuition-yearly-reenrollment
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/opening-private-tuition.ts, kind aggregate-spending"
 claimed-at:
