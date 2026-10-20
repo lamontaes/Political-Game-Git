@@ -4,9 +4,9 @@ title: "Stopgaps in population (family-network-generation-gap): 1 open"
 area: core
 kind: stopgap
 priority: 3
-status: claimed
+status: in-pr
 claimed-by: claude/pool-family-network
-pr:
+pr: #5305
 blocked-on:
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/population.ts, kind family-network-generation-gap"
