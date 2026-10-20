@@ -24,3 +24,5 @@ claimed-at:
 **Notes.** The old pool body was the empty template; this is the real one. Split Oct 15: the duplicate copy is removed in this PR, the two row replacements are the blocked-on items.
 
 Oct 20: Everything it waited on is done, so it is open.
+
+**Checked Oct 20 (claude).** Both stopgap rows are already resolved in stopgaps.json (SG-P15-moves-pinned-jobs resolved Oct 19: the copy and the lookup are gone, so src/core2/pinned-jobs.ts no longer exists; SG-FIXER-moves-income-household resolved Oct 16 through moveRecipientIncomeHome, and src/core2/moves.test.ts line 212 shows a mover's award paid into the household where they live now). What is not there: a moves.test.ts case showing a holder of a job a saved agreement names leaving in a played world (the agreement re-resolving at its next payment, finance-cash.ts productJobRelations). That test is the only thing left of the done-when; it was not written here.
