@@ -1,5 +1,5 @@
 ---
-id: speed-dense-note
+id: speed-dense-profile
 impact: none
 ---
 
