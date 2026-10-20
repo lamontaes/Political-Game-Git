@@ -5,9 +5,9 @@ area: people
 kind: feature
 priority: 3
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/provider-distance
-pr:
+pr: #5749
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-20T19:34:41.490Z
