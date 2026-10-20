@@ -21,4 +21,4 @@ claimed-at:
 
 **Files.** TODO
 
-**Notes.** TODO
+**Notes.** PR #5318 sent back: Merge conflict with main in src/core2/electorate-weight.test.ts.
