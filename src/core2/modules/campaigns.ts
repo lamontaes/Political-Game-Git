@@ -38,6 +38,9 @@ import type { ModuleCalendarWork } from "../module-calendar";
 import type { CashJournalSourceSlot } from "../journal-state";
 import { addDays, makeIsoDate } from "../kernel/dates";
 import { townDistrict } from "../offices-state";
+import { basePlaces } from "../race-places";
+import { transferCash } from "../world-transfer";
+import { medianTransactionBalance } from "../starting-cash";
 import {
   campaignParameter,
   districtLean,
@@ -96,6 +99,8 @@ export interface CampaignRow {
   /** Money set aside toward an event's venue and a poll, not yet paid. */
   readonly eventFundMinor?: number;
   readonly pollFundMinor?: number;
+  /** How much of the like-minded adults outside the town its lists have reached, 0 to 1. */
+  readonly outsideReached?: number;
   /** What it bought, by kind, in minor units. */
   readonly spentByKind?: Readonly<Record<string, number>>;
 }
@@ -1367,6 +1372,99 @@ export function answerDonationAsk(
 }
 
 /**
+ * Money from the donors outside the town: a race for a seat wider than the
+ * town (governor, U.S. Senate, U.S. House, a legislative seat) draws on the
+ * adults of its district or state, counted by place at the coarser level.
+ * Each turn the campaign's lists reach another share of the adults who lean
+ * its candidate's way (`outsideReachPerTurn`); of those, `outsideDonorShare`
+ * give, each by the person rule (the cash a typical donor holds beyond a
+ * cushion times the share they give per unit of agreement), never past the
+ * individual limit. The gift is one record per place group, from the
+ * outside account to the campaign's, so the dollars balance on the journal.
+ * Returns the minor units raised.
+ */
+export function askOutsideDonors(api: CoreAPI, filingId: string): number {
+  const campaign = campaignFor(api, filingId);
+  const reached = campaign.outsideReached ?? 0;
+  if (reached >= 1) return 0;
+  const contest = elections(api, "contests").get(
+    campaign.contestId,
+  ) as unknown as ContestRow;
+  const filing = filingOf(api, filingId);
+  if (!contest || !filing) return 0;
+  const { places } = basePlaces(api, contest);
+  if (!places.length) return 0;
+  const core = api.state as CoreState;
+  const outside = [...core.organizations.values()].find(
+    (o) =>
+      o.placeId === townRow(api).townPlaceId && o.outsideFlow !== undefined,
+  );
+  if (!outside) return 0;
+  const side = partySide(filing.party ?? null);
+  const step = Math.min(1 - reached, campaignParameter("outsideReachPerTurn"));
+  const limit = contributionLimit(api, campaign.contestId);
+  const minorPerDollar = api.parameter("minorPerDollar");
+  const spare =
+    medianTransactionBalance(campaignParameter("outsideDonorIncomeUsd")) *
+    minorPerDollar;
+  let total = 0;
+  for (const place of places) {
+    // The share of the place's adults on the candidate's side of the lean
+    // order; a candidate with no party draws on half of them.
+    const aligned =
+      side > 0 ? place.rightShare : side < 0 ? 1 - place.rightShare : 0.5;
+    // Their reason to give is how much of the place stands with the candidate.
+    const reason = aligned;
+    const donors = Math.floor(
+      place.eligible * aligned * step * campaignParameter("outsideDonorShare"),
+    );
+    if (donors <= 0) continue;
+    const each =
+      Math.floor(
+        Math.min(
+          spare * reason * campaignParameter("donationShareOfCashPerWarmth"),
+          limit.minor ?? Infinity,
+        ) / minorPerDollar,
+      ) * minorPerDollar;
+    const amount = donors * each;
+    if (amount <= 0) continue;
+    const donorId = `outside:${place.id}`;
+    const given = giftOf(api, filingId, donorId)?.totalMinor ?? 0;
+    // The outside account pays the campaign's account through the accounts
+    // API, a flow recorded in outside-flows.json as the donors' own money.
+    const paid = transferCash(
+      api,
+      `donation-outside:${filingId}:${place.id}:${api.state.date}:${given}`,
+      outside.id,
+      campaign.organizationId,
+      amount,
+      {
+        tag: "ESTIMATED",
+        asOf: api.state.date,
+        citation: `${limit.source}; ${donors} donors in ${place.name} at the person rule`,
+        estimatedFrom:
+          "Pew Research Center, 5 facts about U.S. political donations (2017)",
+      },
+    );
+    if (paid <= 0) continue;
+    table(api, "gifts").put({
+      id: `${filingId}|${donorId}`,
+      campaignId: filingId,
+      donorId,
+      totalMinor: given + paid,
+      lastDate: api.state.date,
+    } satisfies GiftRow as unknown as ModuleRow);
+    total += paid;
+  }
+  save(api, {
+    ...campaignFor(api, filingId),
+    raisedMinor: campaignFor(api, filingId).raisedMinor + total,
+    outsideReached: reached + step,
+  });
+  return total;
+}
+
+/**
  * A purchase from the campaign's account to a seller, on the journal; the
  * campaign's books (spent, and spent by kind) read it.
  */
@@ -2262,9 +2360,9 @@ export function campaignTurn(
   // Money: the next people in the campaign's list.
   // The candidate backs their own campaign first, by the same reasons.
   if (candidate?.alive) askForDonation(api, filingId, candidate.id);
-  // The controlled person's money moves only by their own choice (owner,
-  // Oct 14: the engine offers, the player decides), so an ask that reaches
-  // them is a request they answer.
+  // The controlled person's money moves only by their own choice (the engine
+  // offers, the player decides), so an ask that reaches them is a request
+  // they answer.
   const playerId = (api.state as CoreState).playerId;
   const pool = reachablePeople(api, campaign);
   const asks = Math.min(pool.length, campaignParameter("donorAsksPerTurn"));
@@ -2278,6 +2376,7 @@ export function campaignTurn(
     ...campaignFor(api, filingId),
     askCursor: pool.length ? (from + asks) % pool.length : 0,
   });
+  askOutsideDonors(api, filingId);
   // Doors: a candidate who lives here walks for the hours their day leaves.
   let doors = 0;
   if (candidate?.alive && candidate.placeId === town) {
