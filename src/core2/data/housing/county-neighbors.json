@@ -1,9 +1,5 @@
 {
-  "source": {
-    "tag": "SOURCED",
-    "citation": "U.S. Census Bureau, County Adjacency File (counties sharing a boundary segment), https://www2.census.gov/geo/docs/reference/county_adjacency.txt, retrieved 2026-10-20; kept for the counties where the ACS 2020-2024 5-year tables give no median rent or home value.",
-    "asOf": "2026-10-20"
-  },
+  "source": "U.S. Census Bureau, County Adjacency File (www2.census.gov/geo/docs/reference/county_adjacency.txt), 2010 counties; only the counties the ACS gives no median rent or home value are listed.",
   "neighbors": {
     "06003": ["06005", "06009", "06017", "06051", "06109", "32005"],
     "06091": ["06035", "06057", "06063", "06115", "32031"],
