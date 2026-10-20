@@ -5,12 +5,12 @@ area: laws
 kind: bug
 priority: 2
 size: S
-status: in-pr
-claimed-by: claude/graduated-tax-guam
-pr: #5462
+status: open
+claimed-by:
+pr: #5684
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-20T03:18:33.727Z
+claimed-at:
 ---
 
 **What.** On main, law-reach-group-b.test.ts fails its graduated income tax case with GOLDEN_PATH_SEED 741e1fe731e2aef3a39de315f1d07c4368754d2d0409b3bbeacc39f43896b2b6 and GOLDEN_PATH_PLACE_KEY territory:GU:inarajan: after the repeal, the people-reach rows for us-policy-positions:fiscal.graduated-income-tax are still open (endedOn null) instead of ended. The town's governments are federal and state only. Find why the repeal does not end the rows there and fix it at the root.
@@ -22,3 +22,9 @@ claimed-at: 2026-10-20T03:18:33.727Z
 **Files.** src/core2/law-reach/group-b.ts, src/core2/law-reach-group-b.test.ts
 
 **Notes.** TODO
+
+Sent back 2026-10-20 from PR #5462 (branch claude/graduated-tax-guam): superseded by main's commit aebe5d9e3a for the same law-reach-group-b assertion; the branch conflicts in law-reach-group-b.test.ts; check whether anything is left beyond main's fix; finish on that branch, merge main into it first.
+
+Sent back 2026-10-20 from PR #5684 (branch claude/graduated-tax-repeal-guam): merging main conflicts in src/core2/law-reach-group-b.test.ts (main changed it in #5694); finish on that branch, merge main into it first.
+
+Sent back 2026-10-20 from PR #5684 (branch claude/graduated-tax-repeal-guam): src/core2/law-reach-group-b.test.ts:372,409,483 adds if (!havePayees) ctx.skip() to three eligibility/payment proofs when a place is pinned. The merger rule rejects skipped tests: keep the pinned regression for the tax issue and use separate bounded drawn-place fixtures for each payment shape, asserting those proofs without ctx.skip(). The body also reports one remaining failing payment case.; finish on that branch, merge main into it first.

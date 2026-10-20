@@ -4,7 +4,7 @@ The CTO's only writer. When two rulings conflict, the most recent wins unless th
 
 ## Open
 
-(none; every question asked is ruled below)
+- **Does hearing about a change in the town's conditions move a stance?** (`web-views-from-conditions`, from #5637.) The town's month now becomes news, and people hear that rent rose, unemployment fell or crime changed. That already reaches their vote. `views.ts` moves a stance only for an event that names a policy question and a desired change; a condition has no stance topic. I read the register first: "Knowing is a read" (a change is attributed to a law only if the person learned of it, and a stance cites how) and the Oct 16 ruling that the news and social media are how people mostly hear about it. Neither says whether hearing a condition shifts a stance on a related policy. Question for the owner: should a person who hears that rent rose move on a housing-policy stance (and unemployment on jobs policy, crime on policing), and by what rule? Recommended default, so nothing waits: yes, and only for a person the news reached, only toward the stance their own views already tie to that condition, by an amount the views engine already uses for a heard event (no new opinion size), with the outlet recorded as the reason. If the answer is no, conditions keep moving the vote through the person's own circumstances only.
 
 ## Oct 20: rulings (owner, spoken; recorded by the CTO)
 
@@ -26,6 +26,11 @@ The CTO's only writer. When two rulings conflict, the most recent wins unless th
 - **Private school** (#5483): beliefs, the schools nearby and a child's needs decide which families choose private school, not only money.
 - **Memory** (`core-memory-election-log-growth`): after a year, keep the summary and reasons of the player's routine decisions, not every detail.
 - **The Mac update dialog** (`core-stopgap-main-player-text-gap`): its words come from the English engine, like all player text.
+
+- **Models (owner, Oct 20; replaces the Oct 15 "Sonnet only" rule):** a big cross-system job runs as an Opus lead session with Sonnet helpers: "start an Opus cloud session and allow it Sonnet helpers" (laws), then the same for the effect web and traits, "with 8 helpers". Builders and fixers run on whatever the owner picks for the job ("I can do 2 Opus sessions or 4 Sonnet"). The CTO may use Sonnet helpers for research and audits ("up to 5 Sonnet subagents").
+- **Merging (owner, Oct 20; replaces "only the CTO merges"):** merger sessions merge (Antigravity lanes, Codex, Claude cloud mergers) under `.agents/skills/merger/SKILL.md`, each in its own share. The CTO audits their merges and fixes the skill when a merger slips ("Look at the mistakes Codex has made before on merges... Fix the merging skill"). Nobody merges their own PR; the CTO merges only its own docs, skill and pool PRs.
+- **Usage (owner, Oct 20):** at 83% of the weekly limit he chose "wiring only, lean": the three wiring sessions keep going at three helpers each; pool builders and the pool feeder pause until the weekly reset or his word.
+- **Agent instructions (owner, Oct 20):** keep every skill and doc current, create the skills the work needs and delete dead ones, following Anthropic's guidance; "this will help me perpetually."
 
 ## Ruled by the CTO overnight, October 14, 2026 (from standing rules; the owner may overrule)
 
@@ -196,6 +201,8 @@ The CTO's only writer. When two rulings conflict, the most recent wins unless th
 - The CTO holds a batch whose scenes are mostly repeats of the same few situations, the same way it holds one with record defects.
 
 ## Oct 15, afternoon: usage (owner, repeated; now written)
+
+Replaced on Oct 20 (see "Oct 20: rulings"): Opus leads with Sonnet helpers are allowed, and merger sessions merge. Kept below for the record.
 
 - Sonnet is the only Claude model that builds, reviews or merges. No Opus sessions or sub-agents of any kind.
 - The CTO session answers the owner and prepares orders, rulings, skills and reports. It never merges, reads diffs, logs or test output, runs tests, creates PRs or holds PR subscriptions; a Sonnet helper does those and returns a table.

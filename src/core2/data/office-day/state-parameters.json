@@ -1,12 +1,6 @@
 {
   "about": "The state officeholder's day (OFFICE-STATE): how a session week, the interim and the governor's year are laid out where a place's own data says nothing more exact. Each place's session windows come from data/research/laws/state-session-calendars.json; per diem from state-legislator-per-diem.json; the line-item veto from state-line-item-veto.json.",
   "parameters": {
-    "sessionWeek": {
-      "value": ["district", "floor", "floor", "floor", "district"],
-      "tag": "ESTIMATED",
-      "source": "What a weekday in session is for a member, Monday to Friday. Most legislatures hold floor sessions and committee meetings Tuesday through Thursday and members travel home and work the district on Monday and Friday (NCSL, 'Legislative Session Length' and 'Legislative Calendars' pages; Rosenthal, 'Heavy Lifting', 2004).",
-      "spread": "two to five floor days a week; full-time legislatures (California, New York, Pennsylvania, Michigan, Massachusetts, Wisconsin, Illinois, Ohio, New Jersey) sit more days"
-    },
     "committeeMeetsBeforeFloor": {
       "value": 1,
       "tag": "ESTIMATED",
@@ -18,12 +12,6 @@
       "tag": "ESTIMATED",
       "source": "Party caucuses meet at the start of the legislative week, before the first floor session (NCSL, 'Legislative Caucuses'). Monday is 1.",
       "spread": [1, 3]
-    },
-    "interimCommitteeDayOfMonth": {
-      "value": 15,
-      "tag": "ESTIMATED",
-      "source": "Interim committees meet about once a month between sessions (NCSL, 'Interim Committees'); the day of the month stands in for each body's own schedule.",
-      "spread": [1, 28]
     },
     "stateOfTheStateDaysAfterConvening": {
       "value": 1,
@@ -79,17 +67,23 @@
       "source": "How much a floor leader's party loyalty weighs in answering a member's request to schedule a hearing: a member of the leader's own party gets it, one of the other side loses it. Larger than the tie and trait terms, so a request from the other side is refused unless a deep tie and the leader's traits outweigh it.",
       "spread": [0.5, 1.5]
     },
+    "leaderRequestFavorWeight": {
+      "value": 0.4,
+      "tag": "TUNABLE",
+      "source": "How much a favor the member owes the leader (accepted when offered) adds to the leader's answer to a refused request for the floor. Floor leaders trade scheduling for support and favors (Cox and McCubbins, Setting the Agenda, 2005), but no study sizes the trade; set a little under the tie term's range so a favor can turn a close refusal and cannot undo a party's opposition alone.",
+      "spread": [0.2, 0.7]
+    },
+    "leaderRequestBackingWeight": {
+      "value": 0.6,
+      "tag": "TUNABLE",
+      "source": "How much a promise to back the leader's own item (accepted when offered) adds to the leader's answer to a refused request: a promised vote is worth more to a leader than a favor owed. Same source and limit as the favor weight.",
+      "spread": [0.3, 1]
+    },
     "leaderRequestTieWeight": {
       "value": 0.5,
       "tag": "TUNABLE",
       "source": "How much the leader's closeness to the member (their tie today, 0 to 1) adds to granting the request.",
       "spread": [0.2, 0.8]
-    },
-    "leaderRequestTraitWeight": {
-      "value": 0.4,
-      "tag": "TUNABLE",
-      "source": "How much the leader's own traits (help-others, rule-following against refusing and delay) add to or take from granting the request, on the shared trait-lean scale of -1 to 1.",
-      "spread": [0.2, 0.6]
     },
     "clemencyReviewWeekday": {
       "value": 4,
