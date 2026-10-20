@@ -8,8 +8,8 @@
     "why": "Taking a public post ends the person's current job, and the core doesn't yet release the records that rely on a job (a business's visitor contracts name its workers' jobs), so ending one mid-contract breaks the finance check.",
     "addedBy": "FIXER-EVERY-MODULE-RUNS",
     "addedAt": "2026-10-13",
-    "replacement": "A job ending that settles or reassigns every contract naming the job (OPUS-CORE), after which employed applicants are back in the pool.",
-    "status": "open"
+    "replacement": "Resolved Oct 19: taking a public post ends the job the person held (startPublicJob), so an aide, a department head and a state cabinet nominee may come from a private job when the post pays more than they earn; someone who has worked today leaves for a post tomorrow. Shown in staff-hire-employed.test.ts (pool item gov-stopgap-staff-missing-engine).",
+    "status": "resolved"
   },
   {
     "id": "SG-P8-relationship-closeness-update",
