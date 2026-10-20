@@ -10,10 +10,10 @@ claimed-by: claude/speed-school-day
 pr: #5389
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-20T01:40:46.208Z
+claimed-at: 2026-10-20T20:04:32.999Z
 ---
 
-**What.** A profile of a played year in Discovery Harbour, Hawaii (seed m7a) shows onHoliday in modules/school.ts at 0.7 seconds of self time, 1.5 percent of the year. isSchoolDay is a pure function of the date, yet due() calls it for every person each day, rebuilding Date objects for each holiday row.
+**What.** A profile of a played year in Discovery Harbor, Hawaii (seed m7a) shows onHoliday in modules/school.ts at 0.7 seconds of self time, 1.5 percent of the year. isSchoolDay is a pure function of the date, yet due() calls it for every person each day, rebuilding Date objects for each holiday row.
 
 **Rules.** Speed: a town's game year must run in under two minutes and no change may make a year more than 20 percent slower; Replace, never layer: the repeated work is removed in isSchoolDay itself, not hidden behind a second wrapper.
 
@@ -22,3 +22,7 @@ claimed-at: 2026-10-20T01:40:46.208Z
 **Files.** src/core2/modules/school.ts
 
 **Notes.** TODO
+
+Sent back 2026-10-20 from PR #5389 (branch claude/speed-school-day): see the Cloud merger comment on that PR for the exact reason; finish on that branch, merge main into it first.
+
+Sent back 2026-10-20 from PR #5389 (branch claude/speed-school-day): docs/pool/items/core-speed-school-day-memo.md:20 requires a fresh seed-m7a speed:year profile showing onHoliday below 0.2 percent, reported in the body. Both the body and the latest post-conflict update say that measurement was not taken on this head. Provide the named profile result for the current onBaseCalendar memo implementation, retaining the state-aware cutoff and the school tests; the earlier wall time is not that profile proof.; finish on that branch, merge main into it first.

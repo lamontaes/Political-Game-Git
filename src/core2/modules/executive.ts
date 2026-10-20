@@ -1,3 +1,4 @@
+import { workedToday } from "../job-lifecycle";
 import { snapshotExplicitControlV1 } from "../player-control-state-v1";
 /**
  * The executive's desk (M3-05; BOARD "features the old engine had":
@@ -23,6 +24,7 @@ import { snapshotExplicitControlV1 } from "../player-control-state-v1";
  */
 import { policyAuthority } from "../policy-authority";
 import research from "../../../data/research/executive/executive-powers-2026.json" with { type: "json" };
+import emergencyData from "../data/executive/emergency.json" with { type: "json" };
 import { coreAPI, fillInIdentity, registerModule } from "../state";
 import type { CoreAPI, CoreModule, CoreState, PersonState } from "../types";
 import type { ModuleRow } from "../module-data";
@@ -51,10 +53,14 @@ import {
 import { answerIn } from "./world-legislating";
 import type { ModuleCalendarWork } from "../module-calendar";
 import { addDays, makeIsoDate } from "../kernel/dates";
-import { BUDGETS_MODULE_ID, governments } from "./budgets";
+import { BUDGETS_MODULE_ID, amendBudget, governments } from "./budgets";
+import { federalAidFor } from "./disasters";
 import { lineForPost, postPayCapDaily } from "../budgets-treasury";
 import { startPublicJob } from "../public-payroll";
+import { parameter } from "../parameters";
+import { medianTransactionBalance } from "../starting-cash";
 import { filingRequirements } from "./elections";
+import { pairKey } from "../kernel/ids";
 
 export const EXECUTIVE_MODULE_ID = "core2-executive-v1";
 
@@ -104,6 +110,7 @@ export const EXECUTIVE_MODULE: CoreModule = {
       appointments: { indexes: { byGovernment: { fields: ["government"] } } },
       agencyHeads: { indexes: { byGovernment: { fields: ["government"] } } },
       orders: {},
+      emergencies: {},
       nominations: {},
       desk: { indexes: { byExecutive: { fields: ["executiveId"] } } },
       review: {},
@@ -220,14 +227,6 @@ export function experienceFromAge(
  * or the player, ranked by the appointer's reasons (alignment, qualification,
  * acquaintance). Nothing is written.
  */
-/** A job ends before its day's work, so someone who has worked today leaves theirs for a post tomorrow, not today. */
-function workedToday(core: CoreState, person: PersonState): boolean {
-  return (
-    !!person.jobId &&
-    core.work.lastAttendanceByJob.get(person.jobId)?.date === core.date
-  );
-}
-
 function townPostInput(api: CoreAPI, spec: PostSpec, chosenId?: string) {
   const appointer = townAppointer(api, spec.appointedBy);
   const date = api.state.date;
@@ -284,7 +283,7 @@ function townPostInput(api: CoreAPI, spec: PostSpec, chosenId?: string) {
       qualification: qualification(api, p, spec.key, date),
       known:
         !!appointer?.personId &&
-        relationships.has([appointer.personId, p.id].sort().join(":")),
+        relationships.has(pairKey(appointer.personId, p.id)),
     })),
   };
 }
@@ -488,6 +487,22 @@ function seatCabinetPerson(
       /:$/,
       "",
     );
+  const employer = (
+    api.state.modules.has(BUDGETS_MODULE_ID) ? governments(api) : []
+  ).find((g) => g.level === "state")?.organizationId;
+  const post = `state:${spec.key}`;
+  const maxDailyMinor = employer
+    ? postPayCapDaily(
+        api,
+        employer,
+        post,
+        input.posts.filter(
+          (other) =>
+            lineForPost("state", `state:${other.key}`) ===
+            lineForPost("state", post),
+        ).length,
+      )
+    : undefined;
   fillInIdentity(core, {
     id: personId,
     givenName: identity.givenName,
@@ -495,6 +510,19 @@ function seatCabinetPerson(
     birthDate: identity.birthDate,
     placeId: state,
     gender: identity.gender,
+    // What a family at their pay keeps in its accounts (SCF 2022), as the
+    // town's generated residents do; later hires arrive with what they have.
+    ...(maxDailyMinor !== undefined && core.date === core.startedAt
+      ? {
+          openingLiquidMinor: Math.round(
+            medianTransactionBalance(
+              (maxDailyMinor *
+                parameter("daysPerMeanYear", core.data.parameters)) /
+                parameter("minorPerDollar", core.data.parameters),
+            ) * parameter("minorPerDollar", core.data.parameters),
+          ),
+        }
+      : {}),
     source: {
       tag: "ESTIMATED",
       asOf: api.state.date,
@@ -503,23 +531,14 @@ function seatCabinetPerson(
         "The research file names the post, not the person; the person is drawn from the world's seed like any invented official.",
     },
   });
-  const employer = (
-    api.state.modules.has(BUDGETS_MODULE_ID) ? governments(api) : []
-  ).find((g) => g.level === "state")?.organizationId;
   if (employer) {
-    const post = `state:${spec.key}`;
-    const toFill = input.posts.filter(
-      (other) =>
-        lineForPost("state", `state:${other.key}`) ===
-        lineForPost("state", post),
-    ).length;
     startPublicJob(api, {
       personId,
       employerId: employer,
       post,
       title: spec.title,
       hourlyMinor: campaignParameter("appointeeHourlyMinor"),
-      maxDailyMinor: postPayCapDaily(api, employer, post, toFill),
+      maxDailyMinor,
       scheduleFromPlaceId: lawChain(api).townPlaceId,
       citation: `Appointment ${input.appointmentId}`,
     });
@@ -799,7 +818,7 @@ export function appointStatePost(
       lean: personLean(api.state.people, person, 0),
       qualification: qualification(api, person, spec.key, api.state.date),
       known: (api.state as CoreState).relationships.has(
-        [input.executiveId, person.id].sort().join(":"),
+        pairKey(input.executiveId, person.id),
       ),
     })),
     confirmingBody: confirmation
@@ -935,6 +954,117 @@ export function issueOrder(
     date: api.state.date,
   } as unknown as ModuleRow);
   return { lawId: row.id };
+}
+
+export interface EmergencyRow {
+  readonly id: string;
+  readonly executiveId: string;
+  readonly state: string;
+  /** The disaster record the declaration cites. */
+  readonly hazardRecordId: string;
+  /** The state's own power, as researched: its key and basis. */
+  readonly basis: string;
+  readonly confidence: string;
+  readonly governmentId: string;
+  readonly line: string;
+  readonly deltaMinor: number;
+  readonly date: string;
+}
+
+/** Whether this state's governor may declare a state of emergency, and the researched basis. */
+export function emergencyPower(
+  api: CoreAPI,
+): { readonly basis: string; readonly confidence: string } | null {
+  const raw = RESEARCH.places[lawChain(api).stateKey]?.canOrder ?? [];
+  const found = Array.isArray(raw)
+    ? raw.find((r) => (r as { key: string }).key === "emergency-declaration")
+    : undefined;
+  return found
+    ? {
+        basis: (found as { basis?: string }).basis ?? "",
+        confidence: (found as { confidence?: string }).confidence ?? "",
+      }
+    : null;
+}
+
+/**
+ * The sitting governor declares a state of emergency for a disaster on the
+ * record. The declaration cites the hazard record and the state's researched
+ * power, and the state's budget takes on its share of the non-federal cost of
+ * the public assistance FEMA obligated for the disaster: the budget line
+ * moves by that much, as an amendment recorded with the declaration.
+ */
+export function declareEmergency(
+  api: CoreAPI,
+  input: { readonly executiveId: string; readonly hazardRecordId: string },
+): EmergencyRow {
+  const state = lawChain(api).stateKey;
+  const governor = townSeats(api).find(
+    (s) => s.office.kind === "governor",
+  )?.holder;
+  if (!governor || memberKey(governor) !== input.executiveId)
+    throw new Error("Only the sitting governor can declare an emergency.");
+  const power = emergencyPower(api);
+  if (!power) throw new Error(`${state} gives its governor no such power.`);
+  const hazard = (api.state as CoreState).durableLog.get(input.hazardRecordId);
+  if (!hazard || hazard.kind !== "hazard.disaster")
+    throw new Error("A declaration cites a disaster on the record.");
+  const id = `emergency:${state}:${input.hazardRecordId}`;
+  if (table(api, "emergencies").get(id))
+    throw new Error("This disaster is already under a declaration.");
+  const gov = governments(api).find((g) => g.level === "state");
+  if (!gov) throw new Error("The state has no government on the books.");
+  const aid = federalAidFor(api, Number(hazard.facts?.disasterNumber));
+  const deltaMinor = Math.round(
+    (aid *
+      emergencyData.nonFederalShare.value *
+      emergencyData.stateShareOfNonFederal.value) /
+      (1 - emergencyData.nonFederalShare.value),
+  );
+  const line = emergencyData.budgetLine.value;
+  if (deltaMinor > 0)
+    amendBudget(api, {
+      governmentId: gov.id,
+      line,
+      deltaMinor,
+      measureId: id,
+    });
+  const row: EmergencyRow = {
+    id,
+    executiveId: input.executiveId,
+    state,
+    hazardRecordId: input.hazardRecordId,
+    basis: power.basis,
+    confidence: power.confidence,
+    governmentId: gov.id,
+    line,
+    deltaMinor,
+    date: api.state.date,
+  };
+  table(api, "emergencies").put(row as unknown as ModuleRow);
+  api.emit({
+    id: `emergency-declared:${id}`,
+    date: api.state.date,
+    kind: "emergency-declared",
+    personIds: governor.personId ? [governor.personId] : [],
+    placeId: lawChain(api).townPlaceId,
+    source: {
+      tag: "SOURCED",
+      citation: `State emergency-management statute (${state}): ${power.basis}`,
+      asOf: api.state.date,
+    },
+    publicRecord: true,
+    news: true,
+    facts: {
+      hazardRecordId: input.hazardRecordId,
+      disasterNumber: String(hazard.facts?.disasterNumber ?? ""),
+      title: String(hazard.facts?.title ?? ""),
+      governmentId: gov.id,
+      line,
+      deltaMinor: String(deltaMinor),
+    },
+  });
+  return row;
 }
 
 export interface DeskRow {
