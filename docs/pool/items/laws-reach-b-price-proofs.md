@@ -6,11 +6,11 @@ kind: stopgap
 priority: 3
 size: M
 status: claimed
-claimed-by: claude/political-game-pool-7xkkii
+claimed-by: claude/political-game-pool-yucp92-hh
 pr: #5310
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-20T03:49:31.121Z
+claimed-at: 2026-10-20T03:51:27.412Z
 ---
 
 **What.** Four price laws (fare-free transit, the mileage fee in place of the fuel tax, public broadband and the clean-electricity standard's price) are enacted and paid by the price engine in a played year, and the test src/core2/price-laws.test.ts records their journal receipts. Its stopgap rows (SG-GOV-REACH-B-transit-fare-price, -mileage-fee-price, -broadband-bill, and the clean-energy price row) still stand because a household's fare, miles, fuel and broadband use are estimates, not records, and nothing yet follows one dollar to one named person. Replace each estimated use with a record the engine reads (a household's own trips, driving or bill) where the world holds one, and prove the chain for one named person per law. Merged PR #5310 built the middle of that chain (a household whose payer heard a story about the law learns what it did to their bills, and holds a stance citing the story); what remains is the estimated use, the director's line about the notice, and the same proof for all four laws, not only fare-free transit.
