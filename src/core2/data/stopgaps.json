@@ -4851,5 +4851,17 @@
     "addedAt": "2026-10-17",
     "replacement": "The owner's ruling on which pre-vote hooks run on the committee day (docs/coordination/OWNER-DECISIONS.md).",
     "status": "open"
+  },
+  {
+    "id": "SG-PEOPLE-coverage-counted",
+    "kind": "missing-mechanic",
+    "file": "src/core2/modules/coverage.ts",
+    "line": 1,
+    "whatItFakes": "Only full people hold a health coverage record and pay a premium. Counted households hold none, so the wider population pays no premium and the town's health costs read as if it were uninsured.",
+    "why": "The counted groups store holds no per-group plan, and a counted premium is a purchase flow with an insurer payee that fill-in must take back contract by contract (opening-customers.ts, residents.ts).",
+    "addedBy": "claude/fs11vb-coverage-record",
+    "addedAt": "2026-10-20",
+    "replacement": "A coverage share per counted group, read by the same rule as a full person times the group's weight, and a premium flow per covered counted household (pool item people-coverage-counted).",
+    "status": "open"
   }
 ]

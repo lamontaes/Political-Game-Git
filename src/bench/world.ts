@@ -22,6 +22,7 @@ import { openVoting } from "../core2/modules/voting";
 import { openRecord } from "../core2/modules/record";
 import { openBudgets } from "../core2/modules/budgets";
 import { openOfficialPay } from "../core2/modules/official-pay";
+import { openCoverage } from "../core2/modules/coverage";
 import { openHomelessCount } from "../core2/modules/homeless-count";
 import { openEstates } from "../core2/estates";
 import { openEmployerTaxes } from "../core2/modules/employer-taxes";
@@ -387,6 +388,9 @@ function* benchWorldStages(
   // The world has a past (OPUS-CORE): prior elections, voting records, law
   // histories, the year's news and what the public knows, before day one.
   openThePast(core, seed);
+  // Last, so everyone the opening seated has a health coverage record on day one
+  // (people who arrive later get theirs on the next 1st); the household pays its premium.
+  openCoverage(core);
   director.start(core);
   yield "opening";
   // The opening, told as a story from the records (owner, Oct 14, 2026): the
