@@ -40,6 +40,7 @@ import type { ModuleRow } from "../module-data";
 import type { CoreAPI, CoreEventInput, CoreModule, CoreState } from "../types";
 import { townMetrics, WORLD_METRICS_MODULE_ID } from "./world-metrics";
 import { GOV_MEASURES, govMeasure, govMeasureRecord } from "../gov-measures";
+import { monthEvent } from "../outcome-news";
 
 export { OUTCOME_WEB_MODULE_ID };
 const STATE_ID = "outcome-web:state";
@@ -423,7 +424,18 @@ function recordMonth(api: CoreAPI, placeId: string, state: WebState): WebMonth {
   return row;
 }
 
-function run(api: CoreAPI): void {
+/** The month's one public record for a place: what moved since the month before (the town hears it through the press and the news). */
+function announce(api: CoreAPI, row: WebMonth): void {
+  const before = monthRow(
+    api,
+    row.placeId,
+    monthKey(monthIndex(row.month) - 1),
+  );
+  const made = monthEvent(api, row, before?.values ?? {});
+  if (made) api.emit(made.event);
+}
+
+function run(api: CoreAPI, announced = false): void {
   const state = webState(api);
   if (!state) return;
   // Kept outcomes hold at their base apart from their causes; see the stopgap.
@@ -434,7 +446,10 @@ function run(api: CoreAPI): void {
   // Causes of poverty that reach no incomes yet (poverty itself is the engine's).
   api.stopgap("SG-WEB-poverty-licensing-no-engine");
   api.stopgap("SG-WEB-poverty-graduation-no-engine");
-  for (const placeId of placesOf(api)) recordMonth(api, placeId, state);
+  for (const placeId of placesOf(api)) {
+    const row = recordMonth(api, placeId, state);
+    if (announced) announce(api, row);
+  }
 }
 
 function schedule(api: CoreAPI): void {
@@ -492,7 +507,7 @@ export const OUTCOME_WEB_MODULE: CoreModule = {
   },
   onCalendarWork(api, work) {
     if (work.kind !== RUN_KIND) return;
-    run(api);
+    run(api, true);
     schedule(api);
   },
   onDay(api) {
