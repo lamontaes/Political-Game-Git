@@ -5,10 +5,10 @@ area: people
 kind: research
 priority: 3
 size: S
-status: open
+status: blocked
 claimed-by:
 pr:
-blocked-on:
+blocked-on: a researcher: choose the homeschool definition (Household Pulse is broader than NHES), then build the state table from the Pulse public-use files; see the Notes
 source: added with npm run pool -- add
 ---
 
