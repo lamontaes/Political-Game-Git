@@ -77,21 +77,21 @@ The 400-day runs turned up three things beyond the grades:
 
 ## The family pull requests
 
-| Family                                                                                                     | Pull request | State                              |
-| ---------------------------------------------------------------------------------------------------------- | ------------ | ---------------------------------- |
-| Audit, checker and shared applied record                                                                   | #5547        | merged                             |
-| Prices and sales taxes                                                                                     | #5629        | merged                             |
-| Justice                                                                                                    | #5642        | merged                             |
-| Health, assistance and schools                                                                             | #5652        | merged                             |
-| Government and elections                                                                                   | #5582        | open, ready                        |
-| Labor and pay                                                                                              | #5589        | open, ready                        |
-| Taxes and public finance                                                                                   | #5649        | open, ready                        |
-| Rights, technology, environment, farms and parks                                                           | #5669        | open, ready                        |
-| Housing and credit                                                                                         | #5688        | open, ready                        |
-| Group B work-requirement test (red on main after #5652)                                                    | #5732        | open, ready                        |
-| Death taxes adopted by rate only (found by the 400-day run)                                                | #5744        | open, ready                        |
-| Reach rows re-pointed to the row in force; laid-off hires' rows end (income tax and budget lines put back) | #5753        | open, ready                        |
-| Private tuition re-enrollment (red on main: removed parameter)                                             | #5743        | closed: main fixed it the same way |
+| Family                                                                                                     | Pull request | State                                                        |
+| ---------------------------------------------------------------------------------------------------------- | ------------ | ------------------------------------------------------------ |
+| Audit, checker and shared applied record                                                                   | #5547        | merged                                                       |
+| Prices and sales taxes                                                                                     | #5629        | merged                                                       |
+| Justice                                                                                                    | #5642        | merged                                                       |
+| Health, assistance and schools                                                                             | #5652        | merged                                                       |
+| Government and elections                                                                                   | #5582        | ready again 23:40 UTC: main merged, government test fixed    |
+| Labor and pay                                                                                              | #5589        | ready again 23:40 UTC: main merged                           |
+| Taxes and public finance                                                                                   | #5649        | ready again 23:40 UTC: main merged, taxes test passes        |
+| Rights, technology, environment, farms and parks                                                           | #5669        | ready again 23:40 UTC: main merged, rights test fixed        |
+| Housing and credit                                                                                         | #5688        | ready again 23:40 UTC: main merged, send-back fixed          |
+| Group B work-requirement test (red on main after #5652)                                                    | #5732        | merged                                                       |
+| Death taxes adopted by rate only (found by the 400-day run)                                                | #5744        | ready again 23:40 UTC: main merged, main's tuition fix taken |
+| Reach rows re-pointed to the row in force; laid-off hires' rows end (income tax and budget lines put back) | #5753        | ready again 23:40 UTC: main merged                           |
+| Private tuition re-enrollment (red on main: removed parameter)                                             | #5743        | closed: main fixed it the same way                           |
 
 The mergers sent back three of these, and each is fixed and pushed:
 
@@ -99,7 +99,7 @@ The mergers sent back three of these, and each is fixed and pushed:
 - **Labor:** the checks fail when nothing is found.
 - **Taxes:** the loosened group-B assertions are restored.
 
-Each open branch has main merged in as of 18:00 UTC.
+Each open branch had main merged in again at about 23:40 UTC, with its changed-file tests run on the merged head; a "Ready again:" comment on each PR says what was resolved. What is left: the mergers land these, and then this report's matrix and played year are re-measured on main.
 
 The families touch shared import lists, so the one that lands second needs a small resolution:
 
