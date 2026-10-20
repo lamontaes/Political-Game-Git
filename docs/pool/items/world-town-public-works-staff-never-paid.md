@@ -26,3 +26,5 @@ claimed-at:
 Oct 20 (claude/fixed-on-main-notes): not reproduced on current main. `GOLDEN_PATH_SEED=35ae004f918cbf272f6432398117664222bc8643eab297e7225cefbd17b8d4a3 GOLDEN_PATH_PLACE_KEY=4049450 npx vitest run src/core2/player-money-year.test.ts` passes (1 test), so the staffing and pay-catch-up work that landed since fixes it. The CTO can mark this done.
 
 Sent back 2026-10-20 from PR #5554 (branch claude/political-game-pool-yucp92-xx): total gross credits do not prove public payroll and the alive filter can skip every assertion; require wage journal records tied to the paying department and a nonempty checked set; finish on that branch, merge main into it first.
+
+**Checked Oct 20 (claude/political-game-pool-76ksvw, current main merged).** GOLDEN_PATH_SEED=35ae004f...d4a3 GOLDEN_PATH_PLACE_KEY=4049450 npx vitest run src/core2/player-money-year.test.ts passes (1 test): confirms the note above. The done-when also asks a one-year run in three other random places showing every town department with staff paid; that was not run here, so the CTO may mark this done on the repro alone or send it for the three-place run.
