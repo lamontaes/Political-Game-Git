@@ -5,11 +5,12 @@ area: release
 kind: cleanup
 priority: 3
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/tripwire-scan-outside
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-20T07:49:58.096Z
 ---
 
 **What.** auditCore2Tripwires reads TypeScript under src/core2 and JSON under src/core2/data only. Six registered stopgaps name files outside it (SG-PLAY-act-control-names, SG-LOC-residence-rooms, SG-PEOPLE-one-look-per-activity, SG-PLAY-dev-law-reach-full-only, SG-PLAY-desktop-update-dialog-text, SG-PLAY-creator-age-keeps-past), so a marker moved or removed there raises no diagnostic. PR 5594 stopped reporting them stale for that reason. Decide with the CTO whether the scan widens to src/bench and the desktop shell, then widen it and relocate any row that then mismatches.
