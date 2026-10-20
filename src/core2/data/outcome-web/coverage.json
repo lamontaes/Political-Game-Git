@@ -21,6 +21,8 @@
     "graduation-to-turnout",
     "rent-control-to-rental-supply",
     "rent-control-to-tenant-stays",
+    "home-prices-to-owner-births",
+    "home-prices-to-renter-births",
     "property-tax-to-rent",
     "broadband-to-married-women-work",
     "corporate-tax-incidence",
@@ -349,12 +351,6 @@
       "waitingOn": ["health.hospital-visits"],
       "needsSize": true
     },
-    "home-prices-to-owner-births": {
-      "waitingOn": ["births.owners"]
-    },
-    "home-prices-to-renter-births": {
-      "waitingOn": ["births.renters"]
-    },
     "transit-loss-to-unemployment": {
       "waitingOn": ["labor.unemployment-pct"],
       "needsSize": true
@@ -549,14 +545,6 @@
     },
     "approval.incumbent": {
       "owner": "OPUS-GOV",
-      "links": 1
-    },
-    "births.owners": {
-      "owner": "OPUS-PEOPLE",
-      "links": 1
-    },
-    "births.renters": {
-      "owner": "OPUS-PEOPLE",
       "links": 1
     },
     "budget.parks-added-pct": {
