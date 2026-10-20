@@ -8,8 +8,8 @@
     "why": "Taking a public post ends the person's current job, and the core doesn't yet release the records that rely on a job (a business's visitor contracts name its workers' jobs), so ending one mid-contract breaks the finance check.",
     "addedBy": "FIXER-EVERY-MODULE-RUNS",
     "addedAt": "2026-10-13",
-    "replacement": "A job ending that settles or reassigns every contract naming the job (OPUS-CORE), after which employed applicants are back in the pool.",
-    "status": "open"
+    "replacement": "Resolved Oct 19: taking a public post ends the job the person held (startPublicJob), so an aide, a department head and a state cabinet nominee may come from a private job when the post pays more than they earn; someone who has worked today leaves for a post tomorrow. Shown in staff-hire-employed.test.ts (pool item gov-stopgap-staff-missing-engine).",
+    "status": "resolved"
   },
   {
     "id": "SG-P8-relationship-closeness-update",
@@ -524,8 +524,8 @@
     "why": "Retention span is an owner budget assumption, not a human forgetting measurement; later readers and legal obligations need audit.",
     "addedBy": "SOL-1258",
     "addedAt": "2026-10-09",
-    "replacement": "Owner-approved bounded retention plus reader/callback/reload assertions; preserve consequential evidence and full focus history.",
-    "status": "open"
+    "replacement": "Resolved Oct 20: the owner ruled running memory stays small (Oct 12, DECISION-REGISTER 'Speed and memory'), so the retention span is a tunable engineering memory budget, tagged TUNABLE with its spread, and only the dev-why bench reads old rollups (pool item owner-stopgap-memory-budgets).",
+    "status": "resolved"
   },
   {
     "id": "SG-P8-business-books-priors",
@@ -1038,11 +1038,11 @@
     "kind": "estimated-calendar",
     "file": "src/core2/modules/offices.ts",
     "line": 408,
-    "whatItFakes": "The end of each term in progress at the opening for state and local offices: the seats of a body take turns over the years in one term that the office's calendar (the county schedule or the state's municipal election law) holds elections, and each term ends on the start day after its seat's election; where a state's own start rule isn't read, January 1. Federal terms are read: every House seat ends January 3 of an odd year (amend. XX), Senate seats by their real class, the presidency on January 20.",
+    "whatItFakes": "The end of each term in progress at the opening for state and local offices: the seats of a body take turns over the years in one term that the office's calendar (the county schedule or the state's municipal election law) holds elections, and each term ends on the start day after its seat's election; where a state's own start rule isn't read, January 1 (the governors' clauses of AK, DE, FL, HI, LA, ME, VA and WA are read, in data/elections/term-starts.json). Federal terms are read: every House seat ends January 3 of an odd year (amend. XX), Senate seats by their real class, the presidency on January 20.",
     "why": "Real election calendars and term-start dates for each office are M2's filing and election work.",
     "addedBy": "OPUS-GOV",
     "addedAt": "2026-10-12",
-    "replacement": "Each state's governor start rule (FIXER stand-in figures: AK, HI, FL, DE, LA, VA, ME and the rest), county bodies from county-election-schedule-by-state.json (concurrent or staggered), and municipal timing from the 92O baselines.",
+    "replacement": "The other states' governor start clauses and the state-legislature start days read into data/elections/term-starts.json, and municipal timing from the 92O baselines (county bodies are read: county-election-schedule-by-state.json).",
     "status": "open"
   },
   {
@@ -1050,8 +1050,8 @@
     "kind": "missing-engine",
     "file": "src/core2/modules/offices.ts",
     "line": 981,
-    "whatItFakes": "Where the voting engine isn't running, a special election's seat goes to the best-suited eligible person on the day instead of a vote. With voting open it is a real race. Its date is the state's law for the office where special-election-law.json reads it, else the 90-day estimate (SG-GOV-special-election-timing).",
-    "why": "M2's election engine hasn't been built on core2 yet.",
+    "whatItFakes": "A special election for a seat no race engine counts (a statewide executive seat, a judge, a seat of another body) goes to the best-suited eligible person on the day instead of a vote. The town's own seats are real races in the voting engine, and a House or legislative district outside the town is counted by the world races (named party candidates, the winner serves the unexpired term). The date is the state's law for the office where special-election-law.json reads it, else the 90-day estimate (SG-GOV-special-election-timing).",
+    "why": "The world races count only House and legislative districts; the other kinds have no counted race yet. Narrowed Oct 19 (claude/special-election-races).",
     "addedBy": "OPUS-GOV",
     "addedAt": "2026-10-12",
     "replacement": "Each office's special-election timing from its law (many fill at the next general election).",
@@ -1244,11 +1244,11 @@
     "kind": "missing-engine",
     "file": "src/core2/modules/interest-groups.ts",
     "line": 298,
-    "whatItFakes": "An employers' group's lobbyist is the best-paid town resident working for the member business the bill costs most; businesses themselves decide to join and pay dues.",
-    "why": "Businesses have no owners or managers in core2 yet (OPUS-WORLD's business engine), and lobbyists aren't a hired job yet.",
+    "whatItFakes": "An employers' group's lobbyist is the owner of the member business the bill costs most (when they live in town, are not barred and their traits lean to serve), else the best-paid town resident working for it; the group does not hire one.",
+    "why": "Owners now decide to join and pay dues (Oct 14), but lobbyists aren't a hired job yet.",
     "addedBy": "OPUS-GOV",
     "addedAt": "2026-10-12",
-    "replacement": "The business owners decide to join, and the group hires a lobbyist (a person with a job, a record and memory of each member's votes).",
+    "replacement": "The group hires a lobbyist (a person with a job, a record and memory of each member's votes). Owner as lobbyist done Oct 19.",
     "status": "open"
   },
   {
@@ -1413,7 +1413,7 @@
     "kind": "missing-mechanic",
     "file": "src/core2/data/laws/reach-group-a.json",
     "line": 132,
-    "whatItFakes": "Public-sector collective bargaining records the right on public workers, their employers and the union, but no contract is bargained and no pay changes.",
+    "whatItFakes": "Public-sector collective bargaining raises public workers' pay by an estimated union premium phased in over the first contract years (src/core2/law-reach/group-a-bargaining.ts), but no contract is bargained: there is no bargaining table, unit or negotiation, and the premium is one average for every public job.",
     "why": "There is no bargaining engine: no union contract, no bargaining unit wage or table.",
     "addedBy": "OPUS-GOV (sub-agent A)",
     "addedAt": "2026-10-12",
@@ -1497,11 +1497,11 @@
     "kind": "missing-mechanic",
     "file": "src/core2/data/laws/reach-group-a.json",
     "line": 311,
-    "whatItFakes": "Rent renewal now reads stabilization for full leases and counted rent flows, but applies the catalog's estimated cap to every rented building and has no delivered renewal notice linking a tenant's stance to the saving.",
-    "why": "Building exemptions and enacted cap terms are not yet resolved; the director needs a received notice of an actual rent change, not eligibility assigned to every adult.",
+    "whatItFakes": "Rent renewal reads stabilization for full leases and counted rent flows, but applies the catalog's estimated cap to every rented building. A full tenant gets a renewal notice (the law, old rent, market rent, charged rent) and learns of the saving; a counted tenant gets no notice.",
+    "why": "Building exemptions and enacted cap terms are not yet resolved; a counted tenant is not a person who can be told.",
     "addedBy": "OPUS-GOV (sub-agent A)",
     "addedAt": "2026-10-12",
-    "replacement": "Resolve the statute's cap and building exemptions from records, then deliver the renewal notice with law, old rent, market rent and charged rent; prove the paid bill, tenant's informed stance and director line.",
+    "replacement": "Resolve the statute's cap and building exemptions from records; counted tenants are told in the same share when they are filled in as a full person.",
     "status": "open"
   },
   {
@@ -1585,11 +1585,11 @@
     "file": "src/core2/law-reach/group-b-money.ts",
     "line": 82,
     "whatItFakes": "For an island area the budgets module records no residents, group B shares a budget line's change to the town by the Census population in its own parameter table.",
-    "why": "data/research/money/public-budget-bases.json has no population2024 (and no budget) for Puerto Rico, Guam, the U.S. Virgin Islands, American Samoa or the Northern Mariana Islands.",
+    "why": "data/research/money/public-budget-bases.json has no population2024 (and no budget) for Puerto Rico, Guam, the U.S. Virgin Islands, American Samoa or the Northern Mariana Islands. Resolved Oct 19: public-budget-bases.json already carries each island area's population (islandAreaPopulation2020 and puertoRicoPopulation2025), and the budgets module now reads it into the state government's residents.",
     "addedBy": "OPUS-GOV (sub-agent B)",
     "addedAt": "2026-10-12",
     "replacement": "OPUS-GOV budgets: public-budget-bases.json carries each island area's population and finances (Census Island Areas, PR government finances); group B then reads GovernmentRow.residents only.",
-    "status": "open"
+    "status": "resolved"
   },
   {
     "id": "SG-GOV-REACH-B-public-school-staff",
@@ -2511,11 +2511,11 @@
     "file": "src/core2/modules/credit.ts",
     "line": 399,
     "whatItFakes": "A business with no recorded owner (a public employer, an ownerless landlord) applies for a line whenever its cash is below a few months of payroll; owned businesses' owners decide.",
-    "why": "Businesses have no recorded owners until businesses growing (M1-08).",
+    "why": "Businesses have no recorded owners until businesses growing (M1-08). Resolved Oct 19, 2026: a firm with no recorded owner is run by its best-paid full worker, who weighs the same reasons as an owner; with no full person, its counted people's summed pulls decide (modules/credit.ts).",
     "addedBy": "OPUS-WORLD",
     "addedAt": "2026-10-12",
     "replacement": "Those organizations' own deciders (a board, a public budget) choose whether to borrow.",
-    "status": "open"
+    "status": "resolved"
   },
   {
     "id": "SG-WORLD-credit-bank-equity-only",
@@ -2606,8 +2606,8 @@
     "kind": "faked-mechanic",
     "file": "src/core2/modules/housing.ts",
     "line": 419,
-    "whatItFakes": "The wider population's renters pay rent from their place's pooled residents account, with no household arrears or eviction cases of their own.",
-    "why": "The two-level population pools counted households' cash by place (OPUS-CORE's stopgap), so a single counted household cannot fall behind on its own.",
+    "whatItFakes": "The wider population's renters pay rent from their place's pooled residents account, and the arrears they run up are held per group (households of one kind in one place), not per household; a case is opened and a household removed from the group's pool, but which household in the group is behind is not recorded.",
+    "why": "The two-level population pools counted households' cash by place (OPUS-CORE's stopgap), so the group falls behind together; a single counted household's own shortfall is not kept.",
     "addedBy": "OPUS-WORLD",
     "addedAt": "2026-10-12",
     "replacement": "Per-household cash for counted households (or fill-in when a household falls behind), with arrears and eviction through the same legal steps.",
@@ -2622,7 +2622,9 @@
     "why": "The core rejects the agreement's next payment once the named job ends (\"Visitor qualification no longer resolves its actual product job\"), seen in year two of Absecon, New Jersey.",
     "addedBy": "OPUS-WORLD",
     "addedAt": "2026-10-12",
-    "replacement": "OPUS-CORE lets a visitor agreement re-resolve its qualification to any current qualified worker at the provider; then this filter goes."
+    "replacement": "OPUS-CORE lets a visitor agreement re-resolve its qualification to any current qualified worker at the provider; then this filter goes.",
+    "status": "resolved",
+    "resolvedBy": "Claude session on the pool item world-agreements-re-resolve-worker, October 19, 2026: deleted src/core2/pinned-jobs.ts and the jobs engine's filters on it. A saved agreement already follows its product jobs' real life in finance-cash.ts (productJobRelations: an ended job drops out and the supplier's current staff in the product occupations carry it; with none, the agreement ends), so a named job's holder may now be laid off, quit, retire or move."
   },
   {
     "id": "SG-WORLD-business-counted-owner-choice",
@@ -2664,11 +2666,11 @@
     "kind": "assumed-data",
     "file": "src/core2/modules/credit.ts",
     "line": 116,
-    "whatItFakes": "Where no county deposit row covers a place (American Samoa, the Virgin Islands, places without a county), the town bank's deposits are the territory's FDIC deposits per resident (Guam, Northern Marianas) or the nation's, times the town's people.",
+    "whatItFakes": "American Samoa has no bank branch in the FDIC Summary of Deposits, so its town bank's deposits are the nation's deposits per resident times the town's people. (Guam, the Northern Marianas, Puerto Rico and the Virgin Islands are in the county table with their own FDIC branch deposits, so they no longer use this.)",
     "why": "FDIC Summary of Deposits has no rows for American Samoa or the Virgin Islands in the data, and island villages carry no county code.",
     "addedBy": "OPUS-WORLD",
     "addedAt": "2026-10-12",
-    "replacement": "Each territory's bank branches and deposits from FDIC and territorial banking regulators."
+    "replacement": "American Samoa's bank deposits from its territorial banking regulator or the banks' own reports; checked Oct 19 (claude): the FDIC Summary of Deposits for June 30, 2026 lists 16 branches in Guam, 6 in the Northern Marianas, 260 in Puerto Rico and 20 in the Virgin Islands, all already in data/tables/town-deposits.json, and none in American Samoa."
   },
   {
     "id": "SG-WORLD-housing-island-areas",
@@ -2687,11 +2689,11 @@
     "file": "src/core2/modules/housing.ts",
     "line": 169,
     "whatItFakes": "Where the ACS withholds a county's median rent or home value (a county with very few households: Kalawao, Hawaii; Edwards, Kenedy, Loving and Culberson, Texas), the state's household-weighted county median stands in, then the nation's.",
-    "why": "world-property-tax-zero-home-values: a missing value read as zero left every owner in the county without a home, so no property tax was collected.",
+    "why": "Resolved Oct 19 (gov-standins-housing): a county the ACS withholds takes the household-weighted median of its neighboring counties (Census county adjacency, src/core2/data/housing/county-neighbors.json); the state and nation stand in only if no neighbor publishes. world-property-tax-zero-home-values: a missing value read as zero left every owner in the county without a home. world-property-tax-zero-home-values: a missing value read as zero left every owner in the county without a home, so no property tax was collected.",
     "addedBy": "CLAUDE-WORLD",
     "addedAt": "2026-10-16",
     "replacement": "The county's own median from the ACS 5-year table when it is published, or the median of its neighboring counties.",
-    "status": "open"
+    "status": "resolved"
   },
   {
     "id": "SG-WORLD-business-union-members",
@@ -2817,11 +2819,11 @@
     "file": "src/core2/modules/jobs.ts",
     "line": 1401,
     "whatItFakes": "A counted worker who retires draws their place's opening retirees' average income (Social Security and pensions from outside the town), not a benefit from their own earnings record and claim age.",
-    "why": "Counted people have no earnings records; Social Security claims and benefit formulas are OPUS-CORE's and OPUS-GOV's.",
+    "why": "Counted people have no earnings records; Social Security claims and benefit formulas are OPUS-CORE's and OPUS-GOV's. Resolved Oct 19, 2026: a counted worker who retires claims at once from their own record through claimRetirementNow (modules/retirement-claims.ts), sized as the opening sizes awards; that path stays under SG-CORE-retirement-claims-in-play until the Social Security program.",
     "addedBy": "OPUS-WORLD",
     "addedAt": "2026-10-12",
     "replacement": "The core's Social Security claim for counted retirees, with GOV's benefit rules in force.",
-    "status": "open"
+    "status": "resolved"
   },
   {
     "id": "SG-WEB-outcome-drift",
@@ -2881,7 +2883,8 @@
     "addedBy": "OPUS-PEOPLE",
     "addedAt": "2026-10-12",
     "replacement": "Agreements re-resolve their qualifying worker when a job ends (WORLD/CORE), and the jobs engine exports its pinned-job lookup; then these holders can move like anyone else.",
-    "status": "open"
+    "status": "resolved",
+    "resolvedBy": "Same change, October 19, 2026: the moves engine's copy of the lookup is deleted, so a holder of a job a saved agreement names moves like anyone else and the agreement re-resolves at its next payment (finance-cash.ts productJobRelations)."
   },
   {
     "id": "SG-FIXER-moves-income-household",
@@ -3027,8 +3030,8 @@
     "why": "Public payroll from treasuries is OPUS-CORE's (public employers pay as outside payers today).",
     "addedBy": "OPUS-GOV",
     "addedAt": "2026-10-13",
-    "replacement": "The appointee's post becomes a public job paid from the government's treasury through CORE's public payroll.",
-    "status": "open"
+    "replacement": "Resolved Oct 19: the state cabinet the governor picks are full people on the state payroll (job:public:state:<post>:<person>), the one replaced leaves it; a town head or an agency head is paid the same way. A world with no treasury open has no payroll, which is not a played world (pool item gov-stopgap-executive-missing-engine).",
+    "status": "resolved"
   },
   {
     "id": "SG-GOV-executive-powers-research",
@@ -3108,10 +3111,22 @@
     "file": "src/core2/births-counted.ts",
     "line": 1,
     "whatItFakes": "Households that move into the counted population are generated in the shape of a household already recorded in the place (ages, sexes, who is family), with new names and temperaments from the world's seed, and arrive with no job, contracts, cash or past on record. Counted babies and newcomers' children get temperaments without their parents' inheritance links.",
-    "why": "The counts need arrivals at the ACS rate now; the jobs, purchase and housing engines do not yet take newcomers into their books.",
+    "why": "The counts need arrivals at the ACS rate now; the jobs, purchase and housing engines do not yet take newcomers into their books. Resolved Oct 17 (claude): the births engine's own arrival path is deleted; households move in through the counted-moves engine (src/core2/modules/counted-moves.ts), which is installed with every counted world, and the newborns' temperament part is registered as SG-PW8-counted-newborn-temperament.",
     "addedBy": "PW-8 (Opus builder)",
     "addedAt": "2026-10-13",
     "replacement": "Newcomers are generated by the population builder for the place (OPUS-CORE), join the job seekers (OPUS-WORLD jobs) and take a home and purchase contracts (housing, residents flows).",
+    "status": "resolved"
+  },
+  {
+    "id": "SG-PW8-counted-newborn-temperament",
+    "kind": "generated-record",
+    "file": "src/core2/births-counted.ts",
+    "line": 1,
+    "whatItFakes": "A counted baby gets a temperament drawn from the world's seed for its age and place, without its parents' temperaments passed on.",
+    "why": "Counted parents carry no inheritance links in the counts, so the family model that passes traits to a full person's child has nothing to read.",
+    "addedBy": "claude (split from SG-PW8-counted-arrivals)",
+    "addedAt": "2026-10-17",
+    "replacement": "A counted baby inherits from its counted parents' packed traits through the same family model a full person's child uses.",
     "status": "open"
   },
   {
@@ -3136,18 +3151,18 @@
     "addedBy": "OPUS-CORE",
     "addedAt": "2026-10-12",
     "replacement": "Census 2020 Island Areas place identities (the research request territory-place-identities), read into the same listing. Oct 14 (OPUS-CORE): the candidate list is built (src/core2/data/places/territory-places-census.json, 158 inhabited villages with Census GEOIDs and 2020 populations, every current key kept, by tooling/build-territory-places.ts); the swap waits until PEOPLE's population builder reads places through the core lookup.",
-    "status": "open"
+    "status": "resolved"
   },
   {
     "id": "SG-CORE-private-tuition-average",
     "kind": "aggregate-spending",
     "file": "src/core2/opening-private-tuition.ts",
     "line": 1,
-    "whatItFakes": "Each household with school-age children pays its children's share of the town's private tuition (the national private share times the average tuition) to the town's private school; no family chooses a school, and no child is enrolled.",
+    "whatItFakes": "The town's families with school-age children are ranked by cash per child and the best-off enroll all their children in the private school until the town's private share of school-age children (NCES) is reached, each paying the average private tuition. The family's beliefs, the schools nearby and the child's own needs do not yet enter, and enrollment is fixed at the opening.",
     "why": "Private schools had no customers at all, so they closed in every town.",
     "addedBy": "OPUS-CORE",
     "addedAt": "2026-10-12",
-    "replacement": "PEOPLE's schools engine: each child's enrollment, chosen from the family's income, beliefs and the schools near them, with tuition paid by the families who enroll.",
+    "replacement": "PEOPLE's schools engine: each child's enrollment chosen from the family's income, beliefs and the schools nearby, moving as they change. Means-ranked enrollment replaced the even spread of the town's average on Oct 19.",
     "status": "open"
   },
   {
@@ -3397,7 +3412,7 @@
     "kind": "missing-engine",
     "file": "src/core2/modules/laws.ts",
     "line": 471,
-    "whatItFakes": "The public pay floor's employer-to-level map is a first cut (public schools count as town employers), and a later public hire is held to the floor at the next monthly review rather than on the day it is hired. Councils, legislatures and Congress can now draft it from the bill catalog (OPUS-GOV, Oct 14).",
+    "whatItFakes": "The public pay floor's employer-to-level map is a first cut (public schools count as town employers), (a public hire is now held to the floor on the day it is hired, by the jobs engine). Councils, legislatures and Congress can now draft it from the bill catalog (OPUS-GOV, Oct 14).",
     "why": "The CTO ruled (October 14, 2026) that a public-salary base is a standing law at each level and asked dev mode's PR to add the data row and the smallest read hook, for the GOV wiring session to own after merge.",
     "addedBy": "OPUS-PLAY",
     "addedAt": "2026-10-14",
@@ -3847,7 +3862,7 @@
     "kind": "estimated-parameter",
     "file": "src/core2/modules/interest-groups.ts",
     "line": 1,
-    "whatItFakes": "What a policy costs each employer it binds is an estimated share of the employer's payroll (boundEmployerCostShare), not the law's own cost, because most law-reach policies record who is bound and move no money.",
+    "whatItFakes": "What a policy costs each employer it binds is an estimated share of the employer's payroll (boundEmployerCostShare), except laws that price energy (clean electricity standard, carbon price), which cost each employer its own energy costs by the price engine's arithmetic. Other law-reach policies that bind employers record who is bound and move no money.",
     "why": "The CTO's item (Oct 14): employers organize from who loses money on any bill (the owner's Sept 26 ruling). Law-reach measures a money effect per employer only for the wage floor.",
     "addedBy": "OPUS-GOV",
     "addedAt": "2026-10-14",
@@ -3939,7 +3954,8 @@
     "replacement": "The owner's ruling on what a town's districts are; wards as districts if he wants them.",
     "addedBy": "OPUS-CORE (one model, two tiers)",
     "addedAt": "2026-10-14",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "Answered by the owner's Oct 15 ruling and built in gov-council-election-method: each place's council is elected the way its own records say (councilElectionMethod in src/core2/gov-rules/council-election-method.ts: ward seats from a compiled charter, else estimated at large from the ICMA 2018 national shares, basis and citation kept on the office), and offices-local.ts seats the ward seats by part of town. The residents engine's split of a town into state House districts is a different thing (placement of counted voters for state legislative contests, SG-CORE-district-placement) and is not a council shape."
   },
   {
     "id": "SG-CORE-owner-decision-fill-in-outside-kin",
@@ -4046,11 +4062,11 @@
     "file": "src/core2/modules/office-day.ts",
     "line": 505,
     "whatItFakes": "Ordinances other members file at a regular meeting are voted at the start of the meeting's day, before the player's stop at the meeting's hour, so the player's character votes them on its own even when the player is at the meeting.",
-    "why": "The world-legislating engine files and votes in one calendar step at midnight; holding the vote until the player's scene needs a change in OPUS-GOV's engine.",
+    "why": "The world-legislating engine files and votes in one calendar step at midnight; holding the vote until the player's scene needs a change in OPUS-GOV's engine. Resolved Oct 20, 2026: world-legislating files a local meeting's ordinances the day before when the player sits on the body and holds the clock (registerMeetingHold), office-day puts them on the meeting's agenda, and the player takes them up or the meeting closes (office-day-member-filings.test.ts).",
     "addedBy": "OFFICE-LOCAL",
     "addedAt": "2026-10-14",
     "replacement": "world-legislating splits a local meeting into filing (the agenda) and the vote, with a hook that lets office-day hold the vote until the player's meeting scene takes it up.",
-    "status": "open"
+    "status": "resolved"
   },
   {
     "id": "SG-OFFICE-desk-rule-copy",
@@ -4505,9 +4521,9 @@
     "id": "SG-GOV-municipal-body-name",
     "kind": "missing-record",
     "file": "src/core2/offices-local.ts",
-    "line": 91,
-    "whatItFakes": "An unread municipal collective is named Council on its office record; charter-specific names are absent from the compiled municipal reader. County and township bodies use their recorded collective name.",
-    "why": "The compiled municipal records retained member classes and sizes but omitted collective names.",
+    "line": 130,
+    "whatItFakes": "A municipal collective in a town whose government the game has not compiled is named after the town and \"Council\"; a compiled town's body takes the name its charter gives it.",
+    "why": "Only the 144 compiled municipal governments carry a charter reading; every other town's charter is unread. Narrowed Oct 19: the compiled readers now carry the body name.",
     "addedBy": "SESSION-C",
     "addedAt": "2026-10-15",
     "replacement": "Carry each charter’s collective body name into the municipal reading and replace the default.",
@@ -4523,18 +4539,6 @@
     "addedBy": "SESSION-C",
     "addedAt": "2026-10-15",
     "replacement": "Source each place’s prohibitions and exceptions, replacing the estimated pairs in the same reader.",
-    "status": "open"
-  },
-  {
-    "id": "SG-PEOPLE-press-employer-enrollment",
-    "kind": "missing-mechanic",
-    "file": "src/core2/modules/press.ts",
-    "line": 567,
-    "whatItFakes": "Press enrolls its already recorded owner directly in the business owner table because the shared business module has no public enrollment function for an existing owner.",
-    "why": "The overnight order requires the smallest registered stand-in while the business interface is under active work; using the normal opening heuristic would incorrectly make a reporter the owner.",
-    "addedBy": "Session D",
-    "addedAt": "2026-10-15",
-    "replacement": "A shared business enrollment API accepting the existing owner and sourced books, used by press without direct table writes.",
     "status": "open"
   },
   {
@@ -4752,7 +4756,8 @@
     "addedBy": "SESSION-C",
     "addedAt": "2026-10-15",
     "replacement": "Owner confirmation or revision of the press-employment conflict rule; apply the chosen rule to all candidate filing paths.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "Done Oct 19 (gov-press-ban-withdrawn): the owner withdrew the ban on Oct 16 (\"a reporter who wants to run may run\"; OWNER-DECISIONS). The press-employment check is gone from checkEligibility, the candidacy chooser and the candidate pool, so press staff file and run like anyone; only the automatic vacancy stand-in still passes over press jobs, because the defect was a reporter seated without an election."
   },
   {
     "id": "SG-LAWS-state-party-loyalty-target",
@@ -4836,6 +4841,30 @@
     "addedBy": "claude/office-committee-meeting",
     "addedAt": "2026-10-17",
     "replacement": "The owner's ruling on which pre-vote hooks run on the committee day (docs/coordination/OWNER-DECISIONS.md).",
+    "status": "open"
+  },
+  {
+    "id": "SG-GOV-clemency-boards",
+    "kind": "missing-engine",
+    "file": "src/core2/office-day-state.ts",
+    "line": 0,
+    "whatItFakes": "In a state where a board, council or senate holds or must concur in clemency (board alone, board with the governor, governor with a board's recommendation, a council's or the senate's consent), the governor's day has no clemency act: the board's own decisions are not simulated, so no prisoner is released there by clemency.",
+    "why": "The governor decides alone only where the state's law says so (governor alone, or a board that only advises); the other authorities need a board or council engine that does not exist yet.",
+    "addedBy": "claude/governor-clemency",
+    "addedAt": "2026-10-17",
+    "replacement": "A clemency board engine (members, petitions, recommendations) and the council or senate consent, read by the governor's act where the law requires it.",
+    "status": "open"
+  },
+  {
+    "id": "SG-WORLD-department-government",
+    "kind": "estimated-behavior",
+    "file": "src/core2/opening-department-pay.ts",
+    "line": 90,
+    "whatItFakes": "A town's police, fire, public works and public health departments and its local government offices are paid by the town's own government (its city or village, else its township), a state office in town by its state and a post office by the nation. The opening's data does not say which unit employs a given department, so the link is assumed.",
+    "why": "The departments held no cash and no pay link, so their workers were never paid. The Census of Governments lists functions by government but not which unit staffs a town's own departments.",
+    "addedBy": "claude/public-staff-never-paid",
+    "addedAt": "2026-10-17",
+    "replacement": "Each department's employing government read from the Census of Governments employment file by function, so a county health department, a fire district or a state agency's field office pays its own staff.",
     "status": "open"
   }
 ]

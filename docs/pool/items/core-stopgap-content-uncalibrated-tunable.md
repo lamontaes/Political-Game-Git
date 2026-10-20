@@ -4,10 +4,10 @@ title: "Stopgaps in content (uncalibrated-tunable): 1 open"
 area: core
 kind: stopgap
 priority: 3
-status: claimed
+status: blocked
 claimed-by: claude/content-civic
 pr:
-blocked-on:
+blocked-on: research-content-sourced-parameters
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/data/content.json, kind uncalibrated-tunable"
 claimed-at: 2026-10-19T23:36:18.581Z
