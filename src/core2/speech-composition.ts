@@ -528,3 +528,17 @@ export function composedSpeechesOf(
     .table("compositions")
     .query("byFiling", [filingId]) as unknown as ComposedSpeechRow[];
 }
+
+/**
+ * How many finished speeches a person has composed: their speaking
+ * experience, read from the kept compositions (never a count that is told).
+ */
+export function speechesGivenBy(api: CoreAPI, candidateId: string): number {
+  if (!api.state.modules.has(SPEECH_COMPOSITION_MODULE_ID)) return 0;
+  return (
+    api
+      .moduleState(SPEECH_COMPOSITION_MODULE_ID)
+      .table("compositions")
+      .rows() as unknown as ComposedSpeechRow[]
+  ).filter((row) => row.candidateId === candidateId).length;
+}

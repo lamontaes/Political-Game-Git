@@ -361,6 +361,61 @@
       "origin": "authored",
       "author": "Claude Code, pool session",
       "date": "2026-10-20"
+    },
+    {
+      "key": "speech-parts.stance-enact-device.1",
+      "move": "stance-enact-device",
+      "kind": "spoken",
+      "text": "We will {goal}, we will do it fairly, and we will do it now.",
+      "device": "three-part-list",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Code, pool session",
+      "date": "2026-10-20"
+    },
+    {
+      "key": "speech-parts.stance-enact-device.2",
+      "move": "stance-enact-device",
+      "kind": "spoken",
+      "text": "Some say it cannot be done. I say we can {goal}.",
+      "device": "contrast",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Code, pool session",
+      "date": "2026-10-20"
+    },
+    {
+      "key": "speech-parts.town-future-device.1",
+      "move": "town-future-device",
+      "kind": "spoken",
+      "text": "Some people see a town in decline. I see a future in {place}.",
+      "device": "contrast",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Code, pool session",
+      "date": "2026-10-20"
+    },
+    {
+      "key": "speech-parts.town-future-device.2",
+      "move": "town-future-device",
+      "kind": "spoken",
+      "text": "A town that works, that cares, that lasts: that is {place}.",
+      "device": "three-part-list",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Code, pool session",
+      "date": "2026-10-20"
+    },
+    {
+      "key": "speech-parts.pledge-device.1",
+      "move": "pledge-device",
+      "kind": "spoken",
+      "text": "I promise you work, fairness and a straight answer.",
+      "device": "three-part-list",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Code, pool session",
+      "date": "2026-10-20"
     }
   ]
 }

@@ -18,6 +18,7 @@
 import addressJson from "../../data/english/parts/address.json" with { type: "json" };
 import authoredJson from "../../data/english/parts/speech-parts.json" with { type: "json" };
 import { heldByGrades } from "./english-grades";
+import type { SpeechDevice } from "./speech-registers";
 import {
   composeGroundedLine,
   type ComposedLineBank,
@@ -29,7 +30,12 @@ import type {
   GroundedEnglishPacket,
 } from "./grounded-english";
 import { questionAbout, questionTo } from "./question-names";
-import type { SpeechDraft, SpeechPartOffer } from "../core2/speech-composition";
+import {
+  speechesGivenBy,
+  type SpeechDraft,
+  type SpeechPartOffer,
+} from "../core2/speech-composition";
+import { campaignParameter } from "../core2/campaign-views";
 import { candidateStance } from "../core2/campaign-stances";
 import { corePlaceByJurisdictionId } from "../core2/place-lookup";
 import {
@@ -56,6 +62,7 @@ interface BankPart {
 interface AuthoredPart {
   key: string;
   move: string;
+  device?: SpeechDevice;
   text: string;
   shippable: boolean;
 }
@@ -68,6 +75,8 @@ interface MoveSource {
   readonly act: SpeechAct;
   readonly mined?: { readonly role: string; readonly only?: RegExp };
   readonly authored?: string;
+  /** The authored role whose lines make a crafted device, offered by the speaker's craft. */
+  readonly devices?: string;
 }
 
 /** `{pronoun_obj}` becomes the renderer's `{{pronoun-obj}}`. */
@@ -77,7 +86,7 @@ const engineText = (text: string): string =>
     (_all, slot: string) => `{{${slot.replace(/_/g, "-")}}}`,
   );
 
-function variantsOf(source: MoveSource): LinePartVariant[] {
+function variantsOf(source: MoveSource, craft: number): LinePartVariant[] {
   const variants: LinePartVariant[] = [];
   if (source.mined) {
     const { role, only } = source.mined;
@@ -102,6 +111,7 @@ function variantsOf(source: MoveSource): LinePartVariant[] {
       if (
         part.shippable &&
         part.move === source.authored &&
+        !part.device &&
         !heldByGrades(part.key)
       )
         variants.push({
@@ -109,8 +119,38 @@ function variantsOf(source: MoveSource): LinePartVariant[] {
           kind: "template",
           text: engineText(part.text),
         });
-  return variants;
+  // Crafted lines are offered by what the speaker has earned: a speaker with
+  // no finished speeches has none, and each line's share of the choice grows
+  // with their craft until it equals a plain line's. Weights are whole
+  // numbers, so plain lines weigh DEVICE_SCALE each.
+  const devices: LinePartVariant[] = [];
+  if (source.devices && craft > 0)
+    for (const part of AUTHORED)
+      if (
+        part.shippable &&
+        part.move === source.devices &&
+        part.device &&
+        !heldByGrades(part.key)
+      ) {
+        const weight = Math.round(craft * DEVICE_SCALE);
+        if (weight >= 1)
+          devices.push({
+            key: part.key,
+            kind: "template",
+            text: engineText(part.text),
+            device: part.device,
+            weight,
+          });
+      }
+  if (!devices.length) return variants;
+  return [
+    ...variants.map((variant) => ({ ...variant, weight: DEVICE_SCALE })),
+    ...devices,
+  ];
 }
+
+/** The weight of one plain line; a crafted line weighs this times the speaker's craft. */
+const DEVICE_SCALE = 100;
 
 /** The mined campaign move (and authored role) each kind of part is worded from. */
 function sourceOf(
@@ -138,6 +178,7 @@ function sourceOf(
         // A challenger's lines ("We can do better.") are admitted where the
         // records make the speaker one; the bank asks for the fact itself.
         mined: { role: "issue", only: /\{goal\}|better/ },
+        devices: "stance-enact-device",
       };
     case "stance.repeal":
       return { act: "persuade", authored: "stance-repeal" };
@@ -174,6 +215,7 @@ function sourceOf(
       return {
         act: "promise",
         authored: sign === "enact" ? "pledge-enact" : "pledge-repeal",
+        devices: "pledge-device",
       };
     case "close.ask-for-vote":
       return { act: "request", mined: { role: "ask", only: /vote/ } };
@@ -199,7 +241,13 @@ function sourceOf(
     case "town.work":
     case "town.future":
     case "town.history":
-      return { act: "tell", authored: `town-${offer.variant}` };
+      return {
+        act: "tell",
+        authored: `town-${offer.variant}`,
+        ...(offer.variant === "future"
+          ? { devices: "town-future-device" }
+          : {}),
+      };
     default:
       return null;
   }
@@ -295,6 +343,7 @@ function factsFor(
   rivalVote: "for" | "against" | null;
   rivalPosition: number | null;
   tally: VoteTally | null;
+  speakerId: string | null;
 } {
   const factIds = [...offer.factIds] as EntityId[];
   const facts: Record<string, GroundedEnglishFact> = {};
@@ -365,7 +414,7 @@ function factsFor(
       facts.no = { text: String(tally.no), sourceRecordIds: cited };
     }
   }
-  return { facts, rivalVote, rivalPosition, tally };
+  return { facts, rivalVote, rivalPosition, tally, speakerId };
 }
 
 /** How a chamber voted on a bill, counted from its vote rows. */
@@ -408,7 +457,10 @@ export function wordSpeechPart(
   api: CoreAPI,
   offer: SpeechPartOffer,
 ): SpeechPartWordsResult {
-  const { facts, rivalVote, rivalPosition, tally } = factsFor(api, offer);
+  const { facts, rivalVote, rivalPosition, tally, speakerId } = factsFor(
+    api,
+    offer,
+  );
   const source = sourceOf(offer, rivalVote, rivalPosition, tally);
   if (!source)
     return {
@@ -416,7 +468,16 @@ export function wordSpeechPart(
       offerId: offer.id,
       reasons: [`No words for ${offer.moveKey}.`],
     };
-  const variants = variantsOf(source);
+  // Craft is the share of a full speaker's experience: finished speeches
+  // composed, over the number that makes a crafted line as likely as a plain one.
+  const craft = speakerId
+    ? Math.min(
+        1,
+        speechesGivenBy(api, speakerId) /
+          campaignParameter("speechCraftSpeechesForFull"),
+      )
+    : 0;
+  const variants = variantsOf(source, craft);
   if (variants.length === 0)
     return {
       kind: "missing",
