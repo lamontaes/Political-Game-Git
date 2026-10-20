@@ -473,7 +473,7 @@
       "source": "Farmer 2019 (Traffic Injury Prevention; IIHS); Ashenfelter and Greenstone 2004 (JPE); FHWA Highway Statistics 2022, Table FI-220",
       "from": "roads.rural-interstate-speed-limit",
       "evidence": "researched",
-      "notes": "Acts: each place's highest rural-interstate speed limit (IIHS, October 2026) and its traffic deaths per 100 million miles (NHTSA FARS via IIHS, 2024) are recorded and drift from those starting values, and the death rate moves 0.76% for each mile per hour of change in the limit.",
+      "notes": "Acts: each place's highest rural-interstate speed limit (IIHS, October 2026) and its traffic deaths per 100 million miles (NHTSA FARS via IIHS, 2024) are recorded and drift from those starting values, and the death rate moves 0.76% for each mile per hour of change in the limit. Reaches people through the share of deaths at each age that crashes stand for (IIHS 2022 crash deaths per 100,000 by age over the life table's death rate); the studies report no income moderator.",
       "range": [0.0056, 0.017]
     },
     {
@@ -494,7 +494,8 @@
       "source": "Chay and Greenstone 2003 (NBER w10053, Air Quality, Infant Mortality, and the Clean Air Act of 1970); Chay and Greenstone 2003 (QJE)",
       "from": "env.particulates:pct-of-start",
       "evidence": "researched",
-      "range": [0.0035, 0.0065]
+      "range": [0.0035, 0.0065],
+      "notes": "No moderator by income: Currie and Neidell 2005 (NBER w10251) find \"the same exposure to pollution will have the same effect on mortality risk regardless of race or maternal education\"; Chay and Greenstone find black infant mortality more sensitive but with sampling errors \"too large for a reliable conclusion\". Left unvaried."
     },
     {
       "key": "congestion-to-premature-births",
@@ -2584,7 +2585,7 @@
       "shape": {
         "kind": "linear"
       },
-      "size": -0.094,
+      "size": -0.0188,
       "per": "law in force",
       "lagMonths": 12,
       "group": "low-income adults 55 to 64",
@@ -2608,7 +2609,44 @@
         "evidenceLimit": "Inherited repository source/anchor read; primary study verification and any new conversion remain Team9 research work."
       },
       "aboutZero": false,
-      "notes": "Not hooked by design: crisis/health-coverage.ts already applies this row's 9.4% to the death hazard of each covered low-income person aged 55 to 64, so a place death rate that also applied it would count the law twice, and would wrongly cut every 55- to 64-year-old's deaths by a low-income group's share. A state base now exists (CDC 2022 deaths at 55 to 64, data.cdc.gov 9bhg-hcku, over ACS B01001 population); a producer of health.mortality-55-64 should count the recorded deaths instead."
+      "notes": "Not hooked by design: crisis/health-coverage.ts already applies this row's 9.4% to the death hazard of each covered low-income person aged 55 to 64, so a place death rate that also applied it would count the law twice, and would wrongly cut every 55- to 64-year-old's deaths by a low-income group's share. A state base now exists (CDC 2022 deaths at 55 to 64, data.cdc.gov 9bhg-hcku, over ACS B01001 population); a producer of health.mortality-55-64 should count the recorded deaths instead. The size is now the place-wide average: 9.4% (7.0% in year 0 to 11.9% in year 3, range 7.0 to 11.9) among the low-income sample times its one-fifth share; the lowest income fifth takes the full cut. The effect is already 7.0% in year 0, so a ramp from zero would misstate it and no phase-in is set.",
+      "range": [-0.0238, -0.014],
+      "varies": [
+        {
+          "by": "incomeFifth",
+          "bands": [
+            {
+              "is": 0,
+              "weight": 1,
+              "share": 0.2
+            },
+            {
+              "is": 1,
+              "weight": 0,
+              "share": 0.2
+            },
+            {
+              "is": 2,
+              "weight": 0,
+              "share": 0.2
+            },
+            {
+              "is": 3,
+              "weight": 0,
+              "share": 0.2
+            },
+            {
+              "is": 4,
+              "weight": 0,
+              "share": 0.2
+            }
+          ],
+          "tag": "ESTIMATED",
+          "source": "Miller, Johnson and Wherry 2021, Medicaid and Mortality, QJE 136(3) (NBER w26081), Introduction, Section II and Section V (income-group checks)",
+          "quote": "\"We include only individuals who either are in families with income at or under 138 percent of the FPL or who have less than a high school degree.\" \"Using this model, we estimate an average reduction in annual mortality of 0.132 percentage points. This represents a reduction in mortality of about 9.4 percent relative to the sample mean\". For ages 55 to 64 in families at 400% of the poverty level or more: \"small but, for some years, statistically significant reductions in mortality\".",
+          "estimatedFrom": "The 9.4% is the cut among the low-income sample, so the whole 55-to-64 population's cut is smaller. The lowest national income fifth (households under about 138% of the poverty level) stands for the sample and takes the full effect; the higher fifths take none (the paper finds only small changes at 400% of the poverty level and above). The link's size is the sample's 9.4% times the sample's one-fifth share, so the average over all 55- to 64-year-olds is a fifth of it and the lowest fifth gets the full 9.4%."
+        }
+      ]
     },
     {
       "key": "medicaid-expansion-to-medical-debt",
@@ -3202,7 +3240,68 @@
       },
       "from": "labor.unemployment-pct",
       "evidence": "researched",
-      "range": [0.03, 0.08]
+      "range": [0.03, 0.08],
+      "varies": [
+        {
+          "by": "sex",
+          "bands": [
+            {
+              "is": "male",
+              "weight": 1.67,
+              "share": 0.5
+            },
+            {
+              "is": "female",
+              "weight": 0.5,
+              "share": 0.5
+            }
+          ],
+          "tag": "ESTIMATED",
+          "source": "Cawley, Moriya and Simon 2015, The Impact of the Macroeconomy on Health Insurance Coverage: Evidence from the Great Recession, Health Economics 24(2) (NBER w17600), Table 2 and the fixed-effects note",
+          "quote": "\"a one-point rise in the state unemployment rate is associated with a 1.67 percentage point drop in the probability that men have coverage\" (men -1.67); \"For women, the comparable numbers are -0.50 and -0.45 (neither is statistically significant).\"",
+          "estimatedFrom": "Men's drop of 1.67 points against women's 0.50 (not significant), equal numbers of each sex."
+        },
+        {
+          "by": "age",
+          "bands": [
+            {
+              "min": 0,
+              "max": 18,
+              "weight": 0,
+              "share": 0.215
+            },
+            {
+              "min": 18,
+              "max": 35,
+              "weight": 1.34,
+              "share": 0.2188
+            },
+            {
+              "min": 35,
+              "max": 50,
+              "weight": 1.56,
+              "share": 0.1931
+            },
+            {
+              "min": 50,
+              "max": 65,
+              "weight": 2.5,
+              "share": 0.1931
+            },
+            {
+              "min": 65,
+              "max": 200,
+              "weight": 0,
+              "share": 0.18
+            }
+          ],
+          "tag": "ESTIMATED",
+          "source": "Cawley, Moriya and Simon 2015 (NBER w17600), Extension: Subgroup Analyses by Age, Table 7 and Table 2 (children); shares from the Census Bureau's 2024 estimates (children 21.5%, 65 and older 18.0%)",
+          "quote": "\"a decrease in the probability of coverage of 1.34 percentage points (1.93%) for men aged 18-34, 1.56 percentage points (1.93%) for men aged 35-49, and 2.50 percentage points (2.87%) for men aged 50-64.\" Children: \"the probability that a child has health insurance coverage through any source is not significantly correlated with the unemployment rate.\"",
+          "estimatedFrom": "Men's age coefficients, applied to both sexes (\"The magnitudes of the marginal effects for women also rise monotonically with age\"); children no change; 65 and older assumed unchanged (Medicare; the study samples ages 18 to 64). The remaining 60.5% of people, 18 to 64, split by years of age (17, 15 and 15 years)."
+        }
+      ],
+      "notes": "The study finds no difference by education or income worth a weight: for men, \"Each is significantly different from zero, but they are not significantly different from each other.\""
     },
     {
       "key": "federal-minimum-wage-to-poverty",

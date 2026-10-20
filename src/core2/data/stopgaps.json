@@ -1260,8 +1260,8 @@
     "why": "Public payroll from government treasuries isn't wired in core2 yet (requested from OPUS-CORE).",
     "addedBy": "OPUS-GOV",
     "addedAt": "2026-10-12",
-    "replacement": "A work commitment at the post's pay, paid from the government's treasury through the journal, ending any job the staffer leaves for it.",
-    "status": "open"
+    "replacement": "Resolved Oct 20: a staffer whose office employer sits where no job exists to follow (a territory's state or federal office) takes the town's schedule and payday (scheduleFromPlaceId), so every aide hired where budgets are open is on a treasury payroll. Shown in staff-paid-every-place.test.ts (pool item gov-stopgap-staff-missing-engine).",
+    "status": "resolved"
   },
   {
     "id": "SG-GOV-world-race-lean",
@@ -4926,6 +4926,102 @@
     "addedBy": "EFFECT-WEB-WIRING",
     "addedAt": "2026-10-20",
     "replacement": "A conditions term in the plan score that reads webReach for the woman's own age and tenure, leaving out the links her own records already carry (unemployment), with a weight calibrated in a played year so full births move by the researched size, as counted births do.",
+    "status": "open"
+  },
+  {
+    "id": "SG-TRAITS-counted-health-no-trait",
+    "kind": "partial-model",
+    "file": "src/core2/modules/health.ts",
+    "line": 1,
+    "whatItFakes": "Conscientiousness shifts who falls seriously ill and who holds behavior-driven conditions for full people only; a counted group draws its illnesses and deaths from the life-table share without its members' traits.",
+    "why": "The counted flows (renewal) pick who is ill by the group's share, and a group has no per-member hazard to scale; the factor is rescaled to the opening mean so totals still match the life tables, but the group's own trait mix does not move its rate.",
+    "addedBy": "traits-health",
+    "addedAt": "2026-10-20",
+    "replacement": "Counted illness reads the group's mean of the same factor (exp of the slope times each member's level, from the packed trait columns) when a month's owed illnesses are booked; a person filled in from a group already carries their own.",
+    "status": "open"
+  },
+  {
+    "id": "SG-TRAITS-counted-no-maturity",
+    "kind": "partial-model",
+    "file": "src/core2/modules/trait-change.ts",
+    "line": 1,
+    "whatItFakes": "Counted people's trait columns do not move with age or life events while they are counted; they are brought to their age norm in one step when filled in.",
+    "why": "Their traits are read in place from one packed column per group, shared by the lean cache; changing them each birthday would need a per-member cache drop for every counted person.",
+    "addedBy": "traits-health",
+    "addedAt": "2026-10-20",
+    "replacement": "Groups apply the same yearly shift to their columns by age band once the counted store can drop a member's cached lean.",
+    "status": "open"
+  },
+  {
+    "id": "SG-LAW-outcome-link-unresearched",
+    "kind": "missing-data",
+    "file": "src/core2/data/laws/outcome-research-gaps.json",
+    "line": 7,
+    "whatItFakes": "27 laws (listed in outcome-research-gaps.json, each with the outcome its research would measure) move no outcome-web measure: no researched link starts from the law or from a measure an engine sets from it, so the web holds those outcomes at their base whatever the law does.",
+    "why": "data/research/outcome-web/links.json has no link from these laws or their measures; the laws' reach, engine reads and money are wired, but an outcome link needs a researched strength, shape and lag before the web can move anything.",
+    "addedBy": "claude/law-wiring-audit",
+    "addedAt": "2026-10-20",
+    "replacement": "A researched link per law in links.json (strength, shape, lag, source), built by the outcome-web line, after which each row leaves outcome-research-gaps.json.",
+    "status": "open"
+  },
+  {
+    "id": "SG-EW-HEALTH-coverage-record",
+    "kind": "missing-record",
+    "file": "src/core2/health-web.ts",
+    "line": 1,
+    "whatItFakes": "The web's uninsured-share links (unemployment, Medicaid expansion, the work requirement, marriage equality) and the Medicaid medical-debt link move the web's own health.uninsured-pct number; no person's or counted household's coverage decision reads the factor.",
+    "why": "The coverage record (modules/coverage.ts, counted households included) is on branch claude/coverage-counted (PR 5475) and not on main; the coverage code belongs to another session.",
+    "addedBy": "effect-web-health",
+    "addedAt": "2026-10-20",
+    "replacement": "Once the coverage record is on main, the coverage decision reads webFactorFor(\"health.uninsured-pct\", subject) with the moderators already in links.json (unemployment by sex and age), and medical debt reads the coverage record.",
+    "status": "open"
+  },
+  {
+    "id": "SG-EW-HEALTH-death-cause",
+    "kind": "missing-record",
+    "file": "src/core2/health-web.ts",
+    "line": 1,
+    "whatItFakes": "Deaths carry no cause. The traffic link moves the share of deaths a crash stands for at each age (IIHS rate over the life table's death rate), not a crash-death record. The overdose links (harm reduction, cannabis sales) and the youth firearm links (child access law, minimum handgun age) move only the web's number; no death reads them.",
+    "why": "Overdose and firearm death rates by single age are not in the repo, and a death has no cause field (death-causes.ts holds three plain groups).",
+    "addedBy": "effect-web-health",
+    "addedAt": "2026-10-20",
+    "replacement": "A cause-of-death record on every death, with cause-specific hazards by age (crash, overdose, firearm) from CDC WONDER, read by the people engines; the web's factor then multiplies each cause's hazard.",
+    "status": "open"
+  },
+  {
+    "id": "SG-EW-HEALTH-condition-record",
+    "kind": "missing-record",
+    "file": "src/core2/health-web.ts",
+    "line": 1,
+    "whatItFakes": "Child asthma, teen cannabis use and Medicare out-of-pocket drug cost (gas hookup ban, cannabis sales, drug price negotiation) move only the web's number.",
+    "why": "No condition, use or prescription record exists for a child's asthma, a teen's cannabis use or an enrollee's drug spending; condition-pack.ts holds adult chronic conditions only.",
+    "addedBy": "effect-web-health",
+    "addedAt": "2026-10-20",
+    "replacement": "A childhood asthma condition, a teen substance-use record and Part D spending on the household's books, each decided from the engine's own records times the web's factor.",
+    "status": "open"
+  },
+  {
+    "id": "SG-EW-HEALTH-unsized-links",
+    "kind": "missing-data",
+    "file": "src/core2/health-web.ts",
+    "line": 1,
+    "whatItFakes": "Congestion to premature births, heat to deaths, education to mortality and eviction to hospital visits have no researched size, so nothing moves.",
+    "why": "The links are unsized in links.json and no producer exists for premature births, heat deaths or hospital visits.",
+    "addedBy": "effect-web-health",
+    "addedAt": "2026-10-20",
+    "replacement": "Sized links from fetched research, then the death and birth engines read them like the wired ones.",
+    "status": "open"
+  },
+  {
+    "id": "SG-EW-HEALTH-person-level",
+    "kind": "missing-record",
+    "file": "src/core2/health-web.ts",
+    "line": 1,
+    "whatItFakes": "Coverage to catastrophic bills, medical debt, depression and mortality; job loss to death risk; long hours to heart disease; childhood food stamps to adult health; the earned income credit to low birth weight are person-level links with no cause recorded on the person.",
+    "why": "A person's coverage history, displacement, weekly hours, childhood benefit years and a birth weight are not stored.",
+    "addedBy": "effect-web-health",
+    "addedAt": "2026-10-20",
+    "replacement": "Records on the person for each cause, read by the health engine's hazard like the web's death factor.",
     "status": "open"
   }
 ]
