@@ -26,3 +26,5 @@ claimed-at:
 Sent back 2026-10-20 from PR #5462 (branch claude/graduated-tax-guam): superseded by main's commit aebe5d9e3a for the same law-reach-group-b assertion; the branch conflicts in law-reach-group-b.test.ts; check whether anything is left beyond main's fix; finish on that branch, merge main into it first.
 
 Sent back 2026-10-20 from PR #5684 (branch claude/graduated-tax-repeal-guam): merging main conflicts in src/core2/law-reach-group-b.test.ts (main changed it in #5694); finish on that branch, merge main into it first.
+
+Sent back 2026-10-20 from PR #5684 (branch claude/graduated-tax-repeal-guam): src/core2/law-reach-group-b.test.ts:372,409,483 adds if (!havePayees) ctx.skip() to three eligibility/payment proofs when a place is pinned. The merger rule rejects skipped tests: keep the pinned regression for the tax issue and use separate bounded drawn-place fixtures for each payment shape, asserting those proofs without ctx.skip(). The body also reports one remaining failing payment case.; finish on that branch, merge main into it first.
