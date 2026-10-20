@@ -5,11 +5,12 @@ area: gov
 kind: research
 priority: 3
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/peaceful-ritchie-03780x
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-20T00:01:59.913Z
 ---
 
 **What.** Compile neighborhood make-up from Census P.L. 94-171 block-group counts (total and voting-age population by race and Hispanic origin), ACS citizen voting-age population and the Section 203 language determinations by county, into per-state packs loaded on demand like map geometry. Each unit carries its place and district joins; unread units are estimated from similar units in the state and marked ESTIMATED. No field is added to any person.
