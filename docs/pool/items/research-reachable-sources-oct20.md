@@ -5,9 +5,9 @@ area: core
 kind: research
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/reachable-sources
-pr:
+pr: #5491
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-20T04:06:24.654Z
@@ -22,3 +22,5 @@ claimed-at: 2026-10-20T04:06:24.654Z
 **Files.** docs/pool/items
 
 **Notes.** TODO
+
+**Sweep so far (Oct 20).** Reachable from a cloud session (HTTP 200): www2.census.gov (county adjacency, ACS PUMS directories, ACS table-based summary files under /programs-surveys/acs/summary_file/2023/table-based-SF/), data.cdc.gov, www.fhfa.gov, apps.bea.gov, www.pewresearch.org (landing pages), gss.norc.org, dataverse.harvard.edu (a 188 MB CES file downloaded in one call). Not reachable: www.bls.gov and www.ssa.gov (403); api.census.gov redirects (key needed). First uses: `SG-WORLD-housing-county-estimate` (county adjacency; PR 5491) and the CES stance loadings (`research-opening-stance-loadings`, PR 5489). Candidates not yet taken, with their host: `SG-P15-partnership-model` and `SG-CORE-district-placement` (ACS place and legislative-district tables from the table-based summary files, large), `SG-WORLD-macro-mortgage-spread` (FHFA National Mortgage Database; the CTO excluded Freddie Mac, so FHFA is the allowed government series), `SG-WORLD-regional-territory-estimate` (BEA territory GDP tables). Still to sweep: every other item marked blocked on outside data.
