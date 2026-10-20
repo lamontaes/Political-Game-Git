@@ -151,7 +151,7 @@ const civic = (p: Readonly<PersonState>, core: Pick<CoreState, "data">) =>
 
 export function openMeetings(core: CoreState): void {
   registerLegislatureHooks({
-    beforeVote: publicComment,
+    beforeVote: { name: "public-comment", run: publicComment },
     positionTerm: roomTerm,
   });
   if (core.modules.has(MEETINGS_MODULE_ID)) return;

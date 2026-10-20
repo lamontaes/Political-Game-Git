@@ -144,7 +144,7 @@ export function openInterestGroups(core: CoreState): void {
   if (!core.modules.has(INTEREST_GROUPS_MODULE_ID))
     registerModule(core, INTEREST_GROUPS_MODULE);
   registerLegislatureHooks({
-    beforeVote: organize,
+    beforeVote: { name: "interest-organize", run: organize },
     positionTerm: lobbyTerm,
     // A bribe taken on the bill is settled by how the official voted.
     afterVote: (api, billId) => {

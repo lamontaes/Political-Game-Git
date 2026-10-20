@@ -1,16 +1,16 @@
 ---
 name: civic-prose
-description: Render or review player-visible prose against an existing fact packet and the owner's style. Use for authored dialogue, narration, choices and in-world documents.
+description: Writes and reviews pieces for the English engine's banks against the owner's calibrated style and a grounding check on record facts. Use when adding or changing bank pieces for dialogue, narration, choices or in-world documents; not for text typed into screens or code, which never ships.
 ---
 
 # Civic prose
 
 Use this for development-time authoring; shipped gameplay does not call a prose model. The root is a router, not a fixed sequence of repeated audits.
 
-Render the supplied scene facts naturally in the correct surface register. Preserve the owner's calibrated rules and conditional examples in `references/owner-authoring-contract.md`; use `references/surface-registers.md` for a different surface and `references/fact-packet-schema.md` for a packet/schema issue. The full style, grounding rules and example files remain authoritative; do not reread every example for an unchanged familiar pattern.
+Render the supplied scene facts naturally in the correct surface register. Preserve the owner's calibrated rules and conditional examples in `references/owner-authoring-contract.md`; the full style is `references/prose-contract.md`, the grounding check is `references/grounding-gate.md`, a different surface is `references/surface-registers.md`, and a packet or schema issue is `references/fact-packet-schema.md`. The full style, grounding rules and example files remain authoritative; do not reread every example for an unchanged familiar pattern.
 
-All legacy player-facing copy is disposable, including headings, setup, buttons, status and Journal lines. Do not polish a fixed scene merely to preserve its premise. Require a recorded person, motive, tension and available response for an interrupting moment; let an actual death, law effect or other world change settle first, then render the choice it creates. An ordinary exchange can matter without a dramatic outcome, but a generic favor or occasion with no personal reason or cost is not accepted prose.
-Send each new substantial player-facing line, button, choice and assembled dialogue packet to the owner with its supporting facts for editorial review before publication or merge. Implement causal mechanics while the words are being reviewed; keep unreviewed copy in a reviewable branch.
+Pieces go into the English engine's banks (`data/english/parts/`) with their move, register and record facts; the engine arranges them at play (`words-engine`). Do not polish a fixed scene merely to preserve its premise. Require a recorded person, motive, tension and available response for an interrupting moment; let an actual death, law effect or other world change settle first, then render the choice it creates. An ordinary exchange can matter without a dramatic outcome, but a generic favor or occasion with no personal reason or cost is not accepted prose.
+New authored pieces stay `shippable: false` until the owner grades them in a batch (`words-engine`, "Grading batches"); build the causal mechanics meanwhile. Nothing waits on the review.
 
 The player must understand the actual incident, relevant people and available choice. Grounded but evasive language such as "something happened" is not successful prose when the incident itself is needed to decide. A concise orientation is allowed when the screen does not already provide it. Do not repeat titles, recap needlessly, write metaphors/epigrams or interpret the scene for the player.
 

@@ -5,13 +5,13 @@ area: world
 kind: cleanup
 priority: 2
 size: M
-status: open
-claimed-by:
+status: in-pr
+claimed-by: trial/glm/federal-dollar
 pr: #4990
 after:
 blocked-on:
 source: "trial PR #4990 (branch trial/glm/federal-dollar); owner Oct 19: put it back in the pool"
-claimed-at:
+claimed-at: 2026-10-20T18:26:28.488Z
 ---
 
 **What.** Finish PR #4990 on its branch. The multiplier and the impulse path are already removed and the chain is proven (budget line, payee, spending, output). Two fixes remain from the acting CTO's send-back: read `macroTownIncomeHistoryMonths` through `api.parameter` instead of a direct import, and retag the stopgap ESTIMATED with a spread, keeping SG-WORLD-macro-income-history registered as an estimate, or else generate the pre-start months from the opening economy's own pay terms so no estimate is needed. The merger's conflicts in `scripts/world-proofs/world-economy-year.ts` and `src/core2/data/macro/` are resolved by merging main in first and regenerating, never hand-resolving generated files.

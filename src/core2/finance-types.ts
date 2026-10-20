@@ -123,6 +123,8 @@ export interface BusinessBooksState extends BusinessBooksInput {
   anchorAnnualOtherCostsMinor: number;
   anchorPrice: number;
   lastGeneralPriceFactor: number;
+  /** The outcome web's factor on household prices in the place at the last review (absent reads as one). */
+  lastWebPriceFactor?: number;
   lastWagePriceFactor: number;
   /**
    * Each current job's hourly pay at the last review, so the next review
