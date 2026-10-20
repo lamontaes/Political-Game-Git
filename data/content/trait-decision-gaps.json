@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "note": "Why a personality decision did not run, or ran without personality turning it, in the October 20, 2026 audit (docs/reports/trait-wiring-2026-10-20.md). One row per decision with a gap; the matrix (scripts/traits/trait-wiring-matrix.ts) joins them. A row is removed when its fix lands.",
+  "note": "Why a personality decision did not run, or ran without personality turning it, in the trait-wiring audit (docs/reports/trait-wiring-2026-10-20.md). One row per decision with a gap; the matrix (scripts/traits/trait-wiring-matrix.ts) joins them. A row is removed when its fix lands.",
   "formulaSiteAliases": {
     "src/core2/modules/jobs.ts:2026": "jobs.counted-retire",
     "src/core2/modules/jobs.ts:2167": "jobs.counted-look",
@@ -158,11 +158,6 @@
       "why": "Runs when someone with an estate dies (src/core2/estates.ts:283).",
       "fix": "None needed; rare by nature."
     },
-    "office-day-state.leader-request": {
-      "class": "no trigger (player or developer only)",
-      "why": "Only the bench path check calls it (src/bench/path-check.ts:236).",
-      "fix": "Have a legislator who drafted a bill ask the leader for a hearing in doEntry."
-    },
     "office-day-state.clemency": {
       "class": "rare",
       "why": "A weekly clemency petition for a governor who is not the player is in review on another branch.",
@@ -186,17 +181,12 @@
     "drives.respond": {
       "class": "circumstances saturate the choice",
       "why": "Personality turned none of 1,471 drive responses in Ely, Nevada at any weight up to 8: the drive's own strength separates the options. No study gives a size (neuroticism and rumination is the direction).",
-      "fix": "None until the options score closer or a study gives a size; the general weight of 1 stands (owner's ruling on traitWeight)."
+      "fix": "None until the options score closer or a study gives a size; the general trait weight of 1 stands."
     },
     "credit.borrow": {
       "class": "rare",
       "why": "Ran 16 times in the year.",
       "fix": "Check what triggers borrowing; calibrate."
-    },
-    "legislature.attend-sitting": {
-      "class": "trait decides alone",
-      "why": "Personality turned 96 of 100 picks: attending and missing score almost the same without it, so the trait term settles nearly every sitting (src/core2/modules/legislature.ts:2516).",
-      "fix": "Add the member's duty reasons and calibrate the weight from attendance research."
     },
     "school.attend": {
       "class": "circumstances saturate the choice",
@@ -205,7 +195,7 @@
     },
     "life.daily-act": {
       "class": "no study number",
-      "why": "Personality turned 14.8% of 29,520 daily-activity picks at the owner's weight of 1. Studies of extraversion and time spent socializing (Mehl et al. 2006) report no extractable coefficient, so the owner's general weight stands.",
+      "why": "Personality turned 14.8% of 29,520 daily-activity picks at the general trait weight of 1. Studies of extraversion and time spent socializing (Mehl et al. 2006) report no extractable coefficient, so the general weight stands.",
       "fix": "Calibrate when a study gives a size for extraversion and social time."
     }
   }

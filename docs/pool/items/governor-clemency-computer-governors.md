@@ -5,7 +5,7 @@ area: gov
 kind: feature
 priority: 3
 size: M
-status: claimed
+status: done
 claimed-by: claude/clemency-computer-governors
 pr: #5536
 blocked-on:
