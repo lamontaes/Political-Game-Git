@@ -5,9 +5,9 @@ area: world
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/closures-rise
-pr:
+pr: #5553
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-20T04:15:07.098Z
