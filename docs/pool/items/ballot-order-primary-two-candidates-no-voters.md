@@ -5,11 +5,12 @@ area: gov
 kind: bug
 priority: 3
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/ballot-order-no-voters
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-20T03:53:14.558Z
 ---
 
 **What.** src/core2/ballot-order.test.ts, 'a primary between two candidates nothing else separates counts the party's voters across the race', fails for contest seat:US-MT:us-senate:1:2026-11-03 in Winnett, Montana: the race counted 0 voters. It fails the same on clean main with that seed (GOLDEN_PATH_SEED).
