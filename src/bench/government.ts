@@ -7,7 +7,9 @@ import {
   seatsOfOffices,
   townSeats,
 } from "../core2/modules/offices";
+import { choosesPresident } from "../core2/electorate-places";
 import { corePlaceStateIdentities } from "../core2/place-lookup";
+import { lawChain } from "../core2/modules/laws";
 import {
   checkEligibility,
   fileCandidacy,
@@ -154,6 +156,13 @@ export function governmentView(core: CoreState, personId: string) {
           officeTitle: row.officeTitle,
           stateKey: row.stateKey,
           post: row.leads?.post ?? null,
+          // The President and Vice President are known to everyone, but a
+          // territory's voters do not choose them (owner ruling, Oct 19).
+          chosenByHere: row.reasons.some(
+            (reason) => reason === "president" || reason === "vice-president",
+          )
+            ? choosesPresident(lawChain(api).stateKey)
+            : null,
           reasons: row.reasons,
         }))
       : [],

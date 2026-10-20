@@ -1,3 +1,7 @@
+# Law wiring table
+
+Every law the game has, graded on the nine wiring links in two drawn places. Each cell is the link's status; the full law-wiring report gives every reason and record id.
+
 | Law                                          | Family             | exists | change | reach | systems | money | web  | knowing | repeal | allPlaces | Overall    |
 | -------------------------------------------- | ------------------ | ------ | ------ | ----- | ------- | ----- | ---- | ------- | ------ | --------- | ---------- |
 | Spending: highways                           | infrastructure     | yes    | yes    | yes   | yes     | yes   | SG   | NO      | yes    | yes       | partly     |

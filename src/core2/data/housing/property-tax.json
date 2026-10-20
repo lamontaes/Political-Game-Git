@@ -182,18 +182,18 @@
         "installments": 2,
         "dueDates": [
           {
-            "month": 11,
+            "month": 7,
             "day": 1
           },
           {
-            "month": 5,
+            "month": 1,
             "day": 1
           }
         ],
         "setLocally": true,
         "tag": "ESTIMATED",
-        "estimatedFrom": "No single date found: the state leaves bill dates to each county or town. Two bills a year, in the spring and the fall, the pattern of the states that set dates by statute.",
-        "spread": "One to four bills a year, any month."
+        "estimatedFrom": "Connecticut towns bill real estate in two halves, July 1 and January 1, with a single July 1 bill under $100 (Conn. Gen. Stat. 12-144 as towns apply it): the dates are read from town tax collectors' notices (North Stonington, Brookfield) and a town code (a town ordinance on ecode360), not from the statute text, which the General Assembly's site would not return (it returned HTTP 503). A town can set another date.",
+        "spread": "A town's own dates can differ; the grace period runs to about August 1 and February 1."
       },
       "DC": {
         "installments": 2,
