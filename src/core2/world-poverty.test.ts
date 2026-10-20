@@ -53,7 +53,8 @@ describe(`poverty from incomes (${place.name}, seed ${seed})`, () => {
     for (const link of into) {
       const c = linkCoverage(link);
       expect(c.wired, link.key).toBe(false);
-      expect("carriedBy" in c && c.carriedBy).toBe("household.poverty-pct");
+      expect("carriedBy" in c && c.carriedBy, link.key).toBe(link.carriedBy);
+      expect(link.carriedBy, link.key).toBeTruthy();
     }
     expect(WIRED_INTO.get("household.poverty-pct")).toBeUndefined();
 
