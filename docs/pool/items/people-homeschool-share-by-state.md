@@ -5,11 +5,12 @@ area: people
 kind: research
 priority: 3
 size: S
-status: blocked
+status: open
 claimed-by:
 pr:
 blocked-on: a researcher: choose the homeschool definition (Household Pulse is broader than NHES), then build the state table from the Pulse public-use files; see the Notes
 source: added with npm run pool -- add
+claimed-at: 
 ---
 
 **What.** The private share of students by state is sourced (NCES, PR for research-school-assignment-sources); the homeschool share by state is not. The Census Bureau's Household Pulse surveys report homeschooling by state, but the Census data service needs a key the session did not have. Source it with a year, a unit and a spread into data/research/people/ with a reader, and the five territories take the median.
