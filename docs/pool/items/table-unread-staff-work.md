@@ -22,3 +22,5 @@ claimed-at: 2026-10-17T20:35:40.910Z
 **Files.** src/core2/modules/staff.ts, scripts/core2-year/table-trace.ts
 
 **Notes.** Found by the table trace pass (core-wiring-gaps-trace-pass), report docs/reports/table-trace-2026-10-17.md.
+
+**Worked Oct 17 (claude/staff-work-why).** Only staff.test.ts reads the `work` rows (`workOf`); no engine does. The row says why a task was good or poor, which is the "why" the owner's keep-it-simple rule saves only for the player and the people they deal with. `record` in staff.ts now writes the row only when `keepsWhy` says so for the official or the staffer (everyone's when bookkeeping is on); the staffer's count of tasks done is kept for everyone. A test in staff.test.ts shows an aide nobody deals with gets no new row while the count grows. Left, so this item stays open: a reader that decides something, for instance the official re-weighing a poor staffer at the next review from their tasks' quality, which is a design call about when a staffer is let go.
