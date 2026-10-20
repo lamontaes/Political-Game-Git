@@ -1,15 +1,18 @@
 /* global process, URL, console, document, getComputedStyle */
-// Every sheet of a new game, at the start and after a day, fits the window
-// without scrolling (owner, M6-02: no scrolling on main screens).
+// Every sheet of a new game, at the start and after a day, fits its window:
+// its body and the page overflow by no more than 8 pixels (owner, M6-02: main
+// screens do not scroll).
 import assert from "node:assert/strict";
 import { chromium } from "playwright";
+const SLACK = 8;
 const browser = await chromium.launch({
-  executablePath: process.env.BENCH_BROWSER ?? undefined,
+  executablePath: process.env.BENCH_BROWSER ?? "/usr/bin/chromium",
 });
 const page = await browser.newPage({ viewport: { width: 1672, height: 941 } });
 page.setDefaultTimeout(30000);
 const errors = [];
 page.on("pageerror", (e) => errors.push(e.message));
+const bad = [];
 try {
   const ready = page.waitForResponse((r) => r.url().endsWith("/api/title"));
   await page.goto("http://localhost:3000/play");
@@ -48,7 +51,6 @@ try {
   const tabs = await page
     .locator(".nav-item[data-tab]")
     .evaluateAll((nodes) => nodes.map((n) => n.dataset.tab));
-  const over = [];
   const scan = async (when) => {
     for (const tab of tabs) {
       await page
@@ -56,31 +58,65 @@ try {
         .first()
         .evaluate((e) => e.click());
       await page.waitForTimeout(1500);
-      // A main screen shows all it has without scrolling: the sheet body and
-      // the page itself fit the window (the pager pages what does not).
-      const size = await page.evaluate(() => {
-        const body = document.getElementById("sheet-body");
-        const pager = document.getElementById("sheet-pager");
-        const hidden = (e) => getComputedStyle(e).overflowY === "hidden";
-        // Content taller than the window is paged by the pager (it moves the
-        // box itself), which is fine while the player cannot scroll it
-        // freely (overflow hidden) and a pager shows to move between pages.
-        const tall = body.scrollHeight > body.clientHeight + 8;
+      // The sheet's own scroll box and the page: how far each holds more than it shows.
+      const over = await page.evaluate(() => {
+        const sheet = document.getElementById("sheet");
+        const body = document.scrollingElement;
+        // Every box in the sheet that scrolls, and how far its content passes it.
+        let worst = {
+          px: sheet.scrollHeight - sheet.clientHeight,
+          where: "#sheet",
+        };
+        for (const node of sheet.querySelectorAll("*")) {
+          const y = getComputedStyle(node).overflowY;
+          if (y === "visible") continue;
+          if (node.checkVisibility?.() === false) continue;
+          const px = node.scrollHeight - node.clientHeight;
+          if (px > worst.px)
+            worst = {
+              px,
+              where: `${node.tagName.toLowerCase()}.${node.className}`,
+            };
+        }
         return {
-          body:
-            tall && !hidden(body) ? body.scrollHeight - body.clientHeight : 0,
-          pagerMissing:
-            tall && pager.hidden ? body.scrollHeight - body.clientHeight : 0,
-          page:
-            document.documentElement.scrollHeight >
-            document.documentElement.clientHeight + 8
-              ? document.documentElement.scrollHeight -
-                document.documentElement.clientHeight
-              : 0,
+          sheet: worst.px,
+          where: worst.where,
+          page: body.scrollHeight - body.clientHeight,
         };
       });
-      if (size.body || size.pagerMissing || size.page)
-        over.push(`${when} · ${tab}: ${JSON.stringify(size)}`);
+      console.log(
+        `${when} · ${tab}: ${over.where} ${over.sheet}px, page ${over.page}px`,
+      );
+      if (over.sheet > SLACK || over.page > SLACK)
+        bad.push(
+          `${when} · ${tab}: ${over.where} over by ${over.sheet}px, page by ${over.page}px`,
+        );
+      // Whatever the sheet holds is still reachable: the pager's pages together show every row.
+      if (await page.locator("#sheet-pager").isVisible()) {
+        const rowsOf = () =>
+          page.evaluate(() =>
+            [
+              ...document.querySelectorAll(
+                "#sheet-body > *:not(.flow), #sheet-body > .flow > *",
+              ),
+            ].map((row) => !row.classList.contains("paged-out")),
+          );
+        const first = await rowsOf();
+        const seen = first.map((shown) => shown);
+        let pages = 1;
+        const next = page.locator("#sheet-pager button").nth(1);
+        while ((await next.isVisible()) && pages < 60) {
+          await next.click();
+          (await rowsOf()).forEach((shown, i) => {
+            if (shown) seen[i] = true;
+          });
+          pages += 1;
+        }
+        console.log(`${when} · ${tab}: ${pages} pages`);
+        // A sideways (column) sheet shows all its rows on every page; a list shows each once.
+        if (seen.some((shown) => !shown))
+          bad.push(`${when} · ${tab}: some rows are on no page`);
+      }
       await page.keyboard.press("Escape");
     }
   };
@@ -88,10 +124,10 @@ try {
   await page.locator("#day").click();
   await page.waitForFunction(() => !document.getElementById("day").disabled);
   await scan("after a day");
-  console.log(over.length ? over.join("\n") : "no sheet scrolls");
+  console.log(bad.length ? bad.join("\n") : "no sheet scrolls");
   assert.deepEqual(errors, []);
-  assert.deepEqual(over, []);
-  console.log(`PASS ${tabs.length} sheets, twice, none scrolls`);
+  assert.deepEqual(bad, []);
+  console.log(`PASS ${tabs.length} sheets, twice`);
 } finally {
   await browser.close();
 }

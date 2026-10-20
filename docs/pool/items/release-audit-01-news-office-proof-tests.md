@@ -7,7 +7,7 @@ priority: 2
 size: S
 status: in-pr
 claimed-by: claude/fs11vb-audit-01
-pr: #5180
+pr: #5509
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-20T04:19:41.038Z

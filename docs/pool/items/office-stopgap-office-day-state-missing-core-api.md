@@ -4,13 +4,13 @@ title: "Stopgaps in office-day-state (missing-core-api): 1 open"
 area: office
 kind: stopgap
 priority: 3
-status: claimed
-claimed-by: claude/political-game-pool-l9cym2-h
+status: open
+claimed-by:
 pr:
 blocked-on:
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/office-day-state.ts, kind missing-core-api"
-claimed-at: 2026-10-19T23:08:56.971Z
+claimed-at:
 ---
 
 **What.** Replace or clear the 1 open missing-core-api stopgap row(s) in src/core2/office-day-state.ts: SG-STATE-dev-seat-player. Each fake is replaced by the mechanic, or the feature that needs it is deleted.
@@ -22,3 +22,4 @@ claimed-at: 2026-10-19T23:08:56.971Z
 **Files.** src/core2/office-day-state.ts
 
 **Notes.** First row: Dev mode's custom start as a sitting state officeholder ends the seat's serving term and writes the player's term into the offices engine's table directly, keeping the previous holder's party; it is not reached in ordina
+Sent back 2026-10-20 from PR #5247 (branch claude/pool-state-seat-person-2): Morning check failed because stopgap row SG-STATE-dev-seat-player was deleted from stopgaps.json instead of marked resolved; finish on that branch, merge main into it first.
