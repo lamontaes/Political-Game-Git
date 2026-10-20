@@ -5,20 +5,20 @@ area: laws
 kind: wiring
 priority: 2
 size: M
-status: claimed
-claimed-by: claude/laws-outcome-labor-cannabis
-pr:
+status: in-pr
+claimed-by: claude/political-game-pool-b6g0dl
+pr: #5201
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-19T21:49:20.613Z
+claimed-at: 2026-10-19T21:54:38.432Z
 ---
 
-**What.** Public-sector collective bargaining and legal cannabis sales run the mechanic "none" in src/core2/data/laws/reach-group-a.json, so a passed law writes a record and nothing reads it. Collective bargaining should reach public workers' pay and the bargaining table, and cannabis sales should reach who may open a retail business and what a buyer can purchase. Check laws-cannabis-read in the pool first and build on it rather than beside it.
+**What.** A public-sector bargaining law now raises the pay of public employers' jobs in town through the pay engine, instead of writing a record nobody reads. Right-to-work and the cannabis spending half already read the law; this item finishes bargaining and then reviews what cannabis still records only. A player would notice public workers' pay rising after a state passes the law.
 
-**Rules.** "An effect is a read, not a record": a policy counts only when a different engine reads it when it decides or pays. "The chain is the acceptance": follow one dollar or rule to a named person and the choice, view and journal line that moved.
+**Rules.** An effect is a read: the jobs engine reads the bargaining row when it rerates a job. No dice: the raise comes from the law in force and each job's own pay. Sliding scales and causes: the premium phases in over contract years, nothing flips.
 
-**Done when.** A one-year run of buildBenchWorld in a drawn place (name and seed in the PR body) shows, for each policy here, the law record id, the payment, price or eligibility record that changed, the person record id reached and the knowing source, checked by a new test in src/core2/law-reach-balance.test.ts. The owner plays it: pass one of these laws and meet a neighbor it changed.
+**Done when.** In a drawn place from all 56 in a played world (buildBenchWorld), a state bargaining law enacted after the opening raises public jobs toward the sourced premium over three years and a repeal takes no pay back, shown by src/core2/public-bargaining-law.test.ts with seed and place named. The owner plays it: pass the law and see a public worker's pay rise.
 
-**Files.** src/core2/law-reach/group-a.ts, src/core2/data/laws/reach-group-a.json, src/core2/law-reach/group-a-union.ts
+**Files.** src/core2/law-reach/group-a-bargaining.ts, src/core2/law-reach/group-a.ts, src/core2/data/laws/reach-group-a.json
 
-**Notes.** Proposed drop (only the CTO can drop), Oct 19, as a duplicate: public-sector bargaining is gov-public-sector-bargaining (L, open), and cannabis sales are built (laws-family-cannabis, laws-cannabis-sales-tax); what is left of cannabis is the remainder named in stopgap SG-GOV-REACH-A-cannabis-market (dispensaries through the business engine, an adult-use record on adults 21 and over, the state excise tax). Found by reading the pool after the split; I should have searched it first.
+**Notes.** Bargaining half built on claude/political-game-pool-b6g0dl. Cannabis half not done: dispensaries, an adult-use record and a cannabis excise tax stay under SG-GOV-REACH-A-cannabis-market. The premium (5 percent) is an estimate whose citation needs the research session's confirmation.

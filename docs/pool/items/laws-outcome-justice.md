@@ -5,19 +5,20 @@ area: laws
 kind: wiring
 priority: 2
 size: M
-status: open
-claimed-by:
-pr:
+status: done
+claimed-by: claude/political-game-pool-v8txtd
+pr: #5200
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-19T21:54:42.984Z
 ---
 
-**What.** Eight justice and public-safety policies in src/core2/data/laws/reach-group-a.json still run the mechanic "none", which only writes a record: civilian oversight of police, partnering with federal immigration enforcement, ending cash bail, the juvenile court age, child access prevention, permit-to-carry, the handgun purchase age and stand your ground. Give each a real effect that another engine reads, such as who is held before trial, who may buy or carry, or what the police and jail engines do with a case. Where a policy truly has no money, person or place effect in the game, register it as a stopgap with the reason instead of leaving a silent record.
+**What.** Justice and public-safety laws must reach people as a read. Most of the family (police oversight, juvenile age, stand your ground, carry permit) is in PR #5088 (gov-justice-incident-records) and handgun age is in world-sale-eligibility-reads, so this item builds the one law with an existing case route: ending cash bail. A charged official who does not plead now waits for trial in custody when cash bail is law and they cannot post bail, and goes home when the law is ended.
 
-**Rules.** "An effect is a read, not a record": a policy counts only when a different engine reads it when it decides or pays. "The chain is the acceptance": follow one dollar or rule to a named person and the choice, view and journal line that moved.
+**Rules.** The chain is the acceptance: the law record, the defendant, the hold and the release are all named by id. No dice: the hold comes from the law in force and the defendant's own cash against an estimated bail. One rule, all 56 places: the law is read through lawInForce for the drawn place.
 
-**Done when.** A one-year run of buildBenchWorld in a drawn place (name and seed in the PR body) shows, for each policy here, the law record id, the payment, price or eligibility record that changed, the person record id reached and the knowing source, checked by a new test in src/core2/law-reach-balance.test.ts. The owner plays it: pass one of these laws and meet a neighbor it changed.
+**Done when.** In a played world in a drawn place (buildBenchWorld, seed named in the test output), src/core2/justice-pretrial.test.ts shows a poor defendant held with cash bail law and freed when it is ended, citing the statute id. The owner plays it: a charged official sits out the wait for trial unless the state ended cash bail.
 
-**Files.** src/core2/law-reach/group-a.ts, src/core2/data/laws/reach-group-a.json
+**Files.** src/core2/justice-pretrial.ts, src/core2/modules/justice.ts, src/core2/data/justice/parameters.json, src/core2/data/stopgaps.json
 
-**Notes.** Split from laws-outcome-map (Oct 19) because the parent covers 22 policies.
+**Notes.** SG-GOV-REACH-A-pretrial narrowed, not closed: non-officials are still not arrested. Remaining justice laws sit in gov-justice-incident-records and world-sale-eligibility-reads.

@@ -9,7 +9,7 @@ status: blocked
 claimed-by: claude/ward-map
 pr: #5106
 after: gov-council-election-method
-blocked-on: world-dwelling-position
+blocked-on: world-dwelling-locations
 milestone:
 source: "stopgap SG-GOV-ward-map, added by gov-council-election-method"
 claimed-at: 2026-10-19T19:07:44.446Z
@@ -24,3 +24,5 @@ claimed-at: 2026-10-19T19:07:44.446Z
 **Files.** src/core2/modules/voting.ts, src/core2/gov-rules/council-election-method.ts, src/core2/data/stopgaps.json
 
 **Notes.** Interpretation to confirm: the owner ruled (Oct 15) that "wards" is used only where a place's records use it; the method reader carries `seatTerm` for the screens.
+
+Looked at Oct 19 (claude/ward-map), nothing built: a dwelling in the core holds no place inside the town. `src/core2/modules/housing.ts` keeps dwellings as `dwelling:<householdId>` rows with a tenure and a value, and no street, block or tract; drawing wards "from the dwellings" would order the same households by the same ids, which is what voting.ts `wardMap` does now (the old engine's town-wards.ts says the same: households in recorded order stand in for streets). The drawing rules worth porting from town-wards.ts (council draws near equal population keeping each sitting member in their own ward; a commission draws equal wards; the courts' allowed deviation) can be built on any ordering, but the stopgap's real replacement needs a dwelling position first. Filed world-dwelling-position for that and made this item wait on it. The drawing rules themselves can go in without it: split out as gov-ward-map-drawing-rules if the Government area wants them first.

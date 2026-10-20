@@ -98,9 +98,7 @@ export function townMetrics(api: CoreAPI) {
     if (job.hourlyMinor) at(placeId).hourly.push(job.hourlyMinor);
     const householdId = rt!.householdOfPerson.get(job.personId);
     earn(
-      householdId
-        ? rt!.households.get(householdId)?.household.placeId
-        : undefined,
+      householdId ? rt!.store.liveHousehold(householdId)?.placeId : undefined,
       householdId,
       job.wageDailyMinor,
     );
@@ -117,7 +115,7 @@ export function townMetrics(api: CoreAPI) {
     if (!row.judgmentAt?.startsWith(lastMonth)) continue;
     const placeId =
       c.households.get(row.householdId)?.placeId ??
-      rt?.households.get(row.householdId)?.household.placeId;
+      rt?.store.liveHousehold(row.householdId)?.placeId;
     if (placeId) at(placeId).evictionOrders += 1;
   }
   for (const table of ["seekers", "countedSeekers"])
