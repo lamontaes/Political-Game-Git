@@ -811,7 +811,9 @@ export function sweepResidual(api: CoreAPI, rt: ResidentsRuntime): void {
     if (amount <= 0) continue;
     const weights = placeWeights(rt, row.placeId);
     if (!weights.size) continue;
-    api.stopgap(UNKEYED_STOPGAP);
+    // Less than a minor unit for each group is the cents left by rounding a
+    // keyed payment, shared by people; anything more is a bill nobody keyed.
+    if (amount >= weights.size) api.stopgap(UNKEYED_STOPGAP);
     const shares = splitWhole(amount, weights);
     const lines = [
       { accountId: residual, deltaMinor: -amount },
