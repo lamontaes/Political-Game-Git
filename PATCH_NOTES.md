@@ -296,6 +296,125 @@ Repaired after an independent audit, before review:
 - A promise can only be conditioned on something the game can actually settle.
   One condition on the list could never come true and is gone.
 
+## PRE-ALPHA 0.19.2
+
+_Released October 19, 2026._
+
+### Fixed
+
+- **Press outlets receive their opening cash once** Newspapers and stations keep
+  their existing opening cash buffer without receiving another startup payment
+  when their employers are enrolled.
+
+- **Your town's paper and stations no longer close in their first weeks** A
+  local newspaper or television station used to open with no cash, so the gap
+  between its first payday and its first month of sales could close it within
+  weeks and lay off its reporters. Each now opens with the cash buffer an
+  ordinary small business holds, so the town keeps its press.
+
+## PRE-ALPHA 0.19.1
+
+_Released October 19, 2026._
+
+### Fixed
+
+- **A small town no longer freezes the game when its first home is bought** In a
+  small town with no owned homes at the start, the game no longer hangs the
+  month building first becomes possible.
+
+## PRE-ALPHA 0.19.0
+
+_Released October 17, 2026._
+
+### Added
+
+- **Maps for Puerto Rico, Guam, the Virgin Islands, American Samoa and the
+  Marianas** A player who starts in Puerto Rico, Guam, the U.S. Virgin Islands,
+  American Samoa or the Northern Mariana Islands now sees their territory's map,
+  with its municipalities or districts, its places and its legislative districts
+  where the Census publishes them.
+
+### Improved
+
+- **Local news outlets in small towns stay open longer** A town's local
+  newspaper and stations now open with the cash a small business holds against
+  its payroll, and their revenue covers the employer's payroll taxes. In a small
+  town, the outlets no longer all close within the first two months, so more of
+  what happens in town is reported.
+
+- **A birth scene says why everyone is there** When a child is born into your
+  household, the gathering scene now opens by saying so: "Your son has been
+  born," or "You have a new baby" when no one else is named, instead of leaving
+  out why everyone is in the room.
+
+### Fixed
+
+- **The town's own households now move away at the real rate** In many towns
+  most households never moved away, because their place was skipped by the
+  monthly moves. They now leave at the rate the Census gives for their age and
+  state, so the town's population turns over as it should.
+
+- **Most of a town's people now hold their state's opinions** In many towns most
+  residents were given the whole nation's average opinions on politics instead
+  of their own state's, so a state's lean never reached them. They now start
+  from their state's survey, at their age.
+
+- **Raises, hires and layoffs reach both paydays in towns that pay twice a
+  month.** In a town where employers pay twice a month, a raise, a new hire or a
+  layoff of a worker in the wider population changed only one of the two
+  paydays. Pay for those workers was then half right, or kept coming after a
+  layoff. Both paydays now follow the change.
+
+- **A town's department heads are no longer chosen from people who already hold
+  an elected seat.** A county commissioner or council member is not named city
+  clerk or another department head, so the head's town pay is not cut off the
+  day they start.
+
+- **A county board or town council is named the way people write it.** A county
+  board used to read "COUNTY OF PIKE County Commission" and a town council
+  "VILLAGE OF EOLIA Council", for instance in the opening line of a bill. They
+  now read "Pike County Commission" and "Village of Eolia Council", and a board
+  whose name already says "County" no longer says it twice.
+
+- **Two bills passed with the same number no longer stop the legislature's floor
+  week.** When two bills with the same number change the same rule on the same
+  day, each now keeps its own law instead of the game stopping with an error.
+
+- **A new tax on a good no longer comes out of a young player's own account.**
+  When a town taxes cannabis or another good, the household member who earns now
+  pays it, so a player who is still a dependent with no job is not charged.
+
+- **Government and news staff are paid the pay their post lists** A government
+  post or a news outlet's staff job was paid for the full hours of the work
+  schedule it followed, which could run past the hours the job lists, so staff
+  were paid up to a fifth more than their post says and small outlets ran short.
+  The rate is now set over the scheduled hours, so the pay is the pay the post
+  lists.
+
+- **A town opened at its full Census size no longer stops when a benefit is
+  paid** In a town opened with each counted household standing for several real
+  ones, paying a public benefit to the wider population stopped the game with an
+  error whenever a household's weight was not a whole number. The payment now
+  books whole cents.
+
+### Changed
+
+- **A committee meets before the floor votes** In a body with committees, a bill
+  you file now goes to its committee about a week before the floor sits; the
+  committee hears it and reports it or holds it, and a held bill never reaches
+  the floor.
+
+## PRE-ALPHA 0.18.5
+
+_Released October 17, 2026._
+
+### Improved
+
+- **News is a front page** News opens as a newspaper front page: a masthead and
+  dateline, the lead story in large type with its first sentence, and the other
+  stories in columns. The public record follows, by date and kind, naming who it
+  was about instead of listing internal keys.
+
 ## PRE-ALPHA 0.18.4
 
 _Released October 17, 2026._

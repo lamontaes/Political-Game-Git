@@ -34,6 +34,7 @@ import {
   provisionStance,
   type MemberPosition,
 } from "../core2/modules/legislature";
+import { officialOf, officialsIn } from "../core2/modules/officials";
 import { CASE_MADE } from "../core2/modules/speech";
 import { VIEWS_SPEAKER_KEY } from "../core2/modules/views";
 import { P } from "../core2/parameters";
@@ -155,9 +156,35 @@ export interface OfficeSceneResult {
   after: MemberPosition;
 }
 
-/** A member the scene can be about: a living person, in a town body or a state or federal one. */
-function persuadable(core: CoreState, memberId: string): boolean {
-  return core.people.get(memberId)?.alive === true;
+/**
+ * A member the scene can be about: a living person, in a town body or a
+ * state or federal one. In a body the officials engine covers, only a member
+ * it seated is one: a seat held by someone it has no record of yet has no
+ * stance a case can move and no vote that reads it.
+ */
+function persuadable(
+  core: CoreState,
+  memberId: string,
+  officialsCover: boolean,
+): boolean {
+  if (core.people.get(memberId)?.alive !== true) return false;
+  return !officialsCover || officialOf(coreAPI(core), memberId) !== undefined;
+}
+
+/** Whether the officials engine seats the members of this body. */
+function officialsCoverBody(
+  api: ReturnType<typeof coreAPI>,
+  officeId: string,
+): boolean {
+  const body = bodyOf(api, officeId);
+  if (!body) return false;
+  const key =
+    body.kind === "us-senate"
+      ? "US:us-senate"
+      : body.kind.startsWith("us-house")
+        ? "US:us-house"
+        : `${body.jurisdiction}:${body.kind}`;
+  return officialsIn(api, key).length > 0;
 }
 
 /**
@@ -199,9 +226,10 @@ export function composeOfficeScene(
   const want = side === "yes" ? P.one : -P.one;
   // The target: the colleague nearest the player's side who is still
   // against it (or even), by their recorded position.
+  const covered = officialsCoverBody(api, bill.bodyOfficeId);
   const candidates = seated
     .filter((term) => memberKey(term) !== playerId)
-    .filter((term) => persuadable(core, memberKey(term)))
+    .filter((term) => persuadable(core, memberKey(term), covered))
     .map((term) => ({
       term,
       position: memberPosition(api, billId, memberKey(term)),

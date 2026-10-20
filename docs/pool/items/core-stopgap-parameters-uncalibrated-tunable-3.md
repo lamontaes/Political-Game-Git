@@ -4,10 +4,10 @@ title: "Stopgaps in parameters (uncalibrated-tunable): 1 open"
 area: core
 kind: stopgap
 priority: 3
-status: open
+status: blocked
 claimed-by:
 pr:
-blocked-on:
+blocked-on: research data: the row's replacement needs sourced data (Weights checked against bribery incidence surveys and public-corruption case counts by office (DOJ Public Integrity Section reports), with audits and ...)
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/data/corruption/parameters.json, kind uncalibrated-tunable"
 ---

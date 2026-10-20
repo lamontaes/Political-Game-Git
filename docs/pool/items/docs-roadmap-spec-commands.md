@@ -5,13 +5,13 @@ area: docs
 kind: cleanup
 priority: 3
 size: S
-status: open
-claimed-by:
+status: blocked
+claimed-by: claude/political-game-pool-pdqjm6
 pr:
-blocked-on:
+blocked-on: CTO adds the commands
 milestone:
 source: "found by docs-roadmap-m2-m3-passes (Oct 15, 2026)"
-claimed-at:
+claimed-at: 2026-10-19T22:40:16.678Z
 ---
 
 **What.** In `docs/roadmap/features.json` nine M2 and M3 specs now read passes:true because their command ran green on a fresh random seed. Eleven others have no `command`: M2-03, M2-10, M3-01 to M3-08 and M3-10. The CTO adds the command, so a session cannot set their passes. Candidate tests that exist today, unchecked against each spec's text: M2-03 `src/director/filing-visit.test.ts` and `src/core2/elections-filing.test.ts`; M2-10 `src/core2/two-level-elections.test.ts` and `src/core2/world-races.test.ts`; M3-01 `src/core2/legislature-bill-form.test.ts` and `legislature-sections.test.ts`; M3-03 `src/core2/legislature.test.ts`; M3-04 `src/core2/laws.test.ts`; M3-05 `src/core2/executive.test.ts`; M3-06 `src/core2/staff.test.ts`; M3-07 `src/core2/interest-groups.test.ts`; M3-08 `src/core2/constituent-cases.test.ts`; M3-10 `src/core2/world-legislating.test.ts`. M3-02 (negotiating) has no obvious test.

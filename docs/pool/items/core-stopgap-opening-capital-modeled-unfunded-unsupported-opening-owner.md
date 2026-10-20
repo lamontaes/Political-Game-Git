@@ -4,10 +4,10 @@ title: "Stopgaps in opening-capital (modeled-unfunded-unsupported-opening-owner)
 area: core
 kind: stopgap
 priority: 3
-status: open
+status: blocked
 claimed-by:
 pr:
-blocked-on:
+blocked-on: research data: the row's replacement needs sourced data (REVIEW16 public-budget and national modules must supply genuine dated funding authority, appropriations and treasury/account receipts for represented ...)
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/data/opening-capital.json, kind modeled-unfunded-unsupported-opening-owner"
 ---

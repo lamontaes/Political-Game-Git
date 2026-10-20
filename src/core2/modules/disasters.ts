@@ -311,17 +311,23 @@ function payHouseholds(api: CoreAPI, rt: Runtime, disaster: Disaster): void {
     .sort((a, b) => a.id.localeCompare(b.id));
   const size = (id: string) => Math.max(1, staff.get(id) ?? 0);
   const total = builders.reduce((n, org) => n + size(org.id), 0);
+  // With no open builder in town the repairs go to builders outside it; a
+  // world that records no outside market for the town has nobody to pay, so
+  // the households pay nothing for repairs there (they would otherwise stop
+  // the game on the declaration day).
+  let outside: string | undefined;
+  if (!builders.length)
+    try {
+      outside = outsideMarketFor(core, residentsRuntime(core)!, town);
+    } catch {
+      return;
+    }
   const parts: [string, number][] = builders.length
     ? builders.map((org) => [
         accounts.main(org.id),
         Math.floor((damage * size(org.id)) / total),
       ])
-    : [
-        [
-          accounts.main(outsideMarketFor(core, residentsRuntime(core)!, town)),
-          damage,
-        ],
-      ];
+    : [[accounts.main(outside!), damage]];
   parts[0]![1] += damage - parts.reduce((n, [, v]) => n + v, 0);
   for (const [to, cents] of parts) {
     if (cents <= 0) continue;
