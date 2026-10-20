@@ -1909,7 +1909,7 @@
     "kind": "missing-data",
     "file": "src/core2/modules/voting.ts",
     "line": 593,
-    "whatItFakes": "Ballot order for American Samoa, the Northern Mariana Islands, the Virgin Islands, Pennsylvania, Wisconsin and Indiana is read from a secondary summary or partly from search snippets of the law, not its text; the other fourteen places checked in the Oct 19 research are read from the statute (fifteen counting the corrections).",
+    "whatItFakes": "For 6 of the 56 places (American Samoa, the Northern Mariana Islands, the Virgin Islands, Pennsylvania, Wisconsin and Indiana) the ballot-order rule is read from a secondary source or partly from search snippets of the law, not its text; the other 14 places the Oct 19 research read are set from the statute.",
     "why": "Ballotpedia's ballot-order page gives one rule per state, usually for the general election; NCSL's table and the state codes were not reachable from the research session.",
     "addedBy": "OPUS-GOV-ELECTIONS",
     "addedAt": "2026-10-14",
