@@ -1,5 +1,7 @@
 # OPUS-TRAITS: every trait in every decision
 
+> **History.** This describes the old engine or a process that ended in October 2026. Don't follow it; read `AGENTS.md`, `ARCHITECTURE.md` and `docs/README.md`.
+
 Only OPUS-TRAITS writes this file. See "The team" in `AGENTS.md` and `docs/coordination/BOARD.md`.
 
 - **Owns:** `data/content/trait-act-pulls.json`, `data/content/trait-decisions.json`, `data/content/trait-coverage.json`, `src/core2/trait-decisions.ts`, the trait coverage test, and the trait terms in other pillars' decisions (small commits, listed in the PR).
