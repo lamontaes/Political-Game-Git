@@ -200,6 +200,57 @@ export function auditCore2Tripwires(
     inspectProductionSource(sourceFile, file, diagnostics, markers, contentIds);
   }
 
+  // Stopgap markers beside code outside the core (the bench, the desktop
+  // shell): only the markers are read there; the core's other rules are not.
+  const outside: { directory: string; extensions?: readonly string[] }[] = [
+    { directory: join(root, "src", "bench") },
+    { directory: join(root, "desktop"), extensions: [".mjs", ".js"] },
+  ];
+  for (const { directory, extensions } of outside) {
+    for (const filePath of listTypeScriptFiles(directory, extensions)) {
+      const file = relative(root, filePath).split(sep).join("/");
+      let sourceText: string;
+      try {
+        sourceText = readFileSync(filePath, "utf8");
+      } catch (error) {
+        diagnostics.push({
+          code: "source-unreadable",
+          file,
+          message: `Could not read source: ${errorMessage(error)}.`,
+        });
+        continue;
+      }
+      const sourceFile = ts.createSourceFile(
+        filePath,
+        sourceText,
+        ts.ScriptTarget.Latest,
+        true,
+        filePath.endsWith(".tsx")
+          ? ts.ScriptKind.TSX
+          : /\.m?js$/.test(filePath)
+            ? ts.ScriptKind.JS
+            : ts.ScriptKind.TS,
+      );
+      const scratch: TripwireDiagnostic[] = [];
+      inspectProductionSource(sourceFile, file, scratch, markers, new Set());
+      diagnostics.push(
+        ...scratch.filter((row) => row.code === "malformed-stopgap-marker"),
+      );
+    }
+  }
+  for (const filePath of listP8JsonFiles(
+    root,
+    join(root, "src", "bench", "data"),
+  )) {
+    const file = relative(root, filePath).split(sep).join("/");
+    collectJsonMarkers(
+      readFileSync(filePath, "utf8"),
+      file,
+      diagnostics,
+      markers,
+    );
+  }
+
   inspectMarkerLedger(markers, parsedRegistry.entries, diagnostics);
   inspectParameterTable(root, diagnostics);
   const calibration = inspectCalibrationCatalog(root, diagnostics);
@@ -397,6 +448,31 @@ function inspectProductionSource(
   markers: SourceMarker[],
   contentIds: ReadonlySet<string>,
 ): void {
+  // A marker may name its stopgap through a constant of the same file
+  // (`const STOPGAP = "SG-..."; api.stopgap(STOPGAP)`).
+  const stopgapConstants = new Map<string, string>();
+  const collectConstants = (node: ts.Node): void => {
+    if (
+      ts.isVariableDeclaration(node) &&
+      ts.isIdentifier(node.name) &&
+      node.initializer
+    ) {
+      const value = stringLiteralValue(node.initializer);
+      if (value !== undefined && STOPGAP_ID.test(value))
+        stopgapConstants.set(node.name.text, value);
+    }
+    ts.forEachChild(node, collectConstants);
+  };
+  collectConstants(sourceFile);
+  // The long-standing comment form: `// stopgapId: SG-...` (or the same inside a
+  // block comment) beside the code that fakes something.
+  sourceFile.text.split(/\r\n|\n|\r/).forEach((text, index) => {
+    const match = /^\s*(?:\/\/|\/?\*+)\s*stopgapId:\s*(SG-[A-Za-z0-9-]+)/.exec(
+      text,
+    );
+    if (match && STOPGAP_ID.test(match[1]!))
+      markers.push({ id: match[1]!, file, line: index + 1 });
+  });
   const reportAt = (code: string, node: ts.Node, message: string) => {
     const { line } = sourceFile.getLineAndCharacterOfPosition(
       node.getStart(sourceFile),
@@ -415,7 +491,12 @@ function inspectProductionSource(
 
     if (ts.isCallExpression(node) && isStopgapCallee(node.expression)) {
       const argument = node.arguments[0];
-      const id = argument && stringLiteralValue(argument);
+      const id =
+        argument &&
+        (stringLiteralValue(argument) ??
+          (ts.isIdentifier(argument)
+            ? stopgapConstants.get(argument.text)
+            : undefined));
       if (!argument) {
         reportAt(
           "malformed-stopgap-marker",
@@ -871,7 +952,10 @@ function parameterRows(value: unknown): readonly ParameterRow[] | undefined {
   }));
 }
 
-function listTypeScriptFiles(directory: string): string[] {
+function listTypeScriptFiles(
+  directory: string,
+  extensions: readonly string[] = [".ts", ".tsx"],
+): string[] {
   if (!existsSync(directory)) return [];
   const files: string[] = [];
   const visit = (current: string): void => {
@@ -881,9 +965,9 @@ function listTypeScriptFiles(directory: string): string[] {
         if (isExcludedSourcePath(fullPath)) continue;
         visit(fullPath);
       } else if (
-        (entry.name.endsWith(".ts") || entry.name.endsWith(".tsx")) &&
+        extensions.some((extension) => entry.name.endsWith(extension)) &&
         !entry.name.endsWith(".d.ts") &&
-        !/\.(?:test|spec)\.(?:ts|tsx)$/.test(entry.name) &&
+        !/\.(?:test|spec)\.\w+$/.test(entry.name) &&
         !isExcludedSourcePath(fullPath)
       ) {
         files.push(fullPath);
@@ -910,9 +994,11 @@ function isExcludedSourcePath(filePath: string): boolean {
     );
 }
 
-function listP8JsonFiles(root: string): string[] {
+function listP8JsonFiles(
+  root: string,
+  directory = join(root, "src", "core2", "data"),
+): string[] {
   const files = new Set<string>();
-  const directory = join(root, "src", "core2", "data");
   if (!existsSync(directory)) return [];
   const visit = (current: string): void => {
     for (const entry of readdirSync(current, { withFileTypes: true })) {
@@ -972,6 +1058,18 @@ function collectJsonMarkers(
       markers.push({ id: value.value, file, line });
     }
     cursor = value?.end ?? valueStart;
+  }
+  // A data file may also list the stopgaps it carries: "stopgapIds": ["SG-..."].
+  for (const list of sourceText.matchAll(/"stopgapIds"\s*:\s*\[([^\]]*)\]/g)) {
+    const listStart = list.index! + list[0].indexOf("[");
+    for (const item of list[1]!.matchAll(/"(SG-[A-Za-z0-9-]+)"/g)) {
+      const at = listStart + 1 + item.index!;
+      markers.push({
+        id: item[1]!,
+        file,
+        line: sourceText.slice(0, at).split(/\r\n|\n|\r/).length,
+      });
+    }
   }
 }
 
@@ -1039,6 +1137,9 @@ function skipJsonWhitespace(text: string, start: number): number {
   return cursor;
 }
 
+/** Where stopgap markers are read: the core, the bench and the desktop shell. */
+const SCANNED_ROOTS = ["src/core2/", "src/bench/", "desktop/"] as const;
+
 function inspectMarkerLedger(
   markers: readonly SourceMarker[],
   entries: readonly StopgapEntry[],
@@ -1065,6 +1166,14 @@ function inspectMarkerLedger(
 
   for (const entry of entries) {
     const rows = markersById.get(entry.id);
+    // A resolved row records what was fixed; its marker left the code with the fake.
+    if (!rows && entry.status === "resolved") continue;
+    // A row for a file outside the scanned roots cannot be audited here.
+    if (
+      !rows &&
+      !SCANNED_ROOTS.some((scanned) => entry.file.startsWith(scanned))
+    )
+      continue;
     if (!rows) {
       diagnostics.push({
         code: "stale-stopgap-entry",

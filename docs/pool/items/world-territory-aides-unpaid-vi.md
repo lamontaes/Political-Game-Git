@@ -5,11 +5,12 @@ area: gov
 kind: bug
 priority: 2
 size: M
-status: open
+status: blocked
 claimed-by:
-pr:
-blocked-on:
+pr: #5724
+blocked-on: PR 5712 (staff-paid-territory-no-payroll-template) fixes the same cause in the same file; merge it, then the CTO can close PR 5724 and drop this item
 source: added with npm run pool -- add
+claimed-at:
 ---
 
 **What.** The merge audit asked for a pinned regression case territory:VI:charlotte-amalie-east, seed p3, in src/core2/staff-paid-every-place.test.ts. It fails on main: after 120 days all 19 aides hold the post without a job. Cause found Oct 20: startPublicJob (src/core2/public-payroll.ts) copies a schedule and payday from a full person's job, and in this world none of the 1,426 full-tier jobs has hours or a work commitment and calendar (the town's only jobs are zero-hour office seats), so every hire returns null. PR #5559's scheduleFromPlaceId points at the town, which holds the same seats. Counted jobs (residentsRuntime) carry schedules but are not read by startPublicJob.
@@ -21,3 +22,5 @@ source: added with npm run pool -- add
 **Files.** src/core2/public-payroll.ts, src/core2/modules/staff.ts, src/core2/staff-paid-every-place.test.ts
 
 **Notes.** Split from release-merge-audit-oct20-morning-fixes fix 5. Found Oct 20 by claude/political-game-pool-yucp92-as.
+
+Sent back 2026-10-20 from PR #5724 (branch claude/political-game-pool-yucp92-bx): merging main conflicts in src/core2/public-payroll.ts (#5668 changed the schedule template order there); finish on that branch, merge main into it first.
