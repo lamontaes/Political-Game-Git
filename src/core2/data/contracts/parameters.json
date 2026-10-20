@@ -18,5 +18,10 @@
     "value": 0.5,
     "tag": "TUNABLE",
     "citation": "How far a member's traits move weight between price and the tie to a firm's owner: at full lean the price weight falls by this share and the tie weight rises by it. Spread 0.25 to 0.75, so a rule-following member still counts price at half its weight and a rule-bending member still counts price."
+  },
+  "contractBribeWeight": {
+    "value": 2,
+    "tag": "TUNABLE",
+    "citation": "Weight on a taken bribe in a member's ranking of the bidder who paid it, as the log of the bribe over the member's month of living costs (a bribe of a month's costs is worth about 0.7 of that log). Bribery in procurement follows the bribe's size against what the official earns (Rose-Ackerman and Palifka 2016, Corruption and Government, ch. 3). Spread 1 to 4."
   }
 }
