@@ -1,12 +1,16 @@
 # Table trace: module tables no other engine read in a played year
 
+In one played year, 44 of 250 engine tables held rows that no other engine read. Eight items are filed from this, and the rest were checked by hand and left: they are logs an engine keeps for its own books, or tables a screen reads. A table nobody reads is a record that does nothing, so each filed item asks for a reader or for the table to be removed.
+
+## Method
+
 **Place and seed:** Parrott, Virginia (5160840), seed 0ad0af8699c4 (place seed fdfc1f7163c3cbe36628a475f8f10bdc6743725e0de4d9034dfeeaf105463a1e), 365 days from the opening, bookkeeping off.
 
 Run: `node --import tsx scripts/core2-year/table-trace.ts <seed> 365 <out.json>`. The script hooks every module-table read and write (`setTableTrace` in `src/core2/module-state.ts`, off unless set), attributes each call to the engine that made it by the file on the call stack, and lists tables that hold rows but were read by no other engine during the year.
 
 **Result:** 250 module tables; 44 hold rows that no other engine read.
 
-**How to read this.** A headless year opens no screens, so a table that only a screen reads (the bench views) appears here; each item filed from this report starts by checking that. Tables with `0 writes in the period` are static data loaded at the opening (past bills and elections, the ballot measures, the press archive); they have no writer to remove and are not filed.
+**How to read this.** A played year run without screens opens none, so a table that only a screen reads (the bench views) appears here; each item filed from this report starts by checking that. Tables with `0 writes in the period` are static data loaded at the opening (past bills and elections, the ballot measures, the press archive); they have no writer to remove and are not filed.
 
 | Table                                     | Rows | Writes | Item                                                      |
 | ----------------------------------------- | ---- | ------ | --------------------------------------------------------- |
@@ -55,4 +59,4 @@ Run: `node --import tsx scripts/core2-year/table-trace.ts <seed> 365 <out.json>`
 | `regional/regions`                        | 132  | 132    | table-unread-regional-regions                             |
 | `speech/retellings`                       | 314  | 314    | checked by hand, not filed: a screen or an own-engine log |
 
-Tables not filed are logs or ledgers an engine keeps for its own books (`business/*`, `core2-budgets-v1/*`, `core2-campaigns-v1/causes`, `core2-voting-v1/ballots`, `speech/retellings`, `macro/votes`, `core2-legislature-v1/committees`, `core2-parties-v1/meetings`, `core2-executive-v1/desk`, `core2-world-races-v1/places`, `core2-outcome-web-v1/laws`, `core2-law-reach-b-v1/services`, `core2-world-legislating-v1/nextMeetings`, `housing/statusByPerson`): the bench and director read several of them from screens the headless run does not open (for example the campaigns sheet reads `causes` and the results sheet reads `ballots`), so they are for a second pass with the screens driven.
+Tables not filed are logs or ledgers an engine keeps for its own books (`business/*`, `core2-budgets-v1/*`, `core2-campaigns-v1/causes`, `core2-voting-v1/ballots`, `speech/retellings`, `macro/votes`, `core2-legislature-v1/committees`, `core2-parties-v1/meetings`, `core2-executive-v1/desk`, `core2-world-races-v1/places`, `core2-outcome-web-v1/laws`, `core2-law-reach-b-v1/services`, `core2-world-legislating-v1/nextMeetings`, `housing/statusByPerson`). The bench and director read several of them from screens the run does not open: for example the campaigns sheet reads `causes` and the results sheet reads `ballots`. They are for a second pass with the screens driven.

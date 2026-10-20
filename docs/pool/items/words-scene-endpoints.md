@@ -4,13 +4,13 @@ title: "Every scene has an endpoint, stated on the batch page"
 area: words
 kind: feature
 priority: 1
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/words-scene-endpoints-2
 pr: #4612
 blocked-on:
 milestone:
 source: "owner, Oct 15 evening, batch 11 grading"
-claimed-at:
+claimed-at: 2026-10-20T01:42:37.116Z
 ---
 
 **What.** Every scene has an endpoint, stated on the batch page. This work was sent back by the merger on 2026-10-16 and is open for any builder to finish. The reason it came back: merging main conflicts in src/director/conversation.test.ts (code or data, left for the author); resolve and push. Finish it on the existing branch claude/words-scene-endpoints, after merging main into it with a plain merge.
@@ -28,3 +28,6 @@ Sent back 2026-10-16 from PR #4478 (branch claude/words-scene-endpoints): Mergin
 Sent back 2026-10-16 from PR #4612 (branch claude/words-scene-endpoints-2): merging main conflicts in scripts/dialogue-batch/coverage-batch.ts (code or data, left for the author); resolve and push; finish on that branch, merge main into it first.
 
 Sent back 2026-10-17 from PR #4612 (branch claude/words-scene-endpoints-2): Merging current main (e18e2bf262) conflicts in scripts/dialogue-batch/coverage-batch.ts. Resolve these conflicts on this branch and push before local validation can run.; finish on that branch, merge main into it first.
+
+Sent back 2026-10-19 from PR #4612 (branch claude/words-scene-endpoints-2): Merge main conflicts require author resolution: scripts/dialogue-batch/coverage-batch.ts; finish on that branch, merge main into it first.
+Sent back 2026-10-19 from PR #4478 (branch claude/words-scene-endpoints): it commits tsconfig.tsbuildinfo and a compiled tooling/root-tsconfig-guard.js; remove both, merge main into it first, then finish.

@@ -2,6 +2,11 @@ import { resolveLawInForce } from "./laws-in-force";
 import { lawChainForPlace, startingLawRows } from "./laws-starting";
 import { openingEmploymentFromRecordedRoles } from "./opening-employment";
 import { createOpeningEmployerCapital } from "./opening-capital";
+import {
+  departmentGovernment,
+  departmentLinkSource,
+  departmentOwnersOf,
+} from "./opening-department-pay";
 import { openingHistoricalCountyOwnerFacts } from "./opening-public-owner";
 import {
   prepareOpeningPublicPayAuthorities,
@@ -78,7 +83,7 @@ import {
 } from "../simulation/people-traits";
 import { medianTransactionBalance } from "./starting-cash";
 import { traitRegistryFor } from "../simulation/trait-registry";
-import { isOneSided, type RegisteredTrait } from "../simulation/trait-packs";
+import { isOneSided, type RegisteredTrait } from "./trait-packs";
 import type {
   EntityId,
   Household,
@@ -882,6 +887,7 @@ export function buildPopulation(options: PopulationOptions): CoreInput {
       "Opening employment uses national CPS age priors with tunable missing-county scaling; no sourced local or territorial employment rate is claimed.",
     );
   const publicPayIdentities: OpeningPublicEmployerIdentity[] = [];
+  const departmentOwners = departmentOwnersOf(place);
   const historicalCountyPayingOwnerIds: Record<string, string> = {};
   const organizations: OrganizationInput[] = world.history.organizations.map(
     (organization) => {
@@ -896,6 +902,9 @@ export function buildPopulation(options: PopulationOptions): CoreInput {
         startedAt,
       });
       for (const gap of publicOwner.gaps) gaps.add(gap);
+      const department = publicOwner.governmentFacts
+        ? undefined
+        : departmentGovernment(profile.classification, departmentOwners);
       if (publicOwner.governmentFacts && publicOwner.identitySource) {
         const governmentKey = publicOwner.governmentFacts.governmentKey!;
         const priorOwnerId = historicalCountyPayingOwnerIds[governmentKey];
@@ -917,6 +926,14 @@ export function buildPopulation(options: PopulationOptions): CoreInput {
           ],
           source: publicOwner.identitySource,
         });
+      } else if (!profile.publicGovernmentIdentity && department) {
+        stopgap("SG-WORLD-department-government");
+        publicPayIdentities.push({
+          organizationId: organization.id,
+          identity: department.identity,
+          basisRecordIds: [profile.id],
+          source: departmentLinkSource(employmentSource, profile.id),
+        });
       } else if (profile.publicGovernmentIdentity) {
         publicPayIdentities.push({
           organizationId: organization.id,
@@ -936,6 +953,7 @@ export function buildPopulation(options: PopulationOptions): CoreInput {
         classification: profile.classification,
         governmentFacts:
           publicOwner.governmentFacts ??
+          department?.governmentFacts ??
           (profile.publicGovernmentIdentity
             ? {
                 governmentKind: profile.publicGovernmentIdentity.kind,
