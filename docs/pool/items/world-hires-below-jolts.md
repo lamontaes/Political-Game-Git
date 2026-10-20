@@ -5,9 +5,9 @@ area: world
 kind: bug
 priority: 2
 size: M
-status: open
+status: done
 claimed-by:
-pr:
+pr: #5539
 blocked-on:
 after: world-customers-move-between-sellers
 source: added with npm run pool -- add
@@ -57,3 +57,5 @@ Measured Oct 20 (claude/political-game-pool-3xfqef-5), the same proof on main an
 Oct 20: PR #4716 carried findings only, so its number is cleared; the item stays blocked on world-customers-move-between-sellers.
 
 Oct 20: Switched from blocked to the automatic after: gate on world-customers-move-between-sellers, so it opens by itself the moment those items are done.
+
+Oct 20 (claude, claimed, measured, released, nothing built). Re-ran the item's own proof on main (`npx tsx scripts/world-proofs/session-b-layoffs.ts 1977d40995`, Anon Raices, Puerto Rico, key 7203174, Jan 20 2025 to Jan 20 2026): hires 20 (1.52 percent a month, band 3.04 to 4.0), quits 23 (1.75, inside), layoffs 8 (0.61, band 1.2 to 1.7, now below), employment 103 to 100. A staffing-gap speed sweep inside the parameter's own sourced spread does not reach the band: `jobsStaffGapActedPerMonth` 0.15 (the value) gives 1.52 percent hires, 0.25 gives 1.46 (19 hires, 8 layoffs) and 0.35 gives 1.70 (22 hires, 12 layoffs, layoffs 0.93 percent). So the speed at which a firm closes its gap is not what limits hiring. What the run shows instead: firms listed with a fractional `need` of 0.2 to 1.3 and staff one or two under their opening staff, 93 jobseekers, and a first-month layoff with `salesMinor` 0 (a firm that has not yet traded is read as demand 0 and shrinks, `observedStaff` 0 in the layoff's values). Next: check whether a firm's first month without receipts should count as no demand at all (`observedStaff` in `src/core2/modules/jobs.ts`) and whether the target falls under staff because of `world-local-sales-below-opening-forecast`, before touching a rate.
