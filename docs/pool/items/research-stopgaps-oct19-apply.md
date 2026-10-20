@@ -22,3 +22,5 @@ claimed-at:
 **Files.** data/research/stopgaps-oct19/, src/core2/data/stopgaps.json
 
 **Notes.** The rows still blocked on the Census API key are named in the README.
+
+Applied Oct 20 (claude, third PR, A-people-behavior-1): recorded the researched spreads (value unchanged, tag TUNABLE, stopgap rows still open) for driveWeight (0.6 to 1.2), companyHorizonDays (7 to 30), appraisalRelationshipWeight (0.5 to 1), appraisalDistressTraitWeight and appraisalBroodingTraitWeight (0.25 to 0.75), each with the research basis and the sources that were fetched vs only cited. Not applied: rows that move a value (stressHalfLifeDays 3, goalWeight 0.8, traitWeight 0.6 against the owner's Oct 14 equal-weight ruling, emotionWeight 0.35, effortWeight 0.3, restEffect 0.08, careEffect 0.04) because each is low confidence and moves the whole-life ATUS check; they need a run of the P9 whole-life check before and after.

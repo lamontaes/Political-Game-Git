@@ -512,8 +512,10 @@
     "citation": "No direct source for this coefficient or duration; tunable. Empirical calibration is pending and blocks prototype release.",
     "stopgapId": "SG-P8-param-driveWeight",
     "spread": {
-      "status": "unmeasured",
-      "reason": "No empirical parameter bounds have been identified. ATUS durations, PANAS/PSS scores and recalled episode durations are outcome targets, not bounds on this parameter."
+      "low": 0.6,
+      "high": 1.2,
+      "unit": "dimensionless utility weight relative to needWeight = 1",
+      "citation": "Stopgap research Oct 19, 2026 (data/research/stopgaps-oct19/A-people-behavior-1.json, SG-P8-param-driveWeight), confidence low: An event-born drive (a salient recent trigger) is closest to a strong desire; desire strength predicts enactment at roughly the same size as intentions (r about 0.5), so parity with need is defensible. No direct measure of drive versus need exists, so 1.0 is retained as an estimate with a spread tied to the goal band. Fetched: Psychological Bulletin (Webb, Sheeran) 2006 (https://doi.org/10.1037/0033-2909.132.2.249)."
     },
     "checkRange": {
       "ref": "P9-OUTCOME-WHOLE-LIFE"
@@ -590,8 +592,10 @@
     "citation": "No direct source for this coefficient, duration or prototype limit; tunable. Set by the M0-07 check against ATUS 2019 time with family outside the household (28 minutes a day, 170 hours a year): at 7 days adults visited relatives outside the home for 351 to 364 hours a year in four of six drawn places (2.1 times ATUS, over the check's limit of twice), at 14 days for 231 to 268 hours a year in twelve drawn places (1.4 to 1.6 times). Empirical calibration of the need itself is still pending.",
     "stopgapId": "SG-P8-param-companyHorizonDays",
     "spread": {
-      "status": "unmeasured",
-      "reason": "No empirical parameter bounds have been identified. Related outcome statistics or inherited model assumptions do not establish bounds on this parameter."
+      "low": 7,
+      "high": 30,
+      "unit": "days (contact gap at which the company need saturates)",
+      "citation": "Stopgap research Oct 19, 2026 (data/research/stopgaps-oct19/A-people-behavior-1.json, SG-P8-param-companyHorizonDays), confidence low: Contact-frequency layers in personal networks: the closest few ties are contacted about weekly (7 days) and the next layer about monthly (30 days) (Dunbar 2018 (not fetched this session, from memory, unverified)); the geometric mean of 7 and 30 is 14.5 days. Friendships decay unless contact is maintained (Roberts and Dunbar 2015), and about 50 hours together make a casual friend while 200+ make a close one (Hall 2018). The existing ATUS check (1.4 to 1.6 times observed family visiting) supports 14 as at least internally consistent. Fetched: Human Nature (Roberts, Dunbar) 2015 (https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4626528/); Journal of Social and Personal Relationships (Hall) / KU release 2018 (https://news.ku.edu/news/article/2018/03/06/study-reveals-number-hours-it-takes-make-friend). Cited but not fetched: Trends in Cognitive Sciences (Dunbar) 2018."
     },
     "checkRange": {
       "ref": "P9-OUTCOME-WHOLE-LIFE"
@@ -628,8 +632,10 @@
     "citation": "No direct source for this coefficient, duration or prototype limit; tunable. Empirical calibration or owner budget approval is pending and blocks prototype release.",
     "stopgapId": "SG-P8-param-appraisalRelationshipWeight",
     "spread": {
-      "status": "unmeasured",
-      "reason": "No empirical parameter bounds have been identified. Related outcome statistics or inherited model assumptions do not establish bounds on this parameter."
+      "low": 0.5,
+      "high": 1,
+      "unit": "dimensionless multiplier on event appraisal by relationship closeness",
+      "citation": "Stopgap research Oct 19, 2026 (data/research/stopgaps-oct19/A-people-behavior-1.json, SG-P8-param-appraisalRelationshipWeight), confidence low: Interpersonal events carry the strongest daily mood effects (Bolger 1989), supporting an appraisal that scales fully with relationship closeness. No instrument estimates the share, so 1 (full scaling) is retained as an estimate with a lower bound of 0.5 if non-relational channels are added. Fetched: Journal of Personality and Social Psychology (Bolger, DeLongis, Kessler, Schilling) 1989 (https://hcp.hms.harvard.edu/publication/effects-daily-stress-negative-mood)."
     },
     "checkRange": {
       "ref": "P9-OUTCOME-WHOLE-LIFE"
@@ -641,8 +647,10 @@
     "citation": "No direct source for this coefficient, duration or prototype limit; tunable. Empirical calibration or owner budget approval is pending and blocks prototype release.",
     "stopgapId": "SG-P8-param-appraisalDistressTraitWeight",
     "spread": {
-      "status": "unmeasured",
-      "reason": "No empirical parameter bounds have been identified. Related outcome statistics or inherited model assumptions do not establish bounds on this parameter."
+      "low": 0.25,
+      "high": 0.75,
+      "unit": "fractional change in event appraisal at maximum trait value",
+      "citation": "Stopgap research Oct 19, 2026 (data/research/stopgaps-oct19/A-people-behavior-1.json, SG-P8-param-appraisalDistressTraitWeight), confidence low: Neuroticism is the strongest Big Five correlate of perceived stress and stress reactivity (Luo 2022); daily-diary work finds high-neuroticism people react to stressors roughly 1.3 to 2 times as strongly. A plus or minus 50% appraisal shift at the trait extreme matches the middle of that range. Distress concern is a facet of this reactivity, so the same weight is used. Fetched: Journal of Personality and Social Psychology (Bolger, DeLongis, Kessler, Schilling) 1989 (https://hcp.hms.harvard.edu/publication/effects-daily-stress-negative-mood). Cited but not fetched: Personality and Social Psychology Review (Luo, Zhang, Cao) 2022."
     },
     "checkRange": {
       "ref": "P9-OUTCOME-WHOLE-LIFE"
@@ -654,8 +662,10 @@
     "citation": "No direct source for this coefficient, duration or prototype limit; tunable. Empirical calibration or owner budget approval is pending and blocks prototype release.",
     "stopgapId": "SG-P8-param-appraisalBroodingTraitWeight",
     "spread": {
-      "status": "unmeasured",
-      "reason": "No empirical parameter bounds have been identified. Related outcome statistics or inherited model assumptions do not establish bounds on this parameter."
+      "low": 0.25,
+      "high": 0.75,
+      "unit": "fractional change in event appraisal at maximum trait value",
+      "citation": "Stopgap research Oct 19, 2026 (data/research/stopgaps-oct19/A-people-behavior-1.json, SG-P8-param-appraisalBroodingTraitWeight), confidence low: Rumination prolongs and intensifies episodes (Verduyn 2015) and goes with neuroticism-type reactivity (Luo 2022). The effect is more on duration than on intensity, so 0.5 for intensity is an upper-middle estimate; consider putting part of brooding into the half-life (longer tail) instead. Cited but not fetched: Motivation and Emotion (Verduyn, Lavrijsen) 2015; Personality and Social Psychology Review (Luo, Zhang, Cao) 2022."
     },
     "checkRange": {
       "ref": "P9-OUTCOME-WHOLE-LIFE"
