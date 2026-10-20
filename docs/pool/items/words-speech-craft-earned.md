@@ -22,3 +22,5 @@ claimed-at: 2026-10-20T07:48:01.448Z
 **Files.** src/english/english-composition.ts, src/english/english-newscast.ts, src/english/speech-registers.ts
 
 **Notes.** Spec written Oct 20 by claude/speech-craft-spec from the title; it was a TODO shell. Words-line work (AGENTS.md assigns it to an Opus session).
+
+**What a build attempt found (Oct 20, claude/speech-craft).** `line()` in `src/english/english-newscast.ts` composes the only register-bearing lines, for an anchor or reporter named only as packet slots (`anchor`, `reporter`), with no speaker person id; no record of addresses given exists anywhere in `src`. So the first build needs two new things the item does not yet name: a speaker id on the composition context (the press secretary, a member on the floor) and a record written each time that person gives an address (the floor speech, briefing and town hall producers in the director). Build the record first, then the gate.
