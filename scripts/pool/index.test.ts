@@ -132,6 +132,9 @@ describe("claims and gates", () => {
       expect(
         command(["claim", "laws-a", "--branch", "b2", "--no-push"]),
       ).toMatch(/already claimed by b1; take the next item/);
+      expect(
+        command(["claim", "laws-g", "--branch", "b3", "--no-push"], {}),
+      ).toMatch(/laws-g waits on laws-a/);
       expect(command(["status", "laws-a", "done", "--no-push"], {})).toMatch(
         /--by=cto/,
       );
