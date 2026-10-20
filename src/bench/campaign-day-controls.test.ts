@@ -215,9 +215,9 @@ function play(
       api
         .moduleState(CAMPAIGNS_MODULE_ID)
         .table("causes")
-        .rows() as unknown as { id: string; candidateId: string }[]
+        .rows() as unknown as { id: string; candidateId: string; act: string }[]
     )
-      .filter((c) => c.candidateId === personId)
+      .filter((c) => c.candidateId === personId && c.act === "speech")
       .map((c) => c.id);
   const before = new Set(causeIds());
   const held = campaignDay(core, personId, {
