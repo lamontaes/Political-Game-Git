@@ -4503,8 +4503,8 @@
     "why": "The play screen has no control yet to answer a job offer; a held deadline would stop the clock for good.",
     "addedBy": "OPUS-WORLD",
     "addedAt": "2026-10-14",
-    "replacement": "A held offer-deadline stop once the play screen shows jobOffersFor with accept and decline controls (OPUS-PLAY).",
-    "status": "open"
+    "replacement": "A held offer-deadline stop once the play screen shows jobOffersFor with accept and decline controls (OPUS-PLAY). Done Oct 20: the play screen answers offers (POST /api/jobs/answer), so the deadline stop is held and settleOffer releases it.",
+    "status": "resolved"
   },
   {
     "id": "SG-WORLD-new-rental-move-coverage",
