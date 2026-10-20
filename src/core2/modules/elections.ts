@@ -1,4 +1,3 @@
-import { pressConflict } from "../press-conflict";
 /**
  * Elections, part one: contests and filing (golden path step 3).
  *
@@ -20,6 +19,7 @@ import { campaignParameter } from "../campaign-views";
 import { PARTIES_MODULE_ID, partiesHere, partyTie } from "./parties";
 import { partyName } from "../appointments";
 import fallbackData from "../data/elections/filing-fallbacks.json" with { type: "json" };
+import federalQualifications from "../data/elections/federal-qualifications.json" with { type: "json" };
 import filingTerms from "../../../data/research/elections/candidate-filing-terms.json" with { type: "json" };
 import filingRequirementResearch from "../../../data/research/elections/filing-requirements.json" with { type: "json" };
 import filingOffice from "../../../data/research/elections/filing-office.json" with { type: "json" };
@@ -84,8 +84,8 @@ export interface RequirementCheck {
     | "minimum-age"
     | "residency"
     | "party-member"
-    | "term-limit"
-    | "press-employment";
+    | "term-limit";
+
   readonly met: boolean;
   readonly required: string;
   readonly actual: string;
@@ -245,11 +245,33 @@ export function filingRulesFor(
   contest: ContestRow,
   side: FilingSide,
 ): FilingRequirements {
-  const rules = filingRequirements(town(api).stateKey, contest.family, side);
-  if (rules.fallbacks.length) {
+  const stateRules = filingRequirements(
+    town(api).stateKey,
+    contest.family,
+    side,
+  );
+  if (stateRules.fallbacks.length) {
     // stopgapId: SG-GOV-filing-fallbacks
     api.stopgap("SG-GOV-filing-fallbacks");
   }
+  // A Senate or presidential candidate meets the Constitution's age, which a
+  // state's age for its own statewide offices cannot lower.
+  const federal = (
+    federalQualifications.minimumAge as Record<
+      string,
+      { value: number; citation: string }
+    >
+  )[contest.officeId.slice(contest.officeId.lastIndexOf(":") + 1)];
+  const rules =
+    federal && federal.value > stateRules.minimumAge
+      ? {
+          ...stateRules,
+          minimumAge: federal.value,
+          source: [federal.citation, stateRules.source]
+            .filter(Boolean)
+            .join(" ; "),
+        }
+      : stateRules;
   // A side's own deadline is read for the 2026 cycle only; other years'
   // contests keep the deadline from their own calendar.
   return contest.electionDate.startsWith("2026-")
@@ -585,15 +607,6 @@ export function checkEligibility(
       source: rules.source,
     },
   ];
-  const conflict = pressConflict(api, personId);
-  checks.push({
-    rule: "press-employment",
-    met: !conflict,
-    required: "no active press employment or ownership",
-    actual: conflict ? `${conflict.role}:${conflict.outletId}` : "none",
-    source:
-      "CTO ruling pending owner confirmation, October 14, 2026: press staff and owners cannot run while working for or owning an outlet",
-  });
   // Registration is research metadata, not a modeled status. The game has
   // no separate registration step (AGENTS.md: no paperwork); do not report
   // an adult resident as registered without a registration record.
