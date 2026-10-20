@@ -5,12 +5,12 @@ area: people
 kind: bug
 priority: 2
 size: M
-status: in-pr
-claimed-by: claude/couples-plan-share
+status: open
+claimed-by:
 pr: #5738
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-20T17:50:57.862Z
+claimed-at:
 ---
 
 **What.** Measured Oct 20 in births-full-web.test.ts: of 191 active couples in 12 drawn places three plan a child on a typical day (1.6 percent), against 518 couples in 12 places with 12.2 percent planning when renewalWebWeight was fitted a day earlier. Most active couples now have a mother far outside childbearing age (the age term of the plan score averages -2.96 of a possible -4 to +4), and among couples whose age term is above -2 (40 of 250 in 16 places) 52 percent plan. Find what changed the couples table or the age term (more older couples in the table, a different age center, counted women moving out) and decide whether full-tier births are now too few, using the CDC birth rate by age as the check on totals.
@@ -22,3 +22,5 @@ claimed-at: 2026-10-20T17:50:57.862Z
 **Files.** src/core2/births-plan.ts,src/core2/modules/renewal.ts,src/core2/births-full-web.test.ts
 
 **Notes.** TODO
+
+Sent back 2026-10-20 from PR #5738 (branch claude/couples-plan-share): docs/pool/items/people-full-couples-plan-share-fell.md:20 requires births within the CDC age-band spreads in three drawn one-year buildBenchWorld runs, plus planning couples record ids. The PR explicitly reports 3 births against about 38 expected and omits those ids; notes alone do not meet that done-when. Please finish the required proof and behavior before resubmission.; finish on that branch, merge main into it first.
