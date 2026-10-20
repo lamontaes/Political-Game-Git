@@ -5,11 +5,12 @@ area: people
 kind: research
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/traits-research-sd
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-20T19:47:37.349Z
 ---
 
 **What.** The trait calibration converted Mondak et al. (2010) full-range coefficients with an assumed standard deviation of a fifth of the range, the rows quoted no table cell, and a debt-level study was read as a chance of borrowing. Give each Mondak row its Table 2 cell and standard error and its trait's Table 1 standard deviation, and make scripts/traits/trait-calibrate.ts refuse a full-range row without one and a pp-per-sd row whose outcome is not a probability.
