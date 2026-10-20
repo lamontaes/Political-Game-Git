@@ -4,10 +4,10 @@ title: "Stopgaps in school (behavior): 1 open"
 area: people
 kind: stopgap
 priority: 3
-status: open
+status: blocked
 claimed-by:
 pr:
-blocked-on:
+blocked-on: research data: the row's replacement needs sourced data (PEOPLE's schools engine: each child's enrolled school (opening-schools), its district calendar and hours, classes with classmates and teachers, and at...)
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/modules/school.ts, kind behavior"
 ---

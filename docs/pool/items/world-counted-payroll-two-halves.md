@@ -5,7 +5,7 @@ area: world
 kind: bug
 priority: 1
 size: S
-status: in-pr
+status: open
 claimed-by:
 pr: #4928
 blocked-on:
@@ -22,3 +22,5 @@ claimed-at:
 **Files.** src/core2/residents-economy.ts, src/core2/counted-payroll-halves.test.ts, src/core2/residents.test.ts
 
 **Notes.** Body repaired Oct 17 (claude) from the pull request's description; the fix is in that pull request.
+
+Sent back 2026-10-20 from PR #4928 (branch claude/tests-early-returns-residents-s5): Merge main fc2817d7d5b5 into claude/tests-early-returns-residents-s5 conflicts in: src/core2/residents.test.ts. Resolve these files with a normal merge before changed-file validation; no integrated green head exists.; finish on that branch, merge main into it first.

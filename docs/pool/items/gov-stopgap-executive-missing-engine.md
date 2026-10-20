@@ -4,9 +4,9 @@ title: "Stopgaps in executive (missing-engine): 1 open"
 area: gov
 kind: stopgap
 priority: 3
-status: claimed
+status: done
 claimed-by: claude/state-cabinet-pay
-pr:
+pr: #5221
 blocked-on:
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/modules/executive.ts, kind missing-engine"

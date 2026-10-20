@@ -5,7 +5,7 @@ area: world
 kind: wiring
 priority: 2
 size: M
-status: in-pr
+status: dropped
 claimed-by: claude/port-town-workplaces
 pr: #5093
 blocked-on:

@@ -4,12 +4,13 @@ title: "Stopgaps in elections (estimated-calendar): 1 open"
 area: elections
 kind: stopgap
 priority: 3
-status: open
+status: blocked
 claimed-by:
 pr:
-blocked-on:
+blocked-on: research data: the row's replacement needs sourced data (Each unread state's deadline rule read from its code into src/core2/data/elections/filing-deadlines.json, and each ESTIMATED row checked against the c...)
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/modules/elections.ts, kind estimated-calendar"
+claimed-at:
 ---
 
 **What.** Replace or clear the 1 open estimated-calendar stopgap row(s) in src/core2/modules/elections.ts: SG-GOV-filing-deadline-estimate. Each fake is replaced by the mechanic, or the feature that needs it is deleted.
