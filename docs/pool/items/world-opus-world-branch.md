@@ -4,7 +4,7 @@ title: "OPUS-WORLD economy engines branch (#3996)"
 area: world
 kind: feature
 priority: 2
-status: open
+status: dropped
 claimed-by:
 pr: #3996
 blocked-on:
@@ -26,3 +26,4 @@ Sent back 2026-10-15 from PR #3996 (branch opus-world): code conflict with main 
 
 Sent back 2026-10-16 from PR #3996 (branch opus-world): merging main conflicts in src/core2/jobs-closure.test.ts, src/core2/modules/housing.ts (code or data, left for the author); resolve and push; finish on that branch, merge main into it first.
 PR #3996 closed unmerged (2026-10-16); reopened by the pool reconcile Oct 19.
+Dropped by the pool reconcile Oct 19 (audit-2026-10-19): owner closed #3996 on Oct 16; superseded on core2.

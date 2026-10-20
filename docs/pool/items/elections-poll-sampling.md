@@ -4,7 +4,7 @@ title: "Poll sampling and ballot foundations (B07 P4, #2486)"
 area: elections
 kind: feature
 priority: 2
-status: open
+status: dropped
 claimed-by:
 pr: #5091
 blocked-on:
@@ -25,3 +25,4 @@ claimed-at:
 
 Sent back 2026-10-16 from PR #2486 (branch session29-b07-p4): merging main conflicts in data/research/money/poll-interview-prices.json, src/simulation/election-contests.ts and src/simulation/types.ts (code, left for the author); resolve and push; finish on that branch, merge main into it first.
 PR #5091 closed unmerged (2026-10-19); reopened by the pool reconcile Oct 19.
+Dropped by the pool reconcile Oct 19 (audit-2026-10-19; OWNER-DECISIONS Oct 19 evening, Superseded elections items): old-engine branch; elections-polls-core2 replaces it.

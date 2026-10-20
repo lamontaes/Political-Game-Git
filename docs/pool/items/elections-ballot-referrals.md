@@ -4,7 +4,7 @@ title: "Certified ballot referrals and named tally (b18-p3, #2497)"
 area: elections
 kind: feature
 priority: 2
-status: open
+status: dropped
 claimed-by:
 pr: #5081
 blocked-on:
@@ -25,3 +25,4 @@ claimed-at:
 
 Sent back 2026-10-16 from PR #2497 (branch session46/b18-3-ballot-measures): merging main conflicts in docs/archive/codex/assignments/POOL.md, src/simulation/constitutional-process.ts (code or data, left for the author); resolve and push; finish on that branch, merge main into it first.
 PR #5081 closed unmerged (2026-10-19); reopened by the pool reconcile Oct 19.
+Dropped by the pool reconcile Oct 19 (audit-2026-10-19; OWNER-DECISIONS Oct 19 evening, Superseded elections items): old-engine branch.

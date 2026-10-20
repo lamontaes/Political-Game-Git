@@ -8,8 +8,8 @@
     "why": "Taking a public post ends the person's current job, and the core doesn't yet release the records that rely on a job (a business's visitor contracts name its workers' jobs), so ending one mid-contract breaks the finance check.",
     "addedBy": "FIXER-EVERY-MODULE-RUNS",
     "addedAt": "2026-10-13",
-    "replacement": "A job ending that settles or reassigns every contract naming the job (OPUS-CORE), after which employed applicants are back in the pool.",
-    "status": "open"
+    "replacement": "Resolved Oct 19: taking a public post ends the job the person held (startPublicJob), so an aide, a department head and a state cabinet nominee may come from a private job when the post pays more than they earn; someone who has worked today leaves for a post tomorrow. Shown in staff-hire-employed.test.ts (pool item gov-stopgap-staff-missing-engine).",
+    "status": "resolved"
   },
   {
     "id": "SG-P8-relationship-closeness-update",
@@ -1038,11 +1038,11 @@
     "kind": "estimated-calendar",
     "file": "src/core2/modules/offices.ts",
     "line": 408,
-    "whatItFakes": "The end of each term in progress at the opening for state and local offices: the seats of a body take turns over the years in one term that the office's calendar (the county schedule or the state's municipal election law) holds elections, and each term ends on the start day after its seat's election; where a state's own start rule isn't read, January 1. Federal terms are read: every House seat ends January 3 of an odd year (amend. XX), Senate seats by their real class, the presidency on January 20.",
+    "whatItFakes": "The end of each term in progress at the opening for state and local offices: the seats of a body take turns over the years in one term that the office's calendar (the county schedule or the state's municipal election law) holds elections, and each term ends on the start day after its seat's election; where a state's own start rule isn't read, January 1 (the governors' clauses of AK, DE, FL, HI, LA, ME, VA and WA are read, in data/elections/term-starts.json). Federal terms are read: every House seat ends January 3 of an odd year (amend. XX), Senate seats by their real class, the presidency on January 20.",
     "why": "Real election calendars and term-start dates for each office are M2's filing and election work.",
     "addedBy": "OPUS-GOV",
     "addedAt": "2026-10-12",
-    "replacement": "Each state's governor start rule (FIXER stand-in figures: AK, HI, FL, DE, LA, VA, ME and the rest), county bodies from county-election-schedule-by-state.json (concurrent or staggered), and municipal timing from the 92O baselines.",
+    "replacement": "The other states' governor start clauses and the state-legislature start days read into data/elections/term-starts.json, and municipal timing from the 92O baselines (county bodies are read: county-election-schedule-by-state.json).",
     "status": "open"
   },
   {
@@ -2817,11 +2817,11 @@
     "file": "src/core2/modules/jobs.ts",
     "line": 1401,
     "whatItFakes": "A counted worker who retires draws their place's opening retirees' average income (Social Security and pensions from outside the town), not a benefit from their own earnings record and claim age.",
-    "why": "Counted people have no earnings records; Social Security claims and benefit formulas are OPUS-CORE's and OPUS-GOV's.",
+    "why": "Counted people have no earnings records; Social Security claims and benefit formulas are OPUS-CORE's and OPUS-GOV's. Resolved Oct 19, 2026: a counted worker who retires claims at once from their own record through claimRetirementNow (modules/retirement-claims.ts), sized as the opening sizes awards; that path stays under SG-CORE-retirement-claims-in-play until the Social Security program.",
     "addedBy": "OPUS-WORLD",
     "addedAt": "2026-10-12",
     "replacement": "The core's Social Security claim for counted retirees, with GOV's benefit rules in force.",
-    "status": "open"
+    "status": "resolved"
   },
   {
     "id": "SG-WEB-outcome-drift",
@@ -4752,7 +4752,8 @@
     "addedBy": "SESSION-C",
     "addedAt": "2026-10-15",
     "replacement": "Owner confirmation or revision of the press-employment conflict rule; apply the chosen rule to all candidate filing paths.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "Done Oct 19 (gov-press-ban-withdrawn): the owner withdrew the ban on Oct 16 (\"a reporter who wants to run may run\"; OWNER-DECISIONS). The press-employment check is gone from checkEligibility, the candidacy chooser and the candidate pool, so press staff file and run like anyone; only the automatic vacancy stand-in still passes over press jobs, because the defect was a reporter seated without an election."
   },
   {
     "id": "SG-WORLD-board-hawk-side",
