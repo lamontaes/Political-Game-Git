@@ -2779,12 +2779,12 @@
     "id": "SG-WORLD-housing-new-home-buyers",
     "kind": "faked-mechanic",
     "file": "src/core2/housing-construction.ts",
-    "line": 151,
-    "whatItFakes": "New houses sell only to full renter households; counted renters and households moving in never buy one, so unsold houses pile up.",
-    "why": "Counted households' money is pooled by place and arrivals are OPUS-CORE's population engine.",
+    "line": 149,
+    "whatItFakes": "New houses sell to renter households, full and counted (counted renters buy through their group's fund), but households moving in never buy one.",
+    "why": "Arrivals are OPUS-CORE's population engine and do not yet choose to buy on arrival.",
     "addedBy": "OPUS-WORLD",
     "addedAt": "2026-10-12",
-    "replacement": "Counted renter households and arrivals buy new houses through the same choice and mortgage, once fill-in and arrivals land.",
+    "replacement": "Arriving households buy new houses through the same choice and mortgage, once arrivals land. Counted renters buy through buyHomesCounted (src/core2/modules/housing.ts).",
     "status": "open"
   },
   {
@@ -5310,6 +5310,18 @@
     "addedBy": "claude/tuition-reenroll",
     "addedAt": "2026-10-20",
     "replacement": "The same August ranking over counted groups, with the flow's contract part for each household started or ended (pool item core-stopgap-opening-private-tuition-aggregate-spending).",
+    "status": "open"
+  },
+  {
+    "id": "SG-WORLD-housing-counted-means",
+    "kind": "owner-decision",
+    "file": "src/core2/modules/housing.ts",
+    "line": 1194,
+    "whatItFakes": "A counted renter household has no cash of its own, so what it can put down on a home is its group's fund divided by the households the group stands for. Whether a counted household's down payment is that share, the cash its members hold at the opening, or something read from its income and savings is the owner's call.",
+    "why": "Counted households' money is pooled by group (one model, two tiers); the ruling that a filled-in relative's cash follows their household's real income covers a filled-in person, not a counted household buying a home. No ruling exists for the purchase.",
+    "addedBy": "claude/housing-construction-stopgap",
+    "addedAt": "2026-10-20",
+    "replacement": "The owner's ruling on a counted household's down-payment means (docs/coordination/OWNER-DECISIONS.md), read from the household's own records.",
     "status": "open"
   }
 ]

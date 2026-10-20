@@ -326,6 +326,23 @@ export function bankYes(
 }
 
 /**
+ * What the town bank can still lend on mortgages: its capital times the
+ * lending limit, less the limits and loans it already carries. Zero with no
+ * bank. A counted household's loan reads the same room as a full one's.
+ */
+export function mortgageRoom(api: CoreAPI): number {
+  const bank = bankOf(api);
+  if (!bank) return 0;
+  const book = equity(api, bank.organizationId);
+  return Math.max(
+    0,
+    book.equity * api.parameter("creditMaxLimitsPerEquity") -
+      book.limits -
+      book.loans,
+  );
+}
+
+/**
  * A home loan from the town bank: the bank pays the seller the principal and
  * the household repays monthly like any loan. Zero when the bank has no room.
  */
@@ -344,11 +361,7 @@ export function lendMortgage(
   if (!bank) return 0;
   const c = core(api),
     p = (key: string) => api.parameter(key);
-  const book = equity(api, bank.organizationId);
-  const room = Math.max(
-    0,
-    book.equity * p("creditMaxLimitsPerEquity") - book.limits - book.loans,
-  );
+  const room = mortgageRoom(api);
   const amount = Math.min(input.principalMinor, room);
   if (amount <= 0) return 0;
   const id = `mortgage-loan:${input.householdId}:${c.date}`;
