@@ -2595,27 +2595,15 @@ export function keepCalendar(
 ): void {
   const rt = runtimes.get(core);
   if (!rt) return;
-  const held = rt.input.calendars ?? [];
-  if (calendarsById(held).has(calendar.id)) return;
-  // Copied once (the opening's list may be shared or frozen), then added to
-  // in place with its index: copying it for every kept calendar was
-  // quadratic in the town's calendars.
-  let calendars = held as WorkPayrollCalendarInput[];
-  if (!ownedCalendarLists.has(held)) {
-    calendars = [...held];
-    ownedCalendarLists.add(calendars);
-    calendarIndexes.set(calendars, new Map(calendarsById(held)));
-    rt.input = { ...rt.input, calendars };
-  }
-  calendars.push(calendar);
-  calendarIndexes.get(calendars)!.set(calendar.id, calendar);
+  const calendars = rt.input.calendars ?? [];
+  if (calendarsById(calendars).has(calendar.id)) return;
+  rt.input = { ...rt.input, calendars: [...calendars, calendar] };
 }
 
 const calendarIndexes = new WeakMap<
   readonly WorkPayrollCalendarInput[],
   Map<string, WorkPayrollCalendarInput>
 >();
-const ownedCalendarLists = new WeakSet<readonly WorkPayrollCalendarInput[]>();
 
 /** The calendars by id, indexed once per list instead of on every release. */
 function calendarsById(
