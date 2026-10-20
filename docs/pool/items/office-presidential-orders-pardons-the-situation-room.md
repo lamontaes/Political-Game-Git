@@ -22,3 +22,5 @@ claimed-at:
 **Files.** src/core2/office-day-federal-president.ts, src/core2/modules/executive.ts, src/core2/modules/justice.ts, src/core2/data/office-day/federal-cabinet.json
 
 **Notes.** Checklist line from OFFICE-FEDERAL.md; verify against main before starting.
+
+Sent back 2026-10-20 from PR #5184 (branch claude/presidential-orders): a 'Resolved Oct 19' date note in the stopgap replacement text; finish on that branch, merge main into it first.
