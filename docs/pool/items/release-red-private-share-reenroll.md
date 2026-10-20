@@ -22,3 +22,5 @@ claimed-at:
 **Files.** src/core2/private-tuition-reenroll.ts, src/core2/opening-private-tuition.ts, src/core2/private-tuition-reenroll.test.ts
 
 **Notes.** TODO
+
+Sent back 2026-10-20 from PR #5746 (branch claude/private-share-reenroll): docs/release/changes/release-red-private-share-reenroll.md:5 says a played year stops on its first school day. src/core2/modules/school.ts:236 only calls re-enrollment when date.slice(5) equals tuition.reenrollOn, and src/core2/data/opening-private-tuition.json sets that to 08-01. Describe the annual August 1 re-enrollment crash rather than the first school day in the release note, body and pool title. The removed-parameter fix looks consistent with the code; light gates passed, but the unfinished typecheck/test gate was stopped for this claim correction and is not a test failure.; finish on that branch, merge main into it first.
