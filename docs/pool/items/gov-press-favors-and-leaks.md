@@ -5,12 +5,13 @@ area: words
 kind: wiring
 priority: 3
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/press-favors-leaks
 pr:
 blocked-on:
 after: gov-press-interview-conversation
 source: added with npm run pool -- add
+claimed-at: 2026-10-20T08:08:17.683Z
 ---
 
 **What.** A reporter's closeness to a candidate gives access and gentler copy, but a candidate cannot do a reporter a favor or leak them a story, and a reporter cannot hold a story back for a friend. Build a leak as a conversation move that puts a record on the reporter's wire with the leaker named in their knowledge, and favors as relationship acts that the reporter's drives and closeness read, in src/core2/modules/press.ts.
