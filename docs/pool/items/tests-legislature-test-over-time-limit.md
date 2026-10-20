@@ -22,3 +22,5 @@ claimed-at: 2026-10-20T04:38:34.485Z
 **Files.** src/core2/legislature.test.ts, src/core2/modules/legislature.ts
 
 **Notes.** The minimum-wage failure had no seed in its message: add the place and seed to that expect so the next failure names its draw.
+
+Oct 20 (claude/legislature-test-time): sixteen more runs of the two tests on random draws (pairs of runs, with the seed now in the vote-record message) all passed; the minimum-wage vote-reason failure showed once more in a run of three pairs, but its message was cut by my filter and it did not recur in sixteen reruns, so it is still unexplained: the next failure will name its member, vote id, place and seed. The budget test took 15 to 85 seconds alone, depending on the drawn town, and 122 seconds inside a 92-file run, so the 122 seconds was load; its limit is now 240 seconds with that reason in the test.

@@ -242,9 +242,10 @@ describe(
       for (const m of council.map((s) => s.holder!.personId!)) {
         const v = votes.find((x) => x.memberId === m)!;
         if (v.vote !== "abstain")
-          expect(votesOf(api, m).some((r) => r.measureId === bill.number)).toBe(
-            true,
-          );
+          expect(
+            votesOf(api, m).some((r) => r.measureId === bill.number),
+            `member ${m} voted ${v.vote} on ${bill.number} with no vote record (vote ${v.id}, place ${key}, seed ${seed})`,
+          ).toBe(true);
       }
       // If it became law: on its date the town's law changes and named workers are raised.
       if (
@@ -703,7 +704,10 @@ describe(
       expect(
         budgetsOf(api, city.id).find((b) => b.fiscalYear === fy)?.spendingMinor,
       ).toEqual(requested);
-    }, 120_000);
+      // A drawn town's fiscal year of daily work took 15 to 85 s alone across
+      // sixteen runs (Oct 20) and 122 s inside a 92-file run on a loaded
+      // machine, so the limit is twice the old one, for load and not a slow path.
+    }, 240_000);
 
     it("the bill paper's catalog: 18 menus, amounts from the law in force, picks that draft real bills", () => {
       const { api, council } = town(Object.keys(authority).sort(), "catalog");
