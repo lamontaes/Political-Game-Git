@@ -940,6 +940,11 @@ export async function benchRequest(
         send(200, reportPreview(core));
         return;
       }
+      // Whether the last run ended badly (the desktop shell sets it at start).
+      if (request.method === "GET" && url.pathname === "/api/report/state") {
+        send(200, { afterCrash: process.env.OCD_PREVIOUS_CRASH === "1" });
+        return;
+      }
       if (request.method === "POST" && url.pathname === "/api/report/send") {
         send(200, reportToSend(core));
         return;

@@ -4519,3 +4519,14 @@ async function startLife({ custom = false, placeKey, person }) {
     document.querySelector("#front .progress").hidden = true;
   }
 }
+
+// After a run that did not end cleanly the desktop shell says so: the options
+// open on the bug report, shown first and sent only when the player saves it.
+controlsReady
+  .then(() => api("/api/report/state"))
+  .then(async (state) => {
+    if (!state.afterCrash) return;
+    await openSheet("options");
+    document.querySelector('[data-testid="report-bug"]')?.click();
+  })
+  .catch(() => {});

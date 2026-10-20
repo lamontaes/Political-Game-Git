@@ -44,3 +44,20 @@ it("sends only on the player's own act, as a named file", async () => {
   // A GET never sends.
   expect((await ask("GET", "/api/report/send")).status).toBe(404);
 });
+
+it("says whether the last run ended badly, as the desktop shell set it at start", async () => {
+  const before = process.env.OCD_PREVIOUS_CRASH;
+  try {
+    process.env.OCD_PREVIOUS_CRASH = "1";
+    expect((await ask("GET", "/api/report/state")).body).toEqual({
+      afterCrash: true,
+    });
+    process.env.OCD_PREVIOUS_CRASH = "0";
+    expect((await ask("GET", "/api/report/state")).body).toEqual({
+      afterCrash: false,
+    });
+  } finally {
+    if (before === undefined) delete process.env.OCD_PREVIOUS_CRASH;
+    else process.env.OCD_PREVIOUS_CRASH = before;
+  }
+});
