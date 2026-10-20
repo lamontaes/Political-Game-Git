@@ -5,9 +5,9 @@ area: words
 kind: wiring
 priority: 3
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/press-interview-conversation
-pr:
+pr: #5602
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-20T07:45:25.633Z
