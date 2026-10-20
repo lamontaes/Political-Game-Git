@@ -49,10 +49,10 @@
       "spread": [0.05, 0.3]
     },
     "secondhandWeight": {
-      "value": 0.5,
+      "value": 0.3,
       "tag": "TUNABLE",
-      "source": "Share of a first-hand impression that a retelling passes on to family and friends. Checked against two-step-flow findings (Katz and Lazarsfeld 1955; Nickerson 2008: 60% of a canvassing turnout effect passed to housemates).",
-      "spread": [0.3, 0.7]
+      "source": "Share of a first-hand impression that a retelling passes on to family and friends before the teller's personality, which multiplies it by 1 plus the calibrated campaigns.retell weight times their lean (a town average of 1.65 times). Set to 0.5 divided by that average so the town's mean second-hand reach stays where Katz and Lazarsfeld 1955 and Nickerson 2008 (60% of a canvassing turnout effect passed to housemates) put it.",
+      "spread": [0.18, 0.42]
     },
     "donationShareOfCashPerWarmth": {
       "value": 0.01,
@@ -117,8 +117,26 @@
     "votingStandAgainBase": {
       "value": 0.9,
       "tag": "TUNABLE",
-      "source": "The reason a serving incumbent who is a full person carries to stand again before their traits weigh in (the trait lean for stand over retire runs about -1 to 1, so most incumbents still stand). Checked against the share of incumbents who seek reelection, about 81% of U.S. local incumbents, the figure the repo's candidacy test cites.",
+      "source": "The reason a serving incumbent who is a full person carries to stand again before their age and traits weigh in. With the age reason below and the calibrated voting.stand-again weight, about 82% of incumbents stand, against about 81% of U.S. local incumbents who seek reelection, the figure the repo's candidacy test cites.",
       "spread": [0.5, 1.2]
+    },
+    "votingStandAgainAgeWeight": {
+      "value": 1.75,
+      "tag": "ESTIMATED",
+      "source": "How much an incumbent's age takes from their reason to stand again, rising from nothing at the pivot age to this much at the pivot plus the span. Found with the age distribution of adults 30 to 85 in Newfane VT (seed c1) so that 82% of incumbents stand (about 81% of U.S. local incumbents seek reelection) while the calibrated voting.stand-again weight gives the 1.21 odds ratio the study implies.",
+      "spread": [1.25, 2.25]
+    },
+    "votingStandAgainAgePivot": {
+      "value": 55,
+      "tag": "ESTIMATED",
+      "source": "The age at which an incumbent's age begins to weigh against standing again; local officials leave office more as they near and pass the usual retirement ages (Ballotpedia municipal incumbent reports).",
+      "spread": [50, 65]
+    },
+    "votingStandAgainAgeSpan": {
+      "value": 30,
+      "tag": "ESTIMATED",
+      "source": "Years of age over which the age reason rises from nothing to its full weight (55 to 85).",
+      "spread": [20, 40]
     },
     "turnoutBase": {
       "value": -0.48,
@@ -637,10 +655,10 @@
       "spread": [10, 18]
     },
     "doorAnswerThreshold": {
-      "value": 2.25,
+      "value": 0.46,
       "tag": "TUNABLE",
-      "source": "How ready the adult home whose traits lean most toward opening must be to open to a canvasser (every trait's lean between opening and ignoring, campaigns.open-door, times traitScale, about -3 to 3, plus their age term); checked against field contact rates of about a quarter to a third of doors knocked (Green and Gerber, Get Out the Vote, 2019; Arceneaux 2005). Measured over six random places and seeds with every trait counted (FIXER-TRAITS-TURNOUT, Oct 13, 2026): 19 to 37% of doors, 31% on average, at this value; 42 to 61% at the earlier 1.25.",
-      "spread": [1.75, 2.75]
+      "source": "How ready the adult home who is most willing must be to open to a canvasser, before personality: their age term. Personality adds the calibrated campaigns.open-door weight times their lean. Set so the same 18% of adults open as under the earlier hand-set trait scale, measured over Newfane VT, Ute IA, Clifton KS and Cameron SC for a played year each; field contact rates run a quarter to a third of doors knocked, which counts a home once any adult opens (Green and Gerber, Get Out the Vote, 2019; Arceneaux 2005).",
+      "spread": [0.2, 0.9]
     },
     "volunteerClosenessWeight": {
       "value": 0.5,
@@ -649,10 +667,10 @@
       "spread": [0.2, 1]
     },
     "volunteerThreshold": {
-      "value": 2.5,
+      "value": 0.61,
       "tag": "TUNABLE",
-      "source": "How strong someone's pull to volunteer must be (their warmth and closeness to the candidate, every trait's lean between volunteering and declining, campaigns.volunteer, times traitScale, about -3 to 3, less their hours of work): checked so a small share of a candidate's acquaintances say yes (about 4% of adults worked or volunteered for a campaign in 2020, ANES; a candidate's friends and family volunteer at several times that). Measured over six random places and seeds with every trait counted (FIXER-TRAITS-TURNOUT, Oct 13, 2026): 5 to 31% of acquaintances, 17% on average, at this value; 21 to 54% at the earlier 1.0.",
-      "spread": [2, 3]
+      "source": "How strong someone's pull to volunteer must be, before personality: their warmth and closeness to the candidate, less their hours of work. Personality adds the calibrated campaigns.volunteer weight times their lean. Set so the same 3.8% of the people a candidate asks say yes as under the earlier hand-set trait scale (about 4% of adults worked or volunteered for a campaign in 2020, ANES; a candidate's friends and family volunteer at several times that), measured over Newfane VT, Ute IA, Clifton KS and Cameron SC for a played year each.",
+      "spread": [0.3, 1.2]
     },
     "doorAnswerPivotAge": {
       "value": 55,
@@ -673,10 +691,10 @@
       "spread": [3600, 8000]
     },
     "pollAnswerThreshold": {
-      "value": 1.4,
+      "value": 0.63,
       "tag": "TUNABLE",
-      "source": "How ready (sociability, half their reliability, and age) someone called must be to complete a poll; checked against telephone response rates of about 6 to 10% (Pew Research Center 2019).",
-      "spread": [0.8, 2]
+      "source": "How ready (age) someone called must be to complete a poll, before personality, which adds the calibrated campaigns.answer-poll weight times their lean. Set so the same 3.4% of adults answer as under the earlier hand-set trait scale; telephone response rates run about 6 to 10% (Pew Research Center 2019), which counts everyone called.",
+      "spread": [0.3, 1.2]
     },
     "pollPartyCue": {
       "value": 0.3,
@@ -714,12 +732,6 @@
       "source": "How much a firmer party tie (the tie's lean, 0 to 1) adds to how closely a candidate states the party's positions; strong partisans hold the party line most (Green, Palmquist and Schickler 2002, Partisan Hearts and Minds).",
       "spread": [0.1, 0.5]
     },
-    "partyFirmnessTraitWeight": {
-      "value": 0.15,
-      "tag": "TUNABLE",
-      "source": "How much a candidate's trait lean toward joining over staying out (parties.join, -1 to 1) adds to or takes from how closely they state their party's positions.",
-      "spread": [0.05, 0.3]
-    },
     "candidatePlatformQuestions": {
       "value": 3,
       "tag": "TUNABLE",
@@ -743,6 +755,18 @@
       "tag": "TUNABLE",
       "source": "How many people a campaign asks for money in one turn, by call or in person: call time runs a few hours a session at roughly ten calls an hour (campaign fundraising manuals; Wellstone Action's training guides).",
       "spread": [10, 100]
+    },
+    "volunteerAsksPerTurn": {
+      "value": 10,
+      "tag": "TUNABLE",
+      "source": "How many of the people a campaign can reach it asks to volunteer in one turn: recruiting calls run about ten an hour (campaign field manuals; Wellstone Action's training guides), and a turn spends about an hour of the candidate's or an aide's time on it.",
+      "spread": [3, 30]
+    },
+    "endorsementAsksPerTurn": {
+      "value": 3,
+      "tag": "TUNABLE",
+      "source": "How many of the people closest to a candidate are asked for an endorsement in one turn, each asked once, the closest first: a local candidate collects a handful of public endorsements over a campaign (Ballotpedia local candidate pages list a few to a dozen).",
+      "spread": [1, 8]
     },
     "playerCanvassHours": {
       "value": 3,

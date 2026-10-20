@@ -234,6 +234,111 @@
       "notes": "Five-country survey (Canada, Denmark, Israel, Netherlands, Switzerland), not the US. Effect is per interquartile range (4.5 to 6 on a 7-point scale), not per SD; source says 'percent' and appears to mean percentage points (it uses 'percentage points' for the gender gap). Lower honesty-humility raises considering (-0.06), feeling qualified (-0.09), being asked (-0.02)."
     },
     {
+      "id": "campaigns.retell",
+      "trait": "openness to experience",
+      "outcome": "tried to convince people to vote for or against a candidate",
+      "effect": {
+        "kind": "logit-coef-full-range",
+        "value": 2.07,
+        "low": 1.404,
+        "high": 2.736
+      },
+      "source": {
+        "authors": "Mondak, J. J., Hibbing, M. V., Canache, D., Seligson, M. A., & Anderson, M. R.",
+        "year": 2010,
+        "title": "Personality and Civic Engagement: An Integrative Framework for the Study of Trait Effects on Political Behavior",
+        "venue": "American Political Science Review 104(1), 85-110",
+        "url": "https://doi.org/10.1017/S0003055409990359"
+      },
+      "quote": "Substantively, the largest effects in Table 2 are those for openness and extraversion.",
+      "quoteVerified": true,
+      "notes": "Proxy: telling family and friends about a campaign is the same act as trying to convince people how to vote (Mondak et al. 2010, openness); no study of retelling a campaign message by personality was found. Coefficient is the binomial logit coefficient from Mondak et al. (2010) Table 2 (2006 Cooperative Congressional Election Study, US adults, N about 1,060; controls age, female, black); the trait is scaled 0 to 1 so the coefficient is the log-odds change from lowest to highest trait score, not per SD. low/high = coefficient +/- 1.96 x reported SE. "
+    },
+    {
+      "id": "press.accept-interview",
+      "trait": "openness to experience",
+      "outcome": "tried to convince people to vote for or against a candidate",
+      "effect": {
+        "kind": "logit-coef-full-range",
+        "value": 2.07,
+        "low": 1.404,
+        "high": 2.736
+      },
+      "source": {
+        "authors": "Mondak, J. J., Hibbing, M. V., Canache, D., Seligson, M. A., & Anderson, M. R.",
+        "year": 2010,
+        "title": "Personality and Civic Engagement: An Integrative Framework for the Study of Trait Effects on Political Behavior",
+        "venue": "American Political Science Review 104(1), 85-110",
+        "url": "https://doi.org/10.1017/S0003055409990359"
+      },
+      "quote": "Substantively, the largest effects in Table 2 are those for openness and extraversion.",
+      "quoteVerified": true,
+      "notes": "Proxy: agreeing to a reporter's interview is speaking up to persuade (Mondak et al. 2010, trying to convince people how to vote, openness); no study of accepting interviews by personality was found. Coefficient is the binomial logit coefficient from Mondak et al. (2010) Table 2 (2006 Cooperative Congressional Election Study, US adults, N about 1,060; controls age, female, black); the trait is scaled 0 to 1 so the coefficient is the log-odds change from lowest to highest trait score, not per SD. low/high = coefficient +/- 1.96 x reported SE. "
+    },
+    {
+      "id": "campaigns.rival-hours",
+      "trait": "openness to experience",
+      "outcome": "worked for a party or candidate",
+      "effect": {
+        "kind": "logit-coef-full-range",
+        "value": 2.02,
+        "low": 0.57,
+        "high": 3.47
+      },
+      "source": {
+        "authors": "Mondak, J. J., Hibbing, M. V., Canache, D., Seligson, M. A., & Anderson, M. R.",
+        "year": 2010,
+        "title": "Personality and Civic Engagement: An Integrative Framework for the Study of Trait Effects on Political Behavior",
+        "venue": "American Political Science Review 104(1), 85-110",
+        "url": "https://doi.org/10.1017/S0003055409990359"
+      },
+      "quote": "Substantively, the largest effects in Table 2 are those for openness and extraversion.",
+      "quoteVerified": true,
+      "notes": "Proxy: a candidate's own hours campaigning are working for a party or candidate (Mondak et al. 2010, openness); no study of a candidate's campaigning hours by personality was found. Coefficient is the binomial logit coefficient from Mondak et al. (2010) Table 2 (2006 Cooperative Congressional Election Study, US adults, N about 1,060; controls age, female, black); the trait is scaled 0 to 1 so the coefficient is the log-odds change from lowest to highest trait score, not per SD. low/high = coefficient +/- 1.96 x reported SE. "
+    },
+    {
+      "id": "campaigns.party-firmness",
+      "trait": "openness to experience",
+      "outcome": "worked for a party or candidate",
+      "effect": {
+        "kind": "logit-coef-full-range",
+        "value": 2.02,
+        "low": 0.57,
+        "high": 3.47
+      },
+      "source": {
+        "authors": "Mondak, J. J., Hibbing, M. V., Canache, D., Seligson, M. A., & Anderson, M. R.",
+        "year": 2010,
+        "title": "Personality and Civic Engagement: An Integrative Framework for the Study of Trait Effects on Political Behavior",
+        "venue": "American Political Science Review 104(1), 85-110",
+        "url": "https://doi.org/10.1017/S0003055409990359"
+      },
+      "quote": "Substantively, the largest effects in Table 2 are those for openness and extraversion.",
+      "quoteVerified": true,
+      "notes": "Proxy: joining and holding a party is working for a party or candidate (Mondak et al. 2010, openness); no study of how firmly a candidate holds a party line by personality was found. Coefficient is the binomial logit coefficient from Mondak et al. (2010) Table 2 (2006 Cooperative Congressional Election Study, US adults, N about 1,060; controls age, female, black); the trait is scaled 0 to 1 so the coefficient is the log-odds change from lowest to highest trait score, not per SD. low/high = coefficient +/- 1.96 x reported SE. "
+    },
+    {
+      "id": "voting.stand-again",
+      "trait": "honesty-humility (HEXACO)",
+      "outcome": "actually having run for political office",
+      "effect": {
+        "kind": "pp-per-iqr",
+        "value": -0.03,
+        "low": null,
+        "high": null
+      },
+      "source": {
+        "authors": "van de Wardt, M., Bundi, P., Loewen, P. J., Rasmussen, A., Sheffer, L., & Varone, F.",
+        "year": 2026,
+        "title": "Too honest and humble to run for office? Citizens' personality traits, nascent ambition, and recruitment",
+        "venue": "European Journal of Political Research 65, 307-327",
+        "url": "https://doi.org/10.1017/S1475676525100224"
+      },
+      "quote": "an IQR increase in honesty-humility (i.e., from 4.5 to 6 on a seven-point scale) corresponds to a 6 percent decrease in the chance of having thought about running, a 9 percent decrease in the chance of feeling qualified to run, a 2 percent decrease in the chance of having been asked to run, and finally, a 3 percent decrease in the chance of actually having run.",
+      "quoteVerified": true,
+      "notes": "Proxy: an incumbent standing again is running for office (van de Wardt et al. 2026, honesty-humility); no study of incumbents' decisions to retire by personality was found. Five-country survey (Canada, Denmark, Israel, Netherlands, Switzerland), not the US. Effect is per interquartile range (4.5 to 6 on a 7-point scale), not per SD; source says 'percent' and appears to mean percentage points (it uses 'percentage points' for the gender gap). Lower honesty-humility raises considering (-0.06), feeling qualified (-0.09), being asked (-0.02)."
+    },
+    {
       "id": "moves.move-away",
       "trait": "openness to experience",
       "outcome": "between-state migration over 7-11 years (MIDUS, US)",
@@ -746,13 +851,24 @@
     },
     {
       "id": "campaigns.answer-poll",
-      "trait": "none found",
-      "outcome": "responding to political polls and surveys",
-      "effect": null,
-      "source": null,
-      "quote": "",
-      "quoteVerified": false,
-      "notes": "No study with a personality effect size on survey or poll response was found and verified."
+      "trait": "extraversion",
+      "outcome": "contacted a member of Congress in the past two years (proxy for answering a pollster's call)",
+      "effect": {
+        "kind": "pp-full-range",
+        "value": 0.22,
+        "low": null,
+        "high": null
+      },
+      "source": {
+        "authors": "Mondak, J. J., Hibbing, M. V., Canache, D., Seligson, M. A., & Anderson, M. R.",
+        "year": 2010,
+        "title": "Personality and Civic Engagement: An Integrative Framework for the Study of Trait Effects on Political Behavior",
+        "venue": "American Political Science Review 104(1), 85-110",
+        "url": "https://doi.org/10.1017/S0003055409990359"
+      },
+      "quote": "With other variables held constant at mean or modal values, the predicted probability of having contacted a member of Congress rises from 0.28 to 0.45 across the values of openness to experience, and from 0.27 to 0.49 across extraversion.",
+      "quoteVerified": true,
+      "notes": "Proxy: taking a stranger's call to give an opinion is reaching across to a public figure or institution (Mondak et al. 2010, extraversion, predicted probability 0.27 to 0.49); no study of poll response by personality was found. Predicted probability rises 0.27 to 0.49 (22 points) across the full extraversion range; logit coefficient 0.92 (SE .27). This describes a citizen contacting an official, used here as a proxy; no study of officials opening their doors to constituents by personality was found. Not per SD."
     },
     {
       "id": "parties.join",

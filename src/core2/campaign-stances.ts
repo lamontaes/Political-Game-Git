@@ -21,7 +21,7 @@
  */
 import { votesOf } from "./modules/record";
 import { partyName, partySide } from "./appointments";
-import { decisionLean } from "./trait-decisions";
+import { leanedScore } from "./trait-decisions";
 import type { CoreAPI } from "./types";
 import { PARTIES_MODULE_ID, partiesHere, type TieRow } from "./modules/parties";
 import { officialLean, officialOf, officialStance } from "./modules/officials";
@@ -193,18 +193,19 @@ export function partyFirmness(api: CoreAPI, personId: string): number {
       : 0;
   const traits =
     person && !official
-      ? decisionLean(
+      ? leanedScore(
           api.state,
           person,
           "campaigns.party-firmness",
           "join",
           "stay-out",
+          0,
         )
       : 0;
   return clamp(
     campaignParameter("partyFirmnessBase") * (official?.loyalty ?? 1) +
       campaignParameter("partyFirmnessTieWeight") * tieLean +
-      campaignParameter("partyFirmnessTraitWeight") * traits,
+      traits,
     0,
     1,
   );

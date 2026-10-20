@@ -147,6 +147,27 @@ export function leanedYes(
   noOptionId: string,
   bare: number,
 ): boolean {
+  return (
+    leanedScore(core, person, decisionId, yesOptionId, noOptionId, bare) >
+    parameter("zero", core.data.parameters)
+  );
+}
+
+/**
+ * A decision's score with the person's calibrated trait term added: `bare`
+ * (every reason but personality) plus the lean toward `yesOptionId` over
+ * `noOptionId` times the decision's weight. For a decision whose size, not
+ * only its direction, depends on the score (a gift, a readiness to answer).
+ * Reports to the probe like `leanedYes`.
+ */
+export function leanedScore(
+  core: Pick<CoreState, "data">,
+  person: Pick<PersonState, "traits"> & { id?: string },
+  decisionId: string,
+  yesOptionId: string,
+  noOptionId: string,
+  bare: number,
+): number {
   const lean = leanBetween(
     core,
     person,
@@ -154,17 +175,18 @@ export function leanedYes(
     decisionKinds(decisionId, noOptionId),
     (key) => parameter(key, core.data.parameters),
   );
-  const term = lean * decisionTraitWeight(core, decisionId);
-  const yes = bare + term > parameter("zero", core.data.parameters);
+  const score = bare + lean * decisionTraitWeight(core, decisionId);
   const probe = traitProbe();
-  if (probe?.formula)
+  if (probe?.formula) {
+    const zero = parameter("zero", core.data.parameters);
     probe.formula({
       decisionId,
       actorId: person.id,
       lean,
       bare,
-      yes,
-      turned: yes !== bare > parameter("zero", core.data.parameters),
+      yes: score > zero,
+      turned: score > zero !== bare > zero,
     });
-  return yes;
+  }
+  return score;
 }

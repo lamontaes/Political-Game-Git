@@ -50,7 +50,7 @@ import {
 } from "../turnout";
 import { coreAPI, registerModule } from "../state";
 import { closenessBetween } from "../closeness";
-import { decisionLean } from "../trait-decisions";
+import { decisionLean, leanedYes } from "../trait-decisions";
 import { parameter } from "../parameters";
 import type { CoreAPI, CoreModule, CoreState, PersonState } from "../types";
 import type { ModuleCalendarWork } from "../module-calendar";
@@ -1099,15 +1099,24 @@ export function fileStandingCandidates(api: CoreAPI, contestId: string): void {
   // keeps the standing rule.
   const stands =
     !incumbentPerson ||
-    campaignParameter("votingStandAgainBase") +
-      decisionLean(
-        api.state,
-        incumbentPerson,
-        "voting.stand-again",
-        "stand",
-        "retire",
-      ) >
-      0;
+    leanedYes(
+      api.state,
+      incumbentPerson,
+      "voting.stand-again",
+      "stand",
+      "retire",
+      campaignParameter("votingStandAgainBase") -
+        campaignParameter("votingStandAgainAgeWeight") *
+          Math.min(
+            1,
+            Math.max(
+              0,
+              (ageOn(incumbentPerson, api.state.date) -
+                campaignParameter("votingStandAgainAgePivot")) /
+                campaignParameter("votingStandAgainAgeSpan"),
+            ),
+          ),
+    );
   if (
     incumbent &&
     alive &&

@@ -21,7 +21,7 @@ import { fillInPerson } from "../state";
 import { parameter } from "../parameters";
 import { keepsWhy } from "../why-kept";
 import { closenessBetween } from "../closeness";
-import { decisionLean } from "../trait-decisions";
+import { decisionLean, leanedScore, leanedYes } from "../trait-decisions";
 import limits from "../../../data/research/campaign-reality/campaign-contribution-limits.json" with { type: "json" };
 import unitPrices from "../../../data/research/campaign-reality/campaign-unit-prices.json" with { type: "json" };
 import finance from "../../../data/research/campaigns/campaign-finance-2026.json" with { type: "json" };
@@ -81,6 +81,12 @@ export interface CampaignRow {
   readonly spentMinor: number;
   /** Where the next turn's asks for money start in the campaign's list of people it can reach. */
   readonly askCursor?: number;
+  /** Where the next turn's asks to volunteer start in the same list. */
+  readonly volunteerCursor?: number;
+  /** Everyone already asked for an endorsement (each ask is made once). */
+  readonly endorsementAskedIds?: readonly string[];
+  /** Those who said yes: they endorsed, and their circle heard it. */
+  readonly endorserIds?: readonly string[];
   /** Where the next mail drop starts in the town's list of addresses. */
   readonly mailCursor?: number;
   /** Counted adults (not yet full people) its doors, mail and ads reached. */
@@ -566,9 +572,7 @@ function retell(
 ): void {
   const telling = Math.max(
     0,
-    1 +
-      api.parameter("traitDecisionWeight") *
-        decisionLean(api.state, teller, "campaigns.retell", "tell", "keep"),
+    leanedScore(api.state, teller, "campaigns.retell", "tell", "keep", 1),
   );
   for (const id of teller.familyIds) {
     const listener = api.state.people.get(id);
@@ -713,18 +717,23 @@ function* walkDoors(
     // if they're willing.
     // Older residents answer more (contact rates rise with age in field
     // experiments; Green and Gerber 2019).
-    const willing = (a: {
-      traits: Readonly<Record<string, number>>;
-      birthDate: string;
-    }) =>
-      // Every trait's lean, on the trait scale the threshold was set on.
-      parameter("traitScale") *
-        decisionLean(api.state, a, "campaigns.open-door", "open", "ignore") +
-      (ageOn(a, api.state.date) - campaignParameter("doorAnswerPivotAge")) /
-        campaignParameter("doorAnswerAgeSpan");
-    const opener = athome
-      .sort((a, b) => willing(b) - willing(a) || a.id.localeCompare(b.id))
-      .find((a) => willing(a) > campaignParameter("doorAnswerThreshold"));
+    // Each adult's readiness past the threshold, weighed once.
+    const weighed = athome
+      .map((a) => ({
+        id: a.id,
+        score: leanedScore(
+          api.state,
+          a,
+          "campaigns.open-door",
+          "open",
+          "ignore",
+          (ageOn(a, api.state.date) - campaignParameter("doorAnswerPivotAge")) /
+            campaignParameter("doorAnswerAgeSpan") -
+            campaignParameter("doorAnswerThreshold"),
+        ),
+      }))
+      .sort((a, b) => b.score - a.score || a.id.localeCompare(b.id));
+    const opener = weighed.find((a) => a.score > 0);
     if (!opener) continue;
     yield opener.id;
   }
@@ -988,19 +997,19 @@ export function askToVolunteer(
   const weeklyWork = [...(core.work.commitmentsByPerson.get(personId) ?? [])]
     .map((id) => core.work.commitments.get(id)?.expectedWeeklyMinutes ?? 0)
     .reduce((a, b) => a + b, 0);
-  const drive =
+  const bare =
     warmth +
-    campaignParameter("volunteerClosenessWeight") * (tie + family) +
-    parameter("traitScale") *
-      decisionLean(
-        api.state,
-        person,
-        "campaigns.volunteer",
-        "volunteer",
-        "decline",
-      ) -
-    weeklyWork / campaignParameter("turnoutWorkWeekMinutes");
-  const yes = drive > campaignParameter("volunteerThreshold");
+    campaignParameter("volunteerClosenessWeight") * (tie + family) -
+    weeklyWork / campaignParameter("turnoutWorkWeekMinutes") -
+    campaignParameter("volunteerThreshold");
+  const yes = leanedYes(
+    api.state,
+    person,
+    "campaigns.volunteer",
+    "volunteer",
+    "decline",
+    bare,
+  );
   if (yes && !campaign.volunteerIds.includes(personId))
     save(api, {
       ...campaign,
@@ -1153,13 +1162,16 @@ export function donorReason(
   if (!donor?.alive || ageOn(donor, api.state.date) < 18)
     return Number.NEGATIVE_INFINITY;
   const why = backingReasons(api, campaign, donor);
-  return (
+  return leanedScore(
+    api.state,
+    donor,
+    "campaigns.donate",
+    "give",
+    "keep",
     why.warmth +
-    why.agreement +
-    campaignParameter("donorPartyWeight") * why.party +
-    campaignParameter("donorRelationshipWeight") * why.relationship +
-    api.parameter("traitDecisionWeight") *
-      decisionLean(api.state, donor, "campaigns.donate", "give", "keep")
+      why.agreement +
+      campaignParameter("donorPartyWeight") * why.party +
+      campaignParameter("donorRelationshipWeight") * why.relationship,
   );
 }
 
@@ -1896,18 +1908,18 @@ export function commissionPoll(
   const respondents: (typeof frame)[number][] = [];
   for (const person of dialed) {
     if (respondents.length >= affordable) break;
-    const willing =
-      parameter("traitScale") *
-        decisionLean(
-          api.state,
-          person,
-          "campaigns.answer-poll",
-          "answer",
-          "no-opinion",
-        ) +
-      (ageOn(person, date) - campaignParameter("doorAnswerPivotAge")) /
-        campaignParameter("doorAnswerAgeSpan");
-    if (willing > campaignParameter("pollAnswerThreshold"))
+    if (
+      leanedYes(
+        api.state,
+        person,
+        "campaigns.answer-poll",
+        "answer",
+        "no-opinion",
+        (ageOn(person, date) - campaignParameter("doorAnswerPivotAge")) /
+          campaignParameter("doorAnswerAgeSpan") -
+          campaignParameter("pollAnswerThreshold"),
+      )
+    )
       respondents.push(person);
   }
   const answers: Record<string, number> = {};
@@ -2086,6 +2098,53 @@ export function holdEvent(api: CoreAPI, filingId: string): readonly CauseRow[] {
   });
 }
 
+/**
+ * A world candidate asks for more than money: the people the campaign can
+ * reach to give their evenings (`askToVolunteer`, a few each turn, in turn)
+ * and the people closest to the candidate to put their name behind them
+ * (`askForEndorsement`, each asked once, the closest first). Each person
+ * answers from their own record and traits; the controlled person is never
+ * asked here. Volunteers join the campaign's reachable people and come to its
+ * events; an endorsement reaches the endorser's circle as a cause on record.
+ */
+export function askForSupport(api: CoreAPI, filingId: string): void {
+  const campaign = campaignFor(api, filingId);
+  const playerId = (api.state as CoreState).playerId;
+  const pool = reachablePeople(api, campaign).filter(
+    (id) => id !== playerId && !campaign.volunteerIds.includes(id),
+  );
+  const asks = Math.min(pool.length, campaignParameter("volunteerAsksPerTurn"));
+  const from = pool.length ? (campaign.volunteerCursor ?? 0) % pool.length : 0;
+  for (let i = 0; i < asks; i += 1)
+    askToVolunteer(api, filingId, pool[(from + i) % pool.length]!);
+  const candidate = api.state.people.get(campaign.candidateId);
+  const asked = new Set(campaign.endorsementAskedIds ?? []);
+  const closest = candidate
+    ? [...new Set([...candidate.familyIds, ...candidate.knownIds])]
+        .filter(
+          (id) =>
+            id !== playerId && id !== candidate.id && !asked.has(id),
+        )
+        .map((id) => ({
+          id,
+          tie: closenessBetween(api.state, id, candidate.id),
+        }))
+        .sort((a, b) => b.tie - a.tie || a.id.localeCompare(b.id))
+        .slice(0, campaignParameter("endorsementAsksPerTurn"))
+    : [];
+  const said: string[] = [];
+  for (const { id } of closest) {
+    asked.add(id);
+    if (askForEndorsement(api, filingId, id)) said.push(id);
+  }
+  save(api, {
+    ...campaignFor(api, filingId),
+    volunteerCursor: pool.length ? (from + asks) % pool.length : 0,
+    endorsementAskedIds: [...asked],
+    endorserIds: [...(campaign.endorserIds ?? []), ...said],
+  });
+}
+
 /** What one campaign turn did, for the record and the tests. */
 export interface CampaignTurnResult {
   readonly filingId: string;
@@ -2250,6 +2309,7 @@ export function campaignTurn(
     eventFundMinor: eventFund,
     pollFundMinor: pollFund,
   });
+  askForSupport(api, filingId);
   const after = campaignFor(api, filingId);
   return {
     filingId,
