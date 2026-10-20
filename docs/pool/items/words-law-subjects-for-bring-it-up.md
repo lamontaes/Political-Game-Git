@@ -5,12 +5,13 @@ area: words
 kind: feature
 priority: 2
 size: M
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/law-subjects-bring-it-up
+pr: #5177
 after:
 blocked-on:
 source: "audit Oct 19, Part B step 10"
+claimed-at: 2026-10-19T21:36:24.585Z
 ---
 
 **What.** Step 10 of the golden path (people bring the law up) works only when the English engine can name what the law did. Today neighbors can speak only four law amounts (the wage row and three others), so a player who passes any other ordinance hears nothing about it, and step 10 reads as unreached for most of the law families the drafting screen offers. Every law family the player can draft and pass needs a speakable subject: what it changed, for whom, by how much, read from the law record and the family's data, with no hand-written lines per law.

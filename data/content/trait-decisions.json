@@ -328,6 +328,19 @@
       ]
     },
     {
+      "id": "contracts.award",
+      "site": "src/core2/modules/contracts.ts",
+      "owner": "OPUS-GOV",
+      "route": "formula",
+      "options": [
+        { "id": "award-lowest-bid", "actKinds": ["follow-rules", "play-safe"] },
+        {
+          "id": "award-known-firm",
+          "actKinds": ["self-interest", "bend-rules", "trust"]
+        }
+      ]
+    },
+    {
       "id": "corruption.offer",
       "site": "src/core2/modules/corruption.ts",
       "owner": "OPUS-GOV",
@@ -1364,6 +1377,22 @@
         {
           "id": "hold-pay",
           "actKinds": ["follow-rules", "distrust"]
+        }
+      ]
+    },
+    {
+      "id": "office-day-state.clemency",
+      "site": "src/core2/office-day-state.ts",
+      "owner": "OFFICE-STATE",
+      "route": "formula",
+      "options": [
+        {
+          "id": "deny",
+          "actKinds": ["follow-rules", "play-safe", "self-interest"]
+        },
+        {
+          "id": "grant",
+          "actKinds": ["help-others", "trust", "take-risk"]
         }
       ]
     }

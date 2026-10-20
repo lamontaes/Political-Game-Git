@@ -5,12 +5,13 @@ area: gov
 kind: feature
 priority: 2
 size: M
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/political-game-pool-yucp92
+pr: #5166
 after:
 blocked-on:
 source: owner ruling, Oct 19, 2026 (via the acting CTO)
+claimed-at: 2026-10-19T21:24:46.544Z
 ---
 
 **What.** A government with a budget line for work it does not do itself awards a contract to a business, chosen from bids by the body's own rules and the officials' traits and views, paid from the line through the treasury to the business's books. The award is a decision the body makes on record, not a dice roll. It is the decision gov-bribe-buys-a-contract needs before a bribe can change which bidder wins.

@@ -5,12 +5,13 @@ area: play
 kind: wiring
 priority: 2
 size: S
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/step9-read-s8
+pr: #5137
 after:
 blocked-on:
 source: "audit Oct 19, Part B step 9 and Part A 'What it fakes' 1"
+claimed-at: 2026-10-19T20:03:40.389Z
 ---
 
 **What.** In `src/bench/reached.ts` step 9 ("the town visibly changes") counts when a law-took-effect event exists. An event is a record, not an effect; the step is meant to show that a different engine read the law and something moved. Step 9 is counted only when a record from another engine cites the law as its why: a payroll line at the new wage, a permit refused under the new rule, a budget line moved by it. "Took effect" alone no longer counts, and the report prints the reading record.
