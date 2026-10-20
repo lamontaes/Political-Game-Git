@@ -7,7 +7,7 @@ priority: 2
 size: M
 status: in-pr
 claimed-by: claude/player-year-settlements
-pr: #5571
+pr: #5580
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-20T06:10:05.483Z
