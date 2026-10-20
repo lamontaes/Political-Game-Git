@@ -13,6 +13,7 @@ import { gameStartDate } from "./game-start";
 import { makeIsoDate } from "./kernel/dates";
 import { advanceCore } from "./life";
 import { ELECTIONS_MODULE_ID, type ContestRow } from "./modules/elections";
+import { residentsRuntime } from "./modules/residents";
 import { coreAPI } from "./state";
 import { setTraitProbe, type FormulaProbeRow } from "./trait-probe";
 import type { CoreAPI, CoreState, PersonState } from "./types";
@@ -159,49 +160,77 @@ export function drawnWorld(
 export const RUN_SEED =
   process.env.GOLDEN_PATH_SEED ?? randomBytes(20).toString("hex");
 
+/** Residents a test town may hold: every one becomes a full person, so a city would take many minutes. */
+const MAX_RESIDENTS = 4000;
+/** Residents a test town needs, so a town hall or an outlet does not hold everyone. */
+const MIN_RESIDENTS = 300;
+/** Places drawn before the test fails. */
+const MAX_DRAWS = 12;
+
 /**
  * A place drawn from all 56 for one test file, played over the `days` that
  * end `after` days past the place's own next race on its election calendar
- * (read from a first build), so the window always holds an election day, its
- * campaigns and its count, whatever place is drawn.
+ * (read from a first, two-level build), so the window always holds an
+ * election day, its campaigns and its count, whatever place is drawn. `draw`
+ * names the seed and place of each attempt; a place with more residents than
+ * a test can make full people of is passed over, and the test fails after
+ * `MAX_DRAWS` attempts.
  */
 export function drawnRaceWorld(
-  seed: string,
-  /** The place `drawPlace(seed, "trait-wiring")` named. */
-  place: { key: string; name: string },
+  draw: (attempt: number) => {
+    seed: string;
+    place: { key: string; name: string };
+  },
   days: number,
   onFormula?: (row: FormulaProbeRow) => void,
   after = 2,
+  /** Whether the played window gave the test something to weigh; the draw moves on when it says why not. */
+  accept?: (world: { core: CoreState; api: CoreAPI }) => string | null,
 ): { core: CoreState; api: CoreAPI; placeName: string; placeKey: string } {
   const opening = gameStartDate();
-  const calendar = coreAPI(
-    buildBenchWorld(seed, opening, { twoLevel: true, placeKey: place.key })
-      .core,
-  )
-    .moduleState(ELECTIONS_MODULE_ID)
-    .table("contests")
-    .rows() as unknown as ContestRow[];
-  const next = calendar
-    .map((c) => c.electionDate)
-    .filter((date) => date > opening)
-    .sort()[0];
-  if (!next)
-    throw new Error(
-      `${place.name} (${place.key}), seed ${seed}: no race on its election calendar`,
-    );
   const shift = (date: string, by: number) => {
     const d = new Date(`${date}T00:00:00Z`);
     d.setUTCDate(d.getUTCDate() + by);
     return d.toISOString().slice(0, 10);
   };
-  const start = [opening, shift(next, after - days)].sort().at(-1)!;
-  return drawnWorld(
-    seed,
-    place,
-    shift(start, days),
-    onFormula,
-    makeIsoDate(start),
-  );
+  const passed: string[] = [];
+  for (let attempt = 0; attempt < MAX_DRAWS; attempt++) {
+    const { seed, place } = draw(attempt);
+    const first = buildBenchWorld(seed, opening, {
+      twoLevel: true,
+      placeKey: place.key,
+    }).core;
+    const residents =
+      first.people.size + (residentsRuntime(first)?.store.ids.length ?? 0);
+    const next = (
+      coreAPI(first)
+        .moduleState(ELECTIONS_MODULE_ID)
+        .table("contests")
+        .rows() as unknown as ContestRow[]
+    )
+      .map((c) => c.electionDate)
+      .filter((date) => date > opening)
+      .sort()[0];
+    const name = `${place.name} (${place.key}), seed ${seed}`;
+    if (residents > MAX_RESIDENTS || residents < MIN_RESIDENTS || !next) {
+      passed.push(
+        `${name}: ${residents} residents, next race ${next ?? "none"}`,
+      );
+      continue;
+    }
+    const start = [opening, shift(next, after - days)].sort().at(-1)!;
+    const world = drawnWorld(
+      seed,
+      place,
+      shift(start, days),
+      onFormula,
+      makeIsoDate(start),
+    );
+    const refused = accept?.(world) ?? null;
+    if (refused === null) return world;
+    passed.push(`${name}: ${refused}`);
+  }
+  throw new Error(`No drawn place fit a test town: ${passed.join("; ")}`);
 }
 
 /** Adults alive on the world's date, in id order. */

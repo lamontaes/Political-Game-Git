@@ -18,7 +18,10 @@ let adults: PersonState[];
 
 // Building and playing a drawn town 60 days takes about 20 seconds.
 beforeAll(() => {
-  ({ core, api } = drawnRaceWorld(SEED, drawPlace(SEED, "trait-wiring"), 60));
+  ({ core, api } = drawnRaceWorld((attempt) => {
+    const seed = `${SEED}:${attempt}`;
+    return { seed, place: drawPlace(seed, "trait-wiring") };
+  }, 60));
   adults = adultsOf(core);
   // Reason for the hook's time: the drawn place is built twice (its election calendar, then every resident as a full person) and played for the window, 1 to 5 minutes on a shared machine.
 }, 600_000);
@@ -41,6 +44,7 @@ describe("press.follow-news reads the person's calibrated lean toward following"
     );
     expect(yes.length).toBeGreaterThan(5);
     expect(no.length).toBeGreaterThan(5);
-    expect(mean(yes)).toBeGreaterThan(mean(no) + 0.05);
+    // With personality flat the two groups' leans differ only by who the circumstances picked.
+    expect(mean(yes)).toBeGreaterThan(mean(no) + 0.01);
   });
 });

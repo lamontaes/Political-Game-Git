@@ -20,7 +20,10 @@ let parties: PartyRow[];
 // Building and playing a drawn town 120 days takes about 30 seconds, inside
 // the 60 second hook limit.
 beforeAll(() => {
-  ({ core, api } = drawnRaceWorld(SEED, drawPlace(SEED, "trait-wiring"), 120));
+  ({ core, api } = drawnRaceWorld((attempt) => {
+    const seed = `${SEED}:${attempt}`;
+    return { seed, place: drawPlace(seed, "trait-wiring") };
+  }, 120));
   parties = api
     .moduleState(PARTIES_MODULE_ID)
     .table("parties")

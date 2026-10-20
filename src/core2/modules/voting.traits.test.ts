@@ -32,7 +32,10 @@ let adults: PersonState[];
 // Building and playing a drawn town to its election takes about 20 seconds,
 // inside the 60 second hook limit.
 beforeAll(() => {
-  ({ core, api } = drawnRaceWorld(SEED, drawPlace(SEED, "trait-wiring"), 44));
+  ({ core, api } = drawnRaceWorld((attempt) => {
+    const seed = `${SEED}:${attempt}`;
+    return { seed, place: drawPlace(seed, "trait-wiring") };
+  }, 44));
   adults = adultsOf(core);
   // Reason for the hook's time: the drawn place is built twice (its election calendar, then every resident as a full person) and played for the window, 1 to 5 minutes on a shared machine.
 }, 600_000);
