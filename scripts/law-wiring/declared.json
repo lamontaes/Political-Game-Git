@@ -14,7 +14,7 @@
       },
       "repeal": {
         "status": "stopgap",
-        "why": "rows under the raise stay open until staffing next acts",
+        "why": "rows under the raise stay open until the engine serving from the line next acts",
         "id": "SG-LAW-budget-line-reach-not-ended"
       }
     },
@@ -33,11 +33,6 @@
         "why": "the checker amends the line directly, which is not news; in play the bill is",
         "id": "SG-LAW-wiring-budget-news"
       },
-      "repeal": {
-        "status": "stopgap",
-        "why": "rows under the raise stay open until staffing next acts",
-        "id": "SG-LAW-budget-line-reach-not-ended"
-      },
       "allPlaces": {
         "status": "stopgap",
         "why": "its event or subject did not occur in the checker's run in a drawn town",
@@ -47,7 +42,7 @@
     "budget-line:fire": {
       "repeal": {
         "status": "stopgap",
-        "why": "rows under the raise stay open until staffing next acts",
+        "why": "rows under the raise stay open until the engine serving from the line next acts",
         "id": "SG-LAW-budget-line-reach-not-ended"
       }
     },
@@ -86,13 +81,6 @@
         "id": "SG-LAW-wiring-budget-news"
       }
     },
-    "budget-line:parks": {
-      "repeal": {
-        "status": "stopgap",
-        "why": "rows under the raise stay open until staffing next acts",
-        "id": "SG-LAW-budget-line-reach-not-ended"
-      }
-    },
     "budget-line:police": {
       "web": {
         "status": "stopgap",
@@ -101,7 +89,7 @@
       },
       "repeal": {
         "status": "stopgap",
-        "why": "rows under the raise stay open until staffing next acts",
+        "why": "rows under the raise stay open until the engine serving from the line next acts",
         "id": "SG-LAW-budget-line-reach-not-ended"
       }
     },

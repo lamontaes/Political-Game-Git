@@ -33,7 +33,7 @@ Two other towns were drawn at random: Prescott, Michigan (seed a91c03e7d2b84f10)
 | 5. Moves money                      | 86    | 0              | 3       |
 | 6. Moves its outcome-web measures   | 18    | 9              | 62      |
 | 7. People learn of it by a read     | 80    | 0              | 9       |
-| 8. Repeal stops it                  | 71    | 1              | 17      |
+| 8. Repeal stops it                  | 73    | 1              | 15      |
 | 9. Same code path everywhere        | 66    | 0              | 23      |
 
 No link is partial or missing. "Not applicable" is declared only where the law's own terms or its research rule a link out:
@@ -49,25 +49,25 @@ These are the changes since the audit:
 - Reach is wired for 60 laws, up from 40.
 - Engine reads are wired for 66, up from 39.
 - Money is wired for 86, up from 44.
-- Repeal is wired for 71, up from 47.
+- Repeal is wired for 73, up from 47.
 
 ## What the stopgaps cover
 
 Each stopgap is a row in `src/core2/data/stopgaps.json`, marked in `src/core2/data/laws/wiring-gaps.json` with the laws and links it covers. A stopgap is not wiring: each stays open until its replacement lands, and the release build refuses while any is open.
 
-| Stopgap                                  | Laws | What it covers                                                                                                                                                                                                                    |
-| ---------------------------------------- | ---- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| SG-LAW-outcome-link-unresearched         | 45   | No researched outcome link starts from the law.                                                                                                                                                                                   |
-| SG-LAW-wiring-checker-window             | 20   | Even in a 400-day run, the drawn town had no one the law covers, or its event did not occur: no teacher under the floor, no transit line, no polluted county, no estate. Each family test shows the link in its own played world. |
-| SG-LAW-wiring-read-in-law-reach          | 16   | The law-reach handler applies the law the day it takes effect (the benefit, rule or record); no engine reads the law afterwards in the run.                                                                                       |
-| SG-LAW-outcome-not-produced              | 9    | A researched link names an outcome the web doesn't produce.                                                                                                                                                                       |
-| SG-LAW-wiring-budget-news                | 9    | The checker amends budget lines directly, which is not news; in play the bill is.                                                                                                                                                 |
-| SG-LAW-outcome-link-not-fired            | 8    | Built links did not move their measure in the run.                                                                                                                                                                                |
-| SG-LAW-budget-line-reach-not-ended       | 5    | Rows recorded under a raised budget line stay open until staffing next acts, because `endReplaced` skips budget-line keys.                                                                                                        |
-| SG-LAW-wiring-read-on-drafting           | 4    | Authority laws are read only when a body drafts a bill under them, and the checker drafts none.                                                                                                                                   |
-| SG-LAW-counted-reach-missing             | 3    | Administration staffing, public-sector bargaining and ward lines reach no counted group.                                                                                                                                          |
-| SG-LAW-public-pay-floor-start            | 1    | No place starts with a public pay floor.                                                                                                                                                                                          |
-| SG-LAW-local-income-tax-authority-change | 1    | No bill can change the local income tax authority (registered by the taxes family).                                                                                                                                               |
+| Stopgap                                  | Laws | What it covers                                                                                                                                                                                                                          |
+| ---------------------------------------- | ---- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| SG-LAW-outcome-link-unresearched         | 45   | No researched outcome link starts from the law.                                                                                                                                                                                         |
+| SG-LAW-wiring-checker-window             | 20   | Even in a 400-day run, the drawn town had no one the law covers, or its event did not occur: no teacher under the floor, no transit line, no polluted county, no estate. Each family test shows the link in its own played world.       |
+| SG-LAW-wiring-read-in-law-reach          | 16   | The law-reach handler applies the law the day it takes effect (the benefit, rule or record); no engine reads the law afterwards in the run.                                                                                             |
+| SG-LAW-outcome-not-produced              | 9    | A researched link names an outcome the web doesn't produce.                                                                                                                                                                             |
+| SG-LAW-wiring-budget-news                | 9    | The checker amends budget lines directly, which is not news; in play the bill is.                                                                                                                                                       |
+| SG-LAW-outcome-link-not-fired            | 8    | Built links did not move their measure in the run.                                                                                                                                                                                      |
+| SG-LAW-budget-line-reach-not-ended       | 3    | Police, fire and administration: after the line is put back, a few rows under the raise stay open until the engine serving from it next acts (the public-safety engine's monthly run; two people hired under the raise still employed). |
+| SG-LAW-wiring-read-on-drafting           | 4    | Authority laws are read only when a body drafts a bill under them, and the checker drafts none.                                                                                                                                         |
+| SG-LAW-counted-reach-missing             | 3    | Administration staffing, public-sector bargaining and ward lines reach no counted group.                                                                                                                                                |
+| SG-LAW-public-pay-floor-start            | 1    | No place starts with a public pay floor.                                                                                                                                                                                                |
+| SG-LAW-local-income-tax-authority-change | 1    | No bill can change the local income tax authority (registered by the taxes family).                                                                                                                                                     |
 
 The 400-day runs turned up three things beyond the grades:
 
@@ -77,21 +77,21 @@ The 400-day runs turned up three things beyond the grades:
 
 ## The family pull requests
 
-| Family                                                                  | Pull request | State                              |
-| ----------------------------------------------------------------------- | ------------ | ---------------------------------- |
-| Audit, checker and shared applied record                                | #5547        | merged                             |
-| Prices and sales taxes                                                  | #5629        | merged                             |
-| Justice                                                                 | #5642        | merged                             |
-| Health, assistance and schools                                          | #5652        | merged                             |
-| Government and elections                                                | #5582        | open, ready                        |
-| Labor and pay                                                           | #5589        | open, ready                        |
-| Taxes and public finance                                                | #5649        | open, ready                        |
-| Rights, technology, environment, farms and parks                        | #5669        | open, ready                        |
-| Housing and credit                                                      | #5688        | open, ready                        |
-| Group B work-requirement test (red on main after #5652)                 | #5732        | open, ready                        |
-| Death taxes adopted by rate only (found by the 400-day run)             | #5744        | open, ready                        |
-| Group B reach rows re-pointed to the row in force (income tax put back) | #5753        | open, ready                        |
-| Private tuition re-enrollment (red on main: removed parameter)          | #5743        | closed: main fixed it the same way |
+| Family                                                                                                     | Pull request | State                              |
+| ---------------------------------------------------------------------------------------------------------- | ------------ | ---------------------------------- |
+| Audit, checker and shared applied record                                                                   | #5547        | merged                             |
+| Prices and sales taxes                                                                                     | #5629        | merged                             |
+| Justice                                                                                                    | #5642        | merged                             |
+| Health, assistance and schools                                                                             | #5652        | merged                             |
+| Government and elections                                                                                   | #5582        | open, ready                        |
+| Labor and pay                                                                                              | #5589        | open, ready                        |
+| Taxes and public finance                                                                                   | #5649        | open, ready                        |
+| Rights, technology, environment, farms and parks                                                           | #5669        | open, ready                        |
+| Housing and credit                                                                                         | #5688        | open, ready                        |
+| Group B work-requirement test (red on main after #5652)                                                    | #5732        | open, ready                        |
+| Death taxes adopted by rate only (found by the 400-day run)                                                | #5744        | open, ready                        |
+| Reach rows re-pointed to the row in force; laid-off hires' rows end (income tax and budget lines put back) | #5753        | open, ready                        |
+| Private tuition re-enrollment (red on main: removed parameter)                                             | #5743        | closed: main fixed it the same way |
 
 The mergers sent back three of these, and each is fixed and pushed:
 

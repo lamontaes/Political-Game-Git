@@ -59,7 +59,7 @@
 | civilian oversight of police                 | justice            | yes    | yes    | SG    | yes     | yes   | yes | yes     | yes    | SG        | stopgapped |
 | partner with federal immigration enforcement | justice            | yes    | yes    | yes   | yes     | yes   | SG  | yes     | yes    | yes       | stopgapped |
 | end cash bail                                | justice            | yes    | yes    | yes   | yes     | yes   | SG  | yes     | yes    | yes       | stopgapped |
-| Spending: corrections                        | justice            | yes    | yes    | SG    | yes     | yes   | n/a | SG      | SG     | SG        | stopgapped |
+| Spending: corrections                        | justice            | yes    | yes    | SG    | yes     | yes   | n/a | SG      | yes    | SG        | stopgapped |
 | restore voting after sentence                | justice            | yes    | yes    | yes   | yes     | yes   | SG  | yes     | yes    | yes       | stopgapped |
 | raise juvenile court age                     | justice            | yes    | yes    | SG    | yes     | yes   | n/a | yes     | SG     | SG        | stopgapped |
 | child access prevention                      | justice            | yes    | yes    | yes   | yes     | yes   | SG  | yes     | yes    | yes       | stopgapped |
@@ -85,7 +85,7 @@
 | consumer data privacy law                    | technology         | yes    | yes    | yes   | yes     | yes   | SG  | yes     | yes    | yes       | stopgapped |
 | limit groundwater withdrawal                 | agriculture        | yes    | yes    | SG    | yes     | yes   | yes | yes     | SG     | SG        | stopgapped |
 | protect farmland from development            | agriculture        | yes    | yes    | SG    | yes     | yes   | yes | yes     | yes    | SG        | stopgapped |
-| Spending: parks                              | parks-culture      | yes    | yes    | yes   | yes     | yes   | SG  | yes     | SG     | yes       | stopgapped |
+| Spending: parks                              | parks-culture      | yes    | yes    | yes   | yes     | yes   | SG  | yes     | yes    | yes       | stopgapped |
 | local-income-tax-authority                   | starting law       | yes    | SG     | SG    | SG      | yes   | SG  | yes     | SG     | SG        | stopgapped |
 | local-minimum-wage-authority                 | starting law       | yes    | yes    | SG    | yes     | yes   | SG  | yes     | SG     | SG        | stopgapped |
 | unemployment-insurance                       | starting law       | yes    | yes    | yes   | yes     | yes   | SG  | yes     | n/a    | yes       | stopgapped |
@@ -359,7 +359,7 @@
 **Spending: police** (`budget-line:police`)
 
 - web: its built links did not move their measure in the checker's run (SG-LAW-outcome-link-not-fired)
-- repeal: rows under the raise stay open until staffing next acts (SG-LAW-budget-line-reach-not-ended)
+- repeal: rows under the raise stay open until the engine serving from the line next acts (SG-LAW-budget-line-reach-not-ended)
 
 **civilian oversight of police** (`us-policy-positions:justice-public-safety.civilian-oversight-of-police`)
 
@@ -379,7 +379,6 @@
 - reach: its event or subject did not occur in the checker's run in a drawn town (SG-LAW-wiring-checker-window)
 - web: its researched outcome links put the effect at about zero (data/research/outcome-web/links.json), so there is nothing for the web to move
 - knowing: the checker amends the line directly, which is not news; in play the bill is (SG-LAW-wiring-budget-news)
-- repeal: rows under the raise stay open until staffing next acts (SG-LAW-budget-line-reach-not-ended)
 - allPlaces: its event or subject did not occur in the checker's run in a drawn town (SG-LAW-wiring-checker-window)
 
 **restore voting after sentence** (`us-policy-positions:justice-public-safety.restore-voting-after-sentence`)
@@ -416,7 +415,7 @@
 **Spending: fire** (`budget-line:fire`)
 
 - web: no researched outcome-web link starts from this law or a measure it sets; the research would measure fire deaths and property loss (SG-LAW-outcome-link-unresearched)
-- repeal: rows under the raise stay open until staffing next acts (SG-LAW-budget-line-reach-not-ended)
+- repeal: rows under the raise stay open until the engine serving from the line next acts (SG-LAW-budget-line-reach-not-ended)
 
 **all mail voting** (`us-policy-positions:government-operations.all-mail-voting`)
 
@@ -454,7 +453,7 @@
 - reach: no counted group is reached (SG-LAW-counted-reach-missing)
 - web: no researched outcome-web link starts from this law or a measure it sets; the research would measure government service quality (SG-LAW-outcome-link-unresearched)
 - knowing: the checker amends the line directly, which is not news; in play the bill is (SG-LAW-wiring-budget-news)
-- repeal: rows under the raise stay open until staffing next acts (SG-LAW-budget-line-reach-not-ended)
+- repeal: rows under the raise stay open until the engine serving from the line next acts (SG-LAW-budget-line-reach-not-ended)
 
 **broaden local authority** (`us-policy-positions:government-operations.broaden-local-authority`)
 
@@ -505,7 +504,6 @@
 **Spending: parks** (`budget-line:parks`)
 
 - web: built links did not move their measure in the run (cause not read by the web, or the measure is not kept for this place) (registered SG-GOV-REACH-B-park-use)
-- repeal: rows under the raise stay open until staffing next acts (SG-LAW-budget-line-reach-not-ended)
 
 **local-income-tax-authority** (`local-income-tax-authority`)
 

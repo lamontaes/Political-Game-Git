@@ -211,9 +211,7 @@
       "stopgapId": "SG-LAW-budget-line-reach-not-ended",
       "laws": {
         "budget-line:administration": ["repeal"],
-        "budget-line:corrections": ["repeal"],
         "budget-line:fire": ["repeal"],
-        "budget-line:parks": ["repeal"],
         "budget-line:police": ["repeal"]
       }
     },

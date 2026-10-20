@@ -70,10 +70,10 @@
     "n/a": 0
    },
    "repeal": {
-    "wired": 71,
+    "wired": 73,
     "partial": 0,
     "missing": 0,
-    "stopgap": 17,
+    "stopgap": 15,
     "n/a": 1
    },
    "allPlaces": {
@@ -3902,17 +3902,17 @@
     },
     "reach": {
      "status": "wired",
-     "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 11 open (full 2, counted groups 8/22 people, households 0, orgs 1, govts 0) e.g. reach:law-wiring-e6fd8b9f:hired:person_02518494bd09c0bd:2025-01-21; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 13 open (full 2, counted groups 10/23 people, households 0, orgs 1, govts 0) e.g. reach:law-wiring-e6fd8b9f:hired:person_03819202b5d285c1:2025-01-21",
+     "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 36 open (full 4, counted groups 30/153 people, households 0, orgs 2, govts 0) e.g. reach:law-wiring-e6fd8b9f:positions:organization_c8c4bd3ade9bbdd0:2025-01-20; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 41 open (full 4, counted groups 35/144 people, households 0, orgs 2, govts 0) e.g. reach:law-wiring-e6fd8b9f:positions:organization_323a5cedbef21846:2025-01-20",
      "why": ""
     },
     "systems": {
      "status": "wired",
-     "evidence": "src/core2/work-payroll-cash.ts, src/core2/finance-cash.ts, src/core2/credit-deposits.ts, src/core2/budgets-treasury.ts, src/core2/cost-of-living.ts",
+     "evidence": "src/core2/work-payroll-cash.ts, src/core2/budgets-treasury.ts, src/core2/modules/budgets.ts, src/core2/counted-money.ts, src/core2/modules/residents.ts",
      "why": ""
     },
     "money": {
      "status": "wired",
-     "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): work-payroll @ src/core2/work-payroll-cash.ts:2351 291447914 -> 300834304 (journal:2025-01-26:1648); Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): finance.contract-settlement @ src/core2/finance-cash.ts:2591 265972554 -> 261194378 (journal:2025-02-01:1940); Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): accounts.transfer @ src/core2/credit-deposits.ts:150 186565873 -> 191205836 (journal:2025-01-21:1595)",
+     "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): work-payroll @ src/core2/work-payroll-cash.ts:2351 8543345 -> 9780732 (journal:2025-01-26:1648); Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): accounts.transfer @ src/core2/budgets-treasury.ts:886 59223958659352 -> 59223957692288 (journal:2025-02-01:1740); Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): budgets:withholding @ src/core2/modules/budgets.ts:1413 112821743 -> 112913018 (journal:2025-01-26:1649)",
      "why": ""
     },
     "web": {
@@ -3922,13 +3922,13 @@
     },
     "knowing": {
      "status": "wired",
-     "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 1 people heard (person_2dc9b118ebc09a54:printed:outlet:television:2:jurisdiction_971998ff58477430:law-reach-staffing:budget-line:police:organization_c8c4bd3ade9bbdd0:2025-01-21)",
+     "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 26 people heard (person_da4742578d910bac:printed:outlet:television:0:jurisdiction_971998ff58477430:law-reach-staffing:budget-line:police:organization_c8c4bd3ade9bbdd0:2025-01-21)",
      "why": ""
     },
     "repeal": {
      "status": "stopgap",
-     "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 11 open under the changed row -> after the old amount is put back 11 still cite it; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 13 open under the changed row -> after the old amount is put back 13 still cite it",
-     "why": "rows under the raise stay open until staffing next acts (SG-LAW-budget-line-reach-not-ended)"
+     "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 36 open under the changed row -> after the old amount is put back 7 still cite it; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 41 open under the changed row -> after the old amount is put back 2 still cite it",
+     "why": "rows under the raise stay open until the engine serving from the line next acts (SG-LAW-budget-line-reach-not-ended)"
     },
     "allPlaces": {
      "status": "wired",
@@ -4178,17 +4178,17 @@
     },
     "reach": {
      "status": "stopgap",
-     "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 1 open (full 0, counted groups 0/0 people, households 0, orgs 0, govts 1) e.g. reach:law-wiring-b12dcfab:positions:organization:treasury:place:2666300:2025-01-20; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 0 open (full 0, counted groups 0/0 people, households 0, orgs 0, govts 0) e.g. -",
+     "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 3 open (full 0, counted groups 0/0 people, households 0, orgs 1, govts 2) e.g. reach:law-wiring-b12dcfab:positions:organization:treasury:place:2666300:2025-01-20; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 0 open (full 0, counted groups 0/0 people, households 0, orgs 0, govts 0) e.g. -",
      "why": "its event or subject did not occur in the checker's run in a drawn town (SG-LAW-wiring-checker-window)"
     },
     "systems": {
      "status": "wired",
-     "evidence": "src/core2/counted-money.ts, src/core2/credit-deposits.ts, src/core2/modules/residents.ts, src/core2/finance-cash.ts, src/core2/modules/purchase-tax.ts",
+     "evidence": "src/core2/counted-money.ts, src/core2/modules/residents.ts, src/core2/budgets-treasury.ts",
      "why": ""
     },
     "money": {
      "status": "wired",
-     "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): accounts.transfer @ src/core2/counted-money.ts:605 454047293 -> 453877103 (journal:2025-01-24:1635); Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): accounts.transfer @ src/core2/credit-deposits.ts:150 186565873 -> 186422555 (journal:2025-01-21:1595); Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): accounts.transfer @ src/core2/modules/residents.ts:1727 6312303 -> 6305130 (journal:2025-02-19:8336)",
+     "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): accounts.transfer @ src/core2/counted-money.ts:605 34727565 -> 34720006 (journal:2025-01-24:1635); Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): accounts.transfer @ src/core2/modules/residents.ts:1727 5004478 -> 5001605 (journal:2025-02-19:8336); Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): accounts.transfer @ src/core2/budgets-treasury.ts:886 59223958659352 -> 59223958659355 (journal:2025-02-01:1740)",
      "why": ""
     },
     "web": {
@@ -4202,9 +4202,9 @@
      "why": "the checker amends the line directly, which is not news; in play the bill is (SG-LAW-wiring-budget-news)"
     },
     "repeal": {
-     "status": "stopgap",
-     "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 1 open under the changed row -> after the old amount is put back 1 still cite it",
-     "why": "rows under the raise stay open until staffing next acts (SG-LAW-budget-line-reach-not-ended)"
+     "status": "wired",
+     "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 3 open under the changed row -> after the old amount is put back 0 still cite it",
+     "why": ""
     },
     "allPlaces": {
      "status": "stopgap",
@@ -4686,8 +4686,8 @@
     },
     "repeal": {
      "status": "stopgap",
-     "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 38 open under the changed row -> after the old amount is put back 13 still cite it; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 41 open under the changed row -> after the old amount is put back 5 still cite it",
-     "why": "rows under the raise stay open until staffing next acts (SG-LAW-budget-line-reach-not-ended)"
+     "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 38 open under the changed row -> after the old amount is put back 11 still cite it; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 41 open under the changed row -> after the old amount is put back 2 still cite it",
+     "why": "rows under the raise stay open until the engine serving from the line next acts (SG-LAW-budget-line-reach-not-ended)"
     },
     "allPlaces": {
      "status": "wired",
@@ -5238,8 +5238,8 @@
     },
     "repeal": {
      "status": "stopgap",
-     "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 12 open under the changed row -> after the old amount is put back 8 still cite it; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 12 open under the changed row -> after the old amount is put back 6 still cite it",
-     "why": "rows under the raise stay open until staffing next acts (SG-LAW-budget-line-reach-not-ended)"
+     "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 12 open under the changed row -> after the old amount is put back 4 still cite it; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 12 open under the changed row -> after the old amount is put back 0 still cite it",
+     "why": "rows under the raise stay open until the engine serving from the line next acts (SG-LAW-budget-line-reach-not-ended)"
     },
     "allPlaces": {
      "status": "wired",
@@ -5972,7 +5972,7 @@
     },
     "reach": {
      "status": "wired",
-     "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 50 open (full 49, counted groups 1/0 people, households 0, orgs 0, govts 0) e.g. budget-line:parks|person_0161274dc68d50d8|2025-01-20; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 41 open (full 40, counted groups 1/0 people, households 0, orgs 0, govts 0) e.g. budget-line:parks|person:press:outlet:newspaper:0:jurisdiction_45a3b3ebe97fe71d:owner:0|2025-01-20",
+     "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 114 open (full 112, counted groups 1/0 people, households 0, orgs 1, govts 0) e.g. budget-line:parks|person_182e4b917b4e10f7|2025-01-20; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 110 open (full 108, counted groups 1/0 people, households 0, orgs 1, govts 0) e.g. budget-line:parks|person_00a28a6650e55809|2025-01-20",
      "why": ""
     },
     "systems": {
@@ -5996,9 +5996,9 @@
      "why": ""
     },
     "repeal": {
-     "status": "stopgap",
-     "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 50 open under the changed row -> after the old amount is put back 49 still cite it; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 41 open under the changed row -> after the old amount is put back 40 still cite it",
-     "why": "rows under the raise stay open until staffing next acts (SG-LAW-budget-line-reach-not-ended)"
+     "status": "wired",
+     "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 114 open under the changed row -> after the old amount is put back 0 still cite it; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 110 open under the changed row -> after the old amount is put back 0 still cite it",
+     "why": ""
     },
     "allPlaces": {
      "status": "wired",
