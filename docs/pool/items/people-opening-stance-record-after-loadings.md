@@ -5,12 +5,12 @@ area: people
 kind: wiring
 priority: 2
 size: M
-status: in-pr
-claimed-by: claude/political-game-pool-yucp92-ah
+status: open
+claimed-by:
 pr: #5625
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-20T09:20:37.420Z
+claimed-at:
 ---
 
 **What.** The branch claude/stance-from-loadings (pool item people-opening-stance-from-loadings) adds openingLoadingShift to viewOn in src/core2/modules/views.ts: faith and degree loadings from data/research/people/opening-stance-loadings.json shift a person's opening stance on the eight survey questions, computed at read time. What people-opening-stance-formation still asks for is the stored part: form each person's opening stance once per question as a stance record that keeps its reasons (lean, faith term, degree term), read by viewOn in place of the lean-times-axis opening, so a tally can name the stance record. And SG-GOV-views-stand-in (campaigns.ts) can only be narrowed, not resolved: the survey asked eight questions, so every other question still opens as lean times axis; the row should say which questions are formed from life.
