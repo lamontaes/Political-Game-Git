@@ -5,11 +5,12 @@ area: people
 kind: wiring
 priority: 2
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/port-traits
 pr:
 blocked-on:
 source: "split from core-remaining-port-the-opening-town-builder-population (an L item), Oct 15"
+claimed-at: 2026-10-20T03:55:25.661Z
 ---
 
 **What.** `people-traits.ts`, `people-upbringing.ts`, `trait-packs.ts`, `personality-catalogue.ts` and `trait-registry.ts` in `src/simulation` define traits, upbringing experiences and the registry of traits. Move them into `src/core2` so they live with the other person engines. No game logic changes. Build only what the golden path needs, and write fresh where that is simpler.
