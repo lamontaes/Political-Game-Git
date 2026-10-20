@@ -200,6 +200,57 @@ export function auditCore2Tripwires(
     inspectProductionSource(sourceFile, file, diagnostics, markers, contentIds);
   }
 
+  // Stopgap markers beside code outside the core (the bench, the desktop
+  // shell): only the markers are read there; the core's other rules are not.
+  const outside: { directory: string; extensions?: readonly string[] }[] = [
+    { directory: join(root, "src", "bench") },
+    { directory: join(root, "desktop"), extensions: [".mjs", ".js"] },
+  ];
+  for (const { directory, extensions } of outside) {
+    for (const filePath of listTypeScriptFiles(directory, extensions)) {
+      const file = relative(root, filePath).split(sep).join("/");
+      let sourceText: string;
+      try {
+        sourceText = readFileSync(filePath, "utf8");
+      } catch (error) {
+        diagnostics.push({
+          code: "source-unreadable",
+          file,
+          message: `Could not read source: ${errorMessage(error)}.`,
+        });
+        continue;
+      }
+      const sourceFile = ts.createSourceFile(
+        filePath,
+        sourceText,
+        ts.ScriptTarget.Latest,
+        true,
+        filePath.endsWith(".tsx")
+          ? ts.ScriptKind.TSX
+          : /\.m?js$/.test(filePath)
+            ? ts.ScriptKind.JS
+            : ts.ScriptKind.TS,
+      );
+      const scratch: TripwireDiagnostic[] = [];
+      inspectProductionSource(sourceFile, file, scratch, markers, new Set());
+      diagnostics.push(
+        ...scratch.filter((row) => row.code === "malformed-stopgap-marker"),
+      );
+    }
+  }
+  for (const filePath of listP8JsonFiles(
+    root,
+    join(root, "src", "bench", "data"),
+  )) {
+    const file = relative(root, filePath).split(sep).join("/");
+    collectJsonMarkers(
+      readFileSync(filePath, "utf8"),
+      file,
+      diagnostics,
+      markers,
+    );
+  }
+
   inspectMarkerLedger(markers, parsedRegistry.entries, diagnostics);
   inspectParameterTable(root, diagnostics);
   const calibration = inspectCalibrationCatalog(root, diagnostics);
@@ -901,7 +952,10 @@ function parameterRows(value: unknown): readonly ParameterRow[] | undefined {
   }));
 }
 
-function listTypeScriptFiles(directory: string): string[] {
+function listTypeScriptFiles(
+  directory: string,
+  extensions: readonly string[] = [".ts", ".tsx"],
+): string[] {
   if (!existsSync(directory)) return [];
   const files: string[] = [];
   const visit = (current: string): void => {
@@ -911,9 +965,9 @@ function listTypeScriptFiles(directory: string): string[] {
         if (isExcludedSourcePath(fullPath)) continue;
         visit(fullPath);
       } else if (
-        (entry.name.endsWith(".ts") || entry.name.endsWith(".tsx")) &&
+        extensions.some((extension) => entry.name.endsWith(extension)) &&
         !entry.name.endsWith(".d.ts") &&
-        !/\.(?:test|spec)\.(?:ts|tsx)$/.test(entry.name) &&
+        !/\.(?:test|spec)\.\w+$/.test(entry.name) &&
         !isExcludedSourcePath(fullPath)
       ) {
         files.push(fullPath);
@@ -940,9 +994,11 @@ function isExcludedSourcePath(filePath: string): boolean {
     );
 }
 
-function listP8JsonFiles(root: string): string[] {
+function listP8JsonFiles(
+  root: string,
+  directory = join(root, "src", "core2", "data"),
+): string[] {
   const files = new Set<string>();
-  const directory = join(root, "src", "core2", "data");
   if (!existsSync(directory)) return [];
   const visit = (current: string): void => {
     for (const entry of readdirSync(current, { withFileTypes: true })) {
@@ -1081,6 +1137,9 @@ function skipJsonWhitespace(text: string, start: number): number {
   return cursor;
 }
 
+/** Where stopgap markers are read: the core, the bench and the desktop shell. */
+const SCANNED_ROOTS = ["src/core2/", "src/bench/", "desktop/"] as const;
+
 function inspectMarkerLedger(
   markers: readonly SourceMarker[],
   entries: readonly StopgapEntry[],
@@ -1109,8 +1168,12 @@ function inspectMarkerLedger(
     const rows = markersById.get(entry.id);
     // A resolved row records what was fixed; its marker left the code with the fake.
     if (!rows && entry.status === "resolved") continue;
-    // Only src/core2 is scanned: a row for a marker elsewhere cannot be audited here.
-    if (!rows && !entry.file.startsWith("src/core2/")) continue;
+    // A row for a file outside the scanned roots cannot be audited here.
+    if (
+      !rows &&
+      !SCANNED_ROOTS.some((scanned) => entry.file.startsWith(scanned))
+    )
+      continue;
     if (!rows) {
       diagnostics.push({
         code: "stale-stopgap-entry",
