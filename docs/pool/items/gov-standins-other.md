@@ -5,12 +5,12 @@ area: gov
 kind: stopgap
 priority: 2
 size: M
-status: blocked
-claimed-by: claude/standins-other-credit-business
+status: open
+claimed-by:
 pr: #5155
 blocked-on: gov-standin-budgets-adopted-by-rule
 source: added with npm run pool -- add
-claimed-at: 2026-10-19T21:25:48.884Z
+claimed-at:
 ---
 
 **What.** TODO
@@ -22,3 +22,5 @@ claimed-at: 2026-10-19T21:25:48.884Z
 **Files.** TODO
 
 **Notes.** TODO
+
+Sent back 2026-10-20 from PR #5155 (branch claude/standins-other-credit-business): The PR edits six pool/index files but explicitly declares no release declaration, and its changed files contain none under docs/release/changes. Add the required impact-none declaration for the actual planning-only split, then merge main and run the changed-file checks. Keep the unresolved stand-in implementations open; no registry row is completed by this docs change.; finish on that branch, merge main into it first.
