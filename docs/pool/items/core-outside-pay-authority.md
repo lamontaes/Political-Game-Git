@@ -5,7 +5,7 @@ area: core
 kind: feature
 priority: 2
 size: M
-status: in-pr
+status: done
 claimed-by: claude/outside-pay-authority
 pr: #5577
 blocked-on:
