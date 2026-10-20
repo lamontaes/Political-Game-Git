@@ -5,11 +5,12 @@ area: world
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/housing-county-estimate-red
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-20T07:58:49.494Z
 ---
 
 **What.** On main (Oct 20) src/core2/housing-county-estimate.test.ts fails with 'expected 0 to be greater than 0' in place 0968240 with seed 2aaf02fefa56c179: in a county whose median home value the ACS withholds, the test finds no owner home value and no property tax bill. The test passes in other places, so find which record is missing in this county (the county estimate, the owner rows, or the tax billing) and fix it at the cause. Found while running the housing tests one file at a time; the same run also showed housing-laws and housing-no-opening-value red, which have their own items.
