@@ -247,26 +247,32 @@ function play(
   return "done";
 }
 
-it("shows the day's choices with control names and runs the one taken through the engine", () => {
-  const tried: string[] = [];
-  for (let n = 0; n < PLACES; n++) {
-    const { core, api, adults, where } = openWorld(
-      `campaign-day-controls:${n}`,
-    );
-    let filed = 0;
-    const notes: string[] = [];
-    for (const candidate of adults.slice(0, 60)) {
-      if (filed >= 5) break;
-      const filing = fileLocal(core, api, candidate);
-      if (!filing) continue;
-      filed++;
-      const result = play(core, api, filing, where);
-      if (result === "done") return;
-      notes.push(result);
+it(
+  "shows the day's choices with control names and runs the one taken through the engine",
+  () => {
+    const tried: string[] = [];
+    for (let n = 0; n < PLACES; n++) {
+      const { core, api, adults, where } = openWorld(
+        `campaign-day-controls:${n}`,
+      );
+      let filed = 0;
+      const notes: string[] = [];
+      for (const candidate of adults.slice(0, 60)) {
+        if (filed >= 5) break;
+        const filing = fileLocal(core, api, candidate);
+        if (!filing) continue;
+        filed++;
+        const result = play(core, api, filing, where);
+        if (result === "done") return;
+        notes.push(result);
+      }
+      tried.push(`${where} (${filed} filed; ${notes.join("; ")})`);
     }
-    tried.push(`${where} (${filed} filed; ${notes.join("; ")})`);
-  }
-  throw new Error(
-    `no candidate could pay for an event in ${PLACES} places: ${tried.join(" | ")}`,
-  );
-});
+    throw new Error(
+      `no candidate could pay for an event in ${PLACES} places: ${tried.join(" | ")}`,
+    );
+    // One drawn place, built and played through its campaign days, took 196
+    // seconds on a 4-core container (Springville, Utah); up to PLACES of them.
+  },
+  PLACES * 250_000,
+);
