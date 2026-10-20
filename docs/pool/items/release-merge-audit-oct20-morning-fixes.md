@@ -6,11 +6,11 @@ kind: bug
 priority: 1
 size: M
 status: in-pr
-claimed-by: claude/political-game-pool-yucp92-ao
+claimed-by: claude/audit-fixes
 pr: #5655
 blocked-on:
 source: CTO merge audit, Oct 20 morning
-claimed-at: 2026-10-20T10:36:14.534Z
+claimed-at: 2026-10-20T14:26:58.888Z
 ---
 
 **What.** Three reviewers read the diffs of the 22 PRs merged into main between 05:00 and 07:00 UTC on October 20: 14 are good, 7 have concerns and 1 is bad. The bad one went to TRAIT-WIRING: #5289 left trait-decisions.json pointing at three deleted drive actions, so trait-coverage.test.ts throws on main. So did the concerns on #5552, its trait-weight code with no callers and a research row in the wrong unit. This item fixes the other six with concerns, plus two release notes that misstate their change, listed below. Each numbered fix is small and can land as its own PR that names this item and the number; the item is done when all seven are merged.
@@ -30,3 +30,5 @@ claimed-at: 2026-10-20T10:36:14.534Z
 **Files.** src/core2/data/elections/term-starts.json, src/core2/elections-law.test.ts, scripts/audit/research-data-allowlist.json, data/research/jobs/employer-callback-gaps.json, src/core2/modules/jobs.ts, src/core2/public-pay-floor-hire.test.ts, src/bench/campaign.ts, src/bench/campaign-day-controls.test.ts, src/core2/staff.ts, src/core2/staff-paid-every-place.test.ts, src/core2/snapshot.ts, src/core2/saves.test.ts, src/core2/opening-customers-township-owner.test.ts, src/core2/term-start-history.test.ts, docs/release/changes/
 
 **Notes.** Audit reports from the three reviewers are summarized in the CTO's Oct 20 morning report. Good merges, for the record: #5402, #5406, #5267, #5124, #5410, #5293, #5414, #5164 (apart from its note), #4942, #5539, #5544, #5550, #5566, #5548 (apart from its note).
+
+Oct 20 (fs11vb): fix 1 merged (#5655). Fix 7 is PR #5697 (the notes of #5548 and #5164, and a measured reason for the term-start timeout). Fix 5: the pinned case the audit asked for (territory:VI:charlotte-amalie-east, seed p3) does not pass on main, so #5559 does not hold in that place: 19 aides stay unpaid because no job in that world has a payroll calendar for the schedule to follow. Filed as `staff-paid-territory-no-payroll-template` (gov, bug, priority 1), which carries the repro; the pinned test goes in with its fix. Fixes 2, 3, 4 and 6 are untouched by this session.

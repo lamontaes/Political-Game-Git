@@ -5,9 +5,9 @@ area: play
 kind: feature
 priority: 2
 size: M
-status: claimed
+status: done
 claimed-by: claude/play-campaign-interview-event-no-seat
-pr:
+pr: #5674
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-20T12:20:14.449Z

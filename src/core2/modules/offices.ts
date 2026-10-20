@@ -686,7 +686,12 @@ function pastTerms(
         ) - 2,
       ),
     );
-  const serviceStart = shiftYears(start, -prior * years);
+  // Service begins where the earliest past term does (its start is snapped to
+  // the office's own inauguration day), so the career has no gap.
+  const serviceStart =
+    prior > 0
+      ? termStartInYear(office, shiftYears(start, -prior * years))
+      : start;
   const won = (from: string) =>
     office.elected ? { elected: electionBehind(office, from) } : {};
   table(api, "terms").put({
