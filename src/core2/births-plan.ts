@@ -6,6 +6,7 @@ import { currentCloseness } from "./closeness";
 import { renewalParameter } from "./births-parameters";
 import { scoreOffers, decisionFromScores } from "./choice";
 import { decisionKinds } from "./trait-decisions";
+import { OUTCOME_WEB_MODULE_ID, outcomeWebFactor } from "./modules/outcome-web";
 import type { ActOffer, ActionDefinition, CoreAPI, PersonState } from "./types";
 
 export const BIRTHS_STOPGAP = "SG-M1-births-circumstances";
@@ -194,6 +195,13 @@ export function birthCircumstances(
           ? currentCloseness(api.state, relationship)
           : p("renewalUnknownCloseness")) -
         p("one")),
+    // The place's own conditions (unemployment, home prices) have moved its
+    // birth rate by this factor; a couple weighs it as the counted women's
+    // births are scaled by it (one model, two tiers).
+    web: api.state.modules.has(OUTCOME_WEB_MODULE_ID)
+      ? p("renewalWebWeight") *
+        (outcomeWebFactor(api, mother.placeId, "births.rate") - p("one"))
+      : p("zero"),
     partnership:
       mother.householdId === partner.householdId
         ? p("one")

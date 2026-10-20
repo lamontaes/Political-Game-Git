@@ -39,6 +39,18 @@
     },
     "stopgapId": "SG-M1-births-circumstances"
   },
+  "renewalWebWeight": {
+    "value": 7.5,
+    "tag": "TUNABLE",
+    "citation": "Fitted Oct 20 so that a full couple's choice to plan a child moves with the outcome web's birth-rate factor as the counted women's births do (elasticity 1): across 518 couples in 12 drawn places, 12.2 percent plan a child, and a factor of 0.9 (a shift of 0.75 in the score) takes the share to 0.90 of that. The web's factor is the place's own unemployment and home-price effect on births (data/research/renewal natality); never a rate on the individual.",
+    "spread": {
+      "low": 3,
+      "high": 15,
+      "unit": "score per unit of factor change",
+      "citation": "Elasticity 0.5 to 2 on the same 518 couples (shift 0.35 to 1.6 per tenth of factor); checked in src/core2/births-full-web.test.ts."
+    },
+    "stopgapId": "SG-M1-births-circumstances"
+  },
   "renewalAgeWeight": {
     "value": 4,
     "tag": "TUNABLE",
