@@ -5,13 +5,13 @@ area: release
 kind: bug
 priority: 2
 size: L
-status: blocked
-claimed-by: claude/merge-audit-fixes
+status: open
+claimed-by:
 pr:
 blocked-on:
 after: release-audit-01-news-office-proof-tests,release-audit-02-law-reach-tests,release-audit-03-counted-deaths-seed,release-audit-04-close-5019-stopgap-line,release-audit-05-journal-lines-not-shippable,release-audit-06-old-engine-imports,release-audit-07-08-duplicate-pool-and-owner-notes,release-audit-09-arrears-write-off,release-audit-10-agreement-jobs-free-test,release-audit-11-hire-test-both-halves,release-audit-12-vacuous-loop-tests,release-audit-13-grade-always-wins,release-audit-14-opening-wages-before-capital,release-audit-15-energy-cost-year,release-audit-16-governor-commute-label,release-audit-17-misstated-release-notes,release-audit-18-data-verify,release-audit-19-stale-text
 source: "docs/reports/merge-audit-2026-10-20.md"
-claimed-at: 2026-10-20T04:18:13.609Z
+claimed-at:
 ---
 
 **What.** This is the roll-up for the October 20 merge audit, which read the diffs of 55 PRs merged overnight and found three merged after their own send-back, one merged into another PR's branch, old-engine imports and hand-written journal lines on main, and weak tests and misstated release notes. The numbered list in docs/reports/merge-audit-2026-10-20.md is already split into one pool item per fix, release-audit-01 through release-audit-19 (07 and 08 share a file). Builders take those items one at a time, the bad ones first; this item closes when every one is done and the report's list names the PR for each fix.
