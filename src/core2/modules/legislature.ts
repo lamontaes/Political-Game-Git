@@ -88,8 +88,12 @@ import {
   seatOfficial,
 } from "./officials";
 import mayorVetoData from "../../../data/research/local-government/mayor-veto-2026.json" with { type: "json" };
-import { parameter } from "../parameters";
-import { decisionLean } from "../trait-decisions";
+import {
+  decisionLean,
+  decisionTraitWeight,
+  leanedTerm,
+  leanedYes,
+} from "../trait-decisions";
 import { stateActEffectiveDate } from "../state-effective-date";
 import representation from "../data/offices/federal-representation.json" with { type: "json" };
 import proposalData from "../data/legislature/executive-proposal.json" with { type: "json" };
@@ -1953,7 +1957,7 @@ function traitLean(
 ): number {
   const person = api.state.people.get(memberId);
   return person
-    ? parameter("traitDecisionWeight") *
+    ? decisionTraitWeight(api.state, decisionId) *
         decisionLean(api.state, person, decisionId, toward, over)
     : 0;
 }
@@ -2149,17 +2153,39 @@ function positionOn(
         stateStake: parts.stateStake,
       }
     : null;
-  // A taste for change backs changing a settled law and resists reversing
-  // a fresh one: the trait part reads the bill against the law in force.
-  const trait = tasteForChange(
-    traitLean(api, memberId, "legislature.member-position", ["yes", "no"]),
-    billSettledness(api, bill),
-  );
   // A member's own record: undoing what they just voted for, or redoing what
   // they just voted against, weighs against them while the law is fresh.
   const consistency = recordConsistency(api, memberId, bill);
   // A bribe they took on this bill, as far as it moves them.
   const bribe = bribePull(api, memberId, bill.id);
+  // Everything that decides the vote but personality: where they stand, home,
+  // the sponsor, deals, lobbying, party, their record and any bribe.
+  const bare =
+    views +
+    answersHome +
+    sponsor +
+    deal +
+    lobby +
+    consistency +
+    bribe +
+    (further
+      ? further.party + further.wing + further.ambition + further.press
+      : 0);
+  // A taste for change backs changing a settled law and resists reversing
+  // a fresh one: the trait part reads the bill against the law in force.
+  const settled = billSettledness(api, bill);
+  const member = api.state.people.get(memberId);
+  const trait = member
+    ? leanedTerm(
+        api.state,
+        member,
+        "legislature.member-position",
+        "yes",
+        "no",
+        bare,
+        (lean) => tasteForChange(lean, settled),
+      )
+    : 0;
   return {
     memberId,
     views,
@@ -2172,18 +2198,7 @@ function positionOn(
     trait,
     consistency,
     bribe,
-    total:
-      views +
-      answersHome +
-      sponsor +
-      deal +
-      lobby +
-      trait +
-      consistency +
-      bribe +
-      (further
-        ? further.party + further.wing + further.ambition + further.press
-        : 0),
+    total: bare + trait,
   };
 }
 
@@ -2536,18 +2551,64 @@ function isState(api: CoreAPI, bill: BillRow): boolean {
 }
 
 /**
+ * Whether a committee's chair holds a hearing on a bill: the chair's own
+ * position on it (`position`) plus their temperament, at the decision's
+ * calibrated weight, is not against it. A chair who is a name not filled in
+ * yet weighs the position alone.
+ */
+export function chairHearsBill(
+  api: CoreAPI,
+  chairId: string,
+  position: number,
+): boolean {
+  const chair = api.state.people.get(chairId);
+  return (
+    position +
+      (chair
+        ? leanedTerm(
+            api.state,
+            chair,
+            "legislature.hold-hearing",
+            "hear",
+            "bury",
+            position,
+          )
+        : 0) >=
+    0
+  );
+}
+
+/**
+ * How near an even split a chamber's own positions put a vote: 1 for a tie,
+ * 0 when every member who leans at all leans the same way.
+ */
+function voteCloseness(totals: readonly number[]): number {
+  let yes = 0;
+  let no = 0;
+  for (const total of totals) {
+    if (total > 0) yes += 1;
+    else if (total < 0) no += 1;
+  }
+  return yes + no === 0 ? 0 : 1 - Math.abs(yes - no) / (yes + no);
+}
+
+/**
  * Whether a member misses the sitting: on a bill they care little about,
  * they decide as they decide whether to go to work (the core chooser), from
- * the hours they have for it against the sitting's length and their own
- * reasons. A member with no living person record cannot attend: a seat whose
- * holder has died, or was never seated as a person, casts no vote.
+ * the hours they have for it against the sitting's length and the member's
+ * own duty reasons: holding the seat, a legislature's session, and how close
+ * the vote is (`closeness`, from the chamber's positions). Their traits add
+ * to those at the decision's calibrated weight; the circumstances settle
+ * most sittings. A member with no living person record cannot attend: a seat
+ * whose holder has died, or was never seated as a person, casts no vote.
  */
-function missesSitting(
+export function missesSitting(
   api: CoreAPI,
   memberId: string,
   billId: string,
   officeId: string,
   stake: number,
+  closeness: number,
 ): boolean {
   const person = api.state.people.get(memberId);
   if (!person?.alive) return true;
@@ -2565,7 +2626,12 @@ function missesSitting(
     ? api.parameter("hoursPerDay")
     : discretionaryHours(api, memberId);
   // Serving is the member's work: attending meets that goal, as going to
-  // work does.
+  // work does. How strongly the sitting calls on the member comes from the
+  // records: the seat, the session and how close the vote stands.
+  const duty =
+    campaignParameter("sittingSeatDuty") +
+    (legislative ? campaignParameter("sittingSessionDuty") : 0) +
+    campaignParameter("sittingCloseDuty") * closeness;
   const action = (id: string): ActionDefinition => ({
     id,
     actKinds: decisionKinds("legislature.attend-sitting", id),
@@ -2597,7 +2663,15 @@ function missesSitting(
   const decision = decisionFromScores(
     api.state,
     memberId,
-    scoreOffers(api.state, memberId, offers),
+    scoreOffers(api.state, memberId, offers, {
+      goalRows: [
+        {
+          id: `sitting-duty:${billId}`,
+          kind: "fulfil-work",
+          urgency: duty,
+        },
+      ],
+    }),
   );
   return decision.selected?.definition.id !== "sitting-attend";
 }
@@ -2610,9 +2684,14 @@ function chamberVote(
 ): { yes: number; no: number } {
   let yes = 0;
   let no = 0;
-  for (const member of members(api, officeId)) {
+  const seated = members(api, officeId);
+  const positions = seated.map((member) =>
+    memberPosition(api, bill.id, memberKey(member)),
+  );
+  const closeness = voteCloseness(positions.map((position) => position.total));
+  for (const [index, member] of seated.entries()) {
     const key = memberKey(member);
-    const position = memberPosition(api, bill.id, key);
+    const position = positions[index]!;
     // A member who chose their vote (the player) votes as they chose; the
     // player is never voted for, so with no choice they abstain.
     const chosen = table(api, "choices").get(`${bill.id}|${key}`) as unknown as
@@ -2623,7 +2702,7 @@ function chamberVote(
       (snapshotExplicitControlV1(api.state).personId ??
         (api.state as CoreState).playerId)
         ? "abstain"
-        : missesSitting(api, key, bill.id, officeId, position.total)
+        : missesSitting(api, key, bill.id, officeId, position.total, closeness)
           ? "absent"
           : position.total > 0
             ? "yes"
@@ -2831,13 +2910,7 @@ function committeeStage(
     }
   }
   const chairPosition = memberPosition(api, bill.id, memberKey(chair));
-  const heard =
-    chairPosition.total +
-      traitLean(api, memberKey(chair), "legislature.hold-hearing", [
-        "hear",
-        "bury",
-      ]) >=
-    0;
+  const heard = chairHearsBill(api, memberKey(chair), chairPosition.total);
   const witnesses: { personId: string; stake: string }[] = [];
   if (heard) {
     const wage = bill.provisions.find((p) => p.series === "minimum-wage");
@@ -3161,6 +3234,12 @@ function floorAmendments(
       ];
       if (bound.some((m) => positionOn(api, amended, m).total <= 0)) continue;
       if (positionOn(api, amended, k).total <= 0) continue;
+      // A section others dislike can cost the bill more votes than the
+      // holdout brings: the sponsor trades only to end with more support.
+      const backing = roll.filter(
+        (m) => positionOn(api, amended, m).total > 0,
+      ).length;
+      if (backing <= yes) continue;
       adopt(section, k, "trade-amendment");
     }
   }
@@ -3200,7 +3279,7 @@ function floorAmendments(
         )
           best = { section, left };
       }
-      if (best && movesPill(api, proposer, current.id)) {
+      if (best && movesPill(api, proposer, -totals.get(proposer)!)) {
         adopt(best.section, proposer, "poison-pill");
       }
     }
@@ -3210,33 +3289,27 @@ function floorAmendments(
   return current;
 }
 
-/** Whether a member moves a pill that would sink a bill: their own temperament, by the chooser. */
-function movesPill(api: CoreAPI, memberId: string, billId: string): boolean {
+/**
+ * Whether a member moves a pill that would sink a bill: how far against it
+ * they stand (`opposition`, the size of their negative position) past the
+ * bar at which bending the rules is worth the standing it costs, and their
+ * own temperament at the decision's calibrated weight.
+ */
+export function movesPill(
+  api: CoreAPI,
+  memberId: string,
+  opposition: number,
+): boolean {
+  const member = api.state.people.get(memberId);
   // Only a living member moves a pill.
-  if (!api.state.people.get(memberId)?.alive) return false;
-  const action = (id: string): ActionDefinition => ({
-    id,
-    actKinds: decisionKinds("legislature.poison-pill", id),
-    goalKinds: [],
-    need: "time",
-    effortParameter: "zero",
-    effectParameter: "one",
-    targetKind: "bill",
-    effect: id,
-  });
-  const hours = api.parameter("hoursPerDay");
-  const offers: ActOffer[] = ["pill-hold", "pill-move"].map((id) => ({
-    definition: action(id),
-    targetId: billId,
-    availableHours: hours,
-    effortHours: api.parameter("zero"),
-  }));
-  return (
-    decisionFromScores(
-      api.state,
-      memberId,
-      scoreOffers(api.state, memberId, offers),
-    ).selected?.definition.id === "pill-move"
+  if (!member?.alive) return false;
+  return leanedYes(
+    api.state,
+    member,
+    "legislature.poison-pill",
+    "pill-move",
+    "pill-hold",
+    opposition - campaignParameter("pillOppositionBar"),
   );
 }
 
@@ -3380,10 +3453,19 @@ function executiveLeanOn(
   executiveId: string,
 ): { position: number; temperament: number; lean: number } {
   const position = memberPosition(api, bill.id, executiveId).total;
-  const temperament = tasteForChange(
-    traitLean(api, executiveId, "legislature.sign-or-veto", ["sign", "veto"]),
-    billSettledness(api, bill),
-  );
+  const settled = billSettledness(api, bill);
+  const executive = api.state.people.get(executiveId);
+  const temperament = executive
+    ? leanedTerm(
+        api.state,
+        executive,
+        "legislature.sign-or-veto",
+        "sign",
+        "veto",
+        position,
+        (lean) => tasteForChange(lean, settled),
+      )
+    : 0;
   return { position, temperament, lean: position + temperament };
 }
 
@@ -3677,7 +3759,7 @@ function overrideVote(
               .table("seats")
               .query("byOffice", [chamber]).length,
           );
-    for (const member of roster) {
+    const positions = roster.map((member) => {
       const key = memberKey(member);
       const position = positionOn(api, bill, key);
       const executive =
@@ -3685,6 +3767,14 @@ function overrideVote(
         memberSide(api, key, member.party) === executiveSide
           ? -executivePull(api, key)
           : 0;
+      return { position, executive };
+    });
+    const closeness = voteCloseness(
+      positions.map((row) => row.position.total + row.executive),
+    );
+    for (const [index, member] of roster.entries()) {
+      const key = memberKey(member);
+      const { position, executive } = positions[index]!;
       const chosen = table(api, "choices").get(
         `${bill.id}|${key}|override${itemIndex === undefined ? "" : `:item:${itemIndex}`}`,
       ) as unknown as { vote: "yes" | "no" | "abstain" } | undefined;
@@ -3696,7 +3786,7 @@ function overrideVote(
           (api.state as CoreState).playerId)
           ? "abstain"
           : itemIndex !== undefined &&
-              missesSitting(api, key, bill.id, chamber, total)
+              missesSitting(api, key, bill.id, chamber, total, closeness)
             ? "absent"
             : total > 0
               ? "yes"
@@ -4251,6 +4341,11 @@ export function registerSittingReader(
  * a legislature's next floor week in session (or its next session's first),
  * Congress's likewise, from the calendars the world keeps.
  */
+/** Whether the body has a sitting on its calendar to put a bill before. */
+export function hasSitting(api: CoreAPI, bodyOfficeId: string): boolean {
+  return (sittingReader?.(api, bodyOfficeId) ?? null) !== null;
+}
+
 export function scheduleVote(api: CoreAPI, billId: string): string {
   const bill = table(api, "bills").get(billId) as unknown as BillRow;
   const sitting = sittingReader?.(api, bill.bodyOfficeId) ?? null;

@@ -1,3 +1,4 @@
+import { workedToday } from "../job-lifecycle";
 import { snapshotExplicitControlV1 } from "../player-control-state-v1";
 /**
  * The executive's desk (M3-05; BOARD "features the old engine had":
@@ -54,6 +55,8 @@ import { addDays, makeIsoDate } from "../kernel/dates";
 import { BUDGETS_MODULE_ID, governments } from "./budgets";
 import { lineForPost, postPayCapDaily } from "../budgets-treasury";
 import { startPublicJob } from "../public-payroll";
+import { parameter } from "../parameters";
+import { medianTransactionBalance } from "../starting-cash";
 import { filingRequirements } from "./elections";
 
 export const EXECUTIVE_MODULE_ID = "core2-executive-v1";
@@ -71,6 +74,7 @@ const RESEARCH = research as unknown as {
     {
       cabinet?: { positions?: PostSpec[] };
       canOrder?: { key: string }[] | Record<string, unknown>;
+      pardon?: { authority: string };
     }
   >;
 };
@@ -219,14 +223,6 @@ export function experienceFromAge(
  * or the player, ranked by the appointer's reasons (alignment, qualification,
  * acquaintance). Nothing is written.
  */
-/** A job ends before its day's work, so someone who has worked today leaves theirs for a post tomorrow, not today. */
-function workedToday(core: CoreState, person: PersonState): boolean {
-  return (
-    !!person.jobId &&
-    core.work.lastAttendanceByJob.get(person.jobId)?.date === core.date
-  );
-}
-
 function townPostInput(api: CoreAPI, spec: PostSpec, chosenId?: string) {
   const appointer = townAppointer(api, spec.appointedBy);
   const date = api.state.date;
@@ -487,6 +483,22 @@ function seatCabinetPerson(
       /:$/,
       "",
     );
+  const employer = (
+    api.state.modules.has(BUDGETS_MODULE_ID) ? governments(api) : []
+  ).find((g) => g.level === "state")?.organizationId;
+  const post = `state:${spec.key}`;
+  const maxDailyMinor = employer
+    ? postPayCapDaily(
+        api,
+        employer,
+        post,
+        input.posts.filter(
+          (other) =>
+            lineForPost("state", `state:${other.key}`) ===
+            lineForPost("state", post),
+        ).length,
+      )
+    : undefined;
   fillInIdentity(core, {
     id: personId,
     givenName: identity.givenName,
@@ -494,6 +506,19 @@ function seatCabinetPerson(
     birthDate: identity.birthDate,
     placeId: state,
     gender: identity.gender,
+    // What a family at their pay keeps in its accounts (SCF 2022), as the
+    // town's generated residents do; later hires arrive with what they have.
+    ...(maxDailyMinor !== undefined && core.date === core.startedAt
+      ? {
+          openingLiquidMinor: Math.round(
+            medianTransactionBalance(
+              (maxDailyMinor *
+                parameter("daysPerMeanYear", core.data.parameters)) /
+                parameter("minorPerDollar", core.data.parameters),
+            ) * parameter("minorPerDollar", core.data.parameters),
+          ),
+        }
+      : {}),
     source: {
       tag: "ESTIMATED",
       asOf: api.state.date,
@@ -502,23 +527,14 @@ function seatCabinetPerson(
         "The research file names the post, not the person; the person is drawn from the world's seed like any invented official.",
     },
   });
-  const employer = (
-    api.state.modules.has(BUDGETS_MODULE_ID) ? governments(api) : []
-  ).find((g) => g.level === "state")?.organizationId;
   if (employer) {
-    const post = `state:${spec.key}`;
-    const toFill = input.posts.filter(
-      (other) =>
-        lineForPost("state", `state:${other.key}`) ===
-        lineForPost("state", post),
-    ).length;
     startPublicJob(api, {
       personId,
       employerId: employer,
       post,
       title: spec.title,
       hourlyMinor: campaignParameter("appointeeHourlyMinor"),
-      maxDailyMinor: postPayCapDaily(api, employer, post, toFill),
+      maxDailyMinor,
       scheduleFromPlaceId: lawChain(api).townPlaceId,
       citation: `Appointment ${input.appointmentId}`,
     });
@@ -1106,3 +1122,14 @@ export function pendingGovernorOrders(
     },
   );
 }
+
+/** Who holds a state's pardon and commutation power, from the research (`governor-alone`, `governor-with-board-advice`, `board-alone`, ...). */
+export function clemencyAuthority(stateKey: string): string | null {
+  return RESEARCH.places[stateKey]?.pardon?.authority ?? null;
+}
+
+/** The authorities under which the governor decides alone, a board's advice being only advice. */
+export const GOVERNOR_DECIDES_CLEMENCY: readonly string[] = [
+  "governor-alone",
+  "governor-with-board-advice",
+];
