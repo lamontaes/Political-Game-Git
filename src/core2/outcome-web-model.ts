@@ -105,6 +105,8 @@ interface BaseDefinition {
   readonly places: Readonly<Record<string, number>>;
 }
 
+/** The web module's id; here so readers of the web need not load the module itself. */
+export const OUTCOME_WEB_MODULE_ID = "core2-outcome-web-v1";
 export const WEB_LINKS = (web.links as unknown as readonly WebLink[]).map(
   (link) => (link.readFrom ? { ...link, from: link.readFrom } : link),
 );
@@ -142,8 +144,6 @@ const ENGINE = local.engineMeasures as Readonly<
     }
   >
 >;
-/** The outcome web's module id (here so engines can read the web without loading its module). */
-export const OUTCOME_WEB_MODULE_ID = "core2-outcome-web-v1";
 export const LAW_PREFIX = "law:";
 /** An index outcome reads 100 where the place began. */
 const INDEX_START = local.indexStart;
