@@ -4,13 +4,13 @@ title: "Stopgaps in recalls (missing-data): 1 open"
 area: core
 kind: stopgap
 priority: 3
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/recall-signature-groups
 pr: #4918
 blocked-on:
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/modules/recalls.ts, kind missing-data"
-claimed-at:
+claimed-at: 2026-10-20T18:58:19.137Z
 ---
 
 **What.** Replace or clear the 1 open missing-data stopgap row(s) in src/core2/modules/recalls.ts: SG-GOV-recall-signature-groups. Each fake is replaced by the mechanic, or the feature that needs it is deleted.
