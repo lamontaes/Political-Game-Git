@@ -5,10 +5,10 @@ area: core
 kind: bug
 priority: 2
 size: M
-status: claimed
+status: blocked
 claimed-by: claude/pool-cash-journal
 pr:
-blocked-on:
+blocked-on: journal-owner-design-batch-postings-per-day
 source: added with npm run pool -- add
 claimed-at: 2026-10-20T01:43:25.293Z
 ---
