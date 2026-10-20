@@ -5,7 +5,7 @@ area: gov
 kind: research
 priority: 3
 size: S
-status: in-pr
+status: done
 claimed-by: claude/fs11vb-sc
 pr: #5662
 blocked-on:
