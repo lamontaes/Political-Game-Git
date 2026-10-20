@@ -4,9 +4,9 @@ title: "Main line:"
 area: words
 kind: feature
 priority: 2
-status: claimed
+status: done
 claimed-by: claude/words-main-line
-pr:
+pr: #5242
 blocked-on:
 milestone:
 source: "docs/coordination/words.md line 46 (unchecked checklist line)"
@@ -22,3 +22,5 @@ claimed-at: 2026-10-19T22:16:26.286Z
 **Files.** src/director/journal.ts, src/director/data/journal-rows.json, data/english/parts/journal.json, src/director/mined/journal-bank.ts
 
 **Notes.** Checklist line from words.md; verify against main before starting.
+
+Oct 20: PR #5242 merged to main: a journal entry revises an earlier one only when a later record shows its weight grew.

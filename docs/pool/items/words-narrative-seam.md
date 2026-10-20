@@ -7,10 +7,11 @@ priority: 2
 size: M
 status: open
 claimed-by:
-pr:
+pr: #5358
 blocked-on:
 after: words-pack-scene-talk
 source: added with npm run pool -- add
+claimed-at:
 ---
 
 **What.** TODO
@@ -21,4 +22,4 @@ source: added with npm run pool -- add
 
 **Files.** TODO
 
-**Notes.** TODO
+**Notes.** PR #5358 sent back: merge conflict with main in code files (scripts/dialogue-batch/apply-grades.ts, scripts/dialogue-batch/grading-bench.test.ts, scripts/dialogue-batch/grading-bench.ts, src/director/civic-roles.ts, src/director/conversation.test.ts, src/director/scheduling.ts, src/english/english-composition.ts) and targets unmerged base branch words/word-pack (#4626).
