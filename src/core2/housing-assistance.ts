@@ -10,7 +10,13 @@
  */
 import { countedPayment } from "./counted-money";
 import { appliedOn, lawApplied, lawNoLongerApplies } from "./law-reach/applied";
-import { baseLine, budgetToday } from "./law-reach/group-a-money";
+import {
+  baseLine,
+  budgetToday,
+  HOUSING_LINE_KEY,
+  housingLineMeasureId,
+} from "./law-reach/group-a-money";
+import { mechanicRow } from "./law-reach/group-a-records";
 import lawParameters from "./data/laws/reach-group-a-parameters.json" with { type: "json" };
 import { BUDGETS_MODULE_ID, governments } from "./modules/budgets";
 import { ageOnDate, makeIsoDate } from "./kernel/dates";
@@ -18,7 +24,7 @@ import { tenants } from "./housing-occupancy";
 import { transferCash } from "./world-transfer";
 import type { CoreAPI, CoreState } from "./types";
 
-export const HOUSING_ASSISTANCE_KEY = "budget-line:housing";
+export const HOUSING_ASSISTANCE_KEY = HOUSING_LINE_KEY;
 
 /** Pay this month's rent assistance and end it for households no longer covered. */
 export function payRentAssistance(api: CoreAPI): void {
@@ -38,6 +44,10 @@ export function payRentAssistance(api: CoreAPI): void {
       baseLine(api, gov, budget, "housing");
     let slots = Math.floor(extra / annual);
     if (slots <= 0) continue;
+    // The measure that last changed this line is the law the help is paid under.
+    const lawId = String(
+      mechanicRow(api, housingLineMeasureId(gov.id))?.facts.lawId ?? budget.id,
+    );
     renters ??= tenants(api);
     const ranked = renters
       .filter((t) => t.memberIds.length > 0)
@@ -99,7 +109,7 @@ export function payRentAssistance(api: CoreAPI): void {
       if (paid > 0)
         lawApplied(api, {
           key: HOUSING_ASSISTANCE_KEY,
-          lawId: budget.id,
+          lawId,
           targetId: tenant.id,
           target: tenant.tier === "full" ? "household" : "group",
           count: tenant.weight,

@@ -27,11 +27,12 @@ import {
 import { lawChain } from "../modules/laws";
 import {
   applyRecords,
+  ensureReachA,
   mechanicRow,
   onReachPayroll,
   PREMIUM_KIND,
-  REACH_A_MODULE_ID,
   putMechanic,
+  REACH_A_MODULE_ID,
   reachParameter,
   reachTable,
   yesLevels,
@@ -231,4 +232,31 @@ export const parksFunding: PolicyHandler = (api, change) => {
       facts: { governmentId: gov.id, deltaMinor: delta, lawId: level.lawId },
     });
   }
+};
+
+// --- housing spending --------------------------------------------------------------
+
+export const HOUSING_LINE_KEY = "budget-line:housing";
+
+/** The mechanic row naming the measure that last changed a government's housing line. */
+export const housingLineMeasureId = (governmentId: string) =>
+  `${HOUSING_LINE_KEY}:${governmentId}`;
+
+/**
+ * A change to a housing line: the measure that made it is kept for the
+ * government whose line it is, so the housing engine's monthly assistance
+ * cites the law that funds it (housing-assistance.ts).
+ */
+export const housingLineMeasure: PolicyHandler = (api, change) => {
+  ensureReachA(api);
+  if (!api.state.modules.has(BUDGETS_MODULE_ID)) return;
+  const gov = governments(api).find((g) => g.level === change.level);
+  if (!gov) return;
+  putMechanic(api, {
+    id: housingLineMeasureId(gov.id),
+    key: HOUSING_LINE_KEY,
+    active: change.inForce,
+    since: api.state.date,
+    facts: { governmentId: gov.id, lawId: change.lawId },
+  });
 };
