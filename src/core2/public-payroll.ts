@@ -70,20 +70,28 @@ export function startPublicJob(
       ? c.work.payrollCalendars.get(calendarId)
       : undefined;
     if (!commitment || !calendar) continue;
+    // A post's pay is stated for a full-time week, whatever week the
+    // schedule it follows runs.
+    const postHoursDaily =
+      api.parameter("openingFullTimeWeeklyHours") /
+      api.parameter("daysPerWeek");
     const postedHourlyMinor =
       input.maxDailyMinor === undefined
         ? input.hourlyMinor
         : Math.min(
             input.hourlyMinor,
-            Math.floor(input.maxDailyMinor / template.hoursDaily),
+            Math.floor(input.maxDailyMinor / postHoursDaily),
           );
     // A post its line cannot pay at all is held unpaid.
     if (postedHourlyMinor <= 0) return null;
     // Payroll pays the hourly rate for the minutes the schedule runs. The
-    // template's schedule can run longer than the hours its job states (a
-    // recorded work week against the SOC proxy's hours), so the rate is set
-    // over the scheduled minutes: the post's pay is what its line posts.
-    const statedWeekMinutes = template.hoursDaily * 7 * 60;
+    // template's schedule can run longer or shorter than the post's week, so
+    // the rate is set over the scheduled minutes: the post's pay is what its
+    // line posts.
+    const statedWeekMinutes =
+      postHoursDaily *
+      api.parameter("daysPerWeek") *
+      api.parameter("minutesPerHour");
     const hourlyMinor =
       commitment.expectedWeeklyMinutes > 0
         ? Math.round(
@@ -115,7 +123,7 @@ export function startPublicJob(
         title: input.title,
         hourlyMinor,
         hoursDaily: template.hoursDaily,
-        wageDailyMinor: Math.round(postedHourlyMinor * template.hoursDaily),
+        wageDailyMinor: Math.round(postedHourlyMinor * postHoursDaily),
         source,
       },
       {

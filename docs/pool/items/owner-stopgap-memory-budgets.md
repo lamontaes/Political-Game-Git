@@ -5,7 +5,7 @@ area: core
 kind: owner-decision
 priority: 3
 size: S
-status: in-pr
+status: done
 claimed-by: claude/memory-budget-decision
 pr: #5314
 blocked-on:
@@ -13,12 +13,12 @@ source: added with npm run pool -- add
 claimed-at: 2026-10-20T00:12:49.659Z
 ---
 
-**What.** SG-P8-work-result-retention marks the number of quiet weekly work rollups the game keeps before deleting them, and several parameters-file stopgaps of kind authored-memory-budget are the same: an engineering limit on memory, not a missing behavior. The question: may such a budget close as a TUNABLE parameter with the spread it was checked against, instead of staying an open stopgap that blocks the release build?
+**What.** The question was whether an engineering memory budget, here the weeks of quiet work rollups kept, is a tunable parameter and not a stopgap. The owner already ruled that running memory stays small and keeps a condensed index, not every log record (Oct 12, DECISION-REGISTER "Speed and memory"), so the retention span is a tunable budget. Only the dev-why bench reads old rollups, which `core.work.rollups` confirms.
 
-**Rules.** Owner decisions are flagged, never waited on: build the simplest version, which keeps the row open. Look before you ask: checked DECISION-REGISTER.md and OWNER-DECISIONS.md and found nothing on memory budgets.
+**Rules.** Look before you ask: the register answers it, so no question goes to the owner; Every number lives in the parameter table, tagged TUNABLE with the spread it is checked against.
 
-**Done when.** The owner rules yes or no in OWNER-DECISIONS.md; on yes, each authored-memory-budget row in src/core2/data/stopgaps.json is resolved with its parameter tagged TUNABLE and its spread, and the stopgap tripwire test passes in the played world.
+**Done when.** `workRoutineRetentionWeeks` is TUNABLE with a stated spread and the ruling cited, `SG-P8-work-result-retention` is resolved in stopgaps.json, and the calibration, tooling and work tests pass, shown in the PR body by test names.
 
-**Files.** src/core2/data/stopgaps.json, src/core2/data/parameters.json, src/core2/work-state.ts
+**Files.** src/core2/data/parameters.json, src/core2/data/stopgaps.json, src/core2/work-state.ts, src/core2/tooling/calibration-targets.json
 
-**Notes.** Raised Oct 19 while looking at core-stopgap-parameters-authored-memory-budget.
+**Notes.** Built Oct 20 on claude/memory-budget-decision.
