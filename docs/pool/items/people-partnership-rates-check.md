@@ -5,7 +5,7 @@ area: people
 kind: wiring
 priority: 3
 size: S
-status: blocked
+status: open
 claimed-by:
 pr:
 blocked-on:
