@@ -17,6 +17,9 @@ import type {
 import type { ModuleRow } from "../module-data";
 import type { PolicyHandler } from "./host";
 import { BUDGETS_MODULE_ID, governments } from "../modules/budgets";
+import { countedResidents } from "../electorate";
+import { lawChain } from "../modules/laws";
+import { fillInPerson } from "../state";
 import { baseLine, budgetToday } from "./group-a-money";
 import {
   ageOn,
@@ -146,6 +149,35 @@ function candidates(api: CoreAPI): readonly string[] {
     .map((p) => p.id);
 }
 
+/**
+ * The town's counted adults with no work in their records, in the same order
+ * (one model, two tiers: the same adults a full person's jobless neighbors
+ * are). One of them is filled in from the counts at hire.
+ */
+function countedCandidates(api: CoreAPI): readonly string[] {
+  const state = api.state as CoreState;
+  const town = lawChain(api).townPlaceId;
+  const from = reachParameter("adultAge");
+  const below = reachParameter("hireAgeBelow");
+  const score = (traits: Readonly<Record<string, number>>) =>
+    (traits["people-mind-v1:reliability"] ?? 0) +
+    (traits["personality-v1:facet-duty-bound"] ?? 0);
+  return countedResidents(state)
+    .filter((voter) => {
+      const age = ageOn(voter.birthDate, state.date);
+      return (
+        voter.placeId === town &&
+        voter.weeklyMinutes <= 0 &&
+        age >= from &&
+        age < below
+      );
+    })
+    .sort(
+      (a, b) => score(b.traits) - score(a.traits) || a.id.localeCompare(b.id),
+    )
+    .map((voter) => voter.id);
+}
+
 function hire(
   api: CoreAPI,
   row: StaffingRow,
@@ -219,8 +251,11 @@ onReachCalendar(STAFFING_KIND, (api, work) => {
   const laidOff: string[] = [];
   if (target > staff.length && staff.length) {
     const template = staff[0]!;
-    for (const personId of candidates(api)) {
+    for (const personId of [...candidates(api), ...countedCandidates(api)]) {
       if (staff.length + hired.length >= target) break;
+      // A counted adult becomes a full person from their records at hire.
+      if (!api.state.people.has(personId))
+        fillInPerson(api.state as CoreState, personId);
       if (hire(api, row, personId, template, work.source)) hired.push(personId);
       else break;
     }
