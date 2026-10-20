@@ -5,13 +5,13 @@ area: words
 kind: wiring
 priority: 1
 size: M
-status: blocked
-claimed-by: claude/pool-scene-talk-in-play
+status: open
+claimed-by:
 pr:
 blocked-on:
 after: words-scene-talk
 source: added with npm run pool -- add
-claimed-at: 2026-10-20T02:35:42.632Z
+claimed-at:
 ---
 
 **What.** Purpose scenes do not yet play in the game. When the director stages a scene (`composeScene` in src/director/scene.ts, whose `talkToId` names who opens it) for a situation with a purpose, the scene should hand over to the exchange engine that words-scene-talk builds (src/director/scene-talk.ts, on that item's branch): the other person says what they want, the player picks a reply from the control rows (never typed), and the talk moves to a result. Connect the purpose arcs and the scene-talk bank to `conversation.ts` so a talk started from a staged scene runs the exchange, then show it in the bench play loop (src/bench/play.mjs) with the replies as controls, and record the result as an event the journal and the other person's views read. Today scene.ts and conversation.ts hold no purpose field, so the first step is to read the purpose from the situation type's row once words-scene-talk lands.
