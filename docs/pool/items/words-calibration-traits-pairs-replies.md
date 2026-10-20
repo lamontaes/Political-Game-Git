@@ -5,11 +5,12 @@ area: words
 kind: feature
 priority: 3
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/pool-calibration-pairs
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-20T02:33:43.864Z
 ---
 
 **What.** TODO
