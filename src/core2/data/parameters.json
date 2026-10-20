@@ -1998,6 +1998,7 @@
   "openingRetirementClaimTraitPullYears": {
     "value": 4,
     "tag": "TUNABLE",
+    "stopgapId": "SG-P8-param-openingRetirementClaimTraitPullYears",
     "citation": "SSA Annual Statistical Supplement 2022, Table 6.B5: claim ages spread from 62 (about 25% in 2021) to 70 and later (about 8%); one unit of patience (mean of deliberation, reliability and less risk) moves a claim about a year and a half.",
     "estimatedFrom": "Explicit opening-generation prior. No claim of observed individual history, 2021 legal entitlement or parameter-specific empirical bound.",
     "spread": {
@@ -4718,18 +4719,6 @@
     "value": 12420,
     "tag": "SOURCED",
     "citation": "NCES, Digest of Education Statistics 2021, Table 205.50: average tuition at all private elementary and secondary schools, 2011–12, $12,420 in constant 2020–21 dollars. https://nces.ed.gov/programs/digest/d21/tables/dt21_205.50.asp"
-  },
-  "openingPrivateSchoolShare": {
-    "value": 0.085,
-    "tag": "ESTIMATED",
-    "citation": "NCES Fast Facts, Back-to-school statistics: fall 2021, 4.7 million private and 49.4 million public elementary and secondary students; NCES NHES 2019: about 2.8% of school-age children homeschooled.",
-    "estimatedFrom": "4.7 / (49.4 + 4.7 + about 1.6 homeschooled) ≈ 0.085 of school-age children in private schools.",
-    "spread": {
-      "low": 0.04,
-      "high": 0.14,
-      "unit": "share of children aged 5–17",
-      "citation": "State private shares from NCES Digest Table 205.80 range roughly 4% to 14%."
-    }
   },
   "openingCustomerClubMembershipsAnnualNationalUsd": {
     "value": 272,
