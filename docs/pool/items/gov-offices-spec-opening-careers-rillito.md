@@ -5,9 +5,9 @@ area: gov
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/rillito-careers
-pr:
+pr: #5696
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-20T13:30:38.615Z

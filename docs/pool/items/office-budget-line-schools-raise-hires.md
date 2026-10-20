@@ -5,12 +5,12 @@ area: office
 kind: wiring
 priority: 3
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/fs11vb-sch
 pr: #5632
 blocked-on:
 source: added with npm run pool -- add
-claimed-at:
+claimed-at: 2026-10-20T14:34:11.308Z
 ---
 
 **What.** PR #5588 proved a schools line cut ends teachers' jobs; the raise path (hire from the town's adults without work) is unproved.
