@@ -25,6 +25,7 @@ import {
   KEPT_OUTCOMES,
   keptOutcome,
   LAW_PREFIX,
+  OUTCOME_WEB_MODULE_ID,
   linkEffect,
   moderatorScale,
   scaleOf,
@@ -39,6 +40,7 @@ import type { ModuleRow } from "../module-data";
 import type { CoreAPI, CoreEventInput, CoreModule, CoreState } from "../types";
 import { townMetrics, WORLD_METRICS_MODULE_ID } from "./world-metrics";
 import { schoolMeasure } from "../school-measures";
+import { propertyTaxRateInForce } from "../housing-property-tax";
 import { GOV_MEASURES, govMeasure, govMeasureRecord } from "../gov-measures";
 
 /** The outcomes whose level the school engine measures (spending is recorded but stays the web's ledger, which no link reads from it). */
@@ -48,7 +50,7 @@ const SCHOOL_MEASURED = new Set([
   "school.graduation-pct",
 ]);
 
-export const OUTCOME_WEB_MODULE_ID = "core2-outcome-web-v1";
+export { OUTCOME_WEB_MODULE_ID };
 const STATE_ID = "outcome-web:state";
 const RUN_KIND = "outcome-web";
 const SETTINGS = WEB_SETTINGS;
@@ -178,6 +180,22 @@ export function lawValue(
   return [...latest.values()].some((row) => Number(row.value) === 1) ? 1 : 0;
 }
 
+/** Engine records outside the economy's monthly rows, read by name: the engine's own table. */
+const ENGINE_READERS: Readonly<
+  Record<
+    string,
+    (
+      api: CoreAPI,
+      placeId: string,
+    ) => { value: number; recordId: string | null } | null
+  >
+> = {
+  "property-tax-rate": (api, placeId) => {
+    const rate = propertyTaxRateInForce(api, placeId);
+    return rate ? { value: rate.share, recordId: rate.recordId } : null;
+  },
+};
+
 /** An engine's record for a measure in a place today, or null where it keeps none. */
 function readEngine(
   api: CoreAPI,
@@ -186,6 +204,12 @@ function readEngine(
 ): { value: number; recordId: string | null } | null {
   const definition = engineMeasure(measure);
   if (!definition) return null;
+  if (definition.reader) {
+    const read = ENGINE_READERS[definition.reader]?.(api, placeId);
+    return read
+      ? { value: read.value * definition.unitScale, recordId: read.recordId }
+      : null;
+  }
   // Engine measures are read from the economy's monthly rows (world-metrics).
   if (!(api.state as CoreState).modules.has(WORLD_METRICS_MODULE_ID))
     return null;
@@ -450,6 +474,8 @@ function run(api: CoreAPI): void {
   // Causes of poverty that reach no incomes yet (poverty itself is the engine's).
   api.stopgap("SG-WEB-poverty-licensing-no-engine");
   api.stopgap("SG-WEB-poverty-graduation-no-engine");
+  api.stopgap("SG-WEB-housing-links-unsized");
+  api.stopgap("SG-WEB-disaster-severity");
   for (const placeId of placesOf(api)) recordMonth(api, placeId, state);
 }
 

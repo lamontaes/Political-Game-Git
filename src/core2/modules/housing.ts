@@ -57,7 +57,6 @@ import {
 import { residentsRuntime } from "./residents";
 import { LAWS_MODULE_ID, lawChain, lawInForce } from "./laws";
 import { BUDGETS_MODULE_ID, governments } from "./budgets";
-import housingConstruction from "../data/housing/construction.json" with { type: "json" };
 import lawParameters from "../data/laws/reach-group-a-parameters.json" with { type: "json" };
 import {
   countedOwnersBehind,
@@ -1489,10 +1488,6 @@ function build(api: CoreAPI): void {
       c.modules.has(LAWS_MODULE_ID) &&
       landlord.placeId === lawChain(api).townPlaceId
     ) {
-      const multifamily = lawInForce(
-        api,
-        "us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones",
-      );
       const inclusionary = lawInForce(
         api,
         "us-policy-positions:housing-land-use.inclusionary-requirement",
@@ -1507,14 +1502,9 @@ function build(api: CoreAPI): void {
       );
       // These reads replace eligibility notices; remaining missing recipient
       // chains stay registered until construction and tenancy prove them.
-      if (multifamily.value === 1) api.stopgap("SG-GOV-REACH-A-housing-supply");
       if (inclusionary.value === 1)
         api.stopgap("SG-GOV-REACH-A-affordable-units");
       setZoning(store(api).table("stock"), landlord.placeId, {
-        multifamilyLandShare:
-          multifamily.value === 1
-            ? 1
-            : 1 - housingConstruction.zoning.singleFamilyOnlyShare,
         inclusionaryShare:
           inclusionary.value === 1
             ? lawParameters.parameters.inclusionaryAffordableShare.value

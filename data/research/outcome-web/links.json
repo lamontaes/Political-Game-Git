@@ -1649,7 +1649,7 @@
       "source": "Asquith, Mast and Reed 2023 (REStat)",
       "from": "housing.new-large-buildings",
       "evidence": "researched",
-      "notes": "Unsupported until a unit adapter exists: the study measures one large building's effect within about 250 meters, but the game reads new buildings per resident across a whole place."
+      "notes": "Unsupported until a unit adapter exists: the study measures one large building's effect within about 250 meters, but the game reads new buildings per resident across a whole place. The housing engine already produces this: new buildings raise the rental vacancy rate and each lease renews by the vacancy change raised to the rental elasticity (src/core2/housing-occupancy.ts renewRentalLeases), so a web factor would count it twice."
     },
     {
       "key": "rent-control-to-rental-supply",
@@ -1668,7 +1668,8 @@
       "anchor": "-15% rental supply among controlled landlords",
       "source": "Diamond, McQuade and Qian 2019 (AER)",
       "from": "law:us-policy-positions:housing-land-use.rent-stabilization",
-      "evidence": "researched"
+      "evidence": "researched",
+      "notes": " The engine reads this link's factor in its apartment starts (src/core2/housing-construction.ts buildMonth)."
     },
     {
       "key": "rent-control-to-tenant-stays",
@@ -1764,7 +1765,7 @@
           "Actual place conditions can alter transport;theseintervalsarenot universalcaps."
         ]
       },
-      "notes": "Unsupported until a unit and exposure adapter exists: the study measures one tenant's shelter use after an eviction order, and the game keeps no eviction rate by place; see researchSizing."
+      "notes": "Unsupported until a unit and exposure adapter exists: the study measures one tenant's shelter use after an eviction order, and the game keeps no eviction rate by place; see researchSizing. The housing engine already produces this from its own records: every eviction judgment removes a household and placeRemovedHousehold puts it with kin, in a shelter bed or on the street (src/core2/housing-homeless.ts), so a web factor on entry would count it twice. The engine's judgments are the web's housing.eviction-orders measure."
     },
     {
       "key": "eviction-to-hospital-visits",
@@ -1915,7 +1916,7 @@
       "shape": {
         "kind": "linear"
       },
-      "size": 0.17,
+      "size": 0.1,
       "per": "percentage point of effective property tax rate (tax as a share of home value)",
       "lagMonths": 12,
       "group": "renters",
@@ -1925,7 +1926,7 @@
       "from": "tax.property-rate",
       "evidence": "contested",
       "range": [0.02, 0.18],
-      "notes": "Sized, with its cause recorded and its outcome missing: each place's effective property tax rate on homes is now a place outcome (Tax Foundation, 2024), but rent is not a kept place outcome, so the link moves nothing until one is produced."
+      "notes": "In the new core the cause is read from the engine's own record (src/core2/data/outcome-web/outcome-web.json causeFrom): the property tax rate in force for the town (the budgets module's law row the housing engine bills owners by), as a percent of home value, against the rate at the web's opening. Size is the center of the 0.02 to 0.18 range (Carroll and Yinger 1994 at 0.02; Tsoodle and Turner 2008 at 0.17 to 0.18); the engine renews each lease by the change in the web's rent factor since the lease last renewed (src/core2/housing-occupancy.ts renewRentalLeases), full and counted renters alike. The sources report one pass-through for renters as a group, so the link is not varied."
     },
     {
       "key": "transit-loss-to-unemployment",
@@ -2991,7 +2992,8 @@
       "source": "Pew Charitable Trusts, January 4, 2024; Terner Center, 2022; Anagol, Ferreira and Rexer 2021, NBER w29440",
       "evidence": "researched",
       "from": "law:us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones",
-      "to": "housing.new-large-buildings"
+      "to": "housing.new-large-buildings",
+      "notes": " The engine reads this link's factor in its apartment starts (src/core2/housing-construction.ts buildMonth) and no longer scales starts by the share of land zoned for apartments, which was the same law counted a second time."
     },
     {
       "key": "right-to-counsel-to-evictions",
@@ -3011,7 +3013,7 @@
       "evidence": "researched",
       "from": "law:us-policy-positions:housing-land-use.right-to-counsel-in-eviction",
       "to": "housing.eviction",
-      "notes": "Not hooked by design: living-world/town-rent.ts already decides each eviction case with the tenant's lawyer present, so a place eviction rate that also applied this link would count the law twice; a producer of housing.eviction should count those recorded cases instead."
+      "notes": "Not hooked by design: living-world/town-rent.ts already decides each eviction case with the tenant's lawyer present, so a place eviction rate that also applied this link would count the law twice; a producer of housing.eviction should count those recorded cases instead. The engine already produces this effect from its own records (a case with a paid lawyer settles on a payment plan instead of a judgment, src/core2/modules/housing.ts housing-hearing), so the housing engine does not multiply its notice or judgment rates by this link again. Nothing reads the web's kept housing.eviction number; it stays because the law test in src/core2/outcome-web.test.ts checks this link's effect on it, and the engine's own judgments are the separate housing.eviction-orders measure."
     },
     {
       "key": "housing-first-to-homelessness",
@@ -3045,7 +3047,8 @@
         "months": 24,
         "evidenceLimit": "Inherited repository source/anchor read; primary study verification and any new conversion remain Team9 research work."
       },
-      "aboutZero": false
+      "aboutZero": false,
+      "notes": " The engine reads this link's factor in a homeless household's way back to a lease (src/core2/housing-homeless.ts reviewHomeless). The cited trials report no difference by household kind, so the link is not varied."
     },
     {
       "key": "cannabis-sales-to-youth-use",
@@ -3400,7 +3403,8 @@
       "evidence": "researched",
       "from": "law:us-federal-positions:housing.vouchers-for-every-eligible-family",
       "to": "housing.homelessness",
-      "range": [-0.5, -0.15]
+      "range": [-0.5, -0.15],
+      "notes": " The engine reads this link's factor in reviewHomeless. The Family Options Study enrolled only families, so it gives no weights by household kind; the link is not varied."
     },
     {
       "key": "retirement-age-to-older-work",

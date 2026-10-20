@@ -102,7 +102,13 @@ interface BaseDefinition {
   readonly places: Readonly<Record<string, number>>;
 }
 
-export const WEB_LINKS = web.links as unknown as readonly WebLink[];
+/** Links whose cause the new core reads from an engine's own record rather than the research's measure. */
+const CAUSE_FROM =
+  (local as { causeFrom?: Readonly<Record<string, string>> }).causeFrom ?? {};
+export const WEB_LINKS = (web.links as unknown as readonly WebLink[]).map(
+  (link) =>
+    CAUSE_FROM[link.key] ? { ...link, from: CAUSE_FROM[link.key]! } : link,
+);
 export const WEB_VERSION = web.version;
 /** The date the research's base levels describe; laws in force then are the baseline. */
 export const CALIBRATED_AT = web.calibratedAt;
@@ -131,12 +137,16 @@ const ENGINE = local.engineMeasures as Readonly<
       readonly owner: string;
       /** The field of a world-metrics month row the measure reads. */
       readonly field: string;
+      /** Or a named reader of an engine's own record (src/core2/modules/outcome-web.ts). */
+      readonly reader?: string;
       readonly unitScale: number;
       /** The engine's record is the kept outcome itself; links into it do not run. */
       readonly ownsOutcome?: boolean;
     }
   >
 >;
+/** The outcome web's module id (here so engines can read the web without loading its module). */
+export const OUTCOME_WEB_MODULE_ID = "core2-outcome-web-v1";
 export const LAW_PREFIX = "law:";
 /** An index outcome reads 100 where the place began. */
 const INDEX_START = local.indexStart;
