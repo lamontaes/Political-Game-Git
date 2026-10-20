@@ -8,6 +8,7 @@ import { gameStartDate } from "./game-start";
 import { addDays, makeIsoDate } from "./kernel/dates";
 import { advanceCore } from "./life";
 import schools from "./data/opening-public-schools.json" with { type: "json" };
+import { residentsRuntime } from "./modules/residents";
 import { publicPayTreasuries } from "./public-work-pay";
 
 // A town's public school district holds no cash. It joins the town
@@ -42,14 +43,29 @@ it(`a public school district's teachers are paid from the town treasury, seed ${
     const ids = authority!.workCommitmentIds.filter(
       (id) => core.work.commitments.get(id)?.endsAt === undefined,
     );
-    expect(ids.length).toBeGreaterThan(0);
-    for (const id of ids)
+    // Full teachers (the circle's) are paid by their commitments' payroll.
+    const full = ids.filter((id) => core.work.commitments.has(id));
+    for (const id of full)
       expect(
         core.work.payrollLedgerByCommitment.get(id)?.paidMinor ?? 0,
         `${district.name} ${id}`,
       ).toBeGreaterThan(0);
+    // The rest are counted workers, paid through the counts' payroll by the
+    // authority's pay owner (the town government's), not kept as full people.
+    const flows = [...residentsRuntime(core)!.flows.values()].filter(
+      (flow) => flow.kind === "wages" && flow.organizationId === district.id,
+    );
+    expect(
+      full.length + flows.reduce((n, f) => n + (f.jobIds?.length ?? 0), 0),
+      `${district.name} teachers`,
+    ).toBeGreaterThan(0);
+    for (const flow of flows) {
+      expect(flow.payerId, `${flow.id} payer`).toBe(authority!.ownerId);
+      expect(flow.lastPaidMinor ?? 0, `${flow.id} paid`).toBeGreaterThan(0);
+      expect(flow.arrearsMinor, `${flow.id} arrears`).toBe(0);
+    }
     console.log(
-      `school-pay: ${place.name} (seed ${seed}:${draw}): ${district.name}, ${ids.length} teachers paid, e.g. ${ids[0]} from ${link!.treasuryId}`,
+      `school-pay: ${place.name} (seed ${seed}:${draw}): ${district.name}, ${full.length} full and ${flows.length} counted payrolls paid from ${link!.treasuryId}`,
     );
     return;
   }
