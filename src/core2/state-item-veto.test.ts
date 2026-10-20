@@ -27,87 +27,108 @@ describe(`item veto legality (${place.name}, ${seed})`, () => {
   it.each([0, 4000])(
     "preserves passed text and pays surviving appropriation with %i retained",
     (remainingMinor) => {
-      const core = createLifeCore(
-        buildPopulation({
-          seed,
-          placeKey: place.key,
-          startedAt: "2025-01-20",
-          minimumPeople: 100,
-        }),
-      );
-      openLaws(core);
-      openOffices(core, seed);
-      openElections(core);
-      openCampaigns(core);
-      openRecord(core);
-      openLegislature(core);
-      openBudgets(core);
-      const api = coreAPI(core);
-      const seats = townSeats(api);
-      const chamber = seats.find((s) =>
-        s.office.kind.startsWith("legislature-"),
-      );
-      const governor = seats.find((s) => s.office.kind === "governor")?.holder
-        ?.personId;
-      const rule = lineItemVetoOf(place.state);
-      expect(rule).not.toBeNull();
-      if (!chamber || !governor) return; // Some territorial office data still has no state chamber.
-      const bill = draftBill(api, {
-        bodyOfficeId: chamber.office.id,
-        sponsorId: chamber.holder!.personId!,
-        provisions: [
-          { kind: "budget-line", line: "parks", value: 10000 },
-          { kind: "budget-line", line: "administration", value: 20000 },
-        ],
-      });
-      // Edge fixture only: acceptance is the separate played year, not this staged desk.
-      api
-        .moduleState(LEGISLATURE_MODULE_ID)
-        .table("bills")
-        .put({ ...bill, status: "awaiting-signature" } as unknown as ModuleRow);
-      expect(() =>
-        executiveItemVeto(api, bill.id, "not-the-governor", [0]),
-      ).toThrow();
-      expect(() => executiveItemVeto(api, bill.id, governor, [9])).toThrow();
-      if (!rule?.lineItem) {
+      // A state with no chamber or governor in the office data cannot be
+      // tested: draw the next place.
+      const tried: string[] = [];
+      for (let attempt = 0; attempt < 8; attempt += 1) {
+        const drawn = attempt
+          ? drawPlace(`${seed}:${attempt}`, "office-federal")
+          : place;
+        const core = createLifeCore(
+          buildPopulation({
+            seed,
+            placeKey: drawn.key,
+            startedAt: "2025-01-20",
+            minimumPeople: 100,
+          }),
+        );
+        openLaws(core);
+        openOffices(core, seed);
+        openElections(core);
+        openCampaigns(core);
+        openRecord(core);
+        openLegislature(core);
+        openBudgets(core);
+        const api = coreAPI(core);
+        const seats = townSeats(api);
+        const chamber = seats.find((s) =>
+          s.office.kind.startsWith("legislature-"),
+        );
+        const governor = seats.find((s) => s.office.kind === "governor")?.holder
+          ?.personId;
+        const rule = lineItemVetoOf(drawn.state);
+        expect(rule).not.toBeNull();
+        if (!chamber || !governor) {
+          // Some territorial office data still has no state chamber.
+          tried.push(`${drawn.name} (${drawn.key})`);
+          continue;
+        }
+        const bill = draftBill(api, {
+          bodyOfficeId: chamber.office.id,
+          sponsorId: chamber.holder!.personId!,
+          provisions: [
+            { kind: "budget-line", line: "parks", value: 10000 },
+            { kind: "budget-line", line: "administration", value: 20000 },
+          ],
+        });
+        // Edge fixture only: acceptance is the separate played year, not this staged desk.
+        api
+          .moduleState(LEGISLATURE_MODULE_ID)
+          .table("bills")
+          .put({
+            ...bill,
+            status: "awaiting-signature",
+          } as unknown as ModuleRow);
+        expect(() =>
+          executiveItemVeto(api, bill.id, "not-the-governor", [0]),
+        ).toThrow();
+        expect(() => executiveItemVeto(api, bill.id, governor, [9])).toThrow();
+        if (!rule?.lineItem) {
+          expect(() =>
+            executiveItemVeto(api, bill.id, governor, [0]),
+          ).toThrow();
+          return;
+        }
+        const budget = budgetsOf(api, drawn.state).at(-1)!;
+        const before = { ...budget.spendingMinor };
+        const selection = [{ index: 0, remainingMinor }];
+        if (remainingMinor > 0 && !rule.reduce) {
+          expect(() =>
+            executiveItemVeto(api, bill.id, governor, selection),
+          ).toThrow();
+          return;
+        }
+        executiveItemVeto(api, bill.id, governor, selection);
+        const record = api
+          .moduleState(LEGISLATURE_MODULE_ID)
+          .table("itemVetoes")
+          .get(bill.id) as unknown as {
+          struck: number[];
+          decisions: {
+            index: number;
+            remainingMinor: number;
+            overridden: boolean;
+            tallies: unknown[];
+          }[];
+        };
+        expect(record.decisions[0]?.index).toBe(0);
+        expect(record.decisions[0]?.tallies.length).toBeGreaterThan(0);
+        expect(billOf(api, bill.id).provisions).toEqual(bill.provisions);
+        const after = budgetsOf(api, drawn.state).find(
+          (b) => b.id === budget.id,
+        )!.spendingMinor;
+        expect((after.parks ?? 0) - (before.parks ?? 0)).toBe(
+          record.decisions[0]!.overridden ? 10000 : remainingMinor,
+        );
+        expect((after.administration ?? 0) - (before.administration ?? 0)).toBe(
+          20000,
+        );
         expect(() => executiveItemVeto(api, bill.id, governor, [0])).toThrow();
         return;
       }
-      const budget = budgetsOf(api, place.state).at(-1)!;
-      const before = { ...budget.spendingMinor };
-      const selection = [{ index: 0, remainingMinor }];
-      if (remainingMinor > 0 && !rule.reduce) {
-        expect(() =>
-          executiveItemVeto(api, bill.id, governor, selection),
-        ).toThrow();
-        return;
-      }
-      executiveItemVeto(api, bill.id, governor, selection);
-      const record = api
-        .moduleState(LEGISLATURE_MODULE_ID)
-        .table("itemVetoes")
-        .get(bill.id) as unknown as {
-        struck: number[];
-        decisions: {
-          index: number;
-          remainingMinor: number;
-          overridden: boolean;
-          tallies: unknown[];
-        }[];
-      };
-      expect(record.decisions[0]?.index).toBe(0);
-      expect(record.decisions[0]?.tallies.length).toBeGreaterThan(0);
-      expect(billOf(api, bill.id).provisions).toEqual(bill.provisions);
-      const after = budgetsOf(api, place.state).find(
-        (b) => b.id === budget.id,
-      )!.spendingMinor;
-      expect((after.parks ?? 0) - (before.parks ?? 0)).toBe(
-        record.decisions[0]!.overridden ? 10000 : remainingMinor,
+      throw new Error(
+        `no drawn place had a state chamber and governor (seed ${seed}): ${tried.join("; ")}`,
       );
-      expect((after.administration ?? 0) - (before.administration ?? 0)).toBe(
-        20000,
-      );
-      expect(() => executiveItemVeto(api, bill.id, governor, [0])).toThrow();
     },
     120000,
   );

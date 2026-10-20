@@ -34,8 +34,11 @@ import {
   setBudgetPriorities,
 } from "./modules/budgets";
 import {
+  appropriationsWithProjects,
   billOf,
   billTitle,
+  projectRequestOf,
+  requestProject,
   committeeRecords,
   draftBill,
   holdVote,
@@ -83,7 +86,46 @@ function pick<T>(list: readonly T[], salt: string): T {
   return list[parseInt(hash.slice(0, 8), 16) % list.length]!;
 }
 /** A town with its own council, in a state of the given kind. */
-function town(states: readonly string[], salt: string) {
+/** A town whose budgets open with a city government (a territory has none). */
+const withCity = (t: {
+  core: ReturnType<typeof createLifeCore>;
+  api: ReturnType<typeof coreAPI>;
+}) => {
+  openBudgets(t.core);
+  return governments(t.api).some((g) => g.level === "city");
+};
+
+/** A town where some platform question may be enacted by its council. */
+const withProvision = (t: {
+  core: ReturnType<typeof createLifeCore>;
+  api: ReturnType<typeof coreAPI>;
+}) =>
+  PLATFORM_QUESTIONS.some(
+    (question) =>
+      authorityFor(t.api, { kind: "policy-question", question, value: 1 })
+        .allowed,
+  );
+/** ... and an elected mayor. */
+const withProvisionAndMayor = (t: {
+  core: ReturnType<typeof createLifeCore>;
+  api: ReturnType<typeof coreAPI>;
+}) =>
+  withProvision(t) &&
+  townSeats(t.api).some((s) => s.office.kind === "mayor" && s.holder?.personId);
+
+/**
+ * A town with a seated council of three or more. With `ready`, a town the
+ * check turns down is passed over and the next is drawn (a test that needs a
+ * city government says so here instead of ending early without a check).
+ */
+function town(
+  states: readonly string[],
+  salt: string,
+  ready?: (t: {
+    core: ReturnType<typeof createLifeCore>;
+    api: ReturnType<typeof coreAPI>;
+  }) => boolean,
+) {
   for (let attempt = 0; attempt < 12; attempt += 1) {
     const state = pick(states, `${salt}:${attempt}`);
     const places = [
@@ -111,9 +153,12 @@ function town(states: readonly string[], salt: string) {
     const council = townSeats(api).filter(
       (s) => s.office.kind === "council" && s.holder?.personId,
     );
-    if (council.length >= 3) return { core, api, key, council };
+    if (council.length >= 3 && (!ready || ready({ core, api })))
+      return { core, api, key, council };
   }
-  throw new Error("no town with a seated council");
+  throw new Error(
+    `no town with a seated council${ready ? " and what the test needs" : ""} (${salt}, seed ${seed})`,
+  );
 }
 
 describe(
@@ -268,11 +313,9 @@ describe(
 
     it("an ordinance adding to a budget line changes the city's budget when it passes", () => {
       const allowing = Object.keys(authority).sort();
-      const { core, api, council } = town(allowing, "budget");
-      openBudgets(core);
-      const cityGov = governments(api).find((g) => g.level === "city");
-      const city = cityGov ? budgetsOf(api, cityGov.id)[0] : undefined;
-      if (!city) return;
+      const { api, council } = town(allowing, "budget", withCity);
+      const cityGov = governments(api).find((g) => g.level === "city")!;
+      const city = budgetsOf(api, cityGov.id)[0]!;
       const before = city.spendingMinor.parks ?? 0;
       const bill = draftBill(api, {
         bodyOfficeId: council[0]!.office.id,
@@ -299,6 +342,87 @@ describe(
             (v) => `${v.vote} (${v.position.total.toFixed(2)})`,
           ),
         }),
+      );
+    });
+
+    it("a state member's project request becomes a line naming the city, and the grant lands in the city treasury", () => {
+      const states = Object.keys(authority)
+        .filter(
+          (k) =>
+            ![
+              "US-NE",
+              "US-DC",
+              "US-AS",
+              "US-GU",
+              "US-MP",
+              "US-VI",
+              "US-PR",
+            ].includes(k),
+        )
+        .sort();
+      const tried: string[] = [];
+      for (let attempt = 0; attempt < 6; attempt += 1) {
+        const { api, key } = town(
+          states,
+          `project:${attempt}`,
+          (t) =>
+            withCity(t) && governments(t.api).some((g) => g.level === "state"),
+        );
+        const city = governments(api).find((g) => g.level === "city")!;
+        const lower = townSeats(api).find(
+          (s) => s.office.kind === "legislature-lower",
+        )!;
+        const body = lower.office.id;
+        const requests = members(api, body).map((term) =>
+          requestProject(api, {
+            bodyOfficeId: body,
+            memberId: memberKey(term),
+            recipientId: city.id,
+            line: "parks",
+            amountMinor: 10_000,
+          }),
+        );
+        const bill = appropriationsWithProjects(api, {
+          bodyOfficeId: body,
+          sponsorId: memberKey(members(api, body)[0]!),
+        });
+        const after = requests.map((r) => projectRequestOf(api, r.id)!);
+        // Every request is settled on standing, with its reasons kept.
+        for (const r of after) {
+          expect(["included", "dropped"], r.id).toContain(r.status);
+          expect(r.reasons.length, r.id).toBe(2);
+        }
+        const included = after.filter((r) => r.status === "included");
+        if (!bill || !included.length) {
+          tried.push(`${key}: none included`);
+          continue;
+        }
+        const lines = bill.provisions.filter((p) => p.recipientId === city.id);
+        expect(lines.length).toBe(included.length);
+        expect(included.every((r) => r.billId === bill.id)).toBe(true);
+        const cityCash = () =>
+          api.accounts().balance(api.accounts().main(city.organizationId));
+        const before = cityCash();
+        const result = holdVote(api, bill.id);
+        if (!["enacted", "signed", "overridden"].includes(result.status)) {
+          tried.push(`${key}: ${result.status}`);
+          continue;
+        }
+        const paid = included.map((r) => projectRequestOf(api, r.id)!);
+        for (const r of paid) {
+          expect(r.status, r.id).toBe("paid");
+          expect(r.grantId, r.id).toBe(`project-grant:${r.id}`);
+          expect((r.paidMinor ?? 0) + (r.shortMinor ?? 0), r.id).toBe(
+            r.amountMinor,
+          );
+        }
+        expect(cityCash() - before).toBe(
+          paid.reduce((sum, r) => sum + (r.paidMinor ?? 0), 0),
+        );
+        return;
+      }
+      throw new Error(
+        `no state bill with a request passed: ${tried.join("; ")}, seed ${seed}`,
       );
     });
 
@@ -394,10 +518,12 @@ describe(
     });
 
     it("the mayor's budget priorities go to the council's vote at the fiscal year's start", () => {
-      const { core, api } = town(Object.keys(authority).sort(), "budget-vote");
-      openBudgets(core);
-      const city = governments(api).find((g) => g.level === "city");
-      if (!city) return;
+      const { core, api } = town(
+        Object.keys(authority).sort(),
+        "budget-vote",
+        withCity,
+      );
+      const city = governments(api).find((g) => g.level === "city")!;
       const mayor = townSeats(api).find(
         (s) => s.office.kind === "mayor" && s.holder?.personId,
       );
@@ -432,10 +558,9 @@ describe(
       const { core, api, key } = town(
         Object.keys(authority).sort(),
         "budget-no-changes",
+        withCity,
       );
-      openBudgets(core);
-      const city = governments(api).find((g) => g.level === "city");
-      if (!city) return;
+      const city = governments(api).find((g) => g.level === "city")!;
       const mayor = townSeats(api).find(
         (s) => s.office.kind === "mayor" && s.holder?.personId,
       );
@@ -485,10 +610,9 @@ describe(
       const { core, api, key } = town(
         Object.keys(authority).sort(),
         "budget-lines",
+        withCity,
       );
-      openBudgets(core);
-      const city = governments(api).find((g) => g.level === "city");
-      if (!city) return;
+      const city = governments(api).find((g) => g.level === "city")!;
       // No priorities set: the elected executive proposes from their own lean.
       const before = budgetsOf(api, city.id)[0]!;
       const start = `${before.fiscalYear + 1}-${city.fiscalYearStart}`;
@@ -745,7 +869,11 @@ describe(
 
     it("the player casts their own vote and, as mayor, decides to sign or veto (audit 3)", () => {
       const states = Object.keys(authority).sort();
-      const { core, api, council } = town(states, "player");
+      const { core, api, council } = town(
+        states,
+        "player",
+        withProvisionAndMayor,
+      );
       const player = council[0]!.holder!.personId!;
       (core as unknown as { playerId: string }).playerId = player;
       const floor = lawInForce(api, "minimum-wage").value!;
@@ -774,7 +902,7 @@ describe(
         });
       // Not cast: the player is never voted for, so they abstain.
       const first = draft();
-      if (first.status === "blocked") return;
+      expect(first.status).not.toBe("blocked");
       holdVote(api, first.id);
       expect(
         votesOn(api, first.id).find((v) => v.memberId === player)?.vote,
@@ -792,9 +920,8 @@ describe(
       const mayor = townSeats(api).find(
         (s) => s.office.kind === "mayor" && s.holder?.personId,
       );
-      if (!mayor) return;
       (core as unknown as { playerId: string }).playerId =
-        mayor.holder!.personId!;
+        mayor!.holder!.personId!;
       const third = draft();
       for (const seat of council)
         castMemberVote(api, third.id, seat.holder!.personId!, "yes");
@@ -843,7 +970,7 @@ describe(
 describe("asking a member to carry a bill", () => {
   it("the member answers from their own position, their tie to the asker and the asker's standing", () => {
     const states = Object.keys(authority).sort();
-    const { core, api, council } = town(states, "carry");
+    const { core, api, council } = town(states, "carry", withProvision);
     const seated = new Set(council.map((s) => s.holder?.personId));
     const asker = [...core.people.values()]
       .filter((p) => p.alive && !seated.has(p.id) && p.tier !== "husk")
@@ -851,13 +978,12 @@ describe("asking a member to carry a bill", () => {
         (a, b) => b.knownIds.size - a.knownIds.size || a.id.localeCompare(b.id),
       )[0]!;
     const member = council[0]!.holder!.personId!;
-    const provision =
-      PLATFORM_QUESTIONS.map((question): Provision => ({
-        kind: "policy-question",
-        question,
-        value: 1,
-      })).find((p) => authorityFor(api, p).allowed) ?? null;
-    if (!provision) return;
+    const provision = PLATFORM_QUESTIONS.map((question): Provision => ({
+      kind: "policy-question",
+      question,
+      value: 1,
+    })).find((p) => authorityFor(api, p).allowed)!;
+
     const before =
       api.state.relationships.get([asker.id, member].sort().join(":"))?.level ??
       0;
@@ -886,15 +1012,14 @@ describe("asking a member to carry a bill", () => {
 
   it("the executive brings a bill through the member most inclined to carry it", () => {
     const states = Object.keys(authority).sort();
-    const { api, council } = town(states, "propose");
+    const { api, council } = town(states, "propose", withProvision);
     const body = council[0]!.office.id;
-    const provision =
-      PLATFORM_QUESTIONS.map((question): Provision => ({
-        kind: "policy-question",
-        question,
-        value: 1,
-      })).find((p) => authorityFor(api, p).allowed) ?? null;
-    if (!provision) return;
+    const provision = PLATFORM_QUESTIONS.map((question): Provision => ({
+      kind: "policy-question",
+      question,
+      value: 1,
+    })).find((p) => authorityFor(api, p).allowed)!;
+
     const { office, term } = executiveOf(api, body);
     const asked = proposeAsExecutive(api, {
       bodyOfficeId: body,
@@ -919,15 +1044,18 @@ describe("a bribe on a bill", () => {
   // A bribe is a payment for a decision: a member who took one on a bill
   // carries it in their position on that bill, part by part, and on no other.
   it("pulls the member who took it toward the payer's side, on that bill only", () => {
-    const { core, api, council } = town(Object.keys(authority).sort(), "bribe");
+    const { core, api, council } = town(
+      Object.keys(authority).sort(),
+      "bribe",
+      withProvision,
+    );
     registerModule(core, corruptionModule);
-    const provision =
-      PLATFORM_QUESTIONS.map((question): Provision => ({
-        kind: "policy-question",
-        question,
-        value: 1,
-      })).find((p) => authorityFor(api, p).allowed) ?? null;
-    if (!provision) return;
+    const provision = PLATFORM_QUESTIONS.map((question): Provision => ({
+      kind: "policy-question",
+      question,
+      value: 1,
+    })).find((p) => authorityFor(api, p).allowed)!;
+
     const body = council[0]!.office.id;
     const member = council[0]!.holder!.personId!;
     const bill = draftBill(api, {
@@ -1103,14 +1231,17 @@ describe("a member who has died", () => {
   // A seat whose holder is no longer living cannot attend or vote: the vote
   // records them absent, never present (the old rule counted them as there).
   it("is absent from the vote, and the others still vote", () => {
-    const { api, council } = town(Object.keys(authority).sort(), "dead-member");
-    const provision =
-      PLATFORM_QUESTIONS.map((question): Provision => ({
-        kind: "policy-question",
-        question,
-        value: 1,
-      })).find((p) => authorityFor(api, p).allowed) ?? null;
-    if (!provision) return;
+    const { api, council } = town(
+      Object.keys(authority).sort(),
+      "dead-member",
+      withProvision,
+    );
+    const provision = PLATFORM_QUESTIONS.map((question): Provision => ({
+      kind: "policy-question",
+      question,
+      value: 1,
+    })).find((p) => authorityFor(api, p).allowed)!;
+
     const body = council[0]!.office.id;
     const dead = council[council.length - 1]!.holder!.personId!;
     const bill = draftBill(api, {
