@@ -15,7 +15,7 @@ Three reviewers read the diffs of the 55 PRs merged between 9:30 p.m. and midnig
 
 Bad:
 
-1. **#4968:** news.test.ts and office-proof.test.ts still return early or recheck the empty selection. Draw places with bounded retries until one has a county and a state office, assert the feature, fail on exhaustion; keep the no-county case as its own test; put the governor test timeout back near 240,000 ms or state why.
+1. **#4968 (fixed in #5509):** news.test.ts and office-proof.test.ts still return early or recheck the empty selection. Draw places with bounded retries until one has a county and a state office, assert the feature, fail on exhaustion; keep the no-county case as its own test; put the governor test timeout back near 240,000 ms or state why.
 2. **#4976:** law-reach-group-a/b tests still return when the subject is absent. Redraw until a town has a legislator or a private school and run the filing, reach and closure assertions; correct the pool note that claims every site is fixed.
 3. **#4886 / #4903:** counted-deaths-opening.test.ts uses a random seed and a loose floor (deaths at least half of expected) and fails on small towns. Pin seed 140bb7872bc46f5202d12ae8c4c52ca2364da2da170593f43aeb7f7810bd5366 (Centennial, Wyoming) as a regression case and make the check statistically sound.
 4. **#4984:** close #5019 as superseded; fix the stopgap row's line number for SG-WORLD-department-government.
