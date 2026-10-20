@@ -4,13 +4,14 @@ title: "Outside-flow provenance gate fails on main"
 area: core
 kind: bug
 priority: 1
-status: blocked
+status: open
 claimed-by:
 pr:
 blocked-on:
 milestone:
 after: gov-outside-revenue-real-payers
 source: "known bugs; noted in #4352"
+claimed-at: 
 ---
 
 **What.** The outside-flow provenance gate (check 6 of scripts/core2-year/closures.mjs) fails on main because the monthly outside-revenue plug in `closeMonth` (src/core2/modules/budgets.ts) credits every treasury an even twelfth of yearly Census revenue from the outside account with no payer behind it. `core-outside-flow-rows` already classifies the five real exchanges, so the only thing left is the registered plug. The fix is not a code change of its own: it is the roll-up `gov-outside-revenue-real-payers` landing (taxes, fees, aid, borrowing, spending payees, then the plug's removal). This item then confirms the gate on main, in a drawn place, and fixes any single flow still unmatched at its root in the module that posts it.
