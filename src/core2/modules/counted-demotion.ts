@@ -11,7 +11,6 @@
  * place's counted tier, so meeting one again brings the same people back.
  * Named officials, the player's household and circle are never demoted.
  */
-import { pairKey } from "../kernel/pair-key";
 import {
   COUNTED_PLACE_PREFIX,
   countedPlaceOf,
@@ -19,7 +18,7 @@ import {
 } from "../counted-groups";
 import { addCountedJob } from "../residents-economy";
 import { MORTGAGE_PREFIX, countedMortgageFlowId } from "../housing-mortgages";
-import { stableHash } from "../kernel/ids";
+import { stableHash, pairKey } from "../kernel/ids";
 import { endLivingPlan } from "../cost-of-living";
 import { OFFICES_MODULE_ID, type TermRow } from "./offices";
 import {

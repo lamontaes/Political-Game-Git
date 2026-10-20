@@ -11,9 +11,8 @@
  * relative's grief is their closeness to the person who died, halving every
  * half-life of their own.
  */
-import { pairKey } from "./kernel/pair-key";
 import { daysBetween, makeIsoDate } from "./kernel/dates";
-import { stableHash } from "./kernel/ids";
+import { stableHash, pairKey } from "./kernel/ids";
 import { inverseStandardNormal } from "./kernel/deterministic-math";
 import { currentCloseness } from "./closeness";
 import data from "./data/grief.json" with { type: "json" };

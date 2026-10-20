@@ -11,7 +11,6 @@
  * by its own effect. Acts planned for a later date are kept here and happen on
  * that date, so their effects land when they occur.
  */
-import { pairKey } from "./kernel/pair-key";
 import { addDays, daysBetween, makeIsoDate } from "./kernel/dates";
 import type { ScoredOffer } from "./choice";
 import {
@@ -36,6 +35,7 @@ import type {
   WeightedReason,
 } from "./types";
 import { registerWorldMapPart } from "./snapshot";
+import { pairKey } from "./kernel/ids";
 
 export const FREE_BLOCK_DATA = freeBlockJson;
 

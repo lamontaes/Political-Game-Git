@@ -16,7 +16,6 @@
  * Part 4: after a death, relatives grieve (grief.ts); grief pulls toward rest
  * and family and holds back organizing as it fades.
  */
-import { pairKey } from "../kernel/pair-key";
 import { daysBetween, makeIsoDate } from "../kernel/dates";
 import {
   CLOSENESS,
@@ -37,6 +36,7 @@ import type {
   Relationship,
 } from "../types";
 import { offer } from "./life";
+import { pairKey } from "../kernel/ids";
 
 export const PEOPLE_MODULE_ID = "core2-people-p15-v1";
 const LOOKUP = {
