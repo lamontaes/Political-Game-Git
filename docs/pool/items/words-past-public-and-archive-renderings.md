@@ -22,3 +22,5 @@ claimed-at:
 **Files.** TODO
 
 **Notes.** TODO
+
+Sent back 2026-10-20 from PR #5216 (branch claude/words-past-public-archive): authored shippable player text (origin authored, shippable true) in data/english/parts/public-figure.json; finish on that branch, merge main into it first.
