@@ -5,7 +5,7 @@ area: release
 kind: bug
 priority: 1
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/private-share-reenroll
 pr: #5746
 blocked-on:
