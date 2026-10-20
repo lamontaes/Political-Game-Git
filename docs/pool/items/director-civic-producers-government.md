@@ -5,7 +5,7 @@ area: director
 kind: wiring
 priority: 1
 size: M
-status: in-pr
+status: open
 claimed-by:
 pr: #4600
 blocked-on:
