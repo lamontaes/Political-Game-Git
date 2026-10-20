@@ -5,10 +5,10 @@ area: gov
 kind: bug
 priority: 2
 size: M
-status: claimed
+status: blocked
 claimed-by: claude/political-game-pool-yucp92-av
 pr:
-blocked-on:
+blocked-on: world-territory-village-opens-with-no-employers
 source: added with npm run pool -- add
 claimed-at: 2026-10-20T11:52:48.145Z
 ---
