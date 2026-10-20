@@ -5,7 +5,7 @@ area: core
 kind: bug
 priority: 1
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/fs11vb-speed
 pr: #5568
 blocked-on:

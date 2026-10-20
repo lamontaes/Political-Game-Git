@@ -5,12 +5,12 @@ area: words
 kind: wiring
 priority: 2
 size: M
-status: claimed
-claimed-by: claude/hearing-chair-question
-pr:
+status: open
+claimed-by:
+pr: #5572
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-20T05:01:05.244Z
+claimed-at:
 ---
 
 **What.** The hearing bank (data/english/parts/hearing.json) has thanks, confirm, agree, answer, chair-procedure, time and repair parts and no question move, and nothing in src/director or src/english reads a hearing. Mine the chair's questions to witnesses and members from the same hearing transcripts, and have the director word one chair question and one witness reply for a committee-day hearing record. A player at a committee would read the chair ask a witness about the bill in front of them.
@@ -22,3 +22,5 @@ claimed-at: 2026-10-20T05:01:05.244Z
 **Files.** data/english/parts/hearing.json, scripts/english-mining/mine-hearings.py, src/director/office-scene.ts, src/core2/office-day-state.ts
 
 **Notes.** Split from office-committee-assignments-and-hearings-as-stops-and, which waits on it.
+
+Sent back 2026-10-20 from PR #5572 (branch claude/hearing-chair-question): six authored hearing question parts are shippable and the new hearing test catches all build/advance exceptions then redraws; hold authored lines non-shippable or source them, and diagnose failures instead of swallowing them; finish on that branch, merge main into it first.
