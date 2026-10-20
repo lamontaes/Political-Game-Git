@@ -430,7 +430,7 @@ document.addEventListener("keydown", (event) => {
     closePerson();
     return;
   }
-  if (openTab === "options") closeSheet();
+  if (groupOf(openTab) === "options") closeSheet();
   else if ($("front").hidden) openSheet("options");
 });
 
@@ -1631,15 +1631,6 @@ async function officeRows() {
   const v = await api(`/api/office?id=${encodeURIComponent(me.id)}`);
   if (!v.jobs.length) return [];
   const words = controls.officeStops ?? {};
-  const toggles = v.stops.map((stop) => {
-    const box = el("input", { type: "checkbox", checked: stop.on });
-    box.addEventListener("change", async () => {
-      await post(
-        `/api/office/stops?${new URLSearchParams({ kind: stop.kind, on: String(box.checked) })}`,
-      );
-    });
-    return el("label", {}, box, ` ${words[stop.kind] ?? stop.kind} `);
-  });
   return [
     ...v.jobs.map((job) =>
       el(
@@ -1653,7 +1644,6 @@ async function officeRows() {
         job.nextMeeting ? ` · ${job.nextMeeting}` : "",
       ),
     ),
-    el("div", { className: "row campaign" }, ...toggles),
     // The outlet the next interview asks; left on the character's own, the widest reach.
     ...(v.outlets?.length
       ? [
@@ -3933,9 +3923,10 @@ const sheets = {
 };
 const titles = {
   people: "People",
-  who: "Who you are",
+  you: "You",
+  who: "You",
   money: "Money and property",
-  jobs: "Jobs and study",
+  jobs: "Work and study",
   journal: "Journal",
   politics: "Politics",
   government: "Government",
@@ -3960,13 +3951,16 @@ const titles = {
 const groups = {
   politics: [
     "government",
-    "office",
-    "campaigns",
-    "parties",
     "issues",
     "budgets",
+    "parties",
+    "office",
+    "campaigns",
   ],
   people: ["people", "family"],
+  // The portrait opens You; Esc opens Options and the guide.
+  you: ["who", "jobs"],
+  options: ["options", "guide"],
 };
 const groupOf = (tab) =>
   Object.entries(groups).find(([, tabs]) => tabs.includes(tab))?.[0] ?? tab;
@@ -3977,11 +3971,15 @@ async function openSheet(tab) {
   openTab = tab;
   show("tip", false);
   const group = groupOf(tab);
-  const holdsOffice =
-    group === "politics" &&
-    (await api(`/api/government?id=${encodeURIComponent(me.id)}`)).seats.some(
-      (s) => s.holder?.personId === me.id,
-    );
+  const gov =
+    group === "politics"
+      ? await api(`/api/government?id=${encodeURIComponent(me.id)}`)
+      : undefined;
+  const holdsOffice = Boolean(
+    gov?.seats.some((s) => s.holder?.personId === me.id),
+  );
+  // Campaigns show once the player has filed for something.
+  const inCampaign = Boolean(gov?.filings.length);
   for (const b of document.querySelectorAll("[data-tab]"))
     b.classList.toggle("active", b.dataset.tab === group);
   $("sheet-title").textContent = titles[group];
@@ -3990,7 +3988,8 @@ async function openSheet(tab) {
       .filter(
         (name) =>
           (name !== "results" || seenResults > 0) &&
-          (name !== "office" || holdsOffice),
+          (name !== "office" || holdsOffice) &&
+          (name !== "campaigns" || inCampaign || seenResults > 0),
       )
       .map((name) => {
         const b = el("button", {
@@ -4027,7 +4026,6 @@ async function openSheet(tab) {
     tab !== "who" && tab !== "calendar" && body.length > 12,
   );
   show("sheet", true);
-  show("menu", Boolean(me));
   $("game").classList.add("sheet-open");
 }
 pageWhenChanged($("sheet-body"), $("sheet-pager"));
@@ -4038,13 +4036,27 @@ for (const b of document.querySelectorAll("[data-tab]"))
       ? closeSheet()
       : openSheet(b.dataset.tab),
   );
+// The portrait opens You (Work and study is its second tab).
+{
+  const portrait = $("card-bust");
+  portrait.setAttribute("role", "button");
+  portrait.setAttribute("tabindex", "0");
+  portrait.setAttribute("title", titles.you);
+  portrait.setAttribute("aria-label", titles.you);
+  portrait.style.cursor = "pointer";
+  const toggle = () =>
+    groupOf(openTab) === "you" ? closeSheet() : openSheet("who");
+  portrait.addEventListener("click", toggle);
+  portrait.addEventListener("keydown", (event) => {
+    if (event.key === "Enter" || event.key === " ") toggle();
+  });
+}
 function closeSheet() {
   openTab = undefined;
   show("tip", false);
   for (const b of document.querySelectorAll("[data-tab]"))
     b.classList.remove("active");
   show("sheet", false);
-  show("menu", false);
   $("game").classList.remove("sheet-open");
 }
 $("sheet-close").addEventListener("click", closeSheet);

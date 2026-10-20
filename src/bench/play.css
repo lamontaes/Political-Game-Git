@@ -4,7 +4,7 @@
    shoulders), .name / .heading (Cinzel), .speech / .prose (Andada Pro), .label / .role / .when
    (Fira Sans), .replies / .reply (numbered lines), .action (a button: .primary is Continue,
    plain is Back, .small the second size; the brass corner mark shows only while .active or
-   pressed), .tabs / .tab (the open tab a raised glass box), .nav-item, .item, .ring (an icon),
+   pressed), .tabs / .tab (the open tab a raised glass box), .item, .ring (an icon),
    .glyph (thin close X, return arrow), .row (a gold label and its value), .lie-scales.
    The chevron rule: a mark appears only on a static button while it is activated; never in
    radial menus, items, cards, tabs or rows. Nothing inside a menu scrolls: long screens page.
@@ -507,7 +507,6 @@ select:focus-visible {
 .reply,
 .action,
 .tab,
-.nav-item,
 .item,
 .ring,
 .lie-scales,
@@ -529,7 +528,6 @@ select:focus-visible {
 }
 .reply:hover:not(:disabled),
 .tab:hover,
-.nav-item:hover .nl,
 .item:hover:not(:disabled) b,
 .term:hover {
   color: #fff;
@@ -986,6 +984,7 @@ body.dev .dev-ring {
   left: var(--gutter);
   bottom: 108px;
   display: flex;
+  flex-direction: column;
   gap: 8px;
 }
 
@@ -1039,49 +1038,7 @@ body.dev .dev-ring {
   display: none;
 }
 
-/* ---- Menus: a menu list on the left, the open screen on the right ---- */
-#menu {
-  left: var(--gutter);
-  top: var(--gutter);
-  bottom: 162px;
-  width: 284px;
-  padding: 18px 0;
-}
-.menu-title {
-  font: 800 16px var(--name);
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--text-strong);
-  padding: 0 18px 12px;
-  margin-bottom: 8px;
-}
-.nav-item {
-  display: block;
-  width: 100%;
-  padding: 8px 18px;
-}
-.nav-item .nl {
-  display: block;
-  font: 800 14px var(--name);
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--text);
-}
-.nav-item .nd {
-  display: block;
-  font: 400 12px var(--ui);
-  color: var(--text-3);
-  margin-top: 1px;
-}
-.nav-item.active {
-  background: var(--raised);
-  box-shadow:
-    0 3px 0 rgba(0, 0, 0, 0.7),
-    inset 0 1px 0 rgba(255, 255, 255, 0.14);
-}
-.nav-item.active .nl {
-  color: #fff;
-}
+/* ---- The open screen sits right of the icon rail and the player card ---- */
 #sheet {
   left: calc(var(--gutter) + 300px);
   right: var(--gutter);
@@ -1537,8 +1494,7 @@ body.dev .dev-ring {
    kit12's own components. */
 #game.cinema #rings,
 #game.cinema #card,
-#game.cinema #journal-note,
-#game.cinema #menu {
+#game.cinema #journal-note {
   display: none;
 }
 #opening-box {

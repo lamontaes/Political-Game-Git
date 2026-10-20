@@ -49,15 +49,41 @@ try {
     "Place:",
     await page.locator("#card-place").innerText(),
   );
-  const tabs = await page
-    .locator(".nav-item[data-tab]")
-    .evaluateAll((nodes) => nodes.map((n) => n.dataset.tab));
-  const scan = async (when) => {
-    for (const tab of tabs) {
+  // The rail's icons, then what the portrait and Esc open (the shell's other doors).
+  const tabs = [
+    ...(await page
+      .locator(".ring[data-tab]")
+      .evaluateAll((nodes) => nodes.map((n) => n.dataset.tab))),
+    "you",
+    "work and study",
+    "options",
+    "guide",
+  ];
+  const closeAny = async () => {
+    if (await page.locator("#sheet").isVisible())
+      await page.locator("#sheet-close").click();
+  };
+  const openDoor = async (tab) => {
+    await closeAny();
+    if (tab === "you" || tab === "work and study")
+      await page.locator("#card-bust").click();
+    else if (tab === "options" || tab === "guide")
+      await page.keyboard.press("Escape");
+    else
       await page
-        .locator(`.nav-item[data-tab="${tab}"]`)
+        .locator(`.ring[data-tab="${tab}"]`)
         .first()
         .evaluate((e) => e.click());
+    if (tab === "work and study")
+      await page
+        .locator("#sheet-tabs .tab", { hasText: "Work and study" })
+        .click();
+    if (tab === "guide")
+      await page.locator("#sheet-tabs .tab", { hasText: "Guide" }).click();
+  };
+  const scan = async (when) => {
+    for (const tab of tabs) {
+      await openDoor(tab);
       await page.waitForTimeout(1500);
       // Only what a reader can see: hidden lines don't count.
       const text = await page.locator("#sheet").evaluate((sheet) => {
