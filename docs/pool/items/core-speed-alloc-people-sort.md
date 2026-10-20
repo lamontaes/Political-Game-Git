@@ -6,11 +6,11 @@ kind: bug
 priority: 2
 size: M
 status: claimed
-claimed-by: claude/political-game-pool-yucp92-t
-pr:
+claimed-by: claude/people-sort-alloc
+pr: #5400
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-20T01:48:22.095Z
+claimed-at: 2026-10-20T14:45:13.679Z
 ---
 
 **What.** A function in src/core2/modules/people.ts sorts a fresh array inside a daily path, and the sort is charged 1,875 MB of allocation in one played year. It was found by an allocation profile of a played year in Long Hill, Connecticut (seed m7b, 365 days, 60 GB sampled), where it allocated 3.1 percent (1,875 MB) of the bytes. The year takes 194 to 214 seconds against the 120-second limit, and garbage collection is about 19 percent of it. Cut the allocation without changing any result.
@@ -22,3 +22,5 @@ claimed-at: 2026-10-20T01:48:22.095Z
 **Files.** src/core2/modules/people.ts
 
 **Notes.** TODO
+
+Sent back 2026-10-20 from PR #5400 (branch claude/political-game-pool-yucp92-t): merging main conflicts in src/core2/modules/people.ts; finish on that branch, merge main into it first.

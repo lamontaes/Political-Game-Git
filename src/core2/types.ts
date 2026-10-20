@@ -1208,6 +1208,7 @@ export interface CoreAPI {
         | "lastActDate"
         | "discretionaryEligibleV1"
         | "livingCostDailyMinor"
+        | "traits"
       >
     >,
   ): void;

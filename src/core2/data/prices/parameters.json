@@ -120,5 +120,51 @@
       "unit": "minor units per resident per year",
       "citation": "Per-resident 2024 sales of California (about $120) to Michigan (about $300)."
     }
+  },
+  "pricesCannabisUsePrevalence": {
+    "value": 0.22,
+    "tag": "ESTIMATED",
+    "citation": "SAMHSA National Survey on Drug Use and Health 2023: about 22 percent of adults 18 and older used cannabis in the past year (the share among those 21 and older is close). The same national share is used for every place until a state series is loaded.",
+    "estimatedFrom": "NSDUH 2023 national adult past-year cannabis use, applied to every state.",
+    "spread": {
+      "low": 0.15,
+      "high": 0.3,
+      "unit": "share of adults",
+      "citation": "State past-year adult use runs from the high teens to near 30 percent."
+    }
+  },
+  "pricesCannabisAdultShare": {
+    "value": 0.75,
+    "tag": "ESTIMATED",
+    "citation": "Census Bureau 2023 population estimates: about 75 percent of U.S. residents are 21 or older.",
+    "estimatedFrom": "Share of residents aged 21 and over, national.",
+    "spread": {
+      "low": 0.68,
+      "high": 0.8,
+      "unit": "share of residents",
+      "citation": "State shares of residents 21 and over."
+    }
+  },
+  "pricesChangeImpulseScale": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "How hard a change to a household's monthly bill lands on a person's mood and stress, per share of the household's monthly earnings it moved (a bill 10% of earnings smaller lands as a mood impulse of 0.1). The same scale the benefit engine uses for a changed award (benefitChangeImpulseScale), checked against the life-event impulses the drives engine reads.",
+    "spread": {
+      "low": 0.5,
+      "high": 2,
+      "unit": "impulse per share of monthly earnings",
+      "citation": "Half to twice the benefit engine's scale."
+    }
+  },
+  "pricesRoadLevelElasticity": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "How far the share of roads in poor condition moves with the highways line against its base. Pavement condition follows maintenance spending, but no published elasticity ties a town's budget line to its poor-road share; one (a line 10 percent above its base leaves 10 percent fewer roads poor) is the neutral prior.",
+    "spread": {
+      "low": 0.5,
+      "high": 2,
+      "unit": "elasticity of poor-road share to highways spending",
+      "citation": "Neutral prior with a factor-of-two spread either way; checked by the played-world proof's change in drivers' repair spending."
+    }
   }
 }
