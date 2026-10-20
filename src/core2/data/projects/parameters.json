@@ -1,0 +1,19 @@
+{
+  "about": "Public projects (src/core2/modules/projects.ts): a public work is the year's award of a capital line to a town firm. Each number is tagged SOURCED (with citation), ESTIMATED (with source and spread) or TUNABLE (with the spread it's checked against).",
+  "lines": ["highways", "parks", "housing", "schools"],
+  "linesReason": "The budget lines whose purchases are capital works (src/core2/data/budgets/treasury-spending.json purchasedShare: Census 2022 Annual Survey of State and Local Government Finances capital outlay over the function's spending); a ribbon marks a finished road, park, housing or school work.",
+  "parameters": {
+    "ribbonWindowDays": {
+      "value": 60,
+      "tag": "ESTIMATED",
+      "source": "How long after a public work finishes an official can still cut its ribbon: dedications and grand openings follow completion within weeks, and are rarely held more than a couple of months later; no count exists.",
+      "spread": [14, 120]
+    },
+    "projectMinimumPaidMinor": {
+      "value": 1,
+      "tag": "TUNABLE",
+      "source": "A work counts as built only if the treasury paid the contractor something for it that year (one cent); a line the treasury never paid has no work to open.",
+      "spread": [1, 100000]
+    }
+  }
+}

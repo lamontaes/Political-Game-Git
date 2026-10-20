@@ -946,7 +946,7 @@ _Released October 16, 2026._
 
 - **Run a campaign day from the game** A candidate can now run a campaign day
   from the campaigns sheet: canvass, hold an event, ask for an interview, call
-  donors or rest, with each choice showing the hours it takes and greyed out
+  donors or rest, with each choice showing the hours it takes and grayed out
   when the records say it is not available today. The doors knocked show on the
   campaign line.
 
@@ -1435,7 +1435,7 @@ _Released October 16, 2026._
 
 - **The release gate on main finishes again** The release gate on main finishes
   again: the release writer no longer overflows when the release notes get long,
-  and a new push waits for the running check instead of cancelling it.
+  and a new push waits for the running check instead of canceling it.
 
 - **Nobody stands in your bedroom without a reason** At night, when you are in
   your own bedroom, nobody is drawn there. Before, someone you had just talked
