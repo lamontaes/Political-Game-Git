@@ -5,12 +5,12 @@ area: core
 kind: feature
 priority: 2
 size: L
-status: claimed
-claimed-by: claude/outside-wage
+status: open
+claimed-by:
 pr: #5076
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-20T05:39:42.813Z
+claimed-at:
 ---
 
 **What.** TODO
