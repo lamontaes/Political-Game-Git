@@ -5,12 +5,12 @@ area: core
 kind: bug
 priority: 2
 size: M
-status: open
-claimed-by:
+status: blocked
+claimed-by: claude/political-game-pool-yucp92-ca
 pr: #5090
-blocked-on:
+blocked-on: owner: meeting the 1.2 times target changes who a holder contacts (rank known people weekly or offer only contacts whose tie pull can top the day); the exact cut does not move the time (PR 5734)
 source: added with npm run pool -- add
-claimed-at:
+claimed-at: 2026-10-20T16:35:06.809Z
 ---
 
 **What.** A town's year takes longer each year it is played. Bedford, Wyoming (seed 9a4dd331ace7, place 5606045, run seed audit-oct17, one process, four-core container) ran 36.8, 54.5 and 81.9 seconds for years one to three; American Samoa 146, 220 and 342; the Northern Mariana Islands 180, 231 and 760. A profile of years one and three in Bedford puts the growth in people's daily choices: the daily choice code (`activate`) goes from 5.2 s to 58 s, with `availableActs` and `scoreOffers` the biggest parts. The count of people choosing is roughly flat, but the acts offered per choice grow: 11 offers a call in year one, 31 in year two and 66 in year three, with 1.36 million offers in year three against 117,000 in year one.
@@ -47,3 +47,7 @@ Tried Oct 18 (claude, measured, not shipped): a repeat interval per drive and ac
 **Notes.** Measured Oct 19 on a cloud machine (slow; compare ratios, not seconds): build 69.3 s, year 1 330.8 s, year 2 333.8 s, year 3 657.3 s, seed 7c1d. Commit a04e82f0f6 already limited the daily drive scoring to the player's circle, which is why years 1 and 2 match. Not yet profiled.
 
 Profiled Oct 19 (same place and seed, first 90 days of year 3, CPU profile by self time): garbage collection 21.3 percent, the people module's daily handler 6.9, postCashJournal 3.2, availableActs 3.1, makeIsoDate 3.1, projectCashJournal 2.5, free-block candidates 2.3, parameter lookups 2.3. No single hot function: the profile is flat apart from garbage collection, so year 3 is slow because memory grows (more records kept each year), not because one loop is. This overlaps core-year-speed-activate-and-gc, claimed by another session; take the growth in kept records (journal and history rows per person) after that item lands, and re-measure year 3.
+
+Measured Oct 20 (claude/political-game-pool-yucp92-ca): Bedford, Wyoming (key 5606045, seed 9a4dd331ace7, bookkeeping off, one process) ran year 1 49 s, year 2 88 to 96 s and year 3 125 to 134 s. A CPU profile of year 3 against year 1 puts the growth in `activate` (7.3 s to 73 s): `perform` 2.2 to 25.7 s, `availableActs` 1.6 to 21.5 s, `scoreOffers` 0.8 to 10.9 s and `planFreeTime` 1.2 to 7.7 s. Counting inside `activate`: activations 12,300, 17,700 and 27,400 a year; offers scored 140,000, 720,000 and 2,260,000 (11, 41 and 83 offers an activation); planned acts 9,500, 22,000 and 44,000, with donations 52, 2,300 and 4,600, volunteering 38, 290 and 4,200 and sharing 101, 5,300 and 9,000. A snapshot of day 1,090 shows 1,736 people with offers and only 65 holding a drive, and those 65 carry the offers: of 8,800 offers, 4,800 are contact-known-person, 1,700 rest, 1,200 volunteer and 630 donate.
+
+Tried and not shipped: offers for one act and one drive that score alike (join, donate, volunteer, seek standing: no reason binding reads the target, so ties go to the lowest key) reduced to the lowest-keyed one, for any chooser not shown every score. The three-year world fingerprints were identical to main's (same hash each year), so it is exact, but the time did not move (year 3 124.6 s against 127.3 s) because contact offers dominate and they do not score alike (the fading-tie pull differs by relationship). Meeting the 1.2 times target needs a behavior change: rank a holder's known people for contact once a week instead of scoring each daily, or offer only the contacts whose tie pull can top the day's choice. That changes who contacts whom, so it is the owner's call or a calibrated cut.
