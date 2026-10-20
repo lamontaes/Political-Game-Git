@@ -1395,6 +1395,10 @@ async function showStory(momentId) {
     ...story.narration.map((line) =>
       el("li", { className: "speech narration", textContent: line.text }),
     ),
+    // What the people at a hearing say, from the records.
+    ...(story.talk ?? []).map((line) =>
+      el("li", { className: "speech", textContent: line.text }),
+    ),
   );
   $("talk-choices").replaceChildren(
     ...(story.talkToId

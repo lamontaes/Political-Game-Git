@@ -1,3 +1,4 @@
+import { hearingScript } from "../director/hearing-script";
 import { composeScene } from "../director/scene";
 import manifest from "../../art/backdrops/manifest.json" with { type: "json" };
 import { backdropFile, homeOf, orgPlace, stagePeople } from "./scene";
@@ -63,12 +64,22 @@ export function storyScene(
     const row = core.people.get(id)!;
     return { id, name: `${row.givenName} ${row.familyName}` };
   });
+  // A public hearing is also spoken: the chair, the speakers and a member, from the records.
+  const talk =
+    scene.typeKey === "public-hearing"
+      ? (hearingScript(core, director, personId, momentId) ?? [])
+      : [];
   return {
     momentId,
     place,
     backdrop: backdropFile(place, minuteOfDay),
     people: stagePeople(core, place, cast).people,
     narration: scene.narration,
+    talk: talk.map((line) => ({
+      speaker: line.speaker,
+      text: line.text,
+      sourceRecordIds: line.sourceRecordIds,
+    })),
     talkToId: scene.talkToId,
     names: Object.fromEntries(cast.map((row) => [row.id, row.name])),
   };
