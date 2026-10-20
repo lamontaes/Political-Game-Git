@@ -5,11 +5,12 @@ area: core
 kind: bug
 priority: 3
 size: S
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/fs11vb-estate
+pr: #5723
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-20T15:04:09.289Z
 ---
 
 **What.** src/core2/estate-contracts.test.ts draws one place from all 56 and throws 'no housing contract with two living payers', 'no household with two living adults' and 'no housing contract of a one-adult household' when the drawn town's sample lacks that household shape. It failed this way in Dededo, Guam (territory:GU:dededo, seed dab66b6edba370f8) and passed in another drawn place on the next run, so the test fails by the luck of the draw rather than by a defect. Draw further places until one has the shape, as other proofs do (budget-line-schools-staffing draws on), and name every place skipped.
