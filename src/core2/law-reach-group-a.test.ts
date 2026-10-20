@@ -35,6 +35,7 @@ import {
   type GovernmentRow,
 } from "./modules/budgets";
 import { openLawReach } from "./law-reach/host";
+import { selectorGroup } from "./law-reach/group-a-records";
 import {
   currentStaff,
   openReach,
@@ -85,6 +86,11 @@ let api: CoreAPI;
 let where = "";
 const report: Record<string, unknown> = {};
 
+/** A seat held by a sitting legislator: the council, or the board a town of that form elects in its place. */
+const legislative = (s: ReturnType<typeof townSeats>[number]) =>
+  selectorGroup("legislators").some((k) => s.office.kind.startsWith(k)) &&
+  s.holder?.personId;
+
 function openTown(): void {
   for (let attempt = 0; attempt < 30; attempt += 1) {
     const state = pick(states, `state:${attempt}`);
@@ -123,6 +129,8 @@ function openTown(): void {
     const a = coreAPI(c);
     if (!lawChain(a).levels.some((l) => l.level === "city")) continue;
     if (!governments(a).some((g) => g.level === "city")) continue;
+    // The term-limit test needs a sitting legislator: a town without one is redrawn.
+    if (!townSeats(a).some(legislative)) continue;
     core = c;
     api = a;
     where = `seed ${seed}, ${state} place ${key}`;
@@ -131,7 +139,9 @@ function openTown(): void {
     report.place = key;
     return;
   }
-  throw new Error(`no incorporated town in thirty tries (seed ${seed})`);
+  throw new Error(
+    `no incorporated town with a sitting legislator in thirty tries (seed ${seed})`,
+  );
 }
 
 function jurisdictionOf(level: string): string {
@@ -473,37 +483,27 @@ describe("audit 13, law breadth group A: every policy reaches people", () => {
   it("legislative term limits bind the council's members, read by the filing check", () => {
     const key =
       "us-policy-positions:government-operations.legislative-term-limits";
-    // The town's sitting legislator: its council, or the board a town of that
-    // form elects in its place.
-    const legislative = (s: ReturnType<typeof townSeats>[number]) =>
-      selectorGroup("legislators").some((k) => s.office.kind.startsWith(k)) &&
-      s.holder?.personId;
     const council =
       townSeats(api).find(
         (s) => s.office.kind === "council" && s.holder?.personId,
       ) ?? townSeats(api).find(legislative);
+    expect(council, `${where} no sitting legislator`).toBeDefined();
     recordRoundTrip(key, () => {
-      if (!council) {
-        // No sitting legislator in the town: nobody for the law to bind.
-        expect(townSeats(api).filter(legislative), where).toEqual([]);
-        return;
-      }
-      const reached = reachOn(api, council.holder!.personId!).some(
+      const reached = reachOn(api, council!.holder!.personId!).some(
         (r) => r.key === key && r.endedOn === null,
       );
       expect(reached, where).toBe(true);
       expect(
         typeof termLimitReached(
           api,
-          council.holder!.personId!,
-          council.office.id,
+          council!.holder!.personId!,
+          council!.office.id,
         ),
       ).toBe("boolean");
     });
-    if (council)
-      expect(
-        termLimitReached(api, council.holder!.personId!, council.office.id),
-      ).toBe(false);
+    expect(
+      termLimitReached(api, council!.holder!.personId!, council!.office.id),
+    ).toBe(false);
   });
 
   for (const { key } of recordOnly)

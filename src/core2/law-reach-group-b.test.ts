@@ -14,6 +14,7 @@ import { advanceCore, createLifeCore } from "./life";
 import { coreAPI } from "./state";
 import { collapseToTwoLevels } from "./residents";
 import { residentsRuntime } from "./modules/residents";
+import { withPublicSchoolDistrict } from "./opening-public-schools";
 import { enactLaw, lawChain, lawInForce, openLaws } from "./modules/laws";
 import {
   amendBudget,
@@ -89,12 +90,15 @@ function build(): void {
     if (!places.length) continue;
     const key =
       process.env.GOLDEN_PATH_PLACE_KEY ?? pick(places, `place:${attempt}`).key;
-    const full = buildPopulation({
-      seed,
-      placeKey: key,
-      startedAt: START,
-      minimumPeople: 400,
-    });
+    // The opening's public school district is the employer the school-pay tests need.
+    const full = withPublicSchoolDistrict(
+      buildPopulation({
+        seed,
+        placeKey: key,
+        startedAt: START,
+        minimumPeople: 400,
+      }),
+    ).input;
     const year = Number(START.slice(0, 4));
     // An employed adult where the place has one (paychecks for the tax tests), else any adult.
     const adults = [...full.people]
@@ -116,6 +120,31 @@ function build(): void {
     api = coreAPI(core);
     place = key;
     town = lawChain(api).townPlaceId;
+    // The tests below need a private school, a school job and a state highway
+    // line; a place without one is redrawn, never skipped.
+    const stateGov = governments(api).find((g) => g.level === "state");
+    const inTown = (org: string) =>
+      core.organizations.get(org)?.placeId === town;
+    const hasPrivateSchool = [...core.organizations.values()].some(
+      (o) =>
+        o.classification === "service:private-school" && o.placeId === town,
+    );
+    const hasSchoolJob = [
+      ...core.jobs.values(),
+      ...(residentsRuntime(core)?.jobs.values() ?? []),
+    ].some(
+      (j) =>
+        j.endsAt === undefined &&
+        (j.hourlyMinor ?? 0) > 0 &&
+        inTown(j.organizationId) &&
+        core.organizations.get(j.organizationId)?.classification ===
+          "service:school",
+    );
+    const hasHighwayLine =
+      !!stateGov &&
+      residentsOf(api, stateGov) > 0 &&
+      (budgetNow(api, stateGov.id)?.spendingMinor.highways ?? 0) > 0;
+    if (!hasPrivateSchool || !hasSchoolJob || !hasHighwayLine) continue;
     const levels = new Set(governments(api).map((g) => g.level));
     LOCAL = ["city", "county", "state"].find((l) => levels.has(l as "city"))!;
     where = `seed ${seed}, place ${key} (${core.placeMetadata.placeName})`;
@@ -124,7 +153,7 @@ function build(): void {
     return;
   }
   throw new Error(
-    `no town with an employed adult in forty draws (seed ${seed})`,
+    `no town with an employed adult, a private school, a school job and a state highway line in forty draws (seed ${seed})`,
   );
 }
 
@@ -702,10 +731,8 @@ describe("law reach, group B: every policy reaches people through its engine", (
         ),
     );
     const job = jobs.find((j) => (j.hourlyMinor ?? 0) > 0);
-    if (!job) {
-      report.schoolRaiseKept = "no school job in this place";
-      return;
-    }
+    expect(job, `${where} no school job`).toBeDefined();
+    if (!job) return;
     const base = line(gov, "schools");
     const step = stepFor(gov, "schools");
     // The line has seen this job once; then another rule (not the line) raises it.
@@ -909,10 +936,8 @@ describe("law reach, group B: every policy reaches people through its engine", (
       "transportation-infrastructure.shift-highway-funds-to-transit",
     );
     const state = governments(api).find((g) => g.level === "state")!;
-    if (residentsOf(api, state) <= 0 || line(state, "highways") <= 0) {
-      report.highwayShift = "no state highway line in this place";
-      return;
-    }
+    expect(residentsOf(api, state), where).toBeGreaterThan(0);
+    expect(line(state, "highways"), where).toBeGreaterThan(0);
     const highways = line(state, "highways");
     const transit = line(state, "transit");
     enact(key, 1, "state");
@@ -1054,17 +1079,8 @@ describe("law reach, group B: every policy reaches people through its engine", (
     enact(key, 1, "state");
     const openBefore = openOrgs(key).length,
       school = openOrgs(key)[0];
-    if (!school) {
-      // A town with no private school has nothing to end: the reach finds
-      // none because the town holds none.
-      expect(
-        [...core.organizations.values()].filter(
-          (o) => o.classification === "service:private-school",
-        ),
-        where,
-      ).toEqual([]);
-      return;
-    }
+    expect(school, `${where} no private school reached`).toBeDefined();
+    if (!school) return;
     api.emit({
       id: `event:business.closed:${school.organizationId}`,
       date: api.state.date,
