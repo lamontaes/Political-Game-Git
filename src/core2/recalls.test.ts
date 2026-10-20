@@ -57,7 +57,9 @@ describe("M3-10 recalls", () => {
         .sort((a, b) => a.key.localeCompare(b.key));
       if (!places.length) continue;
       const key = pick(places, `place:${attempt}`).key;
-      tried.push(`${state} ${key}`);
+      // Why this place started no recall, by what the world holds; filled in
+      // below and kept in the failure message.
+      const none = (why: string) => tried.push(`${state} ${key}: ${why}`);
       const core = createLifeCore(
         buildPopulation({
           seed,
@@ -82,13 +84,17 @@ describe("M3-10 recalls", () => {
       const council = townSeats(api).find(
         (s) => s.office.kind === "council" && s.holder?.personId,
       );
-      if (!council) continue;
+      if (!council) {
+        none("no council seat held by a person");
+        continue;
+      }
       // The most divisive ordinances the council will pass.
       const divisive = [...PLATFORM_QUESTIONS].sort(
         (a, b) =>
           Math.abs(personStance(1, b)) - Math.abs(personStance(1, a)) ||
           a.localeCompare(b),
       );
+      let enacted: string | null = null;
       for (const question of divisive) {
         const bill = draftBill(api, {
           bodyOfficeId: council.office.id,
@@ -97,7 +103,10 @@ describe("M3-10 recalls", () => {
         });
         if (bill.status === "blocked") continue;
         const voted = holdVote(api, bill.id);
-        if (["enacted", "signed", "overridden"].includes(voted.status)) break;
+        if (["enacted", "signed", "overridden"].includes(voted.status)) {
+          enacted = bill.id;
+          break;
+        }
       }
       advanceCore(core, after(api.state.date, 31));
       const recalls = recallsOf(api);
@@ -105,9 +114,17 @@ describe("M3-10 recalls", () => {
       if (!rule) {
         // No recall in this state's law: none may start.
         expect(recalls.length, `${state} has no recall`).toBe(0);
+        none("the state's law has no petitioned recall");
         continue;
       }
-      if (!recalls.length) continue;
+      if (!recalls.length) {
+        none(
+          enacted
+            ? `ordinance ${enacted} enacted and no organizer moved past the effort bar, or every member was inside a bar on the term`
+            : "no ordinance the council would pass",
+        );
+        continue;
+      }
       const recall = recalls[0]!;
       expect(recall.namedSigners).not.toContain(recall.memberId);
       advanceCore(core, after(recall.due, 120));
@@ -132,7 +149,13 @@ describe("M3-10 recalls", () => {
         recall: { ...done, namedSigners: done.namedSigners.length },
       };
     }
-    expect(report, `no recall started in ${tried.join(", ")}`).not.toBeNull();
+    // Every place that started none says why; a place without a reason is a
+    // gap in the test, not in the world.
+    expect(
+      tried.filter((row) => !row.includes(": ")),
+      "places with no reason recorded",
+    ).toEqual([]);
+    expect(report, `no recall started in ${tried.join("; ")}`).not.toBeNull();
     govReport("recalls", JSON.stringify(report));
   }, 300_000);
 });
