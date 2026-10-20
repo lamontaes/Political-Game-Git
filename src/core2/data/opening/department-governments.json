@@ -1,0 +1,12 @@
+{
+  "source": "Census of Governments function pages: police, fire, public works and public health are functions of a town's own government; state offices answer to the state and a post office to the nation",
+  "owning": {
+    "service:police": "town",
+    "service:fire": "town",
+    "service:public-health": "town",
+    "sector:local-government-office": "town",
+    "service:municipal-government": "town",
+    "sector:state-government-office": "state",
+    "sector:federal-government-office": "federal"
+  }
+}
