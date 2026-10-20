@@ -1,0 +1,23 @@
+---
+id: release-red-vote-level-organizing-filed
+title: "vote-level test: a chamber organizing and a committee hearing are not filed at their own government level (place 4728060, seed 5e9b2e25f59cca2921bd22a176389baf75adf7e9, vote-level.test.ts:135)"
+area: gov
+kind: bug
+priority: 2
+size: S
+status: open
+claimed-by:
+pr:
+blocked-on:
+source: added with npm run pool -- add
+---
+
+**What.** The vote-level test fails in place 4728060, seed 5e9b2e25f59cca2921bd22a176389baf75adf7e9, at vote-level.test.ts:135: a chamber organizing and a committee hearing should be filed at their own government level and are not. Find which record carries the wrong level and fix where it is set. A hearing should be filed at the level of the body that holds it.
+
+**Rules.** Fix at the root: a red test is fixed in place or the code it guards is, never skipped or loosened. No dice. One rule, all 56 places: place facts come from data, and the test names the place and seed it drew.
+
+**Done when.** In that place and in two other drawn places a chamber organizing and a committee hearing are filed at their own government level, and src/core2/vote-level.test.ts passes.
+
+**Files.** src/core2/vote-level.test.ts, src/core2/modules/voting.ts
+
+**Notes.** Found running src/core2 on main, Oct 19 to 20 (release-suite-red-list-on-main). The same test file also timed out once on the small container (30 s).

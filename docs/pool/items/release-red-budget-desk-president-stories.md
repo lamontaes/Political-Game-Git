@@ -5,11 +5,12 @@ area: gov
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/pool-red-budget-desk
+pr: #5320
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-19T23:57:12.414Z
 ---
 
 **What.** The budget-desk test fails on the line that expects stories on the president's act: it finds none, so a signature or veto of the federal budget leaves nothing for the news desk to report. Find whether the president's act record is never written, or the desk never reads it, and fix the one that is wrong. The newspaper should carry the act when the president signs or vetoes the federal budget.

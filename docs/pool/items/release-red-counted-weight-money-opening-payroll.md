@@ -5,11 +5,12 @@ area: world
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/counted-weight-payroll
+pr: #5331
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-20T00:01:50.372Z
 ---
 
 **What.** The counted-weight-money test fails in Unadilla, New York (3676001), seed 5a77dbcdef2b0732e8a0264421216708acfec92c0df37337f8480fed220214aa. The posting residents:wages:opening-payroll-calendar for organization_9051120a1c2af00e on 2025-02-20 is 5,819,280 against an expected upper bound of 5,554,574. Find why a counted payroll posting runs about 4.8 percent over the weighted wages it should stand for, and make the payroll and its bound agree.

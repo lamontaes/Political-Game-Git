@@ -55,6 +55,7 @@ import {
   prepareFinanceProcurement,
   admitCreditFacility,
   repriceCreditFacility,
+  moveHouseholdPayers,
   attachBusinessCredit,
   endStandingContract,
   setStandingContractAmount,
@@ -91,7 +92,8 @@ import { cashJournalHost } from "./cash-host";
 import { settleLegacyWorkResultJournal } from "./work-cash";
 import { admitPublicPayAuthority } from "./public-work-pay";
 import type { CashJournalSourceRef } from "./journal";
-import { makeIsoDate } from "./kernel/dates";
+import { ageOnDate, makeIsoDate } from "./kernel/dates";
+import { moveLivingShare } from "./cost-of-living";
 import { CORE_API_VERSION, CORE_SCHEMA_VERSION, DEFAULT_DATA } from "./data";
 import { parameter, parameterValues } from "./parameters";
 import {
@@ -1545,6 +1547,9 @@ export function coreAPI(core: CoreState): CoreAPI {
           memberIds: ids,
           source: input.source,
         });
+        // Those who leave stop paying the home obligations they shared; the
+        // people who stay keep them, or take them over.
+        moveHouseholdPayers(core, api, household.id, input.householdId, ids);
       }
       for (const actor of movers as PersonState[]) {
         core.peopleByPlace.get(actor.placeId)?.delete(actor.id);
@@ -1557,6 +1562,82 @@ export function coreAPI(core: CoreState): CoreAPI {
         index(core.peopleByPlace, actor.placeId, actor.id);
         if (actor.countyId) index(core.peopleByPlace, actor.countyId, actor.id);
       }
+    },
+    changeHouseholdV1(input) {
+      const ids = [...input.personIds];
+      const movers = ids.map((id) => core.people.get(id));
+      const target = core.households.get(input.householdId);
+      const placeId = target?.placeId ?? movers[0]?.placeId;
+      if (
+        !ids.length ||
+        new Set(ids).size !== ids.length ||
+        placeId === undefined ||
+        movers.some(
+          (row) =>
+            !row?.alive ||
+            row.placeId !== placeId ||
+            row.householdId === input.householdId,
+        )
+      )
+        throw new Error(
+          "Invalid household change: living people of one place, not already members.",
+        );
+      makeIsoDate(input.source.asOf);
+      const bySource = new Map<string, string[]>();
+      for (const mover of movers as PersonState[])
+        bySource.set(mover.householdId, [
+          ...(bySource.get(mover.householdId) ?? []),
+          mover.id,
+        ]);
+      // Nobody leaves a child in a household with no adult.
+      const adultAge = api.parameter("benchmarkAdultMinimumAge");
+      for (const [fromId, leaving] of bySource) {
+        const staying = core.households
+          .get(fromId)!
+          .memberIds.filter((id) => !leaving.includes(id))
+          .map((id) => core.people.get(id));
+        if (
+          staying.length &&
+          !staying.some(
+            (row) =>
+              row?.alive &&
+              ageOnDate(makeIsoDate(row.birthDate), makeIsoDate(core.date)) >=
+                adultAge,
+          )
+        )
+          throw new Error(
+            `Invalid household change: ${fromId} would keep only children.`,
+          );
+      }
+      core.households.set(
+        input.householdId,
+        target
+          ? { ...target, memberIds: [...target.memberIds, ...ids] }
+          : {
+              id: input.householdId,
+              placeId,
+              memberIds: ids,
+              source: input.source,
+            },
+      );
+      for (const [fromId, leaving] of [...bySource].sort((a, b) =>
+        a[0].localeCompare(b[0]),
+      )) {
+        const from = core.households.get(fromId)!;
+        moveLivingShare(
+          core,
+          fromId,
+          input.householdId,
+          leaving.length / Math.max(1, from.memberIds.length),
+        );
+        moveHouseholdPayers(core, api, fromId, input.householdId, leaving);
+        core.households.set(fromId, {
+          ...from,
+          memberIds: from.memberIds.filter((id) => !leaving.includes(id)),
+        });
+      }
+      for (const mover of movers as PersonState[])
+        mover.householdId = input.householdId;
     },
     fundPublicPay(authorityId, treasuryId, source) {
       makeIsoDate(source.asOf);

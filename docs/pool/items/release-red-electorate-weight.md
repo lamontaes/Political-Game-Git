@@ -5,11 +5,12 @@ area: gov
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/red-electorate-weight
+pr: #5318
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-19T23:57:24.608Z
 ---
 
 **What.** The electorate-weight test fails at line 40, where it expects true and gets false: a counted voter is not counted as many times as its household stands for. Find which side is wrong, the electorate input that should multiply a counted voter by its household weight or the test's expectation, and fix it so the town's vote count follows the weight. The town's vote totals then match its counted households.
