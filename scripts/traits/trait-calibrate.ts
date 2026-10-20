@@ -18,7 +18,9 @@ interface ResearchRow {
   id: string;
   option?: string;
   baseRate?: number;
-  effect: { kind: string; value: number } | null;
+  effect: { kind: string; value: number; traitSd?: number } | null;
+  /** A pp-per-sd row's outcome is a probability of the option (not a level). */
+  outcomeIsProbability?: boolean;
 }
 interface Sample {
   actions?: string[];
@@ -37,11 +39,6 @@ const research = JSON.parse(
 
 /** Thirds apart, in standard deviations of a normal trait. */
 const THIRDS_APART = 2.18;
-/**
- * A trait scored 0 to 1 over its full range (Mondak et al. 2010, ten-item
- * inventory) has a standard deviation of about a fifth of that range.
- */
-const SD_OF_FULL_RANGE = 0.2;
 /** A normal trait's interquartile range is 1.35 standard deviations. */
 const IQR_IN_SD = 1.35;
 /** Logit change of a probability swing centered on a half. */
@@ -53,6 +50,12 @@ const swingLogit = (swing: number) => {
 /** Logistic scale: a latent shift of one standard deviation is pi over root 3 logits. */
 const LOGIT_PER_SD = Math.PI / Math.sqrt(3);
 
+/** A research row whose size cannot be read as odds: it says why and gives none. */
+function refuse(row: ResearchRow, why: string): null {
+  console.warn(`${row.id}: ${row.effect!.kind} row ${why}; no target`);
+  return null;
+}
+
 /** The study's log odds ratio between the top and bottom thirds. */
 function targetLogOdds(row: ResearchRow): number | null {
   const e = row.effect;
@@ -60,10 +63,16 @@ function targetLogOdds(row: ResearchRow): number | null {
   switch (e.kind) {
     case "odds-ratio-per-sd":
       return Math.log(e.value) * THIRDS_APART;
+    // A trait scored over its full range converts with its own standard
+    // deviation, as a share of that range, from the study's own table.
     case "logit-coef-full-range":
-      return e.value * SD_OF_FULL_RANGE * THIRDS_APART;
+      return e.traitSd === undefined
+        ? refuse(row, "gives no trait standard deviation")
+        : e.value * e.traitSd * THIRDS_APART;
     case "pp-full-range":
-      return swingLogit(e.value) * SD_OF_FULL_RANGE * THIRDS_APART;
+      return e.traitSd === undefined
+        ? refuse(row, "gives no trait standard deviation")
+        : swingLogit(e.value) * e.traitSd * THIRDS_APART;
     case "pp-per-iqr":
       return (swingLogit(e.value) / IQR_IN_SD) * THIRDS_APART;
     case "correlation":
@@ -73,6 +82,8 @@ function targetLogOdds(row: ResearchRow): number | null {
         ((LOGIT_PER_SD * e.value) / Math.sqrt(1 - e.value ** 2)) * THIRDS_APART
       );
     case "pp-per-sd": {
+      if (!row.outcomeIsProbability)
+        return refuse(row, "measures a level, not a probability of the option");
       const p0 = row.baseRate ?? 0.5;
       const p1 = Math.min(0.999, Math.max(0.001, p0 + e.value / 100));
       return (Math.log(p1 / (1 - p1)) - Math.log(p0 / (1 - p0))) * THIRDS_APART;
