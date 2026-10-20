@@ -5,12 +5,12 @@ area: people
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
+status: in-pr
+claimed-by: claude/counted-deaths-opening-illness
 pr: #4886
 blocked-on:
 source: added with npm run pool -- add
-claimed-at:
+claimed-at: 2026-10-19T17:54:53.736Z
 ---
 
 **What.** In a new town nobody among the wider population died for the first two months, and few died before the ninth. The serious illnesses already under way at the opening were never booked, and a baby born in the months the code walks back over made the sum of past death chances not a number. The fix, in pull request 4886, leaves out anyone not yet born in a past month and books those illnesses, so deaths and estates begin in the first months. Counted deaths in the first played year ran at 0.73 of the tables in West Hammond, New Mexico and 0.55 in Milford, Connecticut before, and 0.82 and 0.81 after.

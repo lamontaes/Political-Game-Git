@@ -4,13 +4,13 @@ title: "Committee assignments and hearings as stops and scenes."
 area: office
 kind: feature
 priority: 2
-status: open
-claimed-by:
+status: blocked
+claimed-by: claude/political-game-pool-yucp92-ss
 pr:
-blocked-on:
+blocked-on: words-hearing-chair-question
 milestone:
 source: "docs/coordination/OFFICE-STATE.md line 19 (unchecked checklist line)"
-claimed-at:
+claimed-at: 2026-10-20T04:59:54.277Z
 ---
 
 **What.** Checked against main on Oct 16: PARTLY. Assignments (`assignCommittees` in `leadership.ts`) and hearings with witnesses and a committee vote (`legislature.ts`, `committeeRecords`) exist; the state day has committee entries, but `actOn` only spends time and no assignment or hearing reaches the player as a scene. The hearing bank (`data/english/parts/hearing.json`) is not read by the office day. Next: A "learn your seat" event when the player is assigned and an "attend the hearing" scene when their committee hears a bill. The player would notice the act on the politics screen as a choice among people, never a form.
@@ -22,3 +22,5 @@ claimed-at:
 **Files.** src/core2/office-day-state.ts, src/core2/office-day-registry.ts, src/core2/legislature-committees.ts, src/core2/data/legislature/committees.json
 
 **Notes.** Checklist line from OFFICE-STATE.md; verify against main before starting.
+
+Oct 20: PR #5107 merged and the committee day cites the seating and hearing records, but the chair's question and witness lines and a learn-your-seat scene are not built.
