@@ -5,7 +5,7 @@ area: core
 kind: stopgap
 priority: 2
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/pool-views-delete
 pr: #5321
 blocked-on:
