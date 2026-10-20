@@ -5,7 +5,7 @@ area: world
 kind: feature
 priority: 3
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/union-membership
 pr: #5302
 blocked-on:
