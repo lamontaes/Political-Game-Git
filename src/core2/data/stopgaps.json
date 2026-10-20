@@ -4867,5 +4867,77 @@
     "addedAt": "2026-10-17",
     "replacement": "Each department's employing government read from the Census of Governments employment file by function, so a county health department, a fire district or a state agency's field office pays its own staff.",
     "status": "open"
+  },
+  {
+    "id": "SG-LABOR-counted-partner-proxy",
+    "kind": "estimated-behavior",
+    "file": "src/core2/jobs-web.ts",
+    "line": 1,
+    "whatItFakes": "A counted member's marital status and which relative is their child: a woman is married when an adult relative within the minimum parent age of her age lives in her household, and a mother when a relative under 5 is at least that much younger.",
+    "why": "The counts keep family pairs without their kind and carry no marital status, so the web's mothers and married-women outcomes cannot read a counted woman's own record.",
+    "addedBy": "effect-web-labor",
+    "addedAt": "2026-10-20",
+    "replacement": "Counted members' partner and parent-child links kept in the counts, read in place of the age rule.",
+    "status": "open"
+  },
+  {
+    "id": "SG-LABOR-no-legal-status",
+    "kind": "faked-mechanic",
+    "file": "src/core2/jobs-web.ts",
+    "line": 1,
+    "whatItFakes": "Undocumented and U.S.-born employment: the web keeps them as place numbers, but no person carries a nativity or legal status, so no hire, layoff or quit can read the enforcement links.",
+    "why": "People are generated without a birthplace or work authorization; inventing one per person would be a guess that decides who loses work.",
+    "addedBy": "effect-web-labor",
+    "addedAt": "2026-10-20",
+    "replacement": "A nativity and work-authorization record on people (full and counted), read by the jobs engine's hiring and layoff decisions.",
+    "status": "open"
+  },
+  {
+    "id": "SG-LABOR-minimum-wage-ratio",
+    "kind": "faked-mechanic",
+    "file": "src/core2/jobs-web.ts",
+    "line": 1,
+    "whatItFakes": "The minimum-wage-to-low-wage-jobs link needs the minimum wage as a share of the place's median wage (labor.minimum-wage-to-median), which no engine records.",
+    "why": "The wage floor is read by the jobs engine for pay, but the ratio to the median is not a kept measure.",
+    "addedBy": "effect-web-labor",
+    "addedAt": "2026-10-20",
+    "replacement": "A reader in the jobs engine of the wage floor over the place's median hourly pay, added to the engine measures.",
+    "status": "open"
+  },
+  {
+    "id": "SG-LABOR-person-exposure",
+    "kind": "faked-mechanic",
+    "file": "src/core2/jobs-web.ts",
+    "line": 1,
+    "whatItFakes": "Birth-year pollution, teacher quality and neighborhood years acting on adult earnings: they need each person's own exposure-years record, which no engine keeps.",
+    "why": "The links are person-level (exposure-years shape); a place rate would apply them to the wrong people.",
+    "addedBy": "effect-web-labor",
+    "addedAt": "2026-10-20",
+    "replacement": "A per-person exposure record (air in the birth year, teachers' value-added, years in a better neighborhood) read when pay is set.",
+    "status": "open"
+  },
+  {
+    "id": "SG-LABOR-unsized-links",
+    "kind": "faked-mechanic",
+    "file": "src/core2/jobs-web.ts",
+    "line": 1,
+    "whatItFakes": "Graduation to earnings, transit loss to unemployment, broadband to employment and incentive deals to industry jobs have no researched size the game can use, and their causes or outcomes are not recorded.",
+    "why": "Their sources give a study-unit effect (one lost line, a county gaining broadband, one deal) that no conversion turns into the game's slopes; the sizes are to confirm.",
+    "addedBy": "effect-web-labor",
+    "addedAt": "2026-10-20",
+    "replacement": "Sizes confirmed from the sources and the cause measures (graduation share, transit access, deal records) recorded by their engines.",
+    "status": "open"
+  },
+  {
+    "id": "SG-LABOR-pretrial-employment",
+    "kind": "faked-mechanic",
+    "file": "src/core2/jobs-web.ts",
+    "line": 1,
+    "whatItFakes": "Pretrial detention lowering formal employment: the justice engine decides each detention from the law, but no engine records formal-sector employment, and a place rate would count the detention twice.",
+    "why": "The cause is a person's own detention in the justice records; the jobs engine does not read it when a detained person's job ends.",
+    "addedBy": "effect-web-labor",
+    "addedAt": "2026-10-20",
+    "replacement": "The jobs engine reading a person's detention record in custody-related separations and a formal-employment measure from jobs records.",
+    "status": "open"
   }
 ]
