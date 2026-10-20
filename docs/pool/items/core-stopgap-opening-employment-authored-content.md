@@ -4,10 +4,10 @@ title: "Stopgaps in opening-employment (authored content): 1 open"
 area: core
 kind: stopgap
 priority: 3
-status: claimed
+status: blocked
 claimed-by: claude/pool-job-mix
 pr:
-blocked-on:
+blocked-on: research-opening-jobs-sourced-parameters
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/data/opening-employment.json, kind authored content"
 claimed-at: 2026-10-19T23:41:36.732Z
