@@ -189,6 +189,52 @@ describe(`unemployment moves burglary, in a generated town (seed ${seed})`, () =
   }, 300_000);
 });
 
+describe(`drinking-water violations are read into low birth weight, in a generated town (seed ${seed})`, () => {
+  const place = drawPlace(seed, "outcome-web-water");
+  it(`${place.name}, ${place.state}: low birth weight reads the sized link to drinking-water violations every month`, () => {
+    const core = createLifeCore(
+      withWorldEconomy(
+        generatedOpening(place, {
+          twoLevel: true,
+          settings: { population: 1500 },
+        }),
+      ),
+      {
+        data: worldCoreData(),
+        modules: [...WORLD_MODULES, OUTCOME_WEB_MODULE],
+      },
+    );
+    advanceCore(core, `${Y}-02-05`);
+    const api = coreAPI(core);
+    const town = core.people.get(core.playerId!)!.placeId;
+    advanceCore(core, `${Number(Y) + 1}-02-05`);
+    const key = "water-violations-to-infant-health";
+    const size = link(key).size!;
+    expect(size).toBeGreaterThan(0);
+    const rows = months(api, town).filter(
+      (row) => row.effects[key] !== undefined,
+    );
+    expect(rows.length).toBeGreaterThan(6);
+    for (const row of rows) {
+      const violations = row.values["env.drinking-water-violations"]!;
+      const base = row.bases["env.drinking-water-violations"]!;
+      expect(row.effects[key]).toBeCloseTo(size * (violations - base), 10);
+      // Low birth weight is its base times its links' factors.
+      const factor = Object.entries(row.effects)
+        .filter(([other]) => link(other).to === "health.low-birthweight")
+        .reduce((n, [, effect]) => n * (1 + effect), 1);
+      expect(row.values["health.low-birthweight"]).toBeCloseTo(
+        row.bases["health.low-birthweight"]! * factor,
+      );
+    }
+    // Nothing in the world writes violations yet (SG-WEB-outcome-drift), so
+    // the cause sits at its opening level and the link adds nothing; one more
+    // violation per system would raise low birth weight by the sized 6%.
+    expect(rows.every((row) => row.effects[key] === 0)).toBe(true);
+    expect(linkEffect(link(key), size, 3.6 + 1, 3.6)).toBeCloseTo(size);
+  }, 600_000);
+});
+
 describe(`a law ripples through the web and lands on people (seed ${seed})`, () => {
   const place = drawPlace(seed, "outcome-web-law");
   it(`${place.name}, ${place.state}: a SNAP work requirement cuts SNAP receipt after its lag, food insecurity follows a month later, and a named adult's record carries it`, () => {
@@ -375,9 +421,13 @@ describe(`the outcomes the web now produces move with their laws, in a generated
       });
     }
     const lagged = Math.max(
-      ...ADDED_LAW_LINKS.map((key) => link(key).lagMonths),
+      ...ADDED_LAW_LINKS.map(
+        (key) => link(key).lagMonths + (link(key).phaseInMonths ?? 0),
+      ),
     );
-    const reads = `${String(Number(Y) + 1)}-${String(2 + lagged - 12 + 2).padStart(2, "0")}`;
+    // Law enacted in February of Y; read two months after lag and phase-in end.
+    const monthIndex = 1 + lagged + 2;
+    const reads = `${String(Number(Y) + Math.floor(monthIndex / 12))}-${String((monthIndex % 12) + 1).padStart(2, "0")}`;
     advanceCore(core, `${reads}-05`);
     const row = monthOf(api, town, reads);
     for (const key of ADDED_LAW_LINKS) {

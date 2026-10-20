@@ -1,5 +1,5 @@
 import { expect, it } from "vitest";
-import { openingOrganizationProfiles } from "../src/core2/opening-organization-profile";
+import { openingOrganizationProfiles } from "../src/core2/opening-org-profiles";
 import { organizationProfileAt } from "../src/simulation/life-queries";
 import type { OrganizationProfileRecord, World } from "../src/simulation/types";
 

@@ -5,12 +5,12 @@ area: words
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
-pr:
-blocked-on:
+status: in-pr
+claimed-by: claude/fs11vb-flip
+pr: #5647
+blocked-on: owner: grade the 141 authored lines in a batch, or flip them and let 20 director tests stand on mined/graded parts only
 source: added with npm run pool -- add
-claimed-at:
+claimed-at: 2026-10-20T09:58:13.442Z
 ---
 
 **What.** The merge audit set authored journal lines to not shippable until graded, but data/english/parts still holds authored parts marked shippable in scene-words.json (78), speech-stages.json (21), newspaper-ledes.json (6), bring-it-up.json (4), conversation.json (2) and news.json (2) on main, with more on open branches. Flip them and add a bank test that fails on any part with origin authored and shippable true that has no recorded grade. The director skips parts that are not shippable, so these lines stay out of play until a grading batch.

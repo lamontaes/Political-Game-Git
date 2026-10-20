@@ -50,7 +50,7 @@ import {
   livingCostsRegionForState,
   LIVING_COSTS_SOURCE,
 } from "./reference/living-costs-data";
-import { openingOrganizationProfiles } from "./opening-organization-profile";
+import { openingOrganizationProfiles } from "./opening-org-profiles";
 import { ensureTownEmployment } from "../simulation/living-world/town-employment";
 import { TOWN_EMPLOYMENT_META } from "../simulation/living-world/town-employment.generated";
 import {
