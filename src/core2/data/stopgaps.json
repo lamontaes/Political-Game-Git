@@ -3782,8 +3782,8 @@
     "why": "The decision register (docs/coordination/DECISION-REGISTER.md, 'Many ways to win') names endorsements among the channels of campaign support, so an outlet's endorsement is in; it is not built yet.",
     "addedBy": "OPUS-PEOPLE",
     "addedAt": "2026-10-14",
-    "replacement": "An outlet's head and owner endorse from the outlet's line, their regard for the candidates and the candidates' records, printed as a story the views and voting engines read.",
-    "status": "open"
+    "replacement": "A town outlet's head endorses once per race, weeks before it, the candidate whose platform they agree with most (the person-endorsement rule), printed as an 'endorsement' story whose slant is that agreement; the outlet's followers hear it as an endorsement cause the voting engine reads (press.ts writeEndorsements, campaigns.ts endorsementChoice).",
+    "status": "resolved"
   },
   {
     "id": "SG-PEOPLE-press-national-payroll",

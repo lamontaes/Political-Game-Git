@@ -42,8 +42,10 @@ import {
 } from "./elections";
 import {
   CAMPAIGNS_MODULE_ID,
+  announceEndorsement,
   campaignFor,
   campaignRecognition,
+  endorsementChoice,
   makeStatements,
   touchImpression,
   registerAdOutlet,
@@ -2614,8 +2616,6 @@ function pressWeek(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
   scheduleWeek(api, api.state.date);
   refreshPressStaff(api);
   ownersLive(api);
-  // stopgapId: SG-PEOPLE-press-endorsements
-  api.stopgap("SG-PEOPLE-press-endorsements");
   // The week's stories: each reporter files from the fresh wire.
   const wire = freshWire(api);
   // A national outlet covers the nation and the town's own state; a town's
@@ -2652,6 +2652,7 @@ function pressWeek(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
       )
         refuse(api, row);
   if (!contests.length) return;
+  writeEndorsements(api, ctx, contests);
   const filings = contests
     .flatMap((c) => ballot(api, c.id))
     .filter((f) => f.status === "on-ballot")
@@ -2698,6 +2699,68 @@ function pressWeek(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
       if (willing < pressParameter("interviewShyness")) refuse(api, row);
       else publish(api, row, candidateAnswers(api, row.questions, f));
     }
+}
+
+/**
+ * A town outlet's editorial endorsement in a race on its readers' ballot, once
+ * per race, in the weeks before it: its head endorses the candidate whose
+ * platform they agree with most (and with no rival's as much), as a person
+ * would. The outlet prints it as a story whose slant is the head's agreement
+ * with the candidate, and its followers hear it as an endorsement, moved by
+ * that same agreement. A head who agrees with nobody endorses nobody.
+ */
+function writeEndorsements(
+  api: CoreAPI,
+  ctx: DeskContext,
+  contests: readonly ContestRow[],
+): void {
+  // The head endorses by their own views of the platforms.
+  if (
+    !api.state.modules.has(CAMPAIGNS_MODULE_ID) ||
+    !api.state.modules.has(VIEWS_MODULE_ID)
+  )
+    return;
+  for (const outlet of outletsHere(api)) {
+    const headId = outlet.headId;
+    if (outlet.tier === "national" || !headId) continue;
+    if (!api.state.people.get(headId)?.alive) continue;
+    const reporterId =
+      (outlet.reporterIds ?? []).find(
+        (id) => api.state.people.get(id)?.alive,
+      ) ?? headId;
+    for (const contest of contests) {
+      const wireId = `endorsement:${outlet.id}:${contest.id}`;
+      if (ctx.printed(wireId, outlet.id)) continue;
+      const choice = endorsementChoice(api, headId, contest.id);
+      if (!choice) continue;
+      const candidateId = choice.campaign.candidateId;
+      const item: WireItem = {
+        id: wireId,
+        kind: "endorsement",
+        date: api.state.date,
+        level: "town",
+        topic: `person:${candidateId}`,
+        desiredChange: "profile",
+        ending: false,
+        subjectIds: [candidateId],
+      };
+      const { reasons } = slantOf(api, ctx, outlet, reporterId, item);
+      printItem(api, ctx, outlet, reporterId, item, null, {
+        slant: { slant: Math.min(1, choice.score), reasons },
+        facts: {
+          [`endorsement:${wireId}:candidate`]: candidateId,
+          [`endorsement:${wireId}:contest`]: contest.id,
+        },
+      });
+      announceEndorsement(
+        api,
+        choice.campaign,
+        headId,
+        ctx.followers(outlet.id).filter((id) => id !== candidateId),
+        choice.score,
+      );
+    }
+  }
 }
 
 /**
