@@ -23,6 +23,7 @@ import type { ModuleRow } from "./module-data";
 import { extendData } from "./data";
 import { daysBetween, makeIsoDate } from "./kernel/dates";
 import { officeActKits, type OfficeActKit } from "./office-day-registry";
+import { reanswerLeaderRequest } from "./office-day-state";
 import { snapshotExplicitControlV1 } from "./player-control-state-v1";
 import {
   casesFor,
@@ -287,6 +288,10 @@ export interface Prepared {
   readonly budget?: { readonly changes: Readonly<Record<string, number>> };
   /** A deal to offer a colleague, by member, when talking about the player's bill. */
   readonly deals?: Readonly<Record<string, "favor" | "back-their-item">>;
+  /** Filing for re-election: the stances the member runs on. */
+  readonly platform?: readonly { question: string; position: number }[];
+  /** The budget request: line changes in minor units. */
+  readonly changes?: Readonly<Record<string, number>>;
 }
 
 export function officeActProviders(host: OfficeActHost) {
@@ -614,6 +619,9 @@ export function officeActHandlers(host: OfficeActHost) {
               kind: deal,
             })
           : null;
+        // A leader who refused to schedule the bill hears what they were
+        // offered and answers again.
+        if (dealt?.accepted) reanswerLeaderRequest(api, actorId, bill.id);
         host.keep(api, {
           personId: actorId,
           kind: "talk-to-colleague",

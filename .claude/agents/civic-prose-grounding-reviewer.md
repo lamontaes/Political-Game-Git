@@ -6,7 +6,7 @@ description: >
   and returns PASS or the specific unsupported claims. Use after the civic-prose
   writer drafts, before an output is accepted. Never rewrites prose, never
   judges taste, never decides simulation truth.
-model: claude-haiku-4-5-20251001
+model: haiku
 effort: low
 tools: Read, Grep, Glob
 ---
