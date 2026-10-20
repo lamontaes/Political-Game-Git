@@ -5,13 +5,12 @@ area: world
 kind: bug
 priority: 2
 size: M
-status: open
-claimed-by:
+status: blocked
+claimed-by: claude/political-game-pool-yucp92-ag
 pr:
-blocked-on:
-after: world-commute-flow-data
+blocked-on: world-commuters-in-opening
 source: added with npm run pool -- add
-claimed-at:
+claimed-at: 2026-10-20T09:16:26.942Z
 ---
 
 **What.** The opening places employed residents into the town's own employers until it reaches the ACS employment target for the residents (employmentTarget in src/core2/opening-employment.ts), so a town whose firms are numerous enough places everyone and opens with no unplaced workers, even where LEHD LODES says most residents work outside the place (Elk Creek, Nebraska about 74 percent, Chimney Hill, Vermont about 41 percent). The per-place shares now exist as sourced data in src/core2/commuting-shares.ts (commutingSharesOf gives liveWorkShare and workInShare, ESTIMATED from the national average where a place has no row). Limit how many employed residents the opening places in town firms to the target times liveWorkShare, and leave the rest as workers employed elsewhere, so the unplaced-worker income in src/core2/residents.ts pays them from outside the town and they spend the wage in town.

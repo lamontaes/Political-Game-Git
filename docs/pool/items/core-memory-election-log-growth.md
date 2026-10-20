@@ -5,12 +5,12 @@ area: core
 kind: research
 priority: 3
 size: M
-status: open
-claimed-by:
-pr:
-blocked-on:
+status: in-pr
+claimed-by: claude/memory-player-decisions
+pr: #5623
+blocked-on: owner-decision-may-player-old-decisions-be-compacted
 source: added with npm run pool -- add
-claimed-at:
+claimed-at: 2026-10-20T09:13:46.755Z
 ---
 
 **What.** Apply the owner's Oct 20 memory ruling: after a year, the player's own routine decisions keep their summary and reasons, not every option's score. Today `condenseCircleDecisions` in src/core2/decision-detail.ts condenses only decisions by other people (retainLog in src/core2/state.ts queues a row only when `row.actorId !== core.playerId`), so the player's roughly 22 MB of full `decision` objects in `core.durableLog` stay forever. Queue the player's decisions too, with their own longer window (a new TUNABLE `playerDecisionDetailMonths` of 12 in parameters.json), and condense them the same way to `actorId`, `date`, `reasonKey`, `selectedReasons` and the choice, so the why view still names the reason. Keep full records for a decision that is not routine: a filing, a vote cast, a bribe, a crime, a signed or vetoed bill, a promise, and anything a public record or the news cites. Then, with `core.eventIds`, trim ids of kinds that can never be emitted twice after a year, keeping ids such as `veto-override:<bill>` that can recur. Last, take the heap-snapshot diff between months 20 and 23 that earlier notes ask for, to find what holds the 35 MB election-month step (`holdElection`, world-races `recordPlaces`, campaign speech), and trim it to what an engine reads.
