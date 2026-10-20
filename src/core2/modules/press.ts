@@ -58,7 +58,7 @@ import { type Stance as ViewStance } from "./views";
 import { candidateStance } from "../campaign-stances";
 import { OFFICES_MODULE_ID, type TermRow } from "./offices";
 import { JOBS_MODULE_ID, registerEmployer } from "./jobs";
-import { BUSINESS_MODULE_ID, ownerOf } from "./business";
+import { BUSINESS_MODULE_ID, enrollBusinessOwner, ownerOf } from "./business";
 import {
   PLATFORM_QUESTIONS,
   publicOffset,
@@ -628,9 +628,6 @@ function enrollPressEmployers(api: CoreAPI): void {
   const enrolled = table(api, "employerEnrollment");
   for (const outlet of outletsHere(api)) {
     if (outlet.tier === "national" || enrolled.get(outlet.id)) continue;
-    // SG-PEOPLE-press-employer-enrollment: use the existing records while the
-    // shared business API has no entry point for an already named owner.
-    api.stopgap("SG-PEOPLE-press-employer-enrollment");
     const anchor = [
       ...(core.finance.businessesByPlace.get(outlet.placeId) ?? []),
     ]
@@ -671,16 +668,10 @@ function enrollPressEmployers(api: CoreAPI): void {
         estimatedFrom: "SG-PEOPLE-press-outlet-revenue",
       },
     });
-    business.table("owners").put({
-      id: outlet.organizationId,
-      isOwner: true,
+    enrollBusinessOwner(api, {
+      organizationId: outlet.organizationId,
       ownerId: owner.id,
-      since: core.date,
       basis: "press-recorded-owner",
-      salesThrough: 0,
-      wagesThrough: 0,
-      operatingThrough: 0,
-      retainedMinor: 0,
     });
     registerEmployer(api, outlet.organizationId, jobs.length);
     enrolled.put({

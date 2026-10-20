@@ -1109,7 +1109,7 @@ function renderFilingOverlay(value) {
     ...overlay.checks.map((check) => {
       const line = row(
         check.rule,
-        `${check.actual ?? ""}${check.required ? ` / ${check.required}` : ""}`,
+        `${check.actual ?? ""}${check.required ? ` / ${check.required}` : ""}${check.metOn ? ` · ${check.metOn}` : ""}`,
       );
       if (!check.met) line.classList.add("unmet");
       return line;

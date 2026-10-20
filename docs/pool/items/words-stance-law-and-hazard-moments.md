@@ -5,9 +5,9 @@ area: words
 kind: wiring
 priority: 3
 size: M
-status: in-pr
-claimed-by: claude/stance-moments-g08lgv
-pr: #5256
+status: open
+claimed-by:
+pr:
 blocked-on:
 source: "words.md line 50 (Arrogance, anger and fear); found Oct 19"
 claimed-at: 2026-10-19T23:16:32.971Z
@@ -22,3 +22,5 @@ claimed-at: 2026-10-19T23:16:32.971Z
 **Files.** src/director/data/situation-types.json, src/core2/modules/disasters.ts, src/core2/budgets-treasury.ts, src/director/scheduling.ts
 
 **Notes.** Read Oct 19 (claude/stance-moments-g08lgv), not built. `storiesHeard(api, personId)` in `budgets-treasury.ts` is how a person's heard news is read today. The disaster emit is `begin` in `disasters.ts` (about line 172, `personIds: []`). Core files here belong to the core and world areas; a words session adds the director side and asks for the records.
+
+Oct 20: PR #5256 merged only the spec; the person-level law and hazard records it describes are not built.

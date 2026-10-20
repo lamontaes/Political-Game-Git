@@ -5,12 +5,12 @@ area: world
 kind: bug
 priority: 2
 size: S
-status: claimed
-claimed-by: claude/political-game-pool-3xfqef-8
-pr:
+status: in-pr
+claimed-by: claude/pool-red-turnover
+pr: #5427
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-20T01:55:55.650Z
+claimed-at: 2026-10-20T02:06:30.257Z
 ---
 
 **What.** TODO
@@ -22,3 +22,5 @@ claimed-at: 2026-10-20T01:55:55.650Z
 **Files.** TODO
 
 **Notes.** TODO
+
+Checked Oct 20 (claude/political-game-pool-3xfqef-8): `press-turnover.test.ts` passes on current main with `PRESS_TURNOVER_SEED=2dd07ef95278f4ef` (the seed in the title). Main carries 802e5152c0 ("Keep one press opening buffer when outlets enroll as employers"), which touches the path the failure was on, so the likely fix landed after the red run. Not reproduced, nothing built; the CTO can close it as done.
