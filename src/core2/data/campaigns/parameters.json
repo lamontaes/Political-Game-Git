@@ -192,6 +192,12 @@
       "source": "Pew Research Center (2024), 'Changing Partisan Coalitions in a Politically Divided Nation': about 7% of adults neither identify with nor lean toward a party.",
       "spread": [0.05, 0.1]
     },
+    "noPartyDeliberationWeight": {
+      "value": 0.1,
+      "tag": "TUNABLE",
+      "source": "How far a careful thinker (deliberation, -2 to 2) sits from having no party: each point adds this much to how firmly they lean, so the people with no party are those who lean nowhere and think least, and independents are those who think it through. Independents are more often engaged and informed than people with no lean (Pew 2024, Changing Partisan Coalitions), but no study gives a size. The share with no party is fixed at noPartyShare; the weight only orders who they are.",
+      "spread": [0.05, 0.2]
+    },
     "partyLoyaltyWeight": {
       "value": 0.5,
       "tag": "TUNABLE",
