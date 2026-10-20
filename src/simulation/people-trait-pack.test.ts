@@ -3,11 +3,11 @@ import { describe, expect, it } from "vitest";
 import { canonicalJson } from "./canonical-json";
 import { CLEMENCY_PETITION_DECISION } from "./justice/clemency-decisions";
 import { JURY_VOTE_DECISION, PLEA_DECISION } from "./justice/court-decisions";
-import { peopleTraitPack } from "./people-trait-pack";
+import { peopleTraitPack } from "../core2/people-trait-pack";
 import {
   PEOPLE_TRAITS,
   peopleTraitDefinition,
-} from "./people-trait-definitions";
+} from "../core2/people-trait-definitions";
 import { loadTraitPacks, traitDefinitionFromPack } from "../core2/trait-packs";
 
 /**

@@ -4,11 +4,7 @@ import {
   PEOPLE_TRAITS,
   BALANCED_TRAIT,
 } from "./people-trait-definitions";
-import type {
-  TraitMovability,
-  TraitPack,
-  TraitScale,
-} from "../core2/trait-packs";
+import type { TraitMovability, TraitPack, TraitScale } from "./trait-packs";
 
 /**
  * The five ordinary-life traits, as the first pack.

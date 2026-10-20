@@ -1,8 +1,4 @@
-import type {
-  TraitMovability,
-  TraitPack,
-  TraitScale,
-} from "../core2/trait-packs";
+import type { TraitMovability, TraitPack, TraitScale } from "./trait-packs";
 
 /**
  * The legislature's own trait pack.
