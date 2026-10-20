@@ -5,12 +5,12 @@ area: core
 kind: feature
 priority: 2
 size: M
-status: open
-claimed-by:
+status: in-pr
+claimed-by: claude/pool-family-link
 pr: #4961
 blocked-on:
 source: added with npm run pool -- add
-claimed-at:
+claimed-at: 2026-10-20T01:46:14.350Z
 ---
 
 **What.** The Core API needs to add or end a partner link between two living adults while the world runs. PR #4961 supplies that call, dated facts and family events, and a births-engine reader that takes up the new couple. The household prerequisite is now on main and its release-note conflict is resolved. Complete the ownership review for the People reader before landing the remaining Core API change, preserving the existing branch and tests.
