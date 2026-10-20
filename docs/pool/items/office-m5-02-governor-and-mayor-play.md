@@ -5,7 +5,7 @@ area: office
 kind: feature
 priority: 3
 size: L
-status: in-pr
+status: done
 claimed-by: claude/budget-staff-advice
 pr: #5313
 blocked-on:
