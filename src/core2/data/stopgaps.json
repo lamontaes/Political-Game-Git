@@ -3244,7 +3244,8 @@
     "addedBy": "FIXER-LAWMAKING-VOLUME-CAPS",
     "addedAt": "2026-10-13",
     "replacement": "A township level in the law chain (laws-starting.ts) with its own starting law and enactments, so a township board and a village council inside it each legislate for their own jurisdiction.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "The law chain has a township level between the county and the city (laws-starting.ts), and a township board legislates for its own township jurisdiction (the government-unit id) alongside a council in the same place; sales-tax shares and withholding read the level."
   },
   {
     "id": "SG-OFFICIALS-unrecorded-party",
