@@ -38,6 +38,9 @@ it(`a family that fell below the cutoff stops paying tuition and one that rose a
     advanceCore(core, to(tuition.reenrollOn, year));
     advanceCore(core, to("08-02", year));
     const before = tuitionPlans(state);
+    // Set the families' means just before the next August, so a year of wages
+    // does not undo them.
+    advanceCore(core, to("07-30", year + 1));
     // A family the engine ranks next August: children of school age then (the
     // opening's own ages) and an adult past them, living.
     const next = to("08-02", year + 1);
@@ -102,6 +105,10 @@ it(`a family that fell below the cutoff stops paying tuition and one that rose a
     });
     advanceCore(core, to(tuition.reenrollOn, year + 1));
     advanceCore(core, to("08-02", year + 1));
+    expect(
+      core.date >= next,
+      `${place.name}: the year was played to August`,
+    ).toBe(true);
     const after = tuitionPlans(state);
     const where = `${place.name} [${place.key}], seed ${seed}`;
     expect(
