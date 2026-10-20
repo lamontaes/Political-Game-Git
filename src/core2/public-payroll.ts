@@ -18,6 +18,7 @@ import type {
   WorkCommitmentInput,
   WorkScheduleSlot,
 } from "./types";
+import { publicPayFloorHourly } from "./public-pay-floor";
 
 /** Puts a person on a government's payroll today; returns the job id, or null without a schedule to follow. */
 export function startPublicJob(
@@ -106,7 +107,7 @@ export function startPublicJob(
     const postHoursDaily =
       api.parameter("openingFullTimeWeeklyHours") /
       api.parameter("daysPerWeek");
-    const postedHourlyMinor =
+    const linePostedHourlyMinor =
       input.maxDailyMinor === undefined
         ? input.hourlyMinor
         : Math.min(
@@ -114,7 +115,16 @@ export function startPublicJob(
             Math.floor(input.maxDailyMinor / postHoursDaily),
           );
     // A post its line cannot pay at all is held unpaid.
-    if (postedHourlyMinor <= 0) return null;
+    if (linePostedHourlyMinor <= 0) return null;
+    // A public post is paid at the public pay floor in force the day it is
+    // filled, not a month later at the review.
+    const postedHourlyMinor = Math.max(
+      linePostedHourlyMinor,
+      publicPayFloorHourly(api, input.employerId, {
+        hourlyMinor: linePostedHourlyMinor,
+        wageDailyMinor: Math.round(linePostedHourlyMinor * postHoursDaily),
+      }),
+    );
     // Payroll pays the hourly rate for the minutes the schedule runs. The
     // template's schedule can run longer or shorter than the post's week, so
     // the rate is set over the scheduled minutes: the post's pay is what its

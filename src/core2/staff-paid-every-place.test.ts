@@ -16,8 +16,30 @@ import { coreAPI } from "./state";
 import { townSeats } from "./modules/offices";
 import { staffOf } from "./modules/staff";
 
-/** A post younger than this has had no payday: aides hired in the last month are not yet owed a record. */
-const RECENT_POST_DAYS = 30;
+/**
+ * Days a post must have run before a payday has certainly come, read from its
+ * own pay calendar: two pay periods plus the lag from a period's end to its
+ * payday. A post younger than this may not have reached one.
+ */
+function daysToFirstPayday(calendar: {
+  readonly rule: string;
+  readonly periodDays?: number;
+  readonly periodMonths?: number;
+  readonly firstPeriodStartsAt: string;
+  readonly firstPaydayAt: string;
+}): number {
+  const period =
+    calendar.rule === "fixed-days-after-inclusive-period-end"
+      ? (calendar.periodDays ?? 31)
+      : calendar.rule === "twice-calendar-month-after-inclusive-period-end"
+        ? 16
+        : 31 * (calendar.periodMonths ?? 1);
+  const lag = Math.max(
+    0,
+    daysBetween(calendar.firstPeriodStartsAt, calendar.firstPaydayAt) - period,
+  );
+  return 2 * period + lag;
+}
 const seed = process.env.STAFF_PAID_SEED ?? randomBytes(8).toString("hex");
 
 function everyAidePaid(place: { name: string; key: string; seed: string }) {
@@ -47,22 +69,25 @@ function everyAidePaid(place: { name: string; key: string; seed: string }) {
   expect(aides.length, where).toBeGreaterThan(0);
   const unpaid = aides.filter((a) => !a.jobId).map((a) => a.id);
   expect(unpaid, where).toEqual([]);
-  // Each aide has a work commitment with a pay calendar, and has been paid.
+  // Each aide has a work commitment with a pay calendar, and each one whose
+  // calendar has reached a payday has been credited by a payroll record.
+  let due = 0;
   for (const aide of aides) {
     const commitments = [
       ...(core.work.commitmentsByPerson.get(aide.personId) ?? []),
     ].map((id) => core.work.commitments.get(id)!);
     const commitment = commitments.find((row) => row.jobId === aide.jobId);
     expect(commitment, `${where} ${aide.id} commitment`).toBeDefined();
-    expect(
-      core.work.payrollCalendarByCommitment.get(commitment!.id),
-      `${where} ${aide.id} calendar`,
-    ).toBeDefined();
-    // A post that began in the last month has not reached a payday yet (the
-    // president's aides are hired a month apart, and the run ends the day
-    // after the last one starts: Mustang, Texas).
-    if (daysBetween(commitment!.startsAt, core.date) < RECENT_POST_DAYS)
+    const calendar = core.work.payrollCalendars.get(
+      core.work.payrollCalendarByCommitment.get(commitment!.id) ?? "",
+    );
+    expect(calendar, `${where} ${aide.id} calendar`).toBeDefined();
+    if (
+      daysBetween(commitment!.startsAt, core.date) <
+      daysToFirstPayday(calendar!)
+    )
       continue;
+    due += 1;
     const paid = (payroll.get(api.accounts().main(aide.personId)) ?? []).filter(
       (id) => id.includes(`work-commitment:${aide.jobId}`),
     );
@@ -70,6 +95,7 @@ function everyAidePaid(place: { name: string; key: string; seed: string }) {
       0,
     );
   }
+  expect(due, `${where}: no aide was due a payday`).toBeGreaterThan(0);
 }
 
 it("an aide hired in a played world draws a government paycheck", () => {
