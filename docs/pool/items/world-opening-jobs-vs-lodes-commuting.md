@@ -5,7 +5,7 @@ area: world
 kind: research
 priority: 2
 size: M
-status: blocked
+status: open
 claimed-by:
 pr:
 blocked-on: world-commute-flow-data
