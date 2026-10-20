@@ -44,6 +44,8 @@ export interface WebLink {
    */
   readonly phaseInMonths?: number;
   readonly group: string;
+  /** Names what carries this effect through an engine's records; the link then does not run. */
+  readonly carriedBy?: string;
   readonly evidence: string;
   readonly source: string;
   readonly moderator?: {
@@ -130,6 +132,8 @@ const ENGINE = local.engineMeasures as Readonly<
       /** The field of a world-metrics month row the measure reads. */
       readonly field: string;
       readonly unitScale: number;
+      /** The engine's record is the kept outcome itself; links into it do not run. */
+      readonly ownsOutcome?: boolean;
     }
   >
 >;
@@ -172,6 +176,11 @@ export function scaleOf(measure: string): Scale {
 
 export function engineMeasure(measure: string) {
   return ENGINE[measure];
+}
+
+/** A kept outcome whose value is an engine's own record, not the web's product. */
+export function engineOwned(measure: string): boolean {
+  return keptOutcome(measure) && ENGINE[measure]?.ownsOutcome === true;
 }
 
 export function isLaw(measure: string): boolean {
@@ -251,7 +260,9 @@ export function fixedBaseline(
 ): number | undefined {
   const derived = derivedOf(measure);
   if (derived) return derived.suffix === ":pct-of-start" ? INDEX_START : 0;
-  if (keptOutcome(measure)) return baseOf(measure, stateKey).value;
+  // An engine-kept outcome starts where the engine's record first read.
+  if (keptOutcome(measure))
+    return engineMeasure(measure) ? undefined : baseOf(measure, stateKey).value;
   return BASELINES[measure]?.value;
 }
 
@@ -310,6 +321,13 @@ export type Coverage =
   | {
       readonly key: string;
       readonly wired: false;
+      /** What carries the effect through an engine's records; a web link too would count the cause twice. */
+      readonly carriedBy: string;
+      readonly waitingOn: readonly [];
+    }
+  | {
+      readonly key: string;
+      readonly wired: false;
       readonly waitingOn: readonly string[];
       readonly needsSize?: true;
     };
@@ -321,6 +339,13 @@ export type Coverage =
  * person-level shape needs each person's own exposure record).
  */
 export function linkCoverage(link: WebLink): Coverage {
+  if (link.carriedBy)
+    return {
+      key: link.key,
+      wired: false,
+      carriedBy: link.carriedBy,
+      waitingOn: [],
+    };
   const waitingOn: string[] = [];
   const personShape =
     link.shape.kind === "exposure-years" || link.shape.kind === "acute-decay";
@@ -368,7 +393,11 @@ export const COVERAGE_DATA = coverageData as unknown as {
   readonly waiting: Readonly<
     Record<
       string,
-      { readonly waitingOn: readonly string[]; readonly needsSize?: true }
+      {
+        readonly waitingOn: readonly string[];
+        readonly needsSize?: true;
+        readonly carriedBy?: string;
+      }
     >
   >;
   readonly measuresWanted: Readonly<
@@ -379,7 +408,10 @@ export const COVERAGE_DATA = coverageData as unknown as {
 /** The coverage list as data, computed from the links and what the core can read. */
 export function coverageTable(): typeof COVERAGE_DATA {
   const wired: string[] = [];
-  const waiting: Record<string, { waitingOn: string[]; needsSize?: true }> = {};
+  const waiting: Record<
+    string,
+    { waitingOn: string[]; needsSize?: true; carriedBy?: string }
+  > = {};
   const wanted: Record<string, { owner: string; links: number }> = {};
   for (const link of WEB_LINKS) {
     const c = linkCoverage(link);
@@ -389,7 +421,8 @@ export function coverageTable(): typeof COVERAGE_DATA {
     }
     waiting[link.key] = {
       waitingOn: [...c.waitingOn],
-      ...(c.needsSize ? { needsSize: true as const } : {}),
+      ...("needsSize" in c && c.needsSize ? { needsSize: true as const } : {}),
+      ...("carriedBy" in c ? { carriedBy: c.carriedBy } : {}),
     };
     for (const measure of c.waitingOn) {
       const row = (wanted[measure] ??= { owner: ownerOf(measure), links: 0 });
