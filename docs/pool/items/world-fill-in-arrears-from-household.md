@@ -23,3 +23,5 @@ claimed-at:
 **Files.** src/core2/modules/housing.ts, src/core2/data/stopgaps.json, src/core2/housing-foreclosure.ts
 
 **Notes.** From the Oct 19 rulings on cto/rulings-2026-10-19.
+
+Sent back 2026-10-20 from PR #5142 (branch claude/fill-in-arrears): an owner attribution and date note ('the owner's Oct 19 ruling') in the stopgap resolution; finish on that branch, merge main into it first.
