@@ -1,71 +1,96 @@
-# Laws now reach people and move money in play, but none passes all nine checks yet
+# Laws now reach people and move money in a played year; 18 of 89 laws are complete or covered by a registered stopgap
 
-In a played year, more laws now name the people they reached and the money they moved. In Sobieski, Wisconsin, 7 of the 12 laws passed in play recorded the money they moved, up from none. In Williamsburg, Ohio, 5 of 11 reached someone and 2 recorded money. Graded on all nine links with every family fix except housing applied, 1 of the 89 laws passes every link, 9 are complete apart from registered stopgaps, and 79 are still partly wired. The biggest remaining gaps are repeal (35 laws) and the outcome web (19 laws missing, 45 stopgapped as unresearched).
+With all eight law families merged together, 13 of the laws passed in a played year in Williamsburg, Ohio, and 8 of them reached someone, against 6 and 3 before the work. In Sobieski, Wisconsin, 13 of 14 reached someone and 9 recorded the money they moved, where no law recorded money before. Graded on all nine links, 1 law passes every link, 17 are complete apart from registered stopgaps, and 71 are still partly wired. The grading itself isn't green: the matrix still has open links on 71 laws, and their reasons are below.
 
 ## A played year, before and after
 
-The same two places, drawn at random from all 56, each played one year (`scripts/law-wiring/year.ts`). "Before" is main at the audit. "After" is main with the government, labor, prices, justice, taxes and health families applied; the rights and housing families are not in this run. The counts are enactments that bodies passed in play; repeals are not counted.
+The same two places, drawn at random from all 56, each played one year (`scripts/law-wiring/year.ts`). "Before" is main at the audit. "After" is main on October 20 at 18:00 UTC with every family merged in: health (merged), government, labor, taxes, rights, and housing (all open). The counts are enactments that bodies passed in play; repeals are not counted.
 
 | Place (seed)                                       | Laws passed | Reached anyone | Engine recorded the money | Moved an outcome measure |
 | -------------------------------------------------- | ----------- | -------------- | ------------------------- | ------------------------ |
 | Williamsburg, Ohio (578d295134ffab75db90), before  | 6           | 3              | 0                         | 2                        |
-| Williamsburg, Ohio, after                          | 11          | 5              | 2                         | 2                        |
+| Williamsburg, Ohio, after                          | 13          | 8              | 6                         | 3                        |
 | Sobieski, Wisconsin (d0870cb398c762fdc120), before | 12          | 10             | 0                         | 2                        |
-| Sobieski, Wisconsin, after                         | 12          | 10             | 7                         | 2                        |
+| Sobieski, Wisconsin, after                         | 14          | 13             | 9                         | 3                        |
 
-Bodies in play passed different laws in the two runs, because the changed engines change what officials face. That is why Williamsburg passed 11 laws after, against 6 before. The laws that reached no one after the fixes did so for these reasons:
+Bodies passed different laws in the two runs, because the changed engines change what officials face. Williamsburg's year took 162 s before and 141 s after; Sobieski's took 70 s before and 75 s after. These are two runs sharing one machine, not the speed guard's one-process measurement. The year files are `docs/reports/law-wiring/year-before-*.json` and `year-after-*.json`.
 
-- Civilian oversight was in force only 7 days, before the monthly public-safety run read it.
-- Ohio's state immigration row was replaced by the city's own row the same month.
-- Clean electricity was enacted twice, and only the second enactment reached people.
-- The housing laws wait on the housing family.
+## The matrix, all families together
 
-Earlier versions of this report counted repeals as laws that took effect (18 and 26). Those numbers are replaced here.
-
-The year files are `docs/reports/law-wiring/year-before-*.json` and `year-after-*.json`.
-
-## Where things stand
-
-The grades come from two other towns drawn at random: Prescott, Michigan (seed a91c03e7d2b84f10) and Uehling, Nebraska (seed 5e27b0c4196fd3a8). Both were graded on main with the government, labor, taxes, health and rights families merged in; the prices and justice families were already on main. Housing is not included. The counts are laws, out of 89.
+Two other towns were drawn at random: Prescott, Michigan (seed a91c03e7d2b84f10) and Uehling, Nebraska (seed 5e27b0c4196fd3a8). Both were graded on the same integration of main and every family. The counts are laws, out of 89.
 
 | Link                                | Wired | Partial | Missing | Stopgap |
 | ----------------------------------- | ----- | ------- | ------- | ------- |
 | 1. Exists in all 56 places          | 88    | 0       | 1       | 0       |
 | 2. A body can enact and repeal it   | 88    | 0       | 1       | 0       |
-| 3. Reaches people and organizations | 53    | 15      | 13      | 8       |
+| 3. Reaches people and organizations | 57    | 16      | 13      | 3       |
 | 4. Read by the engine it changes    | 52    | 21      | 11      | 5       |
 | 5. Moves money                      | 83    | 0       | 3       | 3       |
 | 6. Moves its outcome-web measures   | 16    | 9       | 19      | 45      |
 | 7. People learn of it by a read     | 80    | 0       | 9       | 0       |
-| 8. Repeal stops it                  | 54    | 0       | 35      | 0       |
-| 9. Same code path everywhere        | 60    | 8       | 21      | 0       |
+| 8. Repeal stops it                  | 67    | 0       | 22      | 0       |
+| 9. Same code path everywhere        | 63    | 10      | 16      | 0       |
 
-Before the fixes, money was wired for 44 laws and reach for 40. Now money is wired for 83 and reach for 53. A "stopgap" is a registered stopgap that names the missing piece; it is not wiring, and it stays on the list to clear. The row-by-row grades, with evidence and reasons, are in `docs/reports/law-wiring-table.md` and `docs/reports/law-wiring-matrix.json`.
+These are the changes since the audit:
+
+- Reach is wired for 57 laws, up from 40.
+- Money is wired for 83, up from 44.
+- Repeal is wired for 67, up from 47.
+
+The law that passes every link is abortion restriction. The 17 that are complete apart from stopgaps:
+
+- the price laws: fare-free transit, the mileage fee, public broadband and the carbon price;
+- the payroll taxes and the sales tax;
+- the multifamily, inclusionary and gas-hookup rules;
+- paid family leave and right to work;
+- the discrimination ban, age verification and data privacy.
+
+A stopgap is a registered missing piece, not wiring. The row-by-row grades, with evidence and reasons, are in `docs/reports/law-wiring-table.md` and `docs/reports/law-wiring-matrix.json`.
 
 ## Why the rest is not green
 
-- **Repeal, 35 laws.** For 21 of them, nothing was reached, so there was nothing for a repeal to stop. These are the housing and credit laws, the farm and gas-hookup laws, the juvenile court age, home rule, the corporate, estate and inheritance taxes, and the starting authorities. The other 14 are amounts and budget lines: the payroll, income, sales and property taxes, the SNAP maximum, the Medicaid match, and the police, fire, corrections, parks and administration lines. For these, the checker's "repeal" puts back the opening amount. That amount is still a law that applies to the same people, so the reach rows rightly stay open. The checker grades that as missing. The right check for an amount is that the money goes back to its opening level. That grader change is next.
-- **The outcome web, 64 laws.** 45 are stopgapped under `SG-LAW-outcome-link-unresearched` (`src/core2/data/laws/outcome-research-gaps.json`), which lists the outcome each law's research would measure. Another 19 have built links that did not move their measure within the 35-day run, or links whose research puts the effect at about zero. The outcome web belongs to EFFECT-WEB-WIRING (#5557, #5563, #5564, #5567), so this audit did not edit it.
-- **The engine-read link, 32 laws.** For 21 laws, only the law-reach handler reads the law at the moment it applies. Examples are Medicaid work requirements, universal preschool, voucher funds, the voting laws and the fiscal rules. The handler moves the money, but no other engine reads the law when it decides. For 11 laws, the table trace found no engine reading them. These include the three minimum wage laws, the corporate, estate and inheritance taxes, and home rule. The minimum wage still raised payroll in an earlier run, so the trace may be missing a read the payroll engine makes another way. That cause was not found.
-- **Reach, 28 laws.** For 8 laws, the law reached people in one drawn town and not the other. These include concealed carry, stand your ground, the bottle deposit and the property tax cap. Where the town had no one the law covers, that is a fact of the place, not a defect. Seven laws name full people but no counted group, so they don't meet the "one model, two tiers" rule. These include the lobbying ban, term limits, ward lines, public-sector bargaining and the local wage authority. The corporate, estate and inheritance taxes, and the unemployment weekly maximum, reached nobody in the 35-day window. For the estate and inheritance taxes, nobody in either town died with an estate in that window. The corporate tax was not traced to a cause; the next check is whether it pays only at year end.
-- **Knowing, 9 laws.** These are budget lines changed directly by the checker. In play, a budget line changes when a bill passes, and the bill's passage is the news story.
-- **One law has no starting row.** The public pay floor has no row in any of the 56 places, and no bill can change the local income tax authority.
+- **Repeal, 22 laws.**
+  - **Nothing to stop (16 laws):** they reached nobody in either town in the 35-day window. These include rent stabilization and right to counsel (no lease anniversary or eviction hearing fell in the window), the corporate, estate and inheritance taxes, the unemployment amounts, the juvenile court age, and the starting authorities.
+  - **Rows still citing the changed amount (6):** income tax and the police, fire, corrections, administration and parks lines. After the old amount is put back, some rows still cite the changed amount. For the budget lines, `endReplaced` does nothing for a key containing ":" (`src/core2/law-reach/host.ts`). Their rows are re-pointed only when the staffing engine next acts on that employer, and some people hired under the raise were still employed when the window closed. Why some income-tax rows still cite the changed row was not found.
+- **Reach, 29 laws.**
+  - **One town only (10):** they reached people in one town and not the other, for example concealed carry, the property tax cap and the bottle deposit. Where the town has no one the law covers, that is a fact of the place.
+  - **Full people only (6):** they name full people but no counted group, so they don't meet "one model, two tiers". These include the lobbying ban, term limits, ward lines and public-sector bargaining.
+  - **No record of anyone reached (13):** the corporate, estate and inheritance taxes, the unemployment amounts, home rule, the juvenile court age and the starting authorities.
+- **Engine read, 32 laws.** For 21 of them, the law-reach handler is the only reader. It moves the money, but no other engine reads the law when it decides. Examples are the voting laws, the Medicaid and work-requirement laws, preschool, vouchers and the fiscal rules. For 11, the table trace found no reader at all. These include the three minimum-wage laws, although they did raise pay in play, so the trace may be missing a read. That cause was not found.
+- **Outcome web, 64 laws.** 45 are covered by `SG-LAW-outcome-link-unresearched` (`src/core2/data/laws/outcome-research-gaps.json`). For 19, the built links did not move their measure in 35 days, or the research puts the effect near zero. The web belongs to EFFECT-WEB-WIRING, so this audit did not edit it.
+- **Knowing, 9 laws.** These are budget lines changed directly by the checker. In play a line changes when a bill passes, and the bill is the news story.
+- **The public pay floor** has no starting row in any place, and no bill can change the local income tax authority.
 
 ## The family pull requests
 
-| Family                                           | Pull request   | State       |
-| ------------------------------------------------ | -------------- | ----------- |
-| Audit, checker and shared applied record         | #5547          | merged      |
-| Prices and sales taxes                           | #5629          | merged      |
-| Justice                                          | #5642          | merged      |
-| Government and elections                         | #5582          | open, ready |
-| Labor and pay                                    | #5589          | open, ready |
-| Taxes and public finance                         | #5649          | open, ready |
-| Health, assistance and schools                   | #5652          | open, ready |
-| Rights, technology, environment, farms and parks | #5669          | open, ready |
-| Housing and credit                               | not yet opened | in progress |
+| Family                                                  | Pull request | State       |
+| ------------------------------------------------------- | ------------ | ----------- |
+| Audit, checker and shared applied record                | #5547        | merged      |
+| Prices and sales taxes                                  | #5629        | merged      |
+| Justice                                                 | #5642        | merged      |
+| Health, assistance and schools                          | #5652        | merged      |
+| Government and elections                                | #5582        | open, ready |
+| Labor and pay                                           | #5589        | open, ready |
+| Taxes and public finance                                | #5649        | open, ready |
+| Rights, technology, environment, farms and parks        | #5669        | open, ready |
+| Housing and credit                                      | #5688        | open, ready |
+| Group B work-requirement test (red on main after #5652) | #5732        | open, ready |
 
-The open pull requests touch some of the same files. When one merges, the others need main merged in, and two of them need a duplicate `lawApplied` import removed: `employer-taxes.ts` (taxes after labor) and `group-a-money.ts` (labor after rights). A local merge of all of them typechecks once those are resolved.
+The mergers sent back three of these, and each is fixed and pushed:
+
+- **Government:** the staffing raise now funds a whole position.
+- **Labor:** the checks fail when nothing is found.
+- **Taxes:** the loosened group-B assertions are restored.
+
+Each open branch has main merged in as of 18:00 UTC.
+
+The families touch shared import lists, so the one that lands second needs a small resolution:
+
+- labor and taxes: `counted-money.ts` and `legislature.ts`;
+- rights and housing: `group-a-money.ts` and `group-a.ts`;
+- anything after government: `onReachCalendar` and `onReachPayroll` move to `law-reach/reach-workers.ts`.
+
+Government's two load-order fixes (`reach-workers.ts` and `voting-keys.ts`) stop a module from being read before it has loaded. Before them, with turnout-web on main, the staffing workers were not registered at all.
 
 ## Method
 

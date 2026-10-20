@@ -5,8 +5,8 @@
 | mileage fee replaces fuel tax                | infrastructure     | yes    | yes    | yes   | yes     | yes   | SG   | yes     | yes    | yes       | stopgapped |
 | public broadband                             | infrastructure     | yes    | yes    | yes   | yes     | yes   | SG   | yes     | yes    | yes       | stopgapped |
 | shift highway funds to transit               | infrastructure     | yes    | yes    | NO    | part    | yes   | NO   | yes     | NO     | NO        | partly     |
-| Medicare tax rate                            | healthcare         | yes    | yes    | yes   | yes     | yes   | SG   | yes     | NO     | yes       | partly     |
-| Medicaid federal match                       | healthcare         | yes    | yes    | yes   | part    | yes   | SG   | yes     | NO     | yes       | partly     |
+| Medicare tax rate                            | healthcare         | yes    | yes    | yes   | yes     | yes   | SG   | yes     | yes    | yes       | stopgapped |
+| Medicaid federal match                       | healthcare         | yes    | yes    | yes   | part    | yes   | SG   | yes     | yes    | yes       | partly     |
 | expand medicaid eligibility                  | healthcare         | yes    | yes    | yes   | part    | yes   | part | yes     | yes    | yes       | partly     |
 | medicaid work requirement                    | healthcare         | yes    | yes    | yes   | part    | yes   | SG   | yes     | yes    | yes       | partly     |
 | work requirement for assistance              | healthcare         | yes    | yes    | yes   | part    | SG    | SG   | yes     | yes    | yes       | partly     |
@@ -17,8 +17,8 @@
 | raise teacher minimum salary                 | education          | yes    | yes    | yes   | part    | NO    | NO   | yes     | yes    | yes       | partly     |
 | Spending: higherEducation                    | education          | yes    | yes    | yes   | yes     | yes   | SG   | NO      | yes    | yes       | partly     |
 | Local income tax rate                        | taxes-finance      | yes    | yes    | yes   | yes     | yes   | SG   | yes     | NO     | yes       | partly     |
-| Local sales tax rate                         | taxes-finance      | yes    | yes    | yes   | yes     | yes   | SG   | yes     | NO     | yes       | partly     |
-| Property tax rate                            | taxes-finance      | yes    | yes    | yes   | yes     | yes   | NO   | yes     | NO     | yes       | partly     |
+| Local sales tax rate                         | taxes-finance      | yes    | yes    | yes   | yes     | yes   | SG   | yes     | yes    | yes       | stopgapped |
+| Property tax rate                            | taxes-finance      | yes    | yes    | yes   | yes     | yes   | NO   | yes     | yes    | yes       | partly     |
 | Corporate income tax rate                    | taxes-finance      | yes    | yes    | NO    | NO      | yes   | NO   | yes     | NO     | NO        | partly     |
 | Estate tax rate                              | taxes-finance      | yes    | yes    | NO    | NO      | yes   | SG   | yes     | NO     | NO        | partly     |
 | Inheritance tax rate                         | taxes-finance      | yes    | yes    | NO    | NO      | yes   | SG   | yes     | NO     | NO        | partly     |
@@ -29,15 +29,15 @@
 | balanced operating budget                    | taxes-finance      | yes    | yes    | yes   | part    | yes   | yes  | yes     | yes    | yes       | partly     |
 | fund pensions to schedule                    | taxes-finance      | yes    | yes    | yes   | part    | yes   | yes  | yes     | yes    | yes       | partly     |
 | minimum reserve balance                      | taxes-finance      | yes    | yes    | yes   | part    | yes   | yes  | yes     | yes    | yes       | partly     |
-| SNAP maximum benefit                         | assistance         | yes    | yes    | yes   | part    | yes   | SG   | yes     | NO     | yes       | partly     |
+| SNAP maximum benefit                         | assistance         | yes    | yes    | yes   | part    | yes   | SG   | yes     | yes    | yes       | partly     |
 | Spending: welfareAndMedicaid                 | assistance         | yes    | yes    | yes   | yes     | yes   | SG   | NO      | yes    | yes       | partly     |
-| Federal unemployment tax rate                | assistance         | yes    | yes    | yes   | yes     | yes   | SG   | yes     | NO     | yes       | partly     |
-| State unemployment tax rate                  | assistance         | yes    | yes    | yes   | yes     | yes   | SG   | yes     | NO     | yes       | partly     |
+| Federal unemployment tax rate                | assistance         | yes    | yes    | yes   | yes     | yes   | SG   | yes     | yes    | yes       | stopgapped |
+| State unemployment tax rate                  | assistance         | yes    | yes    | yes   | yes     | yes   | SG   | yes     | yes    | yes       | stopgapped |
 | Unemployment weekly maximum                  | assistance         | yes    | yes    | NO    | NO      | yes   | SG   | yes     | NO     | NO        | partly     |
-| Social Security tax rate                     | assistance         | yes    | yes    | yes   | yes     | yes   | SG   | yes     | NO     | yes       | partly     |
-| allow multifamily in single family zones     | housing            | yes    | yes    | SG    | yes     | yes   | SG   | yes     | NO     | NO        | partly     |
-| Spending: housing                            | housing            | yes    | yes    | part  | yes     | yes   | SG   | NO      | yes    | yes       | partly     |
-| inclusionary requirement                     | housing            | yes    | yes    | SG    | yes     | yes   | SG   | yes     | NO     | NO        | partly     |
+| Social Security tax rate                     | assistance         | yes    | yes    | yes   | yes     | yes   | SG   | yes     | yes    | yes       | stopgapped |
+| allow multifamily in single family zones     | housing            | yes    | yes    | yes   | yes     | yes   | SG   | yes     | yes    | yes       | stopgapped |
+| Spending: housing                            | housing            | yes    | yes    | yes   | yes     | yes   | SG   | NO      | yes    | yes       | partly     |
+| inclusionary requirement                     | housing            | yes    | yes    | yes   | yes     | yes   | SG   | yes     | yes    | yes       | stopgapped |
 | rent stabilization                           | housing            | yes    | yes    | SG    | SG      | SG    | yes  | yes     | NO     | NO        | partly     |
 | right to counsel in eviction                 | housing            | yes    | yes    | SG    | SG      | yes   | SG   | yes     | NO     | NO        | partly     |
 | Minimum wage                                 | labor              | yes    | yes    | yes   | NO      | yes   | NO   | yes     | yes    | yes       | partly     |
@@ -48,8 +48,8 @@
 | public sector collective bargaining          | labor              | yes    | yes    | part  | SG      | yes   | part | yes     | yes    | yes       | partly     |
 | right to work                                | labor              | yes    | yes    | yes   | SG      | yes   | yes  | yes     | yes    | yes       | stopgapped |
 | legalize cannabis sales                      | business           | yes    | yes    | yes   | yes     | yes   | part | yes     | yes    | yes       | partly     |
-| cap consumer loan rates                      | business           | yes    | yes    | SG    | yes     | SG    | yes  | yes     | NO     | NO        | partly     |
-| ban new gas hookups                          | energy-environment | yes    | yes    | SG    | yes     | yes   | SG   | yes     | NO     | NO        | partly     |
+| cap consumer loan rates                      | business           | yes    | yes    | part  | yes     | SG    | yes  | yes     | yes    | part      | partly     |
+| ban new gas hookups                          | energy-environment | yes    | yes    | yes   | yes     | yes   | SG   | yes     | yes    | yes       | stopgapped |
 | clean electricity standard                   | energy-environment | yes    | yes    | part  | yes     | yes   | yes  | yes     | yes    | part      | partly     |
 | clean air plan for polluted counties         | energy-environment | yes    | yes    | NO    | yes     | yes   | NO   | yes     | NO     | NO        | partly     |
 | Spending: naturalResources                   | energy-environment | yes    | yes    | yes   | yes     | yes   | SG   | NO      | yes    | yes       | partly     |
@@ -84,7 +84,7 @@
 | restrict government facial recognition       | technology         | yes    | yes    | yes   | part    | yes   | SG   | yes     | yes    | yes       | partly     |
 | consumer data privacy law                    | technology         | yes    | yes    | yes   | yes     | yes   | SG   | yes     | yes    | yes       | stopgapped |
 | limit groundwater withdrawal                 | agriculture        | yes    | yes    | SG    | yes     | yes   | yes  | yes     | NO     | NO        | partly     |
-| protect farmland from development            | agriculture        | yes    | yes    | SG    | yes     | yes   | yes  | yes     | NO     | NO        | partly     |
+| protect farmland from development            | agriculture        | yes    | yes    | part  | yes     | yes   | yes  | yes     | yes    | part      | partly     |
 | Spending: parks                              | parks-culture      | yes    | yes    | yes   | yes     | yes   | SG   | yes     | NO     | yes       | partly     |
 | local-income-tax-authority                   | starting law       | yes    | NO     | NO    | NO      | yes   | SG   | yes     | NO     | NO        | partly     |
 | local-minimum-wage-authority                 | starting law       | yes    | yes    | NO    | yes     | yes   | SG   | yes     | NO     | NO        | partly     |
@@ -120,13 +120,11 @@
 **Medicare tax rate** (`medicare-tax`)
 
 - web: no researched outcome-web link starts from this law or a measure it sets; the research would measure take-home pay and labor supply (SG-LAW-outcome-link-unresearched)
-- repeal: repeal leaves reach rows open (or re-enacting does not reopen them)
 
 **Medicaid federal match** (`medicaid-match`)
 
 - systems: only law reach's own handler reads it; no engine reads the law at the moment it decides or pays
 - web: no researched outcome-web link starts from this law or a measure it sets; the research would measure state Medicaid enrollment and coverage (SG-LAW-outcome-link-unresearched)
-- repeal: repeal leaves reach rows open (or re-enacting does not reopen them)
 
 **expand medicaid eligibility** (`us-policy-positions:health-human-services.expand-medicaid-eligibility`)
 
@@ -183,12 +181,10 @@
 **Local sales tax rate** (`sales-tax`)
 
 - web: no researched outcome-web link starts from this law or a measure it sets; the research would measure household prices and local retail sales (SG-LAW-outcome-link-unresearched)
-- repeal: repeal leaves reach rows open (or re-enacting does not reopen them)
 
 **Property tax rate** (`property-tax`)
 
 - web: every link is unbuilt: outcome-not-produced
-- repeal: repeal leaves reach rows open (or re-enacting does not reopen them)
 
 **Corporate income tax rate** (`corporate-income-tax`)
 
@@ -252,7 +248,6 @@
 
 - systems: only law reach's own handler reads it; no engine reads the law at the moment it decides or pays
 - web: no researched outcome-web link starts from this law or a measure it sets; the research would measure food insecurity (SG-LAW-outcome-link-unresearched)
-- repeal: repeal leaves reach rows open (or re-enacting does not reopen them)
 
 **Spending: welfareAndMedicaid** (`budget-line:welfareAndMedicaid`)
 
@@ -262,12 +257,10 @@
 **Federal unemployment tax rate** (`federal-unemployment-tax`)
 
 - web: no researched outcome-web link starts from this law or a measure it sets; the research would measure employer hiring (SG-LAW-outcome-link-unresearched)
-- repeal: repeal leaves reach rows open (or re-enacting does not reopen them)
 
 **State unemployment tax rate** (`state-unemployment-tax`)
 
 - web: no researched outcome-web link starts from this law or a measure it sets; the research would measure employer hiring (SG-LAW-outcome-link-unresearched)
-- repeal: repeal leaves reach rows open (or re-enacting does not reopen them)
 
 **Unemployment weekly maximum** (`unemployment-weekly-maximum`)
 
@@ -280,27 +273,19 @@
 **Social Security tax rate** (`social-security-tax`)
 
 - web: no researched outcome-web link starts from this law or a measure it sets; the research would measure take-home pay and labor supply (SG-LAW-outcome-link-unresearched)
-- repeal: repeal leaves reach rows open (or re-enacting does not reopen them)
 
 **allow multifamily in single family zones** (`us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones`)
 
-- reach: law-reach row (group A, mechanic housing-construction) has no handler registered: the mechanic list is empty, so no reach record is written (registered SG-GOV-REACH-A-housing-supply)
 - web: built links did not move their measure in the run (cause not read by the web, or the measure is not kept for this place) (registered SG-GOV-REACH-A-housing-supply)
-- repeal: nothing reached, so nothing to stop
-- allPlaces: reaches nobody anywhere
 
 **Spending: housing** (`budget-line:housing`)
 
-- reach: full people only: no counted group is reached (one model, two tiers)
 - web: no researched outcome-web link starts from this law or a measure it sets; the research would measure homelessness and rent burden (SG-LAW-outcome-link-unresearched)
 - knowing: nobody heard of it: the change is not a news story anyone receives
 
 **inclusionary requirement** (`us-policy-positions:housing-land-use.inclusionary-requirement`)
 
-- reach: law-reach row (group A, mechanic housing-construction) has no handler registered: the mechanic list is empty, so no reach record is written (registered SG-GOV-REACH-A-affordable-units)
 - web: every link is unbuilt: about-zero (registered SG-GOV-REACH-A-affordable-units)
-- repeal: nothing reached, so nothing to stop
-- allPlaces: reaches nobody anywhere
 
 **rent stabilization** (`us-policy-positions:housing-land-use.rent-stabilization`)
 
@@ -359,17 +344,13 @@
 
 **cap consumer loan rates** (`us-policy-positions:business-commerce.cap-consumer-loan-rates`)
 
-- reach: law-reach row (group A, mechanic consumer-loan-quote) has no handler registered: the mechanic list is empty, so no reach record is written (registered SG-GOV-REACH-A-consumer-credit)
+- reach: reached nobody in Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8)
 - money: no money flow: nobody pays or receives anything because of it (registered SG-GOV-REACH-A-consumer-credit)
-- repeal: nothing reached, so nothing to stop
-- allPlaces: reaches nobody anywhere
+- allPlaces: reached people in one drawn place and not the other
 
 **ban new gas hookups** (`us-policy-positions:environment-energy.ban-new-gas-hookups`)
 
-- reach: handler registered (group B, mechanic housing-construction) but it recorded nobody in Prescott, Michigan, US-MI (seed a91c03e7d2b84f10) or Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8) (registered SG-GOV-REACH-B-building-cost)
 - web: built links did not move their measure in the run (cause not read by the web, or the measure is not kept for this place) (registered SG-GOV-REACH-B-building-cost)
-- repeal: nothing reached, so nothing to stop
-- allPlaces: reaches nobody anywhere
 
 **clean electricity standard** (`us-policy-positions:environment-energy.clean-electricity-standard`)
 
@@ -550,9 +531,8 @@
 
 **protect farmland from development** (`us-policy-positions:agriculture-natural-resources.protect-farmland-from-development`)
 
-- reach: handler registered (group B, mechanic housing-construction) but it recorded nobody in Prescott, Michigan, US-MI (seed a91c03e7d2b84f10) or Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8) (registered SG-GOV-REACH-B-land-use)
-- repeal: nothing reached, so nothing to stop
-- allPlaces: reaches nobody anywhere
+- reach: reached nobody in Prescott, Michigan, US-MI (seed a91c03e7d2b84f10)
+- allPlaces: reached people in one drawn place and not the other
 
 **Spending: parks** (`budget-line:parks`)
 
