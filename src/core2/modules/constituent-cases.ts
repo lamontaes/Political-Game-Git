@@ -24,7 +24,7 @@ import type { CoreAPI, CoreModule, CoreState, PersonState } from "../types";
 import type { ModuleCalendarWork } from "../module-calendar";
 import type { ModuleRow } from "../module-data";
 import { campaignParameter } from "../campaign-views";
-import { decisionLean } from "../trait-decisions";
+import { leanedYes } from "../trait-decisions";
 import { lawChain, lawInForce, raiseOne } from "./laws";
 import { townSeats, type TermRow } from "./offices";
 import { touchImpression } from "./campaigns";
@@ -239,14 +239,17 @@ export function bringCases(api: CoreAPI): void {
     if (recent(person.id)) continue;
     const problem = problemOf(api, person);
     if (!problem) continue;
-    const reachOut = decisionLean(
-      api.state,
-      person,
-      "constituent-cases.bring-case",
-      "bring",
-      "let-it-go",
-    );
-    if (problem.severity + reachOut <= effort) continue;
+    if (
+      !leanedYes(
+        api.state,
+        person,
+        "constituent-cases.bring-case",
+        "bring",
+        "let-it-go",
+        problem.severity - effort,
+      )
+    )
+      continue;
     // A wage complaint under the federal floor goes to the town's members of
     // Congress; every other problem goes to the officials nearest to home.
     const federalFloor =
@@ -264,14 +267,17 @@ export function bringCases(api: CoreAPI): void {
   if (local.length)
     for (const seeker of countedOutOfWork(api, town)) {
       if (recent(seeker.personId)) continue;
-      const reachOut = decisionLean(
-        api.state,
-        { traits: seeker.traits },
-        "constituent-cases.bring-case",
-        "bring",
-        "let-it-go",
-      );
-      if (seeker.problem.severity + reachOut <= effort) continue;
+      if (
+        !leanedYes(
+          api.state,
+          { traits: seeker.traits },
+          "constituent-cases.bring-case",
+          "bring",
+          "let-it-go",
+          seeker.problem.severity - effort,
+        )
+      )
+        continue;
       const person = fillInPerson(api.state as CoreState, seeker.personId);
       bringCase(api, person, seeker.problem, local, town);
     }
@@ -429,24 +435,29 @@ export function ownCaseDecision(
   officialId: string,
 ): { duty: number; decision: "help" | "decline" } {
   const official = api.state.people.get(officialId);
-  const duty = official
-    ? campaignParameter("constituentHelpBase") +
-      decisionLean(
+  const duty = campaignParameter("constituentHelpBase");
+  const help = official
+    ? leanedYes(
         api.state,
         official,
         "constituent-cases.handle-case",
         "help",
         "turn-away",
+        duty,
       )
-    : campaignParameter("constituentHelpBase");
-  return { duty, decision: duty > 0 ? "help" : "decline" };
+    : duty > 0;
+  return { duty, decision: help ? "help" : "decline" };
 }
 
-/** The office handles a case nobody decided: by the official's own sense of duty. */
+/**
+ * The office handles a case nobody decided. The official's own call comes
+ * first, by their own sense of duty; an office with staff passes that call to
+ * its staffer, who sees a "help" through only as far as their own work allows.
+ */
 function officeHandles(api: CoreAPI, row: CaseRow): void {
-  // An office with staff hands it to its staffer; the result is theirs.
+  const own = ownCaseDecision(api, row.officialId);
   const staffed = api.state.modules.has(STAFF_MODULE_ID)
-    ? staffDecision(api, row.officialId)
+    ? staffDecision(api, row.officialId, own.decision)
     : null;
   if (staffed) {
     resolve(
@@ -458,7 +469,7 @@ function officeHandles(api: CoreAPI, row: CaseRow): void {
     );
     return;
   }
-  resolve(api, row, ownCaseDecision(api, row.officialId).decision, "office");
+  resolve(api, row, own.decision, "office");
 }
 
 /** The player's (or any official's) decision on a case in their office. */

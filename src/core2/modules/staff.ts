@@ -37,8 +37,7 @@ import type { ModuleRow } from "../module-data";
 import { campaignParameter, personLean } from "../campaign-views";
 import { viewOn } from "./views";
 import { keepsWhy } from "../why-kept";
-import { parameter } from "../parameters";
-import { decisionLean } from "../trait-decisions";
+import { leanedYes } from "../trait-decisions";
 import { lawChain } from "./laws";
 import type { ModuleCalendarWork } from "../module-calendar";
 import { addDays, daysBetween, makeIsoDate } from "../kernel/dates";
@@ -865,6 +864,7 @@ export function adviseOnBudget(
 export function staffDecision(
   api: CoreAPI,
   officialId: string,
+  told: "help" | "decline" = "help",
 ): { stafferId: string; help: boolean; work: WorkRecord } | null {
   const staffer = [...servingStaffOf(api, officialId)].sort(
     (a, b) => b.tasksDone - a.tasksDone || a.id.localeCompare(b.id),
@@ -875,16 +875,15 @@ export function staffDecision(
   // every trait they have.
   const person = api.state.people.get(staffer.personId)!;
   const help =
-    q.quality +
-      parameter("traitDecisionWeight") *
-        decisionLean(
-          api.state,
-          person,
-          "staff.follow-through",
-          "follow-through",
-          "decline",
-        ) >=
-    campaignParameter("staffCaseFollowThrough");
+    told === "help" &&
+    leanedYes(
+      api.state,
+      person,
+      "staff.follow-through",
+      "follow-through",
+      "decline",
+      q.quality - campaignParameter("staffCaseFollowThrough"),
+    );
   const work = record(api, staffer, "case", q, { help });
   return { stafferId: staffer.id, help, work };
 }
@@ -953,11 +952,14 @@ function staffReview(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
     )
       continue;
     if (
-      campaignParameter("staffHireBase") +
-        parameter("traitDecisionWeight") *
-          decisionLean(api.state, official, "staff.hire", "hire", "do-alone") +
-        budgetLean(api, officialId) <=
-      0
+      !leanedYes(
+        api.state,
+        official,
+        "staff.hire",
+        "hire",
+        "do-alone",
+        campaignParameter("staffHireBase") + budgetLean(api, officialId),
+      )
     )
       continue;
     // Anyone the post pays more than they earn now would apply, an employed

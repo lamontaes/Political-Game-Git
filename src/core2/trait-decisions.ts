@@ -250,3 +250,26 @@ export function decisionTraitTerm(
   traitProbe()?.formula?.({ decisionId, lean });
   return lean * decisionTraitWeight(core, decisionId);
 }
+
+/** `leanedYes`, with the trait term it added (lean times the decision's weight) for a record that keeps its reasons. */
+export function leanedYesWhy(
+  core: Pick<CoreState, "data">,
+  person: Pick<PersonState, "traits"> & { id?: string },
+  decisionId: string,
+  yesOptionId: string,
+  noOptionId: string,
+  bare: number,
+): { yes: boolean; term: number } {
+  const score = leanedScore(
+    core,
+    person,
+    decisionId,
+    yesOptionId,
+    noOptionId,
+    bare,
+  );
+  return {
+    yes: score > parameter("zero", core.data.parameters),
+    term: score - bare,
+  };
+}

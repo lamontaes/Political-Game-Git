@@ -1147,29 +1147,38 @@
   "traitWeightJusticeReport": {
     "value": 1,
     "tag": "TUNABLE",
-    "citation": "The trait weight of the justice.report decision. Starts at the general traitWeight (1); calibrated against its row in data/research/trait-effect-sizes.json with scripts/traits/trait-calibrate.ts.",
+    "citation": "Weight on the person's traits (speaking out and following the rules against staying quiet) when deciding to report a bribe they refused or were told of; whistleblowing tracks conscientiousness and moral courage (Bjorkelo, Einarsen and Matthiesen 2010). Carried from the former reportTraitWeight.",
     "spread": {
-      "status": "unmeasured",
-      "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
-    }
+      "low": 0.5,
+      "high": 2,
+      "unit": "weight",
+      "citation": "The former parameter's spread, carried with it."
+    },
+    "stopgapId": "SG-GOV-justice-weights"
   },
   "traitWeightJusticeProsecute": {
-    "value": 1,
+    "value": 0.5,
     "tag": "TUNABLE",
-    "citation": "The trait weight of the justice.prosecute decision. Starts at the general traitWeight (1); calibrated against its row in data/research/trait-effect-sizes.json with scripts/traits/trait-calibrate.ts.",
+    "citation": "Weight on a prosecutor's own traits (confronting against playing safe) when deciding whether a case is worth opening and charging; half the reporter's: the office's standards narrow a prosecutor's own temperament. Carried from the former prosecutorTraitWeight.",
     "spread": {
-      "status": "unmeasured",
-      "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
-    }
+      "low": 0.25,
+      "high": 1.0,
+      "unit": "weight",
+      "citation": "The former parameter's spread, carried with it."
+    },
+    "stopgapId": "SG-GOV-justice-weights"
   },
   "traitWeightJusticePlea": {
-    "value": 1,
+    "value": 0.3,
     "tag": "TUNABLE",
-    "citation": "The trait weight of the justice.plea decision. Starts at the general traitWeight (1); calibrated against its row in data/research/trait-effect-sizes.json with scripts/traits/trait-calibrate.ts.",
+    "citation": "Weight on the defendant's traits (conceding against confronting) when weighing a plea against trial; smaller than the case's own strength, since about 90% of federal convictions came by plea (Bureau of Justice Statistics, Federal Justice Statistics 2022). Carried from the former pleaTraitWeight.",
     "spread": {
-      "status": "unmeasured",
-      "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
-    }
+      "low": 0.15,
+      "high": 0.6,
+      "unit": "weight",
+      "citation": "The former parameter's spread, carried with it."
+    },
+    "stopgapId": "SG-GOV-justice-weights"
   },
   "traitWeightMeetingsHoldTownHall": {
     "value": 1,

@@ -15,8 +15,7 @@
  */
 import { coreAPI, registerModule } from "../state";
 import { closenessBetween } from "../closeness";
-import { decisionLean } from "../trait-decisions";
-import { parameter } from "../parameters";
+import { decisionLean, decisionTraitWeight } from "../trait-decisions";
 import type {
   CoreAPI,
   CoreEventInput,
@@ -239,7 +238,7 @@ function weighOrdinance(api: CoreAPI, event: Readonly<CoreEventInput>): void {
   const organizers = people
     .map((p) => {
       const duty =
-        parameter("traitDecisionWeight") *
+        decisionTraitWeight(api.state, "recalls.organize") *
         decisionLean(api.state, p, "recalls.organize", "organize", "leave-it");
       return { p, duty };
     })
@@ -312,7 +311,7 @@ function startRecall(
     (p) =>
       p.id !== term.personId &&
       grievance(api, p, row.series, enacted, side) +
-        parameter("traitDecisionWeight") *
+        decisionTraitWeight(api.state, "recalls.sign") *
           decisionLean(api.state, p, "recalls.sign", "sign", "pass") >
         0,
   );
@@ -428,7 +427,7 @@ function recallWork(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
   for (const p of people) {
     const g =
       grievance(api, p, recall.question, enacted, side) +
-      parameter("traitDecisionWeight") *
+      decisionTraitWeight(api.state, "recalls.vote") *
         decisionLean(api.state, p, "recalls.vote", "remove", "keep");
     const t = turnoutOn(api, p, { remove: { total: g }, keep: { total: -g } });
     if (!t.votes) continue;

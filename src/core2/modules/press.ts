@@ -21,7 +21,7 @@ import nationalJson from "../data/press/national.json" with { type: "json" };
 import { coreAPI, fillInPerson, registerModule } from "../state";
 import { addDays, makeIsoDate } from "../kernel/dates";
 import { parameter } from "../parameters";
-import { decisionLean } from "../trait-decisions";
+import { decisionLean, leanedYes } from "../trait-decisions";
 import type {
   CoreAPI,
   CoreEventInput,
@@ -2063,12 +2063,19 @@ function tipOff(api: CoreAPI, event: Readonly<CoreEventInput>): void {
     if (!reporterId) continue;
     const reporter = api.state.people.get(reporterId);
     if (!reporter?.alive) continue;
-    const tip =
-      reporterId === knowerId
-        ? 1
-        : decisionLean(api.state, knower, "press.tip", "tip", "keep") +
-          closeness(api, knowerId, reporterId) -
-          regard(api, p, knowerId, officialId);
+    // A knower who is the reporter has the story already; anyone else weighs
+    // taking it to the nearest reporter against how they regard the official.
+    const tipped =
+      reporterId === knowerId ||
+      leanedYes(
+        api.state,
+        knower,
+        "press.tip",
+        "tip",
+        "keep",
+        closeness(api, knowerId, reporterId) -
+          regard(api, p, knowerId, officialId),
+      );
     const row: Record<string, unknown> = {
       id: crimeId,
       crimeId,
@@ -2076,12 +2083,12 @@ function tipOff(api: CoreAPI, event: Readonly<CoreEventInput>): void {
       reporterId,
       officialId,
       date: api.state.date,
-      tip,
+      tipped,
       dig: null,
       run: null,
       storyId: null,
     };
-    if (tip <= 0) {
+    if (!tipped) {
       table(api, "tips").put(row as unknown as ModuleRow);
       continue;
     }

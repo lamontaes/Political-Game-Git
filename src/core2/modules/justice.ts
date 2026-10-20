@@ -28,7 +28,7 @@
  */
 import { registerModule } from "../state";
 import { completedMonthsBetween, makeIsoDate } from "../kernel/dates";
-import { decisionLean } from "../trait-decisions";
+import { decisionLean, decisionTraitWeight } from "../trait-decisions";
 import type { CashJournalSourceSlot } from "../journal-state";
 import type { ModuleCalendarWork } from "../module-calendar";
 import type { ModuleRow } from "../module-data";
@@ -190,7 +190,7 @@ function closeness(api: CoreAPI, a: PersonId, b: PersonId): number {
   return api.parameter("zero");
 }
 
-/** A person's trait lean between two options of a justice decision, or none for someone not a person yet. */
+/** A person's calibrated trait term between two options of a justice decision, or none for someone not a person yet. */
 function lean(
   api: CoreAPI,
   personId: PersonId | null,
@@ -200,7 +200,8 @@ function lean(
 ): number {
   const person = personId ? api.state.people.get(personId) : undefined;
   return person
-    ? decisionLean(api.state, person, decision, toward, over)
+    ? decisionTraitWeight(api.state, decision) *
+        decisionLean(api.state, person, decision, toward, over)
     : api.parameter("zero");
 }
 
@@ -278,9 +279,7 @@ export function reportReasons(
     crime.offererId === reporterId ? crime.officialId : crime.offererId;
   const reasons = {
     duty: p(api, basis === "witness" ? "reportDutyPull" : "reportHearsayPull"),
-    traits:
-      p(api, "reportTraitWeight") *
-      lean(api, reporterId, "justice.report", "report", "keep-quiet"),
+    traits: lean(api, reporterId, "justice.report", "report", "keep-quiet"),
     tie: -p(api, "reportTieWeight") * closeness(api, reporterId, accused),
   };
   const pull = Object.values(reasons).reduce((a, b) => a + b, zero(api));
@@ -366,9 +365,13 @@ function weighInvestigation(
     evidence,
     prominence,
     sameParty: -p(api, "prosecutorPartyWeight") * sameParty,
-    traits:
-      p(api, "prosecutorTraitWeight") *
-      lean(api, prosecutor.personId, "justice.prosecute", "pursue", "decline"),
+    traits: lean(
+      api,
+      prosecutor.personId,
+      "justice.prosecute",
+      "pursue",
+      "decline",
+    ),
     bar: -p(api, "investigateBar"),
     workload:
       -p(api, "prosecutorWorkloadWeight") * workload(api, prosecutor.officeId),
@@ -568,9 +571,7 @@ export function chargeDecision(api: CoreAPI, investigationId: string): void {
   };
   const pleaOn = (strength: number, personId: PersonId) => {
     const trial = verdictMargin(api, strength, personId);
-    const traits =
-      p(api, "pleaTraitWeight") *
-      lean(api, personId, "justice.plea", "plead", "fight");
+    const traits = lean(api, personId, "justice.plea", "plead", "fight");
     return { ...trial, traits, pleads: trial.margin + traits > zero(api) };
   };
   // A target who would be charged and would plead weighs giving up another

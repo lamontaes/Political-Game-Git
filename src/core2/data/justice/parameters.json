@@ -1,16 +1,4 @@
 {
-  "reportTraitWeight": {
-    "value": 1,
-    "tag": "TUNABLE",
-    "citation": "Weight on the person's traits (speaking out and following the rules against staying quiet) when deciding to report a bribe they refused or were told of. Whistleblowing tracks conscientiousness and moral courage (Bjorkelo, Einarsen and Matthiesen 2010, Journal of Occupational and Organizational Psychology 83(2):371-394).",
-    "spread": {
-      "low": 0.5,
-      "high": 2,
-      "unit": "weight",
-      "citation": "The same spread the corruption engine gives its trait weight."
-    },
-    "stopgapId": "SG-GOV-justice-weights"
-  },
   "reportTieWeight": {
     "value": 1,
     "tag": "TUNABLE",
@@ -153,18 +141,6 @@
     },
     "stopgapId": "SG-GOV-justice-weights"
   },
-  "prosecutorTraitWeight": {
-    "value": 0.5,
-    "tag": "TUNABLE",
-    "citation": "Weight on a prosecutor's own traits (confronting against playing safe) when deciding whether a case is worth opening and charging.",
-    "spread": {
-      "low": 0.25,
-      "high": 1,
-      "unit": "weight",
-      "citation": "Half the reporter's trait weight: the office's standards narrow a prosecutor's own temperament."
-    },
-    "stopgapId": "SG-GOV-justice-weights"
-  },
   "investigateBar": {
     "value": 0.5,
     "tag": "TUNABLE",
@@ -235,18 +211,6 @@
       "high": 15000000,
       "unit": "cents",
       "citation": "From a short felony case to a white-collar trial."
-    },
-    "stopgapId": "SG-GOV-justice-weights"
-  },
-  "pleaTraitWeight": {
-    "value": 0.3,
-    "tag": "TUNABLE",
-    "citation": "Weight on the defendant's traits (conceding against confronting) when weighing a plea against trial.",
-    "spread": {
-      "low": 0.1,
-      "high": 0.6,
-      "unit": "weight",
-      "citation": "Smaller than the case's own strength: about 90% of federal convictions came by plea (Bureau of Justice Statistics, Federal Justice Statistics 2022)."
     },
     "stopgapId": "SG-GOV-justice-weights"
   },
