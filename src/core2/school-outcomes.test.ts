@@ -11,6 +11,7 @@ import { randomBytes } from "node:crypto";
 import { describe, expect, it } from "vitest";
 import { buildBenchWorld } from "../bench/world";
 import { drawPlace } from "../../scripts/core2-year/place";
+import schoolData from "./data/school/outcomes.json" with { type: "json" };
 import { gameStartDate } from "./game-start";
 import { addDays, makeIsoDate } from "./kernel/dates";
 import { advanceCore } from "./life";
@@ -133,7 +134,14 @@ describe(`school outcomes (${place.name}, seed ${seed})`, () => {
       );
     };
     if (fifths.length > 1) {
-      expect(share(fifths[0]!)).toBeLessThan(share(fifths[fifths.length - 1]!));
+      // The researched gradient rests on lunch-program eligibility by fifth;
+      // two fifths with the same eligible share clear at the same share.
+      const eligible = schoolData.gradient.eligibleShareByIncomeFifth;
+      const low = fifths[0]!;
+      const high = fifths[fifths.length - 1]!;
+      if (eligible[low] !== eligible[high])
+        expect(share(low)).toBeLessThan(share(high));
+      else expect(share(low)).toBeCloseTo(share(high), 9);
     } else {
       // Every student's household falls in one national income fifth (the
       // territories' household incomes sit below the national fifth limits),
