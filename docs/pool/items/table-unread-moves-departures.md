@@ -5,7 +5,7 @@ area: people
 kind: wiring
 priority: 3
 size: S
-status: in-pr
+status: done
 claimed-by: claude/table-unread-moves-departures
 pr: #5366
 blocked-on: design: tests and proofs read every departure, but only circle events are kept in the durable log; needs a ruling on a test-only listener or circle-only rows
