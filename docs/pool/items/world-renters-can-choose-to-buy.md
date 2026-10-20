@@ -5,11 +5,12 @@ area: world
 kind: feature
 priority: 2
 size: M
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/renters-buy
+pr: #5736
 blocked-on:
 source: split of world-home-turnover (Oct 18)
+claimed-at: 2026-10-20T15:57:02.511Z
 ---
 
 **What.** In a played year in Selmer, Tennessee (seed 986bb7deee878a6858b40f821e2883c9eed1129a1c6092c0a289e155c7b3b72a, `buildBenchWorld` with twoLevel), the housing engine's monthly buy-or-rent choice for the 45 full renter households was weighed 433 times and came out rent every time. The buy option's score is the baseline of -0.5 minus a cost pull and a down-payment pull that are never positive, against a rent option with no reasons at all, so buying can win only when the monthly payment is below the rent. Give the choice the reasons that really pull a household toward owning (children in the household, the head's age and years in the lease, savings above the down payment, the rent gap) as sliding terms read from the household's records, so a household that can afford a home and has reason to want one buys.

@@ -5,7 +5,7 @@ area: gov
 kind: wiring
 priority: 3
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/fs11vb-rival
 pr: #5268
 blocked-on:
