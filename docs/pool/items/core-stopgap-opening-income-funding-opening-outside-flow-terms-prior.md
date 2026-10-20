@@ -4,10 +4,10 @@ title: "Stopgaps in opening-income-funding (opening-outside-flow-terms-prior): 1
 area: core
 kind: stopgap
 priority: 3
-status: open
+status: blocked
 claimed-by:
 pr:
-blocked-on:
+blocked-on: dataset-2021-retirement-award-payment-dates
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/data/opening-income-funding.json, kind opening-outside-flow-terms-prior"
 ---

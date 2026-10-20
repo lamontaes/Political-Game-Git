@@ -11,6 +11,8 @@ import { coreAPI } from "./state";
 import type { StockRow } from "./housing-construction";
 
 const SCALE = 3;
+/** Counted group sizes round to whole households: a few percent of a small stock. */
+const ROUNDING = 0.05;
 
 function openStock(seed: string, key: string, countScale?: number) {
   setBookkeeping(false);
@@ -29,34 +31,46 @@ function openStock(seed: string, key: string, countScale?: number) {
   ).sort((a, b) => a.placeId.localeCompare(b.placeId));
 }
 
-it("sizes the rental stock to the renting households the counted records stand for", () => {
-  const draw = drawPlace(randomBytes(32).toString("hex"), "census-housing");
-  const where = `seed ${draw.seed}, ${draw.name} (${draw.key})`;
-  const base = openStock(draw.seed, draw.key);
-  const scaled = openStock(draw.seed, draw.key, SCALE);
-  expect(base.length, where).toBeGreaterThan(0);
-  expect(
-    scaled.map((row) => row.placeId),
-    where,
-  ).toEqual(base.map((row) => row.placeId));
-  let units = 0;
-  base.forEach((row, at) => {
-    const big = scaled[at]!;
-    // Three times the renters, within the full people who stay one each and
-    // the rounding of units from renters.
-    const fullRenters = row.rentalUnits - row.vacantRental;
-    const renters = big.rentalUnits - big.vacantRental;
-    expect(renters, `${where}: ${row.placeId}`).toBeGreaterThanOrEqual(
-      fullRenters,
-    );
-    expect(renters, `${where}: ${row.placeId}`).toBeLessThanOrEqual(
-      SCALE * fullRenters,
-    );
-    units += row.rentalUnits;
-  });
-  expect(units, where).toBeGreaterThan(0);
-  // The town the player lives in: its counted renters triple, so its units grow.
-  const town = base.reduce((a, b) => (b.rentalUnits > a.rentalUnits ? b : a));
-  const bigTown = scaled.find((row) => row.placeId === town.placeId)!;
-  expect(bigTown.rentalUnits, where).toBeGreaterThan(town.rentalUnits);
-}, 600_000);
+const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(32).toString("hex");
+
+it(`sizes the rental stock to the renting households the counted records stand for (seed ${seed})`, () => {
+  // A town of owners only has no rental stock to size: places are drawn in
+  // turn until one has renters at the opening.
+  const tried: string[] = [];
+  for (let life = 0; life < 6; life += 1) {
+    const draw = drawPlace(`${seed}:${life}`, "census-housing");
+    const where = `seed ${draw.seed}, ${draw.name} (${draw.key}), draw ${seed}:${life}`;
+    const base = openStock(draw.seed, draw.key);
+    expect(base.length, where).toBeGreaterThan(0);
+    if (!base.some((row) => row.rentalUnits > 0)) {
+      tried.push(draw.name);
+      continue;
+    }
+    const scaled = openStock(draw.seed, draw.key, SCALE);
+    expect(
+      scaled.map((row) => row.placeId),
+      where,
+    ).toEqual(base.map((row) => row.placeId));
+    base.forEach((row, at) => {
+      const big = scaled[at]!;
+      // Three times the renters, within the full people who stay one each and
+      // the rounding of each counted group's size to whole households.
+      const fullRenters = row.rentalUnits - row.vacantRental;
+      const renters = big.rentalUnits - big.vacantRental;
+      expect(renters, `${where}: ${row.placeId}`).toBeGreaterThanOrEqual(
+        fullRenters,
+      );
+      expect(renters, `${where}: ${row.placeId}`).toBeLessThanOrEqual(
+        SCALE * fullRenters * (1 + ROUNDING) + SCALE,
+      );
+    });
+    // The town the player lives in: its counted renters triple, so its units grow.
+    const town = base.reduce((a, b) => (b.rentalUnits > a.rentalUnits ? b : a));
+    const bigTown = scaled.find((row) => row.placeId === town.placeId)!;
+    expect(bigTown.rentalUnits, where).toBeGreaterThan(town.rentalUnits);
+    return;
+  }
+  throw new Error(
+    `no drawn place had renters at the opening: ${tried.join("; ")} (seed ${seed})`,
+  );
+}, 900_000);

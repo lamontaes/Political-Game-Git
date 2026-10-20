@@ -18,6 +18,11 @@ await page.route("**/api/controls", async (route) => {
   });
 });
 const errors = [];
+let government = null;
+page.on("response", async (r) => {
+  if (new URL(r.url()).pathname === "/api/government")
+    government = await r.json().catch(() => government);
+});
 page.on("pageerror", (e) => {
   errors.push(e.message);
   console.log("PAGE ERROR", e.message);
@@ -76,6 +81,48 @@ try {
   await page.screenshot({
     path: "docs/reports/politics-hub-2026-10-14/government.png",
   });
+  // Politics shows the service years and the election that seated an official,
+  // named by the term record (the Politics sheet reads `townSeats` and `pastElections`).
+  await page.locator('[data-level="local"]').click();
+  assert.ok(government, "the Politics sheet read the government view");
+  const view = government;
+  const levelOf = (seat) =>
+    ["state", "federal"].includes(seat.level) ? seat.level : "local";
+  let checked = 0;
+  for (const level of ["local", "state", "federal"]) {
+    // The first member listed on the level's first body is on its first page.
+    const first = view.seats.find((seat) => levelOf(seat) === level);
+    const won = first?.holder
+      ? first.elections.find((e) => e.termId === first.holder.termId)
+      : undefined;
+    if (!won) continue;
+    await page.locator(`[data-level="${level}"]`).click();
+    const shown = await page.locator(".government-content").innerText();
+    assert.equal(
+      await page
+        .locator(`.government-content [data-election="${won.termId}"]`)
+        .count(),
+      1,
+      `Politics (${level}) reads the election term ${won.termId}`,
+    );
+    assert.ok(
+      !shown.includes("term:seat:"),
+      `Politics (${level}) shows no raw term id`,
+    );
+    assert.ok(
+      shown.includes(first.holder.serviceStart),
+      `Politics (${level}) shows the service start ${first.holder.serviceStart}`,
+    );
+    console.log(
+      "History on screen:",
+      level,
+      won.termId,
+      first.holder.serviceStart,
+    );
+    checked += 1;
+  }
+  assert.ok(checked > 0, "at least one level shows a holder's election");
+  await page.locator('[data-level="state"]').click();
   // The state filter: switch to another state and its legislators are listed.
   await page.locator('[data-level="state"]').click();
   const picker = page.locator(".government-state");

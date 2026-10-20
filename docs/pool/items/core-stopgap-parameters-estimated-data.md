@@ -4,10 +4,10 @@ title: "Stopgaps in parameters (estimated-data): 1 open"
 area: core
 kind: stopgap
 priority: 3
-status: open
+status: blocked
 claimed-by:
 pr:
-blocked-on:
+blocked-on: research data: the row's replacement needs sourced data (Enactment years from the research for each policy answer (NCSL and state code histories), read by the law history in place of the seeded age....)
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/data/past/parameters.json, kind estimated-data"
 ---

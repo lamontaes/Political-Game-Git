@@ -219,12 +219,15 @@ export function experienceFromAge(
  * or the player, ranked by the appointer's reasons (alignment, qualification,
  * acquaintance). Nothing is written.
  */
-function townPostInput(
-  api: CoreAPI,
-  spec: PostSpec,
-  chosenId?: string,
-  outOfWork = false,
-) {
+/** A job ends before its day's work, so someone who has worked today leaves theirs for a post tomorrow, not today. */
+function workedToday(core: CoreState, person: PersonState): boolean {
+  return (
+    !!person.jobId &&
+    core.work.lastAttendanceByJob.get(person.jobId)?.date === core.date
+  );
+}
+
+function townPostInput(api: CoreAPI, spec: PostSpec, chosenId?: string) {
   const appointer = townAppointer(api, spec.appointedBy);
   const date = api.state.date;
   const town = lawChain(api).townPlaceId;
@@ -264,9 +267,7 @@ function townPostInput(
         !holding.has(p.id) &&
         !seated.has(p.id) &&
         (!chosenId || p.id === chosenId) &&
-        (!outOfWork ||
-          !p.jobId ||
-          (api.state as CoreState).jobs.get(p.jobId)?.endsAt !== undefined),
+        !workedToday(api.state as CoreState, p),
     );
   const relationships = (api.state as CoreState).relationships;
   return {
@@ -320,11 +321,10 @@ function fillTownPost(
   api: CoreAPI,
   spec: PostSpec,
   chosenId?: string,
-  outOfWork = false,
 ): AppointmentRow | null {
   const date = api.state.date;
   const town = lawChain(api).townPlaceId;
-  const input = townPostInput(api, spec, chosenId, outOfWork);
+  const input = townPostInput(api, spec, chosenId);
   const appointer = input.appointer;
   if (!input.candidates.length) return null;
   const appointment = nominateAndConfirm({
@@ -692,17 +692,12 @@ export function appointStatePost(
             .table("terms")
             .query("byPerson", [person.id]) as unknown as TermRow[]
         ).some((t) => t.status === "serving") &&
-        (!person.jobId ||
-          (api.state as CoreState).jobs.get(person.jobId)?.endsAt !==
-            undefined),
+        !workedToday(api.state as CoreState, person),
     )
     .sort((a, b) => a.id.localeCompare(b.id));
-  // Same temporary job-transition boundary as department-head appointments.
-  // stopgapId: SG-GOV-staff-hire-out-of-work
-  api.stopgap("SG-GOV-staff-hire-out-of-work");
   if (input.personId && !pool.length)
     throw new Error(
-      "The nominee must be a living adult who holds no other office or job.",
+      "The nominee must be a living adult who holds no other office.",
     );
   const senate = (
     offices.table("offices").query("byJurisdiction", [state]) as unknown as {
@@ -966,9 +961,7 @@ function deskReview(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
     if (!spec) continue;
     // The player's own posts wait for their choice (`appoint`).
     if (townAppointer(api, spec.appointedBy)?.personId === playerId) continue;
-    // stopgapId: SG-GOV-staff-hire-out-of-work
-    api.stopgap("SG-GOV-staff-hire-out-of-work");
-    fillTownPost(api, spec, undefined, true);
+    fillTownPost(api, spec);
   }
   const governor = townSeats(api).find(
     (s) => s.office.kind === "governor" && s.holder,

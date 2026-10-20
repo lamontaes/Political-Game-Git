@@ -4,10 +4,10 @@ title: "Stopgaps in parameters (estimated-parameter): 1 open"
 area: world
 kind: stopgap
 priority: 3
-status: open
+status: blocked
 claimed-by:
 pr:
-blocked-on:
+blocked-on: CTO: every row this item names is already resolved in stopgaps.json (SG-WORLD-macro-public-budget); drop it
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/data/macro/parameters.json, kind estimated-parameter"
 ---
