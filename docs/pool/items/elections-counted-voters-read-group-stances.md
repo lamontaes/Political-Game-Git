@@ -5,13 +5,13 @@ area: elections
 kind: wiring
 priority: 2
 size: M
-status: in-pr
-claimed-by: claude/counted-stances
+status: open
+claimed-by:
 pr: #5501
 blocked-on:
 after: people-opening-stance-formation
 source: added with npm run pool -- add
-claimed-at: 2026-10-20T04:16:02.246Z
+claimed-at:
 ---
 
 **What.** countedAppeal in electorate.ts still reads a counted voter's recognition of a candidate through platformAgreement(lean, platform), the lean-times-axis stand-in, while full people read agreementWith. Give each counted group the stance its members' traits imply (the same formation rule times the count) and read it there, so a counted voter and a full voter of the same traits agree with a platform alike.
