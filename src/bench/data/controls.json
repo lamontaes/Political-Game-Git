@@ -66,6 +66,8 @@
   },
   "campaignOutings": {
     "doors": "Knock on doors",
+    "event": "Hold an event",
+    "interview": "Give an interview",
     "calls": "Call donors",
     "hours": "hours"
   },

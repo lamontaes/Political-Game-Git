@@ -1279,6 +1279,13 @@ function speechPanel(filing, venue) {
     ),
   );
 }
+// The campaign day's choice each outing control takes.
+const CAMPAIGN_OUTING_KIND = {
+  doors: "canvass",
+  event: "event",
+  interview: "interview",
+  calls: "raise-money",
+};
 async function campaignRows() {
   const v = await api(`/api/campaign?id=${encodeURIComponent(me.id)}`);
   const rows = [];
@@ -1292,7 +1299,7 @@ async function campaignRows() {
   } of v.campaigns) {
     const goOut = async (outing) => {
       const result = await post(
-        `/api/campaign/day?${new URLSearchParams({ filingId: filing.id, kind: outing === "doors" ? "canvass" : "raise-money" })}`,
+        `/api/campaign/day?${new URLSearchParams({ filingId: filing.id, kind: CAMPAIGN_OUTING_KIND[outing] })}`,
       );
       campaignResult = [
         controls.campaignOutings[outing],

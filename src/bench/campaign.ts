@@ -39,8 +39,12 @@ const ELECTIONS = "core2-elections-v1";
 const CAMPAIGNS = "core2-campaigns-v1";
 
 /** The campaign day's acts that open as a scene, by the name the screen's control carries. */
-const OUTINGS: Partial<Record<CampaignDayKind, "doors" | "calls">> = {
+const OUTINGS: Partial<
+  Record<CampaignDayKind, "doors" | "event" | "interview" | "calls">
+> = {
   canvass: "doors",
+  event: "event",
+  interview: "interview",
   "raise-money": "calls",
 };
 
@@ -245,7 +249,7 @@ function outingPeople(
 ): string[] {
   const api = coreAPI(core);
   const ids =
-    kind === "canvass"
+    kind === "canvass" || kind === "event"
       ? result.causeIds.map(
           (id) =>
             (
@@ -260,8 +264,9 @@ function outingPeople(
 }
 
 /**
- * Doors and calls where they happen: the street the first household that answered
- * lives on (by its kind of dwelling) or the phone bank, the candidate up front.
+ * Doors, an event and calls where they happen: the street the first household
+ * that answered lives on (by its kind of dwelling), the hall an event is held
+ * in, or the phone bank, the candidate up front.
  */
 function outingScene(
   core: CoreState,
@@ -275,7 +280,9 @@ function outingScene(
   const place =
     kind === "canvass"
       ? (doors[dwelling] ?? doors.house!)
-      : scenePlaces.phoneBankPlace;
+      : kind === "event"
+        ? scenePlaces.speechPlaces[0]!
+        : scenePlaces.phoneBankPlace;
   const ids = [personId, ...met].filter((id) => core.people.get(id)?.alive);
   return {
     place,

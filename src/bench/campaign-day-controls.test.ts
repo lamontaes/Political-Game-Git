@@ -91,11 +91,12 @@ it("shows the day's choices with control names and runs the one taken through th
   const view = campaignView(core, personId).campaigns.find(
     (c) => c.filing.id === filing!.id,
   )!;
-  // The campaign day has no list of acts: only the doors and the calls open as scenes, each named by a control.
+  // The campaign day has no list of acts: the doors, an event, an interview
+  // and the calls open as scenes or choices, each named by a control.
   expect(
     view.outings.map((c) => c.outing),
     where,
-  ).toEqual(["doors", "calls"]);
+  ).toEqual(["doors", "event", "interview", "calls"]);
   expect("day" in view, `no Today list: ${where}`).toBe(false);
   for (const choice of view.outings)
     expect(
@@ -105,10 +106,33 @@ it("shows the day's choices with control names and runs the one taken through th
   expect(view.outings.find((c) => c.outing === "doors")!.available, where).toBe(
     true,
   );
+  // A candidate who holds no seat can ask an outlet for an interview.
   expect(
-    () => campaignDay(core, personId, { filingId: filing!.id, kind: "event" }),
-    where,
-  ).toThrow();
+    view.outings.find((c) => c.outing === "interview")!.available,
+    `an outlet has room to take the ask: ${where}`,
+  ).toBe(true);
+  const interview = campaignDay(core, personId, {
+    filingId: filing!.id,
+    kind: "interview",
+  });
+  expect(interview.interview?.id, `interview record: ${where}`).toBeTruthy();
+  expect(interview.interview?.outletId, where).toBeTruthy();
+  // An event runs when the records let the candidate hold one (the venue's
+  // price against the campaign's cash), and is refused when they do not.
+  const event = view.outings.find((c) => c.outing === "event")!;
+  if (event.available) {
+    const held = campaignDay(core, personId, {
+      filingId: filing!.id,
+      kind: "event",
+    });
+    expect(held.kind, where).toBe("event");
+  } else {
+    expect(
+      () =>
+        campaignDay(core, personId, { filingId: filing!.id, kind: "event" }),
+      `an event the records do not allow is refused: ${where}`,
+    ).toThrow();
+  }
   expect(
     () =>
       campaignDay(core, "someone-else", { filingId: filing!.id, kind: "rest" }),
