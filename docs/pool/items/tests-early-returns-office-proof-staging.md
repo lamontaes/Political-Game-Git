@@ -5,11 +5,12 @@ area: core
 kind: cleanup
 priority: 3
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/early-returns-office-proof
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-20T03:48:43.272Z
 ---
 
 **What.** `src/core2/office-proof.test.ts` plays ten days as a state legislator and as the governor, and returned at once when the single drawn place had no such seat (some territories have none), so it passed without playing a day. `src/bench/scene-staging.test.ts` returned when the two standing spots it picked sat at the same position, so it passed without checking which way two people turn. Both now draw until the case exists: the office test draws up to eight places until one seats a legislator and a governor and names every place it passed over, and the staging test only draws a painted place with two standing spots at different positions. The `src/director/civic-roles.test.ts` clerk test has the same early return, but that file belongs to the Words session, so it stays for them.

@@ -5,7 +5,7 @@ area: world
 kind: bug
 priority: 1
 size: S
-status: in-pr
+status: done
 claimed-by: claude/payroll-two-halves
 pr: #4928
 blocked-on:
