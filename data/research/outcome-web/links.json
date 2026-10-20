@@ -3197,7 +3197,28 @@
       },
       "from": "labor.unemployment-pct",
       "evidence": "researched",
-      "range": [0.03, 0.08]
+      "range": [0.03, 0.08],
+      "varies": [
+        {
+          "by": "sex",
+          "bands": [
+            {
+              "is": "male",
+              "weight": 1.67,
+              "share": 0.49
+            },
+            {
+              "is": "female",
+              "weight": 0,
+              "share": 0.51
+            }
+          ],
+          "tag": "ESTIMATED",
+          "source": "Cawley, Moriya and Simon 2015, The impact of the macroeconomy on health insurance coverage: evidence from the Great Recession, Health Economics (NBER Working Paper 17600), abstract and Section 4; adult shares by sex from Census Bureau population estimates",
+          "quote": "\"A one percentage point increase in the state unemployment rate reduces the probability that men have coverage by 1.67 percentage points (2.12%).\" \"The unemployment rate is not significantly correlated with coverage for women or children, perhaps because public coverage serves as a social safety net.\"",
+          "estimatedFrom": "Men respond at 1.67 points for each point of unemployment and women not at all (the paper reports no significant effect), so the weights are 1.67 and 0 and the scaling to the national average sets the men's weight near twice the average; adult shares by sex are about 49 percent men and 51 percent women (rounded from the Census Bureau's 2023 estimates, not read from a table here)."
+        }
+      ]
     },
     {
       "key": "federal-minimum-wage-to-poverty",

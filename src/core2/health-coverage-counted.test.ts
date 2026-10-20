@@ -65,7 +65,13 @@ it(`a counted household pays the premium a full household of its shape would, an
   );
   // Fill a policyholder in: next review its holder holds a full record on
   // the same plan at the same premium, and the counted record ends.
-  const pick = paid[0]!;
+  // A woman's plan does not move with the unemployment link (Cawley, Moriya
+  // and Simon 2015), so her plan stays the same on the next review; a man's
+  // may end with the web's factor, for a counted man the same as for a full one.
+  const pick =
+    paid.find(
+      (row) => residentPerson(core, row.holderId)?.looks?.gender === "female",
+    ) ?? paid[0]!;
   const before = pick.premiumMonthlyMinor;
   fillInPerson(core, pick.holderId);
   expect(core.people.has(pick.holderId), `${where}: filled in`).toBe(true);
@@ -75,7 +81,13 @@ it(`a counted household pays the premium a full household of its shape would, an
     `${where}: the counted record ends once filled in`,
   ).toBeUndefined();
   const full = coverageOf(api, pick.holderId);
-  expect(full?.plan, `${where}: filled-in plan`).toBe("employer");
-  expect(full?.holderId).toBe(pick.holderId);
-  expect(full?.premiumMonthlyMinor, `${where}: filled-in premium`).toBe(before);
+  const woman = core.people.get(pick.holderId)?.looks?.gender === "female";
+  // Only a man's plan may end with the web's factor; a woman's stays the same.
+  if (woman || full?.plan === "employer") {
+    expect(full?.plan, `${where}: filled-in plan`).toBe("employer");
+    expect(full?.holderId).toBe(pick.holderId);
+    expect(full?.premiumMonthlyMinor, `${where}: filled-in premium`).toBe(
+      before,
+    );
+  } else expect(full?.plan, `${where}: filled-in plan`).toBe("none");
 }, 900_000);
