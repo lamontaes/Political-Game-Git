@@ -5,11 +5,12 @@ area: core
 kind: research
 priority: 2
 size: M
-status: blocked
+status: open
 claimed-by:
 pr:
 blocked-on:
 source: "collapsed Oct 19, 2026 from core-stopgap-content-estimated-behavior, core-stopgap-content-uncalibrated-tunable"
+claimed-at: 
 ---
 
 **What.** Apply the sourced rows in docs/research/pool-feeder-oct20/research-content-sourced-parameters.md to the parameter table(s) and data files for sourced parameters for the content engine's life utility and civic progress. Each row already carries a value, a low and high spread, a tag (SOURCED or ESTIMATED) and a citation, so the builder enters them, adds a reader for each research file, and resolves these stopgap rows in src/core2/data/stopgaps.json: SG-P8-life-utility, SG-P8-civic-progress. Rows tagged mechanic name a change the area's builder makes to read the sourced inputs; build the simplest version and register what remains.
