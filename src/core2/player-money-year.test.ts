@@ -87,7 +87,10 @@ it("a played year moves the player's household money through pay, living costs, 
         );
       const total = (kind: string, side: "inMinor" | "outMinor") =>
         flows.get(kind)?.[side] ?? 0;
-      // Pay comes in; living costs, contracts (rent and bills) and withholding go out.
+      // Pay comes in; living costs, housing (rent and bills under a contract,
+      // or the property tax of a household that owns its home) and withholding
+      // go out. An owner with no mortgage settles no contract, so the housing
+      // cost is the contract settlements or the property tax, either one.
       expect(
         total("work-payroll work-payroll", "inMinor"),
         where,
@@ -97,8 +100,9 @@ it("a played year moves the player's household money through pay, living costs, 
         where,
       ).toBeGreaterThan(0);
       expect(
-        total("finance.contract-settlement finance", "outMinor"),
-        where,
+        total("finance.contract-settlement finance", "outMinor") +
+          total("accounts.transfer property-tax", "outMinor"),
+        `${where}: housing cost (contracts or property tax)`,
       ).toBeGreaterThan(0);
       expect(
         total("budgets:withholding withholding", "outMinor"),
