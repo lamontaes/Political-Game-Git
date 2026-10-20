@@ -5,9 +5,9 @@ area: people
 kind: wiring
 priority: 3
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/stance-from-loadings
-pr:
+pr: #5495
 blocked-on:
 after: research-opening-stance-loadings
 source: added with npm run pool -- add
