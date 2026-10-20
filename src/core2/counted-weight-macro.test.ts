@@ -32,14 +32,25 @@ function open(seed: string, key: string, countScale?: number) {
 }
 
 it("counts the people, households and workers a counted record stands for, and macro hears the town at that size", () => {
-  const draw = drawPlace(randomBytes(32).toString("hex"), "census-macro");
-  const where = `seed ${draw.seed}, ${draw.name} (${draw.key})`;
-  const base = open(draw.seed, draw.key);
-  const big = open(draw.seed, draw.key, SCALE);
   const sum = (
-    core: typeof base.core,
+    core: ReturnType<typeof open>["core"],
     field: "people" | "households" | "workers",
   ) => residentCounts(core).reduce((n, row) => n + row[field], 0);
+  // Some places open with no counted workers; draw again until one has them.
+  const tried: string[] = [];
+  let draw = drawPlace(randomBytes(32).toString("hex"), "census-macro");
+  let base = open(draw.seed, draw.key);
+  while (sum(base.core, "workers") <= 0 && tried.length < 8) {
+    tried.push(`${draw.name} (${draw.key}, seed ${draw.seed})`);
+    draw = drawPlace(randomBytes(32).toString("hex"), "census-macro");
+    base = open(draw.seed, draw.key);
+  }
+  const where = `seed ${draw.seed}, ${draw.name} (${draw.key})`;
+  expect(
+    sum(base.core, "workers"),
+    `no counted workers in ${tried.join(", ")}`,
+  ).toBeGreaterThan(0);
+  const big = open(draw.seed, draw.key, SCALE);
   // The counts follow the weighted store place by place.
   for (const { core } of [base, big]) {
     const store = residentsRuntime(core)!.store;
