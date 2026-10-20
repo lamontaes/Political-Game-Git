@@ -4046,11 +4046,11 @@
     "file": "src/core2/modules/office-day.ts",
     "line": 505,
     "whatItFakes": "Ordinances other members file at a regular meeting are voted at the start of the meeting's day, before the player's stop at the meeting's hour, so the player's character votes them on its own even when the player is at the meeting.",
-    "why": "The world-legislating engine files and votes in one calendar step at midnight; holding the vote until the player's scene needs a change in OPUS-GOV's engine.",
+    "why": "The world-legislating engine files and votes in one calendar step at midnight; holding the vote until the player's scene needs a change in OPUS-GOV's engine. Resolved Oct 20, 2026: world-legislating files a local meeting's ordinances the day before when the player sits on the body and holds the clock (registerMeetingHold), office-day puts them on the meeting's agenda, and the player takes them up or the meeting closes (office-day-member-filings.test.ts).",
     "addedBy": "OFFICE-LOCAL",
     "addedAt": "2026-10-14",
     "replacement": "world-legislating splits a local meeting into filing (the agenda) and the vote, with a hook that lets office-day hold the vote until the player's meeting scene takes it up.",
-    "status": "open"
+    "status": "resolved"
   },
   {
     "id": "SG-OFFICE-desk-rule-copy",
