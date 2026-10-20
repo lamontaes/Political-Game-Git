@@ -4,10 +4,10 @@ title: "Stopgaps in justice (missing-mechanic): 2 open"
 area: gov
 kind: stopgap
 priority: 3
-status: open
+status: blocked
 claimed-by:
 pr:
-blocked-on:
+blocked-on: engine or design: The hearing scene has no choice wired to the plea yet; the small version plays the hearing and verdict as scenes only.
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/modules/justice.ts, kind missing-mechanic"
 ---

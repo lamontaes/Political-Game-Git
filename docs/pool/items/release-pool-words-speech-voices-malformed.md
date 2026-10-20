@@ -5,12 +5,12 @@ area: release
 kind: bug
 priority: 2
 size: S
-status: in-pr
-claimed-by: claude/pool-words-speech-voices
+status: open
+claimed-by:
 pr: #5188
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-19T22:08:02.818Z
+claimed-at:
 ---
 
 **What.** TODO
@@ -22,3 +22,5 @@ claimed-at: 2026-10-19T22:08:02.818Z
 **Files.** TODO
 
 **Notes.** TODO
+
+Sent back 2026-10-20 from PR #5188 (branch claude/pool-words-speech-voices): Merge main 44423a19b4a4 into claude/pool-words-speech-voices conflicts in: scripts/pool/index.test.ts, scripts/pool/index.ts. Resolve these files with a normal merge before changed-file validation; no integrated green head exists.; finish on that branch, merge main into it first.

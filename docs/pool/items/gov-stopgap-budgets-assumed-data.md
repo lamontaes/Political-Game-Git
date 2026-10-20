@@ -4,10 +4,10 @@ title: "Stopgaps in budgets (assumed-data): 2 open"
 area: gov
 kind: stopgap
 priority: 3
-status: open
+status: blocked
 claimed-by:
 pr:
-blocked-on:
+blocked-on: engine or design: Enacted laws are recorded only for the town's own chain; other places' chains are not opened as worlds yet.
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/modules/budgets.ts, kind assumed-data"
 claimed-at:
