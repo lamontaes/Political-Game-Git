@@ -25,8 +25,8 @@
       "reference": "white applicants",
       "callbackRatio": {
         "value": 0.806,
-        "low": 0.7,
-        "high": 0.9,
+        "low": 0.75,
+        "high": 0.87,
         "tag": "SOURCED"
       },
       "ratioMeaning": "1 / 1.24: white applicants receive 24% more callbacks than Latino applicants (studies since 1989, modest evidence of a decline)",
@@ -42,9 +42,9 @@
         "value": 0.667,
         "low": 0.6,
         "high": 0.75,
-        "tag": "SOURCED"
+        "tag": "ESTIMATED"
       },
-      "ratioMeaning": "White-sounding names receive 50% more callbacks (1 / 1.5), Boston and Chicago, uniform across occupation, industry and employer size",
+      "ratioMeaning": "White-sounding names receive 50% more callbacks (1 / 1.5), Boston and Chicago, uniform across occupation, industry and employer size; the value is the study's, the low and high are this table's own bracket, so the row is ESTIMATED",
       "source": "Bertrand and Mullainathan 2004, American Economic Review 94(4) (https://www.nber.org/papers/w9873)",
       "spreadAcrossPlaces": {
         "note": "Two cities; the low and high are this table's own bracket around the study, not a published interval.",
@@ -60,7 +60,7 @@
         "tag": "ESTIMATED"
       },
       "ratioMeaning": "Compared to the youngest group, middle-aged (49 to 51) applicants received 18% fewer callbacks and seniors (64 to 66) 35% fewer, in a secondary summary of the study; women 64 to 66 were called back 12% of the time against 19% for women 29 to 31, and older men showed little gap except in some jobs",
-      "source": "Neumark, Burn and Button 2019, Journal of Political Economy; the 18% and 35% figures are from a press summary, so this row is ESTIMATED until read from the paper (https://admin.nber.org/data-appendix/w21669/On%20line%20appendix%20for%20JPE%2010-16%20final.pdf)",
+      "source": "Neumark, Burn and Button 2019, Journal of Political Economy. The 18% and 35% figures come from a secondary summary of the study, not from the paper, so this row is ESTIMATED until read from the paper (its online appendix: https://admin.nber.org/data-appendix/w21669/On%20line%20appendix%20for%20JPE%2010-16%20final.pdf, not read here)",
       "spreadAcrossPlaces": {
         "note": "Study range, not a place measure. The study's design has been debated (identical resumes leave older applicants with gaps in their history).",
         "tag": "ESTIMATED"

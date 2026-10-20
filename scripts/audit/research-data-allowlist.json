@@ -120,10 +120,6 @@
     {
       "file": "data/research/outcome-web/social-media-age-verification-contracts.json",
       "reason": "A decision receipt for a removed link and its replacements; the replacements live in links.json."
-    },
-    {
-      "file": "data/research/jobs/employer-callback-gaps.json",
-      "reason": "Sourced callback-gap evidence (field experiments and the between-employer spread) kept as research until the hiring engine reads employer attitudes (pool items world-hiring-bias-reasons and world-sale-eligibility-reads); nothing in the engine reads it yet, so it is not an engine table."
     }
   ],
   "awaitingReader": [
@@ -168,6 +164,12 @@
       "engine": "Elections",
       "readerOwner": "Cloud C",
       "reason": "State populations for 2024; nothing reads them yet. Owner: an electorate is population times turnout (A110)."
+    },
+    {
+      "file": "data/research/jobs/employer-callback-gaps.json",
+      "engine": "Financial",
+      "readerOwner": "Team 3",
+      "reason": "Sourced employer callback gaps by group, waiting for the hiring engine's reasons (pool items world-hiring-bias-reasons and world-sale-eligibility-reads); nothing reads it yet. The waiting list's ceiling goes from 7 to 8 for this one file, which leaves when its reader lands."
     }
   ],
   "unreadFound": [
