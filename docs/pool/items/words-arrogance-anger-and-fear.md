@@ -4,7 +4,7 @@ title: "Arrogance, anger and fear:"
 area: words
 kind: feature
 priority: 2
-status: claimed
+status: in-pr
 claimed-by: claude/fs11vb-stance
 pr: #5219
 blocked-on:
