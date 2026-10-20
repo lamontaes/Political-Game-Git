@@ -1530,6 +1530,22 @@
           "actKinds": ["play-safe", "withdraw"]
         }
       ]
+    },
+    {
+      "id": "prices.return-containers",
+      "site": "src/core2/modules/place-prices.ts",
+      "owner": "OPUS-WORLD",
+      "route": "formula",
+      "options": [
+        {
+          "id": "prices-return",
+          "actKinds": ["follow-rules", "commit"]
+        },
+        {
+          "id": "prices-discard",
+          "actKinds": ["withdraw", "play-safe"]
+        }
+      ]
     }
   ],
   "outside": [

@@ -1744,11 +1744,11 @@
     "kind": "faked-mechanic",
     "file": "src/core2/modules/place-prices.ts",
     "line": 429,
-    "whatItFakes": "The price engine charges container deposits to full and counted households under the live law. Container use and redemption still use household estimates rather than each person's purchases and return decision.",
-    "why": "Per-container charges now settle on the journal, but return transactions and a received bill-to-view/director chain are missing.",
+    "whatItFakes": "The price engine charges container deposits to full and counted households under the live law. Each full person now decides their own return share from their traits (prices.return-containers); purchases are still the sourced yearly average scaled by household spending rather than recorded purchases, and a counted group returns at the sourced average.",
+    "why": "Per-container deposits and refunds settle on the journal by receipt id, but no purchase record exists and no delivered explanation lets an affected person cite the law.",
     "addedBy": "OPUS-GOV (sub-agent B)",
     "addedAt": "2026-10-12",
-    "replacement": "Recorded container purchases and return transactions, plus a delivered explanation that an affected person can cite.",
+    "replacement": "Recorded container purchases, and a delivered explanation that an affected person can cite.",
     "status": "open"
   },
   {
