@@ -5,7 +5,7 @@ area: people
 kind: research
 priority: 3
 size: S
-status: in-pr
+status: done
 claimed-by: claude/cohort-name-share
 pr: #5082
 blocked-on:
