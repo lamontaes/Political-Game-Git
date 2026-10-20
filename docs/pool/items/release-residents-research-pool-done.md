@@ -5,11 +5,12 @@ area: release
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/residents-pool-repair
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-20T19:06:58.540Z
 ---
 
 **What.** The item research-residents-sourced-parameters is marked done by PR #5690, whose body explicitly delivers only the county-employment row and leaves the other rows unfinished. District placement remains on open PR #5698, and the cadence research is still described as open. A completed umbrella hides that remaining work from the pool, although its done-when requires every listed row and a played-world band report.
