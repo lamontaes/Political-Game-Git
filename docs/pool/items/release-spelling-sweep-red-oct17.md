@@ -5,7 +5,7 @@ area: release
 kind: bug
 priority: 1
 size: S
-status: in-pr
+status: open
 claimed-by:
 pr: #4957
 blocked-on:
