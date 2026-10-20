@@ -147,24 +147,156 @@ export function leanedYes(
   noOptionId: string,
   bare: number,
 ): boolean {
-  const lean = leanBetween(
+  return (
+    leanedScore(core, person, decisionId, yesOptionId, noOptionId, bare) >
+    parameter("zero", core.data.parameters)
+  );
+}
+
+/**
+ * A decision's score with the person's calibrated trait term added: `bare`
+ * (every reason but personality) plus the lean toward `yesOptionId` over
+ * `noOptionId` times the decision's weight. For a decision whose size, not
+ * only its direction, depends on the score (a gift, a readiness to answer).
+ * Reports to the probe like `leanedYes`.
+ */
+export function leanedScore(
+  core: Pick<CoreState, "data">,
+  person: Pick<PersonState, "traits"> & { id?: string },
+  decisionId: string,
+  yesOptionId: string,
+  noOptionId: string,
+  bare: number,
+): number {
+  return reportLeaned(
     core,
     person,
-    decisionKinds(decisionId, yesOptionId),
-    decisionKinds(decisionId, noOptionId),
-    (key) => parameter(key, core.data.parameters),
+    decisionId,
+    leanBetween(
+      core,
+      person,
+      decisionKinds(decisionId, yesOptionId),
+      decisionKinds(decisionId, noOptionId),
+      (key) => parameter(key, core.data.parameters),
+    ),
+    bare,
   );
-  const term = lean * decisionTraitWeight(core, decisionId);
-  const yes = bare + term > parameter("zero", core.data.parameters);
+}
+
+/**
+ * A counted person's two-way decision on exactly the chooser's arithmetic: the
+ * case for it (`bare`, every reason but personality) plus the decision's
+ * calibrated weight times the person's trait lean toward the yes option's
+ * act kinds less the no option's, unscaled, as `scoreOffers` adds it for a full
+ * person. The same weight therefore moves a counted person and a full person
+ * the same amount. For options whose act kinds live in their module's data.
+ */
+export function leanedByKinds(
+  core: Pick<CoreState, "data">,
+  person: Pick<PersonState, "traits"> & { id?: string },
+  decisionId: string,
+  yesKinds: readonly string[],
+  noKinds: readonly string[],
+  bare: number,
+): boolean {
+  return (
+    reportLeaned(
+      core,
+      person,
+      decisionId,
+      traitLean(core, person, yesKinds) - traitLean(core, person, noKinds),
+      bare,
+    ) > parameter("zero", core.data.parameters)
+  );
+}
+
+/** `bare` plus the weighted lean, reported to the audit probe with whether personality turned it. */
+function reportLeaned(
+  core: Pick<CoreState, "data">,
+  person: { id?: string },
+  decisionId: string,
+  lean: number,
+  bare: number,
+): number {
+  const score = bare + lean * decisionTraitWeight(core, decisionId);
   const probe = traitProbe();
-  if (probe?.formula)
+  if (probe?.formula) {
+    const zero = parameter("zero", core.data.parameters);
     probe.formula({
       decisionId,
       actorId: person.id,
       lean,
       bare,
-      yes,
-      turned: yes !== bare > parameter("zero", core.data.parameters),
+      yes: score > zero,
+      turned: score > zero !== bare > zero,
     });
-  return yes;
+  }
+  return score;
+}
+
+/**
+ * The trait term of a counted person's summed pull: the decision's calibrated
+ * weight times the lean toward the first act kinds less the second's, unscaled,
+ * as the chooser adds it for a full person.
+ */
+export function decisionTraitTerm(
+  core: Pick<CoreState, "data">,
+  person: Pick<PersonState, "traits">,
+  decisionId: string,
+  toward: readonly string[],
+  over: readonly string[],
+): number {
+  const lean = traitLean(core, person, toward) - traitLean(core, person, over);
+  traitProbe()?.formula?.({ decisionId, lean });
+  return lean * decisionTraitWeight(core, decisionId);
+}
+
+/**
+ * The trait term of a decision settled by a sum of reasons (`bare` is every
+ * reason but personality): the person's lean toward `yesOptionId` over
+ * `noOptionId`, read through `shape` where the site bends it (a taste for
+ * change read against how settled a law is), times the decision's calibrated
+ * weight. Reports the call, the sum's outcome and whether personality turned
+ * it to the audit's probe, as `leanedYes` does.
+ */
+export function leanedTerm(
+  core: Pick<CoreState, "data">,
+  person: Pick<PersonState, "traits"> & { id?: string },
+  decisionId: string,
+  yesOptionId: string,
+  noOptionId: string,
+  bare: number,
+  shape: (lean: number) => number = (lean) => lean,
+): number {
+  return termOfLean(
+    core,
+    person,
+    decisionId,
+    shape(
+      leanBetween(
+        core,
+        person,
+        decisionKinds(decisionId, yesOptionId),
+        decisionKinds(decisionId, noOptionId),
+        (key) => parameter(key, core.data.parameters),
+      ),
+    ),
+    bare,
+  );
+}
+
+/**
+ * The trait term for a lean already read (and bent, if the site bends it):
+ * the lean times the decision's calibrated weight, reported to the audit's
+ * probe with the sum it joins. For a site that reads a person's lean once
+ * and weighs it against many cases.
+ */
+export function termOfLean(
+  core: Pick<CoreState, "data">,
+  person: Pick<PersonState, "traits"> & { id?: string },
+  decisionId: string,
+  lean: number,
+  bare: number,
+): number {
+  return reportLeaned(core, person, decisionId, lean, bare) - bare;
 }
