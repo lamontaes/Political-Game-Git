@@ -5,13 +5,13 @@ area: director
 kind: wiring
 priority: 1
 size: M
-status: blocked
-claimed-by: claude/director-civic-producers
+status: open
+claimed-by:
 pr:
 blocked-on:
 after: director-civic-producers-government,director-civic-producers-government-rest
 source: "director-reach, PR #4508"
-claimed-at: 2026-10-19T18:01:34.276Z
+claimed-at:
 ---
 
 **What.** This is the roll-up for the director's civic situation types that were waiting on a producer: election.result (race-won, race-lost), legislature.sign-or-veto, legislature.hold-hearing, legislative-vote, candidate-filed, recall-petition, press.exposed, work.job-lost, housing.eviction, law.effect-learned, economy.board-appointment and office.approached. The ledger (src/director/ledger.ts) writes a moment for the person each record reaches and the awaitingProducer mark is dropped from each type in src/director/data/situation-types.json. The parts are director-civic-roles, -electoral, -filing-stop, -household and -government-last (done), and -government and -government-rest (in review). When those land this item is closed by the reach report showing each type fired in one played year.
