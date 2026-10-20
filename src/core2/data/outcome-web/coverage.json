@@ -42,6 +42,7 @@
     "automatic-registration-to-turnout",
     "restore-voting-to-turnout",
     "housing-by-right-to-new-buildings",
+    "right-to-counsel-to-evictions",
     "housing-first-to-homelessness",
     "cannabis-sales-to-youth-use",
     "loan-rate-cap-to-high-cost-borrowing",
@@ -121,48 +122,30 @@
   ],
   "waiting": {
     "police-to-low-level-arrests": {
-      "waitingOn": [
-        "justice.low-level-arrests"
-      ],
+      "waitingOn": ["justice.low-level-arrests"],
       "needsSize": true
     },
     "summer-jobs-to-youth-violence": {
-      "waitingOn": [
-        "program.summer-jobs-slots",
-        "crime.youth-violent-arrests"
-      ],
+      "waitingOn": ["program.summer-jobs-slots", "crime.youth-violent-arrests"],
       "needsSize": true
     },
     "incarceration-to-crime": {
-      "waitingOn": [
-        "crime.all"
-      ]
+      "waitingOn": ["crime.all"]
     },
     "pretrial-detention-to-future-crime": {
-      "waitingOn": [
-        "crime.reoffense"
-      ]
+      "waitingOn": ["crime.reoffense"]
     },
     "pretrial-detention-to-conviction": {
-      "waitingOn": [
-        "justice.conviction"
-      ]
+      "waitingOn": ["justice.conviction"]
     },
     "pretrial-detention-to-employment": {
-      "waitingOn": [
-        "labor.formal-employment"
-      ]
+      "waitingOn": ["labor.formal-employment"]
     },
     "release-lower-level-to-larceny": {
-      "waitingOn": [
-        "law.low-level-offense-reclassified",
-        "crime.larceny"
-      ]
+      "waitingOn": ["law.low-level-offense-reclassified", "crime.larceny"]
     },
     "crime-to-out-migration": {
-      "waitingOn": [
-        "crime.reported-per-capita"
-      ],
+      "waitingOn": ["crime.reported-per-capita"],
       "needsSize": true
     },
     "congestion-to-premature-births": {
@@ -184,16 +167,11 @@
       "needsSize": true
     },
     "heat-to-deaths": {
-      "waitingOn": [
-        "health.heat-deaths"
-      ],
+      "waitingOn": ["health.heat-deaths"],
       "needsSize": true
     },
     "carbon-monoxide-to-absence": {
-      "waitingOn": [
-        "env.carbon-monoxide",
-        "school.absence"
-      ],
+      "waitingOn": ["env.carbon-monoxide", "school.absence"],
       "needsSize": true
     },
     "energy-price-to-ac-use": {
@@ -201,54 +179,31 @@
       "needsSize": true
     },
     "disaster-to-public-transfers": {
-      "waitingOn": [
-        "disaster.severe",
-        "gov.nondisaster-transfers"
-      ]
+      "waitingOn": ["disaster.severe", "gov.nondisaster-transfers"]
     },
     "disaster-to-out-migration": {
-      "waitingOn": [
-        "disaster.severe"
-      ]
+      "waitingOn": ["disaster.severe"]
     },
     "disaster-to-home-values": {
-      "waitingOn": [
-        "disaster.severe",
-        "housing.home-prices"
-      ]
+      "waitingOn": ["disaster.severe", "housing.home-prices"]
     },
     "coverage-to-catastrophic-bills": {
-      "waitingOn": [
-        "health.coverage",
-        "health.catastrophic-medical-bills"
-      ]
+      "waitingOn": ["health.coverage", "health.catastrophic-medical-bills"]
     },
     "coverage-to-medical-debt": {
-      "waitingOn": [
-        "health.coverage-pct"
-      ]
+      "waitingOn": ["health.coverage-pct"]
     },
     "coverage-to-depression": {
-      "waitingOn": [
-        "health.coverage",
-        "health.depression"
-      ]
+      "waitingOn": ["health.coverage", "health.depression"]
     },
     "coverage-to-blood-pressure": {
-      "waitingOn": [
-        "health.coverage",
-        "health.blood-pressure"
-      ]
+      "waitingOn": ["health.coverage", "health.blood-pressure"]
     },
     "coverage-to-mortality-55-64": {
-      "waitingOn": [
-        "person:health.coverage-pct"
-      ]
+      "waitingOn": ["person:health.coverage-pct"]
     },
     "work-requirement-to-employment": {
-      "waitingOn": [
-        "labor.employment-rate"
-      ]
+      "waitingOn": ["labor.employment-rate"]
     },
     "job-loss-to-death-risk": {
       "waitingOn": [
@@ -258,9 +213,7 @@
       "needsSize": true
     },
     "recession-to-total-mortality": {
-      "waitingOn": [
-        "health.mortality-all"
-      ]
+      "waitingOn": ["health.mortality-all"]
     },
     "long-hours-to-heart-and-stroke": {
       "waitingOn": [
@@ -270,9 +223,7 @@
       "needsSize": true
     },
     "eitc-to-low-birthweight": {
-      "waitingOn": [
-        "program.eitc-dollars"
-      ]
+      "waitingOn": ["program.eitc-dollars"]
     },
     "child-food-stamps-to-adult-health": {
       "waitingOn": [
@@ -282,30 +233,22 @@
       "needsSize": true
     },
     "child-benefit-to-child-poverty": {
-      "waitingOn": [
-        "program.child-benefit-dollars",
-        "household.child-poverty"
-      ],
+      "waitingOn": ["program.child-benefit-dollars", "household.child-poverty"],
       "needsSize": true
     },
     "minimum-wage-to-poverty": {
       "waitingOn": [],
-      "carriedBy": "household.poverty-pct"
+      "carriedBy": "src/core2/modules/jobs.ts wageFloor raises pay; src/core2/world-poverty.ts counts it"
     },
     "minimum-wage-to-low-wage-jobs": {
-      "waitingOn": [
-        "labor.minimum-wage-to-median"
-      ]
+      "waitingOn": ["labor.minimum-wage-to-median"]
     },
     "unemployment-to-poverty": {
       "waitingOn": [],
-      "carriedBy": "household.poverty-pct"
+      "carriedBy": "src/core2/modules/jobs.ts: a lost job ends its pay; src/core2/world-poverty.ts counts the household"
     },
     "parent-incarceration-to-household-income": {
-      "waitingOn": [
-        "justice.parent-incarcerated",
-        "household.income"
-      ],
+      "waitingOn": ["justice.parent-incarcerated", "household.income"],
       "needsSize": true
     },
     "school-spending-to-attainment": {
@@ -316,10 +259,7 @@
       "needsSize": true
     },
     "child-coverage-to-graduation": {
-      "waitingOn": [
-        "person:health.child-coverage-years",
-        "school.graduation"
-      ],
+      "waitingOn": ["person:health.child-coverage-years", "school.graduation"],
       "needsSize": true
     },
     "teacher-quality-to-earnings": {
@@ -330,23 +270,15 @@
       "needsSize": true
     },
     "class-size-to-scores": {
-      "waitingOn": [
-        "school.class-size-k3",
-        "school.test-scores"
-      ],
+      "waitingOn": ["school.class-size-k3", "school.test-scores"],
       "needsSize": true
     },
     "prek-to-graduation": {
-      "waitingOn": [
-        "school.prek-quality",
-        "school.graduation"
-      ],
+      "waitingOn": ["school.prek-quality", "school.graduation"],
       "needsSize": true
     },
     "family-income-to-scores": {
-      "waitingOn": [
-        "school.test-scores"
-      ],
+      "waitingOn": ["school.test-scores"],
       "needsSize": true
     },
     "neighborhood-years-to-adult-outcomes": {
@@ -357,31 +289,19 @@
       "needsSize": true
     },
     "homicide-nearby-to-scores": {
-      "waitingOn": [
-        "person:crime.homicide-on-block",
-        "school.test-scores"
-      ],
+      "waitingOn": ["person:crime.homicide-on-block", "school.test-scores"],
       "needsSize": true
     },
     "police-killing-to-graduation": {
-      "waitingOn": [
-        "police.killing-nearby",
-        "school.graduation"
-      ],
+      "waitingOn": ["police.killing-nearby", "school.graduation"],
       "needsSize": true
     },
     "school-move-to-scores": {
-      "waitingOn": [
-        "housing.mid-year-school-move",
-        "school.test-scores"
-      ],
+      "waitingOn": ["housing.mid-year-school-move", "school.test-scores"],
       "needsSize": true
     },
     "lead-to-reading": {
-      "waitingOn": [
-        "health.blood-lead",
-        "school.far-below-proficient"
-      ]
+      "waitingOn": ["health.blood-lead", "school.far-below-proficient"]
     },
     "heat-to-learning": {
       "waitingOn": [
@@ -391,36 +311,22 @@
       ]
     },
     "home-internet-to-scores": {
-      "waitingOn": [
-        "school.test-scores"
-      ]
+      "waitingOn": ["school.test-scores"]
     },
     "daca-to-graduation": {
-      "waitingOn": [
-        "immigration.deferred-action",
-        "school.graduation"
-      ],
+      "waitingOn": ["immigration.deferred-action", "school.graduation"],
       "needsSize": true
     },
     "graduation-to-earnings": {
-      "waitingOn": [
-        "school.graduation",
-        "labor.earnings"
-      ],
+      "waitingOn": ["school.graduation", "labor.earnings"],
       "needsSize": true
     },
     "graduation-to-incarceration": {
-      "waitingOn": [
-        "school.graduation",
-        "justice.incarceration-risk"
-      ],
+      "waitingOn": ["school.graduation", "justice.incarceration-risk"],
       "needsSize": true
     },
     "education-to-mortality": {
-      "waitingOn": [
-        "school.years-completed",
-        "health.mortality-all"
-      ],
+      "waitingOn": ["school.years-completed", "health.mortality-all"],
       "needsSize": true
     },
     "new-apartments-to-nearby-rent": {
@@ -436,98 +342,60 @@
       "needsSize": true
     },
     "eviction-to-hospital-visits": {
-      "waitingOn": [
-        "health.hospital-visits"
-      ],
+      "waitingOn": ["health.hospital-visits"],
       "needsSize": true
     },
     "home-prices-to-owner-births": {
-      "waitingOn": [
-        "births.owners"
-      ]
+      "waitingOn": ["births.owners"]
     },
     "home-prices-to-renter-births": {
-      "waitingOn": [
-        "births.renters"
-      ]
+      "waitingOn": ["births.renters"]
     },
     "transit-loss-to-unemployment": {
-      "waitingOn": [
-        "labor.unemployment-pct"
-      ],
+      "waitingOn": ["labor.unemployment-pct"],
       "needsSize": true
     },
     "broadband-to-employment": {
-      "waitingOn": [
-        "labor.employment-rate"
-      ],
+      "waitingOn": ["labor.employment-rate"],
       "needsSize": true
     },
     "road-condition-to-vehicle-costs": {
-      "waitingOn": [
-        "roads.condition",
-        "household.vehicle-costs"
-      ],
+      "waitingOn": ["roads.condition", "household.vehicle-costs"],
       "needsSize": true
     },
     "incentive-deal-to-industry-jobs": {
-      "waitingOn": [
-        "business.incentive-deal",
-        "labor.deal-industry-jobs"
-      ],
+      "waitingOn": ["business.incentive-deal", "labor.deal-industry-jobs"],
       "needsSize": true
     },
     "incentive-deal-to-broad-growth": {
-      "waitingOn": [
-        "business.incentive-deal",
-        "economy.broad-growth"
-      ]
+      "waitingOn": ["business.incentive-deal", "economy.broad-growth"]
     },
     "child-tax-credit-to-births": {
-      "waitingOn": [
-        "program.child-benefit-dollars"
-      ]
+      "waitingOn": ["program.child-benefit-dollars"]
     },
     "baby-bonus-to-births": {
-      "waitingOn": [
-        "program.birth-bonus-dollars"
-      ],
+      "waitingOn": ["program.birth-bonus-dollars"],
       "needsSize": true
     },
     "marriage-equality-to-marriages": {
-      "waitingOn": [
-        "law.marriage-equality",
-        "family.same-sex-marriages"
-      ],
+      "waitingOn": ["law.marriage-equality", "family.same-sex-marriages"],
       "needsSize": true
     },
     "marriage-equality-to-coverage": {
-      "waitingOn": [
-        "law.marriage-equality"
-      ]
+      "waitingOn": ["law.marriage-equality"]
     },
     "abortion-denied-to-financial-distress": {
-      "waitingOn": [
-        "person.abortion-denied",
-        "finance.past-due-debt"
-      ]
+      "waitingOn": ["person.abortion-denied", "finance.past-due-debt"]
     },
     "all-mail-voting-to-party-share": {
-      "waitingOn": [
-        "voting.party-share"
-      ]
+      "waitingOn": ["voting.party-share"]
     },
     "newspaper-closure-to-borrowing-cost": {
-      "waitingOn": [
-        "press.local-newspaper"
-      ],
+      "waitingOn": ["press.local-newspaper"],
       "needsSize": true
     },
     "newspaper-closure-to-engagement": {
-      "waitingOn": [
-        "press.local-newspaper",
-        "voting.local-turnout"
-      ]
+      "waitingOn": ["press.local-newspaper", "voting.local-turnout"]
     },
     "exposed-corruption-to-reelection": {
       "waitingOn": [
@@ -537,37 +405,22 @@
       ]
     },
     "press-attacks-to-media-trust": {
-      "waitingOn": [
-        "official.press-hostility",
-        "press.media-trust"
-      ],
+      "waitingOn": ["official.press-hostility", "press.media-trust"],
       "needsSize": true
     },
     "relief-spending-to-votes": {
-      "waitingOn": [
-        "spending.disaster-relief",
-        "election.incumbent-vote"
-      ],
+      "waitingOn": ["spending.disaster-relief", "election.incumbent-vote"],
       "needsSize": true
     },
     "preparedness-spending-to-votes": {
-      "waitingOn": [
-        "spending.disaster-preparedness",
-        "election.incumbent-vote"
-      ]
+      "waitingOn": ["spending.disaster-preparedness", "election.incumbent-vote"]
     },
     "preparedness-to-disaster-damage": {
-      "waitingOn": [
-        "spending.disaster-preparedness",
-        "disaster.damage"
-      ],
+      "waitingOn": ["spending.disaster-preparedness", "disaster.damage"],
       "needsSize": true
     },
     "economy-to-approval": {
-      "waitingOn": [
-        "economy.real-income-growth",
-        "approval.incumbent"
-      ],
+      "waitingOn": ["economy.real-income-growth", "approval.incumbent"],
       "needsSize": true
     },
     "mandatory-minimums-to-incarceration": {
@@ -575,99 +428,79 @@
       "needsSize": true
     },
     "voter-id-to-registration": {
-      "waitingOn": [
-        "voting.registration"
-      ]
-    },
-    "right-to-counsel-to-evictions": {
-      "waitingOn": [],
-      "carriedBy": "housing.eviction"
+      "waitingOn": ["voting.registration"]
     },
     "flood-zone-limits-to-damage": {
-      "waitingOn": [
-        "disaster.flood-damage"
-      ]
+      "waitingOn": ["disaster.flood-damage"]
     },
     "federal-minimum-wage-to-poverty": {
       "waitingOn": [],
-      "carriedBy": "household.poverty-pct"
+      "carriedBy": "src/core2/law-reach/group-a-wages.ts writes the wage row that src/core2/modules/jobs.ts wageFloor applies"
     },
     "student-debt-relief-to-finances": {
-      "waitingOn": [
-        "finance.past-due-debt"
-      ],
+      "waitingOn": ["finance.past-due-debt"],
       "needsSize": true
     },
     "more-immigration-to-workforce": {
-      "waitingOn": [
-        "labor.workforce"
-      ],
+      "waitingOn": ["labor.workforce"],
       "needsSize": true
     },
     "graduation-to-poverty": {
       "waitingOn": [],
-      "carriedBy": "household.poverty-pct"
+      "carriedBy": "none yet: no engine path (stopgap SG-WEB-poverty-graduation-no-engine); the measure reads the pay once the jobs engine prices schooling"
     },
     "grocery-exemption-to-poverty": {
       "waitingOn": [],
-      "carriedBy": "household.poverty-pct"
+      "carriedBy": "src/core2/world-poverty.ts: the measure counts income before taxes"
     },
     "licensing-reform-to-poverty": {
       "waitingOn": [],
-      "carriedBy": "household.poverty-pct"
+      "carriedBy": "none yet: no engine path (stopgap SG-WEB-poverty-licensing-no-engine); the measure reads the pay once the jobs engine opens licensed jobs"
     },
     "income-tax-to-poverty": {
       "waitingOn": [],
-      "carriedBy": "household.poverty-pct"
+      "carriedBy": "src/core2/world-poverty.ts: the measure counts income before taxes"
     },
     "graduated-income-tax-to-poverty": {
       "waitingOn": [],
-      "carriedBy": "household.poverty-pct"
+      "carriedBy": "src/core2/world-poverty.ts: the measure counts income before taxes"
     },
     "anti-discrimination-to-poverty": {
       "waitingOn": [],
-      "carriedBy": "household.poverty-pct"
+      "carriedBy": "src/core2/world-poverty.ts: about zero in the research; whatever incomes do shows in the measure"
     },
     "incentive-cap-to-poverty": {
       "waitingOn": [],
-      "carriedBy": "household.poverty-pct"
+      "carriedBy": "src/core2/world-poverty.ts: about zero in the research; hiring changes reach it through pay"
     },
     "retirement-age-to-poverty": {
       "waitingOn": [],
-      "carriedBy": "household.poverty-pct"
+      "carriedBy": "src/core2/modules/retirement-claims.ts reads the claim ages in the law row (src/core2/social-security-law.ts)"
     },
     "immigration-to-crime": {
-      "waitingOn": [
-        "crime.rate-index"
-      ]
+      "waitingOn": ["crime.rate-index"]
     },
     "federal-mandatory-minimums-to-crime": {
-      "waitingOn": [
-        "crime.rate-index"
-      ]
+      "waitingOn": ["crime.rate-index"]
     },
     "housing-vouchers-to-graduation": {
       "waitingOn": [],
       "needsSize": true
     },
     "housing-vouchers-to-crime": {
-      "waitingOn": [
-        "crime.rate-index"
-      ],
+      "waitingOn": ["crime.rate-index"],
       "needsSize": true
     },
     "top-income-tax-rate-to-poverty": {
       "waitingOn": [],
-      "carriedBy": "household.poverty-pct"
+      "carriedBy": "src/core2/world-poverty.ts: the measure counts income before taxes"
     },
     "student-loan-forgiveness-to-poverty": {
       "waitingOn": [],
-      "carriedBy": "household.poverty-pct"
+      "carriedBy": "src/core2/world-poverty.ts: debt relief is not money income"
     },
     "congress-stock-ban-to-member-returns": {
-      "waitingOn": [
-        "government.member-market-returns"
-      ],
+      "waitingOn": ["government.member-market-returns"],
       "needsSize": true
     },
     "library-materials-to-reading": {
@@ -676,32 +509,22 @@
     },
     "city-anti-discrimination-to-poverty": {
       "waitingOn": [],
-      "carriedBy": "household.poverty-pct"
+      "carriedBy": "src/core2/world-poverty.ts: about zero in the research; whatever incomes do shows in the measure"
     },
     "defense-contracts-to-earnings": {
-      "waitingOn": [
-        "federal.defense-boost-pct"
-      ]
+      "waitingOn": ["federal.defense-boost-pct"]
     },
     "farm-payments-cut-to-land-values": {
-      "waitingOn": [
-        "federal.farm-payments-cut-pct-of-land-value"
-      ]
+      "waitingOn": ["federal.farm-payments-cut-pct-of-land-value"]
     },
     "federal-deficit-to-borrowing-cost": {
-      "waitingOn": [
-        "federal.deficit-change-pct-of-gdp"
-      ]
+      "waitingOn": ["federal.deficit-change-pct-of-gdp"]
     },
     "federal-rail-expansion-to-riders": {
-      "waitingOn": [
-        "federal.rail-expansion-pct"
-      ]
+      "waitingOn": ["federal.rail-expansion-pct"]
     },
     "parks-spending-to-exercise-access": {
-      "waitingOn": [
-        "budget.parks-added-pct"
-      ]
+      "waitingOn": ["budget.parks-added-pct"]
     }
   },
   "measuresWanted": {
