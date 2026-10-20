@@ -95,7 +95,10 @@ function play(seed: string, key: string, countScale: number) {
         if (plain > 0) wageScale = weighted / plain;
         // The independent figure is the code's own for these flows.
         if (wageScale !== undefined)
-          expect(flowScale(rt, flow)).toBeCloseTo(wageScale, 9);
+          expect(
+            flowScale(rt, flow),
+            `${key} seed ${seed} scale ${countScale} flow ${flowId}`,
+          ).toBeCloseTo(wageScale, 9);
       }
       entries.set(id, {
         out,
@@ -196,6 +199,8 @@ it("rent and pay of counted households are moved times their weights, and the bo
     }
   }
   expect(rents, `${where}: rents compared`).toBeGreaterThan(5);
+  // Flows that paid a part of a whole number of days are skipped above, so
+  // the payrolls actually compared are counted, and too few fails.
   expect(wages, `${where}: payrolls compared`).toBeGreaterThan(5);
   expect(rentsInFull, `${where}: rents paid in full`).toBeGreaterThan(0);
   expect(paidInFull, `${where}: payrolls paid in full`).toBeGreaterThan(0);
