@@ -470,6 +470,30 @@ interface DrawRow {
 }
 
 /**
+ * Whether a resident has drawn the benefit for the requirement's whole time
+ * limit: the months they drew, within the window and since the requirement
+ * took effect, not counting this month.
+ */
+export function timeLimitUsed(
+  api: CoreAPI,
+  id: string,
+  since: string,
+): boolean {
+  const today = api.state.date;
+  const thisMonth = today.slice(0, 7);
+  const window = reachParameter("snapWorkTimeLimitWindowMonths");
+  const drawn = (
+    getRow<DrawRow>(api, "taken", `draw|${id}`)?.months ?? []
+  ).filter(
+    (m) =>
+      m !== thisMonth &&
+      m >= since.slice(0, 7) &&
+      monthsBetween(`${m}-01`, today) < window,
+  );
+  return drawn.length >= reachParameter("snapWorkTimeLimitMonths");
+}
+
+/**
  * Those the work requirement has stopped paying (7 U.S.C. 2015(o)(2): three
  * months in any 36). Each person's own months of benefit under the
  * requirement count against their own window, from the day it took effect;
@@ -485,19 +509,8 @@ export function timeLimitedNow(
   const stopped = new Set<string>();
   if (!limit) return stopped;
   const today = api.state.date;
-  const allowed = reachParameter("snapWorkTimeLimitMonths");
-  const window = reachParameter("snapWorkTimeLimitWindowMonths");
-  const thisMonth = today.slice(0, 7);
   for (const id of limit.reachedIds) {
-    const drawn = (
-      getRow<DrawRow>(api, "taken", `draw|${id}`)?.months ?? []
-    ).filter(
-      (m) =>
-        m !== thisMonth &&
-        m >= limit.since.slice(0, 7) &&
-        monthsBetween(`${m}-01`, today) < window,
-    );
-    if (drawn.length < allowed) continue;
+    if (!timeLimitUsed(api, id, limit.since)) continue;
     stopped.add(id);
     if (api.state.people.has(id))
       putRow(api, "taken", {

@@ -47,6 +47,7 @@ import {
   source,
   residentsOf,
   townShare,
+  timeLimitUsed,
 } from "./law-reach/group-b-money";
 
 const START = "2026-01-05";
@@ -924,6 +925,7 @@ describe("law reach, group B: every policy reaches people through its engine", (
     const open = () =>
       table<{
         key: string;
+        governmentId: string;
         recipientId: string;
         obligationId: string;
         amountMinor: number;
@@ -961,6 +963,7 @@ describe("law reach, group B: every policy reaches people through its engine", (
       return { heads, reachedIds, named, countedRows };
     };
     enact(work, 1, "state");
+    const since = api.state.date;
     // The law writes no second record: the benefit is where it is read.
     expect(openPeople(work), `${where} ${work}`).toEqual([]);
     // Inside the time limit everyone still draws.
@@ -988,22 +991,47 @@ describe("law reach, group B: every policy reaches people through its engine", (
         past.named.some((r) => r.recipientId === head.id),
         `${where} ${head.id} still paid after the limit`,
       ).toBe(false);
-    // The line's money goes to the heads still drawing, so the pooled payment for counted households is that rate times the counted heads still drawing.
-    const drawing = past.heads.length - stopped.length;
-    const rate = Math.floor(
-      ((group(key)?.terms.townDeltaMinor ?? 0) *
-        modeledShare(api, townFacts(api, town))) /
-        reachParameter("monthsPerYear") /
-        Math.max(1, drawing),
+    // The line's money goes to the households still drawing, each counted row
+    // standing for as many households as its fitted weight says. A government
+    // pays every household the same whole-cent rate (a named household's own
+    // row shows it) and each counted group that rate times its weight,
+    // floored again to whole cents (payBenefits).
+    // A counted household the requirement reaches keeps drawing until its own
+    // months of drawing reach the limit, as a named one does.
+    const drawingHeads = past.heads.filter((h) =>
+      h.named
+        ? !past.reachedIds.has(h.id)
+        : !(past.reachedIds.has(h.id) && timeLimitUsed(api, h.id, since)),
     );
-    const countedDrawing = past.heads.filter(
-      (h) => !h.named && !past.reachedIds.has(h.id),
-    ).length;
-    if (rate > 0 && countedDrawing > 0)
-      expect(
-        past.countedRows.reduce((n, r) => n + r.amountMinor, 0),
-        `${where} counted groups' payments`,
-      ).toBe(rate * countedDrawing);
+    const rt = residentsRuntime(core)!;
+    const weightByGroup = new Map<number, number>();
+    for (const head of drawingHeads) {
+      if (head.named) continue;
+      const ix = rt.store.householdOf.get(head.householdId);
+      const grp = ix === undefined ? undefined : rt.store.households[ix]?.group;
+      if (grp !== undefined)
+        weightByGroup.set(
+          grp,
+          (weightByGroup.get(grp) ?? 0) + (head.scale ?? 1),
+        );
+    }
+    const rateOf = new Map<string, number>();
+    for (const row of past.named) rateOf.set(row.governmentId, row.amountMinor);
+    let expectedCounted = 0;
+    let paidCounted = 0;
+    for (const [governmentId, rate] of rateOf) {
+      expectedCounted += [...weightByGroup.values()].reduce(
+        (n, w) => n + Math.floor(rate * w),
+        0,
+      );
+      paidCounted += past.countedRows
+        .filter((r) => r.governmentId === governmentId)
+        .reduce((n, r) => n + r.amountMinor, 0);
+    }
+    if (expectedCounted > 0)
+      expect(paidCounted, `${where} counted groups' payments`).toBe(
+        expectedCounted,
+      );
     for (const row of past.countedRows)
       expect(row.recipientId, `${where} ${row.id}`).toMatch(/^fund-account:/);
     report.assistanceWork = {
