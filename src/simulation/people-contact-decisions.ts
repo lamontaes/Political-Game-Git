@@ -1,4 +1,4 @@
-import type { DecisionDeclaration } from "./trait-packs";
+import type { DecisionDeclaration } from "../core2/trait-packs";
 
 /**
  * What answering a contact offers, published for whatever wants to argue about

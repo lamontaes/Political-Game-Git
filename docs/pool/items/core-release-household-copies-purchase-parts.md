@@ -5,9 +5,9 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/release-household-allocs
-pr:
+pr: #5057
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-18T18:40:40.233Z

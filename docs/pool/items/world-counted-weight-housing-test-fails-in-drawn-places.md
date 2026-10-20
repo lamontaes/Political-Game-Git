@@ -5,11 +5,12 @@ area: world
 kind: bug
 priority: 3
 size: S
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/counted-housing-test
+pr: #5058
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-18T18:49:11.056Z
 ---
 
 **What.** counted-weight-housing.test.ts, which sizes the rental stock to the renting households the counted records stand for, fails in drawn places with no change to the code under test. Run twice on the same branch with different random seeds it failed both times: in Pine Island, Florida (seed eff7c8b29cd72af67fa4c522065e4c36996404a324e627af4db5e25e45bd6aaa) the opening holds no rental units at all, and in Saugatuck, Michigan (seed 7dbba1780893c1a7b0ffa40750a0deb4b86288d0efaf413d125f591404c7f898) the stock is 207.3 against an allowed 204. The test builds the opening only, so the fault is in how the housing stock is sized from the counts, or in the test's bound.

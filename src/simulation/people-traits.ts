@@ -10,7 +10,7 @@ import {
 } from "./people-trait-definitions";
 import { createMindProvenance, recordPersonalityTendency } from "./mind";
 import { ageOnDate } from "../core2/kernel/dates";
-import { PERSONALITY_PACK } from "./personality-catalogue";
+import { PERSONALITY_PACK } from "../core2/personality-catalogue";
 import {
   upbringingCoreValue,
   upbringingCoreValueFrom,
@@ -27,7 +27,7 @@ import {
   strengthForMagnitude,
   traitDefinitionFromPack,
   type RegisteredTrait,
-} from "./trait-packs";
+} from "../core2/trait-packs";
 import type { TraitLifePart } from "./personality-trait-registry";
 import { readTrait } from "./trait-readings";
 import { traitRegistryFor } from "./trait-registry";
