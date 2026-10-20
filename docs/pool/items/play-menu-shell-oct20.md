@@ -5,11 +5,12 @@ area: play
 kind: feature
 priority: 2
 size: L
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/political-game-pool-76ksvw
+pr: #5180
 blocked-on:
 source: "docs/coordination/OWNER-DECISIONS.md (Oct 20, the menu structure)"
+claimed-at: 2026-10-20T05:23:45.282Z
 ---
 
 **What.** Replace the live game's 11-item Menu panel and ring of icons with the owner's Oct 20 menu shell (docs/packages/M6-screens.md, "The menu shell"): the player card bottom left with the vertical icon rail above it (Journal, Calendar, Money, Politics, News, People, Travel; names on hover); clicking the portrait opens You with Work and study as its second tab; Politics tabs Government, Issues, Budgets, Parties, with Your office and Campaigns shown only when they apply; Options, the guide and Quit to title on the Esc key and the title screen; alerts as a toast, a dot on the rail icon, or a scene. Remove the description lines under menu items (hand-written text), the campaign "Today" list and the office tab's interrupt toggles. Use the approved mockups in docs/ui/mocks/screens-2026-10-14 for each screen's look.

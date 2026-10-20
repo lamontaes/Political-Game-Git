@@ -5,9 +5,9 @@ area: world
 kind: research
 priority: 2
 size: M
-status: open
+status: done
 claimed-by:
-pr: #5191
+pr: #5534
 blocked-on:
 source: added with npm run pool -- add
 claimed-at:

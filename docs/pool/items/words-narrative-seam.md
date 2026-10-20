@@ -5,13 +5,13 @@ area: people
 kind: feature
 priority: 2
 size: M
-status: open
-claimed-by:
-pr: #5358
+status: in-pr
+claimed-by: claude/narrative-seam
+pr: #5614
 blocked-on:
 after: words-pack-scene-talk
 source: added with npm run pool -- add
-claimed-at:
+claimed-at: 2026-10-20T09:10:24.618Z
 ---
 
 **What.** Piece-picking moves out of the director's scene-talk into the English engine: the director says which move each turn makes, who makes it, the line it answers and the facts on record, and src/english/scene-talk-words.ts picks the piece and words it. The bank renderer, the speech-stage pieces, the office scene's mined sentences, the mined-bank adapters and the policy names move from src/director to src/english, so nothing under src/director imports data/english. PR #5358 (branch words/narrative-seam) built it but was sent back with merge conflicts in seven code files and a base branch (words/word-pack, #4626) that is not merged. Finish it after words-pack-scene-talk lands: retarget the PR to main, merge main in and resolve the conflicts.
