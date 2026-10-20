@@ -4,7 +4,7 @@ title: "Stopgaps in office-day (timing): 1 open"
 area: office
 kind: stopgap
 priority: 3
-status: in-pr
+status: done
 claimed-by: claude/meeting-vote-hold
 pr: #5386
 blocked-on:
