@@ -80,90 +80,92 @@ const formula = new Map<string, FormulaTally>();
 /** Each full person's picks by action id (opening people only: twins share them). */
 const picks = new Map<string, Map<string, number>>();
 
-setTraitProbe({
-  chooser(row) {
-    const key = [...new Set(row.actionIds)].sort().join("|");
-    let t = chooser.get(key);
-    if (!t)
-      chooser.set(
-        key,
-        (t = {
-          calls: 0,
-          turned: 0,
-          gapSum: 0,
-          chosen: {},
-          byLean: {},
-          samples: [],
-        }),
-      );
-    t.calls++;
-    t.gapSum += row.traitGap;
-    if (row.chosen !== row.withoutTrait) t.turned++;
-    t.chosen[row.chosen] = (t.chosen[row.chosen] ?? 0) + 1;
-    // Every call while few, then every tenth: enough to calibrate a weight offline.
-    if (
-      t.samples.length < SAMPLE_CAP &&
-      (t.calls < SAMPLE_CAP / 2 || t.calls % 10 === 0)
-    )
-      t.samples.push({
-        actions: [...row.actionIds],
-        bare: row.bareScores.map((v) => Math.round(v * 1e4) / 1e4),
-        lean: row.leans.map((v) => Math.round(v * 1e4) / 1e4),
-      });
-    const ids = [...new Set(row.actionIds)].sort();
-    if (ids.length === 2) {
-      const term = (id: string) =>
-        Math.max(
-          ...row.actionIds.flatMap((a, i) =>
-            a === id ? [row.traitTerms[i]!] : [],
-          ),
+// TRAIT_PROBE=off times the year as played, with the probe's counting off.
+if (process.env.TRAIT_PROBE !== "off")
+  setTraitProbe({
+    chooser(row) {
+      const key = [...new Set(row.actionIds)].sort().join("|");
+      let t = chooser.get(key);
+      if (!t)
+        chooser.set(
+          key,
+          (t = {
+            calls: 0,
+            turned: 0,
+            gapSum: 0,
+            chosen: {},
+            byLean: {},
+            samples: [],
+          }),
         );
-      const list = (t.byLean[ids[1]!] ??= []);
-      if (list.length < 200_000)
-        list.push({
-          lean: term(ids[1]!) - term(ids[0]!),
-          picked: row.chosen === ids[1],
+      t.calls++;
+      t.gapSum += row.traitGap;
+      if (row.chosen !== row.withoutTrait) t.turned++;
+      t.chosen[row.chosen] = (t.chosen[row.chosen] ?? 0) + 1;
+      // Every call while few, then every tenth: enough to calibrate a weight offline.
+      if (
+        t.samples.length < SAMPLE_CAP &&
+        (t.calls < SAMPLE_CAP / 2 || t.calls % 10 === 0)
+      )
+        t.samples.push({
+          actions: [...row.actionIds],
+          bare: row.bareScores.map((v) => Math.round(v * 1e4) / 1e4),
+          lean: row.leans.map((v) => Math.round(v * 1e4) / 1e4),
         });
-    }
-    if (opening.has(row.actorId)) {
-      let mine = picks.get(row.actorId);
-      if (!mine) picks.set(row.actorId, (mine = new Map()));
-      mine.set(row.chosen, (mine.get(row.chosen) ?? 0) + 1);
-    }
-  },
-  formula(row) {
-    let t = formula.get(row.decisionId);
-    if (!t)
-      formula.set(
-        row.decisionId,
-        (t = {
-          calls: 0,
-          absLeanSum: 0,
-          maxAbs: 0,
-          nonzero: 0,
-          yes: 0,
-          turned: 0,
-          samples: [],
-        }),
-      );
-    t.calls++;
-    const a = Math.abs(row.lean);
-    t.absLeanSum += a;
-    t.maxAbs = Math.max(t.maxAbs, a);
-    if (a > 1e-9) t.nonzero++;
-    if (row.yes) t.yes++;
-    if (row.turned) t.turned++;
-    if (
-      row.bare !== undefined &&
-      t.samples.length < SAMPLE_CAP &&
-      (t.calls < SAMPLE_CAP / 2 || t.calls % 10 === 0)
-    )
-      t.samples.push({
-        bare: Math.round(row.bare * 1e4) / 1e4,
-        lean: Math.round(row.lean * 1e4) / 1e4,
-      });
-  },
-});
+      const ids = [...new Set(row.actionIds)].sort();
+      if (ids.length === 2) {
+        const term = (id: string) =>
+          Math.max(
+            ...row.actionIds.flatMap((a, i) =>
+              a === id ? [row.traitTerms[i]!] : [],
+            ),
+          );
+        const list = (t.byLean[ids[1]!] ??= []);
+        if (list.length < 200_000)
+          list.push({
+            lean: term(ids[1]!) - term(ids[0]!),
+            picked: row.chosen === ids[1],
+          });
+      }
+      if (opening.has(row.actorId)) {
+        let mine = picks.get(row.actorId);
+        if (!mine) picks.set(row.actorId, (mine = new Map()));
+        mine.set(row.chosen, (mine.get(row.chosen) ?? 0) + 1);
+      }
+    },
+    formula(row) {
+      let t = formula.get(row.decisionId);
+      if (!t)
+        formula.set(
+          row.decisionId,
+          (t = {
+            calls: 0,
+            absLeanSum: 0,
+            maxAbs: 0,
+            nonzero: 0,
+            yes: 0,
+            turned: 0,
+            samples: [],
+          }),
+        );
+      t.calls++;
+      const a = Math.abs(row.lean);
+      t.absLeanSum += a;
+      t.maxAbs = Math.max(t.maxAbs, a);
+      if (a > 1e-9) t.nonzero++;
+      if (row.yes) t.yes++;
+      if (row.turned) t.turned++;
+      if (
+        row.bare !== undefined &&
+        t.samples.length < SAMPLE_CAP &&
+        (t.calls < SAMPLE_CAP / 2 || t.calls % 10 === 0)
+      )
+        t.samples.push({
+          bare: Math.round(row.bare * 1e4) / 1e4,
+          lean: Math.round(row.lean * 1e4) / 1e4,
+        });
+    },
+  });
 
 const end = new Date(`${start}T00:00:00Z`);
 end.setUTCDate(end.getUTCDate() + days);
