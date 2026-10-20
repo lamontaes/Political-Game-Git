@@ -1,4 +1,4 @@
-/* global process, URL, console, document */
+/* global process, URL, console, document, getComputedStyle */
 // Every sheet of a new game, at the start and after a day, fits the window
 // without scrolling (owner, M6-02: no scrolling on main screens).
 import assert from "node:assert/strict";
