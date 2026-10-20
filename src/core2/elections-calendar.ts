@@ -595,6 +595,27 @@ function termStartRow(office: OfficeInput): TermStartRow | undefined {
   ];
 }
 
+/**
+ * A term start moved whole years from another start, set back on the state's
+ * own clause day for its year (the office's weekday rule where it is read),
+ * else left as it was.
+ */
+export function termStartInYear(office: OfficeInput, shifted: string): string {
+  const rule = office.termStarts ? undefined : termStartRow(office)?.rule;
+  if (!rule) return shifted;
+  return addDays(
+    makeIsoDate(
+      nthWeekday(
+        Number(shifted.slice(0, 4)),
+        rule.month,
+        rule.weekday,
+        rule.nth,
+      ),
+    ),
+    rule.offsetDays,
+  );
+}
+
 /** The first start a state's weekday rule gives after the election day. */
 function ruleStartAfter(rule: TermStartRule, electionDate: string): string {
   const year = Number(electionDate.slice(0, 4));
