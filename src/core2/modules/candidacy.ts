@@ -861,14 +861,22 @@ function countedScreen(
   const today = api.state.date;
   const bornBy = `${Number(today.slice(0, 4)) - minimumAge}${today.slice(4)}`;
   let weighed = api.parameter("zero");
-  for (const { voter } of held.rows)
-    if (voter.birthDate <= bornBy && !api.state.people.has(voter.id))
-      weighed += voter.weight;
+  // The year's pulls are kept, but only those still in the town's counts
+  // today weigh the seat: someone who has died, moved or been filled in since
+  // is not drawn from them.
+  const counted = new Set(
+    countedResidents(api.state as CoreState).map((voter) => voter.id),
+  );
+  const here = (voter: CountedVoter) =>
+    voter.birthDate <= bornBy &&
+    counted.has(voter.id) &&
+    !api.state.people.has(voter.id);
+  for (const { voter } of held.rows) if (here(voter)) weighed += voter.weight;
   const drawn: PersonId[] = [];
   for (const { voter, base } of held.rows) {
     // Sorted by pull: past here no one clears the bar.
     if (!open.wideScope && base + record <= bar) break;
-    if (voter.birthDate > bornBy || api.state.people.has(voter.id)) continue;
+    if (!here(voter)) continue;
     const reasons = countedCandidacyReasons(api, voter, open);
     let pull = api.parameter("zero");
     for (const value of Object.values(reasons)) pull += value;
