@@ -36,7 +36,8 @@ import {
   ELECTIONS_MODULE_ID,
   type FilingRow,
 } from "../core2/modules/elections";
-import { votesOf } from "../core2/modules/record";
+import { votesOf, type VoteRecordRow } from "../core2/modules/record";
+import { billOf, votesOn, type BillRow } from "../core2/modules/legislature";
 import { campaignFor } from "../core2/modules/campaigns";
 import type { EntityId } from "../core2/kernel/brands";
 import type { CoreAPI } from "../core2/types";
@@ -112,6 +113,7 @@ function sourceOf(
   offer: SpeechPartOffer,
   rivalVote: "for" | "against" | null,
   rivalPosition: number | null,
+  tally: VoteTally | null,
 ): MoveSource | null {
   const sign = (offer.position ?? 0) >= 0 ? "enact" : "repeal";
   switch (offer.moveKey) {
@@ -136,7 +138,7 @@ function sourceOf(
     case "record.vote":
       return {
         act: "tell",
-        authored: sign === "enact" ? "record-vote-for" : "record-vote-against",
+        authored: `${sign === "enact" ? "record-vote-for" : "record-vote-against"}${tally ? "-figures" : ""}`,
       };
     case "record.kept-promise":
       return {
@@ -228,6 +230,7 @@ function factsFor(
   facts: Record<string, GroundedEnglishFact>;
   rivalVote: "for" | "against" | null;
   rivalPosition: number | null;
+  tally: VoteTally | null;
 } {
   const factIds = [...offer.factIds] as EntityId[];
   const facts: Record<string, GroundedEnglishFact> = {};
@@ -283,7 +286,52 @@ function factsFor(
       }
     }
   }
-  return { facts, rivalVote, rivalPosition };
+  // A vote the candidate cast says how the chamber voted, from its vote rows.
+  let tally: VoteTally | null = null;
+  if (offer.moveKey === "record.vote" && speakerId) {
+    const vote = votesOf(api, speakerId).find((v) =>
+      offer.factIds.includes(v.id),
+    );
+    tally = vote ? tallyOf(api, vote) : null;
+    if (tally) {
+      const cited = [...factIds, tally.billId as EntityId];
+      facts.yes = { text: String(tally.yes), sourceRecordIds: cited };
+      facts.no = { text: String(tally.no), sourceRecordIds: cited };
+    }
+  }
+  return { facts, rivalVote, rivalPosition, tally };
+}
+
+/** How a chamber voted on a bill, counted from its vote rows. */
+interface VoteTally {
+  readonly billId: string;
+  readonly yes: number;
+  readonly no: number;
+}
+
+/**
+ * The chamber's count on the bill a recorded vote was cast on: the bill is the
+ * one the record names by number in that body, and the count is its vote rows
+ * for the chamber. A vote on something that is not a bill in the records (a
+ * measure with no roll call) has no tally.
+ */
+function tallyOf(api: CoreAPI, vote: VoteRecordRow): VoteTally | null {
+  if (!api.state.modules.has("core2-legislature-v1")) return null;
+  const bill = (
+    api
+      .moduleState("core2-legislature-v1")
+      .table("bills")
+      .rows() as unknown as BillRow[]
+  ).find(
+    (row) => row.number === vote.measureId && row.bodyOfficeId === vote.body,
+  );
+  if (!bill) return null;
+  const rows = votesOn(api, billOf(api, bill.id).id).filter(
+    (row) => (row as unknown as { chamber?: string }).chamber === vote.body,
+  );
+  const yes = rows.filter((row) => row.vote === "yes").length;
+  const no = rows.filter((row) => row.vote === "no").length;
+  return yes + no > 0 ? { billId: bill.id, yes, no } : null;
 }
 
 /**
@@ -294,8 +342,8 @@ export function wordSpeechPart(
   api: CoreAPI,
   offer: SpeechPartOffer,
 ): SpeechPartWordsResult {
-  const { facts, rivalVote, rivalPosition } = factsFor(api, offer);
-  const source = sourceOf(offer, rivalVote, rivalPosition);
+  const { facts, rivalVote, rivalPosition, tally } = factsFor(api, offer);
+  const source = sourceOf(offer, rivalVote, rivalPosition, tally);
   if (!source)
     return {
       kind: "missing",

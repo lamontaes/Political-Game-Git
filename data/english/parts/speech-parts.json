@@ -6,7 +6,9 @@
     "place": "The speaker's town, county or state, from the place records.",
     "goal": "A stand as a verb phrase, from the bill catalog's spoken names.",
     "issue": "A stand as a noun phrase, from the bill catalog's spoken names.",
-    "opponent": "The rival candidate, by name, from the contest record."
+    "opponent": "The rival candidate, by name, from the contest record.",
+    "yes": "How many members voted yes on the measure, counted from the chamber's vote rows.",
+    "no": "How many members voted no on the measure, counted from the chamber's vote rows."
   },
   "maxWords": 14,
   "parts": [
@@ -319,6 +321,46 @@
       "origin": "authored",
       "author": "Claude Code, pool session",
       "date": "2026-10-19"
+    },
+    {
+      "key": "speech-parts.record-vote-for-figures.1",
+      "move": "record-vote-for-figures",
+      "kind": "spoken",
+      "text": "I voted for {issue}. The vote was {yes} to {no}.",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Code, pool session",
+      "date": "2026-10-20"
+    },
+    {
+      "key": "speech-parts.record-vote-for-figures.2",
+      "move": "record-vote-for-figures",
+      "kind": "spoken",
+      "text": "On {issue} the vote was {yes} to {no}, and I voted yes.",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Code, pool session",
+      "date": "2026-10-20"
+    },
+    {
+      "key": "speech-parts.record-vote-against-figures.1",
+      "move": "record-vote-against-figures",
+      "kind": "spoken",
+      "text": "I voted against {issue}. The vote was {yes} to {no}.",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Code, pool session",
+      "date": "2026-10-20"
+    },
+    {
+      "key": "speech-parts.record-vote-against-figures.2",
+      "move": "record-vote-against-figures",
+      "kind": "spoken",
+      "text": "On {issue} the vote was {yes} to {no}, and I voted no.",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Code, pool session",
+      "date": "2026-10-20"
     }
   ]
 }
