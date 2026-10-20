@@ -104,6 +104,22 @@ function value(key: string): number {
     .parameters[key]!.value;
 }
 
+/**
+ * How far from having no party someone is: how firmly they lean, plus a little
+ * for careful thinking. The lowest scores in a town have no party and the rest
+ * call themselves independent (a scale, not a cut on either trait).
+ */
+function noPartyScore(
+  lean: number,
+  traits: Readonly<Record<string, number>>,
+): number {
+  return (
+    Math.abs(lean) +
+    value("noPartyDeliberationWeight") *
+      (traits["people-mind-v1:deliberation"] ?? 0)
+  );
+}
+
 /** The parties of one state, with their shares, from the 2024 ballot or the legislature. */
 export function stateParties(
   stateKey: string,
@@ -287,16 +303,14 @@ export function openParties(core: CoreState): void {
   rest
     .sort(
       (a, b) =>
-        Math.abs(a.lean) - Math.abs(b.lean) || a.p.id.localeCompare(b.p.id),
+        noPartyScore(a.lean, a.p.traits) - noPartyScore(b.lean, b.p.traits) ||
+        a.p.id.localeCompare(b.p.id),
     )
     .forEach((entry, index) =>
       put(
         ties,
         entry.p,
-        index < noParty &&
-          (entry.p.traits["people-mind-v1:deliberation"] ?? 0) <= 0
-          ? "no-party"
-          : "independent",
+        index < noParty ? "no-party" : "independent",
         null,
         entry.lean,
         core.date,
@@ -652,9 +666,15 @@ function partyMeeting(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
     firm[
       Math.max(0, Math.round(firm.length * value("partyIdentifierShare")) - 1)
     ]!;
+  const scores = adults
+    .map((a) => noPartyScore(a.lean, a.p.traits))
+    .sort((a, b) => b - a);
   const noPartyCut =
-    firm[
-      Math.max(0, firm.length - Math.round(firm.length * value("noPartyShare")))
+    scores[
+      Math.max(
+        0,
+        scores.length - Math.round(scores.length * value("noPartyShare")),
+      )
     ] ?? 0;
   const bySide = (side: number) =>
     [...parties]
@@ -706,10 +726,7 @@ function partyMeeting(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
       put(
         ties,
         p,
-        Math.abs(lean) <= noPartyCut &&
-          (p.traits["people-mind-v1:deliberation"] ?? 0) <= 0
-          ? "no-party"
-          : "independent",
+        noPartyScore(lean, p.traits) <= noPartyCut ? "no-party" : "independent",
         null,
         lean,
         date,
