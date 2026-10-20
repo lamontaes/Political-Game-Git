@@ -5,7 +5,7 @@ area: gov
 kind: bug
 priority: 1
 size: S
-status: claimed
+status: dropped
 claimed-by: claude/vote-trade-without-stage
 pr: #4756
 blocked-on: gov-vote-row-undefined-stage
