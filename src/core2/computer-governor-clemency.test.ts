@@ -20,7 +20,7 @@ import {
   clemencyAuthority,
   GOVERNOR_DECIDES_CLEMENCY,
 } from "./modules/executive";
-import { clemenciesOf, inCustody, prisonersServing } from "./modules/justice";
+import { clemenciesOf, prisonersServing } from "./modules/justice";
 import { lawChain } from "./modules/laws";
 import { OFFICES_MODULE_ID, type TermRow } from "./modules/offices";
 import { resultsOf, stateOfficeOf } from "./office-day-state";
