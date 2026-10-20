@@ -4,7 +4,7 @@ title: "Stopgaps in drives (missing-mechanic): 4 open"
 area: people
 kind: stopgap
 priority: 3
-status: in-pr
+status: open
 claimed-by:
 pr: #5578
 blocked-on:
@@ -33,3 +33,5 @@ Looked at Oct 20 (claude/political-game-pool-3xfqef-25), released unbuilt. The o
 Sent back 2026-10-20 from PR #5578 (branch claude/drives-missing-mechanic): the stopgap resolution text carries a 'Resolved Oct 20' date note and a PR reference, and the owner question in the body is not registered as an owner-decision stopgap or in OWNER-DECISIONS.md; finish on that branch, merge main into it first.
 
 Sent back 2026-10-20 from PR #5291 (branch claude/cause-group-founding-resolved): The standing no-paperwork rule can justify keeping instant founding, but this item Done when also names a one-year played-world proof of another engine reading the replacement by record id. The body supplies only tripwire/drives unit-test counts and no drawn place, seed or founded-group reader record. Supply the required proof before resolving the final row and marking the item done.; finish on that branch, merge main into it first.
+
+Sent back 2026-10-20 from PR #5578 (branch claude/drives-missing-mechanic): The latest standing-rule resolution addresses the owner-question and date-note feedback. The remaining pool Done when still requires a one-year played-world downstream read by record id. The body supplies unit/guard counts but no drawn buildBenchWorld place, seed, founded-group record and interest-groups consumer record proving that read. Supply that named proof before resolving the final row and completing the item; the same requirement applies to the duplicate #5291.; finish on that branch, merge main into it first.
