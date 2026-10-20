@@ -22,3 +22,5 @@ source: "docs/roadmap/later-specs-draft.md M6-02"
 **Files.** see spec
 
 **Notes.** Priority 3 until scheduled. Verify how much is built before starting.
+
+Measured Oct 20 (claude, claude/political-game-pool-76ksvw) in a real browser, window 1672 by 941, new game, at the start and after a day (`src/bench/no-scroll.browser.mjs`): of the eleven sheets (calendar, people, politics, news, journal, who, money, jobs, travel, guide, options) nine fit without scrolling; Politics is 2,631 pixels taller than its body and Guide 611 (items `play-politics-sheet-scrolls` and `play-guide-sheet-scrolls`). Every sheet also shows 3 pixels of overflow on the sheet element, ignored below 8. The owner's sign-off per screen, the Kit 12 and 13 look and the shell are not something a script judges.
