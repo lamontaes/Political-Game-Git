@@ -15,7 +15,7 @@ import { OFFICES_MODULE_ID } from "../../src/core2/modules/offices";
 import { coreAPI } from "../../src/core2/state";
 import type { GroundedEnglishPacket } from "../../src/english/grounded-english";
 import { drawPlace } from "../core2-year/place";
-import { remarksOn } from "../../src/core2/modules/meetings";
+import { remarksOn, signUpToSpeak } from "../../src/core2/modules/meetings";
 import { corePlaceByJurisdictionId } from "../../src/core2/place-lookup";
 import { composeBudgetHearing } from "./body-bank";
 
@@ -65,6 +65,12 @@ describe(`a budget hearing worded from a played world's records (seed ${seed})`,
         bodyOfficeId: body.id,
         sponsorId: world.playerId!,
         provisions: [{ kind: "budget-line", line: "parks", value: 50_000_000 }],
+      });
+      // The player signs up to speak for the bill, so the hearing always has a recorded speaker; residents who stand up join them.
+      signUpToSpeak(api, {
+        billId: drafted.id,
+        personId: world.playerId!,
+        position: 1,
       });
       advanceCore(core, addDays(makeIsoDate(core.date), 2));
       holdVote(api, drafted.id);

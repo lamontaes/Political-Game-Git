@@ -276,7 +276,9 @@ export function composeBudgetHearing(
       speaker: ground(speaker.name, speaker.remarkId),
       name: ground(speaker.name, speaker.remarkId),
       place: ground(speaker.place, speaker.remarkId),
-      ...(vote.facts.motion ? { issue: vote.facts.motion } : {}),
+      ...(vote.facts.motion
+        ? { issue: vote.facts.motion, bill: vote.facts.motion }
+        : {}),
     };
     const packet = {
       ...vote,
@@ -296,12 +298,24 @@ export function composeBudgetHearing(
       act: "greet",
     });
     if (invite) lines.push(invite);
+    // A member asks the first speaker about the measure.
+    const ask =
+      at === 0
+        ? composeStep(packet, "budget.0.ask", {
+            speaker: "member",
+            subject: "members",
+            role: "ask",
+            act: "ask",
+            only: /^(?:Who pays for|Who would this measure help)/,
+          })
+        : null;
     for (const [index, step] of COMMENT_STEPS.entries()) {
       // Only a speaker for the bill urges support.
       if (step.role === "ask" && speaker.position <= 0) continue;
       const line = composeStep(packet, `budget.${at}.say.${index}`, step);
       if (line) lines.push(line);
     }
+    if (ask) lines.push(ask);
   }
   const result = composeBodyScene(vote, "vote");
   return result ? [...lines, ...result] : null;
