@@ -1,0 +1,174 @@
+{
+  "version": 1,
+  "note": "Every outcome a person's traits should shape outside a choice between options, the engine that owns it, and whether that engine reads the trait in play. The trait-wiring matrix (scripts/traits/trait-wiring-matrix.ts) joins these rows with the researched effect sizes in data/research/trait-effect-sizes.json. Outcome-web links are not listed here: their personality moderators belong to the outcome web.",
+  "outcomes": [
+    {
+      "id": "outcome.drawn-distribution",
+      "title": "Traits drawn to real norms by age and sex",
+      "engine": "src/core2/opening-personality.ts",
+      "wired": true,
+      "evidence": "src/core2/opening-personality.ts:1 (latent standard scores with sourced NEO facet age and sex differences, cut at 10/20/40/20/10)"
+    },
+    {
+      "id": "outcome.trait-intercorrelations",
+      "title": "Traits correlate with each other as in real people",
+      "engine": "src/core2/opening-personality.ts",
+      "wired": true,
+      "evidence": "src/core2/opening-personality.ts:73 (registered correlated pairs) and ANCHORED loadings at :31"
+    },
+    {
+      "id": "outcome.personality-heritability",
+      "title": "Children resemble their parents",
+      "engine": "src/core2/births-people.ts",
+      "wired": "partly",
+      "evidence": "src/core2/births-people.ts:102 draws the newborn with its parents as subjects",
+      "why": "The parents are redrawn from the seed on the birth date rather than read from their recorded traits, so a child resembles a redrawn parent; counted newborns are seeded without inheritance (SG-PW8-counted-newborn-temperament, src/core2/births-counted.ts:586)."
+    },
+    {
+      "id": "outcome.mean-level-change-with-age",
+      "title": "Traits change slowly with age (maturity)",
+      "engine": "none",
+      "wired": true,
+      "evidence": "src/core2/modules/trait-change.ts:249 (each birthday moves the hidden scores along the opening age curves; counted people are caught up at fill-in, SG-TRAITS-counted-no-maturity)"
+    },
+    {
+      "id": "outcome.change-with-life-events",
+      "title": "Traits shift after life events (job loss, marriage, bereavement)",
+      "engine": "none",
+      "wired": true,
+      "evidence": "src/core2/modules/trait-change.ts:185 (a layoff, an eviction or a death in the family moves the emotional-stability traits 0.1 SD; data/trait-change.json)"
+    },
+    {
+      "id": "outcome.stress-reactivity",
+      "title": "Resting stress by temperament",
+      "engine": "src/core2/resting-stress.ts",
+      "wired": true,
+      "evidence": "src/core2/resting-stress.ts:115 (brooding raises, calm lowers) and src/core2/emotion.ts appraisal weights sized from Bolger and Schilling 1991 (appraisalDistressTraitWeight, appraisalBroodingTraitWeight in parameters.json)"
+    },
+    {
+      "id": "outcome.emotion-appraisal",
+      "title": "How strongly a person feels an event",
+      "engine": "src/core2/emotion.ts",
+      "wired": true,
+      "evidence": "src/core2/emotion.ts:151 (recorded trait scales the appraisal multiplier)"
+    },
+    {
+      "id": "outcome.aide-work-quality",
+      "title": "An aide's work quality and learning rate",
+      "engine": "src/core2/modules/staff.ts",
+      "wired": true,
+      "evidence": "src/core2/modules/staff.ts:686 (reliability and deliberation)"
+    },
+    {
+      "id": "outcome.appointee-qualification",
+      "title": "How qualified a resident is for an appointed post",
+      "engine": "src/core2/modules/executive.ts",
+      "wired": true,
+      "evidence": "src/core2/modules/executive.ts:176 (reliability plus deliberation)"
+    },
+    {
+      "id": "outcome.job-performance",
+      "title": "An ordinary worker's performance at work",
+      "engine": "src/core2/modules/jobs.ts",
+      "wired": false,
+      "why": "Workers have no performance record outside aides; nothing reads conscientiousness for it."
+    },
+    {
+      "id": "outcome.earnings",
+      "title": "Promotion and pay by temperament",
+      "engine": "src/core2/modules/jobs.ts",
+      "wired": false,
+      "why": "Pay comes from the job's wage row; no raise or promotion reads the worker's traits."
+    },
+    {
+      "id": "outcome.health-behaviors",
+      "title": "Health behaviors (smoking, drinking, exercise, checkups)",
+      "engine": "src/core2/modules/health.ts",
+      "wired": true,
+      "evidence": "src/core2/condition-pack.ts:191 (who holds substance use disorder and chronic lung disease in the opening) and src/core2/modules/health.ts:307 (people who join later); Bogg and Roberts 2004"
+    },
+    {
+      "id": "outcome.mortality",
+      "title": "Illness and death risk by conscientiousness",
+      "engine": "src/core2/modules/health.ts",
+      "wired": true,
+      "evidence": "src/core2/modules/health.ts:427 (strain builds at exp(slope x conscientiousness) over the opening mean); Kern and Friedman 2008"
+    },
+    {
+      "id": "outcome.relationship-formation",
+      "title": "Making friends and acquaintances",
+      "engine": "src/core2/modules/life.ts",
+      "wired": "partly",
+      "evidence": "life.daily-act contact-known-person is a chooser option, so sociable people choose contact more",
+      "why": "Who becomes a new acquaintance, and how fast a tie warms, reads no trait."
+    },
+    {
+      "id": "outcome.conflict",
+      "title": "Arguments and grudges",
+      "engine": "src/core2/modules/drives.ts",
+      "wired": "partly",
+      "evidence": "drives.respond hold-grudge is a chooser option",
+      "why": "Whether a disagreement becomes a quarrel reads no trait."
+    },
+    {
+      "id": "outcome.marriage-formation",
+      "title": "Partnering and marriage",
+      "engine": "src/core2/modules/renewal.ts",
+      "wired": false,
+      "why": "src/core2/modules/renewal.ts reads no trait for partnering."
+    },
+    {
+      "id": "outcome.divorce",
+      "title": "Separation and divorce",
+      "engine": "src/core2/modules/renewal.ts",
+      "wired": false,
+      "why": "src/core2/modules/renewal.ts reads no trait for separation."
+    },
+    {
+      "id": "outcome.trust-generalized",
+      "title": "How much a person trusts others",
+      "engine": "src/core2/modules/views.ts",
+      "wired": false,
+      "why": "Views form from the CES cell and the seed; no trait read."
+    },
+    {
+      "id": "outcome.persuasion",
+      "title": "How easily a person's view moves when they hear an argument",
+      "engine": "src/core2/modules/views.ts",
+      "wired": false,
+      "why": "View updates read the message and the source, not the hearer's traits."
+    },
+    {
+      "id": "outcome.news-reaction",
+      "title": "How strongly a person reacts to news",
+      "engine": "src/core2/modules/news.ts",
+      "wired": "partly",
+      "evidence": "news.pass-on reads the lean for telling others",
+      "why": "How much a story moves the hearer's view or mood reads no trait."
+    },
+    {
+      "id": "outcome.hardship-coping",
+      "title": "How a person copes with hardship (job loss, debt, eviction)",
+      "engine": "src/core2/emotion.ts",
+      "wired": "partly",
+      "evidence": "src/core2/modules/jobs.ts:1247 and src/core2/modules/housing.ts:1764 give a layoff and an eviction a stress impulse from Holmes and Rahe units; src/core2/emotion.ts scales it by the person (weights from Bolger and Schilling 1991)",
+      "why": "The impulse is now scaled by traits; coping after the event (seeking help, cutting back, drinking) is still not a read, and debt has no event."
+    },
+    {
+      "id": "outcome.known-traits",
+      "title": "Others learn a person's traits only from what they saw",
+      "engine": "src/core2/mind-catalog.ts",
+      "wired": "partly",
+      "evidence": "src/core2/past-public.ts:162 lists a person's strongest traits as public facts",
+      "why": "Opinions of a person do not yet come only from acts witnessed, reputation and conversation."
+    },
+    {
+      "id": "outcome.speech-style",
+      "title": "How a person talks",
+      "engine": "src/director",
+      "wired": "partly",
+      "evidence": "src/director/ledger.ts:730 reads a trait for a line's register",
+      "why": "Owned by the English engine; the trait reads it needs are listed by the Words line."
+    }
+  ]
+}
