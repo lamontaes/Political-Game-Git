@@ -24,3 +24,5 @@ claimed-at:
 **Notes.** Split Oct 19 from core-old-imports-population, which was sized M but touches five old-engine modules. The sibling slices are core-old-imports-population-org-profile, core-old-imports-population-traits and core-old-imports-population-town-employment.
 
 Sent back 2026-10-20 from PR #5070 (branch claude/org-profile): the new Core test imports World from src/simulation/types; remove that old-engine import; finish on that branch, merge main into it first. The item also links newer PR #5510, so coordinate the duplicate before building.
+
+Sent back 2026-10-20 from PR #5543 (branch claude/old-imports-org-profile): the new Core helper and test import old simulation types and life-queries; use a Core-owned input shape and move any legacy comparison outside Core; finish on that branch, merge main into it first.
