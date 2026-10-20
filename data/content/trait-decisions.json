@@ -904,6 +904,22 @@
       ]
     },
     {
+      "id": "staff.dismiss",
+      "site": "src/core2/modules/staff.ts",
+      "owner": "OPUS-GOV",
+      "route": "formula",
+      "options": [
+        {
+          "id": "keep",
+          "actKinds": ["keep-same", "concede", "help-others"]
+        },
+        {
+          "id": "dismiss",
+          "actKinds": ["confront", "refuse", "follow-rules"]
+        }
+      ]
+    },
+    {
       "id": "interest-groups.member-join",
       "site": "src/core2/modules/interest-groups.ts",
       "owner": "OPUS-GOV",
