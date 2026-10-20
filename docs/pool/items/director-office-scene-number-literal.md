@@ -7,7 +7,7 @@ priority: 2
 size: S
 status: in-pr
 claimed-by: claude/director-office-scene-number-literal
-pr: #5196
+pr: #5384
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-20T01:35:41.540Z
