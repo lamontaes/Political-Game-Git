@@ -1,0 +1,28 @@
+{
+  "about": "Boasts, threats and alarms (owner ruling: arrogance, anger and fear). Structure only, no sentences: every line is a part of data/english/parts/stance.json. A stance is raised by a person from a recorded moment of theirs; how sharply they say it is read from their traits through the shared trait-act table (trait-act-pulls.json), never rolled.",
+  "levels": 4,
+  "levelsNote": "A slide of four bands of the speaker's lean, edge-0 (plain) to edge-3 (rude). The lean itself is continuous (traitLeanBetween, -1 to 1); the bands only choose which authored wordings are in reach.",
+  "stances": {
+    "boast": {
+      "toward": ["speak-out", "take-risk"],
+      "over": ["stay-quiet", "play-safe"],
+      "momentLabels": ["cause:event:election-result"],
+      "reply": "boast-reply"
+    },
+    "threat": {
+      "toward": ["confront", "refuse"],
+      "over": ["concede", "cooperate"],
+      "momentLabels": ["cause:event:election-result"],
+      "reply": "threat-reply"
+    },
+    "alarm": {
+      "toward": ["play-safe", "delay"],
+      "over": ["take-risk", "engage"],
+      "momentLabels": [
+        "health:serious-illness",
+        "feeling:event:health.serious-illness"
+      ],
+      "reply": "alarm-reply"
+    }
+  }
+}

@@ -55,6 +55,18 @@
     "eviction-where": {
       "kind": "eviction-where-reply",
       "stage": "default"
+    },
+    "boast": {
+      "kind": "boast-reply",
+      "stage": "default"
+    },
+    "threat": {
+      "kind": "threat-reply",
+      "stage": "default"
+    },
+    "alarm": {
+      "kind": "alarm-reply",
+      "stage": "default"
     }
   },
   "follows": {

@@ -1,0 +1,1040 @@
+{
+  "schema": "english-parts/1",
+  "register": "stance",
+  "description": "Boasts, threats and alarms (arrogance, anger and fear), in four bands of edge from plain (edge-0) to rude (edge-3), and the answers to each. Authored to the calibrated patterns of ordinary American speech; the director picks the band from the speaker's traits through the shared trait-act table and the stance from a recorded moment of the speaker's own, so no line is said without its cause record.",
+  "slots": {},
+  "maxWords": 12,
+  "authoring": {
+    "method": "authored to patterns (text rule, Oct 15)",
+    "bands": "edge-0 plain to edge-3 rude",
+    "stances": "boast (won a count), threat (lost a count to the listener), alarm (a serious illness)"
+  },
+  "parts": [
+    {
+      "key": "stance.boast-raise.i-won",
+      "move": "boast-raise",
+      "text": "I won.",
+      "uses": [
+        {
+          "move": "boast-raise",
+          "subject": "boast",
+          "role": "raise",
+          "choice": "raise",
+          "stages": ["edge-0"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the Words session",
+      "date": "2026-10-19",
+      "kind": "spoken",
+      "shippable": false
+    },
+    {
+      "key": "stance.boast-raise.the-count-went-my-way",
+      "move": "boast-raise",
+      "text": "The count went my way.",
+      "uses": [
+        {
+          "move": "boast-raise",
+          "subject": "boast",
+          "role": "raise",
+          "choice": "raise",
+          "stages": ["edge-0"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the Words session",
+      "date": "2026-10-19",
+      "kind": "spoken",
+      "shippable": false
+    },
+    {
+      "key": "stance.boast-raise.we-won-the-count",
+      "move": "boast-raise",
+      "text": "We won the count.",
+      "uses": [
+        {
+          "move": "boast-raise",
+          "subject": "boast",
+          "role": "raise",
+          "choice": "raise",
+          "stages": ["edge-0"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the Words session",
+      "date": "2026-10-19",
+      "kind": "spoken",
+      "shippable": false
+    },
+    {
+      "key": "stance.boast-raise.i-told-you-i-d-win",
+      "move": "boast-raise",
+      "text": "I told you I'd win.",
+      "uses": [
+        {
+          "move": "boast-raise",
+          "subject": "boast",
+          "role": "raise",
+          "choice": "raise",
+          "stages": ["edge-1"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the Words session",
+      "date": "2026-10-19",
+      "kind": "spoken",
+      "shippable": false
+    },
+    {
+      "key": "stance.boast-raise.i-said-we-would-win-and-we-did",
+      "move": "boast-raise",
+      "text": "I said we would win, and we did.",
+      "uses": [
+        {
+          "move": "boast-raise",
+          "subject": "boast",
+          "role": "raise",
+          "choice": "raise",
+          "stages": ["edge-1"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the Words session",
+      "date": "2026-10-19",
+      "kind": "spoken",
+      "shippable": false
+    },
+    {
+      "key": "stance.boast-raise.it-went-the-way-i-said-it-would",
+      "move": "boast-raise",
+      "text": "It went the way I said it would.",
+      "uses": [
+        {
+          "move": "boast-raise",
+          "subject": "boast",
+          "role": "raise",
+          "choice": "raise",
+          "stages": ["edge-1"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the Words session",
+      "date": "2026-10-19",
+      "kind": "spoken",
+      "shippable": false
+    },
+    {
+      "key": "stance.boast-raise.nobody-gave-me-a-chance-and-i-won",
+      "move": "boast-raise",
+      "text": "Nobody gave me a chance, and I won.",
+      "uses": [
+        {
+          "move": "boast-raise",
+          "subject": "boast",
+          "role": "raise",
+          "choice": "raise",
+          "stages": ["edge-2"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the Words session",
+      "date": "2026-10-19",
+      "kind": "spoken",
+      "shippable": false
+    },
+    {
+      "key": "stance.boast-raise.i-told-you-so-it-wasn-t-close",
+      "move": "boast-raise",
+      "text": "I told you so. It wasn't close.",
+      "uses": [
+        {
+          "move": "boast-raise",
+          "subject": "boast",
+          "role": "raise",
+          "choice": "raise",
+          "stages": ["edge-2"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the Words session",
+      "date": "2026-10-19",
+      "kind": "spoken",
+      "shippable": false
+    },
+    {
+      "key": "stance.boast-raise.i-beat-them-and-i-d-do-it-again",
+      "move": "boast-raise",
+      "text": "I beat them, and I'd do it again.",
+      "uses": [
+        {
+          "move": "boast-raise",
+          "subject": "boast",
+          "role": "raise",
+          "choice": "raise",
+          "stages": ["edge-2"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the Words session",
+      "date": "2026-10-19",
+      "kind": "spoken",
+      "shippable": false
+    },
+    {
+      "key": "stance.boast-raise.read-it-and-weep-i-won",
+      "move": "boast-raise",
+      "text": "Read it and weep. I won.",
+      "uses": [
+        {
+          "move": "boast-raise",
+          "subject": "boast",
+          "role": "raise",
+          "choice": "raise",
+          "stages": ["edge-3"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the Words session",
+      "date": "2026-10-19",
+      "kind": "spoken",
+      "shippable": false
+    },
+    {
+      "key": "stance.boast-raise.anyone-who-bet-against-me-lost",
+      "move": "boast-raise",
+      "text": "Anyone who bet against me lost.",
+      "uses": [
+        {
+          "move": "boast-raise",
+          "subject": "boast",
+          "role": "raise",
+          "choice": "raise",
+          "stages": ["edge-3"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the Words session",
+      "date": "2026-10-19",
+      "kind": "spoken",
+      "shippable": false
+    },
+    {
+      "key": "stance.boast-raise.i-won-and-i-enjoyed-every-minute-of-it",
+      "move": "boast-raise",
+      "text": "I won, and I enjoyed every minute of it.",
+      "uses": [
+        {
+          "move": "boast-raise",
+          "subject": "boast",
+          "role": "raise",
+          "choice": "raise",
+          "stages": ["edge-3"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the Words session",
+      "date": "2026-10-19",
+      "kind": "spoken",
+      "shippable": false
+    },
+    {
+      "key": "stance.threat-raise.this-isn-t-over",
+      "move": "threat-raise",
+      "text": "This isn't over.",
+      "uses": [
+        {
+          "move": "threat-raise",
+          "subject": "threat",
+          "role": "raise",
+          "choice": "raise",
+          "stages": ["edge-0"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the Words session",
+      "date": "2026-10-19",
+      "kind": "spoken",
+      "shippable": false
+    },
+    {
+      "key": "stance.threat-raise.i-m-not-finished",
+      "move": "threat-raise",
+      "text": "I'm not finished.",
+      "uses": [
+        {
+          "move": "threat-raise",
+          "subject": "threat",
+          "role": "raise",
+          "choice": "raise",
+          "stages": ["edge-0"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the Words session",
+      "date": "2026-10-19",
+      "kind": "spoken",
+      "shippable": false
+    },
+    {
+      "key": "stance.threat-raise.we-ll-talk-again",
+      "move": "threat-raise",
+      "text": "We'll talk again.",
+      "uses": [
+        {
+          "move": "threat-raise",
+          "subject": "threat",
+          "role": "raise",
+          "choice": "raise",
+          "stages": ["edge-0"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the Words session",
+      "date": "2026-10-19",
+      "kind": "spoken",
+      "shippable": false
+    },
+    {
+      "key": "stance.threat-raise.you-haven-t-heard-the-last-of-me",
+      "move": "threat-raise",
+      "text": "You haven't heard the last of me.",
+      "uses": [
+        {
+          "move": "threat-raise",
+          "subject": "threat",
+          "role": "raise",
+          "choice": "raise",
+          "stages": ["edge-1"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the Words session",
+      "date": "2026-10-19",
+      "kind": "spoken",
+      "shippable": false
+    },
+    {
+      "key": "stance.threat-raise.i-won-t-forget-this",
+      "move": "threat-raise",
+      "text": "I won't forget this.",
+      "uses": [
+        {
+          "move": "threat-raise",
+          "subject": "threat",
+          "role": "raise",
+          "choice": "raise",
+          "stages": ["edge-1"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the Words session",
+      "date": "2026-10-19",
+      "kind": "spoken",
+      "shippable": false
+    },
+    {
+      "key": "stance.threat-raise.i-ll-be-back",
+      "move": "threat-raise",
+      "text": "I'll be back.",
+      "uses": [
+        {
+          "move": "threat-raise",
+          "subject": "threat",
+          "role": "raise",
+          "choice": "raise",
+          "stages": ["edge-1"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the Words session",
+      "date": "2026-10-19",
+      "kind": "spoken",
+      "shippable": false
+    },
+    {
+      "key": "stance.threat-raise.you-ll-regret-this",
+      "move": "threat-raise",
+      "text": "You'll regret this.",
+      "uses": [
+        {
+          "move": "threat-raise",
+          "subject": "threat",
+          "role": "raise",
+          "choice": "raise",
+          "stages": ["edge-2"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the Words session",
+      "date": "2026-10-19",
+      "kind": "spoken",
+      "shippable": false
+    },
+    {
+      "key": "stance.threat-raise.don-t-think-i-ll-let-this-go",
+      "move": "threat-raise",
+      "text": "Don't think I'll let this go.",
+      "uses": [
+        {
+          "move": "threat-raise",
+          "subject": "threat",
+          "role": "raise",
+          "choice": "raise",
+          "stages": ["edge-2"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the Words session",
+      "date": "2026-10-19",
+      "kind": "spoken",
+      "shippable": false
+    },
+    {
+      "key": "stance.threat-raise.you-ll-answer-for-this",
+      "move": "threat-raise",
+      "text": "You'll answer for this.",
+      "uses": [
+        {
+          "move": "threat-raise",
+          "subject": "threat",
+          "role": "raise",
+          "choice": "raise",
+          "stages": ["edge-2"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the Words session",
+      "date": "2026-10-19",
+      "kind": "spoken",
+      "shippable": false
+    },
+    {
+      "key": "stance.threat-raise.you-re-going-to-pay-for-this",
+      "move": "threat-raise",
+      "text": "You're going to pay for this.",
+      "uses": [
+        {
+          "move": "threat-raise",
+          "subject": "threat",
+          "role": "raise",
+          "choice": "raise",
+          "stages": ["edge-3"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the Words session",
+      "date": "2026-10-19",
+      "kind": "spoken",
+      "shippable": false
+    },
+    {
+      "key": "stance.threat-raise.watch-your-back",
+      "move": "threat-raise",
+      "text": "Watch your back.",
+      "uses": [
+        {
+          "move": "threat-raise",
+          "subject": "threat",
+          "role": "raise",
+          "choice": "raise",
+          "stages": ["edge-3"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the Words session",
+      "date": "2026-10-19",
+      "kind": "spoken",
+      "shippable": false
+    },
+    {
+      "key": "stance.threat-raise.i-ll-make-sure-you-never-forget-this",
+      "move": "threat-raise",
+      "text": "I'll make sure you never forget this.",
+      "uses": [
+        {
+          "move": "threat-raise",
+          "subject": "threat",
+          "role": "raise",
+          "choice": "raise",
+          "stages": ["edge-3"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the Words session",
+      "date": "2026-10-19",
+      "kind": "spoken",
+      "shippable": false
+    },
+    {
+      "key": "stance.alarm-raise.something-is-wrong",
+      "move": "alarm-raise",
+      "text": "Something is wrong.",
+      "uses": [
+        {
+          "move": "alarm-raise",
+          "subject": "alarm",
+          "role": "raise",
+          "choice": "raise",
+          "stages": ["edge-0"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the Words session",
+      "date": "2026-10-19",
+      "kind": "spoken",
+      "shippable": false
+    },
+    {
+      "key": "stance.alarm-raise.this-is-serious",
+      "move": "alarm-raise",
+      "text": "This is serious.",
+      "uses": [
+        {
+          "move": "alarm-raise",
+          "subject": "alarm",
+          "role": "raise",
+          "choice": "raise",
+          "stages": ["edge-0"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the Words session",
+      "date": "2026-10-19",
+      "kind": "spoken",
+      "shippable": false
+    },
+    {
+      "key": "stance.alarm-raise.i-need-to-see-a-doctor",
+      "move": "alarm-raise",
+      "text": "I need to see a doctor.",
+      "uses": [
+        {
+          "move": "alarm-raise",
+          "subject": "alarm",
+          "role": "raise",
+          "choice": "raise",
+          "stages": ["edge-0"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the Words session",
+      "date": "2026-10-19",
+      "kind": "spoken",
+      "shippable": false
+    },
+    {
+      "key": "stance.alarm-raise.this-can-t-wait",
+      "move": "alarm-raise",
+      "text": "This can't wait.",
+      "uses": [
+        {
+          "move": "alarm-raise",
+          "subject": "alarm",
+          "role": "raise",
+          "choice": "raise",
+          "stages": ["edge-1"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the Words session",
+      "date": "2026-10-19",
+      "kind": "spoken",
+      "shippable": false
+    },
+    {
+      "key": "stance.alarm-raise.i-need-help-with-this",
+      "move": "alarm-raise",
+      "text": "I need help with this.",
+      "uses": [
+        {
+          "move": "alarm-raise",
+          "subject": "alarm",
+          "role": "raise",
+          "choice": "raise",
+          "stages": ["edge-1"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the Words session",
+      "date": "2026-10-19",
+      "kind": "spoken",
+      "shippable": false
+    },
+    {
+      "key": "stance.alarm-raise.the-doctor-says-it-s-serious",
+      "move": "alarm-raise",
+      "text": "The doctor says it's serious.",
+      "uses": [
+        {
+          "move": "alarm-raise",
+          "subject": "alarm",
+          "role": "raise",
+          "choice": "raise",
+          "stages": ["edge-1"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the Words session",
+      "date": "2026-10-19",
+      "kind": "spoken",
+      "shippable": false
+    },
+    {
+      "key": "stance.alarm-raise.please-i-need-you-to-listen-this-is-serious",
+      "move": "alarm-raise",
+      "text": "Please, I need you to listen. This is serious.",
+      "uses": [
+        {
+          "move": "alarm-raise",
+          "subject": "alarm",
+          "role": "raise",
+          "choice": "raise",
+          "stages": ["edge-2"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the Words session",
+      "date": "2026-10-19",
+      "kind": "spoken",
+      "shippable": false
+    },
+    {
+      "key": "stance.alarm-raise.i-don-t-know-what-to-do",
+      "move": "alarm-raise",
+      "text": "I don't know what to do.",
+      "uses": [
+        {
+          "move": "alarm-raise",
+          "subject": "alarm",
+          "role": "raise",
+          "choice": "raise",
+          "stages": ["edge-2"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the Words session",
+      "date": "2026-10-19",
+      "kind": "spoken",
+      "shippable": false
+    },
+    {
+      "key": "stance.alarm-raise.something-is-very-wrong",
+      "move": "alarm-raise",
+      "text": "Something is very wrong.",
+      "uses": [
+        {
+          "move": "alarm-raise",
+          "subject": "alarm",
+          "role": "raise",
+          "choice": "raise",
+          "stages": ["edge-2"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the Words session",
+      "date": "2026-10-19",
+      "kind": "spoken",
+      "shippable": false
+    },
+    {
+      "key": "stance.alarm-raise.listen-to-me-this-is-serious",
+      "move": "alarm-raise",
+      "text": "Listen to me! This is serious!",
+      "uses": [
+        {
+          "move": "alarm-raise",
+          "subject": "alarm",
+          "role": "raise",
+          "choice": "raise",
+          "stages": ["edge-3"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the Words session",
+      "date": "2026-10-19",
+      "kind": "spoken",
+      "shippable": false
+    },
+    {
+      "key": "stance.alarm-raise.somebody-has-to-do-something",
+      "move": "alarm-raise",
+      "text": "Somebody has to do something!",
+      "uses": [
+        {
+          "move": "alarm-raise",
+          "subject": "alarm",
+          "role": "raise",
+          "choice": "raise",
+          "stages": ["edge-3"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the Words session",
+      "date": "2026-10-19",
+      "kind": "spoken",
+      "shippable": false
+    },
+    {
+      "key": "stance.alarm-raise.i-need-help-right-now",
+      "move": "alarm-raise",
+      "text": "I need help right now!",
+      "uses": [
+        {
+          "move": "alarm-raise",
+          "subject": "alarm",
+          "role": "raise",
+          "choice": "raise",
+          "stages": ["edge-3"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the Words session",
+      "date": "2026-10-19",
+      "kind": "spoken",
+      "shippable": false
+    },
+    {
+      "key": "stance.boast-reply-answer-praise.congratulations",
+      "move": "boast-reply-answer-praise",
+      "text": "Congratulations.",
+      "uses": [
+        {
+          "move": "boast-reply-answer-praise",
+          "subject": "boast-reply",
+          "role": "answer",
+          "choice": "praise"
+        }
+      ],
+      "origin": "authored",
+      "author": "the Words session",
+      "date": "2026-10-19",
+      "kind": "spoken",
+      "shippable": false
+    },
+    {
+      "key": "stance.boast-reply-answer-praise.well-done",
+      "move": "boast-reply-answer-praise",
+      "text": "Well done.",
+      "uses": [
+        {
+          "move": "boast-reply-answer-praise",
+          "subject": "boast-reply",
+          "role": "answer",
+          "choice": "praise"
+        }
+      ],
+      "origin": "authored",
+      "author": "the Words session",
+      "date": "2026-10-19",
+      "kind": "spoken",
+      "shippable": false
+    },
+    {
+      "key": "stance.boast-reply-answer-praise.good-for-you",
+      "move": "boast-reply-answer-praise",
+      "text": "Good for you.",
+      "uses": [
+        {
+          "move": "boast-reply-answer-praise",
+          "subject": "boast-reply",
+          "role": "answer",
+          "choice": "praise"
+        }
+      ],
+      "origin": "authored",
+      "author": "the Words session",
+      "date": "2026-10-19",
+      "kind": "spoken",
+      "shippable": false
+    },
+    {
+      "key": "stance.boast-reply-answer-ask.what-happens-now",
+      "move": "boast-reply-answer-ask",
+      "text": "What happens now?",
+      "uses": [
+        {
+          "move": "boast-reply-answer-ask",
+          "subject": "boast-reply",
+          "role": "answer",
+          "choice": "ask"
+        }
+      ],
+      "origin": "authored",
+      "author": "the Words session",
+      "date": "2026-10-19",
+      "kind": "spoken",
+      "shippable": false
+    },
+    {
+      "key": "stance.boast-reply-answer-ask.what-changes-first",
+      "move": "boast-reply-answer-ask",
+      "text": "What changes first?",
+      "uses": [
+        {
+          "move": "boast-reply-answer-ask",
+          "subject": "boast-reply",
+          "role": "answer",
+          "choice": "ask"
+        }
+      ],
+      "origin": "authored",
+      "author": "the Words session",
+      "date": "2026-10-19",
+      "kind": "spoken",
+      "shippable": false
+    },
+    {
+      "key": "stance.boast-reply-answer-doubt.we-ll-see",
+      "move": "boast-reply-answer-doubt",
+      "text": "We'll see.",
+      "uses": [
+        {
+          "move": "boast-reply-answer-doubt",
+          "subject": "boast-reply",
+          "role": "answer",
+          "choice": "doubt"
+        }
+      ],
+      "origin": "authored",
+      "author": "the Words session",
+      "date": "2026-10-19",
+      "kind": "spoken",
+      "shippable": false
+    },
+    {
+      "key": "stance.boast-reply-answer-doubt.time-will-tell",
+      "move": "boast-reply-answer-doubt",
+      "text": "Time will tell.",
+      "uses": [
+        {
+          "move": "boast-reply-answer-doubt",
+          "subject": "boast-reply",
+          "role": "answer",
+          "choice": "doubt"
+        }
+      ],
+      "origin": "authored",
+      "author": "the Words session",
+      "date": "2026-10-19",
+      "kind": "spoken",
+      "shippable": false
+    },
+    {
+      "key": "stance.threat-reply-answer-ask.is-that-a-threat",
+      "move": "threat-reply-answer-ask",
+      "text": "Is that a threat?",
+      "uses": [
+        {
+          "move": "threat-reply-answer-ask",
+          "subject": "threat-reply",
+          "role": "answer",
+          "choice": "ask"
+        }
+      ],
+      "origin": "authored",
+      "author": "the Words session",
+      "date": "2026-10-19",
+      "kind": "spoken",
+      "shippable": false
+    },
+    {
+      "key": "stance.threat-reply-answer-ask.what-does-that-mean",
+      "move": "threat-reply-answer-ask",
+      "text": "What does that mean?",
+      "uses": [
+        {
+          "move": "threat-reply-answer-ask",
+          "subject": "threat-reply",
+          "role": "answer",
+          "choice": "ask"
+        }
+      ],
+      "origin": "authored",
+      "author": "the Words session",
+      "date": "2026-10-19",
+      "kind": "spoken",
+      "shippable": false
+    },
+    {
+      "key": "stance.threat-reply-answer-calm.let-it-go",
+      "move": "threat-reply-answer-calm",
+      "text": "Let it go.",
+      "uses": [
+        {
+          "move": "threat-reply-answer-calm",
+          "subject": "threat-reply",
+          "role": "answer",
+          "choice": "calm"
+        }
+      ],
+      "origin": "authored",
+      "author": "the Words session",
+      "date": "2026-10-19",
+      "kind": "spoken",
+      "shippable": false
+    },
+    {
+      "key": "stance.threat-reply-answer-calm.it-s-over",
+      "move": "threat-reply-answer-calm",
+      "text": "It's over.",
+      "uses": [
+        {
+          "move": "threat-reply-answer-calm",
+          "subject": "threat-reply",
+          "role": "answer",
+          "choice": "calm"
+        }
+      ],
+      "origin": "authored",
+      "author": "the Words session",
+      "date": "2026-10-19",
+      "kind": "spoken",
+      "shippable": false
+    },
+    {
+      "key": "stance.threat-reply-answer-defy.i-m-not-afraid-of-you",
+      "move": "threat-reply-answer-defy",
+      "text": "I'm not afraid of you.",
+      "uses": [
+        {
+          "move": "threat-reply-answer-defy",
+          "subject": "threat-reply",
+          "role": "answer",
+          "choice": "defy"
+        }
+      ],
+      "origin": "authored",
+      "author": "the Words session",
+      "date": "2026-10-19",
+      "kind": "spoken",
+      "shippable": false
+    },
+    {
+      "key": "stance.threat-reply-answer-defy.do-what-you-have-to-do",
+      "move": "threat-reply-answer-defy",
+      "text": "Do what you have to do.",
+      "uses": [
+        {
+          "move": "threat-reply-answer-defy",
+          "subject": "threat-reply",
+          "role": "answer",
+          "choice": "defy"
+        }
+      ],
+      "origin": "authored",
+      "author": "the Words session",
+      "date": "2026-10-19",
+      "kind": "spoken",
+      "shippable": false
+    },
+    {
+      "key": "stance.alarm-reply-answer-ask.what-happened",
+      "move": "alarm-reply-answer-ask",
+      "text": "What happened?",
+      "uses": [
+        {
+          "move": "alarm-reply-answer-ask",
+          "subject": "alarm-reply",
+          "role": "answer",
+          "choice": "ask"
+        }
+      ],
+      "origin": "authored",
+      "author": "the Words session",
+      "date": "2026-10-19",
+      "kind": "spoken",
+      "shippable": false
+    },
+    {
+      "key": "stance.alarm-reply-answer-ask.what-did-the-doctor-say",
+      "move": "alarm-reply-answer-ask",
+      "text": "What did the doctor say?",
+      "uses": [
+        {
+          "move": "alarm-reply-answer-ask",
+          "subject": "alarm-reply",
+          "role": "answer",
+          "choice": "ask"
+        }
+      ],
+      "origin": "authored",
+      "author": "the Words session",
+      "date": "2026-10-19",
+      "kind": "spoken",
+      "shippable": false
+    },
+    {
+      "key": "stance.alarm-reply-answer-help.i-ll-help",
+      "move": "alarm-reply-answer-help",
+      "text": "I'll help.",
+      "uses": [
+        {
+          "move": "alarm-reply-answer-help",
+          "subject": "alarm-reply",
+          "role": "answer",
+          "choice": "help"
+        }
+      ],
+      "origin": "authored",
+      "author": "the Words session",
+      "date": "2026-10-19",
+      "kind": "spoken",
+      "shippable": false
+    },
+    {
+      "key": "stance.alarm-reply-answer-help.tell-me-what-you-need",
+      "move": "alarm-reply-answer-help",
+      "text": "Tell me what you need.",
+      "uses": [
+        {
+          "move": "alarm-reply-answer-help",
+          "subject": "alarm-reply",
+          "role": "answer",
+          "choice": "help"
+        }
+      ],
+      "origin": "authored",
+      "author": "the Words session",
+      "date": "2026-10-19",
+      "kind": "spoken",
+      "shippable": false
+    },
+    {
+      "key": "stance.alarm-reply-answer-comfort.it-ll-be-okay",
+      "move": "alarm-reply-answer-comfort",
+      "text": "It'll be okay.",
+      "uses": [
+        {
+          "move": "alarm-reply-answer-comfort",
+          "subject": "alarm-reply",
+          "role": "answer",
+          "choice": "comfort"
+        }
+      ],
+      "origin": "authored",
+      "author": "the Words session",
+      "date": "2026-10-19",
+      "kind": "spoken",
+      "shippable": false
+    },
+    {
+      "key": "stance.alarm-reply-answer-comfort.we-ll-figure-it-out",
+      "move": "alarm-reply-answer-comfort",
+      "text": "We'll figure it out.",
+      "uses": [
+        {
+          "move": "alarm-reply-answer-comfort",
+          "subject": "alarm-reply",
+          "role": "answer",
+          "choice": "comfort"
+        }
+      ],
+      "origin": "authored",
+      "author": "the Words session",
+      "date": "2026-10-19",
+      "kind": "spoken",
+      "shippable": false
+    }
+  ]
+}

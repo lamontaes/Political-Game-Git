@@ -19,6 +19,7 @@
  * shipped code reads it without importing scripts.
  */
 import bankJson from "../../../data/english/parts/conversation.json" with { type: "json" };
+import stanceJson from "../../../data/english/parts/stance.json" with { type: "json" };
 import { heldByGrades } from "../../english/english-grades";
 import rulesJson from "../data/conversation-rules.json" with { type: "json" };
 import type { ConversationData, Move } from "../conversation";
@@ -50,6 +51,8 @@ export interface MinedBank {
 }
 
 export const CONVERSATION_BANK = bankJson as unknown as MinedBank;
+/** Boasts, threats and alarms, and their answers (`../stance.ts` picks the band). */
+export const STANCE_BANK = stanceJson as unknown as MinedBank;
 export const CONVERSATION_RULES = rulesJson as unknown as Omit<
   ConversationData,
   "version" | "subjects"
@@ -109,10 +112,10 @@ function directorMove(key: string, part: MinedPart, use: MinedUse): Move {
  * of a choice is kept; the renderer's stable pick chooses one per moment.
  */
 export function conversationDataFromBank(
-  bank: MinedBank = CONVERSATION_BANK,
+  banks: readonly MinedBank[] = [CONVERSATION_BANK, STANCE_BANK],
 ): ConversationData {
   const subjects: Record<string, SubjectWords> = {};
-  for (const part of bank.parts) {
+  for (const part of banks.flatMap((bank) => bank.parts)) {
     // A part the owner graded down and never up is not said.
     if (!part.shippable || heldByGrades(part.key)) continue;
     for (const use of part.uses) {
@@ -195,7 +198,7 @@ export function conversationDataFromBank(
     );
   return {
     ...CONVERSATION_RULES,
-    version: `words-${bank.register}-v2`,
+    version: `words-${banks[0]!.register}-v2`,
     subjects,
   };
 }

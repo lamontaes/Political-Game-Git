@@ -50,6 +50,7 @@ import { changesKnownTo } from "./bring-it-up";
 import { JOURNAL_DATA } from "./journal";
 import { DEFAULT_DIRECTOR_DATA, type Director } from "./ledger";
 import { SITUATION_LIBRARY } from "./scheduling";
+import { stanceRaises } from "./stance";
 import type { Moment } from "./types";
 import { viewOf } from "../core2/modules/views";
 import {
@@ -599,6 +600,27 @@ export function subjectsBetween(
     }
   }
   out.push(...evictionSubjects(core, director, speakerId, listenerId));
+  // A boast, threat or alarm from the speaker's own recorded moment, its edge
+  // read from their traits (`stance.ts`).
+  const seenStance = new Set<string>();
+  for (const raise of stanceRaises(
+    core,
+    speakerId,
+    listenerId,
+    recentMoments(core, director, speakerId),
+  )) {
+    if (seenStance.has(raise.kind)) continue;
+    seenStance.add(raise.kind);
+    out.push({
+      id: `${raise.kind}:${raise.sourceRecordIds[zero]}`,
+      kind: raise.kind,
+      stage: raise.stage,
+      aboutId: raise.sourceRecordIds[zero],
+      facts: {
+        cause: { text: "", sourceRecordIds: raise.sourceRecordIds },
+      },
+    });
+  }
   const theirs = jobOf(core, listener);
   if (!mine || theirs?.org.id !== mine.org.id)
     out.push({ id: `their-work:${listenerId}`, kind: "their-work", facts: {} });

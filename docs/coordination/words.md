@@ -47,7 +47,7 @@ An order of work, not a ceiling: when it's done, keep going into this area's nex
 - [ ] **A purpose phrase per policy** as catalog data, authored once and graded in a words batch; a bill's title reads from it. A bill is a set of sections (the deals engine's trades, amendments and favors are OPUS-GOV's).
 - [ ] **A local ordinance's own form**: number, the body's enacting words, sections, effective date, from public-domain municipal forms in data.
 - [ ] **Bill sections composed from the record**: series, old value, new value, statute cited; the number, the date and the shape of a term (flat or graduated) are the player's editable terms.
-- [ ] **Arrogance, anger and fear**: boasts, threats and alarms mined from public-domain speech, plain and rude, the director choosing who says them from traits.
+- [x] **Arrogance, anger and fear** (pool `words-arrogance-anger-and-fear`, Oct 19): `data/english/parts/stance.json`, 55 authored parts (text rule, Oct 15): boasts, threats and alarms in four bands of edge from plain to rude, and the answers to each. `src/director/stance.ts` raises one from a recorded moment of the speaker's own (a count won, a count lost to the listener, a serious illness) and reads the edge from their traits through the shared trait-act table (`traitLeanBetween`), never a roll; the conversation reads it as a subject of the speaker (`conversation.ts`, `subjectsBetween`). `src/director/stance.test.ts` runs it in a drawn place. Not yet: a threat over a law's effect, an alarm for a hazard (the core records no per-person hazard moment), and grading these in the next batch.
 
 ### Second run (CTO's next list, Oct 12 3:45 p.m.)
 
