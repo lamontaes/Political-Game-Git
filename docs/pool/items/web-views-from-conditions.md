@@ -5,9 +5,9 @@ area: people
 kind: owner-decision
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/views-from-conditions
-pr:
+pr: #5641
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-20T10:09:21.273Z

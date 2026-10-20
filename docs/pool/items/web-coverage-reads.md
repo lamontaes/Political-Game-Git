@@ -5,12 +5,13 @@ area: people
 kind: wiring
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/web-coverage-reads
 pr:
 blocked-on:
 after: people-coverage-counted
 source: added with npm run pool -- add
+claimed-at: 2026-10-20T10:40:55.490Z
 ---
 
 **What.** Five links move health coverage only in the web's ledger (unemployment-to-uninsured, medicaid-expansion-to-coverage, work-requirement-to-coverage, marriage-equality-to-coverage, medicaid-expansion-to-medical-debt), stopgap SG-EW-HEALTH-coverage-record. When the coverage record from PR #5475 is on main, the coverage decision multiplies its own rate by webReach(api, placeId, 'health.uninsured-pct', subject) with age, sex and income fifth; unemployment-to-uninsured already carries a researched moderator by sex and age (Cawley, Moriya and Simon 2015).
