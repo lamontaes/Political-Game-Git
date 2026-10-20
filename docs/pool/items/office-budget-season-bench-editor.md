@@ -5,7 +5,7 @@ area: play
 kind: feature
 priority: 3
 size: S
-status: in-pr
+status: done
 claimed-by: claude/political-game-pool-yucp92-ae
 pr: #5599
 blocked-on: office-budget-season-mayor-act

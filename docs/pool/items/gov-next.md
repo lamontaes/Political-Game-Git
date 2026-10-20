@@ -20,7 +20,7 @@ claimed-at:
 
 **Done when.** In a one-year run of the played world (`buildBenchWorld`) in a place drawn from all 56 with a seed the builder did not choose (both named in the PR body), the player from /play files for a local seat, knocks doors, asks for a donation, gives a staged speech and joins a party, and each act appears as a record id read by the voters' views or the campaign tallies; the browser spec src/bench/campaign.browser.mjs walks the controls. The owner plays it: runs a door-to-door day and sees who he met.
 
-**Files.** src/bench/campaign.ts, src/bench/data/controls.json, src/bench/play.mjs, src/core2/campaign-day.ts, src/bench/campaign.browser.mjs
+**Files.** src/bench/campaign.ts, src/bench/data/controls.json, src/bench/play.mjs, src/core2/campaign-day.ts, src/director/speech-builder.ts
 
 **Notes.** Checklist line from OPUS-GOV.md; verify against main before starting.
 

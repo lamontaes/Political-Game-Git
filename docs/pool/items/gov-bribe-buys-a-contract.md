@@ -5,13 +5,13 @@ area: gov
 kind: feature
 priority: 2
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/bribe-contract
 pr: #5337
 after: gov-public-contract-awards
 blocked-on:
 source: added with npm run pool -- add
-claimed-at:
+claimed-at: 2026-10-20T12:12:49.157Z
 ---
 
 **What.** Let a bribe (src/core2/modules/corruption.ts) buy a public contract award as well as a vote. The game has no public contract-award decision today: core2 has public customers in finance (finance-plan.ts, opening-customers.ts) but no body or official that awards a contract between bidders, so there is nothing for a bribe to change. The award decision must exist before corruption can change its outcome.
