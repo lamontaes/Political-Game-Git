@@ -101,8 +101,13 @@ function tenants(api: CoreAPI): Tenant[] {
   const rt = residentsRuntime(c);
   if (rt)
     for (const house of rt.store.liveHouseholds()) {
-      if (house.gone || c.households.has(house.id) || house.tenure !== "rent")
-        continue;
+      if (house.gone || house.tenure !== "rent") continue;
+      // A household filled in keeps its record in the core: the full-tier loop
+      // above renews its lease. One returned to the counts keeps the record too,
+      // but its lease has ended and its rent is the flow again, so only a
+      // live lease puts a household in the full tier.
+      const lease = c.finance.contracts.get(`lease:${house.id}`);
+      if (c.households.has(house.id) && lease && !lease.endedAt) continue;
       const flow = rt.flows.get(`rent:${house.id}`);
       if (!flow || flow.endedAt || table(api, "statuses").get(house.id))
         continue;

@@ -23,3 +23,5 @@ claimed-at:
 
 **Notes.** Blocked-on words-catalog-coverage is done as of 2026-10-15 (#4398), so the block can clear.
 Sent back 2026-10-20 from PR #5187 (branch claude/political-game-pool-g08lgv): Parts in data/english/parts/meeting.json and hearing.json have origin: authored and shippable: true; finish on that branch, merge main into it first.
+
+Sent back 2026-10-20 from PR #5187 (branch claude/political-game-pool-g08lgv): with the authored parts held (shippable false) the body-bank tests find no part and fail; finish on that branch, merge main into it first.

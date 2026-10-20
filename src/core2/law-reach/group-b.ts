@@ -314,9 +314,11 @@ function runPolicy(
   let inForce = input.inForce;
   let personTerms: Map<string, Record<string, number>> | undefined;
   switch (def.mechanic) {
-    // The price engine reads these laws at monthly settlement, and the housing
-    // engine reads its laws at its existing construction decision. A blanket
-    // eligibility row is neither a payment, a received notice nor a decision.
+    // The price engine reads these laws at monthly settlement and records
+    // each household, counted group and seller it charged or paid
+    // (place-prices.ts); the housing engine reads its laws at its existing
+    // construction decision. A blanket eligibility row is neither a payment,
+    // a received notice nor a decision.
     case "price-payment":
     case "housing-construction":
       return;
@@ -598,11 +600,6 @@ function runPolicy(
               enacting: questionInForce(api, MEDICAID_EXPAND),
               value: lawRow(api, row.lawId)?.value ?? null,
             });
-      if (key === "sales-tax") {
-        const answer = lawInForce(api, "sales-tax");
-        terms.ratePercent = answer.value ?? 0;
-        inForce = (answer.value ?? 0) > 0;
-      }
       break;
   }
   finish(
