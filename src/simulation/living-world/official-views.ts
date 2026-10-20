@@ -38,7 +38,7 @@ import {
   householdMembershipsAt,
   kinshipRelationshipsAt,
 } from "../life-queries";
-import { SYNTHETIC_MIND_IDS } from "../mind-catalog";
+import { SYNTHETIC_MIND_IDS } from "../../core2/mind-catalog";
 import { latestPersonalityTendency } from "../queries";
 import {
   readRelationshipStanding,
