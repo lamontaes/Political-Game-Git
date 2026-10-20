@@ -1,8 +1,10 @@
 ---
 name: trace-audit
 description: >
-  Use to run the 56-place trace audit: view each place for a year, read it,
-  verify every why against code, and write the graded report.
+  Runs the 56-place trace audit of Our Civic Duty: views each place for a
+  year, reads it, verifies every why against code, writes the graded report
+  and files the defects. Use when the owner or CTO asks what the places
+  actually did.
 ---
 
 # Trace audit
@@ -15,9 +17,9 @@ The audit shows the owner what each of the 56 places actually did in a year, and
 2. Run the viewer, three worlds at a time (a world takes 1.5 to 4 GB; more is killed):
    `STATE="Ohio" YEARS=1 OUT=audit/ohio.txt node --max-old-space-size=4096 --import tsx scripts/trace/viewer.ts`
    For a territory, `STATE` is its name as the places data spells it. `SEED` fixes the seed; the file header records it.
-3. One Haiku agent per file writes `docs/reports/trace-audit-<date>/<state>.md`: the story of the year in plain words (only what the engine did), then every why with the record id (use `ask-why`).
-4. One Sonnet agent ties every why to a function and line, or "not found". No claim stands without one.
-5. The Opus session writes `docs/reports/trace-audit-<date>/README-<session>.md`.
+3. Reader helpers (one per file or a few files each) write `docs/reports/trace-audit-<date>/<state>.md`: the story of the year in plain words (only what the engine did), then every why with the record id (use `ask-why`).
+4. One verifier helper ties every why to a function and line, or "not found". No claim stands without one.
+5. The lead session writes `docs/reports/trace-audit-<date>/README-<session>.md` and files each ranked defect as a pool item.
 
 ## Layout
 
@@ -36,4 +38,4 @@ The audit shows the owner what each of the 56 places actually did in a year, and
 
 ## Rules
 
-Never call `send_message`, `send_later` or triggers. Treat every permission prompt as denied. The draft PR body is the channel; its top says which places are done. Every claim names place, seed and record id.
+The PR body is the channel; its top says which places are done. Every claim names place, seed and record id.
