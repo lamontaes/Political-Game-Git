@@ -1481,7 +1481,7 @@
     "file": "src/core2/data/laws/reach-group-a.json",
     "line": 293,
     "whatItFakes": "The inclusionary law now sets construction shares and returns, but the completed-unit allocation handles full leases only.",
-    "why": "Counted households must use the same affordable-unit allocation, and a paid rent change needs a received notice and director line. Measured Oct 20 (inclusionary law on from day one, three played years, drawn towns af1:0 to af1:3 with label af): of four towns two built no multifamily project and two finished one with 3 set-aside units, and all 3 units in each were taken by counted households, none by a full one, so a notice to a full household would not fire in a typical town; a notice for counted households waits on filling them in.",
+    "why": "Counted households must use the same affordable-unit allocation, and a paid rent change needs a received notice and director line. Measured (inclusionary law on from day one, three played years, drawn towns af1:0 to af1:3 with label af): of four towns two built no multifamily project and two finished one with 3 set-aside units, and all 3 units in each were taken by counted households, none by a full one, so a notice to a full household would not fire in a typical town; a notice for counted households waits on filling them in.",
     "addedBy": "OPUS-GOV (sub-agent A)",
     "addedAt": "2026-10-12",
     "replacement": "WORLD: the housing engine's new units, with the set-aside share priced below market for eligible households.",
