@@ -28,12 +28,8 @@ import { LAWS_MODULE_ID, lawInForce } from "./laws";
 import { inCustody } from "./justice";
 import { regionalMonth } from "./regional";
 import { isDemoted } from "../counted-groups";
-<<<<<<< HEAD
 import { residentFacts, residentsRuntime } from "./residents";
-=======
-import { residentPerson, residentsRuntime } from "./residents";
 import { claimRetirementNow } from "./retirement-claims";
->>>>>>> cf71e6a913474dbced5c3291706fc5df27c52eef
 import { MOVED_AWAY_EVENT } from "./moves";
 import { endClaim, fileClaim, payClaims } from "../jobs-benefits";
 import { meetAtWork } from "../encounters";
@@ -2037,15 +2033,8 @@ function reviewCountedRetirements(api: CoreAPI): void {
     store(api).table("countedSeekers").remove(job.personId);
     endClaim(api, store(api).table("claims"), job.personId);
     endCountedJob(c, job.id);
-<<<<<<< HEAD
-    // Their income goes on as their place's retirees' does (stand-in until their own claim is modeled).
-    stopgap("SG-WORLD-jobs-counted-retiree-income");
-    const placeId = residentFacts(c, job.personId)?.placeId;
-    if (placeId) addCountedRetiree(c, placeId, job.personId);
-=======
     // Their income goes on from their own claim: age, covered work and traits.
     claimRetirementNow(api, job.personId);
->>>>>>> cf71e6a913474dbced5c3291706fc5df27c52eef
     record(api, {
       personId: job.personId,
       organizationId: job.organizationId,
