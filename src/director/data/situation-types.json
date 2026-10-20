@@ -1957,9 +1957,13 @@
       "timing": "at-cause",
       "causes": [
         {
-          "awaitingProducer": "bill-signed",
+          "match": {
+            "label": "cause:event:executive-action",
+            "causeFact": { "key": "sponsorId", "is": "subject" },
+            "causeFactEquals": { "key": "action", "value": "signed" }
+          },
           "causeEngine": "legislature",
-          "causeRecord": "legislature.sign-or-veto",
+          "causeRecord": "executive-action",
           "bind": {
             "sponsor": "subject",
             "signer": "chair",
@@ -2013,9 +2017,13 @@
       "timing": "at-cause",
       "causes": [
         {
-          "awaitingProducer": "bill-vetoed",
+          "match": {
+            "label": "cause:event:executive-action",
+            "causeFact": { "key": "sponsorId", "is": "subject" },
+            "causeFactEquals": { "key": "action", "value": "vetoed" }
+          },
           "causeEngine": "legislature",
-          "causeRecord": "legislature.sign-or-veto",
+          "causeRecord": "executive-action",
           "bind": {
             "sponsor": "subject",
             "executive": "chair",

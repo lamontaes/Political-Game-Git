@@ -5,6 +5,7 @@
  * (`src/core2/modules/press.ts`); every line is worded from the mined interview
  * bank and cites the interview, the vote or the outlet it rests on.
  */
+import { P } from "../core2/parameters";
 import { coreAPI } from "../core2/state";
 import { votesOf } from "../core2/modules/record";
 import type { InterviewMove, InterviewRow } from "../core2/modules/press";
@@ -93,7 +94,7 @@ export function interviewLines(
         ? ROLE.plain
         : ROLE[move];
     const facts = new Set<string>(
-      vote ? [vote.stance.position >= 0 ? "voted-yes" : "voted-no"] : [],
+      vote ? [vote.stance.position >= P.zero ? "voted-yes" : "voted-no"] : [],
     );
     say("candidate", role, words.answer[role]!(facts), {
       issue: {

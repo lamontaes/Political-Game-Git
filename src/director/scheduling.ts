@@ -45,6 +45,8 @@ export interface SituationCause {
      * ("other"). A cause whose record is gone, or lacks the fact, matches nothing.
      */
     causeFact?: { key: string; is: "subject" | "other" };
+    /** A fact of the cause's own record that must read exactly this ("action" is "signed"). */
+    causeFactEquals?: { key: string; value: string };
   };
   awaitingProducer?: string;
   causeEngine?: string;
@@ -187,6 +189,12 @@ export function causeMatches(
     if ((fact === moment.personId) !== (match.causeFact.is === "subject"))
       return false;
   }
+  if (
+    match.causeFactEquals &&
+    core.durableLog.get(moment.causeId)?.facts?.[match.causeFactEquals.key] !==
+      match.causeFactEquals.value
+  )
+    return false;
   if (match.label !== undefined && moment.label !== match.label) return false;
   if (match.causeKind !== undefined && moment.causeKind !== match.causeKind)
     return false;

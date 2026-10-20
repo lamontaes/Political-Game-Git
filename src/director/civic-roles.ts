@@ -37,7 +37,7 @@ import { BUDGETS_MODULE_ID } from "../core2/modules/budgets";
 import { ELECTIONS_MODULE_ID } from "../core2/modules/elections";
 import { filingClerkFor } from "../core2/modules/filing-clerk";
 import { retellingsOf } from "../core2/modules/speech";
-import { PRESS_MODULE_ID } from "../core2/modules/press";
+import { PRESS_MODULE_ID, townOutlet } from "../core2/modules/press";
 import { VOTING_MODULE_ID, pollingPlaceOf } from "../core2/modules/voting";
 import type { Moment } from "./types";
 
@@ -137,7 +137,14 @@ export function civicFill(
         .moduleState(PRESS_MODULE_ID)
         .table("interviews")
         .get(moment.causeId) as unknown as InterviewRow | undefined;
-      return free(living(core, [row?.reporterId ?? null]));
+      // A public record with no interview (a signing, a veto) is covered by
+      // the outlet that carries the town's public record: its first reporter.
+      const outlet = row ? null : townOutlet(api);
+      return free(
+        living(core, [
+          row?.reporterId ?? outlet?.reporterIds[0] ?? outlet?.headId ?? null,
+        ]),
+      );
     }
     case "teller": {
       // stopgapId: SG-DIRECTOR-owner-decision-law-teller (the head of the

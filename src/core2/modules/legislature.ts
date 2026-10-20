@@ -3390,6 +3390,7 @@ function decideAtDesk(
       number: bill.number,
       level: billReach(api, bill).level,
       executiveId: key,
+      sponsorId: bill.sponsorId,
       action: status,
       ...(override
         ? {
