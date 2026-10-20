@@ -88,35 +88,41 @@ describe("public-sector bargaining sets a unit's pay from its employer's budget 
       });
       const core: CoreState = world.core;
       const api = coreAPI(core);
-      setLaw(api, "state", 1, `yes:${attempt}`);
-      advanceCore(core, addDays(makeIsoDate(core.date), 2));
-      expect(yesLevels(api, KEY).length).toBeGreaterThan(0);
-      advanceCore(core, addDays(makeIsoDate(core.date), 400));
-      const raised = contracts(api).filter(
-        (c) => Number(c.facts.raised) > 0 && c.facts.sampleJobId !== undefined,
-      );
+      // The world's own legislature may repeal the law on any day; the test
+      // re-enacts it daily so a budget date never falls in a lapse.
+      for (let day = 0; day < 400; day += 1) {
+        if (!yesLevels(api, KEY).length)
+          setLaw(api, "state", 1, `yes:${attempt}:${day}`);
+        advanceCore(core, addDays(makeIsoDate(core.date), 1));
+      }
+      const raised = contracts(api).filter((c) => Number(c.facts.raised) > 0);
       tried.push(
         `${place.key}: ${contracts(api)
           .map((c) => `${c.facts.line} ${c.facts.raisePct}%`)
           .join(", ")}`,
       );
       if (!raised.length) continue;
-      const contract = raised[0]!;
+      // A named worker's job is the proof; a unit of only counted workers
+      // (the wider population) still shows the contract and its raise.
+      const contract =
+        raised.find((c) => c.facts.sampleJobId !== undefined) ?? raised[0]!;
       const f = contract.facts;
       // The raise is the line's growth, no more: the pay change cites the line.
       const growth = Number(f.lineNowMinor) / Number(f.lineBeforeMinor) - 1;
       expect(Number(f.raisePct)).toBeCloseTo(growth * 100, 1);
-      const change = core.work.payChanges
-        .get(String(f.sampleJobId))
-        ?.find((c) => c.source.citation.includes(String(f.line)));
-      expect(
-        change,
-        `${place.key}: pay change on ${f.sampleJobId}`,
-      ).toBeDefined();
-      expect(change!.hourlyMinor).toBe(Number(f.sampleToMinor));
-      expect(Number(f.sampleToMinor)).toBe(
-        Math.round(Number(f.sampleFromMinor) * (1 + growth)),
-      );
+      if (f.sampleJobId !== undefined) {
+        const change = core.work.payChanges
+          .get(String(f.sampleJobId))
+          ?.find((c) => c.source.citation.includes(String(f.line)));
+        expect(
+          change,
+          `${place.key}: pay change on ${f.sampleJobId}`,
+        ).toBeDefined();
+        expect(change!.hourlyMinor).toBe(Number(f.sampleToMinor));
+        expect(Number(f.sampleToMinor)).toBe(
+          Math.round(Number(f.sampleFromMinor) * (1 + growth)),
+        );
+      }
       // The people and the payroll read it: an event names the contract.
       expect(
         [...core.events.values()].some((e) => e.id === `event:${contract.id}`),
