@@ -21,3 +21,5 @@ source: added with npm run pool -- add
 **Files.** docs/pool/items, data, src/core2/data/stopgaps.json
 
 **Notes.** Item 7-8 of docs/reports/merge-audit-2026-10-20.md, split from release-merge-audit-oct20-fixes.
+
+**Result (Oct 20).** The pasted-twice sections are removed from world-corporate-office-staff-never-paid and people-press-turnover-no-leavers-no-openings (world-utility-staff-never-paid already read once). Owner and date notes removed from four data citations and replacements (workRoutineRetentionWeeks, its calibration proposal, the memory-budget stopgap, the private-tuition and election-tie stopgaps, responseSecureHomeFit). New guard tests/guards/no-owner-notes-in-data.test.ts fails on any.

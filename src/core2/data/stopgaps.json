@@ -524,7 +524,7 @@
     "why": "Retention span is an owner budget assumption, not a human forgetting measurement; later readers and legal obligations need audit.",
     "addedBy": "SOL-1258",
     "addedAt": "2026-10-09",
-    "replacement": "Resolved Oct 20: the owner ruled running memory stays small (Oct 12, DECISION-REGISTER 'Speed and memory'), so the retention span is a tunable engineering memory budget, tagged TUNABLE with its spread, and only the dev-why bench reads old rollups (pool item owner-stopgap-memory-budgets).",
+    "replacement": "Resolved Oct 20: running memory stays small (DECISION-REGISTER, 'Speed and memory'), so the retention span is a tunable engineering memory budget, tagged TUNABLE with its spread, and only the dev-why bench reads old rollups (pool item owner-stopgap-memory-budgets).",
     "status": "resolved"
   },
   {
@@ -1865,7 +1865,7 @@
     "why": "A lot is a random draw, and the owner's no-dice rule bars a seeded draw from deciding an outcome; the owner hasn't ruled on legally required lots.",
     "addedBy": "OPUS-GOV",
     "addedAt": "2026-10-13",
-    "replacement": "RESOLVED (owner, Oct 14, 2026: ties follow the law of the state, a recorded lot where the law says lot): src/core2/election-ties.ts draws the lot from a stable hash of the contest and the tied candidates and keeps it as a tie record (citation, tied candidates, each slip, the result).",
+    "replacement": "RESOLVED (ties follow the law of the state, a recorded lot where the law says lot): src/core2/election-ties.ts draws the lot from a stable hash of the contest and the tied candidates and keeps it as a tie record (citation, tied candidates, each slip, the result).",
     "status": "resolved"
   },
   {
@@ -3162,7 +3162,7 @@
     "why": "Private schools had no customers at all, so they closed in every town.",
     "addedBy": "OPUS-CORE",
     "addedAt": "2026-10-12",
-    "replacement": "PEOPLE's schools engine: each child's enrollment chosen from the family's income, beliefs and the schools nearby, moving as they change. Means-ranked enrollment replaced the even spread of the town's average on Oct 19.",
+    "replacement": "PEOPLE's schools engine: each child's enrollment chosen from the family's income, beliefs and the schools nearby, moving as they change. Means-ranked enrollment replaced the even spread of the town's average.",
     "status": "open"
   },
   {
