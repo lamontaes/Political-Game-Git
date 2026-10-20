@@ -5,9 +5,9 @@ area: world
 kind: feature
 priority: 2
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/estate-sells-home
-pr:
+pr: #5735
 blocked-on:
 source: split of world-home-turnover (Oct 18)
 claimed-at: 2026-10-20T16:21:01.145Z
