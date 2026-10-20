@@ -5,12 +5,12 @@ area: laws
 kind: stopgap
 priority: 3
 size: M
-status: claimed
-claimed-by: claude/laws-reach-b-roads-parks
+status: open
+claimed-by:
 pr:
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-20T02:11:57.144Z
+claimed-at:
 ---
 
 **What.** TODO
