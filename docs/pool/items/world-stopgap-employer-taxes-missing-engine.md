@@ -11,7 +11,7 @@ blocked-on:
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/modules/employer-taxes.ts, kind missing-engine"
 after: world-business-premises-record
-claimed-at: 
+claimed-at:
 ---
 
 **What.** One of this item's two rows is already resolved: SG-WORLD-business-profit-pass-through closed (an owner-run business's profit is taxed as its owner's income in employer-taxes.ts, proved in src/core2/profit-pass-through.test.ts). The one that remains is SG-WORLD-business-premises-property-tax: businesses pay no property tax on their premises because the property-tax engine bills homes only and a business's books record no premises. Once world-business-premises-record gives each business a premises record with an assessed value and an owner, make the property-tax billing in src/core2/housing-property-tax.ts (`billPropertyTax`) read business premises as well as homes, at the commercial rate in force where the premises stand, billed to whoever owns the premises, and remove the premises marker and the `PREMISES_STOPGAP` constant in employer-taxes.ts.

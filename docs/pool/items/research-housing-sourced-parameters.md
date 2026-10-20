@@ -10,7 +10,7 @@ claimed-by:
 pr:
 blocked-on:
 source: "collapsed Oct 19, 2026 from world-stopgap-housing-assumed-data, world-stopgap-housing-estimated-law, world-stopgap-housing-foreclosure-assumed-data, world-stopgap-housing-homeless-assumed-data, world-stopgap-housing-mortgages-assumed-data"
-claimed-at: 
+claimed-at:
 ---
 
 **What.** Apply the sourced rows in docs/research/pool-feeder-oct20/research-housing-sourced-parameters.md to the parameter table(s) and data files for sourced parameters for housing prices, eviction, foreclosure, shelters and mortgages. Each row already carries a value, a low and high spread, a tag (SOURCED or ESTIMATED) and a citation, so the builder enters them, adds a reader for each research file, and resolves these stopgap rows in src/core2/data/stopgaps.json: SG-WORLD-housing-price-index, SG-WORLD-housing-island-areas, SG-WORLD-housing-eviction-steps, SG-WORLD-housing-foreclosure-steps, SG-WORLD-housing-shelter-beds-state-rate, SG-WORLD-housing-shelter-territory, SG-WORLD-housing-mortgage-history. Rows tagged mechanic name a change the area's builder makes to read the sourced inputs; build the simplest version and register what remains.

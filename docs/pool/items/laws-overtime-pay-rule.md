@@ -8,7 +8,7 @@ size: M
 status: open
 claimed-by:
 pr:
-after: 
+after:
 blocked-on:
 milestone:
 source: Split from core-stopgap-work-prototype-pay-projection by pool feeder Oct 20; the stand-in research (docs/research/stand-in-figures-2026-10-12.md) notes the DOL state payday and overtime pages as the source

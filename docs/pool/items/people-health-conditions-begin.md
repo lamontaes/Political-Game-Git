@@ -8,7 +8,7 @@ size: M
 status: open
 claimed-by:
 pr:
-after: 
+after:
 blocked-on:
 milestone:
 source: split from people-stopgap-health-missing-mechanic by pool feeder Oct 20

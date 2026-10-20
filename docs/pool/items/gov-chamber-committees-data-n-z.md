@@ -9,7 +9,7 @@ status: open
 claimed-by:
 pr:
 after: gov-chamber-committees-reader, gov-chamber-committees-data-a-m
-blocked-on: 
+blocked-on:
 milestone:
 source: split from gov-stopgap-legislature-committees-assumed-data by pool feeder Oct 20
 ---

@@ -8,8 +8,8 @@ size: M
 status: open
 claimed-by:
 pr:
-after: 
-blocked-on: 
+after:
+blocked-on:
 milestone:
 source: split from gov-stopgap-legislature-committees-assumed-data by pool feeder Oct 20
 ---

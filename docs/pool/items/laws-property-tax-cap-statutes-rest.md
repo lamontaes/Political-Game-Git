@@ -11,7 +11,7 @@ pr:
 blocked-on:
 after: laws-property-tax-cap-statutes
 source: added with npm run pool -- add
-claimed-at: 
+claimed-at:
 ---
 
 **What.** laws-property-tax-cap-statutes reads the first eight states' property-tax cap statutes into the property-tax law rows: the size of the cap, what it covers, its exemptions and whether the assessment resets on sale. Do the same for the remaining states and territories that cap property tax growth or the levy, including levy limits, exemptions, and the CPI-lesser caps (a cap at the lesser of a fixed percent and inflation). Research each statute and add its terms to the cap terms of us-policy-positions:fiscal.cap-property-tax-growth in src/core2/data/laws/reach-group-b.json (the propertyTaxGrowthCapShare reach, read by src/core2/law-reach/group-b-money.ts) in the format the first part set, citing the statute and retrieval date, so the assessment in src/core2/housing-property-tax.ts and the bill read each place's own cap.

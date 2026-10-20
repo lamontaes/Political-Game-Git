@@ -8,7 +8,7 @@ size: M
 status: open
 claimed-by:
 pr:
-after: 
+after:
 blocked-on:
 milestone:
 source: split from world-jobs-counted-choices by pool feeder Oct 20

@@ -37,4 +37,3 @@ Oct 20 pool-feeder research for three legislature rows. All three were already w
   - data/research/stopgaps-oct19/C-government-law.json key SG-GOV-committee-structure (confidence low, retrieved false) — game repo committees.json — appointer text per chamber and standing-committee counts (repo file read; chamber websites not fetched)
 - Note: Mechanic and numbers: leadership appointing members is the builder's mechanic; the committee counts and sizes are estimates.
 - builderNote: Replace seniority-ratio seating with appointment by the chamber's named appointer; size committees from typicalMembers; seat both chambers on joint committees.
-

@@ -9,7 +9,7 @@ status: open
 claimed-by:
 pr:
 after: gov-justice-incident-producer
-blocked-on: 
+blocked-on:
 milestone:
 source: split from gov-justice-counted-cases by pool feeder Oct 20
 ---

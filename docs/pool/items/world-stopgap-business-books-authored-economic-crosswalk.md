@@ -11,7 +11,7 @@ blocked-on:
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/data/business-books.json, kind authored-economic-crosswalk"
 after: world-stopgap-business-generated-identity
-claimed-at: 
+claimed-at:
 ---
 
 **What.** src/core2/data/business-books.json maps 33 workplace classifications (such as `enterprise:retail`) that an old authored list made up to an industry prior and a funding route, with unknown classifications left as a gap and no legal form. Replace the authored list with a published one: give each opening employer a NAICS sector and subsector code (from the Census NAICS 2022 structure, carried by the opening's employer generation), map NAICS to the IRS Statistics of Income industry groups the priors use, take legal form from the employer's owner record (an owner-operated business is a pass-through, a location of an outside firm is a corporation, a school or church is a nonprofit by NAICS 61 and 813, a department is a government), and take the funding route from that (sales, a treasury through its public pay authority, tuition or donations for a nonprofit). A classification with no mapped row falls back to the all-industry prior, marked ESTIMATED, instead of producing a gap, as the Oct 19 research note recommends. Delete the authored classification list and its stopgap id.

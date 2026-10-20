@@ -11,7 +11,7 @@ blocked-on:
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/modules/business.ts, kind generated-identity"
 after:
-claimed-at: 
+claimed-at:
 ---
 
 **What.** At the opening, `open` in src/core2/modules/business.ts makes the highest-paid current worker of each business its owner-operator, except the largest businesses by staff (up to the state's share of jobs in multi-establishment firms, from ownership.json) that belong to firms outside the town. Replace the highest-paid rule with an owner chosen from the people's own records: a sliding founder-fit score over the town's residents, using whether the person's occupation matches the business's industry, their age against the class-of-worker self-employment age profile, their liquid wealth against the opening capital the business holds, their tenure and their traits (`decisionLean` for risk and ambition). Record a founding on each business (founder id, a founded date drawn from the firm-age distribution in bds-rates.json, and a past fact so the business has an origin) so the history the opening carries is consistent with who owns it. A business may be owned by a resident who is retired or works elsewhere, and may be run by a hired manager. The self-employed share of the town's workers by industry (ACS class of worker) checks the total. Keep the outside-firm rule, whose parent is the place's outside account. Delete the highest-paid heuristic and the `SG-WORLD-business-opening-owners` marker.

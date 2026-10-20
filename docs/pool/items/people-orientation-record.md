@@ -8,7 +8,7 @@ size: S
 status: open
 claimed-by:
 pr:
-after: 
+after:
 blocked-on:
 milestone:
 source: split from people-partnership-counted by pool feeder Oct 20

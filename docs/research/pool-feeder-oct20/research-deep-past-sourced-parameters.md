@@ -65,4 +65,3 @@ Sources: Oct 19 files in `data/research/stopgaps-oct19/` reused by id where they
 - Sources:
   - Pew Research Center, Religious Landscape Study, 2023-24 — https://www.pewresearch.org/religion/religious-landscape-study/ — "surveys more than 35,000 Americans in all 50 states" (national shares are on the database page, not fetched).
 - builderNote: Needs a researcher with a Census API key for B15001 (state, age, sex) and Pew's database export; the builder can wire the schooling-history derivation now.
-

@@ -8,7 +8,7 @@ size: S
 status: open
 claimed-by:
 pr:
-after: 
+after:
 blocked-on:
 milestone:
 source: Split from world-stopgap-finance-state-receipt-budget-proxy and world-stopgap-opening-finance-authored-opening-counterparty-crosswalk by pool feeder Oct 20; the stand-in research says BEA input-output tables can calibrate demand (SG-P8-outside-product-demand-crosswalk)

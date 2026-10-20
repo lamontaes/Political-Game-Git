@@ -12,7 +12,7 @@ milestone:
 after:
 size: M
 source: "src/core2/data/stopgaps.json, src/core2/data/justice/parameters.json, kind uncalibrated-tunable"
-claimed-at: 
+claimed-at:
 ---
 
 **What.** Replace SG-GOV-justice-weights: the TUNABLE weights in src/core2/data/justice/parameters.json (report pulls, evidence strengths, prominence, party and trait weights, the investigate, charge and conviction bars, the defense and plea weights) are first versions. Check them against sourced totals without letting the totals decide any case: put the Public Integrity Section's yearly counts of public-corruption charges and convictions by level of office and the federal plea and trial-conviction shares (Sentencing Commission and BJS) into data/research/justice/corruption-counts-2026.json with citations, scale them to a place's population, and add a calibration test that runs a year of the played world and reports where the charge, plea and conviction counts land against each band. A weight that puts the town outside its band is retuned within its stated spread.

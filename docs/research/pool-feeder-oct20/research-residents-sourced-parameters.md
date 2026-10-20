@@ -39,4 +39,3 @@ Oct 20 pool-feeder research for three residents rows. Employment and cadence wer
   - data/research/stopgaps-oct19/D-economy-world.json key SG-CORE-district-placement (confidence low) — "estimate; no source page fetched this session" (the Oct 19 basis cites Reardon and Bischoff from memory; ACS state-legislative-district tables need a Census key)
 - Note: Strict income-order filling gives correlation 1, which is unrealistic; the 0.35 is the researcher's estimate.
 - builderNote: Use noisy ordering with correlation 0.35; replace with ACS state-legislative-district income and tenure cells when a key is available.
-

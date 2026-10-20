@@ -11,7 +11,7 @@ blocked-on:
 milestone:
 source: "src/core2/data/stopgaps.json, src/bench/whole-figures.ts, kind missing-data"
 after: art-figure-set
-claimed-at: 
+claimed-at:
 ---
 
 **What.** Each approved whole-figure look is painted doing one thing, so a person whose look does not fit where they are (a teen boy's skateboard indoors, a laptop off work) is drawn in their next look, indoors a teen boy is drawn in the youngest adult hoodie look, and the player's teen and adult looks are tied by two hand-paired families (family-066, family-009). The art item art-figure-set replaces the v1 cut-out figures with a layered set (age, skin, hair, outfit and hands as layers, with 8 poses by 6 bodies and `figures.json` anchors), which removes the cause: one person is composed from layers, so any activity or age fits and one person keeps one identity for life. When that set lands, make `pickLook` in src/bench/whole-figures.ts and the scene renderer compose a person from their record (sex, age, skin, hair, outfit for the place, pose for the act) instead of picking a pre-painted look, delete the v1 manifest, `lineageOf`, the nearest-age window and the hand-paired families, and resolve the row.

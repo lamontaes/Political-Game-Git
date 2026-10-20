@@ -72,4 +72,3 @@ Sources: Oct 19 files in `data/research/stopgaps-oct19/` reused by id where they
 - Sources fetched (1):
   - CDC NCHS, Births in the United States, 2024 (NCHS Data Brief 535) and NVSS final data, 2025 — https://cdc.gov/nchs/products/databriefs/db535.htm — "final 2024 rate 53.8, decline of about 1%"
 - builderNote: In renewal.ts seed opening pregnancies with Bernoulli(ASFR(age)*0.75*1.15) per eligible partnered-or-not woman, ASFR from NVSS table scaled so the mean over 15-44 = 53.8/1000; spread phase dates uniformly over the 273-day term.
-

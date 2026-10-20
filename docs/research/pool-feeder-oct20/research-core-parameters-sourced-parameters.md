@@ -40,7 +40,7 @@ Sources: Oct 19 files in `data/research/stopgaps-oct19/` reused by id where they
 - Recommended: `{"speechImpulse":0.3}`
 - Low / high: `0.1` / `0.5`; unit: life-change-scale points
 - Tag: ESTIMATED
-- Basis: Coppock's articles could not be read (PDF compressed), so no fetched figure. Keep speechImpulse 0.3 with its 0.1 to 0.5 spread; a search snippet suggested average ad effects under 1 point, but it was not read from a page, so it is not used. 
+- Basis: Coppock's articles could not be read (PDF compressed), so no fetched figure. Keep speechImpulse 0.3 with its 0.1 to 0.5 spread; a search snippet suggested average ad effects under 1 point, but it was not read from a page, so it is not used.
 - Sources fetched (0):
 - builderNote: No change.
 
@@ -63,4 +63,3 @@ Sources: Oct 19 files in `data/research/stopgaps-oct19/` reused by id where they
 - Basis: The Census mobility tables did not load (page lists Excel files only; direct file 404; API needs a key). Keep scale 1 (0.5 to 3) and the repo's existing owner-hold figure; the 3.5% national share was unsourced and is withdrawn.
 - Sources fetched (0):
 - builderNote: No change; calibrate the scale in moves.test.ts against the ACS rates already in the repo.
-

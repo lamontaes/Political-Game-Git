@@ -12,7 +12,7 @@ milestone:
 after:
 size: M
 source: "src/core2/data/stopgaps.json, src/core2/modules/offices.ts, kind missing-engine"
-claimed-at: 
+claimed-at:
 ---
 
 **What.** Narrow SG-GOV-special-election-appointee in src/core2/modules/offices.ts by running special elections for the player's own state's US Senate seats and statewide executive seats (governor, lieutenant governor, attorney general, secretary of state, treasurer, auditor and the like, as the offices table holds them) as real races. openSpecialRace in src/core2/modules/world-races.ts accepts only us-house and legislature-* seats, so these fall to officesCalendarWork, where the best-suited eligible person takes the seat on the day. Accept us-senate and the statewide executive kinds, count them on the whole state's places (statePlaces, as the regular Senate race does, not legislativePlace), have decideSpecial seat the winner for the unexpired term, and date them from the state's law for that office family, adding usSenate and statewideExecutive entries to special-election-law.json.

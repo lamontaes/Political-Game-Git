@@ -11,7 +11,7 @@ pr:
 blocked-on:
 after: words-speech-part-words,director-retire-stage-speech-builder
 source: added with npm run pool -- add
-claimed-at: 
+claimed-at:
 ---
 
 **What.** When words-speech-part-words lands, the English engine words each speech part from its move and facts, but the play screen and the scenes must read those words. speechView in src/bench/campaign.ts shows the four choices and the picked parts as text, and speechGive returns speechText(build) and a scene; make those read the worded parts of whichever speech builder survives director-retire-stage-speech-builder, with each part's text carrying the record ids it rests on. The listener's scene built by speechScene should quote the finished speech through the address register and not a second wording. The old text path in the screen is deleted so one set of words reaches the player.

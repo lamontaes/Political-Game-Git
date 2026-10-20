@@ -20,12 +20,12 @@ Sources: Oct 19 files in `data/research/stopgaps-oct19/` reused by id where they
 - Feeds: src/core2/modules/housing.ts starting tenure, rent and value for AS, GU, MP, VI.
 - Recommended table (2020 Census Island Areas):
 
-| Place | Owner share of occupied units | Median gross rent per month | Median home value |
-| --- | --- | --- | --- |
-| AS | 71.1% | $601 | $84,400 |
-| GU | 52.0% | $1,057 (excludes military housing) | $277,800 |
-| MP | 29.0% | $750 ESTIMATED (low $502, high $1,057) | $184,200 |
-| VI | 47.8% | $926 | $290,600 |
+| Place | Owner share of occupied units | Median gross rent per month            | Median home value |
+| ----- | ----------------------------- | -------------------------------------- | ----------------- |
+| AS    | 71.1%                         | $601                                   | $84,400           |
+| GU    | 52.0%                         | $1,057 (excludes military housing)     | $277,800          |
+| MP    | 29.0%                         | $750 ESTIMATED (low $502, high $1,057) | $184,200          |
+| VI    | 47.8%                         | $926                                   | $290,600          |
 
 - Low / high: owner share and value are census counts (no spread beyond rounding); MP rent is an estimate: no all-units median was found; $502 is the median gross rent for units built in 2019 or 2020 (a floor), $1,057 is Guam (a ceiling).
 - Unit: percent of occupied units; US dollars per month; US dollars.
@@ -92,4 +92,3 @@ Sources: Oct 19 files in `data/research/stopgaps-oct19/` reused by id where they
   - Freddie Mac, Primary Mortgage Market Survey, 2026 — https://www.freddiemac.com/pmms — "The 30-year fixed-rate mortgage averaged 7.40% as of October 15, 2026, unchanged from last week."; "A year ago at this time, the 30-year FRM averaged 6.27%."
   - National Association of Realtors, Highlights from the Profile of Home Buyers and Sellers, 2026 — https://www.nar.realtor/research-and-statistics/research-reports/highlights-from-the-profile-of-home-buyers-and-sellers — "mortgage interest rates averaged 6.69% during the data collection period" (down-payment figure not on the page).
 - builderNote: Load the historical weekly series (Freddie Mac PMMS or FRED MORTGAGE30US, not fetched here) as a research file with a reader; derive refinancing from the rate gap, not a roll.
-

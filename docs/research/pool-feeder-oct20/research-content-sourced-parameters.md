@@ -24,4 +24,3 @@ Sources: Oct 19 files in `data/research/stopgaps-oct19/` reused by id where they
 - Sources fetched (1):
   - AmeriCorps and Census Bureau, Civic Engagement and Volunteering Supplement 2023 headline report (formal volunteering 28.3%; neighbor helping 54.2%), 2024 — https://americorps.gov/sites/default/files/document/2025-01/CEV2023_HeadlineReport_12192024_508.pdf — "28.3% of the U.S. population age 16 and up formally volunteered"
 - builderNote: Calibrate civic availability so simulated yearly formal volunteering is about 28% of adults 16+, by state using CEV state tables; keep meeting attendance low (5 to 10%).
-

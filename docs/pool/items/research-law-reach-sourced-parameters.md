@@ -10,7 +10,7 @@ claimed-by:
 pr:
 blocked-on:
 source: "collapsed Oct 19, 2026 from laws-stopgap-group-b-money-missing-data, laws-stopgap-laws-data-gap, laws-stopgap-reach-group-a-missing-mechanic"
-claimed-at: 
+claimed-at:
 ---
 
 **What.** Apply the sourced rows in docs/research/pool-feeder-oct20/research-law-reach-sourced-parameters.md to the law-reach data and resolve the stopgap rows listed below. The numeric work is small: replace the Oct 2025 / Jan 2026 first phases in src/core2/data/laws/starting-law.json with the Jan 20, 2025 values, add the flat-rate replacement terms to the income-tax repeal provision, set the pretrial, set-aside, rent-cap and leave bands in the parameter table with their citations and spreads, and confirm the island-area residents already come from public-budget-bases.json. The 14 mechanic rows stay registered with their notes; the builder names the pool item for each missing engine. The starting-law rewrite makes this size L; split it from the rest if time runs short.
@@ -41,7 +41,7 @@ claimed-at:
 - `SG-GOV-REACH-A-facial-recognition` in src/core2/data/laws/reach-group-a.json: The warrant rule is recorded on the police, but no investigation uses or is barred from facial recognition. Replacement: GOV: the justice engine's identification of a suspect reads the rule and needs a warrant where it applies.
 - `SG-GOV-REACH-A-data-privacy` in src/core2/data/laws/reach-group-a.json: Rights are recorded on residents, but no request to see or delete data is made. Replacement: PEOPLE with WORLD: a resident's request to see or delete data, answered by a business that holds customer data; coverage thresholds from the statute's terms read per business.
 
-**Rules.** Research before building: the sourced figures calibrate the bands the proof reports against and never decide what one person, business or official does. Estimate, never UNKNOWN: any value a source lacks for a place starts from the real national average with a stated spread and is tagged ESTIMATED, never shown to the player. One rule, all 56 places: a figure that varies by place is a per-place table in data keyed by place code, and no state, city or GEOID is named in logic. No dice: a real rate may check a town's total after a year, but it must never pick one actor's outcome; if an engine would read a number as a chance, file a bug instead of wiring it. 
+**Rules.** Research before building: the sourced figures calibrate the bands the proof reports against and never decide what one person, business or official does. Estimate, never UNKNOWN: any value a source lacks for a place starts from the real national average with a stated spread and is tagged ESTIMATED, never shown to the player. One rule, all 56 places: a figure that varies by place is a per-place table in data keyed by place code, and no state, city or GEOID is named in logic. No dice: a real rate may check a town's total after a year, but it must never pick one actor's outcome; if an engine would read a number as a chance, file a bug instead of wiring it.
 
 **Done when.** Each row is tagged SOURCED or ESTIMATED in its parameter table with a citation and spread, the stopgap rows that were numbers are resolved in src/core2/data/stopgaps.json with the source named, the mechanic rows stay registered with their notes, the research-data-reader guard and the tripwire test pass, and a one-year played world (buildBenchWorld, a drawn place from all 56, seed named in the PR) reports each band and where the town landed.
 

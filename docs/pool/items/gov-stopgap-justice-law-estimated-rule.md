@@ -12,7 +12,7 @@ milestone:
 after:
 size: M
 source: "src/core2/data/stopgaps.json, src/core2/justice-law.ts, kind estimated-rule"
-claimed-at: 
+claimed-at:
 ---
 
 **What.** Replace SG-GOV-justice-forfeiture-by-place in src/core2/justice-law.ts. convictionForfeitsOffice and bribeProceedsForfeited answer the same for every place (all offices vacate on conviction, on the day, and all proceeds are forfeited) and both call api.stopgap. Research each state and territory's rule once into data/research/justice/forfeiture-2026.json, the way prison-voting-2026.json is kept: whether a felony conviction vacates an office, the moment it does (conviction, sentencing or final appeal), and the share of a bribe's proceeds the court may take, each row SOURCED from the state constitution or code or ESTIMATED with the spread. Read it in both functions and in convict (src/core2/modules/justice.ts, vacateSeat around line 927) so the seat falls on the day the place's rule names.

@@ -11,7 +11,7 @@ pr:
 blocked-on:
 after: laws-cannabis-adult-use-record
 source: added with npm run pool -- add
-claimed-at: 
+claimed-at:
 ---
 
 **What.** Legal cannabis spending is split across the town's existing retail businesses by licensedSellers in src/core2/modules/place-prices.ts because no dispensary is founded. Add a cannabis-dispensary business kind (a classification of enterprise:retail:cannabis with its margin, staffing and startup cost in the business-books data) that the business engine founds where the sales law is in force and the adult-use demand (pricesCannabisSpendPerResidentMinor now, the adult-use record once it lands) supports one, and make licensedSellers return only dispensaries for the cannabis rule. marketRoom in src/core2/modules/business.ts builds a market only from incumbents, so a kind with no incumbent never gets a market: add the demand-without-incumbent entry for a licensed kind, then the first dispensary opens through the existing found() path with an owner, staff and books, and its receipts go through the sales receipt so the tax in force collects.

@@ -10,7 +10,7 @@ pr:
 blocked-on:
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/births-plan.ts, kind estimated-record"
-claimed-at: 
+claimed-at:
 ---
 
 **What.** Give every opening couple a recorded partnership start date from the opening's own partnership model, and delete the estimate in births-plan.ts. Today population.ts writes `startedAt` as today minus (the younger adult's age minus marriageReferenceAge), floored at zero, so any couple whose younger partner is at or under the reference age starts on the opening day, and `partnershipStart` in births-plan.ts then guesses one birth-spacing interval before the first child or the mother's union age. Instead set the start in population.ts from the place's own marital data in opening-partnership.json (the ACS first-marriage and marital-status shares by age already used to decide who is partnered): the couple's duration is the age at first union for the elder partner's cohort capped by the first child's birth (the plan's eldest child) and never later than the day before the opening. The births engine then reads the recorded start, and the SG-PW8-partnership-start branch is deleted.

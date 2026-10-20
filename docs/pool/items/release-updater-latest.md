@@ -11,7 +11,7 @@ blocked-on:
 milestone:
 size: S
 source: 'astra order 2 "Owner plays it"; windows-package stopgap'
-claimed-at: 
+claimed-at:
 ---
 
 **What.** The release workflow already refuses to publish without latest-mac.yml, but nothing checks that the feed it publishes matches the files beside it, which is what the installed app's Check for updates reads. Add a step to .github/workflows/release.yml, before the draft is made public, that reads latest-mac.yml and latest.yml in the staged folder and fails unless each names the release's own version, a zip or exe that is in the folder, and that file's real size and sha512. Put the parsing in a small script under desktop/scripts with a node test in desktop/tests, so the check is proven on the feeds of the live releases (v0.19.1 and v0.19.2 both carry them) without a Mac. The step that needs the owner's Mac, installing an older build and pressing Check for updates, stays a play check.

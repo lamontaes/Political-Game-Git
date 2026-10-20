@@ -29,7 +29,6 @@ Sources: Oct 19 files in `data/research/stopgaps-oct19/` reused by id where they
 - Recommended: `"keep current values"`
 - Low / high: `0.5` / `2`; unit: days
 - Tag: ESTIMATED
-- Basis: Pew pages returned 403 to the fetch tool and the local-news fact sheet markdown gave no usable figure. No sourced value; keep prototype delay 1 day, story life 30 days, 1 story per contact with their spreads. 
+- Basis: Pew pages returned 403 to the fetch tool and the local-news fact sheet markdown gave no usable figure. No sourced value; keep prototype delay 1 day, story life 30 days, 1 story per contact with their spreads.
 - Sources fetched (0):
 - builderNote: No change; the earlier 21-day story life was unsourced and is withdrawn.
-

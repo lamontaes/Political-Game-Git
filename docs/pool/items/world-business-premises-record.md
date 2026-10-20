@@ -8,7 +8,7 @@ size: M
 status: open
 claimed-by:
 pr:
-after: 
+after:
 blocked-on:
 milestone:
 source: Split from world-stopgap-employer-taxes-missing-engine and world-stopgap-finance-state-business-closure by pool feeder Oct 20

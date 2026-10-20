@@ -11,7 +11,7 @@ blocked-on:
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/data/work.json, kind uncalibrated-choice-mapping"
 after:
-claimed-at: 
+claimed-at:
 ---
 
 **What.** A worker's choice to attend or miss a scheduled shift is scored in src/core2/modules/work.ts from needs, traits, affect and an ongoing work-goal prior, with `workCommitmentUrgency` and the daily-segment policy uncalibrated and no health or care constraint. Add the causes that real absences have and calibrate the total, not the person. Give the absence offer `reasonBindings` that read the worker's own illness (`careNeedOf` in src/core2/modules/health.ts), the care a child or relative at home needs, the state's paid-sick-leave law in force (whether the missed shift is paid, which sets what the miss costs), and the worker's cash cushion; let the employer side read the missed-work record in the jobs engine's review (repeated unpaid misses are an input to a warning or layoff decision, not a roll). Then tune `workCommitmentUrgency` so full-time workers lose about 1.7 percent of scheduled hours (BLS CPS 2023 Table 46: absence rate 3.1 percent, lost worktime rate 1.7 percent, spread 1.2 to 2.5, illness about two thirds), with the state paid-sick-leave law moving it modestly by state.

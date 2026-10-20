@@ -11,7 +11,7 @@ pr:
 blocked-on:
 after: world-hiring-bias-reasons
 source: added with npm run pool -- add
-claimed-at: 
+claimed-at:
 ---
 
 **What.** Make the hiring step in jobs.ts read the discrimination ban when it picks. In `runWeek` an employer offers its best-placed applicant; when world-hiring-bias-reasons has recorded the owner's reasons for that pick, check whether the employer holds an open discrimination reach row (written by `writeRows` in law-reach/group-a-records.ts for the law key us-policy-positions with the employers spec) and whether the recorded reasons cite a protected trait. If both hold, the offer is refused: the employer moves to the next applicant, and the refused applicant's job-change record carries the law reason and the reach row's law id. In a place with no ban in force the same decision stands and the record is unchanged. The refused applicant learns why from the record (not from a form), which is what justice-discrimination-complaint reads.

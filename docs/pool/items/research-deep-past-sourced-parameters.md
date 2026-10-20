@@ -10,7 +10,7 @@ claimed-by:
 pr:
 blocked-on:
 source: "collapsed Oct 19, 2026 from art-stopgap-opening-partnership-estimated-behavior, core-stopgap-civic-inputs-civic-data-vintage-and-permission, core-stopgap-deep-past-generated-history-proxy, core-stopgap-deep-past-shared-past-generation-gap, core-stopgap-opening-peer-network-generated-historical-social-prior, core-stopgap-opening-profile-partial-model"
-claimed-at: 
+claimed-at:
 ---
 
 **What.** Apply the sourced rows in docs/research/pool-feeder-oct20/research-deep-past-sourced-parameters.md to the parameter table(s) and data files for sourced parameters for the deep past, peer networks, profiles and partnerships. Each row already carries a value, a low and high spread, a tag (SOURCED or ESTIMATED) and a citation, so the builder enters them, adds a reader for each research file, and resolves these stopgap rows in src/core2/data/stopgaps.json: SG-P15-partnership-model, SG-P8-civic-inputs, SG-P8-deep-past, SG-P15-kin-light-past, SG-P8-opening-peer-network, SG-P15-opening-profile. Rows tagged mechanic name a change the area's builder makes to read the sourced inputs; build the simplest version and register what remains.

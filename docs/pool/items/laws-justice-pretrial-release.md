@@ -11,7 +11,7 @@ pr:
 blocked-on:
 after: gov-justice-incident-producer, justice-bail-moves-the-cash
 source: added with npm run pool -- add
-claimed-at: 
+claimed-at:
 ---
 
 **What.** Extend the pretrial wait from charged officials to everyone the justice engine charges. decidePretrial in src/core2/justice-pretrial.ts already reads the end-cash-bail law (lawInForce) and the defendant's cash against the bail estimate, holds a poor defendant in custody and releases them when bail is ended; it is called only for bribery cases. Once the incident producer and the charging step create cases for ordinary defendants (stops, fights, weapons), route those cases through the same decidePretrial so a poor person arrested for a fight waits in custody where cash bail is law and goes home where it is ended, and make the flat estimated bail follow the charge's grade from the sentencing data in place of one number.

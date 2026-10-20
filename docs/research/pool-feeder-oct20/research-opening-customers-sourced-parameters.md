@@ -62,4 +62,3 @@ Oct 20 pool-feeder research for five opening-customer rows. All five were worked
   - data/research/stopgaps-oct19/B-people-behavior-2.json key SG-P8-opening-public-owner-coverage (confidence low) — game repo src/core2/opening-public-owner.ts, read Oct 19; no external source measures public-buyer reach
 - Note: This is arithmetic from Census 2020 geography already in the repo, not an empirical rate.
 - builderNote: Scale the bounded purchase plan by cohortResidents / countyPopulation, tagged ESTIMATED, until own-county procurement records exist.
-

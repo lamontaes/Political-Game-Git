@@ -90,4 +90,3 @@ Sources: Oct 19 files in `data/research/stopgaps-oct19/` reused by id where they
   - Idaho Legislature, Idaho Code 34-903, 2026 — https://legislature.idaho.gov/statutesrules/idstat/Title34/T34CH9/SECT34-903/ — "shall be rotated in the manner determined by the secretary of state"
   - Maryland General Assembly, Md. Election Law 9-210, 2026 — https://mgaleg.maryland.gov/mgawebsite/Laws/StatuteText?article=gel&section=9-210&enactments=false — "listed in alphabetical order by surname"
 - builderNote: In data/research/elections/ballot-order-2026.json update primary/general/within for each place listed in recommended and set estimate:false only where estimateFlagCanClear is true (AS, MP, VI, PA, WI, IN remain estimate:true); add kinds endorsed-first-then-alphabetical (CT primary) and rotation-from-lot (ND).
-

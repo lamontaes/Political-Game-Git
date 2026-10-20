@@ -11,7 +11,7 @@ blocked-on:
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/data/finance.json, kind estimated-mechanism"
 after:
-claimed-at: 
+claimed-at:
 ---
 
 **What.** The settlement rules in src/core2/data/finance.json and src/core2/finance-state.ts close a business immediately after one recorded obligation that cash and finite credit cannot fund (the reason `finance.unfunded-obligation-cash-and-credit-exhausted`). Real firms do not: JPMorgan Chase Institute data show a median of 27 days of cash buffer (interquartile range 13 to 62), and an owner reacts. Replace the immediate closure with an insolvency path: an obligation that cannot be paid becomes arrears owed to that creditor (wages first, by the wage-claim priority in law), the owner decides each month from their own cash, traits and the firm's books whether to put in their own money, draw credit, cut hours, or close (an act chosen with recorded reasons, as `credit.ts` does), and a firm is closed by its creditors only when arrears have run past the period the law allows before an involuntary petition. Households' unfunded standing bills already become arrears on contracts that accrue them, which the housing and credit engines read; leave those, and narrow the row's text to what remains (household purchase choices belong to world-stopgap-opening-finance-authored-opening-counterparty-crosswalk, and supplier terms to world-stopgap-finance-state-receipt-budget-proxy).

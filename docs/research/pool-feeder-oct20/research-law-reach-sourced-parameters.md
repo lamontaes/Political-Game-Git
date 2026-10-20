@@ -309,4 +309,3 @@ Oct 20 pool-feeder research for the 25 stopgap rows of the law-reach item. Most 
   - National Center for Health Statistics, U.S. Births down 1% in 2025, 2026 — https://cdc.gov/nchs/pressroom/releases/20260409.html — "3,606,400 births recorded in 2025"; "53.1 births for every 1,000 females ages 15 to 44 in 2025"
 - Note: The 2024 final rate of 53.8 comes from the search summary of the same release, not the page text.
 - builderNote: Mechanic: builder (OPUS-PEOPLE) renewal engine; use the births figure as a year-end band shared with the births item.
-

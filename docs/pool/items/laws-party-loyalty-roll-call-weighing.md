@@ -11,7 +11,7 @@ pr:
 blocked-on:
 after: laws-party-loyalty-roll-calls
 source: added with npm run pool -- add
-claimed-at: 
+claimed-at:
 ---
 
 **What.** laws-party-loyalty-roll-calls calibrates how far a state legislator follows their party from each legislature's public roll calls. This item weighs each state chamber's loyalty multiple against its own roll calls: from the roll-call tabulation that item produces, compute each chamber's observed party-unity rate, compare it with what the simulated chamber produces (src/core2/party-loyalty.test.ts measures the simulated chambers; the weight is weights.statePartyLoyalty in src/core2/modules/officials.ts and partyLoyaltyWeight in src/core2/modules/voting.ts), and set a per-chamber multiple in a data table, SOURCED to the roll calls with the years used or ESTIMATED with a spread where a chamber publishes none. The per-chamber multiple replaces the one shared weight.

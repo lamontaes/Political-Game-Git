@@ -12,7 +12,7 @@ milestone:
 after:
 size: M
 source: "src/core2/data/stopgaps.json, src/core2/modules/executive.ts, kind missing-data"
-claimed-at: 
+claimed-at:
 ---
 
 **What.** Replace SG-GOV-executive-powers-research by checking data/research/executive/executive-powers-2026.json against its sources. The file was written from memory: 57 rows (50 states, D.C., the territories and federal) of cabinet positions and who confirms them, elected-instead offices, pardon authority, canOrder and executiveOrders entries, and patronage job counts, plus a local block of city and county posts; only pardon authority (52 jurisdictions), the voting-restoration orders and 16 states' confirmation rules are checked, and 13 of 19 sources say 'not retrieved'. Fetch Book of the States Table 4.10, NCSL's pages and the state constitutions, correct each row, give every row a source id with a retrieved date and a SOURCED or ESTIMATED tag with spread, and change the file's status line.

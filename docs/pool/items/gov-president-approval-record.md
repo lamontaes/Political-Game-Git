@@ -8,8 +8,8 @@ size: M
 status: open
 claimed-by:
 pr:
-after: 
-blocked-on: 
+after:
+blocked-on:
 milestone:
 source: split from elections-stopgap-electorate-inputs-missing-data by pool feeder Oct 20
 ---

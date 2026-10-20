@@ -88,4 +88,3 @@ Oct 20 pool-feeder research for seven people rows. Five were worked on Oct 19 (f
   - Cooperative Election Study (Harvard) — https://cces.gov.harvard.edu/ — fetch returned 403 this session, so no CES figure or sample size is recorded
 - Note: The weights must be read from CES microdata by the builder; none were researchable by page fetch.
 - builderNote: Mechanic: builder derives the weights from CES cells and keeps the stopgap registered until the 14 values are formed.
-

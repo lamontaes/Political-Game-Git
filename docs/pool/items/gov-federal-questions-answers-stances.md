@@ -8,8 +8,8 @@ size: M
 status: open
 claimed-by:
 pr:
-after: 
-blocked-on: 
+after:
+blocked-on:
 milestone:
 source: split from gov-stopgap-world-legislating-missing-mechanic by pool feeder Oct 20
 ---

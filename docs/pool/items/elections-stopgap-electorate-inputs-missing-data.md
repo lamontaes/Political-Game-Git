@@ -12,7 +12,7 @@ milestone:
 after: gov-president-approval-record, elections-electorate-reads-approval
 size: L
 source: "src/core2/data/stopgaps.json, src/core2/electorate-inputs.ts, kind missing-data"
-claimed-at: 
+claimed-at:
 ---
 
 **What.** Roll-up for SG-GOV-electorate-approval in src/core2/electorate-inputs.ts. raceConditions sets the national mood that moves every voter's choice for the president's party from nationalEconomyChange (unemployment and inflation since the opening) and the midterm penalty, because no record of presidential approval exists. Split Oct 20 into gov-president-approval-record (a monthly approval row built from the president's own record, what the public has heard and how it feels the economy) and elections-electorate-reads-approval (raceConditions reads that row and the measured effect on the vote replaces the bare economy term). Nothing is built under this item itself.

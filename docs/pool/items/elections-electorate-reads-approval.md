@@ -9,7 +9,7 @@ status: open
 claimed-by:
 pr:
 after: gov-president-approval-record
-blocked-on: 
+blocked-on:
 milestone:
 source: split from elections-stopgap-electorate-inputs-missing-data by pool feeder Oct 20
 ---
