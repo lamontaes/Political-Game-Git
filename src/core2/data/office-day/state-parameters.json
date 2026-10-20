@@ -85,11 +85,23 @@
       "source": "How much the leader's closeness to the member (their tie today, 0 to 1) adds to granting the request.",
       "spread": [0.2, 0.8]
     },
-    "leaderRequestTraitWeight": {
-      "value": 0.4,
+    "clemencyReviewWeekday": {
+      "value": 4,
       "tag": "TUNABLE",
-      "source": "How much the leader's own traits (help-others, rule-following against refusing and delay) add to or take from granting the request, on the shared trait-lean scale of -1 to 1.",
-      "spread": [0.2, 0.6]
+      "source": "The weekday a governor takes up one clemency case (Thursday is 4): a governor works through petitions on a regular day each week rather than daily; no dataset in the repository measures it.",
+      "spread": [1, 5]
+    },
+    "clemencyReviewMonths": {
+      "value": 12,
+      "tag": "TUNABLE",
+      "source": "Months before a denied petition is reviewed again: pardon and commutation boards and governors commonly bar a repeat application for a year after a denial (Collateral Consequences Resource Center, state pardon profiles).",
+      "spread": [6, 36]
+    },
+    "clemencyBar": {
+      "value": 0.75,
+      "tag": "TUNABLE",
+      "source": "The share of a term a person has served that, with a neutral temperament, tips a governor to grant clemency: commutations go overwhelmingly to people far into long terms. A trait lean moves it either way; no dataset in the repository measures it.",
+      "spread": [0.5, 0.95]
     }
   }
 }
