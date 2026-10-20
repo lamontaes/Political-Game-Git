@@ -5,13 +5,13 @@ area: gov
 kind: feature
 priority: 2
 size: M
-status: claimed
-claimed-by: claude/gov-justice-juvenile-age
+status: open
+claimed-by:
 pr:
 blocked-on:
 after: gov-justice-incident-producer
 source: split from gov-justice-incident-records (M, really L) by the claiming session, Oct 19
-claimed-at: 2026-10-20T12:20:09.893Z
+claimed-at:
 ---
 
 **What.** When a fight or other incident makes someone under the age of majority a defendant, the court routing reads the juvenile age of the law in force on the incident date and sends the case to juvenile or adult court. Juvenile cases take the juvenile sentencing range and seal the record; adult cases take the adult range. The routing, the age read and the ruling are recorded.
