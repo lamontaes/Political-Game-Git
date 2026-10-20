@@ -5,10 +5,10 @@ area: words
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: blocked
 claimed-by: claude/words-shippable-sweep
 pr:
-blocked-on:
+blocked-on: owner: grade the 141 authored lines in a batch, or flip them and let 20 director tests stand on mined/graded parts only
 source: added with npm run pool -- add
 claimed-at: 2026-10-20T05:56:26.946Z
 ---
