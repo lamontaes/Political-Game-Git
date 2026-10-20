@@ -1541,7 +1541,10 @@
     "addedBy": "OPUS-GOV (sub-agent A)",
     "addedAt": "2026-10-12",
     "replacement": "GOV: a justice engine with arrests, charges, pretrial detention and release decisions from the law in force.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "The public-safety engine arrests people from the town's crime measures and decides each defendant's wait for trial from the bail law and their cash (src/core2/public-safety.ts); jail days are paid by the county treasury.",
+    "resolvedAt": "2026-10-20",
+    "resolvedBy": "law-wiring-justice"
   },
   {
     "id": "SG-GOV-REACH-A-convictions",
@@ -3764,11 +3767,11 @@
     "kind": "missing-mechanic",
     "file": "src/core2/modules/press.ts",
     "line": 1321,
-    "whatItFakes": "A reporter's closeness to a candidate gives access (asked first, the friendly reporter asks) and gentler copy, but a candidate cannot do a reporter a favor or leak them a story, and a reporter cannot hold a story back for a friend.",
+    "whatItFakes": "A reporter's closeness to a candidate gives access (asked first, the friendly reporter asks) and gentler copy, but a candidate cannot do a reporter a favor, and a reporter cannot hold a story back for a friend. A person who knows of a hidden act can now leak it to a reporter (leakToReporter, press.ts); no conversation move offers it to the player yet.",
     "why": "Favors and leaks need a player act on a reporter (a scene or a conversation move) that the director does not offer yet.",
     "addedBy": "OPUS-PEOPLE",
     "addedAt": "2026-10-14",
-    "replacement": "A leak as a conversation move that puts a record on the reporter's wire with the leaker named in their knowledge, and favors as relationship acts the reporter's drives and closeness read.",
+    "replacement": "A leak offered to the player as a conversation move (the director and the English engine), and favors as relationship acts the reporter's drives and closeness read.",
     "status": "open"
   },
   {
@@ -4242,10 +4245,10 @@
   {
     "id": "SG-GOV-REACH-A-police-oversight",
     "kind": "missing-mechanic",
-    "file": "src/core2/data/laws/reach-group-a.json",
-    "line": 513,
-    "whatItFakes": "A civilian board is recorded on the police and the town, but no complaint against an officer is brought or reviewed.",
-    "why": "Session A checked main: justice complaints and investigations concern recorded crimes such as bribery; there is no police-stop misconduct complaint, civilian-board finding or discipline record to consume this law. Re-checked Oct 15, 2026 against src/core2: still no engine records a police-stop complaint, civilian-board finding or officer discipline; the justice engine hears only corruption cases.",
+    "file": "src/core2/public-safety.ts",
+    "line": 1394,
+    "whatItFakes": "The civilian board costs the city a yearly amount per resident and is recorded against the police department, but no complaint against an officer is brought or reviewed.",
+    "why": "No engine records a police-stop complaint, a board finding or officer discipline; the board's cost and its department are built.",
     "addedBy": "OPUS-GOV",
     "addedAt": "2026-10-14",
     "replacement": "GOV: the justice engine files a resident's complaint against an officer from a police stop and the board reviews it, its finding read by the department's discipline.",
@@ -4261,7 +4264,10 @@
     "addedBy": "OPUS-GOV",
     "addedAt": "2026-10-14",
     "replacement": "GOV: the justice engine reads the juvenile age in force when it routes a defendant's case, and the sentence follows that court's range.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "The engine routes each arrested person's case to juvenile or adult court by the juvenile age in force, and the sentence and cost follow that court (src/core2/public-safety.ts).",
+    "resolvedAt": "2026-10-20",
+    "resolvedBy": "law-wiring-justice"
   },
   {
     "id": "SG-GOV-REACH-A-carry-permit",
@@ -4273,7 +4279,10 @@
     "addedBy": "OPUS-GOV",
     "addedAt": "2026-10-14",
     "replacement": "GOV with OPUS-PEOPLE: the justice engine reads the permit law when a carried weapon is part of a case, and the sheriff's office issues permits.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "Adults in gun-owning households apply for, hold and renew permits, paying the state fee and the class through the journal; adults under 21 are refused (src/core2/public-safety.ts).",
+    "resolvedAt": "2026-10-20",
+    "resolvedBy": "law-wiring-justice"
   },
   {
     "id": "SG-GOV-REACH-A-handgun-age",
@@ -4285,7 +4294,10 @@
     "addedBy": "OPUS-GOV",
     "addedAt": "2026-10-14",
     "replacement": "OPUS-WORLD: the business engine's sales read the purchase age when a store sells to a person.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "Young adults in gun-owning households buy handguns from private sellers where no age limit applies and are refused where one does (src/core2/public-safety.ts).",
+    "resolvedAt": "2026-10-20",
+    "resolvedBy": "law-wiring-justice"
   },
   {
     "id": "SG-GOV-REACH-A-stand-your-ground",
@@ -4297,7 +4309,10 @@
     "addedBy": "OPUS-GOV",
     "addedAt": "2026-10-14",
     "replacement": "GOV: the prosecutor's charging decision and the court read the law in force when a case turns on self-defense.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "Self-defense claims in assault cases end at charging where the rule is law, and only those with no safe retreat end there where the duty to retreat applies (src/core2/public-safety.ts).",
+    "resolvedAt": "2026-10-20",
+    "resolvedBy": "law-wiring-justice"
   },
   {
     "id": "SG-GOV-REACH-A-discrimination",
@@ -4869,6 +4884,42 @@
     "status": "open"
   },
   {
+    "id": "SG-WEB-moves-full-tax-pull",
+    "kind": "missing-mechanic",
+    "file": "src/core2/modules/moves.ts",
+    "line": 818,
+    "whatItFakes": "A full person's leaving does not weigh the state income tax in force: only counted households do (counted-moves.ts reads the town state's income-tax law and the other states' 2026 table into an income pull). The web's income-tax links are about zero (Young, Varner, Lurie and Prisinzano 2016), so they add nothing on top, and adding them would count the tax twice for counted households.",
+    "why": "A full person's destination is chosen after the pull is built, so a tax difference between states has no place to enter the pull until a destination-aware pull exists.",
+    "addedBy": "claude/effect-web-moves",
+    "addedAt": "2026-10-20",
+    "replacement": "A destination-aware pull for full people that uses the same net-of-tax income comparison as pullBetween in counted-moves.ts.",
+    "status": "open"
+  },
+  {
+    "id": "SG-WEB-moves-disaster-severity",
+    "kind": "missing-record",
+    "file": "src/core2/modules/moves.ts",
+    "line": 819,
+    "whatItFakes": "The link from a severe disaster to out-migration (Boustan, Kahn, Rhode and Yanguas 2020) does not run: no record says how many people a disaster killed in a place. The disasters engine holds FEMA declarations (type, begin and declared dates) with no deaths, and the research's effect starts at about 100 deaths.",
+    "why": "A declaration is not a severity; reading one as severe would move every declared place by a guess.",
+    "addedBy": "claude/effect-web-moves",
+    "addedAt": "2026-10-20",
+    "replacement": "A per-place count of deaths from a disaster (the health engine's cause-of-death records within the incident's dates) read as the link's cause disaster.severe.",
+    "status": "open"
+  },
+  {
+    "id": "SG-WEB-births-full-tier",
+    "kind": "missing-mechanic",
+    "file": "src/core2/births-plan.ts",
+    "line": 159,
+    "whatItFakes": "Full couples decide on a child from their own age, children, work, income, room, savings, health and closeness, and none of the outcome web's birth links reach them. Counted women take the web's factor per woman (src/core2/births-counted.ts), so a full woman and a counted woman of the same age, tenure and place differ on the links the full decision does not carry: home prices (owners up, renters down), an enforced abortion ban, and the place's drifting birth level.",
+    "why": "The unemployment link is left out for full couples on purpose: a lost job already lowers their work and income terms, so the web's link would count the same recession twice. The other links have no term in the plan score, and the score is a choice between planning and waiting, not a rate the factor can multiply; turning a factor into a score term needs its own calibration against the births it produces.",
+    "addedBy": "EFFECT-WEB-WIRING",
+    "addedAt": "2026-10-20",
+    "replacement": "A conditions term in the plan score that reads webReach for the woman's own age and tenure, leaving out the links her own records already carry (unemployment), with a weight calibrated in a played year so full births move by the researched size, as counted births do.",
+    "status": "open"
+  },
+  {
     "id": "SG-TRAITS-counted-health-no-trait",
     "kind": "partial-model",
     "file": "src/core2/modules/health.ts",
@@ -4890,18 +4941,6 @@
     "addedBy": "traits-health",
     "addedAt": "2026-10-20",
     "replacement": "Groups apply the same yearly shift to their columns by age band once the counted store can drop a member's cached lean.",
-    "status": "open"
-  },
-  {
-    "id": "SG-WEB-births-full-tier",
-    "kind": "missing-mechanic",
-    "file": "src/core2/births-plan.ts",
-    "line": 159,
-    "whatItFakes": "Full couples decide on a child from their own age, children, work, income, room, savings, health and closeness, and none of the outcome web's birth links reach them. Counted women take the web's factor per woman (src/core2/births-counted.ts), so a full woman and a counted woman of the same age, tenure and place differ on the links the full decision does not carry: home prices (owners up, renters down), an enforced abortion ban, and the place's drifting birth level.",
-    "why": "The unemployment link is left out for full couples on purpose: a lost job already lowers their work and income terms, so the web's link would count the same recession twice. The other links have no term in the plan score, and the score is a choice between planning and waiting, not a rate the factor can multiply; turning a factor into a score term needs its own calibration against the births it produces.",
-    "addedBy": "EFFECT-WEB-WIRING",
-    "addedAt": "2026-10-20",
-    "replacement": "A conditions term in the plan score that reads webReach for the woman's own age and tenure, leaving out the links her own records already carry (unemployment), with a weight calibrated in a played year so full births move by the researched size, as counted births do.",
     "status": "open"
   },
   {
@@ -4974,6 +5013,78 @@
     "addedBy": "effect-web-health",
     "addedAt": "2026-10-20",
     "replacement": "Records on the person for each cause, read by the health engine's hazard like the web's death factor.",
+    "status": "open"
+  },
+  {
+    "id": "SG-WEB-knowing-rent-reader",
+    "kind": "missing-mechanic",
+    "file": "src/core2/outcome-news.ts",
+    "line": 52,
+    "whatItFakes": "The town hears of a rise in housing.rent from the outcome web's month record, but no engine yet reads the web's rent factor when it sets a lease, so the rise the story reports is not in any lease or rent payment.",
+    "why": "The housing family's rent wiring is on its own branch; the news path lists the measure so the town hears of it the month an engine reads it, with no change here.",
+    "addedBy": "EFFECT-WEB-WIRING",
+    "addedAt": "2026-10-20",
+    "replacement": "The housing engine multiplies its lease rent by webFactorFor(housing.rent); then this row and the readBy null in data/news/outcome-news.json are replaced by the reading file.",
+    "status": "open"
+  },
+  {
+    "id": "SG-LAW-justice-youth-firearm-harm",
+    "kind": "missing-mechanic",
+    "file": "src/core2/public-safety.ts",
+    "line": 1537,
+    "whatItFakes": "The web's youth firearm death and suicide rates become an expected count of young people lost in the town each month, but no named child dies of it.",
+    "why": "Counted people die only through the illness-course engine (births-counted.ts); there is no injury death for a child.",
+    "addedBy": "claude/law-wiring",
+    "addedAt": "2026-10-20",
+    "replacement": "PEOPLE: an injury death for full and counted young people, booked from this expected count.",
+    "status": "open"
+  },
+  {
+    "id": "SG-LAW-justice-enforcement-outcome-readers",
+    "kind": "missing-mechanic",
+    "file": "src/core2/public-safety.ts",
+    "line": 1098,
+    "whatItFakes": "The immigration partnership moves the web's Hispanic school enrollment, undocumented employment and U.S.-born employment, but no school or jobs engine reads those measures.",
+    "why": "The detainer holds are built; the three outcomes are kept place measures that no engine consumes.",
+    "addedBy": "claude/law-wiring",
+    "addedAt": "2026-10-20",
+    "replacement": "WORLD and PEOPLE: school enrollment and jobs engines read the kept measures when they enroll and hire.",
+    "status": "open"
+  },
+  {
+    "id": "SG-LAW-justice-named-offender-acts",
+    "kind": "missing-mechanic",
+    "file": "src/core2/public-safety.ts",
+    "line": 677,
+    "whatItFakes": "The named residents' share of ordinary-crime arrests is carried in an unnamed batch of cases; no named person is arrested, held or sentenced by this engine.",
+    "why": "A named person is charged only through an act the engines record (corruption cases today); there is no engine that records an ordinary offense as a named person's own act.",
+    "addedBy": "claude/law-wiring",
+    "addedAt": "2026-10-20",
+    "replacement": "PEOPLE and GOV: an act engine where a named person's drives, record and circumstances decide an offense, then the case flow charges them from that act.",
+    "status": "open"
+  },
+  {
+    "id": "SG-TRAITS-partnerships-no-engine",
+    "kind": "missing-engine",
+    "file": "src/core2/modules/renewal.ts",
+    "line": 272,
+    "whatItFakes": "Couples exist only as the opening drew them: no one partners, marries, separates or divorces during play, so the temperament reads that should decide those (extraversion raises the odds of a first marriage 1.35 per standard deviation and openness lowers them 0.77, Jokela et al. 2011; neuroticism raises divorce r = 0.17, agreeableness lowers it r = -0.18, Roberts et al. 2007) have no decision to read them.",
+    "why": "The partnership engine is gated in the pool (people-partnerships-full-people-form and people-partnerships-full-people-end wait on core family-link and household-membership changes). The effect sizes are in data/research/trait-effect-sizes.json (outcome.marriage-formation, outcome.divorce).",
+    "addedBy": "claude/traits-family",
+    "addedAt": "2026-10-20",
+    "replacement": "When partnerships form and end in play, the forming and ending decisions read both partners' traits through leanedYes with weights calibrated from those rows by scripts/traits/trait-calibrate.ts.",
+    "status": "open"
+  },
+  {
+    "id": "SG-OFFICE-public-project-finish-date",
+    "kind": "missing-record",
+    "file": "src/core2/modules/projects.ts",
+    "line": 61,
+    "whatItFakes": "A public work (a capital line awarded to a town firm for the fiscal year) is finished on the day the next fiscal year's budget takes over, whatever was built. The treasury's payments to the contractor are real; the finish date is the year's end, not a completion the work reached.",
+    "why": "The treasury pays the awarded firm by the month and nothing tracks the work itself: there is no schedule, milestone or completion record for a road, park, housing or school work.",
+    "addedBy": "claude/political-game-pool-yucp92-yy",
+    "addedAt": "2026-10-20",
+    "replacement": "A project record with a start, a cost, milestones the contractor's payments fund and a completion date the funded work reaches, which the office day reads for the ribbon.",
     "status": "open"
   }
 ]

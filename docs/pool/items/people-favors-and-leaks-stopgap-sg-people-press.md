@@ -4,13 +4,13 @@ title: "Favors and leaks (stopgap SG-PEOPLE-press-favors-and-leaks)."
 area: people
 kind: feature
 priority: 2
-status: in-pr
-claimed-by: claude/fs11vb-press-leak
+status: open
+claimed-by:
 pr: #5163
 blocked-on:
 milestone:
 source: "docs/coordination/OPUS-PEOPLE.md line 20 (unchecked checklist line)"
-claimed-at: 2026-10-20T04:50:38.791Z
+claimed-at:
 ---
 
 **What.** Checked against main on Oct 16: OPEN. `press.ts` still registers `SG-PEOPLE-press-favors-and-leaks`, and "leak" appears in no conversation part. Next: A leak as a conversation move that puts a record on a reporter's wire. The player would see it as a choice among people, never a form.
