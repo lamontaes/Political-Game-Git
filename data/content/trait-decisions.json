@@ -1546,6 +1546,10 @@
       "why": "The shared trait-decision helpers."
     },
     {
+      "site": "src/core2/money-traits-kit.ts",
+      "why": "The money family's test kit: it reads leans to check the decisions, and decides nothing in play."
+    },
+    {
       "site": "src/core2/player-v1.ts",
       "why": "The player's own choices and the same work and daily-act decisions listed above, scored through the chooser for people the player controls."
     },
