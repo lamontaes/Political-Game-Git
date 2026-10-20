@@ -25,6 +25,7 @@ import {
   keptOutcome,
   LAW_PREFIX,
   linkEffect,
+  OUTCOME_WEB_MODULE_ID,
   moderatorScale,
   scaleOf,
   sizeIn,
