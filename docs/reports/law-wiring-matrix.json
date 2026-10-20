@@ -58,8 +58,8 @@
    "web": {
     "wired": 16,
     "partial": 9,
-    "missing": 39,
-    "stopgap": 25,
+    "missing": 17,
+    "stopgap": 47,
     "n/a": 0
    },
    "knowing": {
@@ -122,8 +122,8 @@
     },
     "web": {
      "status": "stopgap",
-     "evidence": "data/research/outcome-web/links.json",
-     "why": "no researched outcome-web link starts from this law (registered SG-GOV-REACH-B-road-condition)"
+     "evidence": "road-condition-to-vehicle-costs: size-not-set",
+     "why": "every link is unbuilt: size-not-set (registered SG-GOV-REACH-B-road-condition)"
     },
     "knowing": {
      "status": "missing",
@@ -260,8 +260,8 @@
     },
     "web": {
      "status": "stopgap",
-     "evidence": "data/research/outcome-web/links.json",
-     "why": "no researched outcome-web link starts from this law (registered SG-GOV-REACH-B-mileage-fee-price)"
+     "evidence": "src/core2/data/laws/outcome-research-gaps.json",
+     "why": "no researched outcome-web link starts from this law or a measure it sets; the research would measure vehicle miles traveled and fuel use (SG-LAW-outcome-link-unresearched)"
     },
     "knowing": {
      "status": "wired",
@@ -466,9 +466,9 @@
      "why": ""
     },
     "web": {
-     "status": "missing",
-     "evidence": "data/research/outcome-web/links.json",
-     "why": "no researched outcome-web link starts from this law"
+     "status": "stopgap",
+     "evidence": "src/core2/data/laws/outcome-research-gaps.json",
+     "why": "no researched outcome-web link starts from this law or a measure it sets; the research would measure take-home pay and labor supply (SG-LAW-outcome-link-unresearched)"
     },
     "knowing": {
      "status": "wired",
@@ -535,9 +535,9 @@
      "why": "no money flow: nobody pays or receives anything because of it"
     },
     "web": {
-     "status": "missing",
-     "evidence": "data/research/outcome-web/links.json",
-     "why": "no researched outcome-web link starts from this law"
+     "status": "stopgap",
+     "evidence": "src/core2/data/laws/outcome-research-gaps.json",
+     "why": "no researched outcome-web link starts from this law or a measure it sets; the research would measure state Medicaid enrollment and coverage (SG-LAW-outcome-link-unresearched)"
     },
     "knowing": {
      "status": "wired",
@@ -811,9 +811,9 @@
      "why": ""
     },
     "web": {
-     "status": "missing",
-     "evidence": "data/research/outcome-web/links.json",
-     "why": "no researched outcome-web link starts from this law"
+     "status": "stopgap",
+     "evidence": "src/core2/data/laws/outcome-research-gaps.json",
+     "why": "no researched outcome-web link starts from this law or a measure it sets; the research would measure hospital access and uninsured care (SG-LAW-outcome-link-unresearched)"
     },
     "knowing": {
      "status": "missing",
@@ -950,8 +950,8 @@
     },
     "web": {
      "status": "missing",
-     "evidence": "data/research/outcome-web/links.json",
-     "why": "no researched outcome-web link starts from this law"
+     "evidence": "school-spending-to-attainment: person-level",
+     "why": "every link is unbuilt: person-level"
     },
     "knowing": {
      "status": "missing",
@@ -1157,8 +1157,8 @@
     },
     "web": {
      "status": "stopgap",
-     "evidence": "data/research/outcome-web/links.json",
-     "why": "no researched outcome-web link starts from this law (registered SG-GOV-REACH-B-tuition)"
+     "evidence": "src/core2/data/laws/outcome-research-gaps.json",
+     "why": "no researched outcome-web link starts from this law or a measure it sets; the research would measure college enrollment and completion (SG-LAW-outcome-link-unresearched)"
     },
     "knowing": {
      "status": "missing",
@@ -1225,9 +1225,9 @@
      "why": "no money flow: nobody pays or receives anything because of it"
     },
     "web": {
-     "status": "missing",
-     "evidence": "data/research/outcome-web/links.json",
-     "why": "no researched outcome-web link starts from this law"
+     "status": "stopgap",
+     "evidence": "src/core2/data/laws/outcome-research-gaps.json",
+     "why": "no researched outcome-web link starts from this law or a measure it sets; the research would measure household income after tax and out-migration (SG-LAW-outcome-link-unresearched)"
     },
     "knowing": {
      "status": "wired",
@@ -1294,9 +1294,9 @@
      "why": ""
     },
     "web": {
-     "status": "missing",
-     "evidence": "data/research/outcome-web/links.json",
-     "why": "no researched outcome-web link starts from this law"
+     "status": "stopgap",
+     "evidence": "src/core2/data/laws/outcome-research-gaps.json",
+     "why": "no researched outcome-web link starts from this law or a measure it sets; the research would measure household prices and local retail sales (SG-LAW-outcome-link-unresearched)"
     },
     "knowing": {
      "status": "wired",
@@ -1364,8 +1364,8 @@
     },
     "web": {
      "status": "missing",
-     "evidence": "data/research/outcome-web/links.json",
-     "why": "no researched outcome-web link starts from this law"
+     "evidence": "property-tax-to-rent: outcome-not-produced",
+     "why": "every link is unbuilt: outcome-not-produced"
     },
     "knowing": {
      "status": "wired",
@@ -1433,8 +1433,8 @@
     },
     "web": {
      "status": "missing",
-     "evidence": "data/research/outcome-web/links.json",
-     "why": "no researched outcome-web link starts from this law"
+     "evidence": "corporate-tax-incidence: outcome-not-produced",
+     "why": "every link is unbuilt: outcome-not-produced"
     },
     "knowing": {
      "status": "wired",
@@ -1501,9 +1501,9 @@
      "why": "no money flow: nobody pays or receives anything because of it"
     },
     "web": {
-     "status": "missing",
-     "evidence": "data/research/outcome-web/links.json",
-     "why": "no researched outcome-web link starts from this law"
+     "status": "stopgap",
+     "evidence": "src/core2/data/laws/outcome-research-gaps.json",
+     "why": "no researched outcome-web link starts from this law or a measure it sets; the research would measure wealth transfers and charitable giving (SG-LAW-outcome-link-unresearched)"
     },
     "knowing": {
      "status": "wired",
@@ -1570,9 +1570,9 @@
      "why": "no money flow: nobody pays or receives anything because of it"
     },
     "web": {
-     "status": "missing",
-     "evidence": "data/research/outcome-web/links.json",
-     "why": "no researched outcome-web link starts from this law"
+     "status": "stopgap",
+     "evidence": "src/core2/data/laws/outcome-research-gaps.json",
+     "why": "no researched outcome-web link starts from this law or a measure it sets; the research would measure wealth transfers to heirs (SG-LAW-outcome-link-unresearched)"
     },
     "knowing": {
      "status": "wired",
@@ -2122,9 +2122,9 @@
      "why": "no money flow: nobody pays or receives anything because of it"
     },
     "web": {
-     "status": "missing",
-     "evidence": "data/research/outcome-web/links.json",
-     "why": "no researched outcome-web link starts from this law"
+     "status": "stopgap",
+     "evidence": "src/core2/data/laws/outcome-research-gaps.json",
+     "why": "no researched outcome-web link starts from this law or a measure it sets; the research would measure food insecurity (SG-LAW-outcome-link-unresearched)"
     },
     "knowing": {
      "status": "wired",
@@ -2191,9 +2191,9 @@
      "why": ""
     },
     "web": {
-     "status": "missing",
-     "evidence": "data/research/outcome-web/links.json",
-     "why": "no researched outcome-web link starts from this law"
+     "status": "stopgap",
+     "evidence": "src/core2/data/laws/outcome-research-gaps.json",
+     "why": "no researched outcome-web link starts from this law or a measure it sets; the research would measure poverty and coverage (SG-LAW-outcome-link-unresearched)"
     },
     "knowing": {
      "status": "missing",
@@ -2260,9 +2260,9 @@
      "why": ""
     },
     "web": {
-     "status": "missing",
-     "evidence": "data/research/outcome-web/links.json",
-     "why": "no researched outcome-web link starts from this law"
+     "status": "stopgap",
+     "evidence": "src/core2/data/laws/outcome-research-gaps.json",
+     "why": "no researched outcome-web link starts from this law or a measure it sets; the research would measure employer hiring (SG-LAW-outcome-link-unresearched)"
     },
     "knowing": {
      "status": "wired",
@@ -2329,9 +2329,9 @@
      "why": ""
     },
     "web": {
-     "status": "missing",
-     "evidence": "data/research/outcome-web/links.json",
-     "why": "no researched outcome-web link starts from this law"
+     "status": "stopgap",
+     "evidence": "src/core2/data/laws/outcome-research-gaps.json",
+     "why": "no researched outcome-web link starts from this law or a measure it sets; the research would measure employer hiring (SG-LAW-outcome-link-unresearched)"
     },
     "knowing": {
      "status": "wired",
@@ -2398,9 +2398,9 @@
      "why": "no money flow: nobody pays or receives anything because of it"
     },
     "web": {
-     "status": "missing",
-     "evidence": "data/research/outcome-web/links.json",
-     "why": "no researched outcome-web link starts from this law"
+     "status": "stopgap",
+     "evidence": "src/core2/data/laws/outcome-research-gaps.json",
+     "why": "no researched outcome-web link starts from this law or a measure it sets; the research would measure unemployment duration and household income (SG-LAW-outcome-link-unresearched)"
     },
     "knowing": {
      "status": "wired",
@@ -2467,9 +2467,9 @@
      "why": ""
     },
     "web": {
-     "status": "missing",
-     "evidence": "data/research/outcome-web/links.json",
-     "why": "no researched outcome-web link starts from this law"
+     "status": "stopgap",
+     "evidence": "src/core2/data/laws/outcome-research-gaps.json",
+     "why": "no researched outcome-web link starts from this law or a measure it sets; the research would measure take-home pay and labor supply (SG-LAW-outcome-link-unresearched)"
     },
     "knowing": {
      "status": "wired",
@@ -2606,8 +2606,8 @@
     },
     "web": {
      "status": "stopgap",
-     "evidence": "data/research/outcome-web/links.json",
-     "why": "no researched outcome-web link starts from this law (registered SG-GOV-REACH-A-rent-assistance)"
+     "evidence": "src/core2/data/laws/outcome-research-gaps.json",
+     "why": "no researched outcome-web link starts from this law or a measure it sets; the research would measure homelessness and rent burden (SG-LAW-outcome-link-unresearched)"
     },
     "knowing": {
      "status": "missing",
@@ -2882,8 +2882,8 @@
     },
     "web": {
      "status": "missing",
-     "evidence": "data/research/outcome-web/links.json",
-     "why": "no researched outcome-web link starts from this law"
+     "evidence": "minimum-wage-to-poverty",
+     "why": "built links did not move their measure in the run (cause not read by the web, or the measure is not kept for this place)"
     },
     "knowing": {
      "status": "wired",
@@ -3020,8 +3020,8 @@
     },
     "web": {
      "status": "missing",
-     "evidence": "data/research/outcome-web/links.json",
-     "why": "no researched outcome-web link starts from this law"
+     "evidence": "minimum-wage-to-poverty",
+     "why": "built links did not move their measure in the run (cause not read by the web, or the measure is not kept for this place)"
     },
     "knowing": {
      "status": "wired",
@@ -3089,8 +3089,8 @@
     },
     "web": {
      "status": "missing",
-     "evidence": "data/research/outcome-web/links.json",
-     "why": "no researched outcome-web link starts from this law"
+     "evidence": "minimum-wage-to-poverty",
+     "why": "built links did not move their measure in the run (cause not read by the web, or the measure is not kept for this place)"
     },
     "knowing": {
      "status": "wired",
@@ -3710,8 +3710,8 @@
     },
     "web": {
      "status": "stopgap",
-     "evidence": "data/research/outcome-web/links.json",
-     "why": "no researched outcome-web link starts from this law (registered SG-GOV-REACH-B-business-cost)"
+     "evidence": "src/core2/data/laws/outcome-research-gaps.json",
+     "why": "no researched outcome-web link starts from this law or a measure it sets; the research would measure land conservation and park visits (SG-LAW-outcome-link-unresearched)"
     },
     "knowing": {
      "status": "missing",
@@ -3917,8 +3917,8 @@
     },
     "web": {
      "status": "missing",
-     "evidence": "data/research/outcome-web/links.json",
-     "why": "no researched outcome-web link starts from this law"
+     "evidence": "police-to-violent-crime",
+     "why": "built links did not move their measure in the run (cause not read by the web, or the measure is not kept for this place)"
     },
     "knowing": {
      "status": "wired",
@@ -4193,8 +4193,8 @@
     },
     "web": {
      "status": "missing",
-     "evidence": "data/research/outcome-web/links.json",
-     "why": "no researched outcome-web link starts from this law"
+     "evidence": "incarceration-to-crime: about-zero",
+     "why": "every link is unbuilt: about-zero"
     },
     "knowing": {
      "status": "missing",
@@ -4675,9 +4675,9 @@
      "why": ""
     },
     "web": {
-     "status": "missing",
-     "evidence": "data/research/outcome-web/links.json",
-     "why": "no researched outcome-web link starts from this law"
+     "status": "stopgap",
+     "evidence": "src/core2/data/laws/outcome-research-gaps.json",
+     "why": "no researched outcome-web link starts from this law or a measure it sets; the research would measure fire deaths and property loss (SG-LAW-outcome-link-unresearched)"
     },
     "knowing": {
      "status": "wired",
@@ -5089,9 +5089,9 @@
      "why": "no money flow: nobody pays or receives anything because of it"
     },
     "web": {
-     "status": "missing",
-     "evidence": "data/research/outcome-web/links.json",
-     "why": "no researched outcome-web link starts from this law"
+     "status": "stopgap",
+     "evidence": "src/core2/data/laws/outcome-research-gaps.json",
+     "why": "no researched outcome-web link starts from this law or a measure it sets; the research would measure lobbying spending and policy capture (SG-LAW-outcome-link-unresearched)"
     },
     "knowing": {
      "status": "wired",
@@ -5158,9 +5158,9 @@
      "why": "no money flow: nobody pays or receives anything because of it"
     },
     "web": {
-     "status": "missing",
-     "evidence": "data/research/outcome-web/links.json",
-     "why": "no researched outcome-web link starts from this law"
+     "status": "stopgap",
+     "evidence": "src/core2/data/laws/outcome-research-gaps.json",
+     "why": "no researched outcome-web link starts from this law or a measure it sets; the research would measure public-sector vacancies and turnover (SG-LAW-outcome-link-unresearched)"
     },
     "knowing": {
      "status": "wired",
@@ -5227,9 +5227,9 @@
      "why": ""
     },
     "web": {
-     "status": "missing",
-     "evidence": "data/research/outcome-web/links.json",
-     "why": "no researched outcome-web link starts from this law"
+     "status": "stopgap",
+     "evidence": "src/core2/data/laws/outcome-research-gaps.json",
+     "why": "no researched outcome-web link starts from this law or a measure it sets; the research would measure government service quality (SG-LAW-outcome-link-unresearched)"
     },
     "knowing": {
      "status": "missing",
@@ -5296,9 +5296,9 @@
      "why": ""
     },
     "web": {
-     "status": "missing",
-     "evidence": "data/research/outcome-web/links.json",
-     "why": "no researched outcome-web link starts from this law"
+     "status": "stopgap",
+     "evidence": "src/core2/data/laws/outcome-research-gaps.json",
+     "why": "no researched outcome-web link starts from this law or a measure it sets; the research would measure local ordinances passed and local spending (SG-LAW-outcome-link-unresearched)"
     },
     "knowing": {
      "status": "wired",
@@ -5503,9 +5503,9 @@
      "why": ""
     },
     "web": {
-     "status": "missing",
-     "evidence": "data/research/outcome-web/links.json",
-     "why": "no researched outcome-web link starts from this law"
+     "status": "stopgap",
+     "evidence": "src/core2/data/laws/outcome-research-gaps.json",
+     "why": "no researched outcome-web link starts from this law or a measure it sets; the research would measure park access and exercise (SG-LAW-outcome-link-unresearched)"
     },
     "knowing": {
      "status": "wired",
@@ -5642,8 +5642,8 @@
     },
     "web": {
      "status": "stopgap",
-     "evidence": "data/research/outcome-web/links.json",
-     "why": "no researched outcome-web link starts from this law (registered SG-GOV-REACH-A-age-verification)"
+     "evidence": "src/core2/data/laws/outcome-research-gaps.json",
+     "why": "no researched outcome-web link starts from this law or a measure it sets; the research would measure youth social media use and mental health (SG-LAW-outcome-link-unresearched)"
     },
     "knowing": {
      "status": "wired",
@@ -6055,9 +6055,9 @@
      "why": "no money flow: nobody pays or receives anything because of it"
     },
     "web": {
-     "status": "missing",
-     "evidence": "data/research/outcome-web/links.json",
-     "why": "no researched outcome-web link starts from this law"
+     "status": "stopgap",
+     "evidence": "src/core2/data/laws/outcome-research-gaps.json",
+     "why": "no researched outcome-web link starts from this law or a measure it sets; the research would measure local income tax adoption (SG-LAW-outcome-link-unresearched)"
     },
     "knowing": {
      "status": "wired",
@@ -6124,9 +6124,9 @@
      "why": "no money flow: nobody pays or receives anything because of it"
     },
     "web": {
-     "status": "missing",
-     "evidence": "data/research/outcome-web/links.json",
-     "why": "no researched outcome-web link starts from this law"
+     "status": "stopgap",
+     "evidence": "src/core2/data/laws/outcome-research-gaps.json",
+     "why": "no researched outcome-web link starts from this law or a measure it sets; the research would measure local minimum wage adoption (SG-LAW-outcome-link-unresearched)"
     },
     "knowing": {
      "status": "wired",
@@ -6193,9 +6193,9 @@
      "why": "no money flow: nobody pays or receives anything because of it"
     },
     "web": {
-     "status": "missing",
-     "evidence": "data/research/outcome-web/links.json",
-     "why": "no researched outcome-web link starts from this law"
+     "status": "stopgap",
+     "evidence": "src/core2/data/laws/outcome-research-gaps.json",
+     "why": "no researched outcome-web link starts from this law or a measure it sets; the research would measure unemployment duration and household income (SG-LAW-outcome-link-unresearched)"
     },
     "knowing": {
      "status": "wired",
