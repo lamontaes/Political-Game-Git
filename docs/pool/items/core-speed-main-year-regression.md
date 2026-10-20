@@ -17,7 +17,7 @@ claimed-at: 2026-10-20T05:01:48.088Z
 
 **Rules.** Speed: a town's game year must run in under two minutes and no change may make a year more than 20 percent slower than its base, measured before and after on the same machine, one process at a time. One rule, all 56 places: the check names its place and seed.
 
-**Done when.** A CPU profile of seed m7b on main, compared with a profile before the rise, names the function whose inclusive time grew, and a fix or its own pool item follows; npm run speed:year -- --seed m7b --exclusive returns to at most 233 s in the PR body receipts.
+**Done when.** A CPU profile of the played world in the drawn place Long Hill, Connecticut (seed m7b) on main, compared with a profile before the rise, names the function whose inclusive time grew, and a fix or its own pool item follows; npm run speed:year -- --seed m7b --exclusive returns to at most 233 s in the PR body receipts, and the speed test guard passes.
 
 **Files.** src/core2/life.ts, scripts/speed-years/run.ts
 
