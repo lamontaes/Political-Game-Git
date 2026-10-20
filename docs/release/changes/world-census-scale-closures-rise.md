@@ -1,6 +1,8 @@
 ---
 id: world-census-scale-closures-rise
-impact: none
+impact: patch
+section: Fixed
+title: Firms in a big town stop closing for want of cash to pay their workers
 ---
 
-A town opened at its Census size no longer loses firms that cannot meet their payroll: sales scale with the wages, and an owner's draw leaves the payroll cushion.
+In a town opened at its full Census size, shops, offices and local TV stations used to run out of cash and close, taking their workers' jobs with them. Their sales now grow with the town as their wages do, and a business owner no longer draws out the cash the next payroll needs.

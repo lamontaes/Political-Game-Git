@@ -9,7 +9,7 @@ import { createHash, randomBytes } from "node:crypto";
 import { expect, it } from "vitest";
 import { buildBenchWorld } from "../bench/world";
 import { drawPlace } from "../../scripts/core2-year/place";
-import { placeReferencePopulation } from "../simulation/nationwide-world/place-population";
+import { placePopulation } from "./gov-rules/place-population";
 import { setBookkeeping } from "./bookkeeping";
 import { gameStartDate } from "./game-start";
 import { addDays, makeIsoDate } from "./kernel/dates";
@@ -30,9 +30,7 @@ function drawLargeTown() {
       "world-census-scale-closures",
     );
     const geoid = corePlaceByKey(draw.key)?.sourceGeoid;
-    const reference = geoid
-      ? placeReferencePopulation(geoid)?.value
-      : undefined;
+    const reference = geoid ? placePopulation(geoid) : null;
     if (reference && reference >= 12_000 && reference <= 40_000)
       return { draw, reference };
   }
