@@ -30,3 +30,4 @@ Sent back 2026-10-16 from PR #4612 (branch claude/words-scene-endpoints-2): merg
 Sent back 2026-10-17 from PR #4612 (branch claude/words-scene-endpoints-2): Merging current main (e18e2bf262) conflicts in scripts/dialogue-batch/coverage-batch.ts. Resolve these conflicts on this branch and push before local validation can run.; finish on that branch, merge main into it first.
 
 Sent back 2026-10-19 from PR #4612 (branch claude/words-scene-endpoints-2): Merge main conflicts require author resolution: scripts/dialogue-batch/coverage-batch.ts; finish on that branch, merge main into it first.
+Sent back 2026-10-19 from PR #4478 (branch claude/words-scene-endpoints): it commits tsconfig.tsbuildinfo and a compiled tooling/root-tsconfig-guard.js; remove both, merge main into it first, then finish.
