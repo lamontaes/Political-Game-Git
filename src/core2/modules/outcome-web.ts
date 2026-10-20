@@ -19,6 +19,7 @@ import {
   CALIBRATED_AT,
   derivedOf,
   engineMeasure,
+  engineOwned,
   fixedBaseline,
   isLaw,
   KEPT_OUTCOMES,
@@ -388,7 +389,7 @@ function recordMonth(api: CoreAPI, placeId: string, state: WebState): WebMonth {
   for (const outcome of KEPT_OUTCOMES) {
     const base = baseOf(outcome, state.stateKey).value;
     // An engine's own record of the outcome stands as read (poverty).
-    if (engineMeasure(outcome) && r.values[outcome] !== undefined) {
+    if (engineOwned(outcome) && r.values[outcome] !== undefined) {
       bases[outcome] = base;
       continue;
     }

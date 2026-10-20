@@ -44,6 +44,8 @@ export interface WebLink {
    */
   readonly phaseInMonths?: number;
   readonly group: string;
+  /** Names what carries this effect through an engine's records; the link then does not run. */
+  readonly carriedBy?: string;
   readonly evidence: string;
   readonly source: string;
   readonly moderator?: {
@@ -130,6 +132,8 @@ const ENGINE = local.engineMeasures as Readonly<
       /** The field of a world-metrics month row the measure reads. */
       readonly field: string;
       readonly unitScale: number;
+      /** The engine's record is the kept outcome itself; links into it do not run. */
+      readonly ownsOutcome?: boolean;
     }
   >
 >;
@@ -172,6 +176,11 @@ export function scaleOf(measure: string): Scale {
 
 export function engineMeasure(measure: string) {
   return ENGINE[measure];
+}
+
+/** A kept outcome whose value is an engine's own record, not the web's product. */
+export function engineOwned(measure: string): boolean {
+  return keptOutcome(measure) && ENGINE[measure]?.ownsOutcome === true;
 }
 
 export function isLaw(measure: string): boolean {
@@ -312,7 +321,7 @@ export type Coverage =
   | {
       readonly key: string;
       readonly wired: false;
-      /** The outcome is an engine's own record; a link into it would count a cause twice. */
+      /** What carries the effect through an engine's records; a web link too would count the cause twice. */
       readonly carriedBy: string;
       readonly waitingOn: readonly [];
     }
@@ -330,11 +339,11 @@ export type Coverage =
  * person-level shape needs each person's own exposure record).
  */
 export function linkCoverage(link: WebLink): Coverage {
-  if (keptOutcome(link.to) && engineMeasure(link.to))
+  if (link.carriedBy)
     return {
       key: link.key,
       wired: false,
-      carriedBy: link.to,
+      carriedBy: link.carriedBy,
       waitingOn: [],
     };
   const waitingOn: string[] = [];

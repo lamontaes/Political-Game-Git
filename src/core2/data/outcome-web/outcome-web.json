@@ -257,7 +257,8 @@
       "owner": "OPUS-WORLD",
       "record": "world-metrics months.povertyShare (people in households whose yearly pay and awards are under the Census poverty line for their size, children and eldest member, named plus counted by weight), as a percent",
       "field": "povertyShare",
-      "unitScale": 100
+      "unitScale": 100,
+      "ownsOutcome": true
     }
   },
   "measureOwners": {
