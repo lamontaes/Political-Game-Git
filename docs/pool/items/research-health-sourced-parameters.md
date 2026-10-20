@@ -5,9 +5,9 @@ area: people
 kind: research
 priority: 2
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/political-game-pool-yucp92-w
-pr:
+pr: #5080
 blocked-on:
 source: "collapsed Oct 19, 2026 from people-stopgap-health-estimated-behavior, people-stopgap-health-estimated-calibration"
 claimed-at: 2026-10-20T02:19:36.088Z

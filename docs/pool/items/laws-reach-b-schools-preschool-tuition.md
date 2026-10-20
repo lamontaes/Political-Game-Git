@@ -5,11 +5,12 @@ area: laws
 kind: stopgap
 priority: 3
 size: M
-status: open
-claimed-by:
+status: blocked
+claimed-by: claude/political-game-pool-yucp92-bb
 pr:
-blocked-on:
+blocked-on: the people schools engine: enroll(child, school, pre-k) with household child-care cost, and college tuition read by household spending; neither exists
 source: added with npm run pool -- add
+claimed-at: 2026-10-20T02:32:10.048Z
 ---
 
 **What.** TODO
