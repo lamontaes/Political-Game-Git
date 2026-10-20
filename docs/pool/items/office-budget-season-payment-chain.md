@@ -5,12 +5,12 @@ area: office
 kind: wiring
 priority: 3
 size: M
-status: in-pr
-claimed-by: claude/budget-season-chain
+status: open
+claimed-by:
 pr: #5573
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-20T06:01:34.535Z
+claimed-at:
 ---
 
 **What.** TODO
