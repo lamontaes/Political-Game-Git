@@ -5,9 +5,9 @@ area: release
 kind: bug
 priority: 1
 size: S
-status: done
+status: in-pr
 claimed-by: claude/fix-release-decl-stopgaps
-pr: #5739
+pr: #5751
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-20T03:25:38.645Z
