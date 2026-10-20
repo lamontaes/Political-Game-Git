@@ -8957,6 +8957,12 @@
           "subject": "family",
           "role": "answer",
           "choice": "thanks"
+        },
+        {
+          "move": "acquittal-answer-thank",
+          "subject": "acquittal",
+          "role": "answer",
+          "choice": "thank"
         }
       ],
       "transcriptsUsing": 9,
@@ -8990,6 +8996,12 @@
           "subject": "family",
           "role": "answer",
           "choice": "thanks"
+        },
+        {
+          "move": "acquittal-answer-thank",
+          "subject": "acquittal",
+          "role": "answer",
+          "choice": "thank"
         }
       ],
       "transcriptsUsing": 21,
@@ -10012,6 +10024,12 @@
           "subject": "eviction-reply",
           "role": "answer",
           "choice": "ask"
+        },
+        {
+          "move": "charge-reply-answer-ask",
+          "subject": "charge-reply",
+          "role": "answer",
+          "choice": "ask"
         }
       ],
       "transcriptsUsing": 243,
@@ -10635,6 +10653,12 @@
           "subject": "news",
           "role": "answer",
           "choice": "react"
+        },
+        {
+          "move": "acquittal-reply-answer-congratulate",
+          "subject": "acquittal-reply",
+          "role": "answer",
+          "choice": "congratulate"
         }
       ],
       "transcriptsUsing": 37,
@@ -12956,6 +12980,18 @@
           "subject": "eviction-cause-reply",
           "role": "answer",
           "choice": "comfort"
+        },
+        {
+          "move": "charge-reply-answer-comfort",
+          "subject": "charge-reply",
+          "role": "answer",
+          "choice": "comfort"
+        },
+        {
+          "move": "conviction-reply-answer-comfort",
+          "subject": "conviction-reply",
+          "role": "answer",
+          "choice": "comfort"
         }
       ],
       "transcriptsUsing": 622,
@@ -15015,6 +15051,18 @@
           "subject": "job-cause-reply",
           "role": "answer",
           "choice": "comfort"
+        },
+        {
+          "move": "charge-reply-answer-comfort",
+          "subject": "charge-reply",
+          "role": "answer",
+          "choice": "comfort"
+        },
+        {
+          "move": "conviction-reply-answer-comfort",
+          "subject": "conviction-reply",
+          "role": "answer",
+          "choice": "comfort"
         }
       ],
       "transcriptsUsing": 13,
@@ -15904,6 +15952,18 @@
           "subject": "job-cause-reply",
           "role": "answer",
           "choice": "ask"
+        },
+        {
+          "move": "conviction-reply-answer-ask",
+          "subject": "conviction-reply",
+          "role": "answer",
+          "choice": "ask"
+        },
+        {
+          "move": "acquittal-reply-answer-ask",
+          "subject": "acquittal-reply",
+          "role": "answer",
+          "choice": "ask"
         }
       ],
       "transcriptsUsing": 5,
@@ -16377,6 +16437,12 @@
           "subject": "charge",
           "role": "answer",
           "choice": "refuse"
+        },
+        {
+          "move": "conviction-answer-refuse",
+          "subject": "conviction",
+          "role": "answer",
+          "choice": "refuse"
         }
       ],
       "shippable": false,
@@ -16455,28 +16521,6 @@
       }
     },
     {
-      "key": "conversation.charge-reply-answer-comfort.i-m-sorry",
-      "move": "charge-reply-answer-comfort",
-      "kind": "spoken",
-      "text": "I'm sorry.",
-      "uses": [
-        {
-          "move": "charge-reply-answer-comfort",
-          "subject": "charge-reply",
-          "role": "answer",
-          "choice": "comfort"
-        }
-      ],
-      "shippable": false,
-      "origin": "authored",
-      "author": "Claude Sonnet (pool item words-justice-hearing-verdict-bank)",
-      "date": "2026-10-19",
-      "tag": {
-        "move": "comfort",
-        "key": "threat"
-      }
-    },
-    {
       "key": "conversation.charge-reply-answer-comfort.i-m-here",
       "move": "charge-reply-answer-comfort",
       "kind": "spoken",
@@ -16487,26 +16531,10 @@
           "subject": "charge-reply",
           "role": "answer",
           "choice": "comfort"
-        }
-      ],
-      "shippable": false,
-      "origin": "authored",
-      "author": "Claude Sonnet (pool item words-justice-hearing-verdict-bank)",
-      "date": "2026-10-19",
-      "tag": {
-        "move": "comfort",
-        "key": "threat"
-      }
-    },
-    {
-      "key": "conversation.charge-reply-answer-comfort.that-s-hard",
-      "move": "charge-reply-answer-comfort",
-      "kind": "spoken",
-      "text": "That's hard.",
-      "uses": [
+        },
         {
-          "move": "charge-reply-answer-comfort",
-          "subject": "charge-reply",
+          "move": "conviction-reply-answer-comfort",
+          "subject": "conviction-reply",
           "role": "answer",
           "choice": "comfort"
         }
@@ -16529,6 +16557,12 @@
         {
           "move": "charge-reply-answer-promise",
           "subject": "charge-reply",
+          "role": "answer",
+          "choice": "promise"
+        },
+        {
+          "move": "conviction-reply-answer-promise",
+          "subject": "conviction-reply",
           "role": "answer",
           "choice": "promise"
         }
@@ -16575,6 +16609,12 @@
           "subject": "charge-reply",
           "role": "answer",
           "choice": "promise"
+        },
+        {
+          "move": "conviction-reply-answer-promise",
+          "subject": "conviction-reply",
+          "role": "answer",
+          "choice": "promise"
         }
       ],
       "shippable": false,
@@ -16583,28 +16623,6 @@
       "date": "2026-10-19",
       "tag": {
         "move": "promise",
-        "key": "threat"
-      }
-    },
-    {
-      "key": "conversation.charge-reply-answer-ask.what-happened",
-      "move": "charge-reply-answer-ask",
-      "kind": "spoken",
-      "text": "What happened?",
-      "uses": [
-        {
-          "move": "charge-reply-answer-ask",
-          "subject": "charge-reply",
-          "role": "answer",
-          "choice": "ask"
-        }
-      ],
-      "shippable": false,
-      "origin": "authored",
-      "author": "Claude Sonnet (pool item words-justice-hearing-verdict-bank)",
-      "date": "2026-10-19",
-      "tag": {
-        "move": "ask",
         "key": "threat"
       }
     },
@@ -16639,6 +16657,18 @@
         {
           "move": "charge-reply-answer-ask",
           "subject": "charge-reply",
+          "role": "answer",
+          "choice": "ask"
+        },
+        {
+          "move": "conviction-reply-answer-ask",
+          "subject": "conviction-reply",
+          "role": "answer",
+          "choice": "ask"
+        },
+        {
+          "move": "acquittal-reply-answer-ask",
+          "subject": "acquittal-reply",
           "role": "answer",
           "choice": "ask"
         }
@@ -16751,6 +16781,12 @@
           "subject": "conviction",
           "role": "raise",
           "choice": "raise"
+        },
+        {
+          "move": "conviction-answer-tell",
+          "subject": "conviction",
+          "role": "answer",
+          "choice": "tell"
         }
       ],
       "shippable": false,
@@ -16795,6 +16831,12 @@
           "subject": "conviction",
           "role": "ask",
           "choice": "ask"
+        },
+        {
+          "move": "acquittal-ask",
+          "subject": "acquittal",
+          "role": "ask",
+          "choice": "ask"
         }
       ],
       "shippable": false,
@@ -16817,6 +16859,12 @@
           "subject": "conviction",
           "role": "ask",
           "choice": "ask"
+        },
+        {
+          "move": "acquittal-ask",
+          "subject": "acquittal",
+          "role": "ask",
+          "choice": "ask"
         }
       ],
       "shippable": false,
@@ -16833,28 +16881,6 @@
       "move": "conviction-answer-tell",
       "kind": "spoken",
       "text": "I was convicted.",
-      "uses": [
-        {
-          "move": "conviction-answer-tell",
-          "subject": "conviction",
-          "role": "answer",
-          "choice": "tell"
-        }
-      ],
-      "shippable": false,
-      "origin": "authored",
-      "author": "Claude Sonnet (pool item words-justice-hearing-verdict-bank)",
-      "date": "2026-10-19",
-      "tag": {
-        "move": "tell",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "conversation.conviction-answer-tell.they-found-me-guilty",
-      "move": "conviction-answer-tell",
-      "kind": "spoken",
-      "text": "They found me guilty.",
       "uses": [
         {
           "move": "conviction-answer-tell",
@@ -17005,116 +17031,6 @@
       }
     },
     {
-      "key": "conversation.conviction-answer-refuse.i-won-t-discuss-it",
-      "move": "conviction-answer-refuse",
-      "kind": "spoken",
-      "text": "I won't discuss it.",
-      "uses": [
-        {
-          "move": "conviction-answer-refuse",
-          "subject": "conviction",
-          "role": "answer",
-          "choice": "refuse"
-        }
-      ],
-      "shippable": false,
-      "origin": "authored",
-      "author": "Claude Sonnet (pool item words-justice-hearing-verdict-bank)",
-      "date": "2026-10-19",
-      "tag": {
-        "move": "refuse",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "conversation.conviction-reply-answer-comfort.i-m-sorry",
-      "move": "conviction-reply-answer-comfort",
-      "kind": "spoken",
-      "text": "I'm sorry.",
-      "uses": [
-        {
-          "move": "conviction-reply-answer-comfort",
-          "subject": "conviction-reply",
-          "role": "answer",
-          "choice": "comfort"
-        }
-      ],
-      "shippable": false,
-      "origin": "authored",
-      "author": "Claude Sonnet (pool item words-justice-hearing-verdict-bank)",
-      "date": "2026-10-19",
-      "tag": {
-        "move": "comfort",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "conversation.conviction-reply-answer-comfort.i-m-here",
-      "move": "conviction-reply-answer-comfort",
-      "kind": "spoken",
-      "text": "I'm here.",
-      "uses": [
-        {
-          "move": "conviction-reply-answer-comfort",
-          "subject": "conviction-reply",
-          "role": "answer",
-          "choice": "comfort"
-        }
-      ],
-      "shippable": false,
-      "origin": "authored",
-      "author": "Claude Sonnet (pool item words-justice-hearing-verdict-bank)",
-      "date": "2026-10-19",
-      "tag": {
-        "move": "comfort",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "conversation.conviction-reply-answer-comfort.that-s-hard",
-      "move": "conviction-reply-answer-comfort",
-      "kind": "spoken",
-      "text": "That's hard.",
-      "uses": [
-        {
-          "move": "conviction-reply-answer-comfort",
-          "subject": "conviction-reply",
-          "role": "answer",
-          "choice": "comfort"
-        }
-      ],
-      "shippable": false,
-      "origin": "authored",
-      "author": "Claude Sonnet (pool item words-justice-hearing-verdict-bank)",
-      "date": "2026-10-19",
-      "tag": {
-        "move": "comfort",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "conversation.conviction-reply-answer-promise.i-ll-stand-by-you",
-      "move": "conviction-reply-answer-promise",
-      "kind": "spoken",
-      "text": "I'll stand by you.",
-      "uses": [
-        {
-          "move": "conviction-reply-answer-promise",
-          "subject": "conviction-reply",
-          "role": "answer",
-          "choice": "promise"
-        }
-      ],
-      "shippable": false,
-      "origin": "authored",
-      "author": "Claude Sonnet (pool item words-justice-hearing-verdict-bank)",
-      "date": "2026-10-19",
-      "tag": {
-        "move": "promise",
-        "key": "news-received"
-      }
-    },
-    {
       "key": "conversation.conviction-reply-answer-promise.i-ll-be-here-when-it-s-over",
       "move": "conviction-reply-answer-promise",
       "kind": "spoken",
@@ -17133,72 +17049,6 @@
       "date": "2026-10-19",
       "tag": {
         "move": "promise",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "conversation.conviction-reply-answer-promise.you-re-not-alone-in-this",
-      "move": "conviction-reply-answer-promise",
-      "kind": "spoken",
-      "text": "You're not alone in this.",
-      "uses": [
-        {
-          "move": "conviction-reply-answer-promise",
-          "subject": "conviction-reply",
-          "role": "answer",
-          "choice": "promise"
-        }
-      ],
-      "shippable": false,
-      "origin": "authored",
-      "author": "Claude Sonnet (pool item words-justice-hearing-verdict-bank)",
-      "date": "2026-10-19",
-      "tag": {
-        "move": "promise",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "conversation.conviction-reply-answer-ask.what-happens-now",
-      "move": "conviction-reply-answer-ask",
-      "kind": "spoken",
-      "text": "What happens now?",
-      "uses": [
-        {
-          "move": "conviction-reply-answer-ask",
-          "subject": "conviction-reply",
-          "role": "answer",
-          "choice": "ask"
-        }
-      ],
-      "shippable": false,
-      "origin": "authored",
-      "author": "Claude Sonnet (pool item words-justice-hearing-verdict-bank)",
-      "date": "2026-10-19",
-      "tag": {
-        "move": "ask",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "conversation.conviction-reply-answer-ask.what-do-you-need",
-      "move": "conviction-reply-answer-ask",
-      "kind": "spoken",
-      "text": "What do you need?",
-      "uses": [
-        {
-          "move": "conviction-reply-answer-ask",
-          "subject": "conviction-reply",
-          "role": "answer",
-          "choice": "ask"
-        }
-      ],
-      "shippable": false,
-      "origin": "authored",
-      "author": "Claude Sonnet (pool item words-justice-hearing-verdict-bank)",
-      "date": "2026-10-19",
-      "tag": {
-        "move": "ask",
         "key": "news-received"
       }
     },
@@ -17279,6 +17129,12 @@
           "subject": "acquittal",
           "role": "raise",
           "choice": "raise"
+        },
+        {
+          "move": "acquittal-answer-tell",
+          "subject": "acquittal",
+          "role": "answer",
+          "choice": "tell"
         }
       ],
       "shippable": false,
@@ -17301,6 +17157,12 @@
           "subject": "acquittal",
           "role": "raise",
           "choice": "raise"
+        },
+        {
+          "move": "acquittal-answer-tell",
+          "subject": "acquittal",
+          "role": "answer",
+          "choice": "tell"
         }
       ],
       "shippable": false,
@@ -17331,138 +17193,6 @@
       "date": "2026-10-19",
       "tag": {
         "move": "deliver-news",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "conversation.acquittal-ask.what-did-the-court-decide",
-      "move": "acquittal-ask",
-      "kind": "spoken",
-      "text": "What did the court decide?",
-      "uses": [
-        {
-          "move": "acquittal-ask",
-          "subject": "acquittal",
-          "role": "ask",
-          "choice": "ask"
-        }
-      ],
-      "shippable": false,
-      "origin": "authored",
-      "author": "Claude Sonnet (pool item words-justice-hearing-verdict-bank)",
-      "date": "2026-10-19",
-      "tag": {
-        "move": "ask",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "conversation.acquittal-ask.what-was-the-verdict",
-      "move": "acquittal-ask",
-      "kind": "spoken",
-      "text": "What was the verdict?",
-      "uses": [
-        {
-          "move": "acquittal-ask",
-          "subject": "acquittal",
-          "role": "ask",
-          "choice": "ask"
-        }
-      ],
-      "shippable": false,
-      "origin": "authored",
-      "author": "Claude Sonnet (pool item words-justice-hearing-verdict-bank)",
-      "date": "2026-10-19",
-      "tag": {
-        "move": "ask",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "conversation.acquittal-answer-tell.i-was-acquitted",
-      "move": "acquittal-answer-tell",
-      "kind": "spoken",
-      "text": "I was acquitted.",
-      "uses": [
-        {
-          "move": "acquittal-answer-tell",
-          "subject": "acquittal",
-          "role": "answer",
-          "choice": "tell"
-        }
-      ],
-      "shippable": false,
-      "origin": "authored",
-      "author": "Claude Sonnet (pool item words-justice-hearing-verdict-bank)",
-      "date": "2026-10-19",
-      "tag": {
-        "move": "tell",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "conversation.acquittal-answer-tell.they-found-me-not-guilty",
-      "move": "acquittal-answer-tell",
-      "kind": "spoken",
-      "text": "They found me not guilty.",
-      "uses": [
-        {
-          "move": "acquittal-answer-tell",
-          "subject": "acquittal",
-          "role": "answer",
-          "choice": "tell"
-        }
-      ],
-      "shippable": false,
-      "origin": "authored",
-      "author": "Claude Sonnet (pool item words-justice-hearing-verdict-bank)",
-      "date": "2026-10-19",
-      "tag": {
-        "move": "tell",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "conversation.acquittal-answer-thank.thanks-for-asking",
-      "move": "acquittal-answer-thank",
-      "kind": "spoken",
-      "text": "Thanks for asking.",
-      "uses": [
-        {
-          "move": "acquittal-answer-thank",
-          "subject": "acquittal",
-          "role": "answer",
-          "choice": "thank"
-        }
-      ],
-      "shippable": false,
-      "origin": "authored",
-      "author": "Claude Sonnet (pool item words-justice-hearing-verdict-bank)",
-      "date": "2026-10-19",
-      "tag": {
-        "move": "thank",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "conversation.acquittal-answer-thank.thank-you-for-asking",
-      "move": "acquittal-answer-thank",
-      "kind": "spoken",
-      "text": "Thank you for asking.",
-      "uses": [
-        {
-          "move": "acquittal-answer-thank",
-          "subject": "acquittal",
-          "role": "answer",
-          "choice": "thank"
-        }
-      ],
-      "shippable": false,
-      "origin": "authored",
-      "author": "Claude Sonnet (pool item words-justice-hearing-verdict-bank)",
-      "date": "2026-10-19",
-      "tag": {
-        "move": "thank",
         "key": "news-received"
       }
     },
@@ -17555,28 +17285,6 @@
       }
     },
     {
-      "key": "conversation.acquittal-reply-answer-congratulate.that-s-good-news",
-      "move": "acquittal-reply-answer-congratulate",
-      "kind": "spoken",
-      "text": "That's good news.",
-      "uses": [
-        {
-          "move": "acquittal-reply-answer-congratulate",
-          "subject": "acquittal-reply",
-          "role": "answer",
-          "choice": "congratulate"
-        }
-      ],
-      "shippable": false,
-      "origin": "authored",
-      "author": "Claude Sonnet (pool item words-justice-hearing-verdict-bank)",
-      "date": "2026-10-19",
-      "tag": {
-        "move": "congratulate",
-        "key": "news-received"
-      }
-    },
-    {
       "key": "conversation.acquittal-reply-answer-congratulate.good-to-hear",
       "move": "acquittal-reply-answer-congratulate",
       "kind": "spoken",
@@ -17661,50 +17369,6 @@
       "date": "2026-10-19",
       "tag": {
         "move": "comfort",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "conversation.acquittal-reply-answer-ask.what-happens-now",
-      "move": "acquittal-reply-answer-ask",
-      "kind": "spoken",
-      "text": "What happens now?",
-      "uses": [
-        {
-          "move": "acquittal-reply-answer-ask",
-          "subject": "acquittal-reply",
-          "role": "answer",
-          "choice": "ask"
-        }
-      ],
-      "shippable": false,
-      "origin": "authored",
-      "author": "Claude Sonnet (pool item words-justice-hearing-verdict-bank)",
-      "date": "2026-10-19",
-      "tag": {
-        "move": "ask",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "conversation.acquittal-reply-answer-ask.what-do-you-need",
-      "move": "acquittal-reply-answer-ask",
-      "kind": "spoken",
-      "text": "What do you need?",
-      "uses": [
-        {
-          "move": "acquittal-reply-answer-ask",
-          "subject": "acquittal-reply",
-          "role": "answer",
-          "choice": "ask"
-        }
-      ],
-      "shippable": false,
-      "origin": "authored",
-      "author": "Claude Sonnet (pool item words-justice-hearing-verdict-bank)",
-      "date": "2026-10-19",
-      "tag": {
-        "move": "ask",
         "key": "news-received"
       }
     },

@@ -15,10 +15,24 @@ import {
 import { coreAPI } from "../core2/state";
 import type { PersonId } from "../core2/types";
 import { openConversation, subjectsBetween } from "./conversation";
+import bankJson from "../../data/english/parts/conversation.json" with { type: "json" };
 import { conversationDataFromBank } from "./mined/conversation-bank";
 
 // The new parts are held until the owner grades them, so the talk reads them through the grading-only option.
 const HELD_DATA = conversationDataFromBank(undefined, true);
+
+// A piece serves a subject by a use of its own, whether it was written for it or shared with another subject.
+const BANK = bankJson as unknown as {
+  parts: { key: string; uses: { subject: string }[] }[];
+};
+const serves = (key: string, subject: string) =>
+  BANK.parts.some(
+    (part) =>
+      part.key === key &&
+      part.uses.some(
+        (use) => use.subject === subject || use.subject === `${subject}-reply`,
+      ),
+  );
 
 // Hearing and verdict words (pool item words-justice-hearing-verdict-bank): a
 // person the justice engine charges, and then convicts or acquits, can be
@@ -96,15 +110,11 @@ it(`the accused and their friend talk about a charge and its verdict in the word
       const line = talk.lines.find((row) => row.kind.startsWith(kind));
       expect(line, `${where}: ${kind}`).toBeDefined();
       expect(line!.subjectId, where).toContain(caseId);
-      expect(line!.wording!.parts[0], where).toMatch(
-        new RegExp(`^conversation\\.${kind}-`),
-      );
+      expect(serves(line!.wording!.parts[0]!, kind), where).toBe(true);
       // Four replies, each from the bank, none of them a generic one.
       expect(talk.choices, where).toHaveLength(4);
       for (const choice of talk.choices)
-        expect(choice.wording!.parts[0], where).toMatch(
-          new RegExp(`^conversation\\.${kind}(-reply)?-`),
-        );
+        expect(serves(choice.wording!.parts[0]!, kind), where).toBe(true);
     }
   };
   // The newest event of the case is the one told: a plea is a verdict at once.
