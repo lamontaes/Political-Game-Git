@@ -4,10 +4,10 @@ title: "Stopgaps in emotion (estimated-behavior): 1 open"
 area: core
 kind: stopgap
 priority: 3
-status: blocked
+status: dropped
 claimed-by:
 pr:
-blocked-on: research data: the row's replacement needs sourced data (A source-calibrated actor-specific affect model checked against documented adult trajectories....)
+blocked-on: research-core-sourced-parameters
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/emotion.ts, kind estimated-behavior"
 claimed-at:
@@ -22,3 +22,5 @@ claimed-at:
 **Files.** src/core2/emotion.ts
 
 **Notes.** First row: Simplified affine mood/stress appraisal and exponential recovery, rather than a clinically calibrated model.
+
+Folded into research-core-sourced-parameters (CTO, Oct 19, 2026).
