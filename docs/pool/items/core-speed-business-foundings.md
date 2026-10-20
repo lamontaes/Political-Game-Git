@@ -22,3 +22,5 @@ claimed-at:
 **Files.** src/core2/modules/business.ts
 
 **Notes.** TODO
+
+**Result (Oct 20).** The pay table and the id-sorted people list are built once, when the first market needs them. Typecheck, eslint and the four business tests (36) pass. The before-and-after CPU profile on seed m7b was not taken in this session; the CTO or a speed run should confirm foundings below 2 percent.

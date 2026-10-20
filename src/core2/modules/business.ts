@@ -1488,9 +1488,12 @@ function foundings(api: CoreAPI): void {
         a.row.kindId.localeCompare(b.row.kindId),
     )
     .map(({ row }) => row);
-  // An unaffordable market does not prevent an entrant in another market.
-  for (const market of markets) {
-    const gaps = gapsOf(market);
+  // Every person's monthly pay and the people by id, built once, when the
+  // first market needs them: a founding returns, so nothing changes between
+  // the markets that go on.
+  let monthlyPayCache: Map<string, number> | undefined;
+  const monthlyPayOf = () => {
+    if (monthlyPayCache) return monthlyPayCache;
     const monthlyPay = new Map<string, number>();
     const rt = residentsRuntime(c);
     for (const jobId of rt?.wageFlowByJob.keys() ?? []) {
@@ -1507,7 +1510,17 @@ function foundings(api: CoreAPI): void {
           job.personId,
           (job.wageDailyMinor * p("jobsDaysPerYear")) / p("macroMonthsPerYear"),
         );
-    const incomeOf = (personId: string) => monthlyPay.get(personId) ?? 0;
+    return (monthlyPayCache = monthlyPay);
+  };
+  let peopleById: PersonState[] | undefined;
+  const sortedPeople = () =>
+    (peopleById ??= [...c.people.values()].sort((a, b) =>
+      a.id.localeCompare(b.id),
+    ));
+  // An unaffordable market does not prevent an entrant in another market.
+  for (const market of markets) {
+    const gaps = gapsOf(market);
+    const incomeOf = (personId: string) => monthlyPayOf().get(personId) ?? 0;
     // Counted people have no chooser, so their personality enters here once, on the chooser's weight; full people get it from the chooser alone.
     const foundLean = (person: Pick<PersonState, "traits">) =>
       traitLeanBetween(
@@ -1568,9 +1581,7 @@ function foundings(api: CoreAPI): void {
     const seekers = c.modules.has("jobs")
       ? api.moduleState("jobs").table("seekers")
       : undefined;
-    for (const person of [...c.people.values()].sort((a, b) =>
-      a.id.localeCompare(b.id),
-    )) {
+    for (const person of sortedPeople()) {
       const age =
         daysBetween(makeIsoDate(person.birthDate), makeIsoDate(c.date)) /
         p("jobsDaysPerYear");
