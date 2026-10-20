@@ -4542,18 +4542,6 @@
     "status": "open"
   },
   {
-    "id": "SG-PEOPLE-press-employer-enrollment",
-    "kind": "missing-mechanic",
-    "file": "src/core2/modules/press.ts",
-    "line": 567,
-    "whatItFakes": "Press enrolls its already recorded owner directly in the business owner table because the shared business module has no public enrollment function for an existing owner.",
-    "why": "The overnight order requires the smallest registered stand-in while the business interface is under active work; using the normal opening heuristic would incorrectly make a reporter the owner.",
-    "addedBy": "Session D",
-    "addedAt": "2026-10-15",
-    "replacement": "A shared business enrollment API accepting the existing owner and sourced books, used by press without direct table writes.",
-    "status": "open"
-  },
-  {
     "id": "SG-GOV-policy-power-unresolved",
     "kind": "missing-record",
     "file": "src/core2/policy-authority.ts",

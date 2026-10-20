@@ -22,3 +22,4 @@ claimed-at:
 **Files.** data/research/outcome-web/links.json, src/core2/outcome-web.test.ts
 
 **Notes.** Split from core-stopgap-outcome-web-faked-mechanic. Source: the 41 `size-not-set` links, e.g. police-to-low-level-arrests, class-size-to-scores, eviction-to-homelessness.
+Sent back 2026-10-20 from PR #5207 (branch claude/outcome-sizes-g08lgv): Merge conflict with main in docs/pool/items/world-water-violations-producer.md; finish on that branch, merge main into it first.
