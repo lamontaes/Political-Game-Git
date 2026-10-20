@@ -2943,7 +2943,9 @@
     "addedBy": "OPUS-WORLD",
     "addedAt": "2026-10-12",
     "replacement": "State unemployment insurance under the law in force, paid through postJournal from the state's fund.",
-    "status": "open"
+    "resolvedAt": "2026-10-20",
+    "resolution": "payClaims in src/core2/jobs-benefits.ts pays each benefit from the state treasury on the budgets module, which the employers' state unemployment tax pays into (employer-taxes); a week the treasury cannot cover is advanced from the town's outside account.",
+    "status": "resolved"
   },
   {
     "id": "SG-PLAY-doors-fill-in",
