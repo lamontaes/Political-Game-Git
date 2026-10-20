@@ -4,10 +4,10 @@ title: "Stopgaps in budgets (assumed-data): 2 open"
 area: gov
 kind: stopgap
 priority: 3
-status: open
+status: blocked
 claimed-by:
 pr:
-blocked-on:
+blocked-on: research data: the row's replacement needs recorded, empirical or sourced data (Each place's law chain recorded in the laws module, enacted acts included, read for every worker's residence. Personal exemptions and adjustments read...)
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/modules/budgets.ts, kind assumed-data"
 claimed-at:
