@@ -5,11 +5,12 @@ area: world
 kind: feature
 priority: 2
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/counted-estate-home
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-20T17:17:42.415Z
 ---
 
 **What.** world-estate-sells-the-home sells a full household's home when probate closes. A counted household's last owner dying (counted estates, removeCountedPerson) leaves the group's home owned forever on the dwellings table, so counted groups never put homes on the market from deaths. A counted household's home should be sold by the same rule times the households its record stands for: the lender paid first from the group's mortgage part, the surplus to the heirs the counted estate names, the home back on the market with a sales row that names the death.
