@@ -5,12 +5,12 @@ area: play
 kind: bug
 priority: 2
 size: S
-status: in-pr
-claimed-by: claude/dev-why-ledger-s5
+status: open
+claimed-by:
 pr: #4974
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-17T20:39:52.822Z
+claimed-at:
 ---
 
 **What.** TODO
