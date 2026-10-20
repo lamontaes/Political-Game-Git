@@ -5,9 +5,9 @@ area: words
 kind: feature
 priority: 2
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/political-game-pool-76ksvw
-pr:
+pr: #5180
 blocked-on:
 source: "split from words-unworded-moments, Oct 16"
 claimed-at: 2026-10-19T22:04:58.951Z

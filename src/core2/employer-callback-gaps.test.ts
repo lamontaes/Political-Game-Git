@@ -4,7 +4,7 @@
  * spread says where it comes from (estimate, never UNKNOWN).
  */
 import { describe, expect, it } from "vitest";
-import table from "./data/jobs/employer-callback-gaps.json" with { type: "json" };
+import table from "../../data/research/jobs/employer-callback-gaps.json" with { type: "json" };
 
 interface Row {
   reference: string;

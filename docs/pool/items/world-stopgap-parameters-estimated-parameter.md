@@ -4,12 +4,13 @@ title: "Stopgaps in parameters (estimated-parameter): 1 open"
 area: world
 kind: stopgap
 priority: 3
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/data/macro/parameters.json, kind estimated-parameter"
+claimed-at:
 ---
 
 **What.** Replace or clear the 1 open estimated-parameter stopgap row(s) in src/core2/data/macro/parameters.json: SG-WORLD-macro-public-budget. Each fake is replaced by the mechanic, or the feature that needs it is deleted.
@@ -23,3 +24,5 @@ source: "src/core2/data/stopgaps.json, src/core2/data/macro/parameters.json, kin
 **Notes.** First row: State and local budgets add no impulse to national output beyond their real average, and neither does the federal budget in a world without the budgets engine. Where the budgets engine runs, the federal budget's change f
 
 **Checked Oct 17.** Stale: SG-WORLD-macro-public-budget is already `resolved` in src/core2/data/stopgaps.json (owner ruling Oct 16, no fiscal multiplier; the macro engine carries no budget impulse; removed in the macroFiscalMultiplier cleanup). Nothing to build; the CTO can drop this item.
+
+Dropped (CTO, Oct 19, 2026): SG-WORLD-macro-public-budget is resolved in stopgaps.json (owner ruling of Oct 16, no fiscal multiplier).
