@@ -1,5 +1,7 @@
 # PEOPLE: only approved whole figures, placed like real people
 
+> **History.** This describes the old engine or a process that ended in October 2026. Don't follow it; read `AGENTS.md`, `ARCHITECTURE.md` and `docs/README.md`.
+
 Owner: Lamontae. Written by the Opus CTO on Oct 13, 2026, from the code at main `d39511ac2`.
 
 You are the one session that owns **how people are drawn in scenes**:

@@ -5,7 +5,7 @@ area: world
 kind: stopgap
 priority: 2
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/fs11vb-jobs
 pr: #5232
 blocked-on:

@@ -17,7 +17,7 @@ import {
   type CampaignDayKind,
 } from "../core2/campaign-day";
 import type { FilingRow } from "../core2/modules/elections";
-import type { CoreState } from "../core2/types";
+import type { CoreAPI, CoreState } from "../core2/types";
 import { dwellingKind } from "../core2/modules/housing";
 import { retellingsOf } from "../core2/modules/speech";
 import {
@@ -25,7 +25,11 @@ import {
   debatesIn,
   type DebateRow,
 } from "../core2/modules/meetings";
-import type { InterviewAnswer } from "../core2/modules/press";
+import {
+  interviewsFor,
+  outletsHere,
+  type InterviewAnswer,
+} from "../core2/modules/press";
 import {
   beginSpeech,
   chooseSpeechPart,
@@ -39,10 +43,20 @@ const ELECTIONS = "core2-elections-v1";
 const CAMPAIGNS = "core2-campaigns-v1";
 
 /** The campaign day's acts that open as a scene, by the name the screen's control carries. */
-const OUTINGS: Partial<Record<CampaignDayKind, "doors" | "calls">> = {
+const OUTINGS: Partial<
+  Record<CampaignDayKind, "doors" | "calls" | "event" | "interview">
+> = {
   canvass: "doors",
   "raise-money": "calls",
+  event: "event",
+  interview: "interview",
 };
+
+/** The outlet to ask first: the town's own before a regional or national one. */
+function townFirst(api: CoreAPI, outletIds: readonly string[]) {
+  const tier = new Map(outletsHere(api).map((o) => [o.id, o.tier]));
+  return outletIds.find((id) => tier.get(id) === "local") ?? outletIds[0];
+}
 
 /** The player's campaigns: one for each filing on the ballot. */
 export function campaignView(core: CoreState, personId: string) {
@@ -79,9 +93,26 @@ export function campaignView(core: CoreState, personId: string) {
         // Where the player can go out and meet people today: a street of doors, the phone bank.
         outings: campaignDayChoices(api, filing.id).flatMap((choice) => {
           const outing = OUTINGS[choice.kind];
-          return outing
-            ? [{ outing, hours: choice.hours, available: choice.available }]
-            : [];
+          if (!outing) return [];
+          // An interview is asked of an outlet: the one that invited the candidate, else the first with room.
+          const outletId =
+            choice.kind === "interview"
+              ? (interviewsFor(api, filing.personId).find(
+                  (i) => i.id === choice.facts.invitedInterviewIds[0],
+                )?.outletId ??
+                townFirst(
+                  api,
+                  choice.facts.outlets.map((o) => o.outletId),
+                ))
+              : undefined;
+          return [
+            {
+              outing,
+              hours: choice.hours,
+              available: choice.available,
+              ...(outletId ? { outletId } : {}),
+            },
+          ];
         }),
         // Debates the outlet has invited the candidates to, waiting for their answers.
         debates: debatesIn(api, filing.contestId)
@@ -255,7 +286,17 @@ function outingPeople(
         )
       : kind === "raise-money"
         ? result.giftIds.map((id) => id.split("|")[1] ?? "")
-        : [];
+        : kind === "event"
+          ? result.causeIds.map(
+              (id) =>
+                (
+                  api
+                    .moduleState(CAMPAIGNS)
+                    .table("causes")
+                    .get(id) as unknown as CauseRow | undefined
+                )?.voterId ?? "",
+            )
+          : [];
   return [...new Set(ids)].filter((id) => core.people.get(id)?.alive);
 }
 
@@ -275,7 +316,9 @@ function outingScene(
   const place =
     kind === "canvass"
       ? (doors[dwelling] ?? doors.house!)
-      : scenePlaces.phoneBankPlace;
+      : kind === "event"
+        ? scenePlaces.speechPlaces[0]!
+        : scenePlaces.phoneBankPlace;
   const ids = [personId, ...met].filter((id) => core.people.get(id)?.alive);
   return {
     place,
