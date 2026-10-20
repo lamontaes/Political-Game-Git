@@ -5,9 +5,9 @@ area: people
 kind: feature
 priority: 2
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/narrative-seam
-pr: #5358
+pr: #5614
 blocked-on:
 after: words-pack-scene-talk
 source: added with npm run pool -- add

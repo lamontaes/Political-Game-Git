@@ -5,13 +5,13 @@ area: core
 kind: bug
 priority: 3
 size: S
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/political-game-pool-yucp92-ai
+pr: #5631
 blocked-on:
 after: people-resting-stress-test-flaky
 source: added with npm run pool -- add
-claimed-at: 2026-10-20T00:23:27.105Z
+claimed-at: 2026-10-20T09:33:26.052Z
 ---
 
 **What.** TODO
