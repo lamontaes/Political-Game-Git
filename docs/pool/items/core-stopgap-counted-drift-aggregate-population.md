@@ -21,4 +21,4 @@ claimed-at: 2026-10-19T23:16:14.900Z
 
 **Files.** src/core2/modules/counted-drift.ts
 
-**Notes.** First row: The wider population's deaths and births come from rates applied to the counts each month: SSA cohort life tables scaled by the state's 2017 age-adjusted death rate against the nation's (NCHS), and NCHS 2024 national bir
+**Notes.** Checked Oct 19: nothing is left to build. All three rows (SG-CORE-counted-drift, SG-CORE-counted-moves, SG-CORE-counted-drift-named-workers) are already `resolved` in src/core2/data/stopgaps.json (counted-drift.ts deleted Oct 17, claude/counted-drift-delete; named workers Oct 14), and no marker for them remains in src. The merger can mark this item done.

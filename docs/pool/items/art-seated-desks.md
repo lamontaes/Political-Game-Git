@@ -4,13 +4,13 @@ title: "Seated people at public desks are clipped at the shoulders (#3295)"
 area: art
 kind: bug
 priority: 2
-status: open
-claimed-by:
-pr: #3295
+status: done
+claimed-by: session52/art4-seated-desks
+pr: #5338
 blocked-on:
 milestone:
 source: "open PR #3295"
-claimed-at:
+claimed-at: 2026-10-20T00:37:22.402Z
 ---
 
 **What.** Nine deficient bounds in the seated-desk staging are corrected on the PR branch. The art staging file and the backdrop anchor render test conflict with main, so the branch needs a plain merge of main before the CTO can merge it. Resolve the conflicts in the staging data and the render test, keep the nine corrected bounds, and put the gate line at the top of the PR body.
