@@ -146,13 +146,16 @@ describe(`victimization records (${place.name}, ${place.state}, seed ${seed})`, 
         ratio,
         `${type} expected count, ${moved.id} against ${base.id}`,
       ).toBeGreaterThan(1);
+      // The record follows the factor the web wrote for the type (the unemployment link and any other link moving it).
       expect(ratio).toBeCloseTo(
-        (1 + web.effects[key]!) / (1 + (was.effects[key] ?? 0)),
-        6,
+        moved.types[type as keyof typeof sizes].factor /
+          base.types[type as keyof typeof sizes].factor,
+        1,
       );
       // Within the researched range (burglary 2 to 5 percent a point, three points).
       const [low, high] = link.range ?? [link.size! * 0.5, link.size! * 1.5];
-      const rise = ratio - 1;
+      // The unemployment link's own rise, from the web's two month rows.
+      const rise = (1 + web.effects[key]!) / (1 + (was.effects[key] ?? 0)) - 1;
       expect(rise).toBeGreaterThanOrEqual(low * SHIFT_POINTS * 0.9);
       expect(rise).toBeLessThanOrEqual(high * SHIFT_POINTS * 1.1);
     }
