@@ -4,7 +4,7 @@ title: "The outcome map: every law family's effect on the town as a read"
 area: laws
 kind: wiring
 priority: 2
-status: in-pr
+status: open
 claimed-by:
 pr: #5341
 blocked-on: laws-outcome-justice
