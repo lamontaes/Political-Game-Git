@@ -4,10 +4,10 @@ title: "Stopgaps in work (prototype-pay-projection): 1 open"
 area: core
 kind: stopgap
 priority: 3
-status: open
+status: blocked
 claimed-by:
 pr:
-blocked-on:
+blocked-on: engine or design: No historical signed hourly/salary/overtime agreement, pay calendar, tax/law treatment or revenue model. Same-payer lexical job order is authored.
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/modules/work.ts, kind prototype-pay-projection"
 ---
