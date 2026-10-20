@@ -5,10 +5,11 @@ area: core
 kind: wiring
 priority: 2
 size: M
-status: blocked
-claimed-by: claude/port-world-scaffold
+status: open
+claimed-by:
 pr:
-blocked-on: core-old-imports-opening-employment
+blocked-on:
+after: core-old-imports-opening-employment
 source: "split from core-remaining-port-the-opening-town-builder-population (an L item), Oct 15"
 claimed-at: 2026-10-19T18:35:36.559Z
 ---
@@ -22,3 +23,5 @@ claimed-at: 2026-10-19T18:35:36.559Z
 **Files.** src/core2/population.ts, src/core2/types.ts, docs/coordination/core.md
 
 **Notes.** Part of the opening town builder port (docs/coordination/core.md line 27; docs/design/old-core-retirement-map.md). Do the parts in any order; each keeps the town the same.
+
+Oct 20: Switched from blocked to the automatic after: gate on core-old-imports-opening-employment, so it opens by itself the moment those items are done.
