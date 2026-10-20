@@ -5,11 +5,12 @@ area: docs
 kind: bug
 priority: 3
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/political-game-pool-76ksvw
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-20T04:32:12.345Z
 ---
 
 **What.** Update SG-WORLD-credit-island-deposits and add a territory test, fix the SG-CORE-territory-places replacement text, remove references to the deleted build-place-lookup-data.ts, unblock people-partnership-rates-check from the empty shell, set #5334's item blocked on a design call, and restore the #5101 pr link.
