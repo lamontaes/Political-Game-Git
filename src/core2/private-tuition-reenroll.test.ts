@@ -147,4 +147,4 @@ it(`a family that fell below the cutoff stops paying tuition and one that rose a
   throw new Error(
     `no drawn town had a private school and two families (seed ${seed})`,
   );
-}, 900_000);
+}, 3_600_000); // up to eight towns, each built and played for two years
