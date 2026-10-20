@@ -5,12 +5,12 @@ area: core
 kind: bug
 priority: 2
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/pool-cash-journal
 pr:
 blocked-on:
 source: added with npm run pool -- add
-claimed-at:
+claimed-at: 2026-10-20T01:43:25.293Z
 ---
 
 **What.** A CPU profile of the played year in Long Hill, Connecticut (npm run speed:year -- --seed m7b --exclusive, 176.6 s unprofiled-by-wall, 210 s sampled) puts postCashJournal (journal-state.ts) at 5.9 s, projectCashJournal (journal.ts) at 4.0 s and portfolios (journal-state.ts) at 2.5 s self time, about 12 s together, beside 38.9 s of garbage collection. Find what each daily posting rebuilds or copies that it could update in place or index, and cut it without changing any balance.
