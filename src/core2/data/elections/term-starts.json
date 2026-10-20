@@ -1,5 +1,5 @@
 {
-  "about": "The month and day a term starts after its election where the office's own start rule is not carried on the office (federal offices carry theirs: January 20, January 3). Read by src/core2/elections-calendar.ts termStartAfter. Rows are keyed by state and office family; the default stands in where a state's rule is not yet read (SG-GOV-term-end-estimate).",
+  "about": "The month and day a term starts after its election where the office's own start rule is not carried on the office (federal offices carry theirs: January 20, January 3). Read by src/core2/elections-calendar.ts termStartAfter. Rows are keyed by state and office family and carry either a fixed `monthDay` or a `rule` (the nth weekday of a month, plus offsetDays; a December rule falls in the election year, a January rule the year after). The default stands in where a state's rule is not yet read (SG-GOV-term-end-estimate, still open for the states not listed).",
   "stopgap": "SG-GOV-term-end-estimate",
   "default": {
     "monthDay": "01-01",
@@ -7,5 +7,110 @@
     "estimatedFrom": "Most state and local terms begin in early January after the November election (state constitutions and charters); the exact day varies by state and is not yet read.",
     "spread": ["01-01", "01-20"]
   },
-  "states": {}
+  "states": {
+    "US-AK": {
+      "statewideExecutive": {
+        "tag": "SOURCED",
+        "rule": {
+          "month": 12,
+          "nth": 1,
+          "weekday": 1,
+          "offsetDays": 0
+        },
+        "citation": "Alaska Const. art. III, \u00a74",
+        "excerpt": "First Monday in December following the election."
+      }
+    },
+    "US-DE": {
+      "statewideExecutive": {
+        "tag": "SOURCED",
+        "rule": {
+          "month": 1,
+          "nth": 3,
+          "weekday": 2,
+          "offsetDays": 0
+        },
+        "citation": "Del. Const. art. III, \u00a75",
+        "excerpt": "Third Tuesday in January."
+      }
+    },
+    "US-FL": {
+      "statewideExecutive": {
+        "tag": "SOURCED",
+        "rule": {
+          "month": 1,
+          "nth": 1,
+          "weekday": 1,
+          "offsetDays": 1
+        },
+        "citation": "Fla. Const. art. IV, \u00a75(a)",
+        "excerpt": "First Tuesday after the first Monday in January."
+      }
+    },
+    "US-HI": {
+      "statewideExecutive": {
+        "tag": "SOURCED",
+        "rule": {
+          "month": 12,
+          "nth": 1,
+          "weekday": 1,
+          "offsetDays": 0
+        },
+        "citation": "Haw. Const. art. V, \u00a71",
+        "excerpt": "First Monday in December following the election."
+      }
+    },
+    "US-LA": {
+      "statewideExecutive": {
+        "tag": "SOURCED",
+        "rule": {
+          "month": 1,
+          "nth": 2,
+          "weekday": 1,
+          "offsetDays": 0
+        },
+        "citation": "La. Const. art. IV, \u00a73",
+        "excerpt": "Second Monday in January."
+      }
+    },
+    "US-ME": {
+      "statewideExecutive": {
+        "tag": "SOURCED",
+        "rule": {
+          "month": 1,
+          "nth": 1,
+          "weekday": 2,
+          "offsetDays": 1
+        },
+        "citation": "Me. Const. art. V, pt. first, \u00a72",
+        "excerpt": "First Wednesday after the first Tuesday in January."
+      }
+    },
+    "US-VA": {
+      "statewideExecutive": {
+        "tag": "SOURCED",
+        "rule": {
+          "month": 1,
+          "nth": 2,
+          "weekday": 3,
+          "offsetDays": 3
+        },
+        "citation": "Va. Const. art. V, \u00a71",
+        "excerpt": "Saturday after the second Wednesday in January."
+      }
+    },
+    "US-WA": {
+      "statewideExecutive": {
+        "tag": "SOURCED",
+        "rule": {
+          "month": 1,
+          "nth": 2,
+          "weekday": 1,
+          "offsetDays": 2
+        },
+        "citation": "RCW 43.01.010",
+        "excerpt": "The term shall commence on the Wednesday after the second Monday of January following their election."
+      }
+    }
+  }
 }

@@ -13,12 +13,12 @@ source: added with npm run pool -- add
 claimed-at: 2026-10-19T22:13:54.719Z
 ---
 
-**What.** TODO
+**What.** The central bank's board (a president and governors, `person:central-bank:*`) opens with no cash and no account, found by `src/core2/opening-adults-cash.test.ts`. They are named officials made by the world economy, with no household and no living costs. Give them a wallet from their pay, the way other officials get one, or record why they have none.
 
-**Rules.** TODO
+**Rules.** Estimate, never UNKNOWN: a value a player can see starts from the real average marked ESTIMATED with spread.
 
-**Done when.** TODO
+**Done when.** In a drawn place with `buildBenchWorld`, each central-bank board member holds cash or an account, and the group is removed from the explained list in `src/core2/opening-adults-cash.test.ts`.
 
-**Files.** TODO
+**Files.** src/core2/central-bank-board.ts, src/core2/opening-adults-cash.test.ts
 
-**Notes.** TODO
+**Notes.** Found by people-adults-opening-cash-husks.

@@ -1,4 +1,5 @@
 import { addDays, makeIsoDate } from "../core2/kernel/dates";
+import { wordArchiveStory } from "./archive-words";
 import { coreAPI } from "../core2/state";
 import { lawHere } from "../core2/modules/laws";
 import type { ContestRow } from "../core2/modules/elections";
@@ -135,5 +136,6 @@ export function heardItems(core: CoreState, personId: string) {
       // The paper's own words for a law taking effect, in place of the
       // record's keys on the News screen.
       ...(lawStoryHeadline(core, story) ?? {}),
+      ...wordArchiveStory(core, story),
     }));
 }

@@ -4,10 +4,10 @@ title: "Stopgaps in business (generated-identity): 1 open"
 area: world
 kind: stopgap
 priority: 3
-status: open
+status: blocked
 claimed-by:
 pr:
-blocked-on:
+blocked-on: engine or design: The generated opening records no owners; founding by choice (this work order's next piece) gives new businesses their real founders.
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/modules/business.ts, kind generated-identity"
 ---
