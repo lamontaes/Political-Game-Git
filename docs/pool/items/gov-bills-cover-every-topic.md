@@ -5,9 +5,9 @@ area: gov
 kind: feature
 priority: 3
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/fs11vb-bills-every-topic
-pr:
+pr: #5444
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-20T02:42:47.485Z

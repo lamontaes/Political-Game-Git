@@ -5,7 +5,7 @@ area: world
 kind: stopgap
 priority: 2
 size: M
-status: in-pr
+status: done
 claimed-by: claude/agreement-re-resolve-s7
 pr: #5129
 blocked-on:
