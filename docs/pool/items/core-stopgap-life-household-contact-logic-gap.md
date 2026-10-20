@@ -4,13 +4,13 @@ title: "Stopgaps in life (household-contact-logic-gap): 1 open"
 area: core
 kind: stopgap
 priority: 3
-status: in-pr
-claimed-by: claude/household-contact-stopgap
+status: open
+claimed-by:
 pr: #5279
 blocked-on:
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/modules/life.ts, kind household-contact-logic-gap"
-claimed-at: 2026-10-20T06:13:19.058Z
+claimed-at:
 ---
 
 **What.** Replace or clear the 1 open household-contact-logic-gap stopgap row(s) in src/core2/modules/life.ts: SG-P8-household-shared-time-contact. Each fake is replaced by the mechanic, or the feature that needs it is deleted.
@@ -27,3 +27,5 @@ Measured Oct 19 (Washington, District of Columbia, one played year from the benc
 Sent back from PR #5279: test set unstated 900,000ms timeout, crashed vitest worker on 90-day simulation, and stopgap closed without implementing causal shared-home contact mechanics.
 
 **Measured Oct 20 (probe, not committed; claude).** One played year (buildBenchWorld, two-level, every module) in two places drawn at random from seed contact-probe-oct20, counting every recorded contact by who it reached: Harmony, Rhode Island: 128 full people in multi-person households, 4,547 contacts with a household member, 544 with other kin, 16,353 with everyone else. Mauston, Wisconsin: 251 such people, 12,531 household, 953 other kin, 42,483 everyone else. So household members are not left out in a played year (about 35 and 50 household contacts per such person a year); the P13 report of no contact with the husband or children does not reproduce. Not resolved: the stopgap asks for a check of the rate against household time-use and tie-contact evidence, and no sourced per-tie rate was found here, so SG-P8-household-shared-time-contact stays open. Next step: a sourced contact rate for household ties (BLS American Time Use Survey time with household members) and a check of both places against it.
+
+Sent back 2026-10-20 from PR #5279 (branch claude/household-contact-closed): The pool Done when requires a one-year played-world proof of another engine reading the replacement by record id. The new household-contact.test.ts advances only 90 days, and the body reports that same quarter without a named downstream reader record. Complete the named year/reader proof before resolving the row. Also remove the resolved-Oct-19 session/date note from the new test header.; finish on that branch, merge main into it first.

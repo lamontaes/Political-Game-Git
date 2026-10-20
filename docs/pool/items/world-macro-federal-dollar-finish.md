@@ -5,7 +5,7 @@ area: world
 kind: cleanup
 priority: 2
 size: M
-status: claimed
+status: in-pr
 claimed-by: trial/glm/federal-dollar
 pr: #4990
 after:

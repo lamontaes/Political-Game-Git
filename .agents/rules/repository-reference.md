@@ -1,108 +1,57 @@
 # Repository technical reference
 
-Preserved from the reviewed AGENTS.md. Current root routing supersedes its old universal read-order and unconditional verification itinerary. Applicable technical and safety constraints remain binding. Consult the relevant section, not the entire document for every task.
+Commands and lasting technical constraints. `AGENTS.md` holds the rules; consult the section you need, not the whole file.
 
-# Repository Guide
+## Where truth lives
 
-Truth is layered. No single location is "the" source of truth:
-
-- The **canonical Google Drive current-control chain** owns CURRENT product, ownership, routing, and task state — what is authorized right now, and who owns it. Root [`CLAUDE.md`](../../CLAUDE.md) names the read order.
-- **Live GitHub and the live repository** own EXECUTABLE implementation truth — what the code, tests, branches, PR heads, and CI actually are. Fetch it; never trust a remembered or local SHA.
-- The **repository constitution, decision, architecture, and system documents below** remain the durable technical and product authorities within that hierarchy. They govern how work is built and what behavior is accepted; they do not decide what is currently assigned.
-- **Historical plans, completion reports, evidence, and dated audits** are provenance. They record what happened. They are never current execution state or current authorization.
-
-When a durable repository document and current canonical control disagree about what is authorized now, current control plus live repository state win. When current control and a repository document disagree about accepted behavior or architecture, record the conflict explicitly and resolve it deliberately — do not silently weaken an accepted contract for convenience.
-
-## Durable technical and product authority
-
-Read in this order:
-
-1. [Game Constitution](../../docs/GAME-CONSTITUTION.md) — binding product principles.
-2. [Decision Log](../../docs/decisions/DECISION-LOG.md) — accepted, non-superseded decisions.
-3. [Architecture](../../ARCHITECTURE.md), [Architecture Integrity Audit](../../docs/ARCHITECTURE-INTEGRITY-AUDIT.md), and [system documents](../../docs/systems/) — technical, governance, and domain contracts.
-4. [Roadmap](../../docs/ROADMAP.md) and [System Dependencies](../../docs/SYSTEM-DEPENDENCIES.md) — sequencing and integration contracts; they do not redefine implemented behavior.
-5. [First Build Spec](../../docs/FIRST-BUILD-SPEC.md), [UX Flow](../../docs/UX-FLOW.md), and [Acceptance Tests](../../docs/ACCEPTANCE-TESTS.md) — scope and verification contracts.
-
-A lower-authority document or implementation cannot silently override a higher-authority document. Record conflicts explicitly; never weaken the Game Constitution for implementation convenience.
+- **Executable truth** is live GitHub and the repository: code, tests, branches, PR heads, CI. Fetch it; never trust a remembered or local SHA.
+- **Rules:** [`AGENTS.md`](../../AGENTS.md). **Work:** the pool, [`docs/pool/README.md`](../../docs/pool/README.md). **Rulings:** `docs/coordination/OWNER-DECISIONS.md`, then `docs/coordination/DECISION-REGISTER.md`.
+- **The code as built:** [`ARCHITECTURE.md`](../../ARCHITECTURE.md). **The docs map:** [`docs/README.md`](../../docs/README.md), which marks what is current and what is history. **Scope:** [`docs/ROADMAP.md`](../../docs/ROADMAP.md).
+- **Product principles:** [`docs/GAME-CONSTITUTION.md`](../../docs/GAME-CONSTITUTION.md) is reference; where it allows randomness or teaching steps, `AGENTS.md` ("No dice", "This is a game, not a spreadsheet") wins.
+- **History:** dated plans, completion reports, evidence and audits record what happened. They are never current state or authorization.
 
 ## Commands
 
-- `npm run dev` — player-facing React viewer (`?view=developer` retains diagnostics)
-- `npm run test` — automated tests
-- `npm run test:e2e` — Playwright browser proof
-- `npm run lint` — lint
-- `npm run typecheck` — TypeScript validation
-- `npm run build` — production build
-- `npm run validate` — full validation suite
-- `npm run release:declare -- <id>` — declare a change for the player-facing notes
-- `npm run release:check` — validate versions, notes and pending change declarations
-- `npm run release:preview` — show what the next push to `main` would release
-- `npm run storage -- status` — configured storage limits, registered workspaces, protected paths and live reservations
-- `npm run storage -- workspace --owner <owner>` — the owner's registered folder (reused; never a new directory)
-- `npm run storage -- run <operation> -- <command>` — hold the byte reservation until the command ends, fails or is signaled (exit 3, before starting it, when the headroom is not there). Use `test` for focused unit tests (1 GiB estimate), `build` for compilation, `e2e-capture` for browser runs, and `extract` for bounded art extraction.
-- `npm run storage -- release-workspace --owner X --path P` — after the owner releases an exact retired workspace, record it as inactive only if all non-registration retirement guards pass. It removes no files. A separate exact manifest and `retire` are still required to reclaim its bytes.
-- `npm run storage -- gate <operation>` — admission check only; holds nothing afterwards
-- `npm run storage -- output-root --path <dir> [--historical-disposable]` — register one exact directory inside a registered workspace as disposable run output
-- `npm run storage -- outputs [--root <dir>] [--apply]` — retention report for any root; removes only in a registered output root and never a pinned, protected, live or undisposed historical run
-- `npm run storage -- outputs --root <dir> --plan <manifested.json> [--apply]` — retire only named immediate runs in a registered root after verifying each recorded content manifest; this exact plan is the disposition for those historical runs only, and pins, protections and live writers still block deletion
-- `npm run storage -- check --path <folder>` — every reason a folder may not be retired
-- `npm run storage -- record --plan <plan.json>` — write each listed path's content manifest (source identity plus digests of everything Git would not give back) into the plan the owner approves
-- `npm run storage -- retire --plan <approved.json> [--apply]` — remove exactly an owner-approved list; refuses a path without a manifest or whose bytes changed, re-checked at each removal
-- `npm run measure:arms` — measure each body raster's arms per side and pose, and say what the alpha does not contain
+- `npm run bench`: the play and Dev mode server (`src/bench/server.ts`, port 3000).
+- `node --import tsx tests/golden-path/runner.mjs`: the golden-path suite.
+- `npm run typecheck`, `npm run lint`, `npm run build`: whole-project checks. Run eslint and prettier on changed files for a PR.
+- `npm run test`: the full vitest run. `npm run validate`: the full suite. Neither is a PR gate; run the tests for changed files.
+- `npm run zero-dice`: the dice guard. `npm run old-imports`: what still keeps `src/simulation` alive.
+- `npm run speed:year`: a timed town year (two-minute limit, no more than 20% slower than its base).
+- `npm run all-places`: the played world in all 56 places (cloud only).
+- `npm run pool` and `npm run pool -- --check | claim | status | add`: the pool (`docs/pool/README.md`).
+- `npm run release:declare -- <id>`: declare a change for the player-facing notes. `npm run release:check` (`-- --mode pr` for a PR) validates declarations and versions. `npm run release:preview` shows what the next push to `main` would release.
+- `npm run stopgaps:report`: the open stopgaps.
+- `npm run spelling` (American English), `npm run wording:check` (player wording), `npm run report:check -- <file>` (owner reports).
+- `npm run agent:preflight`, `npm run agent:test-cadence`: workspace facts, and focused commands for changed files. `npm run test:skill-ops`: the instruction-file contract (skills, mirrors, these rules).
+- `npm run storage -- status | workspace --owner <o> | run <operation> -- <command> | check --path <folder>`: the workspace and disk guard. It protects the owner's Mac; cloud sessions set `OCD_STORAGE_OVERRIDE` (see `storage-and-workspaces.md`).
+- Art: `npm run validate:art`, `npm run inventory:art`, `npm run qa:art`, `npm run derive:scene-tiers`, `npm run intake:pg-modular`, `npm run measure:arms`.
 
-## Working Rules
+## Working rules
 
-- Keep `src/core2/` pure TypeScript and runnable without React, DOM, or external APIs. The old core under `src/simulation/` gets no new work and goes once each piece is ported.
-- Keep jurisdiction rules and sourced facts data-driven; never name a state, city or GEOID in logic.
-- Preserve stable IDs, seeded behavior, established facts, and append-oriented history.
-- Update affected documentation and tests with behavioral changes.
-- Run the Architecture Integrity Audit at major scope boundaries and whenever a new rule could affect completed work; earlier work is not grandfathered.
-- Start work in `docs/plans/active/`; move completed plans to `docs/plans/completed/`.
-- Every post-rollout eligible change declares `impact: patch`, `minor`, or explicit `none` once in `docs/release/changes/`, via `npm run release:declare -- <id>`. Validation compares the actual base/head history; only a branch demonstrably cut at or before the recorded rollout cutoff keeps the legacy exemption. `package.json.version` and `PATCH_NOTES.md` stay canonical and are advanced by the release on `main`, never by a branch and never by an agent choosing a number. See [Releases](../../docs/release/README.md).
-- Do not use proprietary code, assets, text, or implementation from other political games.
+- Keep `src/core2/` pure TypeScript, runnable without DOM or external APIs. The old core under `src/simulation/` gets no new work and goes once each piece is ported.
+- Keep jurisdiction rules and sourced facts in data; never name a state, city or GEOID in logic.
+- Preserve stable IDs, keyed generation, established facts and append-only history.
+- Update the affected docs and tests with a behavior change.
+- Every eligible change declares `impact: patch`, `minor` or `none` once in `docs/release/changes/`. `package.json` `version` and `PATCH_NOTES.md` are advanced only by the release on `main`, never by a branch or an agent. See [Releases](../../docs/release/README.md).
+- Use no proprietary code, assets, text or implementation from other games.
 
-## Scope and Authorization
+## Art and asset constraints
 
-- **Historical Stage and Run Labels Do Not Grant or Withhold Authorization**: Names like Stage 6, Stage 6.5, Runs A–D-Lite, and Slice E describe how the project got here. They are not the current frontier. What is authorized now comes from the current Drive Assignment Board, Staging Queue, and the owning packet — not from a stage label written into this file. Do not cite an old stage boundary to forbid work that current authority has assigned, and do not cite one to authorize work it has not.
-- **Accepted Semantics Are Not Casually Reopened**: Behavior that has been accepted — the Stage 6 simulation baseline at `d792e79a`, the playable office, reusable shell, conversation, legislative working-document bridge, the canonical clock and scheduled-activity substrate, and the approved visual direction — stays as accepted. Extend it through its seams. Reopening, refactoring, or redesigning accepted semantics or the approved visual direction requires the current owning authority to say so explicitly; convenience, taste, and "while I was in here" do not qualify.
-- **Scope Comes From Current Authority, Not From Ambition**: Law, institution, procedure, electorate, campaign, election, and governing systems are legitimate parts of this game and may be built when current authority assigns them. Build only what your assignment covers, through the accepted seams, and stop when its constraints are met. An adjacent substrate existing in the codebase is not authorization to build the next system on top of it.
+- **Scene-first:** shared global assets, then reusable environment families, then jurisdiction or building deltas, then explicitly justified hero environments.
+- **Provenance and rights:** preserve them for every source and generated asset. Unknown rights stay unknown; visibility never implies public domain or commercial reuse.
+- **No fabricated precision:** measurements carry a confidence class (`exact`, `plan-derived`, `specified`, `bounded-estimate`, `visual-estimate`); missing ones stay missing.
+- **No repository upscaling:** the pipeline never enlarges a raster. An external upscale is a candidate master only with its lineage declared, and that lineage follows every derived tier.
+- **Lived-in, not legible:** anything the simulation owns (names, seals, bill numbers, headlines, dates, results, portraits) belongs in a declared dynamic surface slot, never baked into the picture.
+- **Art identity is not a world label:** a scene family describes what the art depicts. What the world calls it comes from the world's records, never from a filename or tag.
+- Adding a room is authoring data, never scene-specific screen code. See `docs/systems/scene-authoring-pipeline.md` and `docs/systems/art-assets.md`.
 
-## Art & Assets Constraints
+## Coding-agent operations
 
-- **Scene Art Hierarchy Principle**: Implement environments via a scene-first hierarchy: shared global assets → reusable environment families → jurisdiction/building deltas → explicitly justified hero environments.
-- **Scene-First Design**: Adhere strictly to the scene-first / dossier-second / database-third presentation principle.
-- **Provenance and Rights**: Preserve provenance and rights information for every source and future generated asset. Unknown rights status must remain unknown (do not infer public domain status or commercially reusable status from mere visibility).
-- **No Fabricated Measurement Precision**: Never fabricate precise physical dimensions. Measurements must strictly distinguish confidence classes (e.g. `exact`, `plan-derived`, `specified`, `bounded-estimate`, `visual-estimate`). Missing measurements must remain missing, not guessed or zeroed out.
-- **Deterministic and Testable Tooling**: Prefer deterministic, inspectable, and testable tooling over opaque manual state. Generate deterministic fixture and replay outputs. Ensure art schemas are continually checked.
-- **Art-Pipeline Run Commands**: Art validation, inventory generation, and QA contact sheet generation commands have been explicitly added. Always run: `npm run validate:art`, `npm run inventory:art`, and `npm run qa:art`.
-- **Scene Authoring Pipeline**: Adding a room is authoring data, not writing scene-specific React or CSS. Environment masters enter through `npm run intake:environment` with an explicit source-lineage declaration; runtime tiers come from `npm run derive:tiers`; scene geometry starts as a `npm run scaffold:scene` scaffold whose unknowns stay explicit. See [Scene Authoring Pipeline](../../docs/systems/scene-authoring-pipeline.md).
-- **No Repository Upscaling; Declare External Ones**: The pipeline never enlarges a raster. An externally upscaled master (a Firefly upscale, say) is admissible as a candidate master ONLY with its lineage declared, and that declaration follows every derived tier into the manifest and the runtime. Never present an upscale as native detail, and never synthesize a tier the master cannot fill.
-- **Lived-In, Not Legible**: Baked environment art may carry restrained non-readable texture. Anything the simulation owns — jurisdiction name or seal, campaign name, bill number, headline, agenda, election result, calendar date, map label, officeholder portrait, briefing slide — belongs in a declared dynamic surface slot, never in the picture.
-- **Physical Art Identity Is Not a World Label**: A scene family describes what the art depicts; what the World calls it is supplied by the caller from canonical truth and is never inferred from a filename, a family id, or an access class. Scene access tags describe where progression might point; they grant nothing.
-- **Art-Pipeline Stop Conditions**: A foundation-only art run stops when its constraints are met. Stop conditions written for a past run bound that run; they do not silently forbid work a later authority has accepted or assigned. Independent of any run, do not reopen accepted domain semantics and do not generate non-fixture final output images without explicit current authorization.
+- Load the matching skill in `.agents/skills/` when its trigger fits; keep optional detail out of `AGENTS.md`.
+- Verify the exact branch, local SHA and upstream SHA before publishing, and re-fetch the remote head right before pushing. Never force-push.
+- For visual work, passing automated tests are not visual acceptance; visible controls need real pointer and keyboard activation.
+- A completion report states the head, the checks actually run, remaining defects and what the owner can now play.
+- Don't solve a recurring process problem by making prompts larger; encode it in a skill, a check or a pool item.
 
-## Coding-Agent Operations
-
-- **use the matching on-demand workflow under `.agents/skills/` when its trigger applies; keep optional workflow detail out of this root file**;
-- **run agent preflight** before substantial coding-agent work;
-- **verify exact workspace, branch, local SHA, and upstream SHA**;
-- **use isolated worktrees** for concurrent work and agent takeovers;
-- **treat paused source workspaces as read-only** during takeover;
-- **never stash/reset/clean another agent's workspace** to simplify takeover;
-- **never force-push** merely to simplify handoff;
-- **re-fetch and verify remote branch head** immediately before publishing;
-- **for player-facing visual work, passing automated tests do not equal human visual acceptance**;
-- **semantic visible controls require actual pointer and keyboard activation tests**;
-- **completion reports must include exact SHA, git state, tests actually run, remaining defects, and acceptance state**;
-- **after substantial tasks, perform a small LEARN pass** and encode recurring lessons in the smallest appropriate durable mechanism;
-- **do not solve recurring process problems merely by making prompts larger**.
-
-Plan no helpers by default. Delegate only when the user or repository/skill
-instructions authorize it and the helper has an independently useful bounded
-deliverable. Record its input, base/head, allowed paths and tools, expected
-output, and any model/effort override with its resource rationale. Helpers are
-read-only by default, may not spawn helpers recursively, and do not replace the
-parent's integration and verification. Do not commission redundant
-whole-repository reviews. In trusted fresh Codex sessions, project config caps
-open helper threads at two per parent; that runtime ceiling excludes the
-primary thread and unrelated tasks.
+Helpers: delegate only when the user or repository/skill instructions authorize it and the helper has an independently useful bounded deliverable. Record its input, base/head, allowed paths and tools, expected output, and any model/effort override with its resource rationale. Helpers are read-only by default, may not spawn helpers recursively, and do not replace the parent's integration and verification. Do not commission redundant whole-repository reviews. A lead session (Opus with Sonnet helpers, `AGENTS.md`) reviews every helper diff before it becomes a PR. In trusted fresh Codex sessions, project config caps open helper threads at two per parent; that runtime ceiling excludes the primary thread and unrelated tasks.
