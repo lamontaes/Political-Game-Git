@@ -5,13 +5,13 @@ area: words
 kind: feature
 priority: 1
 size: M
-status: claimed
-claimed-by: claude/last-check
+status: open
+claimed-by:
 pr: #4626
 blocked-on:
 after: words-pack-scene-talk
 source: added with npm run pool -- add
-claimed-at: 2026-10-20T02:35:49.880Z
+claimed-at:
 ---
 
 **What.** Batch 15 makes every scene different, with replies that move the talk on, calibrated on real exchanges. Where batch 13 proved a purpose and a result, this batch checks variety across the thirty scenes so no two read as the same talk, and that each reply answers the line before it. Compare the composed exchanges with the corpus of real exchanges and tune the bank where they diverge.
