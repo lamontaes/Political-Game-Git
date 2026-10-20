@@ -5,12 +5,13 @@ area: gov
 kind: feature
 priority: 3
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/peaceful-ritchie-03780x
 pr:
 blocked-on:
 after: gov-redistricting-who-draws
 source: added with npm run pool -- add
+claimed-at: 2026-10-20T00:42:11.877Z
 ---
 
 **What.** A resident or group from an affected neighborhood files a challenge through a fileJudicialChallenge-style writer; federal maps go to the court courtFor returns (three judges where federal law requires), and each judge's considerations are measured: equal population, Gingles 1 (could a compact district hold a minority citizen voting-age majority, from the units), Gingles 2 and 3 (bloc voting from precinct results by neighborhood make-up, never from a person's race), the judge's outlook, and precedent rows. Remedy: a redraw ordered or a court-chosen plan.
