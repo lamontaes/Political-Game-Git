@@ -5148,7 +5148,8 @@
     "addedBy": "claude",
     "addedAt": "2026-10-20",
     "replacement": "A court escrow fund account that holds each bail apart from spendable treasury cash, returned in full at disposition.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "Bail now sits in a court escrow account under the prosecuting treasury's owner (account:<treasury>:court-escrow), apart from its spendable cash, and the trial returns the whole bail from it."
   },
   {
     "id": "SG-WEB-voting-graduation-cause",
