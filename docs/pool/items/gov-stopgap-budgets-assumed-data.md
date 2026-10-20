@@ -4,13 +4,13 @@ title: "Stopgaps in budgets (assumed-data): 2 open"
 area: gov
 kind: stopgap
 priority: 3
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/political-game-pool-3xfqef-6
 pr:
 blocked-on:
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/modules/budgets.ts, kind assumed-data"
-claimed-at:
+claimed-at: 2026-10-20T00:41:36.189Z
 ---
 
 **What.** Replace or clear the 2 open assumed-data stopgap row(s) in src/core2/modules/budgets.ts: SG-WORLD-withholding-residence-law, SG-WORLD-withholding-local-base. Each fake is replaced by the mechanic, or the feature that needs it is deleted.
