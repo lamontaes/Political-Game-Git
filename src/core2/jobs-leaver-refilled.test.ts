@@ -98,6 +98,18 @@ describe(`employers refill the jobs workers leave (seed ${seed})`, () => {
           hires.some((change) => change.personId === row.filledBy),
           `${world.place.key} (seed ${drawSeed}): ${row.id} filled by ${row.filledBy} with no hire on record`,
         ).toBe(true);
+      // One followed chain, by record id, for the PR body.
+      const example =
+        followed.find((row) => row.status === "filled") ?? followed[0]!;
+      const leaving = separations.find(
+        (change) =>
+          change.jobId === example.replacesJobId &&
+          change.personId === example.replacesPersonId,
+      )!;
+      console.log(
+        `leaver-refilled: ${world.place.key} seed ${drawSeed}: employer ${example.organizationId}, separation ${leaving.id} (${leaving.kind}) of ${example.replacesPersonId} from ${example.replacesJobId}, opening ${example.id} (${example.status})` +
+          (example.filledBy ? `, filled by ${example.filledBy}` : ""),
+      );
       return;
     }
     throw new Error(
