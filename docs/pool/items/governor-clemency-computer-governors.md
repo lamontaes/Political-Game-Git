@@ -5,12 +5,12 @@ area: gov
 kind: feature
 priority: 3
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/clemency-computer-governors
 pr: #5536
 blocked-on:
 source: added with npm run pool -- add
-claimed-at:
+claimed-at: 2026-10-20T06:13:42.564Z
 ---
 
 **What.** A governor who is not the player never takes up a prisoner's petition, so commuting a sentence is reachable only by a player governor, and no screen offers it. A computer governor should weigh the weekly petition from their traits, the petitioner's record, the victim's standing and the public view, and grant or refuse it.
