@@ -5,11 +5,12 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/political-game-pool-76ksvw
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-20T02:39:57.895Z
 ---
 
 **What.** On Oct 20, 2026 the test 'counted deaths follow an illness, and a filled-in ill person keeps it' failed with 'expected 0 to be greater than 0' in Courtenay, North Dakota, seed 0b5c642b9b1ced1a9e74ea1914f63d8eb4e9dc9b, and fails identically on main without any change of mine (GOLDEN_PATH_SEED replays it). Something the test counts, such as counted deaths from illness or a filled-in ill person, is zero in this town. Find which assertion fails, read why that town has none, and fix the engine or the test's draw.
