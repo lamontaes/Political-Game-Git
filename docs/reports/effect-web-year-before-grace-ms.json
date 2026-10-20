@@ -1,0 +1,52 @@
+{
+  "seed": "ewyear-b",
+  "place": "Grace, Mississippi, US-MS (2828500)",
+  "buildSeconds": 4,
+  "yearSeconds": 22,
+  "webMonths": 13,
+  "linksMoving": 17,
+  "linksMovingAnEngineRead": 1,
+  "reaching": {
+    "unemployment-to-births": {
+      "months": 13,
+      "maxAbs": 0.012421874999999999,
+      "to": "births.rate"
+    }
+  },
+  "chains": [],
+  "recordKinds": {
+    "bill-amendment": 7,
+    "bill-held-in-committee": 42,
+    "budget-adopted": 3,
+    "budget-line-changed": 25,
+    "business.closed": 1,
+    "business.staff-reduced": 5,
+    "campaign-message": 2,
+    "candidate-filed": 2,
+    "cause-group.ad-ran": 14,
+    "chamber-organized": 5,
+    "committee-hearing": 26,
+    "drive.formed": 4,
+    "executive-action": 13,
+    "hazard.disaster": 1,
+    "housing.eviction": 2,
+    "housing.homeless-count": 2,
+    "housing.status-changed": 1,
+    "inauguration": 1,
+    "law-took-effect": 36,
+    "legislative-vote": 36,
+    "news.read": 1,
+    "office.introduced": 7,
+    "office.voted": 42,
+    "organization.closed": 1,
+    "organization.owner-changed": 2,
+    "organization.recorded": 18,
+    "person.acted": 2151,
+    "person.recorded": 5,
+    "president.address": 1,
+    "public-comment": 5,
+    "public-meeting": 12,
+    "town-hall": 10,
+    "vote-recorded": 67
+  }
+}
