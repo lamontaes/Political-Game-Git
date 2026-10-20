@@ -4861,7 +4861,7 @@
     "why": "The counted groups store holds no per-group plan, and a counted premium is a purchase flow with an insurer payee that fill-in must take back contract by contract (opening-customers.ts, residents.ts).",
     "addedBy": "claude/fs11vb-coverage-record",
     "addedAt": "2026-10-20",
-    "replacement": "A coverage share per counted group, read by the same rule as a full person times the group's weight, and a premium flow per covered counted household (pool item people-coverage-counted).",
-    "status": "open"
+    "replacement": "Done Oct 20: counted households are ranked with full people by the same employer size and pay, hold a counted-coverage record on their policyholder, and pay the same premium once for each real household the record stands for (modules/coverage.ts, countedPayment).",
+    "status": "resolved"
   }
 ]

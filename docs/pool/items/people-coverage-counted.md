@@ -22,3 +22,5 @@ claimed-at: 2026-10-20T03:24:51.813Z
 **Files.** src/core2/modules/coverage.ts, src/core2/counted-groups.ts, src/core2/modules/residents.ts
 
 **Notes.** Follow-up of people-coverage-record-monthly-pass, which covers full people only.
+
+Oct 20 (claude/coverage-counted, stacked on claude/fs11vb-coverage-record, PR #5460): built. `holdersToday` ranks full and counted working adults together; counted policyholders hold a `countedCoverage` row and pay through `countedPayment`. The year time for Cruz Bay, USVI (seed 7dacf222...) is 228 s against 259 to 281 s before, so no slowdown.
