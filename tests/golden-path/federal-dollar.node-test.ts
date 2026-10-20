@@ -141,6 +141,8 @@ interface Chain {
   countedFlows: { flowId: string; sellerId: string }[];
   sellers: { sellerId: string; receivedMinor: number }[];
   salesTaxCollectedMinor: number;
+  /** The highest sales-tax rate the law in force put on the town's sales. */
+  salesTaxRatePercent: number;
   townPaidIncomeByMonth: [string, number][];
   realOutput: number;
 }
@@ -198,6 +200,10 @@ function chainOf(run: NonNullable<ReturnType<typeof play>>): Chain {
     (sum, tax) => sum + tax.collectedMinor,
     0,
   );
+  const salesTaxRatePercent = Math.max(
+    0,
+    ...[...purchaseTaxes(core).values()].map((tax) => tax.ratePercent),
+  );
   const paidIncome = new Map<string, number>();
   for (const [key, minor] of core.finance.paidIncomeByPlaceMonth)
     if (key.endsWith(`:${world.placeId}`)) {
@@ -220,6 +226,7 @@ function chainOf(run: NonNullable<ReturnType<typeof play>>): Chain {
     countedFlows,
     sellers,
     salesTaxCollectedMinor,
+    salesTaxRatePercent,
     townPaidIncomeByMonth: [...paidIncome.entries()].sort(([a], [b]) =>
       a.localeCompare(b),
     ),
@@ -322,9 +329,13 @@ describe(`the federal dollar's chain (seed ${seed})`, () => {
   });
 
   it("the jobs and tax engines read the sellers' sales", () => {
+    // The law in force decides: a place whose laws put no sales tax on its
+    // sales collects none, and any rate above zero must collect something.
     assert.ok(
-      chain.salesTaxCollectedMinor > 0,
-      "no sales tax was collected on the town's sales",
+      chain.salesTaxRatePercent > 0
+        ? chain.salesTaxCollectedMinor > 0
+        : chain.salesTaxCollectedMinor === 0,
+      `sales tax rate ${chain.salesTaxRatePercent}% but ${chain.salesTaxCollectedMinor} collected on the town's sales`,
     );
     assert.ok(
       chain.sellers.some((row) => row.receivedMinor > 0),
