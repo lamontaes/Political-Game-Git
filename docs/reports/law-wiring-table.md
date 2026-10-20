@@ -1,94 +1,94 @@
-| Law | Family | exists | change | reach | systems | money | web | knowing | repeal | allPlaces | Overall |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| Spending: highways | infrastructure | yes | yes | yes | yes | yes | SG | NO | yes | yes | partly |
-| fare free transit | infrastructure | yes | yes | SG | yes | yes | SG | yes | NO | NO | partly |
-| mileage fee replaces fuel tax | infrastructure | yes | yes | SG | yes | yes | SG | yes | NO | NO | partly |
-| public broadband | infrastructure | yes | yes | SG | yes | yes | SG | yes | NO | NO | partly |
-| shift highway funds to transit | infrastructure | yes | yes | part | part | yes | NO | yes | yes | part | partly |
-| Medicare tax rate | healthcare | yes | yes | NO | yes | yes | SG | yes | NO | NO | partly |
-| Medicaid federal match | healthcare | yes | yes | NO | NO | NO | SG | yes | NO | NO | partly |
-| expand medicaid eligibility | healthcare | yes | yes | yes | part | SG | part | yes | yes | yes | partly |
-| medicaid work requirement | healthcare | yes | yes | yes | part | SG | SG | yes | yes | yes | partly |
-| work requirement for assistance | healthcare | yes | yes | SG | SG | SG | SG | yes | NO | NO | partly |
-| Spending: healthAndHospitals | healthcare | yes | yes | yes | yes | yes | SG | NO | yes | yes | partly |
-| universal preschool | education | yes | yes | yes | part | SG | SG | yes | yes | yes | partly |
-| Spending: schools | education | yes | yes | yes | yes | yes | NO | NO | yes | yes | partly |
-| public funds for private schooling | education | yes | yes | yes | part | yes | SG | yes | yes | yes | partly |
-| raise teacher minimum salary | education | yes | yes | yes | part | NO | NO | yes | yes | yes | partly |
-| Spending: higherEducation | education | yes | yes | yes | yes | yes | SG | NO | yes | yes | partly |
-| Local income tax rate | taxes-finance | yes | yes | yes | yes | NO | SG | yes | NO | yes | partly |
-| Local sales tax rate | taxes-finance | yes | yes | yes | yes | yes | SG | yes | NO | yes | partly |
-| Property tax rate | taxes-finance | yes | yes | NO | yes | yes | NO | yes | NO | NO | partly |
-| Corporate income tax rate | taxes-finance | yes | yes | NO | NO | NO | NO | yes | NO | NO | partly |
-| Estate tax rate | taxes-finance | yes | yes | NO | NO | NO | SG | yes | NO | NO | partly |
-| Inheritance tax rate | taxes-finance | yes | yes | NO | NO | NO | SG | yes | NO | NO | partly |
-| adopt income tax | taxes-finance | yes | yes | NO | NO | NO | NO | yes | NO | NO | partly |
-| cap property tax growth | taxes-finance | yes | yes | SG | yes | yes | yes | yes | NO | NO | partly |
-| exempt groceries from sales tax | taxes-finance | yes | yes | yes | yes | NO | NO | yes | yes | yes | partly |
-| graduated income tax | taxes-finance | yes | yes | part | part | yes | NO | yes | yes | part | partly |
-| balanced operating budget | taxes-finance | yes | yes | yes | part | NO | yes | yes | yes | yes | partly |
-| fund pensions to schedule | taxes-finance | yes | yes | yes | part | yes | yes | yes | yes | yes | partly |
-| minimum reserve balance | taxes-finance | yes | yes | yes | part | yes | yes | yes | yes | yes | partly |
-| SNAP maximum benefit | assistance | yes | yes | NO | NO | NO | SG | yes | NO | NO | partly |
-| Spending: welfareAndMedicaid | assistance | yes | yes | yes | yes | yes | SG | NO | yes | yes | partly |
-| Federal unemployment tax rate | assistance | yes | yes | NO | yes | yes | SG | yes | NO | NO | partly |
-| State unemployment tax rate | assistance | yes | yes | NO | yes | yes | SG | yes | NO | NO | partly |
-| Unemployment weekly maximum | assistance | yes | yes | NO | NO | NO | SG | yes | NO | NO | partly |
-| Social Security tax rate | assistance | yes | yes | NO | yes | yes | SG | yes | NO | NO | partly |
-| allow multifamily in single family zones | housing | yes | yes | SG | yes | SG | SG | yes | NO | NO | partly |
-| Spending: housing | housing | yes | yes | part | yes | yes | SG | NO | yes | yes | partly |
-| inclusionary requirement | housing | yes | yes | SG | yes | yes | SG | yes | NO | NO | partly |
-| rent stabilization | housing | yes | yes | SG | SG | SG | yes | yes | NO | NO | partly |
-| right to counsel in eviction | housing | yes | yes | SG | SG | SG | SG | yes | NO | NO | partly |
-| Minimum wage | labor | yes | yes | NO | NO | yes | NO | yes | NO | NO | partly |
-| raise federal minimum wage | labor | yes | yes | yes | NO | yes | NO | yes | yes | yes | partly |
-| local minimum wage authority | labor | yes | yes | yes | part | NO | NO | yes | yes | yes | partly |
-| raise minimum wage | labor | yes | yes | yes | NO | NO | NO | yes | yes | yes | partly |
-| paid family leave | labor | yes | yes | yes | yes | yes | SG | yes | yes | yes | stopgapped |
-| public sector collective bargaining | labor | yes | yes | part | SG | SG | part | yes | yes | yes | partly |
-| right to work | labor | yes | yes | yes | SG | yes | yes | yes | yes | yes | stopgapped |
-| legalize cannabis sales | business | yes | yes | yes | yes | yes | part | yes | yes | yes | partly |
-| cap consumer loan rates | business | yes | yes | SG | yes | SG | yes | yes | NO | NO | partly |
-| ban new gas hookups | energy-environment | yes | yes | SG | yes | yes | SG | yes | NO | NO | partly |
-| clean electricity standard | energy-environment | yes | yes | SG | yes | yes | yes | yes | NO | NO | partly |
-| clean air plan for polluted counties | energy-environment | yes | yes | NO | yes | NO | NO | yes | NO | NO | partly |
-| Spending: naturalResources | energy-environment | yes | yes | yes | yes | yes | SG | NO | yes | yes | partly |
-| bottle deposit | energy-environment | yes | yes | SG | yes | yes | yes | yes | NO | NO | partly |
-| price carbon | energy-environment | yes | yes | SG | yes | yes | SG | yes | NO | NO | partly |
-| Spending: police | justice | yes | yes | part | yes | yes | NO | yes | NO | yes | partly |
-| civilian oversight of police | justice | yes | yes | part | SG | yes | SG | yes | yes | yes | partly |
-| partner with federal immigration enforcement | justice | yes | yes | yes | NO | yes | part | yes | yes | yes | partly |
-| end cash bail | justice | yes | yes | yes | SG | SG | part | yes | yes | yes | partly |
-| Spending: corrections | justice | yes | yes | part | yes | yes | NO | NO | NO | part | partly |
-| restore voting after sentence | justice | yes | yes | yes | part | SG | SG | yes | yes | yes | partly |
-| raise juvenile court age | justice | yes | yes | part | SG | SG | SG | yes | yes | yes | partly |
-| child access prevention | justice | yes | yes | yes | NO | NO | part | yes | yes | yes | partly |
-| permit to carry concealed | justice | yes | yes | yes | SG | SG | yes | yes | yes | yes | stopgapped |
-| raise handgun purchase age | justice | yes | yes | yes | SG | SG | part | yes | yes | yes | partly |
-| stand your ground | justice | yes | yes | yes | SG | SG | yes | yes | yes | yes | stopgapped |
-| Spending: fire | justice | yes | yes | part | yes | yes | SG | yes | NO | yes | partly |
-| all mail voting | government | yes | yes | yes | part | NO | part | yes | yes | yes | partly |
-| automatic voter registration | government | yes | yes | yes | part | NO | yes | yes | yes | yes | partly |
-| independent redistricting | government | yes | yes | part | SG | SG | yes | yes | yes | yes | partly |
-| require photo id to vote | government | yes | yes | yes | part | NO | NO | yes | yes | yes | partly |
-| same day voter registration | government | yes | yes | yes | part | NO | part | yes | yes | yes | partly |
-| ban lobbying after office | government | yes | yes | part | part | NO | SG | yes | yes | yes | partly |
-| Public pay floor | government | NO | yes | NO | yes | NO | SG | yes | NO | NO | partly |
-| Spending: administration | government | yes | yes | part | yes | yes | SG | NO | NO | yes | partly |
-| broaden local authority | government | yes | yes | NO | NO | yes | SG | yes | NO | NO | partly |
-| legislative term limits | government | yes | yes | part | part | NO | NO | yes | yes | yes | partly |
-| ban discrimination in housing and work | rights | yes | yes | yes | SG | SG | SG | yes | yes | yes | stopgapped |
-| dedicated parks funding | rights | yes | yes | yes | NO | yes | SG | yes | yes | yes | partly |
-| restrict abortion | rights | yes | yes | yes | SG | SG | yes | yes | yes | yes | stopgapped |
-| age verification for social media | technology | yes | yes | yes | SG | SG | SG | yes | yes | yes | stopgapped |
-| restrict government facial recognition | technology | yes | yes | part | SG | SG | SG | yes | yes | yes | partly |
-| consumer data privacy law | technology | yes | yes | yes | yes | yes | SG | yes | yes | yes | stopgapped |
-| limit groundwater withdrawal | agriculture | yes | yes | SG | yes | yes | yes | yes | NO | NO | partly |
-| protect farmland from development | agriculture | yes | yes | SG | yes | yes | yes | yes | NO | NO | partly |
-| Spending: parks | parks-culture | yes | yes | yes | yes | yes | SG | yes | NO | yes | partly |
-| local-income-tax-authority | starting law | yes | NO | NO | NO | NO | SG | yes | NO | NO | partly |
-| local-minimum-wage-authority | starting law | yes | yes | NO | yes | NO | SG | yes | NO | NO | partly |
-| unemployment-insurance | starting law | yes | yes | NO | NO | NO | SG | yes | NO | NO | partly |
+| Law                                          | Family             | exists | change | reach | systems | money | web  | knowing | repeal | allPlaces | Overall    |
+| -------------------------------------------- | ------------------ | ------ | ------ | ----- | ------- | ----- | ---- | ------- | ------ | --------- | ---------- |
+| Spending: highways                           | infrastructure     | yes    | yes    | yes   | yes     | yes   | SG   | NO      | yes    | yes       | partly     |
+| fare free transit                            | infrastructure     | yes    | yes    | SG    | yes     | yes   | SG   | yes     | NO     | NO        | partly     |
+| mileage fee replaces fuel tax                | infrastructure     | yes    | yes    | SG    | yes     | yes   | SG   | yes     | NO     | NO        | partly     |
+| public broadband                             | infrastructure     | yes    | yes    | SG    | yes     | yes   | SG   | yes     | NO     | NO        | partly     |
+| shift highway funds to transit               | infrastructure     | yes    | yes    | part  | part    | yes   | NO   | yes     | yes    | part      | partly     |
+| Medicare tax rate                            | healthcare         | yes    | yes    | NO    | yes     | yes   | SG   | yes     | NO     | NO        | partly     |
+| Medicaid federal match                       | healthcare         | yes    | yes    | NO    | NO      | NO    | SG   | yes     | NO     | NO        | partly     |
+| expand medicaid eligibility                  | healthcare         | yes    | yes    | yes   | part    | SG    | part | yes     | yes    | yes       | partly     |
+| medicaid work requirement                    | healthcare         | yes    | yes    | yes   | part    | SG    | SG   | yes     | yes    | yes       | partly     |
+| work requirement for assistance              | healthcare         | yes    | yes    | SG    | SG      | SG    | SG   | yes     | NO     | NO        | partly     |
+| Spending: healthAndHospitals                 | healthcare         | yes    | yes    | yes   | yes     | yes   | SG   | NO      | yes    | yes       | partly     |
+| universal preschool                          | education          | yes    | yes    | yes   | part    | SG    | SG   | yes     | yes    | yes       | partly     |
+| Spending: schools                            | education          | yes    | yes    | yes   | yes     | yes   | NO   | NO      | yes    | yes       | partly     |
+| public funds for private schooling           | education          | yes    | yes    | yes   | part    | yes   | SG   | yes     | yes    | yes       | partly     |
+| raise teacher minimum salary                 | education          | yes    | yes    | yes   | part    | NO    | NO   | yes     | yes    | yes       | partly     |
+| Spending: higherEducation                    | education          | yes    | yes    | yes   | yes     | yes   | SG   | NO      | yes    | yes       | partly     |
+| Local income tax rate                        | taxes-finance      | yes    | yes    | yes   | yes     | NO    | SG   | yes     | NO     | yes       | partly     |
+| Local sales tax rate                         | taxes-finance      | yes    | yes    | yes   | yes     | yes   | SG   | yes     | NO     | yes       | partly     |
+| Property tax rate                            | taxes-finance      | yes    | yes    | NO    | yes     | yes   | NO   | yes     | NO     | NO        | partly     |
+| Corporate income tax rate                    | taxes-finance      | yes    | yes    | NO    | NO      | NO    | NO   | yes     | NO     | NO        | partly     |
+| Estate tax rate                              | taxes-finance      | yes    | yes    | NO    | NO      | NO    | SG   | yes     | NO     | NO        | partly     |
+| Inheritance tax rate                         | taxes-finance      | yes    | yes    | NO    | NO      | NO    | SG   | yes     | NO     | NO        | partly     |
+| adopt income tax                             | taxes-finance      | yes    | yes    | NO    | NO      | NO    | NO   | yes     | NO     | NO        | partly     |
+| cap property tax growth                      | taxes-finance      | yes    | yes    | SG    | yes     | yes   | yes  | yes     | NO     | NO        | partly     |
+| exempt groceries from sales tax              | taxes-finance      | yes    | yes    | yes   | yes     | NO    | NO   | yes     | yes    | yes       | partly     |
+| graduated income tax                         | taxes-finance      | yes    | yes    | part  | part    | yes   | NO   | yes     | yes    | part      | partly     |
+| balanced operating budget                    | taxes-finance      | yes    | yes    | yes   | part    | NO    | yes  | yes     | yes    | yes       | partly     |
+| fund pensions to schedule                    | taxes-finance      | yes    | yes    | yes   | part    | yes   | yes  | yes     | yes    | yes       | partly     |
+| minimum reserve balance                      | taxes-finance      | yes    | yes    | yes   | part    | yes   | yes  | yes     | yes    | yes       | partly     |
+| SNAP maximum benefit                         | assistance         | yes    | yes    | NO    | NO      | NO    | SG   | yes     | NO     | NO        | partly     |
+| Spending: welfareAndMedicaid                 | assistance         | yes    | yes    | yes   | yes     | yes   | SG   | NO      | yes    | yes       | partly     |
+| Federal unemployment tax rate                | assistance         | yes    | yes    | NO    | yes     | yes   | SG   | yes     | NO     | NO        | partly     |
+| State unemployment tax rate                  | assistance         | yes    | yes    | NO    | yes     | yes   | SG   | yes     | NO     | NO        | partly     |
+| Unemployment weekly maximum                  | assistance         | yes    | yes    | NO    | NO      | NO    | SG   | yes     | NO     | NO        | partly     |
+| Social Security tax rate                     | assistance         | yes    | yes    | NO    | yes     | yes   | SG   | yes     | NO     | NO        | partly     |
+| allow multifamily in single family zones     | housing            | yes    | yes    | SG    | yes     | SG    | SG   | yes     | NO     | NO        | partly     |
+| Spending: housing                            | housing            | yes    | yes    | part  | yes     | yes   | SG   | NO      | yes    | yes       | partly     |
+| inclusionary requirement                     | housing            | yes    | yes    | SG    | yes     | yes   | SG   | yes     | NO     | NO        | partly     |
+| rent stabilization                           | housing            | yes    | yes    | SG    | SG      | SG    | yes  | yes     | NO     | NO        | partly     |
+| right to counsel in eviction                 | housing            | yes    | yes    | SG    | SG      | SG    | SG   | yes     | NO     | NO        | partly     |
+| Minimum wage                                 | labor              | yes    | yes    | NO    | NO      | yes   | NO   | yes     | NO     | NO        | partly     |
+| raise federal minimum wage                   | labor              | yes    | yes    | yes   | NO      | yes   | NO   | yes     | yes    | yes       | partly     |
+| local minimum wage authority                 | labor              | yes    | yes    | yes   | part    | NO    | NO   | yes     | yes    | yes       | partly     |
+| raise minimum wage                           | labor              | yes    | yes    | yes   | NO      | NO    | NO   | yes     | yes    | yes       | partly     |
+| paid family leave                            | labor              | yes    | yes    | yes   | yes     | yes   | SG   | yes     | yes    | yes       | stopgapped |
+| public sector collective bargaining          | labor              | yes    | yes    | part  | SG      | SG    | part | yes     | yes    | yes       | partly     |
+| right to work                                | labor              | yes    | yes    | yes   | SG      | yes   | yes  | yes     | yes    | yes       | stopgapped |
+| legalize cannabis sales                      | business           | yes    | yes    | yes   | yes     | yes   | part | yes     | yes    | yes       | partly     |
+| cap consumer loan rates                      | business           | yes    | yes    | SG    | yes     | SG    | yes  | yes     | NO     | NO        | partly     |
+| ban new gas hookups                          | energy-environment | yes    | yes    | SG    | yes     | yes   | SG   | yes     | NO     | NO        | partly     |
+| clean electricity standard                   | energy-environment | yes    | yes    | SG    | yes     | yes   | yes  | yes     | NO     | NO        | partly     |
+| clean air plan for polluted counties         | energy-environment | yes    | yes    | NO    | yes     | NO    | NO   | yes     | NO     | NO        | partly     |
+| Spending: naturalResources                   | energy-environment | yes    | yes    | yes   | yes     | yes   | SG   | NO      | yes    | yes       | partly     |
+| bottle deposit                               | energy-environment | yes    | yes    | SG    | yes     | yes   | yes  | yes     | NO     | NO        | partly     |
+| price carbon                                 | energy-environment | yes    | yes    | SG    | yes     | yes   | SG   | yes     | NO     | NO        | partly     |
+| Spending: police                             | justice            | yes    | yes    | part  | yes     | yes   | NO   | yes     | NO     | yes       | partly     |
+| civilian oversight of police                 | justice            | yes    | yes    | part  | SG      | yes   | SG   | yes     | yes    | yes       | partly     |
+| partner with federal immigration enforcement | justice            | yes    | yes    | yes   | NO      | yes   | part | yes     | yes    | yes       | partly     |
+| end cash bail                                | justice            | yes    | yes    | yes   | SG      | SG    | part | yes     | yes    | yes       | partly     |
+| Spending: corrections                        | justice            | yes    | yes    | part  | yes     | yes   | NO   | NO      | NO     | part      | partly     |
+| restore voting after sentence                | justice            | yes    | yes    | yes   | part    | SG    | SG   | yes     | yes    | yes       | partly     |
+| raise juvenile court age                     | justice            | yes    | yes    | part  | SG      | SG    | SG   | yes     | yes    | yes       | partly     |
+| child access prevention                      | justice            | yes    | yes    | yes   | NO      | NO    | part | yes     | yes    | yes       | partly     |
+| permit to carry concealed                    | justice            | yes    | yes    | yes   | SG      | SG    | yes  | yes     | yes    | yes       | stopgapped |
+| raise handgun purchase age                   | justice            | yes    | yes    | yes   | SG      | SG    | part | yes     | yes    | yes       | partly     |
+| stand your ground                            | justice            | yes    | yes    | yes   | SG      | SG    | yes  | yes     | yes    | yes       | stopgapped |
+| Spending: fire                               | justice            | yes    | yes    | part  | yes     | yes   | SG   | yes     | NO     | yes       | partly     |
+| all mail voting                              | government         | yes    | yes    | yes   | part    | NO    | part | yes     | yes    | yes       | partly     |
+| automatic voter registration                 | government         | yes    | yes    | yes   | part    | NO    | yes  | yes     | yes    | yes       | partly     |
+| independent redistricting                    | government         | yes    | yes    | part  | SG      | SG    | yes  | yes     | yes    | yes       | partly     |
+| require photo id to vote                     | government         | yes    | yes    | yes   | part    | NO    | NO   | yes     | yes    | yes       | partly     |
+| same day voter registration                  | government         | yes    | yes    | yes   | part    | NO    | part | yes     | yes    | yes       | partly     |
+| ban lobbying after office                    | government         | yes    | yes    | part  | part    | NO    | SG   | yes     | yes    | yes       | partly     |
+| Public pay floor                             | government         | NO     | yes    | NO    | yes     | NO    | SG   | yes     | NO     | NO        | partly     |
+| Spending: administration                     | government         | yes    | yes    | part  | yes     | yes   | SG   | NO      | NO     | yes       | partly     |
+| broaden local authority                      | government         | yes    | yes    | NO    | NO      | yes   | SG   | yes     | NO     | NO        | partly     |
+| legislative term limits                      | government         | yes    | yes    | part  | part    | NO    | NO   | yes     | yes    | yes       | partly     |
+| ban discrimination in housing and work       | rights             | yes    | yes    | yes   | SG      | SG    | SG   | yes     | yes    | yes       | stopgapped |
+| dedicated parks funding                      | rights             | yes    | yes    | yes   | NO      | yes   | SG   | yes     | yes    | yes       | partly     |
+| restrict abortion                            | rights             | yes    | yes    | yes   | SG      | SG    | yes  | yes     | yes    | yes       | stopgapped |
+| age verification for social media            | technology         | yes    | yes    | yes   | SG      | SG    | SG   | yes     | yes    | yes       | stopgapped |
+| restrict government facial recognition       | technology         | yes    | yes    | part  | SG      | SG    | SG   | yes     | yes    | yes       | partly     |
+| consumer data privacy law                    | technology         | yes    | yes    | yes   | yes     | yes   | SG   | yes     | yes    | yes       | stopgapped |
+| limit groundwater withdrawal                 | agriculture        | yes    | yes    | SG    | yes     | yes   | yes  | yes     | NO     | NO        | partly     |
+| protect farmland from development            | agriculture        | yes    | yes    | SG    | yes     | yes   | yes  | yes     | NO     | NO        | partly     |
+| Spending: parks                              | parks-culture      | yes    | yes    | yes   | yes     | yes   | SG   | yes     | NO     | yes       | partly     |
+| local-income-tax-authority                   | starting law       | yes    | NO     | NO    | NO      | NO    | SG   | yes     | NO     | NO        | partly     |
+| local-minimum-wage-authority                 | starting law       | yes    | yes    | NO    | yes     | NO    | SG   | yes     | NO     | NO        | partly     |
+| unemployment-insurance                       | starting law       | yes    | yes    | NO    | NO      | NO    | SG   | yes     | NO     | NO        | partly     |
 
 ## Why each link is missing
 
@@ -666,4 +666,3 @@
 - web: no researched outcome-web link starts from this law or a measure it sets; the research would measure unemployment duration and household income (SG-LAW-outcome-link-unresearched)
 - repeal: nothing reached, so nothing to stop
 - allPlaces: reaches nobody anywhere
-
