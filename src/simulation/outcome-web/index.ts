@@ -150,6 +150,7 @@ const BASELINES = web.baselines as Readonly<
 /** Measures whose baseline is zero: a change from where the place began. */
 const CHANGE_MEASURES = new Set([
   "budget.parks-added-pct",
+  "budget.higherEducation-added-pct",
   "labor.minimum-wage-change-pct",
   "federal.defense-boost-pct",
   "federal.rail-expansion-pct",
@@ -268,6 +269,13 @@ const FIXED_MEASURES: Readonly<Record<string, OutcomeMeasure>> = {
             spendingPerResident(key, "parksAndRecreation")) *
             100;
     },
+  },
+  "budget.higherEducation-added-pct": {
+    key: "budget.higherEducation-added-pct",
+    unit: "percent of what the state spends on higher education that a law or budget adds above its Census base",
+    // Recorded by the new core's budgets (src/core2/gov-measures.ts); this
+    // engine keeps no state budget line to read.
+    read: () => null,
   },
   "federal.defense-boost-pct": {
     key: "federal.defense-boost-pct",

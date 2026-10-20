@@ -254,6 +254,19 @@
       "unitScale": 1
     }
   },
+  "govMeasures": [
+    "labor.minimum-wage-change-pct",
+    "labor.minimum-wage-gap-to-15",
+    "election.incumbent-vote",
+    "election.incumbent-reelection",
+    "voting.local-turnout",
+    "budget.parks-added-pct",
+    "budget.higherEducation-added-pct",
+    "labor.minimum-wage",
+    "labor.minimum-wage-to-median",
+    "voting.youth-turnout",
+    "voting.party-share"
+  ],
   "measureOwners": {
     "about": "Who provides each measure the web is waiting on. A measure an engine already keeps but sets itself (rent, home prices, evictions, unemployment, employment) waits on that engine reading the web's factor for it (outcomeWebFactor).",
     "owners": {

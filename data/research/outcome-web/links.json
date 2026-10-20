@@ -5233,6 +5233,26 @@
       "anchor": "Across the 50 states and D.C., each doubling of state and local parks spending per resident goes with 0.9 points more of residents near a park or recreation facility, with a 95% range of -1.6 to +3.3 points, once the rural share is held fixed: about zero, a cross-section fit and not a causal estimate (Research 1, from County Health Rankings 2025 and Census 2022 finances). A one percent rise in spending is 0.0144 of a doubling, 0.0129 points, 0.0157% of the median 82.25%, so the size is 0.000157 for each percent, and the range -0.000279 to +0.000575. A dedication adds about $9.26 a resident to a place that spends about $136, 6.8%, so access moves about 0.1% either way. The lag is the year a parks agency needs to spend new money on sites and hours, judged, not measured.",
       "source": "Research 1, 07 LAW EFFECT SIZES - Dedicated parks funding by place (September 29, 2026): County Health Rankings & Roadmaps 2025 (access to exercise opportunities, rural share) and Census Bureau 2022 Census of Governments: Finance (parks and recreation per resident)",
       "range": [-0.000279, 0.000575]
+    },
+    {
+      "key": "higher-education-spending-to-college-completion",
+      "status": "built",
+      "unsupportedReason": null,
+      "from": "budget.higherEducation-added-pct",
+      "to": "school.college-completion-pct",
+      "strength": "moderate",
+      "shape": {
+        "kind": "linear"
+      },
+      "size": 0.00109,
+      "per": "percent of what the state spends on higher education that a law or budget adds above its Census base",
+      "lagMonths": 24,
+      "group": "place",
+      "owner": "F",
+      "evidence": "provisional",
+      "anchor": "A 10% rise in a public college system's total spending raises the four-year degrees it awards by 4.6% two years later and 4.5% three years later (an elasticity of about 0.455); the effect on two-year awards is larger, and enrollment rises 3% (elasticity 0.3). The outcome is the share of adults 25 and older with a bachelor's degree, a stock the new graduates add to: about 2.0 million bachelor's degrees a year against about 230 million adults 25 and older is 0.87 points of that stock a year. A percent more spending adds 0.455% to that inflow, 0.0040 points a year, and 0.040 points over ten years, which is 0.11% of the national 36.2%, so the size is 0.00109 for each percent. The range runs from the enrollment elasticity of 0.3 (0.00072) to about a half again the center (0.0016); the paper's own interval for the four-year estimate is not in the text read, so the spread is judged. The lag is the two years before the first extra degrees.",
+      "source": "Deming and Walters 2018, The Impact of Price Caps and Spending Cuts on U.S. Postsecondary Attainment, NBER Working Paper 23736 (Section 4, Tables 2 and 4); NCES Fast Facts, Degrees conferred by postsecondary institutions (2.0 million bachelor's degrees, 2021-22); Census Bureau ACS 2024 1-year S1501 (adults 25 and older, share with a bachelor's degree)",
+      "range": [0.00072, 0.0016]
     }
   ],
   "calibratedAt": "2024-07-01"

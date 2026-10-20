@@ -129,6 +129,9 @@ export function scaleOf(measure: string): Scale {
   return BASES[measure]?.scale ?? KEPT_LOCAL[measure]?.scale ?? "share";
 }
 
+/** The government's own measures (gov-measures.ts reads them from the engines' records). */
+const GOV = new Set<string>(local.govMeasures);
+
 export function engineMeasure(measure: string) {
   return ENGINE[measure];
 }
@@ -137,11 +140,12 @@ export function isLaw(measure: string): boolean {
   return measure.startsWith(LAW_PREFIX);
 }
 
-/** A cause the core can read: a kept outcome (or a reading of one), an engine record, or a law. */
+/** A cause the core can read: a kept outcome (or a reading of one), an engine record, a government measure, or a law. */
 export function causeAvailable(measure: string): boolean {
   return (
     isLaw(measure) ||
     measure in ENGINE ||
+    GOV.has(measure) ||
     keptOutcome(measure) ||
     derivedOf(measure) !== null
   );

@@ -15,6 +15,8 @@
  *   latest decided local race (0 to 1).
  * - `budget.parks-added-pct`: the city's parks line above its Census base this
  *   fiscal year, in percent.
+ * - `budget.higherEducation-added-pct`: the state's higher-education line above
+ *   its Census base this fiscal year, in percent.
  * - `labor.minimum-wage`: the governing minimum wage, dollars an hour.
  * - `labor.minimum-wage-to-median`: that wage over the median hourly pay of
  *   the town's current jobs (0 to about 1).
@@ -46,6 +48,7 @@ export const GOV_MEASURES = [
   "election.incumbent-reelection",
   "voting.local-turnout",
   "budget.parks-added-pct",
+  "budget.higherEducation-added-pct",
   "labor.minimum-wage",
   "labor.minimum-wage-to-median",
   "voting.youth-turnout",
@@ -99,6 +102,28 @@ function enginesFor(measure: string): readonly string[] {
   if (measure.startsWith("labor.")) return [LAWS_MODULE_ID];
   if (measure.startsWith("budget.")) return [BUDGETS_MODULE_ID];
   return [ELECTIONS_MODULE_ID, VOTING_MODULE_ID, OFFICES_MODULE_ID];
+}
+
+/** The budget-line measures: the government level whose budget holds the line, and the line. */
+const BUDGET_MEASURES: Readonly<
+  Record<string, { level: "city" | "state"; line: string }>
+> = {
+  "budget.parks-added-pct": { level: "city", line: "parks" },
+  "budget.higherEducation-added-pct": {
+    level: "state",
+    line: "higherEducation",
+  },
+};
+
+/** The latest budget in force of the town's government at that level. */
+function lineBudget(api: CoreAPI, level: "city" | "state") {
+  if (!api.state.modules.has(BUDGETS_MODULE_ID)) return null;
+  const government = governments(api).find((g) => g.level === level);
+  if (!government) return null;
+  const row = budgetsOf(api, government.id)
+    .filter((b) => b.startsOn <= api.state.date)
+    .at(-1);
+  return row ? { government, row } : null;
 }
 
 export function govMeasure(api: CoreAPI, measure: string): number | null {
@@ -164,18 +189,17 @@ export function govMeasure(api: CoreAPI, measure: string): number | null {
         ? (race.result.namedTurnout + race.result.countedTurnout) / eligible
         : null;
     }
-    case "budget.parks-added-pct": {
-      if (!api.state.modules.has(BUDGETS_MODULE_ID)) return null;
-      const city = governments(api).find((g) => g.level === "city");
-      if (!city) return null;
-      const budget = budgetsOf(api, city.id)
-        .filter((b) => b.startsOn <= date)
-        .at(-1);
+    case "budget.parks-added-pct":
+    case "budget.higherEducation-added-pct": {
+      const line = BUDGET_MEASURES[measure]!;
+      const budget = lineBudget(api, line.level);
       if (!budget) return null;
       // The Census base, before any change a body enacted.
       const base =
-        baseBudget(api, city, budget.fiscalYear).spendingMinor.parks ?? 0;
-      const now = budget.spendingMinor.parks ?? 0;
+        baseBudget(api, budget.government, budget.row.fiscalYear).spendingMinor[
+          line.line
+        ] ?? 0;
+      const now = budget.row.spendingMinor[line.line] ?? 0;
       return base ? ((now - base) / base) * 100 : null;
     }
     case "labor.minimum-wage": {
@@ -242,8 +266,8 @@ export function govMeasure(api: CoreAPI, measure: string): number | null {
 
 /**
  * The record a government measure's value stands on: the governing minimum
- * wage row for the labor measures, the city's budget for the parks line, and
- * null for measures read from results (their races carry their own ids).
+ * wage row for the labor measures, the city's budget for the parks line, the
+ * state's for the higher-education line, and null for measures read from results (their races carry their own ids).
  */
 export function govMeasureRecord(api: CoreAPI, measure: string): string | null {
   if (!enginesFor(measure).every((id) => api.state.modules.has(id)))
@@ -252,15 +276,7 @@ export function govMeasureRecord(api: CoreAPI, measure: string): string | null {
     return (
       lawInForce(api, "minimum-wage", api.state.date).governing?.id ?? null
     );
-  if (measure === "budget.parks-added-pct") {
-    if (!api.state.modules.has(BUDGETS_MODULE_ID)) return null;
-    const city = governments(api).find((g) => g.level === "city");
-    if (!city) return null;
-    return (
-      budgetsOf(api, city.id)
-        .filter((b) => b.startsOn <= api.state.date)
-        .at(-1)?.id ?? null
-    );
-  }
+  const line = BUDGET_MEASURES[measure];
+  if (line) return lineBudget(api, line.level)?.row.id ?? null;
   return null;
 }

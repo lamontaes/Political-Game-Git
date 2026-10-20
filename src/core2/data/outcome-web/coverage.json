@@ -15,6 +15,8 @@
     "emission-rules-to-particulates",
     "work-requirement-to-coverage",
     "snap-to-food-insecurity",
+    "minimum-wage-to-poverty",
+    "minimum-wage-to-low-wage-jobs",
     "unemployment-to-poverty",
     "enforcement-to-hispanic-enrollment",
     "graduation-to-turnout",
@@ -54,6 +56,7 @@
     "clean-electricity-to-price",
     "container-deposit-to-recycling",
     "unemployment-to-uninsured",
+    "federal-minimum-wage-to-poverty",
     "federal-minimum-wage-to-low-wage-jobs",
     "mandatory-minimum-cut-to-federal-prisoners",
     "power-plant-carbon-to-emissions",
@@ -130,7 +133,9 @@
     "groundwater-limits-to-irrigation-pumping",
     "transit-service-to-ridership",
     "fix-it-first-to-poor-roads",
-    "poor-roads-to-prices"
+    "poor-roads-to-prices",
+    "parks-spending-to-exercise-access",
+    "higher-education-spending-to-college-completion"
   ],
   "waiting": {
     "police-to-low-level-arrests": {
@@ -247,12 +252,6 @@
     "child-benefit-to-child-poverty": {
       "waitingOn": ["program.child-benefit-dollars", "household.child-poverty"],
       "needsSize": true
-    },
-    "minimum-wage-to-poverty": {
-      "waitingOn": ["labor.minimum-wage-change-pct"]
-    },
-    "minimum-wage-to-low-wage-jobs": {
-      "waitingOn": ["labor.minimum-wage-to-median"]
     },
     "parent-incarceration-to-household-income": {
       "waitingOn": ["justice.parent-incarcerated", "household.income"],
@@ -440,9 +439,6 @@
     "flood-zone-limits-to-damage": {
       "waitingOn": ["disaster.flood-damage"]
     },
-    "federal-minimum-wage-to-poverty": {
-      "waitingOn": ["labor.minimum-wage-gap-to-15"]
-    },
     "student-debt-relief-to-finances": {
       "waitingOn": ["finance.past-due-debt"],
       "needsSize": true
@@ -484,9 +480,6 @@
     },
     "federal-rail-expansion-to-riders": {
       "waitingOn": ["federal.rail-expansion-pct"]
-    },
-    "parks-spending-to-exercise-access": {
-      "waitingOn": ["budget.parks-added-pct"]
     }
   },
   "measuresWanted": {
@@ -560,10 +553,6 @@
     },
     "births.renters": {
       "owner": "OPUS-PEOPLE",
-      "links": 1
-    },
-    "budget.parks-added-pct": {
-      "owner": "OPUS-GOV",
       "links": 1
     },
     "crime.all": {
@@ -756,18 +745,6 @@
     },
     "labor.formal-employment": {
       "owner": "OPUS-WORLD",
-      "links": 1
-    },
-    "labor.minimum-wage-change-pct": {
-      "owner": "OPUS-GOV",
-      "links": 1
-    },
-    "labor.minimum-wage-gap-to-15": {
-      "owner": "OPUS-GOV",
-      "links": 1
-    },
-    "labor.minimum-wage-to-median": {
-      "owner": "OPUS-GOV",
       "links": 1
     },
     "labor.unemployment-pct": {
