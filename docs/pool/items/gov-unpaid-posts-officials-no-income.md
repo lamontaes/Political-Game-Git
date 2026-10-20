@@ -5,7 +5,7 @@ area: gov
 kind: bug
 priority: 2
 size: M
-status: in-pr
+status: done
 claimed-by: claude/unpaid-posts-s6
 pr: #5043
 blocked-on:
