@@ -1,0 +1,140 @@
+{
+  "about": "Laws that have no researched outcome-web link in data/research/outcome-web/links.json, neither from the law itself nor from a measure an engine sets from it, and the outcome the research would measure. Each carries the stopgap that registers the gap; read by scripts/law-wiring/catalog.ts for the law-wiring matrix. The research belongs to the outcome-web line (pool item laws-outcome-links-unresearched).",
+  "laws": [
+    {
+      "key": "us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax",
+      "outcome": "vehicle miles traveled and fuel use",
+      "stopgapId": "SG-LAW-outcome-link-unresearched"
+    },
+    {
+      "key": "medicare-tax",
+      "outcome": "take-home pay and labor supply",
+      "stopgapId": "SG-LAW-outcome-link-unresearched"
+    },
+    {
+      "key": "medicaid-match",
+      "outcome": "state Medicaid enrollment and coverage",
+      "stopgapId": "SG-LAW-outcome-link-unresearched"
+    },
+    {
+      "key": "budget-line:healthAndHospitals",
+      "outcome": "hospital access and uninsured care",
+      "stopgapId": "SG-LAW-outcome-link-unresearched"
+    },
+    {
+      "key": "budget-line:higherEducation",
+      "outcome": "college enrollment and completion",
+      "stopgapId": "SG-LAW-outcome-link-unresearched"
+    },
+    {
+      "key": "income-tax",
+      "outcome": "household income after tax and out-migration",
+      "stopgapId": "SG-LAW-outcome-link-unresearched"
+    },
+    {
+      "key": "sales-tax",
+      "outcome": "household prices and local retail sales",
+      "stopgapId": "SG-LAW-outcome-link-unresearched"
+    },
+    {
+      "key": "estate-tax",
+      "outcome": "wealth transfers and charitable giving",
+      "stopgapId": "SG-LAW-outcome-link-unresearched"
+    },
+    {
+      "key": "inheritance-tax",
+      "outcome": "wealth transfers to heirs",
+      "stopgapId": "SG-LAW-outcome-link-unresearched"
+    },
+    {
+      "key": "snap-maximum",
+      "outcome": "food insecurity",
+      "stopgapId": "SG-LAW-outcome-link-unresearched"
+    },
+    {
+      "key": "budget-line:welfareAndMedicaid",
+      "outcome": "poverty and coverage",
+      "stopgapId": "SG-LAW-outcome-link-unresearched"
+    },
+    {
+      "key": "federal-unemployment-tax",
+      "outcome": "employer hiring",
+      "stopgapId": "SG-LAW-outcome-link-unresearched"
+    },
+    {
+      "key": "state-unemployment-tax",
+      "outcome": "employer hiring",
+      "stopgapId": "SG-LAW-outcome-link-unresearched"
+    },
+    {
+      "key": "unemployment-weekly-maximum",
+      "outcome": "unemployment duration and household income",
+      "stopgapId": "SG-LAW-outcome-link-unresearched"
+    },
+    {
+      "key": "social-security-tax",
+      "outcome": "take-home pay and labor supply",
+      "stopgapId": "SG-LAW-outcome-link-unresearched"
+    },
+    {
+      "key": "budget-line:housing",
+      "outcome": "homelessness and rent burden",
+      "stopgapId": "SG-LAW-outcome-link-unresearched"
+    },
+    {
+      "key": "budget-line:naturalResources",
+      "outcome": "land conservation and park visits",
+      "stopgapId": "SG-LAW-outcome-link-unresearched"
+    },
+    {
+      "key": "budget-line:fire",
+      "outcome": "fire deaths and property loss",
+      "stopgapId": "SG-LAW-outcome-link-unresearched"
+    },
+    {
+      "key": "us-policy-positions:government-operations.ban-lobbying-after-office",
+      "outcome": "lobbying spending and policy capture",
+      "stopgapId": "SG-LAW-outcome-link-unresearched"
+    },
+    {
+      "key": "public-pay-floor",
+      "outcome": "public-sector vacancies and turnover",
+      "stopgapId": "SG-LAW-outcome-link-unresearched"
+    },
+    {
+      "key": "budget-line:administration",
+      "outcome": "government service quality",
+      "stopgapId": "SG-LAW-outcome-link-unresearched"
+    },
+    {
+      "key": "us-policy-positions:government-operations.broaden-local-authority",
+      "outcome": "local ordinances passed and local spending",
+      "stopgapId": "SG-LAW-outcome-link-unresearched"
+    },
+    {
+      "key": "us-policy-positions:civil-family-community.dedicated-parks-funding",
+      "outcome": "park access and exercise",
+      "stopgapId": "SG-LAW-outcome-link-unresearched"
+    },
+    {
+      "key": "us-policy-positions:technology-privacy.age-verification-for-social-media",
+      "outcome": "youth social media use and mental health",
+      "stopgapId": "SG-LAW-outcome-link-unresearched"
+    },
+    {
+      "key": "local-income-tax-authority",
+      "outcome": "local income tax adoption",
+      "stopgapId": "SG-LAW-outcome-link-unresearched"
+    },
+    {
+      "key": "local-minimum-wage-authority",
+      "outcome": "local minimum wage adoption",
+      "stopgapId": "SG-LAW-outcome-link-unresearched"
+    },
+    {
+      "key": "unemployment-insurance",
+      "outcome": "unemployment duration and household income",
+      "stopgapId": "SG-LAW-outcome-link-unresearched"
+    }
+  ]
+}

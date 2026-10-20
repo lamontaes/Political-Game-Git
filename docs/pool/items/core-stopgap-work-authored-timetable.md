@@ -4,13 +4,13 @@ title: "Stopgaps in work (authored-timetable): 1 open"
 area: core
 kind: stopgap
 priority: 3
-status: claimed
-claimed-by: claude/core-stopgap-work-authored-timetable
+status: blocked
+claimed-by:
 pr:
-blocked-on:
+blocked-on: engine or design: Legacy header labels every pattern GAME ASSUMPTION; shifts/rotation/part-time shortening/holidays are not observed employer calendars.
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/data/work.json, kind authored-timetable"
-claimed-at: 2026-10-20T00:57:51.346Z
+claimed-at:
 ---
 
 **What.** Replace or clear the 1 open authored-timetable stopgap row(s) in src/core2/data/work.json: SG-P8-work-schedule-data. Each fake is replaced by the mechanic, or the feature that needs it is deleted.

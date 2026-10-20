@@ -1,0 +1,512 @@
+[
+  {
+    "id": "SG-P15-params-uncalibrated",
+    "currentValue": "prototype coefficients (tag TUNABLE)",
+    "recommended": {
+      "firstBirthMeanAge_US": 27.5,
+      "firstBirthMeanAgeByPlace": {
+        "note": "Derived from fetched NCFMR quartile text: lowest Mississippi 24.5, highest DC 30.8; Q1 24.48-26.20 mostly South, Q4 28.27-30.75 overwhelmingly Northeast",
+        "US": 27.5,
+        "MS": 24.5,
+        "DC": 30.8,
+        "byCensusRegionEstimate": {
+          "South": 25.4,
+          "Midwest": 26.8,
+          "West": 27.6,
+          "Northeast": 29.3
+        }
+      },
+      "otherCoefficients": "unsourced estimates: paternal gap 3.5 y, birth interval 2.9 y, men's lag 3 y, upbringing shift keep prototype"
+    },
+    "unit": "years",
+    "low": {
+      "firstBirthMeanAge": 24.5
+    },
+    "high": {
+      "firstBirthMeanAge": 30.8
+    },
+    "basis": "Fetched: US mean age of mother at first birth 27.5 in 2023, 26.6 in 2016 (NVSR), state range 24.5 (Mississippi) to 30.8 (DC) with regional quartile pattern (NCFMR). Birth spacing, paternal age gap and men's lag were not found on a fetched page and remain low-confidence estimates (3.5, 2.9, 3.0 years).",
+    "sources": [
+      {
+        "title": "Mean Age of Mother at First Birth, 2023 (Family Profile FP-25-29)",
+        "url": "https://www.bgsu.edu/ncfmr/resources/data/family-profiles/FP-25-29",
+        "publisher": "NCFMR, Bowling Green State Univ.",
+        "year": "2025",
+        "retrieved": true,
+        "quote": "in 2023 it was 27.5 years"
+      },
+      {
+        "title": "Mean Age of Mother at First Birth, 2016-2023 (NVSR, PMC12278045)",
+        "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC12278045",
+        "publisher": "CDC NCHS",
+        "year": "2025",
+        "retrieved": true,
+        "quote": "increased 0.9 year, from 26.6 in 2016 to 27.5 in 2023"
+      }
+    ],
+    "confidence": "medium",
+    "placesCovered": "first-birth age: national value fetched plus MS/DC extremes and regional quartile placement (no state table readable; charts are images); territories use national 27.5 (estimated). Other coefficients: estimated, unsourced.",
+    "builderNote": "Set first-birth mean age to 27.5 nationally; per place use the Census-region value (South 25.4, Midwest 26.8, West 27.6, Northeast 29.3), MS 24.5, DC 30.8; leave other P15 coefficients tunable."
+  },
+  {
+    "id": "SG-P15-kin-generation",
+    "currentValue": "SSA cohort life table plus size-biased fertility plus ACS leaving rates times tunable share",
+    "recommended": {
+      "parentWithinHourShare": 0.65,
+      "adultChildWithinHourShareOfParents": 0.72,
+      "adultWithSomeExtendedFamilyWithinHour": 0.55
+    },
+    "unit": "share",
+    "low": 0.55,
+    "high": 0.72,
+    "basis": "Pew 2005 survey: 65% of adults with a living parent live within an hour's drive of that parent, and 72% of parents with an independent adult child do (full report read); Pew 2021: 55% live within an hour of some extended family. Use these to cap the tunable leaving share so about 35% of adult kin are beyond an hour.",
+    "sources": [
+      {
+        "title": "Families Drawn Together By Communication Revolution",
+        "url": "https://www.pewresearch.org/social-trends/2006/02/21/families-drawn-together-by-communication-revolution/",
+        "publisher": "Pew Research Center",
+        "year": "2006",
+        "retrieved": true,
+        "quote": "live within an hour's drive of that parent"
+      },
+      {
+        "title": "More than half of Americans live within an hour of extended family",
+        "url": "https://www.pewresearch.org/short-reads/2022/05/18/more-than-half-of-americans-live-within-an-hour-of-extended-family/",
+        "publisher": "Pew Research Center",
+        "year": "2022",
+        "retrieved": true,
+        "quote": "55% ... live within an hour's drive of at least some extended family"
+      }
+    ],
+    "confidence": "medium",
+    "placesCovered": "all 56 by one national rule; no place variation sourced; territories assumed national",
+    "builderNote": "Constrain kin residence generation so about 65% of adults' parents and 72% of parents' adult children are placed within an hour (county); the rest outside the county; keep the engine itself as a later build."
+  },
+  {
+    "id": "SG-P15-personality-mapping",
+    "currentValue": "A4 quadratic term = 0",
+    "recommended": {
+      "A4QuadraticTPerYearSquared": 0,
+      "note": "Keep 0 until a legible Table 2 is read; no page with the figure could be fetched (PubMed blocked)"
+    },
+    "unit": "T-score points per year squared",
+    "low": -0.002,
+    "high": 0.0,
+    "basis": "Could not fetch the paper's table (PubMed returned a bot-check page), so no quadratic term is sourced. Zero stays as the stopgap; the earlier -0.0008 was my unsourced guess and is withdrawn.",
+    "sources": [],
+    "confidence": "low",
+    "placesCovered": "no place variation; national and applies to all 56",
+    "builderNote": "Leave the A4 quadratic at 0; replace only when Terracciano and others (2005) Table 2 is read."
+  },
+  {
+    "id": "SG-P15-partnership-model",
+    "currentValue": "four territories read the nation; places outside ACS 1-year read their state",
+    "recommended": {
+      "PR": "read ACS 1-year Puerto Rico table directly",
+      "GU_VI_AS_MP": "read 2020 Island Areas census tables",
+      "fallback": "current national fallback until tables are loaded"
+    },
+    "unit": "rule",
+    "low": null,
+    "high": null,
+    "basis": "The Census API now requires a key (every query redirected to missing_key), so no ACS or Island Areas figure could be fetched. The structural fix (read Puerto Rico's own ACS row; use Island Areas tables for the other four territories) is unchanged, but there is no sourced value and the earlier territory indexes are withdrawn.",
+    "sources": [],
+    "confidence": "low",
+    "placesCovered": "all 56; 51 from ACS/state tables, PR from ACS, 4 territories from Island Areas tables or indexed estimate",
+    "builderNote": "Add a Census API key or download the ACS B12001/B11001 and 2020 Island Areas tables, then replace the territory-reads-nation fallback."
+  },
+  {
+    "id": "SG-P15-distance-by-place",
+    "currentValue": "same county 1.0, rest of state 0.39",
+    "recommended": {
+      "sameCounty": 1.0,
+      "sameStateOtherCounty": 0.39,
+      "farther": "unsourced estimate 0.2 (within 300 miles) and 0.1 beyond"
+    },
+    "unit": "relative visit pull",
+    "low": 0.05,
+    "high": 0.5,
+    "basis": "The full Pew report table shows daily contact with a parent: 56% when the parent lives in the same town versus 22% when out of town, a ratio of 0.39, which is exactly the model's out-of-county value. The tiers beyond the state have no fetched source and are estimates.",
+    "sources": [
+      {
+        "title": "Family Bonds full report (PDF, Table: daily contact by distance)",
+        "url": "https://www.pewresearch.org/wp-content/uploads/sites/3/2010/10/FamilyBonds.pdf",
+        "publisher": "Pew Research Center",
+        "year": "2006",
+        "retrieved": true,
+        "quote": "In same town 49 56; Out of town 8 22"
+      }
+    ],
+    "confidence": "medium",
+    "placesCovered": "all 56 by one rule",
+    "builderNote": "Keep 0.39 as the sourced out-of-town ratio (22/56); add tiers beyond the state only as labeled estimates (0.2, 0.1)."
+  },
+  {
+    "id": "SG-P15-school-assignment",
+    "currentValue": "public schools only, seeded pick weighted by students per grade",
+    "recommended": {
+      "privateShareByState_fall2021_PK12": {
+        "AL": 0.0927,
+        "AK": 0.0376,
+        "AZ": 0.0643,
+        "AR": 0.0549,
+        "CA": 0.0912,
+        "CO": 0.0705,
+        "CT": 0.1068,
+        "DE": 0.1389,
+        "DC": 0.1866,
+        "FL": 0.1485,
+        "GA": 0.0919,
+        "HI": 0.1828,
+        "ID": 0.0704,
+        "IL": 0.1058,
+        "IN": 0.11,
+        "IA": 0.0959,
+        "KS": 0.0846,
+        "KY": 0.1036,
+        "LA": 0.143,
+        "ME": 0.0963,
+        "MD": 0.1395,
+        "MA": 0.114,
+        "MI": 0.0863,
+        "MN": 0.0924,
+        "MS": 0.1002,
+        "MO": 0.1115,
+        "MT": 0.0751,
+        "NE": 0.1129,
+        "NV": 0.0564,
+        "NH": 0.1293,
+        "NJ": 0.1329,
+        "NM": 0.0716,
+        "NY": 0.1334,
+        "NC": 0.0858,
+        "ND": 0.1064,
+        "OH": 0.1196,
+        "OK": 0.0553,
+        "OR": 0.0813,
+        "PA": 0.1292,
+        "RI": 0.123,
+        "SC": 0.0918,
+        "SD": 0.1066,
+        "TN": 0.1068,
+        "TX": 0.0574,
+        "UT": 0.0276,
+        "VT": 0.1002,
+        "VA": 0.1027,
+        "WA": 0.0946,
+        "WV": 0.051,
+        "WI": 0.1547,
+        "WY": 0.0239
+      },
+      "US": 0.0998,
+      "nationalK12ShareNCES": 0.09,
+      "homeschoolShareNational": 0.034,
+      "territories": "estimated at national 0.09 (no fetched table)"
+    },
+    "unit": "share of PK-12 students",
+    "low": 0.0239,
+    "high": 0.1866,
+    "basis": "Computed from fetched Digest tables 205.80 (private enrollment) and 203.20 (public enrollment), fall 2021: US 5,473,540 private of 54,848,291 total (9.98% with prekindergarten; NCES states 9% for K-12). Range runs from Wyoming 2.4% to DC 18.7%. Homeschooling was 3.4% of K-12 students in 2022-23 and 2.8% in 2018-19 (Pew citing NCES).",
+    "sources": [
+      {
+        "title": "Private School Enrollment (Condition of Education)",
+        "url": "https://nces.ed.gov/programs/coe/indicator/cgc/private-school-enrollment?tid=4",
+        "publisher": "NCES",
+        "year": "2024",
+        "retrieved": true,
+        "quote": "9 percent of combined public and private school students"
+      },
+      {
+        "title": "Digest Table 205.80 Private schools by state, fall 2021",
+        "url": "https://nces.ed.gov/programs/digest/d23/tables/dt23_205.80.asp",
+        "publisher": "NCES",
+        "year": "2023",
+        "retrieved": true,
+        "quote": "Private elementary and secondary schools, enrollment ... by state"
+      },
+      {
+        "title": "Digest Table 203.20 Public enrollment by state",
+        "url": "https://nces.ed.gov/programs/digest/d23/tables/dt23_203.20.asp",
+        "publisher": "NCES",
+        "year": "2023",
+        "retrieved": true,
+        "quote": "Actual total enrollment (Fall 2021 column)"
+      },
+      {
+        "title": "A look at homeschooling in the US",
+        "url": "https://www.pewresearch.org/short-reads/2025/02/20/a-look-at-homeschooling-in-the-us/",
+        "publisher": "Pew Research Center",
+        "year": "2025",
+        "retrieved": true,
+        "quote": "3.4% of K-12 students ... homeschooled during the 2022-23 academic year"
+      },
+      {
+        "title": "Fast Facts: Homeschooling",
+        "url": "https://nces.ed.gov/fastfacts/display.asp?id=91",
+        "publisher": "NCES",
+        "year": "2023",
+        "retrieved": true,
+        "quote": "increased from 1.7 percent in 1999 to 3.4 percent in 2012"
+      }
+    ],
+    "confidence": "high",
+    "placesCovered": "50 states and DC from fetched NCES tables (private / (private + public), fall 2021, PK-12); homeschool national only; 5 territories estimated",
+    "builderNote": "Before the public-school pick, draw private per child using the state table in recommended.privateShareByState_fall2021_PK12 (territories 0.09), then homeschool at 0.034; the rest enter the public-school pick."
+  },
+  {
+    "id": "SG-P15-coworker-groups",
+    "currentValue": "balanced workgroups of at most openingCoworkerGroupSize",
+    "recommended": {
+      "openingCoworkerGroupSize": 8
+    },
+    "unit": "people",
+    "low": 5,
+    "high": 15,
+    "basis": "No fetched page gives workgroup size or coworkers known (Census CBP queries need an API key). Group size 8 (5 to 15) is an unsourced estimate; keep the existing parameter.",
+    "sources": [],
+    "confidence": "low",
+    "placesCovered": "all 56; no place variation except via employer size mix",
+    "builderNote": "No change justified by a source; keep openingCoworkerGroupSize and treat 5 to 15 as the tuning range."
+  },
+  {
+    "id": "SG-P15-candidacy-weights",
+    "currentValue": "engagement 2, cause 2, time 1 (spreads 1-3, 1-3, 0.5-2)",
+    "recommended": "keep current weights (2, 2, 1)",
+    "unit": "weights",
+    "low": 0.5,
+    "high": 3,
+    "basis": "The Lawless and Fox shares could not be read from a fetched page (the Cambridge excerpt was compressed and search snippets lacked the figure). Existing weights and spreads in the repo stay; the calibration target is an unsourced estimate. ",
+    "sources": [],
+    "confidence": "low",
+    "placesCovered": "all 56 by one rule",
+    "builderNote": "Leave weights as they are; no sourced calibration number was obtained."
+  },
+  {
+    "id": "SG-P15-news-habits",
+    "currentValue": "delay 1 day, max age 30 days, 1 story per contact",
+    "recommended": "keep current values",
+    "unit": "days",
+    "low": 0.5,
+    "high": 2,
+    "basis": "Pew pages returned 403 to the fetch tool and the local-news fact sheet markdown gave no usable figure. No sourced value; keep prototype delay 1 day, story life 30 days, 1 story per contact with their spreads. ",
+    "sources": [],
+    "confidence": "low",
+    "placesCovered": "all 56; one generic local outlet; local-news density varies by place but is not measured here",
+    "builderNote": "No change; the earlier 21-day story life was unsourced and is withdrawn."
+  },
+  {
+    "id": "SG-P15-speech-reception",
+    "currentValue": "speechImpulse 0.3, retell weight 6, retell reaches household",
+    "recommended": {
+      "speechImpulse": 0.3
+    },
+    "unit": "life-change-scale points",
+    "low": 0.1,
+    "high": 0.5,
+    "basis": "Coppock's articles could not be read (PDF compressed), so no fetched figure. Keep speechImpulse 0.3 with its 0.1 to 0.5 spread; a search snippet suggested average ad effects under 1 point, but it was not read from a page, so it is not used. ",
+    "sources": [],
+    "confidence": "low",
+    "placesCovered": "all 56 by one rule",
+    "builderNote": "No change."
+  },
+  {
+    "id": "SG-P15-corruption-weights",
+    "currentValue": "bribe share 0.1, weights 1",
+    "recommended": "keep current values",
+    "unit": "share and rate",
+    "low": 0.05,
+    "high": 0.2,
+    "basis": "DOJ and World Bank pages were not readable this session. Keep bribeShareOfStake 0.1 (spread 0.05 to 0.2) and the weights; the 3-per-100,000 target was unsourced and is withdrawn.",
+    "sources": [],
+    "confidence": "low",
+    "placesCovered": "all 56; add a per-place factor of 0.5 to 2 only if state conviction counts are loaded",
+    "builderNote": "No change."
+  },
+  {
+    "id": "SG-P15-moves-weights",
+    "currentValue": "movesLifeStageScale 1 (0.5 to 3), owner hold 1.21 sourced",
+    "recommended": {
+      "movesLifeStageScale": 1
+    },
+    "unit": "scale and yearly share",
+    "low": 0.5,
+    "high": 3,
+    "basis": "The Census mobility tables did not load (page lists Excel files only; direct file 404; API needs a key). Keep scale 1 (0.5 to 3) and the repo's existing owner-hold figure; the 3.5% national share was unsourced and is withdrawn.",
+    "sources": [],
+    "confidence": "low",
+    "placesCovered": "all 56 via ACS state-by-age rates, territories use PR ACS or national rate",
+    "builderNote": "No change; calibrate the scale in moves.test.ts against the ACS rates already in the repo."
+  },
+  {
+    "id": "SG-P10-params-uncalibrated",
+    "currentValue": "prototype drive, perception, response coefficients",
+    "recommended": "keep prototype values",
+    "unit": "days and shares",
+    "low": {
+      "stressHalfLifeDays": 7
+    },
+    "high": {
+      "stressHalfLifeDays": 60
+    },
+    "basis": "Bonanno's trajectory shares could not be read (PubMed bot-check, PDF 404). Keep the prototype coefficients; the earlier shares and 21-day half-life were unsourced and are withdrawn.",
+    "sources": [],
+    "confidence": "low",
+    "placesCovered": "all 56; no place variation",
+    "builderNote": "No change."
+  },
+  {
+    "id": "SG-P10-response-model",
+    "currentValue": "six response rows, prototype weights",
+    "recommended": "keep prototype weights",
+    "unit": "share of responses to major loss",
+    "low": 0.45,
+    "high": 0.65,
+    "basis": "No page with trajectory shares could be fetched. Response weights stay prototype; the earlier 55/8/10/12/7/8 split was unsourced and is withdrawn.",
+    "sources": [],
+    "confidence": "low",
+    "placesCovered": "all 56 by one rule",
+    "builderNote": "No change."
+  },
+  {
+    "id": "SG-P10-perception-model",
+    "currentValue": "authored channel membership",
+    "recommended": "clamp 0.67 to 1.5 (estimate)",
+    "unit": "salience multiplier",
+    "low": 0.67,
+    "high": 1.5,
+    "basis": "No appraisal-research page was fetched. Channel membership stays authored; the 0.67 to 1.5 clamp is an unsourced design estimate.",
+    "sources": [],
+    "confidence": "low",
+    "placesCovered": "all 56",
+    "builderNote": "Optionally clamp the per-trait channel multiplier to 0.67 to 1.5 as a labeled estimate."
+  },
+  {
+    "id": "SG-P10-drive-acts",
+    "currentValue": "prototype durations",
+    "recommended": {
+      "volunteerHoursPerParticipantDay": 2.18,
+      "shareVolunteeringOnAverageDay": 0.053,
+      "avgHoursPerPersonDay": 0.12
+    },
+    "unit": "hours / share",
+    "low": 2.16,
+    "high": 2.2,
+    "basis": "ATUS Table 1 (BLS) gives volunteering (organizational and civic activities) at 0.12 hours per day for the civilian population, 5.3% engaged on an average day, and 2.18 hours for those who engaged (men 2.20, women 2.16). Other acts (tell, join, donate, confront) have no fetched duration.",
+    "sources": [
+      {
+        "title": "American Time Use Survey news release, Table 1",
+        "url": "https://www.bls.gov/news.release/atus.t01.htm",
+        "publisher": "BLS",
+        "year": "2024",
+        "retrieved": true,
+        "quote": "Volunteering (organizational and civic activities) 0.12 ... 5.3 ... 2.18"
+      }
+    ],
+    "confidence": "medium",
+    "placesCovered": "national only; state volunteering rates were not fetched; territories use national",
+    "builderNote": "Set volunteer act duration to 2.18 hours and cap the daily volunteering chance near 5.3% of adults; leave other act durations as prototype."
+  },
+  {
+    "id": "SG-P10-event-severity",
+    "currentValue": "Holmes-Rahe LCU to stress/mood conversion tunable",
+    "recommended": {
+      "impulsePerLCU": "tunable, keep current"
+    },
+    "unit": "impulse per life change unit",
+    "low": 0.005,
+    "high": 0.02,
+    "basis": "The Holmes-Rahe table could not be fetched from a page this session (search snippets only), so the unit values are not re-sourced here; repo already cites the ranking. Conversion scale stays tunable.",
+    "sources": [],
+    "confidence": "low",
+    "placesCovered": "all 56",
+    "builderNote": "No change."
+  },
+  {
+    "id": "SG-P10-resilience-scale",
+    "currentValue": "0.106 for every place",
+    "recommended": {
+      "nationalScale": 0.106,
+      "placeIndex_2017_ageAdjustedDeathRateOverUS": {
+        "Alabama": 1.254,
+        "Alaska": 0.968,
+        "Arizona": 0.927,
+        "Arkansas": 1.23,
+        "California": 0.845,
+        "Colorado": 0.906,
+        "Connecticut": 0.89,
+        "Delaware": 1.024,
+        "District of Columbia": 0.991,
+        "Florida": 0.918,
+        "Georgia": 1.084,
+        "Hawaii": 0.799,
+        "Idaho": 1.014,
+        "Illinois": 0.989,
+        "Indiana": 1.159,
+        "Iowa": 1.007,
+        "Kansas": 1.054,
+        "Kentucky": 1.271,
+        "Louisiana": 1.204,
+        "Maine": 1.054,
+        "Maryland": 0.981,
+        "Massachusetts": 0.925,
+        "Michigan": 1.071,
+        "Minnesota": 0.897,
+        "Mississippi": 1.3,
+        "Missouri": 1.121,
+        "Montana": 1.035,
+        "Nebraska": 0.992,
+        "Nevada": 1.046,
+        "New Hampshire": 0.98,
+        "New Jersey": 0.912,
+        "New Mexico": 1.031,
+        "New York": 0.852,
+        "North Carolina": 1.073,
+        "North Dakota": 0.946,
+        "Ohio": 1.161,
+        "Oklahoma": 1.233,
+        "Oregon": 0.98,
+        "Pennsylvania": 1.062,
+        "Rhode Island": 0.975,
+        "South Carolina": 1.131,
+        "South Dakota": 1.006,
+        "Tennessee": 1.226,
+        "Texas": 1.005,
+        "Utah": 0.957,
+        "Vermont": 0.977,
+        "Virginia": 0.983,
+        "Washington": 0.941,
+        "West Virginia": 1.308,
+        "Wisconsin": 0.986,
+        "Wyoming": 0.976
+      },
+      "US2017Rate": 731.9,
+      "territories": "estimated at 1.0 (no fetched rate)",
+      "rule": "scale_place = 0.106 x index, then renormalize the population-weighted national sum to SSA 2023 deaths"
+    },
+    "unit": "index vs US age-adjusted death rate",
+    "low": 0.799,
+    "high": 1.308,
+    "basis": "Fetched CDC NCHS state age-adjusted all-cause death rates (2017, US 731.9) give an index from Hawaii 0.80 to West Virginia 1.31. 2023 deaths were 3,090,964 with an age-adjusted rate of 750.5 nationally, so the national total stays on the life table after renormalizing. State ranking is 2017, not 2023, so treat the index as a spread, not exact current rates.",
+    "sources": [
+      {
+        "title": "NCHS Leading Causes of Death: United States (state age-adjusted death rates, Socrata bi63-dtpu)",
+        "url": "https://data.cdc.gov/resource/bi63-dtpu.json?cause_name=All%20causes&year=2017",
+        "publisher": "CDC NCHS",
+        "year": "2017 data",
+        "retrieved": true,
+        "quote": "United States, All causes, aadr 731.9 (2017)"
+      },
+      {
+        "title": "Mortality in the United States, 2023 (Data Brief 521)",
+        "url": "https://www.cdc.gov/nchs/products/databriefs/db521.htm",
+        "publisher": "CDC NCHS",
+        "year": "2024",
+        "retrieved": true,
+        "quote": "a total of 3,090,964 resident deaths were registered"
+      }
+    ],
+    "confidence": "medium",
+    "placesCovered": "50 states and DC from fetched NCHS 2017 state rates; 5 territories estimated",
+    "builderNote": "Multiply resilienceBaseRateScale by the place index in recommended.placeIndex_2017_ageAdjustedDeathRateOverUS, renormalize to the national total, use 1.0 for territories."
+  }
+]

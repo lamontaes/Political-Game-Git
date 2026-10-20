@@ -398,13 +398,26 @@ function mutate(
   }
 }
 
-function flags(argv: string[]): { pos: string[]; f: Record<string, string> } {
+/**
+ * Flags come as `--key value` or `--key=value`. `--by` may also come from
+ * POOL_BY: npm swallows a `--by` written without `--` before the arguments
+ * (`npm run pool status x done --by cto` reaches the tool as `done cto`), and
+ * an env var survives that.
+ */
+export function flags(
+  argv: string[],
+  env: NodeJS.ProcessEnv = process.env,
+): { pos: string[]; f: Record<string, string> } {
   const pos: string[] = [];
   const f: Record<string, string> = {};
+  if (env.POOL_BY) f.by = env.POOL_BY;
   for (let i = 0; i < argv.length; i++) {
     if (argv[i] === "--no-push") f["no-push"] = "1";
-    else if (argv[i].startsWith("--")) f[argv[i].slice(2)] = argv[++i] ?? "";
-    else pos.push(argv[i]);
+    else if (argv[i].startsWith("--")) {
+      const eq = argv[i].indexOf("=");
+      if (eq > 2) f[argv[i].slice(2, eq)] = argv[i].slice(eq + 1);
+      else f[argv[i].slice(2)] = argv[++i] ?? "";
+    } else pos.push(argv[i]);
   }
   return { pos, f };
 }
@@ -416,8 +429,11 @@ const TEMPLATE = (f: Record<string, string>, id: string): string =>
   `---\nid: ${id}\ntitle: ${JSON.stringify(f.title)}\narea: ${f.area}\nkind: ${f.kind}\npriority: ${f.priority}\nsize: ${f.size}\nstatus: open\nclaimed-by:\npr:\nblocked-on:\n${f.after ? `after: ${f.after}\n` : ""}source: ${f.source || "added with npm run pool -- add"}\n---\n\n**What.** ${f.what || "TODO"}\n\n**Rules.** ${f.rules || "TODO"}\n\n**Done when.** ${f.done || "TODO"}\n\n**Files.** ${f.files || "TODO"}\n\n**Notes.** ${f.notes || "TODO"}\n`;
 
 /** Runs a subcommand; returns an error message or null. */
-export function command(argv: string[]): string | null {
-  const { pos, f } = flags(argv);
+export function command(
+  argv: string[],
+  env: NodeJS.ProcessEnv = process.env,
+): string | null {
+  const { pos, f } = flags(argv, env);
   const [cmd, id] = pos;
   const noPush = !!f["no-push"];
   try {
@@ -445,9 +461,9 @@ export function command(argv: string[]): string | null {
     } else if (cmd === "status") {
       const st = pos[2];
       if (!id || !["in-pr", "done", "blocked", "open", "dropped"].includes(st))
-        return "usage: pool status <id> <in-pr|done|blocked|open> [--pr N] [--blocked-on <id>] [--by cto]";
+        return "usage: pool status <id> <in-pr|done|blocked|open|dropped> [--pr N] [--blocked-on <id>] [--by=cto]";
       if ((st === "done" || st === "dropped") && f.by !== "cto")
-        return `${st} is allowed only with --by cto`;
+        return `${st} is allowed only with --by=cto (or POOL_BY=cto in the environment)`;
       const edit = (): void => {
         readItem(id);
         const fields: Record<string, string> = { status: st };
