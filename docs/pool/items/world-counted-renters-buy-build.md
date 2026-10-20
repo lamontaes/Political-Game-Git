@@ -5,12 +5,12 @@ area: world
 kind: feature
 priority: 2
 size: L
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/housing-construction-stopgap
+pr: #5367
 blocked-on:
 source: added with npm run pool -- add
-claimed-at:
+claimed-at: 2026-10-20T10:31:02.887Z
 ---
 
 **What.** world-counted-renters-buy shows in-pr as PR #5367, but that PR changes two files (the item's notes and a declaration) and no source file, so the counted tier still cannot buy a home and world-stopgap-housing-construction-faked-mechanic stays gated on it. Build what the item's notes list as missing: an addFlowPart for a counted mortgage (counted mortgages are one merged flow per place and holder, a part per household, countedMortgageFlowId in housing-mortgages.ts), a counted down-payment source drawn from the group's account (counted-money.ts), and the bank-room check for a new loan; then give a counted renter household the same buy decision as buyHomes in src/core2/modules/housing.ts, times its count, ending its rent part and joining the mortgage flow. A counted household has no cash of its own, so its means need a stand-in registered as an owner-decision stopgap and written under OWNER DECISIONS NEEDED (read DECISION-REGISTER.md first).

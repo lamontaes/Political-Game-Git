@@ -9,6 +9,7 @@ import { countedJobsOf } from "./residents-economy";
 import { admitEverydayPurchase, isEverydayPurchase } from "./cost-of-living";
 import { ageOnDate, daysBetween, makeIsoDate } from "./kernel/dates";
 import { projectSalesReceiptBudgetPool } from "./finance-sales-budgets";
+import { webFactorFor } from "./outcome-web-reach";
 import {
   settleFinanceContractJournal,
   transferFinanceCreditJournal,
@@ -1408,21 +1409,26 @@ export function reviewBusiness(
     options,
   );
   const pay = ownHourlyPay(core, id);
-  const price = projectBusinessPrice(
-    {
-      priorPrice: book.price,
-      annualPlannedPayMinor: book.annualPayrollMinor,
-      annualOtherCostsMinor: cost.annualOtherCostsMinor,
-      wagePriceFactor:
-        ownRaise(book.lastHourlyByJob, pay) ??
-        wagePrice / book.lastWagePriceFactor,
-      generalPriceFactor: generalPrice / book.lastGeneralPriceFactor,
-      annualDemandMinor: demand,
-      capacityMinor: book.capacityMinor,
-      priceLevel: book.price / book.anchorPrice,
-    },
-    options,
-  );
+  // What laws and other causes the outcome web carries into prices moves the
+  // business's own price by the change in that factor since its last review.
+  const webPrice = webFactorFor(api, place, "household.prices");
+  const price =
+    projectBusinessPrice(
+      {
+        priorPrice: book.price,
+        annualPlannedPayMinor: book.annualPayrollMinor,
+        annualOtherCostsMinor: cost.annualOtherCostsMinor,
+        wagePriceFactor:
+          ownRaise(book.lastHourlyByJob, pay) ??
+          wagePrice / book.lastWagePriceFactor,
+        generalPriceFactor: generalPrice / book.lastGeneralPriceFactor,
+        annualDemandMinor: demand,
+        capacityMinor: book.capacityMinor,
+        priceLevel: book.price / book.anchorPrice,
+      },
+      options,
+    ) *
+    (webPrice / (book.lastWebPriceFactor ?? p("one")));
   const next = financeNextDate(
     api,
     book.nextReviewedAt,
@@ -1444,6 +1450,7 @@ export function reviewBusiness(
   book.annualOtherCostsMinor = cost.annualOtherCostsMinor;
   book.price = price;
   book.lastGeneralPriceFactor = generalPrice;
+  book.lastWebPriceFactor = webPrice;
   book.lastWagePriceFactor = wagePrice;
   book.lastHourlyByJob = pay.hourly;
   financeIndex(core.finance.reviewsDueAt, next, id);

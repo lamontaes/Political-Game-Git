@@ -512,7 +512,12 @@ function review(api: CoreAPI): void {
       });
   }
   if (counted.length)
-    for (const row of strongestPulls(api, "business-borrow", counted))
+    for (const row of strongestPulls(
+      api,
+      "business-borrow",
+      counted,
+      store(api).table("pulls"),
+    ))
       wanted.push({ id: row.id, requested: row.requested });
   for (const { id, requested, decidedBy } of wanted.sort((a, b) =>
     a.id.localeCompare(b.id),
@@ -695,6 +700,8 @@ export const CREDIT_MODULE: CoreModule = {
         },
       },
       payments: { indexes: { byLoan: { fields: ["loanId"] } } },
+      // The carry of counted owners who borrow this month (strongestPulls).
+      pulls: {},
       households: { indexes: { byHousehold: { fields: ["householdId"] } } },
     },
   },
