@@ -5,10 +5,10 @@ area: words
 kind: feature
 priority: 1
 size: M
-status: open
+status: blocked
 claimed-by:
 pr:
-blocked-on:
+blocked-on: PR 5647 (words-authored-parts-shippable-sweep) is an unmerged draft, 'do not merge as is'; on main the lines still ship as authored shippable parts, so the slot is not empty and the rewritten test in the done-when does not exist yet. Needs the owner to grade the lines (the 5647 decision).
 source: added with npm run pool -- add
 ---
 
