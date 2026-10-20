@@ -22,3 +22,4 @@ claimed-at:
 **Files.** src/core2/jobs-benefits.ts, src/core2/world-transfer.ts, src/core2/counted-money.ts
 
 **Notes.** A first attempt that passed `personId` through `transferCash` changed nothing, because these claimants are not counted members (`countedMember` is undefined). Measured Oct 19 in Glasgow, Delaware (seed from drawPlace("unkeyed-audit-1")): one played year had 501 unkeyed hits, 12 monthly sweeps of the residents account of about $80,000 each; direct credits into that account over the year: school-voucher $840,505, bank-withdrawal $842,511, assistance-benefit $562,379, returned-to-counts cash $927,326 (dollars), and 489 unemployment-benefit payments.
+Sent back 2026-10-20 from PR #5271 (branch claude/counted-unemployment-keyed): Merge conflict with main in docs/pool/items/world-counted-unemployment-unplaced-keyed.md; finish on that branch, merge main into it first.
