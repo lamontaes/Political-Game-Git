@@ -20,4 +20,4 @@ source: added with npm run pool -- add
 
 **Files.** src/core2/law-reach/group-b-money.ts, src/core2/modules/budgets.ts, src/core2/data/stopgaps.json
 
-**Notes.** Split from laws-stopgap-reach-group-b-missing-engine on Oct 19; the stopgap rows named above are its 13.
+**Notes.** Checked Oct 19 before building: SNAP and means-tested benefits appear nowhere in docs/roadmap/political-process-baseline.md, the golden path, DECISION-REGISTER.md or OWNER-DECISIONS.md. AGENTS.md ("This is a game, not a spreadsheet") makes a new baseline benefit a question for the owner, not a feature. OWNER QUESTION: should the game pay households a baseline SNAP benefit, or should the assistance law stay a rule on the welfare line's raise only? Until he rules, leave this item unbuilt. Split from laws-stopgap-reach-group-b-missing-engine on Oct 19; the stopgap rows named above are its 13.
