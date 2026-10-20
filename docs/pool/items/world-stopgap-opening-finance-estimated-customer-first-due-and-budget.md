@@ -4,10 +4,10 @@ title: "Stopgaps in opening-finance (estimated-customer-first-due-and-budget-hor
 area: world
 kind: stopgap
 priority: 3
-status: open
+status: blocked
 claimed-by:
 pr:
-blocked-on:
+blocked-on: research data: the row's replacement needs recorded, empirical or sourced data (The later public-budget/procurement and national-external-customer modules supply actual dated agreements, invoice/calendar and amendment/renewal/end ...)
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/data/opening-finance.json, kind estimated-customer-first-due-and-budget-horizon"
 ---
