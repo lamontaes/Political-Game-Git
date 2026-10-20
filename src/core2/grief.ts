@@ -25,6 +25,7 @@ import type {
   PersonState,
   ReasonBinding,
 } from "./types";
+import { pairKey } from "./pair-key";
 
 export const GRIEF = data;
 
@@ -96,9 +97,7 @@ export function recordDeath(
       if (id === deceasedId) continue;
       const person = api.state.people.get(id);
       if (!person?.alive || !person.familyIds.has(deceasedId)) continue;
-      const tie = api.state.relationships.get(
-        [id, deceasedId].sort().join(":"),
-      );
+      const tie = api.state.relationships.get(pairKey(id, deceasedId));
       if (!tie) continue;
       const rows = store.get(id) ?? [];
       rows.push({

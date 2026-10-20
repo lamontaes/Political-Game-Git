@@ -37,6 +37,7 @@ import type {
   PersonState,
 } from "../types";
 import { keepsWhy } from "../why-kept";
+import { pairKey } from "../pair-key";
 
 interface CellKey {
   n: number;
@@ -394,9 +395,7 @@ export function standingWith(
             (v("leanMax") - v("leanMin")),
       )
     : half;
-  const tie = api.state.relationships.get(
-    [listener.id, speakerId].sort().join(":"),
-  );
+  const tie = api.state.relationships.get(pairKey(listener.id, speakerId));
   const closeness = tie ? currentCloseness(api.state, tie) : v("zero");
   const partyOf = (id: string) =>
     api.state.modules.has(PARTIES_STORE)

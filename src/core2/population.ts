@@ -119,6 +119,7 @@ import type {
   PersonInput,
   Source,
 } from "./types";
+import { pairKey } from "./pair-key";
 
 export interface PopulationOptions {
   seed: string;
@@ -1089,7 +1090,7 @@ export function buildPopulation(options: PopulationOptions): CoreInput {
         recordFamilyPast(
           child,
           sibling,
-          `${plan.stableKey}:sibling:${[child, sibling].sort().join(":")}`,
+          `${plan.stableKey}:sibling:${pairKey(child, sibling)}`,
           born[p("one")]!,
           "sibling",
         );

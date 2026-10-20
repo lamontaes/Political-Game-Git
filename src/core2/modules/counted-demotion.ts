@@ -43,6 +43,7 @@ import type {
   Source,
   WorkCommitmentInput,
 } from "../types";
+import { pairKey } from "../pair-key";
 
 export const COUNTED_DEMOTION_MODULE_ID = "core2-counted-demotion-v1";
 const REVIEW_KIND = "counted-demotion-review";
@@ -106,8 +107,7 @@ function protectedPeople(api: CoreAPI): Set<PersonId> {
 /** When the player last had contact with this person (their relationship), if ever. */
 function lastPlayerContact(core: CoreState, id: PersonId): string | undefined {
   if (!core.playerId) return undefined;
-  return core.relationships.get([core.playerId, id].sort().join(":"))
-    ?.lastContactDate;
+  return core.relationships.get(pairKey(core.playerId, id))?.lastContactDate;
 }
 
 /** A demoted person's record, as the counts keep it. */

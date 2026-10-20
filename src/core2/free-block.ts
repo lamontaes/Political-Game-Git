@@ -35,6 +35,7 @@ import type {
   WeightedReason,
 } from "./types";
 import { registerWorldMapPart } from "./snapshot";
+import { pairKey } from "./pair-key";
 
 export const FREE_BLOCK_DATA = freeBlockJson;
 
@@ -304,7 +305,7 @@ function candidates(
     let tie: TiePull | undefined;
     if (definition.effect === FREE_BLOCK.contactEffect && binding) {
       const relationship = core.relationships.get(
-        [actor.id, row.offer.targetId].sort().join(":"),
+        pairKey(actor.id, row.offer.targetId),
       );
       const lost = relationship ? hoursLost(core, relationship) : zero;
       const pull =

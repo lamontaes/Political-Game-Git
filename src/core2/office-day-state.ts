@@ -92,6 +92,7 @@ import {
 } from "./modules/office-day";
 import { registerOfficeActs, registerStopKinds } from "./office-day-registry";
 import { snapshotExplicitControlV1 } from "./player-control-state-v1";
+import { pairKey } from "./pair-key";
 
 const controlled = (api: CoreAPI) =>
   snapshotExplicitControlV1(api.state).personId ??
@@ -519,7 +520,7 @@ function spendTime(
   const touched: string[] = [];
   for (const other of others) {
     if (other === holderId || !api.state.people.get(other)?.alive) continue;
-    const id = [holderId, other].sort().join(":");
+    const id = pairKey(holderId, other);
     if ((api.state as CoreState).relationships.has(id))
       api.relationship(holderId, other, "contact", hours, undefined, {
         cause: "office-day-state.meeting",
