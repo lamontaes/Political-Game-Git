@@ -4879,5 +4879,17 @@
     "addedAt": "2026-10-20",
     "replacement": "A conditions term in the plan score that reads webReach for the woman's own age and tenure, leaving out the links her own records already carry (unemployment), with a weight calibrated in a played year so full births move by the researched size, as counted births do.",
     "status": "open"
+  },
+  {
+    "id": "SG-WEB-knowing-rent-reader",
+    "kind": "missing-mechanic",
+    "file": "src/core2/outcome-news.ts",
+    "line": 52,
+    "whatItFakes": "The town hears of a rise in housing.rent from the outcome web's month record, but no engine yet reads the web's rent factor when it sets a lease, so the rise the story reports is not in any lease or rent payment.",
+    "why": "The housing family's rent wiring is on its own branch; the news path lists the measure so the town hears of it the month an engine reads it, with no change here.",
+    "addedBy": "EFFECT-WEB-WIRING",
+    "addedAt": "2026-10-20",
+    "replacement": "The housing engine multiplies its lease rent by webFactorFor(housing.rent); then this row and the readBy null in data/news/outcome-news.json are replaced by the reading file.",
+    "status": "open"
   }
 ]
