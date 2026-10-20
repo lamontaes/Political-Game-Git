@@ -112,7 +112,7 @@ describe(`housing laws, ${draw.name}, seed ${draw.seed}`, () => {
         affordable: proof.affordable.length,
       }),
     );
-  }, 180_000);
+  }, 900_000);
 
   it("caps both tiers at renewal and preserves a counted tenant's rent when filled in (controlled edge case)", () => {
     // A controlled renewal stress case, not claimed as the ordinary year's

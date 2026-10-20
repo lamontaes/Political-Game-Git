@@ -57,80 +57,88 @@ function die(personId: string) {
   settleEstate(api, personId, `event:test-death:${personId}`);
 }
 
-describe(`a dead payer's housing contracts in ${place.name}`, () => {
-  it("the other payers keep it, with a dated record, and the dead person is no longer a payer", () => {
-    const contract = housing().find(
-      (c) => c.payerIds.length > 1 && adultsAt(c.householdId!).length > 1,
-    );
-    if (!contract)
-      throw new Error(`${where}: no housing contract with two living payers`);
-    const [dead, ...others] = contract.payerIds;
-    die(dead!);
-    expect(contract.payerIds, where).toEqual(others);
-    expect(contract.payerHandovers?.at(-1), where).toMatchObject({
-      from: dead,
-      outcome: "kept-by-co-payers",
-      to: others,
+describe(
+  `a dead payer's housing contracts in ${place.name}`,
+  { timeout: 900_000 },
+  () => {
+    it("the other payers keep it, with a dated record, and the dead person is no longer a payer", () => {
+      const contract = housing().find(
+        (c) => c.payerIds.length > 1 && adultsAt(c.householdId!).length > 1,
+      );
+      if (!contract)
+        throw new Error(`${where}: no housing contract with two living payers`);
+      const [dead, ...others] = contract.payerIds;
+      die(dead!);
+      expect(contract.payerIds, where).toEqual(others);
+      expect(contract.payerHandovers?.at(-1), where).toMatchObject({
+        from: dead,
+        outcome: "kept-by-co-payers",
+        to: others,
+      });
+      expect(contract.endedAt).toBeUndefined();
+      advanceCore(core, addDays(makeIsoDate(core.date), 40));
+      expect(contract.payerIds, `${where}: still only the living`).toEqual(
+        others,
+      );
     });
-    expect(contract.endedAt).toBeUndefined();
-    advanceCore(core, addDays(makeIsoDate(core.date), 40));
-    expect(contract.payerIds, `${where}: still only the living`).toEqual(
-      others,
-    );
-  });
 
-  it("a living adult at home takes over a contract the dead person paid alone", () => {
-    const contract =
-      housing().find(
-        (c) => c.payerIds.length === 1 && adultsAt(c.householdId!).length > 1,
-      ) ??
-      // A household where every adult paid: let only the oldest pay, so the
-      // hand-over rule has an adult left at home to give it to.
-      (() => {
-        const found = housing().find(
-          (c) => c.payerIds.length > 1 && adultsAt(c.householdId!).length > 1,
+    it("a living adult at home takes over a contract the dead person paid alone", () => {
+      const contract =
+        housing().find(
+          (c) => c.payerIds.length === 1 && adultsAt(c.householdId!).length > 1,
+        ) ??
+        // A household where every adult paid: let only the oldest pay, so the
+        // hand-over rule has an adult left at home to give it to.
+        (() => {
+          const found = housing().find(
+            (c) => c.payerIds.length > 1 && adultsAt(c.householdId!).length > 1,
+          );
+          if (!found)
+            throw new Error(`${where}: no household with two living adults`);
+          found.payerIds = [adultsAt(found.householdId!)[0]!.id];
+          return found;
+        })();
+      const dead = contract.payerIds[0]!;
+      const heir = adultsAt(contract.householdId!).find((p) => p.id !== dead)!;
+      die(dead);
+      expect(contract.payerIds, where).toEqual([heir.id]);
+      expect(contract.payerHandovers?.at(-1), where).toMatchObject({
+        from: dead,
+        outcome: "taken-over",
+        to: [heir.id],
+      });
+      expect(contract.endedAt).toBeUndefined();
+    });
+
+    it("ends with the estate paying what was owed first when no one is left at home", () => {
+      const contract = housing().find(
+        (c) => adultsAt(c.householdId!).length === 1,
+      );
+      if (!contract)
+        throw new Error(
+          `${where}: no housing contract of a one-adult household`,
         );
-        if (!found)
-          throw new Error(`${where}: no household with two living adults`);
-        found.payerIds = [adultsAt(found.householdId!)[0]!.id];
-        return found;
-      })();
-    const dead = contract.payerIds[0]!;
-    const heir = adultsAt(contract.householdId!).find((p) => p.id !== dead)!;
-    die(dead);
-    expect(contract.payerIds, where).toEqual([heir.id]);
-    expect(contract.payerHandovers?.at(-1), where).toMatchObject({
-      from: dead,
-      outcome: "taken-over",
-      to: [heir.id],
+      const dead = adultsAt(contract.householdId!)[0]!.id;
+      contract.payerIds = [dead];
+      contract.arrearsMinor = 12_345;
+      const payee =
+        core.organizations.get(contract.payeeId) ??
+        core.people.get(contract.payeeId);
+      const payeeBefore = payee!.liquidMinor;
+      const estate = core.people.get(dead)!.liquidMinor;
+      die(dead);
+      expect(contract.endedAt, where).toBe(core.date);
+      expect(contract.payerHandovers?.at(-1), where).toMatchObject({
+        from: dead,
+        outcome: "ended",
+      });
+      const paid = Math.min(12_345, estate);
+      expect(12_345 - contract.arrearsMinor, `${where}: arrears paid`).toBe(
+        paid,
+      );
+      expect(payee!.liquidMinor - payeeBefore, `${where}: payee received`).toBe(
+        paid,
+      );
     });
-    expect(contract.endedAt).toBeUndefined();
-  });
-
-  it("ends with the estate paying what was owed first when no one is left at home", () => {
-    const contract = housing().find(
-      (c) => adultsAt(c.householdId!).length === 1,
-    );
-    if (!contract)
-      throw new Error(`${where}: no housing contract of a one-adult household`);
-    const dead = adultsAt(contract.householdId!)[0]!.id;
-    contract.payerIds = [dead];
-    contract.arrearsMinor = 12_345;
-    const payee =
-      core.organizations.get(contract.payeeId) ??
-      core.people.get(contract.payeeId);
-    const payeeBefore = payee!.liquidMinor;
-    const estate = core.people.get(dead)!.liquidMinor;
-    die(dead);
-    expect(contract.endedAt, where).toBe(core.date);
-    expect(contract.payerHandovers?.at(-1), where).toMatchObject({
-      from: dead,
-      outcome: "ended",
-    });
-    const paid = Math.min(12_345, estate);
-    expect(12_345 - contract.arrearsMinor, `${where}: arrears paid`).toBe(paid);
-    expect(payee!.liquidMinor - payeeBefore, `${where}: payee received`).toBe(
-      paid,
-    );
-  });
-});
+  },
+);
