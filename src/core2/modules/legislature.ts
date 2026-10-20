@@ -71,6 +71,7 @@ import {
   enactBudget,
   governments,
   registerBudgetVote,
+  registerBudgetHearing,
   type BudgetRow,
   type GovernmentRow,
 } from "./budgets";
@@ -271,6 +272,7 @@ export const LEGISLATURE_MODULE: CoreModule = {
       choices: {},
       itemVetoes: {},
       projectRequests: {},
+      budgetHearings: {},
     },
   },
   onCalendarWork: legislatureCalendar,
@@ -366,6 +368,7 @@ export function openLegislature(core: CoreState): void {
   if (!core.modules.has(LEGISLATURE_MODULE_ID))
     registerModule(core, LEGISLATURE_MODULE);
   registerBudgetVote(councilBudget);
+  registerBudgetHearing(holdCouncilBudgetHearing);
   // Every body's members are people with reasons of their own (OPUS-OFFICIALS).
   if (core.modules.has(OFFICES_MODULE_ID)) openOfficials(core);
 }
@@ -379,20 +382,61 @@ export function openLegislature(core: CoreState): void {
  * that fails is carried forward as last year's (a charter's carry-forward, a
  * state's continuing appropriation, Congress's continuing resolution).
  */
-function councilBudget(
+/** The people who spoke on a bill at its public comment or hearing (the meetings engine's remarks, read by id). */
+function remarkSpeakers(api: CoreAPI, billId: string): string[] {
+  if (!api.state.modules.has("core2-meetings-v1")) return [];
+  const rows = api
+    .moduleState("core2-meetings-v1")
+    .table("remarks")
+    .query("byBill", [billId]) as unknown as { personId: string }[];
+  return [...new Set(rows.map((r) => r.personId))].sort();
+}
+
+/** The public hearing a body held on a government's budget before voting it. */
+export interface BudgetHearingRow {
+  readonly id: string;
+  readonly governmentId: string;
+  readonly fiscalYear: number;
+  readonly heldOn: string;
+  /** The budget bill the hearing was held on; the vote is on this same bill. */
+  readonly billId: string;
+  /** Who sent the proposal, when an executive did; absent where the departments' requests stand. */
+  readonly proposedBy?: string;
+  /** The people who spoke at it, by id. */
+  readonly speakerIds: readonly string[];
+}
+
+/** The hearing held on a government's budget for a fiscal year, if one was. */
+export function budgetHearingOf(
+  api: CoreAPI,
+  governmentId: string,
+  fiscalYear: number,
+): BudgetHearingRow | undefined {
+  if (!api.state.modules.has(LEGISLATURE_MODULE_ID)) return undefined;
+  return table(api, "budgetHearings").get(
+    `hearing:${governmentId}:${fiscalYear}`,
+  ) as unknown as BudgetHearingRow | undefined;
+}
+
+/**
+ * The budget a body will vote, as bill sections: the executive's proposed
+ * changes, else the departments' requests at the funding already enacted. A
+ * proposal that changes nothing is the requests: a bill needs at least one
+ * section to be named (batch 11).
+ */
+function budgetBillSections(
   api: CoreAPI,
   gov: GovernmentRow,
   fy: number,
-): BudgetRow | null {
-  const chambers = budgetChambers(api, gov);
-  if (!chambers || !chambers.chambers.every((c) => members(api, c).length))
-    return null;
+  chambers: NonNullable<ReturnType<typeof budgetChambers>>,
+): {
+  priorities: { setBy: string; changes: Record<string, number> } | null;
+  provisions: Provision[];
+  sponsor: string;
+} {
   const priorities =
     budgetPriorities(api, gov.id) ?? executivePriorities(api, gov, fy);
   const carried = budgetCarry(api, gov, fy);
-  // The executive's proposed changes, else the departments' requests at the
-  // funding already enacted. A proposal that changes nothing is the
-  // requests: a bill needs at least one section to be named (batch 11).
   const proposed: Provision[] = Object.entries(priorities?.changes ?? {}).map(
     ([line, delta]) => ({
       kind: "budget-line",
@@ -414,15 +458,106 @@ function councilBudget(
           of: amount,
         }),
       );
-  // No section to vote on: the budget carries by rule, no bill is filed.
-  if (!provisions.length) return null;
-  const sponsor =
-    priorities?.setBy ?? memberKey(members(api, chambers.chambers[0]!)[0]!);
+  return {
+    priorities,
+    provisions,
+    sponsor:
+      priorities?.setBy ?? memberKey(members(api, chambers.chambers[0]!)[0]!),
+  };
+}
+
+/**
+ * The body's public hearing on the budget it will vote, on its day before the
+ * fiscal year starts: the budget bill is drafted from the executive's
+ * proposal, the room speaks on it (the same public comment and group
+ * organizing any bill gets before its vote), and the record keeps who spoke.
+ * The vote on the year's first day is on this same bill and reads the room.
+ */
+function holdCouncilBudgetHearing(
+  api: CoreAPI,
+  gov: GovernmentRow,
+  fy: number,
+): void {
+  const chambers = budgetChambers(api, gov);
+  if (!chambers || !chambers.chambers.every((c) => members(api, c).length))
+    return;
+  if (budgetHearingOf(api, gov.id, fy)) return;
+  const { priorities, provisions, sponsor } = budgetBillSections(
+    api,
+    gov,
+    fy,
+    chambers,
+  );
+  if (!provisions.length) return;
   const bill = draftBill(api, {
     bodyOfficeId: chambers.introducedIn,
     sponsorId: sponsor,
     provisions,
   });
+  for (const hook of beforeVoteHooks) hook(api, bill.id);
+  const speakers = remarkSpeakers(api, bill.id);
+  const row: BudgetHearingRow = {
+    id: `hearing:${gov.id}:${fy}`,
+    governmentId: gov.id,
+    fiscalYear: fy,
+    heldOn: api.state.date,
+    billId: bill.id,
+    ...(priorities ? { proposedBy: priorities.setBy } : {}),
+    speakerIds: speakers,
+  };
+  table(api, "budgetHearings").put(row as unknown as ModuleRow);
+  api.emit({
+    id: `budget-hearing:${bill.id}`,
+    date: api.state.date,
+    kind: "budget-hearing",
+    personIds: speakers.filter((id) => api.state.people.has(id)),
+    placeId: lawChain(api).townPlaceId,
+    source: {
+      tag: "SOURCED",
+      citation: `Public hearing on ${bill.number}`,
+      asOf: api.state.date,
+    },
+    publicRecord: true,
+    news: true,
+    facts: {
+      billId: bill.id,
+      number: bill.number,
+      governmentId: gov.id,
+      subjects: "budget",
+      speakers: String(speakers.length),
+    },
+  });
+}
+
+function councilBudget(
+  api: CoreAPI,
+  gov: GovernmentRow,
+  fy: number,
+): BudgetRow | null {
+  const chambers = budgetChambers(api, gov);
+  if (!chambers || !chambers.chambers.every((c) => members(api, c).length))
+    return null;
+  // The bill the hearing was held on is the bill voted; with no hearing held
+  // (a year inside its hearing lead when the world opened) it is drafted now.
+  const heard = budgetHearingOf(api, gov.id, fy);
+  const heardBill = heard
+    ? (table(api, "bills").get(heard.billId) as unknown as BillRow | undefined)
+    : undefined;
+  const sections = heardBill
+    ? null
+    : budgetBillSections(api, gov, fy, chambers);
+  const provisions: Provision[] = heardBill
+    ? [...heardBill.provisions]
+    : sections!.provisions;
+  // No section to vote on: the budget carries by rule, no bill is filed.
+  if (!provisions.length) return null;
+  const bill =
+    heardBill ??
+    draftBill(api, {
+      bodyOfficeId: chambers.introducedIn,
+      sponsorId: sections!.sponsor,
+      provisions,
+    });
   // Each member's duty to adopt a budget sits beside their views on its
   // changes; every chamber must pass it (the U.S. Senate by cloture first).
   const roll = (kept: readonly Provision[]) => {

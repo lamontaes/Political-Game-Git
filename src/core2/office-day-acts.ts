@@ -183,6 +183,15 @@ const LOCAL_PARAMETERS = {
       "Common charter lead times before the fiscal year; no count of every place's charter exists.",
     spread: [30, 120],
   },
+  budgetHearingLeadDays: {
+    value: 30,
+    tag: "ESTIMATED",
+    citation:
+      "How long before the fiscal year the body holds its public hearing on the executive's budget: the Government Finance Officers Association's budget-process practice and the truth-in-budgeting hearing laws many states set put the hearing two to six weeks before adoption, after the proposal is in the body's hands.",
+    estimatedFrom:
+      "Common statutory and charter hearing lead times; no count of every place's charter exists.",
+    spread: [14, 45],
+  },
   colleagueActHours: HOURS(
     0.5,
     "A member asking a colleague for their vote on a pending bill: a half-hour conversation, by phone or over coffee.",
@@ -411,7 +420,13 @@ export function budgetProposalDue(
       ? `${year}-${gov.fiscalYearStart}`
       : `${year + 1}-${gov.fiscalYearStart}`;
   const days = daysBetween(makeIsoDate(api.state.date), makeIsoDate(starts));
-  if (days <= 0 || days > api.parameter("budgetProposalLeadDays")) return null;
+  // The season runs from the proposal's lead time to the body's hearing; a
+  // budget sent after the hearing would not have been heard.
+  if (
+    days <= api.parameter("budgetHearingLeadDays") ||
+    days > api.parameter("budgetProposalLeadDays")
+  )
+    return null;
   // Sent already this season (the lead time is the season's length).
   const last = host.lastGiven(api, personId, "propose-budget");
   if (

@@ -22,6 +22,7 @@ import {
   type BillRow,
 } from "./modules/legislature";
 import { budgetProposalDue, officeActHandlers } from "./office-day-acts";
+import { budgetHearingOf } from "./modules/legislature";
 import { coreAPI } from "./state";
 
 const seed = process.env.BUDGET_SEASON_SEED ?? randomBytes(8).toString("hex");
@@ -105,13 +106,31 @@ it("the executive's budget act opens in its season and its changes are what the 
       bill,
       `${where}: the budget bill with the executive's change`,
     ).toBeDefined();
+    // The body heard the budget in its season: after the proposal went out, before the vote, and the vote is on the bill that was heard.
+    const fiscalYear = Number(next.slice(0, 4));
+    const hearing = budgetHearingOf(api, city.id, fiscalYear);
+    expect(
+      hearing,
+      `${where}: the hearing on the ${fiscalYear} budget`,
+    ).toBeDefined();
+    expect(hearing!.heldOn, where).toBe(
+      addDays(makeIsoDate(next), -api.parameter("budgetHearingLeadDays")),
+    );
+    expect(hearing!.heldOn < next, where).toBe(true);
+    expect(hearing!.proposedBy, where).toBe(mayorId);
+    expect(hearing!.billId, `${where}: the vote is on the heard bill`).toBe(
+      bill!.id,
+    );
+    // Every speaker at it is a person on the record of the bill they spoke on.
+    for (const id of hearing!.speakerIds)
+      expect(api.state.people.has(id), `${where} speaker ${id}`).toBe(true);
     // The priorities are spent once the budget is voted.
     expect(budgetPriorities(api, city.id), where).toBeNull();
     const adopted = budgetsOf(api, city.id).find(
       (b) => b.adoptedOn === next || b.startsOn === next,
     );
-    console.log(
-      `${where}: mayor ${mayorId} sent priorities:${city.id}; bill ${bill!.id}; adopted ${adopted?.id}`,
+    process.stdout.write(
+      `${where}: mayor ${mayorId} sent priorities:${city.id}; ${hearing!.id} on ${hearing!.heldOn} with ${hearing!.speakerIds.length} speakers; bill ${bill!.id}; adopted ${adopted?.id}\n`,
     );
     return;
   }
