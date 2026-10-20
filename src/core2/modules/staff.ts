@@ -573,18 +573,18 @@ export function hireStaff(
   // On the payroll of the government the official serves, at the post's
   // pay; each payday counts against the budget line the post draws on.
   const employer = employerOf(api, input.officialId);
-  const jobId = employer
-    ? startPublicJob(api, {
-        personId: input.personId,
-        employerId: employer,
-        post: `staff:${input.officialId}`,
-        title: input.role,
-        hourlyMinor: campaignParameter("staffHourlyMinor"),
-        citation: `Hired as ${input.role} to ${input.officialId}`,
-      })
-    : null;
-  // stopgapId: SG-GOV-staff-unpaid
-  if (!jobId) api.stopgap("SG-GOV-staff-unpaid");
+  if (!employer)
+    throw new Error(
+      `${input.officialId} serves no government with a treasury to pay an aide`,
+    );
+  const jobId = startPublicJob(api, {
+    personId: input.personId,
+    employerId: employer,
+    post: `staff:${input.officialId}`,
+    title: input.role,
+    hourlyMinor: campaignParameter("staffHourlyMinor"),
+    citation: `Hired as ${input.role} to ${input.officialId}`,
+  });
   // The first of the official's aides who died or left the post and has no successor yet.
   const replaced = new Set(
     staffOf(api, input.officialId).map((r) => r.replacesStafferId),
@@ -609,7 +609,7 @@ export function hireStaff(
       ...(candidate.familyLinkId ? [candidate.familyLinkId] : []),
       ...(candidate.counted ? [`counted:${person.householdId}`] : []),
     ],
-    ...(jobId ? { jobId } : {}),
+    jobId,
     ...(replaces ? { replacesStafferId: replaces.id } : {}),
     ...(lives ? { livedThrough: api.state.date } : {}),
   };

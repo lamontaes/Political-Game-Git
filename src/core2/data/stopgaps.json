@@ -1260,8 +1260,8 @@
     "why": "Public payroll from government treasuries isn't wired in core2 yet (requested from OPUS-CORE).",
     "addedBy": "OPUS-GOV",
     "addedAt": "2026-10-12",
-    "replacement": "A work commitment at the post's pay, paid from the government's treasury through the journal, ending any job the staffer leaves for it.",
-    "status": "open"
+    "replacement": "Resolved Oct 20: a post is hired only where the official serves a government with a treasury; the aide is on that treasury's payroll through startPublicJob and the hire is refused otherwise (staff.test.ts). No hire in four played years went unpaid.",
+    "status": "resolved"
   },
   {
     "id": "SG-GOV-world-race-lean",
