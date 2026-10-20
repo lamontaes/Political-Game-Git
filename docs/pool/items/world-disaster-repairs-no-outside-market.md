@@ -7,10 +7,10 @@ priority: 1
 size: S
 status: claimed
 claimed-by: claude/disaster-repairs-no-market
-pr:
+pr: #5327
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-20T00:22:32.746Z
+claimed-at: 2026-10-20T11:22:10.636Z
 ---
 
 **What.** A disaster declared in a town with no builder and no recorded outside market stopped the game with "No outside market recorded for jurisdiction_b0f9d889016644c9". The household repair payment in `src/core2/modules/disasters.ts` pays builders in town, or the town's outside market when there are none, and the outside market is not recorded for every town. Households now keep their money and nothing moves where there is no one to pay.

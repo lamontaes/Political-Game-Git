@@ -7,10 +7,11 @@ priority: 2
 status: open
 claimed-by:
 pr: #4500
-blocked-on: world-counted-reads-jobs
+blocked-on:
+after: core-counted-views-delete
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/counted-groups.ts, kind faked-mechanic"
-claimed-at:
+claimed-at: 2026-10-20T00:26:28.869Z
 ---
 
 **What.** The stopgap row(s) SG-CORE-counted-person-views in src/core2/counted-groups.ts mark a shortcut that is still live in play. Today engines that read counted people one by one (jobs, business, campaigns, retirement claims, housing, place prices, candidacy) get a person or household record built on demand from the counted group's packed columns by a stand-in. The row stays open until the real mechanic replaces the fake, or the feature that needs the fake is deleted. This item replaces it and clears the row in src/core2/data/stopgaps.json.
@@ -24,3 +25,5 @@ claimed-at:
 **Notes.** First row: Engines that still read counted people one by one (jobs, business, campaigns, retirement claims, housing, place prices, candidacy) get a person or household record built on demand from the counted group's packed columns,
 
 **Split (Oct 15).** The row names seven engines, so the claiming session split the item by engine: `world-counted-reads-jobs`, `world-counted-reads-business`, `world-counted-reads-housing`, `gov-counted-reads-campaigns`, `gov-counted-reads-retirement-claims`, `core-counted-views-delete`. The item is done when the last one is.
+
+Oct 20: Switched from blocked to the automatic after: gate on core-counted-views-delete, so it opens by itself the moment those items are done.
