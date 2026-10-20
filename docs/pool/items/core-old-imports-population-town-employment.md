@@ -5,11 +5,12 @@ area: core
 kind: cleanup
 priority: 2
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/old-imports-town-employment
 pr:
 blocked-on:
 source: split from core-old-imports-population
+claimed-at: 2026-10-20T04:37:33.544Z
 ---
 
 **What.** The opening calls ensureTownEmployment and reads TOWN_EMPLOYMENT_META from the old living-world module for county business patterns and public employment. This overlaps core-old-imports-opening-employment, which reads the same module, so do both in one change. The opening population builder in src/core2/population.ts still builds a whole old-engine World first and reads these pieces from src/simulation. Move only what the opening uses into the core as data and small functions, and delete nothing the old engine still needs until core-delete-old-engine. Nothing new is added to the old engine.
