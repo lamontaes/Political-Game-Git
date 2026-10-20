@@ -698,6 +698,16 @@ function executivePriorities(
   return { setBy: key, changes };
 }
 
+/** The changes the government's executive would propose for a fiscal year from their own lean (the rule the council reads when none are set). */
+export function executiveBudgetChanges(
+  api: CoreAPI,
+  governmentId: string,
+  fy: number,
+): { setBy: string; changes: Record<string, number> } | null {
+  const gov = governments(api).find((g) => g.id === governmentId);
+  return gov ? executivePriorities(api, gov, fy) : null;
+}
+
 /**
  * The bodies that vote a government's budget, in order, and where the bill
  * is introduced: the town council, the county board, the state's chambers,
@@ -1242,19 +1252,25 @@ export function billReach(
   readonly federal: boolean;
   readonly state: boolean;
   readonly county: string | null;
-  readonly level: "federal" | "state" | "county" | "city";
+  /** The township a township board legislates for (its government-unit id). */
+  readonly township: string | null;
+  readonly level: "federal" | "state" | "county" | "township" | "city";
 } {
   const federal = chambersOf(api, bill).includes(FEDERAL_HOUSE);
   const state = !federal && isState(api, bill);
   const county = !federal && !state ? countyOfBody(api, bill) : null;
+  const township =
+    !federal && !state && !county ? townshipOfBody(api, bill) : null;
   const level = federal
     ? "federal"
     : state
       ? "state"
       : county
         ? "county"
-        : "city";
-  return { federal, state, county, level };
+        : township
+          ? "township"
+          : "city";
+  return { federal, state, county, township, level };
 }
 
 /**
@@ -1283,7 +1299,7 @@ export function effectiveRule(
   bill: BillRow,
 ): {
   readonly jurisdiction: string;
-  readonly level: "federal" | "state" | "county" | "city";
+  readonly level: "federal" | "state" | "county" | "township" | "city";
   readonly federal: boolean;
   readonly state: boolean;
   readonly kind: "on-enactment" | "state-rule" | "days-after-adoption";
@@ -1292,12 +1308,14 @@ export function effectiveRule(
   readonly cite: string;
 } {
   const chain = lawChain(api);
-  const { federal, state, county, level } = billReach(api, bill);
+  const { federal, state, county, township, level } = billReach(api, bill);
   const jurisdiction = federal
     ? "US"
     : state
       ? chain.stateKey
-      : (county ?? chain.levels[chain.levels.length - 1]!.jurisdiction);
+      : (county ??
+        township ??
+        chain.levels[chain.levels.length - 1]!.jurisdiction);
   const base = { jurisdiction, level, federal, state } as const;
   if (federal)
     return {
@@ -1494,20 +1512,19 @@ export function requestProject(
 }
 
 /**
- * The appropriations bill the sponsor carries: each open request is weighed on
- * its member's standing, never a roll. A member of the majority side, or one
- * seated on the committee for budget lines, has the request included as a
- * line naming its recipient; any other request is dropped, and either way the
- * reasons are kept on the request.
+ * The appropriations bill the sponsor carries: each open request is read by
+ * the officials who can act on it (the sponsor who drafts the bill and the
+ * members seated on the committee for budget lines), each on their own
+ * reasons for the line as a bill they would weigh (`positionOn`), with the
+ * requesting member as its sponsor, or because backing the item wins the
+ * requester's vote on the bill. Never a roll; either way the read is kept on
+ * the request.
  */
 export function appropriationsWithProjects(
   api: CoreAPI,
   input: { readonly bodyOfficeId: string; readonly sponsorId: string },
 ): BillRow | null {
   const terms = members(api, input.bodyOfficeId);
-  const majority = Math.sign(
-    terms.reduce((sum, t) => sum + partySide(t.party), 0),
-  );
   const seated = rosterProvider?.(
     api,
     input.bodyOfficeId,
@@ -1521,29 +1538,59 @@ export function appropriationsWithProjects(
     if (row.status !== "requested" || row.bodyOfficeId !== input.bodyOfficeId)
       continue;
     const term = terms.find((t) => memberKey(t) === row.memberId);
-    const onCommittee = !!seated?.memberIds.includes(row.memberId);
-    const sameSide =
-      !!term &&
-      majority !== 0 &&
-      memberSide(api, row.memberId, term.party) === majority;
-    const reasons = [
-      sameSide ? "member-in-majority" : "member-in-minority",
-      onCommittee ? "member-on-committee" : "member-off-committee",
-    ];
-    const included = !!term && (sameSide || onCommittee);
+    const provision: Provision = {
+      kind: "budget-line",
+      line: row.line,
+      value: row.amountMinor,
+      recipientId: row.recipientId,
+      requestId: row.id,
+    };
+    const asked = {
+      id: `probe:${row.id}`,
+      bodyOfficeId: row.bodyOfficeId,
+      sponsorId: row.memberId,
+      introduced: api.state.date,
+      provisions: [provision],
+      deals: [],
+      status: "drafted",
+    } as unknown as BillRow;
+    // The officials who can act read the project as the requester's proposal:
+    // their tie to the requester counts in each read.
+    const officials = [
+      ...new Set([input.sponsorId, ...(seated?.memberIds ?? [])]),
+    ].filter((id) => id !== row.memberId);
+    const read = officials.reduce(
+      (sum, id) => sum + positionOn(api, asked, id).total,
+      0,
+    );
+    // Or the sponsor wins the requester's vote by backing their item.
+    const theirs = { ...asked, sponsorId: input.sponsorId } as BillRow;
+    const backed = {
+      ...theirs,
+      deals: [
+        {
+          memberId: row.memberId,
+          kind: "back-their-item",
+          terms: row.id,
+          date: api.state.date,
+          status: "accepted",
+        },
+      ],
+    } as BillRow;
+    const wins =
+      row.memberId !== input.sponsorId &&
+      positionOn(api, theirs, row.memberId).total <= 0 &&
+      positionOn(api, backed, row.memberId).total > 0;
+    const included = !!term && (read > 0 || wins);
     table(api, "projectRequests").put({
       ...row,
       status: included ? "included" : "dropped",
-      reasons,
+      reasons: [
+        read > 0 ? "officials-favor" : "officials-oppose",
+        wins ? "requester-vote-won" : "requester-vote-unchanged",
+      ],
     } as unknown as ModuleRow);
-    if (included)
-      provisions.push({
-        kind: "budget-line",
-        line: row.line,
-        value: row.amountMinor,
-        recipientId: row.recipientId,
-        requestId: row.id,
-      });
+    if (included) provisions.push(provision);
   }
   if (!provisions.length) return null;
   const bill = draftBill(api, { ...input, provisions });
@@ -4007,6 +4054,16 @@ export function executiveItemVeto(
 }
 
 /** A county board's ordinances are county law: the county the board governs, in the town's chain. */
+/** The township a township board governs: its government-unit id, which is the law chain's township jurisdiction. */
+function townshipOfBody(api: CoreAPI, bill: BillRow): string | null {
+  const office = api
+    .moduleState(OFFICES_MODULE_ID)
+    .table("offices")
+    .get(bill.bodyOfficeId) as unknown as
+    { kind: string; jurisdiction: string } | undefined;
+  return office?.kind === "township-board" ? office.jurisdiction : null;
+}
+
 function countyOfBody(api: CoreAPI, bill: BillRow): string | null {
   const office = api
     .moduleState(OFFICES_MODULE_ID)

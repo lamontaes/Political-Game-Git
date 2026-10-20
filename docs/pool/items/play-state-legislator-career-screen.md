@@ -5,11 +5,12 @@ area: play
 kind: feature
 priority: 3
 size: L
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/fs11vb-scr
+pr: #5664
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-20T11:13:54.720Z
 ---
 
 **What.** The engine plays M5-01 (src/core2/state-legislator-career.test.ts passes on main), but the play page has no way to choose a numbered seat, file against its holder or follow the campaign. Add the screen: the player lists the seats covering their town by number and holder, picks one, files where that place files, and follows the campaign to the result. The player would pick the seat, see who holds it and watch the race.
