@@ -256,6 +256,20 @@ function townShare(core: CoreState, town: PlaceId): number {
 }
 
 /**
+ * The account that stands for builders outside the town: the town's own
+ * outside market, else the first one by id anywhere, else none.
+ */
+export function outsideBuildersFor(
+  organizations: Iterable<{ id: string; kind?: string; placeId?: string }>,
+  town: string,
+): string | undefined {
+  const markets = [...organizations]
+    .filter((org) => org.kind === OUTSIDE_MARKET_KIND)
+    .sort((a, b) => a.id.localeCompare(b.id));
+  return (markets.find((org) => org.placeId === town) ?? markets[0])?.id;
+}
+
+/**
  * The town's households on the declaration date: FEMA's approved housing
  * assistance is paid to them, and they pay for repairing the damage FEMA
  * inspected in owners' homes, to the town's builders by their size (or to
@@ -309,12 +323,7 @@ function payHouseholds(api: CoreAPI, rt: Runtime, disaster: Disaster): void {
   // with no business has none of its own, so the world's first one stands
   // (the way a leaver's cash leaves in moves.ts). With no market anywhere
   // there is nobody to pay and the households keep their money.
-  const markets = [...core.organizations.values()]
-    .filter((org) => org.kind === OUTSIDE_MARKET_KIND)
-    .sort((a, b) => a.id.localeCompare(b.id));
-  const outsideBuilders = (
-    markets.find((org) => org.placeId === town) ?? markets[0]
-  )?.id;
+  const outsideBuilders = outsideBuildersFor(core.organizations.values(), town);
   if (!builders.length && !outsideBuilders) return;
   const size = (id: string) => Math.max(1, staff.get(id) ?? 0);
   const total = builders.reduce((n, org) => n + size(org.id), 0);

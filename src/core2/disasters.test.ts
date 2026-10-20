@@ -7,6 +7,7 @@ import { advanceCore, createLifeCore } from "./life";
 import {
   disasterAssistancePaid,
   disasterRepairsPaid,
+  outsideBuildersFor,
   townDisasters,
 } from "./modules/disasters";
 import { coreAPI } from "./state";
@@ -143,4 +144,16 @@ describe(`disasters from the record (seed ${seed})`, () => {
           "enterprise:other";
     expect(() => advanceCore(core!, yearEnd), where).not.toThrow();
   }, 300_000);
+});
+
+it("picks the town's outside market, else the world's first, else none", () => {
+  const rows = [
+    { id: "outside-market:b", kind: "outside-market", placeId: "b" },
+    { id: "outside-market:a", kind: "outside-market", placeId: "a" },
+    { id: "shop", kind: "business", placeId: "c" },
+  ];
+  expect(outsideBuildersFor(rows, "b")).toBe("outside-market:b");
+  expect(outsideBuildersFor(rows, "c")).toBe("outside-market:a");
+  expect(outsideBuildersFor(rows.slice(2), "c")).toBeUndefined();
+  expect(outsideBuildersFor([], "c")).toBeUndefined();
 });
