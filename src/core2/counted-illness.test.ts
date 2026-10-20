@@ -38,8 +38,16 @@ it(`counted deaths follow an illness, and a filled-in ill person keeps it, in ${
   const where = JSON.stringify({ seed, place: place.name });
   const api = coreAPI(core);
   const renewal = api.moduleState(RENEWAL_MODULE_ID);
-  advanceCore(core, addDays(makeIsoDate(core.date), 365));
-  const rows = renewal.table("counts").rows() as unknown as CountsRow[];
+  // A small town's counted group may see no death in one year (Courtenay, North
+  // Dakota: 57 counted people, one illness, no death), so the run goes on, a
+  // year at a time, until the group has had a death or ten years have passed.
+  let years = 0;
+  let rows: CountsRow[] = [];
+  do {
+    advanceCore(core, addDays(makeIsoDate(core.date), 365));
+    years += 1;
+    rows = renewal.table("counts").rows() as unknown as CountsRow[];
+  } while (years < 10 && !rows.some((row) => row.deaths.length));
   expect(rows.length, where).toBeGreaterThan(0);
 
   // Illnesses appear as group counts by month, and every death follows one.
@@ -47,7 +55,12 @@ it(`counted deaths follow an illness, and a filled-in ill person keeps it, in ${
   const ill = new Set([...fell, ...rows.flatMap((row) => row.openingIll)]);
   const deaths = rows.flatMap((row) => row.deaths);
   expect(fell.length, where).toBeGreaterThan(0);
-  expect(deaths.length, where).toBeGreaterThan(0);
+  expect(
+    deaths.length,
+    `${where}: no counted death in ${years} years among ${Math.round(
+      rows.reduce((n, row) => n + row.startPeople, 0) / rows.length,
+    )} counted people`,
+  ).toBeGreaterThan(0);
   for (const id of deaths) expect(ill.has(id), `${where}: ${id}`).toBe(true);
 
   // The share ill at a time is the yearly death rate times the course of an
@@ -63,7 +76,7 @@ it(`counted deaths follow an illness, and a filled-in ill person keeps it, in ${
   }
   const shares = [...perMonth.values()].map((m) => m.ill / m.people);
   const share = shares.reduce((a, b) => a + b, 0) / shares.length;
-  const yearly = deaths.length / people;
+  const yearly = deaths.length / years / people;
   expect(share, where).toBeGreaterThan(0);
   expect(share, where).toBeLessThanOrEqual(
     (yearly * SERIOUS_EPISODE_REMAINING_DAYS.longest * 1.5) / 365,

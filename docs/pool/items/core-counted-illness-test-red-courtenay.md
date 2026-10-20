@@ -21,3 +21,5 @@ source: added with npm run pool -- add
 **Files.** src/core2/counted-illness.test.ts, src/core2/modules/health.ts
 
 **Notes.** TODO
+
+**Result (Oct 20).** The town had 57 counted people and one illness in a year, so no death was a true outcome, not an engine defect. The test now runs up to ten years until a counted death occurs and names the counted population if none does. Passes on the seed.
