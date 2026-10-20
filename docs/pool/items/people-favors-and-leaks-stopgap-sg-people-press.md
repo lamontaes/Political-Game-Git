@@ -4,7 +4,7 @@ title: "Favors and leaks (stopgap SG-PEOPLE-press-favors-and-leaks)."
 area: people
 kind: feature
 priority: 2
-status: claimed
+status: in-pr
 claimed-by: claude/fs11vb-press-leak
 pr: #5163
 blocked-on:
