@@ -22,4 +22,4 @@ claimed-at: 2026-10-20T00:47:48.244Z
 
 **Files.** see spec
 
-**Notes.** Priority 3 until scheduled. Verify how much is built before starting.
+**Notes.** Measured Oct 19 (claude/m7-01-measure) on a 4-core, 15 GB cloud container, one process, `npm run speed:year -- --exclusive`: Nanawale Estates, Hawaii (seed m7-01-audit-a): build 13.3 s, one game year 74.4 s; Nobleton, Florida (seed m7-01-audit-b): build 6.8 s, one game year 34.3 s. Both are under the 120-second year. Not measured: memory, and any minimum-spec PC; the item's pass condition needs a reference minimum-spec machine with targets from Steam's hardware survey, which a cloud container is not. Two places is not a sweep of the slowest of 56. Priority 3 until scheduled. Verify how much is built before starting.
