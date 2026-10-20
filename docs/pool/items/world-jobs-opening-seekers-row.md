@@ -5,11 +5,12 @@ area: world
 kind: stopgap
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/opening-seekers-row
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-20T21:24:54.249Z
 ---
 
 **What.** The pool item world-jobs-opening-seekers is done (PR 5211), but its stopgap row SG-WORLD-jobs-opening-seekers is still open on main: the opening's job seekers are still the jobless working-age adults whose money covers the fewest days, sized by the nation's unemployment rate. Check what that PR built against the row's replacement (the two-level population's labor-force counts by place, age and job, from CPS and LAUS). Then resolve the row naming the code, or finish the missing part and remove the marker.
