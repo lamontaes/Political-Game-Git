@@ -5,7 +5,7 @@ area: words
 kind: feature
 priority: 2
 size: M
-status: done
+status: in-pr
 claimed-by: claude/words-archive-ledes
 pr: #5235
 blocked-on:
