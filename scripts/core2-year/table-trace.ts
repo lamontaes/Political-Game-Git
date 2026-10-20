@@ -8,6 +8,8 @@
 import { createHash, randomBytes } from "node:crypto";
 import { writeFileSync } from "node:fs";
 import { bankView } from "../../src/bench/bank";
+import { findRecord } from "../../src/bench/dev-trace";
+import { whyPanels } from "../../src/bench/dev-why";
 import { buildBenchWorld } from "../../src/bench/world";
 import { gameStartDate } from "../../src/core2/game-start";
 import { setBookkeeping } from "../../src/core2/bookkeeping";
@@ -18,6 +20,7 @@ import {
   setTableTrace,
   type TableOp,
 } from "../../src/core2/module-state";
+import { coreAPI } from "../../src/core2/state";
 import { drawPlace } from "./place";
 
 setBookkeeping(false);
@@ -85,6 +88,35 @@ advanceCore(world.core, addDays(makeIsoDate(world.core.date), days));
 // A screen reads a table only when it is opened, so open the ones that read
 // engine tables: the Money screen's bank view for the controlled person.
 if (world.core.playerId) bankView(world.core, world.core.playerId);
+// ...and for a person whose household owes a loan, whose payments it lists.
+const borrowing = world.core.modules.has("credit")
+  ? (coreAPI(world.core)
+      .moduleState("credit")
+      .table("loans")
+      .rows() as unknown as {
+      householdId: string;
+    }[])
+  : [];
+const borrower = [...world.core.people.values()].find(
+  (person) =>
+    person.alive &&
+    borrowing.some((loan) => loan.householdId === person.householdId),
+);
+if (borrower) bankView(world.core, borrower.id);
+// The dev mode's why panel for a credit line's repricing reads that line's
+// rate changes (a dev screen, opened on the first one).
+const firstRepricing = world.core.modules.has("macro")
+  ? (coreAPI(world.core)
+      .moduleState("macro")
+      .table("repricings")
+      .rows()[0] as unknown as { id: string } | undefined)
+  : undefined;
+if (firstRepricing)
+  whyPanels(
+    world.core,
+    firstRepricing.id,
+    findRecord(world.core, firstRepricing.id),
+  );
 setTableTrace(null);
 
 const sizes = moduleTableSizes(world.core);
