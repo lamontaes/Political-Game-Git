@@ -5,11 +5,12 @@ area: laws
 kind: research
 priority: 2
 size: M
-status: blocked
+status: open
 claimed-by:
 pr:
 blocked-on:
 source: "collapsed Oct 19, 2026 from laws-stopgap-group-b-money-missing-data, laws-stopgap-laws-data-gap, laws-stopgap-reach-group-a-missing-mechanic"
+claimed-at: 
 ---
 
 **What.** Apply the sourced rows in docs/research/pool-feeder-oct20/research-law-reach-sourced-parameters.md to the law-reach data and resolve the stopgap rows listed below. The numeric work is small: replace the Oct 2025 / Jan 2026 first phases in src/core2/data/laws/starting-law.json with the Jan 20, 2025 values, add the flat-rate replacement terms to the income-tax repeal provision, set the pretrial, set-aside, rent-cap and leave bands in the parameter table with their citations and spreads, and confirm the island-area residents already come from public-budget-bases.json. The 14 mechanic rows stay registered with their notes; the builder names the pool item for each missing engine. The starting-law rewrite makes this size L; split it from the rest if time runs short.
