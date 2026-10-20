@@ -145,7 +145,12 @@ export function startingConditionAssignments(
     cells.set(cellKey, cell);
   }
   const conditionCount = CONDITION_PACK.length;
-  for (const cell of cells.values()) {
+  // A rare condition's expected count in one small cell is a fraction of a
+  // person; rounding each cell alone drops it everywhere a set is small (the
+  // full people of a town). The fraction carries to the next cell, in a fixed
+  // cell order, so the set holds the condition at its prevalence in total.
+  const carried = new Map<string, number>();
+  for (const [, cell] of [...cells].sort((a, b) => a[0].localeCompare(b[0]))) {
     cell.sort((left, right) => {
       const leftIncome = left.monthlyHouseholdIncomeMinor;
       const rightIncome = right.monthlyHouseholdIncomeMinor;
@@ -167,20 +172,14 @@ export function startingConditionAssignments(
       // PLACEHOLDER(research: chronic-condition-income-gradients): the 2026 pack
       // has no condition-specific income gradient; keep even spacing until one
       // is sourced.
-      const count = Math.min(
-        cell.length,
-        Math.max(
-          0,
-          Math.round(
-            cell.reduce(
-              (total, person) =>
-                total +
-                conditionPrevalence(condition, person.age, person.category),
-              0,
-            ),
-          ),
-        ),
+      const expected = cell.reduce(
+        (total, person) =>
+          total + conditionPrevalence(condition, person.age, person.category),
+        0,
       );
+      const owed = expected + (carried.get(condition.key) ?? 0);
+      const count = Math.min(cell.length, Math.max(0, Math.round(owed)));
+      carried.set(condition.key, owed - count);
       if (count === 0) continue;
       if (count === cell.length) {
         for (const person of cell)
