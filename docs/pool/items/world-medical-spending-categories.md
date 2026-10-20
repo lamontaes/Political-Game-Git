@@ -5,12 +5,13 @@ area: world
 kind: feature
 priority: 2
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/medical-spending
 pr:
 blocked-on:
 after: people-coverage-record-monthly-pass
 source: added with npm run pool -- add
+claimed-at: 2026-10-20T03:13:28.076Z
 ---
 
 **What.** Living costs carry only drugs and medical supplies today; the Consumer Expenditure health insurance and medical services lines are bound to no household flow. Bind those lines to a monthly out-of-pocket flow for each household, sized from the CE averages by age and income, and let a serious illness in the health record raise a person's bill by the care it needs. Covered people pay a smaller share through the coverage record from the earlier part, and uncovered people pay the full price.
