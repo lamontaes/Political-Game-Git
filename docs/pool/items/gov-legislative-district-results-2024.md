@@ -5,12 +5,12 @@ area: gov
 kind: research
 priority: 3
 size: M
-status: in-pr
-claimed-by: claude/tender-mendel-ijzjo8
+status: open
+claimed-by:
 pr: #5352
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-20T00:45:30.808Z
+claimed-at:
 ---
 
 **What.** TODO
