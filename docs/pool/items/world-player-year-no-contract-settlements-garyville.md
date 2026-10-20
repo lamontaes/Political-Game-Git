@@ -24,3 +24,5 @@ claimed-at:
 **Notes.** TODO
 
 Sent back 2026-10-20 from PR #5571 (branch claude/player-year-settlements): the contract-settlement assertion now accepts generic residents debits and can pass while rent or mortgage goes unpaid; assert the route required by recorded tenure and contracts instead; finish on that branch, merge main into it first.
+
+Sent back 2026-10-20 from PR #5586 (branch claude/garyville-contract-settlements): Merging current origin/main still conflicts in src/core2/player-money-year.test.ts. This stricter route-specific fix is worth keeping: main at that file:109 accepts a generic accounts.transfer residents debit when the contract proof is empty, which can hide unpaid rent or a mortgage. Resolve the code conflict while retaining the dwelling-based contract versus property-tax/arrears assertions, then rerun the pinned and drawn-place cases; this is not merely superseded by the broader main assertion.; finish on that branch, merge main into it first.
