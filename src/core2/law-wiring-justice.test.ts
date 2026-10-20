@@ -17,6 +17,7 @@ import { gameStartDate } from "./game-start";
 import { setJournalTrace } from "./journal-state";
 import { addDays, makeIsoDate } from "./kernel/dates";
 import { advanceCore } from "./life";
+import { inForceHere } from "./law-reach/host";
 import { appliedOn, type LawAppliedRow } from "./law-reach/applied";
 import {
   amendBudget,
@@ -24,7 +25,7 @@ import {
   governments,
   type GovernmentRow,
 } from "./modules/budgets";
-import { enactLaw, lawChain, lawInForce, LAWS_MODULE_ID } from "./modules/laws";
+import { enactLaw, lawChain, LAWS_MODULE_ID } from "./modules/laws";
 import type { LawRowInput } from "./laws-starting";
 import {
   CARRY_PERMIT,
@@ -151,9 +152,7 @@ function attempt(trySeed: string, index: number): Attempt {
   const web = new Map<string, number[]>();
   const cutService: number[] = [];
   const keys = [...QUESTIONS, HANDGUN_AGE];
-  const startedNo = new Set(
-    keys.filter((key) => lawInForce(api, key).value !== 1),
-  );
+  const startedNo = new Set(keys.filter((key) => !inForceHere(api, key)));
   try {
     // Phase one: the age limit on handgun sales is not law, so young adults buy.
     setQuestion(api, HANDGUN_AGE, 0);
@@ -254,6 +253,9 @@ describe(`justice and public safety laws in a played world (seed ${seed})`, () =
         `no drawn place had a subject for every law: ${tried}`,
       ).not.toBeNull();
       const a = found!;
+      console.log(
+        `law-wiring-justice passed in ${a.where}; tried ${tried.length}`,
+      );
       const open = (key: string) =>
         (a.rows.get(key) ?? []).filter((r) => !r.endedOn);
       const groups = (key: string) =>
@@ -341,6 +343,7 @@ describe(`justice and public safety laws in a played world (seed ${seed})`, () =
       );
 
       // The web moved the measures the engine reads.
+      // The oversight link has a 12-month lag, longer than this run, so it is not checked here.
       // A web link moves only when its law differs from the town's start, so
       // a law already in force at the opening is checked on the handgun age
       // (repealed first) and on the laws that began as no.
@@ -349,7 +352,6 @@ describe(`justice and public safety laws in a played world (seed ${seed})`, () =
           [CHILD_ACCESS, "child-access-law-to-youth-gun-deaths"],
           [HANDGUN_AGE, "min-age-to-youth-gun-suicide"],
           [CARRY_PERMIT, "concealed-carry-permit-to-firearm-homicide"],
-          [OVERSIGHT, "civilian-oversight-to-crime"],
         ] as const
       )
         .filter(([key]) => key === HANDGUN_AGE || a.startedNo.has(key))

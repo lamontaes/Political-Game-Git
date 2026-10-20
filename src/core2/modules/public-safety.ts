@@ -2,14 +2,10 @@
  * Public safety, once a month on the sixth: crime becomes arrests, arrests
  * become cases under the law in force, and the laws on guns, oversight and
  * immigration partnership reach the town's households (see
- * `public-safety.ts`). A detainer hold ends on its own date.
+ * `public-safety.ts`).
  */
 import { registerModule } from "../state";
-import {
-  PUBLIC_SAFETY_MODULE_ID,
-  releaseDetainer,
-  runSafetyMonth,
-} from "../public-safety";
+import { PUBLIC_SAFETY_MODULE_ID, runSafetyMonth } from "../public-safety";
 import type { CoreModule, CoreState } from "../types";
 
 export const PUBLIC_SAFETY_MODULE: CoreModule = {
@@ -24,8 +20,6 @@ export const PUBLIC_SAFETY_MODULE: CoreModule = {
         },
       },
       terms: { indexes: { byStatus: { fields: ["status"] } } },
-      pretrial: { indexes: { byPerson: { fields: ["personId"] } } },
-      holds: {},
       carry: {},
       storage: {},
       permits: {},
@@ -35,10 +29,6 @@ export const PUBLIC_SAFETY_MODULE: CoreModule = {
   onDay(api) {
     if (api.state.date.endsWith("-06")) runSafetyMonth(api);
     return undefined;
-  },
-  onCalendarWork(api, work) {
-    if (work.kind === "detainer-release")
-      releaseDetainer(api, work.sourceRecordIds[0]!);
   },
 };
 

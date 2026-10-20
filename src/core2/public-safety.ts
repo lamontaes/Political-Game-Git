@@ -29,12 +29,10 @@ import {
   firearmOwnershipRate,
 } from "./firearm-ownership";
 import { transfer, transferSplit } from "./accounts";
-import { holdInCustody } from "./justice-custody";
 import { justiceParameter } from "./justice-law";
-import { decidePretrial, endPretrial, END_CASH_BAIL } from "./justice-pretrial";
+import { END_CASH_BAIL } from "./justice-pretrial";
 import { lawApplied } from "./law-reach/applied";
 import type { ModuleRow } from "./module-data";
-import { addDays, makeIsoDate } from "./kernel/dates";
 import {
   BUDGETS_MODULE_ID,
   adoptedLine,
@@ -547,6 +545,38 @@ interface Tally {
   detainerHolds: number;
 }
 
+/** The full residents' share of the town, as one unnamed group for the case flow. */
+function namedResidents(api: CoreAPI, census: Census): GroupCensus {
+  const core = api.state as CoreState;
+  const band = BANDS.map((_, b) =>
+    Math.max(
+      0,
+      census.bandTotals[b]! - census.groups.reduce((n, g) => n + g.band[b]!, 0),
+    ),
+  );
+  const nonCitizen = BANDS.map(() => 0);
+  let cash = 0;
+  for (const p of census.full) {
+    if (p.noncitizen) nonCitizen[p.band]! += 1;
+    cash += core.people.get(p.id)?.liquidMinor ?? 0;
+  }
+  const people = band.reduce((n, v) => n + v, 0);
+  return {
+    index: -1,
+    id: "named-residents",
+    band,
+    nonCitizen: nonCitizen.map((v, b) => Math.min(v, band[b]!)),
+    people,
+    households: 0,
+    adults21: 0,
+    adults18to20: 0,
+    childHouseholds: 0,
+    youth: 0,
+    youthTeens: 0,
+    cash,
+  };
+}
+
 /** One month of the town's public safety, run on the sixth. */
 export function runSafetyMonth(api: CoreAPI): void {
   const core = api.state as CoreState;
@@ -644,7 +674,14 @@ function arrest(
     0,
   );
   if (weightTotal <= 0) return;
-  const carries = new Map<string, Carry>();
+  // stopgapId: SG-LAW-justice-named-offender-acts
+  api.stopgap("SG-LAW-justice-named-offender-acts");
+  // Named residents' share of the arrests is folded into an unnamed batch:
+  // no named person is charged from a band share.
+  const pool: Census = {
+    ...census,
+    groups: [...census.groups, namedResidents(api, census)],
+  };
   const cases: CaseRow[] = [];
   const countedHolds = new Map<number, number>();
   for (const offense of OFFENSES) {
@@ -659,23 +696,7 @@ function arrest(
     const expected =
       victims * reported(offense.key) * cleared(offense.key) * service;
     if (expected <= 0) continue;
-    // Full people: exposure carried to a whole arrest.
-    for (const person of census.full) {
-      const c = carries.get(person.id) ?? carryOf(api, person.id);
-      const owed =
-        (c.arrest[offense.key] ?? 0) +
-        (expected * BANDS[person.band]!.ratio) / weightTotal;
-      const whole = owed >= 1 - 1e-9;
-      carries.set(person.id, {
-        ...c,
-        arrest: { ...c.arrest, [offense.key]: whole ? owed - 1 : owed },
-      });
-      if (!whole) continue;
-      cases.push(
-        personCase(api, census, person, offense.key, month, court.age, bailLaw),
-      );
-    }
-    // Counted groups: their count in each band, by the same weights.
+    // Counted groups and the named residents' unnamed share, by band weights.
     const byBand = new Map<
       number,
       {
@@ -685,7 +706,7 @@ function arrest(
         ix: number[];
       }
     >();
-    for (const group of census.groups)
+    for (const group of pool.groups)
       for (let b = 0; b < BANDS.length; b++) {
         const n = group.band[b]!;
         if (n <= 0) continue;
@@ -711,7 +732,7 @@ function arrest(
     for (const [band, row] of byBand) {
       const adult = BANDS[band]!.from >= court.age;
       cases.push(
-        batchCase(api, census, {
+        batchCase(api, pool, {
           offense: offense.key,
           violent: offense.violent,
           band,
@@ -734,44 +755,9 @@ function arrest(
     if (c.court === "juvenile") tally.juvenileCases += c.count;
     tally.detained += c.detained;
   }
-  for (const c of carries.values())
-    table(api, "carry").put(c as unknown as ModuleRow);
-  if (immigration) detainers(api, census, immigration, countedHolds, tally);
+  if (immigration) detainers(api, pool, immigration, countedHolds, tally);
   // The county pays what each adult case costs at filing.
   courtCosts(api, cases);
-}
-
-function personCase(
-  api: CoreAPI,
-  census: Census,
-  person: FullPerson,
-  offense: OffenseKey,
-  month: string,
-  adultAge: number,
-  bailLaw: string | null,
-): CaseRow {
-  const id = `case:${month}:${offense}:${person.id}`;
-  const adult = person.age >= adultAge;
-  const pretrial = adult
-    ? decidePretrial(api, PUBLIC_SAFETY_MODULE_ID, id, person.id)
-    : null;
-  return {
-    id,
-    kind: "person",
-    month,
-    offense,
-    court: adult ? "adult" : "juvenile",
-    band: person.band,
-    count: 1,
-    personId: person.id,
-    groups: {},
-    detained: pretrial?.decision === "held" ? 1 : 0,
-    noncitizens: person.noncitizen ? 1 : 0,
-    bailLawId: bailLaw ?? "",
-    dueMonth: addMonths(month, dueMonths(offense)),
-    status: "open",
-    verdict: "",
-  };
 }
 
 const dueMonths = (offense: OffenseKey) =>
@@ -956,10 +942,6 @@ function resolveDue(
   const open = caseTable.query("byStatus", ["open"]) as unknown as CaseRow[];
   for (const c of open) {
     if (c.dueMonth > month) continue;
-    if (c.kind === "person") {
-      closePersonCase(api, c);
-      continue;
-    }
     const count = c.count;
     let verdict = "closed";
     if (c.court === "adult") {
@@ -1024,23 +1006,6 @@ function sentence(
     daysLeft: days,
     status: "serving",
   } satisfies TermRow as unknown as ModuleRow);
-}
-
-/** A full defendant's case ends: held for want of bail, they plead and go home on time served; released, the case is closed without a verdict. */
-function closePersonCase(api: CoreAPI, c: CaseRow): void {
-  const core = api.state as CoreState;
-  const pretrial = table(api, "pretrial").get(`pretrial:${c.id}`) as unknown as
-    { status: string } | undefined;
-  // stopgapId: SG-LAW-justice-full-defendant-verdict
-  api.stopgap("SG-LAW-justice-full-defendant-verdict");
-  const held = pretrial?.status === "waiting";
-  if (core.people.has(c.personId))
-    endPretrial(api, PUBLIC_SAFETY_MODULE_ID, c.id);
-  table(api, "cases").put({
-    ...c,
-    status: "closed",
-    verdict: held ? "plea-time-served" : "closed-released",
-  } as unknown as ModuleRow);
 }
 
 /** Jail and prison days the treasuries pay for this month, scaled to what the corrections line can house. */
@@ -1152,46 +1117,6 @@ function detainers(
       amountMinor: holds * days * perDiem,
     });
   }
-  const caseTable = table(api, "cases");
-  for (const c of caseTable.query("byStatus", [
-    "open",
-  ]) as unknown as CaseRow[]) {
-    if (
-      c.kind !== "person" ||
-      !c.noncitizens ||
-      c.month !== monthOf(api.state.date)
-    )
-      continue;
-    if (!api.state.people.has(c.personId)) continue;
-    const prior = holdInCustody(api, c.personId);
-    total += 1;
-    const id = `detainer:${c.id}`;
-    table(api, "holds").put({
-      id,
-      personId: c.personId,
-      prior: prior === undefined ? "unset" : prior ? "yes" : "no",
-      releaseOn: addDays(makeIsoDate(api.state.date), days),
-    } as unknown as ModuleRow);
-    api.moduleCalendar(PUBLIC_SAFETY_MODULE_ID).schedule({
-      key: id,
-      date: addDays(makeIsoDate(api.state.date), days),
-      kind: "detainer-release",
-      source: sourceOf(
-        api,
-        "8 CFR 287.7(d): a detainer holds a person up to 48 hours.",
-      ),
-      sourceRecordIds: [id],
-    });
-    lawApplied(api, {
-      key: IMMIGRATION,
-      lawId,
-      targetId: c.personId,
-      target: "person",
-      engine: PUBLIC_SAFETY_MODULE_ID,
-      what: "detainer-hold",
-      amountMinor: days * perDiem,
-    });
-  }
   tally.detainerHolds += total;
   treasuryPays(
     api,
@@ -1205,17 +1130,6 @@ function detainers(
       "Marginal share of the jail per diem.",
     ),
   );
-}
-
-/** A detainer hold ends: the person's own choices return as they were. */
-export function releaseDetainer(api: CoreAPI, id: string): void {
-  const row = table(api, "holds").get(id) as unknown as
-    { personId: string; prior: string } | undefined;
-  if (!row || !api.state.people.has(row.personId)) return;
-  api.updatePerson(row.personId, {
-    discretionaryEligibleV1:
-      row.prior === "unset" ? undefined : row.prior === "yes",
-  });
 }
 
 // ---- firearm laws -----------------------------------------------------------

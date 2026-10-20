@@ -4246,7 +4246,7 @@
     "id": "SG-GOV-REACH-A-police-oversight",
     "kind": "missing-mechanic",
     "file": "src/core2/public-safety.ts",
-    "line": 1486,
+    "line": 1394,
     "whatItFakes": "The civilian board costs the city a yearly amount per resident and is recorded against the police department, but no complaint against an officer is brought or reviewed.",
     "why": "No engine records a police-stop complaint, a board finding or officer discipline; the board's cost and its department are built.",
     "addedBy": "OPUS-GOV",
@@ -4887,7 +4887,7 @@
     "id": "SG-LAW-justice-youth-firearm-harm",
     "kind": "missing-mechanic",
     "file": "src/core2/public-safety.ts",
-    "line": 1629,
+    "line": 1537,
     "whatItFakes": "The web's youth firearm death and suicide rates become an expected count of young people lost in the town each month, but no named child dies of it.",
     "why": "Counted people die only through the illness-course engine (births-counted.ts); there is no injury death for a child.",
     "addedBy": "claude/law-wiring",
@@ -4899,7 +4899,7 @@
     "id": "SG-LAW-justice-enforcement-outcome-readers",
     "kind": "missing-mechanic",
     "file": "src/core2/public-safety.ts",
-    "line": 1139,
+    "line": 1098,
     "whatItFakes": "The immigration partnership moves the web's Hispanic school enrollment, undocumented employment and U.S.-born employment, but no school or jobs engine reads those measures.",
     "why": "The detainer holds are built; the three outcomes are kept place measures that no engine consumes.",
     "addedBy": "claude/law-wiring",
@@ -4908,15 +4908,15 @@
     "status": "open"
   },
   {
-    "id": "SG-LAW-justice-full-defendant-verdict",
+    "id": "SG-LAW-justice-named-offender-acts",
     "kind": "missing-mechanic",
     "file": "src/core2/public-safety.ts",
-    "line": 1040,
-    "whatItFakes": "A full defendant held for want of bail pleads and goes home on time served; one released before trial has the case closed with no verdict.",
-    "why": "The ordinary-case flow has no evidence for a single defendant's verdict; the counted tier uses expected conviction shares, which cannot pick one person's outcome.",
+    "line": 677,
+    "whatItFakes": "The named residents' share of ordinary-crime arrests is carried in an unnamed batch of cases; no named person is arrested, held or sentenced by this engine.",
+    "why": "A named person is charged only through an act the engines record (corruption cases today); there is no engine that records an ordinary offense as a named person's own act.",
     "addedBy": "claude/law-wiring",
     "addedAt": "2026-10-20",
-    "replacement": "GOV: a defendant's case reads the charge, the evidence and the record the justice engine builds for corruption cases.",
+    "replacement": "PEOPLE and GOV: an act engine where a named person's drives, record and circumstances decide an offense, then the case flow charges them from that act.",
     "status": "open"
   }
 ]
