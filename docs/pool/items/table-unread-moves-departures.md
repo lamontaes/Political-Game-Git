@@ -7,7 +7,7 @@ priority: 3
 size: S
 status: in-pr
 claimed-by: claude/table-unread-moves-departures
-pr: #5357
+pr: #5366
 blocked-on: design: tests and proofs read every departure, but only circle events are kept in the durable log; needs a ruling on a test-only listener or circle-only rows
 source: added with npm run pool -- add
 claimed-at: 2026-10-20T00:56:48.859Z

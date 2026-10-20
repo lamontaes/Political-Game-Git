@@ -5,11 +5,12 @@ area: core
 kind: cleanup
 priority: 3
 size: S
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/political-game-pool-7xkkii
+pr: #5196
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-20T01:01:31.699Z
 ---
 
 **What.** Of 264 open rows in src/core2/data/stopgaps.json, a run of three drawn towns for two played years each (buildBenchWorld, core.stopgapHits) recorded 132 as hit. Eighty rows whose marker is in a .ts file never fired, among them SG-GOV-budget-adopted-by-rule (the council always voted), SG-GOV-campaign-pollster-seller, SG-GOV-staff-unpaid, SG-WORLD-housing-landlord, SG-WORLD-jobs-opening-seekers and SG-GOV-justice-prosecutor-stand-in. Rows marked with the module-level `stopgap()` call (not `api.stopgap`) are never recorded, so some of the eighty fire and are not seen. For each, check whether the fake is still reachable; resolve the row where it is not and the replacement is built.
