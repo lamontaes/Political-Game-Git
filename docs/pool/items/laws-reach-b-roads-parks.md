@@ -5,12 +5,12 @@ area: laws
 kind: stopgap
 priority: 3
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/fs11vb-laws-reach-b-roads-parks
 pr: #5458
 blocked-on: engines that do not exist: a road-condition setter read by commute time and vehicle costs (no commute model in core2), and a park service level read by leisure choices
 source: added with npm run pool -- add
-claimed-at:
+claimed-at: 2026-10-20T16:02:57.859Z
 ---
 
 **What.** SG-GOV-REACH-B-road-condition and -park-use. The highways and parks lines are service levels recorded on drivers, residents and firms. Read the road level in commute time and vehicle cost, and the parks level in leisure choices and well-being, so a budget change shows up in a person's day.

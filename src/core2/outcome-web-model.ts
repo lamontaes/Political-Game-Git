@@ -32,6 +32,11 @@ export type Shape =
 export interface WebLink {
   readonly key: string;
   readonly from: string;
+  /**
+   * The measure the new core reads the cause from when it is not `from` (the
+   * old engine's name): an engine's own records, e.g. the victimization index.
+   */
+  readonly readFrom?: string;
   readonly to: string;
   readonly shape: Shape;
   readonly size: number | null;
@@ -104,7 +109,9 @@ interface BaseDefinition {
 
 /** The web module's id; here so readers of the web need not load the module itself. */
 export const OUTCOME_WEB_MODULE_ID = "core2-outcome-web-v1";
-export const WEB_LINKS = web.links as unknown as readonly WebLink[];
+export const WEB_LINKS = (web.links as unknown as readonly WebLink[]).map(
+  (link) => (link.readFrom ? { ...link, from: link.readFrom } : link),
+);
 export const WEB_VERSION = web.version;
 /** The date the research's base levels describe; laws in force then are the baseline. */
 export const CALIBRATED_AT = web.calibratedAt;
@@ -133,6 +140,8 @@ const ENGINE = local.engineMeasures as Readonly<
       readonly owner: string;
       /** The field of a world-metrics month row the measure reads. */
       readonly field: string;
+      /** Or a named reader of an engine's own record (src/core2/modules/outcome-web.ts). */
+      readonly reader?: string;
       readonly unitScale: number;
       /** The engine's record is the kept outcome itself; links into it do not run. */
       readonly ownsOutcome?: boolean;
