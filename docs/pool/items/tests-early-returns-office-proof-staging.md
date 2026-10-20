@@ -22,3 +22,5 @@ claimed-at:
 **Files.** src/core2/office-proof.test.ts, src/bench/scene-staging.test.ts
 
 **Notes.** Sent back to open on 2026-10-20 (merger): merge-main conflict in src/core2/office-proof.test.ts. Left for the Words session: `src/director/civic-roles.test.ts` line 275 ("finds the same clerk from a filing's own record") returns when the drawn place's filing office is a state board; it should draw a further place with `worldWith` (`src/core2/tooling/world-with.ts`). The other bare returns the grep lists in `journal-state.test.ts` and `finance-plan.test.ts` sit inside a callback whose effect the test asserts afterward, so they are not skips.
+
+Sent back 2026-10-20 from PR #5045 (branch claude/tests-early-returns-office-staging): Merging current origin/main conflicts in src/core2/office-proof.test.ts. Resolve that test conflict on this branch, preserving current main assertions and this PRs bounded positive-case draws for both offices, then rerun both changed test files on the merged result. The staging improvement itself must retain its unconditional left/right assertions.; finish on that branch, merge main into it first.
