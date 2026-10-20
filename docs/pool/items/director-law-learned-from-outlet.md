@@ -5,12 +5,13 @@ area: director
 kind: wiring
 priority: 2
 size: M
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/law-learned-outlet
+pr: #5152
 after:
 blocked-on:
 source: "owner ruling Oct 16 (who tells a person a law changed their money); audit Oct 19, Part A on #4747"
+claimed-at: 2026-10-19T20:31:58.600Z
 ---
 
 **What.** The owner ruled on Oct 16 that a person learns a law changed their money mostly from the news and social media, not from a person: the source a stance cites is the outlet or feed that reached them, and a friend or official carries it only where the records show a conversation. #4747 built the opposite: the teller is the outlet's head by default, the scene never fired in three played towns, and `SG-DIRECTOR-owner-decision-law-teller` stays open so the release build refuses. Rebuild the teller as the story or feed that reached the person (the press engine's delivery record), with a conversation as the exception where a record shows one, and resolve the stopgap.

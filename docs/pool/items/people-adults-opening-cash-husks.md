@@ -5,9 +5,9 @@ area: people
 kind: bug
 priority: 1
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/adults-opening-cash
-pr:
+pr: #5140
 after:
 blocked-on:
 milestone:
