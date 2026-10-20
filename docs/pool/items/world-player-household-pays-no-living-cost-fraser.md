@@ -22,3 +22,5 @@ claimed-at: 2026-10-20T03:15:03.154Z
 **Files.** src/core2/modules/residents.ts, src/core2/cost-of-living.ts, src/core2/player-money-year.test.ts
 
 **Notes.** Found Oct 20 by sweeping src/core2 tests on clean main. Related but different: world-households-unpaid-living-costs-payday (#4937, arrears for full households) and world-living-costs-pay-from-household-members (done, #4939). Check whether #4937 already fixes this before building.
+
+Oct 20: Owner ruled on #5473 that background households may split from an 18-year-old when cheap to simulate and as common as in real life, but the player's own family does not leave the player before 1.0, so the hold in moves.ts stays and SG-P15-moves-player-home-stays can be marked resolved.

@@ -21,7 +21,7 @@ import {
   characterHistoryContextPersonId,
   createCharacterHistoryContextPeople,
   type CharacterHistoryContextPersonInput,
-} from "../simulation/character-history";
+} from "./opening-people";
 import {
   ageOnDate,
   daysBetween,
@@ -70,7 +70,7 @@ import {
 } from "./town-households";
 import { placeLocalGovernmentUnits } from "./gov-rules/local-governments";
 import { placeReferencePopulation } from "./gov-rules/place-population";
-import { PERSONALITY_PACK } from "../simulation/personality-catalogue";
+import { PERSONALITY_PACK } from "./personality-catalogue";
 import { PEOPLE_MIND_VERSION, PEOPLE_TRAITS } from "./people-mind";
 import {
   upbringingCoreValueFrom,

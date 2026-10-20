@@ -1,0 +1,1105 @@
+{
+  "vintage": "ACS 2020-2024 5-year (latest); Island Areas from the 2020 Census (dollars as reported in 2020)",
+  "countiesWithAWithheldMedian": 10,
+  "patch": {
+    "06003": {
+      "name": "Alpine County, California",
+      "rentValue": [
+        1025,
+        590200
+      ],
+      "rentMethod": "inverse-variance blend (log scale, bias-corrected) of the county's own latest published median rolled forward by its state's change and the smaller half of adjacent counties' medians",
+      "valueMethod": "published ACS 2020-2024 median",
+      "rentRange": [
+        885,
+        1186
+      ],
+      "valueRange": [
+        null,
+        null
+      ],
+      "gameCurrent": [
+        null,
+        590200
+      ],
+      "detail": {
+        "rent": {
+          "published2024": null,
+          "own2024DistributionMedian": 1250,
+          "own2024DistributionHouseholds": 76.0,
+          "stateWeightedMeanStopgap": 2063,
+          "neighborMedianSmallestHalf": 1625,
+          "neighborsUsed": [
+            {
+              "geoid": "06051",
+              "name": "Mono County, California",
+              "median": 1629.0,
+              "households": 1986.0
+            },
+            {
+              "geoid": "06009",
+              "name": "Calaveras County, California",
+              "median": 1625.0,
+              "households": 2957.0
+            },
+            {
+              "geoid": "06005",
+              "name": "Amador County, California",
+              "median": 1421.0,
+              "households": 3150.0
+            }
+          ],
+          "neighborMedianAll": 1609,
+          "neighborCountReporting": 6,
+          "ownHistory": {
+            "vintage": "ACS 2016-2020 5-year",
+            "publishedThen": 639.0,
+            "householdsThen": 76.0,
+            "stateLogChangeToNow": 0.2442,
+            "rolledForward": 816,
+            "lagVintages": 4,
+            "y": "2020"
+          },
+          "recommended": 1025,
+          "low": 885,
+          "high": 1186,
+          "method": "inverse-variance blend (log scale, bias-corrected) of the county's own latest published median rolled forward by its state's change and the smaller half of adjacent counties' medians",
+          "blendWeights": {
+            "history": 0.623,
+            "neighbors": 0.377
+          },
+          "blendSigmaLog": 0.114
+        },
+        "value": {
+          "published2024": 590200.0,
+          "recommended": 590200.0,
+          "method": "published ACS 2020-2024 median"
+        }
+      }
+    },
+    "06091": {
+      "name": "Sierra County, California",
+      "rentValue": [
+        1202,
+        331900
+      ],
+      "rentMethod": "inverse-variance blend (log scale, bias-corrected) of the county's own latest published median rolled forward by its state's change and the smaller half of adjacent counties' medians",
+      "valueMethod": "published ACS 2020-2024 median",
+      "rentRange": [
+        1081,
+        1337
+      ],
+      "valueRange": [
+        null,
+        null
+      ],
+      "gameCurrent": [
+        null,
+        331900
+      ],
+      "detail": {
+        "rent": {
+          "published2024": null,
+          "own2024DistributionMedian": 497,
+          "own2024DistributionHouseholds": 202.0,
+          "stateWeightedMeanStopgap": 2063,
+          "neighborMedianSmallestHalf": 1194,
+          "neighborsUsed": [
+            {
+              "geoid": "06063",
+              "name": "Plumas County, California",
+              "median": 1194.0,
+              "households": 2048.0
+            },
+            {
+              "geoid": "06035",
+              "name": "Lassen County, California",
+              "median": 1000.0,
+              "households": 2942.0
+            },
+            {
+              "geoid": "06115",
+              "name": "Yuba County, California",
+              "median": 1311.0,
+              "households": 10453.0
+            }
+          ],
+          "neighborMedianAll": 1311,
+          "neighborCountReporting": 5,
+          "ownHistory": {
+            "vintage": "ACS 2019-2023 5-year",
+            "publishedThen": 1181.0,
+            "householdsThen": 262.0,
+            "stateLogChangeToNow": 0.0362,
+            "rolledForward": 1225,
+            "lagVintages": 1,
+            "y": "2023"
+          },
+          "recommended": 1202,
+          "low": 1081,
+          "high": 1337,
+          "method": "inverse-variance blend (log scale, bias-corrected) of the county's own latest published median rolled forward by its state's change and the smaller half of adjacent counties' medians",
+          "blendWeights": {
+            "history": 0.801,
+            "neighbors": 0.199
+          },
+          "blendSigmaLog": 0.083
+        },
+        "value": {
+          "published2024": 331900.0,
+          "recommended": 331900.0,
+          "method": "published ACS 2020-2024 median"
+        }
+      }
+    },
+    "15005": {
+      "name": "Kalawao County, Hawaii",
+      "rentValue": [
+        1271,
+        357566
+      ],
+      "rentMethod": "published ACS 2020-2024 median",
+      "valueMethod": "Kalawao has no owner-occupied homes in any ACS vintage; pooled median of East and West Molokai CCDs (same island), ACS 2020-2024",
+      "rentRange": [
+        null,
+        null
+      ],
+      "valueRange": [
+        286053,
+        446957
+      ],
+      "gameCurrent": [
+        1271,
+        null
+      ],
+      "detail": {
+        "rent": {
+          "published2024": 1271.0,
+          "recommended": 1271.0,
+          "method": "published ACS 2020-2024 median"
+        },
+        "value": {
+          "published2024": null,
+          "own2024DistributionMedian": null,
+          "own2024DistributionHouseholds": 0,
+          "stateWeightedMeanStopgap": 830284,
+          "sameIslandPooled": {
+            "median": 357566,
+            "owners": 1722.0,
+            "areas": [
+              "East Molokai CCD, Maui County, Hawaii",
+              "West Molokai CCD, Maui County, Hawaii"
+            ]
+          },
+          "recommended": 357566,
+          "method": "Kalawao has no owner-occupied homes in any ACS vintage; pooled median of East and West Molokai CCDs (same island), ACS 2020-2024",
+          "low": 286053,
+          "high": 446957
+        }
+      }
+    },
+    "48033": {
+      "name": "Borden County, Texas",
+      "rentValue": [
+        723,
+        108900
+      ],
+      "rentMethod": "inverse-variance blend (log scale, bias-corrected) of the county's own latest published median rolled forward by its state's change and the smaller half of adjacent counties' medians",
+      "valueMethod": "published ACS 2020-2024 median",
+      "rentRange": [
+        625,
+        837
+      ],
+      "valueRange": [
+        null,
+        null
+      ],
+      "gameCurrent": [
+        null,
+        108900
+      ],
+      "detail": {
+        "rent": {
+          "published2024": null,
+          "own2024DistributionMedian": 342,
+          "own2024DistributionHouseholds": 13.0,
+          "stateWeightedMeanStopgap": 1408,
+          "neighborMedianSmallestHalf": 882,
+          "neighborsUsed": [
+            {
+              "geoid": "48169",
+              "name": "Garza County, Texas",
+              "median": 838.0,
+              "households": 431.0
+            },
+            {
+              "geoid": "48317",
+              "name": "Martin County, Texas",
+              "median": 971.0,
+              "households": 433.0
+            },
+            {
+              "geoid": "48305",
+              "name": "Lynn County, Texas",
+              "median": 927.0,
+              "households": 483.0
+            },
+            {
+              "geoid": "48335",
+              "name": "Mitchell County, Texas",
+              "median": 524.0,
+              "households": 588.0
+            }
+          ],
+          "neighborMedianAll": 927,
+          "neighborCountReporting": 7,
+          "ownHistory": {
+            "vintage": "ACS 2016-2020 5-year",
+            "publishedThen": 525.0,
+            "householdsThen": 68.0,
+            "stateLogChangeToNow": 0.252,
+            "rolledForward": 675,
+            "lagVintages": 4,
+            "y": "2020"
+          },
+          "recommended": 723,
+          "low": 625,
+          "high": 837,
+          "method": "inverse-variance blend (log scale, bias-corrected) of the county's own latest published median rolled forward by its state's change and the smaller half of adjacent counties' medians",
+          "blendWeights": {
+            "history": 0.623,
+            "neighbors": 0.377
+          },
+          "blendSigmaLog": 0.114
+        },
+        "value": {
+          "published2024": 108900.0,
+          "recommended": 108900.0,
+          "method": "published ACS 2020-2024 median"
+        }
+      }
+    },
+    "48105": {
+      "name": "Crockett County, Texas",
+      "rentValue": [
+        558,
+        150702
+      ],
+      "rentMethod": "published ACS 2020-2024 median",
+      "valueMethod": "inverse-variance blend (log scale, bias-corrected) of the county's own latest published median rolled forward by its state's change and the smaller half of adjacent counties' medians",
+      "rentRange": [
+        null,
+        null
+      ],
+      "valueRange": [
+        133518,
+        170099
+      ],
+      "gameCurrent": [
+        558,
+        null
+      ],
+      "detail": {
+        "rent": {
+          "published2024": 558.0,
+          "recommended": 558.0,
+          "method": "published ACS 2020-2024 median"
+        },
+        "value": {
+          "published2024": null,
+          "own2024DistributionMedian": 69419,
+          "own2024DistributionHouseholds": 903.0,
+          "stateWeightedMeanStopgap": 291649,
+          "neighborMedianSmallestHalf": 155700,
+          "neighborsUsed": [
+            {
+              "geoid": "48443",
+              "name": "Terrell County, Texas",
+              "median": 137500.0,
+              "households": 403.0
+            },
+            {
+              "geoid": "48235",
+              "name": "Irion County, Texas",
+              "median": 204400.0,
+              "households": 487.0
+            },
+            {
+              "geoid": "48383",
+              "name": "Reagan County, Texas",
+              "median": 171500.0,
+              "households": 723.0
+            },
+            {
+              "geoid": "48413",
+              "name": "Schleicher County, Texas",
+              "median": 122700.0,
+              "households": 813.0
+            },
+            {
+              "geoid": "48435",
+              "name": "Sutton County, Texas",
+              "median": 155700.0,
+              "households": 968.0
+            }
+          ],
+          "neighborMedianAll": 155700,
+          "neighborCountReporting": 9,
+          "ownHistory": {
+            "vintage": "ACS 2019-2023 5-year",
+            "publishedThen": 140000.0,
+            "householdsThen": 879.0,
+            "stateLogChangeToNow": 0.0816,
+            "rolledForward": 151904,
+            "lagVintages": 1,
+            "y": "2023"
+          },
+          "recommended": 150702,
+          "low": 133518,
+          "high": 170099,
+          "method": "inverse-variance blend (log scale, bias-corrected) of the county's own latest published median rolled forward by its state's change and the smaller half of adjacent counties' medians",
+          "blendWeights": {
+            "history": 0.911,
+            "neighbors": 0.089
+          },
+          "blendSigmaLog": 0.094
+        }
+      }
+    },
+    "48137": {
+      "name": "Edwards County, Texas",
+      "rentValue": [
+        713,
+        87589
+      ],
+      "rentMethod": "published ACS 2020-2024 median",
+      "valueMethod": "inverse-variance blend (log scale, bias-corrected) of the county's own latest published median rolled forward by its state's change and the smaller half of adjacent counties' medians",
+      "rentRange": [
+        null,
+        null
+      ],
+      "valueRange": [
+        77601,
+        98862
+      ],
+      "gameCurrent": [
+        713,
+        null
+      ],
+      "detail": {
+        "rent": {
+          "published2024": 713.0,
+          "recommended": 713.0,
+          "method": "published ACS 2020-2024 median"
+        },
+        "value": {
+          "published2024": null,
+          "own2024DistributionMedian": 88548,
+          "own2024DistributionHouseholds": 355.0,
+          "stateWeightedMeanStopgap": 291649,
+          "neighborMedianSmallestHalf": 134100,
+          "neighborsUsed": [
+            {
+              "geoid": "48385",
+              "name": "Real County, Texas",
+              "median": 112500.0,
+              "households": 881.0
+            },
+            {
+              "geoid": "48271",
+              "name": "Kinney County, Texas",
+              "median": 82000.0,
+              "households": 967.0
+            },
+            {
+              "geoid": "48435",
+              "name": "Sutton County, Texas",
+              "median": 155700.0,
+              "households": 968.0
+            },
+            {
+              "geoid": "48267",
+              "name": "Kimble County, Texas",
+              "median": 201300.0,
+              "households": 1611.0
+            }
+          ],
+          "neighborMedianAll": 155700,
+          "neighborCountReporting": 7,
+          "ownHistory": {
+            "vintage": "ACS 2019-2023 5-year",
+            "publishedThen": 78300.0,
+            "householdsThen": 448.0,
+            "stateLogChangeToNow": 0.0816,
+            "rolledForward": 84958,
+            "lagVintages": 1,
+            "y": "2023"
+          },
+          "recommended": 87589,
+          "low": 77601,
+          "high": 98862,
+          "method": "inverse-variance blend (log scale, bias-corrected) of the county's own latest published median rolled forward by its state's change and the smaller half of adjacent counties' medians",
+          "blendWeights": {
+            "history": 0.911,
+            "neighbors": 0.089
+          },
+          "blendSigmaLog": 0.094
+        }
+      }
+    },
+    "48261": {
+      "name": "Kenedy County, Texas",
+      "rentValue": [
+        709,
+        45555
+      ],
+      "rentMethod": "inverse-variance blend (log scale, bias-corrected) of the county's own latest published median rolled forward by its state's change and the smaller half of adjacent counties' medians",
+      "valueMethod": "inverse-variance blend (log scale, bias-corrected) of the county's own latest published median rolled forward by its state's change and the smaller half of adjacent counties' medians",
+      "rentRange": [
+        607,
+        827
+      ],
+      "valueRange": [
+        36461,
+        56917
+      ],
+      "gameCurrent": [
+        null,
+        null
+      ],
+      "detail": {
+        "rent": {
+          "published2024": null,
+          "own2024DistributionMedian": 1750,
+          "own2024DistributionHouseholds": 7.0,
+          "stateWeightedMeanStopgap": 1408,
+          "neighborMedianSmallestHalf": 764,
+          "neighborsUsed": [
+            {
+              "geoid": "48047",
+              "name": "Brooks County, Texas",
+              "median": 719.0,
+              "households": 1405.0
+            },
+            {
+              "geoid": "48489",
+              "name": "Willacy County, Texas",
+              "median": 809.0,
+              "households": 1437.0
+            }
+          ],
+          "neighborMedianAll": 883,
+          "neighborCountReporting": 4,
+          "ownHistory": {
+            "vintage": "ACS 2015-2019 5-year",
+            "publishedThen": 533.0,
+            "householdsThen": 151.0,
+            "stateLogChangeToNow": 0.2835,
+            "rolledForward": 708,
+            "lagVintages": 5,
+            "y": "2019"
+          },
+          "recommended": 709,
+          "low": 607,
+          "high": 827,
+          "method": "inverse-variance blend (log scale, bias-corrected) of the county's own latest published median rolled forward by its state's change and the smaller half of adjacent counties' medians",
+          "blendWeights": {
+            "history": 0.581,
+            "neighbors": 0.419
+          },
+          "blendSigmaLog": 0.12
+        },
+        "value": {
+          "published2024": null,
+          "own2024DistributionMedian": 67857,
+          "own2024DistributionHouseholds": 29.0,
+          "stateWeightedMeanStopgap": 291649,
+          "neighborMedianSmallestHalf": 77300,
+          "neighborsUsed": [
+            {
+              "geoid": "48047",
+              "name": "Brooks County, Texas",
+              "median": 81000.0,
+              "households": 1572.0
+            },
+            {
+              "geoid": "48489",
+              "name": "Willacy County, Texas",
+              "median": 73600.0,
+              "households": 4254.0
+            }
+          ],
+          "neighborMedianAll": 110950,
+          "neighborCountReporting": 4,
+          "ownHistory": {
+            "vintage": "ACS 2015-2019 5-year",
+            "publishedThen": 24400.0,
+            "householdsThen": 46.0,
+            "stateLogChangeToNow": 0.4654,
+            "rolledForward": 38862,
+            "lagVintages": 5,
+            "y": "2019"
+          },
+          "recommended": 45555,
+          "low": 36461,
+          "high": 56917,
+          "method": "inverse-variance blend (log scale, bias-corrected) of the county's own latest published median rolled forward by its state's change and the smaller half of adjacent counties' medians",
+          "blendWeights": {
+            "history": 0.699,
+            "neighbors": 0.301
+          },
+          "blendSigmaLog": 0.174
+        }
+      }
+    },
+    "48269": {
+      "name": "King County, Texas",
+      "rentValue": [
+        778,
+        52100
+      ],
+      "rentMethod": "inverse-variance blend (log scale, bias-corrected) of the county's own latest published median rolled forward by its state's change and the smaller half of adjacent counties' medians",
+      "valueMethod": "published ACS 2020-2024 median",
+      "rentRange": [
+        672,
+        900
+      ],
+      "valueRange": [
+        null,
+        null
+      ],
+      "gameCurrent": [
+        null,
+        52100
+      ],
+      "detail": {
+        "rent": {
+          "published2024": null,
+          "own2024DistributionMedian": 675,
+          "own2024DistributionHouseholds": 10.0,
+          "stateWeightedMeanStopgap": 1408,
+          "neighborMedianSmallestHalf": 592,
+          "neighborsUsed": [
+            {
+              "geoid": "48263",
+              "name": "Kent County, Texas",
+              "median": 675.0,
+              "households": 64.0
+            },
+            {
+              "geoid": "48433",
+              "name": "Stonewall County, Texas",
+              "median": 613.0,
+              "households": 79.0
+            },
+            {
+              "geoid": "48101",
+              "name": "Cottle County, Texas",
+              "median": 264.0,
+              "households": 97.0
+            },
+            {
+              "geoid": "48155",
+              "name": "Foard County, Texas",
+              "median": 572.0,
+              "households": 105.0
+            }
+          ],
+          "neighborMedianAll": 644,
+          "neighborCountReporting": 8,
+          "ownHistory": {
+            "vintage": "ACS 2016-2020 5-year",
+            "publishedThen": 750.0,
+            "householdsThen": 55.0,
+            "stateLogChangeToNow": 0.252,
+            "rolledForward": 965,
+            "lagVintages": 4,
+            "y": "2020"
+          },
+          "recommended": 778,
+          "low": 672,
+          "high": 900,
+          "method": "inverse-variance blend (log scale, bias-corrected) of the county's own latest published median rolled forward by its state's change and the smaller half of adjacent counties' medians",
+          "blendWeights": {
+            "history": 0.623,
+            "neighbors": 0.377
+          },
+          "blendSigmaLog": 0.114
+        },
+        "value": {
+          "published2024": 52100.0,
+          "recommended": 52100.0,
+          "method": "published ACS 2020-2024 median"
+        }
+      }
+    },
+    "48301": {
+      "name": "Loving County, Texas",
+      "rentValue": [
+        1032,
+        145921
+      ],
+      "rentMethod": "inverse-variance blend (log scale, bias-corrected) of the smaller half of adjacent counties' medians",
+      "valueMethod": "inverse-variance blend (log scale, bias-corrected) of the smaller half of adjacent counties' medians",
+      "rentRange": [
+        813,
+        1310
+      ],
+      "valueRange": [
+        97252,
+        218945
+      ],
+      "gameCurrent": [
+        null,
+        null
+      ],
+      "detail": {
+        "rent": {
+          "published2024": null,
+          "own2024DistributionMedian": 238,
+          "own2024DistributionHouseholds": 3.0,
+          "stateWeightedMeanStopgap": 1408,
+          "neighborMedianSmallestHalf": 1037,
+          "neighborsUsed": [
+            {
+              "geoid": "48495",
+              "name": "Winkler County, Texas",
+              "median": 1037.0,
+              "households": 387.0
+            },
+            {
+              "geoid": "48475",
+              "name": "Ward County, Texas",
+              "median": 1118.0,
+              "households": 943.0
+            },
+            {
+              "geoid": "48389",
+              "name": "Reeves County, Texas",
+              "median": 981.0,
+              "households": 1111.0
+            }
+          ],
+          "neighborMedianAll": 1101,
+          "neighborCountReporting": 5,
+          "recommended": 1032,
+          "low": 813,
+          "high": 1310,
+          "method": "inverse-variance blend (log scale, bias-corrected) of the smaller half of adjacent counties' medians",
+          "blendWeights": {
+            "neighbors": 1.0
+          },
+          "blendSigmaLog": 0.186
+        },
+        "value": {
+          "published2024": null,
+          "own2024DistributionMedian": 37500,
+          "own2024DistributionHouseholds": 3.0,
+          "stateWeightedMeanStopgap": 291649,
+          "neighborMedianSmallestHalf": 148200,
+          "neighborsUsed": [
+            {
+              "geoid": "48495",
+              "name": "Winkler County, Texas",
+              "median": 148200.0,
+              "households": 2375.0
+            },
+            {
+              "geoid": "48389",
+              "name": "Reeves County, Texas",
+              "median": 118000.0,
+              "households": 3113.0
+            },
+            {
+              "geoid": "48475",
+              "name": "Ward County, Texas",
+              "median": 150700.0,
+              "households": 3445.0
+            }
+          ],
+          "neighborMedianAll": 150700,
+          "neighborCountReporting": 5,
+          "recommended": 145921,
+          "low": 97252,
+          "high": 218945,
+          "method": "inverse-variance blend (log scale, bias-corrected) of the smaller half of adjacent counties' medians",
+          "blendWeights": {
+            "neighbors": 1.0
+          },
+          "blendSigmaLog": 0.317
+        }
+      }
+    },
+    "48443": {
+      "name": "Terrell County, Texas",
+      "rentValue": [
+        819,
+        137500
+      ],
+      "rentMethod": "inverse-variance blend (log scale, bias-corrected) of the county's own latest published median rolled forward by its state's change and the smaller half of adjacent counties' medians",
+      "valueMethod": "published ACS 2020-2024 median",
+      "rentRange": [
+        701,
+        957
+      ],
+      "valueRange": [
+        null,
+        null
+      ],
+      "gameCurrent": [
+        null,
+        137500
+      ],
+      "detail": {
+        "rent": {
+          "published2024": null,
+          "own2024DistributionMedian": 750,
+          "own2024DistributionHouseholds": 8.0,
+          "stateWeightedMeanStopgap": 1408,
+          "neighborMedianSmallestHalf": 738,
+          "neighborsUsed": [
+            {
+              "geoid": "48105",
+              "name": "Crockett County, Texas",
+              "median": 558.0,
+              "households": 322.0
+            },
+            {
+              "geoid": "48371",
+              "name": "Pecos County, Texas",
+              "median": 918.0,
+              "households": 1469.0
+            }
+          ],
+          "neighborMedianAll": 878,
+          "neighborCountReporting": 4,
+          "ownHistory": {
+            "vintage": "ACS 2014-2018 5-year",
+            "publishedThen": 685.0,
+            "householdsThen": 65.0,
+            "stateLogChangeToNow": 0.3238,
+            "rolledForward": 947,
+            "lagVintages": 6,
+            "y": "2018"
+          },
+          "recommended": 819,
+          "low": 701,
+          "high": 957,
+          "method": "inverse-variance blend (log scale, bias-corrected) of the county's own latest published median rolled forward by its state's change and the smaller half of adjacent counties' medians",
+          "blendWeights": {
+            "history": 0.575,
+            "neighbors": 0.425
+          },
+          "blendSigmaLog": 0.121
+        },
+        "value": {
+          "published2024": 137500.0,
+          "recommended": 137500.0,
+          "method": "published ACS 2020-2024 median"
+        }
+      }
+    }
+  },
+  "validation": {
+    "smallCounties(<1500 owner or renter households)": {
+      "neighborSmallestHalfMedian": {
+        "value": {
+          "n": 327,
+          "mean": 0.015497744616927538,
+          "sd": 0.3166020174348977
+        },
+        "rent": {
+          "n": 1104,
+          "mean": 0.004941903448835866,
+          "sd": 0.1860542854274526
+        }
+      },
+      "ownHistoryRolledForwardByStateChange": {
+        "lag1_2023vintage": {
+          "value": {
+            "n": 334,
+            "mean": 0.009615397681369408,
+            "sd": 0.09897751437364216
+          },
+          "rent": {
+            "n": 1114,
+            "mean": 0.016079623899264386,
+            "sd": 0.09272390613219844
+          }
+        },
+        "lag4_2020vintage": {
+          "value": {
+            "n": 335,
+            "mean": 0.05035053534975651,
+            "sd": 0.1898346017752832
+          },
+          "rent": {
+            "n": 1113,
+            "mean": 0.047760086058581015,
+            "sd": 0.14463127059256295
+          }
+        },
+        "lag6_2018vintage": {
+          "value": {
+            "n": 336,
+            "mean": 0.07505145792697512,
+            "sd": 0.20333781900838385
+          },
+          "rent": {
+            "n": 1116,
+            "mean": 0.06496295383106236,
+            "sd": 0.1600441999026602
+          }
+        }
+      },
+      "oldStopgap_stateHouseholdWeightedMean": {
+        "value": {
+          "medianAbsLogError": 0.704,
+          "bias": 0.73
+        },
+        "rent": {
+          "medianAbsLogError": 0.398,
+          "bias": 0.405
+        }
+      }
+    },
+    "distributionInterpolationCheck": "Interpolating the ACS B25075/B25063 bins reproduces the published county medians to within 0.1 percent for 3,216 (value) and 3,142 (rent) counties, so the withheld medians were suppressed, not missing from the tables."
+  },
+  "islandAreas2020": {
+    "GU": {
+      "state": {
+        "NAME": "Guam",
+        "HBG62_001N": "277750",
+        "HBG62_001NA": null,
+        "HBG53_001N": "1057",
+        "HBG53_001NA": null,
+        "H4_001N": "43381",
+        "H4_002N": "11013",
+        "H4_003N": "11532",
+        "H4_004N": "20836",
+        "state": "66"
+      },
+      "counties": [
+        {
+          "NAME": "Guam, Guam",
+          "HBG62_001N": "277750",
+          "HBG62_001NA": null,
+          "HBG53_001N": "1057",
+          "HBG53_001NA": null,
+          "H4_001N": "43381",
+          "H4_002N": "11013",
+          "H4_003N": "11532",
+          "H4_004N": "20836",
+          "state": "66",
+          "county": "010"
+        }
+      ]
+    },
+    "VI": {
+      "state": {
+        "NAME": "United States Virgin Islands",
+        "HBG62_001N": "290558",
+        "HBG62_001NA": null,
+        "HBG53_001N": "926",
+        "HBG53_001NA": null,
+        "H4_001N": "39642",
+        "H4_002N": "5938",
+        "H4_003N": "13030",
+        "H4_004N": "20674",
+        "state": "78"
+      },
+      "counties": [
+        {
+          "NAME": "St. Croix Island, United States Virgin Islands",
+          "HBG62_001N": "247090",
+          "HBG62_001NA": null,
+          "HBG53_001N": "822",
+          "HBG53_001NA": null,
+          "H4_001N": "18083",
+          "H4_002N": "2749",
+          "H4_003N": "7323",
+          "H4_004N": "8011",
+          "state": "78",
+          "county": "010"
+        },
+        {
+          "NAME": "St. John Island, United States Virgin Islands",
+          "HBG62_001N": "591160",
+          "HBG62_001NA": null,
+          "HBG53_001N": "1283",
+          "HBG53_001NA": null,
+          "H4_001N": "1854",
+          "H4_002N": "239",
+          "H4_003N": "663",
+          "H4_004N": "952",
+          "state": "78",
+          "county": "020"
+        },
+        {
+          "NAME": "St. Thomas Island, United States Virgin Islands",
+          "HBG62_001N": "356977",
+          "HBG62_001NA": null,
+          "HBG53_001N": "960",
+          "HBG53_001NA": null,
+          "H4_001N": "19705",
+          "H4_002N": "2950",
+          "H4_003N": "5044",
+          "H4_004N": "11711",
+          "state": "78",
+          "county": "030"
+        }
+      ]
+    },
+    "AS": {
+      "state": {
+        "NAME": "American Samoa",
+        "HBG62_001N": "84357",
+        "HBG62_001NA": null,
+        "HBG53_001N": "601",
+        "HBG53_001NA": null,
+        "H4_001N": "9834",
+        "H4_002N": "404",
+        "H4_003N": "6589",
+        "H4_004N": "2841",
+        "state": "60"
+      },
+      "counties": [
+        {
+          "NAME": "Swains Island, American Samoa",
+          "HBG62_001N": "-666666666",
+          "HBG62_001NA": "-",
+          "HBG53_001N": "-666666666",
+          "HBG53_001NA": "-",
+          "H4_001N": "0",
+          "H4_002N": "0",
+          "H4_003N": "0",
+          "H4_004N": "0",
+          "state": "60",
+          "county": "040"
+        },
+        {
+          "NAME": "Eastern District, American Samoa",
+          "HBG62_001N": "66344",
+          "HBG62_001NA": null,
+          "HBG53_001N": "516",
+          "HBG53_001NA": null,
+          "H4_001N": "3348",
+          "H4_002N": "151",
+          "H4_003N": "2375",
+          "H4_004N": "822",
+          "state": "60",
+          "county": "010"
+        },
+        {
+          "NAME": "Manu'a District, American Samoa",
+          "HBG62_001N": "85833",
+          "HBG62_001NA": null,
+          "HBG53_001N": "675",
+          "HBG53_001NA": null,
+          "H4_001N": "186",
+          "H4_002N": "3",
+          "H4_003N": "160",
+          "H4_004N": "23",
+          "state": "60",
+          "county": "020"
+        },
+        {
+          "NAME": "Rose Island, American Samoa",
+          "HBG62_001N": "-666666666",
+          "HBG62_001NA": "-",
+          "HBG53_001N": "-666666666",
+          "HBG53_001NA": "-",
+          "H4_001N": "0",
+          "H4_002N": "0",
+          "H4_003N": "0",
+          "H4_004N": "0",
+          "state": "60",
+          "county": "030"
+        },
+        {
+          "NAME": "Western District, American Samoa",
+          "HBG62_001N": "100674",
+          "HBG62_001NA": null,
+          "HBG53_001N": "624",
+          "HBG53_001NA": null,
+          "H4_001N": "6300",
+          "H4_002N": "250",
+          "H4_003N": "4054",
+          "H4_004N": "1996",
+          "state": "60",
+          "county": "050"
+        }
+      ]
+    },
+    "MP": {
+      "state": {
+        "NAME": "Commonwealth of the Northern Mariana Islands",
+        "HBG62_001N": "184191",
+        "HBG62_001NA": null,
+        "HBG53_001N": "502",
+        "HBG53_001NA": null,
+        "H4_001N": "14282",
+        "H4_002N": "812",
+        "H4_003N": "3325",
+        "H4_004N": "10145",
+        "state": "69"
+      },
+      "counties": [
+        {
+          "NAME": "Northern Islands Municipality, Commonwealth of the Northern Mariana Islands",
+          "HBG62_001N": "65000",
+          "HBG62_001NA": null,
+          "HBG53_001N": "-666666666",
+          "HBG53_001NA": "-",
+          "H4_001N": "7",
+          "H4_002N": "0",
+          "H4_003N": "1",
+          "H4_004N": "6",
+          "state": "69",
+          "county": "085"
+        },
+        {
+          "NAME": "Rota Municipality, Commonwealth of the Northern Mariana Islands",
+          "HBG62_001N": "101705",
+          "HBG62_001NA": null,
+          "HBG53_001N": "326",
+          "HBG53_001NA": null,
+          "H4_001N": "625",
+          "H4_002N": "34",
+          "H4_003N": "246",
+          "H4_004N": "345",
+          "state": "69",
+          "county": "100"
+        },
+        {
+          "NAME": "Saipan Municipality, Commonwealth of the Northern Mariana Islands",
+          "HBG62_001N": "201479",
+          "HBG62_001NA": null,
+          "HBG53_001N": "512",
+          "HBG53_001NA": null,
+          "H4_001N": "13041",
+          "H4_002N": "721",
+          "H4_003N": "2913",
+          "H4_004N": "9407",
+          "state": "69",
+          "county": "110"
+        },
+        {
+          "NAME": "Tinian Municipality, Commonwealth of the Northern Mariana Islands",
+          "HBG62_001N": "197222",
+          "HBG62_001NA": null,
+          "HBG53_001N": "394",
+          "HBG53_001NA": null,
+          "H4_001N": "609",
+          "H4_002N": "57",
+          "H4_003N": "165",
+          "H4_004N": "387",
+          "state": "69",
+          "county": "120"
+        }
+      ]
+    }
+  },
+  "adjacencySource": "https://www2.census.gov/geo/docs/reference/county_adjacency.txt",
+  "culbersonNote": "Culberson County TX, named in the stopgap, publishes both medians in ACS 2020-2024; the actual withheld ones are listed here"
+}
