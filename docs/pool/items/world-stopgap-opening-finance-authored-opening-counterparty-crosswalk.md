@@ -4,10 +4,10 @@ title: "Stopgaps in opening-finance (authored-opening-counterparty-crosswalk): 1
 area: world
 kind: stopgap
 priority: 3
-status: open
+status: blocked
 claimed-by:
 pr:
-blocked-on:
+blocked-on: research data: the row's replacement needs recorded, empirical or sourced data (Recorded product/provider and standing-contract records or a causal consumption/ordering producer with actor knowledge and supplied goods/services. Ma...)
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/data/opening-finance.json, kind authored-opening-counterparty-crosswalk"
 ---
