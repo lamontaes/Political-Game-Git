@@ -105,6 +105,8 @@ interface BaseDefinition {
   readonly places: Readonly<Record<string, number>>;
 }
 
+/** The web module's id; here so readers of the web need not load the module itself. */
+export const OUTCOME_WEB_MODULE_ID = "core2-outcome-web-v1";
 export const WEB_LINKS = (web.links as unknown as readonly WebLink[]).map(
   (link) => (link.readFrom ? { ...link, from: link.readFrom } : link),
 );
