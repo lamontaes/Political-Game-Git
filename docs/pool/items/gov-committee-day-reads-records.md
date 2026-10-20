@@ -23,3 +23,5 @@ claimed-at:
 **Files.** src/core2/modules/legislature.ts, src/core2/data/stopgaps.json
 
 **Notes.** From the Oct 19 rulings on cto/rulings-2026-10-19. office-session-days-committee-days-the-interim-the is the calendar side.
+
+Sent back 2026-10-20 from PR #5168 (branch claude/committee-day-records-s2): a 'Done Oct 19' date note and owner attribution in the stopgap resolution; finish on that branch, merge main into it first.
