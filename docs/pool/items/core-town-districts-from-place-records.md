@@ -5,9 +5,9 @@ area: core
 kind: wiring
 priority: 2
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/town-districts-records
-pr:
+pr: #5144
 after:
 blocked-on:
 source: "CTO ruling Oct 15 (town council seats); audit Oct 19, Part A 'What it fakes' 4"
