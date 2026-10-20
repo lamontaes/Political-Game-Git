@@ -1509,11 +1509,11 @@
     "kind": "missing-mechanic",
     "file": "src/core2/data/laws/reach-group-a.json",
     "line": 340,
-    "whatItFakes": "Eviction hearings now read the counsel law and pay the funding treasury's outside provider before offering full or counted households a repayment plan; the provider is not a named legal-services organization.",
-    "why": "Counsel payment and settlement records exist, but a delivered notice, informed tenant reaction and director line are not yet connected.",
+    "whatItFakes": "Eviction hearings read the counsel law and pay the funding treasury's outside provider before offering full or counted households a repayment plan; a full household that settles is sent a settlement notice and holds a view of the law that cites it. The provider is not a named legal-services organization, and a counted household is sent no notice.",
+    "why": "Counsel payment, settlement and the notice exist for full households; a counted household cannot be told until it is filled in as a full person.",
     "addedBy": "OPUS-GOV (sub-agent A)",
     "addedAt": "2026-10-12",
-    "replacement": "Use a legal-services provider record and deliver the settlement notice, then prove the paid case, informed tenant stance and director line in a played world.",
+    "replacement": "Use a legal-services provider record, and tell a counted household in the same share once it is filled in; the director line follows from the learned-effect event.",
     "status": "open"
   },
   {
