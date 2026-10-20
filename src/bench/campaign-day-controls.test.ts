@@ -256,8 +256,8 @@ function play(
     `cause rows written by the event: ${where}`,
   ).toBeGreaterThan(0);
 
-  console.log(
-    `campaign day: ${where}; filing ${filing.id}; interview ${interviewId}; event causes ${written.slice(0, 3).join(", ")}`,
+  process.stdout.write(
+    `campaign day: ${where}; filing ${filing.id}; interview ${interviewId}; event causes ${written.slice(0, 3).join(", ")}\n`,
   );
 
   // Rest takes the day and writes no act.
