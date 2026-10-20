@@ -93,7 +93,7 @@ export function birthCircumstances(
   const p = (key: string) => renewalParameter(api, key);
   const mother = api.state.people.get(couple.motherId)!;
   const partner = api.state.people.get(couple.otherParentId)!;
-  const age = ageOnDate(makeIsoDate(mother.birthDate), makeIsoDate(asOf));
+  const age = ageOnDate(mother.birthDate, asOf);
   const births = couple.childIds
     .flatMap((id) => {
       const person = api.state.people.get(id);

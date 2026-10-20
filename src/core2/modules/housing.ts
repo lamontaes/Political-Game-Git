@@ -1040,10 +1040,7 @@ function buyHomes(api: CoreAPI): void {
         3,
       age:
         p("housingBuyAgeWeight") *
-        buyingAgeShape(
-          api,
-          ageOnDate(makeIsoDate(head!.birthDate), makeIsoDate(c.date)),
-        ),
+        buyingAgeShape(api, ageOnDate(head!.birthDate, c.date)),
       tenure:
         p("housingBuyTenureWeight") *
         Math.min(

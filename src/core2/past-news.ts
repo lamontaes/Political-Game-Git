@@ -45,7 +45,7 @@ export function heardOn(
   date: string,
 ): string | null {
   if (
-    ageOnDate(makeIsoDate(person.birthDate), makeIsoDate(date)) <
+    ageOnDate(person.birthDate, date) <
     pastParameter(api, "pastPublicAwarenessAge")
   )
     return null;

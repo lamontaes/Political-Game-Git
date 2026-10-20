@@ -718,7 +718,7 @@ function reviewClosures(api: CoreAPI): void {
     const losses = row.lossMonths ?? 0;
     // A firm based elsewhere weighs a branch's losses; it doesn't age out.
     const age = found
-      ? ageOnDate(makeIsoDate(found.person.birthDate), makeIsoDate(c.date))
+      ? ageOnDate(found.person.birthDate, c.date)
       : p("jobsEarliestRetirementAge");
     const reasons = {
       baseline: p("businessCloseBaseline"),

@@ -945,10 +945,7 @@ export function workWeekStart(date: string, api: CoreAPI): string {
 export function activityAgeId(api: CoreAPI, personId: string): string {
   const actor = api.state.people.get(personId);
   if (!actor) throw new Error("Time actor is absent.");
-  const age = ageOnDate(
-    makeIsoDate(actor.birthDate),
-    makeIsoDate(api.state.date),
-  );
+  const age = ageOnDate(actor.birthDate, api.state.date);
   return (
     workData(api).activityAgeRows.find(
       (row) =>

@@ -527,7 +527,8 @@ export function yearOf(date: IsoDate): number {
   return Number(date.slice(0, 4));
 }
 
-export function ageOnDate(birthDate: IsoDate, comparisonDate: IsoDate): number {
+/** Whole years between two dates written YYYY-MM-DD; both are validated here, so callers pass the text as it is held. */
+export function ageOnDate(birthDate: string, comparisonDate: string): number {
   const validatedBirthDate = makeIsoDate(birthDate);
   const validatedComparisonDate = makeIsoDate(comparisonDate);
   let age = yearOf(validatedComparisonDate) - yearOf(validatedBirthDate);

@@ -210,7 +210,7 @@ function traceSelection(
   }
   const candidates = input.people.flatMap((person) => {
     if (
-      ageOnDate(makeIsoDate(person.birthDate), makeIsoDate(input.startedAt)) <
+      ageOnDate(person.birthDate, input.startedAt) <
         P("benchmarkAdultMinimumAge") ||
       !person.countyId
     )
