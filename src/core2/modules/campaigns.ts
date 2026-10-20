@@ -20,7 +20,12 @@ import { residentsRuntime } from "./residents";
 import { fillInPerson } from "../state";
 import { keepsWhy } from "../why-kept";
 import { closenessBetween } from "../closeness";
-import { decisionLean, leanedScore, leanedYes } from "../trait-decisions";
+import {
+  decisionLean,
+  leanedScore,
+  leanedYes,
+  termOfLean,
+} from "../trait-decisions";
 import limits from "../../../data/research/campaign-reality/campaign-contribution-limits.json" with { type: "json" };
 import unitPrices from "../../../data/research/campaign-reality/campaign-unit-prices.json" with { type: "json" };
 import finance from "../../../data/research/campaigns/campaign-finance-2026.json" with { type: "json" };
@@ -1481,20 +1486,17 @@ export function whoComes(
     const weeklyWork = [...(core.work.commitmentsByPerson.get(id) ?? [])]
       .map((c) => core.work.commitments.get(c)?.expectedWeeklyMinutes ?? 0)
       .reduce((a, b) => a + b, 0);
-    return (
+    return leanedYes(
+      api.state,
+      person,
+      "parties.attend",
+      "attend",
+      "stay-home",
       why.warmth +
         why.agreement +
         campaignParameter("donorPartyWeight") * why.party +
-        campaignParameter("donorRelationshipWeight") * why.relationship +
-        api.parameter("traitDecisionWeight") *
-          decisionLean(
-            api.state,
-            person,
-            "parties.attend",
-            "attend",
-            "stay-home",
-          ) >
-      weeklyWork / campaignParameter("turnoutWorkWeekMinutes")
+        campaignParameter("donorRelationshipWeight") * why.relationship -
+        weeklyWork / campaignParameter("turnoutWorkWeekMinutes"),
     );
   });
 }
@@ -1914,16 +1916,14 @@ export function askForEndorsement(
   if (!endorser?.alive) return false;
   const lean = personLean(api.state.people, endorser, townRow(api).lean);
   const raw = agreementWith(api, endorserId, lean, campaign.platform);
-  const mine =
-    raw +
-    api.parameter("traitDecisionWeight") *
-      decisionLean(
-        api.state,
-        endorser,
-        "campaigns.endorse",
-        "endorse",
-        "decline",
-      );
+  const mine = leanedScore(
+    api.state,
+    endorser,
+    "campaigns.endorse",
+    "endorse",
+    "decline",
+    raw,
+  );
   const rivals = (
     table(api, "campaigns").query("byContest", [
       campaign.contestId,
@@ -2321,7 +2321,10 @@ export function campaignTurn(
       Math.max(
         0,
         1 +
-          api.parameter("traitDecisionWeight") *
+          termOfLean(
+            api.state,
+            candidate,
+            "campaigns.rival-hours",
             decisionLean(
               api.state,
               candidate,
@@ -2329,6 +2332,8 @@ export function campaignTurn(
               "campaign",
               "rest",
             ),
+            1,
+          ),
       );
     doors = knockDoors(api, {
       filingId,
