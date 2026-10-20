@@ -1541,7 +1541,10 @@
     "addedBy": "OPUS-GOV (sub-agent A)",
     "addedAt": "2026-10-12",
     "replacement": "GOV: a justice engine with arrests, charges, pretrial detention and release decisions from the law in force.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "The public-safety engine arrests people from the town's crime measures and decides each defendant's wait for trial from the bail law and their cash (src/core2/public-safety.ts); jail days are paid by the county treasury.",
+    "resolvedAt": "2026-10-20",
+    "resolvedBy": "law-wiring-justice"
   },
   {
     "id": "SG-GOV-REACH-A-convictions",
@@ -4242,10 +4245,10 @@
   {
     "id": "SG-GOV-REACH-A-police-oversight",
     "kind": "missing-mechanic",
-    "file": "src/core2/data/laws/reach-group-a.json",
-    "line": 513,
-    "whatItFakes": "A civilian board is recorded on the police and the town, but no complaint against an officer is brought or reviewed.",
-    "why": "Session A checked main: justice complaints and investigations concern recorded crimes such as bribery; there is no police-stop misconduct complaint, civilian-board finding or discipline record to consume this law. Re-checked Oct 15, 2026 against src/core2: still no engine records a police-stop complaint, civilian-board finding or officer discipline; the justice engine hears only corruption cases.",
+    "file": "src/core2/public-safety.ts",
+    "line": 1394,
+    "whatItFakes": "The civilian board costs the city a yearly amount per resident and is recorded against the police department, but no complaint against an officer is brought or reviewed.",
+    "why": "No engine records a police-stop complaint, a board finding or officer discipline; the board's cost and its department are built.",
     "addedBy": "OPUS-GOV",
     "addedAt": "2026-10-14",
     "replacement": "GOV: the justice engine files a resident's complaint against an officer from a police stop and the board reviews it, its finding read by the department's discipline.",
@@ -4261,7 +4264,10 @@
     "addedBy": "OPUS-GOV",
     "addedAt": "2026-10-14",
     "replacement": "GOV: the justice engine reads the juvenile age in force when it routes a defendant's case, and the sentence follows that court's range.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "The engine routes each arrested person's case to juvenile or adult court by the juvenile age in force, and the sentence and cost follow that court (src/core2/public-safety.ts).",
+    "resolvedAt": "2026-10-20",
+    "resolvedBy": "law-wiring-justice"
   },
   {
     "id": "SG-GOV-REACH-A-carry-permit",
@@ -4273,7 +4279,10 @@
     "addedBy": "OPUS-GOV",
     "addedAt": "2026-10-14",
     "replacement": "GOV with OPUS-PEOPLE: the justice engine reads the permit law when a carried weapon is part of a case, and the sheriff's office issues permits.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "Adults in gun-owning households apply for, hold and renew permits, paying the state fee and the class through the journal; adults under 21 are refused (src/core2/public-safety.ts).",
+    "resolvedAt": "2026-10-20",
+    "resolvedBy": "law-wiring-justice"
   },
   {
     "id": "SG-GOV-REACH-A-handgun-age",
@@ -4285,7 +4294,10 @@
     "addedBy": "OPUS-GOV",
     "addedAt": "2026-10-14",
     "replacement": "OPUS-WORLD: the business engine's sales read the purchase age when a store sells to a person.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "Young adults in gun-owning households buy handguns from private sellers where no age limit applies and are refused where one does (src/core2/public-safety.ts).",
+    "resolvedAt": "2026-10-20",
+    "resolvedBy": "law-wiring-justice"
   },
   {
     "id": "SG-GOV-REACH-A-stand-your-ground",
@@ -4297,7 +4309,10 @@
     "addedBy": "OPUS-GOV",
     "addedAt": "2026-10-14",
     "replacement": "GOV: the prosecutor's charging decision and the court read the law in force when a case turns on self-defense.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "Self-defense claims in assault cases end at charging where the rule is law, and only those with no safe retreat end there where the duty to retreat applies (src/core2/public-safety.ts).",
+    "resolvedAt": "2026-10-20",
+    "resolvedBy": "law-wiring-justice"
   },
   {
     "id": "SG-GOV-REACH-A-discrimination",
@@ -4974,6 +4989,42 @@
     "addedBy": "effect-web-health",
     "addedAt": "2026-10-20",
     "replacement": "Records on the person for each cause, read by the health engine's hazard like the web's death factor.",
+    "status": "open"
+  },
+  {
+    "id": "SG-LAW-justice-youth-firearm-harm",
+    "kind": "missing-mechanic",
+    "file": "src/core2/public-safety.ts",
+    "line": 1537,
+    "whatItFakes": "The web's youth firearm death and suicide rates become an expected count of young people lost in the town each month, but no named child dies of it.",
+    "why": "Counted people die only through the illness-course engine (births-counted.ts); there is no injury death for a child.",
+    "addedBy": "claude/law-wiring",
+    "addedAt": "2026-10-20",
+    "replacement": "PEOPLE: an injury death for full and counted young people, booked from this expected count.",
+    "status": "open"
+  },
+  {
+    "id": "SG-LAW-justice-enforcement-outcome-readers",
+    "kind": "missing-mechanic",
+    "file": "src/core2/public-safety.ts",
+    "line": 1098,
+    "whatItFakes": "The immigration partnership moves the web's Hispanic school enrollment, undocumented employment and U.S.-born employment, but no school or jobs engine reads those measures.",
+    "why": "The detainer holds are built; the three outcomes are kept place measures that no engine consumes.",
+    "addedBy": "claude/law-wiring",
+    "addedAt": "2026-10-20",
+    "replacement": "WORLD and PEOPLE: school enrollment and jobs engines read the kept measures when they enroll and hire.",
+    "status": "open"
+  },
+  {
+    "id": "SG-LAW-justice-named-offender-acts",
+    "kind": "missing-mechanic",
+    "file": "src/core2/public-safety.ts",
+    "line": 677,
+    "whatItFakes": "The named residents' share of ordinary-crime arrests is carried in an unnamed batch of cases; no named person is arrested, held or sentenced by this engine.",
+    "why": "A named person is charged only through an act the engines record (corruption cases today); there is no engine that records an ordinary offense as a named person's own act.",
+    "addedBy": "claude/law-wiring",
+    "addedAt": "2026-10-20",
+    "replacement": "PEOPLE and GOV: an act engine where a named person's drives, record and circumstances decide an offense, then the case flow charges them from that act.",
     "status": "open"
   }
 ]
