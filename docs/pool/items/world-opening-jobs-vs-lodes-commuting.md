@@ -5,11 +5,12 @@ area: world
 kind: research
 priority: 2
 size: M
-status: open
+status: blocked
 claimed-by:
 pr:
-blocked-on:
+blocked-on: world-commute-flow-data
 source: added with npm run pool -- add
+claimed-at:
 ---
 
 **What.** TODO
