@@ -98,6 +98,7 @@ The other four do not move in three months. The uninsured share, poverty and gra
 Start here, in this order:
 
 1. Read the latest "Cloud merger:" comment on each of #5609, #5617, #5619 and #5639, and fix whatever it names on that PR's own branch.
+   - Labor (#5617) still fails its participation twin on some seeds. On seed 957b666a40b1beda (Stow, Ohio), mothers at work fell from 0.3209 to 0.3147 with the childcare effect at +0.6. The cause is the uncalibrated participation term (`SG-LABOR-participation-scale`): fit its weight (pool item `web-calibrate-choice-terms`) so the share moves by the researched size, then that twin passes. Do not loosen the assertion.
 2. After any merge to main, merge main into the other open branches. The data files (stopgaps.json, links.json, parameters.json, the pool index) are additive on both sides: keep every row from both, and keep main's text for parameters.json. Never `commit -a` during a merge, and check that the branch's diff against the merge base deletes nothing.
 3. Land #5639 last. On its branch, regenerate the unwired list with `node --import tsx scripts/outcome-web/write-unwired.ts` (run it twice, then prettier), and rerun the matrix with `node --import tsx scripts/outcome-web/effect-matrix.ts`.
 4. Next work, from the pool:
