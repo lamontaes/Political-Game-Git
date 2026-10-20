@@ -5,9 +5,9 @@ area: gov
 kind: bug
 priority: 3
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/legislature-test-time
-pr: #5374
+pr: #5522
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-20T04:38:34.485Z

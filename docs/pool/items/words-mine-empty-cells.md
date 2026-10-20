@@ -4,7 +4,7 @@ title: "Order 3: mine the empty cells of the coverage table"
 area: words
 kind: research
 priority: 2
-status: claimed
+status: in-pr
 claimed-by: claude/fs11vb-mine-cells
 pr: #5187
 blocked-on:
