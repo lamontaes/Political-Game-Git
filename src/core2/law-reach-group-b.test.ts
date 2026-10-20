@@ -77,8 +77,15 @@ const states = [...corePlaceStateIdentities()]
   .map((s) => s.jurisdictionKey)
   .sort();
 
+// A town with a Medicaid-eligible named adult who works under 80 hours a month
+// and has no child under 14 is rare (about one town in twenty), so the fixture
+// draws until it finds one.
+const DRAWS = 160;
+
 function build(): void {
-  for (let attempt = 0; attempt < 40; attempt += 1) {
+  // A named place is one draw: it has the shapes or the test says it lacks them.
+  const draws = process.env.GOLDEN_PATH_PLACE_KEY ? 1 : DRAWS;
+  for (let attempt = 0; attempt < draws; attempt += 1) {
     const state = pick(states, `state:${attempt}`);
     const places = [
       ...searchCorePlaces("", Number.MAX_SAFE_INTEGER, {
@@ -140,7 +147,7 @@ function build(): void {
     return;
   }
   throw new Error(
-    `no town with an employed adult, a Medicaid-eligible adult, a work-requirement adult and a preschool-age child in forty draws (seed ${seed})`,
+    `no town with an employed adult, a Medicaid-eligible adult, a work-requirement adult and a preschool-age child in ${process.env.GOLDEN_PATH_PLACE_KEY ? `the named place ${process.env.GOLDEN_PATH_PLACE_KEY}` : `${DRAWS} draws`} (seed ${seed})`,
   );
 }
 
@@ -307,7 +314,7 @@ const stepFor = (gov: GovernmentRow, name: string) =>
   );
 
 describe("law reach, group B: every policy reaches people through its engine", () => {
-  beforeAll(() => build());
+  beforeAll(() => build(), 900_000);
 
   it("registers a handler for every group B policy and budget line", () => {
     expect(GROUP_B_KEYS.length).toBe(34);
@@ -988,22 +995,30 @@ describe("law reach, group B: every policy reaches people through its engine", (
         past.named.some((r) => r.recipientId === head.id),
         `${where} ${head.id} still paid after the limit`,
       ).toBe(false);
-    // The line's money goes to the heads still drawing, so the pooled payment for counted households is that rate times the counted heads still drawing.
-    const drawing = past.heads.length - stopped.length;
-    const rate = Math.floor(
+    // The line's money goes to the households still drawing, in whole cents:
+    // the rate floors per household and each counted group's fund floors again,
+    // so the named and counted payments together are the line's monthly money
+    // for the town less under one cent per household and per group paid (a
+    // head the requirement reaches but whose time limit has not run still
+    // draws, so the households are counted over every head).
+    const scaleOf = (h: { scale?: number }) => h.scale ?? 1;
+    const monthly =
       ((group(key)?.terms.townDeltaMinor ?? 0) *
         modeledShare(api, townFacts(api, town))) /
-        reachParameter("monthsPerYear") /
-        Math.max(1, drawing),
-    );
-    const countedDrawing = past.heads.filter(
-      (h) => !h.named && !past.reachedIds.has(h.id),
-    ).length;
-    if (rate > 0 && countedDrawing > 0)
+      reachParameter("monthsPerYear");
+    const countedPaid = past.countedRows.reduce((n, r) => n + r.amountMinor, 0);
+    const namedPaid = past.named.reduce((n, r) => n + r.amountMinor, 0);
+    const households = past.heads.reduce((n, h) => n + scaleOf(h), 0);
+    if (monthly > 0 && countedPaid > 0) {
       expect(
-        past.countedRows.reduce((n, r) => n + r.amountMinor, 0),
-        `${where} counted groups' payments`,
-      ).toBe(rate * countedDrawing);
+        namedPaid + countedPaid,
+        `${where} welfare paid is no more than the line's monthly money`,
+      ).toBeLessThanOrEqual(monthly + 1);
+      expect(
+        namedPaid + countedPaid,
+        `${where} welfare paid is the line's monthly money less rounding (${households} households, ${past.countedRows.length} groups)`,
+      ).toBeGreaterThan(monthly - households - past.countedRows.length);
+    }
     for (const row of past.countedRows)
       expect(row.recipientId, `${where} ${row.id}`).toMatch(/^fund-account:/);
     report.assistanceWork = {
