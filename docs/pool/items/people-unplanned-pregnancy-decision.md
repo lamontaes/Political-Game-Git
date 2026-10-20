@@ -4,13 +4,13 @@ title: "Unplanned pregnancies and the decision, reading the abortion law where s
 area: people
 kind: feature
 priority: 2
-status: in-pr
-claimed-by: claude/political-game-pool-pdqjm6
+status: open
+claimed-by:
 pr: #5220
 blocked-on:
 milestone:
 source: "found while building laws-record-only-reads"
-claimed-at: 2026-10-19T21:54:56.245Z
+claimed-at:
 ---
 
 **What.** Checked against main on Oct 16: OPEN. The renewal engine has no unplanned pregnancy or decision logic, and `SG-GOV-REACH-A-abortion` is still open. This is the owner's call on how it is shown; read the register first. Next: An unplanned pregnancy and the decision the woman makes, reading the law in force and provider distance. The player would see it as a choice among people, never a form.
