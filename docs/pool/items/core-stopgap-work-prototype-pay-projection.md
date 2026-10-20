@@ -7,7 +7,7 @@ priority: 3
 status: blocked
 claimed-by:
 pr:
-blocked-on: research data: the row's replacement needs recorded, empirical or sourced data (Recorded compensation contract/cadence/laws, equivalent partition and amount/remainder conservation; separate revenue/consumption contracts....)
+blocked-on: engine or design: No historical signed hourly/salary/overtime agreement, pay calendar, tax/law treatment or revenue model. Same-payer lexical job order is authored.
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/modules/work.ts, kind prototype-pay-projection"
 ---

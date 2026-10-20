@@ -7,7 +7,7 @@ priority: 3
 status: blocked
 claimed-by:
 pr:
-blocked-on: research data: the row's replacement needs recorded, empirical or sourced data (Source-backed schedule and leave records with matched occupation/weekday and within-role spread; preserve actual input calendars....)
+blocked-on: engine or design: Legacy header labels every pattern GAME ASSUMPTION; shifts/rotation/part-time shortening/holidays are not observed employer calendars.
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/data/work.json, kind authored-timetable"
 claimed-at:
