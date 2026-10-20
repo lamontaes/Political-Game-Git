@@ -5,12 +5,12 @@ area: world
 kind: bug
 priority: 2
 size: M
-status: in-pr
-claimed-by: claude/staff-aides-attend
+status: open
+claimed-by:
 pr: #5018
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-18T00:43:50.988Z
+claimed-at:
 ---
 
 **What.** In the played world (`buildBenchWorld`, two-level, 120 days from the start) some staff aides of officials never go to work. Homewood, South Carolina (place key 4534765, seed `sc7` through `drawPlace(seed, "scan")`): of 8 aides on the state and United States treasuries' payrolls (`person:aide:official:term:seat:US-SC:...`, job `job:public:staff:...`), four attended all 22 of their planned days and four attended none: the secretary of state's, the U.S. representative's, the U.S. senator's and the vice president's. Their weekly work rollups read `workedDays` 0, `missedDays` 2, `utility:time:miss-recorded-work`; their cash is $0 and the cash journal has no credit for them in 200 days, while the four who attend hold about $9,000. The same appears in other places, one scan of six drawn places (seeds `sc5` to `sc10`) listed 2 to 8 aides per place who were never credited (Ardentown, Delaware; Martin, North Dakota; Tat Momoli, Arizona; Richland, Indiana; Stafford, Oregon). The work engine offers an aide both attending and staying home each day (`src/core2/modules/work.ts`, the attendance and absence actions, `SG-P8-attendance-choice`); the day's free hours are 15, so attending fits. What decides it is the person's traits alone: an aide's `needs` are all 0 (money, time, health, company, safety, dependents, schooling), because an aide's household has no living costs to run short on, so nothing pulls an aide to a paycheck. Nothing follows an absence either: the jobs engine holds no employer row for the treasury, so a worker who never shows up keeps the job, is never paid and is never replaced.
