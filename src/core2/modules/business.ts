@@ -41,8 +41,8 @@ import type { BusinessBooksState } from "../finance-types";
 import {
   addResidentFlow,
   countedHeadcountOf,
-  countedHeadsOf,
   countedJobsOf,
+  weightedPayrollMinor,
   purchaseShareOf,
   shiftPurchaseShare,
 } from "../residents-economy";
@@ -1262,12 +1262,12 @@ function month(api: CoreAPI): void {
     const cash = c.organizations.get(row.id)!.liquidMinor;
     // The payroll the next paydays draw on: the book's, plus what its counted
     // workers' households stand for beyond one each.
-    let weightedPayroll = book.annualPayrollMinor;
-    for (const job of countedJobsOf(c, row.id))
-      weightedPayroll +=
-        (countedHeadsOf(c, job.personId) - 1) *
-        job.wageDailyMinor *
-        p("jobsDaysPerYear");
+    const weightedPayroll = weightedPayrollMinor(
+      c,
+      row.id,
+      book.annualPayrollMinor,
+      p("jobsDaysPerYear"),
+    );
     const cushion = Math.round(
       (weightedPayroll / p("macroMonthsPerYear")) * p("businessCushionMonths"),
     );

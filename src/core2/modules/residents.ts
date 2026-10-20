@@ -14,7 +14,12 @@ import {
   type ResidentHouseholdRecord,
   type ResidentsInput,
 } from "../residents";
-import { transfer, transferSplit } from "../accounts";
+import {
+  depositsHeld,
+  transfer,
+  transferSplit,
+  withdrawSavings,
+} from "../accounts";
 import { livingCostParts } from "../living-cost-split";
 import { splitMarketDemand } from "../business-books";
 import { OUTSIDE_MARKET_KIND } from "../opening-outside-market";
@@ -691,6 +696,39 @@ function spendable(core: CoreState, ownerId: string): number {
 }
 
 /**
+ * What a business can pay now: its cash, and when that falls short of what
+ * it owes, the savings it holds at a local bank first (its own money, drawn
+ * before a payroll or a bill goes unpaid and the firm fails with money in
+ * the bank).
+ */
+function spendableFromSavings(
+  api: CoreAPI,
+  core: CoreState,
+  ownerId: string,
+  owed: number,
+  flowId: string,
+): number {
+  const cash = spendable(core, ownerId);
+  if (cash >= owed || !core.finance.businesses.has(ownerId)) return cash;
+  const held = depositsHeld(core, ownerId);
+  if (held <= 0) return cash;
+  withdrawSavings(core, api, {
+    id: `savings-for-payment:${flowId}@${core.date}`,
+    holderId: ownerId,
+    customerAccountId: api.accounts().main(ownerId),
+    amountMinor: Math.min(held, owed - cash),
+    source: {
+      tag: "ESTIMATED",
+      asOf: core.date,
+      citation:
+        "A business's deposits are its own money; it draws them when its cash falls short of a payment due (JPMorgan Chase Institute, Cash is King: Flows, Balances, and Buffer Days, 2016).",
+      estimatedFrom: `Flow ${flowId} asked ${owed} minor units against ${cash} in cash.`,
+    },
+  });
+  return spendable(core, ownerId);
+}
+
+/**
  * What a household's living cost takes from each member who can pay it: the
  * bill's payer first, then the others living there in id order, each from what
  * they hold, until the amount is met.
@@ -1024,7 +1062,10 @@ function settle(api: CoreAPI, rt: ResidentsRuntime, flow: FlowState): void {
       ? requested
       : carries && payerPerson
         ? legs.reduce((n, leg) => n + leg.amount, 0)
-        : Math.min(requested, spendable(core, flow.payerId));
+        : Math.min(
+            requested,
+            spendableFromSavings(api, core, flow.payerId, requested, flow.id),
+          );
     if (countedPaid && paid > 0) {
       // Each counted group is paid its part, less what the law withholds.
       const net = payGroups(api, rt, {
