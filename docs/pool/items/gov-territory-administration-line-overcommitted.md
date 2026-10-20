@@ -5,12 +5,12 @@ area: gov
 kind: bug
 priority: 2
 size: M
-status: in-pr
-claimed-by: claude/political-game-pool-yucp92-bw
+status: open
+claimed-by:
 pr: #5725
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-20T15:11:12.682Z
+claimed-at:
 ---
 
 **What.** In American Samoa (drawn place Pago Pago, seed e5, played world from the opening day) the territory's state-level budget has an administration line whose wage share, less the yearly pay already committed to jobs on that line, is minus $155,499,490 in cents, about minus $1.55 million. `postPayCapDaily` therefore returns zero for the state's election chief, `startPublicJob` returns nothing for a post its line cannot pay at all, and the chief takes in no money. Find what is charged to that line (the territory's officials, legislature and employers) against how the budget sizes it, and make the line carry the pay it commits, or make the posts that are charged to it read the right line.
