@@ -5,12 +5,12 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/speed-journal-bigint
 pr:
 blocked-on:
 source: added with npm run pool -- add
-claimed-at:
+claimed-at: 2026-10-20T02:21:21.934Z
 ---
 
 **What.** An allocation profile of a played year in Discovery Harbour, Hawaii (seed m7a, 23 GB allocated) puts the cash journal's posting functions at about 14 percent of allocation: postCashJournal, projectCashJournal, volumes, portfolios and plusTotals. plusTotals and volumes build BigInt values for every posting and owner total only to check that a sum of whole minor amounts stays exact, which a safe-integer check on the plain sum does equally well.
