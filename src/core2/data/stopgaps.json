@@ -4877,7 +4877,8 @@
     "why": "The school module keeps no graduation outcomes by place, so the cause is the web's baseline plus its own links (universal pre-K, tuition freeze), not students who graduated.",
     "addedBy": "EFFECT-WEB-VOTING",
     "addedAt": "2026-10-20",
-    "replacement": "A school outcomes engine that records graduates by place and year; the link then reads that record, lagged five years."
+    "replacement": "A school outcomes engine that records graduates by place and year; the link then reads that record, lagged five years.",
+    "status": "open"
   },
   {
     "id": "SG-WEB-voting-newspaper-closure",
@@ -4888,7 +4889,8 @@
     "why": "The press engine never closes an outlet, so no local-newspaper count ever falls and there is no cause to read.",
     "addedBy": "EFFECT-WEB-VOTING",
     "addedAt": "2026-10-20",
-    "replacement": "An outlet closing from its revenue in the press engine, with a press.local-newspaper count read from its outlets table."
+    "replacement": "An outlet closing from its revenue in the press engine, with a press.local-newspaper count read from its outlets table.",
+    "status": "open"
   },
   {
     "id": "SG-WEB-voting-corruption-reelection",
@@ -4899,7 +4901,8 @@
     "why": "The voting engine already reads each reported scandal into the incumbent's appeal (scandalsOf), so a web factor on the reelection rate would move it twice; the cause is not a number the web can read.",
     "addedBy": "EFFECT-WEB-VOTING",
     "addedAt": "2026-10-20",
-    "replacement": "A recorded count of violations made public before an election, with the researched size checked against the appeal the engine builds."
+    "replacement": "A recorded count of violations made public before an election, with the researched size checked against the appeal the engine builds.",
+    "status": "open"
   },
   {
     "id": "SG-WEB-voting-relief-approval",
@@ -4910,7 +4913,8 @@
     "why": "The game records no disaster-relief dollars by place, no incumbent approval series, and the two links have no size set (the research gives votes per doubling of relief and a to-confirm approval figure).",
     "addedBy": "EFFECT-WEB-VOTING",
     "addedAt": "2026-10-20",
-    "replacement": "Relief dollars by place in the budgets engine, an approval measure from the views engine, and sizes read from Healy and Malhotra 2009 and a confirmed approval source."
+    "replacement": "Relief dollars by place in the budgets engine, an approval measure from the views engine, and sizes read from Healy and Malhotra 2009 and a confirmed approval source.",
+    "status": "open"
   },
   {
     "id": "SG-WEB-births-full-tier",
