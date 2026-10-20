@@ -5,12 +5,12 @@ area: core
 kind: bug
 priority: 1
 size: M
-status: in-pr
-claimed-by: claude/counted-school-staff
-pr: #5551
+status: claimed
+claimed-by: claude/fs11vb-speed
+pr: #5568
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-20T05:53:19.616Z
+claimed-at: 2026-10-20T06:38:51.121Z
 ---
 
 **What.** PR #5044 (school staff pay) made the public school district a funded employer, and staff of a funded employer are kept as full people because pay for a counted public workforce is not built. In Long Hill, Connecticut (seed m7b) the bisected year went from 220.3 s (e715c5bc7) to 256.7 s (0a4bf1e41), +36 s, with about 13 s more after the next merge, because every extra full person acts each day: perform, activate, work onDay, relationship changes and news telling. Pay the district's teachers (and any other funded department's staff) as a counted workforce through the treasury, the way a counted worker is paid by an employer, or give the staff the weekly tier a town's other public workers use, so a dense town's year stops growing with its teacher count, without changing who is paid or how much.
@@ -23,6 +23,6 @@ claimed-at: 2026-10-20T05:53:19.616Z
 
 **Notes.** TODO
 
-Where it happens (read Oct 20, claude/political-game-pool-b6g0dl; nothing built). `fullPeople` in src/core2/residents.ts (line 219, "Who stays a full person: the circle, whole households, and public workers") keeps as a full person every worker whose employer has a `publicPayAuthority`, and then every member of that worker's household ("Households are never split: their contracts and cash are shared"). `counted-demotion.ts` (line 96) keeps the same people from being returned to the counts. #5044 gave the school district a pay authority, so every teacher and every teacher's whole household stopped being counted and now acts every day. The replacement that the PR names as unbuilt is the pay: a counted worker of a public employer paid by the treasury payroll the way a counted private worker is paid by an employer (payroll against the group's fund, withholding by the same `withholdingFor`), after which `fullPeople` and the demotion rule stop keeping such workers full. Until then a cheaper step is to count how many full people each public employer adds in a dense town (Long Hill) and measure the year with only the teachers, not their households, kept full, to see what share of the 36 s that is.
+Sent back 2026-10-20 from PR #5551 (branch claude/counted-school-staff): the school-pay test replaces the nonempty full-teacher assertion with a combined full-plus-counted total, so either tier can go untested; prove each payroll path exists and is paid independently; finish on that branch, merge main into it first.
 
-Counted Oct 20 in Long Hill (seed m7b, key 0943580; buildBenchWorld, then people by tier): at e715c5bc7 the district had 3 teachers and the world 1,809 full people (119 weekly, 1,628 calendar, 37 monthly, 25 husk-tier) and 1,520 husks; at 0a4bf1e41 (#5044) it has 114 teachers and 2,224 full people (534 weekly, same others) and 5,498 husks. So 114 teachers bring 415 weekly full people (their whole households) and about 4,000 more husk relatives, and the year rose 36 s with them.
+Sent back 2026-10-20 from PR #5568 (branch claude/political-game-pool-yucp92-zz): independent tier assertions are fixed, but the existing full-teacher timeout doubles from 900000 to 1800000 ms without a stated reason; restore it or document the measured need; finish on that branch, merge main into it first.
