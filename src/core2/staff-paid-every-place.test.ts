@@ -82,9 +82,15 @@ function everyAidePaid(place: { name: string; key: string; seed: string }) {
       core.work.payrollCalendarByCommitment.get(commitment!.id) ?? "",
     );
     expect(calendar, `${where} ${aide.id} calendar`).toBeDefined();
+    // An aide is owed a paycheck for time attended once the calendar has
+    // reached a payday. One who attended none earned nothing (the governor's
+    // aide in Independence, Louisiana, missed all 18 scheduled days).
+    const attended =
+      core.work.totalsByJob.get(aide.jobId!)?.attendedMinutes ?? 0;
     if (
+      attended <= 0 ||
       daysBetween(commitment!.startsAt, core.date) <
-      daysToFirstPayday(calendar!)
+        daysToFirstPayday(calendar!)
     )
       continue;
     due += 1;
@@ -119,5 +125,14 @@ it("every aide in Mustang, Texas, is on a payroll", () => {
     name: "Mustang",
     key: "4850184",
     seed: "b1b42a77246ea4d8022653a8c55b696ebb578c9c13812a0d171a91105844b7c2",
+  });
+}, 900_000);
+
+// A governor's aide with no payroll record, found by the merger on Oct 20.
+it("every aide in Independence, Louisiana, is on a payroll", () => {
+  everyAidePaid({
+    name: "Independence",
+    key: "2237025",
+    seed: "7b7b07cc96aa225f55b6f8834881f44ed234811a577a1067e954be747cca333a",
   });
 }, 900_000);
