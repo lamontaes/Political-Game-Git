@@ -24,3 +24,5 @@ claimed-at:
 **Notes.** First row: The opening's public employers in town (schools, police, fire, county offices) pay their workers from outside accounts; the treasury's lines for that work pay the outside account instead of those employers.
 
 **Split (Oct 16).** Two rows, two engines: the public employers paid from outside accounts is `gov-public-payroll-wire` (the core's `fundPublicPay` exists and nothing calls it), and the opening retirement awards that keep their amount is `core-income-award-level-change`. This item is done when both are.
+
+Checked Oct 20 (claude/political-game-pool-3xfqef-5): both rows are `resolved` in `src/core2/data/stopgaps.json` (SG-GOV-public-employers-outside by `gov-public-payroll-wire`, #4623; SG-GOV-opening-award-level by `core-income-award-level-change`, #4661), and `budgets-treasury.ts` holds no stopgap call. Nothing is left to build; the CTO can close it as done on its children.
