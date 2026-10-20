@@ -31,6 +31,7 @@ import {
 import { openRecord } from "./modules/record";
 import { openParties } from "./modules/parties";
 import { openVoting } from "./modules/voting";
+import { viewsModule } from "./modules/views";
 import {
   answerInterview,
   candidateAnswers,
@@ -92,6 +93,8 @@ describe("campaign interviews", () => {
           startedAt: START,
           minimumPeople: 300,
         }),
+        // Views are kept: an editorial board's head endorses by their own views.
+        { modules: [viewsModule] },
       );
       openLaws(core);
       openOffices(core, seed);
