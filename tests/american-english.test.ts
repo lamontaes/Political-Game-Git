@@ -366,6 +366,7 @@ const ALLOWED_FILES: readonly {
   },
   {
     file: /^data\/research\/stopgaps-oct19\/census\/census-[^/]+\.json$/,
+    words: /^(wards?|grey|centre)$/i,
     reason:
       "Census place and county names as published (Grey Eagle, Sauk Centre, Fifth Ward CDP, Centre Island) and D.C.'s eight wards",
   },
