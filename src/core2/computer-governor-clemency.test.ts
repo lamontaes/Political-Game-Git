@@ -121,7 +121,8 @@ it("a computer governor takes up the weekly petition and grants or refuses it by
   const skipped: string[] = [];
   const base = process.env.CLEMENCY_AI_SEED ?? randomBytes(8).toString("hex");
   const from = Number(process.env.CLEMENCY_AI_FROM ?? 0);
-  for (let attempt = from; attempt < ATTEMPTS; attempt++) {
+  const to = Number(process.env.CLEMENCY_AI_TO ?? ATTEMPTS);
+  for (let attempt = from; attempt < to; attempt++) {
     const seed = `${base}:${attempt}`;
     const proof = playPlace(seed, skipped);
     if (proof) {
