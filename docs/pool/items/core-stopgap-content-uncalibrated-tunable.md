@@ -4,10 +4,11 @@ title: "Stopgaps in content (uncalibrated-tunable): 1 open"
 area: core
 kind: stopgap
 priority: 3
-status: blocked
-claimed-by: claude/content-civic
+status: open
+claimed-by:
 pr:
-blocked-on: research-content-sourced-parameters
+blocked-on:
+after: research-content-sourced-parameters
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/data/content.json, kind uncalibrated-tunable"
 claimed-at: 2026-10-19T23:36:18.581Z
@@ -22,3 +23,5 @@ claimed-at: 2026-10-19T23:36:18.581Z
 **Files.** src/core2/data/content.json
 
 **Notes.** First row: Prototype civic availability and organization/approach consequences, rather than complete procedures.
+
+Oct 20: Switched from blocked to the automatic after: gate on research-content-sourced-parameters, so it opens by itself the moment those items are done.

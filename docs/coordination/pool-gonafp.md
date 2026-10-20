@@ -7,7 +7,7 @@ One status file, written only by this session. Everything here is also in the po
 Several PRs are stacked; merge each stack from the bottom.
 
 1. **Work patterns, workplaces, schedules, mix (opening port):** #5084 (work-pattern tables) and #5093 (town workplace tables) first, then #5097 (work-schedule roster rule, needs both) and #5100 (employment mix, needs #5093).
-2. **Trait leaves:** #5104 (mind-catalog, trait-packs), then #5108 (personality catalogue and 42 trait readers), then #5110 (people-trait-definitions).
+2. **Trait leaves:** #5104 (mind-catalog, trait-packs), then #5108 (personality catalog and 42 trait readers), then #5110 (people-trait-definitions).
 3. **Independent:** #5073 (opening employment drops the old jail-terms import), #5082 (name share measured per decade and sex), #5077 (leisure-hours line in the time-use report).
 4. **Pool notes only:** #5071, #5074, #5085, #5087, #5089, #5101.
 

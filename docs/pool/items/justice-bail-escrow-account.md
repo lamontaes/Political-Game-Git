@@ -5,9 +5,9 @@ area: gov
 kind: feature
 priority: 3
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/bail-escrow
-pr:
+pr: #5467
 blocked-on:
 after: justice-bail-moves-the-cash
 source: added with npm run pool -- add
