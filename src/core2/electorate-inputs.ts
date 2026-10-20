@@ -8,6 +8,7 @@
  * appeal on the lean scale once. Pure readings: nothing here changes the
  * world.
  */
+import { storyDelivered } from "./modules/news";
 import data from "./data/electorate/parameters.json" with { type: "json" };
 import { partySide } from "./appointments";
 import { campaignParameter } from "./campaign-views";
@@ -75,6 +76,8 @@ export interface UnemploymentReading {
   readonly webRecordId: string;
   readonly engineRecordId: string | null;
   readonly openingRecordId: string;
+  /** The story that told the town of it. */
+  readonly heardInStoryId?: string;
 }
 
 /** The conditions every voter in the race sees. */
@@ -308,11 +311,27 @@ export function raceConditions(
   };
 }
 
-/** The town's unemployment (points) against the outcome web's base, and crime (share above its first month) from the victimization records. */
+/**
+ * The town's unemployment (points) against the outcome web's base, and crime
+ * (share above its first month) from the victimization records, as the town
+ * has heard of them: a measure counts only once a story carrying it has
+ * reached someone who lives there (the story is cited), since nobody
+ * attributes a change they have not learned of. Where the world keeps no
+ * news, nothing is heard and no change reaches the vote.
+ */
 function townConditions(api: CoreAPI, placeId: string) {
   if (!api.state.modules.has(OUTCOME_WEB_MODULE_ID))
     return { unemploymentChange: 0, crimeChange: 0 };
-  const jobs = placeOutcome(api, placeId, "labor.unemployment-pct");
+  const jobsStory = storyDelivered(api, placeId, "labor.unemployment-pct");
+  const jobs = jobsStory
+    ? placeOutcome(api, placeId, "labor.unemployment-pct")
+    : undefined;
+  const crimeHeard = [
+    "crime.burglary",
+    "crime.robbery",
+    "crime.assault",
+    "crime.vandalism",
+  ].some((measure) => storyDelivered(api, placeId, measure));
   return {
     unemploymentChange:
       jobs && jobs.base !== undefined ? jobs.value - jobs.base : 0,
@@ -324,11 +343,12 @@ function townConditions(api: CoreAPI, placeId: string) {
             webRecordId: jobs.recordId,
             engineRecordId: jobs.engineRecordId,
             openingRecordId: placeId,
+            heardInStoryId: jobsStory!.storyId,
           },
         }
       : {}),
     // The crimes that happened to the town's households, from the victimization records.
-    crimeChange: crimeChange(api, placeId),
+    crimeChange: crimeHeard ? crimeChange(api, placeId) : 0,
   };
 }
 
