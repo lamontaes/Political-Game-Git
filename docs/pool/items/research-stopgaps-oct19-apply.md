@@ -5,12 +5,12 @@ area: core
 kind: stopgap
 priority: 2
 size: L
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/apply-stopgaps-d2
 pr:
 blocked-on:
 source: "data/research/stopgaps-oct19/README.md"
-claimed-at:
+claimed-at: 2026-10-20T03:23:56.169Z
 ---
 
 **What.** `data/research/stopgaps-oct19/` holds a researched value, spread, sources and a one-line builder note for each of 112 open stopgap rows. Apply them: move each value into the game's data or code, resolve the stopgap row with the source, and keep low-confidence rows labeled as estimates with their spread. Split by file (A to E) so several builders can take a part each.
