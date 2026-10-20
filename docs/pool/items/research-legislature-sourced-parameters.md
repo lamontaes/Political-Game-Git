@@ -5,11 +5,12 @@ area: gov
 kind: research
 priority: 2
 size: M
-status: blocked
+status: open
 claimed-by:
 pr:
 blocked-on:
 source: "collapsed Oct 19, 2026 from gov-stopgap-executive-proposal-assumed-data, gov-stopgap-legislature-assumed-data, gov-stopgap-legislature-estimated-rule"
+claimed-at: 
 ---
 
 **What.** Apply the estimated rows in docs/research/pool-feeder-oct20/research-legislature-sourced-parameters.md to the legislature data and resolve the three stopgap rows listed below. Add the per-place executive-proposal mode, the per-place enacting clause and numbering pattern, and the per-chamber committee appointer and size to the data files, tag each ESTIMATED with its source and spread, and have proposalRight, the bill-numbering code and committee seating read them. No row has a measured source: the Oct 19 file records them as low confidence, so keep each as a registered ESTIMATE and add charter-level research to the pool rather than guessing further.
