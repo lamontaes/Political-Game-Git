@@ -8,10 +8,11 @@ import { expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { buildPopulation } from "../core2/population";
 import { createLifeCore } from "../core2/life";
+import { PLATFORM_QUESTIONS } from "../core2/campaign-views";
 import { coreAPI } from "../core2/state";
 import type { CoreState } from "../core2/types";
 import { openLaws } from "../core2/modules/laws";
-import { openOffices } from "../core2/modules/offices";
+import { openOffices, townSeats } from "../core2/modules/offices";
 import { openRecord } from "../core2/modules/record";
 import {
   fileCandidacy,
@@ -21,11 +22,12 @@ import {
 } from "../core2/modules/elections";
 import {
   campaignFor,
+  causesFor,
   doorsKnockedOf,
   openCampaigns,
 } from "../core2/modules/campaigns";
 import { openParties } from "../core2/modules/parties";
-import { openPress } from "../core2/modules/press";
+import { interviewsFor, openPress } from "../core2/modules/press";
 import { viewsModule } from "../core2/modules/views";
 import { campaignDay, campaignView } from "./campaign";
 import controls from "./data/controls.json" with { type: "json" };
@@ -71,7 +73,7 @@ function setup() {
       const filed = fileCandidacy(api, {
         personId: candidate.id,
         contestId: contest.id,
-        platform: [],
+        platform: [`${PLATFORM_QUESTIONS[0]}=1`],
       });
       if (filed.status !== "refused" && filed.filing.status === "on-ballot") {
         filing = filed.filing;
@@ -91,8 +93,7 @@ it("shows the day's choices with control names and runs the one taken through th
   const view = campaignView(core, personId).campaigns.find(
     (c) => c.filing.id === filing!.id,
   )!;
-  // The campaign day has no list of acts: the doors, an event, an interview
-  // and the calls open as scenes or choices, each named by a control.
+  // The campaign day has no list of acts: the doors, an event, an interview and the calls, each named by a control.
   expect(
     view.outings.map((c) => c.outing),
     where,
@@ -106,33 +107,6 @@ it("shows the day's choices with control names and runs the one taken through th
   expect(view.outings.find((c) => c.outing === "doors")!.available, where).toBe(
     true,
   );
-  // A candidate who holds no seat can ask an outlet for an interview.
-  expect(
-    view.outings.find((c) => c.outing === "interview")!.available,
-    `an outlet has room to take the ask: ${where}`,
-  ).toBe(true);
-  const interview = campaignDay(core, personId, {
-    filingId: filing!.id,
-    kind: "interview",
-  });
-  expect(interview.interview?.id, `interview record: ${where}`).toBeTruthy();
-  expect(interview.interview?.outletId, where).toBeTruthy();
-  // An event runs when the records let the candidate hold one (the venue's
-  // price against the campaign's cash), and is refused when they do not.
-  const event = view.outings.find((c) => c.outing === "event")!;
-  if (event.available) {
-    const held = campaignDay(core, personId, {
-      filingId: filing!.id,
-      kind: "event",
-    });
-    expect(held.kind, where).toBe("event");
-  } else {
-    expect(
-      () =>
-        campaignDay(core, personId, { filingId: filing!.id, kind: "event" }),
-      `an event the records do not allow is refused: ${where}`,
-    ).toThrow();
-  }
   expect(
     () =>
       campaignDay(core, "someone-else", { filingId: filing!.id, kind: "rest" }),
@@ -145,11 +119,33 @@ it("shows the day's choices with control names and runs the one taken through th
     kind: "canvass",
   });
   expect(taken.doorsKnocked, `doors knocked: ${where}`).toBeGreaterThan(0);
-  // The doors open as a scene on a street, naming the households that answered.
-  expect(taken.scene?.place, where).toMatch(/^door-knocking-/);
-  expect(taken.households.length, `households that answered: ${where}`).toBe(
-    taken.reached,
+  // The doors open as a scene on a street, naming the households that
+  // answered, when someone answered; on a day nobody did there is no scene
+  // and no household. The households are the distinct households of the
+  // people the engine recorded a door cause for (one household can give
+  // several causes, so this is not the count of causes reached).
+  const answered = [...core.people.values()].filter((person) =>
+    causesFor(api, person.id, personId).some((cause) => cause.act === "door"),
   );
+  const answeredHouseholds = new Set(
+    answered.map((person) => person.householdId),
+  );
+  expect(
+    new Set(taken.households),
+    `households that answered: ${where}`,
+  ).toEqual(answeredHouseholds);
+  expect(taken.reached, `causes recorded: ${where}`).toBeGreaterThanOrEqual(
+    answered.length,
+  );
+  if (answered.length > 0) {
+    expect(taken.scene?.place, where).toMatch(/^door-knocking-/);
+  } else {
+    expect(
+      taken.scene,
+      `no scene when nobody answered: ${where}`,
+    ).toBeUndefined();
+    expect(taken.households, where).toEqual([]);
+  }
   expect(
     doorsKnockedOf(api, campaignFor(api, filing!.id).id).length,
     where,
@@ -164,6 +160,58 @@ it("shows the day's choices with control names and runs the one taken through th
     mine.acts.find((a) => a.act === "door")?.reached,
     `the doors in the race's causes: ${where}`,
   ).toBe(taken.reached);
+
+  // An interview asked of an outlet that covers the race writes the engine's own interview row.
+  const interview = view.outings.find((c) => c.outing === "interview")!;
+  expect(
+    townSeats(api).some((s) => s.holder?.personId === personId),
+    `the candidate holds no seat: ${where}`,
+  ).toBe(false);
+  expect(interview.available, `an outlet covers the race: ${where}`).toBe(true);
+  expect(interview.outletId, where).toBeTruthy();
+  const asked = campaignDay(core, personId, {
+    filingId: filing!.id,
+    kind: "interview",
+    outletId: interview.outletId!,
+  });
+  expect(asked.interview?.outletId, where).toBe(interview.outletId);
+  expect(
+    interviewsFor(api, personId).some((i) => i.id === asked.interview!.id),
+    where,
+  ).toBe(true);
+  // An event needs the venue's price in the campaign's account: the calls raise it first, then the event is held.
+  const eventControl = () =>
+    campaignView(core, personId)
+      .campaigns.find((c) => c.filing.id === filing!.id)!
+      .outings.find((c) => c.outing === "event")!;
+  // The calls raise what donors give; they stop when a day raises nothing (each donor is asked once).
+  let callDays = 0;
+  for (;;) {
+    if (eventControl().available) break;
+    if (++callDays > 200) throw new Error(`the calls never ran dry: ${where}`);
+    const calls = campaignDay(core, personId, {
+      filingId: filing!.id,
+      kind: "raise-money",
+    });
+    if (calls.raisedMinor === 0) break;
+  }
+  if (eventControl().available) {
+    const held = campaignDay(core, personId, {
+      filingId: filing!.id,
+      kind: "event",
+    });
+    expect(held.kind, where).toBe("event");
+    expect(held.reached, `people the event reached: ${where}`).toBeGreaterThan(
+      0,
+    );
+  } else {
+    // The records do not let this campaign pay the venue: the engine refuses.
+    expect(
+      () =>
+        campaignDay(core, personId, { filingId: filing!.id, kind: "event" }),
+      `an event the campaign cannot pay for is refused: ${where}`,
+    ).toThrow();
+  }
 
   // Rest takes the day and writes no act.
   expect(
