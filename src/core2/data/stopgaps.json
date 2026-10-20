@@ -4911,5 +4911,17 @@
     "addedBy": "EFFECT-WEB-VOTING",
     "addedAt": "2026-10-20",
     "replacement": "Relief dollars by place in the budgets engine, an approval measure from the views engine, and sizes read from Healy and Malhotra 2009 and a confirmed approval source."
+  },
+  {
+    "id": "SG-WEB-births-full-tier",
+    "kind": "missing-mechanic",
+    "file": "src/core2/births-plan.ts",
+    "line": 159,
+    "whatItFakes": "Full couples decide on a child from their own age, children, work, income, room, savings, health and closeness, and none of the outcome web's birth links reach them. Counted women take the web's factor per woman (src/core2/births-counted.ts), so a full woman and a counted woman of the same age, tenure and place differ on the links the full decision does not carry: home prices (owners up, renters down), an enforced abortion ban, and the place's drifting birth level.",
+    "why": "The unemployment link is left out for full couples on purpose: a lost job already lowers their work and income terms, so the web's link would count the same recession twice. The other links have no term in the plan score, and the score is a choice between planning and waiting, not a rate the factor can multiply; turning a factor into a score term needs its own calibration against the births it produces.",
+    "addedBy": "EFFECT-WEB-WIRING",
+    "addedAt": "2026-10-20",
+    "replacement": "A conditions term in the plan score that reads webReach for the woman's own age and tenure, leaving out the links her own records already carry (unemployment), with a weight calibrated in a played year so full births move by the researched size, as counted births do.",
+    "status": "open"
   }
 ]
