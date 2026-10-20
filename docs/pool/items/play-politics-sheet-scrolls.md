@@ -5,11 +5,12 @@ area: play
 kind: bug
 priority: 2
 size: M
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/politics-scroll-g08lgv
+pr: #5402
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-20T01:57:57.103Z
 ---
 
 **What.** On a fresh new game the Politics sheet holds about 2,631 pixels more than its window shows, so the player scrolls it, which the owner ruled out for main screens (M6-02). The measurement is by src/bench/no-scroll.browser.mjs, at the start and after a day, on a 1672 by 941 window. The sheet should page or fold what it holds so it fits, as the other sheets do.
