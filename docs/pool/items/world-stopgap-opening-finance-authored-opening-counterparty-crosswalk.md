@@ -7,7 +7,7 @@ priority: 3
 status: blocked
 claimed-by:
 pr:
-blocked-on: research data: the row's replacement needs recorded, empirical or sourced data (Recorded product/provider and standing-contract records or a causal consumption/ordering producer with actor knowledge and supplied goods/services. Ma...)
+blocked-on: engine or design: The input preserves actual households, member cash, living-cost priors, owned jobs, schedules, organizations, and classifications, but lacks observed purchase/provider ties. CEX category means and IRS
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/data/opening-finance.json, kind authored-opening-counterparty-crosswalk"
 ---
