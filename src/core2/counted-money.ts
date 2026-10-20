@@ -85,7 +85,7 @@ function householdById(
 }
 
 /** The counted household a flow part belongs to, from its key. */
-export function partHousehold(
+function partHousehold(
   rt: ResidentsRuntime,
   key: string,
 ): CountedHousehold | undefined {

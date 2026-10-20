@@ -4,10 +4,10 @@ title: "Stopgaps in residents (aggregate-cadence): 1 open"
 area: people
 kind: stopgap
 priority: 3
-status: blocked
+status: dropped
 claimed-by:
 pr:
-blocked-on: research data: the row's replacement needs sourced data (Wider-population spending timed from the counts' pay dates and income, with absence and turnover rates by industry checked against BLS JOLTS and CPS....)
+blocked-on: research-residents-sourced-parameters
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/residents.ts, kind aggregate-cadence"
 ---
@@ -21,3 +21,5 @@ source: "src/core2/data/stopgaps.json, src/core2/residents.ts, kind aggregate-ca
 **Files.** src/core2/residents.ts
 
 **Notes.** First row: The wider population's purchases are merged per seller, kind and week of the month and paid monthly instead of after each household's own paydays; count workers always work their full schedule and are paid on the employe
+
+Folded into research-residents-sourced-parameters (CTO, Oct 19, 2026).
