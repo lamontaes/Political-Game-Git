@@ -5,7 +5,7 @@ area: world
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/disasters-outside-market
 pr: #5253
 blocked-on:
