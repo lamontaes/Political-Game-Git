@@ -286,6 +286,8 @@ export function applyCountedFlows(
     // Counted women follow the same rate as full ones, times how far the
     // place's own conditions (unemployment, home prices) have moved it.
     const webOn = core.modules.has(OUTCOME_WEB_MODULE_ID);
+    // stopgapId: SG-WEB-births-age-counted-only
+    if (webOn) api.stopgap("SG-WEB-births-age-counted-only");
     const webBirths = webOn
       ? placeOutcome(api, placeId, "births.rate")
       : undefined;

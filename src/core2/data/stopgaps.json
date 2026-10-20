@@ -4867,5 +4867,17 @@
     "addedAt": "2026-10-17",
     "replacement": "Each department's employing government read from the Census of Governments employment file by function, so a county health department, a fire district or a state agency's field office pays its own staff.",
     "status": "open"
+  },
+  {
+    "id": "SG-WEB-births-age-counted-only",
+    "kind": "missing-mechanic",
+    "file": "src/core2/births-counted.ts",
+    "line": 290,
+    "whatItFakes": "The outcome web's age-specific effect on births (a place's unemployment delays births most among women in their early twenties and not at all over forty) lands on counted women only. A full woman's birth choice reads her own household's income, costs and housing (births-plan.ts), not the web's factor, so the same cause reaches the two tiers differently.",
+    "why": "A full woman's choice is made from her household's records, and those records already carry the town's jobs; reading the web's factor on top would count the same unemployment twice. The age moderation has no counterpart in her chooser yet.",
+    "replacement": "The age moderation is added to the full-person chooser's weighing (birthCircumstances) as a sliding scale from the same researched bands, so the age effect reaches full and counted women alike without reading the place factor twice; shown by a test that names the place, seed and web record id.",
+    "addedBy": "effect-web-reach",
+    "addedAt": "2026-10-20",
+    "status": "open"
   }
 ]
