@@ -27,7 +27,8 @@ import {
 import { openParties } from "../core2/modules/parties";
 import { openPress, outletsHere } from "../core2/modules/press";
 import { viewsModule } from "../core2/modules/views";
-import { campaignDay, campaignView } from "./campaign";
+import { PLATFORM_QUESTIONS } from "../core2/campaign-views";
+import { campaignDay, campaignView, interviewAnswer } from "./campaign";
 import controls from "./data/controls.json" with { type: "json" };
 
 const START = "2026-01-05";
@@ -180,4 +181,71 @@ it("tells an interview the candidate gave as the reporter's questions and their 
   console.log(
     `campaign-day-controls: interview ${told.id} told in ${told.lines.length} lines, ${where}`,
   );
+});
+
+it("lets the candidate answer an interview an outlet invited them to, move by move", () => {
+  const { core, api, filing, where } = setup();
+  if (!filing)
+    return console.log(`campaign-day-controls: nobody filed: ${where}`);
+  const outlet = outletsHere(api).find((o) => o.tier !== "national");
+  if (!outlet)
+    return console.log(`campaign-day-controls: no local outlet: ${where}`);
+  // An invitation waiting (the weekly invitations are the same kind of row).
+  const questions = PLATFORM_QUESTIONS.slice(0, 2);
+  const id = `interview:fixture:${filing.id}`;
+  api
+    .moduleState("core2-press-v1")
+    .table("interviews")
+    .put({
+      id,
+      outletId: outlet.id,
+      candidateId: filing.personId,
+      filingId: filing.id,
+      contestId: filing.contestId,
+      askedBy: "outlet",
+      date: core.date,
+      status: "invited",
+      reason: null,
+      questions,
+      answers: [],
+      audience: 0,
+      newsworthiness: 0,
+      reporterId: outlet.reporterIds[0] ?? null,
+    } as never);
+  const view = campaignView(core, filing.personId).campaigns.find(
+    (c) => c.filing.id === filing.id,
+  )!;
+  const waiting = view.interviews.find((i) => i.id === id);
+  expect(waiting, where).toBeTruthy();
+  // The reporter has opened and asked; the candidate has not answered.
+  expect(
+    waiting!.lines.every((l) => l.speaker === "reporter"),
+    where,
+  ).toBe(true);
+  expect(() => interviewAnswer(core, "someone-else", id, []), where).toThrow();
+  expect(() =>
+    interviewAnswer(core, filing.personId, id, [
+      { question: questions[0]!, move: "nonsense" },
+    ]),
+  ).toThrow();
+  const done = interviewAnswer(core, filing.personId, id, [
+    { question: questions[0]!, move: "brief" },
+    { question: questions[1]!, move: "lie" },
+  ]);
+  expect(done.status, where).toBe("published");
+  expect(
+    done.lines.some((l) => l.speaker === "candidate"),
+    where,
+  ).toBe(true);
+  for (const line of done.lines) {
+    expect(line.text, where).not.toMatch(/[{}]/);
+    expect(line.sourceRecordIds.length, where).toBeGreaterThan(0);
+  }
+  // It is no longer waiting.
+  expect(
+    campaignView(core, filing.personId)
+      .campaigns.find((c) => c.filing.id === filing.id)!
+      .interviews.some((i) => i.id === id),
+    where,
+  ).toBe(false);
 });

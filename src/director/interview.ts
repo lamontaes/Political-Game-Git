@@ -104,6 +104,6 @@ export function interviewLines(
       topic: issue,
     });
   }
-  say("candidate", "close", words.close, {});
+  if (row.answers.length) say("candidate", "close", words.close, {});
   return lines;
 }

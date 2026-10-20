@@ -16,6 +16,7 @@ import {
   campaignDay,
   campaignView,
   debateAnswer,
+  interviewAnswer,
   speechBegin,
   speechGive,
   speechPick,
@@ -913,6 +914,22 @@ export async function benchRequest(
             player.personId,
             url.searchParams.get("debateId") ?? "",
             answers,
+          ),
+        );
+        return;
+      }
+      if (
+        request.method === "POST" &&
+        url.pathname === "/api/campaign/interview"
+      ) {
+        if (!player?.personId) throw new Error("Choose a resident first.");
+        send(
+          200,
+          interviewAnswer(
+            requireCore(),
+            player.personId,
+            url.searchParams.get("interviewId") ?? "",
+            JSON.parse(url.searchParams.get("moves") ?? "[]"),
           ),
         );
         return;

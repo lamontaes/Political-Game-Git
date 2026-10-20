@@ -277,5 +277,16 @@
     "jobsLost": "Jobs lost",
     "sales": "Sales",
     "costs": "Costs"
+  },
+  "interviewScreen": {
+    "title": "Interview invitation",
+    "answer": "Answer",
+    "moves": {
+      "plain": "Say it plainly",
+      "further": "Add a fact from my record",
+      "turn": "Turn it on my rival",
+      "brief": "Keep it short",
+      "lie": "Say what is not so"
+    }
   }
 }

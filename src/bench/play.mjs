@@ -1203,6 +1203,49 @@ function debatePanel(debate) {
     }),
   );
 }
+function interviewPanel(invite) {
+  const words = controls.interviewScreen;
+  const picks = invite.questions.map((question) => {
+    const pick = el(
+      "select",
+      {},
+      ...Object.entries(words.moves).map(([move, label]) =>
+        el("option", { value: move, textContent: label }),
+      ),
+    );
+    return { question, pick };
+  });
+  return el(
+    "div",
+    { className: "row campaign" },
+    el("b", { textContent: `${words.title} · ${invite.date}` }),
+    ...invite.lines.map((line) => el("div", { textContent: line.text })),
+    ...picks.map(({ question, pick }) =>
+      el("label", {}, ` ${policyLabel(question)} `, pick),
+    ),
+    el("button", {
+      type: "button",
+      textContent: words.answer,
+      onclick: async () => {
+        const done = await post(
+          `/api/campaign/interview?${new URLSearchParams({
+            interviewId: invite.id,
+            moves: JSON.stringify(
+              picks.map(({ question, pick }) => ({
+                question,
+                move: pick.value,
+              })),
+            ),
+          })}`,
+        );
+        campaignResult = done.lines
+          .map((line) => `${controls.campaignDay[line.speaker]}: ${line.text}`)
+          .join(" · ");
+        openSheet("campaigns");
+      },
+    }),
+  );
+}
 function speechPanel(filing, venue) {
   const rebuild = () => openSheet("campaigns");
   if (!speechState)
@@ -1265,7 +1308,15 @@ function speechPanel(filing, venue) {
 async function campaignRows() {
   const v = await api(`/api/campaign?id=${encodeURIComponent(me.id)}`);
   const rows = [];
-  for (const { filing, campaign, polls, day, causes, debates } of v.campaigns) {
+  for (const {
+    filing,
+    campaign,
+    polls,
+    day,
+    causes,
+    debates,
+    interviews,
+  } of v.campaigns) {
     const takeDay = async (kind) => {
       const result = await post(
         `/api/campaign/day?${new URLSearchParams({ filingId: filing.id, kind })}`,
@@ -1356,6 +1407,8 @@ async function campaignRows() {
         speechPanel(filing, venue),
         // A debate the outlet invited the candidates to: one position (or a pass) on each question it asks.
         ...(debates ?? []).map((debate) => debatePanel(debate)),
+        // An interview an outlet invited the candidate to: how to say each answer.
+        ...(interviews ?? []).map((invite) => interviewPanel(invite)),
         // What the race turns on: each candidate's acts and how the people reached came to feel.
         ...((causes ?? []).some((who) => who.acts.length)
           ? [el("b", { textContent: controls.campaignActs.title })]
