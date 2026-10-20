@@ -21,3 +21,4 @@ source: "core-needs-core-172 triage, Oct 15"
 **Files.** src/core2/data/parameters.json, docs/coordination/OWNER-DECISIONS.md
 
 **Notes.** core.md line 194, checked Oct 15.
+Ruled in OWNER-DECISIONS.md, Oct 16/Oct 19.
