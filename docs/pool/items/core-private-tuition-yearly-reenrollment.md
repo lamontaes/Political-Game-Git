@@ -5,7 +5,7 @@ area: core
 kind: feature
 priority: 3
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/tuition-reenroll
 pr: #5504
 blocked-on:

@@ -75,7 +75,8 @@
         "appointments.weigh",
         "jobs.raise-for-opening",
         "relationships.warm-to",
-        "relationships.fall-out"
+        "relationships.fall-out",
+        "housing.settle-arrears"
       ],
       "low": [
         "life.daily-act",
@@ -145,7 +146,8 @@
         "legislature.attend-sitting",
         "office-day-state.attend",
         "office-day-state.leader-request",
-        "relationships.warm-to"
+        "relationships.warm-to",
+        "housing.settle-arrears"
       ]
     },
     "people-mind-v1:conflict": {
@@ -244,7 +246,8 @@
         "office-day-state.attend",
         "appointments.weigh",
         "jobs.raise-for-opening",
-        "relationships.fall-out"
+        "relationships.fall-out",
+        "housing.settle-arrears"
       ]
     },
     "people-mind-v1:deliberation": {
@@ -317,7 +320,8 @@
         "appointments.weigh",
         "jobs.raise-for-opening",
         "office-day-state.clemency",
-        "relationships.warm-to"
+        "relationships.warm-to",
+        "housing.settle-arrears"
       ],
       "low": [
         "life.daily-act",
@@ -379,7 +383,8 @@
         "office-day-state.leader-request",
         "appointments.weigh",
         "jobs.raise-for-opening",
-        "office-day-state.clemency"
+        "office-day-state.clemency",
+        "housing.settle-arrears"
       ]
     },
     "people-mind-v1:reliability": {
@@ -439,7 +444,8 @@
         "office-day-state.leader-request",
         "office-day-state.clemency",
         "relationships.warm-to",
-        "relationships.fall-out"
+        "relationships.fall-out",
+        "housing.settle-arrears"
       ],
       "low": [
         "life.daily-act",
@@ -498,7 +504,8 @@
         "office-day-state.leader-request",
         "appointments.weigh",
         "jobs.raise-for-opening",
-        "office-day-state.clemency"
+        "office-day-state.clemency",
+        "housing.settle-arrears"
       ]
     },
     "people-mind-v1:risk": {
@@ -562,7 +569,8 @@
         "legislature.attend-sitting",
         "legislature.poison-pill",
         "office-day-state.clemency",
-        "relationships.warm-to"
+        "relationships.warm-to",
+        "housing.settle-arrears"
       ],
       "low": [
         "life.daily-act",
@@ -631,7 +639,8 @@
         "legislature.poison-pill",
         "office-day-state.attend",
         "office-day-state.clemency",
-        "relationships.warm-to"
+        "relationships.warm-to",
+        "housing.settle-arrears"
       ]
     },
     "people-mind-v1:sociability": {
@@ -692,7 +701,8 @@
         "appointments.weigh",
         "jobs.raise-for-opening",
         "relationships.warm-to",
-        "relationships.fall-out"
+        "relationships.fall-out",
+        "housing.settle-arrears"
       ],
       "low": [
         "life.daily-act",
@@ -762,7 +772,8 @@
         "appointments.weigh",
         "jobs.raise-for-opening",
         "relationships.warm-to",
-        "relationships.fall-out"
+        "relationships.fall-out",
+        "housing.settle-arrears"
       ]
     },
     "personality-v1:action-despite-fear": {
@@ -835,7 +846,8 @@
         "office-day-state.attend",
         "office-day-state.clemency",
         "relationships.warm-to",
-        "relationships.fall-out"
+        "relationships.fall-out",
+        "housing.settle-arrears"
       ],
       "low": [
         "life.daily-act",
@@ -908,7 +920,8 @@
         "office-day-state.leader-request",
         "office-day-state.clemency",
         "relationships.warm-to",
-        "relationships.fall-out"
+        "relationships.fall-out",
+        "housing.settle-arrears"
       ]
     },
     "personality-v1:bond-loyalty": {
@@ -982,7 +995,8 @@
         "appointments.weigh",
         "jobs.raise-for-opening",
         "office-day-state.clemency",
-        "relationships.warm-to"
+        "relationships.warm-to",
+        "housing.settle-arrears"
       ],
       "low": [
         "life.daily-act",
@@ -1043,7 +1057,8 @@
         "office-day-state.attend",
         "office-day-state.leader-request",
         "office-day-state.clemency",
-        "relationships.warm-to"
+        "relationships.warm-to",
+        "housing.settle-arrears"
       ]
     },
     "personality-v1:concern-for-distress": {
@@ -1163,7 +1178,8 @@
         "appointments.weigh",
         "jobs.raise-for-opening",
         "office-day-state.clemency",
-        "relationships.warm-to"
+        "relationships.warm-to",
+        "housing.settle-arrears"
       ]
     },
     "personality-v1:facet-acquisitive": {
@@ -1315,7 +1331,8 @@
         "jobs.raise-for-opening",
         "office-day-state.clemency",
         "relationships.warm-to",
-        "relationships.fall-out"
+        "relationships.fall-out",
+        "housing.settle-arrears"
       ],
       "low": [
         "life.daily-act",
@@ -1376,7 +1393,8 @@
         "estates.trust",
         "legislature.attend-sitting",
         "office-day-state.attend",
-        "relationships.warm-to"
+        "relationships.warm-to",
+        "housing.settle-arrears"
       ]
     },
     "personality-v1:facet-ambitious": {
@@ -1439,7 +1457,8 @@
         "legislature.poison-pill",
         "office-day-state.attend",
         "office-day-state.leader-request",
-        "relationships.warm-to"
+        "relationships.warm-to",
+        "housing.settle-arrears"
       ],
       "low": [
         "life.daily-act",
@@ -1506,7 +1525,8 @@
         "office-day-state.attend",
         "office-day-state.leader-request",
         "office-day-state.clemency",
-        "relationships.warm-to"
+        "relationships.warm-to",
+        "housing.settle-arrears"
       ]
     },
     "personality-v1:facet-analytical": {
@@ -1624,7 +1644,8 @@
         "appointments.weigh",
         "jobs.raise-for-opening",
         "office-day-state.clemency",
-        "relationships.warm-to"
+        "relationships.warm-to",
+        "housing.settle-arrears"
       ]
     },
     "personality-v1:facet-approval-seeking": {
@@ -1772,7 +1793,8 @@
         "office-day-state.attend",
         "office-day-state.leader-request",
         "appointments.weigh",
-        "jobs.raise-for-opening"
+        "jobs.raise-for-opening",
+        "housing.settle-arrears"
       ],
       "low": [
         "life.daily-act",
@@ -1824,7 +1846,8 @@
         "appointments.weigh",
         "jobs.raise-for-opening",
         "office-day-state.clemency",
-        "relationships.warm-to"
+        "relationships.warm-to",
+        "housing.settle-arrears"
       ]
     },
     "personality-v1:facet-argumentative": {
@@ -2099,7 +2122,8 @@
         "estates.trust",
         "legislature.attend-sitting",
         "legislature.poison-pill",
-        "office-day-state.clemency"
+        "office-day-state.clemency",
+        "housing.settle-arrears"
       ],
       "low": [
         "life.daily-act",
@@ -2210,7 +2234,8 @@
         "estates.trust",
         "legislature.attend-sitting",
         "office-day-state.attend",
-        "relationships.warm-to"
+        "relationships.warm-to",
+        "housing.settle-arrears"
       ],
       "low": [
         "life.daily-act",
@@ -2269,7 +2294,8 @@
         "estates.trust",
         "legislature.attend-sitting",
         "office-day-state.attend",
-        "relationships.warm-to"
+        "relationships.warm-to",
+        "housing.settle-arrears"
       ]
     },
     "personality-v1:facet-calm": {
@@ -2346,7 +2372,8 @@
         "office-day-state.leader-request",
         "office-day-state.clemency",
         "relationships.warm-to",
-        "relationships.fall-out"
+        "relationships.fall-out",
+        "housing.settle-arrears"
       ],
       "low": [
         "life.daily-act",
@@ -2464,7 +2491,8 @@
         "appointments.weigh",
         "jobs.raise-for-opening",
         "relationships.warm-to",
-        "relationships.fall-out"
+        "relationships.fall-out",
+        "housing.settle-arrears"
       ],
       "low": [
         "life.daily-act",
@@ -2515,7 +2543,8 @@
         "estates.trust",
         "legislature.attend-sitting",
         "office-day-state.attend",
-        "relationships.warm-to"
+        "relationships.warm-to",
+        "housing.settle-arrears"
       ]
     },
     "personality-v1:facet-closeness-seeking": {
@@ -2584,7 +2613,8 @@
         "appointments.weigh",
         "jobs.raise-for-opening",
         "relationships.warm-to",
-        "relationships.fall-out"
+        "relationships.fall-out",
+        "housing.settle-arrears"
       ],
       "low": [
         "life.daily-act",
@@ -2644,7 +2674,8 @@
         "office-day-state.attend",
         "office-day-state.leader-request",
         "office-day-state.clemency",
-        "relationships.warm-to"
+        "relationships.warm-to",
+        "housing.settle-arrears"
       ]
     },
     "personality-v1:facet-cocky": {
@@ -2708,7 +2739,8 @@
         "legislature.attend-sitting",
         "legislature.poison-pill",
         "office-day-state.clemency",
-        "relationships.fall-out"
+        "relationships.fall-out",
+        "housing.settle-arrears"
       ],
       "low": [
         "life.daily-act",
@@ -2761,7 +2793,8 @@
         "legislature.attend-sitting",
         "legislature.poison-pill",
         "office-day-state.clemency",
-        "relationships.fall-out"
+        "relationships.fall-out",
+        "housing.settle-arrears"
       ]
     },
     "personality-v1:facet-comforting": {
@@ -2871,7 +2904,8 @@
         "appointments.weigh",
         "jobs.raise-for-opening",
         "office-day-state.clemency",
-        "relationships.warm-to"
+        "relationships.warm-to",
+        "housing.settle-arrears"
       ]
     },
     "personality-v1:facet-competitive": {
@@ -3042,7 +3076,8 @@
         "legislature.poison-pill",
         "office-day-state.attend",
         "office-day-state.clemency",
-        "relationships.warm-to"
+        "relationships.warm-to",
+        "housing.settle-arrears"
       ],
       "low": [
         "life.daily-act",
@@ -3294,7 +3329,8 @@
         "legislature.attend-sitting",
         "legislature.poison-pill",
         "office-day-state.clemency",
-        "relationships.warm-to"
+        "relationships.warm-to",
+        "housing.settle-arrears"
       ]
     },
     "personality-v1:facet-cynical": {
@@ -3417,7 +3453,8 @@
         "legislature.attend-sitting",
         "office-day-state.attend",
         "office-day-state.leader-request",
-        "relationships.warm-to"
+        "relationships.warm-to",
+        "housing.settle-arrears"
       ],
       "low": [
         "life.daily-act",
@@ -3464,7 +3501,8 @@
         "legislature.attend-sitting",
         "office-day-state.attend",
         "office-day-state.leader-request",
-        "relationships.warm-to"
+        "relationships.warm-to",
+        "housing.settle-arrears"
       ]
     },
     "personality-v1:facet-defensive": {
@@ -3582,7 +3620,8 @@
         "office-day-state.leader-request",
         "office-day-state.clemency",
         "relationships.warm-to",
-        "relationships.fall-out"
+        "relationships.fall-out",
+        "housing.settle-arrears"
       ],
       "low": [
         "life.daily-act",
@@ -3671,7 +3710,8 @@
         "office-day-state.leader-request",
         "appointments.weigh",
         "jobs.raise-for-opening",
-        "office-day-state.clemency"
+        "office-day-state.clemency",
+        "housing.settle-arrears"
       ],
       "low": [
         "life.daily-act",
@@ -3889,7 +3929,8 @@
         "office-day-state.leader-request",
         "appointments.weigh",
         "jobs.raise-for-opening",
-        "relationships.warm-to"
+        "relationships.warm-to",
+        "housing.settle-arrears"
       ],
       "low": [
         "life.daily-act",
@@ -3915,7 +3956,8 @@
         "office-day-state.attend",
         "office-day-state.leader-request",
         "appointments.weigh",
-        "jobs.raise-for-opening"
+        "jobs.raise-for-opening",
+        "housing.settle-arrears"
       ]
     },
     "personality-v1:facet-enterprising": {
@@ -3987,7 +4029,8 @@
         "office-day-state.attend",
         "office-day-state.leader-request",
         "office-day-state.clemency",
-        "relationships.warm-to"
+        "relationships.warm-to",
+        "housing.settle-arrears"
       ],
       "low": [
         "life.daily-act",
@@ -4049,7 +4092,8 @@
         "legislature.attend-sitting",
         "legislature.poison-pill",
         "office-day-state.clemency",
-        "relationships.warm-to"
+        "relationships.warm-to",
+        "housing.settle-arrears"
       ]
     },
     "personality-v1:facet-entitled": {
@@ -4445,7 +4489,8 @@
         "estates.trust",
         "legislature.attend-sitting",
         "legislature.poison-pill",
-        "relationships.warm-to"
+        "relationships.warm-to",
+        "housing.settle-arrears"
       ],
       "low": [
         "life.daily-act",
@@ -4471,7 +4516,8 @@
         "office-day-state.attend",
         "office-day-state.leader-request",
         "appointments.weigh",
-        "jobs.raise-for-opening"
+        "jobs.raise-for-opening",
+        "housing.settle-arrears"
       ]
     },
     "personality-v1:facet-fickle": {
@@ -4530,7 +4576,8 @@
         "legislature.poison-pill",
         "office-day-state.attend",
         "office-day-state.leader-request",
-        "relationships.warm-to"
+        "relationships.warm-to",
+        "housing.settle-arrears"
       ],
       "low": [
         "life.daily-act",
@@ -4583,7 +4630,8 @@
         "legislature.attend-sitting",
         "office-day-state.attend",
         "office-day-state.leader-request",
-        "relationships.warm-to"
+        "relationships.warm-to",
+        "housing.settle-arrears"
       ]
     },
     "personality-v1:facet-forgiving": {
@@ -4765,7 +4813,8 @@
         "office-day-state.attend",
         "office-day-state.leader-request",
         "relationships.warm-to",
-        "relationships.fall-out"
+        "relationships.fall-out",
+        "housing.settle-arrears"
       ]
     },
     "personality-v1:facet-generous": {
@@ -5005,7 +5054,8 @@
         "appointments.weigh",
         "jobs.raise-for-opening",
         "office-day-state.clemency",
-        "relationships.warm-to"
+        "relationships.warm-to",
+        "housing.settle-arrears"
       ],
       "low": [
         "life.daily-act",
@@ -5430,7 +5480,8 @@
         "legislature.attend-sitting",
         "legislature.poison-pill",
         "office-day-state.clemency",
-        "relationships.warm-to"
+        "relationships.warm-to",
+        "housing.settle-arrears"
       ]
     },
     "personality-v1:facet-independent": {
@@ -5528,7 +5579,8 @@
         "office-day-state.attend",
         "office-day-state.leader-request",
         "relationships.warm-to",
-        "relationships.fall-out"
+        "relationships.fall-out",
+        "housing.settle-arrears"
       ]
     },
     "personality-v1:facet-informal": {
@@ -5571,7 +5623,8 @@
         "office-day-state.leader-request",
         "appointments.weigh",
         "jobs.raise-for-opening",
-        "office-day-state.clemency"
+        "office-day-state.clemency",
+        "housing.settle-arrears"
       ],
       "low": [
         "life.daily-act",
@@ -5623,7 +5676,8 @@
         "appointments.weigh",
         "jobs.raise-for-opening",
         "office-day-state.clemency",
-        "relationships.warm-to"
+        "relationships.warm-to",
+        "housing.settle-arrears"
       ]
     },
     "personality-v1:facet-intimacy-guarded": {
@@ -5704,7 +5758,8 @@
         "appointments.weigh",
         "jobs.raise-for-opening",
         "office-day-state.clemency",
-        "relationships.warm-to"
+        "relationships.warm-to",
+        "housing.settle-arrears"
       ],
       "low": [
         "life.daily-act",
@@ -5764,7 +5819,8 @@
         "legislature.attend-sitting",
         "office-day-state.attend",
         "office-day-state.leader-request",
-        "relationships.warm-to"
+        "relationships.warm-to",
+        "housing.settle-arrears"
       ]
     },
     "personality-v1:facet-inventive": {
@@ -5871,7 +5927,8 @@
         "appointments.weigh",
         "jobs.raise-for-opening",
         "office-day-state.clemency",
-        "relationships.warm-to"
+        "relationships.warm-to",
+        "housing.settle-arrears"
       ]
     },
     "personality-v1:facet-light-hearted": {
@@ -5934,7 +5991,8 @@
         "legislature.poison-pill",
         "office-day-state.attend",
         "relationships.warm-to",
-        "relationships.fall-out"
+        "relationships.fall-out",
+        "housing.settle-arrears"
       ],
       "low": [
         "life.daily-act",
@@ -5989,7 +6047,8 @@
         "legislature.attend-sitting",
         "legislature.poison-pill",
         "office-day-state.attend",
-        "relationships.fall-out"
+        "relationships.fall-out",
+        "housing.settle-arrears"
       ]
     },
     "personality-v1:facet-manipulative": {
@@ -6069,7 +6128,8 @@
         "legislature.poison-pill",
         "office-day-state.attend",
         "office-day-state.leader-request",
-        "relationships.warm-to"
+        "relationships.warm-to",
+        "housing.settle-arrears"
       ]
     },
     "personality-v1:facet-mediating": {
@@ -6179,7 +6239,8 @@
         "estates.trust",
         "legislature.attend-sitting",
         "office-day-state.attend",
-        "relationships.warm-to"
+        "relationships.warm-to",
+        "housing.settle-arrears"
       ]
     },
     "personality-v1:facet-meticulous": {
@@ -6234,7 +6295,8 @@
         "office-day-state.leader-request",
         "appointments.weigh",
         "jobs.raise-for-opening",
-        "office-day-state.clemency"
+        "office-day-state.clemency",
+        "housing.settle-arrears"
       ],
       "low": [
         "life.daily-act",
@@ -6276,7 +6338,8 @@
         "office-day-state.leader-request",
         "appointments.weigh",
         "jobs.raise-for-opening",
-        "office-day-state.clemency"
+        "office-day-state.clemency",
+        "housing.settle-arrears"
       ]
     },
     "personality-v1:facet-mischievous": {
@@ -6335,7 +6398,8 @@
         "appointments.weigh",
         "jobs.raise-for-opening",
         "office-day-state.clemency",
-        "relationships.fall-out"
+        "relationships.fall-out",
+        "housing.settle-arrears"
       ],
       "low": [
         "life.daily-act",
@@ -6387,7 +6451,8 @@
         "appointments.weigh",
         "jobs.raise-for-opening",
         "office-day-state.clemency",
-        "relationships.warm-to"
+        "relationships.warm-to",
+        "housing.settle-arrears"
       ]
     },
     "personality-v1:facet-nostalgic": {
@@ -6593,7 +6658,8 @@
         "appointments.weigh",
         "jobs.raise-for-opening",
         "office-day-state.clemency",
-        "relationships.warm-to"
+        "relationships.warm-to",
+        "housing.settle-arrears"
       ]
     },
     "personality-v1:facet-observant": {
@@ -6701,7 +6767,8 @@
         "legislature.poison-pill",
         "office-day-state.attend",
         "office-day-state.leader-request",
-        "office-day-state.clemency"
+        "office-day-state.clemency",
+        "housing.settle-arrears"
       ]
     },
     "personality-v1:facet-open-minded": {
@@ -6892,7 +6959,8 @@
         "legislature.poison-pill",
         "office-day-state.leader-request",
         "office-day-state.clemency",
-        "relationships.warm-to"
+        "relationships.warm-to",
+        "housing.settle-arrears"
       ],
       "low": [
         "life.daily-act",
@@ -6954,7 +7022,8 @@
         "legislature.attend-sitting",
         "legislature.poison-pill",
         "office-day-state.clemency",
-        "relationships.warm-to"
+        "relationships.warm-to",
+        "housing.settle-arrears"
       ]
     },
     "personality-v1:facet-persistent": {
@@ -7017,7 +7086,8 @@
         "legislature.poison-pill",
         "office-day-state.attend",
         "office-day-state.leader-request",
-        "office-day-state.clemency"
+        "office-day-state.clemency",
+        "housing.settle-arrears"
       ],
       "low": [
         "life.daily-act",
@@ -7072,7 +7142,8 @@
         "legislature.attend-sitting",
         "office-day-state.attend",
         "office-day-state.leader-request",
-        "relationships.warm-to"
+        "relationships.warm-to",
+        "housing.settle-arrears"
       ]
     },
     "personality-v1:facet-philanthropic": {
@@ -7228,7 +7299,8 @@
         "office-day-state.leader-request",
         "office-day-state.clemency",
         "relationships.warm-to",
-        "relationships.fall-out"
+        "relationships.fall-out",
+        "housing.settle-arrears"
       ],
       "low": [
         "life.daily-act",
@@ -7264,7 +7336,8 @@
         "appointments.weigh",
         "jobs.raise-for-opening",
         "office-day-state.clemency",
-        "relationships.fall-out"
+        "relationships.fall-out",
+        "housing.settle-arrears"
       ]
     },
     "personality-v1:facet-practical": {
@@ -7381,7 +7454,8 @@
         "estates.trust",
         "legislature.attend-sitting",
         "legislature.poison-pill",
-        "office-day-state.clemency"
+        "office-day-state.clemency",
+        "housing.settle-arrears"
       ]
     },
     "personality-v1:facet-proud": {
@@ -7516,7 +7590,8 @@
         "meetings.hold-town-hall",
         "campaigns.party-firmness",
         "legislature.attend-sitting",
-        "office-day-state.attend"
+        "office-day-state.attend",
+        "housing.settle-arrears"
       ],
       "low": [
         "life.daily-act",
@@ -7569,7 +7644,8 @@
         "legislature.attend-sitting",
         "office-day-state.attend",
         "office-day-state.leader-request",
-        "relationships.warm-to"
+        "relationships.warm-to",
+        "housing.settle-arrears"
       ]
     },
     "personality-v1:facet-sassy": {
@@ -7708,7 +7784,8 @@
         "legislature.poison-pill",
         "office-day-state.attend",
         "office-day-state.leader-request",
-        "office-day-state.clemency"
+        "office-day-state.clemency",
+        "housing.settle-arrears"
       ],
       "low": [
         "life.daily-act",
@@ -7827,7 +7904,8 @@
         "legislature.poison-pill",
         "office-day-state.attend",
         "office-day-state.leader-request",
-        "office-day-state.clemency"
+        "office-day-state.clemency",
+        "housing.settle-arrears"
       ]
     },
     "personality-v1:facet-sensitive": {
@@ -7893,7 +7971,8 @@
         "office-day-state.attend",
         "office-day-state.clemency",
         "relationships.warm-to",
-        "relationships.fall-out"
+        "relationships.fall-out",
+        "housing.settle-arrears"
       ],
       "low": [
         "life.daily-act",
@@ -7947,7 +8026,8 @@
         "legislature.poison-pill",
         "office-day-state.attend",
         "relationships.warm-to",
-        "relationships.fall-out"
+        "relationships.fall-out",
+        "housing.settle-arrears"
       ]
     },
     "personality-v1:facet-shy": {
@@ -8011,7 +8091,8 @@
         "legislature.attend-sitting",
         "office-day-state.attend",
         "office-day-state.leader-request",
-        "relationships.warm-to"
+        "relationships.warm-to",
+        "housing.settle-arrears"
       ],
       "low": [
         "life.daily-act",
@@ -8063,7 +8144,8 @@
         "estates.trust",
         "legislature.attend-sitting",
         "office-day-state.attend",
-        "relationships.warm-to"
+        "relationships.warm-to",
+        "housing.settle-arrears"
       ]
     },
     "personality-v1:facet-sincere": {
@@ -8111,7 +8193,8 @@
         "legislature.poison-pill",
         "office-day-state.attend",
         "office-day-state.leader-request",
-        "relationships.warm-to"
+        "relationships.warm-to",
+        "housing.settle-arrears"
       ],
       "low": [
         "drives.respond",
@@ -8242,7 +8325,8 @@
         "appointments.weigh",
         "jobs.raise-for-opening",
         "office-day-state.clemency",
-        "relationships.warm-to"
+        "relationships.warm-to",
+        "housing.settle-arrears"
       ]
     },
     "personality-v1:facet-slow-to-warm-up": {
@@ -8305,7 +8389,8 @@
         "estates.trust",
         "legislature.attend-sitting",
         "office-day-state.attend",
-        "relationships.warm-to"
+        "relationships.warm-to",
+        "housing.settle-arrears"
       ],
       "low": [
         "life.daily-act",
@@ -8360,7 +8445,8 @@
         "appointments.weigh",
         "jobs.raise-for-opening",
         "office-day-state.clemency",
-        "relationships.warm-to"
+        "relationships.warm-to",
+        "housing.settle-arrears"
       ]
     },
     "personality-v1:facet-smug": {
@@ -8522,7 +8608,8 @@
         "legislature.attend-sitting",
         "office-day-state.attend",
         "office-day-state.leader-request",
-        "relationships.warm-to"
+        "relationships.warm-to",
+        "housing.settle-arrears"
       ],
       "low": [
         "life.daily-act",
@@ -8591,7 +8678,8 @@
         "legislature.attend-sitting",
         "office-day-state.attend",
         "office-day-state.leader-request",
-        "relationships.warm-to"
+        "relationships.warm-to",
+        "housing.settle-arrears"
       ]
     },
     "personality-v1:facet-supportive": {
@@ -8701,7 +8789,8 @@
         "appointments.weigh",
         "jobs.raise-for-opening",
         "office-day-state.clemency",
-        "relationships.warm-to"
+        "relationships.warm-to",
+        "housing.settle-arrears"
       ]
     },
     "personality-v1:facet-tactful": {
@@ -8763,7 +8852,8 @@
         "legislature.attend-sitting",
         "legislature.poison-pill",
         "office-day-state.clemency",
-        "relationships.fall-out"
+        "relationships.fall-out",
+        "housing.settle-arrears"
       ],
       "low": [
         "life.daily-act",
@@ -9071,7 +9161,8 @@
         "legislature.poison-pill",
         "office-day-state.attend",
         "office-day-state.clemency",
-        "relationships.warm-to"
+        "relationships.warm-to",
+        "housing.settle-arrears"
       ],
       "low": [
         "life.daily-act",
@@ -9133,7 +9224,8 @@
         "legislature.attend-sitting",
         "legislature.poison-pill",
         "office-day-state.clemency",
-        "relationships.warm-to"
+        "relationships.warm-to",
+        "housing.settle-arrears"
       ]
     },
     "personality-v1:facet-vindictive": {
@@ -9272,7 +9364,8 @@
         "legislature.attend-sitting",
         "office-day-state.attend",
         "office-day-state.leader-request",
-        "relationships.warm-to"
+        "relationships.warm-to",
+        "housing.settle-arrears"
       ],
       "low": [
         "life.daily-act",
@@ -9341,7 +9434,8 @@
         "legislature.attend-sitting",
         "office-day-state.attend",
         "office-day-state.leader-request",
-        "relationships.warm-to"
+        "relationships.warm-to",
+        "housing.settle-arrears"
       ]
     },
     "personality-v1:facet-zealous": {
@@ -9416,7 +9510,8 @@
         "legislature.poison-pill",
         "office-day-state.attend",
         "office-day-state.leader-request",
-        "relationships.fall-out"
+        "relationships.fall-out",
+        "housing.settle-arrears"
       ],
       "low": [
         "life.daily-act",
@@ -9476,7 +9571,8 @@
         "legislature.attend-sitting",
         "office-day-state.attend",
         "office-day-state.leader-request",
-        "relationships.fall-out"
+        "relationships.fall-out",
+        "housing.settle-arrears"
       ]
     },
     "personality-v1:initial-trust": {
@@ -9592,7 +9688,8 @@
         "appointments.weigh",
         "jobs.raise-for-opening",
         "office-day-state.clemency",
-        "relationships.warm-to"
+        "relationships.warm-to",
+        "housing.settle-arrears"
       ]
     },
     "personality-v1:method-revision": {
@@ -9820,7 +9917,8 @@
         "estates.trust",
         "legislature.attend-sitting",
         "office-day-state.attend",
-        "relationships.warm-to"
+        "relationships.warm-to",
+        "housing.settle-arrears"
       ]
     },
     "personality-v1:patience": {
@@ -9893,7 +9991,8 @@
         "office-day-state.attend",
         "office-day-state.leader-request",
         "office-day-state.clemency",
-        "relationships.warm-to"
+        "relationships.warm-to",
+        "housing.settle-arrears"
       ],
       "low": [
         "life.daily-act",
@@ -9954,7 +10053,8 @@
         "legislature.poison-pill",
         "office-day-state.leader-request",
         "office-day-state.clemency",
-        "relationships.warm-to"
+        "relationships.warm-to",
+        "housing.settle-arrears"
       ]
     },
     "personality-v1:playful-manner": {
@@ -10073,7 +10173,8 @@
         "office-day-state.leader-request",
         "appointments.weigh",
         "jobs.raise-for-opening",
-        "office-day-state.clemency"
+        "office-day-state.clemency",
+        "housing.settle-arrears"
       ]
     },
     "personality-v1:self-confidence": {
@@ -10145,7 +10246,8 @@
         "office-day-state.attend",
         "office-day-state.leader-request",
         "office-day-state.clemency",
-        "relationships.warm-to"
+        "relationships.warm-to",
+        "housing.settle-arrears"
       ],
       "low": [
         "life.daily-act",
@@ -10220,7 +10322,8 @@
         "office-day-state.attend",
         "office-day-state.leader-request",
         "office-day-state.clemency",
-        "relationships.warm-to"
+        "relationships.warm-to",
+        "housing.settle-arrears"
       ]
     },
     "personality-v1:truthfulness": {
@@ -10268,7 +10371,8 @@
         "legislature.poison-pill",
         "office-day-state.attend",
         "office-day-state.leader-request",
-        "relationships.warm-to"
+        "relationships.warm-to",
+        "housing.settle-arrears"
       ],
       "low": [
         "life.daily-act",
@@ -10310,7 +10414,8 @@
         "office-day-state.attend",
         "office-day-state.leader-request",
         "appointments.weigh",
-        "jobs.raise-for-opening"
+        "jobs.raise-for-opening",
+        "housing.settle-arrears"
       ]
     },
     "personality-v1:uncertain-outlook": {
@@ -10382,7 +10487,8 @@
         "legislature.poison-pill",
         "office-day-state.attend",
         "office-day-state.clemency",
-        "relationships.warm-to"
+        "relationships.warm-to",
+        "housing.settle-arrears"
       ],
       "low": [
         "life.daily-act",
@@ -10450,7 +10556,8 @@
         "office-day-state.attend",
         "office-day-state.leader-request",
         "office-day-state.clemency",
-        "relationships.warm-to"
+        "relationships.warm-to",
+        "housing.settle-arrears"
       ]
     },
     "personality-v1:voluntary-effort": {
@@ -10520,7 +10627,8 @@
         "appointments.weigh",
         "jobs.raise-for-opening",
         "office-day-state.clemency",
-        "relationships.warm-to"
+        "relationships.warm-to",
+        "housing.settle-arrears"
       ],
       "low": [
         "life.daily-act",
@@ -10591,7 +10699,8 @@
         "legislature.attend-sitting",
         "office-day-state.attend",
         "office-day-state.leader-request",
-        "relationships.warm-to"
+        "relationships.warm-to",
+        "housing.settle-arrears"
       ]
     }
   }

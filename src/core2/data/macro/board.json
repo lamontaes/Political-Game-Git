@@ -6,6 +6,15 @@
     "citation": "Federal Reserve Act: 12 U.S.C. 241 (seven governors, fourteen-year terms beginning February 1 of even-numbered years), 12 U.S.C. 263 (FOMC voters and rotation), 12 U.S.C. 341 (president terms of five years from March 1 of years ending in 1 and 6); FOMC meeting calendars, https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm. Members are fictional people."
   },
   "placeId": "national:central-bank",
+  "memberPay": {
+    "annualDollars": 225700,
+    "source": {
+      "tag": "ESTIMATED",
+      "asOf": "2026-10-19",
+      "citation": "Executive Schedule Level II, 5 U.S.C. 5313 (members of the Board of Governors of the Federal Reserve System), 2025 annual rate.",
+      "estimatedFrom": "Level II pay for every seat; Reserve Bank presidents are paid by their own boards, usually above it, so their cash is a floor."
+    }
+  },
   "memberTier": "husk",
   "governorSeats": {
     "count": 7,
