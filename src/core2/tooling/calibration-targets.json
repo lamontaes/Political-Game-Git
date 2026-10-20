@@ -1583,7 +1583,7 @@
       "limitation": "P9 output comparison is a concrete end-to-end target. The target suite cannot identify this parameter separately and no numeric bound is asserted."
     },
     {
-      "parameter": "workWakingRecoveryHours",
+      "parameter": "restDayHours",
       "tag": "TUNABLE",
       "currentValueForTraceabilityOnly": 1,
       "checkRange": {
@@ -6711,7 +6711,7 @@
         "workEveningStartMinute": "blocked: normalized aggregate paid-work observability is useful but does not independently identify this parameter or its interval",
         "workNightStartMinute": "blocked: normalized aggregate paid-work observability is useful but does not independently identify this parameter or its interval",
         "workFireCycleDays": "blocked: normalized aggregate paid-work observability is useful but does not independently identify this parameter or its interval",
-        "workWakingRecoveryHours": "blocked: normalized aggregate paid-work observability is useful but does not independently identify this parameter or its interval"
+        "restDayHours": "blocked: normalized aggregate paid-work observability is useful but does not independently identify this parameter or its interval"
       },
       "adapterGaps": [
         "The unweighted one-locality initialized roster is not the U.S. ATUS civilian noninstitutional survey sample.",
@@ -7515,7 +7515,7 @@
       "reason": "Outcome reference present; applicability-blocked and unmeasured. Age-work diary means expose contextual activity totals, but not the parameter-specific attendance or schedule coefficient interval."
     },
     {
-      "parameter": "workWakingRecoveryHours",
+      "parameter": "restDayHours",
       "ref": "EMPIRICAL-PRIMARY-ACTIVITY-AGE",
       "reason": "Outcome reference present; applicability-blocked and unmeasured. Waking recovery is not an instrument-equivalent ATUS primary activity and its coefficient interval is unidentified."
     },

@@ -4,10 +4,10 @@ title: "Stopgaps in work-cash (estimated-modeled-public-pay-obligation-bridge): 
 area: core
 kind: stopgap
 priority: 3
-status: open
+status: blocked
 claimed-by:
 pr:
-blocked-on:
+blocked-on: engine or design: The current public owner/job/pay/schedule records do not reconstruct 2021 employment authority, appropriation, deductions, pension contributions or government treasury funding.
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/work-cash.ts, kind estimated-modeled-public-pay-obligation-bridge"
 ---
