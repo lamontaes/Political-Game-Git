@@ -24,3 +24,5 @@ claimed-at:
 **Notes.** TODO
 
 Sent back 2026-10-20 from PR #5654 (branch claude/web-calibrate): src/core2/births-full-web.test.ts fails with main merged (run seed 85f1ab6ee110a92f: the factor-0.9 planning share equals the base, 0.0756 vs 0.0756, in all nine drawn places); finish on that branch, merge main into it first.
+
+Sent back 2026-10-20 from PR #5654 (branch claude/web-calibrate): docs/pool/items/web-calibrate-choice-terms.md:20 requires a one-year drawn played-world proof of full births and the retirement-age-to-older-work effect, with both stopgaps resolved. The new births test measures planning choices, and the body explicitly leaves the labor term unbuilt, so that named proof is missing. Also remove the new owner/date attribution in src/core2/births-full-web.test.ts:4; state the two-tier rule without the dated owner note.; finish on that branch, merge main into it first.
