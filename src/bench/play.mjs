@@ -31,6 +31,13 @@ const post = (path) => api(path, "POST");
 function pageIn(box, pager) {
   box.scrollTo(0, 0);
   const [back, next] = pager.querySelectorAll("button");
+  // Measure with every row showing; a page then hides the rows that are not its own.
+  for (const hidden of box.querySelectorAll(".paged-out"))
+    hidden.classList.remove("paged-out");
+  const rows = [
+    ...box.querySelectorAll(":scope > *:not(.flow), :scope > .flow > *"),
+  ];
+  const tops = rows.map((row) => row.offsetTop);
   const stops = [0];
   let sideways = false;
   if (box.clientHeight > 0) {
@@ -41,20 +48,30 @@ function pageIn(box, pager) {
       for (let x = step; x < box.scrollWidth - 2; x += step) stops.push(x);
     } else if (box.scrollHeight > box.clientHeight + 2) {
       let top = 0;
-      for (const kid of box.querySelectorAll(
-        ":scope > *:not(.flow), :scope > .flow > *",
-      )) {
-        if (kid.offsetTop + kid.offsetHeight - top > box.clientHeight) {
-          top = kid.offsetTop;
+      rows.forEach((kid, index) => {
+        if (tops[index] + kid.offsetHeight - top > box.clientHeight) {
+          top = tops[index];
           stops.push(top);
         }
-      }
+      });
     }
   }
   let at = 0;
   const go = (index) => {
     at = index;
-    box.scrollTo(sideways ? stops[at] : 0, sideways ? 0 : stops[at]);
+    if (sideways) box.scrollTo(stops[at], 0);
+    else {
+      // A plain list shows one page of rows: the rest are out of the box, not scrolled past.
+      const from = stops[at];
+      const to = stops[at + 1] ?? Infinity;
+      rows.forEach((row, index) =>
+        row.classList.toggle(
+          "paged-out",
+          stops.length > 1 && (tops[index] < from || tops[index] >= to),
+        ),
+      );
+      box.scrollTo(0, 0);
+    }
     back.hidden = at === 0;
     next.hidden = at === stops.length - 1;
   };
@@ -1092,7 +1109,7 @@ function renderFilingOverlay(value) {
     ...overlay.checks.map((check) => {
       const line = row(
         check.rule,
-        `${check.actual ?? ""}${check.required ? ` / ${check.required}` : ""}`,
+        `${check.actual ?? ""}${check.required ? ` / ${check.required}` : ""}${check.metOn ? ` · ${check.metOn}` : ""}`,
       );
       if (!check.met) line.classList.add("unmet");
       return line;
@@ -1265,19 +1282,34 @@ function speechPanel(filing, venue) {
 async function campaignRows() {
   const v = await api(`/api/campaign?id=${encodeURIComponent(me.id)}`);
   const rows = [];
-  for (const { filing, campaign, polls, day, causes, debates } of v.campaigns) {
-    const takeDay = async (kind) => {
+  for (const {
+    filing,
+    campaign,
+    polls,
+    outings,
+    causes,
+    debates,
+  } of v.campaigns) {
+    const goOut = async (outing) => {
       const result = await post(
-        `/api/campaign/day?${new URLSearchParams({ filingId: filing.id, kind })}`,
+        `/api/campaign/day?${new URLSearchParams({ filingId: filing.id, kind: outing === "doors" ? "canvass" : "raise-money" })}`,
       );
       campaignResult = [
-        controls.campaignDay[kind],
+        controls.campaignOutings[outing],
         result.doorsKnocked ? `${result.doorsKnocked} doors` : "",
         result.reached ? `${result.reached} reached` : "",
         result.raisedMinor ? dollars(result.raisedMinor) : "",
       ]
         .filter(Boolean)
         .join(" · ");
+      // The doors and the calls are seen where they happen, with the people reached.
+      if (result.scene) {
+        closeSheet();
+        $("backdrop").src = result.scene.backdrop.url;
+        drawPeople(result.scene.people);
+        $("card-why").textContent = campaignResult;
+        return;
+      }
       openSheet("campaigns");
     };
     const act = async (kind, extra = {}) => {
@@ -1330,14 +1362,13 @@ async function campaignRows() {
         el(
           "div",
           {},
-          el("b", { textContent: controls.campaignDay.title }),
-          ...(day ?? []).map((choice) => {
+          ...(outings ?? []).map((choice) => {
             const b = el("button", {
               type: "button",
-              textContent: `${controls.campaignDay[choice.kind]} · ${choice.hours} ${controls.campaignDay.hours}`,
+              textContent: `${controls.campaignOutings[choice.outing]} · ${choice.hours} ${controls.campaignOutings.hours}`,
               disabled: !choice.available,
             });
-            b.addEventListener("click", () => takeDay(choice.kind));
+            b.addEventListener("click", () => goOut(choice.outing));
             return b;
           }),
         ),
@@ -2326,6 +2357,29 @@ const sheets = {
         );
       root.append(home);
     }
+    if (bank?.month)
+      root.append(
+        el(
+          "section",
+          { className: "money-month" },
+          el("h3", { textContent: `${labels.lastMonth} · ${bank.month.date}` }),
+          row(labels.monthHousing, dollars(bank.month.housingMinor)),
+          row(labels.monthEveryday, dollars(bank.month.everydayMinor)),
+          row(labels.monthPaid, dollars(bank.month.paidMinor)),
+          row(labels.monthUnpaid, dollars(bank.month.unpaidMinor)),
+          ...(bank.loanPayments?.length
+            ? [
+                el("h3", { textContent: labels.loanPayments }),
+                ...bank.loanPayments.map((payment) =>
+                  row(
+                    payment.date,
+                    `${dollars(payment.paidMinor)} ${labels.loanPaid} · ${dollars(payment.dueMinor)} ${labels.loanDue}`,
+                  ),
+                ),
+              ]
+            : []),
+        ),
+      );
     if (bank)
       root.append(
         el(
@@ -2550,6 +2604,17 @@ const sheets = {
             .map(([k, n]) => `${k} ${n}`)
             .join(" · "),
         ),
+        race.places.length
+          ? el(
+              "div",
+              {},
+              el("b", { textContent: `${labels.wonIn} ` }),
+              race.places
+                .slice(0, 6)
+                .map((p) => `${p.name} ${p.leader ?? ""} · ${number(p.cast)}`)
+                .join(" · "),
+            )
+          : "",
         race.ballot
           ? el(
               "div",
