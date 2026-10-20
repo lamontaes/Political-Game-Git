@@ -1529,11 +1529,9 @@ async function showPerson(person) {
         ),
       ...(known
         ? [
-            row("party", known.party),
-            row("since", known.serviceStart),
-            row("votes", known.votesOnRecord),
-            row("sponsored", known.lawsSponsored),
-            row("signed", known.lawsSigned),
+            ...(c.publicSentences ?? []).map((line) =>
+              el("p", { className: "dossier-public", textContent: line.text }),
+            ),
             ...known.positions.map((p) =>
               row(
                 policyLabel(p.question),

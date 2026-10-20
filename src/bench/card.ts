@@ -4,7 +4,9 @@ import { reachOn } from "../core2/law-reach/host";
 import { coreAPI, personOrFillIn } from "../core2/state";
 import { currentCloseness } from "../core2/closeness";
 import { HOUSING_MODULE_ID } from "../core2/modules/housing";
+import { OFFICES_MODULE_ID } from "../core2/modules/offices";
 import { PAST_MODULE_ID } from "../core2/past-module";
+import { publicFigureSentences } from "../director/mined/public-bank";
 import { publicKnowledgeOf } from "../core2/past-public";
 import type { CoreState } from "../core2/types";
 import { relationWord, schoolsOf } from "./words";
@@ -19,6 +21,55 @@ import { VIEWS_MODULE_ID, viewOf } from "../core2/modules/views";
 
 // Engineering page size for the card's closest people, not a model value.
 const CLOSEST = 8;
+
+const MONTHS = [
+  "January",
+  "February",
+  "March",
+  "April",
+  "May",
+  "June",
+  "July",
+  "August",
+  "September",
+  "October",
+  "November",
+  "December",
+];
+/** An ISO date as people say it: "January 20, 2025". */
+function sayDate(iso: string): string {
+  const [year, month, day] = iso.split("-").map(Number);
+  return `${MONTHS[month! - 1]} ${day}, ${year}`;
+}
+
+/** What the town knows of a public figure, in sentences from the English engine. */
+export function publicSentences(
+  core: CoreState,
+  otherId: string,
+  known: ReturnType<typeof publicKnowledgeOf>,
+  includeHeld = false,
+) {
+  const other = core.people.get(otherId);
+  if (!known || !other) return [];
+  const office = coreAPI(core)
+    .moduleState(OFFICES_MODULE_ID)
+    .table("offices")
+    .get(known.officeId) as unknown as { title?: string } | undefined;
+  return publicFigureSentences(
+    {
+      recordId: known.id,
+      name: `${other.givenName} ${other.familyName}`,
+      office: office?.title ? `the ${office.title}` : null,
+      party: known.party,
+      serviceDate: known.serviceStart ? sayDate(known.serviceStart) : null,
+      votes: known.votesOnRecord,
+      sponsored: known.lawsSponsored,
+      signed: known.lawsSigned,
+    },
+    undefined,
+    includeHeld,
+  );
+}
 
 /** A person card: who they are, from their records only. */
 export function personCard(core: CoreState, personId: string) {
@@ -219,6 +270,13 @@ export function knownCard(core: CoreState, viewerId: string, otherId: string) {
     publicKnowledge: core.modules.has(PAST_MODULE_ID)
       ? publicKnowledgeOf(coreAPI(core), viewerId, otherId)
       : null,
+    publicSentences: core.modules.has(PAST_MODULE_ID)
+      ? publicSentences(
+          core,
+          otherId,
+          publicKnowledgeOf(coreAPI(core), viewerId, otherId),
+        )
+      : [],
     // A large standing figure: the person on the lead spot of the room you're in.
     figureUrl:
       stagePeople(core, scenePlace(core, viewerId).place, [
