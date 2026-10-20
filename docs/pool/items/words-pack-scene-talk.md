@@ -5,13 +5,13 @@ area: words
 kind: feature
 priority: 1
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/last-check
 pr: #4626
 blocked-on:
 after: words-scene-talk
 source: added with npm run pool -- add
-claimed-at:
+claimed-at: 2026-10-20T02:35:46.809Z
 ---
 
 **What.** Word pack: the scene-talk pieces the owner kept, folded into the bank and calibrated on real exchanges. The owner kept some pieces from the rejected batches, and they must live in the bank as data so scenes can use them. Fold the kept pieces into data/english/parts with their moves, registers and bearings, and calibrate their use on the corpus.
