@@ -12,7 +12,7 @@ import type { CoreState } from "./types";
 // several days does not repeat it. The bench world, a place drawn from all 56
 // on a seed nobody chose, four months from the start.
 const seed = process.env.SHARE_ONCE_SEED ?? randomBytes(8).toString("hex");
-const place = drawPlace(seed, "share-once");
+const place = drawPlace(seed, process.env.SHARE_ONCE_PURPOSE ?? "share-once");
 
 describe(`sharing a cause (${place.name}, seed ${seed})`, () => {
   it("tells each neighbor each cause once", () => {
