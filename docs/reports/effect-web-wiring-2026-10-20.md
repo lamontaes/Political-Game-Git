@@ -70,6 +70,18 @@ By point, after the fixes:
 - **Varied:** 15 of 221 vary by person. The research behind most others reports no split, and each such link says so.
 - **Timing:** 2 of 221 links build up over months: violent crime's pull on moving away builds over 60 months, and new transit service over 24. The rest change fully once their lag passes.
 
+## Shifting one cause in a copy of the town
+
+The twin check plays Paris, Arkansas, twice for three months, shifting one cause in one copy, and compares every record. Before the fixes, no engine record moved for any of 15 causes. After them, 12 of 16 causes move records outside the web:
+
+- Unemployment, police staffing and the crime index change the month's crimes.
+- Violent crime moves families out.
+- Particulates and the speed limit change counted deaths, and the birth level changes counted births.
+- The corporate tax, broadband, road condition and transit change pay, prices and the budgets that follow.
+- Home prices change only the economy's own figures.
+
+The other four do not move in three months. The uninsured share, poverty and graduation act after 12 to 120 months, and SNAP receipt has no engine reader, which its stopgap records. The counts of moved record kinds include knock-on changes, since one changed record moves others. Earlier runs undercounted for two reasons, both now fixed: the check lost its shift whenever the web rewrote a month's row, and it could not see nested fields.
+
 ## What happens next
 
 - **Merging:** #5557, the per-person reach, is merged. Next come voting #5563, births #5567, schools #5609, poverty #5610, housing #5611, moves #5612, labor #5617, prices #5618, crime #5619, sizes #5624, health #5627, knowing #5637, moderators #5648 and causes of death #5650, which stacks on health. The last piece is #5639, the branch carrying the unwired list and this report.
@@ -79,4 +91,4 @@ By point, after the fixes:
   - Sizes (#5624) and health (#5627) both edit Medicaid's mortality link. Health's values should win.
 - **Sources not reached:** 12 links had a possible split in research the helper could not open (paywall or blocked); they stay unvaried until a session with library access reads them.
 
-Method: the static matrix is `scripts/outcome-web/effect-matrix.ts`. The played years are `scripts/outcome-web/web-year.ts` with seeds ewyear-a and ewyear-b. The twin check is `src/core2/outcome-web-twins.test.ts` with seed ew20oct26. In Paris, Arkansas, the twin check shifts each running cause one at a time for three months against an unshifted copy. Before the fixes no engine record moved for any of 15 causes. After them, 5 of 16 moved records outside the web: the crime index, unemployment and police staffing changed the month's crimes, the corporate tax changed pay, and home prices changed the economy's own figures. Of the other 11, three act after more than three months (the uninsured share on graduation, poverty on math results, graduation on turnout). The other eight, among them the speed limit on road deaths and particulates on infant deaths, have no lag and still moved no record total in three months. Why is not yet traced; a small change in a death or move rate may not change a whole death or move in a town this size.
+Method: the static matrix is `scripts/outcome-web/effect-matrix.ts`. The played years are `scripts/outcome-web/web-year.ts` with seeds ewyear-a and ewyear-b. The twin check is `src/core2/outcome-web-twins.test.ts` with seed ew20oct26.

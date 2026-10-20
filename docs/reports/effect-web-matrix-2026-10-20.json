@@ -12438,44 +12438,417 @@
     "seed": "ew20oct26",
     "place": "Paris, Arkansas, US-AR (0553480)",
     "months": 3,
-    "seconds": 1238,
+    "seconds": 1239,
     "results": [
       {
         "cause": "births.rate-index",
         "shiftedBy": "10% of its level",
         "shiftedRecords": [
+          "web:jurisdiction_2516a182010dba98:2025-01",
           "web:jurisdiction_2516a182010dba98:2025-02",
-          "web:jurisdiction_2516a182010dba98:2025-03",
-          "web:jurisdiction_2516a182010dba98:2025-04"
+          "web:jurisdiction_2516a182010dba98:2025-02"
         ],
         "links": ["births-level-to-births"],
-        "movedRecordKinds": []
+        "movedRecordKinds": [
+          {
+            "record": "core2-constituent-cases-v1/cases:sum",
+            "control": 91.96685308554093,
+            "shifted": 92.04494469710595
+          },
+          {
+            "record": "core2-counted-moves-v1/pulls:sum",
+            "control": 15424.325101354525,
+            "shifted": 15425.32531112815
+          },
+          {
+            "record": "core2-crime-v1/carry:sum",
+            "control": 4.544075637621353,
+            "shifted": 4.5530375546741455
+          },
+          {
+            "record": "core2-crime-v1/months:sum",
+            "control": 24738.349632636604,
+            "shifted": 24739.41617081226
+          },
+          {
+            "record": "core2-crime-v1/pressure:sum",
+            "control": 2.6610756376213596,
+            "shifted": 2.6700375546741544
+          },
+          {
+            "record": "core2-employer-taxes-v1/quarters:sum",
+            "control": 2285583454,
+            "shifted": 2285580264
+          },
+          {
+            "record": "core2-law-effects-v1/applied:sum",
+            "control": 130484413,
+            "shifted": 130484146
+          },
+          {
+            "record": "core2-law-reach-b-v1/groups:sum",
+            "control": 1151450590.5871663,
+            "shifted": 1151786855.5871663
+          },
+          {
+            "record": "core2-law-reach-b-v1/taken:sum",
+            "control": 22181583918.800007,
+            "shifted": 22181752047.800007
+          },
+          {
+            "record": "core2-public-safety-v1/cases:sum",
+            "control": 270.9418176765428,
+            "shifted": 270.94189463696193
+          },
+          {
+            "record": "core2-public-safety-v1/months:sum",
+            "control": 656.4263970678625,
+            "shifted": 656.3872176410944
+          },
+          {
+            "record": "core2-renewal-v1/births:rows",
+            "control": 46,
+            "shifted": 47
+          },
+          {
+            "record": "core2-renewal-v1/births:text",
+            "control": 1514888476,
+            "shifted": 1406349375
+          },
+          {
+            "record": "core2-renewal-v1/countedCarry:sum",
+            "control": 3.5807849639976697,
+            "shifted": 3.2448899619739286
+          },
+          {
+            "record": "core2-renewal-v1/counts:sum",
+            "control": 221515.60260314582,
+            "shifted": 221517.46816268927
+          },
+          {
+            "record": "core2-renewal-v1/counts:text",
+            "control": 1456223568,
+            "shifted": 1767870036
+          }
+        ]
       },
       {
         "cause": "broadband.home-access",
         "shiftedBy": "10% of its level",
         "shiftedRecords": [
+          "web:jurisdiction_2516a182010dba98:2025-01",
           "web:jurisdiction_2516a182010dba98:2025-02",
-          "web:jurisdiction_2516a182010dba98:2025-03",
-          "web:jurisdiction_2516a182010dba98:2025-04"
+          "web:jurisdiction_2516a182010dba98:2025-02"
         ],
         "links": [
           "home-internet-to-scores",
           "broadband-to-employment",
           "broadband-to-married-women-work"
         ],
-        "movedRecordKinds": []
+        "movedRecordKinds": [
+          {
+            "record": "business/draws:sum",
+            "control": 3317919051,
+            "shifted": 3318484083
+          },
+          {
+            "record": "business/owners:sum",
+            "control": 7284232640.26584,
+            "shifted": 7284193426.26584
+          },
+          {
+            "record": "business/trading:sum",
+            "control": 5671212595.473035,
+            "shifted": 5671276919.473035
+          },
+          {
+            "record": "core:actCounters",
+            "control": 3271,
+            "shifted": 3270
+          },
+          {
+            "record": "core:durableLog",
+            "control": 5030,
+            "shifted": 5036
+          },
+          {
+            "record": "core:jobs",
+            "control": 1721,
+            "shifted": 1720
+          },
+          {
+            "record": "core:relationships",
+            "control": 8127,
+            "shifted": 8128
+          },
+          {
+            "record": "core2-budgets-v1/withholding:rows",
+            "control": 5315,
+            "shifted": 5312
+          },
+          {
+            "record": "core2-budgets-v1/withholding:sum",
+            "control": 5776536823,
+            "shifted": 5776179846
+          },
+          {
+            "record": "core2-budgets-v1/withholding:text",
+            "control": 3377083949,
+            "shifted": 1006108137
+          },
+          {
+            "record": "core2-budgets-v1/yearToDate:rows",
+            "control": 1689,
+            "shifted": 1688
+          },
+          {
+            "record": "core2-budgets-v1/yearToDate:sum",
+            "control": 2901835840,
+            "shifted": 2901672908
+          },
+          {
+            "record": "core2-budgets-v1/yearToDate:text",
+            "control": 3252335895,
+            "shifted": 493585633
+          },
+          {
+            "record": "core2-campaigns-v1/causes:sum",
+            "control": 147.36466155834188,
+            "shifted": 147.368218474296
+          },
+          {
+            "record": "core2-campaigns-v1/impressions:sum",
+            "control": 493.08979133960213,
+            "shifted": 493.09112518308496
+          },
+          {
+            "record": "core2-constituent-cases-v1/cases:sum",
+            "control": 91.96685308554093,
+            "shifted": 91.86615997392778
+          },
+          {
+            "record": "core2-crime-v1/carry:sum",
+            "control": 4.544075637621353,
+            "shifted": 4.579296539797348
+          },
+          {
+            "record": "core2-crime-v1/months:sum",
+            "control": 24738.349632636604,
+            "shifted": 24738.877853045517
+          },
+          {
+            "record": "core2-crime-v1/pressure:sum",
+            "control": 2.6610756376213596,
+            "shifted": 2.696296539797357
+          },
+          {
+            "record": "core2-employer-taxes-v1/quarters:sum",
+            "control": 2285583454,
+            "shifted": 2285526873
+          },
+          {
+            "record": "core2-employer-taxes-v1/shares:rows",
+            "control": 857,
+            "shifted": 854
+          },
+          {
+            "record": "core2-employer-taxes-v1/shares:sum",
+            "control": 533186528,
+            "shifted": 532946594
+          },
+          {
+            "record": "core2-employer-taxes-v1/shares:text",
+            "control": 2344773585,
+            "shifted": 2698720139
+          },
+          {
+            "record": "core2-employer-taxes-v1/yearToDate:rows",
+            "control": 171,
+            "shifted": 170
+          },
+          {
+            "record": "core2-employer-taxes-v1/yearToDate:sum",
+            "control": 68871646.33223987,
+            "shifted": 68704342.84889336
+          },
+          {
+            "record": "core2-employer-taxes-v1/yearToDate:text",
+            "control": 231075883,
+            "shifted": 2044152122
+          },
+          {
+            "record": "core2-law-effects-v1/applied:sum",
+            "control": 130484413,
+            "shifted": 130481426
+          },
+          {
+            "record": "core2-press-v1/stories:sum",
+            "control": 195444.61787817808,
+            "shifted": 195444.67420132752
+          },
+          {
+            "record": "core2-public-safety-v1/cases:sum",
+            "control": 270.9418176765428,
+            "shifted": 270.9556327291789
+          },
+          {
+            "record": "core2-public-safety-v1/months:sum",
+            "control": 656.4263970678625,
+            "shifted": 656.7528694612972
+          },
+          {
+            "record": "core2-renewal-v1/plans:sum",
+            "control": -3420.090284866478,
+            "shifted": -3414.9692809687767
+          },
+          {
+            "record": "credit/households:sum",
+            "control": 133925365,
+            "shifted": 133868468
+          },
+          {
+            "record": "jobs/changes:rows",
+            "control": 135,
+            "shifted": 136
+          },
+          {
+            "record": "jobs/changes:sum",
+            "control": 20833180189.432995,
+            "shifted": 24861123136.110485
+          },
+          {
+            "record": "jobs/changes:text",
+            "control": 820112581,
+            "shifted": 105138672
+          },
+          {
+            "record": "jobs/countedSeekers:rows",
+            "control": 172,
+            "shifted": 171
+          },
+          {
+            "record": "jobs/countedSeekers:sum",
+            "control": 484686.64285714255,
+            "shifted": 479359.85714285687
+          },
+          {
+            "record": "jobs/countedSeekers:text",
+            "control": 1234488563,
+            "shifted": 4004809067
+          },
+          {
+            "record": "jobs/employers:sum",
+            "control": 2109.3270635898857,
+            "shifted": 2109.594705613707
+          },
+          {
+            "record": "jobs/employers:text",
+            "control": 4136731412,
+            "shifted": 1392446926
+          },
+          {
+            "record": "jobs/pay:text",
+            "control": 977359154,
+            "shifted": 1796261661
+          },
+          {
+            "record": "jobs/positions:text",
+            "control": 1913223188,
+            "shifted": 2457904062
+          },
+          {
+            "record": "jobs/seekers:rows",
+            "control": 67,
+            "shifted": 68
+          },
+          {
+            "record": "jobs/seekers:text",
+            "control": 2369501764,
+            "shifted": 1282588840
+          },
+          {
+            "record": "jobs/spells:text",
+            "control": 1410512211,
+            "shifted": 1136290578
+          },
+          {
+            "record": "jobs/state:sum",
+            "control": 3.5143453356888057,
+            "shifted": 3.4741717482115906
+          },
+          {
+            "record": "log:news.read",
+            "control": 34,
+            "shifted": 33
+          },
+          {
+            "record": "log:person.acted",
+            "control": 4348,
+            "shifted": 4355
+          },
+          {
+            "record": "moves/pulls:sum",
+            "control": 385.05156383546205,
+            "shifted": 385.068817596297
+          },
+          {
+            "record": "moves/pulls:text",
+            "control": 2686885873,
+            "shifted": 1867279457
+          },
+          {
+            "record": "news/heard:rows",
+            "control": 12759,
+            "shifted": 12747
+          },
+          {
+            "record": "news/heard:text",
+            "control": 1040538438,
+            "shifted": 1210214615
+          },
+          {
+            "record": "news/stories:text",
+            "control": 261089389,
+            "shifted": 2710914721
+          },
+          {
+            "record": "views/stances:rows",
+            "control": 669,
+            "shifted": 668
+          },
+          {
+            "record": "views/stances:sum",
+            "control": 6772.78032882024,
+            "shifted": 6770.769855738089
+          },
+          {
+            "record": "views/stances:text",
+            "control": 4123693952,
+            "shifted": 1800758962
+          }
+        ]
       },
       {
         "cause": "crime.violent",
         "shiftedBy": "10% of its level",
         "shiftedRecords": [
+          "web:jurisdiction_2516a182010dba98:2025-01",
           "web:jurisdiction_2516a182010dba98:2025-02",
-          "web:jurisdiction_2516a182010dba98:2025-03",
-          "web:jurisdiction_2516a182010dba98:2025-04"
+          "web:jurisdiction_2516a182010dba98:2025-02"
         ],
         "links": ["crime-to-out-migration"],
-        "movedRecordKinds": []
+        "movedRecordKinds": [
+          {
+            "record": "core2-counted-moves-v1/pulls:sum",
+            "control": 15424.325101354525,
+            "shifted": 15424.326333821145
+          },
+          {
+            "record": "moves/pulls:sum",
+            "control": 385.05156383546205,
+            "shifted": 385.0658739299416
+          }
+        ]
       },
       {
         "cause": "crime.violent-victimization-index",
@@ -12493,23 +12866,68 @@
         "movedRecordKinds": [
           {
             "record": "core2-crime-v1/carry:sum",
-            "control": 5.124193415932395,
-            "shifted": 2.5831508855201637
+            "control": 4.544075637621353,
+            "shifted": 3.5517962787667314
           },
           {
             "record": "core2-crime-v1/months:sum",
-            "control": 24538.466875148253,
-            "shifted": 24595.44977370656
+            "control": 24738.349632636604,
+            "shifted": 24806.842141672776
+          },
+          {
+            "record": "core2-crime-v1/months:text",
+            "control": 950654702,
+            "shifted": 30699856
           },
           {
             "record": "core2-crime-v1/pressure:sum",
-            "control": 3.2411934159324023,
-            "shifted": 1.6111508855201695
+            "control": 2.6610756376213596,
+            "shifted": 1.9867962787667477
           },
           {
             "record": "core2-crime-v1/tallies:rows",
             "control": 38,
-            "shifted": 39
+            "shifted": 40
+          },
+          {
+            "record": "core2-crime-v1/tallies:sum",
+            "control": 62,
+            "shifted": 65
+          },
+          {
+            "record": "core2-crime-v1/tallies:text",
+            "control": 2626722592,
+            "shifted": 4016042642
+          },
+          {
+            "record": "core2-law-effects-v1/applied:sum",
+            "control": 130484413,
+            "shifted": 130483742
+          },
+          {
+            "record": "core2-press-v1/stories:sum",
+            "control": 195444.61787817808,
+            "shifted": 195444.62033140342
+          },
+          {
+            "record": "core2-press-v1/stories:text",
+            "control": 808147393,
+            "shifted": 242828433
+          },
+          {
+            "record": "core2-public-safety-v1/cases:sum",
+            "control": 270.9418176765428,
+            "shifted": 272.2035039662278
+          },
+          {
+            "record": "core2-public-safety-v1/months:sum",
+            "control": 656.4263970678625,
+            "shifted": 686.6013727469583
+          },
+          {
+            "record": "news/stories:text",
+            "control": 261089389,
+            "shifted": 2782699269
           }
         ]
       },
@@ -12517,20 +12935,31 @@
         "cause": "env.particulates",
         "shiftedBy": "10% of its level",
         "shiftedRecords": [
+          "web:jurisdiction_2516a182010dba98:2025-01",
           "web:jurisdiction_2516a182010dba98:2025-02",
-          "web:jurisdiction_2516a182010dba98:2025-03",
-          "web:jurisdiction_2516a182010dba98:2025-04"
+          "web:jurisdiction_2516a182010dba98:2025-02"
         ],
         "links": ["particles-to-infant-deaths"],
-        "movedRecordKinds": []
+        "movedRecordKinds": [
+          {
+            "record": "core2-renewal-v1/countedCarry:sum",
+            "control": 3.5807849639976697,
+            "shifted": 3.583216071285288
+          },
+          {
+            "record": "core2-renewal-v1/counts:sum",
+            "control": 221515.60260314582,
+            "shifted": 221515.6050342531
+          }
+        ]
       },
       {
         "cause": "health.uninsured-pct",
         "shiftedBy": "10% of its level",
         "shiftedRecords": [
+          "web:jurisdiction_2516a182010dba98:2025-01",
           "web:jurisdiction_2516a182010dba98:2025-02",
-          "web:jurisdiction_2516a182010dba98:2025-03",
-          "web:jurisdiction_2516a182010dba98:2025-04"
+          "web:jurisdiction_2516a182010dba98:2025-02"
         ],
         "links": ["uninsured-to-graduation"],
         "movedRecordKinds": []
@@ -12561,8 +12990,8 @@
         "movedRecordKinds": [
           {
             "record": "world-metrics/months:sum",
-            "control": 606610734792.4066,
-            "shifted": 606613782895.3068
+            "control": 616476425091.353,
+            "shifted": 616479473194.2532
           }
         ]
       },
@@ -12587,28 +13016,63 @@
         "movedRecordKinds": [
           {
             "record": "core2-crime-v1/carry:sum",
-            "control": 5.124193415932395,
-            "shifted": 4.241411039006399
+            "control": 4.544075637621353,
+            "shifted": 4.924762367041705
           },
           {
             "record": "core2-crime-v1/months:sum",
-            "control": 24538.466875148253,
-            "shifted": 24538.21847860038
+            "control": 24738.349632636604,
+            "shifted": 24741.516861132717
           },
           {
             "record": "core2-crime-v1/openings:sum",
-            "control": 0.02359703438830673,
-            "shifted": 0.023904019268913394
+            "control": 0.023381000260545154,
+            "shifted": 0.02368710842265065
           },
           {
             "record": "core2-crime-v1/pressure:sum",
-            "control": 3.2411934159324023,
-            "shifted": 2.1504110390064053
+            "control": 2.6610756376213596,
+            "shifted": 2.567762367041709
           },
           {
             "record": "core2-crime-v1/tallies:rows",
             "control": 38,
             "shifted": 39
+          },
+          {
+            "record": "core2-crime-v1/tallies:sum",
+            "control": 62,
+            "shifted": 63
+          },
+          {
+            "record": "core2-crime-v1/tallies:text",
+            "control": 2626722592,
+            "shifted": 515512394
+          },
+          {
+            "record": "core2-law-effects-v1/applied:sum",
+            "control": 130484413,
+            "shifted": 130484270
+          },
+          {
+            "record": "core2-press-v1/stories:sum",
+            "control": 195444.61787817808,
+            "shifted": 195440.59676862558
+          },
+          {
+            "record": "core2-public-safety-v1/cases:sum",
+            "control": 270.9418176765428,
+            "shifted": 271.3546523730512
+          },
+          {
+            "record": "core2-public-safety-v1/months:sum",
+            "control": 656.4263970678625,
+            "shifted": 671.3116834027037
+          },
+          {
+            "record": "news/stories:text",
+            "control": 261089389,
+            "shifted": 363304025
           }
         ]
       },
@@ -12616,9 +13080,9 @@
         "cause": "police.officers-per-1000",
         "shiftedBy": "10% of its level",
         "shiftedRecords": [
+          "web:jurisdiction_2516a182010dba98:2025-01",
           "web:jurisdiction_2516a182010dba98:2025-02",
-          "web:jurisdiction_2516a182010dba98:2025-03",
-          "web:jurisdiction_2516a182010dba98:2025-04"
+          "web:jurisdiction_2516a182010dba98:2025-02"
         ],
         "links": [
           "police-to-violent-crime",
@@ -12627,19 +13091,79 @@
         ],
         "movedRecordKinds": [
           {
+            "record": "core2-counted-moves-v1/pulls:sum",
+            "control": 15424.325101354525,
+            "shifted": 15424.324891835202
+          },
+          {
             "record": "core2-crime-v1/carry:sum",
-            "control": 5.124193415932395,
-            "shifted": 4.647714992730651
+            "control": 4.544075637621353,
+            "shifted": 3.8501135636599377
           },
           {
             "record": "core2-crime-v1/months:sum",
-            "control": 24538.466875148253,
-            "shifted": 24533.15765982422
+            "control": 24738.349632636604,
+            "shifted": 24734.62274503625
+          },
+          {
+            "record": "core2-crime-v1/months:text",
+            "control": 950654702,
+            "shifted": 4121488650
+          },
+          {
+            "record": "core2-crime-v1/openings:sum",
+            "control": 0.023381000260545154,
+            "shifted": 0.02289425213834502
           },
           {
             "record": "core2-crime-v1/pressure:sum",
-            "control": 3.2411934159324023,
-            "shifted": 2.7647149927306627
+            "control": 2.6610756376213596,
+            "shifted": 2.2626135636599654
+          },
+          {
+            "record": "core2-crime-v1/tallies:rows",
+            "control": 38,
+            "shifted": 37
+          },
+          {
+            "record": "core2-crime-v1/tallies:sum",
+            "control": 62,
+            "shifted": 61
+          },
+          {
+            "record": "core2-crime-v1/tallies:text",
+            "control": 2626722592,
+            "shifted": 2802031864
+          },
+          {
+            "record": "core2-law-effects-v1/applied:sum",
+            "control": 130484413,
+            "shifted": 130484295
+          },
+          {
+            "record": "core2-public-safety-v1/cases:sum",
+            "control": 270.9418176765428,
+            "shifted": 270.8234902379171
+          },
+          {
+            "record": "core2-public-safety-v1/months:sum",
+            "control": 656.4263970678625,
+            "shifted": 652.7002516525943
+          },
+          {
+            "record": "core2-public-safety-v1/terms:sum",
+            "control": 3755.166417120087,
+            "shifted": 3755.1635880290455
+          },
+          {
+            "record": "moves/pulls:sum",
+            "control": 385.05156383546205,
+            "shifted": 385.04914591232927
+          },
+          {
+            "record": "news/stories:text",
+            "control": 261089389,
+            "shifted": 261089141
           }
         ]
       },
@@ -12647,9 +13171,9 @@
         "cause": "program.snap-receipt",
         "shiftedBy": "10% of its level",
         "shiftedRecords": [
+          "web:jurisdiction_2516a182010dba98:2025-01",
           "web:jurisdiction_2516a182010dba98:2025-02",
-          "web:jurisdiction_2516a182010dba98:2025-03",
-          "web:jurisdiction_2516a182010dba98:2025-04"
+          "web:jurisdiction_2516a182010dba98:2025-02"
         ],
         "links": ["snap-to-food-insecurity"],
         "movedRecordKinds": []
@@ -12658,31 +13182,178 @@
         "cause": "roads.poor-condition-pct",
         "shiftedBy": "10% of its level",
         "shiftedRecords": [
+          "web:jurisdiction_2516a182010dba98:2025-01",
           "web:jurisdiction_2516a182010dba98:2025-02",
-          "web:jurisdiction_2516a182010dba98:2025-03",
-          "web:jurisdiction_2516a182010dba98:2025-04"
+          "web:jurisdiction_2516a182010dba98:2025-02"
         ],
         "links": ["poor-roads-to-prices"],
-        "movedRecordKinds": []
+        "movedRecordKinds": [
+          {
+            "record": "business/draws:sum",
+            "control": 3317919051,
+            "shifted": 3318089557
+          },
+          {
+            "record": "business/owners:sum",
+            "control": 7284232640.26584,
+            "shifted": 7284260098.26584
+          },
+          {
+            "record": "business/trading:sum",
+            "control": 5671212595.473035,
+            "shifted": 5671221265.473035
+          },
+          {
+            "record": "contracts/awards:sum",
+            "control": 56520353,
+            "shifted": 56520361
+          },
+          {
+            "record": "core2-budgets-v1/arrears:sum",
+            "control": 51214247,
+            "shifted": 51214117
+          },
+          {
+            "record": "core2-budgets-v1/serviceChargeMonths:sum",
+            "control": 271841328,
+            "shifted": 271841172
+          },
+          {
+            "record": "core2-campaigns-v1/causes:sum",
+            "control": 147.36466155834188,
+            "shifted": 147.36483674205317
+          },
+          {
+            "record": "core2-campaigns-v1/impressions:sum",
+            "control": 493.08979133960213,
+            "shifted": 493.08985703349384
+          },
+          {
+            "record": "core2-campaigns-v1/money:text",
+            "control": 2615374977,
+            "shifted": 1070180163
+          },
+          {
+            "record": "core2-constituent-cases-v1/cases:sum",
+            "control": 91.96685308554093,
+            "shifted": 91.96829676732662
+          },
+          {
+            "record": "core2-employer-taxes-v1/quarters:sum",
+            "control": 2285583454,
+            "shifted": 2285655413
+          },
+          {
+            "record": "core2-law-effects-v1/applied:sum",
+            "control": 130484413,
+            "shifted": 130489140
+          },
+          {
+            "record": "core2-public-safety-v1/cases:sum",
+            "control": 270.9418176765428,
+            "shifted": 270.9418239187179
+          },
+          {
+            "record": "core2-public-safety-v1/months:sum",
+            "control": 656.4263970678625,
+            "shifted": 656.4267955729731
+          },
+          {
+            "record": "core2-renewal-v1/plans:sum",
+            "control": -3420.090284866478,
+            "shifted": -3420.100412004546
+          },
+          {
+            "record": "credit/books:sum",
+            "control": 20915771809.62843,
+            "shifted": 20915367075.828426
+          },
+          {
+            "record": "credit/households:sum",
+            "control": 133925365,
+            "shifted": 133938650
+          },
+          {
+            "record": "credit/payments:sum",
+            "control": 1999456,
+            "shifted": 1999353
+          },
+          {
+            "record": "housing/mortgages:sum",
+            "control": 7393094058.348691,
+            "shifted": 7393094252.348691
+          },
+          {
+            "record": "housing/state:sum",
+            "control": 121147530.2051308,
+            "shifted": 121147329.2051308
+          },
+          {
+            "record": "housing/taxArrears:sum",
+            "control": 236583,
+            "shifted": 236673
+          },
+          {
+            "record": "jobs/changes:sum",
+            "control": 20833180189.432995,
+            "shifted": 20833801380.155247
+          },
+          {
+            "record": "jobs/employers:sum",
+            "control": 2109.3270635898857,
+            "shifted": 2109.221346327702
+          },
+          {
+            "record": "jobs/positions:sum",
+            "control": 62286.759379430296,
+            "shifted": 62283.62473540667
+          },
+          {
+            "record": "jobs/state:sum",
+            "control": 3.5143453356888057,
+            "shifted": 3.514349487092908
+          },
+          {
+            "record": "news/stories:text",
+            "control": 261089389,
+            "shifted": 261089157
+          },
+          {
+            "record": "world-metrics/months:sum",
+            "control": 616476425091.353,
+            "shifted": 616476437313.3544
+          }
+        ]
       },
       {
         "cause": "roads.rural-interstate-speed-limit",
         "shiftedBy": "10% of its level",
         "shiftedRecords": [
+          "web:jurisdiction_2516a182010dba98:2025-01",
           "web:jurisdiction_2516a182010dba98:2025-02",
-          "web:jurisdiction_2516a182010dba98:2025-03",
-          "web:jurisdiction_2516a182010dba98:2025-04"
+          "web:jurisdiction_2516a182010dba98:2025-02"
         ],
         "links": ["speed-limit-to-traffic-deaths"],
-        "movedRecordKinds": []
+        "movedRecordKinds": [
+          {
+            "record": "core2-renewal-v1/countedCarry:sum",
+            "control": 3.5807849639976697,
+            "shifted": 3.5846610101584053
+          },
+          {
+            "record": "core2-renewal-v1/counts:sum",
+            "control": 221515.60260314582,
+            "shifted": 221515.60647919198
+          }
+        ]
       },
       {
         "cause": "school.graduation-pct",
         "shiftedBy": "10% of its level",
         "shiftedRecords": [
+          "web:jurisdiction_2516a182010dba98:2025-01",
           "web:jurisdiction_2516a182010dba98:2025-02",
-          "web:jurisdiction_2516a182010dba98:2025-03",
-          "web:jurisdiction_2516a182010dba98:2025-04"
+          "web:jurisdiction_2516a182010dba98:2025-02"
         ],
         "links": ["graduation-to-turnout", "graduation-to-poverty"],
         "movedRecordKinds": []
@@ -12691,16 +13362,646 @@
         "cause": "tax.state-corporate-rate",
         "shiftedBy": "10% of its level",
         "shiftedRecords": [
+          "web:jurisdiction_2516a182010dba98:2025-01",
           "web:jurisdiction_2516a182010dba98:2025-02",
-          "web:jurisdiction_2516a182010dba98:2025-03",
-          "web:jurisdiction_2516a182010dba98:2025-04"
+          "web:jurisdiction_2516a182010dba98:2025-02"
         ],
         "links": ["corporate-tax-incidence"],
         "movedRecordKinds": [
           {
+            "record": "business/draws:sum",
+            "control": 3317919051,
+            "shifted": 3317644397
+          },
+          {
+            "record": "business/owners:sum",
+            "control": 7284232640.26584,
+            "shifted": 7283509155.267323
+          },
+          {
+            "record": "business/trading:sum",
+            "control": 5671212595.473035,
+            "shifted": 5670848597.474518
+          },
+          {
+            "record": "contracts/awards:sum",
+            "control": 56520353,
+            "shifted": 56517267
+          },
+          {
+            "record": "core:actCounters",
+            "control": 3271,
+            "shifted": 3245
+          },
+          {
+            "record": "core:durableLog",
+            "control": 5030,
+            "shifted": 5027
+          },
+          {
+            "record": "core:households",
+            "control": 1750,
+            "shifted": 1748
+          },
+          {
+            "record": "core:husks",
+            "control": 1378,
+            "shifted": 1381
+          },
+          {
+            "record": "core:jobs",
+            "control": 1721,
+            "shifted": 1717
+          },
+          {
+            "record": "core:knowledgeByPerson",
+            "control": 1955,
+            "shifted": 1949
+          },
+          {
+            "record": "core:logByPerson",
+            "control": 409,
+            "shifted": 403
+          },
+          {
+            "record": "core:pendingCallbacks",
+            "control": 6,
+            "shifted": 5
+          },
+          {
+            "record": "core:people",
+            "control": 1955,
+            "shifted": 1949
+          },
+          {
+            "record": "core:relationships",
+            "control": 8127,
+            "shifted": 8166
+          },
+          {
+            "record": "core:relationshipsByPerson",
+            "control": 1218,
+            "shifted": 1212
+          },
+          {
+            "record": "core2-budgets-v1/arrears:sum",
+            "control": 51214247,
+            "shifted": 51258964
+          },
+          {
+            "record": "core2-budgets-v1/serviceChargeMonths:sum",
+            "control": 271841328,
+            "shifted": 271841860
+          },
+          {
+            "record": "core2-budgets-v1/sinceClose:sum",
+            "control": 85592967,
+            "shifted": 85622793
+          },
+          {
+            "record": "core2-budgets-v1/withholding:rows",
+            "control": 5315,
+            "shifted": 5309
+          },
+          {
+            "record": "core2-budgets-v1/withholding:sum",
+            "control": 5776536823,
+            "shifted": 5775120492
+          },
+          {
+            "record": "core2-budgets-v1/withholding:text",
+            "control": 3377083949,
+            "shifted": 2641877883
+          },
+          {
+            "record": "core2-budgets-v1/yearToDate:rows",
+            "control": 1689,
+            "shifted": 1690
+          },
+          {
+            "record": "core2-budgets-v1/yearToDate:sum",
+            "control": 2901835840,
+            "shifted": 2901798537
+          },
+          {
+            "record": "core2-budgets-v1/yearToDate:text",
+            "control": 3252335895,
+            "shifted": 1929189969
+          },
+          {
+            "record": "core2-campaigns-v1/causes:rows",
+            "control": 482,
+            "shifted": 483
+          },
+          {
+            "record": "core2-campaigns-v1/causes:sum",
+            "control": 147.36466155834188,
+            "shifted": 147.61022229364752
+          },
+          {
+            "record": "core2-campaigns-v1/causes:text",
+            "control": 2734076165,
+            "shifted": 258931463
+          },
+          {
+            "record": "core2-campaigns-v1/impressions:rows",
+            "control": 5423,
+            "shifted": 5424
+          },
+          {
+            "record": "core2-campaigns-v1/impressions:sum",
+            "control": 493.08979133960213,
+            "shifted": 494.1818766153418
+          },
+          {
+            "record": "core2-campaigns-v1/impressions:text",
+            "control": 3370293072,
+            "shifted": 138492180
+          },
+          {
+            "record": "core2-campaigns-v1/money:text",
+            "control": 2615374977,
+            "shifted": 1675726498
+          },
+          {
+            "record": "core2-constituent-cases-v1/cases:rows",
+            "control": 57,
+            "shifted": 55
+          },
+          {
+            "record": "core2-constituent-cases-v1/cases:sum",
+            "control": 91.96685308554093,
+            "shifted": 89.13008960728399
+          },
+          {
+            "record": "core2-constituent-cases-v1/cases:text",
+            "control": 3242157172,
+            "shifted": 2795051054
+          },
+          {
+            "record": "core2-counted-moves-v1/moves:sum",
+            "control": 341.8947254708373,
+            "shifted": 337.6280538045292
+          },
+          {
+            "record": "core2-counted-moves-v1/moves:text",
+            "control": 722604294,
+            "shifted": 3480151627
+          },
+          {
+            "record": "core2-counted-moves-v1/pulls:sum",
+            "control": 15424.325101354525,
+            "shifted": 15427.307221620806
+          },
+          {
+            "record": "core2-crime-v1/carry:sum",
+            "control": 4.544075637621353,
+            "shifted": 4.516493536648015
+          },
+          {
+            "record": "core2-crime-v1/months:sum",
+            "control": 24738.349632636604,
+            "shifted": 24722.491983744603
+          },
+          {
+            "record": "core2-crime-v1/pressure:sum",
+            "control": 2.6610756376213596,
+            "shifted": 2.633493536648029
+          },
+          {
+            "record": "core2-crime-v1/pressure:text",
+            "control": 2365785234,
+            "shifted": 3866815726
+          },
+          {
+            "record": "core2-employer-taxes-v1/arrears:sum",
+            "control": 1045149,
+            "shifted": 1053315
+          },
+          {
+            "record": "core2-employer-taxes-v1/quarters:sum",
+            "control": 2285583454,
+            "shifted": 2285582882
+          },
+          {
+            "record": "core2-employer-taxes-v1/shares:rows",
+            "control": 857,
+            "shifted": 851
+          },
+          {
+            "record": "core2-employer-taxes-v1/shares:sum",
+            "control": 533186528,
+            "shifted": 532237393
+          },
+          {
+            "record": "core2-employer-taxes-v1/shares:text",
+            "control": 2344773585,
+            "shifted": 523074460
+          },
+          {
+            "record": "core2-employer-taxes-v1/yearToDate:rows",
+            "control": 171,
+            "shifted": 173
+          },
+          {
+            "record": "core2-employer-taxes-v1/yearToDate:sum",
+            "control": 68871646.33223987,
+            "shifted": 68841409.94923042
+          },
+          {
+            "record": "core2-employer-taxes-v1/yearToDate:text",
+            "control": 231075883,
+            "shifted": 3917522747
+          },
+          {
+            "record": "core2-interest-groups-v1/meetings:sum",
+            "control": 20217007.566062346,
+            "shifted": 20093011.566062346
+          },
+          {
+            "record": "core2-law-effects-v1/applied:rows",
+            "control": 1153,
+            "shifted": 1142
+          },
+          {
+            "record": "core2-law-effects-v1/applied:sum",
+            "control": 130484413,
+            "shifted": 130451874
+          },
+          {
+            "record": "core2-law-effects-v1/applied:text",
+            "control": 3919920139,
+            "shifted": 740444870
+          },
+          {
+            "record": "core2-law-reach-b-v1/groups:sum",
+            "control": 1151450590.5871663,
+            "shifted": 1149937385.5871663
+          },
+          {
+            "record": "core2-law-reach-b-v1/people:rows",
+            "control": 459,
+            "shifted": 456
+          },
+          {
+            "record": "core2-law-reach-b-v1/people:sum",
+            "control": 828366802.3073099,
+            "shifted": 823138430.805911
+          },
+          {
+            "record": "core2-law-reach-b-v1/people:text",
+            "control": 2580977766,
+            "shifted": 3110016640
+          },
+          {
+            "record": "core2-law-reach-b-v1/taken:sum",
+            "control": 22181583918.800007,
+            "shifted": 22180070759.800007
+          },
+          {
+            "record": "core2-parties-v1/ties:sum",
+            "control": 74.17974334107834,
+            "shifted": 73.86398522371164
+          },
+          {
+            "record": "core2-parties-v1/ties:text",
+            "control": 1660186677,
+            "shifted": 871441231
+          },
+          {
+            "record": "core2-press-v1/stories:sum",
+            "control": 195444.61787817808,
+            "shifted": 195370.87559252
+          },
+          {
+            "record": "core2-press-v1/wire:rows",
+            "control": 37,
+            "shifted": 34
+          },
+          {
+            "record": "core2-press-v1/wire:text",
+            "control": 3118112578,
+            "shifted": 1822769464
+          },
+          {
+            "record": "core2-public-safety-v1/carry:rows",
+            "control": 101,
+            "shifted": 102
+          },
+          {
+            "record": "core2-public-safety-v1/carry:sum",
+            "control": 0.12336666666666699,
+            "shifted": 0.12368333333333366
+          },
+          {
+            "record": "core2-public-safety-v1/carry:text",
+            "control": 1249950784,
+            "shifted": 3987699060
+          },
+          {
+            "record": "core2-public-safety-v1/cases:sum",
+            "control": 270.9418176765428,
+            "shifted": 270.94828574568703
+          },
+          {
+            "record": "core2-public-safety-v1/months:sum",
+            "control": 656.4263970678625,
+            "shifted": 657.0180999215779
+          },
+          {
+            "record": "core2-renewal-v1/countedCarry:sum",
+            "control": 3.5807849639976697,
+            "shifted": 3.5829146334286603
+          },
+          {
+            "record": "core2-renewal-v1/counts:sum",
+            "control": 221515.60260314582,
+            "shifted": 221519.60473281526
+          },
+          {
+            "record": "core2-renewal-v1/plans:sum",
+            "control": -3420.090284866478,
+            "shifted": -3412.028233910479
+          },
+          {
+            "record": "core2-school-days-v1/attended:rows",
+            "control": 88,
+            "shifted": 85
+          },
+          {
+            "record": "core2-school-days-v1/attended:sum",
+            "control": 181909,
+            "shifted": 175787
+          },
+          {
+            "record": "core2-school-days-v1/attended:text",
+            "control": 2790378150,
+            "shifted": 2173208645
+          },
+          {
+            "record": "core2-staff-v1/staff:sum",
+            "control": 154.0691507177033,
+            "shifted": 155.0691507177033
+          },
+          {
+            "record": "core2-staff-v1/work:rows",
+            "control": 70,
+            "shifted": 71
+          },
+          {
+            "record": "core2-staff-v1/work:sum",
+            "control": 4906.201948221589,
+            "shifted": 4907.4015058298555
+          },
+          {
+            "record": "core2-staff-v1/work:text",
+            "control": 1386243315,
+            "shifted": 463576909
+          },
+          {
+            "record": "core2-trait-change-v1/changes:rows",
+            "control": 23,
+            "shifted": 22
+          },
+          {
+            "record": "core2-trait-change-v1/changes:sum",
+            "control": -16,
+            "shifted": -13
+          },
+          {
+            "record": "core2-trait-change-v1/changes:text",
+            "control": 2898263754,
+            "shifted": 712065256
+          },
+          {
+            "record": "credit/applications:sum",
+            "control": 355344868.81529075,
+            "shifted": 355345442.8226207
+          },
+          {
+            "record": "credit/books:sum",
+            "control": 20915771809.62843,
+            "shifted": 20915775626.028427
+          },
+          {
+            "record": "credit/households:sum",
+            "control": 133925365,
+            "shifted": 133782651
+          },
+          {
+            "record": "housing/mortgages:sum",
+            "control": 7393094058.348691,
+            "shifted": 7393094049.348691
+          },
+          {
+            "record": "housing/renewals:rows",
+            "control": 422,
+            "shifted": 423
+          },
+          {
+            "record": "housing/renewals:sum",
+            "control": 25732446.827412043,
+            "shifted": 25806971.807196263
+          },
+          {
+            "record": "housing/renewals:text",
+            "control": 1161033814,
+            "shifted": 1589297207
+          },
+          {
+            "record": "housing/state:sum",
+            "control": 121147530.2051308,
+            "shifted": 121208960.2051308
+          },
+          {
+            "record": "housing/taxArrears:sum",
+            "control": 236583,
+            "shifted": 236584
+          },
+          {
+            "record": "jobs/changes:rows",
+            "control": 135,
+            "shifted": 140
+          },
+          {
+            "record": "jobs/changes:sum",
+            "control": 20833180189.432995,
+            "shifted": 24861129062.65282
+          },
+          {
+            "record": "jobs/changes:text",
+            "control": 820112581,
+            "shifted": 355816514
+          },
+          {
+            "record": "jobs/countedSeekers:rows",
+            "control": 172,
+            "shifted": 170
+          },
+          {
+            "record": "jobs/countedSeekers:sum",
+            "control": 484686.64285714255,
+            "shifted": 498207.9999999997
+          },
+          {
+            "record": "jobs/countedSeekers:text",
+            "control": 1234488563,
+            "shifted": 2298434742
+          },
+          {
+            "record": "jobs/employers:sum",
+            "control": 2109.3270635898857,
+            "shifted": 2110.664550765014
+          },
+          {
+            "record": "jobs/employers:text",
+            "control": 4136731412,
+            "shifted": 689816353
+          },
+          {
+            "record": "jobs/offers:sum",
+            "control": 2892.5,
+            "shifted": 2905.5
+          },
+          {
+            "record": "jobs/offers:text",
+            "control": 3998099999,
+            "shifted": 2843410355
+          },
+          {
+            "record": "jobs/pay:rows",
+            "control": 40,
+            "shifted": 42
+          },
+          {
             "record": "jobs/pay:sum",
-            "control": 39.318515747814914,
-            "shifted": 39.38663201029017
+            "control": 40.33049244432155,
+            "shifted": 42.528235956423856
+          },
+          {
+            "record": "jobs/pay:text",
+            "control": 977359154,
+            "shifted": 1068525198
+          },
+          {
+            "record": "jobs/positions:rows",
+            "control": 40,
+            "shifted": 42
+          },
+          {
+            "record": "jobs/positions:sum",
+            "control": 62286.759379430296,
+            "shifted": 65918.92035658903
+          },
+          {
+            "record": "jobs/positions:text",
+            "control": 1913223188,
+            "shifted": 1445162081
+          },
+          {
+            "record": "jobs/referrals:rows",
+            "control": 41,
+            "shifted": 42
+          },
+          {
+            "record": "jobs/referrals:text",
+            "control": 2844091976,
+            "shifted": 2776773929
+          },
+          {
+            "record": "jobs/spells:text",
+            "control": 1410512211,
+            "shifted": 1410542006
+          },
+          {
+            "record": "jobs/state:sum",
+            "control": 3.5143453356888057,
+            "shifted": 2.7301841948050565
+          },
+          {
+            "record": "log:news.read",
+            "control": 34,
+            "shifted": 35
+          },
+          {
+            "record": "log:person.acted",
+            "control": 4348,
+            "shifted": 4350
+          },
+          {
+            "record": "log:person.recorded",
+            "control": 179,
+            "shifted": 173
+          },
+          {
+            "record": "moves/pulls:sum",
+            "control": 385.05156383546205,
+            "shifted": 385.1077762603397
+          },
+          {
+            "record": "moves/pulls:text",
+            "control": 2686885873,
+            "shifted": 3343404973
+          },
+          {
+            "record": "news/deliveries:rows",
+            "control": 485,
+            "shifted": 468
+          },
+          {
+            "record": "news/deliveries:text",
+            "control": 2568553162,
+            "shifted": 48539472
+          },
+          {
+            "record": "news/heard:rows",
+            "control": 12759,
+            "shifted": 12904
+          },
+          {
+            "record": "news/heard:text",
+            "control": 1040538438,
+            "shifted": 1692279190
+          },
+          {
+            "record": "news/stories:text",
+            "control": 261089389,
+            "shifted": 1328888409
+          },
+          {
+            "record": "speech/retellings:sum",
+            "control": 594.2003041163503,
+            "shifted": 594.202089083287
+          },
+          {
+            "record": "views/people:rows",
+            "control": 1834,
+            "shifted": 1832
+          },
+          {
+            "record": "views/people:sum",
+            "control": 1537.5607985740833,
+            "shifted": 1534.6703347014459
+          },
+          {
+            "record": "views/people:text",
+            "control": 2127342836,
+            "shifted": 469230223
+          },
+          {
+            "record": "views/stances:rows",
+            "control": 669,
+            "shifted": 664
+          },
+          {
+            "record": "views/stances:sum",
+            "control": 6772.78032882024,
+            "shifted": 6764.647713680714
+          },
+          {
+            "record": "views/stances:text",
+            "control": 4123693952,
+            "shifted": 1026136991
           }
         ]
       },
@@ -12708,15 +14009,91 @@
         "cause": "transit.service-access",
         "shiftedBy": "10% of its level",
         "shiftedRecords": [
+          "web:jurisdiction_2516a182010dba98:2025-01",
           "web:jurisdiction_2516a182010dba98:2025-02",
-          "web:jurisdiction_2516a182010dba98:2025-03",
-          "web:jurisdiction_2516a182010dba98:2025-04"
+          "web:jurisdiction_2516a182010dba98:2025-02"
         ],
         "links": [
           "transit-loss-to-unemployment",
           "transit-service-to-ridership"
         ],
-        "movedRecordKinds": []
+        "movedRecordKinds": [
+          {
+            "record": "business/draws:sum",
+            "control": 3317919051,
+            "shifted": 3317919047
+          },
+          {
+            "record": "contracts/awards:sum",
+            "control": 56520353,
+            "shifted": 56520352
+          },
+          {
+            "record": "core2-budgets-v1/arrears:sum",
+            "control": 51214247,
+            "shifted": 51214253
+          },
+          {
+            "record": "core2-budgets-v1/serviceChargeMonths:sum",
+            "control": 271841328,
+            "shifted": 271841340
+          },
+          {
+            "record": "core2-campaigns-v1/causes:sum",
+            "control": 147.36466155834188,
+            "shifted": 147.3646760014272
+          },
+          {
+            "record": "core2-campaigns-v1/impressions:sum",
+            "control": 493.08979133960213,
+            "shifted": 493.089796755759
+          },
+          {
+            "record": "core2-constituent-cases-v1/cases:sum",
+            "control": 91.96685308554093,
+            "shifted": 91.96693265309858
+          },
+          {
+            "record": "core2-employer-taxes-v1/quarters:sum",
+            "control": 2285583454,
+            "shifted": 2285583442
+          },
+          {
+            "record": "core2-law-effects-v1/applied:sum",
+            "control": 130484413,
+            "shifted": 130484411
+          },
+          {
+            "record": "core2-public-safety-v1/cases:sum",
+            "control": 270.9418176765428,
+            "shifted": 270.94181817544404
+          },
+          {
+            "record": "core2-public-safety-v1/months:sum",
+            "control": 656.4263970678625,
+            "shifted": 656.4264349967904
+          },
+          {
+            "record": "core2-renewal-v1/plans:sum",
+            "control": -3420.090284866478,
+            "shifted": -3420.090751412864
+          },
+          {
+            "record": "credit/books:sum",
+            "control": 20915771809.62843,
+            "shifted": 20915771438.42843
+          },
+          {
+            "record": "credit/households:sum",
+            "control": 133925365,
+            "shifted": 133925292
+          },
+          {
+            "record": "housing/taxArrears:sum",
+            "control": 236583,
+            "shifted": 236599
+          }
+        ]
       }
     ]
   }
