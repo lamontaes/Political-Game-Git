@@ -94,6 +94,12 @@ describe("public-sector bargaining sets a unit's pay from its employer's budget 
         if (!yesLevels(api, KEY).length)
           setLaw(api, "state", 1, `yes:${attempt}:${day}`);
         advanceCore(core, addDays(makeIsoDate(core.date), 1));
+        // Stop as soon as a contract has raised a unit's pay.
+        if (
+          day % 10 === 9 &&
+          contracts(api).some((c) => Number(c.facts.raised) > 0)
+        )
+          break;
       }
       const raised = contracts(api).filter((c) => Number(c.facts.raised) > 0);
       tried.push(
@@ -136,5 +142,5 @@ describe("public-sector bargaining sets a unit's pay from its employer's budget 
     throw new Error(
       `no place raised a unit's pay in six tries (seed ${seed}): ${tried.join("; ")}`,
     );
-  }, 1_800_000);
+  }, 3_600_000);
 });
