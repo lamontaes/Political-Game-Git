@@ -135,6 +135,26 @@ function datedSource(source: Source, at: IsoDate): void {
 }
 
 /** One atomic admission result; the owner supplies the separate synchronous writer. */
+let checkedPostings = 0;
+let skippedPostings = 0;
+
+/**
+ * How many postings ran the structural re-checks and how many skipped them
+ * (play skips them; see `bookkeeping`). A result produced with checks skipped
+ * can be rechecked by running the same seed with CORE2_BOOKKEEPING=1.
+ */
+export function journalCheckCounts(): {
+  checked: number;
+  skipped: number;
+  rerunWith: string;
+} {
+  return {
+    checked: checkedPostings,
+    skipped: skippedPostings,
+    rerunWith: "CORE2_BOOKKEEPING=1",
+  };
+}
+
 export function projectCashJournal(
   input: Readonly<CashJournalInput>,
   context: Readonly<CashJournalContext>,
@@ -172,6 +192,8 @@ export function projectCashJournal(
   // tests and the bench; play runs the same arithmetic without them. The
   // sequence, source, balance and overflow checks always run.
   const checked = bookkeeping();
+  if (checked) checkedPostings += 1;
+  else skippedPostings += 1;
   const at = makeIsoDate(context.date),
     date = makeIsoDate(input.date);
   if (date !== at)
