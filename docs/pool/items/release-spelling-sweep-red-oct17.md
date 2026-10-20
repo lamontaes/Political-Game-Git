@@ -5,7 +5,7 @@ area: release
 kind: bug
 priority: 1
 size: S
-status: open
+status: in-pr
 claimed-by:
 pr: #4957
 blocked-on:
@@ -13,14 +13,12 @@ source: added with npm run pool -- add
 claimed-at:
 ---
 
-**What.** TODO
+**What.** The two American English tests failed on main on October 17. They found 14 British forms in docs, tests and a workflow comment, the British word "authority" in two English data names ("local authority"), and a FEMA incident name, "Sulphur Fire", that the sweep flagged though it is a fetched source name. Pull request 4957 respells the forms, exempts the FEMA data file as fetched source, and removes a duplicate pool item whose own id was British.
 
-**Rules.** TODO
+**Rules.** American English everywhere: the sweep stays strict, and only fetched source data is exempt, with its file named. Persisted identifiers keep their spelling.
 
-**Done when.** TODO
+**Done when.** `npm run spelling` lists nothing and `tests/american-english-sweep.test.ts` and the second English test pass on clean main (test output in the pull request), with the two bill names reading "broader local government power" and "more local government power".
 
-**Files.** TODO
+**Files.** tests/american-english-sweep.test.ts, data/english/bill-sections.json, data/english/question-names.json
 
-**Notes.** TODO
-
-Sent back 2026-10-17 from PR #4957 (branch claude/spelling-sweep-green-s5): Morning check: this release/spelling PR edits Words-protected data/english/bill-sections.json and data/english/question-names.json. Move those two wording changes to a Words-owned PR and merge that first, then merge main here so this PR contains only the release/check repairs. AGENTS.md and the merger morning check reserve data/english edits to the Words session.; finish on that branch, merge main into it first.
+**Notes.** Body repaired Oct 17 (claude) from the pull request's description; the fix is in that pull request.

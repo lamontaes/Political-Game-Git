@@ -5,9 +5,9 @@ area: world
 kind: bug
 priority: 2
 size: M
-status: claimed
+status: done
 claimed-by: claude/public-post-hours
-pr:
+pr: #5013
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-18T00:12:36.560Z
@@ -22,3 +22,5 @@ claimed-at: 2026-10-18T00:12:36.560Z
 **Files.** src/core2/press-money.ts, src/core2/modules/press.ts, src/core2/modules/residents.ts
 
 **Notes.** Measured Oct 17 (claude) while taking people-press-small-town-outlets-close. The opening cash buffer in that item's pull request delays the closures from 2 months to 8 to 15 months; closing the 11 percent gap should keep them open.
+
+**Fixed Oct 17 (claude, claude/public-post-hours).** `startPublicJob` now sets a post's hourly rate over the minutes the copied schedule runs (`hourlyMinor` times the template's stated week over the commitment's expected week), and the job's `wageDailyMinor` stays the posted daily pay. In Cobb Island the newspaper's payroll in the first 180 days fell from $72,375 to $60,310, so wages and the revenue sized from them agree, and none of the five local outlets closed through January 2027 (before: all five had lost their reporters by September 2026). `src/core2/press-pay-matches-schedule.test.ts` checks every local press job pays its posted annual pay over its schedule's minutes; on main it is 6.6 percent over in Texhoma, Texas (seed a9747c3b9e6fc5e2:0). The same mismatch is in the opening's supplied schedules for other jobs (9 of 29 in Cobb Island ran at 1.2), which this does not change.

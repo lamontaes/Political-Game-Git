@@ -5,12 +5,12 @@ area: words
 kind: feature
 priority: 2
 size: S
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/bill-name
+pr: #5067
 blocked-on:
 source: "split from play-meeting-bill-title; PR #4487 sent back by the morning check"
-claimed-at:
+claimed-at: 2026-10-19T17:59:05.034Z
 ---
 
 **What.** The English engine can name a bill from a policy key and a form (`billNameFor`), but nothing names a whole bill from its sections. The meeting screen and the desk need a bill's real name, and the news and journal want the same one. Add `billNameOf(bill)` to the English engine: the first section that has a name decides it, and a section reverses its policy by its operation or, for a policy question, by its value being off. Add the authored names for the twelve budget lines and rates that have none. The player would notice a real title instead of a description.
@@ -28,3 +28,5 @@ Checked Oct 16 (claude/bill-name-of-bill): already built on main. `billNameOf`, 
 Sent back 2026-10-16 from PR #4743 (branch claude/pool-notes-oct16): The top of the PR body lacks a gate line naming the in-session checks on changed files and their results. Add the named checks and results at the top (a pool id may precede it); "Local checks pass" alone does not name the checks; finish on that branch, merge main into it first.
 
 Sent back 2026-10-16 from PR #4743 (branch claude/pool-notes-oct16): Merging current main into claude/pool-notes-oct16 conflicts in docs/pool/items/elections-petition-signatures.md, docs/pool/items/words-bill-name-of-bill.md. Resolve and push these conflicts on this branch before local checks can run; finish on that branch, merge main into it first.
+
+Verified Oct 19 (claude/bill-name): on current main `billNameOf`, `billNameFor` and `billTitleOf` are in src/english/bill-names.ts; src/director/journal.ts and src/bench/office.ts both call `billTitleOf`; src/english/bill-names.test.ts, src/director/journal-bill-names.test.ts and src/bench/office-bill-title.test.ts pass (8 tests). Nothing left to build; the merger sets it done.
