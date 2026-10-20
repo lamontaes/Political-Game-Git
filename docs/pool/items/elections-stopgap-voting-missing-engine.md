@@ -6,7 +6,7 @@ kind: stopgap
 priority: 3
 status: in-pr
 claimed-by: claude/who-runs-g08lgv
-pr: #5426
+pr: #5435
 blocked-on:
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/modules/voting.ts, kind missing-engine"
