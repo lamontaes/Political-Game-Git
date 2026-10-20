@@ -4,13 +4,13 @@ title: "Stopgaps in drives (missing-mechanic): 4 open"
 area: people
 kind: stopgap
 priority: 3
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/political-game-pool-3xfqef-25
 pr: #5289
 blocked-on:
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/data/drives.json, kind missing-mechanic"
-claimed-at:
+claimed-at: 2026-10-20T06:32:45.575Z
 ---
 
 **What.** Replace or clear the 4 open missing-mechanic stopgap row(s) in src/core2/data/drives.json: SG-P10-cause-group-founding, SG-P10-testify-unbuilt, SG-P10-candidacy-unbuilt, SG-P10-lobbying-unbuilt. Each fake is replaced by the mechanic, or the feature that needs it is deleted.
