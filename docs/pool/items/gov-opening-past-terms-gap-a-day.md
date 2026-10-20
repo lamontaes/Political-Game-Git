@@ -1,7 +1,7 @@
 ---
 id: gov-opening-past-terms-gap-a-day
 title: "An officeholder's past terms at the opening leave a one-day gap before the next term"
-area: government
+area: office
 kind: bug
 priority: 2
 size: S
