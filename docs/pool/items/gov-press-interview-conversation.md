@@ -22,3 +22,5 @@ claimed-at:
 **Files.** src/core2/modules/press.ts, src/director
 
 **Notes.** TODO
+
+Sent back 2026-10-20 from PR #5602 (branch claude/press-interview-conversation): adds src/director/press-interview.ts and its test (Words-session area per the merger skill) and a dated 'Done Oct 20' note in the stopgap resolution text; finish on that branch, merge main into it first.
