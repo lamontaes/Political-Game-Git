@@ -4,8 +4,21 @@ The CTO's only writer. When two rulings conflict, the most recent wins unless th
 
 ## Open
 
-- **Which pre-vote hooks belong to a committee's day (Oct 17, claude; stopgap SG-GOV-committee-day-hooks).** A body with committees (a council above nine members, a state or federal chamber) now takes a scheduled bill to its committee a week ahead of the floor, and the committee hears it, marks it up and reports or holds it on that day; a held bill never reaches the floor. The things that run just before a vote today (staff briefings, interest groups organizing, public comment, the player's own vote) all still run on the floor day. The alternative is that some of them belong at the committee's hearing (public comment, lobbying) and the committee's vote reads them. Built as "floor day only", the simplest version that changes no order of events already built.
-- **A counted household's arrears when it is filled in (Oct 17, claude; stopgap SG-WORLD-housing-fill-in-arrears).** A counted household behind on rent with an eviction case, when the player meets one of its people and it becomes full, now keeps its case: the household's own lease takes up the arrears the group owed at notice, from the notice date. The alternatives are to cure the arrears at the fill-in, or to close the case. Built as "carry", the simplest version that keeps one model for both tiers.
+(none; every question asked is ruled below)
+
+## Oct 20: rulings (owner, spoken; recorded by the CTO)
+
+- **Unplanned pregnancies** (#5220, `SG-PEOPLE-unplanned-pregnancy`): they happen to the people in the background as built, from each person's own records and the law where they live. Not for the player's own character or household. Nothing is shown to the player beyond what the world already shows.
+- **A family moving away from an 18-year-old** (#5473, `SG-P15-moves-player-home-stays`): background households may split this way when it is cheap to simulate and as common as in real life. The player's own family does not leave the player before 1.0; the hold in `moves.ts` stays.
+- **Unions** (#5302, #5415): unions, membership rules and strikes come after early access, with 1.0 (consistent with Oct 14). The union owner-decision rows are deferred to 1.0 and do not block the early-access build; public bargaining's pay-follows-the-budget part may merge without union leverage or strikes.
+- **Unemployment work search** (`owner-unemployment-work-search`): recorded law, simulated. Claimants in the world follow their state's weekly contact rule in the background; there is no form or paperwork step for the player.
+- **A new minority-party member's bill** (#5141): it can reach the floor the normal way, if it gets through committee.
+- **How rivals campaign** (#5268): like real candidates of their kind, studied from real campaigns. A rich or self-funding candidate leans on paid ads and staff, a poor one on doors and volunteers, a known incumbent on press and record, an unknown on building name recognition. Rivals choose among the same campaign acts as the player, by their own money, standing and traits.
+- **Bribe offers** (#5333): zero offers in a plain year is fine. Offers follow reputation: someone known to take bribes, or to trade favors for money, draws many more requests.
+- **A town with no open jobs** (#5174): yes, the player is offered work elsewhere in the region (the outside employers).
+
+- **The menu structure** (owner, from the menu study): the scene is home; menus are overlays that pause time with the room's people still visible. Bottom left: the player card, with the vertical icon rail above it (names on hover): Journal, Calendar, Money, Politics, News, People, Travel. News gets its own rail button. Options (settings, guide, quit to title) moves off the rail to the Esc key and the title screen. Clicking your own portrait opens You, with Work and study as its second tab. Politics: Government, Issues, Budgets, Parties, plus Your office only while you hold a seat and Campaigns only once you've filed. Alerts: a toast for news that just reached you, a dot on a rail icon for something unread, a scene when something needs you; no pop-up lists. Actions start from people, places and scenes, not menu lists.
+- **The campaign day:** no "Today" list of acts. Campaign acts are scenes you go to (a venue for a speech, doors to knock, an interview, a debate); the Campaigns tab shows standing and polls only.
 
 ## Ruled by the CTO overnight, October 14, 2026 (from standing rules; the owner may overrule)
 
@@ -260,3 +273,31 @@ Fifteen questions were shown to the owner as open; most were already ruled or bu
 - **Public minimum salary (owner, Oct 16):** it is a law, and an employer may of course pay more than the floor. The one-time dev-mode raise is not the mechanism; the law in force is read by every public employer's payroll, including later hires.
 - **The first simulated year against 2020 (owner, Oct 16):** no grading of months against real 2020. "It just has to make sense; it doesn't have to be super accurate to 2020... it's just to calibrate the simulation; no numbers are locked in." Real history calibrates ranges; no test fails a world for not matching a real month. Retire that check.
 - **Executive acts and roll calls in the news (acting CTO reading of the rule above; owner may overrule):** not answered directly; no fixed 40 or 15 slots. An outlet prints what matters to its readers by its own reads (what moved money or people in its place, what its readers follow); the count falls out.
+
+## Oct 19: rulings (owner, via the acting CTO)
+
+- **A counted household's arrears when it is filled in (owner, Oct 19):** "It depends on the people; it can be yes or no." A household filled in carries back rent or not from its own record: its income against its housing cost over the months it has been counted, the place's conditions, and the household's traits once filled in. No fixed share carries, no fixed share is cured. Closes the Open bullet of Oct 17 (SG-WORLD-housing-fill-in-arrears); the "carry" build is the stand-in until the read is built.
+- **Which pre-vote hooks belong to a committee's day (acting CTO ruling, Oct 19; owner to overrule):** the owner said it is a builder question: "I don't even know what hooks run." Ruling: the committee's day runs whatever the records already fire for a body on a sitting day (trades, hearings, staff reports, members' reads of their views) at the stage the body's own rules put them, from data, one rule all 56 places; nothing new is invented for it. Closes the Open bullet of Oct 17 (SG-GOV-committee-day-hooks).
+- **County and state counted population at the opening (owner, Oct 19):** generated straight from the census, not seeded from residents' relatives. "Straight from the census. It'll be variable again; it just depends on the simulation." The counts vary per world from the simulation's own seeding of who exists, consistent with the census for the place. Answers #5039's question. Pool item `core-opening-counts-from-census`.
+- **Trial models (owner, Oct 17 to 19):** GLM 5.3 produced a real, gradeable PR (#4990, graded about 4.1 of 5 by the acting CTO, two fixes sent back); GLM 5.3 Flash lost its working directory and opened no PR. #4990's work returns to the pool to be finished by any builder: `world-macro-federal-dollar-finish`, then `world-macro-outside-outlays-indexed`.
+
+- **Pairing (owner, Oct 19):** "people can move in together, yes." Who pairs with whom reads each person's own record, including orientation; two homeowners can pair and combine households like anyone else, and the home they leave returns to the market. The woman-and-man-only and never-two-homeowners rules in PR #4963 are defects to replace.
+- **Public contract awards (owner, Oct 19):** yes, the game awards public contracts (a government hiring a firm for work from its budget lines), so `gov-bribe-buys-a-contract` has something to buy. That item is unblocked and waits on `gov-public-contract-awards` (area gov, kind feature, priority 2, size M).
+
+## Oct 19, evening: acting CTO rulings from PR questions (standing rules; the owner may overrule)
+
+- **Old-core features (#5091, #5081):** PRs that add to `src/simulation` are closed, not merged. The owner's Oct 19 ruling: the old core goes, and useful code is lifted into core2; nothing new is added to it. A core2 polls item, `elections-polls-core2`, replaces them.
+- **Superseded elections items (#5087):** `elections-poll-sampling` and `elections-ballot-referrals` are dropped.
+- **Golden-path check budget (#5061):** the five-minute budget is not raised; the year run gets its own job.
+- **Unread tables (#4899):** deleted by default ("an effect is a read"); a table is kept only where a golden-path screen reads it, with that read built in the same PR.
+- **Words conflicts (#4626):** banks are never hand-merged; #4459 merges first and word-pack is regenerated on top of it.
+- **Vehicle tax with no law on record (#5103):** estimated from the treasury's budgeted vehicle line divided by vehicles in the jurisdiction, tagged ESTIMATED with the source ("estimate, never UNKNOWN").
+- **Employer passing over an applicant (#5102):** the owner's traits and views read against the applicant's record, with the reasons recorded; a discrimination ban refuses a decision whose recorded reasons cite a protected trait. No dice.
+- **Openings and experience (#4982, #4977):** an opening asks for the role's experience from data, never the departing worker's.
+- **Family subjects (#4478):** news a relative passes on, and job loss or eviction in the household, are family subjects in relative talks.
+- **Adults with no cash (#4309):** 1,002 of 1,289 adults with no cash is a defect under "estimate, never UNKNOWN". Pool item `people-adults-opening-cash-husks` (priority 1), not a board note; the pool is the backlog.
+- **Module areas (#5119):** school → People; press and news → Government; disasters → World; outcome-web → Core; world-panels → Play.
+- **Territory town's Government screen:** shows the president and vice president ("public figures are known"), marked as not chosen by this place's voters. Closes `owner-territory-president-on-government-screen`.
+- **Work-recovery hours (#5077):** stays ESTIMATED with its spread until the research carries per-episode lengths; no change to the value on a guess.
+- **Rows with no engine (#4146):** the keep/delete list is accepted under "replace, never layer"; anything deleted that the golden path later needs returns as a pool item.
+- **Questions sent to the owner (Oct 19):** the pairing rule (#4963); whether public contract awards exist (`gov-bribe-buys-a-contract`); the four screens' visual review.

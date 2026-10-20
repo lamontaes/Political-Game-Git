@@ -5,9 +5,9 @@ area: world
 kind: wiring
 priority: 2
 size: M
-status: claimed
+status: dropped
 claimed-by: claude/port-work-patterns
-pr:
+pr: #5084
 blocked-on:
 source: "split from core-remaining-port-the-opening-town-builder-population (an L item), Oct 15"
 claimed-at: 2026-10-19T18:33:59.606Z

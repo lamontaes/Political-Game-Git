@@ -39,13 +39,22 @@ import { addDays, makeIsoDate } from "./kernel/dates";
 import {
   appointStatePost,
   appointmentsIn,
+  clemencyAuthority,
+  GOVERNOR_DECIDES_CLEMENCY,
   issueOrder,
   pendingGovernorOrders,
 } from "./modules/executive";
+import {
+  grantClemency,
+  JUSTICE_MODULE_ID,
+  prisonersServing,
+  servedShare,
+} from "./modules/justice";
 import { lawChain } from "./modules/laws";
 import { OFFICES_MODULE_ID, type TermRow } from "./modules/offices";
 import {
   billOf,
+  committeeHearingsOn,
   leanOf,
   memberKey,
   members,
@@ -54,6 +63,7 @@ import {
 } from "./modules/legislature";
 import {
   COMMITTEES,
+  committeeAssignment,
   committeeRoster,
   leaderOf,
   LEADERSHIP_MODULE_ID,
@@ -237,7 +247,8 @@ export type StateEntryKind =
   | "state-of-the-state"
   | "executive-order"
   | "budget-proposal"
-  | "legislative-leaders";
+  | "legislative-leaders"
+  | "clemency";
 
 /** One thing on a state officeholder's day. */
 export interface StateDayEntry {
@@ -390,6 +401,17 @@ export function stateDay(
         tag: "SOURCED",
         citation: `Governor powers and current law: ${order.order}`,
       });
+  // One person's petition for clemency each review day, where the governor decides it.
+  if (workday && day === stateDayParameter("clemencyReviewWeekday")) {
+    const authority = clemencyAuthority(office.stateKey);
+    if (authority && GOVERNOR_DECIDES_CLEMENCY.includes(authority)) {
+      const next = clemencyDue(api, office.personId, office.stateKey, date);
+      if (next) add("clemency", next.id, estimated("clemencyReviewWeekday"));
+    } else if (authority) {
+      // stopgapId: SG-GOV-clemency-boards
+      api.stopgap("SG-GOV-clemency-boards");
+    }
+  }
   const first = firstWindow(office.stateKey, year);
   if (first) {
     const windowId = `session:${office.stateKey}:${first.window.conveneAt}`;
@@ -421,6 +443,36 @@ export function stateDay(
   return out;
 }
 
+/**
+ * The prisoner whose clemency the governor takes up on a review day: the one
+ * who has served the largest share of their term and has not been reviewed
+ * in the last `clemencyReviewMonths`.
+ */
+function clemencyDue(
+  api: CoreAPI,
+  governorId: string,
+  stateKey: string,
+  date: string,
+) {
+  if (!api.state.modules.has(JUSTICE_MODULE_ID)) return null;
+  const since = addDays(
+    makeIsoDate(date),
+    -Math.round(stateDayParameter("clemencyReviewMonths") * 30),
+  );
+  const reviewed = new Set(
+    (
+      table(api, "results").query("byHolder", [
+        governorId,
+      ]) as unknown as StateEntryResult[]
+    )
+      .filter((r) => r.kind === "clemency" && r.date > since)
+      .map((r) => r.subject),
+  );
+  return (
+    prisonersServing(api, stateKey).find((row) => !reviewed.has(row.id)) ?? null
+  );
+}
+
 // ---------------------------------------------------------------- stops
 
 /** Whether an entry stops its holder, by the stop kind it falls under. */
@@ -445,6 +497,7 @@ const splitCommittee = (subject: string): [string, string] => {
 export type StateChoice =
   | { readonly kind: "order"; readonly revoke: boolean }
   | { readonly kind: "attend"; readonly attend: boolean }
+  | { readonly kind: "clemency"; readonly grant: boolean }
   | {
       readonly kind: "office-hours";
       readonly hold: boolean;
@@ -479,6 +532,7 @@ export interface StateEntryResult {
 }
 
 const DUTY_DECISION = "office-day-state.attend";
+const CLEMENCY_DECISION = "office-day-state.clemency";
 
 /** The character's own lean toward showing up: duty beside their traits. */
 function ownAttendance(
@@ -535,6 +589,43 @@ function spendTime(
   return touched;
 }
 
+/**
+ * What a member at a committee sits through: the record that seated the
+ * committee (who assigned it, and when) and each hearing it held that day,
+ * with the bill, the chair, the witnesses and the vote. Written into the
+ * entry's reasons; the ids it returns are the records read.
+ */
+function committeeSitting(
+  api: CoreAPI,
+  entry: StateDayEntry,
+  reasons: Record<string, number | string>,
+): string[] {
+  const [chamber, committee] = splitCommittee(entry.subject);
+  const ids: string[] = [];
+  const seated = committeeAssignment(api, chamber, committee);
+  if (seated) {
+    ids.push(seated.id);
+    reasons["assignedBy"] = seated.assignedBy;
+    reasons["seatedSince"] = seated.since;
+  }
+  for (const hearing of committeeHearingsOn(
+    api,
+    chamber,
+    committee,
+    entry.date,
+  )) {
+    ids.push(hearing.id);
+    reasons[`hearing:${hearing.id}`] = hearing.heard ? "heard" : "held";
+    reasons[`chair:${hearing.id}`] = hearing.chairId;
+    reasons[`bill:${hearing.id}`] = hearing.billId;
+    reasons[`witnesses:${hearing.id}`] = hearing.witnesses
+      .map((w) => w.personId)
+      .join(",");
+    reasons[`vote:${hearing.id}`] = `${hearing.yes}-${hearing.no}`;
+  }
+  return ids;
+}
+
 /** The state's treasury, or the outside payer standing for another state's. */
 function stateTreasury(api: CoreAPI, stateKey: string): string {
   if (api.state.modules.has(BUDGETS_MODULE_ID)) {
@@ -582,6 +673,13 @@ export function actOn(
           ...spendTime(api, entry.holderId, room(api, entry, office), sourceId),
         );
       }
+      // A member at their committee learns where they sit, and what it heard
+      // that day, from the records that seated and convened it.
+      if (
+        chosen.attend &&
+        (entry.kind === "committee" || entry.kind === "interim-committee")
+      )
+        recordIds.push(...committeeSitting(api, entry, reasons));
       if (entry.kind === "floor-session")
         table(api, "attendance").put({
           id: `${entry.holderId}:${entry.date}`,
@@ -634,6 +732,39 @@ export function actOn(
         );
       reasons["authority"] = entry.subject;
       reasons["rule"] = "governor-views-and-law-in-force";
+      break;
+    }
+    case "clemency": {
+      const custody = prisonersServing(api, office.stateKey).find(
+        (row) => row.id === entry.subject,
+      );
+      const served = custody ? servedShare(custody, entry.date) : 0;
+      const lean = decisionLean(
+        api.state,
+        person,
+        CLEMENCY_DECISION,
+        "grant",
+        "deny",
+      );
+      const bar = stateDayParameter("clemencyBar");
+      // The governor weighs how much of the term is served and their own temperament, against the bar.
+      const grant =
+        api.parameter("traitDecisionWeight") * lean + served - bar > 0;
+      chosen = choice ?? { kind: "clemency", grant };
+      if (chosen.kind !== "clemency")
+        throw new Error("Choose to grant clemency or not.");
+      if (!choice) Object.assign(reasons, { served, lean, bar });
+      if (chosen.grant && custody) {
+        const row = grantClemency(api, {
+          custodyId: custody.id,
+          grantedBy: entry.holderId,
+          stateKey: office.stateKey,
+          reasons: { served, lean, bar },
+        });
+        if (row) recordIds.push(row.id, row.sentenceId);
+      }
+      reasons["authority"] =
+        clemencyAuthority(office.stateKey) ?? "governor-alone";
       break;
     }
     case "state-of-the-state": {

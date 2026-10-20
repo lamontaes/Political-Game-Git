@@ -5,12 +5,12 @@ area: gov
 kind: feature
 priority: 2
 size: M
-status: open
-claimed-by:
-pr:
+status: done
+claimed-by: claude/special-election-races
+pr: #5095
 blocked-on:
 source: added with npm run pool -- add
-claimed-at:
+claimed-at: 2026-10-19T18:41:15.488Z
 ---
 
 **What.** Special elections for state and federal seats outside the town are registered with a stand-in instead of running as real races. When one of those seats falls vacant, the contest is recorded but nobody files, campaigns or is chosen from a real field, so the seat is filled by the stand-in. Run these races through the same elections engine as the town's own, with a coarser field for places the player does not live in.
