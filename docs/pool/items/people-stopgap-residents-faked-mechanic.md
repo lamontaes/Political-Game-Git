@@ -4,10 +4,10 @@ title: "Stopgaps in residents (faked-mechanic): 1 open"
 area: people
 kind: stopgap
 priority: 2
-status: open
+status: in-pr
 claimed-by:
-pr:
-blocked-on:
+pr: #5076
+blocked-on: people-unplaced-fill-in-job
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/modules/residents.ts, kind faked-mechanic"
 claimed-at:

@@ -38,7 +38,7 @@ import {
 } from "./office-day-state";
 import { coreAPI } from "./state";
 
-const ATTEMPTS = 6;
+const ATTEMPTS = 12;
 
 function playPlace(seed: string, skipped: string[]): string | null {
   const place = drawPlace(seed, "office-clemency");
