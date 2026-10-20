@@ -16,12 +16,16 @@ import type {
 } from "../types";
 import type { ModuleRow } from "../module-data";
 import type { PolicyHandler } from "./host";
-import { BUDGETS_MODULE_ID, governments } from "../modules/budgets";
+import {
+  BUDGETS_MODULE_ID,
+  governments,
+  lineBeforeBill,
+} from "../modules/budgets";
 import { countedResidents } from "../electorate";
 import { lawChain } from "../modules/laws";
 import { residentsRuntime } from "../modules/residents";
 import { fillInPerson } from "../state";
-import { baseLine, budgetToday } from "./group-a-money";
+import { budgetToday } from "./group-a-money";
 import {
   ageOn,
   currentStaff,
@@ -72,7 +76,9 @@ export const staffing: PolicyHandler = (api, change) => {
   const gov = governments(api).find((g) => g.level === change.level);
   const budget = gov ? budgetToday(api, gov) : null;
   if (!gov || !budget) return;
-  const base = baseLine(api, gov, budget, line);
+  // The line before this year's budget bill and any act amending it: a change
+  // the body adopts (the bill included) is what the line's staff follows.
+  const base = lineBeforeBill(api, gov, budget.fiscalYear, line);
   if (base <= 0) return;
   const ratio = (budget.spendingMinor[line] ?? 0) / base;
   const employers = townOrganizations(api, rule.employers);
