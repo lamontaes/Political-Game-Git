@@ -14,7 +14,7 @@ import {
   STATE_PUBLIC_EMPLOYMENT,
   TOWN_EMPLOYMENT_META,
 } from "./reference/town-employment.generated";
-import type { EntityId } from "../simulation/types";
+import type { EntityId } from "./kernel/brands";
 
 type Sector = (typeof TOWN_EMPLOYMENT_META.sectors)[number];
 type LocalGroup = (typeof TOWN_EMPLOYMENT_META.localGroups)[number];

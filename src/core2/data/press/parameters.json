@@ -511,12 +511,6 @@
       "tag": "TUNABLE",
       "source": "Weight of how many public figures a story names (a president, a governor, a member of Congress) in what a reporter picks: elite persons are a news value in their own right (Galtung and Ruge 1965, The Structure of Foreign News, Journal of Peace Research 2(1):64-91). Spread 0.5 to 2.",
       "spread": [0.5, 2]
-    },
-    "outletCashBufferDays": {
-      "value": 27,
-      "tag": "SOURCED",
-      "source": "The median small business holds 27 days of cash outflows as a buffer (JPMorgan Chase Institute, Cash Is King: Flows, Balances, and Buffer Days, 2015; a median across industries, whose buffers run from about 15 to 60 days).",
-      "spread": [15, 60]
     }
   }
 }

@@ -128,7 +128,7 @@
     },
     "us-policy-positions:labor-workforce.public-sector-collective-bargaining": {
       "source": "State public-sector bargaining laws (Sanes and Schmitt, Regulation of Public Sector Collective Bargaining in the States, Center for Economic and Policy Research, 2014).",
-      "mechanic": "none",
+      "mechanic": "public-bargaining",
       "stopgapId": "SG-GOV-REACH-A-bargaining",
       "reaches": [
         {
