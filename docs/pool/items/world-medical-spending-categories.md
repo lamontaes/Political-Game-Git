@@ -5,12 +5,13 @@ area: world
 kind: feature
 priority: 2
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/medical-spending
 pr:
 blocked-on:
 after: people-coverage-record-monthly-pass
 source: added with npm run pool -- add
+claimed-at: 2026-10-20T03:13:28.076Z
 ---
 
 **What.** Living costs carry only drugs and medical supplies today; the Consumer Expenditure health insurance and medical services lines are bound to no household flow. Bind those lines to a monthly out-of-pocket flow for each household, sized from the CE averages by age and income, and let a serious illness in the health record raise a person's bill by the care it needs. Covered people pay a smaller share through the coverage record from the earlier part, and uncovered people pay the full price.
@@ -23,4 +24,5 @@ source: added with npm run pool -- add
 
 **Notes.** Part 2 of 3 split from missing-engine-health-coverage-and-medical-spending (Oct 20).
 
-Oct 20 finding (claude): the seller kinds already exist in business-books.json (`clinic`, `insurance`), so the missing piece is the data. The two Consumer Expenditure lines (health insurance, medical services) are not in `LIVING_COSTS_CATEGORY_DATA`, whose rows carry the spreadsheet's cell references. The source file (`cu-region-1-year-average-2024.xlsx` at bls.gov) answered HTTP 403 from the cloud container with a plain browser header, so a session with access to it (or the same table from another mirror) must read the rows; invented values would break the rule that every number is sourced.
+<<<<<<< HEAD
+Oct 20 finding (claude): the seller kinds already exist in business-books.json (`clinic`, `insurance`), and a nonphysician medical-services household service already exists in opening-customers.json (`clinic-professional-services`, parent `medicalServices`). The spreadsheet `cu-region-1-year-average-2024.xlsx` answers HTTP 403 from the cloud container, but the BLS public data API (POST https://api.bls.gov/publicAPI/v1/timeseries/data/, no key, version 1) answers. National 2024 means for all consumer units: health care `CXUHEALTHLB0101M` = $6,197 (2023: $6,159), medical services `CXUMEDSERVSLB0101M` = $1,252, drugs `CXUDRUGSLB0101M` = $658. Not found: the health insurance series id (`CXUHLTHINSLB0101M`, `CXUHEALTHINSLB0101M`, `CXUHEALINSLB0101M` and `CXUHLTHINLB0101M` do not exist), and regional and household-size series ids were not tried. The version 1 API allows 25 requests a day per address and the daily limit was reached here, so the next session should expect to retry the next day or register a key. Each value the item uses must cite its series id and year.
