@@ -145,6 +145,30 @@ function decide(
   };
 }
 
+/**
+ * What an official weighs in taking a bribe of this size from someone this
+ * close: their temperament, the bribe against a month of living costs plus
+ * the cash on hand (larger for someone with little cushion), and the tie.
+ * Read without paying, so a calibration can order a town's adults by it.
+ */
+export function takeValues(
+  api: CoreAPI,
+  official: Readonly<PersonState>,
+  amountMinor: number,
+  tie: number,
+): Record<string, number> {
+  const month = official.livingCostDailyMinor * c(api, "daysPerMonth");
+  return {
+    temperament:
+      c(api, "corruptionTakeTraitWeight") * temperament(api, official, "take"),
+    // The bribe's share of the bribe plus the cushion: a sliding scale, not a ratio that grows without bound.
+    need:
+      (c(api, "corruptionNeedWeight") * amountMinor) /
+      (amountMinor + month + official.liquidMinor + api.parameter("one")),
+    tie: c(api, "corruptionTieWeight") * tie,
+  };
+}
+
 /** Someone who wants a favor may offer a bribe; the official may take it. */
 export function considerBribe(api: CoreAPI, ask: BribeAsk): CrimeRecord | null {
   const offerer = api.state.people.get(ask.offererId);
@@ -183,23 +207,12 @@ export function considerBribe(api: CoreAPI, ask: BribeAsk): CrimeRecord | null {
     },
     ask.subjectId,
   );
-  const month = official.livingCostDailyMinor * c(api, "daysPerMonth");
   const take = offer.yes
     ? decide(
         api,
         ask.officialId,
         "take",
-        {
-          temperament:
-            c(api, "corruptionTraitWeight") *
-            temperament(api, official, "take"),
-          // The bribe against a month of living costs plus the cash on hand:
-          // larger for someone with little cushion.
-          need:
-            (c(api, "corruptionNeedWeight") * amount) /
-            (month + official.liquidMinor + one),
-          tie: c(api, "corruptionTieWeight") * tie,
-        },
+        takeValues(api, official, amount, tie),
         ask.subjectId,
       )
     : undefined;
@@ -319,7 +332,9 @@ export const corruptionModule: CoreModule = {
               )
             : held.role === "tell"
               ? c(api, "corruptionQuietPull")
-              : c(api, "corruptionHonestPull"),
+              : held.role === "take"
+                ? c(api, "corruptionTakeHonestPull")
+                : c(api, "corruptionHonestPull"),
         sourceIds: [actor.id],
       };
     },

@@ -12,9 +12,9 @@
     "stopgapId": "SG-P15-corruption-weights"
   },
   "corruptionNeedWeight": {
-    "value": 1,
+    "value": 5,
     "tag": "TUNABLE",
-    "citation": "Weight on money pressure: the bribe against the official's month of living costs, and their own cash against that month. Financial strain raises willingness to accept (Gorodnichenko and Sabirianova Peter 2007, Journal of Public Economics 91(5-6):963-991, on public-sector pay and bribery). Spread 0.5 to 2.",
+    "citation": "Weight on money pressure: the bribe's share of the bribe plus the official's month of living costs and cash on hand (a share between 0 and 1, so a bribe small against a cushion barely counts and a large one weighs nearly the full weight). Financial strain raises willingness to accept (Gorodnichenko and Sabirianova Peter 2007, Journal of Public Economics 91(5-6):963-991, on public-sector pay and bribery). Fitted Oct 20, 2026 with the take pull (corruptionTakeHonestPull) on the adults of six drawn towns (about 3,700 people) at a $2,000 bribe: about 7 percent take it, and the third with the highest lean toward corruption takes it about 15 times as often as the third with the lowest. The target from the latent model of Pletzer, Bentvelzen, Oostrom and de Vries 2019 (Journal of Vocational Behavior 112:369-383, honesty-humility against workplace deviance, corrected rho -0.482, k = 15, N = 4,206) at a 6 percent rate is a ratio of about 12 between the thirds. Spread 4 to 6.",
     "stopgapId": "SG-P15-corruption-weights"
   },
   "corruptionTieWeight": {
@@ -33,6 +33,18 @@
     "value": 3,
     "tag": "TUNABLE",
     "citation": "The pull of not offering or not taking, against which the bribe is weighed. Transparency International's Global Corruption Barometer (2019) found about 6% of Americans paid a bribe for a public service in the past year, so most people neither offer nor take even when it would pay. At 3, with a $500,000 contract at stake, 28 of 158 of a generated town's wealthiest residents offered and 7 strained residents took (src/core2/corruption.test.ts, seed corruption-a); at 2 almost everyone offered, at 3.5 almost no one. Spread 2.5 to 3.5.",
+    "stopgapId": "SG-P15-corruption-weights"
+  },
+  "corruptionTakeTraitWeight": {
+    "value": 0.8,
+    "tag": "TUNABLE",
+    "citation": "Weight on the official's lean toward corruption when deciding to take a bribe (the other roles keep corruptionTraitWeight). Fitted Oct 20, 2026 with corruptionNeedWeight (5) and corruptionTakeHonestPull (3.18) on the adults of fourteen drawn towns: about 6 percent take a $2,000 bribe and the third with the highest lean takes it about 13 times as often as the lowest third, against about 12 from the latent model of honesty-humility against workplace deviance (Pletzer, Bentvelzen, Oostrom and de Vries 2019, Journal of Vocational Behavior 112:369-383, corrected rho -0.482). The ratio between thirds is steep in the take rate, so the weight sits below the shared one to keep it from running away when a town's rate is low. Spread 0.6 to 1.0.",
+    "stopgapId": "SG-P15-corruption-weights"
+  },
+  "corruptionTakeHonestPull": {
+    "value": 3.18,
+    "tag": "TUNABLE",
+    "citation": "The pull of not taking a bribe an official is offered (the offer's own pull is corruptionHonestPull; the two sums have different ranges, so one value could not calibrate both). Fitted Oct 20, 2026 with corruptionNeedWeight so that about 7 percent of a town's adults take a $2,000 bribe, against Transparency International's Global Corruption Barometer (2019: about 6 percent of Americans paid a bribe for a public service in the past year, which bounds offers), and the odds between the most and least honest thirds match Pletzer et al. 2019. Spread 3.0 to 3.6.",
     "stopgapId": "SG-P15-corruption-weights"
   },
   "corruptionTellWeight": {
