@@ -22,3 +22,5 @@ claimed-at: 2026-10-20T05:20:26.990Z
 **Files.** src/core2/modules/budgets.ts, src/core2/office-day-acts.ts, src/core2/modules/office-day.ts, src/core2/modules/housing.ts
 
 **Notes.** Checklist line from OFFICE-LOCAL.md; verify against main before starting.
+
+Oct 20 (claude/cut-ribbon): built on the contracts engine instead of a new project table. A public work is the fiscal year's award of a capital line (highways, parks, housing, schools) to a town firm (`contracts.ts`), its cost and payments are the award's, and it finishes the day the next fiscal year's budget takes over (`modules/projects.ts`, `finishedProjects`). `ribbonsToCut` reads that for 60 days after (ESTIMATED), the office day offers `cut-ribbon` on it (`office-day-acts.ts`), and `cutRibbon` writes the ribbon row and a public news event naming the contractor and its owner. Not done: the people who use the finished work, and a ceremony scene (the director's line).
