@@ -5,12 +5,12 @@ area: director
 kind: feature
 priority: 3
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/director-hire-scene
 pr:
 blocked-on:
 source: added with npm run pool -- add
-claimed-at:
+claimed-at: 2026-10-20T02:28:51.365Z
 ---
 
 **What.** TODO
