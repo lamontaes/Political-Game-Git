@@ -1797,20 +1797,27 @@ function found(
     ? rivals.reduce((n, row) => n + row!.capacityMinor, 0) / rivals.length
     : market.demandMinor * share;
   const incumbents = new Set(market.incumbents);
-  const countedBuyers = [...(residentsRuntime(c)?.flows.values() ?? [])].some(
+  // The incumbent whose counted buyers the newcomer shares: the first with
+  // residents' purchases here, not merely the first incumbent in the list
+  // (which may sell only to outside buyers or full households).
+  const countedFlows = [...(residentsRuntime(c)?.flows.values() ?? [])].filter(
     (flow) =>
       flow.kind === "purchase" &&
       !flow.endedAt &&
+      flow.placeId === market.placeId &&
       incumbents.has(flow.payeeId) &&
       !c.people.has(flow.payerId),
   );
-  const households = !countedBuyers
+  const likeId = market.incumbents.find((rid) =>
+    countedFlows.some((flow) => flow.payeeId === rid),
+  );
+  const households = !likeId
     ? 0
     : api
         .enterMarket({
           organizationId: id,
           placeId: market.placeId,
-          like: market.incumbents[0]!,
+          like: likeId,
           capacityMinor: capacityMinor * scale,
         })
         .reduce((n, row) => n + row.annualDemandMinor, 0);
