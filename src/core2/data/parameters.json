@@ -234,10 +234,10 @@
     }
   },
   "restingStressFloor": {
-    "value": 0.271,
+    "value": 0.261,
     "tag": "ESTIMATED",
     "citation": "The part of resting stress that no recorded situation explains: the intercept of the resting-stress sum, set so the modeled population's average equals stressBaseline (the PSS-10 norm) in a drawn place.",
-    "estimatedFrom": "Calibrated to stressBaseline; the intercept moves with the weights below.",
+    "estimatedFrom": "Calibrated to stressBaseline; the intercept moves with the weights below. Recalibrated Oct 19 from 0.271: across 28 drawn towns (seeds sm-0 to sm-13 and sn-0 to sn-13 of the stress calibration) the adults' mean sat 0.0098 above the norm (town-to-town spread 0.012), so the intercept comes down by that gap.",
     "spread": {
       "low": 0.1,
       "high": 0.3,
@@ -1199,12 +1199,13 @@
   "workRoutineRetentionWeeks": {
     "value": 4,
     "tag": "TUNABLE",
-    "citation": "No measured bound for this prototype parameter. Number of quiet completed weekly work rollups retained per worker; full focus results and open obligations stay separate.",
+    "citation": "An engineering memory budget, not a measure of anything in the world: the owner ruled that running memory stays small and keeps a condensed index, not every log record (owner, Oct 12, 2026, DECISION-REGISTER 'Speed and memory'). Number of quiet completed weekly work rollups kept per worker; full focus results, cumulative totals and open obligations are kept separately. Only the dev-why bench reads old rollups.",
     "spread": {
-      "status": "unmeasured",
-      "reason": "Calibration not run; this value is not claimed as an empirical estimate."
+      "low": 1,
+      "high": 13,
+      "unit": "weeks",
+      "citation": "Read from the code, not measured: the only reader of old rollups is the bench's why-trace (src/bench/dev-why.ts), a debug switch; the memory guard (scripts/core2-guard/memory.mjs) is the check to run before widening it."
     },
-    "stopgapId": "SG-P8-work-result-retention",
     "checkRange": {
       "ref": "P9-OUTCOME-WHOLE-LIFE"
     }
@@ -1636,6 +1637,21 @@
     "value": 0.352,
     "tag": "SOURCED",
     "citation": "IRS SOI tax year 2022 Table 5.1, https://www.irs.gov/pub/irs-soi/22co51ccr.xlsx; compiled personal/laundry services cost of goods sold / other deductions; aggregate ratio."
+  },
+  "businessIrsUtilityMargin": {
+    "value": 0.0303,
+    "tag": "SOURCED",
+    "citation": "IRS SOI tax year 2022 Table 5.1, https://www.irs.gov/pub/irs-soi/22co51ccr.xlsx; compiled utilities net income less deficit / receipts; aggregate ratio."
+  },
+  "businessIrsUtilityPayrollShare": {
+    "value": 0.046,
+    "tag": "SOURCED",
+    "citation": "IRS SOI tax year 2022 Table 5.1, https://www.irs.gov/pub/irs-soi/22co51ccr.xlsx; compiled utilities officers plus salaries and wages / receipts; aggregate ratio."
+  },
+  "businessIrsUtilitySalesCostShare": {
+    "value": 0.621,
+    "tag": "SOURCED",
+    "citation": "IRS SOI tax year 2022 Table 5.1, https://www.irs.gov/pub/irs-soi/22co51ccr.xlsx; compiled utilities cost of goods sold / other deductions; aggregate ratio."
   },
   "businessIrsAllMargin": {
     "value": 0.1057,
@@ -2314,6 +2330,72 @@
     "value": 1319,
     "tag": "SOURCED",
     "citation": "BLS CEX Table 1400, calendar 2024, H543, annual USD per consumer unit; https://www.bls.gov/cex/tables/calendar-year/mean-item-share-average-standard-error/cu-size-2024.xlsx. Five-or-more uses the published column without extrapolation. Applicability: Published aggregate mean and sampling error are not individual dispersion. No individual budget/account spread or crosswalk calibration has been measured.",
+    "stopgapId": "SG-P8-opening-customer-generation"
+  },
+  "openingCustomerElectricityNationalAnnualUsd": {
+    "value": 1833,
+    "tag": "SOURCED",
+    "citation": "BLS CEX Consumer Expenditure Surveys, calendar 2024, item Electricity, annual USD per consumer unit, region-of-residence All consumer units (data/source/consumer-expenditure/regional-corpus.json.gz). Parent category only, not a seller product scope. Applicability: Published aggregate mean and sampling error are not individual dispersion. No individual budget/account spread or crosswalk calibration has been measured.",
+    "stopgapId": "SG-P8-opening-customer-generation"
+  },
+  "openingCustomerElectricityNortheastAnnualUsd": {
+    "value": 1802,
+    "tag": "SOURCED",
+    "citation": "BLS CEX Consumer Expenditure Surveys, calendar 2024, item Electricity, annual USD per consumer unit, region-of-residence Northeast (data/source/consumer-expenditure/regional-corpus.json.gz). Parent category only, not a seller product scope. Applicability: Published aggregate mean and sampling error are not individual dispersion. No individual budget/account spread or crosswalk calibration has been measured.",
+    "stopgapId": "SG-P8-opening-customer-generation"
+  },
+  "openingCustomerElectricityMidwestAnnualUsd": {
+    "value": 1516,
+    "tag": "SOURCED",
+    "citation": "BLS CEX Consumer Expenditure Surveys, calendar 2024, item Electricity, annual USD per consumer unit, region-of-residence Midwest (data/source/consumer-expenditure/regional-corpus.json.gz). Parent category only, not a seller product scope. Applicability: Published aggregate mean and sampling error are not individual dispersion. No individual budget/account spread or crosswalk calibration has been measured.",
+    "stopgapId": "SG-P8-opening-customer-generation"
+  },
+  "openingCustomerElectricitySouthAnnualUsd": {
+    "value": 2042,
+    "tag": "SOURCED",
+    "citation": "BLS CEX Consumer Expenditure Surveys, calendar 2024, item Electricity, annual USD per consumer unit, region-of-residence South (data/source/consumer-expenditure/regional-corpus.json.gz). Parent category only, not a seller product scope. Applicability: Published aggregate mean and sampling error are not individual dispersion. No individual budget/account spread or crosswalk calibration has been measured.",
+    "stopgapId": "SG-P8-opening-customer-generation"
+  },
+  "openingCustomerElectricityWestAnnualUsd": {
+    "value": 1787,
+    "tag": "SOURCED",
+    "citation": "BLS CEX Consumer Expenditure Surveys, calendar 2024, item Electricity, annual USD per consumer unit, region-of-residence West (data/source/consumer-expenditure/regional-corpus.json.gz). Parent category only, not a seller product scope. Applicability: Published aggregate mean and sampling error are not individual dispersion. No individual budget/account spread or crosswalk calibration has been measured.",
+    "stopgapId": "SG-P8-opening-customer-generation"
+  },
+  "openingCustomerElectricitySize1AnnualUsd": {
+    "value": 1197,
+    "tag": "SOURCED",
+    "citation": "BLS CEX Consumer Expenditure Surveys, calendar 2024, item Electricity, annual USD per consumer unit, consumer-unit-size One person (data/source/consumer-expenditure/regional-corpus.json.gz). Parent category only, not a seller product scope. Applicability: Published aggregate mean and sampling error are not individual dispersion. No individual budget/account spread or crosswalk calibration has been measured.",
+    "stopgapId": "SG-P8-opening-customer-generation"
+  },
+  "openingCustomerElectricitySize2AnnualUsd": {
+    "value": 1884,
+    "tag": "SOURCED",
+    "citation": "BLS CEX Consumer Expenditure Surveys, calendar 2024, item Electricity, annual USD per consumer unit, consumer-unit-size Two people (data/source/consumer-expenditure/regional-corpus.json.gz). Parent category only, not a seller product scope. Applicability: Published aggregate mean and sampling error are not individual dispersion. No individual budget/account spread or crosswalk calibration has been measured.",
+    "stopgapId": "SG-P8-opening-customer-generation"
+  },
+  "openingCustomerElectricitySize3AnnualUsd": {
+    "value": 2137,
+    "tag": "SOURCED",
+    "citation": "BLS CEX Consumer Expenditure Surveys, calendar 2024, item Electricity, annual USD per consumer unit, consumer-unit-size Three people (data/source/consumer-expenditure/regional-corpus.json.gz). Parent category only, not a seller product scope. Applicability: Published aggregate mean and sampling error are not individual dispersion. No individual budget/account spread or crosswalk calibration has been measured.",
+    "stopgapId": "SG-P8-opening-customer-generation"
+  },
+  "openingCustomerElectricitySize4AnnualUsd": {
+    "value": 2341,
+    "tag": "SOURCED",
+    "citation": "BLS CEX Consumer Expenditure Surveys, calendar 2024, item Electricity, annual USD per consumer unit, consumer-unit-size Four people (data/source/consumer-expenditure/regional-corpus.json.gz). Parent category only, not a seller product scope. Applicability: Published aggregate mean and sampling error are not individual dispersion. No individual budget/account spread or crosswalk calibration has been measured.",
+    "stopgapId": "SG-P8-opening-customer-generation"
+  },
+  "openingCustomerElectricitySize5plusAnnualUsd": {
+    "value": 2522,
+    "tag": "SOURCED",
+    "citation": "BLS CEX Consumer Expenditure Surveys, calendar 2024, item Electricity, annual USD per consumer unit, consumer-unit-size Five or more people (data/source/consumer-expenditure/regional-corpus.json.gz). Parent category only, not a seller product scope. Applicability: Published aggregate mean and sampling error are not individual dispersion. No individual budget/account spread or crosswalk calibration has been measured.",
+    "stopgapId": "SG-P8-opening-customer-generation"
+  },
+  "openingCustomerResidentialElectricityAnnualNationalUsd": {
+    "value": 1833,
+    "tag": "SOURCED",
+    "citation": "BLS CEX Consumer Expenditure Surveys, calendar 2024, item Electricity, all consumer units, annual USD per consumer unit (data/source/consumer-expenditure/regional-corpus.json.gz). Electricity only: gas and fuel oil, water, sewer and trash are excluded (a government's service charges carry the last two). Applicability: Published aggregate mean and sampling error are not individual dispersion. No individual budget/account spread or crosswalk calibration has been measured.",
     "stopgapId": "SG-P8-opening-customer-generation"
   },
   "openingCustomerTelephoneNationalAnnualUsd": {

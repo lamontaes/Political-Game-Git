@@ -9,7 +9,7 @@ status: blocked
 claimed-by: claude/ward-map
 pr: #5106
 after: gov-council-election-method
-blocked-on: world-dwelling-position
+blocked-on: world-dwelling-locations
 milestone:
 source: "stopgap SG-GOV-ward-map, added by gov-council-election-method"
 claimed-at: 2026-10-19T19:07:44.446Z

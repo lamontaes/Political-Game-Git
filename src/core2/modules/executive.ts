@@ -72,6 +72,7 @@ const RESEARCH = research as unknown as {
     {
       cabinet?: { positions?: PostSpec[] };
       canOrder?: { key: string }[] | Record<string, unknown>;
+      pardon?: { authority: string };
     }
   >;
 };
@@ -1099,3 +1100,14 @@ export function pendingGovernorOrders(
     },
   );
 }
+
+/** Who holds a state's pardon and commutation power, from the research (`governor-alone`, `governor-with-board-advice`, `board-alone`, ...). */
+export function clemencyAuthority(stateKey: string): string | null {
+  return RESEARCH.places[stateKey]?.pardon?.authority ?? null;
+}
+
+/** The authorities under which the governor decides alone, a board's advice being only advice. */
+export const GOVERNOR_DECIDES_CLEMENCY: readonly string[] = [
+  "governor-alone",
+  "governor-with-board-advice",
+];

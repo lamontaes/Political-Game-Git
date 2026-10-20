@@ -1057,6 +1057,7 @@ export function prepareAct(
     | "interview"
     | "talk-to-colleague"
     | "state-of-the-city"
+    | "propose-budget"
     | "name-department-head",
   prepared: Prepared,
 ): void {

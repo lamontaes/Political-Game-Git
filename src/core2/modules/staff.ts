@@ -36,15 +36,17 @@ import type { CoreAPI, CoreModule, CoreState, PersonState } from "../types";
 import type { ModuleRow } from "../module-data";
 import { campaignParameter, personLean } from "../campaign-views";
 import { viewOn } from "./views";
+import { keepsWhy } from "../why-kept";
 import { parameter } from "../parameters";
 import { decisionLean } from "../trait-decisions";
 import { lawChain } from "./laws";
 import type { ModuleCalendarWork } from "../module-calendar";
-import { addDays, makeIsoDate } from "../kernel/dates";
+import { addDays, daysBetween, makeIsoDate } from "../kernel/dates";
 import { townSeats } from "./offices";
 import { BUDGETS_MODULE_ID, governments } from "./budgets";
 import { inCustody } from "./justice";
 import { startPublicJob } from "../public-payroll";
+import { giveLivingCost, spendLivingCost } from "../official-living";
 import { publicPayRoom, treasuryParameter } from "../budgets-treasury";
 import {
   LEGISLATURE_MODULE_ID,
@@ -84,6 +86,8 @@ export interface StafferRow {
   readonly jobId?: string;
   /** The aide this hire replaces, who died or left the post (owner, Oct 14: every role is refilled). */
   readonly replacesStafferId?: string;
+  /** Given a household cost at hire, which they spend out of each month through this date. */
+  readonly livedThrough?: string;
 }
 
 export interface WorkRecord {
@@ -548,6 +552,24 @@ export function hireStaff(
   if (candidate.counted) fillInPerson(api.state as CoreState, input.personId);
   if (candidate.seat) fillInIdentity(api.state as CoreState, candidate.seat);
   const person = api.state.people.get(input.personId)!;
+  // An applicant where the office sits comes with no household cost, so
+  // nothing pulls them to a paycheck: give them what officials get (the
+  // Consumer Expenditure basket, a studio's rent, a family's savings at
+  // their pay) and spend it out each month.
+  const site = officeSiteOf(api, input.officialId);
+  const federal =
+    townSeats(api).find((s) => s.holder?.personId === input.officialId)?.office
+      .level === "federal";
+  const lives =
+    !!candidate.seat &&
+    giveLivingCost(api, {
+      personId: input.personId,
+      stateKey: site.stateKey,
+      annualMinor:
+        campaignParameter("staffHourlyMinor") *
+        treasuryParameter("fullTimeHoursPerYear"),
+      governmentKey: federal ? "US" : site.stateKey,
+    });
   // On the payroll of the government the official serves, at the post's
   // pay; each payday counts against the budget line the post draws on.
   const employer = employerOf(api, input.officialId);
@@ -589,6 +611,7 @@ export function hireStaff(
     ],
     ...(jobId ? { jobId } : {}),
     ...(replaces ? { replacesStafferId: replaces.id } : {}),
+    ...(lives ? { livedThrough: api.state.date } : {}),
   };
   table(api, "staff").put(row as unknown as ModuleRow);
   api.relationship(input.officialId, input.personId, "contact", 0.1);
@@ -726,7 +749,11 @@ function record(
     parts: q.parts,
     result,
   };
-  table(api, "work").put(work as unknown as ModuleRow);
+  // The row says why this work was good or poor; it is kept for the people
+  // the player deals with (everyone's when bookkeeping is on). The count of
+  // tasks stays on the staffer for everyone.
+  if (keepsWhy(api.state as CoreState, staffer.officialId, staffer.personId))
+    table(api, "work").put(work as unknown as ModuleRow);
   table(api, "staff").put({
     ...staffer,
     tasksDone: staffer.tasksDone + 1,
@@ -894,6 +921,20 @@ function scheduleReview(api: CoreAPI, from: string): void {
 function staffReview(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
   if (work.kind !== "staff-review") return;
   scheduleReview(api, api.state.date);
+  // Aides who were given a household cost spend what it came to since last time.
+  for (const raw of table(api, "staff").rows()) {
+    const row = raw as unknown as StafferRow;
+    if (!row.livedThrough || row.livedThrough >= api.state.date) continue;
+    spendLivingCost(
+      api,
+      row.personId,
+      daysBetween(makeIsoDate(row.livedThrough), makeIsoDate(api.state.date)),
+    );
+    table(api, "staff").put({
+      ...row,
+      livedThrough: api.state.date,
+    } as unknown as ModuleRow);
+  }
   const state = api.state as CoreState;
   const postHourly = campaignParameter("staffHourlyMinor");
   const officials = [

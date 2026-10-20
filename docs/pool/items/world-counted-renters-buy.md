@@ -7,7 +7,7 @@ priority: 2
 size: M
 status: in-pr
 claimed-by: claude/counted-renters-buy-g08lgv
-pr: #5252
+pr: #5367
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-19T23:13:50.152Z
