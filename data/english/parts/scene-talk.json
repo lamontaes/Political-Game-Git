@@ -71019,7 +71019,7 @@
       "key": "scene-talk.follow-accept.then-i-ll-be-in-the-front-row",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "Then I'll be in the front row.",
+      "text": "Then I'll be up front.",
       "uses": [
         {
           "subject": "scene",
@@ -74431,7 +74431,7 @@
       "key": "scene-talk.narrate-narrate.name-was-in-the-third-row-at-your-town-hall-now-name-is-at-your-office",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "{name} was in the third row at your town hall. Now {name} is at your office door with a clipboard about {cause}.",
+      "text": "{name} was at the back of your town hall. Now {name} is at your office door with a clipboard about {cause}.",
       "uses": [
         {
           "subject": "scene",

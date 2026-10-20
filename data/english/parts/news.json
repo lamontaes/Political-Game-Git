@@ -466,6 +466,56 @@
         "move": "deliver-news",
         "key": "loss"
       }
+    },
+    {
+      "key": "news.law-took-effect.measure-took-effect-on-date",
+      "move": "law-took-effect",
+      "kind": "spoken",
+      "text": "{measure} took effect on {date}.",
+      "uses": [
+        {
+          "move": "law-took-effect",
+          "subject": "news",
+          "role": "law-took-effect",
+          "choice": "lede",
+          "requiresFacts": [
+            "effective"
+          ]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item words-archive-law-budget-ledes)",
+      "date": "2026-10-19",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.law-took-effect.measure-became-law-on-date",
+      "move": "law-took-effect",
+      "kind": "spoken",
+      "text": "{measure} became law on {date}.",
+      "uses": [
+        {
+          "move": "law-took-effect",
+          "subject": "news",
+          "role": "law-took-effect",
+          "choice": "lede",
+          "requiresFacts": [
+            "enacted"
+          ]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item words-archive-law-budget-ledes)",
+      "date": "2026-10-19",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
     }
   ]
 }

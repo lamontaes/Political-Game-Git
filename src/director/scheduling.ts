@@ -33,12 +33,6 @@ export interface SituationRole {
   bearing?: string;
 }
 
-export interface CauseFactMatch {
-  key: string;
-  is?: "subject" | "other";
-  equals?: string;
-}
-
 export interface SituationCause {
   match?: {
     label?: string;
@@ -48,13 +42,19 @@ export interface SituationCause {
     counterpart?: string;
     echo?: string;
     threadTurn?: string;
+    /** The cause's record names the moment's person among its own people. */
+    selfNamed?: boolean;
     /**
-     * A fact of the cause's own record read against the moment's person: an
-     * election result's winner is the subject ("subject") or someone else
-     * ("other"), or it holds one value (a desk action "signed"). A cause whose
-     * record is gone, or lacks the fact, matches nothing. Several are all read.
+     * Facts of the cause's own record, every one of which must hold: a fact
+     * ("winnerId") names the moment's person ("is": "subject") or someone
+     * else ("other"), or is one of the listed values ("equals"). A cause whose
+     * record is gone, or lacks the fact, matches nothing.
      */
-    causeFact?: CauseFactMatch | readonly CauseFactMatch[];
+    causeFacts?: readonly {
+      key: string;
+      is?: "subject" | "other";
+      equals?: readonly string[];
+    }[];
     /** What a heard speech was given at: "campaign", "remark" at a meeting, a "hearing" (see speechOccasion). */
     occasion?: string;
   };
@@ -220,26 +220,19 @@ export function causeMatches(
 ): boolean {
   const match = cause.match;
   if (!match) return false;
-  const causeFacts = match.causeFact
-    ? Array.isArray(match.causeFact)
-      ? (match.causeFact as readonly CauseFactMatch[])
-      : [match.causeFact as CauseFactMatch]
-    : [];
-  for (const want of causeFacts) {
+  for (const want of match.causeFacts ?? []) {
     const fact = core.durableLog.get(moment.causeId)?.facts?.[want.key];
     if (typeof fact !== "string" || !fact) return false;
-    if (want.equals !== undefined && fact !== want.equals) return false;
-    if (
-      want.is !== undefined &&
-      (fact === moment.personId) !== (want.is === "subject")
-    )
+    if (want.is && (fact === moment.personId) !== (want.is === "subject"))
       return false;
+    if (want.equals && !want.equals.includes(fact)) return false;
   }
   if (
     match.occasion !== undefined &&
     speechOccasion(core, moment.causeId) !== match.occasion
   )
     return false;
+  if (match.selfNamed && !moment.selfNamed) return false;
   if (match.label !== undefined && moment.label !== match.label) return false;
   if (match.causeKind !== undefined && moment.causeKind !== match.causeKind)
     return false;
