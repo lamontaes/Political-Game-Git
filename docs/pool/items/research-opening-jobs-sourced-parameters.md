@@ -5,12 +5,12 @@ area: core
 kind: research
 priority: 2
 size: M
-status: claimed
-claimed-by: claude/political-game-pool-3xfqef-12
+status: open
+claimed-by:
 pr:
 blocked-on:
 source: "collapsed Oct 19, 2026 from core-stopgap-opening-coworkers-estimated-behavior, core-stopgap-opening-employment-authored-content, core-stopgap-opening-employment-opening-allocation, core-stopgap-opening-payroll-calendar-estimated-opening-employer-pay-calendar"
-claimed-at: 2026-10-20T02:20:27.518Z
+claimed-at:
 ---
 
 **What.** Source the numbers behind the opening's jobs, workgroups and pay calendars. Each row below is a registered stopgap whose replacement waits on sourced or estimated data, collapsed here from 4 pool item(s) on Oct 19, 2026 so one researcher takes the engine family at once. For each row, find a public source with a year and a unit, record the figure as a SOURCED or ESTIMATED parameter row with a citation and a spread, put the research file under data/research/core/ with a reader, and resolve the stopgap row. Where a row's replacement is a mechanic rather than a number, source what that mechanic will read and leave the mechanic to the area's builder (name the pool item in the PR).
@@ -27,3 +27,5 @@ claimed-at: 2026-10-20T02:20:27.518Z
 **Files.** src/core2/data/opening-coworkers.json, src/core2/data/opening-employment.json, src/core2/data/opening-payroll-calendar.json, src/core2/opening-employment.ts, src/core2/data/parameters.json, src/core2/data/stopgaps.json, data/research/core/
 
 **Notes.** Folded from: core-stopgap-opening-coworkers-estimated-behavior, core-stopgap-opening-employment-authored-content, core-stopgap-opening-employment-opening-allocation, core-stopgap-opening-payroll-calendar-estimated-opening-employer-pay-calendar. Rows that are not numbers (missing mechanics in law reach, for example) stay registered; this item sources what they will read.
+
+Looked at Oct 20 (claude/political-game-pool-3xfqef-12), released unbuilt. Of the four rows, the pay-calendar row is already mostly sourced: `opening-payroll-calendar.json` carries per-industry frequency weights as BLS parameters (`openingPayrollBls*Weight`), and the BLS Current Employment Statistics page "Length of pay period" (https://www.bls.gov/ces/publications/length-pay-period.htm; establishments, Feb 2023: biweekly 43.0, weekly 27.0, semimonthly 19.8, monthly 10.3 percent; biweekly rises from 39.0 percent of establishments with 1 to 9 employees to 66.6 percent with 1,000 or more) is the source to check them against. What stays estimated is the phase span, period-end lag and boundary days (`openingPayrollPrivatePhaseSpanFraction`, `openingPayrollPeriodEndLagDays` and the monthly and semimonthly boundary days), which need dated employer payroll records, not a published table. The other three rows (coworker groups, authored job mix, opening employment allocation) need sources I could not retrieve with a citation from the cloud session. A researcher with web access takes them one row per PR.
