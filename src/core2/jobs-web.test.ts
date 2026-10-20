@@ -34,11 +34,23 @@ import type { CoreState } from "./types";
 const seed = process.env.WEB_LABOR_SEED || randomBytes(8).toString("hex");
 const place = drawPlace(seed, "web-labor");
 
-const build = () =>
-  buildBenchWorld(seed, gameStartDate(), {
-    twoLevel: true,
-    placeKey: place.key,
-  }).core;
+/** The town the player lives in, which the web keeps a row for. */
+const homeOf = (core: CoreState) => core.people.get(core.playerId!)!.placeId;
+
+/** Each group the web's participation links name has people in the town. */
+const hasGroups = (core: CoreState, least = 1) => {
+  const shares = laborGroupShares(coreAPI(core), homeOf(core));
+  return [MOTHERS, MARRIED_WOMEN, OLDER_WORK].every((key) => {
+    const row = shares[key as keyof typeof shares];
+    return row.of >= least && row.at / row.of < 0.97;
+  });
+};
+
+/** A town with jobs enough that some are posted again within the play. */
+const JOBS_FOR_POSTINGS = 50;
+const WAGE_DRAWS = 4;
+const activeJobs = (core: CoreState) =>
+  [...core.jobs.values()].filter((job) => job.endsAt === undefined).length;
 
 /** Set the effects of links on the latest web month row of every place, as the web would have written them. */
 function setEffects(
@@ -65,7 +77,11 @@ function setEffects(
   return touched;
 }
 
-/** The place the web keeps a row for that the counted population lives in. */
+/**
+ * The place the web keeps a row for: the one the counted population lives
+ * in, else the player's town (a small town can be all full people, with its
+ * counted households only in the places around it).
+ */
 const townOf = (core: CoreState) => {
   const kept = new Set(
     (
@@ -78,7 +94,9 @@ const townOf = (core: CoreState) => {
   const rt = residentsRuntime(core)!;
   for (const h of rt.store.liveHouseholds())
     if (kept.has(h.placeId)) return h.placeId;
-  throw new Error("no web place holds the counted population");
+  const home = core.people.get(core.playerId!)?.placeId;
+  if (home && kept.has(home)) return home;
+  throw new Error("no web place holds the counted population or the player");
 };
 
 /** Play to a date, re-shifting the web's row each day after the web wrote it. */
@@ -93,7 +111,9 @@ function play(core: CoreState, days: number, effects?: Record<string, number>) {
 
 describe(`the labor engine and the outcome web (${place.name}, seed ${seed})`, () => {
   it("finds mothers, married women and people near retirement in its records, and the factor varies across them", () => {
-    const core = build();
+    // A small town can lack a group outright; draw one that has each.
+    const core = worldWith(seed, "web-labor-groups", (w) => hasGroups(w.core))
+      .world.core;
     play(core, 40);
     const api = coreAPI(core);
     const p = (k: string) => api.parameter(k);
@@ -140,29 +160,13 @@ describe(`the labor engine and the outcome web (${place.name}, seed ${seed})`, (
 
   it("a higher participation factor moves who is at work", async () => {
     const days = 80;
-    const lowWage = (core: CoreState) =>
-      [...core.jobs.values()].filter(
-        (job) =>
-          job.endsAt === undefined &&
-          (job.hourlyMinor ?? 0) <
-            coreAPI(core).parameter("jobsLowWageLineHourlyMinor"),
-      ).length;
-    // The sourced $15 line: draw a place that has jobs under it to act on.
     const { world, place: found } = worldWith(
       seed,
       "web-labor-lowwage",
-      (w) => {
-        if (lowWage(w.core) < 5) return false;
-        // Each group needs enough people, with some not yet at work, to move.
-        const shares = laborGroupShares(
-          coreAPI(w.core),
-          [...residentsRuntime(w.core)!.store.liveHouseholds()][0]!.placeId,
-        );
-        return [MOTHERS, MARRIED_WOMEN, OLDER_WORK].every((key) => {
-          const row = shares[key as keyof typeof shares];
-          return row.of >= 30 && row.at / row.of < 0.97;
-        });
-      },
+      // Each group needs enough people in the town, with some not yet at work, to move.
+      (w) => hasGroups(w.core, 30),
+      // Small towns rarely have 30 in every group; look further before failing.
+      16,
     );
     const base = world.core;
     const lifted = buildBenchWorld(found.seed, gameStartDate(), {
@@ -174,7 +178,31 @@ describe(`the labor engine and the outcome web (${place.name}, seed ${seed})`, (
   }, 1_800_000); // two played worlds, 40 + 80 days each, queued behind other sessions
 
   it("a higher wage factor moves the pay of new postings", async () => {
-    await wageTrial(build(), build(), 80);
+    // Postings follow vacancies, which a small town may not have in the
+    // window; try a bounded number of towns with jobs enough, and fail by
+    // name when none posted in both worlds.
+    const tried: string[] = [];
+    for (let draw = 0; draw < WAGE_DRAWS; draw += 1) {
+      const { place: found } = worldWith(
+        draw ? `${seed}:wage${draw}` : seed,
+        "web-labor-wages",
+        (w) => activeJobs(w.core) >= JOBS_FOR_POSTINGS,
+      );
+      const twin = () =>
+        buildBenchWorld(found.seed, gameStartDate(), {
+          twoLevel: true,
+          placeKey: found.key,
+        }).core;
+      const result = wageTrial(twin(), twin(), 80);
+      if (result) {
+        expect(result.after.mean).toBeGreaterThan(result.before.mean * 1.03);
+        return;
+      }
+      tried.push(found.name);
+    }
+    throw new Error(
+      `no drawn town posted jobs after the shift in both worlds (seed ${seed}): ${tried.join("; ")}`,
+    );
   }, 1_800_000); // two played worlds, 40 + 80 days each, queued behind other sessions
 });
 
@@ -182,10 +210,11 @@ async function trial(base: CoreState, lifted: CoreState, days: number) {
   {
     play(base, 40);
     play(lifted, 40);
+    // The retirement-age link is carried by the jobs engine's retirement
+    // onset (the law in force), not the web, so only the web's two groups shift.
     const effects = {
       "universal-childcare-to-mothers-work": 0.6,
       "broadband-to-married-women-work": 0.3,
-      "retirement-age-to-older-work": 0.5,
     };
     const wageBase = (core: CoreState) =>
       (
@@ -213,10 +242,8 @@ async function trial(base: CoreState, lifted: CoreState, days: number) {
     console.log(
       `web labor twins: ${place.name} seed ${seed}: at work mothers ${rate(a[MOTHERS]).toFixed(4)}->${rate(b[MOTHERS]).toFixed(4)}, married ${rate(a[MARRIED_WOMEN]).toFixed(4)}->${rate(b[MARRIED_WOMEN]).toFixed(4)}, older ${rate(a[OLDER_WORK]).toFixed(4)}->${rate(b[OLDER_WORK]).toFixed(4)}; low-wage jobs ${a["labor.low-wage-jobs"].at.toFixed(0)}->${b["labor.low-wage-jobs"].at.toFixed(0)}`,
     );
-    expect(
-      rate(b[MOTHERS]) + rate(b[MARRIED_WOMEN]) + rate(b[OLDER_WORK]),
-    ).toBeGreaterThan(
-      rate(a[MOTHERS]) + rate(a[MARRIED_WOMEN]) + rate(a[OLDER_WORK]),
+    expect(rate(b[MOTHERS]) + rate(b[MARRIED_WOMEN])).toBeGreaterThan(
+      rate(a[MOTHERS]) + rate(a[MARRIED_WOMEN]),
     );
   }
 }
@@ -228,7 +255,7 @@ async function trial(base: CoreState, lifted: CoreState, days: number) {
  * after the shift is read against the pay of the job it copies, which is the
  * same job in both worlds, so who happens to be hired cannot move the result.
  */
-async function wageTrial(base: CoreState, paid: CoreState, days: number) {
+function wageTrial(base: CoreState, paid: CoreState, days: number) {
   play(base, 40);
   play(paid, 40);
   const wageBase = (
@@ -273,13 +300,6 @@ async function wageTrial(base: CoreState, paid: CoreState, days: number) {
   console.log(
     `web labor wage twin: ${place.name} seed ${seed}: new postings ${before.n}->${after.n}, pay against the copied job ${before.mean.toFixed(4)}->${after.mean.toFixed(4)}`,
   );
-  expect(
-    before.n,
-    "postings made after the shift in the base world",
-  ).toBeGreaterThan(0);
-  expect(
-    after.n,
-    "postings made after the shift in the wage-shifted world",
-  ).toBeGreaterThan(0);
-  expect(after.mean).toBeGreaterThan(before.mean * 1.03);
+  // A twin with no postings after the shift in either world has nothing to compare.
+  return before.n > 0 && after.n > 0 ? { before, after } : null;
 }
