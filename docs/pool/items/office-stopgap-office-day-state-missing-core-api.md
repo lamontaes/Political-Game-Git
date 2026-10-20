@@ -4,13 +4,13 @@ title: "Stopgaps in office-day-state (missing-core-api): 1 open"
 area: office
 kind: stopgap
 priority: 3
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/pool-state-seat-person-2
+pr: #5247
 blocked-on:
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/office-day-state.ts, kind missing-core-api"
-claimed-at:
+claimed-at: 2026-10-20T05:16:06.917Z
 ---
 
 **What.** Replace or clear the 1 open missing-core-api stopgap row(s) in src/core2/office-day-state.ts: SG-STATE-dev-seat-player. Each fake is replaced by the mechanic, or the feature that needs it is deleted.
