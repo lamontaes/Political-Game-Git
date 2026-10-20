@@ -16,16 +16,19 @@ import { SeededRng } from "./kernel/rng";
 import { stableHash } from "./kernel/ids";
 import { countyGeoidsForPlace } from "./reference/government-units";
 import { corePlaceByKey } from "./place-lookup";
-import {
-  DEFAULT_RESIDENT_EMPLOYMENT,
-  type EmploymentAgeRow,
-  type ResidentEmploymentData,
+import residentData from "./data/resident-employment.json" with { type: "json" };
+import type {
+  EmploymentAgeRow,
+  ResidentEmploymentData,
 } from "./opening-employment";
+
 import { parameter as p } from "./parameters";
 import { TOWN_WORKPLACES, type Role } from "./town-workplaces";
 import { townJobRate } from "./town-pay";
-import { placeReferencePopulation } from "../simulation/nationwide-world/place-population";
-import { townWorkplaceWeights } from "../simulation/living-world/town-employment";
+import { placeReferencePopulation } from "./gov-rules/place-population";
+import { townWorkplaceWeights } from "./town-employment-mix";
+
+const DEFAULT_RESIDENT_EMPLOYMENT: ResidentEmploymentData = residentData;
 
 /** Ages above the last row's start are drawn up to this age. */
 const oldestAge = () => p("coarsePlaceOldestWorkingAge");
