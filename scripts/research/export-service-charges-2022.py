@@ -103,7 +103,7 @@ def main() -> None:
                 "chargesAndFees": charges,
                 "miscellaneous": misc,
                 # How the item codes' sum compares with Table 1's own line, so
-                # a reader sees the two Census products agree within a few percent.
+                # a reader sees how far the two Census products agree (within ten percent in all but ten place-level-line pairs; service-charges-data.test.ts lists them).
                 "againstTable1": {
                     "currentCharges": round(charges["totalDollars"] / check["currentCharges"], 4)
                     if check["currentCharges"] else None,

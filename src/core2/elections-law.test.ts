@@ -445,10 +445,65 @@ describe(`election law from data (place ${drawn.name}, ${drawn.state}, seed ${se
     expect(termStartAfter(governor("US-VA"), "2025-11-04")).toBe("2026-01-17");
     // Washington: Wednesday after the second Monday in January.
     expect(termStartAfter(governor("US-WA"), "2024-11-05")).toBe("2025-01-15");
+    // California: the Monday after January 1 (a January 1 that is a Monday gives January 8).
+    expect(termStartAfter(governor("US-CA"), "2026-11-03")).toBe("2027-01-04");
+    expect(termStartAfter(governor("US-CA"), "2028-11-07")).toBe("2029-01-08");
+    // Colorado: second Tuesday; Illinois and Indiana: second Monday; New Jersey: third Tuesday.
+    expect(termStartAfter(governor("US-CO"), "2026-11-03")).toBe("2027-01-12");
+    expect(termStartAfter(governor("US-IL"), "2026-11-03")).toBe("2027-01-11");
+    expect(termStartAfter(governor("US-IN"), "2028-11-07")).toBe("2029-01-08");
+    expect(termStartAfter(governor("US-NJ"), "2025-11-04")).toBe("2026-01-20");
+    // Ohio and Oklahoma: second Monday; Pennsylvania: third Tuesday; Maryland: third Wednesday; Wisconsin: first Monday.
+    expect(termStartAfter(governor("US-OH"), "2026-11-03")).toBe("2027-01-11");
+    expect(termStartAfter(governor("US-OK"), "2026-11-03")).toBe("2027-01-11");
+    expect(termStartAfter(governor("US-PA"), "2026-11-03")).toBe("2027-01-19");
+    expect(termStartAfter(governor("US-MD"), "2026-11-03")).toBe("2027-01-20");
+    expect(termStartAfter(governor("US-WI"), "2026-11-03")).toBe("2027-01-04");
+    // Estimated from the usual clause: Nebraska's first Thursday after the first Tuesday, Connecticut's Wednesday after the first Monday, Vermont's first Thursday after the first Wednesday, Texas's third Tuesday.
+    expect(termStartAfter(governor("US-NE"), "2026-11-03")).toBe("2027-01-07");
+    expect(termStartAfter(governor("US-CT"), "2026-11-03")).toBe("2027-01-06");
+    expect(termStartAfter(governor("US-VT"), "2026-11-03")).toBe("2027-01-07");
+    expect(termStartAfter(governor("US-TX"), "2026-11-03")).toBe("2027-01-19");
+    expect(termStartAfter(governor("US-AZ"), "2026-11-03")).toBe("2027-01-04");
     // An unread state keeps the data's default.
     expect(termStartAfter(governor("US-NC"), "2026-11-03")).toBe(
       `2027-${termStarts.default.monthDay}`,
     );
+  });
+
+  it("every state's governor row starts a term in December or January on its own rule, and an unread clause says so", () => {
+    const rows = Object.entries(
+      termStarts.states as unknown as Record<
+        string,
+        Record<
+          string,
+          {
+            tag: string;
+            excerpt: string;
+            rule: { month: number; nth: number; weekday: number };
+          }
+        >
+      >,
+    ).map(
+      ([state, families]) => [state, families.statewideExecutive!] as const,
+    );
+    expect(rows.length).toBeGreaterThanOrEqual(32);
+    for (const [state, row] of rows) {
+      const governor = {
+        ...town(state),
+        jurisdiction: state,
+        level: "state" as const,
+        kind: "governor",
+      };
+      const start = termStartAfter(governor, "2026-11-03");
+      // A December rule falls in the election year, a January rule the year after.
+      expect(start.slice(0, 7), state).toBe(
+        row.rule.month === 12 ? "2026-12" : "2027-01",
+      );
+      // An estimate does not quote a clause it did not read.
+      if (row.tag === "ESTIMATED")
+        expect(row.excerpt, state).toMatch(/not read|older version/);
+    }
   });
 
   it("filing fallbacks come from data and say so", () => {
