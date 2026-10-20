@@ -13,11 +13,11 @@ source: "docs/reports/merge-audit-2026-10-20.md"
 claimed-at: 2026-10-20T04:18:13.609Z
 ---
 
-**What.** The October 20 merge audit read the diffs of 55 PRs merged overnight and found three merged after their own send-back, one merged into the wrong branch, old-engine imports and hand-written journal lines on main, and weak tests and misstated release notes. Work the numbered list in the report, one fix per PR, bad ones first.
+**What.** The October 20 merge audit read the diffs of 55 PRs merged overnight by the four merger lanes. It found three PRs merged after their own send-back with no new commit, one merged into another PR's branch instead of main, old-engine imports and hand-written journal lines on main, and weak tests and misstated release notes. Work the numbered list in the report, one fix per PR, with the bad ones first.
 
-**Rules.** AGENTS.md rules; text only from the English engine; no imports from src/simulation in src/core2; no owner or date notes in code or data; tests assert the feature and fail when nothing is found.
+**Rules.** An effect is a read: every fixed test must assert the feature through the records an engine wrote and fail when nothing is found, never return early. AGENTS.md rules; text only from the English engine; no imports from src/simulation in src/core2; no owner or date notes in code or data.
 
-**Done when.** Every numbered fix in the report is made or carries a written reason, and the report's list is updated.
+**Done when.** Every numbered fix in docs/reports/merge-audit-2026-10-20.md is made in its own PR or carries a written reason, each fixed test fails on the old code and passes in a drawn place, and the report's list is updated with the PR for each fix.
 
 **Files.** docs/reports/merge-audit-2026-10-20.md
 

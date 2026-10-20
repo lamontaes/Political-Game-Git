@@ -5,12 +5,12 @@ area: core
 kind: stopgap
 priority: 2
 size: M
-status: blocked
-claimed-by: claude/core-moves-pinned-income
+status: claimed
+claimed-by: claude/fs11vb-moves
 pr:
-blocked-on: world-agreements-re-resolve-worker
+blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-16T00:09:03.201Z
+claimed-at: 2026-10-20T05:17:57.756Z
 ---
 
 **What.** Two stopgap rows in the people-moves engine keep movers from leaving: a holder of a job a saved agreement names as its provider's qualification (SG-P15-moves-pinned-jobs), and a person whose income award is paid into a household others stay in (SG-FIXER-moves-income-household). The first row also says moves keeps its own copy of the jobs engine's lookup. That copy is gone: both engines now read one lookup in `src/core2/pinned-jobs.ts`. Letting these people actually move needs two changes in other engines, filed as their own items.
@@ -22,3 +22,5 @@ claimed-at: 2026-10-16T00:09:03.201Z
 **Files.** src/core2/pinned-jobs.ts, src/core2/modules/jobs.ts, src/core2/modules/moves.ts
 
 **Notes.** The old pool body was the empty template; this is the real one. Split Oct 15: the duplicate copy is removed in this PR, the two row replacements are the blocked-on items.
+
+Oct 20: Everything it waited on is done, so it is open.

@@ -4,10 +4,11 @@ title: "An 18-year-old played for eight months gets director moments"
 area: director
 kind: bug
 priority: 3
-status: blocked
+status: open
 claimed-by:
 pr:
-blocked-on: director-civic-producers-government
+blocked-on:
+after: director-civic-producers-government
 milestone:
 source: 'docs/coordination/play.md "Needs from other sessions" (line 147); triage in play-needs-play-147'
 claimed-at: 2026-10-16T16:42:43.654Z
@@ -28,3 +29,5 @@ Rechecked Oct 16 on main (claude/moments-new-adult), not changed. Six places dra
 Checked Oct 16 (claude/director-moments-for-a-new-adult): "no moments" does not reproduce, so the bug as titled is gone. Route (1) above is not available: `src/director/director.test.ts` ("lets a death take over the screen, stop a skip, and log a moment no type stages") records the owner's rule that a big moment with no scene type still stops a skip, so requiring a bound scene would break a ruled behavior. Only route (2) is left, which is binding scene types to `cause.shared` and `speech.heard`, owned by the producers items. The item waits on them (`blocked-on`) and should be dropped by the CTO once those land and a played skip meets a scene.
 
 Oct 20: The Oct 16 claim has no PR and is over two days old, so the claim is cleared.
+
+Oct 20: Switched from blocked to the automatic after: gate on director-civic-producers-government, so it opens by itself the moment those items are done.

@@ -5,7 +5,7 @@ area: world
 kind: wiring
 priority: 3
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/unemployment-unplaced
 pr: #5271
 blocked-on:
