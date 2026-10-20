@@ -462,7 +462,8 @@
         "status": "applied",
         "requiredConnection": "Applied as a proportional change in the rate of leaving: 1.18 / 100,000 per crime per resident, over the 0.295 five-year share who left (Table 4), 0.00004 per reported crime per 100,000 residents, read as the average of the last 60 months (the paper's five-year change)."
       },
-      "notes": "Size by the paper's own conversion: the study counts all reported index crimes (violent and property, 'similar coefficients on both types') per resident and the game's cause is violent crime per 100,000 residents, so one more violent crime per 100,000 is one more reported crime per 100,000. 95% interval of the coefficient (0.063 to 2.297) gives the range. The paper measures a one-time loss over five years from a five-year rise in crime; the web applies it as a sustained rate while the level stays up, which overstates a level that stays high for many years. By schooling the relative response is nearly flat (Table 6a divided by Table 4 Goers: more than 12 years 1.54/0.413 = 3.7, 12 years 1.27/0.292 = 4.3, under 12 years 0.77/0.172 = 4.5), so no income moderator is added. Chain: the cause crime.violent is the web's own kept value today (moved by the crime links, e.g. unemployment and policing laws); it has no engine record, so the chain is law or unemployment -> crime.violent (web ledger) -> leaving (moves.ts and counted-moves.ts).",
+      "notes": "Unsupported until a unit adapter exists: the study measures people leaving per added reported crime, but the game keeps violent crime per 100,000, not total reported crime per resident; see the research packet in researchSizing. The new core reads the cause from the victimization records (reported to police a year, per resident); the link still waits on a researched size and a unit adapter. Size by the paper's own conversion: the study counts all reported index crimes (violent and property, 'similar coefficients on both types') per resident and the game's cause is violent crime per 100,000 residents, so one more violent crime per 100,000 is one more reported crime per 100,000. 95% interval of the coefficient (0.063 to 2.297) gives the range. The paper measures a one-time loss over five years from a five-year rise in crime; the web applies it as a sustained rate while the level stays up, which overstates a level that stays high for many years. By schooling the relative response is nearly flat (Table 6a divided by Table 4 Goers: more than 12 years 1.54/0.413 = 3.7, 12 years 1.27/0.292 = 4.3, under 12 years 0.77/0.172 = 4.5), so no income moderator is added. Chain: the cause crime.violent is the web's own kept value today (moved by the crime links, e.g. unemployment and policing laws); it has no engine record, so the chain is law or unemployment -> crime.violent (web ledger) -> leaving (moves.ts and counted-moves.ts).",
+      "readFrom": "crime.reported-per-capita",
       "range": [2.1e-6, 7.8e-5],
       "phaseInMonths": 60,
       "varies": [
@@ -511,7 +512,7 @@
       "source": "Farmer 2019 (Traffic Injury Prevention; IIHS); Ashenfelter and Greenstone 2004 (JPE); FHWA Highway Statistics 2022, Table FI-220",
       "from": "roads.rural-interstate-speed-limit",
       "evidence": "researched",
-      "notes": "Acts: each place's highest rural-interstate speed limit (IIHS, October 2026) and its traffic deaths per 100 million miles (NHTSA FARS via IIHS, 2024) are recorded and drift from those starting values, and the death rate moves 0.76% for each mile per hour of change in the limit. Reaches people through the share of deaths at each age that crashes stand for (IIHS 2022 crash deaths per 100,000 by age over the life table's death rate); the studies report no income moderator. Farmer 2019 (IIHS) reports the fatality effect by road type (8.5 percent per 5 mph on interstates and freeways, 2.8 percent on other roads); the share of young drivers is only a control, so there is no split by age, income or household kind.",
+      "notes": "Acts: each place's highest rural-interstate speed limit (IIHS, October 2026) and its traffic deaths per 100 million miles (NHTSA FARS via IIHS, 2024) are recorded and drift from those starting values, and the death rate moves 0.76% for each mile per hour of change in the limit. Farmer 2019 (IIHS) reports the fatality effect by road type (8.5 percent per 5 mph on interstates and freeways, 2.8 percent on other roads); the share of young drivers is only a control, so there is no split by age, income or household kind. Reaches people through the share of deaths at each age that crashes stand for (IIHS 2022 crash deaths per 100,000 by age over the life table's death rate); the studies report no income moderator.",
       "range": [0.0056, 0.017]
     },
     {
@@ -533,7 +534,7 @@
       "from": "env.particulates:pct-of-start",
       "evidence": "researched",
       "range": [0.0035, 0.0065],
-      "notes": "No moderator by income: Currie and Neidell 2005 (NBER w10251) find \"the same exposure to pollution will have the same effect on mortality risk regardless of race or maternal education\"; Chay and Greenstone find black infant mortality more sensitive but with sampling errors \"too large for a reliable conclusion\". Left unvaried. Chay and Greenstone (NBER w10053) report the infant mortality effect for all births and by timing of death, and mention race only as a control and for the black infants' sampling error; there is no split by income or mother's age or household kind."
+      "notes": "Chay and Greenstone (NBER w10053) report the infant mortality effect for all births and by timing of death, and mention race only as a control and for the black infants' sampling error; there is no split by income or mother's age or household kind. No moderator by income: Currie and Neidell 2005 (NBER w10251) find \"the same exposure to pollution will have the same effect on mortality risk regardless of race or maternal education\"; Chay and Greenstone find black infant mortality more sensitive but with sampling errors \"too large for a reliable conclusion\". Left unvaried."
     },
     {
       "key": "congestion-to-premature-births",
@@ -603,14 +604,14 @@
     },
     {
       "key": "water-violations-to-infant-health",
-      "status": "size-not-set",
-      "unsupportedReason": "size-not-set",
+      "status": "built",
+      "unsupportedReason": null,
       "to": "health.low-birthweight",
       "strength": "moderate",
       "shape": {
         "kind": "linear"
       },
-      "size": null,
+      "size": 0.06,
       "per": "violation during pregnancy",
       "lagMonths": 0,
       "group": "less-educated mothers most",
@@ -619,7 +620,8 @@
       "source": "Currie et al. 2013 (CJE)",
       "from": "env.drinking-water-violations",
       "evidence": "researched",
-      "notes": "Unsupported until sized: the study finds lower birth weight per violation during pregnancy without a slope on the game's violations-per-system measure. Low birth weight is now a place outcome (CDC, 2023), so the outcome side is ready once a size is set."
+      "notes": "ESTIMATED. Currie et al. 2013 (CJE 46(3); NBER w18876, Table 3 column 4, New Jersey births 1997-2007, mother fixed effects): a drinking-water violation during pregnancy raised the incidence of low birth weight by 0.0032 (SE 0.0015), about 6% of the mean (0.053); the 95% interval is 0.0003 to 0.0061, or 0.6 to 11.5% of the mean. The game's cause is violations per community water system in a year (U.S. 2.5), so one more violation per system a year is read as one more in-utero exposure for a birth served by that system; that mapping is an estimate. The study finds the effect among less-educated mothers (Table 4 interaction: +0.0085 on any contamination, +0.0098 on a chemical one) and none distinguishable from zero among the rest. The size checks totals and never picks one baby's outcome.",
+      "range": [0.006, 0.115]
     },
     {
       "key": "heat-to-deaths",
@@ -746,7 +748,7 @@
       "from": "disaster.severe",
       "evidence": "provisional",
       "range": [0.025, 0.1],
-      "notes": "Unsupported until a disaster record is readable: the game has no per-place reader for a severe disaster; out-migration is kept, so this acts once one exists. Stopgap SG-WEB-moves-disaster-severity: the disasters engine records FEMA declarations without deaths, so no per-place severe-disaster record exists; the researched size (0.05, range 0.025 to 0.1) is kept for when one does. Research gives no heterogeneity by person (county-level decade study). Boustan, Kahn, Rhode and Yanguas report no split of the out-migration effect by income, age, tenure or household kind (its heterogeneity section splits by disaster type, severity and period)."
+      "notes": "Unsupported until a disaster record is readable: the game has no per-place reader for a severe disaster; out-migration is kept, so this acts once one exists. Boustan, Kahn, Rhode and Yanguas report no split of the out-migration effect by income, age, tenure or household kind (its heterogeneity section splits by disaster type, severity and period). Stopgap SG-WEB-moves-disaster-severity: the disasters engine records FEMA declarations without deaths, so no per-place severe-disaster record exists; the researched size (0.05, range 0.025 to 0.1) is kept for when one does. Research gives no heterogeneity by person (county-level decade study)."
     },
     {
       "key": "disaster-to-home-values",
@@ -1708,7 +1710,7 @@
       "source": "Diamond, McQuade and Qian 2019 (AER)",
       "from": "law:us-policy-positions:housing-land-use.rent-stabilization",
       "evidence": "researched",
-      "notes": " The engine reads this link's factor in its apartment starts (src/core2/housing-construction.ts buildMonth). Diamond, McQuade and Qian (NBER w24181) report the supply response for treated landlords as a whole (15 percent fewer rental units); their splits by tenant age and tenure are for tenants' staying, not for supply, so no moderator is set.",
+      "notes": "Diamond, McQuade and Qian (NBER w24181) report the supply response for treated landlords as a whole (15 percent fewer rental units); their splits by tenant age and tenure are for tenants' staying, not for supply, so no moderator is set. The engine reads this link's factor in its apartment starts (src/core2/housing-construction.ts buildMonth).",
       "range": [-0.292, 0.002],
       "rangeSource": "Diamond, McQuade and Qian, NBER w24181, Figure 5(b) \"Renters/Average Population 1990-1994\": \"β = -0.145 (0.075)\", the post-2006 treatment effect and its standard error; 95% interval -0.145 +/- 1.96 x 0.075 = [-0.292, 0.002]. The text rounds this to \"reduced rental housing supply by 15%\"."
     },
@@ -1754,7 +1756,7 @@
         }
       ],
       "notes": "Diamond, McQuade and Qian report the effect as a 20% reduction in renter mobility (NBER WP 24181: 'the beneficiaries of rent control are between 10 and 20% more likely to remain at their 1994 address'); the center (-0.20) is kept and the range is 10 to 20. The effect is a level shift in the share who stay, not a build-up, so no phase-in. Renters only: the renter-moves rate is read by moves.ts and counted-moves.ts for tenants. Evictions of covered tenants are the eviction engine's.",
-      "range": [-0.288, -0.1],
+      "range": [-0.2, -0.1],
       "rangeSource": "Diamond, McQuade and Qian, NBER w24181, Table 2 column 3 \"Same Address\", 2000-2004: treatment effect 0.0354 (se 0.0088) on control mean 0.1827 (19.4% , \"nearly 20%\"); 95% interval 0.0354 +/- 1.96 x 0.0088 = [0.018, 0.053], i.e. [10.0%, 28.8%] of the control mean. Expressed in the link's own sign (renter moves fall as staying rises)."
     },
     {
@@ -1993,7 +1995,7 @@
       "from": "tax.property-rate",
       "evidence": "contested",
       "range": [0.02, 0.18],
-      "notes": "In the new core the cause is read from the engine's own record (src/core2/data/outcome-web/outcome-web.json causeFrom): the property tax rate in force for the town (the budgets module's law row the housing engine bills owners by), as a percent of home value, against the rate at the web's opening. Size is the center of the 0.02 to 0.18 range (Carroll and Yinger 1994 at 0.02; Tsoodle and Turner 2008 at 0.17 to 0.18); the engine renews each lease by the change in the web's rent factor since the lease last renewed (src/core2/housing-occupancy.ts renewRentalLeases), full and counted renters alike. The sources report one pass-through for renters as a group, so the link is not varied. Tsoodle and Turner (Real Estate Economics 2008) estimate one pass-through of the property tax rate into rent for renters in 14 cities and report no split by renter income, household kind or tenure within renters.",
+      "notes": "Sized, with its cause recorded and its outcome missing: each place's effective property tax rate on homes is now a place outcome (Tax Foundation, 2024), but rent is not a kept place outcome, so the link moves nothing until one is produced. Tsoodle and Turner (Real Estate Economics 2008) estimate one pass-through of the property tax rate into rent for renters in 14 cities and report no split by renter income, household kind or tenure within renters. In the new core the cause is read from the engine's own record (src/core2/data/outcome-web/outcome-web.json causeFrom): the property tax rate in force for the town (the budgets module's law row the housing engine bills owners by), as a percent of home value, against the rate at the web's opening. Size is the center of the 0.02 to 0.18 range (Carroll and Yinger 1994 at 0.02; Tsoodle and Turner 2008 at 0.17 to 0.18); the engine renews each lease by the change in the web's rent factor since the lease last renewed (src/core2/housing-occupancy.ts renewRentalLeases), full and counted renters alike. The sources report one pass-through for renters as a group, so the link is not varied.",
       "readFrom": "housing.property-tax-rate"
     },
     {
@@ -2572,7 +2574,7 @@
       "from": "law:us-policy-positions:government-operations.same-day-voter-registration",
       "evidence": "researched",
       "range": [0.08, 0.18],
-      "notes": "Unsupported until a producer computes youth turnout: the cause is now a state's law on same-day voter registration, a question the game asks, but youth turnout is not a kept place outcome. The election laws act on a voter's turnout through the law reach (electionLawTurnoutCost, felonyDisenfranchisedShare, barredFromVoting), so the voting engine leaves this link out of the web factor it applies (turnout-web.ts) and the law moves turnout once; the link stays in the web's ledger as the researched size the law reach is checked against. The size is already for ages 18 to 24, the group the voting engine reads the youth factor for. Grumbach and Hill (Journal of Politics 2022) find the effect on 18 to 24 year olds (3.1 to 7.3 points) and little by age elsewhere; the outcome here is already youth turnout, so the age restriction is carried by the measure and no further moderator is set."
+      "notes": "Unsupported until a producer computes youth turnout: the cause is now a state's law on same-day voter registration, a question the game asks, but youth turnout is not a kept place outcome. Grumbach and Hill (Journal of Politics 2022) find the effect on 18 to 24 year olds (3.1 to 7.3 points) and little by age elsewhere; the outcome here is already youth turnout, so the age restriction is carried by the measure and no further moderator is set. The election laws act on a voter's turnout through the law reach (electionLawTurnoutCost, felonyDisenfranchisedShare, barredFromVoting), so the voting engine leaves this link out of the web factor it applies (turnout-web.ts) and the law moves turnout once; the link stays in the web's ledger as the researched size the law reach is checked against. The size is already for ages 18 to 24, the group the voting engine reads the youth factor for."
     },
     {
       "key": "all-mail-voting-to-turnout",
@@ -2593,7 +2595,7 @@
       "from": "law:us-policy-positions:government-operations.all-mail-voting",
       "evidence": "researched",
       "range": [0.005, 0.065],
-      "notes": "The election laws act on a voter's turnout through the law reach (electionLawTurnoutCost, felonyDisenfranchisedShare, barredFromVoting), so the voting engine leaves this link out of the web factor it applies (turnout-web.ts) and the law moves turnout once; the link stays in the web's ledger as the researched size the law reach is checked against. The research gives no split by age or income beyond the size, so the link is unvaried. Thompson, Wu, Yoder and Hall (PNAS 2020) estimate county turnout and partisan composition from county data and report no split of the turnout effect by income, age, sex or household kind."
+      "notes": "Thompson, Wu, Yoder and Hall (PNAS 2020) estimate county turnout and partisan composition from county data and report no split of the turnout effect by income, age, sex or household kind. The election laws act on a voter's turnout through the law reach (electionLawTurnoutCost, felonyDisenfranchisedShare, barredFromVoting), so the voting engine leaves this link out of the web factor it applies (turnout-web.ts) and the law moves turnout once; the link stays in the web's ledger as the researched size the law reach is checked against. The research gives no split by age or income beyond the size, so the link is unvaried."
     },
     {
       "key": "all-mail-voting-to-party-share",
@@ -2845,9 +2847,8 @@
         "evidenceLimit": "Inherited repository source/anchor read; primary study verification and any new conversion remain Team9 research work."
       },
       "aboutZero": false,
-      "notes": "Not hooked by design: crisis/health-coverage.ts already applies this row's 9.4% to the death hazard of each covered low-income person aged 55 to 64, so a place death rate that also applied it would count the law twice, and would wrongly cut every 55- to 64-year-old's deaths by a low-income group's share. A state base now exists (CDC 2022 deaths at 55 to 64, data.cdc.gov 9bhg-hcku, over ACS B01001 population); a producer of health.mortality-55-64 should count the recorded deaths instead. The size is now the place-wide average: 9.4% (7.0% in year 0 to 11.9% in year 3, range 7.0 to 11.9) among the low-income sample times its one-fifth share; the lowest income fifth takes the full cut. The effect is already 7.0% in year 0, so a ramp from zero would misstate it and no phase-in is set. No phase-in: the paper reports a 7.0 percent reduction already in year 0, so a ramp from zero would understate the first years.",
+      "notes": "Not hooked by design: crisis/health-coverage.ts already applies this row's 9.4% to the death hazard of each covered low-income person aged 55 to 64, so a place death rate that also applied it would count the law twice, and would wrongly cut every 55- to 64-year-old's deaths by a low-income group's share. A state base now exists (CDC 2022 deaths at 55 to 64, data.cdc.gov 9bhg-hcku, over ACS B01001 population); a producer of health.mortality-55-64 should count the recorded deaths instead. No phase-in: the paper reports a 7.0 percent reduction already in year 0, so a ramp from zero would understate the first years. The size is now the place-wide average: 9.4% (7.0% in year 0 to 11.9% in year 3, range 7.0 to 11.9) among the low-income sample times its one-fifth share; the lowest income fifth takes the full cut. The effect is already 7.0% in year 0, so a ramp from zero would misstate it and no phase-in is set.",
       "range": [-0.0238, -0.014],
-      "rangeSource": "Miller, Johnson and Wherry 2021 (QJE; NBER w26081), Table I: Expansion x Post \"-0.00132 (0.00050)\" on annual mortality (9.4% of the sample mean, \"0.132 percentage point decline\"); 95% interval = -9.4% +/- 1.96 x (0.00050/0.00132 x 9.4%) = [-16.4%, -2.4%].",
       "varies": [
         {
           "by": "incomeFifth",
@@ -2883,7 +2884,8 @@
           "quote": "\"We include only individuals who either are in families with income at or under 138 percent of the FPL or who have less than a high school degree.\" \"Using this model, we estimate an average reduction in annual mortality of 0.132 percentage points. This represents a reduction in mortality of about 9.4 percent relative to the sample mean\". For ages 55 to 64 in families at 400% of the poverty level or more: \"small but, for some years, statistically significant reductions in mortality\".",
           "estimatedFrom": "The 9.4% is the cut among the low-income sample, so the whole 55-to-64 population's cut is smaller. The lowest national income fifth (households under about 138% of the poverty level) stands for the sample and takes the full effect; the higher fifths take none (the paper finds only small changes at 400% of the poverty level and above). The link's size is the sample's 9.4% times the sample's one-fifth share, so the average over all 55- to 64-year-olds is a fifth of it and the lowest fifth gets the full 9.4%."
         }
-      ]
+      ],
+      "rangeSource": "Miller, Johnson and Wherry 2021 (QJE; NBER w26081), Table I: Expansion x Post \"-0.00132 (0.00050)\" on annual mortality (9.4% of the sample mean, \"0.132 percentage point decline\"); 95% interval = -9.4% +/- 1.96 x (0.00050/0.00132 x 9.4%) = [-16.4%, -2.4%]."
     },
     {
       "key": "medicaid-expansion-to-medical-debt",
@@ -3223,7 +3225,7 @@
       "evidence": "researched",
       "from": "law:us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones",
       "to": "housing.new-large-buildings",
-      "notes": " The engine reads this link's factor in its apartment starts (src/core2/housing-construction.ts buildMonth) and no longer scales starts by the share of land zoned for apartments, which was the same law counted a second time. Anagol, Ferreira and Rexer (NBER w29440) report the building response as a count of permits by lot and neighborhood, with no split by income, tenure or household kind; Pew and Terner Center report none either.",
+      "notes": "Anagol, Ferreira and Rexer (NBER w29440) report the building response as a count of permits by lot and neighborhood, with no split by income, tenure or household kind; Pew and Terner Center report none either. The engine reads this link's factor in its apartment starts (src/core2/housing-construction.ts buildMonth) and no longer scales starts by the share of land zoned for apartments, which was the same law counted a second time.",
       "range": [0.75, 1.25],
       "rangeSource": "The source gives only a point estimate, so the repo default of 25% of the size is applied. The size 1.0 is a recorded midpoint calibration from Pew (Jan 4, 2024), Terner Center (2022) and Anagol, Ferreira and Rexer (NBER w29440), not one estimate with an interval."
     },
@@ -3245,7 +3247,7 @@
       "evidence": "researched",
       "from": "law:us-policy-positions:housing-land-use.right-to-counsel-in-eviction",
       "to": "housing.eviction",
-      "notes": "Not hooked by design: living-world/town-rent.ts already decides each eviction case with the tenant's lawyer present, so a place eviction rate that also applied this link would count the law twice; a producer of housing.eviction should count those recorded cases instead. The engine already produces this effect from its own records (a case with a paid lawyer settles on a payment plan instead of a judgment, src/core2/modules/housing.ts housing-hearing), so the housing engine does not multiply its notice or judgment rates by this link again. Nothing reads the web's kept housing.eviction number; it stays because the law test in src/core2/outcome-web.test.ts checks this link's effect on it, and the engine's own judgments are the separate housing.eviction-orders measure. Cassidy and Currie (NBER w29836, Table 3) split the effect only by neighborhood (tract share of noncitizens, block-group majority group, poverty), not by a tenant's income, household kind or tenure, so no moderator is set.",
+      "notes": "Not hooked by design: living-world/town-rent.ts already decides each eviction case with the tenant's lawyer present, so a place eviction rate that also applied this link would count the law twice; a producer of housing.eviction should count those recorded cases instead. Cassidy and Currie (NBER w29836, Table 3) split the effect only by neighborhood (tract share of noncitizens, block-group majority group, poverty), not by a tenant's income, household kind or tenure, so no moderator is set. The engine already produces this effect from its own records (a case with a paid lawyer settles on a payment plan instead of a judgment, src/core2/modules/housing.ts housing-hearing), so the housing engine does not multiply its notice or judgment rates by this link again. Nothing reads the web's kept housing.eviction number; it stays because the law test in src/core2/outcome-web.test.ts checks this link's effect on it, and the engine's own judgments are the separate housing.eviction-orders measure.",
       "range": [-0.778, -0.448],
       "rangeSource": "Cassidy and Currie 2022, NBER w29836, conclusion: \"the probability of ultimately being evicted (between 44.8 and 77.8 percent)\", the paper's own bounds for the reduction (not a statistical interval); the size -0.62 is the repo's middle."
     },
@@ -3726,6 +3728,7 @@
       "to": "labor.older-employment",
       "range": [0.04, 0.22],
       "notes": "Moderators: searched for splits by mother's education or income, age and sex (Malik 2018 gives only the pooled +10 points; Rossin-Slater, Ruhm and Waldfogel 2013 give leave-taking but not employment by group; Cengiz et al. 2019 and CBO report pooled low-wage job effects), none found that the subjects can carry, so the link is left unvaried. Moderator by sex from Mastrobuoni; the two estimates are within one standard error of each other, so the spread is small by the paper's own numbers.",
+      "carriedBy": "the jobs engine's retirement onset (retirementOnsetYears in src/core2/modules/jobs.ts), which reads the earliest Social Security claim age under the law in force when each worker decides whether to keep working",
       "varies": [
         {
           "by": "sex",
@@ -4404,7 +4407,7 @@
       "anchor": "Counties across state borders: turnout 2 to 3 points lower after a right-to-work law passes (about 3% of a 65% turnout), with the Democratic presidential share 3.5 points lower, as unions contact fewer voters",
       "source": "Feigenbaum, Hertel-Fernandez and Williamson 2018, From the Bargaining Table to the Ballot Box (NBER w24259)",
       "range": [-0.046, -0.015],
-      "notes": "Read by the voting engine as a factor on every voter's propensity (turnout-web.ts). The paper reports a county-level effect only (NBER w24259 abstract: \"Turnout is also 2 percentage points lower in right-to-work counties after passage\"), with no split by age or income, so the link is unvaried. Feigenbaum, Hertel-Fernandez and Williamson (NBER w24259) report the turnout effect for non-professional workers against professional workers (occupation, which the subject does not carry) and find the effect on young voters and minorities small and statistically imprecise, so no moderator by age or income is set."
+      "notes": "Feigenbaum, Hertel-Fernandez and Williamson (NBER w24259) report the turnout effect for non-professional workers against professional workers (occupation, which the subject does not carry) and find the effect on young voters and minorities small and statistically imprecise, so no moderator by age or income is set. Read by the voting engine as a factor on every voter's propensity (turnout-web.ts). The paper reports a county-level effect only (NBER w24259 abstract: \"Turnout is also 2 percentage points lower in right-to-work counties after passage\"), with no split by age or income, so the link is unvaried."
     },
     {
       "key": "public-bargaining-to-graduation",
@@ -4685,7 +4688,7 @@
       "anchor": "From 2018 to 2022, turnout rose about 1 point in districts drawn by long-standing commissions and 5 points in court-drawn ones, and being drawn into a competitive district added about 3 points; the comparison is descriptive, not a controlled study, and presidential turnout is barely touched by district lines",
       "source": "Brennan Center, The Turnout Effects of Redistricting Institutions; PS: Political Science and Politics 2023 (commissions and competitive elections)",
       "range": [0, 0.015],
-      "notes": "Read by the voting engine as a factor on every voter's propensity (turnout-web.ts). The comparison is descriptive at the district level with no split by age or income, so the link is unvaried. The Brennan Center study reports turnout by redistricting institution and by whether a district became competitive, as district-level averages, with no split by voter income or age."
+      "notes": "The Brennan Center study reports turnout by redistricting institution and by whether a district became competitive, as district-level averages, with no split by voter income or age. Read by the voting engine as a factor on every voter's propensity (turnout-web.ts). The comparison is descriptive at the district level with no split by age or income, so the link is unvaried."
     },
     {
       "key": "term-limits-to-turnout",

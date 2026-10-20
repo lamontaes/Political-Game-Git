@@ -248,6 +248,7 @@ export function inGroup(
  * employer's own target moves with the policy exactly as far as its staff is
  * low-wage. `low` and `total` are the employer's heads under and in all.
  */
+// stopgapId: SG-LABOR-low-wage-unreviewed
 export function lowWageStaffFactor(
   api: CoreAPI,
   placeId: string,

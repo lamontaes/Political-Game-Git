@@ -259,13 +259,6 @@
       "unitScale": 100,
       "ownsOutcome": true
     },
-    "housing.property-tax-rate": {
-      "owner": "OPUS-WORLD",
-      "record": "the property tax rate in force for the town (the budgets module's law row the housing engine bills owners by), as a percent of home value",
-      "reader": "property-tax-rate",
-      "field": "",
-      "unitScale": 100
-    },
     "crime.violent-victimization-index": {
       "owner": "OPUS-CORE",
       "record": "crime months.violentIndex (robberies and assaults per person 12 and older the victimization records expect, 100 at the place's first month)",
@@ -281,6 +274,13 @@
       "unitScale": 1,
       "module": "core2-crime-v1",
       "table": "months"
+    },
+    "housing.property-tax-rate": {
+      "owner": "OPUS-WORLD",
+      "record": "the property tax rate in force for the town (the budgets module's law row the housing engine bills owners by), as a percent of home value",
+      "reader": "property-tax-rate",
+      "field": "",
+      "unitScale": 100
     }
   },
   "measureOwners": {

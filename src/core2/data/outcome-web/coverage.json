@@ -13,6 +13,7 @@
     "crime-to-out-migration",
     "speed-limit-to-traffic-deaths",
     "particles-to-infant-deaths",
+    "water-violations-to-infant-health",
     "emission-rules-to-particulates",
     "work-requirement-to-coverage",
     "snap-to-food-insecurity",
@@ -62,7 +63,6 @@
     "power-plant-carbon-to-particulates",
     "tariffs-to-prices",
     "housing-vouchers-to-homelessness",
-    "retirement-age-to-older-work",
     "drug-negotiation-to-out-of-pocket",
     "federal-loan-cap-to-high-cost-loans",
     "universal-prek-to-math-proficiency",
@@ -159,10 +159,6 @@
         "person:env.particulates-in-birth-year",
         "labor.earnings-at-30"
       ],
-      "needsSize": true
-    },
-    "water-violations-to-infant-health": {
-      "waitingOn": [],
       "needsSize": true
     },
     "heat-to-deaths": {
@@ -429,6 +425,10 @@
     "federal-minimum-wage-to-poverty": {
       "waitingOn": [],
       "carriedBy": "src/core2/law-reach/group-a-wages.ts writes the wage row that src/core2/modules/jobs.ts wageFloor applies"
+    },
+    "retirement-age-to-older-work": {
+      "waitingOn": [],
+      "carriedBy": "the jobs engine's retirement onset (retirementOnsetYears in src/core2/modules/jobs.ts), which reads the earliest Social Security claim age under the law in force when each worker decides whether to keep working"
     },
     "student-debt-relief-to-finances": {
       "waitingOn": ["finance.past-due-debt"],

@@ -35,6 +35,7 @@ import natality2024 from "../../data/research/renewal/natality-2024.json" with {
 import areaNames from "../../data/research/renewal/area-names.json" with { type: "json" };
 import lifeTables from "./data/ssa-cohort-life-tables.json" with { type: "json" };
 import stateMortality from "./data/state-mortality.json" with { type: "json" };
+import { bookkeeping } from "./bookkeeping";
 import { renewalParameter } from "./births-parameters";
 import { DEFAULT_HEALTH_DATA, severityImpulse } from "./modules/health";
 import { openingTemperaments } from "./opening-personality";
@@ -317,6 +318,11 @@ export function applyCountedFlows(
       const at = counted?.householdOf.get(record.household.id);
       const weight =
         at === undefined ? 1 : counted!.weightOf(counted!.households[at]!);
+      if (at !== undefined)
+        tenureOf.set(
+          record.household.id,
+          counted!.households[at]!.tenure === "rent" ? "rent" : "own",
+        );
       const fifth =
         at === undefined
           ? undefined
@@ -325,11 +331,6 @@ export function applyCountedFlows(
         weightOf.set(person.id, weight);
         if (fifth !== undefined) fifthOf.set(person.id, fifth);
       }
-      if (at !== undefined)
-        tenureOf.set(
-          record.household.id,
-          counted!.households[at]!.tenure === "rent" ? "rent" : "own",
-        );
     }
     // The web's factor on each member's chance of a serious illness, by age and fifth.
     const webDeath: { recordId: string | null } = { recordId: null };
@@ -632,7 +633,9 @@ export function applyCountedFlows(
     const end = countedHouseholdsByPlace(core).get(placeId) ?? [];
     row.endHouseholds = end.length;
     row.endPeople = end.reduce((n, record) => n + record.people.length, 0);
-    store.table(rowsTable).put(row as unknown as ModuleRow);
+    // The month's record is bookkeeping: nothing in play reads it, only
+    // tests and the bench, which run with bookkeeping on.
+    if (bookkeeping()) store.table(rowsTable).put(row as unknown as ModuleRow);
     store.table(carryTable).put({ id: placeId, ...carry });
     notifyCountedDeaths(api, row);
   }

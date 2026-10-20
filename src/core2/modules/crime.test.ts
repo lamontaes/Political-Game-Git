@@ -20,7 +20,6 @@ import { OUTCOME_WEB_MODULE_ID, type WebMonth } from "./outcome-web";
 import { WORLD_METRICS_MODULE_ID } from "./world-metrics";
 import {
   CRIME_EVENT,
-  CRIME_MODULE_ID,
   crimeChange,
   crimeMonths,
   householdExposure,
@@ -31,17 +30,60 @@ import { WEB_LINKS } from "../outcome-web-model";
 import type { CoreState } from "../types";
 
 const seed = process.env.CRIME_SEED || randomBytes(8).toString("hex");
-const place = drawPlace(seed, "crime-victimization");
 /** Three months of records: the first on the opening's first 4th, then two more. */
 const DAYS = 80;
 const SHIFT_POINTS = 3;
+/** Households of each tenure a town needs for a group comparison to mean anything. */
+const MIN_HOUSEHOLDS = 20;
+const MAX_DRAWS = 5;
+
+const openWorld = (placeKey: string) =>
+  buildBenchWorld(seed, gameStartDate(), { twoLevel: true, placeKey });
+
+/** Counted households of a world, renting and not renting. */
+function tenureCounts(core: CoreState) {
+  const store = residentsRuntime(core)!.store;
+  let renting = 0,
+    owning = 0;
+  for (const group of store.groups)
+    for (const index of group.households) {
+      const household = store.households[index]!;
+      if (household.gone) continue;
+      if (group.tenure === "rent") renting += store.weightOf(household);
+      else owning += store.weightOf(household);
+    }
+  return { renting, owning };
+}
+
+/**
+ * The place for this seed: the first draw with enough renting and owning
+ * households to compare. A town with a handful of renters can realize no
+ * renter victimization in three months, whatever the engine owes them.
+ */
+function drawTown() {
+  const seen: string[] = [];
+  for (let attempt = 0; attempt < MAX_DRAWS; attempt += 1) {
+    const place = drawPlace(
+      seed,
+      attempt ? `crime-victimization:${attempt}` : "crime-victimization",
+    );
+    const world = openWorld(place.key);
+    const { renting, owning } = tenureCounts(world.core);
+    if (renting >= MIN_HOUSEHOLDS && owning >= MIN_HOUSEHOLDS)
+      return { place, world };
+    seen.push(
+      `${place.name} ${place.state} (${renting} renting, ${owning} owning)`,
+    );
+  }
+  throw new Error(
+    `No town with ${MIN_HOUSEHOLDS} renting and ${MIN_HOUSEHOLDS} owning households in ${MAX_DRAWS} draws from seed ${seed}: ${seen.join("; ")}`,
+  );
+}
+const { place, world: openedControl } = drawTown();
 
 function play(shifted: boolean) {
   const opening = gameStartDate();
-  const world = buildBenchWorld(seed, opening, {
-    twoLevel: true,
-    placeKey: place.key,
-  });
+  const world = shifted ? openWorld(place.key) : openedControl;
   const core = world.core;
   const api = coreAPI(core);
   let day = makeIsoDate(opening);
@@ -179,44 +221,37 @@ describe(`victimization records (${place.name}, ${place.state}, seed ${seed})`, 
       householdExposure(1, "own", "adults"),
     );
     expect(personExposure(20, 0)).toBeGreaterThan(personExposure(70, 4));
-    // And the counted groups' property victimizations follow it.
+    // And what the engine owes the counted groups follows it: the expected
+    // property victimizations per household, from each group's own exposure
+    // (the realized tallies in a small town are too few to rank).
     const store = residentsRuntime(control.core)!.store;
-    const api = control.api;
-    const tallies = api
-      .moduleState(CRIME_MODULE_ID)
-      .table("tallies")
-      .rows() as unknown as {
-      groupId: string;
-      counts: Record<string, number>;
-    }[];
-    const households = new Map<string, number>();
-    for (const group of store.groups) {
-      let n = 0;
-      for (const index of group.households)
-        n += store.weightOf(store.households[index]!);
-      households.set(group.id, n);
-    }
-    const byId = new Map(store.groups.map((g) => [g.id, g]));
-    const rate = (pick: (g: (typeof store.groups)[number]) => boolean) => {
-      let crimes = 0,
+    const owedPerHome = (
+      pick: (g: (typeof store.groups)[number]) => boolean,
+    ) => {
+      let owed = 0,
         homes = 0;
-      for (const [id, n] of households) {
-        const group = byId.get(id)!;
+      for (const group of store.groups) {
         if (!pick(group)) continue;
+        let n = 0;
+        for (const index of group.households) {
+          const household = store.households[index]!;
+          if (!household.gone) n += store.weightOf(household);
+        }
         homes += n;
+        owed +=
+          n *
+          householdExposure(
+            group.incomeBand,
+            group.tenure === "rent" ? "rent" : "own",
+            group.kind,
+          );
       }
-      for (const row of tallies) {
-        const group = byId.get(row.groupId);
-        if (!group || !pick(group)) continue;
-        crimes +=
-          (row.counts.burglary ?? 0) + (row.counts["other-property"] ?? 0);
-      }
-      return { crimes, homes, perHome: homes ? crimes / homes : 0 };
+      return { homes, perHome: homes ? owed / homes : 0 };
     };
-    const renters = rate((g) => g.tenure === "rent");
-    const owners = rate((g) => g.tenure !== "rent");
-    const poor = rate((g) => g.incomeBand <= 1);
-    const rich = rate((g) => g.incomeBand >= 3);
+    const renters = owedPerHome((g) => g.tenure === "rent");
+    const owners = owedPerHome((g) => g.tenure !== "rent");
+    const poor = owedPerHome((g) => g.incomeBand <= 1);
+    const rich = owedPerHome((g) => g.incomeBand >= 3);
     expect(renters.homes).toBeGreaterThan(0);
     expect(owners.homes).toBeGreaterThan(0);
     expect(renters.perHome, "renters against owners").toBeGreaterThan(

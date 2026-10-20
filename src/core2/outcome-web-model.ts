@@ -16,9 +16,6 @@ import local from "./data/outcome-web/outcome-web.json" with { type: "json" };
 import coverageData from "./data/outcome-web/coverage.json" with { type: "json" };
 import type { Source } from "./types";
 
-/** The outcome web module's id; kept here so readers need not load the module. */
-export const OUTCOME_WEB_MODULE_ID = "core2-outcome-web-v1";
-
 export type Shape =
   | { readonly kind: "linear" }
   | { readonly kind: "elasticity" }
@@ -110,6 +107,8 @@ interface BaseDefinition {
   readonly places: Readonly<Record<string, number>>;
 }
 
+/** The web module's id; here so readers of the web need not load the module itself. */
+export const OUTCOME_WEB_MODULE_ID = "core2-outcome-web-v1";
 export const WEB_LINKS = (web.links as unknown as readonly WebLink[]).map(
   (link) => (link.readFrom ? { ...link, from: link.readFrom } : link),
 );

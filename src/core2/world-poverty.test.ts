@@ -25,7 +25,7 @@ import {
 } from "./world-poverty";
 
 const seed = process.env.WEB_POVERTY_SEED || randomBytes(8).toString("hex");
-const place = drawPlace(seed, "web-poverty");
+const firstPlace = drawPlace(seed, "web-poverty");
 
 describe("the Census poverty line", () => {
   it("reads the 2024 table by size, children and the eldest member", () => {
@@ -37,16 +37,54 @@ describe("the Census poverty line", () => {
   });
 });
 
-describe(`poverty from incomes (${place.name}, seed ${seed})`, () => {
-  it("is the engine's record, spreads by household and moves with pay", () => {
-    const opening = gameStartDate();
-    const world = buildBenchWorld(seed, opening, {
-      twoLevel: true,
-      placeKey: place.key,
-    });
-    advanceCore(world.core, addDays(makeIsoDate(opening), 100));
-    const api = coreAPI(world.core);
+const REDRAWS = 5;
 
+/** Play a drawn town 100 days and find the record the run is about. */
+function playTown(drawSeed: string) {
+  const place = drawPlace(drawSeed, "web-poverty");
+  const opening = gameStartDate();
+  const world = buildBenchWorld(drawSeed, opening, {
+    twoLevel: true,
+    placeKey: place.key,
+  });
+  advanceCore(world.core, addDays(makeIsoDate(opening), 100));
+  const api = coreAPI(world.core);
+  // The monthly record, and the web row reading it.
+  const metrics = api
+    .moduleState(WORLD_METRICS_MODULE_ID)
+    .table("months")
+    .rows() as unknown as {
+    id: string;
+    placeId: string;
+    date: string;
+    povertyShare?: number;
+  }[];
+  // The biggest place the web keeps that has a recorded share is the one the run is about.
+  const web = api
+    .moduleState(OUTCOME_WEB_MODULE_ID)
+    .table("months")
+    .rows() as unknown as {
+    placeId: string;
+    date: string;
+    values: Record<string, number>;
+    engineSources: Record<string, string | null>;
+  }[];
+  const counted = povertyByPlace(world.core);
+  const kept = new Set(web.map((r) => r.placeId));
+  const withShare = metrics.filter(
+    (r) => r.povertyShare !== undefined && kept.has(r.placeId),
+  );
+  const biggest = [...new Set(withShare.map((r) => r.placeId))].sort(
+    (a, b) => counted.get(b)!.people - counted.get(a)!.people,
+  )[0]!;
+  const record = withShare
+    .filter((r) => r.placeId === biggest)
+    .sort((a, b) => b.date.localeCompare(a.date))[0]!;
+  return { world, record, web, place };
+}
+
+describe(`poverty from incomes (${firstPlace.name}, seed ${seed})`, () => {
+  it("is the engine's record, spreads by household and moves with pay", () => {
     // Links into poverty are the engine's, not the web's: none runs.
     const into = WEB_LINKS.filter((l) => l.to === "household.poverty-pct");
     expect(into.length).toBeGreaterThanOrEqual(14);
@@ -58,37 +96,22 @@ describe(`poverty from incomes (${place.name}, seed ${seed})`, () => {
     }
     expect(WIRED_INTO.get("household.poverty-pct")).toBeUndefined();
 
-    // The monthly record, and the web row reading it.
-    const metrics = api
-      .moduleState(WORLD_METRICS_MODULE_ID)
-      .table("months")
-      .rows() as unknown as {
-      id: string;
-      placeId: string;
-      date: string;
-      povertyShare?: number;
-    }[];
-    // The biggest place the web keeps that has a recorded share is the one the run is about.
-    const web = api
-      .moduleState(OUTCOME_WEB_MODULE_ID)
-      .table("months")
-      .rows() as unknown as {
-      placeId: string;
-      date: string;
-      values: Record<string, number>;
-      engineSources: Record<string, string | null>;
-    }[];
-    const counted = povertyByPlace(world.core);
-    const kept = new Set(web.map((r) => r.placeId));
-    const withShare = metrics.filter(
-      (r) => r.povertyShare !== undefined && kept.has(r.placeId),
-    );
-    const biggest = [...new Set(withShare.map((r) => r.placeId))].sort(
-      (a, b) => counted.get(b)!.people - counted.get(a)!.people,
-    )[0]!;
-    const record = withShare
-      .filter((r) => r.placeId === biggest)
-      .sort((a, b) => b.date.localeCompare(a.date))[0]!;
+    // A town needs both poor and non-poor households to show the spread; a
+    // town of a few full households can have none below the line. Redraw a
+    // bounded number of times, and fail by name when no draw has both.
+    const tried: string[] = [];
+    let found: ReturnType<typeof playTown> | null = null;
+    for (let draw = 0; draw < REDRAWS && !found; draw += 1) {
+      const town = playTown(draw ? `${seed}-${draw}` : seed);
+      const share = town.record.povertyShare!;
+      if (share > 0 && share < 1) found = town;
+      else tried.push(`${town.place.name}, ${town.place.state}: ${share}`);
+    }
+    if (!found)
+      throw new Error(
+        `no drawn town in ${REDRAWS} draws has both poor and non-poor households (${tried.join("; ")})`,
+      );
+    const { world, record, web, place } = found;
     expect(record.povertyShare!).toBeGreaterThan(0);
     expect(record.povertyShare!).toBeLessThan(1);
     // The web's latest row for the place stands on the engine's record.

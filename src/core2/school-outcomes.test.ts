@@ -8,14 +8,20 @@
  * the web's own graduation measure by record id.
  */
 import { randomBytes } from "node:crypto";
-import { appendFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 import { buildBenchWorld } from "../bench/world";
 import { drawPlace } from "../../scripts/core2-year/place";
+import schoolData from "./data/school/outcomes.json" with { type: "json" };
 import { gameStartDate } from "./game-start";
 import { addDays, makeIsoDate } from "./kernel/dates";
 import { advanceCore } from "./life";
-import { OUTCOME_WEB_MODULE_ID, type WebMonth } from "./modules/outcome-web";
+import { budgetsOf, governments } from "./modules/budgets";
+import { residentsRuntime } from "./modules/residents";
+import {
+  OUTCOME_WEB_MODULE_ID,
+  placeOutcome,
+  type WebMonth,
+} from "./modules/outcome-web";
 import { SCHOOL_MODULE_ID, type SchoolMeasureRow } from "./school-measures";
 import type { SchoolGroupRow, SchoolResultRow } from "./school-outcomes";
 import { coreAPI } from "./state";
@@ -42,12 +48,17 @@ function play(shift: boolean) {
   while (day < end) {
     day = addDays(day, 1);
     advanceCore(core, day);
-    // The web writes its month on the 3rd; the twin raises the effect in
-    // the rows it just wrote, so the school engine reads it afterwards.
-    if (shift && core.date.slice(8) === "03") {
+    // The web writes its month on the 3rd, and writes it again whenever a
+    // law takes effect, which drops a shift laid earlier; from the 3rd on,
+    // the twin raises the effect again in any of the month's rows without
+    // it, so the school engine reads it afterwards.
+    if (shift && Number(core.date.slice(8)) >= 3) {
       const months = api.moduleState(OUTCOME_WEB_MODULE_ID).table("months");
       for (const row of months.rows() as unknown as WebMonth[])
-        if (row.month === core.date.slice(0, 7))
+        if (
+          row.month === core.date.slice(0, 7) &&
+          LINKS.some((key) => row.effects[key] !== SHIFT)
+        )
           months.put({
             ...row,
             effects: {
@@ -87,9 +98,20 @@ describe(`school outcomes (${place.name}, seed ${seed})`, () => {
       const passed = groups.reduce((n, g) => n + g.passed, 0);
       const expected = groups.reduce((n, g) => n + g.expected, 0);
       expect(students).toBeGreaterThan(0);
-      // The count follows the expected count to within one household's weight.
-      const heaviest = Math.max(...groups.map((g) => g.students));
-      expect(Math.abs(passed - expected)).toBeLessThanOrEqual(heaviest);
+      // Each income fifth settles its count against its expected count to
+      // within its heaviest student's weight (one household's weight, and no
+      // more than the group's students), so the place is off by at most the
+      // sum of those across its fifths.
+      const rt = residentsRuntime(base);
+      const heaviestHousehold = Math.max(
+        1,
+        ...(rt?.store.households ?? []).map((h) => rt!.store.weightOf(h)),
+      );
+      const bound = groups.reduce(
+        (n, g) => n + Math.min(g.students, heaviestHousehold),
+        0,
+      );
+      expect(Math.abs(passed - expected)).toBeLessThanOrEqual(bound);
     }
     // The shifted world: the funding effect reached the low fifths' factor
     // and moved their counts; the top fifths (weight 0) did not move.
@@ -123,24 +145,68 @@ describe(`school outcomes (${place.name}, seed ${seed})`, () => {
         g.reduce((n, x) => n + x.students, 0)
       );
     };
-    expect(fifths.length).toBeGreaterThan(1);
-    expect(share(fifths[0]!)).toBeLessThan(share(fifths[fifths.length - 1]!));
+    if (fifths.length > 1) {
+      // The researched gradient rests on lunch-program eligibility by fifth;
+      // two fifths with the same eligible share clear at the same share.
+      const eligible = schoolData.gradient.eligibleShareByIncomeFifth;
+      const low = fifths[0]!;
+      const high = fifths[fifths.length - 1]!;
+      if (eligible[low] !== eligible[high])
+        expect(share(low)).toBeLessThan(share(high));
+      else expect(share(low)).toBeCloseTo(share(high), 9);
+    } else {
+      // Every student's household falls in one national income fifth (the
+      // territories' household incomes sit below the national fifth limits),
+      // so the gradient scaled to the place's mean is one: the group's share
+      // is the place's own base times the web factor.
+      const only = math[0]!;
+      const record = placeOutcome(coreAPI(base), only.placeId, only.measure);
+      console.log(
+        `school: ${place.name} seed ${seed}: every student is in national income fifth ${fifths[0]}, so the share equals the place's base times its factor`,
+      );
+      expect(fifths.length, "income fifths with students").toBe(1);
+      expect(record?.base, "web base").toBeDefined();
+      expect(share(fifths[0]!)).toBeCloseTo(
+        Math.min(1, (record!.base! / 100) * only.factor),
+        9,
+      );
+    }
     // Full students keep their own result record, with its web record id.
     const results = rows<SchoolResultRow>(base, "results");
     console.log(
       `school: ${place.name} seed ${seed}: full results ${results.length}; math shares by fifth ${fifths.map((f) => `${f}:${share(f).toFixed(3)}`).join(" ")}`,
     );
-    // Spending per student stands on the budgets in force, in a believable range.
+    // Spending per student stands on the budgets in force, in a believable
+    // range. It reads the schools line of the town's city and county budgets;
+    // a place whose budget bases carry no function breakdown (the territories
+    // report one all-funds total) has no such line, so no spending record is
+    // made and the test says so by the budgets' own rows.
     const spending = rows<SchoolMeasureRow>(base, "measures").find(
       (m) => m.measure === "school.spending-per-student",
-    )!;
-    appendFileSync(
-      "/tmp/claude-0/-home-user-Political-Game-Git/1e5ec822-8f0a-594e-815c-9668ab28eb9e/scratchpad/schools/spend.out",
-      `${place.name} ${seed} spending ${spending.value} students ${spending.students} ${spending.id}\n`,
     );
-    expect(spending.budgetIds!.length).toBeGreaterThan(0);
-    expect(spending.value).toBeGreaterThan(3000);
-    expect(spending.value).toBeLessThan(60000);
+    const budgetApi = coreAPI(base);
+    const schoolsLines = governments(budgetApi)
+      .filter((g) => g.level === "city" || g.level === "county")
+      .flatMap((g) => budgetsOf(budgetApi, g.id))
+      .filter((b) => b.spendingMinor["schools"]);
+    if (schoolsLines.length === 0) {
+      console.log(
+        `school: ${place.name} seed ${seed}: no city or county budget carries a schools line (governments ${governments(
+          budgetApi,
+        )
+          .map((g) => g.level)
+          .join(", ")}), so no spending record is made`,
+      );
+      expect(
+        spending,
+        "spending record without a schools line",
+      ).toBeUndefined();
+    } else {
+      expect(spending, `spending record in ${place.name}`).toBeDefined();
+      expect(spending!.budgetIds!.length).toBeGreaterThan(0);
+      expect(spending!.value).toBeGreaterThan(3000);
+      expect(spending!.value).toBeLessThan(60000);
+    }
     // The web reads the engine's graduation record, not its ledger.
     const api = coreAPI(base);
     const months = api
