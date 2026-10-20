@@ -4,12 +4,13 @@ title: "Stopgaps in housing-property-tax (assumed-data): 1 open"
 area: world
 kind: stopgap
 priority: 3
-status: open
-claimed-by:
-pr:
+status: claimed
+claimed-by: claude/political-game-pool-yucp92-g
+pr: #5270
 blocked-on:
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/housing-property-tax.ts, kind assumed-data"
+claimed-at: 2026-10-20T03:22:01.071Z
 ---
 
 **What.** Replace or clear the 1 open assumed-data stopgap row(s) in src/core2/housing-property-tax.ts: SG-WORLD-property-tax-rate. Each fake is replaced by the mechanic, or the feature that needs it is deleted.
@@ -20,4 +21,4 @@ source: "src/core2/data/stopgaps.json, src/core2/housing-property-tax.ts, kind a
 
 **Files.** src/core2/housing-property-tax.ts
 
-**Notes.** Built on claude/political-game-pool-yucp92-g. The budgets engine already registered the rate, cap and payee from the law in force; four drawn towns billed the state-average fallback zero times in a played quarter. The fallback and its stopgap row are deleted. The state average still sizes the opening's outside living cost (housing.ts).
+**Notes.** First row: Every owner pays the state's average effective property tax rate, to the outside account, with no assessment cap. PR #5270 sent back: Merge conflict with main in code files src/core2/housing-property-tax.ts and src/core2/housing-property-tax.test.ts.

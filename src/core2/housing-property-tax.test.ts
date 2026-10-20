@@ -1,7 +1,13 @@
 /** Property tax bills on owners: a twelfth of assessed value times the rate each month, with an assessment cap where the law sets one. */
 import { afterEach, describe, expect, it } from "vitest";
+import { randomBytes } from "node:crypto";
+import { drawPlace } from "../../scripts/core2-year/place";
 import { advanceCore, createLifeCore } from "./life";
-import { billPropertyTax, registerPropertyTax } from "./housing-property-tax";
+import {
+  billPropertyTax,
+  propertyTaxDueDates,
+  registerPropertyTax,
+} from "./housing-property-tax";
 import { HOUSING_MODULE } from "./modules/housing";
 import { worldCoreData } from "./modules/world";
 import { coreAPI } from "./state";
@@ -193,5 +199,97 @@ describe("property tax bills", () => {
     expect(core.organizations.get(county)!.liquidMinor - before).toBe(second);
     expect(arrears.get("tax-arrears:household:owner")).toBeUndefined();
     expect(all() + outsideNet()).toBe(start + 1_000_000 - 1_000_000);
+  });
+});
+
+describe("property-tax due dates are data for every place", () => {
+  const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(16).toString("hex");
+  it(`a place drawn from all 56 (seed ${seed}) reads back its installments, dates and source`, () => {
+    const place = drawPlace(seed, "property-tax-due-dates");
+    const row = propertyTaxDueDates(place.state.replace(/^US-/, ""));
+    expect(row.installments, place.name).toBe(row.dueDates.length);
+    expect(row.installments).toBeGreaterThanOrEqual(1);
+    expect(row.installments).toBeLessThanOrEqual(4);
+    expect(row.estimatedFrom.length).toBeGreaterThan(0);
+    expect(["SOURCED", "ESTIMATED"]).toContain(row.tag);
+  });
+  it("covers all 56 states and territories with valid months and days", () => {
+    const keys = [
+      "AL",
+      "AK",
+      "AZ",
+      "AR",
+      "CA",
+      "CO",
+      "CT",
+      "DE",
+      "DC",
+      "FL",
+      "GA",
+      "HI",
+      "ID",
+      "IL",
+      "IN",
+      "IA",
+      "KS",
+      "KY",
+      "LA",
+      "ME",
+      "MD",
+      "MA",
+      "MI",
+      "MN",
+      "MS",
+      "MO",
+      "MT",
+      "NE",
+      "NV",
+      "NH",
+      "NJ",
+      "NM",
+      "NY",
+      "NC",
+      "ND",
+      "OH",
+      "OK",
+      "OR",
+      "PA",
+      "RI",
+      "SC",
+      "SD",
+      "TN",
+      "TX",
+      "UT",
+      "VT",
+      "VA",
+      "WA",
+      "WV",
+      "WI",
+      "WY",
+      "PR",
+      "GU",
+      "VI",
+      "AS",
+      "MP",
+    ];
+    expect(keys).toHaveLength(56);
+    for (const usps of keys)
+      for (const due of propertyTaxDueDates(usps).dueDates) {
+        expect(due.month, usps).toBeGreaterThanOrEqual(1);
+        expect(due.month, usps).toBeLessThanOrEqual(12);
+        if ("day" in due)
+          expect(
+            due.day === "last" || (due.day >= 1 && due.day <= 31),
+            usps,
+          ).toBe(true);
+        else
+          expect(
+            due.nth >= 1 &&
+              due.nth <= 5 &&
+              due.weekday >= 1 &&
+              due.weekday <= 7,
+            usps,
+          ).toBe(true);
+      }
   });
 });

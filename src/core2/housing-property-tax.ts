@@ -62,6 +62,32 @@ export function stateEffectiveRate(usps: string): number {
   return RATES[usps] ?? taxData.national;
 }
 
+/** One bill date: a day of the month, the month's last day, or the nth weekday (1 = Monday). */
+export type PropertyTaxDueDate =
+  | { readonly month: number; readonly day: number | "last" }
+  | { readonly month: number; readonly nth: number; readonly weekday: number };
+
+export interface PropertyTaxDueDates {
+  readonly installments: number;
+  readonly dueDates: readonly PropertyTaxDueDate[];
+  /** Counties or towns set their own dates; these are the most common pattern. */
+  readonly setLocally: boolean;
+  readonly tag: "SOURCED" | "ESTIMATED";
+  readonly estimatedFrom: string;
+}
+
+const DUE_DATES = taxData.dueDates.byState as unknown as Record<
+  string,
+  PropertyTaxDueDates
+>;
+
+/** When a place's property tax is billed: its installments and due dates, from its state's row. */
+export function propertyTaxDueDates(usps: string): PropertyTaxDueDates {
+  const row = DUE_DATES[usps];
+  if (!row) throw new Error(`No property-tax due dates for ${usps}.`);
+  return row;
+}
+
 /** The rate, cap and payee in force; none where no law is registered (the budgets engine registers it from the law in force). */
 function terms(api: CoreAPI, placeId: string): PropertyTaxTerms | undefined {
   return termsSource?.(api, placeId);
