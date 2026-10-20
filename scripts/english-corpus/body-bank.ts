@@ -12,6 +12,7 @@
  * compose under small-talk until PEOPLE adds one (listed in
  * docs/coordination/words.md).
  */
+import addressJson from "../../data/english/parts/address.json" with { type: "json" };
 import hearingJson from "../../data/english/parts/hearing.json" with { type: "json" };
 import meetingJson from "../../data/english/parts/meeting.json" with { type: "json" };
 import { heldByGrades } from "../../src/english/english-grades";
@@ -32,10 +33,23 @@ interface Part {
 export const BODY_PARTS: readonly Part[] = [
   ...(meetingJson as unknown as { parts: Part[] }).parts,
   ...(hearingJson as unknown as { parts: Part[] }).parts,
+  // A resident's public comment: the address bank's pieces for that occasion.
+  ...(addressJson as unknown as { parts: Part[] }).parts.filter((part) =>
+    part.uses?.some((use) => use.subject === "public-comment"),
+  ),
 ];
 
 /** What the body is doing at its table. */
 export type BodyScene = "vote" | "hearing";
+
+/** One resident who spoke at the meeting, from the meeting engine's remark record. */
+export interface HearingSpeaker {
+  readonly remarkId: string;
+  readonly name: string;
+  readonly place: string;
+  /** For (+1) or against (-1) the bill. */
+  readonly position: number;
+}
 
 interface Step {
   speaker: "chair" | "member" | "colleague" | "public";
@@ -168,39 +182,127 @@ export interface BodyLine {
  * `speaker`, `bill`, `cost` and `place`. Null when the scene can't be worded
  * from the record.
  */
+function composeStep(
+  packet: GroundedEnglishPacket,
+  key: string,
+  step: Step,
+): BodyLine | null {
+  const variants = variantsFor(step);
+  if (!variants.length) return null;
+  const bank: ComposedLineBank = {
+    key: `body.${key}-${step.role}`,
+    version: "words-body-v1",
+    surface: "dialogue",
+    act: step.act,
+    parts: { core: { variants } },
+  };
+  const line = composeGroundedLine(
+    { ...packet, momentKey: `${packet.momentKey}/${key}` },
+    bank,
+    { register: "small-talk" },
+  );
+  return line.kind === "rendered"
+    ? {
+        speaker: step.speaker,
+        text: line.text,
+        sourceRecordIds: [...line.sourceRecordIds],
+      }
+    : null;
+}
+
 export function composeBodyScene(
   packet: GroundedEnglishPacket,
   scene: BodyScene,
 ): BodyLine[] | null {
   const lines: BodyLine[] = [];
   for (const [index, step] of SCENES[scene].entries()) {
-    const variants = variantsFor(step);
-    const bank: ComposedLineBank = {
-      key: `body.${scene}.${index}-${step.role}`,
-      version: "words-body-v1",
-      surface: "dialogue",
-      act: step.act,
-      parts: { core: { variants } },
-    };
-    const line = variants.length
-      ? composeGroundedLine(
-          {
-            ...packet,
-            momentKey: `${packet.momentKey}/${scene}/${index}`,
-          },
-          bank,
-          { register: "small-talk" },
-        )
-      : null;
-    if (!line || line.kind !== "rendered") {
+    const line = composeStep(packet, `${scene}.${index}`, step);
+    if (!line) {
       if (step.required) return null;
       continue;
     }
-    lines.push({
-      speaker: step.speaker,
-      text: line.text,
-      sourceRecordIds: [...line.sourceRecordIds],
-    });
+    lines.push(line);
   }
   return lines;
+}
+
+const COMMENT_STEPS: readonly Step[] = [
+  {
+    speaker: "public",
+    subject: "public-comment",
+    role: "name",
+    act: "greet",
+    only: /^My name is \{name\}, and I live in \{place\}\.$/,
+    required: true,
+  },
+  {
+    speaker: "public",
+    subject: "public-comment",
+    role: "ask",
+    act: "ask",
+    only: /^I urge you to support/,
+  },
+  {
+    speaker: "public",
+    subject: "public-comment",
+    role: "close",
+    act: "farewell",
+    only: /^Thank you for your (?:time|consideration)\.$/,
+  },
+];
+
+/**
+ * A budget hearing worded from the records of a bill and the residents who
+ * spoke on it: the chair opens the item and calls each speaker by name, each
+ * says who they are and, when they spoke for the bill, urges support, then
+ * the chair puts the question and announces the recorded result. `vote` is
+ * the vote scene's packet (motion, counts, outcome); each speaker's lines
+ * cite their own remark record and the bill's. Null when the vote can't be
+ * worded.
+ */
+export function composeBudgetHearing(
+  vote: GroundedEnglishPacket,
+  speakers: readonly HearingSpeaker[],
+  billId: string,
+): BodyLine[] | null {
+  const ground = (text: string, id: string) => ({
+    text,
+    sourceRecordIds: [id, billId],
+  });
+  const lines: BodyLine[] = [];
+  for (const [at, speaker] of speakers.entries()) {
+    const facts = {
+      ...vote.facts,
+      speaker: ground(speaker.name, speaker.remarkId),
+      name: ground(speaker.name, speaker.remarkId),
+      place: ground(speaker.place, speaker.remarkId),
+      ...(vote.facts.motion ? { issue: vote.facts.motion } : {}),
+    };
+    const packet = {
+      ...vote,
+      facts,
+      sourceRecordIds: [...vote.sourceRecordIds, speaker.remarkId],
+      momentKey: `${vote.momentKey}/speaker/${at}`,
+      knowledge: Object.entries(facts).map(([factKey, fact]) => ({
+        personId: "chair",
+        factKey,
+        sourceRecordIds: fact.sourceRecordIds,
+      })),
+    } as unknown as GroundedEnglishPacket;
+    const invite = composeStep(packet, `budget.${at}.invite`, {
+      speaker: "chair",
+      subject: "chair",
+      role: "introduce",
+      act: "greet",
+    });
+    if (invite) lines.push(invite);
+    for (const [index, step] of COMMENT_STEPS.entries()) {
+      // Only a speaker for the bill urges support.
+      if (step.role === "ask" && speaker.position <= 0) continue;
+      const line = composeStep(packet, `budget.${at}.say.${index}`, step);
+      if (line) lines.push(line);
+    }
+  }
+  const result = composeBodyScene(vote, "vote");
+  return result ? [...lines, ...result] : null;
 }
