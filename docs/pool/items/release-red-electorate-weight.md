@@ -24,6 +24,4 @@ claimed-at:
 **Notes.** Found by running src/core2 on main, Oct 19 (release-suite-red-list-on-main): AssertionError 'expected false to be true' at electorate-weight.test.ts:40. The failure did not print the place or seed; print them first.
 **Notes.** PR #5318 sent back: Merge conflict with main in src/core2/electorate-weight.test.ts.
 
-
 PR #5318 sent back: Merge conflict with main in src/core2/electorate-weight.test.ts.
-

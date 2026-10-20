@@ -32,5 +32,3 @@ claimed-at: 2026-10-20T02:04:40.027Z
 **Files.** src/core2/vote-level.test.ts
 
 **Notes.** A test fix, not a press change: a national desk prints its top few items a week, so an individual federal event losing out is normal. Fixed on claude/political-game-pool-yucp92-u.
-
-
