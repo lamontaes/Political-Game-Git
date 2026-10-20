@@ -1490,20 +1490,19 @@ export function requestProject(
 }
 
 /**
- * The appropriations bill the sponsor carries: each open request is weighed on
- * its member's standing, never a roll. A member of the majority side, or one
- * seated on the committee for budget lines, has the request included as a
- * line naming its recipient; any other request is dropped, and either way the
- * reasons are kept on the request.
+ * The appropriations bill the sponsor carries: each open request is read by
+ * the officials who can act on it (the sponsor who drafts the bill and the
+ * members seated on the committee for budget lines), each on their own
+ * reasons for the line as a bill they would weigh (`positionOn`), with the
+ * requesting member as its sponsor, or because backing the item wins the
+ * requester's vote on the bill. Never a roll; either way the read is kept on
+ * the request.
  */
 export function appropriationsWithProjects(
   api: CoreAPI,
   input: { readonly bodyOfficeId: string; readonly sponsorId: string },
 ): BillRow | null {
   const terms = members(api, input.bodyOfficeId);
-  const majority = Math.sign(
-    terms.reduce((sum, t) => sum + partySide(t.party), 0),
-  );
   const seated = rosterProvider?.(
     api,
     input.bodyOfficeId,
@@ -1517,29 +1516,59 @@ export function appropriationsWithProjects(
     if (row.status !== "requested" || row.bodyOfficeId !== input.bodyOfficeId)
       continue;
     const term = terms.find((t) => memberKey(t) === row.memberId);
-    const onCommittee = !!seated?.memberIds.includes(row.memberId);
-    const sameSide =
-      !!term &&
-      majority !== 0 &&
-      memberSide(api, row.memberId, term.party) === majority;
-    const reasons = [
-      sameSide ? "member-in-majority" : "member-in-minority",
-      onCommittee ? "member-on-committee" : "member-off-committee",
-    ];
-    const included = !!term && (sameSide || onCommittee);
+    const provision: Provision = {
+      kind: "budget-line",
+      line: row.line,
+      value: row.amountMinor,
+      recipientId: row.recipientId,
+      requestId: row.id,
+    };
+    const asked = {
+      id: `probe:${row.id}`,
+      bodyOfficeId: row.bodyOfficeId,
+      sponsorId: row.memberId,
+      introduced: api.state.date,
+      provisions: [provision],
+      deals: [],
+      status: "drafted",
+    } as unknown as BillRow;
+    // The officials who can act read the project as the requester's proposal:
+    // their tie to the requester counts in each read.
+    const officials = [
+      ...new Set([input.sponsorId, ...(seated?.memberIds ?? [])]),
+    ].filter((id) => id !== row.memberId);
+    const read = officials.reduce(
+      (sum, id) => sum + positionOn(api, asked, id).total,
+      0,
+    );
+    // Or the sponsor wins the requester's vote by backing their item.
+    const theirs = { ...asked, sponsorId: input.sponsorId } as BillRow;
+    const backed = {
+      ...theirs,
+      deals: [
+        {
+          memberId: row.memberId,
+          kind: "back-their-item",
+          terms: row.id,
+          date: api.state.date,
+          status: "accepted",
+        },
+      ],
+    } as BillRow;
+    const wins =
+      row.memberId !== input.sponsorId &&
+      positionOn(api, theirs, row.memberId).total <= 0 &&
+      positionOn(api, backed, row.memberId).total > 0;
+    const included = !!term && (read > 0 || wins);
     table(api, "projectRequests").put({
       ...row,
       status: included ? "included" : "dropped",
-      reasons,
+      reasons: [
+        read > 0 ? "officials-favor" : "officials-oppose",
+        wins ? "requester-vote-won" : "requester-vote-unchanged",
+      ],
     } as unknown as ModuleRow);
-    if (included)
-      provisions.push({
-        kind: "budget-line",
-        line: row.line,
-        value: row.amountMinor,
-        recipientId: row.recipientId,
-        requestId: row.id,
-      });
+    if (included) provisions.push(provision);
   }
   if (!provisions.length) return null;
   const bill = draftBill(api, { ...input, provisions });
