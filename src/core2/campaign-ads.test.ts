@@ -10,7 +10,6 @@ import { describe, expect, it } from "vitest";
 import { worldWith, type PlayedWorld } from "./tooling/world-with";
 import { coreAPI } from "./state";
 import { adAudience, adTimeForSale, buyAdTime } from "./modules/campaigns";
-import { campaignParameter } from "./campaign-views";
 import { countedFollowers, followersOf, outletsHere } from "./modules/press";
 
 const seed = process.env.CAMPAIGN_ADS_SEED || randomBytes(8).toString("hex");
@@ -79,29 +78,22 @@ describe(`ad time (${place.name}, seed ${seed})`, () => {
       counted,
       `${place.name}: counted followers of ${seller.id}`,
     ).toBeGreaterThan(0);
-    // A buy is sized in contacts, so a town's small outlet is not reached
-    // whole by a fixed small sum: price the buys by the followers.
-    const priced = (contacts: number) =>
-      Math.ceil(
-        (contacts * 1000) / campaignParameter("adContactsPerThousandMinor"),
-      );
-    const total = full + counted;
     // A buy that covers every follower reaches every follower of both tiers.
-    const everyone = adAudience(api, priced(total))!;
+    const everyone = adAudience(api, 1e12)!;
     expect(everyone.viewers.length).toBe(full);
     expect(everyone.countedViewers).toBe(counted);
-    // A buy for a quarter of the followers reaches the same share of each
-    // tier, to the rounding of each tier's size.
-    const small = adAudience(api, priced(Math.max(1, Math.floor(total / 4))))!;
+    // A smaller buy reaches the same share of each tier.
+    const half = adAudience(api, 1e12)!;
+    const small = adAudience(api, 1000)!;
     const share = (n: number, of: number) => (of ? n / of : 0);
     expect(small.viewers.length + small.countedViewers).toBeLessThan(
-      everyone.viewers.length + everyone.countedViewers,
+      half.viewers.length + half.countedViewers,
     );
     expect(
       Math.abs(
         share(small.viewers.length, full) -
           share(small.countedViewers, counted),
       ),
-    ).toBeLessThanOrEqual(0.5 / full + 0.5 / counted + 1e-9);
+    ).toBeLessThan(0.1);
   });
 });

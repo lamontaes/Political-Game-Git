@@ -23,7 +23,6 @@ import {
   PLACE_COUNTY_RELATIONS_ROWS,
 } from "./place-county-relations.generated";
 import { createStableId } from "../kernel/ids";
-import placeMatches from "../data/reference/government-unit-place-matches.json" with { type: "json" };
 import countyReadings from "../../../data/research/local-government/county-governing-bodies.json" with { type: "json" };
 import acsPlaces from "../../../data/research/money/place-population-acs-2024.json" with { type: "json" };
 import { NATIONAL_COUNTIES_ROWS } from "./national-counties.generated";
@@ -156,15 +155,7 @@ function load(): Index {
       unitType: TYPES[row[2]],
       stateUsps: row[3],
       countyGeoid: row[4],
-      placeGeoid:
-        row[5] ??
-        (
-          placeMatches.unitPlaceGeoids as Record<
-            string,
-            { placeGeoid: string } | undefined
-          >
-        )[row[0]]?.placeGeoid ??
-        null,
+      placeGeoid: row[5],
       publisherPlaceCode: row[6],
       functionalActive: row[7] === 1,
       asOf: GOVERNMENT_UNITS_META.asOf,

@@ -23,9 +23,6 @@
  * figured on the whole estate, trust and probate together, and each part pays
  * its share. The part left to probate waits as before.
  *
- * A relative still in the wider population inherits like any other: they are
- * filled in as the same person when the estate reaches them.
- *
  * Stopgap: SG-CORE-estate-cash-only (homes, loans and businesses are not
  * settled).
  */
@@ -37,9 +34,7 @@ import { LAWS_MODULE_ID, lawChain } from "./modules/laws";
 import { closenessBetween } from "./closeness";
 import { decisionLean } from "./trait-decisions";
 import type { ModuleRow } from "./module-data";
-import { personOrFillIn, registerModule } from "./state";
-import { residentPerson } from "./modules/residents";
-import { isDemoted } from "./counted-groups";
+import { registerModule } from "./state";
 import {
   endRecipientIncomeAtDeath,
   handOverContractsAtDeath,
@@ -69,13 +64,6 @@ function relationsOf(person: Readonly<PersonState>): Map<PersonId, string> {
   return out;
 }
 
-/** A relative who is alive: a full person, or one still in the wider population (a husk) who is filled in when the estate reaches them. */
-function livingKin(api: CoreAPI, id: PersonId): boolean {
-  const kin = api.state.people.get(id);
-  if (kin && !isDemoted(kin)) return kin.alive === true;
-  return residentPerson(api.state, id) !== undefined;
-}
-
 type OrderRow = (typeof data.intestateOrder)[number];
 
 /** The living kin who inherit: the first class of the intestate order with anyone in it. */
@@ -88,7 +76,8 @@ export function heirsOf(
     const heirs = [...relations]
       .filter(
         ([id, relation]) =>
-          row.relations.includes(relation) && livingKin(api, id),
+          row.relations.includes(relation) &&
+          api.state.people.get(id)?.alive === true,
       )
       .map(([id]) => id)
       .sort();
@@ -175,7 +164,7 @@ function closenessShares(
   person: Readonly<PersonState>,
 ): readonly { id: PersonId; weight: number }[] | null {
   const shares = [...person.familyIds]
-    .filter((id) => livingKin(api, id))
+    .filter((id) => api.state.people.get(id)?.alive)
     .sort()
     .map((id) => ({ id, weight: closenessBetween(api.state, person.id, id) }))
     .filter((row) => row.weight > api.parameter("zero"));
@@ -417,13 +406,6 @@ function distribute(
           ? [{ id: treasury, weight: api.parameter("one") }]
           : [];
   if (!takers.length) return [];
-  // An heir still in the wider population is filled in as the same person, seeded from the world, when the estate reaches them.
-  for (const taker of takers)
-    if (
-      !api.state.people.has(taker.id) ||
-      isDemoted(api.state.people.get(taker.id)!)
-    )
-      personOrFillIn(api.state, taker.id);
   const paid: { toId: string; amountMinor: number }[] = [];
   // Before the heirs, the estate pays the estate taxes in force (an heirless
   // estate goes whole to the state). Each heir's share then pays their

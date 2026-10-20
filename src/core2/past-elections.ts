@@ -21,7 +21,6 @@
 import corpus from "../../data/source/electoral-calibration-2024/corpus.json" with { type: "json" };
 import countyVotes from "./data/county-presidential-2024.json" with { type: "json" };
 import tenure from "./data/offices/tenure.json" with { type: "json" };
-import territoryBallots from "../../data/research/elections/territory-ballots.json" with { type: "json" };
 import { partySide } from "./appointments";
 import { questionAxis } from "./campaign-views";
 import { novemberGeneralElectionDay } from "./gov-rules/town-election-calendar";
@@ -293,25 +292,8 @@ function electorateBallots(
   // A territory casts no presidential vote: its own town's ballots stand in
   // for the territory's electorate.
   const reported = stateBallots(town);
-  const own = reported
-    ? undefined
-    : (
-        territoryBallots.places as Record<
-          string,
-          { delegate?: { ballots: number }; governor?: { ballots: number } }
-        >
-      )[town.usps];
-  // A territory's delegate race and governor race count the ballots its own
-  // election office reported; where that total isn't in the data, the town's
-  // ballots stand in.
-  const territory =
-    office.level === "federal" && office.kind.startsWith("us-house")
-      ? own?.delegate?.ballots
-      : office.level === "state" && !office.kind.startsWith("legislature-")
-        ? own?.governor?.ballots
-        : undefined;
-  if (!reported && !territory) api.stopgap("SG-CORE-past-territory-ballots");
-  const state = reported || territory || townBallots(api, town, date);
+  if (!reported) api.stopgap("SG-CORE-past-territory-ballots");
+  const state = reported || townBallots(api, town, date);
   switch (office.level) {
     case "federal":
       if (office.kind.startsWith("us-house"))

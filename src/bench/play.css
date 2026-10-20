@@ -2413,8 +2413,3 @@ body.dev .dev-ring {
   gap: 16px;
   margin-top: 24px;
 }
-
-/* A line marked as a gap shows it took (play-mark-gap). */
-#talk-gap.marked {
-  opacity: 0.55;
-}

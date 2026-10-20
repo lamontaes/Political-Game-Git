@@ -5,13 +5,13 @@ area: gov
 kind: wiring
 priority: 2
 size: M
-status: in-pr
-claimed-by: claude/committee-day-records
+status: open
+claimed-by:
 pr: #5168
 after:
 blocked-on:
 source: "acting CTO ruling Oct 19 (committee-day hooks); audit Oct 19, Part A 'What it fakes' 4"
-claimed-at: 2026-10-20T13:40:41.991Z
+claimed-at:
 ---
 
 **What.** A body with committees takes a scheduled bill to its committee a week ahead of the floor, but the committee decides on its own day without the pre-vote hooks that run on the floor day: staff briefings, interest groups organizing, public comment and the player's own vote. The Oct 19 ruling says the committee's day runs whatever the records already fire for a body on a sitting day, at the stage the body's own rules put them, from data, with nothing invented for the committee. Build that and resolve `SG-GOV-committee-day-hooks` so the release build stops refusing on an answered question.

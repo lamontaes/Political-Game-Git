@@ -74,4 +74,4 @@ it("is negative for the voters a scandal story reached and zero for the rest", (
     scandalTerm(api, voters[0]!.id, other.id, voterLean(api, voters[0]!)),
     where,
   ).toBe(0);
-}, 300_000);
+});

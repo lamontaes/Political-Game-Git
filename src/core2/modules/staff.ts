@@ -344,7 +344,7 @@ export function staffCandidates(
     if (pay < postHourly)
       out.push({ personId: person.id, from: "applicant", ...placed });
   }
-  // The town's counted adults who earn less than the post pays apply too.
+  // The town's counted adults with no work in their records apply too.
   for (const voter of countedPool(api, town, minimum)) {
     if (hired.has(voter.id) || inCustody(api, voter.id)) continue;
     const known =
@@ -456,13 +456,11 @@ function countedPool(api: CoreAPI, town: string, minimum: number) {
   const state = api.state as CoreState;
   const held = pools.get(state);
   if (held?.date === state.date) return held.rows;
-  // Anyone earning less than the post pays may apply, not only the jobless.
-  const postHourly = campaignParameter("staffHourlyMinor");
   const rows = countedResidents(state)
     .filter(
       (voter) =>
         voter.placeId === town &&
-        voter.hourlyMinor < postHourly &&
+        voter.weeklyMinutes <= 0 &&
         ageOnDay(voter.birthDate, state.date) >= minimum,
     )
     .map((voter) => ({

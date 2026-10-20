@@ -21,16 +21,6 @@ import { stopgap } from "./stopgaps";
 import type { IsoDate, PersonId } from "./types";
 
 const SPEC = OPENING_KIN.personality;
-// The named constants and the correlated pairs, read once: they are static,
-// and the opening draws them for every person.
-const ZERO = p("zero"),
-  ONE = p("one"),
-  TWO = p("two");
-const PAIRS = SPEC.correlatedPairs.map((pair) => ({
-  first: SPEC.dimensions.findIndex((row) => row.trait === pair.first),
-  second: SPEC.dimensions.findIndex((row) => row.trait === pair.second),
-  rho: p(pair.parameter),
-}));
 
 /**
  * Every other trait in the shared trait table, tied to one temperament
@@ -70,16 +60,25 @@ export interface TemperamentSubject {
 }
 
 function normal(rng: SeededRng): number {
-  const u = ONE - rng.next();
-  return Math.sqrt(-TWO * Math.log(u)) * Math.cos(TWO * Math.PI * rng.next());
+  const u = p("one") - rng.next();
+  return (
+    Math.sqrt(-p("two") * Math.log(u)) *
+    Math.cos(p("two") * Math.PI * rng.next())
+  );
 }
 
 /** Independent standard normals per dimension, then the registered correlated pairs. */
 function draws(rng: SeededRng): number[] {
   const values = SPEC.dimensions.map((row) => normal(rng.fork(row.trait)));
-  for (const { first, second, rho } of PAIRS)
+  for (const pair of SPEC.correlatedPairs) {
+    const first = SPEC.dimensions.findIndex((row) => row.trait === pair.first);
+    const second = SPEC.dimensions.findIndex(
+      (row) => row.trait === pair.second,
+    );
+    const rho = p(pair.parameter);
     values[second] =
-      rho * values[first]! + Math.sqrt(ONE - rho * rho) * values[second]!;
+      rho * values[first]! + Math.sqrt(p("one") - rho * rho) * values[second]!;
+  }
   return values;
 }
 
@@ -97,13 +96,13 @@ function shiftFor(
   const ageShift =
     (curve(row, age) - curve(row, p("personalityReferenceAge"))) /
     SPEC.tScoreSd;
-  const half = row.sexDMaleMinusFemale / TWO;
+  const half = row.sexDMaleMinusFemale / p("two");
   const sexShift =
     gender === OPENING_KIN.genders.male
       ? half
       : gender === OPENING_KIN.genders.female
         ? -half
-        : ZERO;
+        : p("zero");
   return row.sign * (ageShift + sexShift);
 }
 
@@ -182,8 +181,8 @@ function normalCdf(x: number, one: number, two: number): number {
 }
 
 function level(z: number): number {
-  let index = ZERO;
-  for (const cut of SPEC.levels.cutPoints) if (z >= cut) index += ONE;
+  let index = p("zero");
+  for (const cut of SPEC.levels.cutPoints) if (z >= cut) index += p("one");
   return SPEC.levels.values[index]!;
 }
 
@@ -194,8 +193,8 @@ export function openingTemperaments(
   stopgap("SG-P15-personality-mapping");
   const h2 = p("personalityHeritability");
   const inheritedSd = Math.sqrt(h2);
-  const segregationSd = Math.sqrt(h2 / TWO);
-  const ownSd = Math.sqrt(ONE - h2);
+  const segregationSd = Math.sqrt(h2 / p("two"));
+  const ownSd = Math.sqrt(p("one") - h2);
   const root = new SeededRng(options.seed).fork("p15-opening-temperament");
   const genetic = new Map<PersonId, number[]>();
   const result = new Map<PersonId, Record<string, number>>();
@@ -211,13 +210,14 @@ export function openingTemperaments(
       .filter((row): row is number[] => row !== undefined);
     const unseen = rng.fork("unseen-parent");
     const parentGenes = [...known];
-    while (parentGenes.length < TWO && known.length > ZERO)
+    while (parentGenes.length < p("two") && known.length > p("zero"))
       parentGenes.push(draws(unseen).map((value) => value * inheritedSd));
     const segregation = draws(rng.fork("segregation"));
     const genes = known.length
       ? segregation.map(
           (value, index) =>
-            (parentGenes[ZERO]![index]! + parentGenes[ONE]![index]!) / TWO +
+            (parentGenes[p("zero")]![index]! + parentGenes[p("one")]![index]!) /
+              p("two") +
             value * segregationSd,
         )
       : segregation.map((value) => value * inheritedSd);
@@ -231,7 +231,7 @@ export function openingTemperaments(
     const scores: number[] = [];
     SPEC.dimensions.forEach((row, index) => {
       const upbringing =
-        (subject.upbringing?.[row.trait] ?? ZERO) *
+        (subject.upbringing?.[row.trait] ?? p("zero")) *
         p("personalityUpbringingShift");
       const z =
         genes[index]! +
@@ -243,10 +243,11 @@ export function openingTemperaments(
     });
     const ownTraits = rng.fork("traits");
     for (const row of ANCHORED) {
-      const shared = row.dimension < ZERO ? ZERO : scores[row.dimension]!;
+      const shared =
+        row.dimension < p("zero") ? p("zero") : scores[row.dimension]!;
       traits[row.id] = level(
         row.loading * shared +
-          Math.sqrt(ONE - row.loading * row.loading) * normal(ownTraits),
+          Math.sqrt(p("one") - row.loading * row.loading) * normal(ownTraits),
       );
     }
     result.set(subject.id, traits);

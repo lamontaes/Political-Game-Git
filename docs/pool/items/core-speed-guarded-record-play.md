@@ -5,7 +5,7 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: done
+status: in-pr
 claimed-by: claude/speed-guarded-record
 pr: #5392
 blocked-on:

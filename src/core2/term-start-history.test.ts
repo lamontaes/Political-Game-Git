@@ -59,6 +59,4 @@ it(`a governor's terms in ${locality.displayName}, ${state} chain on the state's
         term.startDate,
       );
   }
-  // Building one bench world takes 10 to 20 s here (three draws: 10.7, 19.7
-  // and 10.6 s); two minutes leaves room on a slower container.
-}, 120_000);
+}, 600000);

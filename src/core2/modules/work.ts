@@ -5,7 +5,6 @@ import { addDays, ageOnDate, daysBetween, makeIsoDate } from "../kernel/dates";
 import { parameter, PARAMETERS } from "../parameters";
 import { runWorkPayrollDay } from "../work-payroll-dispatch";
 import { FinanceReadGuard } from "../finance-plan";
-import { careNeedOf } from "./health";
 import type { Parameter } from "../parameters";
 import type {
   ActOffer,
@@ -971,19 +970,6 @@ export function activityAgeId(api: CoreAPI, personId: string): string {
 
 export const WORK_MODULE: CoreModule = {
   id: "core2-recorded-work-v1",
-  reasonProviders: {
-    // A person stays home from a shift mostly because they are ill: their own
-    // health record's care need (health.ts `careNeedOf`, 0 to 1, a sliding
-    // scale) is the absence offer's reason, so circumstances, not temperament,
-    // decide most missed shifts (BLS CPS 2023: illness is about two thirds of
-    // full-time absence).
-    "work.own-illness": (api, actor) => {
-      const need = careNeedOf(api.state, actor.id);
-      return need > api.parameter("zero")
-        ? { value: need, sourceIds: [`health:${actor.id}`] }
-        : undefined;
-    },
-  },
   onDay(api, decide, refresh) {
     const attendance = runScheduledWork(api, decide, refresh);
     runWorkPayrollDay(api);

@@ -5,7 +5,7 @@ area: world
 kind: bug
 priority: 2
 size: S
-status: in-pr
+status: claimed
 claimed-by: claude/census-closures
 pr: #5553
 blocked-on:

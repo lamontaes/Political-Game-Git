@@ -5,7 +5,7 @@ area: laws
 kind: bug
 priority: 1
 size: S
-status: done
+status: in-pr
 claimed-by: claude/law-reach-group-b-red
 pr: #5694
 blocked-on:

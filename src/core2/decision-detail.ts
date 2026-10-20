@@ -2,11 +2,8 @@
  * Memory stays small (owner, Oct 12): act records keep their full reasons
  * (every option's score) for `circleDecisionDetailDays`; after that a circle
  * member's act keeps only what the "why" view needs to name the choice. The
- * player's own routine acts keep everything for `playerDecisionDetailDays`
- * (after a year only the summary and the reasons, not every option's
- * score); their public records and news keep everything. Writers
- * queue each record as they keep it, so condensing visits each record once
- * and never scans the log.
+ * player's own acts keep everything. Writers queue each record as they keep
+ * it, so condensing visits each record once and never scans the log.
  */
 import { parameter } from "./parameters";
 import type { CoreState, DecisionResult } from "./types";
@@ -18,10 +15,6 @@ registerWorldMapPart("core2-decision-detail-queue", queues);
 /** Condensed circle acts, to drop once older than circleActRetentionMonths. */
 const dropQueues = new WeakMap<CoreState, [string, string][]>();
 registerWorldMapPart("core2-decision-detail-drop-queue", dropQueues);
-
-/** The player's own routine acts, with their full scores, to condense once a year old. */
-const playerQueues = new WeakMap<CoreState, [string, string][]>();
-registerWorldMapPart("core2-decision-detail-player-queue", playerQueues);
 
 /** A kept act record with full reasons, to condense once it ages out. */
 export function queueDecisionDetail(
@@ -45,64 +38,39 @@ function involvesPlayer(
   );
 }
 
-/** The decision with only the chosen reasons: what the "why" view needs to name the choice. */
-function condenseDecision(core: CoreState, id: string): void {
-  const row = core.durableLog.get(id);
-  const decision = row?.decision;
-  if (!row || !decision?.scores) return;
-  const kept: Record<string, unknown> = {
-    actorId: decision.actorId,
-    date: decision.date,
-    reasonKey: decision.reasonKey,
-    selectedReasons: decision.selectedReasons,
-  };
-  const compact = (decision as { compactChoice?: unknown }).compactChoice;
-  if (compact !== undefined) kept.compactChoice = compact;
-  else kept.selected = decision.selected;
-  core.durableLog.set(row.id, {
-    ...row,
-    decision: kept as unknown as DecisionResult,
-  });
-}
-
-const daysAgo = (core: CoreState, days: number): string => {
-  const cutoff = new Date(`${core.date}T00:00:00Z`);
-  cutoff.setUTCDate(cutoff.getUTCDate() - days);
-  return cutoff.toISOString().slice(0, 10);
-};
-
 export function condenseCircleDecisions(core: CoreState): void {
   dropOldReceiptDetail(core);
   forgetOldExperiences(core);
-  condensePlayerDecisions(core);
   const queue = queues.get(core);
   if (!queue?.length) return dropOldCircleActs(core);
-  const before = daysAgo(
-    core,
-    parameter("circleDecisionDetailDays", core.data.parameters),
+  const cutoff = new Date(`${core.date}T00:00:00Z`);
+  cutoff.setUTCDate(
+    cutoff.getUTCDate() -
+      parameter("circleDecisionDetailDays", core.data.parameters),
   );
+  const before = cutoff.toISOString().slice(0, 10);
   let done = 0;
   while (done < queue.length && queue[done]![0] < before) {
     const row = core.durableLog.get(queue[done]![1]);
     done++;
-    if (!row) continue;
-    if (involvesPlayer(core, row)) {
-      // The player's own routine act keeps its scores a year longer; anything
-      // public or in the news, or an act by someone else, keeps its full record.
-      if (
-        row.kind === "person.acted" &&
-        row.actorId === core.playerId &&
-        !row.publicRecord &&
-        !row.news
-      ) {
-        let waiting = playerQueues.get(core);
-        if (!waiting) playerQueues.set(core, (waiting = []));
-        waiting.push([row.date, row.id]);
-      }
-      continue;
+    // Anything the player did or was part of keeps its full record.
+    if (!row || involvesPlayer(core, row)) continue;
+    const decision = row.decision;
+    if (decision && decision.actorId !== core.playerId && decision.scores) {
+      const kept: Record<string, unknown> = {
+        actorId: decision.actorId,
+        date: decision.date,
+        reasonKey: decision.reasonKey,
+        selectedReasons: decision.selectedReasons,
+      };
+      const compact = (decision as { compactChoice?: unknown }).compactChoice;
+      if (compact !== undefined) kept.compactChoice = compact;
+      else kept.selected = decision.selected;
+      core.durableLog.set(row.id, {
+        ...row,
+        decision: kept as unknown as DecisionResult,
+      });
     }
-    if (row.decision && row.decision.actorId !== core.playerId)
-      condenseDecision(core, row.id);
     if (row.kind === "person.acted" && !row.publicRecord && !row.news) {
       let drops = dropQueues.get(core);
       if (!drops) dropQueues.set(core, (drops = []));
@@ -111,22 +79,6 @@ export function condenseCircleDecisions(core: CoreState): void {
   }
   if (done) queue.splice(0, done);
   dropOldCircleActs(core);
-}
-
-/** The player's own routine decisions keep their summary and reasons after a year, not every option's score. */
-function condensePlayerDecisions(core: CoreState): void {
-  const waiting = playerQueues.get(core);
-  if (!waiting?.length) return;
-  const before = daysAgo(
-    core,
-    parameter("playerDecisionDetailDays", core.data.parameters),
-  );
-  let done = 0;
-  while (done < waiting.length && waiting[done]![0] < before) {
-    condenseDecision(core, waiting[done]![1]);
-    done++;
-  }
-  if (done) waiting.splice(0, done);
 }
 
 /**

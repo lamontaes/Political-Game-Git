@@ -43,7 +43,7 @@
       "source": "Model of flexible highway-to-transit funding (23 U.S.C. 104(f), FHWA flex funding)"
     },
     "us-policy-positions:health-human-services.expand-medicaid-eligibility": {
-      "mechanic": "medicaid-coverage",
+      "mechanic": "records",
       "effect": "medicaid-eligible",
       "kind": "eligibility",
       "people": {
@@ -92,7 +92,7 @@
       "stopgapId": "SG-GOV-REACH-B-assistance-benefits"
     },
     "us-policy-positions:education.universal-preschool": {
-      "mechanic": "preschool-payment",
+      "mechanic": "records",
       "effect": "preschool-eligible",
       "kind": "eligibility",
       "people": {

@@ -36,7 +36,6 @@ import type { LawRowInput } from "../laws-starting";
 import { LEGISLATURE_MODULE_ID, votesOn, type BillRow } from "./legislature";
 import { OFFICES_MODULE_ID, vacateSeat, type TermRow } from "./offices";
 import { turnoutOn } from "./voting";
-import recallBarData from "../data/campaigns/recall-bars.json" with { type: "json" };
 import { resolveMunicipalRecallRule } from "../gov-rules/municipal-ballot-rules";
 import { resolveRequiredSignatures } from "../gov-rules/municipal-election-rules";
 
@@ -143,40 +142,6 @@ function stateUsps(api: CoreAPI): string {
   return lawChain(api).stateKey.slice(3);
 }
 
-interface RecallBarRow {
-  readonly openingDays: number;
-  readonly longTermOpeningDays?: number;
-  readonly longTermAboveYears?: number;
-  readonly closingDays?: number;
-  readonly longTermClosingDays?: number;
-}
-
-/**
- * The state's bars on when a petition may be filed against a member whose
- * term is `termYears` long: days into the term before one may be, and days
- * before its end after which none may be. Null where the state's statute is
- * not read (SG-GOV-recall-bars-national): the national estimate stands.
- */
-export function recallBarsFor(
-  stateUsps: string,
-  termYears: number | undefined,
-): { openingDays: number; closingDays: number } | null {
-  const row = (recallBarData.states as Record<string, RecallBarRow>)[stateUsps];
-  if (!row) return null;
-  const long =
-    termYears !== undefined &&
-    row.longTermAboveYears !== undefined &&
-    termYears > row.longTermAboveYears;
-  return {
-    openingDays: long
-      ? (row.longTermOpeningDays ?? row.openingDays)
-      : row.openingDays,
-    closingDays: long
-      ? (row.longTermClosingDays ?? row.closingDays ?? 0)
-      : (row.closingDays ?? 0),
-  };
-}
-
 function townElectorate(api: CoreAPI, named: number): number {
   const population = Number(api.state.placeMetadata.referencePopulation);
   return Number.isFinite(population) && population > 0
@@ -234,9 +199,8 @@ function weighOrdinance(api: CoreAPI, event: Readonly<CoreEventInput>): void {
     // A member's committee and floor votes are one member to hold to account.
     if (!term || term.status !== "serving" || seen.has(term.id)) return [];
     seen.add(term.id);
-    // stopgapId: SG-GOV-recall-bars-national (states with no row in recall-bars.json take one national bar)
-    if (!recallBarsFor(stateUsps(api), undefined))
-      api.stopgap("SG-GOV-recall-bars-national");
+    // stopgapId: SG-GOV-recall-bars-national (one national bar for every state's statute)
+    api.stopgap("SG-GOV-recall-bars-national");
     // The term began one term's length before it ends (a term held at the
     // opening records the opening as its start).
     const years = (
@@ -249,16 +213,9 @@ function weighOrdinance(api: CoreAPI, event: Readonly<CoreEventInput>): void {
       term.endDate && years
         ? `${Number(term.endDate.slice(0, 4)) - years}${term.endDate.slice(4)}`
         : term.startDate;
-    const bars = recallBarsFor(stateUsps(api), years) ?? {
-      openingDays: campaignParameter("recallTermOpeningDays"),
-      closingDays: 0,
-    };
-    if (daysBetween(since, api.state.date) < bars.openingDays) return [];
-    // Some statutes also bar a petition in the last months of the term.
     if (
-      bars.closingDays &&
-      term.endDate &&
-      daysBetween(api.state.date, term.endDate) <= bars.closingDays
+      daysBetween(since, api.state.date) <
+      campaignParameter("recallTermOpeningDays")
     )
       return [];
     const prior = table(api).query("byTerm", [

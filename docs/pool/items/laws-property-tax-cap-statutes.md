@@ -5,12 +5,12 @@ area: laws
 kind: research
 priority: 2
 size: L
-status: open
-claimed-by:
+status: in-pr
+claimed-by: claude/political-game-pool-l9cym2-e
 pr: #5198
 blocked-on:
 source: "split from laws-stopgap-reach-group-b-faked-mechanic, Oct 16"
-claimed-at:
+claimed-at: 2026-10-19T22:01:14.190Z
 ---
 
 **What.** A yes or no catalog law about capping property-tax assessments still uses one generic, estimated assessment cap, not the statute (SG-GOV-REACH-B-property-tax-bills). Read each state's cap statute and record its size, what it covers, its exemptions and what resets it on a sale, as sourced rows in the reach data. The assessment and tax bill then apply the place's own terms, and a named owner's bill follows from them. This is research across the states with a cap law, so it is split by state group when claimed.

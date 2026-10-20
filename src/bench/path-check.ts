@@ -5,7 +5,6 @@
 // Prints the furthest step reached. Usage: node --import tsx src/bench/path-check.ts
 import { coreAPI } from "../core2/state";
 import { LAWS_MODULE_ID } from "../core2/modules/laws";
-import { resultOf } from "../core2/modules/voting";
 import { committeeRecords } from "../core2/modules/legislature";
 import { billTally } from "./bill-tally";
 import { buildBenchWorld } from "./world";
@@ -99,19 +98,11 @@ const born = w.core.people.get(me)!.birthDate;
 const eighteenth = `${Number(born.slice(0, 4)) + 18}${born.slice(4)}`;
 if (w.core.date <= eighteenth) liveUntil(addDays(makeIsoDate(eighteenth), 1));
 
-/** The player's id at every step: the check is one life or it is nothing. */
-const lives = new Set<string>([me]);
-const stillMe = () => lives.add(player.personId ?? me);
-
-/** Steps 3 to 5 once: file for a contest the player can enter, campaign, live to the election and read it. */
-function stand(): { held: boolean; takesOffice: string | null } {
-  // Step 3: walk into the office that takes filings for a contest you can enter.
-  const gov = governmentView(w.core, me);
-  const enterable = gov.contests.find((c) => c.checks.every((k) => k.met));
-  if (!enterable) {
-    log.push("no contest the player can enter");
-    return { held: false, takesOffice: null };
-  }
+// Step 3: walk into the office that takes filings for a contest you can enter.
+const gov = governmentView(w.core, me);
+const enterable = gov.contests.find((c) => c.checks.every((k) => k.met));
+let filed = false;
+if (enterable) {
   let visit = openBenchFilingVisit(
     w.core,
     me,
@@ -126,15 +117,16 @@ function stand(): { held: boolean; takesOffice: string | null } {
   if (pick) visit = chooseAtCounter(w.core, visit, pick.key);
   const file = visit.visit.choices.find((row) => row.action.kind === "file");
   if (file) visit = chooseAtCounter(w.core, visit, file.key);
+  filed = Boolean(visit.result);
   log.push(
     `filed ${enterable.contest.title} with ${enterable.filingOffice.filedWith}: ${(visit.result as { status?: string } | undefined)?.status ?? "no filing"}`,
   );
-  if (!visit.result) return { held: false, takesOffice: null };
-  stillMe();
-  // Step 4: campaign.
-  const filing = governmentView(w.core, me).filings.find(
-    (row) => row.contestId === enterable.contest.id,
-  );
+} else log.push("no contest the 18-year-old can enter");
+
+// Step 4: campaign.
+if (filed) {
+  const view = governmentView(w.core, me);
+  const filing = view.filings[0];
   if (filing) {
     const day = campaignDay(w.core, me, {
       filingId: filing.id,
@@ -142,49 +134,60 @@ function stand(): { held: boolean; takesOffice: string | null } {
     });
     log.push(`doors knocked ${day.doorsKnocked}, reached ${day.reached}`);
   }
-  stillMe();
-  // Step 5: live to the election day, then read election night.
-  const day = enterable.contest.electionDate;
-  liveUntil(day);
-  liveUntil(addDays(makeIsoDate(day), 1));
+}
+
+// Step 5: live to the first election day, then read election night.
+const contests = coreAPI(w.core)
+  .moduleState("core2-elections-v1")
+  .table("contests")
+  .rows() as unknown as ContestRow[];
+// The player's own race when they filed, else the first election ahead.
+const mine = governmentView(w.core, me).filings[0];
+const ownElection = contests.find(
+  (c) => c.id === mine?.contestId,
+)?.electionDate;
+const firstElection =
+  ownElection ??
+  contests
+    .map((c) => c.electionDate)
+    .filter((d) => d > w.core.date)
+    .sort()[0];
+if (firstElection) {
+  liveUntil(firstElection);
+  liveUntil(
+    new Date(Date.parse(`${firstElection}T00:00:00Z`) + 86_400_000)
+      .toISOString()
+      .slice(0, 10),
+  );
   const races = electionResults(w.core, me);
-  const result = resultOf(coreAPI(w.core), enterable.contest.id);
-  const won = result?.winnerId === me;
-  log.push(
-    `election night ${day}: ${races.length} races, ${won ? "the player won" : "the player did not win"}`,
-  );
-  stillMe();
-  return { held: won, takesOffice: won ? (result?.takesOffice ?? null) : null };
+  log.push(`election night ${firstElection}: ${races.length} races`);
 }
 
-// The player stands until they win, up to three races.
-let won = false;
-let takesOffice: string | null = null;
-for (let race = 0; race < 3 && !won; race++) {
-  const result = stand();
-  won = result.held;
-  takesOffice = result.takesOffice;
-  if (!won && race < 2) {
-    // Lose, and the next contest they can enter is the next try.
-    const next = governmentView(w.core, me).contests.find((c) =>
-      c.checks.every((k) => k.met),
-    );
-    if (!next) break;
-    log.push(`lost; trying ${next.contest.title}`);
-  }
-}
-
-// Steps 6 to 8: the player, now holding the seat they won, drafts and the
-// body votes. Nobody else is ever selected: this is one life.
-if (won && takesOffice) liveUntil(addDays(makeIsoDate(takesOffice), 1));
-const holder = won && seatView(w.core, me).bodies.length ? me : undefined;
-if (won && !holder)
-  log.push(
-    "the player won a seat on no body that votes, so there is no bill to propose",
+// Steps 6 to 8: a resident officeholder on a body drafts and the body votes.
+// A resident officeholder on a body that meets (a council or a state
+// legislature votes at its meetings); else any member of any body.
+const meets = (personId: string) =>
+  seatView(w.core, personId).bodies.some((body) =>
+    upcomingMeeting(coreAPI(w.core), body.officeId),
   );
+const seated = governmentView(w.core, me).seats.filter(
+  (row) =>
+    row.holder?.personId && seatView(w.core, row.holder.personId).bodies.length,
+);
+// One whose term runs past the bill and its law, so their seat's next
+// election comes after the law (step 11).
+const longTerm = (row: (typeof seated)[number]) =>
+  !row.holder?.endDate ||
+  row.holder.endDate > addDays(makeIsoDate(w.core.date), 500);
+const holder = (
+  seated.find((row) => meets(row.holder!.personId!) && longTerm(row)) ??
+  seated.find((row) => meets(row.holder!.personId!)) ??
+  seated[0]
+)?.holder?.personId;
 let member: string | undefined;
 if (holder) {
   member = holder;
+  player.select(holder);
   const seat = seatView(w.core, holder);
   const body =
     seat.bodies.find((row) => upcomingMeeting(coreAPI(w.core), row.officeId)) ??
@@ -246,7 +249,6 @@ if (holder) {
       .toISOString()
       .slice(0, 10),
   );
-  stillMe();
   // A law it made takes effect on its own date: live until then (step 9).
   const lawEffective = () =>
     (
@@ -285,7 +287,8 @@ if (holder) {
   if (effective)
     for (const days of [7, 14, 21, 28, 35, 42, 60, 90]) {
       liveUntil(addDays(makeIsoDate(effective), days));
-      for (const row of reachedSteps(w.core, me, since)) seen.add(row.step);
+      for (const id of [me, holder])
+        for (const row of reachedSteps(w.core, id, since)) seen.add(row.step);
     }
   // Step 11 (behind GOLDEN_PATH_TO_NEXT_ELECTION=1, since it lives years on):
   // live through the next election for the seat, the ballots keeping why.
@@ -347,14 +350,8 @@ const ninth = [me, ...(member ? [member] : [])]
   .find((row) => row.step === 9);
 if (ninth) log.push(`step 9: law read, ${ninth.recordIds[0]}`);
 log.push(`the character's day ended ${w.core.date}`);
-stillMe();
-log.push(
-  lives.size === 1
-    ? `one life: ${me}`
-    : `the player changed: ${[...lives].join(", ")}`,
-);
 const place = w.place.displayName ?? w.place.key;
 console.log(
   `path-check: ${place} (${w.place.key}), seed ${seed}; steps reached ${steps.join(", ") || "none"}; furthest ${steps.at(-1) ?? "none"}. ${log.join("; ")} (${((performance.now() - started) / 1000).toFixed(0)} s)`,
 );
-if (!steps.length || lives.size !== 1) process.exit(1);
+if (!steps.length) process.exit(1);

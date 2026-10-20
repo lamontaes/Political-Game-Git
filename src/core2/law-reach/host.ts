@@ -78,27 +78,8 @@ export function openLawReach(core: CoreState): void {
           value: String(row.value),
         },
       } as unknown as CoreEventInput);
-    // A benefit the law pays whatever its amount is paid from the first day.
-    for (const series of STANDING_BENEFITS)
-      if (keys.has(series))
-        runHandlers(api, {
-          id: `law-in-force:${series}`,
-          date: core.date,
-          kind: "law-took-effect",
-          personIds: [],
-          placeId: town,
-          source: {
-            tag: "SOURCED",
-            citation: `Law in force at the opening (${series})`,
-            asOf: core.date,
-          },
-          facts: { lawId: "", series, level: "federal", jurisdiction: "" },
-        } as unknown as CoreEventInput);
   }
 }
-
-/** Law series whose amount, not a yes or no, sets a benefit that is paid from the opening. */
-const STANDING_BENEFITS: readonly string[] = ["snap-maximum"];
 
 /**
  * Whether a policy is law for the town on a date: any level of its chain

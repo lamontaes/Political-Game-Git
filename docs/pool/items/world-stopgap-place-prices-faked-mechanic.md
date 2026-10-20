@@ -4,13 +4,13 @@ title: "Stopgaps in place-prices (faked-mechanic): 2 open"
 area: world
 kind: stopgap
 priority: 2
-status: open
-claimed-by:
+status: in-pr
+claimed-by: claude/place-prices-stopgaps
 pr: #5190
 blocked-on:
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/modules/place-prices.ts, kind faked-mechanic"
-claimed-at:
+claimed-at: 2026-10-19T22:06:25.470Z
 ---
 
 **What.** The stopgap row(s) SG-GOV-REACH-B-retail-price, SG-WORLD-prices-household-shares in src/core2/modules/place-prices.ts mark a shortcut that is still live in play. Today the price engine charges container deposits to households under the live law, but container use and redemption still use household estimates rather than each person's purchases and returns, and a retail price law uses a stand-in. The row stays open until the real mechanic replaces the fake, or the feature that needs the fake is deleted. This item replaces it and clears the row in src/core2/data/stopgaps.json.
@@ -22,5 +22,3 @@ claimed-at:
 **Files.** src/core2/modules/place-prices.ts, src/core2/data/stopgaps.json, src/core2/place-prices.test.ts
 
 **Notes.** First row: The price engine charges container deposits to full and counted households under the live law. Container use and redemption still use household estimates rather than each person's purchases and return decision.
-
-Sent back 2026-10-20 from PR #5190 (branch claude/place-prices-stopgaps): merging main conflicts in src/core2/modules/place-prices.ts and data/content/trait-decisions.json (regenerate trait-coverage.json with scripts/traits/trait-coverage.ts after); finish on that branch, merge main into it first.

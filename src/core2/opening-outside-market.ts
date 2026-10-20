@@ -51,28 +51,6 @@ export function outsideMarketAccount(
         "Customers and suppliers outside the town: nonresident consumers, outside businesses, landlords and lenders, and government programs.",
       estimatedFrom: "src/core2/data/outside-market.json",
     },
-    // The account is a recorded owner of its place's outside pay: a worker whose
-    // employer is the outside account is paid from it against an exact due record
-    // (public-work-pay.ts reads this authority and refuses any employer without one).
-    governmentFacts: {
-      governmentKind: "jurisdiction",
-      governmentJurisdictionId: placeId,
-    },
-    publicPayAuthority: {
-      id: `outside-pay:${placeId}`,
-      ownerId: `outside-market:${placeId}`,
-      governmentKey: `jurisdiction:${placeId}`,
-      jurisdictionId: placeId,
-      workCommitmentIds: [],
-      basisRecordIds: [`outside-market:${placeId}`],
-      source: {
-        tag: "ESTIMATED",
-        asOf: start,
-        citation:
-          "The place's outside account pays wages of employers outside the town against dated due records; it holds no cash of its own.",
-        estimatedFrom: "src/core2/data/outside-market.json",
-      },
-    },
     source: {
       tag: "ESTIMATED",
       asOf: start,

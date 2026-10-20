@@ -5,7 +5,7 @@ area: gov
 kind: bug
 priority: 2
 size: S
-status: done
+status: in-pr
 claimed-by: claude/corruption-falling-out
 pr: #5687
 blocked-on:

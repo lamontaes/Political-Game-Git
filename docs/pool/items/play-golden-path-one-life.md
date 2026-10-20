@@ -5,7 +5,7 @@ area: play
 kind: wiring
 priority: 1
 size: M
-status: done
+status: in-pr
 claimed-by: claude/golden-path-one-life
 pr: #5141
 after:

@@ -67,8 +67,6 @@
   "campaignOutings": {
     "doors": "Knock on doors",
     "calls": "Call donors",
-    "event": "Hold an event",
-    "interview": "Ask for an interview",
     "hours": "hours"
   },
   "venues": {

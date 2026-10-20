@@ -4,13 +4,13 @@ title: "Scene narration (scene-words.json), then people bringing things up (brin
 area: words
 kind: feature
 priority: 2
-status: in-pr
-claimed-by: claude/political-game-pool-yucp92-bo
-pr: #5706
-blocked-on: words: the merger accepts edits under src/director and data/english only from the Words session; the CTO must confirm a non-Words branch or hand this to the Words line (merger comment, Oct 20)
+status: open
+claimed-by:
+pr: #5233
+blocked-on:
 milestone:
 source: "docs/coordination/words.md line 34 (unchecked checklist line)"
-claimed-at: 2026-10-20T14:06:30.016Z
+claimed-at:
 ---
 
 **What.** Scene narration is thin: `data/english/parts/scene-words.json` has few setting lines, `bring-it-up.json` lacks the rows for many subjects, and news headlines and the names of choices, stance questions and actions still show as record keys (the News screen reads 'election-result · office: Commissioner · winner: ...'). Mine and author scene narration first, then the bring-it-up rows, then headlines (from `headlines.json` and `news.json`) and choice names, and have composeScene, bringItUp and the news writer read them. The player would notice scenes that describe where he is, neighbors who bring things up and headlines instead of keys.

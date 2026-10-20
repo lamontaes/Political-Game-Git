@@ -503,54 +503,6 @@ function evictionSubjects(
   return out;
 }
 
-/**
- * The justice engine's events a person can talk about, by the ledger label
- * of the moment they made and the subject each is told as.
- */
-const JUSTICE_SUBJECTS: Readonly<Record<string, string>> = {
-  "feeling:event:justice.charged": "charge",
-  "feeling:event:justice.convicted": "conviction",
-  "feeling:event:justice.acquitted": "acquittal",
-};
-
-/**
- * A charge, a conviction or an acquittal as the speaker can tell it: their
- * own ledger's moment of it, or the listener's moment that names them as the
- * accused (the record is the case's). A case is told by its newest event, so
- * a verdict stands in for the charge that came before it.
- */
-function justiceSubjects(
-  core: Readonly<CoreState>,
-  director: Director | undefined,
-  speakerId: PersonId,
-  listenerId: PersonId,
-): Subject[] {
-  const moments = [
-    ...recentMoments(core, director, speakerId).filter(
-      (moment) => !moment.counterpartIds.length,
-    ),
-    ...recentMoments(core, director, listenerId).filter((moment) =>
-      moment.counterpartIds.includes(speakerId),
-    ),
-  ].filter((moment) => JUSTICE_SUBJECTS[moment.label]);
-  const told = new Set<string>();
-  const out: Subject[] = [];
-  for (const moment of moments) {
-    const caseId = moment.causeId.slice(moment.causeId.indexOf(":") + one);
-    if (told.has(caseId)) continue;
-    told.add(caseId);
-    out.push({
-      id: `${JUSTICE_SUBJECTS[moment.label]}:${moment.causeId}`,
-      kind: JUSTICE_SUBJECTS[moment.label]!,
-      aboutId: moment.causeId,
-      facts: {
-        case: { text: "", sourceRecordIds: [moment.causeId, caseId] },
-      },
-    });
-  }
-  return out;
-}
-
 /** How a person is related to each relative, by the family record that says so. */
 function relationsOf(
   person: Readonly<PersonState>,
@@ -647,7 +599,6 @@ export function subjectsBetween(
     }
   }
   out.push(...evictionSubjects(core, director, speakerId, listenerId));
-  out.push(...justiceSubjects(core, director, speakerId, listenerId));
   const theirs = jobOf(core, listener);
   if (!mine || theirs?.org.id !== mine.org.id)
     out.push({ id: `their-work:${listenerId}`, kind: "their-work", facts: {} });

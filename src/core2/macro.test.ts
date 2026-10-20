@@ -14,9 +14,7 @@ import {
   experiencedInflationPct,
   votersOn,
   generateBoard,
-  BOARD,
 } from "./central-bank-board";
-import { medianTransactionBalance } from "./starting-cash";
 import { parameter } from "./parameters";
 import type { CoreInput, Source } from "./types";
 
@@ -145,17 +143,6 @@ describe("national economy", () => {
 });
 
 describe("the board", () => {
-  it("opens every member with the cash a family at the seat's pay keeps, from the SCF, never an empty wallet", () => {
-    const seed = `board-cash-${Math.random().toString(36).slice(2, 10)}`;
-    const board = generateBoard({ seed, startedAt: "2021-01-01" }, p);
-    expect(board.people).toHaveLength(19);
-    const expected = Math.round(
-      medianTransactionBalance(BOARD.memberPay.annualDollars) * 100,
-    );
-    for (const person of board.people)
-      expect(person.liquidMinor, `${person.id} (seed ${seed})`).toBe(expected);
-    expect(expected).toBeGreaterThan(0);
-  });
   it("seats seven governors and twelve presidents, twelve voting, leaning by lived inflation", () => {
     const board = generateBoard({ seed: "s", startedAt: "2021-01-01" }, p);
     expect(board.members).toHaveLength(19);

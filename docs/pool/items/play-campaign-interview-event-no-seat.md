@@ -5,7 +5,7 @@ area: play
 kind: feature
 priority: 2
 size: M
-status: done
+status: in-pr
 claimed-by: claude/play-campaign-interview-event-no-seat
 pr: #5674
 blocked-on:

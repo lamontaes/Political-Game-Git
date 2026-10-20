@@ -35,8 +35,6 @@ export interface CountedVoter {
   readonly traits: Readonly<Record<string, number>>;
   /** Scheduled weekly work, from their recorded commitments. */
   readonly weeklyMinutes: number;
-  /** The highest hourly pay of their open work commitments; zero with no work. */
-  readonly hourlyMinor: number;
   /** Real voters this record stands for (its household's weight; one where the town opened at its own count). */
   readonly weight: number;
 }
@@ -75,18 +73,12 @@ export function countedResidents(core: CoreState): readonly CountedVoter[] {
     const store = rt.store;
     for (const h of store.liveHouseholds()) {
       const minutes = new Map<string, number>();
-      const hourly = new Map<string, number>();
-      for (const c of h.workCommitments) {
-        if (c.endsAt !== undefined && c.endsAt <= core.date) continue;
-        minutes.set(
-          c.personId,
-          (minutes.get(c.personId) ?? 0) + c.expectedWeeklyMinutes,
-        );
-        hourly.set(
-          c.personId,
-          Math.max(hourly.get(c.personId) ?? 0, c.hourlyMinor),
-        );
-      }
+      for (const c of h.workCommitments)
+        if (c.endsAt === undefined || c.endsAt > core.date)
+          minutes.set(
+            c.personId,
+            (minutes.get(c.personId) ?? 0) + c.expectedWeeklyMinutes,
+          );
       for (const m of store.countedMembers(h)) {
         const id = store.ids[m]!;
         // A full person returned to the counts votes as counted.
@@ -98,7 +90,6 @@ export function countedResidents(core: CoreState): readonly CountedVoter[] {
           placeId: store.text(store.placeIx[m]!)!,
           traits: store.packedTraits(m),
           weeklyMinutes: minutes.get(id) ?? 0,
-          hourlyMinor: hourly.get(id) ?? 0,
           weight: store.weightOf(h),
         });
       }

@@ -16,12 +16,7 @@ import { openElections } from "./modules/elections";
 import { openCampaigns } from "./modules/campaigns";
 import { openRecord } from "./modules/record";
 import { draftBill, holdVote, openLegislature } from "./modules/legislature";
-import {
-  openRecalls,
-  recallBarsFor,
-  recallRule,
-  recallsOf,
-} from "./modules/recalls";
+import { openRecalls, recallRule, recallsOf } from "./modules/recalls";
 import { personStance, PLATFORM_QUESTIONS } from "./campaign-views";
 import { governmentUnitsForPlace } from "./reference/government-units";
 import { searchCorePlaces, corePlaceStateIdentities } from "./place-lookup";
@@ -163,36 +158,4 @@ describe("M3-10 recalls", () => {
     expect(report, `no recall started in ${tried.join("; ")}`).not.toBeNull();
     govReport("recalls", JSON.stringify(report));
   }, 300_000);
-});
-
-describe("each state's recall timing bars", () => {
-  it("come from the state's row, with the national estimate only where none is read", () => {
-    expect(recallBarsFor("CA", 4)).toEqual({
-      openingDays: 90,
-      closingDays: 182,
-    });
-    expect(recallBarsFor("KS", 4)).toEqual({
-      openingDays: 120,
-      closingDays: 180,
-    });
-    // Michigan counts a term of more than two years in whole years.
-    expect(recallBarsFor("MI", 2)).toEqual({
-      openingDays: 182,
-      closingDays: 182,
-    });
-    expect(recallBarsFor("MI", 4)).toEqual({
-      openingDays: 365,
-      closingDays: 365,
-    });
-    expect(recallBarsFor("WI", 4)).toEqual({
-      openingDays: 365,
-      closingDays: 0,
-    });
-    expect(recallBarsFor("NJ", 3)).toEqual({
-      openingDays: 315,
-      closingDays: 0,
-    });
-    // A state whose statute is unread has no row, so no state bar is invented.
-    expect(recallBarsFor("NC", 4)).toBeNull();
-  });
 });

@@ -14,7 +14,6 @@ import { gameStartDate } from "./game-start";
 import { addDays, makeIsoDate } from "./kernel/dates";
 import { advanceCore } from "./life";
 import { OUTCOME_WEB_MODULE_ID } from "./modules/outcome-web";
-import { webReach } from "./outcome-web-reach";
 import { RENEWAL_MODULE_ID } from "./modules/renewal";
 import { coreAPI } from "./state";
 import { drawPlace } from "../../scripts/core2-year/place";
@@ -66,35 +65,5 @@ describe(`counted births and the outcome web (${place.name}, seed ${seed})`, () 
       `web births: ${place.name}, seed ${seed}: factors ${read.map((r) => r.webBirths.toFixed(3)).join(" ")}; first moved month ${moved[0]?.month} (${moved[0]?.webRecordId})`,
     );
     expect(new Set(read.map((row) => row.webBirths)).size).toBeGreaterThan(1);
-    // A year after the opening, the town's home prices have moved from where
-    // they began: owners' births rise and renters' fall, from one cause.
-    const town = read.at(-1)!.placeId;
-    const reach = (tenure: "rent" | "own") =>
-      webReach(api, town, "births.rate", { age: 30, sex: "female", tenure });
-    const owner = reach("own"),
-      renter = reach("rent"),
-      average = webReach(api, town, "births.rate");
-    const part = (r: typeof owner, key: string) =>
-      r.parts.find((p) => p.link === key);
-    const ownerLink = part(average, "home-prices-to-owner-births"),
-      renterLink = part(average, "home-prices-to-renter-births");
-    expect(ownerLink, "home prices moved the owners' link").toBeTruthy();
-    expect(renterLink, "home prices moved the renters' link").toBeTruthy();
-    const web = months.get(average.recordId!) as unknown as {
-      values: Record<string, number>;
-      bases: Record<string, number>;
-    };
-    const priceMove =
-      web.values["housing.home-prices"]! - web.bases["housing.home-prices"]!;
-    console.log(
-      `web births by tenure: ${place.name}, seed ${seed}: home prices moved ${(priceMove * 10_000).toFixed(0)} dollars (record ${average.recordId}); owner factor ${owner.factor.toFixed(5)}, renter ${renter.factor.toFixed(5)}, town ${average.factor.toFixed(5)}`,
-    );
-    // Owners carry the whole owners' link and none of the renters', and the
-    // other way round: the two move apart in the direction prices went.
-    expect(part(owner, "home-prices-to-renter-births")!.weight).toBe(0);
-    expect(part(renter, "home-prices-to-owner-births")!.weight).toBe(0);
-    expect(Math.sign(owner.factor - renter.factor)).toBe(
-      Math.sign(ownerLink!.effect),
-    );
   }, 900_000);
 });

@@ -5,12 +5,11 @@ area: play
 kind: bug
 priority: 3
 size: S
-status: blocked
-claimed-by: claude/event-platform-stance
+status: open
+claimed-by:
 pr:
-blocked-on: PR #5549 deletes the Today list, including the Hold an event control this bug is about; a stance now comes from the speech builder. If #5549 merges the bug closes; if the owner wants events back, they come as a scene that asks for a stance first
+blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-20T13:41:41.135Z
 ---
 
 **What.** In the Oct 20 browser run (PR 5680) Hold an event was disabled for a candidate who filed with an empty platform, because campaignDayChoices requires at least one platform stance and venue cash. The screen shows a greyed control with no reason. Decide whether an event should need a stance at all (Political Process baseline: check docs/roadmap/political-process-baseline.md and DECISION-REGISTER.md first), and if it does, let the player set a stance from the Campaigns screen or word why the control is off.

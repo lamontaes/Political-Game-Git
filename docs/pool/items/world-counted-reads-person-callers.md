@@ -5,12 +5,12 @@ area: world
 kind: wiring
 priority: 2
 size: M
-status: open
-claimed-by:
+status: in-pr
+claimed-by: claude/political-game-pool-76ksvw
 pr: #5080
 blocked-on:
 source: added with npm run pool -- add
-claimed-at:
+claimed-at: 2026-10-20T05:12:15.527Z
 ---
 
 **What.** `residentPerson` and `store.peopleOf` still build a person record from a counted group's packed columns for 17 callers: `jobs.ts` (8), `jobs-benefits.ts` (2), `employer-taxes.ts` (2), `business.ts`, `candidacy.ts`, `credit.ts` (also `peopleOf`), `state.ts` (2) and `world-metrics.ts` (`householdOfPerson`). Each reads only a placeId, traits or a living cost, which the group already holds. Make each read the group (`reachOf`, group fields) the way the done counted-reads items did for their own lanes, so nothing but fill-in builds a counted person.
@@ -24,5 +24,3 @@ claimed-at:
 **Notes.** Sent back Oct 20 from PR #5080 (branch claude/political-game-pool-8defjq): src/core2/counted-facts-year.test.ts failed with 'Actual customer public owner coverage record is missing' during 365-day run; finish on that branch, merge main into it first.
 
 Found taking core-counted-views-delete: its prerequisite items are done but these callers remain, and they sit in other areas, so the core session cannot delete the views until they move. The candidacy caller may need a government-area session.
-
-Sent back 2026-10-20 from PR #5080 (branch claude/political-game-pool-8defjq): merging main still conflicts in scripts/health/mortality-band.ts and src/core2/player-money-year.test.ts; finish on that branch, merge main into it first.

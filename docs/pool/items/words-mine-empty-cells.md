@@ -4,13 +4,13 @@ title: "Order 3: mine the empty cells of the coverage table"
 area: words
 kind: research
 priority: 2
-status: in-pr
-claimed-by: claude/political-game-pool-yucp92-bm
-pr: #5701
+status: open
+claimed-by:
+pr: #5187
 blocked-on:
 milestone:
 source: "words-and-director order 3"
-claimed-at: 2026-10-20T13:48:50.832Z
+claimed-at:
 ---
 
 **What.** The coverage table (`docs/grading/coverage.md`, built by `npm run words:coverage`) has empty or thin cells in golden-path order, meaning situations the records fire that have no words. For each, add a shape in `scripts/english-corpus/shapes/`, run the mining, write the bank script and its test. First targets: a town body's words to its chair, a chair's hearing questions, what a body says of an official's service, boasts, threats and alarms, a wedding and a pork-barrel ask. The player would notice those moments being spoken instead of silent or generic.

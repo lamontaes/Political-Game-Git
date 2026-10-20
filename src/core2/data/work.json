@@ -280,14 +280,7 @@
     "emotion": {
       "moodMultiplierParameter": "negativeOne",
       "stressMultiplierParameter": "one"
-    },
-    "reasonBindings": [
-      {
-        "id": "own-illness",
-        "provider": "work.own-illness",
-        "weightParameter": "workAbsenceIllnessWeight"
-      }
-    ]
+    }
   },
   "sleepReserveParameter": "workSleepReserveHours",
   "commitmentUrgencyParameter": "workCommitmentUrgency",

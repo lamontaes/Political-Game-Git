@@ -5,7 +5,7 @@ area: core
 kind: wiring
 priority: 3
 size: S
-status: open
+status: in-pr
 claimed-by:
 pr: #4978
 blocked-on:
@@ -25,5 +25,3 @@ claimed-at:
 
 Done Oct 17 (claude, PR 4897): the `states` table is deleted with its writer; the regional economy reads the same figures from the engine's running totals (`rt.totals`), and nothing read the table. The `moves` and `pulls` tables stay: `countedMoves` and `countedPull` are the answer to why a counted household moved and what pulled its group, and are read by `scripts/core2-year/one-model-proof.mjs` and the engine's tests; no screen reads them yet, so the PR body asks the CTO whether the trace should count a proof script as a reader.
 Sent back 2026-10-17 from PR #4978 (branch claude/counted-moves-unread-tables): The new bookkeeping-only move ledger breaks the counted-town regression now merged on main (#4877): counted-moves-town.test.ts explicitly disables bookkeeping, reads countedMoves(...), and requires a recorded departure. record() now returns before writing every such row. Update that ledger consumer to enable bookkeeping while preserving its departure assertions, and audit the other direct move-ledger consumers for the same mismatch before merging main and rerunning changed-file checks.; finish on that branch, merge main into it first.
-
-Sent back 2026-10-20 from PR #4978 (branch claude/counted-moves-unread-tables): merging main still conflicts in src/core2/modules/counted-moves.ts; finish on that branch, merge main into it first.

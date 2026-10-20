@@ -5,7 +5,7 @@ area: core
 kind: bug
 priority: 3
 size: S
-status: done
+status: in-pr
 claimed-by: claude/speed-temperaments
 pr: #5412
 blocked-on:

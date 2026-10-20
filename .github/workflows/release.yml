@@ -3,11 +3,6 @@ name: Release
 on:
   push:
     branches: [main]
-    # A commit that touches only the pool (a claim, a status change, an add)
-    # changes no code or declaration, so it starts no run to be cancelled by
-    # the next one. A push that also changes anything else still runs.
-    paths-ignore:
-      - "docs/pool/**"
   # Manual final drain for a release candidate that lost a main fast-forward
   # race and had no later merge to trigger another run.
   workflow_dispatch:

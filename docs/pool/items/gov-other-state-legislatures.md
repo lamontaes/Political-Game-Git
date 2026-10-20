@@ -5,7 +5,7 @@ area: gov
 kind: feature
 priority: 3
 size: L
-status: done
+status: in-pr
 claimed-by: claude/state-legislature-seats
 pr: #5277
 blocked-on:

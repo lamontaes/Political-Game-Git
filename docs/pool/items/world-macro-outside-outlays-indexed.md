@@ -25,5 +25,3 @@ claimed-at: 2026-10-20T02:00:59.251Z
 **Notes.** Found by the GLM 5.3 trial on branch trial/glm/federal-dollar (#4990). Waits on world-macro-federal-dollar-finish so the chain it extends is on main first.
 
 Released Oct 20 (claude): the chain this extends (world-macro-federal-dollar-finish, PR #4990) is not on main and `macroFederalOutlayResponseBand` does not exist in src/core2/data/macro/parameters.json yet; build after #4990 merges.
-
-Checked Oct 19 (claude): every stopgap row this item names is already resolved in src/core2/data/stopgaps.json: SG-WORLD-macro-public-budget is resolved in stopgaps.json (Resolved Oct 16 (owner ruling, no fiscal multiplier): the macro engine carries no budget impulse or multiplier. A public dollar moves output...). The CTO can drop this item.

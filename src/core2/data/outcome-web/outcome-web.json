@@ -123,13 +123,14 @@
       }
     },
     "housing.rent": {
-      "scale": "index",
-      "unit": "index, 100 at the place's own starting rents (the housing engine's leases); the links move it proportionally and the engine renews each lease by the change",
+      "scale": "level",
+      "unit": "median gross rent, dollars a month",
+      "national": 1406,
       "source": {
         "tag": "ESTIMATED",
         "asOf": "2023-12-31",
-        "citation": "U.S. Census Bureau, American Community Survey 2023 1-year estimates, table B25064, median gross rent (national $1,406 a month).",
-        "estimatedFrom": "Each place starts at its own rents, which the housing engine records on its leases; the web holds only the proportional change its links put on them, so no national dollar level stands in for a place's rent."
+        "citation": "U.S. Census Bureau, American Community Survey 2023 1-year estimates, table B25064, median gross rent, United States (as listed in the Hawaii DBEDT databook, https://files.hawaii.gov/dbedt/economic/databook/2023-individual/14/140823.pdf).",
+        "estimatedFrom": "The national 2023 median; Every place starts from the national figure; no place-level series is recorded, so each starts at the national level and the web moves it from there."
       }
     },
     "justice.federal-incarcerated-per-100k": {
@@ -246,18 +247,11 @@
       "field": "rentToEarnings",
       "unitScale": 100
     },
-    "housing.eviction-orders": {
+    "housing.eviction": {
       "owner": "OPUS-WORLD",
-      "record": "world-metrics months.evictionOrdersLastMonth (the housing engine's judgments in the month before): the engine's own records, read by links that start from evictions; the kept housing.eviction is only the factor the engine applies",
+      "record": "world-metrics months.evictionOrdersLastMonth (the housing engine's judgments in the month before)",
       "field": "evictionOrdersLastMonth",
       "unitScale": 1
-    },
-    "housing.property-tax-rate": {
-      "owner": "OPUS-WORLD",
-      "record": "the property tax rate in force for the town (the budgets module's law row the housing engine bills owners by), as a percent of home value",
-      "reader": "property-tax-rate",
-      "field": "",
-      "unitScale": 100
     }
   },
   "measureOwners": {

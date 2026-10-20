@@ -4,7 +4,7 @@ title: "Stopgaps in budgets (missing-engine): 1 open"
 area: gov
 kind: stopgap
 priority: 3
-status: done
+status: in-pr
 claimed-by: claude/budget-adoption-narrow
 pr: #5376
 blocked-on:

@@ -6,7 +6,7 @@
  */
 import { countedPayment } from "./counted-money";
 import { RESIDENTS_KIND } from "./residents";
-import type { CoreAPI, CoreState, PersonId, Source } from "./types";
+import type { CoreAPI, CoreState, Source } from "./types";
 
 /** Moves `amountMinor` from one owner's cash to another's; never more than the payer holds. */
 export function transferCash(
@@ -16,8 +16,6 @@ export function transferCash(
   toOwnerId: string,
   amountMinor: number,
   source: Source,
-  /** The counted person or household the money is for, so their group's account takes it, not the place's groups by their people. */
-  counted: { personId?: PersonId; householdId?: string } = {},
 ): number {
   const amount = Math.floor(amountMinor);
   if (!(amount > 0)) return 0;
@@ -34,7 +32,6 @@ export function transferCash(
       amountMinor: from?.kind === RESIDENTS_KIND ? amount : -amount,
       reasonKey: id.split(":")[0]!,
       source,
-      ...counted,
     });
   const accounts = api.accounts();
   return accounts.transfer({

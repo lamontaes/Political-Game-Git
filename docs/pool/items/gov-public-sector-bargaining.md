@@ -5,7 +5,7 @@ area: gov
 kind: feature
 priority: 2
 size: L
-status: in-pr
+status: claimed
 claimed-by: claude/public-bargaining
 pr: #5415
 blocked-on:

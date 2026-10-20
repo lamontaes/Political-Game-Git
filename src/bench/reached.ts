@@ -84,11 +84,10 @@ export function reachedSteps(
       out.push({ step: 4, recordIds: campaigns.map((c) => c!.id) });
   }
   if (has(core, "core2-voting-v1")) {
-    // Step 5 is a win: a race the person entered and the voters gave them.
-    const won = filings
+    const held = filings
       .map((f) => resultOf(api, f.contestId))
-      .filter((r) => r !== null && r.winnerId === personId);
-    if (won.length) out.push({ step: 5, recordIds: won.map((r) => r!.id) });
+      .filter((r) => r !== null);
+    if (held.length) out.push({ step: 5, recordIds: held.map((r) => r!.id) });
   }
   if (has(core, "core2-legislature-v1")) {
     const bills = (

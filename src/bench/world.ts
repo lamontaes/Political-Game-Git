@@ -298,8 +298,7 @@ function* benchWorldStages(
     // flows, and the core's stand-in owner payouts come off. People it adds
     // (the central bank's board) are named officials and stay full people.
     opening = scaleOutsideSales(
-      // A town opened at its Census size sells to the outside as much more as its firms are bigger.
-      (settings.economy?.outsideDemand ?? 1) * (options.countScale ?? 1),
+      settings.economy?.outsideDemand ?? 1,
       withWorldEconomy(
         collapseToTwoLevels(economy, {
           keep: kept,

@@ -5,12 +5,12 @@ area: gov
 kind: research
 priority: 3
 size: M
-status: done
-claimed-by: claude/fs11vb-ldr
-pr: #5360
+status: in-pr
+claimed-by: claude/tender-mendel-ijzjo8
+pr: #5352
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-20T14:31:04.502Z
+claimed-at: 2026-10-20T00:45:30.808Z
 ---
 
 **What.** TODO
@@ -22,5 +22,3 @@ claimed-at: 2026-10-20T14:31:04.502Z
 **Files.** TODO
 
 **Notes.** TODO
-
-Sent back 2026-10-20 from PR #5352 (branch claude/tender-mendel-ijzjo8): merging main conflicts in src/core2/modules/world-races.ts; finish on that branch, merge main into it first.

@@ -260,9 +260,6 @@ function guardedRecord<T extends object>(
   raw: T,
   u: Units,
 ): T {
-  // Play reads the record as it is; the copy exists for the read guard that
-  // tests and the bench run with bookkeeping on.
-  if (!bookkeeping()) return raw;
   r.payload(raw, u.zero, u.one);
   const result = Object.create(null) as Record<PropertyKey, unknown>;
   for (const key of r.keys(raw))

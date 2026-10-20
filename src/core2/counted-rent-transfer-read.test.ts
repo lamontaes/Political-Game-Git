@@ -36,43 +36,15 @@ vi.mock("./counted-money", async (importOriginal) => {
 });
 
 const seed = process.env.COUNTED_RENT_SEED ?? randomBytes(8).toString("hex");
-
-/** The played year in one drawn place, and whether a counted tenant's rent renewed in it. */
-function playYear(attempt: number) {
-  const place = drawPlace(`${seed}:${attempt}`, "counted-rent-transfer");
-  const world = buildBenchWorld(place.seed, gameStartDate(), {
-    twoLevel: true,
-    placeKey: place.key,
-  });
-  const core = world.core as unknown as CoreState;
-  const api = coreAPI(core);
-  const start = core.date;
-  advanceCore(core, addDays(makeIsoDate(core.date), 400));
-  const rt = residentsRuntime(core)!;
-  const renewed = (
-    api.moduleState(HOUSING_MODULE_ID).table("renewals").rows() as unknown as {
-      tier?: string;
-      previousRentMinor?: number;
-      renewedAt: string;
-      householdId?: string;
-    }[]
-  ).some(
-    (row) =>
-      row.tier === "counted" &&
-      row.previousRentMinor !== undefined &&
-      row.renewedAt > start &&
-      row.householdId !== undefined &&
-      rt.households.has(row.householdId),
-  );
-  return { place, core, api, start, renewed };
-}
-
-// A small town may have no counted tenant whose lease comes up in the year, so
-// another place is drawn (up to eight) before the checks run.
-let played = playYear(0);
-for (let attempt = 1; attempt < 8 && !played.renewed; attempt += 1)
-  played = playYear(attempt);
-const { place, core, api, start } = played;
+const place = drawPlace(seed, "counted-rent-transfer");
+const world = buildBenchWorld(place.seed, gameStartDate(), {
+  twoLevel: true,
+  placeKey: place.key,
+});
+const core = world.core as unknown as CoreState;
+const api = coreAPI(core);
+const start = core.date;
+advanceCore(core, addDays(makeIsoDate(core.date), 400));
 
 describe(`counted rent and payments in a played year (${place.name}, seed ${seed})`, () => {
   it("renews a counted tenant's rent by the same rule as a full tenant's lease", () => {

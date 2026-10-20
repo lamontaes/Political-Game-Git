@@ -4,9 +4,9 @@ title: "Unplanned pregnancies and the decision, reading the abortion law where s
 area: people
 kind: feature
 priority: 2
-status: in-pr
+status: claimed
 claimed-by: claude/political-game-pool-yucp92-bg
-pr: #5695
+pr: #5220
 blocked-on:
 milestone:
 source: "found while building laws-record-only-reads"

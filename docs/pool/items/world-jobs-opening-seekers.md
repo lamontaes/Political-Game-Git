@@ -5,7 +5,7 @@ area: world
 kind: stopgap
 priority: 2
 size: M
-status: done
+status: in-pr
 claimed-by: claude/opening-seekers-region
 pr: #5211
 blocked-on:

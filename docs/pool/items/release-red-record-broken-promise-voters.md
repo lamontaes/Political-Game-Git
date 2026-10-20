@@ -5,7 +5,7 @@ area: elections
 kind: bug
 priority: 2
 size: S
-status: done
+status: in-pr
 claimed-by: claude/fs11vb-rr
 pr: #5401
 blocked-on:

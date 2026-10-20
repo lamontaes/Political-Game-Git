@@ -5,7 +5,7 @@ area: release
 kind: cleanup
 priority: 2
 size: S
-status: done
+status: in-pr
 claimed-by: claude/skip-pool-commits-s8
 pr: #5130
 after:
