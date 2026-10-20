@@ -6,11 +6,11 @@ kind: research
 priority: 2
 size: M
 status: in-pr
-claimed-by: claude/employer-attitude
-pr: #5191
+claimed-by:
+pr: #5534
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-19T22:11:32.711Z
+claimed-at:
 ---
 
 **What.** TODO
@@ -22,3 +22,4 @@ claimed-at: 2026-10-19T22:11:32.711Z
 **Files.** TODO
 
 **Notes.** TODO
+Sent back 2026-10-20 from PR #5191 (branch claude/employer-attitude): Morning check failed because employer-callback-gaps.json is not read by any engine in core2; finish on that branch, merge main into it first.

@@ -4,10 +4,11 @@ title: "A sale, hire or rental reads the buyer or applicant rules: handgun age, 
 area: world
 kind: feature
 priority: 2
-status: blocked
-claimed-by: claude/political-game-pool-6qjq1s
+status: open
+claimed-by:
 pr:
-blocked-on: world-hiring-discrimination-ban-refusal
+blocked-on:
+after: world-hiring-discrimination-ban-refusal
 milestone:
 source: "found while building laws-record-only-reads"
 claimed-at: 2026-10-19T22:08:11.203Z
@@ -24,3 +25,5 @@ claimed-at: 2026-10-19T22:08:11.203Z
 **Notes.** SG-GOV-REACH-A-handgun-age, -age-verification, -discrimination. Split out of laws-record-only-reads on Oct 15; Session A had already checked main and found no record to read.
 
 Looked at Oct 16 (claude/sale-eligibility), not built. The hiring half has no cause to read: `hire` and the weekly matching in jobs.ts pick by fit (experience and reliability) and the applicant's own answer, and no engine records an employer's bias against a group, so a discrimination ban has nothing to refuse and no refusal to complain about. Building it needs the owner's rule for what makes an employer pass over an applicant (a trait of the owner or hiring manager, a view, a record of past complaints) before the law can change it; without that, a refusal drawn from the law alone would be a dice roll the rules forbid. Handgun age and age verification are cleaner: they refuse a buyer by the buyer's own age against the law row, but there is no sale of those goods in the economy to read them (no gun or age-restricted product sale flow), so each needs its sale flow first. Suggest splitting into world-gun-sale-flow (handgun age, age verification) and an OWNER DECISIONS question on employer bias.
+
+Oct 20: Switched from blocked to the automatic after: gate on world-hiring-discrimination-ban-refusal, so it opens by itself the moment those items are done.

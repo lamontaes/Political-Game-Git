@@ -1,0 +1,584 @@
+[
+  {
+    "id": "SG-P8-business-books-priors",
+    "currentValue": "SSBF 2003 median credit-limit/revenue days by industry (clinic 37.2; information 48.7 all-industry fallback); no line-holding probability",
+    "recommendedValue": "Keep SSBF days as conditional line size; add P(usable line) = 0.26",
+    "unit": "probability",
+    "low": 0.15,
+    "high": 0.4,
+    "basis": "Line days are conditional on holding a line, so a firm-level availability probability is needed. SBCS 2023: 37% of firms applied and 66-76% were at least partly approved by lender type, so about 0.37 x 0.70 = 0.26 obtained credit in a year. That is a one-year flow, not a stock of line holders, so the spread is wide.",
+    "sources": [
+      {
+        "title": "Key insights from the 2023 Small Business Credit Survey",
+        "url": "https://fedcommunities.org/key-insights-2023-small-business-credit-survey/",
+        "publisher": "Federal Reserve Banks",
+        "year": 2024,
+        "retrieved": true,
+        "via": "search snippet",
+        "quote": "Application rates fell to 37% in 2023 from 40%"
+      },
+      {
+        "title": "Game repo file src/core2/data/parameters.json",
+        "url": "https://github.com/lamontaes/Political-Game-Git/blob/main/src/core2/data/parameters.json",
+        "publisher": "Political-Game-Git",
+        "year": 2026,
+        "retrieved": true,
+        "via": "fetched via gh api",
+        "quote": "current value read from repo"
+      }
+    ],
+    "confidence": "low",
+    "perPlace": false,
+    "builderNote": "Add businessCreditLineHoldProbability=0.26 (0.15-0.40) and gate the line-days draw on it; keep SSBF day medians."
+  },
+  {
+    "id": "SG-P8-business-books-classification",
+    "currentValue": "authored classification-to-industry-prior map; unknown classes produce a gap",
+    "recommendedValue": "Map each class to its NAICS sector priors, with an all-industry fallback instead of a gap",
+    "unit": "mapping rule",
+    "low": null,
+    "high": null,
+    "basis": "The fix is structural, not numeric. The repo already uses an all-industry median when a sector has too few responses (information, 48.7 days), so do the same for any unmapped class. Nonprofit/public exclusions stay. The JPMC 13-industry buffer table is the closest sourced crosswalk. ESTIMATE: no fetched source gives this figure; reasoning only.",
+    "sources": [
+      {
+        "title": "Cash Is King (JPMorgan Chase Institute), as recorded in repo",
+        "url": "https://www.jpmorganchase.com/content/dam/jpmc/jpmorgan-chase-and-co/institute/pdf/jpmc-institute-small-business-report.pdf",
+        "publisher": "JPMorgan Chase Institute",
+        "year": 2016,
+        "retrieved": true,
+        "via": "repo-recorded; not re-fetched",
+        "quote": "Figure 7 q25/median/q75 anchors (repo citation)"
+      },
+      {
+        "title": "Game repo file src/core2/data/business-books.json",
+        "url": "https://github.com/lamontaes/Political-Game-Git/blob/main/src/core2/data/business-books.json",
+        "publisher": "Political-Game-Git",
+        "year": 2026,
+        "retrieved": true,
+        "via": "fetched via gh api",
+        "quote": "current value read from repo"
+      }
+    ],
+    "confidence": "low",
+    "perPlace": false,
+    "builderNote": "In business-books.json add an all-industry fallback per prior instead of emitting a gap; keep nonprofit/public exclusions."
+  },
+  {
+    "id": "SG-P8-business-books-dynamics",
+    "currentValue": "businessIncomeElasticity 0.335 (Moretti employment elasticity proxy)",
+    "recommendedValue": "0.45",
+    "unit": "elasticity of town firm sales to town income",
+    "low": 0.25,
+    "high": 0.9,
+    "basis": "Moretti measures jobs, not sales, so it cannot identify this. Use sales change = spending response x local capture x income change; elasticity = that x Income/Sales. Baker et al. report about 30% of an income change spent within a quarter. Assuming 0.5 annual response, 0.6 local capture and Income/Sales 1.5 (assumed): 0.5 x 0.6 x 1.5 = 0.45. ESTIMATE: no fetched source gives this figure; reasoning only.",
+    "sources": [
+      {
+        "title": "Baker, Baugh, Kueng slides: Income Fluctuations and Firm Choice",
+        "url": "https://lorenzkueng.droppages.com/BBK_Income Fluctuations and Firm Choice_slides.pdf",
+        "publisher": "Baker/Baugh/Kueng",
+        "year": 2018,
+        "retrieved": true,
+        "via": "search snippet",
+        "quote": "about 30% within a quarter"
+      },
+      {
+        "title": "Moretti, Local Multipliers (via CEDLAS summary)",
+        "url": "https://www.cedlas.econo.unlp.edu.ar/wp/wp-content/uploads/doc_cedlas153.pdf",
+        "publisher": "CEDLAS/Moretti",
+        "year": 2010,
+        "retrieved": true,
+        "via": "search snippet",
+        "quote": "1.6 nontradable jobs arise"
+      },
+      {
+        "title": "Game repo file src/core2/data/parameters.json",
+        "url": "https://github.com/lamontaes/Political-Game-Git/blob/main/src/core2/data/parameters.json",
+        "publisher": "Political-Game-Git",
+        "year": 2026,
+        "retrieved": true,
+        "via": "fetched via gh api",
+        "quote": "current value read from repo"
+      }
+    ],
+    "confidence": "low",
+    "perPlace": false,
+    "builderNote": "Set businessIncomeElasticity.value=0.45, spread 0.25-0.90, tag ESTIMATED, cite Baker/Baugh/Kueng plus this derivation."
+  },
+  {
+    "id": "SG-P8-finance-settlement-policy",
+    "currentValue": "household and firm cash/credit then immediate closure after an unfunded obligation",
+    "recommendedValue": "Firms close only after cash buffer (JPMC median 27 days, IQR 13-62) plus credit is exhausted; households get a 30-day late period",
+    "unit": "days",
+    "low": 13,
+    "high": 62,
+    "basis": "JPMC data show firms hold a median 27 days of cash debits (IQR 13-62), so closure at first shortfall is too harsh. For households no fetched source exists; the 30-day delinquency period is an estimate. ESTIMATE: no fetched source gives this figure; reasoning only.",
+    "sources": [
+      {
+        "title": "Cash Is King (JPMorgan Chase Institute), as recorded in repo",
+        "url": "https://www.jpmorganchase.com/content/dam/jpmc/jpmorgan-chase-and-co/institute/pdf/jpmc-institute-small-business-report.pdf",
+        "publisher": "JPMorgan Chase Institute",
+        "year": 2016,
+        "retrieved": true,
+        "via": "repo-recorded; not re-fetched",
+        "quote": "Figure 7 q25/median/q75 anchors (repo citation)"
+      },
+      {
+        "title": "Game repo file src/core2/data/finance.json",
+        "url": "https://github.com/lamontaes/Political-Game-Git/blob/main/src/core2/data/finance.json",
+        "publisher": "Political-Game-Git",
+        "year": 2026,
+        "retrieved": true,
+        "via": "fetched via gh api",
+        "quote": "current value read from repo"
+      }
+    ],
+    "confidence": "low",
+    "perPlace": false,
+    "builderNote": "Add a grace period before closure: firm = opening buffer plus credit; household = 30 days (0-60) before default."
+  },
+  {
+    "id": "SG-P8-opening-finance-bindings",
+    "currentValue": "capacity-weighted counterparty ties; equal weights across suppliers",
+    "recommendedValue": "Keep CEX splits; weight suppliers by capacity x distance decay",
+    "unit": "weighting rule",
+    "low": null,
+    "high": null,
+    "basis": "Repo's CEX food-away shares (BLS CE 2024: $3,945 of $10,169 nationally = 0.388) are sound and region-specific. Counterparty choice has no fetched measure; distance decay is a modeling estimate. ESTIMATE: no fetched source gives this figure; reasoning only.",
+    "sources": [
+      {
+        "title": "Game repo file src/core2/data/opening-finance.json",
+        "url": "https://github.com/lamontaes/Political-Game-Git/blob/main/src/core2/data/opening-finance.json",
+        "publisher": "Political-Game-Git",
+        "year": 2026,
+        "retrieved": true,
+        "via": "fetched via gh api",
+        "quote": "current value read from repo"
+      }
+    ],
+    "confidence": "low",
+    "perPlace": "Four Census-region food-away shares already in repo; keep them.",
+    "builderNote": "Keep CEX splits; replace pure capacity weights with capacity x distance decay and tag the decay scale ESTIMATED."
+  },
+  {
+    "id": "SG-P8-opening-finance-cadence",
+    "currentValue": "openingFinancePeriodMonths = 1 for all categories",
+    "recommendedValue": "1 month for rent/utilities/phone/insurance; 0.25 month for food and retail",
+    "unit": "months",
+    "low": 0.25,
+    "high": 1,
+    "basis": "Standing bills are monthly by contract. Food and retail are bought far more often than monthly; no fetched source gives trip frequency, so weekly aggregation (annual CEX mean / 52) is an estimate that keeps totals unchanged. ESTIMATE: no fetched source gives this figure; reasoning only.",
+    "sources": [
+      {
+        "title": "Game repo file src/core2/data/opening-finance.json",
+        "url": "https://github.com/lamontaes/Political-Game-Git/blob/main/src/core2/data/opening-finance.json",
+        "publisher": "Political-Game-Git",
+        "year": 2026,
+        "retrieved": true,
+        "via": "fetched via gh api",
+        "quote": "current value read from repo"
+      }
+    ],
+    "confidence": "low",
+    "perPlace": false,
+    "builderNote": "Make period a per-category field: 1 for housing/utilities/telephone/insurance, 0.25 for food and retail."
+  },
+  {
+    "id": "SG-P8-opening-retirement-income",
+    "currentValue": "first bill first of next month; amount prior $1,543",
+    "recommendedValue": "Pay on SSA birth-day Wednesday rule; keep $1,543 mean",
+    "unit": "payment day",
+    "low": null,
+    "high": null,
+    "basis": "SSA pays by birth day: 1st-10th second Wednesday, 11th-20th third, 21st-31st fourth, with a 3rd-of-month exception for pre-May-1997 entitlement (per the regulation text found). The $1,543 mean is already in the repo from SSA.",
+    "sources": [
+      {
+        "title": "20 CFR 404.1807 (payment date by birth day)",
+        "url": "https://syfert.com/cfr/sections/20-404.1807.html",
+        "publisher": "eCFR mirror",
+        "year": 2024,
+        "retrieved": true,
+        "via": "search snippet",
+        "quote": "1st through the 10th pay on the second Wednesday"
+      },
+      {
+        "title": "SSA 2021 COLA factsheet (as recorded in repo)",
+        "url": "https://www.ssa.gov/news/en/cola/factsheets/2021.html",
+        "publisher": "SSA",
+        "year": 2020,
+        "retrieved": true,
+        "via": "repo-recorded; not re-fetched",
+        "quote": "$1,543 average retired worker (repo citation)"
+      }
+    ],
+    "confidence": "high",
+    "perPlace": "Same rule in every state and territory.",
+    "builderNote": "In opening-income.ts compute due day from birth day: <=10 second Wed, <=20 third Wed, else fourth Wed; pre-1997 entitled use the 3rd."
+  },
+  {
+    "id": "SG-P8-param-openingRetirementClaimTraitPullYears",
+    "currentValue": "4 years",
+    "recommendedValue": "2.0 years at full trait extreme",
+    "unit": "years",
+    "low": 1,
+    "high": 4,
+    "basis": "SSA claim ages span 62-70 (8 years). Personality-outcome correlation is about 0.16 (Roberts, earnings). Assuming claim-age SD 2.5 yr, one trait SD moves claim about 0.4 yr; assuming trait SD about 0.3 on the game scale, a full +/-1 span is +/-3.3 SD, giving about 1.3-2 years. Current 4 conflicts with its own citation (1.5 yr per unit). ESTIMATE: no fetched source gives this figure; reasoning only.",
+    "sources": [
+      {
+        "title": "Roberts et al. 2011 earnings meta-analysis (as reported in Frontiers in Psychology)",
+        "url": "https://www.frontiersin.org/journals/psychology/articles/10.3389/fpsyg.2012.00356/full",
+        "publisher": "Frontiers in Psychology",
+        "year": 2012,
+        "retrieved": true,
+        "via": "search snippet",
+        "quote": "corrected r = 0.16"
+      },
+      {
+        "title": "Game repo file src/core2/data/parameters.json",
+        "url": "https://github.com/lamontaes/Political-Game-Git/blob/main/src/core2/data/parameters.json",
+        "publisher": "Political-Game-Git",
+        "year": 2026,
+        "retrieved": true,
+        "via": "fetched via gh api",
+        "quote": "current value read from repo"
+      }
+    ],
+    "confidence": "low",
+    "perPlace": false,
+    "builderNote": "Set openingRetirementClaimTraitPullYears=2.0 (1-4), keep TUNABLE, fix citation text."
+  },
+  {
+    "id": "SG-P8-param-openingRetirementCoveredTraitPull",
+    "currentValue": "0.04",
+    "recommendedValue": "0.10 at full trait extreme",
+    "unit": "fraction of career covered",
+    "low": 0.04,
+    "high": 0.15,
+    "basis": "Conscientiousness predicts employment and earnings (longitudinal r about 0.16). If covered-fraction SD is about 0.25 (assumed), one trait SD shifts it about 0.04; 0.10 is a cap at trait extremes, not a mean. ESTIMATE: no fetched source gives this figure; reasoning only.",
+    "sources": [
+      {
+        "title": "Roberts et al. 2011 earnings meta-analysis (as reported in Frontiers in Psychology)",
+        "url": "https://www.frontiersin.org/journals/psychology/articles/10.3389/fpsyg.2012.00356/full",
+        "publisher": "Frontiers in Psychology",
+        "year": 2012,
+        "retrieved": true,
+        "via": "search snippet",
+        "quote": "corrected r = 0.16"
+      },
+      {
+        "title": "Game repo file src/core2/data/parameters.json",
+        "url": "https://github.com/lamontaes/Political-Game-Git/blob/main/src/core2/data/parameters.json",
+        "publisher": "Political-Game-Git",
+        "year": 2026,
+        "retrieved": true,
+        "via": "fetched via gh api",
+        "quote": "current value read from repo"
+      }
+    ],
+    "confidence": "low",
+    "perPlace": false,
+    "builderNote": "Set openingRetirementCoveredTraitPull=0.10 (0.04-0.15); keep the smooth bound."
+  },
+  {
+    "id": "SG-P8-param-openingRetirementBenefitFactorMinimum",
+    "currentValue": "0.33",
+    "recommendedValue": "0.33 (5th percentile / mean)",
+    "unit": "ratio to mean benefit",
+    "low": 0.3,
+    "high": 0.36,
+    "basis": "Repo computes the 5th percentile from SSA Table 5.B6 bins as 0.33 of the mean. The site returned 403 so I could not re-check it. With mean 1 and p5/p95 of 0.33/1.88 the shape is not lognormal; draw by quantile interpolation.",
+    "sources": [
+      {
+        "title": "SSA Annual Statistical Supplement 2021 Table 5.B6 (as recorded in repo)",
+        "url": "https://www.ssa.gov/policy/docs/statcomps/supplement/2021/5b.html",
+        "publisher": "SSA",
+        "year": 2021,
+        "retrieved": true,
+        "via": "repo-recorded; not re-fetched",
+        "quote": "5th percentile ... 0.33 of the mean (repo citation; site 403 to me)"
+      }
+    ],
+    "confidence": "medium",
+    "perPlace": false,
+    "builderNote": "Keep 0.33; sample person factor by quantile across 0.33..1.88 and rescale to mean 1."
+  },
+  {
+    "id": "SG-P8-param-openingRetirementBenefitFactorMaximum",
+    "currentValue": "1.88",
+    "recommendedValue": "1.88 (95th percentile / mean)",
+    "unit": "ratio to mean benefit",
+    "low": 1.8,
+    "high": 1.96,
+    "basis": "Same SSA Table 5.B6 derivation as the minimum; repo-recorded and not re-fetched. Link factor to covered months (repo already divides by 420) so longer careers draw higher.",
+    "sources": [
+      {
+        "title": "SSA Annual Statistical Supplement 2021 Table 5.B6 (as recorded in repo)",
+        "url": "https://www.ssa.gov/policy/docs/statcomps/supplement/2021/5b.html",
+        "publisher": "SSA",
+        "year": 2021,
+        "retrieved": true,
+        "via": "repo-recorded; not re-fetched",
+        "quote": "5th percentile ... 0.33 of the mean (repo citation; site 403 to me)"
+      }
+    ],
+    "confidence": "medium",
+    "perPlace": false,
+    "builderNote": "Keep 1.88; document as p95; ensure the sampled mean equals 1."
+  },
+  {
+    "id": "SG-P8-opening-retirement-funding",
+    "currentValue": "one outside payment boundary; estimated fixed payment calendar",
+    "recommendedValue": "Use the SSA birth-day Wednesday calendar for fixed dates",
+    "unit": "payment day",
+    "low": null,
+    "high": null,
+    "basis": "Payment dates are set by regulation (second/third/fourth Wednesday by birth day; 3rd for pre-May-1997 entitlement). No share of 3rd-of-month recipients was fetched; assume 0.15 (0.05-0.30) as an estimate.",
+    "sources": [
+      {
+        "title": "20 CFR 404.1807 (payment date by birth day)",
+        "url": "https://syfert.com/cfr/sections/20-404.1807.html",
+        "publisher": "eCFR mirror",
+        "year": 2024,
+        "retrieved": true,
+        "via": "search snippet",
+        "quote": "1st through the 10th pay on the second Wednesday"
+      }
+    ],
+    "confidence": "medium",
+    "perPlace": false,
+    "builderNote": "Link funding terms to the same birth-day due rule; treat the 3rd-of-month share as ESTIMATED 0.15."
+  },
+  {
+    "id": "SG-P8-opening-customer-generation",
+    "currentValue": "CEX means as household budgets; equal initial vendor shares",
+    "recommendedValue": "Draw budgets lognormally with CV 1.0 around the CEX mean; vendors by capacity x distance",
+    "unit": "coefficient of variation",
+    "low": 0.7,
+    "high": 1.5,
+    "basis": "CEX publishes means, not person dispersion. Lognormal sigma = sqrt(ln(1+CV^2)); CV=1 gives 0.83 with mean preserved. Equal vendor shares should become capacity-weighted. The CV is an estimate. ESTIMATE: no fetched source gives this figure; reasoning only.",
+    "sources": [
+      {
+        "title": "Game repo file src/core2/data/opening-customers.json",
+        "url": "https://github.com/lamontaes/Political-Game-Git/blob/main/src/core2/data/opening-customers.json",
+        "publisher": "Political-Game-Git",
+        "year": 2026,
+        "retrieved": true,
+        "via": "fetched via gh api",
+        "quote": "current value read from repo"
+      }
+    ],
+    "confidence": "low",
+    "perPlace": "CEX regional and size-class means already vary by place; keep them as the mean.",
+    "builderNote": "Add openingCustomerBudgetCv=1.0 and sample budgets lognormally with mean fixed to the CEX value."
+  },
+  {
+    "id": "SG-P8-opening-customer-public-procurement",
+    "currentValue": "PublicCleaningBudgetShare 0.10; LocalAuthorityBudgetCoverage 0.25",
+    "recommendedValue": "cleaning share 0.12; coverage 0.25 kept",
+    "unit": "fraction",
+    "low": 0.08,
+    "high": 0.19,
+    "basis": "IFMA reports janitorial $1.08 of a $5.59/RSF janitorial+utilities+maintenance cost (19%). Public-building spending also includes capital outlay, so 0.12 is used (estimate). The 0.25 coverage has no fetched basis. ESTIMATE: no fetched source gives this figure; reasoning only.",
+    "sources": [
+      {
+        "title": "New IFMA survey reports median cost of operations $5.59/RSF",
+        "url": "https://www.fmlink.com/?p=13268",
+        "publisher": "FMLink/IFMA",
+        "year": 2000,
+        "retrieved": true,
+        "via": "search snippet",
+        "quote": "median janitorial cost alone was $1.08 per square foot"
+      }
+    ],
+    "confidence": "low",
+    "perPlace": "Census building spending is per state; cleaning share assumed uniform.",
+    "builderNote": "Set openingCustomerPublicCleaningBudgetShare=0.12 (0.08-0.19); leave coverage 0.25 labeled ESTIMATED."
+  },
+  {
+    "id": "SG-P8-public-payroll-due-flow",
+    "currentValue": "hourly work/pay estimate through a bare bridge",
+    "recommendedValue": "Local government pay about $4,700 per employee-month; biweekly default",
+    "unit": "USD per employee-month",
+    "low": 3500,
+    "high": 6000,
+    "basis": "ASPEP March 2021: local payroll $64.0 billion and 13.6 million local employees give about $4,706 per employee-month. Census noted a 2021 processing error in some aggregates. Government pay frequency was not fetched; biweekly (43% of private establishments, BLS) is the default.",
+    "sources": [
+      {
+        "title": "2021 ASPEP summary (Census)",
+        "url": "https://www.census.gov/content/dam/Census/library/publications/2021/econ/aspep-2021_final.pdf",
+        "publisher": "U.S. Census Bureau",
+        "year": 2021,
+        "retrieved": true,
+        "via": "search snippet",
+        "quote": "local government payroll of $64.0 billion"
+      },
+      {
+        "title": "How long are pay periods? (CES length of pay period)",
+        "url": "https://www.bls.gov/ces/publications/length-pay-period.htm",
+        "publisher": "BLS",
+        "year": 2023,
+        "retrieved": true,
+        "via": "fetched page",
+        "quote": "biweekly ... 43.0 percent of U.S. private establishments"
+      }
+    ],
+    "confidence": "low",
+    "perPlace": "Varies by state; ASPEP has state tables.",
+    "builderNote": "Use ASPEP state average monthly pay as a sanity check on generated public wages; default public calendar biweekly."
+  },
+  {
+    "id": "SG-P8-outside-product-demand-crosswalk",
+    "currentValue": "no outside demand for twelve zero-receipt firms",
+    "recommendedValue": "Outside-buyer revenue share: tradable classes 0.8; local-serving classes 0.03",
+    "unit": "share of revenue",
+    "low": 0.0,
+    "high": 1.0,
+    "basis": "BEA 2021 exports were $2,533.0 billion; against GDP near $23.3 trillion (my derivation from the 3.7% deficit figure) that is about 10.9%, services about 3%. Tradable classes (manufacturing, agriculture, quarry, freight) sell mostly outside a town; local services sell little. The 0.8 is an estimate. ESTIMATE: no fetched source gives this figure; reasoning only.",
+    "sources": [
+      {
+        "title": "BEA 2021 trade release",
+        "url": "https://www.bea.gov/sites/default/files/2022-02/trad1221annual-fax.pdf",
+        "publisher": "BEA",
+        "year": 2022,
+        "retrieved": true,
+        "via": "search snippet",
+        "quote": "exports ... to $2,533.0 billion"
+      },
+      {
+        "title": "Moretti, Local Multipliers (via CEDLAS summary)",
+        "url": "https://www.cedlas.econo.unlp.edu.ar/wp/wp-content/uploads/doc_cedlas153.pdf",
+        "publisher": "CEDLAS/Moretti",
+        "year": 2010,
+        "retrieved": true,
+        "via": "search snippet",
+        "quote": "1.6 nontradable jobs arise"
+      }
+    ],
+    "confidence": "low",
+    "perPlace": false,
+    "builderNote": "Add per-classification outsideDemandShare (0.8 tradable, 0.03 local-serving) tagged ESTIMATED."
+  },
+  {
+    "id": "SG-P8-customer-due-calendar-renewal",
+    "currentValue": "first next-period month; 12-month horizon",
+    "recommendedValue": "Fiscal-year start per jurisdiction: July 1 default; NY April 1, TX Sept 1, AL/MI/DC Oct 1",
+    "unit": "fiscal-year start date",
+    "low": null,
+    "high": null,
+    "basis": "NASBO/NCSL: 46 states and PR start July 1; New York April 1, Texas September 1, Alabama, Michigan, DC, Guam and USVI October 1. Local governments assumed to follow their state (not verified). A 12-month horizon suits appropriations but is not a legal contract end.",
+    "sources": [
+      {
+        "title": "NCSL FY2026 state budget status / NASBO budget calendar",
+        "url": "https://www.ncsl.org/fiscal/fy-2026-state-budget-status",
+        "publisher": "NCSL/NASBO",
+        "year": 2026,
+        "retrieved": true,
+        "via": "search snippet",
+        "quote": "July 1 (46 states, PR)"
+      }
+    ],
+    "confidence": "medium",
+    "perPlace": "Yes: per-state fiscal-year table above.",
+    "builderNote": "Replace the fixed first-month rule for public agreements with a per-jurisdiction fiscal-year start; do not end agreements at 12 months."
+  },
+  {
+    "id": "SG-P8-opening-private-cash-buffer",
+    "currentValue": "JPMC median 27 days (IQR 13-62) x payroll+nonwage cost",
+    "recommendedValue": "Keep 27 days; add cost of goods to the denominator for goods sellers",
+    "unit": "cash buffer days",
+    "low": 13,
+    "high": 62,
+    "basis": "JPMC divides balances by all cash debits, including supplier purchases. Payroll plus IRS nonwage costs may undercount debits where cost of goods is separate, so for retail, wholesale and restaurants add cost of goods (repo has IRS ratios, e.g. recreation 0.295).",
+    "sources": [
+      {
+        "title": "Cash Is King (JPMorgan Chase Institute), as recorded in repo",
+        "url": "https://www.jpmorganchase.com/content/dam/jpmc/jpmorgan-chase-and-co/institute/pdf/jpmc-institute-small-business-report.pdf",
+        "publisher": "JPMorgan Chase Institute",
+        "year": 2016,
+        "retrieved": true,
+        "via": "repo-recorded; not re-fetched",
+        "quote": "Figure 7 q25/median/q75 anchors (repo citation)"
+      }
+    ],
+    "confidence": "medium",
+    "perPlace": "Industry medians already in repo; no state split.",
+    "builderNote": "Keep the 13 industry medians; add cost-of-goods ratio to the denominator for retail, restaurant and wholesale."
+  },
+  {
+    "id": "SG-P8-opening-public-owner-history",
+    "currentValue": "2017 county identity carried to 2021",
+    "recommendedValue": "Treat as active at opening with probability 0.99",
+    "unit": "probability",
+    "low": 0.97,
+    "high": 1.0,
+    "basis": "Census of Governments 2017 lists 3,031 county governments. I did not find the 2022 count, so stability is assumed; county governments rarely dissolve. 0.99 is an estimate.",
+    "sources": [
+      {
+        "title": "Census of Governments organization report",
+        "url": "https://cdn.www.census.gov/content/dam/Census/library/publications/2025/econ/govtorg2225.pdf",
+        "publisher": "U.S. Census Bureau",
+        "year": 2025,
+        "retrieved": true,
+        "via": "search snippet",
+        "quote": "3,031 counties in the 2017 Census of Governments"
+      }
+    ],
+    "confidence": "low",
+    "perPlace": "Some states have no county governments (Connecticut) or use boroughs/parishes (Alaska, Louisiana).",
+    "builderNote": "Keep carry-forward; add activeAtOpening probability 0.99 only where identity changes are unrecorded."
+  },
+  {
+    "id": "SG-P8-opening-public-owner-coverage",
+    "currentValue": "cohort countyIds qualify a share of purchase plan",
+    "recommendedValue": "Represented share = cohort residents / county residents",
+    "unit": "share",
+    "low": 0.0,
+    "high": 1.0,
+    "basis": "No fetched source measures public-buyer reach. Since the cohort is a CDP inside a county, allocate the county plan by resident share (Census 2020 geography already in repo). This is a mechanical allocation, not an empirical rate. ESTIMATE: no fetched source gives this figure; reasoning only.",
+    "sources": [
+      {
+        "title": "Game repo file src/core2/opening-public-owner.ts",
+        "url": "https://github.com/lamontaes/Political-Game-Git/blob/main/src/core2/opening-public-owner.ts",
+        "publisher": "Political-Game-Git",
+        "year": 2026,
+        "retrieved": true,
+        "via": "fetched via gh api",
+        "quote": "current value read from repo"
+      }
+    ],
+    "confidence": "low",
+    "perPlace": "Per county; population from Census.",
+    "builderNote": "Scale the bounded purchase plan by cohortResidents/countyPopulation, tagged ESTIMATED."
+  },
+  {
+    "id": "SG-P8-opening-employer-pay-calendar",
+    "currentValue": "weights 32.4/36.5/19.8/11.3 (2013); lag 5 days; phase uniform",
+    "recommendedValue": "BLS Feb 2023 weights: weekly 27.0, biweekly 43.0, semimonthly 19.8, monthly 10.3; lag 5 days (0-10)",
+    "unit": "percent of establishments",
+    "low": null,
+    "high": null,
+    "basis": "BLS CES Feb 2023 (fetched) gives all-private shares and industry tables (e.g. construction weekly 65.4%, information semimonthly 37.5%). Repo values are from 2013. Lag: state rules found cap it at 5 business days (AZ), 7 days (HI, CA) or 9 days (RI), so 5 with range 0-10 fits. BLS gives no lag figure.",
+    "sources": [
+      {
+        "title": "How long are pay periods? (CES length of pay period)",
+        "url": "https://www.bls.gov/ces/publications/length-pay-period.htm",
+        "publisher": "BLS",
+        "year": 2023,
+        "retrieved": true,
+        "via": "fetched page",
+        "quote": "biweekly ... 43.0 percent of U.S. private establishments"
+      },
+      {
+        "title": "Pay frequency and wage-payment lag requirements by state",
+        "url": "https://ezel.ai/surveys/pay-frequency-requirements",
+        "publisher": "Ezel (compliance survey)",
+        "year": 2026,
+        "retrieved": true,
+        "via": "search snippet",
+        "quote": "Arizona: ordinary wages generally due no more than five business days"
+      }
+    ],
+    "confidence": "medium",
+    "perPlace": "Yes: state wage-payment laws set minimum frequency and maximum lag (RI weekly, TX twice monthly, AL/FL/SC/SD none).",
+    "builderNote": "Update openingPayrollBlsAllPrivate*Weight to 27.0/43.0/19.8/10.3 and industry groups from BLS Table 3; keep lag 5 days, spread 0-10."
+  }
+]
