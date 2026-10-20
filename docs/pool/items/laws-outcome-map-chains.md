@@ -23,3 +23,5 @@ claimed-at:
 **Files.** src/core2/law-reach/index.ts, src/core2/law-reach/group-a.ts, src/core2/law-reach/group-b.ts, src/core2/law-reach-group-a.test.ts, src/core2/law-reach-group-b.test.ts
 
 **Notes.** Oct 20 (pool feeder): spec written; the family split already exists as five pool items; the preschool and college-tuition policies are carried by laws-reach-b-schools-preschool-tuition (not by laws-outcome-health-fiscal's merged title alone), and the Medicaid coverage reader by gov-medicaid-coverage-reader, so this roll-up also waits on them.
+
+**Notes.** Split Oct 20 (claude/political-game-pool-yucp92-n): the 21 placeholder policies are already divided by family into laws-outcome-justice (done, #5200), laws-outcome-labor-cannabis (in PR #5201), laws-outcome-health-fiscal (in PR #5179, with the sales tax) and laws-outcome-civil-tech (claimed, abortion, discrimination, age checks, facial recognition, data privacy, redistricting). The plain minimum-wage policy reads mechanic none on purpose: laws.ts raises every job under the floor on the effective date, so its effect is already a read. This item is done when those four are; it adds nothing of its own.

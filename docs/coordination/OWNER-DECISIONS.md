@@ -4,7 +4,7 @@ The CTO's only writer. When two rulings conflict, the most recent wins unless th
 
 ## Open
 
-(none; every question asked is ruled below)
+- **Does hearing about a change in the town's conditions move a stance?** (`web-views-from-conditions`, from #5637.) The town's month now becomes news, and people hear that rent rose, unemployment fell or crime changed. That already reaches their vote. `views.ts` moves a stance only for an event that names a policy question and a desired change; a condition has no stance topic. I read the register first: "Knowing is a read" (a change is attributed to a law only if the person learned of it, and a stance cites how) and the Oct 16 ruling that the news and social media are how people mostly hear about it. Neither says whether hearing a condition shifts a stance on a related policy. Question for the owner: should a person who hears that rent rose move on a housing-policy stance (and unemployment on jobs policy, crime on policing), and by what rule? Recommended default, so nothing waits: yes, and only for a person the news reached, only toward the stance their own views already tie to that condition, by an amount the views engine already uses for a heard event (no new opinion size), with the outlet recorded as the reason. If the answer is no, conditions keep moving the vote through the person's own circumstances only.
 
 ## Oct 20, night: acting CTO rulings from the pool (standing rules; the owner may overrule)
 

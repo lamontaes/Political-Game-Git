@@ -6,11 +6,11 @@ kind: research
 priority: 3
 size: M
 status: in-pr
-claimed-by: claude/memory-player-decisions
+claimed-by: claude/fs11vb-mem
 pr: #5623
 blocked-on: owner-decision-may-player-old-decisions-be-compacted
 source: added with npm run pool -- add
-claimed-at: 2026-10-20T09:13:46.755Z
+claimed-at: 2026-10-20T11:10:05.106Z
 ---
 
 **What.** Apply the owner's Oct 20 memory ruling: after a year, the player's own routine decisions keep their summary and reasons, not every option's score. Today `condenseCircleDecisions` in src/core2/decision-detail.ts condenses only decisions by other people (retainLog in src/core2/state.ts queues a row only when `row.actorId !== core.playerId`), so the player's roughly 22 MB of full `decision` objects in `core.durableLog` stay forever. Queue the player's decisions too, with their own longer window (a new TUNABLE `playerDecisionDetailMonths` of 12 in parameters.json), and condense them the same way to `actorId`, `date`, `reasonKey`, `selectedReasons` and the choice, so the why view still names the reason. Keep full records for a decision that is not routine: a filing, a vote cast, a bribe, a crime, a signed or vetoed bill, a promise, and anything a public record or the news cites. Then, with `core.eventIds`, trim ids of kinds that can never be emitted twice after a year, keeping ids such as `veto-override:<bill>` that can recur. Last, take the heap-snapshot diff between months 20 and 23 that earlier notes ask for, to find what holds the 35 MB election-month step (`holdElection`, world-races `recordPlaces`, campaign speech), and trim it to what an engine reads.
@@ -30,3 +30,5 @@ Oct 19 (claude/memory-election-log, claimed and released, nothing built). Re-mea
 Measured Oct 19 (claude, claude/political-game-pool-yucp92-i): the three-year run (seed memremeasure1, place key 1642130, CORE2_BOOKKEEPING=0) grows 9.2 MiB a month on main (heap 470 to 790 MB; 569 at month 12, 685 at month 24). At month 14 the durable log holds 10,386 person.acted rows (23.6 MB of JSON) and `core.eventIds` 15,363 ids (1,782 are `office.voted:bill`, 840 `event:economy.state-jobs-report`, 609 `news.read:printed`, then `speech:` ids). Tried: cutting the runner-up and each reason's terms from a condensed circle act (src/core2/decision-detail.ts). The month-by-month heap was within 1 MB of main at every month, so the condensed act records are not where the growth is; the change was reverted. The dropped acts and the log's JSON are small beside the 9 MiB; the growth is held by something the tables do not show (the sampler's scoreOffers, publishEventAppraisal and drives respond allocations). Next step is a heap-snapshot diff between months 20 and 23 with retainers of the largest arrays, not another table trim.
 
 Oct 20 (pool feeder): spec written; the owner's Oct 20 memory ruling answers the old blocker (may the player's old decisions be compacted: yes, summary and reasons kept after a year); the player's decisions are never queued today, so this is new queueing plus a longer window.
+
+Sent back 2026-10-20 from PR #5623 (branch claude/memory-player-decisions): owner and date notes in parameters.json, decision-detail.ts and the test must not ship; finish on that branch, merge main into it first.

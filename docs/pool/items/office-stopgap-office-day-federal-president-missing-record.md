@@ -25,4 +25,3 @@ claimed-at:
 **Notes.** First row: The people a traveler meets in a town other than the player's are recorded identities of that place (drawn from the world's seed and the town), with no household, job or other records there beyond the meeting.
 
 Oct 20 (cto): PR #5124 merged. SG-OFFICE-FED-situation-room resolved (situation room opens on FEMA disaster records, daily brief observes crisis). SG-OFFICE-FED-trip-residents remains open.
-
