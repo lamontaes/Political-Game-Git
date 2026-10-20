@@ -4,7 +4,7 @@ title: "Certified ballot referrals and named tally (b18-p3, #2497)"
 area: elections
 kind: feature
 priority: 2
-status: in-pr
+status: dropped
 claimed-by: session46/b18-3-ballot-measures
 pr: #5081
 blocked-on:
