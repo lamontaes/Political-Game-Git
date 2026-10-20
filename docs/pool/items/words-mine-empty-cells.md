@@ -22,3 +22,4 @@ claimed-at:
 **Files.** scripts/english-corpus/shapes/, scripts/english-corpus/mine-shapes.py, scripts/dialogue-batch/coverage-table.ts, data/english/parts/, docs/grading/coverage.md
 
 **Notes.** Blocked-on words-catalog-coverage is done as of 2026-10-15 (#4398), so the block can clear.
+Sent back 2026-10-20 from PR #5187 (branch claude/political-game-pool-g08lgv): Parts in data/english/parts/meeting.json and hearing.json have origin: authored and shippable: true; finish on that branch, merge main into it first.
