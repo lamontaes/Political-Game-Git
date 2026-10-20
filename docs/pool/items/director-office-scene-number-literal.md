@@ -5,9 +5,9 @@ area: director
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/director-office-scene-number-literal
-pr:
+pr: #5196
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-20T01:35:41.540Z
