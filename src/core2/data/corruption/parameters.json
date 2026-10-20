@@ -23,6 +23,12 @@
     "citation": "Weight on closeness between the two: a bribe passes through existing ties (Rose-Ackerman and Palifka 2016, Corruption and Government, ch. 6). Spread 0.5 to 2.",
     "stopgapId": "SG-P15-corruption-weights"
   },
+  "corruptionReputationWeight": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "Weight on what the person who wants a favor has learned about the official: each bribe the official is known to have taken (the offerer's own knowledge record, with its source) raises the offer, with diminishing returns as the count grows. Briberies concentrate on officials already known to be receptive (Rose-Ackerman and Palifka 2016, Corruption and Government, ch. 6, on reputation and networks of exchange). Spread 0.5 to 2.",
+    "stopgapId": "SG-P15-corruption-weights"
+  },
   "corruptionHonestPull": {
     "value": 3,
     "tag": "TUNABLE",
