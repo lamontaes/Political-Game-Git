@@ -5,11 +5,12 @@ area: words
 kind: bug
 priority: 3
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/political-game-pool-76ksvw
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-20T04:32:27.396Z
 ---
 
 **What.** Require several grades or keep variety so one grade no longer forces a piece to win, and set the release note to impact none until grades exist.
