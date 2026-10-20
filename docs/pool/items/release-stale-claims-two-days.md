@@ -22,3 +22,12 @@ claimed-at: 2026-10-20T03:42:34.942Z
 **Files.** docs/pool/items/world-corporate-office-staff-never-paid.md, docs/pool/items/world-home-turnover.md, docs/pool/items/core-old-imports-opening-work.md, docs/pool/items/world-worker-unpaid-four-months.md
 
 **Notes.** TODO
+
+**Checked Oct 20 (claude, branch claude/stale-claims-facts).** Commits on each branch beyond main, and whether a PR exists:
+
+- claude/corporate-office-staff-paid (world-corporate-office-staff-never-paid): 2 commits, both pool bookkeeping (the item body and its open status); no game code; no PR.
+- claude/home-turnover-split (world-home-turnover): 3 commits, all pool bookkeeping (claim, blocked, the split into six items); no game code; no PR. The six split items are the live work.
+- claude/old-imports-opening-work (core-old-imports-opening-work): 2 commits, both pool bookkeeping; no game code; no PR.
+- claude/worker-unpaid-four-months (world-worker-unpaid-four-months): 4 commits, two of them real (the wages-unpaid check script); **PR #5011 is open** (draft). The pool entry on main still said claimed with no PR because its in-pr status commit sits on that branch; I set it in-pr with #5011 on main. Not stale, and not mine to release.
+
+So nothing is lost if the first three are released: they carry no code. Whether to release them is still the CTO's call.
