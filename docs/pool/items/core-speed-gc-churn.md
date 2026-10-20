@@ -21,3 +21,5 @@ source: added with npm run pool -- add
 **Files.** src/core2/state.ts, src/core2/journal-state.ts, src/core2/module-state.ts, src/core2/life.ts
 
 **Notes.** TODO
+
+**Notes.** Measured Oct 20 (claude/m7-speed), seed m7b, Long Hill, Connecticut, `--trace-gc`: 4,539 scavenges took 32 seconds (about 7 ms each, so many objects survive each one and are copied) and 12 mark-compacts took 0.5 seconds; the heap peaks near 2.5 GB. So the cost is young-generation churn, not old-space marking. A larger young generation helps a little: `--max-semi-space-size=128` ran the year in 169 seconds against 182 to 214 without it (run to run noise is about 10 percent, so repeat before relying on it). Where the game's play process is started (the desktop shell's play API and the bench server) the flag would have to be set there. The lasting fix is fewer allocations per day: take `--heap-prof` or `--sampling-heap-profiler` of the same year to name the three biggest allocators.
