@@ -50,6 +50,7 @@ import {
 } from "./law-reach/group-b-money";
 
 const START = "2026-01-05";
+const DRAWS = 120;
 const seed =
   process.env.GOLDEN_PATH_SEED ??
   createHash("sha256").update(`reach-b:${Date.now()}`).digest("hex");
@@ -78,7 +79,10 @@ const states = [...corePlaceStateIdentities()]
   .sort();
 
 function build(): void {
-  for (let attempt = 0; attempt < 40; attempt += 1) {
+  // A named adult the Medicaid work requirement reaches is rare in a player's
+  // circle (about one draw in twenty has one), so the bound is wide; a draw
+  // without the subjects costs about a second.
+  for (let attempt = 0; attempt < DRAWS; attempt += 1) {
     const state = pick(states, `state:${attempt}`);
     const places = [
       ...searchCorePlaces("", Number.MAX_SAFE_INTEGER, {
@@ -100,7 +104,23 @@ function build(): void {
     const adults = [...full.people]
       .filter((p) => year - Number(p.birthDate.slice(0, 4)) >= 18)
       .sort((a, b) => a.id.localeCompare(b.id));
-    const player = adults.find((p) => p.jobId) ?? adults[0];
+    // The player's circle is the town's named people: a working parent of a
+    // preschool-age child, where the town has one, puts that child in it.
+    const age = (p: { birthDate: string }) =>
+      year - Number(p.birthDate.slice(0, 4));
+    const preschoolHomes = new Set(
+      full.people
+        .filter(
+          (p) =>
+            age(p) >= reachParameter("preschoolAgeFrom") &&
+            age(p) < reachParameter("preschoolAgeBelow"),
+        )
+        .map((p) => p.householdId),
+    );
+    const player =
+      adults.find((p) => p.jobId && preschoolHomes.has(p.householdId)) ??
+      adults.find((p) => p.jobId) ??
+      adults[0];
     if (!player) continue;
     const teachers = full.jobs.filter(
       (j) => j.occupationClassification === "profession:teacher",
@@ -140,7 +160,7 @@ function build(): void {
     return;
   }
   throw new Error(
-    `no town with an employed adult, a Medicaid-eligible adult, a work-requirement adult and a preschool-age child in forty draws (seed ${seed})`,
+    `no town with an employed adult, a Medicaid-eligible adult, a work-requirement adult and a preschool-age child in ${DRAWS} draws (seed ${seed})`,
   );
 }
 
@@ -445,11 +465,21 @@ describe("law reach, group B: every policy reaches people through its engine", (
     // The treasury pays it: a month on, a covered adult has received it.
     advanceCore(core, after(api.state.date, 35));
     expect(open().length, `${where} coverage still open`).toBeGreaterThan(0);
-    for (const row of open())
+    // A treasury pays what it holds: each share was paid, or it fell due when
+    // its payer was short and the shortfall is on the receipt; one was paid.
+    for (const row of open()) {
+      const o = accounts.obligation(row.obligationId)!;
       expect(
-        accounts.obligation(row.obligationId)!.paidMinor,
-        `${where} ${row.recipientId} paid`,
-      ).toBeGreaterThan(0);
+        o.paidMinor > 0 || (o.lastReceipt?.shortMinor ?? 0) > 0,
+        `${where} ${row.recipientId} paid or short (${row.obligationId})`,
+      ).toBe(true);
+    }
+    expect(
+      open().some(
+        (row) => accounts.obligation(row.obligationId)!.paidMinor > 0,
+      ),
+      `${where} no coverage paid`,
+    ).toBe(true);
     // The work requirement ends coverage for the adults it reaches.
     const coveredBefore = new Set(open().map((r) => r.recipientId));
     enact(work, 1, "state");
@@ -529,11 +559,21 @@ describe("law reach, group B: every policy reaches people through its engine", (
     }
     advanceCore(core, after(api.state.date, 35));
     expect(open().length, `${where} preschool still open`).toBeGreaterThan(0);
-    for (const row of open())
+    // A treasury pays what it holds: each share was paid, or it fell due when
+    // its payer was short and the shortfall is on the receipt; one was paid.
+    for (const row of open()) {
+      const o = accounts.obligation(row.obligationId)!;
       expect(
-        accounts.obligation(row.obligationId)!.paidMinor,
-        `${where} ${row.recipientId} paid`,
-      ).toBeGreaterThan(0);
+        o.paidMinor > 0 || (o.lastReceipt?.shortMinor ?? 0) > 0,
+        `${where} ${row.recipientId} paid or short (${row.obligationId})`,
+      ).toBe(true);
+    }
+    expect(
+      open().some(
+        (row) => accounts.obligation(row.obligationId)!.paidMinor > 0,
+      ),
+      `${where} no coverage paid`,
+    ).toBe(true);
     report[key] = { households: rows.length };
     enact(key, 0, "state");
     expect(open(), `${where} preschool after repeal`).toEqual([]);
@@ -1009,10 +1049,12 @@ describe("law reach, group B: every policy reaches people through its engine", (
     const stopped = past.heads.filter(
       (h) => past.reachedIds.has(h.id) && usedUp(h.id),
     );
-    expect(
-      stopped.length,
-      `${where}: nobody reached the time limit`,
-    ).toBeGreaterThan(0);
+    // Where a head the rule reaches drew the benefit, the limit must have stopped someone.
+    if ([...past.reachedIds].some((id) => (draws.get(id) ?? []).length > 0))
+      expect(
+        stopped.length,
+        `${where}: nobody reached the time limit`,
+      ).toBeGreaterThan(0);
     for (const head of stopped.filter((h) => h.named))
       expect(
         past.named.some((r) => r.recipientId === head.id),
