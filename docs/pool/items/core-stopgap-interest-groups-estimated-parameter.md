@@ -6,10 +6,11 @@ kind: stopgap
 priority: 3
 status: open
 claimed-by:
-pr:
+pr: #5278
 blocked-on:
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/modules/interest-groups.ts, kind estimated-parameter"
+claimed-at:
 ---
 
 **What.** Replace or clear the 1 open estimated-parameter stopgap row(s) in src/core2/modules/interest-groups.ts: SG-GOV-bound-employer-cost-estimate. Each fake is replaced by the mechanic, or the feature that needs it is deleted.

@@ -5,12 +5,13 @@ area: director
 kind: feature
 priority: 3
 size: L
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/director-m4-verify
+pr: #5345
 blocked-on:
 milestone: M4
 source: "docs/roadmap/later-specs-draft.md M4-02"
+claimed-at: 2026-10-20T00:45:55.769Z
 ---
 
 **What.** Every choice names something real, there's a Lie button beside the replies, and every line comes from the English engine, graded by the owner in batches. (Owner: OPUS-PEOPLE.)
