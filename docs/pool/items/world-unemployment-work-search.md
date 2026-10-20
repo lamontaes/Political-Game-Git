@@ -5,10 +5,10 @@ area: world
 kind: feature
 priority: 3
 size: S
-status: claimed
+status: blocked
 claimed-by: claude/political-game-pool-3xfqef-2
 pr:
-blocked-on:
+blocked-on: owner-unemployment-work-search
 source: added with npm run pool -- add
 claimed-at: 2026-10-19T22:24:21.512Z
 ---
