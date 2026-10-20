@@ -5,7 +5,7 @@ area: core
 kind: stopgap
 priority: 3
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/fs11vb-rch
 pr: #5340
 blocked-on:
