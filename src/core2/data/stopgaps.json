@@ -3767,11 +3767,11 @@
     "kind": "missing-mechanic",
     "file": "src/core2/modules/press.ts",
     "line": 1321,
-    "whatItFakes": "A reporter's closeness to a candidate gives access (asked first, the friendly reporter asks) and gentler copy, but a candidate cannot do a reporter a favor or leak them a story, and a reporter cannot hold a story back for a friend.",
+    "whatItFakes": "A reporter's closeness to a candidate gives access (asked first, the friendly reporter asks) and gentler copy, but a candidate cannot do a reporter a favor, and a reporter cannot hold a story back for a friend. A person who knows of a hidden act can now leak it to a reporter (leakToReporter, press.ts); no conversation move offers it to the player yet.",
     "why": "Favors and leaks need a player act on a reporter (a scene or a conversation move) that the director does not offer yet.",
     "addedBy": "OPUS-PEOPLE",
     "addedAt": "2026-10-14",
-    "replacement": "A leak as a conversation move that puts a record on the reporter's wire with the leaker named in their knowledge, and favors as relationship acts the reporter's drives and closeness read.",
+    "replacement": "A leak offered to the player as a conversation move (the director and the English engine), and favors as relationship acts the reporter's drives and closeness read.",
     "status": "open"
   },
   {
