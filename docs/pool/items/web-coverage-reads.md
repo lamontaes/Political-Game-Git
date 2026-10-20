@@ -5,9 +5,9 @@ area: people
 kind: wiring
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/web-coverage-reads
-pr:
+pr: #5661
 blocked-on:
 after: people-coverage-counted
 source: added with npm run pool -- add
