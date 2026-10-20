@@ -2622,7 +2622,9 @@
     "why": "The core rejects the agreement's next payment once the named job ends (\"Visitor qualification no longer resolves its actual product job\"), seen in year two of Absecon, New Jersey.",
     "addedBy": "OPUS-WORLD",
     "addedAt": "2026-10-12",
-    "replacement": "OPUS-CORE lets a visitor agreement re-resolve its qualification to any current qualified worker at the provider; then this filter goes."
+    "replacement": "OPUS-CORE lets a visitor agreement re-resolve its qualification to any current qualified worker at the provider; then this filter goes.",
+    "status": "resolved",
+    "resolvedBy": "Claude session on the pool item world-agreements-re-resolve-worker, October 19, 2026: deleted src/core2/pinned-jobs.ts and the jobs engine's filters on it. A saved agreement already follows its product jobs' real life in finance-cash.ts (productJobRelations: an ended job drops out and the supplier's current staff in the product occupations carry it; with none, the agreement ends), so a named job's holder may now be laid off, quit, retire or move."
   },
   {
     "id": "SG-WORLD-business-counted-owner-choice",
@@ -2881,7 +2883,8 @@
     "addedBy": "OPUS-PEOPLE",
     "addedAt": "2026-10-12",
     "replacement": "Agreements re-resolve their qualifying worker when a job ends (WORLD/CORE), and the jobs engine exports its pinned-job lookup; then these holders can move like anyone else.",
-    "status": "open"
+    "status": "resolved",
+    "resolvedBy": "Same change, October 19, 2026: the moves engine's copy of the lookup is deleted, so a holder of a job a saved agreement names moves like anyone else and the agreement re-resolves at its next payment (finance-cash.ts productJobRelations)."
   },
   {
     "id": "SG-FIXER-moves-income-household",
@@ -4841,18 +4844,6 @@
     "status": "open"
   },
   {
-    "id": "SG-WORLD-department-government",
-    "kind": "estimated-behavior",
-    "file": "src/core2/opening-department-pay.ts",
-    "line": 90,
-    "whatItFakes": "A town's police, fire, public works and public health departments and its local government offices are paid by the town's own government (its city or village, else its township), a state office in town by its state and a post office by the nation. The opening's data does not say which unit employs a given department, so the link is assumed.",
-    "why": "The departments held no cash and no pay link, so their workers were never paid. The Census of Governments lists functions by government but not which unit staffs a town's own departments.",
-    "addedBy": "claude/public-staff-never-paid",
-    "addedAt": "2026-10-17",
-    "replacement": "Each department's employing government read from the Census of Governments employment file by function, so a county health department, a fire district or a state agency's field office pays its own staff.",
-    "status": "open"
-  },
-  {
     "id": "SG-GOV-committee-day-hooks",
     "kind": "owner-decision",
     "file": "src/core2/modules/legislature.ts",
@@ -4874,6 +4865,18 @@
     "addedBy": "claude/governor-clemency",
     "addedAt": "2026-10-17",
     "replacement": "A clemency board engine (members, petitions, recommendations) and the council or senate consent, read by the governor's act where the law requires it.",
+    "status": "open"
+  },
+  {
+    "id": "SG-WORLD-department-government",
+    "kind": "estimated-behavior",
+    "file": "src/core2/opening-department-pay.ts",
+    "line": 90,
+    "whatItFakes": "A town's police, fire, public works and public health departments and its local government offices are paid by the town's own government (its city or village, else its township), a state office in town by its state and a post office by the nation. The opening's data does not say which unit employs a given department, so the link is assumed.",
+    "why": "The departments held no cash and no pay link, so their workers were never paid. The Census of Governments lists functions by government but not which unit staffs a town's own departments.",
+    "addedBy": "claude/public-staff-never-paid",
+    "addedAt": "2026-10-17",
+    "replacement": "Each department's employing government read from the Census of Governments employment file by function, so a county health department, a fire district or a state agency's field office pays its own staff.",
     "status": "open"
   }
 ]
