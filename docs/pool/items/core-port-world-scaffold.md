@@ -5,10 +5,10 @@ area: core
 kind: wiring
 priority: 2
 size: M
-status: claimed
+status: blocked
 claimed-by: claude/political-game-pool-yucp92-aj
 pr:
-blocked-on:
+blocked-on: core-old-imports-population-town-employment
 after: core-old-imports-opening-employment
 source: "split from core-remaining-port-the-opening-town-builder-population (an L item), Oct 15"
 claimed-at: 2026-10-20T09:47:38.757Z
