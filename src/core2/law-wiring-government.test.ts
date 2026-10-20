@@ -216,6 +216,15 @@ describe(`government operations laws are applied by their engines (seed ${seed})
           expect(named.length, `${where}: ${key} named voters`).toBeGreaterThan(
             0,
           );
+          expect(
+            groups.length,
+            `${where}: ${key} counted voter groups reached`,
+          ).toBeGreaterThan(0);
+          if (key === PHOTO || key === AUTO)
+            expect(
+              groups.some((g) => g.amountMinor > 0),
+              `${where}: ${key} costs a counted group something`,
+            ).toBe(true);
           for (const r of rows) {
             expect(r.engine, r.id).toBe("core2-voting-v1");
             expect(

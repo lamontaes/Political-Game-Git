@@ -394,11 +394,10 @@ export function applyElectionLaws(
     const unit = spec.paidAt === moment ? reachParameter(spec.cost) : 0;
     const planned = roll.map((v) => unit * spec.share(api, v, laws) * v.count);
     const plannedTotal = planned.reduce((a, b) => a + b, 0);
-    const paid =
-      gov && plannedTotal >= 1
-        ? payElectionCost(api, gov, spec, plannedTotal, contestId, lawId)
-        : 0;
-    const ratio = plannedTotal > 0 ? paid / plannedTotal : 0;
+    // The treasury pays what it holds and owes the rest (payElectionCost), so
+    // each voter's row carries what the law cost to serve them, funded or owed.
+    if (gov && plannedTotal >= 1)
+      payElectionCost(api, gov, spec, plannedTotal, contestId, lawId);
     roll.forEach((v, i) => {
       lawApplied(api, {
         key: spec.key,
@@ -408,7 +407,7 @@ export function applyElectionLaws(
         engine: ELECTION_ENGINE,
         what: spec.what,
         count: Math.max(1, Math.round(v.count)),
-        amountMinor: planned[i]! * ratio,
+        amountMinor: planned[i]!,
       });
     });
   }
