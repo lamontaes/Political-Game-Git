@@ -5,12 +5,12 @@ area: world
 kind: research
 priority: 2
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/political-game-pool-yucp92-ag
 pr:
 blocked-on: world-commute-flow-data
 source: added with npm run pool -- add
-claimed-at:
+claimed-at: 2026-10-20T09:16:26.942Z
 ---
 
 **What.** TODO
