@@ -1528,6 +1528,16 @@ export interface LeaderRequestRow {
   /** The sitting the bill was put on when the leader agreed. */
   readonly scheduledFor: string | null;
   readonly reasons: Readonly<Record<string, number>>;
+  /**
+   * Set when the member came back with something the leader accepted (a
+   * favor, or backing the leader's own item): the deal the leader weighed and
+   * the earlier refusal's reasons, so the new answer can be traced to it.
+   */
+  readonly offer?: {
+    readonly kind: string;
+    readonly obligationId: string;
+    readonly earlierReasons: Readonly<Record<string, number>>;
+  };
 }
 
 /**
@@ -1545,7 +1555,13 @@ export function askLeaderForHearing(
   const id = `leader-request:${billId}`;
   const existing = table(api, "leaderRequests").get(id) as unknown as
     LeaderRequestRow | undefined;
-  if (existing) return existing;
+  // A granted request stands; a refused one is read again only when the
+  // member has since made the leader an offer the leader accepted.
+  const accepted =
+    existing && !existing.granted
+      ? acceptedLeaderOffer(api, existing)
+      : undefined;
+  if (existing && !accepted) return existing;
   const office = stateOfficeOf(api, memberId);
   if (!office || office.role !== "legislator")
     throw new Error(`${memberId} holds no state legislative seat.`);
@@ -1573,7 +1589,14 @@ export function askLeaderForHearing(
       closenessBetween(api.state as CoreState, leaderId, memberId) *
       stateDayParameter("leaderRequestTieWeight"),
   };
-  const bare = reasons.party + reasons.tie;
+  const offered = accepted
+    ? stateDayParameter(
+        accepted.kind === "back-their-item"
+          ? "leaderRequestBackingWeight"
+          : "leaderRequestFavorWeight",
+      )
+    : 0;
+  const bare = reasons.party + reasons.tie + offered;
   const traits = leanedTerm(
     api.state,
     leader,
@@ -1594,8 +1617,60 @@ export function askLeaderForHearing(
     date: api.state.date,
     granted,
     scheduledFor: granted ? (already?.date ?? scheduleVote(api, billId)) : null,
-    reasons: { ...reasons, traits },
+    reasons: { ...reasons, ...(accepted ? { offer: offered } : {}), traits },
+    ...(accepted
+      ? {
+          offer: {
+            kind: accepted.kind,
+            obligationId: accepted.obligationId,
+            earlierReasons: existing!.reasons,
+          },
+        }
+      : {}),
   };
   table(api, "leaderRequests").put(row as unknown as ModuleRow);
   return row;
+}
+
+/**
+ * The member has just offered a deal on a bill whose request the leader
+ * refused: the leader reads the answer again with what they were offered.
+ * Nothing happens for a bill with no refused request.
+ */
+export function reanswerLeaderRequest(
+  api: CoreAPI,
+  memberId: string,
+  billId: string,
+): LeaderRequestRow | undefined {
+  const held = table(api, "leaderRequests").get(
+    `leader-request:${billId}`,
+  ) as unknown as LeaderRequestRow | undefined;
+  if (!held || held.granted) return undefined;
+  return askLeaderForHearing(api, memberId, billId);
+}
+
+/**
+ * The deal the bill's leader accepted from the member after the leader
+ * refused the request: its kind and the obligation the member now owes
+ * (legislature `offerDeal` records both), or nothing.
+ */
+function acceptedLeaderOffer(
+  api: CoreAPI,
+  refused: LeaderRequestRow,
+): { kind: string; obligationId: string } | undefined {
+  const bill = billOf(api, refused.billId);
+  if (!bill) return undefined;
+  const deal = bill.deals
+    .map((d, index) => ({ d, index }))
+    .filter(
+      ({ d }) =>
+        d.memberId === refused.leaderId &&
+        d.status === "accepted" &&
+        d.kind !== "amend" &&
+        d.date >= refused.date,
+    )
+    .at(-1);
+  if (!deal) return undefined;
+  const obligationId = `obligation:${bill.id}:${refused.leaderId}:${deal.index}`;
+  return { kind: deal.d.kind, obligationId };
 }

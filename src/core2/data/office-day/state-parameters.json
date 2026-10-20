@@ -79,6 +79,18 @@
       "source": "How much a floor leader's party loyalty weighs in answering a member's request to schedule a hearing: a member of the leader's own party gets it, one of the other side loses it. Larger than the tie and trait terms, so a request from the other side is refused unless a deep tie and the leader's traits outweigh it.",
       "spread": [0.5, 1.5]
     },
+    "leaderRequestFavorWeight": {
+      "value": 0.4,
+      "tag": "TUNABLE",
+      "source": "How much a favor the member owes the leader (accepted when offered) adds to the leader's answer to a refused request for the floor. Floor leaders trade scheduling for support and favors (Cox and McCubbins, Setting the Agenda, 2005), but no study sizes the trade; set a little under the tie term's range so a favor can turn a close refusal and cannot undo a party's opposition alone.",
+      "spread": [0.2, 0.7]
+    },
+    "leaderRequestBackingWeight": {
+      "value": 0.6,
+      "tag": "TUNABLE",
+      "source": "How much a promise to back the leader's own item (accepted when offered) adds to the leader's answer to a refused request: a promised vote is worth more to a leader than a favor owed. Same source and limit as the favor weight.",
+      "spread": [0.3, 1]
+    },
     "leaderRequestTieWeight": {
       "value": 0.5,
       "tag": "TUNABLE",
