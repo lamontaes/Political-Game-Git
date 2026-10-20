@@ -1,31 +1,18 @@
 import { expect, it } from "vitest";
-import { organizationProfileAt } from "../simulation/life-queries";
-import type { OrganizationProfileRecord, World } from "../simulation/types";
 import { openingOrganizationProfiles } from "./opening-organization-profile";
 
-// The opening reads each organization's latest profile the way the old
-// life-queries read did (core-old-imports-population-org-profile): the same
-// record for every organization, across edits on one day, future-dated and
-// out-of-history records.
+// The opening reads each organization's latest profile: the same record for
+// every organization, across edits on one day, future-dated and
+// out-of-history records. (That this matches the old engine's read is
+// checked outside the core, in tests/core-opening-org-profile.test.ts.)
 const record = (
   organizationId: string,
   sequence: number,
   effectiveAt: string,
   name: string,
-): OrganizationProfileRecord =>
-  ({
-    id: `profile:${organizationId}:${sequence}`,
-    stableKey: `profile:${organizationId}:${sequence}`,
-    sequence,
-    organizationId,
-    effectiveAt,
-    name,
-    classification: "enterprise:retail",
-    locationJurisdictionId: null,
-  }) as unknown as OrganizationProfileRecord;
+) => ({ organizationId, sequence, effectiveAt, name });
 
 const world = {
-  id: "world:test",
   currentDate: "2025-01-20",
   history: {
     nextSequence: 10,
@@ -39,12 +26,10 @@ const world = {
       record("org:c", 6, "2030-02-02", "Not Yet Formed"),
     ],
   },
-} as unknown as World;
+};
 
-it("reads the same latest profile as the old life-queries read for every organization", () => {
+it("takes the latest available profile of each organization", () => {
   const profiles = openingOrganizationProfiles(world);
-  for (const id of ["org:a", "org:b", "org:c"])
-    expect(profiles.get(id), id).toEqual(organizationProfileAt(world, id));
   expect(profiles.get("org:a")?.name).toBe("Renamed Again Same Day");
   expect(profiles.get("org:b")?.name).toBe("B Store");
   expect(profiles.has("org:c")).toBe(false);
