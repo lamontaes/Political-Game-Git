@@ -6,7 +6,12 @@
  * law rows an income-tax act writes for payroll withholding to collect.
  * Money moves only through the accounts journal; pay only through rerateJob.
  */
-import { appliedOn, lawApplied } from "./applied";
+import {
+  appliedOn,
+  appliedTo,
+  lawApplied,
+  type AppliedTarget,
+} from "./applied";
 import { addDays, makeIsoDate } from "../kernel/dates";
 import type { CoreAPI, CoreState, JobInput, Source } from "../types";
 import {
@@ -30,7 +35,6 @@ import {
 } from "./group-b-people";
 import { flowWeights, fundOf } from "../counted-money";
 import { getRow, putRow, rowsOf } from "./group-b-store";
-import { appliedTo, lawApplied, type AppliedTarget } from "./applied";
 import { registerLinePayments } from "../budgets-treasury";
 import tuition from "../data/opening-private-tuition.json" with { type: "json" };
 
