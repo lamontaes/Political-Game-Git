@@ -5,19 +5,20 @@ area: world
 kind: stopgap
 priority: 2
 size: S
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/political-game-pool-7xkkii
+pr: #5196
 blocked-on:
-source: "split from world-stopgap-housing-faked-mechanic (claude/housing-landlord-judge notes, Oct 19)"
+source: added with npm run pool -- add
+claimed-at: 2026-10-19T22:35:12.454Z
 ---
 
-**What.** Today every rental in a town belongs to one ownerless business, `organization:landlord:<place>`, and it serves notice by summed pulls of months owed and months late calibrated to landlords filing at about two months owed (stopgap SG-WORLD-housing-landlord). Give each lease a named owner, a person or a business the business engine owns, and have that owner decide to file from their own patience, cash and the law's steps. Remove the calibrated pull in the same change.
+**What.** Every town rental is paid to one ownerless business, `organization:landlord:<place>` (housing.ts `withHousing`), and `review` serves notice on the late leases by `landlordPulls`: a summed logistic of months owed and months late, carried month to month. Give each rental a real owner, a resident (or a household) recorded in the business module's `owners` table, and make the notice a choice by that owner from their own traits, cash and the tenant's history, as `credit.ts` does for a business owner (`chooseAct` between waiting and acting, with the reasons recorded). The landlord's payout then goes to its owners, and an owner who is short of cash weighs the arrears differently from one who is not.
 
-**Rules.** No dice: a landlord files because of their own patience, money and the law's steps, never a calibrated pull alone. One model, two tiers: a counted landlord and a full one read the same rule, times their count. Replace, never layer: the ownerless landlord and `landlordPulls` are deleted, not kept beside the owners.
+**Rules.** No dice: the notice follows the owner's traits, cash and the tenant's record, never a pull that fires at a level (sliding scales and causes). One model, two tiers: a counted tenant's lease is read by the same owner rule as a full tenant's, times its count. Wire to the world: the owner's rent income and any notice move cash by journal record. Placeholders: assigning owners from the residents is itself a stand-in if the opening records no landlords, so register it with a source for the owner share of rentals (ACS B25003 renter-occupied, with the share of rental units held by individual investors) and a spread.
 
-**Done when.** In a one-year played world (`buildBenchWorld`, a drawn place from all 56, place and seed named in the PR body) an eviction case names its landlord by record id, that landlord's cash and patience are the recorded reasons it filed, and the lease record names the same owner. The test in `src/core2/housing.test.ts` and the stopgap tripwire show SG-WORLD-housing-landlord resolved in `src/core2/data/stopgaps.json`.
+**Done when.** In a one-year run of the played world (buildBenchWorld, a drawn place from all 56, seed named in the PR body) a late lease's eviction notice cites its owner's person record and the reasons recorded for waiting or acting, the landlord payout reaches that owner's account by journal record, and SG-WORLD-housing-landlord is resolved or replaced by a registered owner-assignment stopgap; `src/core2/housing.test.ts` shows it. The owner plays it: fall behind on rent and read why this landlord, with this record, served notice.
 
-**Files.** src/core2/modules/housing.ts, src/core2/data/stopgaps.json, src/core2/housing.test.ts
+**Files.** src/core2/modules/housing.ts, src/core2/modules/business.ts, src/core2/data/housing/housing.json, src/core2/data/housing/parameters.json, src/core2/data/stopgaps.json, src/core2/housing.test.ts
 
-**Notes.** The landlord id is built in housing.ts at about lines 379, 776 and 1115. Real owners need the business engine to own rental businesses; read `docs/coordination/DECISION-REGISTER.md` first.
+**Notes.** Oct 19 (claude/landlord-owners, released after reading the code). Spec written, not built: the housing module is over 1,800 lines and the decision touches the business owners table, the payout, the notice, `countedLate` and the parameters `housingNoticeBaseline`, `housingNoticeArrearsWeight` and `housingNoticeLateWeight`, so it deserves a session of its own. Pattern to copy: `credit.ts` review, lines near 451 to 480 (owner id, reasons, `chooseAct`). First check whether `world-business-owner-seam` already gives rentals an owner.

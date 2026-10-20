@@ -4,10 +4,10 @@ title: "Stopgaps in housing (faked-mechanic): 3 open"
 area: world
 kind: stopgap
 priority: 2
-status: claimed
+status: in-pr
 claimed-by: claude/housing-stopgaps-g08lgv
-pr:
-blocked-on:
+pr: #5212
+blocked-on: world-housing-landlord-owners
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/modules/housing.ts, kind faked-mechanic"
 claimed-at: 2026-10-19T22:28:22.908Z

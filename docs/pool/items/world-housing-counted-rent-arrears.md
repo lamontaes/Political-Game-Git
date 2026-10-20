@@ -5,11 +5,12 @@ area: world
 kind: stopgap
 priority: 2
 size: M
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/counted-rent-g08lgv
+pr: #5222
 blocked-on:
-source: "split from world-stopgap-housing-faked-mechanic (claude/housing-landlord-judge notes, Oct 19)"
+source: added with npm run pool -- add
+claimed-at: 2026-10-19T22:30:16.010Z
 ---
 
 **What.** Counted renters pay rent from their place's pooled residents account with no household arrears of their own, so a single counted household can never fall behind (stopgap SG-WORLD-housing-counted-rent). Replace the pooled flow with each counted group's own income against its own rent, filling the household in as a full person when it falls behind, so arrears and eviction follow the same legal steps as for a full renter. The fill-in item world-fill-in-arrears-from-household covers what a filled-in household carries.

@@ -4,13 +4,13 @@ title: "Scene narration (scene-words.json), then people bringing things up (brin
 area: words
 kind: feature
 priority: 2
-status: claimed
-claimed-by: claude/news-headlines-worded
-pr:
-blocked-on:
+status: blocked
+claimed-by:
+pr: #5233
+blocked-on: words: the merger accepts edits under src/director and data/english only from the Words session; the CTO must confirm a non-Words branch or hand this to the Words line (merger comment, Oct 20)
 milestone:
 source: "docs/coordination/words.md line 34 (unchecked checklist line)"
-claimed-at: 2026-10-19T22:14:00.858Z
+claimed-at:
 ---
 
 **What.** Scene narration is thin: `data/english/parts/scene-words.json` has few setting lines, `bring-it-up.json` lacks the rows for many subjects, and news headlines and the names of choices, stance questions and actions still show as record keys (the News screen reads 'election-result · office: Commissioner · winner: ...'). Mine and author scene narration first, then the bring-it-up rows, then headlines (from `headlines.json` and `news.json`) and choice names, and have composeScene, bringItUp and the news writer read them. The player would notice scenes that describe where he is, neighbors who bring things up and headlines instead of keys.
@@ -21,4 +21,12 @@ claimed-at: 2026-10-19T22:14:00.858Z
 
 **Files.** data/english/parts/scene-words.json, data/english/parts/bring-it-up.json, data/english/parts/headlines.json, src/director/mined/scene-bank.ts, scripts/english-corpus/newscast-bank.ts
 
-**Notes.** Checklist line from words.md; verify against main before starting.
+**Notes.** Sent back 2026-10-20 from PR #5233 (branch claude/law-decision-headlines): player-facing text is hand-written with origin "authored" and shippable true in data/english/parts/headlines.json; must be marked shippable false until graded.
+
+Checklist line from words.md; verify against main before starting.
+
+Measured Oct 19 (claude/news-headlines-worded), not built. What the News screen would have to word in a played year: in Milton, North Dakota, Pine Lake, Georgia, Washington, D.C., Cragsmoor, New York, Cochituate, Massachusetts and Umatac, Guam (seed 8c1e02647940d40e) none of the 539 to 1,838 stories a town's news table holds was a death or a closing, the only two kinds the existing news banks can word for a town (`townStoryKinds` in `src/director/data/opening-story.json`, composed by `composeNewsStory`). In one drawn town (seed kinds:0, one year from 2026-10-12) the 767 printed stories by topic were: law decisions under `us-policy-positions` 450, public meetings 60, town halls 40, central bank rate decisions 40, state jobs reports 30, budget lines 20, filings and recordings 40, people 32, introductions, votes and offices taking 30, others 25; the archive stories were law enacted 4, vote 15, law took effect 12, budget adopted 3, parent died 1. The headline bank (`headlines.json`) has roles for council, grant, court, labor-citation, proposal, organization opened and closed, honor, meeting and death only, so a law decision, a town hall, a rate decision or a jobs report has no headline pieces to compose from. A first slice has to author headline and lede pieces for the law-decision story (what changed, in which direction, from the `change`, `series`, `value` and `unit` facts and the amounts' subjects in `data/english/bill-sections.json`) before any wiring; a "Adopts" headline on a cut would say the wrong thing. The wiring is small: `heardItems` in `src/bench/calendar.ts` already feeds `play.mjs`, which shows `headline` and `lede` when a row has them, so a `wordedStory(core, story)` beside `townStory` in `src/director/opening-story.ts` is all the News screen needs.
+
+Sent back 2026-10-20 from PR #5241 (branch claude/news-headlines-more): Merge main 355f7abbdb8d into claude/news-headlines-more conflicts in: src/bench/calendar.ts. Resolve these files with a normal merge before changed-file validation; no integrated green head exists.; finish on that branch, merge main into it first. Current replacement claim and PR are preserved.
+
+Sent back 2026-10-20 from PR #5233 (branch claude/law-decision-headlines): the release note still promises law headlines whose authored parts are now not shippable, so they cannot show; finish on that branch, merge main into it first.

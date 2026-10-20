@@ -5,9 +5,9 @@ area: world
 kind: stopgap
 priority: 2
 size: M
-status: claimed
+status: done
 claimed-by: claude/jobs-layoff-decider
-pr:
+pr: #5213
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-19T22:27:23.646Z
