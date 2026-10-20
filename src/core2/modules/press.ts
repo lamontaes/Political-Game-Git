@@ -2714,7 +2714,12 @@ function writeEndorsements(
   ctx: DeskContext,
   contests: readonly ContestRow[],
 ): void {
-  if (!api.state.modules.has(CAMPAIGNS_MODULE_ID)) return;
+  // The head endorses by their own views of the platforms.
+  if (
+    !api.state.modules.has(CAMPAIGNS_MODULE_ID) ||
+    !api.state.modules.has(VIEWS_MODULE_ID)
+  )
+    return;
   for (const outlet of outletsHere(api)) {
     const headId = outlet.headId;
     if (outlet.tier === "national" || !headId) continue;
