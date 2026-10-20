@@ -5,9 +5,9 @@ area: core
 kind: stopgap
 priority: 2
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/moves-pinned-income
-pr:
+pr: #5558
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-20T09:21:09.548Z
