@@ -5,13 +5,13 @@ area: world
 kind: bug
 priority: 1
 size: S
-status: blocked
-claimed-by: claude/political-game-pool-7xkkii
+status: open
+claimed-by:
 pr: #5306
 blocked-on:
 after: world-census-scaled-establishments-short
 source: added with npm run pool -- add
-claimed-at: 2026-10-20T03:49:10.908Z
+claimed-at:
 ---
 
 **What.** In a town opened at its Census size, the owner-draw line into the counted groups' funds per resident is far below the small town's: the draw (the month pass in src/core2/modules/business.ts) pays one business's retained profit to its one owner, and the businesses are still the sample's count. The cause is the establishment count, which world-census-scaled-establishments-short fixes, not the draw, and multiplying the draw by the owner's weight would pay out profit a business never earned. Once that lands, measure the 30-day owner-draw line per resident in a town above 10,000 against the default-size town's, add the test that states the 25 percent bound beside counted-weight-money.test.ts, and fix whatever shortfall the scaled businesses leave in business.ts or residents.ts, one line at a time. File the retirement and purchases lines as their own items if they are a different cause.
