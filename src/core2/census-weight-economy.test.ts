@@ -12,7 +12,7 @@ import { setBookkeeping } from "./bookkeeping";
 import { gameStartDate } from "./game-start";
 import { addDays, makeIsoDate } from "./kernel/dates";
 import { advanceCore } from "./life";
-import { residentCounts } from "./modules/residents";
+import { residentCounts, townPlaceOf } from "./modules/residents";
 import { corePlaceByKey } from "./place-lookup";
 import { placeLocalities, placeStateKeys } from "./places";
 import { coreAPI } from "./state";
@@ -55,10 +55,14 @@ function open(placeSeed: string, key: string, countScale?: number) {
 it("a town above 10,000 stands for its Census size in people, workers, rental stock and macro", () => {
   const draw = drawLargerPlace();
   const where = `seed ${draw.seed}, ${draw.key}, Census ${draw.reference}`;
+  // The town the player lives in; the world holds other places too.
   const sum = (
     core: ReturnType<typeof open>,
     field: "people" | "households" | "workers",
-  ) => residentCounts(core).reduce((n, row) => n + row[field], 0);
+  ) =>
+    residentCounts(core)
+      .filter((row) => row.placeId === townPlaceOf(core))
+      .reduce((n, row) => n + row[field], 0);
   const rentals = (core: ReturnType<typeof open>) =>
     (
       coreAPI(core)
