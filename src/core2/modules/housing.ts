@@ -163,6 +163,34 @@ const STATE_RENT_VALUE = (() => {
     ]),
   );
 })();
+/** Each state's homes and owned homes over its counties, for a county the ACS tenure table does not list. */
+const STATE_TENURE = (() => {
+  const sums = new Map<string, [number, number]>();
+  for (const [county, row] of Object.entries(COUNTY_TENURE)) {
+    const sum = sums.get(county.slice(0, 2)) ?? [0, 0];
+    sum[0] += row[0];
+    sum[1] += row[1];
+    sums.set(county.slice(0, 2), sum);
+  }
+  return sums;
+})();
+/**
+ * The owner share of a county the tenure table does not list (Connecticut's
+ * old counties, which the ACS now publishes as planning regions): its
+ * neighbors' homes and owned homes, then its state's, then the nation's.
+ */
+function fallbackTenure(county: string): [number, number] | undefined {
+  let homes = 0;
+  let owned = 0;
+  for (const near of COUNTY_NEIGHBORS[county] ?? []) {
+    const row = COUNTY_TENURE[near];
+    if (!row) continue;
+    homes += row[0];
+    owned += row[1];
+  }
+  if (homes > 0) return [homes, owned];
+  return STATE_TENURE.get(county.slice(0, 2));
+}
 /**
  * The household-weighted median rent and value of the neighboring counties
  * that publish both (Census county adjacency), for a county the ACS withholds.
@@ -347,7 +375,8 @@ export function withHousing(input: CoreInput): CoreInput {
   const tenure =
     PLACE_TENURE[town.geoid] ??
     COUNTY_TENURE[town.county] ??
-    nationTenure(town);
+    nationTenure(town) ??
+    fallbackTenure(town.county);
   const [medianRent] = rentValueOf(town.county);
   if (!tenure || !medianRent) return input;
   const people = new Map(input.people.map((row) => [row.id, row]));
