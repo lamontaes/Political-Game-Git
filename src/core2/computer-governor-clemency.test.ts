@@ -95,10 +95,12 @@ function playPlace(seed: string, skipped: string[]): string | null {
   const decided = resultsOf(api, governor.personId).filter(
     (row) => row.kind === "clemency",
   );
-  if (!decided.length) {
-    skipped.push(`${where}: no petition was taken up in 120 days`);
-    return null;
-  }
+  // A governor with authority and a state prisoner serving is the case: it
+  // must have taken a petition up, never be skipped for the next draw.
+  expect(
+    decided.length,
+    `${where}: governor ${governor.personId} took up no petition in 120 days with ${prisonersServing(api, state).length} serving`,
+  ).toBeGreaterThan(0);
   for (const row of decided) {
     expect(row.by, `${where}: ${row.id}`).toBe("character");
     expect(row.reasons, where).toHaveProperty("served");
