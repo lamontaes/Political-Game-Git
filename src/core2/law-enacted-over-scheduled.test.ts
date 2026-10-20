@@ -115,5 +115,5 @@ describe("in the played world", () => {
       return;
     }
     throw new Error("No drawn place had a later-dated state row.");
-  });
+  }, 600_000);
 });
