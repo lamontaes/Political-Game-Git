@@ -6,9 +6,9 @@ kind: feature
 priority: 1
 size: L
 status: blocked
-claimed-by: claude/words-grading-bench-split
+claimed-by:
 pr:
-blocked-on: "words-bench-defects, words-bench-stage, words-bench-compose, words-bench-datapoints, words-bench-page, words-bench-calibration"
+blocked-on: words-bench-defects, words-bench-stage, words-bench-compose, words-bench-datapoints, words-bench-page, words-bench-calibration
 milestone:
 after: words-authored-pieces-gate
 source: "words-and-director order 2"
@@ -27,3 +27,5 @@ claimed-at: 2026-10-16T04:16:33.604Z
 Absorbs words-batch-12 (dropped as a duplicate as of 2026-10-15). Size L: the claiming session splits it into sub-items in the pool before building. Blocked-on words-catalog-coverage is done (#4398).
 
 Split 2026-10-16 into words-bench-defects, words-bench-stage, words-bench-compose, words-bench-datapoints, words-bench-page and words-bench-calibration; this item closes when all six are done and the owner has graded the page.
+
+Oct 20: The Oct 16 claim has no PR and is over two days old, so the claim is cleared.

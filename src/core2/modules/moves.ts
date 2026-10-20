@@ -32,6 +32,7 @@ import { endLivingPlan } from "../cost-of-living";
 import { OUTSIDE_MARKET_KIND } from "../opening-outside-market";
 import { currentCloseness } from "../closeness";
 import { regionalLevel, regionalRegistered } from "./regional";
+import { registerModule } from "../state";
 import type { Parameter } from "../parameters";
 import type { EntityId } from "../kernel/brands";
 import type {
@@ -44,7 +45,6 @@ import type {
   PersonId,
   PersonState,
 } from "../types";
-import { pinnedJobs } from "../pinned-jobs";
 
 export const MOVES_MODULE_ID = "moves";
 export const MOVES_PARAMETERS = rows as unknown as Readonly<
@@ -54,7 +54,6 @@ export const MOVED_AWAY_EVENT = "person.moved-away";
 const STOPGAP = "SG-P15-moves-weights";
 const OWNER_STOPGAP = "SG-P15-moves-owners-stay";
 const INACTIVE_TIER = "husk";
-const PINNED_STOPGAP = "SG-P15-moves-pinned-jobs";
 
 type Rates = Readonly<Record<string, number>>;
 const RATES = moverRates as unknown as {
@@ -733,9 +732,6 @@ function leave(
   // A recorded income award (a pension, Social Security) is paid into the
   // household where its person lives now, the same amount from its next due date.
   for (const id of going) moveRecipientIncomeHome(core, id, arrivalHousehold);
-  store(api)
-    .table("departures")
-    .put(departure as unknown as { id: string });
   api.emit({
     id: departure.id,
     date: api.state.date,
@@ -753,6 +749,7 @@ function leave(
       ),
       ...jobsLeft,
       ...(sale ? { homeSaleId: sale.id } : {}),
+      [DEPARTURE_FACT]: JSON.stringify(departure),
     },
   });
   return departure;
@@ -924,16 +921,6 @@ function decide(api: CoreAPI, person: Readonly<PersonState>): Departure | null {
     !Object.keys(pull.causes).some((key) => EVENT_PULLS[key] !== undefined)
   )
     return null;
-  const pinned = pinnedJobs(api.state as CoreState);
-  if (
-    going.some((id) => {
-      const job = api.state.people.get(id)?.jobId;
-      return !!job && pinned.has(job);
-    })
-  ) {
-    api.stopgap(PINNED_STOPGAP);
-    return null;
-  }
   pending.set(api.state, { pull });
   const offers: ActOffer[] = [STAY_PUT, MOVE_AWAY].map((definition) => ({
     definition,
@@ -1205,15 +1192,41 @@ function addEventPull(api: CoreAPI, event: CoreEventInput): void {
   }
 }
 
-export function departuresOf(api: CoreAPI): Departure[] {
-  return store(api).table("departures").rows() as unknown as Departure[];
+/** The departure record rides on its event, for tests and proofs that watch departures. */
+const DEPARTURE_FACT = "moves:departure";
+const watched = new WeakMap<object, Departure[]>();
+
+/**
+ * Starts recording each departure the engine emits (for tests and year proofs;
+ * no engine reads departures in play). Register it right after the world is
+ * built, before any day runs; the departures seen so far come from
+ * `departuresSeen`.
+ */
+export function watchDepartures(core: CoreState): void {
+  if (watched.has(core)) return;
+  const seen: Departure[] = [];
+  watched.set(core, seen);
+  registerModule(core, {
+    id: "moves:departures-watch",
+    eventKinds: [MOVED_AWAY_EVENT],
+    onEvent: (_api, event) => {
+      const record = event.facts?.[DEPARTURE_FACT];
+      if (record) seen.push(JSON.parse(record) as Departure);
+    },
+  });
+}
+
+export function departuresSeen(core: CoreState): Departure[] {
+  const seen = watched.get(core);
+  if (!seen) throw new Error("watchDepartures(core) was not called first");
+  return seen;
 }
 
 export const movesModule: CoreModule = {
   id: MOVES_MODULE_ID,
   state: {
     schemaVersion: 1,
-    tables: { state: {}, pulls: {}, departures: {} },
+    tables: { state: {}, pulls: {} },
   },
   eventKinds: Object.keys(EVENT_PULLS),
   onEvent(api, event) {
