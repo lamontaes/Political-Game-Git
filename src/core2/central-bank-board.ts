@@ -3,6 +3,7 @@ import board from "./data/macro/board.json" with { type: "json" };
 import history from "./data/macro/history.json" with { type: "json" };
 import { getNameCorpus } from "./gov-rules/names-data";
 import { SeededRng } from "./kernel/rng";
+import { medianTransactionBalance } from "./starting-cash";
 import type { MacroMonth, MacroParameter } from "./macro-model";
 import type {
   ActOffer,
@@ -160,7 +161,12 @@ export function generateBoard(
         [board.traits.risk]: trait(),
         [board.traits.deliberation]: trait(),
       },
-      liquidMinor: p("zero"),
+      // What a family at the seat's pay keeps in checking and savings (SCF),
+      // as every other named official is given, not an empty wallet.
+      liquidMinor: Math.round(
+        medianTransactionBalance(board.memberPay.annualDollars) *
+          p("minorPerDollar"),
+      ),
       livingCostDailyMinor: p("zero"),
       source: {
         tag: "ESTIMATED",
@@ -410,10 +416,13 @@ export interface MemberView {
   sizeCost: number;
 }
 
-/** A Taylor-type view weighted by the member's lean, closed gradually by their patience. */
+/**
+ * A Taylor-type view weighted by the member's lean, closed gradually at the
+ * board's pace. The member's temperament enters once, where the shared
+ * chooser weighs moving against holding (`macro.rate-vote`), not here.
+ */
 export function memberView(
   member: Readonly<BoardMember>,
-  traits: Readonly<Record<string, number>>,
   readings: Readonly<MeetingReadings>,
   p: MacroParameter,
 ): MemberView {
@@ -431,10 +440,7 @@ export function memberView(
     -gapResponse *
     p("macroOkunOutputPerUnemploymentPoint") *
     (readings.unemploymentPct - p("macroNaturalUnemploymentPct"));
-  const smoothing =
-    p("macroSmoothingBase") +
-    p("macroSmoothingPerPatience") *
-      (traits[board.traits.patience] ?? p("zero"));
+  const smoothing = p("macroSmoothingBase");
   return {
     memberId: member.id,
     personId: member.personId,
@@ -445,9 +451,7 @@ export function memberView(
       prices: smoothing * prices,
       jobs: smoothing * jobs,
     },
-    sizeCost:
-      p("one") -
-      p("macroMoveSizeCostPerRisk") * (traits[board.traits.risk] ?? p("zero")),
+    sizeCost: p("one"),
   };
 }
 

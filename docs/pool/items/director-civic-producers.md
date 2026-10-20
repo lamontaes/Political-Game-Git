@@ -5,10 +5,10 @@ area: director
 kind: wiring
 priority: 1
 size: M
-status: claimed
+status: blocked
 claimed-by: claude/director-civic-producers
 pr:
-blocked-on: "director-civic-roles"
+blocked-on: director-civic-producers-government,director-civic-producers-government-rest
 source: "director-reach, PR #4508"
 claimed-at: 2026-10-19T18:01:34.276Z
 ---
