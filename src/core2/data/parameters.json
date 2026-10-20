@@ -1998,6 +1998,7 @@
   "openingRetirementClaimTraitPullYears": {
     "value": 4,
     "tag": "TUNABLE",
+    "stopgapId": "SG-P8-param-openingRetirementClaimTraitPullYears",
     "citation": "SSA Annual Statistical Supplement 2022, Table 6.B5: claim ages spread from 62 (about 25% in 2021) to 70 and later (about 8%); one unit of patience (mean of deliberation, reliability and less risk) moves a claim about a year and a half.",
     "estimatedFrom": "Explicit opening-generation prior. No claim of observed individual history, 2021 legal entitlement or parameter-specific empirical bound.",
     "spread": {
