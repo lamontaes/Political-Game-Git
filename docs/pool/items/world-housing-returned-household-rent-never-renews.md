@@ -5,11 +5,12 @@ area: world
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/housing-laws-demoted-rent
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-20T10:05:23.468Z
 ---
 
 **What.** A counted household that was filled in and then returned to the counts keeps its household record in the core while its lease ends and its rent is a flow again. The renewal pass skipped any counted household that still had a core record, so a returned household's rent was never renewed, never raised with the market and never held by a rent stabilization law. Found by housing-laws.test.ts in Acushnet Center, Massachusetts (seed 4d483715b7e58e812cf2c8ba39e1e5906d5736df9877b91d3557798b7e134e13), where household_a77f6c7c668adaf9 paid 80227 against a capped 85843.
