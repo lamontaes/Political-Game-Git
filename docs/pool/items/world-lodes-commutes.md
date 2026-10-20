@@ -5,10 +5,10 @@ area: world
 kind: wiring
 priority: 2
 size: M
-status: claimed
+status: blocked
 claimed-by: claude/political-game-pool-yucp92-vv
 pr:
-blocked-on:
+blocked-on: world-lodes-commutes-split-flow
 source: "core-needs-core-172 triage, Oct 15"
 claimed-at: 2026-10-20T05:29:37.570Z
 ---
