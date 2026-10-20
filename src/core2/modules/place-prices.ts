@@ -532,6 +532,38 @@ function settle(
     transferCash(api, `${sourceId}:pay`, accountOwnerId, to, pay, rule.source);
 }
 
+/**
+ * The laws that price energy and the change each makes, as a share of what the
+ * good costs: one table, read by the monthly settlement (readPriceLaws) and by
+ * what a business is told the law would cost it (businessEnergyCostYear).
+ */
+const ENERGY_PRICE_QUESTIONS = {
+  clean: "us-policy-positions:environment-energy.clean-electricity-standard",
+  carbon: "us-policy-positions:environment-energy.price-carbon",
+} as const;
+function energyPriceRules(): Record<
+  string,
+  { good: Good; kind: "share"; value: number }
+> {
+  const p = lawParameters.parameters;
+  return {
+    [ENERGY_PRICE_QUESTIONS.clean]: {
+      good: "electricity",
+      kind: "share",
+      value: p.cleanElectricityPriceShare.value,
+    },
+    [ENERGY_PRICE_QUESTIONS.carbon]: {
+      good: "fuel",
+      kind: "share",
+      value:
+        (p.carbonPricePerTonDollars.value *
+          p.householdTonsPerYear.value *
+          p.centsPerDollar.value) /
+        goods.goods.fuel.ceAnnualMinor,
+    },
+  };
+}
+
 /** Read statutes where the existing price engine is about to charge use. */
 function readPriceLaws(api: CoreAPI): void {
   if (!api.state.modules.has(LAWS_MODULE_ID)) return;
@@ -586,29 +618,13 @@ function readPriceLaws(api: CoreAPI): void {
   };
   // stopgapId: SG-GOV-REACH-B-energy-price — calibrated consumption and
   // policy sizes, not metered utility bills or a delivered explanation yet.
-  sync(
-    "us-policy-positions:environment-energy.clean-electricity-standard",
-    {
-      good: "electricity",
-      kind: "share",
-      value: p.cleanElectricityPriceShare.value,
-    },
-    "SG-GOV-REACH-B-energy-price",
-  );
-  sync(
-    "us-policy-positions:environment-energy.price-carbon",
-    {
-      good: "fuel",
-      kind: "share",
-      value:
-        (p.carbonPricePerTonDollars.value *
-          p.householdTonsPerYear.value *
-          p.centsPerDollar.value) /
-        goods.goods.fuel.ceAnnualMinor,
-    },
-    "SG-GOV-REACH-B-energy-price",
-    true,
-  );
+  for (const [question, rule] of Object.entries(energyPriceRules()))
+    sync(
+      question,
+      rule,
+      "SG-GOV-REACH-B-energy-price",
+      question === ENERGY_PRICE_QUESTIONS.carbon,
+    );
   // stopgapId: SG-GOV-REACH-B-retail-price — container use and redemption
   // still use household estimates rather than individual return decisions.
   sync(
@@ -679,29 +695,28 @@ export function businessEnergyCostYear(
   question: string,
   annualOtherCostsMinor: number,
 ): number | null {
-  const p = lawParameters.parameters;
-  const rule: Record<string, { good: Good; value: number }> = {
-    "us-policy-positions:environment-energy.clean-electricity-standard": {
-      good: "electricity",
-      value: p.cleanElectricityPriceShare.value,
-    },
-    "us-policy-positions:environment-energy.price-carbon": {
-      good: "fuel",
-      value:
-        (p.carbonPricePerTonDollars.value *
-          p.householdTonsPerYear.value *
-          p.centsPerDollar.value) /
-        goods.goods.fuel.ceAnnualMinor,
-    },
-  };
+  const rule = energyPriceRules();
   const row = rule[question];
   if (!row) return null;
+  return Math.round(businessEnergyChange(api, row, annualOtherCostsMinor));
+}
+
+/**
+ * A year's change in a business's energy cost under one price rule: its other
+ * operating costs, times the business share of that fuel, times the law's
+ * price change. The monthly settlement pays a twelfth of it.
+ */
+export function businessEnergyChange(
+  api: CoreAPI,
+  rule: { readonly good: Good; readonly value: number },
+  annualOtherCostsMinor: number,
+): number {
   const share = api.parameter(
-    row.good === "electricity"
+    rule.good === "electricity"
       ? "pricesBusinessElectricityShare"
       : "pricesBusinessFuelShare",
   );
-  return Math.round(annualOtherCostsMinor * share * row.value);
+  return annualOtherCostsMinor * share * rule.value;
 }
 
 /** Each month: every rule's change in spending, settled for each full household and each place's counted households together. */
@@ -808,13 +823,8 @@ function month(api: CoreAPI): void {
         if (book.closedAt) continue;
         if (c.organizations.get(organizationId)?.placeId !== rule.placeId)
           continue;
-        const share = api.parameter(
-          rule.good === "electricity"
-            ? "pricesBusinessElectricityShare"
-            : "pricesBusinessFuelShare",
-        );
         const change =
-          (book.annualOtherCostsMinor * share * rule.value) / MONTHS;
+          businessEnergyChange(api, rule, book.annualOtherCostsMinor) / MONTHS;
         settle(
           api,
           `price:${rule.id}:${c.date}:${organizationId}`,
