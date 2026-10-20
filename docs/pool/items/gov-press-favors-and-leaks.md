@@ -7,10 +7,11 @@ priority: 3
 size: M
 status: open
 claimed-by:
-pr:
+pr: #5606
 blocked-on:
 after: gov-press-interview-conversation
 source: added with npm run pool -- add
+claimed-at:
 ---
 
 **What.** A reporter's closeness to a candidate gives access and gentler copy, but a candidate cannot do a reporter a favor or leak them a story, and a reporter cannot hold a story back for a friend. Build a leak as a conversation move that puts a record on the reporter's wire with the leaker named in their knowledge, and favors as relationship acts that the reporter's drives and closeness read, in src/core2/modules/press.ts.
@@ -22,3 +23,5 @@ source: added with npm run pool -- add
 **Files.** src/core2/modules/press.ts, src/director
 
 **Notes.** TODO
+
+Sent back 2026-10-20 from PR #5606 (branch claude/press-favors-leaks): edits src/director/press-interview.ts (Words-session area) and adds a dated 'Done Oct 20' note in the stopgap resolution text; stacked on #5602, which was sent back for the same reasons; finish on that branch, merge main into it first.
