@@ -1038,7 +1038,7 @@
     "kind": "estimated-calendar",
     "file": "src/core2/modules/offices.ts",
     "line": 408,
-    "whatItFakes": "The end of each term in progress at the opening for state and local offices: the seats of a body take turns over the years in one term that the office's calendar (the county schedule or the state's municipal election law) holds elections, and each term ends on the start day after its seat's election; where a state's own start rule isn't read, January 1 (the governors' clauses of AK, CA, CO, DE, FL, HI, IL, IN, LA, MD, ME, NJ, OH, OK, PA, VA, WA and WI, and, as estimates from the usual clause and the current governor's date, AZ, CT, GA, ID, KS, MN, MT, NE, NV, OR, TX, UT, VT and WY are read, in data/elections/term-starts.json). Federal terms are read: every House seat ends January 3 of an odd year (amend. XX), Senate seats by their real class, the presidency on January 20.",
+    "whatItFakes": "The end of each term in progress at the opening for state and local offices: the seats of a body take turns over the years in one term that the office's calendar (the county schedule or the state's municipal election law) holds elections, and each term ends on the start day after its seat's election; where a state's own start rule isn't read, January 1 (the governors' clauses of AK, CA, CO, DE, FL, HI, IL, LA, ME, NJ, OH, OK, PA, VA and WA are read, and, as estimates from the usual clause or the current governor's date, AZ, CT, GA, ID, IN, KS, MD, MN, MT, NE, NV, OR, TX, UT, VT, WI and WY are set, in data/elections/term-starts.json). Federal terms are read: every House seat ends January 3 of an odd year (amend. XX), Senate seats by their real class, the presidency on January 20.",
     "why": "Real election calendars and term-start dates for each office are M2's filing and election work.",
     "addedBy": "OPUS-GOV",
     "addedAt": "2026-10-12",
@@ -1187,8 +1187,8 @@
     "why": "Councils and legislatures can't vote budgets until M3 (owner, Oct 10: old budget rules until councils vote).",
     "addedBy": "OPUS-GOV",
     "addedAt": "2026-10-12",
-    "replacement": "The council's or legislature's budget vote (M3-05) and the executive's priorities.",
-    "status": "open"
+    "replacement": "Resolved Oct 20: in a played year in Rollingwood TX, East Sandwich MA and Holdrege NE every government (federal, state, county, city) adopted its 2025 budget by its body's recorded vote; the carry-forward remains only as the fallback when no body votes (pool item gov-stopgap-budgets-missing-engine).",
+    "status": "resolved"
   },
   {
     "id": "SG-GOV-veto-override-rule",
@@ -1268,11 +1268,11 @@
     "kind": "missing-data",
     "file": "src/core2/modules/world-races.ts",
     "line": 682,
-    "whatItFakes": "A race the town doesn't vote in is counted on the counted residents' engine at a coarser level (a House district's, the state's counties', a legislative district's eligible voters, voting as the town's counted residents would on each place's 2024 lean), but its candidates are each party's typical candidate (the holder stands for their party with the typical campaign) rather than people with records, and a state legislative district with no read result is the state's vote over its districts leaning to its holder's party at the typical margin.",
-    "why": "Fictional candidates with records for every seat in the country aren't built (PEOPLE's who runs), and state legislative district results aren't read.",
+    "whatItFakes": "A race the town doesn't vote in is counted on the counted residents' engine at a coarser level (a House district's, the state's counties', a legislative district's eligible voters, voting as the town's counted residents would on each place's 2024 lean), but its candidates are each party's typical candidate (the holder stands for their party with the typical campaign) rather than people with records. A state legislative district reads its own 2024 vote (MIT Election Data and Science Lab, 3,182 of 6,831 Census districts matched; src/core2/legislative-district-results.ts); one the source lacks, a nonpartisan one, or a seat one party did not contest is the state's vote over its districts leaning to its holder's party at the typical margin (legislativeSeatMargin, ESTIMATED, checked against the districts that do have a result).",
+    "why": "Fictional candidates with records for every seat in the country aren't built (PEOPLE's who runs). The legislative-district results half was sourced in gov-legislative-district-results-2024.",
     "addedBy": "OPUS-GOV",
     "addedAt": "2026-10-12",
-    "replacement": "Each race's candidates as fictional people with records and campaigns, and each legislative district's own 2024 result.",
+    "replacement": "Each race's candidates as fictional people with records and campaigns (core-world-race-lean-candidates).",
     "status": "open"
   },
   {
@@ -1473,11 +1473,11 @@
     "kind": "missing-mechanic",
     "file": "src/core2/data/laws/reach-group-a.json",
     "line": 278,
-    "whatItFakes": "Housing spending records rent help on the lowest-cash households the extra money covers, but no rent payment is made for them.",
-    "why": "Households have no rent contracts to pay toward.",
+    "whatItFakes": "Housing spending pays rent help to the lowest-cash renting households the extra money covers (a monthly payment from the treasury to the household's head, no more than the rent), but only to full households: counted renting households are not reached.",
+    "why": "Counted renters have no per-household lease to pay toward; they are pooled flows.",
     "addedBy": "OPUS-GOV (sub-agent A)",
     "addedAt": "2026-10-12",
-    "replacement": "WORLD: rent contracts on renting households; CORE: a benefit payment from a treasury toward a household's rent through the journal.",
+    "replacement": "Counted renting households read by the same rule, times their count, once counted rent flows are keyed per household (world-counted-law-payouts-keyed).",
     "status": "open"
   },
   {
@@ -2482,7 +2482,8 @@
     "addedBy": "OPUS-WORLD",
     "addedAt": "2026-10-12",
     "replacement": "The two-level population's labor-force counts by place, age and job (CPS and LAUS), with full people filled in from them.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "The opening's seekers are chosen per place from that place's own unemployment rate (the region's month when the regional engine runs, the nation's otherwise), for the named people and the counted ones alike."
   },
   {
     "id": "SG-WORLD-jobs-layoff-decider",
@@ -3476,7 +3477,7 @@
     "kind": "missing-data",
     "file": "src/core2/past-elections.ts",
     "line": 294,
-    "whatItFakes": "A territory's prior elections (its delegate and governor) count only the town's own ballots, since territories cast no presidential vote to scale from.",
+    "whatItFakes": "A territory's prior governor race (Puerto Rico and American Samoa only; Guam, the Northern Marianas and the Virgin Islands read their reported governor ballots, and every territory with a delegate total reads it for the delegate race) counts only the town's own ballots, since territories cast no presidential vote to scale from.",
     "why": "The 2024 election research holds presidential totals for the states and D.C. only; territory election returns are not in the repository.",
     "addedBy": "OPUS-CORE (the-world-has-a-past)",
     "addedAt": "2026-10-14",
@@ -3816,7 +3817,7 @@
     "kind": "estate",
     "file": "src/core2/estates.ts",
     "line": 1,
-    "whatItFakes": "A full person's estate is only their cash and the standing payments they owed: homes, loans, businesses and accounts other than their main one are not settled. A relative who is still only a counted record does not inherit.",
+    "whatItFakes": "A full person's estate is only their cash and the standing payments they owed: homes, loans, businesses and accounts other than their main one are not settled.",
     "why": "Money stress audit defect 6 (Oct 14): a dead person's cash stayed on their record. Cash first; the rest of an estate needs property and debt records the core doesn't settle yet.",
     "addedBy": "OPUS-CORE",
     "addedAt": "2026-10-14",
@@ -5098,6 +5099,30 @@
     "addedBy": "claude/fs11vb-coverage-record",
     "addedAt": "2026-10-20",
     "replacement": "A coverage share per counted group, read by the same rule as a full person times the group's weight, and a premium flow per covered counted household (pool item people-coverage-counted).",
+    "status": "open"
+  },
+  {
+    "id": "SG-PEOPLE-press-employer-enrollment",
+    "kind": "missing-mechanic",
+    "file": "src/core2/modules/press.ts",
+    "line": 567,
+    "whatItFakes": "Press enrolls its already recorded owner directly in the business owner table because the shared business module has no public enrollment function for an existing owner.",
+    "why": "The overnight order requires the smallest registered stand-in while the business interface is under active work; using the normal opening heuristic would incorrectly make a reporter the owner.",
+    "addedBy": "Session D",
+    "addedAt": "2026-10-15",
+    "replacement": "A shared business enrollment API accepting the existing owner and sourced books, used by press without direct table writes.",
+    "status": "open"
+  },
+  {
+    "id": "SG-GOV-bail-not-escrowed",
+    "kind": "missing-mechanic",
+    "file": "src/core2/modules/justice.ts",
+    "line": 1054,
+    "whatItFakes": "Posted bail goes into the prosecuting government's general treasury cash, so the treasury can spend it before the trial and hand back only what it still holds; the shortfall is recorded on the return, not escrowed.",
+    "why": "The journal has no court fund or escrow account to set bail aside; adding one is a new account kind under the treasury's owner.",
+    "addedBy": "claude",
+    "addedAt": "2026-10-20",
+    "replacement": "A court escrow fund account that holds each bail apart from spendable treasury cash, returned in full at disposition.",
     "status": "open"
   }
 ]
