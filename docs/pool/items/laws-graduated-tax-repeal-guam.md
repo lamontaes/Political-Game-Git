@@ -22,3 +22,5 @@ claimed-at:
 **Files.** src/core2/law-reach/group-b.ts, src/core2/law-reach-group-b.test.ts
 
 **Notes.** TODO
+
+Sent back 2026-10-20 from PR #5462 (branch claude/graduated-tax-guam): superseded by main's commit aebe5d9e3a for the same law-reach-group-b assertion; the branch conflicts in law-reach-group-b.test.ts; check whether anything is left beyond main's fix; finish on that branch, merge main into it first.
