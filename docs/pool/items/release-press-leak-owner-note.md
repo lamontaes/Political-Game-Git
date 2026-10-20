@@ -5,11 +5,12 @@ area: people
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/political-game-pool-yucp92-be
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-20T13:14:25.339Z
 ---
 
 **What.** PR #5163 merged a doc comment in src/core2/modules/press.ts near line 2240 that reads 'owner ruling on favors and leaks Oct 14'. Owner and date notes must not ship in code, as item 8 of the October 20 merge audit says. Rewrite the comment to state the rule itself, that a person who knows of a hidden act chooses whether to give the tip, without the ruling or its date.
