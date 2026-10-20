@@ -4,12 +4,13 @@ title: "Stopgaps in membership-dues (assumed-data): 1 open"
 area: core
 kind: stopgap
 priority: 3
-status: open
-claimed-by:
+status: blocked
+claimed-by: claude/political-game-pool-pdqjm6
 pr:
-blocked-on:
+blocked-on: 1.0 (owner, Oct 20)
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/membership-dues.ts, kind assumed-data"
+claimed-at: 2026-10-19T22:42:08.819Z
 ---
 
 **What.** Replace or clear the 1 open assumed-data stopgap row(s) in src/core2/membership-dues.ts: SG-WORLD-business-union-members. Each fake is replaced by the mechanic, or the feature that needs it is deleted.
@@ -21,3 +22,5 @@ source: "src/core2/data/stopgaps.json, src/core2/membership-dues.ts, kind assume
 **Files.** src/core2/membership-dues.ts
 
 **Notes.** First row: A union local's members are the place's employed at its state's 2025 membership rate (the nation's where BLS has no row), paying dues from the wider population's pooled cash; nobody is recorded as a member.
+
+Oct 20: Owner ruled that unions and membership rules come with 1.0, so replacing the assumed union membership rate waits for 1.0.

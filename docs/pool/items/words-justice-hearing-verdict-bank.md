@@ -5,9 +5,9 @@ area: words
 kind: feature
 priority: 2
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/political-game-pool-bgn78d
-pr:
+pr: #5192
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-19T21:56:18.308Z
