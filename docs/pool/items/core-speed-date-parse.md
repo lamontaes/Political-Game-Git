@@ -5,12 +5,12 @@ area: core
 kind: cleanup
 priority: 2
 size: S
-status: in-pr
-claimed-by: claude/speed-date-parse
+status: open
+claimed-by:
 pr: #5381
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-20T11:29:51.705Z
+claimed-at:
 ---
 
 **What.** In the CPU profile of a played year in Long Hill, Connecticut (seed m7b), makeIsoDate takes 5.5 seconds and epochDayOf 2.6 seconds of 251, about 3 percent. The largest callers are business foundings (2 seconds), the closeness elapsed-time read (1.2), the work pay period (0.7) and news (0.6). They turn the same date strings into day numbers over and over, every day for every person and flow. Parse each date once where the record is written and keep the day number beside the string.
