@@ -16,6 +16,7 @@ import { gameStartDate } from "./game-start";
 import { addDays, makeIsoDate } from "./kernel/dates";
 import { advanceCore } from "./life";
 import { budgetsOf, governments } from "./modules/budgets";
+import { residentsRuntime } from "./modules/residents";
 import {
   OUTCOME_WEB_MODULE_ID,
   placeOutcome,
@@ -97,9 +98,20 @@ describe(`school outcomes (${place.name}, seed ${seed})`, () => {
       const passed = groups.reduce((n, g) => n + g.passed, 0);
       const expected = groups.reduce((n, g) => n + g.expected, 0);
       expect(students).toBeGreaterThan(0);
-      // The count follows the expected count to within one household's weight.
-      const heaviest = Math.max(...groups.map((g) => g.students));
-      expect(Math.abs(passed - expected)).toBeLessThanOrEqual(heaviest);
+      // Each income fifth settles its count against its expected count to
+      // within its heaviest student's weight (one household's weight, and no
+      // more than the group's students), so the place is off by at most the
+      // sum of those across its fifths.
+      const rt = residentsRuntime(base);
+      const heaviestHousehold = Math.max(
+        1,
+        ...(rt?.store.households ?? []).map((h) => rt!.store.weightOf(h)),
+      );
+      const bound = groups.reduce(
+        (n, g) => n + Math.min(g.students, heaviestHousehold),
+        0,
+      );
+      expect(Math.abs(passed - expected)).toBeLessThanOrEqual(bound);
     }
     // The shifted world: the funding effect reached the low fifths' factor
     // and moved their counts; the top fifths (weight 0) did not move.
