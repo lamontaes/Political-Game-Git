@@ -5,9 +5,9 @@ area: core
 kind: feature
 priority: 3
 size: L
-status: claimed
+status: in-pr
 claimed-by: claude/pool-m7-03
-pr:
+pr: #5430
 blocked-on:
 milestone: M7
 source: "docs/roadmap/later-specs-draft.md M7-03"
