@@ -5,12 +5,12 @@ area: core
 kind: feature
 priority: 3
 size: M
-status: claimed
-claimed-by: claude/tuition-reenroll
-pr:
+status: open
+claimed-by:
+pr: #5504
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-20T03:38:20.000Z
+claimed-at:
 ---
 
 **What.** Private school enrollment is fixed at the opening: one monthly tuition contract per family, never revisited, so a family whose means change keeps or never gets a seat. Each August, re-rank the town's families with children aged 5 to 17 on their current cash per child, enroll the best-off until the NCES private share of the town's school-age children is reached, and end or start the monthly tuition contracts through the finance engine to match. The share still checks the town total and never picks a family.
@@ -22,3 +22,5 @@ claimed-at: 2026-10-20T03:38:20.000Z
 **Files.** src/core2/opening-private-tuition.ts, src/core2/modules/school.ts, src/core2/data/opening-private-tuition.json
 
 **Notes.** Part 1 of 3 split from core-stopgap-opening-private-tuition-aggregate-spending (Oct 20).
+
+Sent back 2026-10-20 from PR #5504 (branch claude/tuition-reenroll): merge conflict with main in src/core2/modules/school.ts (code); finish on that branch, merge main into it first.
