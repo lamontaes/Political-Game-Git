@@ -5165,11 +5165,11 @@
     "kind": "missing-proof",
     "file": "src/core2/data/laws/wiring-gaps.json",
     "line": 91,
-    "whatItFakes": "These laws are applied by their law-reach module (a benefit or premium paid, a fiscal rule held, a voting cost, a wage raised) when the engine runs its step, and that module moves the money or rule. The checker's table trace attributes each read to the file that made it, so it can't show an engine outside src/core2/law-reach reading the law.",
-    "why": "The read happens inside src/core2/law-reach/*.ts called from the engine's own step; scripts/law-wiring/check.ts counts a frame in law-reach as the handler, not as an engine.",
+    "whatItFakes": "These laws are applied by their law-reach handler on the day they take effect: it sets the benefit, premium, rule or record, and the treasury or the next payday then moves the money on schedule. Within the checker's run no other engine read the law at the moment it decided or paid (the table trace shows the reads coming from the law-taking-effect dispatch in life.ts and from interest groups); the voting laws are read by the voting engine only at an election.",
+    "why": "The law-reach handler computes the payment or rule once when the law takes effect (src/core2/law-reach/group-b.ts, group-a-records.ts), so the engines that later pay or decide read the handler's result, not the law.",
     "addedBy": "claude/law-wiring-final",
     "addedAt": "2026-10-20",
-    "replacement": "The trace records the engine module that called the law-reach code, or the reading code moves into the engine that decides.",
+    "replacement": "The engine that pays or decides reads the law in force at that moment (the benefit or payroll step, the fiscal close, the voting engine at an election), and the checker grades that read; for the voting laws, a run that holds an election.",
     "status": "open"
   },
   {

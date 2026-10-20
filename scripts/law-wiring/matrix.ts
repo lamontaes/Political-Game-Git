@@ -206,7 +206,10 @@ function systemsLink(
   const handlers = new Set<string>();
   for (const { r } of runs)
     for (const [frame, n] of Object.entries(r.readers ?? {})) {
-      if (isEngine(frame)) engines.set(frame, (engines.get(frame) ?? 0) + n);
+      // A law-reach read names the engine that called it ("reach <- caller").
+      const caller = frame.split(" <- ")[1];
+      if (isEngine(frame) || (caller && caller !== "none" && isEngine(caller)))
+        engines.set(frame, (engines.get(frame) ?? 0) + n);
       else if (frame.startsWith("src/core2/law-reach/")) handlers.add(frame);
     }
   if (engines.size)

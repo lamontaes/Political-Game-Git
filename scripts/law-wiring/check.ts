@@ -50,13 +50,14 @@ import { placeLocalities, placeStateKeys } from "../../src/core2/places";
 import { allLaws, webLinksOf, type LawEntry } from "./catalog";
 
 const ROOT = `${process.cwd()}/`;
-const WINDOW = 35;
 const AFTER = 10;
 
 const arg = (name: string) => {
   const i = process.argv.indexOf(`--${name}`);
   return i >= 0 ? process.argv[i + 1] : undefined;
 };
+/** Days each law runs before it is graded (--days lengthens it for laws whose event comes later). */
+const WINDOW = Number(arg("days") ?? 35);
 
 /** A place drawn from all 56 by seed (as tests/golden-path/place.ts). */
 export function drawLawPlace(seed: string) {
@@ -94,15 +95,22 @@ const SKIP = [
 ];
 function readerFrame(): string {
   const stack = new Error().stack ?? "";
+  let reach: string | undefined;
   for (const line of stack.split("\n").slice(2)) {
     const m = /\(?((?:file:\/\/)?\/[^()]+):(\d+):\d+\)?$/.exec(line.trim());
     if (!m) continue;
     const file = m[1]!.replace("file://", "").replace(ROOT, "");
     if (!file.startsWith("src/") || SKIP.some((s) => file.includes(s)))
       continue;
-    return `${file}:${m[2]}`;
+    const at = `${file}:${m[2]}`;
+    if (file.startsWith("src/core2/law-reach/")) {
+      // A law-reach function an engine calls on its own step: name the engine below it too.
+      reach = reach ?? at;
+      continue;
+    }
+    return reach ? `${reach} <- ${at}` : at;
   }
-  return "unknown";
+  return reach ? `${reach} <- none` : "unknown";
 }
 
 interface Trace {
@@ -124,7 +132,7 @@ let trackedKeys = new Set<string>();
 let citeTokens: string[] = [];
 
 function startTraces(): void {
-  Error.stackTraceLimit = 20;
+  Error.stackTraceLimit = 60;
   setTableTrace((moduleId, table, op, query) => {
     if (
       !trace.on ||
@@ -712,11 +720,12 @@ function checkLaw(
   // Money a file that read this law (or law reach itself) posted differently from the control.
   const readerFiles = new Set(
     [...reads.keys(), ...controlReads.keys()].map((f) =>
-      f.replace(/:\d+$/, ""),
+      f.split(" <- ")[0]!.replace(/:\d+$/, ""),
     ),
   );
   const direct = moneyDiff.filter((d) => {
-    const file = d.kind.split(" @ ")[1]?.replace(/:\d+$/, "") ?? "";
+    const file =
+      d.kind.split(" @ ")[1]?.split(" <- ")[0]!.replace(/:\d+$/, "") ?? "";
     return file.startsWith("src/core2/law-reach/") || readerFiles.has(file);
   });
 
