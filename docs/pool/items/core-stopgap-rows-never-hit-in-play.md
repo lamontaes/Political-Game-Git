@@ -5,10 +5,10 @@ area: core
 kind: cleanup
 priority: 3
 size: M
-status: claimed
+status: blocked
 claimed-by: claude/fs11vb-rows-never-hit
 pr:
-blocked-on:
+blocked-on: core-stopgap-never-hit-audit
 source: added with npm run pool -- add
 claimed-at: 2026-10-20T03:36:05.434Z
 ---
