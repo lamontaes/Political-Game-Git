@@ -5,7 +5,7 @@ area: docs
 kind: bug
 priority: 2
 size: S
-status: in-pr
+status: done
 claimed-by: claude/audit-report-standard
 pr: #5303
 blocked-on:
@@ -22,3 +22,5 @@ claimed-at: 2026-10-19T23:53:01.855Z
 **Files.** docs/reports/audit-2026-10-19.md, scripts/report-check/report-check.test.ts
 
 **Notes.** Found Oct 19 by running scripts/ on clean main: 644 tests pass and two fail. The other, scripts/dev-lab/e2e-shard-inventory.test.ts, is the live Playwright case that #4309 deletes.
+
+Oct 20: PR #5303 merged to main: the Oct 19 audit report meets the report standard.

@@ -5,11 +5,12 @@ area: laws
 kind: feature
 priority: 3
 size: L
-status: open
-claimed-by:
+status: blocked
+claimed-by: claude/political-game-pool-yucp92-cc
 pr:
-blocked-on:
+blocked-on: spec: the item text is an empty shell and L-sized; it needs a written done-when and a split before building (pool-todo-shells-need-spec)
 source: added with npm run pool -- add
+claimed-at: 2026-10-20T02:33:08.059Z
 ---
 
 **What.** TODO
