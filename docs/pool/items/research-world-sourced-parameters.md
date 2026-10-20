@@ -5,10 +5,10 @@ area: world
 kind: research
 priority: 2
 size: M
-status: claimed
+status: blocked
 claimed-by: claude/political-game-pool-yucp92-bk
 pr: #5419
-blocked-on:
+blocked-on: researcher: the 2005 PACE report tables by industry (epa.gov and census.gov PDFs) cannot be fetched from the cloud network (certificate error and 503); the minimum-loan row is done in 5419, and the national 0.4 percent of output is already the compliance parameter's source
 source: "collapsed Oct 19, 2026 from world-stopgap-opening-finance-uncalibrated-opening-finance-calendar, world-stopgap-parameters-assumed-data, world-stopgap-parameters-uncalibrated-tunable"
 claimed-at: 2026-10-20T13:46:26.832Z
 ---
