@@ -4,13 +4,14 @@ title: "Stopgaps in opening-finance (estimated-customer-first-due-and-budget-hor
 area: world
 kind: stopgap
 priority: 3
-status: blocked
+status: open
 claimed-by:
 pr:
 blocked-on:
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/data/opening-finance.json, kind estimated-customer-first-due-and-budget-horizon"
 after:
+claimed-at: 
 ---
 
 **What.** The opening's agreements with nonhousehold customers take their first payment in the first month of the next period and run a twelve-month source-year budget horizon, which are generated conventions (src/core2/opening-customers.ts, src/core2/data/opening-finance.json); the annual statistical sources observe no invoice day and no contract end. Replace them: a public buyer's purchase becomes a contract award from the contracts module (`src/core2/modules/contracts.ts`), starting on its government's fiscal-year start (a per-jurisdiction table: July 1 for most states and Puerto Rico, April 1 New York, September 1 Texas, October 1 Alabama, Michigan, D.C., Guam and the Virgin Islands, with a local government taking its state's unless its record says otherwise), paid monthly from the budget line, and renewed each fiscal year by the same award decision rather than ending at twelve months. A household's standing bills take their due day from the provider's billing rule (rent on the lease's day, a utility on the account's billing cycle, a loan on its closing day) instead of one first-of-next-month day. Delete the first-next-period-month rule, the twelve-month cutoff and the marker.
