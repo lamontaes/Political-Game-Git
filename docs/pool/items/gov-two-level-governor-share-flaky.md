@@ -5,12 +5,12 @@ area: gov
 kind: bug
 priority: 2
 size: S
-status: blocked
-claimed-by: claude/pool-governor-share
+status: open
+claimed-by:
 pr: #4861
 blocked-on:
 source: found in #4859, Oct 17
-claimed-at: 2026-10-20T01:42:42.348Z
+claimed-at:
 ---
 
 **What.** `src/core2/two-level-elections.test.ts` ("counted residents vote, challengers get real votes, and statewide results track the state") fails about one run in five in a random place because a statewide-executive race's Republican share sits more than 0.15 from the state's raw presidential split. The model is right: statewide executive races weigh the sitting executive's public standing (`STANDING_FAMILIES` in `src/core2/modules/voting.ts`), so the result moves toward the sitting executive's party. Keep the 0.15 bound and do not loosen it. Instead measure it from an expected share derived from the race's own records: the interval between the state's presidential split and the share the standing term predicts for the seat's sitting executive party (`contest.incumbentTermId`, its `TermRow.party`, as `candidateReasons` reads it). Assert that the governor's share lies within 0.15 of that interval, in every drawn place.
