@@ -12,9 +12,9 @@
  * bank has no sentence for is left out.
  */
 import bankJson from "../../../data/english/parts/journal.json" with { type: "json" };
-import { heldByGrades } from "../../english/english-grades";
-import rowsJson from "../data/journal-rows.json" with { type: "json" };
-import type { JournalData, JournalRows } from "../journal";
+import { heldByGrades } from "../english-grades";
+import rowsJson from "../../director/data/journal-rows.json" with { type: "json" };
+import type { JournalData, JournalRows } from "../../director/journal";
 
 interface JournalUse {
   journal?: { kindPrefix: string; field: string }[];

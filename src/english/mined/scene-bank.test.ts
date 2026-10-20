@@ -6,9 +6,9 @@ import { initialFocusPeople } from "../../core2/focus";
 import { advanceCore, createLifeCore } from "../../core2/life";
 import { buildPopulation } from "../../core2/population";
 import { applyCoreEvent } from "../../core2/state";
-import { bringItUp } from "../bring-it-up";
-import { createDirector } from "../ledger";
-import { composeScene } from "../scene";
+import { bringItUp } from "../../director/bring-it-up";
+import { createDirector } from "../../director/ledger";
+import { composeScene } from "../../director/scene";
 import {
   BRING_BANK,
   bringDataFromBank,

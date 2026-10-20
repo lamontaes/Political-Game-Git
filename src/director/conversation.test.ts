@@ -22,7 +22,7 @@ import {
   type Conversation,
 } from "./conversation";
 import { createDirector, DEFAULT_DIRECTOR_DATA } from "./ledger";
-import { MINED_CONVERSATION } from "./mined/conversation-bank";
+import { MINED_CONVERSATION } from "../english/mined/conversation-bank";
 import { REGISTER_CARDS } from "../english/speech-registers";
 
 // M4-02, conversations (audit 1, Oct 12): at least four distinct choices

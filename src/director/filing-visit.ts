@@ -8,7 +8,7 @@
  */
 import type { CoreState, PersonId } from "../core2/types";
 import { renderLine, type Fact, type Variant } from "../english/bank-line";
-import { filingWordsFromBank } from "./mined/filing-bank";
+import { filingWordsFromBank } from "../english/mined/filing-bank";
 
 export interface VisitWords {
   version: string;

@@ -12,7 +12,7 @@ import { advanceCore, createLifeCore } from "../../src/core2/life";
 import { buildPopulation } from "../../src/core2/population";
 import { composeJournal } from "../../src/director/journal";
 import { createDirector } from "../../src/director/ledger";
-import { journalDataFromBank } from "../../src/director/mined/journal-bank";
+import { journalDataFromBank } from "../../src/english/mined/journal-bank";
 
 const seed = process.argv[2] ?? "words-journal";
 const base = enrichCivicInputs(

@@ -1,6 +1,6 @@
 {
   "version": "words-journal-v1",
-  "about": "The structure of the My life journal: which moments it writes, which record facts each one reads, and the relation and count words. It holds no sentences; the sentences come from the mined bank (data/english/parts/journal.json) through src/director/mined/journal-bank.ts. A title is only a record name. A moment the mined bank has no sentence for is left out.",
+  "about": "The structure of the My life journal: which moments it writes, which record facts each one reads, and the relation and count words. It holds no sentences; the sentences come from the mined bank (data/english/parts/journal.json) through src/english/mined/journal-bank.ts. A title is only a record name. A moment the mined bank has no sentence for is left out.",
   "relationWords": {
     "parent": {
       "female": "mother",

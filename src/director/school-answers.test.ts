@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { MINED_CONVERSATION } from "./mined/conversation-bank";
+import { MINED_CONVERSATION } from "../english/mined/conversation-bank";
 
 // "Where did you go to school?" always has four different replies in the
 // stage it is asked in (owner, Oct 14: four replies, always; Oct 15: none is
