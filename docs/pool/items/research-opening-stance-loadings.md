@@ -22,3 +22,5 @@ claimed-at: 2026-10-20T04:01:26.592Z
 **Files.** data/research/people, src/core2/data/parameters.json
 
 **Notes.** TODO
+
+Looked at Oct 20 (claude), not claimed: a loading per trait, faith and education level on each policy question's axis is a regression on survey microdata (CES or GSS respondent files), not a published table; this container reaches neither Harvard Dataverse nor the GSS data portal as files, and typing loadings from memory would be inventing them. A researcher with the CES cumulative file can fit them (stance on each CES policy item on the Big Five items, church attendance and education) and write one row per question with the fit's standard error as the spread. The two items after this one (people-opening-stance-formation, elections-counted-voters-read-group-stances) follow from it.
