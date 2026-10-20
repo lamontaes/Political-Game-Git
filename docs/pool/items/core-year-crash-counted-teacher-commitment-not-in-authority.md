@@ -5,9 +5,9 @@ area: core
 kind: bug
 priority: 1
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/counted-teacher-authority
-pr:
+pr: #5750
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-20T20:12:32.812Z
