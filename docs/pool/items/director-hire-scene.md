@@ -5,12 +5,12 @@ area: director
 kind: feature
 priority: 3
 size: M
-status: claimed
-claimed-by: claude/political-game-pool-3xfqef-12
+status: open
+claimed-by:
 pr:
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-20T02:21:41.813Z
+claimed-at:
 ---
 
 **What.** TODO
