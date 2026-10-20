@@ -4,14 +4,14 @@ title: "A town opens at its real Census size (population.ts still caps above 10,
 area: core
 kind: bug
 priority: 1
-status: blocked
-claimed-by: claude/political-game-pool-3xfqef-5
+status: open
+claimed-by:
 pr:
 blocked-on:
 milestone:
 after: world-census-weight-owner-draws,world-census-weight-economy
 source: "owner rulings, Oct 15 afternoon (docs/coordination/OWNER-DECISIONS.md)"
-claimed-at: 2026-10-20T00:21:16.165Z
+claimed-at:
 ---
 
 **What.** A town must open at its real Census size, and `buildPopulation` in src/core2/population.ts still caps it with `Math.min(target, real)` against `targetPopulation` (10,000). The weight model is built (core-census-weight-model, -money, -readers and the headcount, hiring, housing and macro parts): a counted household stands for as many households as the town's weight says, and every reader multiplies by it. What is left is the default: the cap is deleted and the weight is chosen from the place, so `countScale` in `buildBenchWorld` (src/bench/world.ts) defaults to the town's reference population over its sampled people when above one, and the same default holds wherever an opening is built. Measure a year in the largest town and a random one.
