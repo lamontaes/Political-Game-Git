@@ -109,7 +109,7 @@ function tenants(api: CoreAPI): Tenant[] {
       rows.push({
         id: house.id,
         placeId: house.placeId,
-        memberIds: rt.households.get(house.id)?.household.memberIds ?? [],
+        memberIds: rt.store.memberIdsOf(house),
         tier: "counted",
         leaseId: flow.id,
         landlordId: flow.payeeId,
@@ -139,9 +139,7 @@ export function releaseVacatedRentals(api: CoreAPI): void {
       ProjectRow | undefined;
     if (!project) continue;
     const full = c.households.get(row.householdId);
-    const counted = full
-      ? undefined
-      : rt?.households.get(row.householdId)?.household;
+    const counted = full ? undefined : rt?.store.liveHousehold(row.householdId);
     const flow = rt?.flows.get(`rent:${row.householdId}`);
     const hasLease = full
       ? liveLeases.has(row.householdId) &&
@@ -574,7 +572,7 @@ export function occupyRehousedRental(
   const countedIndex = rt?.store.householdOf.get(householdId);
   const counted =
     countedIndex === undefined ? undefined : rt!.store.households[countedIndex];
-  const house = full ?? rt?.households.get(householdId)?.household;
+  const house = full ?? (counted && !counted.gone ? counted : undefined);
   const lease = full
     ? c.finance.contracts.get(leaseId)
     : rt?.flows.get(leaseId);
@@ -644,7 +642,7 @@ export function occupyRehousedRental(
   table(api, "moves").put({
     id: `housing-move:${householdId}:${c.date}`,
     householdId,
-    personIds: [...house.memberIds],
+    personIds: full ? [...full.memberIds] : rt!.store.memberIdsOf(counted!),
     tier: full ? "full" : "counted",
     projectId: offer.project.id,
     leaseId,

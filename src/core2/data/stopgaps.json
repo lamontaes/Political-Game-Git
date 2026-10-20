@@ -524,8 +524,8 @@
     "why": "Retention span is an owner budget assumption, not a human forgetting measurement; later readers and legal obligations need audit.",
     "addedBy": "SOL-1258",
     "addedAt": "2026-10-09",
-    "replacement": "Owner-approved bounded retention plus reader/callback/reload assertions; preserve consequential evidence and full focus history.",
-    "status": "open"
+    "replacement": "Resolved Oct 20: the owner ruled running memory stays small (Oct 12, DECISION-REGISTER 'Speed and memory'), so the retention span is a tunable engineering memory budget, tagged TUNABLE with its spread, and only the dev-why bench reads old rollups (pool item owner-stopgap-memory-budgets).",
+    "status": "resolved"
   },
   {
     "id": "SG-P8-business-books-priors",
@@ -1585,11 +1585,11 @@
     "file": "src/core2/law-reach/group-b-money.ts",
     "line": 82,
     "whatItFakes": "For an island area the budgets module records no residents, group B shares a budget line's change to the town by the Census population in its own parameter table.",
-    "why": "data/research/money/public-budget-bases.json has no population2024 (and no budget) for Puerto Rico, Guam, the U.S. Virgin Islands, American Samoa or the Northern Mariana Islands.",
+    "why": "data/research/money/public-budget-bases.json has no population2024 (and no budget) for Puerto Rico, Guam, the U.S. Virgin Islands, American Samoa or the Northern Mariana Islands. Resolved Oct 19: public-budget-bases.json already carries each island area's population (islandAreaPopulation2020 and puertoRicoPopulation2025), and the budgets module now reads it into the state government's residents.",
     "addedBy": "OPUS-GOV (sub-agent B)",
     "addedAt": "2026-10-12",
     "replacement": "OPUS-GOV budgets: public-budget-bases.json carries each island area's population and finances (Census Island Areas, PR government finances); group B then reads GovernmentRow.residents only.",
-    "status": "open"
+    "status": "resolved"
   },
   {
     "id": "SG-GOV-REACH-B-public-school-staff",
@@ -2622,7 +2622,9 @@
     "why": "The core rejects the agreement's next payment once the named job ends (\"Visitor qualification no longer resolves its actual product job\"), seen in year two of Absecon, New Jersey.",
     "addedBy": "OPUS-WORLD",
     "addedAt": "2026-10-12",
-    "replacement": "OPUS-CORE lets a visitor agreement re-resolve its qualification to any current qualified worker at the provider; then this filter goes."
+    "replacement": "OPUS-CORE lets a visitor agreement re-resolve its qualification to any current qualified worker at the provider; then this filter goes.",
+    "status": "resolved",
+    "resolvedBy": "Claude session on the pool item world-agreements-re-resolve-worker, October 19, 2026: deleted src/core2/pinned-jobs.ts and the jobs engine's filters on it. A saved agreement already follows its product jobs' real life in finance-cash.ts (productJobRelations: an ended job drops out and the supplier's current staff in the product occupations carry it; with none, the agreement ends), so a named job's holder may now be laid off, quit, retire or move."
   },
   {
     "id": "SG-WORLD-business-counted-owner-choice",
@@ -2664,11 +2666,11 @@
     "kind": "assumed-data",
     "file": "src/core2/modules/credit.ts",
     "line": 116,
-    "whatItFakes": "Where no county deposit row covers a place (American Samoa, the Virgin Islands, places without a county), the town bank's deposits are the territory's FDIC deposits per resident (Guam, Northern Marianas) or the nation's, times the town's people.",
+    "whatItFakes": "American Samoa has no bank branch in the FDIC Summary of Deposits, so its town bank's deposits are the nation's deposits per resident times the town's people. (Guam, the Northern Marianas, Puerto Rico and the Virgin Islands are in the county table with their own FDIC branch deposits, so they no longer use this.)",
     "why": "FDIC Summary of Deposits has no rows for American Samoa or the Virgin Islands in the data, and island villages carry no county code.",
     "addedBy": "OPUS-WORLD",
     "addedAt": "2026-10-12",
-    "replacement": "Each territory's bank branches and deposits from FDIC and territorial banking regulators."
+    "replacement": "American Samoa's bank deposits from its territorial banking regulator or the banks' own reports; checked Oct 19 (claude): the FDIC Summary of Deposits for June 30, 2026 lists 16 branches in Guam, 6 in the Northern Marianas, 260 in Puerto Rico and 20 in the Virgin Islands, all already in data/tables/town-deposits.json, and none in American Samoa."
   },
   {
     "id": "SG-WORLD-housing-island-areas",
@@ -2881,7 +2883,8 @@
     "addedBy": "OPUS-PEOPLE",
     "addedAt": "2026-10-12",
     "replacement": "Agreements re-resolve their qualifying worker when a job ends (WORLD/CORE), and the jobs engine exports its pinned-job lookup; then these holders can move like anyone else.",
-    "status": "open"
+    "status": "resolved",
+    "resolvedBy": "Same change, October 19, 2026: the moves engine's copy of the lookup is deleted, so a holder of a job a saved agreement names moves like anyone else and the agreement re-resolves at its next payment (finance-cash.ts productJobRelations)."
   },
   {
     "id": "SG-FIXER-moves-income-household",
@@ -3027,8 +3030,8 @@
     "why": "Public payroll from treasuries is OPUS-CORE's (public employers pay as outside payers today).",
     "addedBy": "OPUS-GOV",
     "addedAt": "2026-10-13",
-    "replacement": "The appointee's post becomes a public job paid from the government's treasury through CORE's public payroll.",
-    "status": "open"
+    "replacement": "Resolved Oct 19: the state cabinet the governor picks are full people on the state payroll (job:public:state:<post>:<person>), the one replaced leaves it; a town head or an agency head is paid the same way. A world with no treasury open has no payroll, which is not a played world (pool item gov-stopgap-executive-missing-engine).",
+    "status": "resolved"
   },
   {
     "id": "SG-GOV-executive-powers-research",
@@ -3108,10 +3111,22 @@
     "file": "src/core2/births-counted.ts",
     "line": 1,
     "whatItFakes": "Households that move into the counted population are generated in the shape of a household already recorded in the place (ages, sexes, who is family), with new names and temperaments from the world's seed, and arrive with no job, contracts, cash or past on record. Counted babies and newcomers' children get temperaments without their parents' inheritance links.",
-    "why": "The counts need arrivals at the ACS rate now; the jobs, purchase and housing engines do not yet take newcomers into their books.",
+    "why": "The counts need arrivals at the ACS rate now; the jobs, purchase and housing engines do not yet take newcomers into their books. Resolved Oct 17 (claude): the births engine's own arrival path is deleted; households move in through the counted-moves engine (src/core2/modules/counted-moves.ts), which is installed with every counted world, and the newborns' temperament part is registered as SG-PW8-counted-newborn-temperament.",
     "addedBy": "PW-8 (Opus builder)",
     "addedAt": "2026-10-13",
     "replacement": "Newcomers are generated by the population builder for the place (OPUS-CORE), join the job seekers (OPUS-WORLD jobs) and take a home and purchase contracts (housing, residents flows).",
+    "status": "resolved"
+  },
+  {
+    "id": "SG-PW8-counted-newborn-temperament",
+    "kind": "generated-record",
+    "file": "src/core2/births-counted.ts",
+    "line": 1,
+    "whatItFakes": "A counted baby gets a temperament drawn from the world's seed for its age and place, without its parents' temperaments passed on.",
+    "why": "Counted parents carry no inheritance links in the counts, so the family model that passes traits to a full person's child has nothing to read.",
+    "addedBy": "claude (split from SG-PW8-counted-arrivals)",
+    "addedAt": "2026-10-17",
+    "replacement": "A counted baby inherits from its counted parents' packed traits through the same family model a full person's child uses.",
     "status": "open"
   },
   {
@@ -3136,18 +3151,18 @@
     "addedBy": "OPUS-CORE",
     "addedAt": "2026-10-12",
     "replacement": "Census 2020 Island Areas place identities (the research request territory-place-identities), read into the same listing. Oct 14 (OPUS-CORE): the candidate list is built (src/core2/data/places/territory-places-census.json, 158 inhabited villages with Census GEOIDs and 2020 populations, every current key kept, by tooling/build-territory-places.ts); the swap waits until PEOPLE's population builder reads places through the core lookup.",
-    "status": "open"
+    "status": "resolved"
   },
   {
     "id": "SG-CORE-private-tuition-average",
     "kind": "aggregate-spending",
     "file": "src/core2/opening-private-tuition.ts",
     "line": 1,
-    "whatItFakes": "Each household with school-age children pays its children's share of the town's private tuition (the national private share times the average tuition) to the town's private school; no family chooses a school, and no child is enrolled.",
+    "whatItFakes": "The town's families with school-age children are ranked by cash per child and the best-off enroll all their children in the private school until the town's private share of school-age children (NCES) is reached, each paying the average private tuition. The family's beliefs, the schools nearby and the child's own needs do not yet enter, and enrollment is fixed at the opening.",
     "why": "Private schools had no customers at all, so they closed in every town.",
     "addedBy": "OPUS-CORE",
     "addedAt": "2026-10-12",
-    "replacement": "PEOPLE's schools engine: each child's enrollment, chosen from the family's income, beliefs and the schools near them, with tuition paid by the families who enroll.",
+    "replacement": "PEOPLE's schools engine: each child's enrollment chosen from the family's income, beliefs and the schools nearby, moving as they change. Means-ranked enrollment replaced the even spread of the town's average on Oct 19.",
     "status": "open"
   },
   {
@@ -3847,7 +3862,7 @@
     "kind": "estimated-parameter",
     "file": "src/core2/modules/interest-groups.ts",
     "line": 1,
-    "whatItFakes": "What a policy costs each employer it binds is an estimated share of the employer's payroll (boundEmployerCostShare), not the law's own cost, because most law-reach policies record who is bound and move no money.",
+    "whatItFakes": "What a policy costs each employer it binds is an estimated share of the employer's payroll (boundEmployerCostShare), except laws that price energy (clean electricity standard, carbon price), which cost each employer its own energy costs by the price engine's arithmetic. Other law-reach policies that bind employers record who is bound and move no money.",
     "why": "The CTO's item (Oct 14): employers organize from who loses money on any bill (the owner's Sept 26 ruling). Law-reach measures a money effect per employer only for the wage floor.",
     "addedBy": "OPUS-GOV",
     "addedAt": "2026-10-14",
@@ -3939,7 +3954,8 @@
     "replacement": "The owner's ruling on what a town's districts are; wards as districts if he wants them.",
     "addedBy": "OPUS-CORE (one model, two tiers)",
     "addedAt": "2026-10-14",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "Answered by the owner's Oct 15 ruling and built in gov-council-election-method: each place's council is elected the way its own records say (councilElectionMethod in src/core2/gov-rules/council-election-method.ts: ward seats from a compiled charter, else estimated at large from the ICMA 2018 national shares, basis and citation kept on the office), and offices-local.ts seats the ward seats by part of town. The residents engine's split of a town into state House districts is a different thing (placement of counted voters for state legislative contests, SG-CORE-district-placement) and is not a council shape."
   },
   {
     "id": "SG-CORE-owner-decision-fill-in-outside-kin",
@@ -4837,6 +4853,18 @@
     "addedBy": "claude/office-committee-meeting",
     "addedAt": "2026-10-17",
     "replacement": "The owner's ruling on which pre-vote hooks run on the committee day (docs/coordination/OWNER-DECISIONS.md).",
+    "status": "open"
+  },
+  {
+    "id": "SG-GOV-clemency-boards",
+    "kind": "missing-engine",
+    "file": "src/core2/office-day-state.ts",
+    "line": 0,
+    "whatItFakes": "In a state where a board, council or senate holds or must concur in clemency (board alone, board with the governor, governor with a board's recommendation, a council's or the senate's consent), the governor's day has no clemency act: the board's own decisions are not simulated, so no prisoner is released there by clemency.",
+    "why": "The governor decides alone only where the state's law says so (governor alone, or a board that only advises); the other authorities need a board or council engine that does not exist yet.",
+    "addedBy": "claude/governor-clemency",
+    "addedAt": "2026-10-17",
+    "replacement": "A clemency board engine (members, petitions, recommendations) and the council or senate consent, read by the governor's act where the law requires it.",
     "status": "open"
   }
 ]
