@@ -26,3 +26,5 @@ claimed-at:
 **Notes.** Needs the household-to-part-of-town lookup that `voting.ts` `inWard` holds today; share it rather than copy it.
 
 Sent back 2026-10-17 from PR #4859 (branch claude/gov-council-ward-residency): Morning check: elections.ts adds player-facing English directly in checkEligibility (required: lives in the part of town the seat represents; actual: lives in it / lives in another part of town). Keep the district-residency rule and record facts, but obtain the displayed explanation from the English engine or approved control/data labels instead of writing prose in engine logic.; finish on that branch, merge main into it first.
+
+Sent back 2026-10-20 from PR #4859 (branch claude/gov-council-ward-residency): Code conflict with main in src/core2/modules/elections.ts; finish on that branch, merge main into it first.
