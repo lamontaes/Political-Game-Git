@@ -48,9 +48,9 @@ const QUESTIONS = [
   KEYS.farmland,
   KEYS.cap,
 ];
-/** Long enough for a first lease anniversary, a hearing and a loan's first payments. */
 /** A place with fewer renters than this has too few leases, evictions and loans to follow in a year. */
 const MIN_RENTERS = 1500;
+/** Long enough for a first lease anniversary, a hearing and a loan's first payments. */
 const DAYS = Number(process.env.HOUSING_DAYS ?? 460);
 
 const step = (core: CoreState, days: number) =>
@@ -72,7 +72,11 @@ function setQuestion(api: CoreAPI, key: string, value: 0 | 1): void {
       citation: "Law-wiring test",
     });
   if (value === 1) {
-    if (lawInForce(api, key).value === 1) return;
+    const now = lawInForce(api, key);
+    if (now.value === 1) return;
+    // Where a row says no, a yes at the same level replaces it.
+    if (now.governing)
+      return void enact(now.governing.level, now.governing.jurisdiction);
     for (const level of ["city", "county", "state", "federal"]) {
       const at = chain.find((l) => l.level === level);
       if (at) return void enact(at.level, at.jurisdiction);
@@ -126,8 +130,12 @@ function runOnce(place: ReturnType<typeof drawPlace>): string[] {
   )
     return [`no subject: ${renters} renters, ${landlords} landlords`];
   try {
-    for (const key of QUESTIONS) setQuestion(api, key, 1);
-    step(core, DAYS);
+    // A body in play may repeal one of these laws before an engine reads it (a council undoing rent
+    // stabilization before any lease's anniversary); the test puts it back each month so every read happens under it.
+    for (let day = 0; day < DAYS; day += 30) {
+      for (const key of QUESTIONS) setQuestion(api, key, 1);
+      step(core, Math.min(30, DAYS - day));
+    }
 
     // Rent stabilization: every renewed lease under the law, full and counted.
     const renewals = (
@@ -308,16 +316,8 @@ describe("housing and credit laws reach people and move money", () => {
     const bookkeepingBefore = setBookkeeping(false);
     try {
       const tried: string[] = [];
-      let played = 0;
-      for (let attempt = 0; attempt < 14 && played < 3; attempt++) {
-        const drawn = drawPlace(`${base}:${attempt}`, "law-wiring-housing");
-        const place = process.env.HOUSING_REPLAY
-          ? {
-              ...drawn,
-              key: process.env.HOUSING_REPLAY.split("@")[0]!,
-              seed: process.env.HOUSING_REPLAY.split("@")[1]!,
-            }
-          : drawn;
+      for (let attempt = 0; attempt < 14; attempt++) {
+        const place = drawPlace(`${base}:${attempt}`, "law-wiring-housing");
         let failures: string[];
         try {
           failures = runOnce(place);
@@ -330,10 +330,11 @@ describe("housing and credit laws reach people and move money", () => {
         // Each attempt builds a whole world; collect the last one before the next (the run needs --expose-gc to do so, and is otherwise only slower).
         (globalThis as { gc?: () => void }).gc?.();
         if (!failures.length) return;
-        if (!failures[0]!.startsWith("no subject")) played += 1;
         tried.push(
           `${place.name} (${place.key}, seed ${place.seed}): ${failures.join("; ")}`,
         );
+        // Only a place with no subject is redrawn; a played place that fails fails the test.
+        if (!failures[0]!.startsWith("no subject")) break;
       }
       expect.fail(`seed ${base}\n${tried.join("\n")}`);
     } finally {
