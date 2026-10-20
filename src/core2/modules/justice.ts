@@ -60,6 +60,7 @@ import {
   type ProsecutorOffice,
 } from "../justice-law";
 import { holdInCustody, releaseFromCustody } from "../justice-custody";
+import { decidePretrial, endPretrial } from "../justice-pretrial";
 
 export const JUSTICE_MODULE_ID = "core2-justice-v1";
 const FINE_KIND = "justice-fine";
@@ -691,7 +692,24 @@ export function chargeDecision(api: CoreAPI, investigationId: string): void {
       days.source,
     );
     if (pleads) convict(api, row, true);
-    else
+    else {
+      const wait = decidePretrial(api, JUSTICE_MODULE_ID, id, target.personId);
+      if (wait)
+        emit(
+          api,
+          wait.decision === "held"
+            ? "justice.held-before-trial"
+            : "justice.bail-set",
+          `justice.pretrial:${id}`,
+          [target.personId],
+          {
+            caseId: id,
+            decision: wait.decision,
+            bailMinor: String(wait.bailMinor),
+            ...(wait.lawId ? { lawId: wait.lawId } : {}),
+          },
+          days.source,
+        );
       api.moduleCalendar(JUSTICE_MODULE_ID).schedule({
         key: `trial:${id}`,
         date: trialDate!,
@@ -699,6 +717,7 @@ export function chargeDecision(api: CoreAPI, investigationId: string): void {
         source: days.source,
         sourceRecordIds: [id],
       });
+    }
   }
   table(api, "investigations").put({
     ...inv,
@@ -712,6 +731,7 @@ export function chargeDecision(api: CoreAPI, investigationId: string): void {
 function trial(api: CoreAPI, caseId: string): void {
   const row = table(api, "cases").get(caseId) as unknown as CaseRow | undefined;
   if (!row || row.status !== "charged") return;
+  endPretrial(api, JUSTICE_MODULE_ID, caseId);
   const person = api.state.people.get(row.defendantId);
   if (!person?.alive) {
     table(api, "cases").put({
@@ -1254,6 +1274,7 @@ export const JUSTICE_MODULE: CoreModule = {
         },
       },
       fines: {},
+      pretrial: { indexes: { byPerson: { fields: ["personId"] } } },
     },
   },
   eventKinds: ["crime.told"],

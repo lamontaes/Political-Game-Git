@@ -341,10 +341,11 @@
     "file": "src/director/civic-roles.ts",
     "line": 1,
     "whatItFakes": "The person who tells someone a law changed their check is the head of the outlet whose story taught them; no record names who told them in person, and a notice from the probate court has no teller at all.",
-    "why": "The news module records which story a person heard and its outlet, not who retold it. Whether a person, a friend or a reporter, should be the teller is the owner's call.",
+    "why": "The news module records which story a person heard and its outlet, not who retold it. Whether a person, a friend or a reporter, should be the teller is the owner's call. Resolved Oct 19 (director-law-learned-from-outlet): the owner ruled on Oct 16 that the source is the story or feed that reached the person, so no teller is filled.",
     "addedBy": "director/civic-roles",
     "addedAt": "2026-10-16",
     "replacement": "The owner's ruling: either the person who retold the story (the speech engine's retelling record) or an outlet's reporter, read by the teller fill.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "Ruled by the owner on Oct 16: a person learns that a law changed their money mostly from the news or a feed, not from a person. The law-takes-effect scene is now the reached person's alone, caused by the learned-effect record, which cites the story that reached them (learnedFrom); the teller role and fill are gone, and a person is in the scene only where a conversation record shows one."
   }
 ]

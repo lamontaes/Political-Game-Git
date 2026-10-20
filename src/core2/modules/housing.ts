@@ -1272,8 +1272,7 @@ function step(api: CoreAPI, caseId: string, kind: string): void {
     });
     schedule(api, `hearing:${caseId}`, hearingAt, "housing-hearing", caseId);
   } else if (kind === "housing-hearing") {
-    // Courts are parked: the hearing follows the law's conditions (rent owed, notice given) with no judge's discretion.
-    stopgap("SG-WORLD-housing-hearing-without-judge");
+    // Evictions without courts (owner, Oct 14, OWNER-DECISIONS.md): the hearing is a dated step of the statute that follows its conditions (rent owed, notice given); there is no judge or court scene until courts come.
     if (owed <= 0)
       return put({
         open: false,

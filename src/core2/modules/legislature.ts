@@ -70,6 +70,7 @@ import {
   clearBudgetPriorities,
   departmentRequests,
   enactBudget,
+  governments,
   registerBudgetVote,
   type BudgetRow,
   type GovernmentRow,
@@ -138,6 +139,9 @@ export interface Provision {
   readonly shape?: "flat" | "graduated";
   /** For an estate tax: the new exemption, in dollars. Left out, the exemption in force stays. */
   readonly exemption?: number;
+  /** For a budget line: the government whose treasury the money is granted to, and the member's request it carries. */
+  readonly recipientId?: string;
+  readonly requestId?: string;
 }
 
 export interface Authority {
@@ -267,6 +271,7 @@ export const LEGISLATURE_MODULE: CoreModule = {
       obligations: {},
       choices: {},
       itemVetoes: {},
+      projectRequests: {},
     },
   },
   onCalendarWork: legislatureCalendar,
@@ -347,6 +352,15 @@ export function employerCosts(
       });
     }
   return out;
+}
+
+/** Everyone who sits in a government's governing body: the members who vote its budget. */
+export function governingMembers(
+  api: CoreAPI,
+  gov: GovernmentRow,
+): readonly TermRow[] {
+  const chambers = budgetChambers(api, gov);
+  return chambers ? chambers.chambers.flatMap((c) => members(api, c)) : [];
 }
 
 export function openLegislature(core: CoreState): void {
@@ -1413,6 +1427,170 @@ export function draftBill(
       facts: { billId: titled.id, number: titled.number },
     });
   return titled;
+}
+
+/**
+ * A member's request that a bill carry money to a named government (community
+ * project funding): the request is a record the bill's line and the grant
+ * both point back to.
+ */
+export interface ProjectRequestRow {
+  readonly id: string;
+  readonly memberId: string;
+  readonly bodyOfficeId: string;
+  readonly recipientId: string;
+  readonly line: string;
+  readonly amountMinor: number;
+  readonly requestedOn: string;
+  readonly status: "requested" | "included" | "dropped" | "paid";
+  /** Why it was included or dropped: record codes the English engine words. */
+  readonly reasons: readonly string[];
+  readonly billId?: string;
+  readonly grantId?: string;
+  readonly paidMinor?: number;
+  readonly shortMinor?: number;
+}
+
+export function projectRequestOf(
+  api: CoreAPI,
+  id: string,
+): ProjectRequestRow | null {
+  return (
+    (table(api, "projectRequests").get(id) as unknown as
+      ProjectRequestRow | undefined) ?? null
+  );
+}
+
+export function requestProject(
+  api: CoreAPI,
+  input: {
+    readonly bodyOfficeId: string;
+    readonly memberId: string;
+    readonly recipientId: string;
+    readonly line: string;
+    readonly amountMinor: number;
+  },
+): ProjectRequestRow {
+  if (!(input.amountMinor > 0))
+    throw new Error("A project request names an amount.");
+  if (!governments(api).some((g) => g.id === input.recipientId))
+    throw new Error(`No government ${input.recipientId} to receive a grant.`);
+  const row: ProjectRequestRow = {
+    id: `project-request:${input.bodyOfficeId}:${api.state.date}:${input.memberId}:${table(api, "projectRequests").size}`,
+    memberId: input.memberId,
+    bodyOfficeId: input.bodyOfficeId,
+    recipientId: input.recipientId,
+    line: input.line,
+    amountMinor: input.amountMinor,
+    requestedOn: api.state.date,
+    status: "requested",
+    reasons: [],
+  };
+  table(api, "projectRequests").put(row as unknown as ModuleRow);
+  return row;
+}
+
+/**
+ * The appropriations bill the sponsor carries: each open request is weighed on
+ * its member's standing, never a roll. A member of the majority side, or one
+ * seated on the committee for budget lines, has the request included as a
+ * line naming its recipient; any other request is dropped, and either way the
+ * reasons are kept on the request.
+ */
+export function appropriationsWithProjects(
+  api: CoreAPI,
+  input: { readonly bodyOfficeId: string; readonly sponsorId: string },
+): BillRow | null {
+  const terms = members(api, input.bodyOfficeId);
+  const majority = Math.sign(
+    terms.reduce((sum, t) => sum + partySide(t.party), 0),
+  );
+  const seated = rosterProvider?.(
+    api,
+    input.bodyOfficeId,
+    committeeForSection({ kind: "budget-line" }),
+  );
+  const provisions: Provision[] = [];
+  for (const row of table(
+    api,
+    "projectRequests",
+  ).rows() as unknown as ProjectRequestRow[]) {
+    if (row.status !== "requested" || row.bodyOfficeId !== input.bodyOfficeId)
+      continue;
+    const term = terms.find((t) => memberKey(t) === row.memberId);
+    const onCommittee = !!seated?.memberIds.includes(row.memberId);
+    const sameSide =
+      !!term &&
+      majority !== 0 &&
+      memberSide(api, row.memberId, term.party) === majority;
+    const reasons = [
+      sameSide ? "member-in-majority" : "member-in-minority",
+      onCommittee ? "member-on-committee" : "member-off-committee",
+    ];
+    const included = !!term && (sameSide || onCommittee);
+    table(api, "projectRequests").put({
+      ...row,
+      status: included ? "included" : "dropped",
+      reasons,
+    } as unknown as ModuleRow);
+    if (included)
+      provisions.push({
+        kind: "budget-line",
+        line: row.line,
+        value: row.amountMinor,
+        recipientId: row.recipientId,
+        requestId: row.id,
+      });
+  }
+  if (!provisions.length) return null;
+  const bill = draftBill(api, { ...input, provisions });
+  for (const p of provisions) {
+    const row = projectRequestOf(api, p.requestId!)!;
+    table(api, "projectRequests").put({
+      ...row,
+      billId: bill.id,
+    } as unknown as ModuleRow);
+  }
+  return bill;
+}
+
+/** A passed request's grant: the enacting treasury pays the recipient's, on the journal. */
+function payProjectGrant(
+  api: CoreAPI,
+  input: {
+    readonly requestId: string;
+    readonly fromGovernmentId: string;
+    readonly amountMinor: number;
+    readonly measureId: string;
+  },
+): void {
+  const row = projectRequestOf(api, input.requestId);
+  if (!row || row.status === "paid" || input.amountMinor <= 0) return;
+  const all = governments(api);
+  const from = all.find((g) => g.id === input.fromGovernmentId);
+  const to = all.find((g) => g.id === row.recipientId);
+  if (!from || !to) return;
+  const accounts = api.accounts();
+  const receipt = accounts.transfer({
+    id: `project-grant:${row.id}`,
+    from: accounts.main(from.organizationId),
+    to: accounts.main(to.organizationId),
+    amountMinor: input.amountMinor,
+    reasonKey: "project-grant",
+    partial: true,
+    source: {
+      tag: "SOURCED",
+      citation: `Project funding in ${input.measureId}`,
+      asOf: api.state.date,
+    },
+  });
+  table(api, "projectRequests").put({
+    ...row,
+    status: "paid",
+    grantId: receipt.id,
+    paidMinor: receipt.paidMinor,
+    shortMinor: receipt.shortMinor,
+  } as unknown as ModuleRow);
 }
 
 /**
@@ -2740,6 +2918,21 @@ function committeeStage(
   return record;
 }
 
+/** The hearings a body's committee held on a day, each with its witnesses, chair and vote. */
+export function committeeHearingsOn(
+  api: CoreAPI,
+  chamber: string,
+  committee: string,
+  date: string,
+): readonly CommitteeRecord[] {
+  return (
+    table(api, "committees").rows() as unknown as CommitteeRecord[]
+  ).filter(
+    (c) =>
+      c.chamber === chamber && c.committee === committee && c.date === date,
+  );
+}
+
 export function committeeRecords(
   api: CoreAPI,
   billId: string,
@@ -3824,13 +4017,21 @@ function enact(
         },
       });
     }
-    if (provision.kind === "budget-line" && provision.line)
+    if (provision.kind === "budget-line" && provision.line) {
       amendBudget(api, {
         governmentId: jurisdiction,
         line: provision.line,
         deltaMinor: enactedValue,
         measureId: bill.number,
       });
+      if (provision.requestId && provision.recipientId)
+        payProjectGrant(api, {
+          requestId: provision.requestId,
+          fromGovernmentId: jurisdiction,
+          amountMinor: enactedValue,
+          measureId: bill.number,
+        });
+    }
     if (provision.kind === "policy-question" && provision.question)
       enactLaw(api, {
         jurisdiction,

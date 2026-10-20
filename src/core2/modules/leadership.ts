@@ -611,6 +611,26 @@ export function committeeRoster(
   return row ? { memberIds: row.memberIds, chairId: row.chairId } : null;
 }
 
+/**
+ * The record that seated a committee: its id (`chamber:committee`), who
+ * assigned it and the day, for a member told where they sit. Null where the
+ * body has no such committee.
+ */
+export function committeeAssignment(
+  api: CoreAPI,
+  body: string,
+  committee: string,
+): { id: string; assignedBy: string; since: string } | null {
+  const chamber = chamberOf(api, body);
+  organize(api, chamber);
+  const row = table(api, "committees").get(
+    `${chamber}:${committee}`,
+  ) as unknown as CommitteeRow | undefined;
+  return row
+    ? { id: row.id, assignedBy: row.assignedBy, since: row.since }
+    : null;
+}
+
 /** The holder of a post (a speaker, a majority leader, a council president). */
 export function leaderOf(
   api: CoreAPI,

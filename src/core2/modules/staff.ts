@@ -917,15 +917,10 @@ function staffReview(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
       0
     )
       continue;
-    // stopgapId: SG-GOV-staff-hire-out-of-work
-    api.stopgap("SG-GOV-staff-hire-out-of-work");
-    // Only people out of work: taking the post would end a job that other
-    // records (a business's contracts) may still rely on.
+    // Anyone the post pays more than they earn now would apply, an employed
+    // one leaving their job for it (`startPublicJob` ends it).
     const choice = staffCandidates(api, officialId)
       .filter((c) => {
-        const person = state.people.get(c.personId);
-        if (person?.jobId && state.jobs.get(person.jobId)?.endsAt === undefined)
-          return false;
         const pay = [...(state.work.commitmentsByPerson.get(c.personId) ?? [])]
           .map((id) => state.work.commitments.get(id))
           .filter((row) => row && row.endsAt === undefined)

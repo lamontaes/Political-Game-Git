@@ -344,7 +344,12 @@ function startRecall(
     id: `recall-petition:${recall.id}`,
     date: api.state.date,
     kind: "recall-petition",
-    personIds: [organizer.id],
+    // The organizer, and the member the petition is against when they are a
+    // person: both are reached by it.
+    personIds: [
+      organizer.id,
+      ...(api.state.people.has(input.memberId) ? [input.memberId] : []),
+    ],
     placeId: lawChain(api).townPlaceId,
     source: {
       tag: "SOURCED",
@@ -353,7 +358,12 @@ function startRecall(
     },
     publicRecord: true,
     news: true,
-    facts: { recallId: recall.id, termId: term.id, lawId: row.id },
+    facts: {
+      recallId: recall.id,
+      termId: term.id,
+      lawId: row.id,
+      memberId: input.memberId,
+    },
   });
   api.moduleCalendar(RECALLS_MODULE_ID).schedule({
     key: `petition-due:${recall.id}`,
