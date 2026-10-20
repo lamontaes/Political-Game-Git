@@ -5,13 +5,13 @@ area: world
 kind: feature
 priority: 1
 size: M
-status: blocked
-claimed-by: claude/world-census-weight-economy
+status: claimed
+claimed-by: claude/census-weight-economy-check
 pr:
 blocked-on: world-census-weight-macro-regional
 milestone:
 source: "split of core-town-size-census (L): owner ruling core-od-town-size, OWNER-DECISIONS.md"
-claimed-at: 2026-10-15T22:01:44.414Z
+claimed-at: 2026-10-19T23:58:43.466Z
 ---
 
 **What.** Split on Oct 15 into world-census-weight-headcount, world-census-weight-hiring, world-census-weight-housing and world-census-weight-macro-regional (this item became blocked on the last); done when all four are. Original text: businesses, job counts, housing units and local business counts for a town above 10,000 follow its Census size (the local business counts already read the reference population) instead of the 10,000 sample, and counted workers' weights fill those jobs.

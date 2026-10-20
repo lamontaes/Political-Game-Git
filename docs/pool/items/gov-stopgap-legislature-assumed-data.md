@@ -4,10 +4,10 @@ title: "Stopgaps in legislature (assumed-data): 1 open"
 area: gov
 kind: stopgap
 priority: 3
-status: open
+status: blocked
 claimed-by:
 pr:
-blocked-on:
+blocked-on: research data: the row's replacement needs sourced data (Each place's ordinance numbering and enacting clause read from its code of ordinances into the municipal rule pack, the way its recall rules are....)
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/modules/legislature.ts, kind assumed-data"
 ---

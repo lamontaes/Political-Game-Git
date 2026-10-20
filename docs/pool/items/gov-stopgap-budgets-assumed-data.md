@@ -10,6 +10,7 @@ pr:
 blocked-on:
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/modules/budgets.ts, kind assumed-data"
+claimed-at:
 ---
 
 **What.** Replace or clear the 2 open assumed-data stopgap row(s) in src/core2/modules/budgets.ts: SG-WORLD-withholding-residence-law, SG-WORLD-withholding-local-base. Each fake is replaced by the mechanic, or the feature that needs it is deleted.
