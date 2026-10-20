@@ -5,10 +5,10 @@ area: words
 kind: wiring
 priority: 1
 size: M
-status: claimed
+status: blocked
 claimed-by: claude/pool-scene-talk-in-play
 pr:
-blocked-on:
+blocked-on: words-scene-talk (PR 4459 must merge first; the exchange engine src/director/scene-talk.ts is only on that branch)
 after: words-scene-talk
 source: added with npm run pool -- add
 claimed-at: 2026-10-20T02:35:42.632Z
