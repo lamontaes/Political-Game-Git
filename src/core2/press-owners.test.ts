@@ -229,6 +229,10 @@ describe("the press's owner and tip reads", () => {
       .moduleState(PRESS_MODULE_ID)
       .table("tips")
       .get(crimeId) as { storyId: string | null } | undefined;
+    // The fixture crime is new to the press: no story of it is in print yet,
+    // so the leak below is what prints it. A story already in print would
+    // make the leak assertions vacuous, so that is a failure, not a skip.
+    expect(before?.storyId ?? null, where).toBeNull();
     // A person who does not know of it cannot leak it.
     expect(() =>
       leakToReporter(api, {
@@ -249,12 +253,6 @@ describe("the press's owner and tip reads", () => {
       storyId: string | null;
       tip: number;
     };
-    if (before?.storyId) {
-      // Already in print by its own path: the leak does not print it twice.
-      expect(row.leaked, where).toBeUndefined();
-      expect(row.storyId, where).toBe(before.storyId);
-      return;
-    }
     expect(row.leaked, where).toBe(true);
     expect(row.knowerId, where).toBe(leaker!.id);
     expect(row.tip, where).toBeGreaterThan(0);
