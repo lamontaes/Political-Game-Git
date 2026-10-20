@@ -5,7 +5,7 @@ area: play
 kind: bug
 priority: 1
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/played-world-departures
 pr: #5603
 blocked-on:
