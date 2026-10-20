@@ -5,12 +5,12 @@ area: people
 kind: bug
 priority: 2
 size: S
-status: in-pr
-claimed-by: claude/hearing-speaker-named
+status: open
+claimed-by:
 pr: #5055
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-18T16:54:38.629Z
+claimed-at:
 ---
 
 **What.** A watched person who only heard of a public comment through a friend who spoke got a hearing scene that named them as the speaker. The hearing scene binds the person the moment belongs to as its speaker, and the director gives that moment to anyone tied to a speaker, scaled by the tie. The comment record names only those who spoke, so the scene put a listener at the lectern. It showed up as the red hearing-scenes test on main in the town drawn from the pinned seed.
@@ -22,3 +22,5 @@ claimed-at: 2026-10-18T16:54:38.629Z
 **Files.** src/director/scheduling.ts, src/director/data/situation-types.json, src/director/cause-names.test.ts.
 
 **Notes.** Adds a match condition `causeNames` that requires the cause record to name the moment's person; other scene types are untouched.
+
+Sent back 2026-10-20 from PR #5055 (branch claude/hearing-speaker-named): Merge main 4424a9ec32da into claude/hearing-speaker-named conflicts in: src/director/scheduling.ts. Resolve these files with a normal merge before changed-file validation; no integrated green head exists.; finish on that branch, merge main into it first.
