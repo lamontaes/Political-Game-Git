@@ -22,3 +22,5 @@ claimed-at:
 **Files.** src/core2/modules/school.ts
 
 **Notes.** TODO
+
+Sent back 2026-10-20 from PR #5389 (branch claude/speed-school-day): see the Cloud merger comment on that PR for the exact reason; finish on that branch, merge main into it first.
