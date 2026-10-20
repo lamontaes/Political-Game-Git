@@ -5,11 +5,12 @@ area: world
 kind: bug
 priority: 3
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/audit-10
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-20T04:28:29.079Z
 ---
 
 **What.** Fix the braces in jobIdsNamed so it recurses, assert named jobs exist, build with twoLevel true, and reproduce the Invalid relocation crash the body reported.
