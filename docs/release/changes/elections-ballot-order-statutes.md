@@ -1,8 +1,6 @@
 ---
 id: elections-ballot-order-statutes
-impact: patch
-section: Fixed
-title: Ballot order follows the law in twelve more places
+impact: none
 ---
 
-Candidate and party order on the ballot now follows each place's statute in twelve more places. Virginia and Missouri list primary names in the order they filed, Iowa, Wyoming, Idaho and Nebraska rotate primary names across precincts, New Mexico draws party order by lot and Guam orders names by lot. Delaware, Maryland, North Dakota and Wisconsin are confirmed as already modeled.
+Data only: Wisconsin's ballot-order row cites its statute and drops the estimate flag, and five places' notes say what their codes do and don't state. Ballot order in play is unchanged; the other places this change first covered were read from their statutes on main already.
