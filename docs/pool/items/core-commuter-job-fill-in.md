@@ -5,12 +5,13 @@ area: core
 kind: feature
 priority: 2
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/commuter-job
 pr:
 blocked-on:
 after: core-outside-pay-authority
 source: "split of core-outside-wage-obligation (L), Oct 20"
+claimed-at: 2026-10-20T06:47:54.316Z
 ---
 
 **What.** When a counted household is filled in, its jobless workers today get a cloned unplaced income flow (`returnUnplacedPay`), which is not a job anyone can see. Replace that with a real commuter job: a worker takes a job at an employer outside town (`startCommuterJob` in `src/core2/modules/residents.ts`), with a regular payday and tax withheld to the treasuries. The neighbor you meet then has an employer, a schedule and a paycheck.
