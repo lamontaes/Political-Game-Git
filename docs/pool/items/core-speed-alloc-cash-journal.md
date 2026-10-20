@@ -5,10 +5,10 @@ area: core
 kind: cleanup
 priority: 2
 size: M
-status: claimed
+status: blocked
 claimed-by: claude/political-game-pool-yucp92-z
 pr:
-blocked-on:
+blocked-on: core-speed-journal-bigint
 source: added with npm run pool -- add
 claimed-at: 2026-10-20T02:24:43.816Z
 ---
