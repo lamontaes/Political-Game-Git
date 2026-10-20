@@ -4,10 +4,10 @@ title: "Stopgaps in opening-income (opening-generated-income-prior): 1 open"
 area: core
 kind: stopgap
 priority: 3
-status: open
+status: blocked
 claimed-by:
 pr:
-blocked-on:
+blocked-on: research data: the row's replacement needs sourced data (Source-matched individual covered-career, claim/eligibility, award and SSA insured-worker payment-calendar producers, with actual award/territory/prov...)
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/data/opening-income.json, kind opening-generated-income-prior"
 ---

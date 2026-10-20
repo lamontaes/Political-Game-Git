@@ -4,12 +4,13 @@ title: "Presidential orders, pardons, the situation room:"
 area: office
 kind: feature
 priority: 2
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/presidential-orders
+pr: #5184
 blocked-on:
 milestone:
 source: "docs/coordination/OFFICE-FEDERAL.md line 19 (unchecked checklist line)"
+claimed-at: 2026-10-19T21:54:02.074Z
 ---
 
 **What.** Checked against main on Oct 16: OPEN. `presidentialOrders`, `pardonable` and `crisesToday` in `office-day-federal-president.ts` all return nothing, each registered as a stopgap (`SG-OFFICE-FED-presidential-orders`, `-pardons`, `-situation-room`); the justice engine has no federal sovereign to pardon. Next: A federal executive order whose law row an agency or the budget engine reads. Pardons and the situation room wait on a federal-sovereign record in justice and on crisis records. The player would notice the act on the politics screen as a choice among people, never a form.

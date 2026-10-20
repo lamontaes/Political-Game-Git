@@ -4,12 +4,13 @@ title: "Stopgaps in opening-outside-market (outside-demand): 1 open"
 area: core
 kind: stopgap
 priority: 3
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/pool-outside-demand
+pr: #5297
 blocked-on:
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/opening-outside-market.ts, kind outside-demand"
+claimed-at: 2026-10-19T23:46:14.976Z
 ---
 
 **What.** Replace or clear the 1 open outside-demand stopgap row(s) in src/core2/opening-outside-market.ts: SG-CORE-outside-market. Each fake is replaced by the mechanic, or the feature that needs it is deleted.

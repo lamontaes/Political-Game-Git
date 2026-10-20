@@ -1,4 +1,4 @@
-import type { TraitEffectDeclaration } from "../../trait-packs";
+import type { TraitEffectDeclaration } from "../../../core2/trait-packs";
 
 /**
  * Outward emotional display is communicating rather than restraining felt emotion. It bears on whether someone answers a reporter's request.

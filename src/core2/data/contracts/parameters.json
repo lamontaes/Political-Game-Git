@@ -1,0 +1,22 @@
+{
+  "contractPriceWeight": {
+    "value": 2,
+    "tag": "TUNABLE",
+    "citation": "Weight on how far a bid's cost of labor per worker is under the bidders' average (log ratio, so doubling is about 0.7). Public procurement rules in every state favor the lowest responsible bidder (National Association of State Procurement Officials, State and Local Government Procurement: A Practical Guide). Spread 1 to 4, checked against the share of a generated town's awards that go to its cheapest bidder."
+  },
+  "contractCapacityWeight": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "Weight on how much larger a bidder's workforce is than the bidders' average (log ratio): a firm must be able to do the work, which is why responsibility is part of every state's award rule (NASPO, State and Local Government Procurement: A Practical Guide). Spread 0.5 to 2."
+  },
+  "contractTieWeight": {
+    "value": 1.5,
+    "tag": "TUNABLE",
+    "citation": "Weight on the member's closeness to the firm's owner, which counts more for a member whose traits lean to bending rules and trusting and less for one who follows rules (a sliding scale, no threshold). Local officials favor firms they know where oversight is thin (Coviello and Gagliarducci 2017, Tenure in Office and Public Procurement, American Economic Journal: Economic Policy 9(3):59-105). Spread 0.5 to 3."
+  },
+  "contractTraitWeight": {
+    "value": 0.5,
+    "tag": "TUNABLE",
+    "citation": "How far a member's traits move weight between price and the tie to a firm's owner: at full lean the price weight falls by this share and the tie weight rises by it. Spread 0.25 to 0.75, so a rule-following member still counts price at half its weight and a rule-bending member still counts price."
+  }
+}

@@ -4,10 +4,10 @@ title: "Stopgaps in group-b-money (missing-data): 2 open"
 area: laws
 kind: stopgap
 priority: 3
-status: open
+status: blocked
 claimed-by:
 pr:
-blocked-on:
+blocked-on: research data: the row's replacement needs sourced data (OPUS-GOV budgets: public-budget-bases.json carries each island area's population and finances (Census Island Areas, PR government finances); group B t...)
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/law-reach/group-b-money.ts, kind missing-data"
 ---

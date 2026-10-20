@@ -384,14 +384,10 @@ describe("controlled player clock contracts", () => {
     if (packet.kind !== "choice")
       throw new Error("Expected discretionary choice");
     const rest = packet.offers.find((o) => o.actionId === "rest")!;
-    expect(rest.durationMinutes).toBe(
-      p("workWakingRecoveryHours") * p("minutesPerHour"),
-    );
-    expect(rest.durationEvidence.effortParameter).toBe(
-      "workWakingRecoveryHours",
-    );
+    expect(rest.durationMinutes).toBe(p("restDayHours") * p("minutesPerHour"));
+    expect(rest.durationEvidence.effortParameter).toBe("restDayHours");
     const before = boundary(core),
-      actual = core.data.parameters.workWakingRecoveryHours!;
+      actual = core.data.parameters.restDayHours!;
     const previous = actual.value;
     try {
       actual.value += p("one");

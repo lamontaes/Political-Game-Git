@@ -4,13 +4,14 @@ title: "Declare an emergency (needs OPUS-CORE's disasters engine, PR no. 4125)."
 area: office
 kind: feature
 priority: 2
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/declare-emergency
+pr: #5134
 blocked-on:
 milestone:
 after: core-disasters-ss-prices
 source: "docs/coordination/OFFICE-LOCAL.md line 32 (unchecked checklist line)"
+claimed-at: 2026-10-19T19:54:01.773Z
 ---
 
 **What.** Checked against main on Oct 16: OPEN, and waiting on disaster records: there is no declaration or hazard record in core2 yet (`core-disasters-ss-prices`, #4125, is in a PR). The owner deferred the governor's emergency and Guard powers (Oct 14). Next: A `declare-emergency` act that cites a hazard record and the law row, and moves a budget line. The player would notice the act on the politics screen as a choice among people, never a form.

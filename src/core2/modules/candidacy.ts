@@ -8,7 +8,6 @@ import {
   type PoolFacts,
   type RaceScope,
 } from "../candidate-pool";
-import { pressConflict } from "../press-conflict";
 /**
  * Who runs for office (M2-04). When a contest opens, each adult it reaches
  * weighs running against staying out through the core's one chooser, from
@@ -712,7 +711,6 @@ export function weighContest(
         p.alive &&
         (p.placeId === town.townPlaceId || pool.has(p.id)) &&
         !appointed.has(p.id) &&
-        !pressConflict(api, p.id) &&
         ageOnDate(makeIsoDate(p.birthDate), makeIsoDate(date)) >=
           rules.minimumAge &&
         !isExplicitlyControlledPersonV1(api.state, p.id) &&
