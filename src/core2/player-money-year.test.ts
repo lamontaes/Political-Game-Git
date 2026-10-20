@@ -100,8 +100,11 @@ it("a played year moves the player's household money through pay, living costs, 
           total("accounts.transfer residents", "outMinor"),
         where,
       ).toBeGreaterThan(0);
+      // Housing leaves as a settled contract (rent or a mortgage) or, for a
+      // household that owns its home outright, as property tax.
       expect(
-        total("finance.contract-settlement finance", "outMinor"),
+        total("finance.contract-settlement finance", "outMinor") +
+          total("accounts.transfer property-tax", "outMinor"),
         where,
       ).toBeGreaterThan(0);
       expect(
