@@ -5,13 +5,13 @@ area: people
 kind: feature
 priority: 2
 size: L
-status: blocked
-claimed-by: claude/political-game-pool-yucp92-ii
+status: open
+claimed-by:
 pr:
 blocked-on:
 after: research-opening-stance-loadings,people-opening-stance-formation,elections-counted-voters-read-group-stances
 source: added with npm run pool -- add
-claimed-at: 2026-10-20T04:00:22.454Z
+claimed-at:
 ---
 
 **What.** This is the roll-up for per-question opening stances. viewOn in src/core2/modules/views.ts still reads a person's lean times the question's axis (personStance in src/core2/campaign-views.ts) plus what they have heard, and the one remaining platformAgreement caller outside tests is countedAppeal in electorate.ts. It is built by three items in order: the sourced loadings of traits, faith and education on each question (research-opening-stance-loadings), the stance formed once per person and question from them (people-opening-stance-formation), and the counted voter groups reading the same rule times their count (elections-counted-voters-read-group-stances). This item closes when stand-in SG-GOV-views-stand-in is resolved and no platformAgreement call is left in src/core2.
