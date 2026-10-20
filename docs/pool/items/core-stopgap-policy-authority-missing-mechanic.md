@@ -4,10 +4,10 @@ title: "Stopgaps in policy-authority (missing-mechanic): 1 open"
 area: core
 kind: stopgap
 priority: 3
-status: blocked
+status: dropped
 claimed-by:
 pr:
-blocked-on: research data: the row's replacement needs sourced data (Sourced per-place cells and structured conditions for each limited power, evaluated by the same authority reader before introduction or an executive o...)
+blocked-on: research-core-sourced-parameters
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/policy-authority.ts, kind missing-mechanic"
 ---
@@ -21,3 +21,5 @@ source: "src/core2/data/stopgaps.json, src/core2/policy-authority.ts, kind missi
 **Files.** src/core2/policy-authority.ts
 
 **Notes.** First row: Inherited game-profile powers cells are provisional estimates; a cell explicitly marked limited retains a disputed grant while its qualitative conditions are not yet all executable predicates.
+
+Folded into research-core-sourced-parameters (CTO, Oct 19, 2026).

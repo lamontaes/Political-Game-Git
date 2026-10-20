@@ -4,10 +4,10 @@ title: "Stopgaps in parameters (estimated-behavior): 1 open"
 area: core
 kind: stopgap
 priority: 3
-status: blocked
+status: dropped
 claimed-by:
 pr:
-blocked-on: research data: the row's replacement needs sourced data (Travel time between the two people's places once relatives carry a place, from Census Gazetteer place centroids, with visits falling with travel time ...)
+blocked-on: research-core-parameters-sourced-parameters
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/data/parameters.json, kind estimated-behavior"
 ---
@@ -21,3 +21,5 @@ source: "src/core2/data/stopgaps.json, src/core2/data/parameters.json, kind esti
 **Files.** src/core2/data/parameters.json
 
 **Notes.** First row: How far a relative lives changes how often they are visited only by whether they are in the household's county (full pull) or elsewhere in the state (0.39 of it, from Pew 2005 daily contact by same or different town).
+
+Folded into research-core-parameters-sourced-parameters (CTO, Oct 19, 2026).

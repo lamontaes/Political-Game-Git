@@ -4,10 +4,10 @@ title: "Stopgaps in residents (assumed-data): 1 open"
 area: people
 kind: stopgap
 priority: 3
-status: blocked
+status: dropped
 claimed-by:
 pr:
-blocked-on: research data: the row's replacement needs sourced data (Each district's own Census tables (ACS by state legislative district: income, tenure, age) and its election results, so households are placed by the d...)
+blocked-on: research-residents-sourced-parameters
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/modules/residents.ts, kind assumed-data"
 ---
@@ -21,3 +21,5 @@ source: "src/core2/data/stopgaps.json, src/core2/modules/residents.ts, kind assu
 **Files.** src/core2/modules/residents.ts
 
 **Notes.** First row: A town split between state legislative districts places its counted households into the districts by income order, filling each district in proportion to its Census population in the town, so each district holds a slice
+
+Folded into research-residents-sourced-parameters (CTO, Oct 19, 2026).

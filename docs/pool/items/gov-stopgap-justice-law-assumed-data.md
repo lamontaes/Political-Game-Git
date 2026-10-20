@@ -4,10 +4,10 @@ title: "Stopgaps in justice-law (assumed-data): 1 open"
 area: gov
 kind: stopgap
 priority: 3
-status: blocked
+status: dropped
 claimed-by:
 pr:
-blocked-on: research data: the row's replacement needs sourced data (Each place's bribery-of-a-public-official grade and range read into data/research/justice/sentencing-ranges-2026.json, read by offense key....)
+blocked-on: research-gov-sourced-parameters
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/justice-law.ts, kind assumed-data"
 ---
@@ -21,3 +21,5 @@ source: "src/core2/data/stopgaps.json, src/core2/justice-law.ts, kind assumed-da
 **Files.** src/core2/justice-law.ts
 
 **Notes.** First row: Bribery is sentenced on the place's lowest felony-assault range from the sentencing research, not on the place's own bribery statute.
+
+Folded into research-gov-sourced-parameters (CTO, Oct 19, 2026).

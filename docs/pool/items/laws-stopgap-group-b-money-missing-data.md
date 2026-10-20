@@ -4,10 +4,10 @@ title: "Stopgaps in group-b-money (missing-data): 2 open"
 area: laws
 kind: stopgap
 priority: 3
-status: blocked
+status: dropped
 claimed-by:
 pr:
-blocked-on: research data: the row's replacement needs sourced data (OPUS-GOV budgets: public-budget-bases.json carries each island area's population and finances (Census Island Areas, PR government finances); group B t...)
+blocked-on: research-law-reach-sourced-parameters
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/law-reach/group-b-money.ts, kind missing-data"
 ---
@@ -21,3 +21,5 @@ source: "src/core2/data/stopgaps.json, src/core2/law-reach/group-b-money.ts, kin
 **Files.** src/core2/law-reach/group-b-money.ts
 
 **Notes.** First row: For an island area the budgets module records no residents, group B shares a budget line's change to the town by the Census population in its own parameter table.
+
+Folded into research-law-reach-sourced-parameters (CTO, Oct 19, 2026).

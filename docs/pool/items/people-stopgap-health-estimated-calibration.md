@@ -4,10 +4,10 @@ title: "Stopgaps in health (estimated-calibration): 1 open"
 area: people
 kind: stopgap
 priority: 3
-status: blocked
+status: dropped
 claimed-by:
 pr:
-blocked-on: research data: the row's replacement needs sourced data (A cohort calibration of base scale and condition weights together, checked across many places and ages against the life table....)
+blocked-on: research-health-sourced-parameters
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/data/health.json, kind estimated-calibration"
 ---
@@ -21,3 +21,5 @@ source: "src/core2/data/stopgaps.json, src/core2/data/health.json, kind estimate
 **Files.** src/core2/data/health.json
 
 **Notes.** First row: One base-rate scale (0.106) for every place, solved from two generated towns so expected yearly deaths match the SSA 2023 life table; the chronic-condition weights were calibrated for the old shared threshold and are not
+
+Folded into research-health-sourced-parameters (CTO, Oct 19, 2026).

@@ -7,7 +7,7 @@ priority: 3
 status: blocked
 claimed-by: claude/closeness-stopgap
 pr:
-blocked-on: dataset-roberts-dunbar-tie-strength-panel
+blocked-on: research-core-sourced-parameters
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/data/closeness.json, kind relationship-closeness-model"
 claimed-at: 2026-10-19T23:28:43.862Z

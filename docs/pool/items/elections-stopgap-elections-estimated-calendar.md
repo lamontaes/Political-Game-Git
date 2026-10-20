@@ -4,10 +4,10 @@ title: "Stopgaps in elections (estimated-calendar): 1 open"
 area: elections
 kind: stopgap
 priority: 3
-status: blocked
+status: dropped
 claimed-by:
 pr:
-blocked-on: research data: the row's replacement needs sourced data (Each unread state's deadline rule read from its code into src/core2/data/elections/filing-deadlines.json, and each ESTIMATED row checked against the c...)
+blocked-on: research-elections-sourced-parameters
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/modules/elections.ts, kind estimated-calendar"
 claimed-at:
@@ -22,3 +22,5 @@ claimed-at:
 **Files.** src/core2/modules/elections.ts
 
 **Notes.** First row: A town's filing deadline where the state's municipal rule is unread (its row in filing-deadlines.json is 'unread'): the median number of days between the candidate filing deadline and the primary over the places with a 2
+
+Folded into research-elections-sourced-parameters (CTO, Oct 19, 2026).

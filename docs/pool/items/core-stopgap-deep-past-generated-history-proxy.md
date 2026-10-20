@@ -4,10 +4,10 @@ title: "Stopgaps in deep-past (generated-history-proxy): 1 open"
 area: core
 kind: stopgap
 priority: 3
-status: blocked
+status: dropped
 claimed-by:
 pr:
-blocked-on: research data: the row's replacement needs sourced data (Era- and locality-specific sourced institution histories and validated cohort distributions; preserve existing personal facts....)
+blocked-on: research-deep-past-sourced-parameters
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/data/deep-past.json, kind generated-history-proxy"
 claimed-at:
@@ -22,3 +22,5 @@ claimed-at:
 **Files.** src/core2/data/deep-past.json
 
 **Notes.** First row: Generated summarized school cohorts reuse common grade stages, present institution names and current-locality proxies where past places are unrecorded; this is not sourced personal attendance or historical institution ex
+
+Folded into research-deep-past-sourced-parameters (CTO, Oct 19, 2026).

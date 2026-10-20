@@ -7,7 +7,7 @@ priority: 3
 status: blocked
 claimed-by: claude/content-estimated
 pr: #5280
-blocked-on: dataset-p9-cohort-activity-coefficients
+blocked-on: research-content-sourced-parameters
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/data/content.json, kind estimated-behavior"
 claimed-at: 2026-10-19T23:35:39.096Z

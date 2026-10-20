@@ -4,10 +4,10 @@ title: "Stopgaps in opening-profile (partial-model): 1 open"
 area: core
 kind: stopgap
 priority: 3
-status: blocked
+status: dropped
 claimed-by:
 pr:
-blocked-on: research data: the row's replacement needs sourced data (Attainment from the person's own schooling history (deep past) checked against ACS B15001 by state, age and sex; faith from upbringing and the Pew Rel...)
+blocked-on: research-deep-past-sourced-parameters
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/opening-profile.ts, kind partial-model"
 ---
@@ -21,3 +21,5 @@ source: "src/core2/data/stopgaps.json, src/core2/opening-profile.ts, kind partia
 **Files.** src/core2/opening-profile.ts
 
 **Notes.** First row: Each adult's education and faith at the opening, read from their state's CES 2024 shares by age band with a household share; education and faith are treated as independent within a state and age band, and children carry
+
+Folded into research-deep-past-sourced-parameters (CTO, Oct 19, 2026).

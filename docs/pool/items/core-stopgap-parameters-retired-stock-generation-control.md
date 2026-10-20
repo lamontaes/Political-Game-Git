@@ -4,10 +4,10 @@ title: "Stopgaps in parameters (retired-stock-generation-control): 2 open"
 area: core
 kind: stopgap
 priority: 3
-status: blocked
+status: dropped
 claimed-by:
 pr:
-blocked-on: CTO: every row this item names is already resolved in stopgaps.json (SG-P8-param-openingRetirementPayerReserveMonths, SG-P8-param-openingRetirementFundingLiquidShare); drop it
+blocked-on:
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/data/parameters.json, kind retired-stock-generation-control"
 claimed-at:
@@ -24,3 +24,5 @@ claimed-at:
 **Notes.** First row: Compatibility key only. New retirement views and outside-flow owners start at zero; no prepaid stock, annual-flow-to-cash conversion or survival buffer remains in this candidate.
 
 **Checked Oct 17.** Stale: both rows (SG-P8-param-openingRetirementFundingLiquidShare and SG-P8-param-openingRetirementPayerReserveMonths) are already `resolved` in src/core2/data/stopgaps.json. Nothing to build; the CTO can drop this item.
+
+Dropped (CTO, Oct 19, 2026): every row it names is already resolved in stopgaps.json.

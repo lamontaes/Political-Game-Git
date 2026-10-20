@@ -4,10 +4,10 @@ title: "Stopgaps in housing-homeless (assumed-data): 2 open"
 area: world
 kind: stopgap
 priority: 3
-status: blocked
+status: dropped
 claimed-by:
 pr:
-blocked-on: research data: the row's replacement needs sourced data (Beds by place from the HIC provider rows (geocode to county and place), with occupancy on the count night....)
+blocked-on: research-housing-sourced-parameters
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/housing-homeless.ts, kind assumed-data"
 ---
@@ -21,3 +21,5 @@ source: "src/core2/data/stopgaps.json, src/core2/housing-homeless.ts, kind assum
 **Files.** src/core2/housing-homeless.ts
 
 **Notes.** First row: A place's shelter beds are its state's year-round beds per 10,000 people (HUD 2025 Housing Inventory Count) times its own people, not the beds its Continuum of Care actually lists in or near it.
+
+Folded into research-housing-sourced-parameters (CTO, Oct 19, 2026).

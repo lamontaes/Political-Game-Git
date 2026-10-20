@@ -7,7 +7,7 @@ priority: 2
 status: blocked
 claimed-by: claude/housing-construction-stopgap
 pr:
-blocked-on:
+blocked-on: world-counted-renters-buy
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/housing-construction.ts, kind faked-mechanic"
 claimed-at: 2026-10-19T23:08:37.700Z
