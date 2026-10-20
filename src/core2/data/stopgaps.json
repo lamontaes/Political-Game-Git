@@ -1585,11 +1585,11 @@
     "file": "src/core2/law-reach/group-b-money.ts",
     "line": 82,
     "whatItFakes": "For an island area the budgets module records no residents, group B shares a budget line's change to the town by the Census population in its own parameter table.",
-    "why": "data/research/money/public-budget-bases.json has no population2024 (and no budget) for Puerto Rico, Guam, the U.S. Virgin Islands, American Samoa or the Northern Mariana Islands.",
+    "why": "data/research/money/public-budget-bases.json has no population2024 (and no budget) for Puerto Rico, Guam, the U.S. Virgin Islands, American Samoa or the Northern Mariana Islands. Resolved Oct 19: public-budget-bases.json already carries each island area's population (islandAreaPopulation2020 and puertoRicoPopulation2025), and the budgets module now reads it into the state government's residents.",
     "addedBy": "OPUS-GOV (sub-agent B)",
     "addedAt": "2026-10-12",
     "replacement": "OPUS-GOV budgets: public-budget-bases.json carries each island area's population and finances (Census Island Areas, PR government finances); group B then reads GovernmentRow.residents only.",
-    "status": "open"
+    "status": "resolved"
   },
   {
     "id": "SG-GOV-REACH-B-public-school-staff",
@@ -2606,8 +2606,8 @@
     "kind": "faked-mechanic",
     "file": "src/core2/modules/housing.ts",
     "line": 419,
-    "whatItFakes": "The wider population's renters pay rent from their place's pooled residents account, with no household arrears or eviction cases of their own.",
-    "why": "The two-level population pools counted households' cash by place (OPUS-CORE's stopgap), so a single counted household cannot fall behind on its own.",
+    "whatItFakes": "The wider population's renters pay rent from their place's pooled residents account, and the arrears they run up are held per group (households of one kind in one place), not per household; a case is opened and a household removed from the group's pool, but which household in the group is behind is not recorded.",
+    "why": "The two-level population pools counted households' cash by place (OPUS-CORE's stopgap), so the group falls behind together; a single counted household's own shortfall is not kept.",
     "addedBy": "OPUS-WORLD",
     "addedAt": "2026-10-12",
     "replacement": "Per-household cash for counted households (or fill-in when a household falls behind), with arrears and eviction through the same legal steps.",
@@ -3027,8 +3027,8 @@
     "why": "Public payroll from treasuries is OPUS-CORE's (public employers pay as outside payers today).",
     "addedBy": "OPUS-GOV",
     "addedAt": "2026-10-13",
-    "replacement": "The appointee's post becomes a public job paid from the government's treasury through CORE's public payroll.",
-    "status": "open"
+    "replacement": "Resolved Oct 19: the state cabinet the governor picks are full people on the state payroll (job:public:state:<post>:<person>), the one replaced leaves it; a town head or an agency head is paid the same way. A world with no treasury open has no payroll, which is not a played world (pool item gov-stopgap-executive-missing-engine).",
+    "status": "resolved"
   },
   {
     "id": "SG-GOV-executive-powers-research",
@@ -3939,7 +3939,8 @@
     "replacement": "The owner's ruling on what a town's districts are; wards as districts if he wants them.",
     "addedBy": "OPUS-CORE (one model, two tiers)",
     "addedAt": "2026-10-14",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "Answered by the owner's Oct 15 ruling and built in gov-council-election-method: each place's council is elected the way its own records say (councilElectionMethod in src/core2/gov-rules/council-election-method.ts: ward seats from a compiled charter, else estimated at large from the ICMA 2018 national shares, basis and citation kept on the office), and offices-local.ts seats the ward seats by part of town. The residents engine's split of a town into state House districts is a different thing (placement of counted voters for state legislative contests, SG-CORE-district-placement) and is not a council shape."
   },
   {
     "id": "SG-CORE-owner-decision-fill-in-outside-kin",
