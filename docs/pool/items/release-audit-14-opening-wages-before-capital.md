@@ -5,12 +5,12 @@ area: world
 kind: bug
 priority: 3
 size: M
-status: claimed
-claimed-by: claude/audit-14-opening-wages-before-capital
+status: open
+claimed-by:
 pr:
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-20T04:41:59.172Z
+claimed-at:
 ---
 
 **What.** Run a before and after on opening capital, credit and treasury reserve in three or four drawn places for the wage and hour rewrite of up to 20 percent made before opening capital is set.
