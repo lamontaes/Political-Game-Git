@@ -22,3 +22,5 @@ claimed-at:
 **Files.** src/core2/public-payroll.ts, src/core2/modules/staff.ts, src/core2/staff-paid-every-place.test.ts
 
 **Notes.** Split from release-merge-audit-oct20-morning-fixes fix 5. Found Oct 20 by claude/political-game-pool-yucp92-as.
+
+Sent back 2026-10-20 from PR #5724 (branch claude/political-game-pool-yucp92-bx): merging main conflicts in src/core2/public-payroll.ts (#5668 changed the schedule template order there); finish on that branch, merge main into it first.
