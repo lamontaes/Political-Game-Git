@@ -22,3 +22,5 @@ claimed-at:
 **Files.** src/core2/household-firearms.test.ts, src/core2/law-reach/group-a-records.ts, src/core2/modules/laws.ts
 
 **Notes.** Independent same-seed baseline and PR comparison: both fail identically with extra person_76c8e949a5f5bbaa, person_76c8ea49a5f5bd5d, person_f502f74bd53befa1, person_f502f84bd53bf154. Preserve existing claims on release-suite-red-list-core2 and people-household-firearms.
+
+Sent back 2026-10-20 from PR #5371 (branch claude/firearm-storage-extra-duty): see the Cloud merger comment on that PR for the exact reason; finish on that branch, merge main into it first.
