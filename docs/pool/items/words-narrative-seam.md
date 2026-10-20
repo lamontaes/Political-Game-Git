@@ -5,21 +5,21 @@ area: people
 kind: feature
 priority: 2
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/narrative-seam
-pr: #5358
+pr: #5614
 blocked-on:
 after: words-pack-scene-talk
 source: added with npm run pool -- add
 claimed-at: 2026-10-20T09:10:24.618Z
 ---
 
-**What.** TODO
+**What.** Piece-picking moves from the director's scene-talk into the English engine. The director should emit only the situation and the moves, and the English engine should choose the pieces that voice each move. Today the director's scene-talk picks the words, which splits the wording between two places.
 
-**Rules.** TODO
+**Rules.** Replace, never layer: the piece-picking code in the director's scene-talk is deleted in the same change. No hand-written player text: words come from the English engine.
 
-**Done when.** TODO
+**Done when.** Scenes in a one-year run of the played world (buildBenchWorld) in a drawn place and seed the builder did not choose read the same on the batch page as before, the director emits only situation and moves by record id, the old piece-picking code in src/director/conversation.ts is gone with the line count in the PR body, and src/director and src/english tests pass.
 
-**Files.** TODO
+**Files.** src/director/conversation.ts, src/english/english-composition.ts
 
-**Notes.** PR #5358 sent back: merge conflict with main in code files (scripts/dialogue-batch/apply-grades.ts, scripts/dialogue-batch/grading-bench.test.ts, scripts/dialogue-batch/grading-bench.ts, src/director/civic-roles.ts, src/director/conversation.test.ts, src/director/scheduling.ts, src/english/english-composition.ts) and targets unmerged base branch words/word-pack (#4626).
+**Notes.** Body written Oct 19 from the title when the pool check was red on main; the claiming or next session refines it.
