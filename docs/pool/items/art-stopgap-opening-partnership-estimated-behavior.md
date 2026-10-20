@@ -7,7 +7,7 @@ priority: 3
 status: blocked
 claimed-by: claude/political-game-pool-yucp92-e
 pr:
-blocked-on: research data: place-level ACS 5-year marital and household tables for every place, then the code
+blocked-on: research-deep-past-sourced-parameters
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/opening-partnership.ts, kind estimated-behavior"
 claimed-at: 2026-10-19T22:53:17.745Z
