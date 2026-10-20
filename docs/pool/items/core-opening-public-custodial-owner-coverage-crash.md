@@ -5,9 +5,9 @@ area: core
 kind: bug
 priority: 1
 size: M
-status: claimed
+status: done
 claimed-by: claude/custodial-owner-crash
-pr:
+pr: #5548
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-20T05:52:14.176Z

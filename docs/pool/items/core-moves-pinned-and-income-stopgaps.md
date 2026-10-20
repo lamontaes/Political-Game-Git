@@ -6,11 +6,11 @@ kind: stopgap
 priority: 2
 size: M
 status: claimed
-claimed-by: claude/fs11vb-moves
+claimed-by: claude/moves-pinned-income
 pr:
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-20T05:17:57.756Z
+claimed-at: 2026-10-20T06:23:07.756Z
 ---
 
 **What.** Two stopgap rows in the people-moves engine keep movers from leaving: a holder of a job a saved agreement names as its provider's qualification (SG-P15-moves-pinned-jobs), and a person whose income award is paid into a household others stay in (SG-FIXER-moves-income-household). The first row also says moves keeps its own copy of the jobs engine's lookup. That copy is gone: both engines now read one lookup in `src/core2/pinned-jobs.ts`. Letting these people actually move needs two changes in other engines, filed as their own items.
