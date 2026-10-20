@@ -427,21 +427,21 @@
     },
     {
       "key": "crime-to-out-migration",
-      "status": "size-not-set",
-      "unsupportedReason": "size-not-set",
+      "status": "built",
+      "unsupportedReason": null,
       "to": "population.out-migration",
       "strength": "strong",
       "shape": {
         "kind": "linear"
       },
-      "size": null,
-      "per": "reported crime",
+      "size": 4e-5,
+      "per": "violent crime per 100,000 residents",
       "lagMonths": 0,
       "group": "families with children, higher incomes",
       "owner": "O",
-      "anchor": "Each added reported crime: about 1 fewer city resident, mostly moving to the suburbs",
-      "source": "Cullen and Levitt 1999 (REStat)",
-      "from": "crime.reported-per-capita",
+      "anchor": "Each added reported crime per resident, over five years, lowers the chance a central-city household stays by 1.18 (Table 6a column 2). Against the 29.5% of households that left within five years (Table 4), one more reported crime per 100,000 residents raises the rate of leaving by about 0.004%.",
+      "source": "Cullen and Levitt 1999, Review of Economics and Statistics 81(2), Table 4 (Goers 0.295) and Table 6a column 2 (-1.18, standard error 0.57)",
+      "from": "crime.violent",
       "evidence": "researched",
       "researchSizing": {
         "estimate": 1.18,
@@ -450,10 +450,39 @@
         "unit": "out-migration probability change per change in reported crimes per resident over five years",
         "source": "https://pricetheory.uchicago.edu/levitt/Papers/CullenLevittCrimeUrban1999.pdf",
         "location": "Table 6a column 2, household controls; coefficient -1.18 on staying, sign reversed for leaving",
-        "status": "blocked-runtime-unit-and-time-conversion",
-        "requiredConnection": "Need recorded migration baseline and five-year exposure interval before proportional rate multiplier. This is not an immediate monthly multiplier or an observed individual move."
+        "status": "applied",
+        "requiredConnection": "Applied as a proportional change in the rate of leaving: 1.18 / 100,000 per crime per resident, over the 0.295 five-year share who left (Table 4), 0.00004 per reported crime per 100,000 residents, read as the average of the last 60 months (the paper's five-year change)."
       },
-      "notes": "Unsupported until a unit adapter exists: the study measures people leaving per added reported crime, but the game keeps violent crime per 100,000, not total reported crime per resident; see the research packet in researchSizing."
+      "notes": "Size by the paper's own conversion: the study counts all reported index crimes (violent and property, 'similar coefficients on both types') per resident and the game's cause is violent crime per 100,000 residents, so one more violent crime per 100,000 is one more reported crime per 100,000. 95% interval of the coefficient (0.063 to 2.297) gives the range. The paper measures a one-time loss over five years from a five-year rise in crime; the web applies it as a sustained rate while the level stays up, which overstates a level that stays high for many years. By schooling the relative response is nearly flat (Table 6a divided by Table 4 Goers: more than 12 years 1.54/0.413 = 3.7, 12 years 1.27/0.292 = 4.3, under 12 years 0.77/0.172 = 4.5), so no income moderator is added. Chain: the cause crime.violent is the web's own kept value today (moved by the crime links, e.g. unemployment and policing laws); it has no engine record, so the chain is law or unemployment -> crime.violent (web ledger) -> leaving (moves.ts and counted-moves.ts).",
+      "range": [2.1e-6, 7.8e-5],
+      "phaseInMonths": 60,
+      "varies": [
+        {
+          "by": "householdKind",
+          "bands": [
+            {
+              "is": "with-children",
+              "weight": 1.51,
+              "share": 0.35
+            },
+            {
+              "is": "adults",
+              "weight": 0.97,
+              "share": 0.48
+            },
+            {
+              "is": "one-adult",
+              "weight": 0.97,
+              "share": 0.17
+            }
+          ],
+          "tag": "ESTIMATED",
+          "source": "Cullen and Levitt 1999, Table 6b (With Children and No Children columns) (https://pricetheory.uchicago.edu/levitt/Papers/CullenLevittCrimeUrban1999.pdf); household shares from Census Bureau 2024 Families and Living Arrangements",
+          "quote": "\"Households with children are more likely to leave central cities in response to rising crime.\" Table 6b, change in per capita crime: with children -1.51 (0.63), no children -0.97 (0.55).",
+          "estimatedFrom": "The with-children and no-children coefficients are used as the ratio 1.51 to 0.97. They are changes in the probability of staying, not relative to each group's own rate of leaving (the paper gives no group baselines), so the gradient is conservative: households with children leave less often, which would make their relative response larger. Shares: about 43% of the 64% of households that are family households include a child under 18 (27.5% of households, about 35% of adults); the rest split between one adult and several."
+        }
+      ],
+      "phaseInSource": "Cullen and Levitt 1999 (Review of Economics and Statistics), Tables 4 and 6a: the response is estimated as the change in city population over a five-year window against the change in crime over the same five years, so the full effect is the five-year one; 60 months spreads it over that window."
     },
     {
       "key": "speed-limit-to-traffic-deaths",
@@ -708,7 +737,7 @@
       "from": "disaster.severe",
       "evidence": "provisional",
       "range": [0.025, 0.1],
-      "notes": "Unsupported until a disaster record is readable: the game has no per-place reader for a severe disaster; out-migration is kept, so this acts once one exists."
+      "notes": "Unsupported until a disaster record is readable: the game has no per-place reader for a severe disaster; out-migration is kept, so this acts once one exists. Stopgap SG-WEB-moves-disaster-severity: the disasters engine records FEMA declarations without deaths, so no per-place severe-disaster record exists; the researched size (0.05, range 0.025 to 0.1) is kept for when one does. Research gives no heterogeneity by person (county-level decade study)."
     },
     {
       "key": "disaster-to-home-values",
@@ -1682,7 +1711,32 @@
       "anchor": "Renter mobility -20%",
       "source": "Diamond, McQuade and Qian 2019 (AER)",
       "from": "law:us-policy-positions:housing-land-use.rent-stabilization",
-      "evidence": "researched"
+      "evidence": "researched",
+      "varies": [
+        {
+          "by": "age",
+          "bands": [
+            {
+              "min": 0,
+              "max": 40,
+              "weight": 0.0125,
+              "share": 0.627
+            },
+            {
+              "min": 40,
+              "max": 200,
+              "weight": 0.0515,
+              "share": 0.373
+            }
+          ],
+          "tag": "ESTIMATED",
+          "source": "Diamond, McQuade and Qian 2019 (AER 109(9)), NBER Working Paper 24181 section 4 on heterogeneity and Figures 2 and 3 (https://www.nber.org/papers/w24181.pdf); renters by age from Census CPS ASEC 2023 geographic mobility Table 5 (https://www2.census.gov/programs-surveys/demo/tables/geographic-mobility/2023/cps-2023/mig_05_2023_1yr.xlsx)",
+          "quote": "\"First, we find that the effects are weaker for younger individuals.\" \"Older, low turnover households have a strong, positive response to rent control.\" \"These effects are significantly stronger among older households and among households that have already spent a number of years at their treated address.\"",
+          "estimatedFrom": "Figures 2 and 3 give the effect on staying at the 1994 address (percentage points) for tenants aged 20 to 39 and 40 to 65 who had lived there 4 to 14 years (low turnover): young 0.018 and 0.007 (mean 0.0125), old 0.062 and 0.041 (mean 0.0515). The high-turnover cells are noisy and, for older tenants in high-rent-appreciation zip codes, negative (-0.107), which the authors attribute to landlords removing tenants; evictions are the eviction engine's, so they are left out here. Shares: renters by age in CPS ASEC 2023 Table 5 (101,024 thousand renters; ages 0 to 29, 30 to 44 and 45 and over), with the 30 to 44 band split 10 to 5 years at age 40. The subject has no years-at-address, so the low-turnover contrast carries the age gradient."
+        }
+      ],
+      "notes": "Diamond, McQuade and Qian report the effect as a 20% reduction in renter mobility (NBER WP 24181: 'the beneficiaries of rent control are between 10 and 20% more likely to remain at their 1994 address'); the center (-0.20) is kept and the range is 10 to 20. The effect is a level shift in the share who stay, not a build-up, so no phase-in. Renters only: the renter-moves rate is read by moves.ts and counted-moves.ts for tenants. Evictions of covered tenants are the eviction engine's.",
+      "range": [-0.2, -0.1]
     },
     {
       "key": "rent-burden-to-homelessness",
@@ -5029,7 +5083,8 @@
       "owner": "F-cloud",
       "evidence": "about-zero",
       "anchor": "Taxes move few people: even millionaires rarely leave high-tax states",
-      "source": "Young, Varner, Lurie and Prisinzano 2016, American Sociological Review"
+      "source": "Young, Varner, Lurie and Prisinzano 2016, American Sociological Review",
+      "notes": "About zero for the population, kept at zero. Young, Varner, Lurie and Prisinzano 2016: 'millionaire tax flight is occurring, but only at the margins of statistical and socioeconomic significance'; the annual millionaire migration rate is 2.4 percent against 2.9 percent for the general population. Moretti and Wilson 2017 (AER) find a long-run elasticity of about 1.7 for star scientists at the 99th percentile of income, who are about 1% of people, so the average person's rate does not move. The researched response is concentrated in the top income fifth, and the engines already carry it from their own records: counted-moves.ts (pullBetween) reads the town state's income-tax law in force and the other states' 2026 table into the income pull, by wage, so a web read on the same law would count it twice. Full people have no tax pull yet (stopgap SG-WEB-moves-full-tax-pull). No moderator rows: a weight on a size of zero moves nothing."
     },
     {
       "key": "graduated-income-tax-to-out-migration",
@@ -5048,7 +5103,8 @@
       "owner": "F-cloud",
       "evidence": "about-zero",
       "anchor": "Taxes move few people: even millionaires rarely leave high-tax states",
-      "source": "Young, Varner, Lurie and Prisinzano 2016, American Sociological Review"
+      "source": "Young, Varner, Lurie and Prisinzano 2016, American Sociological Review",
+      "notes": "About zero for the population, kept at zero. Young, Varner, Lurie and Prisinzano 2016: 'millionaire tax flight is occurring, but only at the margins of statistical and socioeconomic significance'; the annual millionaire migration rate is 2.4 percent against 2.9 percent for the general population. Moretti and Wilson 2017 (AER) find a long-run elasticity of about 1.7 for star scientists at the 99th percentile of income, who are about 1% of people, so the average person's rate does not move. The researched response is concentrated in the top income fifth, and the engines already carry it from their own records: counted-moves.ts (pullBetween) reads the town state's income-tax law in force and the other states' 2026 table into the income pull, by wage, so a web read on the same law would count it twice. Full people have no tax pull yet (stopgap SG-WEB-moves-full-tax-pull). No moderator rows: a weight on a size of zero moves nothing."
     },
     {
       "key": "balanced-budget-to-borrowing-cost",

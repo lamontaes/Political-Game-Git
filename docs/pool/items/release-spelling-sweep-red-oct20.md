@@ -5,12 +5,12 @@ area: release
 kind: bug
 priority: 1
 size: S
-status: in-pr
-claimed-by: claude/spelling-green-oct20
+status: open
+claimed-by:
 pr: #5490
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-20T04:05:22.749Z
+claimed-at:
 ---
 
 **What.** On main after #5459 (112 stopgap research values), tests/american-english.test.ts fails on three hits in data/research/stopgaps-oct19 (on holiday timing, a Nebraska precinct or ward, and Ward County, Texas), and tests/american-english-sweep.test.ts and npm run spelling crash with spawnSync git ENOBUFS because the tracked file list is larger than execFileSync's default 1 MiB buffer. Reword the prose hit, exempt the recorded ward wording and the county name the way the other research files are exempt, and give both git ls-files calls a large maxBuffer.
@@ -22,3 +22,5 @@ claimed-at: 2026-10-20T04:05:22.749Z
 **Files.** tests/american-english.test.ts, tests/american-english-sweep.test.ts, scripts/prose-eval/spelling.ts, data/research/stopgaps-oct19/C-government-law.json
 
 **Notes.** TODO
+
+Merged #5490 on 2026-10-20 (git ls-files buffer, research "ward" rule, notes respelled), but both spelling tests are still red on main from newer files: census place names under data/research/stopgaps-oct19/census/ (Centre, Ward, Grey) that the new rule does not cover, and British forms in pool items, INDEX.md, docs/release/changes/port-trait-effects.md, docs/reports/merge-audit-2026-10-20.md and docs/reports/trait-wiring-2026-10-20.json (cancelled, catalogue, Harbour, Labour). Open for the rest.
