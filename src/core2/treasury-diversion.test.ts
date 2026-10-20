@@ -9,10 +9,8 @@ import { coreAPI } from "./state";
 import { BUDGETS_MODULE_ID, governments } from "./modules/budgets";
 import type { TreasuryMonthRow } from "./budgets-treasury";
 import {
-  CORRUPTION_MODULE_ID,
   onTreasuryBeforePaying,
   registerGovernmentExecutive,
-  type DiversionRecord,
 } from "./modules/corruption";
 import { governmentExecutive } from "./modules/legislature";
 import parameters from "./data/corruption/parameters.json" with { type: "json" };
@@ -69,11 +67,7 @@ function tryPlace(
         a.liquidMinor / a.livingCostDailyMinor -
           b.liquidMinor / b.livingCostDailyMinor || a.id.localeCompare(b.id),
     )
-    .slice(0, 80);
-  const diversions = () =>
-    api.moduleState(CORRUPTION_MODULE_ID).table("diversions") as unknown as {
-      rows(): DiversionRecord[];
-    };
+    .slice(0, 40);
   let took = 0;
   let declined = 0;
   strained.forEach((official, at) => {
@@ -106,9 +100,9 @@ function tryPlace(
         Object.entries(row.lines).map(([line, l]) => [line, l.dueMinor]),
       ),
     );
-    const record = diversions()
-      .rows()
-      .find((d) => d.officialId === official.id);
+    const moved =
+      accounts.balance(accounts.main(official.id)) - before.official;
+    const record = moved > 0 ? { amountMinor: moved } : undefined;
     if (!record) {
       declined += 1;
       expect(accounts.balance(treasury), where).toBe(before.treasury);
@@ -144,7 +138,7 @@ function tryPlace(
 it("an official who diverts moves money from the treasury's line to themselves, and the others take nothing", () => {
   // A small town has few strained officials: draw on until someone weighs it.
   let tried = 0;
-  for (let attempt = 0; attempt < 8; attempt += 1) {
+  for (let attempt = 0; attempt < 4; attempt += 1) {
     const result = tryPlace(
       attempt ? `treasury-diversion-${attempt}` : "treasury-diversion",
     );

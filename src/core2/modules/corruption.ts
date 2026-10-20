@@ -48,18 +48,6 @@ export function registerGovernmentExecutive(fn: GovernmentExecutive): void {
   executiveOfGovernment = fn;
 }
 
-/** An official's diversion of a budget line's money to themselves. */
-export interface DiversionRecord {
-  id: string;
-  date: string;
-  governmentId: string;
-  line: string;
-  officialId: PersonId;
-  amountMinor: number;
-  transferId: string;
-  reasons: Readonly<Record<string, number>>;
-}
-
 export interface BribeAsk {
   offererId: PersonId;
   officialId: PersonId;
@@ -364,16 +352,22 @@ export function onTreasuryBeforePaying(
     },
   });
   if (receipt.paidMinor <= 0) return;
-  table(api, "diversions").put({
+  // The transfer is the record: the treasury pays its lines from what is
+  // left, and the official's own cash is what their next choices weigh.
+  api.emit({
     id: subjectId,
     date,
-    governmentId: gov.id,
-    line,
-    officialId: official.id,
-    amountMinor: receipt.paidMinor,
-    transferId,
-    reasons: decision.values,
-  } satisfies DiversionRecord as unknown as { id: string });
+    kind: "treasury.diverted",
+    personIds: [official.id],
+    placeId: official.placeId,
+    facts: { [`diversion:${transferId}`]: line },
+    source: {
+      tag: "ESTIMATED",
+      citation: "An official diverted part of a budget line to themselves.",
+      asOf: date,
+      estimatedFrom: "SG-P15-corruption-weights",
+    },
+  });
 }
 registerTreasuryBeforePaying(onTreasuryBeforePaying);
 
@@ -386,12 +380,6 @@ export const corruptionModule: CoreModule = {
         indexes: {
           byOfferer: { fields: ["offererId"] },
           byOfficial: { fields: ["officialId"] },
-        },
-      },
-      diversions: {
-        indexes: {
-          byOfficial: { fields: ["officialId"] },
-          byGovernment: { fields: ["governmentId"] },
         },
       },
       surfaced: { indexes: { byCrime: { fields: ["crimeId"] } } },
