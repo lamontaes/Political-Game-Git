@@ -8,7 +8,7 @@ size: M
 status: blocked
 claimed-by: claude/words-journal-relative-moved-away
 pr:
-blocked-on: PR 5647 (words-authored-parts-shippable-sweep) is an unmerged draft, 'do not merge as is'; on main the journal lines still ship as authored shippable parts, so the slot is not empty and the rewritten test in the done-when does not exist yet. Needs the owner to grade the lines (the 5647 decision).
+blocked-on: PR #5647 (words-authored-parts-shippable-sweep) is not merged: until it holds the authored parts, main still ships them and the slot is not empty; the replacement lines then need the civic-prose editorial review or a rebuilt mining corpus (46,191 documents, outside the repo)
 source: added with npm run pool -- add
 claimed-at: 2026-10-20T11:05:18.454Z
 ---
