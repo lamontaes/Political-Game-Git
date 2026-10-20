@@ -4,13 +4,14 @@ title: "Stopgaps in work (prototype-pay-projection): 1 open"
 area: core
 kind: stopgap
 priority: 3
-status: blocked
+status: open
 claimed-by:
 pr:
 blocked-on:
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/modules/work.ts, kind prototype-pay-projection"
 after: laws-overtime-pay-rule
+claimed-at: 
 ---
 
 **What.** The work engine projects an hourly wage proxy for the job's occupation onto attended minutes (src/core2/modules/work.ts, `work-state.ts`); no signed hourly or salary agreement, overtime, pay calendar, tax treatment or revenue model is recorded, and same-payer job order is authored. Today cash already follows each employer's recorded payday, so the remaining gap is the pay terms themselves. Give every job a recorded compensation term set when it is filled: the basis (hourly or salaried), the rate the employer offered (the market wage for the occupation and area, adjusted by the employer's own books through `raiseUnfilledPay` in the jobs engine) and the rate the worker accepted, the payday lag the state's pay-timing law allows (some states set a lag after period end, most set a maximum), and the overtime rule from the law (laws-overtime-pay-rule). Payroll and the employer's books read that term, and a raise or a law change writes a new term with its date rather than editing the old. Delete the occupation-proxy path and the stopgap markers in `work.ts` and `work-state.ts` once every job carries a term.
