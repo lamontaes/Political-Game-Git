@@ -5,9 +5,9 @@ area: core
 kind: bug
 priority: 3
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/slow-world-test-timeouts
-pr:
+pr: #5335
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-20T00:37:53.880Z

@@ -1,0 +1,32 @@
+---
+id: release-merge-audit-oct20-morning-fixes
+title: "Fix what the Oct 20 morning merge audit found in seven merged PRs"
+area: release
+kind: bug
+priority: 1
+size: M
+status: claimed
+claimed-by: claude/fs11vb-mf
+pr: #5655
+blocked-on:
+source: CTO merge audit, Oct 20 morning
+claimed-at: 2026-10-20T13:33:15.145Z
+---
+
+**What.** Three reviewers read the diffs of the 22 PRs merged into main between 05:00 and 07:00 UTC on October 20: 14 are good, 7 have concerns and 1 is bad. The bad one went to TRAIT-WIRING: #5289 left trait-decisions.json pointing at three deleted drive actions, so trait-coverage.test.ts throws on main. So did the concerns on #5552, its trait-weight code with no callers and a research row in the wrong unit. This item fixes the other six with concerns, plus two release notes that misstate their change, listed below. Each numbered fix is small and can land as its own PR that names this item and the number; the item is done when all seven are merged.
+
+1. **#5469, governor term starts.** src/core2/data/elections/term-starts.json gives 14 rows an excerpt worded like a clause quote, though each row's own citation says the text was not read (AZ, CT, GA, ID, KS, MN, MT, NE, NV, OR, TX, UT, VT, WY). Replace each with "text not read". Reword the release note gov-more-governor-term-starts.md, the pool title and that row's whatItFakes in stopgaps.json to say 7 read (CA, CO, IL, NJ, OH, OK, PA) and 17 estimated (IN, MD and WI join the estimates). Make src/core2/elections-law.test.ts loop over every statewideExecutive row, not 15 of the 24, and confirm whether the other statewide offices really start on the governor's day, or add a governor-only family.
+2. **#5534, employer callback table.** data/research/jobs/employer-callback-gaps.json was added to the rawSource list in scripts/audit/research-data-allowlist.json, which skips the reader guard, while it waits for the hiring engine. Move it to awaitingReader with engine and readerOwner, raising that ceiling by one with the reason recorded. Set the Latino callback low and high to the published interval (0.75 and 0.87) or tag them ESTIMATED. Tag the Bertrand and Mullainathan and the Pager brackets ESTIMATED, and point the older-applicants source at the summary actually read. Close the superseded #5191 only after checking it holds nothing else.
+3. **#5285, public hire pay floor.** src/core2/public-pay-floor-hire.test.ts checks only the helper. Add a played-world test that enacts a floor, opens a position at a public employer through the jobs engine, hires into it and asserts by record id that the hire's hourly pay meets the floor. Either apply the floor again on the hire day (src/core2/modules/jobs.ts, where the hire copies position.hourlyMinor) or retitle the change to "when the opening is posted". Fix the garbled sentence it added to stopgaps.json.
+4. **#5549, campaign day as scenes.** Run the browser check its done-when named (the Campaigns screen lists no acts) and add that assertion. Give a candidate who holds no seat a way to ask for an interview and to hold an event (a scene control or the press desk), or file that gap as its own item. In src/bench/campaign-day-controls.test.ts, compare households against the distinct households of the people who answered, not against `reached`, and guard the scene assertion for a day when nobody answers.
+5. **#5559, territory aides paid.** Add a pinned regression case (territory:VI:charlotte-amalie-east, seed p3) to src/core2/staff-paid-every-place.test.ts. In src/core2/staff.ts, pass scheduleFromPlaceId only when the employer's own place has no job template, or say in the release note that every aide's schedule now follows the town. Keep a stopgap marker or a thrown error on the remaining paths where no job is made.
+6. **#5570, snapshot reseal.** Add the world case its item required to src/core2/saves.test.ts: a place drawn from all 56 with the seed named, save the world, change a frozen record through its producer, restore it and pass the seal check. Add back a failing case for a frozen record changed with no producer. Decide whether seal() in src/core2/snapshot.ts should skip shared $ref objects.
+7. **#5548 and #5164, release notes.** #5548 says the stop happened on November 1, but the game starts January 20, 2025 and the first settlement falls on February 1, 2025. Confirm the date, then correct the note and the comment in src/core2/opening-customers-township-owner.test.ts. #5164's note says "In the eight states", though 32 had a recorded start day when it shipped. Say "in the states whose start day is on record", and give the reason for the 600000 ms timeout in src/core2/term-start-history.test.ts.
+
+**Rules.** Wire to the world: every fix is proven by record id in a played world built with buildBenchWorld, not in a hand-built fixture. Replace, never layer: corrected text replaces the wrong text, and no test is narrowed, skipped or given a longer timeout without a measured reason.
+
+**Done when.** All seven numbered fixes are merged into main, each in a PR that names this item and its number. The new and changed tests (elections-law.test.ts, public-pay-floor-hire.test.ts, campaign-day-controls.test.ts, staff-paid-every-place.test.ts, saves.test.ts) pass in a drawn place with the seed in the PR body, and the research-data guard test passes without the rawSource entry.
+
+**Files.** src/core2/data/elections/term-starts.json, src/core2/elections-law.test.ts, scripts/audit/research-data-allowlist.json, data/research/jobs/employer-callback-gaps.json, src/core2/modules/jobs.ts, src/core2/public-pay-floor-hire.test.ts, src/bench/campaign.ts, src/bench/campaign-day-controls.test.ts, src/core2/staff.ts, src/core2/staff-paid-every-place.test.ts, src/core2/snapshot.ts, src/core2/saves.test.ts, src/core2/opening-customers-township-owner.test.ts, src/core2/term-start-history.test.ts, docs/release/changes/
+
+**Notes.** Audit reports from the three reviewers are summarized in the CTO's Oct 20 morning report. Good merges, for the record: #5402, #5406, #5267, #5124, #5410, #5293, #5414, #5164 (apart from its note), #4942, #5539, #5544, #5550, #5566, #5548 (apart from its note).

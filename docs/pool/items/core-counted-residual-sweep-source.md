@@ -5,12 +5,12 @@ area: core
 kind: wiring
 priority: 2
 size: M
-status: claimed
-claimed-by: claude/residual-sweep-source
-pr:
+status: open
+claimed-by:
+pr: #5356
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-20T00:06:41.241Z
+claimed-at:
 ---
 
 **What.** TODO
@@ -22,3 +22,5 @@ claimed-at: 2026-10-20T00:06:41.241Z
 **Files.** TODO
 
 **Notes.** TODO
+
+Sent back 2026-10-20 from PR #5356 (branch claude/residual-sweep-source): merge conflict with main in code; merge main and resolve; finish on that branch, merge main into it first.

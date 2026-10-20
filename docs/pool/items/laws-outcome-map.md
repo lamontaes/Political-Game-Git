@@ -4,9 +4,9 @@ title: "The outcome map: every law family's effect on the town as a read"
 area: laws
 kind: wiring
 priority: 2
-status: open
+status: in-pr
 claimed-by:
-pr:
+pr: #5341
 blocked-on: laws-outcome-justice
 milestone:
 source: "overnight pool item 7"
@@ -22,3 +22,7 @@ claimed-at:
 **Files.** src/core2/law-reach/index.ts, src/core2/law-reach/group-a.ts, src/core2/law-reach/group-b.ts, src/core2/law-reach-balance.test.ts
 
 **Notes.** Picks up where the remaining-families item stops.
+
+Measured Oct 19 (claude, nothing built): the two law reach data files hold 67 policies (41 in group A, 26 in group B). 22 have mechanic `none` or `records`; 17 of the 22 name a stopgap that is open or resolved in `stopgaps.json`, and 5 name none: `minimum-wage` (its effect is real, `laws.ts` raises every job under the floor), the 287(g) partnership and child access prevention (both reach named people and now have outcome-web links to produced outcomes, `crime`/`health.youth-firearm-deaths`), and the sales tax and grocery exemption in group B (their effect is real: `syncSalesTax` in `src/core2/modules/budgets.ts` sets the purchase tax each level collects; the `records` handler writes nothing for them, 0 reaches). So the five unregistered ones are not missing effects; their handler names are stale and misleading. What the item still needs is one chain per family from a law record to a named person's choice and a director line; no law-reach test yet follows a sales-tax or minimum-wage change to a named household's payment or choice. Start from `purchase-tax.test.ts`, which already follows the tax to the treasury.
+
+Sent back 2026-10-20 from PR #5341 (branch claude/laws-outcome-guard): see the Cloud merger comment on that PR for the exact reason; finish on that branch, merge main into it first.
