@@ -375,8 +375,9 @@ export function applyCountedFlows(
         row.estates.push({ deceasedId: person.id, ...heir });
       row.deaths.push(person.id);
     }
+    const died = new Set(row.deaths);
     const well = people.filter(
-      (person) => !ill.has(person.id) && !row.deaths.includes(person.id),
+      (person) => !ill.has(person.id) && !died.has(person.id),
     );
     const owed: Record<string, number> = { ...carry.deaths };
     const fall = (
@@ -389,7 +390,9 @@ export function applyCountedFlows(
         // Looking back before the opening, someone born since was not yet there to fall ill.
         if (person.birthDate > on) continue;
         const key = deathCohort(person);
-        cohorts.set(key, [...(cohorts.get(key) ?? []), person]);
+        const members = cohorts.get(key);
+        if (members) members.push(person);
+        else cohorts.set(key, [person]);
       }
       let expected = 0;
       for (const [key, members] of cohorts) {
