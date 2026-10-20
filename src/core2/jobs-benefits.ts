@@ -226,7 +226,8 @@ export function payClaims(api: CoreAPI, table: ModuleTable): void {
       api,
       `unemployment-benefit:${row.personId}:${c.date}`,
       fund.id,
-      row.payeeAccountOwnerId,
+      // A claimant filled in since they filed is paid as the person they are.
+      c.people.has(row.personId) ? row.personId : row.payeeAccountOwnerId,
       row.weeklyMinor,
       row.source ?? unemploymentTerms(api).source,
       { personId: row.personId },
