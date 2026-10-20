@@ -5,9 +5,9 @@ area: gov
 kind: stopgap
 priority: 3
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/fs11vb-more-term-starts
-pr:
+pr: #5469
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-20T03:33:20.800Z
