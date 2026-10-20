@@ -602,7 +602,7 @@ export function syncSalesTax(api: CoreAPI): void {
   const town = lawChain(api).townPlaceId;
   const govs = governments(api);
   const payee = (level: string) =>
-    (level === "city"
+    (level === "city" || level === "township"
       ? (govs.find((g) => g.level === "city") ??
         govs.find((g) => g.level === "county"))
       : level === "county"
@@ -1271,7 +1271,12 @@ export function withholdPay(
         minor: Math.floor((l.minor * held) / owed),
       }));
   }
-  if (lines.some((l) => l.level === "county" || l.level === "city")) {
+  if (
+    lines.some(
+      (l) =>
+        l.level === "county" || l.level === "township" || l.level === "city",
+    )
+  ) {
     // stopgapId: SG-WORLD-withholding-local-base
     api.stopgap("SG-WORLD-withholding-local-base");
   }
