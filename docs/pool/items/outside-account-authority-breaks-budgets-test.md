@@ -5,11 +5,12 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/budgets-test-outside-authority
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-20T07:43:12.004Z
 ---
 
 **What.** src/core2/budgets-public-pay.test.ts filters organizations by publicPayAuthority and expects a treasury link for each. PR #5577 gives each place's outside account an authority; the outside account has no treasury, so the test's first expectation fails. In my own build of the same item (unpushed) the fix was to skip organizations of kind outside-market in that filter.
