@@ -5,7 +5,7 @@ area: director
 kind: wiring
 priority: 1
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/fs11vb-director-producers
 pr: #4600
 blocked-on:
