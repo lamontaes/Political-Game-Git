@@ -22,3 +22,5 @@ claimed-at: 2026-10-20T03:36:05.434Z
 **Files.** TODO
 
 **Notes.** TODO
+
+Oct 20 (pool feeder): not specced; same job as core-stopgap-never-hit-audit (check each open row whose marker never fired, resolve those whose fake is unreachable), so it duplicates that item. The 101 count here is the same measurement as that item's 80 plus the module-level `stopgap()` calls it names as a blind spot; fold the extra rows into the audit item.

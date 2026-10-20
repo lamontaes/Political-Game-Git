@@ -8,18 +8,20 @@ size: S
 status: blocked
 claimed-by:
 pr:
-blocked-on: spec: the item text is an empty TODO shell; the done-when must be written before it can be built (pool-todo-shells-need-spec)
+blocked-on:
 after: people-partnership-counted
 source: added with npm run pool -- add
 claimed-at:
 ---
 
-**What.** The partnership rules (leaving a parent's home, forming a partnership and separating) are built on the weights of a person's own situation, so a played year's totals are unchecked against any real rate. Run a year of the played world in several places and compare the leavings, new partnerships and separations per thousand residents of the right ages with the published rates (the ACS share of 25 to 34 year olds living with a parent, the CDC marriage and divorce rates per thousand), as a check on the totals and never as a way to pick one person's outcome.
+**What.** Check a played year's partnership totals against real rates, and tune only what lies outside them. Run a year of the played world in six drawn places and count, per thousand residents of the right age band, young adults leaving a parent's home, new partnerships and separations, for full people and the counted tier together. Compare them with the published figures: the ACS share of 25 to 34 year olds living with a parent, the CDC marriage and divorce rates per thousand, and the ACS marital events in the last year (B12503, B13010). The weights in `src/core2/data/partnerships/parameters.json` move only where a total falls outside its sourced range, and each weight's checked spread goes in its parameter row.
 
-**Rules.** Research before building: every figure cites its source and spread. Real rates check totals and never decide one actor's outcome. No dice. One rule, all 56 places: the check draws places from all 56 and names place and seed.
+**Rules.** Research before building: every figure cites its source, year and spread, and real rates check totals and never decide one actor's outcome. No dice: tuning changes a weight, never adds a random step. One rule, all 56 places: the check draws places from all 56 and names each place and seed. Every number lives in the parameter table, tagged SOURCED, ESTIMATED or TUNABLE with the spread it was checked against. Replace, never layer: the baseline notes in the stopgap rows SG-PEOPLE-home-leaving-weights, SG-PEOPLE-partnership-weights and SG-PEOPLE-separation-weights are resolved by the sourced ranges.
 
-**Done when.** A script beside `scripts/core2-year/moves-rate-check.ts` prints, for six drawn places and seeds the builder did not choose, each rate per thousand of the right age band against its sourced range, and the rules' weights in `src/core2/data/partnerships/parameters.json` are tuned only where a total lies outside the range, with the spread each weight was checked against recorded in the parameter row.
+**Done when.** A script beside scripts/core2-year/moves-rate-check.ts prints, for six places drawn from all 56 with seeds the builder did not choose, each rate per thousand against its sourced range from a one-year buildBenchWorld run, and a test in src/core2/partnership-rates.test.ts reads the parameter rows by id and fails when a drawn place's total lies outside the range recorded there.
 
-**Files.** scripts/core2-year/partnership-rate-check.ts, src/core2/data/partnerships/parameters.json
+**Files.** scripts/core2-year/partnership-rate-check.ts, src/core2/data/partnerships/parameters.json, src/core2/partnership-rates.test.ts, src/core2/data/stopgaps.json
 
 **Notes.** Follows people-partnership-counted. The weights in the parameter file are TUNABLE with their baselines marked in the stopgap rows SG-PEOPLE-home-leaving-weights, SG-PEOPLE-partnership-weights and SG-PEOPLE-separation-weights; the rates are the data that retire them.
+
+Oct 20 (pool feeder): spec written; scripts/core2-year/moves-rate-check.ts exists on main as the model for the script; the partnership parameter file and rows come from the unmerged partnership stack, so this waits on people-partnership-counted (and through it the leaving, forming and ending items).

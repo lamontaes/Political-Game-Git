@@ -24,3 +24,5 @@ claimed-at: 2026-10-19T22:42:08.819Z
 **Notes.** First row: A union local's members are the place's employed at its state's 2025 membership rate (the nation's where BLS has no row), paying dues from the wider population's pooled cash; nobody is recorded as a member.
 
 Oct 20: Owner ruled that unions and membership rules come with 1.0, so replacing the assumed union membership rate waits for 1.0.
+
+Oct 20 (pool feeder): not specced; the owner ruled Oct 20 that unions and membership rules come with 1.0 (OWNER-DECISIONS.md), so it stays blocked on 1.0. The membership record itself is world-union-membership-record.

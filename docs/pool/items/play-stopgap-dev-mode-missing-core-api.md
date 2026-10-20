@@ -7,17 +7,20 @@ priority: 3
 status: blocked
 claimed-by:
 pr:
-blocked-on: engine or design: The core's law-reach count across both tiers of the population is being built by OPUS-CORE and has not landed.
+blocked-on:
 milestone:
 source: "src/core2/data/stopgaps.json, src/bench/dev-mode.ts, kind missing-core-api"
+after:
 ---
 
-**What.** Replace or clear the 1 open missing-core-api stopgap row(s) in src/bench/dev-mode.ts: SG-PLAY-dev-law-reach-full-only. Each fake is replaced by the mechanic, or the feature that needs it is deleted.
+**What.** Dev mode's `reach(lawId)` in src/bench/dev-mode.ts scans the raw tables of the laws module and the two law-reach stores for rows that carry the law's id and guesses full and counted people from whichever field it finds, so a law effect that leaves no row naming it is invisible. Add one core function, `lawReachCount(api, lawId)` in src/core2/law-reach/host.ts next to `reachOn` and `reachedBy`, that returns the reach of one law across both tiers: reach A rows (named persons, organizations, seats, and counted groups through their `count`), reach B `people` rows and its `groups` rows (`reached` of `of`), and the laws module's `raises` (a full job's holder, or a counted job's wage-flow headcount). It returns record ids, the set of full people, and a counted head count with the group total it is out of. Then make `DevMode.reach` call it and delete the table-scanning loop and the stopgap marker.
 
-**Rules.** Never close a row by deleting it; registered stopgaps; replace, never layer; numbers in the parameter table (SOURCED, ESTIMATED or TUNABLE).
+**Rules.** Replace, never layer: the scanning loop in dev-mode.ts is deleted when the core function replaces it. One model, two tiers: the count sums full people and counted groups by the same reach records, never full people only. An effect is a read, not a record: a law with a handler of none shows reach zero, which is the defect laws-enacted-law-reaches-nobody files, not something dev mode hides. Ask why: each counted number names the reach record that produced it. Dev mode's Trace is the ultimate trace: the returned record ids are what Trace clicks through.
 
-**Done when.** Rows resolved in stopgaps.json; the engine's replacement read by another engine in a one-year played-world run, by record id.
+**Done when.** In a one-year run of buildBenchWorld in a drawn place from all 56 (place and seed named in the PR body, a seed the builder did not choose), enact a wage-floor law through `DevMode.setLaw` and read `DevMode.reach`: the result lists the reach-record and raise-record ids, a full-person count and a counted count with its group total that match the laws module's raises and the counted job's wage flow, and src/bench/dev-mode.test.ts and a new src/core2/law-reach/law-reach-count.test.ts prove it and the row is resolved in stopgaps.json.
 
-**Files.** src/bench/dev-mode.ts
+**Files.** src/core2/law-reach/host.ts, src/bench/dev-mode.ts, src/bench/dev-mode.test.ts, src/core2/law-reach/law-reach-count.test.ts, src/core2/data/stopgaps.json
 
 **Notes.** First row: Dev mode's count of who a law reached reads only the law-effects, law-reach and law raise records that name the law: full people by id, counted people where a record names one or carries a count. A law's effect that leav
+
+Oct 20 (pool feeder): spec written; the count function the row waits for does not exist, but every record it needs does (reach A `count`, reach B `groups`, laws `raises`), so this is buildable now as a read over them. Related: laws-enacted-law-reaches-nobody.
