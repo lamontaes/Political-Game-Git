@@ -23,3 +23,5 @@ claimed-at:
 **Files.** src/core2/modules/press.ts, src/director
 
 **Notes.** TODO
+
+Sent back 2026-10-20 from PR #5606 (branch claude/press-favors-leaks): edits src/director/press-interview.ts (Words-session area) and adds a dated 'Done Oct 20' note in the stopgap resolution text; stacked on #5602, which was sent back for the same reasons; finish on that branch, merge main into it first.
