@@ -211,7 +211,7 @@ interface DrivesRuntime {
   predicted: Map<PersonId, PredictedChoice>;
   /** Canonical donation records the cash journal resolves through this module's provider. */
   donations: Map<string, DonationRecord>;
-  /** Whom each person has told about each cause, kept when the drive fades and forms again. */
+  /** Whom each person has told about each cause, kept when a drive fades and forms again and across drives on one topic. */
   told: Map<string, Set<PersonId>>;
 }
 
@@ -258,9 +258,10 @@ function runtimeFor(state: Readonly<CoreState>): DrivesRuntime {
 function toldFor(
   runtime: DrivesRuntime,
   personId: PersonId,
-  driveId: string,
+  topic: string,
 ): Set<PersonId> {
-  const key = `${personId}|${driveId}`;
+  // By cause, not by drive: two drives on one topic are one cause to the person.
+  const key = `${personId}|${topic}`;
   let told = runtime.told.get(key);
   if (!told) runtime.told.set(key, (told = new Set()));
   return told;
@@ -758,7 +759,7 @@ export function respond(
           acts: [],
           actCount: p("zero"),
           // Who they have told about this cause outlives the drive itself.
-          told: toldFor(runtime, actor.id, identity.id),
+          told: toldFor(runtime, actor.id, identity.topic),
         };
         mine.set(drive.id, drive);
         runtime.drives.set(`${actor.id}|${drive.id}`, drive);
