@@ -4,7 +4,7 @@ title: "Stopgaps in jobs (missing-mechanic): 1 open"
 area: world
 kind: stopgap
 priority: 3
-status: claimed
+status: in-pr
 claimed-by: claude/jobs-benefits-stopgap
 pr: #5300
 blocked-on:
