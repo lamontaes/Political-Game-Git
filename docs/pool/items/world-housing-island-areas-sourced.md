@@ -13,11 +13,11 @@ source: added with npm run pool -- add
 claimed-at: 2026-10-20T02:23:10.145Z
 ---
 
-**What.** American Samoa, Guam, the Northern Marianas and the Virgin Islands have no ACS tenure or rent table, so the housing engine starts them from the nation's owner share and household-weighted county medians (SG-WORLD-housing-island-areas). The Census Bureau's 2020 Island Areas Censuses give each its own owner share, median monthly gross rent and median home value. Put those four rows in the housing data with their citations, read them where the engine now reads the nation's, date the home values to April 2020 so the price index moves them to the start, and resolve the stopgap row.
+**What.** American Samoa, Guam, the Northern Marianas and the Virgin Islands have no ACS tenure or rent table, so the housing engine starts them from the nation's owner share and household-weighted county medians (SG-WORLD-housing-island-areas). The Census Bureau's 2020 Island Areas Censuses give each its own owner share, median monthly gross rent and median home value. Put those four rows in the housing data with their citations, read them where the engine now reads the nation's, date the home values to April 2020 so the price index moves them to the start, and narrow the stopgap row to the places no table covers.
 
 **Rules.** Research before building: the figures calibrate a place's starting mix and never decide one household's tenure. Estimate, never UNKNOWN: each row names its source and a spread. One rule, all 56 places: the rows are data keyed by the place's state key, never a territory named in logic.
 
-**Done when.** In a one-year played world (buildBenchWorld) in a territory drawn by seed from the four island areas, the town's owner share is within one point of its Census row, owners' median value is that row's value moved from April 2020, renters' rent is its row, `SG-WORLD-housing-island-areas` is resolved in src/core2/data/stopgaps.json, and a test in src/core2/housing.test.ts names the place and seed.
+**Done when.** In a one-year played world (buildBenchWorld) in a territory drawn by seed from the four island areas, the town's owner share is within one point of its Census row, owners' median value is that row's value moved from April 2020, renters' rent is its row, `SG-WORLD-housing-island-areas` is narrowed to places no table covers in src/core2/data/stopgaps.json, and a test in src/core2/housing.test.ts names the place and seed.
 
 **Files.** src/core2/modules/housing.ts, src/core2/data/housing/housing.json, src/core2/data/stopgaps.json, src/core2/housing.test.ts
 

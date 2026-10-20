@@ -127,8 +127,32 @@ const NATIONAL = (() => {
     ],
   };
 })();
+interface IslandArea {
+  readonly ownerShare: number;
+  readonly medianRentUsd: number;
+  readonly medianValueUsd: number;
+  readonly valueDate: string;
+}
+const ISLAND_AREAS = (
+  housingData as unknown as {
+    islandAreas: { areas: Record<string, IslandArea> };
+  }
+).islandAreas.areas;
+/** An island area's own Census 2020 row, for a place whose county is `nation:<usps>`. */
+function islandAreaOf(county: string): IslandArea | undefined {
+  return county.startsWith(`${NATION}:`)
+    ? ISLAND_AREAS[`US-${county.slice(NATION.length + 1)}`]
+    : undefined;
+}
+/** The date a county's median home value stands at: the census for an island area, else the ACS window's middle. */
+function valueDateOf(county: string): string {
+  return islandAreaOf(county)?.valueDate ?? ACS_VALUE_DATE;
+}
 function nationTenure(town: { county: string }): [number, number] | undefined {
   if (!town.county.startsWith(`${NATION}:`)) return undefined;
+  const island = islandAreaOf(town.county);
+  if (island) return [10_000, Math.round(island.ownerShare * 10_000)];
+  // stopgapId: SG-WORLD-housing-island-areas
   stopgap("SG-WORLD-housing-island-areas");
   return NATIONAL.tenure;
 }
@@ -164,7 +188,12 @@ const STATE_RENT_VALUE = (() => {
  * then the nation's; never zero, which would leave every owner without a home.
  */
 function rentValueOf(county: string): [number | null, number | null] {
-  if (county.startsWith(`${NATION}:`)) return NATIONAL.rentValue;
+  if (county.startsWith(`${NATION}:`)) {
+    const island = islandAreaOf(county);
+    return island
+      ? [island.medianRentUsd, island.medianValueUsd]
+      : NATIONAL.rentValue;
+  }
   const row = RENT_VALUE[county] as [number | null, number | null] | undefined;
   if (row?.[0] && row[1]) return row;
   stopgap("SG-WORLD-housing-county-estimate");
@@ -424,7 +453,7 @@ export function withHousing(input: CoreInput): CoreInput {
         medianValue *
           100 *
           // ACS values are dated mid-2022; the state's house price index moves them to the start.
-          homePriceRatio(town.usps, ACS_VALUE_DATE, input.startedAt) *
+          homePriceRatio(town.usps, valueDateOf(town.county), input.startedAt) *
           incomeScale(row.income),
       ),
     }));
@@ -904,7 +933,7 @@ function buyHomes(api: CoreAPI): void {
     const cash = members.reduce((n, row) => n + row!.liquidMinor, 0);
     const prices = homePriceRatio(
       c.placeMetadata?.housingState ?? "",
-      ACS_VALUE_DATE,
+      valueDateOf(c.placeMetadata?.housingCounty ?? ""),
       c.date,
       macroPrices(api),
     );

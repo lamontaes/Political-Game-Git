@@ -60302,5 +60302,42 @@
         "2026-Q2": 526.96
       }
     }
+  },
+  "islandAreas": {
+    "about": "Census 2020 housing figures for the four island areas that no ACS tenure, rent or value table covers, keyed by the place's state key. The home value is dated at the census (April 2020) so the price index moves it to the start.",
+    "areas": {
+      "US-GU": {
+        "ownerShare": 0.52,
+        "medianRentUsd": 1057,
+        "medianValueUsd": 277800,
+        "valueDate": "2020-04-01",
+        "tag": "SOURCED",
+        "citation": "U.S. Census Bureau, 2020 Island Areas Censuses, Demographic and Housing Characteristics summary file release (July 20, 2023): https://census.gov/newsroom/press-releases/2023/2020-dhc-summary-file-guam.html. Owners are 52.0 percent of householders in occupied units, excluding military housing"
+      },
+      "US-AS": {
+        "ownerShare": 0.711,
+        "medianRentUsd": 601,
+        "medianValueUsd": 84400,
+        "valueDate": "2020-04-01",
+        "tag": "SOURCED",
+        "citation": "U.S. Census Bureau, 2020 Island Areas Censuses, Demographic and Housing Characteristics summary file release (July 20, 2023): https://census.gov/newsroom/press-releases/2023/2020-dhc-summary-file-american-samoa.html. Owners are 71.1 percent of occupied units"
+      },
+      "US-MP": {
+        "ownerShare": 0.29,
+        "medianRentUsd": 502,
+        "medianValueUsd": 184200,
+        "valueDate": "2020-04-01",
+        "tag": "SOURCED",
+        "citation": "U.S. Census Bureau, 2020 Island Areas Censuses, Demographic and Housing Characteristics summary file release (July 20, 2023): https://www.census.gov/newsroom/press-releases/2023/2020-dhc-summary-file-cnmi.html. Owners are 29.0 percent of occupied units"
+      },
+      "US-VI": {
+        "ownerShare": 0.478,
+        "medianRentUsd": 926,
+        "medianValueUsd": 290600,
+        "valueDate": "2020-04-01",
+        "tag": "SOURCED",
+        "citation": "U.S. Census Bureau, 2020 Island Areas Censuses, Demographic and Housing Characteristics summary file release (July 20, 2023): https://www.census.gov/newsroom/press-releases/2023/2020-dhc-summary-file-usvi.html. Owners are 47.8 percent of occupied units"
+      }
+    }
   }
 }
