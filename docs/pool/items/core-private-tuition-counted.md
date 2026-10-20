@@ -5,9 +5,9 @@ area: core
 kind: feature
 priority: 3
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/tuition-counted
-pr:
+pr: #5633
 blocked-on:
 after: core-private-tuition-yearly-reenrollment
 source: added with npm run pool -- add
