@@ -214,6 +214,9 @@ export const REACH_A_MODULE: CoreModule = {
     [PREMIUM_KIND]: (api, reference) => premiumSlot(api, reference.id),
   },
   onCalendarWork: (api, work) => calendarWorkers.get(work.kind)?.(api, work),
+  // A birth or a move changes who lives with a child: the rows follow the household.
+  eventKinds: ["person-birth", "housing.moved"],
+  onEvent: (api) => resyncPeopleRows(api),
   onWorkPayroll: (api, receipt) => {
     for (const worker of payrollWorkers) worker(api, receipt);
   },
@@ -526,7 +529,83 @@ export function applyRecords(
   }
   for (const spec of policy.reaches)
     writeRows(api, key, lawId, spec, targetsOf(api, spec));
+  if (policy.reaches.some(ageGated)) scheduleAgeCrossing(api);
 }
+
+const AGE_SELECTS = ["ageFrom", "ageBelow", "withChildBelow"] as const;
+const ageGated = (spec: ReachSpec) =>
+  spec.target === "people" && AGE_SELECTS.some((k) => spec.select?.[k]);
+const AGE_WORK = "reach-age";
+
+/**
+ * Rows chosen by age or by a child in the home follow the household as it is
+ * now: a birth, a move or a birthday (the causes) opens the rows of whoever
+ * now matches and ends the rows of whoever no longer does. Only policies
+ * that are plain records; a mechanic keeps its own rows.
+ */
+export function resyncPeopleRows(api: CoreAPI): void {
+  if (
+    !api.state.modules.has(REACH_A_MODULE_ID) ||
+    !api.state.modules.has(LAWS_MODULE_ID)
+  )
+    return;
+  for (const [key, policy] of Object.entries(POLICIES)) {
+    if (policy.mechanic !== "none") continue;
+    const specs = policy.reaches.filter(ageGated);
+    if (!specs.length) continue;
+    const yes = yesLevels(api, key)[0];
+    if (!yes) continue;
+    for (const spec of specs) {
+      const targets = targetsOf(api, spec);
+      writeRows(api, key, yes.lawId, spec, targets);
+      endRows(api, key, spec.id, new Set(targets.map((t) => t.id)));
+    }
+  }
+  scheduleAgeCrossing(api);
+}
+
+/** The first day after today that a town person reaches an age an in-force policy cuts on. */
+function scheduleAgeCrossing(api: CoreAPI): void {
+  const ages = new Set<number>();
+  for (const [key, policy] of Object.entries(POLICIES)) {
+    if (policy.mechanic !== "none") continue;
+    const specs = policy.reaches.filter(ageGated);
+    if (!specs.length || !yesLevels(api, key).length) continue;
+    for (const spec of specs)
+      for (const name of [spec.select?.ageFrom, spec.select?.ageBelow])
+        if (name) ages.add(reachParameter(name));
+  }
+  const today = api.state.date;
+  let next: string | null = null;
+  for (const person of townPeople(api))
+    for (const age of ages) {
+      const year = Number(person.birthDate.slice(0, 4)) + age;
+      let day = `${String(year).padStart(4, "0")}${person.birthDate.slice(4)}`;
+      // A February 29 birthday is reached on March 1 in a common year.
+      if (
+        day.slice(5) === "02-29" &&
+        !(new Date(Date.UTC(year, 1, 29)).getUTCDate() === 29)
+      )
+        day = `${day.slice(0, 5)}03-01`;
+      if (day > today && (!next || day < next)) next = day;
+    }
+  if (!next) return;
+  const calendar = api.moduleCalendar(REACH_A_MODULE_ID);
+  const key = `${AGE_WORK}:${next}`;
+  if (calendar.get(key)) return;
+  calendar.schedule({
+    key,
+    date: next,
+    kind: AGE_WORK,
+    source: {
+      tag: "SOURCED",
+      citation: "A town person reaches an age a law cuts on.",
+      asOf: today,
+    },
+    sourceRecordIds: [key],
+  });
+}
+onReachCalendar(AGE_WORK, (api) => resyncPeopleRows(api));
 
 /** The spec a mechanic writes its own rows with. */
 export function specOf(key: string, specId: string): ReachSpec {

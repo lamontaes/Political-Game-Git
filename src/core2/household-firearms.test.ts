@@ -90,4 +90,59 @@ describe(`child access prevention (${place.name}, seed ${seed})`, () => {
         4 * Math.sqrt((rate * (1 - rate)) / n) + 1 / n,
       );
   });
+
+  it("ends the duty the day a household's last child turns 18, and opens it for a household that gains a child", () => {
+    const chain = lawChain(api);
+    const stateKey = chain.stateKey;
+    const adult = reachParameter("adultAge");
+    const below = reachParameter("childAgeBelow");
+    const today = makeIsoDate(core.date);
+    const ageOn = (birth: string, date: string) =>
+      Number(date.slice(0, 4)) -
+      Number(birth.slice(0, 4)) -
+      (date.slice(5) < birth.slice(5) ? 1 : 0);
+    // A gun-owning household whose only member under the limit is one child.
+    const home = [...new Set(townPeople(api).map((p) => p.householdId))]
+      .sort()
+      .find((id) => {
+        if (!householdOwnsFirearm(api, id, stateKey)) return false;
+        const members = (core.households.get(id)?.memberIds ?? [])
+          .map((m) => core.people.get(m)!)
+          .filter((m) => m.alive);
+        const kids = members.filter((m) => ageOn(m.birthDate, today) < below);
+        return (
+          kids.length === 1 &&
+          ageOn(kids[0]!.birthDate, today) === below - 1 &&
+          addDays(today, 330) >
+            `${Number(kids[0]!.birthDate.slice(0, 4)) + below}${kids[0]!.birthDate.slice(4)}` &&
+          members.some((m) => ageOn(m.birthDate, today) >= adult)
+        );
+      });
+    if (!home) return;
+    const members = core.households
+      .get(home)!
+      .memberIds.map((m) => core.people.get(m)!);
+    const kid = members.find((m) => ageOn(m.birthDate, today) < below)!;
+    const grownUps = members.filter((m) => ageOn(m.birthDate, today) >= adult);
+    const open = (id: string) =>
+      openReach(api, KEY).some((r) => r.targetId === id);
+    expect(
+      grownUps.every((m) => open(m.id)),
+      `${place.name} seed ${seed}: duty before`,
+    ).toBe(true);
+    // The child's real birthday is in the next year: the duty ends that day.
+    const birthYear = Number(kid.birthDate.slice(0, 4)) + below;
+    let birthday = `${birthYear}${kid.birthDate.slice(4)}`;
+    if (
+      birthday.slice(5) === "02-29" &&
+      new Date(Date.UTC(birthYear, 1, 29)).getUTCDate() !== 29
+    )
+      birthday = `${birthYear}-03-01`;
+    advanceCore(core, addDays(makeIsoDate(birthday), 1));
+    const row = openReach(api, KEY);
+    expect(
+      grownUps.some((m) => row.some((r) => r.targetId === m.id)),
+      `${place.name} seed ${seed}: the duty stays after the last child turned ${below}`,
+    ).toBe(false);
+  }, 1_200_000);
 });

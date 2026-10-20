@@ -20,4 +20,4 @@ source: added with npm run pool -- add
 
 **Files.** src/core2/law-reach/group-a-records.ts, src/core2/law-reach/group-a.ts, src/core2/household-firearms.test.ts
 
-**Notes.** TODO
+**Notes.** Built: `resyncPeopleRows` in group-a-records.ts runs on a birth, a move, or the day a town person reaches an age an in-force record policy cuts on (a calendar item scheduled to the next such day, not a daily scan); plain-record policies only, mechanics keep their own rows.
