@@ -5,11 +5,12 @@ area: words
 kind: feature
 priority: 1
 size: M
-status: open
-claimed-by:
+status: blocked
+claimed-by: claude/words-journal-office-lines
 pr:
-blocked-on:
+blocked-on: PR #5647 (words-authored-parts-shippable-sweep) is not merged: until it holds the authored parts, main still ships them and the slot is not empty; the replacement lines then need the civic-prose editorial review or a rebuilt mining corpus (46,191 documents, outside the repo)
 source: added with npm run pool -- add
+claimed-at: 2026-10-20T11:05:11.595Z
 ---
 
 **What.** The held hand-written sentences in data/english/parts/journal.json left the officeholder entries for taking office, a town hall and an interview with no shippable part, so the game shows nothing there until the English engine writes it. Compose or mine the line for the officeholder entries for taking office, a town hall and an interview from the took-office event and the office-day act records, as engine-written bank parts with their source, and have the director use it. The player would read the line again, written by the engine from the record.
