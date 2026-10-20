@@ -5,7 +5,7 @@ area: world
 kind: bug
 priority: 2
 size: M
-status: blocked
+status: dropped
 claimed-by: claude/political-game-pool-3xfqef-2
 pr: #4913
 blocked-on: world-local-sales-below-opening-forecast

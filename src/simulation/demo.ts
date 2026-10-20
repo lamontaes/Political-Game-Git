@@ -34,7 +34,7 @@ import {
   recordPerception,
   recordTemporaryState,
 } from "./mind";
-import { SYNTHETIC_MIND_IDS } from "./mind-catalog";
+import { SYNTHETIC_MIND_IDS } from "../core2/mind-catalog";
 import {
   DEFAULT_PERSON_GENERATOR_VERSION,
   LEGACY_DEMO_PERSON_GENERATOR_VERSION,
