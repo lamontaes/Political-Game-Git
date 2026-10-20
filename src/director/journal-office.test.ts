@@ -136,23 +136,20 @@ describe("the officeholder's journal", () => {
     );
     const told = (id: string) =>
       lines.find((line) => line.sourceRecordIds.includes(id));
-    expect(told("took-office:fixture-seat:journal")?.text, where).toMatch(
-      /^I took (office|my seat) as City Council, Seat 2\./,
-    );
-    expect(told(voteId)?.text, where).toMatch(
-      new RegExp(
-        `^I voted for (Ordinance )?${bill.number.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}\\.`,
-      ),
-    );
-    expect(told(voteId)?.sourceRecordIds, where).toContain(bill.id);
-    expect(told(townHallId)?.text, where).toMatch(/town hall\./);
-    expect(told(interviewId)?.text, where).toMatch(
-      /^I (gave an interview|sat down with a reporter)\./,
-    );
-    expect(
-      told("office-act:interview:interview:declined:" + playerId),
-      where,
-    ).toBeUndefined();
-    expect(told("office-act:vote:other"), where).toBeUndefined();
+    // The officeholder's journal sentences (taking office, a vote, a town
+    // hall, an interview) are hand-written and held (owner, Oct 6, EN-1 to
+    // EN-3; pool item words-journal-office-lines), so the journal tells none
+    // of them. It still tells the rest of the life, and still leaves out a
+    // declined interview and someone else's vote.
+    expect(lines.length, where).toBeGreaterThan(0);
+    for (const id of [
+      "took-office:fixture-seat:journal",
+      voteId,
+      townHallId,
+      interviewId,
+      "office-act:interview:interview:declined:" + playerId,
+      "office-act:vote:other",
+    ])
+      expect(told(id), `${where}: ${id}`).toBeUndefined();
   }, 600_000);
 });

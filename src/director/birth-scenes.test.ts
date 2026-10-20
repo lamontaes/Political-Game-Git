@@ -69,9 +69,12 @@ it(`a birth is a gathering scene for each parent, citing the birth and the plan 
       // birth, citing the birth record; the child is the counterpart, so it names the child.
       const scene = composeScene(core, director, personId, entry)!;
       const text = scene.narration.map((line) => line.text).join(" ");
-      expect(text, `${where}: ${text}`).toMatch(
-        /new baby|has been born|was born/,
-      );
+      // (The sentence about the new baby was hand-written and is held: owner,
+      // Oct 6, EN-1 to EN-3; pool item words-birth-scene-lead. Until the
+      // engine writes it, the scene is the engine's own sentences.)
+      expect(scene.typeKey, where).toBe("celebration");
+      expect(text.trim().length, `${where}: ${text}`).toBeGreaterThan(0);
+      expect(text, where).not.toMatch(/\{\{|\}\}|undefined/);
       expect(
         scene.narration.flatMap((line) => line.sourceRecordIds),
         where,
