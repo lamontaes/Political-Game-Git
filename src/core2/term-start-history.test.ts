@@ -59,4 +59,5 @@ it(`a governor's terms in ${locality.displayName}, ${state} chain on the state's
         term.startDate,
       );
   }
+  // 600 s: the test builds one full world (about 43 s of its 86 s run on Oct 20); the rest of the margin is for the slowest drawn state.
 }, 600000);
