@@ -13,7 +13,7 @@ import { composeJournal, JOURNAL_DATA } from "./journal";
 // The journal as a memoir with hindsight (pool item words-main-line): an entry
 // told as small that a later record of the same person grew would be looked
 // back on in the later entry. The look-back sentences are hand-written and
-// held (owner, Oct 6, EN-1 to EN-3; pool item words-journal-memoir-revise), so
+// held until graded (pool item words-journal-memoir-revise), so
 // in a year of the played world in a drawn place the director still finds
 // those later records, each pointing at an earlier moment that weighed little
 // then and more now, and the journal revises nothing and says none of the

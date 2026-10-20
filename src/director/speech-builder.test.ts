@@ -25,9 +25,9 @@ const world = buildBenchWorld(place.seed, OPENING_DATE, {
 const { core } = world;
 const speakerId = world.playerId!;
 
-// Every stage sentence in speech-stages.json is hand-written, and the owner
-// ruled (Oct 6, EN-1 to EN-3) that no text the English engine did not write
-// ships. Those parts are held (words-authored-parts-shippable-sweep), so the
+// Every stage sentence in speech-stages.json is hand-written, and no
+// text the English engine did not write ships until it is graded. Those parts
+// are held (words-authored-parts-shippable-sweep), so the
 // builder offers no stage until the engine composes or mines one (pool item
 // words-speech-stage-parts). Until then it must offer nothing, never an empty
 // or hand-written line, and giving the empty speech must move no one.

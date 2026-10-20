@@ -42,8 +42,8 @@ const withoutLeads = { ...SCENE_WORDS, leads: [] };
 const where = `${base.placeMetadata?.placeName}, seed ${seed}`;
 
 // The sentence about what is happening is hand-written in scene-words.json,
-// and the owner ruled (Oct 6, EN-1 to EN-3) that no text the English engine
-// did not write ships. Those leads are held (words-authored-parts-shippable-
+// and no text the English engine did not write ships until
+// it is graded. Those leads are held (words-authored-parts-shippable-
 // sweep), so a scene is set by the narrator's mined and composed sentences
 // alone until the engine writes the leads (pool item words-scene-situation-
 // leads). Until then no scene may carry a lead, and every scene still cites

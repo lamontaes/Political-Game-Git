@@ -338,8 +338,8 @@ describe(`the journal in ${base.placeMetadata?.placeName} (seed ${seed})`, () =>
         line.sourceRecordIds.includes("election-result:fixture-loss"),
       );
     // The director keeps the count as a moment in the watcher's book. The
-    // journal sentence for it is hand-written and held (owner, Oct 6, EN-1 to
-    // EN-3; pool item words-journal-relative-race), so the journal says
+    // journal sentence for it is hand-written and held until
+    // graded (pool item words-journal-relative-race), so the journal says
     // nothing about it, and never a line that gets the result wrong.
     const book = director.ledger.people.get(player.id)!;
     expect(
@@ -457,7 +457,7 @@ describe(`the journal in ${base.placeMetadata?.placeName} (seed ${seed})`, () =>
     // The engine words it from the move record: who moved, by relation, and
     // the line cites the record it came from.
     // The move is a moment in the book; the journal sentence for it is
-    // hand-written and held (owner, Oct 6, EN-1 to EN-3; pool item
+    // hand-written and held until graded (pool item
     // words-journal-relative-moved-away), so none is told.
     const book = director.ledger.people.get(watcherId)!;
     expect(book.moments.some((row) => row.causeId === movedId)).toBe(true);

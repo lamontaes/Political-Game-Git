@@ -189,7 +189,7 @@ describe("the office scene", () => {
       expect(line.sourceRecordIds.length).toBeGreaterThan(0);
     // The last narrator line puts the member in the room, named from their
     // records. (The sentence saying why they are the one to reach was
-    // hand-written and is held: owner, Oct 6, EN-1 to EN-3; pool item
+    // hand-written and is held until graded; pool item
     // words-office-scene-lead.)
     const lead = scene.narration.at(-1)!.text;
     const target = core.people.get(scene.targetId)!;

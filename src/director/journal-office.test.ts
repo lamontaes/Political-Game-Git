@@ -138,7 +138,7 @@ describe("the officeholder's journal", () => {
       lines.find((line) => line.sourceRecordIds.includes(id));
     // The vote is told from a mined sentence and cites its bill. The
     // sentences for taking office, a town hall and an interview are
-    // hand-written and held (owner, Oct 6, EN-1 to EN-3; pool item
+    // hand-written and held until graded (pool item
     // words-journal-office-lines), so the journal tells none of them, and
     // still leaves out a declined interview and someone else's vote.
     expect(lines.length, where).toBeGreaterThan(0);

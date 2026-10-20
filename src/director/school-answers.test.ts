@@ -5,11 +5,10 @@ import {
 } from "./mined/conversation-bank";
 
 // "Where did you go to school?" has different replies in the stage it is
-// asked in, whether the person has graduated or is still enrolled. The owner
-// ruled (Oct 6, EN-1 to EN-3) that no text the English engine did not write
-// ships, so the two hand-written replies are held (words-authored-parts-
-// shippable-sweep) and the replies offered are the mined ones. The owner's
-// target of four replies always (Oct 14) needs a fourth the engine writes;
+// asked in, whether the person has graduated or is still enrolled. No text the
+// English engine did not write ships until it is graded, so the two
+// hand-written replies are held (words-authored-parts-shippable-sweep) and the replies offered are the mined ones. The target
+// of four replies always needs a fourth the engine writes;
 // that is the pool item words-school-answer-fourth-reply.
 const MINED_REPLIES = 3;
 

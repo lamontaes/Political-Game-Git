@@ -51,8 +51,8 @@ describe("bring it up: a law taking effect", () => {
       const story = printedStoryOf(api, storyOfReadEvent(change!.eventId)!)!;
       const said = bringItUp(core, reader.id, [...reader.knownIds][0]!);
       // The reader still knows the law's story and tells the neighbor. The
-      // sentence it would say is hand-written and held (owner, Oct 6, EN-1 to
-      // EN-3; pool item words-bring-it-up-law-line), so nothing is said
+      // sentence it would say is hand-written and held until
+      // graded (pool item words-bring-it-up-law-line), so nothing is said
       // aloud, never an empty or hand-written line, until the engine writes
       // it.
       expect(said).not.toBeNull();

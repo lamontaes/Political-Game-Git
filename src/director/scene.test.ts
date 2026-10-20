@@ -137,8 +137,8 @@ describe(`scenes in ${base.placeMetadata?.placeName} (seed ${seed})`, () => {
         const text = scene.narration[0]!.text;
         const sentences = text.match(/[.!?](\s|$)/g);
         // The setting and who is there are composed by the engine. The
-        // situation lead after them is hand-written and held (owner, Oct 6,
-        // EN-1 to EN-3; pool item words-scene-situation-leads), so the
+        // situation lead after them is hand-written and held until
+        // graded (pool item words-scene-situation-leads), so the
         // paragraph is the engine's sentences alone: whole, filled from the
         // scene's records, with no placeholder left in it.
         expect(sentences?.length ?? 0).toBeGreaterThanOrEqual(1);

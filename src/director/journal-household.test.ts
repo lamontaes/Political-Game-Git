@@ -7,8 +7,8 @@ import { composeJournal } from "./journal";
 
 // Household roots, where the partners met and a parent's new job are dated
 // facts the family history keeps (pool item words-past-household-roots-and-
-// moments). Their journal sentences are hand-written and held (owner, Oct 6,
-// EN-1 to EN-3; pool item words-journal-household-lines), so "My life" tells
+// moments). Their journal sentences are hand-written and held until
+// graded (pool item words-journal-household-lines), so "My life" tells
 // none of them until the engine writes them, and never a line that cites one
 // of those facts in a hand-written voice. A random place from all 56.
 const seed =
