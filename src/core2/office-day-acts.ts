@@ -288,6 +288,10 @@ export interface Prepared {
   readonly budget?: { readonly changes: Readonly<Record<string, number>> };
   /** A deal to offer a colleague, by member, when talking about the player's bill. */
   readonly deals?: Readonly<Record<string, "favor" | "back-their-item">>;
+  /** Filing for re-election: the stances the member runs on. */
+  readonly platform?: readonly { question: string; position: number }[];
+  /** The budget request: line changes in minor units. */
+  readonly changes?: Readonly<Record<string, number>>;
 }
 
 export function officeActProviders(host: OfficeActHost) {

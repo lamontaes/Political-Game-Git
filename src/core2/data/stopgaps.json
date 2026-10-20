@@ -4201,9 +4201,10 @@
     "whatItFakes": "What the player prepares for a federal act (the stances a re-election filing runs on, the budget request's line changes, the joint address's answers) is kept in the federal day's own table, beside the engine's.",
     "why": "OFFICE-LOCAL's prepareAct takes only the local acts' ids; the federal day may not change the engine.",
     "replacement": "OFFICE-LOCAL's prepareAct taking any registered kit's act ids (asked on the PR); the federal table is deleted.",
+    "resolution": "Resolved Oct 20: prepareAct in src/core2/modules/office-day.ts takes any registered kit's act id (a string), and the federal day's own table is deleted; what the player prepares for a federal act is kept in the office-day engine's own table.",
     "addedBy": "OFFICE-FEDERAL",
     "addedAt": "2026-10-14",
-    "status": "open"
+    "status": "resolved"
   },
   {
     "id": "SG-GOV-committee-names-national",
