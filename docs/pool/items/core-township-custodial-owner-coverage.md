@@ -5,12 +5,12 @@ area: core
 kind: feature
 priority: 3
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/political-game-pool-3xfqef-23
 pr:
 blocked-on:
 source: added with npm run pool -- add
-claimed-at:
+claimed-at: 2026-10-20T06:28:58.368Z
 ---
 
 **What.** After PR #5548 a town that lies inside a township (Robertsdale, Pennsylvania, in the Township of Wood, government gus2025:174495) opens with no custodial contract from that township, because the contract settles only against a recorded owner coverage of the covered place and only counties have the data (opening-public-owner.ts openingHistoricalCountyPlaceCoverage). The township's custody spending should exist: a township pays for the cleaning of its buildings in the town it covers. Record, from the Census Government Units and place-to-county-subdivision relations, which towns a township covers and how many residents, as the identity and coverage sources the county case already carries, so the contract is built and settles.
