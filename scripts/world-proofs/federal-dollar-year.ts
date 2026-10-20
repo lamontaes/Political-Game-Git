@@ -1,12 +1,12 @@
 /**
- * Follow the federal dollar (trial work order, Oct 16): two played worlds
- * built the same way (`buildBenchWorld`, two-level, every module the bench
- * installs), run a game year. In one world the player passes a federal budget
- * line in dev mode — Social Security up a twentieth, on the same writer the
- * president's own February request uses — and Congress votes it on the fiscal
- * year's first day; in the control no line is passed and the year's budget
- * adopts at its base (a no-action control, the register's standing rule for
- * sensitivity tests). The two differ in nothing else: same seed, same place.
+ * Follow the federal dollar: two played worlds built the same way
+ * (`buildBenchWorld`, two-level, every module the bench installs), run a game
+ * year. In one world the player passes a federal budget line in dev mode —
+ * Social Security up a twentieth, on the same writer the president's own
+ * February request uses — and Congress votes it on the fiscal year's first day;
+ * in the control no line is passed and the year's budget adopts at its base (a
+ * no-action control, the register's standing rule for sensitivity tests). The
+ * two differ in nothing else: same seed, same place.
  *
  * The report prints the chain by record id — the federal budget row, the
  * treasury's journal entries, the payees the dollars reached in town, their
