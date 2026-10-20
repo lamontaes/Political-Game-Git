@@ -4,9 +4,9 @@ title: "Stopgaps in office-day (timing): 1 open"
 area: office
 kind: stopgap
 priority: 3
-status: claimed
+status: in-pr
 claimed-by: claude/meeting-vote-hold
-pr:
+pr: #5386
 blocked-on:
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/modules/office-day.ts, kind timing"

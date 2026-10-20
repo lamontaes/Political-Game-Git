@@ -1,0 +1,31 @@
+---
+id: research-housing-sourced-parameters
+title: "Research: sourced parameters for housing prices, eviction, foreclosure, shelters and mortgages"
+area: world
+kind: research
+priority: 2
+size: M
+status: open
+claimed-by:
+pr:
+blocked-on:
+source: "collapsed Oct 19, 2026 from world-stopgap-housing-assumed-data, world-stopgap-housing-estimated-law, world-stopgap-housing-foreclosure-assumed-data, world-stopgap-housing-homeless-assumed-data, world-stopgap-housing-mortgages-assumed-data"
+---
+
+**What.** Source the numbers behind housing prices, eviction, foreclosure, shelters and mortgages. Each row below is a registered stopgap whose replacement waits on sourced or estimated data, collapsed here from 5 pool item(s) on Oct 19, 2026 so one researcher takes the engine family at once. For each row, find a public source with a year and a unit, record the figure as a SOURCED or ESTIMATED parameter row with a citation and a spread, put the research file under data/research/world/ with a reader, and resolve the stopgap row. Where a row's replacement is a mechanic rather than a number, source what that mechanic will read and leave the mechanic to the area's builder (name the pool item in the PR).
+
+- `SG-WORLD-housing-price-index` in src/core2/modules/housing.ts: Home prices follow FHFA's state house price index through its latest quarter (2026 Q2); after it, and where FHFA has no rows (Puerto Rico and the island areas), they follow consumer prices (CPI-U, which in the data ends in 2025). Replacement: A house price step in the economy (the region's incomes, rates and vacancy), territorial price data, and sellers who are the town's own owners (M1-09).
+- `SG-WORLD-housing-island-areas` in src/core2/modules/housing.ts: Where no ACS tenure or rent table covers a place (American Samoa, Guam, the Northern Marianas, the Virgin Islands), homes are owned in the nation's share and rents and values start at the nation's household-weighted county medians. Replacement: Census 2020 Island Areas tenure, gross rent and value tables for each island area.
+- `SG-WORLD-housing-eviction-steps` in src/core2/modules/housing.ts: Eviction steps not yet read from official text: of 56 places, 30 have the notice period read, 23 whether a tenant can cure, 36 the hearing period and 34 the stay; the other values are recalled from secondary summaries, and missing values take the median of the better-sourced places. Replacement: Each place's steps read from the official statute text and cited by section, then M1-laws' landlord-tenant law in force.
+- `SG-WORLD-housing-foreclosure-steps` in src/core2/housing-foreclosure.ts: A state's foreclosure timeline that was not read from its statute (or that has no published average) is taken from secondary summaries or the national average days to complete. Replacement: Each place's foreclosure steps read from its statute text and court rules, with its own average days to complete.
+- `SG-WORLD-housing-shelter-beds-state-rate` in src/core2/housing-homeless.ts: A place's shelter beds are its state's year-round beds per 10,000 people (HUD 2025 Housing Inventory Count) times its own people, not the beds its Continuum of Care actually lists in or near it. Replacement: Beds by place from the HIC provider rows (geocode to county and place), with occupancy on the count night.
+- `SG-WORLD-housing-shelter-territory` in src/core2/housing-homeless.ts: American Samoa and the Northern Mariana Islands, which have no HUD Continuum of Care, use the nation's shelter beds per 10,000. Replacement: Each territory government's own shelter count.
+- `SG-WORLD-housing-mortgage-history` in src/core2/housing-mortgages.ts: Each owner's purchase year comes from the national move-in distribution by age rank, the purchase price is today's value moved back by the state's FHFA house price index, the loan is a 30-year fixed with the NAR median down payment and no refinancing, and the same county mortgage shares by age apply everywhere. Replacement: FHFA house price index by state and metro for purchase prices, ACS B25038 and B25027 by county, and refinancing waves from the rate history.
+
+**Rules.** Research before building: real data checks the simulation and never decides an outcome by itself; a sourced rate calibrates the band the proof reports against, never the chance one person acts. Estimate, never UNKNOWN: a value the source lacks for a place starts from the real average with a per-world spread, marked ESTIMATED with its source in data, never shown to the player. One rule, all 56 places: a figure that varies by place is a per-place table in data, never a state named in logic. Sliding scales and causes: if an engine reads the number as a cap, a cutoff or a chance, file a bug for the builder instead of sourcing it. Follow .agents/skills/researcher/SKILL.md.
+
+**Done when.** Each listed row is SOURCED or ESTIMATED in its parameter table with a citation (publisher, year, URL) and a spread (low, high, unit, citation); each stopgap row above is resolved in src/core2/data/stopgaps.json with the source named; the research-data-reader guard (tests/guards/research-data-has-reader.test.ts) is green; the tripwire and calibration-guard tests pass; and a one-year played world (buildBenchWorld, a drawn place from all 56, seed named in the PR) reports each band and where the town landed.
+
+**Files.** src/core2/housing-foreclosure.ts, src/core2/housing-homeless.ts, src/core2/housing-mortgages.ts, src/core2/modules/housing.ts, src/core2/data/parameters.json, src/core2/data/stopgaps.json, data/research/world/
+
+**Notes.** Folded from: world-stopgap-housing-assumed-data, world-stopgap-housing-estimated-law, world-stopgap-housing-foreclosure-assumed-data, world-stopgap-housing-homeless-assumed-data, world-stopgap-housing-mortgages-assumed-data. Rows that are not numbers (missing mechanics in law reach, for example) stay registered; this item sources what they will read.
