@@ -668,6 +668,22 @@ function open(api: CoreAPI): void {
             headsOf(c, job),
           ),
         });
+  // A public employer (a town, county or school district) has no business book:
+  // its staff is set by its budget, and a leaver is replaced through the same
+  // postings (owner, Oct 14: every role is refilled when its holder leaves).
+  for (const [id, organization] of c.organizations)
+    if (organization.publicPayAuthority && !c.finance.businesses.has(id))
+      store(api)
+        .table("employers")
+        .put({
+          id,
+          isEmployer: true,
+          openingStaff: staffHeads(c, currentJobs(api, id)),
+          need: 0,
+          mix: roleMix(currentJobs(api, id), fullJobs(api, id), (job) =>
+            headsOf(c, job),
+          ),
+        });
   // The nation's opening unemployment when the national economy runs; its long-run rate otherwise.
   const macro = c.modules.has("macro")
     ? (api.moduleState("macro").table("state").get("macro:state") as
@@ -861,47 +877,57 @@ function reviewEmployers(api: CoreAPI): void {
     .table("employers")
     .query("all", [true]) as unknown as EmployerRow[]) {
     const book = c.finance.businesses.get(row.id);
-    if (!book || book.closedAt) continue;
+    // A public employer keeps its budgeted staff: no demand to forecast, no payroll to afford.
+    const budgeted =
+      !book && c.organizations.get(row.id)?.publicPayAuthority !== undefined;
+    if ((!book && !budgeted) || book?.closedAt) continue;
     const jobs = currentJobs(api, row.id),
       positions = [...openPositions(api, row.id)];
     // Staff and postings in jobs: a counted worker's record stands for its household's weight.
     const staff = staffHeads(c, jobs);
     let posted = positions.reduce((n, row) => n + positionHeads(row), 0);
-    const projected =
-      (book.capacityMinor > 0
-        ? // Real demand: the books' demand in the business's own opening prices.
-          (row.openingStaff * book.annualDemandMinor) /
-          ((book.price / book.anchorPrice || 1) * book.capacityMinor)
-        : row.openingStaff) *
-      // The season: the industry's staffing this month against the opening's (BLS CES seasonal factors).
-      seasonalStaffing(book.kindId, c.date, opened);
-    const trading = businessTradingMonth(api, row.id);
-    raiseUnfilledPay(api, row.id, positions, trading, staff);
+    const projected = book
+      ? (book.capacityMinor > 0
+          ? // Real demand: the books' demand in the business's own opening prices.
+            (row.openingStaff * book.annualDemandMinor) /
+            ((book.price / book.anchorPrice || 1) * book.capacityMinor)
+          : row.openingStaff) *
+        // The season: the industry's staffing this month against the opening's (BLS CES seasonal factors).
+        seasonalStaffing(book.kindId, c.date, opened)
+      : row.openingStaff;
+    const trading = book ? businessTradingMonth(api, row.id) : undefined;
+    if (book) raiseUnfilledPay(api, row.id, positions, trading, staff);
     const observedStaff =
-      trading && trading.days > 0 && book.capacityMinor > 0
+      book && trading && trading.days > 0 && book.capacityMinor > 0
         ? (row.openingStaff * trading.salesMinor * p("jobsDaysPerYear")) /
           (trading.days *
             (book.price / book.anchorPrice || 1) *
             book.capacityMinor)
         : projected;
     const previousSalesStaff = row.salesStaff ?? projected;
-    const salesStaff =
-      previousSalesStaff +
-      p("jobsStaffGapActedPerMonth") * (observedStaff - previousSalesStaff);
+    const salesStaff = book
+      ? previousSalesStaff +
+        p("jobsStaffGapActedPerMonth") * (observedStaff - previousSalesStaff)
+      : projected;
     // The market forecast already reads regional and national conditions.
     // Actual receipts let firms diverge when customers pay different sellers.
-    const demandTarget =
-      projected * (1 - p("jobsSalesForecastWeight")) +
-      salesStaff * p("jobsSalesForecastWeight");
+    const demandTarget = book
+      ? projected * (1 - p("jobsSalesForecastWeight")) +
+        salesStaff * p("jobsSalesForecastWeight")
+      : projected;
     const target =
       trading && trading.lossMonths > 0
         ? affordableStaff(demandTarget, staff, trading)
         : demandTarget;
-    const monthlyPayroll = book.annualPayrollMinor / p("macroMonthsPerYear");
+    const monthlyPayroll = book
+      ? book.annualPayrollMinor / p("macroMonthsPerYear")
+      : 0;
     const cash = c.organizations.get(row.id)!.liquidMinor;
     // Hiring leans on the cash in reach of a few months of payroll; a gap below staff needs no cash to act on.
-    const reach =
-      cash / (cash + p("jobsCashCoverMonths") * monthlyPayroll || 1);
+    // A public employer's staff is paid from its treasury's budget, not its cash.
+    const reach = book
+      ? cash / (cash + p("jobsCashCoverMonths") * monthlyPayroll || 1)
+      : p("one");
     // Staff and postings beyond the target lapse gradually: each position of surplus withdraws a share of a posting a month, the rest carried.
     const excess = Math.max(0, Math.min(posted, staff + posted - target));
     let carry =
@@ -1043,7 +1069,7 @@ function reviewEmployers(api: CoreAPI): void {
         need += positionHeads(position);
         continue;
       }
-      if (need > -1) break;
+      if (need > -1 || !book) break;
       const staff = currentJobs(api, row.id);
       if (!staff.length) break;
       const laid = layOff(
