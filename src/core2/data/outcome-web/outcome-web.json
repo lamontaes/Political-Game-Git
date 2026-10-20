@@ -252,6 +252,13 @@
       "field": "evictionOrdersLastMonth",
       "unitScale": 1
     },
+    "household.poverty-pct": {
+      "owner": "OPUS-WORLD",
+      "record": "world-metrics months.povertyShare (people in households whose yearly pay and awards are under the Census poverty line for their size, children and eldest member, named plus counted by weight), as a percent",
+      "field": "povertyShare",
+      "unitScale": 100,
+      "ownsOutcome": true
+    },
     "housing.property-tax-rate": {
       "owner": "OPUS-WORLD",
       "record": "the property tax rate in force for the town (the budgets module's law row the housing engine bills owners by), as a percent of home value",
