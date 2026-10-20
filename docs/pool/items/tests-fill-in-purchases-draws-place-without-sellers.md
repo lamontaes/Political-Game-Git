@@ -5,11 +5,12 @@ area: world
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/fill-in-purchases-draw
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-20T03:07:08.767Z
 ---
 
 **What.** src/core2/residents-fill-in-purchases.test.ts draws one place and expects counted households to buy from at least one seller in town. In Floweree, Montana (seed 0ddfc54da59c07a85128bf3718b902baa217a0e8eb4683d18c8abf6769664fea) none do, so the first assertion fails before the move it tests. Draw the next place when the first has no seller, up to eight, and fail by name listing the places tried if none has one. The move check that follows is unchanged.
