@@ -82,6 +82,7 @@ const TAGS = [
   "$object",
   "$def",
   "$ref",
+  "$frozen",
 ];
 
 /** Objects reached more than once, found before encoding. */
@@ -156,6 +157,8 @@ export function encode(root: unknown): Encoded {
       // A plain object whose own key looks like a tag is escaped.
       out = TAGS.some((tag) => tag in fields) ? { $object: fields } : fields;
     }
+    // A record, list, Map or Set frozen in the saved world (bookkeeping freezes them as they are made) is marked, so it is sealed again on restore.
+    if (Object.isFrozen(object)) out = { $frozen: out };
     return id === undefined ? out : { $def: id, v: out };
   };
   return walk(root, "$");
@@ -223,6 +226,12 @@ export function decoder(): (
         ),
       );
     if ("$ref" in value) return defs[value.$ref as number];
+    if ("$frozen" in value) {
+      const out = walk(value.$frozen as Encoded, current, path);
+      return out && typeof out === "object" && !Object.isFrozen(out)
+        ? seal(out)
+        : out;
+    }
     if ("$def" in value) {
       const out = walk(value.v!, current, path);
       defs[value.$def as number] = out;

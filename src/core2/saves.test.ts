@@ -192,6 +192,28 @@ describe(`saves in ${place.name}, ${place.state} (seed ${seed})`, () => {
       };
       walk(opening.core, game.core, loaded.core, "core", 0);
       expect(mismatched).toEqual([]);
+      // Records made since the opening (pay ledgers, earned periods) restore frozen too.
+      const unfrozen: string[] = [];
+      const seenAll = new Set<object>();
+      const walkAll = (a: unknown, b: unknown, path: string, depth: number) => {
+        if (!a || !b || typeof a !== "object" || typeof b !== "object") return;
+        if (seenAll.has(a) || depth > 6 || unfrozen.length > 5) return;
+        seenAll.add(a);
+        if (Object.isFrozen(a) && !Object.isFrozen(b)) unfrozen.push(path);
+        if (a instanceof Map && b instanceof Map)
+          for (const [key, value] of a)
+            walkAll(value, b.get(key), `${path}.${String(key)}`, depth + 1);
+        else if (!(a instanceof Set) && !(b instanceof Set))
+          for (const key of Object.keys(a))
+            walkAll(
+              (a as Record<string, unknown>)[key],
+              (b as Record<string, unknown>)[key],
+              `${path}.${key}`,
+              depth + 1,
+            );
+      };
+      walkAll(game.core, loaded.core, "core", 0);
+      expect(unfrozen).toEqual([]);
       expect(frozen, "no frozen record to compare").toBeGreaterThan(0);
       expect(changed, "no frozen record a producer changed").toBeGreaterThan(0);
       process.stdout.write(
