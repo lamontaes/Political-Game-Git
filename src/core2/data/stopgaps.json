@@ -5026,5 +5026,17 @@
     "addedAt": "2026-10-20",
     "replacement": "PEOPLE and GOV: an act engine where a named person's drives, record and circumstances decide an offense, then the case flow charges them from that act.",
     "status": "open"
+  },
+  {
+    "id": "SG-TRAITS-partnerships-no-engine",
+    "kind": "missing-engine",
+    "file": "src/core2/modules/renewal.ts",
+    "line": 272,
+    "whatItFakes": "Couples exist only as the opening drew them: no one partners, marries, separates or divorces during play, so the temperament reads that should decide those (extraversion raises the odds of a first marriage 1.35 per standard deviation and openness lowers them 0.77, Jokela et al. 2011; neuroticism raises divorce r = 0.17, agreeableness lowers it r = -0.18, Roberts et al. 2007) have no decision to read them.",
+    "why": "The partnership engine is gated in the pool (people-partnerships-full-people-form and people-partnerships-full-people-end wait on core family-link and household-membership changes). The effect sizes are in data/research/trait-effect-sizes.json (outcome.marriage-formation, outcome.divorce).",
+    "addedBy": "claude/traits-family",
+    "addedAt": "2026-10-20",
+    "replacement": "When partnerships form and end in play, the forming and ending decisions read both partners' traits through leanedYes with weights calibrated from those rows by scripts/traits/trait-calibrate.ts.",
+    "status": "open"
   }
 ]
