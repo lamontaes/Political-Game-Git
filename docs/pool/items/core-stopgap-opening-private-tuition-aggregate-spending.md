@@ -4,13 +4,13 @@ title: "Stopgaps in opening-private-tuition (aggregate-spending): 1 open"
 area: core
 kind: stopgap
 priority: 3
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/tuition-choice
 pr: #5294
 blocked-on: core-private-tuition-yearly-reenrollment
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/opening-private-tuition.ts, kind aggregate-spending"
-claimed-at:
+claimed-at: 2026-10-20T10:02:44.177Z
 ---
 
 **What.** Replace or clear the 1 open aggregate-spending stopgap row(s) in src/core2/opening-private-tuition.ts: SG-CORE-private-tuition-average. Each fake is replaced by the mechanic, or the feature that needs it is deleted.
