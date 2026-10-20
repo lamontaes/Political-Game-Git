@@ -5,11 +5,12 @@ area: core
 kind: wiring
 priority: 2
 size: M
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/residual-sweep-source
+pr: #5356
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-20T00:06:41.241Z
 ---
 
 **What.** In a one-year run of the played world in Woodway, Texas (seed ab12cd34ef56ab12), the place's counted groups were swept about 7.6 to 8.0 million minor units every month from the residents account's residual, split by their people rather than keyed to the households the money belongs to (SG-CORE-counted-unkeyed-money). Some engine pays the residents account directly with no person or household. Find the payer by logging transfers into the residents account's residual in that run, and make that engine pass the person or household through `transferCash` or `countedPayment`. Unemployment benefits were the other unkeyed payer (299 payments, about 109 thousand) and now pass the claimant (first slice, PR #5217); 32 payments to claimants who are not counted still land unkeyed.

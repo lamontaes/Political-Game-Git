@@ -5,12 +5,12 @@ area: people
 kind: feature
 priority: 2
 size: M
-status: claimed
-claimed-by: claude/political-game-pool-76ksvw
-pr: #4626
+status: open
+claimed-by:
+pr: #5180
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-19T23:10:59.104Z
+claimed-at:
 ---
 
 **What.** An officeholder's records should open scenes: an address is a speech scene, a bill signing brings staff and press into the room, and some endings open a game screen. Today the director watches filings, hearings and laws reaching a person but not the office-day act record. Have the director read the act record and the signing record and stage the scene from them.

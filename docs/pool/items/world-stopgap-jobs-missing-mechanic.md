@@ -4,9 +4,9 @@ title: "Stopgaps in jobs (missing-mechanic): 1 open"
 area: world
 kind: stopgap
 priority: 3
-status: claimed
+status: in-pr
 claimed-by: claude/ui-state-fund
-pr:
+pr: #5300
 blocked-on:
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/modules/jobs.ts, kind missing-mechanic"
