@@ -5,9 +5,9 @@ area: core
 kind: stopgap
 priority: 3
 size: L
-status: claimed
+status: in-pr
 claimed-by: claude/peaceful-ritchie-03780x
-pr:
+pr: #5076
 blocked-on:
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/data/parameters.json, kind uncalibrated-tunable"
