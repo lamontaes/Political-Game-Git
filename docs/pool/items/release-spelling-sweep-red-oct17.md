@@ -5,12 +5,12 @@ area: release
 kind: bug
 priority: 1
 size: S
-status: in-pr
-claimed-by: claude/spelling-sweep-red
+status: open
+claimed-by:
 pr: #4957
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-20T21:30:33.300Z
+claimed-at:
 ---
 
 **What.** The two American English tests failed on main on October 17. They found 14 British forms in docs, tests and a workflow comment, the British word "authority" in two English data names ("local authority"), and a FEMA incident name, "Sulphur Fire", that the sweep flagged though it is a fetched source name. Pull request 4957 respells the forms, exempts the FEMA data file as fetched source, and removes a duplicate pool item whose own id was British.
