@@ -5,9 +5,9 @@ area: words
 kind: wiring
 priority: 2
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/hearing-chair-question
-pr:
+pr: #5572
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-20T05:01:05.244Z
