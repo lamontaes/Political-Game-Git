@@ -36,7 +36,8 @@ import { holdPrimary, openVoting } from "./modules/voting";
 const seed =
   process.env.GOLDEN_PATH_SEED ??
   createHash("sha256").update(`ballot-order:${Date.now()}`).digest("hex");
-const drawn = drawPlace(seed, "ballot-order");
+const first = drawPlace(seed, "ballot-order");
+const drawn = first;
 const where = `${drawn.name}, ${drawn.state} (${drawn.key}), seed ${seed}`;
 const KINDS = [
   "alphabetical",
@@ -122,69 +123,84 @@ describe(`ballot order by the law of the place (${where})`, () => {
   });
 
   it("a primary between two candidates nothing else separates counts the party's voters across the race", () => {
-    const core = createLifeCore(
-      buildPopulation({
-        seed,
-        placeKey: drawn.key,
-        startedAt: "2026-01-05",
-        minimumPeople: 300,
-      }),
-    );
-    openOffices(core, seed);
-    openElections(core);
-    openCampaigns(core);
-    openParties(core);
-    openVoting(core);
-    const api = coreAPI(core);
-    const party = partiesHere(api)
-      .filter((p) => p.side !== 0)
-      .sort((a, b) => b.share - a.share)[0];
-    if (!party || party.nominationMethod !== "party-primary") return;
-    const members = (
-      api
-        .moduleState(PARTIES_MODULE_ID)
-        .table("ties")
-        .rows() as unknown as TieRow[]
-    )
-      .filter((t) => t.partyId === party.id)
-      .map((t) => t.personId)
-      .filter(
-        (id) => 2026 - Number(core.people.get(id)!.birthDate.slice(0, 4)) >= 35,
-      )
-      .sort();
-    for (const contest of openContests(api).filter(
-      (c) => c.primaryDate && c.primaryDate > "2026-01-05",
-    )) {
-      const filed = members
-        .slice(0, 2)
-        .map((id) =>
-          fileCandidacy(api, {
-            personId: id,
-            contestId: contest.id,
-            platform: [],
-            party: party.name,
-          }),
-        )
-        .filter(
-          (r) => r.status !== "refused" && r.filing.status === "on-ballot",
-        );
-      if (filed.length < 2) continue;
-      const field = ballot(api, contest.id).filter(
-        (f) => f.party === party.name,
+    const tried: string[] = [];
+    for (let attempt = 0; attempt < 8; attempt += 1) {
+      const drawn = attempt
+        ? drawPlace(`${seed}:${attempt}`, "ballot-order")
+        : first;
+      const where = `${drawn.name}, ${drawn.state} (${drawn.key}), seed ${seed}`;
+      const core = createLifeCore(
+        buildPopulation({
+          seed,
+          placeKey: drawn.key,
+          startedAt: "2026-01-05",
+          minimumPeople: 300,
+        }),
       );
-      const rule = ballotOrderRule(drawn.state, "primary")!;
-      const { votes, namedVotes } = holdPrimary(api, contest.id);
-      const total = Object.values(votes).reduce((a, b) => a + b, 0);
-      expect(total, where).toBeGreaterThan(namedVotes);
-      // A rotated ballot puts each candidate first on their share of the
-      // forms, so each takes votes from those who know neither.
-      if (rule.kind === "rotation" || rule.within === "rotation")
-        for (const f of field)
-          expect(
-            votes[f.personId] ?? 0,
-            `${where} ${contest.id}`,
-          ).toBeGreaterThan(0);
-      return;
+      openOffices(core, seed);
+      openElections(core);
+      openCampaigns(core);
+      openParties(core);
+      openVoting(core);
+      const api = coreAPI(core);
+      const party = partiesHere(api)
+        .filter((p) => p.side !== 0)
+        .sort((a, b) => b.share - a.share)[0];
+      if (!party || party.nominationMethod !== "party-primary") {
+        tried.push(`${where}: no partisan party that nominates by primary`);
+        continue;
+      }
+      const members = (
+        api
+          .moduleState(PARTIES_MODULE_ID)
+          .table("ties")
+          .rows() as unknown as TieRow[]
+      )
+        .filter((t) => t.partyId === party.id)
+        .map((t) => t.personId)
+        .filter(
+          (id) =>
+            2026 - Number(core.people.get(id)!.birthDate.slice(0, 4)) >= 35,
+        )
+        .sort();
+      for (const contest of openContests(api).filter(
+        (c) => c.primaryDate && c.primaryDate > "2026-01-05",
+      )) {
+        const filed = members
+          .slice(0, 2)
+          .map((id) =>
+            fileCandidacy(api, {
+              personId: id,
+              contestId: contest.id,
+              platform: [],
+              party: party.name,
+            }),
+          )
+          .filter(
+            (r) => r.status !== "refused" && r.filing.status === "on-ballot",
+          );
+        if (filed.length < 2) continue;
+        const field = ballot(api, contest.id).filter(
+          (f) => f.party === party.name,
+        );
+        const rule = ballotOrderRule(drawn.state, "primary")!;
+        const { votes, namedVotes } = holdPrimary(api, contest.id);
+        const total = Object.values(votes).reduce((a, b) => a + b, 0);
+        expect(total, where).toBeGreaterThan(namedVotes);
+        // A rotated ballot puts each candidate first on their share of the
+        // forms, so each takes votes from those who know neither.
+        if (rule.kind === "rotation" || rule.within === "rotation")
+          for (const f of field)
+            expect(
+              votes[f.personId] ?? 0,
+              `${where} ${contest.id}`,
+            ).toBeGreaterThan(0);
+        return;
+      }
+      tried.push(`${where}: no primary with two candidates to hold`);
     }
+    throw new Error(
+      `no drawn place held a two-candidate primary (seed ${seed}): ${tried.join("; ")}`,
+    );
   }, 900_000);
 });

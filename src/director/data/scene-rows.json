@@ -24,7 +24,8 @@
     "feeling:event:justice.charged",
     "feeling:event:justice.convicted",
     "feeling:event:justice.acquitted",
-    "feeling:event:cause.shared"
+    "feeling:event:cause.shared",
+    "feeling:event:person-birth"
   ],
   "leads": [
     "becoming-friends",

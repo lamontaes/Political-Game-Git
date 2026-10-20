@@ -80,62 +80,76 @@ describe(`a business founded mid-run in ${place.name}, ${place.state} (seed ${se
   }, 300_000);
 
   it("moves a closed seller's customers to the open sellers of its kind", () => {
-    const core = createLifeCore(
-      generatedOpening(place, {
-        twoLevel: true,
-        settings: { population: 1500 },
-      }),
-    );
-    advanceCore(core, daysAfterStart(9));
-    const rt = residentsRuntime(core)!;
-    const live = () =>
-      [...rt.flows.values()].filter(
-        (flow) =>
-          flow.kind === "purchase" &&
-          !flow.endedAt &&
-          flow.financeKind !== "household.outside-living-costs",
+    const tried: string[] = [];
+    for (let attempt = 0; attempt < 6; attempt += 1) {
+      const drawn = attempt
+        ? drawPlace(`${seed}:${attempt}`, "core2-market-entry")
+        : place;
+      const core = createLifeCore(
+        generatedOpening(drawn, {
+          twoLevel: true,
+          settings: { population: 1500 },
+        }),
       );
-    const kinds = new Map<string, Set<string>>();
-    for (const flow of live()) {
-      const key = `${flow.residentsId}|${flow.financeKind}`;
-      kinds.set(key, (kinds.get(key) ?? new Set()).add(flow.payeeId));
-    }
-    const closing = live()
-      .filter(
-        (flow) =>
-          kinds.get(`${flow.residentsId}|${flow.financeKind}`)!.size > 1 &&
-          core.finance.businesses.has(flow.payeeId),
-      )
-      .sort((a, b) => a.id.localeCompare(b.id))[0];
-    if (!closing) return; // A place with one seller per kind: nothing to move.
-    const others = () =>
-      live()
+      advanceCore(core, daysAfterStart(9));
+      const rt = residentsRuntime(core)!;
+      const live = () =>
+        [...rt.flows.values()].filter(
+          (flow) =>
+            flow.kind === "purchase" &&
+            !flow.endedAt &&
+            flow.financeKind !== "household.outside-living-costs",
+        );
+      const kinds = new Map<string, Set<string>>();
+      for (const flow of live()) {
+        const key = `${flow.residentsId}|${flow.financeKind}`;
+        kinds.set(key, (kinds.get(key) ?? new Set()).add(flow.payeeId));
+      }
+      const closing = live()
+        .filter(
+          (flow) =>
+            kinds.get(`${flow.residentsId}|${flow.financeKind}`)!.size > 1 &&
+            core.finance.businesses.has(flow.payeeId),
+        )
+        .sort((a, b) => a.id.localeCompare(b.id))[0];
+      if (!closing) {
+        // A place with one seller per kind has nothing to move.
+        tried.push(`${drawn.name} (${drawn.key})`);
+        continue;
+      }
+      const others = () =>
+        live()
+          .filter(
+            (flow) =>
+              flow.residentsId === closing.residentsId &&
+              flow.financeKind === closing.financeKind &&
+              flow.payeeId !== closing.payeeId,
+          )
+          .reduce((n, flow) => n + flow.amountMinor, 0);
+      const before = others();
+      const moved = closing.amountMinor;
+      shiftToOpenSellers(core, rt, closing);
+      expect(closing.amountMinor).toBe(0);
+      // Same purchases, fewer sellers: exact when the sellers share a cadence.
+      const sameCadence = live()
         .filter(
           (flow) =>
             flow.residentsId === closing.residentsId &&
-            flow.financeKind === closing.financeKind &&
-            flow.payeeId !== closing.payeeId,
+            flow.financeKind === closing.financeKind,
         )
-        .reduce((n, flow) => n + flow.amountMinor, 0);
-    const before = others();
-    const moved = closing.amountMinor;
-    shiftToOpenSellers(core, rt, closing);
-    expect(closing.amountMinor).toBe(0);
-    // Same purchases, fewer sellers: exact when the sellers share a cadence.
-    const sameCadence = live()
-      .filter(
-        (flow) =>
-          flow.residentsId === closing.residentsId &&
-          flow.financeKind === closing.financeKind,
-      )
-      .every(
-        (flow) =>
-          JSON.stringify(flow.cadence) === JSON.stringify(closing.cadence),
-      );
-    if (sameCadence) expect(others()).toBe(before + moved);
-    expect(others()).toBeGreaterThan(before);
-    const startCash = cash(core) + outsideNet(core);
-    advanceCore(core, daysAfterStart(59));
-    expect(cash(core) + outsideNet(core)).toBe(startCash);
-  }, 300_000);
+        .every(
+          (flow) =>
+            JSON.stringify(flow.cadence) === JSON.stringify(closing.cadence),
+        );
+      if (sameCadence) expect(others()).toBe(before + moved);
+      expect(others()).toBeGreaterThan(before);
+      const startCash = cash(core) + outsideNet(core);
+      advanceCore(core, daysAfterStart(59));
+      expect(cash(core) + outsideNet(core)).toBe(startCash);
+      return;
+    }
+    throw new Error(
+      `no drawn town had two sellers of a kind (seed ${seed}): ${tried.join("; ")}`,
+    );
+  }, 900_000);
 });

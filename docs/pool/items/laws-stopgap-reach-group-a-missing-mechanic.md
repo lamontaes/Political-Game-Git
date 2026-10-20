@@ -5,10 +5,10 @@ area: laws
 kind: stopgap
 priority: 3
 size: L
-status: open
+status: blocked
 claimed-by:
 pr:
-blocked-on:
+blocked-on: research data: the row's replacement needs sourced data (PEOPLE: a leave-taking choice on a birth or a relative's serious illness (health engine), and CORE: a benefit payment from a government treasury to a ...)
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/data/laws/reach-group-a.json, kind missing-mechanic"
 ---

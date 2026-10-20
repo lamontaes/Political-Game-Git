@@ -4,10 +4,10 @@ title: "Stopgaps in housing-mortgages (assumed-data): 1 open"
 area: world
 kind: stopgap
 priority: 3
-status: open
+status: blocked
 claimed-by:
 pr:
-blocked-on:
+blocked-on: research data: the row's replacement needs sourced data (FHFA house price index by state and metro for purchase prices, ACS B25038 and B25027 by county, and refinancing waves from the rate history....)
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/housing-mortgages.ts, kind assumed-data"
 ---

@@ -80,6 +80,11 @@ export interface ResidentFlowInput {
   perDayMinorByJob?: Readonly<Record<string, number>>;
   periodFactor?: number;
   /**
+   * A payroll paid twice a month is two flows, one per payday, each carrying
+   * half the month: this lists the other payday's flow, which pays the same jobs.
+   */
+  partnerFlowIds?: readonly string[];
+  /**
    * Wages: paydays at the opening whose period began before it pay only the
    * days worked since the opening, as full workers' earned pay does.
    */
@@ -420,10 +425,14 @@ export function collapseToTwoLevels(
       const days = twice
         ? [dayOf(first), ((dayOf(first) + 14) % 28) + 1]
         : [dayOf(first)];
+      const ids = days.map((_, index) => `residents:wages:${key}:${index}`);
       days.forEach((day, index) =>
         flows.push({
           ...base,
-          id: `residents:wages:${key}:${index}`,
+          id: ids[index]!,
+          ...(ids.length > 1
+            ? { partnerFlowIds: ids.filter((_, other) => other !== index) }
+            : {}),
           amountMinor: Math.round((monthly * months) / days.length),
           periodFactor:
             (DAYS_PER_YEAR / MONTHS_PER_YEAR) * (months / days.length),

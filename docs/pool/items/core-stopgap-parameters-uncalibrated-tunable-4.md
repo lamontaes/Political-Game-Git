@@ -4,10 +4,10 @@ title: "Stopgaps in parameters (uncalibrated-tunable): 1 open"
 area: core
 kind: stopgap
 priority: 3
-status: open
+status: blocked
 claimed-by:
 pr:
-blocked-on:
+blocked-on: research data: the row's replacement needs sourced data (Weights checked against ACS departures by age and tenure across drawn places in the M1-09 year run, and against the CPS reasons for moving....)
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/data/moves/parameters.json, kind uncalibrated-tunable"
 ---
