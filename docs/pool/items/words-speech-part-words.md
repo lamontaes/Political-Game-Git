@@ -5,11 +5,12 @@ area: words
 kind: feature
 priority: 2
 size: M
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/political-game-pool-7xkkii
+pr: #5196
 blocked-on:
 source: "split from gov-next, Oct 16"
+claimed-at: 2026-10-19T21:58:19.907Z
 ---
 
 **What.** The engine builds a speech one part at a time (an opening, body parts, a close), and each part names its move (open, stance, record, contrast, town, close), its question, its position and the record ids it rests on, but carries no words (`src/core2/speech-composition.ts`). Write the adapter that gives each part to the English engine's address register for its move and fills the slots from the part's facts, so the four offered parts and the finished speech can be shown in words. Pieces missing for a move are authored to the calibrated patterns, never typed into code.

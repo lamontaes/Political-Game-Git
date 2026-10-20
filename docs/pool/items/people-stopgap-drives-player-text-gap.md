@@ -4,12 +4,13 @@ title: "Stopgaps in drives (player-text-gap): 1 open"
 area: people
 kind: stopgap
 priority: 3
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/association-names
+pr: #5287
 blocked-on:
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/modules/drives.ts, kind player-text-gap"
+claimed-at: 2026-10-19T23:42:15.677Z
 ---
 
 **What.** Replace or clear the 1 open player-text-gap stopgap row(s) in src/core2/modules/drives.ts: SG-P10-group-name-key. Each fake is replaced by the mechanic, or the feature that needs it is deleted.
