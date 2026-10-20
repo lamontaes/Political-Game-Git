@@ -5,13 +5,13 @@ area: gov
 kind: feature
 priority: 3
 size: M
-status: claimed
-claimed-by: claude/peaceful-ritchie-03780x
+status: open
+claimed-by:
 pr:
 blocked-on:
 after: gov-redistricting-neighborhood-data,gov-redistricting-census-count
 source: added with npm run pool -- add
-claimed-at: 2026-10-20T00:21:38.617Z
+claimed-at:
 ---
 
 **What.** Generalize drawWardCuts into one plan builder over block-group units that makes a short list of real plans from distinct goals: even and compact; protect sitting members; most seats for the drawer's party from recorded results; and one that meets the Voting Rights Act test. Deviation limits are data rows (House near zero; state and local from the court record). A town's units are its block groups in geographic order, replacing the household-order streets.
