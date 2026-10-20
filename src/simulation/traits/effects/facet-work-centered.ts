@@ -1,4 +1,4 @@
-import type { TraitEffectDeclaration } from "../../trait-packs";
+import type { TraitEffectDeclaration } from "../../../core2/trait-packs";
 
 /**
  * Work-centered people give priority to their work. Absence of the marked pattern contributes nothing and does not establish the opposite.
