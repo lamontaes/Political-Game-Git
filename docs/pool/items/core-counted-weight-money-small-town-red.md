@@ -22,3 +22,5 @@ claimed-at:
 **Files.** TODO
 
 **Notes.** TODO
+
+**Result (Oct 20).** The test now draws up to five places until a town has more than 8 counted rents and 8 payrolls, and fails with a clear message if none does; Solen-sized towns no longer fail the compare count. A rerun then reached a different failure in Western Springs, Illinois (seed 7948de2094a32969f465293c52050d63bce0e46645b5a0729d7fd22ccbc0190c): a counted payroll paid 37,454,550 against an expected ceiling of 36,991,745 (about 1.2 percent over). Filed as core-counted-weight-wage-overpays.

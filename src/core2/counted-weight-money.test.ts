@@ -89,12 +89,27 @@ function play(seed: string, key: string, countScale: number) {
 }
 
 it("rent and pay of counted households are moved times their weights, and the books balance", () => {
-  const draw = drawPlace(
-    randomBytes(32).toString("hex"),
-    "census-weight-money",
-  );
+  // A very small town has too few counted rents or payrolls to compare (Solen,
+  // North Dakota: two): draw on, up to five places, until a town has enough,
+  // and fail loudly if none does.
+  const root = randomBytes(32).toString("hex");
+  let draw = drawPlace(root, "census-weight-money");
+  let base = play(draw.seed, draw.key, 1);
+  const enough = (entries: typeof base.entries) => {
+    const ids = [...entries.keys()];
+    return (
+      ids.filter((id) => id.startsWith("rent:")).length > 8 &&
+      ids.filter((id) => !id.startsWith("rent:")).length > 8
+    );
+  };
+  for (let attempt = 1; attempt < 5 && !enough(base.entries); attempt += 1) {
+    draw = drawPlace(root, `census-weight-money-${attempt}`);
+    base = play(draw.seed, draw.key, 1);
+  }
   const where = `${draw.name} [${draw.key}], seed ${draw.seed}`;
-  const base = play(draw.seed, draw.key, 1);
+  expect(enough(base.entries), `${where}: too few rents or payrolls`).toBe(
+    true,
+  );
   const scaled = play(draw.seed, draw.key, SCALE);
 
   // A town of one-household records changes nothing.
