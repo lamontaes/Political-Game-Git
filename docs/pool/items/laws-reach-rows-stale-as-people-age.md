@@ -5,9 +5,9 @@ area: laws
 kind: bug
 priority: 2
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/reach-stale
-pr:
+pr: #5397
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-20T01:43:21.366Z
