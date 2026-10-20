@@ -4,9 +4,9 @@ title: "Stopgaps in parameters (estimated-calendar): 1 open"
 area: elections
 kind: stopgap
 priority: 3
-status: claimed
+status: in-pr
 claimed-by: claude/special-election-text
-pr: #5218
+pr: #5447
 blocked-on:
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/data/elections/parameters.json, kind estimated-calendar"
