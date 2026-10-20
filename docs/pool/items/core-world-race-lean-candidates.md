@@ -5,13 +5,13 @@ area: core
 kind: stopgap
 priority: 3
 size: M
-status: blocked
-claimed-by: claude/political-game-pool-yucp92-l
+status: open
+claimed-by:
 pr:
 blocked-on:
 after: core-race-candidates-with-records-house,core-race-candidates-who-runs,gov-legislative-district-results-2024,gov-legislative-district-results-missing-states
 source: added with npm run pool -- add
-claimed-at: 2026-10-20T00:40:47.937Z
+claimed-at:
 ---
 
 **What.** This is the roll-up for stopgap SG-GOV-world-race-lean in src/core2/modules/world-races.ts: races the town does not vote in use each party's typical candidate, and a legislative district with no read result uses the state's vote at a typical margin. It is replaced in two parts: fictional candidates with records and campaigns for the out-of-town seats (core-race-candidates-with-records-house for the House, core-race-candidates-who-runs for who stands in each seat), and each legislative district's own 2024 result as sourced data (gov-legislative-district-results-2024 and its missing-states part). When all are done this item removes the stopgap row and checks one out-of-town race end to end.
