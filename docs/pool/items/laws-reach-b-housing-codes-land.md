@@ -20,4 +20,6 @@ source: added with npm run pool -- add
 
 **Files.** src/core2/housing-construction.ts, src/core2/law-reach/group-b.ts, src/core2/data/stopgaps.json
 
-**Notes.** Split from laws-stopgap-reach-group-b-missing-engine on Oct 19; the stopgap rows named above are its 13.
+**Notes.** Checked Oct 19 before building: this effect appears in none of docs/roadmap/political-process-baseline.md, the golden path, DECISION-REGISTER.md or OWNER-DECISIONS.md, and AGENTS.md ("This is a game, not a spreadsheet") makes a new mechanic of this kind a question for the owner, not a feature. OWNER QUESTION: should a gas-hookup ban change what a new home costs, and farmland protection limit where builders may build, or stay compliance records? Until he rules, leave this item unbuilt.
+
+**Original notes.** Split from laws-stopgap-reach-group-b-missing-engine on Oct 19; the stopgap rows named above are its 13.
