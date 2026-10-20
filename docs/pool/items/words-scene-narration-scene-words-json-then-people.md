@@ -4,7 +4,7 @@ title: "Scene narration (scene-words.json), then people bringing things up (brin
 area: words
 kind: feature
 priority: 2
-status: blocked
+status: open
 claimed-by:
 pr: #5233
 blocked-on: words: the merger accepts edits under src/director and data/english only from the Words session; the CTO must confirm a non-Words branch or hand this to the Words line (merger comment, Oct 20)
