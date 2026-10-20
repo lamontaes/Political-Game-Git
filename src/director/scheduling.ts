@@ -55,6 +55,8 @@ export interface SituationCause {
      * record is gone, or lacks the fact, matches nothing. Several are all read.
      */
     causeFact?: CauseFactMatch | readonly CauseFactMatch[];
+    /** What a heard speech was given at: "campaign", "remark" at a meeting, a "hearing" (see speechOccasion). */
+    occasion?: string;
   };
   awaitingProducer?: string;
   causeEngine?: string;
@@ -189,6 +191,27 @@ export function paceRank(
   return rank;
 }
 
+/**
+ * What a heard speech was given at: a campaign stop, a remark at a meeting, a
+ * hearing, a party meeting, a press attack or a state address. A council
+ * remark is not a campaign event (owner, Oct 20: scenes need the right
+ * reason).
+ */
+export function speechOccasion(
+  core: Readonly<CoreState>,
+  causeId: string,
+): string | undefined {
+  const said = core.durableLog.get(causeId)?.facts?.occasion;
+  if (typeof said === "string" && said) return said;
+  // stopgapId: SG-DIRECTOR-speech-occasion (the speech engine's record has no
+  // occasion yet, so the producer's id says it: "speech:remark:...", or
+  // "speech:<speaker>:<date>:<act>:..." for a candidate's own speech).
+  const [head, first, , act] = causeId.split(":");
+  if (head !== "speech" || !first) return undefined;
+  if (!core.people.has(first as never)) return first;
+  return act === "attack" ? "press" : "campaign";
+}
+
 export function causeMatches(
   cause: SituationCause,
   book: PersonLedger,
@@ -212,6 +235,11 @@ export function causeMatches(
     )
       return false;
   }
+  if (
+    match.occasion !== undefined &&
+    speechOccasion(core, moment.causeId) !== match.occasion
+  )
+    return false;
   if (match.label !== undefined && moment.label !== match.label) return false;
   if (match.causeKind !== undefined && moment.causeKind !== match.causeKind)
     return false;

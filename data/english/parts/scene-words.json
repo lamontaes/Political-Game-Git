@@ -1626,10 +1626,10 @@
       }
     },
     {
-      "key": "scene-words.lead-reunion-other.you-and-other-are-together-again",
+      "key": "scene-words.lead-reunion-other.you-haven-t-seen-other-in-a-long-time",
       "move": "lead-reunion-other",
       "kind": "spoken",
-      "text": "You and {other} are together again.",
+      "text": "You haven't seen {other} in a long time.",
       "uses": [
         {
           "move": "lead-reunion-other",

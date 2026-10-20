@@ -346,5 +346,17 @@
     "addedAt": "2026-10-16",
     "replacement": "The owner's ruling: either the person who retold the story (the speech engine's retelling record) or an outlet's reporter, read by the teller fill.",
     "status": "open"
+  },
+  {
+    "id": "SG-DIRECTOR-speech-occasion",
+    "kind": "missing-engine",
+    "file": "src/director/scheduling.ts",
+    "line": 1,
+    "whatItFakes": "What a heard speech was given at (a campaign stop, a meeting remark, a hearing) is read from the shape of the speech's record id, because the speech engine's record carries no occasion.",
+    "why": "A mayor's remark at a council meeting was staged as a campaign event. The speech record belongs to the core area.",
+    "addedBy": "words",
+    "addedAt": "2026-10-20",
+    "replacement": "An occasion fact on every speech.heard record, written by each producer (campaigns, meetings, legislature, parties, press, the governor's address), read here first.",
+    "status": "open"
   }
 ]

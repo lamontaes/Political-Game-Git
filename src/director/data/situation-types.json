@@ -2640,6 +2640,7 @@
         {
           "match": {
             "causeKind": "event:speech.heard",
+            "occasion": "campaign",
             "causeFact": { "key": "views:speaker", "is": "subject" }
           },
           "causeEngine": "speech",

@@ -2789,14 +2789,14 @@ L('follow','accept',A,P,[("Okay. At least you said it straight.","calm")],after=
 L('follow','thank',A,P,[("This week. Okay. Thank you.","calm")],after=HO)
 L('follow','press',A,P,[("Your office took my number last year too.","braced")],after=HO)
 L('follow','thank',A,P,[("Good. I'd like to see that letter.","calm")],after=HL)
-L('follow','confront',A,P,[("{source} works in the senator's office. Nothing came in from you.","braced",["knows-truth"])],after=HL)
-CH="{source} works in the senator's office. Nothing came in from you."
+L('follow','confront',A,P,[("{source} called the senator's office this morning. Nothing came in from you.","braced",["knows-truth"])],after=HL)
+CH="{source} called the senator's office this morning. Nothing came in from you."
 L('reply','confess',Y,P,[("I haven't sent it yet. I will this week.","contrite")],after=CH)
 L('reply','deflect',Y,P,[("Letters get lost in those offices all the time.","guarded")],after=CH)
-L('reply','lie',Y,P,[("{source} doesn't open the mail.","braced",["source"])],after=CH)
+L('reply','lie',Y,P,[("{source} called the wrong office.","braced",["source"])],after=CH)
 L('reply','confront',Y,P,[("Who sent you up here with that?","braced")],after=CH)
 L('follow','answer',A,P,[("Nobody sent me. I live four streets from here.","hurt")],after="Who sent you up here with that?")
-L('follow','ask',A,P,[("Then send it, and read it to us at the next one.","calm")],after="I haven't sent it yet. I will this week.")
+L('follow','ask',A,P,[("Then send it. When can we see it?","calm")],after="I haven't sent it yet. I will this week.")
 L('follow','press',A,P,[("Then send another one. Tonight.","braced")],after="Letters get lost in those offices all the time.")
 for after in ["Because it's working, and I don't want anyone touching it.","Because it's hurting people I know, and nobody up there seems to care.","Because nobody's ever explained it to us.","Two of us at home, and both our jobs ride on it."]:
     L('reply','promise',Y,P,[("Then you'll get a straight answer from me before the next meeting.","calm")],after=after)
@@ -2808,8 +2808,8 @@ L('reply','offer',Y,P,[("Call my office Monday. I'll walk it to the right desk."
 L('reply','decline',Y,P,[("The state. I'm sorry, but it's the state.","guarded")],after='plea')
 L('reply','apologize',Y,P,[("You're right to be tired of it. I'm sorry.","contrite")],after='press')
 L('reply','leave',Y,P,[("We have to keep moving. I'll find you after.","calm")],after='press')
-L('reply','lie',Y,P,[("This time I already made the call.","calm")],after='press')
-L('follow','thank',A,P,[("Then I'll call them tomorrow and ask.","calm")],after="This time I already made the call.")
+L('reply','lie',Y,P,[("It's already scheduled. I just can't say the date yet.","calm")],after='press')
+L('follow','thank',A,P,[("Then I'll ask the clerk for it tomorrow.","calm")],after="It's already scheduled. I just can't say the date yet.")
 L('follow','accept',A,P,[("All right. I'll take sorry, for tonight.","calm")],after='apologize')
 L('follow','thank',A,P,[("Before the next meeting, then. I'll be in the front row.","calm")],after="Then you'll get a straight answer from me before the next meeting.")
 L('follow','thank',A,P,[("I'll be by the door.","calm")],after="Talk to me after. I want the details.")
@@ -2868,6 +2868,331 @@ L('reply','confess',Y,'press-comment',[("All right. Two voted no. It still passe
 L('reply','confess',Y,'press-comment',[("Close, then. Not there yet.","contrite")],after="{source} counted too, and says you're short.")
 L('follow','accept',A,'press-comment',[("That's what I'll print. Thanks for fixing it.","calm")],after="All right. Two voted no. It still passed.")
 L('follow','accept',A,'press-comment',[("Close is the story, then.","calm")],after="Close, then. Not there yet.")
+# ================= BATCH 21: a president's, a governor's and a mayor's year (Euharlee, Georgia, seed life-2) =================
+def Y_(P,after,rows):
+    for mv,t,*rest in rows:
+        b=rest[0] if rest else ("braced" if mv=='confront' else "guarded" if mv in('leave','stall','refuse','decline','deflect') else "proud" if mv=='boast' else "contrite" if mv in('confess','apologize') else "calm")
+        req=rest[1] if len(rest)>1 else None
+        L('reply',mv,Y,P,[(t,b,req) if req else (t,b)],after=after)
+def A_(P,after,rows):
+    for mv,t,*rest in rows:
+        b=rest[0] if rest else ("braced" if mv in('press','confront') else "anxious" if mv=='plea' else "calm")
+        req=rest[1] if len(rest)>1 else None
+        L('follow',mv,A,P,[(t,b,req) if req else (t,b)],after=after)
+# ---------------- press-comment ----------------
+P='press-comment'
+L(N,N,R,P,[("{bill} has been public for three hours, and {name} of {outlet} has already read all of it.","guarded",["introduced"]),
+ ("You signed {bill} before lunch. {name} of {outlet} was waiting at the bottom of the stairs.","guarded",["signed"])])
+L('open','greet',A,P,[("{title}, a minute for {outlet}?","calm",["title"]),("{title}! One question.","calm",["title"])])
+PI="Who did you have in mind when you wrote {bill}?"
+PS="Who does {bill} help on the first day it's law, and who does it cost?"
+L('state','ask',A,P,[(PI,"curious",["introduced"]),(PS,"curious",["signed"])])
+Y_(P,PI,[('answer',"People who work two jobs and still come up short. It's written for them."),('deflect',"Read it tonight. Call me tomorrow with a better question."),('refuse',"It's been public three hours. I'll talk about it after a hearing."),('lie',"Every line in it was agreed to before I sent it.")])
+Y_(P,PS,[('answer',"It helps the people who were waiting on it. Nobody pays more on the first day."),('deflect',"Give it a season. Then ask the people it was for."),('refuse',"I signed it. The signature is my answer."),('lie',"It doesn't cost anyone a cent.")])
+A_(P,"People who work two jobs and still come up short. It's written for them.",[('ask',"Then why does it cut the program most of them use?","curious"),('thank',"That's clear. Thank you.")])
+A_(P,"Read it tonight. Call me tomorrow with a better question.",[('press',"I read it this morning. That's why the question's this good."),('accept',"Tomorrow, then. Same spot.")])
+A_(P,"It's been public three hours. I'll talk about it after a hearing.",[('press',"The hearing is for the lawmakers. This is for the people paying for it."),('accept',"I'll write that you're waiting on the hearing.")])
+A_(P,"It helps the people who were waiting on it. Nobody pays more on the first day.",[('ask',"And on the second day?","curious"),('thank',"That's the line I'll use. Thanks.")])
+A_(P,"Give it a season. Then ask the people it was for.",[('press',"I'm asking them now. Half of them haven't heard of it."),('accept',"A season. I'll come back in the spring.")])
+A_(P,"I signed it. The signature is my answer.",[('press',"A signature isn't a sentence. Give me one."),('accept',"Then I'll print the signature and nothing else.")])
+A_(P,"Every line in it was agreed to before I sent it.",[('thank',"Already agreed? I'll quote you."),('accept',"If that's so, it's going in that way."),('confront',"{source} sat in those talks and says half of it was never settled.","braced",["knows-truth"])])
+A_(P,"It doesn't cost anyone a cent.",[('thank',"Not a cent. I'll quote you exactly."),('accept',"Then that's what I'll print."),('confront',"{source} has seen the cost estimate. It isn't zero.","braced",["knows-truth"])])
+Y_(P,"Then why does it cut the program most of them use?",[('answer',"It doesn't cut it. It moves it to the states, with the money attached."),('boast',"Because it'll work better in a year. Watch it."),('refuse',"I'm not going line by line in a hallway."),('leave',"My staff will walk you through it. I have to go.")])
+Y_(P,"And on the second day?",[('answer',"On the second day the bills come due, and we've already paid them."),('boast',"On the second day it's working. That's the story."),('refuse',"That's one day further than I'm going today."),('leave',"Ask me on the second day.")])
+A_(P,"It doesn't cut it. It moves it to the states, with the money attached.",[('ask',"And if a state takes the money and drops the program?","curious"),('thank',"That's a real answer. Thanks.")])
+A_(P,"On the second day the bills come due, and we've already paid them.",[('ask',"Paid them with what?","curious"),('thank',"Fair. That's going in.")])
+Y_(P,"And if a state takes the money and drops the program?",[('answer',"Then we take it back. That's written in."),('boast',"No state is going to turn that money away."),('refuse',"I'm not answering a what-if."),('leave',"That's the last one today.")])
+Y_(P,"Paid them with what?",[('answer',"With the reserve we set aside last year. It's in the bill."),('boast',"With money we saved by running things right."),('refuse',"Read the funding section. It's all there."),('leave',"I've given you three answers. That's plenty.")])
+A_(P,"Then we take it back. That's written in.",[('thank',"Written in. I'll check it, and I'll print it.")])
+A_(P,"With the reserve we set aside last year. It's in the bill.",[('thank',"The reserve. Okay. Thank you.")])
+for t,f in [("I read it this morning. That's why the question's this good.",[('answer',"Then you know it's written for people who come up short every month."),('stall',"Give me a week and the first hearing."),('confront',"You came here wanting a fight over it."),('leave',"Tomorrow. I mean it."),('lie',"Nobody's asked me a hard question about it yet.")]),
+            ("The hearing is for the lawmakers. This is for the people paying for it.",[('answer',"The people paying for it get back more than they put in. That's the point."),('stall',"I'll answer that after the hearing, on the record."),('confront',"You'd rather have a quote than a law."),('leave',"Not today."),('lie',"Nobody's said a word against it.")]),
+            ("I'm asking them now. Half of them haven't heard of it.",[('answer',"Then tell them. That's half your job and half mine."),('stall',"Give us a month to get the word out."),('confront',"You're blaming me for what your paper didn't print."),('leave',"I've got another stop."),('lie',"Everyone who needs it already knows.")]),
+            ("A signature isn't a sentence. Give me one.",[('answer',"Here's one: it's law, and it's the right law."),('stall',"You'll get a sentence at the press conference."),('confront',"You'll print whichever sentence I give you out of context."),('leave',"No sentence today."),('lie',"I've said all of it in public already.")])]:
+    Y_(P,t,f)
+A_(P,"Then you know it's written for people who come up short every month.",[('thank',"Okay. That's the line I'll use.")])
+A_(P,"The people paying for it get back more than they put in. That's the point.",[('thank',"More than they put in. I'll check that, and I'll print it.")])
+A_(P,"Then tell them. That's half your job and half mine.",[('thank',"Fair. I'll run where to sign up.")])
+A_(P,"Here's one: it's law, and it's the right law.",[('thank',"The right law. Got it.")])
+A_(P,"Give me a week and the first hearing.",[('accept',"A week. I'll hold you to it.")])
+A_(P,"I'll answer that after the hearing, on the record.",[('accept',"After the hearing. On the record. Got it.")])
+A_(P,"Give us a month to get the word out.",[('accept',"A month. I'll check in.")])
+A_(P,"You'll get a sentence at the press conference.",[('accept',"Then I'll be in the front row.")])
+A_(P,"You came here wanting a fight over it.",[('answer',"I came here wanting an answer. A fight's your choice.")])
+A_(P,"You'd rather have a quote than a law.",[('answer',"I'd rather have both.")])
+A_(P,"You're blaming me for what your paper didn't print.",[('answer',"I'm printing it now. That's why I'm here.")])
+A_(P,"You'll print whichever sentence I give you out of context.",[('answer',"Give me one that holds up in any context.")])
+for t in ["I came here wanting an answer. A fight's your choice.","I'd rather have both.","I'm printing it now. That's why I'm here.","Give me one that holds up in any context."]:
+    pass
+Y_(P,'answer',[('answer',"Then write that I stand by every page of it."),('boast',"Write that it works. Check back in a year."),('leave',"Good. Then we're done."),('lie',"I went over it with every member myself.")])
+A_(P,"Then write that I stand by every page of it.",[('thank',"Every page. I'll quote that.")])
+A_(P,'boast',[('accept',"A year. I'll hold you to it.")])
+A_(P,'lie',[('thank',"Okay. That's on the record."),('accept',"Noted. I'll print it as you said it."),('confront',"{source} tells me that isn't so. Care to try again?","braced",["knows-truth"])])
+A_(P,"{source} sat in those talks and says half of it was never settled.",[])
+for C in ["{source} sat in those talks and says half of it was never settled.","{source} has seen the cost estimate. It isn't zero.","{source} tells me that isn't so. Care to try again?"]:
+    Y_(P,C,[('confess',"Fine. I said that too fast."),('deflect',"{source} wasn't in every room.","guarded",["source"]),('lie',"Then {source} has it wrong.","braced",["source"]),('confront',"You're taking their word over mine?")]) if C=="{source} tells me that isn't so. Care to try again?" else None
+Y_(P,"{source} sat in those talks and says half of it was never settled.",[('confess',"Fine. Some of it is still open."),('deflect',"{source} wasn't in every one of those rooms.","guarded",["source"]),('lie',"Then {source} remembers it wrong.","braced",["source"]),('confront',"Who asked {source} to tell you that?","braced",["source"])])
+Y_(P,"{source} has seen the cost estimate. It isn't zero.",[('confess',"All right. It costs something. It's worth it."),('deflect',"Estimates change once a law is running.","guarded"),('lie',"{source} is reading an old draft.","braced",["source"]),('confront',"You're doing the opposition's math for them.")])
+A_(P,"Fine. Some of it is still open.",[('accept',"Thank you. That's what I'll write.")])
+A_(P,"Fine. I said that too fast.",[('accept',"Thanks for fixing it.")])
+A_(P,"All right. It costs something. It's worth it.",[('accept',"Worth it. That's an answer I can print.")])
+A_(P,"{source} wasn't in every one of those rooms.",[('press',"{source} was in enough of them.","braced",["source"])])
+A_(P,"{source} wasn't in every room.",[('press',"Enough rooms to know.")])
+A_(P,"Estimates change once a law is running.",[('press',"Then give me yours.")])
+A_(P,"Who asked {source} to tell you that?",[('answer',"Nobody asked. It's what they saw.")])
+A_(P,"You're taking their word over mine?",[('answer',"I'm taking the record over both of you.")])
+A_(P,"You're doing the opposition's math for them.",[('answer',"I'm doing the math. It doesn't have a side.")])
+Y_(P,'press',[('answer',"All right, plainly: I stand by it."),('stall',"Let me check and call you back today."),('confront',"You're not going to like any answer I give."),('leave',"I've said what I'm going to say."),('lie',"I've got numbers that say otherwise.")])
+A_(P,"All right, plainly: I stand by it.",[('thank',"Then that's what I'll write down.")])
+A_(P,"Let me check and call you back today.",[('accept',"Today. I'll be by the phone.")])
+A_(P,"You're not going to like any answer I give.",[('answer',"Try me with a true one.")])
+L('close','thank',A,P,[("Thanks. It runs in the morning edition.","calm")],outcome='resolved')
+L('close','promise',A,P,[("I'll send you the quotes before it goes up.","calm")],outcome='resolved')
+L('close','accept',A,P,[("Then the story runs without your side.","calm")],outcome='refused')
+L('close','warn',A,P,[("It's running tonight, with or without you.","guarded")],outcome='refused')
+L('close','press',A,P,[("You know where to find me when you're ready.","calm")],outcome='open')
+L('close','warn',A,P,[("The questions don't go away because you walked past them.","guarded")],outcome='open')
+L('close','warn',A,P,[("I'll write that you walked off.","guarded")],after='leave')
+L('beat','beat',R,P,[("A staffer hovers at your elbow, holding a schedule.","calm"),("Across the lobby, someone else's camera swings your way.","calm")])
+# ---------------- desk-bill ----------------
+P='desk-bill'
+L(N,N,R,P,[("{name} has {bill} under one arm and a pen in the other hand. The last vote is over.","calm"),
+ ("It's after nine. {name} lays {bill} on the blotter, open to the signature page.","calm")])
+L('open','greet',A,P,[("Got five minutes before you go home?","calm")])
+D1="{bill} passed this afternoon. It's here for your signature."
+D2="This is {bill}, final version. Nothing in it changed since you last saw it."
+L('state','deliver-news',A,P,[(D1,"calm"),(D2,"calm")])
+DC="What does it cost us?"
+DA="Who's going to be angry if I veto it?"
+Y_(P,D1,[('agree',"Then let's not keep it waiting. Pen."),('refuse',"I can't put my name on this one. Start the veto message."),('ask',DC,"curious"),('stall',"Put it on top. I'll read it on the way home.")])
+Y_(P,D2,[('agree',"If nothing changed, hand it here."),('refuse',"I didn't like it then, and I don't now."),('ask',DA,"curious"),('stall',"Leave it open. I'll read it now.")])
+A_(P,"Then let's not keep it waiting. Pen.",[('accept',"Sign here. I'll get it to the clerk tonight.")])
+A_(P,"I can't put my name on this one. Start the veto message.",[('accept',"Then I'll start on the veto message.")])
+A_(P,DC,[('answer',"Less coming in or more going out. The budget office has the number.")])
+A_(P,"Put it on top. I'll read it on the way home.",[('press',"You have ten days, but the first story runs tomorrow.")])
+A_(P,"If nothing changed, hand it here.",[('accept',"Here. And here.")])
+A_(P,"I didn't like it then, and I don't now.",[('accept',"I'll have the veto letter drafted.")])
+A_(P,DA,[('answer',"Everyone who voted for it, and that's most of them.")])
+A_(P,"Leave it open. I'll read it now.",[('press',"Take your time. Just not past Friday.")])
+Y_(P,"Less coming in or more going out. The budget office has the number.",[('agree',"Then we'll find the room for it. Pen."),('refuse',"Not this year. Veto it."),('ask',DA,"curious"),('stall',"Get me the budget office before I decide."),('leave',"I'll sleep on the number.")])
+A_(P,"Get me the budget office before I decide.",[('press',"The budget office goes home at six. It's ten to.")])
+Y_(P,"You have ten days, but the first story runs tomorrow.",[('agree',"Then I'll sign it tonight."),('refuse',"Let them write it. The answer's no."),('leave',"Tomorrow's story can wait for me.")])
+Y_(P,"Take your time. Just not past Friday.",[('agree',"Then it's done now. Pen."),('refuse',"Friday, then. And it's a no."),('leave',"I'll call you before Friday.")])
+Y_(P,'press',[('agree',"Fine. Hand it over."),('refuse',"The answer is still no."),('leave',"First thing tomorrow, then.")])
+Y_(P,'answer',[('agree',"All right. I'll sign it."),('refuse',"Then they can override me. Veto it."),('ask',"When would it take effect?","curious"),('stall',"Give me tonight."),('leave',"We'll pick this up tomorrow.")])
+A_(P,"When would it take effect?",[('answer',"On the date written in it. The clerk will have it on the summary.")])
+A_(P,'agree',[('accept',"Done. I'll send it down.")])
+A_(P,'refuse',[('accept',"Understood. I'll take care of it.")])
+A_(P,'stall',[('press',"Tonight's fine. Don't let it slide past the weekend.")])
+L('close','thank',A,P,[("Thank you. I'll walk it down myself.","calm")],outcome='resolved')
+L('close','promise',A,P,[("It'll be in the record by morning.","calm")],outcome='resolved')
+L('close','accept',A,P,[("All right. I'll tell the leaders tonight.","calm")],outcome='refused')
+L('close','warn',A,P,[("They may have the votes to override. Be ready.","guarded")],outcome='refused')
+L('close','press',A,P,[("It's on your desk whenever you want it.","calm")],outcome='open')
+L('close','warn',A,P,[("The clock doesn't stop for us.","guarded")],outcome='open')
+L('close','accept',A,P,[("It'll be right here on the blotter.","calm")],after='leave')
+L('beat','beat',R,P,[("Somewhere down the hall a door closes.","calm"),("{name} checks the clock on the wall and says nothing.","calm")])
+# ---------------- filing-clerk (an incumbent filing again) ----------------
+P='filing-clerk'
+L(N,N,R,P,[("The race for {office} opens Monday, and you're the first one at {name}'s counter.","calm",["incumbent"])])
+L('open','greet',A,P,[("{title}. We wondered when you'd come in.","calm",["title"])])
+F1="Your notice of candidacy is ready. It needs your signature and the date, and then you're in."
+L('state','tell',A,P,[(F1,"calm",["incumbent"])])
+Y_(P,F1,[('ask',"Has anybody else filed yet?","curious"),('tell',"Same as four years ago. Where do I sign?"),('confront',"You could have mailed me this."),('leave',"I'll bring it back signed this afternoon.")])
+A_(P,"Has anybody else filed yet?",[('answer',"Not yet. Two people have asked for the packet.")])
+A_(P,"Same as four years ago. Where do I sign?",[('accept',"Right there, and the date beside it. That's it.")])
+A_(P,"You could have mailed me this.",[('refuse',"It has to be signed in front of me. That's the law.","guarded")])
+Y_(P,"Not yet. Two people have asked for the packet.",[('agree',"Then let's make it official."),('boast',"They'll need more than a packet."),('leave',"Good to know. I'll be back after lunch.")])
+Y_(P,"It has to be signed in front of me. That's the law.",[('agree',"Fine. Show me where."),('leave',"Then I'll come back when I have the time.")])
+A_(P,"Then let's make it official.",[('accept',"Stamped. You're on the ballot.")])
+A_(P,"They'll need more than a packet.",[('accept',"That's between you and them. Sign here.")])
+A_(P,"Fine. Show me where.",[('accept',"Bottom line, then the date.")])
+L('close','thank',A,P,[("That's everything. Thank you, {title}.","calm",["title"])],outcome='resolved')
+L('close','promise',A,P,[("The confirmation goes to your office today.","calm")],outcome='resolved')
+L('close','accept',A,P,[("The packet's yours whenever you're ready.","calm")],outcome='refused')
+L('close','warn',A,P,[("Filing closes Friday at noon.","guarded")],outcome='refused')
+L('close','press',A,P,[("Don't leave it until Friday.","calm")],outcome='open')
+L('close','warn',A,P,[("If it isn't in by noon Friday, it isn't in.","guarded")],outcome='open')
+L('close','accept',A,P,[("Noon Friday. I'll be right here.","calm")],after='leave')
+L('beat','beat',R,P,[("A photographer by the door raises a camera and lowers it again.","calm"),("Behind the counter, a stamp comes down twice.","calm")])
+# ---------------- join-cause ----------------
+P='join-cause'
+L(N,N,R,P,[("{name} was in the third row at your town hall. Now {name} is at your office door with a clipboard about {cause}.","curious",["heard-you"]),
+ ("{name} called your office about {cause} all week. Today there's a knock at your door.","curious"),
+ ("{name} stops you on the courthouse steps, holding a sign-up sheet for {cause}.","curious")])
+L('open','greet',A,P,[("{title}, have you got a minute?","calm",["title"]),("I'll be quick, I promise.","nervous"),("Sorry to catch you on the way out.","nervous"),("Do you remember me? From the town hall?","hopeful",["heard-you"])])
+J1="You said at the town hall that you cared about {cause}. We meet Tuesday nights. Come to one."
+J2="We're trying to get {cause} in front of the council. It goes farther with you standing with us."
+L('state','request',A,P,[(J1,"hopeful",["heard-you"]),(J2,"hopeful")])
+Y_(P,J1,[('ask',"What would you want me to do there?","curious"),('agree',"Tuesday. I'll come to one."),('decline',"I meant it. But I can't join a group that lobbies my own council."),('deflect',"Tuesdays I'm usually at budget meetings.")])
+Y_(P,J2,[('ask',"Who's speaking for you at the council?","curious"),('agree',"I'll stand with you. Tell me when."),('decline',"I'm the one they'd be asking. I can't sit on both sides of the table."),('deflect',"Send me what you have in writing first.")])
+A_(P,"What would you want me to do there?",[('answer',"Just listen first. Then tell us what the city can actually do.")])
+A_(P,"Tuesday. I'll come to one.",[('thank',"That means more than you know. Seven o'clock.","glad")])
+A_(P,"I meant it. But I can't join a group that lobbies my own council.",[('press',"Then don't join. Just come and listen."),('accept',"I understand. You'll still hear from us.")])
+A_(P,"Tuesdays I'm usually at budget meetings.",[('press',"We'll move it to a Wednesday if that's what it takes.")])
+A_(P,"Who's speaking for you at the council?",[('answer',"Whoever you'd tell us to send. That's why we need you.")])
+A_(P,"I'll stand with you. Tell me when.",[('thank',"The first Monday of next month. Thank you.","glad")])
+A_(P,"I'm the one they'd be asking. I can't sit on both sides of the table.",[('press',"Then tell us who on the council would listen."),('accept',"Okay. We'll go in without you.")])
+A_(P,"Send me what you have in writing first.",[('press',"It's two pages. I brought them with me.")])
+Y_(P,"Just listen first. Then tell us what the city can actually do.",[('agree',"That I can do. Put me down for Tuesday."),('decline',"If I'm there, people will think the city's behind it. I can't."),('leave',"Let me check my calendar and call you.")])
+Y_(P,"Whoever you'd tell us to send. That's why we need you.",[('agree',"Then send your strongest speaker, and I'll be in the room."),('decline',"I can't pick your speaker. That's yours to decide."),('leave',"Let me think about who'd listen.")])
+Y_(P,"Then don't join. Just come and listen.",[('agree',"All right. Listening I can do."),('decline',"Even listening says something from someone in my seat."),('leave',"I'll think about it and let you know.")])
+Y_(P,"We'll move it to a Wednesday if that's what it takes.",[('agree',"Then Wednesday. I'll be there."),('decline',"It isn't the night. I can't take a side on this."),('leave',"Let me look at my week.")])
+Y_(P,"Then tell us who on the council would listen.",[('agree',"Talk to the member from the east side. Say I sent you."),('decline',"I can't steer you to my colleagues. You'll have to call them."),('leave',"I'll get back to you on that.")])
+Y_(P,"It's two pages. I brought them with me.",[('agree',"Hand them over. I'll read them now."),('decline',"Leave them with my office. That's all I can do."),('leave',"Leave them, and I'll call you.")])
+A_(P,"If I'm there, people will think the city's behind it. I can't.",[('press',"Then come as yourself, not as the city."),('accept',"Fair. We'll send you the notes.")])
+Y_(P,"Then come as yourself, not as the city.",[('agree',"As myself. Okay."),('decline',"I don't get to stop being {title} at seven o'clock."),('leave',"Give me a few days.")])
+A_(P,'agree',[('thank',"Good. We'll see you there.","glad")])
+A_(P,'decline',[('accept',"All right. Thanks for hearing me out.")])
+L('close','thank',A,P,[("Thank you. We won't waste your time.","glad")],outcome='resolved')
+L('close','promise',A,P,[("I'll send the details to your office tonight.","calm")],outcome='resolved')
+L('close','accept',A,P,[("Understood. The door stays open.","calm")],outcome='refused')
+L('close','warn',A,P,[("We'll be at the council either way.","guarded")],outcome='refused')
+J3="We've got forty names on a letter about {cause}. Yours would get it read."
+J4="A few of us are knocking on doors about {cause} Saturday morning. Walk one street with us."
+J5="We're short one person to speak about {cause} at the next meeting. I thought of you."
+J6="We're meeting about {cause} at the library next week. I'd like you to hear us out."
+Y_(P,J6,[('ask',"Who's going to be there?","curious"),('agree',"I'll come and listen."),('decline',"I'd rather not be seen at it."),('deflect',"I already know where I stand on that.")])
+A_(P,"Who's going to be there?",[('answer',"Twenty or so of us. Mostly neighbors.")])
+A_(P,"I'll come and listen.",[('thank',"That's all we're asking. Seven o'clock.","glad")])
+A_(P,"I'd rather not be seen at it.",[('accept',"I understand. The offer stands.")])
+A_(P,"I already know where I stand on that.",[('press',"Then come say so to our faces.")])
+Y_(P,"Twenty or so of us. Mostly neighbors.",[('agree',"Then I'll come."),('decline',"That's twenty people I'd let down either way."),('leave',"Let me look at next week.")])
+Y_(P,"Then come say so to our faces.",[('agree',"Fair. I will."),('decline',"I don't need a room to say it."),('leave',"Maybe. Let me think on it.")])
+L('state','request',A,P,[(J3,"hopeful"),(J4,"hopeful"),(J5,"nervous"),(J6,"hopeful")])
+Y_(P,J3,[('ask',"Who's the letter going to?","curious"),('agree',"Let me read it. If I agree with it, I'll sign."),('decline',"I don't sign group letters. Nothing personal."),('deflect',"Forty names is already a lot of names.")])
+Y_(P,J4,[('ask',"What do you say when they open the door?","curious"),('agree',"One street. Saturday."),('decline',"Saturday mornings are the only ones I have."),('deflect',"I'm not much good at doors.")])
+Y_(P,J5,[('ask',"How long would I have to talk?","curious"),('agree',"All right. Put my name down."),('decline',"I'd say it wrong. Find someone who knows it better."),('deflect',"Why me, out of everybody?")])
+A_(P,"Who's the letter going to?",[('answer',"Everyone who votes on it. One copy each.")])
+A_(P,"Let me read it. If I agree with it, I'll sign.",[('thank',"That's all I'd ask. Here's a copy.","glad")])
+A_(P,"I don't sign group letters. Nothing personal.",[('accept',"Fair enough. Read it anyway, if you get a minute.")])
+A_(P,"Forty names is already a lot of names.",[('press',"Forty names they've never heard of. They'd know yours.")])
+A_(P,"What do you say when they open the door?",[('answer',"Mostly we ask how it's been for them. Then we listen.")])
+A_(P,"One street. Saturday.",[('thank',"Eight-thirty, at the corner by the school.","glad")])
+A_(P,"Saturday mornings are the only ones I have.",[('accept',"I get that. We go out every week if one opens up.")])
+A_(P,"I'm not much good at doors.",[('press',"Nobody is at first. You'd walk with me.")])
+A_(P,"How long would I have to talk?",[('answer',"Three minutes. They cut you off after that anyway.")])
+A_(P,"All right. Put my name down.",[('thank',"Thank you. I'll send you what the others are saying.","glad")])
+A_(P,"I'd say it wrong. Find someone who knows it better.",[('press',"You'd say it like someone it happened to. That's the point.")])
+A_(P,"Why me, out of everybody?",[('press',"Because you'd say it plainly, and they'd listen to you.")])
+Y_(P,"Everyone who votes on it. One copy each.",[('agree',"Then add my name to it."),('decline',"I'd rather write to them myself."),('leave',"Let me sit with it a day.")])
+Y_(P,"Forty names they've never heard of. They'd know yours.",[('agree',"All right. Where do I sign?"),('decline',"That's exactly why I keep my name off things."),('leave',"Leave me a copy and I'll decide by Friday.")])
+Y_(P,"Mostly we ask how it's been for them. Then we listen.",[('agree',"I can do that. Count me in for Saturday."),('decline',"Listening I'd do, but not on a Saturday."),('leave',"Let me see what my weekend looks like.")])
+Y_(P,"Nobody is at first. You'd walk with me.",[('agree',"Then one street, with you."),('decline',"Still not for me. I'm sorry."),('leave',"Ask me again next week.")])
+Y_(P,"Three minutes. They cut you off after that anyway.",[('agree',"Three minutes I can manage."),('decline',"Even three minutes in front of them is too much for me."),('leave',"Let me think about what I'd say.")])
+Y_(P,"You'd say it like someone it happened to. That's the point.",[('agree',"Okay. I'll do it."),('decline',"I still can't. I'm sorry."),('leave',"Give me a day to think.")])
+Y_(P,"Because you'd say it plainly, and they'd listen to you.",[('agree',"Then I'll try."),('decline',"You're giving me too much credit."),('leave',"Let me sleep on it.")])
+Y_(P,"That's exactly why I want you there. Come argue with us.",[('agree',"Fine. I'll come and argue."),('decline',"Arguing with you in public doesn't help either of us."),('leave',"Let me see how the week shakes out.")])
+Y_(P,"It's everyone's fight once it passes.",[('agree',"Maybe so. Count me in."),('decline',"Then I'll deal with it when it passes."),('leave',"I'll give that some thought.")])
+Y_(P,"Then come the first Thursday you can. I'll save you a chair.",[('agree',"Save it. I'll be in it."),('decline',"Give the chair to someone who'll use it."),('leave',"I'll look at my Thursdays.")])
+L('close','press',A,P,[("Think about it. We meet every week.","calm")],outcome='open')
+L('close','warn',A,P,[("The council votes in a month. After that it's too late.","guarded")],outcome='open')
+L('close','accept',A,P,[("Fine. I'll leave a flyer with your office.","calm")],after='leave')
+L('beat','beat',R,P,[("Two people in matching shirts wait a few steps back.","calm"),("{name} keeps one hand flat on the clipboard, as if it might blow away.","calm")])
+# ---------------- constituent-help at a town hall ----------------
+P='constituent-help'
+L(N,N,R,P,[("The town hall is down to its last half hour. {name} has been waiting at the aisle microphone since it started.","anxious",["townhall"])])
+L('open','greet',A,P,[("I'll keep it short. I know it's late.","calm",["townhall"])])
+C1="Where does the city stand on {issue}? People keep telling me it's out of your hands."
+C2="{issue} is hurting people on my street. I want to know whose side the city is on."
+L('state','request',A,P,[(C1,"braced",["issue"]),(C2,"braced",["issue","asker_wants_gone"])])
+for S in [C1,C2]:
+    Y_(P,S,[('promise',"I'll get you a written answer on where the city stands within two weeks."),('ask',"What would you want the city to do?","curious"),('decline',"Most of it is decided at the state capitol. I won't pretend otherwise."),('offer',"Give your email to my aide by the door. I'll write you myself."),('lie',"The council has already taken a position on it.")]) if S==C1 else Y_(P,S,[('promise',"I'll bring what you've told us to the council next week."),('ask',"Tell me what you're seeing on your street.","curious"),('decline',"The city can't change a state law. I won't promise you it can."),('offer',"Stay after, and I'll take down every address you can give me."),('lie',"We've already asked the state to change it.")])
+A_(P,"I'll get you a written answer on where the city stands within two weeks.",[('thank',"Two weeks. I'll be checking the mail."),('press',"Written answers go in a drawer. Will you say it here, now?")])
+A_(P,"What would you want the city to do?",[('answer',"Say out loud whether you're for it or against it. That's all.")])
+A_(P,"Most of it is decided at the state capitol. I won't pretend otherwise.",[('plea',"Then tell the capitol what we said tonight. Somebody has to."),('accept',"All right. At least that's honest.")])
+A_(P,"Give your email to my aide by the door. I'll write you myself.",[('thank',"Your aide, by the door. Okay."),('press',"Last time it was a form. Nobody wrote back.")])
+A_(P,"The council has already taken a position on it.",[('thank',"Then I'd like to read it."),('confront',"{source} goes to every council meeting and never heard that.","braced",["knows-truth"])])
+A_(P,"I'll bring what you've told us to the council next week.",[('thank',"Next week. I'll be in the back row."),('press',"Bring it how? Out loud, with my name?")])
+A_(P,"Tell me what you're seeing on your street.",[('answer',"Two families moved out this year. Nobody's moved in.")])
+A_(P,"The city can't change a state law. I won't promise you it can.",[('plea',"Then what can the city do? Anything?"),('accept',"Okay. I'd rather hear that than a promise.")])
+A_(P,"Stay after, and I'll take down every address you can give me.",[('thank',"I've got a list already. I'll wait."),('press',"A list of addresses doesn't help the people at them.")])
+A_(P,"We've already asked the state to change it.",[('thank',"Then I'll look for the letter."),('confront',"{source} works for our state senator and saw nothing from you.","braced",["knows-truth"])])
+for t in ["Say out loud whether you're for it or against it. That's all.","Two families moved out this year. Nobody's moved in."]:
+    Y_(P,t,[('promise',"Fair. Before the next town hall, I'll tell you where I stand."),('offer',"Come by my office Friday and I'll tell you to your face."),('decline',"I'm not going to pick a side on a state law at a town hall."),('leave',"Let me take the next question and come back to you.")]) if t.startswith("Say") else Y_(P,t,[('promise',"I'll ask the housing office to look at your street this month."),('offer',"Give me their names, and I'll call them myself."),('decline',"I can't stop people from moving. I wish I could."),('leave',"I hear you. Let me get to the next question.")])
+for t,f in [("Fair. Before the next town hall, I'll tell you where I stand.",[('thank',"I'll hold you to the next one.")]),("Come by my office Friday and I'll tell you to your face.",[('thank',"Friday. I'll be there.")]),
+            ("I'm not going to pick a side on a state law at a town hall.",[('plea',"Then why have a town hall?"),('accept',"Okay. I don't like it, but okay.")]),
+            ("I'll ask the housing office to look at your street this month.",[('thank',"This month. Thank you.")]),("Give me their names, and I'll call them myself.",[('thank',"I'll write them down for you tonight.")]),
+            ("I can't stop people from moving. I wish I could.",[('plea',"You can make them want to stay."),('accept',"I know. I just wanted somebody to say it.")])]:
+    A_(P,t,f)
+Y_(P,"Then tell the capitol what we said tonight. Somebody has to.",[('promise',"I'll call our senator this week and tell them what I heard."),('offer',"Write it down for me, and I'll carry it up myself."),('decline',"I can tell them, but they don't take orders from me.")])
+Y_(P,"Then why have a town hall?",[('promise',"So I hear this. I'll take it to the council."),('offer',"To get you in front of the people who can change it. I'll set that up."),('decline',"Not every question has a city answer. This one doesn't.")])
+Y_(P,"Then what can the city do? Anything?",[('promise',"We can fund legal help for people facing it. I'll push for that."),('offer',"Meet with my staff, and we'll find what's ours to fix."),('decline',"Honestly, not much. I'd rather tell you that.")])
+Y_(P,"You can make them want to stay.",[('promise',"That's fair. I'll put it in the budget talks."),('offer',"Then come tell the council what would keep you here."),('decline',"I can't make that promise tonight.")])
+for t,f in [("I'll call our senator this week and tell them what I heard.",[('thank',"This week. Thank you.")]),("Write it down for me, and I'll carry it up myself.",[('thank',"I'll write it tonight.")]),
+            ("I can tell them, but they don't take orders from me.",[('accept',"I know. Tell them anyway.")]),("So I hear this. I'll take it to the council.",[('thank',"Then take it.")]),
+            ("To get you in front of the people who can change it. I'll set that up.",[('thank',"Set it up, and I'll come.")]),("Not every question has a city answer. This one doesn't.",[('accept',"Then at least we know.")]),
+            ("We can fund legal help for people facing it. I'll push for that.",[('thank',"Legal help. That would matter.")]),("Meet with my staff, and we'll find what's ours to fix.",[('thank',"I'll call them Monday.")]),
+            ("Honestly, not much. I'd rather tell you that.",[('accept',"Thank you for not pretending.")]),("That's fair. I'll put it in the budget talks.",[('thank',"I'll watch the budget, then.")]),
+            ("Then come tell the council what would keep you here.",[('thank',"I will. Put me on the list.")]),("I can't make that promise tonight.",[('accept',"Then make it next month.")])]:
+    A_(P,t,f)
+for t in ["Written answers go in a drawer. Will you say it here, now?","Bring it how? Out loud, with my name?"]:
+    Y_(P,t,[('apologize',"You're right. That was a dodge. I'm sorry."),('leave',"I'm not deciding this at a microphone. Next question."),('lie',"I've said it in public before. Look it up.")]) if t.startswith("Written") else Y_(P,t,[('apologize',"Fair. I should have said how. Out loud, with your name if you want it."),('leave',"I'll work out how. Next question, please."),('lie',"I already raised it last month.")])
+for t in ["Last time it was a form. Nobody wrote back.","A list of addresses doesn't help the people at them."]:
+    Y_(P,t,[('apologize',"That shouldn't have happened. I'm sorry."),('leave',"Someone will write this time. Next question."),('lie',"Every form gets an answer now. We fixed that.")]) if t.startswith("Last") else Y_(P,t,[('apologize',"You're right. I'm sorry. Tell me what would."),('leave',"It's where we start. Next question."),('lie',"Every address on the last list got a visit.")])
+A_(P,'apologize',[('accept',"Okay. Now prove it.")])
+A_(P,'lie',[('thank',"Okay. I'll look that up."),('confront',"{source} says that never happened.","braced",["knows-truth"])])
+for CC in ["{source} goes to every council meeting and never heard that.","{source} works for our state senator and saw nothing from you.","{source} says that never happened."]:
+    pass
+Y_(P,'confront',[('confess',"No. I got ahead of myself. It hasn't happened yet."),('deflect',"It came up in a work session, not a vote."),('lie',"{source} must have missed that one.","braced",["source"]),('confront',"Are you here to ask a question or to catch me out?")])
+A_(P,"No. I got ahead of myself. It hasn't happened yet.",[('ask',"Then when will it?","curious")])
+A_(P,"It came up in a work session, not a vote.",[('press',"A work session isn't a position.")])
+A_(P,"Are you here to ask a question or to catch me out?",[('answer',"Both, if I have to.")])
+Y_(P,'press',[('apologize',"Fair. I'll stop hiding behind the calendar."),('leave',"Next question, please."),('lie',"It's already on the calendar.")])
+Y_(P,'answer',[('promise',"Then here's a real answer: I'll bring it to a vote."),('offer',"Come see me Friday and I'll show you where it stands."),('decline',"Then I don't have more for you tonight."),('leave',"Next question.")])
+A_(P,"Then here's a real answer: I'll bring it to a vote.",[('thank',"A vote. I'll be there for it.")])
+A_(P,"Come see me Friday and I'll show you where it stands.",[('thank',"Friday, then.")])
+A_(P,"Then I don't have more for you tonight.",[('accept',"Then we're done tonight.")])
+Y_(P,'ask',[('answer',"Before the next town hall. You have my word."),('tell',"Watch the city's website. It'll be there the day it happens."),('deflect',"That depends on the council's calendar, not mine."),('refuse',"I can't give you a date I don't have.")])
+A_(P,"Before the next town hall. You have my word.",[('thank',"Your word, then.")])
+A_(P,"Watch the city's website. It'll be there the day it happens.",[('accept',"All right. I'll check it.")])
+A_(P,"That depends on the council's calendar, not mine.",[('press',"You set half that calendar.")])
+A_(P,"I can't give you a date I don't have.",[('accept',"Then get one.")])
+Y_(P,'request',[('promise',"I'll look into it and tell you what I find, here, in public."),('ask',"What would it mean for you?","curious"),('decline',"That isn't something the city decides."),('offer',"Leave your name with my aide, and I'll follow up this week."),('lie',"It's already on next month's agenda.")])
+A_(P,"I'll look into it and tell you what I find, here, in public.",[('thank',"Here, in public. Good.")])
+A_(P,"What would it mean for you?",[('answer',"I rent, and I work for a living. I want to know what I'd be getting.")])
+A_(P,"That isn't something the city decides.",[('plea',"Then who do I ask?"),('accept',"All right. I'll take it somewhere else.")])
+A_(P,"Leave your name with my aide, and I'll follow up this week.",[('thank',"This week. I'll leave it.")])
+Y_(P,"I rent, and I work for a living. I want to know what I'd be getting.",[('promise',"Fair. You'll have my answer, out loud, by the next meeting."),('offer',"Come see me Friday. I'll walk you through it line by line."),('decline',"I haven't made up my mind, and I won't pretend I have."),('leave',"That's a good reason to ask. Let me take the next question.")])
+Y_(P,"Then who do I ask?",[('promise',"Our state senator. I'll introduce you myself."),('offer',"My office will give you the name and the number tonight."),('decline',"I can't send you anywhere that'll say yes.")])
+for t,f in [("Fair. You'll have my answer, out loud, by the next meeting.",[('thank',"Out loud. I'll hold you to that.")]),("Come see me Friday. I'll walk you through it line by line.",[('thank',"Friday. I'll bring my questions.")]),
+            ("I haven't made up my mind, and I won't pretend I have.",[('accept',"At least that's straight.")]),("Our state senator. I'll introduce you myself.",[('thank',"I'll take you up on that.")]),
+            ("My office will give you the name and the number tonight.",[('thank',"Tonight. Thank you.")]),("I can't send you anywhere that'll say yes.",[('accept',"At least you're honest about it.")])]:
+    A_(P,t,f)
+L('close','thank',A,P,[("Thank you. I'll see you at the next one.","calm")],outcome='resolved')
+L('close','promise',A,P,[("I'll be checking that you did.","calm")],outcome='resolved')
+L('close','accept',A,P,[("Okay. Thanks for your time tonight.","calm")],outcome='refused')
+L('close','warn',A,P,[("We'll remember this when we vote.","guarded")],outcome='refused')
+L('close','press',A,P,[("I'll be back next month with the same question.","braced")],outcome='open')
+L('close','warn',A,P,[("Everybody here heard you dodge that.","guarded")],outcome='open')
+L('close','warn',A,P,[("Fine. Everyone in this room heard it.","guarded")],after='leave')
+L('beat','beat',R,P,[("Somebody in the back says \"Answer the question\" just loud enough.","calm"),("The moderator glances at the clock and lets it run.","calm")])
+OFFICIAL_ONLY={"I meant it. But I can't join a group that lobbies my own council.","I'm the one they'd be asking. I can't sit on both sides of the table.",
+ "If I'm there, people will think the city's behind it. I can't.","Even listening says something from someone in my seat.","Then come as yourself, not as the city.",
+ "I don't get to stop being {title} at seven o'clock.","Talk to the member from the east side. Say I sent you.","I can't steer you to my colleagues. You'll have to call them.",
+ "Whoever you'd tell us to send. That's why we need you.","Then send your strongest speaker, and I'll be in the room.","I can't pick your speaker. That's yours to decide."}
+# Lines an officeholder would not say or be asked (to speak at the meeting they run).
+Y_('constituent-help',"Then send it. When can we see it?",[('answer',"You'll have a copy by Friday."),('promise',"I'll read it out at the next town hall."),('deflect',"It's a letter. You'll have to trust me on it."),('refuse',"I'm not promising a date tonight.")])
+A_('constituent-help',"You'll have a copy by Friday.",[('thank',"Friday, then.")])
+A_('constituent-help',"I'll read it out at the next town hall.",[('thank',"Then we'll all hear it.")])
+A_('constituent-help',"It's a letter. You'll have to trust me on it.",[('press',"Trust is what you just spent.")])
+A_('constituent-help',"I'm not promising a date tonight.",[('accept',"Then I'll ask again next month.")])
+NOT_OFFICIAL={"We're short one person to speak about {cause} at the next meeting. I thought of you."}
+for e in E:
+    if e['text'] in OFFICIAL_ONLY: e['req']=(e['req'] or [])+['title']
+    if e['text'] in NOT_OFFICIAL: e['exc']=(e['exc'] or [])+['title']
+P='press-comment'
+Y_(P,'confront',[('confess',"All right. I overstated it."),('deflect',"That's one person's account."),('lie',"That isn't what happened.","braced"),('confront',"Who else are you running this past?")])
+A_(P,"All right. I overstated it.",[('accept',"Thank you. I'll print the corrected version.")])
+A_(P,"That's one person's account.",[('press',"It's one more account than you've given me.")])
+A_(P,"Who else are you running this past?",[('answer',"Everyone who'll talk to me. You included.")])
+A_(P,"That's one day further than I'm going today.",[('press',"Then give me today's answer."),('accept',"Fine. I'll ask again tomorrow.")])
+A_(P,"Read the funding section. It's all there.",[('press',"I did. It points to another bill."),('accept',"I'll read it again, then.")])
+A_(P,"I'm not answering a what-if.",[('accept',"Then I'll write it as an open question.")])
+A_(P,"I'm not going line by line in a hallway.",[('press',"Then pick one line."),('accept',"Fair. I'll call your office.")])
+L('open','greet',A,'join-cause',[("Have you got a second for a neighbor?","calm"),("I won't keep you long.","calm"),("I've been trying to catch you for a week.","hopeful"),("Mind if I walk with you a bit?","calm"),("You probably don't remember me.","nervous"),("I hope this isn't a bad time.","nervous")])
+A_('constituent-help',"Watch the city's website. It'll be there the day it happens.",[('ask',"Which page? Nobody can find anything on that site.","curious")])
+L('open','greet',A,'join-cause',[("Thanks for stopping. I know you're busy.","calm"),("I've got something I think you'll want to hear.","hopeful"),("Do you have five minutes? Just five.","calm"),("I've been meaning to come by your office.","calm"),("Can I bend your ear for a second?","calm"),("Glad I caught you before you left.","calm"),("I'm with the group that's been calling you.","nervous"),("I'll be honest, I almost didn't come over.","nervous")])
 # ---------------- build ----------------
 def slug(t): return re.sub(r'-+','-',re.sub(r'[^a-z0-9]+','-',t.lower())).strip('-')[:70]
 parts={}; textkey={}

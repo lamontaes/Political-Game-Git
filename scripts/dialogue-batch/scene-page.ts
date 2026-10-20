@@ -40,6 +40,7 @@ import situationFile from "../../src/director/data/situation-types.json" with { 
 import rulesFile from "../../src/director/data/scene-talk-rules.json" with { type: "json" };
 import profilesFile from "../../src/director/data/grading-profiles.json" with { type: "json" };
 import { sentenceCount, wordCount } from "../../src/english/calibration";
+import { questionAbout } from "../../src/english/question-names";
 import { CATALOGUE_SCALES } from "../../src/simulation/personality-catalogue.generated";
 import {
   directorScenes,
@@ -105,6 +106,11 @@ const offices = new Map<string, any>(
 const terms: any[] = rows("core2-offices-v1", "terms");
 const termsById = new Map<string, any>(terms.map((row) => [row.id, row]));
 const names = policyNames();
+/** A policy question said as a noun ("a ban on discrimination in housing and work"), else the catalog's name. */
+const spokenIssue = (question: string): string | undefined => {
+  const name = questionAbout(question) ?? names[question];
+  return name ? name.charAt(0).toLowerCase() + name.slice(1) : undefined;
+};
 
 /** A record id that names a person in the world, whether it is a person or an official's term. */
 const realPerson = (value: string | undefined | null): string | undefined => {
@@ -2543,12 +2549,8 @@ const lifeCauseFacts = (
     const entries = Object.entries(facts as Record<string, string>);
     const drive = entries.find(([key]) => key.endsWith(":drive"))?.[1];
     const question = drive?.replace(/^cause:/, "");
-    const name = question ? names[question] : undefined;
-    if (name)
-      out.cause = fact(name.charAt(0).toLowerCase() + name.slice(1), [
-        id,
-        String(question),
-      ]);
+    const name = question ? spokenIssue(question) : undefined;
+    if (name) out.cause = fact(name, [id, String(question)]);
     const origin = entries.find(([key]) => key.endsWith(":origin"))?.[1];
     if (origin?.includes(":town-hall:") && origin.includes(askedId))
       out["heard-you"] = flag([id, origin]);
@@ -2559,12 +2561,9 @@ const lifeCauseFacts = (
       (row) => row.id === facts.townHallId,
     );
     const asked = hall?.questions?.find((q: any) => q.askedBy === askerId);
-    const issue = asked ? names[String(asked.question)] : undefined;
+    const issue = asked ? spokenIssue(String(asked.question)) : undefined;
     if (issue)
-      out.issue = fact(issue.charAt(0).toLowerCase() + issue.slice(1), [
-        String(hall.id),
-        String(asked.question),
-      ]);
+      out.issue = fact(issue, [String(hall.id), String(asked.question)]);
   }
   return out;
 };
@@ -2613,7 +2612,13 @@ const lifeWhy = (
     );
   else if (cause?.kind === "town-hall")
     lines.push(
-      `${asked} held a town hall on ${when}; ${facts.attendees ?? "some"} residents came, and ${asker} asked a question.`,
+      `${asked} held a town hall on ${when}; ${facts.attendees ?? "some"} residents came, and ${asker} ${
+        rows("core2-meetings-v1", "townHalls")
+          .find((row) => row.id === facts.townHallId)
+          ?.questions?.some((q: any) => q.askedBy === askerId)
+          ? "asked a question"
+          : "was among them"
+      }.`,
     );
   else {
     const words = lifeWords(String(moment.label));
@@ -2938,7 +2943,10 @@ const narrated = lifeIds.flatMap((lifeId) => {
           why: lifeWhy(
             moment,
             moment ? core.durableLog.get(moment.causeId) : undefined,
-            lifeId,
+            // The other person in the scene (who turned up at a reunion), else the life itself.
+            (binding.roles ?? [])
+              .flatMap((row: any) => row.personIds ?? [])
+              .find((pid: string) => pid !== lifeId) ?? lifeId,
             lifeId,
             undefined,
             undefined,

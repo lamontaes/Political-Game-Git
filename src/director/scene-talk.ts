@@ -479,14 +479,29 @@ export function composeSceneTalk(
     said: ReadonlySet<string>,
     onlyTagged = false,
   ): SceneTalkLine | null => {
+    const steps = Array.isArray(use.step) ? use.step : [use.step];
+    // A strict page never repeats a setup piece another scene said: a used
+    // piece is out before the closest fit is chosen, so a cast whose record
+    // holds a fact falls back to a general line rather than to nothing.
+    const strictSetup =
+      !!options.usage &&
+      !!options.strict &&
+      steps.some(
+        (step) => step === "narrate" || step === "open" || step === "state",
+      );
     // Tagged pieces are only ever the extra option (see taggedBy).
     const every = fitting(
       use,
       facts,
       (part) =>
         !!taggedBy(part) === onlyTagged &&
-        !(options.freshOnly && options.shown?.has(part.key)),
+        !(options.freshOnly && options.shown?.has(part.key)) &&
+        !(strictSetup && (options.usage!.get(part.key) ?? zero) > zero),
     );
+    if (!every.length && strictSetup) {
+      unusedGap = `${purpose}/${steps[zero]}/${use.move}`;
+      return null;
+    }
     // A piece already said on this branch is not said again while another fits.
     const fresh = every.filter((part) => !said.has(part.key));
     let parts = fresh.length ? fresh : every;
@@ -494,26 +509,15 @@ export function composeSceneTalk(
     const unseen = parts.filter((part) => !options.shown?.has(part.key));
     if (unseen.length || options.freshOnly) parts = unseen;
     if (!parts.length) return null;
-    const steps = Array.isArray(use.step) ? use.step : [use.step];
-    if (options.usage && steps.some((step) => VARIED.includes(step))) {
+    if (
+      options.usage &&
+      !strictSetup &&
+      steps.some((step) => VARIED.includes(step))
+    ) {
+      // Variety across the page: the least used fitting piece.
       const used = (part: BankPart) => options.usage!.get(part.key) ?? zero;
-      if (
-        options.strict &&
-        steps.some(
-          (step) => step === "narrate" || step === "open" || step === "state",
-        )
-      ) {
-        // Strict: only a piece no other scene used.
-        parts = parts.filter((part) => used(part) === zero);
-        if (!parts.length) {
-          unusedGap = `${purpose}/${steps[zero]}/${use.move}`;
-          return null;
-        }
-      } else {
-        // Variety across the page: the least used fitting piece.
-        const least = Math.min(...parts.map(used));
-        parts = parts.filter((part) => used(part) === least);
-      }
+      const least = Math.min(...parts.map(used));
+      parts = parts.filter((part) => used(part) === least);
     }
     const line = renderLine({
       seed: core.seed,
