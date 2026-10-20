@@ -142,6 +142,14 @@
     "veto": "Veto",
     "own": "Decide for me"
   },
+  "budgetEditor": {
+    "title": "Budget lines to send",
+    "-20": "Cut 20%",
+    "-10": "Cut 10%",
+    "0": "No change",
+    "10": "Add 10%",
+    "20": "Add 20%"
+  },
   "deals": {
     "title": "Deal to offer when you talk",
     "none": "No deal",
