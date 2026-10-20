@@ -4,13 +4,13 @@ title: "Stopgaps in credit-deposits (faked-mechanic): 1 open"
 area: world
 kind: stopgap
 priority: 2
-status: in-pr
-claimed-by: claude/deposit-withdrawal-s13
+status: open
+claimed-by:
 pr: #5316
 blocked-on:
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/credit-deposits.ts, kind faked-mechanic"
-claimed-at: 2026-10-19T21:53:07.479Z
+claimed-at:
 ---
 
 **What.** The stopgap row(s) SG-WORLD-deposit-wallet-buffer in src/core2/credit-deposits.ts mark a shortcut that is still live in play. Today savings and withdrawals are reviewed monthly with a three-month wallet reserve, so extraordinary payments and estate settlement never ask the bank for a withdrawal directly. The row stays open until the real mechanic replaces the fake, or the feature that needs the fake is deleted. This item replaces it and clears the row in src/core2/data/stopgaps.json.
