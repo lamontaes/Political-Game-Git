@@ -78,3 +78,13 @@ it("every aide in Charlotte Amalie East, U.S. Virgin Islands, is on a payroll", 
     seed: "p3",
   });
 }, 900_000);
+
+// A town whose president's aide had no payroll record after 120 days (found by
+// the merger on Oct 20): kept so the case stays in the suite.
+it("every aide in Mustang, Texas, is on a payroll", () => {
+  everyAidePaid({
+    name: "Mustang",
+    key: "4850184",
+    seed: "b1b42a77246ea4d8022653a8c55b696ebb578c9c13812a0d171a91105844b7c2",
+  });
+}, 900_000);
