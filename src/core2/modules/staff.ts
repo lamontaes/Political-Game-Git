@@ -1007,7 +1007,7 @@ function staffReview(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
     spendLivingCost(
       api,
       row.personId,
-      daysBetween(makeIsoDate(row.livedThrough), makeIsoDate(api.state.date)),
+      daysBetweenText(row.livedThrough, api.state.date),
     );
     table(api, "staff").put({
       ...row,

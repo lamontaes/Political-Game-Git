@@ -2600,7 +2600,7 @@ function ownersLive(api: CoreAPI): void {
     spendLivingCost(
       api,
       row.id,
-      daysBetween(makeIsoDate(row.livedThrough), makeIsoDate(api.state.date)),
+      daysBetweenText(row.livedThrough, api.state.date),
     );
     table(api, "staff").put({
       ...row,
