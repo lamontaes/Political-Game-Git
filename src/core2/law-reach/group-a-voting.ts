@@ -15,6 +15,26 @@
  *   law returns; `barredFromVoting` for a named person.
  * - `termLimitReached` and `lobbyingBarredUntil`: an officeholder's limits.
  */
+import {
+  PHOTO_ID,
+  AUTO_REGISTRATION,
+  SAME_DAY,
+  ALL_MAIL,
+  RESTORE_VOTE,
+  REDISTRICTING,
+  TERM_LIMITS,
+  LOBBYING_BAN,
+} from "./voting-keys";
+export {
+  PHOTO_ID,
+  AUTO_REGISTRATION,
+  SAME_DAY,
+  ALL_MAIL,
+  RESTORE_VOTE,
+  REDISTRICTING,
+  TERM_LIMITS,
+  LOBBYING_BAN,
+} from "./voting-keys";
 import type { CoreAPI, CoreState, PersonState } from "../types";
 import felonyData from "../data/elections/felony-disenfranchisement.json" with { type: "json" };
 import { electionsParameter } from "../elections-calendar";
@@ -50,16 +70,6 @@ import {
   tomorrow,
   yesLevels,
 } from "./group-a-records";
-
-const P = "us-policy-positions:";
-export const PHOTO_ID = `${P}government-operations.require-photo-id-to-vote`;
-export const AUTO_REGISTRATION = `${P}government-operations.automatic-voter-registration`;
-export const SAME_DAY = `${P}government-operations.same-day-voter-registration`;
-export const ALL_MAIL = `${P}government-operations.all-mail-voting`;
-export const RESTORE_VOTE = `${P}justice-public-safety.restore-voting-after-sentence`;
-export const REDISTRICTING = `${P}government-operations.independent-redistricting`;
-export const TERM_LIMITS = `${P}government-operations.legislative-term-limits`;
-export const LOBBYING_BAN = `${P}government-operations.ban-lobbying-after-office`;
 
 const ELECTION_KEYS = [PHOTO_ID, AUTO_REGISTRATION, SAME_DAY, ALL_MAIL];
 
