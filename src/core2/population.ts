@@ -83,7 +83,7 @@ import {
 } from "../simulation/people-traits";
 import { medianTransactionBalance } from "./starting-cash";
 import { traitRegistryFor } from "../simulation/trait-registry";
-import { isOneSided, type RegisteredTrait } from "../simulation/trait-packs";
+import { isOneSided, type RegisteredTrait } from "./trait-packs";
 import type {
   EntityId,
   Household,

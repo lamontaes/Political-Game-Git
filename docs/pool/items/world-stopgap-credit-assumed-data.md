@@ -4,12 +4,13 @@ title: "Stopgaps in credit (assumed-data): 1 open"
 area: world
 kind: stopgap
 priority: 3
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/territory-deposits
+pr: #5254
 blocked-on:
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/modules/credit.ts, kind assumed-data"
+claimed-at: 2026-10-19T23:14:27.332Z
 ---
 
 **What.** Replace or clear the 1 open assumed-data stopgap row(s) in src/core2/modules/credit.ts: SG-WORLD-credit-island-deposits. Each fake is replaced by the mechanic, or the feature that needs it is deleted.
