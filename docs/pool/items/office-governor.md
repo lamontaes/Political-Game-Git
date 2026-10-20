@@ -4,7 +4,7 @@ title: "Governor:"
 area: office
 kind: feature
 priority: 2
-status: in-pr
+status: done
 claimed-by: claude/office-governor
 pr: #4871
 blocked-on:
