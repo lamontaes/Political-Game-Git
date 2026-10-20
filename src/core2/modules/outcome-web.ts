@@ -568,6 +568,9 @@ export function placeOutcome(
       engineRecordId: string | null;
     }
   | undefined {
+  // A world without the web (a small test world) has no conditions to read.
+  if (!(api.state as CoreState).modules.has(OUTCOME_WEB_MODULE_ID))
+    return undefined;
   const rows = store(api)
     .table("months")
     .query("byPlace", [placeId]) as unknown as readonly WebMonth[];
