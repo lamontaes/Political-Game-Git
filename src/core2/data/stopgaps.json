@@ -4851,5 +4851,17 @@
     "addedAt": "2026-10-17",
     "replacement": "The owner's ruling on which pre-vote hooks run on the committee day (docs/coordination/OWNER-DECISIONS.md).",
     "status": "open"
+  },
+  {
+    "id": "SG-GOV-clemency-boards",
+    "kind": "missing-engine",
+    "file": "src/core2/office-day-state.ts",
+    "line": 0,
+    "whatItFakes": "In a state where a board, council or senate holds or must concur in clemency (board alone, board with the governor, governor with a board's recommendation, a council's or the senate's consent), the governor's day has no clemency act: the board's own decisions are not simulated, so no prisoner is released there by clemency.",
+    "why": "The governor decides alone only where the state's law says so (governor alone, or a board that only advises); the other authorities need a board or council engine that does not exist yet.",
+    "addedBy": "claude/governor-clemency",
+    "addedAt": "2026-10-17",
+    "replacement": "A clemency board engine (members, petitions, recommendations) and the council or senate consent, read by the governor's act where the law requires it.",
+    "status": "open"
   }
 ]
