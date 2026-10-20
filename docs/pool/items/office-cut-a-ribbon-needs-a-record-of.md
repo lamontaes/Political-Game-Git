@@ -4,9 +4,9 @@ title: "Cut a ribbon (needs a record of a finished public project; none exists).
 area: office
 kind: feature
 priority: 2
-status: claimed
+status: in-pr
 claimed-by: claude/political-game-pool-yucp92-yy
-pr: #5132
+pr: #5560
 blocked-on:
 milestone:
 source: "docs/coordination/OFFICE-LOCAL.md line 33 (unchecked checklist line)"
