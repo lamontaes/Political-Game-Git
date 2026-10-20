@@ -5,12 +5,12 @@ area: core
 kind: wiring
 priority: 2
 size: M
-status: claimed
-claimed-by: claude/web-calibrate-terms
+status: open
+claimed-by:
 pr:
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-20T10:10:01.576Z
+claimed-at:
 ---
 
 **What.** Two engines read the web's factor as a term in a choice that picks the higher score, not as a rate: full couples' plan-a-child choice (stopgap SG-WEB-births-full-tier, which has no term yet) and the jobs engine's participation pull (SG-LABOR-participation-scale, where a +0.3 older-work effect moved the share only 3%). Fit each term's weight in a played year so the group's share moves by the researched size, as counted births and counted participation already do.
