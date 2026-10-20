@@ -52,22 +52,27 @@ export function startPublicJob(
     jobId = `${base}:${stint}`;
   }
   // The longest-hours job where the employer sits to follow, a public
-  // employer's first (the person may live elsewhere).
-  const where =
-    input.scheduleFromPlaceId ?? c.organizations.get(input.employerId)!.placeId;
-  const templates = [...c.jobs.values()]
-    .filter(
-      (j) =>
-        j.endsAt === undefined &&
-        c.organizations.get(j.organizationId)?.placeId === where,
-    )
-    .sort(
-      (a, b) =>
-        b.hoursDaily - a.hoursDaily ||
-        Number(!!c.organizations.get(b.organizationId)?.governmentFacts) -
-          Number(!!c.organizations.get(a.organizationId)?.governmentFacts) ||
-        a.id.localeCompare(b.id),
-    );
+  // employer's first (the person may live elsewhere). Its own place's jobs
+  // come first.
+  const templatesAt = (where: string) =>
+    [...c.jobs.values()]
+      .filter(
+        (j) =>
+          j.endsAt === undefined &&
+          c.organizations.get(j.organizationId)?.placeId === where,
+      )
+      .sort(
+        (a, b) =>
+          b.hoursDaily - a.hoursDaily ||
+          Number(!!c.organizations.get(b.organizationId)?.governmentFacts) -
+            Number(!!c.organizations.get(a.organizationId)?.governmentFacts) ||
+          a.id.localeCompare(b.id),
+      );
+  const own = templatesAt(c.organizations.get(input.employerId)!.placeId);
+  // The other place's jobs are reached only when none of the employer's own has a schedule and payday.
+  const templates = input.scheduleFromPlaceId
+    ? [...own, ...templatesAt(input.scheduleFromPlaceId)]
+    : own;
   // The schedule and pay calendar of the first job there that has both; with
   // none (a territory's counted workers hold no recorded schedule) the post
   // follows a full-time public-office week on the government's pay calendar.
