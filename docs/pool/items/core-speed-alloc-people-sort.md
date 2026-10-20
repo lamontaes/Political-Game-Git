@@ -22,3 +22,5 @@ claimed-at:
 **Files.** src/core2/modules/people.ts
 
 **Notes.** TODO
+
+Sent back 2026-10-20 from PR #5400 (branch claude/political-game-pool-yucp92-t): merging main conflicts in src/core2/modules/people.ts; finish on that branch, merge main into it first.
