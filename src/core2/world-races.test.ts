@@ -4,6 +4,8 @@
  * other seat counted on the same engine, place by place
  * (electorate.ts, electorate-places.ts). Winners are seated on the real dates.
  */
+import delegateRaces from "./data/elections/delegate-races-2024.json" with { type: "json" };
+import delegateLeans from "../../data/research/elections/house-delegates-2024.json" with { type: "json" };
 import { createHash } from "node:crypto";
 import { describe, expect, it } from "vitest";
 import { govReport } from "./gov-test-report";
@@ -93,13 +95,30 @@ describe("M2-10 state and federal races in the world", () => {
     const senate = races.filter((r) => r.office === "us-senate");
     expect(house.length, `${state} ${key}`).toBeGreaterThanOrEqual(430);
     expect(senate.length).toBeGreaterThanOrEqual(30);
+    // Each territory's delegate race is sized by its 2024 race: voters are counted.
+    // (American Samoa's race has no two-party lean on record, so it counts none.)
+    const territorySeats = house.filter((r) =>
+      Object.keys(delegateRaces.places)
+        .filter((usps) => usps in delegateLeans.places)
+        .some((usps) => r.seatId.includes(`:US-${usps}:`)),
+    );
+    expect(
+      territorySeats.length,
+      `${state} ${key}: territory seats`,
+    ).toBeGreaterThan(0);
+    for (const r of territorySeats)
+      expect(
+        r.votes!.republican + r.votes!.democratic,
+        `${r.seatId} counts its voters`,
+      ).toBeGreaterThan(0);
     for (const r of races) {
       expect(r.date).toBe("2026-11-03");
       // Counted in its places: the share is the places' votes, and every
       // race keeps each party's reasons.
       expect(r.reasons?.length).toBe(2);
-      // A territory's delegate seat is decided at its 2024 delegate lean,
-      // its size not yet read (SG-GOV-delegate-race-size).
+      // A territory's delegate seat is decided at its 2024 delegate lean and
+      // sized by that race's votes (SG-GOV-delegate-race-size); one the table
+      // lacks counts no voters.
       if (!r.votes!.republican && !r.votes!.democratic) {
         expect(sideOf(r.winnerParty), r.seatId).not.toBe(0);
         continue;

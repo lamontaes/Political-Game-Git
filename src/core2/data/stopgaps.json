@@ -1837,7 +1837,7 @@
     "kind": "missing-data",
     "file": "src/core2/modules/world-races.ts",
     "line": 633,
-    "whatItFakes": "A territory's delegate race the town doesn't vote in is decided at its 2024 delegate race's lean with no voters counted: the race row shows no votes.",
+    "whatItFakes": "Territory delegate races the town does not vote in are decided at their 2024 lean, sized by that race's votes cast and the territory's registered voters (EAVS 2024), an estimate of its eligible voters; American Samoa's race has no two-party lean on record and counts no voters.",
     "why": "The Clerk's House tables the game reads hold no delegate districts outside D.C., and the territories' eligible voters are not in the data (CPS does not survey them).",
     "addedBy": "OPUS-GOV-ELECTIONS",
     "addedAt": "2026-10-14",

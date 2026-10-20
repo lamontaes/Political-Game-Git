@@ -22,3 +22,5 @@ claimed-at: 2026-10-20T03:33:04.306Z
 **Files.** data/research/stopgaps-oct19/, src/core2/data/stopgaps.json
 
 **Notes.** The rows still blocked on the Census API key are named in the README.
+
+Applied Oct 20 (claude, PR for SG-GOV-delegate-race-size): PR, GU, VI, MP delegate races sized from src/core2/data/elections/delegate-races-2024.json (votes cast and registered voters, EAVS 2024); AS has no two-party lean on record and stays unsized. Row kept open with revised text.
