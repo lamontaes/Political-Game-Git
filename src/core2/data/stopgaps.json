@@ -1437,11 +1437,11 @@
     "kind": "missing-mechanic",
     "file": "src/core2/data/laws/reach-group-a.json",
     "line": 202,
-    "whatItFakes": "Legal cannabis sales move each household's spending (about $170 per resident a year, estimated from 2024 state sales) from outside the town to the town's existing retail businesses, split by their demand. There are no dedicated licensed dispensaries, no license application, no age check on the buyer within the household and no cannabis tax.",
-    "why": "The place-prices engine reads the law monthly (src/core2/modules/place-prices.ts). Households have no cannabis use record, so the spending is a per-resident average scaled by pay, not a named adult's purchase; dispensaries are not founded as businesses and no cannabis excise tax is loaded.",
+    "whatItFakes": "Legal cannabis sales move each household's spending (about $170 per resident a year, estimated from 2024 state sales) from outside the town to the town's existing retail businesses, split by their demand. There are no dedicated licensed dispensaries and no license application. A named adult's use is a seeded draw from their id at the national adult prevalence (src/core2/modules/place-prices.ts), not a state series or a stored record.",
+    "why": "The place-prices engine reads the law monthly (src/core2/modules/place-prices.ts). The use draw is national, not by state; dispensaries are not founded as businesses.",
     "addedBy": "OPUS-GOV (sub-agent A)",
     "addedAt": "2026-10-12",
-    "replacement": "WORLD: dispensaries founded through the business engine and licensed by the control board; PEOPLE: an adult-use record on named adults 21 and over (seeded at generation, prevalence by state); GOV: the state's cannabis excise tax rate from data, paid through the purchase tax.",
+    "replacement": "WORLD: dispensaries founded through the business engine and licensed by the control board; PEOPLE: state prevalence in place of the national share; WORLD: dispensaries founded through the business engine.",
     "status": "open"
   },
   {
