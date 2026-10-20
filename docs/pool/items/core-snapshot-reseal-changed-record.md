@@ -5,11 +5,12 @@ area: core
 kind: feature
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/political-game-pool-3xfqef-27
 pr:
 blocked-on:
 source: "split of core-outside-wage-obligation (L), Oct 20"
+claimed-at: 2026-10-20T06:34:29.380Z
 ---
 
 **What.** Restoring a save re-freezes the core's records, and a frozen record that changed since it was saved fails the seal check. Make the restore in `src/core2/snapshot.ts` seal a record that was changed by a producer after load, rather than throwing, while a record that changed without a producer still fails. This was the one change in PR #5076 that the commuter work needed so that a filled-in household's new job survives a save.
