@@ -1600,18 +1600,6 @@ export function buildOpeningCustomers(
         );
         continue;
       }
-      // A paying owner seated in another place is admitted only with a recorded
-      // owner-to-place coverage (the finance check asks for it); a group with no
-      // recorded coverage stays unbound, never reassigned.
-      if (
-        buyer.placeId !== placeId &&
-        !(group.identitySource && group.coverageSource)
-      ) {
-        gaps.add(
-          `opening-customers:public-owner-elsewhere-without-coverage:${share.id}:${placeId}`,
-        );
-        continue;
-      }
       const authorityId = `${ownedPrefix}public-authority:${share.id}:${placeId}`;
       const appropriationId = `${ownedPrefix}public-appropriation:${share.id}:${placeId}`;
       const agreementId = `${ownedPrefix}public-agreement:${share.id}:${placeId}`;
