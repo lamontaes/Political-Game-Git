@@ -1,0 +1,85 @@
+{
+  "about": "Employer callback gaps from field experiments: how much less often an employer contacts an applicant of a group than an otherwise identical applicant of the reference group. A sourced table for the employer-attitude reader (world-sale-eligibility-reads). No engine reads it yet; the gap sets totals and a per-employer spread, and never decides one employer's answer (no dice). A callback ratio is the group's callbacks over the reference group's.",
+  "groups": {
+    "black-applicants": {
+      "reference": "white applicants",
+      "callbackRatio": {
+        "value": 0.735,
+        "low": 0.68,
+        "high": 0.8,
+        "tag": "SOURCED"
+      },
+      "ratioMeaning": "1 / 1.36: white applicants receive 36% more callbacks than African American applicants (studies since 1989, no change over 25 years)",
+      "source": "Quillian, Pager, Hexel and Midtbøen 2017, PNAS 114(41), meta-analysis of 24 field experiments since 1989 (https://pmc.ncbi.nlm.nih.gov/articles/PMC5642692/)",
+      "spreadAcrossEmployers": {
+        "valuePercentagePoints": 1.9,
+        "tag": "SOURCED",
+        "source": "Kline, Rose and Walters 2022, QJE (NBER w29053): 108 large U.S. employers, 83,000 applications; the average gap is 2.1 percentage points fewer contacts for distinctively Black names, and the standard deviation of the gap between companies is 1.9 points; the top quintile of employers account for nearly half of lost contacts (https://causalclaims.trfetzer.com/paper/w29053.html)"
+      },
+      "spreadAcrossPlaces": {
+        "note": "No place-by-place study is in this table. A place's spread is the employer spread above, drawn per world; the low and high on the ratio are the studies' own range, marked ESTIMATED until a place-level source is added.",
+        "tag": "ESTIMATED"
+      }
+    },
+    "latino-applicants": {
+      "reference": "white applicants",
+      "callbackRatio": {
+        "value": 0.806,
+        "low": 0.7,
+        "high": 0.9,
+        "tag": "SOURCED"
+      },
+      "ratioMeaning": "1 / 1.24: white applicants receive 24% more callbacks than Latino applicants (studies since 1989, modest evidence of a decline)",
+      "source": "Quillian, Pager, Hexel and Midtbøen 2017, PNAS 114(41) (https://pmc.ncbi.nlm.nih.gov/articles/PMC5642692/)",
+      "spreadAcrossPlaces": {
+        "note": "Study range, not a place measure.",
+        "tag": "ESTIMATED"
+      }
+    },
+    "black-names-resume-audit-2004": {
+      "reference": "white-sounding names",
+      "callbackRatio": {
+        "value": 0.667,
+        "low": 0.6,
+        "high": 0.75,
+        "tag": "SOURCED"
+      },
+      "ratioMeaning": "White-sounding names receive 50% more callbacks (1 / 1.5), Boston and Chicago, uniform across occupation, industry and employer size",
+      "source": "Bertrand and Mullainathan 2004, American Economic Review 94(4) (https://www.nber.org/papers/w9873)",
+      "spreadAcrossPlaces": {
+        "note": "Two cities; the low and high are this table's own bracket around the study, not a published interval.",
+        "tag": "ESTIMATED"
+      }
+    },
+    "older-applicants": {
+      "reference": "applicants aged 29 to 31",
+      "callbackRatio": {
+        "value": 0.65,
+        "low": 0.6,
+        "high": 0.82,
+        "tag": "ESTIMATED"
+      },
+      "ratioMeaning": "Compared to the youngest group, middle-aged (49 to 51) applicants received 18% fewer callbacks and seniors (64 to 66) 35% fewer, in a secondary summary of the study; women 64 to 66 were called back 12% of the time against 19% for women 29 to 31, and older men showed little gap except in some jobs",
+      "source": "Neumark, Burn and Button 2019, Journal of Political Economy; the 18% and 35% figures are from a press summary, so this row is ESTIMATED until read from the paper (https://admin.nber.org/data-appendix/w21669/On%20line%20appendix%20for%20JPE%2010-16%20final.pdf)",
+      "spreadAcrossPlaces": {
+        "note": "Study range, not a place measure. The study's design has been debated (identical resumes leave older applicants with gaps in their history).",
+        "tag": "ESTIMATED"
+      }
+    },
+    "applicants-with-a-criminal-record": {
+      "reference": "the same applicant without a record",
+      "callbackRatio": {
+        "value": 0.5,
+        "low": 0.36,
+        "high": 0.5,
+        "tag": "ESTIMATED"
+      },
+      "ratioMeaning": "A prison record cut callbacks by 50% for white applicants and by over 60% for Black applicants; callbacks with a record were 17% (white) and 5% (Black)",
+      "source": "Pager 2003, American Journal of Sociology 108(5), 937-975; the no-record callback rates were not confirmed here, so this row is ESTIMATED until read from the article (https://users.ssc.wisc.edu/~gwallace/Papers/Pager%20(2003).pdf)",
+      "spreadAcrossPlaces": {
+        "note": "One city (Milwaukee), so no place spread is claimed.",
+        "tag": "ESTIMATED"
+      }
+    }
+  }
+}

@@ -228,6 +228,17 @@
       "stopgapIds": ["SG-P8-business-books-priors"]
     },
     {
+      "id": "utility",
+      "industry": "Utilities",
+      "marginParameter": "businessIrsUtilityMargin",
+      "payrollShareParameter": "businessIrsUtilityPayrollShare",
+      "salesCostShareParameter": "businessIrsUtilitySalesCostShare",
+      "salesCostEstimated": false,
+      "creditLineDaysParameter": null,
+      "ownPriceElasticityParameter": "businessOwnPriceElasticity",
+      "stopgapIds": ["SG-P8-business-books-priors"]
+    },
+    {
       "id": "*",
       "industry": "All active corporations",
       "marginParameter": "businessIrsAllMargin",
@@ -396,9 +407,9 @@
     },
     {
       "classification": "enterprise:utility",
-      "kindId": null,
-      "fundingRoute": "branch-or-institution-budget-required",
-      "citation": "Old TOWN_BUSINESS_WORKPLACES explicitly excludes utilities.",
+      "kindId": "utility",
+      "fundingRoute": "business",
+      "citation": "A county electric or water utility is a business in NAICS 22 whose customers are the households that pay its bills; the old town-business list excluded utilities, the books now carry them.",
       "stopgapId": "SG-P8-business-books-classification"
     },
     {

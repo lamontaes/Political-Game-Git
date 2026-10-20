@@ -5,9 +5,9 @@ area: play
 kind: bug
 priority: 2
 size: M
-status: claimed
+status: done
 claimed-by: claude/politics-scroll-g08lgv
-pr:
+pr: #5402
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-20T01:57:57.103Z

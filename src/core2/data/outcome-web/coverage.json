@@ -10,6 +10,7 @@
     "child-access-law-to-youth-gun-deaths",
     "stand-your-ground-to-homicide",
     "min-age-to-youth-gun-suicide",
+    "crime-to-out-migration",
     "speed-limit-to-traffic-deaths",
     "particles-to-infant-deaths",
     "emission-rules-to-particulates",
@@ -20,6 +21,8 @@
     "graduation-to-turnout",
     "rent-control-to-rental-supply",
     "rent-control-to-tenant-stays",
+    "home-prices-to-owner-births",
+    "home-prices-to-renter-births",
     "property-tax-to-rent",
     "broadband-to-married-women-work",
     "corporate-tax-incidence",
@@ -155,10 +158,6 @@
     },
     "release-lower-level-to-larceny": {
       "waitingOn": ["law.low-level-offense-reclassified", "crime.larceny"]
-    },
-    "crime-to-out-migration": {
-      "waitingOn": ["crime.reported-per-capita"],
-      "needsSize": true
     },
     "congestion-to-premature-births": {
       "waitingOn": [
@@ -351,12 +350,6 @@
     "eviction-to-hospital-visits": {
       "waitingOn": ["health.hospital-visits"],
       "needsSize": true
-    },
-    "home-prices-to-owner-births": {
-      "waitingOn": ["births.owners"]
-    },
-    "home-prices-to-renter-births": {
-      "waitingOn": ["births.renters"]
     },
     "transit-loss-to-unemployment": {
       "waitingOn": ["labor.unemployment-pct"],
@@ -554,14 +547,6 @@
       "owner": "OPUS-GOV",
       "links": 1
     },
-    "births.owners": {
-      "owner": "OPUS-PEOPLE",
-      "links": 1
-    },
-    "births.renters": {
-      "owner": "OPUS-PEOPLE",
-      "links": 1
-    },
     "budget.parks-added-pct": {
       "owner": "OPUS-GOV",
       "links": 1
@@ -575,10 +560,6 @@
       "links": 1
     },
     "crime.reoffense": {
-      "owner": "OPUS-CORE",
-      "links": 1
-    },
-    "crime.reported-per-capita": {
       "owner": "OPUS-CORE",
       "links": 1
     },

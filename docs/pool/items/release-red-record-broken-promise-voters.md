@@ -5,12 +5,12 @@ area: elections
 kind: bug
 priority: 2
 size: S
-status: claimed
-claimed-by: claude/pool-red-promise
-pr:
+status: done
+claimed-by: claude/fs11vb-rr
+pr: #5401
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-20T01:55:58.936Z
+claimed-at: 2026-10-20T11:20:33.756Z
 ---
 
 **What.** TODO
@@ -22,3 +22,5 @@ claimed-at: 2026-10-20T01:55:58.936Z
 **Files.** TODO
 
 **Notes.** TODO
+
+Sent back 2026-10-20 from PR #5401 (branch claude/pool-red-promise): see the Cloud merger comment on that PR for the exact reason; finish on that branch, merge main into it first.
