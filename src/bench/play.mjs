@@ -31,6 +31,13 @@ const post = (path) => api(path, "POST");
 function pageIn(box, pager) {
   box.scrollTo(0, 0);
   const [back, next] = pager.querySelectorAll("button");
+  // Measure with every row showing; a page then hides the rows that are not its own.
+  for (const hidden of box.querySelectorAll(".paged-out"))
+    hidden.classList.remove("paged-out");
+  const rows = [
+    ...box.querySelectorAll(":scope > *:not(.flow), :scope > .flow > *"),
+  ];
+  const tops = rows.map((row) => row.offsetTop);
   const stops = [0];
   let sideways = false;
   if (box.clientHeight > 0) {
@@ -41,20 +48,30 @@ function pageIn(box, pager) {
       for (let x = step; x < box.scrollWidth - 2; x += step) stops.push(x);
     } else if (box.scrollHeight > box.clientHeight + 2) {
       let top = 0;
-      for (const kid of box.querySelectorAll(
-        ":scope > *:not(.flow), :scope > .flow > *",
-      )) {
-        if (kid.offsetTop + kid.offsetHeight - top > box.clientHeight) {
-          top = kid.offsetTop;
+      rows.forEach((kid, index) => {
+        if (tops[index] + kid.offsetHeight - top > box.clientHeight) {
+          top = tops[index];
           stops.push(top);
         }
-      }
+      });
     }
   }
   let at = 0;
   const go = (index) => {
     at = index;
-    box.scrollTo(sideways ? stops[at] : 0, sideways ? 0 : stops[at]);
+    if (sideways) box.scrollTo(stops[at], 0);
+    else {
+      // A plain list shows one page of rows: the rest are out of the box, not scrolled past.
+      const from = stops[at];
+      const to = stops[at + 1] ?? Infinity;
+      rows.forEach((row, index) =>
+        row.classList.toggle(
+          "paged-out",
+          stops.length > 1 && (tops[index] < from || tops[index] >= to),
+        ),
+      );
+      box.scrollTo(0, 0);
+    }
     back.hidden = at === 0;
     next.hidden = at === stops.length - 1;
   };
@@ -1092,7 +1109,7 @@ function renderFilingOverlay(value) {
     ...overlay.checks.map((check) => {
       const line = row(
         check.rule,
-        `${check.actual ?? ""}${check.required ? ` / ${check.required}` : ""}`,
+        `${check.actual ?? ""}${check.required ? ` / ${check.required}` : ""}${check.metOn ? ` · ${check.metOn}` : ""}`,
       );
       if (!check.met) line.classList.add("unmet");
       return line;

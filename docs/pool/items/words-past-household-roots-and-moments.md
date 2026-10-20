@@ -5,7 +5,7 @@ area: words
 kind: feature
 priority: 3
 size: S
-status: claimed
+status: done
 claimed-by: claude/journal-roots-g08lgv
 pr: #5226
 blocked-on:

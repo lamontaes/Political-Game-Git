@@ -13,12 +13,12 @@ after: world-hiring-discrimination-ban-refusal
 source: added with npm run pool -- add
 ---
 
-**What.** TODO
+**What.** A refused applicant brings a complaint the justice engine hears: a civil complaint record naming the employer, the law row and the refusal's job-change record, which the human rights commission in the law's enforcer field weighs. The commission may fine the employer. Today complaints in justice are crime reports only, so a civil complaint is a new kind built on the same complaint table, not a second justice system.
 
-**Rules.** TODO
+**Rules.** An effect is a read, not a record: the commission reads the refusal record and the law's penalty. No dice: the finding follows the recorded reasons. Wire to the world: the fine moves money from the employer to the commission and the applicant. Ask why: the finding cites the refusal record.
 
-**Done when.** TODO
+**Done when.** In a one-year run of buildBenchWorld in a drawn place and seed (named in the PR body), a refused applicant's complaint record id reaches the justice engine, the commission's finding cites the refusal's job-change record, and the fine appears on the journal; a test in src/core2/justice.test.ts shows it.
 
-**Files.** TODO
+**Files.** src/core2/modules/justice.ts, src/core2/modules/jobs.ts, src/core2/data/stopgaps.json
 
-**Notes.** TODO
+**Notes.** Split from world-sale-eligibility-reads (an L item) on Oct 19; the owner's ruling is in docs/coordination/OWNER-DECISIONS.md, "Employer passing over an applicant (#5102)": the owner's traits and views read against the applicant's record, with the reasons recorded; a discrimination ban refuses a decision whose recorded reasons cite a protected trait. Stopgap SG-GOV-REACH-A-discrimination.
