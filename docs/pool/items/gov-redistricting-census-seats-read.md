@@ -5,13 +5,13 @@ area: gov
 kind: wiring
 priority: 3
 size: M
-status: claimed
-claimed-by: claude/redistrict-seats
+status: open
+claimed-by:
 pr:
 blocked-on:
 after: gov-redistricting-census-count
 source: added with npm run pool -- add
-claimed-at: 2026-10-20T02:00:34.664Z
+claimed-at:
 ---
 
 **What.** TODO
