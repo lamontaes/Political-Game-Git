@@ -2882,7 +2882,7 @@
     "why": "Fraser, Colorado (seed d8c9a58e, place 0828305): at 17 the player's parents and siblings moved away on Feb 12 with their cash and the household's only job, and the player's lease went into arrears and ended. Whether parents may leave an 18-year-old player behind, and with what, is the owner's call; no ruling exists in the decision register.",
     "addedBy": "claude/player-living-cost-fraser",
     "addedAt": "2026-10-20",
-    "replacement": "Resolved Oct 20 by the owner's ruling on #5473: background households may split from an 18-year-old when cheap to simulate and as common as in real life, but the player's own family does not leave the player before 1.0, so the hold in moves.ts stays.",
+    "replacement": "Background households may split from an 18-year-old when cheap to simulate and as common as in real life, but the player's own family does not leave the player before 1.0, so the hold in moves.ts stays.",
     "status": "resolved"
   },
   {

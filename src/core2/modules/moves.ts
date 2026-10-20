@@ -978,9 +978,9 @@ function decide(api: CoreAPI, person: Readonly<PersonState>): Departure | null {
   const playerId = (api.state as CoreState).playerId;
   if (playerId && (going.includes(playerId) || partner?.id === playerId))
     return null;
-  // The player's own home is not taken apart by the engine before 1.0 (owner
-  // ruling, Oct 20, on #5473): when the player lives in the household and is
-  // not going, the household stays as it is.
+  // The player's own home is not taken apart by the engine before 1.0: when
+  // the player lives in the household and is not going, the household stays
+  // as it is.
   if (
     playerId &&
     (api.state as CoreState).households
