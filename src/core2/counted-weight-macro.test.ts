@@ -36,9 +36,25 @@ it("counts the people, households and workers a counted record stands for, and m
     core: ReturnType<typeof open>["core"],
     field: "people" | "households" | "workers",
   ) => residentCounts(core).reduce((n, row) => n + row[field], 0);
+  const filled = (
+    core: ReturnType<typeof open>["core"],
+    field: "people" | "households" | "workers",
+  ) => {
+    const homes = residentsRuntime(core)!.filledIn;
+    const people = [...core.people.values()].filter(
+      (p) => p.householdId && homes.has(p.householdId),
+    );
+    if (field === "households") return homes.size;
+    if (field === "people") return people.length;
+    return people.filter((p) => p.jobId).length;
+  };
   // Some places open with no counted workers; draw again until one has them.
   const tried: string[] = [];
-  let draw = drawPlace(randomBytes(32).toString("hex"), "census-macro");
+  // COUNTED_WEIGHT_SEED reproduces a failing draw.
+  let draw = drawPlace(
+    process.env.COUNTED_WEIGHT_SEED ?? randomBytes(32).toString("hex"),
+    "census-macro",
+  );
   let base = open(draw.seed, draw.key);
   while (sum(base.core, "workers") <= 0 && tried.length < 8) {
     tried.push(`${draw.name} (${draw.key}, seed ${draw.seed})`);
@@ -66,8 +82,11 @@ it("counts the people, households and workers a counted record stands for, and m
     expect(sum(big.core, field), `${where}: ${field}`).toBeGreaterThan(
       sum(base.core, field),
     );
+    // A household filled in (a hire's, say) leaves the counts as one real
+    // household, so it stands for itself once in both towns; what stays
+    // counted is the rest, and the whole is SCALE times the town opened.
     expect(sum(big.core, field), `${where}: ${field}`).toBeLessThanOrEqual(
-      SCALE * 1.05 * sum(base.core, field),
+      SCALE * 1.05 * (sum(base.core, field) + filled(base.core, field)),
     );
   }
   // The national step hears a town of the larger size.
