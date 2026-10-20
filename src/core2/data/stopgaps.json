@@ -1038,7 +1038,7 @@
     "kind": "estimated-calendar",
     "file": "src/core2/modules/offices.ts",
     "line": 408,
-    "whatItFakes": "The end of each term in progress at the opening for state and local offices: the seats of a body take turns over the years in one term that the office's calendar (the county schedule or the state's municipal election law) holds elections, and each term ends on the start day after its seat's election; where a state's own start rule isn't read, January 1 (the governors' clauses of AK, CA, CO, DE, FL, HI, IL, IN, LA, MD, ME, NJ, OH, OK, PA, VA, WA and WI, and, as estimates from the usual clause and the current governor's date, AZ, CT, GA, ID, KS, MN, MT, NE, NV, OR, TX, UT, VT and WY are read, in data/elections/term-starts.json). Federal terms are read: every House seat ends January 3 of an odd year (amend. XX), Senate seats by their real class, the presidency on January 20.",
+    "whatItFakes": "The end of each term in progress at the opening for state and local offices: the seats of a body take turns over the years in one term that the office's calendar (the county schedule or the state's municipal election law) holds elections, and each term ends on the start day after its seat's election; where a state's own start rule isn't read, January 1 (the governors' clauses of AK, CA, CO, DE, FL, HI, IL, LA, ME, NJ, OH, OK, PA, VA and WA are read, and, as estimates from the usual clause or the current governor's date, AZ, CT, GA, ID, IN, KS, MD, MN, MT, NE, NV, OR, TX, UT, VT, WI and WY are set, in data/elections/term-starts.json). Federal terms are read: every House seat ends January 3 of an odd year (amend. XX), Senate seats by their real class, the presidency on January 20.",
     "why": "Real election calendars and term-start dates for each office are M2's filing and election work.",
     "addedBy": "OPUS-GOV",
     "addedAt": "2026-10-12",
@@ -1720,11 +1720,11 @@
     "kind": "missing-engine",
     "file": "src/core2/data/laws/reach-group-b.json",
     "line": 232,
-    "whatItFakes": "A ban on new gas hookups is a compliance record on builders and utilities; no building cost or fuel choice changes.",
-    "why": "No construction projects or building fuel choices exist in the core.",
+    "whatItFakes": "A gas-hookup ban raises the housing engine's new-construction cost (modules/housing.ts sets allElectric, housing-construction.ts prices it into single and multifamily starts), but no household's appliance fuel choice or utility bill changes.",
+    "why": "Construction cost by code is read; fuel choice and household energy bills aren't modeled, so the ban's effect on a household stops at the price and supply of new homes.",
     "addedBy": "OPUS-GOV (sub-agent B)",
     "addedAt": "2026-10-12",
-    "replacement": "OPUS-WORLD housing and business engine: new-construction cost and appliance fuel by code in force (setBuildingCode({ placeId, allElectric: true })).",
+    "replacement": "A household energy-bill and appliance-fuel record read by the ban once utilities are modeled.",
     "status": "open"
   },
   {
@@ -1780,11 +1780,11 @@
     "kind": "missing-engine",
     "file": "src/core2/data/laws/reach-group-b.json",
     "line": 328,
-    "whatItFakes": "Farmland protection is a rule record on farms, builders and real-estate firms; no parcel or development changes.",
-    "why": "Land parcels and development aren't modeled.",
+    "whatItFakes": "Farmland protection reduces new-housing starts through the housing engine (zoning farmlandProtected, housing-construction.ts), but there are no land parcels, so which fields stay farmland and what farms earn don't change.",
+    "why": "Development is read as a share of buildable land; individual parcels and farm use aren't modeled.",
     "addedBy": "OPUS-GOV (sub-agent B)",
     "addedAt": "2026-10-12",
-    "replacement": "OPUS-WORLD housing engine: land parcels with zoning, read by new construction (zoneParcels({ placeId, use: \"agricultural\", protected: true })).",
+    "replacement": "Land parcels with a use and an owner, read by new construction and by farm output.",
     "status": "open"
   },
   {
@@ -1900,7 +1900,7 @@
     "kind": "estimated-calendar",
     "file": "src/core2/data/elections/parameters.json",
     "line": 12,
-    "whatItFakes": "The date of a special election where the state's law for that office family is not read: 90 days after the vacancy. Only California's U.S. House and legislative rows are read in special-election-law.json.",
+    "whatItFakes": "The date of a special election where the state's law leaves the day to the governor: 90 days after the vacancy (parameters.json). special-election-law.json reads the law for every state and territory whose legislative vacancies are filled by election (U.S. House rows for 51 places, legislative rows for the rest) and records 33 rows as governor-sets-date; the days-after-vacancy rows are ESTIMATED nominal values inside each statutory window.",
     "why": "Each state's timing statute (days after the vacancy, the governor's call, the next general election) per office family has to be read.",
     "addedBy": "OPUS-GOV-ELECTIONS",
     "addedAt": "2026-10-14",
@@ -1912,7 +1912,7 @@
     "kind": "missing-data",
     "file": "src/core2/modules/voting.ts",
     "line": 593,
-    "whatItFakes": "For 20 of the 56 places the ballot-order rule is read from a secondary source or assumed: the five territories' rules are guesses, and 15 states' primary rule or order within a party is assumed (the rows marked estimate in data/research/elections/ballot-order-2026.json).",
+    "whatItFakes": "For 6 of the 56 places (American Samoa, the Northern Mariana Islands, the Virgin Islands, Pennsylvania, Wisconsin and Indiana) the ballot-order rule is read from a secondary source or partly from search snippets of the law, not its text; the other 14 places the Oct 19 research read are set from the statute.",
     "why": "Ballotpedia's ballot-order page gives one rule per state, usually for the general election; NCSL's table and the state codes were not reachable from the research session.",
     "addedBy": "OPUS-GOV-ELECTIONS",
     "addedAt": "2026-10-14",
@@ -3250,7 +3250,8 @@
     "addedBy": "FIXER-LAWMAKING-VOLUME-CAPS",
     "addedAt": "2026-10-13",
     "replacement": "A township level in the law chain (laws-starting.ts) with its own starting law and enactments, so a township board and a village council inside it each legislate for their own jurisdiction.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "The law chain has a township level between the county and the city (laws-starting.ts), and a township board legislates for its own township jurisdiction (the government-unit id) alongside a council in the same place; sales-tax shares and withholding read the level."
   },
   {
     "id": "SG-OFFICIALS-unrecorded-party",
@@ -3865,7 +3866,7 @@
     "kind": "estimated-parameter",
     "file": "src/core2/modules/interest-groups.ts",
     "line": 1,
-    "whatItFakes": "What a policy costs each employer it binds is an estimated share of the employer's payroll (boundEmployerCostShare), except laws that price energy (clean electricity standard, carbon price), which cost each employer its own energy costs by the price engine's arithmetic. Other law-reach policies that bind employers record who is bound and move no money.",
+    "whatItFakes": "For a bound policy other than an energy-pricing law or a data privacy law (priced by the price engine and the business engine's cost review), what it costs each employer it binds is an estimated share of the employer's payroll (boundEmployerCostShare), except laws that price energy (clean electricity standard, carbon price), which cost each employer its own energy costs by the price engine's arithmetic. Other law-reach policies that bind employers record who is bound and move no money.",
     "why": "The CTO's item (Oct 14): employers organize from who loses money on any bill (the owner's Sept 26 ruling). Law-reach measures a money effect per employer only for the wage floor.",
     "addedBy": "OPUS-GOV",
     "addedAt": "2026-10-14",
@@ -5133,6 +5134,18 @@
     "addedBy": "claude/political-game-pool-yucp92-yy",
     "addedAt": "2026-10-20",
     "replacement": "A project record with a start, a cost, milestones the contractor's payments fund and a completion date the funded work reaches, which the office day reads for the ribbon.",
+    "status": "open"
+  },
+  {
+    "id": "SG-PEOPLE-coverage-counted",
+    "kind": "missing-mechanic",
+    "file": "src/core2/modules/coverage.ts",
+    "line": 1,
+    "whatItFakes": "Only full people hold a health coverage record and pay a premium. Counted households hold none, so the wider population pays no premium and the town's health costs read as if it were uninsured.",
+    "why": "The counted groups store holds no per-group plan, and a counted premium is a purchase flow with an insurer payee that fill-in must take back contract by contract (opening-customers.ts, residents.ts).",
+    "addedBy": "claude/fs11vb-coverage-record",
+    "addedAt": "2026-10-20",
+    "replacement": "A coverage share per counted group, read by the same rule as a full person times the group's weight, and a premium flow per covered counted household (pool item people-coverage-counted).",
     "status": "open"
   }
 ]

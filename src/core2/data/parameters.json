@@ -5938,5 +5938,32 @@
       "unit": "standard deviations per event",
       "citation": "Small effects in the life-event personality literature; not retrieved per event."
     }
+  },
+  "healthWorkerContributionSingleAnnualUsd": {
+    "value": 1368,
+    "tag": "SOURCED",
+    "citation": "KFF, 2024 Employer Health Benefits Survey: covered workers with single coverage contributed an average of $1,368 a year (https://www.kff.org/health-costs/2024-employer-health-benefits-survey/), read through search results on 2026-10-20; not the survey's own page."
+  },
+  "healthWorkerContributionFamilyAnnualUsd": {
+    "value": 6296,
+    "tag": "SOURCED",
+    "citation": "KFF, 2024 Employer Health Benefits Survey: covered workers with family coverage contributed an average of $6,296 a year, out of an average family premium of $25,572 (https://www.kff.org/health-costs/2024-employer-health-benefits-survey/), read through search results on 2026-10-20; not the survey's own page."
+  },
+  "healthEmployerPolicyholderShare": {
+    "value": 0.55,
+    "tag": "ESTIMATED",
+    "citation": "The share of employed working-age adults who hold an employer plan in their own name. Not read directly from any table.",
+    "estimatedFrom": "The Census Bureau's Health Insurance Coverage in the United States: 2023 (P60-284) puts employment-based coverage at 53.7 percent of the whole population, dependents included, and the KFF 2024 survey shows most covered workers also cover family members; about half to two thirds of employed adults holding their own plan fits both. Assigned by rank (larger employers and higher pay first), never a roll.",
+    "spread": {
+      "low": 0.45,
+      "high": 0.65,
+      "unit": "share of employed working-age adults",
+      "citation": "The Census Bureau's 2023 employment-based coverage rate and the KFF 2024 survey's mix of single and family coverage bound it; nothing measures the share directly."
+    }
+  },
+  "healthMedicareAge": {
+    "value": 65,
+    "tag": "SOURCED",
+    "citation": "Social Security Act sec. 1811 (42 U.S.C. 1395c): Medicare Part A eligibility begins at age 65."
   }
 }
