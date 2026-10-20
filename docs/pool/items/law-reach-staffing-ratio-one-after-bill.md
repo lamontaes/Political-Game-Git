@@ -5,9 +5,9 @@ area: laws
 kind: bug
 priority: 2
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/schools-raise-test
-pr:
+pr: #5632
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-20T14:31:21.061Z

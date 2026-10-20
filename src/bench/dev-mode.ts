@@ -230,7 +230,8 @@ export class DevMode {
     recordIds: readonly string[],
     facts: Record<string, string>,
   ): DevMark {
-    this.sequence += 1;
+    // Another DevMode on the same core may have marked since this one began.
+    this.sequence = Math.max(this.sequence, devModeMarks(this.core).length) + 1;
     const id = `${DEV_MODE}:${this.sequence}:${control}:${this.core.date}`;
     this.api.emit({
       id,
@@ -248,6 +249,20 @@ export class DevMode {
       },
     });
     return { id, date: this.core.date, control, recordIds, facts };
+  }
+
+  /**
+   * A line or scene the player marked as a gap while playing: one record that
+   * names the scene and the line. It spends no game time and changes nothing
+   * else, so words sessions can read the list from the bench.
+   */
+  markGap(sceneId: string, line: string, text: string): DevMark {
+    return this.mark("gap", [sceneId], { sceneId, line, text });
+  }
+
+  /** Every gap the player marked, oldest first. */
+  gaps(): readonly DevMark[] {
+    return this.marks().filter((mark) => mark.control === "gap");
   }
 
   /** Every dev-mode change so far, oldest first. */
