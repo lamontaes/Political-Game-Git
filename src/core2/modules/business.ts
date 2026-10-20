@@ -1512,6 +1512,19 @@ function foundings(api: CoreAPI): void {
         );
     return (monthlyPayCache = monthlyPay);
   };
+  // A person's age in years today, by birth date: the same for every market.
+  const today = makeIsoDate(c.date);
+  const ages = new Map<string, number>();
+  const ageOn = (birthDate: string) => {
+    let age = ages.get(birthDate);
+    if (age === undefined)
+      ages.set(
+        birthDate,
+        (age =
+          daysBetween(makeIsoDate(birthDate), today) / p("jobsDaysPerYear")),
+      );
+    return age;
+  };
   let peopleById: PersonState[] | undefined;
   const sortedPeople = () =>
     (peopleById ??= [...c.people.values()].sort((a, b) =>
@@ -1582,9 +1595,7 @@ function foundings(api: CoreAPI): void {
       ? api.moduleState("jobs").table("seekers")
       : undefined;
     for (const person of sortedPeople()) {
-      const age =
-        daysBetween(makeIsoDate(person.birthDate), makeIsoDate(c.date)) /
-        p("jobsDaysPerYear");
+      const age = ageOn(person.birthDate);
       if (
         !person.alive ||
         person.placeId !== market.placeId ||
@@ -1626,9 +1637,7 @@ function foundings(api: CoreAPI): void {
       if (h.placeId !== market.placeId) continue;
       for (const m of counted!.countedMembers(h)) {
         const personId = counted!.ids[m]!;
-        const age =
-          daysBetween(makeIsoDate(counted!.born[m]!), makeIsoDate(c.date)) /
-          p("jobsDaysPerYear");
+        const age = ageOn(counted!.born[m]!);
         if (
           owners.has(personId) ||
           age < p("businessFounderMinimumAge") ||

@@ -24,3 +24,5 @@ claimed-at: 2026-10-20T03:08:03.624Z
 **Notes.** TODO
 
 **Result (Oct 20).** The pay table and the id-sorted people list are built once, when the first market needs them. Typecheck, eslint and the four business tests (36) pass. The before-and-after CPU profile on seed m7b was not taken in this session; the CTO or a speed run should confirm foundings below 2 percent.
+
+**Measured (Oct 20, seed m7b, Long Hill, CPU profile, inclusive time of foundings).** Before this item: 10.17 s of 259.7 s (3.9 percent). With the pay table and sorted people built once: 9.61 s of 257.3 s (3.7 percent), so that rebuild was not the main cost. The profile showed makeIsoDate and epochDayOf (parsing birth dates for every person in every market) as the largest lines; ages are now computed once per pass: 7.33 s of 264.1 s (2.8 percent). Still above the 2 percent target. Next biggest inside foundings: traitLean and kindLean in choice.ts (0.68 s, 0.46 s), countedMember (0.55 s), parameter lookups (0.51 s), founderSavings (0.46 s). Left open for a follow-up.
