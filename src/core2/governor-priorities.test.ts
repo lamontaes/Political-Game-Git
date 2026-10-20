@@ -1,8 +1,8 @@
 /**
  * M5-02, governor play, in a random state: the governor sets a budget
  * priority (more for highways), the legislature votes the budget at the
- * state's fiscal year start, and an adopted priority changes real spending.
- * A rejected budget carries the old
+ * state's fiscal year start, and an adopted priority changes real spending
+ * and reaches the people that line serves. A rejected budget carries the old
  * one forward and changes nothing.
  */
 import { createHash } from "node:crypto";
@@ -25,6 +25,7 @@ import {
   openBudgets,
   setBudgetPriorities,
 } from "./modules/budgets";
+import { REACH_B_MODULE_ID } from "./law-reach/group-b-store";
 import { searchCorePlaces, corePlaceStateIdentities } from "./place-lookup";
 
 const START = "2026-01-05";
@@ -93,12 +94,30 @@ describe("M5-02 the governor's budget priorities", () => {
     const next = budgetsOf(api, gov.id).find(
       (b) => b.fiscalYear === current.fiscalYear + 1,
     )!;
-    const adopted = !/carried forward|rejected/i.test(next.adoptedBy);
+    const adopted = !/carried forward|continued|rejected/i.test(next.adoptedBy);
+    const reached = core.modules.has(REACH_B_MODULE_ID)
+      ? (
+          api
+            .moduleState(REACH_B_MODULE_ID)
+            .table("groups")
+            .rows() as unknown as { key: string }[]
+        ).filter((r) => r.key === "budget-line:highways").length +
+        (
+          api
+            .moduleState(REACH_B_MODULE_ID)
+            .table("people")
+            .rows() as unknown as { key: string }[]
+        ).filter((r) => r.key === "budget-line:highways").length
+      : 0;
     if (adopted) {
-      // The priority is in the spending; the outcome web reads the line.
+      // The priority is in the spending, and the line's service reached people.
       expect(next.spendingMinor.highways, where).toBeGreaterThan(
         (current.spendingMinor.highways ?? 0) + delta / 2,
       );
+      expect(
+        reached,
+        `${where}: no one served by the added highways money`,
+      ).toBeGreaterThan(0);
     }
     govReport(
       "governor-priorities",
@@ -107,6 +126,7 @@ describe("M5-02 the governor's budget priorities", () => {
         adoptedBy: next.adoptedBy,
         highways: [current.spendingMinor.highways, next.spendingMinor.highways],
         delta,
+        reached,
       }),
     );
   }, 600_000);

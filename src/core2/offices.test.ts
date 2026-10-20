@@ -10,7 +10,7 @@ import { createHash } from "node:crypto";
 import { describe, expect, it } from "vitest";
 import { govReport } from "./gov-test-report";
 import { buildPopulation } from "./population";
-import { createLifeCore } from "./life";
+import { advanceCore, createLifeCore } from "./life";
 import { coreAPI } from "./state";
 import {
   OFFICES_MODULE_ID,
@@ -137,9 +137,9 @@ describe("M2-01 offices and seats, every level", () => {
       .table("terms")
       .query("byPerson", [holder!.personId!]) as unknown as TermRow[];
     expect(ended.every((t) => t.status === "ended")).toBe(true);
-    // A special election is a real race run by the elections engine
-    // (special-elections.test.ts); this world runs offices alone.
-    if (vacancy.status === "awaiting-election") return;
+    if (vacancy.status === "awaiting-election") {
+      advanceCore(core, vacancy.electionDate!);
+    }
     const now = townSeats(api).find((s) => s.seat.id === seat.id)!.holder!;
     expect(now.personId).not.toBe(holder!.personId);
     if (office.vacancyRule.method === "appointment")
@@ -307,6 +307,41 @@ describe("M2-01 offices and seats, every level", () => {
         members.length,
         `${where} district ${number}`,
       ).toBeGreaterThanOrEqual(2);
+    }
+  }, 120_000);
+
+  it("another state's chambers seat what the researched table says, no state named in the test", () => {
+    type Row = { members: number; districts: number };
+    const table = (
+      partyCounts as unknown as { places: Record<string, Record<string, Row>> }
+    ).places;
+    const researched = Object.keys(table)
+      .filter((state) => Object.keys(table[state]!).length > 0)
+      .sort();
+    const core = world(randomPlace("seat-counts").key);
+    const api = coreAPI(core);
+    const seats = () =>
+      api.moduleState(OFFICES_MODULE_ID).table("seats").rows() as unknown as {
+        officeId: string;
+      }[];
+    for (const state of [
+      pick(researched, "s1"),
+      pick(researched, "s2"),
+      pick(researched, "s3"),
+    ]) {
+      officesOfState(api, state);
+      for (const chamber of ["lower", "upper"] as const) {
+        const row = table[state]![chamber];
+        if (!row) continue;
+        const count = seats().filter(
+          (seat) => seat.officeId === `office:${state}:legislature-${chamber}`,
+        ).length;
+        // Seats are at least the sitting members; vacancies are the rest.
+        expect(
+          count,
+          `seed ${seed} ${state} ${chamber}`,
+        ).toBeGreaterThanOrEqual(row.members);
+      }
     }
   }, 120_000);
 });

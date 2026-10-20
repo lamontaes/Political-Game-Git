@@ -11,17 +11,19 @@ import { organizationProfileAt } from "../simulation/life-queries";
 import {
   activeWorkers,
   laborStatus,
+  townEmploymentMix,
+  townResidents,
+  townWorkplaceWeights,
+} from "../simulation/living-world/town-employment";
+import {
   TOWN_MEDIAN_TENURE_BY_AGE,
   TOWN_PART_TIME_DEFAULT,
   TOWN_PART_TIME_SHARE,
   TOWN_WORKPLACES,
-  townEmploymentMix,
-  townResidents,
   townWorkplaceFor,
-  townWorkplaceWeights,
   type Role,
   type Workplace,
-} from "../simulation/living-world/town-employment";
+} from "./town-workplaces";
 import { TOWN_EMPLOYMENT_META } from "../simulation/living-world/town-employment.generated";
 import {
   nationalMedianAnnualWage,

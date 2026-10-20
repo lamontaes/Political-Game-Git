@@ -7,7 +7,7 @@
  * itself whether to join the employers' group against it: it joins when the
  * bill would cost it more in a year than the group's dues, and it has the
  * cash. Dues move through the cash journal into the group's own account. The
- * group meets the members who will vote (every
+ * group's lobbyist, a named person, meets the members who will vote (every
  * member of a town body, and the town's own legislators in a state house or
  * Congress); a member they met weighs the group's case among their reasons,
  * in proportion to how many of the bill's losers the group speaks for.
@@ -39,6 +39,8 @@ import { OFFICES_MODULE_ID, type TermRow } from "./offices";
 import { ownerOf } from "./business";
 import { lobbyingBarredUntil } from "../law-reach/group-a-voting";
 import { groupBPolicy } from "../law-reach/group-b";
+import { businessEnergyCostYear } from "./place-prices";
+import { businessDataPrivacyCostYear } from "./business";
 import { jobsAt } from "../law-reach/group-b-money";
 import { reachParameter } from "../law-reach/group-b-people";
 import {
@@ -227,19 +229,36 @@ function employerStakes(api: CoreAPI, b: BillRow): readonly EmployerStake[] {
     const bound = policy?.organizations;
     // A policy that pays the employers it binds (vouchers, a tax exemption) costs them nothing.
     if (!bound?.length || policy?.employersGain) continue;
-    // stopgapId: SG-GOV-bound-employer-cost-estimate (a share of payroll stands for what the law costs)
-    api.stopgap("SG-GOV-bound-employer-cost-estimate");
     const costs = new Map<string, { annualMinor: number }>();
+    // What a law costs a business by its own books: energy laws by the price
+    // engine's arithmetic, a data privacy law by the business engine's cost
+    // review.
+    const lawCost = (otherCostsMinor: number): number | null =>
+      businessEnergyCostYear(api, p.question!, otherCostsMinor) ??
+      businessDataPrivacyCostYear(api, p.question!, otherCostsMinor);
+    const priced = lawCost(1) !== null;
+    // Any other bound policy still stands on an estimated share of payroll.
+    if (!priced)
+      // stopgapId: SG-GOV-bound-employer-cost-estimate (a share of payroll stands for what the law costs)
+      api.stopgap("SG-GOV-bound-employer-cost-estimate");
     for (const job of jobsAt(api, bound)) {
       const row = costs.get(job.organizationId) ?? { annualMinor: 0 };
-      costs.set(job.organizationId, {
-        annualMinor: Math.round(
-          row.annualMinor +
-            job.wageDailyMinor *
-              reachParameter("daysPerYear") *
-              campaignParameter("boundEmployerCostShare"),
-        ),
-      });
+      if (priced) {
+        const book = (api.state as CoreState).finance.businesses.get(
+          job.organizationId,
+        );
+        costs.set(job.organizationId, {
+          annualMinor: lawCost(book?.annualOtherCostsMinor ?? 0)!,
+        });
+      } else
+        costs.set(job.organizationId, {
+          annualMinor: Math.round(
+            row.annualMinor +
+              job.wageDailyMinor *
+                reachParameter("daysPerYear") *
+                campaignParameter("boundEmployerCostShare"),
+          ),
+        });
     }
     if (costs.size)
       out.push({
@@ -305,8 +324,7 @@ function organizeEmployers(
     formedOn: existing?.formedOn ?? api.state.date,
     formedOver: existing?.formedOver ?? b.number,
     memberOrganizationIds: memberOrgs,
-    // The association meets members as itself; no named lobbyist.
-    lobbyistId: null,
+    lobbyistId: existing?.lobbyistId ?? lobbyistFor(api, memberOrgs, costs),
   };
   table(api, "groups").put(group as unknown as ModuleRow);
   // The group's case: what the bill costs the employers it speaks for.
@@ -419,6 +437,67 @@ function payDues(
     sourceRef: { kind: DUES_KIND, id: record.id },
     postings: record.postings,
   });
+}
+
+/**
+ * The group's lobbyist: the owner of the member employer the bill costs most
+ * when that owner lives in town, is not barred from lobbying and their traits
+ * lean to serve; else the best-paid town resident working for that employer
+ * (until the group hires a lobbyist: SG-GOV-group-lobbyist-stand-in).
+ */
+function lobbyistFor(
+  api: CoreAPI,
+  memberOrgs: readonly string[],
+  costs: ReadonlyMap<string, { annualMinor: number }>,
+): string | null {
+  // stopgapId: SG-GOV-group-lobbyist-stand-in
+  api.stopgap("SG-GOV-group-lobbyist-stand-in");
+  const state = api.state as CoreState;
+  const town = lawChain(api).townPlaceId;
+  for (const orgId of [...memberOrgs].sort(
+    (a, b) =>
+      (costs.get(b)?.annualMinor ?? 0) - (costs.get(a)?.annualMinor ?? 0) ||
+      a.localeCompare(b),
+  )) {
+    const ownerId = ownerOf(api, orgId);
+    const owner = ownerId ? api.state.people.get(ownerId) : undefined;
+    if (
+      owner?.alive &&
+      owner.placeId === town &&
+      lobbyingBarredUntil(api, owner.id) === null &&
+      decisionLean(
+        api.state,
+        owner,
+        "interest-groups.lobbyist",
+        "serve",
+        "decline",
+      ) >= 0
+    )
+      return owner.id;
+    const best = [...state.work.commitments.values()]
+      .filter((c) => {
+        const person = api.state.people.get(c.personId);
+        return (
+          c.organizationId === orgId &&
+          c.endsAt === undefined &&
+          lobbyingBarredUntil(api, c.personId) === null &&
+          person?.placeId === town &&
+          decisionLean(
+            api.state,
+            person,
+            "interest-groups.lobbyist",
+            "serve",
+            "decline",
+          ) >= 0
+        );
+      })
+      .sort(
+        (a, b) =>
+          b.hourlyMinor - a.hourlyMinor || a.personId.localeCompare(b.personId),
+      )[0];
+    if (best) return best.personId;
+  }
+  return null;
 }
 
 /** Whom the group meets: a town body's members, or the town's own legislators in a larger body. */

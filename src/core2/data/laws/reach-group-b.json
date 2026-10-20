@@ -1,5 +1,5 @@
 {
-  "about": "What each group B catalog policy does once it's law (audit item 13): who it reaches (a selector over named people's and counted residents' records, and employers by classification), the effect it records on them, the engine mechanic that moves money or pay where one exists. A policy whose mechanic is outcome-web has no reach here: the outcome web (data/research/outcome-web/links.json) carries its effect on the town's measures. Numbers are parameter keys in reach-group-b-parameters.json. Read by src/core2/law-reach/group-b.ts.",
+  "about": "What each group B catalog policy does once it's law (audit item 13): who it reaches (a selector over named people's and counted residents' records, and employers by classification), the effect it records on them, the engine mechanic that moves money or pay where one exists, and the registered stopgap naming the other engine's API where the real effect needs it. Numbers are parameter keys in reach-group-b-parameters.json. Read by src/core2/law-reach/group-b.ts.",
   "policies": {
     "us-policy-positions:transportation-infrastructure.fare-free-transit": {
       "mechanic": "transit-fares",
@@ -20,12 +20,6 @@
       "mechanic": "price-payment",
       "effect": "mileage-fee-instead-of-fuel-tax",
       "kind": "price",
-      "people": {
-        "ageFrom": "drivingAge"
-      },
-      "terms": {
-        "centsPerMile": "mileageFeeCentsPerMile"
-      },
       "enforcer": "department of transportation",
       "source": "Model of road usage charge laws (Oregon ORS 319.885 OReGO; Utah Code 72-1-213.1)",
       "stopgapId": "SG-GOV-REACH-B-mileage-fee-price"
@@ -34,14 +28,6 @@
       "mechanic": "price-payment",
       "effect": "public-broadband-offered",
       "kind": "eligibility",
-      "people": {
-        "ageFrom": "adultAge",
-        "householdHead": true
-      },
-      "organizations": ["enterprise:telecommunications"],
-      "terms": {
-        "monthlyDollars": "broadbandMonthlyDollars"
-      },
       "enforcer": "public utility board",
       "source": "Model of municipal broadband utilities (Institute for Local Self-Reliance community network list 2024)",
       "stopgapId": "SG-GOV-REACH-B-broadband-bill"
@@ -57,18 +43,38 @@
       "source": "Model of flexible highway-to-transit funding (23 U.S.C. 104(f), FHWA flex funding)"
     },
     "us-policy-positions:health-human-services.expand-medicaid-eligibility": {
-      "mechanic": "outcome-web",
+      "mechanic": "medicaid-coverage",
       "effect": "medicaid-eligible",
       "kind": "eligibility",
+      "people": {
+        "ageFrom": "medicaidExpansionAgeFrom",
+        "ageBelow": "medicaidExpansionAgeBelow",
+        "incomeBelowPovertyShare": "medicaidExpansionIncomeShare"
+      },
+      "terms": {
+        "incomeLimitShare": "medicaidExpansionIncomeShare"
+      },
       "enforcer": "state Medicaid agency",
-      "source": "42 U.S.C. 1396a(a)(10)(A)(i)(VIII) (the Affordable Care Act expansion group)"
+      "source": "42 U.S.C. 1396a(a)(10)(A)(i)(VIII) (the Affordable Care Act expansion group)",
+      "stopgapId": "SG-GOV-REACH-B-medicaid-coverage"
     },
     "us-policy-positions:health-human-services.medicaid-work-requirement": {
-      "mechanic": "outcome-web",
+      "mechanic": "records",
       "effect": "medicaid-ended-for-work-hours",
       "kind": "rule",
+      "people": {
+        "ageFrom": "medicaidExpansionAgeFrom",
+        "ageBelow": "medicaidExpansionAgeBelow",
+        "incomeBelowPovertyShare": "medicaidExpansionIncomeShare",
+        "hoursBelowPerMonth": "medicaidWorkHoursPerMonth",
+        "noChildBelow": "medicaidWorkExemptChildBelow"
+      },
+      "terms": {
+        "hoursPerMonth": "medicaidWorkHoursPerMonth"
+      },
       "enforcer": "state Medicaid agency",
-      "source": "Pub. L. 119-21 (2025), sec. 71119 (community engagement requirement)"
+      "source": "Pub. L. 119-21 (2025), sec. 71119 (community engagement requirement)",
+      "stopgapId": "SG-GOV-REACH-B-medicaid-coverage"
     },
     "us-policy-positions:health-human-services.work-requirement-for-assistance": {
       "mechanic": "assistance-time-limit",
@@ -82,14 +88,20 @@
         "noChildBelow": "snapWorkExemptChildBelow"
       },
       "enforcer": "state human services agency",
-      "source": "7 U.S.C. 2015(o) as amended by Pub. L. 119-21 (2025), sec. 10102"
+      "source": "7 U.S.C. 2015(o) as amended by Pub. L. 119-21 (2025), sec. 10102",
+      "stopgapId": "SG-GOV-REACH-B-assistance-benefits"
     },
     "us-policy-positions:education.universal-preschool": {
-      "mechanic": "outcome-web",
+      "mechanic": "preschool-payment",
       "effect": "preschool-eligible",
       "kind": "eligibility",
+      "people": {
+        "ageFrom": "preschoolAgeFrom",
+        "ageBelow": "preschoolAgeBelow"
+      },
       "enforcer": "state education department",
-      "source": "Model of universal pre-K laws (NIEER, The State of Preschool 2024)"
+      "source": "Model of universal pre-K laws (NIEER, The State of Preschool 2024)",
+      "stopgapId": "SG-GOV-REACH-B-preschool-enrollment"
     },
     "us-policy-positions:education.public-funds-for-private-schooling": {
       "mechanic": "school-voucher",
@@ -219,21 +231,15 @@
       "mechanic": "housing-construction",
       "effect": "no-new-gas-hookups",
       "kind": "compliance",
+      "organizations": ["enterprise:construction", "enterprise:utility"],
       "enforcer": "building department",
-      "source": "Model of all-electric building codes (Berkeley Municipal Code 12.80, 2019; New York State All-Electric Buildings Act 2023)"
+      "source": "Model of all-electric building codes (Berkeley Municipal Code 12.80, 2019; New York State All-Electric Buildings Act 2023)",
+      "stopgapId": "SG-GOV-REACH-B-building-cost"
     },
     "us-policy-positions:environment-energy.clean-electricity-standard": {
       "mechanic": "price-payment",
       "effect": "clean-electricity-standard",
       "kind": "price",
-      "people": {
-        "ageFrom": "adultAge",
-        "householdHead": true
-      },
-      "organizations": ["enterprise:utility"],
-      "terms": {
-        "priceShare": "cleanElectricityPriceShare"
-      },
       "enforcer": "public utility commission",
       "source": "LBNL, U.S. State Renewables Portfolio and Clean Electricity Standards: 2023 Status Update",
       "stopgapId": "SG-GOV-REACH-B-energy-price"
@@ -254,14 +260,6 @@
       "mechanic": "price-payment",
       "effect": "collects-container-deposit",
       "kind": "compliance",
-      "organizations": [
-        "enterprise:retail",
-        "enterprise:food-service",
-        "enterprise:wholesale"
-      ],
-      "terms": {
-        "depositCents": "bottleDepositCents"
-      },
       "enforcer": "the state or city environmental agency",
       "source": "Model of container deposit laws (Container Recycling Institute)",
       "stopgapId": "SG-GOV-REACH-B-retail-price"
@@ -270,20 +268,6 @@
       "mechanic": "price-payment",
       "effect": "carbon-priced",
       "kind": "price",
-      "people": {
-        "ageFrom": "adultAge",
-        "householdHead": true
-      },
-      "organizations": [
-        "enterprise:utility",
-        "enterprise:manufacturing",
-        "enterprise:mining",
-        "enterprise:transportation"
-      ],
-      "terms": {
-        "dollarsPerTon": "carbonPricePerTonDollars",
-        "householdTonsPerYear": "householdTonsPerYear"
-      },
       "enforcer": "state environmental agency",
       "source": "Model of carbon pricing (Washington Climate Commitment Act, RCW 70A.65)",
       "stopgapId": "SG-GOV-REACH-B-energy-price"
@@ -292,6 +276,14 @@
       "mechanic": "farm-output",
       "effect": "groundwater-allocation",
       "kind": "compliance",
+      "organizations": [
+        "enterprise:agriculture",
+        "enterprise:mining",
+        "enterprise:utility"
+      ],
+      "terms": {
+        "withdrawalShare": "groundwaterWithdrawalShare"
+      },
       "enforcer": "state water agency",
       "source": "Kansas Local Enhanced Management Areas (K.S.A. 82a-1041); Nebraska natural resources district allocations",
       "stopgapId": "SG-GOV-REACH-B-business-cost"
@@ -300,8 +292,14 @@
       "mechanic": "housing-construction",
       "effect": "farmland-development-restricted",
       "kind": "rule",
+      "organizations": [
+        "enterprise:agriculture",
+        "enterprise:construction",
+        "enterprise:real-estate"
+      ],
       "enforcer": "county planning department",
-      "source": "Model of agricultural zoning and farmland protection (American Farmland Trust, Farmland Protection Policy Act 7 U.S.C. 4201)"
+      "source": "Model of agricultural zoning and farmland protection (American Farmland Trust, Farmland Protection Policy Act 7 U.S.C. 4201)",
+      "stopgapId": "SG-GOV-REACH-B-land-use"
     },
     "income-tax": {
       "mechanic": "income-tax-rate",
@@ -313,21 +311,24 @@
       },
       "enforcer": "department of revenue",
       "source": "The law in force on income tax (laws module); collected by payroll withholding (src/core2/modules/budgets.ts)"
-    },
-    "sales-tax": {
-      "mechanic": "records",
-      "effect": "sales-tax-rate",
-      "kind": "price",
-      "people": {
-        "ageFrom": "adultAge",
-        "householdHead": true
-      },
-      "organizations": ["enterprise:retail", "enterprise:food-service"],
-      "enforcer": "department of revenue",
-      "source": "The law in force on sales tax (laws module)"
     }
   },
   "budgetLines": {
+    "highways": {
+      "effect": "road-service-level",
+      "people": {
+        "ageFrom": "drivingAge"
+      },
+      "organizations": ["enterprise:transportation", "enterprise:construction"],
+      "stopgapId": "SG-GOV-REACH-B-road-condition"
+    },
+    "transit": {
+      "effect": "transit-service-level",
+      "people": {
+        "ageFrom": "transitRiderAgeFrom"
+      },
+      "stopgapId": "SG-GOV-REACH-B-transit-fare-price"
+    },
     "healthAndHospitals": {
       "effect": "public-health-service-level",
       "people": {},
@@ -351,6 +352,14 @@
         "compensationShare": "schoolCompensationShare"
       }
     },
+    "higherEducation": {
+      "effect": "college-support-level",
+      "people": {
+        "ageFrom": "collegeAgeFrom",
+        "ageBelow": "collegeAgeBelow"
+      },
+      "stopgapId": "SG-GOV-REACH-B-tuition"
+    },
     "welfareAndMedicaid": {
       "effect": "assistance-benefit",
       "people": {
@@ -358,6 +367,18 @@
         "householdHead": true
       },
       "benefit": true
+    },
+    "naturalResources": {
+      "effect": "resource-protection-level",
+      "people": {},
+      "organizations": ["enterprise:agriculture", "enterprise:mining"],
+      "stopgapId": "SG-GOV-REACH-B-business-cost"
+    },
+    "parks": {
+      "effect": "parks-service-level",
+      "people": {},
+      "organizations": ["enterprise:recreation"],
+      "stopgapId": "SG-GOV-REACH-B-park-use"
     },
     "retirementContributions": {
       "effect": "pension-funding-level",

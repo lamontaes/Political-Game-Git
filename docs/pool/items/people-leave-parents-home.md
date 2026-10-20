@@ -5,13 +5,13 @@ area: people
 kind: feature
 priority: 2
 size: M
-status: open
-claimed-by:
+status: blocked
+claimed-by: claude/pool-people-leave-parents-home
 pr: #4959
-blocked-on:
+blocked-on: PR 5017 (World housing helpers) and PR 4948 landing; then merge main into claude/leave-parents-home
 after: core-household-membership-change
 source: added with npm run pool -- add
-claimed-at:
+claimed-at: 2026-10-20T02:35:01.028Z
 ---
 
 **What.** TODO

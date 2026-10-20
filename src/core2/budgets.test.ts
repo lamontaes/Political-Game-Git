@@ -28,6 +28,7 @@ import { withholdingFor } from "./tax-withholding";
 import { treasuryMonthsOf } from "./budgets-treasury";
 import { billPropertyTax } from "./housing-property-tax";
 import { HOUSING_MODULE_ID } from "./modules/housing";
+import { residentsRuntime } from "./modules/residents";
 import { searchCorePlaces, corePlaceStateIdentities } from "./place-lookup";
 
 const START = "2026-01-05";
@@ -300,6 +301,17 @@ describe(
           (t) => t.ratePercent > 0,
         );
         const total = taxes.reduce((a, t) => a + t.collectedMinor, 0);
+        // The tax is on sales by sellers in the town; a town whose residents
+        // buy from no seller there (a few dozen people and no shop) has no
+        // taxable sale to collect on, so it cannot show the collection.
+        const town = lawChain(api).townPlaceId;
+        const localSeller = [...(residentsRuntime(core)?.flows.values() ?? [])]
+          .filter((f) => f.kind === "purchase" && !f.endedAt)
+          .some((f) => {
+            const seller = core.organizations.get(f.payeeId);
+            return seller?.placeId === town && seller.kind !== "outside-market";
+          });
+        if (total === 0 && !localSeller) continue;
         expect(total, where).toBeGreaterThan(0);
         // Each level's share of the tax inside a price is its rate over
         // (100 + the combined rate); the shares add up to the combined rate.

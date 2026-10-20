@@ -6,11 +6,11 @@ kind: stopgap
 priority: 3
 size: M
 status: in-pr
-claimed-by: claude/political-game-pool-yucp92-l
+claimed-by: claude/fs11vb-rch
 pr: #5340
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-20T00:41:40.946Z
+claimed-at: 2026-10-20T14:26:53.554Z
 ---
 
 **What.** TODO
@@ -22,3 +22,5 @@ claimed-at: 2026-10-20T00:41:40.946Z
 **Files.** TODO
 
 **Notes.** TODO
+
+Sent back 2026-10-20 from PR #5340 (branch claude/political-game-pool-yucp92-l): merge conflict with main in code; merge main and resolve; finish on that branch, merge main into it first.
