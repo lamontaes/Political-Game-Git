@@ -213,7 +213,7 @@
   "macroMortgageSpreadOverTreasuryPct": {
     "value": 1.768,
     "tag": "ESTIMATED",
-    "citation": "FHFA Monthly Interest Rate Survey 30-year fixed less the 10-year Treasury (H.15 GS10), monthly 1990-2019: mean 1.768 points. Owner ruling Oct 14, 2026: the mortgage rate is the Treasury rate plus this spread, no outside feed.",
+    "citation": "FHFA Monthly Interest Rate Survey 30-year fixed less the 10-year Treasury (H.15 GS10), monthly 1990-2019: mean 1.768 points. The mortgage rate is the Treasury rate plus this spread, no outside feed.",
     "estimatedFrom": "Only months past the published series use the spread; data/research/stand-in-figures-2026-10-12.json.",
     "spread": {
       "low": 1.22,
