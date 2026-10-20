@@ -5,7 +5,7 @@ area: laws
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/n2-laws-graduated-tax-repeal-guam
 pr: #5684
 blocked-on:
