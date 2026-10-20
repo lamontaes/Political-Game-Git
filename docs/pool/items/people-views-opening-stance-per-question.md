@@ -22,3 +22,5 @@ claimed-at: 2026-10-20T00:31:26.711Z
 **Files.** src/core2/modules/views.ts, src/core2/campaign-views.ts, src/core2/electorate.ts
 
 **Notes.** Split out of gov-needs-gov-69 (the "Needs from other sessions" section of docs/coordination/gov.md), checked against main on Oct 16, 2026.
+
+Oct 20 (claude/people-views-opening-stance-per-question, claimed and released, nothing built). Read `views.ts` (`viewOn` = `personStance(lean, question)` plus the heard-shift) and `campaign-views.ts` (`questionAxis`, one signed axis per question, from GSS and Pew by party). What the item asks for, a per-question opening stance from traits, faith, education and the state's survey spread, needs data the repo does not hold: the only per-question number is one axis per question, with no per-state or per-demographic spread. A stance built from traits without that spread would be a made-up deviation, and a person-level deviation of any size would move every vote tally, so it needs the sourced table first. Next: a research item for a per-question spread by state and by faith and education cell (CES 2024 and GSS), then the stance formed from it.
