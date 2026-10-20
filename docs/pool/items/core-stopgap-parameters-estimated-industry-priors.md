@@ -20,7 +20,7 @@ after:
 
 **Done when.** In a one-year run of buildBenchWorld in a drawn place from all 56 (place and seed named in the PR body, a seed the builder did not choose), two firms of one industry but different size classes carry different payroll share and margin by business book record id, the spread across firms matches the sourced quantiles for the cell, the share of firms holding a credit line lands within 15 to 40 percent with each line approved by the credit engine's record, and src/core2/business-books-priors.test.ts proves it; the row is resolved in stopgaps.json.
 
-**Files.** src/core2/data/parameters.json, src/core2/data/business-books.json, src/core2/business-books.ts, src/core2/data/research/core/business-size-class-priors.json, src/core2/business-books-priors.test.ts, src/core2/data/stopgaps.json
+**Files.** src/core2/data/parameters.json, src/core2/data/business-books.json, src/core2/business-books.ts, data/research/core/business-size-class-priors.json, src/core2/business-books-priors.test.ts, src/core2/data/stopgaps.json
 
 **Notes.** First row: Firm demand/cost priors from later-vintage corporate aggregate ratios and conditional credit-line source rows, not observed individual-firm books or credit approval.
 
