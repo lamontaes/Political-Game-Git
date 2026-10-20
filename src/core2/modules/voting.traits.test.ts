@@ -32,10 +32,19 @@ let adults: PersonState[];
 // Building and playing a drawn town to its election takes about 20 seconds,
 // inside the 60 second hook limit.
 beforeAll(() => {
-  ({ core, api } = drawnRaceWorld((attempt) => {
-    const seed = `${SEED}:${attempt}`;
-    return { seed, place: drawPlace(seed, "trait-wiring") };
-  }, 44));
+  ({ core, api } = drawnRaceWorld(
+    (attempt) => {
+      const seed = `${SEED}:${attempt}`;
+      return { seed, place: drawPlace(seed, "trait-wiring") };
+    },
+    44,
+    undefined,
+    2,
+    // A race counted only among the counted population leaves no full person's
+    // ballot for the exit-poll test to read.
+    (world) =>
+      polledBallots(world.api).length > 0 ? null : "no full person's ballot",
+  ));
   adults = adultsOf(core);
   // Reason for the hook's time: the drawn place is built twice (its election calendar, then every resident as a full person) and played for the window, 1 to 5 minutes on a shared machine.
 }, 600_000);
@@ -118,15 +127,19 @@ describe("voting.back-incumbent reads the calibrated lean toward keeping the kno
   });
 });
 
-describe("voting.exit-poll is told by the voters whose traits lean toward telling", () => {
-  it("every voter in the March 4 contests who told the pollster leans toward telling, and everyone who declined leans away", () => {
-    const ballots = api
+/** The ballots of full people who voted for someone, with their exit-poll answer. */
+function polledBallots(api: CoreAPI): BallotRow[] {
+  return (
+    api
       .moduleState(VOTING_MODULE_ID)
       .table("ballots")
-      .rows() as unknown as BallotRow[];
-    const polled = ballots.filter(
-      (b) => b.voted && b.choice !== null && b.toldPollster !== null,
-    );
+      .rows() as unknown as BallotRow[]
+  ).filter((b) => b.voted && b.choice !== null && b.toldPollster !== null);
+}
+
+describe("voting.exit-poll is told by the voters whose traits lean toward telling", () => {
+  it("every voter in the drawn town's race who told the pollster leans toward telling, and everyone who declined leans away", () => {
+    const polled = polledBallots(api);
     console.log(`exit poll: ${polled.length} voters with a choice`);
     expect(polled.length).toBeGreaterThan(0);
     for (const b of polled) {
