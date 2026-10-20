@@ -260,6 +260,9 @@ export const PRESS_MODULE: CoreModule = {
           byCandidate: { fields: ["candidateId"] },
         },
       },
+      // A favor done for a reporter, and a story leaked to one.
+      favors: { indexes: { byReporter: { fields: ["reporterId"] } } },
+      leaks: { indexes: { byReporter: { fields: ["reporterId"] } } },
     },
   },
   onDay: enrollPressEmployers,
@@ -1534,8 +1537,6 @@ function reporterFor(
       api.state.people.get(id)?.alive && id !== candidateId && !rivals.has(id),
   );
   if (!reporters.length) return null;
-  // stopgapId: SG-PEOPLE-press-favors-and-leaks
-  api.stopgap("SG-PEOPLE-press-favors-and-leaks");
   return reporters
     .map((id) => ({ id, tie: closeness(api, id, candidateId) }))
     .sort((a, b) => b.tie - a.tie || a.id.localeCompare(b.id))[0]!.id;
@@ -1590,6 +1591,137 @@ export function answerInterview(
     };
   });
   return publish(api, row, given);
+}
+
+/** A favor one person did a reporter (a tip, an introduction, a quote on short notice). */
+export interface FavorRow {
+  readonly id: string;
+  readonly byId: string;
+  readonly reporterId: string;
+  readonly date: string;
+  readonly hours: number;
+}
+
+/** A story one person leaked to one reporter: the wire item and the record it rests on. */
+export interface LeakRow {
+  readonly id: string;
+  readonly wireId: string;
+  readonly leakerId: string;
+  readonly reporterId: string;
+  readonly aboutId: string;
+  readonly voteId: string;
+  readonly date: string;
+}
+
+const staffReporter = (api: CoreAPI, reporterId: string): boolean =>
+  outletsHere(api).some((o) => (o.reporterIds ?? []).includes(reporterId));
+
+/**
+ * Do a reporter a favor. The time is written through the core's relationship
+ * writer, so closeness grows as with any contact, and the favor is kept as a
+ * record naming it. The reporter's closeness is what the desk reads: the
+ * friendlier reporter is asked first for access, files gentler copy, and
+ * takes a leak from this person more readily.
+ */
+export function doReporterFavor(
+  api: CoreAPI,
+  byId: string,
+  reporterId: string,
+): FavorRow | null {
+  if (
+    byId === reporterId ||
+    !api.state.people.get(byId)?.alive ||
+    !api.state.people.get(reporterId)?.alive ||
+    !staffReporter(api, reporterId)
+  )
+    return null;
+  const hours = pressParameter("favorHours");
+  const row: FavorRow = {
+    id: `favor:${byId}:${reporterId}:${api.state.date}`,
+    byId,
+    reporterId,
+    date: api.state.date,
+    hours,
+  };
+  if (table(api, "favors").get(row.id)) return row;
+  table(api, "favors").put(row as unknown as ModuleRow);
+  api.relationship(byId, reporterId, "contact", hours, undefined, {
+    cause: "press-favor",
+    sourceId: row.id,
+  });
+  return row;
+}
+
+/**
+ * Leak a reporter what the leaker can read in the record: another person's
+ * vote on a question. It goes on the wire for that reporter alone (no other
+ * reporter or outlet is offered it), the reporter's knowledge names the
+ * leaker, and the time together is written through the relationship writer.
+ * Whether it runs is the desk's call: the reporter's closeness to the leaker
+ * raises it, their closeness to the person it names lowers it. Null where the
+ * record holds no such vote.
+ */
+export function leakToReporter(
+  api: CoreAPI,
+  input: {
+    readonly leakerId: string;
+    readonly reporterId: string;
+    readonly aboutId: string;
+    readonly question: string;
+  },
+): LeakRow | null {
+  const { leakerId, reporterId, aboutId, question } = input;
+  if (
+    leakerId === reporterId ||
+    !api.state.people.get(leakerId)?.alive ||
+    !api.state.people.get(reporterId)?.alive ||
+    !staffReporter(api, reporterId)
+  )
+    return null;
+  const vote = votesOf(api, aboutId)
+    .filter((v) => v.stance.question === question)
+    .at(-1);
+  if (!vote) return null;
+  const wireId = `leak:${leakerId}:${reporterId}:${vote.id}`;
+  const held = table(api, "leaks").get(wireId);
+  if (held) return held as unknown as LeakRow;
+  table(api, "wire").put({
+    id: wireId,
+    kind: "leak",
+    date: api.state.date,
+    level: "town",
+    topic: question,
+    desiredChange: vote.stance.position > 0 ? "enact" : "repeal",
+    ending: false,
+    subjectIds: [aboutId],
+    facts: { leakedBy: leakerId, leakedTo: reporterId, voteId: vote.id },
+  } as unknown as ModuleRow);
+  const row: LeakRow = {
+    id: wireId,
+    wireId,
+    leakerId,
+    reporterId,
+    aboutId,
+    voteId: vote.id,
+    date: api.state.date,
+  };
+  table(api, "leaks").put(row as unknown as ModuleRow);
+  api.observe(reporterId, {
+    key: `leaked-by:${wireId}`,
+    value: leakerId,
+    learnedAt: api.state.date,
+    sourceId: wireId,
+    access: "told",
+  });
+  api.relationship(
+    leakerId,
+    reporterId,
+    "contact",
+    pressParameter("leakHours"),
+    undefined,
+    { cause: "press-leak", sourceId: wireId },
+  );
+  return row;
 }
 
 /** Who an interview row is with: the filing's candidate, else the officeholder. */

@@ -3770,7 +3770,8 @@
     "addedBy": "OPUS-PEOPLE",
     "addedAt": "2026-10-14",
     "replacement": "A leak as a conversation move that puts a record on the reporter's wire with the leaker named in their knowledge, and favors as relationship acts the reporter's drives and closeness read.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "Done Oct 20 (gov-press-favors-and-leaks): doReporterFavor writes the favor's hours through the relationship writer and a favors row; leakToReporter puts a wire item on one reporter's desk alone with the leaker in their knowledge (leaked-by:<wire id>) and the leak hours on the relationship; the desk reads closeness to the leaker (raises the story) and to anyone it names (a friend holds it back, sliding). The conversation wording is SG-PEOPLE-press-leak-wording."
   },
   {
     "id": "SG-PEOPLE-press-endorsements",
@@ -4867,6 +4868,18 @@
     "addedBy": "claude/public-staff-never-paid",
     "addedAt": "2026-10-17",
     "replacement": "Each department's employing government read from the Census of Governments employment file by function, so a county health department, a fire district or a state agency's field office pays its own staff.",
+    "status": "open"
+  },
+  {
+    "id": "SG-PEOPLE-press-leak-wording",
+    "kind": "missing-record",
+    "file": "src/director/press-interview.ts",
+    "line": 1,
+    "whatItFakes": "A leak is a choice in the press interview conversation (leakToReporter), but the mined interview bank has no 'off the record' wording for it, so the choice is never offered to a player and no one can leak through the conversation yet.",
+    "why": "No wording is hand-written; the bank holds no leak shape and a mined one needs the Words line's corpus run.",
+    "addedBy": "SONNET-GOV",
+    "addedAt": "2026-10-20",
+    "replacement": "A mined 'official-leak' part (shape in scripts/english-corpus/shapes/interview.json) so openInterviewTalk offers the leak move.",
     "status": "open"
   }
 ]

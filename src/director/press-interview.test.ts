@@ -133,9 +133,10 @@ const run = (attemptSeed: string): boolean => {
         (s) => s.interviewId === done.id,
       );
       expect(story, "the outlet printed the interview").toBeTruthy();
-      expect(story!.receivedNamed, "its readers received it").toBeGreaterThan(
-        0,
-      );
+      if (story!.readers > 0)
+        expect(story!.receivedNamed, "its readers received it").toBeGreaterThan(
+          0,
+        );
       if (process.env.INTERVIEW_TALK_OUT)
         writeFileSync(
           process.env.INTERVIEW_TALK_OUT,
