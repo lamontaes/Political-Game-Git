@@ -5195,5 +5195,17 @@
     "addedAt": "2026-10-20",
     "replacement": "A coverage share per counted group, read by the same rule as a full person times the group's weight, and a premium flow per covered counted household (pool item people-coverage-counted).",
     "status": "open"
+  },
+  {
+    "id": "SG-LABOR-low-wage-unreviewed",
+    "kind": "faked-mechanic",
+    "file": "src/core2/jobs-web.ts",
+    "line": 251,
+    "whatItFakes": "minimum-wage-to-low-wage-jobs and federal-minimum-wage-to-low-wage-jobs scale only the staffing targets of employers the jobs engine reviews, and in played towns none of those has a job under the line; the town's low-wage jobs belong to organizations the review never reaches, so the factor moves no record.",
+    "why": "In a bench world (Sail Harbor, Connecticut, seed 6bad944e1a974146) all 32 reviewed employers had no heads under the line while about 190 of the town's 208 low-wage jobs sat with organizations outside the employers table; summed staffing need was identical to 15 digits with the factor at 0.5.",
+    "addedBy": "effect-web-labor",
+    "addedAt": "2026-10-20",
+    "replacement": "The jobs engine applies the low-wage factor to every organization whose jobs labor.low-wage-jobs counts, at the moment it sets that organization's staffing, shown in a low-wage-only twin by employer id.",
+    "status": "open"
   }
 ]

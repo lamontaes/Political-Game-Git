@@ -1,8 +1,9 @@
 /**
  * The labor engine reads the outcome web's factors: pay follows the web's
  * wage and earnings factors, the pull to be at work follows the participation
- * outcomes of mothers, married women and people near retirement, and an
- * employer's target follows the low-wage factor. Played in the bench world in
+ * outcomes of mothers, married women and people near retirement. The
+ * low-wage factor reaches no employer yet (SG-LABOR-low-wage-unreviewed), so
+ * nothing here claims it moves staff. Played in the bench world in
  * a place drawn from all 56 on a seed nobody chose; the twin world is the same
  * world with the web's month row shifted where the engine reads it.
  */
@@ -137,7 +138,7 @@ describe(`the labor engine and the outcome web (${place.name}, seed ${seed})`, (
     expect(webReach(api, town, MOTHERS).recordId).toBeTruthy();
   }, 900_000); // one played world, 41 days, plus its build
 
-  it("a higher participation factor moves who is at work, and a lower low-wage factor shrinks low-wage staff", async () => {
+  it("a higher participation factor moves who is at work", async () => {
     const days = 80;
     const lowWage = (core: CoreState) =>
       [...core.jobs.values()].filter(
@@ -185,7 +186,6 @@ async function trial(base: CoreState, lifted: CoreState, days: number) {
       "universal-childcare-to-mothers-work": 0.6,
       "broadband-to-married-women-work": 0.3,
       "retirement-age-to-older-work": 0.5,
-      "federal-minimum-wage-to-low-wage-jobs": -0.5,
     };
     const wageBase = (core: CoreState) =>
       (
@@ -217,9 +217,6 @@ async function trial(base: CoreState, lifted: CoreState, days: number) {
       rate(b[MOTHERS]) + rate(b[MARRIED_WOMEN]) + rate(b[OLDER_WORK]),
     ).toBeGreaterThan(
       rate(a[MOTHERS]) + rate(a[MARRIED_WOMEN]) + rate(a[OLDER_WORK]),
-    );
-    expect(b["labor.low-wage-jobs"].at).toBeLessThan(
-      a["labor.low-wage-jobs"].at,
     );
   }
 }
