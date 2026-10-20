@@ -5,13 +5,12 @@ area: world
 kind: bug
 priority: 3
 size: M
-status: claimed
-claimed-by: claude/utility-power-outflow
-pr:
-blocked-on:
-after: world-utility-staff-never-paid
+status: done
+claimed-by: claude/political-game-pool-yucp92-af
+pr: #5616
+blocked-on: world-utility-staff-never-paid
 source: added with npm run pool -- add
-claimed-at: 2026-10-19T19:08:52.630Z
+claimed-at: 2026-10-20T07:58:59.763Z
 ---
 
 **What.** A town's electric and water utility is an employer with no business book and no cash. Once its household bills reach it (world-utility-staff-never-paid, in PR #5033), nothing leaves it for the power and water it resells, so the whole bill stays as cash and the utility looks rich while it buys supply from nobody. Give the utility an outside-supply cost flow sized from the sourced share of a utility's revenue that goes to purchased power and water, paid to the place's outside account the way a business's outside-costs flow is, so the bill splits between payroll, supply and what is kept.

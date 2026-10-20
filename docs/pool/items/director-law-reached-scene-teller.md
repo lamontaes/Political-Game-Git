@@ -5,12 +5,12 @@ area: director
 kind: wiring
 priority: 2
 size: S
-status: open
-claimed-by:
-pr: #4747
+status: in-pr
+claimed-by: claude/director-law-reached-scene-teller
+pr: #5150
 blocked-on:
 source: added with npm run pool -- add
-claimed-at:
+claimed-at: 2026-10-19T19:29:03.213Z
 ---
 
 **What.** A law reaching a person opens a scene with the teller: the core records no officer who gave the notice. This work was sent back by the merger on 2026-10-16 and is open for any builder to finish. The reason it came back: GitHub refuses to merge a draft pull request (HTTP 405: "Pull Request is still a draft"). The merger skill's prescribed REST ready-for-review endpoint returns HTTP 404. Mark this PR ready for review, retain the named changed-file checks at the top, and push any needed corrections. Finish it on the existing branch claude/director-law-reached-scene-teller, after merging main into it with a plain merge.
