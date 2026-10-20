@@ -4,13 +4,13 @@ title: "Stopgaps in content (estimated-behavior): 1 open"
 area: core
 kind: stopgap
 priority: 3
-status: claimed
-claimed-by: claude/political-game-pool-76ksvw
-pr:
-blocked-on:
+status: blocked
+claimed-by: claude/content-estimated
+pr: #5280
+blocked-on: research-content-sourced-parameters
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/data/content.json, kind estimated-behavior"
-claimed-at: 2026-10-19T23:11:18.641Z
+claimed-at: 2026-10-19T23:35:39.096Z
 ---
 
 **What.** Replace or clear the 1 open estimated-behavior stopgap row(s) in src/core2/data/content.json: SG-P8-life-utility. Each fake is replaced by the mechanic, or the feature that needs it is deleted.
@@ -22,3 +22,5 @@ claimed-at: 2026-10-19T23:11:18.641Z
 **Files.** src/core2/data/content.json
 
 **Notes.** First row: Prototype need, goal, affect and trait utility mappings; authored player-circle daily, local-town weekly, state monthly and inactive husk cadence; one scored discretionary act per tier activation instead of a complete ac
+
+Looked at Oct 19 (claude, claude/content-estimated), nothing built. The row's replacement is coefficients validated against real cohort time use (ATUS activity totals by age, sex and employment) across documented lives. That is a calibration study with its own fitted data file, not a code change, and no sourced coefficient table is in the repo to swap in. It needs a research pass that produces `data/research` ATUS tables and a test that the played year's activity totals fall inside them; until then the row stays open.

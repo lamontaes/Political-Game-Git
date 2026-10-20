@@ -4,8 +4,8 @@ title: "Stopgaps in staff (missing-engine): 4 open"
 area: gov
 kind: stopgap
 priority: 3
-status: claimed
-claimed-by: claude/staff-hire-employed
+status: open
+claimed-by:
 pr:
 blocked-on:
 milestone:
@@ -22,3 +22,5 @@ claimed-at: 2026-10-19T23:03:27.093Z
 **Files.** src/core2/modules/staff.ts
 
 **Notes.** First row: Officials' automatic hires (an aide at the monthly staff review, a department head refilled at the executive's review) choose only among people out of work, though anyone paid less than the post would apply.
+
+Oct 20: PR #5248 merged and resolved only SG-GOV-staff-hire-out-of-work; the other four rows in this item are still open.

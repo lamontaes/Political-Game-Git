@@ -5,12 +5,12 @@ area: play
 kind: feature
 priority: 3
 size: S
-status: claimed
-claimed-by: claude/political-game-pool-76ksvw
+status: blocked
+claimed-by: claude/pool-budget-editor
 pr:
-blocked-on:
+blocked-on: office-budget-season-mayor-act
 source: added with npm run pool -- add
-claimed-at: 2026-10-19T23:11:10.966Z
+claimed-at: 2026-10-19T23:15:06.999Z
 ---
 
 **What.** TODO
