@@ -5,7 +5,7 @@ area: core
 kind: research
 priority: 3
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/fs11vb-mem
 pr: #5623
 blocked-on: owner-decision-may-player-old-decisions-be-compacted
