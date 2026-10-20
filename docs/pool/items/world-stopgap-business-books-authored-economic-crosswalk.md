@@ -7,7 +7,7 @@ priority: 3
 status: blocked
 claimed-by:
 pr:
-blocked-on: research data: the row's replacement needs recorded, empirical or sourced data (Recorded industry/legal-form and funding evidence for actual employers and counterparties, including public/branch/nonprofit budgets....)
+blocked-on: engine or design: The current input preserves employer classifications but not firm legal form and all funding routes. Unknown classifications produce a gap; mods extend the mapping as data.
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/data/business-books.json, kind authored-economic-crosswalk"
 ---
