@@ -15,6 +15,7 @@
  * reads the record of as many members as their work covers), and handling a
  * constituent case in the official's office.
  */
+import { workedToday } from "../job-lifecycle";
 import {
   coreAPI,
   fillInIdentity,
@@ -40,11 +41,12 @@ import { parameter } from "../parameters";
 import { decisionLean } from "../trait-decisions";
 import { lawChain } from "./laws";
 import type { ModuleCalendarWork } from "../module-calendar";
-import { addDays, makeIsoDate } from "../kernel/dates";
+import { addDays, daysBetween, makeIsoDate } from "../kernel/dates";
 import { townSeats } from "./offices";
 import { BUDGETS_MODULE_ID, governments } from "./budgets";
 import { inCustody } from "./justice";
 import { startPublicJob } from "../public-payroll";
+import { giveLivingCost, spendLivingCost } from "../official-living";
 import { publicPayRoom, treasuryParameter } from "../budgets-treasury";
 import {
   LEGISLATURE_MODULE_ID,
@@ -84,6 +86,23 @@ export interface StafferRow {
   readonly jobId?: string;
   /** The aide this hire replaces, who died or left the post (owner, Oct 14: every role is refilled). */
   readonly replacesStafferId?: string;
+  /** Given a household cost at hire, which they spend out of each month through this date. */
+  readonly livedThrough?: string;
+  /** The aide's attendance totals at the official's last look, so the next look reads only the days since. */
+  readonly reviewed?: {
+    readonly on: string;
+    readonly worked: number;
+    readonly missed: number;
+  };
+  /** Why the official let the aide go: the share of scheduled days missed since the last look and the reasons weighed. */
+  readonly dismissed?: {
+    readonly on: string;
+    readonly absentShare: number;
+    readonly lean: number;
+    readonly workedDays: number;
+    readonly missedDays: number;
+    readonly jobId: string;
+  };
 }
 
 export interface WorkRecord {
@@ -305,7 +324,9 @@ export function staffCandidates(
       person.id === officialId ||
       hired.has(person.id) ||
       inCustody(api, person.id) ||
-      ageOn(person, date) < minimum
+      ageOn(person, date) < minimum ||
+      // Their old job ends with the new post, which cannot be today's.
+      workedToday(state, person)
     )
       continue;
     if (person.tier === HUSK_TIER) {
@@ -338,7 +359,7 @@ export function staffCandidates(
     if (pay < postHourly)
       out.push({ personId: person.id, from: "applicant", ...placed });
   }
-  // The town's counted adults with no work in their records apply too.
+  // The town's counted adults who earn less than the post pays apply too.
   for (const voter of countedPool(api, town, minimum)) {
     if (hired.has(voter.id) || inCustody(api, voter.id)) continue;
     const known =
@@ -450,11 +471,13 @@ function countedPool(api: CoreAPI, town: string, minimum: number) {
   const state = api.state as CoreState;
   const held = pools.get(state);
   if (held?.date === state.date) return held.rows;
+  // Anyone earning less than the post pays may apply, not only the jobless.
+  const postHourly = campaignParameter("staffHourlyMinor");
   const rows = countedResidents(state)
     .filter(
       (voter) =>
         voter.placeId === town &&
-        voter.weeklyMinutes <= 0 &&
+        voter.hourlyMinor < postHourly &&
         ageOnDay(voter.birthDate, state.date) >= minimum,
     )
     .map((voter) => ({
@@ -546,6 +569,24 @@ export function hireStaff(
   if (candidate.counted) fillInPerson(api.state as CoreState, input.personId);
   if (candidate.seat) fillInIdentity(api.state as CoreState, candidate.seat);
   const person = api.state.people.get(input.personId)!;
+  // An applicant where the office sits comes with no household cost, so
+  // nothing pulls them to a paycheck: give them what officials get (the
+  // Consumer Expenditure basket, a studio's rent, a family's savings at
+  // their pay) and spend it out each month.
+  const site = officeSiteOf(api, input.officialId);
+  const federal =
+    townSeats(api).find((s) => s.holder?.personId === input.officialId)?.office
+      .level === "federal";
+  const lives =
+    !!candidate.seat &&
+    giveLivingCost(api, {
+      personId: input.personId,
+      stateKey: site.stateKey,
+      annualMinor:
+        campaignParameter("staffHourlyMinor") *
+        treasuryParameter("fullTimeHoursPerYear"),
+      governmentKey: federal ? "US" : site.stateKey,
+    });
   // On the payroll of the government the official serves, at the post's
   // pay; each payday counts against the budget line the post draws on.
   const employer = employerOf(api, input.officialId);
@@ -556,11 +597,11 @@ export function hireStaff(
         post: `staff:${input.officialId}`,
         title: input.role,
         hourlyMinor: campaignParameter("staffHourlyMinor"),
+        // A state or federal office with no staff schedule of its own follows the town's.
+        scheduleFromPlaceId: lawChain(api).townPlaceId,
         citation: `Hired as ${input.role} to ${input.officialId}`,
       })
     : null;
-  // stopgapId: SG-GOV-staff-unpaid
-  if (!jobId) api.stopgap("SG-GOV-staff-unpaid");
   // The first of the official's aides who died or left the post and has no successor yet.
   const replaced = new Set(
     staffOf(api, input.officialId).map((r) => r.replacesStafferId),
@@ -587,6 +628,7 @@ export function hireStaff(
     ],
     ...(jobId ? { jobId } : {}),
     ...(replaces ? { replacesStafferId: replaces.id } : {}),
+    ...(lives ? { livedThrough: api.state.date } : {}),
   };
   table(api, "staff").put(row as unknown as ModuleRow);
   api.relationship(input.officialId, input.personId, "contact", 0.1);
@@ -887,6 +929,66 @@ function scheduleReview(api: CoreAPI, from: string): void {
 }
 
 /**
+ * An official reads each aide's attendance since their last look (the work
+ * engine's worked and missed days on the aide's job) and decides from the
+ * share missed, the tolerance an official has for it and their own trait
+ * lean whether to let the aide go. An aide let go leaves the post's job; the
+ * hire that follows replaces them. The record keeps the share and the lean.
+ */
+function reviewAttendance(
+  api: CoreAPI,
+  officialId: string,
+  official: Readonly<PersonState>,
+): void {
+  const state = api.state as CoreState;
+  for (const row of servingStaffOf(api, officialId)) {
+    if (!row.jobId) continue;
+    const totals = state.work.totalsByJob.get(row.jobId);
+    const worked = totals?.workedDays ?? 0;
+    const missed = totals?.missedDays ?? 0;
+    const since = row.reviewed ?? { on: row.hiredOn, worked: 0, missed: 0 };
+    const scheduled = worked - since.worked + (missed - since.missed);
+    const absentShare = scheduled > 0 ? (missed - since.missed) / scheduled : 0;
+    const lean = decisionLean(
+      api.state,
+      official,
+      "staff.dismiss",
+      "dismiss",
+      "keep",
+    );
+    // The share missed is the reason; the official's own lean only stretches
+    // or shortens what they put up with (an aide who never misses is never
+    // let go, whatever the official is like).
+    if (
+      scheduled > 0 &&
+      absentShare >
+        campaignParameter("staffAbsenceTolerance") *
+          (1 - parameter("traitDecisionWeight") * lean)
+    ) {
+      api.endJob(
+        row.jobId,
+        `staff:dismissed-absent:${row.id}:${api.state.date}`,
+      );
+      table(api, "staff").put({
+        ...row,
+        dismissed: {
+          on: api.state.date,
+          absentShare,
+          lean,
+          workedDays: worked - since.worked,
+          missedDays: missed - since.missed,
+          jobId: row.jobId,
+        },
+      } as unknown as ModuleRow);
+    } else
+      table(api, "staff").put({
+        ...row,
+        reviewed: { on: api.state.date, worked, missed },
+      } as unknown as ModuleRow);
+  }
+}
+
+/**
  * Each official who is a person in town, holding a seat, with room in their
  * office for a staffer, decides from their own traits whether to hire; they
  * choose among people they know and applicants who'd take the post (it pays
@@ -896,6 +998,20 @@ function scheduleReview(api: CoreAPI, from: string): void {
 function staffReview(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
   if (work.kind !== "staff-review") return;
   scheduleReview(api, api.state.date);
+  // Aides who were given a household cost spend what it came to since last time.
+  for (const raw of table(api, "staff").rows()) {
+    const row = raw as unknown as StafferRow;
+    if (!row.livedThrough || row.livedThrough >= api.state.date) continue;
+    spendLivingCost(
+      api,
+      row.personId,
+      daysBetween(makeIsoDate(row.livedThrough), makeIsoDate(api.state.date)),
+    );
+    table(api, "staff").put({
+      ...row,
+      livedThrough: api.state.date,
+    } as unknown as ModuleRow);
+  }
   const state = api.state as CoreState;
   const postHourly = campaignParameter("staffHourlyMinor");
   const officials = [
@@ -908,6 +1024,7 @@ function staffReview(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
   for (const officialId of officials) {
     const official = api.state.people.get(officialId);
     if (!official?.alive) continue;
+    reviewAttendance(api, officialId, official);
     if (
       servingStaffOf(api, officialId).length >=
       campaignParameter("staffPerOfficial")

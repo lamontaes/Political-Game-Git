@@ -23,10 +23,16 @@ import {
   type PartGradeCounts,
   type PartGradeLedger,
 } from "../../src/english/english-grades";
+import {
+  CALIBRATION,
+  wordCount,
+  type Calibration,
+} from "../../src/english/english-calibration";
 
 export const BATCH_DIR = "data/english/batches";
 export const GRADE_DIR = "data/english/grades";
 export const LEDGER_FILE = "data/english/part-grades.json";
+export const CALIBRATION_FILE = "data/english/calibration.json";
 
 /** A variant a multi-axis batch shows beside a line, differing on one axis. */
 export interface BatchFileVariant {
@@ -42,6 +48,10 @@ export interface BatchFileItem {
   readonly variants?: readonly BatchFileVariant[];
   /** A conversation turn's choice set: each reply and lie, by its number on the page. */
   readonly choices?: readonly { n: number; parts: readonly string[] }[];
+  /** The register the line was spoken in, when the batch records it. */
+  readonly register?: string;
+  /** The lines as shown, so a length grade knows how long the line was. */
+  readonly lines?: readonly { text: string }[];
 }
 
 export interface BatchFile {
@@ -55,8 +65,10 @@ export interface GradeFileRow {
   readonly grade?: string;
   readonly verdict?: string;
   readonly note?: string;
+  /** The register the line was spoken in, when the batch does not say. */
+  readonly register?: string;
   /** Multi-axis batches: a grade per axis, e.g. { "formality": "GOOD" }. */
-  readonly axes?: Readonly<Record<string, string>>;
+  readonly axes?: Readonly<Record<string, string | number>>;
   /** The variant number that is better: per axis, or one number in a scene batch. */
   readonly prefer?: Readonly<Record<string, number>> | number;
   /** A choice set's grades, reply by reply: { "1": "good", "3": "bad" }. */
@@ -160,6 +172,8 @@ function foldAxes(
   where: string,
 ): void {
   for (const [axis, word] of Object.entries(row.axes ?? {})) {
+    // A number from 1 to 5 is a calibration grade, folded by foldCalibration.
+    if (typeof word === "number") continue;
     const grade = ownerGrade({ grade: word }, `${where} axis ${axis}`);
     for (const key of new Set(lineKeys)) addAxisGrade(parts, key, axis, grade);
     const preferred =
@@ -175,6 +189,72 @@ function foldAxes(
     for (const key of new Set(variant.parts))
       addAxisGrade(parts, key, axis, "good");
   }
+}
+
+const round = (x: number): number => Math.round(x * 1000) / 1000;
+const clamp = (x: number, low: number, high: number): number =>
+  Math.min(high, Math.max(low, x));
+
+/**
+ * Folds the numeric axis grades (1 to 5) into the calibration table. On
+ * every axis but length, 3 is neutral: a grade above it raises the running
+ * grade of each piece that made the line, a grade below it lowers it, by a
+ * step scaled to the distance from 3. On the length axis, 1 is far too
+ * short, 3 right and 5 far too long: a 3 moves the line's register target a
+ * step toward the line's own length, and any other grade moves it a step
+ * beyond that length away from the fault. The table is rebuilt from the
+ * grade files each run, so applying the same grades twice changes nothing.
+ */
+export function foldCalibration(
+  graded: readonly GradedBatch[],
+  base: Calibration = CALIBRATION,
+): Calibration {
+  const step = base.step.value;
+  const parts: Record<string, { grade: number }> = {};
+  const registers: Record<string, { targetWords: number }> = {};
+  for (const { batch, grades } of graded) {
+    const byNumber = new Map(batch?.items.map((item) => [item.i, item]));
+    const id = batch?.id ?? grades.batch ?? "batch";
+    for (const row of rowsOf(grades)) {
+      const number = row.i ?? row.n;
+      const item = number === undefined ? undefined : byNumber.get(number);
+      const marks = Object.entries(row.axes ?? {}).filter(
+        (entry): entry is [string, number] => typeof entry[1] === "number",
+      );
+      if (!marks.length) continue;
+      const where = `${id} item ${number}`;
+      if (!item) throw new Error(`${where}: no such item`);
+      for (const [axis, mark] of marks)
+        if (!(mark >= 1 && mark <= 5))
+          throw new Error(`${where} axis ${axis}: ${mark} is not 1 to 5`);
+      for (const [axis, mark] of marks) {
+        if (axis === "length") {
+          const register = row.register ?? item.register;
+          const words = (item.lines ?? []).reduce(
+            (n, line) => n + wordCount(line.text),
+            0,
+          );
+          if (!register || !words) continue;
+          const was = registers[register]?.targetWords ?? words;
+          const shifted =
+            mark === 3
+              ? was + clamp(words - was, -step, step)
+              : mark > 3
+                ? Math.min(was, words) - ((mark - 3) / 2) * step
+                : Math.max(was, words) + ((3 - mark) / 2) * step;
+          registers[register] = { targetWords: round(Math.max(1, shifted)) };
+          continue;
+        }
+        for (const key of new Set(item.parts)) {
+          const grade = parts[key]?.grade ?? 0;
+          parts[key] = {
+            grade: round(clamp(grade + ((mark - 3) / 2) * step, -1, 1)),
+          };
+        }
+      }
+    }
+  }
+  return { ...base, registers, parts };
 }
 
 export function foldGrades(graded: readonly GradedBatch[]): PartGradeLedger {
@@ -493,6 +573,11 @@ function main() {
     `${JSON.stringify({ ...coverage, graded: sumGradedCoverage(byBatch), gradedByBatch: byBatch }, null, 2)}\n`,
   );
   execSync(`npx prettier --write ${COVERAGE_FILE}`, { stdio: "ignore" });
+  writeFileSync(
+    CALIBRATION_FILE,
+    `${JSON.stringify(foldCalibration(graded), null, 2)}\n`,
+  );
+  execSync(`npx prettier --write ${CALIBRATION_FILE}`, { stdio: "ignore" });
   writeFileSync(LEDGER_FILE, `${JSON.stringify(ledger, null, 2)}\n`);
   // A committed data file, written in the repository's JSON style.
   execSync(`npx prettier --write ${LEDGER_FILE}`, { stdio: "ignore" });

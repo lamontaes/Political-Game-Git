@@ -5,9 +5,9 @@ area: people
 kind: feature
 priority: 3
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/husk-wallet
-pr:
+pr: #5468
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-20T03:17:33.850Z
@@ -23,5 +23,6 @@ claimed-at: 2026-10-20T03:17:33.850Z
 
 **Notes.** From the world-opening-husks-in-town-hold-no-cash investigation (#5423): the zero-cash adults there were cabinet heads, but husks hold nothing by design.
 
-**Checked Oct 20 (claude/husk-wallet), not built.** In a funded world (40 days in, a drawn place) a filled-in counted adult already gets their household's share of the counted group's account, split by recorded cash (`householdCash` and `releaseResidentHousehold` in `src/core2/modules/residents.ts`): about $2,000 to $3,000 for a household with income, $2 to $5 for a household with none. The cash is zero only when the group's own account is near empty (a poor group, or a world on its opening day, before the groups hold money). Matching the SCF median balance for the household's income (`medianTransactionBalance`) would then mean taking dollars from other groups' accounts, which changes the money split between groups: a design call for the economy owner or the CTO, not a small fix. A first version that topped the person up from the same group's account gave the same balances as no change (the share already covers it), so I reverted it. OWNER QUESTION: should a filled-in person's cash follow their household's income (taking from richer groups) or stay their household's share of the group's actual cash?
+Checked Oct 20 (claude), released, not built: this item's premise needs correcting. Opening kin husks are people in `core.people` with tier `husk` (the inactive tier, population.ts `relatives`), not entries in `core.husks`, and no path fills them in when met: `fillInPerson` (state.ts) takes a counted resident household out of the residents account, and `promoteHusk` takes a `core.husks` entry. So before a wallet can be opened there has to be a rule for how a tier-`husk` kin person becomes a met person (move tier to weekly, rebuild the past as `fillInPerson` does for the counted). That is a design step for the people area, then the wallet follows from the household's recorded income.
 
+**Checked Oct 20 (claude/husk-wallet), not built.** Measured in a funded world (40 days in, a drawn place): a filled-in counted adult gets their household's share of the counted group's account, split by recorded cash (`householdCash` and `releaseResidentHousehold` in `src/core2/modules/residents.ts`), about $2,000 to $3,000 for a household with income and $2 to $5 for one without. The owner has ruled on this (docs/coordination/OWNER-DECISIONS.md, Oct 20 rulings, "A filled-in relative's cash (#5468)"): a filled-in person's cash follows their household's real income, not a share of the town's pooled money. Building it needs the fill-in to set the household's cash from the median transaction balance for its income (`medianTransactionBalance`, SCF) instead of the group share, with the difference posted through the journal from the account that really holds it so every dollar balances; topping the person up from their own group's account gives the same balances as today (tried and reverted). Done when a test beside `src/core2/residents.test.ts`, in a place drawn from all 56, shows a filled-in adult's opening cash matching their household income's median by record id, with the journal balanced.
