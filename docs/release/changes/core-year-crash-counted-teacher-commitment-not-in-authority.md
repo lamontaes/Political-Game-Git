@@ -1,6 +1,8 @@
 ---
 id: core-year-crash-counted-teacher-commitment-not-in-authority
-impact: none
+impact: patch
+section: Fixed
+title: A played year no longer stops on a teacher's paycheck
 ---
 
-Source-only: a worker who moves into the counted tier keeps being paid by a public employer, so a played year no longer stops on a paycheck the authority did not list.
+A public worker who moves out of the named population, such as a school teacher, keeps being paid by their employer, so a year of play no longer stops in December on a paycheck the payroll could not match.
