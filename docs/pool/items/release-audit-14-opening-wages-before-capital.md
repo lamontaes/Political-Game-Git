@@ -5,12 +5,12 @@ area: world
 kind: bug
 priority: 3
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/audit-14
 pr:
 blocked-on:
 source: added with npm run pool -- add
-claimed-at:
+claimed-at: 2026-10-20T04:46:46.000Z
 ---
 
 **What.** Run a before and after on opening capital, credit and treasury reserve in three or four drawn places for the wage and hour rewrite of up to 20 percent made before opening capital is set.
