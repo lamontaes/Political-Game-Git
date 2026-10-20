@@ -19,14 +19,12 @@ import { coreAPI } from "./state";
 import type { CoreState } from "./types";
 
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
-const place = drawPlace(seed, "estate-contracts");
-const world = buildBenchWorld(place.seed, gameStartDate(), {
-  placeKey: place.key,
-  twoLevel: true,
-});
-const core: CoreState = world.core;
-const api = coreAPI(core);
-const where = `${place.name} (${place.key}), seed ${seed}`;
+const SHAPE_DRAWS = 25;
+let place = drawPlace(seed, "estate-contracts");
+let core: CoreState;
+let api: ReturnType<typeof coreAPI>;
+let where = "";
+const skipped: string[] = [];
 const ADULT = 18;
 
 const adultsAt = (householdId: string) =>
@@ -52,6 +50,34 @@ const housing = () =>
       c.payerIds.every((id) => core.people.get(id)?.alive),
   );
 
+/** The town has a lease two adults pay and a household of one adult with a contract. */
+function hasShapes(): boolean {
+  return (
+    housing().some(
+      (c) => c.payerIds.length > 1 && adultsAt(c.householdId!).length > 1,
+    ) && housing().some((c) => adultsAt(c.householdId!).length === 1)
+  );
+}
+
+// The drawn town may lack a household shape a case needs (a small island
+// town with no two-payer lease): draw on, naming every town passed over, and
+// fail only when none of the draws has them all.
+for (let draw = 0; draw < SHAPE_DRAWS; draw += 1) {
+  place = drawPlace(draw ? `${seed}:${draw}` : seed, "estate-contracts");
+  const built = buildBenchWorld(place.seed, gameStartDate(), {
+    placeKey: place.key,
+    twoLevel: true,
+  });
+  core = built.core;
+  api = coreAPI(core);
+  where = `${place.name} (${place.key}), seed ${seed}${draw ? `, draw ${draw}` : ""}`;
+  if (hasShapes()) break;
+  skipped.push(`${place.name} (${place.key})`);
+  if (draw === SHAPE_DRAWS - 1)
+    throw new Error(
+      `no drawn town has a two-payer lease and a one-adult household (seed ${seed}): ${skipped.join("; ")}`,
+    );
+}
 function die(personId: string) {
   api.updatePerson(personId, { alive: false });
   settleEstate(api, personId, `event:test-death:${personId}`);
@@ -77,7 +103,8 @@ describe(`a dead payer's housing contracts in ${place.name}`, () => {
     expect(contract.payerIds, `${where}: still only the living`).toEqual(
       others,
     );
-  });
+    // Forty days of a large town is more than the default 30 seconds.
+  }, 300_000);
 
   it("a living adult at home takes over a contract the dead person paid alone", () => {
     const contract =
