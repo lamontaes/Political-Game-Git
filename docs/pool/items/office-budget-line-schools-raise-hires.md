@@ -5,9 +5,9 @@ area: office
 kind: wiring
 priority: 3
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/schools-raise-test
-pr:
+pr: #5632
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-20T08:27:45.026Z

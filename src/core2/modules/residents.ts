@@ -50,6 +50,9 @@ import {
 } from "../counted-groups";
 import type { FinanceContractInput } from "../finance-types";
 import COUNTED_ROWS from "../data/counted/parameters.json" with { type: "json" };
+import { incomeBandOf } from "../counted-income-fifth";
+
+export { incomeBandOf };
 import { placeDistrictPopulations } from "../../districts/place-population-share";
 import { stopgap } from "../stopgaps";
 import { corePlaceByKey } from "../place-lookup";
@@ -281,20 +284,6 @@ function householdKeys(
     out[part] = (out[part] ?? 0) + amount;
   }
   return out;
-}
-
-const cents = (dollars: number) => dollars * 100;
-
-/** The national household-income fifth a yearly income falls in (0 to 4). */
-export function incomeBandOf(incomeMinorYear: number): number {
-  let band = 0;
-  for (let i = 1; i <= 4; i++)
-    if (
-      incomeMinorYear >
-      cents(countedParameter(`countedIncomeFifthLimit${i}Dollars`))
-    )
-      band = i;
-  return band;
 }
 
 /** A counted household's yearly income: recorded pay, retirement awards and its unplaced workers' pay. */
