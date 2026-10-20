@@ -5,10 +5,10 @@ area: world
 kind: bug
 priority: 3
 size: M
-status: claimed
+status: blocked
 claimed-by: claude/political-game-pool-yucp92-cc
 pr:
-blocked-on:
+blocked-on: cto: premise wrong, Merrick's own ACS tenure is 3.4 percent renters, so 3.6 is right; drop it (PR 5685 now checks the ACS share)
 source: added with npm run pool -- add
 claimed-at: 2026-10-20T17:08:04.588Z
 ---
