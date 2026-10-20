@@ -5,11 +5,12 @@ area: people
 kind: wiring
 priority: 2
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/trait-wiring-audit
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-20T06:10:43.703Z
 ---
 
 **What.** Rerun the traits-in-play measurement on main at the played trait weight as a reusable checker that compares twin drawn worlds with personalities flat or mirrored. Write the matrix of every personality decision and trait-shaped outcome, with calls, the share personality turned, the research target and why each gap is open. Give every decision its own calibratable trait weight.
