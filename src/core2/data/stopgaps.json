@@ -568,11 +568,11 @@
     "kind": "authored-finance-policy",
     "file": "src/core2/data/parameters.json",
     "line": 1638,
-    "whatItFakes": "Partial finite facility draws, cash-surplus repayment policy and primary binding-shortage labels. A plan's closing evidence is not an executed closure or loan approval.",
-    "why": "The pure calculator has no bank underwriting/borrowing actor decision, priority-of-claims policy, actual settlement writer, or closed-employer status writer. Existing admitted facility/cash inputs are mandatory for borrowing.",
+    "whatItFakes": "Every borrower repays its facilities from half of its cash (businessRepaymentShare, an authored liquidity policy) in finishFinanceDay, with no underwriting, priority-of-claims policy or lender decision behind it.",
+    "why": "The finance engine settles facility interest and repayment with finite cash, but the share a firm repays is one authored number, not a behavior rule. The unused pure funding-plan calculator that also carried this stopgap was deleted Oct 20 (pool item core-stopgap-parameters-authored-finance-policy).",
     "addedBy": "SOL-1258",
     "addedAt": "2026-10-09",
-    "replacement": "Recorded facility terms and generic conserving credit/repayment/closure writers with dated obligations, sources, claim priority and meaningful failure/reload checks.",
+    "replacement": "Recorded facility terms and a repayment decision from the firm's cash need, the lender's terms and claim priority, with the share derived from them.",
     "status": "open"
   },
   {

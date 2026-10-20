@@ -484,10 +484,6 @@
     "unknownClassification": "business-books:classification-unbound",
     "outsideBusinessScope": "business-books:separate-institution-funding-required",
     "missingIncomeAnchor": "business-books:positive-income-anchor-missing",
-    "missingCapacity": "business-books:market-capacity-missing",
-    "missingFacility": "business-books:actual-credit-facility-missing",
-    "facilityNotHonored": "business-books:actual-facility-not-honored",
-    "lineExhausted": "business-books:admitted-line-exhausted",
-    "lenderCashExhausted": "business-books:actual-lender-cash-exhausted"
+    "missingCapacity": "business-books:market-capacity-missing"
   }
 }

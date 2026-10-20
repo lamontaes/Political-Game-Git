@@ -22,3 +22,5 @@ claimed-at: 2026-10-20T00:39:28.602Z
 **Files.** src/core2/data/parameters.json
 
 **Notes.** First row: Partial finite facility draws, cash-surplus repayment policy and primary binding-shortage labels. A plan's closing evidence is not an executed closure or loan approval.
+
+Oct 20 (claude/stopgap-finance-policy): partial. `planBusinessFunding` and its reason strings were an unused pure calculator (no caller outside its own tests) and are deleted. The row stays open because `finishFinanceDay` in src/core2/finance-state.ts still repays each borrower's facilities from half of its cash (`businessRepaymentShare`, TUNABLE); that authored policy needs a repayment decision from the firm's need, the lender's terms and claim priority.
