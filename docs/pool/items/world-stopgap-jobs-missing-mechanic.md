@@ -4,13 +4,13 @@ title: "Stopgaps in jobs (missing-mechanic): 1 open"
 area: world
 kind: stopgap
 priority: 3
-status: claimed
-claimed-by: claude/fs11vb-jobsmm
+status: open
+claimed-by:
 pr: #5300
 blocked-on:
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/modules/jobs.ts, kind missing-mechanic"
-claimed-at: 2026-10-20T17:22:16.967Z
+claimed-at:
 ---
 
 **What.** Replace or clear the 1 open missing-mechanic stopgap row(s) in src/core2/modules/jobs.ts: SG-WORLD-jobs-benefits. Each fake is replaced by the mechanic, or the feature that needs it is deleted.
