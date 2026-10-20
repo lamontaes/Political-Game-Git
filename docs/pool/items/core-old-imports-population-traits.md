@@ -5,12 +5,12 @@ area: core
 kind: cleanup
 priority: 2
 size: M
-status: in-pr
-claimed-by: claude/fs11vb-old-imports
+status: open
+claimed-by:
 pr: #5514
 blocked-on:
 source: split from core-old-imports-population
-claimed-at: 2026-10-20T04:38:57.089Z
+claimed-at:
 ---
 
 **What.** The opening seeds each person's traits through the old trait registry (traitRegistryFor), the PERSONALITY_PACK name and the isOneSided test, which pull in the compiled trait packs and every decision declaration. The opening population builder in src/core2/population.ts still builds a whole old-engine World first and reads these pieces from src/simulation. Move only what the opening uses into the core as data and small functions, and delete nothing the old engine still needs until core-delete-old-engine. Nothing new is added to the old engine.
