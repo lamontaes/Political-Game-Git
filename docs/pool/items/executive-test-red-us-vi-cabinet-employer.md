@@ -5,11 +5,12 @@ area: gov
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/executive-vi-cabinet
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-20T11:44:47.731Z
 ---
 
 **What.** executive.test.ts (department heads and the cabinet are appointed with reasons and confirmation) fails at seed d5789127367692cf22c25b331324adada5742e0af00100e4cf04d84cd45fe9f7, place territory:VI:frederiksted: person:cabinet:US-VI:agriculture has an employer organization:treasury:US-VI where the test expects undefined. The same seed fails on clean main (checked Oct 20), so it is not caused by any open PR.

@@ -4884,6 +4884,30 @@
     "status": "open"
   },
   {
+    "id": "SG-WEB-births-full-tier",
+    "kind": "missing-mechanic",
+    "file": "src/core2/births-plan.ts",
+    "line": 159,
+    "whatItFakes": "Full couples decide on a child from their own age, children, work, income, room, savings, health and closeness, and none of the outcome web's birth links reach them. Counted women take the web's factor per woman (src/core2/births-counted.ts), so a full woman and a counted woman of the same age, tenure and place differ on the links the full decision does not carry: home prices (owners up, renters down), an enforced abortion ban, and the place's drifting birth level.",
+    "why": "The unemployment link is left out for full couples on purpose: a lost job already lowers their work and income terms, so the web's link would count the same recession twice. The other links have no term in the plan score, and the score is a choice between planning and waiting, not a rate the factor can multiply; turning a factor into a score term needs its own calibration against the births it produces.",
+    "addedBy": "EFFECT-WEB-WIRING",
+    "addedAt": "2026-10-20",
+    "replacement": "A conditions term in the plan score that reads webReach for the woman's own age and tenure, leaving out the links her own records already carry (unemployment), with a weight calibrated in a played year so full births move by the researched size, as counted births do.",
+    "status": "open"
+  },
+  {
+    "id": "SG-WEB-knowing-rent-reader",
+    "kind": "missing-mechanic",
+    "file": "src/core2/outcome-news.ts",
+    "line": 52,
+    "whatItFakes": "The town hears of a rise in housing.rent from the outcome web's month record, but no engine yet reads the web's rent factor when it sets a lease, so the rise the story reports is not in any lease or rent payment.",
+    "why": "The housing family's rent wiring is on its own branch; the news path lists the measure so the town hears of it the month an engine reads it, with no change here.",
+    "addedBy": "EFFECT-WEB-WIRING",
+    "addedAt": "2026-10-20",
+    "replacement": "The housing engine multiplies its lease rent by webFactorFor(housing.rent); then this row and the readBy null in data/news/outcome-news.json are replaced by the reading file.",
+    "status": "open"
+  },
+  {
     "id": "SG-TRAITS-counted-health-no-trait",
     "kind": "partial-model",
     "file": "src/core2/modules/health.ts",
@@ -4905,18 +4929,6 @@
     "addedBy": "traits-health",
     "addedAt": "2026-10-20",
     "replacement": "Groups apply the same yearly shift to their columns by age band once the counted store can drop a member's cached lean.",
-    "status": "open"
-  },
-  {
-    "id": "SG-WEB-births-full-tier",
-    "kind": "missing-mechanic",
-    "file": "src/core2/births-plan.ts",
-    "line": 159,
-    "whatItFakes": "Full couples decide on a child from their own age, children, work, income, room, savings, health and closeness, and none of the outcome web's birth links reach them. Counted women take the web's factor per woman (src/core2/births-counted.ts), so a full woman and a counted woman of the same age, tenure and place differ on the links the full decision does not carry: home prices (owners up, renters down), an enforced abortion ban, and the place's drifting birth level.",
-    "why": "The unemployment link is left out for full couples on purpose: a lost job already lowers their work and income terms, so the web's link would count the same recession twice. The other links have no term in the plan score, and the score is a choice between planning and waiting, not a rate the factor can multiply; turning a factor into a score term needs its own calibration against the births it produces.",
-    "addedBy": "EFFECT-WEB-WIRING",
-    "addedAt": "2026-10-20",
-    "replacement": "A conditions term in the plan score that reads webReach for the woman's own age and tenure, leaving out the links her own records already carry (unemployment), with a weight calibrated in a played year so full births move by the researched size, as counted births do.",
     "status": "open"
   },
   {
