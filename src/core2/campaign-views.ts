@@ -17,6 +17,7 @@ import lineAxes from "./data/legislature/budget-line-axes.json" with { type: "js
 import calibration from "../../data/source/electoral-calibration-2024/corpus.json" with { type: "json" };
 import delegates from "../../data/research/elections/house-delegates-2024.json" with { type: "json" };
 import parameters from "./data/campaigns/parameters.json" with { type: "json" };
+import stanceLoadings from "../../data/research/people/opening-stance-loadings.json" with { type: "json" };
 import { stableHash } from "./kernel/ids";
 import type { PersonState } from "./types";
 
@@ -318,13 +319,53 @@ export function publicOffset(
   return Math.abs(axis) * (2 * share - 1);
 }
 
+/** Where a person sits on the survey's faith index (0 to 1) and whether they hold a four-year degree (0 or 1). */
+export interface StanceProfile {
+  readonly faith: number;
+  readonly college: number;
+}
+
+const LOADINGS = stanceLoadings.questions as unknown as Record<
+  string,
+  { loadings: { faith: { value: number }; college: { value: number } } }
+>;
+const PREDICTORS = stanceLoadings.predictors;
+
+/** The faith index a CES 2020 faith group sits at (its mean), or undefined for a group the survey lacks. */
+export function faithIndexOf(group: string): number | undefined {
+  return (PREDICTORS.faithMeanByGroup as Record<string, number>)[group];
+}
+
 /**
- * How much a person agrees with a platform, in [-1, 1]: the mean, over the
- * stated positions, of their own stance times the position.
+ * What a person's faith and degree add to their opening stance on a question
+ * the 2020 Cooperative Election Study asked (`opening-stance-loadings.json`):
+ * each loading times how far they sit from the average person, so a town's
+ * mean stance stays on the lean axis. A question with no survey item, or a
+ * person with no profile, adds nothing (ESTIMATED).
  */
-export function platformAgreement(
+export function loadingShift(
+  profile: StanceProfile | null | undefined,
+  question: string,
+): number {
+  const loadings = LOADINGS[question]?.loadings;
+  if (!loadings || !profile) return 0;
+  return (
+    loadings.faith.value * (profile.faith - PREDICTORS.nationalFaithMean) +
+    loadings.college.value * (profile.college - PREDICTORS.collegeShare)
+  );
+}
+
+/**
+ * How much a person or counted group agrees with a platform, in [-1, 1]: the
+ * mean, over the stated positions, of their stance on each (their lean along
+ * the question's axis, and what their faith and degree add) times the
+ * position. A counted voter and a full person of the same lean and profile
+ * agree alike (one model, two tiers).
+ */
+export function groupAgreement(
   lean: number,
   platform: readonly Stance[],
+  profile: StanceProfile | null | undefined,
 ): number {
   if (!platform.length) return 0;
   let sum = 0;
@@ -332,6 +373,14 @@ export function platformAgreement(
   // question is barely moved either way by it; someone who holds it strongly
   // is drawn or put off (owner, Oct 9: most people hold weak views or none).
   for (const stance of platform)
-    sum += personStance(lean, stance.question) * stance.position;
+    sum +=
+      Math.max(
+        -1,
+        Math.min(
+          1,
+          personStance(lean, stance.question) +
+            loadingShift(profile, stance.question),
+        ),
+      ) * stance.position;
   return Math.max(-1, Math.min(1, sum / platform.length));
 }

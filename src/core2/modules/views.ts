@@ -24,12 +24,16 @@ import { stableHash } from "../kernel/ids";
 import { ageOnDate, makeIsoDate } from "../kernel/dates";
 import { corePlaceByJurisdictionId } from "../place-lookup";
 import { PROFILE_FACT_KINDS, profileFor } from "../opening-profile";
-import { personStance } from "../campaign-views";
+import {
+  faithIndexOf,
+  loadingShift,
+  personStance,
+  type StanceProfile,
+} from "../campaign-views";
 import { currentCloseness } from "../closeness";
 import keysJson from "../data/views/ces-2024-views.json" with { type: "json" };
 import viewsJson from "../data/views/views.json" with { type: "json" };
 import drivesJson from "../data/drives.json" with { type: "json" };
-import stanceLoadings from "../../../data/research/people/opening-stance-loadings.json" with { type: "json" };
 import type {
   CoreAPI,
   CoreModule,
@@ -490,73 +494,72 @@ export function viewOn(
   );
 }
 
-interface Loading {
-  readonly value: number;
-}
-const LOADINGS = stanceLoadings.questions as unknown as Record<
-  string,
-  { loadings: { faith: Loading; college: Loading } }
->;
-const PREDICTORS = stanceLoadings.predictors;
-const profiles = new WeakMap<
-  object,
-  Map<PersonId, { faith: number; college: number } | null>
->();
+const profiles = new WeakMap<object, Map<PersonId, StanceProfile | null>>();
 
 /**
- * Where a person sits on the survey's faith index (0 to 1, from their faith
- * group's CES 2020 mean) and whether they hold a four-year degree, from the
- * same education and faith records their opening view is read with.
+ * A person's place on the survey's faith index (their faith group's CES 2020
+ * mean) and whether they hold a four-year degree, from the same education and
+ * faith records their opening view is read with. A counted resident has no
+ * past facts, so the world's seed gives the same profile they will have when
+ * they are filled in (`profileFor` depends on nobody else).
  */
-function faithAndDegree(api: CoreAPI, personId: PersonId) {
+export function stanceProfileOf(
+  person: Pick<PersonState, "id" | "householdId" | "birthDate" | "placeId"> &
+    Partial<Pick<PersonState, "pastFacts">>,
+  seed: string,
+  startedAt: string,
+): StanceProfile | null {
+  const fact = (kind: string, key: string) =>
+    person.pastFacts?.find((row) => row.kind === kind)?.facts?.[key];
+  const profile = profileFor(person, seed, startedAt);
+  const educ =
+    fact(PROFILE_FACT_KINDS.education, "level") ?? profile?.education;
+  const group = fact(PROFILE_FACT_KINDS.faith, "group") ?? profile?.faith;
+  const faith = group ? faithIndexOf(group) : undefined;
+  return faith !== undefined && educ !== undefined
+    ? { faith, college: educ === "college" ? v("one") : v("zero") }
+    : null;
+}
+
+/** A counted resident's faith and degree: the profile they will have when filled in, kept for the world. */
+export function countedStanceProfile(
+  api: CoreAPI,
+  voter: Pick<PersonState, "id" | "householdId" | "birthDate" | "placeId">,
+): StanceProfile | null {
+  const held = profiles.get(api.state) ?? new Map();
+  profiles.set(api.state, held);
+  if (held.has(voter.id)) return held.get(voter.id) ?? null;
+  const out = stanceProfileOf(voter, api.state.seed, api.state.startedAt);
+  held.set(voter.id, out);
+  return out;
+}
+
+/** A full person's faith and degree, kept for the world. */
+export function stanceProfile(api: CoreAPI, personId: PersonId) {
   const held = profiles.get(api.state) ?? new Map();
   profiles.set(api.state, held);
   if (held.has(personId)) return held.get(personId) ?? null;
   const person = api.state.people.get(personId);
-  let out: { faith: number; college: number } | null = null;
-  if (person) {
-    const fact = (kind: string, key: string) =>
-      person.pastFacts?.find((row) => row.kind === kind)?.facts?.[key];
-    const profile = profileFor(person, api.state.seed, api.state.startedAt);
-    const educ =
-      fact(PROFILE_FACT_KINDS.education, "level") ?? profile?.education;
-    const group = fact(PROFILE_FACT_KINDS.faith, "group") ?? profile?.faith;
-    const faith = group
-      ? (PREDICTORS.faithMeanByGroup as Record<string, number>)[group]
-      : undefined;
-    if (faith !== undefined && educ !== undefined)
-      out = { faith, college: educ === "college" ? v("one") : v("zero") };
-  }
+  const out = person
+    ? stanceProfileOf(person, api.state.seed, api.state.startedAt)
+    : null;
   held.set(personId, out);
   return out;
 }
 
-/**
- * What a person's faith and degree add to their opening stance on a question
- * the 2020 Cooperative Election Study asked (`opening-stance-loadings.json`):
- * each loading times how far they sit from the average person, so the town's
- * mean stance stays on the lean axis. A question with no survey item, or a
- * person with no recorded faith or education, adds nothing (ESTIMATED).
- */
+/** What a full person's faith and degree add to their opening stance on a question (see `loadingShift`). */
 export function openingLoadingShift(
   api: CoreAPI,
   personId: PersonId,
   question: string,
 ): number {
-  const loadings = LOADINGS[question]?.loadings;
-  if (!loadings) return v("zero");
-  const own = faithAndDegree(api, personId);
-  if (!own) return v("zero");
-  return (
-    loadings.faith.value * (own.faith - PREDICTORS.nationalFaithMean) +
-    loadings.college.value * (own.college - PREDICTORS.collegeShare)
-  );
+  return loadingShift(stanceProfile(api, personId), question);
 }
 
 /**
  * How much a person agrees with a platform, -1 to 1: the mean, over its
- * stated positions, of their current view times the position (the views
- * engine's version of `platformAgreement`).
+ * stated positions, of their current view times the position (the same rule a counted
+ * voter's group is read by, `groupAgreement`).
  */
 export function agreementWith(
   api: CoreAPI,

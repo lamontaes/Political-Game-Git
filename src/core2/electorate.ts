@@ -11,7 +11,8 @@
  */
 import {
   campaignParameter,
-  platformAgreement,
+  groupAgreement,
+  type StanceProfile,
   registerCountedPeople,
   registerViewLeans,
   type Stance,
@@ -32,6 +33,8 @@ export interface CountedVoter {
   readonly id: string;
   readonly birthDate: string;
   readonly placeId: string;
+  /** The household they belong to (their faith and education are read from it). */
+  readonly householdId: string;
   readonly traits: Readonly<Record<string, number>>;
   /** Scheduled weekly work, from their recorded commitments. */
   readonly weeklyMinutes: number;
@@ -88,6 +91,7 @@ export function countedResidents(core: CoreState): readonly CountedVoter[] {
           id,
           birthDate: store.born[m]!,
           placeId: store.text(store.placeIx[m]!)!,
+          householdId: h.id,
           traits: store.packedTraits(m),
           weeklyMinutes: minutes.get(id) ?? 0,
           weight: store.weightOf(h),
@@ -321,6 +325,8 @@ export function countedAppeal(
     readonly trust?: number;
     /** Which form of the ballot the voter holds (their precinct's place in a rotation). */
     readonly ballotForm?: number;
+    /** Their faith and degree, which move their stance on the questions the survey asked. */
+    readonly profile?: StanceProfile | null;
   },
 ): Record<string, CountedAppeal> {
   const appeal: Record<string, CountedAppeal> = {};
@@ -330,7 +336,7 @@ export function countedAppeal(
     const recognition = where.inTown
       ? entry.recognition *
         (campaignParameter("countedRecognitionWeight") +
-          platformAgreement(lean, entry.platform))
+          groupAgreement(lean, entry.platform, where.profile))
       : 0;
     const incumbent = entry.isIncumbent ? where.incumbentLean : 0;
     const cues = entry.ballotCues ?? [];
