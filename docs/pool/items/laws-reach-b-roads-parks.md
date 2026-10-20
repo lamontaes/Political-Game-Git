@@ -22,3 +22,5 @@ claimed-at:
 **Files.** src/core2/modules/work.ts, src/core2/life.ts, src/core2/data/stopgaps.json
 
 **Notes.** Checked Oct 19 before building: core2 has no commute-time model (place-prices.ts does carry a "road" rule kind, the share of roads in poor condition, which is the only road read), and neither roads nor parks appear in docs/roadmap/political-process-baseline.md or the golden path. AGENTS.md ("This is a game, not a spreadsheet") makes a new mechanic of this kind a question for the owner, not a feature. OWNER QUESTION: should road condition and park service level change a person's day at all, or stay a budget-line record? Until he rules, leave this item unbuilt. Split from laws-stopgap-reach-group-b-missing-engine on Oct 19; the stopgap rows named above are its 13.
+
+Sent back 2026-10-20 from PR #5458 (branch claude/roads-condition): the new highways-road-condition test fails on a drawn territory village with no government highways line (Gampapa, Northern Mariana Islands); finish on that branch, merge main into it first.
