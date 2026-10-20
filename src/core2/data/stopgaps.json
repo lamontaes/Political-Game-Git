@@ -5250,5 +5250,29 @@
     "addedAt": "2026-10-20",
     "replacement": "The same August ranking over counted groups, with the flow's contract part for each household started or ended (pool item core-stopgap-opening-private-tuition-aggregate-spending).",
     "status": "open"
+  },
+  {
+    "id": "SG-PEOPLE-unplanned-pregnancy",
+    "kind": "owner-decision",
+    "file": "src/core2/modules/renewal.ts",
+    "line": 1,
+    "whatItFakes": "A couple that chose to wait carries exposure each review from the mother's age curve and the household's cushion; a whole unit is an unplanned pregnancy, and the mother weighs carrying it against ending it. Ending a pregnancy pays the trip from the household's cash to the place's outside account (no provider is paid or recorded), and only full people in couples are covered.",
+    "why": "No ruling existed on what causes an unplanned pregnancy or whether the player's household can have one.",
+    "addedBy": "claude/political-game-pool-pdqjm6",
+    "addedAt": "2026-10-19",
+    "replacement": "Resolved Oct 20 by the owner's ruling on #5220: unplanned pregnancies happen to people in the background from their own records and the law where they live, never to the player's own character or household, with nothing new shown to the player. The player's household is left out in renewal.ts.",
+    "status": "resolved"
+  },
+  {
+    "id": "SG-PEOPLE-unplanned-provider-distance",
+    "kind": "missing-mechanic",
+    "file": "src/core2/births-unplanned.ts",
+    "line": 1,
+    "whatItFakes": "Miles to the nearest abortion provider are two national averages, one where the law restricts and one where it does not, not the place's own geography.",
+    "why": "The core has no places-to-providers geography (Myers 2024 gives national figures only).",
+    "addedBy": "claude/political-game-pool-pdqjm6",
+    "addedAt": "2026-10-19",
+    "replacement": "A place-level distance to the nearest provider read from a sourced table for all 56 places (pool item people-abortion-provider-distance).",
+    "status": "open"
   }
 ]

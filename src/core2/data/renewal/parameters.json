@@ -264,5 +264,88 @@
       "unit": "days",
       "citation": "Two to four e-folds within the recommended 24 months."
     }
+  },
+  "renewalUnplannedExposure": {
+    "value": 0.5,
+    "tag": "TUNABLE",
+    "citation": "Exposure a couple that chose to wait adds each review when it has no cushion at all; scaled by the mother's age curve and cushion. Guttmacher 2024: about 4 in 100 women 15 to 44 have an unintended pregnancy a year; this checks the town's total and never picks a couple.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Sensitivity 0.25 to 1 pending a generated-year check against the town's total."
+    },
+    "stopgapId": "SG-PEOPLE-unplanned-pregnancy"
+  },
+  "renewalUnplannedAcceptance": {
+    "value": 0.5,
+    "tag": "TUNABLE",
+    "citation": "Pull toward carrying a pregnancy that has already begun, added to the circumstances a planned birth weighs.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Sensitivity 0 to 1.5 pending a generated-year check."
+    },
+    "stopgapId": "SG-PEOPLE-unplanned-pregnancy"
+  },
+  "renewalEndingBase": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "What ending a pregnancy weighs against, apart from travel: the decision itself, recorded as a sliding weight, never a rate.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Sensitivity 0.5 to 2 pending a generated-year check."
+    },
+    "stopgapId": "SG-PEOPLE-unplanned-pregnancy"
+  },
+  "renewalTravelWeight": {
+    "value": 2,
+    "tag": "TUNABLE",
+    "citation": "How hard travel to a provider weighs on ending a pregnancy, scaled by distance and the household's cash.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Sensitivity 1 to 4 pending a generated-year check."
+    },
+    "stopgapId": "SG-PEOPLE-unplanned-pregnancy"
+  },
+  "renewalTravelHalfMiles": {
+    "value": 100,
+    "tag": "TUNABLE",
+    "citation": "Miles at which travel weighs half as much as it ever will; a smooth curve, no cutoff.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Sensitivity 50 to 200."
+    },
+    "stopgapId": "SG-PEOPLE-unplanned-pregnancy"
+  },
+  "renewalProviderMilesOpen": {
+    "value": 25,
+    "tag": "ESTIMATED",
+    "citation": "Average miles to the nearest abortion provider where the law does not restrict it (Myers 2024, about 25 miles in 2022). A stand-in for place geography.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Myers 2024 reports 25 miles before Dobbs for the nation; spread by state not yet read."
+    },
+    "stopgapId": "SG-PEOPLE-unplanned-pregnancy",
+    "estimatedFrom": "Myers, Abortion travel distance 2022 to 2024 (SG-PEOPLE-unplanned-provider-distance)."
+  },
+  "renewalProviderMilesRestricted": {
+    "value": 300,
+    "tag": "ESTIMATED",
+    "citation": "Average miles to the nearest provider where the law restricts abortion (Myers 2024, Dobbs-era ban states ranged from about 100 to over 500 miles). A stand-in for place geography.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Wide: 100 to 500 miles across ban states."
+    },
+    "stopgapId": "SG-PEOPLE-unplanned-pregnancy",
+    "estimatedFrom": "Myers, Abortion travel distance 2022 to 2024 (SG-PEOPLE-unplanned-provider-distance)."
+  },
+  "renewalTravelCostPerMileMinor": {
+    "value": 60,
+    "tag": "ESTIMATED",
+    "citation": "Cost of getting there per mile, in cents (round trip fuel and a share of lodging); used only to weigh the cost against her cash.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "40 to 90 cents."
+    },
+    "stopgapId": "SG-PEOPLE-unplanned-pregnancy",
+    "estimatedFrom": "IRS 2026 mileage rate plus lodging share."
   }
 }
