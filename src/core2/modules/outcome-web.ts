@@ -25,6 +25,7 @@ import {
   keptOutcome,
   LAW_PREFIX,
   linkEffect,
+  OUTCOME_WEB_MODULE_ID,
   moderatorScale,
   scaleOf,
   sizeIn,
@@ -40,7 +41,7 @@ import { townMetrics, WORLD_METRICS_MODULE_ID } from "./world-metrics";
 import { GOV_MEASURES, govMeasure, govMeasureRecord } from "../gov-measures";
 import { monthEvent } from "../outcome-news";
 
-export const OUTCOME_WEB_MODULE_ID = "core2-outcome-web-v1";
+export { OUTCOME_WEB_MODULE_ID };
 const STATE_ID = "outcome-web:state";
 const RUN_KIND = "outcome-web";
 const SETTINGS = WEB_SETTINGS;

@@ -19,6 +19,7 @@ import {
 import { rerateCountedJobs } from "./residents-economy";
 import { endPurchaseTax, setPurchaseTax } from "./modules/purchase-tax";
 import { openingTemperaments } from "./opening-personality";
+import { forgetTraitLean } from "./choice";
 import { giveHealthRecord } from "./modules/health";
 import { COUNTED_PLACE_PREFIX, isDemoted } from "./counted-groups";
 import {
@@ -1473,6 +1474,13 @@ export function coreAPI(core: CoreState): CoreAPI {
       if (changes.tier !== undefined && changes.tier !== actor.tier) {
         core.peopleByTier.get(actor.tier)!.delete(personId);
         index(core.peopleByTier, changes.tier, personId);
+      }
+      if (changes.traits) {
+        if (
+          Object.values(changes.traits).some((value) => !Number.isFinite(value))
+        )
+          throw new Error("Non-finite trait update.");
+        forgetTraitLean(actor);
       }
       Object.assign(actor, changes);
       // Explicitly clearing the optional flag restores the core's default rule.
