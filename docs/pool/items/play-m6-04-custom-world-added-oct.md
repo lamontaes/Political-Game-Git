@@ -22,3 +22,5 @@ source: "docs/roadmap/later-specs-draft.md M6-04"
 **Files.** see spec
 
 **Notes.** Priority 3 until scheduled. Verify how much is built before starting.
+
+Checked Oct 20 (claude, claude/political-game-pool-76ksvw): M6-04's own command (`scripts/core2-year/custom-world.mjs`) had a hard-coded 2021 date and stopped on the current start date; fixed to advance a month from the world's own start. Run in Cullen, Louisiana (US-LA), seed 115b21e033ca0fce344785f047bc259d, with a custom settings set: all eight checks pass (settings recorded on the world; population at least the setting, 13,750 for 3,000; pay x1.5; household cash x2; outside buyers' purchases x0.75; the town's lean shifted 0.2; the cost of voting divided by 0.8; every dollar balances for a month). The new-game screen's side (the settings form reaching the build) was not run here. `passes` in features.json is the CTO's to set.
