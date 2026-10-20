@@ -5,7 +5,7 @@ area: words
 kind: feature
 priority: 3
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/words-archive-budget-death
 pr: #5237
 blocked-on:
