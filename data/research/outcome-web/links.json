@@ -3838,7 +3838,8 @@
       "evidence": "provisional",
       "from": "household.poverty-pct",
       "to": "school.math-proficient-pct",
-      "range": [-0.02, 0]
+      "range": [-0.02, 0],
+      "notes": "The school engine also orders students by household income, but that only decides who within an income fifth passes; the place's count comes from the base times this factor, so the poverty effect is not counted twice."
     },
     {
       "key": "uninsured-to-graduation",

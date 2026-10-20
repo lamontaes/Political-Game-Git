@@ -5,12 +5,12 @@ area: words
 kind: bug
 priority: 2
 size: S
-status: claimed
-claimed-by: claude/political-game-pool-3xfqef-16
+status: blocked
+claimed-by: claude/words-shippable-sweep
 pr:
-blocked-on:
+blocked-on: owner: grade the 141 authored lines in a batch, or flip them and let 20 director tests stand on mined/graded parts only
 source: added with npm run pool -- add
-claimed-at: 2026-10-20T05:10:38.408Z
+claimed-at: 2026-10-20T05:56:26.946Z
 ---
 
 **What.** The merge audit set authored journal lines to not shippable until graded, but data/english/parts still holds authored parts marked shippable in scene-words.json (78), speech-stages.json (21), newspaper-ledes.json (6), bring-it-up.json (4), conversation.json (2) and news.json (2) on main, with more on open branches. Flip them and add a bank test that fails on any part with origin authored and shippable true that has no recorded grade. The director skips parts that are not shippable, so these lines stay out of play until a grading batch.
@@ -22,3 +22,5 @@ claimed-at: 2026-10-20T05:10:38.408Z
 **Files.** data/english/parts/, tests/english-parts-banks.test.ts
 
 **Notes.** Found while fixing the #5187, #5219 and #5233 send-backs (PRs 5523, 5525, 5528). Overlaps release-audit-05-journal-lines-not-shippable for the journal bank only.
+
+Tried Oct 20 (claude/political-game-pool-3xfqef-16, branch pushed with the bank test only, no PR): flipped all 141 authored shippable parts to not shippable (bring-it-up 4, conversation 2, journal 28, news 2, newspaper-ledes 6, scene-words 78, speech-stages 21; none has a good grade in `part-grades.json`) and added `gradeProblems` to `tests/english-parts-banks.test.ts` (an authored part is shippable only with a good grade and not held; a unit case and a per-bank case). The bank test fails on main's data in all 7 banks and passes after the flips (108 tests). The flips are not safe to merge as they stand: running `src/english` and `src/director` with them fails 20 director tests that need those lines in play (birth-scenes, bring-it-up-law, bring-it-up-press, hearing-scenes, journal-household, journal-office, journal-revision, journal, office-scene, press-scenes, scene-leads, scene, school-answers, speech-builder), against one failure already on main (`director.test.ts` "registers every stopgap it marks and keeps numbers in data"). Every bank loader filters on `shippable` and there is no test-only way to include an ungraded part. The choice is the owner's: grade these lines in a batch first (then nothing flips), or flip them and have those scene and journal tests stand on mined or graded parts only. A builder can redo the flips with one script (set shippable false where origin is authored and the key has no good grade) and re-run the director tests.

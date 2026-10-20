@@ -4891,5 +4891,41 @@
     "addedAt": "2026-10-20",
     "replacement": "A law-reach handler that moves the schools line of the budget in force (moveBudget), which the school engine's spending measure then reads.",
     "status": "open"
+  },
+  {
+    "id": "SG-WEB-births-full-tier",
+    "kind": "missing-mechanic",
+    "file": "src/core2/births-plan.ts",
+    "line": 159,
+    "whatItFakes": "Full couples decide on a child from their own age, children, work, income, room, savings, health and closeness, and none of the outcome web's birth links reach them. Counted women take the web's factor per woman (src/core2/births-counted.ts), so a full woman and a counted woman of the same age, tenure and place differ on the links the full decision does not carry: home prices (owners up, renters down), an enforced abortion ban, and the place's drifting birth level.",
+    "why": "The unemployment link is left out for full couples on purpose: a lost job already lowers their work and income terms, so the web's link would count the same recession twice. The other links have no term in the plan score, and the score is a choice between planning and waiting, not a rate the factor can multiply; turning a factor into a score term needs its own calibration against the births it produces.",
+    "addedBy": "EFFECT-WEB-WIRING",
+    "addedAt": "2026-10-20",
+    "replacement": "A conditions term in the plan score that reads webReach for the woman's own age and tenure, leaving out the links her own records already carry (unemployment), with a weight calibrated in a played year so full births move by the researched size, as counted births do.",
+    "status": "open"
+  },
+  {
+    "id": "SG-SCHOOL-hispanic-enrollment",
+    "kind": "missing-engine",
+    "file": "src/core2/school-outcomes.ts",
+    "line": 1,
+    "whatItFakes": "The share of public school students who are Hispanic (school.hispanic-enrollment) stays the web's ledger; no engine decides it, so the enforcement link into it moves only that number.",
+    "why": "The core records no ethnicity on a student and no enrollment by ethnicity, so there is nothing for the link to change.",
+    "addedBy": "EFFECT-WEB-SCHOOLS",
+    "addedAt": "2026-10-20",
+    "replacement": "An enrollment record by ethnicity (from the opening's school enrollment) that the immigration-enforcement law changes by who stays enrolled, read back as this measure.",
+    "status": "open"
+  },
+  {
+    "id": "SG-SCHOOL-links-not-running",
+    "kind": "missing-engine",
+    "file": "src/core2/school-outcomes.ts",
+    "line": 1,
+    "whatItFakes": "Thirteen researched links into school outcomes do not run: carbon-monoxide-to-absence, class-size-to-scores, prek-to-graduation, family-income-to-scores, police-killing-to-graduation, school-move-to-scores, daca-to-graduation (no researched size yet); school-spending-to-attainment, child-coverage-to-graduation, homicide-nearby-to-scores (person-level exposure over years or an acute event, which needs a per-student exposure record); lead-to-reading, heat-to-learning, home-internet-to-scores (the cause is not recorded, or the size is about zero).",
+    "why": "Each lacks a size from research, a recorded cause, or a per-student exposure history; the school engine reads only links that run.",
+    "addedBy": "EFFECT-WEB-SCHOOLS",
+    "addedAt": "2026-10-20",
+    "replacement": "Size each from its research, record its cause (class size, blood lead, school-year heat, broadband) or a per-student exposure record, and the engine's existing read of the web factor reaches it.",
+    "status": "open"
   }
 ]
