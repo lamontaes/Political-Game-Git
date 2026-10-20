@@ -5,16 +5,17 @@ area: gov
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/firearm-storage-extra-duty
+pr: #5371
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-20T01:09:02.840Z
 ---
 
 **What.** The focused household-firearms test still fails on exact clean main 4f4c069a5c4c04d5a322934429475b018d2b679c with HOUSEHOLD_FIREARMS_SEED=2724fc27c0417f7c (Atascadero, CA0603064): storage-duty rows contain 24 people while the effective-date household and ownership records expect 20. PR #4998 preserves the exact set assertion and corrects only the age reference date; the same four extra person IDs occur before and after that PR. Diagnose the record mismatch at its cause.
 
-**Rules.** One rule in all places, generated world with every module installed, one model in both population tiers. Do not weaken the exact set assertion, retry until green, or special-case a place. Preserve the resolved firearm ownership feature and stopgap history.
+**Rules.** One rule, all 56 places: fix eligibility from household and law records in every drawn place without a place-specific exception. One model, two tiers: full people and counted households follow the same effective-date age, alive and firearm-ownership rules. Never skip or loosen the exact set assertion to hide the mismatch.
 
 **Done when.** The focused household-firearms test passes with the reported seed and a fresh drawn world, with the storage-duty targets justified by effective-date household, alive, age and ownership records; changed-file checks pass.
 

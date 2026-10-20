@@ -5,7 +5,7 @@ area: laws
 kind: stopgap
 priority: 2
 size: S
-status: in-pr
+status: done
 claimed-by: claude/territory-residents
 pr: #5167
 blocked-on:
@@ -22,3 +22,5 @@ claimed-at: 2026-10-19T21:48:55.044Z
 **Files.** src/core2/modules/budgets.ts, src/core2/law-reach/group-b-money.ts, src/core2/law-reach/group-b-people.ts, src/core2/data/laws/reach-group-b-parameters.json, src/core2/data/stopgaps.json
 
 **Notes.** Found while taking gov-standins-laws, the umbrella for about forty law-reach stopgaps (each an engine of its own); this is the one that was data only. Puerto Rico's residents change from 3,203,295 (the removed table, Vintage 2024) to 3,184,835 (the bases file, 2025).
+
+Oct 20: PR #5167 merged to main: an island area's government carries its Census residents and the second population table is deleted.

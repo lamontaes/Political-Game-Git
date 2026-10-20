@@ -12,6 +12,7 @@ import { addDays, makeIsoDate } from "./kernel/dates";
 import { enactLaw, lawChain, lawInForce } from "./modules/laws";
 import { renewRentalLeases } from "./housing-occupancy";
 import { residentsRuntime } from "./modules/residents";
+import { stancesOf } from "./modules/views";
 import construction from "./data/housing/construction.json" with { type: "json" };
 import parameters from "./data/laws/reach-group-a-parameters.json" with { type: "json" };
 
@@ -225,6 +226,19 @@ describe(`housing laws, ${draw.name}, seed ${draw.seed}`, () => {
         lawInForce(api, RENT).governing!.id,
       );
     }
+    // The full tenant's letter: the oldest adult holds a stance on the law,
+    // learned from the renewal notice that named it.
+    const leaseHouse = core.households.get(
+      core.finance.contracts.get(lease.id)!.householdId!,
+    )!;
+    const notified = leaseHouse.memberIds
+      .map((id) => stancesOf(api, id).find((st) => st.topic === RENT))
+      .filter((st) => st !== undefined);
+    expect(notified.length, `${where}: nobody learned of the saving`).toBe(1);
+    expect(notified[0]!.desiredChange, where).toBe("enact");
+    expect(notified[0]!.causes.at(-1)?.learnedFrom, where).toContain(
+      `event:housing.rent-renewal:${lease.id}:`,
+    );
     const householdId = flow.id.slice("rent:".length);
     const counted = rt.households.get(householdId)!;
     const paidRent = flow.amountMinor;
