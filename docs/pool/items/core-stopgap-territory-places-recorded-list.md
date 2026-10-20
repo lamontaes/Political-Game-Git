@@ -22,3 +22,5 @@ claimed-at: 2026-10-20T00:10:44.952Z
 **Files.** src/core2/data/places/territory-places.json
 
 **Notes.** First row: The villages of Guam, the U.S. Virgin Islands, American Samoa and the Northern Mariana Islands come from the game's existing recorded list (carried over from the old place module), not from Census identities.
+
+Built Oct 20 (claude, claude/territory-places-census): `territory-places.json` is now the Census 2020 Island Areas list (158 villages: key, name, state, alias, Census GEOID, 2020 population). The candidate file and its builder are deleted; place-lookup gives each village its GEOID and an approved provenance; `gov-rules/place-population.ts` reads a village's population from the list; `SG-CORE-territory-places` is resolved. Four villages from 1 to 44,908 people (Gagani, Fagali'i, Hagåtña, Dededo) build and play 30 days. The old engine's own list in `src/simulation/territory-places.ts` is untouched (it goes with the old engine).
