@@ -1244,11 +1244,11 @@
     "kind": "missing-engine",
     "file": "src/core2/modules/interest-groups.ts",
     "line": 298,
-    "whatItFakes": "An employers' group's lobbyist is the best-paid town resident working for the member business the bill costs most; businesses themselves decide to join and pay dues.",
-    "why": "Businesses have no owners or managers in core2 yet (OPUS-WORLD's business engine), and lobbyists aren't a hired job yet.",
+    "whatItFakes": "An employers' group's lobbyist is the owner of the member business the bill costs most (when they live in town, are not barred and their traits lean to serve), else the best-paid town resident working for it; the group does not hire one.",
+    "why": "Owners now decide to join and pay dues (Oct 14), but lobbyists aren't a hired job yet.",
     "addedBy": "OPUS-GOV",
     "addedAt": "2026-10-12",
-    "replacement": "The business owners decide to join, and the group hires a lobbyist (a person with a job, a record and memory of each member's votes).",
+    "replacement": "The group hires a lobbyist (a person with a job, a record and memory of each member's votes). Owner as lobbyist done Oct 19.",
     "status": "open"
   },
   {
