@@ -5,6 +5,7 @@
  * every failure message; places are drawn until one has enough separations.
  */
 import { randomBytes } from "node:crypto";
+import { appendFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 import { buildBenchWorld } from "../bench/world";
 import { advanceCore } from "./life";
@@ -106,9 +107,11 @@ describe(`employers refill the jobs workers leave (seed ${seed})`, () => {
           change.jobId === example.replacesJobId &&
           change.personId === example.replacesPersonId,
       )!;
-      console.log(
+      appendFileSync(
+        process.env.LEAVER_CHAIN_OUT ?? "/dev/null",
         `leaver-refilled: ${world.place.key} seed ${drawSeed}: employer ${example.organizationId}, separation ${leaving.id} (${leaving.kind}) of ${example.replacesPersonId} from ${example.replacesJobId}, opening ${example.id} (${example.status})` +
-          (example.filledBy ? `, filled by ${example.filledBy}` : ""),
+          (example.filledBy ? `, filled by ${example.filledBy}` : "") +
+          "\n",
       );
       return;
     }
