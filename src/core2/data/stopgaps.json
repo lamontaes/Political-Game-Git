@@ -5249,5 +5249,17 @@
     "addedAt": "2026-10-20",
     "replacement": "The same August ranking over counted groups, with the flow's contract part for each household started or ended (pool item core-stopgap-opening-private-tuition-aggregate-spending).",
     "status": "open"
+  },
+  {
+    "id": "SG-LAW-death-tax-no-schedule",
+    "kind": "assumed-behavior",
+    "file": "src/core2/laws-death-taxes.ts",
+    "line": 37,
+    "whatItFakes": "A state that adopts an estate or inheritance tax by a bill that sets only a rate (it had none, so the bill has no schedule to keep) taxes the whole estate or share at that rate, with no exemption and no classes of heirs.",
+    "why": "The bill catalog lets a legislature set the estate and inheritance tax amounts in any state; shapedRate keeps an existing schedule but a state without the tax has none to scale.",
+    "replacement": "An adopting bill carries a schedule (an exemption, and for an inheritance tax the classes of heirs), drafted from the states that levy the tax.",
+    "addedBy": "claude/law-wiring-death-tax-terms",
+    "addedAt": "2026-10-20",
+    "status": "open"
   }
 ]

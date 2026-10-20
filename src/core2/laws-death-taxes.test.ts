@@ -19,6 +19,7 @@ import { stancesOf } from "./modules/views";
 import { settleEstate, heirsOf } from "./estates";
 import { estateTaxes, inheritanceTax, scheduleTax } from "./laws-death-taxes";
 import { shapedRate } from "./modules/legislature";
+import { enactLaw } from "./modules/laws";
 import type { LawRowInput } from "./laws-starting";
 
 const seed =
@@ -92,6 +93,49 @@ describe("estate and inheritance taxes", () => {
         (terms.others as { minRate: number }).minRate / 2,
         3,
       );
+  });
+
+  it("a state that adopts a death tax by setting only a rate taxes the whole amount at that rate", () => {
+    const states = Object.keys(rows)
+      .filter(
+        (k) =>
+          /^US-[A-Z]{2}$/.test(k) &&
+          !taxing.includes(k) &&
+          placeLocalities(k).length > 0,
+      )
+      .sort();
+    const state = pick(states, "adopting-state");
+    const key = pick(
+      [...placeLocalities(state)].sort((a, b) => a.key.localeCompare(b.key)),
+      "adopting-place",
+    ).key;
+    const where = `seed ${seed}, ${state} place ${key}`;
+    const core = buildBenchWorld(seed, gameStartDate(), {
+      twoLevel: true,
+      placeKey: key,
+    }).core;
+    const api = coreAPI(core);
+    expect(inheritanceTax(api, state, "sibling", 100_000_00), where).toBeNull();
+    for (const series of ["inheritance-tax", "estate-tax"])
+      enactLaw(api, {
+        jurisdiction: state,
+        level: "state",
+        series,
+        value: 5,
+        effectiveDate: core.date,
+        measureId: `test:adopt-${series}`,
+        citation: "A bill that sets only a rate",
+      });
+    // Five percent of a $100,000 share, in cents, with no exemption.
+    expect(
+      inheritanceTax(api, state, "sibling", 100_000_00)?.amountMinor,
+      where,
+    ).toBe(5_000_00);
+    expect(
+      estateTaxes(api, state, 100_000_00).find((t) => t.jurisdiction === state)
+        ?.amountMinor,
+      where,
+    ).toBe(5_000_00);
   });
 
   it("a played world's estate pays the taxes in force to named treasuries, every cent balanced, and the heirs learn which law took it", () => {
