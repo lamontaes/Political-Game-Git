@@ -5,13 +5,13 @@ area: people
 kind: feature
 priority: 2
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/narrative-seam
 pr: #5358
 blocked-on:
 after: words-pack-scene-talk
 source: added with npm run pool -- add
-claimed-at:
+claimed-at: 2026-10-20T09:10:24.618Z
 ---
 
 **What.** TODO
