@@ -5,7 +5,7 @@ area: release
 kind: bug
 priority: 3
 size: S
-status: in-pr
+status: done
 claimed-by: claude/release-check-shallow
 pr: #5290
 blocked-on:
