@@ -1207,11 +1207,6 @@
       "impactParameter": "directorFilingImpact"
     },
     {
-      "eventKind": "executive-action",
-      "channel": "cause",
-      "impactParameter": "directorElectionResultImpact"
-    },
-    {
       "eventKind": "veto-override",
       "channel": "cause",
       "impactParameter": "directorElectionResultImpact",

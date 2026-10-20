@@ -13,7 +13,6 @@
  * or federal office has no counter in the town: the role stays unfilled, and
  * the scene says so by the reach report, never by an invented clerk.
  */
-import { P } from "../core2/parameters";
 import { coreAPI } from "../core2/state";
 import type { CoreAPI, CoreState, PersonId } from "../core2/types";
 import {
@@ -36,7 +35,7 @@ import {
 import { ELECTIONS_MODULE_ID } from "../core2/modules/elections";
 import { filingClerkFor } from "../core2/modules/filing-clerk";
 import { retellingsOf } from "../core2/modules/speech";
-import { PRESS_MODULE_ID, townOutlet } from "../core2/modules/press";
+import { PRESS_MODULE_ID } from "../core2/modules/press";
 import { VOTING_MODULE_ID, pollingPlaceOf } from "../core2/modules/voting";
 import { P } from "../core2/parameters";
 import type { Moment } from "./types";
@@ -158,20 +157,6 @@ export function civicFill(
       const row = api
         .moduleState(PRESS_MODULE_ID)
         .table("interviews")
-<<<<<<< HEAD
-        .get(moment.causeId) as unknown as InterviewRow | undefined;
-      // A public record with no interview (a signing, a veto) is covered by
-      // the outlet that carries the town's public record: its first reporter.
-      const outlet = row ? null : townOutlet(api);
-      return free(
-        living(core, [
-          row?.reporterId ??
-            outlet?.reporterIds.at(P.zero) ??
-            outlet?.headId ??
-            null,
-        ]),
-      );
-=======
         .get(facts?.interviewId || moment.causeId) as unknown as
         InterviewRow | undefined;
       if (row) return free(living(core, [row.reporterId ?? null]));
@@ -207,7 +192,6 @@ export function civicFill(
       // The executive who signed or vetoed, named by the act's own record.
       const named = core.durableLog.get(moment.causeId)?.facts?.executiveId;
       return free(living(core, named ? [named] : []));
->>>>>>> origin/main
     }
     case "appointer": {
       // A central bank governor is named by the president and confirmed by

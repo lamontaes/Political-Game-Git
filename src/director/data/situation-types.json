@@ -1971,10 +1971,6 @@
         {
           "match": {
             "label": "cause:event:executive-action",
-<<<<<<< HEAD
-            "causeFact": { "key": "sponsorId", "is": "subject" },
-            "causeFactEquals": { "key": "action", "value": "signed" }
-=======
             "causeFacts": [
               {
                 "key": "action",
@@ -1985,7 +1981,6 @@
                 "is": "other"
               }
             ]
->>>>>>> origin/main
           },
           "causeEngine": "legislature",
           "causeRecord": "executive-action",
@@ -2044,10 +2039,6 @@
         {
           "match": {
             "label": "cause:event:executive-action",
-<<<<<<< HEAD
-            "causeFact": { "key": "sponsorId", "is": "subject" },
-            "causeFactEquals": { "key": "action", "value": "vetoed" }
-=======
             "causeFacts": [
               {
                 "key": "action",
@@ -2058,7 +2049,6 @@
                 "is": "other"
               }
             ]
->>>>>>> origin/main
           },
           "causeEngine": "legislature",
           "causeRecord": "executive-action",
