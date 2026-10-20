@@ -1413,7 +1413,7 @@
     "kind": "missing-mechanic",
     "file": "src/core2/data/laws/reach-group-a.json",
     "line": 132,
-    "whatItFakes": "Public-sector collective bargaining records the right on public workers, their employers and the union, but no contract is bargained and no pay changes.",
+    "whatItFakes": "Public-sector collective bargaining raises public workers' pay by an estimated union premium phased in over the first contract years (src/core2/law-reach/group-a-bargaining.ts), but no contract is bargained: there is no bargaining table, unit or negotiation, and the premium is one average for every public job.",
     "why": "There is no bargaining engine: no union contract, no bargaining unit wage or table.",
     "addedBy": "OPUS-GOV (sub-agent A)",
     "addedAt": "2026-10-12",
