@@ -410,10 +410,13 @@ export interface MemberView {
   sizeCost: number;
 }
 
-/** A Taylor-type view weighted by the member's lean, closed gradually by their patience. */
+/**
+ * A Taylor-type view weighted by the member's lean, closed gradually at the
+ * board's pace. The member's temperament enters once, where the shared
+ * chooser weighs moving against holding (`macro.rate-vote`), not here.
+ */
 export function memberView(
   member: Readonly<BoardMember>,
-  traits: Readonly<Record<string, number>>,
   readings: Readonly<MeetingReadings>,
   p: MacroParameter,
 ): MemberView {
@@ -431,10 +434,7 @@ export function memberView(
     -gapResponse *
     p("macroOkunOutputPerUnemploymentPoint") *
     (readings.unemploymentPct - p("macroNaturalUnemploymentPct"));
-  const smoothing =
-    p("macroSmoothingBase") +
-    p("macroSmoothingPerPatience") *
-      (traits[board.traits.patience] ?? p("zero"));
+  const smoothing = p("macroSmoothingBase");
   return {
     memberId: member.id,
     personId: member.personId,
@@ -445,9 +445,7 @@ export function memberView(
       prices: smoothing * prices,
       jobs: smoothing * jobs,
     },
-    sizeCost:
-      p("one") -
-      p("macroMoveSizeCostPerRisk") * (traits[board.traits.risk] ?? p("zero")),
+    sizeCost: p("one"),
   };
 }
 

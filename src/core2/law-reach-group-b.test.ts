@@ -119,6 +119,7 @@ function build(): void {
     const levels = new Set(governments(api).map((g) => g.level));
     LOCAL = ["city", "county", "state"].find((l) => levels.has(l as "city"))!;
     where = `seed ${seed}, place ${key} (${core.placeMetadata.placeName})`;
+    console.log(`law-reach-group-b: ${where}`);
     where += `, governments ${[...new Set(governments(api).map((g) => g.level))].join("/")}`;
     report.place = where;
     return;
@@ -294,7 +295,7 @@ describe("law reach, group B: every policy reaches people through its engine", (
   beforeAll(() => build());
 
   it("registers a handler for every group B policy and budget line", () => {
-    expect(GROUP_B_KEYS.length).toBe(35);
+    expect(GROUP_B_KEYS.length).toBe(34);
   });
 
   // ---- Records reaching named people, counted residents and employers ----
@@ -539,6 +540,17 @@ describe("law reach, group B: every policy reaches people through its engine", (
     const restored = lawInForce(api, "income-tax").levels.find(
       (l) => l.level === LOCAL,
     )?.row;
+    if (String(restored?.terms?.enactedBy ?? "").startsWith("flatten:")) {
+      // The level's tax was a graduated schedule (Guam's follows the federal
+      // one, and an earlier case in this file may have flattened it): repealing
+      // the act replaces the schedule with the level's flat rate
+      // (SG-GOV-REACH-B-flat-tax-replacement), a tax it wrote that still
+      // reaches workers, so the person rows stand and the schedule is gone.
+      expect(restored?.terms?.schedules, `${where} schedule`).toBeUndefined();
+      expect(restored?.unit, `${where} flat tax`).toBe("percent-flat");
+      return;
+    }
+    expectEnded(key);
     expect(restored?.value ?? 0).toBe(prior?.value ?? 0);
     // Where the level's own tax is graduated, a "no" flattens it
     // (SG-GOV-REACH-B-flat-tax-replacement), and that flat law reaches the
@@ -593,17 +605,8 @@ describe("law reach, group B: every policy reaches people through its engine", (
       expect(row.terms[`${LOCAL}Rate`] ?? 0).toBe(0);
   });
 
-  it("a city sales tax rate reaches every household and seller as a price record", () => {
-    const before = lawInForce(api, "sales-tax").value ?? 0;
-    enact("sales-tax", 1, LOCAL, "percent");
-    const rate = lawInForce(api, "sales-tax").value ?? 0;
-    expect(rate).toBeGreaterThan(0);
-    expect(reached("sales-tax"), where).toBe(householdsWithAdults());
-    for (const row of openPeople("sales-tax"))
-      expect(row.terms.ratePercent).toBe(rate);
-    report.salesTax = { before, after: rate };
-    enact("sales-tax", 0, LOCAL, "percent");
-  });
+  // The sales tax is not a group B policy any more: the price engine records
+  // each seller it charged (law-wiring-prices.test.ts).
 
   // ---- Budget lines reach what they pay for ----
   const serviceLines: [string, number | null][] = [
@@ -822,8 +825,11 @@ describe("law reach, group B: every policy reaches people through its engine", (
       );
       const rows = open();
       const named = rows.filter((r) => api.state.people.has(r.recipientId));
-      const countedRow = rows.find((r) => !api.state.people.has(r.recipientId));
-      return { heads, reachedIds, named, countedRow };
+      // Counted households are paid into their own group's fund, one row a group.
+      const countedRows = rows.filter(
+        (r) => !api.state.people.has(r.recipientId),
+      );
+      return { heads, reachedIds, named, countedRows };
     };
     enact(work, 1, "state");
     // The law writes no second record: the benefit is where it is read.
@@ -865,9 +871,12 @@ describe("law reach, group B: every policy reaches people through its engine", (
       (h) => !h.named && !past.reachedIds.has(h.id),
     ).length;
     if (rate > 0 && countedDrawing > 0)
-      expect(past.countedRow?.amountMinor, `${where} pooled payment`).toBe(
-        rate * countedDrawing,
-      );
+      expect(
+        past.countedRows.reduce((n, r) => n + r.amountMinor, 0),
+        `${where} counted groups' payments`,
+      ).toBe(rate * countedDrawing);
+    for (const row of past.countedRows)
+      expect(row.recipientId, `${where} ${row.id}`).toMatch(/^fund-account:/);
     report.assistanceWork = {
       heads: past.heads.length,
       stopped: stopped.length,

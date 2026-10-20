@@ -128,11 +128,6 @@
       "why": "Runs when someone with an estate dies (src/core2/estates.ts:283).",
       "fix": "None needed; rare by nature."
     },
-    "office-day-state.leader-request": {
-      "class": "no trigger (player or developer only)",
-      "why": "Only the bench path check calls it (src/bench/path-check.ts:236).",
-      "fix": "Have a legislator who drafted a bill ask the leader for a hearing in doEntry."
-    },
     "office-day-state.clemency": {
       "class": "rare",
       "why": "A weekly clemency petition for a governor who is not the player is in review on another branch.",
@@ -162,11 +157,6 @@
       "class": "rare",
       "why": "Ran 16 times in the year.",
       "fix": "Check what triggers borrowing; calibrate."
-    },
-    "legislature.attend-sitting": {
-      "class": "trait decides alone",
-      "why": "Personality turned 96 of 100 picks: attending and missing score almost the same without it, so the trait term settles nearly every sitting (src/core2/modules/legislature.ts:2516).",
-      "fix": "Add the member's duty reasons and calibrate the weight from attendance research."
     }
   }
 }

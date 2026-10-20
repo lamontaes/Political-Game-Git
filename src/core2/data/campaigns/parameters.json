@@ -270,12 +270,6 @@
       "source": "How much knowing a candidate adds to an appointing official's choice, beside alignment and qualification. Checked against patronage studies (Lewis 2008: personal and campaign ties shape appointments, most of all to lower-profile posts).",
       "spread": [0, 0.5]
     },
-    "appointmentLoyaltyMeritSwing": {
-      "value": 0.5,
-      "tag": "TUNABLE",
-      "source": "How far an appointing official's own traits tilt their weighing of a nominee between loyalty (alignment and acquaintance) and merit (qualification): at the most loyalty-minded the loyalty terms count 1.5 and merit 0.5 of their usual weight, at the most merit-minded the reverse. Checked against patronage studies (Lewis 2008: appointers differ in how much they trade competence for ties).",
-      "spread": [0.25, 0.75]
-    },
     "identityLeanScale": {
       "value": 0.6,
       "tag": "ESTIMATED",
@@ -573,8 +567,9 @@
     "legislativeSeatMargin": {
       "value": 0.12,
       "tag": "ESTIMATED",
-      "source": "How far a state legislative district without a read result leans to its holder's party, in two-party share: the median state legislative general election margin is about 25 points (Ballotpedia, 'Margin of victory analysis for the 2024 state legislative elections'), so about 0.12 of share.",
-      "spread": [0.05, 0.2]
+      "source": "How far a state legislative district without its own read result (a state the source lacks, a nonpartisan or unmatched district, or a seat one party did not contest) leans to its holder's party, in two-party share. Checked against the districts that do have a result: across the 3,182 Census state legislative districts matched to a contested 2024 race, the median distance of the Republican two-party share from one half is 0.121, with 10th to 90th percentiles of 0.025 to 0.271 (MIT Election Data and Science Lab, State Precinct-Level Returns 2024, doi:10.7910/DVN/DODOBJ; src/core2/legislative-district-results.ts). Districts with a result use their own vote, not this figure.",
+      "estimatedFrom": "median over contested districts of |Republican two-party share - 0.5| (data/research/elections/medsl-2024-legislative-district-results.json); uncontested seats lean further, so this understates them",
+      "spread": [0.025, 0.271]
     },
     "primaryTurnoutCost": {
       "value": 1.15,
@@ -996,30 +991,6 @@
       "source": "How far a named voter's ballot may run against their own recorded view (the views engine's lean over its maximum, 0 to 1) before it must carry a recorded reason that outweighs the view: 0.5 is the views engine's 'liberal' or 'conservative' label (lean ±1 of ±2). Read by the ballot checks (PW-3); the ballot itself weighs the view, never this number.",
       "spread": [0.25, 0.75]
     },
-    "speechOpeningParts": {
-      "value": 1,
-      "tag": "ESTIMATED",
-      "source": "A stump speech opens with one move (greeting, thanks or why they are running), the exordium of classical oratory (Cicero, De Inventione I.20) and the opening of a modern campaign speech.",
-      "spread": [1, 2]
-    },
-    "speechBodyParts": {
-      "value": 3,
-      "tag": "ESTIMATED",
-      "source": "A stump speech makes a few points rather than many (the rule of three in political speechwriting; Atkinson 1984, 'Our Masters' Voices', on three-part lists as the applause-eliciting unit).",
-      "spread": [2, 5]
-    },
-    "speechClosingParts": {
-      "value": 1,
-      "tag": "ESTIMATED",
-      "source": "A stump speech ends with one closing move (an ask for the vote, a thank you or a pledge), the peroration of classical oratory (Cicero, De Inventione I.52).",
-      "spread": [1, 2]
-    },
-    "speechOffersPerStep": {
-      "value": 4,
-      "tag": "SOURCED",
-      "source": "Owner ruling, Oct 14, 2026: a speech is composed one part at a time from four offered parts, as in Suzerain.",
-      "spread": [4, 4]
-    },
     "staffMinimumAge": {
       "value": 18,
       "tag": "SOURCED",
@@ -1162,6 +1133,30 @@
       "tag": "TUNABLE",
       "source": "How near even a member must stand on a bill (their position's size, on the scale where a full stance is about 1) before the rest of their day can keep them from its vote. Members miss the votes that matter least to them; in recent Congresses the median member missed about 2 percent of roll calls and few missed more than 10 percent outside illness or a campaign (GovTrack missed-votes statistics, 117th and 118th Congresses). Checked against that: about 2 to 5 percent of votes missed in played years.",
       "spread": [0.1, 0.5]
+    },
+    "sittingSeatDuty": {
+      "value": 0.03,
+      "tag": "TUNABLE",
+      "source": "How much holding the seat itself pulls a member to a sitting of the body they serve on, however lopsided the vote: attending is the job, the goal of fulfilling work that going to a shift also meets. Set small so that, with the session and a close vote, a member attends nearly every sitting (median members missed about 2 percent of roll calls, GovTrack missed-votes statistics, 117th and 118th Congresses) and only a lopsided, low-stakes sitting leaves room for the rest of the day.",
+      "spread": [0.05, 0.3]
+    },
+    "sittingSessionDuty": {
+      "value": 0.02,
+      "tag": "TUNABLE",
+      "source": "What a legislature's or Congress's session adds to a member's pull to a sitting: session days are the member's working days, planned around, and states protect a legislator's job during session, where a town body's evening meeting comes out of the member's own free hours and gets none.",
+      "spread": [0.03, 0.2]
+    },
+    "sittingCloseDuty": {
+      "value": 0.3,
+      "tag": "TUNABLE",
+      "source": "What a close vote adds to a member's pull to a sitting, scaled by how near an even split the members' own positions put the chamber (1 for a tie, 0 for a unanimous chamber): a member whose vote could decide it shows up more than one whose side is sure to win. No study in the repository measures this coefficient. Checked against the spread so a close vote outweighs a mild temperament without outweighing a seat's whole pull.",
+      "spread": [0.1, 0.6]
+    },
+    "pillOppositionBar": {
+      "value": 0.5,
+      "tag": "TUNABLE",
+      "source": "How far against a bill a member must stand (their position's size, a full stance about 1) before bending the rules to sink it with an amendment is worth the standing it costs them; below it the member votes no and lets it pass. Compared with the member's own position, so a stronger opponent moves a pill whatever their temperament, and temperament moves the members near the bar.",
+      "spread": [0.25, 1]
     }
   }
 }
