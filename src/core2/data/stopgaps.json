@@ -5243,5 +5243,113 @@
     "addedAt": "2026-10-20",
     "replacement": "The jobs engine prices schooling into hires and wages from the person's own schooling record (pool item world-schooling-to-pay).",
     "status": "open"
+  },
+  {
+    "id": "SG-LABOR-counted-partner-proxy",
+    "kind": "estimated-behavior",
+    "file": "src/core2/jobs-web.ts",
+    "line": 1,
+    "whatItFakes": "A counted member's marital status and which relative is their child: a woman is married when an adult relative within the minimum parent age of her age lives in her household, and a mother when a relative under 5 is at least that much younger.",
+    "why": "The counts keep family pairs without their kind and carry no marital status, so the web's mothers and married-women outcomes cannot read a counted woman's own record.",
+    "addedBy": "effect-web-labor",
+    "addedAt": "2026-10-20",
+    "replacement": "Counted members' partner and parent-child links kept in the counts, read in place of the age rule.",
+    "status": "open"
+  },
+  {
+    "id": "SG-LABOR-no-legal-status",
+    "kind": "faked-mechanic",
+    "file": "src/core2/jobs-web.ts",
+    "line": 1,
+    "whatItFakes": "Undocumented and U.S.-born employment: the web keeps them as place numbers, but no person carries a nativity or legal status, so no hire, layoff or quit can read the enforcement links.",
+    "why": "People are generated without a birthplace or work authorization; inventing one per person would be a guess that decides who loses work.",
+    "addedBy": "effect-web-labor",
+    "addedAt": "2026-10-20",
+    "replacement": "A nativity and work-authorization record on people (full and counted), read by the jobs engine's hiring and layoff decisions.",
+    "status": "open"
+  },
+  {
+    "id": "SG-LABOR-minimum-wage-ratio",
+    "kind": "faked-mechanic",
+    "file": "src/core2/jobs-web.ts",
+    "line": 1,
+    "whatItFakes": "The minimum-wage-to-low-wage-jobs link needs the minimum wage as a share of the place's median wage (labor.minimum-wage-to-median), which no engine records.",
+    "why": "The wage floor is read by the jobs engine for pay, but the ratio to the median is not a kept measure.",
+    "addedBy": "effect-web-labor",
+    "addedAt": "2026-10-20",
+    "replacement": "A reader in the jobs engine of the wage floor over the place's median hourly pay, added to the engine measures.",
+    "status": "open"
+  },
+  {
+    "id": "SG-LABOR-person-exposure",
+    "kind": "faked-mechanic",
+    "file": "src/core2/jobs-web.ts",
+    "line": 1,
+    "whatItFakes": "Birth-year pollution, teacher quality and neighborhood years acting on adult earnings: they need each person's own exposure-years record, which no engine keeps.",
+    "why": "The links are person-level (exposure-years shape); a place rate would apply them to the wrong people.",
+    "addedBy": "effect-web-labor",
+    "addedAt": "2026-10-20",
+    "replacement": "A per-person exposure record (air in the birth year, teachers' value-added, years in a better neighborhood) read when pay is set.",
+    "status": "open"
+  },
+  {
+    "id": "SG-LABOR-unsized-links",
+    "kind": "faked-mechanic",
+    "file": "src/core2/jobs-web.ts",
+    "line": 1,
+    "whatItFakes": "Graduation to earnings, transit loss to unemployment, broadband to employment and incentive deals to industry jobs have no researched size the game can use, and their causes or outcomes are not recorded.",
+    "why": "Their sources give a study-unit effect (one lost line, a county gaining broadband, one deal) that no conversion turns into the game's slopes; the sizes are to confirm.",
+    "addedBy": "effect-web-labor",
+    "addedAt": "2026-10-20",
+    "replacement": "Sizes confirmed from the sources and the cause measures (graduation share, transit access, deal records) recorded by their engines.",
+    "status": "open"
+  },
+  {
+    "id": "SG-LABOR-pretrial-employment",
+    "kind": "faked-mechanic",
+    "file": "src/core2/jobs-web.ts",
+    "line": 1,
+    "whatItFakes": "Pretrial detention lowering formal employment: the justice engine decides each detention from the law, but no engine records formal-sector employment, and a place rate would count the detention twice.",
+    "why": "The cause is a person's own detention in the justice records; the jobs engine does not read it when a detained person's job ends.",
+    "addedBy": "effect-web-labor",
+    "addedAt": "2026-10-20",
+    "replacement": "The jobs engine reading a person's detention record in custody-related separations and a formal-employment measure from jobs records.",
+    "status": "open"
+  },
+  {
+    "id": "SG-LABOR-participation-scale",
+    "kind": "uncalibrated-tunable",
+    "file": "src/core2/jobs-web.ts",
+    "line": 1,
+    "whatItFakes": "The size of the web's participation effects on who is at work: the engine adds the log of the web's factor to a deterministic choice score, which reaches the records but is not fitted to the researched size.",
+    "why": "Measured in a played town: an older-work effect of +0.3 (a 30% change in the researched outcome) moved the share of 62 to 67 year olds at work from 0.656 to 0.677, about 3%, because the choice scores are logistic and the entry and exit pulls are small.",
+    "addedBy": "effect-web-labor",
+    "addedAt": "2026-10-20",
+    "replacement": "A weight on the term, fitted in a played year so each group's share moves by the researched size (mothers, married women, ages 62 to 67).",
+    "status": "open"
+  },
+  {
+    "id": "SG-LABOR-defense-cause",
+    "kind": "missing-record",
+    "file": "src/core2/jobs-web.ts",
+    "line": 1,
+    "whatItFakes": "defense-contracts-to-earnings does nothing: its cause federal.defense-boost-pct (extra defense contracts as a share of the state's output) is not recorded by any engine, so the link never runs; the pay level already reads labor.median-earnings and will carry it once the cause exists.",
+    "why": "No federal procurement engine records state contract awards.",
+    "addedBy": "effect-web-labor",
+    "addedAt": "2026-10-20",
+    "replacement": "A federal spending engine recording each state's defense contract awards, read as federal.defense-boost-pct.",
+    "status": "open"
+  },
+  {
+    "id": "SG-LABOR-low-wage-unreviewed",
+    "kind": "faked-mechanic",
+    "file": "src/core2/jobs-web.ts",
+    "line": 251,
+    "whatItFakes": "minimum-wage-to-low-wage-jobs and federal-minimum-wage-to-low-wage-jobs scale only the staffing targets of employers the jobs engine reviews, and in played towns none of those has a job under the line; the town's low-wage jobs belong to organizations the review never reaches, so the factor moves no record.",
+    "why": "In a bench world (Sail Harbor, Connecticut, seed 6bad944e1a974146) all 32 reviewed employers had no heads under the line while about 190 of the town's 208 low-wage jobs sat with organizations outside the employers table; summed staffing need was identical to 15 digits with the factor at 0.5.",
+    "addedBy": "effect-web-labor",
+    "addedAt": "2026-10-20",
+    "replacement": "The jobs engine applies the low-wage factor to every organization whose jobs labor.low-wage-jobs counts, at the moment it sets that organization's staffing, shown in a low-wage-only twin by employer id.",
+    "status": "open"
   }
 ]
