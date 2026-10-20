@@ -10,6 +10,7 @@ claimed-by:
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at:
 ---
 
 **What.** A sampling allocation profile of a played year in Long Hill, Connecticut (seed m7b, key 0943580, 365 days, 60,914 MB allocated including collected objects) put the cash journal first: postCashJournal 2,958 MB (4.9 percent), projectCashJournal 2,603 MB (4.3 percent), portfolios 1,389 MB (2.3 percent), volumes 869 MB, plusTotals and the Map and Set copies they make about 1 GB more, 8 to 9 GB in all. Every posting builds exact-arithmetic (BigInt) amounts, maps of volumes and portfolios, and copies of its totals for each entry. Cut that allocation, for example by keeping running totals in place and building a projection only when bookkeeping is on, without changing any amount or the balance checks.
