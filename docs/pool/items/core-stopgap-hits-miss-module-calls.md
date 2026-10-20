@@ -5,12 +5,12 @@ area: core
 kind: bug
 priority: 3
 size: S
-status: in-pr
-claimed-by: claude/stopgap-hits-active
+status: open
+claimed-by:
 pr: #5452
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-20T02:58:51.448Z
+claimed-at:
 ---
 
 **What.** `core.stopgapHits` (state.ts) is filled only by markers that pass the world's set, such as `api.stopgap("ID")`. About 42 files in `src/core2` import `stopgap` from `./stopgaps` and call it with no context, which records nothing. A probe on Oct 20 that ran two drawn places for two years and listed the open rows whose id never reached `core.stopgapHits` named 125 of 262 open rows as never hit, and it included rows that plainly run in play (`SG-WORLD-housing-landlord`, `SG-WORLD-property-tax-rate`). So no report of which stopgaps a played world actually uses can be trusted, and a row cannot be resolved as dead from it. Make the module-level markers reach the running world's hit set (route them through the api, or give `stopgap()` a way to find the world being run), so the set is complete.
