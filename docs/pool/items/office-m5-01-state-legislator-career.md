@@ -5,13 +5,13 @@ area: office
 kind: feature
 priority: 3
 size: L
-status: in-pr
-claimed-by: claude/m5-01-split
+status: open
+claimed-by:
 pr: #5421
 blocked-on:
 milestone: M5
 source: "docs/roadmap/later-specs-draft.md M5-01"
-claimed-at: 2026-10-20T02:20:00.733Z
+claimed-at:
 ---
 
 **What.** Pick a real numbered seat, file, campaign against the actual holder, take the seat, and pass bills with colleagues. (Owner: OPUS-GOV (screens: OPUS-PLAY).)

@@ -5,12 +5,12 @@ area: world
 kind: bug
 priority: 2
 size: M
-status: in-pr
-claimed-by: claude/pool-bds
+status: blocked
+claimed-by:
 pr: #5369
-blocked-on:
+blocked-on: world-counted-headcount-falls-faster-than-population: the premise is out of date (entry runs high at sample scale); a Census-scale check waits on PR 5685, and the CTO retitles the item
 source: added with npm run pool -- add
-claimed-at: 2026-10-20T00:53:52.771Z
+claimed-at:
 ---
 
 **What.** Businesses open at about a third of the Census rate in a played year: 5 opened against about 16 in eight drawn towns, while closures match. Find why entries run low, whether the entry rule, the capital a founder needs or the demand it reads. Fix it at the cause so the year's openings match the Census count within the stated spread.
@@ -35,3 +35,5 @@ Measured Oct 20 (claude/pool-bds): the premise is out of date, and the error now
 | Dewey Beach, Delaware, `e6`                 | 28 to 32           | 5      | 17.9%      | 1      |
 
 Entry runs 1.7 to 4.7 times the Census rate and closures run at or below it (0 to 2 of about 28 against an expected 2 to 3), so the towns grow 15 to 40 percent in a year. `foundings` in `business.ts` returns after the first opening, so the whole world opens at most one firm a month; that cap is not what binds here. These are small samples (26 to 28 firms at the sample's scale), so the rate is noisy; a town at its Census scale should be measured before any rule is changed. Not changed. Question for the CTO: the item's title is wrong; retitle it to a check of entry and exit against `bds-rates.json` at Census scale, or drop it.
+
+Oct 20 (claude, released unbuilt): read the Oct 20 measurement above; I did not repeat it. Entry at the bench sample scale cannot answer a Census-scale question, and `world-census-weight-economy` (PR #5454) is what sizes firms to the Census count, so a Census-scale check waits on it. The title should be changed to a check of entry and exit against bds-rates.json once that lands (CTO).

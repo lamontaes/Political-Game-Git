@@ -5,13 +5,13 @@ area: director
 kind: feature
 priority: 3
 size: L
-status: in-pr
-claimed-by: claude/director-m4-05
+status: open
+claimed-by:
 pr: #5343
 blocked-on:
 milestone: M4
 source: "docs/roadmap/later-specs-draft.md M4-05"
-claimed-at: 2026-10-20T00:39:32.944Z
+claimed-at:
 ---
 
 **What.** People mention what changed and who did it, in their own words. (Owner: OPUS-PEOPLE.)

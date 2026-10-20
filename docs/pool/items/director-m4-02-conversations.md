@@ -5,7 +5,7 @@ area: director
 kind: feature
 priority: 3
 size: L
-status: in-pr
+status: done
 claimed-by: claude/director-m4-verify
 pr: #5345
 blocked-on:

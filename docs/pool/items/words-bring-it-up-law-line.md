@@ -5,11 +5,12 @@ area: words
 kind: feature
 priority: 1
 size: M
-status: open
-claimed-by:
+status: blocked
+claimed-by: claude/bring-it-up-law
 pr:
-blocked-on:
+blocked-on: PR #5647 (the director test rewrite that leaves the slot empty) is not merged, and the line needs sentences mined from a conversation corpus (scripts/english-mining) and graded; no corpus script for neighbors talking about a law exists yet
 source: added with npm run pool -- add
+claimed-at: 2026-10-20T11:03:35.574Z
 ---
 
 **What.** The held hand-written sentences in data/english/parts/bring-it-up.json left the line a reader says aloud about a printed law story with no shippable part, so the game shows nothing there until the English engine writes it. Compose or mine the line for the line a reader says aloud about a printed law story from the printed story record of the law taking effect and its outlet, as engine-written bank parts with their source, and have the director use it. The player would read the line again, written by the engine from the record.

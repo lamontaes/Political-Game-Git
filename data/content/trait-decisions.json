@@ -68,18 +68,6 @@
         {
           "id": "seek-standing",
           "from": "src/core2/data/drives.json#/actions/6"
-        },
-        {
-          "id": "testify-at-hearing",
-          "from": "src/core2/data/drives.json#/actions/7"
-        },
-        {
-          "id": "run-for-office",
-          "from": "src/core2/data/drives.json#/actions/8"
-        },
-        {
-          "id": "lobby-legislator",
-          "from": "src/core2/data/drives.json#/actions/9"
         }
       ]
     },
@@ -904,6 +892,22 @@
       ]
     },
     {
+      "id": "staff.dismiss",
+      "site": "src/core2/modules/staff.ts",
+      "owner": "OPUS-GOV",
+      "route": "formula",
+      "options": [
+        {
+          "id": "keep",
+          "actKinds": ["keep-same", "concede", "help-others"]
+        },
+        {
+          "id": "dismiss",
+          "actKinds": ["confront", "refuse", "follow-rules"]
+        }
+      ]
+    },
+    {
       "id": "interest-groups.member-join",
       "site": "src/core2/modules/interest-groups.ts",
       "owner": "OPUS-GOV",
@@ -1478,6 +1482,56 @@
         {
           "id": "grant",
           "actKinds": ["help-others", "trust", "take-risk"]
+        }
+      ]
+    },
+    {
+      "id": "relationships.warm-to",
+      "site": "src/core2/closeness.ts",
+      "owner": "OPUS-PEOPLE",
+      "route": "formula",
+      "traitWeightParameter": "traitWeightRelationshipsWarmTo",
+      "options": [
+        {
+          "id": "cool",
+          "actKinds": ["withdraw", "keep-same"]
+        },
+        {
+          "id": "warm",
+          "actKinds": ["engage", "cooperate", "trust"]
+        }
+      ]
+    },
+    {
+      "id": "relationships.fall-out",
+      "site": "src/core2/closeness.ts",
+      "owner": "OPUS-PEOPLE",
+      "route": "formula",
+      "traitWeightParameter": "traitWeightRelationshipsFallOut",
+      "options": [
+        {
+          "id": "let-go",
+          "actKinds": ["concede", "cooperate"]
+        },
+        {
+          "id": "hold-on",
+          "actKinds": ["confront", "refuse"]
+        }
+      ]
+    },
+    {
+      "id": "housing.settle-arrears",
+      "site": "src/core2/modules/housing.ts",
+      "owner": "OPUS-WORLD",
+      "route": "formula",
+      "options": [
+        {
+          "id": "housing-settle-owed",
+          "actKinds": ["follow-rules", "commit"]
+        },
+        {
+          "id": "housing-let-lapse",
+          "actKinds": ["play-safe", "withdraw"]
         }
       ]
     }

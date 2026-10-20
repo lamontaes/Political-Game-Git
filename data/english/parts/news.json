@@ -486,7 +486,8 @@
       "author": "Claude Sonnet (pool item words-archive-law-budget-ledes)",
       "date": "2026-10-19",
       "tag": {
-        "move": "deliver-news"
+        "move": "deliver-news",
+        "key": "news-received"
       }
     },
     {
@@ -508,7 +509,8 @@
       "author": "Claude Sonnet (pool item words-archive-law-budget-ledes)",
       "date": "2026-10-19",
       "tag": {
-        "move": "deliver-news"
+        "move": "deliver-news",
+        "key": "news-received"
       }
     }
   ]
