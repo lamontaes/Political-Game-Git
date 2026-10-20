@@ -3206,7 +3206,7 @@
     "kind": "behavior",
     "file": "src/core2/modules/school.ts",
     "line": 1,
-    "whatItFakes": "Every school-age full person attends the town's public school district (or, in a world opened without it, their town's schools as a place) on the weekdays of one national school calendar (Sept. 1 to June 10, the federal holidays by their dates each year, and fixed winter and spring breaks), for the national average school day. Attending is their own choice through the chooser against a full compulsory pull, so in practice every child goes every day: no illness, truancy or family circumstance keeps one home. No grade, class, teacher, homework, private school or homeschooling.",
+    "whatItFakes": "Every school-age full person attends the town's public school district (or, in a world opened without it, their town's schools as a place) on the weekdays of one national school calendar (Sept. 1 to June 10, cut at the state's required instructional days where it sets them in days (Education Commission of the States, 2018), the federal holidays by their dates each year, and fixed winter and spring breaks), for the national average school day. Attending is their own choice through the chooser against a full compulsory pull, so in practice every child goes every day: no illness, truancy or family circumstance keeps one home. No grade, class, teacher, homework, private school or homeschooling.",
     "why": "School-age people never went to school (M0-13).",
     "addedBy": "OPUS-CORE",
     "addedAt": "2026-10-13",
@@ -4212,7 +4212,8 @@
     "replacement": "The federal day opens the situation room on the crisis records (disasters first), with the cabinet secretary whose department answers it.",
     "addedBy": "OFFICE-FEDERAL",
     "addedAt": "2026-10-14",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "The federal day opens the situation room on the disasters engine's hazard.disaster records (crisesToday in src/core2/office-day-federal-president.ts): each incident stays listed for the situationRoomOpenDays after it begins, with the cabinet department that answers its type (Homeland Security by default, Health and Human Services for a biological incident, Agriculture for a drought) and its confirmed secretary, and the daily brief tells the president. Attacks and other national crises have no records yet; they join the list when an engine writes one."
   },
   {
     "id": "SG-OFFICE-FED-prepared",
