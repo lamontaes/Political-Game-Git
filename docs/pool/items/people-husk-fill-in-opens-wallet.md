@@ -22,3 +22,5 @@ claimed-at: 2026-10-20T03:17:33.850Z
 **Files.** src/core2/state.ts, src/core2/population.ts, src/core2/opening-adults-cash.test.ts
 
 **Notes.** From the world-opening-husks-in-town-hold-no-cash investigation (#5423): the zero-cash adults there were cabinet heads, but husks hold nothing by design.
+
+Checked Oct 20 (claude), released, not built: this item's premise needs correcting. Opening kin husks are people in `core.people` with tier `husk` (the inactive tier, population.ts `relatives`), not entries in `core.husks`, and no path fills them in when met: `fillInPerson` (state.ts) takes a counted resident household out of the residents account, and `promoteHusk` takes a `core.husks` entry. So before a wallet can be opened there has to be a rule for how a tier-`husk` kin person becomes a met person (move tier to weekly, rebuild the past as `fillInPerson` does for the counted). That is a design step for the people area, then the wallet follows from the household's recorded income.
