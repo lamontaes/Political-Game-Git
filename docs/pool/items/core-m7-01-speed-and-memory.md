@@ -5,7 +5,7 @@ area: core
 kind: feature
 priority: 3
 size: L
-status: claimed
+status: blocked
 claimed-by: claude/m7-speed
 pr:
 blocked-on:

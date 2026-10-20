@@ -25,6 +25,7 @@ import {
   keptOutcome,
   LAW_PREFIX,
   linkEffect,
+  OUTCOME_WEB_MODULE_ID,
   moderatorScale,
   scaleOf,
   sizeIn,
@@ -39,7 +40,7 @@ import type { CoreAPI, CoreEventInput, CoreModule, CoreState } from "../types";
 import { townMetrics, WORLD_METRICS_MODULE_ID } from "./world-metrics";
 import { GOV_MEASURES, govMeasure, govMeasureRecord } from "../gov-measures";
 
-export const OUTCOME_WEB_MODULE_ID = "core2-outcome-web-v1";
+export { OUTCOME_WEB_MODULE_ID };
 const STATE_ID = "outcome-web:state";
 const RUN_KIND = "outcome-web";
 const SETTINGS = WEB_SETTINGS;
@@ -294,12 +295,24 @@ function baselineOf(r: Reading, measure: string): number | undefined {
   );
 }
 
+/** The cause a link reads: as it stood after the lag, averaged over the link's phase-in months. */
+function phasedCause(r: Reading, link: WebLink, index: number): number | null {
+  const months = Math.max(1, link.phaseInMonths ?? 1);
+  let sum = 0;
+  for (let k = 0; k < months; k += 1) {
+    const value = causeAt(r, link.from, index - k);
+    if (value === null) return k ? sum / k : null;
+    sum += value;
+  }
+  return sum / months;
+}
+
 /** One link's effect this month, or null when its cause can't be read. */
 function effectOf(r: Reading, link: WebLink): number | null {
   // An outcome feeds the links from it the month after it moves.
   const chained = keptOutcome(derivedOf(link.from)?.measure ?? link.from);
   const index = r.index - Math.max(link.lagMonths, chained ? 1 : 0);
-  const value = causeAt(r, link.from, index);
+  const value = phasedCause(r, link, index);
   const baseline = baselineOf(r, link.from);
   if (value === null || baseline === undefined) return null;
   // A lagged law effect does not outlast the law: once the law is back where

@@ -5,9 +5,9 @@ area: director
 kind: feature
 priority: 3
 size: L
-status: claimed
+status: done
 claimed-by: claude/director-m4-verify-2
-pr:
+pr: #5350
 blocked-on:
 milestone: M4
 source: "docs/roadmap/later-specs-draft.md M4-06"
@@ -22,4 +22,4 @@ claimed-at: 2026-10-20T00:47:44.519Z
 
 **Files.** see spec
 
-**Notes.** Priority 3 until scheduled. Verify how much is built before starting.
+**Notes.** Verified Oct 19 (claude/director-m4-verify-2), not rebuilt. src/core2/record.test.ts (2 pass, a random place): an incumbent's broken promise changes specific voters' choices at the next election, each with its reason on their ballot, and the rival's attack ad draws on it and only on it. Its council vote is written through recordVote as an edge-case fixture, as the test header says, so the proof that a council member's own played vote feeds the next campaign rests on the golden-path item play-golden-path-one-life. Priority 3 until scheduled. Verify how much is built before starting.
