@@ -12,7 +12,7 @@
  * real party makeup, seat by seat (public-domain roster).
  */
 import { campaignParameter } from "./campaign-views";
-import { decisionLean } from "./trait-decisions";
+import { decisionLean, decisionTraitWeight } from "./trait-decisions";
 import type { CoreState } from "./types";
 import partySides from "./data/elections/party-sides.json" with { type: "json" };
 import partyCounts from "../../data/research/offices/legislature-party-counts-2026.json" with { type: "json" };
@@ -56,7 +56,7 @@ export function appointerWeighing(
       "appointments.weigh",
       "appoint-loyalty",
       "appoint-merit",
-    ) * campaignParameter("appointmentLoyaltyMeritSwing");
+    ) * decisionTraitWeight(core, "appointments.weigh");
   return { loyalty: 1 + tilt, merit: 1 - tilt };
 }
 

@@ -4,13 +4,13 @@ title: "A candidate's ask for money reaches the player as a request they answer"
 area: play
 kind: feature
 priority: 3
-status: open
-claimed-by:
+status: in-pr
+claimed-by: claude/campaign-ask-player
 pr: #4865
 blocked-on:
 milestone:
 source: "core-player-money-spending: world campaigns no longer draw on the player's account"
-claimed-at:
+claimed-at: 2026-10-20T02:08:40.501Z
 ---
 
 **What.** A world candidate's campaign asks the people it can reach for money, and now skips the controlled player. A candidate who knows the player (family, a friend, the party) should reach them as a request in conversation or a letter, which the player accepts, declines or sizes; the amount then moves through `askForDonation`'s own rules.
