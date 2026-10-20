@@ -5,11 +5,12 @@ area: world
 kind: research
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/fhfa-mortgage-index
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-20T04:11:00.147Z
 ---
 
 **What.** src/core2/data/macro/history.json cites 'Freddie Mac Primary Mortgage Market Survey after 2019' for mortgage30Pct, although the CTO ruling on #3959 excluded Freddie Mac's survey and stopgap SG-WORLD-macro-mortgage-spread says the post-April-2019 rate is the 10-year Treasury plus a spread. FHFA publishes a government monthly series, the MIRS Transition Index (June 2019 onward, 6.48 for September 2026, published the last Thursday of each month) at https://www.fhfa.gov/data/mirs; the host is reachable from a cloud session. Replace the post-2019 mortgage30Pct values with that index, cite FHFA, and resolve the stopgap row. The index is FHFA's adjusted version of Freddie Mac's survey, so whether it is an acceptable government series is the CTO's call: build it, register an owner-decision stopgap, and flag it.
