@@ -5,7 +5,7 @@ area: world
 kind: feature
 priority: 2
 size: L
-status: claimed
+status: in-pr
 claimed-by: claude/other-places-coarse
 pr: #5555
 blocked-on:

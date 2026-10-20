@@ -1,7 +1,7 @@
 {
   "schema": "english-parts/1",
   "register": "meeting",
-  "description": "Sourced parts for formal meetings and floor debate, mined from the Congressional Record (public domain). Each text is a speaker's first sentence as recorded, with the address to the presiding officer replaced by a slot. Authored additions (Oct 19, 2026) fill the floor's empty cells: the chair calling the meeting and putting the question, announcing the result, a member's request for a local project, and colleagues agreeing, disagreeing and blaming.",
+  "description": "Sourced parts for formal meetings and floor debate, mined from the Congressional Record (public domain). Each text is a speaker's first sentence as recorded, with the address to the presiding officer replaced by a slot. Authored additions fill the floor's empty cells: the chair calling the meeting and putting the question, announcing the result, a member's request for a local project, and colleagues agreeing, disagreeing and blaming.",
   "slots": {
     "chair": "How the speaker addresses the presiding officer, such as Madam Speaker, Mr. President or Madam Chair.",
     "motion": "The motion before the body, from the agenda record, such as the name of the bill.",
