@@ -5,10 +5,10 @@ area: core
 kind: bug
 priority: 1
 size: M
-status: claimed
+status: blocked
 claimed-by: claude/press-staff-counted
 pr:
-blocked-on:
+blocked-on: words-pack-scene-talk
 source: added with npm run pool -- add
 claimed-at: 2026-10-20T07:15:58.730Z
 ---

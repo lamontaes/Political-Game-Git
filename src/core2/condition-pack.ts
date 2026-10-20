@@ -112,6 +112,8 @@ export interface StartingConditionSubject {
   readonly category: MortalityCalibrationCategory;
   /** Unknown household income sorts after recorded incomes; it is never zero. */
   readonly monthlyHouseholdIncomeMinor: number | null;
+  /** The person's conscientiousness level (-2..2); absent for a person who carries none. */
+  readonly conscientiousness?: number;
 }
 
 /**
@@ -120,6 +122,13 @@ export interface StartingConditionSubject {
  */
 export function startingConditionAssignments(
   subjects: readonly StartingConditionSubject[],
+  /**
+   * Log odds per conscientiousness level for behavior-driven conditions
+   * (smoking, drug use): within a cell their holders are spread by each
+   * person's weight, exp(slope times level), so the count is the prevalence's
+   * and personality decides only who.
+   */
+  behaviorSlopes: ReadonlyMap<string, number> = new Map(),
 ): ReadonlyMap<EntityId, readonly string[]> {
   const assignments = new Map<EntityId, string[]>(
     subjects.map(({ personId }) => [personId, []]),
@@ -179,6 +188,24 @@ export function startingConditionAssignments(
         continue;
       }
       const offset = conditionIndex / conditionCount;
+      const slope = behaviorSlopes.get(condition.key);
+      if (slope !== undefined) {
+        // Weighted even spacing: the running share of the condition's count
+        // each person's weight earns; a person holds it when the running
+        // total passes a whole number.
+        const weights = cell.map((person) =>
+          Math.exp(slope * (person.conscientiousness ?? 0)),
+        );
+        const total = weights.reduce((sum, weight) => sum + weight, 0);
+        let running = offset;
+        for (const [position, person] of cell.entries()) {
+          const before = Math.floor(running);
+          running += (count * weights[position]!) / total;
+          if (Math.floor(running) > before)
+            assignments.get(person.personId)!.push(condition.key);
+        }
+        continue;
+      }
       for (let index = 0; index < count; index += 1) {
         const position = Math.min(
           cell.length - 1,
