@@ -5,12 +5,12 @@ area: release
 kind: research
 priority: 2
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/red-list
 pr: #5080
 blocked-on:
 source: added with npm run pool -- add
-claimed-at:
+claimed-at: 2026-10-20T15:52:28.199Z
 ---
 
 **What.** The unit suite run on current main (Oct 17, after the main at d8ff953760 plus the claims), by directory, with each red test and what it is. This replaces the stale #4309 (see release-green-suite). Each directory was run with `npx vitest run` and the JSON reporter, and each red test is named below with its place and seed. The core engine's 360 test files are not yet run; the next builder does that first.
