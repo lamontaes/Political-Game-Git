@@ -5,12 +5,12 @@ area: gov
 kind: bug
 priority: 2
 size: S
-status: claimed
-claimed-by: claude/political-game-pool-udtiwn
+status: open
+claimed-by:
 pr: #4861
 blocked-on:
 source: found in #4859, Oct 17
-claimed-at: 2026-10-20T01:30:01.562Z
+claimed-at:
 ---
 
 **What.** `src/core2/two-level-elections.test.ts` ("counted residents vote, challengers get real votes, and statewide results track the state") fails about one run in five in a random place with "Governor: expected 0.1534 to be less than 0.15". Find which share the assertion bounds (a challenger's, or the gap to the state) and whether the bound or the counted vote is wrong in that place.
