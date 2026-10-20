@@ -5,7 +5,7 @@ area: gov
 kind: bug
 priority: 2
 size: S
-status: in-pr
+status: done
 claimed-by: claude/pool-payroll-test
 pr: #5380
 blocked-on: gov-dead-official-still-seated

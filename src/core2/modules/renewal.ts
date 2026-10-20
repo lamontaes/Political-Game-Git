@@ -265,6 +265,7 @@ function initialize(api: CoreAPI): void {
       ids.push(link.personIds[1]);
       children.set(link.personIds[0], ids);
     }
+  // stopgapId: SG-TRAITS-partnerships-no-engine (couples come only from the opening; nobody partners or separates in play, so no temperament read decides it)
   for (const link of api.state.familyLinks.values()) {
     if (link.kind !== "partner") continue;
     const people = link.personIds.map((id) => api.state.people.get(id)!);
