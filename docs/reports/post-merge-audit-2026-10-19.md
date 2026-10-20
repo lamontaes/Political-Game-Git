@@ -1,6 +1,6 @@
 # Post-merge audit, Oct 19 evening (acting CTO)
 
-Window: PRs merged 18:00Z Oct 19 to 00:30Z Oct 20. 64 merged.
+The merger lanes merged 64 PRs on the evening of October 19, the later 48 of them on GitHub's badges alone, without merging main in or running checks.
 
 - **Phase 1, 18:00–20:40Z:** 16 PRs. Merge-main commits present, send-backs posted, rulings applied (checked).
 - **Phase 2, 23:26–00:29Z:** 48 PRs. 40 of them merged in 3 min 43 s (one every 5.6 s). No merge-main on 24 of 28 code PRs. No comments, no send-backs. The merges rode on GitHub's badges.
