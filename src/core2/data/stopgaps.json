@@ -2725,11 +2725,11 @@
     "kind": "assumed-data",
     "file": "src/core2/housing-property-tax.ts",
     "line": 51,
-    "whatItFakes": "Every owner pays the state's average effective property tax rate, to the outside account, with no assessment cap.",
-    "why": "The county's rate in force, its cap and its treasury are OPUS-GOV's law in force (lawInForce(api, \"property-tax\")), on its branch.",
+    "whatItFakes": "An owner in a place whose law holds no property-tax rate (a territory such as American Samoa, in a played year) pays the state's average effective rate, to the outside account, with no assessment cap. Everywhere else the rate, cap and collector come from the law in force.",
+    "why": "The territories have no recorded property-tax law row, so the budgets engine registers no terms for them.",
     "addedBy": "OPUS-WORLD",
     "addedAt": "2026-10-12",
-    "replacement": "registerPropertyTax with the county's rate, cap and treasury from the law in force.",
+    "replacement": "A property-tax law row for each territory, read by registerPropertyTax like any county's.",
     "status": "open"
   },
   {
