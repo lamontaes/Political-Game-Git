@@ -5045,5 +5045,27 @@
     "checkRange": {
       "ref": "P9-OUTCOME-WHOLE-LIFE"
     }
+  },
+  "coarsePlaceOldestWorkingAge": {
+    "value": 80,
+    "tag": "TUNABLE",
+    "citation": "The oldest age a worker met in another place is drawn up to when the last Census age row (75 and over) has no upper bound; the ACS reports employed people 75 and over as one row, and few are past 80.",
+    "spread": {
+      "low": 76,
+      "high": 90,
+      "unit": "years",
+      "citation": "Chosen range: the oldest working ages in the ACS 75-and-over row, which has no upper bound; checked by whether the drawn ages stay plausible, not measured."
+    }
+  },
+  "coarsePlaceWagePercentile": {
+    "value": 50,
+    "tag": "TUNABLE",
+    "citation": "Where in their occupation's published wage distribution a worker met in another place is paid: the median, since the place's counts show how many hold each job and its wage table shows the middle, not who earns more; the player's own town spreads pay by tenure instead.",
+    "spread": {
+      "low": 25,
+      "high": 75,
+      "unit": "percentile",
+      "citation": "The BLS OEWS wage tables publish the 10th, 25th, 50th, 75th and 90th percentiles; the player's own town starts a worker at the 25th and moves toward the 75th with tenure, so the median sits inside that range."
+    }
   }
 }

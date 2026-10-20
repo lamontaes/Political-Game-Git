@@ -4173,10 +4173,10 @@
     "line": 694,
     "whatItFakes": "The people a traveler meets in a town other than the player's are recorded identities of that place (drawn from the world's seed and the town), with no household, job or other records there beyond the meeting.",
     "why": "Only the player's town has a counted population; other places are kept coarser.",
-    "replacement": "The other places' coarser populations (OPUS-CORE's wider world) fill in a met person from that place's own counts, as the player's town does.",
+    "replacement": "Resolved Oct 20: a place other than the player's keeps a coarse population (src/core2/coarse-place.ts), and a person met on a trip is drawn from its counts: an age from the county's employed by age and a job from the place's industry mix, with the wage its occupation pays there. Shown in coarse-place.test.ts. What remains is SG-WORLD-coarse-place-no-payroll.",
     "addedBy": "OFFICE-FEDERAL",
     "addedAt": "2026-10-14",
-    "status": "open"
+    "status": "resolved"
   },
   {
     "id": "SG-OFFICE-FED-presidential-orders",
@@ -4866,6 +4866,18 @@
     "addedBy": "claude/public-staff-never-paid",
     "addedAt": "2026-10-17",
     "replacement": "Each department's employing government read from the Census of Governments employment file by function, so a county health department, a fire district or a state agency's field office pays its own staff.",
+    "status": "open"
+  },
+  {
+    "id": "SG-WORLD-coarse-place-no-payroll",
+    "kind": "missing-mechanic",
+    "file": "src/core2/office-day-federal-president.ts",
+    "line": 722,
+    "whatItFakes": "A person met in a place other than the player's has the age, job and wage that place's counts show, kept as a fact on the person (identity:work), but no employer organization, payroll or household beyond themselves exists there, so no money moves for them and no engine reads the job yet.",
+    "why": "Only the player's town has employers with accounts and payroll; paying a visited town's workers means a money design for places the regional economy does not step person by person.",
+    "replacement": "The regional economy pays other places' workers from the place's counts (a wage flow per place, as the player's town has for its unplaced workers), and an engine that decides about a person (a view, a price, an eligibility) reads their job and wage.",
+    "addedBy": "world-other-places-coarse-population",
+    "addedAt": "2026-10-20",
     "status": "open"
   }
 ]

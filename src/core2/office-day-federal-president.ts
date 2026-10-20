@@ -28,6 +28,7 @@ import { fillInIdentity } from "./state";
 import type { CoreState } from "./types";
 import { corePlaceByKey } from "./place-lookup";
 import { drawOfficialIdentity } from "./officials-identity";
+import { coarsePlace, metResident } from "./coarse-place";
 import {
   OFFICIALS_MODULE_ID,
   officialLean,
@@ -696,9 +697,11 @@ export function vicePresidentOf(api: CoreAPI): string | null {
  * world's seed and the town (the same people every time), and says where
  * they stand on what the press would ask them; each weighs it against their
  * own views. The trip is a public record the press reports.
- * Stopgap SG-OFFICE-FED-trip-residents: a town other than the player's has
- * no counted population, so the people met are recorded identities of that
- * place with no household, job or records there beyond the meeting.
+ * A town other than the player's keeps a coarse population (coarse-place.ts):
+ * each person met is drawn from its counts, so their age and job and the
+ * wage that job pays there match what the counts show.
+ * Stopgap SG-WORLD-coarse-place-no-payroll: the job is a fact on the person;
+ * no employer, payroll or household beyond themselves exists there yet.
  */
 export function travelToTown(
   api: CoreAPI,
@@ -715,8 +718,9 @@ export function travelToTown(
     throw new Error("No one to send");
   const place = corePlaceByKey(placeKey);
   if (!place?.stateJurisdictionKey) throw new Error(`No town ${placeKey}`);
-  // stopgapId: SG-OFFICE-FED-trip-residents
-  api.stopgap("SG-OFFICE-FED-trip-residents");
+  const coarse = coarsePlace(placeKey);
+  // stopgapId: SG-WORLD-coarse-place-no-payroll
+  api.stopgap("SG-WORLD-coarse-place-no-payroll");
   const placeId = place.context.jurisdiction.id;
   const tripId = `trip:${traveler}:${placeKey}:${api.state.date}`;
   const day = makeIsoDate(api.state.date);
@@ -745,11 +749,33 @@ export function travelToTown(
       referenceDate: api.state.date,
     });
     const id = `person:trip:${placeKey}:${api.state.date}:${i}`;
+    // Who they are comes from the place's counts: an age and a job the
+    // counts show, the name and birthday from the world's seed.
+    const counted = coarse
+      ? metResident(coarse, worldSeed, `${api.state.date}:${i}`)
+      : undefined;
+    const birthday = drawn.birthDate.slice(5).replace("02-29", "02-28");
+    const born = counted
+      ? makeIsoDate(
+          `${Number(api.state.date.slice(0, 4)) - counted.age - (birthday > api.state.date.slice(5) ? 1 : 0)}-${birthday}`,
+        )
+      : makeIsoDate(drawn.birthDate);
     fillInIdentity(api.state as CoreState, {
       id,
       givenName: drawn.givenName,
       familyName: drawn.familyName,
-      birthDate: makeIsoDate(drawn.birthDate),
+      birthDate: born,
+      ...(counted
+        ? {
+            work: {
+              workplace: counted.job.workplace,
+              title: counted.job.title,
+              occupation: counted.job.occupation,
+              hourlyMinor: counted.job.hourlyMinor,
+              weeklyHours: counted.job.weeklyHours,
+            },
+          }
+        : {}),
       placeId,
       gender: drawn.gender,
       source: {

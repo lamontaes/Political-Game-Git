@@ -19,6 +19,8 @@ import { buildBenchWorld } from "../bench/world";
 import { BenchPlayer } from "../bench/player";
 import { gameStartDate } from "./game-start";
 import { coreAPI } from "./state";
+import { coarsePlace } from "./coarse-place";
+import { ageOn } from "./counted-groups";
 import { OFFICES_MODULE_ID, townSeats, type TermRow } from "./modules/offices";
 import {
   billOf,
@@ -221,6 +223,27 @@ describe(`the federal day (${place.name}, seed ${seed})`, () => {
     expect(met.length).toBeGreaterThan(0);
     for (const p of met)
       expect(core.people.get(president)!.knownIds.has(p.id)).toBe(true);
+    // Each is a worker of the town's coarse population: a job its counts show
+    // and the age that job is open at.
+    const counts = coarsePlace(town.key);
+    for (const p of met) {
+      const work = p.pastFacts?.find((f) => f.kind === "identity:work");
+      const where = `${town.name} (${town.key}), seed ${seed}, ${p.id}`;
+      if (!counts) {
+        expect(work, where).toBeUndefined();
+        continue;
+      }
+      expect(work, where).toBeDefined();
+      const row = counts.jobs.find(
+        (j) =>
+          j.workplace === work!.facts?.workplace &&
+          j.title === work!.facts?.title,
+      );
+      expect(row, where).toBeDefined();
+      expect(ageOn(p.birthDate, core.date), where).toBeGreaterThanOrEqual(
+        row!.minAge,
+      );
+    }
     expect(
       officeActsOf(api, president).filter((a) => a.kind === "daily-brief")
         .length,
