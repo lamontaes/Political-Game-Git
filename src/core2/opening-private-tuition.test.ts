@@ -3,6 +3,7 @@ import { describe, expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { parameter as p } from "./parameters";
 import shares from "../../data/research/people/nces-private-enrollment-share-fall-2021.json" with { type: "json" };
+import homeschool from "../../data/research/people/census-household-pulse-homeschool-share-2023.json" with { type: "json" };
 import { generatedOpening } from "./tooling/generated-world";
 
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(16).toString("hex");
@@ -27,8 +28,13 @@ describe(`private tuition in ${place.name}, ${place.state} (seed ${seed})`, () =
     }
     expect(tuition.length).toBeGreaterThan(0);
     const homes = new Map(input.households.map((row) => [row.id, row]));
+    // The homeschool share is taken out of the state's enrolled children first.
+    const hs =
+      homeschool.states[place.state as keyof typeof homeschool.states].share;
+    expect(hs).toBeGreaterThan(0);
     const perChild =
       (shares.states[place.state as keyof typeof shares.states].share *
+        (1 - hs) *
         p("openingPrivateTuitionAnnualUsd") *
         p("minorPerDollar")) /
       p("monthsPerYear");

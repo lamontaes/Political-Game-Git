@@ -9,6 +9,7 @@
  */
 import { ageOnDate, makeIsoDate } from "./kernel/dates";
 import shares from "../../data/research/people/nces-private-enrollment-share-fall-2021.json" with { type: "json" };
+import homeschool from "../../data/research/people/census-household-pulse-homeschool-share-2023.json" with { type: "json" };
 import { corePlaceByKey } from "./place-lookup";
 import data from "./data/opening-private-tuition.json" with { type: "json" };
 import { parameter as p } from "./parameters";
@@ -16,14 +17,30 @@ import { stopgap } from "./stopgaps";
 import type { FinanceContractInput } from "./finance-types";
 import type { CoreInput, Source } from "./types";
 
-/** The private share of students in the town's state (NCES, fall 2021); the median where the state has no row. */
-function privateShareOf(input: CoreInput): number {
+function stateOf(input: CoreInput): string {
   const key = input.placeMetadata?.placeKey;
-  const state = key ? corePlaceByKey(key)?.stateJurisdictionKey : undefined;
-  const row = (shares.states as Readonly<Record<string, { share: number }>>)[
-    state ?? ""
-  ];
-  return row?.share ?? shares.median;
+  return (key ? corePlaceByKey(key)?.stateJurisdictionKey : undefined) ?? "";
+}
+
+/** A state's share from a research table; the table's median where the state has no row. */
+function shareIn(
+  table: {
+    readonly states: Readonly<Record<string, { share: number }>>;
+    readonly median: number;
+  },
+  state: string,
+): number {
+  return table.states[state]?.share ?? table.median;
+}
+
+/**
+ * The private share of all enrolled children in the town's state. NCES counts
+ * private against public students only, so the families who homeschool (Census
+ * Household Pulse, 2023) are taken out of the whole first.
+ */
+function privateShareOf(input: CoreInput): number {
+  const state = stateOf(input);
+  return shareIn(shares, state) * (1 - shareIn(homeschool, state));
 }
 
 export function withPrivateTuition(input: CoreInput): CoreInput {
@@ -77,7 +94,7 @@ export function withPrivateTuition(input: CoreInput): CoreInput {
       tag: "ESTIMATED",
       asOf: start,
       citation: data.citation,
-      estimatedFrom: `${children} children aged ${p("openingSchoolAgeFirst")}–${p("openingSchoolAgeLast")} × private share ${share} × average tuition $${p("openingPrivateTuitionAnnualUsd")} a year; the town's private tuition spread over its families.`,
+      estimatedFrom: `${children} children aged ${p("openingSchoolAgeFirst")}–${p("openingSchoolAgeLast")} × private share ${share.toFixed(4)} of enrolled children (NCES private share less the Census Household Pulse homeschool share) × average tuition $${p("openingPrivateTuitionAnnualUsd")} a year; the town's private tuition spread over its families.`,
     };
     contracts.push({
       id: `opening-private-tuition:${home.id}:${school.id}`,
