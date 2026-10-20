@@ -5,10 +5,10 @@ area: people
 kind: feature
 priority: 2
 size: M
-status: claimed
+status: blocked
 claimed-by: claude/pool-partnership
 pr:
-blocked-on:
+blocked-on: people-partnership-forms, people-partnership-ends, people-leave-parents-home
 after: people-partnership-forms,people-partnership-ends,people-leave-parents-home
 source: added with npm run pool -- add
 claimed-at: 2026-10-20T02:35:20.062Z
