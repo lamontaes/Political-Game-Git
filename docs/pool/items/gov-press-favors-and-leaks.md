@@ -5,9 +5,9 @@ area: words
 kind: wiring
 priority: 3
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/press-favors-leaks
-pr:
+pr: #5606
 blocked-on:
 after: gov-press-interview-conversation
 source: added with npm run pool -- add
