@@ -5,13 +5,13 @@ area: people
 kind: feature
 priority: 2
 size: M
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/stance-formation
+pr: #5714
 blocked-on:
 after: research-opening-stance-loadings
 source: added with npm run pool -- add
-claimed-at:
+claimed-at: 2026-10-20T14:40:06.181Z
 ---
 
 **What.** viewOn computes a stance as the person's lean on the question's axis plus what they heard. Replace the lean part with an opening stance formed once per person and question from their traits, faith and education using the sourced loadings, stored as a stance record with its reasons, so two neighbors with different traits hold different stances on the same question before any campaign. This resolves SG-GOV-views-stand-in for full people.
