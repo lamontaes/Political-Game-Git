@@ -5,7 +5,7 @@ area: gov
 kind: wiring
 priority: 3
 size: S
-status: in-pr
+status: done
 claimed-by: claude/staff-work-why
 pr: #4973
 blocked-on:
