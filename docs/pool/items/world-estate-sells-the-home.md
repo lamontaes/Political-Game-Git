@@ -22,3 +22,5 @@ claimed-at:
 **Files.** src/core2/housing-sale.ts, src/core2/estates.ts, src/core2/modules/housing.ts
 
 **Notes.** Found Oct 18 splitting world-home-turnover. Read core-counted-estates (done) first for the counted estate path.
+
+Sent back 2026-10-20 from PR #5735 (branch claude/estate-sells-home): docs/pool/items/world-estate-sells-the-home.md:20 requires a one-year played-world proof with the seed in the body and a sale row naming the estate and heirs paid. src/core2/estate-home-sale.test.ts instead forces household members dead, calls settleEstate directly, and advances 40 plus 280 days; its assertions check estate value but never heirs paid. Add the named ordinary-world proof and heir payment ids; retain this forced-death case as an edge test.; finish on that branch, merge main into it first.
