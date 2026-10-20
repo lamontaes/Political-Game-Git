@@ -252,6 +252,8 @@ function householdMoments(person: PersonState): JournalMoment[] {
       causeId: fact.id,
       causeFactId: fact.id,
       hindsight: zero,
+      impact: zero,
+      echoes: [] as Moment["echoes"],
     };
     const place = (placeId: string | undefined): Facts => {
       const row = placeId ? corePlaceByJurisdictionId(placeId as never) : null;
