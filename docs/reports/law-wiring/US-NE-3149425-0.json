@@ -6274,6 +6274,178 @@
     "sample": []
    },
    "seconds": 27
+  },
+  {
+   "key": "us-policy-positions:environment-energy.bottle-deposit",
+   "kind": "question",
+   "family": "energy-environment",
+   "inForceAtOpening": false,
+   "change": "enacted at city (law:place:3149425:city:us-policy-positions:environment-energy.bottle-deposit:general:2025-01-21:law-wiring-7596dc15) effective 2025-01-21; then repealed at city effective 2025-02-26",
+   "lawIds": [
+    "law:place:3149425:city:us-policy-positions:environment-energy.bottle-deposit:general:2025-01-21:law-wiring-7596dc15",
+    "law:place:3149425:city:us-policy-positions:environment-energy.bottle-deposit:general:2025-02-26:law-wiring-7596dc15-b"
+   ],
+   "openingReach": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 0,
+    "sample": []
+   },
+   "reach": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 0,
+    "sample": []
+   },
+   "readers": {
+    "src/core2/modules/outcome-web.ts:154": 112,
+    "src/core2/policy-authority.ts:45": 56,
+    "src/core2/modules/world-legislating.ts:248": 32,
+    "src/core2/modules/world-legislating.ts:178": 16,
+    "src/core2/life.ts:549": 5,
+    "src/core2/modules/legislature.ts:2011": 2,
+    "src/core2/modules/world-legislating.ts:325": 2,
+    "src/core2/modules/place-prices.ts:546": 2
+   },
+   "openingRow": "law:US-NE:state:us-policy-positions:environment-energy.bottle-deposit:general:starting",
+   "money": {
+    "direct": [],
+    "diff": [
+     {
+      "kind": "accounts.transfer @ src/core2/counted-money.ts:740",
+      "treatment": 1092696,
+      "control": 1079454,
+      "ids": [
+       "journal:2025-02-03:7657",
+       "journal:2025-02-03:7658",
+       "journal:2025-02-03:7659"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/world-transfer.ts:37",
+      "treatment": 8894090,
+      "control": 8886205,
+      "ids": [
+       "journal:2025-02-01:1824",
+       "journal:2025-02-01:1825",
+       "journal:2025-02-01:1826"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/modules/residents.ts:1684",
+      "treatment": 1372880,
+      "control": 1374294,
+      "ids": [
+       "journal:2025-02-19:8146",
+       "journal:2025-02-19:8147",
+       "journal:2025-02-19:8148"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/modules/moves.ts:683",
+      "treatment": 1028236,
+      "control": 1028337,
+      "ids": [
+       "journal:2025-02-06:7850",
+       "journal:2025-02-13:7947",
+       "journal:2025-02-21:8203"
+      ]
+     },
+     {
+      "kind": "drive-donation @ src/core2/modules/drives.ts:1076",
+      "treatment": 121,
+      "control": 122,
+      "ids": [
+       "journal:2025-02-24:8239",
+       "journal:2025-02-25:8309"
+      ]
+     }
+    ],
+    "diffKinds": 5,
+    "cited": [
+     {
+      "token": "law:place:3149425:city:us-policy-positions:environment-energy.bottle-deposit:general:2025-01-21:law-wiring-7596dc15",
+      "gross": 21733,
+      "ids": [
+       "journal:2025-02-03:7623",
+       "journal:2025-02-03:7624",
+       "journal:2025-02-03:7625"
+      ]
+     },
+     {
+      "token": "us-policy-positions:environment-energy.bottle-deposit",
+      "gross": 21733,
+      "ids": [
+       "journal:2025-02-03:7623",
+       "journal:2025-02-03:7624",
+       "journal:2025-02-03:7625"
+      ]
+     },
+     {
+      "token": "law-wiring-7596dc15",
+      "gross": 21733,
+      "ids": [
+       "journal:2025-02-03:7623",
+       "journal:2025-02-03:7624",
+       "journal:2025-02-03:7625"
+      ]
+     }
+    ]
+   },
+   "web": {
+    "links": [
+     {
+      "key": "container-deposit-to-litter",
+      "status": "built",
+      "to": "env.litter"
+     },
+     {
+      "key": "container-deposit-to-prices",
+      "status": "built",
+      "to": "household.prices"
+     },
+     {
+      "key": "container-deposit-to-recycling",
+      "status": "built",
+      "to": "env.container-recycling-pct"
+     }
+    ],
+    "fired": [],
+    "firedCount": 0
+   },
+   "heard": {
+    "people": 72,
+    "sample": [
+     "person_10606db92b470665:printed:outlet:newspaper:0:jurisdiction_45a3b3ebe97fe71d:law-took-effect:law:place:3149425:city:us-policy-positions:environment-energy.bottle-deposit:general:2025-01-21:law-wiring-7596dc15",
+     "person_014873ba8397594d:printed:outlet:newspaper:0:jurisdiction_45a3b3ebe97fe71d:law-took-effect:law:place:3149425:city:us-policy-positions:environment-energy.bottle-deposit:general:2025-01-21:law-wiring-7596dc15",
+     "person_3b8e45617114c97d:printed:outlet:newspaper:0:jurisdiction_45a3b3ebe97fe71d:law-took-effect:law:place:3149425:city:us-policy-positions:environment-energy.bottle-deposit:general:2025-01-21:law-wiring-7596dc15"
+    ]
+   },
+   "afterUndo": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 0,
+    "sample": []
+   },
+   "seconds": 29
   }
  ]
 }
