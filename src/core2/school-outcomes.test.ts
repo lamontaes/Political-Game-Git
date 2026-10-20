@@ -8,14 +8,18 @@
  * the web's own graduation measure by record id.
  */
 import { randomBytes } from "node:crypto";
-import { appendFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 import { buildBenchWorld } from "../bench/world";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { gameStartDate } from "./game-start";
 import { addDays, makeIsoDate } from "./kernel/dates";
 import { advanceCore } from "./life";
-import { OUTCOME_WEB_MODULE_ID, type WebMonth } from "./modules/outcome-web";
+import { budgetsOf, governments } from "./modules/budgets";
+import {
+  OUTCOME_WEB_MODULE_ID,
+  placeOutcome,
+  type WebMonth,
+} from "./modules/outcome-web";
 import { SCHOOL_MODULE_ID, type SchoolMeasureRow } from "./school-measures";
 import type { SchoolGroupRow, SchoolResultRow } from "./school-outcomes";
 import { coreAPI } from "./state";
@@ -128,24 +132,61 @@ describe(`school outcomes (${place.name}, seed ${seed})`, () => {
         g.reduce((n, x) => n + x.students, 0)
       );
     };
-    expect(fifths.length).toBeGreaterThan(1);
-    expect(share(fifths[0]!)).toBeLessThan(share(fifths[fifths.length - 1]!));
+    if (fifths.length > 1) {
+      expect(share(fifths[0]!)).toBeLessThan(share(fifths[fifths.length - 1]!));
+    } else {
+      // Every student's household falls in one national income fifth (the
+      // territories' household incomes sit below the national fifth limits),
+      // so the gradient scaled to the place's mean is one: the group's share
+      // is the place's own base times the web factor.
+      const only = math[0]!;
+      const record = placeOutcome(coreAPI(base), only.placeId, only.measure);
+      console.log(
+        `school: ${place.name} seed ${seed}: every student is in national income fifth ${fifths[0]}, so the share equals the place's base times its factor`,
+      );
+      expect(fifths.length, "income fifths with students").toBe(1);
+      expect(record?.base, "web base").toBeDefined();
+      expect(share(fifths[0]!)).toBeCloseTo(
+        Math.min(1, (record!.base! / 100) * only.factor),
+        9,
+      );
+    }
     // Full students keep their own result record, with its web record id.
     const results = rows<SchoolResultRow>(base, "results");
     console.log(
       `school: ${place.name} seed ${seed}: full results ${results.length}; math shares by fifth ${fifths.map((f) => `${f}:${share(f).toFixed(3)}`).join(" ")}`,
     );
-    // Spending per student stands on the budgets in force, in a believable range.
+    // Spending per student stands on the budgets in force, in a believable
+    // range. It reads the schools line of the town's city and county budgets;
+    // a place whose budget bases carry no function breakdown (the territories
+    // report one all-funds total) has no such line, so no spending record is
+    // made and the test says so by the budgets' own rows.
     const spending = rows<SchoolMeasureRow>(base, "measures").find(
       (m) => m.measure === "school.spending-per-student",
-    )!;
-    appendFileSync(
-      "/tmp/claude-0/-home-user-Political-Game-Git/1e5ec822-8f0a-594e-815c-9668ab28eb9e/scratchpad/schools/spend.out",
-      `${place.name} ${seed} spending ${spending.value} students ${spending.students} ${spending.id}\n`,
     );
-    expect(spending.budgetIds!.length).toBeGreaterThan(0);
-    expect(spending.value).toBeGreaterThan(3000);
-    expect(spending.value).toBeLessThan(60000);
+    const budgetApi = coreAPI(base);
+    const schoolsLines = governments(budgetApi)
+      .filter((g) => g.level === "city" || g.level === "county")
+      .flatMap((g) => budgetsOf(budgetApi, g.id))
+      .filter((b) => b.spendingMinor["schools"]);
+    if (schoolsLines.length === 0) {
+      console.log(
+        `school: ${place.name} seed ${seed}: no city or county budget carries a schools line (governments ${governments(
+          budgetApi,
+        )
+          .map((g) => g.level)
+          .join(", ")}), so no spending record is made`,
+      );
+      expect(
+        spending,
+        "spending record without a schools line",
+      ).toBeUndefined();
+    } else {
+      expect(spending, `spending record in ${place.name}`).toBeDefined();
+      expect(spending!.budgetIds!.length).toBeGreaterThan(0);
+      expect(spending!.value).toBeGreaterThan(3000);
+      expect(spending!.value).toBeLessThan(60000);
+    }
     // The web reads the engine's graduation record, not its ledger.
     const api = coreAPI(base);
     const months = api
