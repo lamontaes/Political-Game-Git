@@ -275,7 +275,6 @@
     "budget-line:housing": {
       "source": "Housing spending pays rent assistance to the lowest-income households (HUD, Picture of Subsidized Households, 2023).",
       "mechanic": "housing-assistance",
-      "stopgapId": "SG-GOV-REACH-A-rent-assistance",
       "reaches": [
         {
           "id": "assisted",
