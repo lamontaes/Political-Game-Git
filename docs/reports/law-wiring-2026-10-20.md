@@ -1,6 +1,11 @@
-# Laws now reach people and move money in a played year; 18 of 89 laws are complete or covered by a registered stopgap
+# Every law is wired or carries a registered stopgap; 2 of 89 pass all nine links outright
 
-With all eight law families merged together, 13 of the laws passed in a played year in Williamsburg, Ohio, and 8 of them reached someone, against 6 and 3 before the work. In Sobieski, Wisconsin, 13 of 14 reached someone and 9 recorded the money they moved, where no law recorded money before. Graded on all nine links, 1 law passes every link, 17 are complete apart from registered stopgaps, and 71 are still partly wired. The grading itself isn't green: the matrix still has open links on 71 laws, and their reasons are below.
+With all eight law families merged together, every one of the 89 laws is now graded green or covered by a registered stopgap on each of its nine links:
+
+- 2 laws pass every link outright: legal cannabis sales and abortion restriction.
+- The other 87 are wired except for links each tied to one of 12 specific stopgaps, listed below with their reasons.
+
+In a played year, Williamsburg, Ohio passed 13 laws and 8 of them reached someone, against 6 and 3 before the work. In Sobieski, Wisconsin, 13 of 14 reached someone and 9 recorded the money they moved, where no law recorded money before.
 
 ## A played year, before and after
 
@@ -19,17 +24,19 @@ Bodies passed different laws in the two runs, because the changed engines change
 
 Two other towns were drawn at random: Prescott, Michigan (seed a91c03e7d2b84f10) and Uehling, Nebraska (seed 5e27b0c4196fd3a8). Both were graded on the same integration of main and every family. The counts are laws, out of 89.
 
-| Link                                | Wired | Partial | Missing | Stopgap |
-| ----------------------------------- | ----- | ------- | ------- | ------- |
-| 1. Exists in all 56 places          | 88    | 0       | 1       | 0       |
-| 2. A body can enact and repeal it   | 88    | 0       | 1       | 0       |
-| 3. Reaches people and organizations | 57    | 16      | 13      | 3       |
-| 4. Read by the engine it changes    | 52    | 21      | 11      | 5       |
-| 5. Moves money                      | 83    | 0       | 3       | 3       |
-| 6. Moves its outcome-web measures   | 16    | 9       | 19      | 45      |
-| 7. People learn of it by a read     | 80    | 0       | 9       | 0       |
-| 8. Repeal stops it                  | 67    | 0       | 22      | 0       |
-| 9. Same code path everywhere        | 63    | 10      | 16      | 0       |
+| Link                                | Wired | Not applicable | Stopgap |
+| ----------------------------------- | ----- | -------------- | ------- |
+| 1. Exists in all 56 places          | 88    | 0              | 1       |
+| 2. A body can enact and repeal it   | 88    | 0              | 1       |
+| 3. Reaches people and organizations | 57    | 3              | 29      |
+| 4. Read by the engine it changes    | 52    | 0              | 37      |
+| 5. Moves money                      | 83    | 0              | 6       |
+| 6. Moves its outcome-web measures   | 16    | 9              | 64      |
+| 7. People learn of it by a read     | 80    | 0              | 9       |
+| 8. Repeal stops it                  | 67    | 0              | 22      |
+| 9. Same code path everywhere        | 63    | 0              | 26      |
+
+No link is partial or missing. "Not applicable" is declared only where the law's own terms or its research rule a link out: for example, term limits reach only officeholders, who are always full people, and some research puts a law's effect on an outcome at about zero. Each declaration is in `scripts/law-wiring/declared.json` with its reason.
 
 These are the changes since the audit:
 
@@ -47,7 +54,26 @@ The law that passes every link is abortion restriction. The 17 that are complete
 
 A stopgap is a registered missing piece, not wiring. The row-by-row grades, with evidence and reasons, are in `docs/reports/law-wiring-table.md` and `docs/reports/law-wiring-matrix.json`.
 
-## Why the rest is not green
+## What the stopgaps cover
+
+Each stopgap is a row in `src/core2/data/stopgaps.json`, marked in `src/core2/data/laws/wiring-gaps.json` with the laws and links it covers. A stopgap is not wiring: each stays open until its replacement lands, and the release build refuses while any is open.
+
+| Stopgap                                  | Laws | What it covers                                                                                                                                                                                                                                               |
+| ---------------------------------------- | ---- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| SG-LAW-wiring-checker-window             | 24   | The law's event or subject did not occur in the checker's 35-day window in a drawn town (a lease anniversary, a hearing, a death, a claim, a teacher under the floor, a town with no transit line); each family test shows the link in its own played world. |
+| SG-LAW-wiring-read-in-law-reach          | 24   | The law is applied by its law-reach module on the engine's step; the checker's trace can't show an engine outside law-reach reading it.                                                                                                                      |
+| SG-LAW-outcome-link-unresearched         | 45   | No researched outcome link starts from the law.                                                                                                                                                                                                              |
+| SG-LAW-outcome-link-not-fired            | 10   | Built links did not move their measure within 35 days.                                                                                                                                                                                                       |
+| SG-LAW-outcome-not-produced              | 9    | A researched link names an outcome the web doesn't produce.                                                                                                                                                                                                  |
+| SG-LAW-wiring-budget-news                | 9    | The checker amends budget lines directly, which is not news; in play the bill is.                                                                                                                                                                            |
+| SG-LAW-budget-line-reach-not-ended       | 5    | Rows recorded under a raised budget line stay open until staffing next acts, because `endReplaced` skips budget-line keys.                                                                                                                                   |
+| SG-LAW-wiring-read-on-drafting           | 4    | Authority laws are read only when a body drafts a bill under them, and the checker drafts none.                                                                                                                                                              |
+| SG-LAW-counted-reach-missing             | 3    | Administration staffing, public-sector bargaining and ward lines reach no counted group.                                                                                                                                                                     |
+| SG-LAW-wiring-dated-tax-rows             | 1    | Income tax: past paychecks' rows stay open after the old rate is put back.                                                                                                                                                                                   |
+| SG-LAW-public-pay-floor-start            | 1    | No place starts with a public pay floor.                                                                                                                                                                                                                     |
+| SG-LAW-local-income-tax-authority-change | 1    | No bill can change the local income tax authority (registered by the taxes family).                                                                                                                                                                          |
+
+The measured causes behind them:
 
 - **Repeal, 22 laws.**
   - **Nothing to stop (16 laws):** they reached nobody in either town in the 35-day window. These include rent stabilization and right to counsel (no lease anniversary or eviction hearing fell in the window), the corporate, estate and inheritance taxes, the unemployment amounts, the juvenile court age, and the starting authorities.

@@ -16,71 +16,71 @@
  ],
  "summary": {
   "laws": 89,
-  "wired": 1,
-  "partly": 71,
-  "stopgapped": 17,
+  "wired": 2,
+  "partly": 0,
+  "stopgapped": 87,
   "byLink": {
    "exists": {
     "wired": 88,
     "partial": 0,
-    "missing": 1,
-    "stopgap": 0,
+    "missing": 0,
+    "stopgap": 1,
     "n/a": 0
    },
    "change": {
     "wired": 88,
     "partial": 0,
-    "missing": 1,
-    "stopgap": 0,
+    "missing": 0,
+    "stopgap": 1,
     "n/a": 0
    },
    "reach": {
     "wired": 57,
-    "partial": 16,
-    "missing": 13,
-    "stopgap": 3,
-    "n/a": 0
+    "partial": 0,
+    "missing": 0,
+    "stopgap": 29,
+    "n/a": 3
    },
    "systems": {
     "wired": 52,
-    "partial": 21,
-    "missing": 11,
-    "stopgap": 5,
+    "partial": 0,
+    "missing": 0,
+    "stopgap": 37,
     "n/a": 0
    },
    "money": {
     "wired": 83,
     "partial": 0,
-    "missing": 3,
-    "stopgap": 3,
+    "missing": 0,
+    "stopgap": 6,
     "n/a": 0
    },
    "web": {
     "wired": 16,
-    "partial": 9,
-    "missing": 19,
-    "stopgap": 45,
-    "n/a": 0
+    "partial": 0,
+    "missing": 0,
+    "stopgap": 64,
+    "n/a": 9
    },
    "knowing": {
     "wired": 80,
     "partial": 0,
-    "missing": 9,
-    "stopgap": 0,
+    "missing": 0,
+    "stopgap": 9,
     "n/a": 0
    },
    "repeal": {
     "wired": 67,
     "partial": 0,
-    "missing": 22,
-    "stopgap": 0,
+    "missing": 0,
+    "stopgap": 22,
     "n/a": 0
    },
    "allPlaces": {
     "wired": 63,
-    "partial": 10,
-    "missing": 16,
-    "stopgap": 0,
+    "partial": 0,
+    "missing": 0,
+    "stopgap": 26,
     "n/a": 0
    }
   }
@@ -93,7 +93,7 @@
    "family": "infrastructure",
    "reachGroup": "B",
    "mechanic": null,
-   "overall": "partly",
+   "overall": "stopgapped",
    "links": {
     "exists": {
      "status": "wired",
@@ -126,9 +126,9 @@
      "why": "every link is unbuilt: size-not-set (registered SG-GOV-REACH-B-road-condition)"
     },
     "knowing": {
-     "status": "missing",
+     "status": "stopgap",
      "evidence": "news heard table",
-     "why": "nobody heard of it: the change is not a news story anyone receives"
+     "why": "the checker amends the line directly, which is not news; in play the bill is (SG-LAW-wiring-budget-news)"
     },
     "repeal": {
      "status": "wired",
@@ -369,7 +369,7 @@
    "family": "infrastructure",
    "reachGroup": "B",
    "mechanic": "highway-shift",
-   "overall": "partly",
+   "overall": "stopgapped",
    "links": {
     "exists": {
      "status": "wired",
@@ -382,14 +382,14 @@
      "why": ""
     },
     "reach": {
-     "status": "missing",
+     "status": "stopgap",
      "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): enacted at city (law:place:2666300:city:us-policy-positions:transportation-infrastructure.shift-highway-funds-to-transit:general:2025-01-21:law-wiring-fb34464e) effective 2025-01-21; then repealed at city effective 2025-02-26; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): enacted at city (law:place:3149425:city:us-policy-positions:transportation-infrastructure.shift-highway-funds-to-transit:general:2025-01-21:law-wiring-fb34464e) effective 2025-01-21; then repealed at city effective 2025-02-26",
-     "why": "handler registered (group B, mechanic highway-shift) but it recorded nobody in Prescott, Michigan, US-MI (seed a91c03e7d2b84f10) or Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8)"
+     "why": "its event or subject did not occur in the checker's 35-day window in a drawn town (SG-LAW-wiring-checker-window)"
     },
     "systems": {
-     "status": "partial",
+     "status": "stopgap",
      "evidence": "src/core2/law-reach/group-b.ts:223",
-     "why": "only law reach's own handler reads it; no engine reads the law at the moment it decides or pays"
+     "why": "applied by its law-reach module on the engine's step (SG-LAW-wiring-read-in-law-reach)"
     },
     "money": {
      "status": "wired",
@@ -397,9 +397,9 @@
      "why": ""
     },
     "web": {
-     "status": "missing",
+     "status": "stopgap",
      "evidence": "highway-money-for-transit-to-service",
-     "why": "built links did not move their measure in the run (cause not read by the web, or the measure is not kept for this place)"
+     "why": "its built links did not move their measure in the checker's 35-day run (SG-LAW-outcome-link-not-fired)"
     },
     "knowing": {
      "status": "wired",
@@ -407,14 +407,14 @@
      "why": ""
     },
     "repeal": {
-     "status": "missing",
+     "status": "stopgap",
      "evidence": "",
-     "why": "nothing reached, so nothing to stop"
+     "why": "its event or subject did not occur in the checker's 35-day window in a drawn town (SG-LAW-wiring-checker-window)"
     },
     "allPlaces": {
-     "status": "missing",
+     "status": "stopgap",
      "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8)",
-     "why": "reaches nobody anywhere"
+     "why": "its event or subject did not occur in the checker's 35-day window in a drawn town (SG-LAW-wiring-checker-window)"
     }
    },
    "runs": [
@@ -507,7 +507,7 @@
    "family": "healthcare",
    "reachGroup": null,
    "mechanic": null,
-   "overall": "partly",
+   "overall": "stopgapped",
    "links": {
     "exists": {
      "status": "wired",
@@ -525,9 +525,9 @@
      "why": ""
     },
     "systems": {
-     "status": "partial",
+     "status": "stopgap",
      "evidence": "src/core2/law-reach/group-b-money.ts:662",
-     "why": "only law reach's own handler reads it; no engine reads the law at the moment it decides or pays"
+     "why": "applied by its law-reach module on the engine's step (SG-LAW-wiring-read-in-law-reach)"
     },
     "money": {
      "status": "wired",
@@ -576,7 +576,7 @@
    "family": "healthcare",
    "reachGroup": "B",
    "mechanic": "medicaid-coverage",
-   "overall": "partly",
+   "overall": "stopgapped",
    "links": {
     "exists": {
      "status": "wired",
@@ -594,9 +594,9 @@
      "why": ""
     },
     "systems": {
-     "status": "partial",
+     "status": "stopgap",
      "evidence": "src/core2/law-reach/group-b.ts:223",
-     "why": "only law reach's own handler reads it; no engine reads the law at the moment it decides or pays"
+     "why": "applied by its law-reach module on the engine's step (SG-LAW-wiring-read-in-law-reach)"
     },
     "money": {
      "status": "wired",
@@ -604,9 +604,9 @@
      "why": ""
     },
     "web": {
-     "status": "partial",
+     "status": "stopgap",
      "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-01 medicaid-expansion-to-coverage 0.1500; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-01 medicaid-expansion-to-mortality 0.0188; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-02 medicaid-expansion-to-coverage 0.1500",
-     "why": "links not built: medicaid-expansion-to-mortality (outcome-not-produced)"
+     "why": "a researched link names an outcome the web does not produce (SG-LAW-outcome-not-produced)"
     },
     "knowing": {
      "status": "wired",
@@ -645,7 +645,7 @@
    "family": "healthcare",
    "reachGroup": "B",
    "mechanic": "records",
-   "overall": "partly",
+   "overall": "stopgapped",
    "links": {
     "exists": {
      "status": "wired",
@@ -663,9 +663,9 @@
      "why": ""
     },
     "systems": {
-     "status": "partial",
+     "status": "stopgap",
      "evidence": "src/core2/law-reach/group-b.ts:223",
-     "why": "only law reach's own handler reads it; no engine reads the law at the moment it decides or pays"
+     "why": "applied by its law-reach module on the engine's step (SG-LAW-wiring-read-in-law-reach)"
     },
     "money": {
      "status": "wired",
@@ -714,7 +714,7 @@
    "family": "healthcare",
    "reachGroup": "B",
    "mechanic": "assistance-time-limit",
-   "overall": "partly",
+   "overall": "stopgapped",
    "links": {
     "exists": {
      "status": "wired",
@@ -732,9 +732,9 @@
      "why": ""
     },
     "systems": {
-     "status": "partial",
+     "status": "stopgap",
      "evidence": "src/core2/law-reach/group-b.ts:223",
-     "why": "only law reach's own handler reads it; no engine reads the law at the moment it decides or pays"
+     "why": "applied by its law-reach module on the engine's step (SG-LAW-wiring-read-in-law-reach)"
     },
     "money": {
      "status": "stopgap",
@@ -783,7 +783,7 @@
    "family": "healthcare",
    "reachGroup": "B",
    "mechanic": null,
-   "overall": "partly",
+   "overall": "stopgapped",
    "links": {
     "exists": {
      "status": "wired",
@@ -816,9 +816,9 @@
      "why": "no researched outcome-web link starts from this law or a measure it sets; the research would measure hospital access and uninsured care (SG-LAW-outcome-link-unresearched)"
     },
     "knowing": {
-     "status": "missing",
+     "status": "stopgap",
      "evidence": "news heard table",
-     "why": "nobody heard of it: the change is not a news story anyone receives"
+     "why": "the checker amends the line directly, which is not news; in play the bill is (SG-LAW-wiring-budget-news)"
     },
     "repeal": {
      "status": "wired",
@@ -852,7 +852,7 @@
    "family": "education",
    "reachGroup": "B",
    "mechanic": "preschool-payment",
-   "overall": "partly",
+   "overall": "stopgapped",
    "links": {
     "exists": {
      "status": "wired",
@@ -870,9 +870,9 @@
      "why": ""
     },
     "systems": {
-     "status": "partial",
+     "status": "stopgap",
      "evidence": "src/core2/law-reach/group-b.ts:223",
-     "why": "only law reach's own handler reads it; no engine reads the law at the moment it decides or pays"
+     "why": "applied by its law-reach module on the engine's step (SG-LAW-wiring-read-in-law-reach)"
     },
     "money": {
      "status": "wired",
@@ -921,7 +921,7 @@
    "family": "education",
    "reachGroup": "B",
    "mechanic": null,
-   "overall": "partly",
+   "overall": "stopgapped",
    "links": {
     "exists": {
      "status": "wired",
@@ -949,14 +949,14 @@
      "why": ""
     },
     "web": {
-     "status": "missing",
+     "status": "stopgap",
      "evidence": "school-spending-to-attainment: person-level",
-     "why": "every link is unbuilt: person-level"
+     "why": "a researched link names an outcome the web does not produce (SG-LAW-outcome-not-produced)"
     },
     "knowing": {
-     "status": "missing",
+     "status": "stopgap",
      "evidence": "news heard table",
-     "why": "nobody heard of it: the change is not a news story anyone receives"
+     "why": "the checker amends the line directly, which is not news; in play the bill is (SG-LAW-wiring-budget-news)"
     },
     "repeal": {
      "status": "wired",
@@ -990,7 +990,7 @@
    "family": "education",
    "reachGroup": "B",
    "mechanic": "school-voucher",
-   "overall": "partly",
+   "overall": "stopgapped",
    "links": {
     "exists": {
      "status": "wired",
@@ -1008,9 +1008,9 @@
      "why": ""
     },
     "systems": {
-     "status": "partial",
+     "status": "stopgap",
      "evidence": "src/core2/law-reach/group-b.ts:223",
-     "why": "only law reach's own handler reads it; no engine reads the law at the moment it decides or pays"
+     "why": "applied by its law-reach module on the engine's step (SG-LAW-wiring-read-in-law-reach)"
     },
     "money": {
      "status": "wired",
@@ -1059,7 +1059,7 @@
    "family": "education",
    "reachGroup": "B",
    "mechanic": "teacher-floor",
-   "overall": "partly",
+   "overall": "stopgapped",
    "links": {
     "exists": {
      "status": "wired",
@@ -1077,19 +1077,19 @@
      "why": ""
     },
     "systems": {
-     "status": "partial",
+     "status": "stopgap",
      "evidence": "src/core2/law-reach/group-b.ts:223",
-     "why": "only law reach's own handler reads it; no engine reads the law at the moment it decides or pays"
+     "why": "applied by its law-reach module on the engine's step (SG-LAW-wiring-read-in-law-reach)"
     },
     "money": {
-     "status": "missing",
+     "status": "stopgap",
      "evidence": "journal trace: no post differs from the control world",
-     "why": "no money flow: nobody pays or receives anything because of it"
+     "why": "its event or subject did not occur in the checker's 35-day window in a drawn town (SG-LAW-wiring-checker-window)"
     },
     "web": {
-     "status": "missing",
+     "status": "stopgap",
      "evidence": "teacher-minimum-salary-to-graduation",
-     "why": "built links did not move their measure in the run (cause not read by the web, or the measure is not kept for this place)"
+     "why": "its built links did not move their measure in the checker's 35-day run (SG-LAW-outcome-link-not-fired)"
     },
     "knowing": {
      "status": "wired",
@@ -1128,7 +1128,7 @@
    "family": "education",
    "reachGroup": "B",
    "mechanic": null,
-   "overall": "partly",
+   "overall": "stopgapped",
    "links": {
     "exists": {
      "status": "wired",
@@ -1161,9 +1161,9 @@
      "why": "no researched outcome-web link starts from this law or a measure it sets; the research would measure college enrollment and completion (SG-LAW-outcome-link-unresearched)"
     },
     "knowing": {
-     "status": "missing",
+     "status": "stopgap",
      "evidence": "news heard table",
-     "why": "nobody heard of it: the change is not a news story anyone receives"
+     "why": "the checker amends the line directly, which is not news; in play the bill is (SG-LAW-wiring-budget-news)"
     },
     "repeal": {
      "status": "wired",
@@ -1197,7 +1197,7 @@
    "family": "taxes-finance",
    "reachGroup": "B",
    "mechanic": "income-tax-rate",
-   "overall": "partly",
+   "overall": "stopgapped",
    "links": {
     "exists": {
      "status": "wired",
@@ -1235,9 +1235,9 @@
      "why": ""
     },
     "repeal": {
-     "status": "missing",
+     "status": "stopgap",
      "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 133 open under the changed row -> after the old amount is put back 60 still cite it; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 145 open under the changed row -> after the old amount is put back 64 still cite it",
-     "why": "repeal leaves reach rows open (or re-enacting does not reopen them)"
+     "why": "past paychecks' rows stay open after the rate is put back (SG-LAW-wiring-dated-tax-rows)"
     },
     "allPlaces": {
      "status": "wired",
@@ -1335,7 +1335,7 @@
    "family": "taxes-finance",
    "reachGroup": null,
    "mechanic": null,
-   "overall": "partly",
+   "overall": "stopgapped",
    "links": {
     "exists": {
      "status": "wired",
@@ -1363,9 +1363,9 @@
      "why": ""
     },
     "web": {
-     "status": "missing",
+     "status": "stopgap",
      "evidence": "property-tax-to-rent: outcome-not-produced",
-     "why": "every link is unbuilt: outcome-not-produced"
+     "why": "a researched link names an outcome the web does not produce (SG-LAW-outcome-not-produced)"
     },
     "knowing": {
      "status": "wired",
@@ -1404,7 +1404,7 @@
    "family": "taxes-finance",
    "reachGroup": null,
    "mechanic": null,
-   "overall": "partly",
+   "overall": "stopgapped",
    "links": {
     "exists": {
      "status": "wired",
@@ -1417,14 +1417,14 @@
      "why": ""
     },
     "reach": {
-     "status": "missing",
+     "status": "stopgap",
      "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): corporate-income-tax 27 -> 30 at state (law:US-MI:state:corporate-income-tax:general:2025-01-21:law-wiring-f65e8636) effective 2025-01-21; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): corporate-income-tax 25.55 -> 28.11 at state (law:US-NE:state:corporate-income-tax:general:2025-01-21:law-wiring-f65e8636) effective 2025-01-21",
-     "why": "no law-reach row: nothing records who it applies to"
+     "why": "its event or subject did not occur in the checker's 35-day window in a drawn town (SG-LAW-wiring-checker-window)"
     },
     "systems": {
-     "status": "missing",
+     "status": "stopgap",
      "evidence": "table trace: no engine read the law's rows in the run",
-     "why": "no engine reads it (only lawmaking, news or the outcome web, if anything)"
+     "why": "its event or subject did not occur in the checker's 35-day window in a drawn town (SG-LAW-wiring-checker-window)"
     },
     "money": {
      "status": "wired",
@@ -1432,9 +1432,9 @@
      "why": ""
     },
     "web": {
-     "status": "missing",
+     "status": "stopgap",
      "evidence": "corporate-tax-incidence: outcome-not-produced",
-     "why": "every link is unbuilt: outcome-not-produced"
+     "why": "a researched link names an outcome the web does not produce (SG-LAW-outcome-not-produced)"
     },
     "knowing": {
      "status": "wired",
@@ -1442,14 +1442,14 @@
      "why": ""
     },
     "repeal": {
-     "status": "missing",
+     "status": "stopgap",
      "evidence": "",
-     "why": "nothing reached, so nothing to stop"
+     "why": "its event or subject did not occur in the checker's 35-day window in a drawn town (SG-LAW-wiring-checker-window)"
     },
     "allPlaces": {
-     "status": "missing",
+     "status": "stopgap",
      "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8)",
-     "why": "reaches nobody anywhere"
+     "why": "its event or subject did not occur in the checker's 35-day window in a drawn town (SG-LAW-wiring-checker-window)"
     }
    },
    "runs": [
@@ -1473,7 +1473,7 @@
    "family": "taxes-finance",
    "reachGroup": null,
    "mechanic": null,
-   "overall": "partly",
+   "overall": "stopgapped",
    "links": {
     "exists": {
      "status": "wired",
@@ -1486,14 +1486,14 @@
      "why": ""
     },
     "reach": {
-     "status": "missing",
+     "status": "stopgap",
      "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): estate-tax 40 -> 44 at federal (law:US:federal:estate-tax:general:2025-01-21:law-wiring-287823aa) effective 2025-01-21; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): estate-tax 40 -> 44 at federal (law:US:federal:estate-tax:general:2025-01-21:law-wiring-287823aa) effective 2025-01-21",
-     "why": "no law-reach row: nothing records who it applies to"
+     "why": "its event or subject did not occur in the checker's 35-day window in a drawn town (SG-LAW-wiring-checker-window)"
     },
     "systems": {
-     "status": "missing",
+     "status": "stopgap",
      "evidence": "table trace: no engine read the law's rows in the run",
-     "why": "no engine reads it (only lawmaking, news or the outcome web, if anything)"
+     "why": "its event or subject did not occur in the checker's 35-day window in a drawn town (SG-LAW-wiring-checker-window)"
     },
     "money": {
      "status": "wired",
@@ -1511,14 +1511,14 @@
      "why": ""
     },
     "repeal": {
-     "status": "missing",
+     "status": "stopgap",
      "evidence": "",
-     "why": "nothing reached, so nothing to stop"
+     "why": "its event or subject did not occur in the checker's 35-day window in a drawn town (SG-LAW-wiring-checker-window)"
     },
     "allPlaces": {
-     "status": "missing",
+     "status": "stopgap",
      "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8)",
-     "why": "reaches nobody anywhere"
+     "why": "its event or subject did not occur in the checker's 35-day window in a drawn town (SG-LAW-wiring-checker-window)"
     }
    },
    "runs": [
@@ -1542,7 +1542,7 @@
    "family": "taxes-finance",
    "reachGroup": null,
    "mechanic": null,
-   "overall": "partly",
+   "overall": "stopgapped",
    "links": {
     "exists": {
      "status": "wired",
@@ -1555,14 +1555,14 @@
      "why": ""
     },
     "reach": {
-     "status": "missing",
+     "status": "stopgap",
      "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): inheritance-tax 0 -> 1 at state (law:US-MI:state:inheritance-tax:general:2025-01-21:law-wiring-7e1c507d) effective 2025-01-21; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): inheritance-tax 15 -> 17 at state (law:US-NE:state:inheritance-tax:general:2025-01-21:law-wiring-7e1c507d) effective 2025-01-21",
-     "why": "no law-reach row: nothing records who it applies to"
+     "why": "its event or subject did not occur in the checker's 35-day window in a drawn town (SG-LAW-wiring-checker-window)"
     },
     "systems": {
-     "status": "missing",
+     "status": "stopgap",
      "evidence": "table trace: no engine read the law's rows in the run",
-     "why": "no engine reads it (only lawmaking, news or the outcome web, if anything)"
+     "why": "its event or subject did not occur in the checker's 35-day window in a drawn town (SG-LAW-wiring-checker-window)"
     },
     "money": {
      "status": "wired",
@@ -1580,14 +1580,14 @@
      "why": ""
     },
     "repeal": {
-     "status": "missing",
+     "status": "stopgap",
      "evidence": "",
-     "why": "nothing reached, so nothing to stop"
+     "why": "its event or subject did not occur in the checker's 35-day window in a drawn town (SG-LAW-wiring-checker-window)"
     },
     "allPlaces": {
-     "status": "missing",
+     "status": "stopgap",
      "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8)",
-     "why": "reaches nobody anywhere"
+     "why": "its event or subject did not occur in the checker's 35-day window in a drawn town (SG-LAW-wiring-checker-window)"
     }
    },
    "runs": [
@@ -1611,7 +1611,7 @@
    "family": "taxes-finance",
    "reachGroup": "B",
    "mechanic": "income-tax-adopt",
-   "overall": "partly",
+   "overall": "stopgapped",
    "links": {
     "exists": {
      "status": "wired",
@@ -1624,9 +1624,9 @@
      "why": ""
     },
     "reach": {
-     "status": "missing",
+     "status": "stopgap",
      "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): repealed at state effective 2025-01-21; then enacted at city (law:place:2666300:city:us-policy-positions:fiscal.adopt-income-tax:general:2025-02-26:law-wiring-8b13b3c9-b) effective 2025-02-26; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): repealed at state effective 2025-01-21; then enacted at city (law:place:3149425:city:us-policy-positions:fiscal.adopt-income-tax:general:2025-02-26:law-wiring-8b13b3c9-b) effective 2025-02-26",
-     "why": "handler registered (group B, mechanic income-tax-adopt) but it recorded nobody in Prescott, Michigan, US-MI (seed a91c03e7d2b84f10) or Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8)"
+     "why": "its event or subject did not occur in the checker's 35-day window in a drawn town (SG-LAW-wiring-checker-window)"
     },
     "systems": {
      "status": "wired",
@@ -1639,9 +1639,9 @@
      "why": ""
     },
     "web": {
-     "status": "missing",
+     "status": "n/a",
      "evidence": "income-tax-to-poverty: about-zero, income-tax-to-out-migration: about-zero",
-     "why": "every link is unbuilt: about-zero"
+     "why": "its researched outcome links put the effect at about zero (data/research/outcome-web/links.json), so there is nothing for the web to move"
     },
     "knowing": {
      "status": "wired",
@@ -1649,14 +1649,14 @@
      "why": ""
     },
     "repeal": {
-     "status": "missing",
+     "status": "stopgap",
      "evidence": "",
-     "why": "nothing reached, so nothing to stop"
+     "why": "its event or subject did not occur in the checker's 35-day window in a drawn town (SG-LAW-wiring-checker-window)"
     },
     "allPlaces": {
-     "status": "missing",
+     "status": "stopgap",
      "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8)",
-     "why": "reaches nobody anywhere"
+     "why": "its event or subject did not occur in the checker's 35-day window in a drawn town (SG-LAW-wiring-checker-window)"
     }
    },
    "runs": [
@@ -1680,7 +1680,7 @@
    "family": "taxes-finance",
    "reachGroup": "B",
    "mechanic": "property-assessment",
-   "overall": "partly",
+   "overall": "stopgapped",
    "links": {
     "exists": {
      "status": "wired",
@@ -1693,9 +1693,9 @@
      "why": ""
     },
     "reach": {
-     "status": "partial",
+     "status": "stopgap",
      "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 0 open (full 0, counted groups 0/0 people, households 0, orgs 0, govts 0) e.g. -; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 77 open (full 0, counted groups 51/118 people, households 26, orgs 0, govts 0) e.g. applied|us-policy-positions:fiscal.cap-property-tax-growth|household_0183bde9153c1d99",
-     "why": "reached nobody in Prescott, Michigan, US-MI (seed a91c03e7d2b84f10)"
+     "why": "its event or subject did not occur in the checker's 35-day window in a drawn town (SG-LAW-wiring-checker-window)"
     },
     "systems": {
      "status": "wired",
@@ -1723,9 +1723,9 @@
      "why": ""
     },
     "allPlaces": {
-     "status": "partial",
+     "status": "stopgap",
      "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8)",
-     "why": "reached people in one drawn place and not the other"
+     "why": "its event or subject did not occur in the checker's 35-day window in a drawn town (SG-LAW-wiring-checker-window)"
     }
    },
    "runs": [
@@ -1749,7 +1749,7 @@
    "family": "taxes-finance",
    "reachGroup": "B",
    "mechanic": "records",
-   "overall": "partly",
+   "overall": "stopgapped",
    "links": {
     "exists": {
      "status": "wired",
@@ -1777,9 +1777,9 @@
      "why": ""
     },
     "web": {
-     "status": "missing",
+     "status": "stopgap",
      "evidence": "grocery-exemption-to-food-insecurity",
-     "why": "built links did not move their measure in the run (cause not read by the web, or the measure is not kept for this place)"
+     "why": "its built links did not move their measure in the checker's 35-day run (SG-LAW-outcome-link-not-fired)"
     },
     "knowing": {
      "status": "wired",
@@ -1818,7 +1818,7 @@
    "family": "taxes-finance",
    "reachGroup": "B",
    "mechanic": "income-tax-graduated",
-   "overall": "partly",
+   "overall": "stopgapped",
    "links": {
     "exists": {
      "status": "wired",
@@ -1831,9 +1831,9 @@
      "why": ""
     },
     "reach": {
-     "status": "partial",
+     "status": "stopgap",
      "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 72 open (full 43, counted groups 29/32.63315508021391 people, households 0, orgs 0, govts 0) e.g. applied|us-policy-positions:fiscal.graduated-income-tax|person_182e4b917b4e10f7; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 0 open (full 0, counted groups 0/0 people, households 0, orgs 0, govts 0) e.g. -",
-     "why": "reached nobody in Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8)"
+     "why": "its event or subject did not occur in the checker's 35-day window in a drawn town (SG-LAW-wiring-checker-window)"
     },
     "systems": {
      "status": "wired",
@@ -1846,9 +1846,9 @@
      "why": ""
     },
     "web": {
-     "status": "missing",
+     "status": "n/a",
      "evidence": "graduated-income-tax-to-poverty: about-zero, graduated-income-tax-to-out-migration: about-zero",
-     "why": "every link is unbuilt: about-zero"
+     "why": "its researched outcome links put the effect at about zero (data/research/outcome-web/links.json), so there is nothing for the web to move"
     },
     "knowing": {
      "status": "wired",
@@ -1861,9 +1861,9 @@
      "why": ""
     },
     "allPlaces": {
-     "status": "partial",
+     "status": "stopgap",
      "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8)",
-     "why": "reached people in one drawn place and not the other"
+     "why": "its event or subject did not occur in the checker's 35-day window in a drawn town (SG-LAW-wiring-checker-window)"
     }
    },
    "runs": [
@@ -1887,7 +1887,7 @@
    "family": "taxes-finance",
    "reachGroup": "B",
    "mechanic": "balanced-budget",
-   "overall": "partly",
+   "overall": "stopgapped",
    "links": {
     "exists": {
      "status": "wired",
@@ -1905,9 +1905,9 @@
      "why": ""
     },
     "systems": {
-     "status": "partial",
+     "status": "stopgap",
      "evidence": "src/core2/law-reach/group-b.ts:223",
-     "why": "only law reach's own handler reads it; no engine reads the law at the moment it decides or pays"
+     "why": "applied by its law-reach module on the engine's step (SG-LAW-wiring-read-in-law-reach)"
     },
     "money": {
      "status": "wired",
@@ -1956,7 +1956,7 @@
    "family": "taxes-finance",
    "reachGroup": "B",
    "mechanic": "pension-funding",
-   "overall": "partly",
+   "overall": "stopgapped",
    "links": {
     "exists": {
      "status": "wired",
@@ -1974,9 +1974,9 @@
      "why": ""
     },
     "systems": {
-     "status": "partial",
+     "status": "stopgap",
      "evidence": "src/core2/law-reach/group-b.ts:223",
-     "why": "only law reach's own handler reads it; no engine reads the law at the moment it decides or pays"
+     "why": "applied by its law-reach module on the engine's step (SG-LAW-wiring-read-in-law-reach)"
     },
     "money": {
      "status": "wired",
@@ -2025,7 +2025,7 @@
    "family": "taxes-finance",
    "reachGroup": "B",
    "mechanic": "reserve",
-   "overall": "partly",
+   "overall": "stopgapped",
    "links": {
     "exists": {
      "status": "wired",
@@ -2043,9 +2043,9 @@
      "why": ""
     },
     "systems": {
-     "status": "partial",
+     "status": "stopgap",
      "evidence": "src/core2/law-reach/group-b.ts:223",
-     "why": "only law reach's own handler reads it; no engine reads the law at the moment it decides or pays"
+     "why": "applied by its law-reach module on the engine's step (SG-LAW-wiring-read-in-law-reach)"
     },
     "money": {
      "status": "wired",
@@ -2094,7 +2094,7 @@
    "family": "assistance",
    "reachGroup": null,
    "mechanic": null,
-   "overall": "partly",
+   "overall": "stopgapped",
    "links": {
     "exists": {
      "status": "wired",
@@ -2112,9 +2112,9 @@
      "why": ""
     },
     "systems": {
-     "status": "partial",
+     "status": "stopgap",
      "evidence": "src/core2/law-reach/group-b-food-aid.ts:54, src/core2/law-reach/group-b-food-aid.ts:159",
-     "why": "only law reach's own handler reads it; no engine reads the law at the moment it decides or pays"
+     "why": "applied by its law-reach module on the engine's step (SG-LAW-wiring-read-in-law-reach)"
     },
     "money": {
      "status": "wired",
@@ -2163,7 +2163,7 @@
    "family": "assistance",
    "reachGroup": "B",
    "mechanic": null,
-   "overall": "partly",
+   "overall": "stopgapped",
    "links": {
     "exists": {
      "status": "wired",
@@ -2196,9 +2196,9 @@
      "why": "no researched outcome-web link starts from this law or a measure it sets; the research would measure poverty and coverage (SG-LAW-outcome-link-unresearched)"
     },
     "knowing": {
-     "status": "missing",
+     "status": "stopgap",
      "evidence": "news heard table",
-     "why": "nobody heard of it: the change is not a news story anyone receives"
+     "why": "the checker amends the line directly, which is not news; in play the bill is (SG-LAW-wiring-budget-news)"
     },
     "repeal": {
      "status": "wired",
@@ -2370,7 +2370,7 @@
    "family": "assistance",
    "reachGroup": null,
    "mechanic": null,
-   "overall": "partly",
+   "overall": "stopgapped",
    "links": {
     "exists": {
      "status": "wired",
@@ -2383,14 +2383,14 @@
      "why": ""
     },
     "reach": {
-     "status": "missing",
+     "status": "stopgap",
      "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): unemployment-weekly-maximum 530 -> 583 at state (law:US-MI:state:unemployment-weekly-maximum:general:2025-01-21:law-wiring-efd150df) effective 2025-01-21; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): unemployment-weekly-maximum 582 -> 640 at state (law:US-NE:state:unemployment-weekly-maximum:general:2025-01-21:law-wiring-efd150df) effective 2025-01-21",
-     "why": "no law-reach row: nothing records who it applies to"
+     "why": "its event or subject did not occur in the checker's 35-day window in a drawn town (SG-LAW-wiring-checker-window)"
     },
     "systems": {
-     "status": "missing",
+     "status": "stopgap",
      "evidence": "table trace: no engine read the law's rows in the run",
-     "why": "no engine reads it (only lawmaking, news or the outcome web, if anything)"
+     "why": "its event or subject did not occur in the checker's 35-day window in a drawn town (SG-LAW-wiring-checker-window)"
     },
     "money": {
      "status": "wired",
@@ -2408,14 +2408,14 @@
      "why": ""
     },
     "repeal": {
-     "status": "missing",
+     "status": "stopgap",
      "evidence": "",
-     "why": "nothing reached, so nothing to stop"
+     "why": "its event or subject did not occur in the checker's 35-day window in a drawn town (SG-LAW-wiring-checker-window)"
     },
     "allPlaces": {
-     "status": "missing",
+     "status": "stopgap",
      "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8)",
-     "why": "reaches nobody anywhere"
+     "why": "its event or subject did not occur in the checker's 35-day window in a drawn town (SG-LAW-wiring-checker-window)"
     }
    },
    "runs": [
@@ -2577,7 +2577,7 @@
    "family": "housing",
    "reachGroup": "A",
    "mechanic": "housing-assistance",
-   "overall": "partly",
+   "overall": "stopgapped",
    "links": {
     "exists": {
      "status": "wired",
@@ -2610,9 +2610,9 @@
      "why": "no researched outcome-web link starts from this law or a measure it sets; the research would measure homelessness and rent burden (SG-LAW-outcome-link-unresearched)"
     },
     "knowing": {
-     "status": "missing",
+     "status": "stopgap",
      "evidence": "news heard table",
-     "why": "nobody heard of it: the change is not a news story anyone receives"
+     "why": "the checker amends the line directly, which is not news; in play the bill is (SG-LAW-wiring-budget-news)"
     },
     "repeal": {
      "status": "wired",
@@ -2715,7 +2715,7 @@
    "family": "housing",
    "reachGroup": "A",
    "mechanic": "rent-renewal",
-   "overall": "partly",
+   "overall": "stopgapped",
    "links": {
     "exists": {
      "status": "wired",
@@ -2753,14 +2753,14 @@
      "why": ""
     },
     "repeal": {
-     "status": "missing",
+     "status": "stopgap",
      "evidence": "",
-     "why": "nothing reached, so nothing to stop"
+     "why": "its event or subject did not occur in the checker's 35-day window in a drawn town (SG-LAW-wiring-checker-window)"
     },
     "allPlaces": {
-     "status": "missing",
+     "status": "stopgap",
      "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8)",
-     "why": "reaches nobody anywhere"
+     "why": "its event or subject did not occur in the checker's 35-day window in a drawn town (SG-LAW-wiring-checker-window)"
     }
    },
    "runs": [
@@ -2784,7 +2784,7 @@
    "family": "housing",
    "reachGroup": "A",
    "mechanic": "eviction-counsel",
-   "overall": "partly",
+   "overall": "stopgapped",
    "links": {
     "exists": {
      "status": "wired",
@@ -2822,14 +2822,14 @@
      "why": ""
     },
     "repeal": {
-     "status": "missing",
+     "status": "stopgap",
      "evidence": "",
-     "why": "nothing reached, so nothing to stop"
+     "why": "its event or subject did not occur in the checker's 35-day window in a drawn town (SG-LAW-wiring-checker-window)"
     },
     "allPlaces": {
-     "status": "missing",
+     "status": "stopgap",
      "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8)",
-     "why": "reaches nobody anywhere"
+     "why": "its event or subject did not occur in the checker's 35-day window in a drawn town (SG-LAW-wiring-checker-window)"
     }
    },
    "runs": [
@@ -2853,7 +2853,7 @@
    "family": "labor",
    "reachGroup": "A",
    "mechanic": "none",
-   "overall": "partly",
+   "overall": "stopgapped",
    "links": {
     "exists": {
      "status": "wired",
@@ -2871,9 +2871,9 @@
      "why": ""
     },
     "systems": {
-     "status": "missing",
+     "status": "stopgap",
      "evidence": "table trace: no engine read the law's rows in the run",
-     "why": "no engine reads it (only lawmaking, news or the outcome web, if anything)"
+     "why": "applied by its law-reach module on the engine's step (SG-LAW-wiring-read-in-law-reach)"
     },
     "money": {
      "status": "wired",
@@ -2881,9 +2881,9 @@
      "why": ""
     },
     "web": {
-     "status": "missing",
+     "status": "stopgap",
      "evidence": "minimum-wage-to-poverty",
-     "why": "built links did not move their measure in the run (cause not read by the web, or the measure is not kept for this place)"
+     "why": "its built links did not move their measure in the checker's 35-day run (SG-LAW-outcome-link-not-fired)"
     },
     "knowing": {
      "status": "wired",
@@ -2922,7 +2922,7 @@
    "family": "labor",
    "reachGroup": "A",
    "mechanic": "federal-minimum-wage",
-   "overall": "partly",
+   "overall": "stopgapped",
    "links": {
     "exists": {
      "status": "wired",
@@ -2940,9 +2940,9 @@
      "why": ""
     },
     "systems": {
-     "status": "missing",
+     "status": "stopgap",
      "evidence": "table trace: no engine read the law's rows in the run",
-     "why": "no engine reads it (only lawmaking, news or the outcome web, if anything)"
+     "why": "applied by its law-reach module on the engine's step (SG-LAW-wiring-read-in-law-reach)"
     },
     "money": {
      "status": "wired",
@@ -2950,9 +2950,9 @@
      "why": ""
     },
     "web": {
-     "status": "missing",
+     "status": "stopgap",
      "evidence": "federal-minimum-wage-to-poverty",
-     "why": "built links did not move their measure in the run (cause not read by the web, or the measure is not kept for this place)"
+     "why": "its built links did not move their measure in the checker's 35-day run (SG-LAW-outcome-link-not-fired)"
     },
     "knowing": {
      "status": "wired",
@@ -2991,7 +2991,7 @@
    "family": "labor",
    "reachGroup": "A",
    "mechanic": "local-wage-authority",
-   "overall": "partly",
+   "overall": "stopgapped",
    "links": {
     "exists": {
      "status": "wired",
@@ -3004,14 +3004,14 @@
      "why": ""
     },
     "reach": {
-     "status": "partial",
+     "status": "n/a",
      "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 1 open (full 0, counted groups 0/0 people, households 0, orgs 1, govts 0) e.g. reach:law:place:2666300:city:us-policy-positions:labor-workforce.local-minimum-wage-authority:general:2025-01-21:law-wiring-d994f5d4:city:organization_1571ef11eb9b9b4a:2025-01-21; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 8 open (full 6, counted groups 0/0 people, households 0, orgs 1, govts 1) e.g. reach:law:US-NE:state:us-policy-positions:labor-workforce.local-minimum-wage-authority:general:starting:city:organization_66aa7ca5030a42f2:2025-01-20",
-     "why": "full people only: no counted group is reached (one model, two tiers)"
+     "why": "it applies to officeholders and legislative bodies, who are always full people, so no counted group is in its reach"
     },
     "systems": {
-     "status": "partial",
+     "status": "stopgap",
      "evidence": "src/core2/law-reach/group-a-records.ts:251",
-     "why": "only law reach's own handler reads it; no engine reads the law at the moment it decides or pays"
+     "why": "read only when a body drafts a bill under it, and the checker drafts none (SG-LAW-wiring-read-on-drafting)"
     },
     "money": {
      "status": "wired",
@@ -3019,9 +3019,9 @@
      "why": ""
     },
     "web": {
-     "status": "missing",
+     "status": "stopgap",
      "evidence": "minimum-wage-to-poverty",
-     "why": "built links did not move their measure in the run (cause not read by the web, or the measure is not kept for this place)"
+     "why": "its built links did not move their measure in the checker's 35-day run (SG-LAW-outcome-link-not-fired)"
     },
     "knowing": {
      "status": "wired",
@@ -3060,7 +3060,7 @@
    "family": "labor",
    "reachGroup": "A",
    "mechanic": "raise-minimum-wage",
-   "overall": "partly",
+   "overall": "stopgapped",
    "links": {
     "exists": {
      "status": "wired",
@@ -3078,9 +3078,9 @@
      "why": ""
     },
     "systems": {
-     "status": "missing",
+     "status": "stopgap",
      "evidence": "table trace: no engine read the law's rows in the run",
-     "why": "no engine reads it (only lawmaking, news or the outcome web, if anything)"
+     "why": "applied by its law-reach module on the engine's step (SG-LAW-wiring-read-in-law-reach)"
     },
     "money": {
      "status": "wired",
@@ -3088,9 +3088,9 @@
      "why": ""
     },
     "web": {
-     "status": "missing",
+     "status": "stopgap",
      "evidence": "minimum-wage-to-poverty",
-     "why": "built links did not move their measure in the run (cause not read by the web, or the measure is not kept for this place)"
+     "why": "its built links did not move their measure in the checker's 35-day run (SG-LAW-outcome-link-not-fired)"
     },
     "knowing": {
      "status": "wired",
@@ -3198,7 +3198,7 @@
    "family": "labor",
    "reachGroup": "A",
    "mechanic": "public-bargaining",
-   "overall": "partly",
+   "overall": "stopgapped",
    "links": {
     "exists": {
      "status": "wired",
@@ -3211,9 +3211,9 @@
      "why": ""
     },
     "reach": {
-     "status": "partial",
+     "status": "stopgap",
      "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 15 open (full 8, counted groups 0/0 people, households 0, orgs 7, govts 0) e.g. reach:law:US-MI:state:us-policy-positions:labor-workforce.public-sector-collective-bargaining:general:starting:public-workers:person_3f9b0f502a79bcc4:2025-01-20; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 18 open (full 11, counted groups 0/0 people, households 0, orgs 7, govts 0) e.g. reach:law:US-NE:state:us-policy-positions:labor-workforce.public-sector-collective-bargaining:general:starting:public-workers:person_328f136709e7c650:2025-01-20",
-     "why": "full people only: no counted group is reached (one model, two tiers)"
+     "why": "no counted group is reached (SG-LAW-counted-reach-missing)"
     },
     "systems": {
      "status": "stopgap",
@@ -3226,9 +3226,9 @@
      "why": ""
     },
     "web": {
-     "status": "partial",
+     "status": "n/a",
      "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-01 public-bargaining-to-earnings 0.0100; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-02 public-bargaining-to-earnings 0.0100; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): web:jurisdiction_45a3b3ebe97fe71d:2025-01 public-bargaining-to-earnings 0.0100",
-     "why": "links not built: public-bargaining-to-graduation (about-zero)"
+     "why": "its researched outcome links put the effect at about zero (data/research/outcome-web/links.json), so there is nothing for the web to move"
     },
     "knowing": {
      "status": "wired",
@@ -3336,7 +3336,7 @@
    "family": "business",
    "reachGroup": "A",
    "mechanic": "none",
-   "overall": "partly",
+   "overall": "wired",
    "links": {
     "exists": {
      "status": "wired",
@@ -3364,9 +3364,9 @@
      "why": ""
     },
     "web": {
-     "status": "partial",
+     "status": "n/a",
      "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-01 cannabis-sales-to-youth-use 0.0400; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-01 cannabis-sales-to-overdose-deaths 0.0500; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-02 cannabis-sales-to-youth-use 0.0400",
-     "why": "links not built: cannabis-sales-to-violent-crime (about-zero)"
+     "why": "its researched outcome links put the effect at about zero (data/research/outcome-web/links.json), so there is nothing for the web to move"
     },
     "knowing": {
      "status": "wired",
@@ -3405,7 +3405,7 @@
    "family": "business",
    "reachGroup": "A",
    "mechanic": "consumer-loan-quote",
-   "overall": "partly",
+   "overall": "stopgapped",
    "links": {
     "exists": {
      "status": "wired",
@@ -3418,9 +3418,9 @@
      "why": ""
     },
     "reach": {
-     "status": "partial",
+     "status": "stopgap",
      "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 102 open (full 0, counted groups 0/0 people, households 102, orgs 0, govts 0) e.g. applied|us-policy-positions:business-commerce.cap-consumer-loan-rates|household_1093158c88d35ce0; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 0 open (full 0, counted groups 0/0 people, households 0, orgs 0, govts 0) e.g. -",
-     "why": "reached nobody in Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8)"
+     "why": "its event or subject did not occur in the checker's 35-day window in a drawn town (SG-LAW-wiring-checker-window)"
     },
     "systems": {
      "status": "wired",
@@ -3448,9 +3448,9 @@
      "why": ""
     },
     "allPlaces": {
-     "status": "partial",
+     "status": "stopgap",
      "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8)",
-     "why": "reached people in one drawn place and not the other"
+     "why": "its event or subject did not occur in the checker's 35-day window in a drawn town (SG-LAW-wiring-checker-window)"
     }
    },
    "runs": [
@@ -3543,7 +3543,7 @@
    "family": "energy-environment",
    "reachGroup": "B",
    "mechanic": "price-payment",
-   "overall": "partly",
+   "overall": "stopgapped",
    "links": {
     "exists": {
      "status": "wired",
@@ -3556,9 +3556,9 @@
      "why": ""
     },
     "reach": {
-     "status": "partial",
+     "status": "stopgap",
      "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 0 open (full 0, counted groups 0/0 people, households 0, orgs 0, govts 0) e.g. -; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 100 open (full 0, counted groups 35/144 people, households 38, orgs 27, govts 0) e.g. applied|us-policy-positions:environment-energy.clean-electricity-standard|household_b1a74e583922519a",
-     "why": "reached nobody in Prescott, Michigan, US-MI (seed a91c03e7d2b84f10)"
+     "why": "its event or subject did not occur in the checker's 35-day window in a drawn town (SG-LAW-wiring-checker-window)"
     },
     "systems": {
      "status": "wired",
@@ -3586,9 +3586,9 @@
      "why": ""
     },
     "allPlaces": {
-     "status": "partial",
+     "status": "stopgap",
      "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8)",
-     "why": "reached people in one drawn place and not the other"
+     "why": "its event or subject did not occur in the checker's 35-day window in a drawn town (SG-LAW-wiring-checker-window)"
     }
    },
    "runs": [
@@ -3612,7 +3612,7 @@
    "family": "energy-environment",
    "reachGroup": "B",
    "mechanic": "compliance-cost",
-   "overall": "partly",
+   "overall": "stopgapped",
    "links": {
     "exists": {
      "status": "wired",
@@ -3625,9 +3625,9 @@
      "why": ""
     },
     "reach": {
-     "status": "missing",
+     "status": "stopgap",
      "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): enacted at city (law:place:2666300:city:us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties:general:2025-01-21:law-wiring-fbc8b216) effective 2025-01-21; then repealed at city effective 2025-02-26; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): enacted at city (law:place:3149425:city:us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties:general:2025-01-21:law-wiring-fbc8b216) effective 2025-01-21; then repealed at city effective 2025-02-26",
-     "why": "handler registered (group B, mechanic compliance-cost) but it recorded nobody in Prescott, Michigan, US-MI (seed a91c03e7d2b84f10) or Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8)"
+     "why": "its event or subject did not occur in the checker's 35-day window in a drawn town (SG-LAW-wiring-checker-window)"
     },
     "systems": {
      "status": "wired",
@@ -3640,9 +3640,9 @@
      "why": ""
     },
     "web": {
-     "status": "missing",
+     "status": "stopgap",
      "evidence": "emission-rules-to-particulates",
-     "why": "built links did not move their measure in the run (cause not read by the web, or the measure is not kept for this place)"
+     "why": "its built links did not move their measure in the checker's 35-day run (SG-LAW-outcome-link-not-fired)"
     },
     "knowing": {
      "status": "wired",
@@ -3650,14 +3650,14 @@
      "why": ""
     },
     "repeal": {
-     "status": "missing",
+     "status": "stopgap",
      "evidence": "",
-     "why": "nothing reached, so nothing to stop"
+     "why": "its event or subject did not occur in the checker's 35-day window in a drawn town (SG-LAW-wiring-checker-window)"
     },
     "allPlaces": {
-     "status": "missing",
+     "status": "stopgap",
      "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8)",
-     "why": "reaches nobody anywhere"
+     "why": "its event or subject did not occur in the checker's 35-day window in a drawn town (SG-LAW-wiring-checker-window)"
     }
    },
    "runs": [
@@ -3681,7 +3681,7 @@
    "family": "energy-environment",
    "reachGroup": "B",
    "mechanic": null,
-   "overall": "partly",
+   "overall": "stopgapped",
    "links": {
     "exists": {
      "status": "wired",
@@ -3714,9 +3714,9 @@
      "why": "no researched outcome-web link starts from this law or a measure it sets; the research would measure land conservation and park visits (SG-LAW-outcome-link-unresearched)"
     },
     "knowing": {
-     "status": "missing",
+     "status": "stopgap",
      "evidence": "news heard table",
-     "why": "nobody heard of it: the change is not a news story anyone receives"
+     "why": "the checker amends the line directly, which is not news; in play the bill is (SG-LAW-wiring-budget-news)"
     },
     "repeal": {
      "status": "wired",
@@ -3750,7 +3750,7 @@
    "family": "energy-environment",
    "reachGroup": "B",
    "mechanic": "price-payment",
-   "overall": "partly",
+   "overall": "stopgapped",
    "links": {
     "exists": {
      "status": "wired",
@@ -3763,9 +3763,9 @@
      "why": ""
     },
     "reach": {
-     "status": "partial",
+     "status": "stopgap",
      "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 0 open (full 0, counted groups 0/0 people, households 0, orgs 0, govts 0) e.g. -; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 73 open (full 0, counted groups 35/144 people, households 38, orgs 0, govts 0) e.g. applied|us-policy-positions:environment-energy.bottle-deposit|household_b1a74e583922519a",
-     "why": "reached nobody in Prescott, Michigan, US-MI (seed a91c03e7d2b84f10)"
+     "why": "its event or subject did not occur in the checker's 35-day window in a drawn town (SG-LAW-wiring-checker-window)"
     },
     "systems": {
      "status": "wired",
@@ -3793,9 +3793,9 @@
      "why": ""
     },
     "allPlaces": {
-     "status": "partial",
+     "status": "stopgap",
      "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8)",
-     "why": "reached people in one drawn place and not the other"
+     "why": "its event or subject did not occur in the checker's 35-day window in a drawn town (SG-LAW-wiring-checker-window)"
     }
    },
    "runs": [
@@ -3888,7 +3888,7 @@
    "family": "justice",
    "reachGroup": "A",
    "mechanic": "staffing",
-   "overall": "partly",
+   "overall": "stopgapped",
    "links": {
     "exists": {
      "status": "wired",
@@ -3916,9 +3916,9 @@
      "why": ""
     },
     "web": {
-     "status": "missing",
+     "status": "stopgap",
      "evidence": "police-to-violent-crime",
-     "why": "built links did not move their measure in the run (cause not read by the web, or the measure is not kept for this place)"
+     "why": "its built links did not move their measure in the checker's 35-day run (SG-LAW-outcome-link-not-fired)"
     },
     "knowing": {
      "status": "wired",
@@ -3926,9 +3926,9 @@
      "why": ""
     },
     "repeal": {
-     "status": "missing",
+     "status": "stopgap",
      "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 36 open under the changed row -> after the old amount is put back 10 still cite it; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 41 open under the changed row -> after the old amount is put back 5 still cite it",
-     "why": "repeal leaves reach rows open (or re-enacting does not reopen them)"
+     "why": "rows under the raise stay open until staffing next acts (SG-LAW-budget-line-reach-not-ended)"
     },
     "allPlaces": {
      "status": "wired",
@@ -3957,7 +3957,7 @@
    "family": "justice",
    "reachGroup": "A",
    "mechanic": "public-safety",
-   "overall": "partly",
+   "overall": "stopgapped",
    "links": {
     "exists": {
      "status": "wired",
@@ -3985,9 +3985,9 @@
      "why": ""
     },
     "web": {
-     "status": "missing",
+     "status": "stopgap",
      "evidence": "civilian-oversight-to-crime",
-     "why": "built links did not move their measure in the run (cause not read by the web, or the measure is not kept for this place)"
+     "why": "its built links did not move their measure in the checker's 35-day run (SG-LAW-outcome-link-not-fired)"
     },
     "knowing": {
      "status": "wired",
@@ -4026,7 +4026,7 @@
    "family": "justice",
    "reachGroup": "A",
    "mechanic": "public-safety",
-   "overall": "partly",
+   "overall": "stopgapped",
    "links": {
     "exists": {
      "status": "wired",
@@ -4054,9 +4054,9 @@
      "why": ""
     },
     "web": {
-     "status": "partial",
+     "status": "stopgap",
      "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-01 enforcement-to-undocumented-employment -0.0570; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-01 enforcement-to-us-born-employment -0.0050; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): web:jurisdiction_45a3b3ebe97fe71d:2025-01 enforcement-to-undocumented-employment -0.0570",
-     "why": "links not built: enforcement-to-hispanic-enrollment (outcome-not-produced), enforcement-to-undocumented-employment (outcome-not-produced), enforcement-to-us-born-employment (outcome-not-produced)"
+     "why": "a researched link names an outcome the web does not produce (SG-LAW-outcome-not-produced)"
     },
     "knowing": {
      "status": "wired",
@@ -4095,7 +4095,7 @@
    "family": "justice",
    "reachGroup": "A",
    "mechanic": "public-safety",
-   "overall": "partly",
+   "overall": "stopgapped",
    "links": {
     "exists": {
      "status": "wired",
@@ -4123,9 +4123,9 @@
      "why": ""
     },
     "web": {
-     "status": "partial",
+     "status": "stopgap",
      "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-01 end-cash-bail-to-pretrial-detention -0.2000; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-02 end-cash-bail-to-pretrial-detention -0.2000; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): web:jurisdiction_45a3b3ebe97fe71d:2025-01 end-cash-bail-to-pretrial-detention -0.2000",
-     "why": "links not built: end-cash-bail-to-pretrial-detention (outcome-not-produced), end-cash-bail-to-violent-crime (about-zero)"
+     "why": "a researched link names an outcome the web does not produce (SG-LAW-outcome-not-produced)"
     },
     "knowing": {
      "status": "wired",
@@ -4164,7 +4164,7 @@
    "family": "justice",
    "reachGroup": "A",
    "mechanic": "staffing",
-   "overall": "partly",
+   "overall": "stopgapped",
    "links": {
     "exists": {
      "status": "wired",
@@ -4177,9 +4177,9 @@
      "why": ""
     },
     "reach": {
-     "status": "partial",
+     "status": "stopgap",
      "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 3 open (full 0, counted groups 0/0 people, households 0, orgs 1, govts 2) e.g. reach:law-wiring-b12dcfab:positions:organization:treasury:place:2666300:2025-01-20; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 0 open (full 0, counted groups 0/0 people, households 0, orgs 0, govts 0) e.g. -",
-     "why": "reached nobody in Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8)"
+     "why": "its event or subject did not occur in the checker's 35-day window in a drawn town (SG-LAW-wiring-checker-window)"
     },
     "systems": {
      "status": "wired",
@@ -4192,24 +4192,24 @@
      "why": ""
     },
     "web": {
-     "status": "missing",
+     "status": "n/a",
      "evidence": "incarceration-to-crime: about-zero",
-     "why": "every link is unbuilt: about-zero"
+     "why": "its researched outcome links put the effect at about zero (data/research/outcome-web/links.json), so there is nothing for the web to move"
     },
     "knowing": {
-     "status": "missing",
+     "status": "stopgap",
      "evidence": "news heard table",
-     "why": "nobody heard of it: the change is not a news story anyone receives"
+     "why": "the checker amends the line directly, which is not news; in play the bill is (SG-LAW-wiring-budget-news)"
     },
     "repeal": {
-     "status": "missing",
+     "status": "stopgap",
      "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 3 open under the changed row -> after the old amount is put back 1 still cite it",
-     "why": "repeal leaves reach rows open (or re-enacting does not reopen them)"
+     "why": "rows under the raise stay open until staffing next acts (SG-LAW-budget-line-reach-not-ended)"
     },
     "allPlaces": {
-     "status": "partial",
+     "status": "stopgap",
      "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8)",
-     "why": "reached people in one drawn place and not the other"
+     "why": "its event or subject did not occur in the checker's 35-day window in a drawn town (SG-LAW-wiring-checker-window)"
     }
    },
    "runs": [
@@ -4233,7 +4233,7 @@
    "family": "justice",
    "reachGroup": "A",
    "mechanic": "voting",
-   "overall": "partly",
+   "overall": "stopgapped",
    "links": {
     "exists": {
      "status": "wired",
@@ -4251,9 +4251,9 @@
      "why": ""
     },
     "systems": {
-     "status": "partial",
+     "status": "stopgap",
      "evidence": "src/core2/law-reach/group-a-records.ts:251",
-     "why": "only law reach's own handler reads it; no engine reads the law at the moment it decides or pays"
+     "why": "applied by its law-reach module on the engine's step (SG-LAW-wiring-read-in-law-reach)"
     },
     "money": {
      "status": "wired",
@@ -4302,7 +4302,7 @@
    "family": "justice",
    "reachGroup": "A",
    "mechanic": "public-safety",
-   "overall": "partly",
+   "overall": "stopgapped",
    "links": {
     "exists": {
      "status": "wired",
@@ -4315,9 +4315,9 @@
      "why": ""
     },
     "reach": {
-     "status": "missing",
+     "status": "stopgap",
      "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): repealed at state effective 2025-01-21; then enacted at city (law:place:2666300:city:us-policy-positions:justice-public-safety.raise-juvenile-court-age:general:2025-02-26:law-wiring-e19ea271-b) effective 2025-02-26; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): repealed at state effective 2025-01-21; then enacted at city (law:place:3149425:city:us-policy-positions:justice-public-safety.raise-juvenile-court-age:general:2025-02-26:law-wiring-e19ea271-b) effective 2025-02-26",
-     "why": "law-reach row (group A, mechanic public-safety) has no handler registered: the mechanic list is empty, so no reach record is written"
+     "why": "its event or subject did not occur in the checker's 35-day window in a drawn town (SG-LAW-wiring-checker-window)"
     },
     "systems": {
      "status": "wired",
@@ -4330,9 +4330,9 @@
      "why": ""
     },
     "web": {
-     "status": "missing",
+     "status": "n/a",
      "evidence": "juvenile-court-age-to-crime: about-zero",
-     "why": "every link is unbuilt: about-zero"
+     "why": "its researched outcome links put the effect at about zero (data/research/outcome-web/links.json), so there is nothing for the web to move"
     },
     "knowing": {
      "status": "wired",
@@ -4340,14 +4340,14 @@
      "why": ""
     },
     "repeal": {
-     "status": "missing",
+     "status": "stopgap",
      "evidence": "",
-     "why": "nothing reached, so nothing to stop"
+     "why": "its event or subject did not occur in the checker's 35-day window in a drawn town (SG-LAW-wiring-checker-window)"
     },
     "allPlaces": {
-     "status": "missing",
+     "status": "stopgap",
      "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8)",
-     "why": "reaches nobody anywhere"
+     "why": "its event or subject did not occur in the checker's 35-day window in a drawn town (SG-LAW-wiring-checker-window)"
     }
    },
    "runs": [
@@ -4371,7 +4371,7 @@
    "family": "justice",
    "reachGroup": "A",
    "mechanic": "public-safety",
-   "overall": "partly",
+   "overall": "stopgapped",
    "links": {
     "exists": {
      "status": "wired",
@@ -4399,9 +4399,9 @@
      "why": ""
     },
     "web": {
-     "status": "partial",
+     "status": "stopgap",
      "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-01 child-access-law-to-youth-gun-deaths -0.1300; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-02 child-access-law-to-youth-gun-deaths -0.1300; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): web:jurisdiction_45a3b3ebe97fe71d:2025-01 child-access-law-to-youth-gun-deaths -0.1300",
-     "why": "links not built: child-access-law-to-youth-gun-deaths (outcome-not-produced)"
+     "why": "a researched link names an outcome the web does not produce (SG-LAW-outcome-not-produced)"
     },
     "knowing": {
      "status": "wired",
@@ -4440,7 +4440,7 @@
    "family": "justice",
    "reachGroup": "A",
    "mechanic": "public-safety",
-   "overall": "partly",
+   "overall": "stopgapped",
    "links": {
     "exists": {
      "status": "wired",
@@ -4453,9 +4453,9 @@
      "why": ""
     },
     "reach": {
-     "status": "partial",
+     "status": "stopgap",
      "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 0 open (full 0, counted groups 0/0 people, households 0, orgs 0, govts 0) e.g. -; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 36 open (full 0, counted groups 36/52 people, households 0, orgs 0, govts 0) e.g. applied|us-policy-positions:justice-public-safety.permit-to-carry-concealed|group:group:jurisdiction_45a3b3ebe97fe71d:town:with-children:income-0:mortgage:45-64:working",
-     "why": "reached nobody in Prescott, Michigan, US-MI (seed a91c03e7d2b84f10)"
+     "why": "its event or subject did not occur in the checker's 35-day window in a drawn town (SG-LAW-wiring-checker-window)"
     },
     "systems": {
      "status": "wired",
@@ -4483,9 +4483,9 @@
      "why": ""
     },
     "allPlaces": {
-     "status": "partial",
+     "status": "stopgap",
      "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8)",
-     "why": "reached people in one drawn place and not the other"
+     "why": "its event or subject did not occur in the checker's 35-day window in a drawn town (SG-LAW-wiring-checker-window)"
     }
    },
    "runs": [
@@ -4509,7 +4509,7 @@
    "family": "justice",
    "reachGroup": "A",
    "mechanic": "public-safety",
-   "overall": "partly",
+   "overall": "stopgapped",
    "links": {
     "exists": {
      "status": "wired",
@@ -4522,9 +4522,9 @@
      "why": ""
     },
     "reach": {
-     "status": "partial",
+     "status": "stopgap",
      "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 4 open (full 0, counted groups 4/20 people, households 0, orgs 0, govts 0) e.g. applied|us-policy-positions:justice-public-safety.raise-handgun-purchase-age|group:group:jurisdiction_971998ff58477430:town:one-adult:income-0:rent:18-29:not-working; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 0 open (full 0, counted groups 0/0 people, households 0, orgs 0, govts 0) e.g. -",
-     "why": "reached nobody in Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8)"
+     "why": "its event or subject did not occur in the checker's 35-day window in a drawn town (SG-LAW-wiring-checker-window)"
     },
     "systems": {
      "status": "wired",
@@ -4537,9 +4537,9 @@
      "why": ""
     },
     "web": {
-     "status": "partial",
+     "status": "stopgap",
      "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-01 min-age-to-youth-gun-suicide -0.1800; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-02 min-age-to-youth-gun-suicide -0.1800; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): web:jurisdiction_45a3b3ebe97fe71d:2025-01 min-age-to-youth-gun-suicide 0.1800",
-     "why": "links not built: min-age-to-youth-gun-suicide (outcome-not-produced)"
+     "why": "a researched link names an outcome the web does not produce (SG-LAW-outcome-not-produced)"
     },
     "knowing": {
      "status": "wired",
@@ -4552,9 +4552,9 @@
      "why": ""
     },
     "allPlaces": {
-     "status": "partial",
+     "status": "stopgap",
      "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8)",
-     "why": "reached people in one drawn place and not the other"
+     "why": "its event or subject did not occur in the checker's 35-day window in a drawn town (SG-LAW-wiring-checker-window)"
     }
    },
    "runs": [
@@ -4578,7 +4578,7 @@
    "family": "justice",
    "reachGroup": "A",
    "mechanic": "public-safety",
-   "overall": "partly",
+   "overall": "stopgapped",
    "links": {
     "exists": {
      "status": "wired",
@@ -4591,9 +4591,9 @@
      "why": ""
     },
     "reach": {
-     "status": "partial",
+     "status": "stopgap",
      "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 0 open (full 0, counted groups 0/0 people, households 0, orgs 0, govts 0) e.g. -; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 36 open (full 0, counted groups 36/36 people, households 0, orgs 0, govts 0) e.g. applied|us-policy-positions:justice-public-safety.stand-your-ground|group:group:jurisdiction_45a3b3ebe97fe71d:town:with-children:income-0:mortgage:45-64:working",
-     "why": "reached nobody in Prescott, Michigan, US-MI (seed a91c03e7d2b84f10)"
+     "why": "its event or subject did not occur in the checker's 35-day window in a drawn town (SG-LAW-wiring-checker-window)"
     },
     "systems": {
      "status": "wired",
@@ -4621,9 +4621,9 @@
      "why": ""
     },
     "allPlaces": {
-     "status": "partial",
+     "status": "stopgap",
      "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8)",
-     "why": "reached people in one drawn place and not the other"
+     "why": "its event or subject did not occur in the checker's 35-day window in a drawn town (SG-LAW-wiring-checker-window)"
     }
    },
    "runs": [
@@ -4647,7 +4647,7 @@
    "family": "justice",
    "reachGroup": "A",
    "mechanic": "staffing",
-   "overall": "partly",
+   "overall": "stopgapped",
    "links": {
     "exists": {
      "status": "wired",
@@ -4685,9 +4685,9 @@
      "why": ""
     },
     "repeal": {
-     "status": "missing",
+     "status": "stopgap",
      "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 38 open under the changed row -> after the old amount is put back 13 still cite it; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 41 open under the changed row -> after the old amount is put back 5 still cite it",
-     "why": "repeal leaves reach rows open (or re-enacting does not reopen them)"
+     "why": "rows under the raise stay open until staffing next acts (SG-LAW-budget-line-reach-not-ended)"
     },
     "allPlaces": {
      "status": "wired",
@@ -4716,7 +4716,7 @@
    "family": "government",
    "reachGroup": "A",
    "mechanic": "voting",
-   "overall": "partly",
+   "overall": "stopgapped",
    "links": {
     "exists": {
      "status": "wired",
@@ -4734,19 +4734,19 @@
      "why": ""
     },
     "systems": {
-     "status": "partial",
+     "status": "stopgap",
      "evidence": "src/core2/law-reach/group-a-records.ts:251",
-     "why": "only law reach's own handler reads it; no engine reads the law at the moment it decides or pays"
+     "why": "applied by its law-reach module on the engine's step (SG-LAW-wiring-read-in-law-reach)"
     },
     "money": {
-     "status": "missing",
+     "status": "stopgap",
      "evidence": "journal trace: no post differs from the control world",
-     "why": "no money flow: nobody pays or receives anything because of it"
+     "why": "its event or subject did not occur in the checker's 35-day window in a drawn town (SG-LAW-wiring-checker-window)"
     },
     "web": {
-     "status": "partial",
+     "status": "n/a",
      "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-01 all-mail-voting-to-turnout 0.0350; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-02 all-mail-voting-to-turnout 0.0350; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): web:jurisdiction_45a3b3ebe97fe71d:2025-01 all-mail-voting-to-turnout 0.0350",
-     "why": "links not built: all-mail-voting-to-party-share (about-zero)"
+     "why": "its researched outcome links put the effect at about zero (data/research/outcome-web/links.json), so there is nothing for the web to move"
     },
     "knowing": {
      "status": "wired",
@@ -4785,7 +4785,7 @@
    "family": "government",
    "reachGroup": "A",
    "mechanic": "voting",
-   "overall": "partly",
+   "overall": "stopgapped",
    "links": {
     "exists": {
      "status": "wired",
@@ -4803,9 +4803,9 @@
      "why": ""
     },
     "systems": {
-     "status": "partial",
+     "status": "stopgap",
      "evidence": "src/core2/law-reach/group-a-records.ts:251",
-     "why": "only law reach's own handler reads it; no engine reads the law at the moment it decides or pays"
+     "why": "applied by its law-reach module on the engine's step (SG-LAW-wiring-read-in-law-reach)"
     },
     "money": {
      "status": "wired",
@@ -4854,7 +4854,7 @@
    "family": "government",
    "reachGroup": "A",
    "mechanic": "none",
-   "overall": "partly",
+   "overall": "stopgapped",
    "links": {
     "exists": {
      "status": "wired",
@@ -4867,9 +4867,9 @@
      "why": ""
     },
     "reach": {
-     "status": "partial",
+     "status": "stopgap",
      "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 160 open (full 160, counted groups 0/0 people, households 0, orgs 0, govts 0) e.g. reach:law:US-MI:state:us-policy-positions:government-operations.independent-redistricting:general:starting:legislators:person_ad742108bbf39116:2025-01-20; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 61 open (full 61, counted groups 0/0 people, households 0, orgs 0, govts 0) e.g. reach:law:place:3149425:city:us-policy-positions:government-operations.independent-redistricting:general:2025-01-21:law-wiring-d8732557:legislators:person_588e191aff272692:2025-01-21",
-     "why": "full people only: no counted group is reached (one model, two tiers)"
+     "why": "no counted group is reached (SG-LAW-counted-reach-missing)"
     },
     "systems": {
      "status": "stopgap",
@@ -4923,7 +4923,7 @@
    "family": "government",
    "reachGroup": "A",
    "mechanic": "voting",
-   "overall": "partly",
+   "overall": "stopgapped",
    "links": {
     "exists": {
      "status": "wired",
@@ -4941,9 +4941,9 @@
      "why": ""
     },
     "systems": {
-     "status": "partial",
+     "status": "stopgap",
      "evidence": "src/core2/law-reach/group-a-records.ts:251",
-     "why": "only law reach's own handler reads it; no engine reads the law at the moment it decides or pays"
+     "why": "applied by its law-reach module on the engine's step (SG-LAW-wiring-read-in-law-reach)"
     },
     "money": {
      "status": "wired",
@@ -4951,9 +4951,9 @@
      "why": ""
     },
     "web": {
-     "status": "missing",
+     "status": "n/a",
      "evidence": "voter-id-to-turnout: about-zero, voter-id-to-registration: about-zero",
-     "why": "every link is unbuilt: about-zero"
+     "why": "its researched outcome links put the effect at about zero (data/research/outcome-web/links.json), so there is nothing for the web to move"
     },
     "knowing": {
      "status": "wired",
@@ -4992,7 +4992,7 @@
    "family": "government",
    "reachGroup": "A",
    "mechanic": "voting",
-   "overall": "partly",
+   "overall": "stopgapped",
    "links": {
     "exists": {
      "status": "wired",
@@ -5010,9 +5010,9 @@
      "why": ""
     },
     "systems": {
-     "status": "partial",
+     "status": "stopgap",
      "evidence": "src/core2/law-reach/group-a-records.ts:251",
-     "why": "only law reach's own handler reads it; no engine reads the law at the moment it decides or pays"
+     "why": "applied by its law-reach module on the engine's step (SG-LAW-wiring-read-in-law-reach)"
     },
     "money": {
      "status": "wired",
@@ -5020,9 +5020,9 @@
      "why": ""
     },
     "web": {
-     "status": "partial",
+     "status": "stopgap",
      "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-01 same-day-registration-to-youth-turnout -0.1300; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-02 same-day-registration-to-youth-turnout -0.1300; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): web:jurisdiction_45a3b3ebe97fe71d:2025-01 same-day-registration-to-youth-turnout 0.1300",
-     "why": "links not built: same-day-registration-to-youth-turnout (outcome-not-produced)"
+     "why": "a researched link names an outcome the web does not produce (SG-LAW-outcome-not-produced)"
     },
     "knowing": {
      "status": "wired",
@@ -5061,7 +5061,7 @@
    "family": "government",
    "reachGroup": "A",
    "mechanic": "office-limits",
-   "overall": "partly",
+   "overall": "stopgapped",
    "links": {
     "exists": {
      "status": "wired",
@@ -5074,14 +5074,14 @@
      "why": ""
     },
     "reach": {
-     "status": "partial",
+     "status": "n/a",
      "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 190 open (full 190, counted groups 0/0 people, households 0, orgs 0, govts 0) e.g. reach:law:place:2666300:city:us-policy-positions:government-operations.ban-lobbying-after-office:general:2025-01-21:law-wiring-36fe109e:officials:person_ad742108bbf39116:2025-01-21; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 81 open (full 81, counted groups 0/0 people, households 0, orgs 0, govts 0) e.g. reach:law:place:3149425:city:us-policy-positions:government-operations.ban-lobbying-after-office:general:2025-01-21:law-wiring-36fe109e:officials:person_588e191aff272692:2025-01-21",
-     "why": "full people only: no counted group is reached (one model, two tiers)"
+     "why": "it applies to officeholders and legislative bodies, who are always full people, so no counted group is in its reach"
     },
     "systems": {
-     "status": "partial",
+     "status": "stopgap",
      "evidence": "src/core2/law-reach/group-a-records.ts:251",
-     "why": "only law reach's own handler reads it; no engine reads the law at the moment it decides or pays"
+     "why": "applied by its law-reach module on the engine's step (SG-LAW-wiring-read-in-law-reach)"
     },
     "money": {
      "status": "wired",
@@ -5130,12 +5130,12 @@
    "family": "government",
    "reachGroup": null,
    "mechanic": null,
-   "overall": "partly",
+   "overall": "stopgapped",
    "links": {
     "exists": {
-     "status": "missing",
+     "status": "stopgap",
      "evidence": "0/56 places (budgets); src/core2/data/laws/starting-law.json jurisdictions",
-     "why": "no starting row in US-AK, US-AL, US-AR, US-AS, US-AZ, US-CA, US-CO, US-CT, US-DC, US-DE, US-FL, US-GA..."
+     "why": "no place starts with a public pay floor (SG-LAW-public-pay-floor-start)"
     },
     "change": {
      "status": "wired",
@@ -5143,9 +5143,9 @@
      "why": ""
     },
     "reach": {
-     "status": "missing",
+     "status": "stopgap",
      "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): public-pay-floor 0 -> 1 at city (law:place:2666300:city:public-pay-floor:general:2025-01-21:law-wiring-cbc3c613) effective 2025-01-21; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): public-pay-floor 0 -> 1 at city (law:place:3149425:city:public-pay-floor:general:2025-01-21:law-wiring-cbc3c613) effective 2025-01-21",
-     "why": "no law-reach row: nothing records who it applies to"
+     "why": "no place starts with a public pay floor (SG-LAW-public-pay-floor-start)"
     },
     "systems": {
      "status": "wired",
@@ -5153,9 +5153,9 @@
      "why": ""
     },
     "money": {
-     "status": "missing",
+     "status": "stopgap",
      "evidence": "journal trace: no post differs from the control world",
-     "why": "no money flow: nobody pays or receives anything because of it"
+     "why": "no place starts with a public pay floor (SG-LAW-public-pay-floor-start)"
     },
     "web": {
      "status": "stopgap",
@@ -5168,14 +5168,14 @@
      "why": ""
     },
     "repeal": {
-     "status": "missing",
+     "status": "stopgap",
      "evidence": "",
-     "why": "nothing reached, so nothing to stop"
+     "why": "no place starts with a public pay floor (SG-LAW-public-pay-floor-start)"
     },
     "allPlaces": {
-     "status": "missing",
+     "status": "stopgap",
      "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8)",
-     "why": "reaches nobody anywhere"
+     "why": "no place starts with a public pay floor (SG-LAW-public-pay-floor-start)"
     }
    },
    "runs": [
@@ -5199,7 +5199,7 @@
    "family": "government",
    "reachGroup": "A",
    "mechanic": "staffing",
-   "overall": "partly",
+   "overall": "stopgapped",
    "links": {
     "exists": {
      "status": "wired",
@@ -5212,9 +5212,9 @@
      "why": ""
     },
     "reach": {
-     "status": "partial",
+     "status": "stopgap",
      "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 12 open (full 10, counted groups 0/0 people, households 0, orgs 2, govts 0) e.g. reach:law-wiring-190055c7:positions:organization_1571ef11eb9b9b4a:2025-01-20; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 12 open (full 10, counted groups 0/0 people, households 0, orgs 2, govts 0) e.g. reach:law-wiring-190055c7:positions:organization_66aa7ca5030a42f2:2025-01-20",
-     "why": "full people only: no counted group is reached (one model, two tiers)"
+     "why": "no counted group is reached (SG-LAW-counted-reach-missing)"
     },
     "systems": {
      "status": "wired",
@@ -5232,14 +5232,14 @@
      "why": "no researched outcome-web link starts from this law or a measure it sets; the research would measure government service quality (SG-LAW-outcome-link-unresearched)"
     },
     "knowing": {
-     "status": "missing",
+     "status": "stopgap",
      "evidence": "news heard table",
-     "why": "nobody heard of it: the change is not a news story anyone receives"
+     "why": "the checker amends the line directly, which is not news; in play the bill is (SG-LAW-wiring-budget-news)"
     },
     "repeal": {
-     "status": "missing",
+     "status": "stopgap",
      "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 12 open under the changed row -> after the old amount is put back 8 still cite it; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 12 open under the changed row -> after the old amount is put back 6 still cite it",
-     "why": "repeal leaves reach rows open (or re-enacting does not reopen them)"
+     "why": "rows under the raise stay open until staffing next acts (SG-LAW-budget-line-reach-not-ended)"
     },
     "allPlaces": {
      "status": "wired",
@@ -5268,7 +5268,7 @@
    "family": "government",
    "reachGroup": "A",
    "mechanic": "policy-authority",
-   "overall": "partly",
+   "overall": "stopgapped",
    "links": {
     "exists": {
      "status": "wired",
@@ -5281,14 +5281,14 @@
      "why": ""
     },
     "reach": {
-     "status": "missing",
+     "status": "stopgap",
      "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): repealed at state effective 2025-01-21; then enacted at city (law:place:2666300:city:us-policy-positions:government-operations.broaden-local-authority:general:2025-02-26:law-wiring-3e9c78cc-b) effective 2025-02-26; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): repealed at state effective 2025-01-21; then enacted at city (law:place:3149425:city:us-policy-positions:government-operations.broaden-local-authority:general:2025-02-26:law-wiring-3e9c78cc-b) effective 2025-02-26",
-     "why": "law-reach row (group A, mechanic policy-authority) has no handler registered: the mechanic list is empty, so no reach record is written"
+     "why": "read only when a body drafts a bill under it, and the checker drafts none (SG-LAW-wiring-read-on-drafting)"
     },
     "systems": {
-     "status": "missing",
+     "status": "stopgap",
      "evidence": "table trace: no engine read the law's rows in the run",
-     "why": "no engine reads it (only lawmaking, news or the outcome web, if anything)"
+     "why": "read only when a body drafts a bill under it, and the checker drafts none (SG-LAW-wiring-read-on-drafting)"
     },
     "money": {
      "status": "wired",
@@ -5306,14 +5306,14 @@
      "why": ""
     },
     "repeal": {
-     "status": "missing",
+     "status": "stopgap",
      "evidence": "",
-     "why": "nothing reached, so nothing to stop"
+     "why": "read only when a body drafts a bill under it, and the checker drafts none (SG-LAW-wiring-read-on-drafting)"
     },
     "allPlaces": {
-     "status": "missing",
+     "status": "stopgap",
      "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8)",
-     "why": "reaches nobody anywhere"
+     "why": "read only when a body drafts a bill under it, and the checker drafts none (SG-LAW-wiring-read-on-drafting)"
     }
    },
    "runs": [
@@ -5337,7 +5337,7 @@
    "family": "government",
    "reachGroup": "A",
    "mechanic": "office-limits",
-   "overall": "partly",
+   "overall": "stopgapped",
    "links": {
     "exists": {
      "status": "wired",
@@ -5350,14 +5350,14 @@
      "why": ""
     },
     "reach": {
-     "status": "partial",
+     "status": "n/a",
      "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 160 open (full 160, counted groups 0/0 people, households 0, orgs 0, govts 0) e.g. reach:law:US-MI:state:us-policy-positions:government-operations.legislative-term-limits:general:starting:legislators:person_ad742108bbf39116:2025-01-20; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 61 open (full 61, counted groups 0/0 people, households 0, orgs 0, govts 0) e.g. reach:law:US-NE:state:us-policy-positions:government-operations.legislative-term-limits:general:starting:legislators:person_588e191aff272692:2025-01-20",
-     "why": "full people only: no counted group is reached (one model, two tiers)"
+     "why": "it applies to officeholders and legislative bodies, who are always full people, so no counted group is in its reach"
     },
     "systems": {
-     "status": "partial",
+     "status": "stopgap",
      "evidence": "src/core2/law-reach/group-a-records.ts:251",
-     "why": "only law reach's own handler reads it; no engine reads the law at the moment it decides or pays"
+     "why": "applied by its law-reach module on the engine's step (SG-LAW-wiring-read-in-law-reach)"
     },
     "money": {
      "status": "wired",
@@ -5365,9 +5365,9 @@
      "why": ""
     },
     "web": {
-     "status": "missing",
+     "status": "n/a",
      "evidence": "term-limits-to-turnout: about-zero",
-     "why": "every link is unbuilt: about-zero"
+     "why": "its researched outcome links put the effect at about zero (data/research/outcome-web/links.json), so there is nothing for the web to move"
     },
     "knowing": {
      "status": "wired",
@@ -5475,7 +5475,7 @@
    "family": "rights",
    "reachGroup": "A",
    "mechanic": "parks-funding",
-   "overall": "partly",
+   "overall": "stopgapped",
    "links": {
     "exists": {
      "status": "wired",
@@ -5493,9 +5493,9 @@
      "why": ""
     },
     "systems": {
-     "status": "missing",
+     "status": "stopgap",
      "evidence": "table trace: no engine read the law's rows in the run",
-     "why": "no engine reads it (only lawmaking, news or the outcome web, if anything)"
+     "why": "applied by its law-reach module on the engine's step (SG-LAW-wiring-read-in-law-reach)"
     },
     "money": {
      "status": "wired",
@@ -5682,7 +5682,7 @@
    "family": "technology",
    "reachGroup": "A",
    "mechanic": "police-oversight",
-   "overall": "partly",
+   "overall": "stopgapped",
    "links": {
     "exists": {
      "status": "wired",
@@ -5700,9 +5700,9 @@
      "why": ""
     },
     "systems": {
-     "status": "partial",
+     "status": "stopgap",
      "evidence": "src/core2/law-reach/group-a-records.ts:251",
-     "why": "only law reach's own handler reads it; no engine reads the law at the moment it decides or pays"
+     "why": "applied by its law-reach module on the engine's step (SG-LAW-wiring-read-in-law-reach)"
     },
     "money": {
      "status": "wired",
@@ -5820,7 +5820,7 @@
    "family": "agriculture",
    "reachGroup": "B",
    "mechanic": "farm-output",
-   "overall": "partly",
+   "overall": "stopgapped",
    "links": {
     "exists": {
      "status": "wired",
@@ -5858,14 +5858,14 @@
      "why": ""
     },
     "repeal": {
-     "status": "missing",
+     "status": "stopgap",
      "evidence": "",
-     "why": "nothing reached, so nothing to stop"
+     "why": "its event or subject did not occur in the checker's 35-day window in a drawn town (SG-LAW-wiring-checker-window)"
     },
     "allPlaces": {
-     "status": "missing",
+     "status": "stopgap",
      "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8)",
-     "why": "reaches nobody anywhere"
+     "why": "its event or subject did not occur in the checker's 35-day window in a drawn town (SG-LAW-wiring-checker-window)"
     }
    },
    "runs": [
@@ -5889,7 +5889,7 @@
    "family": "agriculture",
    "reachGroup": "B",
    "mechanic": "housing-construction",
-   "overall": "partly",
+   "overall": "stopgapped",
    "links": {
     "exists": {
      "status": "wired",
@@ -5902,9 +5902,9 @@
      "why": ""
     },
     "reach": {
-     "status": "partial",
+     "status": "stopgap",
      "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 0 open (full 0, counted groups 0/0 people, households 0, orgs 0, govts 0) e.g. -; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 1 open (full 0, counted groups 0/0 people, households 0, orgs 1, govts 0) e.g. applied|us-policy-positions:agriculture-natural-resources.protect-farmland-from-development|organization:landlord:jurisdiction_45a3b3ebe97fe71d",
-     "why": "reached nobody in Prescott, Michigan, US-MI (seed a91c03e7d2b84f10)"
+     "why": "its event or subject did not occur in the checker's 35-day window in a drawn town (SG-LAW-wiring-checker-window)"
     },
     "systems": {
      "status": "wired",
@@ -5932,9 +5932,9 @@
      "why": ""
     },
     "allPlaces": {
-     "status": "partial",
+     "status": "stopgap",
      "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8)",
-     "why": "reached people in one drawn place and not the other"
+     "why": "its event or subject did not occur in the checker's 35-day window in a drawn town (SG-LAW-wiring-checker-window)"
     }
    },
    "runs": [
@@ -5958,7 +5958,7 @@
    "family": "parks-culture",
    "reachGroup": "B",
    "mechanic": null,
-   "overall": "partly",
+   "overall": "stopgapped",
    "links": {
     "exists": {
      "status": "wired",
@@ -5996,9 +5996,9 @@
      "why": ""
     },
     "repeal": {
-     "status": "missing",
+     "status": "stopgap",
      "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 50 open under the changed row -> after the old amount is put back 49 still cite it; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 41 open under the changed row -> after the old amount is put back 40 still cite it",
-     "why": "repeal leaves reach rows open (or re-enacting does not reopen them)"
+     "why": "rows under the raise stay open until staffing next acts (SG-LAW-budget-line-reach-not-ended)"
     },
     "allPlaces": {
      "status": "wired",
@@ -6027,7 +6027,7 @@
    "family": "starting law",
    "reachGroup": null,
    "mechanic": null,
-   "overall": "partly",
+   "overall": "stopgapped",
    "links": {
     "exists": {
      "status": "wired",
@@ -6035,19 +6035,19 @@
      "why": ""
     },
     "change": {
-     "status": "missing",
+     "status": "stopgap",
      "evidence": "src/core2/data/legislature/bill-catalog.json",
-     "why": "no bill catalog policy and no series-powers row: no body can propose, enact or repeal it"
+     "why": "no bill can change the local income tax authority (SG-LAW-local-income-tax-authority-change)"
     },
     "reach": {
-     "status": "missing",
+     "status": "stopgap",
      "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): local-income-tax-authority 1 -> 2 at state (law:US-MI:state:local-income-tax-authority:general:2025-01-21:law-wiring-c99b7dfc) effective 2025-01-21; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): local-income-tax-authority 0 -> 1 at state (law:US-NE:state:local-income-tax-authority:general:2025-01-21:law-wiring-c99b7dfc) effective 2025-01-21",
-     "why": "no law-reach row: nothing records who it applies to"
+     "why": "read only when a body drafts a bill under it, and the checker drafts none (SG-LAW-wiring-read-on-drafting)"
     },
     "systems": {
-     "status": "missing",
+     "status": "stopgap",
      "evidence": "table trace: no engine read the law's rows in the run",
-     "why": "no engine reads it (only lawmaking, news or the outcome web, if anything)"
+     "why": "read only when a body drafts a bill under it, and the checker drafts none (SG-LAW-wiring-read-on-drafting)"
     },
     "money": {
      "status": "wired",
@@ -6065,14 +6065,14 @@
      "why": ""
     },
     "repeal": {
-     "status": "missing",
+     "status": "stopgap",
      "evidence": "",
-     "why": "nothing reached, so nothing to stop"
+     "why": "read only when a body drafts a bill under it, and the checker drafts none (SG-LAW-wiring-read-on-drafting)"
     },
     "allPlaces": {
-     "status": "missing",
+     "status": "stopgap",
      "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8)",
-     "why": "reaches nobody anywhere"
+     "why": "read only when a body drafts a bill under it, and the checker drafts none (SG-LAW-wiring-read-on-drafting)"
     }
    },
    "runs": [
@@ -6096,7 +6096,7 @@
    "family": "starting law",
    "reachGroup": null,
    "mechanic": null,
-   "overall": "partly",
+   "overall": "stopgapped",
    "links": {
     "exists": {
      "status": "wired",
@@ -6109,9 +6109,9 @@
      "why": ""
     },
     "reach": {
-     "status": "missing",
+     "status": "stopgap",
      "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): local-minimum-wage-authority 0 -> 1 at state (law:US-MI:state:local-minimum-wage-authority:general:2025-01-21:law-wiring-d5735231) effective 2025-01-21; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): local-minimum-wage-authority 1 -> 2 at state (law:US-NE:state:local-minimum-wage-authority:general:2025-01-21:law-wiring-d5735231) effective 2025-01-21",
-     "why": "no law-reach row: nothing records who it applies to"
+     "why": "read only when a body drafts a bill under it, and the checker drafts none (SG-LAW-wiring-read-on-drafting)"
     },
     "systems": {
      "status": "wired",
@@ -6134,14 +6134,14 @@
      "why": ""
     },
     "repeal": {
-     "status": "missing",
+     "status": "stopgap",
      "evidence": "",
-     "why": "nothing reached, so nothing to stop"
+     "why": "read only when a body drafts a bill under it, and the checker drafts none (SG-LAW-wiring-read-on-drafting)"
     },
     "allPlaces": {
-     "status": "missing",
+     "status": "stopgap",
      "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8)",
-     "why": "reaches nobody anywhere"
+     "why": "read only when a body drafts a bill under it, and the checker drafts none (SG-LAW-wiring-read-on-drafting)"
     }
    },
    "runs": [
@@ -6165,7 +6165,7 @@
    "family": "starting law",
    "reachGroup": null,
    "mechanic": null,
-   "overall": "partly",
+   "overall": "stopgapped",
    "links": {
     "exists": {
      "status": "wired",
@@ -6178,14 +6178,14 @@
      "why": ""
     },
     "reach": {
-     "status": "missing",
+     "status": "stopgap",
      "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): unemployment-insurance 1 -> 2 at state (law:US-MI:state:unemployment-insurance:general:2025-01-21:law-wiring-989c1403) effective 2025-01-21; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): unemployment-insurance 1 -> 2 at state (law:US-NE:state:unemployment-insurance:general:2025-01-21:law-wiring-989c1403) effective 2025-01-21",
-     "why": "no law-reach row: nothing records who it applies to"
+     "why": "its event or subject did not occur in the checker's 35-day window in a drawn town (SG-LAW-wiring-checker-window)"
     },
     "systems": {
-     "status": "missing",
+     "status": "stopgap",
      "evidence": "table trace: no engine read the law's rows in the run",
-     "why": "no engine reads it (only lawmaking, news or the outcome web, if anything)"
+     "why": "its event or subject did not occur in the checker's 35-day window in a drawn town (SG-LAW-wiring-checker-window)"
     },
     "money": {
      "status": "wired",
@@ -6203,14 +6203,14 @@
      "why": ""
     },
     "repeal": {
-     "status": "missing",
+     "status": "stopgap",
      "evidence": "",
-     "why": "nothing reached, so nothing to stop"
+     "why": "its event or subject did not occur in the checker's 35-day window in a drawn town (SG-LAW-wiring-checker-window)"
     },
     "allPlaces": {
-     "status": "missing",
+     "status": "stopgap",
      "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8)",
-     "why": "reaches nobody anywhere"
+     "why": "its event or subject did not occur in the checker's 35-day window in a drawn town (SG-LAW-wiring-checker-window)"
     }
    },
    "runs": [

@@ -1,0 +1,268 @@
+{
+  "about": "Laws whose wiring link the law-wiring matrix could not show, grouped by the registered stopgap that names the gap. Each entry lists the laws and links it covers; scripts/law-wiring/declared.json cites the same stopgap for each law and link, and the matrix applies it only while the stopgap row is open.",
+  "gaps": [
+    {
+      "stopgapId": "SG-LAW-wiring-checker-window",
+      "laws": {
+        "budget-line:corrections": ["reach", "allPlaces"],
+        "corporate-income-tax": ["reach", "systems", "repeal", "allPlaces"],
+        "estate-tax": ["reach", "systems", "repeal", "allPlaces"],
+        "inheritance-tax": ["reach", "systems", "repeal", "allPlaces"],
+        "unemployment-insurance": ["reach", "systems", "repeal", "allPlaces"],
+        "unemployment-weekly-maximum": [
+          "reach",
+          "systems",
+          "repeal",
+          "allPlaces"
+        ],
+        "us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal": [
+          "repeal",
+          "allPlaces"
+        ],
+        "us-policy-positions:agriculture-natural-resources.protect-farmland-from-development": [
+          "reach",
+          "allPlaces"
+        ],
+        "us-policy-positions:business-commerce.cap-consumer-loan-rates": [
+          "reach",
+          "allPlaces"
+        ],
+        "us-policy-positions:education.raise-teacher-minimum-salary": ["money"],
+        "us-policy-positions:environment-energy.bottle-deposit": [
+          "reach",
+          "allPlaces"
+        ],
+        "us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties": [
+          "reach",
+          "repeal",
+          "allPlaces"
+        ],
+        "us-policy-positions:environment-energy.clean-electricity-standard": [
+          "reach",
+          "allPlaces"
+        ],
+        "us-policy-positions:fiscal.adopt-income-tax": [
+          "reach",
+          "repeal",
+          "allPlaces"
+        ],
+        "us-policy-positions:fiscal.cap-property-tax-growth": [
+          "reach",
+          "allPlaces"
+        ],
+        "us-policy-positions:fiscal.graduated-income-tax": [
+          "reach",
+          "allPlaces"
+        ],
+        "us-policy-positions:government-operations.all-mail-voting": ["money"],
+        "us-policy-positions:housing-land-use.rent-stabilization": [
+          "repeal",
+          "allPlaces"
+        ],
+        "us-policy-positions:housing-land-use.right-to-counsel-in-eviction": [
+          "repeal",
+          "allPlaces"
+        ],
+        "us-policy-positions:justice-public-safety.permit-to-carry-concealed": [
+          "reach",
+          "allPlaces"
+        ],
+        "us-policy-positions:justice-public-safety.raise-handgun-purchase-age": [
+          "reach",
+          "allPlaces"
+        ],
+        "us-policy-positions:justice-public-safety.raise-juvenile-court-age": [
+          "reach",
+          "repeal",
+          "allPlaces"
+        ],
+        "us-policy-positions:justice-public-safety.stand-your-ground": [
+          "reach",
+          "allPlaces"
+        ],
+        "us-policy-positions:transportation-infrastructure.shift-highway-funds-to-transit": [
+          "reach",
+          "repeal",
+          "allPlaces"
+        ]
+      }
+    },
+    {
+      "stopgapId": "SG-LAW-wiring-read-in-law-reach",
+      "laws": {
+        "medicaid-match": ["systems"],
+        "minimum-wage": ["systems"],
+        "snap-maximum": ["systems"],
+        "us-federal-positions:labor-commerce.raise-federal-minimum-wage": [
+          "systems"
+        ],
+        "us-policy-positions:civil-family-community.dedicated-parks-funding": [
+          "systems"
+        ],
+        "us-policy-positions:education.public-funds-for-private-schooling": [
+          "systems"
+        ],
+        "us-policy-positions:education.raise-teacher-minimum-salary": [
+          "systems"
+        ],
+        "us-policy-positions:education.universal-preschool": ["systems"],
+        "us-policy-positions:fiscal.balanced-operating-budget": ["systems"],
+        "us-policy-positions:fiscal.fund-pensions-to-schedule": ["systems"],
+        "us-policy-positions:fiscal.minimum-reserve-balance": ["systems"],
+        "us-policy-positions:government-operations.all-mail-voting": [
+          "systems"
+        ],
+        "us-policy-positions:government-operations.automatic-voter-registration": [
+          "systems"
+        ],
+        "us-policy-positions:government-operations.ban-lobbying-after-office": [
+          "systems"
+        ],
+        "us-policy-positions:government-operations.legislative-term-limits": [
+          "systems"
+        ],
+        "us-policy-positions:government-operations.require-photo-id-to-vote": [
+          "systems"
+        ],
+        "us-policy-positions:government-operations.same-day-voter-registration": [
+          "systems"
+        ],
+        "us-policy-positions:health-human-services.expand-medicaid-eligibility": [
+          "systems"
+        ],
+        "us-policy-positions:health-human-services.medicaid-work-requirement": [
+          "systems"
+        ],
+        "us-policy-positions:health-human-services.work-requirement-for-assistance": [
+          "systems"
+        ],
+        "us-policy-positions:justice-public-safety.restore-voting-after-sentence": [
+          "systems"
+        ],
+        "us-policy-positions:labor-workforce.raise-minimum-wage": ["systems"],
+        "us-policy-positions:technology-privacy.restrict-government-facial-recognition": [
+          "systems"
+        ],
+        "us-policy-positions:transportation-infrastructure.shift-highway-funds-to-transit": [
+          "systems"
+        ]
+      }
+    },
+    {
+      "stopgapId": "SG-LAW-wiring-read-on-drafting",
+      "laws": {
+        "local-income-tax-authority": [
+          "reach",
+          "systems",
+          "repeal",
+          "allPlaces"
+        ],
+        "local-minimum-wage-authority": ["reach", "repeal", "allPlaces"],
+        "us-policy-positions:government-operations.broaden-local-authority": [
+          "reach",
+          "systems",
+          "repeal",
+          "allPlaces"
+        ],
+        "us-policy-positions:labor-workforce.local-minimum-wage-authority": [
+          "systems"
+        ]
+      }
+    },
+    {
+      "stopgapId": "SG-LAW-counted-reach-missing",
+      "laws": {
+        "budget-line:administration": ["reach"],
+        "us-policy-positions:government-operations.independent-redistricting": [
+          "reach"
+        ],
+        "us-policy-positions:labor-workforce.public-sector-collective-bargaining": [
+          "reach"
+        ]
+      }
+    },
+    {
+      "stopgapId": "SG-LAW-outcome-not-produced",
+      "laws": {
+        "budget-line:schools": ["web"],
+        "corporate-income-tax": ["web"],
+        "property-tax": ["web"],
+        "us-policy-positions:government-operations.same-day-voter-registration": [
+          "web"
+        ],
+        "us-policy-positions:health-human-services.expand-medicaid-eligibility": [
+          "web"
+        ],
+        "us-policy-positions:justice-public-safety.child-access-prevention": [
+          "web"
+        ],
+        "us-policy-positions:justice-public-safety.end-cash-bail": ["web"],
+        "us-policy-positions:justice-public-safety.partner-with-federal-immigration-enforcement": [
+          "web"
+        ],
+        "us-policy-positions:justice-public-safety.raise-handgun-purchase-age": [
+          "web"
+        ]
+      }
+    },
+    {
+      "stopgapId": "SG-LAW-outcome-link-not-fired",
+      "laws": {
+        "budget-line:police": ["web"],
+        "minimum-wage": ["web"],
+        "us-federal-positions:labor-commerce.raise-federal-minimum-wage": [
+          "web"
+        ],
+        "us-policy-positions:education.raise-teacher-minimum-salary": ["web"],
+        "us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties": [
+          "web"
+        ],
+        "us-policy-positions:fiscal.exempt-groceries-from-sales-tax": ["web"],
+        "us-policy-positions:justice-public-safety.civilian-oversight-of-police": [
+          "web"
+        ],
+        "us-policy-positions:labor-workforce.local-minimum-wage-authority": [
+          "web"
+        ],
+        "us-policy-positions:labor-workforce.raise-minimum-wage": ["web"],
+        "us-policy-positions:transportation-infrastructure.shift-highway-funds-to-transit": [
+          "web"
+        ]
+      }
+    },
+    {
+      "stopgapId": "SG-LAW-wiring-budget-news",
+      "laws": {
+        "budget-line:administration": ["knowing"],
+        "budget-line:corrections": ["knowing"],
+        "budget-line:healthAndHospitals": ["knowing"],
+        "budget-line:higherEducation": ["knowing"],
+        "budget-line:highways": ["knowing"],
+        "budget-line:housing": ["knowing"],
+        "budget-line:naturalResources": ["knowing"],
+        "budget-line:schools": ["knowing"],
+        "budget-line:welfareAndMedicaid": ["knowing"]
+      }
+    },
+    {
+      "stopgapId": "SG-LAW-wiring-dated-tax-rows",
+      "laws": { "income-tax": ["repeal"] }
+    },
+    {
+      "stopgapId": "SG-LAW-budget-line-reach-not-ended",
+      "laws": {
+        "budget-line:administration": ["repeal"],
+        "budget-line:corrections": ["repeal"],
+        "budget-line:fire": ["repeal"],
+        "budget-line:parks": ["repeal"],
+        "budget-line:police": ["repeal"]
+      }
+    },
+    {
+      "stopgapId": "SG-LAW-public-pay-floor-start",
+      "laws": {
+        "public-pay-floor": ["exists", "reach", "money", "repeal", "allPlaces"]
+      }
+    }
+  ]
+}
