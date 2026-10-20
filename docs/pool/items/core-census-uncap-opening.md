@@ -5,9 +5,9 @@ area: core
 kind: feature
 priority: 1
 size: S
-status: claimed
+status: dropped
 claimed-by: claude/uncap
-pr:
+pr: #5295
 blocked-on: core-census-weight-readers
 milestone:
 source: "split of core-town-size-census (L): owner ruling core-od-town-size, OWNER-DECISIONS.md"
