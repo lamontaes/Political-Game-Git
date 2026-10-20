@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { realLocalities } from "../../core2/places";
+import { lifePlaces } from "../life-places";
 import { placeReferencePopulation } from "../nationwide-world/place-population";
 import { localBusinessSupplyFor } from "../local-business-counts";
 import { TOWN_WORKPLACES, workplaceOutlets } from "./town-employment";
@@ -15,7 +15,8 @@ const KINDS: Record<string, readonly string[]> = {
 
 describe("a town's outlets follow its county's establishment rates", () => {
   it("equal the rounded rate at the Census size for towns of every size, and never fall under one", () => {
-    const places = realLocalities().filter((place) => {
+    const places = lifePlaces().filter((place) => {
+      if (place.scope !== "locality") return false;
       const reference = placeReferencePopulation(place.sourceGeoid ?? "");
       return reference !== null && reference.value > 0;
     });
