@@ -4,12 +4,13 @@ title: "Stopgaps in territory-places (recorded-list): 1 open"
 area: core
 kind: stopgap
 priority: 3
-status: blocked
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/territory-places-census
+pr: #5322
 blocked-on: research data: the row's replacement needs sourced data (Census 2020 Island Areas place identities (the research request territory-place-identities), read into the same listing. Oct 14 (OPUS-CORE): the candi...)
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/data/places/territory-places.json, kind recorded-list"
+claimed-at: 2026-10-20T00:10:44.952Z
 ---
 
 **What.** Replace or clear the 1 open recorded-list stopgap row(s) in src/core2/data/places/territory-places.json: SG-CORE-territory-places. Each fake is replaced by the mechanic, or the feature that needs it is deleted.

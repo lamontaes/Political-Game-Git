@@ -5,11 +5,12 @@ area: words
 kind: feature
 priority: 3
 size: M
-status: open
-claimed-by:
+status: blocked
+claimed-by: claude/pool-calibration-pairs
 pr:
-blocked-on:
+blocked-on: Words line: the item text is an empty shell and the work is calibration of the English engine's pair and reply ranking
 source: added with npm run pool -- add
+claimed-at: 2026-10-20T02:33:43.864Z
 ---
 
 **What.** The calibration table built under words-bench-calibration holds each piece's running grade and each register's target length. The rest of that item's design is not built: per-trait pulls toward each bearing and toward longer or shorter lines, per move pair whether the arrangement read naturally, and reply ranking in src/director/conversation.ts. Build them as more weights in data/english/calibration.json that the engine reads.
