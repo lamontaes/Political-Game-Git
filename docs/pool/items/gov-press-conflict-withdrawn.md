@@ -13,12 +13,12 @@ source: added with npm run pool -- add
 claimed-at: 2026-10-20T00:21:09.092Z
 ---
 
-**What.** TODO
+**What.** This item duplicates gov-press-ban-withdrawn, which is in PR #5131: that PR removes the press-employment ban from the eligibility check, the candidacy chooser and the candidate pool, resolves SG-GOV-press-office-owner-confirmation with the Oct 16 ruling cited, and keeps a seat from being filled by press staff alone. Nothing further is left to build here. When #5131 merges, this item should be dropped as a duplicate by the CTO.
 
-**Rules.** TODO
+**Rules.** Look before you ask: the ruling is in OWNER-DECISIONS (Oct 16) and the code follows it. No dice: who fills an empty seat comes from the place's vacancy rule in data.
 
-**Done when.** TODO
+**Done when.** PR #5131 merges and the elections and gov tests it names pass on a drawn place (`press.test.ts`, `vacancy-press-staff.test.ts`); then this item is dropped by the CTO as a duplicate of gov-press-ban-withdrawn.
 
-**Files.** TODO
+**Files.** src/core2/press-conflict.ts, src/core2/modules/candidacy.ts, src/core2/modules/elections.ts, src/core2/data/stopgaps.json
 
-**Notes.** TODO
+**Notes.** Oct 20 (claude/gov-press-conflict-withdrawn): read PR #5131, still an open draft on branch claude/press-ban-withdrawn. Released without building.
