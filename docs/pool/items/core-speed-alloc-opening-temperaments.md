@@ -1,0 +1,24 @@
+---
+id: core-speed-alloc-opening-temperaments
+title: "openingTemperaments allocates 264 MB in a played year (Discovery Harbour, seed m7a)"
+area: core
+kind: bug
+priority: 3
+size: S
+status: claimed
+claimed-by: claude/speed-temperaments
+pr:
+blocked-on:
+source: added with npm run pool -- add
+claimed-at: 2026-10-20T02:15:45.482Z
+---
+
+**What.** TODO
+
+**Rules.** TODO
+
+**Done when.** TODO
+
+**Files.** TODO
+
+**Notes.** TODO
