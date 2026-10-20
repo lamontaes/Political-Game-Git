@@ -21,4 +21,4 @@ claimed-at:
 
 **Files.** src/core2/office-day-federal.ts
 
-**Notes.** First row: What the player prepares for a federal act (the stances a re-election filing runs on, the budget request's line changes, the joint address's answers) is kept in the federal day's own table, beside the engine's.
+**Notes.** Sent back 2026-10-20 from PR #5262 (branch claude/pool-fed-prepared): Refused under morning check (a stopgap row deleted); keep SG-OFFICE-FED-prepared in stopgaps.json with status resolved instead of deleting it; finish on that branch, merge main into it first. First row: What the player prepares for a federal act (the stances a re-election filing runs on, the budget request's line changes, the joint address's answers) is kept in the federal day's own table, beside the engine's.
