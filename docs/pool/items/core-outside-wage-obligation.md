@@ -5,10 +5,10 @@ area: core
 kind: feature
 priority: 2
 size: L
-status: claimed
+status: blocked
 claimed-by: claude/political-game-pool-3xfqef-26
 pr: #5076
-blocked-on:
+blocked-on: core-commuter-job-fill-in
 source: added with npm run pool -- add
 claimed-at: 2026-10-20T06:33:29.793Z
 ---
