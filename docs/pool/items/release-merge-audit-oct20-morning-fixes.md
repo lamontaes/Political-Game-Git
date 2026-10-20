@@ -5,12 +5,12 @@ area: release
 kind: bug
 priority: 1
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/fs11vb-f2
 pr: #5655
 blocked-on:
 source: CTO merge audit, Oct 20 morning
-claimed-at:
+claimed-at: 2026-10-20T13:56:39.375Z
 ---
 
 **What.** Three reviewers read the diffs of the 22 PRs merged into main between 05:00 and 07:00 UTC on October 20: 14 are good, 7 have concerns and 1 is bad. The bad one went to TRAIT-WIRING: #5289 left trait-decisions.json pointing at three deleted drive actions, so trait-coverage.test.ts throws on main. So did the concerns on #5552, its trait-weight code with no callers and a research row in the wrong unit. This item fixes the other six with concerns, plus two release notes that misstate their change, listed below. Each numbered fix is small and can land as its own PR that names this item and the number; the item is done when all seven are merged.
