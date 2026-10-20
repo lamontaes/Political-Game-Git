@@ -129,8 +129,7 @@ describe("price and sales-tax laws reach people and move money", () => {
       setJournalTrace(null);
       setBookkeeping(true);
     }
-  }, // every law in force, the longest lag a year can show. // A dense place (Guam took 390 seconds on shared CPU) plays 375 days of
-  600_000);
+  }, 600_000); // every law in force, the longest lag a year can show. // A dense place (Guam took 390 seconds on shared CPU) plays 375 days of
 });
 
 function run(
