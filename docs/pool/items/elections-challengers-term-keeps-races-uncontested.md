@@ -10,6 +10,7 @@ claimed-by:
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at:
 ---
 
 **What.** Measured Oct 20 (played towns, 400 days, local seats with closed filing): 85.0 percent of 107 seats uncontested with candidacyStayOutPull at 3.8, 91.7 percent of 132 at 3.9, 85 percent of 111 at 4.0, against Ballotpedia's 58 to 75 percent. The pull is therefore not the lever inside its documented spread. Read the chooser's reasons for the adults who could challenge an incumbent in a local seat (src/core2/modules/candidacy.ts, the incumbency weight at 3.5, ambition and the party terms) and find which term keeps challengers out, then change that term within its spread and re-measure.

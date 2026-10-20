@@ -5,9 +5,9 @@ area: people
 kind: wiring
 priority: 2
 size: M
-status: claimed
+status: done
 claimed-by: claude/honest-pull
-pr:
+pr: #5719
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-20T17:02:31.421Z
