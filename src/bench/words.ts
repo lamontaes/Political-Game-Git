@@ -18,18 +18,23 @@ export function relationWord(
   return words[gender as keyof typeof words] ?? words.other ?? null;
 }
 
-/** The schools a person's past records, in order, as written on their records. */
+/**
+ * The schools a person's past records, in order, as written on their records.
+ * A school that serves two stages in a row (a K-8 school's elementary and
+ * middle years) is one line, the first stage's record naming it.
+ */
 export function schoolsOf(core: CoreState, personId: string) {
-  return (
-    (core.people.get(personId)?.pastFacts ?? [])
-      // The school stages themselves, not the classmates met there.
-      .filter((fact) => fact.facts?.schoolName && fact.facts.stage)
-      .sort((a, b) => a.date.localeCompare(b.date))
-      .map((fact) => ({
-        name: properName(fact.facts!.schoolName!),
-        date: fact.date,
-        recordId: fact.id,
-      }))
+  const stages = (core.people.get(personId)?.pastFacts ?? [])
+    // The school stages themselves, not the classmates met there.
+    .filter((fact) => fact.facts?.schoolName && fact.facts.stage)
+    .sort((a, b) => a.date.localeCompare(b.date))
+    .map((fact) => ({
+      name: properName(fact.facts!.schoolName!),
+      date: fact.date,
+      recordId: fact.id,
+    }));
+  return stages.filter(
+    (row, at) => at === 0 || stages[at - 1]!.name !== row.name,
   );
 }
 
