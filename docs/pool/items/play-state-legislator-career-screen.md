@@ -5,9 +5,9 @@ area: play
 kind: feature
 priority: 3
 size: L
-status: claimed
+status: in-pr
 claimed-by: claude/fs11vb-scr
-pr:
+pr: #5664
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-20T11:13:54.720Z
