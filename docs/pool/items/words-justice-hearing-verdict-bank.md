@@ -22,3 +22,5 @@ claimed-at:
 **Files.** data/english/parts/, src/director/data/situation-types.json
 
 **Notes.** Split out of gov-needs-opus-gov-209 (line 209 of OPUS-GOV.md), which built the voting and polling-place reads. Not checked against main beyond a search.
+
+Sent back 2026-10-20 from PR #5192 (branch claude/political-game-pool-bgn78d): edits src/director and data/english by a session that is not the Words session; finish on that branch, merge main into it first.
