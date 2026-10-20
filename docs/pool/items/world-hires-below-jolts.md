@@ -5,10 +5,11 @@ area: world
 kind: bug
 priority: 2
 size: M
-status: blocked
-claimed-by: claude/political-game-pool-3xfqef-5
-pr: #4716
-blocked-on: world-customers-move-between-sellers
+status: open
+claimed-by:
+pr:
+blocked-on:
+after: world-customers-move-between-sellers
 source: added with npm run pool -- add
 claimed-at: 2026-10-20T00:22:54.758Z
 ---
@@ -52,3 +53,7 @@ Tried Oct 17 (claude, built, measured, not shipped): staff follows each firm's o
 Oct 17 (claude): merged main into claude/world-hires-below-jolts with no conflicts; the branch now differs from main in nothing (its note and declaration are already on main), so PR #4716 carries no change. The CTO may close it. The item itself stays open on world-customers-move-between-sellers.
 
 Measured Oct 20 (claude/political-game-pool-3xfqef-5), the same proof on main and on PR #5203's leaver-refill fix (`reviewEmployers` owes a leaver's job when the firm is short of staff, which a stale negative `need` had swallowed): Anon Raices, Puerto Rico (place 7203174, seed 1977d40995) hires 18 (1.42% a month) on main against 26 (2.04%) with the fix; Pistol River, Oregon (place 4158050, seed e1252a4b6f) 446 (2.03%) against 453 (2.06%). Both stay under the 3.04% floor; no position stands open at the end in either, cash error zero. So the fix recovers hires where firms were short and leaves the bulk of the gap to the item's root cause (targets set by sales, `world-customers-move-between-sellers`, `world-local-sales-below-opening-forecast`). Re-run after those two land.
+
+Oct 20: PR #4716 carried findings only, so its number is cleared; the item stays blocked on world-customers-move-between-sellers.
+
+Oct 20: Switched from blocked to the automatic after: gate on world-customers-move-between-sellers, so it opens by itself the moment those items are done.

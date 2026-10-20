@@ -4,13 +4,13 @@ title: "Stopgaps in housing-property-tax (assumed-data): 1 open"
 area: world
 kind: stopgap
 priority: 3
-status: open
-claimed-by:
+status: in-pr
+claimed-by: claude/political-game-pool-yucp92-g
 pr: #5270
 blocked-on:
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/housing-property-tax.ts, kind assumed-data"
-claimed-at: 
+claimed-at: 2026-10-20T03:22:01.071Z
 ---
 
 **What.** Replace or clear the 1 open assumed-data stopgap row(s) in src/core2/housing-property-tax.ts: SG-WORLD-property-tax-rate. Each fake is replaced by the mechanic, or the feature that needs it is deleted.
