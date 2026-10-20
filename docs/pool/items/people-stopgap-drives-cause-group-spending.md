@@ -4,10 +4,10 @@ title: "Stopgaps in drives (cause-group-spending): 1 open"
 area: people
 kind: stopgap
 priority: 3
-status: open
+status: blocked
 claimed-by:
 pr:
-blocked-on:
+blocked-on: engine or design: Stress audit defect 2 (Oct 14): groups took donations and never spent them. The ad purchase was the one existing way to buy reach.
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/modules/drives.ts, kind cause-group-spending"
 ---

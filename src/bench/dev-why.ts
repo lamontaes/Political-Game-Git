@@ -10,7 +10,9 @@
  *     owner's loss record, the choice's recorded reason);
  *   - a budget line change: the measure and the law behind it, and the line's
  *     history;
- *   - a person: the year's ledger (pay, hours, taxes, rent, spending).
+ *   - a person: the year's ledger (pay, hours, taxes, rent, spending);
+ *   - a credit line's repricing: the line's rate history, each change with
+ *     the central bank meeting behind it.
  */
 import { coreAPI } from "../core2/state";
 import { LAWS_MODULE_ID } from "../core2/modules/laws";
@@ -38,6 +40,7 @@ export interface WhyPanel {
 const MAX_ROWS = 700;
 const BUSINESS_MODULE_ID = "business";
 const BUDGETS_MODULE_ID = "budgets";
+const MACRO_MODULE_ID = "macro";
 
 type Row = Record<string, unknown>;
 const table = (core: CoreState, moduleId: string, name: string): Row[] =>
@@ -448,6 +451,35 @@ function ledgerPanels(core: CoreState, personId: string): WhyPanel[] {
   ];
 }
 
+// ---- A credit line's repricing ---------------------------------------------
+
+/** Every time the line's rate moved with the prime rate, each with its meeting. */
+function repricingPanels(core: CoreState, facilityId: string): WhyPanel[] {
+  const meetings = new Map(
+    table(core, MACRO_MODULE_ID, "meetings").map((row) => [
+      String(row.id),
+      row,
+    ]),
+  );
+  const changes = table(core, MACRO_MODULE_ID, "repricings")
+    .filter((row) => row.facilityId === facilityId)
+    .sort((a, b) => String(a.date).localeCompare(String(b.date)));
+  const borrowerId = String(changes[0]?.borrowerId ?? "");
+  return [
+    {
+      title: `Rate history of the credit line of ${core.organizations.get(borrowerId)?.name ?? borrowerId}`,
+      rows: changes.slice(0, MAX_ROWS).map((row) => {
+        const meeting = meetings.get(String(row.meetingId));
+        return {
+          label: String(row.date),
+          value: `${number(Number(row.fromRate) * 100)}% to ${number(Number(row.toRate) * 100)}%, after the central bank's meeting of ${String(meeting?.date ?? "")} (policy rate ${number(Number(meeting?.fromRatePct))}% to ${number(Number(meeting?.toRatePct))}%)`,
+          id: String(row.meetingId),
+        };
+      }),
+    },
+  ];
+}
+
 // ---- The entry point -------------------------------------------------------
 
 export function whyPanels(
@@ -478,5 +510,7 @@ export function whyPanels(
       linePanel(core, String(record.governmentId), line),
     );
   if (found.kind === "person") return ledgerPanels(core, id);
+  if (found.engine === `${MACRO_MODULE_ID}.repricings`)
+    return repricingPanels(core, String(record.facilityId));
   return [];
 }

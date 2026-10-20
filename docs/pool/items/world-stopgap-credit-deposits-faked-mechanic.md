@@ -5,12 +5,12 @@ area: world
 kind: stopgap
 priority: 2
 status: claimed
-claimed-by: claude/deposit-withdrawal-s13
-pr:
+claimed-by: claude/credit-deposits
+pr: #5316
 blocked-on:
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/credit-deposits.ts, kind faked-mechanic"
-claimed-at: 2026-10-19T21:53:07.479Z
+claimed-at: 2026-10-20T14:46:29.601Z
 ---
 
 **What.** The stopgap row(s) SG-WORLD-deposit-wallet-buffer in src/core2/credit-deposits.ts mark a shortcut that is still live in play. Today savings and withdrawals are reviewed monthly with a three-month wallet reserve, so extraordinary payments and estate settlement never ask the bank for a withdrawal directly. The row stays open until the real mechanic replaces the fake, or the feature that needs the fake is deleted. This item replaces it and clears the row in src/core2/data/stopgaps.json.
@@ -23,4 +23,4 @@ claimed-at: 2026-10-19T21:53:07.479Z
 
 **Notes.** First row: Savings and withdrawals are reviewed monthly with a three-month wallet reserve; extraordinary payments and estate settlement do not yet request bank withdrawals directly. Dormant claims remain owed, not deleted.
 
-Partly done Oct 19 (claude/deposit-withdrawal-s13): estate settlement now collects the dead person's savings first (`collectSavings` in estates.ts; the person's own deposit and the household's when they were its last living member), with a unit test in estates.test.ts and the estate-contracts test aware of it. Home purchase and business founding already withdrew savings. Left: other large payments do not ask the bank for a withdrawal, so the row stays open with its text narrowed. No played-year proof yet: every played year I tried (a drawn place, one and two years) can stop on the unrelated "Invalid relocation" error that PR #5149 addresses (it still stops at moves.ts, see my comment there); once that merges, a drawn-place test that finds an `estate-savings:` withdrawal after a death in a played year, and no deposit left under a dead holder, is the proof to add.
+Sent back 2026-10-20 from PR #5316 (branch claude/deposit-withdrawal-s13): merging main now conflicts in src/core2/estates.ts (it passed every check before main moved); finish on that branch, merge main into it first.

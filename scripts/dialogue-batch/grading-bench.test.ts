@@ -1,7 +1,15 @@
 import { randomBytes } from "node:crypto";
 import { describe, expect, it } from "vitest";
 import { SITUATION_LIBRARY } from "../../src/director/scheduling";
-import { stageWorld, standInReason, typeStatuses } from "./grading-bench";
+import {
+  composeProfiles,
+  GRADING_PROFILES,
+  UNSUPPORTED_PARTS,
+  stageWorldHeld,
+  stageWorld,
+  standInReason,
+  typeStatuses,
+} from "./grading-bench";
 
 describe("the grading bench's staging", () => {
   it("skips a type with no cause record, with why, and never invents one", () => {
@@ -73,4 +81,61 @@ describe("the grading bench's staging", () => {
       ).toBeGreaterThan(0);
     }
   }, 600_000);
+
+  it("composes each staged scene once per profile; profiles change the pieces, and the world is left as it was", () => {
+    const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
+    const held = stageWorldHeld({ id: "test", seed, days: 365 });
+    const where = `${held.report.place.name}, seed ${seed}`;
+    const profiles = GRADING_PROFILES.slice(0, 4);
+    expect(profiles.length, where).toBe(4);
+    const before = new Map(held.core.people);
+    const composed = composeProfiles(
+      held.core,
+      held.director,
+      held.report.staged,
+      profiles,
+    );
+    // Every staged scene is composed once per profile.
+    expect(composed.length, where).toBe(held.report.staged.length * 4);
+    // The people are the very records they were: a profile is laid over for the compose only.
+    for (const [id, person] of before)
+      expect(held.core.people.get(id), `${where}: ${id}`).toBe(person);
+    // Every composed line carries the pieces it is made of and the records that filled it.
+    for (const scene of composed) {
+      // Narration and journal lines carry records only; the missing piece ids are declared, not silent.
+      expect(scene.unsupported, where).toEqual([...UNSUPPORTED_PARTS]);
+      for (const line of [...scene.narration, ...scene.journal]) {
+        expect(line.parts, where).toBeNull();
+        expect(
+          line.sourceRecordIds.length,
+          `${where}: ${scene.momentId} ${scene.profile} "${line.text}"`,
+        ).toBeGreaterThan(0);
+      }
+      for (const line of [...scene.opening, ...scene.replies, ...scene.lies]) {
+        expect(
+          line.parts?.length,
+          `${where}: ${scene.momentId} ${scene.profile} "${line.text}"`,
+        ).toBeGreaterThan(0);
+        expect(
+          line.sourceRecordIds.length,
+          `${where}: ${scene.momentId} ${scene.profile} "${line.text}"`,
+        ).toBeGreaterThan(0);
+      }
+    }
+    // Two profiles on one scene choose different pieces, in at least one scene.
+    const bySceneProfile = new Map<string, Map<string, string>>();
+    for (const scene of composed) {
+      const key = JSON.stringify([
+        scene.opening.map((line) => line.parts),
+        scene.replies.map((line) => [line.key, line.parts]),
+      ]);
+      const row = bySceneProfile.get(scene.momentId) ?? new Map();
+      row.set(scene.profile, key);
+      bySceneProfile.set(scene.momentId, row);
+    }
+    const differing = [...bySceneProfile.values()].filter(
+      (row) => new Set(row.values()).size > 1,
+    );
+    expect(differing.length, where).toBeGreaterThan(0);
+  }, 900_000);
 });
