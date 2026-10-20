@@ -471,7 +471,9 @@ export function caseShift(
 /**
  * The person's current view on a policy question, -1 to 1: where their
  * opening lean (`lean`, the campaigns engine's, -1 to 1) puts them on the
- * question's axis, plus how far what they have heard since has moved them.
+ * question's axis, plus what their faith and schooling add on a question the
+ * survey asked (their stored opening record), plus how far what they have
+ * heard since has moved them.
  */
 export function viewOn(
   api: CoreAPI,
@@ -484,7 +486,7 @@ export function viewOn(
     Math.min(
       v("one"),
       personStance(lean, question) +
-        openingLoadingShift(api, personId, question) +
+        (openingRecord(api, personId, question)?.total ?? v("zero")) +
         v("stanceViewWeight") * stanceOn(api, personId, question),
     ),
   );
@@ -532,25 +534,65 @@ function faithAndDegree(api: CoreAPI, personId: PersonId) {
 }
 
 /**
- * What a person's faith and degree add to their opening stance on a question
- * the 2020 Cooperative Election Study asked (`opening-stance-loadings.json`):
- * each loading times how far they sit from the average person, so the town's
- * mean stance stays on the lean axis. A question with no survey item, or a
- * person with no recorded faith or education, adds nothing (ESTIMATED).
+ * A person's opening stance on a question the survey asked, formed once and
+ * kept: what their faith and what their schooling add to where their lean puts
+ * them, each with the loading and the distance from the average person that
+ * made it. Everything after the opening moves the stance only by a stored
+ * cause (`stanceOn`). A question the survey did not ask, or a person with no
+ * recorded faith or schooling, has no record and adds nothing.
  */
-export function openingLoadingShift(
+export interface OpeningRecord {
+  readonly id: string;
+  readonly personId: PersonId;
+  readonly question: string;
+  /** What faith and degree add together, on the scale of a view. */
+  readonly total: number;
+  readonly reasons: readonly {
+    readonly kind: "faith" | "degree";
+    readonly loading: number;
+    readonly fromAverage: number;
+    readonly adds: number;
+  }[];
+}
+
+export function openingRecord(
   api: CoreAPI,
   personId: PersonId,
   question: string,
-): number {
+): OpeningRecord | undefined {
+  if (!api.state.modules.has(VIEWS_MODULE_ID)) return undefined;
+  const table = api.moduleState(VIEWS_MODULE_ID).table("openings");
+  const id = `opening:${personId}:${question}`;
+  const held = table.get(id) as unknown as OpeningRecord | undefined;
+  if (held) return held;
   const loadings = LOADINGS[question]?.loadings;
-  if (!loadings) return v("zero");
-  const own = faithAndDegree(api, personId);
-  if (!own) return v("zero");
-  return (
-    loadings.faith.value * (own.faith - PREDICTORS.nationalFaithMean) +
-    loadings.college.value * (own.college - PREDICTORS.collegeShare)
-  );
+  const own = loadings ? faithAndDegree(api, personId) : null;
+  if (!loadings || !own) return undefined;
+  const faith = own.faith - PREDICTORS.nationalFaithMean;
+  const degree = own.college - PREDICTORS.collegeShare;
+  const reasons = [
+    {
+      kind: "faith" as const,
+      loading: loadings.faith.value,
+      fromAverage: faith,
+      adds: loadings.faith.value * faith,
+    },
+    {
+      kind: "degree" as const,
+      loading: loadings.college.value,
+      fromAverage: degree,
+      adds: loadings.college.value * degree,
+    },
+  ];
+  const record: OpeningRecord = {
+    id,
+    personId,
+    question,
+    total: reasons.reduce((n, r) => n + r.adds, v("zero")),
+    reasons,
+  };
+  table.put(record as unknown as { id: string });
+  return record;
 }
 
 /**
@@ -598,6 +640,7 @@ export const viewsModule: CoreModule = {
           byTopic: { fields: ["topic"] },
         },
       },
+      openings: { indexes: { byPerson: { fields: ["personId"] } } },
     },
   },
   eventKinds: ["*"],

@@ -10,7 +10,7 @@ import { drawPlace } from "../../scripts/core2-year/place";
 import { buildBenchWorld } from "../bench/world";
 import loadings from "../../data/research/people/opening-stance-loadings.json" with { type: "json" };
 import { gameStartDate } from "./game-start";
-import { openingLoadingShift, viewOn } from "./modules/views";
+import { openingRecord, viewOn } from "./modules/views";
 import { coreAPI } from "./state";
 
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
@@ -28,7 +28,7 @@ it("a churchgoer and a non-churchgoer of the same lean hold different stances", 
     .filter((person) => person.alive)
     .map((person) => ({
       id: person.id,
-      shift: openingLoadingShift(api, person.id, QUESTION),
+      shift: openingRecord(api, person.id, QUESTION)?.total ?? 0,
     }));
   expect(shifts.length, where).toBeGreaterThan(0);
   const high = shifts.reduce((a, b) => (b.shift > a.shift ? b : a));
@@ -51,5 +51,5 @@ it("a churchgoer and a non-churchgoer of the same lean hold different stances", 
     row.faith.value * 0.35 + Math.abs(row.college.value) * 0.35,
   );
   // A question the survey did not ask adds nothing.
-  expect(openingLoadingShift(api, high.id, "no-such-question")).toBe(0);
+  expect(openingRecord(api, high.id, "no-such-question")).toBeUndefined();
 }, 900_000);

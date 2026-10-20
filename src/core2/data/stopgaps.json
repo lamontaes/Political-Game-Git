@@ -1074,11 +1074,11 @@
     "kind": "missing-engine",
     "file": "src/core2/modules/campaigns.ts",
     "line": 292,
-    "whatItFakes": "Each person's stance on a policy question is their lean times the question's measured left-right axis. Where PEOPLE's views engine runs, the lean orders people by their own view (CES 2024 cell plus household); elsewhere, by three personality facets. The order is then placed against the area's real 2024 vote.",
+    "whatItFakes": "Each person's stance on a policy question opens as their lean times the question's measured left-right axis. On the eight questions the 2020 Cooperative Election Study asked, a stored opening record (src/core2/modules/views.ts, `openingRecord`) adds what the person's faith and schooling contribute, with its reasons. Every other question, and every person with no recorded faith or schooling, still opens as lean times axis alone. Where PEOPLE's views engine runs, the lean orders people by their own view (CES 2024 cell plus household); elsewhere, by three personality facets. The order is then placed against the area's real 2024 vote.",
     "why": "OPUS-PEOPLE's views engine (values and stances formed from each person's life) isn't on core2 yet.",
     "addedBy": "OPUS-GOV",
     "addedAt": "2026-10-12",
-    "replacement": "Per-question stances from PEOPLE's views engine, once it holds stances by question at the opening.",
+    "replacement": "Per-question opening records for the questions the survey did not ask (a source with loadings for each), until every question opens as a stored record formed from the person's life.",
     "status": "open"
   },
   {
