@@ -116,13 +116,16 @@ describe(`basic corruption in ${input.placeMetadata?.placeName} (seed ${seed})`,
       expect(crimesKnownTo(api, row.id).map((r) => r.id)).not.toContain(
         crime!.id,
       );
-    // A falling-out between the two.
+    // A falling-out between the two: a rupture that takes the tie to its
+    // floor. Closeness saturates, so a fixed drop barely moves a pair that
+    // is already very close, and the chooser (rightly) weighs how far the
+    // tie soured, not that a fixed number of hours were lost.
     api.relationship(crime!.offererId, crime!.officialId, "contact", 200);
     api.relationship(
       crime!.offererId,
       crime!.officialId,
       "contact",
-      -150,
+      -5000,
       undefined,
       {
         cause: "fixture-falling-out",
@@ -191,5 +194,47 @@ describe(`basic corruption in ${input.placeMetadata?.placeName} (seed ${seed})`,
     const after = level(cheated!.offererId, cheated!.officialId);
     settleBribes(api, cheated!.subjectId, () => "yes");
     expect(level(cheated!.offererId, cheated!.officialId)).toBe(after);
+  });
+
+  it("draws more offers to an official the offerer has learned took a bribe, and no more for one nobody has heard of", () => {
+    const taken = records.find((row) => row.taken)!;
+    const outsider = adults
+      .filter(
+        (row) =>
+          row.id !== taken.offererId &&
+          row.id !== taken.officialId &&
+          !crimesKnownTo(api, row.id).length,
+      )
+      .sort((a, b) => b.liquidMinor - a.liquidMinor)[0]!;
+    const ask = (officialId: string, subjectId: string) =>
+      considerBribe(api, {
+        offererId: outsider.id,
+        officialId,
+        stakeMinor: 50000000,
+        subjectId,
+      })!;
+    const unheard = ask(taken.officialId, "reputation-before");
+    expect(unheard.reasons.offer!.reputation, `${seed}`).toBe(0);
+    expect(unheard.heardOf).toBeUndefined();
+    // The outsider hears of it from the offerer; the decision reads that record.
+    api.observe(outsider.id, {
+      key: `crime:${taken.id}`,
+      value: "bribe-taken",
+      learnedAt: api.state.date,
+      sourceId: taken.id,
+      access: "told",
+    });
+    const heard = ask(taken.officialId, "reputation-after");
+    expect(heard.heardOf).toEqual([taken.id]);
+    expect(heard.reasons.offer!.reputation).toBeGreaterThan(0);
+    // The same offerer's request of someone they heard nothing about is unchanged.
+    const other = adults.find(
+      (row) =>
+        row.id !== outsider.id &&
+        row.id !== taken.officialId &&
+        row.id !== taken.offererId &&
+        !crimesKnownTo(api, outsider.id).some((c) => c.officialId === row.id),
+    )!;
+    expect(ask(other.id, "reputation-other").reasons.offer!.reputation).toBe(0);
   });
 });

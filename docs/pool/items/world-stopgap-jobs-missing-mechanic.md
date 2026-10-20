@@ -4,12 +4,13 @@ title: "Stopgaps in jobs (missing-mechanic): 1 open"
 area: world
 kind: stopgap
 priority: 3
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/jobs-benefits-stopgap
+pr: #5300
 blocked-on:
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/modules/jobs.ts, kind missing-mechanic"
+claimed-at: 2026-10-20T20:15:29.481Z
 ---
 
 **What.** Replace or clear the 1 open missing-mechanic stopgap row(s) in src/core2/modules/jobs.ts: SG-WORLD-jobs-benefits. Each fake is replaced by the mechanic, or the feature that needs it is deleted.
@@ -21,3 +22,5 @@ source: "src/core2/data/stopgaps.json, src/core2/modules/jobs.ts, kind missing-m
 **Files.** src/core2/modules/jobs.ts
 
 **Notes.** First row: A spell of unemployment pays no unemployment insurance.
+
+Sent back 2026-10-20 from PR #5300 (branch claude/ui-state-fund): the stopgap replacement text carries a 'Resolved Oct 19' date note; resolve the row properly without the date; finish on that branch, merge main into it first.

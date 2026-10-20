@@ -5,7 +5,7 @@ area: words
 kind: feature
 priority: 1
 size: L
-status: in-pr
+status: open
 claimed-by:
 pr: #4459
 blocked-on:
@@ -34,3 +34,6 @@ Sent back 2026-10-17 from PR #4459 (branch words/scene-talk): The top of the PR 
 Sent back 2026-10-17 from PR #4459 (branch words/scene-talk): The gate line and main-merge issues are fixed, but scripts/dialogue-batch/grading-bench.test.ts deletes the existing generated-world staging test and both regression tests for missing cause records/raw IDs/missing cast records. The replacement tests cover deduplication and calibration, not those safety contracts; grading-bench.ts still contains those production responsibilities. Port the existing assertions to the replacement cached-world staging path: every catalog type is staged or reports why, every staged scene has a cause and nonempty recorded cast, and invalid IDs/cast are reported. Keep the new tests as well; do not remove this coverage to land the replacement.; finish on that branch, merge main into it first.
 
 Sent back 2026-10-19 from PR #4459 (branch words/scene-talk): Merge main conflicts require author resolution: data/english/parts/scene-words.json, scripts/dialogue-batch/coverage-table.test.ts; finish on that branch, merge main into it first.
+Sent back 2026-10-19 from PR #4459 (branch words/scene-talk): merge conflicts in data/english and scripts/english-corpus/moves.json; finish on that branch, merge main into it first.
+
+Fixer, Oct 20 (PR #4459, branch words/scene-talk): handed back for a Words-line design call. Main now has its own calibration engine (src/english/english-calibration.ts, data/english/calibration.json, commit fc129ba79e) and a different grading-profile schema, so merging main conflicts in 11 files; keep one engine (suggested: main's english-calibration.ts, porting this branch's trait and move-pair weights, which pool item words-calibration-traits-pairs-replies asks for) and finish on the branch.
