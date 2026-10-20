@@ -27,6 +27,7 @@ import { LAW_REACH_HOST_ID } from "./law-reach/host";
 import type { LawRowInput } from "./laws-starting";
 import type { CoreAPI, CoreState } from "./types";
 import parameters from "./data/laws/reach-group-a-parameters.json" with { type: "json" };
+import construction from "./data/housing/construction.json" with { type: "json" };
 
 const P = "us-policy-positions:";
 const KEYS = {
@@ -189,15 +190,28 @@ function runOnce(place: ReturnType<typeof drawPlace>): string[] {
       id: string;
       lawIds?: Record<string, string>;
       affordableUnits: number;
+      askingRentMinor: number;
+      medianPayMinor: number;
     }[];
     check(
       projects.some((p) => p.lawIds?.inclusionary && p.affordableUnits > 0),
       "no project started with set-aside units under the inclusionary law",
     );
-    check(
-      rowsOn(api, KEYS.inclusionary).some((r) => r.amountMinor > 0),
-      `inclusionary moved no money (forgone rent): ${JSON.stringify(projects.filter((p) => p.lawIds?.inclusionary).slice(0, 3))}`,
+    // The set-aside rent is a share of the median pay; where that is at or above the asking rent, the unit gives up nothing.
+    const binding = projects.filter(
+      (p) =>
+        p.lawIds?.inclusionary &&
+        p.affordableUnits > 0 &&
+        p.askingRentMinor >
+          construction.inclusionary.rentShareOfIncome *
+            construction.inclusionary.amiShare *
+            p.medianPayMinor,
     );
+    if (binding.length)
+      check(
+        rowsOn(api, KEYS.inclusionary).some((r) => r.amountMinor > 0),
+        `inclusionary moved no money (forgone rent) though ${binding[0]!.id} rents above its set-aside rent`,
+      );
     const setAside = (
       api.moduleState("housing").table("affordable").rows() as unknown as {
         householdId: string;
@@ -239,14 +253,18 @@ function runOnce(place: ReturnType<typeof drawPlace>): string[] {
         ),
         `case ${row.id}: paying government has no applied row`,
       );
+      // The household's row adds up the lawyers paid for each of its cases.
+      const paidForHousehold = cases
+        .filter((x) => x.householdId === row.householdId)
+        .reduce((sum, x) => sum + (x.counselPaidMinor ?? 0), 0);
       check(
         (row.counselPaidMinor ?? 0) > 0 &&
           counsel.some(
             (r) =>
               r.targetId === row.householdId &&
-              r.amountMinor === row.counselPaidMinor,
+              r.amountMinor === paidForHousehold,
           ),
-        `case ${row.id}: the counsel payment was not paid, or not the one the household's row records (paid ${row.counselPaidMinor}; rows ${JSON.stringify(counsel.filter((r) => r.targetId === row.householdId || r.targetId === row.counselPayerId))}; cases ${cases.filter((x) => x.householdId === row.householdId).length})`,
+        `case ${row.id}: the counsel payment was not paid, or the household's row does not add up its cases (paid ${paidForHousehold})`,
       );
     }
 
