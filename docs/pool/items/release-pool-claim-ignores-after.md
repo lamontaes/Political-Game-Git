@@ -22,3 +22,5 @@ claimed-at:
 **Files.** TODO
 
 **Notes.** TODO
+
+Sent back 2026-10-20 from PR #5276 (branch claude/pool-claim-after): merge conflict with main in scripts/pool/index.test.ts (code); finish on that branch, merge main into it first.
