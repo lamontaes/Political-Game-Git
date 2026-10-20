@@ -4,9 +4,9 @@ title: "An 18-year-old played for eight months gets director moments"
 area: director
 kind: bug
 priority: 3
-status: claimed
+status: in-pr
 claimed-by: claude/political-game-pool-yucp92-ak
-pr:
+pr: #5644
 blocked-on:
 after: director-civic-producers-government
 milestone:
