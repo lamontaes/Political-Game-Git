@@ -23,3 +23,5 @@ claimed-at:
 **Files.** src/core2/modules/corruption.ts, the finance engine's public-customer path, and the engine that would hold the award decision.
 
 **Notes.** Owner ruling, Oct 19, 2026: yes, the game awards public contracts; unblocked. Looked at 2026-10-16: not built, because building it means adding a procurement mechanic nobody has asked for. OWNER DECISION NEEDED: should public contract awards exist (a council or executive choosing between bidders), or is a bribe for a vote the only corruption the game needs for early access? Checked DECISION-REGISTER.md and OWNER-DECISIONS.md: no ruling on contract awards.
+
+Sent back 2026-10-20 from PR #5337 (branch claude/political-game-pool-yucp92-k): see the Cloud merger comment on that PR for the exact reason; finish on that branch, merge main into it first.
