@@ -5,12 +5,12 @@ area: world
 kind: feature
 priority: 2
 size: M
-status: claimed
-claimed-by: claude/dwelling-position
+status: open
+claimed-by:
 pr:
 blocked-on:
 source: found by gov-ward-map-from-dwellings
-claimed-at: 2026-10-20T16:14:16.439Z
+claimed-at:
 ---
 
 **What.** A dwelling in the core is a row keyed to its household with a tenure and a value, and nothing says where in the town it stands. Without that no council ward, precinct or school zone can follow where people live, and every such map is the households in recorded order. Give each dwelling a position inside its town, drawn from the town's real shape (its census tracts or block groups where the data has them, an estimate with a spread otherwise), so that neighbors are close and a map cut follows the town.
