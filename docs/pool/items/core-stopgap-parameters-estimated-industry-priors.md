@@ -4,12 +4,13 @@ title: "Stopgaps in parameters (estimated-industry-priors): 1 open"
 area: core
 kind: stopgap
 priority: 3
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/political-game-pool-3xfqef-6
 pr:
 blocked-on:
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/data/parameters.json, kind estimated-industry-priors"
+claimed-at: 2026-10-20T00:39:53.040Z
 ---
 
 **What.** Replace or clear the 1 open estimated-industry-priors stopgap row(s) in src/core2/data/parameters.json: SG-P8-business-books-priors. Each fake is replaced by the mechanic, or the feature that needs it is deleted.
