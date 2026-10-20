@@ -18,6 +18,7 @@
 import construction from "./data/housing/construction.json" with { type: "json" };
 import type { ModuleTable } from "./module-state";
 import { residentsRuntime } from "./modules/residents";
+import { webFactorFor } from "./outcome-web-reach";
 import { stableHash } from "./kernel/ids";
 import { stopgap } from "./stopgaps";
 import { transferCash } from "./world-transfer";
@@ -39,8 +40,6 @@ export type ConstructionLawIds = {
 };
 
 export interface Zoning {
-  /** The share of residential land where apartments may be built. */
-  multifamilyLandShare: number;
   /** The share of a new apartment building's units set aside below market. */
   inclusionaryShare: number;
   allElectric: boolean;
@@ -90,7 +89,6 @@ const MONTHS = 12;
 
 export function openingZoning(): Zoning {
   return {
-    multifamilyLandShare: 1 - construction.zoning.singleFamilyOnlyShare,
     inclusionaryShare: 0,
     allElectric: false,
     farmlandProtected: false,
@@ -229,8 +227,7 @@ export function buildMonth(
         : input.homeValueMinor,
     openingRentMinor =
       row.openingRentMinor > 0 ? row.openingRentMinor : input.rentMinor;
-  const z = row.zoning,
-    opening = openingZoning();
+  const z = row.zoning;
   const elasticity = p("housingSupplyElasticity"),
     landElasticity = p("housingLandStartsElasticity");
   const rates = permitRates(input.usps);
@@ -265,11 +262,25 @@ export function buildMonth(
   const multiCost =
     priceLevel *
     (1 + (z.allElectric ? construction.multi.allElectricCostChange : 0));
+  const largeBuildings = webFactorFor(
+    api,
+    input.placeId,
+    "housing.new-large-buildings",
+  );
+  const rentalSupply = webFactorFor(
+    api,
+    input.placeId,
+    "housing.rental-supply",
+  );
+  if (largeBuildings !== 1) api.stopgap("SG-GOV-REACH-A-housing-supply");
   const multi =
     rates.multiPerThousand *
     perMonth *
     (multiValue / multiCost) ** elasticity *
-    (z.multifamilyLandShare / opening.multifamilyLandShare) ** landElasticity;
+    // The outcome web's researched effect of the law on large new buildings (by-right
+    // multifamily zoning) and on rental supply (rent stabilization), one factor per place a month.
+    largeBuildings *
+    rentalSupply;
   // The builders' decision this month reads each law in force: record the organization it governed.
   const laws = z.lawIds ?? {};
   const ruleWhat = {

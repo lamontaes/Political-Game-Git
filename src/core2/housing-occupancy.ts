@@ -16,6 +16,7 @@ import { addResidentFlow, setResidentFlowAmount } from "./residents-economy";
 import { lawApplied } from "./law-reach/applied";
 import { inForceHere } from "./law-reach/host";
 import { CONSTRUCTION_LAW_KEYS } from "./housing-construction";
+import { webFactorFor } from "./outcome-web-reach";
 import type { CoreAPI, CoreState } from "./types";
 
 export interface Tenant {
@@ -370,6 +371,16 @@ export function occupyCompletedRentals(api: CoreAPI): void {
 export function renewRentalLeases(api: CoreAPI): void {
   if (!regionalRegistered(api)) return;
   const c = api.state as CoreState;
+  // The web's factor on rents is one per place and month; every lease there reads the same.
+  const webFactors = new Map<string, number>();
+  const webFactor = (placeId: string) => {
+    let factor = webFactors.get(placeId);
+    if (factor === undefined) {
+      factor = webFactorFor(api, placeId, "housing.rent");
+      webFactors.set(placeId, factor);
+    }
+    return factor;
+  };
   for (const tenant of tenants(api)) {
     const level = regionalLevel(api, tenant.placeId);
     if (!level) continue;
@@ -383,10 +394,17 @@ export function renewRentalLeases(api: CoreAPI): void {
         ? stock.vacantRental / stock.rentalUnits
         : undefined;
     const last = table(api, "renewals").get(tenant.leaseId) as
-      { renewedAt: string; regionPay: number; vacancy?: number } | undefined;
+      | {
+          renewedAt: string;
+          regionPay: number;
+          vacancy?: number;
+          webFactor?: number;
+        }
+      | undefined;
     if (!last) {
       table(api, "renewals").put({
         id: tenant.leaseId,
+        webFactor: webFactor(tenant.placeId),
         regionPay: level.hourlyEarnings,
         renewedAt: c.date,
         rentMinor: tenant.rentMinor,
@@ -410,9 +428,13 @@ export function renewRentalLeases(api: CoreAPI): void {
         ? 1
         : ((vacancy + unitShare) / (last.vacancy + unitShare)) **
           -api.parameter("housingRentVacancyElasticity");
+    // The outcome web's rent factor is a level against the place's start; a lease moves by
+    // the change in it since the lease last renewed, so a steady factor is not charged twice.
+    const webChange = webFactor(tenant.placeId) / (last.webFactor ?? 1);
     const marketRentMinor = Math.round(
       ((tenant.rentMinor * level.hourlyEarnings) / last.regionPay) *
-        vacancyFactor,
+        vacancyFactor *
+        webChange,
     );
     // Rent stabilization in force where the household lives caps the rise.
     const law =
@@ -455,6 +477,8 @@ export function renewRentalLeases(api: CoreAPI): void {
       householdId: tenant.id,
       tier: tenant.tier,
       regionPay: level.hourlyEarnings,
+      webFactor: webFactor(tenant.placeId),
+      webChange,
       renewedAt: c.date,
       rentMinor: rent,
       previousRentMinor: tenant.rentMinor,
