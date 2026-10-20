@@ -5,12 +5,12 @@ area: elections
 kind: bug
 priority: 2
 size: S
-status: in-pr
-claimed-by: claude/pool-red-promise
+status: open
+claimed-by:
 pr: #5401
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-20T01:55:58.936Z
+claimed-at:
 ---
 
 **What.** TODO
