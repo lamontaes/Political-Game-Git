@@ -5,12 +5,12 @@ area: people
 kind: bug
 priority: 2
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/health-full-deaths
 pr:
 blocked-on:
 source: added with npm run pool -- add
-claimed-at:
+claimed-at: 2026-10-20T03:08:38.742Z
 ---
 
 **What.** Over one year from the opening in six drawn places, the full people (about 1,700 to 1,850 each) had 17 deaths where the SSA 2023 period life table expects 120.8, a ratio of 0.141 (scripts/health/mortality-band.ts, seed mb1: Fagatogo 1 of 18.5, St. Francis 7 of 20.2, Kenneth City 2 of 20.4, Lewisburg 1 of 20.7, Calera 5 of 20.3, Pomona 1 of 20.8). The resilience base scale (0.106) was solved on two 10,000-resident towns where everyone was a full person, and a death comes only after a serious-illness onset, when each person's strain crosses their own resilience line, with strain counted from the opening day. Find whether the shortfall is the opening-day start of strain (people at old ages have no accumulated strain), the lag from onset to death, or a scale that no longer fits the smaller full-person set, and make a game year's deaths follow the table.
