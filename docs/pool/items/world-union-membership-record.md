@@ -21,4 +21,4 @@ claimed-at:
 
 **Files.** TODO
 
-**Notes.** TODO
+**Notes.** PR #5302 sent back: Merge conflict with main in src/core2/data/stopgaps.json.
