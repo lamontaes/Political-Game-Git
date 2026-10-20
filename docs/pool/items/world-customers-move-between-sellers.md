@@ -5,10 +5,10 @@ area: world
 kind: feature
 priority: 2
 size: M
-status: claimed
+status: blocked
 claimed-by: claude/fs11vb-customers-question
 pr: #5210
-blocked-on:
+blocked-on: owner decision: what moves a customer between sellers (OWNER-DECISIONS.md, Open)
 source: added with npm run pool -- add
 claimed-at: 2026-10-20T03:01:39.372Z
 ---
