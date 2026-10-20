@@ -52,6 +52,23 @@ const STARTING = (
   }
 ).jurisdictions;
 
+/**
+ * Starting-law series that are not a law a body passes: each stands in for
+ * the laws it summarizes, which are in the list themselves.
+ */
+export const NOT_A_LAW: Readonly<Record<string, string>> = {
+  "local-sales-tax-average":
+    "the average local sales tax rate where a place has no city row of its own (an estimate standing in for local sales-tax laws, which the sales-tax amount covers)",
+};
+
+/** Series a body changes through another law: the route, for link 2. */
+const CHANGED_BY: Readonly<Record<string, string>> = {
+  "local-minimum-wage-authority":
+    "question us-policy-positions:labor-workforce.local-minimum-wage-authority writes this series (group-a-wages.ts localWageAuthority)",
+  "unemployment-insurance":
+    "every state must run the program (26 U.S.C. 3304); bodies change it through unemployment-weekly-maximum and state-unemployment-tax",
+};
+
 /** Every law: the bill catalog's policies, then each starting-law series no bill names. */
 export function allLaws(): readonly LawEntry[] {
   const out: LawEntry[] = [];
@@ -90,7 +107,7 @@ export function allLaws(): readonly LawEntry[] {
     for (const r of rows) series.add(r.series);
   series.add("property-tax");
   for (const s of [...series].sort()) {
-    if (seen.has(s)) continue;
+    if (seen.has(s) || s in NOT_A_LAW) continue;
     seen.add(s);
     out.push({
       key: s,
@@ -183,6 +200,8 @@ export function changeInData(law: LawEntry): {
   const powers = (
     seriesPowers as { series: Record<string, { levels: string[] }> }
   ).series;
+  if (!law.catalog && CHANGED_BY[law.key])
+    return { ok: true, why: "", evidence: CHANGED_BY[law.key]! };
   if (!law.catalog) {
     const p = law.series ? powers[law.series] : undefined;
     return {
