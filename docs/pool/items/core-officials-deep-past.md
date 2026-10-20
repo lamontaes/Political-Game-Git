@@ -5,7 +5,7 @@ area: core
 kind: bug
 priority: 1
 size: M
-status: in-pr
+status: done
 claimed-by: claude/officials-deep-past
 pr: #5156
 blocked-on:
