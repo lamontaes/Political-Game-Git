@@ -5,7 +5,7 @@ area: core
 kind: wiring
 priority: 2
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/core-counted-residual-sweep-source
 pr: #5356
 blocked-on:
