@@ -30,7 +30,7 @@ import type { LawInForceAnswer } from "./laws-in-force";
 import type { CoreAPI, CoreState } from "./types";
 import { ageOnDate, makeIsoDate } from "./kernel/dates";
 import { searchCorePlaces, corePlaceStateIdentities } from "./place-lookup";
-import { REACH_B_MODULE_ID } from "./law-reach/group-b-store";
+import { getRow, REACH_B_MODULE_ID } from "./law-reach/group-b-store";
 import type {
   GroupReach,
   OrganizationReach,
@@ -1013,7 +1013,12 @@ describe("law reach, group B: every policy reaches people through its engine", (
     enact(key, 1, gov.level);
     const reserve = `reserve:${gov.organizationId}`;
     const held = accounts.balance(reserve);
-    const target = group(key)!.terms.targetMinor!;
+    // The reserve engine keeps the target it set on its own row (the law's reach is its applied row).
+    const target = getRow<{ targetMinor: number }>(
+      api,
+      "taken",
+      `reserve|${key}|${gov.id}`,
+    )!.targetMinor;
     const spending = Object.values(
       budgetNow(api, gov.id)?.spendingMinor ?? {},
     ).reduce((a, b) => a + b, 0);
