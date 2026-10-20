@@ -5,9 +5,9 @@ area: core
 kind: cleanup
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/old-imports-jail-term
-pr:
+pr: #5073
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-19T18:12:30.665Z

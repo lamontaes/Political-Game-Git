@@ -5,7 +5,7 @@ area: world
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/living-costs-household-members
 pr: #4939
 blocked-on:
