@@ -161,6 +161,16 @@ export function encode(root: unknown): Encoded {
   return walk(root, "$");
 }
 
+/** Freeze a decoded record and the plain objects and arrays inside it (a Map or Set keeps its own entries). */
+function seal<T>(value: T): T {
+  if (!value || typeof value !== "object" || Object.isFrozen(value))
+    return value;
+  if (!(value instanceof Map) && !(value instanceof Set))
+    for (const child of Object.values(value as Record<string, unknown>))
+      seal(child);
+  return Object.freeze(value);
+}
+
 function same(a: unknown, b: unknown): boolean {
   if (a === b) return true;
   if (typeof a !== "object" || typeof b !== "object" || !a || !b) return false;
@@ -267,8 +277,9 @@ export function decoder(): (
     for (const [key, inner] of Object.entries(source))
       out[key] = walk(inner, old?.[key], `${path}.${key}`);
     // A frozen record unchanged since the opening stays the rebuilt world's
-    // own object (engines check that identity).
-    if (old && Object.isFrozen(old)) return same(out, old) ? old : out;
+    // own object (engines check that identity). One a producer changed since
+    // is a new record, sealed again like the one it replaces.
+    if (old && Object.isFrozen(old)) return same(out, old) ? old : seal(out);
     // Refill the rebuilt world's own object in place when it can be written.
     if (old && Object.isExtensible(old)) {
       for (const key of Object.keys(old))
