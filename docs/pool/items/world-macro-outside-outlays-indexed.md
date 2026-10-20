@@ -23,3 +23,5 @@ claimed-at: 2026-10-20T02:00:59.251Z
 **Files.** src/core2/modules/macro.ts, src/core2/budgets-treasury.ts, src/core2/data/macro/parameters.json
 
 **Notes.** Found by the GLM 5.3 trial on branch trial/glm/federal-dollar (#4990). Waits on world-macro-federal-dollar-finish so the chain it extends is on main first.
+
+Released Oct 20 (claude): the chain this extends (world-macro-federal-dollar-finish, PR #4990) is not on main and `macroFederalOutlayResponseBand` does not exist in src/core2/data/macro/parameters.json yet; build after #4990 merges.
