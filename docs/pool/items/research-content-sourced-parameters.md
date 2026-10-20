@@ -8,19 +8,23 @@ size: M
 status: blocked
 claimed-by:
 pr:
-blocked-on: researcher: per-place or calibration sourcing, each row cited; first row's replacement: Validated data coefficients and activity totals across documented P9 lives and real cohort spreads. (parameter rows: src/core2/dat
+blocked-on:
 source: "collapsed Oct 19, 2026 from core-stopgap-content-estimated-behavior, core-stopgap-content-uncalibrated-tunable"
 ---
 
-**What.** Source the numbers behind the content engine's life utility and civic progress. Each row below is a registered stopgap whose replacement waits on sourced or estimated data, collapsed here from 2 pool item(s) on Oct 19, 2026 so one researcher takes the engine family at once. For each row, find a public source with a year and a unit, record the figure as a SOURCED or ESTIMATED parameter row with a citation and a spread, put the research file under data/research/core/ with a reader, and resolve the stopgap row. Where a row's replacement is a mechanic rather than a number, source what that mechanic will read and leave the mechanic to the area's builder (name the pool item in the PR).
+**What.** Apply the sourced rows in docs/research/pool-feeder-oct20/research-content-sourced-parameters.md to the parameter table(s) and data files for sourced parameters for the content engine's life utility and civic progress. Each row already carries a value, a low and high spread, a tag (SOURCED or ESTIMATED) and a citation, so the builder enters them, adds a reader for each research file, and resolves these stopgap rows in src/core2/data/stopgaps.json: SG-P8-life-utility, SG-P8-civic-progress. Rows tagged mechanic name a change the area's builder makes to read the sourced inputs; build the simplest version and register what remains.
 
-- `SG-P8-life-utility` in src/core2/data/content.json: Prototype need, goal, affect and trait utility mappings; authored player-circle daily, local-town weekly, state monthly and inactive husk cadence; one scored discretionary act per tier activation instead of a complete activity plan; empirical individual-choice calibration remains incomplete. Replacement: Validated data coefficients and activity totals across documented P9 lives and real cohort spreads. (parameter rows: src/core2/data/parameters.json:careNeedHalfExcessHazard)
+Rows:
+
+- `SG-P8-life-utility` in src/core2/data/content.json: Prototype need, goal, affect and trait utility mappings; authored player-circle daily, local-town weekly, state monthly and inactive husk cadence; one scored discretionary act per tier activation instead of a complete activity plan; empirical individual-choice calibration remains incomplete. Replacement: Validated data coefficients and activity totals across docu...
 - `SG-P8-civic-progress` in src/core2/data/content.json: Prototype civic availability and organization/approach consequences, rather than complete procedures. Replacement: An identified empirical range checked by an instrument-matched or activity-plan-matched calibration test; no parameter bound inferred from an unrelated outcome. (parameter rows: src/core2/data/parameters.json:lookupHours)
 
-**Rules.** Research before building: real data checks the simulation and never decides an outcome by itself; a sourced rate calibrates the band the proof reports against, never the chance one person acts. Estimate, never UNKNOWN: a value the source lacks for a place starts from the real average with a per-world spread, marked ESTIMATED with its source in data, never shown to the player. One rule, all 56 places: a figure that varies by place is a per-place table in data, never a state named in logic. Sliding scales and causes: if an engine reads the number as a cap, a cutoff or a chance, file a bug for the builder instead of sourcing it. Follow .agents/skills/researcher/SKILL.md.
+**Rules.** Research before building: the sourced figures calibrate the totals the proof reports and never decide what one person does. Estimate, never UNKNOWN: any value without a measure keeps its ESTIMATED tag, source and spread. One rule, all 56 places: place values live in data keyed by place code, never named in logic, and the proof draws a random place. No dice: no seeded roll or fixed percentage picks an actor's outcome; causes and records do.
 
-**Done when.** Each listed row is SOURCED or ESTIMATED in its parameter table with a citation (publisher, year, URL) and a spread (low, high, unit, citation); each stopgap row above is resolved in src/core2/data/stopgaps.json with the source named; the research-data-reader guard (tests/guards/research-data-has-reader.test.ts) is green; the tripwire and calibration-guard tests pass; and a one-year played world (buildBenchWorld, a drawn place from all 56, seed named in the PR) reports each band and where the town landed.
+**Done when.** Each row is SOURCED or ESTIMATED in its parameter table with a citation and a spread, the stopgap rows above are resolved in src/core2/data/stopgaps.json (or kept with a reason), the research-data reader guard and the tripwire test pass, and a one-year played world (buildBenchWorld, a place drawn from all 56, seed named) reports each band and where the town landed against it.
 
 **Files.** src/core2/data/content.json, src/core2/data/parameters.json, src/core2/data/stopgaps.json, data/research/core/
 
 **Notes.** Folded from: core-stopgap-content-estimated-behavior, core-stopgap-content-uncalibrated-tunable. Rows that are not numbers (missing mechanics in law reach, for example) stay registered; this item sources what they will read.
+
+Oct 20 (pool feeder): research done in docs/research/pool-feeder-oct20/research-content-sourced-parameters.md (2 rows: 0 sourced, 2 estimated, 0 mechanic).

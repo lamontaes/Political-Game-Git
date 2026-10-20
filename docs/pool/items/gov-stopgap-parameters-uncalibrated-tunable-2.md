@@ -7,17 +7,21 @@ priority: 3
 status: blocked
 claimed-by:
 pr:
-blocked-on: engine or design: The small justice engine needs a first version; the research gives the directions (Gordon 2009 on partisan prosecution, the Justice Manual's charging standard, the Sentencing Guidelines), not these co
+blocked-on:
 milestone:
+after:
+size: M
 source: "src/core2/data/stopgaps.json, src/core2/data/justice/parameters.json, kind uncalibrated-tunable"
 ---
 
-**What.** Replace or clear the 1 open uncalibrated-tunable stopgap row(s) in src/core2/data/justice/parameters.json: SG-GOV-justice-weights. Each fake is replaced by the mechanic, or the feature that needs it is deleted.
+**What.** Replace SG-GOV-justice-weights: the TUNABLE weights in src/core2/data/justice/parameters.json (report pulls, evidence strengths, prominence, party and trait weights, the investigate, charge and conviction bars, the defense and plea weights) are first versions. Check them against sourced totals without letting the totals decide any case: put the Public Integrity Section's yearly counts of public-corruption charges and convictions by level of office and the federal plea and trial-conviction shares (Sentencing Commission and BJS) into data/research/justice/corruption-counts-2026.json with citations, scale them to a place's population, and add a calibration test that runs a year of the played world and reports where the charge, plea and conviction counts land against each band. A weight that puts the town outside its band is retuned within its stated spread.
 
-**Rules.** Never close a row by deleting it; registered stopgaps; replace, never layer; numbers in the parameter table (SOURCED, ESTIMATED or TUNABLE).
+**Rules.** No dice: real rates check yearly totals and never pick one actor's outcome; the engine still decides each case from traits, ties, evidence and the law. Research before building: every band cites publisher, year and unit, and a number from memory is ESTIMATED until fetched. Sliding scales and causes: a bar the data shows as a hard cutoff is a bug to file, not a number to source. Estimate, never UNKNOWN: a weight the data cannot check keeps its TUNABLE tag and its spread, with the reason. One rule, all 56 places: bands scale by population and level of office, and no place is named.
 
-**Done when.** Rows resolved in stopgaps.json; the engine's replacement read by another engine in a one-year played-world run, by record id.
+**Done when.** In a one-year run of the played world (buildBenchWorld, every module installed) in places drawn from all 56 with seeds the builder did not choose (named in the test output), src/core2/justice-calibration.test.ts reports charges, pleas and convictions per band and the count lands inside each band's spread by corruption case record ids; each weight is SOURCED, ESTIMATED or TUNABLE with its band named, and SG-GOV-justice-weights is resolved in src/core2/data/stopgaps.json.
 
-**Files.** src/core2/data/justice/parameters.json
+**Files.** src/core2/data/justice/parameters.json, data/research/justice/corruption-counts-2026.json, src/core2/justice-calibration.test.ts, src/core2/data/stopgaps.json
 
 **Notes.** First row: How much traits, ties, evidence, prominence, party, money and the prosecutor's record weigh at each step from a report to a sentence.
+
+Oct 20 (pool feeder): spec written; this is not the same as research-gov-sourced-parameters (that one folds gov-stopgap-parameters-uncalibrated-tunable and the bribery grade). A single town sees few corruption cases a year, so the test pools several drawn places before comparing to a band.

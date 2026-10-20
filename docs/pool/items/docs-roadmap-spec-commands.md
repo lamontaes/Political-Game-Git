@@ -8,18 +8,20 @@ size: S
 status: blocked
 claimed-by: claude/political-game-pool-pdqjm6
 pr:
-blocked-on: CTO adds the commands
+blocked-on:
 milestone:
 source: "found by docs-roadmap-m2-m3-passes (Oct 15, 2026)"
 claimed-at: 2026-10-19T22:40:16.678Z
 ---
 
-**What.** In `docs/roadmap/features.json` nine M2 and M3 specs now read passes:true because their command ran green on a fresh random seed. Eleven others have no `command`: M2-03, M2-10, M3-01 to M3-08 and M3-10. The CTO adds the command, so a session cannot set their passes. Candidate tests that exist today, unchecked against each spec's text: M2-03 `src/director/filing-visit.test.ts` and `src/core2/elections-filing.test.ts`; M2-10 `src/core2/two-level-elections.test.ts` and `src/core2/world-races.test.ts`; M3-01 `src/core2/legislature-bill-form.test.ts` and `legislature-sections.test.ts`; M3-03 `src/core2/legislature.test.ts`; M3-04 `src/core2/laws.test.ts`; M3-05 `src/core2/executive.test.ts`; M3-06 `src/core2/staff.test.ts`; M3-07 `src/core2/interest-groups.test.ts`; M3-08 `src/core2/constituent-cases.test.ts`; M3-10 `src/core2/world-legislating.test.ts`. M3-02 (negotiating) has no obvious test.
+**What.** Eleven M2 and M3 specs in docs/roadmap/features.json have `command: null` (M2-03, M2-10, M3-01 to M3-08, M3-10), so their `passes` can never be set. For each, read the spec's `test` text against the candidate test file named in Notes below, and write the `command` in the file's existing form, `node node_modules/vitest/vitest.mjs run --config src/core2/tooling/vitest.config.ts <test file>` (the form M3-09 uses). Where a candidate test covers only part of the spec text, name both files or leave `passes` false and add a pool item for the missing test; M3-02 (negotiating) has no obvious test, so add the item for one. Run each command on a fresh random seed in a drawn place and set `passes` to match the result.
 
-**Rules.** Sessions may change only `passes`, never `test`. The CTO adds `command`. A spec stays false until its test passes in a place drawn from all 56 and the finisher has played it in the bench.
+**Rules.** This is a game, not a spreadsheet: a spec passes only because its test shows the player-facing behavior in the spec text, not because a file exists. One rule, all 56 places: every command draws its place from all 56 and names place and seed in the PR body. An effect is a read: a test that only checks a written record, with no other engine reading it, does not set `passes`. Replace, never layer: a command that is wrong is replaced, never kept beside a second one. Never change a spec's `test` text, only `command` and `passes`.
 
-**Done when.** Each of the eleven specs has a command the CTO accepted, run on a fresh random seed in a drawn place (named in the PR body) with the result recorded, and passes set to match. The owner plays it: nothing at once; the golden path steps are checked by a test, not by memory.
+**Done when.** Each of the eleven specs has a `command` that runs a test covering its `test` text, run once on a fresh random seed in a drawn place (named in the PR body, with the seed), and `passes` set to the result; specs whose test does not cover the text stay false with a new pool item each. Because the golden path is checked in the played world, the PR body also names one `buildBenchWorld` one-year run in a drawn place with its seed for the specs that play it, and a script check of features.json (the roadmap's own validator) passes.
 
 **Files.** docs/roadmap/features.json
 
 **Notes.** The nine now true are M2-01, M2-02, M2-04, M2-05, M2-06, M2-07, M2-08, M2-09 and M3-09. M2-06 shares the campaigns test with M2-05. The bench-play half of each spec is not shown by a test and is still for a checker.
+
+Oct 20 (pool feeder): spec written; the blocker said the CTO adds the commands; the CTO merges every PR, so the builder writes the commands in the PR and the CTO's merge accepts them (a CTO call, recorded in the pool feeder report). All eleven candidate test files exist on main.
