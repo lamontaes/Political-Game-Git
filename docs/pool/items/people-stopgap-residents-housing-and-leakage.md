@@ -4,13 +4,14 @@ title: "Stopgaps in residents (housing-and-leakage): 1 open"
 area: people
 kind: stopgap
 priority: 3
-status: blocked
+status: open
 claimed-by:
 pr:
 blocked-on:
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/residents.ts, kind housing-and-leakage"
 after:
+claimed-at: 
 ---
 
 **What.** Pay the part of a household's living cost that is not local to outside sellers by category, instead of to one outside account. Rent and mortgages are already paid to recorded landlords and the bank (world-rent-flows, done), so what is left in `src/core2/residents.ts` (the `outside-living-costs` flows and `countedOutside`) is the non-local basket: utilities, outside stores, vehicles, health, travel. Split each household's unbound monthly cost across the BLS Consumer Expenditure categories the basket already uses, and for each category pay the local share to the recorded local sellers of that category and the rest to the place's outside-market account (`opening-outside-market.ts`) under a category reason key. The local share per category is the place's location-quotient leakage: the category's local employment share against the national share (from the County Business Patterns counts the opening already reads), so a town with no car dealers buys all its cars outside. Then pass `outsideLivingCosts: false` to `collapseToTwoLevels`, deleting the old single payment and its stopgap marker.
