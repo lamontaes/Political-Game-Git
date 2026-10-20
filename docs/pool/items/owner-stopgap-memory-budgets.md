@@ -5,11 +5,12 @@ area: core
 kind: owner-decision
 priority: 3
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/memory-budget-decision
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-20T00:12:49.659Z
 ---
 
 **What.** TODO
