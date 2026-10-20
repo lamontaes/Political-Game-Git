@@ -5,9 +5,9 @@ area: core
 kind: feature
 priority: 2
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/outside-pay-authority
-pr:
+pr: #5577
 blocked-on:
 source: "split of core-outside-wage-obligation (L), Oct 20"
 claimed-at: 2026-10-20T06:35:51.262Z

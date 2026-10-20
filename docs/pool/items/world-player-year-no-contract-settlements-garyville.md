@@ -5,9 +5,9 @@ area: world
 kind: bug
 priority: 2
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/player-year-settlements
-pr:
+pr: #5571
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-20T06:10:05.483Z
