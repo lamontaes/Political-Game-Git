@@ -5,7 +5,7 @@ area: world
 kind: research
 priority: 2
 size: M
-status: in-pr
+status: done
 claimed-by: claude/research-credit-min-loan
 pr: #5419
 blocked-on:
