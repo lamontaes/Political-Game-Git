@@ -5,9 +5,9 @@ area: words
 kind: feature
 priority: 2
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/law-subjects-bring-it-up
-pr:
+pr: #5177
 after:
 blocked-on:
 source: "audit Oct 19, Part B step 10"

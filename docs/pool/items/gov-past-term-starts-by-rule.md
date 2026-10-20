@@ -5,11 +5,12 @@ area: gov
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/past-term-starts-by-rule
+pr: #5164
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-19T21:40:21.176Z
 ---
 
 **What.** The terms a governor served before the opening get their start and end dates by moving the current term's date back whole years. In Florida the 2023 term shows a start of January 5, where the state's clause (first Tuesday after the first Monday in January) gave January 3, and Alaska's 2022 term shows December 7 where the first Monday was December 5. The past terms should be computed from the same term-starts rule the current term uses, for the year each one began.

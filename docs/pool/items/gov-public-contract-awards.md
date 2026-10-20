@@ -5,9 +5,9 @@ area: gov
 kind: feature
 priority: 2
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/political-game-pool-yucp92
-pr:
+pr: #5166
 after:
 blocked-on:
 source: owner ruling, Oct 19, 2026 (via the acting CTO)

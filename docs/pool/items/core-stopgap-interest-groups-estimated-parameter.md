@@ -4,12 +4,13 @@ title: "Stopgaps in interest-groups (estimated-parameter): 1 open"
 area: core
 kind: stopgap
 priority: 3
-status: open
-claimed-by:
-pr:
+status: claimed
+claimed-by: claude/ig-bound-cost
+pr: #5278
 blocked-on:
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/modules/interest-groups.ts, kind estimated-parameter"
+claimed-at: 2026-10-20T03:33:38.797Z
 ---
 
 **What.** Replace or clear the 1 open estimated-parameter stopgap row(s) in src/core2/modules/interest-groups.ts: SG-GOV-bound-employer-cost-estimate. Each fake is replaced by the mechanic, or the feature that needs it is deleted.
