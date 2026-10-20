@@ -5,12 +5,12 @@ area: world
 kind: feature
 priority: 2
 size: L
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/other-places-coarse
 pr: #5555
 blocked-on:
 source: added with npm run pool -- add
-claimed-at:
+claimed-at: 2026-10-20T13:48:40.091Z
 ---
 
 **What.** Only the player's town has counted people. A president who visits another town (SG-OFFICE-FED-trip-residents), a relative who lives elsewhere, a candidate from another district and any person the player meets outside the town are identities with no household, job or pay in that place. Keep each other place coarse, as the owner's Oct 11 two-level rule says: counts by age, household type, occupation and pay band from the same census tables buildPopulation already reads, held per place and stepped by the regional economy, not a second simulation. A person met there is filled in from those counts by the same fill-in rule as the player's town, matching the counts (a place whose counts show 12 bakers has a baker with the pay the counts say).
