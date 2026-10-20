@@ -1497,11 +1497,11 @@
     "kind": "missing-mechanic",
     "file": "src/core2/data/laws/reach-group-a.json",
     "line": 311,
-    "whatItFakes": "Rent renewal now reads stabilization for full leases and counted rent flows, but applies the catalog's estimated cap to every rented building and has no delivered renewal notice linking a tenant's stance to the saving.",
-    "why": "Building exemptions and enacted cap terms are not yet resolved; the director needs a received notice of an actual rent change, not eligibility assigned to every adult.",
+    "whatItFakes": "Rent renewal reads stabilization for full leases and counted rent flows, but applies the catalog's estimated cap to every rented building. A full tenant gets a renewal notice (the law, old rent, market rent, charged rent) and learns of the saving; a counted tenant gets no notice.",
+    "why": "Building exemptions and enacted cap terms are not yet resolved; a counted tenant is not a person who can be told.",
     "addedBy": "OPUS-GOV (sub-agent A)",
     "addedAt": "2026-10-12",
-    "replacement": "Resolve the statute's cap and building exemptions from records, then deliver the renewal notice with law, old rent, market rent and charged rent; prove the paid bill, tenant's informed stance and director line.",
+    "replacement": "Resolve the statute's cap and building exemptions from records; counted tenants are told in the same share when they are filled in as a full person.",
     "status": "open"
   },
   {
