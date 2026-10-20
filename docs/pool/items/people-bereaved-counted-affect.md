@@ -22,3 +22,5 @@ claimed-at:
 **Files.** src/core2/modules/health.ts,scripts/health/bereavement-band.ts
 
 **Notes.** TODO
+
+Sent back 2026-10-20 from PR #5432 (branch claude/bereaved-counted): merge conflict with main in src/core2/modules/health.ts (code) after #5596; finish on that branch, merge main into it first.
