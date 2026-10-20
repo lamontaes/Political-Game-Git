@@ -4,13 +4,14 @@ title: "Stopgaps in grief (behavior-model-gap): 1 open"
 area: people
 kind: stopgap
 priority: 3
-status: blocked
+status: open
 claimed-by:
 pr:
 blocked-on:
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/data/grief.json, kind behavior-model-gap"
 after:
+claimed-at: 
 ---
 
 **What.** Check the grief rule's behavior against observed data, and keep a person's losses beyond a session. The grief half-life in grief.ts (griefHalfLifeDays) is solved from Bonanno et al. (2002), and grief then pulls toward rest and contact with family and holds back organizing through the weights griefPullWeight and griefHoldWeight in the parameter table, which are only TUNABLE. Replace them with weights checked against observed behavior after a loss: the share of bereaved workers back at work after the usual bereavement leave (the BLS employer-leave figures give a few days), the time-use shift of the recently widowed in the American Time Use Survey, and the shares still grieving at 6 and 18 months. Name the bereavement instrument the half-life stands for (for example the grief items Bonanno used) in the source row, and write each loss as a typed record of the world rather than memory only, so it persists with the world.
