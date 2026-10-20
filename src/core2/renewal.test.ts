@@ -168,3 +168,57 @@ it("the trip in an unplanned decision is the miles recorded for the state where 
     `No unplanned decision in any drawn place: ${tried.join("; ")}`,
   );
 }, 1_800_000);
+
+const COUNTED_UNPLANNED_DAYS = 365;
+it("a counted household's unplanned pregnancy is decided by the same rule from its record, and a counted birth follows", () => {
+  const tried: string[] = [];
+  for (let attempt = 0; attempt < 4; attempt += 1) {
+    const draw = drawPlace(
+      randomBytes(32).toString("hex"),
+      "unplanned-counted-tier",
+    );
+    tried.push(`${draw.key} seed ${draw.seed}`);
+    setBookkeeping(false);
+    const { core } = buildBenchWorld(draw.seed, gameStartDate(), {
+      twoLevel: true,
+      placeKey: draw.key,
+    });
+    const api = coreAPI(core);
+    advanceCore(core, addDays(makeIsoDate(core.date), COUNTED_UNPLANNED_DAYS));
+    const renewal = api.moduleState(RENEWAL_MODULE_ID);
+    const rows = renewal.table("countedUnplanned").rows();
+    if (!rows.length) continue;
+    const miles = (
+      providerDistance.places as unknown as Record<
+        string,
+        { milesBefore: { miles: number }; milesNow: { miles: number } }
+      >
+    )[draw.state]!;
+    for (const found of rows) {
+      const label = `${draw.key} seed ${draw.seed} ${found.id}`;
+      const scores = found.scores as { continue: number; end: number };
+      expect(found.continues, label).toBe(scores.continue >= scores.end);
+      expect(found.miles, label).toBe(
+        found.restricted ? miles.milesNow.miles : miles.milesBefore.miles,
+      );
+      expect(found.lawId, label).toBe(
+        lawInForce(api, ABORTION_LAW_SERIES, String(found.date)).governing
+          ?.id ?? null,
+      );
+      expect(Number(found.stands), label).toBeGreaterThanOrEqual(1);
+      expect(typeof found.cashMinor, label).toBe("number");
+    }
+    const born = rows.find((found) => found.status === "delivered");
+    if (!born) continue;
+    // Another engine reads it: the counted birth record cites the decision.
+    const birth = renewal.table("births").get(`${born.childId}:birth`);
+    expect(birth?.unplannedId, String(born.id)).toBe(born.id);
+    process.stderr.write(
+      `counted unplanned: place ${draw.key} (${draw.state}) seed ${draw.seed} decisions ${rows.length} record ${born.id} birth ${birth?.id} miles ${born.miles}\n`,
+    );
+    return;
+  }
+  throw new Error(
+    `No counted unplanned birth in any drawn place: ${tried.join("; ")}`,
+  );
+}, 3_600_000);

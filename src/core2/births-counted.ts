@@ -37,6 +37,7 @@ import lifeTables from "./data/ssa-cohort-life-tables.json" with { type: "json" 
 import stateMortality from "./data/state-mortality.json" with { type: "json" };
 import { bookkeeping } from "./bookkeeping";
 import { renewalParameter } from "./births-parameters";
+import { weighUnplanned } from "./births-unplanned";
 import { DEFAULT_HEALTH_DATA, severityImpulse } from "./modules/health";
 import { openingTemperaments } from "./opening-personality";
 import {
@@ -200,6 +201,8 @@ const monthlyShare = (perYear: number, months: number) =>
 
 interface Carry {
   births: number;
+  /** Unplanned pregnancies owed, in real women, not yet realized. */
+  unplanned: number;
   /** Each cohort's expected deaths not yet realized, by `deathCohort` key. */
   deaths: Record<string, number>;
 }
@@ -272,12 +275,40 @@ function birthStanding(
   );
 }
 
+/**
+ * Exposure a counted partnered woman adds at a review: her age curve times
+ * how little cushion her household has (cash against its costs), the same
+ * terms a full couple's exposure reads.
+ */
+function countedExposure(
+  api: CoreAPI,
+  record: ResidentHouseholdRecord,
+  woman: PersonInput,
+  date: string,
+): number {
+  const p = (key: string) => renewalParameter(api, key);
+  const distance =
+    (ageOf(woman, date) - p("renewalAgeCenter")) / p("renewalAgeSpread");
+  const cash = record.people.reduce((n, row) => n + row.liquidMinor, 0);
+  const costs = record.people.reduce(
+    (n, row) => n + row.livingCostDailyMinor,
+    0,
+  );
+  const cushion = cash / (cash + costs * p("moneyBufferDays") + p("one"));
+  return (
+    p("renewalUnplannedExposure") *
+    Math.exp(-distance * distance) *
+    (p("one") - cushion)
+  );
+}
+
 /** Monthly flows for every place with counted residents. */
 export function applyCountedFlows(
   api: CoreAPI,
   carryTable: string,
   rowsTable: string,
   birthsTable: string,
+  unplannedTable: string,
 ) {
   const core = api.state,
     date = core.date,
@@ -301,6 +332,7 @@ export function applyCountedFlows(
     // Stored rows are read-only; work on a copy.
     const carry: Carry = {
       births: Number(carryRow?.births ?? 0),
+      unplanned: Number(carryRow?.unplanned ?? 0),
       deaths: { ...((carryRow?.deaths as Record<string, number>) ?? {}) },
     };
     const people = households.flatMap((record) => record.people);
@@ -555,6 +587,19 @@ export function applyCountedFlows(
     const current = countedHouseholdsByPlace(core).get(placeId) ?? [];
     const spacing = p("renewalCountedBirthSpacingDays");
     const today = Date.parse(date);
+    /** One more bedroom, a year, at the place's fair market rents. */
+    const roomCostOf = (record: ResidentHouseholdRecord) => {
+      const size = record.people.length;
+      return hud
+        ? Math.max(
+            0,
+            (hud.rents[bedroomsForHousehold(size + 1)]! -
+              hud.rents[bedroomsForHousehold(size)]!) *
+              CENTS_PER_DOLLAR *
+              months,
+          )
+        : 0;
+    };
     const mothers: {
       record: ResidentHouseholdRecord;
       woman: PersonInput;
@@ -586,16 +631,7 @@ export function applyCountedFlows(
             (today - Date.parse(row.birthDate)) / MS_PER_DAY < spacing,
         );
         if (recent) continue;
-        const size = record.people.length;
-        const roomCost = hud
-          ? Math.max(
-              0,
-              (hud.rents[bedroomsForHousehold(size + 1)]! -
-                hud.rents[bedroomsForHousehold(size)]!) *
-                CENTS_PER_DOLLAR *
-                months,
-            )
-          : 0;
+        const roomCost = roomCostOf(record);
         mothers.push({
           record,
           woman,
@@ -606,6 +642,7 @@ export function applyCountedFlows(
       (a, b) => b.standing - a.standing || compare(a.woman.id, b.woman.id),
     );
     carry.births += row.expected.births;
+    const birthMothers = new Set<string>();
     for (const { record, woman } of mothers) {
       // A baby in a record stands for as many babies as the household does.
       const stands = weightOfPerson(woman);
@@ -615,6 +652,7 @@ export function applyCountedFlows(
       const baby = countedNewborn(api, record, woman, partner, date);
       addCountedPerson(core, record.household.id, baby);
       row.births.push(baby.id);
+      birthMothers.add(woman.id);
       // The town's birth record: a counted baby has no plan or pregnancy of
       // its own, only the rate that counted it and the household it joined.
       store.table(birthsTable).put({
@@ -628,6 +666,127 @@ export function applyCountedFlows(
         householdId: record.household.id,
         countsId: row.id,
       });
+    }
+
+    // Unplanned pregnancies: the same rule as a full couple's, times the
+    // households each record stands for.
+    const already = new Set(
+      store
+        .table(unplannedTable)
+        .rows()
+        .filter((r) => r.placeId === placeId && r.status === "pregnant")
+        .map((r) => String(r.motherId)),
+    );
+    const reviewShare = p("daysPerMeanYear") / months / p("renewalReviewDays");
+    const exposed: {
+      record: ResidentHouseholdRecord;
+      woman: PersonInput;
+      exposure: number;
+    }[] = [];
+    for (const record of countedHouseholdsByPlace(core).get(placeId) ?? [])
+      for (const woman of record.people) {
+        if (woman.looks?.gender !== "female") continue;
+        if (already.has(woman.id) || birthMothers.has(woman.id)) continue;
+        const age = ageOf(woman, date);
+        if (![...rates.keys()].some(([low, high]) => age >= low && age <= high))
+          continue;
+        if (!partnerOf(record, woman, date)) continue;
+        const recent = record.people.some(
+          (kid) =>
+            woman.familyIds.includes(kid.id) &&
+            (today - Date.parse(kid.birthDate)) / MS_PER_DAY < spacing,
+        );
+        if (recent) continue;
+        const exposure =
+          countedExposure(api, record, woman, date) * reviewShare;
+        carry.unplanned += exposure * weightOfPerson(woman);
+        exposed.push({ record, woman, exposure });
+      }
+    exposed.sort(
+      (a, b) => b.exposure - a.exposure || compare(a.woman.id, b.woman.id),
+    );
+    for (const { record, woman } of exposed) {
+      const stands = weightOfPerson(woman);
+      if (carry.unplanned < stands) continue;
+      carry.unplanned -= stands;
+      const cash = record.people.reduce((n, kid) => n + kid.liquidMinor, 0);
+      const decision = weighUnplanned(
+        api,
+        placeId,
+        {
+          standing: birthStanding(
+            api,
+            record,
+            woman,
+            date,
+            median,
+            roomCostOf(record),
+          ),
+        },
+        cash,
+      );
+      store.table(unplannedTable).put({
+        id: `${woman.id}:unplanned:${date}`,
+        placeId,
+        motherId: woman.id,
+        householdId: record.household.id,
+        date,
+        stands,
+        cashMinor: cash,
+        continues: decision.continues,
+        restricted: decision.restricted,
+        lawId: decision.lawId,
+        miles: decision.miles,
+        travelMinor: decision.travelMinor,
+        scores: decision.scores,
+        reasons: decision.reasons,
+        status: decision.continues ? "pregnant" : "ended",
+        dueDate: decision.continues
+          ? addDays(makeIsoDate(date), p("renewalGestationDays"))
+          : null,
+        countsId: row.id,
+      } as unknown as ModuleRow);
+    }
+    // A continued pregnancy ends at term with a counted baby in the same household.
+    for (const pregnancy of store.table(unplannedTable).rows()) {
+      if (
+        pregnancy.placeId !== placeId ||
+        pregnancy.status !== "pregnant" ||
+        String(pregnancy.dueDate) > date
+      )
+        continue;
+      const found = (countedHouseholdsByPlace(core).get(placeId) ?? []).find(
+        (record) => record.people.some((kid) => kid.id === pregnancy.motherId),
+      );
+      const mother = found?.people.find((kid) => kid.id === pregnancy.motherId);
+      if (!found || !mother) {
+        // She was filled in as a full person or moved: the pregnancy leaves the group with her.
+        store
+          .table(unplannedTable)
+          .put({ ...pregnancy, status: "left" } as unknown as ModuleRow);
+        continue;
+      }
+      const partner = partnerOf(found, mother, date);
+      const baby = countedNewborn(api, found, mother, partner, date);
+      addCountedPerson(core, found.household.id, baby);
+      row.births.push(baby.id);
+      store.table(birthsTable).put({
+        id: `${baby.id}:birth`,
+        childId: baby.id,
+        counted: true,
+        unplannedId: pregnancy.id,
+        motherId: mother.id,
+        otherParentId: partner?.id ?? null,
+        date,
+        placeId,
+        householdId: found.household.id,
+        countsId: row.id,
+      });
+      store.table(unplannedTable).put({
+        ...pregnancy,
+        status: "delivered",
+        childId: baby.id,
+      } as unknown as ModuleRow);
     }
 
     const end = countedHouseholdsByPlace(core).get(placeId) ?? [];

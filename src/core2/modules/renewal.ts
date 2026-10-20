@@ -537,6 +537,10 @@ export const RENEWAL_MODULE: CoreModule = {
       },
       /** Each place's fractional flows carried to next month. */
       countedCarry: {},
+      /** Unplanned pregnancies in counted households: the decision, its reasons and how it ended. */
+      countedUnplanned: {
+        indexes: { byPlace: { fields: ["placeId"] } },
+      },
       kin: {
         indexes: {
           byPerson: { fields: ["personId"] },
@@ -574,7 +578,13 @@ export const RENEWAL_MODULE: CoreModule = {
     const id = work.sourceRecordIds[0]!;
     if (work.kind === "delivery") deliver(api, id);
     else if (work.kind === "counted") {
-      applyCountedFlows(api, "countedCarry", "counts", "births");
+      applyCountedFlows(
+        api,
+        "countedCarry",
+        "counts",
+        "births",
+        "countedUnplanned",
+      );
       scheduleCounted(api);
     } else if (work.kind === "review") {
       const row = table(api, "couples").get(id);

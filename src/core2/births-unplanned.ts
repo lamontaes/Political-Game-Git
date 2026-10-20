@@ -117,28 +117,24 @@ export interface UnplannedDecision {
  * what a planned birth weighs (her records now) plus the pull of a pregnancy
  * already begun; ending weighs its own weight and the trip to a provider,
  * which the law in force where she lives lengthens and her cash shortens.
+ * The same rule serves a full person and a counted household: each brings its
+ * own reasons for raising a child and its own cash.
  */
-export function decideUnplanned(
+export function weighUnplanned(
   api: CoreAPI,
-  couple: BirthCouple,
-  asOf = api.state.date,
+  placeId: string,
+  circumstances: Readonly<Record<string, number>>,
+  cash: number,
 ): UnplannedDecision {
   const p = (key: string) => renewalParameter(api, key);
-  const mother = api.state.people.get(couple.motherId)!;
-  const circumstances = birthCircumstances(api, mother, couple, asOf);
   const raising = Object.values(circumstances).reduce((sum, v) => sum + v, 0);
   const law = restrictionRead(api);
   const { miles } = providerMiles(
-    mother.placeId,
+    placeId,
     law.restricted,
     api.state.placeMetadata?.placeKey,
   );
   const travelMinor = Math.round(miles * p("renewalTravelCostPerMileMinor"));
-  const cash = api.state.households
-    .get(mother.householdId)!
-    .memberIds.map((id) => api.state.people.get(id)!)
-    .filter((person) => person.alive)
-    .reduce((sum, person) => sum + person.liquidMinor, 0);
   // Distance and money both hold her back, each on a smooth curve.
   const far = miles / (miles + p("renewalTravelHalfMiles"));
   const unaffordable = travelMinor / (travelMinor + cash + p("one"));
@@ -161,4 +157,24 @@ export function decideUnplanned(
     scores: { continue: carry, end },
     reasons,
   };
+}
+
+/** A full couple's mother weighs an unplanned pregnancy from her records. */
+export function decideUnplanned(
+  api: CoreAPI,
+  couple: BirthCouple,
+  asOf = api.state.date,
+): UnplannedDecision {
+  const mother = api.state.people.get(couple.motherId)!;
+  const cash = api.state.households
+    .get(mother.householdId)!
+    .memberIds.map((id) => api.state.people.get(id)!)
+    .filter((person) => person.alive)
+    .reduce((sum, person) => sum + person.liquidMinor, 0);
+  return weighUnplanned(
+    api,
+    mother.placeId,
+    birthCircumstances(api, mother, couple, asOf),
+    cash,
+  );
 }
