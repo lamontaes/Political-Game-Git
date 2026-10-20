@@ -5,10 +5,10 @@ area: core
 kind: bug
 priority: 1
 size: M
-status: claimed
+status: blocked
 claimed-by: claude/political-game-pool-yucp92-v
 pr: #5372
-blocked-on:
+blocked-on: its children, the core-speed-* items (alloc, journal, date parse, gc churn, pair key); this umbrella is done when they bring the year under 120 s
 source: added with npm run pool -- add
 claimed-at: 2026-10-20T02:16:59.281Z
 ---
