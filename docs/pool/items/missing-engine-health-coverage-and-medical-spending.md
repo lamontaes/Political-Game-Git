@@ -5,11 +5,12 @@ area: people
 kind: feature
 priority: 2
 size: L
-status: open
-claimed-by:
+status: blocked
+claimed-by: claude/fs11vb-health-coverage
 pr:
-blocked-on:
+blocked-on: people-coverage-record-monthly-pass
 source: added with npm run pool -- add
+claimed-at: 2026-10-20T03:03:19.238Z
 ---
 
 **What.** Core2 has no health spending: living costs carry only drugs and medical supplies, and the CE health insurance and medical services categories are not bound to any household flow. Build a coverage record per full person and per counted group (plan, from, to) and a monthly premium and out-of-pocket flow for each household that reads it, so the laws-reach-b Medicaid items have something to move. The claiming session splits this into S or M sub-items (coverage record and monthly pass, medical spending categories from the BLS Consumer Expenditure health lines, the Medicaid reader) before building.

@@ -154,3 +154,43 @@ it("an official who diverts moves money from the treasury's line to themselves, 
       : `seed ${seed}: no drawn place had a treasury that closed a month`,
   );
 }, 900_000);
+
+it("in a played year the real chief executive weighs the monthly close, and each diversion is theirs, from their treasury", () => {
+  // The ordinary route: no stand-ins and no funding by hand. The bench's town
+  // with every module, a year of days, the monthly treasury close calling the
+  // hook, the chief executive read from the offices. Whatever happens is
+  // reported by record id; a diversion is never required of an honest town.
+  const place = drawPlace(seed, "treasury-diversion-year");
+  const where = `seed ${seed}, ${place.name} (${place.key})`;
+  const { core } = buildBenchWorld(place.seed, gameStartDate(), {
+    twoLevel: true,
+    placeKey: place.key,
+  });
+  const api = coreAPI(core);
+  const diverted: { id: string; personId: string; holder?: string }[] = [];
+  const emit = api.emit.bind(api);
+  api.emit = ((event: { id: string; kind: string; personIds?: string[] }) => {
+    if (event.kind === "treasury.diverted")
+      diverted.push({
+        id: event.id,
+        personId: event.personIds![0]!,
+        // Who holds the chief executive office as the money moves.
+        holder: governments(api)
+          .filter((g) => event.id.startsWith(`diversion:${g.id}:`))
+          .map((g) => governmentExecutive(api, g))[0],
+      });
+    return emit(event as never);
+  }) as typeof api.emit;
+  advanceCore(core, addDays(makeIsoDate(core.date), 365));
+  const months = api
+    .moduleState(BUDGETS_MODULE_ID)
+    .table("treasuryMonths")
+    .rows() as unknown as TreasuryMonthRow[];
+  // The close ran for at least one government, so the hook was reached.
+  expect(months.length, `${where}: no treasury closed a month`).toBeGreaterThan(
+    0,
+  );
+  for (const record of diverted) {
+    expect(record.holder, `${where}: ${record.id}`).toBe(record.personId);
+  }
+}, 900_000);

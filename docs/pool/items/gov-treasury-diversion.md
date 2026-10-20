@@ -5,7 +5,7 @@ area: gov
 kind: feature
 priority: 2
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/political-game-pool-76ksvw
 pr: #4587
 blocked-on:

@@ -5,9 +5,9 @@ area: gov
 kind: bug
 priority: 3
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/pretrial-flake
-pr:
+pr: #5448
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-20T02:59:04.810Z
