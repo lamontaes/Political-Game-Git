@@ -5,11 +5,12 @@ area: people
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/scandal-term
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-20T05:05:22.354Z
 ---
 
 **What.** src/core2/scandal-term.test.ts builds a drawn town with bookkeeping on and had no timeout of its own, so in a large town the build alone passes the suite's 30 second default and the test fails with 'Test timed out in 30000ms' while passing in a smaller town. It failed in two runs of the s-to-w sweep and in one of three standalone reruns on clean main. The assertions are not at fault.
