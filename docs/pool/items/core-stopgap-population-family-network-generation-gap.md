@@ -4,12 +4,13 @@ title: "Stopgaps in population (family-network-generation-gap): 1 open"
 area: core
 kind: stopgap
 priority: 3
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/pool-family-network
+pr: #5305
 blocked-on:
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/population.ts, kind family-network-generation-gap"
+claimed-at: 2026-10-19T23:49:25.436Z
 ---
 
 **What.** Replace or clear the 1 open family-network-generation-gap stopgap row(s) in src/core2/population.ts: SG-P8-family-network-coverage. Each fake is replaced by the mechanic, or the feature that needs it is deleted.

@@ -5,11 +5,12 @@ area: gov
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/first-term-age
+pr: #5054
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-18T15:28:32.277Z
 ---
 
 **What.** In the played world, 35 of 1,573 sitting officials (Delaware City, seed a1) began service before they were old enough for the office: a senator at 29, House members at 21 to 24. The opening draws each holder's service start as a date and then moves it later only to the year they would be of age, which keeps the draw's month and day, not their birthday; and for holders the offices engine seated, the correction is skipped on the belief that its careers already keep to it, and they do not (a House member born in 1989 first served in 2011). Move every holder's service start to the day they turn the age the office asks, which is the Constitution's 30, 25 and 35 for the Senate, the House and the presidency, and the first-term minimum for all.

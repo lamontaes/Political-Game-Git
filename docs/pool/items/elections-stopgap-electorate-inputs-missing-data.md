@@ -4,10 +4,10 @@ title: "Stopgaps in electorate-inputs (missing-data): 1 open"
 area: elections
 kind: stopgap
 priority: 3
-status: open
+status: blocked
 claimed-by:
 pr:
-blocked-on:
+blocked-on: engine or design: No engine records the president's approval yet (the executive's record and the public's view of it).
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/electorate-inputs.ts, kind missing-data"
 ---
