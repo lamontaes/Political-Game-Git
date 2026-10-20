@@ -9,11 +9,10 @@ status: open
 claimed-by:
 pr:
 blocked-on:
-after: world-health-spending-sellers
 source: added with npm run pool -- add
 ---
 
-**What.** Bind the CE health insurance and medical services means by income class (cu-income-before-taxes-2024.xlsx) to monthly household flows, full and counted, paid to the carriers and clinics. The flows are the household's own bills, read by its cash and by the sellers' books. Coverage that lowers them comes in the next item.
+**What.** Bind the CE health insurance and medical services means by income class (cu-income-before-taxes-2024.xlsx) to monthly household flows, full and counted, paid to the insurance and clinic firms the opening economy already holds (business-books kinds `insurance` and `clinic`). The flows are the household's own bills, read by its cash and by the sellers' books. Coverage that lowers them comes in the next item.
 
 **Rules.** An effect is a read: the flow is read by the cash journal and the seller's revenue. One model, two tiers: a counted household pays its group's rate times its weight. Sliding scales and causes: the amount follows income class by interpolation, never a threshold. Numbers live in the parameter table with their CE rows cited.
 
