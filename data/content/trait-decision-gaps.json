@@ -164,9 +164,9 @@
       "fix": "In flight elsewhere."
     },
     "jobs.apply": {
-      "class": "weight too small",
-      "why": "Calibrated weight 5, but every full seeker's application scores exactly the unemployed need of 3 above waiting (src/core2/modules/jobs.ts:1586), so personality changes no application below a weight of about 4.5 and many above 6; no weight reaches the assumed 1.49 odds ratio (the study gives no number).",
-      "fix": "Make the need for work fall with weeks unemployed or with the cost of an application, then recalibrate."
+      "class": "circumstances saturate the choice",
+      "why": "Every full seeker's application scores exactly the unemployed need of 3 above waiting (src/core2/modules/jobs.ts:1586), so no trait weight short of an overwhelming one changes an application. The weight stays at the general 1 until the apply reasons vary with the seeker's circumstances (time out of work, benefits, offers seen).",
+      "fix": "Give the apply decision circumstance reasons that vary between seekers, then calibrate against Kanfer et al. 2001."
     },
     "drives.respond": {
       "class": "weight too small",
@@ -189,14 +189,19 @@
       "fix": "Find a study of owner expansion and calibrate the expand baseline against it."
     },
     "business.owner-draw": {
-      "class": "weight too small",
-      "why": "Owners draw in 200 of 200 weighings (the draw scores 0.7 to 4 above keeping); weight 1.5 is where the first draws flip and no study of owners' draws has a number.",
-      "fix": "Find a study of owner pay and calibrate the draw reasons against it."
+      "class": "circumstances saturate the choice",
+      "why": "Owners draw in 200 of 200 weighings (the draw scores 0.7 to 4 above keeping) and no study of owners' draws by personality has a number, so the weight stays at the general 1.",
+      "fix": "None until a study gives a size."
     },
     "retirement.claim-age": {
       "class": "no study number",
       "why": "Claiming age moves by weight times lean times claimTraitPullYears; the only study found is an unverified abstract (data/research/trait-effect-sizes.json), so the weight stays at the general 1.",
       "fix": "Find a claim-age study with a number and set the weight."
+    },
+    "housing.buy-home": {
+      "class": "circumstances saturate the choice",
+      "why": "In 651 weighings in a played year nobody bought a home at the general weight: households that can afford the down payment still score about half a point below keeping the rent. No study of personality and becoming a homeowner was found, so the trait weight is not raised to manufacture purchases.",
+      "fix": "Fix the buy reasons against the homeownership transition rate (pool item world-counted-renters-buy and world-home-turnover), then calibrate."
     }
   }
 }

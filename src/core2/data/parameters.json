@@ -569,14 +569,12 @@
     }
   },
   "traitWeightBusinessOwnerDraw": {
-    "value": 1.5,
-    "tag": "ESTIMATED",
-    "citation": "No study of owners' draws by personality was found; the default row of data/research/trait-effect-sizes.json (Fleeson and Gallagher 2009) is a different measure. Weight set where flips first appear in 204 played calls (place key 3223500, seed 7ae8589566f5): below about 1.3 nobody changes, above 2 more than a tenth do.",
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "The trait weight of the business.owner-draw decision. Starts at the general traitWeight (1); calibrated against its row in data/research/trait-effect-sizes.json with scripts/traits/trait-calibrate.ts.",
     "spread": {
-      "low": 1,
-      "high": 2,
-      "unit": "weight",
-      "citation": "Bounds are where the first flips appear and where over a tenth of calls change."
+      "status": "unmeasured",
+      "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
     }
   },
   "traitWeightBusinessOpenLocation": {
@@ -622,14 +620,12 @@
     }
   },
   "traitWeightJobsApply": {
-    "value": 5,
-    "tag": "ESTIMATED",
-    "citation": "Kanfer, Wanberg and Kantrowitz 2001, Job search and employment: a personality-motivational analysis and meta-analytic review (Journal of Applied Psychology 86(5)): correlations of -.15 to .46, no trait-level number. No weight reaches the assumed 1.49 odds ratio: every weighed application scores exactly the unemployed need of 3 above waiting, so personality changes nothing below a weight of about 4.5 and is overwhelming (odds ratio 90) at 6. 5 is the smallest weight at which the most extreme personalities can decline an application (scripts/traits/trait-calibrate.ts, seed 7ae8589566f5, place key 3223500, 482 calls).",
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "The trait weight of the jobs.apply decision. Starts at the general traitWeight (1); calibrated against its row in data/research/trait-effect-sizes.json with scripts/traits/trait-calibrate.ts.",
     "spread": {
-      "low": 4.5,
-      "high": 6,
-      "unit": "weight",
-      "citation": "Bounds are the cliff: 4.5 changes no call, 6 changes about 7 percent of calls."
+      "status": "unmeasured",
+      "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
     }
   },
   "traitWeightJobsAcceptOffer": {
@@ -644,14 +640,12 @@
     }
   },
   "traitWeightHousingBuyHome": {
-    "value": 2.5,
-    "tag": "ESTIMATED",
-    "citation": "No study of personality and becoming a homeowner was found (data/research/trait-effect-sizes.json). Weight set at the smallest value at which personality reaches any home purchase in 651 played weighings (place key 3223500, seed 7ae8589566f5, 365 days): nobody buys below about 2, and the odds ratio between the thirds is 9 at 2 and 22 at 3 from 4 and 10 buyers. Households that can afford the down payment score below keeping the rent by about half a point, so only the strongest leanings tip them. The cost of owning over renting is now the interest, not the whole payment.",
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "The trait weight of the housing.buy-home decision. Starts at the general traitWeight (1); calibrated against its row in data/research/trait-effect-sizes.json with scripts/traits/trait-calibrate.ts.",
     "spread": {
-      "low": 2,
-      "high": 4,
-      "unit": "weight",
-      "citation": "2 is where the first purchases appear; 4 is where about 3 percent of weighings end in a purchase."
+      "status": "unmeasured",
+      "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
     }
   },
   "traitWeightCreditBorrow": {

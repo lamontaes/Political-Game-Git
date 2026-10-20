@@ -28,7 +28,6 @@ import { coreAPI } from "./state";
 import circumstances from "./money-traits-circumstances.json" with { type: "json" };
 import jobsData from "./data/jobs/jobs.json" with { type: "json" };
 import businessData from "./data/business/business.json" with { type: "json" };
-import housingData from "./data/housing/housing.json" with { type: "json" };
 import creditData from "./data/credit/credit.json" with { type: "json" };
 import type { ActionDefinition, ActOffer } from "./types";
 
@@ -105,9 +104,10 @@ function formulaOdds(
 const BAND = 2;
 
 describe(`money-family trait decisions, ${label}`, () => {
-  // Decisions whose recorded circumstances sit at one score (every weighed
-  // application scores the unemployed need of 3 above waiting) step from no
-  // effect to a large one: their test asks only that personality moves them.
+  // Decisions whose recorded circumstances bunch at a few scores step from a
+  // small effect to a large one: their test asks only that personality moves
+  // them. Applying, buying a home and an owner's draw are saturated by their
+  // circumstances and wait at the general weight (trait-decision-gaps.json).
   const chooser: [string, Action, Action, number, boolean][] = [
     [
       "jobs.start-looking",
@@ -127,21 +127,6 @@ describe(`money-family trait decisions, ${label}`, () => {
       "jobs.accept-offer",
       jobsData.actions.accept,
       jobsData.actions.decline,
-      1.49,
-      true,
-    ],
-    ["jobs.apply", jobsData.actions.apply, jobsData.actions.wait, 1.49, true],
-    [
-      "business.owner-draw",
-      businessData.actions.draw,
-      businessData.actions.keep,
-      1.49,
-      true,
-    ],
-    [
-      "housing.buy-home",
-      housingData.actions.buy,
-      housingData.actions.rent,
       1.49,
       true,
     ],
