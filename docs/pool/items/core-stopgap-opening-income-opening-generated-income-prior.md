@@ -4,10 +4,10 @@ title: "Stopgaps in opening-income (opening-generated-income-prior): 1 open"
 area: core
 kind: stopgap
 priority: 3
-status: open
+status: dropped
 claimed-by:
 pr:
-blocked-on:
+blocked-on: research-opening-income-sourced-parameters
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/data/opening-income.json, kind opening-generated-income-prior"
 ---
@@ -21,3 +21,5 @@ source: "src/core2/data/stopgaps.json, src/core2/data/opening-income.json, kind 
 **Files.** src/core2/data/opening-income.json
 
 **Notes.** First row: Fictional summarized covered career, retirement claim/award and local retirement disbursement view. The official January 2021 estimated retired-worker average supplies an amount prior; person career-length scaling and va
+
+Folded into research-opening-income-sourced-parameters (CTO, Oct 19, 2026).

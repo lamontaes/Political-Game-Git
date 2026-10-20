@@ -4,9 +4,9 @@ title: "Declare an emergency (needs OPUS-CORE's disasters engine, PR no. 4125)."
 area: office
 kind: feature
 priority: 2
-status: claimed
+status: in-pr
 claimed-by: claude/declare-emergency
-pr:
+pr: #5134
 blocked-on:
 milestone:
 after: core-disasters-ss-prices
