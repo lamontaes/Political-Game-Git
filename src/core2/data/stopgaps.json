@@ -2728,7 +2728,8 @@
     "addedAt": "2026-10-12",
     "replacement": "registerPropertyTax with the county's rate, cap and treasury from the law in force.",
     "status": "resolved",
-    "resolution": "The budgets engine registers the rate, cap and payee from the law in force (registerPropertyTax) in every played world; the state-average fallback is deleted, and a place with no law registered is billed nothing. The state average still sizes the opening's outside living cost."
+    "resolution": "The budgets engine registers the rate, cap and payee from the law in force (registerPropertyTax) in every played world; the state-average fallback is deleted, and a place with no law registered is billed nothing. The state average still sizes the opening's outside living cost.",
+    "resolvedAt": "2026-10-20"
   },
   {
     "id": "SG-WORLD-property-tax-monthly",

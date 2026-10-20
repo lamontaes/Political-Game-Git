@@ -2,7 +2,7 @@
 id: world-stopgap-housing-property-tax-assumed-data
 impact: patch
 section: Fixed
-title: Property tax bills come only from the law in force where you live.
+title: Homeowners are billed property tax only at the rate their local law sets.
 ---
 
-Homeowners are billed at the property tax rate their place's law sets and the bill is paid to the county's tax collector; a place with no such law is billed nothing instead of a state average.
+Property tax bills now come only from the rate the local government has in force. A place with no property tax law bills its owners nothing, where before it billed them a made-up state average.
