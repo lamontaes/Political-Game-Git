@@ -4,10 +4,10 @@ title: "Stopgaps in views (partial-model): 1 open"
 area: people
 kind: stopgap
 priority: 3
-status: open
+status: blocked
 claimed-by:
 pr:
-blocked-on:
+blocked-on: research data: the row's replacement needs sourced data (Opening views from the person's education, faith, place type and upbringing through CES-derived weights; the 14 values; conversations and news moving ...)
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/modules/views.ts, kind partial-model"
 ---

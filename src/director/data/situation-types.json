@@ -2324,14 +2324,6 @@
           "moves": ["ask", "blame", "tell"],
           "wants": ["change"],
           "bearing": "anxious"
-        },
-        {
-          "key": "teller",
-          "fill": "teller",
-          "count": "one",
-          "moves": ["deliver-news", "tell", "blame"],
-          "wants": ["engage"],
-          "bearing": "calm"
         }
       ],
       "setting": ["home", "workplace", "public"],
@@ -2342,11 +2334,10 @@
           "causeEngine": "budgets",
           "causeRecord": "law.effect-learned",
           "bind": {
-            "reached": "subject",
-            "teller": "teller"
+            "reached": "subject"
           },
-          "opener": "teller",
-          "opening": "deliver-news"
+          "opener": "reached",
+          "opening": "tell"
         }
       ],
       "tag": {

@@ -7,8 +7,7 @@
  */
 import { randomBytes } from "node:crypto";
 import { describe, expect, it } from "vitest";
-import { buildBenchWorld } from "../bench/world";
-import { gameStartDate } from "./game-start";
+import { worldWith } from "./tooling/world-with";
 import { addDays, makeIsoDate } from "./kernel/dates";
 import {
   firearmOwnershipRate,
@@ -22,17 +21,16 @@ import {
 } from "./law-reach/group-a-records";
 import { enactLaw, lawChain } from "./modules/laws";
 import { coreAPI } from "./state";
-import { drawPlace } from "../../scripts/core2-year/place";
 
 const KEY = "us-policy-positions:justice-public-safety.child-access-prevention";
 const seed =
   process.env.HOUSEHOLD_FIREARMS_SEED || randomBytes(8).toString("hex");
-const place = drawPlace(seed, "household-firearms");
+// The law is a city ordinance: a place with no city government (a territory's
+// town) cannot enact it.
+const { world, place } = worldWith(seed, "household-firearms", (w) =>
+  lawChain(coreAPI(w.core)).levels.some((l) => l.level === "city"),
+);
 console.log(`household-firearms: ${place.name} (${place.key}), seed ${seed}`);
-const world = buildBenchWorld(seed, gameStartDate(), {
-  twoLevel: true,
-  placeKey: place.key,
-});
 const core = world.core;
 const api = coreAPI(core);
 
@@ -41,8 +39,7 @@ describe(`child access prevention (${place.name}, seed ${seed})`, () => {
     const chain = lawChain(api);
     const stateKey = chain.stateKey;
     const rate = firearmOwnershipRate(stateKey);
-    const level = chain.levels.find((l) => l.level === "city");
-    if (!level) return;
+    const level = chain.levels.find((l) => l.level === "city")!;
     enactLaw(api, {
       jurisdiction: level.jurisdiction,
       level: "city",
@@ -55,10 +52,13 @@ describe(`child access prevention (${place.name}, seed ${seed})`, () => {
     advanceCore(core, addDays(makeIsoDate(core.date), 2));
     const adult = reachParameter("adultAge");
     const below = reachParameter("childAgeBelow");
+    // The duty opens on the law's effective date, the day before the test
+    // looks: someone who turns 18 in between is not yet an adult to it.
+    const effective = addDays(makeIsoDate(core.date), -1);
     const ageOf = (birth: string) =>
-      Number(core.date.slice(0, 4)) -
+      Number(effective.slice(0, 4)) -
       Number(birth.slice(0, 4)) -
-      (core.date.slice(5) < birth.slice(5) ? 1 : 0);
+      (effective.slice(5) < birth.slice(5) ? 1 : 0);
     const people = townPeople(api);
     const expected = new Set(
       people

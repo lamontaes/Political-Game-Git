@@ -1,4 +1,4 @@
-import type { TraitEffectDeclaration } from "../../trait-packs";
+import type { TraitEffectDeclaration } from "../../../core2/trait-packs";
 
 /**
  * Bond loyalty is the weight an established allegiance carries when other

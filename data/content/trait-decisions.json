@@ -328,6 +328,19 @@
       ]
     },
     {
+      "id": "contracts.award",
+      "site": "src/core2/modules/contracts.ts",
+      "owner": "OPUS-GOV",
+      "route": "formula",
+      "options": [
+        { "id": "award-lowest-bid", "actKinds": ["follow-rules", "play-safe"] },
+        {
+          "id": "award-known-firm",
+          "actKinds": ["self-interest", "bend-rules", "trust"]
+        }
+      ]
+    },
+    {
       "id": "corruption.offer",
       "site": "src/core2/modules/corruption.ts",
       "owner": "OPUS-GOV",

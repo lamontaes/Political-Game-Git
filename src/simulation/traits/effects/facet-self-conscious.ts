@@ -1,4 +1,7 @@
-import type { TraitEffectDeclaration, TraitPack } from "../../trait-packs";
+import type {
+  TraitEffectDeclaration,
+  TraitPack,
+} from "../../../core2/trait-packs";
 
 /** Self-consciousness concerns being observed and evaluated.
  * Absence of this one-sided quality contributes nothing and is not confidence.
