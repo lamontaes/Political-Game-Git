@@ -21,4 +21,4 @@ claimed-at: 2026-10-20T01:04:35.914Z
 
 **Files.** src/core2/life.ts, src/core2/modules/press.ts, src/core2/kernel/dates.ts, scripts/speed-years/run.ts
 
-**Notes.** TODO
+**Notes.** Profile Oct 20 (node --cpu-prof, seed m7b, 214 s year; analysed by inclusive time per function): campaign ads called `countedFollowers` (src/core2/modules/press.ts) for every outlet, and each call walked every counted resident to rebuild the town's adults by age band: about 30 s of the year (pressWeek, adOutlet, adMoneyAt, slantOf). Counting the bands once a week took the same year to 196 s (m7a 54.2 s against 52 s). What is left, by inclusive seconds of a 196 s year: advanceCore 164 (garbage collection about 40 of it), module calendar 58, work onDay 27 (payroll and attendance 11 each), postJournal 18, relationship change telling news 11 (news.onRelationshipChange), foundings 10, constituent cases (officeHours) 7, counted moves 6, fillInPerson 7, planFreeTime 6. Nothing else is above 10 s, so the 76 s still to cut has to come from several of these; each is its own part.

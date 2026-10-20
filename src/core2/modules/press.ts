@@ -891,6 +891,37 @@ function adOutlet(api: CoreAPI): {
 }
 
 /**
+ * The town's counted adults by age band, counted at most once a week: the
+ * count walks every counted resident, an audience moves slowly, and every
+ * outlet's follower count reads the same bands.
+ */
+function townAdultsByBand(api: CoreAPI): ReadonlyMap<Band, number> {
+  const held = adultsCache.get(api.state);
+  if (
+    held &&
+    held.date <= api.state.date &&
+    api.state.date < addDays(makeIsoDate(held.date), 7)
+  )
+    return held.adults;
+  const town = lawChain(api).townPlaceId;
+  const date = api.state.date;
+  const adults = new Map<Band, number>();
+  for (const voter of countedResidents(api.state as CoreState)) {
+    if (voter.placeId !== town) continue;
+    const age = ageOn(voter, date);
+    if (age < 18) continue;
+    const band = bandOf(age);
+    adults.set(band, (adults.get(band) ?? 0) + voter.weight);
+  }
+  adultsCache.set(api.state, { date, adults });
+  return adults;
+}
+const adultsCache = new WeakMap<
+  object,
+  { date: string; adults: ReadonlyMap<Band, number> }
+>();
+
+/**
  * The counted adults in town who follow an outlet: the same rule as the full
  * people (in each age band the share that follows its kind, Pew 2024), times
  * each counted household's weight, and the outlet's slice of its kind's
@@ -901,17 +932,8 @@ export function countedFollowers(api: CoreAPI, outletId: string): number {
   const outlet = table(api, "outlets").get(outletId) as unknown as
     OutletRow | undefined;
   if (!outlet) return 0;
-  const town = lawChain(api).townPlaceId;
-  const date = api.state.date;
   const national = NATIONAL.kinds.find((row) => row.kind === outlet.kind);
-  const adults = new Map<Band, number>();
-  for (const voter of countedResidents(api.state as CoreState)) {
-    if (voter.placeId !== town) continue;
-    const age = ageOn(voter, date);
-    if (age < 18) continue;
-    const band = bandOf(age);
-    adults.set(band, (adults.get(band) ?? 0) + voter.weight);
-  }
+  const adults = townAdultsByBand(api);
   let ofKind = 0;
   for (const [band, count] of adults) {
     const share = national
