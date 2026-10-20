@@ -23,3 +23,5 @@ claimed-at:
 **Files.** src/core2/modules/macro.ts, src/core2/macro-model.ts, src/core2/modules/residents.ts, src/core2/data/macro/parameters.json, tests/golden-path/federal-dollar.node-test.ts
 
 **Notes.** Branch trial/glm/federal-dollar; finish there, merge main in first. The trial order is PR #4810 (left open as the reading order). Graded about 4.1 of 5 by the acting CTO, Oct 18. Follow-up item world-macro-outside-outlays-indexed after it.
+
+Sent back 2026-10-20 from PR #4990 (branch trial/glm/federal-dollar): owner and date notes in code and data: '(owner, Oct 16: ...)' in src/core2/macro-model.ts and '(owner, Oct 16)' in the macroFederalOutlayResponseBand citation in src/core2/data/macro/parameters.json; finish on that branch, merge main into it first.
