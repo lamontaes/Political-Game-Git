@@ -24,3 +24,5 @@ claimed-at:
 **Notes.** TODO
 
 Sent back 2026-10-20 from PR #5432 (branch claude/bereaved-counted): merge conflict with main in src/core2/modules/health.ts (code) after #5596; finish on that branch, merge main into it first.
+
+Sent back 2026-10-20 from PR #5432 (branch claude/bereaved-counted): Merging current origin/main conflicts again in src/core2/modules/health.ts. Resolve that code conflict on this branch, retaining both current health/trait behavior and the full/count death impulse paths, then rerun the changed-file gate and the ordinary counted-death proof. The earlier resolution is present, but the current merged result cannot be tested until this new conflict is resolved.; finish on that branch, merge main into it first.
