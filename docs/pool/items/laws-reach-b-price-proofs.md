@@ -5,12 +5,12 @@ area: laws
 kind: stopgap
 priority: 3
 size: M
-status: in-pr
-claimed-by: claude/reach-b-price-proofs
+status: claimed
+claimed-by: claude/political-game-pool-7xkkii
 pr: #5310
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-19T23:48:01.651Z
+claimed-at: 2026-10-20T03:49:31.121Z
 ---
 
 **What.** TODO
