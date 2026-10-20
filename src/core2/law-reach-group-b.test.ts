@@ -121,10 +121,33 @@ function build(): void {
     where = `seed ${seed}, place ${key} (${core.placeMetadata.placeName})`;
     where += `, governments ${[...new Set(governments(api).map((g) => g.level))].join("/")}`;
     report.place = where;
+    // The payment tests need someone to pay: a named adult the Medicaid
+    // expansion covers and a named household with a 3- or 4-year-old. A town
+    // without them is drawn again, so no assertion below runs on nothing.
+    const facts = townFacts(api, town);
+    const stateKey = lawChain(api).stateKey;
+    const covered = selectResidents(
+      facts,
+      groupBPolicy(Q("health-human-services.expand-medicaid-eligibility"))!
+        .people!,
+      stateKey,
+    ).some((r) => r.named);
+    const toddlers = selectResidents(
+      facts,
+      groupBPolicy(Q("education.universal-preschool"))!.people!,
+      stateKey,
+    ).some(
+      (c) =>
+        c.named &&
+        facts.residents.some(
+          (r) => r.named && r.householdId === c.householdId && r.age >= 18,
+        ),
+    );
+    if (!covered || !toddlers) continue;
     return;
   }
   throw new Error(
-    `no town with an employed adult in forty draws (seed ${seed})`,
+    `no town with an employed adult, a covered adult and a preschool child in forty draws (seed ${seed})`,
   );
 }
 
@@ -298,32 +321,6 @@ describe("law reach, group B: every policy reaches people through its engine", (
   });
 
   // ---- Records reaching named people, counted residents and employers ----
-  const ageRecords: [string, string, string?][] = [
-    [
-      Q("education.universal-preschool"),
-      "preschoolAgeFrom",
-      "preschoolAgeBelow",
-    ],
-  ];
-  for (const [key, from, below] of ageRecords)
-    it(`${key}: every resident of the ages it covers is reached; a repeal ends it`, () => {
-      enact(key, 1, "state");
-      const expected = residentsAged(
-        reachParameter(from),
-        below ? reachParameter(below) : Infinity,
-      );
-      expect(reached(key), `${where} ${key}`).toBe(expected);
-      const def = groupBPolicy(key)!;
-      if (def.organizations)
-        expect(openOrgs(key).length).toBe(employersOf(def.organizations));
-      const one = openPeople(key)[0];
-      if (one)
-        expect(api.knows(one.personId, `law-reach:${key}`)).toBeUndefined();
-      report[key] = { reached: reached(key), named: openPeople(key).length };
-      enact(key, 0, "state");
-      expectEnded(key);
-    });
-
   // Public broadband and the property tax cap are read by the price engine
   // and the housing assessment (see "laws their own engine reads" below).
   const householdRecords = [Q("fiscal.exempt-groceries-from-sales-tax")];
@@ -380,6 +377,8 @@ describe("law reach, group B: every policy reaches people through its engine", (
     const work = Q("health-human-services.medicaid-work-requirement");
     enact(expand, 1, "state");
     expect(reached(expand), `${where} expansion`).toBeGreaterThan(0);
+    // Counted before the work requirement, which then ends coverage for some of them.
+    const eligibleBefore = reached(expand);
     const date = makeIsoDate(api.state.date);
     for (const row of openPeople(expand)) {
       const p = core.people.get(row.personId)!;
@@ -388,7 +387,7 @@ describe("law reach, group B: every policy reaches people through its engine", (
       expect(age).toBeLessThan(65);
     }
     enact(work, 1, "state");
-    expect(reached(work)).toBeLessThanOrEqual(reached(expand));
+    expect(reached(work)).toBeLessThanOrEqual(eligibleBefore);
     const weekly = (80 * 12 * 60) / 52;
     for (const row of openPeople(work)) {
       const minutes = [
@@ -400,13 +399,129 @@ describe("law reach, group B: every policy reaches people through its engine", (
       expect(minutes).toBeLessThan(weekly);
     }
     report.medicaid = {
-      eligible: reached(expand),
+      eligible: eligibleBefore,
       endedForHours: reached(work),
     };
     enact(work, 0, "state");
     expectEnded(work);
     enact(expand, 0, "state");
     expectEnded(expand);
+  });
+
+  it("Medicaid expansion has the state treasury pay each covered adult's medical spending; the work requirement stops it for those it reaches, and a repeal ends it", () => {
+    const expand = Q("health-human-services.expand-medicaid-eligibility");
+    const work = Q("health-human-services.medicaid-work-requirement");
+    const accounts = api.accounts();
+    const stateKey = lawChain(api).stateKey;
+    const open = () =>
+      table<{
+        key: string;
+        recipientId: string;
+        obligationId: string;
+        amountMinor: number;
+      }>("taken").filter(
+        (r) =>
+          r.key === `coverage|${expand}` &&
+          !accounts.obligation(r.obligationId)?.endedAt,
+      );
+    const monthly = Math.round(
+      reachParameter("medicaidMonthlyMedicalDollars") * 100,
+    );
+    enact(expand, 1, "state");
+    const facts = townFacts(api, town);
+    const eligible = selectResidents(
+      facts,
+      groupBPolicy(expand)!.people!,
+      stateKey,
+    );
+    const namedEligible = eligible.filter((r) => r.named);
+    const paid = open();
+    expect(namedEligible.length, `${where} a covered adult`).toBeGreaterThan(0);
+    expect(eligible.length).toBeGreaterThan(0);
+    expect(paid.length, `${where} coverage payments`).toBeGreaterThan(0);
+    for (const r of namedEligible) {
+      const row = paid.find((p) => p.recipientId === r.id);
+      expect(row?.amountMinor, `${where} ${r.id} covered`).toBe(monthly);
+    }
+    // The treasury pays it: a month on, a covered adult has received it.
+    advanceCore(core, after(api.state.date, 35));
+    for (const row of open())
+      expect(
+        accounts.obligation(row.obligationId)!.paidMinor,
+        `${where} ${row.recipientId} paid`,
+      ).toBeGreaterThan(0);
+    // The work requirement ends coverage for the adults it reaches.
+    enact(work, 1, "state");
+    const ended = new Set(
+      selectResidents(
+        townFacts(api, town),
+        groupBPolicy(work)!.people!,
+        stateKey,
+      ).map((r) => r.id),
+    );
+    for (const row of open())
+      expect(
+        ended.has(row.recipientId),
+        `${where} ${row.recipientId} still covered`,
+      ).toBe(false);
+    enact(work, 0, "state");
+    enact(expand, 0, "state");
+    expect(open(), `${where} coverage after repeal`).toEqual([]);
+  });
+
+  it("universal preschool has the state treasury pay the household of each 3- and 4-year-old a month at a time; a repeal ends it", () => {
+    const key = Q("education.universal-preschool");
+    const accounts = api.accounts();
+    const open = () =>
+      table<{
+        key: string;
+        recipientId: string;
+        obligationId: string;
+        amountMinor: number;
+      }>("taken").filter(
+        (r) =>
+          r.key === `preschool|${key}` &&
+          !accounts.obligation(r.obligationId)?.endedAt,
+      );
+    const monthly = Math.round(
+      (reachParameter("preschoolStateSpendingPerChildDollars") *
+        reachParameter("preschoolEnrolledShare") *
+        100) /
+        reachParameter("monthsPerYear"),
+    );
+    enact(key, 1, "state");
+    const facts = townFacts(api, town);
+    const children = selectResidents(
+      facts,
+      groupBPolicy(key)!.people!,
+      lawChain(api).stateKey,
+    ).filter((r) => r.named);
+    const rows = open();
+    // Every such child's household is paid, named or through the counts.
+    expect(children.length, `${where} a preschool child`).toBeGreaterThan(0);
+    expect(rows.length, `${where} preschool payments`).toBeGreaterThan(0);
+    for (const row of rows.filter((r) => api.state.people.has(r.recipientId))) {
+      const kids = children.filter((c) => {
+        const head = facts.residents
+          .filter(
+            (r) => r.named && r.householdId === c.householdId && r.age >= 18,
+          )
+          .sort((x, y) => y.age - x.age || x.id.localeCompare(y.id))[0];
+        return head?.id === row.recipientId;
+      }).length;
+      expect(row.amountMinor, `${where} ${row.recipientId}`).toBe(
+        monthly * kids,
+      );
+    }
+    advanceCore(core, after(api.state.date, 35));
+    for (const row of open())
+      expect(
+        accounts.obligation(row.obligationId)!.paidMinor,
+        `${where} ${row.recipientId} paid`,
+      ).toBeGreaterThan(0);
+    report[key] = { households: rows.length };
+    enact(key, 0, "state");
+    expect(open(), `${where} preschool after repeal`).toEqual([]);
   });
 
   // ---- Pay ----
