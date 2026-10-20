@@ -1,7 +1,12 @@
 {
   "version": 1,
-  "note": "Why a personality decision did not run, or ran without personality turning it, in the October 20, 2026 audit (docs/reports/trait-wiring-2026-10-20.md). One row per decision with a gap; the matrix (scripts/traits/trait-wiring-matrix.ts) joins them. A row is removed when its fix lands.",
-  "formulaSiteAliases": {},
+  "note": "Why a personality decision did not run, or ran without personality turning it, in the trait-wiring audit (docs/reports/trait-wiring-2026-10-20.md). One row per decision with a gap; the matrix (scripts/traits/trait-wiring-matrix.ts) joins them. A row is removed when its fix lands.",
+  "formulaSiteAliases": {
+    "src/core2/modules/jobs.ts:2026": "jobs.counted-retire",
+    "src/core2/modules/jobs.ts:2167": "jobs.counted-look",
+    "src/core2/modules/jobs.ts:2237": "jobs.counted-look",
+    "src/core2/modules/business.ts:1513": "business.counted-found"
+  },
   "gaps": {
     "corruption.offer": {
       "class": "weight too small",
@@ -169,9 +174,9 @@
       "fix": "Give the apply decision circumstance reasons that vary between seekers, then calibrate against Kanfer et al. 2001."
     },
     "drives.respond": {
-      "class": "weight too small",
-      "why": "Ran 1,471 times; the pick never changed with personality in this place.",
-      "fix": "Calibrate."
+      "class": "circumstances saturate the choice",
+      "why": "Personality turned none of 1,471 drive responses in Ely, Nevada at any weight up to 8: the drive's own strength separates the options. No study gives a size (neuroticism and rumination is the direction).",
+      "fix": "None until the options score closer or a study gives a size; the general trait weight of 1 stands."
     },
     "business.found": {
       "class": "weight too small",
@@ -197,6 +202,16 @@
       "class": "no study number",
       "why": "Brown and Taylor 2014 report extraversion's link to the level of unsecured debt (21.70 percentage points per standard deviation), not to the probability of borrowing, so the study gives no size for this decision; the general trait weight of 1 stands. Borrowing now goes through the shared two-way formula for full and counted people alike.",
       "fix": "Calibrate against a study that reports the probability of taking on consumer credit by trait."
+    },
+    "school.attend": {
+      "class": "circumstances saturate the choice",
+      "why": "Children attend 99.95% of school days (10,587 kept weighings, Ely, Nevada); personality turns none below a weight of 1 and at 1 the third least inclined misses at 11 times the odds. Real chronic absence is far higher and follows illness, family and poverty, which the school choice does not read (src/core2/modules/school.ts:149). Poropat 2009 (conscientiousness r 0.19) measures performance, not attendance.",
+      "fix": "Give the school choice the child's illness and the household's circumstances, then calibrate."
+    },
+    "life.daily-act": {
+      "class": "no study number",
+      "why": "Personality turned 14.8% of 29,520 daily-activity picks at the general trait weight of 1. Studies of extraversion and time spent socializing (Mehl et al. 2006) report no extractable coefficient, so the general weight stands.",
+      "fix": "Calibrate when a study gives a size for extraversion and social time."
     }
   }
 }
