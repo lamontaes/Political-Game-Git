@@ -5,11 +5,12 @@ area: gov
 kind: stopgap
 priority: 2
 size: M
-status: open
-claimed-by:
-pr:
-blocked-on:
+status: blocked
+claimed-by: claude/standins-other-credit-business
+pr: #5155
+blocked-on: gov-standin-budgets-adopted-by-rule
 source: added with npm run pool -- add
+claimed-at: 2026-10-19T21:25:48.884Z
 ---
 
 **What.** The credit, business, staff, budgets, legislature and macro engines still hold open stand-ins (for example SG-WORLD-credit-business-applies, SG-WORLD-macro-mortgage-spread, SG-GOV-staff-hire-out-of-work, SG-GOV-staff-unpaid, SG-GOV-budget-adopted-by-rule, SG-GOV-committee-structure, SG-P8-business-books-priors and SG-WORLD-business-compliance-cost in src/core2/data/stopgaps.json). Redo them one area at a time against main's current files, as the closed branch stopgaps/gov-world did against an older main. Each row ends replaced, or relabeled as an ESTIMATED value with its source and spread.

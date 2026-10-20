@@ -5,19 +5,20 @@ area: laws
 kind: stopgap
 priority: 2
 size: M
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/standins-laws
+pr: #5173
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-19T21:52:10.527Z
 ---
 
-**What.** The law reach groups A and B still hold about forty open stand-ins (SG-GOV-REACH-A-* and SG-GOV-REACH-B-* in src/core2/data/stopgaps.json), many of them records written on people that no engine reads. Redo them one family at a time against main's current files, as the closed branch stopgaps/gov-world did against an older main. For each, delete the unread record and let the law act through the engine that owns the thing it changes (a price, a payment, zoning, the outcome web), or register why it cannot yet.
+**What.** Checked against main on Oct 19: every open SG-GOV-REACH-A-* and SG-GOV-REACH-B-* stopgap in `src/core2/data/stopgaps.json` is already named in a live pool item (the laws-outcome-* items, the gov-justice-* items and the world items), so this shell would only repeat them. No stopgap was left without an owner. The CTO may drop it as covered (only the CTO drops items).
 
-**Rules.** Placeholders: a stand-in row closes only by a replacement or by a labeled estimate with its source and spread, never by deleting the row alone. Replace, never layer: the old marker and its wording are deleted in the same change, and the PR body counts them. Look before you ask: read docs/coordination/DECISION-REGISTER.md and OWNER-DECISIONS.md and search docs/ before registering or reopening anything. An effect is a read, not a record: a record written on a person that nobody reads is deleted.
+**Rules.** Look before you ask: read the existing laws-outcome and gov-justice items before adding a duplicate for a stopgap that already has an owner; Replace, never layer: one item per piece of work, so this shell is removed rather than kept beside them.
 
-**Done when.** In a one-year run of the played world (buildBenchWorld) in a place drawn from all 56 and a seed the builder did not choose (name both in the PR body), each family handled has its reach rows read by a named engine at the moment it decides, shown by record id, its stopgap rows resolved with a one-line resolution, and src/core2/law-reach-group-a.test.ts, law-reach-group-b.test.ts, law-reach-balance.test.ts and the tripwire tests pass.
+**Done when.** Ready to drop: a test script over `src/core2/data/stopgaps.json` and `docs/pool/items/*.md` finds no open SG-GOV-REACH stopgap missing from a live pool item, with that check shown in the PR body and every record id it covers listed.
 
-**Files.** src/core2/law-reach/group-a.ts, src/core2/law-reach/group-b.ts, src/core2/data/laws/reach-group-a.json, src/core2/data/laws/reach-group-b.json, src/core2/data/stopgaps.json
+**Files.** docs/pool/items/gov-standins-laws.md
 
-**Notes.** Replaces the law-reach share of PR #4146 (30 rows there). The justice rows (police oversight, juvenile age, stand your ground, facial recognition, carry permit) are the pool items gov-justice-incident-producer and its five sequels, not this one. See also the measurement in laws-outcome-map.
+**Notes.** If a new SG-GOV-REACH stopgap is registered without a pool item, add one for it then.

@@ -5,19 +5,20 @@ area: world
 kind: stopgap
 priority: 2
 size: M
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/political-game-pool-v8txtd
+pr: #5205
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-19T22:19:12.591Z
 ---
 
-**What.** The housing engine still holds open stand-ins (SG-WORLD-housing-landlord, -vacancy, -counted-rent, -new-home-buyers, -eviction-steps, -foreclosure-steps, -county-estimate, -shelter-beds-state-rate and -shelter-territory in src/core2/data/stopgaps.json). Redo them one at a time against main's current files, as the closed branch stopgaps/gov-world did against an older main. Each row ends replaced by the mechanic, or relabeled as an ESTIMATED value with its source and spread, with eviction steps read from each state's statute row.
+**What.** The housing engine (src/core2/modules/housing.ts and its helpers) carries stand-ins that are registered as open stopgap rows: the one ownerless landlord, the pooled counted rent, the eviction steps recalled from secondary summaries, a hearing without a judge, the vacancy rule and the property-tax rate and due dates. Sent-back PR #4146 (branch stopgaps/gov-world) removed the eviction hearing, judgment and payment-plan steps and several markers in one change. Finish it in bounded parts: for each row either replace it with the real mechanic, or relabel it as a sourced estimate with a source and a spread, and clear its row in src/core2/data/stopgaps.json only when the fake is gone.
 
-**Rules.** Placeholders: a stand-in row closes only by a replacement or by a labeled estimate with its source and spread, never by deleting the row alone. Replace, never layer: the old marker and its wording are deleted in the same change, and the PR body counts them. Look before you ask: read docs/coordination/DECISION-REGISTER.md and OWNER-DECISIONS.md and search docs/ before registering or reopening anything. One model, two tiers: counted households meet the same rule as full ones times their count.
+**Rules.** Placeholders: a row is never closed by deleting it without the mechanic, and an unregistered placeholder is a defect. Replace, never layer: the old code and markers are deleted in the same change that replaces them. Estimate, never UNKNOWN: a relabeled stand-in shows its source and spread. One rule, all 56 places: eviction steps and due dates come from place data. Courts come after early access (AGENTS.md), so check the register before removing any court step.
 
-**Done when.** In a one-year run of the played world (buildBenchWorld) in a place drawn from all 56 and a seed the builder did not choose (name both in the PR body), each row handled is resolved in stopgaps.json with a one-line resolution and its marker gone, a named household's eviction or move is shown by record id, and src/core2/housing.test.ts, housing-construction.test.ts and the tripwire tests pass.
+**Done when.** For each housing row changed, a test in src/core2/housing.test.ts in a drawn place (buildBenchWorld, seed named in the PR body) shows the replaced behavior by case or lease record id, and the stopgap tripwire test shows the row resolved or relabeled in stopgaps.json. The owner plays it: let rent go unpaid and read what the landlord does and why.
 
-**Files.** src/core2/modules/housing.ts, src/core2/housing-construction.ts, src/core2/housing-property-tax.ts, src/core2/data/housing/housing.json, src/core2/data/stopgaps.json
+**Files.** src/core2/modules/housing.ts, src/core2/housing-property-tax.ts, src/core2/housing-occupancy.ts, src/core2/data/housing/housing.json, src/core2/data/stopgaps.json, src/core2/housing.test.ts
 
-**Notes.** Replaces the housing share of PR #4146. The eviction steps (hearing days, stay days) per state were researched there: 26 states from statute text, 30 estimated.
+**Notes.** Oct 19 (claude/standins-housing, released). Do not port PR #4146's housing slice mechanically: it deletes mechanics and markers on a main that has moved. Take one row at a time from the per-engine items world-stopgap-housing-faked-mechanic and world-stopgap-housing-property-tax-faked-mechanic.

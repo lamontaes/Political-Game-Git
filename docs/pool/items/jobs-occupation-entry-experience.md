@@ -5,20 +5,20 @@ area: world
 kind: feature
 priority: 2
 size: M
-status: open
+status: blocked
 claimed-by:
 pr:
-blocked-on:
+blocked-on: spec: the item text is an empty TODO shell; the done-when must be written before it can be built (pool-todo-shells-need-spec)
 after: world-player-jobless-no-offers
 source: added with npm run pool -- add
 ---
 
-**What.** Each occupation the jobs engine hires into carries the experience a first job in it asks for, from O*NET's Job Zones (zone 1 and 2 ask little or none, zone 3 about a year or two, zones 4 and 5 more). The engine ranks applicants by experience times a weight, so an entry-level opening should count experience only up to what the occupation asks, leaving reliability and a referral to decide among applicants who all meet it. Map each occupation classification the opening uses to a zone, with the source and spread.
+**What.** A hire's fit for an opening counts experience in the occupation the same way whatever the job asks (`fit` in `src/core2/modules/jobs.ts`, about line 1660), so a first job in an entry-level role goes to whoever has the most years in the trade, and a young person with none is last in line. Make the fit read what the occupation asks (the table from `jobs-entry-requirement-by-occupation`): experience counts only up to the years the occupation asks, a shortfall below what it asks lowers the fit on a sliding scale, and where it asks for none the fit rests on reliability and a referral. Counted seekers use the same rule through `countedExperience`, times their count.
 
-**Rules.** Research before building: the mapping cites O*NET Job Zones (CC BY 4.0) and its spread, and real rates check totals and never pick one applicant. Estimate, never UNKNOWN: an occupation with no mapped zone starts from the median zone, marked ESTIMATED. No dice: the pick is the applicant with the best fit, ties by record order, never a roll. One model, two tiers: counted applicants are ranked by the same rule as full people.
+**Rules.** One model, two tiers: a counted seeker's fit is read by the same rule as a full person's. No dice: the ranking is the fit, never a draw; nothing flips at a threshold, a shortfall costs a share of the fit in proportion to how far short. An effect is a read: the table is read at the moment the engine ranks applicants. Numbers go in the parameter table tagged SOURCED, ESTIMATED or TUNABLE with their spread.
 
-**Done when.** In a one-year run of the played world (buildBenchWorld) in a place drawn from all 56 and a seed the builder did not choose (name both in the PR body), an entry-level opening is won by the applicant with the best reliability and referral among those who meet its experience, and a senior opening by experience, shown by position and applicant record ids; a test beside src/core2/jobs-player-offers.test.ts passes.
+**Done when.** In a one-year played world (`buildBenchWorld`, a drawn place from all 56, place and seed named in the PR body) an opening whose occupation asks no experience goes to an applicant with none over one with ten years in a different trade, and an opening that asks five years goes to the applicant who has them, each shown by the position record id, both applicants' fit values and the hire record id; a test in `src/core2/jobs.test.ts` covers both and a counted seeker alike.
 
-**Files.** src/core2/modules/jobs.ts, src/core2/data/jobs/parameters.json, src/core2/data/jobs/occupation-experience.json (new)
+**Files.** src/core2/modules/jobs.ts, src/core2/data/jobs/parameters.json, src/core2/jobs.test.ts
 
-**Notes.** After world-player-jobless-no-offers, which found that the player is one of about 32 applicants for each opening and has no experience. O*NET Job Zones can be downloaded as a text file (onetcenter.org database, Job Zones.txt); the engine's occupation strings are its own classifications (occupation:farmworker, service:police) and need a hand mapping to O*NET-SOC codes.
+**Notes.** Written Oct 20 (claude/entry-spec) from the code. `after: world-player-jobless-no-offers`, and the table comes from `jobs-entry-requirement-by-occupation`. Weights `jobsFitExperienceWeight`, `jobsFitReliabilityWeight`, `jobsFitReferralWeight` are the ones the fit uses today.

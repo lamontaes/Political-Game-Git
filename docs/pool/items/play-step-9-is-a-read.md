@@ -5,9 +5,9 @@ area: play
 kind: wiring
 priority: 2
 size: S
-status: claimed
+status: done
 claimed-by: claude/step9-read-s8
-pr:
+pr: #5137
 after:
 blocked-on:
 source: "audit Oct 19, Part B step 9 and Part A 'What it fakes' 1"

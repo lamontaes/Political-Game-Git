@@ -5,19 +5,20 @@ area: core
 kind: bug
 priority: 2
 size: M
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/relocation-dead-member
+pr: #5149
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-19T20:40:54.006Z
 ---
 
-**What.** A played year once stopped with the error 'Invalid relocation: one living household, no job held' in a drawn place, and the seed was not captured. The error comes from the relocation step that moves a household to another home when a person it names still holds a job. Reproduce it by running played years in drawn places with bookkeeping on until it recurs, capture the place and seed, and find which engine moved the household while a member's job was still held. Fix that cause in the engine that moved them rather than loosening the check.
+**What.** One played year in a drawn place stopped with 'Invalid relocation: one living household, no job held', thrown by `relocatePeopleV1` in src/core2/state.ts when a mover still holds a job that has not ended. The place and seed were lost, and eight later runs of the same test did not reproduce it. Find which caller moves a person whose job is still live, reproduce it from a captured place and seed, and make that caller end the job first or not move the person.
 
-**Rules.** No dice: the fix follows the records (the job held, the household), never a retry. One rule, all 56 places: the reproduction draws places from all 56 and names the place and seed. Never tune a seed. Replace, never layer: do not add a second relocation path beside the failing one.
+**Rules.** Wire to the world: a person who moves away leaves their job through the jobs engine's end record, never by the move erasing it. No dice: whether someone moves follows their own circumstances, and this item changes only the order of the job ending and the move.
 
-**Done when.** In a one-year run of the played world (buildBenchWorld) in a place drawn from all 56, with the failing seed named in the PR body, the run no longer stops with the relocation error, shown by the household and job record ids that used to collide, and a test in src/core2 (beside moves.test.ts) fails on the old behavior and passes on the fix.
+**Done when.** With the place and seed captured by src/core2/agreement-jobs-free.test.ts (it now names both on failure), the failing year runs a full played year in buildBenchWorld without the error, and a test in src/core2 holds the case by person record id; the owner plays it: a year runs to its end.
 
-**Files.** src/core2/modules/moves.ts, src/core2/state.ts, src/core2/modules/jobs.ts
+**Files.** src/core2/state.ts, src/core2/modules/moves.ts, src/core2/modules/counted-moves.ts, src/core2/agreement-jobs-free.test.ts
 
-**Notes.** Seen once in a drawn place; the seed was not captured. Found by the stress passes on the played year. Try scripts/core2-year/all-places.mjs over several seeds with --years 1 and read the first stack that names the relocation.
+**Notes.** Seen Oct 19 once while testing branch claude/agreement-re-resolve-s7 (which deletes the pinned-job lookup); not reproduced in eight reruns there, so it may predate that branch. Run the test repeatedly on main and on that branch to compare.
