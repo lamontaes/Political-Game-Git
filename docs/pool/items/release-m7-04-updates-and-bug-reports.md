@@ -5,13 +5,13 @@ area: release
 kind: feature
 priority: 3
 size: L
-status: claimed
-claimed-by: claude/political-game-pool-76ksvw
+status: open
+claimed-by:
 pr:
 blocked-on:
 milestone: M7
 source: "docs/roadmap/later-specs-draft.md M7-04"
-claimed-at: 2026-10-20T01:25:25.428Z
+claimed-at:
 ---
 
 **What.** Automatic updates, content updates without a reinstall, in-game bug reports with logs, crash reports. (Owner: Anyone free.)
