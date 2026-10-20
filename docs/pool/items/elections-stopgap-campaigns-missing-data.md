@@ -4,10 +4,10 @@ title: "Stopgaps in campaigns (missing-data): 3 open"
 area: elections
 kind: stopgap
 priority: 3
-status: open
+status: blocked
 claimed-by:
 pr:
-blocked-on:
+blocked-on: research data: the row's replacement needs sourced data (The region's or state's real polling firms (County Business Patterns NAICS 541910 by county) as recorded organizations a campaign buys from....)
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/modules/campaigns.ts, kind missing-data"
 ---

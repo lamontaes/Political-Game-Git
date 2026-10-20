@@ -4,10 +4,10 @@ title: "Stopgaps in policy-authority (missing-mechanic): 1 open"
 area: core
 kind: stopgap
 priority: 3
-status: open
+status: blocked
 claimed-by:
 pr:
-blocked-on:
+blocked-on: research data: the row's replacement needs sourced data (Sourced per-place cells and structured conditions for each limited power, evaluated by the same authority reader before introduction or an executive o...)
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/policy-authority.ts, kind missing-mechanic"
 ---

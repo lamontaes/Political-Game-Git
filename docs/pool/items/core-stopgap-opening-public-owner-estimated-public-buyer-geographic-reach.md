@@ -4,10 +4,10 @@ title: "Stopgaps in opening-public-owner (estimated-public-buyer-geographic-reac
 area: core
 kind: stopgap
 priority: 3
-status: open
+status: blocked
 claimed-by:
 pr:
-blocked-on:
+blocked-on: research data: the row's replacement needs sourced data (Dated own-county procurement/service-area records and actual contract scope with matched represented-resident coverage. A verified geographic relation...)
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/opening-public-owner.ts, kind estimated-public-buyer-geographic-reach"
 ---

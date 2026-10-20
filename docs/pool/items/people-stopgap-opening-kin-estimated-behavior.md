@@ -4,10 +4,10 @@ title: "Stopgaps in opening-kin (estimated-behavior): 2 open"
 area: people
 kind: stopgap
 priority: 3
-status: open
+status: blocked
 claimed-by:
 pr:
-blocked-on:
+blocked-on: research data: the row's replacement needs sourced data (A kin engine that matches relatives to residents across households and places, with partners, cousins and observed migration distances....)
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/data/opening-kin.json, kind estimated-behavior"
 ---

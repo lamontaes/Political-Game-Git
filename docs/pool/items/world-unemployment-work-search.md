@@ -5,12 +5,12 @@ area: world
 kind: feature
 priority: 3
 size: S
-status: open
-claimed-by:
+status: blocked
+claimed-by: claude/political-game-pool-3xfqef-2
 pr:
-blocked-on:
+blocked-on: owner-unemployment-work-search
 source: added with npm run pool -- add
-claimed-at:
+claimed-at: 2026-10-19T22:24:21.512Z
 ---
 
 **What.** State unemployment law carries `workSearchContactsPerWeek` (starting-law.json) but nothing reads it. Add it to the unemployment terms in jobs-benefits.ts and have `payClaims` pay a week only when the claimant's search that week meets it.

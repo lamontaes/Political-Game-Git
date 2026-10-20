@@ -4,10 +4,10 @@ title: "Stopgaps in residents (aggregate-cadence): 1 open"
 area: people
 kind: stopgap
 priority: 3
-status: open
+status: blocked
 claimed-by:
 pr:
-blocked-on:
+blocked-on: research data: the row's replacement needs sourced data (Wider-population spending timed from the counts' pay dates and income, with absence and turnover rates by industry checked against BLS JOLTS and CPS....)
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/residents.ts, kind aggregate-cadence"
 ---

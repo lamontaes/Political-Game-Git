@@ -4,10 +4,10 @@ title: "Stopgaps in health (estimated-behavior): 1 open"
 area: people
 kind: stopgap
 priority: 3
-status: open
+status: blocked
 claimed-by:
 pr:
-blocked-on:
+blocked-on: research data: the row's replacement needs sourced data (A calibrated appraisal model checked against bereavement and illness affect trajectories....)
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/data/health.json, kind estimated-behavior"
 ---
