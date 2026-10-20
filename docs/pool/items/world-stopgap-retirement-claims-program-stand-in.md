@@ -4,13 +4,14 @@ title: "Stopgaps in retirement-claims (program-stand-in): 1 open"
 area: world
 kind: stopgap
 priority: 3
-status: blocked
+status: open
 claimed-by:
 pr:
 blocked-on:
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/modules/retirement-claims.ts, kind program-stand-in"
 after: world-social-security-earnings-record, world-retirement-benefit-from-law-and-record
+claimed-at: 
 ---
 
 **What.** This is the roll-up for the stopgap SG-CORE-retirement-claims-in-play: people who reach their claim age in play start a Social Security award sized like the opening's (a participant average scaled by modeled covered months), paid monthly by the place's outside payer, with no recorded earnings, no formula from the law, and no spouse or survivor benefit. It closes with two parts: world-social-security-earnings-record (each worker's covered earnings recorded from the wages they are paid) and world-retirement-benefit-from-law-and-record (the award sized by the formula in the law in force from that record). world-jobs-counted-retiree-income, already in progress, covers a counted retiree drawing from their own earnings record, and the second part builds on it. When both parts are done, delete the stand-in sizing and the marker in retirement-claims.ts and resolve the row.
