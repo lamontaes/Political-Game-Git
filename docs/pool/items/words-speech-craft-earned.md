@@ -5,12 +5,12 @@ area: words
 kind: feature
 priority: 3
 size: M
-status: claimed
-claimed-by: claude/speech-craft-earned
-pr:
+status: in-pr
+claimed-by: claude/speech-craft
+pr: #5601
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-20T07:48:01.448Z
+claimed-at: 2026-10-20T07:50:34.424Z
 ---
 
 **What.** Today any speaker in a public-address register may use a crafted device (contrast, three-part list, quotation, callback; `SPEECH_DEVICES` in `src/english/speech-registers.ts`) because the register admits it, whatever their record shows. Make a device earned: a speaker is given only the devices their recorded speaking experience supports, so a first-time council commenter speaks plainly and a veteran floor speaker may build a contrast or a callback. The only caller that passes a register today is `src/english/english-newscast.ts` (press-briefing), so the first build adds a `speakerSpeakingRecordIds` field to `CompositionContext` in `src/english/english-composition.ts` (records of addresses the speaker has given, from saved records, never memory), gates `conditionProblems` on it per device, and adds the producer that reads the speaker's recorded addresses and passes them in.

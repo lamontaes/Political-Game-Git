@@ -2037,7 +2037,42 @@
       "source": "Dettling and Kearney 2014 (JPubE); Kearney, Levine and Pardue 2022 (JEP); Currie and Schwandt 2014 (PNAS)",
       "from": "labor.unemployment-pct",
       "evidence": "researched",
-      "range": [-0.014, -0.005]
+      "range": [-0.014, -0.005],
+      "varies": [
+        {
+          "by": "age",
+          "bands": [
+            {
+              "min": 20,
+              "max": 25,
+              "weight": 2.761,
+              "share": 0.1745
+            },
+            {
+              "min": 40,
+              "max": 55,
+              "weight": 0,
+              "share": 0.0431
+            },
+            {
+              "min": 10,
+              "max": 20,
+              "weight": 0.662,
+              "share": 0.0394
+            },
+            {
+              "min": 25,
+              "max": 40,
+              "weight": 0.662,
+              "share": 0.7428
+            }
+          ],
+          "tag": "ESTIMATED",
+          "source": "Currie and Schwandt 2014, Short- and long-term effects of unemployment on fertility, PNAS 111(41), Results and Fig. 2 (https://pmc.ncbi.nlm.nih.gov/articles/PMC4205620/); birth shares by mother's age from NCHS NVSR 75-02, table 6, 2024 age-specific rates (data/research/renewal/natality-2024.json)",
+          "quote": "\"The fertility response to changes in the unemployment rate is strongest for women 20–24 y of age.\" \"The point estimate for the 20–24 age group is −1.20 in this specification, compared with −1.27 in first differences.\" \"With increasing age, the relationship becomes weaker, and it is virtually zero for women 40 and older.\" The all-ages state slope is −0.46 (Fig. 1C).",
+          "estimatedFrom": "Women 20 to 24 respond 1.27/0.46 = 2.761 times the average and women 40 and older not at all, as the paper says; the text gives no figure for the other ages, so they share one weight (0.662) set so the births-weighted average is the researched size. Birth shares by age are the 2024 national age-specific rates over their sum, taking equal numbers of women in each five-year band."
+        }
+      ]
     },
     {
       "key": "enforcement-to-undocumented-employment",
