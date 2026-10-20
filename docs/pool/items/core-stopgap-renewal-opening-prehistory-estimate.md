@@ -4,10 +4,10 @@ title: "Stopgaps in renewal (opening-prehistory-estimate): 1 open"
 area: core
 kind: stopgap
 priority: 3
-status: open
+status: dropped
 claimed-by:
 pr:
-blocked-on:
+blocked-on: research-core-sourced-parameters
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/modules/renewal.ts, kind opening-prehistory-estimate"
 ---
@@ -21,3 +21,5 @@ source: "src/core2/data/stopgaps.json, src/core2/modules/renewal.ts, kind openin
 **Files.** src/core2/modules/renewal.ts
 
 **Notes.** First row: Opening still-pregnant plans use current opening money, housing, health and temperament as pre-opening proxies, with real recorded partnership and child dates. Reviews occur at 91-day phases anchored to partnership or yo
+
+Folded into research-core-sourced-parameters (CTO, Oct 19, 2026).

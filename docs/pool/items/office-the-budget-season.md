@@ -4,13 +4,13 @@ title: "The budget season:"
 area: office
 kind: feature
 priority: 2
-status: in-pr
-claimed-by: claude/political-game-pool-udtiwn
-pr: #5217
+status: open
+claimed-by:
+pr:
 blocked-on:
 milestone:
 source: "docs/coordination/OFFICE-LOCAL.md line 30 (unchecked checklist line)"
-claimed-at: 2026-10-19T21:25:44.047Z
+claimed-at:
 ---
 
 **What.** The local budget is passed without a season: the executive's proposal is not an act at its time of year and the council's budget hearing is not on the calendar. Add the budget season: the mayor or executive proposes the budget at the time the body's data sets, the council holds a hearing on the calendar, and the player acts at each step. The player would notice the proposal arriving in its month, a public hearing with speakers, and the vote that sets next year's lines.
@@ -21,4 +21,4 @@ claimed-at: 2026-10-19T21:25:44.047Z
 
 **Files.** src/core2/modules/office-day.ts, src/core2/office-day-calendar.ts, src/core2/modules/executive.ts, src/core2/data/legislature/executive-proposal.json
 
-**Notes.** Checklist line from OFFICE-LOCAL.md; verify against main before starting.
+**Notes.** Sent back 2026-10-20 from PR #5217 (branch claude/political-game-pool-udtiwn): merge conflict with origin/main in code (src/core2/modules/office-day.ts and src/core2/office-day-acts.ts); finish on that branch, merge main into it first. Checklist line from OFFICE-LOCAL.md; verify against main before starting.

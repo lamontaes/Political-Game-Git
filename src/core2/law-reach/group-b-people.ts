@@ -27,7 +27,6 @@ const table = parameters as unknown as {
     string,
     { firstPerson: number; perAddedPerson: number }
   >;
-  jurisdictionResidents: { residents: Record<string, number> };
   graduatedSchedules: Record<
     "state" | "local",
     {
@@ -42,11 +41,6 @@ export function reachParameter(key: string): number {
   const row = table.parameters[key];
   if (!row) throw new Error(`Unknown law-reach parameter: ${key}`);
   return row.value;
-}
-
-/** Recorded residents of a state-level jurisdiction the budgets carry none for. */
-export function jurisdictionResidents(id: string): number | undefined {
-  return table.jurisdictionResidents.residents[id];
 }
 
 export function graduatedSchedule(scope: "state" | "local") {
