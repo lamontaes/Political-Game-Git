@@ -5,7 +5,7 @@ area: world
 kind: stopgap
 priority: 2
 size: S
-status: in-pr
+status: done
 claimed-by: claude/hearing-ruling
 pr: #5215
 blocked-on:

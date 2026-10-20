@@ -4,9 +4,9 @@ title: "Stopgaps in credit-deposits (faked-mechanic): 1 open"
 area: world
 kind: stopgap
 priority: 2
-status: claimed
+status: in-pr
 claimed-by: claude/deposit-withdrawal-s13
-pr:
+pr: #5316
 blocked-on:
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/credit-deposits.ts, kind faked-mechanic"

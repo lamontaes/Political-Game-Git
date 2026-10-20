@@ -1,4 +1,4 @@
-import type { TraitEffectDeclaration } from "../../trait-packs";
+import type { TraitEffectDeclaration } from "../../../core2/trait-packs";
 
 /**
  * Politeness is courteous conduct toward others. Absence of the marked pattern contributes nothing and does not establish the opposite.
