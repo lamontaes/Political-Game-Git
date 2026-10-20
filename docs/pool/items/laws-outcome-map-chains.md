@@ -5,13 +5,13 @@ area: laws
 kind: wiring
 priority: 2
 size: L
-status: blocked
-claimed-by: claude/political-game-pool-yucp92-n
+status: open
+claimed-by:
 pr:
 blocked-on:
 after: laws-outcome-map,laws-outcome-justice,laws-outcome-labor-cannabis,laws-outcome-health-fiscal,laws-outcome-civil-tech
 source: added with npm run pool -- add
-claimed-at: 2026-10-20T00:47:27.993Z
+claimed-at:
 ---
 
 **What.** This is the roll-up for the law-reach policies whose mechanic was none or records, so no other engine read what they wrote (src/core2/law-reach/group-a.ts and group-b.ts). The claiming session split them by family into laws-outcome-justice (done), laws-outcome-labor-cannabis, laws-outcome-health-fiscal and laws-outcome-civil-tech, and laws-outcome-map built the outcome map they report into. When these are done, this item is closed by checking that the placeholder list in the law-reach guard is empty and that one law per family has a recorded chain: the law, the payment or price it changed, the named person reached, their choice or view, and the director's line.
