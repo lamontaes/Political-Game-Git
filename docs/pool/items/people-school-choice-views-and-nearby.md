@@ -5,9 +5,9 @@ area: people
 kind: owner-decision
 priority: 3
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/school-choice-question
-pr:
+pr: #5483
 blocked-on:
 after: core-private-tuition-yearly-reenrollment
 source: added with npm run pool -- add
