@@ -4,13 +4,13 @@ title: "Stopgaps in estates (estate): 1 open"
 area: core
 kind: stopgap
 priority: 3
-status: claimed
-claimed-by: claude/n-core-stopgap-estates-estate
+status: open
+claimed-by:
 pr: #5275
 blocked-on:
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/estates.ts, kind estate"
-claimed-at: 2026-10-20T14:36:16.203Z
+claimed-at:
 ---
 
 **What.** Replace or clear the 1 open estate stopgap row(s) in src/core2/estates.ts: SG-CORE-estate-cash-only. Each fake is replaced by the mechanic, or the feature that needs it is deleted.
