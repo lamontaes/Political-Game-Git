@@ -5,11 +5,12 @@ area: core
 kind: bug
 priority: 1
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/counted-teacher-authority
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-20T20:12:32.812Z
 ---
 
 **What.** npm run speed:year -- --seed m7a (Discovery Harbour, Hawaii, place key 1505900) throws 'Public pay does not match its actual owned work obligation.' (src/core2/public-work-pay.ts:177, from the work module's payroll day) on 2025-12-05, with main merged and the private-share re-enrollment fix (PR 5746) applied. Measured by adding the ids to the message: job job:public-schools:person_14229a4a93709a7f:counted:2025-10-01, employer organization:public-schools:jurisdiction_65b8870c7e9750bd. The commitment's publicPayAuthorityId equals the employer's authority id (opening-public-pay:d2b4516e2c76dae1) but the authority's commitment index (commitmentIndex(authority)) does not list the commitment, so resolvePublicWorkPayDue throws. The job is a counted worker's (id ends counted:2025-10-01) that the school engine or a fill-in created; find which path starts a counted public-schools job without joining its commitment to the authority's workCommitmentIds, and join it there, as PR 4891 did for a staffing-law hire. Earlier closes of this message: core-year-crash-public-pay-work-obligation and world-public-hire-joins-pay-authority.
