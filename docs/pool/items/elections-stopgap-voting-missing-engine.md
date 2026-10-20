@@ -4,13 +4,13 @@ title: "Stopgaps in voting (missing-engine): 1 open"
 area: elections
 kind: stopgap
 priority: 3
-status: claimed
-claimed-by: claude/voting-who-runs
+status: open
+claimed-by:
 pr:
 blocked-on:
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/modules/voting.ts, kind missing-engine"
-claimed-at: 2026-10-20T00:44:16.710Z
+claimed-at:
 ---
 
 **What.** Replace or clear the 1 open missing-engine stopgap row(s) in src/core2/modules/voting.ts: SG-GOV-who-runs-stand-in. Each fake is replaced by the mechanic, or the feature that needs it is deleted.
