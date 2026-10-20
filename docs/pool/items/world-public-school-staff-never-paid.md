@@ -5,11 +5,12 @@ area: world
 kind: bug
 priority: 2
 size: M
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/school-staff-pay
+pr: #5044
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-18T03:47:04.661Z
 ---
 
 **What.** A town's public school district holds no cash and its full-person staff are never paid. Over the first 120 days of the played world (`buildBenchWorld`, seeds u1 and u3), Raceland, Louisiana's public schools had 3 jobs, opened with $0 and paid $0 in payroll, and Big Rapids, Michigan's had 2 jobs, $0 and $0. A one-person employer called "Neighbors United" in each of three towns drawn (Raceland, Frederica, Delaware and Big Rapids) is the same: one job, $0 opening cash, $0 paid. The budgets engine has a schools line that splits spending 80 percent to workers and 20 percent to contractors (`src/core2/data/budgets/spending-payees.json`), but no transfer reaches the district's own account, so the district has nothing to pay with. Find how the schools line reaches the people who teach, and make the district's account receive its funding from the treasury that carries the line.
