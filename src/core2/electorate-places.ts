@@ -15,6 +15,11 @@ import calibration from "../../data/source/electoral-calibration-2024/corpus.jso
 import delegates from "../../data/research/elections/house-delegates-2024.json" with { type: "json" };
 import { partySide } from "./appointments";
 import { campaignParameter } from "./campaign-views";
+import {
+  LEGISLATIVE_RESULTS_CITATION,
+  legislativeDistrictResult,
+  legislativeSeatParts,
+} from "./legislative-district-results";
 import { parameter } from "./parameters";
 import { corePlaceStateIdentities } from "./place-lookup";
 import { lazyValue, readJsonData } from "./reference/lazy-data";
@@ -351,10 +356,11 @@ export function housePlaceByGeoid(
 }
 
 /**
- * A state legislative district: the state's two-party vote over its
- * districts, leaning like the town's own county where the town votes in it,
- * else toward its holder's party at the typical margin (no district results
- * are read: SG-GOV-world-race-lean), net of the holder's incumbency.
+ * A state legislative district: its own 2024 vote where the source has one
+ * with both parties contesting it, else the state's two-party vote over its
+ * districts leaning like the town's own county where the town votes in it,
+ * else toward its holder's party at the typical margin; net of the holder's
+ * incumbency.
  */
 export function legislativePlace(
   usps: string,
@@ -365,20 +371,28 @@ export function legislativePlace(
 ): ElectoratePlace | null {
   const votes = stateTwoPartyVotes(usps) / Math.max(1, districts);
   if (!votes) return null;
-  const share =
-    ownRightShare ??
-    0.5 + holderSide * campaignParameter("legislativeSeatMargin");
-  return makePlace(
+  const parts = legislativeSeatParts(seatKey);
+  const own = parts
+    ? legislativeDistrictResult(usps, parts.chamber, parts.district)
+    : null;
+  const share = own
+    ? own.republican / (own.democratic + own.republican)
+    : (ownRightShare ??
+      0.5 + holderSide * campaignParameter("legislativeSeatMargin"));
+  const place = makePlace(
     `legislative:${seatKey}`,
     seatKey,
     usps,
     votes * (1 - share),
     votes * share,
-    ownRightShare === null
-      ? `${CLERK} (state two-party vote over its districts; the holder's party at the typical margin)`
-      : `${CLERK} (state two-party vote over its districts; the town's county's 2024 lean)`,
+    own
+      ? `${LEGISLATIVE_RESULTS_CITATION} (the district's own 2024 vote)`
+      : ownRightShare === null
+        ? `${CLERK} (state two-party vote over its districts; the holder's party at the typical margin)`
+        : `${CLERK} (state two-party vote over its districts; the town's county's 2024 lean)`,
     holderSide,
   );
+  return place;
 }
 
 /** The county place a town's counties fall in, from its recorded county names. */

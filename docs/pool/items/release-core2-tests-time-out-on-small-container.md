@@ -5,7 +5,7 @@ area: release
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/core2-test-timeouts
 pr: #5344
 blocked-on:

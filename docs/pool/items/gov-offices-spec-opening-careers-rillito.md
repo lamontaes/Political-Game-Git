@@ -5,12 +5,12 @@ area: gov
 kind: bug
 priority: 2
 size: S
-status: claimed
-claimed-by: claude/rillito-careers
-pr:
+status: open
+claimed-by:
+pr: #5696
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-20T13:30:38.615Z
+claimed-at:
 ---
 
 **What.** The accepted golden-path spec M2-01 (src/core2/offices.test.ts) fails on clean main in Rillito, Arizona, place key 0459900, seed 181ef9d4696d2f8756c2a8a2a892f0d4aaf02e26b55d559f1f4f929005317f91. The failing case is 'holders at the opening have careers of real length: terms begin before it and earlier terms are on the record'. It turns every pull request's golden-path run red when the PR draw lands on this place, as it did on the law-wiring rights pull request.
@@ -22,3 +22,5 @@ claimed-at: 2026-10-20T13:30:38.615Z
 **Files.** src/core2/offices.test.ts, src/core2/modules/offices.ts
 
 **Notes.** TODO
+
+Sent back 2026-10-20 from PR #5696 (branch claude/rillito-careers): merging main conflicts in src/core2/modules/offices.ts; finish on that branch, merge main into it first.
