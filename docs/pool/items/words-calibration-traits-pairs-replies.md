@@ -5,13 +5,13 @@ area: words
 kind: feature
 priority: 3
 size: M
-status: blocked
-claimed-by: claude/pool-calibration-pairs
+status: open
+claimed-by:
 pr:
 blocked-on:
 after: words-bench-calibration
 source: added with npm run pool -- add
-claimed-at: 2026-10-20T02:33:43.864Z
+claimed-at:
 ---
 
 **What.** The calibration table (data/english/calibration.json, read through src/english/english-calibration.ts) holds only each piece's running grade and each register's target length, and composeGroundedLine in src/english/english-composition.ts prefers graded pieces by calibrationScore. Add three more weights the engine reads. First, a per-trait pull: for each trait the speaker carries, how far its lines run longer or shorter and how far it leans toward each bearing, folded from the trait-fit and length axes by foldCalibration in scripts/dialogue-batch/apply-grades.ts and added into calibrationScore using the speaker's own traits. Second, a per-move-pair weight that records whether two moves in that order read naturally, folded from the naturalness axis and read when the engine arranges moves. Third, a reply weight read by rankChoices in src/director/conversation.ts next to the player's reply-reach lean. Every weight is TUNABLE with its spread.
