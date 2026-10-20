@@ -4,12 +4,13 @@ title: "Stopgaps in content (uncalibrated-tunable): 1 open"
 area: core
 kind: stopgap
 priority: 3
-status: open
-claimed-by:
+status: blocked
+claimed-by: claude/content-civic
 pr:
-blocked-on:
+blocked-on: dataset-civic-progress-empirical-range
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/data/content.json, kind uncalibrated-tunable"
+claimed-at: 2026-10-19T23:36:18.581Z
 ---
 
 **What.** Replace or clear the 1 open uncalibrated-tunable stopgap row(s) in src/core2/data/content.json: SG-P8-civic-progress. Each fake is replaced by the mechanic, or the feature that needs it is deleted.

@@ -4,10 +4,10 @@ title: "Stopgaps in officials (assumed-data): 1 open"
 area: gov
 kind: stopgap
 priority: 3
-status: open
+status: blocked
 claimed-by:
 pr:
-blocked-on:
+blocked-on: research data: the row's replacement needs sourced data (Each statewide executive's real party from a public roster (Ballotpedia's partisan composition of state executive offices, or each state's own electio...)
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/modules/officials.ts, kind assumed-data"
 ---

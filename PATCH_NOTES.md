@@ -296,6 +296,22 @@ Repaired after an independent audit, before review:
 - A promise can only be conditioned on something the game can actually settle.
   One condition on the list could never come true and is gone.
 
+## PRE-ALPHA 0.19.2
+
+_Released October 19, 2026._
+
+### Fixed
+
+- **Press outlets receive their opening cash once** Newspapers and stations keep
+  their existing opening cash buffer without receiving another startup payment
+  when their employers are enrolled.
+
+- **Your town's paper and stations no longer close in their first weeks** A
+  local newspaper or television station used to open with no cash, so the gap
+  between its first payday and its first month of sales could close it within
+  weeks and lay off its reporters. Each now opens with the cash buffer an
+  ordinary small business holds, so the town keeps its press.
+
 ## PRE-ALPHA 0.19.1
 
 _Released October 19, 2026._
