@@ -624,9 +624,24 @@ function readPriceLaws(api: CoreAPI): void {
       return;
     }
     api.stopgap(gap);
+    // The enacting government's treasury; a place whose governing row names a
+    // jurisdiction with no budget (a territory) pays the town's nearest
+    // government that keeps one.
     const treasury = api.state.modules.has(BUDGETS_MODULE_ID)
-      ? governments(api).find((g) => g.id === law.governing!.jurisdiction)
-          ?.organizationId
+      ? (() => {
+          const all = governments(api);
+          const own = all.find((g) => g.id === law.governing!.jurisdiction);
+          if (own) return own.organizationId;
+          for (const level of lawChain(api).levels) {
+            const near = all.find((g) => g.id === level.jurisdiction);
+            if (near) return near.organizationId;
+          }
+          for (const level of ["city", "county", "state"] as const) {
+            const nearest = all.find((g) => g.level === level);
+            if (nearest) return nearest.organizationId;
+          }
+          return undefined;
+        })()
       : undefined;
     if (publicPayee && !treasury) {
       if (

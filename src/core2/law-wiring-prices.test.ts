@@ -91,6 +91,13 @@ function applied(core: CoreState, key: string): LawAppliedRow[] {
   ).filter((r) => r.key === key);
 }
 const open = (rows: LawAppliedRow[]) => rows.filter((r) => !r.endedOn);
+/**
+ * The rows recorded since the laws took effect, open or ended: a later law
+ * row on the same key (a council re-enacting it) closes rows until the
+ * engine's next monthly settlement records them again.
+ */
+const current = (rows: LawAppliedRow[], since: string) =>
+  rows.filter((r) => r.since >= since);
 
 function months(core: CoreState): WebMonth[] {
   return coreAPI(core)
@@ -122,7 +129,8 @@ describe("price and sales-tax laws reach people and move money", () => {
       setJournalTrace(null);
       setBookkeeping(true);
     }
-  }, 300_000);
+  }, // every law in force, the longest lag a year can show. // A dense place (Guam took 390 seconds on shared CPU) plays 375 days of
+  600_000);
 });
 
 function run(
@@ -175,13 +183,13 @@ function run(
   for (const law of PRICE_LAWS) {
     const rule = rules.find((r) => r.cause.includes(law.key));
     expect(rule, `${where}: ${law.key} price rule`).toBeDefined();
-    const rows = open(applied(core, law.key));
+    const rows = current(applied(core, law.key), enactedOn);
     const lawId = lawIds.get(law.key)!;
     const households = rows.filter((r) => r.target === "household");
     const groups = rows.filter((r) => r.target === "group");
     expect(
       households.length + groups.length,
-      `${where}: ${law.key} reached nobody`,
+      `${where}: ${law.key} reached nobody (law ${lawId}, rule cause ${rule!.cause}, ${core.date}; open ${rows.length}, all ${applied(core, law.key).length}, ended ${applied(core, law.key).filter((r) => r.endedOn).length}, ended on ${[...new Set(applied(core, law.key).map((r) => r.endedOn))].join(",")})`,
     ).toBeGreaterThan(0);
     for (const row of rows) {
       expect(row.lawId, `${where}: ${row.id}`).toBe(lawId);
@@ -214,7 +222,7 @@ function run(
 
   // Cannabis: licensed sellers received, households and groups paid.
   {
-    const rows = open(applied(core, CANNABIS));
+    const rows = current(applied(core, CANNABIS), enactedOn);
     expect(
       rows.filter((r) => r.target === "household" || r.target === "group")
         .length,
@@ -228,7 +236,7 @@ function run(
 
   // Groceries: the sales tax skips part of retail sales for full and counted buyers.
   {
-    const rows = open(applied(core, GROCERIES));
+    const rows = current(applied(core, GROCERIES), enactedOn);
     const exempt = [...purchaseTaxes(core).values()].filter(
       (t) => t.exemptions?.length && t.endedAt === undefined,
     );
@@ -267,7 +275,7 @@ function run(
     ).toBe(true);
     for (const l of city) {
       if (!l.row || l.setAside || l.level === "federal") continue;
-      const rows = open(applied(core, l.row.series)).filter(
+      const rows = current(applied(core, l.row.series), enactedOn).filter(
         (r) => r.lawId === l.row!.id,
       );
       expect(
