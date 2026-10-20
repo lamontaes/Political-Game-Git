@@ -37,6 +37,12 @@ export interface WebLink {
   readonly size: number | null;
   readonly per: string;
   readonly lagMonths: number;
+  /**
+   * Months over which the effect builds after its lag: the cause read is the
+   * average of these months, so a step in the cause reaches its full effect
+   * this many months after the lag (absent, the whole effect at once).
+   */
+  readonly phaseInMonths?: number;
   readonly group: string;
   readonly evidence: string;
   readonly source: string;
@@ -45,9 +51,44 @@ export interface WebLink {
     readonly effectAtFull: number;
     readonly mode?: "scale" | "only-when";
   };
+  /** How the link lands on different people, from its research (src/core2/outcome-web-reach.ts). */
+  readonly varies?: readonly Varies[];
   readonly sizeByPlace?: Readonly<Record<string, { readonly size: number }>>;
   readonly floor?: number;
   readonly ceiling?: number;
+}
+
+/** The circumstance a link's effect varies by: a field an engine knows about its subject. */
+export type VariesBy =
+  | "incomeFifth"
+  | "age"
+  | "sex"
+  | "householdKind"
+  | "tenure"
+  | "work"
+  | "region";
+
+/** One band of a moderator: who is in it, how hard the cause lands there, and the band's national share. */
+export interface VariesBand {
+  /** A value of the subject's field, or for a number, `min` (inclusive) to `max` (exclusive). */
+  readonly is?: string | number;
+  readonly min?: number;
+  readonly max?: number;
+  /** The effect in this band against the others' (the research's ratio, before scaling). */
+  readonly weight: number;
+  /** The band's share of the national population the research's average covers. */
+  readonly share: number;
+}
+
+/** A researched moderator: the bands, the source and the words the weights stand on. */
+export interface Varies {
+  readonly by: VariesBy;
+  readonly bands: readonly VariesBand[];
+  readonly tag: "SOURCED" | "ESTIMATED";
+  /** The paper, table and page. */
+  readonly source: string;
+  readonly quote: string;
+  readonly estimatedFrom?: string;
 }
 
 export type Scale = "share" | "index" | "rate" | "level";
@@ -59,6 +100,8 @@ interface BaseDefinition {
   readonly places: Readonly<Record<string, number>>;
 }
 
+/** The web module's id; here so readers of the web need not load the module itself. */
+export const OUTCOME_WEB_MODULE_ID = "core2-outcome-web-v1";
 export const WEB_LINKS = web.links as unknown as readonly WebLink[];
 export const WEB_VERSION = web.version;
 /** The date the research's base levels describe; laws in force then are the baseline. */

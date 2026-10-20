@@ -15,6 +15,7 @@
  * reads the record of as many members as their work covers), and handling a
  * constituent case in the official's office.
  */
+import { workedToday } from "../job-lifecycle";
 import {
   coreAPI,
   fillInIdentity,
@@ -308,7 +309,9 @@ export function staffCandidates(
       person.id === officialId ||
       hired.has(person.id) ||
       inCustody(api, person.id) ||
-      ageOn(person, date) < minimum
+      ageOn(person, date) < minimum ||
+      // Their old job ends with the new post, which cannot be today's.
+      workedToday(state, person)
     )
       continue;
     if (person.tier === HUSK_TIER) {
@@ -341,7 +344,7 @@ export function staffCandidates(
     if (pay < postHourly)
       out.push({ personId: person.id, from: "applicant", ...placed });
   }
-  // The town's counted adults with no work in their records apply too.
+  // The town's counted adults who earn less than the post pays apply too.
   for (const voter of countedPool(api, town, minimum)) {
     if (hired.has(voter.id) || inCustody(api, voter.id)) continue;
     const known =
@@ -453,11 +456,13 @@ function countedPool(api: CoreAPI, town: string, minimum: number) {
   const state = api.state as CoreState;
   const held = pools.get(state);
   if (held?.date === state.date) return held.rows;
+  // Anyone earning less than the post pays may apply, not only the jobless.
+  const postHourly = campaignParameter("staffHourlyMinor");
   const rows = countedResidents(state)
     .filter(
       (voter) =>
         voter.placeId === town &&
-        voter.weeklyMinutes <= 0 &&
+        voter.hourlyMinor < postHourly &&
         ageOnDay(voter.birthDate, state.date) >= minimum,
     )
     .map((voter) => ({
@@ -577,11 +582,11 @@ export function hireStaff(
         post: `staff:${input.officialId}`,
         title: input.role,
         hourlyMinor: campaignParameter("staffHourlyMinor"),
+        // A state or federal office with no staff schedule of its own follows the town's.
+        scheduleFromPlaceId: lawChain(api).townPlaceId,
         citation: `Hired as ${input.role} to ${input.officialId}`,
       })
     : null;
-  // stopgapId: SG-GOV-staff-unpaid
-  if (!jobId) api.stopgap("SG-GOV-staff-unpaid");
   // The first of the official's aides who died or left the post and has no successor yet.
   const replaced = new Set(
     staffOf(api, input.officialId).map((r) => r.replacesStafferId),
