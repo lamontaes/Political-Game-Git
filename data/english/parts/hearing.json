@@ -1329,7 +1329,7 @@
           "choice": "member-question"
         }
       ],
-      "shippable": true,
+      "shippable": false,
       "origin": "authored",
       "author": "Claude Sonnet (pool item words-mine-empty-cells), civic-prose",
       "date": "2026-10-19",
@@ -1351,7 +1351,7 @@
           "requiresFacts": ["bill", "cost"]
         }
       ],
-      "shippable": true,
+      "shippable": false,
       "origin": "authored",
       "author": "Claude Sonnet (pool item words-mine-empty-cells), civic-prose",
       "date": "2026-10-19",
@@ -1373,7 +1373,7 @@
           "requiresFacts": ["bill"]
         }
       ],
-      "shippable": true,
+      "shippable": false,
       "origin": "authored",
       "author": "Claude Sonnet (pool item words-mine-empty-cells), civic-prose",
       "date": "2026-10-19",
@@ -1395,7 +1395,7 @@
           "requiresFacts": ["bill", "place"]
         }
       ],
-      "shippable": true,
+      "shippable": false,
       "origin": "authored",
       "author": "Claude Sonnet (pool item words-mine-empty-cells), civic-prose",
       "date": "2026-10-19",
@@ -1417,7 +1417,7 @@
           "requiresFacts": ["speaker", "bill"]
         }
       ],
-      "shippable": true,
+      "shippable": false,
       "origin": "authored",
       "author": "Claude Sonnet (pool item words-mine-empty-cells), civic-prose",
       "date": "2026-10-19",
@@ -1439,7 +1439,7 @@
           "requiresFacts": ["speaker", "place"]
         }
       ],
-      "shippable": true,
+      "shippable": false,
       "origin": "authored",
       "author": "Claude Sonnet (pool item words-mine-empty-cells), civic-prose",
       "date": "2026-10-19",
@@ -1460,7 +1460,7 @@
           "choice": "member-question"
         }
       ],
-      "shippable": true,
+      "shippable": false,
       "origin": "authored",
       "author": "Claude Sonnet (pool item words-mine-empty-cells), civic-prose",
       "date": "2026-10-19",
@@ -1481,7 +1481,7 @@
           "choice": "member-question"
         }
       ],
-      "shippable": true,
+      "shippable": false,
       "origin": "authored",
       "author": "Claude Sonnet (pool item words-mine-empty-cells), civic-prose",
       "date": "2026-10-19",
@@ -1503,7 +1503,7 @@
           "requiresFacts": ["speaker"]
         }
       ],
-      "shippable": true,
+      "shippable": false,
       "origin": "authored",
       "author": "Claude Sonnet (pool item words-mine-empty-cells), civic-prose",
       "date": "2026-10-19",
@@ -1525,7 +1525,7 @@
           "requiresFacts": ["speaker"]
         }
       ],
-      "shippable": true,
+      "shippable": false,
       "origin": "authored",
       "author": "Claude Sonnet (pool item words-mine-empty-cells), civic-prose",
       "date": "2026-10-19",
@@ -1547,7 +1547,7 @@
           "requiresFacts": ["speaker"]
         }
       ],
-      "shippable": true,
+      "shippable": false,
       "origin": "authored",
       "author": "Claude Sonnet (pool item words-mine-empty-cells), civic-prose",
       "date": "2026-10-19",
