@@ -25,6 +25,7 @@ import lawParameters from "../data/laws/reach-group-b-parameters.json" with { ty
 import { DEFAULT_BUSINESS_BOOKS_DATA } from "../business-books";
 import { stopgap } from "../stopgaps";
 import { transferCash } from "../world-transfer";
+import { newsKey, storiesHeard } from "./news";
 import type { CoreAPI, CoreModule, CoreState, Source } from "../types";
 
 export const PLACE_PRICES_MODULE_ID = "place-prices";
@@ -372,6 +373,64 @@ function saleReceipt(
   });
 }
 
+/**
+ * A person ties a price change to the law that caused it only when they heard
+ * a story about that law: then they hold a view of the law, citing the story
+ * (views read the learned-effect event). Until then they only felt the price.
+ * Once per person and law.
+ */
+function learnFromStory(
+  api: CoreAPI,
+  rule: Rule,
+  personId: string,
+  change: { payMinor: number; refundMinor: number },
+  /** The household's monthly earnings, for how large the change is to them. */
+  monthlyEarningsMinor: number,
+): void {
+  if (!rule.cause.startsWith("law:")) return;
+  const parts = rule.cause.split(":");
+  const lawId = parts.slice(3).join(":");
+  const moved = Math.round(change.refundMinor) - Math.round(change.payMinor);
+  if (!lawId || !moved) return;
+  const share = Math.max(
+    -1,
+    Math.min(1, moved / Math.max(monthlyEarningsMinor, Math.abs(moved))),
+  );
+  const learned = store(api).table("learned");
+  const key = `${personId}|${lawId}`;
+  if (learned.get(key)) return;
+  const story = storiesHeard(api, personId).find(
+    (s) => s.facts.lawId === lawId,
+  );
+  const person = api.state.people.get(personId);
+  if (!story || !person?.alive) return;
+  api.emit({
+    id: `event:law.effect-learned:${api.state.date}:${personId}:${lawId}`,
+    date: api.state.date,
+    kind: "law.effect-learned",
+    personIds: [personId],
+    placeId: person.placeId,
+    topic: `${parts[1]}:${parts[2]}`,
+    desiredChange: moved < 0 ? "repeal" : "enact",
+    moodImpulse: share * api.parameter("pricesChangeImpulseScale"),
+    stressImpulse:
+      Math.max(0, -share) * api.parameter("pricesChangeImpulseScale"),
+    facts: {
+      lawId,
+      learnedFrom: newsKey(story.id),
+      priceRuleId: rule.id,
+      movedMinor: String(moved),
+    },
+    publicRecord: false,
+    source: {
+      tag: "SOURCED",
+      citation: `Learned from ${story.id} that ${lawId} changed what they pay`,
+      asOf: api.state.date,
+    },
+  });
+  learned.put({ id: key, personId, lawId, storyId: story.id });
+}
+
 function settle(
   api: CoreAPI,
   id: string,
@@ -695,6 +754,7 @@ function month(api: CoreAPI): void {
         undefined,
         sellers,
       );
+      learnFromStory(api, rule, payer, change, pay);
     }
     // Apply the same nonlinear consumption rule to each counted household.
     // Averaging incomes before applying the elasticity changes the total.
@@ -791,6 +851,7 @@ export const PLACE_PRICES_MODULE: CoreModule = {
     tables: {
       state: {},
       rules: { indexes: { all: { fields: ["isRule"] } } },
+      learned: {},
     },
   },
   onDay(api) {

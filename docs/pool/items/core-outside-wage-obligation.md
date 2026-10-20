@@ -5,12 +5,12 @@ area: core
 kind: feature
 priority: 2
 size: L
-status: in-pr
-claimed-by: claude/peaceful-ritchie-03780x
+status: open
+claimed-by:
 pr: #5076
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-19T19:11:05.471Z
+claimed-at:
 ---
 
 **What.** TODO
@@ -21,4 +21,4 @@ claimed-at: 2026-10-19T19:11:05.471Z
 
 **Files.** TODO
 
-**Notes.** TODO
+**Notes.** Sent back Oct 20 from PR #5076 (branch claude/peaceful-ritchie-03780x): loosened tolerance in counted-weight-money.test.ts, unstated timeout increases in two tests, and new features added to src/simulation; finish on that branch, merge main into it first.
