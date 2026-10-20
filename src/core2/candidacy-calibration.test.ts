@@ -26,6 +26,8 @@ describe.skipIf(!process.env.CALIBRATION_RUN)("uncontested local races", () => {
   it("fall between 50 and 80 percent across six drawn places", () => {
     let contests = 0;
     let uncontested = 0;
+    let incumbents = 0;
+    let incumbentsRan = 0;
     const where: string[] = [];
     for (let i = 1; i <= 6; i += 1) {
       const place = drawPlace(`${label}${i}`, "candidacy-calibration");
@@ -51,8 +53,23 @@ describe.skipIf(!process.env.CALIBRATION_RUN)("uncontested local races", () => {
       let here = 0;
       let none = 0;
       for (const contest of rows) {
-        const count = candidatesFor(api, contest.id).length;
+        const running = candidatesFor(api, contest.id);
+        const count = running.length;
         here += 1;
+        // An incumbent seeking the seat again: the share that run is
+        // calibrated near 81 percent (candidacyIncumbencyWeight).
+        const term = contest.incumbentTermId
+          ? (api
+              .moduleState("core2-offices-v1")
+              .table("terms")
+              .get(contest.incumbentTermId) as unknown as
+              { personId: string | null } | undefined)
+          : undefined;
+        if (term?.personId) {
+          incumbents += 1;
+          if (running.some((d) => d.personId === term.personId))
+            incumbentsRan += 1;
+        }
         if (count <= 1) none += 1;
       }
       contests += here;
@@ -64,7 +81,11 @@ describe.skipIf(!process.env.CALIBRATION_RUN)("uncontested local races", () => {
     if (process.env.CALIBRATION_OUT)
       writeFileSync(
         process.env.CALIBRATION_OUT,
-        JSON.stringify({ contests, uncontested, where }, null, 1),
+        JSON.stringify(
+          { contests, uncontested, incumbents, incumbentsRan, where },
+          null,
+          1,
+        ),
       );
     expect(contests, where.join("; ")).toBeGreaterThan(10);
     const share = uncontested / contests;
