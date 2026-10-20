@@ -21,12 +21,12 @@ it("a played year records the module-level markers it ran", () => {
     placeKey: place.key,
   });
   advanceCore(core, addDays(makeIsoDate(core.date), 90));
-  // The housing engine's landlord and the property tax's state average run
-  // every month through plain `stopgap("ID")` calls.
+  // The housing engine's landlord and the business engine's compliance cost
+  // are marked through plain `stopgap("ID")` calls in module code.
   expect([...core.stopgapHits], where).toEqual(
     expect.arrayContaining([
       "SG-WORLD-housing-landlord",
-      "SG-WORLD-property-tax-rate",
+      "SG-WORLD-business-compliance-cost",
     ]),
   );
 }, 900_000);
