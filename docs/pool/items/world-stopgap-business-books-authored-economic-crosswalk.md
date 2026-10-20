@@ -4,10 +4,10 @@ title: "Stopgaps in business-books (authored-economic-crosswalk): 1 open"
 area: world
 kind: stopgap
 priority: 3
-status: open
+status: blocked
 claimed-by:
 pr:
-blocked-on:
+blocked-on: research data: the row's replacement needs recorded, empirical or sourced data (Recorded industry/legal-form and funding evidence for actual employers and counterparties, including public/branch/nonprofit budgets....)
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/data/business-books.json, kind authored-economic-crosswalk"
 ---
