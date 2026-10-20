@@ -5,12 +5,12 @@ area: core
 kind: feature
 priority: 3
 size: M
-status: claimed
-claimed-by: claude/township-custodial
+status: open
+claimed-by:
 pr:
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-20T06:13:29.615Z
+claimed-at:
 ---
 
 **What.** After PR #5548 a town that lies inside a township (Robertsdale, Pennsylvania, in the Township of Wood, government gus2025:174495) opens with no custodial contract from that township, because the contract settles only against a recorded owner coverage of the covered place and only counties have the data (opening-public-owner.ts openingHistoricalCountyPlaceCoverage). The township's custody spending should exist: a township pays for the cleaning of its buildings in the town it covers. Record, from the Census Government Units and place-to-county-subdivision relations, which towns a township covers and how many residents, as the identity and coverage sources the county case already carries, so the contract is built and settles.
@@ -22,3 +22,5 @@ claimed-at: 2026-10-20T06:13:29.615Z
 **Files.** src/core2/opening-public-owner.ts, src/core2/opening-customers.ts, src/core2/finance-cash.ts
 
 **Notes.** Follow-up of core-opening-public-custodial-owner-coverage-crash (#5548).
+
+Looked at Oct 20 (claude/political-game-pool-3xfqef-23), released unbuilt. The repo holds no place-to-county-subdivision (township) relation: `data/source` has place-to-county (`PLACE_COUNTY_RELATIONS_META` in `opening-public-owner.ts`), place-to-legislative-district and place-to-congressional-district files, and the Census Government Units listing, but none that says which places a township's territory covers or by how many residents. The Census relationship directory I checked (https://www2.census.gov/geo/docs/maps-data/data/rel2020/, reachable from the cloud container) has `cousub/` and `place/` folders whose files relate each geography to its own 2010 vintage (`tab20_cousub20_cousub10_*`, `tab20_place20_place10_*`), so a place-to-township table is not there; a builder looks for the Census Bureau's place-to-county-subdivision relationship (the 2010 `rel` set or a TIGER/Line spatial join) and locks it the way the county table is locked (raw file, SHA-256, `MANIFEST.json`, a reader and a test that the research-data-reader guard sees) before the coverage rows for townships and boroughs can be built. The opening's guard for this case is already on main (#5548, gap `opening-customers:public-owner-outside-covered-place-without-coverage`), so a town inside a township opens, without that township's custodial contract, until the table exists.

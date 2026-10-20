@@ -6,11 +6,11 @@ kind: bug
 priority: 2
 size: S
 status: in-pr
-claimed-by: claude/closures-rise
+claimed-by: claude/fs11vb-closures
 pr: #5553
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-20T04:15:07.098Z
+claimed-at: 2026-10-20T06:19:29.296Z
 ---
 
 **What.** After outside demand was scaled by the count scale, a town opened at its Census size (Chantilly, Virginia) still shows 114 closure rows in the jobs engine in a played year, against none at the sample size. Closures remove the firm and its workers' jobs. Find why firms close at Census scale (their books, credit or owner draws read a figure that does not scale) and make the reads agree.
@@ -22,3 +22,5 @@ claimed-at: 2026-10-20T04:15:07.098Z
 **Files.** src/core2/modules/business.ts, src/core2/modules/jobs.ts, src/core2/census-weight-economy.test.ts
 
 **Notes.** TODO
+
+Sent back 2026-10-20 from PR #5553 (branch claude/closures-rise): new Core test imports the old simulation population reader and impact:none mislabels gameplay changes to sales and owner payouts; use a Core-owned reader and a gameplay release declaration; finish on that branch, merge main into it first.

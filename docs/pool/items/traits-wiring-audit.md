@@ -5,7 +5,7 @@ area: people
 kind: wiring
 priority: 2
 size: M
-status: in-pr
+status: done
 claimed-by: claude/trait-wiring-audit
 pr: #5552
 blocked-on:
