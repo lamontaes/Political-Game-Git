@@ -275,7 +275,9 @@
     "levels": {
       "citation": "The owner-accepted seeded spread SEED_SPREAD = [-2, -1, -1, 0, 0, 0, 0, 1, 1, 2] in src/simulation/people-trait-pack.ts: 10%, 20%, 40%, 20%, 10% of people at -2..2. Cut points are the standard normal quantiles at 10%, 30%, 70% and 90%.",
       "values": [-2, -1, 0, 1, 2],
-      "cutPoints": [-1.2815516, -0.5244005, 0.5244005, 1.2815516]
+      "cutPoints": [-1.2815516, -0.5244005, 0.5244005, 1.2815516],
+      "bisectBound": 8,
+      "bisectSteps": 50
     }
   },
   "gaps": [

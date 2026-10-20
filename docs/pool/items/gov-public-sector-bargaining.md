@@ -23,3 +23,5 @@ claimed-at: 2026-10-19T22:07:09.798Z
 **Files.** a new `src/core2/modules/` engine or the staff engine, `src/core2/law-reach/group-a.ts`, `src/core2/data/`.
 
 **Notes.** Right-to-work (the dues side) is built in `group-a-union.ts`.
+
+Oct 20: Owner ruled that unions, membership rules and strikes wait for 1.0, so #5415's pay-follows-the-budget part may merge without union leverage or strikes, which stay out until 1.0.

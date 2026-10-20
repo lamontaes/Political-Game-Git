@@ -91,22 +91,19 @@ it("shows the day's choices with control names and runs the one taken through th
   const view = campaignView(core, personId).campaigns.find(
     (c) => c.filing.id === filing!.id,
   )!;
+  // The campaign day has no list of acts: only the doors and the calls open as scenes, each named by a control.
   expect(
-    view.day.map((c) => c.kind),
+    view.outings.map((c) => c.outing),
     where,
-  ).toEqual(["canvass", "event", "interview", "raise-money", "rest"]);
-  // Every choice has a control name in controls.json: no text is written in the screen.
-  for (const choice of view.day)
+  ).toEqual(["doors", "calls"]);
+  expect("day" in view, `no Today list: ${where}`).toBe(false);
+  for (const choice of view.outings)
     expect(
-      (controls.campaignDay as Record<string, string>)[choice.kind],
-      `${choice.kind}: ${where}`,
+      (controls.campaignOutings as Record<string, string>)[choice.outing],
+      `${choice.outing}: ${where}`,
     ).toBeTruthy();
-  expect(view.day.find((c) => c.kind === "canvass")!.available, where).toBe(
+  expect(view.outings.find((c) => c.outing === "doors")!.available, where).toBe(
     true,
-  );
-  // An event needs the venue's price in the campaign's account first.
-  expect(view.day.find((c) => c.kind === "event")!.available, where).toBe(
-    false,
   );
   expect(
     () => campaignDay(core, personId, { filingId: filing!.id, kind: "event" }),
@@ -124,6 +121,11 @@ it("shows the day's choices with control names and runs the one taken through th
     kind: "canvass",
   });
   expect(taken.doorsKnocked, `doors knocked: ${where}`).toBeGreaterThan(0);
+  // The doors open as a scene on a street, naming the households that answered.
+  expect(taken.scene?.place, where).toMatch(/^door-knocking-/);
+  expect(taken.households.length, `households that answered: ${where}`).toBe(
+    taken.reached,
+  );
   expect(
     doorsKnockedOf(api, campaignFor(api, filing!.id).id).length,
     where,

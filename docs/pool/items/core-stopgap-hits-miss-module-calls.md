@@ -5,9 +5,9 @@ area: core
 kind: bug
 priority: 3
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/stopgap-hits-active
-pr:
+pr: #5452
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-20T02:58:51.448Z

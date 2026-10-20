@@ -93,6 +93,22 @@ export function startSalariedPost(
   api.updatePerson(actor.id, { jobId: job.id });
 }
 
+/**
+ * Whether the person already worked today: a job ends before its day's work
+ * (calendar work runs first on the world's clock, but after the day on the
+ * player's), so someone who has worked today cannot leave theirs for a new
+ * post until tomorrow.
+ */
+export function workedToday(
+  core: CoreState,
+  person: Readonly<{ jobId?: string }>,
+): boolean {
+  return (
+    !!person.jobId &&
+    core.work.lastAttendanceByJob.get(person.jobId)?.date === core.date
+  );
+}
+
 export function endRecordedJob(
   core: CoreState,
   api: CoreAPI,
