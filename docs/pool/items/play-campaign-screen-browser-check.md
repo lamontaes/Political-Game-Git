@@ -5,9 +5,9 @@ area: play
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/campaign-browser-check
-pr:
+pr: #5680
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-20T12:40:35.823Z
