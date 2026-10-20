@@ -5,10 +5,10 @@ area: words
 kind: feature
 priority: 2
 size: M
-status: open
+status: blocked
 claimed-by:
 pr: #5216
-blocked-on:
+blocked-on: words: the merger accepts edits under src/director and data/english only from the Words session; the CTO must confirm a non-Words branch or hand this to the Words line (merger comment, Oct 20)
 source: added with npm run pool -- add
 claimed-at:
 ---
