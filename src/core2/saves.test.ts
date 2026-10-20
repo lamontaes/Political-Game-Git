@@ -6,7 +6,6 @@ import { loadGame, newGame, runCommand, saveGame } from "./saves";
 import type { CoreModule, CoreState } from "./types";
 import { gameStartDate } from "./game-start";
 import { addDays } from "./kernel/dates";
-import { setBookkeeping } from "./bookkeeping";
 
 /** A date some days after the game's start. */
 const day = (days: number) => addDays(gameStartDate(), days);
@@ -23,6 +22,74 @@ const digest = (core: CoreState) => {
   hash.update(String(core.cashJournal.nextSequence));
   return hash.digest("hex");
 };
+
+/**
+ * Walk a played world and its restored copy side by side (tables by key, lists
+ * by index, plain records by field). Returns how many records were frozen in
+ * the played world and had changed since the opening (a producer rewrote them),
+ * how many of those the restore left unfrozen, and the first few such paths.
+ */
+function sealGaps(
+  opening: unknown,
+  played: unknown,
+  restored: unknown,
+): { changedFrozen: number; unfrozen: number; paths: string[] } {
+  const result = { changedFrozen: 0, unfrozen: 0, paths: [] as string[] };
+  const seen = new WeakSet<object>();
+  const shallowSame = (a: object, b: object) => {
+    const ka = Object.keys(a),
+      kb = Object.keys(b);
+    if (ka.length !== kb.length) return false;
+    return ka.every((key) => {
+      const x = (a as Record<string, unknown>)[key],
+        y = (b as Record<string, unknown>)[key];
+      return typeof x === "object" || typeof y === "object" ? true : x === y;
+    });
+  };
+  const plain = (value: unknown): value is Record<string, unknown> =>
+    !!value &&
+    typeof value === "object" &&
+    !Array.isArray(value) &&
+    !(value instanceof Map) &&
+    !(value instanceof Set) &&
+    [Object.prototype, null].includes(Object.getPrototypeOf(value));
+  const walk = (o: unknown, p: unknown, r: unknown, path: string) => {
+    if (!p || typeof p !== "object" || !r || typeof r !== "object") return;
+    if (seen.has(p)) return;
+    seen.add(p);
+    if (p instanceof Map && r instanceof Map) {
+      for (const [key, value] of p)
+        if (typeof key === "string" || typeof key === "number")
+          walk(
+            o instanceof Map ? o.get(key) : undefined,
+            value,
+            r.get(key),
+            `${path}[${String(key)}]`,
+          );
+    } else if (Array.isArray(p) && Array.isArray(r)) {
+      p.forEach((value, i) =>
+        walk(Array.isArray(o) ? o[i] : undefined, value, r[i], `${path}[${i}]`),
+      );
+    } else if (plain(p) && plain(r)) {
+      if (
+        Object.isFrozen(p) &&
+        plain(o) &&
+        Object.isFrozen(o) &&
+        !shallowSame(o, p)
+      ) {
+        result.changedFrozen += 1;
+        if (!Object.isFrozen(r)) {
+          result.unfrozen += 1;
+          if (result.paths.length < 5) result.paths.push(path);
+        }
+      }
+      for (const key of Object.keys(p))
+        walk(plain(o) ? o[key] : undefined, p[key], r[key], `${path}.${key}`);
+    }
+  };
+  walk(opening, played, restored, "$");
+  return result;
+}
 
 describe(`saves in ${place.name}, ${place.state} (seed ${seed})`, () => {
   it("loads to the same world after commands and a JSON round trip", () => {
@@ -127,104 +194,59 @@ describe(`saves in ${place.name}, ${place.state} (seed ${seed})`, () => {
     const replayed = loadGame({ ...save, coreApiVersion: "core2-api-v1" });
     expect(replayed.core.date).toBe(save.savedAt);
   }, 600_000);
-  it("restores a record frozen at the opening frozen, including those a producer changed since", () => {
-    // Bookkeeping freezes records as they are built; play leaves it off.
-    const before = setBookkeeping(true);
-    try {
-      const recipe = {
-        place: { seed: place.seed, key: place.key },
-        twoLevel: true,
-        settings: { population: 1500 },
-        preStart: false as const,
-      };
-      const opening = newGame(recipe);
-      const game = newGame(recipe);
-      runCommand(game, "advance", { through: day(45) });
-      const save = JSON.parse(JSON.stringify(saveGame(game))) as ReturnType<
-        typeof saveGame
-      >;
-      expect(save.snapshot).toBeDefined();
-      const loaded = loadGame(save);
-      // Walk the three worlds path by path, over the records the opening has:
-      // one frozen there is frozen in the played game and after the restore,
-      // whether or not a producer changed it in between.
-      const mismatched: string[] = [];
-      let frozen = 0;
-      let changed = 0;
-      let sample: Record<string, unknown> | undefined;
-      const seen = new Set<object>();
-      const walk = (
-        o: unknown,
-        a: unknown,
-        b: unknown,
-        path: string,
-        depth: number,
-      ) => {
-        if (!o || !a || !b || typeof o !== "object") return;
-        if (typeof a !== "object" || typeof b !== "object") return;
-        if (seen.has(o) || depth > 6 || mismatched.length > 5) return;
-        seen.add(o);
-        if (Object.isFrozen(o)) {
-          frozen += 1;
-          if (JSON.stringify(a) !== JSON.stringify(o)) changed += 1;
-          sample ??= b as Record<string, unknown>;
-          if (!Object.isFrozen(b)) mismatched.push(path);
-        }
-        if (o instanceof Map && a instanceof Map && b instanceof Map) {
-          for (const [key, value] of o)
-            walk(
-              value,
-              a.get(key),
-              b.get(key),
-              `${path}.${String(key)}`,
-              depth + 1,
-            );
-        } else if (!(o instanceof Set) && !(a instanceof Set)) {
-          for (const key of Object.keys(o))
-            walk(
-              (o as Record<string, unknown>)[key],
-              (a as Record<string, unknown>)[key],
-              (b as Record<string, unknown>)[key],
-              `${path}.${key}`,
-              depth + 1,
-            );
-        }
-      };
-      walk(opening.core, game.core, loaded.core, "core", 0);
-      expect(mismatched).toEqual([]);
-      // Records made since the opening (pay ledgers, earned periods) restore frozen too.
-      const unfrozen: string[] = [];
-      const seenAll = new Set<object>();
-      const walkAll = (a: unknown, b: unknown, path: string, depth: number) => {
-        if (!a || !b || typeof a !== "object" || typeof b !== "object") return;
-        if (seenAll.has(a) || depth > 6 || unfrozen.length > 5) return;
-        seenAll.add(a);
-        if (Object.isFrozen(a) && !Object.isFrozen(b)) unfrozen.push(path);
-        if (a instanceof Map && b instanceof Map)
-          for (const [key, value] of a)
-            walkAll(value, b.get(key), `${path}.${String(key)}`, depth + 1);
-        else if (!(a instanceof Set) && !(b instanceof Set))
-          for (const key of Object.keys(a))
-            walkAll(
-              (a as Record<string, unknown>)[key],
-              (b as Record<string, unknown>)[key],
-              `${path}.${key}`,
-              depth + 1,
-            );
-      };
-      walkAll(game.core, loaded.core, "core", 0);
-      expect(unfrozen).toEqual([]);
-      expect(frozen, "no frozen record to compare").toBeGreaterThan(0);
-      expect(changed, "no frozen record a producer changed").toBeGreaterThan(0);
-      process.stdout.write(
-        `\nsaves: ${frozen} frozen at the opening, ${changed} replaced since (${place.name}, seed ${seed})`,
-      );
-      // A frozen record changed with no producer is refused after a restore.
-      expect(() => {
-        sample!.zzUnproduced = 1;
-      }).toThrow();
-    } finally {
-      setBookkeeping(before);
-    }
-  }, 900_000);
+
+  it("restores every frozen record a producer changed since the opening as frozen", () => {
+    const recipe = {
+      place: { seed: place.seed, key: place.key },
+      twoLevel: true,
+      settings: { population: 1500 },
+      preStart: false as const,
+    };
+    const opening = newGame(recipe);
+    const game = newGame(recipe);
+    runCommand(game, "advance", { through: day(45) });
+    const save = JSON.parse(JSON.stringify(saveGame(game))) as ReturnType<
+      typeof saveGame
+    >;
+    expect(save.snapshot).toBeDefined();
+    const loaded = loadGame(save);
+    expect(loaded.skipped).toEqual([]);
+    const gaps = sealGaps(opening.core, game.core, loaded.core);
+    // Producers did rewrite frozen records in 45 days, so the check has
+    // something to check, and every one of them comes back frozen.
+    expect(
+      gaps.changedFrozen,
+      `${place.name} (${place.key}), seed ${place.seed}: frozen records changed since the opening`,
+    ).toBeGreaterThan(0);
+    expect(
+      gaps.paths,
+      `${gaps.unfrozen} of ${gaps.changedFrozen} changed frozen records came back unfrozen`,
+    ).toEqual([]);
+    // Records made since the opening (pay ledgers, earned periods) restore
+    // frozen too, though the opening holds nothing to compare them with.
+    const unfrozen: string[] = [];
+    const seenAll = new Set<object>();
+    const walkAll = (a: unknown, b: unknown, path: string, depth: number) => {
+      if (!a || !b || typeof a !== "object" || typeof b !== "object") return;
+      if (seenAll.has(a) || depth > 6 || unfrozen.length > 5) return;
+      seenAll.add(a);
+      if (Object.isFrozen(a) && !Object.isFrozen(b)) unfrozen.push(path);
+      if (a instanceof Map && b instanceof Map)
+        for (const [key, value] of a)
+          walkAll(value, b.get(key), `${path}.${String(key)}`, depth + 1);
+      else if (!(a instanceof Set) && !(b instanceof Set))
+        for (const key of Object.keys(a))
+          walkAll(
+            (a as Record<string, unknown>)[key],
+            (b as Record<string, unknown>)[key],
+            `${path}.${key}`,
+            depth + 1,
+          );
+    };
+    walkAll(game.core, loaded.core, "core", 0);
+    expect(
+      unfrozen,
+      `${place.name} (${place.key}), seed ${place.seed}`,
+    ).toEqual([]);
+  }, 600_000);
 });

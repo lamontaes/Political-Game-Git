@@ -53,7 +53,7 @@
     }
   },
   "housingBuyBaseline": {
-    "value": -0.5,
+    "value": -1.1,
     "tag": "TUNABLE",
     "citation": "How far buying sits below renting before cost and the down payment; checked against the ACS owner share and NAR's first-time buyer share of sales (21 percent in 2025).",
     "spread": {
@@ -266,6 +266,94 @@
       "high": 0.2,
       "unit": "share of proposed rent",
       "citation": "Sensitivity range; behavioral tuning, not a measured fee."
+    }
+  },
+  "housingBuyChildWeight": {
+    "value": 0.6,
+    "tag": "TUNABLE",
+    "citation": "Households with children are likelier first-time buyers (NAR 2025 Profile of Home Buyers and Sellers: about a third of first-time buyers have children under 18 at home); a sliding pull by the number of children, to three.",
+    "spread": {
+      "low": 0,
+      "high": 2,
+      "unit": "score at three or more children at home",
+      "citation": "Households with children are likelier first-time buyers (NAR 2025 Profile of Home Buyers and Sellers: about a third of first-time buyers have children under 18 at home); a sliding pull by the number of children, to three."
+    }
+  },
+  "housingBuyAgeWeight": {
+    "value": 0.6,
+    "tag": "TUNABLE",
+    "citation": "First-time buyers are young adults: NAR 2025 puts their median age at 40 (record high); the pull rises through the late twenties and fades after the early sixties.",
+    "spread": {
+      "low": 0,
+      "high": 2,
+      "unit": "score at the prime buying ages",
+      "citation": "First-time buyers are young adults: NAR 2025 puts their median age at 40 (record high); the pull rises through the late twenties and fades after the early sixties."
+    }
+  },
+  "housingBuyAgeRiseCenter": {
+    "value": 30,
+    "tag": "TUNABLE",
+    "citation": "Where the age pull is half its height on the way up: renters' transitions to owning climb through the late twenties and early thirties (Census CPS/ASEC homeownership by age).",
+    "spread": {
+      "low": 26,
+      "high": 34,
+      "unit": "years",
+      "citation": "Where the age pull is half its height on the way up: renters' transitions to owning climb through the late twenties and early thirties (Census CPS/ASEC homeownership by age)."
+    }
+  },
+  "housingBuyAgeFadeCenter": {
+    "value": 60,
+    "tag": "TUNABLE",
+    "citation": "Where the age pull is half its height on the way down: few households first buy past their late fifties (NAR 2025).",
+    "spread": {
+      "low": 52,
+      "high": 68,
+      "unit": "years",
+      "citation": "Where the age pull is half its height on the way down: few households first buy past their late fifties (NAR 2025)."
+    }
+  },
+  "housingBuyAgeScale": {
+    "value": 4,
+    "tag": "TUNABLE",
+    "citation": "How quickly the age pull rises and fades around its two centers.",
+    "spread": {
+      "low": 2,
+      "high": 8,
+      "unit": "years",
+      "citation": "How quickly the age pull rises and fades around its two centers."
+    }
+  },
+  "housingBuyTenureWeight": {
+    "value": 0.3,
+    "tag": "TUNABLE",
+    "citation": "The longer a household has rented in place, the likelier it is to settle; a sliding pull by years in the lease, to five.",
+    "spread": {
+      "low": 0,
+      "high": 1,
+      "unit": "score at five or more years in the lease",
+      "citation": "The longer a household has rented in place, the likelier it is to settle; a sliding pull by years in the lease, to five."
+    }
+  },
+  "housingBuyTenureYears": {
+    "value": 5,
+    "tag": "TUNABLE",
+    "citation": "Years in the lease at which the tenure pull is full.",
+    "spread": {
+      "low": 3,
+      "high": 8,
+      "unit": "years",
+      "citation": "Years in the lease at which the tenure pull is full."
+    }
+  },
+  "housingBuySavingsWeight": {
+    "value": 0.6,
+    "tag": "TUNABLE",
+    "citation": "Savings beyond the down payment make a purchase feasible and are the main enabler of first-time buying (NAR 2025); a sliding pull by the log of means over the down payment, to one.",
+    "spread": {
+      "low": 0,
+      "high": 2,
+      "unit": "score per log of cash over the down payment",
+      "citation": "Savings beyond the down payment make a purchase feasible and are the main enabler of first-time buying (NAR 2025); a sliding pull by the log of means over the down payment, to one."
     }
   }
 }

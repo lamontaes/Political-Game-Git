@@ -164,13 +164,23 @@ export function encode(root: unknown): Encoded {
   return walk(root, "$");
 }
 
-/** Freeze a decoded record and the plain objects and arrays inside it (a Map or Set keeps its own entries). */
-function seal<T>(value: T): T {
-  if (!value || typeof value !== "object" || Object.isFrozen(value))
+/**
+ * Freeze a decoded record and the plain objects and arrays inside it (a Map or
+ * Set keeps its own entries). An object the rebuilt world owns and the decoder
+ * refilled in place (`live`) is left alone, even when a sealed record points at
+ * it: engines hold it and still write to it.
+ */
+function seal<T>(value: T, live: WeakSet<object>): T {
+  if (
+    !value ||
+    typeof value !== "object" ||
+    Object.isFrozen(value) ||
+    live.has(value)
+  )
     return value;
   if (!(value instanceof Map) && !(value instanceof Set))
     for (const child of Object.values(value as Record<string, unknown>))
-      seal(child);
+      seal(child, live);
   return Object.freeze(value);
 }
 
@@ -215,6 +225,8 @@ export function decoder(): (
   path?: string,
 ) => unknown {
   const defs: unknown[] = [];
+  // Objects of the rebuilt world refilled in place, which sealing leaves writable.
+  const live = new WeakSet<object>();
   const walk = (value: Encoded, current: unknown, path: string): unknown => {
     if (value === null || typeof value !== "object") return value;
     if (Array.isArray(value))
@@ -229,7 +241,7 @@ export function decoder(): (
     if ("$frozen" in value) {
       const out = walk(value.$frozen as Encoded, current, path);
       return out && typeof out === "object" && !Object.isFrozen(out)
-        ? seal(out)
+        ? seal(out, live)
         : out;
     }
     if ("$def" in value) {
@@ -253,6 +265,7 @@ export function decoder(): (
       if (old && !Object.isFrozen(old)) {
         Map.prototype.clear.call(old);
         for (const [k, inner] of entries) Map.prototype.set.call(old, k, inner);
+        live.add(old);
         return old;
       }
       return new Map(entries);
@@ -264,6 +277,7 @@ export function decoder(): (
       if (current instanceof Set && !Object.isFrozen(current)) {
         Set.prototype.clear.call(current);
         for (const item of items) Set.prototype.add.call(current, item);
+        live.add(current);
         return current;
       }
       return new Set(items);
@@ -288,13 +302,15 @@ export function decoder(): (
     // A frozen record unchanged since the opening stays the rebuilt world's
     // own object (engines check that identity). One a producer changed since
     // is a new record, sealed again like the one it replaces.
-    if (old && Object.isFrozen(old)) return same(out, old) ? old : seal(out);
+    if (old && Object.isFrozen(old))
+      return same(out, old) ? old : seal(out, live);
     // Refill the rebuilt world's own object in place when it can be written.
     if (old && Object.isExtensible(old)) {
       for (const key of Object.keys(old))
         if (!(key in out) && typeof old[key] !== "function") delete old[key];
       for (const [key, inner] of Object.entries(out))
         if (old[key] !== inner) old[key] = inner;
+      live.add(old);
       return old;
     }
     return out;
