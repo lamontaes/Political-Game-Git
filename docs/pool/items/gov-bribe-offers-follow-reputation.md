@@ -5,11 +5,12 @@ area: gov
 kind: feature
 priority: 2
 size: M
-status: open
-claimed-by:
-pr:
+status: done
+claimed-by: claude/bribe-reputation
+pr: #5673
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-20T11:54:48.207Z
 ---
 
 **What.** Owner ruling (Oct 20, #5333): zero offers in a plain year is fine, and offers follow reputation. Today the lobbyist's offer decision weighs only the offerer's temperament, the stake and the tie (considerBribe in src/core2/modules/corruption.ts). Add what the lobbyist has heard about the official: a person who took a bribe, or traded a favor for money, and whose act reached the lobbyist through news, a conversation or a notice, draws more offers from lobbyists who learned of it; an official nobody has heard anything about draws no more than before. The player would notice that a known-corrupt official is approached more often than an untouched one.

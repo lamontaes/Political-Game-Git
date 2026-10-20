@@ -9,11 +9,13 @@
  * Attending takes a school day's hours and is recorded for the day.
  */
 import data from "../data/school-days.json" with { type: "json" };
+import tuition from "../data/opening-private-tuition.json" with { type: "json" };
 import stateDays from "../../../data/research/people/state-instructional-days-2018.json" with { type: "json" };
 import { LAWS_MODULE_ID, lawChain } from "./laws";
 import { decisionFromScores, scoreOffers } from "../choice";
 import { decisionKinds } from "../trait-decisions";
 import { offer } from "./life";
+import { reenrollPrivateTuition } from "../private-tuition-reenroll";
 import type {
   ActOffer,
   ActionDefinition,
@@ -243,6 +245,9 @@ export const SCHOOL_MODULE: CoreModule = {
   state: { schemaVersion: 1, tables: { attended: {} } },
   onDay: (api) => {
     schoolDay(api);
+    // A new school year: private enrollment is ranked again on what families hold.
+    if (api.state.date.slice(5) === tuition.reenrollOn)
+      reenrollPrivateTuition(api);
     return undefined;
   },
   needEvaluators: {
