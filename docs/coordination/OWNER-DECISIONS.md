@@ -6,6 +6,17 @@ The CTO's only writer. When two rulings conflict, the most recent wins unless th
 
 (none; every question asked is ruled below)
 
+## Oct 20: rulings (owner, spoken; recorded by the CTO)
+
+- **Unplanned pregnancies** (#5220, `SG-PEOPLE-unplanned-pregnancy`): they happen to the people in the background as built, from each person's own records and the law where they live. Not for the player's own character or household. Nothing is shown to the player beyond what the world already shows.
+- **A family moving away from an 18-year-old** (#5473, `SG-P15-moves-player-home-stays`): background households may split this way when it is cheap to simulate and as common as in real life. The player's own family does not leave the player before 1.0; the hold in `moves.ts` stays.
+- **Unions** (#5302, #5415): unions, membership rules and strikes come after early access, with 1.0 (consistent with Oct 14). The union owner-decision rows are deferred to 1.0 and do not block the early-access build; public bargaining's pay-follows-the-budget part may merge without union leverage or strikes.
+- **Unemployment work search** (`owner-unemployment-work-search`): recorded law, simulated. Claimants in the world follow their state's weekly contact rule in the background; there is no form or paperwork step for the player.
+- **A new minority-party member's bill** (#5141): it can reach the floor the normal way, if it gets through committee.
+- **How rivals campaign** (#5268): like real candidates of their kind, studied from real campaigns. A rich or self-funding candidate leans on paid ads and staff, a poor one on doors and volunteers, a known incumbent on press and record, an unknown on building name recognition. Rivals choose among the same campaign acts as the player, by their own money, standing and traits.
+- **Bribe offers** (#5333): zero offers in a plain year is fine. Offers follow reputation: someone known to take bribes, or to trade favors for money, draws many more requests.
+- **A town with no open jobs** (#5174): yes, the player is offered work elsewhere in the region (the outside employers).
+
 ## Ruled by the CTO overnight, October 14, 2026 (from standing rules; the owner may overrule)
 
 - **Counted people keep about 30 bytes each in packed columns** (two-tier package) rather than being regenerated from the seed as the MEMORY-FLAT package said; the newer design meets the memory goal (heap after opening 766 MB to 451 MB) and the year halves (146 s to 72 s in Robbins). Conflict flagged; newest wins.
