@@ -55,6 +55,7 @@ import {
   organizationProfileAt,
 } from "../life-queries";
 import { lifePlaceByJurisdictionId } from "../life-places";
+import { localBusinessSupplyFor } from "../local-business-counts";
 import {
   countyGeoidsForPlace,
   countyGovernmentUnitsForPlace,
@@ -257,7 +258,11 @@ export interface Workplace {
   readonly key: string;
   readonly classification: OrganizationClassification;
   readonly kind: WorkRelationshipKind;
-  /** GAME ASSUMPTION: how many separate employers of this kind a town has. */
+  /**
+   * GAME ASSUMPTION: how many separate employers of this kind a town has.
+   * For a workplace in `OUTLET_BUSINESS_KINDS` it is only the fallback for a
+   * town whose county rates are not held; `workplaceOutlets` reads the rest.
+   */
   readonly outlets: number;
   readonly roles: readonly Role[];
   /** Hire into the town's existing organizations of this kind instead. */
@@ -274,6 +279,52 @@ const role = (
 ): Role => ({ title, occupation, weight, ...extra });
 
 const LEAD = { authority: "directs-others" as const, minAge: 28 };
+
+/**
+ * The County Business Patterns kinds (`local-business-counts.ts`) that stand
+ * for a workplace's employers. A town's outlets of such a workplace are its
+ * share of the county's establishments of those kinds at the town's Census
+ * size, not the authored `outlets`.
+ */
+const OUTLET_BUSINESS_KINDS: Readonly<Record<string, readonly string[]>> = {
+  construction: ["construction"],
+  retail: ["grocery", "hardware"],
+  professional: ["law-office", "accounting"],
+  restaurant: ["diner"],
+  repair: ["auto-repair"],
+  "personal-care": ["salon"],
+};
+
+const outletsCache = new Map<string, number>();
+
+/**
+ * How many separate employers of `workplace` the town has: its share of the
+ * county's establishments of the kinds that stand for it (rounded, at least
+ * one because an adult in town needs an employer), else the authored count.
+ */
+export function workplaceOutlets(
+  town: EntityId,
+  workplace: Workplace,
+): number {
+  const kinds = OUTLET_BUSINESS_KINDS[workplace.key];
+  if (!kinds) return workplace.outlets;
+  const cacheKey = `${town}:${workplace.key}`;
+  const cached = outletsCache.get(cacheKey);
+  if (cached !== undefined) return cached;
+  const supply = localBusinessSupplyFor(town);
+  const outlets = supply
+    ? Math.max(
+        1,
+        Math.round(
+          supply
+            .filter((row) => kinds.includes(row.kind))
+            .reduce((sum, row) => sum + row.expected, 0),
+        ),
+      )
+    : workplace.outlets;
+  outletsCache.set(cacheKey, outlets);
+  return outlets;
+}
 
 export const TOWN_WORKPLACES: readonly Workplace[] = [
   {
@@ -1087,10 +1138,14 @@ export function townEmployerOutlets(
     const outlet = Number(organization.stableKey.slice(stem.length));
     if (!Number.isInteger(outlet)) continue;
     if (organizationClosingAt(world, organization.id)) closed.add(outlet);
-    else if (outlet >= workplace.outlets) later.push(outlet);
+    else if (outlet >= workplaceOutlets(town, workplace)) later.push(outlet);
   }
   const outlets: number[] = [];
-  for (let outlet = 0; outlet < workplace.outlets; outlet += 1)
+  for (
+    let outlet = 0;
+    outlet < workplaceOutlets(town, workplace);
+    outlet += 1
+  )
     if (!closed.has(outlet)) outlets.push(outlet);
   return [...outlets, ...later.sort((a, b) => a - b)];
 }

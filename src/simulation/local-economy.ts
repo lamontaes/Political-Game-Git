@@ -164,8 +164,8 @@ export const LOCAL_BUSINESS_KINDS: readonly LocalBusinessKind[] = [
  * staff in each, for the speed of a new life and a Day. The real counts stay
  * in the business's provenance note; nothing here is a claim about the town.
  */
-export const LOCAL_BUSINESS_MAX_PER_KIND = 1000;
-export const LOCAL_BUSINESS_MAX_STAFF = 3000;
+export const LOCAL_BUSINESS_MAX_PER_KIND = 2;
+export const LOCAL_BUSINESS_MAX_STAFF = 3;
 
 /** One business the game seats in a town. */
 export interface LocalBusinessPlan {
