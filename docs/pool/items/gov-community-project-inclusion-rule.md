@@ -5,7 +5,7 @@ area: gov
 kind: feature
 priority: 2
 size: S
-status: in-pr
+status: done
 claimed-by: claude/community-inclusion
 pr: #5387
 after:
