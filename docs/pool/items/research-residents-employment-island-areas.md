@@ -5,11 +5,12 @@ area: people
 kind: research
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/island-employment
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-20T23:20:54.096Z
 ---
 
 **What.** Split from research-residents-sourced-parameters, whose county-employment part merged as PR 5690 but left SG-P8-resident-employment-proxy open. Replace the proxy for the island areas (American Samoa, Guam, Northern Marianas, Virgin Islands) with their own employment-by-age observations from the 2020 Decennial Census island-area tables, with suppression and margin-of-error handling, as SOURCED or ESTIMATED rows with a citation and a spread, and a research file under data/research/people/ with a reader.
