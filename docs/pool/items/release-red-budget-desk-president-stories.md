@@ -5,12 +5,12 @@ area: gov
 kind: bug
 priority: 2
 size: S
-status: claimed
-claimed-by: claude/pool-red-budget-desk
-pr:
+status: in-pr
+claimed-by: claude/fs11vb-bd
+pr: #5320
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-19T23:57:12.414Z
+claimed-at: 2026-10-20T13:12:32.179Z
 ---
 
 **What.** TODO
@@ -22,3 +22,5 @@ claimed-at: 2026-10-19T23:57:12.414Z
 **Files.** TODO
 
 **Notes.** TODO
+
+Sent back 2026-10-20 from PR #5320 (branch claude/pool-red-budget-desk): merge conflict with main in press-desk.ts (code); finish on that branch, merge main into it first.
