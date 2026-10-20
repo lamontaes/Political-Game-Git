@@ -85,12 +85,6 @@
       "source": "How much the leader's closeness to the member (their tie today, 0 to 1) adds to granting the request.",
       "spread": [0.2, 0.8]
     },
-    "leaderRequestTraitWeight": {
-      "value": 0.4,
-      "tag": "TUNABLE",
-      "source": "How much the leader's own traits (help-others, rule-following against refusing and delay) add to or take from granting the request, on the shared trait-lean scale of -1 to 1.",
-      "spread": [0.2, 0.6]
-    },
     "clemencyReviewWeekday": {
       "value": 4,
       "tag": "TUNABLE",

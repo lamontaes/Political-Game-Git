@@ -584,8 +584,8 @@ function closeMonth(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
 
 const GROCERY_EXEMPTION =
   "us-policy-positions:fiscal.exempt-groceries-from-sales-tax";
-/** Grocery stores' classification (NAICS 445, food and beverage retailers). */
-const GROCERY_SELLERS = ["445"];
+/** Retail sellers' classification: where households buy food at home. */
+const GROCERY_SELLERS = "enterprise:retail";
 
 /**
  * The sales tax in force collected on every purchase in town (core2-api-v21):
@@ -602,22 +602,27 @@ export function syncSalesTax(api: CoreAPI): void {
   const town = lawChain(api).townPlaceId;
   const govs = governments(api);
   const payee = (level: string) =>
-    (level === "city"
+    (level === "city" || level === "township"
       ? (govs.find((g) => g.level === "city") ??
         govs.find((g) => g.level === "county"))
       : level === "county"
         ? govs.find((g) => g.level === "county")
         : undefined) ?? govs.find((g) => g.level === "state");
   const rates = new Map<string, number>();
+  const rows = new Map<string, { key: string; lawId: string }[]>();
   for (const l of answer.levels) {
     if (!l.row || l.setAside || l.level === "federal") continue;
     const gov = payee(l.level);
     const value = l.row.value ?? 0;
     if (!gov || !(value > 0)) continue;
     rates.set(gov.id, (rates.get(gov.id) ?? 0) + value);
+    rows.set(gov.id, [
+      ...(rows.get(gov.id) ?? []),
+      { key: l.row.series, lawId: l.row.id },
+    ]);
   }
   const total = [...rates.values()].reduce((a, b) => a + b, 0);
-  const exempt = groceryExemptionInForce(api) ? GROCERY_SELLERS : undefined;
+  const exemption = groceryExemption(api);
   for (const gov of govs) {
     const id = `sales-tax:${gov.id}`;
     const rate = rates.get(gov.id) ?? 0;
@@ -630,7 +635,19 @@ export function syncSalesTax(api: CoreAPI): void {
       placeId: town,
       ratePercent: effective,
       payeeAccountId: account,
-      ...(exempt ? { exemptClassificationPrefixes: exempt } : {}),
+      ...(exemption
+        ? {
+            exemptions: [
+              {
+                classificationPrefix: GROCERY_SELLERS,
+                share: lawParameters.parameters.groceryShareOfRetailSales.value,
+                lawKey: GROCERY_EXEMPTION,
+                lawId: exemption.id,
+              },
+            ],
+          }
+        : {}),
+      ...(rows.get(gov.id) ? { laws: rows.get(gov.id)! } : {}),
       from: api.state.date,
       source: {
         tag: answer.estimate ? "ESTIMATED" : "SOURCED",
@@ -771,10 +788,11 @@ function remitPropertyTax(api: CoreAPI, source: Source): void {
   });
 }
 
-function groceryExemptionInForce(api: CoreAPI): boolean {
+/** The grocery exemption law row in force for the town (the latest yes at any level), or null. */
+function groceryExemption(api: CoreAPI): LawRowInput | null {
   const laws = api.moduleState(LAWS_MODULE_ID).table("laws");
   const date = api.state.date;
-  return lawChain(api).levels.some(({ jurisdiction }) => {
+  for (const { jurisdiction } of lawChain(api).levels) {
     const latest = (
       laws.query("bySeries", [
         jurisdiction,
@@ -783,8 +801,9 @@ function groceryExemptionInForce(api: CoreAPI): boolean {
     )
       .filter((r) => r.effectiveDate <= date)
       .sort((a, b) => b.effectiveDate.localeCompare(a.effectiveDate))[0];
-    return latest?.value === 1;
-  });
+    if (latest?.value === 1) return latest;
+  }
+  return null;
 }
 
 /** The executive's budget priorities for the next fiscal year: changes to lines, by government. */
@@ -1252,7 +1271,12 @@ export function withholdPay(
         minor: Math.floor((l.minor * held) / owed),
       }));
   }
-  if (lines.some((l) => l.level === "county" || l.level === "city")) {
+  if (
+    lines.some(
+      (l) =>
+        l.level === "county" || l.level === "township" || l.level === "city",
+    )
+  ) {
     // stopgapId: SG-WORLD-withholding-local-base
     api.stopgap("SG-WORLD-withholding-local-base");
   }
