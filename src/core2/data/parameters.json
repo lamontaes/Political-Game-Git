@@ -542,12 +542,26 @@
     }
   },
   "traitWeightWorkAttendShift": {
-    "value": 1,
-    "tag": "TUNABLE",
-    "citation": "The trait weight of the work.attend-shift decision. Starts at the general traitWeight (1); calibrated against its row in data/research/trait-effect-sizes.json with scripts/traits/trait-calibrate.ts.",
+    "value": 0.1,
+    "tag": "ESTIMATED",
+    "citation": "Salgado 2002, 'The Big Five personality dimensions and counterproductive behaviors' (International Journal of Selection and Assessment 10): 'none of the Big Five personality measures were found to be predictors of absenteeism'. The weight is the largest that keeps the odds of missing between the third leaning most toward missing and the third leaning least near a small single-decision effect (1.24 at 0.1 against an assumed 1.1 per standard deviation, scripts/traits/trait-calibrate.ts, Ely, Nevada, key 3223500, seed 7ae8589566f5, 14,008 shift weighings); at the general weight of 1 the ratio was 61, so temperament decided who missed work. Illness now decides most absences (workAbsenceIllnessWeight).",
     "spread": {
-      "status": "unmeasured",
-      "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
+      "low": 0.05,
+      "high": 0.2,
+      "unit": "weight",
+      "citation": "Odds ratios 1.16 to 1.72 between the thirds in the same calls; the study's null bounds it above."
+    }
+  },
+  "workAbsenceIllnessWeight": {
+    "value": 0.3,
+    "tag": "ESTIMATED",
+    "citation": "BLS Current Population Survey 2023, Table 46: full-time wage and salary workers lose 1.7% of scheduled hours to absence (lost worktime rate), illness or injury being about two thirds of absences (2.2 of a 3.2% absence rate, data/research/stand-in-figures-2026-10-12.json). The weight on a person's own care need (src/core2/modules/health.ts careNeedOf, 0 to 1) is set so missed shifts come to that share: in Ely, Nevada (key 3223500, seed 7ae8589566f5, 45 played days, 3,782 shift weighings) weights 0.2, 0.5 and 1.5 gave 1.1%, 3.7% and 11.1% of shifts missed; 0.3 sits at the 1.7% target.",
+    "estimatedFrom": "Interpolated between 0.2 (1.1%) and 0.5 (3.7%) to 1.7%.",
+    "spread": {
+      "low": 0.2,
+      "high": 0.4,
+      "unit": "score per unit of care need",
+      "citation": "The 1.2% to 2.5% lost-worktime band of data/research/stopgaps-oct19/A-people-behavior-1.json."
     }
   },
   "traitWeightDrivesRespond": {

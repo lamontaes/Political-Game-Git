@@ -184,9 +184,9 @@
       "fix": "Calibrate against turnover research."
     },
     "drives.respond": {
-      "class": "weight too small",
-      "why": "Ran 1,471 times; the pick never changed with personality in this place.",
-      "fix": "Calibrate."
+      "class": "circumstances saturate the choice",
+      "why": "Personality turned none of 1,471 drive responses in Ely, Nevada at any weight up to 8: the drive's own strength separates the options. No study gives a size (neuroticism and rumination is the direction).",
+      "fix": "None until the options score closer or a study gives a size; the general weight of 1 stands (owner's ruling on traitWeight)."
     },
     "credit.borrow": {
       "class": "rare",
@@ -197,6 +197,16 @@
       "class": "trait decides alone",
       "why": "Personality turned 96 of 100 picks: attending and missing score almost the same without it, so the trait term settles nearly every sitting (src/core2/modules/legislature.ts:2516).",
       "fix": "Add the member's duty reasons and calibrate the weight from attendance research."
+    },
+    "school.attend": {
+      "class": "circumstances saturate the choice",
+      "why": "Children attend 99.95% of school days (10,587 kept weighings, Ely, Nevada); personality turns none below a weight of 1 and at 1 the third least inclined misses at 11 times the odds. Real chronic absence is far higher and follows illness, family and poverty, which the school choice does not read (src/core2/modules/school.ts:149). Poropat 2009 (conscientiousness r 0.19) measures performance, not attendance.",
+      "fix": "Give the school choice the child's illness and the household's circumstances, then calibrate."
+    },
+    "life.daily-act": {
+      "class": "no study number",
+      "why": "Personality turned 14.8% of 29,520 daily-activity picks at the owner's weight of 1. Studies of extraversion and time spent socializing (Mehl et al. 2006) report no extractable coefficient, so the owner's general weight stands.",
+      "fix": "Calibrate when a study gives a size for extraversion and social time."
     }
   }
 }
