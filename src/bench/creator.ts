@@ -168,8 +168,8 @@ export function readChosenPerson(text: string): ChosenPerson {
 /**
  * Makes the new world's player the chosen person: name, birth date, gender
  * and appearance, through the core's identity call. The life's generated past
- * (school, work, household) stays as drawn for the original age; stopgap
- * SG-PLAY-creator-age-keeps-past.
+ * (school, work, household) stays as drawn for the original age.
+ * stopgapId: SG-PLAY-creator-age-keeps-past
  */
 export function applyChosenPerson(
   core: CoreState,

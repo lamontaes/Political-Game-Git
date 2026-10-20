@@ -24,3 +24,5 @@ claimed-at:
 **Notes.** TODO
 
 Sent back 2026-10-20 from PR #5403 (branch claude/reach-stale): see the Cloud merger comment on that PR for the exact reason; finish on that branch, merge main into it first.
+
+Sent back 2026-10-20 from PR #5403 (branch claude/reach-stale): src/core2/law-reach/group-a-records.ts:588 returns when open.length is zero, treating an active law with no eligible people as repealed. Its refresh then stops forever, so a later birthday or birth can never add the first eligible row. Determine whether the law is still in force independently of its rows and add that empty-to-eligible regression. Also, the first-of-month refresh does not prove the items required eligibility change on the actual birthday or household-change date; retain named row-id evidence for that acceptance.; finish on that branch, merge main into it first.

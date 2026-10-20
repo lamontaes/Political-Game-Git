@@ -539,12 +539,12 @@ function synthesizeNationwidePlace(
  *
  * Same shape as a corpus locality, with three differences that are the point:
  * the key and jurisdiction identity are this list's own rather than a Census
- * code, provenance says `placeholder`, and the jurisdiction kind is
- * `territory-place` so nothing reads it as a sourced Census place. Its parent
+ * code, provenance names the Census Island Areas files, and the jurisdiction
+ * kind is `territory-place` so nothing reads it as a Gazetteer place. Its parent
  * is the territory, never a state.
  */
 function synthesizeTerritoryPlace(row: TerritoryPlaceRow): LifePlace {
-  const [key, displayName, usps] = row;
+  const [key, displayName, usps, , censusGeoid] = row;
   const territory = STATES[usps];
   const named = `${displayName}, ${stateName(usps)}`;
   const jurisdictionId = createStableId("jurisdiction", key);
@@ -564,7 +564,7 @@ function synthesizeTerritoryPlace(row: TerritoryPlaceRow): LifePlace {
           asOf: null,
           source: TERRITORY_PLACES_META.source,
           jurisdiction: jurisdictionId,
-          status: "placeholder",
+          status: "approved",
         },
       },
       initialMoment: {
@@ -574,11 +574,12 @@ function synthesizeTerritoryPlace(row: TerritoryPlaceRow): LifePlace {
         utcOffsetMinutes:
           territory?.utcOffsetMinutes ?? EASTERN.utcOffsetMinutes,
       },
-      creationSummary: `Seeded world in ${named}, a placeholder territory place pending the Census Island Areas lists.`,
+      creationSummary: `Seeded world in ${named}, an island-area village from the 2020 Census Island Areas files.`,
       goalScope: named,
       householdLocationLabel: named,
     },
     scope: "locality",
+    sourceGeoid: censusGeoid,
     stateJurisdictionKey: `US-${usps}`,
     capabilities: { legislativeScenarioKey: null, candidacyPackId: null },
   };
