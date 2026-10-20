@@ -22,3 +22,5 @@ claimed-at:
 **Files.** src/core2/offices.test.ts, src/core2/modules/offices.ts
 
 **Notes.** TODO
+
+Sent back 2026-10-20 from PR #5696 (branch claude/rillito-careers): merging main conflicts in src/core2/modules/offices.ts; finish on that branch, merge main into it first.
