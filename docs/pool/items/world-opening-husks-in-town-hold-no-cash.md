@@ -22,3 +22,5 @@ claimed-at:
 **Files.** src/core2/opening-adults-cash.test.ts, src/core2/population.ts, src/core2/opening-kin.ts
 
 **Notes.** Found Oct 19 sweeping src/core2 tests m to o on clean main: 1 failure in 448 tests. The same sweep lost 7 vitest workers ("Worker exited unexpectedly"), which looks like memory under three parallel workers, not a defect. The central bank board missing cash is world-central-bank-board-opening-cash (#5202), a different failure.
+
+Root cause Oct 20 (claude): the zero-cash residents in Golconda, Nevada (seed b90e85374cbb0b64) were not husks: 13 were the state cabinet heads (`person:cabinet:US-NV:*`, made in `seatCabinetPerson`, monthly tier, each on a state payroll job) and one a weekly-tier 18-year-old; the husks were already in the test's explained group. Fixed by giving cabinet appointees at the opening the SCF median balance for their post's pay, as press staff get (`openingLiquidMinor`). The 18-year-old with no job (born 2007) is under the test's bound.
