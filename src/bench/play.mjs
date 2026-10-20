@@ -2326,6 +2326,29 @@ const sheets = {
         );
       root.append(home);
     }
+    if (bank?.month)
+      root.append(
+        el(
+          "section",
+          { className: "money-month" },
+          el("h3", { textContent: `${labels.lastMonth} · ${bank.month.date}` }),
+          row(labels.monthHousing, dollars(bank.month.housingMinor)),
+          row(labels.monthEveryday, dollars(bank.month.everydayMinor)),
+          row(labels.monthPaid, dollars(bank.month.paidMinor)),
+          row(labels.monthUnpaid, dollars(bank.month.unpaidMinor)),
+          ...(bank.loanPayments?.length
+            ? [
+                el("h3", { textContent: labels.loanPayments }),
+                ...bank.loanPayments.map((payment) =>
+                  row(
+                    payment.date,
+                    `${dollars(payment.paidMinor)} ${labels.loanPaid} · ${dollars(payment.dueMinor)} ${labels.loanDue}`,
+                  ),
+                ),
+              ]
+            : []),
+        ),
+      );
     if (bank)
       root.append(
         el(
@@ -2550,6 +2573,17 @@ const sheets = {
             .map(([k, n]) => `${k} ${n}`)
             .join(" · "),
         ),
+        race.places.length
+          ? el(
+              "div",
+              {},
+              el("b", { textContent: `${labels.wonIn} ` }),
+              race.places
+                .slice(0, 6)
+                .map((p) => `${p.name} ${p.leader ?? ""} · ${number(p.cast)}`)
+                .join(" · "),
+            )
+          : "",
         race.ballot
           ? el(
               "div",
@@ -3559,20 +3593,20 @@ const sheets = {
                 const won = s.elections.find(
                   (e) => e.termId === s.holder.termId,
                 );
-                line.append(
-                  el("div", {
-                    className: "row",
-                    textContent: [
-                      `${s.holder.serviceStart} – ${s.holder.endDate ?? ""}`,
-                      s.holder.reached,
-                      won
-                        ? `${won.date} ${Math.round(won.share * 100)}% ${won.termId}`
-                        : null,
-                    ]
-                      .filter(Boolean)
-                      .join(" · "),
-                  }),
-                );
+                const history = el("div", {
+                  className: "row",
+                  textContent: [
+                    `${s.holder.serviceStart} – ${s.holder.endDate ?? ""}`,
+                    s.holder.reached,
+                    won ? `${won.date} ${Math.round(won.share * 100)}%` : null,
+                  ]
+                    .filter(Boolean)
+                    .join(" · "),
+                });
+                // The record the line reads, for the specs; never shown as text.
+                history.dataset.term = s.holder.termId;
+                if (won) history.dataset.election = won.termId;
+                line.append(history);
               }
               if (s.holder?.personId) {
                 const b = el("button", {
