@@ -686,7 +686,11 @@ function pastTerms(
         ) - 2,
       ),
     );
-  const serviceStart = shiftYears(start, -prior * years);
+  // The first term began on the day that year's terms begin, which is not
+  // always the opening's calendar date shifted back (a first Monday moves).
+  const serviceStart = prior
+    ? termStartInYear(office, shiftYears(start, -prior * years))
+    : start;
   const won = (from: string) =>
     office.elected ? { elected: electionBehind(office, from) } : {};
   table(api, "terms").put({
