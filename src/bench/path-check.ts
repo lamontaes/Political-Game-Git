@@ -6,6 +6,8 @@
 import { coreAPI } from "../core2/state";
 import { LAWS_MODULE_ID } from "../core2/modules/laws";
 import { resultOf } from "../core2/modules/voting";
+import { committeeRecords } from "../core2/modules/legislature";
+import { billTally } from "./bill-tally";
 import { buildBenchWorld } from "./world";
 import { gameStartDate } from "../core2/game-start";
 import { BenchPlayer } from "./player";
@@ -317,8 +319,10 @@ if (holder) {
   const after = seatView(w.core, holder).bills.find(
     (b) => b.bill.id === bill.id,
   );
+  const committee = committeeRecords(coreAPI(w.core), bill.id).at(-1);
+  const tally = billTally(after?.votes ?? [], committee);
   log.push(
-    `${body.title} bill ${bill.number}: ${after?.bill.status} (${after?.votes.filter((v) => v.vote === "yes").length ?? 0}–${after?.votes.filter((v) => v.vote === "no").length ?? 0})`,
+    `${body.title} bill ${bill.number}: ${after?.bill.status} (${tally})`,
   );
 } else log.push("no resident officeholder on a body");
 
@@ -338,6 +342,10 @@ if (eleventh)
   log.push(
     `step 11: ballot ${eleventh.recordIds[0]} weighed ${eleventh.recordIds[1]}`,
   );
+const ninth = [me, ...(member ? [member] : [])]
+  .flatMap((id) => reachedSteps(w.core, id, since))
+  .find((row) => row.step === 9);
+if (ninth) log.push(`step 9: law read, ${ninth.recordIds[0]}`);
 log.push(`the character's day ended ${w.core.date}`);
 stillMe();
 log.push(
