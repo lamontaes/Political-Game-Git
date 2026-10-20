@@ -45,6 +45,7 @@ import {
   residentsRuntime,
 } from "./modules/residents";
 import type { ResidentHouseholdRecord } from "./residents";
+import { webFactorFor } from "./outcome-web-reach";
 import {
   OUTCOME_WEB_MODULE_ID,
   outcomeWebFactor,
@@ -514,8 +515,13 @@ export function applyCountedFlows(
           ([[low, high]]) => age >= low && age <= high,
         )?.[1];
         if (!rate) continue;
+        // The web's links land on each woman by her own age (a recession
+        // delays births most among women in their early twenties).
+        const webFactor = webOn
+          ? webFactorFor(api, placeId, "births.rate", { age, sex: "female" })
+          : 1;
         row.expected.births +=
-          monthlyShare(rate * webBirthsFactor, months) * weightOfPerson(woman);
+          monthlyShare(rate * webFactor, months) * weightOfPerson(woman);
         const recent = record.people.some(
           (row) =>
             woman.familyIds.includes(row.id) &&

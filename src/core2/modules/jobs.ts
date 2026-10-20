@@ -17,7 +17,11 @@ import seasonal from "../data/jobs/seasonal.json" with { type: "json" };
 import type { Parameter } from "../parameters";
 import { stopgap } from "../stopgaps";
 import { traitLean } from "../choice";
-import { decisionLean, traitLeanBetween } from "../trait-decisions";
+import {
+  decisionLean,
+  decisionTraitWeight,
+  traitLeanBetween,
+} from "../trait-decisions";
 import {
   businessTradingMonth,
   ownerOf,
@@ -791,7 +795,8 @@ export function raiseUnfilledPay(
     "raise-pay",
     "hold-pay",
   );
-  const openHanded = (1 + lean) / 2;
+  const openHanded =
+    (1 + decisionTraitWeight(c, "jobs.raise-for-opening") * lean) / 2;
   if (openHanded <= 0) return;
   const monthDays = api.parameter("jobsDaysPerYear") / 12;
   const perMonth = monthDays / trading.days;
