@@ -19,7 +19,8 @@ import bases from "../../../data/research/money/public-budget-bases.json" with {
 import rows from "../data/press/parameters.json" with { type: "json" };
 import nationalJson from "../data/press/national.json" with { type: "json" };
 import { coreAPI, fillInPerson, registerModule } from "../state";
-import { addDays, makeIsoDate } from "../kernel/dates";
+import { addDays, daysBetween, makeIsoDate } from "../kernel/dates";
+import { spendLivingCost } from "../official-living";
 import { parameter } from "../parameters";
 import { decisionLean } from "../trait-decisions";
 import type {
@@ -32,6 +33,7 @@ import type {
 import type { ModuleRow } from "../module-data";
 import type { ModuleCalendarWork } from "../module-calendar";
 import { lawChain } from "./laws";
+import { countedResidents } from "../electorate";
 import {
   ballot,
   ELECTIONS_MODULE_ID,
@@ -57,7 +59,7 @@ import { type Stance as ViewStance } from "./views";
 import { candidateStance } from "../campaign-stances";
 import { OFFICES_MODULE_ID, type TermRow } from "./offices";
 import { JOBS_MODULE_ID, registerEmployer } from "./jobs";
-import { BUSINESS_MODULE_ID, ownerOf } from "./business";
+import { BUSINESS_MODULE_ID, enrollBusinessOwner, ownerOf } from "./business";
 import {
   PLATFORM_QUESTIONS,
   publicOffset,
@@ -259,6 +261,8 @@ export const PRESS_MODULE: CoreModule = {
           byCandidate: { fields: ["candidateId"] },
         },
       },
+      /** Who was told of a hidden act, by the telling's event: what a leaker knows. */
+      told: { indexes: { byCrime: { fields: ["crimeId"] } } },
     },
   },
   onDay: enrollPressEmployers,
@@ -270,6 +274,15 @@ export const PRESS_MODULE: CoreModule = {
   onEvent(api, event) {
     // A hidden act someone was just told of may reach a reporter.
     if (event.kind === "crime.told") {
+      const crimeKey = Object.keys(event.facts ?? {}).find((k) =>
+        k.startsWith("crime:"),
+      );
+      if (crimeKey)
+        table(api, "told").put({
+          id: event.id,
+          crimeId: crimeKey.slice("crime:".length),
+          personIds: [...event.personIds, ...(event.witnessIds ?? [])],
+        } as unknown as ModuleRow);
       tipOff(api, event);
       return;
     }
@@ -627,9 +640,6 @@ function enrollPressEmployers(api: CoreAPI): void {
   const enrolled = table(api, "employerEnrollment");
   for (const outlet of outletsHere(api)) {
     if (outlet.tier === "national" || enrolled.get(outlet.id)) continue;
-    // SG-PEOPLE-press-employer-enrollment: use the existing records while the
-    // shared business API has no entry point for an already named owner.
-    api.stopgap("SG-PEOPLE-press-employer-enrollment");
     const anchor = [
       ...(core.finance.businessesByPlace.get(outlet.placeId) ?? []),
     ]
@@ -670,16 +680,10 @@ function enrollPressEmployers(api: CoreAPI): void {
         estimatedFrom: "SG-PEOPLE-press-outlet-revenue",
       },
     });
-    business.table("owners").put({
-      id: outlet.organizationId,
-      isOwner: true,
+    enrollBusinessOwner(api, {
+      organizationId: outlet.organizationId,
       ownerId: owner.id,
-      since: core.date,
       basis: "press-recorded-owner",
-      salesThrough: 0,
-      wagesThrough: 0,
-      operatingThrough: 0,
-      retainedMinor: 0,
     });
     registerEmployer(api, outlet.organizationId, jobs.length);
     enrolled.put({
@@ -865,9 +869,11 @@ export function followersOf(api: CoreAPI, outletId: string): readonly string[] {
  * audience, television first where audiences tie. A national outlet's
  * audience in town is not sold to a town's race.
  */
-function adOutlet(
-  api: CoreAPI,
-): { organizationId: string; followerIds: readonly string[] } | null {
+function adOutlet(api: CoreAPI): {
+  organizationId: string;
+  followerIds: readonly string[];
+  countedFollowers: number;
+} | null {
   if (!api.state.modules.has(PRESS_MODULE_ID)) return null;
   const best = outletsHere(api)
     .filter((o) => o.tier !== "national")
@@ -879,8 +885,72 @@ function adOutlet(
         a.o.id.localeCompare(b.o.id),
     )[0];
   return best
-    ? { organizationId: best.o.organizationId, followerIds: best.followers }
+    ? {
+        organizationId: best.o.organizationId,
+        followerIds: best.followers,
+        countedFollowers: countedFollowers(api, best.o.id),
+      }
     : null;
+}
+
+/**
+ * The town's counted adults by age band, counted once a week: the count walks
+ * every counted resident, and a campaign asks for an outlet's audience many
+ * times a day while the adults change slowly (the same week the followers of
+ * an outlet are held, `countedFollowersOf`).
+ */
+function townAdultsByBand(api: CoreAPI): ReadonlyMap<Band, number> {
+  const held = adultsCache.get(api.state);
+  if (
+    held &&
+    held.date <= api.state.date &&
+    api.state.date < addDays(makeIsoDate(held.date), 7)
+  )
+    return held.adults;
+  const town = lawChain(api).townPlaceId;
+  const date = api.state.date;
+  const adults = new Map<Band, number>();
+  for (const voter of countedResidents(api.state as CoreState)) {
+    if (voter.placeId !== town) continue;
+    const age = ageOn(voter, date);
+    if (age < 18) continue;
+    const band = bandOf(age);
+    adults.set(band, (adults.get(band) ?? 0) + voter.weight);
+  }
+  adultsCache.set(api.state, { date, adults });
+  return adults;
+}
+const adultsCache = new WeakMap<
+  object,
+  { date: string; adults: ReadonlyMap<Band, number> }
+>();
+
+/**
+ * The counted adults in town who follow an outlet: the same rule as the full
+ * people (in each age band the share that follows its kind, Pew 2024), times
+ * each counted household's weight, and the outlet's slice of its kind's
+ * followers is the slice the full people's choice gives it (selective
+ * exposure), so one rule reads both tiers.
+ */
+export function countedFollowers(api: CoreAPI, outletId: string): number {
+  const outlet = table(api, "outlets").get(outletId) as unknown as
+    OutletRow | undefined;
+  if (!outlet) return 0;
+  const national = NATIONAL.kinds.find((row) => row.kind === outlet.kind);
+  const adults = townAdultsByBand(api);
+  let ofKind = 0;
+  for (const [band, count] of adults) {
+    const share = national
+      ? national.followShare
+      : (NEWS.habits.byAge[band]?.[HABIT[outlet.kind as LocalKind]] ?? 0);
+    ofKind += Math.round(share * count);
+  }
+  const same = outletsHere(api).filter((o) => o.kind === outlet.kind);
+  const all = same.reduce((sum, o) => sum + followersOf(api, o.id).length, 0);
+  const slice = all
+    ? followersOf(api, outletId).length / all
+    : 1 / Math.max(1, same.length);
+  return Math.round(ofKind * slice);
 }
 
 function contestOf(api: CoreAPI, contestId: string): ContestRow {
@@ -2011,10 +2081,7 @@ function tipOff(api: CoreAPI, event: Readonly<CoreEventInput>): void {
     .get(crimeId) as unknown as CrimeRecord | undefined;
   if (!crime?.taken || table(api, "tips").get(crimeId)) return;
   const officialId = crime.officialId;
-  const staff = new Map<string, OutletRow>();
-  for (const outlet of outletsHere(api))
-    for (const id of outlet.reporterIds ?? []) staff.set(id, outlet);
-  const p = pressParameter;
+  const staff = reportersHere(api);
   for (const knowerId of [...event.personIds, ...(event.witnessIds ?? [])]) {
     const knower = api.state.people.get(knowerId);
     if (!knower?.alive || knowerId === officialId) continue;
@@ -2026,103 +2093,205 @@ function tipOff(api: CoreAPI, event: Readonly<CoreEventInput>): void {
           a.localeCompare(b),
       )[0];
     if (!reporterId) continue;
-    const reporter = api.state.people.get(reporterId);
-    if (!reporter?.alive) continue;
-    const tip =
-      reporterId === knowerId
-        ? 1
-        : decisionLean(api.state, knower, "press.tip", "tip", "keep") +
-          closeness(api, knowerId, reporterId) -
-          regard(api, p, knowerId, officialId);
-    const row: Record<string, unknown> = {
-      id: crimeId,
+    const row = weighTip(api, {
       crimeId,
+      officialId,
       knowerId,
       reporterId,
-      officialId,
-      date: api.state.date,
-      tip,
-      dig: null,
-      run: null,
-      storyId: null,
-    };
-    if (tip <= 0) {
-      table(api, "tips").put(row as unknown as ModuleRow);
-      continue;
-    }
-    // The paper trail: the payment is on the cash journal.
-    const dig =
-      decisionLean(api.state, reporter, "press.dig", "dig", "let-go") +
-      grudge(api, reporterId, officialId) -
-      closeness(api, reporterId, officialId) +
-      p("tipDocumentsWeight");
-    row.dig = dig;
-    const outlet = staff.get(reporterId)!;
-    const run =
-      dig -
-      p("slantOwnerWeight") *
-        (outlet.ownerId ? regard(api, p, outlet.ownerId, officialId) : 0) -
-      p("slantPublisherWeight") *
-        (outlet.headId ? regard(api, p, outlet.headId, officialId) : 0);
-    row.run = dig > 0 ? run : null;
-    if (dig > 0 && run > 0) {
-      const exposedId = `press.exposed:${crimeId}:${outlet.id}`;
-      api.emit({
-        id: exposedId,
-        date: api.state.date,
-        kind: "press.exposed",
-        personIds: api.state.people.has(officialId) ? [officialId] : [],
-        placeId: outlet.placeId,
-        publicRecord: true,
-        news: true,
-        topic: `conduct:${officialId}`,
-        facts: { [`crime:${crimeId}`]: "bribe-taken", outletId: outlet.id },
-        source: {
-          tag: "SOURCED",
-          citation: `A reporter's story on recorded bribe ${crimeId}`,
-          asOf: api.state.date,
-        },
-      });
-      const ctx = deskContext(api);
-      const story = printItem(
-        api,
-        ctx,
-        outlet,
-        reporterId,
-        {
-          id: exposedId,
-          kind: "press.exposed",
-          date: api.state.date,
-          level: "town",
-          topic: `conduct:${officialId}`,
-          desiredChange: "remove",
-          ending: false,
-          subjectIds: api.state.people.has(officialId) ? [officialId] : [],
-        },
-        null,
-        {
-          slant: {
-            slant: -Math.min(1, run),
-            reasons: { lean: 0, tie: 0, publisher: 0, advertiser: 0 },
-          },
-          facts: { [`crime:${crimeId}`]: "bribe-taken" },
-        },
-      );
-      row.storyId = story.id;
-      for (const id of ctx.followers(outlet.id))
-        if (id !== officialId)
-          touchImpression(api, {
-            voterId: id,
-            officialId,
-            act: "interview",
-            target: -1,
-            weight: p("exposureWeight") * Math.min(1, run),
-            rapport: 0,
-          });
-    }
-    table(api, "tips").put(row as unknown as ModuleRow);
-    if (row.storyId) return;
+      staff,
+      leak: false,
+    });
+    if (row?.storyId) return;
   }
+}
+
+/** The town's outlets' reporters, each with the outlet they file for. */
+function reportersHere(api: CoreAPI): Map<string, OutletRow> {
+  const staff = new Map<string, OutletRow>();
+  for (const outlet of outletsHere(api))
+    for (const id of outlet.reporterIds ?? []) staff.set(id, outlet);
+  return staff;
+}
+
+/**
+ * One person's tip of a hidden act to a reporter, weighed in order: whether
+ * the one who knows takes it (their lean toward tipping off over keeping
+ * quiet, their closeness to the reporter, their regard for the official; a
+ * leak is a tip the person chose to make), whether the reporter digs, and
+ * whether the outlet's owner and head let it run. A run is a public record
+ * and a story its readers take in. Returns the tip's row, or null when the
+ * reporter is no longer there.
+ */
+function weighTip(
+  api: CoreAPI,
+  input: {
+    readonly crimeId: string;
+    readonly officialId: string;
+    readonly knowerId: string;
+    readonly reporterId: string;
+    readonly staff: ReadonlyMap<string, OutletRow>;
+    readonly leak: boolean;
+  },
+): Record<string, unknown> | null {
+  const { crimeId, officialId, knowerId, reporterId, staff } = input;
+  const knower = api.state.people.get(knowerId);
+  const reporter = api.state.people.get(reporterId);
+  const outlet = staff.get(reporterId);
+  if (!knower?.alive || !reporter?.alive || !outlet) return null;
+  const p = pressParameter;
+  const tip =
+    reporterId === knowerId || input.leak
+      ? 1
+      : decisionLean(api.state, knower, "press.tip", "tip", "keep") +
+        closeness(api, knowerId, reporterId) -
+        regard(api, p, knowerId, officialId);
+  const row: Record<string, unknown> = {
+    id: crimeId,
+    crimeId,
+    knowerId,
+    reporterId,
+    officialId,
+    date: api.state.date,
+    tip,
+    dig: null,
+    run: null,
+    storyId: null,
+    ...(input.leak ? { leaked: true } : {}),
+  };
+  if (tip <= 0) {
+    table(api, "tips").put(row as unknown as ModuleRow);
+    return row;
+  }
+  // The paper trail: the payment is on the cash journal.
+  const dig =
+    decisionLean(api.state, reporter, "press.dig", "dig", "let-go") +
+    grudge(api, reporterId, officialId) -
+    closeness(api, reporterId, officialId) +
+    p("tipDocumentsWeight");
+  row.dig = dig;
+  const run =
+    dig -
+    p("slantOwnerWeight") *
+      (outlet.ownerId ? regard(api, p, outlet.ownerId, officialId) : 0) -
+    p("slantPublisherWeight") *
+      (outlet.headId ? regard(api, p, outlet.headId, officialId) : 0);
+  row.run = dig > 0 ? run : null;
+  if (dig > 0 && run > 0) {
+    const exposedId = `press.exposed:${crimeId}:${outlet.id}`;
+    api.emit({
+      id: exposedId,
+      date: api.state.date,
+      kind: "press.exposed",
+      personIds: api.state.people.has(officialId) ? [officialId] : [],
+      placeId: outlet.placeId,
+      publicRecord: true,
+      news: true,
+      topic: `conduct:${officialId}`,
+      facts: { [`crime:${crimeId}`]: "bribe-taken", outletId: outlet.id },
+      source: {
+        tag: "SOURCED",
+        citation: `A reporter's story on recorded bribe ${crimeId}`,
+        asOf: api.state.date,
+      },
+    });
+    const ctx = deskContext(api);
+    const story = printItem(
+      api,
+      ctx,
+      outlet,
+      reporterId,
+      {
+        id: exposedId,
+        kind: "press.exposed",
+        date: api.state.date,
+        level: "town",
+        topic: `conduct:${officialId}`,
+        desiredChange: "remove",
+        ending: false,
+        subjectIds: api.state.people.has(officialId) ? [officialId] : [],
+      },
+      null,
+      {
+        slant: {
+          slant: -Math.min(1, run),
+          reasons: { lean: 0, tie: 0, publisher: 0, advertiser: 0 },
+        },
+        facts: { [`crime:${crimeId}`]: "bribe-taken" },
+      },
+    );
+    row.storyId = story.id;
+    for (const id of ctx.followers(outlet.id))
+      if (id !== officialId)
+        touchImpression(api, {
+          voterId: id,
+          officialId,
+          act: "interview",
+          target: -1,
+          weight: p("exposureWeight") * Math.min(1, run),
+          rapport: 0,
+        });
+  }
+  table(api, "tips").put(row as unknown as ModuleRow);
+  return row;
+}
+
+/**
+ * A person who knows of a hidden act takes it to a reporter on purpose (a
+ * leak, owner ruling on favors and leaks Oct 14): the tip is theirs to give,
+ * so the first step is not weighed; the reporter still decides to dig and the
+ * outlet's owner and head still decide to run it. The leaker is named on the
+ * tip and in what the reporter knows, and the two spend time together. A tip
+ * already in print is not leaked again. Returns the tip.
+ */
+export function leakToReporter(
+  api: CoreAPI,
+  input: {
+    readonly leakerId: string;
+    readonly reporterId: string;
+    readonly crimeId: string;
+  },
+): Record<string, unknown> {
+  const crime = api.state.modules.has(CORRUPTION_MODULE_ID)
+    ? (api
+        .moduleState(CORRUPTION_MODULE_ID)
+        .table("crimes")
+        .get(input.crimeId) as unknown as CrimeRecord | undefined)
+    : undefined;
+  if (!crime?.taken) throw new Error(`No hidden act to leak: ${input.crimeId}`);
+  if (input.leakerId === crime.officialId)
+    throw new Error("The official cannot leak their own act.");
+  // They can leak only what they know: they were told of it, or they told it.
+  const told = (
+    table(api, "told").query("byCrime", [input.crimeId]) as unknown as {
+      personIds: readonly string[];
+    }[]
+  ).some((row) => row.personIds.includes(input.leakerId));
+  if (!told && input.leakerId !== crime.offererId)
+    throw new Error(`${input.leakerId} does not know of ${input.crimeId}.`);
+  const staff = reportersHere(api);
+  if (!staff.has(input.reporterId))
+    throw new Error(`${input.reporterId} reports for no outlet here.`);
+  const had = table(api, "tips").get(input.crimeId) as unknown as
+    Record<string, unknown> | undefined;
+  if (had?.storyId) return had;
+  const row = weighTip(api, {
+    crimeId: input.crimeId,
+    officialId: crime.officialId,
+    knowerId: input.leakerId,
+    reporterId: input.reporterId,
+    staff,
+    leak: true,
+  })!;
+  // The reporter knows who gave it to them, and the two have spent time together.
+  api.observe(input.reporterId, {
+    key: `leak:${input.crimeId}`,
+    value: input.leakerId,
+    learnedAt: api.state.date,
+    sourceId: `leak:${input.crimeId}`,
+    access: "told",
+  });
+  api.relationship(input.leakerId, input.reporterId, "contact", 0.5);
+  return row;
 }
 
 /**
@@ -2423,10 +2592,28 @@ export function refreshPressStaff(api: CoreAPI): void {
   pressStaffChanged(api);
 }
 
+/** Owners given a household cost spend what it came to since last week out of what they hold. */
+function ownersLive(api: CoreAPI): void {
+  for (const raw of table(api, "staff").rows()) {
+    const row = raw as unknown as StaffRow;
+    if (!row.livedThrough || row.livedThrough >= api.state.date) continue;
+    spendLivingCost(
+      api,
+      row.id,
+      daysBetween(makeIsoDate(row.livedThrough), makeIsoDate(api.state.date)),
+    );
+    table(api, "staff").put({
+      ...row,
+      livedThrough: api.state.date,
+    } as unknown as ModuleRow);
+  }
+}
+
 function pressWeek(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
   if (work.kind !== "press-week") return;
   scheduleWeek(api, api.state.date);
   refreshPressStaff(api);
+  ownersLive(api);
   // stopgapId: SG-PEOPLE-press-endorsements
   api.stopgap("SG-PEOPLE-press-endorsements");
   // The week's stories: each reporter files from the fresh wire.
