@@ -427,21 +427,21 @@
     },
     {
       "key": "crime-to-out-migration",
-      "status": "size-not-set",
-      "unsupportedReason": "size-not-set",
+      "status": "built",
+      "unsupportedReason": null,
       "to": "population.out-migration",
       "strength": "strong",
       "shape": {
         "kind": "linear"
       },
-      "size": null,
-      "per": "reported crime",
+      "size": 4e-5,
+      "per": "violent crime per 100,000 residents",
       "lagMonths": 0,
       "group": "families with children, higher incomes",
       "owner": "O",
-      "anchor": "Each added reported crime: about 1 fewer city resident, mostly moving to the suburbs",
-      "source": "Cullen and Levitt 1999 (REStat)",
-      "from": "crime.reported-per-capita",
+      "anchor": "Each added reported crime per resident, over five years, lowers the chance a central-city household stays by 1.18 (Table 6a column 2). Against the 29.5% of households that left within five years (Table 4), one more reported crime per 100,000 residents raises the rate of leaving by about 0.004%.",
+      "source": "Cullen and Levitt 1999, Review of Economics and Statistics 81(2), Table 4 (Goers 0.295) and Table 6a column 2 (-1.18, standard error 0.57)",
+      "from": "crime.violent",
       "evidence": "researched",
       "researchSizing": {
         "estimate": 1.18,
@@ -450,10 +450,39 @@
         "unit": "out-migration probability change per change in reported crimes per resident over five years",
         "source": "https://pricetheory.uchicago.edu/levitt/Papers/CullenLevittCrimeUrban1999.pdf",
         "location": "Table 6a column 2, household controls; coefficient -1.18 on staying, sign reversed for leaving",
-        "status": "blocked-runtime-unit-and-time-conversion",
-        "requiredConnection": "Need recorded migration baseline and five-year exposure interval before proportional rate multiplier. This is not an immediate monthly multiplier or an observed individual move."
+        "status": "applied",
+        "requiredConnection": "Applied as a proportional change in the rate of leaving: 1.18 / 100,000 per crime per resident, over the 0.295 five-year share who left (Table 4), 0.00004 per reported crime per 100,000 residents, read as the average of the last 60 months (the paper's five-year change)."
       },
-      "notes": "Unsupported until a unit adapter exists: the study measures people leaving per added reported crime, but the game keeps violent crime per 100,000, not total reported crime per resident; see the research packet in researchSizing."
+      "notes": "Size by the paper's own conversion: the study counts all reported index crimes (violent and property, 'similar coefficients on both types') per resident and the game's cause is violent crime per 100,000 residents, so one more violent crime per 100,000 is one more reported crime per 100,000. 95% interval of the coefficient (0.063 to 2.297) gives the range. The paper measures a one-time loss over five years from a five-year rise in crime; the web applies it as a sustained rate while the level stays up, which overstates a level that stays high for many years. By schooling the relative response is nearly flat (Table 6a divided by Table 4 Goers: more than 12 years 1.54/0.413 = 3.7, 12 years 1.27/0.292 = 4.3, under 12 years 0.77/0.172 = 4.5), so no income moderator is added. Chain: the cause crime.violent is the web's own kept value today (moved by the crime links, e.g. unemployment and policing laws); it has no engine record, so the chain is law or unemployment -> crime.violent (web ledger) -> leaving (moves.ts and counted-moves.ts).",
+      "range": [2.1e-6, 7.8e-5],
+      "phaseInMonths": 60,
+      "varies": [
+        {
+          "by": "householdKind",
+          "bands": [
+            {
+              "is": "with-children",
+              "weight": 1.51,
+              "share": 0.35
+            },
+            {
+              "is": "adults",
+              "weight": 0.97,
+              "share": 0.48
+            },
+            {
+              "is": "one-adult",
+              "weight": 0.97,
+              "share": 0.17
+            }
+          ],
+          "tag": "ESTIMATED",
+          "source": "Cullen and Levitt 1999, Table 6b (With Children and No Children columns) (https://pricetheory.uchicago.edu/levitt/Papers/CullenLevittCrimeUrban1999.pdf); household shares from Census Bureau 2024 Families and Living Arrangements",
+          "quote": "\"Households with children are more likely to leave central cities in response to rising crime.\" Table 6b, change in per capita crime: with children -1.51 (0.63), no children -0.97 (0.55).",
+          "estimatedFrom": "The with-children and no-children coefficients are used as the ratio 1.51 to 0.97. They are changes in the probability of staying, not relative to each group's own rate of leaving (the paper gives no group baselines), so the gradient is conservative: households with children leave less often, which would make their relative response larger. Shares: about 43% of the 64% of households that are family households include a child under 18 (27.5% of households, about 35% of adults); the rest split between one adult and several."
+        }
+      ],
+      "phaseInSource": "Cullen and Levitt 1999 (Review of Economics and Statistics), Tables 4 and 6a: the response is estimated as the change in city population over a five-year window against the change in crime over the same five years, so the full effect is the five-year one; 60 months spreads it over that window."
     },
     {
       "key": "speed-limit-to-traffic-deaths",
@@ -565,14 +594,14 @@
     },
     {
       "key": "water-violations-to-infant-health",
-      "status": "size-not-set",
-      "unsupportedReason": "size-not-set",
+      "status": "built",
+      "unsupportedReason": null,
       "to": "health.low-birthweight",
       "strength": "moderate",
       "shape": {
         "kind": "linear"
       },
-      "size": null,
+      "size": 0.06,
       "per": "violation during pregnancy",
       "lagMonths": 0,
       "group": "less-educated mothers most",
@@ -581,7 +610,8 @@
       "source": "Currie et al. 2013 (CJE)",
       "from": "env.drinking-water-violations",
       "evidence": "researched",
-      "notes": "Unsupported until sized: the study finds lower birth weight per violation during pregnancy without a slope on the game's violations-per-system measure. Low birth weight is now a place outcome (CDC, 2023), so the outcome side is ready once a size is set."
+      "notes": "ESTIMATED. Currie et al. 2013 (CJE 46(3); NBER w18876, Table 3 column 4, New Jersey births 1997-2007, mother fixed effects): a drinking-water violation during pregnancy raised the incidence of low birth weight by 0.0032 (SE 0.0015), about 6% of the mean (0.053); the 95% interval is 0.0003 to 0.0061, or 0.6 to 11.5% of the mean. The game's cause is violations per community water system in a year (U.S. 2.5), so one more violation per system a year is read as one more in-utero exposure for a birth served by that system; that mapping is an estimate. The study finds the effect among less-educated mothers (Table 4 interaction: +0.0085 on any contamination, +0.0098 on a chemical one) and none distinguishable from zero among the rest. The size checks totals and never picks one baby's outcome.",
+      "range": [0.006, 0.115]
     },
     {
       "key": "heat-to-deaths",
@@ -708,7 +738,7 @@
       "from": "disaster.severe",
       "evidence": "provisional",
       "range": [0.025, 0.1],
-      "notes": "Unsupported until a disaster record is readable: the game has no per-place reader for a severe disaster; out-migration is kept, so this acts once one exists."
+      "notes": "Unsupported until a disaster record is readable: the game has no per-place reader for a severe disaster; out-migration is kept, so this acts once one exists. Stopgap SG-WEB-moves-disaster-severity: the disasters engine records FEMA declarations without deaths, so no per-place severe-disaster record exists; the researched size (0.05, range 0.025 to 0.1) is kept for when one does. Research gives no heterogeneity by person (county-level decade study)."
     },
     {
       "key": "disaster-to-home-values",
@@ -1604,7 +1634,8 @@
       "source": "Sondheimer and Green 2010; Berinsky and Lenz 2011",
       "from": "school.graduation-pct",
       "evidence": "contested",
-      "range": [0, 0.004]
+      "range": [0, 0.004],
+      "notes": "Read by the voting engine as a factor on every voter's propensity (turnout-web.ts). The cause is the web's own school.graduation-pct ledger number, because no school outcomes engine records graduates (SG-WEB-voting-graduation-cause). The experiments report no split by age or income, so the link is unvaried."
     },
     {
       "key": "education-to-mortality",
@@ -1644,7 +1675,7 @@
       "source": "Asquith, Mast and Reed 2023 (REStat)",
       "from": "housing.new-large-buildings",
       "evidence": "researched",
-      "notes": "Unsupported until a unit adapter exists: the study measures one large building's effect within about 250 meters, but the game reads new buildings per resident across a whole place."
+      "notes": "Unsupported until a unit adapter exists: the study measures one large building's effect within about 250 meters, but the game reads new buildings per resident across a whole place. The housing engine already produces this: new buildings raise the rental vacancy rate and each lease renews by the vacancy change raised to the rental elasticity (src/core2/housing-occupancy.ts renewRentalLeases), so a web factor would count it twice."
     },
     {
       "key": "rent-control-to-rental-supply",
@@ -1663,7 +1694,8 @@
       "anchor": "-15% rental supply among controlled landlords",
       "source": "Diamond, McQuade and Qian 2019 (AER)",
       "from": "law:us-policy-positions:housing-land-use.rent-stabilization",
-      "evidence": "researched"
+      "evidence": "researched",
+      "notes": " The engine reads this link's factor in its apartment starts (src/core2/housing-construction.ts buildMonth)."
     },
     {
       "key": "rent-control-to-tenant-stays",
@@ -1682,7 +1714,32 @@
       "anchor": "Renter mobility -20%",
       "source": "Diamond, McQuade and Qian 2019 (AER)",
       "from": "law:us-policy-positions:housing-land-use.rent-stabilization",
-      "evidence": "researched"
+      "evidence": "researched",
+      "varies": [
+        {
+          "by": "age",
+          "bands": [
+            {
+              "min": 0,
+              "max": 40,
+              "weight": 0.0125,
+              "share": 0.627
+            },
+            {
+              "min": 40,
+              "max": 200,
+              "weight": 0.0515,
+              "share": 0.373
+            }
+          ],
+          "tag": "ESTIMATED",
+          "source": "Diamond, McQuade and Qian 2019 (AER 109(9)), NBER Working Paper 24181 section 4 on heterogeneity and Figures 2 and 3 (https://www.nber.org/papers/w24181.pdf); renters by age from Census CPS ASEC 2023 geographic mobility Table 5 (https://www2.census.gov/programs-surveys/demo/tables/geographic-mobility/2023/cps-2023/mig_05_2023_1yr.xlsx)",
+          "quote": "\"First, we find that the effects are weaker for younger individuals.\" \"Older, low turnover households have a strong, positive response to rent control.\" \"These effects are significantly stronger among older households and among households that have already spent a number of years at their treated address.\"",
+          "estimatedFrom": "Figures 2 and 3 give the effect on staying at the 1994 address (percentage points) for tenants aged 20 to 39 and 40 to 65 who had lived there 4 to 14 years (low turnover): young 0.018 and 0.007 (mean 0.0125), old 0.062 and 0.041 (mean 0.0515). The high-turnover cells are noisy and, for older tenants in high-rent-appreciation zip codes, negative (-0.107), which the authors attribute to landlords removing tenants; evictions are the eviction engine's, so they are left out here. Shares: renters by age in CPS ASEC 2023 Table 5 (101,024 thousand renters; ages 0 to 29, 30 to 44 and 45 and over), with the 30 to 44 band split 10 to 5 years at age 40. The subject has no years-at-address, so the low-turnover contrast carries the age gradient."
+        }
+      ],
+      "notes": "Diamond, McQuade and Qian report the effect as a 20% reduction in renter mobility (NBER WP 24181: 'the beneficiaries of rent control are between 10 and 20% more likely to remain at their 1994 address'); the center (-0.20) is kept and the range is 10 to 20. The effect is a level shift in the share who stay, not a build-up, so no phase-in. Renters only: the renter-moves rate is read by moves.ts and counted-moves.ts for tenants. Evictions of covered tenants are the eviction engine's.",
+      "range": [-0.2, -0.1]
     },
     {
       "key": "rent-burden-to-homelessness",
@@ -1759,7 +1816,7 @@
           "Actual place conditions can alter transport;theseintervalsarenot universalcaps."
         ]
       },
-      "notes": "Unsupported until a unit and exposure adapter exists: the study measures one tenant's shelter use after an eviction order, and the game keeps no eviction rate by place; see researchSizing."
+      "notes": "Unsupported until a unit and exposure adapter exists: the study measures one tenant's shelter use after an eviction order, and the game keeps no eviction rate by place; see researchSizing. The housing engine already produces this from its own records: every eviction judgment removes a household and placeRemovedHousehold puts it with kin, in a shelter bed or on the street (src/core2/housing-homeless.ts), so a web factor on entry would count it twice. The engine's judgments are the web's housing.eviction-orders measure."
     },
     {
       "key": "eviction-to-hospital-visits",
@@ -1819,13 +1876,13 @@
       "key": "home-prices-to-owner-births",
       "status": "cause-not-recorded",
       "unsupportedReason": "cause-not-recorded",
-      "to": "births.owners",
+      "to": "births.rate",
       "strength": "moderate",
       "shape": {
         "kind": "linear"
       },
-      "size": 0.05,
-      "per": "$10,000 higher metro home prices",
+      "size": 0.0216,
+      "per": "$10,000 higher metro home prices (the place average; owners carry it all)",
       "lagMonths": 12,
       "group": "owners",
       "owner": "B",
@@ -1833,21 +1890,42 @@
       "source": "Dettling and Kearney 2014 (Journal of Public Economics); NBER w17485",
       "from": "housing.home-prices",
       "evidence": "researched",
-      "notes": "Sized, waiting on its cause and outcome: the game keeps no home price level by place and does not split births between owners and renters.",
-      "range": [0.0375, 0.0625],
-      "lagWhy": "The study relates home prices in one year to births in the next."
+      "notes": "The paper's +5.0% is the effect among owners; the link carries it as the place average (+2.160%) and lands it only on owning households through its tenure moderator, so owners and renters move apart from one cause.",
+      "range": [0.0162, 0.027],
+      "lagWhy": "The study relates home prices in one year to births in the next.",
+      "varies": [
+        {
+          "by": "tenure",
+          "bands": [
+            {
+              "is": "own",
+              "weight": 1,
+              "share": 0.432
+            },
+            {
+              "is": "rent",
+              "weight": 0,
+              "share": 0.568
+            }
+          ],
+          "tag": "ESTIMATED",
+          "source": "Dettling and Kearney 2014, House prices and birth rates: The impact of the real estate market on the decision to have a baby, Journal of Public Economics 110; NBER w17485 abstract (https://www.nber.org/papers/w17485)",
+          "quote": "\"a $10,000 increase leads to a 5 percent increase in fertility rates among owners and a 2.4 percent decrease among non-owners. At the mean U.S. home ownership rate, these estimates imply that the net effect of a $10,000 increase in house prices is a 0.8 percent increase in current period fertility rates.\"",
+          "estimatedFrom": "The owners' share of births (0.432) is the share that makes the paper's own net hold: 0.05 s - 0.024 (1 - s) = 0.008. The abstract gives the ownership weighting only through that net."
+        }
+      ]
     },
     {
       "key": "home-prices-to-renter-births",
       "status": "cause-not-recorded",
       "unsupportedReason": "cause-not-recorded",
-      "to": "births.renters",
+      "to": "births.rate",
       "strength": "moderate",
       "shape": {
         "kind": "linear"
       },
-      "size": -0.024,
-      "per": "$10,000 higher metro home prices",
+      "size": -0.01363,
+      "per": "$10,000 higher metro home prices (the place average; renters carry it all)",
       "lagMonths": 12,
       "group": "renters",
       "owner": "B",
@@ -1855,9 +1933,30 @@
       "source": "Dettling and Kearney 2014 (Journal of Public Economics); NBER w17485",
       "from": "housing.home-prices",
       "evidence": "researched",
-      "notes": "Sized, waiting on its cause and outcome: the game keeps no home price level by place and does not split births between owners and renters.",
-      "range": [-0.03, -0.018],
-      "lagWhy": "The study relates home prices in one year to births in the next."
+      "notes": "The paper's -2.4% is the effect among non-owners; the link carries it as the place average (-1.363%) and lands it only on renting households through its tenure moderator, so owners and renters move apart from one cause.",
+      "range": [-0.01704, -0.01022],
+      "lagWhy": "The study relates home prices in one year to births in the next.",
+      "varies": [
+        {
+          "by": "tenure",
+          "bands": [
+            {
+              "is": "rent",
+              "weight": 1,
+              "share": 0.568
+            },
+            {
+              "is": "own",
+              "weight": 0,
+              "share": 0.432
+            }
+          ],
+          "tag": "ESTIMATED",
+          "source": "Dettling and Kearney 2014, House prices and birth rates: The impact of the real estate market on the decision to have a baby, Journal of Public Economics 110; NBER w17485 abstract (https://www.nber.org/papers/w17485)",
+          "quote": "\"a $10,000 increase leads to a 5 percent increase in fertility rates among owners and a 2.4 percent decrease among non-owners. At the mean U.S. home ownership rate, these estimates imply that the net effect of a $10,000 increase in house prices is a 0.8 percent increase in current period fertility rates.\"",
+          "estimatedFrom": "The owners' share of births (0.432) is the share that makes the paper's own net hold: 0.05 s - 0.024 (1 - s) = 0.008. The abstract gives the ownership weighting only through that net."
+        }
+      ]
     },
     {
       "key": "property-tax-to-rent",
@@ -1868,7 +1967,7 @@
       "shape": {
         "kind": "linear"
       },
-      "size": 0.17,
+      "size": 0.1,
       "per": "percentage point of effective property tax rate (tax as a share of home value)",
       "lagMonths": 12,
       "group": "renters",
@@ -1878,7 +1977,8 @@
       "from": "tax.property-rate",
       "evidence": "contested",
       "range": [0.02, 0.18],
-      "notes": "Sized, with its cause recorded and its outcome missing: each place's effective property tax rate on homes is now a place outcome (Tax Foundation, 2024), but rent is not a kept place outcome, so the link moves nothing until one is produced."
+      "notes": "In the new core the cause is read from the engine's own record (src/core2/data/outcome-web/outcome-web.json causeFrom): the property tax rate in force for the town (the budgets module's law row the housing engine bills owners by), as a percent of home value, against the rate at the web's opening. Size is the center of the 0.02 to 0.18 range (Carroll and Yinger 1994 at 0.02; Tsoodle and Turner 2008 at 0.17 to 0.18); the engine renews each lease by the change in the web's rent factor since the lease last renewed (src/core2/housing-occupancy.ts renewRentalLeases), full and counted renters alike. The sources report one pass-through for renters as a group, so the link is not varied.",
+      "readFrom": "housing.property-tax-rate"
     },
     {
       "key": "transit-loss-to-unemployment",
@@ -2313,7 +2413,8 @@
       "anchor": "-0.1 points, not significant, for every group",
       "source": "Cantoni and Pons 2021 (QJE)",
       "from": "law:us-policy-positions:government-operations.require-photo-id-to-vote",
-      "evidence": "about-zero"
+      "evidence": "about-zero",
+      "notes": "The election laws act on a voter's turnout through the law reach (electionLawTurnoutCost, felonyDisenfranchisedShare, barredFromVoting), so the voting engine leaves this link out of the web factor it applies (turnout-web.ts) and the law moves turnout once; the link stays in the web's ledger as the researched size the law reach is checked against. Cantoni and Pons find no significant effect for any group, so it is unvaried."
     },
     {
       "key": "same-day-registration-to-youth-turnout",
@@ -2334,7 +2435,7 @@
       "from": "law:us-policy-positions:government-operations.same-day-voter-registration",
       "evidence": "researched",
       "range": [0.08, 0.18],
-      "notes": "Unsupported until a producer computes youth turnout: the cause is now a state's law on same-day voter registration, a question the game asks, but youth turnout is not a kept place outcome."
+      "notes": "Unsupported until a producer computes youth turnout: the cause is now a state's law on same-day voter registration, a question the game asks, but youth turnout is not a kept place outcome. The election laws act on a voter's turnout through the law reach (electionLawTurnoutCost, felonyDisenfranchisedShare, barredFromVoting), so the voting engine leaves this link out of the web factor it applies (turnout-web.ts) and the law moves turnout once; the link stays in the web's ledger as the researched size the law reach is checked against. The size is already for ages 18 to 24, the group the voting engine reads the youth factor for."
     },
     {
       "key": "all-mail-voting-to-turnout",
@@ -2354,7 +2455,8 @@
       "source": "Thompson, Wu, Yoder and Hall 2020 (PNAS), table 3",
       "from": "law:us-policy-positions:government-operations.all-mail-voting",
       "evidence": "researched",
-      "range": [0.005, 0.065]
+      "range": [0.005, 0.065],
+      "notes": "The election laws act on a voter's turnout through the law reach (electionLawTurnoutCost, felonyDisenfranchisedShare, barredFromVoting), so the voting engine leaves this link out of the web factor it applies (turnout-web.ts) and the law moves turnout once; the link stays in the web's ledger as the researched size the law reach is checked against. The research gives no split by age or income beyond the size, so the link is unvaried."
     },
     {
       "key": "all-mail-voting-to-party-share",
@@ -2895,7 +2997,8 @@
       "source": "McGhee, Hill and Romero 2021, The Registration and Turnout Effects of Automatic Voter Registration (SSRN 3933442); Kim 2021, APSA preprint (doi 10.33774/apsa-2021-3wzbh)",
       "evidence": "provisional",
       "from": "law:us-policy-positions:government-operations.automatic-voter-registration",
-      "to": "voting.turnout-pct"
+      "to": "voting.turnout-pct",
+      "notes": "The election laws act on a voter's turnout through the law reach (electionLawTurnoutCost, felonyDisenfranchisedShare, barredFromVoting), so the voting engine leaves this link out of the web factor it applies (turnout-web.ts) and the law moves turnout once; the link stays in the web's ledger as the researched size the law reach is checked against. The research gives no split by age or income beyond the size, so the link is unvaried."
     },
     {
       "key": "restore-voting-to-turnout",
@@ -2956,7 +3059,8 @@
       "source": "The Sentencing Project, Locked Out 2024 (post-sentence shares by state); Meredith and Morse, Florida restorations 2007 to 2011 (12 to 16% voted); Burch 2011 (about 22%); University of Florida Election Lab 2024 VEP turnout. Sized by Research 3, 9/29/2026, /mnt/project-files/research/law-effect-sizes/justice.json.",
       "evidence": "researched",
       "from": "law:us-policy-positions:justice-public-safety.restore-voting-after-sentence",
-      "to": "voting.turnout-pct"
+      "to": "voting.turnout-pct",
+      "notes": "The election laws act on a voter's turnout through the law reach (electionLawTurnoutCost, felonyDisenfranchisedShare, barredFromVoting), so the voting engine leaves this link out of the web factor it applies (turnout-web.ts) and the law moves turnout once; the link stays in the web's ledger as the researched size the law reach is checked against. The research gives no split by age or income beyond the size, so the link is unvaried."
     },
     {
       "key": "housing-by-right-to-new-buildings",
@@ -2975,7 +3079,8 @@
       "source": "Pew Charitable Trusts, January 4, 2024; Terner Center, 2022; Anagol, Ferreira and Rexer 2021, NBER w29440",
       "evidence": "researched",
       "from": "law:us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones",
-      "to": "housing.new-large-buildings"
+      "to": "housing.new-large-buildings",
+      "notes": " The engine reads this link's factor in its apartment starts (src/core2/housing-construction.ts buildMonth) and no longer scales starts by the share of land zoned for apartments, which was the same law counted a second time."
     },
     {
       "key": "right-to-counsel-to-evictions",
@@ -2995,7 +3100,7 @@
       "evidence": "researched",
       "from": "law:us-policy-positions:housing-land-use.right-to-counsel-in-eviction",
       "to": "housing.eviction",
-      "notes": "Not hooked by design: living-world/town-rent.ts already decides each eviction case with the tenant's lawyer present, so a place eviction rate that also applied this link would count the law twice; a producer of housing.eviction should count those recorded cases instead."
+      "notes": "Not hooked by design: living-world/town-rent.ts already decides each eviction case with the tenant's lawyer present, so a place eviction rate that also applied this link would count the law twice; a producer of housing.eviction should count those recorded cases instead. The engine already produces this effect from its own records (a case with a paid lawyer settles on a payment plan instead of a judgment, src/core2/modules/housing.ts housing-hearing), so the housing engine does not multiply its notice or judgment rates by this link again. Nothing reads the web's kept housing.eviction number; it stays because the law test in src/core2/outcome-web.test.ts checks this link's effect on it, and the engine's own judgments are the separate housing.eviction-orders measure."
     },
     {
       "key": "housing-first-to-homelessness",
@@ -3029,7 +3134,8 @@
         "months": 24,
         "evidenceLimit": "Inherited repository source/anchor read; primary study verification and any new conversion remain Team9 research work."
       },
-      "aboutZero": false
+      "aboutZero": false,
+      "notes": " The engine reads this link's factor in a homeless household's way back to a lease (src/core2/housing-homeless.ts reviewHomeless). The cited trials report no difference by household kind, so the link is not varied."
     },
     {
       "key": "cannabis-sales-to-youth-use",
@@ -3443,7 +3549,8 @@
       "evidence": "researched",
       "from": "law:us-federal-positions:housing.vouchers-for-every-eligible-family",
       "to": "housing.homelessness",
-      "range": [-0.5, -0.15]
+      "range": [-0.5, -0.15],
+      "notes": " The engine reads this link's factor in reviewHomeless. The Family Options Study enrolled only families, so it gives no weights by household kind; the link is not varied."
     },
     {
       "key": "retirement-age-to-older-work",
@@ -4030,7 +4137,8 @@
       "evidence": "researched",
       "anchor": "Counties across state borders: turnout 2 to 3 points lower after a right-to-work law passes (about 3% of a 65% turnout), with the Democratic presidential share 3.5 points lower, as unions contact fewer voters",
       "source": "Feigenbaum, Hertel-Fernandez and Williamson 2018, From the Bargaining Table to the Ballot Box (NBER w24259)",
-      "range": [-0.046, -0.015]
+      "range": [-0.046, -0.015],
+      "notes": "Read by the voting engine as a factor on every voter's propensity (turnout-web.ts). The paper reports a county-level effect only (NBER w24259 abstract: \"Turnout is also 2 percentage points lower in right-to-work counties after passage\"), with no split by age or income, so the link is unvaried."
     },
     {
       "key": "public-bargaining-to-graduation",
@@ -4295,7 +4403,8 @@
       "evidence": "provisional",
       "anchor": "From 2018 to 2022, turnout rose about 1 point in districts drawn by long-standing commissions and 5 points in court-drawn ones, and being drawn into a competitive district added about 3 points; the comparison is descriptive, not a controlled study, and presidential turnout is barely touched by district lines",
       "source": "Brennan Center, The Turnout Effects of Redistricting Institutions; PS: Political Science and Politics 2023 (commissions and competitive elections)",
-      "range": [0, 0.015]
+      "range": [0, 0.015],
+      "notes": "Read by the voting engine as a factor on every voter's propensity (turnout-web.ts). The comparison is descriptive at the district level with no split by age or income, so the link is unvaried."
     },
     {
       "key": "term-limits-to-turnout",
@@ -4314,7 +4423,8 @@
       "owner": "F-cloud",
       "evidence": "about-zero",
       "anchor": "California's term limits brought no rise, and perhaps a fall, in legislative-race turnout; nothing shows a statewide change",
-      "source": "Nalder 2007, State Politics and Policy Quarterly 7(2)"
+      "source": "Nalder 2007, State Politics and Policy Quarterly 7(2)",
+      "notes": "The election laws act on a voter's turnout through the law reach (electionLawTurnoutCost, felonyDisenfranchisedShare, barredFromVoting), so the voting engine leaves this link out of the web factor it applies (turnout-web.ts) and the law moves turnout once; the link stays in the web's ledger as the researched size the law reach is checked against. The effect is about zero, so it is unvaried."
     },
     {
       "key": "library-funding-to-math",
@@ -4932,7 +5042,8 @@
       "owner": "F-cloud",
       "evidence": "about-zero",
       "anchor": "Taxes move few people: even millionaires rarely leave high-tax states",
-      "source": "Young, Varner, Lurie and Prisinzano 2016, American Sociological Review"
+      "source": "Young, Varner, Lurie and Prisinzano 2016, American Sociological Review",
+      "notes": "About zero for the population, kept at zero. Young, Varner, Lurie and Prisinzano 2016: 'millionaire tax flight is occurring, but only at the margins of statistical and socioeconomic significance'; the annual millionaire migration rate is 2.4 percent against 2.9 percent for the general population. Moretti and Wilson 2017 (AER) find a long-run elasticity of about 1.7 for star scientists at the 99th percentile of income, who are about 1% of people, so the average person's rate does not move. The researched response is concentrated in the top income fifth, and the engines already carry it from their own records: counted-moves.ts (pullBetween) reads the town state's income-tax law in force and the other states' 2026 table into the income pull, by wage, so a web read on the same law would count it twice. Full people have no tax pull yet (stopgap SG-WEB-moves-full-tax-pull). No moderator rows: a weight on a size of zero moves nothing."
     },
     {
       "key": "graduated-income-tax-to-out-migration",
@@ -4951,7 +5062,8 @@
       "owner": "F-cloud",
       "evidence": "about-zero",
       "anchor": "Taxes move few people: even millionaires rarely leave high-tax states",
-      "source": "Young, Varner, Lurie and Prisinzano 2016, American Sociological Review"
+      "source": "Young, Varner, Lurie and Prisinzano 2016, American Sociological Review",
+      "notes": "About zero for the population, kept at zero. Young, Varner, Lurie and Prisinzano 2016: 'millionaire tax flight is occurring, but only at the margins of statistical and socioeconomic significance'; the annual millionaire migration rate is 2.4 percent against 2.9 percent for the general population. Moretti and Wilson 2017 (AER) find a long-run elasticity of about 1.7 for star scientists at the 99th percentile of income, who are about 1% of people, so the average person's rate does not move. The researched response is concentrated in the top income fifth, and the engines already carry it from their own records: counted-moves.ts (pullBetween) reads the town state's income-tax law in force and the other states' 2026 table into the income pull, by wage, so a web read on the same law would count it twice. Full people have no tax pull yet (stopgap SG-WEB-moves-full-tax-pull). No moderator rows: a weight on a size of zero moves nothing."
     },
     {
       "key": "balanced-budget-to-borrowing-cost",
