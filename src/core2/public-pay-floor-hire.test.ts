@@ -7,7 +7,6 @@ import { gameStartDate } from "./game-start";
 import { addDays, makeIsoDate } from "./kernel/dates";
 import { advanceCore } from "./life";
 import { jobsAt } from "./law-reach/group-b-money";
-import { JOBS_MODULE_ID, type PositionRow } from "./modules/jobs";
 import { enactLaw, lawChain } from "./modules/laws";
 import {
   PUBLIC_EMPLOYER_CLASSES,
@@ -17,8 +16,7 @@ import {
 import { coreAPI } from "./state";
 import type { CoreState } from "./types";
 
-// A public opening is posted at the public pay floor in force when the jobs
-// engine posts it, and a hire from it is paid what it was posted at, not a
+// A public hire is paid at the public pay floor on the day it is hired, not a
 // month later at the review (pool: laws-stopgap-laws-missing-engine, row
 // SG-GOV-public-pay-floor-owner). The jobs engine reads this helper when it
 // sets a hire's pay, so a job at a public employer with the floor in force
@@ -78,12 +76,12 @@ it("holds a new public hire's pay to the floor in force, and no private hire's",
   throw new Error(`No drawn place had both: ${tried.join("; ")}`);
 }, 1_800_000);
 
-// The same, in a played year: with a floor enacted, every opening the jobs
-// engine posts at a public employer meets it, and so does every hire made
-// from one. Openings posted before the floor (the engine posts again each
-// month) are not held to it, so only those posted after the day it took
-// effect are checked.
-it("posts every public opening in a played year at the floor, and hires from it at what it posted", () => {
+// The same, in a played year: with a floor enacted, every public post the
+// game fills afterwards (an aide, a department head) is paid at or above it on
+// the day it is filled, not a month later at the review. In play the jobs
+// engine posts openings only at private enterprises, so public pay is set
+// where public posts are filled (public-payroll.ts).
+it("pays every public post filled in a played year at the floor from the day it is filled", () => {
   const tried: string[] = [];
   setBookkeeping(false);
   for (let attempt = 0; attempt < 6; attempt += 1) {
@@ -96,6 +94,7 @@ it("posts every public opening in a played year at the floor, and hires from it 
     });
     const api = coreAPI(core);
     const state = core as CoreState;
+    const before = new Set(state.jobs.keys());
     for (const level of lawChain(api).levels)
       enactLaw(api, {
         jurisdiction: level.jurisdiction,
@@ -106,44 +105,26 @@ it("posts every public opening in a played year at the floor, and hires from it 
         measureId: "fixture:public-floor-year",
         citation: "Fixture: a public pay floor enacted at every level.",
       });
-    const enacted = core.date;
     advanceCore(core, addDays(makeIsoDate(core.date), 120));
-    const positions = (
-      api
-        .moduleState(JOBS_MODULE_ID)
-        .table("positions")
-        .rows() as unknown as PositionRow[]
-    ).filter(
-      (row) =>
-        row.openedAt > enacted &&
+    const posts = [...state.jobs.values()].filter(
+      (job) =>
+        !before.has(job.id) &&
+        job.id.startsWith("job:public:") &&
         PUBLIC_EMPLOYER_CLASSES.includes(
-          core.organizations.get(row.organizationId)?.classification ?? "",
+          core.organizations.get(job.organizationId)?.classification ?? "",
         ),
     );
-    if (!positions.length) {
-      tried.push(`${where}: no public opening posted after the floor`);
+    if (!posts.length) {
+      tried.push(`${where}: no public post filled after the floor`);
       continue;
     }
-    for (const row of positions) {
-      const template = state.jobs.get(row.templateJobId);
-      if (!template) continue;
-      const floor = publicPayFloorHourly(api, row.organizationId, template);
+    const floorDaily = (90_000 * 100) / 365;
+    for (const job of posts)
       expect(
-        row.hourlyMinor,
-        `${where}: opening ${row.id} posted below the floor ${floor}`,
-      ).toBeGreaterThanOrEqual(floor);
-      if (row.filledBy) {
-        const hired = state.jobs.get(`job:${row.id}:${row.filledBy}`);
-        if (hired?.hourlyMinor !== undefined)
-          expect(
-            hired.hourlyMinor,
-            `${where}: the hire from ${row.id} is paid under what it posted`,
-          ).toBeGreaterThanOrEqual(row.hourlyMinor);
-      }
-    }
+        job.wageDailyMinor,
+        `${where}: ${job.id} is paid under the yearly floor`,
+      ).toBeGreaterThanOrEqual(Math.floor(floorDaily));
     return;
   }
-  throw new Error(
-    `No drawn place posted a public opening: ${tried.join("; ")}`,
-  );
+  throw new Error(`No drawn place filled a public post: ${tried.join("; ")}`);
 }, 3_600_000);
