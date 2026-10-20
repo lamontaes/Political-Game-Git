@@ -5,10 +5,10 @@ area: core
 kind: stopgap
 priority: 3
 size: M
-status: open
+status: blocked
 claimed-by:
 pr:
-blocked-on:
+blocked-on: design: the candidacy.run decision reads a full person's traits; out-of-town candidates are named identities with no person, so a counted-tier who-runs rule must be chosen first
 source: added with npm run pool -- add
 claimed-at: 
 ---
