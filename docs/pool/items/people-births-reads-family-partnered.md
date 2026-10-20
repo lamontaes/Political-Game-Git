@@ -5,7 +5,7 @@ area: people
 kind: wiring
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/births-reads-partnered
 pr: #5395
 blocked-on:
