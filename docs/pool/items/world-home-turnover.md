@@ -5,11 +5,12 @@ area: world
 kind: feature
 priority: 2
 size: L
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/home-turnover-split
+pr: #5034
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-18T02:28:04.005Z
 ---
 
 **What.** In a played year (`buildBenchWorld`, every module installed, Oct 17) West Hammond, New Mexico wrote 0 home sales and 0 purchases among 860 full households with homes (427 mortgages), and Epping, New Hampshire wrote 1 sale and 0 purchases among 1,226 (506 mortgages). The housing module's `sales` table is declared and never written, and the same year held 1 to 2 eviction cases and 5 foreclosures. In a real town about 5 percent of owner-occupied homes change hands each year (NAR existing-home sales against the Census's owner-occupied stock, about 4 million sales a year of about 85 million owner households), and a share of renters becomes owners each year. A town's owners never selling and its renters never buying also keeps `housing.purchase` news, home prices, mortgage originations and the moving economy frozen for everyone but the player.

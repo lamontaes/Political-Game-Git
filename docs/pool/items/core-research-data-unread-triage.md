@@ -5,12 +5,12 @@ area: core
 kind: wiring
 priority: 3
 size: M
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/peaceful-ritchie-03780x
+pr: #5076
 blocked-on:
 source: added with npm run pool -- add
-claimed-at:
+claimed-at: 2026-10-19T19:08:01.316Z
 ---
 
 **What.** `scripts/audit/research-data-unread-baseline.json` names 370 files under `data/research` that no code in `src/` or `scripts/` reads. The research data guard used to count the bare folder name `data/research/` as a read of every file, which hid them; the guard now counts only real reads and holds these 370 on a list that may only shrink. Go through them folder by folder: wire each file to the engine that should read it, list it as raw source with a one-line reason, or move it to the waiting list with its engine and owner. Take each file off the baseline as it is settled.
@@ -26,3 +26,9 @@ claimed-at:
 Sent back 2026-10-17 from PR #4953 (branch claude/business-entry-exit-check-v2): Merging current main (d3d2b3ec1a) conflicts in docs/pool/items/world-business-entry-below-bds.md. Resolve these conflicts on this branch and push before local validation can run.; finish on that branch, merge main into it first.
 
 Sent back 2026-10-18 from PR #4926 (branch claude/research-data-roadmap-triage): Merging current main (e99e4a0436) conflicts in docs/pool/items/core-research-data-unread-triage.md. Resolve these conflicts on this branch and push before local validation can run.; finish on that branch, merge main into it first.
+
+Sent back 2026-10-18 from PR #4949 (branch claude/research-triage-starting-law): Merging current main (f20f3700e5) conflicts in docs/pool/items/core-research-data-unread-triage.md, docs/pool/items/world-town-net-moving-negative.md. Resolve these conflicts on this branch and push before local validation can run.; finish on that branch, merge main into it first.
+
+Sent back 2026-10-18 from PR #4950 (branch claude/research-triage-evidence): Merging current main (f359364281) conflicts in docs/pool/items/core-research-data-unread-triage.md, docs/pool/items/world-town-net-moving-negative.md. Resolve these conflicts on this branch and push before local validation can run.; finish on that branch, merge main into it first.
+
+Sent back 2026-10-18 from PR #4951 (branch claude/fhfa-growth-check): Merging current main (ca0832d084) conflicts in docs/pool/items/core-research-data-unread-triage.md, docs/pool/items/world-town-net-moving-negative.md. Resolve these conflicts on this branch and push before local validation can run.; finish on that branch, merge main into it first.
