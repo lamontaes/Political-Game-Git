@@ -1242,19 +1242,25 @@ export function billReach(
   readonly federal: boolean;
   readonly state: boolean;
   readonly county: string | null;
-  readonly level: "federal" | "state" | "county" | "city";
+  /** The township a township board legislates for (its government-unit id). */
+  readonly township: string | null;
+  readonly level: "federal" | "state" | "county" | "township" | "city";
 } {
   const federal = chambersOf(api, bill).includes(FEDERAL_HOUSE);
   const state = !federal && isState(api, bill);
   const county = !federal && !state ? countyOfBody(api, bill) : null;
+  const township =
+    !federal && !state && !county ? townshipOfBody(api, bill) : null;
   const level = federal
     ? "federal"
     : state
       ? "state"
       : county
         ? "county"
-        : "city";
-  return { federal, state, county, level };
+        : township
+          ? "township"
+          : "city";
+  return { federal, state, county, township, level };
 }
 
 /**
@@ -1283,7 +1289,7 @@ export function effectiveRule(
   bill: BillRow,
 ): {
   readonly jurisdiction: string;
-  readonly level: "federal" | "state" | "county" | "city";
+  readonly level: "federal" | "state" | "county" | "township" | "city";
   readonly federal: boolean;
   readonly state: boolean;
   readonly kind: "on-enactment" | "state-rule" | "days-after-adoption";
@@ -1292,12 +1298,14 @@ export function effectiveRule(
   readonly cite: string;
 } {
   const chain = lawChain(api);
-  const { federal, state, county, level } = billReach(api, bill);
+  const { federal, state, county, township, level } = billReach(api, bill);
   const jurisdiction = federal
     ? "US"
     : state
       ? chain.stateKey
-      : (county ?? chain.levels[chain.levels.length - 1]!.jurisdiction);
+      : (county ??
+        township ??
+        chain.levels[chain.levels.length - 1]!.jurisdiction);
   const base = { jurisdiction, level, federal, state } as const;
   if (federal)
     return {
@@ -4036,6 +4044,16 @@ export function executiveItemVeto(
 }
 
 /** A county board's ordinances are county law: the county the board governs, in the town's chain. */
+/** The township a township board governs: its government-unit id, which is the law chain's township jurisdiction. */
+function townshipOfBody(api: CoreAPI, bill: BillRow): string | null {
+  const office = api
+    .moduleState(OFFICES_MODULE_ID)
+    .table("offices")
+    .get(bill.bodyOfficeId) as unknown as
+    { kind: string; jurisdiction: string } | undefined;
+  return office?.kind === "township-board" ? office.jurisdiction : null;
+}
+
 function countyOfBody(api: CoreAPI, bill: BillRow): string | null {
   const office = api
     .moduleState(OFFICES_MODULE_ID)
