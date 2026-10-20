@@ -5,7 +5,7 @@ import {
   composeBodyScene,
   composeBudgetHearing,
   type BodyScene,
-} from "./body-bank";
+} from "../../src/director/mined/body-bank";
 
 /**
  * A town body's table composed from the authored floor and hearing parts:

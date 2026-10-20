@@ -17,7 +17,7 @@ import type { GroundedEnglishPacket } from "../../src/english/grounded-english";
 import { drawPlace } from "../core2-year/place";
 import { remarksOn, signUpToSpeak } from "../../src/core2/modules/meetings";
 import { corePlaceByJurisdictionId } from "../../src/core2/place-lookup";
-import { composeBudgetHearing } from "./body-bank";
+import { composeBudgetHearing } from "../../src/director/mined/body-bank";
 
 // A town body's table worded from the records of a bill the played world
 // votes on: the motion is the bill's own title, the counts are its recorded

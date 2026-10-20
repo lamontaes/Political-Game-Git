@@ -12,17 +12,17 @@
  * compose under small-talk until PEOPLE adds one (listed in
  * docs/coordination/words.md).
  */
-import addressJson from "../../data/english/parts/address.json" with { type: "json" };
-import hearingJson from "../../data/english/parts/hearing.json" with { type: "json" };
-import meetingJson from "../../data/english/parts/meeting.json" with { type: "json" };
-import { heldByGrades } from "../../src/english/english-grades";
+import addressJson from "../../../data/english/parts/address.json" with { type: "json" };
+import hearingJson from "../../../data/english/parts/hearing.json" with { type: "json" };
+import meetingJson from "../../../data/english/parts/meeting.json" with { type: "json" };
+import { heldByGrades } from "../../english/english-grades";
 import {
   composeGroundedLine,
   type ComposedLineBank,
   type LinePartVariant,
   type SpeechAct,
-} from "../../src/english/english-composition";
-import type { GroundedEnglishPacket } from "../../src/english/grounded-english";
+} from "../../english/english-composition";
+import type { GroundedEnglishPacket } from "../../english/grounded-english";
 
 interface Part {
   key: string;
@@ -270,6 +270,7 @@ export function composeBudgetHearing(
   vote: GroundedEnglishPacket,
   speakers: readonly HearingSpeaker[],
   billId: string,
+  options: { readonly result?: boolean } = {},
 ): BodyLine[] | null {
   const ground = (text: string, id: string) => ({
     text,
@@ -324,6 +325,8 @@ export function composeBudgetHearing(
     }
     if (ask) lines.push(ask);
   }
+  // A hearing held before the vote ends with the last speaker; the result is the vote's.
+  if (options.result === false) return lines;
   const result = composeBodyScene(vote, "vote");
   return result ? [...lines, ...result] : null;
 }

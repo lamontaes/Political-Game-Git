@@ -15,7 +15,7 @@ import { OFFICES_MODULE_ID } from "../../src/core2/modules/offices";
 import { coreAPI } from "../../src/core2/state";
 import type { GroundedEnglishPacket } from "../../src/english/grounded-english";
 import { drawPlace } from "../core2-year/place";
-import { composeBodyScene } from "./body-bank";
+import { composeBodyScene } from "../../src/director/mined/body-bank";
 
 // A town body's table worded from the records of a bill the played world
 // votes on: the motion is the bill's own title, the counts are its recorded
