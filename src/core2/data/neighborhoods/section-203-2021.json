@@ -1,0 +1,3133 @@
+{
+  "source": "U.S. Census Bureau, Section 203 Language Determinations (public use file, December 2021): the states, counties and minor civil divisions covered under Section 203 of the Voting Rights Act, with the language each is covered for; U.S. government work.",
+  "covered": [
+    {
+      "level": "State",
+      "state": "06",
+      "county": "000",
+      "mcd": "NNNNN",
+      "name": "California",
+      "language": "Hispanic"
+    },
+    {
+      "level": "State",
+      "state": "12",
+      "county": "000",
+      "mcd": "NNNNN",
+      "name": "Florida",
+      "language": "Hispanic"
+    },
+    {
+      "level": "State",
+      "state": "48",
+      "county": "000",
+      "mcd": "NNNNN",
+      "name": "Texas",
+      "language": "Hispanic"
+    },
+    {
+      "level": "County",
+      "state": "02",
+      "county": "013",
+      "mcd": "NNNNN",
+      "name": "Aleutians East Borough",
+      "language": "Yup'ik alone or in combination"
+    },
+    {
+      "level": "County",
+      "state": "02",
+      "county": "016",
+      "mcd": "NNNNN",
+      "name": "Aleutians West Census Area",
+      "language": "Filipino alone or in combination"
+    },
+    {
+      "level": "County",
+      "state": "02",
+      "county": "050",
+      "mcd": "NNNNN",
+      "name": "Bethel Census Area",
+      "language": "Yup'ik alone or in combination"
+    },
+    {
+      "level": "County",
+      "state": "02",
+      "county": "060",
+      "mcd": "NNNNN",
+      "name": "Bristol Bay Borough",
+      "language": "Yup'ik alone or in combination"
+    },
+    {
+      "level": "County",
+      "state": "02",
+      "county": "070",
+      "mcd": "NNNNN",
+      "name": "Dillingham Census Area",
+      "language": "Yup'ik alone or in combination"
+    },
+    {
+      "level": "County",
+      "state": "02",
+      "county": "122",
+      "mcd": "NNNNN",
+      "name": "Kenai Peninsula Borough",
+      "language": "Yup'ik alone or in combination"
+    },
+    {
+      "level": "County",
+      "state": "02",
+      "county": "150",
+      "mcd": "NNNNN",
+      "name": "Kodiak Island Borough",
+      "language": "Yup'ik alone or in combination"
+    },
+    {
+      "level": "County",
+      "state": "02",
+      "county": "150",
+      "mcd": "NNNNN",
+      "name": "Kodiak Island Borough",
+      "language": "Filipino alone or in combination"
+    },
+    {
+      "level": "County",
+      "state": "02",
+      "county": "158",
+      "mcd": "NNNNN",
+      "name": "Kusilvak Census Area",
+      "language": "Yup'ik alone or in combination"
+    },
+    {
+      "level": "County",
+      "state": "02",
+      "county": "164",
+      "mcd": "NNNNN",
+      "name": "Lake and Peninsula Borough",
+      "language": "Aleut alone or in combination"
+    },
+    {
+      "level": "County",
+      "state": "02",
+      "county": "164",
+      "mcd": "NNNNN",
+      "name": "Lake and Peninsula Borough",
+      "language": "Yup'ik alone or in combination"
+    },
+    {
+      "level": "County",
+      "state": "02",
+      "county": "180",
+      "mcd": "NNNNN",
+      "name": "Nome Census Area",
+      "language": "Yup'ik alone or in combination"
+    },
+    {
+      "level": "County",
+      "state": "02",
+      "county": "185",
+      "mcd": "NNNNN",
+      "name": "North Slope Borough",
+      "language": "Inupiat alone or in combination"
+    },
+    {
+      "level": "County",
+      "state": "02",
+      "county": "188",
+      "mcd": "NNNNN",
+      "name": "Northwest Arctic Borough",
+      "language": "Inupiat alone or in combination"
+    },
+    {
+      "level": "County",
+      "state": "02",
+      "county": "290",
+      "mcd": "NNNNN",
+      "name": "Yukon-Koyukuk Census Area",
+      "language": "Inupiat alone or in combination"
+    },
+    {
+      "level": "County",
+      "state": "04",
+      "county": "001",
+      "mcd": "NNNNN",
+      "name": "Apache County",
+      "language": "Navajo alone or in combination"
+    },
+    {
+      "level": "County",
+      "state": "04",
+      "county": "001",
+      "mcd": "NNNNN",
+      "name": "Apache County",
+      "language": "Pueblo alone or in combination"
+    },
+    {
+      "level": "County",
+      "state": "04",
+      "county": "005",
+      "mcd": "NNNNN",
+      "name": "Coconino County",
+      "language": "Hopi alone or in combination"
+    },
+    {
+      "level": "County",
+      "state": "04",
+      "county": "005",
+      "mcd": "NNNNN",
+      "name": "Coconino County",
+      "language": "Navajo alone or in combination"
+    },
+    {
+      "level": "County",
+      "state": "04",
+      "county": "005",
+      "mcd": "NNNNN",
+      "name": "Coconino County",
+      "language": "Paiute alone or in combination"
+    },
+    {
+      "level": "County",
+      "state": "04",
+      "county": "007",
+      "mcd": "NNNNN",
+      "name": "Gila County",
+      "language": "Apache alone or in combination"
+    },
+    {
+      "level": "County",
+      "state": "04",
+      "county": "009",
+      "mcd": "NNNNN",
+      "name": "Graham County",
+      "language": "Apache alone or in combination"
+    },
+    {
+      "level": "County",
+      "state": "04",
+      "county": "013",
+      "mcd": "NNNNN",
+      "name": "Maricopa County",
+      "language": "Hispanic"
+    },
+    {
+      "level": "County",
+      "state": "04",
+      "county": "015",
+      "mcd": "NNNNN",
+      "name": "Mohave County",
+      "language": "Paiute alone or in combination"
+    },
+    {
+      "level": "County",
+      "state": "04",
+      "county": "017",
+      "mcd": "NNNNN",
+      "name": "Navajo County",
+      "language": "Hopi alone or in combination"
+    },
+    {
+      "level": "County",
+      "state": "04",
+      "county": "017",
+      "mcd": "NNNNN",
+      "name": "Navajo County",
+      "language": "Navajo alone or in combination"
+    },
+    {
+      "level": "County",
+      "state": "04",
+      "county": "019",
+      "mcd": "NNNNN",
+      "name": "Pima County",
+      "language": "Hispanic"
+    },
+    {
+      "level": "County",
+      "state": "04",
+      "county": "021",
+      "mcd": "NNNNN",
+      "name": "Pinal County",
+      "language": "Apache alone or in combination"
+    },
+    {
+      "level": "County",
+      "state": "04",
+      "county": "023",
+      "mcd": "NNNNN",
+      "name": "Santa Cruz County",
+      "language": "Hispanic"
+    },
+    {
+      "level": "County",
+      "state": "04",
+      "county": "027",
+      "mcd": "NNNNN",
+      "name": "Yuma County",
+      "language": "Hispanic"
+    },
+    {
+      "level": "County",
+      "state": "06",
+      "county": "001",
+      "mcd": "NNNNN",
+      "name": "Alameda County",
+      "language": "Hispanic"
+    },
+    {
+      "level": "County",
+      "state": "06",
+      "county": "001",
+      "mcd": "NNNNN",
+      "name": "Alameda County",
+      "language": "Chinese (including Taiwanese) alone or in combination"
+    },
+    {
+      "level": "County",
+      "state": "06",
+      "county": "001",
+      "mcd": "NNNNN",
+      "name": "Alameda County",
+      "language": "Filipino alone or in combination"
+    },
+    {
+      "level": "County",
+      "state": "06",
+      "county": "001",
+      "mcd": "NNNNN",
+      "name": "Alameda County",
+      "language": "Vietnamese alone or in combination"
+    },
+    {
+      "level": "County",
+      "state": "06",
+      "county": "011",
+      "mcd": "NNNNN",
+      "name": "Colusa County",
+      "language": "Hispanic"
+    },
+    {
+      "level": "County",
+      "state": "06",
+      "county": "013",
+      "mcd": "NNNNN",
+      "name": "Contra Costa County",
+      "language": "Hispanic"
+    },
+    {
+      "level": "County",
+      "state": "06",
+      "county": "013",
+      "mcd": "NNNNN",
+      "name": "Contra Costa County",
+      "language": "Chinese (including Taiwanese) alone or in combination"
+    },
+    {
+      "level": "County",
+      "state": "06",
+      "county": "019",
+      "mcd": "NNNNN",
+      "name": "Fresno County",
+      "language": "Hispanic"
+    },
+    {
+      "level": "County",
+      "state": "06",
+      "county": "021",
+      "mcd": "NNNNN",
+      "name": "Glenn County",
+      "language": "Hispanic"
+    },
+    {
+      "level": "County",
+      "state": "06",
+      "county": "025",
+      "mcd": "NNNNN",
+      "name": "Imperial County",
+      "language": "Hispanic"
+    },
+    {
+      "level": "County",
+      "state": "06",
+      "county": "029",
+      "mcd": "NNNNN",
+      "name": "Kern County",
+      "language": "Hispanic"
+    },
+    {
+      "level": "County",
+      "state": "06",
+      "county": "031",
+      "mcd": "NNNNN",
+      "name": "Kings County",
+      "language": "Hispanic"
+    },
+    {
+      "level": "County",
+      "state": "06",
+      "county": "037",
+      "mcd": "NNNNN",
+      "name": "Los Angeles County",
+      "language": "Hispanic"
+    },
+    {
+      "level": "County",
+      "state": "06",
+      "county": "037",
+      "mcd": "NNNNN",
+      "name": "Los Angeles County",
+      "language": "Cambodian alone or in combination"
+    },
+    {
+      "level": "County",
+      "state": "06",
+      "county": "037",
+      "mcd": "NNNNN",
+      "name": "Los Angeles County",
+      "language": "Chinese (including Taiwanese) alone or in combination"
+    },
+    {
+      "level": "County",
+      "state": "06",
+      "county": "037",
+      "mcd": "NNNNN",
+      "name": "Los Angeles County",
+      "language": "Filipino alone or in combination"
+    },
+    {
+      "level": "County",
+      "state": "06",
+      "county": "037",
+      "mcd": "NNNNN",
+      "name": "Los Angeles County",
+      "language": "Korean alone or in combination"
+    },
+    {
+      "level": "County",
+      "state": "06",
+      "county": "037",
+      "mcd": "NNNNN",
+      "name": "Los Angeles County",
+      "language": "Vietnamese alone or in combination"
+    },
+    {
+      "level": "County",
+      "state": "06",
+      "county": "039",
+      "mcd": "NNNNN",
+      "name": "Madera County",
+      "language": "Hispanic"
+    },
+    {
+      "level": "County",
+      "state": "06",
+      "county": "047",
+      "mcd": "NNNNN",
+      "name": "Merced County",
+      "language": "Hispanic"
+    },
+    {
+      "level": "County",
+      "state": "06",
+      "county": "053",
+      "mcd": "NNNNN",
+      "name": "Monterey County",
+      "language": "Hispanic"
+    },
+    {
+      "level": "County",
+      "state": "06",
+      "county": "055",
+      "mcd": "NNNNN",
+      "name": "Napa County",
+      "language": "Hispanic"
+    },
+    {
+      "level": "County",
+      "state": "06",
+      "county": "059",
+      "mcd": "NNNNN",
+      "name": "Orange County",
+      "language": "Hispanic"
+    },
+    {
+      "level": "County",
+      "state": "06",
+      "county": "059",
+      "mcd": "NNNNN",
+      "name": "Orange County",
+      "language": "Chinese (including Taiwanese) alone or in combination"
+    },
+    {
+      "level": "County",
+      "state": "06",
+      "county": "059",
+      "mcd": "NNNNN",
+      "name": "Orange County",
+      "language": "Korean alone or in combination"
+    },
+    {
+      "level": "County",
+      "state": "06",
+      "county": "059",
+      "mcd": "NNNNN",
+      "name": "Orange County",
+      "language": "Vietnamese alone or in combination"
+    },
+    {
+      "level": "County",
+      "state": "06",
+      "county": "065",
+      "mcd": "NNNNN",
+      "name": "Riverside County",
+      "language": "Hispanic"
+    },
+    {
+      "level": "County",
+      "state": "06",
+      "county": "067",
+      "mcd": "NNNNN",
+      "name": "Sacramento County",
+      "language": "Hispanic"
+    },
+    {
+      "level": "County",
+      "state": "06",
+      "county": "067",
+      "mcd": "NNNNN",
+      "name": "Sacramento County",
+      "language": "Chinese (including Taiwanese) alone or in combination"
+    },
+    {
+      "level": "County",
+      "state": "06",
+      "county": "067",
+      "mcd": "NNNNN",
+      "name": "Sacramento County",
+      "language": "Vietnamese alone or in combination"
+    },
+    {
+      "level": "County",
+      "state": "06",
+      "county": "069",
+      "mcd": "NNNNN",
+      "name": "San Benito County",
+      "language": "Hispanic"
+    },
+    {
+      "level": "County",
+      "state": "06",
+      "county": "071",
+      "mcd": "NNNNN",
+      "name": "San Bernardino County",
+      "language": "Hispanic"
+    },
+    {
+      "level": "County",
+      "state": "06",
+      "county": "073",
+      "mcd": "NNNNN",
+      "name": "San Diego County",
+      "language": "Hispanic"
+    },
+    {
+      "level": "County",
+      "state": "06",
+      "county": "073",
+      "mcd": "NNNNN",
+      "name": "San Diego County",
+      "language": "Chinese (including Taiwanese) alone or in combination"
+    },
+    {
+      "level": "County",
+      "state": "06",
+      "county": "073",
+      "mcd": "NNNNN",
+      "name": "San Diego County",
+      "language": "Filipino alone or in combination"
+    },
+    {
+      "level": "County",
+      "state": "06",
+      "county": "073",
+      "mcd": "NNNNN",
+      "name": "San Diego County",
+      "language": "Vietnamese alone or in combination"
+    },
+    {
+      "level": "County",
+      "state": "06",
+      "county": "075",
+      "mcd": "NNNNN",
+      "name": "San Francisco County",
+      "language": "Hispanic"
+    },
+    {
+      "level": "County",
+      "state": "06",
+      "county": "075",
+      "mcd": "NNNNN",
+      "name": "San Francisco County",
+      "language": "Chinese (including Taiwanese) alone or in combination"
+    },
+    {
+      "level": "County",
+      "state": "06",
+      "county": "077",
+      "mcd": "NNNNN",
+      "name": "San Joaquin County",
+      "language": "Hispanic"
+    },
+    {
+      "level": "County",
+      "state": "06",
+      "county": "081",
+      "mcd": "NNNNN",
+      "name": "San Mateo County",
+      "language": "Hispanic"
+    },
+    {
+      "level": "County",
+      "state": "06",
+      "county": "081",
+      "mcd": "NNNNN",
+      "name": "San Mateo County",
+      "language": "Chinese (including Taiwanese) alone or in combination"
+    },
+    {
+      "level": "County",
+      "state": "06",
+      "county": "081",
+      "mcd": "NNNNN",
+      "name": "San Mateo County",
+      "language": "Filipino alone or in combination"
+    },
+    {
+      "level": "County",
+      "state": "06",
+      "county": "083",
+      "mcd": "NNNNN",
+      "name": "Santa Barbara County",
+      "language": "Hispanic"
+    },
+    {
+      "level": "County",
+      "state": "06",
+      "county": "085",
+      "mcd": "NNNNN",
+      "name": "Santa Clara County",
+      "language": "Hispanic"
+    },
+    {
+      "level": "County",
+      "state": "06",
+      "county": "085",
+      "mcd": "NNNNN",
+      "name": "Santa Clara County",
+      "language": "Chinese (including Taiwanese) alone or in combination"
+    },
+    {
+      "level": "County",
+      "state": "06",
+      "county": "085",
+      "mcd": "NNNNN",
+      "name": "Santa Clara County",
+      "language": "Filipino alone or in combination"
+    },
+    {
+      "level": "County",
+      "state": "06",
+      "county": "085",
+      "mcd": "NNNNN",
+      "name": "Santa Clara County",
+      "language": "Vietnamese alone or in combination"
+    },
+    {
+      "level": "County",
+      "state": "06",
+      "county": "097",
+      "mcd": "NNNNN",
+      "name": "Sonoma County",
+      "language": "Hispanic"
+    },
+    {
+      "level": "County",
+      "state": "06",
+      "county": "099",
+      "mcd": "NNNNN",
+      "name": "Stanislaus County",
+      "language": "Hispanic"
+    },
+    {
+      "level": "County",
+      "state": "06",
+      "county": "107",
+      "mcd": "NNNNN",
+      "name": "Tulare County",
+      "language": "Hispanic"
+    },
+    {
+      "level": "County",
+      "state": "06",
+      "county": "111",
+      "mcd": "NNNNN",
+      "name": "Ventura County",
+      "language": "Hispanic"
+    },
+    {
+      "level": "County",
+      "state": "08",
+      "county": "001",
+      "mcd": "NNNNN",
+      "name": "Adams County",
+      "language": "Hispanic"
+    },
+    {
+      "level": "County",
+      "state": "08",
+      "county": "003",
+      "mcd": "NNNNN",
+      "name": "Alamosa County",
+      "language": "Hispanic"
+    },
+    {
+      "level": "County",
+      "state": "08",
+      "county": "021",
+      "mcd": "NNNNN",
+      "name": "Conejos County",
+      "language": "Hispanic"
+    },
+    {
+      "level": "County",
+      "state": "08",
+      "county": "023",
+      "mcd": "NNNNN",
+      "name": "Costilla County",
+      "language": "Hispanic"
+    },
+    {
+      "level": "County",
+      "state": "08",
+      "county": "031",
+      "mcd": "NNNNN",
+      "name": "Denver County",
+      "language": "Hispanic"
+    },
+    {
+      "level": "County",
+      "state": "08",
+      "county": "067",
+      "mcd": "NNNNN",
+      "name": "La Plata County",
+      "language": "Ute alone or in combination"
+    },
+    {
+      "level": "County",
+      "state": "08",
+      "county": "083",
+      "mcd": "NNNNN",
+      "name": "Montezuma County",
+      "language": "Ute alone or in combination"
+    },
+    {
+      "level": "County",
+      "state": "08",
+      "county": "109",
+      "mcd": "NNNNN",
+      "name": "Saguache County",
+      "language": "Hispanic"
+    },
+    {
+      "level": "County",
+      "state": "12",
+      "county": "011",
+      "mcd": "NNNNN",
+      "name": "Broward County",
+      "language": "Hispanic"
+    },
+    {
+      "level": "County",
+      "state": "12",
+      "county": "021",
+      "mcd": "NNNNN",
+      "name": "Collier County",
+      "language": "Hispanic"
+    },
+    {
+      "level": "County",
+      "state": "12",
+      "county": "027",
+      "mcd": "NNNNN",
+      "name": "DeSoto County",
+      "language": "Hispanic"
+    },
+    {
+      "level": "County",
+      "state": "12",
+      "county": "043",
+      "mcd": "NNNNN",
+      "name": "Glades County",
+      "language": "Seminole alone or in combination"
+    },
+    {
+      "level": "County",
+      "state": "12",
+      "county": "049",
+      "mcd": "NNNNN",
+      "name": "Hardee County",
+      "language": "Hispanic"
+    },
+    {
+      "level": "County",
+      "state": "12",
+      "county": "051",
+      "mcd": "NNNNN",
+      "name": "Hendry County",
+      "language": "Hispanic"
+    },
+    {
+      "level": "County",
+      "state": "12",
+      "county": "057",
+      "mcd": "NNNNN",
+      "name": "Hillsborough County",
+      "language": "Hispanic"
+    },
+    {
+      "level": "County",
+      "state": "12",
+      "county": "071",
+      "mcd": "NNNNN",
+      "name": "Lee County",
+      "language": "Hispanic"
+    },
+    {
+      "level": "County",
+      "state": "12",
+      "county": "086",
+      "mcd": "NNNNN",
+      "name": "Miami-Dade County",
+      "language": "Hispanic"
+    },
+    {
+      "level": "County",
+      "state": "12",
+      "county": "095",
+      "mcd": "NNNNN",
+      "name": "Orange County",
+      "language": "Hispanic"
+    },
+    {
+      "level": "County",
+      "state": "12",
+      "county": "097",
+      "mcd": "NNNNN",
+      "name": "Osceola County",
+      "language": "Hispanic"
+    },
+    {
+      "level": "County",
+      "state": "12",
+      "county": "099",
+      "mcd": "NNNNN",
+      "name": "Palm Beach County",
+      "language": "Hispanic"
+    },
+    {
+      "level": "County",
+      "state": "12",
+      "county": "103",
+      "mcd": "NNNNN",
+      "name": "Pinellas County",
+      "language": "Hispanic"
+    },
+    {
+      "level": "County",
+      "state": "12",
+      "county": "105",
+      "mcd": "NNNNN",
+      "name": "Polk County",
+      "language": "Hispanic"
+    },
+    {
+      "level": "County",
+      "state": "12",
+      "county": "117",
+      "mcd": "NNNNN",
+      "name": "Seminole County",
+      "language": "Hispanic"
+    },
+    {
+      "level": "County",
+      "state": "13",
+      "county": "135",
+      "mcd": "NNNNN",
+      "name": "Gwinnett County",
+      "language": "Hispanic"
+    },
+    {
+      "level": "County",
+      "state": "15",
+      "county": "003",
+      "mcd": "NNNNN",
+      "name": "Honolulu County",
+      "language": "Chinese (including Taiwanese) alone or in combination"
+    },
+    {
+      "level": "County",
+      "state": "15",
+      "county": "003",
+      "mcd": "NNNNN",
+      "name": "Honolulu County",
+      "language": "Filipino alone or in combination"
+    },
+    {
+      "level": "County",
+      "state": "15",
+      "county": "009",
+      "mcd": "NNNNN",
+      "name": "Maui County",
+      "language": "Filipino alone or in combination"
+    },
+    {
+      "level": "County",
+      "state": "16",
+      "county": "033",
+      "mcd": "NNNNN",
+      "name": "Clark County",
+      "language": "Hispanic"
+    },
+    {
+      "level": "County",
+      "state": "16",
+      "county": "035",
+      "mcd": "NNNNN",
+      "name": "Clearwater County",
+      "language": "All other American Indian tribes alone or in combination"
+    },
+    {
+      "level": "County",
+      "state": "16",
+      "county": "049",
+      "mcd": "NNNNN",
+      "name": "Idaho County",
+      "language": "All other American Indian tribes alone or in combination"
+    },
+    {
+      "level": "County",
+      "state": "16",
+      "county": "061",
+      "mcd": "NNNNN",
+      "name": "Lewis County",
+      "language": "All other American Indian tribes alone or in combination"
+    },
+    {
+      "level": "County",
+      "state": "16",
+      "county": "069",
+      "mcd": "NNNNN",
+      "name": "Nez Perce County",
+      "language": "All other American Indian tribes alone or in combination"
+    },
+    {
+      "level": "County",
+      "state": "17",
+      "county": "031",
+      "mcd": "NNNNN",
+      "name": "Cook County",
+      "language": "Hispanic"
+    },
+    {
+      "level": "County",
+      "state": "17",
+      "county": "031",
+      "mcd": "NNNNN",
+      "name": "Cook County",
+      "language": "Asian Indian (including Sikh) alone or in combination"
+    },
+    {
+      "level": "County",
+      "state": "17",
+      "county": "031",
+      "mcd": "NNNNN",
+      "name": "Cook County",
+      "language": "Chinese (including Taiwanese) alone or in combination"
+    },
+    {
+      "level": "County",
+      "state": "17",
+      "county": "043",
+      "mcd": "NNNNN",
+      "name": "DuPage County",
+      "language": "Hispanic"
+    },
+    {
+      "level": "County",
+      "state": "17",
+      "county": "089",
+      "mcd": "NNNNN",
+      "name": "Kane County",
+      "language": "Hispanic"
+    },
+    {
+      "level": "County",
+      "state": "17",
+      "county": "097",
+      "mcd": "NNNNN",
+      "name": "Lake County",
+      "language": "Hispanic"
+    },
+    {
+      "level": "County",
+      "state": "17",
+      "county": "197",
+      "mcd": "NNNNN",
+      "name": "Will County",
+      "language": "Hispanic"
+    },
+    {
+      "level": "County",
+      "state": "20",
+      "county": "055",
+      "mcd": "NNNNN",
+      "name": "Finney County",
+      "language": "Hispanic"
+    },
+    {
+      "level": "County",
+      "state": "20",
+      "county": "057",
+      "mcd": "NNNNN",
+      "name": "Ford County",
+      "language": "Hispanic"
+    },
+    {
+      "level": "County",
+      "state": "20",
+      "county": "067",
+      "mcd": "NNNNN",
+      "name": "Grant County",
+      "language": "Hispanic"
+    },
+    {
+      "level": "County",
+      "state": "20",
+      "county": "081",
+      "mcd": "NNNNN",
+      "name": "Haskell County",
+      "language": "Hispanic"
+    },
+    {
+      "level": "County",
+      "state": "20",
+      "county": "175",
+      "mcd": "NNNNN",
+      "name": "Seward County",
+      "language": "Hispanic"
+    },
+    {
+      "level": "County",
+      "state": "20",
+      "county": "189",
+      "mcd": "NNNNN",
+      "name": "Stevens County",
+      "language": "Hispanic"
+    },
+    {
+      "level": "County",
+      "state": "24",
+      "county": "031",
+      "mcd": "NNNNN",
+      "name": "Montgomery County",
+      "language": "Hispanic"
+    },
+    {
+      "level": "County",
+      "state": "24",
+      "county": "033",
+      "mcd": "NNNNN",
+      "name": "Prince George's County",
+      "language": "Hispanic"
+    },
+    {
+      "level": "County",
+      "state": "27",
+      "county": "055",
+      "mcd": "NNNNN",
+      "name": "Houston County",
+      "language": "All other American Indian tribes alone or in combination"
+    },
+    {
+      "level": "County",
+      "state": "27",
+      "county": "123",
+      "mcd": "NNNNN",
+      "name": "Ramsey County",
+      "language": "Hmong alone or in combination"
+    },
+    {
+      "level": "County",
+      "state": "28",
+      "county": "007",
+      "mcd": "NNNNN",
+      "name": "Attala County",
+      "language": "Choctaw alone or in combination"
+    },
+    {
+      "level": "County",
+      "state": "28",
+      "county": "015",
+      "mcd": "NNNNN",
+      "name": "Carroll County",
+      "language": "Choctaw alone or in combination"
+    },
+    {
+      "level": "County",
+      "state": "28",
+      "county": "059",
+      "mcd": "NNNNN",
+      "name": "Jackson County",
+      "language": "Choctaw alone or in combination"
+    },
+    {
+      "level": "County",
+      "state": "28",
+      "county": "067",
+      "mcd": "NNNNN",
+      "name": "Jones County",
+      "language": "Choctaw alone or in combination"
+    },
+    {
+      "level": "County",
+      "state": "28",
+      "county": "069",
+      "mcd": "NNNNN",
+      "name": "Kemper County",
+      "language": "Choctaw alone or in combination"
+    },
+    {
+      "level": "County",
+      "state": "28",
+      "county": "079",
+      "mcd": "NNNNN",
+      "name": "Leake County",
+      "language": "Choctaw alone or in combination"
+    },
+    {
+      "level": "County",
+      "state": "28",
+      "county": "099",
+      "mcd": "NNNNN",
+      "name": "Neshoba County",
+      "language": "Choctaw alone or in combination"
+    },
+    {
+      "level": "County",
+      "state": "28",
+      "county": "101",
+      "mcd": "NNNNN",
+      "name": "Newton County",
+      "language": "Choctaw alone or in combination"
+    },
+    {
+      "level": "County",
+      "state": "28",
+      "county": "103",
+      "mcd": "NNNNN",
+      "name": "Noxubee County",
+      "language": "Choctaw alone or in combination"
+    },
+    {
+      "level": "County",
+      "state": "28",
+      "county": "123",
+      "mcd": "NNNNN",
+      "name": "Scott County",
+      "language": "Choctaw alone or in combination"
+    },
+    {
+      "level": "County",
+      "state": "28",
+      "county": "159",
+      "mcd": "NNNNN",
+      "name": "Winston County",
+      "language": "Choctaw alone or in combination"
+    },
+    {
+      "level": "County",
+      "state": "31",
+      "county": "037",
+      "mcd": "NNNNN",
+      "name": "Colfax County",
+      "language": "Hispanic"
+    },
+    {
+      "level": "County",
+      "state": "31",
+      "county": "043",
+      "mcd": "NNNNN",
+      "name": "Dakota County",
+      "language": "Hispanic"
+    },
+    {
+      "level": "County",
+      "state": "31",
+      "county": "047",
+      "mcd": "NNNNN",
+      "name": "Dawson County",
+      "language": "Hispanic"
+    },
+    {
+      "level": "County",
+      "state": "32",
+      "county": "003",
+      "mcd": "NNNNN",
+      "name": "Clark County",
+      "language": "Hispanic"
+    },
+    {
+      "level": "County",
+      "state": "32",
+      "county": "003",
+      "mcd": "NNNNN",
+      "name": "Clark County",
+      "language": "Filipino alone or in combination"
+    },
+    {
+      "level": "County",
+      "state": "32",
+      "county": "023",
+      "mcd": "NNNNN",
+      "name": "Nye County",
+      "language": "Shoshone alone or in combination"
+    },
+    {
+      "level": "County",
+      "state": "34",
+      "county": "003",
+      "mcd": "NNNNN",
+      "name": "Bergen County",
+      "language": "Hispanic"
+    },
+    {
+      "level": "County",
+      "state": "34",
+      "county": "003",
+      "mcd": "NNNNN",
+      "name": "Bergen County",
+      "language": "Korean alone or in combination"
+    },
+    {
+      "level": "County",
+      "state": "34",
+      "county": "007",
+      "mcd": "NNNNN",
+      "name": "Camden County",
+      "language": "Hispanic"
+    },
+    {
+      "level": "County",
+      "state": "34",
+      "county": "011",
+      "mcd": "NNNNN",
+      "name": "Cumberland County",
+      "language": "Hispanic"
+    },
+    {
+      "level": "County",
+      "state": "34",
+      "county": "013",
+      "mcd": "NNNNN",
+      "name": "Essex County",
+      "language": "Hispanic"
+    },
+    {
+      "level": "County",
+      "state": "34",
+      "county": "017",
+      "mcd": "NNNNN",
+      "name": "Hudson County",
+      "language": "Hispanic"
+    },
+    {
+      "level": "County",
+      "state": "34",
+      "county": "023",
+      "mcd": "NNNNN",
+      "name": "Middlesex County",
+      "language": "Hispanic"
+    },
+    {
+      "level": "County",
+      "state": "34",
+      "county": "023",
+      "mcd": "NNNNN",
+      "name": "Middlesex County",
+      "language": "Asian Indian (including Sikh) alone or in combination"
+    },
+    {
+      "level": "County",
+      "state": "34",
+      "county": "031",
+      "mcd": "NNNNN",
+      "name": "Passaic County",
+      "language": "Hispanic"
+    },
+    {
+      "level": "County",
+      "state": "34",
+      "county": "039",
+      "mcd": "NNNNN",
+      "name": "Union County",
+      "language": "Hispanic"
+    },
+    {
+      "level": "County",
+      "state": "35",
+      "county": "001",
+      "mcd": "NNNNN",
+      "name": "Bernalillo County",
+      "language": "Hispanic"
+    },
+    {
+      "level": "County",
+      "state": "35",
+      "county": "001",
+      "mcd": "NNNNN",
+      "name": "Bernalillo County",
+      "language": "Navajo alone or in combination"
+    },
+    {
+      "level": "County",
+      "state": "35",
+      "county": "003",
+      "mcd": "NNNNN",
+      "name": "Catron County",
+      "language": "Pueblo alone or in combination"
+    },
+    {
+      "level": "County",
+      "state": "35",
+      "county": "005",
+      "mcd": "NNNNN",
+      "name": "Chaves County",
+      "language": "Hispanic"
+    },
+    {
+      "level": "County",
+      "state": "35",
+      "county": "006",
+      "mcd": "NNNNN",
+      "name": "Cibola County",
+      "language": "Navajo alone or in combination"
+    },
+    {
+      "level": "County",
+      "state": "35",
+      "county": "006",
+      "mcd": "NNNNN",
+      "name": "Cibola County",
+      "language": "Pueblo alone or in combination"
+    },
+    {
+      "level": "County",
+      "state": "35",
+      "county": "013",
+      "mcd": "NNNNN",
+      "name": "Doña Ana County",
+      "language": "Hispanic"
+    },
+    {
+      "level": "County",
+      "state": "35",
+      "county": "019",
+      "mcd": "NNNNN",
+      "name": "Guadalupe County",
+      "language": "Hispanic"
+    },
+    {
+      "level": "County",
+      "state": "35",
+      "county": "023",
+      "mcd": "NNNNN",
+      "name": "Hidalgo County",
+      "language": "Hispanic"
+    },
+    {
+      "level": "County",
+      "state": "35",
+      "county": "025",
+      "mcd": "NNNNN",
+      "name": "Lea County",
+      "language": "Hispanic"
+    },
+    {
+      "level": "County",
+      "state": "35",
+      "county": "029",
+      "mcd": "NNNNN",
+      "name": "Luna County",
+      "language": "Hispanic"
+    },
+    {
+      "level": "County",
+      "state": "35",
+      "county": "031",
+      "mcd": "NNNNN",
+      "name": "McKinley County",
+      "language": "Navajo alone or in combination"
+    },
+    {
+      "level": "County",
+      "state": "35",
+      "county": "031",
+      "mcd": "NNNNN",
+      "name": "McKinley County",
+      "language": "Pueblo alone or in combination"
+    },
+    {
+      "level": "County",
+      "state": "35",
+      "county": "033",
+      "mcd": "NNNNN",
+      "name": "Mora County",
+      "language": "Hispanic"
+    },
+    {
+      "level": "County",
+      "state": "35",
+      "county": "039",
+      "mcd": "NNNNN",
+      "name": "Rio Arriba County",
+      "language": "Navajo alone or in combination"
+    },
+    {
+      "level": "County",
+      "state": "35",
+      "county": "043",
+      "mcd": "NNNNN",
+      "name": "Sandoval County",
+      "language": "Navajo alone or in combination"
+    },
+    {
+      "level": "County",
+      "state": "35",
+      "county": "045",
+      "mcd": "NNNNN",
+      "name": "San Juan County",
+      "language": "Navajo alone or in combination"
+    },
+    {
+      "level": "County",
+      "state": "35",
+      "county": "045",
+      "mcd": "NNNNN",
+      "name": "San Juan County",
+      "language": "Ute alone or in combination"
+    },
+    {
+      "level": "County",
+      "state": "35",
+      "county": "047",
+      "mcd": "NNNNN",
+      "name": "San Miguel County",
+      "language": "Hispanic"
+    },
+    {
+      "level": "County",
+      "state": "35",
+      "county": "053",
+      "mcd": "NNNNN",
+      "name": "Socorro County",
+      "language": "Hispanic"
+    },
+    {
+      "level": "County",
+      "state": "35",
+      "county": "053",
+      "mcd": "NNNNN",
+      "name": "Socorro County",
+      "language": "Navajo alone or in combination"
+    },
+    {
+      "level": "County",
+      "state": "35",
+      "county": "055",
+      "mcd": "NNNNN",
+      "name": "Taos County",
+      "language": "Hispanic"
+    },
+    {
+      "level": "County",
+      "state": "36",
+      "county": "005",
+      "mcd": "NNNNN",
+      "name": "Bronx County",
+      "language": "Hispanic"
+    },
+    {
+      "level": "County",
+      "state": "36",
+      "county": "047",
+      "mcd": "NNNNN",
+      "name": "Kings County",
+      "language": "Hispanic"
+    },
+    {
+      "level": "County",
+      "state": "36",
+      "county": "047",
+      "mcd": "NNNNN",
+      "name": "Kings County",
+      "language": "Chinese (including Taiwanese) alone or in combination"
+    },
+    {
+      "level": "County",
+      "state": "36",
+      "county": "055",
+      "mcd": "NNNNN",
+      "name": "Monroe County",
+      "language": "Hispanic"
+    },
+    {
+      "level": "County",
+      "state": "36",
+      "county": "059",
+      "mcd": "NNNNN",
+      "name": "Nassau County",
+      "language": "Hispanic"
+    },
+    {
+      "level": "County",
+      "state": "36",
+      "county": "061",
+      "mcd": "NNNNN",
+      "name": "New York County",
+      "language": "Hispanic"
+    },
+    {
+      "level": "County",
+      "state": "36",
+      "county": "061",
+      "mcd": "NNNNN",
+      "name": "New York County",
+      "language": "Chinese (including Taiwanese) alone or in combination"
+    },
+    {
+      "level": "County",
+      "state": "36",
+      "county": "081",
+      "mcd": "NNNNN",
+      "name": "Queens County",
+      "language": "Hispanic"
+    },
+    {
+      "level": "County",
+      "state": "36",
+      "county": "081",
+      "mcd": "NNNNN",
+      "name": "Queens County",
+      "language": "Asian Indian (including Sikh) alone or in combination"
+    },
+    {
+      "level": "County",
+      "state": "36",
+      "county": "081",
+      "mcd": "NNNNN",
+      "name": "Queens County",
+      "language": "Bangladeshi alone or in combination"
+    },
+    {
+      "level": "County",
+      "state": "36",
+      "county": "081",
+      "mcd": "NNNNN",
+      "name": "Queens County",
+      "language": "Chinese (including Taiwanese) alone or in combination"
+    },
+    {
+      "level": "County",
+      "state": "36",
+      "county": "081",
+      "mcd": "NNNNN",
+      "name": "Queens County",
+      "language": "Korean alone or in combination"
+    },
+    {
+      "level": "County",
+      "state": "36",
+      "county": "103",
+      "mcd": "NNNNN",
+      "name": "Suffolk County",
+      "language": "Hispanic"
+    },
+    {
+      "level": "County",
+      "state": "36",
+      "county": "119",
+      "mcd": "NNNNN",
+      "name": "Westchester County",
+      "language": "Hispanic"
+    },
+    {
+      "level": "County",
+      "state": "39",
+      "county": "035",
+      "mcd": "NNNNN",
+      "name": "Cuyahoga County",
+      "language": "Hispanic"
+    },
+    {
+      "level": "County",
+      "state": "40",
+      "county": "139",
+      "mcd": "NNNNN",
+      "name": "Texas County",
+      "language": "Hispanic"
+    },
+    {
+      "level": "County",
+      "state": "42",
+      "county": "011",
+      "mcd": "NNNNN",
+      "name": "Berks County",
+      "language": "Hispanic"
+    },
+    {
+      "level": "County",
+      "state": "42",
+      "county": "077",
+      "mcd": "NNNNN",
+      "name": "Lehigh County",
+      "language": "Hispanic"
+    },
+    {
+      "level": "County",
+      "state": "42",
+      "county": "101",
+      "mcd": "NNNNN",
+      "name": "Philadelphia County",
+      "language": "Hispanic"
+    },
+    {
+      "level": "County",
+      "state": "42",
+      "county": "101",
+      "mcd": "NNNNN",
+      "name": "Philadelphia County",
+      "language": "Chinese (including Taiwanese) alone or in combination"
+    },
+    {
+      "level": "County",
+      "state": "48",
+      "county": "003",
+      "mcd": "NNNNN",
+      "name": "Andrews County",
+      "language": "Hispanic"
+    },
+    {
+      "level": "County",
+      "state": "48",
+      "county": "013",
+      "mcd": "NNNNN",
+      "name": "Atascosa County",
+      "language": "Hispanic"
+    },
+    {
+      "level": "County",
+      "state": "48",
+      "county": "017",
+      "mcd": "NNNNN",
+      "name": "Bailey County",
+      "language": "Hispanic"
+    },
+    {
+      "level": "County",
+      "state": "48",
+      "county": "025",
+      "mcd": "NNNNN",
+      "name": "Bee County",
+      "language": "Hispanic"
+    },
+    {
+      "level": "County",
+      "state": "48",
+      "county": "029",
+      "mcd": "NNNNN",
+      "name": "Bexar County",
+      "language": "Hispanic"
+    },
+    {
+      "level": "County",
+      "state": "48",
+      "county": "043",
+      "mcd": "NNNNN",
+      "name": "Brewster County",
+      "language": "Hispanic"
+    },
+    {
+      "level": "County",
+      "state": "48",
+      "county": "047",
+      "mcd": "NNNNN",
+      "name": "Brooks County",
+      "language": "Hispanic"
+    },
+    {
+      "level": "County",
+      "state": "48",
+      "county": "055",
+      "mcd": "NNNNN",
+      "name": "Caldwell County",
+      "language": "Hispanic"
+    },
+    {
+      "level": "County",
+      "state": "48",
+      "county": "061",
+      "mcd": "NNNNN",
+      "name": "Cameron County",
+      "language": "Hispanic"
+    },
+    {
+      "level": "County",
+      "state": "48",
+      "county": "069",
+      "mcd": "NNNNN",
+      "name": "Castro County",
+      "language": "Hispanic"
+    },
+    {
+      "level": "County",
+      "state": "48",
+      "county": "079",
+      "mcd": "NNNNN",
+      "name": "Cochran County",
+      "language": "Hispanic"
+    },
+    {
+      "level": "County",
+      "state": "48",
+      "county": "095",
+      "mcd": "NNNNN",
+      "name": "Concho County",
+      "language": "Hispanic"
+    },
+    {
+      "level": "County",
+      "state": "48",
+      "county": "103",
+      "mcd": "NNNNN",
+      "name": "Crane County",
+      "language": "Hispanic"
+    },
+    {
+      "level": "County",
+      "state": "48",
+      "county": "105",
+      "mcd": "NNNNN",
+      "name": "Crockett County",
+      "language": "Hispanic"
+    },
+    {
+      "level": "County",
+      "state": "48",
+      "county": "107",
+      "mcd": "NNNNN",
+      "name": "Crosby County",
+      "language": "Hispanic"
+    },
+    {
+      "level": "County",
+      "state": "48",
+      "county": "109",
+      "mcd": "NNNNN",
+      "name": "Culberson County",
+      "language": "Hispanic"
+    },
+    {
+      "level": "County",
+      "state": "48",
+      "county": "111",
+      "mcd": "NNNNN",
+      "name": "Dallam County",
+      "language": "Hispanic"
+    },
+    {
+      "level": "County",
+      "state": "48",
+      "county": "113",
+      "mcd": "NNNNN",
+      "name": "Dallas County",
+      "language": "Hispanic"
+    },
+    {
+      "level": "County",
+      "state": "48",
+      "county": "113",
+      "mcd": "NNNNN",
+      "name": "Dallas County",
+      "language": "Vietnamese alone or in combination"
+    },
+    {
+      "level": "County",
+      "state": "48",
+      "county": "115",
+      "mcd": "NNNNN",
+      "name": "Dawson County",
+      "language": "Hispanic"
+    },
+    {
+      "level": "County",
+      "state": "48",
+      "county": "117",
+      "mcd": "NNNNN",
+      "name": "Deaf Smith County",
+      "language": "Hispanic"
+    },
+    {
+      "level": "County",
+      "state": "48",
+      "county": "121",
+      "mcd": "NNNNN",
+      "name": "Denton County",
+      "language": "Hispanic"
+    },
+    {
+      "level": "County",
+      "state": "48",
+      "county": "127",
+      "mcd": "NNNNN",
+      "name": "Dimmit County",
+      "language": "Hispanic"
+    },
+    {
+      "level": "County",
+      "state": "48",
+      "county": "131",
+      "mcd": "NNNNN",
+      "name": "Duval County",
+      "language": "Hispanic"
+    },
+    {
+      "level": "County",
+      "state": "48",
+      "county": "135",
+      "mcd": "NNNNN",
+      "name": "Ector County",
+      "language": "Hispanic"
+    },
+    {
+      "level": "County",
+      "state": "48",
+      "county": "137",
+      "mcd": "NNNNN",
+      "name": "Edwards County",
+      "language": "Hispanic"
+    },
+    {
+      "level": "County",
+      "state": "48",
+      "county": "141",
+      "mcd": "NNNNN",
+      "name": "El Paso County",
+      "language": "Hispanic"
+    },
+    {
+      "level": "County",
+      "state": "48",
+      "county": "153",
+      "mcd": "NNNNN",
+      "name": "Floyd County",
+      "language": "Hispanic"
+    },
+    {
+      "level": "County",
+      "state": "48",
+      "county": "157",
+      "mcd": "NNNNN",
+      "name": "Fort Bend County",
+      "language": "Hispanic"
+    },
+    {
+      "level": "County",
+      "state": "48",
+      "county": "163",
+      "mcd": "NNNNN",
+      "name": "Frio County",
+      "language": "Hispanic"
+    },
+    {
+      "level": "County",
+      "state": "48",
+      "county": "165",
+      "mcd": "NNNNN",
+      "name": "Gaines County",
+      "language": "Hispanic"
+    },
+    {
+      "level": "County",
+      "state": "48",
+      "county": "169",
+      "mcd": "NNNNN",
+      "name": "Garza County",
+      "language": "Hispanic"
+    },
+    {
+      "level": "County",
+      "state": "48",
+      "county": "177",
+      "mcd": "NNNNN",
+      "name": "Gonzales County",
+      "language": "Hispanic"
+    },
+    {
+      "level": "County",
+      "state": "48",
+      "county": "189",
+      "mcd": "NNNNN",
+      "name": "Hale County",
+      "language": "Hispanic"
+    },
+    {
+      "level": "County",
+      "state": "48",
+      "county": "195",
+      "mcd": "NNNNN",
+      "name": "Hansford County",
+      "language": "Hispanic"
+    },
+    {
+      "level": "County",
+      "state": "48",
+      "county": "201",
+      "mcd": "NNNNN",
+      "name": "Harris County",
+      "language": "Hispanic"
+    },
+    {
+      "level": "County",
+      "state": "48",
+      "county": "201",
+      "mcd": "NNNNN",
+      "name": "Harris County",
+      "language": "Chinese (including Taiwanese) alone or in combination"
+    },
+    {
+      "level": "County",
+      "state": "48",
+      "county": "201",
+      "mcd": "NNNNN",
+      "name": "Harris County",
+      "language": "Vietnamese alone or in combination"
+    },
+    {
+      "level": "County",
+      "state": "48",
+      "county": "215",
+      "mcd": "NNNNN",
+      "name": "Hidalgo County",
+      "language": "Hispanic"
+    },
+    {
+      "level": "County",
+      "state": "48",
+      "county": "219",
+      "mcd": "NNNNN",
+      "name": "Hockley County",
+      "language": "Hispanic"
+    },
+    {
+      "level": "County",
+      "state": "48",
+      "county": "229",
+      "mcd": "NNNNN",
+      "name": "Hudspeth County",
+      "language": "Hispanic"
+    },
+    {
+      "level": "County",
+      "state": "48",
+      "county": "243",
+      "mcd": "NNNNN",
+      "name": "Jeff Davis County",
+      "language": "Hispanic"
+    },
+    {
+      "level": "County",
+      "state": "48",
+      "county": "247",
+      "mcd": "NNNNN",
+      "name": "Jim Hogg County",
+      "language": "Hispanic"
+    },
+    {
+      "level": "County",
+      "state": "48",
+      "county": "249",
+      "mcd": "NNNNN",
+      "name": "Jim Wells County",
+      "language": "Hispanic"
+    },
+    {
+      "level": "County",
+      "state": "48",
+      "county": "255",
+      "mcd": "NNNNN",
+      "name": "Karnes County",
+      "language": "Hispanic"
+    },
+    {
+      "level": "County",
+      "state": "48",
+      "county": "261",
+      "mcd": "NNNNN",
+      "name": "Kenedy County",
+      "language": "Hispanic"
+    },
+    {
+      "level": "County",
+      "state": "48",
+      "county": "271",
+      "mcd": "NNNNN",
+      "name": "Kinney County",
+      "language": "Hispanic"
+    },
+    {
+      "level": "County",
+      "state": "48",
+      "county": "273",
+      "mcd": "NNNNN",
+      "name": "Kleberg County",
+      "language": "Hispanic"
+    },
+    {
+      "level": "County",
+      "state": "48",
+      "county": "275",
+      "mcd": "NNNNN",
+      "name": "Knox County",
+      "language": "Hispanic"
+    },
+    {
+      "level": "County",
+      "state": "48",
+      "county": "279",
+      "mcd": "NNNNN",
+      "name": "Lamb County",
+      "language": "Hispanic"
+    },
+    {
+      "level": "County",
+      "state": "48",
+      "county": "283",
+      "mcd": "NNNNN",
+      "name": "La Salle County",
+      "language": "Hispanic"
+    },
+    {
+      "level": "County",
+      "state": "48",
+      "county": "297",
+      "mcd": "NNNNN",
+      "name": "Live Oak County",
+      "language": "Hispanic"
+    },
+    {
+      "level": "County",
+      "state": "48",
+      "county": "305",
+      "mcd": "NNNNN",
+      "name": "Lynn County",
+      "language": "Hispanic"
+    },
+    {
+      "level": "County",
+      "state": "48",
+      "county": "317",
+      "mcd": "NNNNN",
+      "name": "Martin County",
+      "language": "Hispanic"
+    },
+    {
+      "level": "County",
+      "state": "48",
+      "county": "323",
+      "mcd": "NNNNN",
+      "name": "Maverick County",
+      "language": "Hispanic"
+    },
+    {
+      "level": "County",
+      "state": "48",
+      "county": "323",
+      "mcd": "NNNNN",
+      "name": "Maverick County",
+      "language": "All other American Indian tribes alone or in combination"
+    },
+    {
+      "level": "County",
+      "state": "48",
+      "county": "325",
+      "mcd": "NNNNN",
+      "name": "Medina County",
+      "language": "Hispanic"
+    },
+    {
+      "level": "County",
+      "state": "48",
+      "county": "327",
+      "mcd": "NNNNN",
+      "name": "Menard County",
+      "language": "Hispanic"
+    },
+    {
+      "level": "County",
+      "state": "48",
+      "county": "341",
+      "mcd": "NNNNN",
+      "name": "Moore County",
+      "language": "Hispanic"
+    },
+    {
+      "level": "County",
+      "state": "48",
+      "county": "355",
+      "mcd": "NNNNN",
+      "name": "Nueces County",
+      "language": "Hispanic"
+    },
+    {
+      "level": "County",
+      "state": "48",
+      "county": "357",
+      "mcd": "NNNNN",
+      "name": "Ochiltree County",
+      "language": "Hispanic"
+    },
+    {
+      "level": "County",
+      "state": "48",
+      "county": "369",
+      "mcd": "NNNNN",
+      "name": "Parmer County",
+      "language": "Hispanic"
+    },
+    {
+      "level": "County",
+      "state": "48",
+      "county": "371",
+      "mcd": "NNNNN",
+      "name": "Pecos County",
+      "language": "Hispanic"
+    },
+    {
+      "level": "County",
+      "state": "48",
+      "county": "373",
+      "mcd": "NNNNN",
+      "name": "Polk County",
+      "language": "All other American Indian tribes alone or in combination"
+    },
+    {
+      "level": "County",
+      "state": "48",
+      "county": "377",
+      "mcd": "NNNNN",
+      "name": "Presidio County",
+      "language": "Hispanic"
+    },
+    {
+      "level": "County",
+      "state": "48",
+      "county": "383",
+      "mcd": "NNNNN",
+      "name": "Reagan County",
+      "language": "Hispanic"
+    },
+    {
+      "level": "County",
+      "state": "48",
+      "county": "389",
+      "mcd": "NNNNN",
+      "name": "Reeves County",
+      "language": "Hispanic"
+    },
+    {
+      "level": "County",
+      "state": "48",
+      "county": "409",
+      "mcd": "NNNNN",
+      "name": "San Patricio County",
+      "language": "Hispanic"
+    },
+    {
+      "level": "County",
+      "state": "48",
+      "county": "413",
+      "mcd": "NNNNN",
+      "name": "Schleicher County",
+      "language": "Hispanic"
+    },
+    {
+      "level": "County",
+      "state": "48",
+      "county": "421",
+      "mcd": "NNNNN",
+      "name": "Sherman County",
+      "language": "Hispanic"
+    },
+    {
+      "level": "County",
+      "state": "48",
+      "county": "427",
+      "mcd": "NNNNN",
+      "name": "Starr County",
+      "language": "Hispanic"
+    },
+    {
+      "level": "County",
+      "state": "48",
+      "county": "431",
+      "mcd": "NNNNN",
+      "name": "Sterling County",
+      "language": "Hispanic"
+    },
+    {
+      "level": "County",
+      "state": "48",
+      "county": "435",
+      "mcd": "NNNNN",
+      "name": "Sutton County",
+      "language": "Hispanic"
+    },
+    {
+      "level": "County",
+      "state": "48",
+      "county": "439",
+      "mcd": "NNNNN",
+      "name": "Tarrant County",
+      "language": "Hispanic"
+    },
+    {
+      "level": "County",
+      "state": "48",
+      "county": "439",
+      "mcd": "NNNNN",
+      "name": "Tarrant County",
+      "language": "Vietnamese alone or in combination"
+    },
+    {
+      "level": "County",
+      "state": "48",
+      "county": "443",
+      "mcd": "NNNNN",
+      "name": "Terrell County",
+      "language": "Hispanic"
+    },
+    {
+      "level": "County",
+      "state": "48",
+      "county": "445",
+      "mcd": "NNNNN",
+      "name": "Terry County",
+      "language": "Hispanic"
+    },
+    {
+      "level": "County",
+      "state": "48",
+      "county": "449",
+      "mcd": "NNNNN",
+      "name": "Titus County",
+      "language": "Hispanic"
+    },
+    {
+      "level": "County",
+      "state": "48",
+      "county": "453",
+      "mcd": "NNNNN",
+      "name": "Travis County",
+      "language": "Hispanic"
+    },
+    {
+      "level": "County",
+      "state": "48",
+      "county": "463",
+      "mcd": "NNNNN",
+      "name": "Uvalde County",
+      "language": "Hispanic"
+    },
+    {
+      "level": "County",
+      "state": "48",
+      "county": "465",
+      "mcd": "NNNNN",
+      "name": "Val Verde County",
+      "language": "Hispanic"
+    },
+    {
+      "level": "County",
+      "state": "48",
+      "county": "475",
+      "mcd": "NNNNN",
+      "name": "Ward County",
+      "language": "Hispanic"
+    },
+    {
+      "level": "County",
+      "state": "48",
+      "county": "479",
+      "mcd": "NNNNN",
+      "name": "Webb County",
+      "language": "Hispanic"
+    },
+    {
+      "level": "County",
+      "state": "48",
+      "county": "489",
+      "mcd": "NNNNN",
+      "name": "Willacy County",
+      "language": "Hispanic"
+    },
+    {
+      "level": "County",
+      "state": "48",
+      "county": "495",
+      "mcd": "NNNNN",
+      "name": "Winkler County",
+      "language": "Hispanic"
+    },
+    {
+      "level": "County",
+      "state": "48",
+      "county": "501",
+      "mcd": "NNNNN",
+      "name": "Yoakum County",
+      "language": "Hispanic"
+    },
+    {
+      "level": "County",
+      "state": "48",
+      "county": "505",
+      "mcd": "NNNNN",
+      "name": "Zapata County",
+      "language": "Hispanic"
+    },
+    {
+      "level": "County",
+      "state": "48",
+      "county": "507",
+      "mcd": "NNNNN",
+      "name": "Zavala County",
+      "language": "Hispanic"
+    },
+    {
+      "level": "County",
+      "state": "49",
+      "county": "035",
+      "mcd": "NNNNN",
+      "name": "Salt Lake County",
+      "language": "Hispanic"
+    },
+    {
+      "level": "County",
+      "state": "49",
+      "county": "037",
+      "mcd": "NNNNN",
+      "name": "San Juan County",
+      "language": "Navajo alone or in combination"
+    },
+    {
+      "level": "County",
+      "state": "49",
+      "county": "037",
+      "mcd": "NNNNN",
+      "name": "San Juan County",
+      "language": "Ute alone or in combination"
+    },
+    {
+      "level": "County",
+      "state": "51",
+      "county": "059",
+      "mcd": "NNNNN",
+      "name": "Fairfax County",
+      "language": "Hispanic"
+    },
+    {
+      "level": "County",
+      "state": "51",
+      "county": "059",
+      "mcd": "NNNNN",
+      "name": "Fairfax County",
+      "language": "Vietnamese alone or in combination"
+    },
+    {
+      "level": "County",
+      "state": "51",
+      "county": "153",
+      "mcd": "NNNNN",
+      "name": "Prince William County",
+      "language": "Hispanic"
+    },
+    {
+      "level": "County",
+      "state": "51",
+      "county": "683",
+      "mcd": "NNNNN",
+      "name": "Manassas city",
+      "language": "Hispanic"
+    },
+    {
+      "level": "County",
+      "state": "51",
+      "county": "685",
+      "mcd": "NNNNN",
+      "name": "Manassas Park city",
+      "language": "Hispanic"
+    },
+    {
+      "level": "County",
+      "state": "53",
+      "county": "001",
+      "mcd": "NNNNN",
+      "name": "Adams County",
+      "language": "Hispanic"
+    },
+    {
+      "level": "County",
+      "state": "53",
+      "county": "021",
+      "mcd": "NNNNN",
+      "name": "Franklin County",
+      "language": "Hispanic"
+    },
+    {
+      "level": "County",
+      "state": "53",
+      "county": "033",
+      "mcd": "NNNNN",
+      "name": "King County",
+      "language": "Hispanic"
+    },
+    {
+      "level": "County",
+      "state": "53",
+      "county": "033",
+      "mcd": "NNNNN",
+      "name": "King County",
+      "language": "Chinese (including Taiwanese) alone or in combination"
+    },
+    {
+      "level": "County",
+      "state": "53",
+      "county": "033",
+      "mcd": "NNNNN",
+      "name": "King County",
+      "language": "Vietnamese alone or in combination"
+    },
+    {
+      "level": "County",
+      "state": "53",
+      "county": "077",
+      "mcd": "NNNNN",
+      "name": "Yakima County",
+      "language": "Hispanic"
+    },
+    {
+      "level": "MCD",
+      "state": "09",
+      "county": "000",
+      "mcd": "08070",
+      "name": "Bridgeport town",
+      "language": "Hispanic"
+    },
+    {
+      "level": "MCD",
+      "state": "09",
+      "county": "000",
+      "mcd": "22630",
+      "name": "East Hartford town",
+      "language": "Hispanic"
+    },
+    {
+      "level": "MCD",
+      "state": "09",
+      "county": "000",
+      "mcd": "37070",
+      "name": "Hartford town",
+      "language": "Hispanic"
+    },
+    {
+      "level": "MCD",
+      "state": "09",
+      "county": "000",
+      "mcd": "46520",
+      "name": "Meriden town",
+      "language": "Hispanic"
+    },
+    {
+      "level": "MCD",
+      "state": "09",
+      "county": "000",
+      "mcd": "50440",
+      "name": "New Britain town",
+      "language": "Hispanic"
+    },
+    {
+      "level": "MCD",
+      "state": "09",
+      "county": "000",
+      "mcd": "52070",
+      "name": "New Haven town",
+      "language": "Hispanic"
+    },
+    {
+      "level": "MCD",
+      "state": "09",
+      "county": "000",
+      "mcd": "52350",
+      "name": "New London town",
+      "language": "Hispanic"
+    },
+    {
+      "level": "MCD",
+      "state": "09",
+      "county": "000",
+      "mcd": "56060",
+      "name": "Norwalk town",
+      "language": "Hispanic"
+    },
+    {
+      "level": "MCD",
+      "state": "09",
+      "county": "000",
+      "mcd": "80070",
+      "name": "Waterbury town",
+      "language": "Hispanic"
+    },
+    {
+      "level": "MCD",
+      "state": "09",
+      "county": "000",
+      "mcd": "86790",
+      "name": "Windham town",
+      "language": "Hispanic"
+    },
+    {
+      "level": "MCD",
+      "state": "25",
+      "county": "000",
+      "mcd": "07000",
+      "name": "Boston city",
+      "language": "Hispanic"
+    },
+    {
+      "level": "MCD",
+      "state": "25",
+      "county": "000",
+      "mcd": "13205",
+      "name": "Chelsea city",
+      "language": "Hispanic"
+    },
+    {
+      "level": "MCD",
+      "state": "25",
+      "county": "000",
+      "mcd": "14395",
+      "name": "Clinton town",
+      "language": "Hispanic"
+    },
+    {
+      "level": "MCD",
+      "state": "25",
+      "county": "000",
+      "mcd": "21990",
+      "name": "Everett city",
+      "language": "Hispanic"
+    },
+    {
+      "level": "MCD",
+      "state": "25",
+      "county": "000",
+      "mcd": "23875",
+      "name": "Fitchburg city",
+      "language": "Hispanic"
+    },
+    {
+      "level": "MCD",
+      "state": "25",
+      "county": "000",
+      "mcd": "30840",
+      "name": "Holyoke city",
+      "language": "Hispanic"
+    },
+    {
+      "level": "MCD",
+      "state": "25",
+      "county": "000",
+      "mcd": "34550",
+      "name": "Lawrence city",
+      "language": "Hispanic"
+    },
+    {
+      "level": "MCD",
+      "state": "25",
+      "county": "000",
+      "mcd": "35075",
+      "name": "Leominster city",
+      "language": "Hispanic"
+    },
+    {
+      "level": "MCD",
+      "state": "25",
+      "county": "000",
+      "mcd": "37000",
+      "name": "Lowell city",
+      "language": "Hispanic"
+    },
+    {
+      "level": "MCD",
+      "state": "25",
+      "county": "000",
+      "mcd": "37000",
+      "name": "Lowell city",
+      "language": "Cambodian alone or in combination"
+    },
+    {
+      "level": "MCD",
+      "state": "25",
+      "county": "000",
+      "mcd": "37490",
+      "name": "Lynn city",
+      "language": "Hispanic"
+    },
+    {
+      "level": "MCD",
+      "state": "25",
+      "county": "000",
+      "mcd": "37875",
+      "name": "Malden city",
+      "language": "Chinese (including Taiwanese) alone or in combination"
+    },
+    {
+      "level": "MCD",
+      "state": "25",
+      "county": "000",
+      "mcd": "40710",
+      "name": "Methuen Town city",
+      "language": "Hispanic"
+    },
+    {
+      "level": "MCD",
+      "state": "25",
+      "county": "000",
+      "mcd": "55745",
+      "name": "Quincy city",
+      "language": "Chinese (including Taiwanese) alone or in combination"
+    },
+    {
+      "level": "MCD",
+      "state": "25",
+      "county": "000",
+      "mcd": "56000",
+      "name": "Randolph Town city",
+      "language": "Vietnamese alone or in combination"
+    },
+    {
+      "level": "MCD",
+      "state": "25",
+      "county": "000",
+      "mcd": "56585",
+      "name": "Revere city",
+      "language": "Hispanic"
+    },
+    {
+      "level": "MCD",
+      "state": "25",
+      "county": "000",
+      "mcd": "59105",
+      "name": "Salem city",
+      "language": "Hispanic"
+    },
+    {
+      "level": "MCD",
+      "state": "25",
+      "county": "000",
+      "mcd": "63345",
+      "name": "Southbridge Town city",
+      "language": "Hispanic"
+    },
+    {
+      "level": "MCD",
+      "state": "25",
+      "county": "000",
+      "mcd": "67000",
+      "name": "Springfield city",
+      "language": "Hispanic"
+    },
+    {
+      "level": "MCD",
+      "state": "25",
+      "county": "000",
+      "mcd": "82000",
+      "name": "Worcester city",
+      "language": "Hispanic"
+    },
+    {
+      "level": "MCD",
+      "state": "26",
+      "county": "000",
+      "mcd": "16720",
+      "name": "Clyde township",
+      "language": "Hispanic"
+    },
+    {
+      "level": "MCD",
+      "state": "26",
+      "county": "000",
+      "mcd": "18560",
+      "name": "Covert township",
+      "language": "Hispanic"
+    },
+    {
+      "level": "MCD",
+      "state": "26",
+      "county": "000",
+      "mcd": "27740",
+      "name": "Fennville city",
+      "language": "Hispanic"
+    },
+    {
+      "level": "MCD",
+      "state": "26",
+      "county": "000",
+      "mcd": "36280",
+      "name": "Hamtramck city",
+      "language": "Bangladeshi alone or in combination"
+    },
+    {
+      "level": "MCD",
+      "state": "44",
+      "county": "000",
+      "mcd": "14140",
+      "name": "Central Falls city",
+      "language": "Hispanic"
+    },
+    {
+      "level": "MCD",
+      "state": "44",
+      "county": "000",
+      "mcd": "54640",
+      "name": "Pawtucket city",
+      "language": "Hispanic"
+    },
+    {
+      "level": "MCD",
+      "state": "44",
+      "county": "000",
+      "mcd": "59000",
+      "name": "Providence city",
+      "language": "Hispanic"
+    },
+    {
+      "level": "MCD",
+      "state": "55",
+      "county": "000",
+      "mcd": "00100",
+      "name": "Abbotsford city",
+      "language": "Hispanic"
+    },
+    {
+      "level": "MCD",
+      "state": "55",
+      "county": "000",
+      "mcd": "00350",
+      "name": "Adams town",
+      "language": "All other American Indian tribes alone or in combination"
+    },
+    {
+      "level": "MCD",
+      "state": "55",
+      "county": "000",
+      "mcd": "00900",
+      "name": "Albion town",
+      "language": "All other American Indian tribes alone or in combination"
+    },
+    {
+      "level": "MCD",
+      "state": "55",
+      "county": "000",
+      "mcd": "02500",
+      "name": "Arcadia city",
+      "language": "Hispanic"
+    },
+    {
+      "level": "MCD",
+      "state": "55",
+      "county": "000",
+      "mcd": "04575",
+      "name": "Bangor town",
+      "language": "All other American Indian tribes alone or in combination"
+    },
+    {
+      "level": "MCD",
+      "state": "55",
+      "county": "000",
+      "mcd": "07625",
+      "name": "Birnamwood town",
+      "language": "All other American Indian tribes alone or in combination"
+    },
+    {
+      "level": "MCD",
+      "state": "55",
+      "county": "000",
+      "mcd": "07900",
+      "name": "Black River Falls city",
+      "language": "All other American Indian tribes alone or in combination"
+    },
+    {
+      "level": "MCD",
+      "state": "55",
+      "county": "000",
+      "mcd": "09900",
+      "name": "Brockway town",
+      "language": "All other American Indian tribes alone or in combination"
+    },
+    {
+      "level": "MCD",
+      "state": "55",
+      "county": "000",
+      "mcd": "11625",
+      "name": "Byron town",
+      "language": "All other American Indian tribes alone or in combination"
+    },
+    {
+      "level": "MCD",
+      "state": "55",
+      "county": "000",
+      "mcd": "17525",
+      "name": "Cranmoor town",
+      "language": "All other American Indian tribes alone or in combination"
+    },
+    {
+      "level": "MCD",
+      "state": "55",
+      "county": "000",
+      "mcd": "18125",
+      "name": "Curtiss village",
+      "language": "Hispanic"
+    },
+    {
+      "level": "MCD",
+      "state": "55",
+      "county": "000",
+      "mcd": "19550",
+      "name": "Dellona town",
+      "language": "All other American Indian tribes alone or in combination"
+    },
+    {
+      "level": "MCD",
+      "state": "55",
+      "county": "000",
+      "mcd": "19675",
+      "name": "Delton town",
+      "language": "All other American Indian tribes alone or in combination"
+    },
+    {
+      "level": "MCD",
+      "state": "55",
+      "county": "000",
+      "mcd": "20025",
+      "name": "Dewhurst town",
+      "language": "All other American Indian tribes alone or in combination"
+    },
+    {
+      "level": "MCD",
+      "state": "55",
+      "county": "000",
+      "mcd": "22250",
+      "name": "Eaton town",
+      "language": "All other American Indian tribes alone or in combination"
+    },
+    {
+      "level": "MCD",
+      "state": "55",
+      "county": "000",
+      "mcd": "23100",
+      "name": "Elderon town",
+      "language": "All other American Indian tribes alone or in combination"
+    },
+    {
+      "level": "MCD",
+      "state": "55",
+      "county": "000",
+      "mcd": "25725",
+      "name": "Ferryville village",
+      "language": "All other American Indian tribes alone or in combination"
+    },
+    {
+      "level": "MCD",
+      "state": "55",
+      "county": "000",
+      "mcd": "27450",
+      "name": "Franzen town",
+      "language": "All other American Indian tribes alone or in combination"
+    },
+    {
+      "level": "MCD",
+      "state": "55",
+      "county": "000",
+      "mcd": "27700",
+      "name": "Freeman town",
+      "language": "All other American Indian tribes alone or in combination"
+    },
+    {
+      "level": "MCD",
+      "state": "55",
+      "county": "000",
+      "mcd": "27950",
+      "name": "Friendship village",
+      "language": "All other American Indian tribes alone or in combination"
+    },
+    {
+      "level": "MCD",
+      "state": "55",
+      "county": "000",
+      "mcd": "28825",
+      "name": "Germania town",
+      "language": "All other American Indian tribes alone or in combination"
+    },
+    {
+      "level": "MCD",
+      "state": "55",
+      "county": "000",
+      "mcd": "28850",
+      "name": "Germantown town",
+      "language": "All other American Indian tribes alone or in combination"
+    },
+    {
+      "level": "MCD",
+      "state": "55",
+      "county": "000",
+      "mcd": "31225",
+      "name": "Greenfield town",
+      "language": "All other American Indian tribes alone or in combination"
+    },
+    {
+      "level": "MCD",
+      "state": "55",
+      "county": "000",
+      "mcd": "35350",
+      "name": "Holland town",
+      "language": "All other American Indian tribes alone or in combination"
+    },
+    {
+      "level": "MCD",
+      "state": "55",
+      "county": "000",
+      "mcd": "40325",
+      "name": "Komensky town",
+      "language": "All other American Indian tribes alone or in combination"
+    },
+    {
+      "level": "MCD",
+      "state": "55",
+      "county": "000",
+      "mcd": "41000",
+      "name": "La Grange town",
+      "language": "All other American Indian tribes alone or in combination"
+    },
+    {
+      "level": "MCD",
+      "state": "55",
+      "county": "000",
+      "mcd": "43300",
+      "name": "Lemonweir town",
+      "language": "All other American Indian tribes alone or in combination"
+    },
+    {
+      "level": "MCD",
+      "state": "55",
+      "county": "000",
+      "mcd": "43475",
+      "name": "Leon town",
+      "language": "All other American Indian tribes alone or in combination"
+    },
+    {
+      "level": "MCD",
+      "state": "55",
+      "county": "000",
+      "mcd": "43700",
+      "name": "Levis town",
+      "language": "All other American Indian tribes alone or in combination"
+    },
+    {
+      "level": "MCD",
+      "state": "55",
+      "county": "000",
+      "mcd": "46525",
+      "name": "Lyndon town",
+      "language": "All other American Indian tribes alone or in combination"
+    },
+    {
+      "level": "MCD",
+      "state": "55",
+      "county": "000",
+      "mcd": "48000",
+      "name": "Madison city",
+      "language": "All other American Indian tribes alone or in combination"
+    },
+    {
+      "level": "MCD",
+      "state": "55",
+      "county": "000",
+      "mcd": "48425",
+      "name": "Manchester town",
+      "language": "All other American Indian tribes alone or in combination"
+    },
+    {
+      "level": "MCD",
+      "state": "55",
+      "county": "000",
+      "mcd": "50275",
+      "name": "Mead town",
+      "language": "All other American Indian tribes alone or in combination"
+    },
+    {
+      "level": "MCD",
+      "state": "55",
+      "county": "000",
+      "mcd": "52050",
+      "name": "Millston town",
+      "language": "All other American Indian tribes alone or in combination"
+    },
+    {
+      "level": "MCD",
+      "state": "55",
+      "county": "000",
+      "mcd": "53000",
+      "name": "Milwaukee city",
+      "language": "Hispanic"
+    },
+    {
+      "level": "MCD",
+      "state": "55",
+      "county": "000",
+      "mcd": "58875",
+      "name": "Oakdale town",
+      "language": "All other American Indian tribes alone or in combination"
+    },
+    {
+      "level": "MCD",
+      "state": "55",
+      "county": "000",
+      "mcd": "59950",
+      "name": "Onalaska town",
+      "language": "All other American Indian tribes alone or in combination"
+    },
+    {
+      "level": "MCD",
+      "state": "55",
+      "county": "000",
+      "mcd": "64200",
+      "name": "Port Edwards town",
+      "language": "All other American Indian tribes alone or in combination"
+    },
+    {
+      "level": "MCD",
+      "state": "55",
+      "county": "000",
+      "mcd": "65450",
+      "name": "Preston town",
+      "language": "All other American Indian tribes alone or in combination"
+    },
+    {
+      "level": "MCD",
+      "state": "55",
+      "county": "000",
+      "mcd": "66950",
+      "name": "Reid town",
+      "language": "All other American Indian tribes alone or in combination"
+    },
+    {
+      "level": "MCD",
+      "state": "55",
+      "county": "000",
+      "mcd": "72575",
+      "name": "Seneca town",
+      "language": "All other American Indian tribes alone or in combination"
+    },
+    {
+      "level": "MCD",
+      "state": "55",
+      "county": "000",
+      "mcd": "72625",
+      "name": "Seven Mile Creek town",
+      "language": "All other American Indian tribes alone or in combination"
+    },
+    {
+      "level": "MCD",
+      "state": "55",
+      "county": "000",
+      "mcd": "72875",
+      "name": "Sharon village",
+      "language": "Hispanic"
+    },
+    {
+      "level": "MCD",
+      "state": "55",
+      "county": "000",
+      "mcd": "76725",
+      "name": "Stark town",
+      "language": "All other American Indian tribes alone or in combination"
+    },
+    {
+      "level": "MCD",
+      "state": "55",
+      "county": "000",
+      "mcd": "78525",
+      "name": "Sumpter town",
+      "language": "All other American Indian tribes alone or in combination"
+    },
+    {
+      "level": "MCD",
+      "state": "55",
+      "county": "000",
+      "mcd": "85875",
+      "name": "West Milwaukee village",
+      "language": "Hispanic"
+    },
+    {
+      "level": "MCD",
+      "state": "55",
+      "county": "000",
+      "mcd": "86900",
+      "name": "Whitestown town",
+      "language": "All other American Indian tribes alone or in combination"
+    },
+    {
+      "level": "MCD",
+      "state": "55",
+      "county": "000",
+      "mcd": "87400",
+      "name": "Wilson town",
+      "language": "All other American Indian tribes alone or in combination"
+    },
+    {
+      "level": "MCD",
+      "state": "55",
+      "county": "000",
+      "mcd": "88325",
+      "name": "Wittenberg village",
+      "language": "All other American Indian tribes alone or in combination"
+    },
+    {
+      "level": "MCD",
+      "state": "55",
+      "county": "000",
+      "mcd": "88350",
+      "name": "Wittenberg town",
+      "language": "All other American Indian tribes alone or in combination"
+    }
+  ]
+}

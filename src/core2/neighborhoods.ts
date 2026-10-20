@@ -68,3 +68,74 @@ export function minorityVapShare(
   }
   return vap > 0 ? (vap - white) / vap : 0;
 }
+
+/** A block group's citizen voting-age people (2019-2023 ACS special tabulation; rounded, with sampling error). */
+export interface CvapUnit {
+  readonly geoid: string;
+  readonly cvap: number;
+  readonly cvapHispanic: number;
+  readonly cvapNhWhite: number;
+  readonly cvapNhBlack: number;
+  readonly cvapNhAIAN: number;
+  readonly cvapNhAsian: number;
+}
+
+const loadedCvap = new Map<string, CvapUnit[]>();
+
+/** A state's citizen voting-age population by block group, loaded on first use. */
+export async function cvapUnits(usps: string): Promise<readonly CvapUnit[]> {
+  const had = loadedCvap.get(usps);
+  if (had) return had;
+  const pack = (
+    (await import(`./data/neighborhoods/cvap/${usps}.json`, {
+      with: { type: "json" },
+    })) as { default: Pack }
+  ).default;
+  const units = Object.entries(pack.units)
+    .map(([geoid, cells]) => {
+      const unit: Record<string, number | string> = { geoid };
+      pack.fields.forEach((field, i) => (unit[field] = cells[i]!));
+      return unit as unknown as CvapUnit;
+    })
+    .sort((a, b) => a.geoid.localeCompare(b.geoid));
+  loadedCvap.set(usps, units);
+  return units;
+}
+
+/** A state, county or minor civil division covered under Section 203, for one language. */
+export interface Section203Area {
+  readonly level: "State" | "County" | "MCD";
+  /** State FIPS, county FIPS ("000" for a state) and county subdivision ("NNNNN" for none). */
+  readonly state: string;
+  readonly county: string;
+  readonly mcd: string;
+  readonly name: string;
+  readonly language: string;
+}
+
+/** The areas covered under Section 203 (2021 determinations), with each language. */
+export async function section203Areas(): Promise<readonly Section203Area[]> {
+  const file = (
+    (await import("./data/neighborhoods/section-203-2021.json", {
+      with: { type: "json" },
+    })) as { default: { covered: Section203Area[] } }
+  ).default;
+  return file.covered;
+}
+
+/** The languages a county is covered for under Section 203 (its own, its subdivisions', or its state's). */
+export async function section203Languages(
+  stateFips: string,
+  countyFips: string,
+): Promise<readonly string[]> {
+  const found = new Set<string>();
+  for (const area of await section203Areas())
+    if (
+      area.state === stateFips &&
+      (area.level === "State" ||
+        (area.county === countyFips &&
+          (area.level === "County" || area.level === "MCD")))
+    )
+      found.add(area.language);
+  return [...found].sort();
+}
