@@ -5,12 +5,12 @@ area: laws
 kind: research
 priority: 3
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/territory-powers
 pr: #5195
 blocked-on:
 source: "core-stopgap-policy-authority-missing-record, Oct 15"
-claimed-at:
+claimed-at: 2026-10-20T06:45:55.133Z
 ---
 
 **What.** The powers catalog leaves 58 of its territory cells UNKNOWN, so the authority reader now gives a territorial legislature its state cell's power as an estimate (`data/research/powers-catalog/territory-grant.json`). Read each territory's own organic act, covenant or constitution (Guam, the Virgin Islands, American Samoa, the Northern Mariana Islands, Puerto Rico) and replace the estimate cell by cell with a sourced cell, marking where federal law reserves the subject.
