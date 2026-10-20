@@ -21,6 +21,7 @@ import { householdIncome, residentsRuntime } from "./modules/residents";
 import { fillInPerson } from "./state";
 import { endResidentFlow } from "./residents-economy";
 import type { ModuleRow } from "./module-data";
+import { webFactorFor } from "./outcome-web-reach";
 import type { CoreAPI, CoreState, PersonId } from "./types";
 
 export const HOUSING_STATUS_EVENT = "housing.status-changed";
@@ -326,7 +327,11 @@ export function reviewHomeless(
   lease: (householdId: string, rentMinor: number) => string | undefined,
 ): void {
   const c = core(api);
-  const multiple = api.parameter("housingRehouseIncomeMultiple");
+  const baseMultiple = api.parameter("housingRehouseIncomeMultiple");
+  // The outcome web's factor on the town's homelessness (housing first, vouchers, by-right
+  // permitting): a subsidy or a supportive placement covers part of the rent, so the income a
+  // landlord asks for moves by the factor; one place, one factor per month.
+  const webFactors = new Map<string, number>();
   const daysPerMonth =
     api.parameter("jobsDaysPerYear") / api.parameter("macroMonthsPerYear");
   for (const row of table(
@@ -362,6 +367,12 @@ export function reviewHomeless(
       0,
     );
     const rent = rentOf(row.id, income);
+    let factor = webFactors.get(row.placeId);
+    if (factor === undefined) {
+      factor = webFactorFor(api, row.placeId, "housing.homelessness");
+      webFactors.set(row.placeId, factor);
+    }
+    const multiple = baseMultiple * factor;
     if (rent <= 0 || income < rent * multiple || cash < rent) continue;
     const leaseId = lease(row.id, rent);
     if (!leaseId) continue;

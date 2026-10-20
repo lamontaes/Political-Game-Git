@@ -4,7 +4,7 @@ title: "Presidential orders, pardons, the situation room:"
 area: office
 kind: feature
 priority: 2
-status: claimed
+status: in-pr
 claimed-by: claude/presidential-orders
 pr: #5184
 blocked-on:

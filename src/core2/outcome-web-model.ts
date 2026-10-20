@@ -138,6 +138,8 @@ const ENGINE = local.engineMeasures as Readonly<
       readonly owner: string;
       /** The field of a month row the measure reads (world-metrics', else the engine's own table). */
       readonly field: string;
+      /** Or a named reader of an engine's own record (src/core2/modules/outcome-web.ts). */
+      readonly reader?: string;
       readonly unitScale: number;
       /** An engine that keeps its own month rows by place: its module and table (rows have `placeId`, `date`, `id`). */
       readonly module?: string;
