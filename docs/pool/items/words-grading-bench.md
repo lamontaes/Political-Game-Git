@@ -5,12 +5,12 @@ area: words
 kind: feature
 priority: 1
 size: L
-status: blocked
+status: open
 claimed-by:
 pr:
-blocked-on: words-bench-defects, words-bench-stage, words-bench-compose, words-bench-datapoints, words-bench-page, words-bench-calibration
+blocked-on:
 milestone:
-after: words-authored-pieces-gate
+after: words-bench-datapoints, words-bench-page
 source: "words-and-director order 2"
 claimed-at: 2026-10-16T04:16:33.604Z
 ---
@@ -29,3 +29,5 @@ Absorbs words-batch-12 (dropped as a duplicate as of 2026-10-15). Size L: the cl
 Split 2026-10-16 into words-bench-defects, words-bench-stage, words-bench-compose, words-bench-datapoints, words-bench-page and words-bench-calibration; this item closes when all six are done and the owner has graded the page.
 
 Oct 20: The Oct 16 claim has no PR and is over two days old, so the claim is cleared.
+
+Oct 20: Switched from blocked to the automatic after: gate on words-bench-datapoints, words-bench-page, so it opens by itself the moment those items are done.

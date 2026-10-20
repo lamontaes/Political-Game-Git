@@ -41,6 +41,7 @@ import {
   specialElectionDate,
   staggeredSeatElection,
   termStartAfter,
+  termStartInYear,
 } from "../elections-calendar";
 import { MOVED_AWAY_EVENT } from "./moves";
 import { localOfficesForPlace, type OfficeInput } from "../offices-local";
@@ -619,7 +620,7 @@ function pastTerms(
   const years = office.termYears;
   const opening = api.state.date;
   if (!years || !term.endDate) return;
-  const start = shiftYears(term.endDate, -years);
+  const start = termStartInYear(office, shiftYears(term.endDate, -years));
   // The federal executive keeps its real record: the current term began a
   // full term before it ends (January 20), with no earlier terms invented.
   if (office.kind === "president" || office.kind === "vice-president") {
@@ -685,7 +686,12 @@ function pastTerms(
         ) - 2,
       ),
     );
-  const serviceStart = shiftYears(start, -prior * years);
+  // Service begins where the earliest past term does (its start is snapped to
+  // the office's own inauguration day), so the career has no gap.
+  const serviceStart =
+    prior > 0
+      ? termStartInYear(office, shiftYears(start, -prior * years))
+      : start;
   const won = (from: string) =>
     office.elected ? { elected: electionBehind(office, from) } : {};
   table(api, "terms").put({
@@ -695,13 +701,13 @@ function pastTerms(
     ...won(start),
   } as unknown as ModuleRow);
   for (let k = prior; k >= 1; k -= 1) {
-    const from = shiftYears(start, -k * years);
+    const from = termStartInYear(office, shiftYears(start, -k * years));
     table(api, "terms").put({
       ...term,
       id: `${term.id}:past:${k}`,
       startDate: from,
       serviceStart,
-      endDate: shiftYears(from, years),
+      endDate: termStartInYear(office, shiftYears(from, years)),
       reached: "elected",
       status: "ended",
       endedBy: "re-elected",
