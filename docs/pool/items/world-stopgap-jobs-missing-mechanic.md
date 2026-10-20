@@ -24,3 +24,5 @@ claimed-at: 2026-10-20T17:22:16.967Z
 **Notes.** First row: A spell of unemployment pays no unemployment insurance.
 
 Sent back 2026-10-20 from PR #5300 (branch claude/ui-state-fund): the stopgap replacement text carries a 'Resolved Oct 19' date note; resolve the row properly without the date; finish on that branch, merge main into it first.
+
+Stopped Oct 20 (claude, fs11vb) for the CTO's pause: no work started on branch claude/ui-state-fund; merging main into it conflicts in src/core2/jobs-benefits.ts, and the 'Resolved Oct 19' date in the stopgap replacement text must go.
