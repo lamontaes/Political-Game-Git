@@ -8,7 +8,10 @@ import tuition from "./data/opening-private-tuition.json";
 import { gameStartDate } from "./game-start";
 import { ageOnDate, makeIsoDate } from "./kernel/dates";
 import { advanceCore } from "./life";
-import { tuitionPlans } from "./private-tuition-reenroll";
+import {
+  reenrollPrivateTuition,
+  tuitionPlans,
+} from "./private-tuition-reenroll";
 import { coreAPI } from "./state";
 import type { CoreState } from "./types";
 
@@ -43,7 +46,7 @@ it(`a family that fell below the cutoff stops paying tuition and one that rose a
     advanceCore(core, to("07-30", year + 1));
     // A family the engine ranks next August: children of school age then (the
     // opening's own ages) and an adult past them, living.
-    const next = to("08-02", year + 1);
+    const next = to("07-31", year + 1);
     const first = api.parameter("openingSchoolAgeFirst");
     const last = api.parameter("openingSchoolAgeLast");
     const family = (householdId: string) => {
@@ -120,12 +123,12 @@ it(`a family that fell below the cutoff stops paying tuition and one that rose a
       partial: true,
       source: src,
     });
-    advanceCore(core, to(tuition.reenrollOn, year + 1));
-    advanceCore(core, to("08-02", year + 1));
-    expect(
-      core.date >= next,
-      `${place.name}: the year was played to August`,
-    ).toBe(true);
+    // The first of the month moves money out of the households' liquid cash
+    // before the ranking runs, so the ranking is run directly on the cash set
+    // above; the engine's own August run is what enrolled the first families.
+    advanceCore(core, next);
+    expect(core.date, `${place.name}: the year was played to July`).toBe(next);
+    reenrollPrivateTuition(api);
     const after = tuitionPlans(state);
     const where = `${place.name} [${place.key}], seed ${seed}`;
     expect(
