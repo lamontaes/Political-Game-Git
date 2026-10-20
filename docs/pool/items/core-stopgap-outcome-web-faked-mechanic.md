@@ -4,13 +4,14 @@ title: "Stopgaps in outcome-web (faked-mechanic): 1 open"
 area: core
 kind: stopgap
 priority: 2
-status: blocked
-claimed-by: claude/core-stopgap-outcome-web
+status: open
+claimed-by:
 pr:
-blocked-on: "world-outcome-links-sizes, core-outcome-causes-recorded, core-outcome-produced"
+blocked-on:
+after: world-outcome-links-sizes, core-outcome-causes-recorded, core-outcome-produced
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/modules/outcome-web.ts, kind faked-mechanic"
-claimed-at: 2026-10-15T23:30:23.092Z
+claimed-at:
 ---
 
 **What.** The stopgap row(s) SG-WEB-outcome-drift in src/core2/modules/outcome-web.ts mark a shortcut that is still live in play. Today each outcome the web keeps (crime, schooling, coverage, turnout and the rest) stays at its place's real starting level except where a researched link moves it. The row stays open until the real mechanic replaces the fake, or the feature that needs the fake is deleted. This item replaces it and clears the row in src/core2/data/stopgaps.json.
@@ -24,3 +25,7 @@ claimed-at: 2026-10-15T23:30:23.092Z
 **Notes.** First row: Each outcome the web keeps (crime, schooling, coverage, turnout and the rest) stays at its place's real starting level except where a researched link moves it; nothing else in the world moves it.
 
 **Split (Oct 15).** The row says every kept outcome needs the engines that cause it. The web already has 101 built links (72 from laws, and budget, labor, school and crime causes) and tests that a layoff moves burglary and a SNAP work rule moves receipt. What is left is the 120 links that are not built: `world-outcome-links-sizes`, `core-outcome-causes-recorded`, `core-outcome-produced`. About 36 more are about zero and need no work. The row closes when those three are done and society-wide shifts come from recorded causes rather than a monthly chance; the crime-engine question for the owner is `owner-crime-engine`.
+
+Oct 20: The Oct 15 claim has no PR and is over two days old, so the claim is cleared.
+
+Oct 20: Switched from blocked to the automatic after: gate on world-outcome-links-sizes, core-outcome-causes-recorded, core-outcome-produced, so it opens by itself the moment those items are done.
