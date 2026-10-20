@@ -12,6 +12,7 @@ import {
   reenrollPrivateTuition,
   tuitionPlans,
 } from "./private-tuition-reenroll";
+import { privateSchoolShareFor } from "./opening-private-tuition";
 import { coreAPI } from "./state";
 import type { CoreState } from "./types";
 
@@ -72,7 +73,9 @@ it(`a family that fell below the cutoff stops paying tuition and one that rose a
       .reduce((sum, home) => sum + (family(home.id)?.children ?? 0), 0);
     const quota = Math.max(
       1,
-      Math.round(townChildren * api.parameter("openingPrivateSchoolShare")),
+      Math.round(
+        townChildren * privateSchoolShareFor(state.placeMetadata.placeKey),
+      ),
     );
     const other = [...state.households.values()].find(
       (home) =>

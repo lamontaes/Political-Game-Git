@@ -18,9 +18,10 @@ import type { FinanceContractInput } from "./finance-types";
 import type { CoreInput, Source } from "./types";
 
 /** The private share of students in the town's state (NCES, fall 2021); the median where the state has no row. */
-function privateShareOf(input: CoreInput): number {
-  const key = input.placeMetadata?.placeKey;
-  const state = key ? corePlaceByKey(key)?.stateJurisdictionKey : undefined;
+export function privateSchoolShareFor(placeKey: string | undefined): number {
+  const state = placeKey
+    ? corePlaceByKey(placeKey)?.stateJurisdictionKey
+    : undefined;
   const row = (shares.states as Readonly<Record<string, { share: number }>>)[
     state ?? ""
   ];
@@ -42,7 +43,7 @@ export function withPrivateTuition(input: CoreInput): CoreInput {
   const perChildMonthly =
     (p("openingPrivateTuitionAnnualUsd") * p("minorPerDollar")) /
     p("monthsPerYear");
-  const share = privateShareOf(input);
+  const share = privateSchoolShareFor(input.placeMetadata?.placeKey);
   const contracts: FinanceContractInput[] = [];
   const sorted = [...schools].sort((a, b) => a.id.localeCompare(b.id));
   const town = new Set(schools.map((row) => row.placeId));
