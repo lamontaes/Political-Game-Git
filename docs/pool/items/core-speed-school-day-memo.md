@@ -24,3 +24,5 @@ claimed-at:
 **Notes.** TODO
 
 Sent back 2026-10-20 from PR #5389 (branch claude/speed-school-day): see the Cloud merger comment on that PR for the exact reason; finish on that branch, merge main into it first.
+
+Sent back 2026-10-20 from PR #5389 (branch claude/speed-school-day): docs/pool/items/core-speed-school-day-memo.md:20 requires a fresh seed-m7a speed:year profile showing onHoliday below 0.2 percent, reported in the body. Both the body and the latest post-conflict update say that measurement was not taken on this head. Provide the named profile result for the current onBaseCalendar memo implementation, retaining the state-aware cutoff and the school tests; the earlier wall time is not that profile proof.; finish on that branch, merge main into it first.
