@@ -45,6 +45,16 @@ const kindIndex = (kind: string) => {
 let kindLeans = new WeakMap<PersonState, KindLean>();
 let leansByTraits = new WeakMap<object, { sum: number; lean: KindLean }>();
 
+/**
+ * Drops one person's cached lean. A person whose traits object is replaced
+ * (a trait changed with age or after a life event) must not keep the lean
+ * computed from the old one; the by-traits cache is keyed by the object, so
+ * the new object misses it by itself.
+ */
+export function forgetTraitLean(actor: PersonState): void {
+  kindLeans.delete(actor);
+}
+
 /** Drops every cached lean: the trait audit rewrites traits in place before a twin world runs. */
 export function forgetTraitLeans(): void {
   kindLeans = new WeakMap();
