@@ -5,7 +5,7 @@ area: gov
 kind: bug
 priority: 3
 size: S
-status: in-pr
+status: done
 claimed-by: claude/rotated-primary-zero-votes
 pr: #5029
 blocked-on:
