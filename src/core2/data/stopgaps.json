@@ -2475,7 +2475,9 @@
     "addedBy": "OPUS-WORLD",
     "addedAt": "2026-10-12",
     "replacement": "The two-level population's labor-force counts by place, age and job (CPS and LAUS), with full people filled in from them.",
-    "status": "open"
+    "status": "resolved",
+    "resolvedAt": "2026-10-20",
+    "resolution": "openSeekers and openCountedSeekers in src/core2/modules/jobs.ts count the jobs held in each place by age band (the named workers and the counted ones alike) and size each band's seekers from the place's own rate (openingRate, the regional series from LAUS) times the band's ratio in src/core2/data/jobs/age-unemployment.json (CPS Table 3); the neediest jobless adults in the band seek."
   },
   {
     "id": "SG-WORLD-jobs-layoff-decider",
