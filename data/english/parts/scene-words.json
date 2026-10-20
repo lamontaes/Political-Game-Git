@@ -644,7 +644,7 @@
       "origin": "authored",
       "author": "Claude (director line), civic-prose",
       "date": "2026-10-15",
-      "shippable": true,
+      "shippable": false,
       "kind": "spoken",
       "tag": {
         "move": "narrate"
@@ -665,7 +665,7 @@
       "origin": "authored",
       "author": "Claude (director line), civic-prose",
       "date": "2026-10-15",
-      "shippable": true,
+      "shippable": false,
       "kind": "spoken",
       "tag": {
         "move": "narrate"
@@ -686,7 +686,7 @@
       "origin": "authored",
       "author": "Claude (director line), civic-prose",
       "date": "2026-10-15",
-      "shippable": true,
+      "shippable": false,
       "kind": "spoken",
       "tag": {
         "move": "narrate"
@@ -707,7 +707,7 @@
       "origin": "authored",
       "author": "Claude (director line), civic-prose",
       "date": "2026-10-15",
-      "shippable": true,
+      "shippable": false,
       "kind": "spoken",
       "tag": {
         "move": "narrate"
@@ -728,7 +728,7 @@
       "origin": "authored",
       "author": "Claude (director line), civic-prose",
       "date": "2026-10-15",
-      "shippable": true,
+      "shippable": false,
       "kind": "spoken",
       "tag": {
         "move": "narrate"
@@ -749,7 +749,7 @@
       "origin": "authored",
       "author": "Claude (director line), civic-prose",
       "date": "2026-10-15",
-      "shippable": true,
+      "shippable": false,
       "kind": "spoken",
       "tag": {
         "move": "narrate"
@@ -770,7 +770,7 @@
       "origin": "authored",
       "author": "Claude (director line), civic-prose",
       "date": "2026-10-15",
-      "shippable": true,
+      "shippable": false,
       "kind": "spoken",
       "tag": {
         "move": "narrate"
@@ -791,7 +791,7 @@
       "origin": "authored",
       "author": "Claude (director line), civic-prose",
       "date": "2026-10-15",
-      "shippable": true,
+      "shippable": false,
       "kind": "spoken",
       "tag": {
         "move": "narrate"
@@ -812,7 +812,7 @@
       "origin": "authored",
       "author": "Claude (director line), civic-prose",
       "date": "2026-10-15",
-      "shippable": true,
+      "shippable": false,
       "kind": "spoken",
       "tag": {
         "move": "narrate"
@@ -833,7 +833,7 @@
       "origin": "authored",
       "author": "Claude (director line), civic-prose",
       "date": "2026-10-15",
-      "shippable": true,
+      "shippable": false,
       "kind": "spoken",
       "tag": {
         "move": "narrate"
@@ -854,7 +854,7 @@
       "origin": "authored",
       "author": "Claude (director line), civic-prose",
       "date": "2026-10-15",
-      "shippable": true,
+      "shippable": false,
       "kind": "spoken",
       "tag": {
         "move": "narrate"
@@ -875,7 +875,7 @@
       "origin": "authored",
       "author": "Claude (director line), civic-prose",
       "date": "2026-10-15",
-      "shippable": true,
+      "shippable": false,
       "kind": "spoken",
       "tag": {
         "move": "narrate"
@@ -896,7 +896,7 @@
       "origin": "authored",
       "author": "Claude (director line), civic-prose",
       "date": "2026-10-15",
-      "shippable": true,
+      "shippable": false,
       "kind": "spoken",
       "tag": {
         "move": "deliver-news"
@@ -917,7 +917,7 @@
       "origin": "authored",
       "author": "Claude (director line), civic-prose",
       "date": "2026-10-15",
-      "shippable": true,
+      "shippable": false,
       "kind": "spoken",
       "tag": {
         "move": "deliver-news"
@@ -938,7 +938,7 @@
       "origin": "authored",
       "author": "Claude (director line), civic-prose",
       "date": "2026-10-15",
-      "shippable": true,
+      "shippable": false,
       "kind": "spoken",
       "tag": {
         "move": "deliver-news"
@@ -959,7 +959,7 @@
       "origin": "authored",
       "author": "Claude (director line), civic-prose",
       "date": "2026-10-15",
-      "shippable": true,
+      "shippable": false,
       "kind": "spoken",
       "tag": {
         "move": "deliver-news"
@@ -980,7 +980,7 @@
       "origin": "authored",
       "author": "Claude (director line), civic-prose",
       "date": "2026-10-15",
-      "shippable": true,
+      "shippable": false,
       "kind": "spoken",
       "tag": {
         "move": "deliver-news"
@@ -1001,7 +1001,7 @@
       "origin": "authored",
       "author": "Claude (director line), civic-prose",
       "date": "2026-10-15",
-      "shippable": true,
+      "shippable": false,
       "kind": "spoken",
       "tag": {
         "move": "deliver-news"
@@ -1022,7 +1022,7 @@
       "origin": "authored",
       "author": "Claude (director line), civic-prose",
       "date": "2026-10-15",
-      "shippable": true,
+      "shippable": false,
       "kind": "spoken",
       "tag": {
         "move": "deliver-news"
@@ -1043,7 +1043,7 @@
       "origin": "authored",
       "author": "Claude (director line), civic-prose",
       "date": "2026-10-15",
-      "shippable": true,
+      "shippable": false,
       "kind": "spoken",
       "tag": {
         "move": "deliver-news"
@@ -1064,7 +1064,7 @@
       "origin": "authored",
       "author": "Claude (director line), civic-prose",
       "date": "2026-10-15",
-      "shippable": true,
+      "shippable": false,
       "kind": "spoken",
       "tag": {
         "move": "deliver-news"
@@ -1085,7 +1085,7 @@
       "origin": "authored",
       "author": "Claude (director line), civic-prose",
       "date": "2026-10-15",
-      "shippable": true,
+      "shippable": false,
       "kind": "spoken",
       "tag": {
         "move": "deliver-news"
@@ -1106,7 +1106,7 @@
       "origin": "authored",
       "author": "Claude (director line), civic-prose",
       "date": "2026-10-15",
-      "shippable": true,
+      "shippable": false,
       "kind": "spoken",
       "tag": {
         "move": "deliver-news"
@@ -1127,7 +1127,7 @@
       "origin": "authored",
       "author": "Claude (director line), civic-prose",
       "date": "2026-10-15",
-      "shippable": true,
+      "shippable": false,
       "kind": "spoken",
       "tag": {
         "move": "deliver-news"
@@ -1148,7 +1148,7 @@
       "origin": "authored",
       "author": "Claude (director line), civic-prose",
       "date": "2026-10-15",
-      "shippable": true,
+      "shippable": false,
       "kind": "spoken",
       "tag": {
         "move": "deliver-news"
@@ -1169,7 +1169,7 @@
       "origin": "authored",
       "author": "Claude (director line), civic-prose",
       "date": "2026-10-15",
-      "shippable": true,
+      "shippable": false,
       "kind": "spoken",
       "tag": {
         "move": "deliver-news"
@@ -1190,7 +1190,7 @@
       "origin": "authored",
       "author": "Claude (director line), civic-prose",
       "date": "2026-10-15",
-      "shippable": true,
+      "shippable": false,
       "kind": "spoken",
       "tag": {
         "move": "deliver-news"
@@ -1211,7 +1211,7 @@
       "origin": "authored",
       "author": "Claude (director line), civic-prose",
       "date": "2026-10-15",
-      "shippable": true,
+      "shippable": false,
       "kind": "spoken",
       "tag": {
         "move": "deliver-news"
@@ -1232,7 +1232,7 @@
       "origin": "authored",
       "author": "Claude (director line), civic-prose",
       "date": "2026-10-15",
-      "shippable": true,
+      "shippable": false,
       "kind": "spoken",
       "tag": {
         "move": "deliver-news"
@@ -1253,7 +1253,7 @@
       "origin": "authored",
       "author": "Claude (director line), civic-prose",
       "date": "2026-10-15",
-      "shippable": true,
+      "shippable": false,
       "kind": "spoken",
       "tag": {
         "move": "deliver-news"
@@ -1274,7 +1274,7 @@
       "origin": "authored",
       "author": "Claude (director line), civic-prose",
       "date": "2026-10-15",
-      "shippable": true,
+      "shippable": false,
       "kind": "spoken",
       "tag": {
         "move": "deliver-news"
@@ -1293,7 +1293,7 @@
           "choice": "other"
         }
       ],
-      "shippable": true,
+      "shippable": false,
       "origin": "authored",
       "author": "Claude Code, director session",
       "date": "2026-10-15",
@@ -1314,7 +1314,7 @@
           "choice": "alone"
         }
       ],
-      "shippable": true,
+      "shippable": false,
       "origin": "authored",
       "author": "Claude Code, director session",
       "date": "2026-10-15",
@@ -1335,7 +1335,7 @@
           "choice": "other"
         }
       ],
-      "shippable": true,
+      "shippable": false,
       "origin": "authored",
       "author": "Claude Code, director session",
       "date": "2026-10-15",
@@ -1356,7 +1356,7 @@
           "choice": "alone"
         }
       ],
-      "shippable": true,
+      "shippable": false,
       "origin": "authored",
       "author": "Claude Code, director session",
       "date": "2026-10-15",
@@ -1377,7 +1377,7 @@
           "choice": "other"
         }
       ],
-      "shippable": true,
+      "shippable": false,
       "origin": "authored",
       "author": "Claude Code, director session",
       "date": "2026-10-15",
@@ -1398,7 +1398,7 @@
           "choice": "alone"
         }
       ],
-      "shippable": true,
+      "shippable": false,
       "origin": "authored",
       "author": "Claude Code, director session",
       "date": "2026-10-15",
@@ -1419,7 +1419,7 @@
           "choice": "other"
         }
       ],
-      "shippable": true,
+      "shippable": false,
       "origin": "authored",
       "author": "Claude Code, director session",
       "date": "2026-10-15",
@@ -1440,7 +1440,7 @@
           "choice": "alone"
         }
       ],
-      "shippable": true,
+      "shippable": false,
       "origin": "authored",
       "author": "Claude Code, director session",
       "date": "2026-10-15",
@@ -1461,7 +1461,7 @@
           "choice": "other"
         }
       ],
-      "shippable": true,
+      "shippable": false,
       "origin": "authored",
       "author": "Claude Code, director session",
       "date": "2026-10-15",
@@ -1482,7 +1482,7 @@
           "choice": "alone"
         }
       ],
-      "shippable": true,
+      "shippable": false,
       "origin": "authored",
       "author": "Claude Code, director session",
       "date": "2026-10-15",
@@ -1503,7 +1503,7 @@
           "choice": "other"
         }
       ],
-      "shippable": true,
+      "shippable": false,
       "origin": "authored",
       "author": "Claude Code, director session",
       "date": "2026-10-15",
@@ -1524,7 +1524,7 @@
           "choice": "alone"
         }
       ],
-      "shippable": true,
+      "shippable": false,
       "origin": "authored",
       "author": "Claude Code, director session",
       "date": "2026-10-15",
@@ -1545,7 +1545,7 @@
           "choice": "other"
         }
       ],
-      "shippable": true,
+      "shippable": false,
       "origin": "authored",
       "author": "Claude Code, director session",
       "date": "2026-10-15",
@@ -1566,7 +1566,7 @@
           "choice": "alone"
         }
       ],
-      "shippable": true,
+      "shippable": false,
       "origin": "authored",
       "author": "Claude Code, director session",
       "date": "2026-10-15",
@@ -1587,7 +1587,7 @@
           "choice": "other"
         }
       ],
-      "shippable": true,
+      "shippable": false,
       "origin": "authored",
       "author": "Claude Code, director session",
       "date": "2026-10-15",
@@ -1608,7 +1608,7 @@
           "choice": "alone"
         }
       ],
-      "shippable": true,
+      "shippable": false,
       "origin": "authored",
       "author": "Claude Code, director session",
       "date": "2026-10-15",
@@ -1629,7 +1629,7 @@
           "choice": "other"
         }
       ],
-      "shippable": true,
+      "shippable": false,
       "origin": "authored",
       "author": "Claude Code, director session",
       "date": "2026-10-15",
@@ -1650,7 +1650,7 @@
           "choice": "alone"
         }
       ],
-      "shippable": true,
+      "shippable": false,
       "origin": "authored",
       "author": "Claude Code, director session",
       "date": "2026-10-15",
@@ -1671,7 +1671,7 @@
           "choice": "other"
         }
       ],
-      "shippable": true,
+      "shippable": false,
       "origin": "authored",
       "author": "Claude Code, director session",
       "date": "2026-10-15",
@@ -1692,7 +1692,7 @@
           "choice": "alone"
         }
       ],
-      "shippable": true,
+      "shippable": false,
       "origin": "authored",
       "author": "Claude Code, director session",
       "date": "2026-10-15",
@@ -1713,7 +1713,7 @@
           "choice": "other"
         }
       ],
-      "shippable": true,
+      "shippable": false,
       "origin": "authored",
       "author": "Claude Code, director session",
       "date": "2026-10-15",
@@ -1734,7 +1734,7 @@
           "choice": "alone"
         }
       ],
-      "shippable": true,
+      "shippable": false,
       "origin": "authored",
       "author": "Claude Code, director session",
       "date": "2026-10-15",
@@ -1755,7 +1755,7 @@
           "choice": "other"
         }
       ],
-      "shippable": true,
+      "shippable": false,
       "origin": "authored",
       "author": "Claude Code, director session",
       "date": "2026-10-15",
@@ -1776,7 +1776,7 @@
           "choice": "alone"
         }
       ],
-      "shippable": true,
+      "shippable": false,
       "origin": "authored",
       "author": "Claude Code, director session",
       "date": "2026-10-15",
@@ -1797,7 +1797,7 @@
           "choice": "any"
         }
       ],
-      "shippable": true,
+      "shippable": false,
       "origin": "authored",
       "author": "Claude Code, director session",
       "date": "2026-10-15",
@@ -1818,7 +1818,7 @@
           "choice": "other"
         }
       ],
-      "shippable": true,
+      "shippable": false,
       "origin": "authored",
       "author": "Claude Code, director session",
       "date": "2026-10-15",
@@ -1839,7 +1839,7 @@
           "choice": "any"
         }
       ],
-      "shippable": true,
+      "shippable": false,
       "origin": "authored",
       "author": "Claude Code, director session",
       "date": "2026-10-15",
@@ -1860,7 +1860,7 @@
           "choice": "any"
         }
       ],
-      "shippable": true,
+      "shippable": false,
       "origin": "authored",
       "author": "Claude Code, director session",
       "date": "2026-10-15",
@@ -1881,7 +1881,7 @@
           "choice": "any"
         }
       ],
-      "shippable": true,
+      "shippable": false,
       "origin": "authored",
       "author": "Claude Code, director session",
       "date": "2026-10-15",
@@ -1902,7 +1902,7 @@
           "choice": "any"
         }
       ],
-      "shippable": true,
+      "shippable": false,
       "origin": "authored",
       "author": "Claude Code, director session",
       "date": "2026-10-15",
@@ -1923,7 +1923,7 @@
           "choice": "any"
         }
       ],
-      "shippable": true,
+      "shippable": false,
       "origin": "authored",
       "author": "Claude Code, director session",
       "date": "2026-10-15",
@@ -1944,7 +1944,7 @@
           "choice": "any"
         }
       ],
-      "shippable": true,
+      "shippable": false,
       "origin": "authored",
       "author": "Claude Code, director session",
       "date": "2026-10-15",
@@ -1965,7 +1965,7 @@
           "choice": "any"
         }
       ],
-      "shippable": true,
+      "shippable": false,
       "origin": "authored",
       "author": "Claude Code, director session",
       "date": "2026-10-15",
@@ -1986,7 +1986,7 @@
           "choice": "any"
         }
       ],
-      "shippable": true,
+      "shippable": false,
       "origin": "authored",
       "author": "Claude Code, director session",
       "date": "2026-10-15",
@@ -2007,7 +2007,7 @@
           "choice": "any"
         }
       ],
-      "shippable": true,
+      "shippable": false,
       "origin": "authored",
       "author": "Claude Code, director session",
       "date": "2026-10-15",
@@ -2028,7 +2028,7 @@
           "choice": "any"
         }
       ],
-      "shippable": true,
+      "shippable": false,
       "origin": "authored",
       "author": "Claude Code, director session",
       "date": "2026-10-15",
@@ -2049,7 +2049,7 @@
           "choice": "any"
         }
       ],
-      "shippable": true,
+      "shippable": false,
       "origin": "authored",
       "author": "Claude Code, director session",
       "date": "2026-10-15",
@@ -2070,7 +2070,7 @@
           "choice": "any"
         }
       ],
-      "shippable": true,
+      "shippable": false,
       "origin": "authored",
       "author": "Claude Code, director session",
       "date": "2026-10-15",
@@ -2091,7 +2091,7 @@
           "choice": "any"
         }
       ],
-      "shippable": true,
+      "shippable": false,
       "origin": "authored",
       "author": "Claude Code, director session",
       "date": "2026-10-15",
@@ -2112,7 +2112,7 @@
           "choice": "any"
         }
       ],
-      "shippable": true,
+      "shippable": false,
       "origin": "authored",
       "author": "Claude Code, director session",
       "date": "2026-10-15",
@@ -2133,7 +2133,7 @@
           "choice": "any"
         }
       ],
-      "shippable": true,
+      "shippable": false,
       "origin": "authored",
       "author": "Claude Code, director session",
       "date": "2026-10-15",
@@ -2154,7 +2154,7 @@
           "choice": "any"
         }
       ],
-      "shippable": true,
+      "shippable": false,
       "origin": "authored",
       "author": "Claude Code, director session",
       "date": "2026-10-15",
@@ -2175,7 +2175,7 @@
           "choice": "any"
         }
       ],
-      "shippable": true,
+      "shippable": false,
       "origin": "authored",
       "author": "Claude Code, director session",
       "date": "2026-10-15",
@@ -2198,7 +2198,7 @@
       "origin": "authored",
       "author": "Claude (director line), civic-prose",
       "date": "2026-10-17",
-      "shippable": true,
+      "shippable": false,
       "kind": "spoken",
       "tag": {
         "move": "deliver-news"
@@ -2219,7 +2219,7 @@
       "origin": "authored",
       "author": "Claude (director line), civic-prose",
       "date": "2026-10-17",
-      "shippable": true,
+      "shippable": false,
       "kind": "spoken",
       "tag": {
         "move": "deliver-news"
@@ -2240,7 +2240,7 @@
       "origin": "authored",
       "author": "Claude (director line), civic-prose",
       "date": "2026-10-17",
-      "shippable": true,
+      "shippable": false,
       "kind": "spoken",
       "tag": {
         "move": "deliver-news"
@@ -2261,7 +2261,7 @@
       "origin": "authored",
       "author": "Claude (director line), civic-prose",
       "date": "2026-10-17",
-      "shippable": true,
+      "shippable": false,
       "kind": "spoken",
       "tag": {
         "move": "deliver-news"
