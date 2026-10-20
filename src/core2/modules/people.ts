@@ -37,6 +37,11 @@ import type {
 } from "../types";
 import { offer } from "./life";
 
+/** A relationship's id: the two people's ids in order, without building and sorting an array. */
+function pairId(a: string, b: string): string {
+  return a < b ? `${a}:${b}` : `${b}:${a}`;
+}
+
 export const PEOPLE_MODULE_ID = "core2-people-p15-v1";
 const LOOKUP = {
   officeAffordance: "known-office",
@@ -75,7 +80,7 @@ function shareHomeTime(api: CoreAPI): void {
         const family = a.familyIds.has(b.id);
         // Housemates who are not family start where living together settles.
         if (opening) {
-          if (!family && !core.relationships.has([a.id, b.id].sort().join(":")))
+          if (!family && !core.relationships.has(pairId(a.id, b.id)))
             api.relationship(
               a.id,
               b.id,
@@ -207,7 +212,7 @@ export const PEOPLE_MODULE: CoreModule = {
       let untied: string | undefined;
       for (const id of actor.knownIds) {
         if (!api.state.people.get(id)?.alive) continue;
-        if (api.state.relationships.has([actor.id, id].sort().join(":")))
+        if (api.state.relationships.has(pairId(actor.id, id)))
           out.push(offer(api, actor, action, id));
         else if (untied === undefined || id < untied) untied = id;
       }
@@ -227,7 +232,7 @@ export const PEOPLE_MODULE: CoreModule = {
       return { value: grief, sourceIds };
     },
     "tie-fading": (api, actor, offer) => {
-      const id = [actor.id, offer.targetId].sort().join(":");
+      const id = pairId(actor.id, offer.targetId);
       const row = api.state.relationships.get(id);
       const other = api.state.people.get(offer.targetId);
       if (!row || !other) return undefined;
