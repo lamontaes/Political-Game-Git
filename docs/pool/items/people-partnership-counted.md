@@ -5,13 +5,13 @@ area: people
 kind: feature
 priority: 2
 size: M
-status: blocked
-claimed-by: claude/pool-partnership
+status: open
+claimed-by:
 pr:
 blocked-on:
 after: people-partnership-counted-leave-home,people-partnership-counted-pair-and-split
 source: added with npm run pool -- add
-claimed-at: 2026-10-20T02:35:20.062Z
+claimed-at:
 ---
 
 **What.** This is the roll-up for giving the counted tier the three partnership rules that full people already have in `src/core2/modules/partnerships.ts`: leaving a parent's home, partnering and separating. It was split Oct 20 into people-partnership-counted-leave-home (the counted-store call that moves one member into a household of their own, plus the leave-home weighing) and people-partnership-counted-pair-and-split (partnering and separating, reading the orientation record). Nothing is built under this id; it is done when both parts are done, with the counted households of a town turning over by the same rules as full people, times their count.
