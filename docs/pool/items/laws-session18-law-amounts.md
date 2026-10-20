@@ -4,13 +4,13 @@ title: "Sourced Session 18 starting-law terms (#2229)"
 area: laws
 kind: research
 priority: 2
-status: open
-claimed-by:
-pr: #2229
+status: in-pr
+claimed-by: codex/session18-law-amounts
+pr: #5092
 blocked-on:
 milestone:
 source: "open PR #2229"
-claimed-at:
+claimed-at: 2026-10-19T18:46:51.185Z
 ---
 
 **What.** Sourced Session 18 starting-law terms (#2229). This work was sent back by the merger on 2026-10-16 and is open for any builder to finish. The reason it came back: merging main conflicts in data/research/laws/starting-law-2026.json (data, left for the author); resolve and push. The body also has no gate line and calls itself a partial review draft. Finish it on the existing branch codex/session18-law-amounts, after merging main into it with a plain merge.
