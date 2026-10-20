@@ -19,7 +19,8 @@ import bases from "../../../data/research/money/public-budget-bases.json" with {
 import rows from "../data/press/parameters.json" with { type: "json" };
 import nationalJson from "../data/press/national.json" with { type: "json" };
 import { coreAPI, fillInPerson, registerModule } from "../state";
-import { addDays, makeIsoDate } from "../kernel/dates";
+import { addDays, daysBetween, makeIsoDate } from "../kernel/dates";
+import { spendLivingCost } from "../official-living";
 import { parameter } from "../parameters";
 import { decisionLean } from "../trait-decisions";
 import type {
@@ -2458,10 +2459,28 @@ export function refreshPressStaff(api: CoreAPI): void {
   pressStaffChanged(api);
 }
 
+/** Owners given a household cost spend what it came to since last week out of what they hold. */
+function ownersLive(api: CoreAPI): void {
+  for (const raw of table(api, "staff").rows()) {
+    const row = raw as unknown as StaffRow;
+    if (!row.livedThrough || row.livedThrough >= api.state.date) continue;
+    spendLivingCost(
+      api,
+      row.id,
+      daysBetween(makeIsoDate(row.livedThrough), makeIsoDate(api.state.date)),
+    );
+    table(api, "staff").put({
+      ...row,
+      livedThrough: api.state.date,
+    } as unknown as ModuleRow);
+  }
+}
+
 function pressWeek(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
   if (work.kind !== "press-week") return;
   scheduleWeek(api, api.state.date);
   refreshPressStaff(api);
+  ownersLive(api);
   // stopgapId: SG-PEOPLE-press-endorsements
   api.stopgap("SG-PEOPLE-press-endorsements");
   // The week's stories: each reporter files from the fresh wire.
