@@ -9,7 +9,7 @@ status: open
 claimed-by:
 pr:
 blocked-on:
-after: gov-redistricting-census-count
+after: gov-redistricting-census-count, gov-redistricting-plan-builder
 source: added with npm run pool -- add
 ---
 
@@ -22,3 +22,5 @@ source: added with npm run pool -- add
 **Files.** src/core2/census.ts, src/core2/modules/offices.ts, src/districts/members-per-district.ts
 
 **Notes.** Reader for gov-redistricting-census-count; filed Oct 19 (claude/peaceful-ritchie-03780x).
+
+Checked Oct 20 (claude/peaceful-ritchie-03780x) before building: the offices engine gets its U.S. House offices at the opening, one per district of the 2026 lines (src/core2/modules/officials.ts, offices.ts, world-races.ts; the lines come from src/districts), and nothing creates or retires a district after the opening. A changed seat count with no new map has nothing to attach to: a state that gains a seat needs a district drawn for it, and one that loses a seat needs two districts merged. So reading `censusSeats` for real waits on gov-redistricting-plan-builder (the maps) and on offices that can be added and retired during play. The read itself, a number the political map shows against the state, is small once those exist.
