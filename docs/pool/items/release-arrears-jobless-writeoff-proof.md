@@ -5,11 +5,12 @@ area: release
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/arrears-jobless-proof
+pr: #5760
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-20T23:08:41.205Z
 ---
 
 **What.** The arrears audit fix merged with a test that bounds all full-household flows and succeeds when any write-off is positive. It never identifies a household with no active job, so an underpaid working household can satisfy every assertion. The original audit acceptance specifically names jobless households, and that case remains unproved even though its tracking item is now done. Add positive generated-world evidence for that case without dropping the existing all-flow or balanced-journal checks.
