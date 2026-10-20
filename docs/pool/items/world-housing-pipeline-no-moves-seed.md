@@ -5,7 +5,7 @@ area: world
 kind: bug
 priority: 3
 size: S
-status: in-pr
+status: done
 claimed-by: claude/housing-pipeline-seed
 pr: #4864
 blocked-on:
