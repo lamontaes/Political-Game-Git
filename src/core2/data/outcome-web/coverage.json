@@ -6,7 +6,10 @@
     "unemployment-to-robbery",
     "unemployment-to-assault",
     "police-to-violent-crime",
+    "police-to-property-crime",
+    "child-access-law-to-youth-gun-deaths",
     "stand-your-ground-to-homicide",
+    "min-age-to-youth-gun-suicide",
     "speed-limit-to-traffic-deaths",
     "particles-to-infant-deaths",
     "water-violations-to-infant-health",
@@ -14,25 +17,34 @@
     "work-requirement-to-coverage",
     "snap-to-food-insecurity",
     "unemployment-to-poverty",
+    "enforcement-to-hispanic-enrollment",
     "graduation-to-turnout",
     "rent-control-to-rental-supply",
     "rent-control-to-tenant-stays",
+    "property-tax-to-rent",
     "broadband-to-married-women-work",
+    "corporate-tax-incidence",
     "unemployment-to-births",
+    "enforcement-to-undocumented-employment",
+    "enforcement-to-us-born-employment",
     "abortion-ban-to-births",
     "abortion-ban-to-infant-deaths",
     "universal-childcare-to-mothers-work",
     "voter-id-to-turnout",
+    "same-day-registration-to-youth-turnout",
     "all-mail-voting-to-turnout",
     "medicaid-expansion-to-coverage",
+    "medicaid-expansion-to-mortality",
     "medicaid-expansion-to-medical-debt",
     "snap-work-requirement-to-participation",
     "universal-prek-to-graduation",
     "equalized-funding-to-spending",
+    "end-cash-bail-to-pretrial-detention",
     "concealed-carry-permit-to-firearm-homicide",
     "automatic-registration-to-turnout",
     "restore-voting-to-turnout",
     "housing-by-right-to-new-buildings",
+    "right-to-counsel-to-evictions",
     "housing-first-to-homelessness",
     "cannabis-sales-to-youth-use",
     "loan-rate-cap-to-high-cost-borrowing",
@@ -43,6 +55,8 @@
     "clean-electricity-to-price",
     "container-deposit-to-recycling",
     "unemployment-to-uninsured",
+    "federal-minimum-wage-to-low-wage-jobs",
+    "mandatory-minimum-cut-to-federal-prisoners",
     "power-plant-carbon-to-emissions",
     "power-plant-carbon-to-particulates",
     "tariffs-to-prices",
@@ -120,9 +134,6 @@
     "poor-roads-to-prices"
   ],
   "waiting": {
-    "police-to-property-crime": {
-      "waitingOn": ["crime.property"]
-    },
     "police-to-low-level-arrests": {
       "waitingOn": ["justice.low-level-arrests"],
       "needsSize": true
@@ -135,22 +146,16 @@
       "waitingOn": ["crime.all"]
     },
     "pretrial-detention-to-future-crime": {
-      "waitingOn": ["justice.pretrial-detained", "crime.reoffense"]
+      "waitingOn": ["crime.reoffense"]
     },
     "pretrial-detention-to-conviction": {
-      "waitingOn": ["justice.pretrial-detained", "justice.conviction"]
+      "waitingOn": ["justice.conviction"]
     },
     "pretrial-detention-to-employment": {
-      "waitingOn": ["justice.pretrial-detained", "labor.formal-employment"]
+      "waitingOn": ["labor.formal-employment"]
     },
     "release-lower-level-to-larceny": {
       "waitingOn": ["law.low-level-offense-reclassified", "crime.larceny"]
-    },
-    "child-access-law-to-youth-gun-deaths": {
-      "waitingOn": ["health.youth-firearm-deaths"]
-    },
-    "min-age-to-youth-gun-suicide": {
-      "waitingOn": ["health.youth-firearm-suicide"]
     },
     "crime-to-out-migration": {
       "waitingOn": ["crime.reported-per-capita"],
@@ -204,7 +209,7 @@
       "waitingOn": ["health.coverage", "health.blood-pressure"]
     },
     "coverage-to-mortality-55-64": {
-      "waitingOn": ["person:health.coverage-pct", "health.mortality-55-64"]
+      "waitingOn": ["person:health.coverage-pct"]
     },
     "work-requirement-to-employment": {
       "waitingOn": ["labor.employment-rate"]
@@ -244,7 +249,7 @@
       "waitingOn": ["labor.minimum-wage-change-pct"]
     },
     "minimum-wage-to-low-wage-jobs": {
-      "waitingOn": ["labor.minimum-wage-to-median", "labor.low-wage-jobs"]
+      "waitingOn": ["labor.minimum-wage-to-median"]
     },
     "parent-incarceration-to-household-income": {
       "waitingOn": ["justice.parent-incarcerated", "household.income"],
@@ -312,9 +317,6 @@
     "home-internet-to-scores": {
       "waitingOn": ["school.test-scores"]
     },
-    "enforcement-to-hispanic-enrollment": {
-      "waitingOn": ["school.hispanic-enrollment"]
-    },
     "daca-to-graduation": {
       "waitingOn": ["immigration.deferred-action", "school.graduation"],
       "needsSize": true
@@ -332,7 +334,7 @@
       "needsSize": true
     },
     "new-apartments-to-nearby-rent": {
-      "waitingOn": ["housing.rent"],
+      "waitingOn": [],
       "needsSize": true
     },
     "rent-burden-to-homelessness": {
@@ -353,9 +355,6 @@
     "home-prices-to-renter-births": {
       "waitingOn": ["births.renters"]
     },
-    "property-tax-to-rent": {
-      "waitingOn": ["housing.rent"]
-    },
     "transit-loss-to-unemployment": {
       "waitingOn": ["labor.unemployment-pct"],
       "needsSize": true
@@ -368,21 +367,12 @@
       "waitingOn": ["roads.condition", "household.vehicle-costs"],
       "needsSize": true
     },
-    "corporate-tax-incidence": {
-      "waitingOn": ["labor.wages"]
-    },
     "incentive-deal-to-industry-jobs": {
       "waitingOn": ["business.incentive-deal", "labor.deal-industry-jobs"],
       "needsSize": true
     },
     "incentive-deal-to-broad-growth": {
       "waitingOn": ["business.incentive-deal", "economy.broad-growth"]
-    },
-    "enforcement-to-undocumented-employment": {
-      "waitingOn": ["labor.undocumented-employment"]
-    },
-    "enforcement-to-us-born-employment": {
-      "waitingOn": ["labor.us-born-employment"]
     },
     "child-tax-credit-to-births": {
       "waitingOn": ["program.child-benefit-dollars"]
@@ -400,9 +390,6 @@
     },
     "abortion-denied-to-financial-distress": {
       "waitingOn": ["person.abortion-denied", "finance.past-due-debt"]
-    },
-    "same-day-registration-to-youth-turnout": {
-      "waitingOn": ["voting.youth-turnout"]
     },
     "all-mail-voting-to-party-share": {
       "waitingOn": ["voting.party-share"]
@@ -440,12 +427,6 @@
       "waitingOn": ["economy.real-income-growth", "approval.incumbent"],
       "needsSize": true
     },
-    "medicaid-expansion-to-mortality": {
-      "waitingOn": ["health.mortality-55-64"]
-    },
-    "end-cash-bail-to-pretrial-detention": {
-      "waitingOn": ["justice.pretrial-detained"]
-    },
     "mandatory-minimums-to-incarceration": {
       "waitingOn": [],
       "needsSize": true
@@ -453,20 +434,11 @@
     "voter-id-to-registration": {
       "waitingOn": ["voting.registration"]
     },
-    "right-to-counsel-to-evictions": {
-      "waitingOn": ["housing.eviction"]
-    },
     "flood-zone-limits-to-damage": {
       "waitingOn": ["disaster.flood-damage"]
     },
     "federal-minimum-wage-to-poverty": {
       "waitingOn": ["labor.minimum-wage-gap-to-15"]
-    },
-    "federal-minimum-wage-to-low-wage-jobs": {
-      "waitingOn": ["labor.low-wage-jobs"]
-    },
-    "mandatory-minimum-cut-to-federal-prisoners": {
-      "waitingOn": ["justice.federal-incarcerated-per-100k"]
     },
     "student-debt-relief-to-finances": {
       "waitingOn": ["finance.past-due-debt"],
@@ -523,10 +495,6 @@
       "owner": "OPUS-GOV",
       "links": 5
     },
-    "justice.pretrial-detained": {
-      "owner": "OPUS-GOV",
-      "links": 4
-    },
     "crime.rate-index": {
       "owner": "OPUS-CORE",
       "links": 3
@@ -551,23 +519,11 @@
       "owner": "OPUS-WORLD",
       "links": 2
     },
-    "health.mortality-55-64": {
-      "owner": "OPUS-PEOPLE",
-      "links": 2
-    },
     "health.mortality-all": {
       "owner": "OPUS-PEOPLE",
       "links": 2
     },
-    "housing.rent": {
-      "owner": "OPUS-WORLD",
-      "links": 2
-    },
     "labor.employment-rate": {
-      "owner": "OPUS-WORLD",
-      "links": 2
-    },
-    "labor.low-wage-jobs": {
       "owner": "OPUS-WORLD",
       "links": 2
     },
@@ -612,10 +568,6 @@
       "links": 1
     },
     "crime.larceny": {
-      "owner": "OPUS-CORE",
-      "links": 1
-    },
-    "crime.property": {
       "owner": "OPUS-CORE",
       "links": 1
     },
@@ -739,14 +691,6 @@
       "owner": "OPUS-PEOPLE",
       "links": 1
     },
-    "health.youth-firearm-deaths": {
-      "owner": "OPUS-PEOPLE",
-      "links": 1
-    },
-    "health.youth-firearm-suicide": {
-      "owner": "OPUS-PEOPLE",
-      "links": 1
-    },
     "household.child-poverty": {
       "owner": "OPUS-WORLD",
       "links": 1
@@ -756,10 +700,6 @@
       "links": 1
     },
     "household.vehicle-costs": {
-      "owner": "OPUS-WORLD",
-      "links": 1
-    },
-    "housing.eviction": {
       "owner": "OPUS-WORLD",
       "links": 1
     },
@@ -776,10 +716,6 @@
       "links": 1
     },
     "justice.conviction": {
-      "owner": "OPUS-GOV",
-      "links": 1
-    },
-    "justice.federal-incarcerated-per-100k": {
       "owner": "OPUS-GOV",
       "links": 1
     },
@@ -831,19 +767,7 @@
       "owner": "OPUS-GOV",
       "links": 1
     },
-    "labor.undocumented-employment": {
-      "owner": "OPUS-WORLD",
-      "links": 1
-    },
     "labor.unemployment-pct": {
-      "owner": "OPUS-WORLD",
-      "links": 1
-    },
-    "labor.us-born-employment": {
-      "owner": "OPUS-WORLD",
-      "links": 1
-    },
-    "labor.wages": {
       "owner": "OPUS-WORLD",
       "links": 1
     },
@@ -947,10 +871,6 @@
       "owner": "OPUS-GOV",
       "links": 1
     },
-    "school.hispanic-enrollment": {
-      "owner": "OPUS-GOV",
-      "links": 1
-    },
     "school.learning": {
       "owner": "OPUS-GOV",
       "links": 1
@@ -972,10 +892,6 @@
       "links": 1
     },
     "voting.registration": {
-      "owner": "OPUS-GOV",
-      "links": 1
-    },
-    "voting.youth-turnout": {
       "owner": "OPUS-GOV",
       "links": 1
     }
