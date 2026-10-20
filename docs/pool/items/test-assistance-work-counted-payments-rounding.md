@@ -22,3 +22,5 @@ claimed-at:
 **Files.** src/core2/law-reach-group-b.test.ts, src/core2/law-reach/group-b-money.ts
 
 **Notes.** TODO
+
+Sent back 2026-10-20 from PR #5731 (branch claude/fs11vb-assist): src/core2/law-reach-group-b.test.ts in the changed counted-payment block still wraps the equality in if (expectedCounted > 0), so an empty rateOf or empty group selection bypasses the payment proof. Assert the required rows and positive expected payment before the equality. docs/pool/items/test-assistance-work-counted-payments-rounding.md:20 also requires the original Guam seed/place to pass, which the body says was not replayed; restore that regression alongside drawn-place coverage.; finish on that branch, merge main into it first.
