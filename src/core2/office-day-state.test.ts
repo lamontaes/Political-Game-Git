@@ -348,7 +348,11 @@ it("words a committee hearing as the chair's question, the witness's reply and a
             .moduleState("core2-legislature-v1")
             .table("committees")
             .rows() as unknown as CommitteeRecord[]
-        ).find((row) => row.memberIds.length > 1);
+        ).find(
+          (row) =>
+            row.memberIds.length > 1 &&
+            stateOfficeOf(coreAPI(core), row.chairId),
+        );
       }
     } catch (error) {
       skipped.push(`${where} (world failed: ${(error as Error).message})`);
