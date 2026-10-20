@@ -61,12 +61,8 @@ import {
 import { lifePlaceByJurisdictionId } from "../life-places";
 import { placeReferencePopulation } from "../nationwide-world/place-population";
 import { recordRelationshipInteraction } from "../records";
-import {
-  ensureTownEmployment,
-  fillTownJobs,
-  laborStatus,
-  townResidents,
-} from "./town-employment";
+import { ensureTownEmployment, fillTownJobs } from "./town-employment";
+import { laborStatus, townResidents } from "../../core2/town-labor";
 import { ensureTownHomes } from "./town-homes";
 import { SeededRng } from "../../core2/kernel/rng";
 import type {

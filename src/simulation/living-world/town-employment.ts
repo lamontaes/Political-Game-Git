@@ -43,17 +43,20 @@ import {
   type BusinessNameContext,
 } from "../../core2/business-names";
 import { jailTermOn } from "../justice/jail-terms";
-import { addDays, ageOnDate, makeIsoDate } from "../../core2/kernel/dates";
+import { addDays, makeIsoDate } from "../../core2/kernel/dates";
 import { createStableId } from "../../core2/kernel/ids";
 import { createOrganization, createWorkRelationships } from "../life";
 import type { CreateWorkRelationshipInput } from "../life";
 import {
-  activeCareResponsibilitiesAt,
-  activeEducationEnrollmentsAt,
-  activeWorkRelationshipsAt,
-  organizationClosingAt,
-  organizationProfileAt,
-} from "../life-queries";
+  activeWorkers,
+  laborStatus,
+  townOrganizationsOf,
+  townResidents,
+  WORKING_AGE_MIN,
+  type Resident,
+  type TownLaborStatus,
+} from "../../core2/town-labor";
+import { organizationClosingAt, organizationProfileAt } from "../life-queries";
 import { lifePlaceByJurisdictionId } from "../life-places";
 import {
   countyGeoidsForPlace,
@@ -76,13 +79,7 @@ import {
   type Workplace,
 } from "../../core2/town-workplaces";
 import { townBusinessHasRoomToHire } from "./town-business-books";
-import type {
-  EntityId,
-  IsoDate,
-  OrganizationClassification,
-  WorkRoleRecord,
-  World,
-} from "../types";
+import type { EntityId, IsoDate, WorkRoleRecord, World } from "../types";
 import {
   COUNTY_SECTOR_EMPLOYMENT,
   STATE_PUBLIC_EMPLOYMENT,
@@ -100,10 +97,6 @@ const ESTIMATED_EMPLOYER_NAME_PROVENANCE = {
   kind: "generated" as const,
   generatorKey: `${TOWN_EMPLOYMENT_VERSION}:estimated-local-name`,
 };
-
-/** The youngest and oldest ages the town's jobs are filled for. */
-export const WORKING_AGE_MIN = 18;
-export const WORKING_AGE_MAX = 66;
 
 /* -------------------------------------------------------------------------- */
 /* Sourced mix                                                                */
@@ -392,40 +385,6 @@ export function townWorkplaceWeights(
 }
 
 /* -------------------------------------------------------------------------- */
-/* Labor status from recorded circumstances                                   */
-/* -------------------------------------------------------------------------- */
-
-export type TownLaborStatus =
-  "employed" | "student" | "retired" | "parent-at-home" | "looking-for-work";
-
-export interface Resident {
-  readonly personId: EntityId;
-  readonly age: number;
-  readonly enrolled: boolean;
-  readonly parentOfYoungChild: boolean;
-}
-
-export function laborStatus(world: World, resident: Resident): TownLaborStatus {
-  // A saved job takes precedence over enrollment or household composition.
-  if (activeWorkRelationshipsAt(world, resident.personId).length > 0)
-    return "employed";
-  if (activeEducationEnrollmentsAt(world, resident.personId).length > 0)
-    return "student";
-  if (
-    resident.parentOfYoungChild &&
-    activeCareResponsibilitiesAt(world, resident.personId).some(
-      ({ state }) => state.share === "primary",
-    )
-  )
-    return "parent-at-home";
-  // Here employed means eligible for the existing job-matching path, not a
-  // claim that a job exists. The summary counts only actual active jobs and
-  // reports an unmatched candidate as looking for work. Age alone is not a
-  // retirement record, and a seed supplies no evidence of unemployment.
-  return "employed";
-}
-
-/* -------------------------------------------------------------------------- */
 /* Filling the town's jobs                                                    */
 /* -------------------------------------------------------------------------- */
 
@@ -435,92 +394,10 @@ function yearsBefore(date: IsoDate, years: number): IsoDate {
   return makeIsoDate(`${year}${rest === "-02-29" ? "-02-28" : rest}`);
 }
 
-export function townOrganizationsOf(
-  world: World,
-  town: EntityId,
-  classification: OrganizationClassification,
-): readonly EntityId[] {
-  return world.history.organizations
-    .filter((organization) => {
-      const profile = organizationProfileAt(world, organization.id);
-      return (
-        profile?.classification === classification &&
-        profile.locationJurisdictionId === town
-      );
-    })
-    .map((organization) => organization.id);
-}
-
-/** The town's written working-age residents, with what their status needs. */
-export function townResidents(
-  world: World,
-  town: EntityId,
-): readonly Resident[] {
-  const dead = new Set(world.history.personDeaths.map((row) => row.personId));
-  const enrolled = new Set(
-    world.history.educationEnrollments.map((row) => row.personId),
-  );
-  const householdOf = new Map<EntityId, EntityId[]>();
-  for (const membership of world.history.householdMemberships) {
-    const list = householdOf.get(membership.householdId) ?? [];
-    list.push(membership.personId);
-    householdOf.set(membership.householdId, list);
-  }
-  const youngChildHouseholds = new Set<EntityId>();
-  const partnered = new Set(
-    world.history.partnerships.flatMap((row) => row.personIds),
-  );
-  const householdsOf = new Map<EntityId, EntityId[]>();
-  for (const [household, members] of householdOf)
-    for (const member of members) {
-      const person = world.people[member];
-      if (person && ageOnDate(person.birthDate, world.currentDate) < 6)
-        youngChildHouseholds.add(household);
-      const list = householdsOf.get(member) ?? [];
-      list.push(household);
-      householdsOf.set(member, list);
-    }
-  const residents: Resident[] = [];
-  for (const personId of world.personOrder) {
-    const person = world.people[personId];
-    if (!person || person.homeJurisdictionId !== town || dead.has(personId))
-      continue;
-    const age = ageOnDate(person.birthDate, world.currentDate);
-    if (age < WORKING_AGE_MIN || age > WORKING_AGE_MAX) continue;
-    residents.push({
-      personId,
-      age,
-      enrolled: enrolled.has(personId),
-      parentOfYoungChild:
-        partnered.has(personId) &&
-        (householdsOf.get(personId) ?? []).some((household) =>
-          youngChildHouseholds.has(household),
-        ),
-    });
-  }
-  return residents;
-}
-
 export interface TownEmploymentSummary {
   readonly workingAge: number;
   readonly employed: number;
   readonly byStatus: Readonly<Record<TownLaborStatus, number>>;
-}
-
-/** Everyone with a job whose latest status today is active. */
-export function activeWorkers(world: World): ReadonlySet<EntityId> {
-  const personOf = new Map(
-    world.history.workRelationships.map((row) => [row.id, row.personId]),
-  );
-  // A relationship's latest status decides whether it is active now.
-  const latest = new Map<EntityId, string>();
-  for (const row of world.history.workStatuses)
-    if (row.effectiveAt <= world.currentDate)
-      latest.set(row.workRelationshipId, row.status);
-  const working = new Set<EntityId>();
-  for (const [relationshipId, status] of latest)
-    if (status === "active") working.add(personOf.get(relationshipId)!);
-  return working;
 }
 
 /**

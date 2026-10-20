@@ -41,14 +41,13 @@ import {
   townBusinessLaysOff,
 } from "./town-business-books";
 import type { EntityId, WorkStatusRecord, World } from "../types";
+import { TOWN_EMPLOYMENT_VERSION, fillTownJobs } from "./town-employment";
 import {
-  TOWN_EMPLOYMENT_VERSION,
   WORKING_AGE_MAX,
   WORKING_AGE_MIN,
-  fillTownJobs,
   laborStatus,
   townResidents,
-} from "./town-employment";
+} from "../../core2/town-labor";
 import { ageOnDate, dateAtAge } from "../../core2/kernel/dates";
 import {
   evaluateDecision,

@@ -13,7 +13,11 @@
 import type { EntityId, IsoDate, World } from "../types";
 import { organizationProfileAt } from "../life-queries";
 import { describeTownBusinesses } from "./town-businesses";
-import { activeWorkers, laborStatus, townResidents } from "./town-employment";
+import {
+  activeWorkers,
+  laborStatus,
+  townResidents,
+} from "../../core2/town-labor";
 import { isTownBirth } from "./town-families";
 import { activeTownJobs } from "./town-labor-market";
 import { townHourlyPayCents } from "./town-pay";

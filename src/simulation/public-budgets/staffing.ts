@@ -11,13 +11,13 @@ import type {
   World,
   WorkStatusRecord,
 } from "../types";
+import { fillTownJobs } from "../living-world/town-employment";
 import {
-  fillTownJobs,
   laborStatus,
   townOrganizationsOf,
   townResidents,
-} from "../living-world/town-employment";
-import type { Resident } from "../living-world/town-employment";
+  type Resident,
+} from "../../core2/town-labor";
 import {
   recordTownJobLoss,
   TOWN_JOB_END_REASONS,

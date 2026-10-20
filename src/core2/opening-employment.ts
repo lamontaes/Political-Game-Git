@@ -9,12 +9,10 @@ import {
 import { createStableId, stableHash } from "./kernel/ids";
 import { organizationProfileAt } from "../simulation/life-queries";
 import {
-  activeWorkers,
-  laborStatus,
   townEmploymentMix,
-  townResidents,
   townWorkplaceWeights,
 } from "../simulation/living-world/town-employment";
+import { activeWorkers, laborStatus, townResidents } from "./town-labor";
 import {
   TOWN_MEDIAN_TENURE_BY_AGE,
   TOWN_PART_TIME_DEFAULT,

@@ -6,7 +6,7 @@ import {
   corePlaceStateIdentities,
   coreStateJurisdiction,
 } from "./place-lookup";
-import { WORKING_AGE_MIN } from "../simulation/living-world/town-employment";
+import { WORKING_AGE_MIN } from "./town-labor";
 import { materializeTownHousehold } from "../simulation/living-world/town-residents";
 import { townHouseholdPeople, townHouseholdSkeleton } from "./town-households";
 import { PEOPLE_MIND_VERSION } from "./people-mind";
