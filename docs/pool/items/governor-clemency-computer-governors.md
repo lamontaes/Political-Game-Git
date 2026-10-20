@@ -22,3 +22,5 @@ claimed-at:
 **Files.** src/core2/modules/office-governor.ts, src/core2/office-day-state.ts
 
 **Notes.** TODO
+
+Sent back 2026-10-20 from PR #5536 (branch claude/computer-governor-clemency): after finding a governor with authority and prisoners, the test retries another town when no petition is decided; assert decisions exist on that eligible draw instead of discarding the feature failure; finish on that branch, merge main into it first.
