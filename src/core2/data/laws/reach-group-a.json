@@ -890,58 +890,12 @@
     "us-policy-positions:government-operations.all-mail-voting": {
       "source": "All-mail elections (Colorado, Oregon, Utah and Washington; Gerber, Huber and Hill, Political Science Research and Methods, 2013).",
       "mechanic": "voting",
-      "reaches": [
-        {
-          "id": "voters",
-          "target": "people",
-          "select": {
-            "ageFrom": "adultAge"
-          },
-          "kind": "right",
-          "what": "is mailed a ballot for every election",
-          "enforcer": "the board of elections",
-          "penalty": "none: a service"
-        },
-        {
-          "id": "counted-voters",
-          "target": "counted",
-          "select": {
-            "ageFrom": "adultAge"
-          },
-          "kind": "right",
-          "what": "is mailed a ballot for every election",
-          "enforcer": "the board of elections",
-          "penalty": "none: a service"
-        }
-      ]
+      "reaches": []
     },
     "us-policy-positions:government-operations.automatic-voter-registration": {
       "source": "Automatic voter registration (Brennan Center for Justice, AVR Impact on State Voter Registration, 2019).",
       "mechanic": "voting",
-      "reaches": [
-        {
-          "id": "voters",
-          "target": "people",
-          "select": {
-            "ageFrom": "adultAge"
-          },
-          "kind": "right",
-          "what": "is registered to vote when they deal with a state agency unless they opt out",
-          "enforcer": "the board of elections",
-          "penalty": "none: a service"
-        },
-        {
-          "id": "counted-voters",
-          "target": "counted",
-          "select": {
-            "ageFrom": "adultAge"
-          },
-          "kind": "right",
-          "what": "is registered to vote when they deal with a state agency unless they opt out",
-          "enforcer": "the board of elections",
-          "penalty": "none: a service"
-        }
-      ]
+      "reaches": []
     },
     "us-policy-positions:government-operations.independent-redistricting": {
       "source": "Independent redistricting commissions (National Conference of State Legislatures, Redistricting Commissions, 2024).",
@@ -964,58 +918,12 @@
     "us-policy-positions:government-operations.require-photo-id-to-vote": {
       "source": "Strict photo ID laws (National Conference of State Legislatures, Voter ID Laws, 2024; GAO-15-19, 2014).",
       "mechanic": "voting",
-      "reaches": [
-        {
-          "id": "voters",
-          "target": "people",
-          "select": {
-            "ageFrom": "adultAge"
-          },
-          "kind": "rule",
-          "what": "must show a photo ID to vote",
-          "enforcer": "the board of elections",
-          "penalty": "a provisional ballot that counts only if they show ID later"
-        },
-        {
-          "id": "counted-voters",
-          "target": "counted",
-          "select": {
-            "ageFrom": "adultAge"
-          },
-          "kind": "rule",
-          "what": "must show a photo ID to vote",
-          "enforcer": "the board of elections",
-          "penalty": "a provisional ballot that counts only if they show ID later"
-        }
-      ]
+      "reaches": []
     },
     "us-policy-positions:government-operations.same-day-voter-registration": {
       "source": "Same-day voter registration (Grumbach and Hill, Journal of Politics, 2022).",
       "mechanic": "voting",
-      "reaches": [
-        {
-          "id": "voters",
-          "target": "people",
-          "select": {
-            "ageFrom": "adultAge"
-          },
-          "kind": "right",
-          "what": "may register and vote on the same day",
-          "enforcer": "the board of elections",
-          "penalty": "none: a right"
-        },
-        {
-          "id": "counted-voters",
-          "target": "counted",
-          "select": {
-            "ageFrom": "adultAge"
-          },
-          "kind": "right",
-          "what": "may register and vote on the same day",
-          "enforcer": "the board of elections",
-          "penalty": "none: a right"
-        }
-      ]
+      "reaches": []
     },
     "us-policy-positions:government-operations.ban-lobbying-after-office": {
       "source": "Revolving-door limits on former officials lobbying (National Conference of State Legislatures, Revolving Door Prohibitions, 2024).",

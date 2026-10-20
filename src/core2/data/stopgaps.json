@@ -1572,7 +1572,7 @@
     "kind": "missing-mechanic",
     "file": "src/core2/data/laws/reach-group-a.json",
     "line": 947,
-    "whatItFakes": "Independent redistricting records the rule on legislators, but no district lines are drawn by anyone.",
+    "whatItFakes": "Independent redistricting is applied only where the town draws its council ward lines (equal population, by a commission where the law is in force); no state or House district is drawn by anyone.",
     "why": "There is no redistricting engine, and no districting event happens in a played year: state and House districts are fixed Census joins (src/districts), the starting lines are the 2026 plans, and the next apportionment is after the 2030 census. Checked Oct 15 (Claude, pool laws-family-government-operations): no code in src/core2 draws a district or reads this law. The design exists (docs/codex/specs/bank/b16-redistricting-vra.md; owner D-6 and Sept 28 #8); the work is pool item gov-redistricting-engine.",
     "addedBy": "OPUS-GOV (sub-agent A)",
     "addedAt": "2026-10-12",

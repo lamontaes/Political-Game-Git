@@ -122,6 +122,30 @@
       "source": "Gerber, Huber and Hill (Political Science Research and Methods, 2013): all-mail elections in Washington raised turnout about 2 to 4 points; the share of the work-time cost of getting to the polls a mailed ballot removes.",
       "spread": [0.1, 0.5]
     },
+    "mailBallotCostMinor": {
+      "value": 300,
+      "tag": "ESTIMATED",
+      "source": "Pew Charitable Trusts, Colorado Voting Reforms (2016), and county auditor reports from Washington and Oregon: printing, outbound and prepaid return postage, and processing run about $1.50 to $6 a ballot mailed. In cents.",
+      "spread": [150, 600]
+    },
+    "photoIdIssueCostMinor": {
+      "value": 1500,
+      "tag": "ESTIMATED",
+      "source": "GAO-15-19 (2014) and state fiscal notes for strict photo ID laws: a free voter ID costs the state about $10 to $30 to issue, counting staff time and materials. In cents, per voter with no current ID.",
+      "spread": [800, 3000]
+    },
+    "automaticRegistrationCostMinor": {
+      "value": 200,
+      "tag": "ESTIMATED",
+      "source": "Brennan Center for Justice, Automatic Voter Registration cost studies (2019): an electronic transfer from the motor vehicle office costs about $0.50 to $4 a registration, less than a paper form. In cents.",
+      "spread": [50, 400]
+    },
+    "sameDayRegistrationCostMinor": {
+      "value": 400,
+      "tag": "ESTIMATED",
+      "source": "Election administrators in same-day registration states (Demos, Same Day Registration, 2014): added poll staff and registration processing run about $2 to $8 for each person who registers at the polls. In cents.",
+      "spread": [200, 800]
+    },
     "rentIncreaseCap": {
       "value": 0.07,
       "tag": "ESTIMATED",

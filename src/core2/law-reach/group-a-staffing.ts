@@ -16,6 +16,7 @@ import type {
 } from "../types";
 import type { ModuleRow } from "../module-data";
 import type { PolicyHandler } from "./host";
+import { lawApplied, lawNoLongerApplies } from "./applied";
 import { BUDGETS_MODULE_ID, governments } from "../modules/budgets";
 import { baseLine, budgetToday } from "./group-a-money";
 import {
@@ -104,6 +105,20 @@ export const staffing: PolicyHandler = (api, change) => {
         count: Math.round(row.positions),
       },
     ]);
+    // The staffing engine read the line: the employer is funded for these
+    // positions against the staff it opened with, until the line is back at
+    // its base.
+    if (Math.abs(row.positions - baseStaff) >= 0.5)
+      lawApplied(api, {
+        key: change.key,
+        lawId: change.lawId,
+        targetId: organizationId,
+        target: "organization",
+        engine: REACH_A_MODULE_ID,
+        what: row.positions > baseStaff ? "staff-funded" : "staff-cut",
+        count: Math.max(1, Math.round(row.positions)),
+      });
+    else lawNoLongerApplies(api, change.key, organizationId);
     // Two laws changing the same employer's staffing on one day (a city's
     // and a county's budgets adopted together) share one hiring round: the
     // round reads the latest staffing row when it runs.
@@ -233,6 +248,24 @@ onReachCalendar(STAFFING_KIND, (api, work) => {
       laidOff.push(s.personId);
     }
   }
+  for (const personId of hired)
+    lawApplied(api, {
+      key: row.key,
+      lawId: row.lawId,
+      targetId: personId,
+      target: "person",
+      engine: REACH_A_MODULE_ID,
+      what: "hired-on-budget-line",
+    });
+  for (const personId of laidOff)
+    lawApplied(api, {
+      key: row.key,
+      lawId: row.lawId,
+      targetId: personId,
+      target: "person",
+      engine: REACH_A_MODULE_ID,
+      what: "laid-off-budget-cut",
+    });
   const toTargets = (ids: readonly string[]) =>
     ids.map((id) => ({ id, personId: id, count: null }));
   writeRows(

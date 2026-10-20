@@ -7,6 +7,8 @@ import { POLICY_QUESTIONS } from "./policy-answers";
 import { LAWS_MODULE_ID, lawChain } from "./modules/laws";
 import type { Authority } from "./modules/legislature";
 import type { CoreAPI } from "./types";
+import { lawApplied } from "./law-reach/applied";
+import { BUDGETS_MODULE_ID, governments } from "./modules/budgets";
 import type { LawRowInput } from "./laws-starting";
 
 export type PolicyLevel = "federal" | "state" | "county" | "city";
@@ -139,6 +141,21 @@ export function policyAuthority(
     ) {
       const grant = stateLaw(api, HOME_RULE);
       if (!grant) return unsettled(basis);
+      // The state's grant of home rule is what lets this level's body
+      // legislate here: the government it let is the law's reach.
+      if (grant.value === 1) {
+        const body = api.state.modules.has(BUDGETS_MODULE_ID)
+          ? governments(api).find((g) => g.level === level)
+          : undefined;
+        lawApplied(api, {
+          key: HOME_RULE,
+          lawId: grant.id,
+          targetId: body?.id ?? `${level}:${lawChain(api).townPlaceId}`,
+          target: "government",
+          engine: "core2-legislature-v1",
+          what: "home-rule-lets-body-legislate",
+        });
+      }
       return result(
         grant.value === 1,
         grant.value === 1 ? "state-has-own-law" : "level-lacks-power",
