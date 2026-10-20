@@ -64,3 +64,41 @@ it("leaves households that earn owing under a tenth of their living costs after 
     setBookkeeping(true);
   }
 }, 600_000);
+
+it("the wider population carries what a group could not pay of its living cost, and the books balance", () => {
+  setBookkeeping(false);
+  try {
+    const draw = drawPlace(seed, "living-costs-arrears-counted");
+    const { core } = buildBenchWorld(draw.seed, gameStartDate(), {
+      twoLevel: true,
+      placeKey: draw.key,
+    });
+    const where = `${draw.key} [${draw.state}], seed ${draw.seed}`;
+    advanceCore(core, addDays(makeIsoDate(core.date), 90));
+    const rt = residentsRuntime(core)!;
+    // A counted living-cost flow holds as arrears exactly what its groups owe.
+    const counted = [...rt.flows.values()].filter(
+      (flow) =>
+        flow.financeKind === "household.outside-living-costs" &&
+        !flow.endedAt &&
+        flow.payerId === flow.residentsId,
+    );
+    expect(
+      counted.length,
+      `${where}: counted living-cost flows`,
+    ).toBeGreaterThan(0);
+    const owedByGroups = [...rt.livingArrears.values()].reduce(
+      (n, v) => n + v,
+      0,
+    );
+    const owedByFlows = counted.reduce((n, flow) => n + flow.arrearsMinor, 0);
+    expect(owedByFlows, `${where}: flows carry what groups owe`).toBe(
+      owedByGroups,
+    );
+    expect(core.cashJournal.totals.grossDebitMinor, where).toBe(
+      core.cashJournal.totals.grossCreditMinor,
+    );
+  } finally {
+    setBookkeeping(true);
+  }
+}, 600_000);

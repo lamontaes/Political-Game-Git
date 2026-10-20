@@ -149,6 +149,8 @@ export interface ResidentsRuntime {
   funded: boolean;
   /** Housing payments each group still owes. */
   arrears: Map<number, number>;
+  /** Outside living costs each group could not pay, asked again each day until paid. */
+  livingArrears: Map<number, number>;
   /** Each group's monthly housing and outside living costs, kept back from its spending. */
   housingDue: Map<number, number>;
   /** Each group's latest month of housing payments: asked and paid. */
@@ -650,6 +652,7 @@ export function admitResidents(core: CoreState, input: ResidentsInput): void {
     funds: new Map(),
     funded: false,
     arrears: new Map(),
+    livingArrears: new Map(),
     housingDue: new Map(),
     housingMonth: new Map(),
     withholdingYtd: new Map(),
@@ -947,8 +950,7 @@ function settle(api: CoreAPI, rt: ResidentsRuntime, flow: FlowState): void {
     flow.financeKind === FIXED_SPENDING || HOUSING_KINDS.has(flow.financeKind);
   // A household's living cost it could not pay is carried and asked again each
   // day until paid (like rent), so cash that arrives after the 1st still pays it.
-  const carries =
-    flow.financeKind === FIXED_SPENDING && !countedPays && !countedPaid;
+  const carries = flow.financeKind === FIXED_SPENDING && !countedPaid;
   const askedBefore = carries ? flow.arrearsMinor : 0;
   if (carries && date < flow.nextAt) base = 0;
   let requested =
@@ -963,6 +965,7 @@ function settle(api: CoreAPI, rt: ResidentsRuntime, flow: FlowState): void {
       id: `${flow.id}@${date}`,
       flow,
       requested: base,
+      ...(carries ? { carry: rt.livingArrears } : {}),
       reasonKey: flow.financeKind,
       source: flow.source,
       ...(scaled
