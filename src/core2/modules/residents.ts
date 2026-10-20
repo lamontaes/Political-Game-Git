@@ -1615,7 +1615,7 @@ export function releaseResidentHousehold(
   /** False when the household is gone (its last member died): its payments just end. */
   options: { ownFlows?: boolean } = {},
 ): {
-  calendars: Map<string, WorkPayrollCalendarInput>;
+  calendars: ReadonlyMap<string, WorkPayrollCalendarInput>;
   cashShare: number;
   accountId?: string;
   /** This release's number, for naming its transfers. */
@@ -1686,7 +1686,7 @@ export function releaseResidentHousehold(
       let removed = 0;
       for (const id of parts) removed += present[id] ?? 0;
       if (!removed) continue;
-      const amounts = { ...present };
+      const amounts = ownMap(present);
       const outside =
         core.organizations.get(flow.payeeId)?.outsideFlow !== undefined;
       for (const id of parts) {
@@ -1749,21 +1749,23 @@ export function releaseResidentHousehold(
         source: rt.input.source,
       });
   }
-  const calendars = new Map(
-    (rt.input.calendars ?? []).map((row) => [row.id, row]),
-  );
+  const calendars = calendarsById(rt.input.calendars ?? []);
   // The household now pays its own outside living costs from its payer.
   const payer = record.people.find((row) => row.livingCostDailyMinor > 0);
   // Its worker without a recorded job commutes to an employer outside the
   // town: their share of the place's unplaced workers' pay becomes a job at
   // the place's outside account, paid and taxed by the work payroll.
   if (ownFlows && cash && cash.unplaced > 0) {
-    const unplaced = [...rt.flows.values()].find(
-      (flow) =>
+    let unplaced: FlowState | undefined;
+    for (const flow of rt.flows.values())
+      if (
         !flow.endedAt &&
         flow.financeKind === UNPLACED_WAGES &&
-        flow.placeId === placeId,
-    );
+        flow.placeId === placeId
+      ) {
+        unplaced = flow;
+        break;
+      }
     // The member who holds the share is out of work: one hired since the
     // opening (a press reporter, say) has a job of their own.
     const worker = record.people.find((row) => {
@@ -2541,10 +2543,9 @@ export function returnToCounts(
     const key = flowId.startsWith(MORTGAGE_KEY)
       ? `${MORTGAGE_KEY}${h.id}`
       : part;
-    flow.amountByContract = {
-      ...flow.amountByContract,
-      [key]: (flow.amountByContract[key] ?? 0) + amount,
-    };
+    const amounts = ownMap(flow.amountByContract);
+    amounts[key] = (amounts[key] ?? 0) + amount;
+    flow.amountByContract = amounts;
     flow.amountMinor += amount;
   }
   const account = rt.input.accounts.find(
@@ -2594,9 +2595,39 @@ export function keepCalendar(
 ): void {
   const rt = runtimes.get(core);
   if (!rt) return;
-  const calendars = rt.input.calendars ?? [];
-  if (calendars.some((row) => row.id === calendar.id)) return;
-  rt.input = { ...rt.input, calendars: [...calendars, calendar] };
+  const held = rt.input.calendars ?? [];
+  if (calendarsById(held).has(calendar.id)) return;
+  // Copied once (the opening's list may be shared or frozen), then added to
+  // in place with its index: copying it for every kept calendar was
+  // quadratic in the town's calendars.
+  let calendars = held as WorkPayrollCalendarInput[];
+  if (!ownedCalendarLists.has(held)) {
+    calendars = [...held];
+    ownedCalendarLists.add(calendars);
+    calendarIndexes.set(calendars, new Map(calendarsById(held)));
+    rt.input = { ...rt.input, calendars };
+  }
+  calendars.push(calendar);
+  calendarIndexes.get(calendars)!.set(calendar.id, calendar);
+}
+
+const calendarIndexes = new WeakMap<
+  readonly WorkPayrollCalendarInput[],
+  Map<string, WorkPayrollCalendarInput>
+>();
+const ownedCalendarLists = new WeakSet<readonly WorkPayrollCalendarInput[]>();
+
+/** The calendars by id, indexed once per list instead of on every release. */
+function calendarsById(
+  list: readonly WorkPayrollCalendarInput[],
+): ReadonlyMap<string, WorkPayrollCalendarInput> {
+  let index = calendarIndexes.get(list);
+  if (!index) {
+    index = new Map();
+    for (const row of list) index.set(row.id, row);
+    calendarIndexes.set(list, index);
+  }
+  return index;
 }
 
 /**
