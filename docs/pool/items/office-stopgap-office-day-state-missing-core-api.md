@@ -23,3 +23,5 @@ claimed-at:
 
 **Notes.** First row: Dev mode's custom start as a sitting state officeholder ends the seat's serving term and writes the player's term into the offices engine's table directly, keeping the previous holder's party; it is not reached in ordina
 Sent back 2026-10-20 from PR #5247 (branch claude/pool-state-seat-person-2): Morning check failed because stopgap row SG-STATE-dev-seat-player was deleted from stopgaps.json instead of marked resolved; finish on that branch, merge main into it first.
+
+Sent back 2026-10-20 from PR #5247 (branch claude/pool-state-seat-person-2): src/core2/data/stopgaps.json deletes SG-STATE-dev-seat-player, as the body also states. The merger rule forbids deleting registered stopgap rows: retain the row, mark it resolved, name seatPerson and its reader in the resolution, and remove only the obsolete code marker. Rerun changed-file checks after merging main.; finish on that branch, merge main into it first.
