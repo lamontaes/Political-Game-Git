@@ -50,21 +50,51 @@ it("every named worker at a town department has been paid within a quarter", () 
       tried.push(`${where}: no named town department staff`);
       continue;
     }
-    const credited = (id: string) =>
-      core.cashJournal.totalsByOwner.get(id)?.grossCreditMinor ?? 0;
-    const before = new Map(
-      staff.map((s) => [s.personId, credited(s.personId)]),
+    // Pay is proven by wage journal entries: a work-payroll entry that debits
+    // the worker's own department and credits the worker.
+    const account = (id: string) =>
+      core.cashJournal.residualAccountByOwner.get(id);
+    const departmentOf = new Map(
+      [...core.jobs.values()]
+        .filter((job) => job.endsAt === undefined)
+        .map((job) => [job.personId, job.organizationId] as const),
     );
+    const paid = new Map<string, string>();
+    const post = api.postJournal.bind(api);
+    api.postJournal = (entry) => {
+      if (entry.sourceRef.kind === "work-payroll")
+        for (const s of staff) {
+          const worker = account(s.personId);
+          const department = account(departmentOf.get(s.personId) ?? "");
+          if (
+            worker &&
+            department &&
+            !paid.has(s.personId) &&
+            entry.postings.some(
+              (p) => p.accountId === worker && p.deltaMinor > 0,
+            ) &&
+            entry.postings.some(
+              (p) => p.accountId === department && p.deltaMinor < 0,
+            )
+          )
+            paid.set(s.personId, String(entry.sourceRef.id));
+        }
+      return post(entry);
+    };
     advanceCore(core, addDays(makeIsoDate(core.date), 90));
-    for (const s of staff) {
-      if (!core.people.get(s.personId)?.alive) continue;
+    // Everyone alive at the end is checked; if no one is, that is a failure.
+    const checked = staff.filter((s) => core.people.get(s.personId)?.alive);
+    expect(
+      checked.length,
+      `${where}: no town department worker alive to check`,
+    ).toBeGreaterThan(0);
+    for (const s of checked)
       expect(
-        credited(s.personId),
-        `${where}: ${s.department} worker ${s.personId} was paid`,
-      ).toBeGreaterThan(before.get(s.personId)!);
-    }
+        paid.get(s.personId),
+        `${where}: ${s.department} worker ${s.personId} has a wage entry from the department`,
+      ).toBeDefined();
     process.stdout.write(
-      `${where}: ${staff.length} town department workers paid, first ${staff[0]!.personId} at ${staff[0]!.department}\n`,
+      `${where}: ${checked.length} town department workers paid by their departments, first ${checked[0]!.personId} by wage entry ${paid.get(checked[0]!.personId)}\n`,
     );
     return;
   }
