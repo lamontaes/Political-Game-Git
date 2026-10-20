@@ -42,10 +42,10 @@
     "n/a": 3
    },
    "systems": {
-    "wired": 66,
+    "wired": 68,
     "partial": 0,
     "missing": 0,
-    "stopgap": 23,
+    "stopgap": 21,
     "n/a": 0
    },
    "money": {
@@ -3009,13 +3009,13 @@
      "why": "it applies to officeholders and legislative bodies, who are always full people, so no counted group is in its reach"
     },
     "systems": {
-     "status": "stopgap",
-     "evidence": "src/core2/law-reach/group-a-records.ts:251 <- src/core2/life.ts:549",
-     "why": "read only when a body drafts a bill under it, and the checker drafts none (SG-LAW-wiring-read-on-drafting)"
+     "status": "wired",
+     "evidence": "src/core2/modules/legislature.ts:2103",
+     "why": ""
     },
     "money": {
      "status": "wired",
-     "evidence": "Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): accounts.transfer @ src/core2/world-transfer.ts:40 303933782 -> 304652640 (journal:2025-02-01:1841); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): accounts.transfer @ src/core2/counted-money.ts:605 521812723 -> 522198357 (journal:2025-01-24:1554); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): accounts.transfer @ src/core2/counted-money.ts:800 17253999 -> 17523804 (journal:2025-02-06:7715)",
+     "evidence": "Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): interest-group-dues @ src/core2/modules/interest-groups.ts:433 350000 -> 200000 (journal:2025-02-05:7676)",
      "why": ""
     },
     "web": {
@@ -3025,7 +3025,7 @@
     },
     "knowing": {
      "status": "wired",
-     "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 1 people heard (person_2dc9b118ebc09a54:printed:outlet:television:1:jurisdiction_971998ff58477430:law-took-effect:law:place:2666300:city:us-policy-positions:labor-workforce.local-minimum-wage-authority:general:2025-01-21:law-wiring-d994f5d4)",
+     "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 62 people heard (person_a66a50fc6585ed57:printed:outlet:television:1:jurisdiction_971998ff58477430:law-took-effect:law:place:2666300:city:us-policy-positions:labor-workforce.local-minimum-wage-authority:general:2025-01-21:law-wiring-d994f5d4); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 72 people heard (person_10606db92b470665:printed:outlet:cable:0:national:law-took-effect:law:US-NE:state:us-policy-positions:labor-workforce.local-minimum-wage-authority:general:2025-01-21:law-wiring-d994f5d4)",
      "why": ""
     },
     "repeal": {
@@ -3042,12 +3042,12 @@
    "runs": [
     {
      "place": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10)",
-     "change": "enacted at city (law:place:2666300:city:us-policy-positions:labor-workforce.local-minimum-wage-authority:general:2025-01-21:law-wiring-d994f5d4) effective 2025-01-21; then repealed at city effective 2026-02-26",
+     "change": "enacted at city (law:place:2666300:city:us-policy-positions:labor-workforce.local-minimum-wage-authority:general:2025-01-21:law-wiring-d994f5d4) effective 2025-01-21; then repealed at city effective 2025-02-26",
      "inForceAtOpening": false
     },
     {
      "place": "Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8)",
-     "change": "repealed at state effective 2025-01-21; then enacted at city (law:place:3149425:city:us-policy-positions:labor-workforce.local-minimum-wage-authority:general:2026-02-26:law-wiring-d994f5d4-b) effective 2026-02-26",
+     "change": "repealed at state effective 2025-01-21; then enacted at city (law:place:3149425:city:us-policy-positions:labor-workforce.local-minimum-wage-authority:general:2025-02-26:law-wiring-d994f5d4-b) effective 2025-02-26",
      "inForceAtOpening": true
     }
    ],
@@ -6045,9 +6045,9 @@
      "why": "read only when a body drafts a bill under it, and the checker drafts none (SG-LAW-wiring-read-on-drafting)"
     },
     "systems": {
-     "status": "stopgap",
-     "evidence": "table trace: no engine read the law's rows in the run",
-     "why": "read only when a body drafts a bill under it, and the checker drafts none (SG-LAW-wiring-read-on-drafting)"
+     "status": "wired",
+     "evidence": "src/core2/modules/legislature.ts:912",
+     "why": ""
     },
     "money": {
      "status": "wired",

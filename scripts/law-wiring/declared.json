@@ -169,11 +169,6 @@
         "why": "read only when a body drafts a bill under it, and the checker drafts none",
         "id": "SG-LAW-wiring-read-on-drafting"
       },
-      "systems": {
-        "status": "stopgap",
-        "why": "read only when a body drafts a bill under it, and the checker drafts none",
-        "id": "SG-LAW-wiring-read-on-drafting"
-      },
       "repeal": {
         "status": "stopgap",
         "why": "read only when a body drafts a bill under it, and the checker drafts none",
@@ -674,11 +669,6 @@
       "reach": {
         "status": "n/a",
         "why": "it applies to officeholders and legislative bodies, who are always full people, so no counted group is in its reach"
-      },
-      "systems": {
-        "status": "stopgap",
-        "why": "read only when a body drafts a bill under it, and the checker drafts none",
-        "id": "SG-LAW-wiring-read-on-drafting"
       },
       "web": {
         "status": "stopgap",

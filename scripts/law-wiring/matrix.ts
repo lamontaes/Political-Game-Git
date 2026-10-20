@@ -121,6 +121,12 @@ const DECLARED = (
   }
 ).laws;
 
+/** Laws that grant or withhold a power: the legislature reads them when a body drafts under them. */
+const AUTHORITY_LAWS = new Set([
+  "local-minimum-wage-authority",
+  "us-policy-positions:labor-workforce.local-minimum-wage-authority",
+  "local-income-tax-authority",
+]);
 const isEngine = (file: string) =>
   !NOT_AN_EFFECT.some((p) => file.startsWith(p));
 
@@ -204,11 +210,17 @@ function systemsLink(
   }
   const engines = new Map<string, number>();
   const handlers = new Set<string>();
+  // An authority law's effect is the legislature's check when a body drafts under it.
+  const drafting = AUTHORITY_LAWS.has(law.key);
   for (const { r } of runs)
     for (const [frame, n] of Object.entries(r.readers ?? {})) {
       // A law-reach read names the engine that called it ("reach <- caller").
       const caller = frame.split(" <- ")[1];
-      if (isEngine(frame) || (caller && caller !== "none" && isEngine(caller)))
+      if (
+        isEngine(frame) ||
+        (caller && caller !== "none" && isEngine(caller)) ||
+        (drafting && frame.startsWith("src/core2/modules/legislature"))
+      )
         engines.set(frame, (engines.get(frame) ?? 0) + n);
       else if (frame.startsWith("src/core2/law-reach/")) handlers.add(frame);
     }

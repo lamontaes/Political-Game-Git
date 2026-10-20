@@ -46,6 +46,8 @@ import { REACH_A_MODULE_ID } from "../../src/core2/law-reach/group-a-records";
 import { REACH_B_MODULE_ID } from "../../src/core2/law-reach/group-b-store";
 import { OUTCOME_WEB_MODULE_ID } from "../../src/core2/modules/outcome-web";
 import type { LawRowInput } from "../../src/core2/laws-starting";
+import { townSeats } from "../../src/core2/modules/offices";
+import { draftBill } from "../../src/core2/modules/legislature";
 import { placeLocalities, placeStateKeys } from "../../src/core2/places";
 import { allLaws, webLinksOf, type LawEntry } from "./catalog";
 
@@ -457,6 +459,34 @@ function setQuestion(
   return `enacted at ${at.level} (${row.id}) effective ${date}`;
 }
 
+/** The law amount a council's bill sets under each authority law, which the legislature reads at drafting. */
+const DRAFTED_UNDER: Readonly<Record<string, string>> = {
+  "local-minimum-wage-authority": "minimum-wage",
+  "us-policy-positions:labor-workforce.local-minimum-wage-authority":
+    "minimum-wage",
+  "local-income-tax-authority": "income-tax",
+};
+
+function draftUnder(api: CoreAPI, series: string): void {
+  const council = townSeats(api).find(
+    (s) => s.office.kind === "council" && s.holder?.personId,
+  );
+  if (!council) return;
+  const now = Number(lawInForce(api, series).value ?? 0);
+  draftBill(api, {
+    bodyOfficeId: council.office.id,
+    sponsorId: council.holder!.personId!,
+    provisions: [
+      {
+        kind: "law-amount",
+        series,
+        value: series === "minimum-wage" ? now + 100 : Math.max(1, now + 1),
+        unit: series === "minimum-wage" ? "minor/hour" : "percent",
+      },
+    ],
+  });
+}
+
 function changeAmount(
   api: CoreAPI,
   law: LawEntry,
@@ -677,7 +707,14 @@ function checkLaw(
   citeTokens = [...ids, law.key, `law-wiring-${tag}`];
   const since = core.date;
   trace.on = true;
-  step(core, 1 + WINDOW);
+  const drafts = DRAFTED_UNDER[law.key];
+  if (drafts) {
+    // An authority law is read when a body drafts a bill under it: once the
+    // change has taken effect, a council member drafts one.
+    step(core, 2);
+    draftUnder(api, drafts);
+    step(core, WINDOW - 1);
+  } else step(core, 1 + WINDOW);
   trace.on = false;
   const money = snapshotMoney();
   const reads = trace.reads.get(law.key) ?? new Map();

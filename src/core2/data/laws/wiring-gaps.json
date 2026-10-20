@@ -120,21 +120,13 @@
     {
       "stopgapId": "SG-LAW-wiring-read-on-drafting",
       "laws": {
-        "local-income-tax-authority": [
-          "reach",
-          "systems",
-          "repeal",
-          "allPlaces"
-        ],
+        "local-income-tax-authority": ["reach", "repeal", "allPlaces"],
         "local-minimum-wage-authority": ["reach", "repeal", "allPlaces"],
         "us-policy-positions:government-operations.broaden-local-authority": [
           "reach",
           "systems",
           "repeal",
           "allPlaces"
-        ],
-        "us-policy-positions:labor-workforce.local-minimum-wage-authority": [
-          "systems"
         ]
       }
     },

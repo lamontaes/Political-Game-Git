@@ -29,7 +29,7 @@ Two other towns were drawn at random: Prescott, Michigan (seed a91c03e7d2b84f10)
 | 1. Exists in all 56 places          | 88    | 0              | 1       |
 | 2. A body can enact and repeal it   | 88    | 0              | 1       |
 | 3. Reaches people and organizations | 60    | 3              | 26      |
-| 4. Read by the engine it changes    | 66    | 0              | 23      |
+| 4. Read by the engine it changes    | 68    | 0              | 21      |
 | 5. Moves money                      | 86    | 0              | 3       |
 | 6. Moves its outcome-web measures   | 18    | 9              | 62      |
 | 7. People learn of it by a read     | 80    | 0              | 9       |
@@ -47,7 +47,7 @@ Each declaration is in `scripts/law-wiring/declared.json` with its reason. The r
 These are the changes since the audit:
 
 - Reach is wired for 60 laws, up from 40.
-- Engine reads are wired for 66, up from 39.
+- Engine reads are wired for 68, up from 39.
 - Money is wired for 86, up from 44.
 - Repeal is wired for 73, up from 47.
 
@@ -64,7 +64,7 @@ Each stopgap is a row in `src/core2/data/stopgaps.json`, marked in `src/core2/da
 | SG-LAW-wiring-budget-news                | 9    | The checker amends budget lines directly, which is not news; in play the bill is.                                                                                                                                                       |
 | SG-LAW-outcome-link-not-fired            | 8    | Built links did not move their measure in the run.                                                                                                                                                                                      |
 | SG-LAW-budget-line-reach-not-ended       | 3    | Police, fire and administration: after the line is put back, a few rows under the raise stay open until the engine serving from it next acts (the public-safety engine's monthly run; two people hired under the raise still employed). |
-| SG-LAW-wiring-read-on-drafting           | 4    | Authority laws are read only when a body drafts a bill under them, and the checker drafts none.                                                                                                                                         |
+| SG-LAW-wiring-read-on-drafting           | 3    | The checker now drafts a council bill under the minimum-wage and income-tax authorities, and the legislature reads them; their reach is recorded only where the grant has a source, and home rule still has no bill drafted under it.   |
 | SG-LAW-counted-reach-missing             | 3    | Administration staffing, public-sector bargaining and ward lines reach no counted group.                                                                                                                                                |
 | SG-LAW-public-pay-floor-start            | 1    | No place starts with a public pay floor.                                                                                                                                                                                                |
 | SG-LAW-local-income-tax-authority-change | 1    | No bill can change the local income tax authority (registered by the taxes family).                                                                                                                                                     |

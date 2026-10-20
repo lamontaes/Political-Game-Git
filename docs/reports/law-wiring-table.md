@@ -1,3 +1,7 @@
+# Law wiring table
+
+Every law the game has, graded on the nine wiring links in two drawn places. Each cell is the link's status; the full law-wiring report gives every reason and record id.
+
 | Law                                          | Family             | exists | change | reach | systems | money | web | knowing | repeal | allPlaces | Overall    |
 | -------------------------------------------- | ------------------ | ------ | ------ | ----- | ------- | ----- | --- | ------- | ------ | --------- | ---------- |
 | Spending: highways                           | infrastructure     | yes    | yes    | yes   | yes     | yes   | SG  | SG      | yes    | yes       | stopgapped |
@@ -42,7 +46,7 @@
 | right to counsel in eviction                 | housing            | yes    | yes    | SG    | yes     | yes   | SG  | yes     | SG     | SG        | stopgapped |
 | Minimum wage                                 | labor              | yes    | yes    | yes   | yes     | yes   | SG  | yes     | yes    | yes       | stopgapped |
 | raise federal minimum wage                   | labor              | yes    | yes    | yes   | SG      | yes   | SG  | yes     | yes    | yes       | stopgapped |
-| local minimum wage authority                 | labor              | yes    | yes    | n/a   | SG      | yes   | SG  | yes     | yes    | yes       | stopgapped |
+| local minimum wage authority                 | labor              | yes    | yes    | n/a   | yes     | yes   | SG  | yes     | yes    | yes       | stopgapped |
 | raise minimum wage                           | labor              | yes    | yes    | yes   | SG      | yes   | SG  | yes     | yes    | yes       | stopgapped |
 | paid family leave                            | labor              | yes    | yes    | yes   | yes     | yes   | SG  | yes     | yes    | yes       | stopgapped |
 | public sector collective bargaining          | labor              | yes    | yes    | SG    | SG      | yes   | n/a | yes     | yes    | yes       | stopgapped |
@@ -86,7 +90,7 @@
 | limit groundwater withdrawal                 | agriculture        | yes    | yes    | SG    | yes     | yes   | yes | yes     | SG     | SG        | stopgapped |
 | protect farmland from development            | agriculture        | yes    | yes    | SG    | yes     | yes   | yes | yes     | yes    | SG        | stopgapped |
 | Spending: parks                              | parks-culture      | yes    | yes    | yes   | yes     | yes   | SG  | yes     | yes    | yes       | stopgapped |
-| local-income-tax-authority                   | starting law       | yes    | SG     | SG    | SG      | yes   | SG  | yes     | SG     | SG        | stopgapped |
+| local-income-tax-authority                   | starting law       | yes    | SG     | SG    | yes     | yes   | SG  | yes     | SG     | SG        | stopgapped |
 | local-minimum-wage-authority                 | starting law       | yes    | yes    | SG    | yes     | yes   | SG  | yes     | SG     | SG        | stopgapped |
 | unemployment-insurance                       | starting law       | yes    | yes    | yes   | yes     | yes   | SG  | yes     | n/a    | yes       | stopgapped |
 
@@ -296,7 +300,6 @@
 **local minimum wage authority** (`us-policy-positions:labor-workforce.local-minimum-wage-authority`)
 
 - reach: it applies to officeholders and legislative bodies, who are always full people, so no counted group is in its reach
-- systems: read only when a body drafts a bill under it, and the checker drafts none (SG-LAW-wiring-read-on-drafting)
 - web: its built links did not move their measure in the checker's run (SG-LAW-outcome-link-not-fired)
 
 **raise minimum wage** (`us-policy-positions:labor-workforce.raise-minimum-wage`)
@@ -509,7 +512,6 @@
 
 - change: no bill can change the local income tax authority (SG-LAW-local-income-tax-authority-change)
 - reach: read only when a body drafts a bill under it, and the checker drafts none (SG-LAW-wiring-read-on-drafting)
-- systems: read only when a body drafts a bill under it, and the checker drafts none (SG-LAW-wiring-read-on-drafting)
 - web: no researched outcome-web link starts from this law or a measure it sets; the research would measure local income tax adoption (SG-LAW-outcome-link-unresearched)
 - repeal: read only when a body drafts a bill under it, and the checker drafts none (SG-LAW-wiring-read-on-drafting)
 - allPlaces: read only when a body drafts a bill under it, and the checker drafts none (SG-LAW-wiring-read-on-drafting)
