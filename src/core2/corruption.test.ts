@@ -38,16 +38,18 @@ const adults = [...core.people.values()].filter(
     ageOnDate(makeIsoDate(row.birthDate), makeIsoDate(input.startedAt)) >= 21,
 );
 const cashBefore = new Map(adults.map((row) => [row.id, row.liquidMinor]));
-// People with money and a large stake ask people under money strain.
+// People with money and a large stake ask people under money strain. The
+// sixty richest ask the twenty most strained, so a small town still has
+// enough asks for the offerers' and officials' own reasons to yield two takes.
 const byCash = [...adults].sort((a, b) => b.liquidMinor - a.liquidMinor);
-const offerers = byCash.slice(0, 20);
+const offerers = byCash.slice(0, 60);
 const strained = [...adults]
   .sort(
     (a, b) =>
       a.liquidMinor / (a.livingCostDailyMinor + 1) -
       b.liquidMinor / (b.livingCostDailyMinor + 1),
   )
-  .slice(0, 10);
+  .slice(0, 20);
 const records: CrimeRecord[] = [];
 for (const offerer of offerers)
   for (const target of strained) {
