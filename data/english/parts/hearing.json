@@ -6,7 +6,7 @@
   "maxWords": 12,
   "mining": {
     "tool": "scripts/english-mining/mine-hearings.py",
-    "read": "40 House and Senate hearings held from March 2020 to December 2025, drawn at random from the govinfo CHRG 2025 sitemap"
+    "read": "40 House and Senate hearings held from March 2020 to December 2025, drawn at random from the govinfo CHRG 2025 sitemap; the follow-up questions added Oct 20 were mined from 45 more hearings drawn at random from the same sitemap (2025)"
   },
   "parts": [
     {
@@ -1470,6 +1470,108 @@
       "origin": "authored",
       "author": "Claude Sonnet (pool item words-hearing-chair-question)",
       "date": "2026-10-20",
+      "tag": {
+        "move": "ask"
+      }
+    },
+    {
+      "key": "hearing.question.is-that-correct",
+      "move": "question",
+      "kind": "spoken",
+      "text": "Is that correct?",
+      "hearingsUsing": 9,
+      "shippable": true,
+      "source": {
+        "document": "Congressional hearing transcript",
+        "date": "2025-02-25",
+        "granule": "CHRG-119hhrg59375",
+        "url": "https://www.govinfo.gov/app/details/CHRG-119hhrg59375"
+      },
+      "tag": {
+        "move": "ask"
+      }
+    },
+    {
+      "key": "hearing.question.would-you-agree-with-that",
+      "move": "question",
+      "kind": "spoken",
+      "text": "Would you agree with that?",
+      "hearingsUsing": 3,
+      "shippable": true,
+      "source": {
+        "document": "Congressional hearing transcript",
+        "date": "2025-02-25",
+        "granule": "CHRG-119hhrg59375",
+        "url": "https://www.govinfo.gov/app/details/CHRG-119hhrg59375"
+      },
+      "tag": {
+        "move": "ask"
+      }
+    },
+    {
+      "key": "hearing.question.is-that-true",
+      "move": "question",
+      "kind": "spoken",
+      "text": "Is that true?",
+      "hearingsUsing": 3,
+      "shippable": true,
+      "source": {
+        "document": "Congressional hearing transcript",
+        "date": "2025-02-25",
+        "granule": "CHRG-119hhrg59375",
+        "url": "https://www.govinfo.gov/app/details/CHRG-119hhrg59375"
+      },
+      "tag": {
+        "move": "ask"
+      }
+    },
+    {
+      "key": "hearing.question.why-not",
+      "move": "question",
+      "kind": "spoken",
+      "text": "Why not?",
+      "hearingsUsing": 3,
+      "shippable": true,
+      "source": {
+        "document": "Congressional hearing transcript",
+        "date": "2025-07-15",
+        "granule": "CHRG-119hhrg61404",
+        "url": "https://www.govinfo.gov/app/details/CHRG-119hhrg61404"
+      },
+      "tag": {
+        "move": "ask"
+      }
+    },
+    {
+      "key": "hearing.question.what-does-that-mean",
+      "move": "question",
+      "kind": "spoken",
+      "text": "What does that mean?",
+      "hearingsUsing": 2,
+      "shippable": true,
+      "source": {
+        "document": "Congressional hearing transcript",
+        "date": "2025-06-25",
+        "granule": "CHRG-119hhrg60840",
+        "url": "https://www.govinfo.gov/app/details/CHRG-119hhrg60840"
+      },
+      "tag": {
+        "move": "ask"
+      }
+    },
+    {
+      "key": "hearing.question.is-that-fair",
+      "move": "question",
+      "kind": "spoken",
+      "text": "Is that fair?",
+      "hearingsUsing": 2,
+      "shippable": true,
+      "source": {
+        "document": "Congressional hearing transcript",
+        "date": "2025-03-04",
+        "granule": "CHRG-119hhrg59556",
+        "url": "https://www.govinfo.gov/app/details/CHRG-119hhrg59556"
+      },
       "tag": {
         "move": "ask"
       }

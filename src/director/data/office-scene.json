@@ -122,7 +122,13 @@
       "hearing.question.is-that-right",
       "hearing.question.is-that-fair-to-say",
       "hearing.question.why",
-      "hearing.question.correct"
+      "hearing.question.correct",
+      "hearing.question.is-that-correct",
+      "hearing.question.would-you-agree-with-that",
+      "hearing.question.is-that-true",
+      "hearing.question.why-not",
+      "hearing.question.what-does-that-mean",
+      "hearing.question.is-that-fair"
     ]
   }
 }

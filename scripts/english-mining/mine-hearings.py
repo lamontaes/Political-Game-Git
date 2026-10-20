@@ -12,7 +12,7 @@ MOVES = {
     "confirm": ["Yes, sir.", "Yes, ma'am.", "Yes, Senator.", "No, sir.", "No, Senator.", "That is correct.", "That is correct, sir.", "Yes, that is correct.", "That is right.", "Yes, absolutely.", "Absolutely, yes.", "Absolutely, Senator.", "Of course.", "I do.", "Yes, I do.", "It does.", "It is."],
     "repair": ["I am sorry.", "Excuse me.", "I apologize."],
     "chair-procedure": ["Without objection, so ordered.", "Without objection.", "The gentleman yields back.", "The gentlelady yields back.", "The gentlewoman yields back.", "The gentleman yields.", "The gentleman's time has expired.", "Good morning.", "Good afternoon.", "All right."],
-    "question": ["Yes or no?", "Is that correct?", "Is that right?", "Is that fair to say?", "Why?", "Correct?"],
+    "question": ["Yes or no?", "Is that correct?", "Is that right?", "Is that fair to say?", "Why?", "Correct?", "Would you agree with that?", "Would you agree?", "Is that true?", "Why not?", "Does that sound right?", "What does that mean?", "Is that fair?"],
     "time": ["I yield back.", "I yield back, Mr. Chairman.", "Mr. Chairman, I yield back.", "I yield.", "My time has expired.", "My time is up."],
 }
 SPEAKER = re.compile(r"^\s{4}(?:Chairman|Chairwoman|Chair|Senator|Mr\.|Ms\.|Mrs\.|Dr\.|Representative|General|Secretary|Admiral)\s?[A-Z][A-Za-z'-]+\.\s+(.*)", re.S)

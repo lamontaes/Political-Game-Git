@@ -355,8 +355,14 @@ it("words a committee hearing as the chair's question, the witness's reply and a
         );
       }
     } catch (error) {
-      skipped.push(`${where} (world failed: ${(error as Error).message})`);
-      continue;
+      // A world that fails to build or advance is a defect, not a place to
+      // skip: it fails here naming the place and seed so it can be replayed.
+      throw new Error(
+        `${where}: the world failed: ${(error as Error).message}`,
+        {
+          cause: error,
+        },
+      );
     }
     const api = coreAPI(core);
     if (!hearing) {
