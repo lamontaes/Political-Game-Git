@@ -5,7 +5,7 @@ area: gov
 kind: bug
 priority: 3
 size: S
-status: in-pr
+status: done
 claimed-by: claude/ballot-order-no-voters
 pr: #5485
 blocked-on:
