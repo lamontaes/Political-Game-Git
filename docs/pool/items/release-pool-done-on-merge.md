@@ -24,3 +24,5 @@ claimed-at: 2026-10-19T20:06:17.782Z
 **Files.** .github/workflows/pool-done-on-merge.yml, scripts/pool/index.ts, tests/release/
 
 **Notes.** Opened by the acting CTO on Oct 19 from CTO-HANDOFF-2026-10-19.md, which lists the 17 in-pr ids that point at merged PRs and their done flips. Until this item is done, the merger runs those flips by hand with `npm run pool -- status <id> done --pr <N> --by cto`.
+
+Oct 19 (claude/pool-done-on-merge): built. .github/workflows/pool-done-on-merge.yml runs on pull_request closed with the merged guard, checks out main and runs scripts/pool/done-on-merge.ts, which reads the id from the PR body's first line (`Pool item: <id>` or a bare id) or else the in-pr item whose pr field is this PR, skips an item already done, and calls the existing `pool status <id> done --pr N --by cto` (so the index regenerates in the same commit). Rehearsed locally on a scratch branch with POOL_NO_PUSH. The live check, a merged scratch PR flipping its item within five minutes, can only happen after this PR merges: the merger should name the workflow run id on the first merge that follows.
