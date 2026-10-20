@@ -5,12 +5,12 @@ area: people
 kind: bug
 priority: 2
 size: S
-status: in-pr
-claimed-by: claude/people-filing-and-loss-scenes-for-non-candidates
+status: open
+claimed-by:
 pr: #5056
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-20T01:35:48.149Z
+claimed-at:
 ---
 
 **What.** TODO
