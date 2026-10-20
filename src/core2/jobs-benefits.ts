@@ -76,7 +76,7 @@ export interface ClaimRow {
   lawId?: string;
   source?: Source;
   endedAt?: string;
-  endReason?: "hired" | "exhausted" | "no-payer";
+  endReason?: "hired" | "exhausted" | "no-payer" | "left";
 }
 
 const DAYS_PER_WEEK = 7;
@@ -285,33 +285,41 @@ export function payClaims(api: CoreAPI, table: ModuleTable): void {
       });
       continue;
     }
+    // A claimant who is neither a full person nor still counted has left the
+    // town's records (moved away): there is no one to pay.
+    if (
+      !c.people.has(row.personId) &&
+      residentsRuntime(c)?.store.countedMember(row.personId) === undefined
+    ) {
+      table.put({
+        ...row,
+        open: false,
+        endedAt: c.date,
+        endReason: "left",
+      });
+      continue;
+    }
     const id = `unemployment-benefit:${row.personId}:${c.date}`;
     const source = row.source ?? unemploymentTerms(api).source;
-    // A counted claimant's claim stands for the people their household
-    // stands for: the benefit is paid times that count, the way counted wages
-    // are (counted-money.ts countedPayment); `paid` stays one claim's.
-    const weight = c.people.has(row.personId)
-      ? 1
-      : countedWeight(c, row.personId);
-    const paid =
-      weight === 1
-        ? transferCash(
-            api,
-            id,
-            fund.id,
-            row.payeeAccountOwnerId,
-            row.weeklyMinor,
-            source,
-          )
-        : countedPayment(api, {
-            id,
-            placeId: row.placeId as PlaceId,
-            personId: row.personId as PersonId,
-            otherOwnerId: fund.id,
-            amountMinor: -row.weeklyMinor,
-            reasonKey: id.split(":")[0]!,
-            source,
-          });
+    // A claimant filled in since filing is paid as a full person. A counted
+    // claimant's claim stands for the people their household stands for: the
+    // benefit is paid times that count, the way counted wages are
+    // (counted-money.ts countedPayment); `paid` stays one claim's.
+    const full = c.people.has(row.personId);
+    const weight = full ? 1 : countedWeight(c, row.personId);
+    const paid = full
+      ? transferCash(api, id, fund.id, row.personId, row.weeklyMinor, source, {
+          personId: row.personId,
+        })
+      : countedPayment(api, {
+          id,
+          placeId: row.placeId as PlaceId,
+          personId: row.personId as PersonId,
+          otherOwnerId: fund.id,
+          amountMinor: -row.weeklyMinor,
+          reasonKey: id.split(":")[0]!,
+          source,
+        });
     if (row.lawId && paid > 0)
       lawApplied(api, {
         key: "unemployment-insurance",
