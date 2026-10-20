@@ -425,7 +425,9 @@ export function planFreeTime(
   const flexible = new Set<string>(FREE_BLOCK_DATA.flexibleEffects);
   // An act that is one conversation is planned once, not on every later day.
   const once = new Set<string>(FREE_BLOCK_DATA.oncePerPlanEffects);
-  const spent = new Set<number>();
+  const spent = new Set<string>();
+  const onceKey = (offer: ActOffer) =>
+    `${offer.definition.effect}|${offer.targetId}`;
   // An act after the pick must be worth more than its hours spent in the
   // leisure the game does not model; leisure itself (rest) needs only to be
   // worth doing at all.
@@ -477,20 +479,21 @@ export function planFreeTime(
       hours -= first.effortHours ?? zero;
       const picked = pool.find((row) => row.row.offer === first);
       if (picked) visit(picked, day, date);
-      if (once.has(first.definition.effect))
-        pool.forEach((row, index) => {
-          if (row.row.offer === first) spent.add(index);
-        });
+      if (once.has(first.definition.effect)) spent.add(onceKey(first));
     }
     const effortHours = hours;
     // Each need's best act that fits the hours, from one pass.
     const winners = new Map<string, number>();
     for (let index = zero; index < pool.length; index += one) {
-      if (spent.has(index)) {
+      const candidate = pool[index]!;
+      const conversation = candidate.row.offer;
+      if (
+        once.has(conversation.definition.effect) &&
+        spent.has(onceKey(conversation))
+      ) {
         scores[index] = -Infinity;
         continue;
       }
-      const candidate = pool[index]!;
       let goal = candidate.otherGoal;
       for (const need of candidate.needGoals)
         goal = Math.max(goal, needs[need] ?? zero);
@@ -532,7 +535,8 @@ export function planFreeTime(
         continue;
       }
       const candidate = pool[best]!;
-      if (once.has(candidate.row.offer.definition.effect)) spent.add(best);
+      if (once.has(candidate.row.offer.definition.effect))
+        spent.add(onceKey(candidate.row.offer));
       used.add(candidate.need);
       // A flexible act (leisure) takes what is left of the day up to its length.
       const taken = Math.min(candidate.effortHours, hours);
