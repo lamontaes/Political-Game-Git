@@ -1204,7 +1204,7 @@
       "low": 1,
       "high": 13,
       "unit": "weeks",
-      "citation": "Checked against the memory guard (scripts/core2-guard/memory.mjs): the bench's why-trace reads at most the current quarter of rollups, so any retention from one week to a quarter leaves every reader whole."
+      "citation": "Read from the code, not measured: the only reader of old rollups is the bench's why-trace (src/bench/dev-why.ts), a debug switch; the memory guard (scripts/core2-guard/memory.mjs) is the check to run before widening it."
     },
     "checkRange": {
       "ref": "P9-OUTCOME-WHOLE-LIFE"
