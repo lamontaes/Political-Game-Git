@@ -24,3 +24,5 @@ claimed-at: 2026-10-20T04:47:14.348Z
 **Notes.** Checklist line from OFFICE-STATE.md; verify against main before starting.
 
 Oct 20: PR #5107 merged and the committee day cites the seating and hearing records, but the chair's question and witness lines and a learn-your-seat scene are not built.
+
+Oct 20 (fs11vb): checked before building. `data/english/parts/hearing.json` has 76 parts in seven moves (thanks, confirm, agree, answer, chair-procedure, time, repair) and no question move, and no file under src/director or src/english reads `hearing.` keys. So the chair's question cannot be worded from the bank yet: it needs a mined question move and a reader in the story director (Words line) before the office day can show it. Filed `words-hearing-chair-question` for that. The learn-your-seat scene reads the seating record that `committeeSitting` already cites and waits on the same reader.
