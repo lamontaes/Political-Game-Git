@@ -5,7 +5,7 @@ area: release
 kind: bug
 priority: 2
 size: S
-status: in-pr
+status: done
 claimed-by: claude/pool-speech-voices
 pr: #5763
 blocked-on:
