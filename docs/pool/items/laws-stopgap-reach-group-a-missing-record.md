@@ -5,9 +5,9 @@ area: laws
 kind: stopgap
 priority: 2
 status: blocked
-claimed-by: claude/laws-reach-a-missing
+claimed-by:
 pr:
-blocked-on: "people-citizenship-record, laws-convictions-counted-reach, people-household-firearms"
+blocked-on: people-citizenship-record, laws-convictions-counted-reach, people-household-firearms
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/data/laws/reach-group-a.json, kind missing-record"
 claimed-at: 2026-10-16T02:49:10.292Z
@@ -24,3 +24,5 @@ claimed-at: 2026-10-16T02:49:10.292Z
 **Notes.** First row: Partnering with immigration enforcement reaches an estimated count of noncitizen adults (national share) instead of named noncitizens.
 
 **Split (Oct 16).** Three rows, three records: citizenship (`people-citizenship-record`), convictions for counted adults (`laws-convictions-counted-reach`) and household firearms (`people-household-firearms`). This item is done when all three are.
+
+Oct 20: The Oct 16 claim has no PR and is over two days old, so the claim is cleared.

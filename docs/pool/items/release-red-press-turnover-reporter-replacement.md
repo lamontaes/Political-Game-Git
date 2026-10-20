@@ -5,9 +5,9 @@ area: world
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/pool-red-turnover
-pr:
+pr: #5427
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-20T02:06:30.257Z

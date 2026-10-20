@@ -5,7 +5,7 @@ area: world
 kind: bug
 priority: 2
 size: S
-status: in-pr
+status: done
 claimed-by: claude/political-game-pool-3xfqef-9
 pr: #5398
 blocked-on:
