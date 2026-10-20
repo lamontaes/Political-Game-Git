@@ -5,11 +5,12 @@ area: world
 kind: research
 priority: 2
 size: M
-status: open
-claimed-by:
+status: blocked
+claimed-by: claude/political-game-pool-yucp92-v
 pr:
-blocked-on:
+blocked-on: CTO: confirm the Freddie Mac PMMS exclusion (#3959) was reversed, then resolve SG-WORLD-macro-mortgage-spread; territory statistics still to source
 source: "collapsed Oct 19, 2026 from world-stopgap-macro-model-estimated-series, world-stopgap-regional-model-estimated-series"
+claimed-at: 2026-10-20T02:17:41.176Z
 ---
 
 **What.** Source the numbers behind the macro and regional models. Each row below is a registered stopgap whose replacement waits on sourced or estimated data, collapsed here from 2 pool item(s) on Oct 19, 2026 so one researcher takes the engine family at once. For each row, find a public source with a year and a unit, record the figure as a SOURCED or ESTIMATED parameter row with a citation and a spread, put the research file under data/research/world/ with a reader, and resolve the stopgap row. Where a row's replacement is a mechanic rather than a number, source what that mechanic will read and leave the mechanic to the area's builder (name the pool item in the PR).
@@ -24,3 +25,5 @@ source: "collapsed Oct 19, 2026 from world-stopgap-macro-model-estimated-series,
 **Files.** src/core2/macro-model.ts, src/core2/regional-model.ts, src/core2/data/parameters.json, src/core2/data/stopgaps.json, data/research/world/
 
 **Notes.** Folded from: world-stopgap-macro-model-estimated-series, world-stopgap-regional-model-estimated-series. Rows that are not numbers (missing mechanics in law reach, for example) stay registered; this item sources what they will read.
+
+Looked at Oct 20 (claude, claude/political-game-pool-yucp92-v), nothing sourced. SG-WORLD-macro-mortgage-spread reads stale: src/core2/data/macro/history.json already holds a monthly mortgage30Pct for every month through 2026-09 and cites Freddie Mac's Primary Mortgage Market Survey after 2019 (checked against FRED MORTGAGE30US monthly means: May 2019 4.07, Sept 2026 6.86). The 10-year plus spread (macroMortgageSpreadOverTreasuryPct, 2.22, SOURCED to the same survey) now applies only to months past the latest published one. The row's why still says Freddie Mac's survey is excluded by a CTO ruling on #3959; the history file shows that was reversed. The CTO should confirm and then the row can be resolved with that citation. SG-WORLD-regional-territory-estimate needs each territory's own labor and price statistics (Guam, American Samoa, the Marianas and the Virgin Islands statistical offices), which I did not fetch.

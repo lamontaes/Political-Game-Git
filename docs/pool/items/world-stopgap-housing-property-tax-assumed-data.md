@@ -5,11 +5,12 @@ area: world
 kind: stopgap
 priority: 3
 status: in-pr
-claimed-by:
+claimed-by: claude/political-game-pool-yucp92-g
 pr: #5270
 blocked-on:
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/housing-property-tax.ts, kind assumed-data"
+claimed-at: 2026-10-20T03:22:01.071Z
 ---
 
 **What.** Replace or clear the 1 open assumed-data stopgap row(s) in src/core2/housing-property-tax.ts: SG-WORLD-property-tax-rate. Each fake is replaced by the mechanic, or the feature that needs it is deleted.
@@ -20,4 +21,4 @@ source: "src/core2/data/stopgaps.json, src/core2/housing-property-tax.ts, kind a
 
 **Files.** src/core2/housing-property-tax.ts
 
-**Notes.** First row: Every owner pays the state's average effective property tax rate, to the outside account, with no assessment cap.
+**Notes.** First row: Every owner pays the state's average effective property tax rate, to the outside account, with no assessment cap. PR #5270 sent back: Merge conflict with main in code files src/core2/housing-property-tax.ts and src/core2/housing-property-tax.test.ts.
