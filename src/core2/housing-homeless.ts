@@ -105,12 +105,12 @@ export function shelterBeds(
 ): number {
   // stopgapId: SG-WORLD-housing-shelter-beds-state-rate
   stopgap("SG-WORLD-housing-shelter-beds-state-rate");
+  // A territory with no HUD count uses the median of those HUD does count.
   const rate =
     (shelterData.bedsPer10k as Record<string, number>)[usps] ??
+    (shelterData.estimated as Record<string, { bedsPer10k: number }>)[usps]
+      ?.bedsPer10k ??
     shelterData.nationalBedsPer10k;
-  // stopgapId: SG-WORLD-housing-shelter-territory
-  if (!(usps in shelterData.bedsPer10k))
-    stopgap("SG-WORLD-housing-shelter-territory");
   const counts = housingStatusCounts(api, placeId);
   const people =
     counts.housed +

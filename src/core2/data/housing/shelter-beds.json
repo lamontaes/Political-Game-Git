@@ -6,8 +6,26 @@
   },
   "nationalBedsPer10k": 14.56,
   "estimated": {
-    "AS": "No HUD Continuum of Care: the nation's rate, as an estimate.",
-    "MP": "No HUD Continuum of Care: the nation's rate, as an estimate."
+    "AS": {
+      "bedsPer10k": 6.2,
+      "low": 2.47,
+      "high": 10.9,
+      "source": {
+        "tag": "ESTIMATED",
+        "citation": "American Samoa and the Northern Mariana Islands have no HUD Continuum of Care; the median of the territories HUD does count (Guam 6.18, Puerto Rico 2.47, U.S. Virgin Islands 10.9 beds per 10,000, HIC 2025), spread low to high. Research: data/research/stopgaps-oct19/D-economy-world.json (SG-WORLD-housing-shelter-territory).",
+        "asOf": "2025-01-22"
+      }
+    },
+    "MP": {
+      "bedsPer10k": 6.2,
+      "low": 2.47,
+      "high": 10.9,
+      "source": {
+        "tag": "ESTIMATED",
+        "citation": "American Samoa and the Northern Mariana Islands have no HUD Continuum of Care; the median of the territories HUD does count (Guam 6.18, Puerto Rico 2.47, U.S. Virgin Islands 10.9 beds per 10,000, HIC 2025), spread low to high. Research: data/research/stopgaps-oct19/D-economy-world.json (SG-WORLD-housing-shelter-territory).",
+        "asOf": "2025-01-22"
+      }
+    }
   },
   "bedsPer10k": {
     "AK": 28.75,

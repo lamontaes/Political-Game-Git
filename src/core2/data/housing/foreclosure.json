@@ -512,5 +512,28 @@
       "statute": "",
       "confidence": "low"
     }
+  },
+  "typicalDaysByProcess": {
+    "source": {
+      "tag": "ESTIMATED",
+      "citation": "Median ATTOM days from first filing to sale across the places with a published figure, by foreclosure process (nonjudicial n=10, judicial n=3, both n=1); nonjudicial includes two outliers (NV, RI). Research: data/research/stopgaps-oct19/D-economy-world.json (SG-WORLD-housing-foreclosure-steps).",
+      "asOf": "2026-10-20",
+      "estimatedFrom": "ATTOM Q2 2026 averages for 14 places"
+    },
+    "nonjudicial": {
+      "value": 174,
+      "low": 155,
+      "high": 1929
+    },
+    "judicial": {
+      "value": 2007,
+      "low": 1500,
+      "high": 3491
+    },
+    "both": {
+      "value": 2293,
+      "low": 2293,
+      "high": 2293
+    }
   }
 }

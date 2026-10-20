@@ -17,6 +17,7 @@ import {
   housingStatusCounts,
   housingStatusOf,
   reviewHomeless,
+  shelterBeds,
   type HousingStatusRow,
 } from "./housing-homeless";
 import type { CoreInput, PersonInput, Source } from "./types";
@@ -180,6 +181,22 @@ describe("where an evicted household goes", () => {
     expect(counts.sheltered).toBe(1);
     expect(counts.unsheltered).toBe(1);
     expect(counts.housed).toBe(filler);
+  });
+
+  it("a territory with no HUD count has the median of the counted territories' beds, not the nation's", () => {
+    const filler = 3_000;
+    const core = createLifeCore(input("TX", [{ id: "first" }], [], filler), {
+      data: worldCoreData(),
+      modules: [HOUSING_MODULE],
+    });
+    const api = coreAPI(core);
+    const people = filler + 1;
+    expect(shelterBeds(api, place, "AS")).toBe(
+      Math.floor((people * shelterData.estimated.AS.bedsPer10k) / 10_000),
+    );
+    expect(shelterBeds(api, place, "AS")).toBeLessThan(
+      Math.floor((people * shelterData.nationalBedsPer10k) / 10_000),
+    );
   });
 
   it("rents again once its pay reaches the landlord's multiple of the rent and its cash covers the first month", () => {
