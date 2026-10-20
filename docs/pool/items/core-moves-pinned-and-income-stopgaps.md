@@ -8,7 +8,7 @@ size: M
 status: blocked
 claimed-by: claude/core-moves-pinned-income
 pr:
-blocked-on: "world-agreements-re-resolve-worker, core-income-award-follows-person"
+blocked-on: world-agreements-re-resolve-worker
 source: added with npm run pool -- add
 claimed-at: 2026-10-16T00:09:03.201Z
 ---

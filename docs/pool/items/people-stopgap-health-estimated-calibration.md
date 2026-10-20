@@ -4,10 +4,10 @@ title: "Stopgaps in health (estimated-calibration): 1 open"
 area: people
 kind: stopgap
 priority: 3
-status: open
+status: blocked
 claimed-by:
 pr:
-blocked-on:
+blocked-on: research data: the row's replacement needs sourced data (A cohort calibration of base scale and condition weights together, checked across many places and ages against the life table....)
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/data/health.json, kind estimated-calibration"
 ---

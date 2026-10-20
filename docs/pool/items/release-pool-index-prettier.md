@@ -5,11 +5,12 @@ area: release
 kind: bug
 priority: 3
 size: S
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/pool-index-prettier
+pr: #5012
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-18T00:22:47.429Z
 ---
 
 **What.** The generated pool index fails Prettier on clean main. Running the normal pool generator produces a Markdown table that does not match the repository formatter. Merger validation of PR #4890 reproduced the same warning on its checked head and captured main, independently of the benefit-payment implementation.
