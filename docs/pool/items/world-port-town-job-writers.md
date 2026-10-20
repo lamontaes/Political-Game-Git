@@ -13,7 +13,7 @@ after: world-port-town-employment
 source: added with npm run pool -- add
 ---
 
-**What.** Port ensureTownEmployment, fillTownJobs, writeTownEmployer and townEmployerOutlets from simulation/living-world/town-employment into src/core2 so population.ts imports nothing from the old file; the mix half is #5100 and the labor-status half is #5540. Each function moves into a core2 file with the same behavior, the old file's copies are deleted in the same change, and population.ts and its tests import only from src/core2. Write the port fresh where that is simpler than carrying the old code over, and keep the town's employers, jobs and outlets the same in a drawn place before and after.
+**What.** Port ensureTownEmployment, fillTownJobs, writeTownEmployer and townEmployerOutlets from simulation/living-world/town-employment into src/core2 so population.ts imports nothing from the old file; the mix half is #5100 and the labor-status half is #5540. These functions write jobs into an old-engine world today; the port makes them return core organization and job records that the jobs engine reads. Build only what the opening needs, and write fresh where that is simpler than carrying the old code over.
 
 **Rules.** Replace, never layer. One rule, all 56 places: mixes are place data. The same town opens: jobs by organization record id match before and after.
 
