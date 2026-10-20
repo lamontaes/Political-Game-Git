@@ -5,12 +5,13 @@ area: world
 kind: feature
 priority: 3
 size: M
-status: blocked
+status: open
 claimed-by:
 pr:
 blocked-on:
 source: added with npm run pool -- add
 after:
+claimed-at: 
 ---
 
 **What.** Give every dwelling a place inside its town, so a ward or a precinct can be drawn from where people live. Dwellings are rows `dwelling:<householdId>` in the housing module's store (`src/core2/modules/housing.ts`), with a tenure, a kind (house, apartment, farm) and a rent or value but no position. Add a `location` to each: a point in the town's plane sized by the place's land area (the Census Gazetteer corpus `localities.json` is built from carries land area, which the place data does not load yet), laid out from a town center by seeded generation of where things are, apartments and rentals nearer the center, owned houses outward, farms outermost, never two households on a spot. New and rehoused dwellings take a location at the moment they are made, and the rehousing choice prefers a vacancy near the household's old home and work.
