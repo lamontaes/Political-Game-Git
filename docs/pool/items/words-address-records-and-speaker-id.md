@@ -23,3 +23,5 @@ claimed-at: 2026-10-20T08:05:58.342Z
 **Files.** src/english/english-composition.ts, src/english/english-newscast.ts, src/director/conversation.ts
 
 **Notes.** Follow-up of words-speech-craft-earned (#5601). Authored variants with a device do not exist yet, so a device bank is needed too (a Words-line task).
+
+**Build attempt (Oct 20, claude/address-records).** The only place a register is passed to the composer is `line()` in `src/english/english-newscast.ts` (press-briefing, for a news anchor or reporter named as packet slots). The director has no floor speech, briefing or town hall producer that composes lines with a register (`grep composeGroundedLine` outside the English engine finds only the newscast), and no authored variant carries a `device`. So the producer this item names is a new director feature plus a device bank, not a wiring: size L, and it needs the owner's ruling on what counts as an address first.
