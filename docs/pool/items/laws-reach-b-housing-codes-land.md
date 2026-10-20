@@ -5,11 +5,12 @@ area: laws
 kind: stopgap
 priority: 3
 size: M
-status: open
-claimed-by:
-pr:
-blocked-on:
+status: in-pr
+claimed-by: claude/housing-codes-land
+pr: #5457
+blocked-on: the housing engine: land parcels with zoning and a building code that sets new-construction cost and fuel choice; neither exists
 source: added with npm run pool -- add
+claimed-at: 2026-10-20T03:11:56.662Z
 ---
 
 **What.** TODO

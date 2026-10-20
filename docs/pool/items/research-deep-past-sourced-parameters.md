@@ -5,10 +5,10 @@ area: core
 kind: research
 priority: 2
 size: M
-status: open
+status: blocked
 claimed-by:
 pr:
-blocked-on:
+blocked-on: researcher: per-place or calibration sourcing, each row cited; first row's replacement: Place-level ACS 5-year sex-by-age, marital-status and household-relationship tables for every seated place and territory, cohabita
 source: "collapsed Oct 19, 2026 from art-stopgap-opening-partnership-estimated-behavior, core-stopgap-civic-inputs-civic-data-vintage-and-permission, core-stopgap-deep-past-generated-history-proxy, core-stopgap-deep-past-shared-past-generation-gap, core-stopgap-opening-peer-network-generated-historical-social-prior, core-stopgap-opening-profile-partial-model"
 ---
 
