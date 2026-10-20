@@ -143,6 +143,8 @@ const ENGINE = local.engineMeasures as Readonly<
       /** Or a named reader of an engine's own record (src/core2/modules/outcome-web.ts). */
       readonly reader?: string;
       readonly unitScale: number;
+      /** The engine's record is the kept outcome itself; links into it do not run. */
+      readonly ownsOutcome?: boolean;
     }
   >
 >;
@@ -185,6 +187,11 @@ export function scaleOf(measure: string): Scale {
 
 export function engineMeasure(measure: string) {
   return ENGINE[measure];
+}
+
+/** A kept outcome whose value is an engine's own record, not the web's product. */
+export function engineOwned(measure: string): boolean {
+  return keptOutcome(measure) && ENGINE[measure]?.ownsOutcome === true;
 }
 
 export function isLaw(measure: string): boolean {
@@ -264,7 +271,9 @@ export function fixedBaseline(
 ): number | undefined {
   const derived = derivedOf(measure);
   if (derived) return derived.suffix === ":pct-of-start" ? INDEX_START : 0;
-  if (keptOutcome(measure)) return baseOf(measure, stateKey).value;
+  // An engine-kept outcome starts where the engine's record first read.
+  if (keptOutcome(measure))
+    return engineMeasure(measure) ? undefined : baseOf(measure, stateKey).value;
   return BASELINES[measure]?.value;
 }
 
