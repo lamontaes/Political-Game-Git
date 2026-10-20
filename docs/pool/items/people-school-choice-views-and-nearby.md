@@ -23,3 +23,5 @@ claimed-at:
 **Files.** docs/coordination/OWNER-DECISIONS.md, src/core2/opening-private-tuition.ts
 
 **Notes.** Part 3 of 3 split from core-stopgap-opening-private-tuition-aggregate-spending (Oct 20).
+
+Sent back 2026-10-20 from PR #5483 (branch claude/school-choice-question): see the Cloud merger comment on that PR for the exact reason; finish on that branch, merge main into it first.
