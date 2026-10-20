@@ -32,6 +32,7 @@ import type {
 import type { ModuleRow } from "../module-data";
 import type { ModuleCalendarWork } from "../module-calendar";
 import { lawChain } from "./laws";
+import { countedResidents } from "../electorate";
 import {
   ballot,
   ELECTIONS_MODULE_ID,
@@ -73,6 +74,8 @@ import {
 } from "../press-staff";
 import { stancesOf, viewOf, VIEWS_MODULE_ID } from "./views";
 import { residentCounts, residentsRuntime } from "./residents";
+import { openingEmployerCashBufferPrior } from "../opening-capital";
+import { employerTaxShareOfWage } from "./employer-taxes";
 import { startOutletRevenue } from "../press-money";
 import { countedJobsOf } from "../residents-economy";
 import { pressStaffChanged } from "../press-conflict";
@@ -423,15 +426,44 @@ export function openPress(core: CoreState): readonly OutletRow[] {
   ];
   for (const spec of specs) {
     const { id, organizationId, basedAt } = spec;
-    if (!api.state.organizations.has(organizationId))
+    if (!api.state.organizations.has(organizationId)) {
+      // A local outlet opens with the cash a small firm holds against its
+      // payroll (JPMorgan Chase Institute's buffer days, at this firm's
+      // stable startup rank), as the town's generated firms do; otherwise its
+      // second payday falls before its first month's revenue arrives.
+      const payrollMinor =
+        (headRole.payParameter ? pressParameter(headRole.payParameter) : 0) +
+        (reporterRole.payParameter
+          ? spec.reporters * pressParameter(reporterRole.payParameter)
+          : 0);
+      const bufferDays =
+        spec.tier === "local"
+          ? openingEmployerCashBufferPrior(
+              core.seed,
+              organizationId,
+              "all-small-businesses",
+            ).bufferDays
+          : 0;
       api.addOrganization({
         id: organizationId,
         placeId: basedAt,
         name: spec.name,
         kind: "media",
-        liquidMinor: 0,
-        source,
+        liquidMinor: Math.round(
+          (bufferDays * payrollMinor) / pressParameter("daysPerYear"),
+        ),
+        source:
+          spec.tier === "local"
+            ? {
+                tag: "ESTIMATED",
+                citation:
+                  "JPMorgan Chase Institute, Cash Is King (2016): a small firm's cash buffer in days of outflows, at this outlet's stable startup rank (src/core2/opening-capital.ts), times its planned payroll per day",
+                asOf: api.state.date,
+                estimatedFrom: "opening employer cash buffer prior",
+              }
+            : source,
       });
+    }
     const hire = (
       role: (typeof STAFF_ROLES)[number],
       i: number,
@@ -542,9 +574,16 @@ export function openPress(core: CoreState): readonly OutletRow[] {
         sum + (job?.hourlyMinor ?? 0) * pressParameter("fullTimeHoursPerYear")
       );
     }, 0);
+    // Its people cost their pay and the employer's payroll taxes on it.
+    const payTaxShare = employerTaxShareOfWage(
+      api,
+      pressParameter("reporterAnnualPayMinor"),
+    );
     const capacityMinor = Math.max(
       fromAudience,
-      Math.round(payroll * (1 + pressParameter("bureauMarginShare"))),
+      Math.round(
+        payroll * (1 + payTaxShare + pressParameter("bureauMarginShare")),
+      ),
     );
     // stopgapId: SG-PEOPLE-press-outlet-revenue
     api.stopgap("SG-PEOPLE-press-outlet-revenue");
@@ -827,9 +866,11 @@ export function followersOf(api: CoreAPI, outletId: string): readonly string[] {
  * audience, television first where audiences tie. A national outlet's
  * audience in town is not sold to a town's race.
  */
-function adOutlet(
-  api: CoreAPI,
-): { organizationId: string; followerIds: readonly string[] } | null {
+function adOutlet(api: CoreAPI): {
+  organizationId: string;
+  followerIds: readonly string[];
+  countedFollowers: number;
+} | null {
   if (!api.state.modules.has(PRESS_MODULE_ID)) return null;
   const best = outletsHere(api)
     .filter((o) => o.tier !== "national")
@@ -841,8 +882,49 @@ function adOutlet(
         a.o.id.localeCompare(b.o.id),
     )[0];
   return best
-    ? { organizationId: best.o.organizationId, followerIds: best.followers }
+    ? {
+        organizationId: best.o.organizationId,
+        followerIds: best.followers,
+        countedFollowers: countedFollowers(api, best.o.id),
+      }
     : null;
+}
+
+/**
+ * The counted adults in town who follow an outlet: the same rule as the full
+ * people (in each age band the share that follows its kind, Pew 2024), times
+ * each counted household's weight, and the outlet's slice of its kind's
+ * followers is the slice the full people's choice gives it (selective
+ * exposure), so one rule reads both tiers.
+ */
+export function countedFollowers(api: CoreAPI, outletId: string): number {
+  const outlet = table(api, "outlets").get(outletId) as unknown as
+    OutletRow | undefined;
+  if (!outlet) return 0;
+  const town = lawChain(api).townPlaceId;
+  const date = api.state.date;
+  const national = NATIONAL.kinds.find((row) => row.kind === outlet.kind);
+  const adults = new Map<Band, number>();
+  for (const voter of countedResidents(api.state as CoreState)) {
+    if (voter.placeId !== town) continue;
+    const age = ageOn(voter, date);
+    if (age < 18) continue;
+    const band = bandOf(age);
+    adults.set(band, (adults.get(band) ?? 0) + voter.weight);
+  }
+  let ofKind = 0;
+  for (const [band, count] of adults) {
+    const share = national
+      ? national.followShare
+      : (NEWS.habits.byAge[band]?.[HABIT[outlet.kind as LocalKind]] ?? 0);
+    ofKind += Math.round(share * count);
+  }
+  const same = outletsHere(api).filter((o) => o.kind === outlet.kind);
+  const all = same.reduce((sum, o) => sum + followersOf(api, o.id).length, 0);
+  const slice = all
+    ? followersOf(api, outletId).length / all
+    : 1 / Math.max(1, same.length);
+  return Math.round(ofKind * slice);
 }
 
 function contestOf(api: CoreAPI, contestId: string): ContestRow {

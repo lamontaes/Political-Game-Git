@@ -5,7 +5,7 @@ area: world
 kind: wiring
 priority: 3
 size: S
-status: in-pr
+status: done
 claimed-by: claude/credit-unread-s5
 pr: #4979
 blocked-on:
