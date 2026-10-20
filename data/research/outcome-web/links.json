@@ -72,7 +72,8 @@
       "source": "Raphael and Winter-Ebmer 2001 (JLE)",
       "from": "labor.unemployment-pct",
       "evidence": "researched",
-      "range": [0.02, 0.05]
+      "range": [0.02, 0.05],
+      "notes": "Raphael and Winter-Ebmer estimate crime rates on unemployment in a state panel (1970 to 1993, instrumented with defense contracts and oil price shocks), so they report no split by income, age, household kind or tenure (abstract and replication summaries read; the journal text was not reachable)."
     },
     {
       "key": "unemployment-to-vandalism",
@@ -114,7 +115,8 @@
       "from": "labor.unemployment-pct",
       "evidence": "provisional",
       "range": [0.015, 0.025],
-      "rangeSource": "Raphael and Winter-Ebmer 2001, Journal of Law and Economics 44(1), tables of state-panel elasticities: the table could not be retrieved in full text (only the abstract and replication summaries were reachable), so no interval was read. Repo default of 25% of the size applied; unverified against the table."
+      "rangeSource": "Raphael and Winter-Ebmer 2001, Journal of Law and Economics 44(1), tables of state-panel elasticities: the table could not be retrieved in full text (only the abstract and replication summaries were reachable), so no interval was read. Repo default of 25% of the size applied; unverified against the table.",
+      "notes": "Raphael and Winter-Ebmer estimate crime rates on unemployment in a state panel (1970 to 1993, instrumented with defense contracts and oil price shocks), so they report no split by income, age, household kind or tenure (abstract and replication summaries read; the journal text was not reachable)."
     },
     {
       "key": "unemployment-to-assault",
@@ -135,7 +137,8 @@
       "from": "labor.unemployment-pct",
       "evidence": "provisional",
       "range": [0.0075, 0.0125],
-      "rangeSource": "Raphael and Winter-Ebmer 2001, Journal of Law and Economics 44(1), tables of state-panel elasticities: the table could not be retrieved in full text (only the abstract and replication summaries were reachable), so no interval was read. Repo default of 25% of the size applied; unverified against the table."
+      "rangeSource": "Raphael and Winter-Ebmer 2001, Journal of Law and Economics 44(1), tables of state-panel elasticities: the table could not be retrieved in full text (only the abstract and replication summaries were reachable), so no interval was read. Repo default of 25% of the size applied; unverified against the table.",
+      "notes": "Raphael and Winter-Ebmer estimate crime rates on unemployment in a state panel (1970 to 1993, instrumented with defense contracts and oil price shocks), so they report no split by income, age, household kind or tenure (abstract and replication summaries read; the journal text was not reachable)."
     },
     {
       "key": "police-to-violent-crime",
@@ -166,7 +169,7 @@
         "requiredConnection": "Connected: each state's sworn officers per 1,000 people is now recorded (FBI 2024 Police Employee Data, place-outcome-bases-2024.json) and drifts from there, so the elasticity has a positive same-jurisdiction baseline. Watched-town represented staffing is not statewide density. The range is normal-approximation sampling uncertainty, not observed geographic variation; any contextual variation requires separate research."
       },
       "range": [-0.536, -0.144],
-      "notes": "Elasticity uses proportional change from a positive recorded cause baseline: a state's officers per 1,000 people starts at the FBI's 2024 count and drifts, and violent crime moves 0.34% for each 1% change in it. The range is study-estimate uncertainty, not measured place heterogeneity."
+      "notes": "Elasticity uses proportional change from a positive recorded cause baseline: a state's officers per 1,000 people starts at the FBI's 2024 count and drifts, and violent crime moves 0.34% for each 1% change in it. The range is study-estimate uncertainty, not measured place heterogeneity. Chalfin and McCrary report no split of the police elasticity by income, age, household kind or tenure (their only demographic content is age-gender-race population shares used as controls)."
     },
     {
       "key": "police-to-property-crime",
@@ -197,7 +200,7 @@
         "requiredConnection": "The cause is now recorded: each state's sworn officers per 1,000 people (FBI 2024 Police Employee Data, place-outcome-bases-2024.json). Property crime is not a kept place outcome, so the link has nothing to move. The range is normal-approximation sampling uncertainty, not observed geographic variation; any contextual variation requires separate research."
       },
       "range": [-0.3464, 0.0064],
-      "notes": "Sized, with its cause recorded and its outcome missing: officers per 1,000 people is now a place outcome, but property crime is not (the game keeps burglary, robbery, assault and vandalism separately), so the link moves nothing until a property crime outcome is produced. Elasticity uses proportional change from a positive recorded cause baseline; the range is study-estimate uncertainty."
+      "notes": "Sized, with its cause recorded and its outcome missing: officers per 1,000 people is now a place outcome, but property crime is not (the game keeps burglary, robbery, assault and vandalism separately), so the link moves nothing until a property crime outcome is produced. Elasticity uses proportional change from a positive recorded cause baseline; the range is study-estimate uncertainty. Chalfin and McCrary report no split of the police elasticity by income, age, household kind or tenure (their only demographic content is age-gender-race population shares used as controls)."
     },
     {
       "key": "police-to-low-level-arrests",
@@ -508,7 +511,7 @@
       "source": "Farmer 2019 (Traffic Injury Prevention; IIHS); Ashenfelter and Greenstone 2004 (JPE); FHWA Highway Statistics 2022, Table FI-220",
       "from": "roads.rural-interstate-speed-limit",
       "evidence": "researched",
-      "notes": "Acts: each place's highest rural-interstate speed limit (IIHS, October 2026) and its traffic deaths per 100 million miles (NHTSA FARS via IIHS, 2024) are recorded and drift from those starting values, and the death rate moves 0.76% for each mile per hour of change in the limit. Reaches people through the share of deaths at each age that crashes stand for (IIHS 2022 crash deaths per 100,000 by age over the life table's death rate); the studies report no income moderator.",
+      "notes": "Acts: each place's highest rural-interstate speed limit (IIHS, October 2026) and its traffic deaths per 100 million miles (NHTSA FARS via IIHS, 2024) are recorded and drift from those starting values, and the death rate moves 0.76% for each mile per hour of change in the limit. Reaches people through the share of deaths at each age that crashes stand for (IIHS 2022 crash deaths per 100,000 by age over the life table's death rate); the studies report no income moderator. Farmer 2019 (IIHS) reports the fatality effect by road type (8.5 percent per 5 mph on interstates and freeways, 2.8 percent on other roads); the share of young drivers is only a control, so there is no split by age, income or household kind.",
       "range": [0.0056, 0.017]
     },
     {
@@ -530,7 +533,7 @@
       "from": "env.particulates:pct-of-start",
       "evidence": "researched",
       "range": [0.0035, 0.0065],
-      "notes": "No moderator by income: Currie and Neidell 2005 (NBER w10251) find \"the same exposure to pollution will have the same effect on mortality risk regardless of race or maternal education\"; Chay and Greenstone find black infant mortality more sensitive but with sampling errors \"too large for a reliable conclusion\". Left unvaried."
+      "notes": "No moderator by income: Currie and Neidell 2005 (NBER w10251) find \"the same exposure to pollution will have the same effect on mortality risk regardless of race or maternal education\"; Chay and Greenstone find black infant mortality more sensitive but with sampling errors \"too large for a reliable conclusion\". Left unvaried. Chay and Greenstone (NBER w10053) report the infant mortality effect for all births and by timing of death, and mention race only as a control and for the black infants' sampling error; there is no split by income or mother's age or household kind."
     },
     {
       "key": "congestion-to-premature-births",
@@ -743,7 +746,7 @@
       "from": "disaster.severe",
       "evidence": "provisional",
       "range": [0.025, 0.1],
-      "notes": "Unsupported until a disaster record is readable: the game has no per-place reader for a severe disaster; out-migration is kept, so this acts once one exists. Stopgap SG-WEB-moves-disaster-severity: the disasters engine records FEMA declarations without deaths, so no per-place severe-disaster record exists; the researched size (0.05, range 0.025 to 0.1) is kept for when one does. Research gives no heterogeneity by person (county-level decade study)."
+      "notes": "Unsupported until a disaster record is readable: the game has no per-place reader for a severe disaster; out-migration is kept, so this acts once one exists. Stopgap SG-WEB-moves-disaster-severity: the disasters engine records FEMA declarations without deaths, so no per-place severe-disaster record exists; the researched size (0.05, range 0.025 to 0.1) is kept for when one does. Research gives no heterogeneity by person (county-level decade study). Boustan, Kahn, Rhode and Yanguas report no split of the out-migration effect by income, age, tenure or household kind (its heterogeneity section splits by disaster type, severity and period)."
     },
     {
       "key": "disaster-to-home-values",
@@ -867,7 +870,7 @@
       "from": "health.coverage-pct",
       "evidence": "provisional",
       "range": [-0.4, -0.1],
-      "notes": "Person-level: it acts through each person's covered years, so it waits on the person pipeline, not on a place rate."
+      "notes": "Person-level: it acts through each person's covered years, so it waits on the person pipeline, not on a place rate. Miller, Johnson and Wherry report effects by 3-year age bin (Appendix Figure A5) and by sex (Appendix Table A10) but the text gives only direction (largest reductions at ages 59-64, larger for males, similar for under-138-percent-of-poverty and less-than-high-school), and the figure and table values are in the online appendix, so no weights are set."
     },
     {
       "key": "work-requirement-to-coverage",
@@ -1125,7 +1128,7 @@
       "from": "labor.minimum-wage-to-median",
       "evidence": "contested",
       "range": [-0.5, 0],
-      "notes": "The cause is read: the state's minimum wage in force over the place's recorded median earnings spread over a 2,080-hour year (outcome-web labor.minimum-wage-to-median). Median earnings include part-year workers, so the ratio reads a little above one built on full-time hourly pay. Waiting on its outcome: low-wage jobs are not a kept place outcome, so nothing moves until a producer reads this link. Moderators: searched for splits by mother's education or income, age and sex (Malik 2018 gives only the pooled +10 points; Rossin-Slater, Ruhm and Waldfogel 2013 give leave-taking but not employment by group; Cengiz et al. 2019 and CBO report pooled low-wage job effects), none found that the subjects can carry, so the link is left unvaried."
+      "notes": "The cause is read: the state's minimum wage in force over the place's recorded median earnings spread over a 2,080-hour year (outcome-web labor.minimum-wage-to-median). Median earnings include part-year workers, so the ratio reads a little above one built on full-time hourly pay. Waiting on its outcome: low-wage jobs are not a kept place outcome, so nothing moves until a producer reads this link. Moderators: searched for splits by mother's education or income, age and sex (Malik 2018 gives only the pooled +10 points; Rossin-Slater, Ruhm and Waldfogel 2013 give leave-taking but not employment by group; Cengiz et al. 2019 and CBO report pooled low-wage job effects), none found that the subjects can carry, so the link is left unvaried. Cengiz, Dube, Lindner and Zipperer (QJE 2019) report that employment effects across age, education and exposure-probability groups are \"mostly close to zero and not statistically significant\" and the responses similar across demographic groups, so no moderator is set."
     },
     {
       "key": "unemployment-to-poverty",
@@ -1705,7 +1708,7 @@
       "source": "Diamond, McQuade and Qian 2019 (AER)",
       "from": "law:us-policy-positions:housing-land-use.rent-stabilization",
       "evidence": "researched",
-      "notes": " The engine reads this link's factor in its apartment starts (src/core2/housing-construction.ts buildMonth).",
+      "notes": " The engine reads this link's factor in its apartment starts (src/core2/housing-construction.ts buildMonth). Diamond, McQuade and Qian (NBER w24181) report the supply response for treated landlords as a whole (15 percent fewer rental units); their splits by tenant age and tenure are for tenants' staying, not for supply, so no moderator is set.",
       "range": [-0.292, 0.002],
       "rangeSource": "Diamond, McQuade and Qian, NBER w24181, Figure 5(b) \"Renters/Average Population 1990-1994\": \"β = -0.145 (0.075)\", the post-2006 treatment effect and its standard error; 95% interval -0.145 +/- 1.96 x 0.075 = [-0.292, 0.002]. The text rounds this to \"reduced rental housing supply by 15%\"."
     },
@@ -1990,7 +1993,7 @@
       "from": "tax.property-rate",
       "evidence": "contested",
       "range": [0.02, 0.18],
-      "notes": "In the new core the cause is read from the engine's own record (src/core2/data/outcome-web/outcome-web.json causeFrom): the property tax rate in force for the town (the budgets module's law row the housing engine bills owners by), as a percent of home value, against the rate at the web's opening. Size is the center of the 0.02 to 0.18 range (Carroll and Yinger 1994 at 0.02; Tsoodle and Turner 2008 at 0.17 to 0.18); the engine renews each lease by the change in the web's rent factor since the lease last renewed (src/core2/housing-occupancy.ts renewRentalLeases), full and counted renters alike. The sources report one pass-through for renters as a group, so the link is not varied.",
+      "notes": "In the new core the cause is read from the engine's own record (src/core2/data/outcome-web/outcome-web.json causeFrom): the property tax rate in force for the town (the budgets module's law row the housing engine bills owners by), as a percent of home value, against the rate at the web's opening. Size is the center of the 0.02 to 0.18 range (Carroll and Yinger 1994 at 0.02; Tsoodle and Turner 2008 at 0.17 to 0.18); the engine renews each lease by the change in the web's rent factor since the lease last renewed (src/core2/housing-occupancy.ts renewRentalLeases), full and counted renters alike. The sources report one pass-through for renters as a group, so the link is not varied. Tsoodle and Turner (Real Estate Economics 2008) estimate one pass-through of the property tax rate into rent for renters in 14 cities and report no split by renter income, household kind or tenure within renters.",
       "readFrom": "housing.property-tax-rate"
     },
     {
@@ -2403,7 +2406,43 @@
       "source": "Dench, Pineda-Torres and Myers 2024 (JPubE)",
       "from": "law:us-policy-positions:civil-family-community.restrict-abortion",
       "evidence": "researched",
-      "range": [0.015, 0.03]
+      "range": [0.015, 0.03],
+      "varies": [
+        {
+          "by": "age",
+          "bands": [
+            {
+              "min": 10,
+              "max": 20,
+              "weight": 0.9,
+              "share": 0.04
+            },
+            {
+              "min": 20,
+              "max": 25,
+              "weight": 3.3,
+              "share": 0.1744
+            },
+            {
+              "min": 25,
+              "max": 30,
+              "weight": 2.8,
+              "share": 0.2798
+            },
+            {
+              "min": 30,
+              "max": 55,
+              "weight": 2.1,
+              "share": 0.5058
+            }
+          ],
+          "tag": "ESTIMATED",
+          "source": "Dench, Pineda-Torres and Myers, The effects of post-Dobbs abortion bans on fertility (working paper version, NBER conference paper f197619), section 5.2 and Table 1 panel A (effect of ban, logs x 100, ages 15-19, 20-24, 25-29, 30-44), pp. 11-12 and 28; birth shares by mother's age from NCHS NVSR 75-02, table 6, 2024 age-specific rates (data/research/renewal/natality-2024.json)",
+          "quote": "\"For older age groups, we estimate percentage effects of 3.3, 2.8, and 2.1 percent for women aged 20-24, 25-29, and 30-44, respectively; all these estimates are statistically significant at the one percent level.\" \"The results do not show evidence of an increase in births to teenagers aged 15-19.\" Table 1 panel A gives 0.9 for ages 15-19.",
+          "estimatedFrom": "Weights are the paper's percentage effects by age (0.9, 3.3, 2.8, 2.1). Ages 45 and older take the 30-44 weight because the paper has no band for them (they hold 0.3% of births). The paper notes all by-age confidence intervals overlap, so the differences are suggestive. Shares are each band's share of births, the 2024 national age-specific rates over their sum, taking equal numbers of women in each five-year band."
+        }
+      ],
+      "notes": "Moderator by age from Dench, Pineda-Torres and Myers; the paper also reports race and ethnicity, which the subject does not carry."
     },
     {
       "key": "abortion-ban-to-infant-deaths",
@@ -2424,7 +2463,8 @@
       "from": "law:us-policy-positions:civil-family-community.restrict-abortion",
       "evidence": "researched",
       "range": [0.045, 0.075],
-      "rangeSource": "The source gives only a point estimate, so the repo default of 25% of the size is applied. Gemmill et al. 2025 (JAMA, doi 10.1001/jama.2024.28517): coverage reports a relative rise of 5.6%, and the full-text interval could not be retrieved."
+      "rangeSource": "The source gives only a point estimate, so the repo default of 25% of the size is applied. Gemmill et al. 2025 (JAMA, doi 10.1001/jama.2024.28517): coverage reports a relative rise of 5.6%, and the full-text interval could not be retrieved.",
+      "notes": "Gemmill et al. (JAMA Pediatrics 2025) report the Texas infant and neonatal mortality increase for all births and state that \"available data did not enable us to investigate maternal or clinical characteristics of infant deaths\", so there is no split by age, income or household kind."
     },
     {
       "key": "abortion-denied-to-financial-distress",
@@ -2487,7 +2527,7 @@
       "who": "Parents of eligible enrolled young children whose care constraint changes; the cited maternal estimate is not all women or every household.",
       "lagWhy": "The existing12-month lag represents enrollment and labor response. Verify the D.C./Quebec study time window and whether the effect is percentage points or a relative participation change.",
       "aboutZero": false,
-      "notes": "Moderators: searched for splits by mother's education or income, age and sex (Malik 2018 gives only the pooled +10 points; Rossin-Slater, Ruhm and Waldfogel 2013 give leave-taking but not employment by group; Cengiz et al. 2019 and CBO report pooled low-wage job effects), none found that the subjects can carry, so the link is left unvaried.",
+      "notes": "Moderators: searched for splits by mother's education or income, age and sex (Malik 2018 gives only the pooled +10 points; Rossin-Slater, Ruhm and Waldfogel 2013 give leave-taking but not employment by group; Cengiz et al. 2019 and CBO report pooled low-wage job effects), none found that the subjects can carry, so the link is left unvaried. Baker, Gruber and Milligan (NBER w11832) estimate one labor supply elasticity (0.236) for mothers in two-parent families (their sample) and report no split by income, age or household kind.",
       "range": [0.1125, 0.1875],
       "rangeSource": "The source gives only a point estimate, so the repo default of 25% of the size is applied. Malik 2018 gives about 10 points on a base near 65% (D.C. mothers 65% in 2008, 76.4% in 2016); Baker, Gruber and Milligan report no interval retrieved here."
     },
@@ -2532,7 +2572,7 @@
       "from": "law:us-policy-positions:government-operations.same-day-voter-registration",
       "evidence": "researched",
       "range": [0.08, 0.18],
-      "notes": "Unsupported until a producer computes youth turnout: the cause is now a state's law on same-day voter registration, a question the game asks, but youth turnout is not a kept place outcome. The election laws act on a voter's turnout through the law reach (electionLawTurnoutCost, felonyDisenfranchisedShare, barredFromVoting), so the voting engine leaves this link out of the web factor it applies (turnout-web.ts) and the law moves turnout once; the link stays in the web's ledger as the researched size the law reach is checked against. The size is already for ages 18 to 24, the group the voting engine reads the youth factor for."
+      "notes": "Unsupported until a producer computes youth turnout: the cause is now a state's law on same-day voter registration, a question the game asks, but youth turnout is not a kept place outcome. The election laws act on a voter's turnout through the law reach (electionLawTurnoutCost, felonyDisenfranchisedShare, barredFromVoting), so the voting engine leaves this link out of the web factor it applies (turnout-web.ts) and the law moves turnout once; the link stays in the web's ledger as the researched size the law reach is checked against. The size is already for ages 18 to 24, the group the voting engine reads the youth factor for. Grumbach and Hill (Journal of Politics 2022) find the effect on 18 to 24 year olds (3.1 to 7.3 points) and little by age elsewhere; the outcome here is already youth turnout, so the age restriction is carried by the measure and no further moderator is set."
     },
     {
       "key": "all-mail-voting-to-turnout",
@@ -2553,7 +2593,7 @@
       "from": "law:us-policy-positions:government-operations.all-mail-voting",
       "evidence": "researched",
       "range": [0.005, 0.065],
-      "notes": "The election laws act on a voter's turnout through the law reach (electionLawTurnoutCost, felonyDisenfranchisedShare, barredFromVoting), so the voting engine leaves this link out of the web factor it applies (turnout-web.ts) and the law moves turnout once; the link stays in the web's ledger as the researched size the law reach is checked against. The research gives no split by age or income beyond the size, so the link is unvaried."
+      "notes": "The election laws act on a voter's turnout through the law reach (electionLawTurnoutCost, felonyDisenfranchisedShare, barredFromVoting), so the voting engine leaves this link out of the web factor it applies (turnout-web.ts) and the law moves turnout once; the link stays in the web's ledger as the researched size the law reach is checked against. The research gives no split by age or income beyond the size, so the link is unvaried. Thompson, Wu, Yoder and Hall (PNAS 2020) estimate county turnout and partisan composition from county data and report no split of the turnout effect by income, age, sex or household kind."
     },
     {
       "key": "all-mail-voting-to-party-share",
@@ -2955,7 +2995,7 @@
       "who": "Actual enrolled preschool cohorts as they reach high-school age; not present-day adults or all children in the state.",
       "lagWhy": "The existing168-month lag follows four-year-olds toward high-school graduation. It is fourteen years, so a24-month audit must report not-yet-due rather than missing firing.",
       "aboutZero": false,
-      "notes": "Gray-Lobe, Pathak and Walters 2023 (QJE 138(1)) report larger effects for boys than girls on college enrollment and SAT-taking, and no separate estimate by household income, so this link is left unvaried by income."
+      "notes": "Gray-Lobe, Pathak and Walters 2023 (QJE 138(1)) report larger effects for boys than girls on college enrollment and SAT-taking, and no separate estimate by household income, so this link is left unvaried by income. Gray-Lobe, Pathak and Walters (Boston preschool, NBER w28756, Table 8) split by sex, race and free-or-reduced-price lunch status and find the income difference not statistically distinguishable (\"Estimates for low- and higher-income students are generally not statistically distinguishable\"), and lunch eligibility is not an income fifth, so no moderator is set."
     },
     {
       "key": "equalized-funding-to-spending",
@@ -2997,7 +3037,8 @@
       "who": "Qualifying districts and their enrolled pupils; residents funding the state budget bear the financing trade-off.",
       "lagWhy": "The existing12-month lag stands for an allocation/budget cycle; it is not a verified causal delay. Team9 must provide timing and per-pupil funding contrast from the cited reform study.",
       "aboutZero": false,
-      "range": [0.04, 0.11]
+      "range": [0.04, 0.11],
+      "notes": "Lafortune, Rothstein and Schanzenbach (AEJ: Applied 2018) report the spending gain by district mean income quintile (state funding $1,225 higher in first-quintile districts and $527, not significant, in fifth-quintile districts), which is a district's income, not a student's household income fifth, and the middle quintiles are shown only in a figure, so no moderator is set."
     },
     {
       "key": "end-cash-bail-to-pretrial-detention",
@@ -3182,7 +3223,7 @@
       "evidence": "researched",
       "from": "law:us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones",
       "to": "housing.new-large-buildings",
-      "notes": " The engine reads this link's factor in its apartment starts (src/core2/housing-construction.ts buildMonth) and no longer scales starts by the share of land zoned for apartments, which was the same law counted a second time.",
+      "notes": " The engine reads this link's factor in its apartment starts (src/core2/housing-construction.ts buildMonth) and no longer scales starts by the share of land zoned for apartments, which was the same law counted a second time. Anagol, Ferreira and Rexer (NBER w29440) report the building response as a count of permits by lot and neighborhood, with no split by income, tenure or household kind; Pew and Terner Center report none either.",
       "range": [0.75, 1.25],
       "rangeSource": "The source gives only a point estimate, so the repo default of 25% of the size is applied. The size 1.0 is a recorded midpoint calibration from Pew (Jan 4, 2024), Terner Center (2022) and Anagol, Ferreira and Rexer (NBER w29440), not one estimate with an interval."
     },
@@ -3204,7 +3245,7 @@
       "evidence": "researched",
       "from": "law:us-policy-positions:housing-land-use.right-to-counsel-in-eviction",
       "to": "housing.eviction",
-      "notes": "Not hooked by design: living-world/town-rent.ts already decides each eviction case with the tenant's lawyer present, so a place eviction rate that also applied this link would count the law twice; a producer of housing.eviction should count those recorded cases instead. The engine already produces this effect from its own records (a case with a paid lawyer settles on a payment plan instead of a judgment, src/core2/modules/housing.ts housing-hearing), so the housing engine does not multiply its notice or judgment rates by this link again. Nothing reads the web's kept housing.eviction number; it stays because the law test in src/core2/outcome-web.test.ts checks this link's effect on it, and the engine's own judgments are the separate housing.eviction-orders measure.",
+      "notes": "Not hooked by design: living-world/town-rent.ts already decides each eviction case with the tenant's lawyer present, so a place eviction rate that also applied this link would count the law twice; a producer of housing.eviction should count those recorded cases instead. The engine already produces this effect from its own records (a case with a paid lawyer settles on a payment plan instead of a judgment, src/core2/modules/housing.ts housing-hearing), so the housing engine does not multiply its notice or judgment rates by this link again. Nothing reads the web's kept housing.eviction number; it stays because the law test in src/core2/outcome-web.test.ts checks this link's effect on it, and the engine's own judgments are the separate housing.eviction-orders measure. Cassidy and Currie (NBER w29836, Table 3) split the effect only by neighborhood (tract share of noncitizens, block-group majority group, poverty), not by a tenant's income, household kind or tenure, so no moderator is set.",
       "range": [-0.778, -0.448],
       "rangeSource": "Cassidy and Currie 2022, NBER w29836, conclusion: \"the probability of ultimately being evicted (between 44.8 and 77.8 percent)\", the paper's own bounds for the reduction (not a statistical interval); the size -0.62 is the repo's middle."
     },
@@ -3303,7 +3344,7 @@
       "from": "law:us-policy-positions:labor-workforce.paid-family-leave",
       "to": "labor.mothers-participation",
       "range": [-0.06, 0.1],
-      "notes": "Moderators: searched for splits by mother's education or income, age and sex (Malik 2018 gives only the pooled +10 points; Rossin-Slater, Ruhm and Waldfogel 2013 give leave-taking but not employment by group; Cengiz et al. 2019 and CBO report pooled low-wage job effects), none found that the subjects can carry, so the link is left unvaried."
+      "notes": "Moderators: searched for splits by mother's education or income, age and sex (Malik 2018 gives only the pooled +10 points; Rossin-Slater, Ruhm and Waldfogel 2013 give leave-taking but not employment by group; Cengiz et al. 2019 and CBO report pooled low-wage job effects), none found that the subjects can carry, so the link is left unvaried. Bailey, Byker, Patel and Ramnath (NBER w26416, section VI) stratify by age at first birth, marital status and pre-pregnancy wage quartile and report the differences are not statistically different; Rossin-Slater, Ruhm and Waldfogel (IZA DP 6240) split leave-taking, not the work effect, by education, marital status and race (Table 4) and report the work outcomes for all mothers of young children together; so no moderator is set."
     },
     {
       "key": "carbon-price-to-emissions",
@@ -3385,7 +3426,7 @@
       "from": "law:us-policy-positions:environment-energy.clean-electricity-standard",
       "to": "energy.electricity-price",
       "range": [0.03, 0.17],
-      "notes": "Read by the household electricity charge in place-prices.ts, replacing the law's recorded compliance-cost share once this link runs, so the cause is charged once. The dollar spread across households comes from the engine's income elasticity of electricity spending, so no further weights are added here."
+      "notes": "Read by the household electricity charge in place-prices.ts, replacing the law's recorded compliance-cost share once this link runs, so the cause is charged once. The dollar spread across households comes from the engine's income elasticity of electricity spending, so no further weights are added here. Greenstone and Nath report the retail price effect as a state average (11 percent higher seven years after an RPS, 17 percent at twelve years) per EPIC and BFI summaries; no split by income, tenure or household kind was found in the summaries read (full paper not reached)."
     },
     {
       "key": "flood-zone-limits-to-damage",
@@ -3560,7 +3601,7 @@
       "from": "law:us-federal-positions:labor-commerce.raise-federal-minimum-wage",
       "to": "labor.low-wage-jobs",
       "range": [-0.16, 0],
-      "notes": "Unsupported: the study's 8% is jobs lost among workers who earned under $15, a group a $15 minimum empties by definition, so a state base of jobs paying under $15 would read zero once the law is in force whatever happened to employment; the outcome needs a count of those workers' jobs, which the game does not keep. Moderators: searched for splits by mother's education or income, age and sex (Malik 2018 gives only the pooled +10 points; Rossin-Slater, Ruhm and Waldfogel 2013 give leave-taking but not employment by group; Cengiz et al. 2019 and CBO report pooled low-wage job effects), none found that the subjects can carry, so the link is left unvaried."
+      "notes": "Unsupported: the study's 8% is jobs lost among workers who earned under $15, a group a $15 minimum empties by definition, so a state base of jobs paying under $15 would read zero once the law is in force whatever happened to employment; the outcome needs a count of those workers' jobs, which the game does not keep. Moderators: searched for splits by mother's education or income, age and sex (Malik 2018 gives only the pooled +10 points; Rossin-Slater, Ruhm and Waldfogel 2013 give leave-taking but not employment by group; Cengiz et al. 2019 and CBO report pooled low-wage job effects), none found that the subjects can carry, so the link is left unvaried. Cengiz, Dube, Lindner and Zipperer (QJE 2019) report that employment effects across age, education and exposure-probability groups are \"mostly close to zero and not statistically significant\" and the responses similar across demographic groups, so no moderator is set. CBO reports the estimate for all workers."
     },
     {
       "key": "mandatory-minimum-cut-to-federal-prisoners",
@@ -3642,7 +3683,7 @@
       "from": "law:us-federal-positions:trade.raise-tariffs",
       "to": "household.prices",
       "range": [0.005, 0.01],
-      "notes": "Reaches the world through each business's own price at its review (finance-state.ts reads household.prices). Household incidence by income (Fajgelbaum et al. 2020; Amiti, Redding and Weinstein 2019) comes from what each household buys, which a business's single price does not carry, so the link is not varied."
+      "notes": "Reaches the world through each business's own price at its review (finance-state.ts reads household.prices). Household incidence by income (Fajgelbaum et al. 2020; Amiti, Redding and Weinstein 2019) comes from what each household buys, which a business's single price does not carry, so the link is not varied. The Budget Lab one-year review (April 2, 2026) reports the price level and household cost on average and no split of the price effect by income, age or household kind (its distributional tables give cost as a share of after-tax income, not a price change)."
     },
     {
       "key": "housing-vouchers-to-homelessness",
@@ -3684,7 +3725,27 @@
       "from": "law:us-federal-positions:social-insurance.raise-retirement-age",
       "to": "labor.older-employment",
       "range": [0.04, 0.22],
-      "notes": "Moderators: searched for splits by mother's education or income, age and sex (Malik 2018 gives only the pooled +10 points; Rossin-Slater, Ruhm and Waldfogel 2013 give leave-taking but not employment by group; Cengiz et al. 2019 and CBO report pooled low-wage job effects), none found that the subjects can carry, so the link is left unvaried."
+      "notes": "Moderators: searched for splits by mother's education or income, age and sex (Malik 2018 gives only the pooled +10 points; Rossin-Slater, Ruhm and Waldfogel 2013 give leave-taking but not employment by group; Cengiz et al. 2019 and CBO report pooled low-wage job effects), none found that the subjects can carry, so the link is left unvaried. Moderator by sex from Mastrobuoni; the two estimates are within one standard error of each other, so the spread is small by the paper's own numbers.",
+      "varies": [
+        {
+          "by": "sex",
+          "bands": [
+            {
+              "is": "female",
+              "weight": 1.08,
+              "share": 0.5143
+            },
+            {
+              "is": "male",
+              "weight": 1.22,
+              "share": 0.4857
+            }
+          ],
+          "tag": "SOURCED",
+          "source": "Mastrobuoni 2009 (Journal of Public Economics), working paper version CEPS 136 (https://swh.princeton.edu/~ceps/workingpapers/136mastrobuoni.pdf), Table 8, column (1), estimated change in average retirement age (months), treated 1938-40 cohorts against the control, female and male samples; shares from Census Bureau Vintage 2023 population estimates by sex and single year of age (nc-est2023-agesex-res.csv), ages 55 to 69, July 1 2023",
+          "quote": "Table 8 Panel A: Female Sample, T - C: 1.08 (0.36). Panel B: Male Sample, T - C: 1.22 (0.38). \"The main result is that for all three models and for both men and women, the estimated difference in CDFs between the 1938, 1939, and 1940 cohorts, and the 1937 cohort, is mostly negative.\""
+        }
+      ]
     },
     {
       "key": "drug-negotiation-to-out-of-pocket",
@@ -3813,7 +3874,7 @@
       "who": "Enrolled preschool pupils at the study follow-up ages and programs; statewide dilution remains a separate unverified conversion.",
       "lagWhy": "The outcome is eighth-grade math. A four-year-old enrolled in the fall takes the eighth-grade test about nine years and nine months later (117 months), the same lag as the reading link (CTO ruling 8).",
       "aboutZero": false,
-      "notes": "Gray-Lobe, Pathak and Walters 2023 (QJE 138(1)) report larger effects for boys than girls on college enrollment and SAT-taking, and no separate estimate by household income, so this link is left unvaried by income."
+      "notes": "Gray-Lobe, Pathak and Walters 2023 (QJE 138(1)) report larger effects for boys than girls on college enrollment and SAT-taking, and no separate estimate by household income, so this link is left unvaried by income. Gray-Lobe, Pathak and Walters (Boston preschool, NBER w28756, Table 8) split by sex, race and free-or-reduced-price lunch status and find the income difference not statistically distinguishable (\"Estimates for low- and higher-income students are generally not statistically distinguishable\"), and lunch eligibility is not an income fifth, so no moderator is set."
     },
     {
       "key": "universal-prek-to-reading-proficiency",
@@ -3856,7 +3917,7 @@
       "who": "Enrolled preschool cohorts once they take the eighth-grade reading test; not current students who never had the program.",
       "lagWhy": "A four-year-old enrolled in the fall takes the eighth-grade test about nine years and nine months later (117 months).",
       "aboutZero": false,
-      "notes": "Gray-Lobe, Pathak and Walters 2023 (QJE 138(1)) report larger effects for boys than girls on college enrollment and SAT-taking, and no separate estimate by household income, so this link is left unvaried by income."
+      "notes": "Gray-Lobe, Pathak and Walters 2023 (QJE 138(1)) report larger effects for boys than girls on college enrollment and SAT-taking, and no separate estimate by household income, so this link is left unvaried by income. Gray-Lobe, Pathak and Walters (Boston preschool, NBER w28756, Table 8) split by sex, race and free-or-reduced-price lunch status and find the income difference not statistically distinguishable (\"Estimates for low- and higher-income students are generally not statistically distinguishable\"), and lunch eligibility is not an income fifth, so no moderator is set."
     },
     {
       "key": "universal-prek-to-violent-crime",
@@ -3898,7 +3959,8 @@
       "reverseOnRepeal": "Repeal ends future offered places. Teenagers who already attended keep whatever habits they formed; later cohorts lose the program.",
       "who": "Enrolled preschool cohorts once they reach ages 14 to 17; adults and earlier cohorts are untouched.",
       "lagWhy": "The first enrolled four-year-olds turn 18 fourteen years later (168 months), when every juvenile age group has had the program.",
-      "aboutZero": false
+      "aboutZero": false,
+      "notes": "Gray-Lobe, Pathak and Walters (Boston preschool, NBER w28756, Table 8) split by sex, race and free-or-reduced-price lunch status and find the income difference not statistically distinguishable (\"Estimates for low- and higher-income students are generally not statistically distinguishable\"), and lunch eligibility is not an income fifth, so no moderator is set."
     },
     {
       "key": "equalized-funding-to-math-proficiency",
@@ -4096,7 +4158,8 @@
       "reverseOnRepeal": "Repeal stops prospective award authority. It does not erase the award already paid or the pupil prior instruction. A subsequent return to another school needs a household decision and enrollment record.",
       "who": "Voucher-using pupils and their households, with school/provider-specific effects; nonparticipants cannot be assigned the recipient estimate.",
       "lagWhy": "The existing12-month lag represents a school year before assessment. Verify the cited voucher study follow-up and treatment group; a state-wide diluted coefficient is not the trial estimate.",
-      "aboutZero": false
+      "aboutZero": false,
+      "notes": "Abdulkadiroglu, Pathak and Walters (NBER w21839, section 3.6) find the Louisiana voucher effects \"similar across family income levels\" and report larger losses for younger children by grade (3 to 5: -0.62 standard deviations in math; 6 to 8: -0.21), which the subject does not carry; Wolf et al. 2013 (DC) find no significant math subgroup differences, so no moderator is set."
     },
     {
       "key": "vouchers-to-graduation",
@@ -4138,7 +4201,8 @@
       "reverseOnRepeal": "Repeal can remove funding for future enrollment choices. Previously completed schooling remains; a remaining pupil graduation consequence depends on their later school path.",
       "who": "Actual voucher participants in the study cohorts; statewide graduation requires measured participation and cohort shares.",
       "lagWhy": "The existing48-month lag approximates later graduation, but the pupil grade and cited follow-up define when completion could actually change.",
-      "aboutZero": false
+      "aboutZero": false,
+      "notes": "Wolf et al. 2013 (JPAM, DC Opportunity Scholarship Program) report graduation gains by subgroup (13 points for students from schools in need of improvement, 20 for female students, none significant for male students or lower performers) on fields the subject does not carry (school status, sex for schools, baseline score), so no moderator is set."
     },
     {
       "key": "poverty-to-math-proficiency",
@@ -4159,7 +4223,7 @@
       "from": "household.poverty-pct",
       "to": "school.math-proficient-pct",
       "range": [-0.02, 0],
-      "notes": "The school engine also orders students by household income, but that only decides who within an income fifth passes; the place's count comes from the base times this factor, so the poverty effect is not counted twice."
+      "notes": "The school engine also orders students by household income, but that only decides who within an income fifth passes; the place's count comes from the base times this factor, so the poverty effect is not counted twice. Dahl and Lochner (NBER w14599, Table 6) split the income effect by mother's education, race, marital status, AFQT, child's age and gender; only the maternal-education difference is statistically significant, marital status is imprecise (0.0807 not married against 0.0432 married) and cannot be mapped onto the subject's household kinds (a one-adult household and a household with children overlap), so no moderator is set."
     },
     {
       "key": "uninsured-to-graduation",
@@ -4179,7 +4243,8 @@
       "evidence": "provisional",
       "from": "health.uninsured-pct",
       "to": "school.graduation-pct",
-      "range": [-0.004, 0]
+      "range": [-0.004, 0],
+      "notes": "Cohodes, Grossman, Kleiner and Lovenheim (JHR 2016) split the effect of child insurance eligibility by race (high school completion gains localized to nonwhites) and by the child's age at the expansion (no strong age pattern); the subject carries neither, so no moderator is set."
     },
     {
       "key": "graduation-to-poverty",
@@ -4225,7 +4290,7 @@
       "floor": 0.25,
       "ceiling": 3,
       "readFrom": "crime.violent-victimization-index",
-      "notes": "The new core reads the cause from the victimization records' own index of robbery and assault per person 12 and older, 100 at the town's first month (src/core2/modules/crime.ts), not from the web's ledger; `from` stays as the old engine reads it."
+      "notes": "The new core reads the cause from the victimization records' own index of robbery and assault per person 12 and older, 100 at the town's first month (src/core2/modules/crime.ts), not from the web's ledger; `from` stays as the old engine reads it. Internal link from the design record, with no research source behind it, so there is no reported split by income, age, household kind or tenure."
     },
     {
       "key": "crime-level-to-robbery",
@@ -4249,7 +4314,7 @@
       "floor": 0.25,
       "ceiling": 3,
       "readFrom": "crime.violent-victimization-index",
-      "notes": "The new core reads the cause from the victimization records' own index of robbery and assault per person 12 and older, 100 at the town's first month (src/core2/modules/crime.ts), not from the web's ledger; `from` stays as the old engine reads it."
+      "notes": "The new core reads the cause from the victimization records' own index of robbery and assault per person 12 and older, 100 at the town's first month (src/core2/modules/crime.ts), not from the web's ledger; `from` stays as the old engine reads it. Internal link from the design record, with no research source behind it, so there is no reported split by income, age, household kind or tenure."
     },
     {
       "key": "crime-level-to-assault",
@@ -4273,7 +4338,7 @@
       "floor": 0.25,
       "ceiling": 3,
       "readFrom": "crime.violent-victimization-index",
-      "notes": "The new core reads the cause from the victimization records' own index of robbery and assault per person 12 and older, 100 at the town's first month (src/core2/modules/crime.ts), not from the web's ledger; `from` stays as the old engine reads it."
+      "notes": "The new core reads the cause from the victimization records' own index of robbery and assault per person 12 and older, 100 at the town's first month (src/core2/modules/crime.ts), not from the web's ledger; `from` stays as the old engine reads it. Internal link from the design record, with no research source behind it, so there is no reported split by income, age, household kind or tenure."
     },
     {
       "key": "crime-level-to-vandalism",
@@ -4317,7 +4382,8 @@
       "anchor": "The place's drifting birth level scales births one for one.",
       "source": "Spec part 6: the entire world changes",
       "evidence": "researched",
-      "range": [0.01, 0.01]
+      "range": [0.01, 0.01],
+      "notes": "Internal link from the design record, with no research source behind it, so there is no reported split by income, age, household kind or tenure."
     },
     {
       "key": "right-to-work-to-turnout",
@@ -4338,7 +4404,7 @@
       "anchor": "Counties across state borders: turnout 2 to 3 points lower after a right-to-work law passes (about 3% of a 65% turnout), with the Democratic presidential share 3.5 points lower, as unions contact fewer voters",
       "source": "Feigenbaum, Hertel-Fernandez and Williamson 2018, From the Bargaining Table to the Ballot Box (NBER w24259)",
       "range": [-0.046, -0.015],
-      "notes": "Read by the voting engine as a factor on every voter's propensity (turnout-web.ts). The paper reports a county-level effect only (NBER w24259 abstract: \"Turnout is also 2 percentage points lower in right-to-work counties after passage\"), with no split by age or income, so the link is unvaried."
+      "notes": "Read by the voting engine as a factor on every voter's propensity (turnout-web.ts). The paper reports a county-level effect only (NBER w24259 abstract: \"Turnout is also 2 percentage points lower in right-to-work counties after passage\"), with no split by age or income, so the link is unvaried. Feigenbaum, Hertel-Fernandez and Williamson (NBER w24259) report the turnout effect for non-professional workers against professional workers (occupation, which the subject does not carry) and find the effect on young voters and minorities small and statistically imprecise, so no moderator by age or income is set."
     },
     {
       "key": "public-bargaining-to-graduation",
@@ -4414,7 +4480,8 @@
         "months": 6,
         "evidenceLimit": "Inherited repository source/anchor read; primary study verification and any new conversion remain Team9 research work."
       },
-      "aboutZero": false
+      "aboutZero": false,
+      "notes": "Dee and Pyne (Science Advances 2022) estimate the effect for Denver precincts by month and spillover to neighboring precincts and report no split by income, age, household kind or tenure of residents."
     },
     {
       "key": "curriculum-standards-to-math",
@@ -4618,7 +4685,7 @@
       "anchor": "From 2018 to 2022, turnout rose about 1 point in districts drawn by long-standing commissions and 5 points in court-drawn ones, and being drawn into a competitive district added about 3 points; the comparison is descriptive, not a controlled study, and presidential turnout is barely touched by district lines",
       "source": "Brennan Center, The Turnout Effects of Redistricting Institutions; PS: Political Science and Politics 2023 (commissions and competitive elections)",
       "range": [0, 0.015],
-      "notes": "Read by the voting engine as a factor on every voter's propensity (turnout-web.ts). The comparison is descriptive at the district level with no split by age or income, so the link is unvaried."
+      "notes": "Read by the voting engine as a factor on every voter's propensity (turnout-web.ts). The comparison is descriptive at the district level with no split by age or income, so the link is unvaried. The Brennan Center study reports turnout by redistricting institution and by whether a district became competitive, as district-level averages, with no split by voter income or age."
     },
     {
       "key": "term-limits-to-turnout",
@@ -4873,7 +4940,8 @@
       "evidence": "contested",
       "anchor": "States that adopted right-to-carry laws had 13 to 15% more violent crime ten years on than their synthetic controls. The study compares shall-issue with may-issue permits, so it is a proxy for requiring a permit at all",
       "source": "Donohue, Aneja and Weber 2019, Journal of Empirical Legal Studies 16(2); RAND Science of Gun Policy",
-      "from": "law:us-policy-positions:justice-public-safety.permit-to-carry-concealed"
+      "from": "law:us-policy-positions:justice-public-safety.permit-to-carry-concealed",
+      "notes": "Donohue, Aneja and Weber (NBER w23510) estimate state crime rates and use age-sex-race population shares only as controls, so they report no split by income, age, household kind or tenure; RAND's review summarizes the same state-level estimates."
     },
     {
       "strength": "about-zero",
@@ -5238,7 +5306,8 @@
       "evidence": "provisional",
       "anchor": "Library building investment raised children's reading 0.01 to 0.04 standard deviations, about 3% more at proficient; an operating floor is taken as a third of that",
       "source": "Gilpin, Karger and Nencka 2024, AEJ: Economic Policy",
-      "range": [0, 0.03]
+      "range": [0, 0.03],
+      "notes": "Gilpin, Karger and Nencka (AEJ: Economic Policy 2024; Chicago Fed WP 2021-06) report \"similar patterns of results in both groups of students, with a larger point estimate for the non-disadvantaged\" (economically disadvantaged against not) and similar results across grades, with the figures giving no tabulated weights by household income fifth, so no moderator is set."
     },
     {
       "key": "public-broadband-to-home-access",
@@ -5452,7 +5521,7 @@
       "anchor": "Transit ridership's elasticity with respect to fares is -0.2 to -0.5 in the first year. A fare falling to zero is read on the semi-log curve the paper recommends for fares near zero, where ridership rises by e to the elasticity: 22% to 65%, 42% at the middle of the range. Long-run elasticities of -0.6 to -0.9 would give more, so this is the first year's effect, held.",
       "source": "Litman 2025, Transit Price Elasticities and Cross-Elasticities, Victoria Transport Policy Institute, Table 15 and page 9",
       "range": [0.22, 0.65],
-      "notes": "Read by the trips each household takes in place-prices.ts. The sources reachable (Litman 2025; pilot write-ups) give no ridership split by income, so the link is not varied."
+      "notes": "Read by the trips each household takes in place-prices.ts. The sources reachable (Litman 2025; pilot write-ups) give no ridership split by income, so the link is not varied. Litman (Victoria Transport Policy Institute, Transit Price Elasticities and Cross-Elasticities) says transit-dependent riders (low income, non-drivers, students, elderly) are less price sensitive than choice riders but gives no elasticities by group, so no weights are set."
     },
     {
       "key": "cannabis-sales-to-overdose-deaths",
@@ -5652,7 +5721,8 @@
       "owner": "F",
       "evidence": "researched",
       "anchor": "A state that gets a dollar more of military procurement than others gets about $1.50 more output. Earnings are read to move one for one with output, so each percent of the state's output that extra contracts add lifts earnings 1.5%. The extra contracts follow a build-up at the pace defense contracts rose in the years they beat inflation, in each state in proportion to the contracts it drew in 2024 (data/research/federal/defense-contracts-by-state-fy2024.json). The paper's summary gives no band, so the spread is the default for researched links, 25% either way. The effect is read the same year the money is spent, since the study measures it within the year and the build-up already phases in over the years of the law.",
-      "source": "Nakamura and Steinsson 2014, Fiscal Stimulus in a Monetary Union: Evidence from U.S. Regions, American Economic Review 104(3), NBER w17391; contracts from USAspending.gov and output from the Bureau of Economic Analysis, read September 29, 2026"
+      "source": "Nakamura and Steinsson 2014, Fiscal Stimulus in a Monetary Union: Evidence from U.S. Regions, American Economic Review 104(3), NBER w17391; contracts from USAspending.gov and output from the Bureau of Economic Analysis, read September 29, 2026",
+      "notes": "Nakamura and Steinsson (NBER w17391) estimate a regional multiplier and report no split by income, age, sex or household kind."
     },
     {
       "key": "farm-payments-cut-to-land-values",
@@ -5694,7 +5764,7 @@
       "source": "Litman, Transit Price Elasticities and Cross-Elasticities, Victoria Transport Policy Institute, June 17, 2025, page 12 (Service Elasticities), https://www.vtpi.org/tranelas.pdf",
       "range": [0.003, 0.01],
       "phaseInMonths": 24,
-      "notes": "New service takes 1 to 3 years to reach its full ridership (Litman 2025): no lag, and the effect builds over 24 months, the middle of that range. The sources reachable give no split by income, so the link is not varied. Read by the trips each household takes (place-prices.ts).",
+      "notes": "New service takes 1 to 3 years to reach its full ridership (Litman 2025): no lag, and the effect builds over 24 months, the middle of that range. The sources reachable give no split by income, so the link is not varied. Read by the trips each household takes (place-prices.ts). Litman (Victoria Transport Policy Institute, Transit Price Elasticities and Cross-Elasticities) says transit-dependent riders (low income, non-drivers, students, elderly) are less price sensitive than choice riders but gives no elasticities by group, so no weights are set.",
       "phaseInSource": "Litman 2025 (Victoria Transport Policy Institute, Transit Price Elasticities and Cross-Elasticities): new or improved service takes one to three years to reach its full ridership; 24 months is the middle of that range."
     },
     {
