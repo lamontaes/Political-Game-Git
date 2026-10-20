@@ -178,5 +178,29 @@
       "unit": "days",
       "citation": "The owner's range (Oct 15, 2026); checked by the unit test in src/core2/counted-demotion.test.ts."
     }
+  },
+  "countedCommuterWorkdayHours": {
+    "value": 8,
+    "tag": "ESTIMATED",
+    "citation": "BLS American Time Use Survey 2023: employed full-time people worked 8.4 hours on the days they worked (7.9 hours on average across all days worked by employed people); a commute job's workday is taken as 8 hours.",
+    "estimatedFrom": "ATUS hours worked on days worked by full-time workers.",
+    "spread": {
+      "low": 7.5,
+      "high": 8.5,
+      "unit": "hours a workday",
+      "citation": "BLS ATUS 2023, Table 4."
+    }
+  },
+  "countedCommuterWorkdaysPerWeek": {
+    "value": 5,
+    "tag": "ESTIMATED",
+    "citation": "A full-time work week is five days (BLS ATUS: employed people worked on 5.1 weekdays in an average week).",
+    "estimatedFrom": "Weekday work shares in the ATUS.",
+    "spread": {
+      "low": 4.5,
+      "high": 5.5,
+      "unit": "days a week",
+      "citation": "BLS ATUS 2023."
+    }
   }
 }

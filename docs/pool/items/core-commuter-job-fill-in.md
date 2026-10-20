@@ -23,3 +23,5 @@ claimed-at: 2026-10-20T06:47:54.316Z
 **Files.** src/core2/modules/residents.ts, src/core2/data/stopgaps.json, src/core2/unplaced-fill-in-job.test.ts
 
 **Notes.** Split Oct 20 from core-outside-wage-obligation (L). Needs core-outside-pay-authority first. The sent-back reasons on #5076 to avoid: no loosened test tolerance, no unstated timeout increases, nothing new in src/simulation.
+
+Oct 20 (claude/commuter-job): a filled-in worker with an unplaced income now holds `job:commuter:<personId>` at the place outside account, paid by the payroll calendar with withholding; demotion ends the job and returns the pay and the household unplaced workers to the counted group (`protectedPeople` no longer treats the outside account as a public employer). Stopgap SG-CORE-filled-unplaced-income resolved. Test: `unplaced-fill-in-job.test.ts`.

@@ -17,6 +17,8 @@ import {
 import { transfer, transferSplit } from "../accounts";
 import { livingCostParts } from "../living-cost-split";
 import { splitMarketDemand } from "../business-books";
+import { openingWorkCommitments } from "./work";
+import { coreAPI } from "../state";
 import { OUTSIDE_MARKET_KIND } from "../opening-outside-market";
 import { notifyCountedWages, notifySalesReceipt } from "./finance";
 import type { ResidentWageShortfall } from "../finance-types";
@@ -436,7 +438,6 @@ function jobless(
 }
 
 export const DISTRICT_STOPGAP = "SG-CORE-district-placement";
-const FILLED_UNPLACED_STOPGAP = "SG-CORE-filled-unplaced-income";
 
 /** The town's districts and their people (state House, else state Senate), by GEOID. */
 export function townDistricts(core: CoreState): [string, number][] {
@@ -1697,8 +1698,8 @@ export function releaseResidentHousehold(
   // The household now pays its own outside living costs from its payer.
   const payer = record.people.find((row) => row.livingCostDailyMinor > 0);
   // Its workers without a recorded job keep their pay: its share of the
-  // place's unplaced workers' flow becomes a flow of its own, to its
-  // working-age people (SG-CORE-filled-unplaced-income).
+  // place's unplaced workers' flow becomes a real job with an employer
+  // outside the town, paid from the place's outside account.
   if (ownFlows && cash && cash.unplaced > 0) {
     const unplaced = [...rt.flows.values()].find(
       (flow) =>
@@ -1711,18 +1712,11 @@ export function releaseResidentHousehold(
     );
     if (unplaced && worker) {
       const amount = Math.round(unplaced.amountMinor * cash.unplaced);
-      if (amount > 0) {
-        stopgap(FILLED_UNPLACED_STOPGAP);
+      if (
+        amount > 0 &&
+        startCommuterJob(core, rt, worker.id, unplaced, amount)
+      ) {
         unplaced.amountMinor -= amount;
-        const flow: FlowState = {
-          ...unplaced,
-          id: `${unplaced.id}:${householdId}`,
-          payeeId: worker.id,
-          amountMinor: amount,
-          arrearsMinor: 0,
-        };
-        rt.flows.set(flow.id, flow);
-        schedule(rt, flow);
       }
     }
   }
@@ -2545,30 +2539,141 @@ export function keepCalendar(
   rt.input = { ...rt.input, calendars: [...calendars, calendar] };
 }
 
+/** The commuter job's id for a person; the demotion reads it to put the pay back. */
+export const commuterJobId = (personId: string) => `job:commuter:${personId}`;
+
 /**
- * A household returning to the counts brings its unplaced workers' pay back
- * to its place's flow, and its share of those workers with it.
+ * A filled-in household's jobless worker takes a job with the place's outside
+ * account as the employer: the share of the unplaced workers' pay the
+ * household held (`amount` for each of the flow's periods) becomes the job's
+ * hourly pay over a standard work week, on the flow's own payday cycle, so
+ * the neighbor has an employer, a schedule and a paycheck with tax withheld.
+ * False where the flow's cadence is not whole days or the account is absent.
  */
-export function returnUnplacedPay(
+function startCommuterJob(
+  core: CoreState,
+  rt: ResidentsRuntime,
+  personId: string,
+  flow: FlowState,
+  amount: number,
+): boolean {
+  // A fill-in during the world's own build runs before the first day sets rt.api.
+  const api = rt.api ?? coreAPI(core);
+  if (flow.cadence.kind !== "days") return false;
+  const outside = [...core.organizations.values()].find(
+    (row) =>
+      row.kind === OUTSIDE_MARKET_KIND &&
+      row.placeId === flow.placeId &&
+      row.publicPayAuthority,
+  );
+  if (!outside?.publicPayAuthority) return false;
+  const person = core.people.get(personId);
+  if (!person || person.jobId) return false;
+  const cadence = flow.cadence.every;
+  const hoursDaily = countedParameter("countedCommuterWorkdayHours");
+  const weekHours =
+    hoursDaily * countedParameter("countedCommuterWorkdaysPerWeek");
+  const weeklyMinor = (amount * api.parameter("daysPerWeek")) / cadence;
+  const hourlyMinor = Math.max(1, Math.round(weeklyMinor / weekHours));
+  const startsAt = addDays(makeIsoDate(core.date), 1);
+  const source: Source = {
+    tag: "ESTIMATED",
+    asOf: core.date,
+    citation:
+      "A filled-in household's share of the place's unplaced workers' pay, as a job with an employer outside the town (the place's commute shares).",
+    estimatedFrom: `Flow ${flow.id}: ${amount} minor units every ${cadence} days over a ${weekHours}-hour week.`,
+  };
+  const jobId = commuterJobId(personId);
+  const job: JobInput = {
+    id: jobId,
+    personId,
+    organizationId: outside.id,
+    title: "Works outside the town",
+    hourlyMinor,
+    hoursDaily,
+    wageDailyMinor: Math.round(weeklyMinor / api.parameter("daysPerWeek")),
+    source,
+  };
+  const commitment = openingWorkCommitments([job], [outside], startsAt)[0]!;
+  const calendarId = `payroll-calendar:${jobId}`;
+  const lag = api.parameter("openingPayrollPeriodEndLagDays");
+  // The flow's next payday is this job's first payday.
+  const containing = addDays(makeIsoDate(flow.nextAt), 1 - lag);
+  api.startJob(
+    job,
+    {
+      ...commitment,
+      // The schedule is known today, though the job starts tomorrow.
+      scheduleSource: { ...commitment.scheduleSource, asOf: core.date },
+      payrollCalendarId: calendarId,
+      publicPayAuthorityId: outside.publicPayAuthority.id,
+    },
+    {
+      id: calendarId,
+      organizationId: outside.id,
+      workCommitmentIds: [commitment.id],
+      basisRecordIds: [outside.id],
+      rule: "fixed-days-after-inclusive-period-end",
+      periodDays: cadence,
+      firstPeriodStartsAt: addDays(containing, -cadence),
+      firstPaydayAt: flow.nextAt,
+      nonbusinessDayRule: "no-adjustment",
+      effectiveFrom: startsAt,
+      arrearsRule: "carry-to-next-recorded-payday",
+      source,
+    },
+  );
+  return true;
+}
+
+/**
+ * A household returning to the counts brings its commuter's pay back to its
+ * place's unplaced workers' flow, and its share of those workers with it
+ * (`amountMinor` is what the job paid for each of that flow's periods).
+ */
+export function returnCommuterPay(
   core: CoreState,
   householdId: string,
-  ownFlowId: string,
+  amountMinor: number,
 ): void {
   const rt = runtimes.get(core);
-  const own = rt?.flows.get(ownFlowId);
   const ix = rt?.store.householdOf.get(householdId);
-  if (!rt || !own || own.endedAt || ix === undefined) return;
-  const base = rt.flows.get(ownFlowId.slice(0, -`:${householdId}`.length));
-  end(own, makeIsoDate(core.date), "returned-to-counts");
-  if (!base || base.endedAt) return;
+  if (!rt || ix === undefined || !(amountMinor > 0)) return;
   const h = rt.store.households[ix]!;
+  const base = [...rt.flows.values()].find(
+    (flow) =>
+      !flow.endedAt &&
+      flow.financeKind === "work.unplaced-residents" &&
+      flow.placeId === h.placeId,
+  );
+  if (!base) return;
   let others = 0;
   for (const x of rt.store.liveHouseholds())
     if (x.placeId === h.placeId && x !== h) others += x.unplacedWorkers;
-  const share = own.amountMinor / (base.amountMinor + own.amountMinor);
-  base.amountMinor += own.amountMinor;
+  const share = amountMinor / (base.amountMinor + amountMinor);
+  base.amountMinor += amountMinor;
   h.unplacedWorkers = share < 1 ? (share * others) / (1 - share) : 0;
   regroupHousehold(rt, h, core.date);
+}
+
+/** What a commuter job pays for each of the place's unplaced-pay periods, in minor units. */
+export function commuterPeriodPay(
+  core: CoreState,
+  job: { id: string; wageDailyMinor: number; organizationId: string },
+): number | undefined {
+  const rt = runtimes.get(core);
+  const outside = core.organizations.get(job.organizationId);
+  if (!rt || outside?.kind !== OUTSIDE_MARKET_KIND) return undefined;
+  if (!job.id.startsWith("job:commuter:")) return undefined;
+  const base = [...rt.flows.values()].find(
+    (flow) =>
+      flow.financeKind === "work.unplaced-residents" &&
+      flow.placeId === outside.placeId &&
+      flow.cadence.kind === "days",
+  );
+  return base && base.cadence.kind === "days"
+    ? Math.round(job.wageDailyMinor * base.cadence.every)
+    : undefined;
 }
 
 /**
