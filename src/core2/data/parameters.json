@@ -1187,20 +1187,20 @@
     }
   },
   "workSleepReserveHours": {
-    "value": 9.03,
+    "value": 8.7,
     "tag": "ESTIMATED",
-    "citation": "BLS American Time Use Survey 2025, Table 1 (https://www.bls.gov/news.release/atus.t01.htm) and Table 2 (https://www.bls.gov/news.release/atus.t02.htm): sleeping (primary activity, naps included) averages 9.03 hours per diary day for all days; 8.76 weekdays, 9.68 weekends and holidays; men 8.93, women 9.13.",
+    "citation": "BLS American Time Use Survey 2025, Table 8B (https://www.bls.gov/news.release/atus.t08b.htm), employed adults 18 and over, annual averages: sleeping 8.83 hours per diary day with no household child under 18, 8.56 with one. Not-employed adults sleep more (Table 8C: 9.37 and 9.31); all adults average 9.03 (Table 1, https://www.bls.gov/news.release/atus.t01.htm).",
     "spread": {
-      "low": 8.76,
-      "high": 9.68,
+      "low": 8.56,
+      "high": 8.83,
       "unit": "hours per diary day",
-      "citation": "BLS ATUS 2025 Table 2: weekdays 8.76 to weekends and holidays 9.68."
+      "citation": "BLS ATUS 2025 Table 8B, employed adults: with a household child under 18 (8.56) to with none (8.83)."
     },
     "stopgapId": "SG-P8-work-time-reserve",
     "checkRange": {
       "ref": "EMPIRICAL-PRIMARY-ACTIVITY-AGE"
     },
-    "estimatedFrom": "Daily time reserved for sleep is the ATUS all-days population mean of primary-activity sleep. Standard BLS tables do not cut sleep by employment status, so the all-population mean is used for workers."
+    "estimatedFrom": "The midpoint of the two employed-adult figures in Table 8B, because the table gives no total for employed adults and the share of employed adults with a child at home is not read here. It replaces the all-adults mean of 9.03, which includes people who do not work."
   },
   "workRoutineRetentionWeeks": {
     "value": 4,
@@ -4785,6 +4785,17 @@
       "citation": "A week (the routine retention window, routineRetentionDays) to a season; checked against the memory guard and the 'why' view."
     }
   },
+  "playerDecisionDetailDays": {
+    "value": 365,
+    "tag": "TUNABLE",
+    "citation": "How long the player's own routine act keeps every option's score before only its chosen reasons remain; after a year the summary and reasons are kept, not every detail.",
+    "spread": {
+      "low": 180,
+      "high": 730,
+      "unit": "days",
+      "citation": "Half a year to two years; checked against the memory guard (scripts/core2-guard/memory.mjs) and the 'why' view."
+    }
+  },
   "circleActRetentionMonths": {
     "value": 12,
     "tag": "TUNABLE",
@@ -5008,12 +5019,14 @@
     }
   },
   "traitWeightWorkAttendShift": {
-    "value": 1,
-    "tag": "TUNABLE",
-    "citation": "The trait weight of the work.attend-shift decision. Starts at the general traitWeight (1); calibrated against its row in data/research/trait-effect-sizes.json with scripts/traits/trait-calibrate.ts.",
+    "value": 0.1,
+    "tag": "ESTIMATED",
+    "citation": "Salgado 2002, 'The Big Five personality dimensions and counterproductive behaviors' (International Journal of Selection and Assessment 10): 'none of the Big Five personality measures were found to be predictors of absenteeism'. The weight is the largest that keeps the odds of missing between the third leaning most toward missing and the third leaning least near a small single-decision effect (1.24 at 0.1 against an assumed 1.1 per standard deviation, scripts/traits/trait-calibrate.ts, Ely, Nevada, key 3223500, seed 7ae8589566f5, 14,008 shift weighings); at the general weight of 1 the ratio was 61, so temperament decided who missed work. Illness now decides most absences (workAbsenceIllnessWeight).",
     "spread": {
-      "status": "unmeasured",
-      "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
+      "low": 0.05,
+      "high": 0.2,
+      "unit": "weight",
+      "citation": "Odds ratios 1.16 to 1.72 between the thirds in the same calls; the study's null bounds it above."
     }
   },
   "traitWeightDrivesRespond": {
@@ -5954,6 +5967,18 @@
       "high": 0.25,
       "unit": "standard deviations per event",
       "citation": "Small effects in the life-event personality literature; not retrieved per event."
+    }
+  },
+  "workAbsenceIllnessWeight": {
+    "value": 0.3,
+    "tag": "ESTIMATED",
+    "citation": "BLS Current Population Survey 2023, Table 46: full-time wage and salary workers lose 1.7% of scheduled hours to absence (lost worktime rate), illness or injury being about two thirds of absences (2.2 of a 3.2% absence rate, data/research/stand-in-figures-2026-10-12.json). The weight on a person's own care need (src/core2/modules/health.ts careNeedOf, 0 to 1) is set so missed shifts come to that share: in Ely, Nevada (key 3223500, seed 7ae8589566f5, 45 played days, 3,782 shift weighings) weights 0.2, 0.5 and 1.5 gave 1.1%, 3.7% and 11.1% of shifts missed; 0.3 sits at the 1.7% target.",
+    "estimatedFrom": "Interpolated between 0.2 (1.1%) and 0.5 (3.7%) to 1.7%.",
+    "spread": {
+      "low": 0.2,
+      "high": 0.4,
+      "unit": "score per unit of care need",
+      "citation": "The 1.2% to 2.5% lost-worktime band of data/research/stopgaps-oct19/A-people-behavior-1.json."
     }
   }
 }
