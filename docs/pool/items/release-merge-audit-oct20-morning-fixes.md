@@ -5,7 +5,7 @@ area: release
 kind: bug
 priority: 1
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/audit-fixes
 pr: #5655
 blocked-on:
