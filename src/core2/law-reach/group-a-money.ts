@@ -19,7 +19,7 @@ import { paidLeaveProgram, paidLeavePremium } from "../paid-leave";
 import type { CoreAPI, CoreState, PersonState } from "../types";
 import type { ModuleRow } from "../module-data";
 import { addDays, makeIsoDate } from "../kernel/dates";
-import { townFigures } from "../modules/housing";
+import { HOUSING_MODULE_ID, townFigures } from "../modules/housing";
 import { residentsRuntime } from "../modules/residents";
 import type { WorkPayrollJournalReceipt } from "../work-payroll-cash";
 import type { PolicyHandler } from "./host";
@@ -295,7 +295,9 @@ export const housingAssistance: PolicyHandler = (api, change) => {
   // The slots are shared across every renting household, named or counted,
   // in proportion: a counted renter is helped by the same rule as a full one.
   const town = lawChain(api).townPlaceId;
-  const figures = townFigures(api, town);
+  const figures = api.state.modules.has(HOUSING_MODULE_ID)
+    ? townFigures(api, town)
+    : { renters: 0, rentMinor: 0 };
   const totalRenters = Math.max(figures.renters, byHousehold.size);
   const share = totalRenters > 0 ? Math.min(1, slots / totalRenters) : 0;
   const chosen = new Map(
