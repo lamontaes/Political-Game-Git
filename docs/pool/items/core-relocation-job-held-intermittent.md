@@ -5,12 +5,12 @@ area: core
 kind: bug
 priority: 2
 size: M
-status: in-pr
-claimed-by: claude/relocation-dead-member
+status: open
+claimed-by:
 pr: #5149
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-19T20:40:54.006Z
+claimed-at:
 ---
 
 **What.** One played year in a drawn place stopped with 'Invalid relocation: one living household, no job held', thrown by `relocatePeopleV1` in src/core2/state.ts when a mover still holds a job that has not ended. The place and seed were lost, and eight later runs of the same test did not reproduce it. Find which caller moves a person whose job is still live, reproduce it from a captured place and seed, and make that caller end the job first or not move the person.
