@@ -4,7 +4,7 @@ title: "Stopgaps in credit (assumed-data): 1 open"
 area: world
 kind: stopgap
 priority: 3
-status: in-pr
+status: done
 claimed-by: claude/territory-deposits
 pr: #5254
 blocked-on:
