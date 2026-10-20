@@ -5,11 +5,12 @@ area: gov
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/staff-worked-today
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-20T00:54:48.818Z
 ---
 
 **What.** With the player controlling a council member, the player's clock runs calendar work at the close of the day, after the day's work, and the staff engine's review hired a person who had already worked that day (hireStaff, then startPublicJob, which ends their old job), so endRecordedJob threw 'A job ends before its day's work, from calendar work' and the clock stopped on 22 January 2025 in Gardiner, Montana (seed 4d18b465, a council member as the player). The executive engine already skips anyone who worked today when it picks a department head (workedToday in executive.ts). Move that helper into job-lifecycle and have the staff candidates skip such people too, so they are considered the next day.
