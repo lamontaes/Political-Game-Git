@@ -7,7 +7,7 @@ priority: 3
 size: M
 status: in-pr
 claimed-by: claude/speech-craft
-pr: #5600
+pr: #5601
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-20T07:50:34.424Z
