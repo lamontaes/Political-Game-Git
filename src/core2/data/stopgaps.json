@@ -1227,12 +1227,12 @@
     "id": "SG-GOV-recall-signature-groups",
     "kind": "missing-data",
     "file": "src/core2/modules/recalls.ts",
-    "line": 321,
-    "whatItFakes": "A recall petition's signatures from the town's unnamed voters are the named residents' signing share times the town's estimated electorate (population times the 2024 voting share), against whatever signature base the state's rule names.",
-    "why": "CORE's voter groups and real voter rolls aren't populated in generated worlds.",
+    "line": 311,
+    "whatItFakes": "A recall petition's required signatures read the state's named base from the world's records where it holds them (votes cast for the office, or at the town's last election of that level, from the recorded results). Where it holds none, the base is sized from the real averages: registered voters (the town's eligible voters times the national registration share), the last gubernatorial vote (the town's population times the voting share, scaled to a midterm), and votes cast before the town has held an election.",
+    "why": "The world keeps no voter rolls and does not keep a statewide race's votes by town, and a new town has held no election yet. The counted residents sign and vote by the same rule as named people, and the base is a whole count of voters.",
     "addedBy": "OPUS-GOV",
     "addedAt": "2026-10-12",
-    "replacement": "Signatures gathered by the organizer's and volunteers' real contacts, plus CORE's voter groups, counted against the rule's own base (registered voters or last vote cast).",
+    "replacement": "Registered voters read from the town's rolls and the town's share of the last gubernatorial vote read from the state's returns, once the world keeps them.",
     "status": "open"
   },
   {
