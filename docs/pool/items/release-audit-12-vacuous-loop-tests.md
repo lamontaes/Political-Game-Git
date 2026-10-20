@@ -5,11 +5,12 @@ area: release
 kind: bug
 priority: 3
 size: M
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/political-game-pool-76ksvw
+pr: #5180
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-20T04:32:36.887Z
 ---
 
 **What.** Add an assertion that the flows or rows exist before each loop that passes when there are none.

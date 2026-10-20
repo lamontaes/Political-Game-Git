@@ -5,11 +5,12 @@ area: world
 kind: bug
 priority: 3
 size: M
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/audit-09-arrears
+pr: #5524
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-20T04:37:54.521Z
 ---
 
 **What.** Add a bound or write-off for arrears that retry daily and grow forever for jobless households, add a test for it, measure a dense-town year, and close #4937 as a duplicate.

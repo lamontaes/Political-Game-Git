@@ -5,11 +5,12 @@ area: release
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/audit-05-journal-lines
+pr: #5507
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-20T04:24:59.612Z
 ---
 
 **What.** Set the nine lines marked origin authored and shippable true to not shippable until graded, and make the test require the partners-met and parent-job lines.
