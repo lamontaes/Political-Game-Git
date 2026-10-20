@@ -63,13 +63,9 @@
     "venue": "Where",
     "retold": "retold"
   },
-  "campaignDay": {
-    "title": "Today",
-    "canvass": "Canvass",
-    "event": "Hold an event",
-    "interview": "Ask for an interview",
-    "raise-money": "Call donors",
-    "rest": "Rest",
+  "campaignOutings": {
+    "doors": "Knock on doors",
+    "calls": "Call donors",
     "hours": "hours"
   },
   "venues": {
@@ -145,6 +141,14 @@
     "sign": "Sign",
     "veto": "Veto",
     "own": "Decide for me"
+  },
+  "budgetEditor": {
+    "title": "Budget lines to send",
+    "-20": "Cut 20%",
+    "-10": "Cut 10%",
+    "0": "No change",
+    "10": "Add 10%",
+    "20": "Add 20%"
   },
   "deals": {
     "title": "Deal to offer when you talk",

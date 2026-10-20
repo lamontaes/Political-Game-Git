@@ -1138,6 +1138,15 @@ function checkMetadata(
   }
 }
 
+/**
+ * A debug hook on every journal post (scripts/law-wiring/check.ts follows a
+ * law's money by it). Off (null) in play and in tests: one null check.
+ */
+let journalTrace: ((input: Readonly<CashJournalInput>) => void) | null = null;
+export function setJournalTrace(hook: typeof journalTrace): void {
+  journalTrace = hook;
+}
+
 /** All original rows are rechecked after the last provider call and before the first write. */
 export function postCashJournal(
   runtime: CashJournalRuntime,
@@ -1146,6 +1155,7 @@ export function postCashJournal(
 ): CashJournalProjection {
   if (activeWriters.has(runtime))
     throw new Error("Reentrant cash journal writer.");
+  journalTrace?.(input);
   activeWriters.add(runtime);
   try {
     const state = host.state,
