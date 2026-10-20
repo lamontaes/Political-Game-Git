@@ -4513,6 +4513,18 @@
     "status": "resolved"
   },
   {
+    "id": "SG-WORLD-jobs-offer-deadline-reminder",
+    "kind": "faked-mechanic",
+    "file": "src/core2/modules/jobs.ts",
+    "line": 2061,
+    "whatItFakes": "A job offer's deadline stops the player's clock once as a reminder instead of holding it until the player answers; an unanswered offer lapses as the employer's withdrawal.",
+    "why": "The play screen has no control yet to answer a job offer; a held deadline would stop the clock for good.",
+    "addedBy": "OPUS-WORLD",
+    "addedAt": "2026-10-14",
+    "replacement": "Resolved Oct 20: the play screen shows each offer with Accept and Decline, so the deadline is a held offer-deadline stop (hold: true) that answering releases. Shown in jobs-player-offers.test.ts.",
+    "status": "resolved"
+  },
+  {
     "id": "SG-WORLD-new-rental-move-coverage",
     "kind": "missing-mechanic",
     "file": "src/core2/housing-occupancy.ts",
