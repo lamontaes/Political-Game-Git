@@ -4,10 +4,10 @@ title: "Stopgaps in office-day-federal-president (missing-record): 2 open"
 area: office
 kind: stopgap
 priority: 2
-status: claimed
+status: blocked
 claimed-by: claude/political-game-pool-yucp92-uu
 pr: #5124
-blocked-on:
+blocked-on: world-other-places-coarse-population
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/office-day-federal-president.ts, kind missing-record"
 claimed-at: 2026-10-20T05:28:37.052Z
