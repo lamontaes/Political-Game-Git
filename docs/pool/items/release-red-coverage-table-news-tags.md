@@ -5,9 +5,9 @@ area: words
 kind: bug
 priority: 1
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/news-tags
-pr:
+pr: #5579
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-20T06:49:28.979Z
