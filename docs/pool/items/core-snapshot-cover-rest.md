@@ -24,3 +24,5 @@ claimed-at:
 **Notes.** core.md line 177, checked Oct 15: only renewal, health and the base set are declared covered.
 
 Sent back 2026-10-20 from PR #5036 (branch claude/snapshot-cover-s5): Merge main conflicts require author resolution: src/core2/modules/elections.ts.; finish on that branch, merge main into it first.
+
+Sent back 2026-10-20 from PR #5036 (branch claude/snapshot-cover-s5): Code conflict with main in src/core2/modules/executive.ts; finish on that branch, merge main into it first.
