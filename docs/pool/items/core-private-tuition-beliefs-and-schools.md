@@ -5,7 +5,7 @@ area: core
 kind: feature
 priority: 2
 size: M
-status: claimed
+status: blocked
 claimed-by: claude/tuition-continuing
 pr:
 blocked-on:
