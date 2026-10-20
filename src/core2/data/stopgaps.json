@@ -2679,7 +2679,9 @@
     "why": "The American Community Survey does not cover the four island areas; their 2020 Census tables are not in the data yet.",
     "addedBy": "OPUS-WORLD",
     "addedAt": "2026-10-12",
-    "replacement": "Census 2020 Island Areas tenure, gross rent and value tables for each island area."
+    "replacement": "Census 2020 Island Areas tenure, gross rent and value tables for each island area.",
+    "status": "resolved",
+    "resolution": "American Samoa, Guam, the Northern Mariana Islands and the U.S. Virgin Islands start from their own 2020 Census tenure, median gross rent and median home value (data/housing/housing.json islandAreas, cited per source); a place outside those four keeps the nation's figures."
   },
   {
     "id": "SG-WORLD-housing-county-estimate",

@@ -127,8 +127,17 @@ const NATIONAL = (() => {
     ],
   };
 })();
+/** An island area's own 2020 Census figures (shares per thousand occupied units, median rent and value), by its postal code. */
+const ISLAND_AREAS = housingData.islandAreas.places as unknown as Record<
+  string,
+  { tenure: [number, number]; rentValue: [number, number] }
+>;
+const islandOf = (county: string) =>
+  ISLAND_AREAS[county.slice(`${NATION}:`.length)];
 function nationTenure(town: { county: string }): [number, number] | undefined {
   if (!town.county.startsWith(`${NATION}:`)) return undefined;
+  const island = islandOf(town.county);
+  if (island) return island.tenure;
   stopgap("SG-WORLD-housing-island-areas");
   return NATIONAL.tenure;
 }
@@ -164,7 +173,8 @@ const STATE_RENT_VALUE = (() => {
  * then the nation's; never zero, which would leave every owner without a home.
  */
 function rentValueOf(county: string): [number | null, number | null] {
-  if (county.startsWith(`${NATION}:`)) return NATIONAL.rentValue;
+  if (county.startsWith(`${NATION}:`))
+    return islandOf(county)?.rentValue ?? NATIONAL.rentValue;
   const row = RENT_VALUE[county] as [number | null, number | null] | undefined;
   if (row?.[0] && row[1]) return row;
   stopgap("SG-WORLD-housing-county-estimate");
