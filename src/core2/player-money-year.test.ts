@@ -92,8 +92,12 @@ it("a played year moves the player's household money through pay, living costs, 
         total("work-payroll work-payroll", "inMinor"),
         where,
       ).toBeGreaterThan(0);
+      // Living costs leave through the town's sellers (`living:`), or, where the
+      // town has none, as the household's outside-living flow
+      // (`residents:outside-living:`); either way a journal record by id.
       expect(
-        total("accounts.transfer living", "outMinor"),
+        total("accounts.transfer living", "outMinor") +
+          total("accounts.transfer residents", "outMinor"),
         where,
       ).toBeGreaterThan(0);
       expect(
