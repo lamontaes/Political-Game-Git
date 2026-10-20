@@ -161,7 +161,10 @@ describe(`civic role fills in ${where}`, () => {
   it("fills the clerk with the person the filing office's records name", () => {
     const contests = openContests(api);
     expect(contests.length, where).toBeGreaterThan(0);
-    const subject = [...core.people.keys()][0]!;
+    // The person the moment is about is never their own clerk, so take one who holds no clerk's desk.
+    const subject = [...core.people.keys()].find(
+      (id) => !contests.some((c) => filingClerkFor(api, c.id)?.personId === id),
+    )!;
     let named = 0;
     let paid = 0;
     for (const contest of contests) {
