@@ -75,6 +75,21 @@ export interface LobbyMeeting {
   readonly share: number;
   /** For the bill (+1) or against it (-1); an employers' group is against. */
   readonly side?: number;
+  /**
+   * What the lobbyist decided at the first meeting with this member, and why:
+   * the offer and take reasons the corruption engine's chooser weighed
+   * (`reasons`), or `none` when there was nothing to weigh (no one to offer
+   * to, or no money to offer). A refusal is kept here, not as a crime.
+   */
+  readonly bribe?: {
+    readonly offered: boolean;
+    readonly taken: boolean;
+    readonly none?: "nothing-to-offer";
+    readonly crimeId?: string;
+    readonly reasons: Readonly<
+      Record<string, Readonly<Record<string, number>>>
+    >;
+  };
 }
 
 interface DuesRecord {
@@ -346,8 +361,13 @@ function organizeEmployers(
       annualCostMinor: annual,
       share,
     };
-    const first = !table(api, "meetings").get(meeting.id);
-    table(api, "meetings").put(meeting as unknown as ModuleRow);
+    const held = table(api, "meetings").get(meeting.id) as unknown as
+      LobbyMeeting | undefined;
+    const first = !held;
+    table(api, "meetings").put({
+      ...meeting,
+      ...(held?.bribe ? { bribe: held.bribe } : {}),
+    } as unknown as ModuleRow);
     // A lobbyist who sits on the body themselves doesn't lobby their own seat.
     if (
       group.lobbyistId &&
@@ -368,8 +388,20 @@ function organizeEmployers(
           desiredChange: question.position > 0 ? "repeal" : "enact",
           citation: `Lobbying visit on ${b.number}`,
         });
-      if (first)
-        offerBribe(api, group.lobbyistId, member.personId, annual, b.id);
+      if (first) {
+        const bribe = offerBribe(
+          api,
+          group.lobbyistId,
+          member.personId,
+          annual,
+          b.id,
+        );
+        if (bribe)
+          table(api, "meetings").put({
+            ...meeting,
+            bribe,
+          } as unknown as ModuleRow);
+      }
     }
   }
 }
@@ -387,17 +419,30 @@ function offerBribe(
   memberId: string,
   stakeMinor: number,
   billId: string,
-): void {
-  if (lobbyistId === memberId || stakeMinor <= 0) return;
-  if (!api.state.modules.has(CORRUPTION_MODULE_ID)) return;
+): LobbyMeeting["bribe"] | undefined {
+  if (lobbyistId === memberId || stakeMinor <= 0) return undefined;
+  if (!api.state.modules.has(CORRUPTION_MODULE_ID)) return undefined;
   const owners = (api.state as CoreState).cashJournal.residualAccountByOwner;
-  if (!owners.has(lobbyistId) || !owners.has(memberId)) return;
-  considerBribe(api, {
+  if (!owners.has(lobbyistId) || !owners.has(memberId)) return undefined;
+  const crime = considerBribe(api, {
     offererId: lobbyistId,
     officialId: memberId,
     stakeMinor,
     subjectId: billId,
   });
+  if (!crime)
+    return {
+      offered: false,
+      taken: false,
+      none: "nothing-to-offer",
+      reasons: {},
+    };
+  return {
+    offered: crime.offered,
+    taken: crime.taken,
+    ...(crime.offered ? { crimeId: crime.id } : {}),
+    reasons: crime.reasons,
+  };
 }
 
 function payDues(
