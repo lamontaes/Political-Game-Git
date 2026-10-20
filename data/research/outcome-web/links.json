@@ -5693,7 +5693,8 @@
       "source": "Litman, Transit Price Elasticities and Cross-Elasticities, Victoria Transport Policy Institute, June 17, 2025, page 12 (Service Elasticities), https://www.vtpi.org/tranelas.pdf",
       "range": [0.003, 0.01],
       "phaseInMonths": 24,
-      "notes": "New service takes 1 to 3 years to reach its full ridership (Litman 2025): no lag, and the effect builds over 24 months, the middle of that range. The sources reachable give no split by income, so the link is not varied. Read by the trips each household takes (place-prices.ts)."
+      "notes": "New service takes 1 to 3 years to reach its full ridership (Litman 2025): no lag, and the effect builds over 24 months, the middle of that range. The sources reachable give no split by income, so the link is not varied. Read by the trips each household takes (place-prices.ts).",
+      "phaseInSource": "Litman 2025 (Victoria Transport Policy Institute, Transit Price Elasticities and Cross-Elasticities): new or improved service takes one to three years to reach its full ridership; 24 months is the middle of that range."
     },
     {
       "key": "federal-deficit-to-borrowing-cost",
