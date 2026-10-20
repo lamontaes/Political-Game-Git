@@ -60,6 +60,7 @@ import {
 import { personLean, questionAxis, type Stance } from "../campaign-views";
 import { agreementWith, viewOn } from "./views";
 import { POLICY_QUESTIONS } from "../policy-answers";
+import { meetAtMeeting } from "../encounters";
 import { deliverSpeech, SPEECH_MODULE_ID } from "./speech";
 
 export const MEETINGS_MODULE_ID = "core2-meetings-v1";
@@ -583,6 +584,14 @@ export function holdTownHall(
     ...(input.calledFor ? { calledFor: input.calledFor } : {}),
   };
   table(api, "townHalls").put(row as unknown as ModuleRow);
+  // P15 part 5: attendees who did not know the host meet them here.
+  meetAtMeeting(
+    api,
+    input.hostId,
+    row.attendeeIds,
+    id,
+    lawChain(api).townPlaceId,
+  );
   api.emit({
     id: `town-hall:${id}`,
     date: api.state.date,

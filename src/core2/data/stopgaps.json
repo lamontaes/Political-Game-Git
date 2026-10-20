@@ -2140,11 +2140,11 @@
     "kind": "behavior-model-gap",
     "file": "src/core2/data/encounters.json",
     "line": 3,
-    "whatItFakes": "New people are met only on a visit (the host's household) and on joining a group (its other members); the first tie holds the act's hours. Meetings at an organized meeting wait for attendance, and new coworkers for jobs changing during play (M1).",
+    "whatItFakes": "New people are met on a visit (the host's household), on joining a group (its other members), on a new job (the coworkers) and at a town hall (its host); the first tie holds the act's hours. Neighbors wait for addresses, and attendees meeting each other at a hall waits for seating.",
     "why": "Owner's ruling, October 10, 2026 (CTO on #3956): build encounters 1 and 2 now, 3 with M1's jobs work.",
     "addedBy": "OPUS-PEOPLE",
     "addedAt": "2026-10-11",
-    "replacement": "Encounters at meetings with attendance, new coworkers when jobs change, neighbors once addresses exist, and first-tie hours checked against a study of how acquaintances form.",
+    "replacement": "Neighbors once addresses exist, attendees meeting each other, and first-tie hours checked against a study of how acquaintances form.",
     "status": "open"
   },
   {

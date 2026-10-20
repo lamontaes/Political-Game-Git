@@ -4,7 +4,8 @@
  * joining a group meets its other members. Each meeting is a dated fact naming
  * the place and the other person, and the first tie holds the hours spent
  * together, so closeness grows only through later contact. A new hire
- * meets the coworkers already working there.
+ * meets the coworkers already working there; those who attend a town hall
+ * meet the person holding it.
  */
 import data from "./data/encounters.json" with { type: "json" };
 import type { CoreAPI } from "./types";
@@ -100,6 +101,36 @@ export function meetAtWork(
         sourceId,
         cause: data.causes.metAtWork,
         hours,
+      })
+    )
+      met += api.parameter("one");
+  }
+  return met;
+}
+
+/** The people at a town hall who did not know its host, met there; the hours
+ * are a civic act's hours. */
+export function meetAtMeeting(
+  api: CoreAPI,
+  hostId: string,
+  attendeeIds: readonly string[],
+  meetingId: string,
+  placeId: string,
+): number {
+  api.stopgap(data.stopgapId);
+  const host = api.state.people.get(hostId);
+  if (!host?.alive) return api.parameter("zero");
+  let met = api.parameter("zero");
+  for (const id of attendeeIds) {
+    const attendee = api.state.people.get(id);
+    if (id === hostId || !attendee?.alive || attendee.knownIds.has(hostId))
+      continue;
+    if (
+      api.meet(id, hostId, {
+        placeId,
+        sourceId: meetingId,
+        cause: data.causes.metAtMeeting,
+        hours: api.parameter("civicHours"),
       })
     )
       met += api.parameter("one");

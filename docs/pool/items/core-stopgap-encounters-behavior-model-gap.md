@@ -22,3 +22,5 @@ claimed-at: 2026-10-19T23:17:13.826Z
 **Files.** src/core2/data/encounters.json
 
 **Notes.** First row: New people are met only on a visit (the host's household) and on joining a group (its other members); the first tie holds the act's hours. Meetings at an organized meeting wait for attendance, and new coworkers for jobs
+
+Oct 19 (claude): town-hall attendees now meet the host (`meetAtMeeting`, cause `met-at-meeting`, civic hours); coworkers on a new job were already wired (`meetAtWork` in jobs). Row narrowed, not closed: neighbors wait for addresses (`world-dwelling-locations`) and attendees meeting each other waits for seating.

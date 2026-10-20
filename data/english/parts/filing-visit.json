@@ -9,7 +9,9 @@
     "signatures": "The number of petition signatures, from the contest record.",
     "age": "The minimum age, from the eligibility rule.",
     "place": "Where a candidate must live, from the eligibility rule.",
-    "filing_office": "The office that takes filings for that contest (clerk, registrar or board of elections), from the place's filing record."
+    "filing_office": "The office that takes filings for that contest (clerk, registrar or board of elections), from the place's filing record.",
+    "required": "The value the rule asks for, from the eligibility check (for a ward seat, the seat's ward number).",
+    "actual": "The value the record holds for the person filing (for a ward seat, the ward they live in)."
   },
   "maxWords": 18,
   "mining": {
@@ -1245,6 +1247,50 @@
         "move": "close",
         "key": "routine"
       }
+    },
+    {
+      "move": "clerk-rule-ward",
+      "kind": "spoken",
+      "uses": [
+        {
+          "move": "clerk-rule-ward",
+          "subject": "clerk",
+          "role": "rule",
+          "choice": "ward"
+        }
+      ],
+      "tag": {
+        "move": "greet",
+        "key": "routine"
+      },
+      "origin": "authored",
+      "author": "Claude (words line), civic-prose",
+      "date": "2026-10-19",
+      "shippable": true,
+      "key": "filing-visit.clerk-rule-ward.this-seat-is-for-ward",
+      "text": "This seat is for Ward {required}, and you live in Ward {actual}."
+    },
+    {
+      "move": "clerk-rule-ward",
+      "kind": "spoken",
+      "uses": [
+        {
+          "move": "clerk-rule-ward",
+          "subject": "clerk",
+          "role": "rule",
+          "choice": "ward"
+        }
+      ],
+      "tag": {
+        "move": "greet",
+        "key": "routine"
+      },
+      "origin": "authored",
+      "author": "Claude (words line), civic-prose",
+      "date": "2026-10-19",
+      "shippable": true,
+      "key": "filing-visit.clerk-rule-ward.you-have-to-live-in-ward",
+      "text": "You have to live in Ward {required}. Your address is in Ward {actual}."
     }
   ]
 }
