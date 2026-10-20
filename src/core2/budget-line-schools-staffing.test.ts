@@ -13,6 +13,7 @@ import { buildBenchWorld } from "../bench/world";
 import { setBookkeeping } from "./bookkeeping";
 import { gameStartDate } from "./game-start";
 import { addDays, makeIsoDate } from "./kernel/dates";
+import { staffingOf } from "./law-reach/group-a-staffing";
 import { advanceCore } from "./life";
 import { budgetsOf, governments } from "./modules/budgets";
 import { memberKey } from "./modules/legislature";
@@ -97,6 +98,7 @@ function amendSchoolsLine(direction: -1 | 1) {
     }
     expect(budgetProposalDue(api, officeHost, mayorId), where).not.toBeNull();
     const staffBefore = teachers(district.id).map((j) => j.personId);
+    const staffInPlace = staffBefore.length;
     const jobless = new Set(
       [...core.people.values()]
         .filter(
@@ -129,6 +131,8 @@ function amendSchoolsLine(direction: -1 | 1) {
     return {
       where,
       core,
+      api,
+      staffInPlace,
       district,
       priorLine,
       change,
@@ -148,6 +152,15 @@ it("a cut to the city's schools line ends named teachers' jobs at the public sch
   const laidOff = r.staffBefore.filter(
     (personId) => !r.activeNow.has(personId),
   );
+  // The bill reaches the district: it is funded for the staff in place (named
+  // or counted) times the line after the bill against the line before it.
+  const row = staffingOf(r.api, "budget-line:schools", r.district.id);
+  expect(row, r.where).not.toBeNull();
+  expect(row!.baseStaff, r.where).toBe(r.staffInPlace);
+  expect(row!.positions, r.where).toBeCloseTo(
+    row!.baseStaff * ((r.priorLine + r.change) / r.priorLine),
+  );
+  expect(row!.positions, r.where).toBeLessThan(r.staffInPlace);
   expect(
     laidOff.length,
     `${r.where}: schools line ${r.priorLine} cut by ${-r.change}, adopted ${r.adopted?.id}; ${r.staffBefore.length} teachers before`,
@@ -163,6 +176,13 @@ it("a raise to the city's schools line hires named adults who had no work at the
     .teachers(r.district.id)
     .filter((j) => hired.includes(j.personId))
     .map((j) => j.id);
+  const row = staffingOf(r.api, "budget-line:schools", r.district.id);
+  expect(row, r.where).not.toBeNull();
+  expect(row!.baseStaff, r.where).toBe(r.staffInPlace);
+  expect(row!.positions, r.where).toBeCloseTo(
+    row!.baseStaff * ((r.priorLine + r.change) / r.priorLine),
+  );
+  expect(row!.positions, r.where).toBeGreaterThan(r.staffInPlace);
   expect(
     hired.length,
     `${r.where}: schools line ${r.priorLine} raised by ${r.change}, adopted ${r.adopted?.id}; ${r.staffBefore.length} teachers before`,
