@@ -292,17 +292,5 @@
         { "over": 75000, "rate": 2 }
       ]
     }
-  },
-  "jurisdictionResidents": {
-    "about": "Residents of a state-level jurisdiction the budgets module records none for (public-budget-bases.json has no population for the island areas), so a budget line's change can be shared to the town. Census Bureau: Puerto Rico Vintage 2024 population estimate; Guam, U.S. Virgin Islands, American Samoa and the Northern Mariana Islands, 2020 Census Island Areas counts.",
-    "tag": "SOURCED",
-    "stopgapId": "SG-GOV-REACH-B-territory-residents",
-    "residents": {
-      "US-PR": 3203295,
-      "US-GU": 153836,
-      "US-VI": 87146,
-      "US-AS": 49710,
-      "US-MP": 47329
-    }
   }
 }

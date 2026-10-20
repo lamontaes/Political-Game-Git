@@ -388,13 +388,6 @@
     },
     {
       "file": "src/simulation/living-world/town-employment.ts",
-      "kind": "fixed-share",
-      "build": "Build 19",
-      "count": 1,
-      "code": "export const TOWN_PART_TIME_SHARE: Readonly<Record<string, number>> = {"
-    },
-    {
-      "file": "src/simulation/living-world/town-employment.ts",
       "kind": "list-pick",
       "build": null,
       "count": 1,
