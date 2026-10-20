@@ -13,7 +13,7 @@ import {
   localWageAuthority,
   raiseMinimumWage,
 } from "./group-a-wages";
-import { housingAssistance, paidLeave, parksFunding } from "./group-a-money";
+import { paidLeave, parksFunding } from "./group-a-money";
 import { staffing } from "./group-a-staffing";
 import { votingLaw } from "./group-a-voting";
 import { rightToWork } from "./group-a-union";
@@ -40,7 +40,8 @@ const MECHANICS: Readonly<Record<string, readonly PolicyHandler[]>> = {
   "local-wage-authority": [records, localWageAuthority],
   "paid-leave-premium": [paidLeave],
   "parks-funding": [parksFunding],
-  "housing-assistance": [housingAssistance],
+  // The housing engine pays the assistance monthly (housing-assistance.ts).
+  "housing-assistance": [],
   staffing: [staffing],
   "public-bargaining": [records, publicBargaining],
   "right-to-work": [records, rightToWork],

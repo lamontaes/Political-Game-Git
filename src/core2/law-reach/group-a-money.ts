@@ -8,10 +8,7 @@
  *   (SG-GOV-REACH-A-leave-claims).
  * - Dedicated parks funding: the parks line of the government that passed it
  *   rises by the dedicated share; a repeal takes the same amount back out.
- * - Housing spending: a housing line above its base pays rent help to as
- *   many of the town's lowest-cash households as the extra money covers at
- *   the average voucher; a cut ends it for the households it no longer
- *   covers. The payments wait on rent contracts (SG-GOV-REACH-A-rent-assistance).
+ *   The housing line pays its rent assistance in the housing engine (housing-assistance.ts).
  */
 import { paidLeaveProgram, paidLeavePremium } from "../paid-leave";
 import type { CoreAPI, CoreState } from "../types";
@@ -29,21 +26,14 @@ import {
 } from "../modules/budgets";
 import { lawChain } from "../modules/laws";
 import {
-  ageOn,
   applyRecords,
-  endRows,
-  ensureReachA,
   mechanicRow,
   onReachPayroll,
-  POLICIES,
   PREMIUM_KIND,
   REACH_A_MODULE_ID,
   putMechanic,
   reachParameter,
   reachTable,
-  specOf,
-  townPeople,
-  writeRows,
   yesLevels,
 } from "./group-a-records";
 
@@ -51,7 +41,6 @@ export const LEAVE_KEY =
   "us-policy-positions:labor-workforce.paid-family-leave";
 const PARKS_KEY =
   "us-policy-positions:civil-family-community.dedicated-parks-funding";
-const HOUSING_KEY = "budget-line:housing";
 
 const LEVEL_ORDER = ["federal", "state", "county", "city"];
 
@@ -242,64 +231,4 @@ export const parksFunding: PolicyHandler = (api, change) => {
       facts: { governmentId: gov.id, deltaMinor: delta, lawId: level.lawId },
     });
   }
-};
-
-// --- housing spending --------------------------------------------------------------
-
-export const housingAssistance: PolicyHandler = (api, change) => {
-  ensureReachA(api);
-  if (!api.state.modules.has(BUDGETS_MODULE_ID)) return;
-  api.stopgap(POLICIES[HOUSING_KEY]!.stopgapId!);
-  const gov = governments(api).find((g) => g.level === change.level);
-  const budget = gov ? budgetToday(api, gov) : null;
-  if (!gov || !budget) return;
-  const extra =
-    (budget.spendingMinor.housing ?? 0) - baseLine(api, gov, budget, "housing");
-  const slots = Math.max(
-    0,
-    Math.floor(extra / reachParameter("housingAssistanceAnnualMinor")),
-  );
-  // The households with the least cash per member come first.
-  const adult = reachParameter("adultAge");
-  const byHousehold = new Map<string, { cash: number; members: number }>();
-  for (const person of townPeople(api)) {
-    const row = byHousehold.get(person.householdId) ?? { cash: 0, members: 0 };
-    row.cash += person.liquidMinor;
-    row.members += 1;
-    byHousehold.set(person.householdId, row);
-  }
-  const chosen = new Set(
-    [...byHousehold]
-      .sort(
-        ([a, x], [b, y]) =>
-          x.cash / x.members - y.cash / y.members || a.localeCompare(b),
-      )
-      .slice(0, slots)
-      .map(([id]) => id),
-  );
-  const date = api.state.date;
-  const people = townPeople(api).filter(
-    (p) => chosen.has(p.householdId) && ageOn(p.birthDate, date) >= adult,
-  );
-  const keep = new Set(people.map((p) => p.id));
-  endRows(api, HOUSING_KEY, "assisted", keep);
-  writeRows(
-    api,
-    HOUSING_KEY,
-    change.lawId,
-    specOf(HOUSING_KEY, "assisted"),
-    people.map((p) => ({ id: p.id, personId: p.id, count: null })),
-  );
-  putMechanic(api, {
-    id: `${HOUSING_KEY}:${gov.id}`,
-    key: HOUSING_KEY,
-    active: chosen.size > 0,
-    since: date,
-    facts: {
-      governmentId: gov.id,
-      extraMinor: extra,
-      households: chosen.size,
-      lawId: change.lawId,
-    },
-  });
 };

@@ -5,6 +5,8 @@
  * grace period and follows the place's own steps: notice, cure, filing,
  * hearing, judgment and removal, each a dated step on the module calendar.
  */
+import { lawApplied } from "../law-reach/applied";
+import { payRentAssistance } from "../housing-assistance";
 import { countyPopulationSharesForPlace } from "../reference/government-units";
 import { corePlaceByKey } from "../place-lookup";
 import { addDays, daysBetween, makeIsoDate } from "../kernel/dates";
@@ -1089,6 +1091,7 @@ function review(api: CoreAPI): void {
   releaseVacatedRentals(api);
   rehouse(api);
   renewRentalLeases(api);
+  payRentAssistance(api);
   amortize(api);
   // Mortgages behind past the federal period go to the state's foreclosure.
   for (const { caseId, saleAt } of startForeclosures(api, law.usps))
@@ -1333,6 +1336,30 @@ function step(api: CoreAPI, caseId: string, kind: string): void {
       api.parameter("housingCounselCostPerCaseMinor")
         ? counselPlan(api, row.householdId, owed)
         : undefined;
+    if (counsel?.counselLawId) {
+      // The statute reached this household at its hearing (full or counted, times the households it stands for), and the government that paid for the lawyer.
+      const weight = row.counted ? countedCaseWeight(api, row.householdId) : 1;
+      const what = plan ? "hearing-settled" : "hearing-with-lawyer";
+      lawApplied(api, {
+        key: RIGHT_TO_COUNSEL,
+        lawId: counsel.counselLawId,
+        targetId: row.householdId,
+        target: row.counted ? "group" : "household",
+        count: weight,
+        engine: "housing",
+        what,
+        amountMinor: counsel.counselPaidMinor,
+      });
+      lawApplied(api, {
+        key: RIGHT_TO_COUNSEL,
+        lawId: counsel.counselLawId,
+        targetId: counsel.counselPayerId!,
+        target: "government",
+        engine: "housing",
+        what: "counsel-funded",
+        amountMinor: -counsel.counselPaidMinor,
+      });
+    }
     if (!plan) return judge(api, caseId, owed);
     put({
       ...counsel,
@@ -1505,11 +1532,19 @@ function build(api: CoreAPI): void {
         api,
         "us-policy-positions:agriculture-natural-resources.protect-farmland-from-development",
       );
-      // These reads replace eligibility notices; remaining missing recipient
-      // chains stay registered until construction and tenancy prove them.
-      if (multifamily.value === 1) api.stopgap("SG-GOV-REACH-A-housing-supply");
-      if (inclusionary.value === 1)
-        api.stopgap("SG-GOV-REACH-A-affordable-units");
+      // The builders' decision records whom each law governed (housing-construction.ts).
+      const governing = (law: typeof multifamily) =>
+        law.value === 1 && law.governing ? law.governing.id : undefined;
+      const lawIds = {
+        ...(governing(multifamily)
+          ? { multifamily: governing(multifamily) }
+          : {}),
+        ...(governing(inclusionary)
+          ? { inclusionary: governing(inclusionary) }
+          : {}),
+        ...(governing(electric) ? { allElectric: governing(electric) } : {}),
+        ...(governing(farmland) ? { farmland: governing(farmland) } : {}),
+      };
       setZoning(store(api).table("stock"), landlord.placeId, {
         multifamilyLandShare:
           multifamily.value === 1
@@ -1521,6 +1556,7 @@ function build(api: CoreAPI): void {
             : 0,
         allElectric: electric.value === 1,
         farmlandProtected: farmland.value === 1,
+        lawIds,
       });
     }
     const town = townFigures(api, landlord.placeId);
@@ -1594,6 +1630,18 @@ export function setRightToCounsel(
     .put({ id: placeId, inForce, ...(fundedById ? { fundedById } : {}) });
 }
 
+const RIGHT_TO_COUNSEL =
+  "us-policy-positions:housing-land-use.right-to-counsel-in-eviction";
+
+/** The households a counted household stands for. */
+function countedCaseWeight(api: CoreAPI, householdId: string): number {
+  const rt = residentsRuntime(core(api));
+  const ix = rt?.store.householdOf.get(householdId);
+  return rt && ix !== undefined
+    ? rt.store.weightOf(rt.store.households[ix]!)
+    : 1;
+}
+
 /** The funding government pays the legal services provider for the case, through the ledger. */
 function payCounsel(api: CoreAPI, caseId: string, placeId: string) {
   const c = core(api);
@@ -1601,10 +1649,7 @@ function payCounsel(api: CoreAPI, caseId: string, placeId: string) {
     { inForce?: boolean; fundedById?: string } | undefined;
   const statute =
     c.modules.has(LAWS_MODULE_ID) && placeId === lawChain(api).townPlaceId
-      ? lawInForce(
-          api,
-          "us-policy-positions:housing-land-use.right-to-counsel-in-eviction",
-        )
+      ? lawInForce(api, RIGHT_TO_COUNSEL)
       : undefined;
   const inForce = statute ? statute.value === 1 : row?.inForce;
   const payer =
