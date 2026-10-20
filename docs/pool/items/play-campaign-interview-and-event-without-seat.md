@@ -22,3 +22,5 @@ claimed-at:
 **Files.** src/bench/campaign.ts, src/bench/campaign-day-controls.test.ts, src/bench/data/controls.json
 
 **Notes.** Filed by fs11vb from the Oct 20 merge audit, fix 4 (which allowed filing the gap as its own item).
+
+Sent back 2026-10-20 from PR #5710 (branch claude/fs11vb-ev): merging main conflicts in src/bench/campaign.ts, play.mjs and campaign-day-controls.test.ts: #5674 already added the event and interview days on main; finish on that branch, merge main into it first.
