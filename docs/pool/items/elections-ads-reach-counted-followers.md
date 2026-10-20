@@ -5,7 +5,7 @@ area: elections
 kind: wiring
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/ads-counted
 pr: #5328
 blocked-on:

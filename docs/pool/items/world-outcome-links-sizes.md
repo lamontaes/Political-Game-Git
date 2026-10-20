@@ -5,9 +5,9 @@ area: world
 kind: research
 priority: 2
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/political-game-pool-yucp92-bf
-pr: #5207
+pr: #5689
 blocked-on:
 source: "split from core-stopgap-outcome-web-faked-mechanic (SG-WEB-outcome-drift), Oct 15"
 claimed-at: 2026-10-20T13:16:06.683Z
