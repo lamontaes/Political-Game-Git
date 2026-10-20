@@ -29,6 +29,7 @@ import {
 } from "./business";
 import { LAWS_MODULE_ID, lawInForce } from "./laws";
 import { publicPayFloorHourly } from "../public-pay-floor";
+import { extendPublicPayAuthority } from "../public-work-pay";
 import { inCustody } from "./justice";
 import { regionalMonth } from "./regional";
 import { isDemoted } from "../counted-groups";
@@ -2744,6 +2745,8 @@ function hire(
     },
     newCalendar,
   );
+  // A public employer's new hire is paid by its treasury like the rest of its staff.
+  extendPublicPayAuthority(c, position.organizationId, commitmentId);
   store(api)
     .table("pay")
     .put({

@@ -91,6 +91,37 @@ function commitmentIndex(
   return index;
 }
 
+/**
+ * A public employer hires into a job its jobs engine opened: the new work
+ * commitment joins the employer's public pay authority, so the treasury that
+ * funds the authority pays it like the opening's own (the authority is
+ * replaced by an admitted copy; its id, owner and basis stay).
+ */
+export function extendPublicPayAuthority(
+  core: CoreState,
+  organizationId: string,
+  commitmentId: string,
+): void {
+  const organization = core.organizations.get(organizationId);
+  const authority = organization?.publicPayAuthority;
+  if (
+    !organization ||
+    !authority ||
+    authority.workCommitmentIds.includes(commitmentId)
+  )
+    return;
+  core.organizations.set(organizationId, {
+    ...organization,
+    publicPayAuthority: admitPublicPayAuthority(
+      {
+        ...authority,
+        workCommitmentIds: [...authority.workCommitmentIds, commitmentId],
+      },
+      core.date,
+    ),
+  });
+}
+
 /** Clone before any guarded read, so caller changes cannot rewrite the authority. */
 export function admitPublicPayAuthority(
   input: PublicPayAuthorityInput | undefined,
