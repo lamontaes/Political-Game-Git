@@ -5,12 +5,12 @@ area: world
 kind: stopgap
 priority: 2
 size: M
-status: open
-claimed-by:
-pr:
+status: done
+claimed-by: claude/opening-seekers-region
+pr: #5211
 blocked-on:
 source: added with npm run pool -- add
-claimed-at:
+claimed-at: 2026-10-19T22:29:47.477Z
 ---
 
 **What.** `openSeekers` and `openCountedSeekers` in jobs.ts pick the opening's seekers by neediness alone (fewest days of money; fewest earners in the household), as many as the unemployment rate implies. Replace the pick with the labor-force structure: split the seeker count across age bands by each band's unemployment rate against the overall rate (CPS annual averages), then pick the neediest within each band, for full people and counted adults alike. Update the stopgap row SG-WORLD-jobs-opening-seekers to what remains faked.

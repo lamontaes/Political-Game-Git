@@ -4,13 +4,13 @@ title: "Stopgaps in housing (faked-mechanic): 3 open"
 area: world
 kind: stopgap
 priority: 2
-status: open
-claimed-by:
-pr:
-blocked-on:
+status: in-pr
+claimed-by: claude/housing-stopgaps-g08lgv
+pr: #5212
+blocked-on: world-housing-landlord-owners
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/modules/housing.ts, kind faked-mechanic"
-claimed-at:
+claimed-at: 2026-10-19T22:28:22.908Z
 ---
 
 **What.** The stopgap row(s) SG-WORLD-housing-landlord, SG-WORLD-housing-hearing-without-judge, SG-WORLD-housing-counted-rent in src/core2/modules/housing.ts mark a shortcut that is still live in play. Today all of a town's rentals belong to one ownerless landlord that serves notice by summed pulls calibrated to about two months owed, eviction hearings run without a judge, and counted renters' rent has a stand-in. The row stays open until the real mechanic replaces the fake, or the feature that needs the fake is deleted. This item replaces it and clears the row in src/core2/data/stopgaps.json.
