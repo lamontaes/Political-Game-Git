@@ -83,7 +83,7 @@ import {
 } from "../simulation/people-traits";
 import { medianTransactionBalance } from "./starting-cash";
 import { traitRegistryFor } from "../simulation/trait-registry";
-import { isOneSided, type RegisteredTrait } from "../simulation/trait-packs";
+import { isOneSided, type RegisteredTrait } from "./trait-packs";
 import type {
   EntityId,
   Household,
@@ -1236,6 +1236,25 @@ export function buildPopulation(options: PopulationOptions): CoreInput {
       openingAllocation.templateJobIdByJob,
     ),
   );
+  // A job states the week its schedule runs: the hourly rate (the occupation's
+  // market rate) is paid for those minutes, so the stated hours and daily pay
+  // follow them, and a hire that copies the job copies the same week.
+  const scheduledMinutes = new Map(
+    plannedCommitments.map((row) => [row.jobId, row.expectedWeeklyMinutes]),
+  );
+  for (const [index, job] of jobs.entries()) {
+    const minutes = scheduledMinutes.get(job.id);
+    if (minutes === undefined || !(minutes > p("zero"))) continue;
+    const hoursDaily = minutes / p("minutesPerHour") / p("daysPerWeek");
+    if (hoursDaily === job.hoursDaily) continue;
+    const hourlyMinor =
+      job.hourlyMinor ?? Math.round(job.wageDailyMinor / job.hoursDaily);
+    jobs[index] = {
+      ...job,
+      hoursDaily,
+      wageDailyMinor: Math.round(hourlyMinor * hoursDaily),
+    };
+  }
   const openingCapital = createOpeningEmployerCapital(
     {
       seed: options.seed,

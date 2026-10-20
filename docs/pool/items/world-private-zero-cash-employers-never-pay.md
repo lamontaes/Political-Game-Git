@@ -13,12 +13,12 @@ source: added with npm run pool -- add
 claimed-at: 2026-10-18T00:23:46.588Z
 ---
 
-**What.** Employers the opening classifies outside the business kinds hold zero cash and so never pay their staff: community organizing nonprofits, labor unions, nursing homes, private schools and political consultancies ("Campaign Works"). In a one-year run (Moyock, North Carolina, seed sp3; Arlington, Wisconsin, seed sp1) Neighbors United requested $122,808 and paid $0, Campaign Works $327,120 and $0, the union local $23,714 and $21,214. `createOpeningEmployerCapital` (`src/core2/opening-capital.ts`) funds only classifications `classifyBusiness` knows; the rest start at zero and take in nothing, since no customers buy from them. Give each a cash source that follows its causes: a nonprofit's donations and grants, a union's member dues, a nursing home's resident payments and Medicaid, a private school's tuition, a consultancy's campaign clients, so staff are paid from what the employer takes in.
+**What.** In a played town the campaign-staff firm ("Campaign Works", classification enterprise:political-consulting) opened with no cash and no business books, so its organizers and manager were never paid. In 11 drawn towns every one of them paid nothing at its last payday. The classification now maps to professional services, so the firm opens with the overall cash buffer, the business engine keeps its books, and campaigns buy polls and mail from it before any other seller.
 
-**Rules.** An effect is a read: the employer's receipts come from other engines' payments (households, campaigns, benefits), not a top-up. Every dollar balances. No dice. Estimate, never UNKNOWN: a figure with no source starts from the real average marked ESTIMATED. One rule, all 56 places.
+**Rules.** Wire to the world: the firm's money comes from a campaign's purchase on the journal, read by the business engine. Replace, never layer: no second funding path was added. Estimate, never UNKNOWN: the buffer is the sourced overall median because no industry match is claimed.
 
-**Done when.** In a one-year run of the played world (buildBenchWorld) in a drawn place and a seed the builder did not choose, each of these employers with staff pays them in full on every payday from money it received (journal record ids named), and a test beside `src/core2/opening-capital.test.ts` states it.
+**Done when.** `src/core2/campaign-consulting-firm.test.ts` passes in a drawn place and seed (named in its failure message): the firm opens with cash and books, is the poll and mail seller, and its wage flows paid at their last payday after 120 days.
 
-**Files.** src/core2/opening-capital.ts, src/core2/modules/business.ts
+**Files.** src/core2/data/business-books.json, src/core2/modules/campaigns.ts, src/core2/campaign-consulting-firm.test.ts
 
-**Notes.** Found while building world-public-employer-staff-never-paid (Oct 17, claude/public-staff-never-paid). Those jobs are few (one to four per employer) so the size of the loss is small per town, but each is a person with a job and no pay.
+**Notes.** Nonprofits, unions and nursing homes were not unpaid in 11 drawn towns (the unions have dues, the nursing homes are a business kind). Two private classes still pay nothing and have their own items: world-utility-staff-never-paid and world-corporate-office-staff-never-paid. Survey: `scripts/core2-year/wages-unpaid-check.ts` (PR #5011).
