@@ -5,11 +5,12 @@ area: people
 kind: feature
 priority: 2
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/fs11vb-coverage-record
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-20T03:04:02.562Z
 ---
 
 **What.** Core2 holds no health coverage: no record says whether a person is covered by an employer plan, Medicaid or nothing. Add a coverage record per full person and per counted group (plan, from, to) written from the person's job and the law in force, and a monthly premium flow for each household that reads it, so an employer-covered worker pays a premium share and an uncovered one pays none. Start every record from the real average coverage rate by age and state, marked as an estimate with its source and spread, and let a job change or a law change end and open records.
