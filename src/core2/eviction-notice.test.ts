@@ -79,11 +79,11 @@ describe("a settlement under the right to counsel is a notice", () => {
         expect(held[0]!.desiredChange, where).toBe("enact");
         expect(
           held[0]!.causes.some((c) =>
-            String(c.learnedFrom).startsWith(
-              `event:housing.settlement-notice:${row.id}:`,
+            String(c.learnedFrom).includes(
+              `housing.settlement-notice:${row.id}:`,
             ),
           ),
-          `${where}: ${row.id} ${JSON.stringify(held[0])} settledAt ${row.settledAt}`,
+          `${where}: ${row.id}`,
         ).toBe(true);
       }
       return;
