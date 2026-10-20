@@ -5,12 +5,12 @@ area: core
 kind: stopgap
 priority: 2
 size: M
-status: claimed
-claimed-by: claude/fs11vb-moves
-pr:
+status: in-pr
+claimed-by: claude/moves-pinned-income
+pr: #5558
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-20T05:17:57.756Z
+claimed-at: 2026-10-20T09:21:09.548Z
 ---
 
 **What.** Two stopgap rows in the people-moves engine keep movers from leaving: a holder of a job a saved agreement names as its provider's qualification (SG-P15-moves-pinned-jobs), and a person whose income award is paid into a household others stay in (SG-FIXER-moves-income-household). The first row also says moves keeps its own copy of the jobs engine's lookup. That copy is gone: both engines now read one lookup in `src/core2/pinned-jobs.ts`. Letting these people actually move needs two changes in other engines, filed as their own items.
@@ -25,6 +25,6 @@ claimed-at: 2026-10-20T05:17:57.756Z
 
 Oct 20: Everything it waited on is done, so it is open.
 
-Oct 20 (fs11vb): checked before building. Both stopgap rows in `stopgaps.json` already read resolved (SG-P15-moves-pinned-jobs on Oct 19, SG-FIXER-moves-income-household on Oct 16), and `src/core2/pinned-jobs.ts` does not exist: the jobs engine's lookup is `productJobRelations` in `finance-cash.ts`, and moves holds no copy. The award half is covered by "pays a mover's recorded income into the household where they live now" in `moves.test.ts`. The pinned-job half has no test: in a one-year bench world (West Park, Florida, seed p1, twoLevel) there were 0 saved provider qualifications under `openingCustomers.qualification:`, so no job was pinned and 92 people left with none held back. What remains is a test with a place that has a visitor or public-supplier agreement (or a fixture that saves one) showing its job's holder leaving and the agreement re-resolving at its next payment.
+Checked Oct 20 (claude/political-game-pool-3xfqef-22), nothing left to build. Both rows are `resolved` in `src/core2/data/stopgaps.json`: SG-P15-moves-pinned-jobs (resolved Oct 19 by `world-agreements-re-resolve-worker`, #5129: the moves engine's copy of the lookup is deleted and an agreement re-resolves its qualifying worker at its next payment, `finance-cash.ts` `productJobRelations`) and SG-FIXER-moves-income-household (resolved Oct 16 by `core-income-award-follows-person`: a mover's recipient income contract names the household where they live now, `moveRecipientIncomeHome`). `src/core2/pinned-jobs.ts` does not exist and `jobs.ts` has no pinned-job lookup any more, so there is no duplicate to delete. `src/core2/moves.test.ts` already holds the award case ("pays a mover's recorded income into the household where they live now"); it checks every live recipient income term against the person's household and, when a term has moved, that its recorded household differs, so a place where nobody with an award moved passes it with nothing to check. A pinned-job holder leaving has no test because pinning no longer exists to test. The CTO can close this item as done.
 
-Oct 20 (fs11vb, second look): scanned the saved qualifications (`openingCustomers.qualification:` in placeMetadata) in 25 more bench worlds drawn from all 56 places (seeds scan0 to scan24, from Bonnieville, Kentucky to Quamba, Minnesota, including D.C., Hawaii, Alaska and Puerto Rico): every one holds 0 qualifications and 0 pinned jobs. So the bench world never pins a job today, and a played-world test of a pinned holder leaving cannot be written without a fixture that saves an agreement. Whether the opening should write visitor and public-supplier qualifications at all is a question for whoever owns opening customers, not moves; this item's own work (one shared lookup, both rows resolved) is done.
+Released 2026-10-20 09:20Z by the CTO: claimed by claude/moves-pinned at 06:41Z, but that branch was never pushed and no PR opened (claims expire after 60 minutes). Findings so far are on PR #5558.
