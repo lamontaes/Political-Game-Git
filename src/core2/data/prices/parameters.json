@@ -144,5 +144,16 @@
       "unit": "share of residents",
       "citation": "State shares of residents 21 and over."
     }
+  },
+  "pricesChangeImpulseScale": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "How hard a change to a household's monthly bill lands on a person's mood and stress, per share of the household's monthly earnings it moved (a bill 10% of earnings smaller lands as a mood impulse of 0.1). The same scale the benefit engine uses for a changed award (benefitChangeImpulseScale), checked against the life-event impulses the drives engine reads.",
+    "spread": {
+      "low": 0.5,
+      "high": 2,
+      "unit": "impulse per share of monthly earnings",
+      "citation": "Half to twice the benefit engine's scale."
+    }
   }
 }

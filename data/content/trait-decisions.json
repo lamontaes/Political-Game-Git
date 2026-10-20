@@ -7,6 +7,7 @@
       "site": "src/core2/life.ts",
       "owner": "OPUS-CORE",
       "route": "chooser",
+      "traitWeightParameter": "traitWeightLifeDailyAct",
       "options": [
         {
           "id": "work-shift",
@@ -87,6 +88,7 @@
       "site": "src/core2/modules/work.ts",
       "owner": "OPUS-CORE",
       "route": "chooser",
+      "traitWeightParameter": "traitWeightWorkAttendShift",
       "options": [
         {
           "id": "attend-scheduled-work-date-segment",
@@ -104,6 +106,7 @@
       "site": "src/core2/modules/drives.ts",
       "owner": "OPUS-PEOPLE",
       "route": "chooser",
+      "traitWeightParameter": "traitWeightDrivesRespond",
       "options": [
         {
           "id": "take-up-cause",
@@ -136,6 +139,7 @@
       "site": "src/core2/modules/macro.ts",
       "owner": "OPUS-WORLD",
       "route": "chooser",
+      "traitWeightParameter": "traitWeightMacroRateVote",
       "options": [
         {
           "id": "macro-rate-hold",
@@ -152,6 +156,7 @@
       "site": "src/core2/modules/business.ts",
       "owner": "OPUS-WORLD",
       "route": "chooser",
+      "traitWeightParameter": "traitWeightBusinessOwnerDraw",
       "options": [
         {
           "id": "business-owner-draw",
@@ -168,6 +173,7 @@
       "site": "src/core2/modules/business.ts",
       "owner": "OPUS-WORLD",
       "route": "chooser",
+      "traitWeightParameter": "traitWeightBusinessOpenLocation",
       "options": [
         {
           "id": "business-open-location",
@@ -184,6 +190,7 @@
       "site": "src/core2/modules/business.ts",
       "owner": "OPUS-WORLD",
       "route": "chooser",
+      "traitWeightParameter": "traitWeightBusinessFound",
       "options": [
         {
           "id": "business-found",
@@ -200,6 +207,7 @@
       "site": "src/core2/modules/jobs.ts",
       "owner": "OPUS-WORLD",
       "route": "chooser",
+      "traitWeightParameter": "traitWeightJobsReviewWorker",
       "options": [
         {
           "id": "jobs-stay",
@@ -220,6 +228,7 @@
       "site": "src/core2/modules/jobs.ts",
       "owner": "OPUS-WORLD",
       "route": "chooser",
+      "traitWeightParameter": "traitWeightJobsStartLooking",
       "options": [
         {
           "id": "jobs-wait",
@@ -236,6 +245,7 @@
       "site": "src/core2/modules/jobs.ts",
       "owner": "OPUS-WORLD",
       "route": "chooser",
+      "traitWeightParameter": "traitWeightJobsApply",
       "options": [
         {
           "id": "jobs-wait",
@@ -252,6 +262,7 @@
       "site": "src/core2/modules/jobs.ts",
       "owner": "OPUS-WORLD",
       "route": "chooser",
+      "traitWeightParameter": "traitWeightJobsAcceptOffer",
       "options": [
         {
           "id": "jobs-decline",
@@ -268,6 +279,7 @@
       "site": "src/core2/modules/housing.ts",
       "owner": "OPUS-WORLD",
       "route": "chooser",
+      "traitWeightParameter": "traitWeightHousingBuyHome",
       "options": [
         {
           "id": "housing-keep-renting",
@@ -284,6 +296,7 @@
       "site": "src/core2/modules/credit.ts",
       "owner": "OPUS-WORLD",
       "route": "chooser",
+      "traitWeightParameter": "traitWeightCreditBorrow",
       "options": [
         {
           "id": "credit-do-without",
@@ -300,6 +313,7 @@
       "site": "src/core2/modules/candidacy.ts",
       "owner": "OPUS-GOV",
       "route": "chooser",
+      "traitWeightParameter": "traitWeightCandidacyRun",
       "options": [
         {
           "id": "candidacy-stay-out",
@@ -316,6 +330,7 @@
       "site": "src/core2/modules/speech.ts",
       "owner": "OPUS-PEOPLE",
       "route": "chooser",
+      "traitWeightParameter": "traitWeightSpeechRetell",
       "options": [
         {
           "id": "speech-keep",
@@ -328,10 +343,28 @@
       ]
     },
     {
+      "id": "contracts.award",
+      "site": "src/core2/modules/contracts.ts",
+      "owner": "OPUS-GOV",
+      "route": "formula",
+      "traitWeightParameter": "traitWeightContractsAward",
+      "options": [
+        {
+          "id": "award-lowest-bid",
+          "actKinds": ["follow-rules", "play-safe"]
+        },
+        {
+          "id": "award-known-firm",
+          "actKinds": ["self-interest", "bend-rules", "trust"]
+        }
+      ]
+    },
+    {
       "id": "corruption.offer",
       "site": "src/core2/modules/corruption.ts",
       "owner": "OPUS-GOV",
       "route": "chooser",
+      "traitWeightParameter": "traitWeightCorruptionOffer",
       "options": [
         {
           "id": "corruption-offer-no",
@@ -348,6 +381,7 @@
       "site": "src/core2/modules/corruption.ts",
       "owner": "OPUS-GOV",
       "route": "chooser",
+      "traitWeightParameter": "traitWeightCorruptionTake",
       "options": [
         {
           "id": "corruption-take-no",
@@ -364,6 +398,7 @@
       "site": "src/core2/modules/corruption.ts",
       "owner": "OPUS-GOV",
       "route": "chooser",
+      "traitWeightParameter": "traitWeightCorruptionTell",
       "options": [
         {
           "id": "corruption-tell-no",
@@ -380,6 +415,7 @@
       "site": "src/core2/births-plan.ts",
       "owner": "OPUS-PEOPLE",
       "route": "chooser",
+      "traitWeightParameter": "traitWeightRenewalPlanChild",
       "options": [
         {
           "id": "renewal-wait",
@@ -396,6 +432,7 @@
       "site": "src/core2/modules/jobs.ts",
       "owner": "OPUS-WORLD",
       "route": "formula",
+      "traitWeightParameter": "traitWeightJobsCountedRetire",
       "options": [
         {
           "id": "jobs-stay",
@@ -412,6 +449,7 @@
       "site": "src/core2/modules/jobs.ts",
       "owner": "OPUS-WORLD",
       "route": "formula",
+      "traitWeightParameter": "traitWeightJobsCountedLook",
       "options": [
         {
           "id": "jobs-stay",
@@ -428,6 +466,7 @@
       "site": "src/core2/modules/jobs.ts",
       "owner": "OPUS-WORLD",
       "route": "formula",
+      "traitWeightParameter": "traitWeightJobsCountedApply",
       "options": [
         {
           "id": "jobs-wait",
@@ -444,6 +483,7 @@
       "site": "src/core2/modules/jobs.ts",
       "owner": "OPUS-WORLD",
       "route": "formula",
+      "traitWeightParameter": "traitWeightJobsCountedAccept",
       "options": [
         {
           "id": "jobs-decline",
@@ -460,6 +500,7 @@
       "site": "src/core2/modules/business.ts",
       "owner": "OPUS-WORLD",
       "route": "formula",
+      "traitWeightParameter": "traitWeightBusinessCountedFound",
       "options": [
         {
           "id": "business-stay-put",
@@ -476,6 +517,7 @@
       "site": "src/core2/modules/retirement-claims.ts",
       "owner": "OPUS-WORLD",
       "route": "formula",
+      "traitWeightParameter": "traitWeightRetirementClaimAge",
       "options": [
         {
           "id": "claim-now",
@@ -492,6 +534,7 @@
       "site": "src/director/bring-it-up.ts",
       "owner": "OPUS-PEOPLE",
       "route": "formula",
+      "traitWeightParameter": "traitWeightBringItUpBlame",
       "options": [
         {
           "id": "withhold-blame",
@@ -508,6 +551,7 @@
       "site": "src/director/conversation.ts",
       "owner": "OPUS-PEOPLE",
       "route": "formula",
+      "traitWeightParameter": "traitWeightConversationBelieveClaim",
       "options": [
         {
           "id": "doubt",
@@ -524,6 +568,7 @@
       "site": "src/director/conversation.ts",
       "owner": "OPUS-PEOPLE",
       "route": "formula",
+      "traitWeightParameter": "traitWeightConversationReplyReach",
       "options": [
         {
           "id": "carry-on",
@@ -540,6 +585,7 @@
       "site": "src/core2/modules/moves.ts",
       "owner": "OPUS-PEOPLE",
       "route": "formula",
+      "traitWeightParameter": "traitWeightMovesMoveAway",
       "options": [
         {
           "id": "stay-put",
@@ -556,6 +602,7 @@
       "site": "src/core2/modules/voting.ts",
       "owner": "OPUS-GOV",
       "route": "formula",
+      "traitWeightParameter": "traitWeightVotingTurnout",
       "options": [
         {
           "id": "stay-home",
@@ -572,6 +619,7 @@
       "site": "src/core2/modules/voting.ts",
       "owner": "OPUS-GOV",
       "route": "formula",
+      "traitWeightParameter": "traitWeightVotingBackIncumbent",
       "options": [
         {
           "id": "challenger",
@@ -588,6 +636,7 @@
       "site": "src/core2/modules/voting.ts",
       "owner": "OPUS-GOV",
       "route": "formula",
+      "traitWeightParameter": "traitWeightVotingExitPoll",
       "options": [
         {
           "id": "decline",
@@ -604,6 +653,7 @@
       "site": "src/core2/modules/voting.ts",
       "owner": "OPUS-GOV",
       "route": "formula",
+      "traitWeightParameter": "traitWeightVotingStandAgain",
       "options": [
         {
           "id": "retire",
@@ -620,6 +670,7 @@
       "site": "src/core2/modules/ballot-measures.ts",
       "owner": "OPUS-GOV",
       "route": "formula",
+      "traitWeightParameter": "traitWeightBallotMeasuresVote",
       "options": [
         {
           "id": "no",
@@ -636,6 +687,7 @@
       "site": "src/core2/modules/recalls.ts",
       "owner": "OPUS-GOV",
       "route": "formula",
+      "traitWeightParameter": "traitWeightRecallsOrganize",
       "options": [
         {
           "id": "leave-it",
@@ -652,6 +704,7 @@
       "site": "src/core2/modules/recalls.ts",
       "owner": "OPUS-GOV",
       "route": "formula",
+      "traitWeightParameter": "traitWeightRecallsSign",
       "options": [
         {
           "id": "pass",
@@ -668,6 +721,7 @@
       "site": "src/core2/modules/recalls.ts",
       "owner": "OPUS-GOV",
       "route": "formula",
+      "traitWeightParameter": "traitWeightRecallsVote",
       "options": [
         {
           "id": "keep",
@@ -684,6 +738,7 @@
       "site": "src/core2/modules/campaigns.ts",
       "owner": "OPUS-GOV",
       "route": "formula",
+      "traitWeightParameter": "traitWeightCampaignsVolunteer",
       "options": [
         {
           "id": "decline",
@@ -700,6 +755,7 @@
       "site": "src/core2/modules/campaigns.ts",
       "owner": "OPUS-GOV",
       "route": "formula",
+      "traitWeightParameter": "traitWeightCampaignsDonate",
       "options": [
         {
           "id": "keep",
@@ -716,6 +772,7 @@
       "site": "src/core2/modules/campaigns.ts",
       "owner": "OPUS-GOV",
       "route": "formula",
+      "traitWeightParameter": "traitWeightCampaignsEndorse",
       "options": [
         {
           "id": "decline",
@@ -732,6 +789,7 @@
       "site": "src/core2/modules/campaigns.ts",
       "owner": "OPUS-GOV",
       "route": "formula",
+      "traitWeightParameter": "traitWeightCampaignsOpenDoor",
       "options": [
         {
           "id": "ignore",
@@ -748,6 +806,7 @@
       "site": "src/core2/modules/campaigns.ts",
       "owner": "OPUS-GOV",
       "route": "formula",
+      "traitWeightParameter": "traitWeightCampaignsRetell",
       "options": [
         {
           "id": "keep",
@@ -764,6 +823,7 @@
       "site": "src/core2/modules/campaigns.ts",
       "owner": "OPUS-GOV",
       "route": "formula",
+      "traitWeightParameter": "traitWeightCampaignsAnswerPoll",
       "options": [
         {
           "id": "no-opinion",
@@ -780,6 +840,7 @@
       "site": "src/core2/modules/campaigns.ts",
       "owner": "OPUS-GOV",
       "route": "formula",
+      "traitWeightParameter": "traitWeightCampaignsRivalHours",
       "options": [
         {
           "id": "rest",
@@ -796,6 +857,7 @@
       "site": "src/core2/modules/parties.ts",
       "owner": "OPUS-GOV",
       "route": "formula",
+      "traitWeightParameter": "traitWeightPartiesJoin",
       "options": [
         {
           "id": "stay-out",
@@ -812,6 +874,7 @@
       "site": "src/core2/modules/parties.ts",
       "owner": "OPUS-GOV",
       "route": "formula",
+      "traitWeightParameter": "traitWeightPartiesAttend",
       "options": [
         {
           "id": "stay-home",
@@ -828,6 +891,7 @@
       "site": "src/core2/modules/staff.ts",
       "owner": "OPUS-GOV",
       "route": "formula",
+      "traitWeightParameter": "traitWeightStaffHire",
       "options": [
         {
           "id": "do-alone",
@@ -844,6 +908,7 @@
       "site": "src/core2/modules/interest-groups.ts",
       "owner": "OPUS-GOV",
       "route": "formula",
+      "traitWeightParameter": "traitWeightInterestGroupsMemberJoin",
       "options": [
         {
           "id": "stay-out",
@@ -860,6 +925,7 @@
       "site": "src/core2/modules/interest-groups.ts",
       "owner": "OPUS-GOV",
       "route": "formula",
+      "traitWeightParameter": "traitWeightInterestGroupsEmployerJoin",
       "options": [
         {
           "id": "stay-out",
@@ -876,6 +942,7 @@
       "site": "src/core2/modules/interest-groups.ts",
       "owner": "OPUS-GOV",
       "route": "formula",
+      "traitWeightParameter": "traitWeightInterestGroupsLobbyist",
       "options": [
         {
           "id": "decline",
@@ -892,6 +959,7 @@
       "site": "src/core2/modules/offices.ts",
       "owner": "OPUS-GOV",
       "route": "formula",
+      "traitWeightParameter": "traitWeightOfficesAcceptAppointment",
       "options": [
         {
           "id": "decline",
@@ -908,6 +976,7 @@
       "site": "src/core2/modules/legislature.ts",
       "owner": "OPUS-GOV",
       "route": "formula",
+      "traitWeightParameter": "traitWeightLegislatureMemberPosition",
       "options": [
         {
           "id": "no",
@@ -924,6 +993,7 @@
       "site": "src/core2/modules/legislature.ts",
       "owner": "OPUS-GOV",
       "route": "formula",
+      "traitWeightParameter": "traitWeightLegislatureHoldHearing",
       "options": [
         {
           "id": "bury",
@@ -940,6 +1010,7 @@
       "site": "src/core2/modules/legislature.ts",
       "owner": "OPUS-GOV",
       "route": "formula",
+      "traitWeightParameter": "traitWeightLegislatureSignOrVeto",
       "options": [
         {
           "id": "veto",
@@ -956,6 +1027,7 @@
       "site": "src/core2/modules/legislature.ts",
       "owner": "OPUS-GOV",
       "route": "formula",
+      "traitWeightParameter": "traitWeightLegislatureBudgetPriorities",
       "options": [
         {
           "id": "hold",
@@ -972,6 +1044,7 @@
       "site": "src/core2/modules/world-legislating.ts",
       "owner": "OPUS-GOV",
       "route": "formula",
+      "traitWeightParameter": "traitWeightWorldLegislatingBringAgenda",
       "options": [
         {
           "id": "hold",
@@ -988,6 +1061,7 @@
       "site": "src/core2/modules/constituent-cases.ts",
       "owner": "OPUS-GOV",
       "route": "formula",
+      "traitWeightParameter": "traitWeightConstituentCasesBringCase",
       "options": [
         {
           "id": "let-it-go",
@@ -1004,6 +1078,7 @@
       "site": "src/core2/modules/constituent-cases.ts",
       "owner": "OPUS-GOV",
       "route": "formula",
+      "traitWeightParameter": "traitWeightConstituentCasesHandleCase",
       "options": [
         {
           "id": "turn-away",
@@ -1020,6 +1095,7 @@
       "site": "src/core2/modules/staff.ts",
       "owner": "OPUS-GOV",
       "route": "formula",
+      "traitWeightParameter": "traitWeightStaffFollowThrough",
       "options": [
         {
           "id": "decline",
@@ -1036,6 +1112,7 @@
       "site": "src/core2/jobs-benefits.ts",
       "owner": "OPUS-WORLD",
       "route": "formula",
+      "traitWeightParameter": "traitWeightJobsBenefitsFileClaim",
       "options": [
         {
           "id": "skip",
@@ -1052,6 +1129,7 @@
       "site": "src/core2/modules/news.ts",
       "owner": "OPUS-PEOPLE",
       "route": "formula",
+      "traitWeightParameter": "traitWeightNewsPassOn",
       "options": [
         {
           "id": "keep",
@@ -1068,6 +1146,7 @@
       "site": "src/core2/modules/press.ts",
       "owner": "OPUS-GOV",
       "route": "formula",
+      "traitWeightParameter": "traitWeightPressFollowNews",
       "options": [
         {
           "id": "skip",
@@ -1084,6 +1163,7 @@
       "site": "src/core2/modules/press.ts",
       "owner": "OPUS-GOV",
       "route": "formula",
+      "traitWeightParameter": "traitWeightPressAcceptInterview",
       "options": [
         {
           "id": "decline",
@@ -1100,6 +1180,7 @@
       "site": "src/core2/modules/press.ts",
       "owner": "OPUS-PEOPLE",
       "route": "formula",
+      "traitWeightParameter": "traitWeightPressDig",
       "options": [
         {
           "id": "let-go",
@@ -1116,6 +1197,7 @@
       "site": "src/core2/modules/press.ts",
       "owner": "OPUS-PEOPLE",
       "route": "formula",
+      "traitWeightParameter": "traitWeightPressTip",
       "options": [
         {
           "id": "keep",
@@ -1132,6 +1214,7 @@
       "site": "src/core2/modules/meetings.ts",
       "owner": "OPUS-GOV",
       "route": "formula",
+      "traitWeightParameter": "traitWeightMeetingsTakePart",
       "options": [
         {
           "id": "stay-away",
@@ -1148,6 +1231,7 @@
       "site": "src/core2/modules/school.ts",
       "owner": "OPUS-CORE",
       "route": "chooser",
+      "traitWeightParameter": "traitWeightSchoolAttend",
       "options": [
         {
           "id": "attend-school",
@@ -1164,6 +1248,7 @@
       "site": "src/core2/modules/justice.ts",
       "owner": "OPUS-GOV",
       "route": "formula",
+      "traitWeightParameter": "traitWeightJusticeReport",
       "options": [
         {
           "id": "keep-quiet",
@@ -1180,6 +1265,7 @@
       "site": "src/core2/modules/justice.ts",
       "owner": "OPUS-GOV",
       "route": "formula",
+      "traitWeightParameter": "traitWeightJusticeProsecute",
       "options": [
         {
           "id": "decline",
@@ -1196,6 +1282,7 @@
       "site": "src/core2/modules/justice.ts",
       "owner": "OPUS-GOV",
       "route": "formula",
+      "traitWeightParameter": "traitWeightJusticePlea",
       "options": [
         {
           "id": "fight",
@@ -1212,6 +1299,7 @@
       "site": "src/core2/modules/meetings.ts",
       "owner": "OPUS-GOV",
       "route": "formula",
+      "traitWeightParameter": "traitWeightMeetingsHoldTownHall",
       "options": [
         {
           "id": "skip",
@@ -1228,6 +1316,7 @@
       "site": "src/core2/campaign-stances.ts",
       "owner": "OPUS-GOV",
       "route": "formula",
+      "traitWeightParameter": "traitWeightCampaignsPartyFirmness",
       "options": [
         {
           "id": "stay-out",
@@ -1244,6 +1333,7 @@
       "site": "src/core2/estates.ts",
       "owner": "OPUS-CORE",
       "route": "formula",
+      "traitWeightParameter": "traitWeightEstatesWill",
       "options": [
         {
           "id": "make-will",
@@ -1260,6 +1350,7 @@
       "site": "src/core2/estates.ts",
       "owner": "OPUS-CORE",
       "route": "formula",
+      "traitWeightParameter": "traitWeightEstatesTrust",
       "options": [
         {
           "id": "set-up-trust",
@@ -1276,6 +1367,7 @@
       "site": "src/core2/modules/legislature.ts",
       "owner": "OPUS-GOV",
       "route": "chooser",
+      "traitWeightParameter": "traitWeightLegislatureAttendSitting",
       "options": [
         {
           "id": "sitting-miss",
@@ -1291,7 +1383,8 @@
       "id": "legislature.poison-pill",
       "site": "src/core2/modules/legislature.ts",
       "owner": "OPUS-GOV",
-      "route": "chooser",
+      "route": "formula",
+      "traitWeightParameter": "traitWeightLegislaturePoisonPill",
       "options": [
         {
           "id": "pill-hold",
@@ -1308,6 +1401,7 @@
       "site": "src/core2/office-day-state.ts",
       "owner": "OFFICE-STATE",
       "route": "formula",
+      "traitWeightParameter": "traitWeightOfficeDayStateAttend",
       "options": [
         {
           "id": "skip",
@@ -1324,6 +1418,7 @@
       "site": "src/core2/office-day-state.ts",
       "owner": "OFFICE-STATE",
       "route": "formula",
+      "traitWeightParameter": "traitWeightOfficeDayStateLeaderRequest",
       "options": [
         {
           "id": "refuse",
@@ -1340,6 +1435,7 @@
       "site": "src/core2/appointments.ts",
       "owner": "OPUS-GOV",
       "route": "formula",
+      "traitWeightParameter": "traitWeightAppointmentsWeigh",
       "options": [
         {
           "id": "appoint-merit",
@@ -1356,6 +1452,7 @@
       "site": "src/core2/modules/jobs.ts",
       "owner": "OPUS-WORLD",
       "route": "formula",
+      "traitWeightParameter": "traitWeightJobsRaiseForOpening",
       "options": [
         {
           "id": "raise-pay",
@@ -1364,6 +1461,57 @@
         {
           "id": "hold-pay",
           "actKinds": ["follow-rules", "distrust"]
+        }
+      ]
+    },
+    {
+      "id": "office-day-state.clemency",
+      "site": "src/core2/office-day-state.ts",
+      "owner": "OFFICE-STATE",
+      "route": "formula",
+      "traitWeightParameter": "traitWeightOfficeDayStateClemency",
+      "options": [
+        {
+          "id": "deny",
+          "actKinds": ["follow-rules", "play-safe", "self-interest"]
+        },
+        {
+          "id": "grant",
+          "actKinds": ["help-others", "trust", "take-risk"]
+        }
+      ]
+    },
+    {
+      "id": "relationships.warm-to",
+      "site": "src/core2/state.ts",
+      "owner": "OPUS-PEOPLE",
+      "route": "formula",
+      "traitWeightParameter": "traitWeightRelationshipsWarmTo",
+      "options": [
+        {
+          "id": "cool",
+          "actKinds": ["withdraw", "keep-same"]
+        },
+        {
+          "id": "warm",
+          "actKinds": ["engage", "cooperate", "trust"]
+        }
+      ]
+    },
+    {
+      "id": "relationships.fall-out",
+      "site": "src/core2/state.ts",
+      "owner": "OPUS-PEOPLE",
+      "route": "formula",
+      "traitWeightParameter": "traitWeightRelationshipsFallOut",
+      "options": [
+        {
+          "id": "let-go",
+          "actKinds": ["concede", "cooperate"]
+        },
+        {
+          "id": "hold-on",
+          "actKinds": ["confront", "refuse"]
         }
       ]
     }

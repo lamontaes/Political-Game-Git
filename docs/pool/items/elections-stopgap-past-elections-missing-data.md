@@ -4,12 +4,13 @@ title: "Stopgaps in past-elections (missing-data): 1 open"
 area: elections
 kind: stopgap
 priority: 3
-status: blocked
+status: open
 claimed-by:
-pr:
+pr: #5309
 blocked-on: research data: the row's replacement needs sourced data (Each territory's certified 2024 delegate and governor returns (territorial election offices) as research data, read in place of the town's ballots....)
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/past-elections.ts, kind missing-data"
+claimed-at: 
 ---
 
 **What.** Replace or clear the 1 open missing-data stopgap row(s) in src/core2/past-elections.ts: SG-CORE-past-territory-ballots. Each fake is replaced by the mechanic, or the feature that needs it is deleted.

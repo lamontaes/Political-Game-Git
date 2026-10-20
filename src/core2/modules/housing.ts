@@ -8,6 +8,7 @@
 import { countyPopulationSharesForPlace } from "../reference/government-units";
 import { corePlaceByKey } from "../place-lookup";
 import { addDays, daysBetween, makeIsoDate } from "../kernel/dates";
+import countyNeighbors from "../data/housing/county-neighbors.json" with { type: "json" };
 import housingData from "../data/housing/housing.json" with { type: "json" };
 import housingParameters from "../data/housing/parameters.json" with { type: "json" };
 import type { Parameter } from "../parameters";
@@ -58,6 +59,7 @@ import { LAWS_MODULE_ID, lawChain, lawInForce } from "./laws";
 import { BUDGETS_MODULE_ID, governments } from "./budgets";
 import housingConstruction from "../data/housing/construction.json" with { type: "json" };
 import lawParameters from "../data/laws/reach-group-a-parameters.json" with { type: "json" };
+import { DEFAULT_HEALTH_DATA, severityImpulse } from "./health";
 import {
   countedOwnersBehind,
   foreclosureRemoval,
@@ -92,6 +94,7 @@ const RENT_VALUE = housingData.countyRentValue as unknown as Record<
   string,
   [number | null, number | null]
 >;
+const COUNTY_NEIGHBORS = countyNeighbors.neighbors as Record<string, string[]>;
 const PLACE_TENURE = housingData.placeTenure as unknown as Record<
   string,
   [number, number]
@@ -158,17 +161,68 @@ const STATE_RENT_VALUE = (() => {
     ]),
   );
 })();
+/** Each state's homes and owned homes over its counties, for a county the ACS tenure table does not list. */
+const STATE_TENURE = (() => {
+  const sums = new Map<string, [number, number]>();
+  for (const [county, row] of Object.entries(COUNTY_TENURE)) {
+    const sum = sums.get(county.slice(0, 2)) ?? [0, 0];
+    sum[0] += row[0];
+    sum[1] += row[1];
+    sums.set(county.slice(0, 2), sum);
+  }
+  return sums;
+})();
+/**
+ * The owner share of a county the tenure table does not list (Connecticut's
+ * old counties, which the ACS now publishes as planning regions): its
+ * neighbors' homes and owned homes, then its state's, then the nation's.
+ */
+function fallbackTenure(county: string): [number, number] | undefined {
+  let homes = 0;
+  let owned = 0;
+  for (const near of COUNTY_NEIGHBORS[county] ?? []) {
+    const row = COUNTY_TENURE[near];
+    if (!row) continue;
+    homes += row[0];
+    owned += row[1];
+  }
+  if (homes > 0) return [homes, owned];
+  return STATE_TENURE.get(county.slice(0, 2));
+}
+/**
+ * The household-weighted median rent and value of the neighboring counties
+ * that publish both (Census county adjacency), for a county the ACS withholds.
+ */
+function neighborRentValue(county: string): [number, number] | undefined {
+  let rent = 0;
+  let value = 0;
+  let weight = 0;
+  for (const near of COUNTY_NEIGHBORS[county] ?? []) {
+    const rv = RENT_VALUE[near];
+    const homes = COUNTY_TENURE[near]?.[0];
+    if (!rv?.[0] || !rv[1] || !homes) continue;
+    rent += rv[0] * homes;
+    value += rv[1] * homes;
+    weight += homes;
+  }
+  return weight
+    ? [Math.round(rent / weight), Math.round(value / weight)]
+    : undefined;
+}
 /**
  * A county's median rent and home value. Where the ACS withholds one (a county
- * with too few households), the state's household-weighted median stands in,
- * then the nation's; never zero, which would leave every owner without a home.
+ * with too few households), the neighboring counties' household-weighted
+ * median stands in, then the state's, then the nation's; never zero, which
+ * would leave every owner without a home.
  */
-function rentValueOf(county: string): [number | null, number | null] {
+export function rentValueOf(county: string): [number | null, number | null] {
   if (county.startsWith(`${NATION}:`)) return NATIONAL.rentValue;
   const row = RENT_VALUE[county] as [number | null, number | null] | undefined;
   if (row?.[0] && row[1]) return row;
-  stopgap("SG-WORLD-housing-county-estimate");
-  const state = STATE_RENT_VALUE.get(county.slice(0, 2)) ?? NATIONAL.rentValue;
+  const state =
+    neighborRentValue(county) ??
+    STATE_RENT_VALUE.get(county.slice(0, 2)) ??
+    NATIONAL.rentValue;
   return [row?.[0] || state[0], row?.[1] || state[1]];
 }
 const DWELLINGS_KEY = "housingDwellings";
@@ -203,7 +257,9 @@ function townOf(input: CoreInput): Town | undefined {
       ? [...countyPopulationSharesForPlace(geoid)].sort(
           (a, b) => (b[1] ?? 0) - (a[1] ?? 0),
         )[0]?.[0]
-      : geoid;
+      : geoid.length === "SSCCC".length
+        ? geoid
+        : undefined;
   const counts = new Map<string, number>();
   for (const row of input.households)
     counts.set(row.placeId, (counts.get(row.placeId) ?? 0) + 1);
@@ -319,7 +375,8 @@ export function withHousing(input: CoreInput): CoreInput {
   const tenure =
     PLACE_TENURE[town.geoid] ??
     COUNTY_TENURE[town.county] ??
-    nationTenure(town);
+    nationTenure(town) ??
+    fallbackTenure(town.county);
   const [medianRent] = rentValueOf(town.county);
   if (!tenure || !medianRent) return input;
   const people = new Map(input.people.map((row) => [row.id, row]));
@@ -635,49 +692,68 @@ function rehouse(api: CoreAPI): void {
         ? typical
         : (c.finance.contracts.get(`lease:${householdId}`)?.amountMinor ?? 0);
     },
-    (householdId, rentMinor) => {
-      const household = c.households.get(householdId)!;
-      const offer = offers.get(householdId);
-      const landlordId =
-        offer?.project.payerId ?? `organization:landlord:${household.placeId}`;
-      if (!c.organizations.has(landlordId)) return;
-      const id = `lease:${householdId}:${c.date}`;
-      api.addFinanceContract({
-        id,
-        householdId,
-        payerIds: household.memberIds.filter((m) => c.people.get(m)?.alive),
-        payeeId: landlordId,
-        kind: LEASE_KIND,
-        amountMinor: rentMinor,
-        dueAt: makeIsoDate(nextDue(c.date)),
-        periodMonths: 1,
-        accruesArrears: true,
-        source: {
-          tag: "ESTIMATED",
-          asOf: c.date,
-          citation: housingData.source.citation,
-          estimatedFrom: `Rents again at the offered rent once pay reached ${api.parameter("housingRehouseIncomeMultiple")} times it.`,
-        },
-      });
-      store(api)
-        .table("dwellings")
-        .put({
-          id: `dwelling:${householdId}`,
-          householdId,
-          tenure: "rent",
-          kind:
-            (
-              store(api).table("dwellings").get(`dwelling:${householdId}`) as
-                { kind?: string } | undefined
-            )?.kind ?? "apartment",
-          rentMinor,
-          since: c.date,
-          basis: "rehoused",
-        });
-      if (offer) occupyRehousedRental(api, offer, householdId, id);
-      return id;
-    },
+    (householdId, rentMinor) =>
+      leaseHousehold(api, householdId, rentMinor, offers.get(householdId)),
   );
+}
+
+/** The town's typical monthly rent; none where it has no other renters. */
+export function typicalRentMinor(api: CoreAPI, placeId: string): number {
+  return townFigures(api, placeId).rentMinor;
+}
+
+/**
+ * A household without a home signs a lease at a rent: from the town's landlord
+ * (or the landlord of the offered unit, which it then consumes), due next month,
+ * paid by its living members. Returns the lease id, or none when the town has
+ * no landlord.
+ */
+export function leaseHousehold(
+  api: CoreAPI,
+  householdId: string,
+  rentMinor: number,
+  offer?: CompletedRentalOffer,
+): string | undefined {
+  const c = core(api);
+  const household = c.households.get(householdId)!;
+  const landlordId =
+    offer?.project.payerId ?? `organization:landlord:${household.placeId}`;
+  if (!c.organizations.has(landlordId)) return undefined;
+  const id = `lease:${householdId}:${c.date}`;
+  api.addFinanceContract({
+    id,
+    householdId,
+    payerIds: household.memberIds.filter((m) => c.people.get(m)?.alive),
+    payeeId: landlordId,
+    kind: LEASE_KIND,
+    amountMinor: rentMinor,
+    dueAt: makeIsoDate(nextDue(c.date)),
+    periodMonths: 1,
+    accruesArrears: true,
+    source: {
+      tag: "ESTIMATED",
+      asOf: c.date,
+      citation: housingData.source.citation,
+      estimatedFrom: `Rents again at the offered rent once pay reached ${api.parameter("housingRehouseIncomeMultiple")} times it.`,
+    },
+  });
+  store(api)
+    .table("dwellings")
+    .put({
+      id: `dwelling:${householdId}`,
+      householdId,
+      tenure: "rent",
+      kind:
+        (
+          store(api).table("dwellings").get(`dwelling:${householdId}`) as
+            { kind?: string } | undefined
+        )?.kind ?? "apartment",
+      rentMinor,
+      since: c.date,
+      basis: "rehoused",
+    });
+  if (offer) occupyRehousedRental(api, offer, householdId, id);
+  return id;
 }
 
 /** Rent owed past the grace period starts a case: the landlord serves the notice the law requires. */
@@ -1714,6 +1790,9 @@ function remove(api: CoreAPI, caseId: string, owed: number): void {
     },
     publicRecord: true,
     topic: row.landlordId,
+    // Losing the home is a life change (Holmes and Rahe, foreclosure, 30
+    // units); each member's appraisal scales it by their own traits.
+    ...severityImpulse(api, DEFAULT_HEALTH_DATA.evictionSeverity),
   });
   // Where they go: a relative with room, a shelter bed, else the street.
   placeRemovedHousehold(api, {
