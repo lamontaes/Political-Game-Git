@@ -63,8 +63,19 @@ function partnersIn(place: ReturnType<typeof drawPlace>): boolean {
     )
     .sort((a, b) => a.id.localeCompare(b.id));
   const mother = single.find((p) => p.looks?.gender === "female");
+  // The partner moves in, so they live elsewhere now and leave an adult behind.
   const other = single.find(
-    (p) => p.id !== mother?.id && !p.familyIds.has(mother?.id ?? ""),
+    (p) =>
+      p.id !== mother?.id &&
+      p.householdId !== mother?.householdId &&
+      !p.familyIds.has(mother?.id ?? "") &&
+      core.households
+        .get(p.householdId)
+        ?.memberIds.some(
+          (id) =>
+            id !== p.id &&
+            age(core.people.get(id)?.birthDate ?? core.date) >= 18,
+        ),
   );
   const couple = [...core.familyLinks.values()].find(
     (row) =>
