@@ -1,6 +1,6 @@
 # Merge audit, October 20, 2026 (early morning)
 
-Three reviewers read the diffs of the 55 PRs merged between 9:30 p.m. and midnight Eastern on October 19 by the four merger lanes. No tests were rerun; "passes" means the PR's own claim.
+Three reviewers read the diffs of the 55 PRs the four merger lanes merged late on October 19. Below, "passes" means the PR's own claim.
 
 **Result:** 24 good, 28 with concerns, 3 bad. The code is mostly real and wired into the game. The merging process is the problem.
 
@@ -8,8 +8,8 @@ Three reviewers read the diffs of the 55 PRs merged between 9:30 p.m. and midnig
 
 - **PRs merged after the merger itself sent them back, with no new commit:** #4886, #4968, #4976.
 - **Merged into another PR's branch, not main:** #4984 (its code reached main later through #5044; #5019 is still open and superseded).
-- **No check record:** checks were queued or cancelled at merge on nearly every PR, merges landed seconds after a main merge, and only #4885 has a merger comment naming the checks it ran.
-- New merger rules were sent to all four lanes on October 20 (base must be main; never merge a send-back without a new fixing commit; rerun changed-file checks after merging main; one comment per merge naming the checks; send back narrowed tests, unexplained timeouts, hand-written player text, old-engine imports, duplicated pool sections and false claims).
+- **No check record:** checks were queued or canceled at merge on nearly every PR, merges landed seconds after a main merge, and only #4885 has a merger comment naming the checks it ran.
+- New merger rules went to all four lanes on October 20. The base must be main, a send-back never merges without a new fixing commit, and the changed-file checks run again after merging main. Each merge gets one comment naming its checks. Narrowed tests, unexplained timeouts, hand-written player text, old-engine imports, duplicated pool sections and false claims are sent back.
 
 ## Fixes to make (pool item `release-merge-audit-oct20-fixes`)
 
@@ -37,6 +37,6 @@ Weak tests and overclaims:
 14. **#5027 (measured in #5516):** rewrites opening wages and hours (up to 20 percent) before opening capital is set, while saying no paycheck changes. Run a before and after on opening capital, credit and treasury reserve in three or four places.
 15. **#5278:** businessEnergyCostYear copies the price-law table; share one rule and test it equals twelve months of the settlement. Decide on purpose that employers without books never organize.
 16. **#4871:** the governor's commute power is reachable only by a player governor and has no screen; relabel the release note and add a pool item for computer governors acting on clemency.
-17. **Release notes that misstate the change:** #5218 (says two states; changes 51 House and 30 legislative rows; 22 House rows still use the flat estimate), #4863 (describes a drift engine that no longer exists), #4948 (says no change to the game; partial moves now hand lease payers to those who stay), #5021 (body describes edits that landed in #5266), #5322 (says each island opens at its real population; the sample caps at 10,000), #5258 (no screen offers the act yet).
+17. **Release notes that misstate the change.** PR #5218 says two states but changes 51 House and 30 legislative rows, and 22 House rows still use the flat estimate. PR #4863 describes a drift engine that no longer exists. PR #4948 says nothing changes in the game, but partial moves now hand lease payers to those who stay. The body of PR #5021 describes edits that landed in #5266. PR #5322 says each island opens at its real population, but the sample caps at 10,000. For PR #5258, no screen offers the act yet.
 18. **Data to verify:** #5230 Connecticut property-tax due dates (believed July 1 and January 1 by statute); #5274 Michigan row tagged SOURCED though its rule differs for primary-electing cities; #5033 regenerate town-business-books.generated.ts from the script and check the three IRS values.
-19. **Stale text:** #5254 (SG-WORLD-credit-island-deposits still says islands carry no county code; add a territory test), #5322 (SG-CORE-territory-places replacement text), #5032 (references to the deleted build-place-lookup-data.ts), #5040 (people-partnership-rates-check still blocked on an empty shell), #5334 (item should be blocked on a design call, not open), #5101 (restore the pr link).
+19. **Stale text.** SG-WORLD-credit-island-deposits (#5254) still says islands carry no county code; add a territory test. Fix the SG-CORE-territory-places replacement text (#5322). PR #5032 still refers to the deleted build-place-lookup-data.ts. The people-partnership-rates-check item (#5040) is still blocked on an empty shell. The item for PR #5334 should be blocked on a design call, not open. Restore the pr link on #5101.

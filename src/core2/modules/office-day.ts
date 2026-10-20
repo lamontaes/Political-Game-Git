@@ -1047,18 +1047,14 @@ export function officeJobsOf(api: CoreAPI, personId: string): OfficeJobRow[] {
 
 // ---- What the player prepares for an act -------------------------------
 
-/** The player sets what they will say or decide at an act; what they leave is the character's own. */
+/**
+ * The player sets what they will say or decide at an act, local or federal
+ * (any registered kit's act id); what they leave is the character's own.
+ */
 export function prepareAct(
   api: CoreAPI,
   personId: string,
-  actId:
-    | "office-hours"
-    | "town-hall"
-    | "interview"
-    | "talk-to-colleague"
-    | "state-of-the-city"
-    | "propose-budget"
-    | "name-department-head",
+  actId: string,
   prepared: Prepared,
 ): void {
   table(api, "prepared").put({
@@ -1067,7 +1063,8 @@ export function prepareAct(
   } as unknown as ModuleRow);
 }
 
-function preparedFor(
+/** What the player prepared for an act, if anything. */
+export function preparedFor(
   api: CoreAPI,
   personId: string,
   actId: string,
@@ -1076,6 +1073,15 @@ function preparedFor(
     (table(api, "prepared").get(`${personId}|${actId}`) as unknown as
       Prepared | undefined) ?? null
   );
+}
+
+/** The act is taken; what was prepared for it is spent. */
+export function clearPrepared(
+  api: CoreAPI,
+  personId: string,
+  actId: string,
+): void {
+  table(api, "prepared").remove(`${personId}|${actId}`);
 }
 
 function gaveInYear(

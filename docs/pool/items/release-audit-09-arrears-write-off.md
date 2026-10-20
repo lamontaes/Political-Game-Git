@@ -5,7 +5,7 @@ area: world
 kind: bug
 priority: 3
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/fs11vb-arrears
 pr: #5524
 blocked-on:
