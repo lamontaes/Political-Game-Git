@@ -363,6 +363,27 @@ describe(`election law from data (place ${drawn.name}, ${drawn.state}, seed ${se
     ).toBe("2029-01-20");
   });
 
+  it("a governor's term starts on the state's own clause where it is read", () => {
+    const governor = (state: string) => ({
+      ...town(state),
+      jurisdiction: state,
+      level: "state" as const,
+      kind: "governor",
+    });
+    // Alaska: first Monday in December following the vote.
+    expect(termStartAfter(governor("US-AK"), "2026-11-03")).toBe("2026-12-07");
+    // Florida: first Tuesday after the first Monday in January.
+    expect(termStartAfter(governor("US-FL"), "2026-11-03")).toBe("2027-01-05");
+    // Virginia: Saturday after the second Wednesday in January.
+    expect(termStartAfter(governor("US-VA"), "2025-11-04")).toBe("2026-01-17");
+    // Washington: Wednesday after the second Monday in January.
+    expect(termStartAfter(governor("US-WA"), "2024-11-05")).toBe("2025-01-15");
+    // An unread state keeps the data's default.
+    expect(termStartAfter(governor("US-NC"), "2026-11-03")).toBe(
+      `2027-${termStarts.default.monthDay}`,
+    );
+  });
+
   it("filing fallbacks come from data and say so", () => {
     // The places whose county row is unread take the data's age and title.
     const unread = filingRequirements("US-AK", "countyOffice");
