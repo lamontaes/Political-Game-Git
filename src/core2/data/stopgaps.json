@@ -2337,7 +2337,8 @@
     "addedBy": "OPUS-DRIVES",
     "addedAt": "2026-10-09",
     "replacement": "A cohort calibration of base scale and condition weights together, checked across many places and ages against the life table.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "The resilience scale is multiplied by the town's state death rate over the nation's (CDC NCHS 2017 age-adjusted, health/state-mortality-index.json; ESTIMATED, a spread of 0.80 to 1.31; territories 1.0), so deaths follow the state's table; the national scale 0.106 is unchanged."
   },
   {
     "id": "SG-P10-group-name-key",

@@ -1,4 +1,6 @@
 import healthJson from "../data/health.json" with { type: "json" };
+import stateMortality from "../data/health/state-mortality-index.json" with { type: "json" };
+import { corePlaceByKey } from "../place-lookup";
 import { settleEstate } from "../estates";
 import { HOUSING_STATUS_EVENT } from "../housing-homeless";
 import {
@@ -61,7 +63,6 @@ export interface HealthData {
   resilienceKey: string;
   conditionHoldingKey: string;
   resilienceScaleParameter: string;
-  resilience: { stopgapId: string };
   resilienceSpread: string;
   onsetSeverity: Severity;
   deathSeverity: Severity;
@@ -183,7 +184,6 @@ function exactAge(api: CoreAPI, birthDate: IsoDate, date: IsoDate): number {
  * No decision reads it as a chance; strain still builds smoothly from causes.
  */
 function resilienceLine(api: CoreAPI, data: HealthData, personId: string) {
-  api.stopgap(data.resilience.stopgapId);
   const digits = api.parameter("resilienceHashDigits");
   const radix = api.parameter("seedPlaceHashRadix");
   const hash = stableHash(
@@ -230,6 +230,20 @@ function lateConditions(
 }
 
 /**
+ * The town's state death rate over the nation's (CDC NCHS age-adjusted, 2017):
+ * the resilience scale is this much higher where more people die at the same
+ * age. One for a place with no state rate (a territory) or no recorded place.
+ */
+function stateMortalityIndex(api: CoreAPI): number {
+  const key = (api.state as CoreState).placeMetadata.placeKey;
+  const state = key ? corePlaceByKey(key)?.stateJurisdictionKey : undefined;
+  return (
+    (stateMortality.index as Record<string, number>)[state ?? ""] ??
+    api.parameter("one")
+  );
+}
+
+/**
  * One full person's health record, from the model the opening uses: their
  * conditions, their own resilience line, strain from `from` (the opening day,
  * or the day they were filled in) and the first day it crosses the line.
@@ -248,7 +262,13 @@ function assignPerson(
   row.conditionsByPerson.set(person.id, conditions);
   const threshold = thresholdUnits(
     (line * BigInt(MULTIPLIER_ONE)) /
-      BigInt(Math.round(p(data.resilienceScaleParameter) * MULTIPLIER_ONE)),
+      BigInt(
+        Math.round(
+          p(data.resilienceScaleParameter) *
+            stateMortalityIndex(api) *
+            MULTIPLIER_ONE,
+        ),
+      ),
   );
   const age = exactAge(api, person.birthDate, from);
   let micros = MULTIPLIER_ONE;

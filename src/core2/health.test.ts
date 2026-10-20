@@ -1,4 +1,6 @@
 import { describe, expect, it } from "vitest";
+import stateMortality from "./data/health/state-mortality-index.json" with { type: "json" };
+import { corePlaceByKey } from "./place-lookup";
 import {
   conditionHazard,
   startingConditionAssignments,
@@ -114,7 +116,15 @@ describe("P10 health producer: personal resilience lines", () => {
         monthlyHouseholdIncomeMinor: null,
       })),
     );
-    const scale = p("resilienceBaseRateScale");
+    // The town's state death rate over the nation's (CDC NCHS) scales the
+    // resilience scale, so its deaths follow the state's table, not the nation's.
+    const stateKey = corePlaceByKey(
+      population.placeMetadata!.placeKey!,
+    )?.stateJurisdictionKey;
+    const index =
+      (stateMortality.index as Record<string, number>)[stateKey ?? ""] ??
+      p("one");
+    const scale = p("resilienceBaseRateScale") * index;
     let table = p("zero");
     let model = p("zero");
     for (const person of population.people) {
@@ -139,10 +149,10 @@ describe("P10 health producer: personal resilience lines", () => {
     }
     // Totals only: within a fifth of the life table for whichever place the seed drew.
     expect(population.placeMetadata?.placeName).toBeTruthy();
-    expect(model / table).toBeGreaterThan(
+    expect(model / (table * index)).toBeGreaterThan(
       p("one") - p("one") / (p("two") + p("two") + p("one")),
     );
-    expect(model / table).toBeLessThan(
+    expect(model / (table * index)).toBeLessThan(
       p("one") + p("one") / (p("two") + p("two") + p("one")),
     );
   });
