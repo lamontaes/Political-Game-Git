@@ -5,7 +5,7 @@ area: laws
 kind: bug
 priority: 2
 size: S
-status: in-pr
+status: done
 claimed-by: claude/price-law-not-player-money-s5
 pr: #4878
 blocked-on:

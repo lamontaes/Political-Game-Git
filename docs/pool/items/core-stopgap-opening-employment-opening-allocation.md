@@ -4,10 +4,10 @@ title: "Stopgaps in opening-employment (opening-allocation): 1 open"
 area: core
 kind: stopgap
 priority: 3
-status: open
+status: blocked
 claimed-by:
 pr:
-blocked-on:
+blocked-on: research data: the row's replacement needs sourced data (County-resident employment and firm/occupation supported capacity matched with source spreads, preserving original records....)
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/opening-employment.ts, kind opening-allocation"
 ---

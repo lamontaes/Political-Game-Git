@@ -374,7 +374,8 @@ function unplacedShare(rt: ResidentsRuntime, h: CountedHousehold): number {
   if (h.unplacedWorkers <= 0) return 0;
   let total = 0;
   for (const x of rt.store.liveHouseholds())
-    if (x.placeId === h.placeId) total += x.unplacedWorkers;
+    if (x.placeId === h.placeId)
+      total += x.unplacedWorkers * rt.store.weightOf(x);
   return total > 0 ? h.unplacedWorkers / total : 0;
 }
 
@@ -567,7 +568,11 @@ function packOpening(
   for (const h of households) {
     const n = jobless(store, h, date);
     open.set(h.index, n);
-    eligible.set(h.placeId, (eligible.get(h.placeId) ?? 0) + n);
+    // A record stands for as many households as its weight says.
+    eligible.set(
+      h.placeId,
+      (eligible.get(h.placeId) ?? 0) + n * store.weightOf(h),
+    );
   }
   for (const [placeId, row] of unplaced) {
     const pool = eligible.get(placeId) ?? 0;

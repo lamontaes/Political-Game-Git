@@ -5,13 +5,13 @@ area: words
 kind: feature
 priority: 1
 size: M
-status: open
-claimed-by:
+status: in-pr
+claimed-by: words/word-pack
 pr: #4626
 blocked-on:
 after: words-pack-scene-talk
 source: added with npm run pool -- add
-claimed-at:
+claimed-at: 2026-10-20T00:53:34.519Z
 ---
 
 **What.** Batch 15 makes every scene different, with replies that move the talk on, calibrated on real exchanges. Where batch 13 proved a purpose and a result, this batch checks variety across the thirty scenes so no two read as the same talk, and that each reply answers the line before it. Compare the composed exchanges with the corpus of real exchanges and tune the bank where they diverge.
@@ -27,3 +27,5 @@ claimed-at:
 Sent back 2026-10-16 from PR #4626 (branch words/word-pack): The top of the PR body lacks a gate line naming the in-session checks on changed files and their results. Add the named checks and results at the top (a pool id may precede it); "Local checks pass" alone does not name the checks; finish on that branch, merge main into it first.
 
 Sent back 2026-10-17 from PR #4626 (branch words/word-pack): The top of the PR body has no named in-session changed-file checks and result. Move the existing check results to the top, then request another merger pass.; finish on that branch, merge main into it first.
+
+Sent back 2026-10-19 from PR #4626 (branch words/word-pack): No in-session changed-file gate result near the top of the PR body; finish on that branch, merge main into it first.

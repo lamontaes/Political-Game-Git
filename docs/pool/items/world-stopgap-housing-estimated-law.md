@@ -4,10 +4,10 @@ title: "Stopgaps in housing (estimated-law): 1 open"
 area: world
 kind: stopgap
 priority: 3
-status: open
+status: blocked
 claimed-by:
 pr:
-blocked-on:
+blocked-on: research data: the row's replacement needs sourced data (Each place's steps read from the official statute text and cited by section, then M1-laws' landlord-tenant law in force....)
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/modules/housing.ts, kind estimated-law"
 ---

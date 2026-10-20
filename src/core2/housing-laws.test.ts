@@ -114,43 +114,84 @@ describe(`housing laws, ${draw.name}, seed ${draw.seed}`, () => {
     );
   }, 180_000);
 
-  it("caps both tiers at renewal and preserves a counted tenant's rent when filled in (controlled edge case)", (context) => {
-    const { core } = world,
-      api = coreAPI(core);
-    const rt = residentsRuntime(core)!;
-    // A controlled renewal stress case, not claimed as the ordinary year's proof.
-    for (const level of lawChain(api).levels)
-      enactLaw(api, {
-        ...level,
-        series: RENT,
-        value: 1,
-        effectiveDate: addDays(makeIsoDate(core.date), 1),
-        measureId: `edge-rent-${level.level}`,
-        citation: "Controlled rent-cap edge case",
-      });
-    advanceCore(core, addDays(makeIsoDate(core.date), 2));
-    // Tenants the renewal path reads: it records a renewal for each (a
-    // set-aside rent follows income instead, and a household without a home
-    // pays none).
-    const renewed = api.moduleState("housing").table("renewals");
-    const lease = [...core.finance.contracts.values()].find(
-      (r) =>
-        r.id.startsWith("lease:") &&
-        !r.endedAt &&
-        r.amountMinor > 0 &&
-        renewed.get(r.id),
-    );
-    const flow = [...rt.flows.values()].find(
-      (r) =>
-        r.id.startsWith("rent:") &&
-        !r.endedAt &&
-        r.amountMinor > 0 &&
-        renewed.get(r.id),
-    );
-    if (!lease || !flow) {
-      context.skip("The drawn world has no renewed tenants in both tiers.");
-      return;
+  it("caps both tiers at renewal and preserves a counted tenant's rent when filled in (controlled edge case)", () => {
+    // A controlled renewal stress case, not claimed as the ordinary year's
+    // proof. It needs a town with a renewed tenant in both tiers (a full
+    // household's lease and a counted household's rent flow), so places are
+    // drawn in turn from the seed until one has both.
+    const tried: string[] = [];
+    let found:
+      | {
+          core: typeof world.core;
+          api: ReturnType<typeof coreAPI>;
+          rt: NonNullable<ReturnType<typeof residentsRuntime>>;
+          lease: { id: string; amountMinor: number };
+          flow: { id: string; amountMinor: number };
+          where: string;
+        }
+      | undefined;
+    for (let attempt = 0; attempt < 10 && !found; attempt += 1) {
+      const place = attempt
+        ? drawPlace(`${draw.seed}:${attempt}`, "housing-law-edge")
+        : draw;
+      const w =
+        attempt === 0
+          ? world
+          : buildBenchWorld(place.seed, gameStartDate(), {
+              twoLevel: true,
+              placeKey: place.key,
+            });
+      const core = w.core,
+        api = coreAPI(core);
+      const rt = residentsRuntime(core)!;
+      for (const level of lawChain(api).levels)
+        enactLaw(api, {
+          ...level,
+          series: RENT,
+          value: 1,
+          effectiveDate: addDays(makeIsoDate(core.date), 1),
+          measureId: `edge-rent-${level.level}`,
+          citation: "Controlled rent-cap edge case",
+        });
+      advanceCore(core, addDays(makeIsoDate(core.date), 2));
+      // The first pass records each tenant's baseline renewal.
+      renewRentalLeases(api);
+      // Tenants the renewal path reads: it records a renewal for each (a
+      // set-aside rent follows income instead, and a household without a
+      // home pays none).
+      const renewed = api.moduleState("housing").table("renewals");
+      const lease = [...core.finance.contracts.values()].find(
+        (r) =>
+          r.id.startsWith("lease:") &&
+          !r.endedAt &&
+          r.amountMinor > 0 &&
+          renewed.get(r.id),
+      );
+      const flow = [...rt.flows.values()].find(
+        (r) =>
+          r.id.startsWith("rent:") &&
+          !r.endedAt &&
+          r.amountMinor > 0 &&
+          renewed.get(r.id),
+      );
+      if (!lease || !flow) {
+        tried.push(`${place.name} (${place.key})`);
+        continue;
+      }
+      found = {
+        core,
+        api,
+        rt,
+        lease,
+        flow,
+        where: `${place.name} (${place.key}), seed ${place.seed}`,
+      };
     }
+    if (!found)
+      throw new Error(
+        `no drawn world had a renewed tenant in both tiers: ${tried.join("; ")}`,
+      );
+    const { core, api, rt, lease, flow, where } = found;
     const rentals = [
       {
         id: lease.id,
@@ -174,7 +215,7 @@ describe(`housing laws, ${draw.name}, seed ${draw.seed}`, () => {
     }
     renewRentalLeases(api);
     for (const rental of rentals) {
-      expect(rental.read()).toBe(
+      expect(rental.read(), `${where} ${rental.id}`).toBe(
         Math.round(
           rental.before * (1 + parameters.parameters.rentIncreaseCap.value),
         ),
@@ -190,10 +231,12 @@ describe(`housing laws, ${draw.name}, seed ${draw.seed}`, () => {
     fillInPerson(core, counted.people[0]!.id);
     expect(
       core.finance.contracts.get(`lease:${householdId}`)!.amountMinor,
+      where,
     ).toBe(paidRent);
     renewRentalLeases(api);
     expect(
       core.finance.contracts.get(`lease:${householdId}`)!.amountMinor,
+      where,
     ).toBe(paidRent);
-  }, 120_000);
+  }, 900_000);
 });

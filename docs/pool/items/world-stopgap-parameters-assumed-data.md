@@ -4,10 +4,10 @@ title: "Stopgaps in parameters (assumed-data): 1 open"
 area: world
 kind: stopgap
 priority: 3
-status: open
+status: blocked
 claimed-by:
 pr:
-blocked-on:
+blocked-on: research data: the row's replacement needs sourced data (Census PACE abatement operating costs by industry (NAICS), scaled by the standard the county misses....)
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/data/business/parameters.json, kind assumed-data"
 ---
