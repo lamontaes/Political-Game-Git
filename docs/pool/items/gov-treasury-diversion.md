@@ -5,12 +5,12 @@ area: gov
 kind: feature
 priority: 2
 size: M
-status: in-pr
-claimed-by: claude/gov-treasury-diversion
+status: open
+claimed-by:
 pr: #4587
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-19T18:16:46.433Z
+claimed-at:
 ---
 
 **What.** An official can divert a budget line's money, recorded on the treasury's books. This work was sent back by the merger on 2026-10-16 and is open for any builder to finish. The reason it came back: merging main conflicts in src/core2/budgets-treasury.ts, src/core2/data/corruption/parameters.json (code or data, left for the author); resolve and push. Finish it on the existing branch claude/gov-treasury-diversion, after merging main into it with a plain merge.
