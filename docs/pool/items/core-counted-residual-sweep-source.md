@@ -5,11 +5,12 @@ area: core
 kind: wiring
 priority: 2
 size: M
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/residual-sweep-source
+pr: #5356
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-20T00:06:41.241Z
 ---
 
 **What.** TODO

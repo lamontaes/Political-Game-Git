@@ -609,6 +609,42 @@ function readPriceLaws(api: CoreAPI): void {
   );
 }
 
+/**
+ * What a law that prices energy would cost a business in a year, the same
+ * arithmetic the monthly settlement uses on its own energy costs (its other
+ * operating costs times the business share of that fuel times the law's
+ * price change); null for a law that sets no energy price.
+ */
+export function businessEnergyCostYear(
+  api: CoreAPI,
+  question: string,
+  annualOtherCostsMinor: number,
+): number | null {
+  const p = lawParameters.parameters;
+  const rule: Record<string, { good: Good; value: number }> = {
+    "us-policy-positions:environment-energy.clean-electricity-standard": {
+      good: "electricity",
+      value: p.cleanElectricityPriceShare.value,
+    },
+    "us-policy-positions:environment-energy.price-carbon": {
+      good: "fuel",
+      value:
+        (p.carbonPricePerTonDollars.value *
+          p.householdTonsPerYear.value *
+          p.centsPerDollar.value) /
+        goods.goods.fuel.ceAnnualMinor,
+    },
+  };
+  const row = rule[question];
+  if (!row) return null;
+  const share = api.parameter(
+    row.good === "electricity"
+      ? "pricesBusinessElectricityShare"
+      : "pricesBusinessFuelShare",
+  );
+  return Math.round(annualOtherCostsMinor * share * row.value);
+}
+
 /** Each month: every rule's change in spending, settled for each full household and each place's counted households together. */
 function month(api: CoreAPI): void {
   const c = core(api);

@@ -5,11 +5,12 @@ area: world
 kind: feature
 priority: 3
 size: M
-status: open
-claimed-by:
-pr:
+status: claimed
+claimed-by: claude/union-membership
+pr: #5302
 blocked-on:
 source: split from core-stopgap-membership-dues-assumed-data, Oct 19
+claimed-at: 2026-10-20T03:36:34.011Z
 ---
 
 **What.** Record a union membership on each full person and counted worker group whose industry and state the BLS Union Members tables cover, so the count of members in a place is the sum of those records, not a rate times the employed. The records at the opening add up to the BLS rate for the industry and state, as a check, never as the per-person rule.
