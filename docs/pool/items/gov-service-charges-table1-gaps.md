@@ -5,11 +5,12 @@ area: gov
 kind: research
 priority: 3
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/fs11vb-sc
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-20T11:07:14.365Z
 ---
 
 **What.** Ten state-and-local rows in the 2022 service-charge export differ from Census Table 1 (22slsstab1.xlsx) by more than 10 percent. Find the item codes that explain each gap, or record that Table 1 uses a rule the item-code file does not carry.
