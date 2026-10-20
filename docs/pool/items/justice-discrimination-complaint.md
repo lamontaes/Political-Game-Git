@@ -5,12 +5,13 @@ area: world
 kind: feature
 priority: 2
 size: M
-status: blocked
+status: open
 claimed-by:
 pr:
 blocked-on:
 after: world-hiring-discrimination-ban-refusal
 source: added with npm run pool -- add
+claimed-at: 
 ---
 
 **What.** A refused applicant can bring a civil complaint that the justice engine records and a commission hears. In justice.ts a ComplaintRow is bound to a crime (crimeId, reporter, prosecutor office); add a second kind on the same complaints table, `civil`, carrying the law row id (the discrimination reach row in the law-reach records), the respondent employer, the applicant and the refusal's job-change record id from world-hiring-discrimination-ban-refusal, with an index by refusal. Whether the applicant files is their own choice through the shared chooser: their traits, whether they learned why they were refused (the law reason on the job-change record), their money and time. The enforcer named in the law row (the human rights commission) weighs the complaint by reading the refusal record's recorded reasons and the law's penalty; where the reasons cite a protected trait it orders back pay (the applicant's wage times the days they stayed jobless, from the seeker spell) and a civil fine, both paid on the journal from the employer.
