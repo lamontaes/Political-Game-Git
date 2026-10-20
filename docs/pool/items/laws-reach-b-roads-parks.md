@@ -5,7 +5,7 @@ area: laws
 kind: stopgap
 priority: 3
 size: M
-status: in-pr
+status: done
 claimed-by: claude/fs11vb-laws-reach-b-roads-parks
 pr: #5458
 blocked-on: engines that do not exist: a road-condition setter read by commute time and vehicle costs (no commute model in core2), and a park service level read by leisure choices
