@@ -6,11 +6,11 @@ kind: wiring
 priority: 2
 size: M
 status: claimed
-claimed-by: claude/political-game-pool-76ksvw
+claimed-by: claude/port-town-employment
 pr: #5093
 blocked-on:
 source: "split from core-remaining-port-the-opening-town-builder-population (an L item), Oct 15"
-claimed-at: 2026-10-20T05:12:20.127Z
+claimed-at: 2026-10-20T05:30:55.383Z
 ---
 
 **What.** `ensureTownEmployment`, `TOWN_WORKPLACES`, `townEmploymentMix`, `activeWorkers`, `laborStatus` and the tenure and part-time tables in `simulation/living-world/town-employment` (and `.generated`), with `organizationProfileAt` from `life-queries` and `jailTermOn` from `justice/jail-terms`, write jobs into an old-engine world. Port them so they return core organization and job records that `population.ts` and `opening-employment.ts` read directly. The player notices nothing: the same town opens. Build only what the golden path needs, and write fresh where that is simpler.

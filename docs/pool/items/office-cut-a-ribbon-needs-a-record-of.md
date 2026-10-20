@@ -4,7 +4,7 @@ title: "Cut a ribbon (needs a record of a finished public project; none exists).
 area: office
 kind: feature
 priority: 2
-status: claimed
+status: in-pr
 claimed-by: claude/cut-ribbon
 pr: #5132
 blocked-on:
