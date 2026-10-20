@@ -5,7 +5,7 @@ area: gov
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/electorate-weight-red
 pr: #5318
 blocked-on:
