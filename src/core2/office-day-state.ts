@@ -34,7 +34,7 @@ import { closenessBetween } from "./closeness";
 import { personLean, personStance, PLATFORM_QUESTIONS } from "./campaign-views";
 import { lineForPost, registerLinePayments } from "./budgets-treasury";
 import { outsideGovernment } from "./outside-governments";
-import { stableHash } from "./kernel/ids";
+import { stableHash, pairKey } from "./kernel/ids";
 import { addDays, makeIsoDate } from "./kernel/dates";
 import {
   appointStatePost,
@@ -580,7 +580,7 @@ function spendTime(
   const touched: string[] = [];
   for (const other of others) {
     if (other === holderId || !api.state.people.get(other)?.alive) continue;
-    const id = [holderId, other].sort().join(":");
+    const id = pairKey(holderId, other);
     if ((api.state as CoreState).relationships.has(id))
       api.relationship(holderId, other, "contact", hours, undefined, {
         cause: "office-day-state.meeting",
