@@ -12,6 +12,7 @@ import {
   withDrives,
 } from "../core2/modules/drives";
 import { HEALTH_MODULE } from "../core2/modules/health";
+import { TRAIT_CHANGE_MODULE } from "../core2/modules/trait-change";
 import { RESTING_STRESS_MODULE } from "../core2/modules/resting-stress";
 import { movesModule } from "../core2/modules/moves";
 import { RENEWAL_MODULE } from "../core2/modules/renewal";
@@ -32,6 +33,7 @@ export function peopleModules(): CoreModule[] {
   return [
     HEALTH_MODULE,
     RESTING_STRESS_MODULE,
+    TRAIT_CHANGE_MODULE,
     createDrivesModule(DEFAULT_DRIVES_DATA),
     viewsModule,
     newsModule,
