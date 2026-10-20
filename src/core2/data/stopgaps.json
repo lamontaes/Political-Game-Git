@@ -5074,5 +5074,17 @@
     "addedAt": "2026-10-20",
     "replacement": "When partnerships form and end in play, the forming and ending decisions read both partners' traits through leanedYes with weights calibrated from those rows by scripts/traits/trait-calibrate.ts.",
     "status": "open"
+  },
+  {
+    "id": "SG-OFFICE-public-project-finish-date",
+    "kind": "missing-record",
+    "file": "src/core2/modules/projects.ts",
+    "line": 61,
+    "whatItFakes": "A public work (a capital line awarded to a town firm for the fiscal year) is finished on the day the next fiscal year's budget takes over, whatever was built. The treasury's payments to the contractor are real; the finish date is the year's end, not a completion the work reached.",
+    "why": "The treasury pays the awarded firm by the month and nothing tracks the work itself: there is no schedule, milestone or completion record for a road, park, housing or school work.",
+    "addedBy": "claude/political-game-pool-yucp92-yy",
+    "addedAt": "2026-10-20",
+    "replacement": "A project record with a start, a cost, milestones the contractor's payments fund and a completion date the funded work reaches, which the office day reads for the ribbon.",
+    "status": "open"
   }
 ]

@@ -48,6 +48,7 @@ import {
   setBudgetPriorities,
 } from "./modules/budgets";
 import { deliverSpeech } from "./modules/speech";
+import { cutRibbon, ribbonsToCut } from "./modules/projects";
 import { personLean, personStance, questionAxis } from "./campaign-views";
 import { POLICY_QUESTIONS } from "./policy-answers";
 import {
@@ -63,6 +64,7 @@ export const OFFICE_DUTY = "office-duty";
 const DEPARTMENT_HEAD = "department-head";
 const TOWN_POST = "town-post";
 const COLLEAGUE = "colleague";
+const PUBLIC_PROJECT = "public-project";
 
 const act = (
   id: string,
@@ -116,6 +118,7 @@ export const OFFICE_ACTS: readonly ActionDefinition[] = [
     ["cooperate", "engage", "speak-out"],
     COLLEAGUE,
   ),
+  act("cut-ribbon", "ribbonActHours", ["engage", "speak-out"], PUBLIC_PROJECT),
 ];
 
 const HOURS = (
@@ -183,6 +186,12 @@ const LOCAL_PARAMETERS = {
       "Common charter lead times before the fiscal year; no count of every place's charter exists.",
     spread: [30, 120],
   },
+  ribbonActHours: HOURS(
+    1,
+    "A ribbon-cutting ceremony: a short program, the cut and photographs, about an hour with travel.",
+    "Typical dedication or grand-opening ceremony length.",
+    [0.5, 2],
+  ),
   colleagueActHours: HOURS(
     0.5,
     "A member asking a colleague for their vote on a pending bill: a half-hour conversation, by phone or over coffee.",
@@ -328,6 +337,19 @@ export function officeActProviders(host: OfficeActHost) {
         ? postsToFill(api, actor.id).map((post) => ({
             definition: action,
             targetId: post.key,
+            availableHours: api.parameter(action.effortParameter),
+          }))
+        : [],
+    // Each finished public work of the town's governments whose ribbon is still open.
+    [PUBLIC_PROJECT]: (
+      api: CoreAPI,
+      actor: Readonly<PersonState>,
+      action: ActionDefinition,
+    ): ActOffer[] =>
+      holds(api, actor)
+        ? ribbonsToCut(api).map((project) => ({
+            definition: action,
+            targetId: project.id,
             availableHours: api.parameter(action.effortParameter),
           }))
         : [],
@@ -684,6 +706,22 @@ export function officeActHandlers(host: OfficeActHost) {
      * The appointing official fills a vacant town post: the candidate their
      * own reasons rank first, confirmed by the council where the form asks it.
      */
+    /** The ribbon of a finished public work is cut: a public record and a news item. */
+    "cut-ribbon": (api: CoreAPI, actorId: string, offer: ActOffer) => {
+      const ribbon = cutRibbon(api, {
+        projectId: offer.targetId,
+        cutBy: actorId,
+      });
+      if (!ribbon) return;
+      host.keep(api, {
+        personId: actorId,
+        kind: "cut-ribbon",
+        how: "did",
+        recordId: ribbon.projectId,
+        position: null,
+        detail: ribbon.projectId,
+      });
+    },
     "name-department-head": (
       api: CoreAPI,
       actorId: string,
