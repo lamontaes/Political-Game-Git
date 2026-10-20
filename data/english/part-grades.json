@@ -1,6 +1,6 @@
 {
   "schema": "english-part-grades/1",
-  "batches": ["batch-1", "batch-2", "batch-7", "batch-9-relayed", "batch-9"],
+  "batches": ["batch-1", "batch-2", "batch-7", "batch-9", "batch-9-relayed"],
   "parts": {
     "address.campaign-thanks.its-great-to-be-back-in-place": {
       "good": 0,

@@ -5,12 +5,12 @@ area: world
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: done
+claimed-by: claude/living-costs-household-members
 pr: #4939
 blocked-on:
 source: added with npm run pool -- add
-claimed-at:
+claimed-at: 2026-10-19T18:12:54.512Z
 ---
 
 **What.** A household's outside living cost was paid from the bill's payer alone, so a household whose payer held nothing while another member held thousands paid nothing. The bill's payer pays first, then the household's other living members in id order, each from what they hold. The fix is in `src/core2/modules/residents.ts`, stacked on the carried-arrears change. Counted groups keep paying from their group fund.

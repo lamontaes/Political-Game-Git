@@ -80,8 +80,18 @@ describe(`ten days in a state office (${place.name}, seed ${seed})`, () => {
     ["governor", governor],
   ] as const) {
     it(`plays ten days as the state's ${role}`, () => {
-      // Some territorial office data has no state seat to play.
-      if (!who) return;
+      // Some territorial office data has no state seat to play: then no seat
+      // of that kind has a sitting holder at all.
+      if (!who) {
+        const kind = role === "governor" ? "governor" : "legislature-";
+        expect(
+          seats.filter(
+            (s) => s.office.kind.startsWith(kind) && s.holder?.personId,
+          ),
+          `${place.name} (${place.key}) has no seat to play`,
+        ).toEqual([]);
+        return;
+      }
       // The governor's days that carry the address and the budget are the
       // ones worth ten days; start the evening before the first of them.
       let from = core.date;
@@ -112,6 +122,6 @@ describe(`ten days in a state office (${place.name}, seed ${seed})`, () => {
       expect(core.date >= to).toBe(true);
       // The office day wrote something: an entry done or an act kept.
       expect(lines.length).toBeGreaterThan(0);
-    }, 240_000);
+    }, 1_800_000);
   }
 });

@@ -104,6 +104,20 @@
       "where": "eviction-where"
     }
   },
+  "familyTalk": {
+    "about": "Owner, Oct 15, evening (batch 11 grading): a family talk is a personal scene only, since the family has little involvement in play for now. Between relatives, work, school, where each is from and mutual acquaintances are not talked about ('Where do you work' between relatives is not a scene; neither is 'Have you talked to Diana?'). These are the subject kinds a relative does not raise or ask; what is left is the household's own news (a lost job, an eviction), kin, and news passed on.",
+    "dropped": [
+      "own-work",
+      "their-work",
+      "their-tenure",
+      "shared-work",
+      "shared-school",
+      "school",
+      "their-school",
+      "home",
+      "mutual"
+    ]
+  },
   "happenings": {
     "about": "Owner, Oct 14, 2026, night (Q7): someone not in the room is talked about only when something recorded happened to them. These are the ledger labels (by prefix) that are something happening to a person: their money and work, their home, their health, a birth or death, the law catching them, a move, an election they ran in. Reading the news, hearing a speech or being told of a cause happened in front of them, not to them.",
     "prefixes": [
