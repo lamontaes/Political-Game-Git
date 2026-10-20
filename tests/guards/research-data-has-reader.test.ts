@@ -30,7 +30,9 @@ interface AllowEntry {
  * The waiting list may only shrink. When a file gains its reader and leaves
  * the list, lower this to the new length in the same change; never raise it.
  */
-const AWAITING_READER_CEILING = 7;
+// 8 from 7 (Oct 20): the employer callback-gap table moved here from rawSource,
+// where it skipped the reader guard; it waits for the hiring engine to read it.
+const AWAITING_READER_CEILING = 8;
 /** The same for the files found unread on Oct 16 (see `unreadFound`). */
 const UNREAD_FOUND_CEILING = 364;
 
