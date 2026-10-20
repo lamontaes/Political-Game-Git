@@ -24,3 +24,5 @@ claimed-at:
 **Notes.** TODO
 
 Sent back 2026-10-20 from PR #5413 (branch claude/speed-pair-key): see the Cloud merger comment on that PR for the exact reason; finish on that branch, merge main into it first.
+
+Sent back 2026-10-20 from PR #5413 (branch claude/speed-pair-key): Merging current origin/main conflicts in src/core2/modules/views.ts. Resolve that code conflict using one shared pair-key implementation and preserving the current stance behavior, then rerun the changed-file gate. Keep the key-equivalence proof and measured timing caveat; this return is for the unresolved merged code, not for the inconclusive speed gain.; finish on that branch, merge main into it first.
