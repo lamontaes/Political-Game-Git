@@ -6,11 +6,11 @@ kind: bug
 priority: 1
 size: S
 status: done
-claimed-by: release/main-red
-pr: #4455
+claimed-by: claude/fix-release-decl-stopgaps
+pr: #5739
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-15T21:12:19.606Z
+claimed-at: 2026-10-20T03:25:38.645Z
 ---
 
 **What.** TODO

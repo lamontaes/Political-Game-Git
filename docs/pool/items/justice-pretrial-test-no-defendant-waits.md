@@ -5,9 +5,9 @@ area: gov
 kind: bug
 priority: 3
 size: S
-status: claimed
+status: done
 claimed-by: claude/pretrial-flake
-pr:
+pr: #5448
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-20T02:59:04.810Z
@@ -22,3 +22,5 @@ claimed-at: 2026-10-20T02:59:04.810Z
 **Files.** src/core2/justice-pretrial.test.ts, src/core2/modules/justice.ts
 
 **Notes.** Found Oct 20 re-running the bail PR's test across seeds; reproduced on clean main.
+
+Cause Oct 20 (claude): the test took the first twelve poor adults by id; in Naalehu, Hawaii (seed b6927636559db363) those were federal cabinet officials (`official:cabinet:US:*`), who all plead at once, so none went to trial and none waited. The engine is right; the test now goes on through the poor list (up to 60, then 60 to 120 for the freed half) until six defendants go to trial in each half.

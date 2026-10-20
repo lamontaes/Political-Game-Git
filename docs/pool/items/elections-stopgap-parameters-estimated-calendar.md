@@ -4,13 +4,13 @@ title: "Stopgaps in parameters (estimated-calendar): 1 open"
 area: elections
 kind: stopgap
 priority: 3
-status: in-pr
-claimed-by: claude/special-elections
-pr: #5218
+status: done
+claimed-by: claude/special-election-text
+pr: #5447
 blocked-on:
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/data/elections/parameters.json, kind estimated-calendar"
-claimed-at: 2026-10-19T22:36:17.053Z
+claimed-at: 2026-10-20T03:03:50.270Z
 ---
 
 **What.** Replace or clear the 1 open estimated-calendar stopgap row(s) in src/core2/data/elections/parameters.json: SG-GOV-special-election-timing. Each fake is replaced by the mechanic, or the feature that needs it is deleted.
@@ -74,3 +74,5 @@ Added Rhode Island (state legislative, 17-3-6: 70 to 90 days, read on webserver.
 Territories, state legislative family: added Guam (3 GCA 13103: about 60 days), American Samoa (NCSL summary: within 60 days of the governor's call) and the Virgin Islands (a 2017 news account). Not found: the Northern Mariana Islands, and Puerto Rico (the Electoral Code of 2020, Ley 58-2020, was not returned; a 2019 bill cites a 60-day party nomination period for a legislative vacancy). Twenty-seven places have a stateLegislative row. The statewide-office family stays unstarted because most of it is filled by succession or appointment.
 
 Added the Northern Mariana Islands legislature (governor-sets-date, art. II sec. 9 and 1 CMC 6502). Puerto Rico's legislative rule (Ley 58-2020, Art. 9.006; vacancies filled by party process or special election) was not returned by search; a 2019 bill cites a 60-day party nomination period. That, the Delegate and Resident Commissioner seats, and the statewide-office family are the remaining unread parts. Twenty-eight places have a stateLegislative row.
+
+Oct 20 coverage check (claude, claude/fs11vb-estimated-calendar), counted from `special-election-law.json` on main: 55 of 56 places have a row and 51 have a U.S. House row, so the "six states read" in the notes above is out of date. Still without a row: Puerto Rico entirely, and the state-legislative family in AK, AZ, CO, HI, ID, IL, IN, KS, MD, MT, NE, NV, NJ, NM, NC, ND, OH, OR, SD, TN, UT, VT, WA, WV and WY. Many of those fill a legislative vacancy by appointment or by a party committee rather than a special election, so they need an "appointed" kind in `elections-calendar.ts` (see SG-GOV-special-election-appointee) before a day count means anything. The statewide-executive, county and municipal families have no rows either. Nearly every row is tagged ESTIMATED from a search excerpt or a statute mirror, so SG-GOV-special-election-timing stays open until the codes are read.
