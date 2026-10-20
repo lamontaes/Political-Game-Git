@@ -5,7 +5,7 @@ area: office
 kind: wiring
 priority: 3
 size: S
-status: claimed
+status: dropped
 claimed-by: claude/schools-raise-hires
 pr:
 blocked-on:
