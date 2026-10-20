@@ -24,3 +24,5 @@ claimed-at: 2026-10-20T05:17:57.756Z
 **Notes.** The old pool body was the empty template; this is the real one. Split Oct 15: the duplicate copy is removed in this PR, the two row replacements are the blocked-on items.
 
 Oct 20: Everything it waited on is done, so it is open.
+
+Oct 20 (fs11vb): checked before building. Both stopgap rows in `stopgaps.json` already read resolved (SG-P15-moves-pinned-jobs on Oct 19, SG-FIXER-moves-income-household on Oct 16), and `src/core2/pinned-jobs.ts` does not exist: the jobs engine's lookup is `productJobRelations` in `finance-cash.ts`, and moves holds no copy. The award half is covered by "pays a mover's recorded income into the household where they live now" in `moves.test.ts`. The pinned-job half has no test: in a one-year bench world (West Park, Florida, seed p1, twoLevel) there were 0 saved provider qualifications under `openingCustomers.qualification:`, so no job was pinned and 92 people left with none held back. What remains is a test with a place that has a visitor or public-supplier agreement (or a fixture that saves one) showing its job's holder leaving and the agreement re-resolving at its next payment.
