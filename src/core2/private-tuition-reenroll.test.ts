@@ -8,12 +8,12 @@ import tuition from "./data/opening-private-tuition.json";
 import { gameStartDate } from "./game-start";
 import { ageOnDate, makeIsoDate } from "./kernel/dates";
 import { advanceCore } from "./life";
+import { privateShareOf } from "./opening-private-tuition";
 import {
   reenrollPrivateTuition,
   tuitionPlans,
 } from "./private-tuition-reenroll";
 import { coreAPI } from "./state";
-import { privateShareOf } from "./opening-private-tuition";
 import type { CoreState } from "./types";
 
 // Private enrollment is ranked again each August on what families hold
@@ -71,7 +71,12 @@ it(`a family that fell below the cutoff stops paying tuition and one that rose a
     const townChildren = [...state.households.values()]
       .filter((home) => home.placeId === town)
       .reduce((sum, home) => sum + (family(home.id)?.children ?? 0), 0);
-    const quota = Math.max(1, Math.round(townChildren * privateShareOf(core)));
+    const quota = Math.max(
+      1,
+      Math.round(
+        townChildren * privateShareOf(town, state.placeMetadata?.placeKey),
+      ),
+    );
     const other = [...state.households.values()].find(
       (home) =>
         home.placeId === town &&

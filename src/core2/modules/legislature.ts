@@ -29,6 +29,7 @@ import {
  */
 import { policyAuthority } from "../policy-authority";
 import powers from "../data/legislature/series-powers.json" with { type: "json" };
+import committeeDayData from "../data/legislature/committee-day.json" with { type: "json" };
 import ties from "../../../data/research/elections/tie-rules-2026.json" with { type: "json" };
 import provisionQuestions from "../../../data/research/legislature/provision-questions.json" with { type: "json" };
 import { POLICY_QUESTIONS } from "../policy-answers";
@@ -189,6 +190,8 @@ export interface BillRow {
   readonly introduced: string;
   /** The committee record that reported the bill to the floor of its first chamber, where its body has committees. */
   readonly committeeId?: string;
+  /** The pre-vote hooks that already ran on the bill's committee day; the floor day does not run them again. */
+  readonly hooksRun?: readonly string[];
   readonly provisions: readonly Provision[];
   readonly costEstimate: {
     readonly workersRaised: number;
@@ -286,7 +289,12 @@ function table(api: CoreAPI, name: string) {
 
 type PositionTerm = (api: CoreAPI, bill: BillRow, memberId: string) => number;
 const positionTerms: PositionTerm[] = [];
-const beforeVoteHooks: ((api: CoreAPI, billId: string) => void)[] = [];
+/** The pre-vote hooks, by name; the data says which run on a committee's day. */
+const beforeVoteHooks: {
+  readonly name: string;
+  readonly run: (api: CoreAPI, billId: string) => void;
+}[] = [];
+const committeeStageHooks = new Set(committeeDayData.committeeStage);
 const afterVoteHooks: ((api: CoreAPI, billId: string) => void)[] = [];
 /** What the executive did with a passed bill on their desk, and why. */
 export interface DeskAction {
@@ -307,14 +315,20 @@ const deskHooks: ((api: CoreAPI, action: DeskAction) => void)[] = [];
  */
 export function registerLegislatureHooks(input: {
   readonly positionTerm?: PositionTerm;
-  readonly beforeVote?: (api: CoreAPI, billId: string) => void;
+  readonly beforeVote?: {
+    readonly name: string;
+    readonly run: (api: CoreAPI, billId: string) => void;
+  };
   /** After a bill's votes are counted: whoever settled something on how members voted. */
   readonly afterVote?: (api: CoreAPI, billId: string) => void;
   readonly onDesk?: (api: CoreAPI, action: DeskAction) => void;
 }): void {
   if (input.positionTerm && !positionTerms.includes(input.positionTerm))
     positionTerms.push(input.positionTerm);
-  if (input.beforeVote && !beforeVoteHooks.includes(input.beforeVote))
+  if (
+    input.beforeVote &&
+    !beforeVoteHooks.some((hook) => hook.name === input.beforeVote!.name)
+  )
     beforeVoteHooks.push(input.beforeVote);
   if (input.afterVote && !afterVoteHooks.includes(input.afterVote))
     afterVoteHooks.push(input.afterVote);
@@ -3331,6 +3345,32 @@ export function movesPill(
   );
 }
 
+/**
+ * Run the pre-vote hooks the records fire for a body on a sitting day. The
+ * committee's day runs the ones the data puts at the committee stage
+ * (`committee-day.json`) and marks them on the bill; the floor day runs every
+ * hook that has not run.
+ */
+function runBeforeVote(
+  api: CoreAPI,
+  billId: string,
+  stage: "committee" | "floor",
+): void {
+  for (const hook of beforeVoteHooks) {
+    if (stage === "committee" && !committeeStageHooks.has(hook.name)) continue;
+    const bill = table(api, "bills").get(billId) as unknown as
+      BillRow | undefined;
+    if (!bill || bill.hooksRun?.includes(hook.name)) continue;
+    hook.run(api, billId);
+    if (stage !== "committee") continue;
+    const after = table(api, "bills").get(billId) as unknown as BillRow;
+    table(api, "bills").put({
+      ...after,
+      hooksRun: [...(after.hooksRun ?? []), hook.name],
+    } as unknown as ModuleRow);
+  }
+}
+
 export function holdVote(api: CoreAPI, billId: string): BillRow {
   const result = countVote(api, billId);
   // Votes are on the record once a bill is anything but unvoted or blocked.
@@ -3345,7 +3385,7 @@ function countVote(api: CoreAPI, billId: string): BillRow {
   bill = { ...bill, ...checkedText(api, bill.bodyOfficeId, bill.provisions) };
   table(api, "bills").put(bill as unknown as ModuleRow);
   if (bill.status === "blocked") return bill;
-  for (const hook of beforeVoteHooks) hook(api, billId);
+  runBeforeVote(api, billId, "floor");
   bill = table(api, "bills").get(billId) as unknown as BillRow;
   if (bill.status !== "drafted") return bill;
   bill = { ...bill, ...checkedText(api, bill.bodyOfficeId, bill.provisions) };
@@ -4210,15 +4250,28 @@ function enact(
  * held at once) the committee still meets inside the vote, as it did.
  * Returns the record, or null where the body has no committee.
  */
-// stopgapId: SG-GOV-committee-day-hooks
 export function holdCommittee(
   api: CoreAPI,
   billId: string,
 ): CommitteeRecord | null {
   const bill = table(api, "bills").get(billId) as unknown as BillRow;
   if (bill.status !== "drafted") return null;
-  api.stopgap("SG-GOV-committee-day-hooks");
-  const record = committeeStage(api, bill, chambersOf(api, bill)[0]!);
+  const first = chambersOf(api, bill)[0]!;
+  // Where the body has a committee, its day runs what the records fire on a
+  // sitting day, at the stage the data puts each (staff briefings, interest
+  // groups organizing, public comment, the player's own vote).
+  if (
+    members(api, first).length > campaignParameter("committeeOfTheWholeMaximum")
+  ) {
+    runBeforeVote(api, billId, "committee");
+    const ready = table(api, "bills").get(billId) as unknown as BillRow;
+    if (ready.status !== "drafted") return null;
+  }
+  const record = committeeStage(
+    api,
+    table(api, "bills").get(billId) as unknown as BillRow,
+    first,
+  );
   if (record && !record.reported) {
     const held = table(api, "bills").get(billId) as unknown as BillRow;
     table(api, "bills").put({
