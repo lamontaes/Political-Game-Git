@@ -11,6 +11,7 @@ pr:
 blocked-on:
 after: gov-redistricting-census-count, gov-redistricting-plan-builder
 source: added with npm run pool -- add
+claimed-at:
 ---
 
 **What.** After a census year the House seats `censusSeats(year)` (src/core2/census.ts) gives a state become the number of U.S. House seats the offices engine and the political map use for it: a state that grew has an added district to fill at the next election and a state that shrank loses one. The player in a state that gains a seat sees a new district and an open seat; one that loses a seat sees two members drawn into one district.

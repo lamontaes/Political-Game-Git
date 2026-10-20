@@ -5,12 +5,12 @@ area: words
 kind: feature
 priority: 3
 size: S
-status: open
-claimed-by:
+status: in-pr
+claimed-by: claude/words-archive-budget-death
 pr: #5237
 blocked-on:
 source: added with npm run pool -- add
-claimed-at:
+claimed-at: 2026-10-20T02:00:29.715Z
 ---
 
 **What.** TODO

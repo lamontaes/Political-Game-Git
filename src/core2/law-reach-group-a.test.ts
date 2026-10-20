@@ -626,8 +626,26 @@ describe("audit 13, law breadth group A: every policy reaches people", () => {
           funded[0]!.baseStaff * ((2 * amount) / amount),
         );
         expect(up, `${where}: ${key} no hires`).toBeGreaterThan(before);
-        for (const row of hired)
-          expect(core.people.get(row.targetId)?.jobId, where).toBeDefined();
+        for (const row of hired) {
+          const jobId = core.people.get(row.targetId)?.jobId;
+          expect(jobId, where).toBeDefined();
+          // A hire at a public employer is on the employer's public pay
+          // authority, or its first payday would stop the year.
+          const commitment = [...core.work.commitments.values()].find(
+            (c) => c.jobId === jobId,
+          )!;
+          const authority = core.organizations.get(
+            commitment.organizationId,
+          )?.publicPayAuthority;
+          if (authority) {
+            expect(commitment.publicPayAuthorityId, `${where}: ${jobId}`).toBe(
+              authority.id,
+            );
+            expect(authority.workCommitmentIds, `${where}: ${jobId}`).toContain(
+              commitment.id,
+            );
+          }
+        }
       }
       // Cut to half the base: the newest hires and then the newest staff go.
       amendBudget(api, {
