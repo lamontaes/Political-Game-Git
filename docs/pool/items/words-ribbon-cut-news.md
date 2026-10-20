@@ -5,12 +5,12 @@ area: words
 kind: feature
 priority: 3
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/ribbon-cut-news
 pr:
 blocked-on:
 source: added with npm run pool -- add
-claimed-at:
+claimed-at: 2026-10-20T06:43:55.648Z
 ---
 
 **What.** TODO
