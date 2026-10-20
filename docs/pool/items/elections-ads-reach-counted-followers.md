@@ -5,12 +5,12 @@ area: elections
 kind: wiring
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/ads-counted
 pr: #5328
 blocked-on:
 source: added with npm run pool -- add
-claimed-at:
+claimed-at: 2026-10-20T13:15:51.841Z
 ---
 
 **What.** TODO
