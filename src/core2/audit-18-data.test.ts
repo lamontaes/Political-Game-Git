@@ -9,9 +9,9 @@
 import { randomBytes } from "node:crypto";
 import { expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
-import { IRS_TOWN_BUSINESS_BOOKS } from "../simulation/living-world/town-business-books.generated";
 import filingDeadlines from "./data/elections/filing-deadlines.json" with { type: "json" };
 import { propertyTaxDueDates } from "./housing-property-tax";
+import { parameter } from "./parameters";
 
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
 
@@ -51,15 +51,13 @@ it("Michigan's filing deadline is an estimate, since charter cities that elect a
 });
 
 it("the town business books carry the IRS 2022 margin, pay and sales cost for retail and restaurants", () => {
-  const cell = (kind: string) =>
-    IRS_TOWN_BUSINESS_BOOKS.split(";")
-      .find((row) => row.startsWith(`${kind}=`))!
-      .slice(kind.length + 1)
-      .split(",")
-      .map(Number);
   // IRS Statistics of Income, corporation returns 2022, Table 5.1: net income
   // over receipts, officers' pay plus salaries over receipts, sales cost.
-  expect(cell("retail").slice(0, 3)).toEqual([0.0455, 0.098, 0.826]);
-  expect(cell("restaurant").slice(0, 3)).toEqual([0.0571, 0.219, 0.547]);
-  expect(cell("manufacturing").slice(0, 3)).toEqual([0.1433, 0.064, 0.841]);
+  const cell = (kind: string) =>
+    ["Margin", "PayrollShare", "SalesCostShare"].map((part) =>
+      parameter(`businessIrs${kind}${part}`),
+    );
+  expect(cell("Retail")).toEqual([0.0455, 0.098, 0.826]);
+  expect(cell("Restaurant")).toEqual([0.0571, 0.219, 0.547]);
+  expect(cell("Manufacturing")).toEqual([0.1433, 0.064, 0.841]);
 });

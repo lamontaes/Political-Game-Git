@@ -231,9 +231,9 @@
         "nth": 15
       },
       "ruleText": "Where a city charter nominates by caucus or by a petition or affidavit filed directly for the general election, the deadline is 4 p.m. on the fifteenth Tuesday before the odd-year general election; where the charter elects at the primary on a majority, it is the fifteenth Tuesday before the primary, which is earlier",
-      "citation": "MCL 168.644e, read from legislature.mi.gov Oct 19, 2026",
+      "citation": "MCL 168.644e",
       "tag": "ESTIMATED",
-      "estimatedFrom": "MCL 168.644e read from legislature.mi.gov on Oct 19, 2026 for the charter cities that nominate by caucus or by a petition filed for the general election (the fifteenth Tuesday before it). A charter that elects at the primary on a majority files earlier, the fifteenth Tuesday before the primary, so this is the latest deadline, not every city's; which cities elect at the primary is not in the data."
+      "estimatedFrom": "MCL 168.644e read from legislature.mi.gov for the charter cities that nominate by caucus or by a petition filed for the general election (the fifteenth Tuesday before it). A charter that elects at the primary on a majority files earlier, the fifteenth Tuesday before the primary, so this is the latest deadline, not every city's; which cities elect at the primary is not in the data."
     },
     "US-MN": {
       "rule": {

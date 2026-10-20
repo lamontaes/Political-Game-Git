@@ -192,7 +192,7 @@
         ],
         "setLocally": true,
         "tag": "ESTIMATED",
-        "estimatedFrom": "Connecticut towns bill real estate in two halves, July 1 and January 1, with a single July 1 bill under $100 (Conn. Gen. Stat. 12-144 as towns apply it): the dates are read from town tax collectors' notices (North Stonington, Brookfield) and a town code (a town ordinance on ecode360), not from the statute text, which the General Assembly's site would not return (HTTP 503 on Oct 20, 2026). A town can set another date.",
+        "estimatedFrom": "Connecticut towns bill real estate in two halves, July 1 and January 1, with a single July 1 bill under $100 (Conn. Gen. Stat. 12-144 as towns apply it): the dates are read from town tax collectors' notices (North Stonington, Brookfield) and a town code (a town ordinance on ecode360), not from the statute text, which the General Assembly's site would not return (it returned HTTP 503). A town can set another date.",
         "spread": "A town's own dates can differ; the grace period runs to about August 1 and February 1."
       },
       "DC": {
