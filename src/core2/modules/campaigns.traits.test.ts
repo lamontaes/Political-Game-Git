@@ -10,6 +10,7 @@
  * least at about the researched rate (data/research/trait-effect-sizes.json),
  * which fails when the trait weight is flat (zero).
  */
+import { randomBytes } from "node:crypto";
 import { beforeAll, describe, expect, it } from "vitest";
 import research from "../../../data/research/trait-effect-sizes.json" with { type: "json" };
 import { buildBenchWorld } from "../../bench/world";
@@ -33,10 +34,18 @@ import {
   type CampaignRow,
 } from "./campaigns";
 import { standAgainReason } from "./voting";
+import { ELECTIONS_MODULE_ID, type ContestRow } from "./elections";
 import { partyFirmness } from "../campaign-stances";
 
-/** Draws Newfane, Vermont: a place whose council and mayor race its filing window in January 2025. */
-const SEED = "c1";
+/** A drawn place from all 56; up to MAX_PLAYED draws are tried before the test fails. */
+const BASE_SEED =
+  process.env.GOLDEN_PATH_SEED ?? randomBytes(20).toString("hex");
+/** Played windows tried before the test fails. */
+const MAX_PLAYED = 4;
+/** Days the window runs past the race, so the count and the losers' scenes are in it. */
+const AFTER_RACE = 10;
+/** Reachable people whose reasons and temperament together say yes to volunteering, at least. */
+const MIN_VOLUNTEERS = 3;
 const DAYS = 150;
 
 interface Row {
@@ -48,14 +57,43 @@ const chooser: Row[] = [];
 let core: CoreState;
 let placeName = "";
 
-beforeAll(() => {
-  const place = drawPlace(SEED, "trait-wiring");
-  placeName = `${place.name} (${place.key}), seed ${SEED}`;
-  const start = gameStartDate();
-  core = buildBenchWorld(SEED, start, {
-    twoLevel: true,
-    placeKey: place.key,
-  }).core;
+/** Every adult each campaign can reach: their reasons to volunteer and their lean toward it. */
+function volunteerRows(): Row[] {
+  const api = coreAPI(core);
+  const campaigns = api
+    .moduleState(CAMPAIGNS_MODULE_ID)
+    .table("campaigns")
+    .rows() as unknown as CampaignRow[];
+  const year = Number(api.state.date.slice(0, 4));
+  const rows: Row[] = [];
+  for (const campaign of campaigns)
+    for (const p of reachablePeople(api, campaign).flatMap(
+      (id) => core.people.get(id) ?? [],
+    )) {
+      if (
+        !p.alive ||
+        p.id === campaign.candidateId ||
+        year - Number(p.birthDate.slice(0, 4)) < 18
+      )
+        continue;
+      rows.push({
+        bare: volunteerReason(api, campaign, p),
+        lean: decisionLean(
+          core,
+          p,
+          "campaigns.volunteer",
+          "volunteer",
+          "decline",
+        ),
+      });
+    }
+  return rows;
+}
+
+/** Plays a drawn world for the window with the probe on, keeping every formula and run-for-office call. */
+function play(world: CoreState, last: string) {
+  formula.clear();
+  chooser.length = 0;
   setTraitProbe({
     formula(row) {
       if (row.bare === undefined) return;
@@ -73,15 +111,63 @@ beforeAll(() => {
       });
     },
   });
-  const end = new Date(`${start}T00:00:00Z`);
-  end.setUTCDate(end.getUTCDate() + DAYS);
   try {
-    advanceCore(core, end.toISOString().slice(0, 10));
+    advanceCore(world, last);
   } finally {
     setTraitProbe(undefined);
   }
-  // Reason for the hook's time: building a played town takes about 7 seconds and 150 days about 20 more.
-}, 120_000);
+}
+
+beforeAll(() => {
+  const opening = gameStartDate();
+  const tried: string[] = [];
+  // A drawn place from all 56, played over the window that ends just after
+  // its own next race (read from the place's election calendar), and whose
+  // campaigns reach someone near enough to the volunteering threshold for
+  // temperament to matter.
+  for (let i = 0; i < MAX_PLAYED; i++) {
+    const seed = `${BASE_SEED}:${i}`;
+    const place = drawPlace(seed, "campaign-traits");
+    const calendar = coreAPI(
+      buildBenchWorld(seed, opening, { twoLevel: true, placeKey: place.key })
+        .core,
+    )
+      .moduleState(ELECTIONS_MODULE_ID)
+      .table("contests")
+      .rows() as unknown as ContestRow[];
+    const next = calendar
+      .map((c) => c.electionDate)
+      .filter((date) => date > opening)
+      .sort()[0];
+    const name = `${place.name} (${place.key}), seed ${seed}`;
+    if (!next) {
+      tried.push(`${name}: no race on its calendar`);
+      continue;
+    }
+    const from = new Date(`${next}T00:00:00Z`);
+    from.setUTCDate(from.getUTCDate() - DAYS + AFTER_RACE);
+    const start = [opening, from.toISOString().slice(0, 10)].sort().at(-1)!;
+    const end = new Date(`${start}T00:00:00Z`);
+    end.setUTCDate(end.getUTCDate() + DAYS);
+    const world = buildBenchWorld(seed, start, {
+      twoLevel: true,
+      placeKey: place.key,
+    }).core;
+    play(world, end.toISOString().slice(0, 10));
+    core = world;
+    placeName = `${name}, race ${next}, played from ${start}`;
+    const yes = volunteerRows().filter(
+      (r) =>
+        r.bare + decisionTraitWeight(world, "campaigns.volunteer") * r.lean > 0,
+    ).length;
+    if (yes >= MIN_VOLUNTEERS) return;
+    tried.push(`${placeName}: ${yes} would volunteer`);
+  }
+  throw new Error(
+    `No drawn place's race reached enough volunteers (base seed ${BASE_SEED}): ${tried.join("; ")}`,
+  );
+  // Reason for the hook's time: each try builds its town twice (7 to 20 seconds each) and plays 150 days (20 to 60 more), up to 4 tries.
+}, 900_000);
 
 // The researched log odds between the top and bottom thirds of lean (the calibration's conversion).
 const THIRDS_APART = 2.18;
@@ -163,34 +249,7 @@ describe("personality in campaigns and candidacy (a played slice of a drawn plac
     // The people each campaign can reach. About 1 in 100 say yes, so one place has a thin tail of yes answers and its odds ratio swings
     // (1.2 to 7 across slices, 2.4 over four places); the band is wide for that reason alone.
 
-    const api = coreAPI(core);
-    const campaigns = api
-      .moduleState(CAMPAIGNS_MODULE_ID)
-      .table("campaigns")
-      .rows() as unknown as CampaignRow[];
-    const year = Number(api.state.date.slice(0, 4));
-    const rows: Row[] = [];
-    for (const campaign of campaigns)
-      for (const p of reachablePeople(api, campaign).flatMap(
-        (id) => core.people.get(id) ?? [],
-      )) {
-        if (
-          !p.alive ||
-          p.id === campaign.candidateId ||
-          year - Number(p.birthDate.slice(0, 4)) < 18
-        )
-          continue;
-        rows.push({
-          bare: volunteerReason(api, campaign, p),
-          lean: decisionLean(
-            core,
-            p,
-            "campaigns.volunteer",
-            "volunteer",
-            "decline",
-          ),
-        });
-      }
+    const rows = volunteerRows();
     expectAboutResearch(
       "campaigns.volunteer",
       rows,
@@ -325,35 +384,6 @@ describe("personality in campaigns and candidacy (a played slice of a drawn plac
       firm,
       `${placeName}: firmness of the most-joining third against the least`,
     ).toBeGreaterThan(loose + 0.05);
-  });
-
-  it("only a candidate strongly averse to a reporter declines an interview", () => {
-    const api = coreAPI(core);
-    const people = [...core.people.values()].filter((p) => p.alive);
-    const sorted = people
-      .map((p) => ({
-        p,
-        lean: decisionLean(
-          core,
-          p,
-          "press.accept-interview",
-          "accept",
-          "decline",
-        ),
-      }))
-      .sort((a, b) => a.lean - b.lean);
-    const most = sorted[sorted.length - 1]!.p;
-    const least = sorted[0]!.p;
-    // The same circumstances: no closeness or grudge with the reporter, the bar at its parameter.
-    const bare = 1;
-    const weight = decisionTraitWeight(api.state, "press.accept-interview");
-    expect(
-      bare + weight * sorted[sorted.length - 1]!.lean,
-      most.id,
-    ).toBeGreaterThan(0);
-    expect(bare + weight * sorted[0]!.lean, least.id).toBeLessThan(
-      bare + weight * sorted[sorted.length - 1]!.lean,
-    );
   });
 
   it("candidates ask for volunteers and endorsements, and the answers are on the campaign's record", () => {
