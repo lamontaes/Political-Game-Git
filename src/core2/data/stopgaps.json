@@ -5161,5 +5161,17 @@
     "addedAt": "2026-10-20",
     "replacement": "Ordinary full-tier jobs with recorded schedules and paydays in every place (pool item world-territory-village-opens-with-no-employers), which the post then follows as it does elsewhere.",
     "status": "open"
+  },
+  {
+    "id": "SG-GOV-territory-budget-mix",
+    "kind": "assumed-data",
+    "file": "src/core2/modules/budgets.ts",
+    "line": 0,
+    "whatItFakes": "An island area's state-level government has no spending or revenue by function in the data (Census state finances cover the states and D.C.). Its budget takes the states' residents-weighted function mix, scaled to the area's own all-funds spending a resident where published (Guam, the Virgin Islands, Puerto Rico) and to the median of those where not (American Samoa, the Northern Marianas), with revenue equal to spending.",
+    "why": "public-budget-bases.json holds an all-funds total for three island areas and no breakdown for any; without a budget its treasury is empty and its officials and agencies cannot be paid.",
+    "addedBy": "claude/territory-admin-line",
+    "addedAt": "2026-10-18",
+    "replacement": "Each island area's published budget by function and its revenue by source (Guam, Virgin Islands and Puerto Rico budget documents; American Samoa and the Northern Marianas' Office of Insular Affairs financial reports) in public-budget-bases.json.",
+    "status": "open"
   }
 ]
