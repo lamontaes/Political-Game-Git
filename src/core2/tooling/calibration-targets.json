@@ -799,21 +799,6 @@
       "limitation": "P9 output comparison is a concrete end-to-end target. The target suite cannot identify this parameter separately and no numeric bound is asserted."
     },
     {
-      "parameter": "organizationReserveMonths",
-      "tag": "TUNABLE",
-      "currentValueForTraceabilityOnly": 6,
-      "checkRange": {
-        "ref": "P9-GENERATED-PRIOR-CASH-EDUCATION-TIMELINE"
-      },
-      "mappingStatus": "target-reference-present; blocked by generator/measurement applicability gap; not calibration",
-      "productionPathOrGap": "Used only by buildPopulation to assign opening liquid reserves; the P9 ReplayCore person initializer does not call that synthetic population builder.",
-      "proposal": "Keep open and unbound until an observed organization balance-sheet/runway sample and matching aggregate harness exist.",
-      "calibrationRange": null,
-      "calibrated": false,
-      "openStopgapId": "SG-P8-param-organizationReserveMonths",
-      "reviewNote": "Structural reference only. The developer target catalog explains the source-linked observations, measurement gap, and non-applicability where relevant; no expected facts are injected into P8."
-    },
-    {
       "parameter": "appraisalRelationshipWeight",
       "tag": "TUNABLE",
       "currentValueForTraceabilityOnly": 1,
@@ -2078,7 +2063,6 @@
     ],
     "populationTargetsWithoutP9Route": [
       "marriageReferenceAge",
-      "organizationReserveMonths",
       "deepPastMiddleSchoolOffsetYears",
       "deepPastHighSchoolOffsetYears"
     ]
@@ -4450,13 +4434,6 @@
         "evaluationContract": "A future evaluator must consume only sourced birth/place/history inputs, then compare independently generated canonical prior records with the dated target milestones in this developer catalog. It must not preload target outcomes or count P9 initialized facts as generated results. P9 evaluateLife labels pre-start outcomes checkpointPast/initialized and is not a generated-prior-history evaluator.",
         "implementationStatus": "blocked; adapter, output receipt, and history comparison evaluator are absent",
         "existingP9Runner": "The P9 life-replay/v1 CLI is available for later actual-life replay, but it does not provide this prior-history comparison route."
-      },
-      "parameterApplicability": {
-        "organizationReserveMonths": {
-          "status": "not-applicable-to-current-generator-output",
-          "testableQuestion": "The loan is an individual education-finance observation; organizationReserveMonths sets generated employer liquid cash from payroll. P9 has no sourced organization cash balance or reserve-duration observation.",
-          "coefficientCalibration": "not valid for this parameter; do not treat personal loan dollars as employer reserves."
-        }
       },
       "adapterGaps": [
         "The LBJ college loan range and Cotulla teacher step are source-linked to lbj-timeline (LBJ Presidential Library); the $75 value is nominal 1927 dollars.",
@@ -7458,11 +7435,6 @@
       "parameter": "marriageReferenceAge",
       "ref": "P9-GENERATED-PRIOR-PARTNERSHIP-TIMELINE",
       "reason": "Source target exists, but current synthetic population partnership output is not an individual P9 marriage record and no safe population-history evaluator exists."
-    },
-    {
-      "parameter": "organizationReserveMonths",
-      "ref": "P9-GENERATED-PRIOR-CASH-EDUCATION-TIMELINE",
-      "reason": "Source target is a personal student-loan/employment path, not employer cash. No matching sourced organization balance-sheet target exists."
     },
     {
       "parameter": "deepPastMiddleSchoolOffsetYears",

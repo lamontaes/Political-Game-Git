@@ -191,6 +191,16 @@ function same(a: unknown, b: unknown): boolean {
   return true;
 }
 
+/** Freeze a rebuilt record and the plain objects and arrays inside it. */
+function seal<T>(value: T): T {
+  if (value === null || typeof value !== "object" || Object.isFrozen(value))
+    return value;
+  const proto = Object.getPrototypeOf(value) as unknown;
+  if (!Array.isArray(value) && proto !== Object.prototype) return value;
+  for (const inner of Object.values(value)) seal(inner);
+  return Object.freeze(value);
+}
+
 /**
  * Decode, walking the freshly built world alongside (`current`): its tables
  * are refilled in place, its unchanged frozen records kept, and what an
@@ -268,7 +278,9 @@ export function decoder(): (
       out[key] = walk(inner, old?.[key], `${path}.${key}`);
     // A frozen record unchanged since the opening stays the rebuilt world's
     // own object (engines check that identity).
-    if (old && Object.isFrozen(old)) return same(out, old) ? old : out;
+    // One that changed in play (an authority a hire joined) is sealed again,
+    // as the record it replaced was: engines read a frozen record as admitted.
+    if (old && Object.isFrozen(old)) return same(out, old) ? old : seal(out);
     // Refill the rebuilt world's own object in place when it can be written.
     if (old && Object.isExtensible(old)) {
       for (const key of Object.keys(old))

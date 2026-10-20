@@ -24,4 +24,5 @@ claimed-at: 2026-10-20T02:00:59.251Z
 
 **Notes.** Found by the GLM 5.3 trial on branch trial/glm/federal-dollar (#4990). Waits on world-macro-federal-dollar-finish so the chain it extends is on main first.
 
+Checked Oct 20 (claude/peaceful-ritchie-03780x): SG-WORLD-macro-public-budget is already resolved (owner, Oct 16: no multiplier; a federal dollar is followed through who is paid and what they spend). `macroFederalOutlayResponseBand` does not exist in src/core2/data/macro/parameters.json, so the band is sourced research still to be done, and the chain this extends is in #4990, unmerged. Build after #4990 merges, with the band added from sources and used only as a check on the totals.
 Released Oct 20 (claude): the chain this extends (world-macro-federal-dollar-finish, PR #4990) is not on main and `macroFederalOutlayResponseBand` does not exist in src/core2/data/macro/parameters.json yet; build after #4990 merges.

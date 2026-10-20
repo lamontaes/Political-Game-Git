@@ -28,7 +28,11 @@ export interface Workplace {
   readonly key: string;
   readonly classification: OrganizationClassification;
   readonly kind: WorkRelationshipKind;
-  /** GAME ASSUMPTION: how many separate employers of this kind a town has. */
+  /**
+   * GAME ASSUMPTION: how many separate employers of this kind a town has.
+   * For a workplace the county's establishment rates stand for it is only
+   * the fallback; `workplaceOutlets` (town-employment.ts) reads the rest.
+   */
   readonly outlets: number;
   readonly roles: readonly Role[];
   /** Hire into the town's existing organizations of this kind instead. */

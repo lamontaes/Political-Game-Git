@@ -10,6 +10,7 @@ import type {
   WorkResultInput,
 } from "./types";
 import { registerWorldMapPart } from "./snapshot";
+import { OUTSIDE_MARKET_KIND } from "./opening-outside-market";
 
 /** Treasury funding: authority id → the government owner whose cash pays it. */
 export interface PublicPayTreasury {
@@ -183,25 +184,42 @@ export function resolvePublicWorkPayDue(
     jurisdictionId = r.field(authority, "jurisdictionId"),
     ownerId = r.field(authority, "ownerId"),
     owner = r.mapGet(organizations, ownerId),
-    employerIdentity = governmentIdentity(session, employer);
+    // A private employer outside the town is its own paying owner: the
+    // place's outside account employs the commuters whose jobs the opening
+    // does not model, so it carries no government identity to match.
+    outsideEmployer =
+      ownerId === input.organizationId &&
+      r.field(employer, "kind") === OUTSIDE_MARKET_KIND;
   if (!owner || r.field(owner, "id") !== ownerId)
     throw new Error(
       "Public pay outside owner is absent or has changed identity.",
     );
-  const ownerIdentity = governmentIdentity(session, owner),
-    outsideSource = r.field(owner, "outsideFlow"),
+  const outsideSource = r.field(owner, "outsideFlow"),
     authoritySource = r.field(authority, "source");
-  if (
-    !outsideSource ||
-    r.field(owner, "liquidMinor") !== session.zero ||
-    employerIdentity.governmentKey !== governmentKey ||
-    ownerIdentity.governmentKey !== governmentKey ||
-    employerIdentity.jurisdictionId !== jurisdictionId ||
-    ownerIdentity.jurisdictionId !== jurisdictionId
-  )
-    throw new Error(
-      "Public pay requires the actual matching zero-stock outside owner.",
-    );
+  if (outsideEmployer) {
+    if (
+      !outsideSource ||
+      r.field(owner, "liquidMinor") !== session.zero ||
+      r.field(employer, "placeId") !== jurisdictionId
+    )
+      throw new Error(
+        "Outside pay requires the actual zero-stock outside account of the employer's place.",
+      );
+  } else {
+    const employerIdentity = governmentIdentity(session, employer),
+      ownerIdentity = governmentIdentity(session, owner);
+    if (
+      !outsideSource ||
+      r.field(owner, "liquidMinor") !== session.zero ||
+      employerIdentity.governmentKey !== governmentKey ||
+      ownerIdentity.governmentKey !== governmentKey ||
+      employerIdentity.jurisdictionId !== jurisdictionId ||
+      ownerIdentity.jurisdictionId !== jurisdictionId
+    )
+      throw new Error(
+        "Public pay requires the actual matching zero-stock outside owner.",
+      );
+  }
   r.payload(outsideSource, session.zero, session.one);
   r.payload(authoritySource, session.zero, session.one);
   sourceAvailable(outsideSource, session.date);

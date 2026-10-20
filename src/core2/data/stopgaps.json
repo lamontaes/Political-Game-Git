@@ -260,8 +260,8 @@
     "why": "Payroll is a flow and the multiplier is TUNABLE. A public salary, grant, donation, capital contribution or tax payment has no imported authority merely because an organization employs people.",
     "addedBy": "SOL-1258",
     "addedAt": "2026-10-09",
-    "replacement": "For public obligations, the later public-budget/public-payroll and intergovernmental-transfers modules resolve actual paying owners and due terms with zero prepaid outside stock. Normal private firm stocks require separate real balance/owner-capital evidence; branch, utility, bank, nonprofit and membership modules retain their own actual sources.",
-    "status": "open"
+    "replacement": "Done Oct 19 (claude): the parameter had no reader; opening organization cash is the sourced median cash-buffer days (data/research/money/opening-employer-cash-buffers.json, JPMorgan Chase Institute 2016) and the parameter is deleted. Public obligations: For public obligations, the later public-budget/public-payroll and intergovernmental-transfers modules resolve actual paying owners and due terms with zero prepaid outside stock. Normal private firm stocks require separate real balance/owner-capital evidence; branch, utility, bank, nonprofit and membership modules retain their own actual sources.",
+    "status": "resolved"
   },
   {
     "id": "SG-P8-param-appraisalRelationshipWeight",
@@ -1769,8 +1769,8 @@
     "why": "No farm irrigation exposure or pumping record exists. No mine or utility water-use record justifies extending the agricultural elasticity to them. The one-input operating-rule slot cannot combine independent restrictions; an existing unrelated restriction is preserved. A received explanation and complete owner/director chain remain unproved.",
     "addedBy": "OPUS-GOV (sub-agent B)",
     "addedAt": "2026-10-12",
-    "replacement": "Read farm water use and crop exposure, statutory allocations and independent restrictions at production; wire non-farm use and resource services only from their own records, then prove sales, owner choice, received knowledge and director line.",
-    "status": "open"
+    "replacement": "Done Oct 19 (claude): a farm's groundwater limit is the statutory cut times its county's groundwater share of irrigation water (USGS 2015, src/core2/groundwater-exposure.ts; a county the file lacks starts from the national share, ESTIMATED), and none in a county that irrigates nothing. Non-farm use is wired only from its own records, and none exist, so mines and utilities are not limited. Original plan: Read farm water use and crop exposure, statutory allocations and independent restrictions at production; wire non-farm use and resource services only from their own records, then prove sales, owner choice, received knowledge and director line.",
+    "status": "resolved"
   },
   {
     "id": "SG-GOV-REACH-B-land-use",
@@ -4012,12 +4012,12 @@
     "kind": "faked-mechanic",
     "file": "src/core2/modules/residents.ts",
     "line": 1,
-    "whatItFakes": "A filled-in household keeps its share of the place's unplaced workers' pay (counted workers no employer's books hold) as its own flow, untaxed, until it returns to the counts.",
+    "whatItFakes": "A filled-in household keeps its share of the place's unplaced workers' pay (counted workers no employer's books hold) as its own flow, with the law's taxes withheld but no employer or job record, until it returns to the counts.",
     "why": "The opening places only some counted workers in recorded jobs; the rest are paid from one place-level flow with no employer to file a W-2.",
-    "replacement": "The jobs engine places every counted worker in a recorded job on an employer's books, so a filled-in worker always gets a real job and withholding.",
+    "replacement": "The jobs engine places every counted worker in a recorded job on an employer's books, so a filled-in worker always gets a real job and withholding. Done Oct 19 (claude): a filled-in household's unplaced worker takes a job at the place's outside account (core-outside-wage-obligation), paid and withheld by the work payroll; the flow copy is deleted.",
     "addedBy": "OPUS-CORE (one model, two tiers)",
     "addedAt": "2026-10-14",
-    "status": "open"
+    "status": "resolved"
   },
   {
     "id": "SG-CORE-owner-decision-town-size",

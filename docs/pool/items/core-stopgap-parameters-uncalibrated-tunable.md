@@ -23,3 +23,5 @@ claimed-at: 2026-10-19T23:07:36.109Z
 **Files.** src/core2/data/parameters.json
 
 **Notes.** First row: Prototype opening baseline on a normalized stress channel. No claim of a US population norm.
+
+Oct 19 (claude/peaceful-ritchie-03780x): SG-P8-param-organizationReserveMonths is resolved by deleting the parameter. Nothing in src/ or scripts/ read it (opening employers' cash is the sourced median cash-buffer days, data/research/money/opening-employer-cash-buffers.json, and src/core2/opening-capital.test.ts asserted it was not read); the references in parameters.json, tooling/calibration-targets.json and data/opening-employment.json are removed. 24 rows remain. docs/research/core-parameter-sources-2026-10-12.md already carries sourced values for most of them (for example companyHorizonDays about 3.3 days from ATUS, moneyBufferDays 19 days from JPMCI 2023); applying each changes behavior and needs its own played-world check.

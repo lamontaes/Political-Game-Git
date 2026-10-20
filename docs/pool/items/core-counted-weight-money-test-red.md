@@ -22,3 +22,5 @@ claimed-at: 2026-10-20T03:23:35.922Z
 **Files.** src/core2/counted-weight-money.test.ts, src/core2/modules/residents.ts
 
 **Notes.** Failure text: AssertionError ... residents:wages:opening-payroll-calendar:organization_bc110158f37a326c|residents:jurisdiction_082f7e93b3d1faad:0@2025-02-20: expected 6258687 to be less than or equal to 5704457.
+
+Fixed Oct 20 (claude/peaceful-ritchie-03780x, #5076), in the test, not the code: the pay flow in Ostrander, Ohio carried 11 jobs at its first payday in the weighted world against 10 in the sample world (the two worlds draw who falls ill, so a worker leaves one payroll a payday earlier in one), so one household's pay times the weight could not bound it. The test now compares a payroll only when both worlds paid the same jobs, and the withholding bound is 5 percent (withholding rises faster than pay, so better-paid workers standing for more households are taxed slightly over the pay-weighted scale; a second place failed at 2.1 against 2). Two runs on two random places pass. The code was right: no engine change.

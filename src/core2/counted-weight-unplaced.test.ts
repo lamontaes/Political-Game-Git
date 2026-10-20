@@ -36,17 +36,29 @@ function open(seed: string, key: string, countScale?: number) {
 }
 
 it("pays the unplaced workers for as many households as the town's weight says, and keeps the groups' savings with them", () => {
-  const draw = drawPlace(randomBytes(32).toString("hex"), "census-unplaced");
-  const where = `seed ${draw.seed}, ${draw.name} (${draw.key})`;
-  const base = open(draw.seed, draw.key);
-  const big = open(draw.seed, draw.key, SCALE);
-  // A town with unplaced workers pays them three times as much at three times the size.
-  expect(base.unplaced, `${where}: no unplaced workers`).toBeGreaterThan(0);
-  expect(big.unplaced / base.unplaced, where).toBeGreaterThan(SCALE * 0.9);
-  expect(big.unplaced / base.unplaced, where).toBeLessThan(SCALE * 1.1);
-  // Savings per person stay in the same range as the town grows: they are not
-  // paid out to the bank as if they were one household's, nor left unfunded.
-  const perPerson = (row: typeof base) => row.fund / row.people;
-  expect(perPerson(big) / perPerson(base), where).toBeGreaterThan(0.5);
-  expect(perPerson(big) / perPerson(base), where).toBeLessThan(2);
-}, 900_000);
+  // Whether a town has workers its opening couldn't place is the town's to
+  // decide (its employment target against its recorded jobs): draw places
+  // until one does, naming each that doesn't.
+  const seed = randomBytes(32).toString("hex");
+  const without: string[] = [];
+  for (let attempt = 0; attempt < 12; attempt += 1) {
+    const draw = drawPlace(`${seed}:${attempt}`, "census-unplaced");
+    const where = `seed ${draw.seed}, ${draw.name} (${draw.key})`;
+    const base = open(draw.seed, draw.key);
+    if (base.unplaced === 0) {
+      without.push(where);
+      continue;
+    }
+    const big = open(draw.seed, draw.key, SCALE);
+    // A town with unplaced workers pays them three times as much at three times the size.
+    expect(big.unplaced / base.unplaced, where).toBeGreaterThan(SCALE * 0.9);
+    expect(big.unplaced / base.unplaced, where).toBeLessThan(SCALE * 1.1);
+    // Savings per person stay in the same range as the town grows: they are not
+    // paid out to the bank as if they were one household's, nor left unfunded.
+    const perPerson = (row: typeof base) => row.fund / row.people;
+    expect(perPerson(big) / perPerson(base), where).toBeGreaterThan(0.5);
+    expect(perPerson(big) / perPerson(base), where).toBeLessThan(2);
+    return;
+  }
+  throw new Error(`no drawn town has unplaced workers: ${without.join("; ")}`);
+}, 1_800_000);

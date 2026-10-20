@@ -120,6 +120,230 @@
     {
       "file": "data/research/outcome-web/social-media-age-verification-contracts.json",
       "reason": "A decision receipt for a removed link and its replacements; the replacements live in links.json."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/declarations-2021-2025-AK.json",
+      "reason": "FEMA OpenFEMA disaster declarations for one state, 2021 to 2025: the evidence behind the disaster engine's data. The engine reads src/core2/data/disasters/declarations.json, fetched in full from the same FEMA source by src/core2/tooling/fetch-disasters.ts, so it has no use for this per-state extract."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/declarations-2021-2025-AL.json",
+      "reason": "FEMA OpenFEMA disaster declarations for one state, 2021 to 2025: the evidence behind the disaster engine's data. The engine reads src/core2/data/disasters/declarations.json, fetched in full from the same FEMA source by src/core2/tooling/fetch-disasters.ts, so it has no use for this per-state extract."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/declarations-2021-2025-AR.json",
+      "reason": "FEMA OpenFEMA disaster declarations for one state, 2021 to 2025: the evidence behind the disaster engine's data. The engine reads src/core2/data/disasters/declarations.json, fetched in full from the same FEMA source by src/core2/tooling/fetch-disasters.ts, so it has no use for this per-state extract."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/declarations-2021-2025-AS.json",
+      "reason": "FEMA OpenFEMA disaster declarations for one state, 2021 to 2025: the evidence behind the disaster engine's data. The engine reads src/core2/data/disasters/declarations.json, fetched in full from the same FEMA source by src/core2/tooling/fetch-disasters.ts, so it has no use for this per-state extract."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/declarations-2021-2025-AZ.json",
+      "reason": "FEMA OpenFEMA disaster declarations for one state, 2021 to 2025: the evidence behind the disaster engine's data. The engine reads src/core2/data/disasters/declarations.json, fetched in full from the same FEMA source by src/core2/tooling/fetch-disasters.ts, so it has no use for this per-state extract."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/declarations-2021-2025-CA.json",
+      "reason": "FEMA OpenFEMA disaster declarations for one state, 2021 to 2025: the evidence behind the disaster engine's data. The engine reads src/core2/data/disasters/declarations.json, fetched in full from the same FEMA source by src/core2/tooling/fetch-disasters.ts, so it has no use for this per-state extract."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/declarations-2021-2025-CO.json",
+      "reason": "FEMA OpenFEMA disaster declarations for one state, 2021 to 2025: the evidence behind the disaster engine's data. The engine reads src/core2/data/disasters/declarations.json, fetched in full from the same FEMA source by src/core2/tooling/fetch-disasters.ts, so it has no use for this per-state extract."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/declarations-2021-2025-CT.json",
+      "reason": "FEMA OpenFEMA disaster declarations for one state, 2021 to 2025: the evidence behind the disaster engine's data. The engine reads src/core2/data/disasters/declarations.json, fetched in full from the same FEMA source by src/core2/tooling/fetch-disasters.ts, so it has no use for this per-state extract."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/declarations-2021-2025-DC.json",
+      "reason": "FEMA OpenFEMA disaster declarations for one state, 2021 to 2025: the evidence behind the disaster engine's data. The engine reads src/core2/data/disasters/declarations.json, fetched in full from the same FEMA source by src/core2/tooling/fetch-disasters.ts, so it has no use for this per-state extract."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/declarations-2021-2025-DE.json",
+      "reason": "FEMA OpenFEMA disaster declarations for one state, 2021 to 2025: the evidence behind the disaster engine's data. The engine reads src/core2/data/disasters/declarations.json, fetched in full from the same FEMA source by src/core2/tooling/fetch-disasters.ts, so it has no use for this per-state extract."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/declarations-2021-2025-FL.json",
+      "reason": "FEMA OpenFEMA disaster declarations for one state, 2021 to 2025: the evidence behind the disaster engine's data. The engine reads src/core2/data/disasters/declarations.json, fetched in full from the same FEMA source by src/core2/tooling/fetch-disasters.ts, so it has no use for this per-state extract."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/declarations-2021-2025-GA.json",
+      "reason": "FEMA OpenFEMA disaster declarations for one state, 2021 to 2025: the evidence behind the disaster engine's data. The engine reads src/core2/data/disasters/declarations.json, fetched in full from the same FEMA source by src/core2/tooling/fetch-disasters.ts, so it has no use for this per-state extract."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/declarations-2021-2025-GU.json",
+      "reason": "FEMA OpenFEMA disaster declarations for one state, 2021 to 2025: the evidence behind the disaster engine's data. The engine reads src/core2/data/disasters/declarations.json, fetched in full from the same FEMA source by src/core2/tooling/fetch-disasters.ts, so it has no use for this per-state extract."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/declarations-2021-2025-HI.json",
+      "reason": "FEMA OpenFEMA disaster declarations for one state, 2021 to 2025: the evidence behind the disaster engine's data. The engine reads src/core2/data/disasters/declarations.json, fetched in full from the same FEMA source by src/core2/tooling/fetch-disasters.ts, so it has no use for this per-state extract."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/declarations-2021-2025-IA.json",
+      "reason": "FEMA OpenFEMA disaster declarations for one state, 2021 to 2025: the evidence behind the disaster engine's data. The engine reads src/core2/data/disasters/declarations.json, fetched in full from the same FEMA source by src/core2/tooling/fetch-disasters.ts, so it has no use for this per-state extract."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/declarations-2021-2025-ID.json",
+      "reason": "FEMA OpenFEMA disaster declarations for one state, 2021 to 2025: the evidence behind the disaster engine's data. The engine reads src/core2/data/disasters/declarations.json, fetched in full from the same FEMA source by src/core2/tooling/fetch-disasters.ts, so it has no use for this per-state extract."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/declarations-2021-2025-IL.json",
+      "reason": "FEMA OpenFEMA disaster declarations for one state, 2021 to 2025: the evidence behind the disaster engine's data. The engine reads src/core2/data/disasters/declarations.json, fetched in full from the same FEMA source by src/core2/tooling/fetch-disasters.ts, so it has no use for this per-state extract."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/declarations-2021-2025-IN.json",
+      "reason": "FEMA OpenFEMA disaster declarations for one state, 2021 to 2025: the evidence behind the disaster engine's data. The engine reads src/core2/data/disasters/declarations.json, fetched in full from the same FEMA source by src/core2/tooling/fetch-disasters.ts, so it has no use for this per-state extract."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/declarations-2021-2025-KS.json",
+      "reason": "FEMA OpenFEMA disaster declarations for one state, 2021 to 2025: the evidence behind the disaster engine's data. The engine reads src/core2/data/disasters/declarations.json, fetched in full from the same FEMA source by src/core2/tooling/fetch-disasters.ts, so it has no use for this per-state extract."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/declarations-2021-2025-KY.json",
+      "reason": "FEMA OpenFEMA disaster declarations for one state, 2021 to 2025: the evidence behind the disaster engine's data. The engine reads src/core2/data/disasters/declarations.json, fetched in full from the same FEMA source by src/core2/tooling/fetch-disasters.ts, so it has no use for this per-state extract."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/declarations-2021-2025-LA.json",
+      "reason": "FEMA OpenFEMA disaster declarations for one state, 2021 to 2025: the evidence behind the disaster engine's data. The engine reads src/core2/data/disasters/declarations.json, fetched in full from the same FEMA source by src/core2/tooling/fetch-disasters.ts, so it has no use for this per-state extract."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/declarations-2021-2025-MA.json",
+      "reason": "FEMA OpenFEMA disaster declarations for one state, 2021 to 2025: the evidence behind the disaster engine's data. The engine reads src/core2/data/disasters/declarations.json, fetched in full from the same FEMA source by src/core2/tooling/fetch-disasters.ts, so it has no use for this per-state extract."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/declarations-2021-2025-MD.json",
+      "reason": "FEMA OpenFEMA disaster declarations for one state, 2021 to 2025: the evidence behind the disaster engine's data. The engine reads src/core2/data/disasters/declarations.json, fetched in full from the same FEMA source by src/core2/tooling/fetch-disasters.ts, so it has no use for this per-state extract."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/declarations-2021-2025-ME.json",
+      "reason": "FEMA OpenFEMA disaster declarations for one state, 2021 to 2025: the evidence behind the disaster engine's data. The engine reads src/core2/data/disasters/declarations.json, fetched in full from the same FEMA source by src/core2/tooling/fetch-disasters.ts, so it has no use for this per-state extract."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/declarations-2021-2025-MI.json",
+      "reason": "FEMA OpenFEMA disaster declarations for one state, 2021 to 2025: the evidence behind the disaster engine's data. The engine reads src/core2/data/disasters/declarations.json, fetched in full from the same FEMA source by src/core2/tooling/fetch-disasters.ts, so it has no use for this per-state extract."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/declarations-2021-2025-MN.json",
+      "reason": "FEMA OpenFEMA disaster declarations for one state, 2021 to 2025: the evidence behind the disaster engine's data. The engine reads src/core2/data/disasters/declarations.json, fetched in full from the same FEMA source by src/core2/tooling/fetch-disasters.ts, so it has no use for this per-state extract."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/declarations-2021-2025-MO.json",
+      "reason": "FEMA OpenFEMA disaster declarations for one state, 2021 to 2025: the evidence behind the disaster engine's data. The engine reads src/core2/data/disasters/declarations.json, fetched in full from the same FEMA source by src/core2/tooling/fetch-disasters.ts, so it has no use for this per-state extract."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/declarations-2021-2025-MP.json",
+      "reason": "FEMA OpenFEMA disaster declarations for one state, 2021 to 2025: the evidence behind the disaster engine's data. The engine reads src/core2/data/disasters/declarations.json, fetched in full from the same FEMA source by src/core2/tooling/fetch-disasters.ts, so it has no use for this per-state extract."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/declarations-2021-2025-MS.json",
+      "reason": "FEMA OpenFEMA disaster declarations for one state, 2021 to 2025: the evidence behind the disaster engine's data. The engine reads src/core2/data/disasters/declarations.json, fetched in full from the same FEMA source by src/core2/tooling/fetch-disasters.ts, so it has no use for this per-state extract."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/declarations-2021-2025-MT.json",
+      "reason": "FEMA OpenFEMA disaster declarations for one state, 2021 to 2025: the evidence behind the disaster engine's data. The engine reads src/core2/data/disasters/declarations.json, fetched in full from the same FEMA source by src/core2/tooling/fetch-disasters.ts, so it has no use for this per-state extract."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/declarations-2021-2025-NC.json",
+      "reason": "FEMA OpenFEMA disaster declarations for one state, 2021 to 2025: the evidence behind the disaster engine's data. The engine reads src/core2/data/disasters/declarations.json, fetched in full from the same FEMA source by src/core2/tooling/fetch-disasters.ts, so it has no use for this per-state extract."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/declarations-2021-2025-ND.json",
+      "reason": "FEMA OpenFEMA disaster declarations for one state, 2021 to 2025: the evidence behind the disaster engine's data. The engine reads src/core2/data/disasters/declarations.json, fetched in full from the same FEMA source by src/core2/tooling/fetch-disasters.ts, so it has no use for this per-state extract."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/declarations-2021-2025-NE.json",
+      "reason": "FEMA OpenFEMA disaster declarations for one state, 2021 to 2025: the evidence behind the disaster engine's data. The engine reads src/core2/data/disasters/declarations.json, fetched in full from the same FEMA source by src/core2/tooling/fetch-disasters.ts, so it has no use for this per-state extract."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/declarations-2021-2025-NH.json",
+      "reason": "FEMA OpenFEMA disaster declarations for one state, 2021 to 2025: the evidence behind the disaster engine's data. The engine reads src/core2/data/disasters/declarations.json, fetched in full from the same FEMA source by src/core2/tooling/fetch-disasters.ts, so it has no use for this per-state extract."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/declarations-2021-2025-NJ.json",
+      "reason": "FEMA OpenFEMA disaster declarations for one state, 2021 to 2025: the evidence behind the disaster engine's data. The engine reads src/core2/data/disasters/declarations.json, fetched in full from the same FEMA source by src/core2/tooling/fetch-disasters.ts, so it has no use for this per-state extract."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/declarations-2021-2025-NM.json",
+      "reason": "FEMA OpenFEMA disaster declarations for one state, 2021 to 2025: the evidence behind the disaster engine's data. The engine reads src/core2/data/disasters/declarations.json, fetched in full from the same FEMA source by src/core2/tooling/fetch-disasters.ts, so it has no use for this per-state extract."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/declarations-2021-2025-NV.json",
+      "reason": "FEMA OpenFEMA disaster declarations for one state, 2021 to 2025: the evidence behind the disaster engine's data. The engine reads src/core2/data/disasters/declarations.json, fetched in full from the same FEMA source by src/core2/tooling/fetch-disasters.ts, so it has no use for this per-state extract."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/declarations-2021-2025-NY.json",
+      "reason": "FEMA OpenFEMA disaster declarations for one state, 2021 to 2025: the evidence behind the disaster engine's data. The engine reads src/core2/data/disasters/declarations.json, fetched in full from the same FEMA source by src/core2/tooling/fetch-disasters.ts, so it has no use for this per-state extract."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/declarations-2021-2025-OH.json",
+      "reason": "FEMA OpenFEMA disaster declarations for one state, 2021 to 2025: the evidence behind the disaster engine's data. The engine reads src/core2/data/disasters/declarations.json, fetched in full from the same FEMA source by src/core2/tooling/fetch-disasters.ts, so it has no use for this per-state extract."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/declarations-2021-2025-OK.json",
+      "reason": "FEMA OpenFEMA disaster declarations for one state, 2021 to 2025: the evidence behind the disaster engine's data. The engine reads src/core2/data/disasters/declarations.json, fetched in full from the same FEMA source by src/core2/tooling/fetch-disasters.ts, so it has no use for this per-state extract."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/declarations-2021-2025-OR.json",
+      "reason": "FEMA OpenFEMA disaster declarations for one state, 2021 to 2025: the evidence behind the disaster engine's data. The engine reads src/core2/data/disasters/declarations.json, fetched in full from the same FEMA source by src/core2/tooling/fetch-disasters.ts, so it has no use for this per-state extract."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/declarations-2021-2025-PA.json",
+      "reason": "FEMA OpenFEMA disaster declarations for one state, 2021 to 2025: the evidence behind the disaster engine's data. The engine reads src/core2/data/disasters/declarations.json, fetched in full from the same FEMA source by src/core2/tooling/fetch-disasters.ts, so it has no use for this per-state extract."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/declarations-2021-2025-PR.json",
+      "reason": "FEMA OpenFEMA disaster declarations for one state, 2021 to 2025: the evidence behind the disaster engine's data. The engine reads src/core2/data/disasters/declarations.json, fetched in full from the same FEMA source by src/core2/tooling/fetch-disasters.ts, so it has no use for this per-state extract."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/declarations-2021-2025-RI.json",
+      "reason": "FEMA OpenFEMA disaster declarations for one state, 2021 to 2025: the evidence behind the disaster engine's data. The engine reads src/core2/data/disasters/declarations.json, fetched in full from the same FEMA source by src/core2/tooling/fetch-disasters.ts, so it has no use for this per-state extract."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/declarations-2021-2025-SC.json",
+      "reason": "FEMA OpenFEMA disaster declarations for one state, 2021 to 2025: the evidence behind the disaster engine's data. The engine reads src/core2/data/disasters/declarations.json, fetched in full from the same FEMA source by src/core2/tooling/fetch-disasters.ts, so it has no use for this per-state extract."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/declarations-2021-2025-SD.json",
+      "reason": "FEMA OpenFEMA disaster declarations for one state, 2021 to 2025: the evidence behind the disaster engine's data. The engine reads src/core2/data/disasters/declarations.json, fetched in full from the same FEMA source by src/core2/tooling/fetch-disasters.ts, so it has no use for this per-state extract."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/declarations-2021-2025-TN.json",
+      "reason": "FEMA OpenFEMA disaster declarations for one state, 2021 to 2025: the evidence behind the disaster engine's data. The engine reads src/core2/data/disasters/declarations.json, fetched in full from the same FEMA source by src/core2/tooling/fetch-disasters.ts, so it has no use for this per-state extract."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/declarations-2021-2025-TX.json",
+      "reason": "FEMA OpenFEMA disaster declarations for one state, 2021 to 2025: the evidence behind the disaster engine's data. The engine reads src/core2/data/disasters/declarations.json, fetched in full from the same FEMA source by src/core2/tooling/fetch-disasters.ts, so it has no use for this per-state extract."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/declarations-2021-2025-UT.json",
+      "reason": "FEMA OpenFEMA disaster declarations for one state, 2021 to 2025: the evidence behind the disaster engine's data. The engine reads src/core2/data/disasters/declarations.json, fetched in full from the same FEMA source by src/core2/tooling/fetch-disasters.ts, so it has no use for this per-state extract."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/declarations-2021-2025-VA.json",
+      "reason": "FEMA OpenFEMA disaster declarations for one state, 2021 to 2025: the evidence behind the disaster engine's data. The engine reads src/core2/data/disasters/declarations.json, fetched in full from the same FEMA source by src/core2/tooling/fetch-disasters.ts, so it has no use for this per-state extract."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/declarations-2021-2025-VI.json",
+      "reason": "FEMA OpenFEMA disaster declarations for one state, 2021 to 2025: the evidence behind the disaster engine's data. The engine reads src/core2/data/disasters/declarations.json, fetched in full from the same FEMA source by src/core2/tooling/fetch-disasters.ts, so it has no use for this per-state extract."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/declarations-2021-2025-VT.json",
+      "reason": "FEMA OpenFEMA disaster declarations for one state, 2021 to 2025: the evidence behind the disaster engine's data. The engine reads src/core2/data/disasters/declarations.json, fetched in full from the same FEMA source by src/core2/tooling/fetch-disasters.ts, so it has no use for this per-state extract."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/declarations-2021-2025-WA.json",
+      "reason": "FEMA OpenFEMA disaster declarations for one state, 2021 to 2025: the evidence behind the disaster engine's data. The engine reads src/core2/data/disasters/declarations.json, fetched in full from the same FEMA source by src/core2/tooling/fetch-disasters.ts, so it has no use for this per-state extract."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/declarations-2021-2025-WI.json",
+      "reason": "FEMA OpenFEMA disaster declarations for one state, 2021 to 2025: the evidence behind the disaster engine's data. The engine reads src/core2/data/disasters/declarations.json, fetched in full from the same FEMA source by src/core2/tooling/fetch-disasters.ts, so it has no use for this per-state extract."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/declarations-2021-2025-WV.json",
+      "reason": "FEMA OpenFEMA disaster declarations for one state, 2021 to 2025: the evidence behind the disaster engine's data. The engine reads src/core2/data/disasters/declarations.json, fetched in full from the same FEMA source by src/core2/tooling/fetch-disasters.ts, so it has no use for this per-state extract."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/declarations-2021-2025-WY.json",
+      "reason": "FEMA OpenFEMA disaster declarations for one state, 2021 to 2025: the evidence behind the disaster engine's data. The engine reads src/core2/data/disasters/declarations.json, fetched in full from the same FEMA source by src/core2/tooling/fetch-disasters.ts, so it has no use for this per-state extract."
     }
   ],
   "awaitingReader": [
@@ -224,7 +448,7 @@
     },
     {
       "prefix": "data/research/core-figures/P0-12/",
-      "files": 109,
+      "files": 53,
       "reason": "Research evidence gathered for this area; no code under src/ or scripts/ reads these files yet. Found unread on Oct 16 when the scanner stopped counting a quoted \"data/research/\" prefix as a read of everything under it."
     },
     {

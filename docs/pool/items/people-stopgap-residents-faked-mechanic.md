@@ -22,3 +22,5 @@ claimed-at:
 **Files.** src/core2/modules/residents.ts, src/core2/modules/jobs.ts, src/core2/population.ts, src/core2/data/stopgaps.json
 
 **Notes.** First row: A filled-in household keeps its share of the place's unplaced workers' pay (counted workers no employer's books hold) as its own flow, untaxed, until it returns to the counts.
+
+Oct 19 (claude/peaceful-ritchie-03780x): built in #5076. A filled-in commuter holds a job at the place's outside account, paid and withheld by the work payroll (src/core2/unplaced-fill-in-job.test.ts), and SG-CORE-filled-unplaced-income is resolved. Not done: the clicked person is not one of a named business's headcount, because their employer is outside the town and its books are not modeled; the counted tier's share stays one taxed place-level flow (`payGroups`). If the owner wants commuters tied to named outside employers, that is the LODES item world-lodes-commutes.

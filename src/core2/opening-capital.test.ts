@@ -385,7 +385,6 @@ describe("fresh sourced private-employer opening stocks (source-only fixtures)",
         })),
       };
       const forbiddenParameters = new Set([
-        "organizationReserveMonths",
         ...Object.values(
           DEFAULT_OPENING_CAPITAL_DATA.medianDaysParameterByIndustry,
         ),
@@ -696,8 +695,8 @@ describe("fresh sourced private-employer opening stocks (source-only fixtures)",
     expect(DEFAULT_OPENING_CAPITAL_DATA.excludedOrganizationKinds).toEqual(
       DEFAULT_OPENING_FINANCE_DATA.excludedOrganizationKinds,
     );
-    expect(PARAMETERS.organizationReserveMonths!.value).toBe(6);
-    expect(PARAMETERS.organizationReserveMonths!.tag).toBe("TUNABLE");
+    // The six-month payroll multiplier is gone: opening cash is the sourced cash-buffer days.
+    expect(PARAMETERS.organizationReserveMonths).toBeUndefined();
   });
 
   it("wires fresh generation once and keeps canonical jobs, households and person cash", () => {
@@ -990,18 +989,6 @@ describe("fresh sourced private-employer opening stocks (source-only fixtures)",
       projectedDeficitMinor: Number.MAX_SAFE_INTEGER,
     };
     expect(estimate(requestedFuture)).toEqual(estimate(input));
-    const changedReserve = {
-      ...PARAMETERS,
-      organizationReserveMonths: {
-        ...PARAMETERS.organizationReserveMonths!,
-        value: Number.NaN,
-      },
-    };
-    expect(
-      createOpeningEmployerCapital(input, new Set(["capital:firm"]), {
-        parameters: changedReserve,
-      }),
-    ).toEqual(estimate(input));
     const tailSpanParameter = DEFAULT_OPENING_CAPITAL_DATA.tailSpanParameter;
     const withLongerTail = {
       parameters: {

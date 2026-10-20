@@ -22,3 +22,5 @@ claimed-at: 2026-10-20T01:48:52.575Z
 **Files.** src/core2/births-counted.ts, src/core2/modules/press.ts
 
 **Notes.** TODO
+
+Built Oct 20 (claude/peaceful-ritchie-03780x, #5076), partly: the births cohort grouping copied its array for every person (now a push) and each outlet's counted-follower count rewalked the counted residents (now the town's adults by band are kept per day's rows). Long Hill, Connecticut, seed m7b, one year, same machine, one process at a time: 267.5 s after against 270.2 s before (and 285.4 against 297.8 in an earlier pair); the year-end fingerprint is identical (809672cc...). Not shown: the function's share of allocated bytes (scripts/speed-years/alloc-profile.ts does not exist), so the "falls by half" line is unmeasured and the gain is within run noise; the year is still over 120 s.

@@ -51,6 +51,23 @@ export function outsideMarketAccount(
         "Customers and suppliers outside the town: nonresident consumers, outside businesses, landlords and lenders, and government programs.",
       estimatedFrom: "src/core2/data/outside-market.json",
     },
+    // Commuters' jobs outside the town are paid by this account against the
+    // commitments the authority names (core-outside-wage-obligation).
+    publicPayAuthority: {
+      id: `outside-pay:${placeId}`,
+      ownerId: `outside-market:${placeId}`,
+      governmentKey: `outside-market:${placeId}`,
+      jurisdictionId: placeId,
+      workCommitmentIds: [],
+      basisRecordIds: [`outside-market:${placeId}`],
+      source: {
+        tag: "ESTIMATED",
+        asOf: start,
+        citation:
+          "Wages paid by employers outside the town to its commuting residents, recorded against the place's outside account.",
+        estimatedFrom: "src/core2/data/outside-market.json",
+      },
+    },
     source: {
       tag: "ESTIMATED",
       asOf: start,

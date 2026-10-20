@@ -22,3 +22,5 @@ source: "split of laws-remaining-families (Oct 15)"
 **Files.** src/core2/modules/justice.ts, src/core2/law-reach/group-a*.ts.
 
 **Notes.** Owner: police and the war design are 1.0.
+
+Split Oct 19 (claude/peaceful-ritchie-03780x) into laws-justice-pretrial-release, laws-justice-firearm-storage and laws-justice-citizenship-cooperation, each gated on gov-justice-incident-records. Restoring voting after a sentence is already read by the voting mechanic, so it has no item.

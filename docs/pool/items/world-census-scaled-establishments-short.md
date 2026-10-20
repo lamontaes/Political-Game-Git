@@ -22,3 +22,5 @@ claimed-at: 2026-10-20T01:01:09.993Z
 **Files.** src/simulation/local-business-counts.ts, src/core2/modules/business.ts, src/bench/world.ts, scripts/core2-year/census-scaled-economy.mjs
 
 **Notes.** TODO
+
+Built Oct 20 (claude/peaceful-ritchie-03780x, #5076), partly: the cause was `TOWN_WORKPLACES[].outlets` in src/simulation/living-world/town-employment.ts (an authored count that ignored town size; the caps in local-economy.ts are not on the bench world's path). Six workplaces (retail, restaurant, repair, professional, construction, personal-care) now take their outlets from the county rates at the Census size (`workplaceOutlets`; test src/simulation/living-world/town-outlets.test.ts). Center Point, Alabama, seed e1, 120 days with `scripts/core2-year/census-scaled-economy.mjs`: employers 42 to 54, 84.6 s to 84.75 s. Left: the other workplaces keep authored counts, and jobs per business are not yet sized to the county's employees per establishment (so counted workers' jobs still sit in fewer, bigger employers).

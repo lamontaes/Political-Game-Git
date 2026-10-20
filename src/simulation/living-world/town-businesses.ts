@@ -35,6 +35,7 @@ import {
   fillTownJobs,
   laborStatus,
   townResidents,
+  workplaceOutlets,
   writeTownEmployer,
 } from "./town-employment";
 import { TOWN_WORKPLACES, type Workplace } from "../../core2/town-workplaces";
@@ -374,7 +375,7 @@ export function reviewTownBusinesses(
       businesses.map((business) => ({
         organizationId: business.organizationId,
         kind: business.workplace.key,
-        newcomer: business.outlet >= business.workplace.outlets,
+        newcomer: business.outlet >= workplaceOutlets(town, business.workplace),
       })),
       new Set(),
       round,
@@ -484,7 +485,7 @@ export function reviewTownBusinesses(
     const written = new Set(
       next.history.organizations.map((organization) => organization.stableKey),
     );
-    let outlet = workplace.outlets;
+    let outlet = workplaceOutlets(town, workplace);
     while (written.has(`${stem}${outlet}`)) outlet += 1;
     next = writeTownEmployer(
       next,
@@ -545,7 +546,7 @@ export function describeTownBusinesses(
     if (
       workplace &&
       TOWN_BUSINESS_WORKPLACES.has(workplace.key) &&
-      Number(outlet) >= workplace.outlets &&
+      Number(outlet) >= workplaceOutlets(town, workplace) &&
       organization.formedAt >= since
     )
       opened += 1;
