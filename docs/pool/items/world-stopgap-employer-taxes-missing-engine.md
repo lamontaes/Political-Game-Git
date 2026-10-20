@@ -4,10 +4,10 @@ title: "Stopgaps in employer-taxes (missing-engine): 2 open"
 area: world
 kind: stopgap
 priority: 3
-status: open
+status: blocked
 claimed-by:
 pr:
-blocked-on:
+blocked-on: engine or design: A business's books record no premises or their value, so there is nothing for the property-tax rate in force to read.
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/modules/employer-taxes.ts, kind missing-engine"
 ---
