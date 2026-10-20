@@ -7,7 +7,7 @@ priority: 2
 size: M
 status: open
 claimed-by:
-pr: #5046
+pr: #5725
 blocked-on:
 source: added with npm run pool -- add
 claimed-at:
@@ -24,3 +24,5 @@ claimed-at:
 **Notes.** Found Oct 18 (claude, claude/unpaid-posts-s6) with a probe of `publicPayRoom` for the post `state:chief-election-official`: line `administration`, room -155499490, cap 0. The Northern Mariana Islands chief was also unpaid at the same measure. Four states drawn showed no unpaid chief.
 
 Sent back 2026-10-20 from PR #5046 (branch claude/territory-admin-line): merging main conflicts in src/core2/law-reach/group-b-money.ts and src/core2/modules/budgets.ts; finish on that branch, merge main into it first.
+
+Sent back 2026-10-20 from PR #5725 (branch claude/political-game-pool-yucp92-bw): Merging current origin/main conflicts in src/core2/public-payroll.ts. Resolve that code conflict on this branch, preserving the current main payroll behavior and the parent fix, then rerun the changed-file gate. This fixer remains based on open parent #5724; it will merge into that branch, with no pool done flip, after the conflict is fixed.; finish on that branch, merge main into it first.
