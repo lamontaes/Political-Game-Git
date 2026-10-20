@@ -5,12 +5,12 @@ area: gov
 kind: feature
 priority: 2
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/political-game-pool-yucp92-qq
 pr:
 blocked-on:
 source: split from gov-justice-incident-records (M, really L) by the claiming session, Oct 19
-claimed-at:
+claimed-at: 2026-10-20T04:53:20.573Z
 ---
 
 **What.** The justice engine hears only officials' bribery cases, so no defendant, complainant or weapon exists for five laws to act on. Add one incident record type that arises from causes already in the world: a police stop from the town's patrol hours and crime outcomes, a fight from two people's recorded grievance, and a carried weapon from a household's recorded firearm ownership. Each record names the people involved, the place, the date and the cause record that earned it, and nothing is drawn by a percentage roll.
