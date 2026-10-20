@@ -5,9 +5,9 @@ area: core
 kind: bug
 priority: 3
 size: S
-status: in-pr
+status: done
 claimed-by: claude/fs11vb-estate
-pr: #5721
+pr: #5723
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-20T15:04:09.289Z

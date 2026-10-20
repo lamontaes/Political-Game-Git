@@ -1695,7 +1695,7 @@
     "kind": "faked-mechanic",
     "file": "src/core2/data/laws/reach-group-b.json",
     "line": 184,
-    "whatItFakes": "The existing assessment and tax bill now read the cap law and settle full and counted owners through their own accounts. A yes/no catalog law still uses a generic estimated assessment cap rather than statutory levy-versus-assessment scope, exemptions or ownership-reset terms.",
+    "whatItFakes": "The existing assessment and tax bill now read the cap law and settle full and counted owners through their own accounts. A yes/no catalog law reads its state's own cap size and scope where src/core2/data/laws/property-tax-caps.json has the state (CA, FL, MI, OR, AZ, TX, NM, OK, NY, AR); every other state still uses a generic estimated assessment cap, and no state yet reads levy limits, exemptions, CPI-lesser-of caps or ownership-reset terms beyond a buyer being assessed afresh.",
     "why": "Session A wires the existing property-tax engine. The catalog has no numeric statutory cap or exemption terms, and the world has no delivered tax notice linking the assessment to an informed stance and director line.",
     "addedBy": "OPUS-GOV (sub-agent B)",
     "addedAt": "2026-10-12",
@@ -2727,11 +2727,11 @@
     "kind": "assumed-data",
     "file": "src/core2/housing-property-tax.ts",
     "line": 51,
-    "whatItFakes": "Every owner pays the state's average effective property tax rate, to the outside account, with no assessment cap.",
-    "why": "The county's rate in force, its cap and its treasury are OPUS-GOV's law in force (lawInForce(api, \"property-tax\")), on its branch.",
+    "whatItFakes": "An owner in a place whose law holds no property-tax rate (a territory such as American Samoa, in a played year) pays the state's average effective rate, to the outside account, with no assessment cap. Everywhere else the rate, cap and collector come from the law in force.",
+    "why": "The territories have no recorded property-tax law row, so the budgets engine registers no terms for them.",
     "addedBy": "OPUS-WORLD",
     "addedAt": "2026-10-12",
-    "replacement": "registerPropertyTax with the county's rate, cap and treasury from the law in force.",
+    "replacement": "A property-tax law row for each territory, read by registerPropertyTax like any county's.",
     "status": "open"
   },
   {
@@ -3418,7 +3418,7 @@
     "kind": "missing-engine",
     "file": "src/core2/modules/laws.ts",
     "line": 471,
-    "whatItFakes": "The public pay floor's employer-to-level map is a first cut (public schools count as town employers), (a public hire is now held to the floor on the day it is hired, by the jobs engine). Councils, legislatures and Congress can now draft it from the bill catalog (OPUS-GOV, Oct 14).",
+    "whatItFakes": "The public pay floor's employer-to-level map is a first cut (public schools count as town employers), (an opening a public employer posts is held to the floor on the day it is posted, by the jobs engine; a floor enacted after posting is not applied again at the hire). Councils, legislatures and Congress can now draft it from the bill catalog (OPUS-GOV, Oct 14).",
     "why": "The CTO ruled (October 14, 2026) that a public-salary base is a standing law at each level and asked dev mode's PR to add the data row and the smallest read hook, for the GOV wiring session to own after merge.",
     "addedBy": "OPUS-PLAY",
     "addedAt": "2026-10-14",
@@ -3880,11 +3880,11 @@
     "kind": "assumed-data",
     "file": "src/core2/modules/recalls.ts",
     "line": 1,
-    "whatItFakes": "One national bar on when a local recall may start (not in a term's first 180 days; not again in a term after one failed), not each state's own statute.",
+    "whatItFakes": "One national bar on when a local recall may start (not in a term's first 180 days; not again in a term after one failed) in every state but AZ, CA, CO, ID, KS, MI, NJ, OR and WI, whose bars are read into data/campaigns/recall-bars.json (CO and MI tagged ESTIMATED: read from summaries, not the statute text).",
     "why": "The owner's ruling (Oct 14): the recall rule reads the place's statute (grounds, signatures, cooling period). The municipal rule pack holds grounds, threshold and circulation window, but no cooling period yet.",
     "addedBy": "OPUS-GOV",
     "addedAt": "2026-10-14",
-    "replacement": "Each state's recall timing bars read into the municipal rule pack and resolved like its threshold and window.",
+    "replacement": "The other states' recall timing bars read into data/campaigns/recall-bars.json, and CO's and MI's checked against the statute text.",
     "status": "open"
   },
   {
@@ -4975,11 +4975,11 @@
     "kind": "missing-record",
     "file": "src/core2/health-web.ts",
     "line": 1,
-    "whatItFakes": "Deaths carry no cause. The traffic link moves the share of deaths a crash stands for at each age (IIHS rate over the life table's death rate), not a crash-death record. The overdose links (harm reduction, cannabis sales) and the youth firearm links (child access law, minimum handgun age) move only the web's number; no death reads them.",
-    "why": "Overdose and firearm death rates by single age are not in the repo, and a death has no cause field (death-causes.ts holds three plain groups).",
+    "whatItFakes": "Every death now carries a cause (overdose, youth firearm homicide, firearm suicide, motor vehicle, other) from NCHS 2023 shares by age, and the web's overdose, youth firearm and traffic links move those shares. What stays unwired: deaths under age 10 from firearms (the source reports none under 10, so the child access law reaches no toddler), the age split inside the 10 to 24 firearm band (ages 20 to 24 take the band's share although the web acts to 19), and counted people have no substance-use-disorder condition so none ranks first for an overdose.",
+    "why": "The source tables give firearm deaths for ages 10 to 24 as one band and report nothing under 10; drug overdose deaths are reported from 15; counted people hold no conditions.",
     "addedBy": "effect-web-health",
     "addedAt": "2026-10-20",
-    "replacement": "A cause-of-death record on every death, with cause-specific hazards by age (crash, overdose, firearm) from CDC WONDER, read by the people engines; the web's factor then multiplies each cause's hazard.",
+    "replacement": "Single-age firearm and overdose death counts from CDC WONDER (underlying cause, one-year ages 0 to 24), and a condition record on counted people.",
     "status": "open"
   },
   {
@@ -5148,6 +5148,55 @@
     "addedBy": "claude",
     "addedAt": "2026-10-20",
     "replacement": "A court escrow fund account that holds each bail apart from spendable treasury cash, returned in full at disposition.",
+    "status": "resolved",
+    "resolution": "Bail now sits in a court escrow account under the prosecuting treasury's owner (account:<treasury>:court-escrow), apart from its spendable cash, and the trial returns the whole bail from it."
+  },
+  {
+    "id": "SG-WEB-voting-graduation-cause",
+    "kind": "missing-engine",
+    "file": "src/core2/turnout-web.ts",
+    "line": 112,
+    "whatItFakes": "The graduation-to-turnout link moves turnout from the web's own school.graduation-pct number, which is a ledger value that no school outcomes engine produces.",
+    "why": "The school module keeps no graduation outcomes by place, so the cause is the web's baseline plus its own links (universal pre-K, tuition freeze), not students who graduated.",
+    "addedBy": "EFFECT-WEB-VOTING",
+    "addedAt": "2026-10-20",
+    "replacement": "A school outcomes engine that records graduates by place and year; the link then reads that record, lagged five years.",
+    "status": "open"
+  },
+  {
+    "id": "SG-WEB-voting-newspaper-closure",
+    "kind": "missing-engine",
+    "file": "src/core2/turnout-web.ts",
+    "line": 113,
+    "whatItFakes": "The newspaper-closure-to-engagement link into local turnout is not run.",
+    "why": "The press engine never closes an outlet, so no local-newspaper count ever falls and there is no cause to read.",
+    "addedBy": "EFFECT-WEB-VOTING",
+    "addedAt": "2026-10-20",
+    "replacement": "An outlet closing from its revenue in the press engine, with a press.local-newspaper count read from its outlets table.",
+    "status": "open"
+  },
+  {
+    "id": "SG-WEB-voting-corruption-reelection",
+    "kind": "missing-engine",
+    "file": "src/core2/turnout-web.ts",
+    "line": 114,
+    "whatItFakes": "The exposed-corruption-to-reelection link into the incumbent's reelection is not run.",
+    "why": "The voting engine already reads each reported scandal into the incumbent's appeal (scandalsOf), so a web factor on the reelection rate would move it twice; the cause is not a number the web can read.",
+    "addedBy": "EFFECT-WEB-VOTING",
+    "addedAt": "2026-10-20",
+    "replacement": "A recorded count of violations made public before an election, with the researched size checked against the appeal the engine builds.",
+    "status": "open"
+  },
+  {
+    "id": "SG-WEB-voting-relief-approval",
+    "kind": "missing-data",
+    "file": "src/core2/turnout-web.ts",
+    "line": 115,
+    "whatItFakes": "The relief-spending-to-votes and economy-to-approval links are not run.",
+    "why": "The game records no disaster-relief dollars by place, no incumbent approval series, and the two links have no size set (the research gives votes per doubling of relief and a to-confirm approval figure).",
+    "addedBy": "EFFECT-WEB-VOTING",
+    "addedAt": "2026-10-20",
+    "replacement": "Relief dollars by place in the budgets engine, an approval measure from the views engine, and sizes read from Healy and Malhotra 2009 and a confirmed approval source.",
     "status": "open"
   }
 ]

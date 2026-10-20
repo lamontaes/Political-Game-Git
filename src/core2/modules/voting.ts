@@ -39,6 +39,7 @@ import {
   electionLawTurnoutCost,
 } from "../law-reach/group-a-voting";
 import { breakElectionTie } from "../election-ties";
+import { ageOnElection, turnoutWeb } from "../turnout-web";
 import {
   OPENING_CARRY,
   habitOf,
@@ -247,6 +248,11 @@ export interface TurnoutReasonsRecord {
   readonly reach?: number;
   readonly habit?: number;
   readonly propensity?: number;
+  /** The outcome web's month record that moved the propensity, and the links in it. */
+  readonly web?: {
+    readonly recordId: string;
+    readonly links: readonly string[];
+  };
 }
 
 /** One counted resident's ballot, with its reasons. */
@@ -980,6 +986,11 @@ export interface TurnoutDecision extends TurnoutParts {
   /** The gap between the candidates in their own eyes, across the day's races. */
   readonly interest: number;
   readonly propensity: number;
+  /** The web record behind the propensity's factor (absent where it did not move it). */
+  readonly web?: {
+    readonly recordId: string;
+    readonly links: readonly string[];
+  };
   /** A named voter's act; a counted voter votes at their propensity. */
   readonly votes: boolean;
 }
@@ -1040,7 +1051,16 @@ function decideTurnout(
     habit: record ? habitOf(record.voted, record.elections) : 0,
     cost,
   };
-  const propensity = propensityOf(parts);
+  // The web's links the engine does not read itself, by this voter's age and place.
+  const who = (api.state.people.get(voter.id) ?? voter) as {
+    readonly placeId?: string;
+    readonly birthDate?: string;
+  };
+  const web =
+    who.placeId && who.birthDate
+      ? turnoutWeb(api, who.placeId, ageOnElection(who.birthDate, input.date))
+      : null;
+  const propensity = Math.min(1, propensityOf(parts) * (web ? web.factor : 1));
   let votes = false;
   if (named) {
     const act = namedTurnout(record?.carry ?? OPENING_CARRY, propensity);
@@ -1053,7 +1073,15 @@ function decideTurnout(
       lastDate: input.date,
     } as unknown as ModuleRow);
   }
-  const decision = { ...parts, interest: input.interest, propensity, votes };
+  const decision = {
+    ...parts,
+    interest: input.interest,
+    propensity,
+    votes,
+    ...(web?.recordId && web.links.length
+      ? { web: { recordId: web.recordId, links: web.links } }
+      : {}),
+  };
   map.set(key, decision);
   return decision;
 }
@@ -1591,6 +1619,7 @@ function turnoutRecord(t: TurnoutDecision): TurnoutReasonsRecord {
     reach: t.reach,
     habit: t.habit,
     propensity: t.propensity,
+    ...(t.web ? { web: t.web } : {}),
   };
 }
 

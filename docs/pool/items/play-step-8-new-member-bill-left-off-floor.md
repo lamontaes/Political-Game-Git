@@ -5,13 +5,13 @@ area: play
 kind: wiring
 priority: 2
 size: M
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/step8-floor
+pr: #5726
 blocked-on:
 milestone:
 source: "play-golden-path-one-life, first one-life run, Oct 19"
-claimed-at:
+claimed-at: 2026-10-20T15:18:53.487Z
 ---
 
 **What.** In the one-life golden path in Waiahole-Waikane, Hawaii (seed onelife1), the player lost the State Representative race, won the State Senate seat two years later, drafted a minimum-wage bill and talked a colleague into a favor deal, and then the majority leader left the bill off the floor, so it was never voted and steps 8 to 11 were never reached. The leader's answer comes from their party, their tie to the member and their own traits, which is right, but the player has no way to change it: the only act aimed at a colleague names the bill's co-members, not the leader who sets the agenda. Give the player the move a real new member has, asking the leader for the floor with something to offer, so that negotiating the bill can change the leader's answer.
