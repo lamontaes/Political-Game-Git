@@ -5,12 +5,12 @@ area: release
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/fix-release-decl-stopgaps
 pr: #4455
 blocked-on:
 source: added with npm run pool -- add
-claimed-at:
+claimed-at: 2026-10-20T03:25:38.645Z
 ---
 
 **What.** TODO
