@@ -1,4 +1,7 @@
-import type { DecisionDeclaration, TraitPack } from "../../trait-packs";
+import type {
+  DecisionDeclaration,
+  TraitPack,
+} from "../../../core2/trait-packs";
 
 /**
  * The romance decisions where an affectionate person has a reason to preserve

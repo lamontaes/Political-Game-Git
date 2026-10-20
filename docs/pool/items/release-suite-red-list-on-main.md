@@ -5,9 +5,9 @@ area: release
 kind: research
 priority: 2
 size: M
-status: claimed
+status: dropped
 claimed-by: claude/political-game-pool-8defjq
-pr: #4965
+pr: #5080
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-19T19:53:24.140Z

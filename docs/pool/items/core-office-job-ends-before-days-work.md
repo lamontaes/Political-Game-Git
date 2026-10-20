@@ -5,7 +5,7 @@ area: core
 kind: bug
 priority: 1
 size: S
-status: in-pr
+status: done
 claimed-by: claude/office-job-end-worked-today
 pr: #4917
 blocked-on:

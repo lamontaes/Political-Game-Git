@@ -4,12 +4,13 @@ title: "Stopgaps in world-races (missing-data): 2 open"
 area: core
 kind: stopgap
 priority: 3
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/world-races-delegate
+pr: #5304
 blocked-on:
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/modules/world-races.ts, kind missing-data"
+claimed-at: 2026-10-19T23:46:51.395Z
 ---
 
 **What.** Replace or clear the 2 open missing-data stopgap row(s) in src/core2/modules/world-races.ts: SG-GOV-world-race-lean, SG-GOV-delegate-race-size. Each fake is replaced by the mechanic, or the feature that needs it is deleted.

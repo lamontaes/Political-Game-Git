@@ -765,7 +765,7 @@
         "key": "threat"
       },
       {
-        "move": "^(memoir-remember|memoir-hook|memoir-young|memoir-when-age|look-back)",
+        "move": "^(memoir-remember|memoir-hook|memoir-revise|memoir-young|memoir-when-age|look-back)",
         "tag": "recall"
       },
       {
@@ -938,7 +938,11 @@
         "tag": "close"
       },
       {
-        "move": ".",
+        "move": "^stage-stance-",
+        "tag": "promise"
+      },
+      {
+        "move": "^stage-",
         "tag": "tell"
       }
     ],
@@ -1081,24 +1085,6 @@
       {
         "move": "^[a-z]+-lie$",
         "tag": "lie"
-      }
-    ],
-    "speech-stages": [
-      {
-        "move": "^stage-opener$",
-        "tag": "greet"
-      },
-      {
-        "move": "^stage-closer$",
-        "tag": "close"
-      },
-      {
-        "move": "^stage-stance-",
-        "tag": "promise"
-      },
-      {
-        "move": "^stage-",
-        "tag": "tell"
       }
     ]
   }

@@ -7,7 +7,7 @@ priority: 2
 status: open
 claimed-by:
 pr:
-blocked-on:
+blocked-on: laws-outcome-justice
 milestone:
 source: "overnight pool item 7"
 claimed-at:
