@@ -5,9 +5,9 @@ area: world
 kind: wiring
 priority: 2
 size: S
-status: claimed
+status: done
 claimed-by: claude/political-game-pool-yucp92-bh
-pr: #5142
+pr: #5699
 after:
 blocked-on:
 source: "owner ruling Oct 19 (a counted household's arrears when filled in); audit Oct 19, Part A 'What it fakes' 4"

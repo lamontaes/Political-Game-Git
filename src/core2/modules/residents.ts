@@ -1535,6 +1535,60 @@ function householdContracts(
 }
 
 /**
+ * The employer calendars by id and each place's group account, built once per
+ * input (the input is replaced when a calendar is added) rather than at every
+ * release.
+ */
+const calendarIndex = new WeakMap<
+  object,
+  Map<string, WorkPayrollCalendarInput>
+>();
+function calendarsOf(
+  rt: ResidentsRuntime,
+): ReadonlyMap<string, WorkPayrollCalendarInput> {
+  let index = calendarIndex.get(rt.input);
+  if (!index)
+    calendarIndex.set(
+      rt.input,
+      (index = new Map((rt.input.calendars ?? []).map((row) => [row.id, row]))),
+    );
+  return index;
+}
+const accountIndex = new WeakMap<object, Map<string, string>>();
+function groupAccountOf(rt: ResidentsRuntime, placeId: string) {
+  let index = accountIndex.get(rt.input.accounts);
+  if (!index) {
+    index = new Map();
+    // The first row of a place is its group's account.
+    for (const row of rt.input.accounts)
+      if (!index.has(row.placeId)) index.set(row.placeId, row.accountId);
+    accountIndex.set(rt.input.accounts, index);
+  }
+  return index.get(placeId);
+}
+/** A place's standing flow of its unplaced workers' pay, found once. */
+const unplacedIndex = new WeakMap<object, Map<string, string>>();
+function unplacedFlowOf(rt: ResidentsRuntime, placeId: string) {
+  let index = unplacedIndex.get(rt.flows);
+  if (!index) unplacedIndex.set(rt.flows, (index = new Map()));
+  const stands = (flow: FlowState | undefined) =>
+    flow !== undefined &&
+    !flow.endedAt &&
+    flow.financeKind === "work.unplaced-residents" &&
+    flow.placeId === placeId
+      ? flow
+      : undefined;
+  const known = stands(rt.flows.get(index.get(placeId) ?? ""));
+  if (known) return known;
+  for (const flow of rt.flows.values())
+    if (stands(flow)) {
+      index.set(placeId, flow.id);
+      return flow;
+    }
+  return undefined;
+}
+
+/**
  * What a filled-in household takes back from the merged flows: its workers'
  * share of each wage flow, its purchase parts, its mortgage part and its
  * rent. Returns the employer calendars its jobs were paid on and its share of
@@ -1546,7 +1600,7 @@ export function releaseResidentHousehold(
   /** False when the household is gone (its last member died): its payments just end. */
   options: { ownFlows?: boolean } = {},
 ): {
-  calendars: Map<string, WorkPayrollCalendarInput>;
+  calendars: ReadonlyMap<string, WorkPayrollCalendarInput>;
   cashShare: number;
   accountId?: string;
   /** This release's number, for naming its transfers. */
@@ -1617,7 +1671,7 @@ export function releaseResidentHousehold(
       let removed = 0;
       for (const id of parts) removed += present[id] ?? 0;
       if (!removed) continue;
-      const amounts = { ...present };
+      const amounts = ownMap(present);
       const outside =
         core.organizations.get(flow.payeeId)?.outsideFlow !== undefined;
       for (const id of parts) {
@@ -1680,21 +1734,14 @@ export function releaseResidentHousehold(
         source: rt.input.source,
       });
   }
-  const calendars = new Map(
-    (rt.input.calendars ?? []).map((row) => [row.id, row]),
-  );
+  const calendars = calendarsOf(rt);
   // The household now pays its own outside living costs from its payer.
   const payer = record.people.find((row) => row.livingCostDailyMinor > 0);
   // Its workers without a recorded job keep their pay: its share of the
   // place's unplaced workers' flow becomes a flow of its own, to its
   // working-age people (SG-CORE-filled-unplaced-income).
   if (ownFlows && cash && cash.unplaced > 0) {
-    const unplaced = [...rt.flows.values()].find(
-      (flow) =>
-        !flow.endedAt &&
-        flow.financeKind === "work.unplaced-residents" &&
-        flow.placeId === placeId,
-    );
+    const unplaced = unplacedFlowOf(rt, placeId);
     const worker = record.people.find(
       (row) => row.livingCostDailyMinor > 0 && core.people.has(row.id),
     );
@@ -1747,8 +1794,7 @@ export function releaseResidentHousehold(
     // Paid from its group's account above; the pool's share is for a world
     // whose groups hold no money yet.
     cashShare: paidFromFund ? 0 : remaining > 0 ? own / remaining : 0,
-    accountId: rt.input.accounts.find((row) => row.placeId === placeId)
-      ?.accountId,
+    accountId: groupAccountOf(rt, placeId),
   };
 }
 
@@ -2326,8 +2372,7 @@ export function departCountedHousehold(
   store.retire(h, MemberState.Moved);
   return {
     cashShare: paidFromFund ? 0 : remaining > 0 ? own / remaining : 0,
-    accountId: rt.input.accounts.find((row) => row.placeId === placeId)
-      ?.accountId,
+    accountId: groupAccountOf(rt, placeId),
     placeId,
   };
 }
@@ -2476,10 +2521,9 @@ export function returnToCounts(
     const key = flowId.startsWith(MORTGAGE_KEY)
       ? `${MORTGAGE_KEY}${h.id}`
       : part;
-    flow.amountByContract = {
-      ...flow.amountByContract,
-      [key]: (flow.amountByContract[key] ?? 0) + amount,
-    };
+    const amounts = ownMap(flow.amountByContract);
+    amounts[key] = (amounts[key] ?? 0) + amount;
+    flow.amountByContract = amounts;
     flow.amountMinor += amount;
   }
   const account = rt.input.accounts.find(

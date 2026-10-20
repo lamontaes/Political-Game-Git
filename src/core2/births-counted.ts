@@ -306,6 +306,8 @@ export function applyCountedFlows(
     // (one model, two tiers): every expected count is in real people, and an
     // event in its record consumes that many.
     const weightOf = new Map<string, number>();
+    /** Whether each counted household rents or owns, for the links that split on it. */
+    const tenureOf = new Map<string, "rent" | "own">();
     const runtime = residentsRuntime(core);
     const counted = runtime?.store;
     // The household's income fifth, for the outcome web's factor on a death.
@@ -314,6 +316,11 @@ export function applyCountedFlows(
       const at = counted?.householdOf.get(record.household.id);
       const weight =
         at === undefined ? 1 : counted!.weightOf(counted!.households[at]!);
+      if (at !== undefined)
+        tenureOf.set(
+          record.household.id,
+          counted!.households[at]!.tenure === "rent" ? "rent" : "own",
+        );
       const fifth =
         at === undefined
           ? undefined
@@ -545,10 +552,15 @@ export function applyCountedFlows(
           ([[low, high]]) => age >= low && age <= high,
         )?.[1];
         if (!rate) continue;
-        // The web's links land on each woman by her own age (a recession
-        // delays births most among women in their early twenties).
+        // The web's links land on each woman by her own age and home (a
+        // recession delays births most among women in their early twenties;
+        // dearer homes raise owners' births and lower renters').
         const webFactor = webOn
-          ? webFactorFor(api, placeId, "births.rate", { age, sex: "female" })
+          ? webFactorFor(api, placeId, "births.rate", {
+              age,
+              sex: "female",
+              tenure: tenureOf.get(record.household.id),
+            })
           : 1;
         row.expected.births +=
           monthlyShare(rate * webFactor, months) * weightOfPerson(woman);
