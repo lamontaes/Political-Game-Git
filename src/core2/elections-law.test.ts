@@ -268,6 +268,12 @@ describe(`election law from data (place ${drawn.name}, ${drawn.state}, seed ${se
     expect(termStartAfter(governor("US-IL"), "2026-11-03")).toBe("2027-01-11");
     expect(termStartAfter(governor("US-IN"), "2028-11-07")).toBe("2029-01-08");
     expect(termStartAfter(governor("US-NJ"), "2025-11-04")).toBe("2026-01-20");
+    // Ohio and Oklahoma: second Monday; Pennsylvania: third Tuesday; Maryland: third Wednesday; Wisconsin: first Monday.
+    expect(termStartAfter(governor("US-OH"), "2026-11-03")).toBe("2027-01-11");
+    expect(termStartAfter(governor("US-OK"), "2026-11-03")).toBe("2027-01-11");
+    expect(termStartAfter(governor("US-PA"), "2026-11-03")).toBe("2027-01-19");
+    expect(termStartAfter(governor("US-MD"), "2026-11-03")).toBe("2027-01-20");
+    expect(termStartAfter(governor("US-WI"), "2026-11-03")).toBe("2027-01-04");
     // An unread state keeps the data's default.
     expect(termStartAfter(governor("US-NC"), "2026-11-03")).toBe(
       `2027-${termStarts.default.monthDay}`,
