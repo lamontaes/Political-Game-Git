@@ -78,13 +78,21 @@ const states = [...corePlaceStateIdentities()]
   .sort();
 
 // A town with a Medicaid-eligible named adult who works under 80 hours a month
-// and has no child under 14 is rare (about one town in twenty), so the fixture
-// draws until it finds one.
+// and has no child under 14 is rare (about one town in twenty), so the payment
+// fixture draws until it finds one.
 const DRAWS = 160;
+// The pinned case keeps one named place and redraws only past its empty tries.
+const PINNED_DRAWS = 40;
 
-function build(): void {
-  // A named place is one draw: it has the shapes or the test says it lacks them.
-  const draws = process.env.GOLDEN_PATH_PLACE_KEY ? 1 : DRAWS;
+/**
+ * A town to run the cases in. The payment cases need payees (adults the
+ * expansion covers, adults the work requirement then reaches, and a child of
+ * preschool age), so a place without them is redrawn. The tax case needs none,
+ * so it alone keeps a pinned place (GOLDEN_PATH_PLACE_KEY).
+ */
+function build(options: { pinned: boolean }): void {
+  const draws =
+    options.pinned && process.env.GOLDEN_PATH_PLACE_KEY ? PINNED_DRAWS : DRAWS;
   for (let attempt = 0; attempt < draws; attempt += 1) {
     const state = pick(states, `state:${attempt}`);
     const places = [
@@ -95,7 +103,8 @@ function build(): void {
     ].sort((a, b) => a.key.localeCompare(b.key));
     if (!places.length) continue;
     const key =
-      process.env.GOLDEN_PATH_PLACE_KEY ?? pick(places, `place:${attempt}`).key;
+      (options.pinned ? process.env.GOLDEN_PATH_PLACE_KEY : undefined) ??
+      pick(places, `place:${attempt}`).key;
     const full = buildPopulation({
       seed,
       placeKey: key,
@@ -133,9 +142,10 @@ function build(): void {
         (r) => r.named,
       );
     if (
-      !covers("health-human-services.expand-medicaid-eligibility").length ||
-      !covers("health-human-services.medicaid-work-requirement").length ||
-      !covers("education.universal-preschool").length
+      !options.pinned &&
+      (!covers("health-human-services.expand-medicaid-eligibility").length ||
+        !covers("health-human-services.medicaid-work-requirement").length ||
+        !covers("education.universal-preschool").length)
     )
       continue;
     const levels = new Set(governments(api).map((g) => g.level));
@@ -147,7 +157,7 @@ function build(): void {
     return;
   }
   throw new Error(
-    `no town with an employed adult, a Medicaid-eligible adult, a work-requirement adult and a preschool-age child in ${process.env.GOLDEN_PATH_PLACE_KEY ? `the named place ${process.env.GOLDEN_PATH_PLACE_KEY}` : `${DRAWS} draws`} (seed ${seed})`,
+    `no town with an employed adult, a Medicaid-eligible adult, a work-requirement adult and a preschool-age child in ${options.pinned && process.env.GOLDEN_PATH_PLACE_KEY ? `${PINNED_DRAWS} draws of the named place ${process.env.GOLDEN_PATH_PLACE_KEY}` : `${draws} draws`} (seed ${seed})`,
   );
 }
 
@@ -314,7 +324,7 @@ const stepFor = (gov: GovernmentRow, name: string) =>
   );
 
 describe("law reach, group B: every policy reaches people through its engine", () => {
-  beforeAll(() => build(), 900_000);
+  beforeAll(() => build({ pinned: false }), 900_000);
 
   it("registers a handler for every group B policy and budget line", () => {
     expect(GROUP_B_KEYS.length).toBe(34);
@@ -648,60 +658,6 @@ describe("law reach, group B: every policy reaches people through its engine", (
       ).toBe(0);
   });
 
-  it("a graduated income tax replaces the level's tax with a schedule; repeal restores the prior row", () => {
-    const key = Q("fiscal.graduated-income-tax");
-    const prior = lawInForce(api, "income-tax").levels.find(
-      (l) => l.level === LOCAL,
-    )?.row;
-    enact(key, 1, LOCAL);
-    const row = lawInForce(api, "income-tax").levels.find(
-      (l) => l.level === LOCAL,
-    )?.row;
-    if (!prior?.terms?.schedules)
-      expect(
-        (row?.terms?.schedules as { single: unknown } | undefined)?.single,
-        where,
-      ).toBeDefined();
-    const since = api.state.date;
-    advanceCore(core, after(api.state.date, 30));
-    const lines = [...core.people.keys()].flatMap((id) =>
-      withholdingOf(api, id)
-        .filter((w) => w.date >= since)
-        .flatMap((w) =>
-          w.lines.filter((l) => l.level === LOCAL && l.tax === "income"),
-        ),
-    );
-    if (paidSince(since)) expect(lines.length, where).toBeGreaterThan(0);
-    enact(key, 0, LOCAL);
-    const restored = lawInForce(api, "income-tax").levels.find(
-      (l) => l.level === LOCAL,
-    )?.row;
-    if (String(restored?.terms?.enactedBy ?? "").startsWith("flatten:")) {
-      // The level's tax was a graduated schedule (Guam's follows the federal
-      // one, and an earlier case in this file may have flattened it): repealing
-      // the act replaces the schedule with the level's flat rate
-      // (SG-GOV-REACH-B-flat-tax-replacement), a tax it wrote that still
-      // reaches workers, so the person rows stand and the schedule is gone.
-      expect(restored?.terms?.schedules, `${where} schedule`).toBeUndefined();
-      expect(restored?.unit, `${where} flat tax`).toBe("percent-flat");
-      return;
-    }
-    expectEnded(key);
-    expect(restored?.value ?? 0).toBe(prior?.value ?? 0);
-    // Where the level's own tax is graduated, a "no" flattens it
-    // (SG-GOV-REACH-B-flat-tax-replacement), and that flat law reaches the
-    // taxpayers: the records still open belong to the repeal's own act, never
-    // to the earlier one it undid.
-    const stillOpen = openPeople(key);
-    if (!stillOpen.length) expectEnded(key);
-    else {
-      expect(restored?.unit, `${where} flat law`).toBe("percent-flat");
-      for (const row of stillOpen)
-        expect(row.lawId, `${where} ${row.id}`).toContain(`:TEST-${measure}`);
-      expect(openOrgs(key), `${where} ${key} employers`).toEqual([]);
-    }
-  });
-
   it("a city income tax drafted in the catalog's unit reaches workers (collection: audit item 8)", () => {
     enact("income-tax", 2, LOCAL, "percent");
     expect(openPeople("income-tax").length, where).toBeGreaterThan(0);
@@ -989,36 +945,70 @@ describe("law reach, group B: every policy reaches people through its engine", (
         );
     }
     const past = standing();
-    const stopped = past.heads.filter((h) => past.reachedIds.has(h.id));
+    // The requirement stops a head it reaches once that person's own months on
+    // the benefit since it took effect reach its limit within its window; a
+    // head it reached later, with fewer months, still draws.
+    const since = (
+      lawInForce(api, work).governing?.effectiveDate ?? api.state.date
+    ).slice(0, 7);
+    const thisMonth = api.state.date.slice(0, 7);
+    const monthsAgo = (m: string) =>
+      (Number(thisMonth.slice(0, 4)) - Number(m.slice(0, 4))) *
+        reachParameter("monthsPerYear") +
+      Number(thisMonth.slice(5, 7)) -
+      Number(m.slice(5, 7));
+    const draws = new Map(
+      table<{ id: string; months: string[] }>("taken")
+        .filter((r) => r.id.startsWith("draw|"))
+        .map((r) => [r.id.slice("draw|".length), r.months]),
+    );
+    const usedUp = (id: string) =>
+      (draws.get(id) ?? []).filter(
+        (m) =>
+          m !== thisMonth &&
+          m >= since &&
+          monthsAgo(m) < reachParameter("snapWorkTimeLimitWindowMonths"),
+      ).length >= reachParameter("snapWorkTimeLimitMonths");
+    const stopped = past.heads.filter(
+      (h) => past.reachedIds.has(h.id) && usedUp(h.id),
+    );
+    expect(
+      stopped.length,
+      `${where}: nobody reached the time limit`,
+    ).toBeGreaterThan(0);
     for (const head of stopped.filter((h) => h.named))
       expect(
         past.named.some((r) => r.recipientId === head.id),
         `${where} ${head.id} still paid after the limit`,
       ).toBe(false);
-    // The line's money goes to the households still drawing, in whole cents:
-    // the rate floors per household and each counted group's fund floors again,
-    // so the named and counted payments together are the line's monthly money
-    // for the town less under one cent per household and per group paid (a
-    // head the requirement reaches but whose time limit has not run still
-    // draws, so the households are counted over every head).
-    const scaleOf = (h: { scale?: number }) => h.scale ?? 1;
-    const monthly =
+    // The line's money goes to the heads still drawing, each counted row for
+    // the households it stands for; each group's fund is paid that rate times
+    // its households still drawing, in whole cents.
+    const stillDrawing = past.heads.filter((h) => !stopped.includes(h));
+    const households = stillDrawing.reduce((n, h) => n + (h.scale ?? 1), 0);
+    const rate = Math.floor(
       ((group(key)?.terms.townDeltaMinor ?? 0) *
         modeledShare(api, townFacts(api, town))) /
-      reachParameter("monthsPerYear");
-    const countedPaid = past.countedRows.reduce((n, r) => n + r.amountMinor, 0);
-    const namedPaid = past.named.reduce((n, r) => n + r.amountMinor, 0);
-    const households = past.heads.reduce((n, h) => n + scaleOf(h), 0);
-    if (monthly > 0 && countedPaid > 0) {
-      expect(
-        namedPaid + countedPaid,
-        `${where} welfare paid is no more than the line's monthly money`,
-      ).toBeLessThanOrEqual(monthly + 1);
-      expect(
-        namedPaid + countedPaid,
-        `${where} welfare paid is the line's monthly money less rounding (${households} households, ${past.countedRows.length} groups)`,
-      ).toBeGreaterThan(monthly - households - past.countedRows.length);
+        reachParameter("monthsPerYear") /
+        Math.max(1, households),
+    );
+    const store = residentsRuntime(core)!.store;
+    const byGroup = new Map<number, number>();
+    for (const h of stillDrawing.filter((x) => !x.named)) {
+      const ix = store.householdOf.get(h.householdId);
+      const g = ix === undefined ? undefined : store.households[ix]?.group;
+      if (g !== undefined)
+        byGroup.set(g, (byGroup.get(g) ?? 0) + (h.scale ?? 1));
     }
+    const expectedCounted = [...byGroup.values()].reduce(
+      (n, units) => n + Math.floor(rate * units),
+      0,
+    );
+    if (rate > 0 && byGroup.size > 0)
+      expect(
+        past.countedRows.reduce((n, r) => n + r.amountMinor, 0),
+        `${where} counted groups' payments`,
+      ).toBe(expectedCounted);
     for (const row of past.countedRows)
       expect(row.recipientId, `${where} ${row.id}`).toMatch(/^fund-account:/);
     report.assistanceWork = {
@@ -1241,5 +1231,63 @@ describe("law reach, group B: every policy reaches people through its engine", (
 
   it("reports", () => {
     govReport("law-reach-group-b", JSON.stringify({ place, ...report }));
+  });
+});
+
+describe("law reach, group B: a graduated income tax", () => {
+  beforeAll(() => build({ pinned: true }));
+
+  it("a graduated income tax replaces the level's tax with a schedule; repeal restores the prior row", () => {
+    const key = Q("fiscal.graduated-income-tax");
+    const prior = lawInForce(api, "income-tax").levels.find(
+      (l) => l.level === LOCAL,
+    )?.row;
+    enact(key, 1, LOCAL);
+    const row = lawInForce(api, "income-tax").levels.find(
+      (l) => l.level === LOCAL,
+    )?.row;
+    if (!prior?.terms?.schedules)
+      expect(
+        (row?.terms?.schedules as { single: unknown } | undefined)?.single,
+        where,
+      ).toBeDefined();
+    const since = api.state.date;
+    advanceCore(core, after(api.state.date, 30));
+    const lines = [...core.people.keys()].flatMap((id) =>
+      withholdingOf(api, id)
+        .filter((w) => w.date >= since)
+        .flatMap((w) =>
+          w.lines.filter((l) => l.level === LOCAL && l.tax === "income"),
+        ),
+    );
+    if (paidSince(since)) expect(lines.length, where).toBeGreaterThan(0);
+    enact(key, 0, LOCAL);
+    const restored = lawInForce(api, "income-tax").levels.find(
+      (l) => l.level === LOCAL,
+    )?.row;
+    if (String(restored?.terms?.enactedBy ?? "").startsWith("flatten:")) {
+      // The level's tax was a graduated schedule (Guam's follows the federal
+      // one, and an earlier case in this file may have flattened it): repealing
+      // the act replaces the schedule with the level's flat rate
+      // (SG-GOV-REACH-B-flat-tax-replacement), a tax it wrote that still
+      // reaches workers, so the person rows stand and the schedule is gone.
+      expect(restored?.terms?.schedules, `${where} schedule`).toBeUndefined();
+      expect(restored?.unit, `${where} flat tax`).toBe("percent-flat");
+      return;
+    }
+    expectEnded(key);
+    expect(restored?.value ?? 0).toBe(prior?.value ?? 0);
+    // Where the level's own tax is graduated, a "no" flattens it
+    // (SG-GOV-REACH-B-flat-tax-replacement), and that flat law reaches the
+    // taxpayers: the records still open belong to the repeal's own act, never
+    // to the earlier one it undid.
+    const stillOpen = openPeople(key);
+    if (!stillOpen.length) expectEnded(key);
+    else {
+      expect(restored?.unit, `${where} flat law`).toBe("percent-flat");
+      for (const row of stillOpen)
+        expect(row.lawId, `${where} ${row.id}`).toContain(`:TEST-${measure}`);
+      expect(openOrgs(key), `${where} ${key} employers`).toEqual([]);
+    }
   });
 });

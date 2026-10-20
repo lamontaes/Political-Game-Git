@@ -5,7 +5,7 @@ area: play
 kind: wiring
 priority: 2
 size: M
-status: in-pr
+status: done
 claimed-by: claude/step8-floor
 pr: #5726
 blocked-on:
