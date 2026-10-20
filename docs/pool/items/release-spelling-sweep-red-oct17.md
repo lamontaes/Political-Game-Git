@@ -5,7 +5,7 @@ area: release
 kind: bug
 priority: 1
 size: S
-status: in-pr
+status: open
 claimed-by:
 pr: #4957
 blocked-on:
@@ -22,3 +22,5 @@ claimed-at:
 **Files.** tests/american-english-sweep.test.ts, data/english/bill-sections.json, data/english/question-names.json
 
 **Notes.** Body repaired Oct 17 (claude) from the pull request's description; the fix is in that pull request.
+
+Sent back 2026-10-20 from PR #4957 (branch claude/spelling-sweep-green-s5): The two Words-owned wording edits are removed, addressing that review. scripts/prose-eval/american-english-scope.ts:22-27 now exempts the entire live src/core2/data/disasters/declarations.json file to clear the Sulphur Fire spelling hit. That compiled simulation input is not a captured raw-source byte file; a whole-file guard bypass can hide future authored wording too. Preserve the official FEMA proper name and handle the sourced incident-title exception narrowly, rather than bypassing every field in the shipped disaster catalog, then rerun the changed-file checks.; finish on that branch, merge main into it first.
