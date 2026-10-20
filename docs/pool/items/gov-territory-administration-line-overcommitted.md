@@ -22,3 +22,5 @@ claimed-at:
 **Files.** src/core2/budgets-treasury.ts, src/core2/modules/budgets.ts, src/core2/modules/executive.ts, src/core2/data/budgets/spending-payees.json
 
 **Notes.** Found Oct 18 (claude, claude/unpaid-posts-s6) with a probe of `publicPayRoom` for the post `state:chief-election-official`: line `administration`, room -155499490, cap 0. The Northern Mariana Islands chief was also unpaid at the same measure. Four states drawn showed no unpaid chief.
+
+Sent back 2026-10-20 from PR #5046 (branch claude/territory-admin-line): merging main conflicts in src/core2/law-reach/group-b-money.ts and src/core2/modules/budgets.ts; finish on that branch, merge main into it first.
