@@ -5,12 +5,13 @@ area: gov
 kind: research
 priority: 3
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/peaceful-ritchie-03780x
 pr:
 blocked-on:
 after: gov-redistricting-neighborhood-data
 source: added with npm run pool -- add
+claimed-at: 2026-10-20T00:13:25.999Z
 ---
 
 **What.** TODO
