@@ -22,3 +22,5 @@ claimed-at: 2026-10-20T04:32:27.396Z
 **Files.** docs/release/changes, the grading module #5286 touched
 
 **Notes.** Item 13 of docs/reports/merge-audit-2026-10-20.md, split from release-merge-audit-oct20-fixes.
+
+**Result (Oct 20).** preferGraded kept only the best-scoring pieces, so one grade (0.25) made a piece the only one left, against the step's own note that one grade never decides. It now keeps every piece within one step of the best, so a second grade in the same direction settles it. Tests in scripts/dialogue-batch/calibration.test.ts: a once-graded piece keeps company with the ungraded, a twice-graded one wins, and the engine words a once-graded line as it does with nothing graded. The words-bench-calibration declaration is impact none until grades exist (the table has no graded part).

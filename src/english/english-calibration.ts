@@ -67,17 +67,23 @@ export function calibrationScore(
 }
 
 /**
- * The candidates the table prefers: those scoring best. Candidates the table
- * knows nothing about score zero, so graded pieces rise above or fall below
- * them. With nothing known about any candidate, all stay.
+ * The candidates the table prefers: those scoring within one grade step of the
+ * best. Candidates the table knows nothing about score zero, so graded pieces
+ * rise above or fall below them. One grade moves a score by exactly one step
+ * and never decides a choice alone (the step's own note): a single graded
+ * piece keeps company with the ungraded ones, and only a second grade in the
+ * same direction drops them. With nothing known about any candidate, all stay.
  */
 export function preferGraded<T>(
   candidates: readonly T[],
   scoreOf: (candidate: T) => number | null,
+  table: Calibration = CALIBRATION,
 ): readonly T[] {
   const scores = candidates.map((candidate) => scoreOf(candidate));
   if (scores.every((score) => score === null)) return candidates;
   const values = scores.map((score) => score ?? 0);
   const best = Math.max(...values);
-  return candidates.filter((_, at) => values[at] === best);
+  // The small allowance keeps a gap of exactly one step on the kept side.
+  const floor = best - table.step.value - 1e-9;
+  return candidates.filter((_, at) => values[at]! >= floor);
 }

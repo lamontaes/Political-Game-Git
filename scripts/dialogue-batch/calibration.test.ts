@@ -5,6 +5,7 @@ import {
 } from "../../src/english/english-composition";
 import {
   CALIBRATION,
+  preferGraded,
   type Calibration,
 } from "../../src/english/english-calibration";
 import type { GroundedEnglishPacket } from "../../src/english/grounded-english";
@@ -141,5 +142,41 @@ describe("the engine reads the table when it chooses", () => {
       Array.from({ length: 40 }, () => ({ i: 1, axes: { length: 5 } })),
     );
     expect(said(table)).toBe("hi");
+  });
+});
+
+describe("one grade never decides a choice alone", () => {
+  const step = CALIBRATION.step.value;
+  it("keeps a once-graded piece in company with the ungraded", () => {
+    expect(
+      preferGraded(["liked", "plain"], (c) => (c === "liked" ? step : 0)),
+    ).toEqual(["liked", "plain"]);
+    expect(
+      preferGraded(["disliked", "plain"], (c) =>
+        c === "disliked" ? -step : 0,
+      ),
+    ).toEqual(["disliked", "plain"]);
+  });
+  it("lets a second grade the same way settle it", () => {
+    expect(
+      preferGraded(["liked", "plain"], (c) => (c === "liked" ? 2 * step : 0)),
+    ).toEqual(["liked"]);
+    expect(
+      preferGraded(["disliked", "plain"], (c) =>
+        c === "disliked" ? -2 * step : 0,
+      ),
+    ).toEqual(["plain"]);
+  });
+  it("does not force the line to the once-graded piece", () => {
+    // Before this, one grade up on "hi" made it the only piece left, and the
+    // line was "hi" every time; now the engine chooses between both pieces as
+    // it does with nothing graded, and a second grade then settles it.
+    const once = fold([{ i: 0, axes: { naturalness: 5 } }]);
+    expect(said(once)).toBe(said(fold([])));
+    const twice = fold([
+      { i: 0, axes: { naturalness: 5 } },
+      { i: 0, axes: { naturalness: 5 } },
+    ]);
+    expect(said(twice)).toBe("hi");
   });
 });
