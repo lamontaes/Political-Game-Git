@@ -61,13 +61,14 @@ function play<T>(
   factors: Record<string, number>,
   days: number,
   read: (core: CoreState) => T,
+  at: { key: string } = place,
 ): T {
   held.factors = factors;
   const opening = gameStartDate();
   // One world at a time: the read keeps only what the test compares.
   const world = buildBenchWorld(seed, opening, {
     twoLevel: true,
-    placeKey: place.key,
+    placeKey: at.key,
   });
   advanceCore(world.core, addDays(makeIsoDate(opening), days));
   return read(world.core);
@@ -121,8 +122,25 @@ describe(`prices and place services take the web's factor (${place.name}, seed $
           );
       return paid;
     };
-    const base = play({}, 75, bills);
-    const dearer = play({ "energy.electricity-price": 1.1 }, 75, bills);
+    // Bills differ by income only between households of different pay, so the
+    // place must bill at least two named households whose bills differ at the
+    // base factor. A small place may bill one, or several at one pay: draw
+    // again, a bounded number of times, and name the failure when none does.
+    const DRAWS = 5;
+    const tried: string[] = [];
+    let at = place;
+    let base = new Map<string, number>();
+    for (let attempt = 0; attempt < DRAWS; attempt++) {
+      at = attempt === 0 ? place : drawPlace(seed, `web-prices-${attempt}`);
+      tried.push(at.name);
+      base = play({}, 75, bills, at);
+      if (new Set(base.values()).size > 1) break;
+    }
+    expect(
+      new Set(base.values()).size,
+      `no drawn place billed two households of different pay for electricity (seed ${seed}; tried ${tried.join("; ")})`,
+    ).toBeGreaterThan(1);
+    const dearer = play({ "energy.electricity-price": 1.1 }, 75, bills, at);
     expect(dearer.size).toBeGreaterThan(0);
     const total = (m: Map<string, number>) =>
       [...m.values()].reduce((n, x) => n + x, 0);
