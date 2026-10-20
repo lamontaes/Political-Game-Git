@@ -5,12 +5,12 @@ area: laws
 kind: wiring
 priority: 2
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/outcome-health-fiscal
 pr: #5517
 blocked-on:
 source: added with npm run pool -- add
-claimed-at:
+claimed-at: 2026-10-20T13:17:23.835Z
 ---
 
 **What.** TODO
