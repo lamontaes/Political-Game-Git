@@ -5642,7 +5642,7 @@
   "playerDecisionDetailDays": {
     "value": 365,
     "tag": "TUNABLE",
-    "citation": "Owner ruling, Oct 20 (memory): after a year keep the summary and reasons of the player's routine decisions, not every detail. How long the player's own routine act keeps every option's score before only its chosen reasons remain.",
+    "citation": "How long the player's own routine act keeps every option's score before only its chosen reasons remain; after a year the summary and reasons are kept, not every detail.",
     "spread": {
       "low": 180,
       "high": 730,

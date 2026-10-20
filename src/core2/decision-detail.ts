@@ -3,8 +3,8 @@
  * (every option's score) for `circleDecisionDetailDays`; after that a circle
  * member's act keeps only what the "why" view needs to name the choice. The
  * player's own routine acts keep everything for `playerDecisionDetailDays`
- * (owner, Oct 20: after a year keep the summary and the reasons, not every
- * option's score); their public records and news keep everything. Writers
+ * (after a year only the summary and the reasons, not every option's
+ * score); their public records and news keep everything. Writers
  * queue each record as they keep it, so condensing visits each record once
  * and never scans the log.
  */

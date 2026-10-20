@@ -41,7 +41,7 @@ describe(`old reasons condense in ${place.name}, ${place.state} (seed ${seed})`,
       expect(row.decision!.reasonKey).toBeDefined();
     }
     // The player's own routine act keeps every score for a year, then only
-    // its summary and reasons (owner, Oct 20).
+    // its summary and reasons.
     const template = old[0]!;
     const own = {
       ...template,
