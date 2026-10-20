@@ -4,13 +4,13 @@ title: "Unplanned pregnancies and the decision, reading the abortion law where s
 area: people
 kind: feature
 priority: 2
-status: in-pr
-claimed-by: claude/political-game-pool-pdqjm6
+status: open
+claimed-by:
 pr: #5220
 blocked-on:
 milestone:
 source: "found while building laws-record-only-reads"
-claimed-at: 2026-10-19T21:54:56.245Z
+claimed-at:
 ---
 
 **What.** Checked against main on Oct 16: OPEN. The renewal engine has no unplanned pregnancy or decision logic, and `SG-GOV-REACH-A-abortion` is still open. This is the owner's call on how it is shown; read the register first. Next: An unplanned pregnancy and the decision the woman makes, reading the law in force and provider distance. The player would see it as a choice among people, never a form.
@@ -24,3 +24,5 @@ claimed-at: 2026-10-19T21:54:56.245Z
 **Notes.** SG-GOV-REACH-A-abortion. Split out of laws-record-only-reads on Oct 15; Session A had already checked main and found no record to read.
 
 Oct 20: Owner ruled on #5220 that unplanned pregnancies happen to people in the background from each person's own records and the law where they live, never to the player's own character or household, with nothing new shown to the player, so SG-PEOPLE-unplanned-pregnancy can be marked resolved.
+
+Sent back 2026-10-20 from PR #5220 (branch claude/political-game-pool-pdqjm6): the owner's Oct 20 ruling (never the player's character or household; resolve SG-PEOPLE-unplanned-pregnancy) is not applied yet; finish on that branch, merge main into it first.
