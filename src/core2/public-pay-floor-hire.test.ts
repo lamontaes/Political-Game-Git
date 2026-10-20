@@ -6,6 +6,7 @@ import { setBookkeeping } from "./bookkeeping";
 import { gameStartDate } from "./game-start";
 import { jobsAt } from "./law-reach/group-b-money";
 import { enactLaw, lawChain } from "./modules/laws";
+import { inCustody } from "./modules/justice";
 import { townSeats } from "./modules/offices";
 import { hireStaff, staffCandidates } from "./modules/staff";
 import {
@@ -96,7 +97,9 @@ it("pays an aide hired in a played world at the floor from the day they are hire
     const state = core as CoreState;
     const holder = townSeats(api).find((seat) => seat.holder)?.holder;
     const candidate = holder
-      ? staffCandidates(api, holder.personId)[0]
+      ? staffCandidates(api, holder.personId).find(
+          (row) => !inCustody(api, row.personId),
+        )
       : undefined;
     if (!holder || !candidate) {
       tried.push(`${where}: no official with a candidate`);
@@ -119,12 +122,12 @@ it("pays an aide hired in a played world at the floor from the day they are hire
     });
     const job = aide.jobId ? state.jobs.get(aide.jobId) : undefined;
     expect(job, `${where}: aide ${aide.id} has a job`).toBeDefined();
+    // The aide's employer is the government's own treasury, which the floor
+    // reads as a public employer of that government's level.
     expect(
-      PUBLIC_EMPLOYER_CLASSES.includes(
-        core.organizations.get(job!.organizationId)?.classification ?? "",
-      ),
-      `${where}: the aide's employer is a public employer`,
-    ).toBe(true);
+      core.organizations.get(job!.organizationId)?.kind,
+      `${where}: the aide's employer ${job!.organizationId}`,
+    ).toBe("government-treasury");
     expect(
       job!.wageDailyMinor,
       `${where}: ${job!.id} is paid under the yearly floor`,
