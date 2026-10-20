@@ -42,12 +42,17 @@ function play(shift: boolean) {
   while (day < end) {
     day = addDays(day, 1);
     advanceCore(core, day);
-    // The web writes its month on the 3rd; the twin raises the effect in
-    // the rows it just wrote, so the school engine reads it afterwards.
-    if (shift && core.date.slice(8) === "03") {
+    // The web writes its month on the 3rd, and writes it again whenever a
+    // law takes effect, which drops a shift laid earlier; from the 3rd on,
+    // the twin raises the effect again in any of the month's rows without
+    // it, so the school engine reads it afterwards.
+    if (shift && Number(core.date.slice(8)) >= 3) {
       const months = api.moduleState(OUTCOME_WEB_MODULE_ID).table("months");
       for (const row of months.rows() as unknown as WebMonth[])
-        if (row.month === core.date.slice(0, 7))
+        if (
+          row.month === core.date.slice(0, 7) &&
+          LINKS.some((key) => row.effects[key] !== SHIFT)
+        )
           months.put({
             ...row,
             effects: {
