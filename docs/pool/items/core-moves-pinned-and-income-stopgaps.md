@@ -5,10 +5,10 @@ area: core
 kind: stopgap
 priority: 2
 size: M
-status: blocked
-claimed-by: claude/core-moves-pinned-income
+status: open
+claimed-by:
 pr:
-blocked-on: world-agreements-re-resolve-worker
+blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-16T00:09:03.201Z
 ---
@@ -22,3 +22,5 @@ claimed-at: 2026-10-16T00:09:03.201Z
 **Files.** src/core2/pinned-jobs.ts, src/core2/modules/jobs.ts, src/core2/modules/moves.ts
 
 **Notes.** The old pool body was the empty template; this is the real one. Split Oct 15: the duplicate copy is removed in this PR, the two row replacements are the blocked-on items.
+
+Oct 20: Everything it waited on is done, so it is open.
