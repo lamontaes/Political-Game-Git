@@ -366,12 +366,102 @@
       "lower": "the lowest pay a public employer may offer shall be lowered from {before} to {value}",
       "raiseTo": "the lowest pay a public employer may offer shall be raised to {value}",
       "lowerTo": "the lowest pay a public employer may offer shall be lowered to {value}"
+    },
+    "property-tax": {
+      "subject": "the property tax rate",
+      "purpose": "set the property tax rate",
+      "raise": "the property tax rate shall be raised from {before} to {value}",
+      "lower": "the property tax rate shall be lowered from {before} to {value}",
+      "raiseTo": "the property tax rate shall be raised to {value}",
+      "lowerTo": "the property tax rate shall be lowered to {value}"
+    },
+    "corporate-income-tax": {
+      "subject": "the corporate income tax rate",
+      "purpose": "set the corporate income tax rate",
+      "raise": "the corporate income tax rate shall be raised from {before} to {value}",
+      "lower": "the corporate income tax rate shall be lowered from {before} to {value}",
+      "raiseTo": "the corporate income tax rate shall be raised to {value}",
+      "lowerTo": "the corporate income tax rate shall be lowered to {value}"
+    },
+    "estate-tax": {
+      "subject": "the estate tax rate",
+      "purpose": "set the estate tax rate",
+      "raise": "the estate tax rate shall be raised from {before} to {value}",
+      "lower": "the estate tax rate shall be lowered from {before} to {value}",
+      "raiseTo": "the estate tax rate shall be raised to {value}",
+      "lowerTo": "the estate tax rate shall be lowered to {value}"
+    },
+    "inheritance-tax": {
+      "subject": "the inheritance tax rate",
+      "purpose": "set the inheritance tax rate",
+      "raise": "the inheritance tax rate shall be raised from {before} to {value}",
+      "lower": "the inheritance tax rate shall be lowered from {before} to {value}",
+      "raiseTo": "the inheritance tax rate shall be raised to {value}",
+      "lowerTo": "the inheritance tax rate shall be lowered to {value}"
+    },
+    "social-security-tax": {
+      "subject": "the Social Security payroll tax rate",
+      "purpose": "set the Social Security payroll tax rate",
+      "raise": "the Social Security payroll tax rate shall be raised from {before} to {value}",
+      "lower": "the Social Security payroll tax rate shall be lowered from {before} to {value}",
+      "raiseTo": "the Social Security payroll tax rate shall be raised to {value}",
+      "lowerTo": "the Social Security payroll tax rate shall be lowered to {value}"
+    },
+    "medicare-tax": {
+      "subject": "the Medicare payroll tax rate",
+      "purpose": "set the Medicare payroll tax rate",
+      "raise": "the Medicare payroll tax rate shall be raised from {before} to {value}",
+      "lower": "the Medicare payroll tax rate shall be lowered from {before} to {value}",
+      "raiseTo": "the Medicare payroll tax rate shall be raised to {value}",
+      "lowerTo": "the Medicare payroll tax rate shall be lowered to {value}"
+    },
+    "federal-unemployment-tax": {
+      "subject": "the federal unemployment tax rate",
+      "purpose": "set the federal unemployment tax rate",
+      "raise": "the federal unemployment tax rate shall be raised from {before} to {value}",
+      "lower": "the federal unemployment tax rate shall be lowered from {before} to {value}",
+      "raiseTo": "the federal unemployment tax rate shall be raised to {value}",
+      "lowerTo": "the federal unemployment tax rate shall be lowered to {value}"
+    },
+    "state-unemployment-tax": {
+      "subject": "the state unemployment tax rate",
+      "purpose": "set the state unemployment tax rate",
+      "raise": "the state unemployment tax rate shall be raised from {before} to {value}",
+      "lower": "the state unemployment tax rate shall be lowered from {before} to {value}",
+      "raiseTo": "the state unemployment tax rate shall be raised to {value}",
+      "lowerTo": "the state unemployment tax rate shall be lowered to {value}"
+    },
+    "medicaid-match": {
+      "subject": "the federal share of Medicaid costs",
+      "purpose": "set the federal share of Medicaid costs",
+      "raise": "the federal share of Medicaid costs shall be raised from {before} to {value}",
+      "lower": "the federal share of Medicaid costs shall be lowered from {before} to {value}",
+      "raiseTo": "the federal share of Medicaid costs shall be raised to {value}",
+      "lowerTo": "the federal share of Medicaid costs shall be lowered to {value}"
+    },
+    "snap-maximum": {
+      "subject": "the maximum monthly food assistance benefit",
+      "purpose": "set the maximum monthly food assistance benefit",
+      "raise": "the maximum monthly food assistance benefit shall be raised from {before} to {value}",
+      "lower": "the maximum monthly food assistance benefit shall be lowered from {before} to {value}",
+      "raiseTo": "the maximum monthly food assistance benefit shall be raised to {value}",
+      "lowerTo": "the maximum monthly food assistance benefit shall be lowered to {value}"
+    },
+    "unemployment-weekly-maximum": {
+      "subject": "the maximum weekly unemployment benefit",
+      "purpose": "set the maximum weekly unemployment benefit",
+      "raise": "the maximum weekly unemployment benefit shall be raised from {before} to {value}",
+      "lower": "the maximum weekly unemployment benefit shall be lowered from {before} to {value}",
+      "raiseTo": "the maximum weekly unemployment benefit shall be raised to {value}",
+      "lowerTo": "the maximum weekly unemployment benefit shall be lowered to {value}"
     }
   },
   "units": {
     "percent": "{value} percent",
     "minor/hour": "{dollars} an hour",
-    "dollars/year": "{dollars} a year"
+    "dollars/year": "{dollars} a year",
+    "USD/month": "{dollars} a month",
+    "USD/week": "{dollars} a week"
   },
   "cited": "{clause}, amending {statute}"
 }

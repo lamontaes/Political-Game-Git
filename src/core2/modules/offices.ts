@@ -41,6 +41,7 @@ import {
   specialElectionDate,
   staggeredSeatElection,
   termStartAfter,
+  termStartInYear,
 } from "../elections-calendar";
 import { MOVED_AWAY_EVENT } from "./moves";
 import { localOfficesForPlace, type OfficeInput } from "../offices-local";
@@ -619,7 +620,7 @@ function pastTerms(
   const years = office.termYears;
   const opening = api.state.date;
   if (!years || !term.endDate) return;
-  const start = shiftYears(term.endDate, -years);
+  const start = termStartInYear(office, shiftYears(term.endDate, -years));
   // The federal executive keeps its real record: the current term began a
   // full term before it ends (January 20), with no earlier terms invented.
   if (office.kind === "president" || office.kind === "vice-president") {
@@ -695,13 +696,13 @@ function pastTerms(
     ...won(start),
   } as unknown as ModuleRow);
   for (let k = prior; k >= 1; k -= 1) {
-    const from = shiftYears(start, -k * years);
+    const from = termStartInYear(office, shiftYears(start, -k * years));
     table(api, "terms").put({
       ...term,
       id: `${term.id}:past:${k}`,
       startDate: from,
       serviceStart,
-      endDate: shiftYears(from, years),
+      endDate: termStartInYear(office, shiftYears(from, years)),
       reached: "elected",
       status: "ended",
       endedBy: "re-elected",
@@ -1185,13 +1186,12 @@ function fillVacancy(
       : null;
   // Where the elections engine runs, the special election is a real race
   // (filing, residents deciding to run, the vote); else a stand-in.
-  const opened =
-    specialElections?.(api, {
-      vacancyId: vacancy.id,
-      seatId: seat.id,
-      electionDate: scheduled.electionDate!,
-      termEnd: previous.endDate,
-    }) ?? false;
+  const opened = specialElections(api, {
+    vacancyId: vacancy.id,
+    seatId: seat.id,
+    electionDate: scheduled.electionDate!,
+    termEnd: previous.endDate,
+  });
   if (!opened)
     api.moduleCalendar(OFFICES_MODULE_ID).schedule({
       key: `special:${seat.id}:${date}`,
@@ -1209,22 +1209,31 @@ function fillVacancy(
     : scheduled;
 }
 
-let specialElections:
-  | ((
-      api: CoreAPI,
-      race: {
-        readonly vacancyId: string;
-        readonly seatId: string;
-        readonly electionDate: string;
-        readonly termEnd: string | null;
-      },
-    ) => boolean)
-  | null = null;
-/** The elections engine opens a real race for a seat awaiting a special election. */
+type SpecialElectionOpener = (
+  api: CoreAPI,
+  race: {
+    readonly vacancyId: string;
+    readonly seatId: string;
+    readonly electionDate: string;
+    readonly termEnd: string | null;
+  },
+) => boolean;
+/** Each engine that opens real races for a seat awaiting a special election, by name. */
+const specialOpeners = new Map<string, SpecialElectionOpener>();
+/** The first engine that takes the seat opens its race; none leaves the stand-in. */
+function specialElections(
+  api: CoreAPI,
+  race: Parameters<SpecialElectionOpener>[1],
+): boolean {
+  for (const open of specialOpeners.values()) if (open(api, race)) return true;
+  return false;
+}
+/** An engine opens a real race for the seats it counts (the town's own, the world's). */
 export function registerSpecialElections(
-  open: NonNullable<typeof specialElections>,
+  open: SpecialElectionOpener,
+  name = "town",
 ): void {
-  specialElections = open;
+  specialOpeners.set(name, open);
 }
 
 /**
@@ -1254,13 +1263,12 @@ export function repeatSpecialElection(
   });
   const repeated: VacancyRow = { ...vacancy, electionDate: next.electionDate };
   table(api, "vacancies").put(repeated as unknown as ModuleRow);
-  const opened =
-    specialElections?.(api, {
-      vacancyId,
-      seatId: vacancy.seatId,
-      electionDate: next.electionDate,
-      termEnd,
-    }) ?? false;
+  const opened = specialElections(api, {
+    vacancyId,
+    seatId: vacancy.seatId,
+    electionDate: next.electionDate,
+    termEnd,
+  });
   if (!opened)
     api.moduleCalendar(OFFICES_MODULE_ID).schedule({
       key: `special:${vacancy.seatId}:${next.electionDate}`,
