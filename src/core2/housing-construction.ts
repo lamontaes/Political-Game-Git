@@ -162,8 +162,9 @@ function residentsOf(c: CoreState, placeId: string): number {
   let n = 0;
   for (const person of c.people.values())
     if (person.alive && person.placeId === placeId) n += 1;
-  for (const row of residentsRuntime(c)?.households.values() ?? [])
-    if (row.household.placeId === placeId) n += row.household.memberIds.length;
+  const store = residentsRuntime(c)?.store;
+  for (const h of store?.liveHouseholds() ?? [])
+    if (h.placeId === placeId) n += store!.countedMembers(h).length;
   return n;
 }
 
