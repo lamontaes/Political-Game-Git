@@ -87,10 +87,16 @@ it("a town above 10,000 stands for its Census size in people, workers, rental st
     `${where}: the sample is under the Census size`,
   ).toBeGreaterThan(1);
   const big = open(draw.seed, draw.key, scale);
+  const facts = `${where}; base people ${basePeople}, scale ${scale.toFixed(3)}, big people ${sum(big, "people")}, macro town ${townResidents(big)} (base ${townResidents(base)})`;
 
   // People: the scaled town totals its Census population.
-  expect(sum(big, "people") / draw.reference, where).toBeGreaterThan(0.9);
-  expect(sum(big, "people") / draw.reference, where).toBeLessThan(1.1);
+  expect(
+    sum(big, "people") / draw.reference,
+    `people: ${facts}`,
+  ).toBeGreaterThan(0.9);
+  expect(sum(big, "people") / draw.reference, `people: ${facts}`).toBeLessThan(
+    1.1,
+  );
   // Workers and households follow, in the base town's own proportion.
   for (const field of ["workers", "households"] as const) {
     const ratio = sum(big, field) / sum(base, field);
@@ -100,6 +106,11 @@ it("a town above 10,000 stands for its Census size in people, workers, rental st
   // Housing: the rental stock grows with the renters it stands for.
   expect(rentals(big), where).toBeGreaterThan(rentals(base));
   // Macro hears a town of the Census size.
-  expect(townResidents(big) / draw.reference, where).toBeGreaterThan(0.9);
-  expect(townResidents(big) / draw.reference, where).toBeLessThan(1.1);
+  expect(
+    townResidents(big) / draw.reference,
+    `macro: ${facts}`,
+  ).toBeGreaterThan(0.9);
+  expect(townResidents(big) / draw.reference, `macro: ${facts}`).toBeLessThan(
+    1.1,
+  );
 }, 900_000);
