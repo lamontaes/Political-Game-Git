@@ -5,11 +5,12 @@ area: core
 kind: cleanup
 priority: 2
 size: S
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/political-game-pool-76ksvw
+pr: #5180
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-20T03:08:03.624Z
 ---
 
 **What.** In the CPU profile of a played year in Long Hill, Connecticut (seed m7b), foundings in the business engine takes 9.0 of 251 seconds, 3.6 percent. For every market it rebuilds the table of every job's monthly pay and sorts every person in the world by id, though a founding returns from the function, so nothing changes between the markets that go on. Build the pay table and the sorted list once, when the first market needs them.
