@@ -460,11 +460,11 @@
     "kind": "missing-local-observation",
     "file": "src/core2/data/resident-employment.json",
     "line": 726,
-    "whatItFakes": "Uses national pre-opening CPS age ratios and a tunable local scale when actual county ACS cells are unavailable.",
+    "whatItFakes": "Uses national pre-opening CPS age ratios and a tunable local scale for the four island areas (Guam, the U.S. Virgin Islands, American Samoa and the Northern Mariana Islands, which have no ACS five-year table) and for a county whose own cell for an age is empty. Every county and Puerto Rico municipio now reads its ACS 2020-2024 B23001 rows (resident-employment-counties.json).",
     "why": "Census estimate API requires a key; national and territorial comparability and local spread remain unmeasured.",
     "addedBy": "SOL-1258",
     "addedAt": "2026-10-09",
-    "replacement": "Valid county B23001 civilian employed/resident-age observations, suppression/MOE handling and territorial equivalents.",
+    "replacement": "The island areas' own employment-by-age observations (the 2020 Decennial Census island-area tables) and suppression/MOE handling.",
     "status": "open"
   },
   {
