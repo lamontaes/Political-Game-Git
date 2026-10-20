@@ -3406,7 +3406,7 @@
     "kind": "missing-engine",
     "file": "src/core2/data/laws/public-pay-floor.json",
     "line": 3,
-    "whatItFakes": "The public pay floor's employer-to-level map is a first cut (public schools count as town employers), (a public hire is now held to the floor on the day it is hired, by the jobs engine). Councils, legislatures and Congress can now draft it from the bill catalog (OPUS-GOV, Oct 14).",
+    "whatItFakes": "The public pay floor's employer-to-level map is a first cut (public schools count as town employers). A public opening is posted at the floor in force the day the jobs engine posts it, and a hire is paid what it was posted at. Councils, legislatures and Congress can now draft it from the bill catalog (OPUS-GOV, Oct 14).",
     "why": "The CTO ruled (October 14, 2026) that a public-salary base is a standing law at each level and asked dev mode's PR to add the data row and the smallest read hook, for the GOV wiring session to own after merge.",
     "addedBy": "OPUS-PLAY",
     "addedAt": "2026-10-14",
