@@ -5,10 +5,10 @@ area: gov
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: blocked
 claimed-by: claude/pool-governor-share
 pr: #4861
-blocked-on:
+blocked-on: cto-invariant-for-standing-weighted-statewide-share
 source: found in #4859, Oct 17
 claimed-at: 2026-10-20T01:42:42.348Z
 ---
