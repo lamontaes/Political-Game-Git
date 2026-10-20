@@ -4,7 +4,7 @@ The CTO's only writer. When two rulings conflict, the most recent wins unless th
 
 ## Open
 
-(none; every question asked is ruled below)
+- **What moves a customer from one seller to another? (asked Oct 20 by a Sonnet session, pool item `world-customers-move-between-sellers`.)** Today a seller's customers change only when a business opens or closes, so layoffs run at 0.04 percent of jobs a month against 1.4 percent in the national job-openings survey (JOLTS). A monthly re-split by price moves almost nothing (measured Oct 16: every seller's price follows the same indexes, so the median spread among sellers of a kind is 0.06 percent). A cause that differs between sellers is needed. Candidates the game could read: (a) how well a seller is staffed, so one that cannot staff its counters serves fewer customers and a better-staffed rival gains them; (b) a seller's own wages against rivals', so a low payer loses workers and then customers; (c) where a seller is against the buyer's home, which needs business and home locations the game does not hold; (d) the owner's own choice to cut or raise price. Option (a) is the simplest and reads records the game has, but it can feed on itself (lose customers, lay off, lose more). Which cause should the game use, or should layoffs be fed another way?
 
 ## Ruled by the CTO overnight, October 14, 2026 (from standing rules; the owner may overrule)
 
