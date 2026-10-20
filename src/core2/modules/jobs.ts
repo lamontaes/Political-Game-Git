@@ -23,6 +23,7 @@ import {
   type BusinessTradingMonth,
 } from "./business";
 import { LAWS_MODULE_ID, lawInForce } from "./laws";
+import { publicPayFloorHourly } from "../public-pay-floor";
 import { inCustody } from "./justice";
 import { regionalMonth } from "./regional";
 import { isDemoted } from "../counted-groups";
@@ -1134,7 +1135,11 @@ function payFor(
         (rate * payLevel(api, placeId)) / (set?.level ?? api.parameter("one")),
       )
     : rate;
-  return Math.max(market, wageFloor(api));
+  // A public employer's hire is held to the public pay floor on the day it is made.
+  const publicFloor = core(api).modules.has(LAWS_MODULE_ID)
+    ? publicPayFloorHourly(api, organizationId, template)
+    : 0;
+  return Math.max(market, wageFloor(api), publicFloor);
 }
 
 /** The minimum wage in force for the town, in cents an hour (0 where none is recorded). */

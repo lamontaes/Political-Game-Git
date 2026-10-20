@@ -9,8 +9,9 @@ status: open
 claimed-by:
 pr:
 blocked-on:
+after: world-police-patrol-and-grievance-causes
 source: split from gov-justice-incident-records (M, really L) by the claiming session, Oct 19
-claimed-at:
+claimed-at: 2026-10-20T04:53:20.573Z
 ---
 
 **What.** The justice engine hears only officials' bribery cases, so no defendant, complainant or weapon exists for five laws to act on. Add one incident record type that arises from causes already in the world: a police stop from the town's patrol hours and crime outcomes, a fight from two people's recorded grievance, and a carried weapon from a household's recorded firearm ownership. Each record names the people involved, the place, the date and the cause record that earned it, and nothing is drawn by a percentage roll.
@@ -22,3 +23,5 @@ claimed-at:
 **Files.** src/core2/modules/justice.ts, src/core2/justice-chain.ts, src/core2/justice-incidents.ts (new), src/core2/data/justice/ (new)
 
 **Notes.** Closes the incident prerequisite of the five SG-GOV-REACH-A rows in src/core2/data/stopgaps.json only when the engine reads the law, never by deleting the row. Check docs/coordination/DECISION-REGISTER.md and OWNER-DECISIONS.md before adding any player-facing step. Remainder of gov-justice-incident-records.
+
+Oct 20: Switched from blocked to the automatic after: gate on world-police-patrol-and-grievance-causes, so it opens by itself the moment those items are done.
