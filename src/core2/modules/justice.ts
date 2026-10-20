@@ -692,6 +692,9 @@ export function chargeDecision(api: CoreAPI, investigationId: string): void {
     if (pleads) convict(api, row, true);
     else {
       const wait = decidePretrial(api, JUSTICE_MODULE_ID, id, target.personId);
+      const bailTreasury = treasuryFor(api, inv.prosecutorOfficeId);
+      if (wait?.decision === "posted" && bailTreasury)
+        holdBail(api, id, target.personId, bailTreasury, wait.bailMinor);
       if (wait)
         emit(
           api,
@@ -730,6 +733,7 @@ function trial(api: CoreAPI, caseId: string): void {
   const row = table(api, "cases").get(caseId) as unknown as CaseRow | undefined;
   if (!row || row.status !== "charged") return;
   endPretrial(api, JUSTICE_MODULE_ID, caseId);
+  returnBail(api, caseId);
   const person = api.state.people.get(row.defendantId);
   if (!person?.alive) {
     table(api, "cases").put({
@@ -932,7 +936,7 @@ function treasuryFor(api: CoreAPI, officeId: string): string | null {
 
 interface FineRecord {
   readonly id: string;
-  readonly reason: "fine" | "forfeiture";
+  readonly reason: "fine" | "forfeiture" | "bail" | "bail-return";
   readonly date: string;
   readonly personId: PersonId;
   readonly treasuryId: string;
@@ -959,7 +963,11 @@ function fineSlot(api: CoreAPI, id: string): CashJournalSourceSlot | undefined {
       citation:
         row.reason === "forfeiture"
           ? "The bribe money a court forfeits on a bribery conviction, paid to the treasury."
-          : "A court's fine on a bribery conviction, paid to the treasury.",
+          : row.reason === "bail"
+            ? "A defendant's bail, held by the prosecuting government's treasury until the trial."
+            : row.reason === "bail-return"
+              ? "A defendant's bail, returned by the treasury when the trial opens."
+              : "A court's fine on a bribery conviction, paid to the treasury.",
       asOf: row.date,
     },
     expectedPostings: row.postings.map((x) => ({ ...x })),
@@ -1014,6 +1022,53 @@ function payToTreasury(
     postings: record.postings,
   });
   return amount;
+}
+
+/** Bail posted: the bail leaves the defendant's cash for the treasury that holds it until the trial. */
+function holdBail(
+  api: CoreAPI,
+  caseId: string,
+  personId: PersonId,
+  treasuryId: string,
+  bailMinor: number,
+): void {
+  payToTreasury(api, `bail:${caseId}`, "bail", personId, treasuryId, bailMinor);
+}
+
+/** The trial opens: the treasury hands the bail back, as much as it still holds. */
+function returnBail(api: CoreAPI, caseId: string): void {
+  const held = table(api, "fines").get(`bail:${caseId}`) as unknown as
+    FineRecord | undefined;
+  if (!held || table(api, "fines").get(`bail-return:${caseId}`)) return;
+  const state = api.state as CoreState;
+  const amount = held.postings.find((x) => x.id === "treasury")!.deltaMinor;
+  const record: FineRecord = {
+    id: `bail-return:${caseId}`,
+    reason: "bail-return",
+    date: api.state.date,
+    personId: held.personId,
+    treasuryId: held.treasuryId,
+    postings: [
+      {
+        id: "treasury",
+        accountId: `cash:${held.treasuryId}:residual`,
+        deltaMinor: -amount,
+      },
+      {
+        id: "person",
+        accountId: `cash:${held.personId}:residual`,
+        deltaMinor: amount,
+      },
+    ],
+  };
+  table(api, "fines").put(record as unknown as ModuleRow);
+  api.postJournal({
+    id: `journal:${api.state.date}:${state.cashJournal.nextSequence}`,
+    date: api.state.date,
+    expectedSequence: state.cashJournal.nextSequence,
+    sourceRef: { kind: FINE_KIND, id: record.id },
+    postings: record.postings,
+  });
 }
 
 // ---------------------------------------------------------------------------
