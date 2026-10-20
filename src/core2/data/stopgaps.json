@@ -2768,11 +2768,11 @@
     "kind": "faked-mechanic",
     "file": "src/core2/housing-construction.ts",
     "line": 146,
-    "whatItFakes": "New houses sell only to full renter households; counted renters and households moving in never buy one, so unsold houses pile up.",
-    "why": "Counted households' money is pooled by place and arrivals are OPUS-CORE's population engine.",
+    "whatItFakes": "New houses sell to renter households, full and counted (Oct 19: counted renters buy through their group's fund), but households moving in never buy one.",
+    "why": "Arrivals are OPUS-CORE's population engine and do not yet choose to buy on arrival.",
     "addedBy": "OPUS-WORLD",
     "addedAt": "2026-10-12",
-    "replacement": "Counted renter households and arrivals buy new houses through the same choice and mortgage, once fill-in and arrivals land.",
+    "replacement": "Arriving households buy new houses through the same choice and mortgage, once arrivals land. Counted renters buy through buyHomesCounted (src/core2/modules/housing.ts).",
     "status": "open"
   },
   {
