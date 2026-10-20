@@ -104,7 +104,7 @@ import {
   isExplicitlyControlledPersonV1,
   prepareControlledActTraceV1,
 } from "./player-control-state-v1";
-import { stopgap } from "./stopgaps";
+import { recordStopgapsIn, stopgap } from "./stopgaps";
 import { initialFocusPeople } from "./focus";
 import { nativityFact } from "./nativity";
 import type {
@@ -130,6 +130,7 @@ import type {
   IsoDate,
   PlaceId,
 } from "./types";
+import { pairKey } from "./kernel/ids";
 
 // Exact successful factory identity, private to this module. No caller can admit a host.
 const actualCore = new WeakSet<CoreState>(),
@@ -456,7 +457,7 @@ export function createCore(
       // Relatives in the counts are husks until met (two-level population).
       if (!core.people.has(id) && !core.husks.has(id))
         throw new Error(`Absent family member: ${id}`);
-      const relationshipId = [actor.id, id].sort().join(":");
+      const relationshipId = pairKey(actor.id, id);
       if (!core.relationships.has(relationshipId))
         api.relationship(
           actor.id,
@@ -702,10 +703,9 @@ export function retainLog(core: CoreState, event: LogRecord): void {
           : "news",
   };
   core.durableLog.set(row.id, row);
-  // The player's own reasons are kept whole; the circle's are condensed once
-  // they're older than the detail window (condenseCircleDecisions).
-  if (row.decision && row.actorId !== core.playerId)
-    queueDecisionDetail(core, core.date, row.id);
+  // The circle's reasons are condensed once they're older than the detail
+  // window, the player's own routine ones a year later (condenseCircleDecisions).
+  if (row.decision) queueDecisionDetail(core, core.date, row.id);
   for (const id of new Set([...row.personIds, ...(row.witnessIds ?? [])]))
     index(core.logByPerson, id, row.id);
   index(core.logByKind, row.kind, row.id);
@@ -797,6 +797,7 @@ const writerAPIs = new WeakMap<CoreState, CoreAPI>();
 
 /** Local writers validate their own rows; no whole-world pass occurs per act. */
 export function coreAPI(core: CoreState): CoreAPI {
+  recordStopgapsIn(core.stopgapHits);
   const prior = writerAPIs.get(core);
   if (prior) return prior;
   const p = (key: string) => {
@@ -1043,7 +1044,7 @@ export function coreAPI(core: CoreState): CoreAPI {
             (typeof reason.sourceId !== "string" || !reason.sourceId.trim())))
       )
         throw new Error("Invalid relationship change reason.");
-      const id = [actorId, otherId].sort().join(":");
+      const id = pairKey(actorId, otherId);
       const previous = core.relationships.get(id);
       const beforeLevel = previous?.level ?? p("zero");
       const beforeContactDate = previous?.lastContactDate;
@@ -2240,7 +2241,7 @@ export function fillInPerson(core: CoreState, personId: PersonId): PersonState {
       for (const id of other.familyIds)
         if (newcomers.has(id)) {
           core.people.get(id)!.familyIds.add(other.id);
-          const relationshipId = [other.id, id].sort().join(":");
+          const relationshipId = pairKey(other.id, id);
           if (!core.relationships.has(relationshipId))
             api.relationship(
               other.id,
@@ -2260,7 +2261,7 @@ export function fillInPerson(core: CoreState, personId: PersonId): PersonState {
     for (const id of [...actor.familyIds, ...actor.knownIds]) husk(id);
     for (const id of actor.familyIds)
       if (core.people.has(id)) {
-        const relationshipId = [actor.id, id].sort().join(":");
+        const relationshipId = pairKey(actor.id, id);
         if (!core.relationships.has(relationshipId))
           api.relationship(
             actor.id,
@@ -2418,7 +2419,7 @@ export function fillInIdentity(
     throw new Error(
       `Opening cash for ${identity.id} is only admitted on the opening day.`,
     );
-  const person = admitPerson(core, {
+  const input: PersonInput = {
     id: identity.id,
     givenName: identity.givenName,
     familyName: identity.familyName,
@@ -2435,6 +2436,21 @@ export function fillInIdentity(
     knownIds: [],
     ...(identity.gender ? { looks: { gender: identity.gender } } : {}),
     pastFacts: facts,
+  };
+  // A named person is filled in whole: the childhood, schools and era the
+  // opening gives everyone, built from the world's seed and their birth, so
+  // the same person comes back the same every time.
+  const lived = buildDeepPast({
+    seed: core.seed,
+    startedAt: core.startedAt,
+    people: [input],
+    households: [core.households.get(householdId)!],
+    jobs: [],
+    gaps: [],
+  } as unknown as CoreInput).people[0];
+  const person = admitPerson(core, {
+    ...input,
+    pastFacts: lived?.pastFacts ?? facts,
   });
   recordEntry(core, {
     id: person.id,
@@ -2488,7 +2504,7 @@ export function promoteHusk(core: CoreState, input: PersonInput): PersonState {
   });
   const api = coreAPI(core);
   for (const id of actor.familyIds) {
-    if (core.relationships.has([actor.id, id].sort().join(":"))) continue;
+    if (core.relationships.has(pairKey(actor.id, id))) continue;
     api.relationship(
       actor.id,
       id,
