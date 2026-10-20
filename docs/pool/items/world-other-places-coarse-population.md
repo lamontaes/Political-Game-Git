@@ -5,7 +5,7 @@ area: world
 kind: feature
 priority: 2
 size: L
-status: in-pr
+status: open
 claimed-by:
 pr: #5555
 blocked-on:
