@@ -29,6 +29,8 @@ The CTO's only writer. When two rulings conflict, the most recent wins unless th
 - **Credit lines** (`core-stopgap-parameters-estimated-industry-priors`): the 0.26 usable-line share (spread 0.15 to 0.40) checks totals only; whether a firm holds a line comes from the credit engine reading its books and owner. Rule: no dice.
 - **Business shortfalls** (`world-stopgap-finance-estimated-mechanism`): an unfunded obligation goes into arrears and the owner chooses to put in cash, borrow, cut or close; the 27-day cash buffer checks totals. Applies the owner's Oct 20 money ruling.
 - **Social Security** (`world-retirement-benefit-from-law-and-record`): build only the law's formula on recorded earnings; spouse, survivor and earnings-test benefits are a question for the owner in the builder's PR body. Rule: a game, not a spreadsheet.
+- **Authored parts held until graded** (`words-authored-parts-shippable-sweep`): all 141 authored parts are flipped to not shippable, as the merge audit and the fixer PRs already do. The 20 director tests that relied on them assert on mined or graded parts, or that the scene stays out of play while its only line is ungraded. The lines go into the next owner grading batch, and the build does not wait on the grading. Rule: no hand-written player text.
+- **The Freddie Mac survey exclusion** (`research-macro-sourced-parameters`): the exclusion ruled on #3959 stands. The mortgage rate after 2019 comes from FHFA's index, as ruled above for `macro-mortgage-rate-fhfa-transition-index`.
 - **Residence room art** (`director-stopgap-scene-placeholder-art`): art work for the art pipeline, not an owner decision; the item stays blocked on the art.
 
 ## Oct 20: rulings (owner, spoken; recorded by the CTO)
