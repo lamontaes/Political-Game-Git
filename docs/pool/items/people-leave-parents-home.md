@@ -5,7 +5,7 @@ area: people
 kind: feature
 priority: 2
 size: M
-status: in-pr
+status: open
 claimed-by:
 pr: #4959
 blocked-on:
