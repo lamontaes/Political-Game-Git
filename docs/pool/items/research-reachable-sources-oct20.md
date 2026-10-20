@@ -5,12 +5,12 @@ area: core
 kind: research
 priority: 2
 size: S
-status: claimed
-claimed-by: claude/research-reachable-sources-oct20
+status: open
+claimed-by:
 pr: #5491
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-20T20:26:33.935Z
+claimed-at:
 ---
 
 **What.** Checked Oct 20 from a cloud session: www2.census.gov (ACS PUMS and summary files), data.cdc.gov, www.fhfa.gov, apps.bea.gov, www.pewresearch.org, gss.norc.org and dataverse.harvard.edu return 200 and a 188 MB Cooperative Election Study file downloaded in one call; api.census.gov redirects (a key is needed), and www.bls.gov and www.ssa.gov return 403. Several research and stopgap items were marked blocked on 'outside data' on the belief that all of these fail. Re-read each blocked research item, pick the ones whose source is on a reachable host, and take them.
@@ -29,4 +29,8 @@ Sent back 2026-10-20 from PR #5491 (branch claude/reachable-sources): see the Cl
 
 Sent back 2026-10-20 from PR #5491 (branch claude/reachable-sources): The remaining diff contains only docs/pool/items/research-reachable-sources-oct20.md and no docs/release/changes declaration. Add an impact:none declaration for the actual research-host sweep, with only id and impact in its frontmatter, and describe that remaining scope rather than the housing change already on main. A docs-only PR still needs the release declaration required by the merger rule.; finish on that branch, merge main into it first.
 
+<<<<<<< HEAD
 **Sweep result (Oct 20, second pass).** Every item marked blocked on outside data, with its host. Reachable: research-deep-past-sourced-parameters (www2.census.gov ACS table-based summary files; moved to open), world-dwelling-position (www2.census.gov summary files and Gazetteer; moved to open), research-core-parameters-sourced-parameters (www2.census.gov Gazetteer centroids; row noted as takeable). Not reachable: research-world-sourced-parameters (www.epa.gov returns no response, 2005 PACE tables), and www.bls.gov, www.ssa.gov (403) and api.census.gov (key needed), so jobs-entry-requirement-by-occupation (BLS) stays on its spec block. No other blocked item names a host; the rest are blocked on design, spec, or another item.
+=======
+Sent back 2026-10-20 from PR #5491 (branch claude/reachable-sources): The release declaration and corrected docs-only scope address the earlier return, and current main merges cleanly here. The item still requires at least two previously blocked items to be moved to open or in-pr with the data fetched. The new Notes record directory HTTP 200 responses and remove the two blocks, but give no fetched ACS B15001/B05/B11 tables or tract/block-group data for those two items. A reachable directory is not that required fetched-data proof. Add the named downloads and evidence for both moved items before marking this sweep done; keep their own played-world requirements intact.; finish on that branch, merge main into it first.
+>>>>>>> origin/main
