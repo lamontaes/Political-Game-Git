@@ -262,6 +262,20 @@ export interface ScoredOffer {
   key: string;
 }
 
+/**
+ * Whose choices save their reasons: the player, the people they deal with
+ * (the focus), anyone a controller drives, and everyone while the debug
+ * observer is on. The rest keep each reason's number and no copy of its terms.
+ */
+function savesReasons(core: CoreState, actorId: string): boolean {
+  return (
+    core.observer ||
+    actorId === core.playerId ||
+    core.focusPersonIds.has(actorId) ||
+    isExplicitlyControlledPersonV1(core, actorId)
+  );
+}
+
 /** Scores every offer once with the chooser's reasons; it chooses nothing. */
 const NO_BINDINGS: readonly never[] = Object.freeze([]);
 
@@ -270,8 +284,11 @@ export function scoreOffers(
   personId: string,
   offers: readonly ActOffer[],
   context?: DecisionContext,
+  /** Keep every reason term for someone whose reasons are not saved (an original-answer capture). */
+  keepTerms = false,
 ): ScoredOffer[] {
   const actor = decisionActor(core, personId);
+  const keepReasonTerms = keepTerms || savesReasons(core, actor.id);
   const p = (key: string) => parameter(key, core.data.parameters);
   const scored: ScoredOffer[] = [];
   let nextOfferIndex = p("zero");
@@ -332,7 +349,7 @@ export function scoreOffers(
     let reasonTerms: readonly WeightedReason[] = NO_BINDINGS;
     if (bindings.length) {
       const terms: WeightedReason[] = [];
-      reasonTerms = terms;
+      if (keepReasonTerms) reasonTerms = terms;
       const api = coreAPI(core),
         ids = new Set<string>();
       let contribution = p("zero");
@@ -359,13 +376,14 @@ export function scoreOffers(
         contribution += weighted;
         if (!Number.isFinite(contribution))
           throw new Error("Non-finite module reason sum.");
-        terms.push({
-          ...binding,
-          arguments: binding.arguments ? { ...binding.arguments } : undefined,
-          value: result.value,
-          sourceIds: result.sourceIds ? [...result.sourceIds] : undefined,
-          contribution: weighted,
-        });
+        if (keepReasonTerms)
+          terms.push({
+            ...binding,
+            arguments: binding.arguments ? { ...binding.arguments } : undefined,
+            value: result.value,
+            sourceIds: result.sourceIds ? [...result.sourceIds] : undefined,
+            contribution: weighted,
+          });
       }
       reasons.module = contribution;
     }
@@ -403,7 +421,7 @@ export function chooseAct(
   return decisionFromScores(
     core,
     personId,
-    scoreOffers(core, personId, offers, context),
+    scoreOffers(core, personId, offers, context, captureOriginalScores),
     captureOriginalScores,
   );
 }
@@ -447,11 +465,7 @@ export function decisionFromScores(
   captureOriginalScores = false,
 ): DecisionResult {
   const actor = decisionActor(core, personId);
-  const traced =
-    core.observer ||
-    actor.id === core.playerId ||
-    core.focusPersonIds.has(actor.id) ||
-    isExplicitlyControlledPersonV1(core, actor.id);
+  const traced = savesReasons(core, actor.id);
   let best: ScoredOffer | undefined, runnerUp: ScoredOffer | undefined;
   for (const row of scored) {
     if (
