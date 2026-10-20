@@ -15,6 +15,7 @@ import { gameStartDate } from "./game-start";
 import { addDays, makeIsoDate } from "./kernel/dates";
 import { advanceCore } from "./life";
 import { corePlaceByKey } from "./place-lookup";
+import housing from "./data/housing/housing.json" with { type: "json" };
 import { countedHeadcountOf } from "./residents-economy";
 import { residentCounts, townPlaceOf } from "./modules/residents";
 import { coreAPI } from "./state";
@@ -39,6 +40,8 @@ function drawLargeTown() {
   }
   throw new Error(`no drawn place between 12,000 and 40,000 (seed ${base})`);
 }
+
+const geoid = (key: string) => corePlaceByKey(key)?.sourceGeoid;
 
 it("opens a town above 10,000 at its Census size, with workers, rentals and macro read at that size", () => {
   const { draw, reference } = drawLargeTown();
@@ -101,7 +104,14 @@ it("opens a town above 10,000 at its Census size, with workers, rentals and macr
   ).find((row) => row.placeId === counts.placeId);
   expect(stock, where).toBeDefined();
   const renters = stock!.rentalUnits - stock!.vacantRental;
-  // Merrick, New York (seed e0b6b155) shows 3.6 percent; a real town's renter share runs from about 10 percent up, so a low floor here stands for a pool item (world-census-scale-rentals-low), not for a finding that the share is right.
-  expect(renters / counts.households, where).toBeGreaterThan(0.02);
+  // The renting share is the place's own ACS tenure (renters over households), within a few points.
+  const tenure = (
+    housing.placeTenure as Record<string, readonly [number, number]>
+  )[geoid(draw.key)!];
+  if (tenure)
+    expect(
+      Math.abs(renters / counts.households - (1 - tenure[1] / tenure[0])),
+      `${where}: renting share against the ACS tenure`,
+    ).toBeLessThan(0.05);
   expect(renters / counts.households, where).toBeLessThan(0.9);
 }, 2_400_000);
