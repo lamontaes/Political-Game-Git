@@ -3471,7 +3471,9 @@
     "addedBy": "OPUS-CORE (the-world-has-a-past)",
     "addedAt": "2026-10-14",
     "replacement": "Each territory's certified 2024 delegate and governor returns (territorial election offices) as research data, read in place of the town's ballots.",
-    "status": "open"
+    "status": "resolved",
+    "resolvedAt": "2026-10-20",
+    "resolution": "past-elections.ts reads data/research/elections/territory-returns-2024.json, each territory's most recent delegate and governor returns with candidates, votes and totals from the Wikipedia results pages citing the territory election offices, in place of the town's ballots; the old ballots file and the marker are deleted."
   },
   {
     "id": "SG-WORLD-wages-skip-credit-line",

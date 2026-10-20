@@ -1,0 +1,248 @@
+{
+  "about": "Each territory's most recent general election returns for its delegate or resident commissioner and for its governor: candidates, parties, votes and the total of the race. Read from the Wikipedia results page of each race, which cites the territory's election commission or office. Where a governor race went to a runoff, the general-election round is recorded (the round every candidate stood in) and the runoff total is noted. Votes are as printed on the page; the total is the page's total for the race.",
+  "retrievedOn": "2026-10-20",
+  "places": {
+    "PR": {
+      "delegate": {
+        "office": "Resident Commissioner",
+        "year": 2024,
+        "totalVotes": 1225059,
+        "candidates": [
+          {
+            "name": "Pablo Hernández Rivera",
+            "party": "Popular Democratic Party",
+            "votes": 530540
+          },
+          {
+            "name": "William Villafañe",
+            "party": "New Progressive Party",
+            "votes": 452615
+          },
+          {
+            "name": "Ana Irma Rivera Lassén",
+            "party": "Citizens' Victory Movement",
+            "votes": 115710
+          },
+          {
+            "name": "Viviana Ramírez Morales",
+            "party": "Proyecto Dignidad",
+            "votes": 60512
+          },
+          {
+            "name": "Roberto Velázquez",
+            "party": "Puerto Rican Independence Party",
+            "votes": 60161
+          }
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/2024_Puerto_Rico_elections",
+        "quote": "Pablo Hernández Rivera | Popular Democratic Party | 530,540 | 43.48; Total votes 1,225,059 100.00"
+      },
+      "governor": {
+        "office": "Governor",
+        "year": 2024,
+        "totalVotes": 1281004,
+        "candidates": [
+          {
+            "name": "Jenniffer González-Colón",
+            "party": "New Progressive Party",
+            "votes": 526020
+          },
+          {
+            "name": "Juan Dalmau",
+            "party": "Puerto Rican Independence Party",
+            "votes": 392185
+          },
+          {
+            "name": "Jesús Manuel Ortiz",
+            "party": "Popular Democratic Party",
+            "votes": 273649
+          },
+          {
+            "name": "Javier Jiménez",
+            "party": "Proyecto Dignidad",
+            "votes": 81369
+          },
+          {
+            "name": "Javier Córdova Iturregui",
+            "party": "Citizens' Victory Movement",
+            "votes": 1522
+          }
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/2024_Puerto_Rico_elections",
+        "quote": "Jenniffer González-Colón | New Progressive Party | 526,020 | 41.22; Total votes 1,281,004 100.00"
+      }
+    },
+    "GU": {
+      "delegate": {
+        "office": "Delegate",
+        "year": 2024,
+        "totalVotes": 29271,
+        "candidates": [
+          { "name": "James Moylan", "party": "Republican", "votes": 15422 },
+          { "name": "Ginger Cruz", "party": "Democratic", "votes": 13703 }
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/2024_United_States_House_of_Representatives_election_in_Guam",
+        "quote": "James Moylan (incumbent) 15,422 52.69% +0.57%; Total votes 29,271 100.00%"
+      },
+      "governor": {
+        "office": "Governor",
+        "year": 2022,
+        "totalVotes": 33561,
+        "candidates": [
+          {
+            "name": "Lou Leon Guerrero",
+            "party": "Democratic",
+            "votes": 18623
+          },
+          { "name": "Felix Camacho", "party": "Republican", "votes": 14786 }
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/2022_Guam_gubernatorial_election",
+        "quote": "Lou Leon Guerrero (incumbent) Josh Tenorio (incumbent) 18,623 55.49% +4.7%; Total votes 33,561"
+      }
+    },
+    "VI": {
+      "delegate": {
+        "office": "Delegate",
+        "year": 2024,
+        "totalVotes": 14167,
+        "candidates": [
+          {
+            "name": "Stacey Plaskett",
+            "party": "Democratic Party",
+            "votes": 10397
+          },
+          { "name": "Ida Smith", "party": "Independent", "votes": 2323 },
+          {
+            "name": "Ronald Pickard",
+            "party": "Republican Party",
+            "votes": 1348
+          }
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/2024_United_States_Virgin_Islands_general_election",
+        "quote": "Stacey Plaskett | Democratic Party | 10,397 | 73.39; Total | 14,167 | 100.00"
+      },
+      "governor": {
+        "office": "Governor",
+        "year": 2022,
+        "totalVotes": 21656,
+        "candidates": [
+          {
+            "name": "Albert Bryan Jr.",
+            "party": "Democratic Party",
+            "votes": 12157
+          },
+          { "name": "Kurt Vialet", "party": "Independent", "votes": 8244 },
+          {
+            "name": "Stephen Frett",
+            "party": "Independent Citizens Movement",
+            "votes": 740
+          },
+          { "name": "Ronald Pickard", "party": "Independent", "votes": 243 }
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/2022_United_States_Virgin_Islands_gubernatorial_election",
+        "quote": "Albert Bryan Jr. | Democratic Party | 12,157 | 56.14; Total | 21,656 | 100.00"
+      }
+    },
+    "MP": {
+      "delegate": {
+        "office": "Delegate",
+        "year": 2024,
+        "totalVotes": 12225,
+        "candidates": [
+          {
+            "name": "Kimberlyn Kay King-Hinds",
+            "party": "Republican",
+            "votes": 4931
+          },
+          {
+            "name": "Edwin Kenneth Propst",
+            "party": "Democratic",
+            "votes": 4067
+          },
+          {
+            "name": "John Oliver Delos Reyes Gonzales",
+            "party": "Independent",
+            "votes": 2282
+          },
+          {
+            "name": "James Michael Rayphand",
+            "party": "Independent",
+            "votes": 665
+          },
+          {
+            "name": "Liana Sablan Hofschneider",
+            "party": "Independent",
+            "votes": 280
+          }
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/2024_Northern_Mariana_Islands_general_election",
+        "quote": "Republican | Kimberlyn Kay King-Hinds | 4,931 | 40.34%; Total votes 12,225 100.0%"
+      },
+      "governor": {
+        "office": "Governor",
+        "year": 2022,
+        "totalVotes": 14750,
+        "runoffTotalVotes": 13657,
+        "candidates": [
+          { "name": "Ralph Torres", "party": "Republican", "votes": 5728 },
+          { "name": "Arnold Palacios", "party": "Independent", "votes": 4890 },
+          { "name": "Tina Sablan", "party": "Democratic", "votes": 4132 }
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/2022_Northern_Mariana_Islands_gubernatorial_election",
+        "quote": "Republican | Ralph Torres (incumbent) | Vinnie Sablan | 5,728 | 38.83%; Total votes 14,750 (general election); 13,657 (runoff)"
+      }
+    },
+    "AS": {
+      "delegate": {
+        "office": "Delegate",
+        "year": 2024,
+        "totalVotes": 9888,
+        "candidates": [
+          {
+            "name": "Amata Coleman Radewagen",
+            "party": "Republican",
+            "votes": 7394
+          },
+          { "name": "Luisa Kuaea", "party": "Democratic", "votes": 1840 },
+          {
+            "name": "Fualaau Rosie Lancaster",
+            "party": "Independent",
+            "votes": 469
+          },
+          {
+            "name": "Meleagi Suitonu-Chapman",
+            "party": "Democratic",
+            "votes": 185
+          }
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/2024_American_Samoan_general_election",
+        "quote": "Amata Coleman Radewagen | Republican | 7,394 | 74.78; Total 9,888 100.00"
+      },
+      "governor": {
+        "office": "Governor",
+        "year": 2024,
+        "totalVotes": 10113,
+        "runoffTotalVotes": 9771,
+        "candidates": [
+          {
+            "name": "Pula Nikolao Pula",
+            "party": "Independent",
+            "votes": 4284
+          },
+          {
+            "name": "Lemanu Peleti Mauga",
+            "party": "Independent",
+            "votes": 3660
+          },
+          {
+            "name": "Vaitautolu Talia Iaulualo",
+            "party": "Independent",
+            "votes": 2169
+          }
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/2024_American_Samoan_general_election",
+        "quote": "Pula Nikolao Pula | 4,284 | 42.36; Total 10,113 100.00 (first round); runoff Total 9,771"
+      }
+    }
+  }
+}

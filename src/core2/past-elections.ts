@@ -21,7 +21,7 @@
 import corpus from "../../data/source/electoral-calibration-2024/corpus.json" with { type: "json" };
 import countyVotes from "./data/county-presidential-2024.json" with { type: "json" };
 import tenure from "./data/offices/tenure.json" with { type: "json" };
-import territoryBallots from "../../data/research/elections/territory-ballots.json" with { type: "json" };
+import territoryReturns from "../../data/research/elections/territory-returns-2024.json" with { type: "json" };
 import { partySide } from "./appointments";
 import { questionAxis } from "./campaign-views";
 import { novemberGeneralElectionDay } from "./gov-rules/town-election-calendar";
@@ -138,16 +138,37 @@ function realResult(
   seat: { id: string },
   party: string | null,
   date: string,
-): { share: number; total: number } | null {
+): { share: number; total: number; citation: string } | null {
   const year = Number(date.slice(0, 4));
   const side = partySide(party);
+  const certified = territoryReturn(town, office);
+  if (certified) {
+    // The territory's certified race: its winner's share, when the held
+    // seat's party is that winner's and the race fell in the certified year.
+    const top = certified.candidates.reduce((a, b) =>
+      b.votes > a.votes ? b : a,
+    );
+    return year === certified.year &&
+      side !== 0 &&
+      partySide(top.party) === side
+      ? {
+          share: top.votes / certified.totalVotes,
+          total: certified.totalVotes,
+          citation: `${certified.sourceUrl} (data/research/elections/territory-returns-2024.json)`,
+        }
+      : null;
+  }
   const fromDemShare = (
     dem: number | null,
     winner: string,
     total: number,
-  ): { share: number; total: number } | null => {
+  ): { share: number; total: number; citation: string } | null => {
     if (dem === null || side === 0 || partySide(winner) !== side) return null;
-    return { share: side < 0 ? dem : 1 - dem, total };
+    return {
+      share: side < 0 ? dem : 1 - dem,
+      total,
+      citation: CORPUS_CITATION,
+    };
   };
   if (office.kind === "us-house") {
     const key = `us-house:${town.usps}-${seat.id.split(":").at(-1)}`;
@@ -194,6 +215,40 @@ function stateBallots(town: PastTown): number {
     CORPUS.presidentialByState.find((r) => r.stateUsps === town.usps)
       ?.totalVotes ?? 0
   );
+}
+
+interface TerritoryReturn {
+  readonly year: number;
+  readonly totalVotes: number;
+  readonly candidates: readonly {
+    readonly name: string;
+    readonly party: string;
+    readonly votes: number;
+  }[];
+  readonly sourceUrl: string;
+}
+
+/**
+ * A place with no presidential vote (it has no row in the state totals) casts
+ * its delegate and governor races on the returns its election office
+ * certified; the data names which places those are.
+ */
+function territoryReturn(
+  town: PastTown,
+  office: PastOffice,
+): TerritoryReturn | undefined {
+  if (stateBallots(town)) return undefined;
+  const own = (
+    territoryReturns.places as Record<
+      string,
+      { delegate?: TerritoryReturn; governor?: TerritoryReturn }
+    >
+  )[town.usps];
+  if (office.level === "federal" && office.kind.startsWith("us-house"))
+    return own?.delegate;
+  if (office.level === "state" && !office.kind.startsWith("legislature-"))
+    return own?.governor;
+  return undefined;
 }
 
 /**
@@ -290,28 +345,12 @@ function electorateBallots(
   office: PastOffice,
   date: string,
 ): number {
-  // A territory casts no presidential vote: its own town's ballots stand in
-  // for the territory's electorate.
-  const reported = stateBallots(town);
-  const own = reported
-    ? undefined
-    : (
-        territoryBallots.places as Record<
-          string,
-          { delegate?: { ballots: number }; governor?: { ballots: number } }
-        >
-      )[town.usps];
-  // A territory's delegate race and governor race count the ballots its own
-  // election office reported; where that total isn't in the data, the town's
-  // ballots stand in.
-  const territory =
-    office.level === "federal" && office.kind.startsWith("us-house")
-      ? own?.delegate?.ballots
-      : office.level === "state" && !office.kind.startsWith("legislature-")
-        ? own?.governor?.ballots
-        : undefined;
-  if (!reported && !territory) api.stopgap("SG-CORE-past-territory-ballots");
-  const state = reported || territory || townBallots(api, town, date);
+  // A territory casts no presidential vote: its certified delegate or
+  // governor total stands in for the territory's electorate.
+  const state =
+    stateBallots(town) ||
+    territoryReturn(town, office)?.totalVotes ||
+    townBallots(api, town, date);
   switch (office.level) {
     case "federal":
       if (office.kind.startsWith("us-house"))
@@ -451,8 +490,13 @@ export function buildPriorElections(
           ),
         );
         const ratio = turnoutRatio(date);
+        // A race in the certified year has the certified total, whoever won.
+        const certified = territoryReturn(town, office);
         const total = Math.round(
-          real?.total ?? electorateBallots(api, town, office, date) * ratio,
+          real?.total ??
+            (certified && Number(date.slice(0, 4)) === certified.year
+              ? certified.totalVotes
+              : electorateBallots(api, town, office, date) * ratio),
         );
         const winnerLean = leanOf(api, winnerId);
         const side = partySide(term.party);
@@ -536,7 +580,7 @@ export function buildPriorElections(
           source: real
             ? {
                 tag: "SOURCED",
-                citation: `${CORPUS_CITATION}; drifted within pastRealShareDrift`,
+                citation: `${real.citation}; drifted within pastRealShareDrift`,
               }
             : {
                 tag: "ESTIMATED",
