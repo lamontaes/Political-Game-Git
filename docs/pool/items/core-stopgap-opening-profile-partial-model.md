@@ -4,10 +4,10 @@ title: "Stopgaps in opening-profile (partial-model): 1 open"
 area: core
 kind: stopgap
 priority: 3
-status: open
+status: blocked
 claimed-by:
 pr:
-blocked-on:
+blocked-on: research data: the row's replacement needs sourced data (Attainment from the person's own schooling history (deep past) checked against ACS B15001 by state, age and sex; faith from upbringing and the Pew Rel...)
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/opening-profile.ts, kind partial-model"
 ---

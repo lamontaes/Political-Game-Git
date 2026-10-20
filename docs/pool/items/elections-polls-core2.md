@@ -5,14 +5,14 @@ area: elections
 kind: feature
 priority: 3
 size: M
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/polls-core2
+pr: #5311
 after:
 blocked-on:
 milestone:
 source: acting CTO ruling, Oct 19; replaces the old-core poll work in PRs #5091 and #5081
-claimed-at:
+claimed-at: 2026-10-20T00:07:14.734Z
 ---
 
 **What.** Polls on core2, replacing the old-core poll work in #5091 and #5081, which were closed because nothing new is added to `src/simulation`. Lift whatever is useful from those PRs into a core2 module.

@@ -5,12 +5,13 @@ area: play
 kind: wiring
 priority: 2
 size: M
-status: open
+status: blocked
 claimed-by:
 pr:
-blocked-on:
+blocked-on: spec: the item text is an empty TODO shell; the done-when must be written before it can be built (pool-todo-shells-need-spec)
 after: people-words
 source: added with npm run pool -- add
+claimed-at:
 ---
 
 **What.** TODO

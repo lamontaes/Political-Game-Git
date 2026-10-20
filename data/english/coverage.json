@@ -75,16 +75,41 @@
       "legislation": 8,
       "notices": 2,
       "minutes": 6,
-      "unknown": 7,
       "hearing": 2,
       "meeting": 5,
       "campaign": 2,
       "interview": 1,
       "emotion": 6,
-      "conversation": 2
+      "conversation": 2,
+      "unknown": 7
+    }
+  },
+  "gradedByBatch": {
+    "batch-7": {
+      "unknown": {
+        "journal": 14,
+        "legislation": 2,
+        "notices": 2,
+        "minutes": 4
+      }
     },
-    "naturalness": {
-      "unknown": 59
+    "batch-9-relayed": {
+      "unknown": {
+        "unknown": 7
+      }
+    },
+    "batch-9": {
+      "unknown": {
+        "journal": 11,
+        "legislation": 6,
+        "minutes": 2,
+        "hearing": 2,
+        "meeting": 5,
+        "campaign": 2,
+        "interview": 1,
+        "emotion": 6,
+        "conversation": 2
+      }
     }
   }
 }

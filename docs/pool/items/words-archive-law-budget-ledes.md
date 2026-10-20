@@ -5,9 +5,9 @@ area: words
 kind: feature
 priority: 2
 size: M
-status: claimed
+status: done
 claimed-by: claude/words-archive-ledes
-pr:
+pr: #5235
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-19T22:49:31.388Z

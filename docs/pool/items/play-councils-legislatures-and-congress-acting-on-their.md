@@ -22,3 +22,5 @@ claimed-at: 2026-10-18T19:18:03.694Z
 **Files.** src/core2/modules/world-legislating.ts, src/bench/world.ts, src/bench/world-modules.test.ts, scripts/core2-year/
 
 **Notes.** Checklist line from play.md; verify against main before starting.
+
+Measured Oct 18 (claude/legislating-speed), nothing to build. The `speed:year` script exists (`npm run speed:year`). One played year with `openWorldLegislating` on against the same world with it left out, one process at a time on a four-core container: Bly, Oregon 26.6 s against 27.5 s; Greenwich, Connecticut 198.4 s against 203.4 s; Colchester, Connecticut 105.1 s against 96.9 s (8 percent over, inside the run-to-run spread of the machine). A CPU profile of a full year in Williamsburg, Virginia puts everything inside `world-legislating.ts` at 2.4 s of 420 (0.6 percent). So the module is well inside the 20 percent allowance and there is no post-session slowdown to cut; the CTO can close this item. The year still runs over two minutes in the larger towns, but the cost is elsewhere (see core-year-speed-activate-and-gc).

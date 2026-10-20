@@ -5,11 +5,12 @@ area: gov
 kind: bug
 priority: 2
 size: S
-status: blocked
-claimed-by:
+status: claimed
+claimed-by: claude/pool-official-pay-total
 pr:
 blocked-on: gov-dead-official-still-seated
 source: added with npm run pool -- add
+claimed-at: 2026-10-20T00:28:59.443Z
 ---
 
 **What.** TODO

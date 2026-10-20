@@ -8,7 +8,7 @@ import {
 } from "../core2/modules/legislature";
 import { billTitleOf } from "../english/bill-names";
 import type { CoreState, IsoDate, PersonId, PersonState } from "../core2/types";
-import { ageOnDate, makeIsoDate } from "../core2/kernel/dates";
+import { ageOnDate, daysBetween, makeIsoDate } from "../core2/kernel/dates";
 import {
   renderGroundedEnglish,
   type AuthoredEnglishBank,
@@ -157,6 +157,8 @@ export interface JournalLine {
   text: string;
   momentIds: readonly string[];
   sourceRecordIds: readonly string[];
+  /** The earlier entries this one revises, when a later record changed what they meant. */
+  revises?: readonly string[];
 }
 
 export interface JournalChapter {
@@ -185,6 +187,8 @@ type JournalMoment = Pick<
   | "counterpartIds"
   | "selfNamed"
   | "hindsight"
+  | "impact"
+  | "echoes"
 > & { readonly actFacts?: Facts };
 
 function bank(
@@ -257,6 +261,8 @@ function officeActMoments(
         causeKind,
         counterpartIds: [],
         hindsight: zero,
+        impact: zero,
+        echoes: [],
         ...(actFacts ? { actFacts } : {}),
       });
       if (act.kind === "town-hall") return [moment("act:town-hall")];
@@ -507,6 +513,8 @@ export function composeJournal(
     ageOnDate(makeIsoDate(person.birthDate), makeIsoDate(date));
   const interrupt =
     DEFAULT_DIRECTOR_DATA.parameters.directorInterruptImpact!.value;
+  const monthSpan =
+    core.data.parameters.yearSpanDays!.value / (P.two * P.two * P.two);
   const lower = (text: string) =>
     text.charAt(zero).toLowerCase() + text.slice(one);
   // A line that opens with a fact (a person's name) keeps its capital.
@@ -526,6 +534,9 @@ export function composeJournal(
   let chapter: (typeof chapters)[number] | undefined;
   let chapterKind: string | undefined;
   const toldOnce = new Set<string>();
+  // The entries told so far, and those a later entry has already revised.
+  const toldMoments = new Map<string, JournalMoment>();
+  const revisedAlready = new Set<string>();
   // How each closing line (a hard time, a look-back) ends, its last two
   // words, so none is said twice in one journal.
   const closedWith = new Set<string>();
@@ -796,7 +807,43 @@ export function composeJournal(
           next.kindPrefix !== row.kindPrefix
         );
       });
-    if (later && moment.hindsight >= interrupt) {
+    // Revised by what came after (owner, Oct 15: a memoir with hindsight):
+    // an entry told as small, and since grown by the same person coming back,
+    // is looked back on in the entry that echoes it. Only when the record
+    // shows it: the earlier entry's weight then, against its weight now.
+    // Time has passed since: an eighth of a year at least, never the same season's
+    // entries revising each other.
+    const changed = moment.echoes
+      .filter((link) => link.earlierKind === "moment")
+      .map((link) => toldMoments.get(link.earlierId))
+      .filter(
+        (earlier): earlier is JournalMoment =>
+          !!earlier &&
+          !revisedAlready.has(earlier.id) &&
+          earlier.impact < interrupt &&
+          earlier.hindsight >= interrupt &&
+          daysBetween(makeIsoDate(earlier.date), makeIsoDate(moment.date)) >=
+            monthSpan &&
+          earlier.counterpartIds.includes(moment.counterpartIds[zero]!),
+      )
+      .sort((a, b) => b.hindsight - a.hindsight || a.id.localeCompare(b.id))[
+      zero
+    ];
+    const revision =
+      changed && facts.name
+        ? render(
+            "journal-memoir:revise",
+            memoir.revise,
+            facts,
+            `${moment.id}:revise`,
+            [changed.causeId, moment.causeId],
+          )
+        : null;
+    if (changed && revision) {
+      revisedAlready.add(changed.id);
+      parts.push(revision);
+    }
+    if (!revision && later && moment.hindsight >= interrupt) {
       // A look-back is said once: no two end the same way ("at the time").
       const hook = render(
         "journal-memoir:hook",
@@ -824,7 +871,9 @@ export function composeJournal(
       sourceRecordIds: [
         ...new Set(parts.flatMap((part) => part.sourceRecordIds)),
       ],
+      ...(changed && revision ? { revises: [changed.id] } : {}),
     });
+    toldMoments.set(moment.id, moment);
     chapter!.through = moment.date;
   }
 

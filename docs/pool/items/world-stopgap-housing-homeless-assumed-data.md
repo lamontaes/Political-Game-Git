@@ -4,10 +4,10 @@ title: "Stopgaps in housing-homeless (assumed-data): 2 open"
 area: world
 kind: stopgap
 priority: 3
-status: open
+status: blocked
 claimed-by:
 pr:
-blocked-on:
+blocked-on: research data: the row's replacement needs sourced data (Beds by place from the HIC provider rows (geocode to county and place), with occupancy on the count night....)
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/housing-homeless.ts, kind assumed-data"
 ---

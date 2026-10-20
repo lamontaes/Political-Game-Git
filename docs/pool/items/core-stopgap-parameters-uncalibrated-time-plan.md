@@ -4,10 +4,10 @@ title: "Stopgaps in parameters (uncalibrated-time-plan): 1 open"
 area: core
 kind: stopgap
 priority: 3
-status: open
+status: blocked
 claimed-by:
 pr:
-blocked-on:
+blocked-on: research data: the row's replacement needs sourced data (ATUS age/employment primary activity totals and participant durations using compatible crosswalks and observed individual spreads....)
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/data/parameters.json, kind uncalibrated-time-plan"
 ---

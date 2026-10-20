@@ -1708,7 +1708,7 @@ L('reply','confront',Y,F,[("Then we read the room differently.","braced")],after
 L('reply','apologize',Y,F,[("Fair. I'm sorry for how it came out.","contrite")],after='confront')
 L('reply','confront',Y,F,[("And mine pays for half the projects in yours.","braced")],after='confront')
 L('follow','accept',A,F,[("Thursday, then. I'll be listening.","calm")],after="All right. Thursday, on the record.")
-L('follow','confront',A,F,[("Then I'll say my piece Thursday instead.","braced")],after="I'm not doing penance on the record for a fair fight.")
+L('follow','confront',A,F,[("Then I'll speak my mind Thursday instead.","braced")],after="I'm not doing penance on the record for a fair fight.")
 L('follow','accept',A,F,[("Okay. That's a start.","calm")],after="Fine. It was personal. I'm sorry for that.")
 L('follow','confront',A,F,[("We do. And everybody watching read it my way.","hurt")],after="Then we read the room differently.")
 L('follow','accept',A,F,[("Okay. I can take that.","calm")],after="Fair. I'm sorry for how it came out.")
@@ -1820,12 +1820,12 @@ L('follow','apologize',A,F,[("I'm sorry. Let's fix it, not fight it.","contrite"
 L('follow','offer',A,F,[("The county line's busy today, but I'll keep trying. Give me a few minutes.","calm")],after="Is there someone you can call to check?")
 L('follow','offer',A,F,[("You can vote a provisional ballot here, and they'll count it once they confirm you.","calm")],after="What can I do right now, today?")
 L('reply','request',Y,F,[("Then find out where they moved me.","braced")],after='answer')
-L('reply','confront',Y,F,[("Nobody sent me a single piece of mail about it.","braced")],after='answer')
+L('reply','confront',Y,F,[("Nobody sent me a single letter about it.","braced")],after='answer')
 L('reply','accept',Y,F,[("Okay. What are my options?","calm")],after='answer')
 L('reply','leave',Y,F,[("I'm going to go find my new spot before I lose my lunch break.","braced")],after='answer')
 L('reply','leave',Y,F,[("I'm going to go find my new spot before I lose my lunch break.","braced")],after='offer')
 L('follow','offer',A,F,[("Here. The new location's on this sheet. It's ten minutes from here.","calm")],after="Then find out where they moved me.")
-L('follow','apologize',A,F,[("You're not the first today. I'm writing every one of you down.","contrite")],after="Nobody sent me a single piece of mail about it.")
+L('follow','apologize',A,F,[("You're not the first today. I'm writing every one of you down.","contrite")],after="Nobody sent me a single letter about it.")
 L('follow','offer',A,F,[("Two: the right place across town, or a provisional ballot here.","calm")],after="Okay. What are my options?")
 L('reply','accept',Y,F,[("Provisional. Hand it over.","calm")],after='offer')
 L('reply','request',Y,F,[("Write that down, too. I want a record I was here.","braced")],after='offer')
@@ -1926,7 +1926,7 @@ L('follow','thank',A,F,[("Thank you. Really.","glad")],after='agree')
 L('close','warn',A,F,[("Hope your district thanks you for it.","braced")],outcome='refused')
 L('close','accept',A,F,[("Clerk's on you. Make it count.","braced")],after='leave',outcome='open')
 L('close','thank',A,F,[("I owe you one. A real one.","glad")],outcome='resolved')
-L('reply','leave',Y,F,[("Go work the back row. I'm not your vote tonight.","braced")])
+L('reply','leave',Y,F,[("Go work the back of the room. I'm not your vote tonight.","braced")])
 F='signing-ask'
 L(N,N,R,F,[("The signing's over, and staff are stacking the chairs. {name}, the {executive}, hands you one of the pens.","glad")])
 L('open','greet',A,F,[("Keep it. You earned it.","glad")])
@@ -2083,13 +2083,13 @@ F='new-baby'
 L(N,N,R,F,[("{name} knocks quietly, in case {kid} is asleep, and comes in with a bag of groceries.","glad")])
 L('open','greet',A,F,[("I brought real food. You're not living on crackers.","glad")])
 L('state','ask',A,F,[("Okay, honestly. How are you holding up?","tender")])
-L('reply','tell',Y,F,[("I haven't slept more than three hours in a row since {kid} came home.","glad")])
+L('reply','tell',Y,F,[("I haven't slept more than three hours in a stretch since {kid} came home.","glad")])
 L('reply','confess',Y,F,[("Some days I don't know if I'm doing any of it right.","anxious")])
 L('reply','request',Y,F,[("Could you watch {kid} while I take a shower? Just twenty minutes.","anxious")])
 L('reply','ask',Y,F,[("Do you want to hold {kid}? Carefully.","glad")])
 L('reply','confess',Y,F,[("We're fine. Money's tight with one paycheck, but we're fine.","anxious",["asked_short_on_money"])])
 L('follow','comfort',A,F,[("Then let me bring dinner twice a week until it isn't. Don't argue.","tender")],after="We're fine. Money's tight with one paycheck, but we're fine.")
-L('follow','accept',A,F,[("Three hours is good. Three hours is a vacation right now.","glad")],after="I haven't slept more than three hours in a row since {kid} came home.")
+L('follow','accept',A,F,[("Three hours is good. Three hours is a vacation right now.","glad")],after="I haven't slept more than three hours in a stretch since {kid} came home.")
 L('follow','comfort',A,F,[("Nobody knows. Anyone who tells you they did is remembering it wrong.","tender")],after="Some days I don't know if I'm doing any of it right.")
 L('follow','accept',A,F,[("Take forty. I'm not going anywhere.","glad")],after="Could you watch {kid} while I take a shower? Just twenty minutes.")
 L('follow','answer',A,F,[("Give me {kid}. Oh. Hello, {kid}.","glad")],after="Do you want to hold {kid}? Carefully.")
@@ -2232,7 +2232,7 @@ G(F,'reply','agree',Y,'',[("All right. Yes, this once.","guarded")])
 G(F,'reply','agree',Y,'plea',[("Okay. Yes. You owe me lunch, at least.","guarded")])
 G(F,'reply','bargain',Y,'',[("Get my bill a hearing next month, and you've got me.","calm")])
 G(F,'follow','accept',A,"Get my bill a hearing next month, and you've got me.",[("A hearing I can do. Done.","calm")])
-G(F,'reply','leave',Y,'',[("Talk to me after they call the next row.","guarded")])
+G(F,'reply','leave',Y,'',[("Talk to me after they call the next speaker.","guarded")])
 G(F,'reply','refuse',Y,'plea',[("I can't. I'm sorry.","braced")])
 G(F,'reply','stall',Y,'',[("I'm abstaining.","guarded")])
 G(F,'reply','stall',Y,'press',[("Then I'll abstain and take the heat.","guarded")])
@@ -2811,7 +2811,7 @@ L('reply','leave',Y,P,[("We have to keep moving. I'll find you after.","calm")],
 L('reply','lie',Y,P,[("It's already scheduled. I just can't say the date yet.","calm")],after='press')
 L('follow','thank',A,P,[("Then I'll ask the clerk for it tomorrow.","calm")],after="It's already scheduled. I just can't say the date yet.")
 L('follow','accept',A,P,[("All right. I'll take sorry, for tonight.","calm")],after='apologize')
-L('follow','thank',A,P,[("Before the next meeting, then. I'll be in the front row.","calm")],after="Then you'll get a straight answer from me before the next meeting.")
+L('follow','thank',A,P,[("Before the next meeting, then. I'll be at the front of the room.","calm")],after="Then you'll get a straight answer from me before the next meeting.")
 L('follow','thank',A,P,[("I'll be by the door.","calm")],after="Talk to me after. I want the details.")
 L('follow','plea',A,P,[("Then who can? Somebody has to.","anxious")],after="I hear you. The city still can't change it by itself.")
 L('follow','press',A,P,[("When, though? People have heard 'find out' before.","braced")],after="Fair. I'll find out whose it is and tell you myself.")
@@ -2824,7 +2824,7 @@ L('close','warn',A,P,[("People in this room remember.","guarded")],outcome='refu
 L('close','press',A,P,[("I'm not done with this.","braced")],outcome='open')
 L('close','warn',A,P,[("Next time there'll be more of us.","guarded")],outcome='open')
 L('close','warn',A,P,[("Fine. The people behind me heard it too.","guarded")],after='leave')
-L('beat','beat',R,P,[("Someone near the front starts clapping, and a few others join in.","calm"),("The microphone squeals, and the whole room winces.","calm"),("Two people in the second row lean together and whisper.","calm")])
+L('beat','beat',R,P,[("Someone near the front starts clapping, and a few others join in.","calm"),("The microphone squeals, and the whole room winces.","calm"),("Two people near the back lean together and whisper.","calm")])
 
 P='press-comment'
 for t,f in [("Because they were told it would cost them. It won't.","We'll see who's right by spring. Thanks."),
@@ -3226,6 +3226,12 @@ bank['slots'].update({
  "needed":"How many votes the bill needs to pass, from the chamber's rules.",
  "candidate":"Present when the person in the scene filed for office, from the filing record.",
  "cause":"A cause someone shared, by name, from the views engine's cause-shared record.",
+ "kid":"The household's new child, by name, from the household record.",
+ "when":"When a filing was made, said as the director says a date, from the filing record.",
+ "teller":"Whoever told the person of the law, by name, from the record of how they learned.",
+ "campaigner":"The campaigner whose people came by, by name, from the campaign record.",
+ "title":"How the person is addressed (their office), from their term.",
+ "issue":"The bill's question, named as the bill catalog records it.",
  "where":"Where the place takes filings for the race (the clerk, the registrar, the board of elections), from the filing record.",
  "relative":"A relative of the person in the scene, by name, from the family records.",
  "executive":"The executive's post as people say it (\"governor\", \"mayor\"), from the office record of the desk's executive.",

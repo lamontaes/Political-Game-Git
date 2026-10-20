@@ -4,10 +4,10 @@ title: "Stopgaps in opening-customers (estimated-opening-customer-prior): 3 open
 area: core
 kind: stopgap
 priority: 3
-status: open
+status: blocked
 claimed-by:
 pr:
-blocked-on:
+blocked-on: research data: the row's replacement needs sourced data (Use recorded individual budgets and product-compatible agreements plus matched service-level size/region priors and actor purchasing producers....)
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/data/opening-customers.json, kind estimated-opening-customer-prior"
 ---

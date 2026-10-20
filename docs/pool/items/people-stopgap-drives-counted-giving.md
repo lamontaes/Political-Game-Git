@@ -10,6 +10,7 @@ pr:
 blocked-on:
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/modules/drives.ts, kind counted-giving"
+claimed-at:
 ---
 
 **What.** Replace or clear the 1 open counted-giving stopgap row(s) in src/core2/modules/drives.ts: SG-CORE-counted-giving-stand-in. Each fake is replaced by the mechanic, or the feature that needs it is deleted.
