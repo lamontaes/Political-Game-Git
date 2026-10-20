@@ -27,10 +27,9 @@ import { OFFICIALS_MODULE_ID, type OfficialRow } from "./officials";
 import { addDays, daysBetween, makeIsoDate } from "../kernel/dates";
 import type { ModuleRow } from "../module-data";
 import type { CoreAPI, CoreModule, CoreState, Source } from "../types";
+import { giveLivingCost, spendLivingCost } from "../official-living";
 import payFacts from "../../../data/source/official-office-pay/facts.json" with { type: "json" };
 import { outsideGovernment } from "../outside-governments";
-import { officialHousehold } from "../official-living";
-import { outsideAccountOf } from "../budgets-treasury";
 
 export const OFFICIAL_PAY_MODULE_ID = "core2-official-pay-v1";
 
@@ -251,50 +250,11 @@ function keepHousehold(
   row: OfficialRow,
   annualMinor: number,
 ): boolean {
-  const person = api.state.people.get(row.id);
-  if (!person || person.livingCostDailyMinor > 0) return false;
-  const home = officialHousehold(api, row.stateKey, annualMinor);
-  api.updatePerson(row.id, { livingCostDailyMinor: home.livingCostDailyMinor });
-  if (home.savingsMinor > 0) {
-    const accounts = api.accounts();
-    accounts.transfer({
-      id: `savings:${row.id}:${api.state.date}`,
-      from: accounts.main(
-        outsideGovernment(api, isFederal(row) ? "US" : row.stateKey),
-      ),
-      to: accounts.main(row.id),
-      amountMinor: home.savingsMinor,
-      reasonKey: "official.savings",
-      source: {
-        tag: "ESTIMATED",
-        asOf: api.state.date,
-        citation: `What a family at ${annualMinor} a year keeps in checking and savings (SCF 2022).`,
-        estimatedFrom: "scf-transaction-accounts-2022",
-      },
-    });
-  }
-  return true;
-}
-
-/** What an official spends on living for the days since their last payday, out of what they hold. */
-function spendDays(api: CoreAPI, row: PayRow, days: number): void {
-  const person = api.state.people.get(row.personId);
-  const outside = outsideAccountOf(api);
-  if (!person?.alive || !outside) return;
-  const accounts = api.accounts();
-  accounts.transfer({
-    id: `living:${row.personId}:${api.state.date}`,
-    from: accounts.main(row.personId),
-    to: accounts.main(outside),
-    amountMinor: person.livingCostDailyMinor * days,
-    reasonKey: "official.living",
-    partial: true,
-    source: {
-      tag: "ESTIMATED",
-      asOf: api.state.date,
-      citation: `${days} days of the household's living cost (official-living).`,
-      estimatedFrom: "BLS Consumer Expenditure Survey and HUD fair market rent",
-    },
+  return giveLivingCost(api, {
+    personId: row.id,
+    stateKey: row.stateKey,
+    annualMinor,
+    governmentKey: isFederal(row) ? "US" : row.stateKey,
   });
 }
 
@@ -304,6 +264,12 @@ function payMonth(api: CoreAPI): void {
   const today = makeIsoDate(api.state.date);
   for (const raw of table(api, "pay").rows()) {
     const row = raw as unknown as PayRow;
+    // An official who died is paid no more: their row ends with them, not
+    // years later with a pay date that keeps moving on.
+    if (!api.state.people.get(row.personId)?.alive) {
+      table(api, "pay").remove(row.id);
+      continue;
+    }
     const through = row.endedOn && row.endedOn < today ? row.endedOn : today;
     const days = Math.max(
       0,
@@ -348,7 +314,7 @@ function payMonth(api: CoreAPI): void {
           throughAt: addDays(makeIsoDate(through), -1),
         });
       }
-      if (row.spends && days > 0) spendDays(api, row, days);
+      if (row.spends) spendLivingCost(api, row.personId, days);
     } else if (dueMinor <= 0 && days <= 0) continue;
     if (row.endedOn && row.endedOn <= today && owedMinor === 0)
       table(api, "pay").remove(row.id);

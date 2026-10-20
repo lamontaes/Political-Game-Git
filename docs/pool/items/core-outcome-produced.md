@@ -5,11 +5,12 @@ area: core
 kind: wiring
 priority: 2
 size: M
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/outcome-produced
+pr: #5083
 blocked-on:
 source: "split from core-stopgap-outcome-web-faked-mechanic (SG-WEB-outcome-drift), Oct 15"
+claimed-at: 2026-10-19T18:27:17.606Z
 ---
 
 **What.** 15 links wait because the web does not produce their target outcome (`outcome-not-produced`): property crime from police, youth gun deaths, low-wage jobs, rent from property tax, wages from corporate tax, undocumented and US-born employment, youth turnout, mortality 55 to 64, pretrial detention, evictions and federal incarceration. Add each as a kept outcome with its real starting level in the base file, so the link can move it and a screen, budget or view can read it. Each is a kept outcome like the 40 the web already holds.
