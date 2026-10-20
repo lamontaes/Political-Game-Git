@@ -451,7 +451,7 @@ function review(api: CoreAPI): void {
     const ownerId = (owners?.get(id) as { ownerId?: string } | undefined)
       ?.ownerId;
     if (!ownerId) {
-      stopgap("SG-WORLD-credit-business-applies");
+      api.stopgap("SG-WORLD-credit-business-applies");
       wanted.push({ id, requested });
       continue;
     }

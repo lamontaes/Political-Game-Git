@@ -14,7 +14,6 @@
 import taxData from "./data/housing/property-tax.json" with { type: "json" };
 import { countedPayment } from "./counted-money";
 import type { ModuleTable } from "./module-state";
-import { stopgap } from "./stopgaps";
 import { transferCash } from "./world-transfer";
 import type { CoreAPI, CoreState, Source } from "./types";
 
@@ -65,7 +64,7 @@ export function stateEffectiveRate(usps: string): number {
 function terms(api: CoreAPI, placeId: string): PropertyTaxTerms {
   const registered = termsSource?.(api, placeId);
   if (registered) return registered;
-  stopgap("SG-WORLD-property-tax-rate");
+  api.stopgap("SG-WORLD-property-tax-rate");
   return {
     rate: stateEffectiveRate(api.state.placeMetadata?.housingState ?? ""),
     source: {
@@ -101,7 +100,7 @@ export function billPropertyTax(
     year = Number(c.date.slice(0, 4)),
     months = api.parameter("macroMonthsPerYear");
   // Monthly, as escrow pays it; a county's own due dates (once or twice a year) come with its law.
-  stopgap("SG-WORLD-property-tax-monthly");
+  api.stopgap("SG-WORLD-property-tax-monthly");
   const owedRow = (id: string) =>
     arrears.get(ARREARS_PREFIX + id) as unknown as
       PropertyTaxArrearsRow | undefined;

@@ -16,7 +16,6 @@
 import { addDays, makeIsoDate } from "./kernel/dates";
 import shelterData from "./data/housing/shelter-beds.json" with { type: "json" };
 import { currentCloseness } from "./closeness";
-import { stopgap } from "./stopgaps";
 import { householdIncome, residentsRuntime } from "./modules/residents";
 import { fillInPerson } from "./state";
 import { endResidentFlow } from "./residents-economy";
@@ -104,13 +103,13 @@ export function shelterBeds(
   usps: string,
 ): number {
   // stopgapId: SG-WORLD-housing-shelter-beds-state-rate
-  stopgap("SG-WORLD-housing-shelter-beds-state-rate");
+  api.stopgap("SG-WORLD-housing-shelter-beds-state-rate");
   const rate =
     (shelterData.bedsPer10k as Record<string, number>)[usps] ??
     shelterData.nationalBedsPer10k;
   // stopgapId: SG-WORLD-housing-shelter-territory
   if (!(usps in shelterData.bedsPer10k))
-    stopgap("SG-WORLD-housing-shelter-territory");
+    api.stopgap("SG-WORLD-housing-shelter-territory");
   const counts = housingStatusCounts(api, placeId);
   const people =
     counts.housed +

@@ -576,7 +576,7 @@ function steps(api: CoreAPI): Steps & { usps: string } {
   const row = EVICTION[usps];
   if (!row) throw new Error("No recorded eviction steps for this place.");
   // Steps below "high" confidence are recalled, not read from the statute text yet.
-  if (row.confidence !== "high") stopgap("SG-WORLD-housing-eviction-steps");
+  if (row.confidence !== "high") api.stopgap("SG-WORLD-housing-eviction-steps");
   return { ...row, usps };
 }
 
@@ -862,7 +862,7 @@ function assignLandlordOwners(
 ): void {
   const c = core(api);
   // Owners are generated from the town's residents until the opening records who owns each rental.
-  stopgap("SG-WORLD-housing-landlord-owner-assignment");
+  api.stopgap("SG-WORLD-housing-landlord-owner-assignment");
   const table = store(api).table("landlords");
   const have = (
     table.query("byLandlord", [landlord.id]) as unknown as LandlordOwnerRow[]
@@ -1043,7 +1043,7 @@ function ownerServes(
   };
   const owner = ownerId ? c.people.get(ownerId) : undefined;
   if (!ownerId || !owner) {
-    stopgap("SG-WORLD-housing-landlord-owner-assignment");
+    api.stopgap("SG-WORLD-housing-landlord-owner-assignment");
     return {
       serve: Object.values(reasons).reduce((a, b) => a + b, 0) > 0,
       reasons,
@@ -1140,7 +1140,7 @@ function buyHomes(api: CoreAPI): void {
   const factor = (principal: number) =>
     r > 0 ? (principal * r) / (1 - (1 + r) ** -term) : principal / term;
   // Home prices follow consumer prices until a house price index is in the data.
-  stopgap("SG-WORLD-housing-price-index");
+  api.stopgap("SG-WORLD-housing-price-index");
   for (const [id, lease] of [...c.finance.contracts].sort((a, b) =>
     a[0].localeCompare(b[0]),
   )) {

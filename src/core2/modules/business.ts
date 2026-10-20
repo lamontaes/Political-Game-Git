@@ -17,7 +17,6 @@ import businessParameters from "../data/business/parameters.json" with { type: "
 import { addDays, daysBetween, makeIsoDate } from "../kernel/dates";
 import { ageOnDate } from "../kernel/dates";
 import type { Parameter } from "../parameters";
-import { stopgap } from "../stopgaps";
 import { traitLeanBetween } from "../trait-decisions";
 import type {
   ActOffer,
@@ -204,7 +203,7 @@ function outsideOwned(api: CoreAPI): Map<string, string> {
 function open(api: CoreAPI): void {
   const c = core(api);
   // Owners are generated as owner-operators until founding gives businesses their founders.
-  stopgap("SG-WORLD-business-opening-owners");
+  api.stopgap("SG-WORLD-business-opening-owners");
   const outside = outsideOwned(api);
   for (const [id, book] of c.finance.businesses) {
     if (book.closedAt) continue;
@@ -952,7 +951,7 @@ function routeCompliance(api: CoreAPI): void {
       existing.source?.citation === cited
     )
       continue;
-    stopgap("SG-WORLD-business-compliance-cost");
+    api.stopgap("SG-WORLD-business-compliance-cost");
     addRegulatoryCost(api, table, {
       organizationId: id,
       shareOfCosts: share,
