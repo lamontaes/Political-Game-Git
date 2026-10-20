@@ -89,6 +89,8 @@ const ORDER = {
 interface FlowState extends ResidentFlowInput {
   nextAt: IsoDate;
   arrearsMinor: number;
+  /** A household's living cost written off past the creditors' charge-off age (never paid, never asked again). */
+  writtenOffMinor?: number;
   /** Latest settled request and payment, read by lenders rather than opening cash or promised pay. */
   lastRequestedMinor?: number;
   lastPaidMinor?: number;
@@ -1062,7 +1064,19 @@ function settle(api: CoreAPI, rt: ResidentsRuntime, flow: FlowState): void {
         if (leg.amount > 0) post(api, flow, leg.amount, leg.payerId);
     } else if (paid > 0) post(api, flow, paid);
   }
-  if (carries) flow.arrearsMinor = requested - paid;
+  if (carries) {
+    // What is still unpaid after the creditors' charge-off age (a number of
+    // monthly bills) is written off: it stays on the books as written off and
+    // is not asked again, so a household with no job and no cash does not owe
+    // a growing sum forever.
+    const owed = requested - paid;
+    const ceiling = Math.round(
+      flow.amountMinor * api.parameter("livingCostWriteOffBills"),
+    );
+    flow.arrearsMinor = Math.min(owed, ceiling);
+    if (owed > ceiling)
+      flow.writtenOffMinor = (flow.writtenOffMinor ?? 0) + (owed - ceiling);
+  }
   flow.lastRequestedMinor = requested;
   flow.lastPaidMinor = paid;
   if (flow.kind === "outside-costs")
@@ -1370,6 +1384,20 @@ export function countedJob(
   if (!rt || !job) return undefined;
   const flow = rt.wageFlowByJob.get(jobId);
   return flow && !flow.endedAt ? job : undefined;
+}
+
+/** How many jobs at an employer are held by people in the wider population, while their wages are still paid (by the employer or the treasury that funds it). */
+export function countedStaffOf(
+  core: CoreState,
+  organizationId: string,
+): number {
+  const rt = runtimes.get(core);
+  if (!rt) return 0;
+  let jobs = 0;
+  for (const [jobId, job] of rt.jobs)
+    if (job.organizationId === organizationId && countedJob(core, jobId))
+      jobs += 1;
+  return jobs;
 }
 
 /**
