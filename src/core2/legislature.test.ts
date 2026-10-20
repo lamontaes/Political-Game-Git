@@ -377,15 +377,18 @@ describe(
           (s) => s.office.kind === "legislature-lower",
         )!;
         const body = lower.office.id;
-        const requests = members(api, body).map((term) =>
-          requestProject(api, {
-            bodyOfficeId: body,
-            memberId: memberKey(term),
-            recipientId: city.id,
-            line: "parks",
-            amountMinor: 10_000,
-          }),
-        );
+        // A handful of members ask, as in a real session; not every seat.
+        const requests = members(api, body)
+          .slice(1, 7)
+          .map((term) =>
+            requestProject(api, {
+              bodyOfficeId: body,
+              memberId: memberKey(term),
+              recipientId: city.id,
+              line: "parks",
+              amountMinor: 10_000,
+            }),
+          );
         const bill = appropriationsWithProjects(api, {
           bodyOfficeId: body,
           sponsorId: memberKey(members(api, body)[0]!),
@@ -395,6 +398,11 @@ describe(
         for (const r of after) {
           expect(["included", "dropped"], r.id).toContain(r.status);
           expect(r.reasons.length, r.id).toBe(2);
+          // The reads are the reason: included exactly when the officials favor it or it wins the requester's vote.
+          expect(r.status === "included", r.id).toBe(
+            r.reasons[0] === "officials-favor" ||
+              r.reasons[1] === "requester-vote-won",
+          );
         }
         const included = after.filter((r) => r.status === "included");
         if (!bill || !included.length) {
@@ -427,6 +435,70 @@ describe(
       }
       throw new Error(
         `no state bill with a request passed: ${tried.join("; ")}, seed ${seed}`,
+      );
+    });
+
+    it("a project request is included or left out by the officials' reads, and the read is the kept reason", () => {
+      const states = Object.keys(authority)
+        .filter(
+          (k) =>
+            ![
+              "US-NE",
+              "US-DC",
+              "US-AS",
+              "US-GU",
+              "US-MP",
+              "US-VI",
+              "US-PR",
+            ].includes(k),
+        )
+        .sort();
+      const seen = { included: 0, dropped: 0 };
+      const where: string[] = [];
+      for (
+        let attempt = 0;
+        attempt < 10 && !(seen.included && seen.dropped);
+        attempt += 1
+      ) {
+        const { api, key } = town(
+          states,
+          `project-reads:${attempt}`,
+          (t) =>
+            withCity(t) && governments(t.api).some((g) => g.level === "state"),
+        );
+        const city = governments(api).find((g) => g.level === "city")!;
+        const lower = townSeats(api).find(
+          (s) => s.office.kind === "legislature-lower",
+        )!;
+        const body = lower.office.id;
+        const ask = members(api, body).map((term) =>
+          requestProject(api, {
+            bodyOfficeId: body,
+            memberId: memberKey(term),
+            recipientId: city.id,
+            line: "parks",
+            amountMinor: 10_000,
+          }),
+        );
+        appropriationsWithProjects(api, {
+          bodyOfficeId: body,
+          sponsorId: memberKey(members(api, body)[0]!),
+        });
+        for (const r of ask.map((x) => projectRequestOf(api, x.id)!)) {
+          seen[r.status === "included" ? "included" : "dropped"] += 1;
+          expect(r.status === "included", `${key} ${r.id}`).toBe(
+            r.reasons[0] === "officials-favor" ||
+              r.reasons[1] === "requester-vote-won",
+          );
+        }
+        where.push(key);
+      }
+      expect(
+        seen.included,
+        `${where.join(", ")}, seed ${seed}`,
+      ).toBeGreaterThan(0);
+      expect(seen.dropped, `${where.join(", ")}, seed ${seed}`).toBeGreaterThan(
+        0,
       );
     });
 
