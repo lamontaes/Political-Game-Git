@@ -7,10 +7,10 @@ priority: 2
 size: S
 status: open
 claimed-by:
-pr:
+pr: #5506
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-18T19:27:25.983Z
+claimed-at:
 ---
 
 **What.** The golden-path suite on a pull request has one 300-second budget (scripts/core2-guard/policies.json, prMilliseconds) shared by all its specs, run in the order of docs/roadmap/features.json with the accepted ones first. The third accepted spec, M0-13 (the played world runs one game year), takes most of it: 168 seconds on a four-core container in Granville, Ohio, and about six minutes of the whole job on GitHub's runner. The accepted specs after it then get the leftover seconds. M2-06 timed out after 20 seconds of its budget and M2-07, M2-08, M2-04, M2-09 and M3-09 never ran, so the suite reports a regression on main and on every pull request, including a pool note. The failure says nothing about the code under test.
@@ -29,4 +29,4 @@ Re-run Oct 18 with the order change, same container: M0-10, M0-11, M2-01, M2-02,
 
 Oct 20: PR #5061 merged the ordering fix, but the suite still runs out of its 300-second budget and the budget is not raised, so the played year gets its own job.
 
-Oct 20 (claude/golden-path-budget): the played year now has its own job (`golden-path-year` in m0-guard.yml, `--only-long`, budget `longRunningMilliseconds` 600 s) and the pull-request job runs `--skip-long` with `prMilliseconds` raised to 450 s; both numbers are flagged for the CTO in policies.json (`goldenBudgetReason`). Nightly keeps its 1,800 s budget for the quick specs only.
+Sent back 2026-10-20 from PR #5506 (branch claude/golden-path-budget): policies.json goldenBudgetReason carries a date note ('Oct 20, 2026') and a CTO-confirmation note; keep the measurement only; finish on that branch, merge main into it first.

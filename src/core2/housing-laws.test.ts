@@ -243,14 +243,17 @@ describe(`housing laws, ${draw.name}, seed ${draw.seed}`, () => {
     const counted = rt.households.get(householdId)!;
     const paidRent = flow.amountMinor;
     fillInPerson(core, counted.people[0]!.id);
-    expect(
-      core.finance.contracts.get(`lease:${householdId}`)!.amountMinor,
-      where,
-    ).toBe(paidRent);
+    // A household filled in a second time (it returned to the counts between)
+    // takes a new lease id; its first lease is on record, ended.
+    const liveLease = () =>
+      [...core.finance.contracts.values()].find(
+        (row) =>
+          row.householdId === householdId &&
+          row.id.startsWith(`lease:${householdId}`) &&
+          !row.endedAt,
+      )!;
+    expect(liveLease().amountMinor, where).toBe(paidRent);
     renewRentalLeases(api);
-    expect(
-      core.finance.contracts.get(`lease:${householdId}`)!.amountMinor,
-      where,
-    ).toBe(paidRent);
+    expect(liveLease().amountMinor, where).toBe(paidRent);
   }, 900_000);
 });

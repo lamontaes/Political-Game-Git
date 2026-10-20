@@ -7,9 +7,10 @@ priority: 2
 size: M
 status: open
 claimed-by:
-pr:
+pr: #5514
 blocked-on:
 source: split from core-old-imports-population
+claimed-at:
 ---
 
 **What.** The opening seeds each person's traits through the old trait registry (traitRegistryFor), the PERSONALITY_PACK name and the isOneSided test, which pull in the compiled trait packs and every decision declaration. The opening population builder in src/core2/population.ts still builds a whole old-engine World first and reads these pieces from src/simulation. Move only what the opening uses into the core as data and small functions, and delete nothing the old engine still needs until core-delete-old-engine. Nothing new is added to the old engine.
@@ -21,3 +22,5 @@ source: split from core-old-imports-population
 **Files.** src/core2/population.ts, src/core2/opening-personality.ts, src/simulation/trait-registry.ts, src/simulation/trait-packs.ts, src/simulation/personality-catalogue.ts
 
 **Notes.** Split Oct 19 from core-old-imports-population, which was sized M but touches five old-engine modules. The sibling slices are core-old-imports-population-org-profile, core-old-imports-population-traits and core-old-imports-population-town-employment.
+
+Sent back 2026-10-20 from PR #5514 (branch claude/fs11vb-old-imports): the new src/core2/people-trait-definitions.ts imports types from src/simulation, and a moved comment carries an owner note; finish on that branch, merge main into it first.
