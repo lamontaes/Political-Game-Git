@@ -31,7 +31,8 @@ import type { LawRowInput } from "./laws-starting";
 import type { CoreAPI, CoreState, JobInput } from "./types";
 
 const SEED = process.env.GOLDEN_PATH_SEED ?? randomBytes(20).toString("hex");
-const TRIES = 4;
+/** Every law here needs its subject in the drawn town (a worker under the federal floor, a seated council member, a teacher, a full and a counted claimant, a claimant above the weekly maximum), so a draw often has none. */
+const TRIES = 10;
 const WINDOW = 35;
 const Q = (s: string) => `us-policy-positions:${s}`;
 const KEYS = {
@@ -211,8 +212,9 @@ function run(specId: string) {
   const council = townSeats(api).find(
     (s) => s.office.kind === "council" && s.holder?.personId,
   );
+  if (!council) throw new NoSubject("no seated council member");
   let draftedAt = "";
-  if (council) {
+  {
     const floor = lawInForce(api, "minimum-wage").value ?? 0;
     draftBill(api, {
       bodyOfficeId: council.office.id,
@@ -240,6 +242,16 @@ function run(specId: string) {
     if (fileClaim(api, claims, job as JobInput, "labor-test", 52))
       filed.counted = job.personId;
   }
+  if (!filed.full || !filed.counted)
+    throw new NoSubject("no full and counted worker could file a claim");
+  // The weekly maximum fixes the benefit of a claimant whose share of pay is above it: the town's best-paid full worker files too.
+  const top = [...fullJobs]
+    .filter((j) => j.personId !== filed.full)
+    .sort((a, b) => (b.wageDailyMinor ?? 0) - (a.wageDailyMinor ?? 0))[0];
+  const capped =
+    top && fileClaim(api, claims, top as JobInput, "labor-test", 52)
+      ? top.personId
+      : "";
   step(WINDOW);
   const date = core.date;
   // The nation's floor first (it binds everyone under it); then the state's
@@ -272,11 +284,10 @@ function run(specId: string) {
     authority.some((r) => r.target === "government"),
     `authority: no government reached (${enacted.authority?.join(",")})`,
   );
-  if (draftedAt)
-    need(
-      authority.some((r) => r.targetId === draftedAt),
-      `authority: the drafting body ${draftedAt} was not reached`,
-    );
+  need(
+    authority.some((r) => r.targetId === draftedAt),
+    `authority: the drafting body ${draftedAt} was not reached`,
+  );
   // ---- paid leave, bargaining, right to work, teacher, public floor --------
   const leave = rows(api, KEYS.leave);
   need(
@@ -334,7 +345,7 @@ function run(specId: string) {
   // A counted claimant's benefit is paid times the people the claim stands
   // for, the way counted wages are: the row's money is the claim's paid
   // benefit times its count.
-  if (filed.counted) {
+  {
     const claim = (
       claims.rows() as unknown as { personId: string; paidMinor: number }[]
     ).find((c) => c.personId === filed.counted);
@@ -358,10 +369,21 @@ function run(specId: string) {
     ),
     "unemployment: the state treasury paid no benefit",
   );
+  // The best-paid claimant's benefit is the maximum, and the maximum's row names them.
+  const topClaim = (
+    claims.rows() as unknown as { personId: string; weeklyMinor: number }[]
+  ).find((c) => c.personId === capped);
+  const maximumMinor =
+    (lawInForce(api, "unemployment-weekly-maximum").value ?? 0) *
+    api.parameter("minorPerDollar");
+  if (!topClaim || topClaim.weeklyMinor < maximumMinor)
+    throw new NoSubject("no claimant earns above the weekly maximum");
   need(
-    rows(api, "unemployment-weekly-maximum").length > 0 ||
-      ui.every((r) => r.amountMinor >= 0),
-    `unemployment-weekly-maximum (${maxLaw}): not recorded`,
+    topClaim.weeklyMinor === maximumMinor &&
+      rows(api, "unemployment-weekly-maximum").some(
+        (r) => r.targetId === capped && r.lawId === maxLaw,
+      ),
+    `unemployment-weekly-maximum (${maxLaw}): claimant ${capped} paid ${topClaim.weeklyMinor} a week against a maximum of ${maximumMinor}, or not recorded`,
   );
   // ---- the outcome web reads the question laws -----------------------------
   const web = api
@@ -392,8 +414,9 @@ function run(specId: string) {
 describe(
   "labor and pay laws reach people, groups and employers and move money",
   // A played world is built once per try (about a minute) and run a few
-  // months; a place with no subject at all is redrawn up to TRIES times.
-  { timeout: 300_000 },
+  // months; a place with no subject at all is redrawn up to TRIES times,
+  // so the time allowed is a minute and a half per try.
+  { timeout: TRIES * 90_000 },
   () => {
     it("each law is applied by its engine and recorded by record id", () => {
       const was = setBookkeeping(false);
