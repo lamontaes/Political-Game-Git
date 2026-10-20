@@ -59,6 +59,7 @@ import {
   scalePayroll,
   serviceLevel,
 } from "./group-b-money";
+import { runFoodAid } from "./group-b-food-aid";
 
 type Mechanic =
   | "records"
@@ -735,11 +736,23 @@ function runBudgetLine(api: CoreAPI, line: string, lawId: string): void {
   );
 }
 
+const FOOD_AID_ACTIVE = "food-aid";
+
+/** The baseline SNAP benefit, paid from the maximum allotment in force. */
+function payFoodAid(api: CoreAPI): void {
+  const chain = lawChain(api);
+  runFoodAid(
+    api,
+    assistanceTimeLimit(api, townFacts(api, chain.townPlaceId), chain.stateKey),
+  );
+}
+
 /** Re-run every policy in force: reach follows people's records month to month. */
 function review(api: CoreAPI): void {
   forgetTownFacts(api);
   for (const row of rowsOf<ActiveRow>(api, "active")) {
-    if (row.id.startsWith("budget-line:"))
+    if (row.id === FOOD_AID_ACTIVE) payFoodAid(api);
+    else if (row.id.startsWith("budget-line:"))
       runBudgetLine(api, row.id.slice("budget-line:".length), row.lawId);
     else if (data.policies[row.id]) {
       const law = lawRow(api, row.lawId);
@@ -763,6 +776,20 @@ export function registerGroupB(): void {
   if (registered) return;
   registered = true;
   setReachReview(review);
+  registerPolicyHandler("snap-maximum", (api) => {
+    forgetTownFacts(api);
+    setActive(
+      api,
+      {
+        id: FOOD_AID_ACTIVE,
+        lawId: "",
+        level: "federal",
+        since: api.state.date,
+      },
+      FOOD_AID_ACTIVE,
+    );
+    payFoodAid(api);
+  });
   for (const key of Object.keys(data.policies))
     registerPolicyHandler(key, (api, change) => {
       forgetTownFacts(api);

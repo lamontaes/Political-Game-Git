@@ -1656,11 +1656,11 @@
     "kind": "missing-engine",
     "file": "src/core2/data/laws/reach-group-b.json",
     "line": 106,
-    "whatItFakes": "No baseline SNAP benefit is paid. The assistance work requirement time-limits (three months in 36) only the benefit a raised welfare line pays; the rest of the law's real reach, including work-program participation, is not modeled.",
-    "why": "The core pays no SNAP or other means-tested benefits to households; the only assistance payment is the welfare line's raise, so that is what the requirement reads. All who are reached share one clock that starts the day the benefit first pays under the requirement.",
+    "whatItFakes": "The baseline SNAP benefit is the maximum allotment less 30 percent of net income, from wages, retirement benefits and household size alone. Shelter, child-care and medical deductions, the asset test, categorical eligibility, the elderly and disabled rules, immigrant rules and the work-program participation the law also reaches are not modeled.",
+    "why": "The federal treasury owes each qualifying household one monthly payment (law-reach group B, group-b-food-aid.ts), read by the household's cash and spending. The core records a household's wages and retirement awards, not its rent, child care or medical bills, so those deductions have nothing to read.",
     "addedBy": "OPUS-GOV (sub-agent B)",
     "addedAt": "2026-10-12",
-    "replacement": "OPUS-CORE benefits API: addBenefit({ personId|householdId, program: \"snap\", monthlyMinor, from, payerAccountId }) and endBenefit(id); then each person's own months of benefit count against their own 36-month window.",
+    "replacement": "Per-household shelter, dependent-care and medical expense records read by the benefit (world housing and health costs), and the other income programs (SSI, TANF) a household receives.",
     "status": "open"
   },
   {
