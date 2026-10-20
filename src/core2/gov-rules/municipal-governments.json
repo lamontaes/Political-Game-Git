@@ -6,6 +6,7 @@
       "publisherId": "194463",
       "reading": {
         "form": "CITY_COUNTY_CONSOLIDATED",
+        "bodyName": "Anchorage Assembly",
         "bodySize": 12,
         "composition": null,
         "executiveSelection": null,
@@ -22,6 +23,7 @@
       "publisherId": null,
       "reading": {
         "form": null,
+        "bodyName": null,
         "bodySize": 6,
         "composition": null,
         "executiveSelection": null,
@@ -35,6 +37,7 @@
       "publisherId": null,
       "reading": {
         "form": null,
+        "bodyName": null,
         "bodySize": 9,
         "composition": null,
         "executiveSelection": null,
@@ -48,6 +51,7 @@
       "publisherId": null,
       "reading": {
         "form": "CITY_COUNTY_CONSOLIDATED",
+        "bodyName": "Juneau Assembly",
         "bodySize": 9,
         "composition": null,
         "executiveSelection": null,
@@ -61,6 +65,7 @@
       "publisherId": "122711",
       "reading": {
         "form": null,
+        "bodyName": null,
         "bodySize": 6,
         "composition": null,
         "executiveSelection": null,
@@ -74,6 +79,7 @@
       "publisherId": null,
       "reading": {
         "form": "MAYOR_COUNCIL",
+        "bodyName": "Birmingham City Council",
         "bodySize": 9,
         "composition": {
           "pattern": "SINGLE_MEMBER_DISTRICT",
@@ -94,6 +100,7 @@
       "publisherId": "160683",
       "reading": {
         "form": null,
+        "bodyName": "Council",
         "bodySize": 7,
         "composition": {
           "pattern": "OTHER",
@@ -111,6 +118,7 @@
       "publisherId": "100091",
       "reading": {
         "form": "MAYOR_COUNCIL",
+        "bodyName": "Council",
         "bodySize": 9,
         "composition": {
           "pattern": "OTHER",
@@ -128,6 +136,7 @@
       "publisherId": null,
       "reading": {
         "form": null,
+        "bodyName": "Council",
         "bodySize": 8,
         "composition": {
           "pattern": "WARD",
@@ -145,6 +154,7 @@
       "publisherId": "161064",
       "reading": {
         "form": "OTHER",
+        "bodyName": "Fort Smith Board of Directors",
         "bodySize": 7,
         "composition": {
           "pattern": "HYBRID_DISTRICT_AT_LARGE",
@@ -165,6 +175,7 @@
       "publisherId": null,
       "reading": {
         "form": null,
+        "bodyName": "Board of Directors",
         "bodySize": 10,
         "composition": null,
         "executiveSelection": null,
@@ -178,6 +189,7 @@
       "publisherId": null,
       "reading": {
         "form": "COUNCIL_MANAGER",
+        "bodyName": "Council",
         "bodySize": 7,
         "composition": {
           "pattern": "HYBRID_DISTRICT_AT_LARGE",
@@ -195,6 +207,7 @@
       "publisherId": "207536",
       "reading": {
         "form": "COUNCIL_MANAGER",
+        "bodyName": "Phoenix City Council",
         "bodySize": 9,
         "composition": {
           "pattern": "HYBRID_DISTRICT_AT_LARGE",
@@ -215,6 +228,7 @@
       "publisherId": "160840",
       "reading": {
         "form": "COUNCIL_MANAGER",
+        "bodyName": "Mayor and Council",
         "bodySize": 6,
         "composition": null,
         "executiveSelection": null,
@@ -228,6 +242,7 @@
       "publisherId": null,
       "reading": {
         "form": null,
+        "bodyName": null,
         "bodySize": 15,
         "composition": null,
         "executiveSelection": null,
@@ -241,6 +256,7 @@
       "publisherId": null,
       "reading": {
         "form": null,
+        "bodyName": null,
         "bodySize": 8,
         "composition": null,
         "executiveSelection": null,
@@ -254,6 +270,7 @@
       "publisherId": null,
       "reading": {
         "form": null,
+        "bodyName": "City Council",
         "bodySize": 9,
         "composition": {
           "pattern": "HYBRID_DISTRICT_AT_LARGE",
@@ -271,6 +288,7 @@
       "publisherId": null,
       "reading": {
         "form": null,
+        "bodyName": null,
         "bodySize": 9,
         "composition": null,
         "executiveSelection": null,
@@ -284,6 +302,7 @@
       "publisherId": null,
       "reading": {
         "form": null,
+        "bodyName": null,
         "bodySize": 11,
         "composition": null,
         "executiveSelection": null,
@@ -297,6 +316,7 @@
       "publisherId": null,
       "reading": {
         "form": "MAYOR_COUNCIL",
+        "bodyName": "Council",
         "bodySize": 9,
         "composition": {
           "pattern": "HYBRID_DISTRICT_AT_LARGE",
@@ -314,6 +334,7 @@
       "publisherId": "194647",
       "reading": {
         "form": "CITY_COUNTY_CONSOLIDATED",
+        "bodyName": "Denver City Council",
         "bodySize": 13,
         "composition": {
           "pattern": "HYBRID_DISTRICT_AT_LARGE",
@@ -334,6 +355,7 @@
       "publisherId": null,
       "reading": {
         "form": null,
+        "bodyName": null,
         "bodySize": 7,
         "composition": null,
         "executiveSelection": null,
@@ -347,6 +369,7 @@
       "publisherId": "124038",
       "reading": {
         "form": null,
+        "bodyName": null,
         "bodySize": 20,
         "composition": null,
         "executiveSelection": null,
@@ -360,6 +383,7 @@
       "publisherId": null,
       "reading": {
         "form": null,
+        "bodyName": "Court of Common Council",
         "bodySize": 9,
         "composition": {
           "pattern": "AT_LARGE",
@@ -377,6 +401,7 @@
       "publisherId": null,
       "reading": {
         "form": "MAYOR_COUNCIL",
+        "bodyName": "Board of Alders",
         "bodySize": 30,
         "composition": {
           "pattern": "WARD",
@@ -397,6 +422,7 @@
       "publisherId": "124214",
       "reading": {
         "form": null,
+        "bodyName": "Council of the District of Columbia",
         "bodySize": 13,
         "composition": {
           "pattern": "HYBRID_DISTRICT_AT_LARGE",
@@ -417,6 +443,7 @@
       "publisherId": null,
       "reading": {
         "form": "COUNCIL_MANAGER",
+        "bodyName": "Council",
         "bodySize": 7,
         "composition": {
           "pattern": "HYBRID_DISTRICT_AT_LARGE",
@@ -434,6 +461,7 @@
       "publisherId": "161529",
       "reading": {
         "form": "MAYOR_COUNCIL",
+        "bodyName": "Wilmington City Council",
         "bodySize": 13,
         "composition": {
           "pattern": "HYBRID_DISTRICT_AT_LARGE",
@@ -454,6 +482,7 @@
       "publisherId": null,
       "reading": {
         "form": "CITY_COUNTY_CONSOLIDATED",
+        "bodyName": "Jacksonville City Council",
         "bodySize": 19,
         "composition": {
           "pattern": "HYBRID_DISTRICT_AT_LARGE",
@@ -474,6 +503,7 @@
       "publisherId": null,
       "reading": {
         "form": null,
+        "bodyName": null,
         "bodySize": 5,
         "composition": null,
         "executiveSelection": null,
@@ -487,6 +517,7 @@
       "publisherId": null,
       "reading": {
         "form": null,
+        "bodyName": null,
         "bodySize": 6,
         "composition": null,
         "executiveSelection": null,
@@ -500,6 +531,7 @@
       "publisherId": null,
       "reading": {
         "form": null,
+        "bodyName": null,
         "bodySize": 7,
         "composition": null,
         "executiveSelection": null,
@@ -513,6 +545,7 @@
       "publisherId": "161650",
       "reading": {
         "form": "COMMISSION_MANAGER",
+        "bodyName": "City Commission",
         "bodySize": 5,
         "composition": {
           "pattern": "AT_LARGE",
@@ -530,6 +563,7 @@
       "publisherId": null,
       "reading": {
         "form": null,
+        "bodyName": "City Council",
         "bodySize": 15,
         "composition": {
           "pattern": "HYBRID_DISTRICT_AT_LARGE",
@@ -547,6 +581,7 @@
       "publisherId": "194679",
       "reading": {
         "form": "CITY_COUNTY_CONSOLIDATED",
+        "bodyName": "Commission",
         "bodySize": 10,
         "composition": {
           "pattern": "OTHER",
@@ -564,6 +599,7 @@
       "publisherId": "124438",
       "reading": {
         "form": "COUNCIL_MANAGER",
+        "bodyName": "Savannah Mayor and Aldermen",
         "bodySize": 9,
         "composition": {
           "pattern": "HYBRID_DISTRICT_AT_LARGE",
@@ -584,6 +620,7 @@
       "publisherId": "184856",
       "reading": {
         "form": null,
+        "bodyName": null,
         "bodySize": 9,
         "composition": null,
         "executiveSelection": null,
@@ -597,6 +634,7 @@
       "publisherId": "183701",
       "reading": {
         "form": "CITY_COUNTY_CONSOLIDATED",
+        "bodyName": "Honolulu City Council",
         "bodySize": 9,
         "composition": {
           "pattern": "SINGLE_MEMBER_DISTRICT",
@@ -617,6 +655,7 @@
       "publisherId": "162013",
       "reading": {
         "form": null,
+        "bodyName": null,
         "bodySize": 7,
         "composition": null,
         "executiveSelection": null,
@@ -630,6 +669,7 @@
       "publisherId": "189877",
       "reading": {
         "form": null,
+        "bodyName": null,
         "bodySize": 9,
         "composition": null,
         "executiveSelection": null,
@@ -643,6 +683,7 @@
       "publisherId": null,
       "reading": {
         "form": null,
+        "bodyName": null,
         "bodySize": 8,
         "composition": null,
         "executiveSelection": null,
@@ -656,6 +697,7 @@
       "publisherId": null,
       "reading": {
         "form": "MAYOR_COUNCIL",
+        "bodyName": "Council",
         "bodySize": 10,
         "composition": {
           "pattern": "HYBRID_DISTRICT_AT_LARGE",
@@ -673,6 +715,7 @@
       "publisherId": null,
       "reading": {
         "form": null,
+        "bodyName": null,
         "bodySize": 6,
         "composition": null,
         "executiveSelection": null,
@@ -686,6 +729,7 @@
       "publisherId": "184216",
       "reading": {
         "form": null,
+        "bodyName": null,
         "bodySize": 6,
         "composition": null,
         "executiveSelection": null,
@@ -699,6 +743,7 @@
       "publisherId": "164452",
       "reading": {
         "form": "COUNCIL_MANAGER",
+        "bodyName": "Iowa City City Council",
         "bodySize": 7,
         "composition": {
           "pattern": "HYBRID_DISTRICT_AT_LARGE",
@@ -719,6 +764,7 @@
       "publisherId": "162035",
       "reading": {
         "form": "MAYOR_COUNCIL",
+        "bodyName": "Boise City Council",
         "bodySize": 6,
         "composition": {
           "pattern": "SINGLE_MEMBER_DISTRICT",
@@ -739,6 +785,7 @@
       "publisherId": "162037",
       "reading": {
         "form": null,
+        "bodyName": "Council",
         "bodySize": 6,
         "composition": {
           "pattern": "SINGLE_MEMBER_DISTRICT",
@@ -756,6 +803,7 @@
       "publisherId": null,
       "reading": {
         "form": null,
+        "bodyName": null,
         "bodySize": 50,
         "composition": null,
         "executiveSelection": null,
@@ -769,6 +817,7 @@
       "publisherId": null,
       "reading": {
         "form": null,
+        "bodyName": null,
         "bodySize": 10,
         "composition": null,
         "executiveSelection": null,
@@ -782,6 +831,7 @@
       "publisherId": "162629",
       "reading": {
         "form": null,
+        "bodyName": null,
         "bodySize": 10,
         "composition": null,
         "executiveSelection": null,
@@ -795,6 +845,7 @@
       "publisherId": "211708",
       "reading": {
         "form": "MAYOR_COUNCIL",
+        "bodyName": "Common Council",
         "bodySize": 9,
         "composition": {
           "pattern": "HYBRID_DISTRICT_AT_LARGE",
@@ -812,6 +863,7 @@
       "publisherId": "163465",
       "reading": {
         "form": null,
+        "bodyName": "Council",
         "bodySize": 9,
         "composition": {
           "pattern": "HYBRID_DISTRICT_AT_LARGE",
@@ -829,6 +881,7 @@
       "publisherId": null,
       "reading": {
         "form": "CITY_COUNTY_CONSOLIDATED",
+        "bodyName": "Indianapolis-Marion County City-County Council",
         "bodySize": 25,
         "composition": {
           "pattern": "SINGLE_MEMBER_DISTRICT",
@@ -849,6 +902,7 @@
       "publisherId": null,
       "reading": {
         "form": "OTHER",
+        "bodyName": "Governing Body",
         "bodySize": 13,
         "composition": {
           "pattern": "HYBRID_DISTRICT_AT_LARGE",
@@ -866,6 +920,7 @@
       "publisherId": null,
       "reading": {
         "form": "COUNCIL_MANAGER",
+        "bodyName": "Topeka Governing Body",
         "bodySize": 10,
         "composition": {
           "pattern": "HYBRID_DISTRICT_AT_LARGE",
@@ -886,6 +941,7 @@
       "publisherId": "201810",
       "reading": {
         "form": "OTHER",
+        "bodyName": "Governing Body",
         "bodySize": 7,
         "composition": {
           "pattern": "HYBRID_DISTRICT_AT_LARGE",
@@ -903,6 +959,7 @@
       "publisherId": "212021",
       "reading": {
         "form": "COMMISSION_MANAGER",
+        "bodyName": "Board of Commissioners",
         "bodySize": 5,
         "composition": {
           "pattern": "AT_LARGE",
@@ -932,6 +989,7 @@
       "publisherId": "165831",
       "reading": {
         "form": "URBAN_COUNTY_CONSOLIDATED",
+        "bodyName": "Urban County Council",
         "bodySize": 15,
         "composition": {
           "pattern": "HYBRID_DISTRICT_AT_LARGE",
@@ -965,6 +1023,7 @@
       "publisherId": "165866",
       "reading": {
         "form": "METRO_CONSOLIDATED",
+        "bodyName": "Louisville Metro Council",
         "bodySize": 26,
         "composition": {
           "pattern": "SINGLE_MEMBER_DISTRICT",
@@ -994,6 +1053,7 @@
       "publisherId": null,
       "reading": {
         "form": "CITY_COUNTY_CONSOLIDATED",
+        "bodyName": "East Baton Rouge Metropolitan Council",
         "bodySize": 12,
         "composition": {
           "pattern": "SINGLE_MEMBER_DISTRICT",
@@ -1014,6 +1074,7 @@
       "publisherId": "166094",
       "reading": {
         "form": "MAYOR_COUNCIL",
+        "bodyName": "New Orleans City Council",
         "bodySize": 7,
         "composition": {
           "pattern": "HYBRID_DISTRICT_AT_LARGE",
@@ -1034,6 +1095,7 @@
       "publisherId": "127810",
       "reading": {
         "form": null,
+        "bodyName": "Council",
         "bodySize": 7,
         "composition": {
           "pattern": "SINGLE_MEMBER_DISTRICT",
@@ -1051,6 +1113,7 @@
       "publisherId": null,
       "reading": {
         "form": null,
+        "bodyName": null,
         "bodySize": 13,
         "composition": null,
         "executiveSelection": null,
@@ -1064,6 +1127,7 @@
       "publisherId": null,
       "reading": {
         "form": "COUNCIL_MANAGER",
+        "bodyName": "Cambridge City Council",
         "bodySize": 9,
         "composition": {
           "pattern": "AT_LARGE",
@@ -1089,6 +1153,7 @@
       "publisherId": null,
       "reading": {
         "form": "TOWN_MEETING",
+        "bodyName": "Lexington Town Meeting",
         "bodySize": null,
         "composition": {
           "pattern": "OTHER",
@@ -1106,6 +1171,7 @@
       "publisherId": null,
       "reading": {
         "form": "TOWN_MEETING",
+        "bodyName": "Provincetown Town Meeting",
         "bodySize": null,
         "composition": {
           "pattern": "OTHER",
@@ -1123,6 +1189,7 @@
       "publisherId": null,
       "reading": {
         "form": null,
+        "bodyName": "City Council",
         "bodySize": 13,
         "composition": {
           "pattern": "HYBRID_DISTRICT_AT_LARGE",
@@ -1140,6 +1207,7 @@
       "publisherId": "106079",
       "reading": {
         "form": "COUNCIL_MANAGER",
+        "bodyName": "Worcester City Council",
         "bodySize": 11,
         "composition": {
           "pattern": "HYBRID_DISTRICT_AT_LARGE",
@@ -1160,6 +1228,7 @@
       "publisherId": "128028",
       "reading": {
         "form": null,
+        "bodyName": "City Council",
         "bodySize": 9,
         "composition": {
           "pattern": "HYBRID_DISTRICT_AT_LARGE",
@@ -1177,6 +1246,7 @@
       "publisherId": "208246",
       "reading": {
         "form": "MAYOR_COUNCIL",
+        "bodyName": "Baltimore City Council",
         "bodySize": 15,
         "composition": {
           "pattern": "HYBRID_DISTRICT_AT_LARGE",
@@ -1197,6 +1267,7 @@
       "publisherId": null,
       "reading": {
         "form": "COUNCIL_MANAGER",
+        "bodyName": "Mayor and Council",
         "bodySize": 7,
         "composition": {
           "pattern": "AT_LARGE",
@@ -1214,6 +1285,7 @@
       "publisherId": "166166",
       "reading": {
         "form": "COUNCIL_MANAGER",
+        "bodyName": "Bangor City Council",
         "bodySize": 9,
         "composition": {
           "pattern": "AT_LARGE",
@@ -1239,6 +1311,7 @@
       "publisherId": null,
       "reading": {
         "form": "TOWN_MEETING",
+        "bodyName": "Town Meeting",
         "bodySize": null,
         "composition": null,
         "executiveSelection": null,
@@ -1252,6 +1325,7 @@
       "publisherId": "166159",
       "reading": {
         "form": null,
+        "bodyName": "Council",
         "bodySize": 7,
         "composition": {
           "pattern": "WARD",
@@ -1269,6 +1343,7 @@
       "publisherId": "166160",
       "reading": {
         "form": "COUNCIL_MANAGER",
+        "bodyName": "Council",
         "bodySize": 9,
         "composition": {
           "pattern": "HYBRID_DISTRICT_AT_LARGE",
@@ -1286,6 +1361,7 @@
       "publisherId": null,
       "reading": {
         "form": null,
+        "bodyName": null,
         "bodySize": 9,
         "composition": null,
         "executiveSelection": null,
@@ -1299,6 +1375,7 @@
       "publisherId": null,
       "reading": {
         "form": null,
+        "bodyName": null,
         "bodySize": 6,
         "composition": null,
         "executiveSelection": null,
@@ -1312,6 +1389,7 @@
       "publisherId": "166690",
       "reading": {
         "form": null,
+        "bodyName": null,
         "bodySize": 8,
         "composition": null,
         "executiveSelection": null,
@@ -1325,6 +1403,7 @@
       "publisherId": "106897",
       "reading": {
         "form": "MAYOR_COUNCIL",
+        "bodyName": "Duluth City Council",
         "bodySize": 9,
         "composition": {
           "pattern": "HYBRID_DISTRICT_AT_LARGE",
@@ -1345,6 +1424,7 @@
       "publisherId": null,
       "reading": {
         "form": null,
+        "bodyName": null,
         "bodySize": 13,
         "composition": null,
         "executiveSelection": null,
@@ -1358,6 +1438,7 @@
       "publisherId": "167605",
       "reading": {
         "form": null,
+        "bodyName": null,
         "bodySize": 7,
         "composition": null,
         "executiveSelection": null,
@@ -1371,6 +1452,7 @@
       "publisherId": null,
       "reading": {
         "form": "COUNCIL_MANAGER",
+        "bodyName": "Kansas City Council",
         "bodySize": 13,
         "composition": {
           "pattern": "HYBRID_DISTRICT_AT_LARGE",
@@ -1391,6 +1473,7 @@
       "publisherId": "168896",
       "reading": {
         "form": null,
+        "bodyName": "Council",
         "bodySize": 9,
         "composition": null,
         "executiveSelection": null,
@@ -1404,6 +1487,7 @@
       "publisherId": null,
       "reading": {
         "form": "MAYOR_COUNCIL",
+        "bodyName": "St. Louis Board of Aldermen",
         "bodySize": 14,
         "composition": {
           "pattern": "WARD",
@@ -1424,6 +1508,7 @@
       "publisherId": null,
       "reading": {
         "form": null,
+        "bodyName": null,
         "bodySize": 7,
         "composition": null,
         "executiveSelection": null,
@@ -1437,6 +1522,7 @@
       "publisherId": null,
       "reading": {
         "form": "MAYOR_COUNCIL",
+        "bodyName": "Jackson City Council",
         "bodySize": 7,
         "composition": {
           "pattern": "WARD",
@@ -1457,6 +1543,7 @@
       "publisherId": null,
       "reading": {
         "form": null,
+        "bodyName": "Council",
         "bodySize": 11,
         "composition": {
           "pattern": "OTHER",
@@ -1474,6 +1561,7 @@
       "publisherId": null,
       "reading": {
         "form": "COMMISSION_MANAGER",
+        "bodyName": "Helena City Commission",
         "bodySize": 5,
         "composition": {
           "pattern": "AT_LARGE",
@@ -1494,6 +1582,7 @@
       "publisherId": "169464",
       "reading": {
         "form": null,
+        "bodyName": "City Council",
         "bodySize": 12,
         "composition": {
           "pattern": "WARD",
@@ -1511,6 +1600,7 @@
       "publisherId": null,
       "reading": {
         "form": null,
+        "bodyName": null,
         "bodySize": 11,
         "composition": null,
         "executiveSelection": null,
@@ -1524,6 +1614,7 @@
       "publisherId": "171305",
       "reading": {
         "form": null,
+        "bodyName": null,
         "bodySize": 7,
         "composition": null,
         "executiveSelection": null,
@@ -1537,6 +1628,7 @@
       "publisherId": null,
       "reading": {
         "form": null,
+        "bodyName": null,
         "bodySize": 4,
         "composition": null,
         "executiveSelection": null,
@@ -1550,6 +1642,7 @@
       "publisherId": null,
       "reading": {
         "form": "COMMISSION",
+        "bodyName": "Fargo Board of City Commissioners",
         "bodySize": 4,
         "composition": null,
         "executiveSelection": null,
@@ -1563,6 +1656,7 @@
       "publisherId": "110222",
       "reading": {
         "form": null,
+        "bodyName": null,
         "bodySize": 7,
         "composition": null,
         "executiveSelection": null,
@@ -1576,6 +1670,7 @@
       "publisherId": "184191",
       "reading": {
         "form": null,
+        "bodyName": "City Council",
         "bodySize": 10,
         "composition": {
           "pattern": "WARD",
@@ -1593,6 +1688,7 @@
       "publisherId": null,
       "reading": {
         "form": null,
+        "bodyName": null,
         "bodySize": 7,
         "composition": null,
         "executiveSelection": null,
@@ -1606,6 +1702,7 @@
       "publisherId": null,
       "reading": {
         "form": "MAYOR_COUNCIL",
+        "bodyName": "Omaha City Council",
         "bodySize": 7,
         "composition": {
           "pattern": "SINGLE_MEMBER_DISTRICT",
@@ -1626,6 +1723,7 @@
       "publisherId": null,
       "reading": {
         "form": "TOWN_MEETING",
+        "bodyName": "Town Meeting",
         "bodySize": null,
         "composition": null,
         "executiveSelection": null,
@@ -1639,6 +1737,7 @@
       "publisherId": null,
       "reading": {
         "form": "TOWN_MEETING",
+        "bodyName": "Town Meeting",
         "bodySize": null,
         "composition": null,
         "executiveSelection": null,
@@ -1652,6 +1751,7 @@
       "publisherId": "204917",
       "reading": {
         "form": null,
+        "bodyName": "City Council",
         "bodySize": 15,
         "composition": {
           "pattern": "HYBRID_DISTRICT_AT_LARGE",
@@ -1669,6 +1769,7 @@
       "publisherId": "208744",
       "reading": {
         "form": "TOWN_MEETING",
+        "bodyName": "Enfield Town Meeting",
         "bodySize": null,
         "composition": {
           "pattern": "OTHER",
@@ -1686,6 +1787,7 @@
       "publisherId": "170001",
       "reading": {
         "form": "MAYOR_COUNCIL",
+        "bodyName": "Board of Mayor and Aldermen",
         "bodySize": 15,
         "composition": {
           "pattern": "HYBRID_DISTRICT_AT_LARGE",
@@ -1711,6 +1813,7 @@
       "publisherId": null,
       "reading": {
         "form": "MAYOR_COUNCIL",
+        "bodyName": "Nashua Board of Aldermen",
         "bodySize": 15,
         "composition": {
           "pattern": "HYBRID_DISTRICT_AT_LARGE",
@@ -1740,6 +1843,7 @@
       "publisherId": null,
       "reading": {
         "form": "TOWN_MEETING",
+        "bodyName": "Town Meeting",
         "bodySize": null,
         "composition": null,
         "executiveSelection": null,
@@ -1753,6 +1857,7 @@
       "publisherId": "193734",
       "reading": {
         "form": null,
+        "bodyName": "City Council",
         "bodySize": 9,
         "composition": {
           "pattern": "HYBRID_DISTRICT_AT_LARGE",
@@ -1770,6 +1875,7 @@
       "publisherId": null,
       "reading": {
         "form": "MAYOR_COUNCIL",
+        "bodyName": "Newark Municipal Council",
         "bodySize": 9,
         "composition": {
           "pattern": "HYBRID_DISTRICT_AT_LARGE",
@@ -1790,6 +1896,7 @@
       "publisherId": "109096",
       "reading": {
         "form": "MAYOR_COUNCIL",
+        "bodyName": "Trenton City Council",
         "bodySize": 7,
         "composition": {
           "pattern": "HYBRID_DISTRICT_AT_LARGE",
@@ -1815,6 +1922,7 @@
       "publisherId": "170378",
       "reading": {
         "form": null,
+        "bodyName": null,
         "bodySize": 9,
         "composition": null,
         "executiveSelection": null,
@@ -1828,6 +1936,7 @@
       "publisherId": "109329",
       "reading": {
         "form": null,
+        "bodyName": "Governing Body",
         "bodySize": 8,
         "composition": null,
         "executiveSelection": null,
@@ -1841,6 +1950,7 @@
       "publisherId": "194943",
       "reading": {
         "form": "CITY_COUNTY_CONSOLIDATED",
+        "bodyName": "Carson City Board of Supervisors",
         "bodySize": 5,
         "composition": {
           "pattern": "AT_LARGE",
@@ -1866,6 +1976,7 @@
       "publisherId": "169988",
       "reading": {
         "form": "COUNCIL_MANAGER",
+        "bodyName": "City Council",
         "bodySize": 6,
         "composition": null,
         "executiveSelection": null,
@@ -1879,6 +1990,7 @@
       "publisherId": "169993",
       "reading": {
         "form": "COUNCIL_MANAGER",
+        "bodyName": "Reno City Council",
         "bodySize": 7,
         "composition": {
           "pattern": "HYBRID_DISTRICT_AT_LARGE",
@@ -1899,6 +2011,7 @@
       "publisherId": null,
       "reading": {
         "form": null,
+        "bodyName": null,
         "bodySize": 9,
         "composition": null,
         "executiveSelection": null,
@@ -1912,6 +2025,7 @@
       "publisherId": "194805",
       "reading": {
         "form": null,
+        "bodyName": null,
         "bodySize": 51,
         "composition": null,
         "executiveSelection": null,
@@ -1925,6 +2039,7 @@
       "publisherId": null,
       "reading": {
         "form": null,
+        "bodyName": null,
         "bodySize": 9,
         "composition": null,
         "executiveSelection": null,
@@ -1938,6 +2053,7 @@
       "publisherId": null,
       "reading": {
         "form": null,
+        "bodyName": null,
         "bodySize": 15,
         "composition": null,
         "executiveSelection": null,
@@ -1951,6 +2067,7 @@
       "publisherId": "209050",
       "reading": {
         "form": null,
+        "bodyName": "Columbus City Council",
         "bodySize": 9,
         "composition": {
           "pattern": "AT_LARGE",
@@ -1973,6 +2090,7 @@
       "publisherId": "209170",
       "reading": {
         "form": null,
+        "bodyName": null,
         "bodySize": 8,
         "composition": null,
         "executiveSelection": null,
@@ -1986,6 +2104,7 @@
       "publisherId": null,
       "reading": {
         "form": null,
+        "bodyName": null,
         "bodySize": 9,
         "composition": null,
         "executiveSelection": null,
@@ -1999,6 +2118,7 @@
       "publisherId": "211254",
       "reading": {
         "form": null,
+        "bodyName": "City Council",
         "bodySize": 12,
         "composition": {
           "pattern": "OTHER",
@@ -2019,6 +2139,7 @@
       "publisherId": "133602",
       "reading": {
         "form": null,
+        "bodyName": null,
         "bodySize": 17,
         "composition": null,
         "executiveSelection": null,
@@ -2032,6 +2153,7 @@
       "publisherId": null,
       "reading": {
         "form": null,
+        "bodyName": null,
         "bodySize": 9,
         "composition": null,
         "executiveSelection": null,
@@ -2045,6 +2167,7 @@
       "publisherId": null,
       "reading": {
         "form": null,
+        "bodyName": null,
         "bodySize": 15,
         "composition": null,
         "executiveSelection": null,
@@ -2058,6 +2181,7 @@
       "publisherId": null,
       "reading": {
         "form": null,
+        "bodyName": null,
         "bodySize": 12,
         "composition": null,
         "executiveSelection": null,
@@ -2071,6 +2195,7 @@
       "publisherId": null,
       "reading": {
         "form": null,
+        "bodyName": "City Council",
         "bodySize": 7,
         "composition": null,
         "executiveSelection": null,
@@ -2084,6 +2209,7 @@
       "publisherId": "209465",
       "reading": {
         "form": null,
+        "bodyName": null,
         "bodySize": 8,
         "composition": null,
         "executiveSelection": null,
@@ -2097,6 +2223,7 @@
       "publisherId": null,
       "reading": {
         "form": "MAYOR_COUNCIL",
+        "bodyName": "Sioux Falls City Council",
         "bodySize": 8,
         "composition": null,
         "executiveSelection": null,
@@ -2110,6 +2237,7 @@
       "publisherId": "175728",
       "reading": {
         "form": null,
+        "bodyName": null,
         "bodySize": 40,
         "composition": null,
         "executiveSelection": null,
@@ -2123,6 +2251,7 @@
       "publisherId": null,
       "reading": {
         "form": null,
+        "bodyName": null,
         "bodySize": 10,
         "composition": null,
         "executiveSelection": null,
@@ -2136,6 +2265,7 @@
       "publisherId": null,
       "reading": {
         "form": "MAYOR_COUNCIL",
+        "bodyName": "City Council",
         "bodySize": 7,
         "composition": {
           "pattern": "OTHER",
@@ -2153,6 +2283,7 @@
       "publisherId": "194177",
       "reading": {
         "form": "COUNCIL_MANAGER",
+        "bodyName": "Council of the City of Charlottesville",
         "bodySize": 5,
         "composition": {
           "pattern": "AT_LARGE",
@@ -2182,6 +2313,7 @@
       "publisherId": "194178",
       "reading": {
         "form": "MAYOR_COUNCIL",
+        "bodyName": "Council of the City of Richmond",
         "bodySize": 9,
         "composition": {
           "pattern": "SINGLE_MEMBER_DISTRICT",
@@ -2207,6 +2339,7 @@
       "publisherId": "176546",
       "reading": {
         "form": null,
+        "bodyName": null,
         "bodySize": 12,
         "composition": null,
         "executiveSelection": null,
@@ -2220,6 +2353,7 @@
       "publisherId": null,
       "reading": {
         "form": "TOWN_MEETING",
+        "bodyName": "Danville Town Meeting",
         "bodySize": null,
         "composition": {
           "pattern": "OTHER",
@@ -2237,6 +2371,7 @@
       "publisherId": null,
       "reading": {
         "form": null,
+        "bodyName": "City Council",
         "bodySize": 9,
         "composition": {
           "pattern": "HYBRID_DISTRICT_AT_LARGE",
@@ -2254,6 +2389,7 @@
       "publisherId": null,
       "reading": {
         "form": null,
+        "bodyName": "City Council",
         "bodySize": 7,
         "composition": {
           "pattern": "OTHER",
@@ -2271,6 +2407,7 @@
       "publisherId": "209777",
       "reading": {
         "form": null,
+        "bodyName": null,
         "bodySize": 20,
         "composition": null,
         "executiveSelection": null,
@@ -2284,6 +2421,7 @@
       "publisherId": "136562",
       "reading": {
         "form": null,
+        "bodyName": null,
         "bodySize": 15,
         "composition": null,
         "executiveSelection": null,
@@ -2297,6 +2435,7 @@
       "publisherId": null,
       "reading": {
         "form": null,
+        "bodyName": null,
         "bodySize": 26,
         "composition": null,
         "executiveSelection": null,
@@ -2310,6 +2449,7 @@
       "publisherId": "176966",
       "reading": {
         "form": null,
+        "bodyName": null,
         "bodySize": 11,
         "composition": null,
         "executiveSelection": null,
@@ -2323,6 +2463,7 @@
       "publisherId": null,
       "reading": {
         "form": "COUNCIL_MANAGER",
+        "bodyName": "Morgantown City Council",
         "bodySize": 7,
         "composition": null,
         "executiveSelection": null,
@@ -2336,6 +2477,7 @@
       "publisherId": "136964",
       "reading": {
         "form": null,
+        "bodyName": null,
         "bodySize": 9,
         "composition": null,
         "executiveSelection": null,
@@ -2349,6 +2491,7 @@
       "publisherId": "115492",
       "reading": {
         "form": null,
+        "bodyName": null,
         "bodySize": 9,
         "composition": null,
         "executiveSelection": null,
@@ -2362,6 +2505,7 @@
       "publisherId": "177842",
       "reading": {
         "form": "COUNCIL_MANAGER",
+        "bodyName": "Laramie City Council",
         "bodySize": 9,
         "composition": null,
         "executiveSelection": null,

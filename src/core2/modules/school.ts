@@ -9,6 +9,8 @@
  * Attending takes a school day's hours and is recorded for the day.
  */
 import data from "../data/school-days.json" with { type: "json" };
+import stateDays from "../../../data/research/people/state-instructional-days-2018.json" with { type: "json" };
+import { LAWS_MODULE_ID, lawChain } from "./laws";
 import { decisionFromScores, scoreOffers } from "../choice";
 import { decisionKinds } from "../trait-decisions";
 import { offer } from "./life";
@@ -27,21 +29,21 @@ const ageOn = (birthDate: string, date: string) => {
   return date.slice(5) < birthDate.slice(5) ? years - 1 : years;
 };
 
-/** A date is a school day or not for the whole run: kept once worked out. */
-const SCHOOL_DAYS = new Map<string, boolean>();
-const SCHOOL_DAYS_LIMIT = 50_000;
+/** Whether a date is on the base calendar is the same all run: kept once worked out. */
+const BASE_DAYS = new Map<string, boolean>();
+const BASE_DAYS_LIMIT = 50_000;
 
-/** A weekday inside the school year, outside its recorded breaks. */
-export function isSchoolDay(date: string): boolean {
-  const held = SCHOOL_DAYS.get(date);
+/** A weekday inside the base school year, outside its recorded breaks. */
+function onBaseCalendar(date: string): boolean {
+  const held = BASE_DAYS.get(date);
   if (held !== undefined) return held;
-  const result = schoolDayOn(date);
-  if (SCHOOL_DAYS.size >= SCHOOL_DAYS_LIMIT) SCHOOL_DAYS.clear();
-  SCHOOL_DAYS.set(date, result);
+  const result = baseCalendarDay(date);
+  if (BASE_DAYS.size >= BASE_DAYS_LIMIT) BASE_DAYS.clear();
+  BASE_DAYS.set(date, result);
   return result;
 }
 
-function schoolDayOn(date: string): boolean {
+function baseCalendarDay(date: string): boolean {
   const day = new Date(`${date}T00:00:00Z`).getUTCDay();
   if (day === 0 || day === 6) return false;
   const md = date.slice(5);
@@ -57,6 +59,59 @@ function schoolDayOn(date: string): boolean {
   )
     return false;
   return !data.holidays.some((row) => onHoliday(date, row));
+}
+
+/** A state's minimum instructional days (ECS, 2018), where it sets one in days. */
+function minimumDays(usps: string | undefined): number | undefined {
+  const row = usps
+    ? (
+        stateDays.minimumDays as Record<
+          string,
+          { days: number | null } | undefined
+        >
+      )[usps]
+    : undefined;
+  return row?.days ?? undefined;
+}
+
+/** The last day of a school year that starts in the given year, by state: the base year cut at the state's minimum day count. */
+const cutoffs = new Map<string, string>();
+function lastDayOfYear(startYear: number, usps: string | undefined): string {
+  const days = minimumDays(usps);
+  const key = `${startYear}:${days ?? ""}`;
+  const hit = cutoffs.get(key);
+  if (hit) return hit;
+  let last = `${startYear + 1}-${data.schoolYear.lastDay}`;
+  if (days !== undefined) {
+    let counted = 0;
+    for (
+      let t = Date.UTC(startYear, 8, 1);
+      t <= Date.UTC(startYear + 1, 5, 30);
+      t += 86_400_000
+    ) {
+      const date = new Date(t).toISOString().slice(0, 10);
+      if (!onBaseCalendar(date)) continue;
+      counted += 1;
+      if (counted === days) {
+        last = date;
+        break;
+      }
+    }
+  }
+  cutoffs.set(key, last);
+  return last;
+}
+
+/**
+ * A weekday of the school year, outside its recorded breaks. A state that
+ * requires a number of instructional days ends its year when they are done
+ * (a state that sets hours, or leaves it to the district, keeps the base year).
+ */
+export function isSchoolDay(date: string, usps?: string): boolean {
+  if (!onBaseCalendar(date)) return false;
+  const year = Number(date.slice(0, 4));
+  const startYear = date.slice(5) >= data.schoolYear.firstDay ? year : year - 1;
+  return date <= lastDayOfYear(startYear, usps);
 }
 
 /** The holiday's date that year: the nth (or, at -1, the last) given weekday of its month. */
@@ -107,9 +162,15 @@ function schoolFor(api: CoreAPI, actor: Readonly<PersonState>) {
   );
 }
 
+/** The two-letter postal code of the world's state, from the law chain where the laws are installed. */
+function stateOf(api: CoreAPI): string | undefined {
+  if (!api.state.modules.has(LAWS_MODULE_ID)) return undefined;
+  return lawChain(api).stateKey.slice(3);
+}
+
 function due(api: CoreAPI, actor: Readonly<PersonState>): boolean {
   const date = api.state.date;
-  if (!isSchoolDay(date)) return false;
+  if (!isSchoolDay(date, stateOf(api))) return false;
   const age = ageOn(actor.birthDate, date);
   if (
     age < api.parameter("openingSchoolAgeFirst") ||
@@ -139,7 +200,7 @@ const STAY_HOME: ActionDefinition = {
  */
 function schoolDay(api: CoreAPI): void {
   const date = api.state.date;
-  if (!isSchoolDay(date)) return;
+  if (!isSchoolDay(date, stateOf(api))) return;
   const action = api.state.data.actions.find((row) => row.id === data.actionId);
   if (!action) return;
   // Light relatives who live elsewhere (inactive tiers) make no choices here.
