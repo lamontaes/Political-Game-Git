@@ -22,3 +22,4 @@ claimed-at:
 **Files.** TODO
 
 **Notes.** TODO
+Sent back 2026-10-20 from PR #5179 (branch claude/laws-outcome-health-fiscal): Test assertion in law-reach-group-b.test.ts was deleted/loosened and new payment loops can run vacuously with 0 iterations; finish on that branch, merge main into it first.
