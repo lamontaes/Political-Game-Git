@@ -4,10 +4,10 @@ title: "Stopgaps in office-day-federal-president (missing-mechanic): 2 open"
 area: office
 kind: stopgap
 priority: 3
-status: open
+status: blocked
 claimed-by:
 pr:
-blocked-on:
+blocked-on: engine or design: The executive engine's orders read only a state's powers (one orderable series, a governor's).
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/office-day-federal-president.ts, kind missing-mechanic"
 ---

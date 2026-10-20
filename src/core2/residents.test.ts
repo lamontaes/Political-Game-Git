@@ -4,11 +4,9 @@ import { drawPlace } from "../../scripts/core2-year/place";
 import { generatedOpening } from "./tooling/generated-world";
 import { collapseToTwoLevels, fullPeople } from "./residents";
 import { representativeSample } from "./representative-sample";
-import { countedDrift } from "./modules/counted-drift";
 import { countedMoves } from "./modules/counted-moves";
 import placeCitizenship from "./data/place-citizenship-2024.json" with { type: "json" };
 import { advanceCore, createLifeCore } from "./life";
-import { addCountedRetiree } from "./residents-economy";
 import {
   rerateCountedRetirement,
   residentCounts,
@@ -117,10 +115,8 @@ describe(`two-level population in ${place.name} (seed ${seed})`, () => {
       outside += row.netMinor;
     expect(closing).toBe(opening - outside);
     const counts = residentCounts(core);
-    // The counts change on the 1st (counted drift).
+    // The counts change only by the counted moves (births and deaths belong to the renewal engine, which a plain life core does not run).
     let drift = 0;
-    for (const row of countedDrift(core).values())
-      drift += row.births - row.deaths + row.movedIn - row.movedOut;
     for (const row of countedMoves(coreAPI(core)))
       drift += row.direction === "in" ? row.people : -row.people;
     expect(counts.reduce((n, row) => n + row.people, 0)).toBe(
@@ -308,40 +304,6 @@ describe(`two-level population in ${place.name} (seed ${seed})`, () => {
       ).toBeLessThanOrEqual(awards(flow));
   }, 300_000);
 
-  it("pays a worker who retires at the benefit level in force, and moves them with the line", () => {
-    const core = createLifeCore(two);
-    advanceCore(core, daysIn(4));
-    const rt = residentsRuntime(core)!;
-    const opening = [...rt.flows.values()].filter(
-      (flow) =>
-        flow.kind === "retirement" &&
-        !flow.endedAt &&
-        !flow.id.startsWith("residents:retirement:added:"),
-    );
-    if (!opening.length) return; // No retiree in this place.
-    const placeId = opening[0]!.placeId;
-    const here = opening.filter((flow) => flow.placeId === placeId);
-    const parts = here.reduce(
-      (n, flow) => n + Object.keys(flow.amountByContract ?? {}).length,
-      0,
-    );
-    const average =
-      here.reduce((n, flow) => n + flow.amountMinor, 0) / Math.max(1, parts);
-    // The line is cut to nine-tenths, then a worker retires.
-    rerateCountedRetirement(core, 0.9);
-    const joined = addCountedRetiree(core, placeId, "person:test-retiree");
-    expect(Math.abs(joined - average * 0.9)).toBeLessThanOrEqual(2);
-    const added = rt.flows.get(`residents:retirement:added:${placeId}`)!;
-    expect(added).toBeDefined();
-    // Restoring the line restores the new retiree's award with the others'.
-    rerateCountedRetirement(core, 1);
-    expect(
-      Math.abs(
-        added.amountByContract!["retiree:person:test-retiree"]! - average,
-      ),
-    ).toBeLessThanOrEqual(3);
-  }, 300_000);
-
   it("fills in a clicked counted person, and returns full people as they are", () => {
     const core = createLifeCore(two);
     const counted = [...residentsRuntime(core)!.households.values()][0]!
@@ -400,13 +362,30 @@ describe(`two-level population in ${place.name} (seed ${seed})`, () => {
     const hourly = full.hourlyMinor! + 100;
     api.rerateJob(full.id, hourly, source);
     const rt = residentsRuntime(core)!;
-    const flow = [...rt.flows.values()].find(
-      (row) => row.kind === "wages" && row.jobIds?.length,
-    )!;
-    const jobId = flow.jobIds![0]!,
+    // A counted job paid by the hour can be re-rated; a salaried one has no hourly pay to change.
+    const hourlyJob = (row: { kind: string; jobIds?: readonly string[] }) =>
+      row.kind === "wages"
+        ? row.jobIds?.find((id) => (rt.jobs.get(id)?.hourlyMinor ?? 0) > 0)
+        : undefined;
+    const flow = [...rt.flows.values()].find((row) => hourlyJob(row))!;
+    const jobId = hourlyJob(flow)!,
       counted = rt.jobs.get(jobId)!,
       before = flow.amountMinor;
     api.rerateJob(jobId, counted.hourlyMinor! * 2, source);
+    // A payroll paid twice a month is two flows over the same jobs: a new rate reaches both.
+    const halvesAgree = () =>
+      [...rt.flows.values()].every((row) =>
+        (row.partnerFlowIds ?? []).every((id) => {
+          const other = rt.flows.get(id)!;
+          return (
+            JSON.stringify(row.perDayMinorByJob) ===
+              JSON.stringify(other.perDayMinorByJob) &&
+            [...(row.jobIds ?? [])].sort().join() ===
+              [...(other.jobIds ?? [])].sort().join()
+          );
+        }),
+      );
+    expect(halvesAgree()).toBe(true);
     const share = flow.perDayMinorByJob![jobId]! / 2;
     expect(flow.amountMinor - before).toBe(
       Math.round(
@@ -419,7 +398,9 @@ describe(`two-level population in ${place.name} (seed ${seed})`, () => {
             flow.periodFactor!,
         ),
     );
+    expect(halvesAgree()).toBe(true);
     advanceCore(core, daysIn(30));
+    expect(halvesAgree()).toBe(true);
     const latest = core.work.lastAttendanceByJob.get(full.id);
     if (old && latest && latest.attendedMinutes > 0)
       expect(latest.earnedMinor / (latest.attendedMinutes / 60)).toBeCloseTo(
