@@ -85,4 +85,27 @@ describe(`school days in ${place.name}, ${place.state} (seed ${seed})`, () => {
       `no drawn town had a school and school-age children (seed ${seed}): ${tried.join("; ")}`,
     );
   }, 900_000);
+
+  it("a state that requires a number of instructional days ends its school year when they are done", () => {
+    const count = (usps?: string) => {
+      let n = 0;
+      for (
+        let t = Date.UTC(2021, 8, 1);
+        t < Date.UTC(2022, 8, 1);
+        t += 86_400_000
+      )
+        if (isSchoolDay(new Date(t).toISOString().slice(0, 10), usps)) n += 1;
+      return n;
+    };
+    const base = count();
+    // Colorado requires 160, Kentucky 170, Arkansas 178 (ECS, 2018): the year ends on that day.
+    expect(count("CO")).toBe(160);
+    expect(count("KY")).toBe(170);
+    expect(count("AR")).toBe(178);
+    // A state that sets hours or leaves it to the district keeps the base year,
+    // and one that requires more days than the base year has cannot add them.
+    expect(count("TX")).toBe(base);
+    expect(count("KS")).toBe(base);
+    expect(count("CO")).toBeLessThan(base);
+  });
 });
