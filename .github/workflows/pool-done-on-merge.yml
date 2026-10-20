@@ -10,7 +10,8 @@ concurrency:
   cancel-in-progress: false
 jobs:
   flip:
-    if: github.event.pull_request.merged == true
+    # Only merges into main finish an item; a fixer merged into another PR's branch does not.
+    if: github.event.pull_request.merged == true && github.event.pull_request.base.ref == 'main'
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
