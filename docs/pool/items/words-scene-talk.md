@@ -5,12 +5,12 @@ area: words
 kind: feature
 priority: 1
 size: L
-status: open
-claimed-by:
+status: in-pr
+claimed-by: words/scene-talk
 pr: #4459
 blocked-on:
 source: owner, Oct 15, evening: batch 12 rejected; what a scene is
-claimed-at:
+claimed-at: 2026-10-20T00:34:33.834Z
 ---
 
 **What.** Scenes with a purpose: a person wants something, the stakes are clear, and an exchange runs to a result. Fix the root of talk openings so no opener appears without a long-ago record behind it and a yes or no is always followed up. Build the exchange engine with its fifteen-talk test, then batch 13 on top of it.

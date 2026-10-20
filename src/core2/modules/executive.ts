@@ -379,19 +379,17 @@ function fillTownPost(
       (other.key === spec.key ||
         !appointmentsIn(api, town).some((a) => a.post === other.key)),
   ).length;
-  const paid = employer
-    ? startPublicJob(api, {
-        personId: row.holderId,
-        employerId: employer,
-        post,
-        title: spec.title,
-        hourlyMinor: campaignParameter("appointeeHourlyMinor"),
-        maxDailyMinor: postPayCapDaily(api, employer, post, toFill),
-        citation: `Appointment ${row.id}`,
-      })
-    : null;
-  // stopgapId: SG-GOV-appointee-pay
-  if (!paid) api.stopgap("SG-GOV-appointee-pay");
+  // A world with no treasury open has no payroll to hold the post on.
+  if (employer)
+    startPublicJob(api, {
+      personId: row.holderId,
+      employerId: employer,
+      post,
+      title: spec.title,
+      hourlyMinor: campaignParameter("appointeeHourlyMinor"),
+      maxDailyMinor: postPayCapDaily(api, employer, post, toFill),
+      citation: `Appointment ${row.id}`,
+    });
   return row;
 }
 
@@ -456,6 +454,76 @@ export function appoint(
   );
   if (!spec) throw new Error(`No post ${input.post} in this town's government`);
   return fillTownPost(api, spec, input.personId);
+}
+
+/**
+ * A state cabinet member the governor picked, seated as a person with a job
+ * on the state's payroll (the same pay rule as a town's department heads, cut
+ * to the room on the state budget line the post draws on). The member the
+ * post had before leaves the payroll. A world with no state treasury open has
+ * no payroll to hold a post on, so the post is held unpaid there.
+ */
+function seatCabinetPerson(
+  api: CoreAPI,
+  input: {
+    readonly state: string;
+    readonly spec: PostSpec;
+    readonly identity: ReturnType<typeof drawOfficialIdentity>;
+    readonly round: string;
+    readonly appointmentId: string;
+    readonly posts: readonly PostSpec[];
+  },
+): string {
+  const core = api.state as CoreState;
+  const { state, spec, identity } = input;
+  const prior = table(api, "appointments").get(
+    input.appointmentId,
+  ) as unknown as AppointmentRow | undefined;
+  const priorJob = prior ? core.people.get(prior.holderId)?.jobId : undefined;
+  if (priorJob && core.jobs.get(priorJob)?.endsAt === undefined)
+    api.endJob(priorJob, input.appointmentId);
+  const personId =
+    `person:cabinet:${state}:${spec.key}${input.round ? `:${input.round}` : ""}`.replace(
+      /:$/,
+      "",
+    );
+  fillInIdentity(core, {
+    id: personId,
+    givenName: identity.givenName,
+    familyName: identity.familyName,
+    birthDate: identity.birthDate,
+    placeId: state,
+    gender: identity.gender,
+    source: {
+      tag: "ESTIMATED",
+      asOf: api.state.date,
+      citation: `${spec.title} of ${state}, picked by the governor.`,
+      estimatedFrom:
+        "The research file names the post, not the person; the person is drawn from the world's seed like any invented official.",
+    },
+  });
+  const employer = (
+    api.state.modules.has(BUDGETS_MODULE_ID) ? governments(api) : []
+  ).find((g) => g.level === "state")?.organizationId;
+  if (employer) {
+    const post = `state:${spec.key}`;
+    const toFill = input.posts.filter(
+      (other) =>
+        lineForPost("state", `state:${other.key}`) ===
+        lineForPost("state", post),
+    ).length;
+    startPublicJob(api, {
+      personId,
+      employerId: employer,
+      post,
+      title: spec.title,
+      hourlyMinor: campaignParameter("appointeeHourlyMinor"),
+      maxDailyMinor: postPayCapDaily(api, employer, post, toFill),
+      scheduleFromPlaceId: lawChain(api).townPlaceId,
+      citation: `Appointment ${input.appointmentId}`,
+    });
+  }
+  return personId;
 }
 
 /**
@@ -527,12 +595,23 @@ function appointStateCabinet(
     });
     if (!appointment.nomineeId) continue;
     const chosen = pool[Number(appointment.nomineeId.split(":").pop())]!;
+    const id = `appointment:${state}:${spec.key}`;
+    // The cabinet member the governor picked is a full person on the state's
+    // payroll, as the election agency's head is; the one they replace leaves it.
+    const holderId = seatCabinetPerson(api, {
+      state,
+      spec,
+      identity: chosen.identity,
+      round,
+      appointmentId: id,
+      posts: posts.filter((p) => /governor/.test(p.appointedBy)),
+    });
     table(api, "appointments").put({
-      id: `appointment:${state}:${spec.key}`,
+      id,
       government: state,
       post: spec.key,
       title: spec.title,
-      holderId: appointment.nomineeId,
+      holderId,
       identity: {
         givenName: chosen.identity.givenName,
         familyName: chosen.identity.familyName,
@@ -608,20 +687,18 @@ function seatElectionChief(api: CoreAPI, worldSeed: string): void {
   const govs = api.state.modules.has(BUDGETS_MODULE_ID) ? governments(api) : [];
   const employer = govs.find((g) => g.level === "state")?.organizationId;
   const post = `state:${ELECTION_CHIEF_POST}`;
-  const paid = employer
-    ? startPublicJob(api, {
-        personId,
-        employerId: employer,
-        post,
-        title: agency,
-        hourlyMinor: campaignParameter("appointeeHourlyMinor"),
-        maxDailyMinor: postPayCapDaily(api, employer, post, 1),
-        scheduleFromPlaceId: lawChain(api).townPlaceId,
-        citation: `Appointment ${id}`,
-      })
-    : null;
-  // stopgapId: SG-GOV-appointee-pay
-  if (!paid) api.stopgap("SG-GOV-appointee-pay");
+  // A world with no treasury open has no payroll to hold the post on.
+  if (employer)
+    startPublicJob(api, {
+      personId,
+      employerId: employer,
+      post,
+      title: agency,
+      hourlyMinor: campaignParameter("appointeeHourlyMinor"),
+      maxDailyMinor: postPayCapDaily(api, employer, post, 1),
+      scheduleFromPlaceId: lawChain(api).townPlaceId,
+      citation: `Appointment ${id}`,
+    });
 }
 
 /** The heads of a government's agencies that are not the governor's cabinet (the election agency's), by id. */
