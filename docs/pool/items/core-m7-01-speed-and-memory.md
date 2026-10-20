@@ -8,7 +8,7 @@ size: L
 status: claimed
 claimed-by: claude/m7-speed
 pr:
-blocked-on:
+blocked-on: core-speed-year-over-limit-dense-town
 milestone: M7
 source: "docs/roadmap/later-specs-draft.md M7-01"
 claimed-at: 2026-10-20T00:47:48.244Z
@@ -23,3 +23,5 @@ claimed-at: 2026-10-20T00:47:48.244Z
 **Files.** see spec
 
 **Notes.** Priority 3 until scheduled. Verify how much is built before starting.
+
+Split Oct 20, 2026 (claude/m7-speed). Measured on a 4-core container, `npm run speed:year -- --exclusive`: seed m7a, Discovery Harbour, Hawaii, builds in 10 seconds and runs a year in 52; seed m7b, Long Hill, Connecticut, builds in 33 to 36 seconds and runs a year in 194 to 214 (over the 120-second limit). The profile of the 251-second year is flat: garbage collection 52 seconds, then 3 to 6 seconds each for makeIsoDate, countedFollowers, releaseResidentHousehold, postCashJournal and others. Parts: `core-speed-year-over-limit-dense-town` (the umbrella bug, waits on its parts), `core-speed-gc-churn`, `core-speed-date-parse`, `core-speed-press-counted-followers`. Still unmeasured and unsplit: the new-game load against a short loading screen (33 to 36 seconds in the dense town) and the memory on a minimum PC (no peak figure here; `/usr/bin/time` is absent in this container), and the Steam hardware survey targets the item names.
