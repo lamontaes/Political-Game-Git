@@ -5,12 +5,12 @@ area: laws
 kind: wiring
 priority: 2
 size: M
-status: claimed
-claimed-by: claude/laws-outcome-health-fiscal
-pr:
+status: in-pr
+claimed-by: claude/outcome-health-fiscal
+pr: #5517
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-19T21:54:26.933Z
+claimed-at: 2026-10-20T13:17:23.835Z
 ---
 
 **What.** TODO
@@ -22,3 +22,4 @@ claimed-at: 2026-10-19T21:54:26.933Z
 **Files.** TODO
 
 **Notes.** TODO
+Sent back 2026-10-20 from PR #5179 (branch claude/laws-outcome-health-fiscal): Test assertion in law-reach-group-b.test.ts was deleted/loosened and new payment loops can run vacuously with 0 iterations; finish on that branch, merge main into it first.

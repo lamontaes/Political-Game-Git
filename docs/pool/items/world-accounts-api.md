@@ -5,9 +5,9 @@ area: world
 kind: wiring
 priority: 2
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/world-accounts-api
-pr:
+pr: #5176
 blocked-on:
 after: core-finance-contracts-vs-obligations
 source: "core-needs-core-172 triage, Oct 15"
