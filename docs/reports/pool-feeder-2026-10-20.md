@@ -2,6 +2,10 @@
 
 The pool was close to running dry overnight, with 15 items a builder could take. The pool feeder wrote specs, research and rulings so that blocked work became buildable, and the status below is updated every hour.
 
+## Status at 08:10 UTC
+
+Main has no open items left: builders took all of them while this work waited to merge. PR #5541 holds everything below and, once merged, gives builders 78 items with nothing in front of them. It is ready and conflict-free, and the pool check passes on its head. Since 05:45, other sessions claimed or opened five of its items, and those carry main's status. Two new thin items from main were filled in.
+
 ## Status at 05:45 UTC
 
 Builders can now pick up 96 open items with nothing in front of them, up from 15, once the two pool-feeder PRs merge. The pool check passes.
