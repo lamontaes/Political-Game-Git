@@ -4,10 +4,10 @@ title: "Stopgaps in counted-groups (faked-mechanic): 1 open"
 area: core
 kind: stopgap
 priority: 2
-status: claimed
+status: blocked
 claimed-by: claude/pool-counted-groups
 pr: #4500
-blocked-on: world-counted-reads-jobs
+blocked-on: core-counted-views-delete
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/counted-groups.ts, kind faked-mechanic"
 claimed-at: 2026-10-20T00:26:28.869Z
