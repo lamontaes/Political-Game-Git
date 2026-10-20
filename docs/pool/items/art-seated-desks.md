@@ -4,9 +4,9 @@ title: "Seated people at public desks are clipped at the shoulders (#3295)"
 area: art
 kind: bug
 priority: 2
-status: claimed
+status: done
 claimed-by: session52/art4-seated-desks
-pr: #3295
+pr: #5338
 blocked-on:
 milestone:
 source: "open PR #3295"

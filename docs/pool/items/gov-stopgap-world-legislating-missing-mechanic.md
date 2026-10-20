@@ -4,10 +4,10 @@ title: "Stopgaps in world-legislating (missing-mechanic): 1 open"
 area: gov
 kind: stopgap
 priority: 3
-status: open
+status: blocked
 claimed-by:
 pr:
-blocked-on:
+blocked-on: engine or design: Federal-only policy questions need recorded starting answers, official stances and downstream effect readers before adding them to the shared proposal pool.
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/modules/world-legislating.ts, kind missing-mechanic"
 ---
