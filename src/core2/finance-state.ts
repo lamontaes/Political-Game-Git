@@ -31,6 +31,7 @@ import type {
   FinanceRuntime,
   FinanceInput,
   OwnerClosureChoice,
+  PayerHandover,
   SalesReceiptBudgetPool,
   SalesReceiptPendingBudget,
 } from "./finance-types";
@@ -779,6 +780,81 @@ export function setStandingContractAmount(
     );
   minor(api, amountMinor, "standing obligation amount");
   row.amountMinor = amountMinor;
+}
+
+/**
+ * People move from one household to another: the home obligations they shared
+ * (the lease) are paid by the household they now belong to. They stop paying
+ * the old household's; an obligation left with no payer ends, and the people
+ * who stay keep paying it. They begin paying the new household's. Returns the
+ * contracts that changed.
+ */
+export function moveHouseholdPayers(
+  core: CoreState,
+  api: CoreAPI,
+  fromId: string,
+  toId: string,
+  personIds: readonly string[],
+): string[] {
+  const moving = new Set(personIds);
+  const today = makeIsoDate(core.date);
+  const adultAge = api.parameter("benchmarkAdultMinimumAge");
+  // Who stays and can take a lease over: the oldest living adult first.
+  const heir = (core.households.get(fromId)?.memberIds ?? [])
+    .map((id) => core.people.get(id))
+    .filter(
+      (person): person is PersonState =>
+        person !== undefined &&
+        person.alive &&
+        !moving.has(person.id) &&
+        ageOnDate(makeIsoDate(person.birthDate), today) >= adultAge,
+    )
+    .sort(
+      (a, b) =>
+        a.birthDate.localeCompare(b.birthDate) || a.id.localeCompare(b.id),
+    )[api.parameter("zero")];
+  const changed: string[] = [];
+  for (const id of [
+    ...(core.finance.obligationsByHousehold.get(fromId) ?? []),
+  ]) {
+    const row = core.finance.contracts.get(id);
+    if (!row || row.endedAt) continue;
+    if (!row.payerIds.some((payer) => moving.has(payer))) continue;
+    const left = row.payerIds.filter((payer) => !moving.has(payer));
+    const outcome: PayerHandover["outcome"] = left.length
+      ? "kept-by-co-payers"
+      : heir
+        ? "taken-over"
+        : "ended";
+    const payers = left.length ? left : heir ? [heir.id] : [];
+    row.payerHandovers = [
+      ...(row.payerHandovers ?? []),
+      ...personIds
+        .filter((payer) => row.payerIds.includes(payer))
+        .map((payer) => ({ on: today, from: payer, to: payers, outcome })),
+    ];
+    if (payers.length) row.payerIds = payers;
+    else endStandingContract(core, api, id);
+    changed.push(id);
+  }
+  for (const id of core.finance.obligationsByHousehold.get(toId) ?? []) {
+    const row = core.finance.contracts.get(id);
+    if (!row || row.endedAt) continue;
+    const add = personIds.filter((payer) => !row.payerIds.includes(payer));
+    if (!add.length) continue;
+    row.payerIds = [...row.payerIds, ...add];
+    row.payerHandovers = [
+      ...(row.payerHandovers ?? []),
+      ...add.map((payer) => ({
+        on: today,
+        from: payer,
+        to: row.payerIds,
+        outcome: "joined" as const,
+      })),
+    ];
+    changed.push(id);
+  }
+  return changed;
 }
 
 /**
