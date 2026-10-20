@@ -17,7 +17,7 @@ claimed-at: 2026-10-20T07:25:54.711Z
 
 **Rules.** Wire to the world: one dollar followed from the household to the payee by journal record id. No dice. One rule, all 56 places: no place named in the fix. Estimate, never UNKNOWN.
 
-**Done when.** The command above passes, and the same test passes in three other random places with seeds named in the PR body.
+**Done when.** The command above passes in the played world (buildBenchWorld, Grangeville, Idaho, with the seed named), and the same test passes in three other random places with the seeds named in the PR body, with every dollar balancing on the journal.
 
 **Files.** src/core2/player-money-year.test.ts, src/core2/opening-finance.ts, src/core2/starting-cash.ts
 
