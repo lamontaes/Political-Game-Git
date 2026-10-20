@@ -5,13 +5,13 @@ area: people
 kind: feature
 priority: 2
 size: L
-status: blocked
-claimed-by: claude/political-game-pool-yucp92-bb
+status: open
+claimed-by:
 pr: #5180
 blocked-on:
 after: director-officeholder-address-scene, director-signing-staff-and-press, director-term-ending-scene
 source: added with npm run pool -- add
-claimed-at: 2026-10-20T02:31:57.448Z
+claimed-at:
 ---
 
 **What.** This is the roll-up for three parts that make the director watch an officeholder's own records and stage what they show: an address given (the office-day `state-of-the-city` act and the speech engine's `speech.heard` record) becomes a speech scene with its audience; a signing (the legislature's `executive-action:<billId>` record) brings the sponsor, the signer's staff and the press to the room; and a term ending (the offices engine's `TermRow` end date, `seat-vacated` and `inauguration` records) becomes a farewell or handover scene, and for the player's own seat opens the existing campaign or filing screen. Nothing is built here beyond the parts; this item is done when all three are done.
