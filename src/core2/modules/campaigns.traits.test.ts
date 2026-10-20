@@ -90,6 +90,31 @@ function volunteerRows(): Row[] {
   return rows;
 }
 
+/**
+ * What the played window lacks for the tests to read: enough calls of each
+ * played decision, and at least one call temperament turns (someone near
+ * enough to the line for it to matter).
+ */
+function windowGaps(world: CoreState): string[] {
+  const gaps: string[] = [];
+  const reached = volunteerRows().length;
+  if (reached <= 50) gaps.push(`campaigns reached ${reached} adults`);
+  const read: [string, readonly Row[]][] = [
+    ["campaigns.donate", formula.get("campaigns.donate") ?? []],
+    ["campaigns.open-door", formula.get("campaigns.open-door") ?? []],
+    ["candidacy.run", chooser],
+  ];
+  for (const [id, rows] of read) {
+    const w = decisionTraitWeight(world, id);
+    const turned = rows.filter(
+      (r) => r.bare + w * r.lean > 0 !== r.bare > 0,
+    ).length;
+    if (rows.length <= 50 || turned === 0)
+      gaps.push(`${id}: ${rows.length} calls, ${turned} turned by temperament`);
+  }
+  return gaps;
+}
+
 /** Plays a drawn world for the window with the probe on, keeping every formula and run-for-office call. */
 function play(world: CoreState, last: string) {
   formula.clear();
@@ -155,12 +180,12 @@ beforeAll(() => {
     play(world, end.toISOString().slice(0, 10));
     core = world;
     placeName = `${name}, race ${next}, played from ${start}`;
-    const reached = volunteerRows().length;
-    if (reached > 50) return;
-    tried.push(`${placeName}: campaigns reached ${reached} adults`);
+    const missing = windowGaps(world);
+    if (missing.length === 0) return;
+    tried.push(`${placeName}: ${missing.join(", ")}`);
   }
   throw new Error(
-    `No drawn place's race reached enough adults (base seed ${BASE_SEED}): ${tried.join("; ")}`,
+    `No drawn place's race gave every decision enough calls (base seed ${BASE_SEED}): ${tried.join("; ")}`,
   );
   // Reason for the hook's time: each try builds its town twice (7 to 20 seconds each) and plays 150 days (20 to 60 more), up to 4 tries.
 }, 900_000);
