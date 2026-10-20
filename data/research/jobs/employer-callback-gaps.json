@@ -25,11 +25,10 @@
       "reference": "white applicants",
       "callbackRatio": {
         "value": 0.806,
-        "low": 0.7,
-        "high": 0.9,
+        "low": 0.75,
+        "high": 0.87,
         "tag": "SOURCED",
-        "boundsTag": "ESTIMATED",
-        "boundsNote": "The low and high are this table's own bracket around the meta-analysis value, not a published interval."
+        "boundsNote": "The study's 95% confidence interval: \"White applicants receive on average 24% more callbacks than Latinos (95% confidence interval of 15–33% more).\" 1 / 1.33 = 0.75 and 1 / 1.15 = 0.87."
       },
       "ratioMeaning": "1 / 1.24: white applicants receive 24% more callbacks than Latino applicants (studies since 1989, modest evidence of a decline)",
       "source": "Quillian, Pager, Hexel and Midtbøen 2017, PNAS 114(41) (https://pmc.ncbi.nlm.nih.gov/articles/PMC5642692/)",
