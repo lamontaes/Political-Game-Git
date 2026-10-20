@@ -4,9 +4,9 @@ title: "Committee assignments and hearings as stops and scenes."
 area: office
 kind: feature
 priority: 2
-status: in-pr
-claimed-by: claude/office-committee-hearings
-pr: #5107
+status: open
+claimed-by:
+pr:
 blocked-on:
 milestone:
 source: "docs/coordination/OFFICE-STATE.md line 19 (unchecked checklist line)"
@@ -22,3 +22,5 @@ claimed-at: 2026-10-19T19:05:19.530Z
 **Files.** src/core2/office-day-state.ts, src/core2/office-day-registry.ts, src/core2/legislature-committees.ts, src/core2/data/legislature/committees.json
 
 **Notes.** Checklist line from OFFICE-STATE.md; verify against main before starting.
+
+Oct 20: PR #5107 merged and the committee day cites the seating and hearing records, but the chair's question and witness lines and a learn-your-seat scene are not built.

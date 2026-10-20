@@ -4,9 +4,9 @@ title: "Arrogance, anger and fear:"
 area: words
 kind: feature
 priority: 2
-status: claimed
+status: in-pr
 claimed-by: claude/political-game-pool-a4tcd1
-pr:
+pr: #5219
 blocked-on:
 milestone:
 source: "docs/coordination/words.md line 50 (unchecked checklist line)"

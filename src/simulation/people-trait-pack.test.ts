@@ -8,7 +8,7 @@ import {
   PEOPLE_TRAITS,
   peopleTraitDefinition,
 } from "./people-trait-definitions";
-import { loadTraitPacks, traitDefinitionFromPack } from "./trait-packs";
+import { loadTraitPacks, traitDefinitionFromPack } from "../core2/trait-packs";
 
 /**
  * The migration story, asserted rather than claimed.
