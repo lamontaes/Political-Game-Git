@@ -5,7 +5,7 @@ area: world
 kind: bug
 priority: 1
 size: S
-status: open
+status: done
 claimed-by:
 pr: #4891
 blocked-on:
@@ -13,14 +13,12 @@ source: added with npm run pool -- add
 claimed-at:
 ---
 
-**What.** TODO
+**What.** One drawn town's year stopped on January 14, 2027 with "Public pay does not match its actual owned work obligation". A staffing law made a school district or another public employer hire someone, and the hire was not on the employer's public pay authority, so the first payday found pay that matched no authority. Pull request 4891 joins the hire to the authority when the job starts.
 
-**Rules.** TODO
+**Rules.** Wire to the world: a public hire is paid through its employer's pay authority from the first payday. Every dollar balances. No dice.
 
-**Done when.** TODO
+**Done when.** In the played world (`buildBenchWorld`, a drawn place with a staffing law) a hire at a public employer is paid after 45 days, shown by job and authority ids; `src/core2/public-hire-authority.test.ts` fails without the fix.
 
-**Files.** TODO
+**Files.** src/core2/job-lifecycle.ts, src/core2/public-hire-authority.test.ts
 
-**Notes.** TODO
-
-Sent back 2026-10-17 from PR #4891 (branch claude/public-hire-pay-authority-s5): Morning check: the fix spans the Core job-start contract (src/core2/job-lifecycle.ts) and Government staffing-law engine (src/core2/law-reach/group-a-staffing.ts), with no owning-area agreement recorded on the PR. Record agreement from both owning areas, or split the Core contract change and its Government caller into their owning-area PRs. Preserve the public-pay authority invariant and the new regression test.; finish on that branch, merge main into it first.
+**Notes.** Body repaired Oct 17 (claude) from the pull request's description; the fix is in that pull request.

@@ -4,10 +4,10 @@ title: "Stopgaps in health (missing-mechanic): 1 open"
 area: people
 kind: stopgap
 priority: 3
-status: open
+status: blocked
 claimed-by:
 pr:
-blocked-on:
+blocked-on: engine or design: P10 needs a real recorded death from illness; no core2 health engine exists.
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/data/health.json, kind missing-mechanic"
 ---

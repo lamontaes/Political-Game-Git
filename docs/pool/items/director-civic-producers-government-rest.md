@@ -5,7 +5,7 @@ area: director
 kind: wiring
 priority: 1
 size: M
-status: open
+status: in-pr
 claimed-by:
 pr: #4606
 blocked-on:
@@ -32,3 +32,5 @@ Sent back 2026-10-16 from PR #4606 (branch claude/director-civic-producers-gover
 Sent back 2026-10-16 from PR #4606 (branch claude/director-civic-producers-government-rest): merging main conflicts in src/director/civic-roles.ts, src/director/data/director.json, src/director/data/situation-types.json (code or data, left for the author); resolve and push; finish on that branch, merge main into it first.
 
 Sent back 2026-10-17 from PR #4606 (branch claude/director-civic-producers-government-rest): Morning check: new press-scenes.test.ts returns successfully when no outlet or seated resident exists, bypassing all published-interview and role assertions. The stacked government-scenes.test.ts likewise returns before assertions when there is no full-person seat or no vote. Draw an eligible case with bounded retries and fail when the case cannot be reached. Also record Government-area agreement for the recalls.ts event changes, or split that edit into its owning-area PR.; finish on that branch, merge main into it first.
+
+Sent back 2026-10-19 from PR #4606 (branch claude/director-civic-producers-government-rest): Merge main conflicts require author resolution: scripts/dialogue-batch/coverage-table.test.ts; finish on that branch, merge main into it first.
