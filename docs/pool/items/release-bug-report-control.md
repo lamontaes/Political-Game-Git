@@ -5,11 +5,12 @@ area: release
 kind: feature
 priority: 3
 size: M
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/political-game-pool-76ksvw
+pr: #5180
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-20T01:28:01.753Z
 ---
 
 **What.** The shipped game has no "Report a bug" control and no after-crash prompt. Add both: a control in the options screen and a prompt on the next start after a crash, each showing what would be sent (the game's log) and sending it only when the player presses send. Nothing is sent otherwise.
