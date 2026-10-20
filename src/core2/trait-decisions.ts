@@ -147,6 +147,27 @@ export function leanedYes(
   noOptionId: string,
   bare: number,
 ): boolean {
+  return (
+    leanedScore(core, person, decisionId, yesOptionId, noOptionId, bare) >
+    parameter("zero", core.data.parameters)
+  );
+}
+
+/**
+ * A decision's score with the person's calibrated trait term added: `bare`
+ * (every reason but personality) plus the lean toward `yesOptionId` over
+ * `noOptionId` times the decision's weight. For a decision whose size, not
+ * only its direction, depends on the score (a gift, a readiness to answer).
+ * Reports to the probe like `leanedYes`.
+ */
+export function leanedScore(
+  core: Pick<CoreState, "data">,
+  person: Pick<PersonState, "traits"> & { id?: string },
+  decisionId: string,
+  yesOptionId: string,
+  noOptionId: string,
+  bare: number,
+): number {
   return reportLeaned(
     core,
     person,
@@ -178,35 +199,39 @@ export function leanedByKinds(
   noKinds: readonly string[],
   bare: number,
 ): boolean {
-  return reportLeaned(
-    core,
-    person,
-    decisionId,
-    traitLean(core, person, yesKinds) - traitLean(core, person, noKinds),
-    bare,
+  return (
+    reportLeaned(
+      core,
+      person,
+      decisionId,
+      traitLean(core, person, yesKinds) - traitLean(core, person, noKinds),
+      bare,
+    ) > parameter("zero", core.data.parameters)
   );
 }
 
+/** `bare` plus the weighted lean, reported to the audit probe with whether personality turned it. */
 function reportLeaned(
   core: Pick<CoreState, "data">,
   person: { id?: string },
   decisionId: string,
   lean: number,
   bare: number,
-): boolean {
-  const zero = parameter("zero", core.data.parameters);
-  const yes = bare + lean * decisionTraitWeight(core, decisionId) > zero;
+): number {
+  const score = bare + lean * decisionTraitWeight(core, decisionId);
   const probe = traitProbe();
-  if (probe?.formula)
+  if (probe?.formula) {
+    const zero = parameter("zero", core.data.parameters);
     probe.formula({
       decisionId,
       actorId: person.id,
       lean,
       bare,
-      yes,
-      turned: yes !== bare > zero,
+      yes: score > zero,
+      turned: score > zero !== bare > zero,
     });
-  return yes;
+  }
+  return score;
 }
 
 /**

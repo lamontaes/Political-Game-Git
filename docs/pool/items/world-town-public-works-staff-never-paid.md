@@ -5,12 +5,12 @@ area: world
 kind: bug
 priority: 2
 size: M
-status: claimed
-claimed-by: claude/political-game-pool-yucp92-xx
-pr:
+status: open
+claimed-by:
+pr: #5554
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-20T05:54:51.911Z
+claimed-at:
 ---
 
 **What.** In a played year at Morrison, Oklahoma (place 4049450, seed 35ae004f918cbf272f6432398117664222bc8643eab297e7225cefbd17b8d4a3) the only earner in the player's household is a maintenance worker at 'Morrison Public Works Department' (organization_f65162fe1649d10c, sector local-government-office). The department opens with liquidMinor 0 and has no business book, and after 40 days it still holds 0, so work-payroll posts no payment to the household in 12 months; the household's cash falls from $1,964 to 0 by month 2 and stays there. src/core2/player-money-year.test.ts fails there on the payroll line with 'expected 0 to be greater than 0'. Other places pay their town staff, so the funding link from the town's budget to the department is missing in this place, or the department is never given a budget line.
@@ -24,3 +24,5 @@ claimed-at: 2026-10-20T05:54:51.911Z
 **Notes.** Found Oct 20 on branch claude/player-living-cost-fraser (PR #5473) while rerunning player-money-year.test.ts in random places (run 2 of 3). Not caused by the player-home hold in that PR: the household has no one moving, the department simply has no cash. Check whether the pool items on public staffing (public-hire-staffing, official-pay-catchup) already fix this before building.
 
 Oct 20 (claude/fixed-on-main-notes): not reproduced on current main. `GOLDEN_PATH_SEED=35ae004f918cbf272f6432398117664222bc8643eab297e7225cefbd17b8d4a3 GOLDEN_PATH_PLACE_KEY=4049450 npx vitest run src/core2/player-money-year.test.ts` passes (1 test), so the staffing and pay-catch-up work that landed since fixes it. The CTO can mark this done.
+
+Sent back 2026-10-20 from PR #5554 (branch claude/political-game-pool-yucp92-xx): total gross credits do not prove public payroll and the alive filter can skip every assertion; require wage journal records tied to the paying department and a nonempty checked set; finish on that branch, merge main into it first.
