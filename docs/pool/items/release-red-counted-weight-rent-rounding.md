@@ -5,9 +5,9 @@ area: world
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/fs11vb-rent
-pr:
+pr: #5677
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-20T12:34:51.727Z

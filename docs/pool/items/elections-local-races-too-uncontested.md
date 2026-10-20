@@ -5,7 +5,7 @@ area: elections
 kind: bug
 priority: 2
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/pool-elections-local-races-too-uncontested
 pr: #5592
 blocked-on:

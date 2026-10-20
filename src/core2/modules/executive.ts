@@ -24,6 +24,7 @@ import { snapshotExplicitControlV1 } from "../player-control-state-v1";
  */
 import { policyAuthority } from "../policy-authority";
 import research from "../../../data/research/executive/executive-powers-2026.json" with { type: "json" };
+import emergencyData from "../data/executive/emergency.json" with { type: "json" };
 import { coreAPI, fillInIdentity, registerModule } from "../state";
 import type { CoreAPI, CoreModule, CoreState, PersonState } from "../types";
 import type { ModuleRow } from "../module-data";
@@ -52,7 +53,8 @@ import {
 import { answerIn } from "./world-legislating";
 import type { ModuleCalendarWork } from "../module-calendar";
 import { addDays, makeIsoDate } from "../kernel/dates";
-import { BUDGETS_MODULE_ID, governments } from "./budgets";
+import { BUDGETS_MODULE_ID, amendBudget, governments } from "./budgets";
+import { federalAidFor } from "./disasters";
 import { lineForPost, postPayCapDaily } from "../budgets-treasury";
 import { startPublicJob } from "../public-payroll";
 import { parameter } from "../parameters";
@@ -108,6 +110,7 @@ export const EXECUTIVE_MODULE: CoreModule = {
       appointments: { indexes: { byGovernment: { fields: ["government"] } } },
       agencyHeads: { indexes: { byGovernment: { fields: ["government"] } } },
       orders: {},
+      emergencies: {},
       nominations: {},
       desk: { indexes: { byExecutive: { fields: ["executiveId"] } } },
       review: {},
@@ -951,6 +954,117 @@ export function issueOrder(
     date: api.state.date,
   } as unknown as ModuleRow);
   return { lawId: row.id };
+}
+
+export interface EmergencyRow {
+  readonly id: string;
+  readonly executiveId: string;
+  readonly state: string;
+  /** The disaster record the declaration cites. */
+  readonly hazardRecordId: string;
+  /** The state's own power, as researched: its key and basis. */
+  readonly basis: string;
+  readonly confidence: string;
+  readonly governmentId: string;
+  readonly line: string;
+  readonly deltaMinor: number;
+  readonly date: string;
+}
+
+/** Whether this state's governor may declare a state of emergency, and the researched basis. */
+export function emergencyPower(
+  api: CoreAPI,
+): { readonly basis: string; readonly confidence: string } | null {
+  const raw = RESEARCH.places[lawChain(api).stateKey]?.canOrder ?? [];
+  const found = Array.isArray(raw)
+    ? raw.find((r) => (r as { key: string }).key === "emergency-declaration")
+    : undefined;
+  return found
+    ? {
+        basis: (found as { basis?: string }).basis ?? "",
+        confidence: (found as { confidence?: string }).confidence ?? "",
+      }
+    : null;
+}
+
+/**
+ * The sitting governor declares a state of emergency for a disaster on the
+ * record. The declaration cites the hazard record and the state's researched
+ * power, and the state's budget takes on its share of the non-federal cost of
+ * the public assistance FEMA obligated for the disaster: the budget line
+ * moves by that much, as an amendment recorded with the declaration.
+ */
+export function declareEmergency(
+  api: CoreAPI,
+  input: { readonly executiveId: string; readonly hazardRecordId: string },
+): EmergencyRow {
+  const state = lawChain(api).stateKey;
+  const governor = townSeats(api).find(
+    (s) => s.office.kind === "governor",
+  )?.holder;
+  if (!governor || memberKey(governor) !== input.executiveId)
+    throw new Error("Only the sitting governor can declare an emergency.");
+  const power = emergencyPower(api);
+  if (!power) throw new Error(`${state} gives its governor no such power.`);
+  const hazard = (api.state as CoreState).durableLog.get(input.hazardRecordId);
+  if (!hazard || hazard.kind !== "hazard.disaster")
+    throw new Error("A declaration cites a disaster on the record.");
+  const id = `emergency:${state}:${input.hazardRecordId}`;
+  if (table(api, "emergencies").get(id))
+    throw new Error("This disaster is already under a declaration.");
+  const gov = governments(api).find((g) => g.level === "state");
+  if (!gov) throw new Error("The state has no government on the books.");
+  const aid = federalAidFor(api, Number(hazard.facts?.disasterNumber));
+  const deltaMinor = Math.round(
+    (aid *
+      emergencyData.nonFederalShare.value *
+      emergencyData.stateShareOfNonFederal.value) /
+      (1 - emergencyData.nonFederalShare.value),
+  );
+  const line = emergencyData.budgetLine.value;
+  if (deltaMinor > 0)
+    amendBudget(api, {
+      governmentId: gov.id,
+      line,
+      deltaMinor,
+      measureId: id,
+    });
+  const row: EmergencyRow = {
+    id,
+    executiveId: input.executiveId,
+    state,
+    hazardRecordId: input.hazardRecordId,
+    basis: power.basis,
+    confidence: power.confidence,
+    governmentId: gov.id,
+    line,
+    deltaMinor,
+    date: api.state.date,
+  };
+  table(api, "emergencies").put(row as unknown as ModuleRow);
+  api.emit({
+    id: `emergency-declared:${id}`,
+    date: api.state.date,
+    kind: "emergency-declared",
+    personIds: governor.personId ? [governor.personId] : [],
+    placeId: lawChain(api).townPlaceId,
+    source: {
+      tag: "SOURCED",
+      citation: `State emergency-management statute (${state}): ${power.basis}`,
+      asOf: api.state.date,
+    },
+    publicRecord: true,
+    news: true,
+    facts: {
+      hazardRecordId: input.hazardRecordId,
+      disasterNumber: String(hazard.facts?.disasterNumber ?? ""),
+      title: String(hazard.facts?.title ?? ""),
+      governmentId: gov.id,
+      line,
+      deltaMinor: String(deltaMinor),
+    },
+  });
+  return row;
 }
 
 export interface DeskRow {
