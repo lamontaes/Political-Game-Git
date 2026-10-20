@@ -5,13 +5,13 @@ area: office
 kind: feature
 priority: 3
 size: L
-status: claimed
-claimed-by: claude/political-game-pool-76ksvw
+status: open
+claimed-by:
 pr:
 blocked-on:
 milestone: M5
 source: "docs/roadmap/later-specs-draft.md M5-01"
-claimed-at: 2026-10-20T01:22:23.113Z
+claimed-at:
 ---
 
 **What.** Pick a real numbered seat, file, campaign against the actual holder, take the seat, and pass bills with colleagues. (Owner: OPUS-GOV (screens: OPUS-PLAY).)
