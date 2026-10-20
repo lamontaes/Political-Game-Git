@@ -5,9 +5,9 @@ area: people
 kind: bug
 priority: 3
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/party-delib
-pr:
+pr: #5722
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-20T15:12:13.363Z
