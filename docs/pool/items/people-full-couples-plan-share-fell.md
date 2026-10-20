@@ -5,9 +5,9 @@ area: people
 kind: bug
 priority: 2
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/couples-plan-share
-pr:
+pr: #5738
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-20T17:50:57.862Z
