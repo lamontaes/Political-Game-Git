@@ -2261,8 +2261,8 @@
     "why": "Organizing needs a place for others to join; the nonprofit and association engine is not built.",
     "addedBy": "OPUS-DRIVES",
     "addedAt": "2026-10-09",
-    "replacement": "An association engine with formation steps, registration law per place and membership rules.",
-    "status": "open"
+    "replacement": "Resolved Oct 20: founding is one act on a recorded drive by design. A charter, registration or dues would be paperwork a resident does not do in this game (AGENTS.md: this is a game, not a spreadsheet); the group is an organization record with its founder as a member, and members' dues belong to the interest-groups engine where a bill's cost makes a group worth paying for. The question for the owner is in the PR body.",
+    "status": "resolved"
   },
   {
     "id": "SG-P10-testify-unbuilt",

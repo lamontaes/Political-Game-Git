@@ -549,7 +549,6 @@
           "operation": "no-known-group-on-topic"
         }
       ],
-      "stopgapId": "SG-P10-cause-group-founding",
       "emotion": {
         "moodMultiplierParameter": "one",
         "stressMultiplierParameter": "one"
