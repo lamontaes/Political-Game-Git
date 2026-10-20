@@ -5,12 +5,12 @@ area: world
 kind: feature
 priority: 2
 size: M
-status: in-pr
-claimed-by: claude/estate-sells-home
+status: open
+claimed-by:
 pr: #5735
 blocked-on:
 source: split of world-home-turnover (Oct 18)
-claimed-at: 2026-10-20T16:21:01.145Z
+claimed-at:
 ---
 
 **What.** `sellHome` is called from only one place, a household's last members moving away (`moves.departure`), so a home whose owners have all died stays on the dwellings table as owned forever, its mortgage unpaid or paid by a dead person's account. When the last owner of a home dies, the estate sells it when probate closes: the lender is paid first, the surplus goes to the heirs the estate already names, and the home goes back on the town's market with a `sales` row that gives the reason. This gives the town the sales its deaths really cause and frees the home for a buyer.
