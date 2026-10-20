@@ -16,10 +16,13 @@ import { openLaws } from "../core2/modules/laws";
 import { openOffices } from "../core2/modules/offices";
 import { openRecord, recordVote } from "../core2/modules/record";
 import {
+  ELECTIONS_MODULE_ID,
   fileCandidacy,
   openContests,
   openElections,
+  type ContestRow,
 } from "../core2/modules/elections";
+import { OFFICES_MODULE_ID, type TermRow } from "../core2/modules/offices";
 import { makeStatements, openCampaigns } from "../core2/modules/campaigns";
 import { openParties } from "../core2/modules/parties";
 import { speechModule } from "../core2/modules/speech";
@@ -32,6 +35,7 @@ import {
   type SpeechDraft,
 } from "../core2/speech-composition";
 import {
+  speakerKind,
   wordSpeech,
   wordSpeechOffers,
   wordSpeechPart,
@@ -98,6 +102,45 @@ describe("the parts of a composed speech in words", () => {
     const got = pair(api, core);
     expect(got, `no contest two could file for: ${where}`).not.toBeNull();
     const { you, rival, adults } = got!;
+    // What kind of speaker each candidate is follows the records: a
+    // challenger where someone else holds the seat, a parent where a child
+    // lives at home, each citing the records that make it so.
+    for (const filing of [you, rival]) {
+      const kind = speakerKind(api, filing, filing.personId);
+      const contest = api
+        .moduleState(ELECTIONS_MODULE_ID)
+        .table("contests")
+        .get(filing.contestId) as unknown as ContestRow;
+      const holder = contest.incumbentTermId
+        ? (
+            api
+              .moduleState(OFFICES_MODULE_ID)
+              .table("terms")
+              .get(contest.incumbentTermId) as unknown as TermRow
+          ).personId
+        : null;
+      expect(Boolean(kind.challenger), `${where}: challenger`).toBe(
+        Boolean(holder && holder !== filing.personId),
+      );
+      const person = core.people.get(filing.personId)!;
+      const children = (
+        core.households.get(person.householdId)?.memberIds ?? []
+      )
+        .map((id) => core.people.get(id))
+        .filter(
+          (member) =>
+            member?.alive &&
+            member.id !== person.id &&
+            // Younger than 18 on the day: born after the same day 18 years back.
+            member.birthDate >
+              `${Number(START.slice(0, 4)) - 18}${START.slice(4)}`,
+        );
+      expect(Boolean(kind["has-children"]), `${where}: parent`).toBe(
+        children.length > 0,
+      );
+      for (const fact of Object.values(kind))
+        expect(fact.sourceRecordIds.length, where).toBeGreaterThan(0);
+    }
     makeStatements(api, {
       filingId: rival.id,
       venue: "rival-hall",

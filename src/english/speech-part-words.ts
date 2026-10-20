@@ -34,12 +34,16 @@ import { candidateStance } from "../core2/campaign-stances";
 import { corePlaceByJurisdictionId } from "../core2/place-lookup";
 import {
   ELECTIONS_MODULE_ID,
+  type ContestRow,
   type FilingRow,
 } from "../core2/modules/elections";
 import { votesOf, type VoteRecordRow } from "../core2/modules/record";
 import { billOf, votesOn, type BillRow } from "../core2/modules/legislature";
 import { campaignFor } from "../core2/modules/campaigns";
+import { OFFICES_MODULE_ID, type TermRow } from "../core2/modules/offices";
 import type { EntityId } from "../core2/kernel/brands";
+import { ageOnDate, makeIsoDate } from "../core2/kernel/dates";
+import { P } from "../core2/parameters";
 import type { CoreAPI } from "../core2/types";
 import { spoken } from "../director/words";
 
@@ -131,7 +135,9 @@ function sourceOf(
     case "stance.enact":
       return {
         act: "persuade",
-        mined: { role: "issue", only: /\{goal\}/ },
+        // A challenger's lines ("We can do better.") are admitted where the
+        // records make the speaker one; the bank asks for the fact itself.
+        mined: { role: "issue", only: /\{goal\}|better/ },
       };
     case "stance.repeal":
       return { act: "persuade", authored: "stance-repeal" };
@@ -184,6 +190,12 @@ function sourceOf(
     case "close.unity":
       return { act: "promise", authored: "unity" };
     case "town.neighbors":
+      // A parent says so where the records show a child at home.
+      return {
+        act: "tell",
+        mined: { role: "self", only: /^I'm a (?:mother|father)\./ },
+        authored: "town-neighbors",
+      };
     case "town.work":
     case "town.future":
     case "town.history":
@@ -219,6 +231,58 @@ const nameOf = (api: CoreAPI, personId: string): string | null => {
 };
 
 /**
+ * What kind of speaker a candidate is, from the records: a challenger when
+ * someone else holds the seat the contest fills, a parent when a child lives
+ * in their household (a mother or a father by their recorded gender). These
+ * unlock the mined lines that ask for them ("We can do better.", "I'm a
+ * mother."); each cites the records that make it so.
+ */
+export function speakerKind(
+  api: CoreAPI,
+  filing: FilingRow,
+  speakerId: string,
+): Record<string, GroundedEnglishFact> {
+  const facts: Record<string, GroundedEnglishFact> = {};
+  const person = api.state.people.get(speakerId as never);
+  if (!person) return facts;
+  const contest = api
+    .moduleState(ELECTIONS_MODULE_ID)
+    .table("contests")
+    .get(filing.contestId) as unknown as ContestRow | undefined;
+  const incumbent = contest?.incumbentTermId
+    ? (api
+        .moduleState(OFFICES_MODULE_ID)
+        .table("terms")
+        .get(contest.incumbentTermId) as unknown as TermRow | undefined)
+    : undefined;
+  if (contest && incumbent?.personId && incumbent.personId !== speakerId)
+    facts.challenger = {
+      text: "a challenger",
+      sourceRecordIds: [contest.id, incumbent.id] as EntityId[],
+    };
+  const household = api.state.households.get(person.householdId);
+  const children = (household?.memberIds ?? []).filter((id) => {
+    const member = api.state.people.get(id);
+    return (
+      member?.alive &&
+      id !== speakerId &&
+      ageOnDate(makeIsoDate(member.birthDate), makeIsoDate(api.state.date)) <
+        P.childUpperAge
+    );
+  });
+  if (children.length) {
+    const cited = [person.householdId, ...children] as EntityId[];
+    facts["has-children"] = { text: "a parent", sourceRecordIds: cited };
+    const gender = person.looks?.gender;
+    if (gender === "female")
+      facts["is-mother"] = { text: "a mother", sourceRecordIds: cited };
+    if (gender === "male")
+      facts["is-father"] = { text: "a father", sourceRecordIds: cited };
+  }
+  return facts;
+}
+
+/**
  * The facts a part's slots are filled from, each citing the records it rests
  * on. The rival's vote and platform are read from the record, so a contrast
  * says what the rival really did.
@@ -251,6 +315,8 @@ function factsFor(
       facts.goal = { text: goal, sourceRecordIds: factIds };
     if (issue) facts.issue = { text: issue, sourceRecordIds: factIds };
   }
+  if (filing && speakerId)
+    Object.assign(facts, speakerKind(api, filing, speakerId));
   let rivalVote: "for" | "against" | null = null;
   let rivalPosition: number | null = null;
   if (offer.rivalFilingId) {
