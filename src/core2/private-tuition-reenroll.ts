@@ -16,6 +16,7 @@ import data from "./data/opening-private-tuition.json" with { type: "json" };
 import { ageOnDate, makeIsoDate } from "./kernel/dates";
 import type { FinanceContractInput } from "./finance-types";
 import { setEverydayPurchase } from "./cost-of-living";
+import { faithAffinity, rankByChoice } from "./private-tuition-choice";
 import type { CoreAPI, CoreState, Source } from "./types";
 
 export const REENROLL_STOPGAP = "SG-CORE-private-tuition-counted-reenroll";
@@ -58,6 +59,7 @@ export function reenrollPrivateTuition(api: CoreAPI): void {
       children: number;
       adults: string[];
       cashPerChild: number;
+      affinity: number;
     }[]
   >();
   for (const home of core.households.values()) {
@@ -83,6 +85,7 @@ export function reenrollPrivateTuition(api: CoreAPI): void {
       adults,
       cashPerChild:
         members.reduce((sum, row) => sum + row!.liquidMinor, 0) / children,
+      affinity: faithAffinity(adults.map((id) => core.people.get(id)!)),
     });
     families.set(home.placeId, list);
   }
@@ -102,9 +105,7 @@ export function reenrollPrivateTuition(api: CoreAPI): void {
     );
     const local = schools.filter((row) => row.placeId === placeId);
     let taken = 0;
-    for (const family of [...list].sort(
-      (a, b) => b.cashPerChild - a.cashPerChild || a.id.localeCompare(b.id),
-    )) {
+    for (const family of rankByChoice(list, (row) => row.affinity)) {
       if (taken >= quota) break;
       taken += family.children;
       // A family already enrolled keeps its school; a new one goes where the fewest are.

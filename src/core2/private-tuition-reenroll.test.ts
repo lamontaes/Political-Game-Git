@@ -1,3 +1,6 @@
+import { PROFILE_FACT_KINDS } from "./opening-profile";
+import { parameter } from "./parameters";
+import { faithAffinity } from "./private-tuition-choice";
 import { randomBytes } from "node:crypto";
 import { expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
@@ -55,7 +58,28 @@ it(`a family that fell below the cutoff stops paying tuition and one that rose a
     const outside = outsideAccountOf(api);
     if (!enrolled || !other || !outside) continue;
     const accounts = api.accounts();
-    // The enrolled family loses everything it holds; the other becomes the best off in town.
+    // The other family holds the faith the school draws most (a recorded fact on its adults),
+    // so with the most money in town it takes the top score.
+    for (const adult of young(other.id)!) {
+      const person = state.people.get(adult.id)!;
+      (person as { pastFacts?: unknown }).pastFacts = [
+        ...(person.pastFacts ?? []).filter(
+          (fact) => fact.kind !== PROFILE_FACT_KINDS.faith,
+        ),
+        {
+          id: `test:faith:${adult.id}`,
+          date: core.date,
+          kind: PROFILE_FACT_KINDS.faith,
+          summary: "Faith",
+          source: src,
+          facts: { group: "catholic" },
+        },
+      ];
+    }
+    expect(faithAffinity(young(other.id)!)).toBe(
+      parameter("privateTuitionAffinityCatholic"),
+    );
+    // The enrolled family loses everything it holds; the other becomes the best off in town (and its faith favors the school).
     for (const adult of young(enrolled)!) {
       const held = state.people.get(adult.id)!.liquidMinor;
       if (held > 0)

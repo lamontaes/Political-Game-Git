@@ -1,8 +1,9 @@
 /**
  * Private school tuition at the opening. Which families send their children to
- * the town's private school is decided by their means, not spread evenly: the
- * town's families with children aged 5-17 are ranked by cash per child, and
- * the best-off enroll all their children until the town's private share of
+ * the town's private school is decided by their means and beliefs, not spread
+ * evenly: the town's families with children aged 5-17 are ranked by cash per
+ * child scaled by their faith's draw to private school (private-tuition-
+ * choice.ts), and the first enroll all their children until the town's private share of
  * school-age children (NCES) is reached. Each enrolled child pays the average
  * private tuition (NCES Digest Table 205.50), monthly. The share checks the
  * town's total; it never picks a family. A town without a private school pays
@@ -12,6 +13,7 @@ import { ageOnDate, makeIsoDate } from "./kernel/dates";
 import data from "./data/opening-private-tuition.json" with { type: "json" };
 import { parameter as p } from "./parameters";
 import { stopgap } from "./stopgaps";
+import { faithAffinity, rankByChoice } from "./private-tuition-choice";
 import type { FinanceContractInput } from "./finance-types";
 import type { CoreInput, Source } from "./types";
 
@@ -38,7 +40,9 @@ export function withPrivateTuition(input: CoreInput): CoreInput {
   const byTown = new Map<
     string,
     {
+      id: string;
       home: CoreInput["households"][number];
+      adultRecords: readonly (typeof input.people)[number][];
       children: number;
       adults: string[];
       cashPerChild: number;
@@ -63,7 +67,9 @@ export function withPrivateTuition(input: CoreInput): CoreInput {
     byTown.set(home.placeId, [
       ...(byTown.get(home.placeId) ?? []),
       {
+        id: home.id,
         home,
+        adultRecords: adults,
         children,
         adults: adults.map((row) => row.id).sort(),
         cashPerChild:
@@ -81,9 +87,9 @@ export function withPrivateTuition(input: CoreInput): CoreInput {
       1,
       Math.round(total * p("openingPrivateSchoolShare")),
     );
-    const ranked = [...families].sort(
-      (a, b) =>
-        b.cashPerChild - a.cashPerChild || a.home.id.localeCompare(b.home.id),
+    // Cash per child as a rank in town, scaled by the family's faith draw.
+    const ranked = rankByChoice(families, (family) =>
+      faithAffinity(family.adultRecords),
     );
     const local = sorted.filter((row) => row.placeId === placeId);
     let taken = 0;
