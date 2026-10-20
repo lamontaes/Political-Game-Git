@@ -27,6 +27,7 @@ import { stateParties } from "./parties";
 import { lawChain } from "./laws";
 import { contingentElection } from "../contingent-election";
 import contingentData from "../data/elections/contingent-election.json" with { type: "json" };
+import territoryRaces from "../data/electorate/territory-delegate-races.json" with { type: "json" };
 import { ballot, ELECTIONS_MODULE_ID, type ContestRow } from "./elections";
 import {
   cycleTurnout,
@@ -722,12 +723,26 @@ function racePlaces(api: CoreAPI, race: Race): readonly ElectoratePlace[] {
   if (race.office === "us-house") {
     const place = housePlace(usps, race.code);
     if (place) return [place];
-    // A delegate's seat with no House vote on record (a territory): the
-    // place at its 2024 delegate race's lean, its size not yet read.
-    // stopgapId: SG-GOV-delegate-race-size
-    api.stopgap("SG-GOV-delegate-race-size");
-    const delegate = statePlaces(usps, 1)[0];
-    return delegate ? [{ ...delegate, eligible: 0 }] : [];
+    // A delegate's seat with no House vote on record (a territory): the place
+    // at its 2024 delegate race's lean, sized by the voters registered there
+    // and the votes that race drew (the election office's certified results).
+    const size = (
+      territoryRaces.territories as Record<
+        string,
+        { votes2024: number; registered: number } | undefined
+      >
+    )[usps];
+    const delegate = statePlaces(usps, size?.registered)[0];
+    return delegate
+      ? [
+          {
+            ...delegate,
+            ...(size && !delegate.votes2024
+              ? { votes2024: size.votes2024 }
+              : {}),
+          },
+        ]
+      : [];
   }
   if (race.office === "us-senate") return statePlaces(usps);
   const offices = api.moduleState(OFFICES_MODULE_ID);

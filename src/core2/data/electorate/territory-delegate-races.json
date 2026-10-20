@@ -1,0 +1,34 @@
+{
+  "source": {
+    "tag": "ESTIMATED",
+    "citation": "2024 delegate and resident commissioner votes cast from each territory's certified results (DC Board of Elections, Guam Election Commission, American Samoa Election Office, CNMI Commission on Elections, Puerto Rico), and registered voters from the EAC 2024 Election Administration and Policy Survey (A1a Total Registered); the U.S. Virgin Islands total is derived from a reported percentage (+/-100). Research: data/research/stopgaps-oct19/C-government-law.json (SG-GOV-delegate-race-size).",
+    "asOf": "2025-01-20",
+    "estimatedFrom": "Registered voters stand in for eligible voters, which the territories' sources do not give; turnout of registered ran 0.25 (VI) to 0.64 (AS)."
+  },
+  "territories": {
+    "DC": {
+      "votes2024": 314069,
+      "registered": 612904
+    },
+    "PR": {
+      "votes2024": 1219538,
+      "registered": 1987317
+    },
+    "GU": {
+      "votes2024": 29271,
+      "registered": 62098
+    },
+    "VI": {
+      "votes2024": 14167,
+      "registered": 56304
+    },
+    "AS": {
+      "votes2024": 9888,
+      "registered": 15948
+    },
+    "MP": {
+      "votes2024": 12225,
+      "registered": 19329
+    }
+  }
+}

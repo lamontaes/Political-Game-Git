@@ -1844,7 +1844,8 @@
     "addedBy": "OPUS-GOV-ELECTIONS",
     "addedAt": "2026-10-14",
     "replacement": "Each territory's 2024 delegate race votes cast (its election office's certified results) sizing the place, so it is counted on the election engine like any district.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "A territory delegate race is sized by the voters registered there (EAC 2024 EAVS) and the votes cast in its 2024 race (certified results), in electorate/territory-delegate-races.json, so it counts voters like any district; registered voters stand in for eligible voters (ESTIMATED)."
   },
   {
     "id": "SG-GOV-turnout-weather",
