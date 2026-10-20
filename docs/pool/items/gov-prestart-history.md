@@ -5,12 +5,12 @@ area: gov
 kind: feature
 priority: 3
 size: M
-status: in-pr
-claimed-by: claude/gov-prestart-history
+status: open
+claimed-by:
 pr: #5234
 blocked-on:
 source: "core-needs-core-172 triage, Oct 15"
-claimed-at: 2026-10-19T22:52:58.134Z
+claimed-at:
 ---
 
 **What.** The pre-start contract has no `government` pass: laws' dated phases, prior budgets and how officials reached their seats. Add it.
