@@ -24,3 +24,5 @@ claimed-at:
 **Notes.** TODO
 
 Sent back 2026-10-20 from PR #5037 (branch claude/residents-test-draws): Merge main 974dd83da259 into claude/residents-test-draws conflicts in: src/core2/residents.test.ts. Resolve these files with a normal merge before changed-file validation; no integrated green head exists.; finish on that branch, merge main into it first.
+
+Sent back 2026-10-20 from PR #5037 (branch claude/residents-test-draws): Merging current origin/main conflicts in src/core2/residents.test.ts, src/core2/news.test.ts, src/core2/law-reach-group-a.test.ts and src/core2/law-reach-group-b.test.ts. Resolve those test conflicts on this branch, preserving both main assertions and the bounded nonempty-case searches, then rerun every changed test file on the merged result. Do not restore the old bare returns or drop the main law/payment assertions while resolving them.; finish on that branch, merge main into it first.
