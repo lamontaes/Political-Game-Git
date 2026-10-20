@@ -22,3 +22,5 @@ claimed-at:
 **Files.** src/core2/counted-weight-unplaced.test.ts, src/core2/counted-weight-macro.test.ts
 
 **Notes.** TODO
+
+Sent back 2026-10-20 from PR #5622 (branch claude/weight-test-draws): merge conflict in counted-weight-macro.test.ts after #5626 changed the same test; finish on that branch, merge main into it first.
