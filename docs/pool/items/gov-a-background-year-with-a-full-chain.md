@@ -4,9 +4,9 @@ title: "A background year with a full chain."
 area: gov
 kind: feature
 priority: 2
-status: claimed
+status: in-pr
 claimed-by: claude/pool-background-chain
-pr:
+pr: #5333
 blocked-on:
 milestone:
 source: "docs/coordination/OPUS-GOV.md line 195 (unchecked checklist line)"
