@@ -94,11 +94,27 @@ it(`a family that fell below the cutoff stops paying tuition and one that rose a
           source: src,
         });
     }
+    // Twice what the best-off household in town holds: enough to put the
+    // family first without a pile that the households' own money rules move
+    // away on the first of the month.
+    const fund =
+      2 *
+        Math.max(
+          ...[...state.households.values()]
+            .filter((home) => home.placeId === town)
+            .map((home) =>
+              home.memberIds.reduce(
+                (sum, id) => sum + (state.people.get(id)?.liquidMinor ?? 0),
+                0,
+              ),
+            ),
+        ) +
+      1_000_000;
     accounts.transfer({
       id: `test:fund:${young(other.id)![0]!.id}`,
       from: accounts.main(outside),
       to: accounts.main(young(other.id)![0]!.id),
-      amountMinor: 10_000_000_000,
+      amountMinor: fund,
       reasonKey: "test.fund",
       partial: true,
       source: src,
