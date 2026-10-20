@@ -116,13 +116,16 @@ describe(`basic corruption in ${input.placeMetadata?.placeName} (seed ${seed})`,
       expect(crimesKnownTo(api, row.id).map((r) => r.id)).not.toContain(
         crime!.id,
       );
-    // A falling-out between the two.
+    // A falling-out between the two: a rupture that takes the tie to its
+    // floor. Closeness saturates, so a fixed drop barely moves a pair that
+    // is already very close, and the chooser (rightly) weighs how far the
+    // tie soured, not that a fixed number of hours were lost.
     api.relationship(crime!.offererId, crime!.officialId, "contact", 200);
     api.relationship(
       crime!.offererId,
       crime!.officialId,
       "contact",
-      -150,
+      -5000,
       undefined,
       {
         cause: "fixture-falling-out",
