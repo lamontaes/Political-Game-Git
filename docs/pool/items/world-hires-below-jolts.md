@@ -5,9 +5,9 @@ area: world
 kind: bug
 priority: 2
 size: M
-status: open
+status: done
 claimed-by:
-pr:
+pr: #5539
 blocked-on:
 after: world-customers-move-between-sellers
 source: added with npm run pool -- add
