@@ -255,8 +255,7 @@ function playWorld(seed: string) {
   const buildSeconds = (performance.now() - buildStarted) / 1000;
   const openingHeapMiB = heapMiB();
   const core = world.core;
-  // Watch departures from the first day: the moves engine emits each one, and
-  // no engine reads them in play.
+  // No engine reads departures in play; the check watches the moved-away event.
   watchDepartures(core);
   const start = core.date;
   const end = addDays(makeIsoDate(start), Math.round(365.25 * years));

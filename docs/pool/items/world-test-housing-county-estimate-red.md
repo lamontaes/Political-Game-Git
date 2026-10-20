@@ -5,9 +5,9 @@ area: world
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/housing-county-estimate-red
-pr:
+pr: #5604
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-20T07:58:49.494Z
