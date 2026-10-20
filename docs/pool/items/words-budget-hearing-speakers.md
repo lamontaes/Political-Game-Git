@@ -5,9 +5,9 @@ area: words
 kind: feature
 priority: 3
 size: M
-status: blocked
+status: in-pr
 claimed-by:
-pr:
+pr: #5359
 blocked-on: spec: the item text is an empty TODO shell; the done-when must be written before it can be built (pool-todo-shells-need-spec)
 source: added with npm run pool -- add
 ---

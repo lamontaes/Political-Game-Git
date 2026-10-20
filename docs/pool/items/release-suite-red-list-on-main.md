@@ -5,7 +5,7 @@ area: release
 kind: research
 priority: 2
 size: M
-status: in-pr
+status: dropped
 claimed-by: claude/political-game-pool-8defjq
 pr: #5080
 blocked-on:
