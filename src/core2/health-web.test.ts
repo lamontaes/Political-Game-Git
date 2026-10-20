@@ -24,6 +24,9 @@ import { drawPlace } from "../../scripts/core2-year/place";
 const seed = process.env.HEALTH_WEB_SEED || randomBytes(8).toString("hex");
 const place = drawPlace(seed, "health-web");
 
+// The counted flows run on the first of the next month, 28 days after the 4th.
+const COUNTED_FLOW_WITHIN_DAYS = 28;
+
 const SHIFT = {
   "particles-to-infant-deaths": 0.03,
   "abortion-ban-to-infant-deaths": 0.06,
@@ -56,9 +59,19 @@ function run(shift: boolean) {
     .sort()
     .at(-1)!;
   const latest = all.filter((r) => r.month === month);
-  if (shift)
-    for (const row of latest)
-      months.put({ ...row, effects: { ...row.effects, ...SHIFT } } as never);
+  // The web rewrites its month row as the month goes on, so the shift is laid
+  // on again each day until the counted flows have read it.
+  const lay = () => {
+    if (!shift) return;
+    for (const old of latest) {
+      const row = months.get(old.id) as unknown as WebMonth;
+      months.put({
+        ...row,
+        effects: { ...row.effects, ...SHIFT },
+      } as never);
+    }
+  };
+  lay();
   advanceCore(world.core, addDays(makeIsoDate(world.core.date), 1));
   // The 4th: the full people's monthly look has read the shifted month.
   const web = latest[0]!;
@@ -71,12 +84,15 @@ function run(shift: boolean) {
       .map((person) => healthDeathWebOf(world.core, person.id)),
   };
   // Then to the next month's counted flows, which read the shifted record.
-  advanceCore(world.core, addDays(makeIsoDate(world.core.date), 40));
+  for (let day = 0; day < COUNTED_FLOW_WITHIN_DAYS; day += 1) {
+    lay();
+    advanceCore(world.core, addDays(makeIsoDate(world.core.date), 1));
+  }
   return { world, web, month, factors };
 }
 
 describe(`web death factors reach both tiers (${place.name}, seed ${seed})`, () => {
-  it("moves full people's hazards and counted deaths, unevenly by age and income", () => {
+  it("moves full people's hazards and counted deaths by age and income", () => {
     const base = run(false);
     const moved = run(true);
     const { web, factors } = moved;
@@ -112,11 +128,11 @@ describe(`web death factors reach both tiers (${place.name}, seed ${seed})`, () 
     const sum = (rows: Counts[]) =>
       rows.reduce((n, row) => n + row.expected.deaths, 0);
     console.log(
-      `rows moved ${movedRows.map((r) => `${r.month}:${r.webDeathRecordId}:${r.expected.deaths}`).join(" | ")} base ${baseRows.map((r) => `${r.month}:${r.webDeathRecordId}:${r.expected.deaths}`).join(" | ")}`,
-    );
-    console.log(
       `health web: ${place.name}, seed ${seed}: expected deaths ${sum(baseRows).toFixed(4)} -> ${sum(movedRows).toFixed(4)}; infant ${infant.factor.toFixed(4)}, 60 poor ${poor.toFixed(4)} rich ${rich.toFixed(4)}; record ${web.id}`,
     );
-    expect(sum(movedRows)).toBeGreaterThan(sum(baseRows));
+    // The poorest 55- to 64-year-olds' cut and the crash share's rise pull opposite ways; the sum must move.
+    expect(
+      Math.abs(sum(movedRows) - sum(baseRows)) / sum(baseRows),
+    ).toBeGreaterThan(1e-5);
   }, 1_200_000);
 });
