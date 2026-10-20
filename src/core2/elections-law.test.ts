@@ -112,6 +112,73 @@ describe(`election law from data (place ${drawn.name}, ${drawn.state}, seed ${se
     expect(municipalFilingDeadline("US-TX", "2025-05-03")?.date).toBe(
       "2025-02-14",
     );
+    // Georgia's qualifying window closes the Friday after the third Monday in
+    // August: August 18, 2025 is that Monday, so the deadline is the 22nd.
+    expect(municipalFilingDeadline("US-GA", election)?.date).toBe("2025-08-22");
+    // Nevada's window closes the second Friday after the first Monday in
+    // March (2026: March 2 to 13), West Virginia's the last Saturday of
+    // January, Kentucky's the second Tuesday in August.
+    expect(municipalFilingDeadline("US-NV", "2026-11-03")?.date).toBe(
+      "2026-03-13",
+    );
+    expect(municipalFilingDeadline("US-WV", "2026-06-09")?.date).toBe(
+      "2026-01-31",
+    );
+    expect(municipalFilingDeadline("US-KY", "2025-11-04")?.date).toBe(
+      "2025-08-12",
+    );
+    // Arizona's papers are due 120 days before the election: Tempe's March 10,
+    // 2026 election closed filing on November 10, 2025.
+    expect(municipalFilingDeadline("US-AZ", "2026-03-10")?.date).toBe(
+      "2025-11-10",
+    );
+    // Wyoming's filing closes 81 days before the primary, which is the first
+    // Tuesday after the third Monday in August: August 18, 2026, so May 29.
+    expect(municipalFilingDeadline("US-WY", "2026-11-03")?.date).toBe(
+      "2026-05-29",
+    );
+    // Michigan's charter cities that file for the general election close
+    // on the fifteenth Tuesday before it: July 22, 2025 for November 4.
+    expect(municipalFilingDeadline("US-MI", "2025-11-04")?.date).toBe(
+      "2025-07-22",
+    );
+    // New Hampshire's window ends the Friday of the week after the seventh
+    // Wednesday before a Tuesday town election: March 11, 2025 gives
+    // January 31; Mississippi's closed January 31, 2025 for the April 1 primary.
+    expect(municipalFilingDeadline("US-NH", "2025-03-11")?.date).toBe(
+      "2025-01-31",
+    );
+    expect(municipalFilingDeadline("US-MS", "2025-06-03")?.date).toBe(
+      "2025-01-31",
+    );
+    // Pennsylvania's petitions close the tenth Tuesday before the third-Tuesday
+    // May primary: March 7, 2023 for the May 16 primary.
+    expect(municipalFilingDeadline("US-PA", "2023-11-07")?.date).toBe(
+      "2023-03-07",
+    );
+    // Oklahoma's filing closes the Wednesday of the first week of December,
+    // the year before a February or April election: December 3, 2025 for 2026.
+    expect(municipalFilingDeadline("US-OK", "2026-04-07")?.date).toBe(
+      "2025-12-03",
+    );
+    // Indiana's city declarations close 88 days before the May primary:
+    // February 3, 2023 for the May 2 primary.
+    expect(municipalFilingDeadline("US-IN", "2023-11-07")?.date).toBe(
+      "2023-02-03",
+    );
+    // Rhode Island's declarations close the Wednesday of the last Monday to
+    // Wednesday run in June: June 26, 2024 and June 24, 2026 (the state's form).
+    expect(municipalFilingDeadline("US-RI", "2024-11-05")?.date).toBe(
+      "2024-06-26",
+    );
+    expect(municipalFilingDeadline("US-RI", "2026-11-03")?.date).toBe(
+      "2026-06-24",
+    );
+    // Connecticut's petitions go to the town clerk by the 90th day before the
+    // election: August 6, 2025 for November 4.
+    expect(municipalFilingDeadline("US-CT", "2025-11-04")?.date).toBe(
+      "2025-08-06",
+    );
     // Every one of the 56 places has a row with a citation and a tag.
     const rows = Object.values(
       filingDeadlines.places as Record<
@@ -378,10 +445,65 @@ describe(`election law from data (place ${drawn.name}, ${drawn.state}, seed ${se
     expect(termStartAfter(governor("US-VA"), "2025-11-04")).toBe("2026-01-17");
     // Washington: Wednesday after the second Monday in January.
     expect(termStartAfter(governor("US-WA"), "2024-11-05")).toBe("2025-01-15");
+    // California: the Monday after January 1 (a January 1 that is a Monday gives January 8).
+    expect(termStartAfter(governor("US-CA"), "2026-11-03")).toBe("2027-01-04");
+    expect(termStartAfter(governor("US-CA"), "2028-11-07")).toBe("2029-01-08");
+    // Colorado: second Tuesday; Illinois and Indiana: second Monday; New Jersey: third Tuesday.
+    expect(termStartAfter(governor("US-CO"), "2026-11-03")).toBe("2027-01-12");
+    expect(termStartAfter(governor("US-IL"), "2026-11-03")).toBe("2027-01-11");
+    expect(termStartAfter(governor("US-IN"), "2028-11-07")).toBe("2029-01-08");
+    expect(termStartAfter(governor("US-NJ"), "2025-11-04")).toBe("2026-01-20");
+    // Ohio and Oklahoma: second Monday; Pennsylvania: third Tuesday; Maryland: third Wednesday; Wisconsin: first Monday.
+    expect(termStartAfter(governor("US-OH"), "2026-11-03")).toBe("2027-01-11");
+    expect(termStartAfter(governor("US-OK"), "2026-11-03")).toBe("2027-01-11");
+    expect(termStartAfter(governor("US-PA"), "2026-11-03")).toBe("2027-01-19");
+    expect(termStartAfter(governor("US-MD"), "2026-11-03")).toBe("2027-01-20");
+    expect(termStartAfter(governor("US-WI"), "2026-11-03")).toBe("2027-01-04");
+    // Estimated from the usual clause: Nebraska's first Thursday after the first Tuesday, Connecticut's Wednesday after the first Monday, Vermont's first Thursday after the first Wednesday, Texas's third Tuesday.
+    expect(termStartAfter(governor("US-NE"), "2026-11-03")).toBe("2027-01-07");
+    expect(termStartAfter(governor("US-CT"), "2026-11-03")).toBe("2027-01-06");
+    expect(termStartAfter(governor("US-VT"), "2026-11-03")).toBe("2027-01-07");
+    expect(termStartAfter(governor("US-TX"), "2026-11-03")).toBe("2027-01-19");
+    expect(termStartAfter(governor("US-AZ"), "2026-11-03")).toBe("2027-01-04");
     // An unread state keeps the data's default.
     expect(termStartAfter(governor("US-NC"), "2026-11-03")).toBe(
       `2027-${termStarts.default.monthDay}`,
     );
+  });
+
+  it("every state's governor row starts a term in December or January on its own rule, and an unread clause says so", () => {
+    const rows = Object.entries(
+      termStarts.states as unknown as Record<
+        string,
+        Record<
+          string,
+          {
+            tag: string;
+            excerpt: string;
+            rule: { month: number; nth: number; weekday: number };
+          }
+        >
+      >,
+    ).map(
+      ([state, families]) => [state, families.statewideExecutive!] as const,
+    );
+    expect(rows.length).toBeGreaterThanOrEqual(32);
+    for (const [state, row] of rows) {
+      const governor = {
+        ...town(state),
+        jurisdiction: state,
+        level: "state" as const,
+        kind: "governor",
+      };
+      const start = termStartAfter(governor, "2026-11-03");
+      // A December rule falls in the election year, a January rule the year after.
+      expect(start.slice(0, 7), state).toBe(
+        row.rule.month === 12 ? "2026-12" : "2027-01",
+      );
+      // An estimate does not quote a clause it did not read.
+      if (row.tag === "ESTIMATED")
+        expect(row.excerpt, state).toMatch(/not read|older version/);
+    }
   });
 
   it("filing fallbacks come from data and say so", () => {

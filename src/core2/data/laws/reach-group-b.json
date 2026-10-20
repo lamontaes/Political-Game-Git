@@ -20,12 +20,6 @@
       "mechanic": "price-payment",
       "effect": "mileage-fee-instead-of-fuel-tax",
       "kind": "price",
-      "people": {
-        "ageFrom": "drivingAge"
-      },
-      "terms": {
-        "centsPerMile": "mileageFeeCentsPerMile"
-      },
       "enforcer": "department of transportation",
       "source": "Model of road usage charge laws (Oregon ORS 319.885 OReGO; Utah Code 72-1-213.1)",
       "stopgapId": "SG-GOV-REACH-B-mileage-fee-price"
@@ -34,14 +28,6 @@
       "mechanic": "price-payment",
       "effect": "public-broadband-offered",
       "kind": "eligibility",
-      "people": {
-        "ageFrom": "adultAge",
-        "householdHead": true
-      },
-      "organizations": ["enterprise:telecommunications"],
-      "terms": {
-        "monthlyDollars": "broadbandMonthlyDollars"
-      },
       "enforcer": "public utility board",
       "source": "Model of municipal broadband utilities (Institute for Local Self-Reliance community network list 2024)",
       "stopgapId": "SG-GOV-REACH-B-broadband-bill"
@@ -57,7 +43,7 @@
       "source": "Model of flexible highway-to-transit funding (23 U.S.C. 104(f), FHWA flex funding)"
     },
     "us-policy-positions:health-human-services.expand-medicaid-eligibility": {
-      "mechanic": "records",
+      "mechanic": "medicaid-coverage",
       "effect": "medicaid-eligible",
       "kind": "eligibility",
       "people": {
@@ -106,7 +92,7 @@
       "stopgapId": "SG-GOV-REACH-B-assistance-benefits"
     },
     "us-policy-positions:education.universal-preschool": {
-      "mechanic": "records",
+      "mechanic": "preschool-payment",
       "effect": "preschool-eligible",
       "kind": "eligibility",
       "people": {
@@ -254,14 +240,6 @@
       "mechanic": "price-payment",
       "effect": "clean-electricity-standard",
       "kind": "price",
-      "people": {
-        "ageFrom": "adultAge",
-        "householdHead": true
-      },
-      "organizations": ["enterprise:utility"],
-      "terms": {
-        "priceShare": "cleanElectricityPriceShare"
-      },
       "enforcer": "public utility commission",
       "source": "LBNL, U.S. State Renewables Portfolio and Clean Electricity Standards: 2023 Status Update",
       "stopgapId": "SG-GOV-REACH-B-energy-price"
@@ -282,14 +260,6 @@
       "mechanic": "price-payment",
       "effect": "collects-container-deposit",
       "kind": "compliance",
-      "organizations": [
-        "enterprise:retail",
-        "enterprise:food-service",
-        "enterprise:wholesale"
-      ],
-      "terms": {
-        "depositCents": "bottleDepositCents"
-      },
       "enforcer": "the state or city environmental agency",
       "source": "Model of container deposit laws (Container Recycling Institute)",
       "stopgapId": "SG-GOV-REACH-B-retail-price"
@@ -298,20 +268,6 @@
       "mechanic": "price-payment",
       "effect": "carbon-priced",
       "kind": "price",
-      "people": {
-        "ageFrom": "adultAge",
-        "householdHead": true
-      },
-      "organizations": [
-        "enterprise:utility",
-        "enterprise:manufacturing",
-        "enterprise:mining",
-        "enterprise:transportation"
-      ],
-      "terms": {
-        "dollarsPerTon": "carbonPricePerTonDollars",
-        "householdTonsPerYear": "householdTonsPerYear"
-      },
       "enforcer": "state environmental agency",
       "source": "Model of carbon pricing (Washington Climate Commitment Act, RCW 70A.65)",
       "stopgapId": "SG-GOV-REACH-B-energy-price"
@@ -355,18 +311,6 @@
       },
       "enforcer": "department of revenue",
       "source": "The law in force on income tax (laws module); collected by payroll withholding (src/core2/modules/budgets.ts)"
-    },
-    "sales-tax": {
-      "mechanic": "records",
-      "effect": "sales-tax-rate",
-      "kind": "price",
-      "people": {
-        "ageFrom": "adultAge",
-        "householdHead": true
-      },
-      "organizations": ["enterprise:retail", "enterprise:food-service"],
-      "enforcer": "department of revenue",
-      "source": "The law in force on sales tax (laws module)"
     }
   },
   "budgetLines": {

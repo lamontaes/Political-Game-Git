@@ -25,7 +25,7 @@ import {
   openCampaigns,
 } from "../core2/modules/campaigns";
 import { openParties } from "../core2/modules/parties";
-import { openPress } from "../core2/modules/press";
+import { interviewsFor, openPress } from "../core2/modules/press";
 import { viewsModule } from "../core2/modules/views";
 import { campaignDay, campaignView } from "./campaign";
 import controls from "./data/controls.json" with { type: "json" };
@@ -91,27 +91,20 @@ it("shows the day's choices with control names and runs the one taken through th
   const view = campaignView(core, personId).campaigns.find(
     (c) => c.filing.id === filing!.id,
   )!;
+  // The campaign day has no list of acts: the doors, an event, an interview and the calls, each named by a control.
   expect(
-    view.day.map((c) => c.kind),
+    view.outings.map((c) => c.outing),
     where,
-  ).toEqual(["canvass", "event", "interview", "raise-money", "rest"]);
-  // Every choice has a control name in controls.json: no text is written in the screen.
-  for (const choice of view.day)
+  ).toEqual(["doors", "event", "interview", "calls"]);
+  expect("day" in view, `no Today list: ${where}`).toBe(false);
+  for (const choice of view.outings)
     expect(
-      (controls.campaignDay as Record<string, string>)[choice.kind],
-      `${choice.kind}: ${where}`,
+      (controls.campaignOutings as Record<string, string>)[choice.outing],
+      `${choice.outing}: ${where}`,
     ).toBeTruthy();
-  expect(view.day.find((c) => c.kind === "canvass")!.available, where).toBe(
+  expect(view.outings.find((c) => c.outing === "doors")!.available, where).toBe(
     true,
   );
-  // An event needs the venue's price in the campaign's account first.
-  expect(view.day.find((c) => c.kind === "event")!.available, where).toBe(
-    false,
-  );
-  expect(
-    () => campaignDay(core, personId, { filingId: filing!.id, kind: "event" }),
-    where,
-  ).toThrow();
   expect(
     () =>
       campaignDay(core, "someone-else", { filingId: filing!.id, kind: "rest" }),
@@ -124,6 +117,11 @@ it("shows the day's choices with control names and runs the one taken through th
     kind: "canvass",
   });
   expect(taken.doorsKnocked, `doors knocked: ${where}`).toBeGreaterThan(0);
+  // The doors open as a scene on a street, naming the households that answered.
+  expect(taken.scene?.place, where).toMatch(/^door-knocking-/);
+  expect(taken.households.length, `households that answered: ${where}`).toBe(
+    taken.reached,
+  );
   expect(
     doorsKnockedOf(api, campaignFor(api, filing!.id).id).length,
     where,
@@ -138,6 +136,36 @@ it("shows the day's choices with control names and runs the one taken through th
     mine.acts.find((a) => a.act === "door")?.reached,
     `the doors in the race's causes: ${where}`,
   ).toBe(taken.reached);
+
+  // An interview asked of an outlet that covers the race writes the engine's own interview row.
+  const interview = view.outings.find((c) => c.outing === "interview")!;
+  if (interview.available) {
+    expect(interview.outletId, where).toBeTruthy();
+    const asked = campaignDay(core, personId, {
+      filingId: filing!.id,
+      kind: "interview",
+      outletId: interview.outletId!,
+    });
+    expect(asked.interview?.outletId, where).toBe(interview.outletId);
+    expect(
+      interviewsFor(api, personId).some((i) => i.id === asked.interview!.id),
+      where,
+    ).toBe(true);
+  }
+  // An event needs a stance on the platform and cash for the venue: held, it writes the engine's own cause rows.
+  const event = view.outings.find((c) => c.outing === "event")!;
+  if (event.available) {
+    const held = campaignDay(core, personId, {
+      filingId: filing!.id,
+      kind: "event",
+    });
+    expect(held.kind, where).toBe("event");
+  } else
+    expect(
+      () =>
+        campaignDay(core, personId, { filingId: filing!.id, kind: "event" }),
+      where,
+    ).toThrow();
 
   // Rest takes the day and writes no act.
   expect(
