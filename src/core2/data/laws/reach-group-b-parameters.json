@@ -223,6 +223,12 @@
       "tag": "SOURCED",
       "source": "GFOA best practice, Fund Balance Guidelines for the General Fund (2015): unrestricted fund balance of no less than two months of regular operating spending."
     },
+    "groceryShareOfRetailSales": {
+      "value": 0.757,
+      "tag": "ESTIMATED",
+      "source": "BLS Consumer Expenditure Survey 2024 (data/research/core-figures/P0-1/ce-region-categories-2024.json): households' retail purchases in the opening are food at home ($6,224 a year) and apparel and services ($2,001), so food at home is 6,224 / 8,225 of what retail sellers sell households. State exemptions cover unprepared food only; the share is the same everywhere.",
+      "spread": [0.7, 0.8]
+    },
     "cleanElectricityPriceShare": {
       "value": 0.03,
       "tag": "ESTIMATED",
@@ -276,18 +282,6 @@
         { "over": 25000, "rate": 1.5 },
         { "over": 75000, "rate": 2 }
       ]
-    }
-  },
-  "jurisdictionResidents": {
-    "about": "Residents of a state-level jurisdiction the budgets module records none for (public-budget-bases.json has no population for the island areas), so a budget line's change can be shared to the town. Census Bureau: Puerto Rico Vintage 2024 population estimate; Guam, U.S. Virgin Islands, American Samoa and the Northern Mariana Islands, 2020 Census Island Areas counts.",
-    "tag": "SOURCED",
-    "stopgapId": "SG-GOV-REACH-B-territory-residents",
-    "residents": {
-      "US-PR": 3203295,
-      "US-GU": 153836,
-      "US-VI": 87146,
-      "US-AS": 49710,
-      "US-MP": 47329
     }
   }
 }

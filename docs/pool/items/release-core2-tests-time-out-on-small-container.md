@@ -5,12 +5,12 @@ area: release
 kind: bug
 priority: 2
 size: S
-status: in-pr
-claimed-by: claude/core2-test-timeouts
+status: open
+claimed-by:
 pr: #5344
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-20T00:33:12.812Z
+claimed-at:
 ---
 
 **What.** TODO
@@ -22,3 +22,5 @@ claimed-at: 2026-10-20T00:33:12.812Z
 **Files.** TODO
 
 **Notes.** TODO
+
+Sent back 2026-10-20 from PR #5344 (branch claude/core2-test-timeouts): merge conflict with main in code; merge main and resolve; finish on that branch, merge main into it first.

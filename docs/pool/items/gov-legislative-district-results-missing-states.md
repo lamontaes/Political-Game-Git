@@ -5,11 +5,12 @@ area: gov
 kind: research
 priority: 3
 size: M
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/practical-planck-vou42i
+pr: #5360
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-20T00:56:33.314Z
 ---
 
 **What.** The 2024 district-results file (data/research/elections/state-legislative-results-2024.json) covers 41 states; the states absent from the MIT precinct returns still lean to the holder's party at the typical margin. Add their district results from each state's election office (Maryland and Virginia publish them by district) to the same file's shape.
