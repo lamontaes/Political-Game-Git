@@ -8,6 +8,8 @@
  */
 import { readFileSync, writeFileSync } from "node:fs";
 import stopgaps from "../../src/core2/data/stopgaps.json" with { type: "json" };
+import declared from "./declared.json" with { type: "json" };
+import researchGaps from "../../src/core2/data/laws/outcome-research-gaps.json" with { type: "json" };
 import {
   allLaws,
   changeInData,
@@ -17,7 +19,7 @@ import {
   type LawEntry,
 } from "./catalog";
 
-type Status = "wired" | "partial" | "missing" | "stopgap";
+type Status = "wired" | "partial" | "missing" | "stopgap" | "n/a";
 interface Link {
   status: Status;
   evidence: string;
@@ -97,6 +99,25 @@ const NOT_AN_EFFECT = [
   "src/english/",
   "src/bench/",
 ];
+/** Laws with no researched outcome link, each with its registered stopgap. */
+const RESEARCH_GAPS = new Map(
+  (
+    researchGaps as {
+      laws: { key: string; outcome: string; stopgapId: string }[];
+    }
+  ).laws.map((row) => [row.key, row]),
+);
+
+/** Links a law does not have by its statute, or a stopgap for one law's link, by law key and link. */
+const DECLARED = (
+  declared as unknown as {
+    laws: Record<
+      string,
+      Record<string, { status: "n/a" | "stopgap"; id?: string; why: string }>
+    >;
+  }
+).laws;
+
 const isEngine = (file: string) =>
   !NOT_AN_EFFECT.some((p) => file.startsWith(p));
 
@@ -258,12 +279,19 @@ function moneyLink(law: LawEntry, runs: { place: string; r: Result }[]): Link {
 
 function webLink(law: LawEntry, runs: { place: string; r: Result }[]): Link {
   const links = webLinksOf(law);
+  const gap = RESEARCH_GAPS.get(law.key);
   if (!links.length)
-    return {
-      status: "missing",
-      evidence: "data/research/outcome-web/links.json",
-      why: "no researched outcome-web link starts from this law",
-    };
+    return gap && stopgapOf(gap.stopgapId)?.open
+      ? {
+          status: "stopgap",
+          evidence: "src/core2/data/laws/outcome-research-gaps.json",
+          why: `no researched outcome-web link starts from this law or a measure it sets; the research would measure ${gap.outcome} (${gap.stopgapId})`,
+        }
+      : {
+          status: "missing",
+          evidence: "data/research/outcome-web/links.json",
+          why: "no researched outcome-web link starts from this law",
+        };
   const fired = runs.flatMap(({ place, r }) =>
     (r.web?.fired ?? []).map((f) => ({ place, f })),
   );
@@ -359,6 +387,7 @@ const MARK: Record<Status, string> = {
   partial: "part",
   missing: "NO",
   stopgap: "SG",
+  "n/a": "n/a",
 };
 const LINKS = [
   "exists",
@@ -493,10 +522,24 @@ function main(): void {
           : "reached people in one drawn place and not the other",
       };
     }
-    // A registered stopgap explains a missing link; it is not wiring.
+    // A link the statute itself does not have (declared.json: a law that moves
+    // no money, a rule with no researched outcome), or a stopgap registered
+    // for exactly this law and link, explains a link that is not wired.
+    for (const [k, d] of Object.entries(DECLARED[law.key] ?? {}))
+      if (links[k] && links[k]!.status !== "wired") {
+        const sgRow = d.id ? stopgapOf(d.id) : null;
+        if (d.status === "stopgap" && !sgRow?.open) continue;
+        links[k] = {
+          ...links[k]!,
+          status: d.status,
+          why: d.id ? `${d.why} (${d.id})` : d.why,
+        };
+      }
+    // A policy's registered stopgap explains a missing effect (reach, the
+    // engines, money, the outcome web); it is not wiring.
     const sg = stopgapOf(data.stopgapId);
     if (sg?.open)
-      for (const k of Object.keys(links))
+      for (const k of ["reach", "systems", "money", "web"])
         if (links[k]!.status === "missing")
           links[k] = {
             ...links[k]!,
@@ -504,10 +547,11 @@ function main(): void {
             why: `${links[k]!.why} (registered ${sg.id})`,
           };
     const statuses = Object.values(links).map((l) => l.status);
-    const overall = statuses.every((s) => s === "wired")
+    const overall = statuses.every((s) => s === "wired" || s === "n/a")
       ? "wired"
-      : statuses.every((s) => s === "wired" || s === "stopgap") &&
-          statuses.includes("stopgap")
+      : statuses.every(
+            (s) => s === "wired" || s === "n/a" || s === "stopgap",
+          ) && statuses.includes("stopgap")
         ? "stopgapped"
         : "partly";
     return {
@@ -550,7 +594,7 @@ function main(): void {
         ].map((k) => [
           k,
           Object.fromEntries(
-            ["wired", "partial", "missing", "stopgap"].map((s) => [
+            ["wired", "partial", "missing", "stopgap", "n/a"].map((s) => [
               s,
               rows.filter((r) => r.links[k]?.status === s).length,
             ]),
