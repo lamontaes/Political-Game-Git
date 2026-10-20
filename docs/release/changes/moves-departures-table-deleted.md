@@ -1,5 +1,5 @@
 ---
-id: table-unread-moves-departures
+id: moves-departures-table-deleted
 impact: none
 ---
 
