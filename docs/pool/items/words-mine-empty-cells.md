@@ -4,13 +4,13 @@ title: "Order 3: mine the empty cells of the coverage table"
 area: words
 kind: research
 priority: 2
-status: in-pr
-claimed-by: claude/political-game-pool-g08lgv
+status: claimed
+claimed-by: claude/fs11vb-mine-cells
 pr: #5187
 blocked-on:
 milestone:
 source: "words-and-director order 3"
-claimed-at: 2026-10-19T21:58:03.869Z
+claimed-at: 2026-10-20T04:59:40.406Z
 ---
 
 **What.** The coverage table (`docs/grading/coverage.md`, built by `npm run words:coverage`) has empty or thin cells in golden-path order, meaning situations the records fire that have no words. For each, add a shape in `scripts/english-corpus/shapes/`, run the mining, write the bank script and its test. First targets: a town body's words to its chair, a chair's hearing questions, what a body says of an official's service, boasts, threats and alarms, a wedding and a pork-barrel ask. The player would notice those moments being spoken instead of silent or generic.
@@ -22,3 +22,4 @@ claimed-at: 2026-10-19T21:58:03.869Z
 **Files.** scripts/english-corpus/shapes/, scripts/english-corpus/mine-shapes.py, scripts/dialogue-batch/coverage-table.ts, data/english/parts/, docs/grading/coverage.md
 
 **Notes.** Blocked-on words-catalog-coverage is done as of 2026-10-15 (#4398), so the block can clear.
+Sent back 2026-10-20 from PR #5187 (branch claude/political-game-pool-g08lgv): Parts in data/english/parts/meeting.json and hearing.json have origin: authored and shippable: true; finish on that branch, merge main into it first.

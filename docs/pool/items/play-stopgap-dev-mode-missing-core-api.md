@@ -4,10 +4,10 @@ title: "Stopgaps in dev-mode (missing-core-api): 1 open"
 area: play
 kind: stopgap
 priority: 3
-status: open
+status: blocked
 claimed-by:
 pr:
-blocked-on:
+blocked-on: engine or design: The core's law-reach count across both tiers of the population is being built by OPUS-CORE and has not landed.
 milestone:
 source: "src/core2/data/stopgaps.json, src/bench/dev-mode.ts, kind missing-core-api"
 ---
