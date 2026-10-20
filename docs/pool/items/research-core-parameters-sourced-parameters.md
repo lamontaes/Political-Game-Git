@@ -5,11 +5,12 @@ area: core
 kind: research
 priority: 2
 size: M
-status: blocked
+status: open
 claimed-by:
 pr:
 blocked-on:
 source: "collapsed Oct 19, 2026 from core-stopgap-parameters-estimated-behavior, core-stopgap-parameters-estimated-data, core-stopgap-parameters-uncalibrated-time-plan, core-stopgap-parameters-uncalibrated-tunable-2, core-stopgap-parameters-uncalibrated-tunable-3, core-stopgap-parameters-uncalibrated-tunable-4"
+claimed-at: 
 ---
 
 **What.** Apply the sourced rows in docs/research/pool-feeder-oct20/research-core-parameters-sourced-parameters.md to the parameter table(s) and data files for sourced parameters for the core parameter tables (distance, time, past, speech, corruption, moves). Each row already carries a value, a low and high spread, a tag (SOURCED or ESTIMATED) and a citation, so the builder enters them, adds a reader for each research file, and resolves these stopgap rows in src/core2/data/stopgaps.json: SG-P15-distance-by-place, SG-CORE-past-undated-law-age, SG-P8-work-time-reserve, SG-P15-speech-reception, SG-P15-corruption-weights, SG-P15-moves-weights. Rows tagged mechanic name a change the area's builder makes to read the sourced inputs; build the simplest version and register what remains.
