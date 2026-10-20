@@ -6,53 +6,16 @@
  *
  * - Infants (under one) read health.infant-mortality.
  * - Ages 55 to 64 read health.mortality-55-64.
- * - Deaths carry no cause, so a traffic link moves the share of deaths a
- *   crash stands for at that age (IIHS crash deaths per 100,000 over the life
- *   table's death rate at the age), not every death.
+ * - Every cause (overdose, youth firearm homicide and suicide, motor
+ *   vehicle; death-cause.ts) moves its share of the deaths at that age, so
+ *   the total hazard rises by the share the web moved.
  */
 import deathWeb from "./data/health/death-web.json" with { type: "json" };
-import { ssa2023AnnualProbability } from "./health-mortality-table";
+import { causeMix } from "./death-cause";
 import { webReach, type Subject } from "./outcome-web-reach";
 import type { CoreAPI, CoreState } from "./types";
 
 export const DEATH_WEB_REFRESH_DAY = deathWeb.refreshDayOfMonth;
-
-interface RateBand {
-  readonly min: number;
-  readonly max: number;
-  readonly rate: number;
-}
-const BANDS = deathWeb.traffic.ratePer100000ByAgeBand as readonly RateBand[];
-const PER_100000 = 100_000;
-const HALF = 2;
-
-/** Crash deaths per 100,000 at an age: between the bands' midpoints, so no age is a cliff. */
-function trafficRate(age: number): number {
-  const mids = BANDS.map((band) => (band.min + band.max) / HALF);
-  if (age <= mids[0]!) return BANDS[0]!.rate;
-  for (let i = 1; i < BANDS.length; i += 1)
-    if (age <= mids[i]!) {
-      const share = (age - mids[i - 1]!) / (mids[i]! - mids[i - 1]!);
-      return BANDS[i - 1]!.rate + (BANDS[i]!.rate - BANDS[i - 1]!.rate) * share;
-    }
-  return BANDS[BANDS.length - 1]!.rate;
-}
-
-const shares = new Map<number, number>();
-/** The share of deaths at a whole age that a traffic crash stands for (the table is fixed). */
-export function trafficShareOfDeaths(age: number): number {
-  const whole = Math.max(0, Math.floor(age));
-  let share = shares.get(whole);
-  if (share === undefined) {
-    const allCause =
-      (Number(ssa2023AnnualProbability(Math.min(whole, 119), "male")) +
-        Number(ssa2023AnnualProbability(Math.min(whole, 119), "female"))) /
-      HALF;
-    share = Math.min(1, trafficRate(whole) / PER_100000 / allCause);
-    shares.set(whole, share);
-  }
-  return share;
-}
 
 export interface DeathWeb {
   /** The multiplier on the person's death hazard (1 where nothing moves it). */
@@ -97,12 +60,10 @@ export function deathWebFactor(
   const own = ownMeasure
     ? webReach(api, placeId, ownMeasure, subject)
     : undefined;
-  const traffic = webReach(api, placeId, "traffic.fatality-rate", subject);
+  const causes = causeMix(api, placeId, whole, incomeFifth);
   const result: DeathWeb = {
-    factor:
-      (own?.factor ?? 1) *
-      (1 + trafficShareOfDeaths(whole) * (traffic.factor - 1)),
-    recordId: own?.recordId ?? traffic.recordId,
+    factor: (own?.factor ?? 1) * causes.factor,
+    recordId: own?.recordId ?? causes.recordId,
   };
   cache.rows.set(key, result);
   return result;

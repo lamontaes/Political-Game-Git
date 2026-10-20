@@ -24,6 +24,7 @@ import { BUDGETS_MODULE_ID, governments } from "./budgets";
 import lawParameters from "../data/laws/reach-group-b-parameters.json" with { type: "json" };
 import { DEFAULT_BUSINESS_BOOKS_DATA } from "../business-books";
 import { stopgap } from "../stopgaps";
+import { sha256Hex } from "../kernel/sha256";
 import { transferCash } from "../world-transfer";
 import { newsKey, storiesHeard } from "./news";
 import { lawApplied, type AppliedTarget } from "../law-reach/applied";
@@ -54,6 +55,55 @@ interface Rule {
 }
 
 const MONTHS = 12;
+/** Every state sets 21 as the purchase age (NCSL, Cannabis Overview, 2024). */
+const CANNABIS_AGE = 21;
+
+/**
+ * Whether a named adult uses cannabis: a seeded draw of who they are from
+ * their id, against the sourced adult prevalence (generation of who exists,
+ * not a chance that decides anything they do). The same person is the same
+ * answer every month.
+ */
+export function usesCannabis(personId: string, prevalence: number): boolean {
+  return (
+    Number.parseInt(sha256Hex(`cannabis-use:${personId}`).slice(0, 8), 16) /
+      0x1_0000_0000 <
+    prevalence
+  );
+}
+
+/**
+ * The "persons" a cannabis rule spends for: each named adult who uses it
+ * stands for 1 / (prevalence x adult share) of a resident's average, so a
+ * town's total stays the sourced per-resident figure while a named adult
+ * who doesn't use it spends nothing. A counted group reads the same
+ * prevalence and adult share times its count.
+ */
+export function cannabisWeight(api: CoreAPI, adultUsers: number): number {
+  return (
+    adultUsers /
+    (api.parameter("pricesCannabisUsePrevalence") *
+      api.parameter("pricesCannabisAdultShare"))
+  );
+}
+
+/** Named members 21 and over who use cannabis. */
+function adultUsers(api: CoreAPI, memberIds: readonly string[]): number {
+  const c = core(api);
+  return memberIds.filter((id) => {
+    const born = c.people.get(id)?.birthDate;
+    if (!born) return false;
+    const years =
+      Number(c.date.slice(0, 4)) -
+      Number(born.slice(0, 4)) -
+      (c.date.slice(5) < born.slice(5) ? 1 : 0);
+    return (
+      years >= CANNABIS_AGE &&
+      usesCannabis(id, api.parameter("pricesCannabisUsePrevalence"))
+    );
+  }).length;
+}
+
 function store(api: CoreAPI) {
   return api.moduleState(PLACE_PRICES_MODULE_ID);
 }
@@ -816,7 +866,9 @@ function month(api: CoreAPI): void {
       const change = monthlyChange(
         rule,
         scaleFor(api, pay, rule.good),
-        members.length,
+        rule.good === "cannabis"
+          ? cannabisWeight(api, adultUsers(api, members))
+          : members.length,
       );
       // The controlled person's money moves only by their own choice (owner,
       // Oct 14), and a dependent one (no job) pays nothing of the household's
@@ -870,7 +922,14 @@ function month(api: CoreAPI): void {
       const change = monthlyChange(
         rule,
         scaleFor(api, pay, rule.good),
-        persons,
+        rule.good === "cannabis"
+          ? cannabisWeight(
+              api,
+              persons *
+                api.parameter("pricesCannabisAdultShare") *
+                api.parameter("pricesCannabisUsePrevalence"),
+            )
+          : persons,
       );
       const total = byGroup.get(household.group) ?? {
         household: household.id,

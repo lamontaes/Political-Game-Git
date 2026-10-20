@@ -7,7 +7,7 @@ priority: 2
 size: M
 status: open
 claimed-by:
-pr:
+pr: #5690
 blocked-on: researcher: per-place or calibration sourcing, each row cited; first row's replacement: Valid county B23001 civilian employed/resident-age observations, suppression/MOE handling and territorial equivalents. (parameter
 source: "collapsed Oct 19, 2026 from people-stopgap-resident-employment-missing-local-observation, people-stopgap-residents-aggregate-cadence, people-stopgap-residents-assumed-data"
 claimed-at:
@@ -26,3 +26,5 @@ claimed-at:
 **Files.** src/core2/data/resident-employment.json, src/core2/modules/residents.ts, src/core2/residents.ts, src/core2/data/parameters.json, src/core2/data/stopgaps.json, data/research/people/
 
 **Notes.** Folded from: people-stopgap-resident-employment-missing-local-observation, people-stopgap-residents-aggregate-cadence, people-stopgap-residents-assumed-data. Rows that are not numbers (missing mechanics in law reach, for example) stay registered; this item sources what they will read.
+
+Sent back 2026-10-20 from PR #5690 (branch claude/residents-county-employment): prettier fails on src/core2/data/resident-employment-counties.json (format it or add it to .prettierignore if generated); finish on that branch, merge main into it first.
