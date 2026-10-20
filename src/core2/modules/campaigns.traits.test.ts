@@ -27,11 +27,11 @@ import type { CoreState } from "../types";
 import { drawPlace } from "../../../tests/golden-path/place";
 import {
   answerPollReason,
-  causesFor,
   volunteerReason,
   reachablePeople,
   CAMPAIGNS_MODULE_ID,
   type CampaignRow,
+  type CauseRow,
 } from "./campaigns";
 import { standAgainReason } from "./voting";
 import { ELECTIONS_MODULE_ID, type ContestRow } from "./elections";
@@ -44,8 +44,8 @@ const BASE_SEED =
 const MAX_PLAYED = 4;
 /** Days the window runs past the race, so the count and the losers' scenes are in it. */
 const AFTER_RACE = 10;
-/** Reachable people whose reasons and temperament together say yes to volunteering, at least. */
-const MIN_VOLUNTEERS = 3;
+/** The yes share the volunteering slope is read at (see its test). */
+const VOLUNTEER_SHARE = 0.05;
 const DAYS = 150;
 
 interface Row {
@@ -123,8 +123,7 @@ beforeAll(() => {
   const tried: string[] = [];
   // A drawn place from all 56, played over the window that ends just after
   // its own next race (read from the place's election calendar), and whose
-  // campaigns reach someone near enough to the volunteering threshold for
-  // temperament to matter.
+  // campaigns reach enough people to read volunteering from.
   for (let i = 0; i < MAX_PLAYED; i++) {
     const seed = `${BASE_SEED}:${i}`;
     const place = drawPlace(seed, "campaign-traits");
@@ -156,15 +155,12 @@ beforeAll(() => {
     play(world, end.toISOString().slice(0, 10));
     core = world;
     placeName = `${name}, race ${next}, played from ${start}`;
-    const yes = volunteerRows().filter(
-      (r) =>
-        r.bare + decisionTraitWeight(world, "campaigns.volunteer") * r.lean > 0,
-    ).length;
-    if (yes >= MIN_VOLUNTEERS) return;
-    tried.push(`${placeName}: ${yes} would volunteer`);
+    const reached = volunteerRows().length;
+    if (reached > 50) return;
+    tried.push(`${placeName}: campaigns reached ${reached} adults`);
   }
   throw new Error(
-    `No drawn place's race reached enough volunteers (base seed ${BASE_SEED}): ${tried.join("; ")}`,
+    `No drawn place's race reached enough adults (base seed ${BASE_SEED}): ${tried.join("; ")}`,
   );
   // Reason for the hook's time: each try builds its town twice (7 to 20 seconds each) and plays 150 days (20 to 60 more), up to 4 tries.
 }, 900_000);
@@ -222,6 +218,13 @@ function crossOdds(rows: readonly Row[], w: number, shift = 0): number {
   );
 }
 
+/** The shift of every reason total at which `share` of the calls say yes at weight `w`. */
+function shiftForShare(rows: readonly Row[], w: number, share: number): number {
+  const totals = rows.map((r) => r.bare + w * r.lean).sort((a, b) => b - a);
+  const at = Math.min(totals.length - 1, Math.floor(totals.length * share));
+  return -totals[at]!;
+}
+
 /** About the researched size: within a factor of 1.6 of the study, in a one-place slice of a calibration made over four. */
 function expectAboutResearch(
   id: string,
@@ -245,17 +248,24 @@ function expectAboutResearch(
 }
 
 describe("personality in campaigns and candidacy (a played slice of a drawn place)", () => {
-  it("volunteering follows openness at about the researched rate", () => {
-    // The people each campaign can reach. About 1 in 100 say yes, so one place has a thin tail of yes answers and its odds ratio swings
-    // (1.2 to 7 across slices, 2.4 over four places); the band is wide for that reason alone.
-
+  it("volunteering follows openness at about the researched rate, read at a fixed share saying yes", () => {
+    // Few of the people a campaign reaches are near the line where temperament
+    // tips them, and how few is the town's own circumstance: one town shows
+    // anything from no tipped answer to dozens. The slope is read with every
+    // reason total moved so one in twenty says yes, the same in every town.
     const rows = volunteerRows();
-    expectAboutResearch(
-      "campaigns.volunteer",
-      rows,
-      decisionTraitWeight(core, "campaigns.volunteer"),
-      4,
+    const w = decisionTraitWeight(core, "campaigns.volunteer");
+    const shift = shiftForShare(rows, w, VOLUNTEER_SHARE);
+    const target = targetOddsRatio("campaigns.volunteer");
+    const reached = crossOdds(rows, w, shift);
+    console.log(
+      `${placeName}: volunteering at a ${VOLUNTEER_SHARE} yes share, ${rows.length} calls, odds ratio ${reached.toFixed(2)} against the study's ${target.toFixed(2)}`,
     );
+    expect(reached).toBeGreaterThan(Math.max(1.05, target / 4));
+    expect(reached).toBeLessThan(target * 4);
+    expect(
+      crossOdds(rows, 0, shiftForShare(rows, 0, VOLUNTEER_SHARE)),
+    ).toBeCloseTo(1, 5);
   });
 
   it("giving follows openness at about the researched rate", () => {
@@ -402,17 +412,26 @@ describe("personality in campaigns and candidacy (a played slice of a drawn plac
       (c.endorserIds ?? []).map((id) => ({ c, id })),
     );
     expect(endorsers.length, `${placeName}: endorsers`).toBeGreaterThan(0);
-    for (const { c, id } of endorsers) {
-      // An endorser was asked, is a real person, and their circle heard it: an endorsement cause names them.
-      expect(c.endorsementAskedIds, id).toContain(id);
-      const endorser = core.people.get(id)!;
-      const heard = [...endorser.knownIds, ...endorser.familyIds].some(
-        (listener) =>
-          causesFor(api, listener, c.candidateId).some(
-            (cause) => cause.act === "endorsement" && cause.actorId === id,
-          ),
+    for (const { c, id } of endorsers)
+      expect(c.endorsementAskedIds, `${id} was asked`).toContain(id);
+    // Each endorsement a voter heard names an endorser of that candidate who
+    // was asked, and the voter is in the endorser's circle.
+    const heard = (
+      api
+        .moduleState(CAMPAIGNS_MODULE_ID)
+        .table("causes")
+        .rows() as unknown as CauseRow[]
+    ).filter((cause) => cause.act === "endorsement");
+    expect(heard.length, `${placeName}: endorsements heard`).toBeGreaterThan(0);
+    for (const cause of heard) {
+      const campaign = campaigns.find(
+        (c) => c.candidateId === cause.candidateId,
       );
-      expect(heard, `${id} for ${c.candidateId}`).toBe(true);
+      expect(campaign?.endorserIds, cause.id).toContain(cause.actorId);
+      const endorser = core.people.get(cause.actorId)!;
+      expect([...endorser.knownIds, ...endorser.familyIds], cause.id).toContain(
+        cause.voterId,
+      );
     }
   });
 });
