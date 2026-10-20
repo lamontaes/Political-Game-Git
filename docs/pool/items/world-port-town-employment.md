@@ -5,10 +5,10 @@ area: world
 kind: wiring
 priority: 2
 size: M
-status: open
+status: blocked
 claimed-by:
 pr: #5540
-blocked-on:
+blocked-on: core: the opening still builds from the old World history tables, so a core port of town employment needs core records for those first (old-core-retirement-map); sent back on 5540 for importing them
 source: "split from core-remaining-port-the-opening-town-builder-population (an L item), Oct 15"
 claimed-at:
 ---

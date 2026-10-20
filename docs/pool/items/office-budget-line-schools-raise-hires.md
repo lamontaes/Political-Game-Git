@@ -24,3 +24,5 @@ claimed-at:
 **Notes.** TODO
 
 Sent back 2026-10-20 from PR #5632 (branch claude/schools-raise-test): school teachers are counted workers since #5568, so the budget-line-schools-staffing test's named-teacher precondition never holds and it fails in every draw with main merged in; prove the line change on the district's counted payroll; finish on that branch, merge main into it first.
+
+Sent back 2026-10-20 from PR #5632 (branch claude/schools-raise-test): Merging current origin/main conflicts in src/core2/budget-line-schools-staffing.test.ts and src/core2/law-reach/group-a-staffing.ts. Resolve both code conflicts against current main while preserving the counted-teacher hire and layoff proofs, then rerun the changed-file gate. The earlier fix commits are present, but the current merged result cannot be checked until these conflicts are resolved.; finish on that branch, merge main into it first.
