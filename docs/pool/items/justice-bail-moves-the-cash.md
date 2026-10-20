@@ -5,11 +5,12 @@ area: gov
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/bail-cash
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-20T00:52:41.074Z
 ---
 
 **What.** Pretrial bail from PR 5200 marks a bail posted but moves no money: liquidMinor >= pretrialBailMinor decides held or posted, and nothing moves from the person's account to the court's. Posting bail should be a movement on the journal from the person's account to the court's, returned at disposition, so the other engines read a real dollar. If that cannot land now, register a stopgap row with a marker and name it in the item notes.
