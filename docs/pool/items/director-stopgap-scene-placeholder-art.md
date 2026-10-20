@@ -4,10 +4,10 @@ title: "Stopgaps in scene (placeholder-art): 1 open"
 area: director
 kind: stopgap
 priority: 3
-status: open
+status: blocked
 claimed-by:
 pr:
-blocked-on:
+blocked-on: engine or design: The Firefly library has the residences' exteriors only; the bench lists the rooms' picture names first (officialResidences in src/bench/data/scene-places.json) so they are used as soon as they are pai
 milestone:
 source: "src/core2/data/stopgaps.json, src/bench/scene.ts, kind placeholder-art"
 ---

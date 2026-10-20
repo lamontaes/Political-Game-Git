@@ -123,6 +123,62 @@ export function endLivingPlan(core: CoreState, householdId: string): void {
   core.finance.livingPlans.delete(householdId);
 }
 
+/**
+ * People move from one household to another in the same town: their share of
+ * the household's everyday spending (by head count) follows them. A household
+ * left with no members spends nothing; a household that had no plan takes the
+ * source's seller mix, due on the same day.
+ */
+export function moveLivingShare(
+  core: CoreState,
+  fromId: string,
+  toId: string,
+  fraction: number,
+): void {
+  const from = core.finance.livingPlans.get(fromId);
+  if (!from || !(fraction > 0)) return;
+  if (fraction >= 1) {
+    const whole = new Map(from.sellers);
+    endLivingPlan(core, fromId);
+    addLivingShare(core, toId, from, whole);
+    return;
+  }
+  const moved = new Map<string, number>();
+  for (const [seller, amount] of from.sellers) {
+    const part = Math.round(amount * fraction);
+    moved.set(seller, part);
+    from.sellers.set(seller, amount - part);
+  }
+  from.monthlyMinor = [...from.sellers.values()].reduce((n, v) => n + v, 0);
+  addLivingShare(core, toId, from, moved);
+}
+
+function addLivingShare(
+  core: CoreState,
+  toId: string,
+  like: Readonly<LivingPlan>,
+  sellers: ReadonlyMap<string, number>,
+): void {
+  let plan = core.finance.livingPlans.get(toId);
+  if (!plan) {
+    plan = {
+      householdId: toId,
+      dueAt: like.dueAt,
+      billingDay: like.billingDay,
+      sellers: new Map(),
+      monthlyMinor: 0,
+      source: like.source,
+      lastRequestedMinor: 0,
+      lastPaidMinor: 0,
+    };
+    core.finance.livingPlans.set(toId, plan);
+    index(core, plan.dueAt, toId);
+  }
+  for (const [seller, amount] of sellers)
+    plan.sellers.set(seller, (plan.sellers.get(seller) ?? 0) + amount);
+  plan.monthlyMinor = [...plan.sellers.values()].reduce((n, v) => n + v, 0);
+}
+
 /** The household's plan, if it spends here. */
 export function livingPlan(
   core: CoreState,

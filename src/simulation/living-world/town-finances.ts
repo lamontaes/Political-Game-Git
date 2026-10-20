@@ -90,11 +90,8 @@ import {
   townBusinessKindBooks,
   TOWN_BUSINESS_WORKPLACES,
 } from "./town-business-books";
-import {
-  TOWN_EMPLOYMENT_VERSION,
-  TOWN_WORKPLACES,
-  townWorkplaceFor,
-} from "./town-employment";
+import { TOWN_EMPLOYMENT_VERSION } from "./town-employment";
+import { TOWN_WORKPLACES, townWorkplaceFor } from "../../core2/town-workplaces";
 import {
   activeTownJobs,
   jobsLostBy,

@@ -718,7 +718,7 @@
       },
       "shippable": true,
       "source": {
-        "document": "U.S. House Oral History: Hart, Melissa A. - U.S. Representative of Pennsylvania - 2001–2007",
+        "document": "U.S. House Oral History: Hart, Melissa A. - U.S. Representative of Pennsylvania - 2001\u20132007",
         "date": "2019-09-30",
         "granule": "house-oh-hart",
         "url": "https://history.house.gov/Oral-History/Women/Women-Transcripts/hart-transcript/",
@@ -1116,7 +1116,7 @@
       },
       "shippable": true,
       "source": {
-        "document": "Secretary Jewell, National Park Service Director Jarvis Hear Community’s Vision and Support for Proposed National Park System Additions in Alabama",
+        "document": "Secretary Jewell, National Park Service Director Jarvis Hear Community\u2019s Vision and Support for Proposed National Park System Additions in Alabama",
         "date": "2016-10-28",
         "granule": "doi-2016-10-28-secretary-jewell-national-park-service-director-jarvis-hear-98df7a13",
         "url": "https://www.doi.gov/pressreleases/secretary-jewell-national-park-service-director-jarvis-hear-communitys-vision-and",
@@ -6134,6 +6134,357 @@
       "origin": "authored",
       "author": "Claude Sonnet (pool item words-journal-household-move-line)",
       "date": "2026-10-16",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-revise.i-did-not-know-then-what-name-would-mean-to-me",
+      "move": "memoir-revise",
+      "kind": "spoken",
+      "text": "I did not know then what {name} would mean to me.",
+      "uses": [
+        {
+          "move": "memoir-revise",
+          "subject": "memoir",
+          "role": "revise",
+          "choice": "revise",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "revise"
+            }
+          ]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item words-main-line)",
+      "date": "2026-10-19",
+      "tag": {
+        "move": "recall"
+      }
+    },
+    {
+      "key": "journal.memoir-revise.i-thought-little-of-name-then",
+      "move": "memoir-revise",
+      "kind": "spoken",
+      "text": "I thought little of {name} then.",
+      "uses": [
+        {
+          "move": "memoir-revise",
+          "subject": "memoir",
+          "role": "revise",
+          "choice": "revise",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "revise"
+            }
+          ]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item words-main-line)",
+      "date": "2026-10-19",
+      "tag": {
+        "move": "recall"
+      }
+    },
+    {
+      "key": "journal.memoir-revise.name-mattered-more-than-i-knew",
+      "move": "memoir-revise",
+      "kind": "spoken",
+      "text": "{name} mattered more than I knew.",
+      "uses": [
+        {
+          "move": "memoir-revise",
+          "subject": "memoir",
+          "role": "revise",
+          "choice": "revise",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "revise"
+            }
+          ]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item words-main-line)",
+      "date": "2026-10-19",
+      "tag": {
+        "move": "recall"
+      }
+    },
+    {
+      "key": "journal.memoir-revise.it-began-with-name-though-i-did-not-see-it-then",
+      "move": "memoir-revise",
+      "kind": "spoken",
+      "text": "It began with {name}, though I did not see it then.",
+      "uses": [
+        {
+          "move": "memoir-revise",
+          "subject": "memoir",
+          "role": "revise",
+          "choice": "revise",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "revise"
+            }
+          ]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item words-main-line)",
+      "date": "2026-10-19",
+      "tag": {
+        "move": "recall"
+      }
+    },
+    {
+      "key": "journal.home-line-met.i-met-other-in-place",
+      "move": "home-line-met",
+      "kind": "spoken",
+      "text": "I met {other} in {place}.",
+      "uses": [
+        {
+          "move": "home-line-met",
+          "subject": "home",
+          "role": "met",
+          "choice": "met",
+          "journal": [
+            {
+              "kindPrefix": "household:partners-met",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item words-past-household-roots-and-moments)",
+      "date": "2026-10-19",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.home-line-met.other-and-i-met-in-place",
+      "move": "home-line-met",
+      "kind": "spoken",
+      "text": "{other} and I met in {place}.",
+      "uses": [
+        {
+          "move": "home-line-met",
+          "subject": "home",
+          "role": "met",
+          "choice": "met",
+          "journal": [
+            {
+              "kindPrefix": "household:partners-met",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item words-past-household-roots-and-moments)",
+      "date": "2026-10-19",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.home-line-met.i-first-met-other-in-place",
+      "move": "home-line-met",
+      "kind": "spoken",
+      "text": "I first met {other} in {place}.",
+      "uses": [
+        {
+          "move": "home-line-met",
+          "subject": "home",
+          "role": "met",
+          "choice": "met",
+          "journal": [
+            {
+              "kindPrefix": "household:partners-met",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item words-past-household-roots-and-moments)",
+      "date": "2026-10-19",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.home-line-roots.my-family-came-from-place",
+      "move": "home-line-roots",
+      "kind": "spoken",
+      "text": "My family came from {place}.",
+      "uses": [
+        {
+          "move": "home-line-roots",
+          "subject": "home",
+          "role": "roots",
+          "choice": "roots",
+          "journal": [
+            {
+              "kindPrefix": "household:roots",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item words-past-household-roots-and-moments)",
+      "date": "2026-10-19",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.home-line-roots.my-people-came-from-place",
+      "move": "home-line-roots",
+      "kind": "spoken",
+      "text": "My people came from {place}.",
+      "uses": [
+        {
+          "move": "home-line-roots",
+          "subject": "home",
+          "role": "roots",
+          "choice": "roots",
+          "journal": [
+            {
+              "kindPrefix": "household:roots",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item words-past-household-roots-and-moments)",
+      "date": "2026-10-19",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.home-line-roots.our-family-came-from-place",
+      "move": "home-line-roots",
+      "kind": "spoken",
+      "text": "Our family came from {place}.",
+      "uses": [
+        {
+          "move": "home-line-roots",
+          "subject": "home",
+          "role": "roots",
+          "choice": "roots",
+          "journal": [
+            {
+              "kindPrefix": "household:roots",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item words-past-household-roots-and-moments)",
+      "date": "2026-10-19",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.work-line-parent-job.other-started-a-new-job",
+      "move": "work-line-parent-job",
+      "kind": "spoken",
+      "text": "{other} started a new job.",
+      "uses": [
+        {
+          "move": "work-line-parent-job",
+          "subject": "work",
+          "role": "parent-job",
+          "choice": "parent-job",
+          "journal": [
+            {
+              "kindPrefix": "household:moment:parent-new-job",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item words-past-household-roots-and-moments)",
+      "date": "2026-10-19",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.work-line-parent-job.other-got-a-new-job",
+      "move": "work-line-parent-job",
+      "kind": "spoken",
+      "text": "{other} got a new job.",
+      "uses": [
+        {
+          "move": "work-line-parent-job",
+          "subject": "work",
+          "role": "parent-job",
+          "choice": "parent-job",
+          "journal": [
+            {
+              "kindPrefix": "household:moment:parent-new-job",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item words-past-household-roots-and-moments)",
+      "date": "2026-10-19",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.work-line-parent-job.other-went-to-work-somewhere-new",
+      "move": "work-line-parent-job",
+      "kind": "spoken",
+      "text": "{other} went to work somewhere new.",
+      "uses": [
+        {
+          "move": "work-line-parent-job",
+          "subject": "work",
+          "role": "parent-job",
+          "choice": "parent-job",
+          "journal": [
+            {
+              "kindPrefix": "household:moment:parent-new-job",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item words-past-household-roots-and-moments)",
+      "date": "2026-10-19",
       "tag": {
         "move": "tell"
       }
