@@ -5,13 +5,13 @@ area: laws
 kind: stopgap
 priority: 3
 size: M
-status: blocked
-claimed-by: claude/political-game-pool-yucp92-bb
+status: open
+claimed-by:
 pr:
 blocked-on:
 after: laws-reach-b-preschool-childcare,laws-reach-b-college-tuition
 source: added with npm run pool -- add
-claimed-at: 2026-10-20T02:32:10.048Z
+claimed-at:
 ---
 
 **What.** This is the roll-up for two law-reach stopgaps that need the schools side of the core: universal preschool (SG-GOV-REACH-B-preschool-enrollment, a records-only eligibility mark) and the higher-education line (SG-GOV-REACH-B-tuition, a support level that charges no one). They are built as laws-reach-b-preschool-childcare (pre-k enrollment and the household child-care cost) and laws-reach-b-college-tuition (college enrollment and tuition). When both are done, this item is closed by checking both chains once in the played world.
