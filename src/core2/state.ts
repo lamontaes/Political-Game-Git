@@ -1,5 +1,9 @@
 import { initialPersonState } from "./person-state";
-import { closenessAfter, openingClosenessHours } from "./closeness";
+import {
+  closenessAfter,
+  openingClosenessHours,
+  temperedHours,
+} from "./closeness";
 import { validateCompactChoice } from "./compact-choice";
 import { bookkeeping } from "./bookkeeping";
 import { queueDecisionDetail } from "./decision-detail";
@@ -19,6 +23,7 @@ import {
 import { rerateCountedJobs } from "./residents-economy";
 import { endPurchaseTax, setPurchaseTax } from "./modules/purchase-tax";
 import { openingTemperaments } from "./opening-personality";
+import { forgetTraitLean } from "./choice";
 import { giveHealthRecord } from "./modules/health";
 import { COUNTED_PLACE_PREFIX, isDemoted } from "./counted-groups";
 import {
@@ -54,6 +59,7 @@ import {
   prepareFinanceProcurement,
   admitCreditFacility,
   repriceCreditFacility,
+  moveHouseholdPayers,
   attachBusinessCredit,
   endStandingContract,
   setStandingContractAmount,
@@ -90,7 +96,8 @@ import { cashJournalHost } from "./cash-host";
 import { settleLegacyWorkResultJournal } from "./work-cash";
 import { admitPublicPayAuthority } from "./public-work-pay";
 import type { CashJournalSourceRef } from "./journal";
-import { makeIsoDate } from "./kernel/dates";
+import { ageOnDate, makeIsoDate } from "./kernel/dates";
+import { moveLivingShare } from "./cost-of-living";
 import { CORE_API_VERSION, CORE_SCHEMA_VERSION, DEFAULT_DATA } from "./data";
 import { parameter, parameterValues } from "./parameters";
 import {
@@ -1050,9 +1057,15 @@ export function coreAPI(core: CoreState): CoreAPI {
       };
       const at = core.date,
         // P15: `change` is hours of time together; closeness fades between contacts.
-        nextLevel = closenessAfter(core, previous, row.kind, change),
         actualActor = core.people.get(actorId),
         actualOther = core.people.get(otherId) ?? core.husks.get(otherId),
+        // Temperament sets how much the time together (or the quarrel) counts.
+        nextLevel = closenessAfter(
+          core,
+          previous,
+          row.kind,
+          temperedHours(core, actualActor, core.people.get(otherId), change),
+        ),
         storedKind = row.kind;
       const originalDecision =
         decision === undefined ? undefined : copyRelationshipEvidence(decision);
@@ -1472,6 +1485,13 @@ export function coreAPI(core: CoreState): CoreAPI {
         core.peopleByTier.get(actor.tier)!.delete(personId);
         index(core.peopleByTier, changes.tier, personId);
       }
+      if (changes.traits) {
+        if (
+          Object.values(changes.traits).some((value) => !Number.isFinite(value))
+        )
+          throw new Error("Non-finite trait update.");
+        forgetTraitLean(actor);
+      }
       Object.assign(actor, changes);
       // Explicitly clearing the optional flag restores the core's default rule.
       if (
@@ -1544,6 +1564,9 @@ export function coreAPI(core: CoreState): CoreAPI {
           memberIds: ids,
           source: input.source,
         });
+        // Those who leave stop paying the home obligations they shared; the
+        // people who stay keep them, or take them over.
+        moveHouseholdPayers(core, api, household.id, input.householdId, ids);
       }
       for (const actor of movers as PersonState[]) {
         core.peopleByPlace.get(actor.placeId)?.delete(actor.id);
@@ -1556,6 +1579,82 @@ export function coreAPI(core: CoreState): CoreAPI {
         index(core.peopleByPlace, actor.placeId, actor.id);
         if (actor.countyId) index(core.peopleByPlace, actor.countyId, actor.id);
       }
+    },
+    changeHouseholdV1(input) {
+      const ids = [...input.personIds];
+      const movers = ids.map((id) => core.people.get(id));
+      const target = core.households.get(input.householdId);
+      const placeId = target?.placeId ?? movers[0]?.placeId;
+      if (
+        !ids.length ||
+        new Set(ids).size !== ids.length ||
+        placeId === undefined ||
+        movers.some(
+          (row) =>
+            !row?.alive ||
+            row.placeId !== placeId ||
+            row.householdId === input.householdId,
+        )
+      )
+        throw new Error(
+          "Invalid household change: living people of one place, not already members.",
+        );
+      makeIsoDate(input.source.asOf);
+      const bySource = new Map<string, string[]>();
+      for (const mover of movers as PersonState[])
+        bySource.set(mover.householdId, [
+          ...(bySource.get(mover.householdId) ?? []),
+          mover.id,
+        ]);
+      // Nobody leaves a child in a household with no adult.
+      const adultAge = api.parameter("benchmarkAdultMinimumAge");
+      for (const [fromId, leaving] of bySource) {
+        const staying = core.households
+          .get(fromId)!
+          .memberIds.filter((id) => !leaving.includes(id))
+          .map((id) => core.people.get(id));
+        if (
+          staying.length &&
+          !staying.some(
+            (row) =>
+              row?.alive &&
+              ageOnDate(makeIsoDate(row.birthDate), makeIsoDate(core.date)) >=
+                adultAge,
+          )
+        )
+          throw new Error(
+            `Invalid household change: ${fromId} would keep only children.`,
+          );
+      }
+      core.households.set(
+        input.householdId,
+        target
+          ? { ...target, memberIds: [...target.memberIds, ...ids] }
+          : {
+              id: input.householdId,
+              placeId,
+              memberIds: ids,
+              source: input.source,
+            },
+      );
+      for (const [fromId, leaving] of [...bySource].sort((a, b) =>
+        a[0].localeCompare(b[0]),
+      )) {
+        const from = core.households.get(fromId)!;
+        moveLivingShare(
+          core,
+          fromId,
+          input.householdId,
+          leaving.length / Math.max(1, from.memberIds.length),
+        );
+        moveHouseholdPayers(core, api, fromId, input.householdId, leaving);
+        core.households.set(fromId, {
+          ...from,
+          memberIds: from.memberIds.filter((id) => !leaving.includes(id)),
+        });
+      }
+      for (const mover of movers as PersonState[])
+        mover.householdId = input.householdId;
     },
     fundPublicPay(authorityId, treasuryId, source) {
       makeIsoDate(source.asOf);
