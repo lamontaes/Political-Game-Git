@@ -22,3 +22,5 @@ claimed-at:
 **Files.** src/core2/housing-property-tax.ts
 
 **Notes.** First row: Every owner pays the state's average effective property tax rate, to the outside account, with no assessment cap. PR #5270 sent back: Merge conflict with main in code files src/core2/housing-property-tax.ts and src/core2/housing-property-tax.test.ts.
+
+Sent back 2026-10-20 from PR #5270 (branch claude/political-game-pool-yucp92-g): merging main now conflicts in src/core2/housing-property-tax.ts (it passed every check before main moved; the earlier done mark was a merger script error); finish on that branch, merge main into it first.
