@@ -718,8 +718,10 @@ function leave(
   };
   // A whole household moves as itself; those who leave others behind
   // start a household at the new place.
-  const arrivalHousehold = household?.memberIds.every((id) =>
-    going.includes(id),
+  // The dead stay on the roll and are not left behind (the same rule the
+  // relocation applies when it decides a move is whole).
+  const arrivalHousehold = household?.memberIds.every(
+    (id) => going.includes(id) || !core.people.get(id)?.alive,
   )
     ? person.householdId
     : `${person.householdId}:moved:${person.id}:${api.state.date}`;
