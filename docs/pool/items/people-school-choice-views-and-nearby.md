@@ -7,10 +7,11 @@ priority: 3
 size: S
 status: open
 claimed-by:
-pr:
+pr: #5483
 blocked-on:
 after: core-private-tuition-yearly-reenrollment
 source: added with npm run pool -- add
+claimed-at:
 ---
 
 **What.** The stopgap SG-CORE-private-tuition-average says the family's beliefs, the schools nearby and the child's own needs do not enter the choice of school. Whether belief should decide where a child goes to school is a design question, and the game holds no ruling on it. Ask the owner whether a family's views on education, their religion or their distance to a school should change which families enroll, and if so which of those the game reads.
@@ -22,3 +23,5 @@ source: added with npm run pool -- add
 **Files.** docs/coordination/OWNER-DECISIONS.md, src/core2/opening-private-tuition.ts
 
 **Notes.** Part 3 of 3 split from core-stopgap-opening-private-tuition-aggregate-spending (Oct 20).
+
+Sent back 2026-10-20 from PR #5483 (branch claude/school-choice-question): see the Cloud merger comment on that PR for the exact reason; finish on that branch, merge main into it first.
