@@ -1187,8 +1187,8 @@
     "why": "Councils and legislatures can't vote budgets until M3 (owner, Oct 10: old budget rules until councils vote).",
     "addedBy": "OPUS-GOV",
     "addedAt": "2026-10-12",
-    "replacement": "The council's or legislature's budget vote (M3-05) and the executive's priorities.",
-    "status": "open"
+    "replacement": "Resolved Oct 20: in a played year in Rollingwood TX, East Sandwich MA and Holdrege NE every government (federal, state, county, city) adopted its 2025 budget by its body's recorded vote; the carry-forward remains only as the fallback when no body votes (pool item gov-stopgap-budgets-missing-engine).",
+    "status": "resolved"
   },
   {
     "id": "SG-GOV-veto-override-rule",
@@ -1268,11 +1268,11 @@
     "kind": "missing-data",
     "file": "src/core2/modules/world-races.ts",
     "line": 682,
-    "whatItFakes": "A race the town doesn't vote in is counted on the counted residents' engine at a coarser level (a House district's, the state's counties', a legislative district's eligible voters, voting as the town's counted residents would on each place's 2024 lean), but its candidates are each party's typical candidate (the holder stands for their party with the typical campaign) rather than people with records, and a state legislative district with no read result is the state's vote over its districts leaning to its holder's party at the typical margin.",
-    "why": "Fictional candidates with records for every seat in the country aren't built (PEOPLE's who runs), and state legislative district results aren't read.",
+    "whatItFakes": "A race the town doesn't vote in is counted on the counted residents' engine at a coarser level (a House district's, the state's counties', a legislative district's eligible voters, voting as the town's counted residents would on each place's 2024 lean), but its candidates are each party's typical candidate (the holder stands for their party with the typical campaign) rather than people with records. A state legislative district reads its own 2024 vote (MIT Election Data and Science Lab, 3,182 of 6,831 Census districts matched; src/core2/legislative-district-results.ts); one the source lacks, a nonpartisan one, or a seat one party did not contest is the state's vote over its districts leaning to its holder's party at the typical margin (legislativeSeatMargin, ESTIMATED, checked against the districts that do have a result).",
+    "why": "Fictional candidates with records for every seat in the country aren't built (PEOPLE's who runs). The legislative-district results half was sourced in gov-legislative-district-results-2024.",
     "addedBy": "OPUS-GOV",
     "addedAt": "2026-10-12",
-    "replacement": "Each race's candidates as fictional people with records and campaigns, and each legislative district's own 2024 result.",
+    "replacement": "Each race's candidates as fictional people with records and campaigns (core-world-race-lean-candidates).",
     "status": "open"
   },
   {
@@ -1437,11 +1437,11 @@
     "kind": "missing-mechanic",
     "file": "src/core2/data/laws/reach-group-a.json",
     "line": 202,
-    "whatItFakes": "Legal cannabis sales move each household's spending (about $170 per resident a year, estimated from 2024 state sales) from outside the town to the town's existing retail businesses, split by their demand. There are no dedicated licensed dispensaries, no license application, no age check on the buyer within the household and no cannabis tax.",
-    "why": "The place-prices engine reads the law monthly (src/core2/modules/place-prices.ts). Households have no cannabis use record, so the spending is a per-resident average scaled by pay, not a named adult's purchase; dispensaries are not founded as businesses and no cannabis excise tax is loaded.",
+    "whatItFakes": "Legal cannabis sales move each household's spending (about $170 per resident a year, estimated from 2024 state sales) from outside the town to the town's existing retail businesses, split by their demand. There are no dedicated licensed dispensaries and no license application. A named adult's use is a seeded draw from their id at the national adult prevalence (src/core2/modules/place-prices.ts), not a state series or a stored record.",
+    "why": "The place-prices engine reads the law monthly (src/core2/modules/place-prices.ts). The use draw is national, not by state; dispensaries are not founded as businesses.",
     "addedBy": "OPUS-GOV (sub-agent A)",
     "addedAt": "2026-10-12",
-    "replacement": "WORLD: dispensaries founded through the business engine and licensed by the control board; PEOPLE: an adult-use record on named adults 21 and over (seeded at generation, prevalence by state); GOV: the state's cannabis excise tax rate from data, paid through the purchase tax.",
+    "replacement": "WORLD: dispensaries founded through the business engine and licensed by the control board; PEOPLE: state prevalence in place of the national share; WORLD: dispensaries founded through the business engine.",
     "status": "open"
   },
   {
@@ -1647,8 +1647,8 @@
     "kind": "missing-engine",
     "file": "src/core2/data/laws/reach-group-b.json",
     "line": 73,
-    "whatItFakes": "Medicaid expansion and its work requirement are eligibility records on named adults and counted shares; no one's health coverage or medical costs change.",
-    "why": "The core has no health coverage or medical spending for people.",
+    "whatItFakes": "Medicaid expansion pays each covered adult the average medical spending (BLS CEX drugs plus medical supplies), the federal treasury paying the Medicaid match in force and the state treasury the rest, and its work requirement stops that for the adults it reaches; there are no itemized medical bills or health plans for the payment to settle.",
+    "why": "The core has no itemized medical bills or health plans for people; the payment is the average spending, not a bill.",
     "addedBy": "OPUS-GOV (sub-agent B)",
     "addedAt": "2026-10-12",
     "replacement": "OPUS-PEOPLE health engine: setCoverage(personId, { plan: \"medicaid\", from, to }) and counted-group coverage shares, read by medical costs (OPUS-CORE household spending).",
@@ -1659,11 +1659,11 @@
     "kind": "missing-engine",
     "file": "src/core2/data/laws/reach-group-b.json",
     "line": 106,
-    "whatItFakes": "No baseline SNAP benefit is paid. The assistance work requirement time-limits (three months in 36) only the benefit a raised welfare line pays; the rest of the law's real reach, including work-program participation, is not modeled.",
-    "why": "The core pays no SNAP or other means-tested benefits to households; the only assistance payment is the welfare line's raise, so that is what the requirement reads. All who are reached share one clock that starts the day the benefit first pays under the requirement.",
+    "whatItFakes": "The baseline SNAP benefit is the maximum allotment less 30 percent of net income, from wages, retirement benefits and household size alone. Shelter, child-care and medical deductions, the asset test, categorical eligibility, the elderly and disabled rules, immigrant rules and the work-program participation the law also reaches are not modeled.",
+    "why": "The federal treasury owes each qualifying household one monthly payment (law-reach group B, group-b-food-aid.ts), read by the household's cash and spending. The core records a household's wages and retirement awards, not its rent, child care or medical bills, so those deductions have nothing to read.",
     "addedBy": "OPUS-GOV (sub-agent B)",
     "addedAt": "2026-10-12",
-    "replacement": "OPUS-CORE benefits API: addBenefit({ personId|householdId, program: \"snap\", monthlyMinor, from, payerAccountId }) and endBenefit(id); then each person's own months of benefit count against their own 36-month window.",
+    "replacement": "Per-household shelter, dependent-care and medical expense records read by the benefit (world housing and health costs), and the other income programs (SSI, TANF) a household receives.",
     "status": "open"
   },
   {
@@ -1671,7 +1671,7 @@
     "kind": "missing-engine",
     "file": "src/core2/data/laws/reach-group-b.json",
     "line": 118,
-    "whatItFakes": "Universal preschool is an eligibility record on named 3- and 4-year-olds and a counted share; no child enrolls and no family's child-care cost changes.",
+    "whatItFakes": "Universal preschool pays the household of each 3- and 4-year-old the state's spending per enrolled child (NIEER) times an estimated enrolled share; no child is recorded as enrolled and no child-care bill changes.",
     "why": "There is no school enrollment or child-care spending in the core.",
     "addedBy": "OPUS-GOV (sub-agent B)",
     "addedAt": "2026-10-12",
@@ -1695,7 +1695,7 @@
     "kind": "faked-mechanic",
     "file": "src/core2/data/laws/reach-group-b.json",
     "line": 184,
-    "whatItFakes": "The existing assessment and tax bill now read the cap law and settle full and counted owners through their own accounts. A yes/no catalog law still uses a generic estimated assessment cap rather than statutory levy-versus-assessment scope, exemptions or ownership-reset terms.",
+    "whatItFakes": "The existing assessment and tax bill now read the cap law and settle full and counted owners through their own accounts. A yes/no catalog law reads its state's own cap size and scope where src/core2/data/laws/property-tax-caps.json has the state (CA, FL, MI, OR, AZ, TX, NM, OK, NY, AR); every other state still uses a generic estimated assessment cap, and no state yet reads levy limits, exemptions, CPI-lesser-of caps or ownership-reset terms beyond a buyer being assessed afresh.",
     "why": "Session A wires the existing property-tax engine. The catalog has no numeric statutory cap or exemption terms, and the world has no delivered tax notice linking the assessment to an informed stance and director line.",
     "addedBy": "OPUS-GOV (sub-agent B)",
     "addedAt": "2026-10-12",
@@ -2433,7 +2433,8 @@
     "addedBy": "claude/fill-in-hook",
     "addedAt": "2026-10-17",
     "replacement": "The owner's ruling on carry, cure or close for a counted household's arrears on fill-in (docs/coordination/OWNER-DECISIONS.md).",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "Whether a filled-in household carries arrears depends on the people: a filled-in household carries its group's arrears onto its own lease, then settles part of them at once from the cash its members hold beyond a month of living cost times how far their traits lean toward settling over letting it lapse (the formula decision housing.settle-arrears); what it does not settle stays on the lease for the cure deadline. The case records the cash, living cost, willingness and sum settled."
   },
   {
     "id": "SG-WORLD-board-appointments",
@@ -2482,7 +2483,8 @@
     "addedBy": "OPUS-WORLD",
     "addedAt": "2026-10-12",
     "replacement": "The two-level population's labor-force counts by place, age and job (CPS and LAUS), with full people filled in from them.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "The opening's seekers are chosen per place from that place's own unemployment rate (the region's month when the regional engine runs, the nation's otherwise), for the named people and the counted ones alike."
   },
   {
     "id": "SG-WORLD-jobs-layoff-decider",
@@ -3476,7 +3478,7 @@
     "kind": "missing-data",
     "file": "src/core2/past-elections.ts",
     "line": 294,
-    "whatItFakes": "A territory's prior elections (its delegate and governor) count only the town's own ballots, since territories cast no presidential vote to scale from.",
+    "whatItFakes": "A territory's prior governor race (Puerto Rico and American Samoa only; Guam, the Northern Marianas and the Virgin Islands read their reported governor ballots, and every territory with a delegate total reads it for the delegate race) counts only the town's own ballots, since territories cast no presidential vote to scale from.",
     "why": "The 2024 election research holds presidential totals for the states and D.C. only; territory election returns are not in the repository.",
     "addedBy": "OPUS-CORE (the-world-has-a-past)",
     "addedAt": "2026-10-14",
@@ -3816,7 +3818,7 @@
     "kind": "estate",
     "file": "src/core2/estates.ts",
     "line": 1,
-    "whatItFakes": "A full person's estate is only their cash and the standing payments they owed: homes, loans, businesses and accounts other than their main one are not settled. A relative who is still only a counted record does not inherit.",
+    "whatItFakes": "A full person's estate is only their cash and the standing payments they owed: homes, loans, businesses and accounts other than their main one are not settled.",
     "why": "Money stress audit defect 6 (Oct 14): a dead person's cash stayed on their record. Cash first; the rest of an estate needs property and debt records the core doesn't settle yet.",
     "addedBy": "OPUS-CORE",
     "addedAt": "2026-10-14",
@@ -3878,11 +3880,11 @@
     "kind": "assumed-data",
     "file": "src/core2/modules/recalls.ts",
     "line": 1,
-    "whatItFakes": "One national bar on when a local recall may start (not in a term's first 180 days; not again in a term after one failed), not each state's own statute.",
+    "whatItFakes": "One national bar on when a local recall may start (not in a term's first 180 days; not again in a term after one failed) in every state but AZ, CA, CO, ID, KS, MI, NJ, OR and WI, whose bars are read into data/campaigns/recall-bars.json (CO and MI tagged ESTIMATED: read from summaries, not the statute text).",
     "why": "The owner's ruling (Oct 14): the recall rule reads the place's statute (grounds, signatures, cooling period). The municipal rule pack holds grounds, threshold and circulation window, but no cooling period yet.",
     "addedBy": "OPUS-GOV",
     "addedAt": "2026-10-14",
-    "replacement": "Each state's recall timing bars read into the municipal rule pack and resolved like its threshold and window.",
+    "replacement": "The other states' recall timing bars read into data/campaigns/recall-bars.json, and CO's and MI's checked against the statute text.",
     "status": "open"
   },
   {
@@ -4973,11 +4975,11 @@
     "kind": "missing-record",
     "file": "src/core2/health-web.ts",
     "line": 1,
-    "whatItFakes": "Deaths carry no cause. The traffic link moves the share of deaths a crash stands for at each age (IIHS rate over the life table's death rate), not a crash-death record. The overdose links (harm reduction, cannabis sales) and the youth firearm links (child access law, minimum handgun age) move only the web's number; no death reads them.",
-    "why": "Overdose and firearm death rates by single age are not in the repo, and a death has no cause field (death-causes.ts holds three plain groups).",
+    "whatItFakes": "Every death now carries a cause (overdose, youth firearm homicide, firearm suicide, motor vehicle, other) from NCHS 2023 shares by age, and the web's overdose, youth firearm and traffic links move those shares. What stays unwired: deaths under age 10 from firearms (the source reports none under 10, so the child access law reaches no toddler), the age split inside the 10 to 24 firearm band (ages 20 to 24 take the band's share although the web acts to 19), and counted people have no substance-use-disorder condition so none ranks first for an overdose.",
+    "why": "The source tables give firearm deaths for ages 10 to 24 as one band and report nothing under 10; drug overdose deaths are reported from 15; counted people hold no conditions.",
     "addedBy": "effect-web-health",
     "addedAt": "2026-10-20",
-    "replacement": "A cause-of-death record on every death, with cause-specific hazards by age (crash, overdose, firearm) from CDC WONDER, read by the people engines; the web's factor then multiplies each cause's hazard.",
+    "replacement": "Single-age firearm and overdose death counts from CDC WONDER (underlying cause, one-year ages 0 to 24), and a condition record on counted people.",
     "status": "open"
   },
   {
@@ -5146,6 +5148,78 @@
     "addedBy": "claude",
     "addedAt": "2026-10-20",
     "replacement": "A court escrow fund account that holds each bail apart from spendable treasury cash, returned in full at disposition.",
+    "status": "open"
+  },
+  {
+    "id": "SG-WEB-housing-links-unsized",
+    "kind": "missing-mechanic",
+    "file": "src/core2/modules/outcome-web.ts",
+    "line": 447,
+    "whatItFakes": "Two housing links move nothing: air-conditioning use does not rise or fall with the electricity price, and the share of income a place's renters pay in rent does not change how many people are homeless.",
+    "why": "The cited research gives no usable size: the electricity-price link has no published slope and no engine reads the air-conditioning share; the rent-burden link has thresholds at 22 and 32 percent but no slope (Zillow and UNH 2018; Colburn and Aldern 2022).",
+    "addedBy": "OPUS-WEB",
+    "addedAt": "2026-10-20",
+    "replacement": "A sized link (a published slope per point of burden or per cent of price) read by an engine that decides air-conditioning use and by the homeless review.",
+    "status": "open"
+  },
+  {
+    "id": "SG-WEB-disaster-severity",
+    "kind": "missing-mechanic",
+    "file": "src/core2/modules/outcome-web.ts",
+    "line": 448,
+    "whatItFakes": "A severe disaster does not lower home values: the link needs the disaster's death toll and the disasters module records only the FEMA declaration and its payments.",
+    "why": "Boustan, Kahn, Rhode and Yanguas 2020 size the price effect for disasters with at least 20 deaths; no record of deaths per disaster exists, and home values are not a factor the sales engine reads.",
+    "addedBy": "OPUS-WEB",
+    "addedAt": "2026-10-20",
+    "replacement": "Deaths and damage recorded on each disaster by the disasters module, and the housing sales engine reading the web's home-price factor.",
+    "status": "open"
+  },
+  {
+    "id": "SG-WEB-voting-graduation-cause",
+    "kind": "missing-engine",
+    "file": "src/core2/turnout-web.ts",
+    "line": 112,
+    "whatItFakes": "The graduation-to-turnout link moves turnout from the web's own school.graduation-pct number, which is a ledger value that no school outcomes engine produces.",
+    "why": "The school module keeps no graduation outcomes by place, so the cause is the web's baseline plus its own links (universal pre-K, tuition freeze), not students who graduated.",
+    "addedBy": "EFFECT-WEB-VOTING",
+    "addedAt": "2026-10-20",
+    "replacement": "A school outcomes engine that records graduates by place and year; the link then reads that record, lagged five years.",
+    "status": "open"
+  },
+  {
+    "id": "SG-WEB-voting-newspaper-closure",
+    "kind": "missing-engine",
+    "file": "src/core2/turnout-web.ts",
+    "line": 113,
+    "whatItFakes": "The newspaper-closure-to-engagement link into local turnout is not run.",
+    "why": "The press engine never closes an outlet, so no local-newspaper count ever falls and there is no cause to read.",
+    "addedBy": "EFFECT-WEB-VOTING",
+    "addedAt": "2026-10-20",
+    "replacement": "An outlet closing from its revenue in the press engine, with a press.local-newspaper count read from its outlets table.",
+    "status": "open"
+  },
+  {
+    "id": "SG-WEB-voting-corruption-reelection",
+    "kind": "missing-engine",
+    "file": "src/core2/turnout-web.ts",
+    "line": 114,
+    "whatItFakes": "The exposed-corruption-to-reelection link into the incumbent's reelection is not run.",
+    "why": "The voting engine already reads each reported scandal into the incumbent's appeal (scandalsOf), so a web factor on the reelection rate would move it twice; the cause is not a number the web can read.",
+    "addedBy": "EFFECT-WEB-VOTING",
+    "addedAt": "2026-10-20",
+    "replacement": "A recorded count of violations made public before an election, with the researched size checked against the appeal the engine builds.",
+    "status": "open"
+  },
+  {
+    "id": "SG-WEB-voting-relief-approval",
+    "kind": "missing-data",
+    "file": "src/core2/turnout-web.ts",
+    "line": 115,
+    "whatItFakes": "The relief-spending-to-votes and economy-to-approval links are not run.",
+    "why": "The game records no disaster-relief dollars by place, no incumbent approval series, and the two links have no size set (the research gives votes per doubling of relief and a to-confirm approval figure).",
+    "addedBy": "EFFECT-WEB-VOTING",
+    "addedAt": "2026-10-20",
+    "replacement": "Relief dollars by place in the budgets engine, an approval measure from the views engine, and sizes read from Healy and Malhotra 2009 and a confirmed approval source.",
     "status": "open"
   }
 ]
