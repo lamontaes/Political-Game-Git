@@ -5,7 +5,7 @@ area: world
 kind: stopgap
 priority: 2
 size: S
-status: in-pr
+status: done
 claimed-by: claude/opening-seekers-row
 pr: #5754
 blocked-on:
