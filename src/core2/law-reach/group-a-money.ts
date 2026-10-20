@@ -19,6 +19,8 @@ import { paidLeaveProgram, paidLeavePremium } from "../paid-leave";
 import type { CoreAPI, CoreState, PersonState } from "../types";
 import type { ModuleRow } from "../module-data";
 import { addDays, makeIsoDate } from "../kernel/dates";
+import { townFigures } from "../modules/housing";
+import { residentsRuntime } from "../modules/residents";
 import type { WorkPayrollJournalReceipt } from "../work-payroll-cash";
 import type { PolicyHandler } from "./host";
 import {
@@ -290,6 +292,12 @@ export const housingAssistance: PolicyHandler = (api, change) => {
       row.head = person;
     byHousehold.set(person.householdId, row);
   }
+  // The slots are shared across every renting household, named or counted,
+  // in proportion: a counted renter is helped by the same rule as a full one.
+  const town = lawChain(api).townPlaceId;
+  const figures = townFigures(api, town);
+  const totalRenters = Math.max(figures.renters, byHousehold.size);
+  const share = totalRenters > 0 ? Math.min(1, slots / totalRenters) : 0;
   const chosen = new Map(
     [...byHousehold]
       .filter(([, row]) => row.head !== null)
@@ -297,8 +305,10 @@ export const housingAssistance: PolicyHandler = (api, change) => {
         ([a, x], [b, y]) =>
           x.cash / x.members - y.cash / y.members || a.localeCompare(b),
       )
-      .slice(0, slots),
+      .slice(0, Math.floor(share * byHousehold.size)),
   );
+  const countedRenters = totalRenters - byHousehold.size;
+  const countedHelped = Math.floor(share * countedRenters);
   const date = api.state.date;
   const people = townPeople(api).filter(
     (p) => chosen.has(p.householdId) && ageOn(p.birthDate, date) >= adult,
@@ -324,16 +334,26 @@ export const housingAssistance: PolicyHandler = (api, change) => {
     const amount = Math.min(voucher, rent.amountMinor);
     if (amount > 0 && row.head) want.set(row.head.id, amount);
   }
+  // The counted renters' help is paid to their place's pooled residents
+  // account, the voucher (at most the typical rent) for each household helped.
+  const residentsOrg = residentsRuntime(core)?.input.accounts.find(
+    (a) => a.placeId === town,
+  )?.accountId;
+  if (residentsOrg && countedHelped > 0)
+    want.set(
+      residentsOrg,
+      countedHelped * Math.min(voucher, figures.rentMinor || voucher),
+    );
   reconcileRentHelp(api, gov, want);
   putMechanic(api, {
     id: `${HOUSING_KEY}:${gov.id}`,
     key: HOUSING_KEY,
-    active: chosen.size > 0,
+    active: chosen.size + countedHelped > 0,
     since: date,
     facts: {
       governmentId: gov.id,
       extraMinor: extra,
-      households: chosen.size,
+      households: chosen.size + countedHelped,
       lawId: change.lawId,
     },
   });

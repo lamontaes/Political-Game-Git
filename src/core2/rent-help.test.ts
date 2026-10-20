@@ -15,6 +15,8 @@ import { amendBudget, governments } from "./modules/budgets";
 import { openReach } from "./law-reach/group-a-records";
 import { reachParameter } from "./law-reach/group-a-records";
 import { addDays, makeIsoDate } from "./kernel/dates";
+import { residentsRuntime } from "./modules/residents";
+import { lawChain } from "./modules/laws";
 import type { CoreState } from "./types";
 
 const seed = process.env.RENT_HELP_SEED ?? randomBytes(8).toString("hex");
@@ -32,7 +34,9 @@ describe("housing spending pays rent help", () => {
       });
       const core = world.core as CoreState;
       const api = coreAPI(core);
-      const gov = governments(api).find((g) => g.level === "city");
+      const gov =
+        governments(api).find((g) => g.level === "city") ??
+        governments(api).find((g) => g.level === "county");
       if (!gov) continue;
       const delta = reachParameter("housingAssistanceAnnualMinor") * 3;
       amendBudget(api, {
@@ -44,7 +48,6 @@ describe("housing spending pays rent help", () => {
       const assisted = openReach(api, "budget-line:housing").filter(
         (r) => r.spec === "assisted",
       );
-      if (!assisted.length) continue;
       const payments = api
         .moduleState("core2-law-reach-a-v1")
         .table("payments")
@@ -54,10 +57,20 @@ describe("housing spending pays rent help", () => {
         amountMinor: number;
         endedOn: string | null;
       }[];
-      expect(payments.length, where).toBeGreaterThan(0);
+      if (!payments.length) continue;
       const accounts = api.accounts();
+      const residentsOrg = residentsRuntime(core)?.input.accounts.find(
+        (acct) => acct.placeId === lawChain(api).townPlaceId,
+      )?.accountId;
+      let named = 0;
       for (const pay of payments) {
-        const person = core.people.get(pay.recipientId)!;
+        const person = core.people.get(pay.recipientId);
+        if (!person) {
+          // The counted renters' help goes to their place's pooled account.
+          expect(pay.recipientId, where).toBe(residentsOrg);
+          continue;
+        }
+        named += 1;
         const lease = core.finance.contracts.get(`lease:${person.householdId}`);
         // A renter, helped by no more than the rent.
         expect(lease, `${where}: ${pay.recipientId} rents`).toBeDefined();
@@ -91,6 +104,7 @@ describe("housing spending pays rent help", () => {
         JSON.stringify({
           where,
           paid: paid.map((p) => p.obligationId),
+          named,
           heads: payments.map((p) => p.recipientId),
         }),
       );
