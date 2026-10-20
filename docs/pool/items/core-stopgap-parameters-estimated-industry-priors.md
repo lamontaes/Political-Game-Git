@@ -7,7 +7,7 @@ priority: 3
 status: blocked
 claimed-by:
 pr:
-blocked-on: research data: the row's replacement needs recorded, empirical or sourced data (Recorded firm budgets/books or cohort-matched individual data, with source availability and measured distributions; actual receipts remain conserving ...)
+blocked-on: engine or design: The prototype has recorded planned payroll and industry/classification evidence but lacks individual sales, operating-cost and credit-facility observations. Suppressed-cost estimates retain their orig
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/data/parameters.json, kind estimated-industry-priors"
 claimed-at:
