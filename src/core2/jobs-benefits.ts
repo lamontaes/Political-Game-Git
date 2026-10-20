@@ -33,7 +33,15 @@ import type { LawRowInput } from "./laws-starting";
 import { residentPerson, residentsRuntime } from "./modules/residents";
 import { decisionLean } from "./trait-decisions";
 import { transferCash } from "./world-transfer";
-import type { CoreAPI, CoreState, JobInput, Source } from "./types";
+import { countedPayment } from "./counted-money";
+import type {
+  CoreAPI,
+  CoreState,
+  JobInput,
+  PersonId,
+  PlaceId,
+  Source,
+} from "./types";
 
 export interface UnemploymentTerms {
   readonly hasProgram: boolean;
@@ -277,14 +285,33 @@ export function payClaims(api: CoreAPI, table: ModuleTable): void {
       });
       continue;
     }
-    const paid = transferCash(
-      api,
-      `unemployment-benefit:${row.personId}:${c.date}`,
-      fund.id,
-      row.payeeAccountOwnerId,
-      row.weeklyMinor,
-      row.source ?? unemploymentTerms(api).source,
-    );
+    const id = `unemployment-benefit:${row.personId}:${c.date}`;
+    const source = row.source ?? unemploymentTerms(api).source;
+    // A counted claimant's claim stands for the people their household
+    // stands for: the benefit is paid times that count, the way counted wages
+    // are (counted-money.ts countedPayment); `paid` stays one claim's.
+    const weight = c.people.has(row.personId)
+      ? 1
+      : countedWeight(c, row.personId);
+    const paid =
+      weight === 1
+        ? transferCash(
+            api,
+            id,
+            fund.id,
+            row.payeeAccountOwnerId,
+            row.weeklyMinor,
+            source,
+          )
+        : countedPayment(api, {
+            id,
+            placeId: row.placeId as PlaceId,
+            personId: row.personId as PersonId,
+            otherOwnerId: fund.id,
+            amountMinor: -row.weeklyMinor,
+            reasonKey: id.split(":")[0]!,
+            source,
+          });
     if (row.lawId && paid > 0)
       lawApplied(api, {
         key: "unemployment-insurance",
@@ -292,7 +319,7 @@ export function payClaims(api: CoreAPI, table: ModuleTable): void {
         ...claimant(c, row.personId),
         engine: "jobs",
         what: "benefit-paid",
-        amountMinor: paid,
+        amountMinor: paid * weight,
       });
     const weeksLeft = row.weeksLeft - 1;
     table.put({

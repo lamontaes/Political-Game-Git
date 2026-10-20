@@ -23,6 +23,7 @@ import { governments } from "./modules/budgets";
 import { townSeats } from "./modules/offices";
 import { jobsAt } from "./law-reach/group-b-money";
 import { reachParameter } from "./law-reach/group-b-people";
+import { reachParameter as reachA } from "./law-reach/group-a-records";
 import { draftBill } from "./modules/legislature";
 import { fileClaim } from "./jobs-benefits";
 import { residentsRuntime } from "./modules/residents";
@@ -137,6 +138,15 @@ function run(specId: string) {
   );
   if (!fullJobs.length || !countedJobs.length)
     throw new NoSubject("no full or counted jobs");
+  // The nation's floor binds only workers paid under it, full and counted.
+  const federalFloor = reachA("federalMinimumWageTargetMinor");
+  if (
+    !fullJobs.some((j) => (j.hourlyMinor ?? Infinity) < federalFloor) ||
+    !countedJobs.some((j) => (j.hourlyMinor ?? Infinity) < federalFloor)
+  )
+    throw new NoSubject(
+      "no full and counted worker paid under the federal floor",
+    );
   // The teacher floor binds teachers paid under it. The generated schools
   // pay most teachers above the floor, so the first full and the first
   // counted teacher are set (through the core's own pay seam) to four
@@ -321,6 +331,24 @@ function run(specId: string) {
       ),
       `unemployment-insurance: no benefit paid to ${who}`,
     );
+  // A counted claimant's benefit is paid times the people the claim stands
+  // for, the way counted wages are: the row's money is the claim's paid
+  // benefit times its count.
+  if (filed.counted) {
+    const claim = (
+      claims.rows() as unknown as { personId: string; paidMinor: number }[]
+    ).find((c) => c.personId === filed.counted);
+    const row = ui.find(
+      (r) => r.targetId === `counted-claimants:${filed.counted}`,
+    );
+    need(
+      claim &&
+        row &&
+        claim.paidMinor > 0 &&
+        row.amountMinor === claim.paidMinor * row.count,
+      `unemployment-insurance: counted claimant ${filed.counted} paid ${claim?.paidMinor} but row says ${row?.amountMinor} for ${row?.count} people`,
+    );
+  }
   need(
     posts.some(
       (p) =>
