@@ -5,11 +5,12 @@ area: elections
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/federal-office-age
+pr: #5047
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-18T08:16:53.787Z
 ---
 
 **What.** The filing rules treat U.S. Senator and President as statewide executive offices, so each is checked against the state's age for its own statewide offices: 18 in California, Massachusetts, Ohio, Rhode Island, South Dakota, Vermont, Washington, Wisconsin and D.C. The player, who is 18 on day one of the path, can file for either and the filing office accepts it. The Constitution sets 30 for the Senate and 35 for the presidency, which no state can lower. A candidate for those offices now meets the larger of the state's age and the Constitution's, and the check cites the clause.
