@@ -35,6 +35,7 @@ import type { CoreAPI, CoreModule, CoreState, PersonState } from "../types";
 import type { ModuleRow } from "../module-data";
 import { campaignParameter, personLean } from "../campaign-views";
 import { viewOn } from "./views";
+import { keepsWhy } from "../why-kept";
 import { parameter } from "../parameters";
 import { decisionLean } from "../trait-decisions";
 import { lawChain } from "./laws";
@@ -723,7 +724,11 @@ function record(
     parts: q.parts,
     result,
   };
-  table(api, "work").put(work as unknown as ModuleRow);
+  // The row says why this work was good or poor; it is kept for the people
+  // the player deals with (everyone's when bookkeeping is on). The count of
+  // tasks stays on the staffer for everyone.
+  if (keepsWhy(api.state as CoreState, staffer.officialId, staffer.personId))
+    table(api, "work").put(work as unknown as ModuleRow);
   table(api, "staff").put({
     ...staffer,
     tasksDone: staffer.tasksDone + 1,
