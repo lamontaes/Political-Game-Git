@@ -5,11 +5,12 @@ area: core
 kind: bug
 priority: 2
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/tripwire-diagnostics
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-20T07:43:23.614Z
 ---
 
 **What.** Running auditCore2Tripwires over main on Oct 20 gives 9,785 diagnostics: numeric-literal 8,860, player-text-literal 236, stopgap-location-mismatch 185, stale-stopgap-entry 126, inline-content-registry 120, checkrange-shape 105, parameter-estimate-stopgap 52, stopgap-entry-fields 33 (resolved rows carrying resolution, resolvedAt or resolvedBy), and smaller ones. The release build refuses while any stopgap is open and the tripwire tests fail on an unregistered one, so these hide real drift. Fix the stopgap-bookkeeping classes first (location mismatch, stale, entry fields and status, unregistered markers), which are mechanical, then decide with the CTO which literal classes are meant to be gated.
