@@ -101,6 +101,10 @@ async function header() {
   $("place").textContent = state.placeName ?? state.placeId;
   $("seed").textContent = state.seed;
   $("date").textContent = state.date;
+  const checks = state.journalChecks;
+  $("journal-checks").textContent = checks.checking
+    ? `on (${checks.checked} postings)`
+    : `skipped (${checks.skipped} postings; rerun with ${checks.rerunWith})`;
 }
 
 $("build").onclick = () =>

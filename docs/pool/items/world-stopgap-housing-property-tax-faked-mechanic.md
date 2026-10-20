@@ -4,9 +4,9 @@ title: "Stopgaps in housing-property-tax (faked-mechanic): 1 open"
 area: world
 kind: stopgap
 priority: 2
-status: claimed
+status: in-pr
 claimed-by: claude/property-tax-billing-g08lgv
-pr:
+pr: #5249
 blocked-on: sourced county due dates for all 56 places (research data)
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/housing-property-tax.ts, kind faked-mechanic"
