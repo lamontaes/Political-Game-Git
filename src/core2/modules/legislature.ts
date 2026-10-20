@@ -53,6 +53,7 @@ import {
   LAWS_MODULE_ID,
 } from "./laws";
 import { localAuthority, type EnactedAuthority } from "../laws-in-force";
+import { lawApplied } from "../law-reach/applied";
 import type { LawRowInput } from "../laws-starting";
 import { OFFICES_MODULE_ID, type TermRow } from "./offices";
 import { recordVote, votesOf } from "./record";
@@ -1630,6 +1631,27 @@ function checkedText(
             } as Authority)
           : authorityFor(api, p))),
   );
+  // A local minimum wage drafted under the state's grant (or refused by
+  // its preemption) reaches the body that drafted it.
+  for (const [i, p] of provisions.entries()) {
+    const a = authority[i]!;
+    if (
+      !stateBody &&
+      p.kind === "law-amount" &&
+      p.series === "minimum-wage" &&
+      a.source
+    )
+      lawApplied(api, {
+        key: "us-policy-positions:labor-workforce.local-minimum-wage-authority",
+        lawId: a.source,
+        targetId: bodyOfficeId,
+        target: "government",
+        engine: LEGISLATURE_MODULE_ID,
+        what: a.allowed
+          ? "local-minimum-wage-bill-allowed"
+          : "local-minimum-wage-bill-preempted",
+      });
+  }
   return {
     provisions,
     costEstimate: costOf(api, provisions),

@@ -15,6 +15,7 @@ import type { ModuleRow } from "../module-data";
 import { lawChain } from "../modules/laws";
 import { residentsRuntime } from "../modules/residents";
 import { setResidentFlowAmount } from "../residents-economy";
+import { lawApplied } from "./applied";
 import type { PolicyHandler } from "./host";
 import {
   ensureReachA,
@@ -27,6 +28,7 @@ import {
 
 const KIND = "law-reach-a-union-dues";
 const ROW = "right-to-work";
+const RTW_KEY = "us-policy-positions:labor-workforce.right-to-work";
 const UNION_RATES = (
   unionData as { states: Record<string, { membersPct: number }> }
 ).states;
@@ -88,6 +90,26 @@ function duesFlows(api: CoreAPI) {
   );
 }
 
+/** The town's working people who belong to a union, from the state's membership rate. */
+function duesPayers(api: CoreAPI): number {
+  const core = api.state as CoreState;
+  const town = lawChain(api).townPlaceId;
+  const inTown = (organizationId: string) =>
+    core.organizations.get(organizationId)?.placeId === town;
+  let employed = 0;
+  for (const job of core.jobs.values())
+    if (job.endsAt === undefined && inTown(job.organizationId)) employed += 1;
+  const rt = residentsRuntime(core);
+  for (const job of rt?.jobs.values() ?? [])
+    if (
+      !core.jobs.has(job.id) &&
+      job.endsAt === undefined &&
+      inTown(job.organizationId)
+    )
+      employed += 1;
+  return Math.round((employed * localRate(api)) / 100);
+}
+
 function save(api: CoreAPI, row: RtwRow, active: boolean): void {
   table(api).put({
     id: ROW,
@@ -106,9 +128,35 @@ function apply(api: CoreAPI, row: RtwRow): RtwRow {
     1 + membershipPoints(row, core.date) / localRate(api),
   );
   const base: Record<string, number> = { ...row.baseMinor };
-  for (const flow of duesFlows(api)) {
+  const flows = duesFlows(api);
+  const members = flows.length ? duesPayers(api) : 0;
+  for (const flow of flows) {
     base[flow.id] ??= flow.amountMinor;
+    const before = flow.amountMinor;
     setResidentFlowAmount(core, flow.id, base[flow.id]! * factor);
+    // The local's dues change, on the local and on the workers who pay them,
+    // while the law stands (a repeal's slow return is no law applied).
+    if (row.applied !== 1) continue;
+    const change = flow.amountMinor - before;
+    lawApplied(api, {
+      key: RTW_KEY,
+      lawId: row.lawId,
+      targetId: String(flow.payeeId),
+      target: "organization",
+      engine: REACH_A_MODULE_ID,
+      what: "union-dues-changed",
+      amountMinor: change,
+    });
+    if (members > 0)
+      lawApplied(api, {
+        key: RTW_KEY,
+        lawId: row.lawId,
+        targetId: `counted-workers:${flow.id}`,
+        target: "group",
+        engine: REACH_A_MODULE_ID,
+        what: "union-fee-not-required",
+        count: members,
+      });
   }
   return { ...row, baseMinor: base };
 }

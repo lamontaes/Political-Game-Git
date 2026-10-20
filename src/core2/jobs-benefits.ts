@@ -12,6 +12,8 @@
  */
 import type { ModuleTable } from "./module-state";
 import { lawInForce, LAWS_MODULE_ID } from "./modules/laws";
+import { BUDGETS_MODULE_ID, governments } from "./modules/budgets";
+import { lawApplied } from "./law-reach/applied";
 import type { LawRowInput } from "./laws-starting";
 import { residentPerson, residentsRuntime } from "./modules/residents";
 import { decisionLean } from "./trait-decisions";
@@ -29,6 +31,8 @@ export interface UnemploymentTerms {
   readonly minimumBasePeriodMinor: number;
   /** The law row the terms were read from. */
   readonly lawId?: string;
+  /** The weekly maximum's law row. */
+  readonly maximumLawId?: string;
   readonly source: Source;
 }
 
@@ -104,7 +108,8 @@ export function unemploymentTerms(api: CoreAPI): UnemploymentTerms {
         };
       }
     | undefined;
-  const maximum = lawInForce(api, "unemployment-weekly-maximum").value;
+  const maximumAnswer = lawInForce(api, "unemployment-weekly-maximum");
+  const maximum = maximumAnswer.value;
   if (!row || !t || t.hasProgram !== true) return NO_PROGRAM(asOf);
   if (typeof t.maxWeeks !== "number" || maximum === null)
     return NO_PROGRAM(asOf);
@@ -132,6 +137,9 @@ export function unemploymentTerms(api: CoreAPI): UnemploymentTerms {
         ? Math.round(wages * minor)
         : api.parameter("jobsBenefitMinimumBasePeriodMinor"),
     lawId: row.id,
+    ...(maximumAnswer.governing
+      ? { maximumLawId: maximumAnswer.governing.id }
+      : {}),
     source: lawSource(row, asOf),
   };
 }
@@ -200,6 +208,30 @@ export function fileClaim(
     source: terms.source,
   };
   table.put({ ...row });
+  // The program's law reached this worker (a counted worker is a counted
+  // person with an id of their own, the same rule); the weekly maximum
+  // reached them when it, not the share of their pay, fixed the benefit.
+  if (terms.lawId)
+    lawApplied(api, {
+      key: "unemployment-insurance",
+      lawId: terms.lawId,
+      targetId: job.personId,
+      target: "person",
+      engine: "jobs",
+      what: "claim-filed",
+    });
+  if (
+    terms.maximumLawId &&
+    terms.weeklyShare * weeklyPay > terms.weeklyMaximumMinor
+  )
+    lawApplied(api, {
+      key: "unemployment-weekly-maximum",
+      lawId: terms.maximumLawId,
+      targetId: job.personId,
+      target: "person",
+      engine: "jobs",
+      what: "weekly-benefit-capped",
+    });
   return row;
 }
 
@@ -208,11 +240,21 @@ export function payClaims(api: CoreAPI, table: ModuleTable): void {
   const c = api.state as CoreState;
   for (const row of table.query("open", [true]) as unknown as ClaimRow[]) {
     if (row.nextPayAt > c.date) continue;
-    // stopgapId: SG-WORLD-jobs-benefits (paid from the town's outside account, not a state fund)
-    api.stopgap("SG-WORLD-jobs-benefits");
-    const fund = [...c.organizations.values()].find(
-      (org) => org.placeId === row.placeId && org.outsideFlow !== undefined,
-    );
+    // The state's treasury pays, the fund its employers' unemployment tax
+    // fills; a world with no budgets engine pays from the town's outside account.
+    const treasury = c.modules.has(BUDGETS_MODULE_ID)
+      ? governments(api).find((g) => g.level === "state")
+      : undefined;
+    let fund: { id: string } | undefined = treasury
+      ? { id: treasury.organizationId }
+      : undefined;
+    if (!fund) {
+      // stopgapId: SG-WORLD-jobs-benefits
+      api.stopgap("SG-WORLD-jobs-benefits");
+      fund = [...c.organizations.values()].find(
+        (org) => org.placeId === row.placeId && org.outsideFlow !== undefined,
+      );
+    }
     if (!fund) {
       table.put({
         ...row,
@@ -230,6 +272,16 @@ export function payClaims(api: CoreAPI, table: ModuleTable): void {
       row.weeklyMinor,
       row.source ?? unemploymentTerms(api).source,
     );
+    if (row.lawId && paid > 0)
+      lawApplied(api, {
+        key: "unemployment-insurance",
+        lawId: row.lawId,
+        targetId: row.personId,
+        target: "person",
+        engine: "jobs",
+        what: "benefit-paid",
+        amountMinor: paid,
+      });
     const weeksLeft = row.weeksLeft - 1;
     table.put({
       ...row,

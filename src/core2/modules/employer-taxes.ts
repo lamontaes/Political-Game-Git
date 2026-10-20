@@ -21,6 +21,7 @@ import type { CoreAPI, CoreModule, CoreState, Source } from "../types";
 import type { ModuleRow } from "../module-data";
 import type { CashJournalSourceSlot } from "../journal-state";
 import { lawChain, lawInForce } from "./laws";
+import { lawApplied } from "../law-reach/applied";
 import { ownerOf } from "./business";
 import { residentPerson, residentsRuntime } from "./residents";
 import { countedPayment, paydayLaw } from "../counted-money";
@@ -501,6 +502,7 @@ function payEmployerShare(
       ? row.terms.employerRate
       : (row.value ?? 0);
   const lawIds: string[] = [];
+  const reached: { key: string; id: string; minor: number }[] = [];
   let socialSecurity = 0,
     medicare = 0,
     estimate = false;
@@ -511,12 +513,18 @@ function payEmployerShare(
     socialSecurity = Math.round((workers * taxable * rate(ss)) / 100);
     lawIds.push(ss.id);
     estimate ||= ss.estimate === true;
+    reached.push({
+      key: "social-security-tax",
+      id: ss.id,
+      minor: socialSecurity,
+    });
   }
   const med = lawInForce(api, "medicare-tax").governing;
   if (med?.value) {
     medicare = Math.round((workers * wages * rate(med)) / 100);
     lawIds.push(med.id);
     estimate ||= med.estimate === true;
+    reached.push({ key: "medicare-tax", id: med.id, minor: medicare });
   }
   // Unemployment insurance taxes, each on its own wage base for the year.
   const ui = (series: string) => {
@@ -528,7 +536,9 @@ function payEmployerShare(
     const taxable = Math.max(0, Math.min(wages, base - ytd));
     lawIds.push(row.id);
     estimate ||= row.estimate === true;
-    return { minor: Math.round((workers * taxable * row.value) / 100), row };
+    const minor = Math.round((workers * taxable * row.value) / 100);
+    reached.push({ key: series, id: row.id, minor });
+    return { minor, row };
   };
   const federalUnemployment = ui("federal-unemployment-tax").minor;
   const stateTreasury = governments(api).find((g) => g.level === "state");
@@ -611,6 +621,22 @@ function payEmployerShare(
     },
   };
   table(api, "shares").put(record as unknown as ModuleRow);
+  // The employer's side, on the employer's own reach row (a counted employer's
+  // payroll stands for its workers: a group with their count).
+  for (const r of reached)
+    if (r.minor > 0)
+      lawApplied(api, {
+        key: r.key,
+        lawId: r.id,
+        targetId: pay.ytdKey
+          ? `counted-workers:${receipt.organizationId}`
+          : receipt.organizationId,
+        target: pay.ytdKey ? "group" : "organization",
+        engine: EMPLOYER_TAXES_MODULE_ID,
+        what: "employer-tax-owed",
+        ...(pay.ytdKey ? { count: workers } : {}),
+        amountMinor: r.minor,
+      });
   if (!postings.length) return;
   const state = api.state as CoreState;
   api.postJournal({

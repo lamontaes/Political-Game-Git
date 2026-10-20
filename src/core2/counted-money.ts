@@ -17,9 +17,18 @@
  * (SG-CORE-counted-unkeyed-money).
  */
 import { transferSplit } from "./accounts";
-import { paidLeaveProgram, paidLeavePremium } from "./paid-leave";
+import {
+  PAID_LEAVE_KEY,
+  paidLeaveProgram,
+  paidLeavePremium,
+} from "./paid-leave";
 import { withholdingFor } from "./tax-withholding";
-import { governments } from "./modules/budgets";
+import {
+  BUDGETS_MODULE_ID,
+  governments,
+  PAYROLL_TAX_SERIES,
+} from "./modules/budgets";
+import { lawApplied } from "./law-reach/applied";
 import { LAWS_MODULE_ID, lawChain, lawInForce } from "./modules/laws";
 import { residentsRuntime, type ResidentsRuntime } from "./modules/residents";
 import type { CountedHousehold } from "./counted-groups";
@@ -427,6 +436,18 @@ export function groupWithholding(
     if (row.placeId !== town && line.level === "city") continue;
     const accountId = accounts.get(line.jurisdiction);
     if (!accountId) continue;
+    const series = PAYROLL_TAX_SERIES[line.tax];
+    if (series && line.minor > 0)
+      lawApplied(api, {
+        key: series,
+        lawId: line.lawId,
+        targetId: `counted-workers:${row.id}`,
+        target: "group",
+        engine: BUDGETS_MODULE_ID,
+        what: "withheld",
+        count: workers,
+        amountMinor: Math.round(line.minor * workers),
+      });
     out.push({
       accountId,
       minor: Math.round(line.minor * workers),
@@ -531,6 +552,16 @@ export function payGroups(
           deltaMinor: premium,
         });
         taxes += premium;
+        lawApplied(api, {
+          key: PAID_LEAVE_KEY,
+          lawId: leave.lawId,
+          targetId: `counted-workers:${rt.store.groups[group]!.id}`,
+          target: "group",
+          engine: BUDGETS_MODULE_ID,
+          what: "leave-premium-withheld",
+          count: workers!.get(group) ?? 0,
+          amountMinor: premium,
+        });
         const key = `${rt.store.groups[group]!.id}|${api.state.date.slice(0, 4)}|${leave.lawId}|paid-leave`;
         rt.withheld.set(key, (rt.withheld.get(key) ?? 0) + premium);
       }

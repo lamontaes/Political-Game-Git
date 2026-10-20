@@ -14,6 +14,7 @@ import { coreAPI, registerModule } from "../state";
 import type { CoreAPI, CoreModule, CoreState, Source } from "../types";
 import type { ModuleCalendarWork } from "../module-calendar";
 import type { ModuleRow } from "../module-data";
+import { lawApplied } from "../law-reach/applied";
 import { residentsRuntime } from "./residents";
 import { rerateCountedJobs } from "../residents-economy";
 import { POLICY_QUESTIONS } from "../policy-answers";
@@ -132,13 +133,19 @@ export function openLaws(core: CoreState): LawChain {
   }
   // The state's researched answers to the policy questions are its law in
   // force at the opening (audit 3; BOARD "next" item 4).
+  const federal = chain.levels.find((l) => l.level === "federal");
   for (const [question, entry] of Object.entries(POLICY_QUESTIONS)) {
-    const answer = entry.answers[chain.stateKey];
+    // A question about federal law is answered for the nation, at the
+    // federal level; every other question is answered for the state.
+    const isFederal = question.startsWith(FEDERAL_QUESTION_PREFIX);
+    const level = isFederal ? federal : { jurisdiction: chain.stateKey };
+    if (!level) continue;
+    const answer = entry.answers[level.jurisdiction];
     if (answer?.answer !== "yes" && answer?.answer !== "no") continue;
     const row: LawRowInput = {
-      id: `law:${chain.stateKey}:state:${question}:general:starting`,
-      jurisdiction: chain.stateKey,
-      level: "state",
+      id: `law:${level.jurisdiction}:${isFederal ? "federal" : "state"}:${question}:general:starting`,
+      jurisdiction: level.jurisdiction,
+      level: isFederal ? "federal" : "state",
       series: question,
       tier: "general",
       value: answer.answer === "yes" ? 1 : 0,
@@ -156,6 +163,9 @@ export function openLaws(core: CoreState): LawChain {
   }
   return chain;
 }
+
+/** Questions on federal law (answered once for the nation). */
+const FEDERAL_QUESTION_PREFIX = "us-federal-positions:";
 
 type WageStep = {
   effectiveDate: string;
@@ -604,10 +614,14 @@ function recordPublicPay(api: CoreAPI, source: Source): void {
  * Raise every job in the town paying under the minimum wage now in force.
  * Jobs at an employer outside the town's chain keep their own law.
  */
-function raiseToFloor(api: CoreAPI, source: Source): void {
+export function raiseToFloor(
+  api: CoreAPI,
+  source: Source,
+  cause?: WageCause,
+): void {
   const core = api.state as CoreState;
   for (const commitment of [...core.work.commitments.values()])
-    raiseOne(api, commitment.id, source);
+    raiseOne(api, commitment.id, source, cause);
   // The counted residents' jobs in town rise too (two-level population).
   const floor = lawInForce(api, "minimum-wage").value;
   const rt = residentsRuntime(core);
@@ -615,6 +629,7 @@ function raiseToFloor(api: CoreAPI, source: Source): void {
   // Each employer's wage flow is recomputed once; a counted job no wage flow
   // pays (its worker filled in, its flow ended) has no pay here to raise.
   const raised = new Map<string, number>();
+  const groups = new Map<string, { count: number; amountMinor: number }>();
   for (const job of rt.jobs.values()) {
     if (job.endsAt !== undefined || (job.hourlyMinor ?? floor) >= floor)
       continue;
@@ -625,8 +640,77 @@ function raiseToFloor(api: CoreAPI, source: Source): void {
     )
       continue;
     raised.set(job.id, floor);
+    const held = groups.get(employer.id) ?? { count: 0, amountMinor: 0 };
+    // The daily pay the raise adds for this worker.
+    groups.set(employer.id, {
+      count: held.count + 1,
+      amountMinor:
+        held.amountMinor +
+        (job.wageDailyMinor * (floor - (job.hourlyMinor ?? floor))) /
+          (job.hourlyMinor || floor),
+    });
   }
   rerateCountedJobs(core, raised);
+  // The counted workers a raise reached, by employer: one group each, the
+  // people it stands for as its count (the same rule as a full worker's).
+  for (const [employerId, g] of groups)
+    recordWageReach(
+      api,
+      {
+        targetId: `counted-workers:${employerId}`,
+        target: "group",
+        count: g.count,
+        amountMinor: g.amountMinor,
+      },
+      cause,
+    );
+}
+
+/** The law whose act set the wage that raised pay, when it is not the wage row alone. */
+export interface WageCause {
+  readonly key: string;
+  readonly lawId: string;
+}
+
+/**
+ * Record whom the minimum wage in force reached: the wage law itself and,
+ * where a policy question's act set that wage (the row it enacted names it),
+ * that question too.
+ */
+function recordWageReach(
+  api: CoreAPI,
+  who: {
+    readonly targetId: string;
+    readonly target: "person" | "group";
+    readonly count?: number;
+    /** The daily pay the raise adds, in minor units. */
+    readonly amountMinor: number;
+  },
+  cause?: WageCause,
+): void {
+  const governing = lawInForce(api, "minimum-wage").governing;
+  if (!governing) return;
+  const common = {
+    ...who,
+    engine: LAWS_MODULE_ID,
+    what: "pay-raised-to-minimum-wage",
+  };
+  lawApplied(api, { ...common, key: "minimum-wage", lawId: governing.id });
+  const enactedBy = governing.terms?.enactedBy;
+  const act =
+    cause ??
+    (typeof enactedBy === "string"
+      ? (() => {
+          const row = api
+            .moduleState(LAWS_MODULE_ID)
+            .table("laws")
+            .get(enactedBy) as unknown as LawRowInput | undefined;
+          return row && row.series !== "minimum-wage"
+            ? { key: row.series, lawId: row.id }
+            : undefined;
+        })()
+      : undefined);
+  if (act) lawApplied(api, { ...common, key: act.key, lawId: act.lawId });
 }
 
 /**
@@ -638,6 +722,7 @@ export function raiseOne(
   api: CoreAPI,
   commitmentId: string,
   source: Source,
+  cause?: WageCause,
 ): boolean {
   const answer = lawInForce(api, "minimum-wage");
   const floor = answer.value;
@@ -652,6 +737,7 @@ export function raiseOne(
   const employer = core.organizations.get(commitment.organizationId);
   if (!employer || (town.size && !town.has(employer.placeId))) return false;
   const from = commitment.hourlyMinor;
+  const dailyBefore = core.jobs.get(commitment.jobId)?.wageDailyMinor ?? 0;
   // The pay change through the core's own job record.
   api.rerateJob(commitment.jobId, floor, { ...source, asOf: core.date });
   raises.put({
@@ -663,6 +749,15 @@ export function raiseOne(
     toMinor: floor,
     lawId: answer.governing.id,
   });
+  recordWageReach(
+    api,
+    {
+      targetId: commitment.personId,
+      target: "person",
+      amountMinor: from > 0 ? (dailyBefore * (floor - from)) / from : 0,
+    },
+    cause,
+  );
   api.emit({
     id: `minimum-wage-raise:${commitment.id}:${core.date}`,
     date: core.date,

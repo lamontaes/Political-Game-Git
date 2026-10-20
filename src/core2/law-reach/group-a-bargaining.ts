@@ -14,6 +14,7 @@ import type { ModuleRow } from "../module-data";
 import { PUBLIC_EMPLOYER_CLASSES } from "../public-pay-floor";
 import type { PolicyHandler } from "./host";
 import { jobsAt } from "./group-b-money";
+import { payReach } from "./pay-reach";
 import {
   ensureReachA,
   onReachCalendar,
@@ -25,6 +26,8 @@ import {
 
 const KIND = "law-reach-a-bargaining";
 const ROW = "public-bargaining";
+const BARGAINING_KEY =
+  "us-policy-positions:labor-workforce.public-sector-collective-bargaining";
 
 interface BargainingRow {
   readonly id: string;
@@ -82,14 +85,24 @@ function apply(api: CoreAPI, row: BargainingRow): BargainingRow {
     estimatedFrom:
       "Public workers who bargain through a union are paid about five percent more than those who do not.",
   };
+  const reach = payReach(api, {
+    key: BARGAINING_KEY,
+    lawId: row.lawId,
+    engine: REACH_A_MODULE_ID,
+    what: "bargained-pay-raised",
+  });
   for (const job of jobsAt(api, PUBLIC_EMPLOYER_CLASSES)) {
     const hourly = job.hourlyMinor ?? 0;
     if (hourly <= 0) continue;
     base[job.id] ??= hourly;
     const target = Math.ceil(base[job.id]! * (1 + premium * share));
     // Pay already above the bargained level (a floor, a raise) stays.
-    if (target > hourly) api.rerateJob(job.id, target, source);
+    if (target > hourly) {
+      api.rerateJob(job.id, target, source);
+      reach.add(job, (job.wageDailyMinor * (target - hourly)) / hourly);
+    }
   }
+  reach.flush();
   return { ...row, baseMinor: base };
 }
 

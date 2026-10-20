@@ -27,7 +27,8 @@ import {
   type ResidentFacts,
   type TownFacts,
 } from "./group-b-people";
-import { getRow, putRow, rowsOf } from "./group-b-store";
+import { getRow, putRow, REACH_B_MODULE_ID, rowsOf } from "./group-b-store";
+import { payReach } from "./pay-reach";
 import { registerLinePayments } from "../budgets-treasury";
 import tuition from "../data/opening-private-tuition.json" with { type: "json" };
 
@@ -996,12 +997,20 @@ export function raiseToSalaryFloor(
     (floorDollars * reachParameter("centsPerDollar")) /
     reachParameter("daysPerYear");
   const out = new Map<string, { fromMinor: number; toMinor: number }>();
+  const reach = payReach(api, {
+    key: "us-policy-positions:education.raise-teacher-minimum-salary",
+    lawId,
+    engine: REACH_B_MODULE_ID,
+    what: "teacher-pay-raised-to-floor",
+  });
   for (const job of jobs) {
     const hourly = job.hourlyMinor ?? 0;
     if (hourly <= 0 || job.wageDailyMinor >= floorDaily) continue;
     const to = Math.ceil((hourly * floorDaily) / job.wageDailyMinor);
     api.rerateJob(job.id, to, source(api, `Teacher minimum salary (${lawId})`));
     out.set(job.id, { fromMinor: hourly, toMinor: to });
+    reach.add(job, (job.wageDailyMinor * (to - hourly)) / hourly);
   }
+  reach.flush();
   return out;
 }

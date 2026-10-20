@@ -28,6 +28,7 @@ import localYears from "../data/budgets/local-fiscal-years.json" with { type: "j
 import localSplit from "../../../data/research/budgets/local-spending-by-type.json" with { type: "json" };
 import { coreAPI, registerModule } from "../state";
 import { keepsWhy } from "../why-kept";
+import { lawApplied } from "../law-reach/applied";
 import type { CoreAPI, CoreModule, CoreState, Source } from "../types";
 import type { ModuleRow } from "../module-data";
 import type { ModuleCalendarWork } from "../module-calendar";
@@ -60,6 +61,10 @@ import {
 import { syncServiceCharges } from "../budgets-service-charges";
 
 export const BUDGETS_MODULE_ID = "core2-budgets-v1";
+
+/** The law series each payroll withholding line is read from (income tax is read elsewhere). */
+export const PAYROLL_TAX_SERIES: Readonly<Record<string, string | undefined>> =
+  { "social-security": "social-security-tax", medicare: "medicare-tax" };
 const WITHHOLDING_KIND = "budgets:withholding";
 
 /** Spending functions a county carries; the rest of local spending is the city's or township's. */
@@ -1343,6 +1348,20 @@ function postWithholding(
         : {}),
     },
   };
+  // The payroll taxes the worker paid, on the worker's own reach row.
+  for (const line of kept) {
+    const series = PAYROLL_TAX_SERIES[line.tax];
+    if (series)
+      lawApplied(api, {
+        key: series,
+        lawId: line.lawId,
+        targetId: input.payerId,
+        target: "person",
+        engine: BUDGETS_MODULE_ID,
+        what: "withheld",
+        amountMinor: line.minor,
+      });
+  }
   // The journal reads the record from its slot; the table keeps it once posted.
   holdWithholdingSlot(api, record);
   const state = api.state as CoreState;

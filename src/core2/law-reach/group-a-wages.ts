@@ -6,15 +6,17 @@
  * stays: a repeal lowers the floor, not anyone's pay). Local minimum-wage
  * authority is the state's enacted answer the laws engine reads.
  */
-import type { CoreAPI, CoreState, Source } from "../types";
+import type { CoreAPI, Source } from "../types";
 import type { ModuleRow } from "../module-data";
 import {
   enactLaw,
   lawChain,
   lawInForce,
   LAWS_MODULE_ID,
-  raiseOne,
+  raiseToFloor,
 } from "../modules/laws";
+import { BUDGETS_MODULE_ID, governments } from "../modules/budgets";
+import { lawApplied } from "./applied";
 import type { PolicyHandler } from "./host";
 import {
   ensureReachA,
@@ -223,11 +225,25 @@ export const localWageAuthority: PolicyHandler = (api, change) => {
     facts: { answer, lawId: change.lawId },
   });
   if (!stateYes) return;
+  // The state's grant reaches the town's own government: it may now set a
+  // wage the state's floor does not (the council's bills read it).
+  const local = api.state.modules.has(BUDGETS_MODULE_ID)
+    ? (governments(api).find((g) => g.level === "city") ??
+      governments(api).find((g) => g.level === "county"))
+    : undefined;
+  if (local)
+    lawApplied(api, {
+      key: AUTHORITY_KEY,
+      lawId: change.lawId,
+      targetId: local.id,
+      target: "government",
+      engine: LAWS_MODULE_ID,
+      what: "local-minimum-wage-granted",
+    });
   const source: Source = {
     tag: "SOURCED",
     citation: `Local minimum wage authority granted by ${change.lawId}`,
     asOf: api.state.date,
   };
-  for (const id of [...(api.state as CoreState).work.commitments.keys()])
-    raiseOne(api, id, source);
+  raiseToFloor(api, source, { key: AUTHORITY_KEY, lawId: change.lawId });
 };
