@@ -12,7 +12,8 @@
  * living cost already sent owners' taxes.
  */
 import taxData from "./data/housing/property-tax.json" with { type: "json" };
-import { countedPayment } from "./counted-money";
+import { countedHouseholdStands, countedPayment } from "./counted-money";
+import { lawApplied } from "./law-reach/applied";
 import type { ModuleTable } from "./module-state";
 import { stopgap } from "./stopgaps";
 import { transferCash } from "./world-transfer";
@@ -167,6 +168,49 @@ export function billPropertyTax(
   let total = 0;
   for (const home of homes) {
     const t = termsFor(home.placeId);
+    // The owner household (a counted record stands for its people) was billed
+    // at the rate in force, and by the growth cap where one limits the
+    // assessment: recorded where the bill is worked out.
+    const applied = (
+      targetId: string,
+      target: "household" | "group",
+      count: number,
+      paidMinor: number,
+      households = 1,
+    ) => {
+      if (t.lawRowId)
+        lawApplied(api, {
+          key: "property-tax",
+          lawId: t.lawRowId,
+          targetId,
+          target,
+          engine: "core2-housing-v1",
+          what: "property-tax-billed",
+          count,
+          amountMinor: paidMinor,
+        });
+      const assessedNow = assessments.get(
+        `assessment:${targetId}`,
+      ) as unknown as AssessmentRow | undefined;
+      if (t.assessmentLawRowId && assessedNow)
+        lawApplied(api, {
+          key: "us-policy-positions:fiscal.cap-property-tax-growth",
+          lawId: t.assessmentLawRowId,
+          targetId,
+          target,
+          engine: "core2-housing-v1",
+          what: "assessment-growth-capped",
+          count,
+          // The tax the cap saved this month: the value the assessment left
+          // untaxed times the rate, a twelfth.
+          amountMinor: Math.round(
+            (Math.max(0, home.valueMinor - assessedNow.assessedMinor) *
+              t.rate *
+              households) /
+              months,
+          ),
+        });
+    };
     const id = `assessment:${home.householdId}`;
     const last = assessments.get(id) as unknown as AssessmentRow | undefined;
     // Each January the assessment follows the market, no faster than a cap where the law sets one.
@@ -217,6 +261,7 @@ export function billPropertyTax(
       }
       total += paid;
       keepArrears(home.householdId, home, t, bill - paid);
+      applied(home.householdId, "household", 1, paid);
     } else {
       const paid = countedPayment(api, {
         id: `property-tax:${home.householdId}:${c.date}:${t.lawRowId ?? STATE_AVERAGE_LAW}:${t.assessmentLawRowId ?? "uncapped"}`,
@@ -229,6 +274,15 @@ export function billPropertyTax(
       });
       total += paid;
       keepArrears(home.householdId, home, t, bill - paid);
+      const stands = countedHouseholdStands(api, home.householdId);
+      applied(
+        home.householdId,
+        "group",
+        stands?.people ?? 1,
+        // The record stands for its weight: the tax it paid in all.
+        paid * (stands?.households ?? 1),
+        stands?.households ?? 1,
+      );
     }
   }
   return total;

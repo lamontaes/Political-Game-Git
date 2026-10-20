@@ -379,6 +379,7 @@ function runPolicy(
     case "reserve": {
       const held = holdReserve(api, {
         key,
+        lawId: input.lawId,
         level,
         inForce: input.enacting,
         modeledShare: share,

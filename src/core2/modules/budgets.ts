@@ -47,6 +47,7 @@ import { resolveLawInForce, type LawInForceAnswer } from "../laws-in-force";
 import { corePlaceByJurisdictionId } from "../place-lookup";
 import { outsideGovernment } from "../outside-governments";
 import { withholdingFor, type WithholdingLine } from "../tax-withholding";
+import { recordIncomeTaxApplied } from "../tax-applied";
 import {
   applySocialSecurityLevel,
   closeTreasuries,
@@ -1312,6 +1313,12 @@ function postWithholding(
     total += line.minor;
   }
   if (!total) return null;
+  recordIncomeTaxApplied(api, {
+    targetId: input.payerId,
+    target: "person",
+    count: 1,
+    lines: kept,
+  });
   postings.unshift({
     id: `${input.id}:tax:out`,
     accountId: `cash:${input.payerId}:residual`,

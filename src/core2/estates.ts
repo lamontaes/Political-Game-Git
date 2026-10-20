@@ -31,6 +31,7 @@ import { BUDGETS_MODULE_ID, governments } from "./modules/budgets";
 import { outsideGovernment } from "./outside-governments";
 import { estateTaxes, inheritanceTax, type DeathTax } from "./laws-death-taxes";
 import { LAWS_MODULE_ID, lawChain } from "./modules/laws";
+import { lawApplied } from "./law-reach/applied";
 import { closenessBetween } from "./closeness";
 import { decisionLean } from "./trait-decisions";
 import type { ModuleRow } from "./module-data";
@@ -431,6 +432,23 @@ function distribute(
     });
     taxes.push(tax);
     paid.push({ toId: to, amountMinor: tax.amountMinor });
+    // The estate (the decedent) or the heir whose share paid was taxed by the
+    // law row read; the federal estate tax sits beside a state's on the
+    // decedent, the state's being the row under the decedent's own id.
+    const heir = tax.heirId !== undefined;
+    lawApplied(api, {
+      key: tax.series,
+      lawId: tax.lawId,
+      targetId: heir
+        ? tax.heirId!
+        : tax.jurisdiction === "US" && stateKey
+          ? `${personId}|US`
+          : personId,
+      target: "person",
+      engine: ESTATES_MODULE_ID,
+      what: heir ? "inheritance-taxed" : "estate-taxed",
+      amountMinor: tax.amountMinor,
+    });
   };
   let net = estate;
   // The estate tax is figured on the whole estate (a revocable trust stays in

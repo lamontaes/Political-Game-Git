@@ -1,3 +1,4 @@
+import { lawApplied } from "../law-reach/applied";
 import type { OfficeInput } from "../offices-local";
 import { snapshotExplicitControlV1 } from "../player-control-state-v1";
 import {
@@ -1630,6 +1631,21 @@ function checkedText(
             } as Authority)
           : authorityFor(api, p))),
   );
+  // The state's grant (or refusal) of local income-tax authority was read for
+  // this body: it is the body the law lets tax, or keeps from taxing.
+  if (!stateBody)
+    for (const [index, p] of provisions.entries()) {
+      const read = authority[index]!;
+      if (p.kind === "law-amount" && p.series === "income-tax" && read.source)
+        lawApplied(api, {
+          key: "local-income-tax-authority",
+          lawId: read.source,
+          targetId: bodyOfficeId,
+          target: "organization",
+          engine: LEGISLATURE_MODULE_ID,
+          what: read.allowed ? "local-tax-allowed" : "local-tax-barred",
+        });
+    }
   return {
     provisions,
     costEstimate: costOf(api, provisions),
