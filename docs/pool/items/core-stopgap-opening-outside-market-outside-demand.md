@@ -22,3 +22,5 @@ claimed-at:
 **Files.** src/core2/opening-outside-market.ts
 
 **Notes.** First row: Buyers outside the town are one account per place paying each firm a fixed weekly share of its projected receipts (adjusted with its demand), not individual outside customers, freight orders, Medicaid claims or guests.
+
+Sent back 2026-10-20 from PR #5297 (branch claude/pool-outside-demand): The one-year outside-sales measurement is useful, but the body says the named stopgap stays open for individual dated buyers. This item Done when requires its rows resolved. Do not complete the broader replacement with a partial macro-flow proof: track this completed proof under a bounded item while preserving the remaining open work, or finish the named replacement.; finish on that branch, merge main into it first.
