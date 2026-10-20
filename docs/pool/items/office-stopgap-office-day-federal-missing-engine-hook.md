@@ -4,13 +4,13 @@ title: "Stopgaps in office-day-federal (missing-engine-hook): 1 open"
 area: office
 kind: stopgap
 priority: 3
-status: in-pr
+status: claimed
 claimed-by: claude/pool-fed-prepared
 pr: #5262
 blocked-on:
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/office-day-federal.ts, kind missing-engine-hook"
-claimed-at: 2026-10-19T23:18:04.164Z
+claimed-at: 2026-10-20T03:13:19.852Z
 ---
 
 **What.** Replace or clear the 1 open missing-engine-hook stopgap row(s) in src/core2/office-day-federal.ts: SG-OFFICE-FED-prepared. Each fake is replaced by the mechanic, or the feature that needs it is deleted.
@@ -21,4 +21,4 @@ claimed-at: 2026-10-19T23:18:04.164Z
 
 **Files.** src/core2/office-day-federal.ts
 
-**Notes.** First row: What the player prepares for a federal act (the stances a re-election filing runs on, the budget request's line changes, the joint address's answers) is kept in the federal day's own table, beside the engine's.
+**Notes.** Sent back 2026-10-20 from PR #5262 (branch claude/pool-fed-prepared): Refused under morning check (a stopgap row deleted); keep SG-OFFICE-FED-prepared in stopgaps.json with status resolved instead of deleting it; finish on that branch, merge main into it first. First row: What the player prepares for a federal act (the stances a re-election filing runs on, the budget request's line changes, the joint address's answers) is kept in the federal day's own table, beside the engine's.
