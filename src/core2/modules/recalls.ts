@@ -36,9 +36,14 @@ import { lawChain, LAWS_MODULE_ID } from "./laws";
 import type { LawRowInput } from "../laws-starting";
 import { LEGISLATURE_MODULE_ID, votesOn, type BillRow } from "./legislature";
 import { OFFICES_MODULE_ID, vacateSeat, type TermRow } from "./offices";
-import { turnoutOn } from "./voting";
+import { VOTING_MODULE_ID, turnoutOn, type ResultRow } from "./voting";
+import { ELECTIONS_MODULE_ID, type ContestRow } from "./elections";
 import { countedResidents } from "../electorate";
+import { citizenShareOf } from "../electorate-places";
+import { electorateChange } from "../electorate-inputs";
+import recallBarData from "../data/campaigns/recall-bars.json" with { type: "json" };
 import { resolveMunicipalRecallRule } from "../gov-rules/municipal-ballot-rules";
+import type { PetitionSignatureBase } from "../gov-rules/municipal-election-rules";
 import { resolveRequiredSignatures } from "../gov-rules/municipal-election-rules";
 
 const daysBetween = (from: string, to: string) =>
@@ -58,6 +63,8 @@ export interface RecallRow {
   readonly started: string;
   readonly due: string;
   readonly required: number;
+  /** The base the required signatures are a percentage of, and where it was read or sized from. */
+  readonly base: SignatureBase;
   readonly signatures: number;
   readonly namedSigners: readonly string[];
   readonly status: "circulating" | "failed" | "on-ballot" | "kept" | "removed";
@@ -177,6 +184,150 @@ function stateUsps(api: CoreAPI): string {
   return lawChain(api).stateKey.slice(3);
 }
 
+interface RecallBarRow {
+  readonly openingDays: number;
+  readonly longTermOpeningDays?: number;
+  readonly longTermAboveYears?: number;
+  readonly closingDays?: number;
+  readonly longTermClosingDays?: number;
+}
+
+/**
+ * The state's bars on when a petition may be filed against a member whose
+ * term is `termYears` long: days into the term before one may be, and days
+ * before its end after which none may be. Null where the state's statute is
+ * not read (SG-GOV-recall-bars-national): the national estimate stands.
+ */
+export function recallBarsFor(
+  stateUsps: string,
+  termYears: number | undefined,
+): { openingDays: number; closingDays: number } | null {
+  const row = (recallBarData.states as Record<string, RecallBarRow>)[stateUsps];
+  if (!row) return null;
+  const long =
+    termYears !== undefined &&
+    row.longTermAboveYears !== undefined &&
+    termYears > row.longTermAboveYears;
+  return {
+    openingDays: long
+      ? (row.longTermOpeningDays ?? row.openingDays)
+      : row.openingDays,
+    closingDays: long
+      ? (row.longTermClosingDays ?? row.closingDays ?? 0)
+      : (row.closingDays ?? 0),
+  };
+}
+
+/** The signature base a petition's percentage applies to, as a whole count of voters, and where it came from. */
+export interface SignatureBase {
+  readonly kind: PetitionSignatureBase;
+  readonly count: number;
+  /** "recorded" where a record in the world holds it; "estimated" where it is sized from the real averages. */
+  readonly basis: "recorded" | "estimated";
+  /** The result record a recorded count was read from. */
+  readonly recordId?: string;
+}
+
+/**
+ * The eligible voters of the town as a whole count: the named and counted
+ * adults, each counted record for as many voters as its household stands for,
+ * less non-citizens and those barred. Fitted household weights are fractions,
+ * so the sum is rounded to a whole number of voters before any rule sees it.
+ */
+function eligibleVoters(api: CoreAPI, voters: readonly TownVoter[]): number {
+  const placeKey = api.state.placeMetadata.placeKey as string | undefined;
+  const eligibleShare =
+    citizenShareOf(placeKey, stateUsps(api)) *
+    (1 - electorateChange(api).barred);
+  return Math.round(voters.reduce((n, p) => n + p.weight, 0) * eligibleShare);
+}
+
+/** Votes cast at the world's recorded elections: each result's totals, with the contest it was for. */
+function recordedCounts(
+  api: CoreAPI,
+): { result: ResultRow; contest: ContestRow; votes: number }[] {
+  if (!api.state.modules.has(VOTING_MODULE_ID)) return [];
+  const contests = api.moduleState(ELECTIONS_MODULE_ID).table("contests");
+  return (
+    api
+      .moduleState(VOTING_MODULE_ID)
+      .table("results")
+      .rows() as unknown as ResultRow[]
+  ).flatMap((result) => {
+    const contest = contests.get(result.contestId) as unknown as
+      ContestRow | undefined;
+    const votes = Object.values(result.totals).reduce((n, v) => n + v, 0);
+    return contest && votes > 0 ? [{ result, contest, votes }] : [];
+  });
+}
+
+/**
+ * What a state's rule says a petition's percentage is a percentage of, read
+ * from the world's own records: votes cast for the office at its last
+ * election, or at the town's last election of that level. Where the world
+ * holds no such record (it keeps no voter rolls, and a statewide race's
+ * votes are not kept by town), the base is sized from the real averages.
+ */
+export function signatureBase(
+  api: CoreAPI,
+  kind: PetitionSignatureBase,
+  term: Readonly<Pick<TermRow, "officeId">>,
+  voters: readonly TownVoter[],
+): SignatureBase {
+  const records = recordedCounts(api).sort(
+    (a, b) =>
+      b.result.date.localeCompare(a.result.date) ||
+      a.result.id.localeCompare(b.result.id),
+  );
+  if (kind === "votes-cast-for-office") {
+    const last = records.find((r) => r.contest.officeId === term.officeId);
+    if (last)
+      return {
+        kind,
+        count: Math.round(last.votes),
+        basis: "recorded",
+        recordId: last.result.id,
+      };
+  }
+  if (kind === "votes-cast-last-election") {
+    const office = api
+      .moduleState(OFFICES_MODULE_ID)
+      .table("offices")
+      .get(term.officeId) as unknown as { level?: string } | undefined;
+    const sameLevel = records.filter((r) => r.contest.level === office?.level);
+    const date = sameLevel[0]?.result.date;
+    // The election's votes: the most cast in any one of its contests that day.
+    const top = sameLevel
+      .filter((r) => r.result.date === date)
+      .sort((a, b) => b.votes - a.votes)[0];
+    if (top)
+      return {
+        kind,
+        count: Math.round(top.votes),
+        basis: "recorded",
+        recordId: top.result.id,
+      };
+  }
+  // stopgapId: SG-GOV-recall-signature-groups (registered voters, and votes with no record yet, are sized from the real averages)
+  api.stopgap("SG-GOV-recall-signature-groups");
+  const population = Number(api.state.placeMetadata.referencePopulation);
+  const count =
+    kind === "registered-voters"
+      ? Math.round(
+          eligibleVoters(api, voters) *
+            campaignParameter("registeredShareOfEligible"),
+        )
+      : population > 0
+        ? Math.round(
+            population *
+              campaignParameter("localElectorateShareOfPopulation") *
+              (kind === "last-gubernatorial-vote"
+                ? campaignParameter("midtermShareOfPresidential")
+                : 1),
+          )
+        : eligibleVoters(api, voters);
+  return { kind, count, basis: "estimated" };
+}
 /**
  * The town's recall rule, where its state gives places one: the read
  * threshold, or the read rules' median where recall exists but its
@@ -225,8 +376,9 @@ function weighOrdinance(api: CoreAPI, event: Readonly<CoreEventInput>): void {
     // A member's committee and floor votes are one member to hold to account.
     if (!term || term.status !== "serving" || seen.has(term.id)) return [];
     seen.add(term.id);
-    // stopgapId: SG-GOV-recall-bars-national (one national bar for every state's statute)
-    api.stopgap("SG-GOV-recall-bars-national");
+    // stopgapId: SG-GOV-recall-bars-national (states with no row in recall-bars.json take one national bar)
+    if (!recallBarsFor(stateUsps(api), undefined))
+      api.stopgap("SG-GOV-recall-bars-national");
     // The term began one term's length before it ends (a term held at the
     // opening records the opening as its start).
     const years = (
@@ -239,9 +391,16 @@ function weighOrdinance(api: CoreAPI, event: Readonly<CoreEventInput>): void {
       term.endDate && years
         ? `${Number(term.endDate.slice(0, 4)) - years}${term.endDate.slice(4)}`
         : term.startDate;
+    const bars = recallBarsFor(stateUsps(api), years) ?? {
+      openingDays: campaignParameter("recallTermOpeningDays"),
+      closingDays: 0,
+    };
+    if (daysBetween(since, api.state.date) < bars.openingDays) return [];
+    // Some statutes also bar a petition in the last months of the term.
     if (
-      daysBetween(since, api.state.date) <
-      campaignParameter("recallTermOpeningDays")
+      bars.closingDays &&
+      term.endDate &&
+      daysBetween(api.state.date, term.endDate) <= bars.closingDays
     )
       return [];
     const prior = table(api).query("byTerm", [
@@ -343,12 +502,10 @@ function startRecall(
           decisionLean(api.state, p, "recalls.sign", "sign", "pass") >
         0,
   );
-  // Household weights are fitted, so the voters they stand for are not whole
-  // numbers; a petition's base is a whole count of voters.
-  const electorate = Math.round(voters.reduce((n, p) => n + p.weight, 0));
+  // The petition's base is the one the state's rule names, a whole count of
+  // voters (household weights are fitted fractions; see `eligibleVoters`).
+  const base = signatureBase(api, rule.threshold.base, term, voters);
   const signatures = Math.round(signers.reduce((n, p) => n + p.weight, 0));
-  // stopgapId: SG-GOV-recall-signature-groups
-  api.stopgap("SG-GOV-recall-signature-groups");
   const recall: RecallRow = {
     id: `recall:${term.id}:${api.state.date}`,
     termId: term.id,
@@ -359,7 +516,8 @@ function startRecall(
     question: row.series,
     started: api.state.date,
     due: addDays(api.state.date, rule.circulationDays),
-    required: resolveRequiredSignatures(rule.threshold, electorate),
+    required: resolveRequiredSignatures(rule.threshold, base.count),
+    base,
     signatures,
     namedSigners: signers.filter((p) => !p.counted).map((p) => p.id),
     status: "circulating",
@@ -370,7 +528,12 @@ function startRecall(
     id: `recall-petition:${recall.id}`,
     date: api.state.date,
     kind: "recall-petition",
-    personIds: [organizer.id],
+    // The organizer, and the member the petition is against when they are a
+    // person: both are reached by it.
+    personIds: [
+      organizer.id,
+      ...(api.state.people.has(input.memberId) ? [input.memberId] : []),
+    ],
     placeId: lawChain(api).townPlaceId,
     source: {
       tag: "SOURCED",
@@ -379,7 +542,12 @@ function startRecall(
     },
     publicRecord: true,
     news: true,
-    facts: { recallId: recall.id, termId: term.id, lawId: row.id },
+    facts: {
+      recallId: recall.id,
+      termId: term.id,
+      lawId: row.id,
+      memberId: input.memberId,
+    },
   });
   api.moduleCalendar(RECALLS_MODULE_ID).schedule({
     key: `petition-due:${recall.id}`,

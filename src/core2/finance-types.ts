@@ -50,16 +50,17 @@ export interface FinanceContractInput {
   source: Source;
 }
 
-/** A payer died and the obligation changed hands or ended. */
+/** A payer died or left the household and the obligation changed hands or ended, or a person joined the household and began paying it. */
 export interface PayerHandover {
   readonly on: IsoDate;
+  /** The payer who died, left or joined. */
   readonly from: string;
   readonly to: readonly string[];
-  readonly outcome: "kept-by-co-payers" | "taken-over" | "ended";
+  readonly outcome: "kept-by-co-payers" | "taken-over" | "ended" | "joined";
 }
 
 export interface FinanceContractState extends FinanceContractInput {
-  /** Dated record of each payer who died and what became of the obligation. */
+  /** Dated record of each payer who died, left or joined and what became of the obligation. */
   payerHandovers?: readonly PayerHandover[];
   /** Original admission date; dueAt advances and cannot define source validity. */
   firstDueAt: IsoDate;
@@ -122,6 +123,8 @@ export interface BusinessBooksState extends BusinessBooksInput {
   anchorAnnualOtherCostsMinor: number;
   anchorPrice: number;
   lastGeneralPriceFactor: number;
+  /** The outcome web's factor on household prices in the place at the last review (absent reads as one). */
+  lastWebPriceFactor?: number;
   lastWagePriceFactor: number;
   /**
    * Each current job's hourly pay at the last review, so the next review
