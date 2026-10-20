@@ -31,6 +31,7 @@ import {
 } from "../../src/director/scene-talk";
 import type { Fact } from "../../src/director/render";
 import { properName, spoken, spokenWhen } from "../../src/director/words";
+import { composeScene } from "../../src/director/scene";
 import { ageOnDate, makeIsoDate } from "../../src/core2/kernel/dates";
 import { policyNames } from "../../src/bench/words";
 import { filingClerkFor } from "../../src/core2/modules/filing-clerk";
@@ -2315,6 +2316,7 @@ const LIFE_WORDS: readonly [RegExp, string][] = [
   [/^cause:event:executive-action$/, "acted on a bill at the desk"],
   [/^cause:event:veto-override$/, "a veto went to an override vote"],
   [/^cause:event:town-hall$/, "a town hall"],
+  [/^cause:event:president\.address$/, "gave the address"],
   [/^cause:event:candidate-filed$/, "filed to run for office"],
   [/^cause:event:election-result$/, "an election result"],
   [/^cause:event:took-office$/, "took office"],
@@ -2535,6 +2537,22 @@ const lifeCauseFacts = (
     if (held && held.title === spokenPost(facts.office))
       out.incumbent = flag([id, held.term.id]);
   }
+  if (cause?.kind === "cause.shared") {
+    // The cause, in plain words, and where the one asking first heard it:
+    // from the person they are asking, at that person's own town hall.
+    const entries = Object.entries(facts as Record<string, string>);
+    const drive = entries.find(([key]) => key.endsWith(":drive"))?.[1];
+    const question = drive?.replace(/^cause:/, "");
+    const name = question ? names[question] : undefined;
+    if (name)
+      out.cause = fact(name.charAt(0).toLowerCase() + name.slice(1), [
+        id,
+        String(question),
+      ]);
+    const origin = entries.find(([key]) => key.endsWith(":origin"))?.[1];
+    if (origin?.includes(":town-hall:") && origin.includes(askedId))
+      out["heard-you"] = flag([id, origin]);
+  }
   if (cause?.kind === "town-hall") {
     out.townhall = flag([id]);
     const hall = rows("core2-meetings-v1", "townHalls").find(
@@ -2585,6 +2603,13 @@ const lifeWhy = (
       )
         .replace(/ \(.*\)$/, "")
         .toLowerCase()}.`,
+    );
+  else if (cause?.kind === "president.address")
+    lines.push(
+      `${asked} gave the ${String(facts["address:kind"] ?? "")} address on ${when}; the English engine composed it from the world's records.`.replace(
+        "the  address",
+        "the address",
+      ),
     );
   else if (cause?.kind === "town-hall")
     lines.push(
@@ -2699,7 +2724,11 @@ const pageTypes = lifeIds.length
           .filter((spec) => spec.typeKey === typeKey)
           .map((spec) => [spec.askerId, spec.askedId].sort().join("|")),
       );
-      return Array.from({ length: Math.max(1, casts.size) }, () => typeKey);
+      // Two at most of one situation, so one busy purpose doesn't fill the page.
+      return Array.from(
+        { length: Math.min(2, Math.max(1, casts.size)) },
+        () => typeKey,
+      );
     })
   : [...purposeTypes, ...fallbackKeys];
 for (const typeKey of pageTypes) {
@@ -2855,6 +2884,75 @@ const testsOf = (scene: ComposedScene) => {
   };
 };
 
+/**
+ * A life's narrated scenes (no purpose, no exchange): the narrator's
+ * paragraph, and a speech in the speaker's own words where the scene is about
+ * one (the President's address). One per situation type.
+ */
+const narrated = lifeIds.flatMap((lifeId) => {
+  const book = world.director.ledger.people.get(lifeId as never) as any;
+  const seenTypes = new Set<string>();
+  return (book?.schedule ?? []).flatMap((entry: any) => {
+    if (entry.outcome === "journal-line") return [];
+    const binding = entry.bindings?.[0];
+    const type = binding ? typeOf.get(binding.typeKey) : undefined;
+    if (!binding || !type || type.purpose || seenTypes.has(binding.typeKey))
+      return [];
+    const scene = composeScene(core, world.director, lifeId as never, entry);
+    if (!scene?.narration.length) return [];
+    seenTypes.add(binding.typeKey);
+    const moment = book.momentsById.get(entry.momentId);
+    const lines = [
+      ...scene.narration.map((line) => ({
+        role: "narrator",
+        speaker: "Narrator",
+        text: line.text,
+        move: "narrate",
+      })),
+      ...(scene.speech
+        ? [
+            {
+              role: "asker",
+              speaker: nameOf(lifeId),
+              text: scene.speech.text,
+              move: "speech",
+            },
+          ]
+        : []),
+    ];
+    return [
+      {
+        id: `narrated:${entry.momentId}`,
+        kind: "narrated",
+        type: binding.typeKey,
+        purpose: "",
+        place: world.placeName,
+        seed: world.seed,
+        context: {
+          asker: {
+            name: nameOf(lifeId),
+            facts: contextOf(lifeId, undefined, moment?.date),
+          },
+          asked: { name: nameOf(lifeId), facts: [] },
+          relation: "",
+          why: lifeWhy(
+            moment,
+            moment ? core.durableLog.get(moment.causeId) : undefined,
+            lifeId,
+            lifeId,
+            undefined,
+            undefined,
+            undefined,
+          ).filter((line) => !/ is (a|an) /.test(line)),
+          records: [moment?.causeId ?? entry.momentId],
+        },
+        narration: [],
+        root: { lines, replies: [], end: { outcome: "resolved" } },
+      },
+    ];
+  });
+});
+
 const json = {
   id,
   title: `Scenes with a purpose, ${id}`,
@@ -2908,6 +3006,7 @@ const json = {
       },
       root: slim(leadOf(scene).talk.tree, scene.sourceText),
     })),
+    ...narrated,
     ...directorChosen.map((row) => ({
       id: row.item.sceneId,
       kind: "director",

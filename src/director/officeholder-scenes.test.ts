@@ -84,4 +84,29 @@ describe("an officeholder's desk record stages scenes", () => {
     expect(staged("veto", sponsor, "vetoed")).toBe(true);
     expect(staged("bill-signed", sponsor, "vetoed")).toBe(false);
   });
+  it("a filing, an introduced bill or an appointment learned of through a tie is not cast as one's own", () => {
+    for (const [typeKey, label] of [
+      ["filing", "cause:event:candidate-filed"],
+      ["press-interview", "cause:event:office.introduced"],
+      ["appointment", "cause:event:official-appointed"],
+    ] as const) {
+      const type = SITUATION_LIBRARY.types.find((row) => row.key === typeKey)!;
+      const of = (counterpartIds: string[]) =>
+        ({ ...moment(executive), label, counterpartIds }) as Moment;
+      const core = { durableLog: new Map() } as unknown as CoreState;
+      expect(
+        type.causes.some((c) => causeMatches(c, book, of([]), core)),
+        typeKey,
+      ).toBe(true);
+      expect(
+        type.causes.some((c) => causeMatches(c, book, of([sponsor]), core)),
+        typeKey,
+      ).toBe(false);
+    }
+  });
+  it("an invitation to a cause waits its turn instead of stopping the day", () => {
+    expect(
+      SITUATION_LIBRARY.types.find((row) => row.key === "cause-invite")?.waits,
+    ).toBe(true);
+  });
 });

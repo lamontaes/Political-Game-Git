@@ -71,6 +71,12 @@ export interface SituationType {
   timing: string;
   causes: readonly SituationCause[];
   awaiting?: readonly string[];
+  /**
+   * A scene that never stops the player's day: it waits its turn by the life's
+   * pace however strongly it was felt (an invitation to a cause meeting; owner,
+   * Oct 20: a well-known mayor was interrupted by 79 of them in a year).
+   */
+  waits?: boolean;
   /** The decision the scene is for, when it has one ("ballot": the vote is cast here). */
   choice?: string;
   /**
@@ -87,6 +93,8 @@ export interface SituationLibrary {
     paces: Readonly<Record<string, number>>;
     paceBands: readonly { band: string; maxAge?: number }[];
     trailingDays: number;
+    /** Days within which the same scene with the same people is staged once. */
+    repeatDays: number;
     openDays: Readonly<Record<string, number>>;
     /** Moments that stage their family scene when a household member is in them. */
     householdScenes: readonly string[];
@@ -537,7 +545,9 @@ export function scheduleMoment(
   const allowed = options.allowedKinds;
   // One sitting covers a day: a scene of the same kind with the same people
   // already staged today takes this cause in (five bills signed in one
-  // afternoon are one press availability, not five).
+  // afternoon are one press availability, not five). The same scene with the
+  // same people is not staged again within the repeat window either (a
+  // neighbor who shares the same cause seven days running asks once).
   const castOf = (row: SceneBinding) =>
     `${row.typeKey}|${row.roles
       .flatMap((role) => role.personIds)
@@ -547,7 +557,9 @@ export function scheduleMoment(
     book.schedule
       .filter(
         (entry) =>
-          entry.date === moment.date &&
+          entry.date <= moment.date &&
+          entry.date >
+            addDays(makeIsoDate(moment.date), -library.scheduling.repeatDays) &&
           entry.momentId !== moment.id &&
           entry.outcome !== "journal-line",
       )
@@ -572,8 +584,15 @@ export function scheduleMoment(
       (library.scheduling.householdRecordScenes?.includes(moment.label) ??
         false)) &&
     bindings.some((row) => row.setting.kind === "home");
+  const waits =
+    bindings.length > zero &&
+    bindings.every(
+      (row) => library.types.find((type) => type.key === row.typeKey)?.waits,
+    );
   const interrupt =
-    (moment.impact >= options.interruptImpact || familyNews) && !filteredOut;
+    (moment.impact >= options.interruptImpact || familyNews) &&
+    !filteredOut &&
+    !waits;
   if (!found.length)
     coverage ??= {
       momentId: moment.id,

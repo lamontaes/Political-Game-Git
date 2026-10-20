@@ -76,6 +76,8 @@
       "adult": 4
     },
     "trailingDays": 365,
+    "repeatDays": 30,
+    "repeatDaysNote": "TUNABLE, spread 14 to 60: the same scene with the same people (an invitation to the same cause, the same reporter after the same kind of act) is staged once a month at most; checked by a played year where one neighbor shared one cause seven days running (owner review, Oct 20).",
     "openDays": {
       "at-cause": 7,
       "effective-date": 3,
@@ -2211,7 +2213,10 @@
           "opening": "announce-result"
         },
         {
-          "match": { "label": "cause:event:official-appointed" },
+          "match": {
+            "label": "cause:event:official-appointed",
+            "counterpart": "none"
+          },
           "causeEngine": "executive",
           "causeRecord": "official-appointed",
           "bind": {
@@ -2414,7 +2419,10 @@
           "opening": "greet"
         },
         {
-          "match": { "label": "cause:event:office.introduced" },
+          "match": {
+            "label": "cause:event:office.introduced",
+            "counterpart": "none"
+          },
           "causeEngine": "legislature",
           "causeRecord": "office.introduced",
           "bind": {
@@ -2679,7 +2687,10 @@
       "timing": "at-cause",
       "causes": [
         {
-          "match": { "label": "cause:event:candidate-filed" },
+          "match": {
+            "label": "cause:event:candidate-filed",
+            "counterpart": "none"
+          },
           "causeEngine": "elections",
           "causeRecord": "candidate-filed",
           "bind": {
@@ -3511,6 +3522,7 @@
           "bearing": "eager"
         }
       ],
+      "waits": true,
       "setting": ["public", "other-home"],
       "timing": "next-together",
       "causes": [
