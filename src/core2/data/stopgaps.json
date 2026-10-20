@@ -1260,8 +1260,8 @@
     "why": "Public payroll from government treasuries isn't wired in core2 yet (requested from OPUS-CORE).",
     "addedBy": "OPUS-GOV",
     "addedAt": "2026-10-12",
-    "replacement": "A work commitment at the post's pay, paid from the government's treasury through the journal, ending any job the staffer leaves for it.",
-    "status": "open"
+    "replacement": "Resolved Oct 20: a staffer whose office employer sits where no job exists to follow (a territory's state or federal office) takes the town's schedule and payday (scheduleFromPlaceId), so every aide hired where budgets are open is on a treasury payroll. Shown in staff-paid-every-place.test.ts (pool item gov-stopgap-staff-missing-engine).",
+    "status": "resolved"
   },
   {
     "id": "SG-GOV-world-race-lean",

@@ -5,7 +5,7 @@ area: play
 kind: feature
 priority: 2
 size: L
-status: in-pr
+status: done
 claimed-by: claude/campaign-acts-scenes
 pr: #5549
 blocked-on:
