@@ -4,13 +4,13 @@ title: "Stopgaps in office-day-federal-president (missing-record): 2 open"
 area: office
 kind: stopgap
 priority: 2
-status: open
-claimed-by:
+status: blocked
+claimed-by: claude/political-game-pool-yucp92-uu
 pr: #5124
-blocked-on:
+blocked-on: world-other-places-coarse-population
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/office-day-federal-president.ts, kind missing-record"
-claimed-at:
+claimed-at: 2026-10-20T05:28:37.052Z
 ---
 
 **What.** Two missing-record stopgaps remain in the president's day. SG-OFFICE-FED-trip-residents: the people a traveling president meets in another town are recorded identities of that place with no household, job or records beyond the meeting. SG-OFFICE-FED-situation-room: the situation room never opens because main keeps no crisis record. Fill in a met person from the other place's coarser counts as the player's town does, and open the situation room on the crisis records once disasters land. The player would notice meeting a real resident of another town, with a job and family, and a briefing when a crisis happens.

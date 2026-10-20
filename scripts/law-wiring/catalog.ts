@@ -10,6 +10,7 @@ import startingLaw from "../../src/core2/data/laws/starting-law.json" with { typ
 import reachA from "../../src/core2/data/laws/reach-group-a.json" with { type: "json" };
 import reachB from "../../src/core2/data/laws/reach-group-b.json" with { type: "json" };
 import webLinks from "../../data/research/outcome-web/links.json" with { type: "json" };
+import federalAnswers from "../../src/core2/data/legislature/federal-answers.json" with { type: "json" };
 import { POLICY_QUESTIONS } from "../../src/core2/policy-answers";
 import { policyHandlerKeys } from "../../src/core2/law-reach/host";
 import { registerLawReach } from "../../src/core2/law-reach/index";
@@ -52,6 +53,23 @@ const STARTING = (
   }
 ).jurisdictions;
 
+/**
+ * Starting-law series that are not a law a body passes: each stands in for
+ * the laws it summarizes, which are in the list themselves.
+ */
+export const NOT_A_LAW: Readonly<Record<string, string>> = {
+  "local-sales-tax-average":
+    "the average local sales tax rate where a place has no city row of its own (an estimate standing in for local sales-tax laws, which the sales-tax amount covers)",
+};
+
+/** Series a body changes through another law: the route, for link 2. */
+const CHANGED_BY: Readonly<Record<string, string>> = {
+  "local-minimum-wage-authority":
+    "question us-policy-positions:labor-workforce.local-minimum-wage-authority writes this series (group-a-wages.ts localWageAuthority)",
+  "unemployment-insurance":
+    "every state must run the program (26 U.S.C. 3304); bodies change it through unemployment-weekly-maximum and state-unemployment-tax",
+};
+
 /** Every law: the bill catalog's policies, then each starting-law series no bill names. */
 export function allLaws(): readonly LawEntry[] {
   const out: LawEntry[] = [];
@@ -90,7 +108,7 @@ export function allLaws(): readonly LawEntry[] {
     for (const r of rows) series.add(r.series);
   series.add("property-tax");
   for (const s of [...series].sort()) {
-    if (seen.has(s)) continue;
+    if (seen.has(s) || s in NOT_A_LAW) continue;
     seen.add(s);
     out.push({
       key: s,
@@ -104,9 +122,28 @@ export function allLaws(): readonly LawEntry[] {
   return out;
 }
 
+const FEDERAL_ANSWERS = (
+  federalAnswers as unknown as { questions: Record<string, unknown> }
+).questions;
+
+/**
+ * Series a place lacks a row for because its law has none of it, from a
+ * survey of every place: the absence is the real starting value (zero).
+ */
+const NONE_BY_SURVEY: Readonly<Record<string, string>> = {
+  "inheritance-tax":
+    "data/research/money/death-taxes-2026.json surveys every state; a state it does not list levies no inheritance tax",
+  "state-unemployment-tax":
+    "American Samoa, Guam and the Northern Mariana Islands run no unemployment insurance program (their unemployment-insurance row is 0; 26 U.S.C. 3306(j) covers the states, D.C., Puerto Rico and the Virgin Islands)",
+  "unemployment-weekly-maximum":
+    "American Samoa, Guam and the Northern Mariana Islands run no unemployment insurance program (their unemployment-insurance row is 0)",
+  "local-income-tax-authority":
+    "D.C. and the territories have no local governments below them that could levy an income tax (one level of government)",
+};
+
 /** The 56 places' state-level keys (50 states, D.C., five territories). */
 export const PLACE_KEYS = Object.keys(STARTING)
-  .filter((k) => k !== "US")
+  .filter((k) => /^US-[A-Z]{2}$/.test(k))
   .sort();
 
 /** Link 1 from data: how many of the 56 places start with a row, and at which levels. */
@@ -120,6 +157,22 @@ export function existsInData(law: LawEntry): {
   if (law.kind === "question") {
     const q = POLICY_QUESTIONS[law.key];
     const answers = q?.answers ?? {};
+    // A federal answer (the research's "US" row, or Congress's own standing
+    // answer) is law in every place.
+    const federal =
+      answers.US?.answer === "yes" ||
+      answers.US?.answer === "no" ||
+      FEDERAL_ANSWERS[law.key] !== undefined;
+    if (federal)
+      return {
+        places: 56,
+        missing: [],
+        estimated: 0,
+        levels: { federal: 1 },
+        evidence: answers.US
+          ? "src/core2/policy-answers.ts (federal answer)"
+          : "src/core2/data/legislature/federal-answers.json",
+      };
     const have = PLACE_KEYS.filter((k) => {
       const a = answers[k]?.answer;
       return a === "yes" || a === "no";
@@ -155,14 +208,14 @@ export function existsInData(law: LawEntry): {
       levels[r.level] = (levels[r.level] ?? 0) + 1;
       if (r.estimate) estimated += 1;
       if (jur === "US" || r.level === "federal") federal = true;
-      else places.add(jur);
+      else if (PLACE_KEYS.includes(jur)) places.add(jur);
     }
   // A federal law (one row in US) is in force in every place it covers.
-  const count = federal && places.size === 0 ? 56 : places.size;
+  const count = federal || NONE_BY_SURVEY[law.key] ? 56 : places.size;
   return {
     places: law.series === "property-tax" ? 56 : count,
     missing:
-      federal || law.series === "property-tax"
+      federal || law.series === "property-tax" || NONE_BY_SURVEY[law.key]
         ? []
         : PLACE_KEYS.filter((k) => !places.has(k)),
     estimated,
@@ -170,7 +223,7 @@ export function existsInData(law: LawEntry): {
     evidence:
       law.series === "property-tax"
         ? "src/core2/data/laws/starting-law.json propertyTax"
-        : "src/core2/data/laws/starting-law.json jurisdictions",
+        : `src/core2/data/laws/starting-law.json jurisdictions${NONE_BY_SURVEY[law.key] ? `; elsewhere none: ${NONE_BY_SURVEY[law.key]}` : ""}`,
   };
 }
 
@@ -183,6 +236,8 @@ export function changeInData(law: LawEntry): {
   const powers = (
     seriesPowers as { series: Record<string, { levels: string[] }> }
   ).series;
+  if (!law.catalog && CHANGED_BY[law.key])
+    return { ok: true, why: "", evidence: CHANGED_BY[law.key]! };
   if (!law.catalog) {
     const p = law.series ? powers[law.series] : undefined;
     return {
