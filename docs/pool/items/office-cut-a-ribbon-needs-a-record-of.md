@@ -6,7 +6,7 @@ kind: feature
 priority: 2
 status: in-pr
 claimed-by: claude/cut-ribbon
-pr: #5535
+pr: #5132
 blocked-on:
 milestone:
 source: "docs/coordination/OFFICE-LOCAL.md line 33 (unchecked checklist line)"
