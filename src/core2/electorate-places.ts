@@ -355,7 +355,7 @@ export function housePlaceByGeoid(
  * A state legislative district: the state's two-party vote over its
  * districts, leaning like the town's own county where the town votes in it,
  * else toward its holder's party at the typical margin (no district results
- * are read: SG-GOV-world-race-lean), net of the holder's incumbency.
+ * are read: SG-GOV-legislative-results-gaps), net of the holder's incumbency.
  */
 export function legislativePlace(
   usps: string,
@@ -366,6 +366,7 @@ export function legislativePlace(
 ): ElectoratePlace | null {
   const votes = stateTwoPartyVotes(usps) / Math.max(1, districts);
   if (!votes) return null;
+  // stopgapId: SG-GOV-legislative-results-gaps
   const own = legislativeDistrictShare(usps, seatKey);
   const share =
     own ??

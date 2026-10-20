@@ -824,8 +824,8 @@ const sideOf = caucusSide;
  */
 function decide(api: CoreAPI, race: Race, year: number): void {
   const side = sideOf(race.incumbentParty);
-  // stopgapId: SG-GOV-world-race-lean
-  api.stopgap("SG-GOV-world-race-lean");
+  // stopgapId: SG-GOV-world-race-candidates
+  api.stopgap("SG-GOV-world-race-candidates");
   const places = racePlaces(api, race);
   const date = api.state.date;
   const votesAt2024 = places.reduce((s, b) => s + b.votes2024, 0);

@@ -1268,11 +1268,35 @@
     "kind": "missing-data",
     "file": "src/core2/modules/world-races.ts",
     "line": 682,
-    "whatItFakes": "A race the town doesn't vote in is counted on the counted residents' engine at a coarser level (a House district's, the state's counties', a legislative district's eligible voters, voting as the town's counted residents would on each place's 2024 lean), but its candidates are each party's typical candidate (the holder stands for their party with the typical campaign) rather than people with records, and a state legislative district with no read result is the state's vote over its districts leaning to its holder's party at the typical margin.",
-    "why": "Fictional candidates with records for every seat in the country aren't built (PEOPLE's who runs). State legislative district results are read from the MIT Election Lab's 2024 precinct returns (gov-legislative-district-results-2024, Oct 20, 2026: 4,867 district results in 41 states, 3,067 contested); a district in a state absent from that file (Alabama, Arizona, Indiana, Louisiana, Maryland, Mississippi, New Jersey, Virginia, Washington and others), or unopposed by one major party, still leans to its holder's party at the typical margin, now sourced (campaigns legislativeSeatMargin).",
+    "whatItFakes": "State legislative district results weren't read: a district was the state's vote leaning to its holder's party at the typical margin.",
+    "why": "Resolved Oct 20, 2026 (gov-legislative-district-results-2024): each district's own 2024 general election result is read from MIT Election Data and Science Lab, State Precinct-Level Returns 2024 (data/research/elections/state-legislative-results-2024.json) by legislativeDistrictShare in src/core2/electorate-places.ts, tag SOURCED. What remains is split into SG-GOV-world-race-candidates and SG-GOV-legislative-results-gaps; the typical margin itself is ESTIMATED from the same data (campaigns legislativeSeatMargin).",
     "addedBy": "OPUS-GOV",
     "addedAt": "2026-10-12",
     "replacement": "Each race's candidates as fictional people with records and campaigns, and each legislative district's own 2024 result.",
+    "status": "resolved"
+  },
+  {
+    "id": "SG-GOV-world-race-candidates",
+    "kind": "missing-data",
+    "file": "src/core2/modules/world-races.ts",
+    "line": 682,
+    "whatItFakes": "A race the town doesn't vote in is counted at a coarser level, but its candidates are each party's typical candidate (the holder stands for their party with the typical campaign) rather than people with records.",
+    "why": "Fictional candidates with records for every seat in the country aren't built (PEOPLE's who runs). Split from SG-GOV-world-race-lean on Oct 20, 2026 when the district-result half was sourced.",
+    "addedBy": "researcher",
+    "addedAt": "2026-10-20",
+    "replacement": "Each race's candidates as fictional people with records and campaigns.",
+    "status": "open"
+  },
+  {
+    "id": "SG-GOV-legislative-results-gaps",
+    "kind": "missing-data",
+    "file": "src/core2/electorate-places.ts",
+    "line": 0,
+    "whatItFakes": "A state legislative district with no 2024 result in the district-results file (a state absent from the MIT precinct returns, or a district one major party left unopposed) leans to its holder's party at the typical margin (campaigns legislativeSeatMargin, sourced).",
+    "why": "The MIT Election Lab 2024 precinct returns lack nine or more states and a district with one major party has no two-party split. Pool item gov-legislative-district-results-missing-states.",
+    "addedBy": "researcher",
+    "addedAt": "2026-10-20",
+    "replacement": "Each missing state's district results from its election office, added to data/research/elections/state-legislative-results-2024.json.",
     "status": "open"
   },
   {
