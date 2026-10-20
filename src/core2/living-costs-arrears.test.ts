@@ -66,7 +66,7 @@ it("leaves households that earn owing under a tenth of their living costs after 
   }
 }, 600_000);
 
-it("writes off a living cost unpaid past the charge-off age, so no household owes more than a few bills", () => {
+it("writes off a jobless household's living cost unpaid past the charge-off age, so no household owes more than a few bills", () => {
   setBookkeeping(false);
   try {
     // A place where every household paid has nothing to write off: draw on,
@@ -82,14 +82,60 @@ it("writes off a living cost unpaid past the charge-off age, so no household owe
       const where = `${draw.key} [${draw.state}], seed ${draw.seed}`;
       const api = coreAPI(core);
       const bills = api.parameter("livingCostWriteOffBills");
-      // Eight months: a household with no job and no cash misses eight bills.
-      advanceCore(core, addDays(makeIsoDate(core.date), 240));
       const rt = residentsRuntime(core)!;
-      let written = 0;
+      const living = () =>
+        [...rt.flows.values()].filter(
+          (flow) =>
+            flow.financeKind === "household.outside-living-costs" &&
+            flow.payerId !== flow.residentsId,
+        );
+      // Whether the household paying a flow holds an active job today.
+      const jobless = (payerId: string) => {
+        const home = core.households.get(
+          core.people.get(payerId)?.householdId ?? "",
+        );
+        return (
+          home !== undefined &&
+          !home.memberIds.some((id) => {
+            const job = core.jobs.get(core.people.get(id)?.jobId ?? "");
+            return job !== undefined && job.endsAt === undefined;
+          })
+        );
+      };
+      // Eight months, a month at a time: a household with no job and no cash
+      // misses eight bills, and each write-off is matched to the household's
+      // jobs on the month it happens.
+      const before = new Map<string, number>();
+      let found:
+        | {
+            flowId: string;
+            householdId: string;
+            written: number;
+            owes: number;
+            bill: number;
+          }
+        | undefined;
+      for (let month = 0; month < 8; month += 1) {
+        advanceCore(core, addDays(makeIsoDate(core.date), 30));
+        for (const flow of living()) {
+          const written = flow.writtenOffMinor ?? 0;
+          if (
+            !found &&
+            written > (before.get(flow.id) ?? 0) &&
+            jobless(flow.payerId)
+          )
+            found = {
+              flowId: flow.id,
+              householdId: core.people.get(flow.payerId)!.householdId,
+              written,
+              owes: flow.arrearsMinor,
+              bill: flow.amountMinor,
+            };
+          before.set(flow.id, written);
+        }
+      }
       let worst = 0;
-      for (const flow of rt.flows.values()) {
-        if (flow.financeKind !== "household.outside-living-costs") continue;
-        if (flow.payerId === flow.residentsId) continue;
+      for (const flow of living()) {
         // Owing never passes the ceiling, whoever the household is.
         expect(
           flow.arrearsMinor,
@@ -99,17 +145,27 @@ it("writes off a living cost unpaid past the charge-off age, so no household owe
           worst,
           flow.arrearsMinor / Math.max(1, flow.amountMinor),
         );
-        written += flow.writtenOffMinor ?? 0;
       }
       expect(core.cashJournal.totals.grossDebitMinor, where).toBe(
         core.cashJournal.totals.grossCreditMinor,
       );
-      // Not vacuous: someone really went unpaid long enough to be written off.
-      if (written > 0) return;
+      // Not vacuous: a household with no active job went unpaid long enough
+      // to have its living cost written off.
+      if (found) {
+        expect(found.written, `${where}: ${found.flowId}`).toBeGreaterThan(0);
+        expect(
+          found.owes,
+          `${where}: ${found.flowId} (household ${found.householdId}) owes ${found.owes} of a ${found.bill} bill`,
+        ).toBeLessThanOrEqual(Math.round(found.bill * bills) + 1);
+        process.stdout.write(
+          `living-cost write-off: ${where}; household ${found.householdId} with no active job; flow ${found.flowId}; written off ${found.written}\n`,
+        );
+        return;
+      }
       passed.push(`${where} (worst ${worst} bills)`);
     }
     throw new Error(
-      `no drawn place wrote anything off in 12 draws: ${passed.join("; ")}`,
+      `no drawn place wrote off a jobless household's living cost in 12 draws: ${passed.join("; ")}`,
     );
   } finally {
     setBookkeeping(true);
