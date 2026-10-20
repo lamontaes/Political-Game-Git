@@ -41,6 +41,7 @@ import type { BusinessBooksState } from "../finance-types";
 import {
   addResidentFlow,
   countedHeadcountOf,
+  countedHeadsOf,
   countedJobsOf,
   purchaseShareOf,
   shiftPurchaseShare,
@@ -1259,9 +1260,16 @@ function month(api: CoreAPI): void {
     // Losses carry: an owner draws only from profit the business has kept, net of losses since.
     const retained = row.retainedMinor + profit;
     const cash = c.organizations.get(row.id)!.liquidMinor;
+    // The payroll the next paydays draw on: the book's, plus what its counted
+    // workers' households stand for beyond one each.
+    let weightedPayroll = book.annualPayrollMinor;
+    for (const job of countedJobsOf(c, row.id))
+      weightedPayroll +=
+        (countedHeadsOf(c, job.personId) - 1) *
+        job.wageDailyMinor *
+        p("jobsDaysPerYear");
     const cushion = Math.round(
-      (book.annualPayrollMinor / p("macroMonthsPerYear")) *
-        p("businessCushionMonths"),
+      (weightedPayroll / p("macroMonthsPerYear")) * p("businessCushionMonths"),
     );
     const ownerDays =
       owner.livingCostDailyMinor > 0
