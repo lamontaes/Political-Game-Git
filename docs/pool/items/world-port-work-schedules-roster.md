@@ -5,9 +5,9 @@ area: world
 kind: cleanup
 priority: 2
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/work-schedules-roster
-pr:
+pr: #5097
 blocked-on:
 source: split from world-port-work-schedules
 claimed-at: 2026-10-19T18:50:58.598Z
@@ -22,5 +22,3 @@ claimed-at: 2026-10-19T18:50:58.598Z
 **Files.** src/core2/opening-work.ts, src/core2/work-patterns.ts, src/simulation/living-world/work-schedules.ts
 
 **Notes.** Split Oct 19 from world-port-work-schedules, whose pattern-table half is done.
-
-Oct 19 (claude/work-schedules-roster): the roster rule is in the core. Pattern choice, place choice, the employer roster and every schedule shape (`jobShape`, `rosterKeyOf`, `scheduleOf`) moved unchanged to src/core2/work-schedules.ts, operating on plain job facts (`ScheduleJob`); the old work-schedules.ts only gathers those facts from the old world and delegates. Left: opening-work.ts still gets its facts through the old `workSchedulesFor`, because the facts (statuses, roles, employer keys) come from the old world that the opening builds first; that ends with core-port-world-scaffold, and the six old readers go with core-delete-old-engine.
