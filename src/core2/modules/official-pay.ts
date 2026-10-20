@@ -247,6 +247,12 @@ function payMonth(api: CoreAPI): void {
   const today = makeIsoDate(api.state.date);
   for (const raw of table(api, "pay").rows()) {
     const row = raw as unknown as PayRow;
+    // An official who died is paid no more: their row ends with them, not
+    // years later with a pay date that keeps moving on.
+    if (!api.state.people.get(row.personId)?.alive) {
+      table(api, "pay").remove(row.id);
+      continue;
+    }
     const through = row.endedOn && row.endedOn < today ? row.endedOn : today;
     const days = Math.max(
       0,
