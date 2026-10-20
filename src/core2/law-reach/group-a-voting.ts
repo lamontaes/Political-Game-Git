@@ -37,12 +37,12 @@ import {
 } from "../modules/budgets";
 import { chargeLine } from "../budgets-treasury";
 import { electorateRoll, type RollVoter } from "../modules/voting";
+import { onReachCalendar } from "./reach-workers";
 import {
   ageOn,
   applyRecords,
   ensureReachA,
   mechanicRow,
-  onReachCalendar,
   putMechanic,
   REACH_A_MODULE_ID,
   reachParameter,

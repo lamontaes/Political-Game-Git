@@ -33,13 +33,13 @@ import {
   type GovernmentRow,
 } from "../modules/budgets";
 import { lawChain } from "../modules/laws";
+import { onReachPayroll } from "./reach-workers";
 import {
   ageOn,
   applyRecords,
   endRows,
   ensureReachA,
   mechanicRow,
-  onReachPayroll,
   POLICIES,
   PREMIUM_KIND,
   REACH_A_MODULE_ID,
