@@ -31,7 +31,16 @@ afterAll(() => {
 function amendSchoolsLine(direction: -1 | 1) {
   const tried: string[] = [];
   for (let draw = 0; draw < 25; draw += 1) {
-    const place = drawPlace(`${seed}:${draw}`, "schools-line");
+    // A failure names its place and seed; these replay exactly that town.
+    const drawn = drawPlace(`${seed}:${draw}`, "schools-line");
+    const place =
+      process.env.SCHOOLS_LINE_PLACE_KEY && process.env.SCHOOLS_LINE_PLACE_SEED
+        ? {
+            ...drawn,
+            key: process.env.SCHOOLS_LINE_PLACE_KEY,
+            seed: process.env.SCHOOLS_LINE_PLACE_SEED,
+          }
+        : drawn;
     const where = `${place.name} (${place.key}), seed ${place.seed}`;
     const { core, place: town } = buildBenchWorld(place.seed, gameStartDate(), {
       twoLevel: true,
