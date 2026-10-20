@@ -536,11 +536,22 @@ describe("law reach, group B: every policy reaches people through its engine", (
     );
     if (paidSince(since)) expect(lines.length, where).toBeGreaterThan(0);
     enact(key, 0, LOCAL);
-    expectEnded(key);
     const restored = lawInForce(api, "income-tax").levels.find(
       (l) => l.level === LOCAL,
     )?.row;
     expect(restored?.value ?? 0).toBe(prior?.value ?? 0);
+    // Where the level's own tax is graduated, a "no" flattens it
+    // (SG-GOV-REACH-B-flat-tax-replacement), and that flat law reaches the
+    // taxpayers: the records still open belong to the repeal's own act, never
+    // to the earlier one it undid.
+    const stillOpen = openPeople(key);
+    if (!stillOpen.length) expectEnded(key);
+    else {
+      expect(restored?.unit, `${where} flat law`).toBe("percent-flat");
+      for (const row of stillOpen)
+        expect(row.lawId, `${where} ${row.id}`).toContain(`:TEST-${measure}`);
+      expect(openOrgs(key), `${where} ${key} employers`).toEqual([]);
+    }
   });
 
   it("a city income tax drafted in the catalog's unit reaches workers (collection: audit item 8)", () => {
