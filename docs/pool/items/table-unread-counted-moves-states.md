@@ -5,7 +5,7 @@ area: core
 kind: wiring
 priority: 3
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/moves-unread
 pr: #4978
 blocked-on:

@@ -8,7 +8,7 @@ size: M
 status: open
 claimed-by:
 pr:
-blocked-on:
+blocked-on: researcher: the town's tract or block-group population shares are not in the repo and the Census data service needs a key the cloud network lacks (api.census.gov answers Missing Key); needs a key or a bulk download
 source: found by gov-ward-map-from-dwellings
 claimed-at:
 ---

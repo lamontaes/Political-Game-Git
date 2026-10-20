@@ -262,6 +262,7 @@
   },
   "politics": {
     "seats": "Seats",
+    "notChosenHere": "Not chosen by this place's voters",
     "votes": "Votes",
     "yes": "Yes",
     "no": "No",

@@ -5,7 +5,7 @@ area: play
 kind: bug
 priority: 2
 size: S
-status: in-pr
+status: done
 claimed-by: claude/campaign-browser-check
 pr: #5680
 blocked-on:

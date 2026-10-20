@@ -5,12 +5,12 @@ area: world
 kind: bug
 priority: 2
 size: M
-status: in-pr
-claimed-by: claude/garyville-contract-settlements
+status: open
+claimed-by:
 pr: #5586
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-20T07:01:54.107Z
+claimed-at:
 ---
 
 **What.** GOLDEN_PATH_SEED=8ef6f174b538bfe5a528b8fd9f7a1fba2c4d50f11343a37f36749ae3fa570d02 GOLDEN_PATH_PLACE_KEY=2228345 npx vitest run src/core2/player-money-year.test.ts fails at src/core2/player-money-year.test.ts line 102: the player's household total for finance.contract-settlement outMinor is 0 over a played year, so no rent, bill or subscription is ever settled. Found Oct 20 on main while checking world-town-public-works-staff-never-paid (a different failure from that item: the payroll line passes here). Find which contract the household should settle and why none does in this place (a missing landlord, a contract that never comes due, or a settlement that posts under another kind).
@@ -24,3 +24,5 @@ claimed-at: 2026-10-20T07:01:54.107Z
 **Notes.** TODO
 
 Sent back 2026-10-20 from PR #5571 (branch claude/player-year-settlements): the contract-settlement assertion now accepts generic residents debits and can pass while rent or mortgage goes unpaid; assert the route required by recorded tenure and contracts instead; finish on that branch, merge main into it first.
+
+Sent back 2026-10-20 from PR #5586 (branch claude/garyville-contract-settlements): Merging current origin/main still conflicts in src/core2/player-money-year.test.ts. This stricter route-specific fix is worth keeping: main at that file:109 accepts a generic accounts.transfer residents debit when the contract proof is empty, which can hide unpaid rent or a mortgage. Resolve the code conflict while retaining the dwelling-based contract versus property-tax/arrears assertions, then rerun the pinned and drawn-place cases; this is not merely superseded by the broader main assertion.; finish on that branch, merge main into it first.
