@@ -5,7 +5,7 @@ area: people
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/hearing-speaker-g08lgv
 pr: #5055
 blocked-on:
