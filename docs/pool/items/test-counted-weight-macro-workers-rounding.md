@@ -5,7 +5,7 @@ area: core
 kind: bug
 priority: 3
 size: S
-status: in-pr
+status: done
 claimed-by: claude/macro-workers-rounding
 pr: #5626
 blocked-on:
