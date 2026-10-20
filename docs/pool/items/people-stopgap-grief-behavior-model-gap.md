@@ -4,10 +4,10 @@ title: "Stopgaps in grief (behavior-model-gap): 1 open"
 area: people
 kind: stopgap
 priority: 3
-status: open
+status: blocked
 claimed-by:
 pr:
-blocked-on:
+blocked-on: engine or design: Owner's ruling, October 10, 2026 (CTO on #3942): a personal resilience line, calibrated to about 46% with little grief by 6 months and 15.6% still grieving at 18 months; P10 reported a widow organizin
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/data/grief.json, kind behavior-model-gap"
 ---

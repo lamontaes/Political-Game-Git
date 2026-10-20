@@ -50,6 +50,30 @@
       "citation": "Share of a person's opening lean that their household shares. Parent-child correlations of political orientation run about 0.4 to 0.6 (Jennings, Stoker and Bowers 2009, Journal of Politics 71(3):782-799), and spouses correlate about 0.6 on ideology (Alford, Hatemi, Hibbing, Martin and Eaves 2011, Journal of Politics 73(2):362-379).",
       "estimatedFrom": "Jennings, Stoker and Bowers 2009; Alford et al. 2011; spread 0.4 to 0.6"
     },
+    "faithImportanceProtestant": {
+      "value": 0.72,
+      "tag": "ESTIMATED",
+      "citation": "Share of adults in the group who say religion is very important in their life, the scale the opening stance loadings' faith measure runs on (0 to 1). Pew Research Center, Religious Landscape Study 2014, Chapter 1: Importance of Religion and Religious Beliefs (https://www.pewresearch.org/religion/2015/11/03/chapter-1-importance-of-religion-and-religious-beliefs/): evangelical Protestants 79 percent, mainline 53, historically Black Protestant 85, weighted by their shares of adults (23, 11 and 5 percent of the 2023-24 study's adults) to 72 percent.",
+      "estimatedFrom": "Pew RLS 2014 shares by tradition; spread 0.53 to 0.85"
+    },
+    "faithImportanceCatholic": {
+      "value": 0.58,
+      "tag": "ESTIMATED",
+      "citation": "Share of adults in the group who say religion is very important in their life, the scale the opening stance loadings' faith measure runs on (0 to 1). Pew Research Center, Religious Landscape Study 2014, Chapter 1: Importance of Religion and Religious Beliefs (https://www.pewresearch.org/religion/2015/11/03/chapter-1-importance-of-religion-and-religious-beliefs/): Catholics 58 percent.",
+      "estimatedFrom": "Pew RLS 2014 shares by tradition; spread 0.5 to 0.65"
+    },
+    "faithImportanceNone": {
+      "value": 0.13,
+      "tag": "ESTIMATED",
+      "citation": "Share of adults in the group who say religion is very important in their life, the scale the opening stance loadings' faith measure runs on (0 to 1). Pew Research Center, Religious Landscape Study 2014, Chapter 1: Importance of Religion and Religious Beliefs (https://www.pewresearch.org/religion/2015/11/03/chapter-1-importance-of-religion-and-religious-beliefs/): the religiously unaffiliated 13 percent.",
+      "estimatedFrom": "Pew RLS 2014 shares by tradition; spread 0.08 to 0.2"
+    },
+    "faithImportanceOtherFaith": {
+      "value": 0.6,
+      "tag": "ESTIMATED",
+      "citation": "Share of adults in the group who say religion is very important in their life, the scale the opening stance loadings' faith measure runs on (0 to 1). Pew Research Center, Religious Landscape Study 2014, Chapter 1: Importance of Religion and Religious Beliefs (https://www.pewresearch.org/religion/2015/11/03/chapter-1-importance-of-religion-and-religious-beliefs/): Mormons 84, Muslims 64, Orthodox Christians 52; Jews, Buddhists and Hindus are lower and unreported there, so the group is set near the middle of the reported range.",
+      "estimatedFrom": "Pew RLS 2014 shares by tradition; spread 0.4 to 0.8"
+    },
     "tightness": {
       "value": 0.5,
       "tag": "TUNABLE",
