@@ -2662,6 +2662,14 @@ function hire(
     api,
     `Hired to ${position.id} at the business's own pay for the role.`,
   );
+  // The job states the week the schedule it copies runs (a counted template's
+  // own row can state another), so the stated pay is what payroll pays.
+  const hoursDaily =
+    templateCommitment.expectedWeeklyMinutes > 0
+      ? templateCommitment.expectedWeeklyMinutes /
+        api.parameter("minutesPerHour") /
+        api.parameter("daysPerWeek")
+      : template.hoursDaily;
   const job: JobInput = {
     id: jobId,
     personId: person.id,
@@ -2669,8 +2677,8 @@ function hire(
     title: position.title,
     occupationClassification: template.occupationClassification,
     hourlyMinor: position.hourlyMinor,
-    hoursDaily: template.hoursDaily,
-    wageDailyMinor: Math.round(position.hourlyMinor * template.hoursDaily),
+    hoursDaily,
+    wageDailyMinor: Math.round(position.hourlyMinor * hoursDaily),
     source: jobSource,
   };
   const newCalendar: WorkPayrollCalendarInput = {
@@ -2730,7 +2738,7 @@ function hire(
     person.id,
     position.organizationId,
     coworkerIds,
-    template.hoursDaily,
+    hoursDaily,
     `job-change:${api.state.date}:${jobId}:hire`,
   );
   record(api, {

@@ -524,8 +524,8 @@
     "why": "Retention span is an owner budget assumption, not a human forgetting measurement; later readers and legal obligations need audit.",
     "addedBy": "SOL-1258",
     "addedAt": "2026-10-09",
-    "replacement": "Owner-approved bounded retention plus reader/callback/reload assertions; preserve consequential evidence and full focus history.",
-    "status": "open"
+    "replacement": "Resolved Oct 20: the owner ruled running memory stays small (Oct 12, DECISION-REGISTER 'Speed and memory'), so the retention span is a tunable engineering memory budget, tagged TUNABLE with its spread, and only the dev-why bench reads old rollups (pool item owner-stopgap-memory-budgets).",
+    "status": "resolved"
   },
   {
     "id": "SG-P8-business-books-priors",
@@ -3148,18 +3148,18 @@
     "addedBy": "OPUS-CORE",
     "addedAt": "2026-10-12",
     "replacement": "Census 2020 Island Areas place identities (the research request territory-place-identities), read into the same listing. Oct 14 (OPUS-CORE): the candidate list is built (src/core2/data/places/territory-places-census.json, 158 inhabited villages with Census GEOIDs and 2020 populations, every current key kept, by tooling/build-territory-places.ts); the swap waits until PEOPLE's population builder reads places through the core lookup.",
-    "status": "open"
+    "status": "resolved"
   },
   {
     "id": "SG-CORE-private-tuition-average",
     "kind": "aggregate-spending",
     "file": "src/core2/opening-private-tuition.ts",
     "line": 1,
-    "whatItFakes": "Each household with school-age children pays its children's share of the town's private tuition (the national private share times the average tuition) to the town's private school; no family chooses a school, and no child is enrolled.",
+    "whatItFakes": "The town's families with school-age children are ranked by cash per child and the best-off enroll all their children in the private school until the town's private share of school-age children (NCES) is reached, each paying the average private tuition. The family's beliefs, the schools nearby and the child's own needs do not yet enter, and enrollment is fixed at the opening.",
     "why": "Private schools had no customers at all, so they closed in every town.",
     "addedBy": "OPUS-CORE",
     "addedAt": "2026-10-12",
-    "replacement": "PEOPLE's schools engine: each child's enrollment, chosen from the family's income, beliefs and the schools near them, with tuition paid by the families who enroll.",
+    "replacement": "PEOPLE's schools engine: each child's enrollment chosen from the family's income, beliefs and the schools nearby, moving as they change. Means-ranked enrollment replaced the even spread of the town's average on Oct 19.",
     "status": "open"
   },
   {
@@ -3859,7 +3859,7 @@
     "kind": "estimated-parameter",
     "file": "src/core2/modules/interest-groups.ts",
     "line": 1,
-    "whatItFakes": "What a policy costs each employer it binds is an estimated share of the employer's payroll (boundEmployerCostShare), not the law's own cost, because most law-reach policies record who is bound and move no money.",
+    "whatItFakes": "What a policy costs each employer it binds is an estimated share of the employer's payroll (boundEmployerCostShare), except laws that price energy (clean electricity standard, carbon price), which cost each employer its own energy costs by the price engine's arithmetic. Other law-reach policies that bind employers record who is bound and move no money.",
     "why": "The CTO's item (Oct 14): employers organize from who loses money on any bill (the owner's Sept 26 ruling). Law-reach measures a money effect per employer only for the wage floor.",
     "addedBy": "OPUS-GOV",
     "addedAt": "2026-10-14",
@@ -4850,6 +4850,18 @@
     "addedBy": "claude/office-committee-meeting",
     "addedAt": "2026-10-17",
     "replacement": "The owner's ruling on which pre-vote hooks run on the committee day (docs/coordination/OWNER-DECISIONS.md).",
+    "status": "open"
+  },
+  {
+    "id": "SG-GOV-clemency-boards",
+    "kind": "missing-engine",
+    "file": "src/core2/office-day-state.ts",
+    "line": 0,
+    "whatItFakes": "In a state where a board, council or senate holds or must concur in clemency (board alone, board with the governor, governor with a board's recommendation, a council's or the senate's consent), the governor's day has no clemency act: the board's own decisions are not simulated, so no prisoner is released there by clemency.",
+    "why": "The governor decides alone only where the state's law says so (governor alone, or a board that only advises); the other authorities need a board or council engine that does not exist yet.",
+    "addedBy": "claude/governor-clemency",
+    "addedAt": "2026-10-17",
+    "replacement": "A clemency board engine (members, petitions, recommendations) and the council or senate consent, read by the governor's act where the law requires it.",
     "status": "open"
   }
 ]
