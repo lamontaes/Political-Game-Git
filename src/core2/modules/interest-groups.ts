@@ -440,9 +440,10 @@ function payDues(
 }
 
 /**
- * The group's lobbyist: the best-paid town resident working for the member
- * employer the bill costs most (until businesses have owners and hire
- * lobbyists: SG-GOV-group-lobbyist-stand-in).
+ * The group's lobbyist: the owner of the member employer the bill costs most
+ * when that owner lives in town, is not barred from lobbying and their traits
+ * lean to serve; else the best-paid town resident working for that employer
+ * (until the group hires a lobbyist: SG-GOV-group-lobbyist-stand-in).
  */
 function lobbyistFor(
   api: CoreAPI,
@@ -458,6 +459,21 @@ function lobbyistFor(
       (costs.get(b)?.annualMinor ?? 0) - (costs.get(a)?.annualMinor ?? 0) ||
       a.localeCompare(b),
   )) {
+    const ownerId = ownerOf(api, orgId);
+    const owner = ownerId ? api.state.people.get(ownerId) : undefined;
+    if (
+      owner?.alive &&
+      owner.placeId === town &&
+      lobbyingBarredUntil(api, owner.id) === null &&
+      decisionLean(
+        api.state,
+        owner,
+        "interest-groups.lobbyist",
+        "serve",
+        "decline",
+      ) >= 0
+    )
+      return owner.id;
     const best = [...state.work.commitments.values()]
       .filter((c) => {
         const person = api.state.people.get(c.personId);
