@@ -22,3 +22,5 @@ claimed-at:
 **Files.** src/core2/state.ts, src/core2/modules/moves.ts, src/core2/modules/counted-moves.ts, src/core2/agreement-jobs-free.test.ts
 
 **Notes.** Seen Oct 19 once while testing branch claude/agreement-re-resolve-s7 (which deletes the pinned-job lookup); not reproduced in eight reruns there, so it may predate that branch. Run the test repeatedly on main and on that branch to compare.
+
+Sent back 2026-10-20 from PR #5404 (branch claude/relocation-moves-whole-s14): docs/pool/items/core-relocation-job-held-intermittent.md:20 requires the captured failing played year to finish and a regression held by person record id. This PR documents only an interrupted two-year Dover replay, and says it added no test for the moves.ts half. Passing the old stop is useful evidence, but does not show completion of the required year or a regression exercising this wrapper with the dead member. Add that record-id case and completed replay result; the open parent remains #5149.; finish on that branch, merge main into it first.
