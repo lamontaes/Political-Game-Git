@@ -120,6 +120,26 @@
     {
       "file": "data/research/outcome-web/social-media-age-verification-contracts.json",
       "reason": "A decision receipt for a removed link and its replacements; the replacements live in links.json."
+    },
+    {
+      "file": "data/research/stopgaps-oct19/A-people-behavior-1.json",
+      "reason": "Raw research result for the open stopgap rows (value, spread, sources, one-line builder note each); builders apply a row into the game's own data and resolve its stopgap (pool item research-stopgaps-oct19-apply), the game never reads the file."
+    },
+    {
+      "file": "data/research/stopgaps-oct19/B-people-behavior-2.json",
+      "reason": "Raw research result for the open stopgap rows (value, spread, sources, one-line builder note each); builders apply a row into the game's own data and resolve its stopgap (pool item research-stopgaps-oct19-apply), the game never reads the file."
+    },
+    {
+      "file": "data/research/stopgaps-oct19/C-government-law.json",
+      "reason": "Raw research result for the open stopgap rows (value, spread, sources, one-line builder note each); builders apply a row into the game's own data and resolve its stopgap (pool item research-stopgaps-oct19-apply), the game never reads the file."
+    },
+    {
+      "file": "data/research/stopgaps-oct19/D-economy-world.json",
+      "reason": "Raw research result for the open stopgap rows (value, spread, sources, one-line builder note each); builders apply a row into the game's own data and resolve its stopgap (pool item research-stopgaps-oct19-apply), the game never reads the file."
+    },
+    {
+      "file": "data/research/stopgaps-oct19/E-careers-finance.json",
+      "reason": "Raw research result for the open stopgap rows (value, spread, sources, one-line builder note each); builders apply a row into the game's own data and resolve its stopgap (pool item research-stopgaps-oct19-apply), the game never reads the file."
     }
   ],
   "awaitingReader": [
