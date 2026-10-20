@@ -35,6 +35,10 @@ it(`the player's household is in contact most days and acquaintances rarely, in 
     const otherId = row.actorId === player.id ? row.otherId : row.actorId;
     const other = core.people.get(otherId);
     if (!other?.alive) continue;
+    // Family living elsewhere (a parent or sibling at a distance) is close
+    // kin, kept in touch often; only acquaintances are held to "rarely".
+    if (other.householdId !== player.householdId && row.kind === "family")
+      continue;
     (other.householdId === player.householdId ? household : others).push(
       days.get(id) ?? 0,
     );
@@ -45,6 +49,6 @@ it(`the player's household is in contact most days and acquaintances rarely, in 
   // Whoever lives with the player is in contact on a good share of days.
   if (household.length)
     expect(Math.max(...household)).toBeGreaterThan(DAYS / 4);
-  // Acquaintances outside the household are not in contact on most days.
+  // Acquaintances outside the household and family are not in contact on most days.
   for (const n of others) expect(n).toBeLessThan(DAYS / 4);
 }, 900_000);
