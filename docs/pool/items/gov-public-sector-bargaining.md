@@ -25,3 +25,5 @@ claimed-at:
 **Notes.** Right-to-work (the dues side) is built in `group-a-union.ts`.
 
 Oct 20: Owner ruled that unions, membership rules and strikes wait for 1.0, so #5415's pay-follows-the-budget part may merge without union leverage or strikes, which stay out until 1.0.
+
+Sent back 2026-10-20 from PR #5415 (branch claude/public-bargaining): see the Cloud merger comment on that PR for the exact reason; finish on that branch, merge main into it first.

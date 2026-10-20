@@ -22,3 +22,5 @@ claimed-at:
 **Files.** src/core2/law-reach/group-a-records.ts, src/core2/law-reach/group-a.ts, src/core2/household-firearms.test.ts
 
 **Notes.** TODO
+
+Sent back 2026-10-20 from PR #5403 (branch claude/reach-stale): see the Cloud merger comment on that PR for the exact reason; finish on that branch, merge main into it first.

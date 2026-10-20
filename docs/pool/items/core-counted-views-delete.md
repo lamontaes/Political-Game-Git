@@ -40,3 +40,5 @@ Looked at Oct 20 (claude/political-game-pool-3xfqef-5), released unbuilt: the fi
 Sent back 2026-10-20 from PR #4915 (branch claude/counted-views-delete): Merge main fc2817d7d5b5 into claude/counted-views-delete conflicts in: src/core2/modules/jobs.ts, src/core2/unfilled-opening-pay.test.ts. Resolve these files with a normal merge before changed-file validation; no integrated green head exists.; finish on that branch, merge main into it first. Current replacement claim and PR are preserved.
 
 Sent back 2026-10-20 from PR #4920 (branch claude/births-columns): Changed-file checks failed after merge main: eslint unused var rt in housing-laws.test.ts, and vitest failed with 12 errors (residentsRuntime households undefined in fill-in-returning-newborn.test.ts, jobs-demoted-seeker.test.ts, representative-sample.test.ts, residents-fillin-past.test.ts; countedHouseholdsByPlace not a function in purchase-tax.test.ts); finish on that branch, merge main into it first.
+
+Sent back 2026-10-20 from PR #5321 (branch claude/pool-views-delete): see the Cloud merger comment on that PR for the exact reason; finish on that branch, merge main into it first.

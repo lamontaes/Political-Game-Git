@@ -5,12 +5,12 @@ area: world
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/fs11vb-rr2
 pr: #5331
 blocked-on:
 source: added with npm run pool -- add
-claimed-at:
+claimed-at: 2026-10-20T11:25:59.280Z
 ---
 
 **What.** TODO
@@ -22,3 +22,5 @@ claimed-at:
 **Files.** TODO
 
 **Notes.** TODO
+
+Sent back 2026-10-20 from PR #5331 (branch claude/counted-weight-payroll): see the Cloud merger comment on that PR for the exact reason; finish on that branch, merge main into it first.

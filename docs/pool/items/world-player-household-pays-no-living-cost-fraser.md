@@ -24,3 +24,5 @@ claimed-at:
 **Notes.** Found Oct 20 by sweeping src/core2 tests on clean main. Related but different: world-households-unpaid-living-costs-payday (#4937, arrears for full households) and world-living-costs-pay-from-household-members (done, #4939). Check whether #4937 already fixes this before building.
 
 Oct 20: Owner ruled on #5473 that background households may split from an 18-year-old when cheap to simulate and as common as in real life, but the player's own family does not leave the player before 1.0, so the hold in moves.ts stays and SG-P15-moves-player-home-stays can be marked resolved.
+
+Sent back 2026-10-20 from PR #5473 (branch claude/player-living-cost-fraser): see the Cloud merger comment on that PR for the exact reason; finish on that branch, merge main into it first.

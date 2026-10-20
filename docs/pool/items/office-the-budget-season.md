@@ -22,3 +22,5 @@ claimed-at: 2026-10-20T11:15:30.336Z
 **Files.** src/core2/modules/office-day.ts, src/core2/office-day-calendar.ts, src/core2/modules/executive.ts, src/core2/data/legislature/executive-proposal.json
 
 **Notes.** Sent back 2026-10-20 from PR #5217 (branch claude/political-game-pool-udtiwn): merge conflict with origin/main in code (src/core2/modules/office-day.ts and src/core2/office-day-acts.ts); finish on that branch, merge main into it first. Checklist line from OFFICE-LOCAL.md; verify against main before starting.
+
+Sent back 2026-10-20 from PR #5533 (branch claude/political-game-pool-yucp92-tt): see the Cloud merger comment on that PR for the exact reason; finish on that branch, merge main into it first.
