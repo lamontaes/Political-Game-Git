@@ -5,10 +5,10 @@ area: release
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: blocked
 claimed-by: claude/release-pool-pushes
 pr:
-blocked-on:
+blocked-on: PR 5130 (release-skip-pool-only-commits) already adds paths-ignore for docs/pool; merge it, then the CTO can drop this item
 source: added with npm run pool -- add
 claimed-at: 2026-10-20T09:40:54.429Z
 ---
