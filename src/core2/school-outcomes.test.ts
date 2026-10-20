@@ -8,6 +8,7 @@
  * the web's own graduation measure by record id.
  */
 import { randomBytes } from "node:crypto";
+import { appendFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 import { buildBenchWorld } from "../bench/world";
 import { drawPlace } from "../../scripts/core2-year/place";
@@ -133,6 +134,10 @@ describe(`school outcomes (${place.name}, seed ${seed})`, () => {
     const spending = rows<SchoolMeasureRow>(base, "measures").find(
       (m) => m.measure === "school.spending-per-student",
     )!;
+    appendFileSync(
+      "/tmp/claude-0/-home-user-Political-Game-Git/1e5ec822-8f0a-594e-815c-9668ab28eb9e/scratchpad/schools/spend.out",
+      `${place.name} ${seed} spending ${spending.value} students ${spending.students} ${spending.id}\n`,
+    );
     expect(spending.budgetIds!.length).toBeGreaterThan(0);
     expect(spending.value).toBeGreaterThan(3000);
     expect(spending.value).toBeLessThan(60000);
