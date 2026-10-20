@@ -5,9 +5,9 @@ area: gov
 kind: feature
 priority: 2
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/bribe-reputation
-pr:
+pr: #5673
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-20T11:54:48.207Z

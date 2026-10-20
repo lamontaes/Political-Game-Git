@@ -5,7 +5,7 @@ area: core
 kind: cleanup
 priority: 2
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/old-imports-population-traits
 pr: #5514
 blocked-on:
@@ -24,3 +24,5 @@ claimed-at: 2026-10-20T11:59:56.968Z
 **Notes.** Split Oct 19 from core-old-imports-population, which was sized M but touches five old-engine modules. The sibling slices are core-old-imports-population-org-profile, core-old-imports-population-traits and core-old-imports-population-town-employment.
 
 Sent back 2026-10-20 from PR #5514 (branch claude/fs11vb-old-imports): the new src/core2/people-trait-definitions.ts imports types from src/simulation, and a moved comment carries an owner note; finish on that branch, merge main into it first.
+
+Looked at Oct 20 (claude/old-imports-note) and handed back unbuilt: the opening needs the seeded traits of three packs (`peopleTraitPack`, `legislatureTraitPack`, `personalityCataloguePack` in `src/simulation/compiled-trait-packs.ts`), but `loadTraitPacks` in `src/core2/trait-packs.ts` validates each pack's effects against `BUILT_IN_TRAIT_DECISIONS`, which collects declarations from about fifteen old-engine files (clemency, courts, bargaining, jobs, votes and outreach, press and more). A core copy therefore means either moving the three packs and every decision declaration they name, or loading the packs without decisions and proving the seeded values are unchanged. Split it: (1) a test that fixes the seeded trait values for a drawn place by person id and trait key, (2) the pack declarations as core data with the loader taking the decision list from the core, (3) switching `population.ts` and deleting the old reads.
