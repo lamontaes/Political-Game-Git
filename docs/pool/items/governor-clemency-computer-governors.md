@@ -6,11 +6,11 @@ kind: feature
 priority: 3
 size: M
 status: claimed
-claimed-by: claude/computer-governor-clemency
-pr:
+claimed-by: claude/clemency-computer-governors
+pr: #5536
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-20T04:52:41.834Z
+claimed-at: 2026-10-20T06:13:42.564Z
 ---
 
 **What.** A governor who is not the player never takes up a prisoner's petition, so commuting a sentence is reachable only by a player governor, and no screen offers it. A computer governor should weigh the weekly petition from their traits, the petitioner's record, the victim's standing and the public view, and grant or refuse it.
@@ -22,3 +22,5 @@ claimed-at: 2026-10-20T04:52:41.834Z
 **Files.** src/core2/modules/justice.ts, src/core2/office-day-state.ts
 
 **Notes.** TODO
+
+Sent back 2026-10-20 from PR #5536 (branch claude/computer-governor-clemency): after finding a governor with authority and prisoners, the test retries another town when no petition is decided; assert decisions exist on that eligible draw instead of discarding the feature failure; finish on that branch, merge main into it first.
