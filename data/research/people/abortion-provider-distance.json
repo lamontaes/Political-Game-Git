@@ -1,0 +1,868 @@
+{
+  "schemaVersion": 1,
+  "readOn": "2026-10-20",
+  "note": "Driving miles from a place to the nearest abortion provider. milesBefore is the May 2022 figure (before the Dobbs-era closures) and milesNow is July 2026; the engine reads milesNow where the abortion law in force restricts and milesBefore where it does not. Each figure is the mean over the state's counties weighted by women aged 15-44, with low and high the 10th and 90th percentiles of that weighted spread. Alaska and Hawaii counties are weighted by Census county population because the Myers file leaves their women-aged-15-44 count blank. One Alaska county row (FIPS 02261, former Valdez-Cordova) has no current Census population and is left out. Places the Myers file lacks carry estimatedFrom and reason.",
+  "source": {
+    "citation": "Caitlin Myers, County-by-month travel distances to nearest abortion provider, Vintage July 1, 2026 (Middlebury College; Myers Abortion Facility Database public panel), osf.io/pfxq3; user guide and codebook last updated May 20, 2026",
+    "url": "https://osf.io/s6zpa/",
+    "download": "https://osf.io/download/gtpm4/",
+    "guide": "https://osf.io/download/fnumq/"
+  },
+  "nationalBefore": {
+    "miles": 25.0,
+    "low": 1.9,
+    "high": 73.8
+  },
+  "places": {
+    "US-AK": {
+      "tag": "SOURCED",
+      "milesBefore": {
+        "miles": 64.6,
+        "low": 1.6,
+        "high": 230.3
+      },
+      "milesNow": {
+        "miles": 121.1,
+        "low": 1.6,
+        "high": 565.5
+      },
+      "sourceUrl": "https://osf.io/download/gtpm4/",
+      "quote": "The variable distance_origintodest measures the travel (driving) distance from the origin county to the nearest abortion facility."
+    },
+    "US-AL": {
+      "tag": "SOURCED",
+      "milesBefore": {
+        "miles": 48.6,
+        "low": 3.4,
+        "high": 85.6
+      },
+      "milesNow": {
+        "miles": 150.1,
+        "low": 86.4,
+        "high": 228.3
+      },
+      "sourceUrl": "https://osf.io/download/gtpm4/",
+      "quote": "The variable distance_origintodest measures the travel (driving) distance from the origin county to the nearest abortion facility."
+    },
+    "US-AR": {
+      "tag": "SOURCED",
+      "milesBefore": {
+        "miles": 75.1,
+        "low": 7.3,
+        "high": 121.4
+      },
+      "milesNow": {
+        "miles": 233.9,
+        "low": 94.3,
+        "high": 343.1
+      },
+      "sourceUrl": "https://osf.io/download/gtpm4/",
+      "quote": "The variable distance_origintodest measures the travel (driving) distance from the origin county to the nearest abortion facility."
+    },
+    "US-AZ": {
+      "tag": "SOURCED",
+      "milesBefore": {
+        "miles": 16.6,
+        "low": 1.9,
+        "high": 66.3
+      },
+      "milesNow": {
+        "miles": 15.7,
+        "low": 1.9,
+        "high": 66.3
+      },
+      "sourceUrl": "https://osf.io/download/gtpm4/",
+      "quote": "The variable distance_origintodest measures the travel (driving) distance from the origin county to the nearest abortion facility."
+    },
+    "US-CA": {
+      "tag": "SOURCED",
+      "milesBefore": {
+        "miles": 6.7,
+        "low": 2.0,
+        "high": 16.2
+      },
+      "milesNow": {
+        "miles": 6.2,
+        "low": 2.1,
+        "high": 15.9
+      },
+      "sourceUrl": "https://osf.io/download/gtpm4/",
+      "quote": "The variable distance_origintodest measures the travel (driving) distance from the origin county to the nearest abortion facility."
+    },
+    "US-CO": {
+      "tag": "SOURCED",
+      "milesBefore": {
+        "miles": 17.3,
+        "low": 1.8,
+        "high": 49.5
+      },
+      "milesNow": {
+        "miles": 15.0,
+        "low": 1.8,
+        "high": 36.4
+      },
+      "sourceUrl": "https://osf.io/download/gtpm4/",
+      "quote": "The variable distance_origintodest measures the travel (driving) distance from the origin county to the nearest abortion facility."
+    },
+    "US-CT": {
+      "tag": "SOURCED",
+      "milesBefore": {
+        "miles": 8.7,
+        "low": 2.2,
+        "high": 13.5
+      },
+      "milesNow": {
+        "miles": 8.1,
+        "low": 2.2,
+        "high": 13.5
+      },
+      "sourceUrl": "https://osf.io/download/gtpm4/",
+      "quote": "The variable distance_origintodest measures the travel (driving) distance from the origin county to the nearest abortion facility."
+    },
+    "US-DC": {
+      "tag": "SOURCED",
+      "milesBefore": {
+        "miles": 1.1,
+        "low": 1.1,
+        "high": 1.1
+      },
+      "milesNow": {
+        "miles": 1.1,
+        "low": 1.1,
+        "high": 1.1
+      },
+      "sourceUrl": "https://osf.io/download/gtpm4/",
+      "quote": "The variable distance_origintodest measures the travel (driving) distance from the origin county to the nearest abortion facility."
+    },
+    "US-DE": {
+      "tag": "SOURCED",
+      "milesBefore": {
+        "miles": 6.3,
+        "low": 2.9,
+        "high": 19.0
+      },
+      "milesNow": {
+        "miles": 10.6,
+        "low": 2.9,
+        "high": 40.4
+      },
+      "sourceUrl": "https://osf.io/download/gtpm4/",
+      "quote": "The variable distance_origintodest measures the travel (driving) distance from the origin county to the nearest abortion facility."
+    },
+    "US-FL": {
+      "tag": "SOURCED",
+      "milesBefore": {
+        "miles": 14.5,
+        "low": 2.3,
+        "high": 47.4
+      },
+      "milesNow": {
+        "miles": 20.3,
+        "low": 2.6,
+        "high": 50.7
+      },
+      "sourceUrl": "https://osf.io/download/gtpm4/",
+      "quote": "The variable distance_origintodest measures the travel (driving) distance from the origin county to the nearest abortion facility."
+    },
+    "US-GA": {
+      "tag": "SOURCED",
+      "milesBefore": {
+        "miles": 28.3,
+        "low": 2.6,
+        "high": 78.1
+      },
+      "milesNow": {
+        "miles": 27.6,
+        "low": 2.6,
+        "high": 77.1
+      },
+      "sourceUrl": "https://osf.io/download/gtpm4/",
+      "quote": "The variable distance_origintodest measures the travel (driving) distance from the origin county to the nearest abortion facility."
+    },
+    "US-HI": {
+      "tag": "SOURCED",
+      "milesBefore": {
+        "miles": 7.9,
+        "low": 2.5,
+        "high": 21.3
+      },
+      "milesNow": {
+        "miles": 7.3,
+        "low": 1.6,
+        "high": 21.3
+      },
+      "sourceUrl": "https://osf.io/download/gtpm4/",
+      "quote": "The variable distance_origintodest measures the travel (driving) distance from the origin county to the nearest abortion facility."
+    },
+    "US-IA": {
+      "tag": "SOURCED",
+      "milesBefore": {
+        "miles": 41.1,
+        "low": 3.5,
+        "high": 92.5
+      },
+      "milesNow": {
+        "miles": 50.2,
+        "low": 2.7,
+        "high": 101.6
+      },
+      "sourceUrl": "https://osf.io/download/gtpm4/",
+      "quote": "The variable distance_origintodest measures the travel (driving) distance from the origin county to the nearest abortion facility."
+    },
+    "US-ID": {
+      "tag": "SOURCED",
+      "milesBefore": {
+        "miles": 39.6,
+        "low": 3.7,
+        "high": 102.3
+      },
+      "milesNow": {
+        "miles": 85.9,
+        "low": 23.9,
+        "high": 185.1
+      },
+      "sourceUrl": "https://osf.io/download/gtpm4/",
+      "quote": "The variable distance_origintodest measures the travel (driving) distance from the origin county to the nearest abortion facility."
+    },
+    "US-IL": {
+      "tag": "SOURCED",
+      "milesBefore": {
+        "miles": 16.7,
+        "low": 3.0,
+        "high": 58.9
+      },
+      "milesNow": {
+        "miles": 14.0,
+        "low": 2.8,
+        "high": 41.4
+      },
+      "sourceUrl": "https://osf.io/download/gtpm4/",
+      "quote": "The variable distance_origintodest measures the travel (driving) distance from the origin county to the nearest abortion facility."
+    },
+    "US-IN": {
+      "tag": "SOURCED",
+      "milesBefore": {
+        "miles": 33.3,
+        "low": 4.1,
+        "high": 92.9
+      },
+      "milesNow": {
+        "miles": 85.0,
+        "low": 36.7,
+        "high": 115.3
+      },
+      "sourceUrl": "https://osf.io/download/gtpm4/",
+      "quote": "The variable distance_origintodest measures the travel (driving) distance from the origin county to the nearest abortion facility."
+    },
+    "US-KS": {
+      "tag": "SOURCED",
+      "milesBefore": {
+        "miles": 52.5,
+        "low": 4.5,
+        "high": 127.9
+      },
+      "milesNow": {
+        "miles": 47.0,
+        "low": 2.0,
+        "high": 126.7
+      },
+      "sourceUrl": "https://osf.io/download/gtpm4/",
+      "quote": "The variable distance_origintodest measures the travel (driving) distance from the origin county to the nearest abortion facility."
+    },
+    "US-KY": {
+      "tag": "SOURCED",
+      "milesBefore": {
+        "miles": 64.6,
+        "low": 7.3,
+        "high": 125.2
+      },
+      "milesNow": {
+        "miles": 110.3,
+        "low": 36.9,
+        "high": 176.4
+      },
+      "sourceUrl": "https://osf.io/download/gtpm4/",
+      "quote": "The variable distance_origintodest measures the travel (driving) distance from the origin county to the nearest abortion facility."
+    },
+    "US-LA": {
+      "tag": "SOURCED",
+      "milesBefore": {
+        "miles": 46.6,
+        "low": 2.8,
+        "high": 118.7
+      },
+      "milesNow": {
+        "miles": 445.9,
+        "low": 379.6,
+        "high": 523.2
+      },
+      "sourceUrl": "https://osf.io/download/gtpm4/",
+      "quote": "The variable distance_origintodest measures the travel (driving) distance from the origin county to the nearest abortion facility."
+    },
+    "US-MA": {
+      "tag": "SOURCED",
+      "milesBefore": {
+        "miles": 14.0,
+        "low": 0.3,
+        "high": 29.8
+      },
+      "milesNow": {
+        "miles": 7.7,
+        "low": 0.3,
+        "high": 13.6
+      },
+      "sourceUrl": "https://osf.io/download/gtpm4/",
+      "quote": "The variable distance_origintodest measures the travel (driving) distance from the origin county to the nearest abortion facility."
+    },
+    "US-MD": {
+      "tag": "SOURCED",
+      "milesBefore": {
+        "miles": 9.4,
+        "low": 2.1,
+        "high": 21.5
+      },
+      "milesNow": {
+        "miles": 9.3,
+        "low": 1.9,
+        "high": 21.2
+      },
+      "sourceUrl": "https://osf.io/download/gtpm4/",
+      "quote": "The variable distance_origintodest measures the travel (driving) distance from the origin county to the nearest abortion facility."
+    },
+    "US-ME": {
+      "tag": "SOURCED",
+      "milesBefore": {
+        "miles": 10.2,
+        "low": 3.5,
+        "high": 22.3
+      },
+      "milesNow": {
+        "miles": 8.2,
+        "low": 3.5,
+        "high": 14.4
+      },
+      "sourceUrl": "https://osf.io/download/gtpm4/",
+      "quote": "The variable distance_origintodest measures the travel (driving) distance from the origin county to the nearest abortion facility."
+    },
+    "US-MI": {
+      "tag": "SOURCED",
+      "milesBefore": {
+        "miles": 16.0,
+        "low": 2.2,
+        "high": 41.2
+      },
+      "milesNow": {
+        "miles": 18.0,
+        "low": 2.2,
+        "high": 45.3
+      },
+      "sourceUrl": "https://osf.io/download/gtpm4/",
+      "quote": "The variable distance_origintodest measures the travel (driving) distance from the origin county to the nearest abortion facility."
+    },
+    "US-MN": {
+      "tag": "SOURCED",
+      "milesBefore": {
+        "miles": 31.2,
+        "low": 5.7,
+        "high": 82.5
+      },
+      "milesNow": {
+        "miles": 28.6,
+        "low": 5.8,
+        "high": 76.7
+      },
+      "sourceUrl": "https://osf.io/download/gtpm4/",
+      "quote": "The variable distance_origintodest measures the travel (driving) distance from the origin county to the nearest abortion facility."
+    },
+    "US-MO": {
+      "tag": "SOURCED",
+      "milesBefore": {
+        "miles": 67.9,
+        "low": 10.5,
+        "high": 160.4
+      },
+      "milesNow": {
+        "miles": 42.3,
+        "low": 7.0,
+        "high": 99.8
+      },
+      "sourceUrl": "https://osf.io/download/gtpm4/",
+      "quote": "The variable distance_origintodest measures the travel (driving) distance from the origin county to the nearest abortion facility."
+    },
+    "US-MS": {
+      "tag": "SOURCED",
+      "milesBefore": {
+        "miles": 66.8,
+        "low": 13.6,
+        "high": 101.4
+      },
+      "milesNow": {
+        "miles": 309.9,
+        "low": 250.6,
+        "high": 366.8
+      },
+      "sourceUrl": "https://osf.io/download/gtpm4/",
+      "quote": "The variable distance_origintodest measures the travel (driving) distance from the origin county to the nearest abortion facility."
+    },
+    "US-MT": {
+      "tag": "SOURCED",
+      "milesBefore": {
+        "miles": 52.9,
+        "low": 0.6,
+        "high": 124.3
+      },
+      "milesNow": {
+        "miles": 52.7,
+        "low": 0.6,
+        "high": 124.3
+      },
+      "sourceUrl": "https://osf.io/download/gtpm4/",
+      "quote": "The variable distance_origintodest measures the travel (driving) distance from the origin county to the nearest abortion facility."
+    },
+    "US-NC": {
+      "tag": "SOURCED",
+      "milesBefore": {
+        "miles": 24.2,
+        "low": 1.9,
+        "high": 59.7
+      },
+      "milesNow": {
+        "miles": 23.8,
+        "low": 1.9,
+        "high": 59.7
+      },
+      "sourceUrl": "https://osf.io/download/gtpm4/",
+      "quote": "The variable distance_origintodest measures the travel (driving) distance from the origin county to the nearest abortion facility."
+    },
+    "US-ND": {
+      "tag": "SOURCED",
+      "milesBefore": {
+        "miles": 142.6,
+        "low": 4.8,
+        "high": 290.8
+      },
+      "milesNow": {
+        "miles": 145.6,
+        "low": 6.9,
+        "high": 294.2
+      },
+      "sourceUrl": "https://osf.io/download/gtpm4/",
+      "quote": "The variable distance_origintodest measures the travel (driving) distance from the origin county to the nearest abortion facility."
+    },
+    "US-NE": {
+      "tag": "SOURCED",
+      "milesBefore": {
+        "miles": 43.5,
+        "low": 2.6,
+        "high": 142.7
+      },
+      "milesNow": {
+        "miles": 63.1,
+        "low": 2.6,
+        "high": 182.7
+      },
+      "sourceUrl": "https://osf.io/download/gtpm4/",
+      "quote": "The variable distance_origintodest measures the travel (driving) distance from the origin county to the nearest abortion facility."
+    },
+    "US-NH": {
+      "tag": "SOURCED",
+      "milesBefore": {
+        "miles": 17.8,
+        "low": 4.4,
+        "high": 34.8
+      },
+      "milesNow": {
+        "miles": 17.3,
+        "low": 4.4,
+        "high": 34.8
+      },
+      "sourceUrl": "https://osf.io/download/gtpm4/",
+      "quote": "The variable distance_origintodest measures the travel (driving) distance from the origin county to the nearest abortion facility."
+    },
+    "US-NJ": {
+      "tag": "SOURCED",
+      "milesBefore": {
+        "miles": 6.2,
+        "low": 1.8,
+        "high": 13.9
+      },
+      "milesNow": {
+        "miles": 7.0,
+        "low": 2.4,
+        "high": 13.9
+      },
+      "sourceUrl": "https://osf.io/download/gtpm4/",
+      "quote": "The variable distance_origintodest measures the travel (driving) distance from the origin county to the nearest abortion facility."
+    },
+    "US-NM": {
+      "tag": "SOURCED",
+      "milesBefore": {
+        "miles": 51.6,
+        "low": 2.5,
+        "high": 186.4
+      },
+      "milesNow": {
+        "miles": 47.2,
+        "low": 2.5,
+        "high": 196.6
+      },
+      "sourceUrl": "https://osf.io/download/gtpm4/",
+      "quote": "The variable distance_origintodest measures the travel (driving) distance from the origin county to the nearest abortion facility."
+    },
+    "US-NV": {
+      "tag": "SOURCED",
+      "milesBefore": {
+        "miles": 9.0,
+        "low": 0.8,
+        "high": 1.7
+      },
+      "milesNow": {
+        "miles": 9.9,
+        "low": 0.8,
+        "high": 7.4
+      },
+      "sourceUrl": "https://osf.io/download/gtpm4/",
+      "quote": "The variable distance_origintodest measures the travel (driving) distance from the origin county to the nearest abortion facility."
+    },
+    "US-NY": {
+      "tag": "SOURCED",
+      "milesBefore": {
+        "miles": 5.0,
+        "low": 1.1,
+        "high": 8.7
+      },
+      "milesNow": {
+        "miles": 5.1,
+        "low": 0.8,
+        "high": 9.9
+      },
+      "sourceUrl": "https://osf.io/download/gtpm4/",
+      "quote": "The variable distance_origintodest measures the travel (driving) distance from the origin county to the nearest abortion facility."
+    },
+    "US-OH": {
+      "tag": "SOURCED",
+      "milesBefore": {
+        "miles": 25.3,
+        "low": 4.8,
+        "high": 59.7
+      },
+      "milesNow": {
+        "miles": 21.9,
+        "low": 3.3,
+        "high": 53.9
+      },
+      "sourceUrl": "https://osf.io/download/gtpm4/",
+      "quote": "The variable distance_origintodest measures the travel (driving) distance from the origin county to the nearest abortion facility."
+    },
+    "US-OK": {
+      "tag": "SOURCED",
+      "milesBefore": {
+        "miles": 37.8,
+        "low": 1.8,
+        "high": 96.5
+      },
+      "milesNow": {
+        "miles": 164.3,
+        "low": 125.6,
+        "high": 245.6
+      },
+      "sourceUrl": "https://osf.io/download/gtpm4/",
+      "quote": "The variable distance_origintodest measures the travel (driving) distance from the origin county to the nearest abortion facility."
+    },
+    "US-OR": {
+      "tag": "SOURCED",
+      "milesBefore": {
+        "miles": 27.0,
+        "low": 2.1,
+        "high": 93.0
+      },
+      "milesNow": {
+        "miles": 16.8,
+        "low": 2.1,
+        "high": 52.2
+      },
+      "sourceUrl": "https://osf.io/download/gtpm4/",
+      "quote": "The variable distance_origintodest measures the travel (driving) distance from the origin county to the nearest abortion facility."
+    },
+    "US-PA": {
+      "tag": "SOURCED",
+      "milesBefore": {
+        "miles": 20.2,
+        "low": 2.2,
+        "high": 65.6
+      },
+      "milesNow": {
+        "miles": 19.0,
+        "low": 2.2,
+        "high": 62.9
+      },
+      "sourceUrl": "https://osf.io/download/gtpm4/",
+      "quote": "The variable distance_origintodest measures the travel (driving) distance from the origin county to the nearest abortion facility."
+    },
+    "US-RI": {
+      "tag": "SOURCED",
+      "milesBefore": {
+        "miles": 10.1,
+        "low": 4.1,
+        "high": 29.5
+      },
+      "milesNow": {
+        "miles": 9.7,
+        "low": 4.1,
+        "high": 29.5
+      },
+      "sourceUrl": "https://osf.io/download/gtpm4/",
+      "quote": "The variable distance_origintodest measures the travel (driving) distance from the origin county to the nearest abortion facility."
+    },
+    "US-SC": {
+      "tag": "SOURCED",
+      "milesBefore": {
+        "miles": 29.4,
+        "low": 5.1,
+        "high": 72.4
+      },
+      "milesNow": {
+        "miles": 29.6,
+        "low": 5.1,
+        "high": 72.4
+      },
+      "sourceUrl": "https://osf.io/download/gtpm4/",
+      "quote": "The variable distance_origintodest measures the travel (driving) distance from the origin county to the nearest abortion facility."
+    },
+    "US-SD": {
+      "tag": "SOURCED",
+      "milesBefore": {
+        "miles": 129.6,
+        "low": 7.8,
+        "high": 326.8
+      },
+      "milesNow": {
+        "miles": 202.7,
+        "low": 150.6,
+        "high": 283.5
+      },
+      "sourceUrl": "https://osf.io/download/gtpm4/",
+      "quote": "The variable distance_origintodest measures the travel (driving) distance from the origin county to the nearest abortion facility."
+    },
+    "US-TN": {
+      "tag": "SOURCED",
+      "milesBefore": {
+        "miles": 35.1,
+        "low": 4.7,
+        "high": 90.3
+      },
+      "milesNow": {
+        "miles": 163.8,
+        "low": 94.2,
+        "high": 226.0
+      },
+      "sourceUrl": "https://osf.io/download/gtpm4/",
+      "quote": "The variable distance_origintodest measures the travel (driving) distance from the origin county to the nearest abortion facility."
+    },
+    "US-TX": {
+      "tag": "SOURCED",
+      "milesBefore": {
+        "miles": 38.4,
+        "low": 0.5,
+        "high": 111.1
+      },
+      "milesNow": {
+        "miles": 485.1,
+        "low": 333.6,
+        "high": 623.8
+      },
+      "sourceUrl": "https://osf.io/download/gtpm4/",
+      "quote": "The variable distance_origintodest measures the travel (driving) distance from the origin county to the nearest abortion facility."
+    },
+    "US-UT": {
+      "tag": "SOURCED",
+      "milesBefore": {
+        "miles": 40.4,
+        "low": 5.5,
+        "high": 120.1
+      },
+      "milesNow": {
+        "miles": 31.8,
+        "low": 5.5,
+        "high": 98.2
+      },
+      "sourceUrl": "https://osf.io/download/gtpm4/",
+      "quote": "The variable distance_origintodest measures the travel (driving) distance from the origin county to the nearest abortion facility."
+    },
+    "US-VA": {
+      "tag": "SOURCED",
+      "milesBefore": {
+        "miles": 20.9,
+        "low": 2.3,
+        "high": 50.8
+      },
+      "milesNow": {
+        "miles": 19.7,
+        "low": 2.3,
+        "high": 48.5
+      },
+      "sourceUrl": "https://osf.io/download/gtpm4/",
+      "quote": "The variable distance_origintodest measures the travel (driving) distance from the origin county to the nearest abortion facility."
+    },
+    "US-VT": {
+      "tag": "SOURCED",
+      "milesBefore": {
+        "miles": 17.7,
+        "low": 4.1,
+        "high": 39.8
+      },
+      "milesNow": {
+        "miles": 16.2,
+        "low": 4.1,
+        "high": 39.8
+      },
+      "sourceUrl": "https://osf.io/download/gtpm4/",
+      "quote": "The variable distance_origintodest measures the travel (driving) distance from the origin county to the nearest abortion facility."
+    },
+    "US-WA": {
+      "tag": "SOURCED",
+      "milesBefore": {
+        "miles": 12.1,
+        "low": 2.0,
+        "high": 14.0
+      },
+      "milesNow": {
+        "miles": 9.7,
+        "low": 2.0,
+        "high": 11.2
+      },
+      "sourceUrl": "https://osf.io/download/gtpm4/",
+      "quote": "The variable distance_origintodest measures the travel (driving) distance from the origin county to the nearest abortion facility."
+    },
+    "US-WI": {
+      "tag": "SOURCED",
+      "milesBefore": {
+        "miles": 44.9,
+        "low": 4.0,
+        "high": 101.0
+      },
+      "milesNow": {
+        "miles": 43.4,
+        "low": 0.8,
+        "high": 101.0
+      },
+      "sourceUrl": "https://osf.io/download/gtpm4/",
+      "quote": "The variable distance_origintodest measures the travel (driving) distance from the origin county to the nearest abortion facility."
+    },
+    "US-WV": {
+      "tag": "SOURCED",
+      "milesBefore": {
+        "miles": 61.7,
+        "low": 21.1,
+        "high": 106.8
+      },
+      "milesNow": {
+        "miles": 78.8,
+        "low": 26.7,
+        "high": 119.8
+      },
+      "sourceUrl": "https://osf.io/download/gtpm4/",
+      "quote": "The variable distance_origintodest measures the travel (driving) distance from the origin county to the nearest abortion facility."
+    },
+    "US-WY": {
+      "tag": "SOURCED",
+      "milesBefore": {
+        "miles": 134.3,
+        "low": 51.2,
+        "high": 236.9
+      },
+      "milesNow": {
+        "miles": 93.1,
+        "low": 1.6,
+        "high": 145.3
+      },
+      "sourceUrl": "https://osf.io/download/gtpm4/",
+      "quote": "The variable distance_origintodest measures the travel (driving) distance from the origin county to the nearest abortion facility."
+    },
+    "US-PR": {
+      "tag": "ESTIMATED",
+      "milesBefore": {
+        "miles": 25.0,
+        "low": 1.9,
+        "high": 73.8
+      },
+      "milesNow": {
+        "miles": 25.0,
+        "low": 1.9,
+        "high": 73.8
+      },
+      "estimatedFrom": "National women-weighted county distances, Myers file, May 2022 (this file, nationalBefore).",
+      "reason": "The Myers file covers 50 states and D.C. only. Puerto Rico has four clinics, three in San Juan, on an island about a hundred miles long, so the national pre-ban distribution is used for both columns; no source gives distance by municipality.",
+      "sourceUrl": "https://www.gpb.org/news/2022/10/03/abortion-legal-under-threat-in-puerto-rico",
+      "quote": "There are only four abortion clinics in Puerto Rico to serve more than 3.2 million people. Three of those clinics are in San Juan, the capital."
+    },
+    "US-VI": {
+      "tag": "ESTIMATED",
+      "milesBefore": {
+        "miles": 25.0,
+        "low": 1.9,
+        "high": 73.8
+      },
+      "milesNow": {
+        "miles": 25.0,
+        "low": 1.9,
+        "high": 73.8
+      },
+      "estimatedFrom": "National women-weighted county distances, Myers file, May 2022 (this file, nationalBefore).",
+      "reason": "No fetched source names a provider or a trip for the Virgin Islands, and the Myers file omits it; the national pre-ban distribution stands in for both columns until one is found.",
+      "sourceUrl": "https://osf.io/download/fnumq/",
+      "quote": "The data record the population of women aged 15\u201344 in the origin county based on data from SEER and the location (county and state) of the nearest facility."
+    },
+    "US-GU": {
+      "tag": "ESTIMATED",
+      "milesBefore": {
+        "miles": 3900.0,
+        "low": 3800.0,
+        "high": 4000.0
+      },
+      "milesNow": {
+        "miles": 3900.0,
+        "low": 3800.0,
+        "high": 4000.0
+      },
+      "estimatedFrom": "NBC News reporting that Guam residents would travel nearly 4,000 miles to Hawaii.",
+      "reason": "Guam has had no in-person provider since 2018, so the nearest one is in Hawaii; the source says nearly 4,000 miles, and the spread is a labeled 100 miles either way.",
+      "sourceUrl": "https://www.nbcnews.com/news/asian-america/guam-nearest-domestic-abortion-clinic-4000-miles-away-will-roes-revers-rcna42212",
+      "quote": "would otherwise have to travel nearly 4,000 miles to Hawaii"
+    },
+    "US-MP": {
+      "tag": "ESTIMATED",
+      "milesBefore": {
+        "miles": 3900.0,
+        "low": 3800.0,
+        "high": 4000.0
+      },
+      "milesNow": {
+        "miles": 3900.0,
+        "low": 3800.0,
+        "high": 4000.0
+      },
+      "estimatedFrom": "Guam figure (nearly 4,000 miles to Hawaii), because abortion is not available in the Northern Mariana Islands or Guam.",
+      "reason": "No source gives a Northern Mariana trip; Guam has no provider, so the nearest is in Hawaii at about the same distance, and the Guam spread is used.",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Abortion_in_Guam",
+      "quote": "not possible to receive in the neighboring Northern Mariana Islands"
+    },
+    "US-AS": {
+      "tag": "ESTIMATED",
+      "milesBefore": {
+        "miles": 2200.0,
+        "low": 2000.0,
+        "high": 2400.0
+      },
+      "milesNow": {
+        "miles": 2200.0,
+        "low": 2000.0,
+        "high": 2400.0
+      },
+      "estimatedFrom": "Wikipedia distance from American Samoa to Hawaii.",
+      "reason": "American Samoa has no recorded provider and its laws prohibit abortion, so the nearest is taken as Hawaii at the stated distance, with a labeled 200 miles either way for where in Hawaii and how the trip routes.",
+      "sourceUrl": "https://en.wikipedia.org/wiki/American_Samoa",
+      "quote": "situated 2,200 miles (3,500 km) southwest of the U.S. state of Hawaii"
+    }
+  }
+}

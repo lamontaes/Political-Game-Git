@@ -12,6 +12,7 @@ import { ABORTION_LAW_SERIES, decideUnplanned } from "./births-unplanned";
 import type { BirthCouple } from "./births-plan";
 import { lawInForce } from "./modules/laws";
 import { coreAPI } from "./state";
+import providerDistance from "../../data/research/people/abortion-provider-distance.json" with { type: "json" };
 
 it("an unplanned pregnancy is decided from her records and the law in force where she lives", () => {
   const draw = drawPlace(
@@ -107,3 +108,63 @@ it("an unplanned pregnancy is decided from her records and the law in force wher
     ).toMatch(/pregnant|ended|delivered/);
   }
 }, 900_000);
+
+it("the trip in an unplanned decision is the miles recorded for the state where she lives", () => {
+  const tried: string[] = [];
+  for (let attempt = 0; attempt < 4; attempt += 1) {
+    const draw = drawPlace(
+      randomBytes(32).toString("hex"),
+      "unplanned-provider-distance",
+    );
+    tried.push(`${draw.key} seed ${draw.seed}`);
+    setBookkeeping(false);
+    const { core } = buildBenchWorld(draw.seed, gameStartDate(), {
+      twoLevel: true,
+      placeKey: draw.key,
+    });
+    const api = coreAPI(core);
+    advanceCore(core, addDays(makeIsoDate(core.date), 30));
+    const renewal = api.moduleState(RENEWAL_MODULE_ID);
+    const playerHome = core.people.get(core.playerId!)?.householdId;
+    // Bring every waiting couple outside the player's home to a whole unit of exposure.
+    for (const c of renewal.table("couples").rows())
+      if (
+        c.status === "active" &&
+        core.people.get(String(c.motherId))?.householdId !== playerHome
+      )
+        renewal.table("exposure").put({ id: c.id, carry: 1 });
+    advanceCore(core, addDays(makeIsoDate(core.date), 100));
+    const plans = renewal
+      .table("plans")
+      .rows()
+      .filter((row) => row.unplanned === true);
+    if (!plans.length) continue;
+    const row = (
+      providerDistance.places as unknown as Record<
+        string,
+        { milesBefore: { miles: number }; milesNow: { miles: number } }
+      >
+    )[draw.state]!;
+    for (const plan of plans) {
+      const decision = (
+        plan.decisions as unknown as Array<{
+          miles: number;
+          restricted: boolean;
+        }>
+      )[0]!;
+      expect(decision.miles, `${draw.key} ${plan.id}`).toBe(
+        decision.restricted ? row.milesNow.miles : row.milesBefore.miles,
+      );
+    }
+    const first = plans[0]!;
+    process.stderr.write(
+      `provider distance: place ${draw.key} (${draw.state}) seed ${draw.seed} plan ${first.id} miles ${
+        (first.decisions as unknown as Array<{ miles: number }>)[0]!.miles
+      }\n`,
+    );
+    return;
+  }
+  throw new Error(
+    `No unplanned decision in any drawn place: ${tried.join("; ")}`,
+  );
+}, 1_800_000);

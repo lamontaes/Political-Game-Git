@@ -1,14 +1,50 @@
+import providerDistance from "../../data/research/people/abortion-provider-distance.json" with { type: "json" };
 import { ageOnDate, makeIsoDate } from "./kernel/dates";
 import { renewalParameter } from "./births-parameters";
 import { birthCircumstances, type BirthCouple } from "./births-plan";
 import { lawInForce } from "./modules/laws";
+import { corePlaceByJurisdictionId } from "./place-lookup";
+import type { EntityId } from "./kernel/brands";
 import type { CoreAPI } from "./types";
 
 export const ABORTION_LAW_SERIES =
   "us-policy-positions:civil-family-community.restrict-abortion";
 export const UNPLANNED_STOPGAP = "SG-PEOPLE-unplanned-pregnancy";
-export const PROVIDER_DISTANCE_STOPGAP =
-  "SG-PEOPLE-unplanned-provider-distance";
+
+interface MilesRow {
+  readonly miles: number;
+  readonly low: number;
+  readonly high: number;
+}
+const PROVIDER_PLACES = providerDistance.places as unknown as Readonly<
+  Record<
+    string,
+    { readonly milesBefore: MilesRow; readonly milesNow: MilesRow }
+  >
+>;
+
+/**
+ * Miles to the nearest abortion provider for the state or territory where she
+ * lives (Myers county-by-month distances, weighted by women aged 15 to 44;
+ * five territories estimated), by place key: the figure from before the
+ * Dobbs-era closures where the law in force does not restrict, the current
+ * one where it does.
+ */
+export function providerMiles(
+  placeId: string,
+  restricted: boolean,
+): { miles: number; stateKey: string } {
+  const stateKey = corePlaceByJurisdictionId(
+    placeId as EntityId,
+  )?.stateJurisdictionKey;
+  const row = stateKey ? PROVIDER_PLACES[stateKey] : undefined;
+  if (!stateKey || !row)
+    throw new Error(`No provider distance recorded for place ${placeId}`);
+  return {
+    miles: (restricted ? row.milesNow : row.milesBefore).miles,
+    stateKey,
+  };
+}
 
 /** The restriction law in force where she lives: its record id, or none recorded. */
 export function restrictionRead(api: CoreAPI): {
@@ -87,10 +123,7 @@ export function decideUnplanned(
   const circumstances = birthCircumstances(api, mother, couple, asOf);
   const raising = Object.values(circumstances).reduce((sum, v) => sum + v, 0);
   const law = restrictionRead(api);
-  api.stopgap(PROVIDER_DISTANCE_STOPGAP);
-  const miles = law.restricted
-    ? p("renewalProviderMilesRestricted")
-    : p("renewalProviderMilesOpen");
+  const { miles } = providerMiles(mother.placeId, law.restricted);
   const travelMinor = Math.round(miles * p("renewalTravelCostPerMileMinor"));
   const cash = api.state.households
     .get(mother.householdId)!

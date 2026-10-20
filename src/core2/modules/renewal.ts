@@ -199,7 +199,7 @@ function conceiveUnplanned(
     citation:
       "Unplanned pregnancy from the couple's exposure and the mother's own weighing of it.",
     estimatedFrom:
-      "Household cushion and the mother's age curve; the restriction law in force and an estimated trip to a provider. SG-PEOPLE-unplanned-pregnancy.",
+      "Household cushion and the mother's age curve; the restriction law in force and the trip to a provider from the place's sourced table. SG-PEOPLE-unplanned-pregnancy.",
   };
   table(api, "plans").put({
     id: planId,

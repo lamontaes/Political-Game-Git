@@ -315,28 +315,6 @@
     },
     "stopgapId": "SG-PEOPLE-unplanned-pregnancy"
   },
-  "renewalProviderMilesOpen": {
-    "value": 25,
-    "tag": "ESTIMATED",
-    "citation": "Average miles to the nearest abortion provider where the law does not restrict it (Myers 2024, about 25 miles in 2022). A stand-in for place geography.",
-    "spread": {
-      "status": "unmeasured",
-      "reason": "Myers 2024 reports 25 miles before Dobbs for the nation; spread by state not yet read."
-    },
-    "stopgapId": "SG-PEOPLE-unplanned-pregnancy",
-    "estimatedFrom": "Myers, Abortion travel distance 2022 to 2024 (SG-PEOPLE-unplanned-provider-distance)."
-  },
-  "renewalProviderMilesRestricted": {
-    "value": 300,
-    "tag": "ESTIMATED",
-    "citation": "Average miles to the nearest provider where the law restricts abortion (Myers 2024, Dobbs-era ban states ranged from about 100 to over 500 miles). A stand-in for place geography.",
-    "spread": {
-      "status": "unmeasured",
-      "reason": "Wide: 100 to 500 miles across ban states."
-    },
-    "stopgapId": "SG-PEOPLE-unplanned-pregnancy",
-    "estimatedFrom": "Myers, Abortion travel distance 2022 to 2024 (SG-PEOPLE-unplanned-provider-distance)."
-  },
   "renewalTravelCostPerMileMinor": {
     "value": 60,
     "tag": "ESTIMATED",

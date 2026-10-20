@@ -5272,7 +5272,7 @@
     "why": "The core has no places-to-providers geography (Myers 2024 gives national figures only).",
     "addedBy": "claude/political-game-pool-pdqjm6",
     "addedAt": "2026-10-19",
-    "replacement": "A place-level distance to the nearest provider read from a sourced table for all 56 places (pool item people-abortion-provider-distance).",
-    "status": "open"
+    "replacement": "Resolved: the trip is read from data/research/people/abortion-provider-distance.json, Myers County-by-month travel distances to nearest abortion provider (osf.io/pfxq3), for 51 of the 56 places, with the five territories estimated and labeled (pool item people-abortion-provider-distance).",
+    "status": "resolved"
   }
 ]
