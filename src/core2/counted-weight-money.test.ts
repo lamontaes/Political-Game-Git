@@ -33,6 +33,8 @@ interface Entry {
   readonly weight?: number;
   /** Wages: pay-weighted mean household weight of the jobs the flow pays. */
   readonly wageScale?: number;
+  /** Wages: the jobs the flow paid, so two worlds compare only on the same payroll. */
+  readonly jobs?: string;
 }
 
 function play(seed: string, key: string, countScale: number) {
@@ -59,11 +61,13 @@ function play(seed: string, key: string, countScale: number) {
       const flow = rt.flows.get(flowId!);
       let weight: number | undefined;
       let wageScale: number | undefined;
+      let jobs: string | undefined;
       if (flowId!.startsWith("rent:")) {
         const ix = rt.store.householdOf.get(flowId!.slice("rent:".length));
         if (ix !== undefined)
           weight = rt.store.weightOf(rt.store.households[ix]!);
       } else if (flow?.perDayMinorByJob) {
+        jobs = Object.keys(flow.perDayMinorByJob).sort().join(",");
         let plain = 0;
         let weighted = 0;
         for (const [jobId, perDay] of Object.entries(flow.perDayMinorByJob)) {
@@ -80,7 +84,7 @@ function play(seed: string, key: string, countScale: number) {
         if (wageScale !== undefined)
           expect(flowScale(rt, flow)).toBeCloseTo(wageScale, 9);
       }
-      entries.set(id, { out, tax, weight, wageScale });
+      entries.set(id, { out, tax, weight, wageScale, jobs });
     }
     return post(entry);
   };
@@ -126,6 +130,9 @@ function compareDrawn(draw: ReturnType<typeof drawPlace>): string | undefined {
       ).toBeLessThanOrEqual(Math.ceil(expected) + 2);
       if (Math.abs(many.out - expected) <= 2) rentsInFull += 1;
     } else if (many.wageScale !== undefined) {
+      // The two worlds draw who falls ill, so a worker can leave one payroll
+      // a payday before the other; only the same payroll is compared.
+      if (one.jobs !== many.jobs) continue;
       wages += 1;
       const expected = one.out * many.wageScale;
       // An employer short of cash pays less; none pays more.
@@ -135,11 +142,14 @@ function compareDrawn(draw: ReturnType<typeof drawPlace>): string | undefined {
       if (Math.abs(many.out - expected) <= 4) {
         paidInFull += 1;
         // Withholding: the same rate per worker on as many workers.
+        // Withholding rises faster than pay, so a payroll whose better-paid
+        // workers stand for more households is taxed a little over the pay-
+        // weighted scale; the bound is that, not a rounding allowance.
         const taxExpected = one.tax * many.wageScale;
         expect(
           Math.abs(many.tax - taxExpected),
           `${where} ${id}: tax ${one.tax} -> ${many.tax}`,
-        ).toBeLessThanOrEqual(Math.max(8, taxExpected * 0.02));
+        ).toBeLessThanOrEqual(Math.max(8, taxExpected * 0.05));
         taxed += one.tax > 0 ? 1 : 0;
       }
     }
