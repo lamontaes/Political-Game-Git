@@ -5,11 +5,12 @@ area: people
 kind: research
 priority: 2
 size: M
-status: blocked
+status: open
 claimed-by:
 pr:
 blocked-on:
 source: "collapsed Oct 19, 2026 from people-stopgap-births-plan-unmeasured-life-loop-model, people-stopgap-drives-estimated-behavior, people-stopgap-opening-kin-estimated-behavior, people-stopgap-views-partial-model"
+claimed-at: 
 ---
 
 **What.** Apply the sourced rows in docs/research/pool-feeder-oct20/research-people-sourced-parameters.md to the people parameter tables and resolve the seven stopgap rows listed below where a number or band is now sourced. Set the volunteer act duration and daily share from ATUS, constrain opening kin placement with the Pew within-an-hour shares, report births per 1,000 women against the NCHS 2025 rate, and keep the response, perception and personality rows as labeled estimates. The views row is a mechanic that waits on CES microdata, so it stays registered with a note on what it reads.
