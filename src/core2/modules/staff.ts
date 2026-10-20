@@ -15,6 +15,7 @@
  * reads the record of as many members as their work covers), and handling a
  * constituent case in the official's office.
  */
+import { workedToday } from "../job-lifecycle";
 import {
   coreAPI,
   fillInIdentity,
@@ -304,7 +305,9 @@ export function staffCandidates(
       person.id === officialId ||
       hired.has(person.id) ||
       inCustody(api, person.id) ||
-      ageOn(person, date) < minimum
+      ageOn(person, date) < minimum ||
+      // Their old job ends with the new post, which cannot be today's.
+      workedToday(state, person)
     )
       continue;
     if (person.tier === HUSK_TIER) {

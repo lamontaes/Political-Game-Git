@@ -1,3 +1,4 @@
+import { workedToday } from "../job-lifecycle";
 import { snapshotExplicitControlV1 } from "../player-control-state-v1";
 /**
  * The executive's desk (M3-05; BOARD "features the old engine had":
@@ -219,14 +220,6 @@ export function experienceFromAge(
  * or the player, ranked by the appointer's reasons (alignment, qualification,
  * acquaintance). Nothing is written.
  */
-/** A job ends before its day's work, so someone who has worked today leaves theirs for a post tomorrow, not today. */
-function workedToday(core: CoreState, person: PersonState): boolean {
-  return (
-    !!person.jobId &&
-    core.work.lastAttendanceByJob.get(person.jobId)?.date === core.date
-  );
-}
-
 function townPostInput(api: CoreAPI, spec: PostSpec, chosenId?: string) {
   const appointer = townAppointer(api, spec.appointedBy);
   const date = api.state.date;
