@@ -10,17 +10,31 @@
  */
 import { ageOnDate, makeIsoDate } from "./kernel/dates";
 import shares from "../../data/research/people/nces-private-enrollment-share-fall-2021.json" with { type: "json" };
-import { corePlaceByKey } from "./place-lookup";
+import { corePlaceByJurisdictionId, corePlaceByKey } from "./place-lookup";
 import data from "./data/opening-private-tuition.json" with { type: "json" };
 import { parameter as p } from "./parameters";
 import { stopgap } from "./stopgaps";
 import type { FinanceContractInput } from "./finance-types";
+import type { EntityId } from "./kernel/brands";
 import type { CoreInput, Source } from "./types";
 
-/** The private share of students in the town's state (NCES, fall 2021); the median where the state has no row. */
-function privateShareOf(input: CoreInput): number {
-  const key = input.placeMetadata?.placeKey;
-  const state = key ? corePlaceByKey(key)?.stateJurisdictionKey : undefined;
+/**
+ * The private share of students in a place's state (NCES, fall 2021); the
+ * median where the state has no row. A town's own households keep their
+ * governing unit's id, which the place lookup may not know, so the world's
+ * own place stands in for its state.
+ */
+export function privateShareOf(
+  placeId: string | undefined,
+  worldPlaceKey: string | undefined,
+): number {
+  const state =
+    (placeId
+      ? corePlaceByJurisdictionId(placeId as EntityId)?.stateJurisdictionKey
+      : undefined) ??
+    (worldPlaceKey
+      ? corePlaceByKey(worldPlaceKey)?.stateJurisdictionKey
+      : undefined);
   const row = (shares.states as Readonly<Record<string, { share: number }>>)[
     state ?? ""
   ];
@@ -42,7 +56,7 @@ export function withPrivateTuition(input: CoreInput): CoreInput {
   const perChildMonthly =
     (p("openingPrivateTuitionAnnualUsd") * p("minorPerDollar")) /
     p("monthsPerYear");
-  const share = privateShareOf(input);
+  const share = privateShareOf(undefined, input.placeMetadata?.placeKey);
   const contracts: FinanceContractInput[] = [];
   const sorted = [...schools].sort((a, b) => a.id.localeCompare(b.id));
   const town = new Set(schools.map((row) => row.placeId));
