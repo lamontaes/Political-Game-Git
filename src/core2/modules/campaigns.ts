@@ -1774,6 +1774,63 @@ function emitMessage(
 }
 
 /**
+ * The candidate in a contest a person would endorse: the one whose platform
+ * they agree with most among the campaigns running, never for a price. They
+ * decline when none beats their own lean (a tie at the top is no pick). The
+ * target is how warmly they put it.
+ */
+export function endorsementPick(
+  api: CoreAPI,
+  contestId: string,
+  endorserId: string,
+): { readonly campaignId: string; readonly target: number } | null {
+  const endorser = api.state.people.get(endorserId);
+  if (!endorser?.alive) return null;
+  const lean = personLean(api.state.people, endorser, townRow(api).lean);
+  const scored = (
+    table(api, "campaigns").query("byContest", [
+      contestId,
+    ]) as unknown as CampaignRow[]
+  )
+    .map((c) => ({ c, raw: agreementWith(api, endorserId, lean, c.platform) }))
+    .sort((a, b) => b.raw - a.raw || a.c.id.localeCompare(b.c.id));
+  const top = scored[0];
+  if (!top) return null;
+  const mine =
+    top.raw +
+    api.parameter("traitDecisionWeight") *
+      decisionLean(
+        api.state,
+        endorser,
+        "campaigns.endorse",
+        "endorse",
+        "decline",
+      );
+  if (mine <= 0 || (scored[1] && scored[1].raw >= top.raw)) return null;
+  return { campaignId: top.c.id, target: clamp(mine) };
+}
+
+/** An endorsement heard by an audience: each of them is reached once, by the endorser. */
+export function endorseTo(
+  api: CoreAPI,
+  campaignId: string,
+  endorserId: string,
+  audience: readonly string[],
+  target: number,
+): void {
+  const campaign = table(api, "campaigns").get(
+    campaignId,
+  ) as unknown as CampaignRow;
+  for (const id of audience)
+    reach(api, campaign, id, "endorsement", endorserId, {
+      carriesPlatform: true,
+      weight: campaignParameter("endorsementWeight"),
+      rapport: 0,
+      target,
+    });
+}
+
+/**
  * Ask someone to endorse. They endorse only the candidate whose platform they
  * agree with most among those they know of, never for a price; everyone who
  * knows them hears it.
@@ -1786,36 +1843,15 @@ export function askForEndorsement(
   const campaign = campaignFor(api, filingId);
   const endorser = api.state.people.get(endorserId);
   if (!endorser?.alive) return false;
-  const lean = personLean(api.state.people, endorser, townRow(api).lean);
-  const raw = agreementWith(api, endorserId, lean, campaign.platform);
-  const mine =
-    raw +
-    api.parameter("traitDecisionWeight") *
-      decisionLean(
-        api.state,
-        endorser,
-        "campaigns.endorse",
-        "endorse",
-        "decline",
-      );
-  const rivals = (
-    table(api, "campaigns").query("byContest", [
-      campaign.contestId,
-    ]) as unknown as CampaignRow[]
-  )
-    .filter((c) => c.id !== campaign.id)
-    .map((c) => agreementWith(api, endorserId, lean, c.platform));
-  if (mine <= 0 || rivals.some((r) => r >= raw)) return false;
-  for (const id of [...endorser.knownIds, ...endorser.familyIds]) {
-    const listener = api.state.people.get(id);
-    if (!listener) continue;
-    reach(api, campaign, id, "endorsement", endorserId, {
-      carriesPlatform: true,
-      weight: campaignParameter("endorsementWeight"),
-      rapport: 0,
-      target: clamp(mine),
-    });
-  }
+  const pick = endorsementPick(api, campaign.contestId, endorserId);
+  if (!pick || pick.campaignId !== campaign.id) return false;
+  endorseTo(
+    api,
+    campaign.id,
+    endorserId,
+    [...endorser.knownIds, ...endorser.familyIds],
+    pick.target,
+  );
   return true;
 }
 

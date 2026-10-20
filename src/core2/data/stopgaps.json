@@ -3762,11 +3762,11 @@
     "file": "src/core2/modules/press.ts",
     "line": 2204,
     "whatItFakes": "Outlets never endorse a candidate in an editorial.",
-    "why": "The decision register (docs/coordination/DECISION-REGISTER.md, 'Many ways to win') names endorsements among the channels of campaign support, so an outlet's endorsement is in; it is not built yet.",
+    "why": "Resolved Oct 20: in the run-up to a contest each outlet's head endorses, once, the candidate whose platform they agree with most (their views and traits, and only when none beats their own lean), and the outlet's followers are reached as cause rows the voting engine reads (endorse in src/core2/modules/press.ts, endorsementPick and endorseTo in campaigns.ts; shown in src/core2/press-endorsements.test.ts). The owner and the regard the head holds for each candidate are not separate inputs yet. Before: The decision register (docs/coordination/DECISION-REGISTER.md, 'Many ways to win') names endorsements among the channels of campaign support, so an outlet's endorsement is in; it is not built yet.",
     "addedBy": "OPUS-PEOPLE",
     "addedAt": "2026-10-14",
     "replacement": "An outlet's head and owner endorse from the outlet's line, their regard for the candidates and the candidates' records, printed as a story the views and voting engines read.",
-    "status": "open"
+    "status": "resolved"
   },
   {
     "id": "SG-PEOPLE-press-national-payroll",
