@@ -1909,11 +1909,11 @@
     "kind": "missing-data",
     "file": "src/core2/modules/voting.ts",
     "line": 593,
-    "whatItFakes": "For 20 of the 56 places the ballot-order rule is read from a secondary source or assumed: the five territories' rules are guesses, and 15 states' primary rule or order within a party is assumed (the rows marked estimate in data/research/elections/ballot-order-2026.json).",
-    "why": "Ballotpedia's ballot-order page gives one rule per state, usually for the general election; NCSL's table and the state codes were not reachable from the research session.",
+    "whatItFakes": "For 8 of the 56 places the ballot-order rule is read from a secondary source or assumed: Connecticut's and Indiana's primary order, Pennsylvania's primary and general rules, South Dakota, Puerto Rico, the Virgin Islands, American Samoa and the Northern Mariana Islands (the rows marked estimate in data/research/elections/ballot-order-2026.json). The other 48 rows were checked against statute text on Oct 20, 2026.",
+    "why": "The statute pages for these places were unreachable from the research session (certificate or 503 errors, browser-only pages, the egress proxy) or did not state the rule; each row's note says what was searched.",
     "addedBy": "OPUS-GOV-ELECTIONS",
     "addedAt": "2026-10-14",
-    "replacement": "Each estimated row checked against its statute (the state election code, or the territory's) and its estimate flag cleared.",
+    "replacement": "Each remaining estimated row checked against its statute (the state election code, or the territory's) and its estimate flag cleared.",
     "status": "open"
   },
   {
