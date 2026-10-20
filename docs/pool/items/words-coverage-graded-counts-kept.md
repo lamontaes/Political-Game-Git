@@ -5,7 +5,7 @@ area: words
 kind: cleanup
 priority: 3
 size: S
-status: in-pr
+status: done
 claimed-by: claude/coverage-counts
 pr: #5116
 blocked-on:
@@ -22,3 +22,5 @@ claimed-at: 2026-10-19T19:19:37.450Z
 **Files.** scripts/dialogue-batch/coverage-table.ts, scripts/dialogue-batch/apply-grades.ts, data/english/part-grades.json
 
 **Notes.** Found Oct 19 while trying to delete the folded batches; see words-batch-files-delete-folded.
+
+Oct 20: PR #5116 merged to main: the coverage report keeps each graded batch's counts by id.
