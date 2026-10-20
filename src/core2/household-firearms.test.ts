@@ -52,9 +52,13 @@ describe(`child access prevention (${place.name}, seed ${seed})`, () => {
     advanceCore(core, addDays(makeIsoDate(core.date), 2));
     const adult = reachParameter("adultAge");
     const below = reachParameter("childAgeBelow");
-    // The duty opens on the law's effective date, the day before the test
-    // looks: someone who turns 18 in between is not yet an adult to it.
-    const effective = addDays(makeIsoDate(core.date), -1);
+    // The duty is recorded once, on the date the law first took effect: the
+    // state's own law where the state already has it (its rows open on the
+    // opening day), else the ordinance enacted here (the day before the test
+    // looks). Someone who turns 18 after that date is still a child to it.
+    const open = openReach(api, KEY);
+    const effective =
+      open.map((r) => r.since).sort()[0] ?? addDays(makeIsoDate(core.date), -1);
     const ageOf = (birth: string) =>
       Number(effective.slice(0, 4)) -
       Number(birth.slice(0, 4)) -
@@ -73,7 +77,7 @@ describe(`child access prevention (${place.name}, seed ${seed})`, () => {
         })
         .map((p) => p.id),
     );
-    const rows = openReach(api, KEY).filter((r) => core.people.has(r.targetId));
+    const rows = open.filter((r) => core.people.has(r.targetId));
     expect(new Set(rows.map((r) => r.targetId))).toEqual(expected);
     // The share of owning households is the state's rate, within what a town this size allows.
     const households = new Set(people.map((p) => p.householdId));
