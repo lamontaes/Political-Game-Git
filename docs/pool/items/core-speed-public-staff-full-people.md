@@ -22,3 +22,5 @@ claimed-at:
 **Files.** src/core2/opening-department-pay.ts, src/core2/opening-public-schools.ts, src/core2/population.ts
 
 **Notes.** TODO
+
+Sent back 2026-10-20 from PR #5551 (branch claude/counted-school-staff): the school-pay test replaces the nonempty full-teacher assertion with a combined full-plus-counted total, so either tier can go untested; prove each payroll path exists and is paid independently; finish on that branch, merge main into it first.
