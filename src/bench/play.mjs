@@ -3626,7 +3626,12 @@ const sheets = {
                     s.holder
                       ? `${s.holder.givenName} ${s.holder.familyName}`
                       : labels.vacant,
-                    s.holder?.party ?? "",
+                    [
+                      s.district ? `${labels.district} ${s.district}` : null,
+                      s.holder?.party,
+                    ]
+                      .filter(Boolean)
+                      .join(" · "),
                   ),
                 ),
                 6,
@@ -3689,7 +3694,15 @@ const sheets = {
               const name = s.holder
                 ? `${s.holder.givenName} ${s.holder.familyName}`
                 : labels.vacant;
-              const line = row(name, s.holder?.party ?? "");
+              const line = row(
+                name,
+                [
+                  s.district ? `${labels.district} ${s.district}` : null,
+                  s.holder?.party,
+                ]
+                  .filter(Boolean)
+                  .join(" · "),
+              );
               // Years of service and how the holder won, from the term and the seat's elections.
               if (s.holder) {
                 const won = s.elections.find(
