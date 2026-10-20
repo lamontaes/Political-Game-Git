@@ -22,3 +22,5 @@ claimed-at:
 **Files.** TODO
 
 **Notes.** TODO
+
+Sent back 2026-10-20 from PR #5328 (branch claude/ads-counted): merge conflict with main in campaigns.ts, press.ts and campaign-ads.test.ts (code); finish on that branch, merge main into it first.
