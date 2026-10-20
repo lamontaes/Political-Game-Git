@@ -18,6 +18,8 @@ import type {
   Source,
 } from "../types";
 import { registerWorldMapPart } from "../snapshot";
+import { lawApplied } from "../law-reach/applied";
+import { residentsRuntime } from "./residents";
 
 export const PURCHASE_TAX_MODULE_ID = "core2-purchase-tax-v1";
 
@@ -31,8 +33,21 @@ export interface PurchaseTaxInput {
   payeeAccountId: string;
   /** Purchase kinds taxed; all purchase kinds when left out. */
   kinds?: readonly string[];
-  /** Sellers whose classification starts with one of these are exempt. */
-  exemptClassificationPrefixes?: readonly string[];
+  /**
+   * Part of what sellers of a classification sell is exempt: the share of
+   * their sales (0 to 1) the tax skips, for sellers whose classification
+   * starts with the prefix (a share of 1 exempts the seller entirely).
+   * `lawKey` and `lawId` name the exemption law, recorded as applied to each
+   * buyer and seller whose sale it spared.
+   */
+  exemptions?: readonly {
+    readonly classificationPrefix: string;
+    readonly share: number;
+    readonly lawKey?: string;
+    readonly lawId?: string;
+  }[];
+  /** The law rows this tax enforces (policy key and row id), each recorded as applied to every seller it taxes. */
+  laws?: readonly { readonly key: string; readonly lawId: string }[];
   /** First day in force; the next day when left out. */
   from?: IsoDate;
   source: Source;
@@ -116,6 +131,59 @@ export function taxInside(paidMinor: number, ratePercent: number): number {
   return Math.floor((paidMinor * ratePercent) / (100 + ratePercent));
 }
 
+const countedPeople = new WeakMap<CoreState, Map<string, number>>();
+
+/** The counted people a place's residents stand for, kept for the day. */
+function countedPeopleIn(core: CoreState, placeId: string, date: IsoDate) {
+  let days = countedPeople.get(core);
+  if (!days) countedPeople.set(core, (days = new Map()));
+  const key = `${placeId}|${date}`;
+  let n = days.get(key);
+  if (n === undefined) {
+    if (days.size > 256) days.clear();
+    const rt = residentsRuntime(core);
+    n = 0;
+    for (const household of rt?.store.liveHouseholds() ?? [])
+      if (!household.gone && household.placeId === placeId)
+        n += rt!.store.countedCount(household);
+    days.set(key, n);
+  }
+  return n;
+}
+
+/** An exemption spared these buyers (full people or a place's counted residents) and this seller tax on a sale. */
+function recordSpared(
+  api: CoreAPI,
+  sale: SalesReceiptNotice,
+  key: string,
+  lawId: string,
+  sparedMinor: number,
+): void {
+  const share = Math.floor(sparedMinor / Math.max(1, sale.buyerIds.length));
+  for (const buyerId of sale.buyerIds)
+    lawApplied(api, {
+      key,
+      lawId,
+      targetId: buyerId,
+      target: sale.counted ? "group" : "person",
+      ...(sale.counted
+        ? { count: countedPeopleIn(api.state, sale.placeId, sale.date) }
+        : {}),
+      engine: PURCHASE_TAX_MODULE_ID,
+      what: "sales-tax-exempt",
+      amountMinor: -share,
+    });
+  lawApplied(api, {
+    key,
+    lawId,
+    targetId: sale.sellerId,
+    target: "organization",
+    engine: PURCHASE_TAX_MODULE_ID,
+    what: "sales-tax-exempt",
+    amountMinor: -sparedMinor,
+  });
+}
+
 function collect(api: CoreAPI, sale: SalesReceiptNotice): void {
   const core = api.state;
   const rows = runtimes.get(core);
@@ -127,14 +195,29 @@ function collect(api: CoreAPI, sale: SalesReceiptNotice): void {
     if (tax.from > sale.date || tax.placeId !== seller.placeId) continue;
     if (tax.kinds && !tax.kinds.includes(sale.kind)) continue;
     const classification = seller.classification ?? "";
-    if (
-      tax.exemptClassificationPrefixes?.some((prefix) =>
-        classification.startsWith(prefix),
-      )
-    )
-      continue;
-    const amountMinor = taxInside(sale.paidMinor, tax.ratePercent);
+    const exempt = tax.exemptions?.find((row) =>
+      classification.startsWith(row.classificationPrefix),
+    );
+    const taxable = exempt
+      ? sale.paidMinor * (1 - exempt.share)
+      : sale.paidMinor;
+    const amountMinor = taxInside(taxable, tax.ratePercent);
+    if (exempt && exempt.lawKey && exempt.lawId) {
+      const spared = taxInside(sale.paidMinor, tax.ratePercent) - amountMinor;
+      if (spared > 0)
+        recordSpared(api, sale, exempt.lawKey, exempt.lawId, spared);
+    }
     if (amountMinor <= 0) continue;
+    for (const law of tax.laws ?? [])
+      lawApplied(api, {
+        key: law.key,
+        lawId: law.lawId,
+        targetId: seller.id,
+        target: "organization",
+        engine: PURCHASE_TAX_MODULE_ID,
+        what: "sales-tax-collected",
+        amountMinor: Math.round(amountMinor / tax.laws!.length),
+      });
     // Tax left unremitted earlier is added to this remittance and paid first.
     const key = `${tax.id}:${seller.id}`,
       prior = arrearsRows(core).get(key),
