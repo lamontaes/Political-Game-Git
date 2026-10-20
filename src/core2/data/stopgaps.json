@@ -3152,9 +3152,9 @@
   {
     "id": "SG-CORE-private-tuition-average",
     "kind": "aggregate-spending",
-    "file": "src/core2/data/opening-private-tuition.json",
-    "line": 3,
-    "whatItFakes": "The town's families with school-age children are ranked by cash per child and the best-off enroll all their children in the private school until the town's private share of school-age children (NCES) is reached, each paying the average private tuition. The family's beliefs, the schools nearby and the child's own needs do not yet enter, and enrollment is fixed at the opening.",
+    "file": "src/core2/opening-private-tuition.ts",
+    "line": 1,
+    "whatItFakes": "The town's families with school-age children are ranked by cash per child and the best-off enroll all their children in the private school until the town's state's private share of students (NCES, fall 2021) is reached, each paying the average private tuition. The family's beliefs, the schools nearby and the child's own needs do not yet enter, and enrollment is fixed at the opening.",
     "why": "Private schools had no customers at all, so they closed in every town.",
     "addedBy": "OPUS-CORE",
     "addedAt": "2026-10-12",
