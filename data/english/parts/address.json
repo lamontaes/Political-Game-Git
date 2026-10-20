@@ -9174,6 +9174,48 @@
         "move": "request",
         "key": "vote-wanted"
       }
+    },
+    {
+      "key": "address.public-comment-oppose.i-urge-you-to-oppose-issue",
+      "move": "public-comment-oppose",
+      "kind": "spoken",
+      "text": "I urge you to oppose {issue}.",
+      "uses": [
+        {
+          "move": "public-comment-oppose",
+          "subject": "public-comment",
+          "role": "oppose",
+          "choice": "oppose"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item words-budget-hearing-speakers)",
+      "date": "2026-10-20",
+      "tag": {
+        "move": "request"
+      }
+    },
+    {
+      "key": "address.public-comment-oppose.i-ask-you-to-vote-no-on-issue",
+      "move": "public-comment-oppose",
+      "kind": "spoken",
+      "text": "I ask you to vote no on {issue}.",
+      "uses": [
+        {
+          "move": "public-comment-oppose",
+          "subject": "public-comment",
+          "role": "oppose",
+          "choice": "oppose"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item words-budget-hearing-speakers)",
+      "date": "2026-10-20",
+      "tag": {
+        "move": "request"
+      }
     }
   ]
 }

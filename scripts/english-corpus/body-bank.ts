@@ -245,6 +245,12 @@ const COMMENT_STEPS: readonly Step[] = [
   {
     speaker: "public",
     subject: "public-comment",
+    role: "oppose",
+    act: "ask",
+  },
+  {
+    speaker: "public",
+    subject: "public-comment",
     role: "close",
     act: "farewell",
     only: /^Thank you for your (?:time|consideration)\.$/,
@@ -310,8 +316,9 @@ export function composeBudgetHearing(
           })
         : null;
     for (const [index, step] of COMMENT_STEPS.entries()) {
-      // Only a speaker for the bill urges support.
+      // A speaker for the bill urges support; one against urges a no.
       if (step.role === "ask" && speaker.position <= 0) continue;
+      if (step.role === "oppose" && speaker.position >= 0) continue;
       const line = composeStep(packet, `budget.${at}.say.${index}`, step);
       if (line) lines.push(line);
     }

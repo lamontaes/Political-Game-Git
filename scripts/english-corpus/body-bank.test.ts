@@ -1,6 +1,11 @@
 import { describe, expect, it } from "vitest";
 import type { GroundedEnglishPacket } from "../../src/english/grounded-english";
-import { BODY_PARTS, composeBodyScene, type BodyScene } from "./body-bank";
+import {
+  BODY_PARTS,
+  composeBodyScene,
+  composeBudgetHearing,
+  type BodyScene,
+} from "./body-bank";
 
 /**
  * A town body's table composed from the authored floor and hearing parts:
@@ -96,5 +101,45 @@ describe("a town body's table", () => {
     expect(
       composeBodyScene(packet({ motion: "the budget" }), "vote"),
     ).toBeNull();
+  });
+
+  it("words a budget hearing: a speaker for the bill urges support, one against urges a no, and each cites their own record", () => {
+    const vote = packet({
+      motion: "the Water Street Repair Act",
+      ayes: "3",
+      nays: "2",
+      carried: "yes",
+    });
+    const lines = composeBudgetHearing(
+      vote,
+      [
+        {
+          remarkId: "remark:for",
+          name: "Ruth Alvarez",
+          place: "Elwood",
+          position: 1,
+        },
+        {
+          remarkId: "remark:against",
+          name: "Dale Becker",
+          place: "Elwood",
+          position: -1,
+        },
+      ],
+      "bill:water",
+    );
+    expect(lines).not.toBeNull();
+    const of = (id: string) =>
+      lines!
+        .filter((line) => line.sourceRecordIds.includes(id))
+        .map((line) => line.text)
+        .join(" ");
+    expect(of("remark:for")).toContain("Ruth Alvarez");
+    expect(of("remark:for")).toMatch(/urge you to support/);
+    expect(of("remark:for")).not.toMatch(/oppose|vote no/);
+    expect(of("remark:against")).toContain("Dale Becker");
+    expect(of("remark:against")).toMatch(/urge you to oppose|vote no on/);
+    expect(of("remark:against")).not.toMatch(/support/);
+    for (const line of lines!) expect(line.text).not.toMatch(/\{/);
   });
 });

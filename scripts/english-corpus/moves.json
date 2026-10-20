@@ -260,6 +260,10 @@
         "tag": "request"
       },
       {
+        "move": "^public-comment-oppose$",
+        "tag": "request"
+      },
+      {
         "move": "^public-comment-close$",
         "tag": "close"
       },
