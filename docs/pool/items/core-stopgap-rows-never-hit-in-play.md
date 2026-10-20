@@ -5,11 +5,12 @@ area: core
 kind: cleanup
 priority: 3
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/fs11vb-rows-never-hit
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-20T03:36:05.434Z
 ---
 
 **What.** TODO
