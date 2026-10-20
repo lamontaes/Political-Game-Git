@@ -5,9 +5,9 @@ area: release
 kind: bug
 priority: 1
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/audit-fix-3-pay-floor
-pr: #5655
+pr: #5748
 blocked-on:
 source: CTO merge audit, Oct 20 morning
 claimed-at: 2026-10-20T19:08:21.061Z

@@ -29,6 +29,7 @@ import {
   returnToCounts,
   returnUnplacedPay,
 } from "./residents";
+import { admitPublicPayAuthority } from "../public-work-pay";
 import { isSchoolDistrict, type ResidentHouseholdRecord } from "../residents";
 import type { ModuleRow } from "../module-data";
 import type {
@@ -138,6 +139,29 @@ function asCounted(
   };
 }
 
+/**
+ * A demoted worker's commitment at a public employer joins the employer's pay
+ * authority under its new id, as a hire's does (job-lifecycle.ts): the
+ * authority resolves due pay only for the commitments it lists.
+ */
+function joinPublicPayAuthority(
+  core: CoreState,
+  commitment: WorkCommitmentInput,
+): void {
+  if (commitment.publicPayAuthorityId === undefined) return;
+  const employer = core.organizations.get(commitment.organizationId);
+  const authority = employer?.publicPayAuthority;
+  if (!employer || authority?.id !== commitment.publicPayAuthorityId) return;
+  if (authority.workCommitmentIds.includes(commitment.id)) return;
+  employer.publicPayAuthority = admitPublicPayAuthority(
+    {
+      ...authority,
+      workCommitmentIds: [...authority.workCommitmentIds, commitment.id],
+    },
+    core.date,
+  );
+}
+
 /** Demote one filled-in household now. Returns the record. */
 export function demoteHousehold(
   api: CoreAPI,
@@ -174,11 +198,13 @@ export function demoteHousehold(
     for (const cid of core.work.commitmentsByPerson.get(person.id) ?? []) {
       const row = core.work.commitments.get(cid);
       if (!row || row.jobId !== job.id || row.endsAt !== undefined) continue;
-      commitments.push({
+      const demoted = {
         ...row,
         id: `${row.id}:counted:${date}`,
         jobId: counted.id,
-      });
+      };
+      commitments.push(demoted);
+      joinPublicPayAuthority(core, demoted);
       const calendar = row.payrollCalendarId
         ? core.work.payrollCalendars.get(row.payrollCalendarId)
         : undefined;
