@@ -481,7 +481,8 @@
           "quote": "\"Households with children are more likely to leave central cities in response to rising crime.\" Table 6b, change in per capita crime: with children -1.51 (0.63), no children -0.97 (0.55).",
           "estimatedFrom": "The with-children and no-children coefficients are used as the ratio 1.51 to 0.97. They are changes in the probability of staying, not relative to each group's own rate of leaving (the paper gives no group baselines), so the gradient is conservative: households with children leave less often, which would make their relative response larger. Shares: about 43% of the 64% of households that are family households include a child under 18 (27.5% of households, about 35% of adults); the rest split between one adult and several."
         }
-      ]
+      ],
+      "phaseInSource": "Cullen and Levitt 1999 (Review of Economics and Statistics), Tables 4 and 6a: the response is estimated as the change in city population over a five-year window against the change in crime over the same five years, so the full effect is the five-year one; 60 months spreads it over that window."
     },
     {
       "key": "speed-limit-to-traffic-deaths",
