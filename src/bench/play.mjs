@@ -3591,6 +3591,14 @@ const sheets = {
     let otherState = "";
     const picker = el("nav", { className: "government-picker" });
     const content = el("div", { className: "government-content" });
+    const dateWords = (iso) =>
+      iso
+        ? new Date(`${iso}T12:00:00`).toLocaleDateString("en-US", {
+            month: "long",
+            day: "numeric",
+            year: "numeric",
+          })
+        : "";
     // Another state's legislature: every sitting member, by chamber.
     const drawOtherState = async () => {
       const other = await api(
@@ -3690,9 +3698,11 @@ const sheets = {
                 const history = el("div", {
                   className: "row",
                   textContent: [
-                    `${s.holder.serviceStart} – ${s.holder.endDate ?? ""}`,
+                    `${dateWords(s.holder.serviceStart)} – ${dateWords(s.holder.endDate)}`,
                     s.holder.reached,
-                    won ? `${won.date} ${Math.round(won.share * 100)}%` : null,
+                    won
+                      ? `${dateWords(won.date)} ${Math.round(won.share * 100)}%`
+                      : null,
                   ]
                     .filter(Boolean)
                     .join(" · "),
