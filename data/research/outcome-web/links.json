@@ -1634,7 +1634,8 @@
       "source": "Sondheimer and Green 2010; Berinsky and Lenz 2011",
       "from": "school.graduation-pct",
       "evidence": "contested",
-      "range": [0, 0.004]
+      "range": [0, 0.004],
+      "notes": "Read by the voting engine as a factor on every voter's propensity (turnout-web.ts). The cause is the web's own school.graduation-pct ledger number, because no school outcomes engine records graduates (SG-WEB-voting-graduation-cause). The experiments report no split by age or income, so the link is unvaried."
     },
     {
       "key": "education-to-mortality",
@@ -2412,7 +2413,8 @@
       "anchor": "-0.1 points, not significant, for every group",
       "source": "Cantoni and Pons 2021 (QJE)",
       "from": "law:us-policy-positions:government-operations.require-photo-id-to-vote",
-      "evidence": "about-zero"
+      "evidence": "about-zero",
+      "notes": "The election laws act on a voter's turnout through the law reach (electionLawTurnoutCost, felonyDisenfranchisedShare, barredFromVoting), so the voting engine leaves this link out of the web factor it applies (turnout-web.ts) and the law moves turnout once; the link stays in the web's ledger as the researched size the law reach is checked against. Cantoni and Pons find no significant effect for any group, so it is unvaried."
     },
     {
       "key": "same-day-registration-to-youth-turnout",
@@ -2433,7 +2435,7 @@
       "from": "law:us-policy-positions:government-operations.same-day-voter-registration",
       "evidence": "researched",
       "range": [0.08, 0.18],
-      "notes": "Unsupported until a producer computes youth turnout: the cause is now a state's law on same-day voter registration, a question the game asks, but youth turnout is not a kept place outcome."
+      "notes": "Unsupported until a producer computes youth turnout: the cause is now a state's law on same-day voter registration, a question the game asks, but youth turnout is not a kept place outcome. The election laws act on a voter's turnout through the law reach (electionLawTurnoutCost, felonyDisenfranchisedShare, barredFromVoting), so the voting engine leaves this link out of the web factor it applies (turnout-web.ts) and the law moves turnout once; the link stays in the web's ledger as the researched size the law reach is checked against. The size is already for ages 18 to 24, the group the voting engine reads the youth factor for."
     },
     {
       "key": "all-mail-voting-to-turnout",
@@ -2453,7 +2455,8 @@
       "source": "Thompson, Wu, Yoder and Hall 2020 (PNAS), table 3",
       "from": "law:us-policy-positions:government-operations.all-mail-voting",
       "evidence": "researched",
-      "range": [0.005, 0.065]
+      "range": [0.005, 0.065],
+      "notes": "The election laws act on a voter's turnout through the law reach (electionLawTurnoutCost, felonyDisenfranchisedShare, barredFromVoting), so the voting engine leaves this link out of the web factor it applies (turnout-web.ts) and the law moves turnout once; the link stays in the web's ledger as the researched size the law reach is checked against. The research gives no split by age or income beyond the size, so the link is unvaried."
     },
     {
       "key": "all-mail-voting-to-party-share",
@@ -2994,7 +2997,8 @@
       "source": "McGhee, Hill and Romero 2021, The Registration and Turnout Effects of Automatic Voter Registration (SSRN 3933442); Kim 2021, APSA preprint (doi 10.33774/apsa-2021-3wzbh)",
       "evidence": "provisional",
       "from": "law:us-policy-positions:government-operations.automatic-voter-registration",
-      "to": "voting.turnout-pct"
+      "to": "voting.turnout-pct",
+      "notes": "The election laws act on a voter's turnout through the law reach (electionLawTurnoutCost, felonyDisenfranchisedShare, barredFromVoting), so the voting engine leaves this link out of the web factor it applies (turnout-web.ts) and the law moves turnout once; the link stays in the web's ledger as the researched size the law reach is checked against. The research gives no split by age or income beyond the size, so the link is unvaried."
     },
     {
       "key": "restore-voting-to-turnout",
@@ -3055,7 +3059,8 @@
       "source": "The Sentencing Project, Locked Out 2024 (post-sentence shares by state); Meredith and Morse, Florida restorations 2007 to 2011 (12 to 16% voted); Burch 2011 (about 22%); University of Florida Election Lab 2024 VEP turnout. Sized by Research 3, 9/29/2026, /mnt/project-files/research/law-effect-sizes/justice.json.",
       "evidence": "researched",
       "from": "law:us-policy-positions:justice-public-safety.restore-voting-after-sentence",
-      "to": "voting.turnout-pct"
+      "to": "voting.turnout-pct",
+      "notes": "The election laws act on a voter's turnout through the law reach (electionLawTurnoutCost, felonyDisenfranchisedShare, barredFromVoting), so the voting engine leaves this link out of the web factor it applies (turnout-web.ts) and the law moves turnout once; the link stays in the web's ledger as the researched size the law reach is checked against. The research gives no split by age or income beyond the size, so the link is unvaried."
     },
     {
       "key": "housing-by-right-to-new-buildings",
@@ -4132,7 +4137,8 @@
       "evidence": "researched",
       "anchor": "Counties across state borders: turnout 2 to 3 points lower after a right-to-work law passes (about 3% of a 65% turnout), with the Democratic presidential share 3.5 points lower, as unions contact fewer voters",
       "source": "Feigenbaum, Hertel-Fernandez and Williamson 2018, From the Bargaining Table to the Ballot Box (NBER w24259)",
-      "range": [-0.046, -0.015]
+      "range": [-0.046, -0.015],
+      "notes": "Read by the voting engine as a factor on every voter's propensity (turnout-web.ts). The paper reports a county-level effect only (NBER w24259 abstract: \"Turnout is also 2 percentage points lower in right-to-work counties after passage\"), with no split by age or income, so the link is unvaried."
     },
     {
       "key": "public-bargaining-to-graduation",
@@ -4397,7 +4403,8 @@
       "evidence": "provisional",
       "anchor": "From 2018 to 2022, turnout rose about 1 point in districts drawn by long-standing commissions and 5 points in court-drawn ones, and being drawn into a competitive district added about 3 points; the comparison is descriptive, not a controlled study, and presidential turnout is barely touched by district lines",
       "source": "Brennan Center, The Turnout Effects of Redistricting Institutions; PS: Political Science and Politics 2023 (commissions and competitive elections)",
-      "range": [0, 0.015]
+      "range": [0, 0.015],
+      "notes": "Read by the voting engine as a factor on every voter's propensity (turnout-web.ts). The comparison is descriptive at the district level with no split by age or income, so the link is unvaried."
     },
     {
       "key": "term-limits-to-turnout",
@@ -4416,7 +4423,8 @@
       "owner": "F-cloud",
       "evidence": "about-zero",
       "anchor": "California's term limits brought no rise, and perhaps a fall, in legislative-race turnout; nothing shows a statewide change",
-      "source": "Nalder 2007, State Politics and Policy Quarterly 7(2)"
+      "source": "Nalder 2007, State Politics and Policy Quarterly 7(2)",
+      "notes": "The election laws act on a voter's turnout through the law reach (electionLawTurnoutCost, felonyDisenfranchisedShare, barredFromVoting), so the voting engine leaves this link out of the web factor it applies (turnout-web.ts) and the law moves turnout once; the link stays in the web's ledger as the researched size the law reach is checked against. The effect is about zero, so it is unvaried."
     },
     {
       "key": "library-funding-to-math",
