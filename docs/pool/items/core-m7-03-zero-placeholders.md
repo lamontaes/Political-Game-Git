@@ -5,12 +5,13 @@ area: core
 kind: feature
 priority: 3
 size: L
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/political-game-pool-76ksvw
 pr:
 blocked-on:
 milestone: M7
 source: "docs/roadmap/later-specs-draft.md M7-03"
+claimed-at: 2026-10-20T01:36:23.792Z
 ---
 
 **What.** Every registered shortcut replaced, or turned into a sourced or marked estimate. (Owner: Every session, in its own area.)
