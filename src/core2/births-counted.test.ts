@@ -22,9 +22,6 @@ interface CountsRow {
   endPeople: number;
   births: string[];
   deaths: string[];
-  departedPeople: number;
-  arrivedPeople: number;
-  arrivedHouseholds: string[];
 }
 
 const cash = (core: CoreState) => {
@@ -57,19 +54,10 @@ describe(`counted population drift in ${place.name} (seed ${seed})`, () => {
     expect(rows.length).toBeGreaterThanOrEqual(2);
     for (const row of rows)
       expect(row.endPeople).toBe(
-        row.startPeople +
-          row.births.length -
-          row.deaths.length -
-          row.departedPeople +
-          row.arrivedPeople,
+        row.startPeople + row.births.length - row.deaths.length,
       );
     const moved = rows.reduce(
-      (n, row) =>
-        n +
-        row.births.length -
-        row.deaths.length -
-        row.departedPeople +
-        row.arrivedPeople,
+      (n, row) => n + row.births.length - row.deaths.length,
       0,
     );
     const end = residentCounts(core).reduce((n, row) => n + row.people, 0);
@@ -94,7 +82,7 @@ describe(`counted population drift in ${place.name} (seed ${seed})`, () => {
     );
   });
 
-  it("keeps every dollar: departures carry their cash to the outside account", () => {
+  it("keeps every dollar: movers carry their cash to the outside account", () => {
     let outside = 0;
     for (const row of core.cashJournal.externalFlowsByOwner.values())
       outside += row.netMinor;
