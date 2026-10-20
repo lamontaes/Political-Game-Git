@@ -5,12 +5,12 @@ area: world
 kind: feature
 priority: 2
 size: L
-status: claimed
-claimed-by: claude/police-patrol-grievance
+status: open
+claimed-by:
 pr:
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-20T05:43:18.608Z
+claimed-at:
 ---
 
 **What.** gov-justice-incident-producer asks incidents to arise from a town's patrol hours, its crime outcomes and two people's recorded grievance. None of the three exists in the core today: no module records patrol hours (the police department is staff and a budget line), nothing keeps a crime measure per town that a policy moves, and no engine writes a grievance between two people (only recalls reads the word). Build the three as records other engines write and read: patrol hours from the police department's staffing and the budget line, a monthly crime measure from the place's conditions and the patrol hours, and a grievance record written by the engines that already create conflict (a dispute over a business, a rent, a bill). Household firearm ownership already exists in src/core2/firearm-ownership.ts.
