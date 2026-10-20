@@ -82,6 +82,11 @@ it(`the last owner's death sells the home when probate closes, the lender first 
     expect(sale, `${where}: a sale for ${owner.id}`).toBeDefined();
     expect(sale!.id).toBe(`home-sale:${owner.id}:${sale!.date}`);
     expect(sale!.reasonKey).toBe("estate.probate-closes");
+    if (mortgaged)
+      expect(
+        sale!.toLenderMinor,
+        `${where}: the lender was paid first`,
+      ).toBeGreaterThan(0);
     expect(sale!.decedentId, `${where}: names the estate`).toBe(personId);
     expect(
       sale!.toLenderMinor,
