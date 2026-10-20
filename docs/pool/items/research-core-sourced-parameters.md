@@ -5,11 +5,12 @@ area: core
 kind: research
 priority: 2
 size: M
-status: blocked
+status: open
 claimed-by:
 pr:
 blocked-on:
 source: "collapsed Oct 19, 2026 from core-stopgap-closeness-relationship-closeness-model, core-stopgap-emotion-estimated-behavior, core-stopgap-free-block-behavior-model-gap, core-stopgap-policy-authority-missing-mechanic, core-stopgap-recalls-assumed-data, core-stopgap-renewal-opening-prehistory-estimate"
+claimed-at: 
 ---
 
 **What.** Apply the sourced rows in docs/research/pool-feeder-oct20/research-core-sourced-parameters.md to the parameter table(s) and data files for sourced parameters for closeness, emotion, free time, policy authority, recalls and renewal. Each row already carries a value, a low and high spread, a tag (SOURCED or ESTIMATED) and a citation, so the builder enters them, adds a reader for each research file, and resolves these stopgap rows in src/core2/data/stopgaps.json: SG-P15-closeness-model, SG-P8-emotion-model, SG-P15-free-block-plan, SG-GOV-policy-power-conditions, SG-GOV-recall-bars-national, SG-M1-opening-pregnancies. Rows tagged mechanic name a change the area's builder makes to read the sourced inputs; build the simplest version and register what remains.
