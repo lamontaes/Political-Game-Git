@@ -5,9 +5,9 @@ area: laws
 kind: bug
 priority: 3
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/law-reach-graduated-repeal
-pr:
+pr: #5326
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-20T00:30:13.154Z
