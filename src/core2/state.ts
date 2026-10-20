@@ -2418,7 +2418,7 @@ export function fillInIdentity(
     throw new Error(
       `Opening cash for ${identity.id} is only admitted on the opening day.`,
     );
-  const person = admitPerson(core, {
+  const input: PersonInput = {
     id: identity.id,
     givenName: identity.givenName,
     familyName: identity.familyName,
@@ -2435,6 +2435,21 @@ export function fillInIdentity(
     knownIds: [],
     ...(identity.gender ? { looks: { gender: identity.gender } } : {}),
     pastFacts: facts,
+  };
+  // A named person is filled in whole: the childhood, schools and era the
+  // opening gives everyone, built from the world's seed and their birth, so
+  // the same person comes back the same every time.
+  const lived = buildDeepPast({
+    seed: core.seed,
+    startedAt: core.startedAt,
+    people: [input],
+    households: [core.households.get(householdId)!],
+    jobs: [],
+    gaps: [],
+  } as unknown as CoreInput).people[0];
+  const person = admitPerson(core, {
+    ...input,
+    pastFacts: lived?.pastFacts ?? facts,
   });
   recordEntry(core, {
     id: person.id,

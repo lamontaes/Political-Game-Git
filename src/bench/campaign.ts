@@ -17,7 +17,7 @@ import {
   type CampaignDayKind,
 } from "../core2/campaign-day";
 import type { FilingRow } from "../core2/modules/elections";
-import type { CoreState } from "../core2/types";
+import type { CoreAPI, CoreState } from "../core2/types";
 import { dwellingKind } from "../core2/modules/housing";
 import { retellingsOf } from "../core2/modules/speech";
 import {
@@ -25,7 +25,11 @@ import {
   debatesIn,
   type DebateRow,
 } from "../core2/modules/meetings";
-import { interviewsFor, type InterviewAnswer } from "../core2/modules/press";
+import {
+  interviewsFor,
+  outletsHere,
+  type InterviewAnswer,
+} from "../core2/modules/press";
 import {
   beginSpeech,
   chooseSpeechPart,
@@ -47,6 +51,12 @@ const OUTINGS: Partial<
   event: "event",
   interview: "interview",
 };
+
+/** The outlet to ask first: the town's own before a regional or national one. */
+function townFirst(api: CoreAPI, outletIds: readonly string[]) {
+  const tier = new Map(outletsHere(api).map((o) => [o.id, o.tier]));
+  return outletIds.find((id) => tier.get(id) === "local") ?? outletIds[0];
+}
 
 /** The player's campaigns: one for each filing on the ballot. */
 export function campaignView(core: CoreState, personId: string) {
@@ -89,7 +99,11 @@ export function campaignView(core: CoreState, personId: string) {
             choice.kind === "interview"
               ? (interviewsFor(api, filing.personId).find(
                   (i) => i.id === choice.facts.invitedInterviewIds[0],
-                )?.outletId ?? choice.facts.outlets[0]?.outletId)
+                )?.outletId ??
+                townFirst(
+                  api,
+                  choice.facts.outlets.map((o) => o.outletId),
+                ))
               : undefined;
           return [
             {

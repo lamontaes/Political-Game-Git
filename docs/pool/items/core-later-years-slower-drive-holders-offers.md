@@ -5,10 +5,10 @@ area: core
 kind: bug
 priority: 2
 size: M
-status: claimed
+status: blocked
 claimed-by: claude/political-game-pool-yucp92-ca
 pr: #5090
-blocked-on:
+blocked-on: owner: meeting the 1.2 times target changes who a holder contacts (rank known people weekly or offer only contacts whose tie pull can top the day); the exact cut does not move the time (PR 5734)
 source: added with npm run pool -- add
 claimed-at: 2026-10-20T16:35:06.809Z
 ---
