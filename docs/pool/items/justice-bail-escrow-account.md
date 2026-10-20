@@ -5,12 +5,13 @@ area: gov
 kind: feature
 priority: 3
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/bail-escrow
 pr:
 blocked-on:
 after: justice-bail-moves-the-cash
 source: added with npm run pool -- add
+claimed-at: 2026-10-20T03:28:32.520Z
 ---
 
 **What.** PR #5365 moves a posted bail into the prosecuting government's treasury cash and returns what is left at the trial; the treasury can spend it first, so a return can come back short (recorded as shortMinor, stopgap SG-GOV-bail-not-escrowed). Add a court escrow fund account under the treasury's owner (registerCashAccount in journal-state.ts) that holds each bail apart from spendable cash, so the full bail is always returned at disposition and a forfeited bail is moved to the treasury by an explicit posting.
