@@ -23,3 +23,5 @@ source: "post-merge audit Oct 19 evening, item 5 (PR #5104)"
 **Files.** src/core2/trait-packs.ts, src/core2/mind-catalog.ts
 
 **Notes.** Found in the post-merge audit of Oct 19 evening. The old-core line (`core-old-engine-*`) depends on this item.
+
+Built Oct 20 on claude/political-game-pool-yucp92-r: the six mind-catalog types (MindStrength, PersonalityExpressionDefinition, PersonalityTendencyDefinition, PersonalValueDefinition, MindCatalog) now live in src/core2/mind-types.ts; trait-packs.ts and mind-catalog.ts import them there, and src/simulation/types.ts re-exports them, so there is one definition. `grep -r simulation` still finds other files in src/core2 (population.ts, town-households.ts, opening-employment.ts, opening-work.ts and the tooling scripts); those belong to the core-old-imports-* items, not this one, whose two named files are clear.
