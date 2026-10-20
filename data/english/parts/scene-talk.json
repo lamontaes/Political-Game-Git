@@ -78489,7 +78489,7 @@
       "key": "scene-talk.follow-thank.next-week-i-ll-be-in-the-back-row",
       "move": "follow-thank",
       "kind": "spoken",
-      "text": "Next week. I'll be in the back row.",
+      "text": "Next week. I'll be at the back.",
       "uses": [
         {
           "subject": "scene",

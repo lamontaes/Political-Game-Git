@@ -478,9 +478,7 @@
           "subject": "news",
           "role": "law-took-effect",
           "choice": "lede",
-          "requiresFacts": [
-            "effective"
-          ]
+          "requiresFacts": ["effective"]
         }
       ],
       "shippable": true,
@@ -503,9 +501,7 @@
           "subject": "news",
           "role": "law-took-effect",
           "choice": "lede",
-          "requiresFacts": [
-            "enacted"
-          ]
+          "requiresFacts": ["enacted"]
         }
       ],
       "shippable": true,
