@@ -5783,5 +5783,60 @@
     "checkRange": {
       "ref": "P9-OUTCOME-WHOLE-LIFE"
     }
+  },
+  "speechCraftHalfAddresses": {
+    "value": 12,
+    "tag": "TUNABLE",
+    "citation": "How many recorded addresses a speaker has given when their craft is half of what it can become (craft = addresses / (addresses + this)). No source measures the learning curve of public speaking in addresses given; set so a speaker who gives an address about once a month is at half craft after a year.",
+    "spread": {
+      "low": 4,
+      "high": 40,
+      "unit": "addresses",
+      "citation": "Chosen range; no study sets how many addresses it takes a speaker to master a device. Checked by a new speaker's first addresses being plain and a speaker of many addresses using the devices, not measured."
+    }
+  },
+  "speechDeviceQuotationDifficulty": {
+    "value": 0.15,
+    "tag": "TUNABLE",
+    "citation": "Where on the craft scale (0 to 1) a speaker first has the quotation device in hand: a speaker whose craft is at or above it may use the device where the setting admits it. Ordered from easiest (quoting) to hardest (calling back to an earlier address); the order, not the numbers, is the design.",
+    "spread": {
+      "low": 0.05,
+      "high": 0.25,
+      "unit": "craft (0 to 1)",
+      "citation": "Chosen range; no study sets how many addresses it takes a speaker to master a device. Checked by a new speaker's first addresses being plain and a speaker of many addresses using the devices, not measured."
+    }
+  },
+  "speechDeviceContrastDifficulty": {
+    "value": 0.3,
+    "tag": "TUNABLE",
+    "citation": "Where on the craft scale (0 to 1) a speaker first has the contrast device in hand: a speaker whose craft is at or above it may use the device where the setting admits it. Ordered from easiest (quoting) to hardest (calling back to an earlier address); the order, not the numbers, is the design.",
+    "spread": {
+      "low": 0.2,
+      "high": 0.4,
+      "unit": "craft (0 to 1)",
+      "citation": "Chosen range; no study sets how many addresses it takes a speaker to master a device. Checked by a new speaker's first addresses being plain and a speaker of many addresses using the devices, not measured."
+    }
+  },
+  "speechDeviceThreePartListDifficulty": {
+    "value": 0.45,
+    "tag": "TUNABLE",
+    "citation": "Where on the craft scale (0 to 1) a speaker first has the threepartlist device in hand: a speaker whose craft is at or above it may use the device where the setting admits it. Ordered from easiest (quoting) to hardest (calling back to an earlier address); the order, not the numbers, is the design.",
+    "spread": {
+      "low": 0.35,
+      "high": 0.55,
+      "unit": "craft (0 to 1)",
+      "citation": "Chosen range; no study sets how many addresses it takes a speaker to master a device. Checked by a new speaker's first addresses being plain and a speaker of many addresses using the devices, not measured."
+    }
+  },
+  "speechDeviceCallbackDifficulty": {
+    "value": 0.6,
+    "tag": "TUNABLE",
+    "citation": "Where on the craft scale (0 to 1) a speaker first has the callback device in hand: a speaker whose craft is at or above it may use the device where the setting admits it. Ordered from easiest (quoting) to hardest (calling back to an earlier address); the order, not the numbers, is the design.",
+    "spread": {
+      "low": 0.5,
+      "high": 0.7,
+      "unit": "craft (0 to 1)",
+      "citation": "Chosen range; no study sets how many addresses it takes a speaker to master a device. Checked by a new speaker's first addresses being plain and a speaker of many addresses using the devices, not measured."
+    }
   }
 }
