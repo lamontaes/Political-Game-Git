@@ -1,6 +1,8 @@
 import { corePlaceByJurisdictionId } from "../core2/place-lookup";
 import { coreAPI } from "../core2/state";
 import { remarksOn } from "../core2/modules/meetings";
+import { OFFICES_MODULE_ID } from "../core2/modules/offices";
+import { votesOf } from "../core2/modules/record";
 import { wordVenueSpeech } from "../english/venue-speech";
 import { P } from "../core2/parameters";
 import type { CoreState, PersonId } from "../core2/types";
@@ -375,6 +377,52 @@ export function composeScene(
           recordIds: [remark.id, billId!],
         })
       : null;
+    if (said && speakerId)
+      speech = {
+        text: said.text,
+        sourceRecordIds: said.sourceRecordIds,
+        speakerId,
+      };
+  }
+  // A floor vote: the member says their piece in the register of their
+  // chamber, on the question and the way they voted, from their own vote
+  // record. A body with no floor register (a town council) says nothing here.
+  if (binding.typeKey === "floor-vote") {
+    const speakerId = binding.roles.find((row) => row.role === "member")
+      ?.personIds[zero];
+    const facts = core.durableLog.get(moment.causeId)?.facts;
+    const api = coreAPI(core as CoreState);
+    const office = facts?.chamber
+      ? (api
+          .moduleState(OFFICES_MODULE_ID)
+          .table("offices")
+          .get(facts.chamber) as { kind?: string } | undefined)
+      : undefined;
+    const venue =
+      office?.kind === "us-house"
+        ? "house-floor"
+        : office?.kind === "us-senate"
+          ? "senate-floor"
+          : office?.kind?.startsWith("legislature-")
+            ? "state-floor"
+            : undefined;
+    const vote =
+      speakerId && facts?.number
+        ? votesOf(api, speakerId).find(
+            (row) =>
+              row.measureId === facts.number && row.body === facts.chamber,
+          )
+        : undefined;
+    const said =
+      speakerId && venue && vote
+        ? wordVenueSpeech(api, {
+            speakerId,
+            venue,
+            question: vote.stance.question,
+            position: vote.stance.position,
+            recordIds: [vote.id, moment.causeId],
+          })
+        : null;
     if (said && speakerId)
       speech = {
         text: said.text,
