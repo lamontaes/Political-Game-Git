@@ -27,3 +27,5 @@ Oct 19 (claude/port-town-workplaces): the workplace tables half is done. Role, W
 
 Oct 20 (cto): sent back PR #5100. EntityId in src/core2/town-employment-mix.ts imported from ../simulation/types (old engine) instead of ./types. Pool item status was also dropped on main when stacked PR #5093 was dropped, causing merge conflict.
 
+
+Sent back 2026-10-20 from PR #5540 (branch claude/port-town-employment): new src/core2/town-labor.ts imports old simulation runtime queries and types; port the required reads and types into Core before moving the module there; finish on that branch, merge main into it first.
