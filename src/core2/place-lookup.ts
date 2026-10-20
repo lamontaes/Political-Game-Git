@@ -84,6 +84,8 @@ type TerritoryRow = readonly [
   displayName: string,
   stateUsps: string,
   searchAlias: string | null,
+  censusGeoid: string,
+  population2020: number,
 ];
 type SeatRow = readonly [
   jurisdictionKey: string,
@@ -104,7 +106,8 @@ const EASTERN: StateClock = {
   utcOffsetMinutes: -300,
 };
 const DEMO_START_DATE = makeIsoDate(lookupData.demoStartDate);
-const TERRITORY_SOURCE = "territory-place-placeholder";
+const TERRITORY_SOURCE =
+  "Census 2020 Island Areas Demographic and Housing Characteristics files";
 
 const CENSUS_UNIT_TYPES =
   /\s+(?:city|town|village|borough|municipality|metro government|metropolitan government|consolidated government|unified government|urban county government)$/;
@@ -282,7 +285,7 @@ function synthesizeNationwidePlace(
 }
 
 function synthesizeTerritoryPlace(row: TerritoryRow): CorePlace {
-  const [key, displayName, usps] = row;
+  const [key, displayName, usps, , censusGeoid] = row;
   const territory = STATE_CLOCKS[usps];
   const named = `${displayName}, ${stateName(usps)}`;
   const jurisdictionId = createStableId("jurisdiction", key);
@@ -302,7 +305,7 @@ function synthesizeTerritoryPlace(row: TerritoryRow): CorePlace {
           asOf: null,
           source: TERRITORY_SOURCE,
           jurisdiction: jurisdictionId,
-          status: "placeholder",
+          status: "approved",
         },
       },
       initialMoment: {
@@ -312,11 +315,12 @@ function synthesizeTerritoryPlace(row: TerritoryRow): CorePlace {
         utcOffsetMinutes:
           territory?.utcOffsetMinutes ?? EASTERN.utcOffsetMinutes,
       },
-      creationSummary: `Seeded world in ${named}, a placeholder territory place pending the Census Island Areas lists.`,
+      creationSummary: `Seeded world in ${named}, an island-area village from the 2020 Census Island Areas files.`,
       goalScope: named,
       householdLocationLabel: named,
     },
     scope: "locality",
+    sourceGeoid: censusGeoid,
     stateJurisdictionKey: `US-${usps}`,
     capabilities: { legislativeScenarioKey: null, candidacyPackId: null },
   };
