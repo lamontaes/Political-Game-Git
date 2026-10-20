@@ -4,7 +4,7 @@ title: "Stopgaps in parameters (estimated-calendar): 1 open"
 area: elections
 kind: stopgap
 priority: 3
-status: in-pr
+status: done
 claimed-by: claude/special-election-text
 pr: #5447
 blocked-on:
