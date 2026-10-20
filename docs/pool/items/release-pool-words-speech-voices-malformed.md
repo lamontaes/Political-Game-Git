@@ -5,12 +5,12 @@ area: release
 kind: bug
 priority: 2
 size: S
-status: claimed
-claimed-by: claude/political-game-pool-udtiwn
+status: open
+claimed-by:
 pr: #5188
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-20T01:30:20.275Z
+claimed-at:
 ---
 
 **What.** TODO
