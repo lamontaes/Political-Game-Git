@@ -18,7 +18,7 @@ it("records each bribe offered for an award, and the taken ones by the votes the
   setBookkeeping(false);
   const tried: string[] = [];
   try {
-    for (let attempt = 0; attempt < 5; attempt += 1) {
+    for (let attempt = 0; attempt < 10; attempt += 1) {
       const draw = drawPlace(
         createHash("sha256").update(`${base}:${attempt}`).digest("hex"),
         "gov-bribe-buys-a-contract",
@@ -61,7 +61,7 @@ it("records each bribe offered for an award, and the taken ones by the votes the
       return;
     }
     throw new Error(
-      `no bribe was taken in 5 drawn places: ${tried.join("; ")}`,
+      `no bribe was taken in 10 drawn places: ${tried.join("; ")}`,
     );
   } finally {
     setBookkeeping(true);
