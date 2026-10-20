@@ -22,3 +22,4 @@ claimed-at:
 **Files.** src/core2/modules/press.ts, src/core2/press-desk.ts, src/director/conversation.ts, data/english/parts/conversation.json, src/core2/data/stopgaps.json
 
 **Notes.** Checklist line from OPUS-PEOPLE.md; verify against main before starting.
+Sent back 2026-10-20 from PR #5163 (branch claude/press-leak): Test press-owners.test.ts returns early so it passes when story is already in print; finish on that branch, merge main into it first.

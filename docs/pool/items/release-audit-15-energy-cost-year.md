@@ -5,11 +5,12 @@ area: world
 kind: bug
 priority: 3
 size: S
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/political-game-pool-76ksvw
+pr: #5180
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-20T04:32:33.775Z
 ---
 
 **What.** Make businessEnergyCostYear use the price-law table rule and test it equals twelve months of the settlement; decide on purpose that employers without books never organize.
