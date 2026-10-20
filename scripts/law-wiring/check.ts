@@ -2,8 +2,8 @@
  * The law-wiring checker: for every law the game has (catalog.ts), in a drawn
  * place built the way the game builds it (buildBenchWorld, two levels,
  * economy on, bookkeeping off), change the law and follow it through links 1
- * to 8, by record id, against a control world of the same seed where nothing
- * changed.
+ * to 8, by record id, against a control world of the same seed where a null
+ * law took effect the same day (budget lines: where nothing changed).
  *
  *   node --import tsx scripts/law-wiring/check.ts --seed <hex> [--only k1,k2]
  *     [--shard i/n] [--out file.json]
@@ -572,14 +572,36 @@ interface Control {
   web: Map<string, number>;
 }
 
+/** The series a null law sets: no engine, handler or link reads it. */
+const NULL_SERIES = "law-wiring-null-control";
+
+/**
+ * The control world: the same seed with nothing changed (for budget lines,
+ * whose change is no news), or with a null law taking effect the same day
+ * (for laws: any law taking effect is news and reruns the outcome web, so
+ * only what this law's own content does differs from it).
+ */
 function runControl(
   drawn: ReturnType<typeof drawLawPlace>,
   laws: readonly LawEntry[],
+  nullLaw: boolean,
 ): Control {
   const w = build(drawn);
   trackedKeys = new Set(laws.map((l) => l.key));
   citeTokens = [];
   resetTrace();
+  if (nullLaw) {
+    const api = coreAPI(w.core);
+    const at = townLevel(api, null)!;
+    enactLaw(api, {
+      ...at,
+      series: NULL_SERIES,
+      value: 1,
+      effectiveDate: addDays(makeIsoDate(w.core.date), 1),
+      measureId: "law-wiring-null",
+      citation: "Law-wiring check: null control",
+    });
+  }
   trace.on = true;
   step(w.core, 1 + WINDOW);
   trace.on = false;
@@ -761,7 +783,10 @@ function main(): void {
   );
   startTraces();
   const t = Date.now();
-  const control = runControl(drawn, allLaws());
+  const lawControl = runControl(drawn, allLaws(), true);
+  const lineControl = laws.some((l) => l.kind === "budget-line")
+    ? runControl(drawn, allLaws(), false)
+    : lawControl;
   console.error(`control world: ${Math.round((Date.now() - t) / 1000)}s`);
   const results: unknown[] = [];
   const write = () => {
@@ -773,7 +798,11 @@ function main(): void {
   };
   for (const law of laws) {
     try {
-      const r = checkLaw(drawn, law, control);
+      const r = checkLaw(
+        drawn,
+        law,
+        law.kind === "budget-line" ? lineControl : lawControl,
+      );
       results.push(r);
       console.error(
         `${law.key}: reach ${r.reach.open} (full ${r.reach.fullPeople}, groups ${r.reach.countedGroups}, orgs ${r.reach.organizations}), readers ${Object.keys(r.readers).length}, money kinds ${r.money.diffKinds}, web ${r.web.firedCount}/${r.web.links.length}, heard ${r.heard.people}, after ${r.afterUndo.open} [${r.seconds}s]`,

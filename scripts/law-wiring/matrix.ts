@@ -85,6 +85,12 @@ const NOT_AN_EFFECT = [
   "src/core2/modules/views",
   "src/core2/modules/speech",
   "src/core2/policy-authority",
+  // The day loop calling the laws engine's own calendar work (a law taking effect).
+  "src/core2/life.ts",
+  "unknown",
+  // The outcome web's government measures and constituents' complaints talk about a law; they apply nothing.
+  "src/core2/gov-measures",
+  "src/core2/modules/constituent-cases",
   "src/core2/past",
   "src/core2/law-reach/",
   "src/director/",
@@ -144,7 +150,34 @@ function reachLink(law: LawEntry, runs: { place: string; r: Result }[]): Link {
   return { status: "wired", evidence, why: "" };
 }
 
-function systemsLink(runs: { place: string; r: Result }[]): Link {
+function systemsLink(
+  law: LawEntry,
+  runs: { place: string; r: Result }[],
+): Link {
+  // A budget line is read by the treasury that pays it and the engine that staffs or serves from it.
+  if (law.kind === "budget-line") {
+    const posters = new Set(
+      runs.flatMap(({ r }) =>
+        (r.money?.diff ?? []).map(
+          (d) => d.kind.split(" @ ")[1]?.replace(/:\d+$/, "") ?? "",
+        ),
+      ),
+    );
+    const reached = runs.some(({ r }) => r.reach.open > 0);
+    if (posters.size && reached)
+      return {
+        status: "wired",
+        evidence: [...posters].slice(0, 5).join(", "),
+        why: "",
+      };
+    return {
+      status: posters.size || reached ? "partial" : "missing",
+      evidence: [...posters].slice(0, 5).join(", "),
+      why: !posters.size
+        ? "no engine paid anything differently from the changed line"
+        : "the line's money moved but no engine recorded whom it served",
+    };
+  }
   const engines = new Map<string, number>();
   const handlers = new Set<string>();
   for (const { r } of runs)
@@ -200,17 +233,18 @@ function moneyLink(law: LawEntry, runs: { place: string; r: Result }[]): Link {
   const any = runs.flatMap(({ place, r }) =>
     (r.money?.diff ?? []).map((d) => ({ place, d })),
   );
+  // The control enacted a null law the same day, so a post that differs is this law's.
   if (any.length)
     return {
-      status: "partial",
+      status: "wired",
       evidence: any
-        .slice(0, 2)
+        .slice(0, 3)
         .map(
           ({ place, d }) =>
-            `${place}: ${d.kind} ${d.control} -> ${d.treatment}`,
+            `${place}: ${d.kind} ${d.control} -> ${d.treatment} (${d.ids[0] ?? ""})`,
         )
         .join("; "),
-      why: "money moved only downstream (people reacting to the news); no engine that reads the law posts a payment, price, tax or budget change for it",
+      why: "",
     };
   return {
     status: "missing",
@@ -430,7 +464,7 @@ function main(): void {
         };
     } else {
       links.reach = reachLink(law, rs);
-      links.systems = systemsLink(rs);
+      links.systems = systemsLink(law, rs);
       links.money = moneyLink(law, rs);
       links.web = webLink(law, rs);
       links.knowing = knowingLink(rs);
