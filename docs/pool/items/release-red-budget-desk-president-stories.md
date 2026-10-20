@@ -22,3 +22,5 @@ claimed-at:
 **Files.** TODO
 
 **Notes.** TODO
+
+Sent back 2026-10-20 from PR #5320 (branch claude/pool-red-budget-desk): merge conflict with main in press-desk.ts (code); finish on that branch, merge main into it first.
