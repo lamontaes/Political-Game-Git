@@ -7,7 +7,7 @@ priority: 3
 size: S
 status: open
 claimed-by:
-pr: #5374
+pr: #5522
 blocked-on:
 source: added with npm run pool -- add
 claimed-at:
@@ -22,3 +22,5 @@ claimed-at:
 **Files.** src/core2/legislature.test.ts, src/core2/modules/legislature.ts
 
 **Notes.** The minimum-wage failure had no seed in its message: add the place and seed to that expect so the next failure names its draw.
+
+Sent back 2026-10-20 from PR #5522 (branch claude/legislature-test-time): the timeout comment in legislature.test.ts carries a date note '(Oct 20)'; drop the date, keep the measurement; finish on that branch, merge main into it first.
