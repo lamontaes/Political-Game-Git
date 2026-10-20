@@ -5,12 +5,12 @@ area: gov
 kind: bug
 priority: 2
 size: M
-status: open
-claimed-by:
-pr:
+status: done
+claimed-by: claude/public-posts-pay-schedule
+pr: #5013
 blocked-on:
 source: added with npm run pool -- add
-claimed-at:
+claimed-at: 2026-10-18T01:00:42.004Z
 ---
 
 **What.** A public post (press staff, a state board of elections post, appointees) copies the work schedule of the longest-hours job in town, and payroll paid its hourly rate for the scheduled minutes, 48 hours a week against the 40 its stated pay and budget assume, so these posts cost up to 20 percent more than planned. The other 24 jobs sampled in one town ran at 0.9 to 1.125 of their stated hours. This is the same defect as `world-press-outlet-revenue-wage-gap`, fixed in `startPublicJob` (`src/core2/public-payroll.ts`) by setting the hourly rate over the scheduled minutes: Texhoma, Texas (seed a9747c3b9e6fc5e2:0) had a press job 6.6 percent over its posted pay before, and `src/core2/press-pay-matches-schedule.test.ts` now holds every local press job to its posted annual pay.

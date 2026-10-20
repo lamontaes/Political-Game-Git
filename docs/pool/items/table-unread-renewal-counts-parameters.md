@@ -5,12 +5,12 @@ area: people
 kind: wiring
 priority: 3
 size: S
-status: in-pr
-claimed-by: claude/renewal-unread-tables
+status: claimed
+claimed-by: claude/renewal-tables-read
 pr: #4980
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-17T21:08:26.266Z
+claimed-at: 2026-10-20T03:49:41.867Z
 ---
 
 **What.** In a one-year run of the played world (Parrott, Virginia (5160840), seed 0ad0af8699c4, `node --import tsx scripts/core2-year/table-trace.ts 0ad0af8699c4 365`), the renewal engine writes yearly counts and a copy of its parameters that no other engine reads (its births and plans rows are item core-unread-renewal-births-plans): `core2-renewal-v1/counts` (36 rows), `core2-renewal-v1/parameters` (25 rows). An effect is a read, so a table written and read by no other engine is a record that does nothing. Check first whether a screen reads it (the headless run does not open screens); if one does, say so in the item and close it; otherwise give the table a reader that decides something, or delete the writer and the table in the same change.
@@ -23,4 +23,4 @@ claimed-at: 2026-10-17T21:08:26.266Z
 
 **Notes.** Found by the table trace pass (core-wiring-gaps-trace-pass), report docs/reports/table-trace-2026-10-17.md.
 
-**Worked Oct 17 (claude/renewal-unread-tables).** No screen reads either table. `parameters` was a copy of rows the engine already reads from the world's parameter registry (`renewalParameter`), so the copy and the table are deleted. `counts` (one row per place per month) is read only by tests and the bench, so it is written only under bookkeeping. The table trace for Parrott, Virginia (seed 0ad0af8699c4, 365 days) no longer lists either; `births` and `plans` remain and belong to core-unread-renewal-births-plans.
+Sent back 2026-10-20 from PR #4980 (branch claude/renewal-unread-tables): Code conflict with main in src/core2/births-counted.ts; finish on that branch, merge main into it first.
