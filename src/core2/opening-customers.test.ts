@@ -469,16 +469,20 @@ describe("opening customer producer", () => {
     expect(
       result.input.finance!.contracts.find((row) => row.id === preserved.id),
     ).toBe(preserved);
+    const budget = result.receipt.householdBudgets.find(
+      (row) => row.householdId === "customer-household",
+    )!;
+    // The one minor left in the envelope goes to a service by weight; where
+    // the town has no seller of it, it stays unbound (and unpaid).
     expect(
       householdTerms(result.input).reduce(
         (total, row) => total + row.amountMinor / row.periodMonths,
         p("zero"),
       ),
-    ).toBe(assigned);
+    ).toBe(assigned - budget.unboundServiceMonthlyMinor);
     expect(
-      result.receipt.householdBudgets.find(
-        (row) => row.householdId === "customer-household",
-      )!.plannedAddedServiceMonthlyMinor,
+      budget.plannedAddedServiceMonthlyMinor +
+        budget.unboundServiceMonthlyMinor,
     ).toBe(p("one"));
   });
 

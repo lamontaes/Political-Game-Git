@@ -5,11 +5,12 @@ area: gov
 kind: bug
 priority: 3
 size: S
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/pretrial-flake
+pr: #5448
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-20T02:59:04.810Z
 ---
 
 **What.** On clean main, JUSTICE_PRETRIAL_SEED=b6927636559db363 npx vitest run src/core2/justice-pretrial.test.ts fails in Naalehu, Hawaii (1553600) with 'no defendant waited for trial: expected 0 to be greater than 0': in the first twelve poor adults charged, every case either has no case row, pleads, or is not held, so the test's held list is empty. Find which of the three it is in that place (print each charge's plea and pretrial decision) and make the test choose defendants from the cases that go to trial, or fix the engine if a poor non-pleading defendant is not being held.

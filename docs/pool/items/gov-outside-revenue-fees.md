@@ -8,7 +8,7 @@ size: M
 status: claimed
 claimed-by: claude/gov-outside-revenue-fees
 pr:
-blocked-on: gov-outside-revenue-fees-wiring
+blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-20T00:15:36.337Z
 ---
@@ -22,3 +22,5 @@ claimed-at: 2026-10-20T00:15:36.337Z
 **Files.** src/core2/modules/budgets.ts, src/core2/budgets-treasury.ts, src/core2/modules/purchase-tax.ts, src/core2/data/outside-flows.json, src/core2/data/stopgaps.json
 
 **Notes.** Rewritten to the quality gate 2026-10-15 (the item was a stub when added with `npm run pool -- add`).
+
+Oct 20: gov-outside-revenue-fees-wiring is done, so the item no longer waits on it.
