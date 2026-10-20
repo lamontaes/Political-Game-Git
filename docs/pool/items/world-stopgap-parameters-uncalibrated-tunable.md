@@ -4,10 +4,10 @@ title: "Stopgaps in parameters (uncalibrated-tunable): 1 open"
 area: world
 kind: stopgap
 priority: 3
-status: blocked
+status: dropped
 claimed-by:
 pr:
-blocked-on: research data: the row's replacement needs sourced data (A sourced range of community-bank personal loan minimums (FDIC or call-report product data)....)
+blocked-on: research-world-sourced-parameters
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/data/credit/parameters.json, kind uncalibrated-tunable"
 ---
@@ -21,3 +21,5 @@ source: "src/core2/data/stopgaps.json, src/core2/data/credit/parameters.json, ki
 **Files.** src/core2/data/credit/parameters.json
 
 **Notes.** First row: The town bank's smallest personal loan is a common published minimum ($1,000), not the bank's own product terms.
+
+Folded into research-world-sourced-parameters (CTO, Oct 19, 2026).
