@@ -23,6 +23,8 @@ import {
   adviseOnBudget,
   hireStaff,
   openStaff,
+  servingStaffOf,
+  staffOf,
   STAFF_MODULE_ID,
   staffCandidates,
   workOf,
@@ -172,7 +174,35 @@ describe("M3-06 staff", () => {
       advanceCore(core, "2026-02-20");
       // The aide is on the payroll of the government the official serves,
       // and paydays have paid them from its treasury.
-      const aideJob = core.people.get(aide.personId)!.jobId;
+      // An aide the official let go for not coming is replaced: read an aide who has been paid.
+      const paidAide = servingStaffOf(api, official).find((row) => {
+        const job = core.people.get(row.personId)?.jobId;
+        return job ? core.work.latestPayrollByJob.has(job) : false;
+      });
+      if (!paidAide) {
+        // Nobody paid yet is only right after the official let the first aides go for absence (the share
+        // missed on record) and hired replacements who have not had a payday.
+        const rows = staffOf(api, official);
+        const letGo = rows.filter(
+          (row) =>
+            (row as { dismissed?: { absentShare: number } }).dismissed !==
+            undefined,
+        );
+        expect(letGo.length, `${key}: no aide let go`).toBeGreaterThan(0);
+        for (const row of letGo)
+          expect(
+            (row as unknown as { dismissed: { absentShare: number } }).dismissed
+              .absentShare,
+            `${key}: ${row.id}`,
+          ).toBeGreaterThan(0);
+        expect(
+          servingStaffOf(api, official).length,
+          `${key}: the posts were not refilled`,
+        ).toBeGreaterThan(0);
+        continue;
+      }
+      const holder = paidAide;
+      const aideJob = core.people.get(holder.personId)!.jobId;
       const employer = aideJob ? core.jobs.get(aideJob)?.organizationId : null;
       const town = governments(api).find((g) =>
         ["city", "county"].includes(g.level),
