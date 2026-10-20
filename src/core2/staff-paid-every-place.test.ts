@@ -18,8 +18,7 @@ import { staffOf } from "./modules/staff";
 
 const seed = process.env.STAFF_PAID_SEED ?? randomBytes(8).toString("hex");
 
-it("an aide hired in a played world draws a government paycheck", () => {
-  const place = drawPlace(seed, "staff-paid");
+function aidesAreOnPayroll(place: { seed: string; key: string; name: string }) {
   const where = `${place.name} (${place.key}), seed ${place.seed}`;
   const { core } = buildBenchWorld(place.seed, gameStartDate(), {
     twoLevel: true,
@@ -33,4 +32,23 @@ it("an aide hired in a played world draws a government paycheck", () => {
   expect(aides.length, where).toBeGreaterThan(0);
   const unpaid = aides.filter((a) => !a.jobId).map((a) => a.id);
   expect(unpaid, where).toEqual([]);
+  // A paycheck has reached them: the pay ledgers of the aides' jobs show money paid.
+  const jobs = new Set(aides.map((a) => a.jobId));
+  const paid = [...core.work.payrollLedgerByCommitment.values()]
+    .filter((ledger) => jobs.has(ledger.jobId))
+    .reduce((n, ledger) => n + ledger.paidMinor, 0);
+  expect(paid, `${where}: aides' pay ledgers`).toBeGreaterThan(0);
+}
+
+it("an aide hired in a played world draws a government paycheck", () => {
+  aidesAreOnPayroll(drawPlace(seed, "staff-paid"));
+}, 900_000);
+
+// A territory district whose town opens with no ordinary job to follow.
+it("an aide in Charlotte Amalie East, Virgin Islands (seed p3) draws a government paycheck", () => {
+  aidesAreOnPayroll({
+    seed: "p3",
+    key: "territory:VI:charlotte-amalie-east",
+    name: "Charlotte Amalie East",
+  });
 }, 900_000);
