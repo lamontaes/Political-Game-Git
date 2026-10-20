@@ -22,3 +22,5 @@ claimed-at: 2026-10-20T03:18:33.727Z
 **Files.** src/core2/law-reach/group-b.ts, src/core2/law-reach-group-b.test.ts
 
 **Notes.** TODO
+
+Oct 20 (claude/graduated-tax-guam): not a repeal bug. Where the level's own schedule is in force before the act (Guam's state tax), repealing the graduated-tax act flattens that schedule (`incomeTaxAct`, stopgap SG-GOV-REACH-B-flat-tax-replacement), and the flat tax correctly reaches workers, so the rows stay open. The test assumed every repeal ends the reach; it now checks the flatten case and keeps the old check elsewhere.

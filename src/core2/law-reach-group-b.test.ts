@@ -536,11 +536,29 @@ describe("law reach, group B: every policy reaches people through its engine", (
     );
     if (paidSince(since)) expect(lines.length, where).toBeGreaterThan(0);
     enact(key, 0, LOCAL);
-    expectEnded(key);
+    // Where the level's own schedule was in force before the act, repealing the
+    // act flattens that schedule (stopgap SG-GOV-REACH-B-flat-tax-replacement),
+    // and the flat tax reaches workers; elsewhere the repeal ends the reach.
+    const flattened = table<{
+      id: string;
+      flattened?: boolean;
+      undone?: boolean;
+    }>("taken").some(
+      (r) =>
+        r.id === `tax|${key}|${LOCAL}` && r.flattened === true && !r.undone,
+    );
+    if (flattened) {
+      expect(
+        lawInForce(api, "income-tax").levels.find((l) => l.level === LOCAL)?.row
+          ?.unit,
+        `${where}: the repeal flattens the schedule`,
+      ).toBe("percent-flat");
+      expect(openPeople(key).length, where).toBeGreaterThan(0);
+    } else expectEnded(key);
     const restored = lawInForce(api, "income-tax").levels.find(
       (l) => l.level === LOCAL,
     )?.row;
-    expect(restored?.value ?? 0).toBe(prior?.value ?? 0);
+    if (!flattened) expect(restored?.value ?? 0).toBe(prior?.value ?? 0);
   });
 
   it("a city income tax drafted in the catalog's unit reaches workers (collection: audit item 8)", () => {
