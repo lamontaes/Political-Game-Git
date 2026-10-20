@@ -4,13 +4,13 @@ title: "Stopgaps in place-prices (faked-mechanic): 2 open"
 area: world
 kind: stopgap
 priority: 2
-status: open
-claimed-by:
-pr: #5190
+status: in-pr
+claimed-by: claude/political-game-pool-yucp92-bz
+pr: #5729
 blocked-on:
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/modules/place-prices.ts, kind faked-mechanic"
-claimed-at:
+claimed-at: 2026-10-20T16:27:45.894Z
 ---
 
 **What.** The stopgap row(s) SG-GOV-REACH-B-retail-price, SG-WORLD-prices-household-shares in src/core2/modules/place-prices.ts mark a shortcut that is still live in play. Today the price engine charges container deposits to households under the live law, but container use and redemption still use household estimates rather than each person's purchases and returns, and a retail price law uses a stand-in. The row stays open until the real mechanic replaces the fake, or the feature that needs the fake is deleted. This item replaces it and clears the row in src/core2/data/stopgaps.json.
