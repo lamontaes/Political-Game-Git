@@ -5,12 +5,12 @@ area: words
 kind: wiring
 priority: 2
 size: M
-status: claimed
-claimed-by: claude/next-2737
+status: open
+claimed-by:
 pr: #5178
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-20T13:50:08.824Z
+claimed-at:
 ---
 
 **What.** TODO
