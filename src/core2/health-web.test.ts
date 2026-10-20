@@ -134,9 +134,26 @@ describe(`web death factors reach both tiers (${place.name}, seed ${seed})`, () 
     console.log(
       `health web: ${place.name}, seed ${seed}: expected deaths ${sum(baseRows).toFixed(4)} -> ${sum(movedRows).toFixed(4)}; infant ${infant.factor.toFixed(4)}, 60 poor ${poor.toFixed(4)} rich ${rich.toFixed(4)}; record ${web.id}`,
     );
-    // The poorest 55- to 64-year-olds' cut and the crash share's rise pull opposite ways; the sum must move.
-    expect(
-      Math.abs(sum(movedRows) - sum(baseRows)) / sum(baseRows),
-    ).toBeGreaterThan(1e-5);
+    // The poorest 55- to 64-year-olds' cut and the crash share's rise pull
+    // opposite ways and can cancel in the town's sum, so each cohort's owed
+    // deaths (sex and birth year, the life table's columns) must move.
+    const owed = (core: typeof moved.world.core) =>
+      (
+        coreAPI(core)
+          .moduleState(RENEWAL_MODULE_ID)
+          .table("countedCarry")
+          .get(web.placeId) as unknown as { deaths: Record<string, number> }
+      ).deaths;
+    const movedOwed = owed(moved.world.core);
+    const baseOwed = owed(base.world.core);
+    const cohorts = new Set([
+      ...Object.keys(movedOwed),
+      ...Object.keys(baseOwed),
+    ]);
+    const shiftByCohort = [...cohorts].reduce(
+      (n, key) => n + Math.abs((movedOwed[key] ?? 0) - (baseOwed[key] ?? 0)),
+      0,
+    );
+    expect(shiftByCohort / sum(baseRows)).toBeGreaterThan(1e-5);
   }, 1_200_000);
 });
