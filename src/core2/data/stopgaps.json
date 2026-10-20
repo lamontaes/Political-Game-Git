@@ -4885,11 +4885,11 @@
     "kind": "missing-record",
     "file": "src/core2/health-web.ts",
     "line": 1,
-    "whatItFakes": "Deaths carry no cause. The traffic link moves the share of deaths a crash stands for at each age (IIHS rate over the life table's death rate), not a crash-death record. The overdose links (harm reduction, cannabis sales) and the youth firearm links (child access law, minimum handgun age) move only the web's number; no death reads them.",
-    "why": "Overdose and firearm death rates by single age are not in the repo, and a death has no cause field (death-causes.ts holds three plain groups).",
+    "whatItFakes": "Every death now carries a cause (overdose, youth firearm homicide, firearm suicide, motor vehicle, other) from NCHS 2023 shares by age, and the web's overdose, youth firearm and traffic links move those shares. What stays unwired: deaths under age 10 from firearms (the source reports none under 10, so the child access law reaches no toddler), the age split inside the 10 to 24 firearm band (ages 20 to 24 take the band's share although the web acts to 19), and counted people have no substance-use-disorder condition so none ranks first for an overdose.",
+    "why": "The source tables give firearm deaths for ages 10 to 24 as one band and report nothing under 10; drug overdose deaths are reported from 15; counted people hold no conditions.",
     "addedBy": "effect-web-health",
     "addedAt": "2026-10-20",
-    "replacement": "A cause-of-death record on every death, with cause-specific hazards by age (crash, overdose, firearm) from CDC WONDER, read by the people engines; the web's factor then multiplies each cause's hazard.",
+    "replacement": "Single-age firearm and overdose death counts from CDC WONDER (underlying cause, one-year ages 0 to 24), and a condition record on counted people.",
     "status": "open"
   },
   {

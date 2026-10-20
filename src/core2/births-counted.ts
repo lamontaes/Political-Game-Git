@@ -46,6 +46,7 @@ import {
   removeCountedPerson,
   residentsRuntime,
 } from "./modules/residents";
+import { assignDeathCause } from "./death-cause";
 import { deathWebFactor } from "./health-web";
 import type { ResidentHouseholdRecord } from "./residents";
 import { webFactorFor } from "./outcome-web-reach";
@@ -347,6 +348,9 @@ export function applyCountedFlows(
       startHouseholds: start.households,
       births: [] as string[],
       deaths: [] as string[],
+      /** The cause of each death this month, in real people, and by the dead person's id. */
+      deathCauses: {} as Record<string, number>,
+      causeOf: {} as Record<string, string>,
       /** Counted people who fell seriously ill this month, and who is ill at its end. */
       fellIll: [] as string[],
       /** At a place's first month: those already ill, their illness begun before the opening. */
@@ -399,6 +403,17 @@ export function applyCountedFlows(
       if (found.dueDate > date) continue;
       ill.delete(found.id);
       endCountedIllness(api, found.id);
+      // The cause the town's age band is owed the most; the counts row keeps
+      // it by cause (in real people) and by the person's id.
+      const died = assignDeathCause(api, {
+        placeId,
+        age: ageOf(person, date),
+        incomeFifth: fifthOf.get(person.id),
+        weight: weightOfPerson(person),
+      });
+      row.deathCauses[died.cause] =
+        (row.deathCauses[died.cause] ?? 0) + weightOfPerson(person);
+      row.causeOf[person.id] = died.cause;
       for (const heir of removeCountedPerson(core, person.id))
         row.estates.push({ deceasedId: person.id, ...heir });
       row.deaths.push(person.id);
