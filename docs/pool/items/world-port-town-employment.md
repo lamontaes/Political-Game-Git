@@ -5,12 +5,12 @@ area: world
 kind: wiring
 priority: 2
 size: M
-status: claimed
-claimed-by: claude/port-town-employment
-pr: #5093
+status: open
+claimed-by:
+pr: #5540
 blocked-on:
 source: "split from core-remaining-port-the-opening-town-builder-population (an L item), Oct 15"
-claimed-at: 2026-10-20T05:30:55.383Z
+claimed-at:
 ---
 
 **What.** `ensureTownEmployment`, `TOWN_WORKPLACES`, `townEmploymentMix`, `activeWorkers`, `laborStatus` and the tenure and part-time tables in `simulation/living-world/town-employment` (and `.generated`), with `organizationProfileAt` from `life-queries` and `jailTermOn` from `justice/jail-terms`, write jobs into an old-engine world. Port them so they return core organization and job records that `population.ts` and `opening-employment.ts` read directly. The player notices nothing: the same town opens. Build only what the golden path needs, and write fresh where that is simpler.
@@ -27,3 +27,5 @@ Oct 19 (claude/port-town-workplaces): the workplace tables half is done. Role, W
 
 Oct 20 (cto): sent back PR #5100. EntityId in src/core2/town-employment-mix.ts imported from ../simulation/types (old engine) instead of ./types. Pool item status was also dropped on main when stacked PR #5093 was dropped, causing merge conflict.
 
+
+Sent back 2026-10-20 from PR #5540 (branch claude/port-town-employment): new src/core2/town-labor.ts imports old simulation runtime queries and types; port the required reads and types into Core before moving the module there; finish on that branch, merge main into it first.

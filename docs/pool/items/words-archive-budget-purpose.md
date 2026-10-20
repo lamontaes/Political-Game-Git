@@ -5,7 +5,7 @@ area: core
 kind: feature
 priority: 3
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/archive-budget-purpose
 pr: #5240
 blocked-on:
