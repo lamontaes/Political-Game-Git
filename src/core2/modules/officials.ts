@@ -24,6 +24,7 @@ import calibration from "../../../data/source/electoral-calibration-2024/corpus.
 import partyCounts from "../../../data/research/offices/legislature-party-counts-2026.json" with { type: "json" };
 import senateClasses from "../../../data/research/offices/senate-classes-2026.json" with { type: "json" };
 import tenure from "../data/offices/tenure.json" with { type: "json" };
+import chamberLoyalty from "../data/officials/state-chamber-loyalty.json" with { type: "json" };
 import stateResearchJson from "../../../data/research/offices/state-offices.json" with { type: "json" };
 import { coreAPI, fillInIdentity, registerModule } from "../state";
 import type { CoreAPI, CoreModule, CoreState, Source } from "../types";
@@ -128,6 +129,16 @@ const table = (api: CoreAPI, name: string) =>
 
 const weight = (key: keyof typeof OFFICIALS_DATA.weights) =>
   OFFICIALS_DATA.weights[key].value;
+
+/** A state chamber's party pressure against the average chamber's (1 where unrecorded). */
+const chamberFactor = (row: OfficialRow): number => {
+  const chambers = chamberLoyalty.chambers as Record<
+    string,
+    Record<string, number>
+  >;
+  const chamber = row.officeKind.replace("legislature-", "");
+  return chambers[row.stateKey.slice(3)]?.[chamber] ?? 1;
+};
 
 const congressRoster = (
   partyCounts as unknown as {
@@ -1108,11 +1119,13 @@ export function officialParts(
     if (side !== 0) {
       // The leader says which way; how much the party cares says how hard.
       const lead = read.leader.get(side) ?? Math.sign(read.care.get(side) ?? 0);
-      // A state chamber's members feel it at a calibrated fraction of Congress's.
-      // stopgapId: SG-LAWS-state-party-loyalty-target
+      // A state chamber's members feel it at a calibrated fraction of
+      // Congress's, by how polarized that chamber's parties are.
       const pull =
         (independent ? weight("caucus") : weight("party")) *
-        (row.bodyKind === "legislature" ? weight("statePartyLoyalty") : 1);
+        (row.bodyKind === "legislature"
+          ? weight("statePartyLoyalty") * chamberFactor(row)
+          : 1);
       party = pull * row.loyalty * lead * Math.abs(read.care.get(side) ?? 0);
     }
     wing =

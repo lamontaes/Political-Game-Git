@@ -221,7 +221,7 @@
     "statePartyLoyalty": {
       "value": 1,
       "tag": "ESTIMATED",
-      "source": "A state-chamber member feels the party's pressure at this multiple of a member of Congress's. One means the same weight. Eight chambers drawn in eight places (Oct 16) gave a mean party unity on party-splitting roll calls of 0.885, from 0.82 to 0.94 place by place, against the federal party-unity figure of about 0.90 (CQ Vote Studies); raising this to 1.2 moved the mean by 0.005, so the weight is left at one, and the test reads the pooled unity of four drawn places against the unchanged 0.85 to 0.98 band. The target stays the federal figure until the owner runs his state roll-call calibration input (Oct 15 ruling), which ships nothing.",
+      "source": "A state-chamber member feels the party's pressure at this multiple of a member of Congress's, times their chamber's own multiple in state-chamber-loyalty.json (about one on average). Eight chambers drawn in eight places (Oct 16) gave a mean party unity on party-splitting roll calls of 0.885 against the federal party-unity figure of about 0.90 (CQ Vote Studies), so the base stays at one and each chamber's polarization sets its own multiple.",
       "spread": [0.6, 1.2]
     }
   },
