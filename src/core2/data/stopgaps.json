@@ -1268,11 +1268,11 @@
     "kind": "missing-data",
     "file": "src/core2/modules/world-races.ts",
     "line": 682,
-    "whatItFakes": "A race the town doesn't vote in is counted on the counted residents' engine at a coarser level (a House district's, the state's counties', a legislative district's eligible voters, voting as the town's counted residents would on each place's 2024 lean), but its candidates are each party's typical candidate (the holder stands for their party with the typical campaign) rather than people with records, and a state legislative district with no read result is the state's vote over its districts leaning to its holder's party at the typical margin.",
-    "why": "Fictional candidates with records for every seat in the country aren't built (PEOPLE's who runs), and state legislative district results aren't read.",
+    "whatItFakes": "A race the town doesn't vote in is counted on the counted residents' engine at a coarser level (a House district's, the state's counties', a legislative district's eligible voters, voting as the town's counted residents would on each place's 2024 lean), but its candidates are each party's typical candidate (the holder stands for their party with the typical campaign) rather than people with records. A state legislative district reads its own 2024 vote (MIT Election Data and Science Lab, 3,182 of 6,831 Census districts matched; src/core2/legislative-district-results.ts); one the source lacks, a nonpartisan one, or a seat one party did not contest is the state's vote over its districts leaning to its holder's party at the typical margin (legislativeSeatMargin, ESTIMATED, checked against the districts that do have a result).",
+    "why": "Fictional candidates with records for every seat in the country aren't built (PEOPLE's who runs). The legislative-district results half was sourced in gov-legislative-district-results-2024.",
     "addedBy": "OPUS-GOV",
     "addedAt": "2026-10-12",
-    "replacement": "Each race's candidates as fictional people with records and campaigns, and each legislative district's own 2024 result.",
+    "replacement": "Each race's candidates as fictional people with records and campaigns (core-world-race-lean-candidates).",
     "status": "open"
   },
   {
