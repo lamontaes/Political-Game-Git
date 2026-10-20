@@ -22,3 +22,5 @@ claimed-at:
 **Files.** src/bench/play.mjs, src/bench/play.css, src/bench/no-scroll.browser.mjs
 
 **Notes.** TODO
+
+Oct 20 (claude/fixed-on-main-notes): not reproduced on current main. With the bench server up and `BENCH_BROWSER=/opt/pw-browsers/chromium`, `node src/bench/no-scroll.browser.mjs` printed `PASS 11 sheets, twice` four times in a row (every sheet at 3 px, the Politics sheet four pages). The check continues the saved game, so a new game in another place is the case still untried; the CTO can mark this done or leave it for a checker's pass on a new game.
