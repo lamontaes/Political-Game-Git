@@ -57,7 +57,8 @@ export function appointerWeighing(
       "appointments.weigh",
       "appoint-loyalty",
       "appoint-merit",
-    ) * decisionTraitWeight(core, "appointments.weigh");
+    ) *
+    decisionTraitWeight(core, "appointments.weigh");
   return { loyalty: 1 + tilt, merit: 1 - tilt };
 }
 
