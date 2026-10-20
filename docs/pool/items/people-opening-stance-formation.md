@@ -5,9 +5,9 @@ area: people
 kind: feature
 priority: 2
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/stance-formation
-pr:
+pr: #5714
 blocked-on:
 after: research-opening-stance-loadings
 source: added with npm run pool -- add

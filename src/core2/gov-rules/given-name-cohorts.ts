@@ -2,6 +2,7 @@
  * Ported from the old engine's `given-name-cohorts.ts`.
  */
 import SSA_DECADES from "../data/names/given-names-by-decade.json" with { type: "json" };
+import TOP_SHARE from "../data/names/given-name-top-share.json" with { type: "json" };
 import { SeededRng } from "../kernel/rng";
 import type { GenderIdentityKey } from "./types";
 
@@ -95,13 +96,23 @@ export function drawCohortGivenName(
 }
 
 /**
- * Only this share of people take a cohort name. The rest keep the name the
- * ordinary draw gave them, from the whole name list, because a name outside a
- * decade's top 100 was still somebody's name. The share is authored, not
- * measured: the real share is how many births in a decade the top 100
- * accounts for, which varies by decade and sex.
+ * The share of people who take a cohort name: how many births in their decade
+ * the top 100 names of their sex account for (SSA, measured per decade and
+ * sex in `given-name-top-share.json`), smoothed between neighboring decades
+ * the way the name draw is. The rest keep the name the ordinary draw gave
+ * them, from the whole name list, because a name outside a decade's top 100
+ * was still somebody's name.
  */
-export const COHORT_GIVEN_NAME_SHARE = 0.6;
+export function cohortGivenNameShare(sex: Sex, birthYear: number): number {
+  const shares = TOP_SHARE.share as unknown as Record<
+    string,
+    Record<Sex, number>
+  >;
+  return birthYearDecadeWeights(birthYear).reduce(
+    (sum, [decade, weight]) => sum + weight * shares[decade]![sex],
+    0,
+  );
+}
 
 /**
  * The given name a generated person carries once their birth year is known.
@@ -129,13 +140,11 @@ export function birthCohortGivenName(
   const rng = new SeededRng(worldSeed).fork(
     `given-name-cohort-v1:${personKey}`,
   );
-  if (rng.next() >= COHORT_GIVEN_NAME_SHARE) return person.givenName;
+  const birthYear = Number(person.birthDate.slice(0, 4));
+  if (rng.next() >= cohortGivenNameShare(sex, birthYear))
+    return person.givenName;
   return (
-    drawCohortGivenName(
-      rng,
-      sex,
-      Number(person.birthDate.slice(0, 4)),
-      takenGivenNames,
-    ) ?? person.givenName
+    drawCohortGivenName(rng, sex, birthYear, takenGivenNames) ??
+    person.givenName
   );
 }
