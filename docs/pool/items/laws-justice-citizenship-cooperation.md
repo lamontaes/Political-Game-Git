@@ -5,12 +5,13 @@ area: laws
 kind: wiring
 priority: 3
 size: S
-status: blocked
+status: open
 claimed-by:
 pr:
 blocked-on:
 after: gov-justice-incident-producer
 source: added with npm run pool -- add
+claimed-at: 
 ---
 
 **What.** Make the law on partnering with federal immigration enforcement (us-policy-positions:justice-public-safety.partner-with-federal-immigration-enforcement) change what a sheriff does with a stopped person. When a stop incident from the incident producer ends with a noncitizen (isNoncitizen in src/core2/citizenship.ts, the same read for full people and counted members) and the partnership law is in force through lawInForce, the stop becomes a hold for immigration agents and the person is put in custody with holdInCustody; with the law not in force the same stop ends as it would for a citizen. The reach of the law already names noncitizen adults (law-reach/group-a-records.ts); this item adds the decision at the stop, so the reach row becomes a read by the justice engine and not a record.
