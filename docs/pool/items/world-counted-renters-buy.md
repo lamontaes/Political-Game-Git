@@ -5,12 +5,12 @@ area: world
 kind: feature
 priority: 2
 size: M
-status: in-pr
-claimed-by: claude/counted-renters-buy-g08lgv
+status: open
+claimed-by:
 pr: #5367
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-19T23:13:50.152Z
+claimed-at:
 ---
 
 **What.** Full renter households can buy a home (`buyHomes` in `src/core2/modules/housing.ts`): the shared chooser weighs a mortgage against the lease, the household pays a down payment, the bank lends, the lease ends and a mortgage starts. Counted renters never do, so a town's wider population is renters for ever and its ownership rate only falls. Give a counted renter household the same decision and the same money steps, through its group's accounts: its rent part (`rent:<household>`) ends and a mortgage part joins the place's merged mortgage flow (`amountByContract`, as `addCountedRetiree` joins a retiree), with the down payment paid from the group's account and the seller paid.
