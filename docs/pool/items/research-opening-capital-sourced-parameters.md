@@ -5,11 +5,12 @@ area: core
 kind: research
 priority: 2
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/research-capital
 pr:
 blocked-on:
 source: "collapsed Oct 19, 2026 from core-stopgap-opening-capital-estimated-private-opening-cash-crosswalk, core-stopgap-opening-capital-modeled-unfunded-unsupported-opening-owner, core-stopgap-opening-capital-unmeasured-opening-private-cash-buffer-distribution"
+claimed-at: 2026-10-20T01:42:50.800Z
 ---
 
 **What.** Source the numbers behind the opening's firm cash and owner funding. Each row below is a registered stopgap whose replacement waits on sourced or estimated data, collapsed here from 3 pool item(s) on Oct 19, 2026 so one researcher takes the engine family at once. For each row, find a public source with a year and a unit, record the figure as a SOURCED or ESTIMATED parameter row with a citation and a spread, put the research file under data/research/core/ with a reader, and resolve the stopgap row. Where a row's replacement is a mechanic rather than a number, source what that mechanic will read and leave the mechanic to the area's builder (name the pool item in the PR).
@@ -25,3 +26,5 @@ source: "collapsed Oct 19, 2026 from core-stopgap-opening-capital-estimated-priv
 **Files.** src/core2/data/opening-capital.json, src/core2/data/parameters.json, src/core2/data/stopgaps.json, data/research/core/
 
 **Notes.** Folded from: core-stopgap-opening-capital-estimated-private-opening-cash-crosswalk, core-stopgap-opening-capital-modeled-unfunded-unsupported-opening-owner, core-stopgap-opening-capital-unmeasured-opening-private-cash-buffer-distribution. Rows that are not numbers (missing mechanics in law reach, for example) stay registered; this item sources what they will read.
+
+Checked Oct 20 (claude), not built: the thirteen `openingEmployerCashBufferDays*` rows already cite JPMorgan Chase Institute, Cash Is King (Sept 2016), Figures 5 to 7, with q25 to q75 spreads and a PDF hash; `openingEmployerCashBufferTailSpan` is a declared unmeasured authored coefficient (the source publishes no tail). What each stopgap names as its replacement (recorded firm balances and capital provenance; dated public funding) is a mechanic for the world and gov builders, so no number here can be upgraded from public data without inventing a tail. Item left open for a researcher with the JPMC microdata or a tail-measuring source.

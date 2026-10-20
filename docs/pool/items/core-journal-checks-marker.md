@@ -5,9 +5,9 @@ area: core
 kind: cleanup
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/journal-checks-marker
-pr:
+pr: #5379
 after:
 blocked-on:
 milestone:

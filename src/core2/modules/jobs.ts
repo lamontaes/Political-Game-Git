@@ -9,22 +9,27 @@
  * its best-placed applicant, and the applicant accepts or declines. Every
  * job change is a record with its reason and, for a layoff, who decided it.
  */
-import { addDays, makeIsoDate, daysBetweenText } from "../kernel/dates";
+import type { ModuleTable } from "../module-state";
+import { addDays, daysBetweenText, makeIsoDate } from "../kernel/dates";
 import { chooseAct, decisionFromScores, scoreOffers } from "../choice";
 import jobsData from "../data/jobs/jobs.json" with { type: "json" };
 import jobsParameters from "../data/jobs/parameters.json" with { type: "json" };
 import seasonal from "../data/jobs/seasonal.json" with { type: "json" };
 import type { Parameter } from "../parameters";
 import { stopgap } from "../stopgaps";
-import { forgetPinnedJobs, pinnedJobs } from "../pinned-jobs";
 import { traitLean } from "../choice";
-import { decisionLean, traitLeanBetween } from "../trait-decisions";
+import {
+  decisionLean,
+  decisionTraitWeight,
+  traitLeanBetween,
+} from "../trait-decisions";
 import {
   businessTradingMonth,
   ownerOf,
   type BusinessTradingMonth,
 } from "./business";
 import { LAWS_MODULE_ID, lawInForce } from "./laws";
+import { publicPayFloorHourly } from "../public-pay-floor";
 import { inCustody } from "./justice";
 import { regionalMonth } from "./regional";
 import { isDemoted } from "../counted-groups";
@@ -53,6 +58,7 @@ import type {
 } from "../types";
 import type { WorkPayrollCalendarInput } from "../work-pay-period";
 import { isExplicitlyControlledPersonV1 } from "../player-control-state-v1";
+import { DEFAULT_HEALTH_DATA, severityImpulse } from "./health";
 import {
   playerClockFrontierV1,
   registerModuleStopV1,
@@ -791,7 +797,8 @@ export function raiseUnfilledPay(
     "raise-pay",
     "hold-pay",
   );
-  const openHanded = (1 + lean) / 2;
+  const openHanded =
+    (1 + decisionTraitWeight(c, "jobs.raise-for-opening") * lean) / 2;
   if (openHanded <= 0) return;
   const monthDays = api.parameter("jobsDaysPerYear") / 12;
   const perMonth = monthDays / trading.days;
@@ -1136,7 +1143,11 @@ function payFor(
         (rate * payLevel(api, placeId)) / (set?.level ?? api.parameter("one")),
       )
     : rate;
-  return Math.max(market, wageFloor(api));
+  // A public employer's hire is held to the public pay floor on the day it is made.
+  const publicFloor = core(api).modules.has(LAWS_MODULE_ID)
+    ? publicPayFloorHourly(api, organizationId, template)
+    : 0;
+  return Math.max(market, wageFloor(api), publicFloor);
 }
 
 /** The minimum wage in force for the town, in cents an hour (0 where none is recorded). */
@@ -1191,9 +1202,9 @@ function layOff(
     api.parameter("jobsKeepTenureWeight") * tenureYears(api, job) +
     api.parameter("jobsFitReliabilityWeight") *
       (traitsOf(api, job.personId)[reliability] ?? 0);
-  const job = [...staff]
-    .filter((row) => !pinnedJobs(c).has(row.id))
-    .sort((a, b) => keep(a) - keep(b) || a.id.localeCompare(b.id))[0];
+  const job = [...staff].sort(
+    (a, b) => keep(a) - keep(b) || a.id.localeCompare(b.id),
+  )[0];
   if (!job) return;
   // The jobs this record stands for may not exceed what the staff is over by.
   const heads = headsOf(c, job);
@@ -1236,6 +1247,9 @@ function layOff(
     source: source(api, "A layoff decided from the business's books."),
     publicRecord: false,
     topic: organizationId,
+    // Being fired is a life change (Holmes and Rahe, 47 units); how hard it
+    // lands is the person's own appraisal (emotion.ts reads their traits).
+    ...severityImpulse(api, DEFAULT_HEALTH_DATA.jobLossSeverity),
     // Who decided and where, for the scene at work: the director reads them.
     facts: { decidedBy: decidedBy ?? organizationId, organizationId },
   });
@@ -1285,7 +1299,7 @@ function reviewWorkers(api: CoreAPI): void {
       Math.max(going.get(position.occupation) ?? 0, position.hourlyMinor),
     );
   for (const job of c.jobs.values()) {
-    if (job.endsAt !== undefined || pinnedJobs(c).has(job.id)) continue;
+    if (job.endsAt !== undefined) continue;
     // A post held by appointment or by office (the town clerk, a department
     // head, an official's pay job) is left by resigning through the executive
     // or offices engine, which closes the appointment with it; the monthly
@@ -1972,9 +1986,10 @@ export function strongestPulls<T extends { id: string; score: number }>(
   api: CoreAPI,
   key: string,
   rows: readonly T[],
+  /** The table the caller keeps its carry in; the jobs module's own when the caller is the jobs engine. */
+  state: ModuleTable = store(api).table("state"),
 ): T[] {
   stopgap("SG-WORLD-jobs-counted-choices");
-  const state = store(api).table("state");
   const row = (state.get(`pulls:${key}`) as { carry: number } | undefined) ?? {
     carry: 0,
   };
@@ -1994,7 +2009,6 @@ function reviewCountedRetirements(api: CoreAPI): void {
   const rows: { id: string; job: JobInput; age: number; score: number }[] = [];
   for (const [organizationId] of c.finance.businesses) {
     for (const job of countedJobsOf(c, organizationId)) {
-      if (pinnedJobs(c).has(job.id)) continue;
       // An owner retires through their business (the business module's closing choice), not off its payroll.
       if (ownerOf(api, organizationId) === job.personId) continue;
       const person = residentPerson(c, job.personId);
@@ -2137,7 +2151,7 @@ function reviewCountedQuits(api: CoreAPI): void {
   for (const [organizationId, book] of c.finance.businesses) {
     if (book.closedAt) continue;
     for (const job of countedJobsOf(c, organizationId)) {
-      if (pinnedJobs(c).has(job.id) || inCustody(api, job.personId)) continue;
+      if (inCustody(api, job.personId)) continue;
       if (ownerOf(api, organizationId) === job.personId) continue;
       const person = residentPerson(c, job.personId);
       const pay = job.hourlyMinor ?? 0;
@@ -2210,12 +2224,7 @@ function reviewCountedLooking(api: CoreAPI): void {
     [];
   for (const [organizationId] of c.finance.businesses) {
     for (const job of countedJobsOf(c, organizationId)) {
-      if (
-        pinnedJobs(c).has(job.id) ||
-        seekers.get(job.personId) ||
-        inCustody(api, job.personId)
-      )
-        continue;
+      if (seekers.get(job.personId) || inCustody(api, job.personId)) continue;
       // An owner runs their own business; they don't look for a job elsewhere.
       if (ownerOf(api, organizationId) === job.personId) continue;
       const person = residentPerson(c, job.personId);
@@ -2619,7 +2628,6 @@ function hire(
   const role = roleTemplate(c, position);
   if (!role) return;
   const { template, commitment: templateCommitment, calendar } = role;
-  if (person.jobId && pinnedJobs(c).has(person.jobId)) return;
   if (person.jobId) {
     const old = c.jobs.get(person.jobId)!;
     api.endJob(old.id, `jobs:quit:${api.state.date}`);
@@ -2652,6 +2660,14 @@ function hire(
     api,
     `Hired to ${position.id} at the business's own pay for the role.`,
   );
+  // The job states the week the schedule it copies runs (a counted template's
+  // own row can state another), so the stated pay is what payroll pays.
+  const hoursDaily =
+    templateCommitment.expectedWeeklyMinutes > 0
+      ? templateCommitment.expectedWeeklyMinutes /
+        api.parameter("minutesPerHour") /
+        api.parameter("daysPerWeek")
+      : template.hoursDaily;
   const job: JobInput = {
     id: jobId,
     personId: person.id,
@@ -2659,8 +2675,8 @@ function hire(
     title: position.title,
     occupationClassification: template.occupationClassification,
     hourlyMinor: position.hourlyMinor,
-    hoursDaily: template.hoursDaily,
-    wageDailyMinor: Math.round(position.hourlyMinor * template.hoursDaily),
+    hoursDaily,
+    wageDailyMinor: Math.round(position.hourlyMinor * hoursDaily),
     source: jobSource,
   };
   const newCalendar: WorkPayrollCalendarInput = {
@@ -2720,7 +2736,7 @@ function hire(
     person.id,
     position.organizationId,
     coworkerIds,
-    template.hoursDaily,
+    hoursDaily,
     `job-change:${api.state.date}:${jobId}:hire`,
   );
   record(api, {
@@ -2888,8 +2904,6 @@ export const JOBS_MODULE: CoreModule = {
       if (job && job.endsAt === undefined)
         api.endJob(job.id, work.sourceRecordIds[1] ?? work.key);
     } else if (work.kind === "jobs-review") {
-      // Agreements made since last month may name jobs too.
-      forgetPinnedJobs(core(api));
       noteCountedLeavers(api);
       reviewEmployers(api);
       reviewWorkers(api);
