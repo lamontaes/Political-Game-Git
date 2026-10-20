@@ -2,6 +2,11 @@ import { readdirSync, readFileSync } from "fs";
 import path from "path";
 import { describe, expect, it } from "vitest";
 import { checkAmericanEnglish } from "../scripts/prose-eval/american-english";
+import {
+  heldByGrades,
+  PART_GRADES,
+  type PartGradeLedger,
+} from "../src/english/english-grades";
 
 /**
  * Part banks: pieces mined from public records (EM-1) and pieces authored to
@@ -65,6 +70,23 @@ export function provenanceProblems(part: Part): string[] {
   return problems;
 }
 
+/**
+ * An authored part is not shippable until the owner has graded it GOOD (owner,
+ * Oct 20: authored words stay out of play until a grading batch). Empty when
+ * the part is mined, not shippable, or graded good and not held back.
+ */
+export function gradeProblems(
+  part: Part,
+  ledger: PartGradeLedger = PART_GRADES,
+): string[] {
+  if (part.origin !== "authored" || !part.shippable) return [];
+  const counts = ledger.parts[part.key];
+  const good = (counts?.good ?? 0) + (counts?.sharedGood ?? 0);
+  return good > 0 && !heldByGrades(part.key, ledger)
+    ? []
+    : ["an authored part is shippable only after the owner graded it good"];
+}
+
 type Bank = {
   schema: string;
   register: string;
@@ -117,6 +139,38 @@ describe("English part banks", () => {
     ).toEqual([]);
   });
 
+  it("refuses an authored part marked shippable with no good grade, and a graded one that is held back", () => {
+    const part: Part = {
+      key: "x.y.1",
+      move: "y",
+      kind: "spoken",
+      text: "Hello.",
+      shippable: true,
+      origin: "authored",
+      author: "the Words session",
+      date: "2026-10-20",
+    };
+    const none = {
+      good: 0,
+      bad: 0,
+      fix: 0,
+      sharedGood: 0,
+      sharedBad: 0,
+      sharedFix: 0,
+    };
+    const ledger = (counts?: Partial<typeof none>): PartGradeLedger => ({
+      schema: "english-part-grades/1",
+      batches: [],
+      parts: counts ? { [part.key]: { ...none, ...counts } } : {},
+    });
+    expect(gradeProblems(part, ledger())).toHaveLength(1);
+    expect(gradeProblems(part, ledger({ good: 1 }))).toEqual([]);
+    expect(gradeProblems(part, ledger({ good: 1, bad: 2 }))).toEqual([]);
+    expect(gradeProblems(part, ledger({ bad: 1 }))).toHaveLength(1);
+    expect(gradeProblems({ ...part, shippable: false }, ledger())).toEqual([]);
+    expect(gradeProblems({ ...part, origin: undefined }, ledger())).toEqual([]);
+  });
+
   for (const { name, bank } of banks) {
     describe(name, () => {
       it("validates against the bank schema", () => {
@@ -128,6 +182,11 @@ describe("English part banks", () => {
         expect(new Set(keys).size).toBe(keys.length);
         const texts = bank.parts.map((part) => part.text.toLowerCase());
         expect(new Set(texts).size).toBe(texts.length);
+      });
+
+      it("ships no authored part that has not been graded good", () => {
+        for (const part of bank.parts)
+          expect(gradeProblems(part), part.key).toEqual([]);
       });
 
       it("gives every part a move type, a kind and its provenance", () => {
