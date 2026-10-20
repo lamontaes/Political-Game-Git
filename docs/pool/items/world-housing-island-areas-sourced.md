@@ -22,3 +22,5 @@ claimed-at:
 **Files.** src/core2/modules/housing.ts, src/core2/data/housing/housing.json, src/core2/data/stopgaps.json, src/core2/housing.test.ts
 
 **Notes.** Figures read Oct 20 from the Census Bureau's July 20, 2023 release pages for each island area (2020 DHC): Guam owners 52.0 percent of occupied, median value $277,800, rent $1,057; American Samoa owners 71.1 percent, value $84,400, rent $601; Northern Marianas owners 29.0 percent, value $184,200, rent $502; Virgin Islands owners 47.8 percent, value $290,600, rent $926.
+
+Sent back 2026-10-20 from PR #5431 (branch claude/housing-island-areas): see the Cloud merger comment on that PR for the exact reason; finish on that branch, merge main into it first.
