@@ -6,6 +6,7 @@ import { loadGame, newGame, runCommand, saveGame } from "./saves";
 import type { CoreModule, CoreState } from "./types";
 import { gameStartDate } from "./game-start";
 import { addDays } from "./kernel/dates";
+import { setBookkeeping } from "./bookkeeping";
 
 /** A date some days after the game's start. */
 const day = (days: number) => addDays(gameStartDate(), days);
@@ -126,4 +127,82 @@ describe(`saves in ${place.name}, ${place.state} (seed ${seed})`, () => {
     const replayed = loadGame({ ...save, coreApiVersion: "core2-api-v1" });
     expect(replayed.core.date).toBe(save.savedAt);
   }, 600_000);
+  it("restores a record frozen at the opening frozen, including those a producer changed since", () => {
+    // Bookkeeping freezes records as they are built; play leaves it off.
+    const before = setBookkeeping(true);
+    try {
+      const recipe = {
+        place: { seed: place.seed, key: place.key },
+        twoLevel: true,
+        settings: { population: 1500 },
+        preStart: false as const,
+      };
+      const opening = newGame(recipe);
+      const game = newGame(recipe);
+      runCommand(game, "advance", { through: day(45) });
+      const save = JSON.parse(JSON.stringify(saveGame(game))) as ReturnType<
+        typeof saveGame
+      >;
+      expect(save.snapshot).toBeDefined();
+      const loaded = loadGame(save);
+      // Walk the three worlds path by path, over the records the opening has:
+      // one frozen there is frozen in the played game and after the restore,
+      // whether or not a producer changed it in between.
+      const mismatched: string[] = [];
+      let frozen = 0;
+      let changed = 0;
+      let sample: Record<string, unknown> | undefined;
+      const seen = new Set<object>();
+      const walk = (
+        o: unknown,
+        a: unknown,
+        b: unknown,
+        path: string,
+        depth: number,
+      ) => {
+        if (!o || !a || !b || typeof o !== "object") return;
+        if (typeof a !== "object" || typeof b !== "object") return;
+        if (seen.has(o) || depth > 6 || mismatched.length > 5) return;
+        seen.add(o);
+        if (Object.isFrozen(o)) {
+          frozen += 1;
+          if (JSON.stringify(a) !== JSON.stringify(o)) changed += 1;
+          sample ??= b as Record<string, unknown>;
+          if (!Object.isFrozen(b)) mismatched.push(path);
+        }
+        if (o instanceof Map && a instanceof Map && b instanceof Map) {
+          for (const [key, value] of o)
+            walk(
+              value,
+              a.get(key),
+              b.get(key),
+              `${path}.${String(key)}`,
+              depth + 1,
+            );
+        } else if (!(o instanceof Set) && !(a instanceof Set)) {
+          for (const key of Object.keys(o))
+            walk(
+              (o as Record<string, unknown>)[key],
+              (a as Record<string, unknown>)[key],
+              (b as Record<string, unknown>)[key],
+              `${path}.${key}`,
+              depth + 1,
+            );
+        }
+      };
+      walk(opening.core, game.core, loaded.core, "core", 0);
+      expect(mismatched).toEqual([]);
+      expect(frozen, "no frozen record to compare").toBeGreaterThan(0);
+      expect(changed, "no frozen record a producer changed").toBeGreaterThan(0);
+      process.stdout.write(
+        `\nsaves: ${frozen} frozen at the opening, ${changed} replaced since (${place.name}, seed ${seed})`,
+      );
+      // A frozen record changed with no producer is refused after a restore.
+      expect(() => {
+        sample!.zzUnproduced = 1;
+      }).toThrow();
+    } finally {
+      setBookkeeping(before);
+    }
+  }, 900_000);
 });
