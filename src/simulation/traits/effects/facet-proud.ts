@@ -1,4 +1,7 @@
-import type { TraitEffectDeclaration, TraitPack } from "../../trait-packs";
+import type {
+  TraitEffectDeclaration,
+  TraitPack,
+} from "../../../core2/trait-packs";
 
 /** Pride concerns dignity and recognition, not competence or superiority.
  * A vote reader reinforces an existing position; it cannot invent a position.

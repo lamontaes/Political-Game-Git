@@ -61,9 +61,21 @@ describe(`unfilled openings and their pay (seed ${seed})`, () => {
         );
       if (!found) continue;
       const { row, owner, trading } = found;
-      const waiting =
-        Math.ceil(parameter("jobsRaiseAfterDays", core.data.parameters)) + 30;
-      const standing = (id: string): PositionRow => {
+      const heads = Math.max(
+        1,
+        [...(core.finance.jobsByOrganization.get(row.organizationId) ?? [])]
+          .length,
+      );
+      const monthDays = parameter("jobsDaysPerYear", core.data.parameters) / 12;
+      const perMonth = monthDays / trading!.days;
+      const carries =
+        ((trading!.salesMinor -
+          trading!.costsMinor -
+          trading!.complianceMinor) *
+          perMonth) /
+        heads;
+      const hours = core.jobs.get(row.templateJobId)?.hoursDaily ?? 0;
+      const standing = (id: string, waiting: number): PositionRow => {
         const { filledBy: _filledBy, ...rest } = row as PositionRow & {
           filledBy?: string;
         };
@@ -78,9 +90,11 @@ describe(`unfilled openings and their pay (seed ${seed})`, () => {
         return open as PositionRow;
       };
       const here = `${where}: ${row.organizationId}, owner ${owner}`;
-      // The books carry it: the opening's pay rises by the owner's share of the step.
-      const standingOne = standing(`${row.id}:standing`);
-      raiseUnfilledPay(api, row.organizationId, [standingOne], trading);
+      const hourlyAfter = (id: string) =>
+        (positions.get(id) as unknown as PositionRow).hourlyMinor;
+      // The seat must be priced below what it can carry for there to be anything to add.
+      if (!(hours > 0 && row.hourlyMinor * hours * monthDays < carries))
+        continue;
       const lean = decisionLean(
         core,
         core.people.get(owner!)!,
@@ -88,47 +102,50 @@ describe(`unfilled openings and their pay (seed ${seed})`, () => {
         "raise-pay",
         "hold-pay",
       );
-      const step =
-        (parameter("jobsRaiseStepShare", core.data.parameters) * (1 + lean)) /
-        2;
-      const raised = positions.get(standingOne.id) as unknown as PositionRow;
-      expect(raised.hourlyMinor, here).toBe(
-        Math.round(row.hourlyMinor * (1 + step)),
-      );
-      expect(raised.raisedBy, here).toBe(owner);
-      expect(raised.firstHourlyMinor, here).toBe(row.hourlyMinor);
+      // An opening stood empty a long time is raised by its owner, and never past what the seat carries.
+      const long = standing(`${row.id}:long`, 400);
+      raiseUnfilledPay(api, row.organizationId, [long], trading, heads);
+      const raised = positions.get(long.id) as unknown as PositionRow;
+      if (lean > -1) {
+        expect(raised.hourlyMinor, here).toBeGreaterThan(row.hourlyMinor);
+        expect(raised.raisedBy, here).toBe(owner);
+        expect(raised.firstHourlyMinor, here).toBe(row.hourlyMinor);
+        expect(
+          raised.hourlyMinor * hours * monthDays,
+          here,
+        ).toBeLessThanOrEqual(carries);
+        // Sliding: a shorter wait adds no more than a longer one.
+        const short = standing(`${row.id}:short`, 20);
+        raiseUnfilledPay(api, row.organizationId, [short], trading, heads);
+        expect(hourlyAfter(short.id), here).toBeLessThanOrEqual(
+          raised.hourlyMinor,
+        );
+      } else {
+        // A stubborn owner holds the pay.
+        expect(raised.hourlyMinor, here).toBe(row.hourlyMinor);
+      }
       // The rows an employer's review passes in are the table's own and read-only.
-      const frozen = Object.freeze(standing(`${row.id}:frozen`));
+      const frozen = Object.freeze(standing(`${row.id}:frozen`, 400));
       const reviewed: PositionRow[] = [frozen];
-      raiseUnfilledPay(api, row.organizationId, reviewed, trading);
-      expect(reviewed[0]!.hourlyMinor, here).toBe(
-        Math.round(row.hourlyMinor * (1 + step)),
-      );
+      raiseUnfilledPay(api, row.organizationId, reviewed, trading, heads);
       expect(
         (positions.get(frozen.id) as unknown as PositionRow).hourlyMinor,
         here,
       ).toBe(reviewed[0]!.hourlyMinor);
-      // The books do not: no sales, no raise ("if they can't afford it they can't afford it").
-      const broke = standing(`${row.id}:broke`);
-      raiseUnfilledPay(api, row.organizationId, [broke], {
-        ...trading!,
-        salesMinor: 0,
-      });
-      expect(
-        (positions.get(broke.id) as unknown as PositionRow).hourlyMinor,
-        here,
-      ).toBe(row.hourlyMinor);
-      // A short wait raises nothing.
-      const fresh = {
-        ...standing(`${row.id}:fresh`),
-        openedAt: core.date,
-      } as PositionRow;
-      positions.put(fresh as unknown as { id: string });
-      raiseUnfilledPay(api, row.organizationId, [fresh], trading);
-      expect(
-        (positions.get(fresh.id) as unknown as PositionRow).hourlyMinor,
-        here,
-      ).toBe(row.hourlyMinor);
+      // The books do not carry it: no sales, no raise ("if they can't afford it they can't afford it").
+      const broke = standing(`${row.id}:broke`, 400);
+      raiseUnfilledPay(
+        api,
+        row.organizationId,
+        [broke],
+        { ...trading!, salesMinor: 0 },
+        heads,
+      );
+      expect(hourlyAfter(broke.id), here).toBe(row.hourlyMinor);
+      // Nothing has been lost on the first day, so nothing is raised on it.
+      const fresh = standing(`${row.id}:fresh`, 0);
+      raiseUnfilledPay(api, row.organizationId, [fresh], trading, heads);
+      expect(hourlyAfter(fresh.id), here).toBe(row.hourlyMinor);
       return;
     }
     throw new Error(

@@ -323,7 +323,7 @@
     "Attendance is chosen independently for each dated portion of a scheduled shift. workedDays/missedDays/plannedDays count calendar-date segments or diary participation, never completed whole shifts. Overnight continuation and shift-wide absence contracts need a finer occurrence model."
   ],
   "discretionaryDurationParameters": {
-    "recover": "workWakingRecoveryHours"
+    "recover": "restDayHours"
   },
   "activityAgeRows": [
     {

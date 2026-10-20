@@ -5,13 +5,13 @@ area: words
 kind: feature
 priority: 1
 size: M
-status: open
-claimed-by:
-pr:
+status: done
+claimed-by: claude/words-bench-compose
+pr: #4907
 blocked-on:
 after: words-bench-stage
 source: added with npm run pool -- add
-claimed-at:
+claimed-at: 2026-10-19T17:59:49.547Z
 ---
 
 **What.** Compose each staged scene through the real engine once per personality profile. Profiles are trait vectors in `src/director/data/grading-profiles.json`, 5 to 8 of them, with trait names and levels from the game's own trait list (`docs/coordination/traits.md`, `src/core2/data/people/*`): warm, cold, stubborn, anxious, boastful, liar and two mixes. The profile is laid over the speaking character, and over the player for the four replies; for the lie set the player's lie trait is scaled up. For each staged scene the bench composes the narration (`composeScene`), the lines (`openConversation`, `say`), a speech where the situation has one (`composeAddress`) and the journal entry (`composeJournal`), plus the four replies and the lies, calling the same functions play calls. `--profiles N` takes the first N. A profile names no scene and no line.

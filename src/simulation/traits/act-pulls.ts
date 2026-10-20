@@ -6,7 +6,7 @@ import {
   traitDefinitionFromPack,
   type RegisteredTrait,
   type TraitRegistry,
-} from "../trait-packs";
+} from "../../core2/trait-packs";
 import { importanceOf, traitReadingOfRecord } from "../trait-readings";
 import type {
   DecisionConsideration,

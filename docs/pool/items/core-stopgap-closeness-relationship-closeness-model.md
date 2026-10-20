@@ -4,12 +4,13 @@ title: "Stopgaps in closeness (relationship-closeness-model): 1 open"
 area: core
 kind: stopgap
 priority: 3
-status: open
-claimed-by:
+status: blocked
+claimed-by: claude/closeness-stopgap
 pr:
-blocked-on:
+blocked-on: dataset-roberts-dunbar-tie-strength-panel
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/data/closeness.json, kind relationship-closeness-model"
+claimed-at: 2026-10-19T23:28:43.862Z
 ---
 
 **What.** Replace or clear the 1 open relationship-closeness-model stopgap row(s) in src/core2/data/closeness.json: SG-P15-closeness-model. Each fake is replaced by the mechanic, or the feature that needs it is deleted.
