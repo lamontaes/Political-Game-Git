@@ -27,7 +27,7 @@
       "author": "the Words session",
       "date": "2026-10-19",
       "kind": "spoken",
-      "shippable": true
+      "shippable": false
     },
     {
       "key": "stance.boast-raise.the-count-went-my-way",
@@ -46,7 +46,7 @@
       "author": "the Words session",
       "date": "2026-10-19",
       "kind": "spoken",
-      "shippable": true
+      "shippable": false
     },
     {
       "key": "stance.boast-raise.we-won-the-count",
@@ -65,7 +65,7 @@
       "author": "the Words session",
       "date": "2026-10-19",
       "kind": "spoken",
-      "shippable": true
+      "shippable": false
     },
     {
       "key": "stance.boast-raise.i-told-you-i-d-win",
@@ -84,7 +84,7 @@
       "author": "the Words session",
       "date": "2026-10-19",
       "kind": "spoken",
-      "shippable": true
+      "shippable": false
     },
     {
       "key": "stance.boast-raise.i-said-we-would-win-and-we-did",
@@ -103,7 +103,7 @@
       "author": "the Words session",
       "date": "2026-10-19",
       "kind": "spoken",
-      "shippable": true
+      "shippable": false
     },
     {
       "key": "stance.boast-raise.it-went-the-way-i-said-it-would",
@@ -122,7 +122,7 @@
       "author": "the Words session",
       "date": "2026-10-19",
       "kind": "spoken",
-      "shippable": true
+      "shippable": false
     },
     {
       "key": "stance.boast-raise.nobody-gave-me-a-chance-and-i-won",
@@ -141,7 +141,7 @@
       "author": "the Words session",
       "date": "2026-10-19",
       "kind": "spoken",
-      "shippable": true
+      "shippable": false
     },
     {
       "key": "stance.boast-raise.i-told-you-so-it-wasn-t-close",
@@ -160,7 +160,7 @@
       "author": "the Words session",
       "date": "2026-10-19",
       "kind": "spoken",
-      "shippable": true
+      "shippable": false
     },
     {
       "key": "stance.boast-raise.i-beat-them-and-i-d-do-it-again",
@@ -179,7 +179,7 @@
       "author": "the Words session",
       "date": "2026-10-19",
       "kind": "spoken",
-      "shippable": true
+      "shippable": false
     },
     {
       "key": "stance.boast-raise.read-it-and-weep-i-won",
@@ -198,7 +198,7 @@
       "author": "the Words session",
       "date": "2026-10-19",
       "kind": "spoken",
-      "shippable": true
+      "shippable": false
     },
     {
       "key": "stance.boast-raise.anyone-who-bet-against-me-lost",
@@ -217,7 +217,7 @@
       "author": "the Words session",
       "date": "2026-10-19",
       "kind": "spoken",
-      "shippable": true
+      "shippable": false
     },
     {
       "key": "stance.boast-raise.i-won-and-i-enjoyed-every-minute-of-it",
@@ -236,7 +236,7 @@
       "author": "the Words session",
       "date": "2026-10-19",
       "kind": "spoken",
-      "shippable": true
+      "shippable": false
     },
     {
       "key": "stance.threat-raise.this-isn-t-over",
@@ -255,7 +255,7 @@
       "author": "the Words session",
       "date": "2026-10-19",
       "kind": "spoken",
-      "shippable": true
+      "shippable": false
     },
     {
       "key": "stance.threat-raise.i-m-not-finished",
@@ -274,7 +274,7 @@
       "author": "the Words session",
       "date": "2026-10-19",
       "kind": "spoken",
-      "shippable": true
+      "shippable": false
     },
     {
       "key": "stance.threat-raise.we-ll-talk-again",
@@ -293,7 +293,7 @@
       "author": "the Words session",
       "date": "2026-10-19",
       "kind": "spoken",
-      "shippable": true
+      "shippable": false
     },
     {
       "key": "stance.threat-raise.you-haven-t-heard-the-last-of-me",
@@ -312,7 +312,7 @@
       "author": "the Words session",
       "date": "2026-10-19",
       "kind": "spoken",
-      "shippable": true
+      "shippable": false
     },
     {
       "key": "stance.threat-raise.i-won-t-forget-this",
@@ -331,7 +331,7 @@
       "author": "the Words session",
       "date": "2026-10-19",
       "kind": "spoken",
-      "shippable": true
+      "shippable": false
     },
     {
       "key": "stance.threat-raise.i-ll-be-back",
@@ -350,7 +350,7 @@
       "author": "the Words session",
       "date": "2026-10-19",
       "kind": "spoken",
-      "shippable": true
+      "shippable": false
     },
     {
       "key": "stance.threat-raise.you-ll-regret-this",
@@ -369,7 +369,7 @@
       "author": "the Words session",
       "date": "2026-10-19",
       "kind": "spoken",
-      "shippable": true
+      "shippable": false
     },
     {
       "key": "stance.threat-raise.don-t-think-i-ll-let-this-go",
@@ -388,7 +388,7 @@
       "author": "the Words session",
       "date": "2026-10-19",
       "kind": "spoken",
-      "shippable": true
+      "shippable": false
     },
     {
       "key": "stance.threat-raise.you-ll-answer-for-this",
@@ -407,7 +407,7 @@
       "author": "the Words session",
       "date": "2026-10-19",
       "kind": "spoken",
-      "shippable": true
+      "shippable": false
     },
     {
       "key": "stance.threat-raise.you-re-going-to-pay-for-this",
@@ -426,7 +426,7 @@
       "author": "the Words session",
       "date": "2026-10-19",
       "kind": "spoken",
-      "shippable": true
+      "shippable": false
     },
     {
       "key": "stance.threat-raise.watch-your-back",
@@ -445,7 +445,7 @@
       "author": "the Words session",
       "date": "2026-10-19",
       "kind": "spoken",
-      "shippable": true
+      "shippable": false
     },
     {
       "key": "stance.threat-raise.i-ll-make-sure-you-never-forget-this",
@@ -464,7 +464,7 @@
       "author": "the Words session",
       "date": "2026-10-19",
       "kind": "spoken",
-      "shippable": true
+      "shippable": false
     },
     {
       "key": "stance.alarm-raise.something-is-wrong",
@@ -483,7 +483,7 @@
       "author": "the Words session",
       "date": "2026-10-19",
       "kind": "spoken",
-      "shippable": true
+      "shippable": false
     },
     {
       "key": "stance.alarm-raise.this-is-serious",
@@ -502,7 +502,7 @@
       "author": "the Words session",
       "date": "2026-10-19",
       "kind": "spoken",
-      "shippable": true
+      "shippable": false
     },
     {
       "key": "stance.alarm-raise.i-need-to-see-a-doctor",
@@ -521,7 +521,7 @@
       "author": "the Words session",
       "date": "2026-10-19",
       "kind": "spoken",
-      "shippable": true
+      "shippable": false
     },
     {
       "key": "stance.alarm-raise.this-can-t-wait",
@@ -540,7 +540,7 @@
       "author": "the Words session",
       "date": "2026-10-19",
       "kind": "spoken",
-      "shippable": true
+      "shippable": false
     },
     {
       "key": "stance.alarm-raise.i-need-help-with-this",
@@ -559,7 +559,7 @@
       "author": "the Words session",
       "date": "2026-10-19",
       "kind": "spoken",
-      "shippable": true
+      "shippable": false
     },
     {
       "key": "stance.alarm-raise.the-doctor-says-it-s-serious",
@@ -578,7 +578,7 @@
       "author": "the Words session",
       "date": "2026-10-19",
       "kind": "spoken",
-      "shippable": true
+      "shippable": false
     },
     {
       "key": "stance.alarm-raise.please-i-need-you-to-listen-this-is-serious",
@@ -597,7 +597,7 @@
       "author": "the Words session",
       "date": "2026-10-19",
       "kind": "spoken",
-      "shippable": true
+      "shippable": false
     },
     {
       "key": "stance.alarm-raise.i-don-t-know-what-to-do",
@@ -616,7 +616,7 @@
       "author": "the Words session",
       "date": "2026-10-19",
       "kind": "spoken",
-      "shippable": true
+      "shippable": false
     },
     {
       "key": "stance.alarm-raise.something-is-very-wrong",
@@ -635,7 +635,7 @@
       "author": "the Words session",
       "date": "2026-10-19",
       "kind": "spoken",
-      "shippable": true
+      "shippable": false
     },
     {
       "key": "stance.alarm-raise.listen-to-me-this-is-serious",
@@ -654,7 +654,7 @@
       "author": "the Words session",
       "date": "2026-10-19",
       "kind": "spoken",
-      "shippable": true
+      "shippable": false
     },
     {
       "key": "stance.alarm-raise.somebody-has-to-do-something",
@@ -673,7 +673,7 @@
       "author": "the Words session",
       "date": "2026-10-19",
       "kind": "spoken",
-      "shippable": true
+      "shippable": false
     },
     {
       "key": "stance.alarm-raise.i-need-help-right-now",
@@ -692,7 +692,7 @@
       "author": "the Words session",
       "date": "2026-10-19",
       "kind": "spoken",
-      "shippable": true
+      "shippable": false
     },
     {
       "key": "stance.boast-reply-answer-praise.congratulations",
@@ -710,7 +710,7 @@
       "author": "the Words session",
       "date": "2026-10-19",
       "kind": "spoken",
-      "shippable": true
+      "shippable": false
     },
     {
       "key": "stance.boast-reply-answer-praise.well-done",
@@ -728,7 +728,7 @@
       "author": "the Words session",
       "date": "2026-10-19",
       "kind": "spoken",
-      "shippable": true
+      "shippable": false
     },
     {
       "key": "stance.boast-reply-answer-praise.good-for-you",
@@ -746,7 +746,7 @@
       "author": "the Words session",
       "date": "2026-10-19",
       "kind": "spoken",
-      "shippable": true
+      "shippable": false
     },
     {
       "key": "stance.boast-reply-answer-ask.what-happens-now",
@@ -764,7 +764,7 @@
       "author": "the Words session",
       "date": "2026-10-19",
       "kind": "spoken",
-      "shippable": true
+      "shippable": false
     },
     {
       "key": "stance.boast-reply-answer-ask.what-changes-first",
@@ -782,7 +782,7 @@
       "author": "the Words session",
       "date": "2026-10-19",
       "kind": "spoken",
-      "shippable": true
+      "shippable": false
     },
     {
       "key": "stance.boast-reply-answer-doubt.we-ll-see",
@@ -800,7 +800,7 @@
       "author": "the Words session",
       "date": "2026-10-19",
       "kind": "spoken",
-      "shippable": true
+      "shippable": false
     },
     {
       "key": "stance.boast-reply-answer-doubt.time-will-tell",
@@ -818,7 +818,7 @@
       "author": "the Words session",
       "date": "2026-10-19",
       "kind": "spoken",
-      "shippable": true
+      "shippable": false
     },
     {
       "key": "stance.threat-reply-answer-ask.is-that-a-threat",
@@ -836,7 +836,7 @@
       "author": "the Words session",
       "date": "2026-10-19",
       "kind": "spoken",
-      "shippable": true
+      "shippable": false
     },
     {
       "key": "stance.threat-reply-answer-ask.what-does-that-mean",
@@ -854,7 +854,7 @@
       "author": "the Words session",
       "date": "2026-10-19",
       "kind": "spoken",
-      "shippable": true
+      "shippable": false
     },
     {
       "key": "stance.threat-reply-answer-calm.let-it-go",
@@ -872,7 +872,7 @@
       "author": "the Words session",
       "date": "2026-10-19",
       "kind": "spoken",
-      "shippable": true
+      "shippable": false
     },
     {
       "key": "stance.threat-reply-answer-calm.it-s-over",
@@ -890,7 +890,7 @@
       "author": "the Words session",
       "date": "2026-10-19",
       "kind": "spoken",
-      "shippable": true
+      "shippable": false
     },
     {
       "key": "stance.threat-reply-answer-defy.i-m-not-afraid-of-you",
@@ -908,7 +908,7 @@
       "author": "the Words session",
       "date": "2026-10-19",
       "kind": "spoken",
-      "shippable": true
+      "shippable": false
     },
     {
       "key": "stance.threat-reply-answer-defy.do-what-you-have-to-do",
@@ -926,7 +926,7 @@
       "author": "the Words session",
       "date": "2026-10-19",
       "kind": "spoken",
-      "shippable": true
+      "shippable": false
     },
     {
       "key": "stance.alarm-reply-answer-ask.what-happened",
@@ -944,7 +944,7 @@
       "author": "the Words session",
       "date": "2026-10-19",
       "kind": "spoken",
-      "shippable": true
+      "shippable": false
     },
     {
       "key": "stance.alarm-reply-answer-ask.what-did-the-doctor-say",
@@ -962,7 +962,7 @@
       "author": "the Words session",
       "date": "2026-10-19",
       "kind": "spoken",
-      "shippable": true
+      "shippable": false
     },
     {
       "key": "stance.alarm-reply-answer-help.i-ll-help",
@@ -980,7 +980,7 @@
       "author": "the Words session",
       "date": "2026-10-19",
       "kind": "spoken",
-      "shippable": true
+      "shippable": false
     },
     {
       "key": "stance.alarm-reply-answer-help.tell-me-what-you-need",
@@ -998,7 +998,7 @@
       "author": "the Words session",
       "date": "2026-10-19",
       "kind": "spoken",
-      "shippable": true
+      "shippable": false
     },
     {
       "key": "stance.alarm-reply-answer-comfort.it-ll-be-okay",
@@ -1016,7 +1016,7 @@
       "author": "the Words session",
       "date": "2026-10-19",
       "kind": "spoken",
-      "shippable": true
+      "shippable": false
     },
     {
       "key": "stance.alarm-reply-answer-comfort.we-ll-figure-it-out",
@@ -1034,7 +1034,7 @@
       "author": "the Words session",
       "date": "2026-10-19",
       "kind": "spoken",
-      "shippable": true
+      "shippable": false
     }
   ]
 }
