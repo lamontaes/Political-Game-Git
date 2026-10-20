@@ -10,12 +10,14 @@ import { expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { buildBenchWorld } from "../bench/world";
 import { gameStartDate } from "./game-start";
-import { addDays, makeIsoDate } from "./kernel/dates";
+import { addDays, daysBetween, makeIsoDate } from "./kernel/dates";
 import { advanceCore } from "./life";
 import { coreAPI } from "./state";
 import { townSeats } from "./modules/offices";
 import { staffOf } from "./modules/staff";
 
+/** A post younger than this has had no payday: aides hired in the last month are not yet owed a record. */
+const RECENT_POST_DAYS = 30;
 const seed = process.env.STAFF_PAID_SEED ?? randomBytes(8).toString("hex");
 
 function everyAidePaid(place: { name: string; key: string; seed: string }) {
@@ -56,6 +58,11 @@ function everyAidePaid(place: { name: string; key: string; seed: string }) {
       core.work.payrollCalendarByCommitment.get(commitment!.id),
       `${where} ${aide.id} calendar`,
     ).toBeDefined();
+    // A post that began in the last month has not reached a payday yet (the
+    // president's aides are hired a month apart, and the run ends the day
+    // after the last one starts: Mustang, Texas).
+    if (daysBetween(commitment!.startsAt, core.date) < RECENT_POST_DAYS)
+      continue;
     const paid = (payroll.get(api.accounts().main(aide.personId)) ?? []).filter(
       (id) => id.includes(`work-commitment:${aide.jobId}`),
     );
