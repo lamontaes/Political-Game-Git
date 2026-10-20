@@ -22,3 +22,5 @@ claimed-at:
 **Files.** src/core2/corruption.test.ts
 
 **Notes.** TODO
+
+Sent back 2026-10-20 from PR #5759 (branch claude/corruption-two-takes): src/core2/corruption.test.ts:21 still defaults to the fixed corruption-a seed, with no fresh drawn-place case beside the pinned regression. The pool done-when explicitly requires the Hawleyville seed/place and three fresh draws from all 56. The body lists aa11, bb22, cc33 and the fixed default, but supplies no fresh unchosen draws. Keep the failing Hawleyville regression, retain the nonempty two-takes assertion, add a fresh drawn-place path, and provide the three required full seeds and places. Increasing the offerer/target sets alone does not supply that proof.; finish on that branch, merge main into it first.
