@@ -2433,7 +2433,8 @@
     "addedBy": "claude/fill-in-hook",
     "addedAt": "2026-10-17",
     "replacement": "The owner's ruling on carry, cure or close for a counted household's arrears on fill-in (docs/coordination/OWNER-DECISIONS.md).",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "Whether a filled-in household carries arrears depends on the people: a filled-in household carries its group's arrears onto its own lease, then settles part of them at once from the cash its members hold beyond a month of living cost times how far their traits lean toward settling over letting it lapse (the formula decision housing.settle-arrears); what it does not settle stays on the lease for the cure deadline. The case records the cash, living cost, willingness and sum settled."
   },
   {
     "id": "SG-WORLD-board-appointments",
