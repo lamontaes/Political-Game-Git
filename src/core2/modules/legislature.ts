@@ -2917,6 +2917,21 @@ function committeeStage(
   return record;
 }
 
+/** The hearings a body's committee held on a day, each with its witnesses, chair and vote. */
+export function committeeHearingsOn(
+  api: CoreAPI,
+  chamber: string,
+  committee: string,
+  date: string,
+): readonly CommitteeRecord[] {
+  return (
+    table(api, "committees").rows() as unknown as CommitteeRecord[]
+  ).filter(
+    (c) =>
+      c.chamber === chamber && c.committee === committee && c.date === date,
+  );
+}
+
 export function committeeRecords(
   api: CoreAPI,
   billId: string,
