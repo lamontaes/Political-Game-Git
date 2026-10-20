@@ -5,12 +5,12 @@ area: world
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/fs11vb-rr2
 pr: #5331
 blocked-on:
 source: added with npm run pool -- add
-claimed-at:
+claimed-at: 2026-10-20T11:25:59.280Z
 ---
 
 **What.** TODO
