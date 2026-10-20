@@ -4,13 +4,14 @@ title: "An 18-year-old played for eight months gets director moments"
 area: director
 kind: bug
 priority: 3
-status: blocked
+status: open
 claimed-by:
-pr:
-blocked-on: director-civic-producers-government
+pr: #5644
+blocked-on:
+after: director-civic-producers-government
 milestone:
 source: 'docs/coordination/play.md "Needs from other sessions" (line 147); triage in play-needs-play-147'
-claimed-at: 2026-10-16T16:42:43.654Z
+claimed-at:
 ---
 
 **What.** A play-test of an 18-year-old from October 12, 2026 got no director moments in eight months in a two-level town, and none in five months in a normal one. So no big moment ever stops a skip and the staged scenes never play. Find out whether the director measures only people in households, jobs or offices, or something on the merged stack is not reaching a new adult at home. Recheck on main first, since several producers have landed since.
@@ -28,3 +29,7 @@ Rechecked Oct 16 on main (claude/moments-new-adult), not changed. Six places dra
 Checked Oct 16 (claude/director-moments-for-a-new-adult): "no moments" does not reproduce, so the bug as titled is gone. Route (1) above is not available: `src/director/director.test.ts` ("lets a death take over the screen, stop a skip, and log a moment no type stages") records the owner's rule that a big moment with no scene type still stops a skip, so requiring a bound scene would break a ruled behavior. Only route (2) is left, which is binding scene types to `cause.shared` and `speech.heard`, owned by the producers items. The item waits on them (`blocked-on`) and should be dropped by the CTO once those land and a played skip meets a scene.
 
 Oct 20: The Oct 16 claim has no PR and is over two days old, so the claim is cleared.
+
+Oct 20: Switched from blocked to the automatic after: gate on director-civic-producers-government, so it opens by itself the moment those items are done.
+
+Sent back 2026-10-20 from PR #5644 (branch claude/political-game-pool-yucp92-ak): the new test redraws past places where the director never stops the skip (Point of Rocks, Wyoming), so it passes while the bug reproduces, and the moment's trace is not asserted to resolve; the test also sits under src/director, which only the Words session edits; finish on that branch, merge main into it first.

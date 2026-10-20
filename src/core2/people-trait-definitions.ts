@@ -1,8 +1,6 @@
 import { createPersonalityTendencyDefinition } from "./mind-catalog";
-import type {
-  EntityId,
-  PersonalityTendencyDefinition,
-} from "../simulation/types";
+import type { EntityId } from "./kernel/brands";
+import type { PersonalityTendencyDefinition } from "./mind-types";
 
 import {
   PEOPLE_MIND_VERSION,
