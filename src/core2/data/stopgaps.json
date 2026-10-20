@@ -1536,8 +1536,8 @@
     "kind": "missing-mechanic",
     "file": "src/core2/data/laws/reach-group-a.json",
     "line": 545,
-    "whatItFakes": "Ending cash bail records the right on adults and an estimated count of people held before trial, but nobody is arrested or held.",
-    "why": "There is no arrest, charge or jail engine.",
+    "whatItFakes": "Ending cash bail records the right on adults and an estimated count of people held before trial. The justice engine now reads the law for charged officials awaiting a bribery trial (held when they cannot post the estimated $10,000 bail), but no one else is arrested or held and bail is one flat estimate.",
+    "why": "The justice engine hears only corruption cases; there is no arrest engine for other crimes. Oct 19: pretrial detention for charged defendants is built (src/core2/justice-pretrial.ts).",
     "addedBy": "OPUS-GOV (sub-agent A)",
     "addedAt": "2026-10-12",
     "replacement": "GOV: a justice engine with arrests, charges, pretrial detention and release decisions from the law in force.",
@@ -2487,11 +2487,11 @@
     "file": "src/core2/modules/jobs.ts",
     "line": 601,
     "whatItFakes": "A layoff names the business itself as who decided it.",
-    "why": "Businesses have no recorded owners or managers until businesses growing (M1-08).",
+    "why": "Businesses have no recorded owners or managers until businesses growing (M1-08). Resolved Oct 19, 2026: a layoff is decided by the recorded owner, else by the firm's best-paid full worker still on the staff (managerOf in modules/jobs.ts); only a firm with no one left decides as itself.",
     "addedBy": "OPUS-WORLD",
     "addedAt": "2026-10-12",
     "replacement": "The owner or manager person recorded by M1-08, deciding from their own traits and the books.",
-    "status": "open"
+    "status": "resolved"
   },
   {
     "id": "SG-WORLD-jobs-benefits-terms",
@@ -2559,11 +2559,11 @@
     "file": "src/core2/modules/housing.ts",
     "line": 1058,
     "whatItFakes": "An eviction hearing ends in judgment whenever rent is still owed and notice was given, with no judge's discretion, defenses or counsel.",
-    "why": "Courts are parked until after early access (owner, Oct 10).",
+    "why": "Courts are parked until after early access (owner, Oct 10). Resolved Oct 19 by the owner's Oct 14 ruling, 'Evictions without courts: an eviction completes after the state's notice period from the law in force; the household moves as the housing engine moves leavers. No court scene until courts come' (docs/coordination/OWNER-DECISIONS.md, DECISION-REGISTER.md). The hearing step is a dated step of the statute with no judge or scene, which is what the ruling asks for; the courts port is separate work.",
     "addedBy": "OPUS-WORLD",
     "addedAt": "2026-10-12",
     "replacement": "The courts port: a judge deciding from the record, the tenant's defenses and any right to counsel in the law in force.",
-    "status": "open"
+    "status": "resolved"
   },
   {
     "id": "SG-WORLD-business-opening-owners",
@@ -2934,10 +2934,10 @@
   {
     "id": "SG-WORLD-jobs-benefits",
     "kind": "missing-mechanic",
-    "file": "src/core2/modules/jobs.ts",
-    "line": 166,
-    "whatItFakes": "A spell of unemployment pays no unemployment insurance.",
-    "why": "Benefits are paid from state budgets under each state's law (M1-07, OPUS-GOV).",
+    "file": "src/core2/jobs-benefits.ts",
+    "line": 211,
+    "whatItFakes": "Unemployment insurance is built (a claim after a layoff or closure, the state's law in force, a weekly benefit to the worker) but each benefit is paid from the town's outside account, not from the state's unemployment fund, and nothing collects the employers' contributions into that fund.",
+    "why": "Narrowed Oct 17 (claude): the row said a spell of unemployment pays nothing; jobs-benefits.ts pays it from the town's outside account. The state fund and the employer contributions into it need the state treasury on the budgets module (M1-07, OPUS-GOV).",
     "addedBy": "OPUS-WORLD",
     "addedAt": "2026-10-12",
     "replacement": "State unemployment insurance under the law in force, paid through postJournal from the state's fund.",
@@ -3159,8 +3159,8 @@
     "why": "The counted population never changed (owner, Oct 12: the counted rest drifts too).",
     "addedBy": "OPUS-CORE",
     "addedAt": "2026-10-13",
-    "replacement": "County mortality (CDC WONDER), state fertility rates, and each counted household's own health and family state once PEOPLE's engines model the counts.",
-    "status": "open"
+    "replacement": "Deleted Oct 17 (claude/counted-drift-delete): the counted births and deaths are the renewal engine's counted flows (src/core2/births-counted.ts: NCHS state birth rates by mother's age, life-table chances with the state's death-rate ratio, deaths following serious illnesses), registered under SG-PW8-counted-arrivals; the old drift module ran only in life cores without the renewal engine and stood down in every played world.",
+    "status": "resolved"
   },
   {
     "id": "SG-CORE-counted-moves",
@@ -3171,8 +3171,8 @@
     "why": "The counted population should move in and out (owner, Oct 12, ruling 4), and no housing market places counted newcomers yet.",
     "addedBy": "OPUS-CORE",
     "addedAt": "2026-10-13",
-    "replacement": "WORLD's housing engine places newcomers into vacant or new homes; newcomers' makeup, savings and retirement income from ACS in-mover characteristics; leavers take their savings out through the journal.",
-    "status": "open"
+    "replacement": "Deleted Oct 17 (claude/counted-drift-delete): counted people move between places from causes in the counted-moves engine (src/core2/modules/counted-moves.ts), and newcomers are generated by the renewal engine's counted flows (SG-PW8-counted-arrivals); the drift module's own newcomer rule is gone.",
+    "status": "resolved"
   },
   {
     "id": "SG-CORE-counted-drift-named-workers",
