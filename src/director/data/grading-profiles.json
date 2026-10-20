@@ -1,0 +1,94 @@
+{
+  "version": "grading-profiles-1",
+  "note": "Personality profiles the grading bench lays over the speaking character and the player: trait values from the game's own trait list (levels -2 to 2), each chosen from the traits that pull on the acts a talk's decisions weigh (engage, speak-out, withdraw, stay-quiet, trust, distrust; data/content/trait-act-pulls.json). Every other trait is held at the middle. A profile names no scene and no line.",
+  "profiles": [
+    {
+      "key": "warm",
+      "traits": {
+        "people-mind-v1:sociability": 2,
+        "personality-v1:facet-friendly": 2,
+        "personality-v1:facet-affectionate": 2,
+        "personality-v1:facet-comforting": 2,
+        "personality-v1:initial-trust": 2,
+        "personality-v1:facet-forgiving": 1
+      }
+    },
+    {
+      "key": "cold",
+      "traits": {
+        "people-mind-v1:sociability": -2,
+        "personality-v1:facet-friendly": -2,
+        "personality-v1:facet-guarded": 2,
+        "personality-v1:facet-slow-to-warm-up": 2,
+        "personality-v1:facet-intimacy-guarded": 2,
+        "personality-v1:facet-hostile": 1
+      }
+    },
+    {
+      "key": "stubborn",
+      "traits": {
+        "people-mind-v1:conflict": 2,
+        "personality-v1:facet-argumentative": 2,
+        "personality-v1:facet-assertive": 2,
+        "personality-v1:facet-blunt": 1,
+        "personality-v1:facet-open-minded": -2,
+        "personality-v1:facet-skeptical": 1
+      }
+    },
+    {
+      "key": "anxious",
+      "traits": {
+        "personality-v1:facet-shy": 2,
+        "personality-v1:facet-self-conscious": 2,
+        "personality-v1:facet-sensitive": 2,
+        "personality-v1:facet-brooding": 2,
+        "personality-v1:action-despite-fear": -2,
+        "personality-v1:facet-guarded": 1
+      }
+    },
+    {
+      "key": "boastful",
+      "traits": {
+        "personality-v1:facet-cocky": 2,
+        "personality-v1:facet-proud": 2,
+        "personality-v1:facet-brazen": 2,
+        "personality-v1:facet-dramatic": 1,
+        "personality-v1:facet-humble": -2,
+        "personality-v1:facet-charming": 1
+      }
+    },
+    {
+      "key": "liar",
+      "traits": {
+        "personality-v1:truthfulness": -2,
+        "personality-v1:facet-sincere": -2,
+        "personality-v1:facet-manipulative": 2,
+        "personality-v1:facet-self-serving": 2,
+        "personality-v1:initial-trust": -1,
+        "personality-v1:facet-cynical": 1
+      }
+    },
+    {
+      "key": "warm-and-anxious",
+      "traits": {
+        "personality-v1:facet-friendly": 2,
+        "personality-v1:facet-affectionate": 1,
+        "personality-v1:facet-comforting": 1,
+        "personality-v1:facet-shy": 2,
+        "personality-v1:facet-self-conscious": 2,
+        "personality-v1:action-despite-fear": -1
+      }
+    },
+    {
+      "key": "cold-and-boastful",
+      "traits": {
+        "personality-v1:facet-guarded": 2,
+        "personality-v1:facet-friendly": -1,
+        "personality-v1:facet-cocky": 2,
+        "personality-v1:facet-brazen": 2,
+        "personality-v1:facet-humble": -2,
+        "personality-v1:facet-proud": 1
+      }
+    }
+  ]
+}

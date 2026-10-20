@@ -5,9 +5,9 @@ area: gov
 kind: feature
 priority: 2
 size: L
-status: claimed
+status: in-pr
 claimed-by: claude/public-bargaining
-pr:
+pr: #5415
 blocked-on:
 milestone:
 source: "split from laws-family-bargaining; stopgap SG-GOV-REACH-A-bargaining"
