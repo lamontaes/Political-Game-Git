@@ -22,3 +22,5 @@ claimed-at:
 **Files.** src/core2/journal-state.ts, src/core2/journal.ts
 
 **Notes.** Child of core-speed-year-over-limit-dense-town. Profile read Oct 20 with node --cpu-prof; GC is 38.9 s of 210 s and the rest is flat (no function above 6 s).
+
+Released Oct 20 after reading `postCashJournal` (journal-state.ts 1137 on): it is a transactional, bigint-checked writer copying posting rows, capturing secondary markers and building a full projection per entry, about 5.7% of the profiled year. Halving it saves about 3% of the year, so batching postings per day (one projection for many same-source rows) is the only worthwhile cut and needs the journal owner's design; not started.
