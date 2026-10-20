@@ -30,7 +30,7 @@ Rule breaks that reached main:
 Weak tests and overclaims:
 
 9. **#4939:** living-costs test narrowed to households that earn; jobless households' arrears retry daily and grow forever. Add a bound or write-off and a test for it; measure a dense-town year; close #4937 (duplicate).
-10. **#5129:** agreement-jobs-free.test.ts is nearly vacuous and its `jobIdsNamed` lost braces, so it never recurses. Fix the braces, assert named jobs exist, build with `twoLevel: true`, and reproduce the "Invalid relocation" crash the body reported.
+10. **#5129 (fixed in #5511):** agreement-jobs-free.test.ts is nearly vacuous and its `jobIdsNamed` lost braces, so it never recurses. Fix the braces, assert named jobs exist, build with `twoLevel: true`, and reproduce the "Invalid relocation" crash the body reported.
 11. **#4928:** hire test asserts at least one half; make it both halves. Explain or revert the threefold timeouts; run the full residents.test.ts.
 12. **#5016, #5033, #5008, #5020:** tests that loop over flows or rows and pass when there are none. Assert the rows exist first.
 13. **#5286:** one grade makes a piece always win, contradicting its own note. Require several grades or keep variety; release note to impact none until grades exist.
