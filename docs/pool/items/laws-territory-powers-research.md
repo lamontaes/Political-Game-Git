@@ -5,9 +5,9 @@ area: laws
 kind: research
 priority: 3
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/territory-powers
-pr: #5195
+pr: #5576
 blocked-on:
 source: "core-stopgap-policy-authority-missing-record, Oct 15"
 claimed-at: 2026-10-20T06:45:55.133Z
