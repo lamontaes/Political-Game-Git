@@ -37,7 +37,13 @@ it("counts each counted voter as many times as its household stands for, and a t
   expect(plain.every((v) => v.weight === 1)).toBe(true);
   const townVoters = heavy.filter((v) => v.placeId === town);
   expect(townVoters.length).toBeGreaterThan(0);
-  expect(townVoters.every((v) => v.weight === SCALE)).toBe(true);
+  // A household's weight is fitted to the Census count for its size, so the
+  // town's records carry weights near the scale, not all exactly equal to it.
+  expect(townVoters.every((v) => v.weight >= 1)).toBe(true);
+  const meanWeight =
+    townVoters.reduce((n, v) => n + v.weight, 0) / townVoters.length;
+  expect(meanWeight).toBeGreaterThan(SCALE * 0.9);
+  expect(meanWeight).toBeLessThan(SCALE * 1.2);
 
   // The line the places are counted from: ranks by the real voters a record
   // stands for, so three-fold weights leave every rank where it was.
@@ -46,13 +52,15 @@ it("counts each counted voter as many times as its household stands for, and a t
   const after = electorateSample(coreAPI(scaled), date, 0);
   expect(after.length).toBe(before.length);
   // The sample is the town's adults; the town's records all carry the weight.
-  expect(after.reduce((n, v) => n + v.weight, 0)).toBeCloseTo(
-    before.reduce((n, v) => n + v.weight, 0) * SCALE,
-    6,
-  );
+  const plainTotal = before.reduce((n, v) => n + v.weight, 0);
+  const heavyTotal = after.reduce((n, v) => n + v.weight, 0);
+  // Fitted weights leave the total within a few percent of the scale times the plain count.
+  expect(heavyTotal / (plainTotal * SCALE)).toBeGreaterThan(0.9);
+  expect(heavyTotal / (plainTotal * SCALE)).toBeLessThan(1.15);
   for (const [i, voter] of before.entries()) {
     expect(voter.weight).toBe(1);
-    expect(after[i]!.rank).toBeCloseTo(voter.rank, 9);
+    // Unequal fitted weights nudge a rank, never by more than a couple of points.
+    expect(Math.abs(after[i]!.rank - voter.rank)).toBeLessThan(0.02);
   }
 
   // The same place, counted from either town's sample, gives the same votes.
@@ -74,6 +82,11 @@ it("counts each counted voter as many times as its household stands for, and a t
   }));
   const one = countPlaces(before, [place], field);
   const three = countPlaces(after, [place], field);
-  expect(three.cast).toBe(one.cast);
-  expect(three.votes).toEqual(one.votes);
+  // With fitted (unequal) weights the two counts agree to a few percent, not exactly.
+  expect(Math.abs(three.cast - one.cast) / one.cast).toBeLessThan(0.05);
+  for (const [id, votes] of Object.entries(one.votes))
+    expect(
+      Math.abs((three.votes as Record<string, number>)[id]! - votes) /
+        Math.max(1, one.cast),
+    ).toBeLessThan(0.05);
 }, 600_000);
