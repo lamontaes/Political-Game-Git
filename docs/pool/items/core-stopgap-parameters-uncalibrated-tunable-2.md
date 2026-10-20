@@ -4,10 +4,10 @@ title: "Stopgaps in parameters (uncalibrated-tunable): 1 open"
 area: core
 kind: stopgap
 priority: 3
-status: open
+status: blocked
 claimed-by:
 pr:
-blocked-on:
+blocked-on: research data: the row's replacement needs sourced data (Reception calibrated to persuasion experiments by audience and message (Coppock 2023), retelling through friends and the news module, and memory by ag...)
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/data/speech/parameters.json, kind uncalibrated-tunable"
 ---

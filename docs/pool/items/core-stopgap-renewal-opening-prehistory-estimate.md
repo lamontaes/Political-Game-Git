@@ -4,10 +4,10 @@ title: "Stopgaps in renewal (opening-prehistory-estimate): 1 open"
 area: core
 kind: stopgap
 priority: 3
-status: open
+status: blocked
 claimed-by:
 pr:
-blocked-on:
+blocked-on: research data: the row's replacement needs sourced data (OPUS-PEOPLE dated lived pregnancy/resource/medical history, or a finisher/CTO accepted reconstruction with validated first-year calibration....)
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/modules/renewal.ts, kind opening-prehistory-estimate"
 ---
