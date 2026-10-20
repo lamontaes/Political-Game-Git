@@ -5,13 +5,13 @@ area: core
 kind: feature
 priority: 3
 size: M
-status: claimed
-claimed-by: claude/tuition-counted
+status: open
+claimed-by:
 pr:
 blocked-on:
 after: core-private-tuition-yearly-reenrollment
 source: added with npm run pool -- add
-claimed-at: 2026-10-20T03:41:34.044Z
+claimed-at:
 ---
 
 **What.** Full families hold tuition contracts the yearly re-ranking can start and end, but counted families have no such contract, so the wider population never pays private tuition and the town's private share is met by full families alone. Give each counted group the same rule times its weight: the counted households are ranked with the full families on cash per child, and the private-school seats they take come out of the same town share, paid as a purchase flow that fill-in takes back contract by contract.
