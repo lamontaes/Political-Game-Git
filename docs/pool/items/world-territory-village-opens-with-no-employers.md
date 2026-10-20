@@ -5,11 +5,12 @@ area: world
 kind: bug
 priority: 1
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/territory-employers
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-20T04:51:04.582Z
 ---
 
 **What.** src/core2/world-game.test.ts draws its place from the fixed seed 'world-game' and has failed on main since PR #5322 (territory-places-census, merge 879ce4651e; it passes at 879ce4651e^1). The test's place is territory:AS:faleasao, and after #5322 gave island villages a Census sourceGeoid and their real size, the opening builds 42,425 residents but no organizations and no jobs: the employment receipt shows employmentTarget 4867, supportedSourceWeight 0 and every role omitted with 'No recorded employer identity'. newGame then throws 'No eligible recorded adult worker in territory:AS:faleasao' at src/core2/tooling/generated-world.ts:106, so a player choosing an island village cannot start a game.
