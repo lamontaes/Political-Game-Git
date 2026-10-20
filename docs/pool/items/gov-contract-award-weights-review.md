@@ -5,11 +5,11 @@ area: gov
 kind: research
 priority: 2
 size: S
-status: claimed
+status: blocked
 claimed-by: claude/political-game-pool-yucp92-s
 pr:
 after:
-blocked-on:
+blocked-on: design: members need a second read of each firm before their traits can change a ranking; see the Notes
 milestone:
 source: "post-merge audit Oct 19 evening, item 7 (PR #5166)"
 claimed-at: 2026-10-20T01:27:02.279Z

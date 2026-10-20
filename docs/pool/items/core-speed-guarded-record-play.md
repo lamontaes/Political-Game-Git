@@ -5,11 +5,12 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/speed-guarded-record
+pr: #5392
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-20T01:44:23.421Z
 ---
 
 **What.** A profile of a played year in Discovery Harbour, Hawaii (seed m7a) shows guardedRecord in work-pay-period.ts at 0.6 seconds of self time, 1.2 percent of the year. It copies every payday calendar, basis, shift and request record into a fresh null-prototype object on every read, which only the bookkeeping read guard needs. Read tracing runs in tests and the bench, not in play.

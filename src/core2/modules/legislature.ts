@@ -3133,6 +3133,12 @@ function floorAmendments(
       ];
       if (bound.some((m) => positionOn(api, amended, m).total <= 0)) continue;
       if (positionOn(api, amended, k).total <= 0) continue;
+      // A section others dislike can cost the bill more votes than the
+      // holdout brings: the sponsor trades only to end with more support.
+      const backing = roll.filter(
+        (m) => positionOn(api, amended, m).total > 0,
+      ).length;
+      if (backing <= yes) continue;
       adopt(section, k, "trade-amendment");
     }
   }

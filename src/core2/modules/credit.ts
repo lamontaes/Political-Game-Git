@@ -127,7 +127,7 @@ export function townBankFor(input: CoreInput): TownBank | undefined {
         );
   if (!(townPeople > 0)) return undefined;
   if (!(deposits > 0) || !(countyPeople > 0)) {
-    // No county deposit table for this place (most island areas): deposits per resident, estimated.
+    // No county deposit row for this place (American Samoa has no FDIC branch): deposits per resident, estimated.
     stopgap("SG-WORLD-credit-island-deposits");
     const perPerson = fallbackDeposits(
       place?.stateJurisdictionKey ?? undefined,
