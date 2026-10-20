@@ -34,7 +34,7 @@ it("illnesses under way at the opening are booked and counted people die from th
   let proof: string | undefined;
   for (let draw = 0; draw < DRAWS && !proof; draw++) {
     const place = drawPlace(`${seed}-${draw}`, "counted-deaths-opening");
-    const where = `seed ${place.seed}, ${place.name} (${place.key})`;
+    const where = `GOLDEN_PATH_SEED ${seed} draw ${draw} (place seed ${place.seed}), ${place.name} (${place.key})`;
     setBookkeeping(false);
     const { core } = buildBenchWorld(place.seed, gameStartDate(), {
       twoLevel: true,
