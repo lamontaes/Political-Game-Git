@@ -18,6 +18,8 @@ import type {
   Source,
 } from "../types";
 import { registerWorldMapPart } from "../snapshot";
+import { lawApplied } from "../law-reach/applied";
+import { residentsRuntime } from "./residents";
 
 export const PURCHASE_TAX_MODULE_ID = "core2-purchase-tax-v1";
 
@@ -31,8 +33,21 @@ export interface PurchaseTaxInput {
   payeeAccountId: string;
   /** Purchase kinds taxed; all purchase kinds when left out. */
   kinds?: readonly string[];
-  /** Sellers whose classification starts with one of these are exempt. */
-  exemptClassificationPrefixes?: readonly string[];
+  /**
+   * Part of what sellers of a classification sell is exempt: the share of
+   * their sales (0 to 1) the tax skips, for sellers whose classification
+   * starts with the prefix (a share of 1 exempts the seller entirely).
+   * `lawKey` and `lawId` name the exemption law, recorded as applied to each
+   * buyer and seller whose sale it spared.
+   */
+  exemptions?: readonly {
+    readonly classificationPrefix: string;
+    readonly share: number;
+    readonly lawKey?: string;
+    readonly lawId?: string;
+  }[];
+  /** The law rows this tax enforces (policy key and row id), each recorded as applied to every seller it taxes. */
+  laws?: readonly { readonly key: string; readonly lawId: string }[];
   /** First day in force; the next day when left out. */
   from?: IsoDate;
   source: Source;
@@ -116,6 +131,96 @@ export function taxInside(paidMinor: number, ratePercent: number): number {
   return Math.floor((paidMinor * ratePercent) / (100 + ratePercent));
 }
 
+interface Pending {
+  readonly key: string;
+  readonly lawId: string;
+  readonly targetId: string;
+  readonly target: "person" | "group" | "organization";
+  /** The place whose counted residents a group target stands for. */
+  readonly countedIn?: PlaceId;
+  readonly what: string;
+  amountMinor: number;
+}
+
+/**
+ * What the day's sales did to each law's targets, summed per law and target
+ * and recorded once when the day ends: a law row per sale would write the
+ * same few rows thousands of times.
+ */
+const pending = new WeakMap<CoreState, Map<string, Pending>>();
+
+function note(
+  core: CoreState,
+  input: Omit<Pending, "amountMinor">,
+  minor: number,
+) {
+  let day = pending.get(core);
+  if (!day) pending.set(core, (day = new Map()));
+  const id = `${input.key}|${input.lawId}|${input.targetId}|${input.what}`;
+  const held = day.get(id);
+  if (held) held.amountMinor += minor;
+  else day.set(id, { ...input, amountMinor: minor });
+}
+
+/** Record the day's sums as applied rows; a counted group stands for its place's weighted counted people. */
+function flushApplied(api: CoreAPI): void {
+  const day = pending.get(api.state);
+  if (!day?.size) return;
+  const people = new Map<string, number>();
+  for (const row of day.values()) {
+    let count: number | undefined;
+    if (row.target === "group") {
+      count = people.get(row.countedIn!);
+      if (count === undefined) {
+        count =
+          residentsRuntime(api.state)?.store.weightedPeople(row.countedIn!) ??
+          1;
+        people.set(row.countedIn!, count);
+      }
+    }
+    lawApplied(api, {
+      key: row.key,
+      lawId: row.lawId,
+      targetId: row.targetId,
+      target: row.target,
+      ...(count === undefined ? {} : { count: Math.max(1, count) }),
+      engine: PURCHASE_TAX_MODULE_ID,
+      what: row.what,
+      amountMinor: row.amountMinor,
+    });
+  }
+  day.clear();
+}
+
+/** A sale's buyers and seller, noted under a law: money is the buyers' (positive: tax paid; negative: tax spared). */
+function noteSale(
+  core: CoreState,
+  sale: SalesReceiptNotice,
+  law: { readonly key: string; readonly lawId: string },
+  what: string,
+  buyersMinor: number,
+  sellerMinor: number,
+): void {
+  const share = Math.round(buyersMinor / Math.max(1, sale.buyerIds.length));
+  for (const buyerId of sale.buyerIds)
+    note(
+      core,
+      {
+        ...law,
+        targetId: buyerId,
+        target: sale.counted ? "group" : "person",
+        ...(sale.counted ? { countedIn: sale.placeId } : {}),
+        what,
+      },
+      share,
+    );
+  note(
+    core,
+    { ...law, targetId: sale.sellerId, target: "organization", what },
+    sellerMinor,
+  );
+}
+
 function collect(api: CoreAPI, sale: SalesReceiptNotice): void {
   const core = api.state;
   const rows = runtimes.get(core);
@@ -127,14 +232,35 @@ function collect(api: CoreAPI, sale: SalesReceiptNotice): void {
     if (tax.from > sale.date || tax.placeId !== seller.placeId) continue;
     if (tax.kinds && !tax.kinds.includes(sale.kind)) continue;
     const classification = seller.classification ?? "";
-    if (
-      tax.exemptClassificationPrefixes?.some((prefix) =>
-        classification.startsWith(prefix),
-      )
-    )
-      continue;
-    const amountMinor = taxInside(sale.paidMinor, tax.ratePercent);
+    const exempt = tax.exemptions?.find((row) =>
+      classification.startsWith(row.classificationPrefix),
+    );
+    const taxable = exempt
+      ? sale.paidMinor * (1 - exempt.share)
+      : sale.paidMinor;
+    const amountMinor = taxInside(taxable, tax.ratePercent);
+    if (exempt && exempt.lawKey && exempt.lawId) {
+      const spared = taxInside(sale.paidMinor, tax.ratePercent) - amountMinor;
+      if (spared > 0)
+        noteSale(
+          core,
+          sale,
+          { key: exempt.lawKey, lawId: exempt.lawId },
+          "sales-tax-exempt",
+          -spared,
+          -spared,
+        );
+    }
     if (amountMinor <= 0) continue;
+    for (const law of tax.laws ?? [])
+      noteSale(
+        core,
+        sale,
+        law,
+        "sales-tax-paid",
+        amountMinor / tax.laws!.length,
+        amountMinor / tax.laws!.length,
+      );
     // Tax left unremitted earlier is added to this remittance and paid first.
     const key = `${tax.id}:${seller.id}`,
       prior = arrearsRows(core).get(key),
@@ -165,4 +291,5 @@ function collect(api: CoreAPI, sale: SalesReceiptNotice): void {
 export const PURCHASE_TAX_MODULE: CoreModule = {
   id: PURCHASE_TAX_MODULE_ID,
   onSalesReceipt: collect,
+  onAfterDay: flushApplied,
 };
