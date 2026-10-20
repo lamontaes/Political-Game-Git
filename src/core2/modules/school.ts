@@ -27,8 +27,21 @@ const ageOn = (birthDate: string, date: string) => {
   return date.slice(5) < birthDate.slice(5) ? years - 1 : years;
 };
 
+/** A date is a school day or not for the whole run: kept once worked out. */
+const SCHOOL_DAYS = new Map<string, boolean>();
+const SCHOOL_DAYS_LIMIT = 50_000;
+
 /** A weekday inside the school year, outside its recorded breaks. */
 export function isSchoolDay(date: string): boolean {
+  const held = SCHOOL_DAYS.get(date);
+  if (held !== undefined) return held;
+  const result = schoolDayOn(date);
+  if (SCHOOL_DAYS.size >= SCHOOL_DAYS_LIMIT) SCHOOL_DAYS.clear();
+  SCHOOL_DAYS.set(date, result);
+  return result;
+}
+
+function schoolDayOn(date: string): boolean {
   const day = new Date(`${date}T00:00:00Z`).getUTCDay();
   if (day === 0 || day === 6) return false;
   const md = date.slice(5);
