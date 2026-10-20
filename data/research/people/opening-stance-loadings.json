@@ -10,6 +10,16 @@
     "weight": "commonweight",
     "respondents": 57704
   },
+  "predictors": {
+    "faithMeanByGroup": {
+      "catholic": 0.5742,
+      "none": 0.1911,
+      "other-faith": 0.5475,
+      "protestant": 0.6938
+    },
+    "nationalFaithMean": 0.4872,
+    "collegeShare": 0.3273
+  },
   "script": "scripts/research/build-stance-loadings.py",
   "questions": {
     "civil-family-community.restrict-abortion": {
