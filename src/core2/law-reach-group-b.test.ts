@@ -539,6 +539,17 @@ describe("law reach, group B: every policy reaches people through its engine", (
     const restored = lawInForce(api, "income-tax").levels.find(
       (l) => l.level === LOCAL,
     )?.row;
+    if (String(restored?.terms?.enactedBy ?? "").startsWith("flatten:")) {
+      // The level's tax was a graduated schedule (Guam's follows the federal
+      // one, and an earlier case in this file may have flattened it): repealing
+      // the act replaces the schedule with the level's flat rate
+      // (SG-GOV-REACH-B-flat-tax-replacement), a tax it wrote that still
+      // reaches workers, so the person rows stand and the schedule is gone.
+      expect(restored?.terms?.schedules, `${where} schedule`).toBeUndefined();
+      expect(restored?.unit, `${where} flat tax`).toBe("percent-flat");
+      return;
+    }
+    expectEnded(key);
     expect(restored?.value ?? 0).toBe(prior?.value ?? 0);
     // Where the level's own tax is graduated, a "no" flattens it
     // (SG-GOV-REACH-B-flat-tax-replacement), and that flat law reaches the
@@ -822,8 +833,11 @@ describe("law reach, group B: every policy reaches people through its engine", (
       );
       const rows = open();
       const named = rows.filter((r) => api.state.people.has(r.recipientId));
-      const countedRow = rows.find((r) => !api.state.people.has(r.recipientId));
-      return { heads, reachedIds, named, countedRow };
+      // Counted households are paid into their own group's fund, one row a group.
+      const countedRows = rows.filter(
+        (r) => !api.state.people.has(r.recipientId),
+      );
+      return { heads, reachedIds, named, countedRows };
     };
     enact(work, 1, "state");
     // The law writes no second record: the benefit is where it is read.
@@ -865,9 +879,12 @@ describe("law reach, group B: every policy reaches people through its engine", (
       (h) => !h.named && !past.reachedIds.has(h.id),
     ).length;
     if (rate > 0 && countedDrawing > 0)
-      expect(past.countedRow?.amountMinor, `${where} pooled payment`).toBe(
-        rate * countedDrawing,
-      );
+      expect(
+        past.countedRows.reduce((n, r) => n + r.amountMinor, 0),
+        `${where} counted groups' payments`,
+      ).toBe(rate * countedDrawing);
+    for (const row of past.countedRows)
+      expect(row.recipientId, `${where} ${row.id}`).toMatch(/^fund-account:/);
     report.assistanceWork = {
       heads: past.heads.length,
       stopped: stopped.length,
