@@ -22,3 +22,5 @@ claimed-at:
 **Files.** src/core2/births-plan.ts,src/core2/modules/renewal.ts,src/core2/births-full-web.test.ts
 
 **Notes.** TODO
+
+Sent back 2026-10-20 from PR #5738 (branch claude/couples-plan-share): docs/pool/items/people-full-couples-plan-share-fell.md:20 requires births within the CDC age-band spreads in three drawn one-year buildBenchWorld runs, plus planning couples record ids. The PR explicitly reports 3 births against about 38 expected and omits those ids; notes alone do not meet that done-when. Please finish the required proof and behavior before resubmission.; finish on that branch, merge main into it first.
