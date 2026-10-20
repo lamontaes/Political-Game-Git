@@ -35,6 +35,11 @@ export type Shape =
 export interface WebLink {
   readonly key: string;
   readonly from: string;
+  /**
+   * The measure the new core reads the cause from when it is not `from` (the
+   * old engine's name): an engine's own records, e.g. the victimization index.
+   */
+  readonly readFrom?: string;
   readonly to: string;
   readonly shape: Shape;
   readonly size: number | null;
@@ -110,7 +115,11 @@ const CAUSE_FROM =
   (local as { causeFrom?: Readonly<Record<string, string>> }).causeFrom ?? {};
 export const WEB_LINKS = (web.links as unknown as readonly WebLink[]).map(
   (link) =>
-    CAUSE_FROM[link.key] ? { ...link, from: CAUSE_FROM[link.key]! } : link,
+    link.readFrom
+      ? { ...link, from: link.readFrom }
+      : CAUSE_FROM[link.key]
+        ? { ...link, from: CAUSE_FROM[link.key]! }
+        : link,
 );
 export const WEB_VERSION = web.version;
 /** The date the research's base levels describe; laws in force then are the baseline. */
@@ -138,18 +147,19 @@ const ENGINE = local.engineMeasures as Readonly<
     string,
     {
       readonly owner: string;
-      /** The field of a world-metrics month row the measure reads. */
+      /** The field of a month row the measure reads (world-metrics', else the engine's own table). */
       readonly field: string;
       /** Or a named reader of an engine's own record (src/core2/modules/outcome-web.ts). */
       readonly reader?: string;
       readonly unitScale: number;
       /** The engine's record is the kept outcome itself; links into it do not run. */
       readonly ownsOutcome?: boolean;
+      /** An engine that keeps its own month rows by place: its module and table (rows have `placeId`, `date`, `id`). */
+      readonly module?: string;
+      readonly table?: string;
     }
   >
 >;
-/** The outcome web's module id (here so engines can read the web without loading its module). */
-export const OUTCOME_WEB_MODULE_ID = "core2-outcome-web-v1";
 export const LAW_PREFIX = "law:";
 /** An index outcome reads 100 where the place began. */
 const INDEX_START = local.indexStart;

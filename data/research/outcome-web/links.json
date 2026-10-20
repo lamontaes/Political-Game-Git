@@ -4096,7 +4096,9 @@
       "evidence": "researched",
       "range": [0.01, 0.01],
       "floor": 0.25,
-      "ceiling": 3
+      "ceiling": 3,
+      "readFrom": "crime.violent-victimization-index",
+      "notes": "The new core reads the cause from the victimization records' own index of robbery and assault per person 12 and older, 100 at the town's first month (src/core2/modules/crime.ts), not from the web's ledger; `from` stays as the old engine reads it."
     },
     {
       "key": "crime-level-to-robbery",
@@ -4118,7 +4120,9 @@
       "evidence": "researched",
       "range": [0.01, 0.01],
       "floor": 0.25,
-      "ceiling": 3
+      "ceiling": 3,
+      "readFrom": "crime.violent-victimization-index",
+      "notes": "The new core reads the cause from the victimization records' own index of robbery and assault per person 12 and older, 100 at the town's first month (src/core2/modules/crime.ts), not from the web's ledger; `from` stays as the old engine reads it."
     },
     {
       "key": "crime-level-to-assault",
@@ -4140,7 +4144,9 @@
       "evidence": "researched",
       "range": [0.01, 0.01],
       "floor": 0.25,
-      "ceiling": 3
+      "ceiling": 3,
+      "readFrom": "crime.violent-victimization-index",
+      "notes": "The new core reads the cause from the victimization records' own index of robbery and assault per person 12 and older, 100 at the town's first month (src/core2/modules/crime.ts), not from the web's ledger; `from` stays as the old engine reads it."
     },
     {
       "key": "crime-level-to-vandalism",
@@ -4162,7 +4168,9 @@
       "evidence": "researched",
       "range": [0.01, 0.01],
       "floor": 0.25,
-      "ceiling": 3
+      "ceiling": 3,
+      "readFrom": "crime.violent-victimization-index",
+      "notes": "The new core reads the cause from the victimization records' own index of robbery and assault per person 12 and older, 100 at the town's first month (src/core2/modules/crime.ts), not from the web's ledger; `from` stays as the old engine reads it."
     },
     {
       "key": "births-level-to-births",

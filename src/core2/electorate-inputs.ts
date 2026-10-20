@@ -17,6 +17,7 @@ import {
 } from "./law-reach/group-a-voting";
 import { CAMPAIGNS_MODULE_ID } from "./modules/campaigns";
 import { OFFICES_MODULE_ID, type TermRow } from "./modules/offices";
+import { crimeChange } from "./modules/crime";
 import { OUTCOME_WEB_MODULE_ID, placeOutcome } from "./modules/outcome-web";
 import { recordAppeal } from "./modules/record";
 import type { CoreAPI, PersonState } from "./types";
@@ -307,24 +308,11 @@ export function raceConditions(
   };
 }
 
-/** The town's unemployment (points) and crime (share above base) against the outcome web's base. */
+/** The town's unemployment (points) against the outcome web's base, and crime (share above its first month) from the victimization records. */
 function townConditions(api: CoreAPI, placeId: string) {
   if (!api.state.modules.has(OUTCOME_WEB_MODULE_ID))
     return { unemploymentChange: 0, crimeChange: 0 };
   const jobs = placeOutcome(api, placeId, "labor.unemployment-pct");
-  let crime = 0,
-    counted = 0;
-  for (const measure of [
-    "crime.burglary",
-    "crime.robbery",
-    "crime.assault",
-    "crime.vandalism",
-  ]) {
-    const row = placeOutcome(api, placeId, measure);
-    if (!row?.base) continue;
-    crime += row.value / row.base - 1;
-    counted += 1;
-  }
   return {
     unemploymentChange:
       jobs && jobs.base !== undefined ? jobs.value - jobs.base : 0,
@@ -339,7 +327,8 @@ function townConditions(api: CoreAPI, placeId: string) {
           },
         }
       : {}),
-    crimeChange: counted ? crime / counted : 0,
+    // The crimes that happened to the town's households, from the victimization records.
+    crimeChange: crimeChange(api, placeId),
   };
 }
 
