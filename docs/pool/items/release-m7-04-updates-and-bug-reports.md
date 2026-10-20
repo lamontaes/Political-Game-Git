@@ -11,6 +11,7 @@ pr:
 blocked-on:
 milestone: M7
 source: "docs/roadmap/later-specs-draft.md M7-04"
+claimed-at:
 ---
 
 **What.** Automatic updates, content updates without a reinstall, in-game bug reports with logs, crash reports. (Owner: Anyone free.)

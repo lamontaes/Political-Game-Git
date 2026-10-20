@@ -5,11 +5,12 @@ area: gov
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/firearm-storage-extra-duty
+pr: #5371
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-20T01:09:02.840Z
 ---
 
 **What.** The focused household-firearms test still fails on exact clean main 4f4c069a5c4c04d5a322934429475b018d2b679c with HOUSEHOLD_FIREARMS_SEED=2724fc27c0417f7c (Atascadero, CA0603064): storage-duty rows contain 24 people while the effective-date household and ownership records expect 20. PR #4998 preserves the exact set assertion and corrects only the age reference date; the same four extra person IDs occur before and after that PR. Diagnose the record mismatch at its cause.
