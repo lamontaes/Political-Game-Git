@@ -1,6 +1,8 @@
 ---
 id: core-household-membership-change
-impact: none
+impact: patch
+section: Improved
+title: When part of a household moves, the rent follows those who stay
 ---
 
-Source only: the call people-partnership and leaving-home work will use; no change to the game yet.
+The call people-partnership and leaving-home work will use. When part of a household moves, the lease payers are handed to those who stay, so the rent follows the people still in the home.

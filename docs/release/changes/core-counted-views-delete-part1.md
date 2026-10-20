@@ -5,4 +5,4 @@ section: Improved
 title: Housing, metrics, campaigns and drift read counted households from the groups
 ---
 
-Housing occupancy, building, the town's monthly metrics, the campaign day's door count and the monthly drift of the wider population read counted households from the groups' store, not through a map of built records.
+Housing occupancy, building, the town's monthly metrics and the campaign day's door count read counted households from the groups' store, not through a map of built records.

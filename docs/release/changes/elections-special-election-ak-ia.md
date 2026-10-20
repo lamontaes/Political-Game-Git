@@ -3,4 +3,4 @@ id: elections-special-election-ak-ia
 impact: none
 ---
 
-Two states' special election timing is now read from their law in the data; no change a player would notice yet.
+Special-election timing for 51 House rows and 30 legislative rows is now read from each state's law in the data; 22 House rows still use the flat estimate. No change a player would notice yet.
