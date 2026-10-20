@@ -129,5 +129,6 @@ describe(`leaving takes the web's factors (${place.name}, seed ${seed})`, () => 
     expect(rent.counted).toBeGreaterThan(none.counted * 0.7);
     expect(crime.counted).toBeGreaterThan(none.counted);
     expect(crime.counted).toBeLessThan(none.counted * 1.2);
+    // Three two-level worlds of 40 days each, waiting for a shared test slot.
   }, 1_800_000);
 });
