@@ -10,6 +10,7 @@
     "child-access-law-to-youth-gun-deaths",
     "stand-your-ground-to-homicide",
     "min-age-to-youth-gun-suicide",
+    "crime-to-out-migration",
     "speed-limit-to-traffic-deaths",
     "particles-to-infant-deaths",
     "emission-rules-to-particulates",
@@ -155,10 +156,6 @@
     },
     "release-lower-level-to-larceny": {
       "waitingOn": ["law.low-level-offense-reclassified", "crime.larceny"]
-    },
-    "crime-to-out-migration": {
-      "waitingOn": [],
-      "needsSize": true
     },
     "congestion-to-premature-births": {
       "waitingOn": [

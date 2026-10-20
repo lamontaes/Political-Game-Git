@@ -5,11 +5,12 @@ area: gov
 kind: bug
 priority: 2
 size: M
-status: open
-claimed-by:
+status: blocked
+claimed-by: claude/political-game-pool-yucp92-av
 pr:
-blocked-on:
+blocked-on: world-territory-village-opens-with-no-employers
 source: added with npm run pool -- add
+claimed-at: 2026-10-20T11:52:48.145Z
 ---
 
 **What.** The merge audit asked for a pinned regression case territory:VI:charlotte-amalie-east, seed p3, in src/core2/staff-paid-every-place.test.ts. It fails on main: after 120 days all 19 aides hold the post without a job. Cause found Oct 20: startPublicJob (src/core2/public-payroll.ts) copies a schedule and payday from a full person's job, and in this world none of the 1,426 full-tier jobs has hours or a work commitment and calendar (the town's only jobs are zero-hour office seats), so every hire returns null. PR #5559's scheduleFromPlaceId points at the town, which holds the same seats. Counted jobs (residentsRuntime) carry schedules but are not read by startPublicJob.
