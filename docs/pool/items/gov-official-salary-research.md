@@ -5,11 +5,12 @@ area: gov
 kind: research
 priority: 3
 size: M
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/official-salary-table-test
+pr: #5312
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-20T00:09:25.050Z
 ---
 
 **What.** Governors and 29 states' legislators are paid sourced figures (data/source/official-office-pay/facts.json), but every lieutenant governor, attorney general, secretary of state and treasurer, the legislators of the other states, and the governors of Alabama, Indiana, Kentucky, D.C. and American Samoa still come from recalled values in data/research/offices/official-salaries-2026.json, marked ESTIMATED with a spread read from how far the recalled governor and legislator figures were from the sourced ones. Read each of those from the state's statute or compensation schedule, add them to the sourced facts, and drop the recalled row once its figure is cited.
@@ -21,3 +22,5 @@ source: added with npm run pool -- add
 **Files.** data/source/official-office-pay/facts.json, data/research/offices/official-salaries-2026.json, src/core2/modules/official-pay.ts
 
 **Notes.** Split out of gov-official-salary-through-payroll (Oct 16), which pays officials by paycheck and carries each figure's provenance. Ballotpedia and NCSL both refused automated reads in that session.
+
+Tried Oct 19 (claude): three web searches for the Alabama, Indiana and Kentucky governors' current pay returned statute tables of contents, older code editions and news snippets with conflicting figures (Indiana's new pay is tied to a justice's pay and the two reports quote $221,024 and $198,513), and no official schedule. A figure read from a snippet would be tagged SOURCED without being checked against the statute, so none was added. This needs fetching the statute or the state's compensation schedule page itself (apps.legislature.ky.gov, the Indiana Supreme Court schedule, the Code of Alabama 36-6-8), which search results do not return.
