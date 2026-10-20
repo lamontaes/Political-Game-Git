@@ -320,8 +320,5 @@
       "business": "OPUS-WORLD",
       "economy": "OPUS-WORLD"
     }
-  },
-  "causeFrom": {
-    "property-tax-to-rent": "housing.property-tax-rate"
   }
 }
