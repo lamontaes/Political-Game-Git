@@ -3733,7 +3733,8 @@
     "addedBy": "OPUS-PEOPLE",
     "addedAt": "2026-10-14",
     "replacement": "An interview subject in the director's conversation: the reporter asks each question as a line, the four moves and the lie are the player's choices, and the chosen move is passed to answerInterview.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "Done Oct 20 (gov-press-interview-conversation): src/director/press-interview.ts opens an invited interview as a conversation. The reporter asks each question as a mined interview-bank line; the answer is one of the conversation's moves worded from the bank's official parts (plain, brief, a further fact from the player's recorded vote, turning it on a rival where the race has one, the lie as the vote the record contradicts, or declining); finishInterviewTalk passes the chosen move to answerInterview. src/director/press-interview.test.ts follows one in a played world to the printed story and its readers."
   },
   {
     "id": "SG-PEOPLE-press-bring-it-up-row",

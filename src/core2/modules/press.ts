@@ -1572,8 +1572,6 @@ export function answerInterview(
     InterviewRow | undefined;
   if (!row || row.status !== "invited")
     throw new Error(`No interview waiting: ${interviewId}`);
-  // stopgapId: SG-PEOPLE-press-interview-conversation
-  api.stopgap("SG-PEOPLE-press-interview-conversation");
   const speaker = speakerOf(api, row);
   const given = row.questions.map((question): InterviewAnswer => {
     const answer = answers.find((a) => a.question === question);
@@ -1595,7 +1593,7 @@ export function answerInterview(
 }
 
 /** Who an interview row is with: the filing's candidate, else the officeholder. */
-function speakerOf(api: CoreAPI, row: InterviewRow): Speaker {
+export function speakerOf(api: CoreAPI, row: InterviewRow): Speaker {
   if (row.filingId) {
     const filing = api
       .moduleState(ELECTIONS_MODULE_ID)
