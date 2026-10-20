@@ -5,12 +5,12 @@ area: release
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
-pr: #5196
+status: in-pr
+claimed-by: claude/pool-speech-voices
+pr: #5763
 blocked-on:
 source: added with npm run pool -- add
-claimed-at:
+claimed-at: 2026-10-20T23:20:13.516Z
 ---
 
 **What.** TODO
