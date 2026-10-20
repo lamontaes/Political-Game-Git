@@ -4,7 +4,7 @@ title: "Stopgaps in drives (missing-mechanic): 4 open"
 area: people
 kind: stopgap
 priority: 3
-status: in-pr
+status: open
 claimed-by:
 pr: #5578
 blocked-on:
