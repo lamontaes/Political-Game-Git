@@ -17,6 +17,7 @@ import {
   housingStatusCounts,
   housingStatusOf,
   reviewHomeless,
+  shelterRateFor,
   type HousingStatusRow,
 } from "./housing-homeless";
 import type { CoreInput, PersonInput, Source } from "./types";
@@ -382,5 +383,21 @@ describe("an owner who stops paying the mortgage", () => {
     expect(
       core.finance.contracts.get("mortgage:household:owner")!.endedAt,
     ).toBe(row.removedAt);
+  });
+});
+
+describe("shelter beds per 10,000 by place", () => {
+  it("gives American Samoa and the Marianas the island-area median, not the nation's rate", () => {
+    const islands = ["GU", "PR", "VI"]
+      .map((k) => (shelterData.bedsPer10k as Record<string, number>)[k]!)
+      .sort((a, b) => a - b);
+    for (const usps of ["AS", "MP"]) {
+      expect(shelterRateFor(usps), usps).toBe(islands[1]);
+      expect(shelterRateFor(usps), usps).toBeLessThan(
+        shelterData.nationalBedsPer10k,
+      );
+    }
+    expect(shelterRateFor("GU")).toBe(6.18);
+    expect(shelterRateFor("NY")).toBe(shelterData.bedsPer10k.NY);
   });
 });

@@ -21,3 +21,5 @@ source: "data/research/stopgaps-oct19/README.md"
 **Files.** data/research/stopgaps-oct19/, src/core2/data/stopgaps.json
 
 **Notes.** The rows still blocked on the Census API key are named in the README.
+
+Applied Oct 20 (claude, PR for D-economy-world): SG-WORLD-housing-shelter-territory (island-area median 6.18, spread 2.47 to 10.9, data `estimated` block + `shelterRateFor` + test; row kept open with revised text since the replacement is each territory's own count). Next in D: SG-WORLD-housing-foreclosure-steps needs the place's process class plumbed to housing-foreclosure.ts before the 174/2007/2293 fills apply; SG-WORLD-macro-mortgage-spread is a constant-to-table swap in macro-model.ts; rows whose note says Bernoulli (SG-M1-opening-pregnancies) break the no-dice rule and need a rewrite, not a copy.
