@@ -5,9 +5,9 @@ area: elections
 kind: feature
 priority: 3
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/polls-core2
-pr:
+pr: #5311
 after:
 blocked-on:
 milestone:
