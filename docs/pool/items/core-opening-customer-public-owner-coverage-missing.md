@@ -5,11 +5,12 @@ area: core
 kind: bug
 priority: 2
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/political-game-pool-3xfqef-21
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-20T06:06:45.122Z
 ---
 
 **What.** GOLDEN_PATH_SEED=5e6f7a8b npx vitest run src/core2/player-money-year.test.ts throws Error: Actual customer public owner coverage record is missing while the world opens (the place is drawn from the seed). Found Oct 20 on main while checking world-town-public-works-staff-never-paid. A customer whose payee is a public owner has no coverage record in that place; find the producer that should write it and why this place skips it.
