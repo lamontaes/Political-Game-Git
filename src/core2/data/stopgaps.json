@@ -4867,5 +4867,29 @@
     "addedAt": "2026-10-17",
     "replacement": "Each department's employing government read from the Census of Governments employment file by function, so a county health department, a fire district or a state agency's field office pays its own staff.",
     "status": "open"
+  },
+  {
+    "id": "SG-WEB-housing-links-unsized",
+    "kind": "missing-mechanic",
+    "file": "src/core2/modules/outcome-web.ts",
+    "line": 447,
+    "whatItFakes": "Two housing links move nothing: air-conditioning use does not rise or fall with the electricity price, and the share of income a place's renters pay in rent does not change how many people are homeless.",
+    "why": "The cited research gives no usable size: the electricity-price link has no published slope and no engine reads the air-conditioning share; the rent-burden link has thresholds at 22 and 32 percent but no slope (Zillow and UNH 2018; Colburn and Aldern 2022).",
+    "addedBy": "OPUS-WEB",
+    "addedAt": "2026-10-20",
+    "replacement": "A sized link (a published slope per point of burden or per cent of price) read by an engine that decides air-conditioning use and by the homeless review.",
+    "status": "open"
+  },
+  {
+    "id": "SG-WEB-disaster-severity",
+    "kind": "missing-mechanic",
+    "file": "src/core2/modules/outcome-web.ts",
+    "line": 448,
+    "whatItFakes": "A severe disaster does not lower home values: the link needs the disaster's death toll and the disasters module records only the FEMA declaration and its payments.",
+    "why": "Boustan, Kahn, Rhode and Yanguas 2020 size the price effect for disasters with at least 20 deaths; no record of deaths per disaster exists, and home values are not a factor the sales engine reads.",
+    "addedBy": "OPUS-WEB",
+    "addedAt": "2026-10-20",
+    "replacement": "Deaths and damage recorded on each disaster by the disasters module, and the housing sales engine reading the web's home-price factor.",
+    "status": "open"
   }
 ]
