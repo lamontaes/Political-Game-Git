@@ -1260,8 +1260,8 @@
     "why": "Public payroll from government treasuries isn't wired in core2 yet (requested from OPUS-CORE).",
     "addedBy": "OPUS-GOV",
     "addedAt": "2026-10-12",
-    "replacement": "A work commitment at the post's pay, paid from the government's treasury through the journal, ending any job the staffer leaves for it.",
-    "status": "open"
+    "replacement": "Resolved Oct 20: a staffer whose office employer sits where no job exists to follow (a territory's state or federal office) takes the town's schedule and payday (scheduleFromPlaceId), so every aide hired where budgets are open is on a treasury payroll. Shown in staff-paid-every-place.test.ts (pool item gov-stopgap-staff-missing-engine).",
+    "status": "resolved"
   },
   {
     "id": "SG-GOV-world-race-lean",
@@ -4866,6 +4866,18 @@
     "addedBy": "claude/public-staff-never-paid",
     "addedAt": "2026-10-17",
     "replacement": "Each department's employing government read from the Census of Governments employment file by function, so a county health department, a fire district or a state agency's field office pays its own staff.",
+    "status": "open"
+  },
+  {
+    "id": "SG-WEB-births-full-tier",
+    "kind": "missing-mechanic",
+    "file": "src/core2/births-plan.ts",
+    "line": 159,
+    "whatItFakes": "Full couples decide on a child from their own age, children, work, income, room, savings, health and closeness, and none of the outcome web's birth links reach them. Counted women take the web's factor per woman (src/core2/births-counted.ts), so a full woman and a counted woman of the same age, tenure and place differ on the links the full decision does not carry: home prices (owners up, renters down), an enforced abortion ban, and the place's drifting birth level.",
+    "why": "The unemployment link is left out for full couples on purpose: a lost job already lowers their work and income terms, so the web's link would count the same recession twice. The other links have no term in the plan score, and the score is a choice between planning and waiting, not a rate the factor can multiply; turning a factor into a score term needs its own calibration against the births it produces.",
+    "addedBy": "EFFECT-WEB-WIRING",
+    "addedAt": "2026-10-20",
+    "replacement": "A conditions term in the plan score that reads webReach for the woman's own age and tenure, leaving out the links her own records already carry (unemployment), with a weight calibrated in a played year so full births move by the researched size, as counted births do.",
     "status": "open"
   }
 ]

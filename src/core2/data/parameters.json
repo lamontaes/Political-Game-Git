@@ -560,12 +560,15 @@
     }
   },
   "traitWeightMacroRateVote": {
-    "value": 1,
-    "tag": "TUNABLE",
-    "citation": "The trait weight of the macro.rate-vote decision. Starts at the general traitWeight (1); calibrated against its row in data/research/trait-effect-sizes.json with scripts/traits/trait-calibrate.ts.",
+    "value": 0.03,
+    "tag": "ESTIMATED",
+    "citation": "The trait weight of the macro.rate-vote decision, fitted on a played year of Ely, Nevada (key 3223500, seed 7ae8589566f5) with 96 board votes by a finer sweep than scripts/traits/trait-calibrate.ts's 0.05 grid: 0.03 gives an odds ratio of 2.37 of moving the rate rather than holding between the thirds of votes leaning most toward moving and least, net of the same gap with personality off, against the target of 2.24 (the default personality-behavior study scaled for a single occasion to r = .2); personality turns about 5 of 100 votes. The module pulls (macroRatePullWeight) are large, so the fit is narrow. The board's hand-picked patience and risk traits (macroSmoothingPerPatience, macroMoveSizeCostPerRisk) were removed so personality enters the vote once, here.",
+    "estimatedFrom": "default.personality-behavior in data/research/trait-effect-sizes.json, scaled from average-level to a single occasion.",
     "spread": {
-      "status": "unmeasured",
-      "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
+      "low": 0.015,
+      "high": 0.045,
+      "unit": "weight",
+      "citation": "Weight at r = .1 and r = .3 of the single-occasion range (half and one and a half times the r = .2 weight). "
     }
   },
   "traitWeightBusinessOwnerDraw": {
@@ -668,12 +671,14 @@
     }
   },
   "traitWeightContractsAward": {
-    "value": 1,
+    "value": 0.5,
     "tag": "TUNABLE",
-    "citation": "The trait weight of the contracts.award decision. Starts at the general traitWeight (1); calibrated against its row in data/research/trait-effect-sizes.json with scripts/traits/trait-calibrate.ts.",
+    "citation": "The trait weight of the contracts.award decision: how far a member's traits move weight between price and the tie to a firm's owner (at full lean the price weight falls by this share and the tie weight rises by it). Replaces contractTraitWeight of 0.5. Not a two-way outcome, so scripts/traits/trait-calibrate.ts cannot fit it.",
     "spread": {
-      "status": "unmeasured",
-      "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
+      "low": 0.25,
+      "high": 0.75,
+      "unit": "weight",
+      "citation": "Weight at r = .1 and r = .3 of the single-occasion range (half and one and a half times the r = .2 weight). "
     }
   },
   "traitWeightCorruptionOffer": {
@@ -1001,48 +1006,62 @@
     }
   },
   "traitWeightLegislatureMemberPosition": {
-    "value": 1,
-    "tag": "TUNABLE",
-    "citation": "The trait weight of the legislature.member-position decision. Starts at the general traitWeight (1); calibrated against its row in data/research/trait-effect-sizes.json with scripts/traits/trait-calibrate.ts.",
+    "value": 0.2,
+    "tag": "ESTIMATED",
+    "citation": "The trait weight of the legislature.member-position decision, found with scripts/traits/trait-calibrate.ts on a played year of Ely, Nevada (key 3223500, seed 7ae8589566f5): 0.2 gives an odds ratio of 2.19 of a yes vote between the third of 10,336 member positions leaning most toward yes and the third leaning least, net of the same gap with personality off, against the target of 2.24. No study of legislators' roll-call votes by personality was retrievable (Dietrich et al. 2012 could not be read), so the target is the default personality-behavior study scaled for a single occasion to r = .2: Fleeson & Gallagher 2009, average-level r = .42 to .56, single-decision r = .1 to .3. Party, district and record still decide most votes.",
+    "estimatedFrom": "default.personality-behavior in data/research/trait-effect-sizes.json, scaled from average-level to a single occasion; replaces the hand-set traitDecisionWeight of 0.5.",
     "spread": {
-      "status": "unmeasured",
-      "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
+      "low": 0.1,
+      "high": 0.3,
+      "unit": "weight",
+      "citation": "Weight at r = .1 and r = .3 of the single-occasion range (half and one and a half times the r = .2 weight). "
     }
   },
   "traitWeightLegislatureHoldHearing": {
-    "value": 1,
-    "tag": "TUNABLE",
-    "citation": "The trait weight of the legislature.hold-hearing decision. Starts at the general traitWeight (1); calibrated against its row in data/research/trait-effect-sizes.json with scripts/traits/trait-calibrate.ts.",
+    "value": 1.35,
+    "tag": "ESTIMATED",
+    "citation": "The trait weight of the legislature.hold-hearing decision, found with scripts/traits/trait-calibrate.ts on a played year of Ely, Nevada (key 3223500, seed 7ae8589566f5): 1.35 gives an odds ratio of 2.01 of holding the hearing between the thirds of 78 chair decisions, against the target of 2.24 (the default personality-behavior study scaled for a single occasion to r = .2). Few calls, so the weight is noisy.",
+    "estimatedFrom": "default.personality-behavior in data/research/trait-effect-sizes.json, scaled from average-level to a single occasion; replaces the hand-set traitDecisionWeight of 0.5.",
     "spread": {
-      "status": "unmeasured",
-      "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
+      "low": 0.675,
+      "high": 2.025,
+      "unit": "weight",
+      "citation": "Weight at r = .1 and r = .3 of the single-occasion range (half and one and a half times the r = .2 weight). "
     }
   },
   "traitWeightLegislatureSignOrVeto": {
-    "value": 1,
-    "tag": "TUNABLE",
-    "citation": "The trait weight of the legislature.sign-or-veto decision. Starts at the general traitWeight (1); calibrated against its row in data/research/trait-effect-sizes.json with scripts/traits/trait-calibrate.ts.",
+    "value": 0.2,
+    "tag": "ESTIMATED",
+    "citation": "The trait weight of the legislature.sign-or-veto decision. Only 29 desk decisions ran in the audit year, too few for scripts/traits/trait-calibrate.ts (30 needed), so this carries the weight calibrated for legislature.member-position, the same legislators weighing a bill against the same record, with the same default target (the default personality-behavior study scaled for a single occasion to r = .2).",
+    "estimatedFrom": "traitWeightLegislatureMemberPosition (0.2), calibrated on 10,336 calls; replaces the hand-set traitDecisionWeight of 0.5.",
     "spread": {
-      "status": "unmeasured",
-      "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
+      "low": 0.1,
+      "high": 0.3,
+      "unit": "weight",
+      "citation": "Weight at r = .1 and r = .3 of the single-occasion range (half and one and a half times the r = .2 weight). "
     }
   },
   "traitWeightLegislatureBudgetPriorities": {
-    "value": 1,
+    "value": 0.5,
     "tag": "TUNABLE",
-    "citation": "The trait weight of the legislature.budget-priorities decision. Starts at the general traitWeight (1); calibrated against its row in data/research/trait-effect-sizes.json with scripts/traits/trait-calibrate.ts.",
+    "citation": "The trait weight of the legislature.budget-priorities decision: how far an executive's temperament scales how much of the budget they move (a multiplier of 1 plus the weight times the lean, so a lean of 1 moves half again as much). Not a two-way outcome, so scripts/traits/trait-calibrate.ts cannot fit it; carries the 0.5 the site used as traitDecisionWeight, with a spread of half to one and a half of that.",
     "spread": {
-      "status": "unmeasured",
-      "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
+      "low": 0.25,
+      "high": 0.75,
+      "unit": "weight",
+      "citation": "Weight at r = .1 and r = .3 of the single-occasion range (half and one and a half times the r = .2 weight). "
     }
   },
   "traitWeightWorldLegislatingBringAgenda": {
-    "value": 1,
-    "tag": "TUNABLE",
-    "citation": "The trait weight of the world-legislating.bring-agenda decision. Starts at the general traitWeight (1); calibrated against its row in data/research/trait-effect-sizes.json with scripts/traits/trait-calibrate.ts.",
+    "value": 0.15,
+    "tag": "ESTIMATED",
+    "citation": "The trait weight of the world-legislating.bring-agenda decision, found with scripts/traits/trait-calibrate.ts on a played year of Ely, Nevada (key 3223500, seed 7ae8589566f5): 0.15 gives an odds ratio of 2.31 of filing a change between the thirds of 4,583 filing decisions, against the target of 2.24 (the default personality-behavior study scaled for a single occasion to r = .2).",
+    "estimatedFrom": "default.personality-behavior in data/research/trait-effect-sizes.json, scaled from average-level to a single occasion; replaces the hand-set traitDecisionWeight of 0.5.",
     "spread": {
-      "status": "unmeasured",
-      "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
+      "low": 0.075,
+      "high": 0.225,
+      "unit": "weight",
+      "citation": "Weight at r = .1 and r = .3 of the single-occasion range (half and one and a half times the r = .2 weight). "
     }
   },
   "traitWeightConstituentCasesBringCase": {
@@ -1208,57 +1227,73 @@
     }
   },
   "traitWeightLegislatureAttendSitting": {
-    "value": 1,
-    "tag": "TUNABLE",
-    "citation": "The trait weight of the legislature.attend-sitting decision. Starts at the general traitWeight (1); calibrated against its row in data/research/trait-effect-sizes.json with scripts/traits/trait-calibrate.ts.",
+    "value": 0.1,
+    "tag": "ESTIMATED",
+    "citation": "The trait weight of the legislature.attend-sitting decision. Salgado (2002), 'The Big Five personality dimensions and counterproductive behaviors' (Int. J. Selection and Assessment 10), found no Big Five trait significantly predicting absenteeism, so the trait share is the smallest in this family: half the 0.2 of legislature.member-position, which is r = .1 against r = .2. scripts/traits/trait-calibrate.ts could not fit it, because with a seat, session and close-vote duty most gated sittings are attended whatever the temperament (a miss rate near 1 percent leaves no gap between the thirds), so the weight is set by that ratio and checked by how many sittings personality turns (about 8 of 100 gated sittings, down from 96 of 100 when personality was the only reason).",
+    "estimatedFrom": "traitWeightLegislatureMemberPosition (0.2) halved for r = .1; Salgado 2002 found no significant Big Five predictor of absenteeism.",
     "spread": {
-      "status": "unmeasured",
-      "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
+      "low": 0.05,
+      "high": 0.15,
+      "unit": "weight",
+      "citation": "Weight at r = .1 and r = .3 of the single-occasion range (half and one and a half times the r = .2 weight). "
     }
   },
   "traitWeightLegislaturePoisonPill": {
-    "value": 1,
-    "tag": "TUNABLE",
-    "citation": "The trait weight of the legislature.poison-pill decision. Starts at the general traitWeight (1); calibrated against its row in data/research/trait-effect-sizes.json with scripts/traits/trait-calibrate.ts.",
+    "value": 0.2,
+    "tag": "ESTIMATED",
+    "citation": "The trait weight of the legislature.poison-pill decision. One call in the audit year, so no calibration sample; this carries the weight calibrated for legislature.member-position (same legislators, same record), with the default target (the default personality-behavior study scaled for a single occasion to r = .2).",
+    "estimatedFrom": "traitWeightLegislatureMemberPosition (0.2), calibrated on 10,336 calls.",
     "spread": {
-      "status": "unmeasured",
-      "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
+      "low": 0.1,
+      "high": 0.3,
+      "unit": "weight",
+      "citation": "Weight at r = .1 and r = .3 of the single-occasion range (half and one and a half times the r = .2 weight). "
     }
   },
   "traitWeightOfficeDayStateAttend": {
-    "value": 1,
-    "tag": "TUNABLE",
-    "citation": "The trait weight of the office-day-state.attend decision. Starts at the general traitWeight (1); calibrated against its row in data/research/trait-effect-sizes.json with scripts/traits/trait-calibrate.ts.",
+    "value": 0.1,
+    "tag": "ESTIMATED",
+    "citation": "The trait weight of the office-day-state.attend decision. Carries the weight of legislature.attend-sitting (the same behavior, absenteeism, where Salgado 2002 found no significant Big Five predictor). scripts/traits/trait-calibrate.ts cannot fit it on the audit year's 315 calls: every member attended, because the attendance duty of 0.6 outweighs any temperament (lean tops out near 0.6 and the weight is a fraction of that), which matches real attendance above 90 percent.",
+    "estimatedFrom": "traitWeightLegislatureAttendSitting (0.1).",
     "spread": {
-      "status": "unmeasured",
-      "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
+      "low": 0.05,
+      "high": 0.15,
+      "unit": "weight",
+      "citation": "Weight at r = .1 and r = .3 of the single-occasion range (half and one and a half times the r = .2 weight). "
     }
   },
   "traitWeightOfficeDayStateLeaderRequest": {
-    "value": 1,
-    "tag": "TUNABLE",
-    "citation": "The trait weight of the office-day-state.leader-request decision. Starts at the general traitWeight (1); calibrated against its row in data/research/trait-effect-sizes.json with scripts/traits/trait-calibrate.ts.",
+    "value": 0.2,
+    "tag": "ESTIMATED",
+    "citation": "The trait weight of the office-day-state.leader-request decision. Replaces the hand-set leaderRequestTraitWeight of 0.4. scripts/traits/trait-calibrate.ts cannot fit it on the audit year's 49 requests: the leader's party term (a same-party request is granted, an other-party one refused) outweighs temperament, so personality turned none of them, which is how party leaders schedule. Carries the weight calibrated for legislature.member-position (0.2), with the default target (the default personality-behavior study scaled for a single occasion to r = .2).",
+    "estimatedFrom": "traitWeightLegislatureMemberPosition (0.2).",
     "spread": {
-      "status": "unmeasured",
-      "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
+      "low": 0.1,
+      "high": 0.3,
+      "unit": "weight",
+      "citation": "Weight at r = .1 and r = .3 of the single-occasion range (half and one and a half times the r = .2 weight). "
     }
   },
   "traitWeightAppointmentsWeigh": {
-    "value": 1,
+    "value": 0.5,
     "tag": "TUNABLE",
-    "citation": "The trait weight of the appointments.weigh decision. Starts at the general traitWeight (1); calibrated against its row in data/research/trait-effect-sizes.json with scripts/traits/trait-calibrate.ts.",
+    "citation": "The trait weight of the appointments.weigh decision: how far an appointer's traits tilt loyalty against merit when weighing a nominee (a lean of 1 counts loyalty 1.5 and merit 0.5). Replaces the appointmentLoyaltyMeritSwing of 0.5 (patronage studies: Lewis 2008). Not a two-way outcome, so scripts/traits/trait-calibrate.ts cannot fit it.",
     "spread": {
-      "status": "unmeasured",
-      "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
+      "low": 0.25,
+      "high": 0.75,
+      "unit": "weight",
+      "citation": "Weight at r = .1 and r = .3 of the single-occasion range (half and one and a half times the r = .2 weight). "
     }
   },
   "traitWeightJobsRaiseForOpening": {
     "value": 1,
     "tag": "TUNABLE",
-    "citation": "The trait weight of the jobs.raise-for-opening decision. Starts at the general traitWeight (1); calibrated against its row in data/research/trait-effect-sizes.json with scripts/traits/trait-calibrate.ts.",
+    "citation": "The trait weight of the jobs.raise-for-opening decision: how far an owner's open-handedness scales what they add to an unfilled seat's pay (the share added is one half of 1 plus the weight times the lean, so a lean of 1 adds the full cost the seat has run up and a lean of -1 adds nothing). Not a two-way outcome, so scripts/traits/trait-calibrate.ts cannot fit it; unchanged from the site's earlier one-half-of-1-plus-lean.",
     "spread": {
-      "status": "unmeasured",
-      "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
+      "low": 0.5,
+      "high": 1.5,
+      "unit": "weight",
+      "citation": "Weight at r = .1 and r = .3 of the single-occasion range (half and one and a half times the r = .2 weight). "
     }
   },
   "traitWeightOfficeDayStateClemency": {
