@@ -8,6 +8,8 @@
  *   them, and who sponsored them.
  * - `elections`: the election that seated each officeholder, with both
  *   candidates, the votes, turnout and the town's voter groups' split.
+ * - `closures`: each business of the town that closed in the year before day
+ *   one, with its kind, former owner, workers and date.
  * - `figures`: what the public knows about each public figure: office,
  *   positions, record, prior election and the reputation a public sees.
  *
@@ -45,6 +47,7 @@ export const PAST_MODULE: CoreModule = {
       bills: { indexes: { byBody: { fields: ["body"] } } },
       elections: { indexes: { bySeat: { fields: ["seatId"] } } },
       figures: { indexes: { byPerson: { fields: ["personId"] } } },
+      closures: { indexes: { byOwner: { fields: ["ownerId"] } } },
       loaded: {},
     },
   },

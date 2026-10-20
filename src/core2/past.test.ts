@@ -13,6 +13,9 @@ import {
   type PastElectionRow,
   type PublicFigureRow,
 } from "./past-module";
+import type { PastClosureRow } from "./past-business";
+import { businessesIn, stateExitShare } from "./modules/business";
+import { ageOnDate, makeIsoDate } from "./kernel/dates";
 import { publicKnowledgeOf } from "./past-public";
 import { openThePast } from "./past";
 import { coreAPI } from "./state";
@@ -85,6 +88,53 @@ describe(`the world has a past (${world.place.key}, seed ${seed})`, () => {
       .rows()
       .filter((s) => (s.date as string) < opening);
     expect(stories.length).toBeGreaterThanOrEqual(5);
+  });
+
+  it("archives the businesses that closed in the year before day one", () => {
+    const closures = rows<PastClosureRow>("closures");
+    const expected = Math.round(
+      businessesIn(api, world.placeId).length * stateExitShare(api),
+    );
+    expect(closures.length).toBeLessThanOrEqual(expected);
+    // A year's expected closures happen unless no one past retirement age is left to have closed one.
+    if (expected > 0) {
+      const retired = [...world.core.people.values()].some(
+        (p) =>
+          p.alive &&
+          ageOnDate(makeIsoDate(p.birthDate), makeIsoDate(opening)) >=
+            api.parameter("jobsEarliestRetirementAge"),
+      );
+      if (retired) expect(closures.length).toBeGreaterThan(0);
+    }
+    for (const closure of closures) {
+      expect(closure.date < opening, closure.id).toBe(true);
+      const owner = world.core.people.get(closure.ownerId)!;
+      expect(owner.alive).toBe(true);
+      // The former owner heard of it the day it happened, from the printed story.
+      const story = api
+        .moduleState(NEWS_MODULE_ID)
+        .table("stories")
+        .rows()
+        .find(
+          (row) =>
+            (row.facts as Record<string, string>).recordId === closure.id,
+        );
+      expect(story, closure.id).toBeTruthy();
+      expect(story!.facts).toMatchObject({
+        ownerId: closure.ownerId,
+        recordKind: "business.closed",
+      });
+      expect(
+        api
+          .moduleState(NEWS_MODULE_ID)
+          .table("heard")
+          .get(`${closure.ownerId}:${story!.id}`),
+        closure.id,
+      ).toBeTruthy();
+    }
+    process.stdout.write(
+      `${world.place.key} seed ${seed}: ${closures.map((c) => c.id).join(", ") || "no closures"}\n`,
+    );
   });
 
   it("carries the archive on the press's own list of outlets", () => {

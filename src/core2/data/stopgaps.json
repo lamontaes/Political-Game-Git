@@ -3459,12 +3459,24 @@
     "id": "SG-CORE-past-no-deaths-closures",
     "kind": "missing-record",
     "file": "src/core2/past-news.ts",
-    "line": 88,
+    "line": 78,
     "whatItFakes": "The news archive carries elections, laws, votes, budgets and the deaths of residents' parents, but no business closures from the year before day one. A counted resident's parent who died is not reported either.",
-    "why": "The generated past holds no closure records dated before the opening: businesses start on day one. Parents' deaths come from the kin generator, which keeps them as facts on full residents only.",
+    "why": "Resolved (gov-past-closures-archive, 2026-10-19): the closures are built in src/core2/past-business.ts and archived by past-news.ts; the counted residents' parents' deaths remain, registered as SG-CORE-past-counted-parents-deaths. The generated past holds no closure records dated before the opening: businesses start on day one. Parents' deaths come from the kin generator, which keeps them as facts on full residents only.",
     "addedBy": "OPUS-CORE (the-world-has-a-past)",
     "addedAt": "2026-10-14",
     "replacement": "Closures of the town's businesses in the year before day one, generated as records by the business engine, and the counted residents' parents' deaths archived at counted level.",
+    "status": "resolved"
+  },
+  {
+    "id": "SG-CORE-past-counted-parents-deaths",
+    "kind": "missing-record",
+    "file": "src/core2/past-news.ts",
+    "line": 79,
+    "whatItFakes": "A counted resident's parent who died in the year before day one is not reported in the news archive.",
+    "why": "Parents' deaths come from the kin generator, which keeps them as facts on full residents only.",
+    "addedBy": "gov-past-closures-archive (split from SG-CORE-past-no-deaths-closures)",
+    "addedAt": "2026-10-19",
+    "replacement": "The counted residents' parents' deaths archived at counted level.",
     "status": "open"
   },
   {
