@@ -1,0 +1,5277 @@
+{
+ "seed": "a91c03e7d2b84f10",
+ "place": {
+  "seed": "793624401e4b21b97adeea34888bdb5ba03dc740b82e6bd47ae58d2eb9430d45",
+  "key": "2666300",
+  "name": "Prescott, Michigan",
+  "state": "US-MI"
+ },
+ "window": 35,
+ "after": 10,
+ "results": [
+  {
+   "key": "budget-line:highways",
+   "kind": "budget-line",
+   "family": "infrastructure",
+   "inForceAtOpening": false,
+   "change": "place:2666300 highways 3994165 -> 13994165 by law-wiring-c8a99055",
+   "lawIds": [
+    "law-wiring-c8a99055"
+   ],
+   "openingReach": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 0,
+    "sample": []
+   },
+   "reach": {
+    "fullPeople": 85,
+    "countedGroups": 1,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 4,
+    "governments": 0,
+    "other": 0,
+    "open": 90,
+    "ended": 0,
+    "sample": [
+     "budget-line:highways|person_0161274dc68d50d8|2025-01-20",
+     "budget-line:highways|person_0161284dc68d528b|2025-01-20",
+     "budget-line:highways|person_02518394bd09bf0a|2025-01-20",
+     "budget-line:highways|person_02518494bd09c0bd|2025-01-20"
+    ]
+   },
+   "readers": {},
+   "openingRow": null,
+   "money": {
+    "direct": [],
+    "diff": [
+     {
+      "kind": "accounts.transfer @ src/core2/counted-money.ts:545",
+      "treatment": 34701819,
+      "control": 34674391,
+      "ids": [
+       "journal:2025-01-24:1626",
+       "journal:2025-01-25:1627",
+       "journal:2025-01-25:1629"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:829",
+      "treatment": 59223958076370,
+      "control": 59223958076371,
+      "ids": [
+       "journal:2025-02-01:1724",
+       "journal:2025-02-01:1725",
+       "journal:2025-02-01:1726"
+      ]
+     }
+    ],
+    "diffKinds": 2,
+    "cited": []
+   },
+   "web": {
+    "links": [],
+    "fired": [],
+    "firedCount": 0
+   },
+   "heard": {
+    "people": 0,
+    "sample": []
+   },
+   "afterUndo": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 90,
+    "sample": []
+   },
+   "seconds": 17
+  },
+  {
+   "key": "us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax",
+   "kind": "question",
+   "family": "infrastructure",
+   "inForceAtOpening": false,
+   "change": "enacted at city (law:place:2666300:city:us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax:general:2025-01-21:law-wiring-9b95e871) effective 2025-01-21; then repealed at city effective 2025-02-26",
+   "lawIds": [
+    "law:place:2666300:city:us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax:general:2025-01-21:law-wiring-9b95e871",
+    "law:place:2666300:city:us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax:general:2025-02-26:law-wiring-9b95e871-b"
+   ],
+   "openingReach": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 0,
+    "sample": []
+   },
+   "reach": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 0,
+    "sample": []
+   },
+   "readers": {
+    "src/core2/modules/world-legislating.ts:248": 32,
+    "src/core2/modules/world-legislating.ts:178": 16,
+    "src/core2/life.ts:549": 5,
+    "src/core2/modules/legislature.ts:2011": 2,
+    "src/core2/modules/world-legislating.ts:325": 2,
+    "src/core2/modules/place-prices.ts:546": 2
+   },
+   "openingRow": "law:US-MI:state:us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax:general:starting",
+   "money": {
+    "direct": [],
+    "diff": [
+     {
+      "kind": "accounts.transfer @ src/core2/counted-money.ts:545",
+      "treatment": 34845663,
+      "control": 34674391,
+      "ids": [
+       "journal:2025-01-24:1626",
+       "journal:2025-01-25:1627",
+       "journal:2025-01-25:1629"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/counted-money.ts:740",
+      "treatment": 1109499,
+      "control": 959745,
+      "ids": [
+       "journal:2025-02-03:7478",
+       "journal:2025-02-03:7479",
+       "journal:2025-02-03:7480"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/world-transfer.ts:37",
+      "treatment": 1907936,
+      "control": 1761585,
+      "ids": [
+       "journal:2025-02-01:1896",
+       "journal:2025-02-01:1897",
+       "journal:2025-02-01:1898"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/modules/residents.ts:1684",
+      "treatment": 3086900,
+      "control": 3084176,
+      "ids": [
+       "journal:2025-02-19:8493",
+       "journal:2025-02-19:8494",
+       "journal:2025-02-19:8496"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/modules/residents.ts:1173",
+      "treatment": 1500810,
+      "control": 1500459,
+      "ids": [
+       "journal:2025-02-01:2684",
+       "journal:2025-02-01:2685",
+       "journal:2025-02-01:2686"
+      ]
+     },
+     {
+      "kind": "drive-donation @ src/core2/modules/drives.ts:1076",
+      "treatment": 5022,
+      "control": 5014,
+      "ids": [
+       "journal:2025-01-30:1694",
+       "journal:2025-01-31:1700",
+       "journal:2025-02-01:2748"
+      ]
+     }
+    ],
+    "diffKinds": 6,
+    "cited": [
+     {
+      "token": "law:place:2666300:city:us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax:general:2025-01-21:law-wiring-9b95e871",
+      "gross": 467377,
+      "ids": [
+       "journal:2025-02-03:7555",
+       "journal:2025-02-03:7556",
+       "journal:2025-02-03:7557"
+      ]
+     },
+     {
+      "token": "us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax",
+      "gross": 467377,
+      "ids": [
+       "journal:2025-02-03:7555",
+       "journal:2025-02-03:7556",
+       "journal:2025-02-03:7557"
+      ]
+     },
+     {
+      "token": "law-wiring-9b95e871",
+      "gross": 467377,
+      "ids": [
+       "journal:2025-02-03:7555",
+       "journal:2025-02-03:7556",
+       "journal:2025-02-03:7557"
+      ]
+     }
+    ]
+   },
+   "web": {
+    "links": [],
+    "fired": [],
+    "firedCount": 0
+   },
+   "heard": {
+    "people": 67,
+    "sample": [
+     "person_a66a50fc6585ed57:printed:outlet:television:1:jurisdiction_971998ff58477430:law-took-effect:law:place:2666300:city:us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax:general:2025-01-21:law-wiring-9b95e871",
+     "person_54d221efd6ccd406:printed:outlet:television:1:jurisdiction_971998ff58477430:law-took-effect:law:place:2666300:city:us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax:general:2025-01-21:law-wiring-9b95e871",
+     "person_182e4b917b4e10f7:printed:outlet:television:1:jurisdiction_971998ff58477430:law-took-effect:law:place:2666300:city:us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax:general:2025-01-21:law-wiring-9b95e871"
+    ]
+   },
+   "afterUndo": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 0,
+    "sample": []
+   },
+   "seconds": 15
+  },
+  {
+   "key": "us-policy-positions:transportation-infrastructure.shift-highway-funds-to-transit",
+   "kind": "question",
+   "family": "infrastructure",
+   "inForceAtOpening": false,
+   "change": "enacted at city (law:place:2666300:city:us-policy-positions:transportation-infrastructure.shift-highway-funds-to-transit:general:2025-01-21:law-wiring-fb34464e) effective 2025-01-21; then repealed at city effective 2025-02-26",
+   "lawIds": [
+    "law:place:2666300:city:us-policy-positions:transportation-infrastructure.shift-highway-funds-to-transit:general:2025-01-21:law-wiring-fb34464e",
+    "law:place:2666300:city:us-policy-positions:transportation-infrastructure.shift-highway-funds-to-transit:general:2025-02-26:law-wiring-fb34464e-b"
+   ],
+   "openingReach": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 0,
+    "sample": []
+   },
+   "reach": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 0,
+    "sample": []
+   },
+   "readers": {
+    "src/core2/modules/legislature.ts:2011": 680,
+    "src/core2/modules/outcome-web.ts:154": 48,
+    "src/core2/life.ts:549": 35,
+    "src/core2/modules/world-legislating.ts:248": 32,
+    "src/core2/modules/world-legislating.ts:178": 16,
+    "src/core2/law-reach/group-b.ts:213": 4,
+    "src/core2/modules/world-legislating.ts:325": 2
+   },
+   "openingRow": "law:US-MI:state:us-policy-positions:transportation-infrastructure.shift-highway-funds-to-transit:general:starting",
+   "money": {
+    "direct": [],
+    "diff": [
+     {
+      "kind": "accounts.transfer @ src/core2/counted-money.ts:545",
+      "treatment": 34673032,
+      "control": 34674391,
+      "ids": [
+       "journal:2025-01-24:1626",
+       "journal:2025-01-25:1627",
+       "journal:2025-01-25:1629"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:829",
+      "treatment": 59223958076368,
+      "control": 59223958076371,
+      "ids": [
+       "journal:2025-02-01:1724",
+       "journal:2025-02-01:1725",
+       "journal:2025-02-01:1726"
+      ]
+     }
+    ],
+    "diffKinds": 2,
+    "cited": []
+   },
+   "web": {
+    "links": [
+     {
+      "key": "highway-money-for-transit-to-service",
+      "status": "built",
+      "to": "transit.service-access"
+     }
+    ],
+    "fired": [],
+    "firedCount": 0
+   },
+   "heard": {
+    "people": 74,
+    "sample": [
+     "person_a66a50fc6585ed57:printed:outlet:television:1:jurisdiction_971998ff58477430:law-took-effect:law:place:2666300:city:us-policy-positions:transportation-infrastructure.shift-highway-funds-to-transit:general:2025-01-21:law-wiring-fb34464e",
+     "person_54d221efd6ccd406:printed:outlet:television:1:jurisdiction_971998ff58477430:law-took-effect:law:place:2666300:city:us-policy-positions:transportation-infrastructure.shift-highway-funds-to-transit:general:2025-01-21:law-wiring-fb34464e",
+     "person_182e4b917b4e10f7:printed:outlet:television:1:jurisdiction_971998ff58477430:law-took-effect:law:place:2666300:city:us-policy-positions:transportation-infrastructure.shift-highway-funds-to-transit:general:2025-01-21:law-wiring-fb34464e"
+    ]
+   },
+   "afterUndo": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 1,
+    "sample": []
+   },
+   "seconds": 16
+  },
+  {
+   "key": "us-policy-positions:health-human-services.medicaid-work-requirement",
+   "kind": "question",
+   "family": "healthcare",
+   "inForceAtOpening": false,
+   "change": "enacted at city (law:place:2666300:city:us-policy-positions:health-human-services.medicaid-work-requirement:general:2025-01-21:law-wiring-0186f8c2) effective 2025-01-21; then repealed at city effective 2025-02-26",
+   "lawIds": [
+    "law:place:2666300:city:us-policy-positions:health-human-services.medicaid-work-requirement:general:2025-01-21:law-wiring-0186f8c2",
+    "law:place:2666300:city:us-policy-positions:health-human-services.medicaid-work-requirement:general:2025-02-26:law-wiring-0186f8c2-b"
+   ],
+   "openingReach": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 0,
+    "sample": []
+   },
+   "reach": {
+    "fullPeople": 1,
+    "countedGroups": 1,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 2,
+    "ended": 0,
+    "sample": [
+     "us-policy-positions:health-human-services.medicaid-work-requirement|person_8ff861de2f15d13f|2025-01-21",
+     "us-policy-positions:health-human-services.medicaid-work-requirement|jurisdiction_971998ff58477430"
+    ]
+   },
+   "readers": {
+    "src/core2/modules/legislature.ts:2011": 916,
+    "src/core2/modules/outcome-web.ts:154": 48,
+    "src/core2/modules/world-legislating.ts:248": 32,
+    "src/core2/modules/world-legislating.ts:178": 16,
+    "src/core2/life.ts:549": 5,
+    "src/core2/modules/world-legislating.ts:325": 4,
+    "src/core2/law-reach/group-b.ts:213": 4
+   },
+   "openingRow": "law:US-MI:state:us-policy-positions:health-human-services.medicaid-work-requirement:general:starting",
+   "money": {
+    "direct": [],
+    "diff": [],
+    "diffKinds": 0,
+    "cited": []
+   },
+   "web": {
+    "links": [
+     {
+      "key": "work-requirement-to-coverage",
+      "status": "built",
+      "to": "health.uninsured-pct"
+     },
+     {
+      "key": "work-requirement-to-employment",
+      "status": "about-zero",
+      "to": "labor.employment-rate"
+     }
+    ],
+    "fired": [],
+    "firedCount": 0
+   },
+   "heard": {
+    "people": 67,
+    "sample": [
+     "person_a66a50fc6585ed57:printed:outlet:television:1:jurisdiction_971998ff58477430:law-took-effect:law:place:2666300:city:us-policy-positions:health-human-services.medicaid-work-requirement:general:2025-01-21:law-wiring-0186f8c2",
+     "person_54d221efd6ccd406:printed:outlet:television:1:jurisdiction_971998ff58477430:law-took-effect:law:place:2666300:city:us-policy-positions:health-human-services.medicaid-work-requirement:general:2025-01-21:law-wiring-0186f8c2",
+     "person_182e4b917b4e10f7:printed:outlet:television:1:jurisdiction_971998ff58477430:law-took-effect:law:place:2666300:city:us-policy-positions:health-human-services.medicaid-work-requirement:general:2025-01-21:law-wiring-0186f8c2"
+    ]
+   },
+   "afterUndo": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 2,
+    "sample": []
+   },
+   "seconds": 16
+  },
+  {
+   "key": "budget-line:healthAndHospitals",
+   "kind": "budget-line",
+   "family": "healthcare",
+   "inForceAtOpening": false,
+   "change": "place:2666300 healthAndHospitals 1593768 -> 11593768 by law-wiring-0ccd53a1",
+   "lawIds": [
+    "law-wiring-0ccd53a1"
+   ],
+   "openingReach": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 0,
+    "sample": []
+   },
+   "reach": {
+    "fullPeople": 106,
+    "countedGroups": 1,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 1,
+    "governments": 0,
+    "other": 0,
+    "open": 108,
+    "ended": 0,
+    "sample": [
+     "budget-line:healthAndHospitals|person_0161274dc68d50d8|2025-01-20",
+     "budget-line:healthAndHospitals|person_0161284dc68d528b|2025-01-20",
+     "budget-line:healthAndHospitals|person_02518394bd09bf0a|2025-01-20",
+     "budget-line:healthAndHospitals|person_02518494bd09c0bd|2025-01-20"
+    ]
+   },
+   "readers": {},
+   "openingRow": null,
+   "money": {
+    "direct": [],
+    "diff": [
+     {
+      "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2351",
+      "treatment": 9386214,
+      "control": 8816595,
+      "ids": [
+       "journal:2025-01-26:1639",
+       "journal:2025-01-28:1648",
+       "journal:2025-01-28:1651"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:829",
+      "treatment": 59223957617989,
+      "control": 59223958076371,
+      "ids": [
+       "journal:2025-02-01:1724",
+       "journal:2025-02-01:1725",
+       "journal:2025-02-01:1726"
+      ]
+     },
+     {
+      "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1349",
+      "treatment": 112930286,
+      "control": 112868966,
+      "ids": [
+       "journal:2025-01-26:1640",
+       "journal:2025-01-28:1649",
+       "journal:2025-01-28:1652"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/counted-money.ts:545",
+      "treatment": 34643628,
+      "control": 34674391,
+      "ids": [
+       "journal:2025-01-24:1626",
+       "journal:2025-01-25:1627",
+       "journal:2025-01-25:1629"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/world-transfer.ts:37",
+      "treatment": 1762957,
+      "control": 1761585,
+      "ids": [
+       "journal:2025-02-01:1895",
+       "journal:2025-02-01:1896",
+       "journal:2025-02-01:1897"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/modules/purchase-tax.ts:142",
+      "treatment": 1654507,
+      "control": 1654471,
+      "ids": [
+       "journal:2025-02-01:1943",
+       "journal:2025-02-01:1945",
+       "journal:2025-02-01:1947"
+      ]
+     }
+    ],
+    "diffKinds": 6,
+    "cited": []
+   },
+   "web": {
+    "links": [],
+    "fired": [],
+    "firedCount": 0
+   },
+   "heard": {
+    "people": 0,
+    "sample": []
+   },
+   "afterUndo": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 108,
+    "sample": []
+   },
+   "seconds": 18
+  },
+  {
+   "key": "budget-line:schools",
+   "kind": "budget-line",
+   "family": "education",
+   "inForceAtOpening": false,
+   "change": "place:2666300 schools 58453733 -> 70144480 by law-wiring-913b820e",
+   "lawIds": [
+    "law-wiring-913b820e"
+   ],
+   "openingReach": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 0,
+    "sample": []
+   },
+   "reach": {
+    "fullPeople": 20,
+    "countedGroups": 1,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 1,
+    "governments": 0,
+    "other": 0,
+    "open": 22,
+    "ended": 0,
+    "sample": [
+     "budget-line:schools|person_2dc9b018ebc098a1|2025-01-20",
+     "budget-line:schools|person_2dc9b118ebc09a54|2025-01-20",
+     "budget-line:schools|person_2dc9b218ebc09c07|2025-01-20",
+     "budget-line:schools|person_3f9b11502a79c02a|2025-01-20"
+    ]
+   },
+   "readers": {},
+   "openingRow": null,
+   "money": {
+    "direct": [],
+    "diff": [
+     {
+      "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2351",
+      "treatment": 9785031,
+      "control": 8816595,
+      "ids": [
+       "journal:2025-01-26:1639",
+       "journal:2025-01-28:1648",
+       "journal:2025-01-28:1651"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:829",
+      "treatment": 59223957419247,
+      "control": 59223958076371,
+      "ids": [
+       "journal:2025-02-01:1724",
+       "journal:2025-02-01:1725",
+       "journal:2025-02-01:1726"
+      ]
+     },
+     {
+      "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1349",
+      "treatment": 112981323,
+      "control": 112868966,
+      "ids": [
+       "journal:2025-01-26:1640",
+       "journal:2025-01-28:1649",
+       "journal:2025-01-28:1652"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/counted-money.ts:545",
+      "treatment": 34631877,
+      "control": 34674391,
+      "ids": [
+       "journal:2025-01-24:1626",
+       "journal:2025-01-25:1627",
+       "journal:2025-01-25:1629"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/world-transfer.ts:37",
+      "treatment": 1762581,
+      "control": 1761585,
+      "ids": [
+       "journal:2025-02-01:1862",
+       "journal:2025-02-01:1863",
+       "journal:2025-02-01:1864"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/modules/purchase-tax.ts:142",
+      "treatment": 1654497,
+      "control": 1654471,
+      "ids": [
+       "journal:2025-02-01:1910",
+       "journal:2025-02-01:1912",
+       "journal:2025-02-01:1914"
+      ]
+     }
+    ],
+    "diffKinds": 6,
+    "cited": []
+   },
+   "web": {
+    "links": [],
+    "fired": [],
+    "firedCount": 0
+   },
+   "heard": {
+    "people": 0,
+    "sample": []
+   },
+   "afterUndo": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 22,
+    "sample": []
+   },
+   "seconds": 18
+  },
+  {
+   "key": "us-policy-positions:education.raise-teacher-minimum-salary",
+   "kind": "question",
+   "family": "education",
+   "inForceAtOpening": false,
+   "change": "enacted at city (law:place:2666300:city:us-policy-positions:education.raise-teacher-minimum-salary:general:2025-01-21:law-wiring-8f723f97) effective 2025-01-21; then repealed at city effective 2025-02-26",
+   "lawIds": [
+    "law:place:2666300:city:us-policy-positions:education.raise-teacher-minimum-salary:general:2025-01-21:law-wiring-8f723f97",
+    "law:place:2666300:city:us-policy-positions:education.raise-teacher-minimum-salary:general:2025-02-26:law-wiring-8f723f97-b"
+   ],
+   "openingReach": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 0,
+    "sample": []
+   },
+   "reach": {
+    "fullPeople": 1,
+    "countedGroups": 1,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 1,
+    "governments": 0,
+    "other": 0,
+    "open": 3,
+    "ended": 0,
+    "sample": [
+     "us-policy-positions:education.raise-teacher-minimum-salary|person_61162ccbfff04086|2025-01-21",
+     "us-policy-positions:education.raise-teacher-minimum-salary|organization:public-schools:jurisdiction_971998ff58477430|2025-01-21",
+     "us-policy-positions:education.raise-teacher-minimum-salary|jurisdiction_971998ff58477430"
+    ]
+   },
+   "readers": {
+    "src/core2/modules/outcome-web.ts:154": 48,
+    "src/core2/modules/world-legislating.ts:248": 32,
+    "src/core2/modules/world-legislating.ts:178": 16,
+    "src/core2/life.ts:549": 5,
+    "src/core2/law-reach/group-b.ts:213": 4,
+    "src/core2/modules/legislature.ts:2011": 2,
+    "src/core2/modules/world-legislating.ts:325": 2
+   },
+   "openingRow": "law:US-MI:state:us-policy-positions:education.raise-teacher-minimum-salary:general:starting",
+   "money": {
+    "direct": [],
+    "diff": [],
+    "diffKinds": 0,
+    "cited": []
+   },
+   "web": {
+    "links": [
+     {
+      "key": "teacher-minimum-salary-to-graduation",
+      "status": "built",
+      "to": "school.graduation-pct"
+     }
+    ],
+    "fired": [],
+    "firedCount": 0
+   },
+   "heard": {
+    "people": 67,
+    "sample": [
+     "person_a66a50fc6585ed57:printed:outlet:television:1:jurisdiction_971998ff58477430:law-took-effect:law:place:2666300:city:us-policy-positions:education.raise-teacher-minimum-salary:general:2025-01-21:law-wiring-8f723f97",
+     "person_54d221efd6ccd406:printed:outlet:television:1:jurisdiction_971998ff58477430:law-took-effect:law:place:2666300:city:us-policy-positions:education.raise-teacher-minimum-salary:general:2025-01-21:law-wiring-8f723f97",
+     "person_182e4b917b4e10f7:printed:outlet:television:1:jurisdiction_971998ff58477430:law-took-effect:law:place:2666300:city:us-policy-positions:education.raise-teacher-minimum-salary:general:2025-01-21:law-wiring-8f723f97"
+    ]
+   },
+   "afterUndo": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 3,
+    "sample": []
+   },
+   "seconds": 22
+  },
+  {
+   "key": "income-tax",
+   "kind": "amount",
+   "family": "taxes-finance",
+   "inForceAtOpening": false,
+   "change": "income-tax 41.25 -> 45.38 at state (law:US-MI:state:income-tax:general:2025-01-21:law-wiring-931f2a51) effective 2025-01-21",
+   "lawIds": [
+    "law:US-MI:state:income-tax:general:2025-01-21:law-wiring-931f2a51",
+    "law:US-MI:state:income-tax:general:2026-01-01:from-start",
+    "law:US-MI:state:income-tax:general:2025-02-26:law-wiring-931f2a51-undo"
+   ],
+   "openingReach": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 0,
+    "sample": []
+   },
+   "reach": {
+    "fullPeople": 60,
+    "countedGroups": 1,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 61,
+    "ended": 0,
+    "sample": [
+     "income-tax|person_0161274dc68d50d8|2025-01-21",
+     "income-tax|person_02518394bd09bf0a|2025-01-21",
+     "income-tax|person_03c56c71b4e8aacd|2025-01-21",
+     "income-tax|person_050bfb0ce0ab8e28|2025-01-21"
+    ]
+   },
+   "readers": {
+    "src/core2/modules/budgets.ts:1134": 3132,
+    "src/core2/counted-money.ts:393": 164,
+    "src/core2/modules/budgets.ts:1126": 154,
+    "src/core2/modules/counted-moves.ts:179": 120,
+    "src/core2/law-reach/group-b.ts:408": 2,
+    "src/core2/life.ts:549": 1
+   },
+   "openingRow": "law:US-MI:state:income-tax:general:2026-01-01:from-start",
+   "money": {
+    "direct": [],
+    "diff": [],
+    "diffKinds": 0,
+    "cited": []
+   },
+   "web": {
+    "links": [],
+    "fired": [],
+    "firedCount": 0
+   },
+   "heard": {
+    "people": 75,
+    "sample": [
+     "person_a66a50fc6585ed57:printed:outlet:cable:0:national:law-took-effect:law:US-MI:state:income-tax:general:2025-01-21:law-wiring-931f2a51",
+     "person_54d221efd6ccd406:printed:outlet:cable:0:national:law-took-effect:law:US-MI:state:income-tax:general:2025-01-21:law-wiring-931f2a51",
+     "person_182e4b917b4e10f7:printed:outlet:cable:0:national:law-took-effect:law:US-MI:state:income-tax:general:2025-01-21:law-wiring-931f2a51"
+    ]
+   },
+   "afterUndo": {
+    "fullPeople": 60,
+    "countedGroups": 1,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 61,
+    "ended": 0,
+    "sample": [
+     "income-tax|person_0161274dc68d50d8|2025-01-21",
+     "income-tax|person_02518394bd09bf0a|2025-01-21",
+     "income-tax|person_03c56c71b4e8aacd|2025-01-21",
+     "income-tax|person_050bfb0ce0ab8e28|2025-01-21"
+    ]
+   },
+   "seconds": 19
+  },
+  {
+   "key": "us-policy-positions:fiscal.adopt-income-tax",
+   "kind": "question",
+   "family": "taxes-finance",
+   "inForceAtOpening": true,
+   "change": "repealed at state effective 2025-01-21; then enacted at city (law:place:2666300:city:us-policy-positions:fiscal.adopt-income-tax:general:2025-02-26:law-wiring-8b13b3c9-b) effective 2025-02-26",
+   "lawIds": [
+    "law:US-MI:state:us-policy-positions:fiscal.adopt-income-tax:general:starting",
+    "law:US-MI:state:us-policy-positions:fiscal.adopt-income-tax:general:2025-01-21:law-wiring-8b13b3c9",
+    "law:place:2666300:city:us-policy-positions:fiscal.adopt-income-tax:general:2025-02-26:law-wiring-8b13b3c9-b"
+   ],
+   "openingReach": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 0,
+    "sample": []
+   },
+   "reach": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 0,
+    "sample": []
+   },
+   "readers": {
+    "src/core2/modules/outcome-web.ts:154": 80,
+    "src/core2/modules/world-legislating.ts:248": 24,
+    "src/core2/modules/world-legislating.ts:178": 16,
+    "src/core2/life.ts:549": 5,
+    "src/core2/modules/legislature.ts:2011": 2,
+    "src/core2/modules/world-legislating.ts:325": 2
+   },
+   "openingRow": "law:US-MI:state:us-policy-positions:fiscal.adopt-income-tax:general:starting",
+   "money": {
+    "direct": [],
+    "diff": [],
+    "diffKinds": 0,
+    "cited": []
+   },
+   "web": {
+    "links": [
+     {
+      "key": "income-tax-to-poverty",
+      "status": "about-zero",
+      "to": "household.poverty-pct"
+     },
+     {
+      "key": "income-tax-to-out-migration",
+      "status": "about-zero",
+      "to": "population.out-migration"
+     }
+    ],
+    "fired": [],
+    "firedCount": 0
+   },
+   "heard": {
+    "people": 75,
+    "sample": [
+     "person_a66a50fc6585ed57:printed:outlet:cable:0:national:law-took-effect:law:US-MI:state:us-policy-positions:fiscal.adopt-income-tax:general:2025-01-21:law-wiring-8b13b3c9",
+     "person_54d221efd6ccd406:printed:outlet:cable:0:national:law-took-effect:law:US-MI:state:us-policy-positions:fiscal.adopt-income-tax:general:2025-01-21:law-wiring-8b13b3c9",
+     "person_182e4b917b4e10f7:printed:outlet:cable:0:national:law-took-effect:law:US-MI:state:us-policy-positions:fiscal.adopt-income-tax:general:2025-01-21:law-wiring-8b13b3c9"
+    ]
+   },
+   "afterUndo": {
+    "fullPeople": 60,
+    "countedGroups": 1,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 61,
+    "ended": 0,
+    "sample": [
+     "us-policy-positions:fiscal.adopt-income-tax|person_0161274dc68d50d8|2025-02-26",
+     "us-policy-positions:fiscal.adopt-income-tax|person_02518394bd09bf0a|2025-02-26",
+     "us-policy-positions:fiscal.adopt-income-tax|person_02518494bd09c0bd|2025-02-26",
+     "us-policy-positions:fiscal.adopt-income-tax|person_03c56c71b4e8aacd|2025-02-26"
+    ]
+   },
+   "seconds": 14
+  },
+  {
+   "key": "us-policy-positions:fiscal.exempt-groceries-from-sales-tax",
+   "kind": "question",
+   "family": "taxes-finance",
+   "inForceAtOpening": true,
+   "change": "repealed at state effective 2025-01-21; then enacted at city (law:place:2666300:city:us-policy-positions:fiscal.exempt-groceries-from-sales-tax:general:2025-02-26:law-wiring-0854ab25-b) effective 2025-02-26",
+   "lawIds": [
+    "law:US-MI:state:us-policy-positions:fiscal.exempt-groceries-from-sales-tax:general:starting",
+    "law:US-MI:state:us-policy-positions:fiscal.exempt-groceries-from-sales-tax:general:2025-01-21:law-wiring-0854ab25",
+    "law:place:2666300:city:us-policy-positions:fiscal.exempt-groceries-from-sales-tax:general:2025-02-26:law-wiring-0854ab25-b"
+   ],
+   "openingReach": {
+    "fullPeople": 22,
+    "countedGroups": 1,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 3,
+    "governments": 0,
+    "other": 0,
+    "open": 26,
+    "ended": 0,
+    "sample": [
+     "us-policy-positions:fiscal.exempt-groceries-from-sales-tax|person_2dc9b318ebc09dba|2025-01-20",
+     "us-policy-positions:fiscal.exempt-groceries-from-sales-tax|person_33f81e3b0c5194c6|2025-01-20",
+     "us-policy-positions:fiscal.exempt-groceries-from-sales-tax|person_3f9b10502a79be77|2025-01-20",
+     "us-policy-positions:fiscal.exempt-groceries-from-sales-tax|person_423656f02ae97942|2025-01-20"
+    ]
+   },
+   "reach": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 26,
+    "sample": []
+   },
+   "readers": {
+    "src/core2/modules/outcome-web.ts:154": 80,
+    "src/core2/policy-authority.ts:45": 42,
+    "src/core2/modules/world-legislating.ts:248": 24,
+    "src/core2/modules/world-legislating.ts:178": 16,
+    "src/core2/life.ts:549": 5,
+    "src/core2/modules/budgets.ts:779": 4,
+    "src/core2/modules/legislature.ts:2011": 2,
+    "src/core2/modules/world-legislating.ts:325": 2,
+    "src/core2/law-reach/group-b.ts:213": 2
+   },
+   "openingRow": "law:US-MI:state:us-policy-positions:fiscal.exempt-groceries-from-sales-tax:general:starting",
+   "money": {
+    "direct": [],
+    "diff": [],
+    "diffKinds": 0,
+    "cited": []
+   },
+   "web": {
+    "links": [
+     {
+      "key": "grocery-exemption-to-poverty",
+      "status": "about-zero",
+      "to": "household.poverty-pct"
+     },
+     {
+      "key": "grocery-exemption-to-food-insecurity",
+      "status": "built",
+      "to": "household.food-insecurity"
+     }
+    ],
+    "fired": [],
+    "firedCount": 0
+   },
+   "heard": {
+    "people": 75,
+    "sample": [
+     "person_a66a50fc6585ed57:printed:outlet:cable:0:national:law-took-effect:law:US-MI:state:us-policy-positions:fiscal.exempt-groceries-from-sales-tax:general:2025-01-21:law-wiring-0854ab25",
+     "person_54d221efd6ccd406:printed:outlet:cable:0:national:law-took-effect:law:US-MI:state:us-policy-positions:fiscal.exempt-groceries-from-sales-tax:general:2025-01-21:law-wiring-0854ab25",
+     "person_182e4b917b4e10f7:printed:outlet:cable:0:national:law-took-effect:law:US-MI:state:us-policy-positions:fiscal.exempt-groceries-from-sales-tax:general:2025-01-21:law-wiring-0854ab25"
+    ]
+   },
+   "afterUndo": {
+    "fullPeople": 36,
+    "countedGroups": 1,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 3,
+    "governments": 0,
+    "other": 0,
+    "open": 40,
+    "ended": 25,
+    "sample": [
+     "us-policy-positions:fiscal.exempt-groceries-from-sales-tax|person_0161284dc68d528b|2025-02-26",
+     "us-policy-positions:fiscal.exempt-groceries-from-sales-tax|person_02518394bd09bf0a|2025-02-26",
+     "us-policy-positions:fiscal.exempt-groceries-from-sales-tax|person_0dee516f6fc3f37d|2025-02-26",
+     "us-policy-positions:fiscal.exempt-groceries-from-sales-tax|person_27d919e667002342|2025-02-26"
+    ]
+   },
+   "seconds": 16
+  },
+  {
+   "key": "us-policy-positions:fiscal.balanced-operating-budget",
+   "kind": "question",
+   "family": "taxes-finance",
+   "inForceAtOpening": true,
+   "change": "repealed at state effective 2025-01-21; then enacted at city (law:place:2666300:city:us-policy-positions:fiscal.balanced-operating-budget:general:2025-02-26:law-wiring-0b01ff0e-b) effective 2025-02-26",
+   "lawIds": [
+    "law:US-MI:state:us-policy-positions:fiscal.balanced-operating-budget:general:starting",
+    "law:US-MI:state:us-policy-positions:fiscal.balanced-operating-budget:general:2025-01-21:law-wiring-0b01ff0e",
+    "law:place:2666300:city:us-policy-positions:fiscal.balanced-operating-budget:general:2025-02-26:law-wiring-0b01ff0e-b"
+   ],
+   "openingReach": {
+    "fullPeople": 0,
+    "countedGroups": 1,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 1,
+    "ended": 0,
+    "sample": [
+     "us-policy-positions:fiscal.balanced-operating-budget|jurisdiction_971998ff58477430"
+    ]
+   },
+   "reach": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 1,
+    "sample": []
+   },
+   "readers": {
+    "src/core2/modules/legislature.ts:2011": 827,
+    "src/core2/modules/outcome-web.ts:154": 64,
+    "src/core2/policy-authority.ts:45": 42,
+    "src/core2/modules/world-legislating.ts:248": 24,
+    "src/core2/modules/world-legislating.ts:178": 16,
+    "src/core2/life.ts:549": 5,
+    "src/core2/modules/world-legislating.ts:325": 2,
+    "src/core2/law-reach/group-b.ts:213": 2
+   },
+   "openingRow": "law:US-MI:state:us-policy-positions:fiscal.balanced-operating-budget:general:starting",
+   "money": {
+    "direct": [],
+    "diff": [],
+    "diffKinds": 0,
+    "cited": []
+   },
+   "web": {
+    "links": [
+     {
+      "key": "balanced-budget-to-borrowing-cost",
+      "status": "built",
+      "to": "gov.borrowing-cost"
+     }
+    ],
+    "fired": [
+     {
+      "id": "web:jurisdiction_971998ff58477430:2025-01",
+      "link": "balanced-budget-to-borrowing-cost",
+      "effect": 8
+     },
+     {
+      "id": "web:jurisdiction_971998ff58477430:2025-02",
+      "link": "balanced-budget-to-borrowing-cost",
+      "effect": 8
+     }
+    ],
+    "firedCount": 2
+   },
+   "heard": {
+    "people": 75,
+    "sample": [
+     "person_a66a50fc6585ed57:printed:outlet:cable:0:national:law-took-effect:law:US-MI:state:us-policy-positions:fiscal.balanced-operating-budget:general:2025-01-21:law-wiring-0b01ff0e",
+     "person_54d221efd6ccd406:printed:outlet:cable:0:national:law-took-effect:law:US-MI:state:us-policy-positions:fiscal.balanced-operating-budget:general:2025-01-21:law-wiring-0b01ff0e",
+     "person_182e4b917b4e10f7:printed:outlet:cable:0:national:law-took-effect:law:US-MI:state:us-policy-positions:fiscal.balanced-operating-budget:general:2025-01-21:law-wiring-0b01ff0e"
+    ]
+   },
+   "afterUndo": {
+    "fullPeople": 0,
+    "countedGroups": 1,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 1,
+    "ended": 0,
+    "sample": [
+     "us-policy-positions:fiscal.balanced-operating-budget|jurisdiction_971998ff58477430"
+    ]
+   },
+   "seconds": 15
+  },
+  {
+   "key": "us-policy-positions:fiscal.minimum-reserve-balance",
+   "kind": "question",
+   "family": "taxes-finance",
+   "inForceAtOpening": false,
+   "change": "enacted at city (law:place:2666300:city:us-policy-positions:fiscal.minimum-reserve-balance:general:2025-01-21:law-wiring-ce73b057) effective 2025-01-21; then repealed at city effective 2025-02-26",
+   "lawIds": [
+    "law:place:2666300:city:us-policy-positions:fiscal.minimum-reserve-balance:general:2025-01-21:law-wiring-ce73b057",
+    "law:place:2666300:city:us-policy-positions:fiscal.minimum-reserve-balance:general:2025-02-26:law-wiring-ce73b057-b"
+   ],
+   "openingReach": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 0,
+    "sample": []
+   },
+   "reach": {
+    "fullPeople": 0,
+    "countedGroups": 1,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 1,
+    "ended": 0,
+    "sample": [
+     "us-policy-positions:fiscal.minimum-reserve-balance|jurisdiction_971998ff58477430"
+    ]
+   },
+   "readers": {
+    "src/core2/modules/legislature.ts:2011": 458,
+    "src/core2/modules/outcome-web.ts:154": 48,
+    "src/core2/policy-authority.ts:45": 43,
+    "src/core2/modules/world-legislating.ts:248": 32,
+    "src/core2/modules/world-legislating.ts:178": 16,
+    "src/core2/life.ts:549": 5,
+    "src/core2/law-reach/group-b.ts:213": 4,
+    "src/core2/modules/world-legislating.ts:325": 2
+   },
+   "openingRow": "law:US-MI:state:us-policy-positions:fiscal.minimum-reserve-balance:general:starting",
+   "money": {
+    "direct": [
+     {
+      "kind": "accounts.transfer @ src/core2/law-reach/group-b-money.ts:790",
+      "treatment": 4642121,
+      "control": 0,
+      "ids": [
+       "journal:2025-02-20:8396"
+      ]
+     }
+    ],
+    "diff": [
+     {
+      "kind": "accounts.transfer @ src/core2/law-reach/group-b-money.ts:790",
+      "treatment": 4642121,
+      "control": 0,
+      "ids": [
+       "journal:2025-02-20:8396"
+      ]
+     }
+    ],
+    "diffKinds": 1,
+    "cited": []
+   },
+   "web": {
+    "links": [
+     {
+      "key": "reserve-balance-to-borrowing-cost",
+      "status": "built",
+      "to": "gov.borrowing-cost"
+     }
+    ],
+    "fired": [],
+    "firedCount": 0
+   },
+   "heard": {
+    "people": 67,
+    "sample": [
+     "person_a66a50fc6585ed57:printed:outlet:television:1:jurisdiction_971998ff58477430:law-took-effect:law:place:2666300:city:us-policy-positions:fiscal.minimum-reserve-balance:general:2025-01-21:law-wiring-ce73b057",
+     "person_54d221efd6ccd406:printed:outlet:television:1:jurisdiction_971998ff58477430:law-took-effect:law:place:2666300:city:us-policy-positions:fiscal.minimum-reserve-balance:general:2025-01-21:law-wiring-ce73b057",
+     "person_182e4b917b4e10f7:printed:outlet:television:1:jurisdiction_971998ff58477430:law-took-effect:law:place:2666300:city:us-policy-positions:fiscal.minimum-reserve-balance:general:2025-01-21:law-wiring-ce73b057"
+    ]
+   },
+   "afterUndo": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 1,
+    "sample": []
+   },
+   "seconds": 15
+  },
+  {
+   "key": "us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones",
+   "kind": "question",
+   "family": "housing",
+   "inForceAtOpening": false,
+   "change": "enacted at city (law:place:2666300:city:us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones:general:2025-01-21:law-wiring-30180bce) effective 2025-01-21; then repealed at city effective 2025-02-26",
+   "lawIds": [
+    "law:place:2666300:city:us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones:general:2025-01-21:law-wiring-30180bce",
+    "law:place:2666300:city:us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones:general:2025-02-26:law-wiring-30180bce-b"
+   ],
+   "openingReach": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 0,
+    "sample": []
+   },
+   "reach": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 0,
+    "sample": []
+   },
+   "readers": {
+    "src/core2/modules/legislature.ts:2011": 180,
+    "src/core2/modules/outcome-web.ts:154": 42,
+    "src/core2/modules/world-legislating.ts:248": 30,
+    "src/core2/modules/world-legislating.ts:178": 16,
+    "src/core2/life.ts:549": 9,
+    "src/core2/modules/world-legislating.ts:325": 6,
+    "src/core2/modules/housing.ts:1492": 2
+   },
+   "openingRow": "law:US-MI:state:us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones:general:starting",
+   "money": {
+    "direct": [],
+    "diff": [],
+    "diffKinds": 0,
+    "cited": []
+   },
+   "web": {
+    "links": [
+     {
+      "key": "housing-by-right-to-new-buildings",
+      "status": "built",
+      "to": "housing.new-large-buildings"
+     }
+    ],
+    "fired": [],
+    "firedCount": 0
+   },
+   "heard": {
+    "people": 67,
+    "sample": [
+     "person_a66a50fc6585ed57:printed:outlet:television:1:jurisdiction_971998ff58477430:law-took-effect:law:place:2666300:city:us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones:general:2025-01-21:law-wiring-30180bce",
+     "person_54d221efd6ccd406:printed:outlet:television:1:jurisdiction_971998ff58477430:law-took-effect:law:place:2666300:city:us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones:general:2025-01-21:law-wiring-30180bce",
+     "person_182e4b917b4e10f7:printed:outlet:television:1:jurisdiction_971998ff58477430:law-took-effect:law:place:2666300:city:us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones:general:2025-01-21:law-wiring-30180bce"
+    ]
+   },
+   "afterUndo": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 0,
+    "sample": []
+   },
+   "seconds": 16
+  },
+  {
+   "key": "us-policy-positions:housing-land-use.inclusionary-requirement",
+   "kind": "question",
+   "family": "housing",
+   "inForceAtOpening": false,
+   "change": "enacted at city (law:place:2666300:city:us-policy-positions:housing-land-use.inclusionary-requirement:general:2025-01-21:law-wiring-6ef37edd) effective 2025-01-21; then repealed at city effective 2025-02-26",
+   "lawIds": [
+    "law:place:2666300:city:us-policy-positions:housing-land-use.inclusionary-requirement:general:2025-01-21:law-wiring-6ef37edd",
+    "law:place:2666300:city:us-policy-positions:housing-land-use.inclusionary-requirement:general:2025-02-26:law-wiring-6ef37edd-b"
+   ],
+   "openingReach": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 0,
+    "sample": []
+   },
+   "reach": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 0,
+    "sample": []
+   },
+   "readers": {
+    "src/core2/modules/legislature.ts:2011": 268,
+    "src/core2/modules/outcome-web.ts:154": 42,
+    "src/core2/modules/world-legislating.ts:248": 29,
+    "src/core2/modules/world-legislating.ts:178": 16,
+    "src/core2/life.ts:549": 9,
+    "src/core2/modules/world-legislating.ts:325": 7,
+    "src/core2/modules/housing.ts:1496": 2
+   },
+   "openingRow": "law:US-MI:state:us-policy-positions:housing-land-use.inclusionary-requirement:general:starting",
+   "money": {
+    "direct": [],
+    "diff": [
+     {
+      "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2351",
+      "treatment": 9144631,
+      "control": 8816595,
+      "ids": [
+       "journal:2025-01-26:1639",
+       "journal:2025-01-28:1648",
+       "journal:2025-01-28:1651"
+      ]
+     },
+     {
+      "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1349",
+      "treatment": 112929113,
+      "control": 112868966,
+      "ids": [
+       "journal:2025-01-26:1640",
+       "journal:2025-01-28:1649",
+       "journal:2025-01-28:1652"
+      ]
+     },
+     {
+      "kind": "employer-taxes:share @ src/core2/modules/employer-taxes.ts:616",
+      "treatment": 2301805,
+      "control": 2278657,
+      "ids": [
+       "journal:2025-01-25:1628",
+       "journal:2025-01-25:1630",
+       "journal:2025-01-25:1632"
+      ]
+     },
+     {
+      "kind": "drive-donation @ src/core2/modules/drives.ts:1076",
+      "treatment": 0,
+      "control": 5014,
+      "ids": [
+       "journal:2025-01-30:1694",
+       "journal:2025-01-31:1700",
+       "journal:2025-02-01:2748"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/credit-deposits.ts:150",
+      "treatment": 10723846,
+      "control": 10724056,
+      "ids": [
+       "journal:2025-01-21:1586",
+       "journal:2025-01-21:1587",
+       "journal:2025-01-21:1588"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/modules/residents.ts:1684",
+      "treatment": 3084183,
+      "control": 3084176,
+      "ids": [
+       "journal:2025-02-19:8357",
+       "journal:2025-02-19:8358",
+       "journal:2025-02-19:8360"
+      ]
+     }
+    ],
+    "diffKinds": 6,
+    "cited": []
+   },
+   "web": {
+    "links": [
+     {
+      "key": "inclusionary-to-homelessness",
+      "status": "about-zero",
+      "to": "housing.homelessness"
+     }
+    ],
+    "fired": [],
+    "firedCount": 0
+   },
+   "heard": {
+    "people": 86,
+    "sample": [
+     "person_a66a50fc6585ed57:printed:outlet:television:1:jurisdiction_971998ff58477430:law-took-effect:law:place:2666300:city:us-policy-positions:housing-land-use.inclusionary-requirement:general:2025-01-21:law-wiring-6ef37edd",
+     "person_54d221efd6ccd406:printed:outlet:television:1:jurisdiction_971998ff58477430:law-took-effect:law:place:2666300:city:us-policy-positions:housing-land-use.inclusionary-requirement:general:2025-01-21:law-wiring-6ef37edd",
+     "person_182e4b917b4e10f7:printed:outlet:television:1:jurisdiction_971998ff58477430:law-took-effect:law:place:2666300:city:us-policy-positions:housing-land-use.inclusionary-requirement:general:2025-01-21:law-wiring-6ef37edd"
+    ]
+   },
+   "afterUndo": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 0,
+    "sample": []
+   },
+   "seconds": 15
+  },
+  {
+   "key": "us-policy-positions:housing-land-use.right-to-counsel-in-eviction",
+   "kind": "question",
+   "family": "housing",
+   "inForceAtOpening": false,
+   "change": "enacted at city (law:place:2666300:city:us-policy-positions:housing-land-use.right-to-counsel-in-eviction:general:2025-01-21:law-wiring-51e102dc) effective 2025-01-21; then repealed at city effective 2025-02-26",
+   "lawIds": [
+    "law:place:2666300:city:us-policy-positions:housing-land-use.right-to-counsel-in-eviction:general:2025-01-21:law-wiring-51e102dc",
+    "law:place:2666300:city:us-policy-positions:housing-land-use.right-to-counsel-in-eviction:general:2025-02-26:law-wiring-51e102dc-b"
+   ],
+   "openingReach": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 0,
+    "sample": []
+   },
+   "reach": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 0,
+    "sample": []
+   },
+   "readers": {
+    "src/core2/modules/outcome-web.ts:154": 48,
+    "src/core2/modules/world-legislating.ts:248": 32,
+    "src/core2/modules/world-legislating.ts:178": 16,
+    "src/core2/modules/legislature.ts:2011": 10,
+    "src/core2/life.ts:549": 5,
+    "src/core2/modules/world-legislating.ts:325": 4
+   },
+   "openingRow": "law:US-MI:state:us-policy-positions:housing-land-use.right-to-counsel-in-eviction:general:starting",
+   "money": {
+    "direct": [],
+    "diff": [],
+    "diffKinds": 0,
+    "cited": []
+   },
+   "web": {
+    "links": [
+     {
+      "key": "right-to-counsel-to-evictions",
+      "status": "outcome-not-produced",
+      "to": "housing.eviction"
+     }
+    ],
+    "fired": [],
+    "firedCount": 0
+   },
+   "heard": {
+    "people": 67,
+    "sample": [
+     "person_a66a50fc6585ed57:printed:outlet:television:1:jurisdiction_971998ff58477430:law-took-effect:law:place:2666300:city:us-policy-positions:housing-land-use.right-to-counsel-in-eviction:general:2025-01-21:law-wiring-51e102dc",
+     "person_54d221efd6ccd406:printed:outlet:television:1:jurisdiction_971998ff58477430:law-took-effect:law:place:2666300:city:us-policy-positions:housing-land-use.right-to-counsel-in-eviction:general:2025-01-21:law-wiring-51e102dc",
+     "person_182e4b917b4e10f7:printed:outlet:television:1:jurisdiction_971998ff58477430:law-took-effect:law:place:2666300:city:us-policy-positions:housing-land-use.right-to-counsel-in-eviction:general:2025-01-21:law-wiring-51e102dc"
+    ]
+   },
+   "afterUndo": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 0,
+    "sample": []
+   },
+   "seconds": 19
+  },
+  {
+   "key": "us-federal-positions:labor-commerce.raise-federal-minimum-wage",
+   "kind": "question",
+   "family": "labor",
+   "inForceAtOpening": false,
+   "change": "enacted at federal (law:US:federal:us-federal-positions:labor-commerce.raise-federal-minimum-wage:general:2025-01-21:law-wiring-540dbb8e) effective 2025-01-21; then repealed at federal effective 2025-02-26",
+   "lawIds": [
+    "law:US:federal:us-federal-positions:labor-commerce.raise-federal-minimum-wage:general:2025-01-21:law-wiring-540dbb8e",
+    "law:US:federal:us-federal-positions:labor-commerce.raise-federal-minimum-wage:general:2025-02-26:law-wiring-540dbb8e-b"
+   ],
+   "openingReach": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 0,
+    "sample": []
+   },
+   "reach": {
+    "fullPeople": 41,
+    "countedGroups": 1,
+    "countedPeople": 77,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 42,
+    "ended": 0,
+    "sample": [
+     "reach:law:US:federal:us-federal-positions:labor-commerce.raise-federal-minimum-wage:general:2025-01-21:law-wiring-540dbb8e:workers:person_33f81e3b0c5194c6:2025-01-21",
+     "reach:law:US:federal:us-federal-positions:labor-commerce.raise-federal-minimum-wage:general:2025-01-21:law-wiring-540dbb8e:workers:person_a4689d4c0a9e7f13:2025-01-21",
+     "reach:law:US:federal:us-federal-positions:labor-commerce.raise-federal-minimum-wage:general:2025-01-21:law-wiring-540dbb8e:workers:person_ae720410206893b1:2025-01-21",
+     "reach:law:US:federal:us-federal-positions:labor-commerce.raise-federal-minimum-wage:general:2025-01-21:law-wiring-540dbb8e:workers:person_ae720310206891fe:2025-01-21"
+    ]
+   },
+   "readers": {
+    "src/core2/modules/outcome-web.ts:154": 51,
+    "src/core2/life.ts:549": 2
+   },
+   "openingRow": null,
+   "money": {
+    "direct": [],
+    "diff": [
+     {
+      "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:829",
+      "treatment": 59223957419247,
+      "control": 59223958076371,
+      "ids": [
+       "journal:2025-02-01:1724",
+       "journal:2025-02-01:1725",
+       "journal:2025-02-01:1726"
+      ]
+     },
+     {
+      "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2351",
+      "treatment": 9371795,
+      "control": 8816595,
+      "ids": [
+       "journal:2025-01-26:1639",
+       "journal:2025-01-28:1648",
+       "journal:2025-01-28:1651"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/counted-money.ts:545",
+      "treatment": 35074923,
+      "control": 34674391,
+      "ids": [
+       "journal:2025-01-24:1626",
+       "journal:2025-01-25:1627",
+       "journal:2025-01-25:1629"
+      ]
+     },
+     {
+      "kind": "employer-taxes:share @ src/core2/modules/employer-taxes.ts:616",
+      "treatment": 2387861,
+      "control": 2278657,
+      "ids": [
+       "journal:2025-01-25:1628",
+       "journal:2025-01-25:1630",
+       "journal:2025-01-25:1632"
+      ]
+     },
+     {
+      "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1349",
+      "treatment": 112956457,
+      "control": 112868966,
+      "ids": [
+       "journal:2025-01-26:1640",
+       "journal:2025-01-28:1649",
+       "journal:2025-01-28:1652"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/modules/residents.ts:1684",
+      "treatment": 3107143,
+      "control": 3084176,
+      "ids": [
+       "journal:2025-02-19:8344",
+       "journal:2025-02-19:8345",
+       "journal:2025-02-19:8347"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/world-transfer.ts:37",
+      "treatment": 1776551,
+      "control": 1761585,
+      "ids": [
+       "journal:2025-02-01:1862",
+       "journal:2025-02-01:1863",
+       "journal:2025-02-01:1864"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/counted-money.ts:631",
+      "treatment": 13318557,
+      "control": 13315156,
+      "ids": [
+       "journal:2025-02-01:2637",
+       "journal:2025-02-01:2638",
+       "journal:2025-02-01:2640"
+      ]
+     },
+     {
+      "kind": "finance.contract-settlement @ src/core2/finance-cash.ts:2591",
+      "treatment": 19886642,
+      "control": 19884235,
+      "ids": [
+       "journal:2025-02-01:1889",
+       "journal:2025-02-01:1890",
+       "journal:2025-02-01:1891"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:796",
+      "treatment": 18562079049286,
+      "control": 18562079051631,
+      "ids": [
+       "journal:2025-02-01:1714",
+       "journal:2025-02-01:1715",
+       "journal:2025-02-01:1716"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/counted-money.ts:740",
+      "treatment": 961433,
+      "control": 959745,
+      "ids": [
+       "journal:2025-02-03:7444",
+       "journal:2025-02-03:7445",
+       "journal:2025-02-03:7446"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/modules/purchase-tax.ts:142",
+      "treatment": 1655398,
+      "control": 1654471,
+      "ids": [
+       "journal:2025-02-01:1910",
+       "journal:2025-02-01:1912",
+       "journal:2025-02-01:1914"
+      ]
+     }
+    ],
+    "diffKinds": 14,
+    "cited": []
+   },
+   "web": {
+    "links": [
+     {
+      "key": "federal-minimum-wage-to-poverty",
+      "status": "built",
+      "to": "household.poverty-pct"
+     },
+     {
+      "key": "federal-minimum-wage-to-low-wage-jobs",
+      "status": "outcome-not-produced",
+      "to": "labor.low-wage-jobs"
+     }
+    ],
+    "fired": [],
+    "firedCount": 0
+   },
+   "heard": {
+    "people": 79,
+    "sample": [
+     "person_a66a50fc6585ed57:printed:outlet:cable:0:national:law-took-effect:law:US:federal:minimum-wage:general:2025-01-22:law:US:federal:us-federal-positions:labor-commerce.raise-federal-minimum-wage:general:2025-01-21:law-wiring-540dbb8e",
+     "person_54d221efd6ccd406:printed:outlet:cable:0:national:law-took-effect:law:US:federal:minimum-wage:general:2025-01-22:law:US:federal:us-federal-positions:labor-commerce.raise-federal-minimum-wage:general:2025-01-21:law-wiring-540dbb8e",
+     "person_182e4b917b4e10f7:printed:outlet:cable:0:national:law-took-effect:law:US:federal:minimum-wage:general:2025-01-22:law:US:federal:us-federal-positions:labor-commerce.raise-federal-minimum-wage:general:2025-01-21:law-wiring-540dbb8e"
+    ]
+   },
+   "afterUndo": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 42,
+    "sample": []
+   },
+   "seconds": 18
+  },
+  {
+   "key": "us-policy-positions:labor-workforce.raise-minimum-wage",
+   "kind": "question",
+   "family": "labor",
+   "inForceAtOpening": true,
+   "change": "repealed at state effective 2025-01-21; then enacted at city (law:place:2666300:city:us-policy-positions:labor-workforce.raise-minimum-wage:general:2025-02-26:law-wiring-d15486c4-b) effective 2025-02-26",
+   "lawIds": [
+    "law:US-MI:state:us-policy-positions:labor-workforce.raise-minimum-wage:general:starting",
+    "law:US-MI:state:us-policy-positions:labor-workforce.raise-minimum-wage:general:2025-01-21:law-wiring-d15486c4",
+    "law:place:2666300:city:us-policy-positions:labor-workforce.raise-minimum-wage:general:2025-02-26:law-wiring-d15486c4-b"
+   ],
+   "openingReach": {
+    "fullPeople": 33,
+    "countedGroups": 1,
+    "countedPeople": 84,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 34,
+    "ended": 0,
+    "sample": [
+     "reach:law:US-MI:state:us-policy-positions:labor-workforce.raise-minimum-wage:general:starting:workers:person_33f81e3b0c5194c6:2025-01-20",
+     "reach:law:US-MI:state:us-policy-positions:labor-workforce.raise-minimum-wage:general:starting:workers:person_a4689d4c0a9e7f13:2025-01-20",
+     "reach:law:US-MI:state:us-policy-positions:labor-workforce.raise-minimum-wage:general:starting:workers:person_ae720410206893b1:2025-01-20",
+     "reach:law:US-MI:state:us-policy-positions:labor-workforce.raise-minimum-wage:general:starting:workers:person_ae720310206891fe:2025-01-20"
+    ]
+   },
+   "reach": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 34,
+    "sample": []
+   },
+   "readers": {
+    "src/core2/modules/world-legislating.ts:248": 24,
+    "src/core2/modules/world-legislating.ts:178": 16,
+    "src/core2/modules/legislature.ts:2011": 14,
+    "src/core2/life.ts:549": 5,
+    "src/core2/modules/world-legislating.ts:325": 2
+   },
+   "openingRow": "law:US-MI:state:us-policy-positions:labor-workforce.raise-minimum-wage:general:starting",
+   "money": {
+    "direct": [],
+    "diff": [],
+    "diffKinds": 0,
+    "cited": []
+   },
+   "web": {
+    "links": [],
+    "fired": [],
+    "firedCount": 0
+   },
+   "heard": {
+    "people": 75,
+    "sample": [
+     "person_a66a50fc6585ed57:printed:outlet:cable:0:national:law-took-effect:law:US-MI:state:us-policy-positions:labor-workforce.raise-minimum-wage:general:2025-01-21:law-wiring-d15486c4",
+     "person_54d221efd6ccd406:printed:outlet:cable:0:national:law-took-effect:law:US-MI:state:us-policy-positions:labor-workforce.raise-minimum-wage:general:2025-01-21:law-wiring-d15486c4",
+     "person_182e4b917b4e10f7:printed:outlet:cable:0:national:law-took-effect:law:US-MI:state:us-policy-positions:labor-workforce.raise-minimum-wage:general:2025-01-21:law-wiring-d15486c4"
+    ]
+   },
+   "afterUndo": {
+    "fullPeople": 61,
+    "countedGroups": 1,
+    "countedPeople": 64,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 62,
+    "ended": 34,
+    "sample": [
+     "reach:law:place:2666300:city:us-policy-positions:labor-workforce.raise-minimum-wage:general:2025-02-26:law-wiring-d15486c4-b:workers:person_33f81e3b0c5194c6:2025-02-26",
+     "reach:law:place:2666300:city:us-policy-positions:labor-workforce.raise-minimum-wage:general:2025-02-26:law-wiring-d15486c4-b:workers:person_a4689d4c0a9e7f13:2025-02-26",
+     "reach:law:place:2666300:city:us-policy-positions:labor-workforce.raise-minimum-wage:general:2025-02-26:law-wiring-d15486c4-b:workers:person_ae720410206893b1:2025-02-26",
+     "reach:law:place:2666300:city:us-policy-positions:labor-workforce.raise-minimum-wage:general:2025-02-26:law-wiring-d15486c4-b:workers:person_ae720310206891fe:2025-02-26"
+    ]
+   },
+   "seconds": 28
+  },
+  {
+   "key": "us-policy-positions:labor-workforce.public-sector-collective-bargaining",
+   "kind": "question",
+   "family": "labor",
+   "inForceAtOpening": true,
+   "change": "repealed at state effective 2025-01-21; then enacted at city (law:place:2666300:city:us-policy-positions:labor-workforce.public-sector-collective-bargaining:general:2025-02-26:law-wiring-8c69b2e8-b) effective 2025-02-26",
+   "lawIds": [
+    "law:US-MI:state:us-policy-positions:labor-workforce.public-sector-collective-bargaining:general:starting",
+    "law:US-MI:state:us-policy-positions:labor-workforce.public-sector-collective-bargaining:general:2025-01-21:law-wiring-8c69b2e8",
+    "law:place:2666300:city:us-policy-positions:labor-workforce.public-sector-collective-bargaining:general:2025-02-26:law-wiring-8c69b2e8-b"
+   ],
+   "openingReach": {
+    "fullPeople": 8,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 7,
+    "governments": 0,
+    "other": 0,
+    "open": 15,
+    "ended": 0,
+    "sample": [
+     "reach:law:US-MI:state:us-policy-positions:labor-workforce.public-sector-collective-bargaining:general:starting:public-workers:person_3f9b0f502a79bcc4:2025-01-20",
+     "reach:law:US-MI:state:us-policy-positions:labor-workforce.public-sector-collective-bargaining:general:starting:public-workers:person_9f731738b52b4db4:2025-01-20",
+     "reach:law:US-MI:state:us-policy-positions:labor-workforce.public-sector-collective-bargaining:general:starting:public-workers:person_b4260fe627dd73b4:2025-01-20",
+     "reach:law:US-MI:state:us-policy-positions:labor-workforce.public-sector-collective-bargaining:general:starting:public-workers:person_ad742108bbf39116:2025-01-20"
+    ]
+   },
+   "reach": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 15,
+    "sample": []
+   },
+   "readers": {
+    "src/core2/modules/outcome-web.ts:154": 96,
+    "src/core2/modules/legislature.ts:2011": 26,
+    "src/core2/modules/world-legislating.ts:248": 24,
+    "src/core2/modules/world-legislating.ts:178": 16,
+    "src/core2/life.ts:549": 5,
+    "src/core2/modules/world-legislating.ts:325": 2
+   },
+   "openingRow": "law:US-MI:state:us-policy-positions:labor-workforce.public-sector-collective-bargaining:general:starting",
+   "money": {
+    "direct": [],
+    "diff": [],
+    "diffKinds": 0,
+    "cited": []
+   },
+   "web": {
+    "links": [
+     {
+      "key": "public-bargaining-to-graduation",
+      "status": "about-zero",
+      "to": "school.graduation-pct"
+     },
+     {
+      "key": "public-bargaining-to-earnings",
+      "status": "built",
+      "to": "labor.median-earnings"
+     }
+    ],
+    "fired": [
+     {
+      "id": "web:jurisdiction_971998ff58477430:2025-01",
+      "link": "public-bargaining-to-earnings",
+      "effect": 0.01
+     },
+     {
+      "id": "web:jurisdiction_971998ff58477430:2025-02",
+      "link": "public-bargaining-to-earnings",
+      "effect": 0.01
+     }
+    ],
+    "firedCount": 2
+   },
+   "heard": {
+    "people": 75,
+    "sample": [
+     "person_a66a50fc6585ed57:printed:outlet:cable:0:national:law-took-effect:law:US-MI:state:us-policy-positions:labor-workforce.public-sector-collective-bargaining:general:2025-01-21:law-wiring-8c69b2e8",
+     "person_54d221efd6ccd406:printed:outlet:cable:0:national:law-took-effect:law:US-MI:state:us-policy-positions:labor-workforce.public-sector-collective-bargaining:general:2025-01-21:law-wiring-8c69b2e8",
+     "person_182e4b917b4e10f7:printed:outlet:cable:0:national:law-took-effect:law:US-MI:state:us-policy-positions:labor-workforce.public-sector-collective-bargaining:general:2025-01-21:law-wiring-8c69b2e8"
+    ]
+   },
+   "afterUndo": {
+    "fullPeople": 8,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 7,
+    "governments": 0,
+    "other": 0,
+    "open": 15,
+    "ended": 15,
+    "sample": [
+     "reach:law:place:2666300:city:us-policy-positions:labor-workforce.public-sector-collective-bargaining:general:2025-02-26:law-wiring-8c69b2e8-b:public-workers:person_3f9b0f502a79bcc4:2025-02-26",
+     "reach:law:place:2666300:city:us-policy-positions:labor-workforce.public-sector-collective-bargaining:general:2025-02-26:law-wiring-8c69b2e8-b:public-workers:person_9f731738b52b4db4:2025-02-26",
+     "reach:law:place:2666300:city:us-policy-positions:labor-workforce.public-sector-collective-bargaining:general:2025-02-26:law-wiring-8c69b2e8-b:public-workers:person_b4260fe627dd73b4:2025-02-26",
+     "reach:law:place:2666300:city:us-policy-positions:labor-workforce.public-sector-collective-bargaining:general:2025-02-26:law-wiring-8c69b2e8-b:public-workers:person_ad742108bbf39116:2025-02-26"
+    ]
+   },
+   "seconds": 66
+  },
+  {
+   "key": "us-policy-positions:business-commerce.legalize-cannabis-sales",
+   "kind": "question",
+   "family": "business",
+   "inForceAtOpening": true,
+   "change": "repealed at state effective 2025-01-21; then enacted at city (law:place:2666300:city:us-policy-positions:business-commerce.legalize-cannabis-sales:general:2025-02-26:law-wiring-68b8ed3c-b) effective 2025-02-26",
+   "lawIds": [
+    "law:US-MI:state:us-policy-positions:business-commerce.legalize-cannabis-sales:general:starting",
+    "law:US-MI:state:us-policy-positions:business-commerce.legalize-cannabis-sales:general:2025-01-21:law-wiring-68b8ed3c",
+    "law:place:2666300:city:us-policy-positions:business-commerce.legalize-cannabis-sales:general:2025-02-26:law-wiring-68b8ed3c-b"
+   ],
+   "openingReach": {
+    "fullPeople": 44,
+    "countedGroups": 1,
+    "countedPeople": 143,
+    "households": 0,
+    "organizations": 3,
+    "governments": 0,
+    "other": 0,
+    "open": 48,
+    "ended": 0,
+    "sample": [
+     "reach:law:US-MI:state:us-policy-positions:business-commerce.legalize-cannabis-sales:general:starting:adults:person_33f81e3b0c5194c6:2025-01-20",
+     "reach:law:US-MI:state:us-policy-positions:business-commerce.legalize-cannabis-sales:general:starting:adults:person_a4689d4c0a9e7f13:2025-01-20",
+     "reach:law:US-MI:state:us-policy-positions:business-commerce.legalize-cannabis-sales:general:starting:adults:person_a4689c4c0a9e7d60:2025-01-20",
+     "reach:law:US-MI:state:us-policy-positions:business-commerce.legalize-cannabis-sales:general:starting:adults:person_ae720410206893b1:2025-01-20"
+    ]
+   },
+   "reach": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 48,
+    "sample": []
+   },
+   "readers": {
+    "src/core2/modules/outcome-web.ts:154": 144,
+    "src/core2/modules/world-legislating.ts:248": 24,
+    "src/core2/modules/world-legislating.ts:178": 16,
+    "src/core2/life.ts:549": 5,
+    "src/core2/modules/legislature.ts:2011": 2,
+    "src/core2/modules/world-legislating.ts:325": 2,
+    "src/core2/modules/place-prices.ts:546": 2
+   },
+   "openingRow": "law:US-MI:state:us-policy-positions:business-commerce.legalize-cannabis-sales:general:starting",
+   "money": {
+    "direct": [],
+    "diff": [
+     {
+      "kind": "accounts.transfer @ src/core2/world-transfer.ts:37",
+      "treatment": 1588833,
+      "control": 1761585,
+      "ids": [
+       "journal:2025-02-01:1896",
+       "journal:2025-02-01:1897",
+       "journal:2025-02-01:1898"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/counted-money.ts:545",
+      "treatment": 34538068,
+      "control": 34674391,
+      "ids": [
+       "journal:2025-01-24:1626",
+       "journal:2025-01-25:1627",
+       "journal:2025-01-25:1629"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/counted-money.ts:740",
+      "treatment": 823422,
+      "control": 959745,
+      "ids": [
+       "journal:2025-02-03:7478",
+       "journal:2025-02-03:7479",
+       "journal:2025-02-03:7480"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/modules/purchase-tax.ts:142",
+      "treatment": 1641941,
+      "control": 1654471,
+      "ids": [
+       "journal:2025-02-01:1944",
+       "journal:2025-02-01:1946",
+       "journal:2025-02-01:1948"
+      ]
+     }
+    ],
+    "diffKinds": 4,
+    "cited": []
+   },
+   "web": {
+    "links": [
+     {
+      "key": "cannabis-sales-to-youth-use",
+      "status": "built",
+      "to": "health.youth-cannabis-use"
+     },
+     {
+      "key": "cannabis-sales-to-violent-crime",
+      "status": "about-zero",
+      "to": "crime.violent"
+     },
+     {
+      "key": "cannabis-sales-to-overdose-deaths",
+      "status": "built",
+      "to": "health.overdose-deaths"
+     }
+    ],
+    "fired": [
+     {
+      "id": "web:jurisdiction_971998ff58477430:2025-01",
+      "link": "cannabis-sales-to-youth-use",
+      "effect": 0.04
+     },
+     {
+      "id": "web:jurisdiction_971998ff58477430:2025-01",
+      "link": "cannabis-sales-to-overdose-deaths",
+      "effect": 0.05
+     },
+     {
+      "id": "web:jurisdiction_971998ff58477430:2025-02",
+      "link": "cannabis-sales-to-youth-use",
+      "effect": 0.04
+     },
+     {
+      "id": "web:jurisdiction_971998ff58477430:2025-02",
+      "link": "cannabis-sales-to-overdose-deaths",
+      "effect": 0.05
+     }
+    ],
+    "firedCount": 4
+   },
+   "heard": {
+    "people": 75,
+    "sample": [
+     "person_a66a50fc6585ed57:printed:outlet:cable:0:national:law-took-effect:law:US-MI:state:us-policy-positions:business-commerce.legalize-cannabis-sales:general:2025-01-21:law-wiring-68b8ed3c",
+     "person_54d221efd6ccd406:printed:outlet:cable:0:national:law-took-effect:law:US-MI:state:us-policy-positions:business-commerce.legalize-cannabis-sales:general:2025-01-21:law-wiring-68b8ed3c",
+     "person_182e4b917b4e10f7:printed:outlet:cable:0:national:law-took-effect:law:US-MI:state:us-policy-positions:business-commerce.legalize-cannabis-sales:general:2025-01-21:law-wiring-68b8ed3c"
+    ]
+   },
+   "afterUndo": {
+    "fullPeople": 76,
+    "countedGroups": 1,
+    "countedPeople": 111,
+    "households": 0,
+    "organizations": 3,
+    "governments": 0,
+    "other": 0,
+    "open": 80,
+    "ended": 48,
+    "sample": [
+     "reach:law:place:2666300:city:us-policy-positions:business-commerce.legalize-cannabis-sales:general:2025-02-26:law-wiring-68b8ed3c-b:adults:person_33f81e3b0c5194c6:2025-02-26",
+     "reach:law:place:2666300:city:us-policy-positions:business-commerce.legalize-cannabis-sales:general:2025-02-26:law-wiring-68b8ed3c-b:adults:person_a4689d4c0a9e7f13:2025-02-26",
+     "reach:law:place:2666300:city:us-policy-positions:business-commerce.legalize-cannabis-sales:general:2025-02-26:law-wiring-68b8ed3c-b:adults:person_a4689c4c0a9e7d60:2025-02-26",
+     "reach:law:place:2666300:city:us-policy-positions:business-commerce.legalize-cannabis-sales:general:2025-02-26:law-wiring-68b8ed3c-b:adults:person_ae720410206893b1:2025-02-26"
+    ]
+   },
+   "seconds": 63
+  },
+  {
+   "key": "us-policy-positions:environment-energy.ban-new-gas-hookups",
+   "kind": "question",
+   "family": "energy-environment",
+   "inForceAtOpening": false,
+   "change": "enacted at city (law:place:2666300:city:us-policy-positions:environment-energy.ban-new-gas-hookups:general:2025-01-21:law-wiring-16f91ec9) effective 2025-01-21; then repealed at city effective 2025-02-26",
+   "lawIds": [
+    "law:place:2666300:city:us-policy-positions:environment-energy.ban-new-gas-hookups:general:2025-01-21:law-wiring-16f91ec9",
+    "law:place:2666300:city:us-policy-positions:environment-energy.ban-new-gas-hookups:general:2025-02-26:law-wiring-16f91ec9-b"
+   ],
+   "openingReach": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 0,
+    "sample": []
+   },
+   "reach": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 0,
+    "sample": []
+   },
+   "readers": {
+    "src/core2/modules/outcome-web.ts:154": 48,
+    "src/core2/life.ts:549": 5,
+    "src/core2/modules/housing.ts:1500": 2
+   },
+   "openingRow": "law:US-MI:state:us-policy-positions:environment-energy.ban-new-gas-hookups:general:starting",
+   "money": {
+    "direct": [],
+    "diff": [],
+    "diffKinds": 0,
+    "cited": []
+   },
+   "web": {
+    "links": [
+     {
+      "key": "gas-hookup-ban-to-child-asthma",
+      "status": "built",
+      "to": "health.child-asthma-pct"
+     }
+    ],
+    "fired": [],
+    "firedCount": 0
+   },
+   "heard": {
+    "people": 67,
+    "sample": [
+     "person_a66a50fc6585ed57:printed:outlet:television:1:jurisdiction_971998ff58477430:law-took-effect:law:place:2666300:city:us-policy-positions:environment-energy.ban-new-gas-hookups:general:2025-01-21:law-wiring-16f91ec9",
+     "person_54d221efd6ccd406:printed:outlet:television:1:jurisdiction_971998ff58477430:law-took-effect:law:place:2666300:city:us-policy-positions:environment-energy.ban-new-gas-hookups:general:2025-01-21:law-wiring-16f91ec9",
+     "person_182e4b917b4e10f7:printed:outlet:television:1:jurisdiction_971998ff58477430:law-took-effect:law:place:2666300:city:us-policy-positions:environment-energy.ban-new-gas-hookups:general:2025-01-21:law-wiring-16f91ec9"
+    ]
+   },
+   "afterUndo": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 0,
+    "sample": []
+   },
+   "seconds": 30
+  },
+  {
+   "key": "us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties",
+   "kind": "question",
+   "family": "energy-environment",
+   "inForceAtOpening": false,
+   "change": "enacted at city (law:place:2666300:city:us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties:general:2025-01-21:law-wiring-fbc8b216) effective 2025-01-21; then repealed at city effective 2025-02-26",
+   "lawIds": [
+    "law:place:2666300:city:us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties:general:2025-01-21:law-wiring-fbc8b216",
+    "law:place:2666300:city:us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties:general:2025-02-26:law-wiring-fbc8b216-b"
+   ],
+   "openingReach": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 0,
+    "sample": []
+   },
+   "reach": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 0,
+    "sample": []
+   },
+   "readers": {
+    "src/core2/modules/outcome-web.ts:154": 48,
+    "src/core2/modules/world-legislating.ts:248": 32,
+    "src/core2/modules/world-legislating.ts:178": 16,
+    "src/core2/life.ts:549": 5,
+    "src/core2/modules/legislature.ts:2011": 2,
+    "src/core2/modules/world-legislating.ts:325": 2,
+    "src/core2/modules/business.ts:919": 2
+   },
+   "openingRow": "law:US-MI:state:us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties:general:starting",
+   "money": {
+    "direct": [],
+    "diff": [],
+    "diffKinds": 0,
+    "cited": []
+   },
+   "web": {
+    "links": [
+     {
+      "key": "emission-rules-to-particulates",
+      "status": "built",
+      "to": "env.particulates"
+     }
+    ],
+    "fired": [],
+    "firedCount": 0
+   },
+   "heard": {
+    "people": 67,
+    "sample": [
+     "person_a66a50fc6585ed57:printed:outlet:television:1:jurisdiction_971998ff58477430:law-took-effect:law:place:2666300:city:us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties:general:2025-01-21:law-wiring-fbc8b216",
+     "person_54d221efd6ccd406:printed:outlet:television:1:jurisdiction_971998ff58477430:law-took-effect:law:place:2666300:city:us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties:general:2025-01-21:law-wiring-fbc8b216",
+     "person_182e4b917b4e10f7:printed:outlet:television:1:jurisdiction_971998ff58477430:law-took-effect:law:place:2666300:city:us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties:general:2025-01-21:law-wiring-fbc8b216"
+    ]
+   },
+   "afterUndo": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 0,
+    "sample": []
+   },
+   "seconds": 27
+  },
+  {
+   "key": "us-policy-positions:transportation-infrastructure.fare-free-transit",
+   "kind": "question",
+   "family": "infrastructure",
+   "inForceAtOpening": false,
+   "change": "enacted at city (law:place:2666300:city:us-policy-positions:transportation-infrastructure.fare-free-transit:general:2025-01-21:law-wiring-167ca21b) effective 2025-01-21; then repealed at city effective 2025-02-26",
+   "lawIds": [
+    "law:place:2666300:city:us-policy-positions:transportation-infrastructure.fare-free-transit:general:2025-01-21:law-wiring-167ca21b",
+    "law:place:2666300:city:us-policy-positions:transportation-infrastructure.fare-free-transit:general:2025-02-26:law-wiring-167ca21b-b"
+   ],
+   "openingReach": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 0,
+    "sample": []
+   },
+   "reach": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 0,
+    "sample": []
+   },
+   "readers": {
+    "src/core2/modules/outcome-web.ts:154": 48,
+    "src/core2/life.ts:549": 5,
+    "src/core2/modules/place-prices.ts:546": 2,
+    "src/core2/modules/legislature.ts:2011": 2
+   },
+   "openingRow": "law:US-MI:state:us-policy-positions:transportation-infrastructure.fare-free-transit:general:starting",
+   "money": {
+    "direct": [],
+    "diff": [
+     {
+      "kind": "accounts.transfer @ src/core2/counted-money.ts:545",
+      "treatment": 34708421,
+      "control": 34674391,
+      "ids": [
+       "journal:2025-01-24:1626",
+       "journal:2025-01-25:1627",
+       "journal:2025-01-25:1629"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/world-transfer.ts:37",
+      "treatment": 1775639,
+      "control": 1761585,
+      "ids": [
+       "journal:2025-02-01:1899",
+       "journal:2025-02-01:1900",
+       "journal:2025-02-01:1901"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/modules/residents.ts:1684",
+      "treatment": 3088682,
+      "control": 3084176,
+      "ids": [
+       "journal:2025-02-19:8441",
+       "journal:2025-02-19:8442",
+       "journal:2025-02-19:8444"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/modules/residents.ts:1173",
+      "treatment": 1500982,
+      "control": 1500459,
+      "ids": [
+       "journal:2025-02-01:2687",
+       "journal:2025-02-01:2688",
+       "journal:2025-02-01:2689"
+      ]
+     },
+     {
+      "kind": "drive-donation @ src/core2/modules/drives.ts:1076",
+      "treatment": 5024,
+      "control": 5014,
+      "ids": [
+       "journal:2025-01-30:1694",
+       "journal:2025-01-31:1700",
+       "journal:2025-02-01:2751"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:829",
+      "treatment": 59223958076365,
+      "control": 59223958076371,
+      "ids": [
+       "journal:2025-02-01:1724",
+       "journal:2025-02-01:1725",
+       "journal:2025-02-01:1726"
+      ]
+     }
+    ],
+    "diffKinds": 6,
+    "cited": [
+     {
+      "token": "law:place:2666300:city:us-policy-positions:transportation-infrastructure.fare-free-transit:general:2025-01-21:law-wiring-167ca21b",
+      "gross": 48339,
+      "ids": [
+       "journal:2025-02-03:7558",
+       "journal:2025-02-03:7559",
+       "journal:2025-02-03:7560"
+      ]
+     },
+     {
+      "token": "us-policy-positions:transportation-infrastructure.fare-free-transit",
+      "gross": 48339,
+      "ids": [
+       "journal:2025-02-03:7558",
+       "journal:2025-02-03:7559",
+       "journal:2025-02-03:7560"
+      ]
+     },
+     {
+      "token": "law-wiring-167ca21b",
+      "gross": 48339,
+      "ids": [
+       "journal:2025-02-03:7558",
+       "journal:2025-02-03:7559",
+       "journal:2025-02-03:7560"
+      ]
+     }
+    ]
+   },
+   "web": {
+    "links": [
+     {
+      "key": "fare-free-transit-to-ridership",
+      "status": "built",
+      "to": "transit.ridership"
+     }
+    ],
+    "fired": [],
+    "firedCount": 0
+   },
+   "heard": {
+    "people": 67,
+    "sample": [
+     "person_a66a50fc6585ed57:printed:outlet:television:1:jurisdiction_971998ff58477430:law-took-effect:law:place:2666300:city:us-policy-positions:transportation-infrastructure.fare-free-transit:general:2025-01-21:law-wiring-167ca21b",
+     "person_54d221efd6ccd406:printed:outlet:television:1:jurisdiction_971998ff58477430:law-took-effect:law:place:2666300:city:us-policy-positions:transportation-infrastructure.fare-free-transit:general:2025-01-21:law-wiring-167ca21b",
+     "person_182e4b917b4e10f7:printed:outlet:television:1:jurisdiction_971998ff58477430:law-took-effect:law:place:2666300:city:us-policy-positions:transportation-infrastructure.fare-free-transit:general:2025-01-21:law-wiring-167ca21b"
+    ]
+   },
+   "afterUndo": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 0,
+    "sample": []
+   },
+   "seconds": 17
+  },
+  {
+   "key": "us-policy-positions:transportation-infrastructure.public-broadband",
+   "kind": "question",
+   "family": "infrastructure",
+   "inForceAtOpening": false,
+   "change": "enacted at city (law:place:2666300:city:us-policy-positions:transportation-infrastructure.public-broadband:general:2025-01-21:law-wiring-6d3c33c8) effective 2025-01-21; then repealed at city effective 2025-02-26",
+   "lawIds": [
+    "law:place:2666300:city:us-policy-positions:transportation-infrastructure.public-broadband:general:2025-01-21:law-wiring-6d3c33c8",
+    "law:place:2666300:city:us-policy-positions:transportation-infrastructure.public-broadband:general:2025-02-26:law-wiring-6d3c33c8-b"
+   ],
+   "openingReach": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 0,
+    "sample": []
+   },
+   "reach": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 0,
+    "sample": []
+   },
+   "readers": {
+    "src/core2/modules/outcome-web.ts:154": 48,
+    "src/core2/modules/world-legislating.ts:248": 32,
+    "src/core2/modules/world-legislating.ts:178": 16,
+    "src/core2/life.ts:549": 5,
+    "src/core2/modules/legislature.ts:2011": 2,
+    "src/core2/modules/world-legislating.ts:325": 2,
+    "src/core2/modules/place-prices.ts:546": 2
+   },
+   "openingRow": "law:US-MI:state:us-policy-positions:transportation-infrastructure.public-broadband:general:starting",
+   "money": {
+    "direct": [],
+    "diff": [
+     {
+      "kind": "accounts.transfer @ src/core2/counted-money.ts:545",
+      "treatment": 35205631,
+      "control": 34674391,
+      "ids": [
+       "journal:2025-01-24:1626",
+       "journal:2025-01-25:1627",
+       "journal:2025-01-25:1629"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/counted-money.ts:740",
+      "treatment": 1384737,
+      "control": 959745,
+      "ids": [
+       "journal:2025-02-03:7478",
+       "journal:2025-02-03:7479",
+       "journal:2025-02-03:7480"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/world-transfer.ts:37",
+      "treatment": 2088717,
+      "control": 1761585,
+      "ids": [
+       "journal:2025-02-01:1896",
+       "journal:2025-02-01:1897",
+       "journal:2025-02-01:1898"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/modules/residents.ts:1684",
+      "treatment": 3099044,
+      "control": 3084176,
+      "ids": [
+       "journal:2025-02-19:8492",
+       "journal:2025-02-19:8493",
+       "journal:2025-02-19:8495"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/modules/residents.ts:1173",
+      "treatment": 1501857,
+      "control": 1500459,
+      "ids": [
+       "journal:2025-02-01:2684",
+       "journal:2025-02-01:2685",
+       "journal:2025-02-01:2686"
+      ]
+     },
+     {
+      "kind": "drive-donation @ src/core2/modules/drives.ts:1076",
+      "treatment": 5039,
+      "control": 5014,
+      "ids": [
+       "journal:2025-01-30:1694",
+       "journal:2025-01-31:1700",
+       "journal:2025-02-01:2748"
+      ]
+     }
+    ],
+    "diffKinds": 6,
+    "cited": [
+     {
+      "token": "law:place:2666300:city:us-policy-positions:transportation-infrastructure.public-broadband:general:2025-01-21:law-wiring-6d3c33c8",
+      "gross": 1283364,
+      "ids": [
+       "journal:2025-02-03:7555",
+       "journal:2025-02-03:7556",
+       "journal:2025-02-03:7557"
+      ]
+     },
+     {
+      "token": "us-policy-positions:transportation-infrastructure.public-broadband",
+      "gross": 1283364,
+      "ids": [
+       "journal:2025-02-03:7555",
+       "journal:2025-02-03:7556",
+       "journal:2025-02-03:7557"
+      ]
+     },
+     {
+      "token": "law-wiring-6d3c33c8",
+      "gross": 1283364,
+      "ids": [
+       "journal:2025-02-03:7555",
+       "journal:2025-02-03:7556",
+       "journal:2025-02-03:7557"
+      ]
+     }
+    ]
+   },
+   "web": {
+    "links": [
+     {
+      "key": "public-broadband-to-home-access",
+      "status": "built",
+      "to": "broadband.home-access"
+     }
+    ],
+    "fired": [],
+    "firedCount": 0
+   },
+   "heard": {
+    "people": 67,
+    "sample": [
+     "person_a66a50fc6585ed57:printed:outlet:television:1:jurisdiction_971998ff58477430:law-took-effect:law:place:2666300:city:us-policy-positions:transportation-infrastructure.public-broadband:general:2025-01-21:law-wiring-6d3c33c8",
+     "person_54d221efd6ccd406:printed:outlet:television:1:jurisdiction_971998ff58477430:law-took-effect:law:place:2666300:city:us-policy-positions:transportation-infrastructure.public-broadband:general:2025-01-21:law-wiring-6d3c33c8",
+     "person_182e4b917b4e10f7:printed:outlet:television:1:jurisdiction_971998ff58477430:law-took-effect:law:place:2666300:city:us-policy-positions:transportation-infrastructure.public-broadband:general:2025-01-21:law-wiring-6d3c33c8"
+    ]
+   },
+   "afterUndo": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 0,
+    "sample": []
+   },
+   "seconds": 15
+  },
+  {
+   "key": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+   "kind": "question",
+   "family": "healthcare",
+   "inForceAtOpening": true,
+   "change": "repealed at state effective 2025-01-21; then enacted at city (law:place:2666300:city:us-policy-positions:health-human-services.expand-medicaid-eligibility:general:2025-02-26:law-wiring-861da035-b) effective 2025-02-26",
+   "lawIds": [
+    "law:US-MI:state:us-policy-positions:health-human-services.expand-medicaid-eligibility:general:starting",
+    "law:US-MI:state:us-policy-positions:health-human-services.expand-medicaid-eligibility:general:2025-01-21:law-wiring-861da035",
+    "law:place:2666300:city:us-policy-positions:health-human-services.expand-medicaid-eligibility:general:2025-02-26:law-wiring-861da035-b"
+   ],
+   "openingReach": {
+    "fullPeople": 7,
+    "countedGroups": 1,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 8,
+    "ended": 0,
+    "sample": [
+     "us-policy-positions:health-human-services.expand-medicaid-eligibility|person_64420c52d99b1844|2025-01-20",
+     "us-policy-positions:health-human-services.expand-medicaid-eligibility|person_64420d52d99b19f7|2025-01-20",
+     "us-policy-positions:health-human-services.expand-medicaid-eligibility|person_8ff861de2f15d13f|2025-01-20",
+     "us-policy-positions:health-human-services.expand-medicaid-eligibility|person_b759d6b2d7ea45fc|2025-01-20"
+    ]
+   },
+   "reach": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 8,
+    "sample": []
+   },
+   "readers": {
+    "src/core2/modules/outcome-web.ts:154": 160,
+    "src/core2/modules/world-legislating.ts:248": 24,
+    "src/core2/modules/world-legislating.ts:178": 16,
+    "src/core2/life.ts:549": 5,
+    "src/core2/modules/legislature.ts:2011": 2,
+    "src/core2/modules/world-legislating.ts:325": 2,
+    "src/core2/law-reach/group-b.ts:213": 2
+   },
+   "openingRow": "law:US-MI:state:us-policy-positions:health-human-services.expand-medicaid-eligibility:general:starting",
+   "money": {
+    "direct": [],
+    "diff": [],
+    "diffKinds": 0,
+    "cited": []
+   },
+   "web": {
+    "links": [
+     {
+      "key": "medicaid-expansion-to-coverage",
+      "status": "built",
+      "to": "health.uninsured-pct"
+     },
+     {
+      "key": "medicaid-expansion-to-mortality",
+      "status": "outcome-not-produced",
+      "to": "health.mortality-55-64"
+     },
+     {
+      "key": "medicaid-expansion-to-medical-debt",
+      "status": "built",
+      "to": "finance.medical-debt-in-collections"
+     }
+    ],
+    "fired": [
+     {
+      "id": "web:jurisdiction_971998ff58477430:2025-01",
+      "link": "medicaid-expansion-to-coverage",
+      "effect": 0.15
+     },
+     {
+      "id": "web:jurisdiction_971998ff58477430:2025-01",
+      "link": "medicaid-expansion-to-mortality",
+      "effect": 0.094
+     },
+     {
+      "id": "web:jurisdiction_971998ff58477430:2025-02",
+      "link": "medicaid-expansion-to-coverage",
+      "effect": 0.15
+     },
+     {
+      "id": "web:jurisdiction_971998ff58477430:2025-02",
+      "link": "medicaid-expansion-to-mortality",
+      "effect": 0.094
+     }
+    ],
+    "firedCount": 4
+   },
+   "heard": {
+    "people": 75,
+    "sample": [
+     "person_a66a50fc6585ed57:printed:outlet:cable:0:national:law-took-effect:law:US-MI:state:us-policy-positions:health-human-services.expand-medicaid-eligibility:general:2025-01-21:law-wiring-861da035",
+     "person_54d221efd6ccd406:printed:outlet:cable:0:national:law-took-effect:law:US-MI:state:us-policy-positions:health-human-services.expand-medicaid-eligibility:general:2025-01-21:law-wiring-861da035",
+     "person_182e4b917b4e10f7:printed:outlet:cable:0:national:law-took-effect:law:US-MI:state:us-policy-positions:health-human-services.expand-medicaid-eligibility:general:2025-01-21:law-wiring-861da035"
+    ]
+   },
+   "afterUndo": {
+    "fullPeople": 5,
+    "countedGroups": 1,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 6,
+    "ended": 7,
+    "sample": [
+     "us-policy-positions:health-human-services.expand-medicaid-eligibility|person_64420c52d99b1844|2025-02-26",
+     "us-policy-positions:health-human-services.expand-medicaid-eligibility|person_64420d52d99b19f7|2025-02-26",
+     "us-policy-positions:health-human-services.expand-medicaid-eligibility|person_7b570565dc6dd202|2025-02-26",
+     "us-policy-positions:health-human-services.expand-medicaid-eligibility|person_7b570665dc6dd3b5|2025-02-26"
+    ]
+   },
+   "seconds": 14
+  },
+  {
+   "key": "us-policy-positions:health-human-services.work-requirement-for-assistance",
+   "kind": "question",
+   "family": "healthcare",
+   "inForceAtOpening": false,
+   "change": "enacted at city (law:place:2666300:city:us-policy-positions:health-human-services.work-requirement-for-assistance:general:2025-01-21:law-wiring-9348bb6e) effective 2025-01-21; then repealed at city effective 2025-02-26",
+   "lawIds": [
+    "law:place:2666300:city:us-policy-positions:health-human-services.work-requirement-for-assistance:general:2025-01-21:law-wiring-9348bb6e",
+    "law:place:2666300:city:us-policy-positions:health-human-services.work-requirement-for-assistance:general:2025-02-26:law-wiring-9348bb6e-b"
+   ],
+   "openingReach": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 0,
+    "sample": []
+   },
+   "reach": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 0,
+    "sample": []
+   },
+   "readers": {
+    "src/core2/modules/outcome-web.ts:154": 48,
+    "src/core2/life.ts:549": 5
+   },
+   "openingRow": null,
+   "money": {
+    "direct": [],
+    "diff": [],
+    "diffKinds": 0,
+    "cited": []
+   },
+   "web": {
+    "links": [
+     {
+      "key": "snap-work-requirement-to-participation",
+      "status": "built",
+      "to": "program.snap-receipt"
+     }
+    ],
+    "fired": [],
+    "firedCount": 0
+   },
+   "heard": {
+    "people": 67,
+    "sample": [
+     "person_a66a50fc6585ed57:printed:outlet:television:1:jurisdiction_971998ff58477430:law-took-effect:law:place:2666300:city:us-policy-positions:health-human-services.work-requirement-for-assistance:general:2025-01-21:law-wiring-9348bb6e",
+     "person_54d221efd6ccd406:printed:outlet:television:1:jurisdiction_971998ff58477430:law-took-effect:law:place:2666300:city:us-policy-positions:health-human-services.work-requirement-for-assistance:general:2025-01-21:law-wiring-9348bb6e",
+     "person_182e4b917b4e10f7:printed:outlet:television:1:jurisdiction_971998ff58477430:law-took-effect:law:place:2666300:city:us-policy-positions:health-human-services.work-requirement-for-assistance:general:2025-01-21:law-wiring-9348bb6e"
+    ]
+   },
+   "afterUndo": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 0,
+    "sample": []
+   },
+   "seconds": 15
+  },
+  {
+   "key": "us-policy-positions:education.universal-preschool",
+   "kind": "question",
+   "family": "education",
+   "inForceAtOpening": false,
+   "change": "enacted at city (law:place:2666300:city:us-policy-positions:education.universal-preschool:general:2025-01-21:law-wiring-b3737e49) effective 2025-01-21; then repealed at city effective 2025-02-26",
+   "lawIds": [
+    "law:place:2666300:city:us-policy-positions:education.universal-preschool:general:2025-01-21:law-wiring-b3737e49",
+    "law:place:2666300:city:us-policy-positions:education.universal-preschool:general:2025-02-26:law-wiring-b3737e49-b"
+   ],
+   "openingReach": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 0,
+    "sample": []
+   },
+   "reach": {
+    "fullPeople": 2,
+    "countedGroups": 1,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 3,
+    "ended": 0,
+    "sample": [
+     "us-policy-positions:education.universal-preschool|person_7b570465dc6dd04f|2025-01-21",
+     "us-policy-positions:education.universal-preschool|person_cd34c3896f939c39|2025-01-21",
+     "us-policy-positions:education.universal-preschool|jurisdiction_971998ff58477430"
+    ]
+   },
+   "readers": {
+    "src/core2/modules/outcome-web.ts:154": 176,
+    "src/core2/modules/world-legislating.ts:248": 32,
+    "src/core2/modules/world-legislating.ts:178": 16,
+    "src/core2/life.ts:549": 5,
+    "src/core2/law-reach/group-b.ts:213": 4,
+    "src/core2/modules/legislature.ts:2011": 2,
+    "src/core2/modules/world-legislating.ts:325": 2
+   },
+   "openingRow": "law:US-MI:state:us-policy-positions:education.universal-preschool:general:starting",
+   "money": {
+    "direct": [],
+    "diff": [],
+    "diffKinds": 0,
+    "cited": []
+   },
+   "web": {
+    "links": [
+     {
+      "key": "universal-childcare-to-mothers-work",
+      "status": "built",
+      "to": "labor.mothers-participation"
+     },
+     {
+      "key": "universal-prek-to-graduation",
+      "status": "built",
+      "to": "school.graduation-pct"
+     },
+     {
+      "key": "universal-prek-to-math-proficiency",
+      "status": "built",
+      "to": "school.math-proficient-pct"
+     },
+     {
+      "key": "universal-prek-to-reading-proficiency",
+      "status": "built",
+      "to": "school.reading-proficient-pct"
+     },
+     {
+      "key": "universal-prek-to-violent-crime",
+      "status": "built",
+      "to": "crime.violent"
+     }
+    ],
+    "fired": [],
+    "firedCount": 0
+   },
+   "heard": {
+    "people": 67,
+    "sample": [
+     "person_a66a50fc6585ed57:printed:outlet:television:1:jurisdiction_971998ff58477430:law-took-effect:law:place:2666300:city:us-policy-positions:education.universal-preschool:general:2025-01-21:law-wiring-b3737e49",
+     "person_54d221efd6ccd406:printed:outlet:television:1:jurisdiction_971998ff58477430:law-took-effect:law:place:2666300:city:us-policy-positions:education.universal-preschool:general:2025-01-21:law-wiring-b3737e49",
+     "person_182e4b917b4e10f7:printed:outlet:television:1:jurisdiction_971998ff58477430:law-took-effect:law:place:2666300:city:us-policy-positions:education.universal-preschool:general:2025-01-21:law-wiring-b3737e49"
+    ]
+   },
+   "afterUndo": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 3,
+    "sample": []
+   },
+   "seconds": 13
+  },
+  {
+   "key": "us-policy-positions:education.public-funds-for-private-schooling",
+   "kind": "question",
+   "family": "education",
+   "inForceAtOpening": false,
+   "change": "enacted at city (law:place:2666300:city:us-policy-positions:education.public-funds-for-private-schooling:general:2025-01-21:law-wiring-f1098369) effective 2025-01-21; then repealed at city effective 2025-02-26",
+   "lawIds": [
+    "law:place:2666300:city:us-policy-positions:education.public-funds-for-private-schooling:general:2025-01-21:law-wiring-f1098369",
+    "law:place:2666300:city:us-policy-positions:education.public-funds-for-private-schooling:general:2025-02-26:law-wiring-f1098369-b"
+   ],
+   "openingReach": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 0,
+    "sample": []
+   },
+   "reach": {
+    "fullPeople": 0,
+    "countedGroups": 1,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 1,
+    "ended": 0,
+    "sample": [
+     "us-policy-positions:education.public-funds-for-private-schooling|jurisdiction_971998ff58477430"
+    ]
+   },
+   "readers": {
+    "src/core2/modules/outcome-web.ts:154": 80,
+    "src/core2/modules/world-legislating.ts:248": 32,
+    "src/core2/modules/legislature.ts:2011": 17,
+    "src/core2/modules/world-legislating.ts:178": 16,
+    "src/core2/life.ts:549": 5,
+    "src/core2/law-reach/group-b.ts:213": 4,
+    "src/core2/modules/world-legislating.ts:325": 2
+   },
+   "openingRow": "law:US-MI:state:us-policy-positions:education.public-funds-for-private-schooling:general:starting",
+   "money": {
+    "direct": [],
+    "diff": [],
+    "diffKinds": 0,
+    "cited": []
+   },
+   "web": {
+    "links": [
+     {
+      "key": "vouchers-to-math-proficiency",
+      "status": "built",
+      "to": "school.math-proficient-pct"
+     },
+     {
+      "key": "vouchers-to-graduation",
+      "status": "built",
+      "to": "school.graduation-pct"
+     }
+    ],
+    "fired": [],
+    "firedCount": 0
+   },
+   "heard": {
+    "people": 67,
+    "sample": [
+     "person_a66a50fc6585ed57:printed:outlet:television:1:jurisdiction_971998ff58477430:law-took-effect:law:place:2666300:city:us-policy-positions:education.public-funds-for-private-schooling:general:2025-01-21:law-wiring-f1098369",
+     "person_54d221efd6ccd406:printed:outlet:television:1:jurisdiction_971998ff58477430:law-took-effect:law:place:2666300:city:us-policy-positions:education.public-funds-for-private-schooling:general:2025-01-21:law-wiring-f1098369",
+     "person_182e4b917b4e10f7:printed:outlet:television:1:jurisdiction_971998ff58477430:law-took-effect:law:place:2666300:city:us-policy-positions:education.public-funds-for-private-schooling:general:2025-01-21:law-wiring-f1098369"
+    ]
+   },
+   "afterUndo": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 1,
+    "sample": []
+   },
+   "seconds": 16
+  },
+  {
+   "key": "budget-line:higherEducation",
+   "kind": "budget-line",
+   "family": "education",
+   "inForceAtOpening": false,
+   "change": "place:2666300 higherEducation 3962195 -> 13962195 by law-wiring-11fe5ef8",
+   "lawIds": [
+    "law-wiring-11fe5ef8"
+   ],
+   "openingReach": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 0,
+    "sample": []
+   },
+   "reach": {
+    "fullPeople": 11,
+    "countedGroups": 1,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 12,
+    "ended": 0,
+    "sample": [
+     "budget-line:higherEducation|person_33f81f3b0c519679|2025-01-20",
+     "budget-line:higherEducation|person_805f8d3e2d89884e|2025-01-20",
+     "budget-line:higherEducation|person_a66a50fc6585ed57|2025-01-20",
+     "budget-line:higherEducation|person_a66a51fc6585ef0a|2025-01-20"
+    ]
+   },
+   "readers": {},
+   "openingRow": null,
+   "money": {
+    "direct": [],
+    "diff": [
+     {
+      "kind": "accounts.transfer @ src/core2/counted-money.ts:545",
+      "treatment": 34670734,
+      "control": 34674391,
+      "ids": [
+       "journal:2025-01-24:1626",
+       "journal:2025-01-25:1627",
+       "journal:2025-01-25:1629"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:829",
+      "treatment": 59223958076369,
+      "control": 59223958076371,
+      "ids": [
+       "journal:2025-02-01:1724",
+       "journal:2025-02-01:1725",
+       "journal:2025-02-01:1726"
+      ]
+     }
+    ],
+    "diffKinds": 2,
+    "cited": []
+   },
+   "web": {
+    "links": [],
+    "fired": [],
+    "firedCount": 0
+   },
+   "heard": {
+    "people": 0,
+    "sample": []
+   },
+   "afterUndo": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 12,
+    "sample": []
+   },
+   "seconds": 18
+  },
+  {
+   "key": "sales-tax",
+   "kind": "amount",
+   "family": "taxes-finance",
+   "inForceAtOpening": false,
+   "change": "sales-tax 6 -> 7 at state (law:US-MI:state:sales-tax:general:2025-01-21:law-wiring-dc491ba4) effective 2025-01-21",
+   "lawIds": [
+    "law:US-MI:state:sales-tax:general:2025-01-21:law-wiring-dc491ba4",
+    "law:US-MI:state:sales-tax:general:2026-01-01:from-start",
+    "law:US-MI:state:sales-tax:general:2025-02-26:law-wiring-dc491ba4-undo"
+   ],
+   "openingReach": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 0,
+    "sample": []
+   },
+   "reach": {
+    "fullPeople": 36,
+    "countedGroups": 1,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 6,
+    "governments": 0,
+    "other": 0,
+    "open": 43,
+    "ended": 1,
+    "sample": [
+     "sales-tax|person_0161284dc68d528b|2025-01-21",
+     "sales-tax|person_02518394bd09bf0a|2025-01-21",
+     "sales-tax|person_2dc9b318ebc09dba|2025-01-21",
+     "sales-tax|person_33f81e3b0c5194c6|2025-01-21"
+    ]
+   },
+   "readers": {
+    "src/core2/law-reach/group-b.ts:500": 2,
+    "src/core2/life.ts:549": 1,
+    "src/core2/modules/budgets.ts:601": 1
+   },
+   "openingRow": "law:US-MI:state:sales-tax:general:2026-01-01:from-start",
+   "money": {
+    "direct": [],
+    "diff": [
+     {
+      "kind": "accounts.transfer @ src/core2/modules/purchase-tax.ts:142",
+      "treatment": 1912237,
+      "control": 1654471,
+      "ids": [
+       "journal:2025-02-01:1944",
+       "journal:2025-02-01:1946",
+       "journal:2025-02-01:1948"
+      ]
+     }
+    ],
+    "diffKinds": 1,
+    "cited": [
+     {
+      "token": "sales-tax",
+      "gross": 1912237,
+      "ids": [
+       "journal:2025-02-01:1944",
+       "journal:2025-02-01:1946",
+       "journal:2025-02-01:1948"
+      ]
+     }
+    ]
+   },
+   "web": {
+    "links": [],
+    "fired": [],
+    "firedCount": 0
+   },
+   "heard": {
+    "people": 75,
+    "sample": [
+     "person_a66a50fc6585ed57:printed:outlet:cable:0:national:law-took-effect:law:US-MI:state:sales-tax:general:2025-01-21:law-wiring-dc491ba4",
+     "person_54d221efd6ccd406:printed:outlet:cable:0:national:law-took-effect:law:US-MI:state:sales-tax:general:2025-01-21:law-wiring-dc491ba4",
+     "person_182e4b917b4e10f7:printed:outlet:cable:0:national:law-took-effect:law:US-MI:state:sales-tax:general:2025-01-21:law-wiring-dc491ba4"
+    ]
+   },
+   "afterUndo": {
+    "fullPeople": 36,
+    "countedGroups": 1,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 6,
+    "governments": 0,
+    "other": 0,
+    "open": 43,
+    "ended": 1,
+    "sample": [
+     "sales-tax|person_0161284dc68d528b|2025-01-21",
+     "sales-tax|person_02518394bd09bf0a|2025-01-21",
+     "sales-tax|person_2dc9b318ebc09dba|2025-01-21",
+     "sales-tax|person_33f81e3b0c5194c6|2025-01-21"
+    ]
+   },
+   "seconds": 21
+  },
+  {
+   "key": "us-policy-positions:fiscal.cap-property-tax-growth",
+   "kind": "question",
+   "family": "taxes-finance",
+   "inForceAtOpening": true,
+   "change": "repealed at state effective 2025-01-21; then enacted at city (law:place:2666300:city:us-policy-positions:fiscal.cap-property-tax-growth:general:2025-02-26:law-wiring-5d3934d9-b) effective 2025-02-26",
+   "lawIds": [
+    "law:US-MI:state:us-policy-positions:fiscal.cap-property-tax-growth:general:starting",
+    "law:US-MI:state:us-policy-positions:fiscal.cap-property-tax-growth:general:2025-01-21:law-wiring-5d3934d9",
+    "law:place:2666300:city:us-policy-positions:fiscal.cap-property-tax-growth:general:2025-02-26:law-wiring-5d3934d9-b"
+   ],
+   "openingReach": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 0,
+    "sample": []
+   },
+   "reach": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 0,
+    "sample": []
+   },
+   "readers": {
+    "src/core2/modules/outcome-web.ts:154": 64,
+    "src/core2/modules/world-legislating.ts:248": 24,
+    "src/core2/modules/world-legislating.ts:178": 16,
+    "src/core2/life.ts:549": 5,
+    "src/core2/modules/legislature.ts:2011": 3,
+    "src/core2/modules/world-legislating.ts:325": 2,
+    "src/core2/modules/budgets.ts:660": 2
+   },
+   "openingRow": "law:US-MI:state:us-policy-positions:fiscal.cap-property-tax-growth:general:starting",
+   "money": {
+    "direct": [],
+    "diff": [],
+    "diffKinds": 0,
+    "cited": []
+   },
+   "web": {
+    "links": [
+     {
+      "key": "property-tax-cap-to-math",
+      "status": "built",
+      "to": "school.math-proficient-pct"
+     }
+    ],
+    "fired": [
+     {
+      "id": "web:jurisdiction_971998ff58477430:2025-01",
+      "link": "property-tax-cap-to-math",
+      "effect": 0.05
+     },
+     {
+      "id": "web:jurisdiction_971998ff58477430:2025-02",
+      "link": "property-tax-cap-to-math",
+      "effect": 0.05
+     }
+    ],
+    "firedCount": 2
+   },
+   "heard": {
+    "people": 75,
+    "sample": [
+     "person_a66a50fc6585ed57:printed:outlet:cable:0:national:law-took-effect:law:US-MI:state:us-policy-positions:fiscal.cap-property-tax-growth:general:2025-01-21:law-wiring-5d3934d9",
+     "person_54d221efd6ccd406:printed:outlet:cable:0:national:law-took-effect:law:US-MI:state:us-policy-positions:fiscal.cap-property-tax-growth:general:2025-01-21:law-wiring-5d3934d9",
+     "person_182e4b917b4e10f7:printed:outlet:cable:0:national:law-took-effect:law:US-MI:state:us-policy-positions:fiscal.cap-property-tax-growth:general:2025-01-21:law-wiring-5d3934d9"
+    ]
+   },
+   "afterUndo": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 0,
+    "sample": []
+   },
+   "seconds": 15
+  },
+  {
+   "key": "us-policy-positions:fiscal.graduated-income-tax",
+   "kind": "question",
+   "family": "taxes-finance",
+   "inForceAtOpening": false,
+   "change": "enacted at city (law:place:2666300:city:us-policy-positions:fiscal.graduated-income-tax:general:2025-01-21:law-wiring-3f587300) effective 2025-01-21; then repealed at city effective 2025-02-26",
+   "lawIds": [
+    "law:place:2666300:city:us-policy-positions:fiscal.graduated-income-tax:general:2025-01-21:law-wiring-3f587300",
+    "law:place:2666300:city:us-policy-positions:fiscal.graduated-income-tax:general:2025-02-26:law-wiring-3f587300-b"
+   ],
+   "openingReach": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 0,
+    "sample": []
+   },
+   "reach": {
+    "fullPeople": 60,
+    "countedGroups": 1,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 61,
+    "ended": 0,
+    "sample": [
+     "us-policy-positions:fiscal.graduated-income-tax|person_0161274dc68d50d8|2025-01-21",
+     "us-policy-positions:fiscal.graduated-income-tax|person_02518394bd09bf0a|2025-01-21",
+     "us-policy-positions:fiscal.graduated-income-tax|person_03c56c71b4e8aacd|2025-01-21",
+     "us-policy-positions:fiscal.graduated-income-tax|person_050bfb0ce0ab8e28|2025-01-21"
+    ]
+   },
+   "readers": {
+    "src/core2/modules/outcome-web.ts:154": 80,
+    "src/core2/modules/world-legislating.ts:248": 32,
+    "src/core2/modules/world-legislating.ts:178": 16,
+    "src/core2/life.ts:549": 5,
+    "src/core2/law-reach/group-b.ts:213": 4,
+    "src/core2/modules/legislature.ts:2011": 2,
+    "src/core2/modules/world-legislating.ts:325": 2
+   },
+   "openingRow": "law:US-MI:state:us-policy-positions:fiscal.graduated-income-tax:general:starting",
+   "money": {
+    "direct": [],
+    "diff": [
+     {
+      "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1349",
+      "treatment": 112939714,
+      "control": 112868966,
+      "ids": [
+       "journal:2025-01-26:1640",
+       "journal:2025-01-28:1649",
+       "journal:2025-01-28:1652"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/modules/residents.ts:1684",
+      "treatment": 3057390,
+      "control": 3084176,
+      "ids": [
+       "journal:2025-02-19:8378",
+       "journal:2025-02-19:8379",
+       "journal:2025-02-19:8381"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:829",
+      "treatment": 59223958093307,
+      "control": 59223958076371,
+      "ids": [
+       "journal:2025-02-01:1724",
+       "journal:2025-02-01:1725",
+       "journal:2025-02-01:1726"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/credit-deposits.ts:150",
+      "treatment": 10721519,
+      "control": 10724056,
+      "ids": [
+       "journal:2025-01-21:1586",
+       "journal:2025-01-21:1587",
+       "journal:2025-01-21:1588"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/counted-money.ts:631",
+      "treatment": 13313369,
+      "control": 13315156,
+      "ids": [
+       "journal:2025-02-01:2671",
+       "journal:2025-02-01:2672",
+       "journal:2025-02-01:2674"
+      ]
+     },
+     {
+      "kind": "finance.contract-settlement @ src/core2/finance-cash.ts:2591",
+      "treatment": 19883117,
+      "control": 19884235,
+      "ids": [
+       "journal:2025-02-01:1923",
+       "journal:2025-02-01:1924",
+       "journal:2025-02-01:1925"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/counted-money.ts:545",
+      "treatment": 34675485,
+      "control": 34674391,
+      "ids": [
+       "journal:2025-01-24:1626",
+       "journal:2025-01-25:1627",
+       "journal:2025-01-25:1629"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/modules/residents.ts:1173",
+      "treatment": 1499753,
+      "control": 1500459,
+      "ids": [
+       "journal:2025-02-01:2684",
+       "journal:2025-02-01:2685",
+       "journal:2025-02-01:2686"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/modules/purchase-tax.ts:142",
+      "treatment": 1654306,
+      "control": 1654471,
+      "ids": [
+       "journal:2025-02-01:1944",
+       "journal:2025-02-01:1946",
+       "journal:2025-02-01:1948"
+      ]
+     },
+     {
+      "kind": "drive-donation @ src/core2/modules/drives.ts:1076",
+      "treatment": 5012,
+      "control": 5014,
+      "ids": [
+       "journal:2025-01-30:1694",
+       "journal:2025-01-31:1700",
+       "journal:2025-02-01:2748"
+      ]
+     }
+    ],
+    "diffKinds": 10,
+    "cited": []
+   },
+   "web": {
+    "links": [
+     {
+      "key": "graduated-income-tax-to-poverty",
+      "status": "about-zero",
+      "to": "household.poverty-pct"
+     },
+     {
+      "key": "graduated-income-tax-to-out-migration",
+      "status": "about-zero",
+      "to": "population.out-migration"
+     }
+    ],
+    "fired": [],
+    "firedCount": 0
+   },
+   "heard": {
+    "people": 79,
+    "sample": [
+     "person_a66a50fc6585ed57:printed:outlet:television:1:jurisdiction_971998ff58477430:law-took-effect:law:place:2666300:city:us-policy-positions:fiscal.graduated-income-tax:general:2025-01-21:law-wiring-3f587300",
+     "person_54d221efd6ccd406:printed:outlet:television:1:jurisdiction_971998ff58477430:law-took-effect:law:place:2666300:city:us-policy-positions:fiscal.graduated-income-tax:general:2025-01-21:law-wiring-3f587300",
+     "person_182e4b917b4e10f7:printed:outlet:television:1:jurisdiction_971998ff58477430:law-took-effect:law:place:2666300:city:us-policy-positions:fiscal.graduated-income-tax:general:2025-01-21:law-wiring-3f587300"
+    ]
+   },
+   "afterUndo": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 61,
+    "sample": []
+   },
+   "seconds": 14
+  },
+  {
+   "key": "us-policy-positions:fiscal.fund-pensions-to-schedule",
+   "kind": "question",
+   "family": "taxes-finance",
+   "inForceAtOpening": true,
+   "change": "repealed at state effective 2025-01-21; then enacted at city (law:place:2666300:city:us-policy-positions:fiscal.fund-pensions-to-schedule:general:2025-02-26:law-wiring-89d5b8d0-b) effective 2025-02-26",
+   "lawIds": [
+    "law:US-MI:state:us-policy-positions:fiscal.fund-pensions-to-schedule:general:starting",
+    "law:US-MI:state:us-policy-positions:fiscal.fund-pensions-to-schedule:general:2025-01-21:law-wiring-89d5b8d0",
+    "law:place:2666300:city:us-policy-positions:fiscal.fund-pensions-to-schedule:general:2025-02-26:law-wiring-89d5b8d0-b"
+   ],
+   "openingReach": {
+    "fullPeople": 0,
+    "countedGroups": 1,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 1,
+    "ended": 0,
+    "sample": [
+     "us-policy-positions:fiscal.fund-pensions-to-schedule|jurisdiction_971998ff58477430"
+    ]
+   },
+   "reach": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 1,
+    "sample": []
+   },
+   "readers": {
+    "src/core2/modules/legislature.ts:2011": 645,
+    "src/core2/modules/outcome-web.ts:154": 64,
+    "src/core2/policy-authority.ts:45": 42,
+    "src/core2/modules/world-legislating.ts:248": 24,
+    "src/core2/modules/world-legislating.ts:178": 16,
+    "src/core2/life.ts:549": 5,
+    "src/core2/modules/world-legislating.ts:325": 2,
+    "src/core2/law-reach/group-b.ts:213": 2
+   },
+   "openingRow": "law:US-MI:state:us-policy-positions:fiscal.fund-pensions-to-schedule:general:starting",
+   "money": {
+    "direct": [],
+    "diff": [
+     {
+      "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:829",
+      "treatment": 59218042808621,
+      "control": 59223958076371,
+      "ids": [
+       "journal:2025-02-01:1724",
+       "journal:2025-02-01:1725",
+       "journal:2025-02-01:1726"
+      ]
+     }
+    ],
+    "diffKinds": 1,
+    "cited": []
+   },
+   "web": {
+    "links": [
+     {
+      "key": "pension-funding-to-borrowing-cost",
+      "status": "built",
+      "to": "gov.borrowing-cost"
+     }
+    ],
+    "fired": [
+     {
+      "id": "web:jurisdiction_971998ff58477430:2025-01",
+      "link": "pension-funding-to-borrowing-cost",
+      "effect": 3
+     },
+     {
+      "id": "web:jurisdiction_971998ff58477430:2025-02",
+      "link": "pension-funding-to-borrowing-cost",
+      "effect": 3
+     }
+    ],
+    "firedCount": 2
+   },
+   "heard": {
+    "people": 84,
+    "sample": [
+     "person_a4689f4c0a9e8279:budget-line-changed:budget:US-MI:2024:retirementContributions:law:US-MI:state:us-policy-positions:fiscal.fund-pensions-to-schedule:general:starting#2025-01-20",
+     "person_7b570565dc6dd202:budget-line-changed:budget:US-MI:2024:retirementContributions:law:US-MI:state:us-policy-positions:fiscal.fund-pensions-to-schedule:general:starting#2025-01-20",
+     "person_7b570465dc6dd04f:budget-line-changed:budget:US-MI:2024:retirementContributions:law:US-MI:state:us-policy-positions:fiscal.fund-pensions-to-schedule:general:starting#2025-01-20"
+    ]
+   },
+   "afterUndo": {
+    "fullPeople": 0,
+    "countedGroups": 1,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 1,
+    "ended": 0,
+    "sample": [
+     "us-policy-positions:fiscal.fund-pensions-to-schedule|jurisdiction_971998ff58477430"
+    ]
+   },
+   "seconds": 14
+  },
+  {
+   "key": "budget-line:welfareAndMedicaid",
+   "kind": "budget-line",
+   "family": "assistance",
+   "inForceAtOpening": false,
+   "change": "place:2666300 welfareAndMedicaid 6844 -> 10006844 by law-wiring-380be418",
+   "lawIds": [
+    "law-wiring-380be418"
+   ],
+   "openingReach": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 0,
+    "sample": []
+   },
+   "reach": {
+    "fullPeople": 3,
+    "countedGroups": 1,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 4,
+    "ended": 2,
+    "sample": [
+     "budget-line:welfareAndMedicaid|person_64420c52d99b1844|2025-01-20",
+     "budget-line:welfareAndMedicaid|person_8ff861de2f15d13f|2025-01-20",
+     "budget-line:welfareAndMedicaid|person_b01261c16e8df182|2025-01-20",
+     "budget-line:welfareAndMedicaid|jurisdiction_971998ff58477430"
+    ]
+   },
+   "readers": {},
+   "openingRow": null,
+   "money": {
+    "direct": [],
+    "diff": [
+     {
+      "kind": "accounts.transfer @ src/core2/life.ts:551",
+      "treatment": 1258018,
+      "control": 424690,
+      "ids": [
+       "journal:2025-01-23:1625",
+       "journal:2025-02-06:8120",
+       "journal:2025-02-21:8445"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:829",
+      "treatment": 59223958076372,
+      "control": 59223958076371,
+      "ids": [
+       "journal:2025-02-01:1724",
+       "journal:2025-02-01:1725",
+       "journal:2025-02-01:1726"
+      ]
+     }
+    ],
+    "diffKinds": 2,
+    "cited": []
+   },
+   "web": {
+    "links": [],
+    "fired": [],
+    "firedCount": 0
+   },
+   "heard": {
+    "people": 0,
+    "sample": []
+   },
+   "afterUndo": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 6,
+    "sample": []
+   },
+   "seconds": 14
+  },
+  {
+   "key": "budget-line:housing",
+   "kind": "budget-line",
+   "family": "housing",
+   "inForceAtOpening": false,
+   "change": "place:2666300 housing 1191250 -> 11191250 by law-wiring-63831aa3",
+   "lawIds": [
+    "law-wiring-63831aa3"
+   ],
+   "openingReach": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 0,
+    "sample": []
+   },
+   "reach": {
+    "fullPeople": 17,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 17,
+    "ended": 0,
+    "sample": [
+     "reach:law-wiring-63831aa3:assisted:person_7b570565dc6dd202:2025-01-20",
+     "reach:law-wiring-63831aa3:assisted:person_7b570665dc6dd3b5:2025-01-20",
+     "reach:law-wiring-63831aa3:assisted:person_64420d52d99b19f7:2025-01-20",
+     "reach:law-wiring-63831aa3:assisted:person_64420c52d99b1844:2025-01-20"
+    ]
+   },
+   "readers": {},
+   "openingRow": null,
+   "money": {
+    "direct": [],
+    "diff": [
+     {
+      "kind": "accounts.transfer @ src/core2/counted-money.ts:545",
+      "treatment": 34690516,
+      "control": 34674391,
+      "ids": [
+       "journal:2025-01-24:1626",
+       "journal:2025-01-25:1627",
+       "journal:2025-01-25:1629"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:829",
+      "treatment": 59223958076369,
+      "control": 59223958076371,
+      "ids": [
+       "journal:2025-02-01:1724",
+       "journal:2025-02-01:1725",
+       "journal:2025-02-01:1726"
+      ]
+     }
+    ],
+    "diffKinds": 2,
+    "cited": []
+   },
+   "web": {
+    "links": [],
+    "fired": [],
+    "firedCount": 0
+   },
+   "heard": {
+    "people": 0,
+    "sample": []
+   },
+   "afterUndo": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 17,
+    "sample": []
+   },
+   "seconds": 15
+  },
+  {
+   "key": "us-policy-positions:housing-land-use.rent-stabilization",
+   "kind": "question",
+   "family": "housing",
+   "inForceAtOpening": false,
+   "change": "enacted at city (law:place:2666300:city:us-policy-positions:housing-land-use.rent-stabilization:general:2025-01-21:law-wiring-6260df96) effective 2025-01-21; then repealed at city effective 2025-02-26",
+   "lawIds": [
+    "law:place:2666300:city:us-policy-positions:housing-land-use.rent-stabilization:general:2025-01-21:law-wiring-6260df96",
+    "law:place:2666300:city:us-policy-positions:housing-land-use.rent-stabilization:general:2025-02-26:law-wiring-6260df96-b"
+   ],
+   "openingReach": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 0,
+    "sample": []
+   },
+   "reach": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 0,
+    "sample": []
+   },
+   "readers": {
+    "src/core2/modules/outcome-web.ts:154": 80,
+    "src/core2/modules/world-legislating.ts:248": 32,
+    "src/core2/modules/world-legislating.ts:178": 16,
+    "src/core2/modules/legislature.ts:2011": 14,
+    "src/core2/life.ts:549": 5,
+    "src/core2/policy-authority.ts:45": 4,
+    "src/core2/modules/world-legislating.ts:325": 2
+   },
+   "openingRow": "law:US-MI:state:us-policy-positions:housing-land-use.rent-stabilization:general:starting",
+   "money": {
+    "direct": [],
+    "diff": [],
+    "diffKinds": 0,
+    "cited": []
+   },
+   "web": {
+    "links": [
+     {
+      "key": "rent-control-to-rental-supply",
+      "status": "built",
+      "to": "housing.rental-supply"
+     },
+     {
+      "key": "rent-control-to-tenant-stays",
+      "status": "built",
+      "to": "housing.renter-moves"
+     }
+    ],
+    "fired": [
+     {
+      "id": "web:jurisdiction_971998ff58477430:2025-01",
+      "link": "rent-control-to-tenant-stays",
+      "effect": -0.2
+     },
+     {
+      "id": "web:jurisdiction_971998ff58477430:2025-02",
+      "link": "rent-control-to-tenant-stays",
+      "effect": -0.2
+     }
+    ],
+    "firedCount": 2
+   },
+   "heard": {
+    "people": 67,
+    "sample": [
+     "person_a66a50fc6585ed57:printed:outlet:television:1:jurisdiction_971998ff58477430:law-took-effect:law:place:2666300:city:us-policy-positions:housing-land-use.rent-stabilization:general:2025-01-21:law-wiring-6260df96",
+     "person_54d221efd6ccd406:printed:outlet:television:1:jurisdiction_971998ff58477430:law-took-effect:law:place:2666300:city:us-policy-positions:housing-land-use.rent-stabilization:general:2025-01-21:law-wiring-6260df96",
+     "person_182e4b917b4e10f7:printed:outlet:television:1:jurisdiction_971998ff58477430:law-took-effect:law:place:2666300:city:us-policy-positions:housing-land-use.rent-stabilization:general:2025-01-21:law-wiring-6260df96"
+    ]
+   },
+   "afterUndo": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 0,
+    "sample": []
+   },
+   "seconds": 16
+  },
+  {
+   "key": "minimum-wage",
+   "kind": "amount",
+   "family": "labor",
+   "inForceAtOpening": false,
+   "change": "minimum-wage 1033 -> 1136 at state (law:US-MI:state:minimum-wage:general:2025-01-21:law-wiring-e84af4ca) effective 2025-01-21",
+   "lawIds": [
+    "law:US-MI:state:minimum-wage:general:2025-01-21:law-wiring-e84af4ca",
+    "law:US-MI:state:minimum-wage:general:2024-01-01",
+    "law:US-MI:state:minimum-wage:general:2025-02-26:law-wiring-e84af4ca-undo"
+   ],
+   "openingReach": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 0,
+    "sample": []
+   },
+   "reach": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 0,
+    "sample": []
+   },
+   "readers": {
+    "src/core2/modules/constituent-cases.ts:150": 148,
+    "src/core2/life.ts:549": 61,
+    "src/core2/gov-measures.ts:253": 48,
+    "src/core2/gov-measures.ts:110": 16,
+    "src/core2/gov-measures.ts:114": 16,
+    "src/core2/gov-measures.ts:122": 16,
+    "src/core2/gov-measures.ts:186": 16
+   },
+   "openingRow": "law:US-MI:state:minimum-wage:general:2024-01-01",
+   "money": {
+    "direct": [],
+    "diff": [
+     {
+      "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:829",
+      "treatment": 59223957419247,
+      "control": 59223958076371,
+      "ids": [
+       "journal:2025-02-01:1724",
+       "journal:2025-02-01:1725",
+       "journal:2025-02-01:1726"
+      ]
+     },
+     {
+      "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2351",
+      "treatment": 9002739,
+      "control": 8816595,
+      "ids": [
+       "journal:2025-01-26:1639",
+       "journal:2025-01-28:1648",
+       "journal:2025-01-28:1651"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/counted-money.ts:545",
+      "treatment": 34631877,
+      "control": 34674391,
+      "ids": [
+       "journal:2025-01-24:1626",
+       "journal:2025-01-25:1627",
+       "journal:2025-01-25:1629"
+      ]
+     },
+     {
+      "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1349",
+      "treatment": 112891119,
+      "control": 112868966,
+      "ids": [
+       "journal:2025-01-26:1640",
+       "journal:2025-01-28:1649",
+       "journal:2025-01-28:1652"
+      ]
+     },
+     {
+      "kind": "employer-taxes:share @ src/core2/modules/employer-taxes.ts:616",
+      "treatment": 2299046,
+      "control": 2278657,
+      "ids": [
+       "journal:2025-01-25:1628",
+       "journal:2025-01-25:1630",
+       "journal:2025-01-25:1632"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/world-transfer.ts:37",
+      "treatment": 1771804,
+      "control": 1761585,
+      "ids": [
+       "journal:2025-02-01:1862",
+       "journal:2025-02-01:1863",
+       "journal:2025-02-01:1864"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/modules/purchase-tax.ts:142",
+      "treatment": 1654754,
+      "control": 1654471,
+      "ids": [
+       "journal:2025-02-01:1910",
+       "journal:2025-02-01:1912",
+       "journal:2025-02-01:1914"
+      ]
+     },
+     {
+      "kind": "drive-donation @ src/core2/modules/drives.ts:1076",
+      "treatment": 5250,
+      "control": 5014,
+      "ids": [
+       "journal:2025-01-30:1694",
+       "journal:2025-01-31:1700",
+       "journal:2025-02-01:2714"
+      ]
+     }
+    ],
+    "diffKinds": 8,
+    "cited": []
+   },
+   "web": {
+    "links": [],
+    "fired": [],
+    "firedCount": 0
+   },
+   "heard": {
+    "people": 75,
+    "sample": [
+     "person_a66a50fc6585ed57:printed:outlet:cable:0:national:law-took-effect:law:US-MI:state:minimum-wage:general:2025-01-21:law-wiring-e84af4ca",
+     "person_54d221efd6ccd406:printed:outlet:cable:0:national:law-took-effect:law:US-MI:state:minimum-wage:general:2025-01-21:law-wiring-e84af4ca",
+     "person_182e4b917b4e10f7:printed:outlet:cable:0:national:law-took-effect:law:US-MI:state:minimum-wage:general:2025-01-21:law-wiring-e84af4ca"
+    ]
+   },
+   "afterUndo": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 0,
+    "sample": []
+   },
+   "seconds": 15
+  },
+  {
+   "key": "us-policy-positions:labor-workforce.local-minimum-wage-authority",
+   "kind": "question",
+   "family": "labor",
+   "inForceAtOpening": false,
+   "change": "enacted at city (law:place:2666300:city:us-policy-positions:labor-workforce.local-minimum-wage-authority:general:2025-01-21:law-wiring-d994f5d4) effective 2025-01-21; then repealed at city effective 2025-02-26",
+   "lawIds": [
+    "law:place:2666300:city:us-policy-positions:labor-workforce.local-minimum-wage-authority:general:2025-01-21:law-wiring-d994f5d4",
+    "law:place:2666300:city:us-policy-positions:labor-workforce.local-minimum-wage-authority:general:2025-02-26:law-wiring-d994f5d4-b"
+   ],
+   "openingReach": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 0,
+    "sample": []
+   },
+   "reach": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 1,
+    "governments": 0,
+    "other": 0,
+    "open": 1,
+    "ended": 0,
+    "sample": [
+     "reach:law:place:2666300:city:us-policy-positions:labor-workforce.local-minimum-wage-authority:general:2025-01-21:law-wiring-d994f5d4:city:organization_1571ef11eb9b9b4a:2025-01-21"
+    ]
+   },
+   "readers": {
+    "src/core2/modules/world-legislating.ts:248": 32,
+    "src/core2/modules/world-legislating.ts:178": 16,
+    "src/core2/life.ts:549": 5,
+    "src/core2/law-reach/group-a-records.ts:270": 4,
+    "src/core2/modules/legislature.ts:2011": 2,
+    "src/core2/modules/world-legislating.ts:325": 2
+   },
+   "openingRow": "law:US-MI:state:us-policy-positions:labor-workforce.local-minimum-wage-authority:general:starting",
+   "money": {
+    "direct": [],
+    "diff": [],
+    "diffKinds": 0,
+    "cited": []
+   },
+   "web": {
+    "links": [],
+    "fired": [],
+    "firedCount": 0
+   },
+   "heard": {
+    "people": 67,
+    "sample": [
+     "person_a66a50fc6585ed57:printed:outlet:television:1:jurisdiction_971998ff58477430:law-took-effect:law:place:2666300:city:us-policy-positions:labor-workforce.local-minimum-wage-authority:general:2025-01-21:law-wiring-d994f5d4",
+     "person_54d221efd6ccd406:printed:outlet:television:1:jurisdiction_971998ff58477430:law-took-effect:law:place:2666300:city:us-policy-positions:labor-workforce.local-minimum-wage-authority:general:2025-01-21:law-wiring-d994f5d4",
+     "person_182e4b917b4e10f7:printed:outlet:television:1:jurisdiction_971998ff58477430:law-took-effect:law:place:2666300:city:us-policy-positions:labor-workforce.local-minimum-wage-authority:general:2025-01-21:law-wiring-d994f5d4"
+    ]
+   },
+   "afterUndo": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 1,
+    "sample": []
+   },
+   "seconds": 16
+  },
+  {
+   "key": "us-policy-positions:labor-workforce.paid-family-leave",
+   "kind": "question",
+   "family": "labor",
+   "inForceAtOpening": false,
+   "change": "enacted at city (law:place:2666300:city:us-policy-positions:labor-workforce.paid-family-leave:general:2025-01-21:law-wiring-fdb9f24c) effective 2025-01-21; then repealed at city effective 2025-02-26",
+   "lawIds": [
+    "law:place:2666300:city:us-policy-positions:labor-workforce.paid-family-leave:general:2025-01-21:law-wiring-fdb9f24c",
+    "law:place:2666300:city:us-policy-positions:labor-workforce.paid-family-leave:general:2025-02-26:law-wiring-fdb9f24c-b"
+   ],
+   "openingReach": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 0,
+    "sample": []
+   },
+   "reach": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 9,
+    "governments": 0,
+    "other": 0,
+    "open": 9,
+    "ended": 0,
+    "sample": [
+     "reach:law:place:2666300:city:us-policy-positions:labor-workforce.paid-family-leave:general:2025-01-21:law-wiring-fdb9f24c:employers:organization_474c2f7aee205efe:2025-01-21",
+     "reach:law:place:2666300:city:us-policy-positions:labor-workforce.paid-family-leave:general:2025-01-21:law-wiring-fdb9f24c:employers:organization_8820139c2233ecf6:2025-01-21",
+     "reach:law:place:2666300:city:us-policy-positions:labor-workforce.paid-family-leave:general:2025-01-21:law-wiring-fdb9f24c:employers:organization_8db452f4bbb5edf6:2025-01-21",
+     "reach:law:place:2666300:city:us-policy-positions:labor-workforce.paid-family-leave:general:2025-01-21:law-wiring-fdb9f24c:employers:organization_8db453f4bbb5efa9:2025-01-21"
+    ]
+   },
+   "readers": {
+    "src/core2/paid-leave.ts:23": 332,
+    "src/core2/modules/outcome-web.ts:154": 48,
+    "src/core2/modules/world-legislating.ts:248": 32,
+    "src/core2/modules/world-legislating.ts:178": 16,
+    "src/core2/modules/legislature.ts:2011": 10,
+    "src/core2/life.ts:549": 5,
+    "src/core2/law-reach/group-a-records.ts:270": 4,
+    "src/core2/modules/world-legislating.ts:325": 2
+   },
+   "openingRow": "law:US-MI:state:us-policy-positions:labor-workforce.paid-family-leave:general:starting",
+   "money": {
+    "direct": [
+     {
+      "kind": "law-reach-a:leave-premium @ src/core2/law-reach/group-a-money.ts:159",
+      "treatment": 34334,
+      "control": 0,
+      "ids": [
+       "journal:2025-01-26:1642",
+       "journal:2025-01-28:1652",
+       "journal:2025-01-28:1656"
+      ]
+     }
+    ],
+    "diff": [
+     {
+      "kind": "law-reach-a:leave-premium @ src/core2/law-reach/group-a-money.ts:159",
+      "treatment": 34334,
+      "control": 0,
+      "ids": [
+       "journal:2025-01-26:1642",
+       "journal:2025-01-28:1652",
+       "journal:2025-01-28:1656"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/modules/residents.ts:1684",
+      "treatment": 3069675,
+      "control": 3084176,
+      "ids": [
+       "journal:2025-02-19:8427",
+       "journal:2025-02-19:8428",
+       "journal:2025-02-19:8430"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:829",
+      "treatment": 59223958085053,
+      "control": 59223958076371,
+      "ids": [
+       "journal:2025-02-01:1728",
+       "journal:2025-02-01:1729",
+       "journal:2025-02-01:1730"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/credit-deposits.ts:150",
+      "treatment": 10722614,
+      "control": 10724056,
+      "ids": [
+       "journal:2025-01-21:1586",
+       "journal:2025-01-21:1587",
+       "journal:2025-01-21:1588"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/counted-money.ts:631",
+      "treatment": 13314084,
+      "control": 13315156,
+      "ids": [
+       "journal:2025-02-01:2676",
+       "journal:2025-02-01:2677",
+       "journal:2025-02-01:2679"
+      ]
+     },
+     {
+      "kind": "finance.contract-settlement @ src/core2/finance-cash.ts:2591",
+      "treatment": 19883565,
+      "control": 19884235,
+      "ids": [
+       "journal:2025-02-01:1928",
+       "journal:2025-02-01:1929",
+       "journal:2025-02-01:1930"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/counted-money.ts:545",
+      "treatment": 34674952,
+      "control": 34674391,
+      "ids": [
+       "journal:2025-01-24:1626",
+       "journal:2025-01-25:1627",
+       "journal:2025-01-25:1629"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/modules/residents.ts:1173",
+      "treatment": 1500035,
+      "control": 1500459,
+      "ids": [
+       "journal:2025-02-01:2689",
+       "journal:2025-02-01:2690",
+       "journal:2025-02-01:2691"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/modules/purchase-tax.ts:142",
+      "treatment": 1654373,
+      "control": 1654471,
+      "ids": [
+       "journal:2025-02-01:1949",
+       "journal:2025-02-01:1951",
+       "journal:2025-02-01:1953"
+      ]
+     }
+    ],
+    "diffKinds": 9,
+    "cited": []
+   },
+   "web": {
+    "links": [
+     {
+      "key": "paid-leave-to-mothers-work",
+      "status": "built",
+      "to": "labor.mothers-participation"
+     }
+    ],
+    "fired": [],
+    "firedCount": 0
+   },
+   "heard": {
+    "people": 67,
+    "sample": [
+     "person_a66a50fc6585ed57:printed:outlet:television:1:jurisdiction_971998ff58477430:law-took-effect:law:place:2666300:city:us-policy-positions:labor-workforce.paid-family-leave:general:2025-01-21:law-wiring-fdb9f24c",
+     "person_54d221efd6ccd406:printed:outlet:television:1:jurisdiction_971998ff58477430:law-took-effect:law:place:2666300:city:us-policy-positions:labor-workforce.paid-family-leave:general:2025-01-21:law-wiring-fdb9f24c",
+     "person_182e4b917b4e10f7:printed:outlet:television:1:jurisdiction_971998ff58477430:law-took-effect:law:place:2666300:city:us-policy-positions:labor-workforce.paid-family-leave:general:2025-01-21:law-wiring-fdb9f24c"
+    ]
+   },
+   "afterUndo": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 9,
+    "sample": []
+   },
+   "seconds": 18
+  },
+  {
+   "key": "us-policy-positions:labor-workforce.right-to-work",
+   "kind": "question",
+   "family": "labor",
+   "inForceAtOpening": false,
+   "change": "enacted at city (law:place:2666300:city:us-policy-positions:labor-workforce.right-to-work:general:2025-01-21:law-wiring-358194bb) effective 2025-01-21; then repealed at city effective 2025-02-26",
+   "lawIds": [
+    "law:place:2666300:city:us-policy-positions:labor-workforce.right-to-work:general:2025-01-21:law-wiring-358194bb",
+    "law:place:2666300:city:us-policy-positions:labor-workforce.right-to-work:general:2025-02-26:law-wiring-358194bb-b"
+   ],
+   "openingReach": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 0,
+    "sample": []
+   },
+   "reach": {
+    "fullPeople": 41,
+    "countedGroups": 1,
+    "countedPeople": 77,
+    "households": 0,
+    "organizations": 1,
+    "governments": 0,
+    "other": 0,
+    "open": 43,
+    "ended": 0,
+    "sample": [
+     "reach:law:place:2666300:city:us-policy-positions:labor-workforce.right-to-work:general:2025-01-21:law-wiring-358194bb:workers:person_33f81e3b0c5194c6:2025-01-21",
+     "reach:law:place:2666300:city:us-policy-positions:labor-workforce.right-to-work:general:2025-01-21:law-wiring-358194bb:workers:person_a4689d4c0a9e7f13:2025-01-21",
+     "reach:law:place:2666300:city:us-policy-positions:labor-workforce.right-to-work:general:2025-01-21:law-wiring-358194bb:workers:person_ae720410206893b1:2025-01-21",
+     "reach:law:place:2666300:city:us-policy-positions:labor-workforce.right-to-work:general:2025-01-21:law-wiring-358194bb:workers:person_ae720310206891fe:2025-01-21"
+    ]
+   },
+   "readers": {
+    "src/core2/modules/legislature.ts:2011": 403,
+    "src/core2/modules/outcome-web.ts:154": 48,
+    "src/core2/modules/world-legislating.ts:248": 32,
+    "src/core2/modules/world-legislating.ts:178": 16,
+    "src/core2/life.ts:549": 5,
+    "src/core2/modules/world-legislating.ts:325": 2
+   },
+   "openingRow": "law:US-MI:state:us-policy-positions:labor-workforce.right-to-work:general:starting",
+   "money": {
+    "direct": [],
+    "diff": [
+     {
+      "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2351",
+      "treatment": 8816508,
+      "control": 8816595,
+      "ids": [
+       "journal:2025-01-26:1639",
+       "journal:2025-01-28:1648",
+       "journal:2025-01-28:1651"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/counted-money.ts:631",
+      "treatment": 13315103,
+      "control": 13315156,
+      "ids": [
+       "journal:2025-02-01:2671",
+       "journal:2025-02-01:2672",
+       "journal:2025-02-01:2674"
+      ]
+     },
+     {
+      "kind": "finance.contract-settlement @ src/core2/finance-cash.ts:2591",
+      "treatment": 19884252,
+      "control": 19884235,
+      "ids": [
+       "journal:2025-02-01:1923",
+       "journal:2025-02-01:1924",
+       "journal:2025-02-01:1925"
+      ]
+     },
+     {
+      "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1349",
+      "treatment": 112868955,
+      "control": 112868966,
+      "ids": [
+       "journal:2025-01-26:1640",
+       "journal:2025-01-28:1649",
+       "journal:2025-01-28:1652"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/modules/purchase-tax.ts:142",
+      "treatment": 1654473,
+      "control": 1654471,
+      "ids": [
+       "journal:2025-02-01:1944",
+       "journal:2025-02-01:1946",
+       "journal:2025-02-01:1948"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/modules/residents.ts:1684",
+      "treatment": 3084178,
+      "control": 3084176,
+      "ids": [
+       "journal:2025-02-19:8378",
+       "journal:2025-02-19:8379",
+       "journal:2025-02-19:8381"
+      ]
+     }
+    ],
+    "diffKinds": 6,
+    "cited": []
+   },
+   "web": {
+    "links": [
+     {
+      "key": "right-to-work-to-turnout",
+      "status": "built",
+      "to": "voting.turnout-pct"
+     }
+    ],
+    "fired": [],
+    "firedCount": 0
+   },
+   "heard": {
+    "people": 67,
+    "sample": [
+     "person_a66a50fc6585ed57:printed:outlet:television:1:jurisdiction_971998ff58477430:law-took-effect:law:place:2666300:city:us-policy-positions:labor-workforce.right-to-work:general:2025-01-21:law-wiring-358194bb",
+     "person_54d221efd6ccd406:printed:outlet:television:1:jurisdiction_971998ff58477430:law-took-effect:law:place:2666300:city:us-policy-positions:labor-workforce.right-to-work:general:2025-01-21:law-wiring-358194bb",
+     "person_182e4b917b4e10f7:printed:outlet:television:1:jurisdiction_971998ff58477430:law-took-effect:law:place:2666300:city:us-policy-positions:labor-workforce.right-to-work:general:2025-01-21:law-wiring-358194bb"
+    ]
+   },
+   "afterUndo": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 43,
+    "sample": []
+   },
+   "seconds": 21
+  },
+  {
+   "key": "us-policy-positions:business-commerce.cap-consumer-loan-rates",
+   "kind": "question",
+   "family": "business",
+   "inForceAtOpening": false,
+   "change": "enacted at city (law:place:2666300:city:us-policy-positions:business-commerce.cap-consumer-loan-rates:general:2025-01-21:law-wiring-60189aa2) effective 2025-01-21; then repealed at city effective 2025-02-26",
+   "lawIds": [
+    "law:place:2666300:city:us-policy-positions:business-commerce.cap-consumer-loan-rates:general:2025-01-21:law-wiring-60189aa2",
+    "law:place:2666300:city:us-policy-positions:business-commerce.cap-consumer-loan-rates:general:2025-02-26:law-wiring-60189aa2-b"
+   ],
+   "openingReach": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 0,
+    "sample": []
+   },
+   "reach": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 0,
+    "sample": []
+   },
+   "readers": {
+    "src/core2/modules/outcome-web.ts:154": 64,
+    "src/core2/modules/world-legislating.ts:248": 32,
+    "src/core2/modules/world-legislating.ts:178": 16,
+    "src/core2/life.ts:549": 5,
+    "src/core2/modules/credit.ts:1079": 4,
+    "src/core2/modules/legislature.ts:2011": 2,
+    "src/core2/modules/world-legislating.ts:325": 2
+   },
+   "openingRow": "law:US-MI:state:us-policy-positions:business-commerce.cap-consumer-loan-rates:general:starting",
+   "money": {
+    "direct": [],
+    "diff": [],
+    "diffKinds": 0,
+    "cited": []
+   },
+   "web": {
+    "links": [
+     {
+      "key": "loan-rate-cap-to-high-cost-borrowing",
+      "status": "built",
+      "to": "finance.high-cost-loans"
+     }
+    ],
+    "fired": [],
+    "firedCount": 0
+   },
+   "heard": {
+    "people": 67,
+    "sample": [
+     "person_a66a50fc6585ed57:printed:outlet:television:1:jurisdiction_971998ff58477430:law-took-effect:law:place:2666300:city:us-policy-positions:business-commerce.cap-consumer-loan-rates:general:2025-01-21:law-wiring-60189aa2",
+     "person_54d221efd6ccd406:printed:outlet:television:1:jurisdiction_971998ff58477430:law-took-effect:law:place:2666300:city:us-policy-positions:business-commerce.cap-consumer-loan-rates:general:2025-01-21:law-wiring-60189aa2",
+     "person_182e4b917b4e10f7:printed:outlet:television:1:jurisdiction_971998ff58477430:law-took-effect:law:place:2666300:city:us-policy-positions:business-commerce.cap-consumer-loan-rates:general:2025-01-21:law-wiring-60189aa2"
+    ]
+   },
+   "afterUndo": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 0,
+    "sample": []
+   },
+   "seconds": 63
+  },
+  {
+   "key": "medicare-tax",
+   "kind": "amount",
+   "family": "healthcare",
+   "inForceAtOpening": false,
+   "change": "medicare-tax 1.45 -> 1.6 at federal (law:US:federal:medicare-tax:general:2025-01-21:law-wiring-a89e7411) effective 2025-01-21",
+   "lawIds": [
+    "law:US:federal:medicare-tax:general:2025-01-21:law-wiring-a89e7411",
+    "law:US:federal:medicare-tax:general:2013-01-01",
+    "law:US:federal:medicare-tax:general:2025-02-26:law-wiring-a89e7411-undo"
+   ],
+   "openingReach": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 0,
+    "sample": []
+   },
+   "reach": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 0,
+    "sample": []
+   },
+   "readers": {
+    "src/core2/modules/budgets.ts:1134": 3132,
+    "src/core2/modules/employer-taxes.ts:515": 302,
+    "src/core2/counted-money.ts:395": 164,
+    "src/core2/modules/budgets.ts:1126": 154,
+    "src/core2/life.ts:549": 1
+   },
+   "openingRow": "law:US:federal:medicare-tax:general:2013-01-01",
+   "money": {
+    "direct": [
+     {
+      "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1349",
+      "treatment": 113617302,
+      "control": 112868966,
+      "ids": [
+       "journal:2025-01-26:1640",
+       "journal:2025-01-28:1649",
+       "journal:2025-01-28:1652"
+      ]
+     },
+     {
+      "kind": "employer-taxes:share @ src/core2/modules/employer-taxes.ts:616",
+      "treatment": 2310299,
+      "control": 2278657,
+      "ids": [
+       "journal:2025-01-25:1628",
+       "journal:2025-01-25:1630",
+       "journal:2025-01-25:1632"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/counted-money.ts:545",
+      "treatment": 34673992,
+      "control": 34674391,
+      "ids": [
+       "journal:2025-01-24:1626",
+       "journal:2025-01-25:1627",
+       "journal:2025-01-25:1629"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/counted-money.ts:631",
+      "treatment": 13314888,
+      "control": 13315156,
+      "ids": [
+       "journal:2025-02-01:2671",
+       "journal:2025-02-01:2672",
+       "journal:2025-02-01:2674"
+      ]
+     }
+    ],
+    "diff": [
+     {
+      "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1349",
+      "treatment": 113617302,
+      "control": 112868966,
+      "ids": [
+       "journal:2025-01-26:1640",
+       "journal:2025-01-28:1649",
+       "journal:2025-01-28:1652"
+      ]
+     },
+     {
+      "kind": "employer-taxes:share @ src/core2/modules/employer-taxes.ts:616",
+      "treatment": 2310299,
+      "control": 2278657,
+      "ids": [
+       "journal:2025-01-25:1628",
+       "journal:2025-01-25:1630",
+       "journal:2025-01-25:1632"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:796",
+      "treatment": 18562079047287,
+      "control": 18562079051631,
+      "ids": [
+       "journal:2025-02-01:1714",
+       "journal:2025-02-01:1715",
+       "journal:2025-02-01:1716"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/modules/residents.ts:1684",
+      "treatment": 3080481,
+      "control": 3084176,
+      "ids": [
+       "journal:2025-02-19:8378",
+       "journal:2025-02-19:8379",
+       "journal:2025-02-19:8381"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/official-living.ts:102",
+      "treatment": 120113661,
+      "control": 120116797,
+      "ids": [
+       "journal:2025-02-01:2751",
+       "journal:2025-02-01:2754",
+       "journal:2025-02-01:2757"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/counted-money.ts:545",
+      "treatment": 34673992,
+      "control": 34674391,
+      "ids": [
+       "journal:2025-01-24:1626",
+       "journal:2025-01-25:1627",
+       "journal:2025-01-25:1629"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/credit-deposits.ts:150",
+      "treatment": 10723663,
+      "control": 10724056,
+      "ids": [
+       "journal:2025-01-21:1586",
+       "journal:2025-01-21:1587",
+       "journal:2025-01-21:1588"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/counted-money.ts:631",
+      "treatment": 13314888,
+      "control": 13315156,
+      "ids": [
+       "journal:2025-02-01:2671",
+       "journal:2025-02-01:2672",
+       "journal:2025-02-01:2674"
+      ]
+     },
+     {
+      "kind": "finance.contract-settlement @ src/core2/finance-cash.ts:2591",
+      "treatment": 19884068,
+      "control": 19884235,
+      "ids": [
+       "journal:2025-02-01:1923",
+       "journal:2025-02-01:1924",
+       "journal:2025-02-01:1925"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/world-transfer.ts:37",
+      "treatment": 1761459,
+      "control": 1761585,
+      "ids": [
+       "journal:2025-02-01:1896",
+       "journal:2025-02-01:1897",
+       "journal:2025-02-01:1898"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/modules/residents.ts:1173",
+      "treatment": 1500353,
+      "control": 1500459,
+      "ids": [
+       "journal:2025-02-01:2684",
+       "journal:2025-02-01:2685",
+       "journal:2025-02-01:2686"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/modules/purchase-tax.ts:142",
+      "treatment": 1654448,
+      "control": 1654471,
+      "ids": [
+       "journal:2025-02-01:1944",
+       "journal:2025-02-01:1946",
+       "journal:2025-02-01:1948"
+      ]
+     }
+    ],
+    "diffKinds": 12,
+    "cited": []
+   },
+   "web": {
+    "links": [],
+    "fired": [],
+    "firedCount": 0
+   },
+   "heard": {
+    "people": 72,
+    "sample": [
+     "person_a66a50fc6585ed57:printed:outlet:cable:0:national:law-took-effect:law:US:federal:medicare-tax:general:2025-01-21:law-wiring-a89e7411",
+     "person_54d221efd6ccd406:printed:outlet:cable:0:national:law-took-effect:law:US:federal:medicare-tax:general:2025-01-21:law-wiring-a89e7411",
+     "person_182e4b917b4e10f7:printed:outlet:cable:0:national:law-took-effect:law:US:federal:medicare-tax:general:2025-01-21:law-wiring-a89e7411"
+    ]
+   },
+   "afterUndo": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 0,
+    "sample": []
+   },
+   "seconds": 34
+  },
+  {
+   "key": "medicaid-match",
+   "kind": "amount",
+   "family": "healthcare",
+   "inForceAtOpening": false,
+   "change": "medicaid-match 65.3 -> 71.83 at federal (law:US-MI:federal:medicaid-match:general:2025-01-21:law-wiring-82e83741) effective 2025-01-21",
+   "lawIds": [
+    "law:US-MI:federal:medicaid-match:general:2025-01-21:law-wiring-82e83741",
+    "law:US-MI:federal:medicaid-match:general:2025-10-01:from-start",
+    "law:US-MI:federal:medicaid-match:general:2025-02-26:law-wiring-82e83741-undo"
+   ],
+   "openingReach": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 0,
+    "sample": []
+   },
+   "reach": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 0,
+    "sample": []
+   },
+   "readers": {
+    "src/core2/life.ts:549": 1
+   },
+   "openingRow": "law:US-MI:federal:medicaid-match:general:2025-10-01:from-start",
+   "money": {
+    "direct": [],
+    "diff": [],
+    "diffKinds": 0,
+    "cited": []
+   },
+   "web": {
+    "links": [],
+    "fired": [],
+    "firedCount": 0
+   },
+   "heard": {
+    "people": 72,
+    "sample": [
+     "person_a66a50fc6585ed57:printed:outlet:cable:0:national:law-took-effect:law:US-MI:federal:medicaid-match:general:2025-01-21:law-wiring-82e83741",
+     "person_54d221efd6ccd406:printed:outlet:cable:0:national:law-took-effect:law:US-MI:federal:medicaid-match:general:2025-01-21:law-wiring-82e83741",
+     "person_182e4b917b4e10f7:printed:outlet:cable:0:national:law-took-effect:law:US-MI:federal:medicaid-match:general:2025-01-21:law-wiring-82e83741"
+    ]
+   },
+   "afterUndo": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 0,
+    "sample": []
+   },
+   "seconds": 16
+  },
+  {
+   "key": "property-tax",
+   "kind": "amount",
+   "family": "taxes-finance",
+   "inForceAtOpening": false,
+   "change": "property-tax 0.945 -> 1.04 at county (law:county:26129:county:property-tax:general:2025-01-21:law-wiring-be390296) effective 2025-01-21",
+   "lawIds": [
+    "law:county:26129:county:property-tax:general:2025-01-21:law-wiring-be390296",
+    "law:county:26129:county:property-tax:general:2026-01-01:from-start",
+    "law:county:26129:county:property-tax:general:2025-02-26:law-wiring-be390296-undo"
+   ],
+   "openingReach": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 0,
+    "sample": []
+   },
+   "reach": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 0,
+    "sample": []
+   },
+   "readers": {
+    "src/core2/modules/budgets.ts:652": 2,
+    "src/core2/life.ts:549": 1
+   },
+   "openingRow": "law:county:26129:county:property-tax:general:2026-01-01:from-start",
+   "money": {
+    "direct": [],
+    "diff": [
+     {
+      "kind": "accounts.transfer @ src/core2/counted-money.ts:740",
+      "treatment": 1037740,
+      "control": 959745,
+      "ids": [
+       "journal:2025-02-03:7478",
+       "journal:2025-02-03:7479",
+       "journal:2025-02-03:7480"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/world-transfer.ts:37",
+      "treatment": 1790352,
+      "control": 1761585,
+      "ids": [
+       "journal:2025-02-01:1896",
+       "journal:2025-02-01:1897",
+       "journal:2025-02-01:1898"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/modules/residents.ts:1684",
+      "treatment": 3074390,
+      "control": 3084176,
+      "ids": [
+       "journal:2025-02-19:8378",
+       "journal:2025-02-19:8379",
+       "journal:2025-02-19:8381"
+      ]
+     },
+     {
+      "kind": "drive-donation @ src/core2/modules/drives.ts:1076",
+      "treatment": 4985,
+      "control": 5014,
+      "ids": [
+       "journal:2025-01-30:1694",
+       "journal:2025-01-31:1700",
+       "journal:2025-02-01:2748"
+      ]
+     }
+    ],
+    "diffKinds": 4,
+    "cited": [
+     {
+      "token": "law:county:26129:county:property-tax:general:2025-01-21:law-wiring-be390296",
+      "gross": 1189295,
+      "ids": [
+       "journal:2025-02-06:8029",
+       "journal:2025-02-06:8030",
+       "journal:2025-02-06:8031"
+      ]
+     },
+     {
+      "token": "property-tax",
+      "gross": 1189295,
+      "ids": [
+       "journal:2025-02-06:8029",
+       "journal:2025-02-06:8030",
+       "journal:2025-02-06:8031"
+      ]
+     },
+     {
+      "token": "law-wiring-be390296",
+      "gross": 1189295,
+      "ids": [
+       "journal:2025-02-06:8029",
+       "journal:2025-02-06:8030",
+       "journal:2025-02-06:8031"
+      ]
+     }
+    ]
+   },
+   "web": {
+    "links": [],
+    "fired": [],
+    "firedCount": 0
+   },
+   "heard": {
+    "people": 67,
+    "sample": [
+     "person_a66a50fc6585ed57:printed:outlet:television:1:jurisdiction_971998ff58477430:law-took-effect:law:county:26129:county:property-tax:general:2025-01-21:law-wiring-be390296",
+     "person_54d221efd6ccd406:printed:outlet:television:1:jurisdiction_971998ff58477430:law-took-effect:law:county:26129:county:property-tax:general:2025-01-21:law-wiring-be390296",
+     "person_182e4b917b4e10f7:printed:outlet:television:1:jurisdiction_971998ff58477430:law-took-effect:law:county:26129:county:property-tax:general:2025-01-21:law-wiring-be390296"
+    ]
+   },
+   "afterUndo": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 0,
+    "sample": []
+   },
+   "seconds": 18
+  },
+  {
+   "key": "corporate-income-tax",
+   "kind": "amount",
+   "family": "taxes-finance",
+   "inForceAtOpening": false,
+   "change": "corporate-income-tax 27 -> 30 at state (law:US-MI:state:corporate-income-tax:general:2025-01-21:law-wiring-f65e8636) effective 2025-01-21",
+   "lawIds": [
+    "law:US-MI:state:corporate-income-tax:general:2025-01-21:law-wiring-f65e8636",
+    "law:US-MI:state:corporate-income-tax:general:2026-01-01:from-start",
+    "law:US-MI:state:corporate-income-tax:general:2025-02-26:law-wiring-f65e8636-undo"
+   ],
+   "openingReach": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 0,
+    "sample": []
+   },
+   "reach": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 0,
+    "sample": []
+   },
+   "readers": {
+    "src/core2/life.ts:549": 1
+   },
+   "openingRow": "law:US-MI:state:corporate-income-tax:general:2026-01-01:from-start",
+   "money": {
+    "direct": [],
+    "diff": [],
+    "diffKinds": 0,
+    "cited": []
+   },
+   "web": {
+    "links": [],
+    "fired": [],
+    "firedCount": 0
+   },
+   "heard": {
+    "people": 75,
+    "sample": [
+     "person_a66a50fc6585ed57:printed:outlet:cable:0:national:law-took-effect:law:US-MI:state:corporate-income-tax:general:2025-01-21:law-wiring-f65e8636",
+     "person_54d221efd6ccd406:printed:outlet:cable:0:national:law-took-effect:law:US-MI:state:corporate-income-tax:general:2025-01-21:law-wiring-f65e8636",
+     "person_182e4b917b4e10f7:printed:outlet:cable:0:national:law-took-effect:law:US-MI:state:corporate-income-tax:general:2025-01-21:law-wiring-f65e8636"
+    ]
+   },
+   "afterUndo": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 0,
+    "sample": []
+   },
+   "seconds": 18
+  },
+  {
+   "key": "estate-tax",
+   "kind": "amount",
+   "family": "taxes-finance",
+   "inForceAtOpening": false,
+   "change": "estate-tax 40 -> 44 at federal (law:US:federal:estate-tax:general:2025-01-21:law-wiring-287823aa) effective 2025-01-21",
+   "lawIds": [
+    "law:US:federal:estate-tax:general:2025-01-21:law-wiring-287823aa",
+    "law:US:federal:estate-tax:general:2025-01-01",
+    "law:US:federal:estate-tax:general:2025-02-26:law-wiring-287823aa-undo"
+   ],
+   "openingReach": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 0,
+    "sample": []
+   },
+   "reach": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 0,
+    "sample": []
+   },
+   "readers": {
+    "src/core2/life.ts:549": 1
+   },
+   "openingRow": "law:US:federal:estate-tax:general:2025-01-01",
+   "money": {
+    "direct": [],
+    "diff": [],
+    "diffKinds": 0,
+    "cited": []
+   },
+   "web": {
+    "links": [],
+    "fired": [],
+    "firedCount": 0
+   },
+   "heard": {
+    "people": 72,
+    "sample": [
+     "person_a66a50fc6585ed57:printed:outlet:cable:0:national:law-took-effect:law:US:federal:estate-tax:general:2025-01-21:law-wiring-287823aa",
+     "person_54d221efd6ccd406:printed:outlet:cable:0:national:law-took-effect:law:US:federal:estate-tax:general:2025-01-21:law-wiring-287823aa",
+     "person_182e4b917b4e10f7:printed:outlet:cable:0:national:law-took-effect:law:US:federal:estate-tax:general:2025-01-21:law-wiring-287823aa"
+    ]
+   },
+   "afterUndo": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 0,
+    "sample": []
+   },
+   "seconds": 27
+  },
+  {
+   "key": "inheritance-tax",
+   "kind": "amount",
+   "family": "taxes-finance",
+   "inForceAtOpening": false,
+   "change": "inheritance-tax 0 -> 1 at state (law:US-MI:state:inheritance-tax:general:2025-01-21:law-wiring-7e1c507d) effective 2025-01-21",
+   "lawIds": [
+    "law:US-MI:state:inheritance-tax:general:2025-01-21:law-wiring-7e1c507d",
+    "law:US-MI:state:inheritance-tax:general:2025-02-26:law-wiring-7e1c507d-undo"
+   ],
+   "openingReach": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 0,
+    "sample": []
+   },
+   "reach": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 0,
+    "sample": []
+   },
+   "readers": {
+    "src/core2/life.ts:549": 1
+   },
+   "openingRow": null,
+   "money": {
+    "direct": [],
+    "diff": [],
+    "diffKinds": 0,
+    "cited": []
+   },
+   "web": {
+    "links": [],
+    "fired": [],
+    "firedCount": 0
+   },
+   "heard": {
+    "people": 75,
+    "sample": [
+     "person_a66a50fc6585ed57:printed:outlet:cable:0:national:law-took-effect:law:US-MI:state:inheritance-tax:general:2025-01-21:law-wiring-7e1c507d",
+     "person_54d221efd6ccd406:printed:outlet:cable:0:national:law-took-effect:law:US-MI:state:inheritance-tax:general:2025-01-21:law-wiring-7e1c507d",
+     "person_182e4b917b4e10f7:printed:outlet:cable:0:national:law-took-effect:law:US-MI:state:inheritance-tax:general:2025-01-21:law-wiring-7e1c507d"
+    ]
+   },
+   "afterUndo": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 0,
+    "sample": []
+   },
+   "seconds": 31
+  }
+ ]
+}
