@@ -6,13 +6,14 @@
   "places": {
     "US-AK": {
       "rule": {
-        "kind": "unread",
-        "reason": "Set by each municipal code; no single rule."
+        "kind": "days-before-election",
+        "days": 60
       },
-      "ruleText": "Set by municipal code; commonly about 60-70 days before the regular October municipal election",
+      "ruleText": "Borough/city code sets it; about 60-70 days before October election (repo ruleText)",
       "citation": "AS 29.26.010 (municipal elections governed by ordinance)",
       "tag": "ESTIMATED",
-      "estimatedFrom": "Statute or county page named in the citation, read from a search excerpt or secondary summary and not checked against the current code (filing-requirements.json estimate flag)."
+      "estimatedFrom": "Stopgap research Oct 19 (C-government-law, SG-GOV-filing-deadline-estimate): the typical lead the secondary sources give, 55 to 70 days before the election; the state or municipal code is not read.",
+      "spreadDays": [55, 70]
     },
     "US-AL": {
       "rule": {
@@ -77,23 +78,25 @@
     },
     "US-DE": {
       "rule": {
-        "kind": "unread",
-        "reason": "Set by each charter."
+        "kind": "days-before-election",
+        "days": 45
       },
-      "ruleText": "Set by charter; commonly 30-60 days before the municipal election",
+      "ruleText": "Charter-set, commonly 30-60 days (repo ruleText)",
       "citation": "15 Del. C. ch. 75 (municipal elections governed by charter)",
       "tag": "ESTIMATED",
-      "estimatedFrom": "Statute or county page named in the citation, read from a search excerpt or secondary summary and not checked against the current code (filing-requirements.json estimate flag)."
+      "estimatedFrom": "Stopgap research Oct 19 (C-government-law, SG-GOV-filing-deadline-estimate): the typical lead the secondary sources give, 30 to 60 days before the election; the state or municipal code is not read.",
+      "spreadDays": [30, 60]
     },
     "US-FL": {
       "rule": {
-        "kind": "unread",
-        "reason": "Set by each charter or ordinance."
+        "kind": "days-before-election",
+        "days": 75
       },
-      "ruleText": "Set by charter or ordinance; commonly a one-week qualifying period ending 60-90 days before the election",
+      "ruleText": "One-week qualifying period ending 60-90 days before election (repo ruleText)",
       "citation": "Fla. Stat. 99.093, 100.3605",
       "tag": "ESTIMATED",
-      "estimatedFrom": "Statute or county page named in the citation, read from a search excerpt or secondary summary and not checked against the current code (filing-requirements.json estimate flag)."
+      "estimatedFrom": "Stopgap research Oct 19 (C-government-law, SG-GOV-filing-deadline-estimate): the typical lead the secondary sources give, 60 to 90 days before the election; the state or municipal code is not read.",
+      "spreadDays": [60, 90]
     },
     "US-GA": {
       "rule": {
@@ -206,13 +209,14 @@
     },
     "US-MD": {
       "rule": {
-        "kind": "unread",
-        "reason": "Set by each municipal charter."
+        "kind": "days-before-election",
+        "days": 45
       },
-      "ruleText": "Set by municipal charter; filed with the city clerk or board of supervisors of elections",
+      "ruleText": "Set by municipal charter; estimate 45 days",
       "citation": "Md. Local Gov't Art. 4-104 and municipal charters",
       "tag": "ESTIMATED",
-      "estimatedFrom": "Statute or county page named in the citation, read from a search excerpt or secondary summary and not checked against the current code (filing-requirements.json estimate flag)."
+      "estimatedFrom": "Stopgap research Oct 19 (C-government-law, SG-GOV-filing-deadline-estimate): the typical lead the secondary sources give, 30 to 60 days before the election; the state or municipal code is not read.",
+      "spreadDays": [30, 60]
     },
     "US-ME": {
       "rule": {
@@ -562,7 +566,7 @@
         "reason": "As the governor's race; the Commission sets it."
       },
       "ruleText": "As governor (estimate)",
-      "citation": "https://ww2.ceepur.org/sites/ComisionEE/es-pr/Presidencia/DocumentosPresidencia/Ley%2058-2020%20-%20Código%20Electoral.pdf",
+      "citation": "https://ww2.ceepur.org/sites/ComisionEE/es-pr/Presidencia/DocumentosPresidencia/Ley%2058-2020%20-%20C\u00f3digo%20Electoral.pdf",
       "tag": "ESTIMATED",
       "estimatedFrom": "Statute or county page named in the citation, read from a search excerpt or secondary summary and not checked against the current code (filing-requirements.json estimate flag)."
     },
