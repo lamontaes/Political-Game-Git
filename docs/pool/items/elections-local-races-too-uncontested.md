@@ -22,3 +22,5 @@ claimed-at:
 **Files.** src/core2/modules/candidacy.ts, src/core2/data/candidacy/parameters.json, src/core2/who-runs.test.ts
 
 **Notes.** TODO
+
+Sent back 2026-10-20 from PR #5592 (branch claude/pool-elections-local-races-too-uncontested): the calibration test uses twelve hand-picked fixed seeds whose pooled share happens to land in the band (the first six give 94 percent), so it does not test the engine on a random draw, and it counts multi-seat contests by candidates not seats; finish on that branch, merge main into it first.
