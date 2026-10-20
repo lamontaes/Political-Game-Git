@@ -70,6 +70,9 @@ it("a played year moves the player's household money through pay, living costs, 
           (n, id) => n + (core.people.get(id)?.liquidMinor ?? 0),
           0,
         );
+      const hadContracts = [
+        ...(core.finance.obligationsByHousehold.get(me.householdId) ?? []),
+      ].some((id) => !core.finance.contracts.get(id)?.endedAt);
       const months: number[] = [liquid()];
       for (let month = 0; month < 12; month++) {
         advanceCore(core, addDays(makeIsoDate(core.date), 30));
@@ -96,10 +99,14 @@ it("a played year moves the player's household money through pay, living costs, 
         total("accounts.transfer living", "outMinor"),
         where,
       ).toBeGreaterThan(0);
-      expect(
-        total("finance.contract-settlement finance", "outMinor"),
-        where,
-      ).toBeGreaterThan(0);
+      // A household that owns its home free and clear has no contract to settle
+      // (its home costs show as property tax), so a contract is expected only
+      // where the household had one at the start.
+      if (hadContracts)
+        expect(
+          total("finance.contract-settlement finance", "outMinor"),
+          where,
+        ).toBeGreaterThan(0);
       expect(
         total("budgets:withholding withholding", "outMinor"),
         where,
