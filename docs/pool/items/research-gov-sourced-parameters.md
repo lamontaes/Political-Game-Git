@@ -5,12 +5,12 @@ area: gov
 kind: research
 priority: 2
 size: M
-status: blocked
-claimed-by: claude/political-game-pool-yucp92-x
+status: open
+claimed-by:
 pr:
 blocked-on:
 source: "collapsed Oct 19, 2026 from gov-stopgap-justice-law-assumed-data, gov-stopgap-officials-assumed-data, gov-stopgap-parameters-uncalibrated-tunable"
-claimed-at: 2026-10-20T02:20:19.520Z
+claimed-at:
 ---
 
 **What.** Apply the sourced rows in docs/research/pool-feeder-oct20/research-gov-sourced-parameters.md to the parameter table(s) and data files for sourced parameters for justice law, officials and news habits. Each row already carries a value, a low and high spread, a tag (SOURCED or ESTIMATED) and a citation, so the builder enters them, adds a reader for each research file, and resolves these stopgap rows in src/core2/data/stopgaps.json: SG-GOV-justice-bribery-grade, SG-OFFICIALS-unrecorded-party, SG-P15-news-habits. Rows tagged mechanic name a change the area's builder makes to read the sourced inputs; build the simplest version and register what remains.
