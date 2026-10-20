@@ -49,7 +49,7 @@ export interface ClaimRow {
   lawId?: string;
   source?: Source;
   endedAt?: string;
-  endReason?: "hired" | "exhausted" | "no-payer";
+  endReason?: "hired" | "exhausted" | "no-payer" | "left";
 }
 
 const DAYS_PER_WEEK = 7;
@@ -227,13 +227,30 @@ export function payClaims(api: CoreAPI, table: ModuleTable): void {
       });
       continue;
     }
+    // A claimant who is neither a full person nor still counted has left the
+    // town's records (moved away): there is no one to pay.
+    if (
+      !c.people.has(row.personId) &&
+      residentsRuntime(c)?.store.countedMember(row.personId) === undefined
+    ) {
+      table.put({
+        ...row,
+        open: false,
+        endedAt: c.date,
+        endReason: "left",
+      });
+      continue;
+    }
     const paid = transferCash(
       api,
       `unemployment-benefit:${row.personId}:${c.date}`,
       fund.id,
-      row.payeeAccountOwnerId,
+      // A claimant filled in since filing is paid as a full person; a counted
+      // one lands in their own household's group account.
+      c.people.has(row.personId) ? row.personId : row.payeeAccountOwnerId,
       row.weeklyMinor,
       row.source ?? unemploymentTerms(api).source,
+      { personId: row.personId },
     );
     const weeksLeft = row.weeksLeft - 1;
     table.put({

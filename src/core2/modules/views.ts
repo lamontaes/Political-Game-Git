@@ -20,7 +20,7 @@
  *
  * Views form when first read, so a person filled in later gets theirs too.
  */
-import { stableHash } from "../kernel/ids";
+import { stableHash, pairKey } from "../kernel/ids";
 import { ageOnDate, makeIsoDate } from "../kernel/dates";
 import { corePlaceByJurisdictionId } from "../place-lookup";
 import { PROFILE_FACT_KINDS, profileFor } from "../opening-profile";
@@ -417,9 +417,7 @@ export function standingWith(
           ),
       )
     : nearTrust;
-  const tie = api.state.relationships.get(
-    [listener.id, speakerId].sort().join(":"),
-  );
+  const tie = api.state.relationships.get(pairKey(listener.id, speakerId));
   const closeness = tie ? currentCloseness(api.state, tie) : v("zero");
   const partyOf = (id: string) =>
     api.state.modules.has(PARTIES_STORE)

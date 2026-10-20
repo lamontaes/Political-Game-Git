@@ -22,3 +22,5 @@ claimed-at: 2026-10-20T06:01:01.986Z
 **Files.** src/core2/modules/ (new police and grievance modules), src/core2/data/, src/core2/modules/budgets.ts
 
 **Notes.** Found Oct 20 (claude/political-game-pool-yucp92-qq) while claiming gov-justice-incident-producer. Check docs/coordination/DECISION-REGISTER.md first; the owner may have ruled on crime.
+
+Oct 20 (claude/police-patrol-grievance): not built. The crime measure is the crime engine, and docs/coordination/OWNER-DECISIONS.md line 271 (owner, Oct 16) says it comes later, "when it gets a little more fleshed out", priority 3 as `owner-crime-engine`. The patrol-hours and grievance records could be built alone; the CTO should say whether to split them from the crime measure.

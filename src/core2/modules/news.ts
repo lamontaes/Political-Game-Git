@@ -30,6 +30,7 @@ import type {
 import { believesClaim } from "../heard-claims";
 import { decisionLean, decisionTraitWeight } from "../trait-decisions";
 import { viewOf } from "./views";
+import { measureOfFactKey } from "../outcome-news";
 
 /** The press module's id (kept here so news does not import the press). */
 const PRESS_MODULE_ID = "core2-press-v1";
@@ -148,6 +149,26 @@ const stories = (api: CoreAPI) =>
 const deliveries = (api: CoreAPI) =>
   api.moduleState(NEWS_MODULE_ID).table("deliveries");
 const heard = (api: CoreAPI) => api.moduleState(NEWS_MODULE_ID).table("heard");
+const delivered = (api: CoreAPI) =>
+  api.moduleState(NEWS_MODULE_ID).table("delivered");
+
+/**
+ * The first story carrying a measure that a resident of the place heard, or
+ * null: a change nobody in town has heard of is not one the town attributes
+ * to anything yet.
+ */
+export function storyDelivered(
+  api: CoreAPI,
+  placeId: string,
+  measure: string,
+): { storyId: string; date: string; personId: string } | null {
+  if (!api.state.modules.has(NEWS_MODULE_ID)) return null;
+  return (delivered(api).get(`${placeId}:${measure}`) ?? null) as unknown as {
+    storyId: string;
+    date: string;
+    personId: string;
+  } | null;
+}
 
 /**
  * Trust in the media from a person's lean, interpolated between Gallup's
@@ -371,6 +392,17 @@ function hear(
   learned(newsKey(story.id), story.kind);
   learned(`${newsKey(story.id)}:outlet`, story.outletId);
   for (const [key, value] of Object.entries(story.facts)) learned(key, value);
+  for (const key of Object.keys(story.facts)) {
+    const measure = measureOfFactKey(key);
+    const row = `${story.placeId}:${measure}`;
+    if (measure && !delivered(api).get(row))
+      delivered(api).put({
+        id: row,
+        storyId: story.id,
+        date: api.state.date,
+        personId,
+      });
+  }
   return true;
 }
 
@@ -483,6 +515,8 @@ export function createNewsModule(
         stories: {},
         deliveries: { indexes: { byDate: { fields: ["date"] } } },
         heard: { indexes: { byPerson: { fields: ["personId"] } } },
+        // The first story that reached someone in a place with a measure.
+        delivered: {},
       },
     },
     eventKinds: ["*"],

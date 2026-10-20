@@ -1033,15 +1033,9 @@ export function fileStandingCandidates(api: CoreAPI, contestId: string): void {
     .moduleState(ELECTIONS_MODULE_ID)
     .table("contests")
     .get(contestId) as unknown as ContestRow;
-  if (
-    (contest.level === "state" || contest.level === "federal") &&
-    api.state.modules.has("candidacy")
-  )
-    return;
+  if (api.state.modules.has("candidacy")) return;
   const filings = api.moduleState(ELECTIONS_MODULE_ID).table("filings");
   const onBallot = ballot(api, contestId);
-  // stopgapId: SG-GOV-who-runs-stand-in
-  api.stopgap("SG-GOV-who-runs-stand-in");
   // Whoever holds the seat when filing closes stands as its incumbent: an
   // appointee to a vacancy, never a holder who died or moved away.
   const incumbent =
@@ -1070,6 +1064,10 @@ export function fileStandingCandidates(api: CoreAPI, contestId: string): void {
       )
     )
       return;
+    // Marked where the stand-in actually files someone: a candidate who
+    // weighed running on their own (candidacy) files before this runs.
+    // stopgapId: SG-GOV-who-runs-stand-in
+    api.stopgap("SG-GOV-who-runs-stand-in");
     const filing: FilingRow = {
       id: `filing:${contestId}:${personId}`,
       contestId,

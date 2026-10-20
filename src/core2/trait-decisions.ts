@@ -252,6 +252,56 @@ export function decisionTraitTerm(
 }
 
 /**
+ * The trait term of a decision settled by a sum of reasons (`bare` is every
+ * reason but personality): the person's lean toward `yesOptionId` over
+ * `noOptionId`, read through `shape` where the site bends it (a taste for
+ * change read against how settled a law is), times the decision's calibrated
+ * weight. Reports the call, the sum's outcome and whether personality turned
+ * it to the audit's probe, as `leanedYes` does.
+ */
+export function leanedTerm(
+  core: Pick<CoreState, "data">,
+  person: Pick<PersonState, "traits"> & { id?: string },
+  decisionId: string,
+  yesOptionId: string,
+  noOptionId: string,
+  bare: number,
+  shape: (lean: number) => number = (lean) => lean,
+): number {
+  return termOfLean(
+    core,
+    person,
+    decisionId,
+    shape(
+      leanBetween(
+        core,
+        person,
+        decisionKinds(decisionId, yesOptionId),
+        decisionKinds(decisionId, noOptionId),
+        (key) => parameter(key, core.data.parameters),
+      ),
+    ),
+    bare,
+  );
+}
+
+/**
+ * The trait term for a lean already read (and bent, if the site bends it):
+ * the lean times the decision's calibrated weight, reported to the audit's
+ * probe with the sum it joins. For a site that reads a person's lean once
+ * and weighs it against many cases.
+ */
+export function termOfLean(
+  core: Pick<CoreState, "data">,
+  person: Pick<PersonState, "traits"> & { id?: string },
+  decisionId: string,
+  lean: number,
+  bare: number,
+): number {
+  return reportLeaned(core, person, decisionId, lean, bare) - bare;
+}
+
+/**
  * `leanedYes` that also returns the trait term it added (the lean times the
  * decision's calibrated weight), for a site that keeps its reasons on a record.
  */
