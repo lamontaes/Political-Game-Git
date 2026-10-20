@@ -4,7 +4,7 @@ title: "Stopgaps in ballot-measures (missing-data): 1 open"
 area: elections
 kind: stopgap
 priority: 3
-status: blocked
+status: open
 claimed-by:
 pr:
 blocked-on:
