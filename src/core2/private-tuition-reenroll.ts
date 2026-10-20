@@ -16,6 +16,7 @@ import data from "./data/opening-private-tuition.json" with { type: "json" };
 import { ageOnDate, makeIsoDate } from "./kernel/dates";
 import type { FinanceContractInput } from "./finance-types";
 import { setEverydayPurchase } from "./cost-of-living";
+import { privateSchoolShareFor } from "./opening-private-tuition";
 import type { CoreAPI, CoreState, Source } from "./types";
 
 export const REENROLL_STOPGAP = "SG-CORE-private-tuition-counted-reenroll";
@@ -87,6 +88,8 @@ export function reenrollPrivateTuition(api: CoreAPI): void {
     families.set(home.placeId, list);
   }
   const now = tuitionPlans(core);
+  // The town's state's private share (NCES), the same one the opening used.
+  const share = privateSchoolShareFor(core.placeMetadata.placeKey);
   const wanted = new Map<
     string,
     { children: number; adults: string[]; schoolId: string }
@@ -96,10 +99,7 @@ export function reenrollPrivateTuition(api: CoreAPI): void {
     a[0].localeCompare(b[0]),
   )) {
     const total = list.reduce((sum, row) => sum + row.children, 0);
-    const quota = Math.max(
-      1,
-      Math.round(total * p("openingPrivateSchoolShare")),
-    );
+    const quota = Math.max(1, Math.round(total * share));
     const local = schools.filter((row) => row.placeId === placeId);
     let taken = 0;
     for (const family of [...list].sort(
@@ -148,7 +148,7 @@ export function reenrollPrivateTuition(api: CoreAPI): void {
       tag: "ESTIMATED",
       asOf: date,
       citation: data.citation,
-      estimatedFrom: `${want.children} children aged ${p("openingSchoolAgeFirst")}–${p("openingSchoolAgeLast")} at average tuition $${p("openingPrivateTuitionAnnualUsd")} a year; this family is among the best-off per child in a town where the private share of school-age children is ${p("openingPrivateSchoolShare")}.`,
+      estimatedFrom: `${want.children} children aged ${p("openingSchoolAgeFirst")}–${p("openingSchoolAgeLast")} at average tuition $${p("openingPrivateTuitionAnnualUsd")} a year; this family is among the best-off per child in a town where the private share of school-age children is ${share}.`,
     };
     api.addFinanceContract({
       id: `private-tuition:${householdId}:${date}`,
