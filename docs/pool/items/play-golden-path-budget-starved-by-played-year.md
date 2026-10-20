@@ -28,3 +28,5 @@ Built Oct 18 (claude/golden-budget): a spec can carry `longRunning` in docs/road
 Re-run Oct 18 with the order change, same container: M0-10, M0-11, M2-01, M2-02, M2-05, M2-06, M2-07, M2-08 and M2-04 pass (eight more than before the fix reached), then M2-09 times out at 20.7 s and M3-09 and M0-13 are not reached. Their times (1.3, 0.4, 37.9, 35.4, 35.1, 34.6, 58.5, 36.3 and 39.8 seconds) already add up to 280 s, so the 300 s budget cannot hold the twelve accepted specs here even without the year (168.7 s alone). The ordering fix is kept, but the suite stays red on this machine until the CTO raises `prMilliseconds` (about 600 s covers all twelve here) or moves the year spec to its own job; this item stays open for that number.
 
 Oct 20: PR #5061 merged the ordering fix, but the suite still runs out of its 300-second budget and the budget is not raised, so the played year gets its own job.
+
+Sent back 2026-10-20 from PR #5506 (branch claude/golden-path-budget): policies.json goldenBudgetReason carries a date note ('Oct 20, 2026') and a CTO-confirmation note; keep the measurement only; finish on that branch, merge main into it first.
