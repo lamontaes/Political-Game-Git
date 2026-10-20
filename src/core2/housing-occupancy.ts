@@ -10,7 +10,8 @@ import {
   residentsRuntime,
 } from "./modules/residents";
 import { fundBalance, peopleInGroup } from "./counted-money";
-import { ageOnDate, makeIsoDate } from "./kernel/dates";
+import { makeIsoDate } from "./kernel/dates";
+import { sendLawNotice } from "./housing-notices";
 import { nextDue } from "./housing-homeless";
 import { addResidentFlow, setResidentFlowAmount } from "./residents-economy";
 import type { CoreAPI, CoreState } from "./types";
@@ -437,64 +438,25 @@ function noticeRentRenewal(
 ): void {
   const saved = rent.marketRentMinor - rent.rentMinor;
   if (saved <= 0 || rent.marketRentMinor <= 0) return;
-  const c = api.state as CoreState;
-  const today = makeIsoDate(api.state.date);
-  const head = tenant.memberIds
-    .map((id) => c.people.get(id))
-    .filter(
-      (p) =>
-        p?.alive &&
-        ageOnDate(makeIsoDate(p.birthDate), today) >=
-          lawParameters.parameters.adultAge.value,
-    )
-    .sort(
-      (a, b) =>
-        a!.birthDate.localeCompare(b!.birthDate) || a!.id.localeCompare(b!.id),
-    )[0];
-  if (!head) return;
-  const noticeId = `event:housing.rent-renewal:${tenant.leaseId}:${api.state.date}`;
-  const share = saved / rent.marketRentMinor;
-  const source = {
-    tag: "SOURCED" as const,
-    asOf: api.state.date,
-    citation: `Renewal notice for ${tenant.leaseId} under ${rent.lawId}`,
-  };
-  api.emit({
-    id: noticeId,
-    date: api.state.date,
+  sendLawNotice(api, {
+    memberIds: tenant.memberIds,
     kind: "housing.rent-renewal",
-    personIds: [head.id],
-    placeId: head.placeId,
-    facts: {
+    recordId: tenant.leaseId,
+    lawId: rent.lawId,
+    topic: RENT_STABILIZATION,
+    desiredChange: "enact",
+    noticeFacts: {
       leaseId: tenant.leaseId,
-      lawId: rent.lawId,
       previousRentMinor: String(rent.previousRentMinor),
       marketRentMinor: String(rent.marketRentMinor),
       rentMinor: String(rent.rentMinor),
     },
-    publicRecord: false,
-    source,
-  });
-  const scale = api.parameter("housingRentSavingImpulseScale");
-  api.emit({
-    id: `event:law.effect-learned:${tenant.leaseId}:${api.state.date}`,
-    date: api.state.date,
-    kind: "law.effect-learned",
-    personIds: [head.id],
-    placeId: head.placeId,
-    topic: RENT_STABILIZATION,
-    desiredChange: "enact",
-    moodImpulse: scale * share,
-    facts: {
-      lawId: rent.lawId,
-      learnedFrom: `event:${noticeId}:experienced`,
-      savedMinor: String(saved),
-    },
-    publicRecord: false,
-    source: {
-      ...source,
-      citation: `Learned from the renewal notice for ${tenant.leaseId} that ${rent.lawId} held the rent below the market`,
-    },
+    moodImpulse:
+      api.parameter("housingRentSavingImpulseScale") *
+      (saved / rent.marketRentMinor),
+    learnedFacts: { savedMinor: String(saved) },
+    noticeCitation: `Renewal notice for ${tenant.leaseId} under ${rent.lawId}`,
+    learnedCitation: `Learned from the renewal notice for ${tenant.leaseId} that ${rent.lawId} held the rent below the market`,
   });
 }
 
