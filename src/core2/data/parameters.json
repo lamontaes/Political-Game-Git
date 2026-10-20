@@ -4496,6 +4496,18 @@
     "citation": "Share of a place's residents in one year of age at school ages: the 2020 Census counted 42.6 million people aged 5 to 14 of 331.4 million, about 1.29% per single year (U.S. Census Bureau, 2020 Census Demographic and Housing Characteristics, Table P12). Sizes a place's catchment of schools when its own schools are not recorded.",
     "estimatedFrom": "2020 Census DHC P12, national; spread 0.011 to 0.015 across places (older and younger places)"
   },
+  "livingCostWriteOffBills": {
+    "value": 4,
+    "tag": "ESTIMATED",
+    "citation": "FFIEC, Uniform Retail Credit Classification and Account Management Policy (2000): closed-end retail credit is charged off at 120 days past due and open-end credit at 180 days; a month's bill is the unit here.",
+    "estimatedFrom": "120 days past due is four monthly bills; open-end accounts at 180 days would be six. A household's outside living costs (utilities, phone, insurance and the like) are written off after about four unpaid bills.",
+    "spread": {
+      "low": 3,
+      "high": 6,
+      "unit": "monthly bills unpaid before the debt is written off",
+      "citation": "Utility disconnection and collection practice (about 60 to 90 days) to the FFIEC open-end charge-off age (180 days)."
+    }
+  },
   "supplierTradeTermsDays": {
     "value": 30,
     "tag": "ESTIMATED",
@@ -4719,18 +4731,6 @@
     "value": 12420,
     "tag": "SOURCED",
     "citation": "NCES, Digest of Education Statistics 2021, Table 205.50: average tuition at all private elementary and secondary schools, 2011–12, $12,420 in constant 2020–21 dollars. https://nces.ed.gov/programs/digest/d21/tables/dt21_205.50.asp"
-  },
-  "openingPrivateSchoolShare": {
-    "value": 0.085,
-    "tag": "ESTIMATED",
-    "citation": "NCES Fast Facts, Back-to-school statistics: fall 2021, 4.7 million private and 49.4 million public elementary and secondary students; NCES NHES 2019: about 2.8% of school-age children homeschooled.",
-    "estimatedFrom": "4.7 / (49.4 + 4.7 + about 1.6 homeschooled) ≈ 0.085 of school-age children in private schools.",
-    "spread": {
-      "low": 0.04,
-      "high": 0.14,
-      "unit": "share of children aged 5–17",
-      "citation": "State private shares from NCES Digest Table 205.80 range roughly 4% to 14%."
-    }
   },
   "openingCustomerClubMembershipsAnnualNationalUsd": {
     "value": 272,

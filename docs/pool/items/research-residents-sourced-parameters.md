@@ -5,7 +5,7 @@ area: people
 kind: research
 priority: 2
 size: M
-status: in-pr
+status: done
 claimed-by: claude/residents-county-employment
 pr: #5690
 blocked-on: researcher: per-place or calibration sourcing, each row cited; first row's replacement: Valid county B23001 civilian employed/resident-age observations, suppression/MOE handling and territorial equivalents. (parameter
@@ -28,3 +28,5 @@ claimed-at: 2026-10-20T18:08:08.819Z
 **Notes.** Folded from: people-stopgap-resident-employment-missing-local-observation, people-stopgap-residents-aggregate-cadence, people-stopgap-residents-assumed-data. Rows that are not numbers (missing mechanics in law reach, for example) stay registered; this item sources what they will read.
 
 Sent back 2026-10-20 from PR #5690 (branch claude/residents-county-employment): prettier fails on src/core2/data/resident-employment-counties.json (format it or add it to .prettierignore if generated); finish on that branch, merge main into it first.
+
+**Remaining rows (repaired Oct 20).** PR #5690 delivered only the county-employment part (the employment-by-county observations and the file `src/core2/data/resident-employment-counties.json`); `SG-P8-resident-employment-proxy`, `SG-CORE-residents-cadence` and `SG-CORE-district-placement` are all still open in `src/core2/data/stopgaps.json`. The rest is tracked as: `research-residents-employment-island-areas` (the island areas' own employment-by-age tables), `research-residents-cadence-sourced` (spending and pay timing, absence and turnover) and `research-residents-district-placement-sourced` (district mixes; open PR #5698). Each carries the original requirements: a cited SOURCED or ESTIMATED row with a spread, a research file with a reader, the stopgap row resolved, and a played-world band report.

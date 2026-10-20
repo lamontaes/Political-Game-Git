@@ -1,8 +1,8 @@
 ---
 name: civic-reports
 description: >
-  Write or review any report, write-up or document meant for the owner:
-  playtest and life reports, audits, investigation results, Drive documents,
+  Writes or reviews any report, write-up or document meant for the owner:
+  playtest and life reports, audits, investigation results, status updates,
   handoff summaries and pull request descriptions. Use before sending or
   publishing one; not for player-visible game text, which is civic-prose.
 ---
@@ -37,8 +37,10 @@ mechanical check is the floor; it is not the standard.
    the tools) goes last, in a few lines.
 
 Reports that are not about play (audits, investigations, pull request
-descriptions) keep steps 1, 2, 4 and 5. A pull request description also
-opens with "Before:" and "After:" paragraphs, per the project's rules.
+descriptions) keep steps 1, 2, 4 and 5. A pull request description follows
+`.github/PULL_REQUEST_TEMPLATE.md`: its first lines are the pool item and the
+gate line, which the tooling reads, and its lead then says what changed for
+the player, with "Before:" and "After:" where that helps.
 
 ## What every report carries
 
@@ -73,7 +75,8 @@ opens with "Before:" and "After:" paragraphs, per the project's rules.
 3. Then publish. The session hook in `.claude/settings.json` runs step 1
    automatically on every owner-facing markdown file written under
    `/mnt/project-files/` or `docs/playtest/` and `docs/reports/`, and refuses
-   a failing markdown upload to Drive. It cannot run step 2 for you.
+   a failing markdown upload to Drive. It cannot run step 2 for you, and it
+   doesn't cover pull request bodies.
 
 `docs/writing/the-next-generation-rewrite.md` is the worked example: the
 report that prompted this skill, and the same facts rewritten to the bar.

@@ -5,12 +5,12 @@ area: core
 kind: bug
 priority: 1
 size: M
-status: in-pr
-claimed-by: claude/fs11vb-dense
+status: open
+claimed-by:
 pr: #5372
 blocked-on: its children, the core-speed-* items (alloc, journal, date parse, gc churn, pair key); this umbrella is done when they bring the year under 120 s
 source: added with npm run pool -- add
-claimed-at: 2026-10-20T14:25:29.752Z
+claimed-at:
 ---
 
 **What.** Measured Oct 20, 2026 on a 4-core cloud container with nothing else running: npm run speed:year -- --seed m7b --exclusive, a played year in Long Hill, Connecticut, takes 194, 200 and 214 seconds in three runs, over the 120-second limit in AGENTS.md. The same command on seed m7a, Discovery Harbor, Hawaii, takes 52 seconds, so the cost follows the town's size. A CPU profile of the 251 seconds shows no single hotspot: garbage collection is 52 seconds, and the largest named functions are 3 to 6 seconds each. This umbrella item is done when the parts filed beside it, found by that profile, bring the year under the limit.
@@ -26,3 +26,5 @@ claimed-at: 2026-10-20T14:25:29.752Z
 Re-measured Oct 20 (claude, claude/speed-dense-note), 4-core container, main at the time, nothing else running, `npm run speed:year -- --seed m7b --exclusive` twice: 150.9 s and 148.9 s (under profiling), against 194 to 214 s in the first measurement, so the year is already about 40 s faster than that note (other sessions' merged speed work), and still about 30 s over the limit. CPU profile of the 150.9 s run (178 s sampled): garbage collector 27.9 s; postCashJournal 5.1, releaseResidentHousehold 3.9, makeIsoDate 3.7, projectCashJournal 3.4, parameter 3.3, people.ts 3.2, state.ts 2.8, portfolios 2.1, availableActs 2.0, countedFollowers 2.0, recordWorkAttendance 1.9, guardedRecord 1.6, epochDayOf 1.6, monthBoundary 1.4. Three small slices are in draft PRs and together address about 8 s of that list: #5381 (day counts from dates held as text: makeIsoDate and epochDayOf), #5385 (payroll boundary dates kept: monthBoundary) and #5392 (no payday record copy in play: guardedRecord). That leaves roughly 22 s to find. A heap profile at exit (live objects, 914 MB) puts the largest retained user allocations in `scoreOffers` (46 MB) and `decisionFromScores` (23 MB) in choice.ts, `plainCopy` in module-data.ts (25 MB), `synthesizeNationwidePlace` in place-lookup.ts (24 MB) and `personInput` in counted-groups.ts (14 MB); that shows what is held, not what churns, so the GC cost still needs an allocation-site profile (the churn, not the survivors) before a child item can be written. The flat list has no single function over 5.1 s, so the remaining time is several 2 to 5 s items: journal posting (10.6 s across three functions, item core-speed-cash-journal-posting), fill-in (`releaseResidentHousehold`, 3.9 s), `parameter` (3.3 s, already map-cached, so the cost is call count) and `countedFollowers` (item core-speed-press-counted-followers).
 
 Sent back 2026-10-20 from PR #5372 (branch claude/speed-dense-town): merging main conflicts in src/core2/modules/press.ts; finish on that branch, merge main into it first.
+
+Sent back 2026-10-20 from PR #5372 (branch claude/speed-dense-town): Only a release note remains relative to main, and the body explicitly says the acceptance is unfinished: m7b is still 196 seconds, while this item requires under 120 seconds. The merged fixer resolved the code conflict, but did not complete that speed proof. Keep the unfinished speed item open; separate any completed release-note bookkeeping scope or finish the named speed acceptance.; finish on that branch, merge main into it first.
