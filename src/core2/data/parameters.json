@@ -1409,30 +1409,36 @@
     }
   },
   "appraisalDistressTraitWeight": {
-    "value": 0.5,
-    "tag": "TUNABLE",
-    "citation": "No direct source for this coefficient, duration or prototype limit; tunable. Empirical calibration or owner budget approval is pending and blocks prototype release.",
+    "value": 0.255,
+    "tag": "ESTIMATED",
+    "citation": "Bolger, N., & Schilling, E. A. (1991), Personality and the problems of everyday life: The role of neuroticism in exposure and reactivity to daily stressors, Journal of Personality 59(3), 355-386: exposure and reactivity explained over 40% of the distress gap between high- and low-neuroticism people, reactivity twice as much as exposure, so reactivity is about two thirds of that, 0.27 of the gap. Reading the gap as the stressor-driven distress of a low-neuroticism person, the most reactive person (brooding and concern for distress at the top of the scale) responds about 1 + 2/3 times as strongly as the least; with the two appraisal traits multiplying, a trait at 2 levels reads 2/3 of the way up the trait scale of 3, so a weight of 0.255 each moves it 0.17 and gives (1.17 x 1.17) / (1 - 0.17) = 1.65. This weight is for concern for distress.",
     "stopgapId": "SG-P8-param-appraisalDistressTraitWeight",
     "spread": {
-      "status": "unmeasured",
-      "reason": "No empirical parameter bounds have been identified. Related outcome statistics or inherited model assumptions do not establish bounds on this parameter."
+      "low": 0.15,
+      "high": 0.375,
+      "unit": "weight",
+      "citation": "Ratio of most to least reactive 1.3 to 2.1 across a reactivity share of 0.2 to 0.4 of the gap."
     },
     "checkRange": {
       "ref": "P9-OUTCOME-WHOLE-LIFE"
-    }
+    },
+    "estimatedFrom": "The paper reports shares of the distress gap, not a per-trait response slope (its tables were not retrieved); the reading of the gap as the low-neuroticism stressor response is an assumption."
   },
   "appraisalBroodingTraitWeight": {
-    "value": 0.5,
-    "tag": "TUNABLE",
-    "citation": "No direct source for this coefficient, duration or prototype limit; tunable. Empirical calibration or owner budget approval is pending and blocks prototype release.",
+    "value": 0.255,
+    "tag": "ESTIMATED",
+    "citation": "Bolger, N., & Schilling, E. A. (1991), Personality and the problems of everyday life: The role of neuroticism in exposure and reactivity to daily stressors, Journal of Personality 59(3), 355-386: exposure and reactivity explained over 40% of the distress gap between high- and low-neuroticism people, reactivity twice as much as exposure, so reactivity is about two thirds of that, 0.27 of the gap. Reading the gap as the stressor-driven distress of a low-neuroticism person, the most reactive person (brooding and concern for distress at the top of the scale) responds about 1 + 2/3 times as strongly as the least; with the two appraisal traits multiplying, a trait at 2 levels reads 2/3 of the way up the trait scale of 3, so a weight of 0.255 each moves it 0.17 and gives (1.17 x 1.17) / (1 - 0.17) = 1.65. This weight is for brooding.",
     "stopgapId": "SG-P8-param-appraisalBroodingTraitWeight",
     "spread": {
-      "status": "unmeasured",
-      "reason": "No empirical parameter bounds have been identified. Related outcome statistics or inherited model assumptions do not establish bounds on this parameter."
+      "low": 0.15,
+      "high": 0.375,
+      "unit": "weight",
+      "citation": "Ratio of most to least reactive 1.3 to 2.1 across a reactivity share of 0.2 to 0.4 of the gap."
     },
     "checkRange": {
       "ref": "P9-OUTCOME-WHOLE-LIFE"
-    }
+    },
+    "estimatedFrom": "The paper reports shares of the distress gap, not a per-trait response slope (its tables were not retrieved); the reading of the gap as the low-neuroticism stressor response is an assumption."
   },
   "emotionDurationMinHours": {
     "value": 0.5,
@@ -5828,5 +5834,63 @@
     "value": 0.5,
     "tag": "TUNABLE",
     "citation": "Weight of the student's study traits (studious, voluntary effort) in that standing, half an attendance weight; ordering only, never the level, which is the researched base."
+  },
+  "srrsFiredAtWork": {
+    "value": 47,
+    "tag": "SOURCED",
+    "citation": "Holmes TH, Rahe RH. The Social Readjustment Rating Scale. Journal of Psychosomatic Research 11(2):213-218, 1967, Table 3 life change units. Item 8, fired at work: 47 units."
+  },
+  "srrsForeclosure": {
+    "value": 30,
+    "tag": "SOURCED",
+    "citation": "Holmes TH, Rahe RH. The Social Readjustment Rating Scale. Journal of Psychosomatic Research 11(2):213-218, 1967, Table 3 life change units. Item 22, foreclosure of mortgage or loan: 30 units (stands for losing a home to eviction)."
+  },
+  "healthConscientiousnessLogHazardPerLevel": {
+    "value": -0.128,
+    "tag": "ESTIMATED",
+    "citation": "Kern, M. L., & Friedman, H. S. (2008), Do conscientious individuals live longer? A quantitative review, Health Psychology 27(5), 505-512: r = .11 (95% CI .05-.17) with longevity. Converted to a hazard slope: r times a lifespan SD of 15 years is 1.65 years per trait SD; adult mortality doubles about every 8 years (Gompertz slope 0.087 per year), so a 1.65-year shift is a log hazard of -0.144 per SD; the opening levels have SD 1.095, giving -0.128 per level.",
+    "estimatedFrom": "Lifespan SD and the Gompertz slope are round figures, not drawn from the life table.",
+    "spread": {
+      "low": -0.058,
+      "high": -0.198,
+      "unit": "log hazard per conscientiousness level",
+      "citation": "Kern and Friedman 2008 confidence interval r .05 to .17, same conversion."
+    }
+  },
+  "healthDrugUseLogOddsPerLevel": {
+    "value": -0.716,
+    "tag": "ESTIMATED",
+    "citation": "Bogg, T., & Roberts, B. W. (2004), Conscientiousness and health-related behaviors: A meta-analysis of the leading behavioral contributors to mortality, Psychological Bulletin 130(6), 887-919: conscientiousness with drug use r = -.28, the largest domain. Point-biserial to logit slope per SD is r over sqrt(q(1-q)) with q = 0.15 holding the condition (pack prevalence 8.5-27%), -0.784 per SD, divided by the level SD 1.095.",
+    "estimatedFrom": "One holding share for all ages; the slope per SD would be steeper where fewer hold it.",
+    "spread": {
+      "low": -0.307,
+      "high": -0.716,
+      "unit": "log odds per conscientiousness level",
+      "citation": "Bogg and Roberts 2004: other behavioral domains -.12 to -.25, drug use -.28."
+    }
+  },
+  "healthTobaccoLogOddsPerLevel": {
+    "value": -0.528,
+    "tag": "ESTIMATED",
+    "citation": "Bogg, T., & Roberts, B. W. (2004), Conscientiousness and health-related behaviors: A meta-analysis of the leading behavioral contributors to mortality, Psychological Bulletin 130(6), 887-919: conscientiousness with the other health behaviors r = -.12 to -.25 (midpoint -.185 for tobacco). Logit slope per SD is r over sqrt(q(1-q)) with q = 0.116 adult current smokers (CDC 2022), -0.578 per SD, divided by the level SD 1.095. Applied to the chronic lung disease condition smoking drives.",
+    "estimatedFrom": "The tobacco domain value is not separately retrieved; the midpoint of the reported range stands in.",
+    "spread": {
+      "low": -0.312,
+      "high": -0.713,
+      "unit": "log odds per conscientiousness level",
+      "citation": "Bogg and Roberts 2004 range r -.12 to -.25."
+    }
+  },
+  "traitChangeEventShift": {
+    "value": 0.1,
+    "tag": "ESTIMATED",
+    "citation": "Direction: emotional stability falls after adverse life events (Specht, J. (2017), Personality development across the lifespan, and Specht, Egloff, & Schmukle (2011), Stability and change of personality across the life course: The impact of age and major life events on mean-level and rank-order stability of the Big Five, Journal of Personality and Social Psychology 101(4), 862-882). Size: one event moves the hidden standard score of each emotional-stability trait by 0.1 of a standard deviation, in the range the event studies report as small; the per-event coefficients in the papers were not retrieved.",
+    "estimatedFrom": "The size is a round figure inside \"small\"; only the direction is from the sources.",
+    "spread": {
+      "low": 0.05,
+      "high": 0.25,
+      "unit": "standard deviations per event",
+      "citation": "Small effects in the life-event personality literature; not retrieved per event."
+    }
   }
 }
