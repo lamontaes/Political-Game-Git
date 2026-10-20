@@ -5,12 +5,12 @@ area: people
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/hearing-speaker-g08lgv
 pr: #5055
 blocked-on:
 source: added with npm run pool -- add
-claimed-at:
+claimed-at: 2026-10-20T01:24:31.673Z
 ---
 
 **What.** A watched person who only heard of a public comment through a friend who spoke got a hearing scene that named them as the speaker. The hearing scene binds the person the moment belongs to as its speaker, and the director gives that moment to anyone tied to a speaker, scaled by the tie. The comment record names only those who spoke, so the scene put a listener at the lectern. It showed up as the red hearing-scenes test on main in the town drawn from the pinned seed.
