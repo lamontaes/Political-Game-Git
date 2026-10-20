@@ -1181,20 +1181,20 @@
     }
   },
   "workSleepReserveHours": {
-    "value": 9.03,
+    "value": 8.7,
     "tag": "ESTIMATED",
-    "citation": "BLS American Time Use Survey 2025, Table 1 (https://www.bls.gov/news.release/atus.t01.htm) and Table 2 (https://www.bls.gov/news.release/atus.t02.htm): sleeping (primary activity, naps included) averages 9.03 hours per diary day for all days; 8.76 weekdays, 9.68 weekends and holidays; men 8.93, women 9.13.",
+    "citation": "BLS American Time Use Survey 2025, Table 8B (https://www.bls.gov/news.release/atus.t08b.htm), employed adults 18 and over, annual averages: sleeping 8.83 hours per diary day with no household child under 18, 8.56 with one. Not-employed adults sleep more (Table 8C: 9.37 and 9.31); all adults average 9.03 (Table 1, https://www.bls.gov/news.release/atus.t01.htm).",
     "spread": {
-      "low": 8.76,
-      "high": 9.68,
+      "low": 8.56,
+      "high": 8.83,
       "unit": "hours per diary day",
-      "citation": "BLS ATUS 2025 Table 2: weekdays 8.76 to weekends and holidays 9.68."
+      "citation": "BLS ATUS 2025 Table 8B, employed adults: with a household child under 18 (8.56) to with none (8.83)."
     },
     "stopgapId": "SG-P8-work-time-reserve",
     "checkRange": {
       "ref": "EMPIRICAL-PRIMARY-ACTIVITY-AGE"
     },
-    "estimatedFrom": "Daily time reserved for sleep is the ATUS all-days population mean of primary-activity sleep. Standard BLS tables do not cut sleep by employment status, so the all-population mean is used for workers."
+    "estimatedFrom": "The midpoint of the two employed-adult figures in Table 8B, because the table gives no total for employed adults and the share of employed adults with a child at home is not read here. It replaces the all-adults mean of 9.03, which includes people who do not work."
   },
   "workRoutineRetentionWeeks": {
     "value": 4,
