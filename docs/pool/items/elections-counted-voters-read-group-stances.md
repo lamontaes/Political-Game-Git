@@ -23,3 +23,5 @@ claimed-at:
 **Files.** src/core2/electorate.ts, src/core2/campaign-views.ts, src/core2/modules/views.ts
 
 **Notes.** TODO
+
+Sent back 2026-10-20 from PR #5501 (branch claude/counted-stances): Merging current origin/main conflicts in data/research/people/opening-stance-loadings.json, scripts/research/build-stance-loadings.py, and src/core2/modules/views.ts. Resolve the generator and views conflicts, regenerate the data, and rerun the same-person counted-versus-filled agreement proof. Its parent #5495 is still open, so this fixer remains based there; no pool item will be marked done for a non-main merge.; finish on that branch, merge main into it first.
