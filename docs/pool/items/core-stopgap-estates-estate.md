@@ -4,13 +4,13 @@ title: "Stopgaps in estates (estate): 1 open"
 area: core
 kind: stopgap
 priority: 3
-status: in-pr
-claimed-by: claude/estates-stopgap
+status: open
+claimed-by:
 pr: #5275
 blocked-on:
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/estates.ts, kind estate"
-claimed-at: 2026-10-20T05:44:27.041Z
+claimed-at:
 ---
 
 **What.** Replace or clear the 1 open estate stopgap row(s) in src/core2/estates.ts: SG-CORE-estate-cash-only. Each fake is replaced by the mechanic, or the feature that needs it is deleted.
@@ -23,3 +23,5 @@ claimed-at: 2026-10-20T05:44:27.041Z
 
 **Notes.** First row: A full person's estate is only their cash and the standing payments they owed: homes, loans, businesses and accounts other than their main one are not settled. A relative who is still only a counted record does not inherit.
 Sent back from PR #5275: estates-counted-kin.test.ts fails on random seeds when decedent has living spouse because spouse precedes children in intestateOrder.
+
+- Cloud merger, after #5275 merged: counted-kin heirs now inherit, but the SG-CORE-estate-cash-only row is still open (homes, loans and businesses are not settled), so this item stays open.

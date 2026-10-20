@@ -5,7 +5,7 @@ area: people
 kind: research
 priority: 2
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/political-game-pool-yucp92-z
 pr: #5428
 blocked-on:
