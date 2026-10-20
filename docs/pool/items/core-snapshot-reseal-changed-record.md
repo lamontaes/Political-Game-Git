@@ -5,9 +5,9 @@ area: core
 kind: feature
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/political-game-pool-3xfqef-27
-pr:
+pr: #5570
 blocked-on:
 source: "split of core-outside-wage-obligation (L), Oct 20"
 claimed-at: 2026-10-20T06:34:29.380Z
