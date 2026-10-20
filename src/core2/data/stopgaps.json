@@ -717,7 +717,8 @@
     "addedBy": "SOL-1258",
     "addedAt": "2026-10-09",
     "replacement": "Matched external retirement/covered-work/claim/individual-award/liquid-stock observables with explicit population denominators and actual calibrated output; preserve finite accounting.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "The factor is the 5th percentile of retired-worker benefits over the mean (0.33), computed from SSA Annual Statistical Supplement 2021 Table 5.B6 and cited on the SOURCED parameter row; it is a published percentile, not an inferred bound (stopgap research Oct 19, B-people-behavior-2)."
   },
   {
     "id": "SG-P8-param-openingRetirementBenefitFactorMaximum",
@@ -729,7 +730,8 @@
     "addedBy": "SOL-1258",
     "addedAt": "2026-10-09",
     "replacement": "Matched external retirement/covered-work/claim/individual-award/liquid-stock observables with explicit population denominators and actual calibrated output; preserve finite accounting.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "The factor is the 95th percentile of retired-worker benefits over the mean (1.88), computed from SSA Annual Statistical Supplement 2021 Table 5.B6 and cited on the SOURCED parameter row; it is a published percentile, not an inferred bound (stopgap research Oct 19, B-people-behavior-2)."
   },
   {
     "id": "SG-P8-param-openingRetirementPayerReserveMonths",
