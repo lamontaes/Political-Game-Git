@@ -1181,8 +1181,24 @@ function readGroundwaterLaw(api: CoreAPI): void {
  * the business's other operating costs (paid monthly like any compliance
  * cost, so the books and a closure review read it); a repeal ends it.
  */
-const DATA_PRIVACY_QUESTION =
+export const DATA_PRIVACY_QUESTION =
   "us-policy-positions:technology-privacy.consumer-data-privacy-law";
+
+/**
+ * What a consumer data privacy law costs an employing business in a year: the
+ * share of its other operating costs the monthly cost review charges while
+ * the law stands (null for any other law).
+ */
+export function businessDataPrivacyCostYear(
+  api: CoreAPI,
+  question: string,
+  annualOtherCostsMinor: number,
+): number | null {
+  if (question !== DATA_PRIVACY_QUESTION) return null;
+  return Math.round(
+    annualOtherCostsMinor * api.parameter("businessDataPrivacyShareOfCosts"),
+  );
+}
 
 function readDataPrivacyLaw(api: CoreAPI): void {
   const c = core(api);
