@@ -5,11 +5,12 @@ area: core
 kind: research
 priority: 2
 size: M
-status: blocked
+status: open
 claimed-by:
 pr:
 blocked-on:
 source: "collapsed Oct 19, 2026 from core-stopgap-opening-customers-estimated-opening-customer-prior, core-stopgap-opening-customers-unresolved-external-product-buyer-demand-crosswalk, core-stopgap-opening-public-owner-estimated-historical-government-identity-continuity, core-stopgap-opening-public-owner-estimated-public-buyer-geographic-reach"
+claimed-at: 
 ---
 
 **What.** Apply the estimated rows in docs/research/pool-feeder-oct20/research-opening-customers-sourced-parameters.md to the opening-customer parameter rows and resolve the five stopgap rows listed below. Add the lognormal budget spread, the 0.12 cleaning share, the per-classification outside-demand shares and the county-resident-share allocation to the parameter table, tag each ESTIMATED with its source and spread, and keep the history carry-forward as an audit band only. All five rows came from the Oct 19 pass at low confidence; none has a primary measure, so every value stays a labeled estimate until the procurement and trade modules supply recorded data.
