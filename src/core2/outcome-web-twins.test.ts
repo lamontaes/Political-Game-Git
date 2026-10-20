@@ -181,7 +181,8 @@ describe(`the effect web's twin worlds (${place.name}, ${place.state}, seed ${se
       expect(shifted.touched.length, cause.measure).toBeGreaterThan(0);
       const moved = diff(control, fingerprint(shifted.core));
       const links = WEB_LINKS.filter(
-        (link) => (derivedOf(link.from)?.measure ?? link.from) === cause.measure,
+        (link) =>
+          (derivedOf(link.from)?.measure ?? link.from) === cause.measure,
       ).map((link) => link.key);
       results.push({
         cause: cause.measure,
@@ -200,7 +201,10 @@ describe(`the effect web's twin worlds (${place.name}, ${place.state}, seed ${se
     };
     if (process.env.EFFECT_TWINS_WRITE) {
       const matrix = JSON.parse(readFileSync(MATRIX, "utf8"));
-      writeFileSync(MATRIX, `${JSON.stringify({ ...matrix, twins }, null, 2)}\n`);
+      writeFileSync(
+        MATRIX,
+        `${JSON.stringify({ ...matrix, twins }, null, 2)}\n`,
+      );
     }
     console.log(JSON.stringify(twins, null, 2));
     expect(results.length).toBeGreaterThan(0);

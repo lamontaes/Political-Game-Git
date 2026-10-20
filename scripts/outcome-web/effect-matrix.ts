@@ -112,7 +112,8 @@ function cause(link: WebLink): Point {
     case "law":
       return {
         status: "pass",
-        evidence: "src/core2/modules/outcome-web.ts lawValue (laws module rows in force, lagged)",
+        evidence:
+          "src/core2/modules/outcome-web.ts lawValue (laws module rows in force, lagged)",
       };
     case "engine":
       return {
@@ -150,20 +151,37 @@ function cause(link: WebLink): Point {
 function size(link: WebLink & { range?: number[]; anchor?: string }): Point {
   const at = `${linksPath}:${lineOf(link.key)}`;
   if (link.size === null)
-    return { status: "fail", evidence: at, why: "no size: the link's research has not been sized" };
+    return {
+      status: "fail",
+      evidence: at,
+      why: "no size: the link's research has not been sized",
+    };
   if (!link.range)
     return {
       status: "partial",
       evidence: `${at} size ${link.size}`,
       why: "no recorded spread (range) around the size",
     };
-  return { status: "pass", evidence: `${at} size ${link.size}, range [${link.range.join(", ")}], ${link.source}` };
+  return {
+    status: "pass",
+    evidence: `${at} size ${link.size}, range [${link.range.join(", ")}], ${link.source}`,
+  };
 }
 
 function reaches(link: WebLink): Point {
   const engine = engineReaders(link.to);
-  if (engine.length)
-    return { status: "pass", evidence: where(engine) };
+  if (engine.length) return { status: "pass", evidence: where(engine) };
+  if (
+    engineMeasure(link.to) ||
+    (GOV_MEASURES as readonly string[]).includes(link.to)
+  )
+    return {
+      status: "fail",
+      evidence: engineMeasure(link.to)
+        ? `world-metrics months.${engineMeasure(link.to)!.field}`
+        : "src/core2/gov-measures.ts",
+      why: `engine doesn't read the factor: an engine records ${link.to}, but nothing multiplies its rates by the link's effect`,
+    };
   if (!keptOutcome(link.to))
     return {
       status: "fail",
@@ -180,14 +198,21 @@ function reaches(link: WebLink): Point {
 
 function varied(link: WebLink & { varies?: unknown[] }): Point {
   if (link.varies?.length)
-    return { status: "pass", evidence: `${linksPath}:${lineOf(link.key)} varies by ${link.varies.length} moderator(s)` };
+    return {
+      status: "pass",
+      evidence: `${linksPath}:${lineOf(link.key)} varies by ${link.varies.length} moderator(s)`,
+    };
   if (link.moderator)
     return {
       status: "partial",
       evidence: `place moderator ${link.moderator.measure}`,
       why: "a place-level moderator only: every person in a place still gets the same proportion",
     };
-  return { status: "fail", evidence: "-", why: "no moderator: every place and person moves by the same proportion" };
+  return {
+    status: "fail",
+    evidence: "-",
+    why: "no moderator: every place and person moves by the same proportion",
+  };
 }
 
 const FROM = new Map<string, WebLink[]>();
@@ -198,7 +223,8 @@ for (const link of WEB_LINKS) {
 
 function knockOn(link: WebLink): Point {
   const next = FROM.get(link.to) ?? [];
-  if (!next.length) return { status: "n/a", evidence: `no link starts from ${link.to}` };
+  if (!next.length)
+    return { status: "n/a", evidence: `no link starts from ${link.to}` };
   const names = next.map((row) => row.key).join(", ");
   if (!engineReaders(link.to).length)
     return {
@@ -209,10 +235,19 @@ function knockOn(link: WebLink): Point {
   return { status: "pass", evidence: `feeds ${names} from engine records` };
 }
 
-function timing(link: WebLink & { phaseInMonths?: number; fadeMonths?: number; lagWhy?: string }): Point {
+function timing(
+  link: WebLink & {
+    phaseInMonths?: number;
+    fadeMonths?: number;
+    lagWhy?: string;
+  },
+): Point {
   const at = `${linksPath}:${lineOf(link.key)}`;
   if (link.phaseInMonths !== undefined || link.fadeMonths !== undefined)
-    return { status: "pass", evidence: `${at} lag ${link.lagMonths}, phase-in ${link.phaseInMonths ?? 0}, fade ${link.fadeMonths ?? "none"}` };
+    return {
+      status: "pass",
+      evidence: `${at} lag ${link.lagMonths}, phase-in ${link.phaseInMonths ?? 0}, fade ${link.fadeMonths ?? "none"}`,
+    };
   return {
     status: "partial",
     evidence: `${at} lag ${link.lagMonths} months${link.lagWhy ? " (researched)" : ""}`,
@@ -222,14 +257,19 @@ function timing(link: WebLink & { phaseInMonths?: number; fadeMonths?: number; l
 
 function knowing(link: WebLink): Point {
   const rows = knowingReaders(link.to);
-  if (rows.length && engineReaders(link.to).length) return { status: "pass", evidence: where(rows) };
+  if (rows.length && engineReaders(link.to).length)
+    return { status: "pass", evidence: where(rows) };
   if (rows.length)
     return {
       status: "partial",
       evidence: where(rows),
       why: "people read the web's number for the place, not their own experience of an engine record",
     };
-  return { status: "fail", evidence: "-", why: `nobody notices: no view, news or electorate input reads ${link.to}` };
+  return {
+    status: "fail",
+    evidence: "-",
+    why: `nobody notices: no view, news or electorate input reads ${link.to}`,
+  };
 }
 
 function oneRule(link: WebLink): Point {
@@ -239,7 +279,11 @@ function oneRule(link: WebLink): Point {
       evidence: `sizeByPlace for ${Object.keys(link.sizeByPlace).join(", ")}`,
       why: "a per-place size in data (allowed), but places without one take the national size",
     };
-  return { status: "pass", evidence: "one code path (src/core2/modules/outcome-web.ts effectOf) for every place" };
+  return {
+    status: "pass",
+    evidence:
+      "one code path (src/core2/modules/outcome-web.ts effectOf) for every place",
+  };
 }
 
 export interface MatrixRow {
@@ -253,7 +297,10 @@ export interface MatrixRow {
   readonly wiredPoints: number;
 }
 
-export function matrix(): { links: MatrixRow[]; measures: Record<string, unknown>[] } {
+export function matrix(): {
+  links: MatrixRow[];
+  measures: Record<string, unknown>[];
+} {
   const links = WEB_LINKS.map((link) => {
     const points = {
       cause: cause(link),
@@ -271,9 +318,13 @@ export function matrix(): { links: MatrixRow[]; measures: Record<string, unknown
       to: link.to,
       causeKind: causeKind(link.from),
       lawLink: isLaw(link.from),
-      webCoverage: linkCoverage(link).wired ? ("wired" as const) : ("waiting" as const),
+      webCoverage: linkCoverage(link).wired
+        ? ("wired" as const)
+        : ("waiting" as const),
       points,
-      wiredPoints: Object.values(points).filter((p) => p.status === "pass" || p.status === "n/a").length,
+      wiredPoints: Object.values(points).filter(
+        (p) => p.status === "pass" || p.status === "n/a",
+      ).length,
     };
   });
   // One row per wanted measure: every cause or outcome a link names.
@@ -295,7 +346,9 @@ export function matrix(): { links: MatrixRow[]; measures: Record<string, unknown
     .map(([measure, row]) => {
       const engine = engineReaders(measure);
       const kept = keptOutcome(measure);
-      const recorded = engineMeasure(measure) || (GOV_MEASURES as readonly string[]).includes(measure);
+      const recorded =
+        engineMeasure(measure) ||
+        (GOV_MEASURES as readonly string[]).includes(measure);
       const status = recorded
         ? "engine-record"
         : engine.length
@@ -336,7 +389,8 @@ export function matrix(): { links: MatrixRow[]; measures: Record<string, unknown
 
 function summary(rows: readonly MatrixRow[]) {
   const all = (row: MatrixRow) => row.wiredPoints === 8;
-  const by = (filter: (row: MatrixRow) => boolean) => rows.filter(filter).length;
+  const by = (filter: (row: MatrixRow) => boolean) =>
+    rows.filter(filter).length;
   const points = Object.keys(rows[0]!.points);
   return {
     links: rows.length,
@@ -361,7 +415,8 @@ function summary(rows: readonly MatrixRow[]) {
 
 if (process.argv[1]?.endsWith("effect-matrix.ts")) {
   const out =
-    process.argv[process.argv.indexOf("--out") + 1] && process.argv.includes("--out")
+    process.argv[process.argv.indexOf("--out") + 1] &&
+    process.argv.includes("--out")
       ? process.argv[process.argv.indexOf("--out") + 1]!
       : "docs/reports/effect-web-matrix-2026-10-20.json";
   const table = matrix();
@@ -371,7 +426,12 @@ if (process.argv[1]?.endsWith("effect-matrix.ts")) {
   } catch {
     twins = undefined;
   }
-  const result = { generatedBy: "scripts/outcome-web/effect-matrix.ts", summary: summary(table.links), ...table, ...(twins ? { twins } : {}) };
+  const result = {
+    generatedBy: "scripts/outcome-web/effect-matrix.ts",
+    summary: summary(table.links),
+    ...table,
+    ...(twins ? { twins } : {}),
+  };
   writeFileSync(out, `${JSON.stringify(result, null, 2)}\n`);
   console.log(JSON.stringify(result.summary, null, 2));
 }

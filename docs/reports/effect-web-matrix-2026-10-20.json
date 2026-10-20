@@ -1430,8 +1430,8 @@
         },
         "reaches": {
           "status": "fail",
-          "evidence": "-",
-          "why": "no measure: the web does not keep housing.home-prices and no engine produces it"
+          "evidence": "world-metrics months.medianHomeValueMinor",
+          "why": "engine doesn't read the factor: an engine records housing.home-prices, but nothing multiplies its rates by the link's effect"
         },
         "varied": {
           "status": "fail",
@@ -2300,8 +2300,8 @@
         },
         "reaches": {
           "status": "fail",
-          "evidence": "-",
-          "why": "no measure: the web does not keep household.income and no engine produces it"
+          "evidence": "world-metrics months.medianHouseholdEarningsMinor",
+          "why": "engine doesn't read the factor: an engine records household.income, but nothing multiplies its rates by the link's effect"
         },
         "varied": {
           "status": "fail",
@@ -3711,8 +3711,8 @@
         },
         "reaches": {
           "status": "fail",
-          "evidence": "-",
-          "why": "no measure: the web does not keep labor.unemployment-pct and no engine produces it"
+          "evidence": "world-metrics months.unemploymentRate",
+          "why": "engine doesn't read the factor: an engine records labor.unemployment-pct, but nothing multiplies its rates by the link's effect"
         },
         "varied": {
           "status": "fail",
@@ -4625,8 +4625,8 @@
         },
         "reaches": {
           "status": "fail",
-          "evidence": "-",
-          "why": "engine doesn't read the factor: voting.youth-turnout moves only in the web's monthly ledger; no engine multiplies its own rates by it"
+          "evidence": "src/core2/gov-measures.ts",
+          "why": "engine doesn't read the factor: an engine records voting.youth-turnout, but nothing multiplies its rates by the link's effect"
         },
         "varied": {
           "status": "fail",
@@ -4720,8 +4720,8 @@
         },
         "reaches": {
           "status": "fail",
-          "evidence": "-",
-          "why": "no measure: the web does not keep voting.party-share and no engine produces it"
+          "evidence": "src/core2/gov-measures.ts",
+          "why": "engine doesn't read the factor: an engine records voting.party-share, but nothing multiplies its rates by the link's effect"
         },
         "varied": {
           "status": "fail",
@@ -4817,8 +4817,8 @@
         },
         "reaches": {
           "status": "fail",
-          "evidence": "-",
-          "why": "no measure: the web does not keep voting.local-turnout and no engine produces it"
+          "evidence": "src/core2/gov-measures.ts",
+          "why": "engine doesn't read the factor: an engine records voting.local-turnout, but nothing multiplies its rates by the link's effect"
         },
         "varied": {
           "status": "fail",
@@ -4865,8 +4865,8 @@
         },
         "reaches": {
           "status": "fail",
-          "evidence": "-",
-          "why": "no measure: the web does not keep election.incumbent-reelection and no engine produces it"
+          "evidence": "src/core2/gov-measures.ts",
+          "why": "engine doesn't read the factor: an engine records election.incumbent-reelection, but nothing multiplies its rates by the link's effect"
         },
         "varied": {
           "status": "partial",
@@ -4963,8 +4963,8 @@
         },
         "reaches": {
           "status": "fail",
-          "evidence": "-",
-          "why": "no measure: the web does not keep election.incumbent-vote and no engine produces it"
+          "evidence": "src/core2/gov-measures.ts",
+          "why": "engine doesn't read the factor: an engine records election.incumbent-vote, but nothing multiplies its rates by the link's effect"
         },
         "varied": {
           "status": "fail",
@@ -5012,8 +5012,8 @@
         },
         "reaches": {
           "status": "fail",
-          "evidence": "-",
-          "why": "no measure: the web does not keep election.incumbent-vote and no engine produces it"
+          "evidence": "src/core2/gov-measures.ts",
+          "why": "engine doesn't read the factor: an engine records election.incumbent-vote, but nothing multiplies its rates by the link's effect"
         },
         "varied": {
           "status": "fail",
@@ -5782,8 +5782,8 @@
         },
         "reaches": {
           "status": "fail",
-          "evidence": "-",
-          "why": "engine doesn't read the factor: housing.eviction moves only in the web's monthly ledger; no engine multiplies its own rates by it"
+          "evidence": "world-metrics months.evictionOrdersLastMonth",
+          "why": "engine doesn't read the factor: an engine records housing.eviction, but nothing multiplies its rates by the link's effect"
         },
         "varied": {
           "status": "fail",
