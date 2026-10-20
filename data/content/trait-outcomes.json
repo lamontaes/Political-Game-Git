@@ -128,23 +128,24 @@
       "id": "outcome.trust-generalized",
       "title": "How much a person trusts others",
       "engine": "src/core2/modules/views.ts",
-      "wired": false,
-      "why": "Views form from the CES cell and the seed; no trait read."
+      "wired": true,
+      "evidence": "src/core2/modules/views.ts:409 (the hearer's lean toward trusting scales how far they trust a speaker in standingWith)",
+      "size": "No study gives a one-occasion size; general weight 1 under SG-TRAITS-persuasion-size."
     },
     {
       "id": "outcome.persuasion",
       "title": "How easily a person's view moves when they hear an argument",
       "engine": "src/core2/modules/views.ts",
-      "wired": false,
-      "why": "View updates read the message and the source, not the hearer's traits."
+      "wired": true,
+      "evidence": "src/core2/modules/views.ts:619 (the hearer's lean toward yielding scales the stance change an argument or story makes)",
+      "size": "No study gives a one-occasion size; general weight 1 under SG-TRAITS-persuasion-size."
     },
     {
       "id": "outcome.news-reaction",
       "title": "How strongly a person reacts to news",
       "engine": "src/core2/modules/news.ts",
-      "wired": "partly",
-      "evidence": "news.pass-on reads the lean for telling others",
-      "why": "How much a story moves the hearer's view or mood reads no trait."
+      "wired": true,
+      "evidence": "src/core2/modules/views.ts:619 (a printed story reaches readers as a news.read event through the same stance change); the mood side reads the event-felt trait term already wired"
     },
     {
       "id": "outcome.hardship-coping",

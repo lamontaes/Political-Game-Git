@@ -547,6 +547,40 @@
       ]
     },
     {
+      "id": "views.persuasion",
+      "site": "src/core2/modules/views.ts",
+      "owner": "OPUS-PEOPLE",
+      "route": "formula",
+      "traitWeightParameter": "traitWeightViewsPersuasion",
+      "options": [
+        {
+          "id": "resist",
+          "actKinds": ["refuse", "keep-same"]
+        },
+        {
+          "id": "yield",
+          "actKinds": ["concede", "change"]
+        }
+      ]
+    },
+    {
+      "id": "views.trust",
+      "site": "src/core2/modules/views.ts",
+      "owner": "OPUS-PEOPLE",
+      "route": "formula",
+      "traitWeightParameter": "traitWeightViewsTrust",
+      "options": [
+        {
+          "id": "distrust",
+          "actKinds": ["distrust"]
+        },
+        {
+          "id": "trust",
+          "actKinds": ["trust"]
+        }
+      ]
+    },
+    {
       "id": "conversation.believe-claim",
       "site": "src/director/conversation.ts",
       "owner": "OPUS-PEOPLE",

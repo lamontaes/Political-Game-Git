@@ -121,9 +121,9 @@
       "spread": [0.5, 1.2]
     },
     "turnoutBase": {
-      "value": -0.48,
+      "value": -0.25,
       "tag": "TUNABLE",
-      "source": "The reason to vote every adult carries before their own duty and reliability (on the trait scale, about -4.5 to 4.5), the trait lean between voting and staying home (traitDecisionWeight times about -1 to 1), the stakes of the day's races, the campaigns' reach, their habit and the cost of voting; the sum is their turnout propensity through the logistic (src/core2/turnout.ts). Checked so the counted turnout in a presidential year lands near the state's CPS citizen turnout (src/core2/electorate.test.ts, tolerance countedTurnoutTolerance) and named adults on a presidential November turn out near 64% (63.9% of the voting-eligible population voted in November 2024, U.S. Elections Project, Michael McDonald). Measured with the logistic propensity over eight random places (OPUS-GOV elections, Oct 14, 2026): counted turnout 0.624 in a presidential year.",
+      "source": "The reason to vote every adult carries before the trait lean between voting and staying home (one term, the voting.turnout weight times about -1 to 1; duty and reliability reach it through that lean), raised from -0.48 by 0.23 when the separate duty and reliability terms were removed, the mean they carried (four drawn places, mean propensity 0.46 before and after), the stakes of the day's races, the campaigns' reach, their habit and the cost of voting; the sum is their turnout propensity through the logistic (src/core2/turnout.ts). Checked so the counted turnout in a presidential year lands near the state's CPS citizen turnout (src/core2/electorate.test.ts, tolerance countedTurnoutTolerance) and named adults on a presidential November turn out near 64% (63.9% of the voting-eligible population voted in November 2024, U.S. Elections Project, Michael McDonald). Measured with the logistic propensity over eight random places (OPUS-GOV elections, Oct 14, 2026): counted turnout 0.624 in a presidential year.",
       "spread": [-1.2, 0.6]
     },
     "turnoutScale": {
@@ -1110,9 +1110,9 @@
       "spread": [0.5, 2]
     },
     "chairVotePullWeight": {
-      "value": 0.5,
+      "value": 1,
       "tag": "TUNABLE",
-      "source": "How much a colleague's pull to lead (sociability plus dutifulness, about -2 to 2, the rule an opening chair is read by) counts in whom a member backs: smaller than closeness or agreement, so the choice is the members', but enough to separate colleagues no one knows.",
+      "source": "How much a colleague's pull to lead (their traits' lean toward taking part in the party, about -1 to 1, through the shared trait table and the attend decision's weight) counts in whom a member backs: smaller than closeness or agreement, so the choice is the members', but enough to separate colleagues no one knows.",
       "spread": [0.25, 1]
     },
     "floorConcernWeight": {

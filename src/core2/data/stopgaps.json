@@ -4867,5 +4867,17 @@
     "addedAt": "2026-10-17",
     "replacement": "Each department's employing government read from the Census of Governments employment file by function, so a county health department, a fire district or a state agency's field office pays its own staff.",
     "status": "open"
+  },
+  {
+    "id": "SG-TRAITS-persuasion-size",
+    "kind": "uncalibrated-tunable",
+    "file": "src/core2/modules/views.ts",
+    "line": 400,
+    "whatItFakes": "How much a hearer's traits (openness and agreeableness side) scale the size of a view move after an argument or a story, and how much generalized trust scales a speaker's standing. Both read the hearer's trait lean at the general weight 1.",
+    "why": "The research rows (Hirsh, Kang and Bodenhausen 2012; Freitag and Bauer 2016) give a direction and no effect size for a single occasion.",
+    "addedBy": "claude/traits-civic",
+    "addedAt": "2026-10-20",
+    "replacement": "A one-occasion effect size of trait on persuasion and on trust in a speaker from a study that reports one, set in traitWeightViewsPersuasion and traitWeightViewsTrust.",
+    "status": "open"
   }
 ]

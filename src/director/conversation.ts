@@ -36,6 +36,7 @@ import { P } from "../core2/parameters";
 import { HOUSING_MODULE_ID } from "../core2/modules/housing";
 import { JOBS_MODULE_ID } from "../core2/modules/jobs";
 import { applyCoreEvent, coreAPI } from "../core2/state";
+import { believesClaim } from "../core2/heard-claims";
 import { decisionLean } from "../core2/trait-decisions";
 import type {
   CoreAPI,
@@ -2096,17 +2097,7 @@ export function doubtsClaim(
   core: Pick<CoreState, "data">,
   hearer: Pick<PersonState, "traits">,
 ): boolean {
-  return (
-    P.truthDefaultPull +
-      decisionLean(
-        core,
-        hearer,
-        "conversation.believe-claim",
-        "believe",
-        "doubt",
-      ) <
-    P.zero
-  );
+  return !believesClaim(core, hearer);
 }
 
 /** The player says a choice: it is recorded, and the other person replies. */

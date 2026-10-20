@@ -17,8 +17,7 @@
 import measuresData from "../data/elections/ballot-measures.json" with { type: "json" };
 import calibration from "../../../data/source/electoral-calibration-2024/corpus.json" with { type: "json" };
 import { coreAPI, registerModule } from "../state";
-import { decisionLean } from "../trait-decisions";
-import { parameter } from "../parameters";
+import { decisionLean, decisionTraitWeight } from "../trait-decisions";
 import type { CoreAPI, CoreModule, CoreState, PersonState } from "../types";
 import type { ModuleCalendarWork } from "../module-calendar";
 import type { ModuleRow } from "../module-data";
@@ -190,12 +189,15 @@ function countMeasure(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
   const lean0 = townLean(api);
   for (const voter of adults) {
     const lean = personLean(api.state.people, voter, lean0);
+    // Their traits' lean toward change over keeping things as they are, at the decision's weight.
+    const trait =
+      decisionTraitWeight(api.state, "ballot-measures.vote") *
+      decisionLean(api.state, voter, "ballot-measures.vote", "yes", "no");
     const support =
       (viewOn(api, voter.id, measure.question, lean) +
         publicOffset(measure.question)) *
         direction +
-      parameter("traitDecisionWeight") *
-        decisionLean(api.state, voter, "ballot-measures.vote", "yes", "no");
+      trait;
     const t = turnoutOn(api, voter, {
       yes: { total: support },
       no: { total: -support },
@@ -221,6 +223,7 @@ function countMeasure(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
       reasons: {
         lean,
         support,
+        trait,
         duty: t.duty,
         interest: t.interest,
         cost: t.cost,

@@ -50,8 +50,11 @@ import {
 } from "../turnout";
 import { coreAPI, registerModule } from "../state";
 import { closenessBetween } from "../closeness";
-import { decisionLean } from "../trait-decisions";
-import { parameter } from "../parameters";
+import {
+  decisionLean,
+  decisionTraitWeight,
+  leanedYes,
+} from "../trait-decisions";
 import type { CoreAPI, CoreModule, CoreState, PersonState } from "../types";
 import type { ModuleCalendarWork } from "../module-calendar";
 import type { ModuleRow } from "../module-data";
@@ -876,12 +879,12 @@ const adultsByDay = new WeakMap<
 >();
 
 /** The incumbent's side of a voter's traits: stay with the known or try someone new. */
-function incumbentLeanOf(
+export function incumbentLeanOf(
   api: CoreAPI,
   voter: Readonly<Pick<PersonState, "id" | "traits">>,
 ): number {
   return (
-    parameter("traitDecisionWeight") *
+    decisionTraitWeight(api.state, "voting.back-incumbent") *
     decisionLean(
       api.state,
       voter,
@@ -893,9 +896,10 @@ function incumbentLeanOf(
 }
 
 /**
- * A voter's reasons to vote apart from the race: their own sense of duty and
- * reliability, every trait's lean between voting and staying home, how
- * closely they follow politics (where PEOPLE's views engine runs; younger
+ * A voter's reasons to vote apart from the race: every trait's lean between
+ * voting and staying home (one term, weighted from the personality and civic
+ * engagement study: duty and reliability reach it through the same lean),
+ * how closely they follow politics (where PEOPLE's views engine runs; younger
  * people follow less, CES 2024), against what voting costs them that day
  * (their work hours, the election laws in force, a custom world's turnout
  * setting, and what the election adds: a midterm's, an off-cycle date's or a
@@ -911,9 +915,7 @@ export function turnoutReasons(
 ): { readonly duty: number; readonly cost: number } {
   const engagement = engagementOf(api.state as CoreState, voter);
   const duty =
-    (voter.traits["personality-v1:facet-duty-bound"] ?? 0) +
-    (voter.traits["people-mind-v1:reliability"] ?? 0) / 2 +
-    parameter("traitDecisionWeight") *
+    decisionTraitWeight(api.state, "voting.turnout") *
       decisionLean(api.state, voter, "voting.turnout", "vote", "stay-home") +
     (engagement === null
       ? 0
@@ -2080,13 +2082,7 @@ export function holdElection(api: CoreAPI, contestId: string): ResultRow {
       ? null
       : choice === null
         ? "left-blank"
-        : decisionLean(
-              api.state,
-              voter,
-              "voting.exit-poll",
-              "tell",
-              "decline",
-            ) < 0
+        : !leanedYes(api.state, voter, "voting.exit-poll", "tell", "decline", 0)
           ? "declined"
           : choice;
     if (t.votes) {

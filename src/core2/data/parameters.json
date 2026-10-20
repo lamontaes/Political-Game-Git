@@ -661,10 +661,10 @@
   "traitWeightSpeechRetell": {
     "value": 1,
     "tag": "TUNABLE",
-    "citation": "The trait weight of the speech.retell decision. Starts at the general traitWeight (1); calibrated against its row in data/research/trait-effect-sizes.json with scripts/traits/trait-calibrate.ts.",
+    "citation": "The trait weight of the speech.retell decision. A listener retells a speech at home when how far it moved them plus their lean toward retelling outweighs keeping it to themselves; the chooser's trait reason carries it, with no separate sociability term. The research row for it in data/research/trait-effect-sizes.json gives no effect size, so the general traitWeight (1) stands until a study gives one.",
     "spread": {
       "status": "unmeasured",
-      "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
+      "reason": "No effect size found for this decision; until one is, the general weight's spread, 0.2 to 1.0."
     }
   },
   "traitWeightContractsAward": {
@@ -775,13 +775,33 @@
       "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
     }
   },
+  "traitWeightViewsPersuasion": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "The trait weight of the views.persuasion outcome: the hearer's traits toward yielding (openness and agreeableness) scale how far an argument or a story moves their view. No study gives a size for one occasion (Hirsh, Kang and Bodenhausen 2012, Psychological Science 23(6) find persuasion works better when an appeal fits the recipient's traits; no effect size), so the general weight (1) stands and SG-TRAITS-persuasion-size keeps the gap open.",
+    "stopgapId": "SG-TRAITS-persuasion-size",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "No study found with a one-occasion size; until then the general weight's spread, 0.2 to 1.0."
+    }
+  },
+  "traitWeightViewsTrust": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "The trait weight of the views.trust outcome: the hearer's traits toward trusting (agreeableness) scale how far they trust a speaker. No study gives a size for one occasion (Hirsh, Kang and Bodenhausen 2012, Psychological Science 23(6) find persuasion works better when an appeal fits the recipient's traits; no effect size), so the general weight (1) stands and SG-TRAITS-persuasion-size keeps the gap open.",
+    "stopgapId": "SG-TRAITS-persuasion-size",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "No study found with a one-occasion size; until then the general weight's spread, 0.2 to 1.0."
+    }
+  },
   "traitWeightConversationBelieveClaim": {
     "value": 1,
     "tag": "TUNABLE",
-    "citation": "The trait weight of the conversation.believe-claim decision. Starts at the general traitWeight (1); calibrated against its row in data/research/trait-effect-sizes.json with scripts/traits/trait-calibrate.ts.",
+    "citation": "The trait weight of the conversation.believe-claim decision. A hearer takes in a claim they cannot check when the benefit of the doubt (truthDefaultPull) plus their lean toward believing is above zero, whether the claim comes from the player, a neighbor passing on a story or a listener retelling a speech. The research row for it in data/research/trait-effect-sizes.json gives no effect size, so the general traitWeight (1) stands until a study gives one.",
     "spread": {
       "status": "unmeasured",
-      "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
+      "reason": "No effect size found for this decision; until one is, the general weight's spread, 0.2 to 1.0."
     }
   },
   "traitWeightConversationReplyReach": {
@@ -803,30 +823,32 @@
     }
   },
   "traitWeightVotingTurnout": {
-    "value": 1,
-    "tag": "TUNABLE",
-    "citation": "The trait weight of the voting.turnout decision. Starts at the general traitWeight (1); calibrated against its row in data/research/trait-effect-sizes.json with scripts/traits/trait-calibrate.ts.",
+    "value": 0.72,
+    "tag": "ESTIMATED",
+    "citation": "Mondak, Hibbing, Canache, Seligson and Anderson 2010, Personality and Civic Engagement: An Integrative Framework for the Study of Trait Effects on Political Behavior, American Political Science Review 104(1): openness to experience raises the log odds of reporting having voted by 1.26 across the trait's full 0-to-1 range (2006 CES, N about 1,060), which Mondak et al. call among the largest effects in their Table 2. Carried to the thirds of people leaning most and least toward voting, that is a log odds gap of 0.549 (odds ratio 1.73). Weight found by measuring the turnout propensity (turnoutReasons through the turnout logistic) of every adult over six drawn places (seeds c1, d1, d3, d12, c2, d2 with the label trait-wiring, buildBenchWorld, 60 days) at weights 0 to 1.2, net of the same gap at weight 0, and solving for 0.549: 0.716. The emotional-stability row (-1.42) is not used: its sign runs against the trait's lean and the authors flag it as inconsistent with earlier work.",
     "spread": {
-      "status": "unmeasured",
-      "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
+      "low": 0.215,
+      "high": 1.217,
+      "unit": "weight",
+      "citation": "Weight scales with the coefficient: the study's 95% interval for the openness coefficient is 0.378 to 2.142."
     }
   },
   "traitWeightVotingBackIncumbent": {
     "value": 1,
     "tag": "TUNABLE",
-    "citation": "The trait weight of the voting.back-incumbent decision. Starts at the general traitWeight (1); calibrated against its row in data/research/trait-effect-sizes.json with scripts/traits/trait-calibrate.ts.",
+    "citation": "The trait weight of the voting.back-incumbent decision. Backing the incumbent adds the voter's lean toward keeping the known over trying someone new to the incumbent's appeal. The research row for it in data/research/trait-effect-sizes.json gives no effect size, so the general traitWeight (1) stands until a study gives one.",
     "spread": {
       "status": "unmeasured",
-      "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
+      "reason": "No effect size found for this decision; until one is, the general weight's spread, 0.2 to 1.0."
     }
   },
   "traitWeightVotingExitPoll": {
     "value": 1,
     "tag": "TUNABLE",
-    "citation": "The trait weight of the voting.exit-poll decision. Starts at the general traitWeight (1); calibrated against its row in data/research/trait-effect-sizes.json with scripts/traits/trait-calibrate.ts.",
+    "citation": "The trait weight of the voting.exit-poll decision. A voter tells the exit pollster who they voted for when their lean toward telling is above zero. The research row for it in data/research/trait-effect-sizes.json gives no effect size, so the general traitWeight (1) stands until a study gives one.",
     "spread": {
       "status": "unmeasured",
-      "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
+      "reason": "No effect size found for this decision; until one is, the general weight's spread, 0.2 to 1.0."
     }
   },
   "traitWeightVotingStandAgain": {
@@ -841,10 +863,10 @@
   "traitWeightBallotMeasuresVote": {
     "value": 1,
     "tag": "TUNABLE",
-    "citation": "The trait weight of the ballot-measures.vote decision. Starts at the general traitWeight (1); calibrated against its row in data/research/trait-effect-sizes.json with scripts/traits/trait-calibrate.ts.",
+    "citation": "The trait weight of the ballot-measures.vote decision. A voter's lean toward change over keeping things as they are adds to their support for a measure. The research row for it in data/research/trait-effect-sizes.json gives no effect size, so the general traitWeight (1) stands until a study gives one.",
     "spread": {
       "status": "unmeasured",
-      "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
+      "reason": "No effect size found for this decision; until one is, the general weight's spread, 0.2 to 1.0."
     }
   },
   "traitWeightRecallsOrganize": {
@@ -940,19 +962,19 @@
   "traitWeightPartiesJoin": {
     "value": 1,
     "tag": "TUNABLE",
-    "citation": "The trait weight of the parties.join decision. Starts at the general traitWeight (1); calibrated against its row in data/research/trait-effect-sizes.json with scripts/traits/trait-calibrate.ts.",
+    "citation": "The trait weight of the parties.join decision. A person tied to a party joins it when their lean toward joining added to the base reason is above zero. The research row for it in data/research/trait-effect-sizes.json gives no effect size, so the general traitWeight (1) stands until a study gives one.",
     "spread": {
       "status": "unmeasured",
-      "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
+      "reason": "No effect size found for this decision; until one is, the general weight's spread, 0.2 to 1.0."
     }
   },
   "traitWeightPartiesAttend": {
     "value": 1,
     "tag": "TUNABLE",
-    "citation": "The trait weight of the parties.attend decision. Starts at the general traitWeight (1); calibrated against its row in data/research/trait-effect-sizes.json with scripts/traits/trait-calibrate.ts.",
+    "citation": "The trait weight of the parties.attend decision. A member goes to a party meeting when their lean toward attending clears the bar calibrated to the share of adults who attend a political meeting in a year, and the same lean is a colleague's pull to lead when members choose a chair. The research row for it in data/research/trait-effect-sizes.json gives no effect size, so the general traitWeight (1) stands until a study gives one.",
     "spread": {
       "status": "unmeasured",
-      "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
+      "reason": "No effect size found for this decision; until one is, the general weight's spread, 0.2 to 1.0."
     }
   },
   "traitWeightStaffHire": {
@@ -967,28 +989,28 @@
   "traitWeightInterestGroupsMemberJoin": {
     "value": 1,
     "tag": "TUNABLE",
-    "citation": "The trait weight of the interest-groups.member-join decision. Starts at the general traitWeight (1); calibrated against its row in data/research/trait-effect-sizes.json with scripts/traits/trait-calibrate.ts.",
+    "citation": "The trait weight of the interest-groups.member-join decision. A resident joins a side's group when how hard the side pulls them plus their lean toward joining clears the bar. The research row for it in data/research/trait-effect-sizes.json gives no effect size, so the general traitWeight (1) stands until a study gives one.",
     "spread": {
       "status": "unmeasured",
-      "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
+      "reason": "No effect size found for this decision; until one is, the general weight's spread, 0.2 to 1.0."
     }
   },
   "traitWeightInterestGroupsEmployerJoin": {
     "value": 1,
     "tag": "TUNABLE",
-    "citation": "The trait weight of the interest-groups.employer-join decision. Starts at the general traitWeight (1); calibrated against its row in data/research/trait-effect-sizes.json with scripts/traits/trait-calibrate.ts.",
+    "citation": "The trait weight of the interest-groups.employer-join decision. An owner joins an employers' association when what the bill costs the firm against the dues plus their lean toward joining is above zero. The research row for it in data/research/trait-effect-sizes.json gives no effect size, so the general traitWeight (1) stands until a study gives one.",
     "spread": {
       "status": "unmeasured",
-      "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
+      "reason": "No effect size found for this decision; until one is, the general weight's spread, 0.2 to 1.0."
     }
   },
   "traitWeightInterestGroupsLobbyist": {
     "value": 1,
     "tag": "TUNABLE",
-    "citation": "The trait weight of the interest-groups.lobbyist decision. Starts at the general traitWeight (1); calibrated against its row in data/research/trait-effect-sizes.json with scripts/traits/trait-calibrate.ts.",
+    "citation": "The trait weight of the interest-groups.lobbyist decision. A member speaks for the group when their stake plus their lean toward serving is above zero. The research row for it in data/research/trait-effect-sizes.json gives no effect size, so the general traitWeight (1) stands until a study gives one.",
     "spread": {
       "status": "unmeasured",
-      "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
+      "reason": "No effect size found for this decision; until one is, the general weight's spread, 0.2 to 1.0."
     }
   },
   "traitWeightOfficesAcceptAppointment": {
@@ -1075,28 +1097,30 @@
   "traitWeightJobsBenefitsFileClaim": {
     "value": 1,
     "tag": "TUNABLE",
-    "citation": "The trait weight of the jobs-benefits.file-claim decision. Starts at the general traitWeight (1); calibrated against its row in data/research/trait-effect-sizes.json with scripts/traits/trait-calibrate.ts.",
+    "citation": "The trait weight of the jobs-benefits.file-claim decision. An eligible worker files for unemployment when the base reason plus their lean toward filing is above zero. The research row for it in data/research/trait-effect-sizes.json gives no effect size, so the general traitWeight (1) stands until a study gives one.",
     "spread": {
       "status": "unmeasured",
-      "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
+      "reason": "No effect size found for this decision; until one is, the general weight's spread, 0.2 to 1.0."
     }
   },
   "traitWeightNewsPassOn": {
-    "value": 1,
-    "tag": "TUNABLE",
-    "citation": "The trait weight of the news.pass-on decision. Starts at the general traitWeight (1); calibrated against its row in data/research/trait-effect-sizes.json with scripts/traits/trait-calibrate.ts.",
+    "value": 0.28,
+    "tag": "ESTIMATED",
+    "citation": "Lin, Wang and Sun 2024, How big five personality traits influence information sharing on social media: A meta analysis, PLOS ONE 19(6): extraversion has a pooled standardized beta of 0.05 on information sharing (27 studies, N=31,969). Carried to the thirds of people leaning most and least toward passing news on, that is a log rate gap of 0.198 (a rate ratio of 1.22). Stories passed at a contact are a rate, not a probability, so the gap is measured on the stories owed at a contact (storiesOwedAtContact) by every adult over six drawn places (seeds c1, d1, d3, d12, c2, d2 with the label trait-wiring, 60 days) at weights 0 to 1.2, and the weight solves for 0.198: 0.277. The agreeableness beta (-0.06) is not used: the lean toward telling is carried by extraversion and sociability.",
     "spread": {
-      "status": "unmeasured",
-      "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
+      "low": 0.166,
+      "high": 0.332,
+      "unit": "weight",
+      "citation": "The study reports no interval; the weight scales with the beta, and the same sentence reports betas of 0.03 to 0.06 for the other traits (0.03 gives 0.166, 0.06 gives 0.332)."
     }
   },
   "traitWeightPressFollowNews": {
     "value": 1,
     "tag": "TUNABLE",
-    "citation": "The trait weight of the press.follow-news decision. Starts at the general traitWeight (1); calibrated against its row in data/research/trait-effect-sizes.json with scripts/traits/trait-calibrate.ts.",
+    "citation": "The trait weight of the press.follow-news decision. How much a person keeps up with the news is their political engagement plus their lean toward following over skipping. The research row for it in data/research/trait-effect-sizes.json gives no effect size, so the general traitWeight (1) stands until a study gives one.",
     "spread": {
       "status": "unmeasured",
-      "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
+      "reason": "No effect size found for this decision; until one is, the general weight's spread, 0.2 to 1.0."
     }
   },
   "traitWeightPressAcceptInterview": {
@@ -1127,12 +1151,14 @@
     }
   },
   "traitWeightMeetingsTakePart": {
-    "value": 1,
-    "tag": "TUNABLE",
-    "citation": "The trait weight of the meetings.take-part decision. Starts at the general traitWeight (1); calibrated against its row in data/research/trait-effect-sizes.json with scripts/traits/trait-calibrate.ts.",
+    "value": 0.12,
+    "tag": "ESTIMATED",
+    "citation": "Mondak, Hibbing, Canache, Seligson and Anderson 2010, Personality and Civic Engagement: An Integrative Framework for the Study of Trait Effects on Political Behavior, American Political Science Review 104(1): extraversion raises the log odds of having attended a public meeting with a House member or senator by 1.92 across the trait's full range (2006 CES), which Mondak et al. call among the largest effects in their Table 2. Carried to the thirds of people leaning most and least toward taking part, that is a log odds gap of 0.837 (odds ratio 2.31). Weight found by measuring who would stand up at a bill's public comment (standUpDrive, the most driven tenth of adults on each of twelve policy questions) among every adult of four drawn places (seeds c1, d1, d3, d12 with the label trait-wiring, 60 days) at weights 0 to 1.2, net of the same gap at weight 0, and solving for 0.837: 0.123. A town hall's room reads the same weight.",
     "spread": {
-      "status": "unmeasured",
-      "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
+      "low": 0.075,
+      "high": 0.165,
+      "unit": "weight",
+      "citation": "Weight scales with the coefficient: the study's 95% interval for the extraversion coefficient is 1.195 to 2.645."
     }
   },
   "traitWeightSchoolAttend": {
@@ -1172,12 +1198,14 @@
     }
   },
   "traitWeightMeetingsHoldTownHall": {
-    "value": 1,
-    "tag": "TUNABLE",
-    "citation": "The trait weight of the meetings.hold-town-hall decision. Starts at the general traitWeight (1); calibrated against its row in data/research/trait-effect-sizes.json with scripts/traits/trait-calibrate.ts.",
+    "value": 0.61,
+    "tag": "ESTIMATED",
+    "citation": "Mondak, Hibbing, Canache, Seligson and Anderson 2010, Personality and Civic Engagement: An Integrative Framework for the Study of Trait Effects on Political Behavior, American Political Science Review 104(1): extraversion raises the log odds of having attended a public meeting with a House member or senator by 1.92 across the trait's full range (2006 CES). No study of officials who host town halls was found, so the attendee coefficient stands in for the host (the same extraversion pull toward being in the room). Carried to the thirds of people leaning most and least toward holding one, that is a log odds gap of 0.837 (odds ratio 2.31). Weight found by crossing the real cases the decision weighed (the host's reasons without personality, cause plus effort, from played years of drawn places with the label trait-wiring) with every adult's lean toward holding one, at weights 0 to 3, net of the gap at weight 0, and solving for 0.837: 0.61.",
     "spread": {
-      "status": "unmeasured",
-      "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
+      "low": 0.38,
+      "high": 0.84,
+      "unit": "weight",
+      "citation": "Weight scales with the coefficient: the study's 95% interval for the extraversion coefficient is 1.195 to 2.645."
     }
   },
   "traitWeightCampaignsPartyFirmness": {

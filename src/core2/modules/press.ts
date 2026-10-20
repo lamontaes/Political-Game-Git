@@ -21,7 +21,7 @@ import nationalJson from "../data/press/national.json" with { type: "json" };
 import { coreAPI, fillInPerson, registerModule } from "../state";
 import { addDays, makeIsoDate } from "../kernel/dates";
 import { parameter } from "../parameters";
-import { decisionLean } from "../trait-decisions";
+import { decisionLean, decisionTraitWeight } from "../trait-decisions";
 import type {
   CoreAPI,
   CoreEventInput,
@@ -32,7 +32,11 @@ import type {
 import type { ModuleRow } from "../module-data";
 import type { ModuleCalendarWork } from "../module-calendar";
 import { lawChain } from "./laws";
-import { countedResidents } from "../electorate";
+import {
+  countedResidents,
+  engagementOf,
+  NATIONAL_ENGAGEMENT,
+} from "../electorate";
 import {
   ballot,
   ELECTIONS_MODULE_ID,
@@ -743,20 +747,34 @@ function scheduleWeek(api: CoreAPI, from: string): void {
   });
 }
 
-/** Every trait's lean toward keeping up with the news over letting it go. */
-const habitScore = (p: Readonly<PersonState>, core: Pick<CoreState, "data">) =>
-  decisionLean(core, p, "press.follow-news", "follow", "skip");
+/**
+ * How much a person keeps up with the news: how closely they follow politics
+ * (their view's engagement, against the nation's) plus every trait's lean
+ * toward keeping up over letting it go, at the decision's weight.
+ */
+const habitScore = (p: Readonly<PersonState>, core: CoreState) =>
+  (engagementOf(core, p) ?? NATIONAL_ENGAGEMENT) -
+  NATIONAL_ENGAGEMENT +
+  decisionTraitWeight(core, "press.follow-news") *
+    decisionLean(core, p, "press.follow-news", "follow", "skip");
 
 const followCache = new WeakMap<
   object,
   { date: string; map: Map<string, readonly string[]> }
 >();
 
-/** Each adult's habit, once per rebuild, not once per sort comparison. */
-function habitOf(api: CoreAPI, scores: Map<string, number>, p: PersonState) {
+/**
+ * Each adult's habit, worked out once and kept: a person's engagement and
+ * traits do not change after they are built, and the audiences are rebuilt
+ * every week and sorted by it.
+ */
+const habitScores = new WeakMap<object, Map<string, number>>();
+function habitOf(api: CoreAPI, p: PersonState) {
+  let scores = habitScores.get(api.state);
+  if (!scores) habitScores.set(api.state, (scores = new Map()));
   let score = scores.get(p.id);
   if (score === undefined) {
-    score = habitScore(p, api.state);
+    score = habitScore(p, api.state as CoreState);
     scores.set(p.id, score);
   }
   return score;
@@ -767,11 +785,7 @@ function habitOf(api: CoreAPI, scores: Map<string, number>, p: PersonState) {
  * the share that follows that kind (Pew 2024), its most dutiful and
  * deliberate members first.
  */
-function audienceOfKind(
-  api: CoreAPI,
-  kind: OutletKind,
-  scores: Map<string, number> = new Map(),
-): readonly string[] {
+function audienceOfKind(api: CoreAPI, kind: OutletKind): readonly string[] {
   const town = lawChain(api).townPlaceId;
   const date = api.state.date;
   const bands = new Map<Band, PersonState[]>();
@@ -785,7 +799,7 @@ function audienceOfKind(
     list.push(p);
     bands.set(band, list);
   }
-  const habit = (p: PersonState) => habitOf(api, scores, p);
+  const habit = (p: PersonState) => habitOf(api, p);
   const followers: PersonState[] = [];
   const national = NATIONAL.kinds.find((row) => row.kind === kind);
   for (const [band, people] of bands) {
@@ -822,13 +836,12 @@ export function followersOf(api: CoreAPI, outletId: string): readonly string[] {
     return cached.map.get(outletId) ?? [];
   const map = new Map<string, readonly string[]>();
   const outlets = outletsHere(api);
-  const scores = new Map<string, number>();
   for (const kind of ALL_KINDS) {
     const own = outlets.filter((o) => o.kind === kind);
     if (!own.length) continue;
     const lists = new Map<string, string[]>(own.map((o) => [o.id, []]));
     const views = api.state.modules.has(VIEWS_MODULE_ID);
-    for (const id of audienceOfKind(api, kind, scores)) {
+    for (const id of audienceOfKind(api, kind)) {
       const lean = leanOf(api, id);
       // Distrust of an outlet (a speech against it they took in) pushes a
       // follower away from it, on the lean scale.

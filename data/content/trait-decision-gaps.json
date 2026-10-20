@@ -60,23 +60,8 @@
     },
     "ballot-measures.vote": {
       "class": "runs only on a date outside the year",
-      "why": "The earliest measure in data/elections/ballot-measures.json is June 16, 2026; the played year ends January 20, 2026.",
+      "why": "The earliest measure in data/elections/ballot-measures.json is June 16, 2026; the audit year ends January 20, 2026. The decision runs in a November 2026 count (src/core2/modules/ballot-measures.traits.test.ts), not in the audit year.",
       "fix": "Add odd-year measures or let an ordinance refer a local measure."
-    },
-    "voting.turnout": {
-      "class": "runs only on a date outside the year",
-      "why": "The played year runs January 20, 2025 to January 20, 2026; most places hold no election in 2025, so turnout runs only where a 2025 local or state election exists.",
-      "fix": "Seed odd-year local elections where the place holds them; measure in a second year otherwise."
-    },
-    "voting.back-incumbent": {
-      "class": "runs only on a date outside the year",
-      "why": "Same as voting.turnout.",
-      "fix": "Same as voting.turnout."
-    },
-    "voting.exit-poll": {
-      "class": "runs only on a date outside the year",
-      "why": "Same as voting.turnout.",
-      "fix": "Same as voting.turnout."
     },
     "voting.stand-again": {
       "class": "runs only on a date outside the year",
@@ -127,11 +112,6 @@
       "class": "no trigger (staff takes the case first)",
       "why": "A staffer's decision is tried first (src/core2/modules/constituent-cases.ts:451), so the official's own read never runs where an official has staff.",
       "fix": "Let the official's own lean set what the staffer is told."
-    },
-    "conversation.believe-claim": {
-      "class": "no trigger (player only)",
-      "why": "Read only when the player's line makes a claim (src/director/conversation.ts:2169).",
-      "fix": "Read it where people pass on claims to each other (speech retell, news pass-on)."
     },
     "conversation.reply-reach": {
       "class": "no trigger (player only)",

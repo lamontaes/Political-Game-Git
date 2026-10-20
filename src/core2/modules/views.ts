@@ -36,6 +36,7 @@ import type {
   PersonId,
   PersonState,
 } from "../types";
+import { decisionLean, decisionTraitWeight } from "../trait-decisions";
 import { keepsWhy } from "../why-kept";
 
 interface CellKey {
@@ -386,7 +387,7 @@ export function standingWith(
 ): number {
   const speaker = viewOf(api, speakerId);
   const half = v("one") / v("two");
-  const trust = speaker
+  const nearTrust = speaker
     ? Math.max(
         v("zero"),
         v("one") -
@@ -394,6 +395,28 @@ export function standingWith(
             (v("leanMax") - v("leanMin")),
       )
     : half;
+  // How far the listener trusts anyone follows their own traits (generalized
+  // trust: agreeableness; the size is the weight's, SG-TRAITS-persuasion-size).
+  // stopgapId: SG-TRAITS-persuasion-size
+  const hearer = api.state.people.get(listener.id);
+  const trust = hearer
+    ? Math.min(
+        v("one"),
+        nearTrust *
+          Math.max(
+            v("zero"),
+            v("one") +
+              decisionTraitWeight(api.state, "views.trust") *
+                decisionLean(
+                  api.state,
+                  hearer,
+                  "views.trust",
+                  "trust",
+                  "distrust",
+                ),
+          ),
+      )
+    : nearTrust;
   const tie = api.state.relationships.get(
     [listener.id, speakerId].sort().join(":"),
   );
@@ -585,10 +608,29 @@ export const viewsModule: CoreModule = {
       const heard = speakerId
         ? (prior?.heard?.[speakerId] ?? v("zero"))
         : v("zero");
+      // How far this hearer lets an argument or a story move them follows
+      // their own traits (openness and agreeableness toward yielding).
+      // stopgapId: SG-TRAITS-persuasion-size
+      const hearer = api.state.people.get(personId);
+      const yielding = hearer
+        ? Math.max(
+            v("zero"),
+            v("one") +
+              decisionTraitWeight(api.state, "views.persuasion") *
+                decisionLean(
+                  api.state,
+                  hearer,
+                  "views.persuasion",
+                  "yield",
+                  "resist",
+                ),
+          )
+        : v("one");
       const change =
         (v("stanceStep") *
           size *
           nearness *
+          yielding *
           (v("one") - v("tightness") * view.engagement)) /
         (v("one") + v("repeatWearOut") * heard);
       if (change <= v("zero")) continue;

@@ -18,7 +18,8 @@ import type {
   CoreModule,
   PersonId,
 } from "../types";
-import { decisionKinds, decisionLean } from "../trait-decisions";
+import { believesClaim } from "../heard-claims";
+import { decisionKinds } from "../trait-decisions";
 import { stancesOf, VIEWS_SPEAKER_KEY } from "./views";
 
 export const SPEECH_MODULE_ID = "speech";
@@ -139,7 +140,7 @@ export function deliverSpeech(api: CoreAPI, speech: SpeechInput): Retelling[] {
     moved.delete(api.state);
     const retold = decision.selected?.definition.id === RETELL.id;
     const audience = new Set(speech.audienceIds);
-    const toIds = retold
+    const told = retold
       ? (
           api.state.households.get(listener.householdId)?.memberIds ?? []
         ).filter(
@@ -150,6 +151,11 @@ export function deliverSpeech(api: CoreAPI, speech: SpeechInput): Retelling[] {
             api.state.people.get(id)?.alive,
         )
       : [];
+    // Each one told decides for themselves whether to take it in, as anyone
+    // does a claim they cannot check; only those who do are moved by it.
+    const toIds = told.filter((id) =>
+      believesClaim(api.state, api.state.people.get(id)!),
+    );
     if (toIds.length)
       api.emit({
         id: `${speech.id}:retold:${listenerId}`,
@@ -169,7 +175,7 @@ export function deliverSpeech(api: CoreAPI, speech: SpeechInput): Retelling[] {
       id: `${speech.id}:${listenerId}`,
       speechId: speech.id,
       listenerId,
-      retold: retold && toIds.length > api.parameter("zero"),
+      retold: retold && told.length > api.parameter("zero"),
       moved: amount,
       scores: scored.map((entry) => ({
         actionId: entry.offer.definition.id,
@@ -205,15 +211,7 @@ export const speechModule: CoreModule = {
       return {
         value:
           binding.arguments?.retelling === "true"
-            ? s(api, "speechRetellWeight") * amount +
-              s(api, "speechSociabilityWeight") *
-                decisionLean(
-                  api.state,
-                  actor,
-                  "speech.retell",
-                  "speech-retell",
-                  "speech-keep",
-                )
+            ? s(api, "speechRetellWeight") * amount
             : s(api, "speechKeepPull"),
         sourceIds: [actor.id],
       };

@@ -27,7 +27,8 @@ import type {
   PersonId,
   PersonState,
 } from "../types";
-import { decisionLean } from "../trait-decisions";
+import { believesClaim } from "../heard-claims";
+import { decisionLean, decisionTraitWeight } from "../trait-decisions";
 import { viewOf } from "./views";
 
 /** The press module's id (kept here so news does not import the press). */
@@ -52,6 +53,57 @@ function passOnLean(api: CoreAPI, person: PersonState): number {
   }
   return lean;
 }
+
+/**
+ * What each teller's last contacts left over: stories owed in part (a share
+ * of a story carries to the next contact, as a named voter's turnout does),
+ * so a teller who leans toward passing news on tells a little more often
+ * and one who leans away a little less, with no roll.
+ */
+const tellCarry = new WeakMap<object, Map<PersonId, number>>();
+/** A teller who has not yet been counted owes half a story, so an even teller tells one at once. */
+const OPENING_TELL_CARRY = 0.5;
+
+/**
+ * The stories a teller owes the person they meet, before carrying the part
+ * stories over: the usual number, more for a teller whose traits lean toward
+ * passing news on and fewer for one whose traits lean away (extraversion and
+ * information sharing, Lin et al. 2024).
+ */
+export function storiesOwedAtContact(
+  api: CoreAPI,
+  teller: PersonState | undefined,
+): number {
+  return (
+    n(api, "newsStoriesPerContact") *
+    Math.max(
+      api.parameter("zero"),
+      api.parameter("one") +
+        (teller
+          ? decisionTraitWeight(api.state, "news.pass-on") *
+            passOnLean(api, teller)
+          : api.parameter("zero")),
+    )
+  );
+}
+
+/** The whole stories a teller passes at this contact, carrying the rest. */
+function storiesToTell(api: CoreAPI, tellerId: PersonId, owed: number): number {
+  let carries = tellCarry.get(api.state);
+  if (!carries) tellCarry.set(api.state, (carries = new Map()));
+  const total = (carries.get(tellerId) ?? OPENING_TELL_CARRY) + owed;
+  const whole = Math.floor(total);
+  carries.set(tellerId, total - whole);
+  return whole;
+}
+
+/** The told stories a listener took no stock in, so the same teller does not repeat them. */
+const refusedStories = new WeakMap<object, Set<string>>();
+const refused = (api: CoreAPI): Set<string> => {
+  let set = refusedStories.get(api.state);
+  if (!set) refusedStories.set(api.state, (set = new Set()));
+  return set;
+};
 
 export const NEWS_MODULE_ID = "news";
 const PARAMETERS = rows as Readonly<Record<string, Parameter>>;
@@ -332,6 +384,8 @@ function hear(
 function forgetOldNews(api: CoreAPI): void {
   const since = addDays(makeIsoDate(api.state.date), -n(api, "newsMaxAgeDays"));
   const counts = countsOf(api);
+  // Past a story's life it is never told, so the doubted ones are forgotten too.
+  refused(api).clear();
   const player = (api.state as { playerId?: PersonId }).playerId;
   for (const row of heard(api).rows()) {
     const personId = row.personId as PersonId;
@@ -474,23 +528,30 @@ export function createNewsModule(
       ] as const) {
         // How many stories they pass on leans on every trait they have.
         const tellerPerson = api.state.people.get(teller);
-        const toTell = Math.round(
-          n(api, "newsStoriesPerContact") *
-            Math.max(
-              api.parameter("zero"),
-              api.parameter("one") +
-                (tellerPerson
-                  ? n(api, "traitDecisionWeight") *
-                    passOnLean(api, tellerPerson)
-                  : api.parameter("zero")),
-            ),
+        const toTell = storiesToTell(
+          api,
+          teller,
+          storiesOwedAtContact(api, tellerPerson),
         );
+        // Whether the listener takes a told story in is theirs to decide:
+        // the benefit of the doubt against their own lean toward doubting.
+        const listenerPerson = api.state.people.get(listener);
+        let believes: boolean | undefined;
         let passed = api.parameter("zero");
         for (const story of tellable(api, teller, since)) {
           if (passed >= toTell || !fresh(story)) break;
           // Already heard: hear() would refuse it too, without the lookup.
           if (heardRecently(api, listener, story.id)) continue;
-          if (hear(api, listener, story, "told", notice.relationshipId))
+          const refusal = `${listener}:${story.id}`;
+          if (refused(api).has(refusal)) continue;
+          believes ??= listenerPerson
+            ? believesClaim(api.state, listenerPerson)
+            : true;
+          if (!believes) {
+            // Told, and not taken in; the paper can still reach them.
+            refused(api).add(refusal);
+            passed += api.parameter("one");
+          } else if (hear(api, listener, story, "told", notice.relationshipId))
             passed += api.parameter("one");
         }
       }

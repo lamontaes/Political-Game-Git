@@ -14,7 +14,7 @@ import type { ModuleTable } from "./module-state";
 import { lawInForce, LAWS_MODULE_ID } from "./modules/laws";
 import type { LawRowInput } from "./laws-starting";
 import { residentPerson, residentsRuntime } from "./modules/residents";
-import { decisionLean } from "./trait-decisions";
+import { leanedYes } from "./trait-decisions";
 import { transferCash } from "./world-transfer";
 import type { CoreAPI, CoreState, JobInput, Source } from "./types";
 
@@ -160,9 +160,14 @@ export function fileClaim(
   const filer = full ?? residentPerson(c, job.personId);
   if (
     filer &&
-    api.parameter("benefitsFileBase") +
-      decisionLean(c, filer, "jobs-benefits.file-claim", "file", "skip") <=
-      api.parameter("zero")
+    !leanedYes(
+      c,
+      filer,
+      "jobs-benefits.file-claim",
+      "file",
+      "skip",
+      api.parameter("benefitsFileBase"),
+    )
   )
     return undefined;
   const payee = full

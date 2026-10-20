@@ -999,6 +999,107 @@
       "quote": "Exposure and reactivity to these minor stressors explained over 40% of the distress difference between high- and low-neuroticism subjects. Reactivity to stressors accounted for twice as much of the distress difference as exposure to stressors.",
       "quoteVerified": true,
       "notes": "Value is the lower bound ('over 40%') of the share explained; reactivity is about two thirds of that and exposure about one third. Not a per-SD coefficient; the per-day slope numbers are in the paper's tables, which I could not retrieve (Mroczek & Almeida 2004 abstract gives no number either)."
+    },
+    {
+      "id": "voting.back-incumbent",
+      "trait": "none found",
+      "outcome": "backing the incumbent over a challenger",
+      "effect": null,
+      "source": null,
+      "quote": "",
+      "quoteVerified": false,
+      "notes": "No study with a personality effect size on backing an incumbent was found; the general weight (1) stands."
+    },
+    {
+      "id": "voting.exit-poll",
+      "trait": "none found",
+      "outcome": "telling an exit pollster who one voted for",
+      "effect": null,
+      "source": null,
+      "quote": "",
+      "quoteVerified": false,
+      "notes": "No study with a personality effect size on answering an exit poll was found; the general weight (1) stands."
+    },
+    {
+      "id": "parties.attend",
+      "trait": "none found",
+      "outcome": "attending a party meeting",
+      "effect": null,
+      "source": null,
+      "quote": "",
+      "quoteVerified": false,
+      "notes": "No study with a personality effect size on attending a party meeting was found (Mondak et al. 2010 cover meetings with an official and campaign rallies, listed under meetings.take-part); the general weight (1) stands."
+    },
+    {
+      "id": "interest-groups.lobbyist",
+      "trait": "none found",
+      "outcome": "serving as a group's spokesperson or lobbyist",
+      "effect": null,
+      "source": null,
+      "quote": "",
+      "quoteVerified": false,
+      "notes": "No study with a personality effect size on acting as a group's lobbyist was found; the general weight (1) stands."
+    },
+    {
+      "id": "interest-groups.employer-join",
+      "trait": "none found",
+      "outcome": "an employer joining an employers' association",
+      "effect": null,
+      "source": null,
+      "quote": "",
+      "quoteVerified": false,
+      "notes": "No study with a personality effect size on a business owner joining an association was found; the general weight (1) stands."
+    },
+    {
+      "id": "jobs-benefits.file-claim",
+      "trait": "none found",
+      "outcome": "filing for unemployment benefits once eligible",
+      "effect": null,
+      "source": null,
+      "quote": "",
+      "quoteVerified": false,
+      "notes": "No study with a personality effect size on filing an unemployment claim was found; the general weight (1) stands."
+    },
+    {
+      "id": "speech.retell",
+      "trait": "none found",
+      "outcome": "retelling a speech one heard to one's household",
+      "effect": null,
+      "source": null,
+      "quote": "",
+      "quoteVerified": false,
+      "notes": "No study with a personality effect size on retelling a speech was found (Lin et al. 2024, listed under news.pass-on, covers information sharing on social media); the general weight (1) stands."
+    },
+    {
+      "id": "outcome.news-reaction",
+      "trait": "none found",
+      "outcome": "how far a news story moves a reader's view",
+      "effect": null,
+      "source": null,
+      "quote": "",
+      "quoteVerified": false,
+      "notes": "No study with a personality effect size on how far a news story moves a reader was found; the view move reads the persuasion weight (outcome.persuasion), which has no size either."
+    },
+    {
+      "id": "meetings.hold-town-hall",
+      "trait": "extraversion",
+      "outcome": "attended a public meeting with a House member or senator (the attendee side, used for the host who holds one)",
+      "effect": {
+        "kind": "logit-coef-full-range",
+        "value": 1.92,
+        "low": 1.195,
+        "high": 2.645
+      },
+      "source": {
+        "authors": "Mondak, J. J., Hibbing, M. V., Canache, D., Seligson, M. A., & Anderson, M. R.",
+        "year": 2010,
+        "title": "Personality and Civic Engagement: An Integrative Framework for the Study of Trait Effects on Political Behavior",
+        "venue": "American Political Science Review 104(1), 85-110",
+        "url": "https://doi.org/10.1017/S0003055409990359"
+      },
+      "quote": "Substantively, the largest effects in Table 2 are those for openness and extraversion.",
+      "quoteVerified": true,
+      "notes": "Coefficient is the binomial logit coefficient from Mondak et al. (2010) Table 2 (2006 Cooperative Congressional Election Study, US adults, N about 1,060; controls age, female, black); the trait is scaled 0 to 1 so the coefficient is the log-odds change from lowest to highest trait score, not per SD. low/high = coefficient +/- 1.96 x reported SE.  No study of officials who host a town hall was found, so the attendee coefficient stands in for the host: the same extraversion pull toward being in the room."
     }
   ]
 }

@@ -147,6 +147,28 @@ export function leanedYes(
   noOptionId: string,
   bare: number,
 ): boolean {
+  return leanedYesWithTerm(
+    core,
+    person,
+    decisionId,
+    yesOptionId,
+    noOptionId,
+    bare,
+  ).yes;
+}
+
+/**
+ * `leanedYes` that also returns the trait term it added (the lean times the
+ * decision's calibrated weight), for a site that keeps its reasons on a record.
+ */
+export function leanedYesWithTerm(
+  core: Pick<CoreState, "data">,
+  person: Pick<PersonState, "traits"> & { id?: string },
+  decisionId: string,
+  yesOptionId: string,
+  noOptionId: string,
+  bare: number,
+): { readonly yes: boolean; readonly term: number } {
   const lean = leanBetween(
     core,
     person,
@@ -166,5 +188,5 @@ export function leanedYes(
       yes,
       turned: yes !== bare > parameter("zero", core.data.parameters),
     });
-  return yes;
+  return { yes, term };
 }
