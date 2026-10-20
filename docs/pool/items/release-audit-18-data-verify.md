@@ -24,3 +24,5 @@ claimed-at:
 **Notes.** Item 18 of docs/reports/merge-audit-2026-10-20.md, split from release-merge-audit-oct20-fixes.
 
 Sent back 2026-10-20 from PR #5512 (branch claude/audit-18): the new core2 test imports the IRS table from src/simulation, and the new data citations carry access dates (Oct 19 and Oct 20, 2026); finish on that branch, merge main into it first.
+
+Sent back 2026-10-20 from PR #5512 (branch claude/audit-18): audit-18-data.test.ts fails for an American Samoa place with no property-tax dates; finish on that branch, merge main into it first.

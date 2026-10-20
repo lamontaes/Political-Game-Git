@@ -5,12 +5,12 @@ area: people
 kind: feature
 priority: 3
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/people-prestart-history
 pr: #5228
 blocked-on:
 source: "core-needs-core-172 triage, Oct 15"
-claimed-at:
+claimed-at: 2026-10-20T20:53:14.428Z
 ---
 
 **What.** The pre-start contract (`pre-start.ts`) has no `people` pass: jobs, moves, partnerships, births and deaths at real rates for the coarse years before the start. Add the pass and run it in `newGame`.

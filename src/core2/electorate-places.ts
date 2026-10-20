@@ -217,6 +217,12 @@ const DELEGATES = (
   }
 ).places;
 
+/** Whether a state's voters choose the President: the 50 states and the District do; the territories do not. */
+export function choosesPresident(stateKey: string): boolean {
+  const usps = stateKey.replace(/^US-/, "");
+  return CAL.presidentialByState.some((s) => s.stateUsps === usps);
+}
+
 const statePlaceCache = new Map<string, readonly ElectoratePlace[]>();
 /**
  * A state's places: its counties' 2024 presidential vote, or the state's
