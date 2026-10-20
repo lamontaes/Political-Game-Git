@@ -5,12 +5,12 @@ area: play
 kind: bug
 priority: 3
 size: S
-status: open
-claimed-by:
-pr:
+status: done
+claimed-by: claude/political-game-pool-3xfqef-20
+pr: #5550
 blocked-on:
 source: added with npm run pool -- add
-claimed-at:
+claimed-at: 2026-10-20T05:53:06.868Z
 ---
 
 **What.** src/bench/no-scroll.browser.mjs fails on main: start and after a day, the Politics sheet's div.cols is 24 pixels taller than its box (the sheet pages four pages but the columns box itself overflows by more than the 8 pixel slack). Find which row or heading in the Government tab sits outside the pager's box and make the sheet fit.
@@ -21,4 +21,6 @@ claimed-at:
 
 **Files.** src/bench/play.mjs, src/bench/play.css, src/bench/no-scroll.browser.mjs
 
-**Notes.** TODO
+**Notes.** Oct 20: four runs of no-scroll.browser.mjs on main in Chromium 1194 (Galena, Ohio; continued life) pass, with the Politics sheet at #sheet 3px and 4 pages, start and after a day. It did not reproduce there; try a drawn new game in another place before changing the layout.
+
+Oct 20 (claude/fixed-on-main-notes): not reproduced on current main. With the bench server up and `BENCH_BROWSER=/opt/pw-browsers/chromium`, `node src/bench/no-scroll.browser.mjs` printed `PASS 11 sheets, twice` four times in a row (every sheet at 3 px, the Politics sheet four pages). The check continues the saved game, so a new game in another place is the case still untried; the CTO can mark this done or leave it for a checker's pass on a new game.

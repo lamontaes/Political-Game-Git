@@ -6,11 +6,11 @@ kind: cleanup
 priority: 2
 size: S
 status: in-pr
-claimed-by: claude/old-imports-org-profile
+claimed-by: claude/political-game-pool-3xfqef-19
 pr: #5543
 blocked-on:
 source: split from core-old-imports-population
-claimed-at: 2026-10-20T05:42:31.756Z
+claimed-at: 2026-10-20T05:49:43.065Z
 ---
 
 **What.** The opening asks the old life-queries module for each organization's latest profile record (organizationProfileAt). The opening population builder in src/core2/population.ts still builds a whole old-engine World first and reads these pieces from src/simulation. Move only what the opening uses into the core as data and small functions, and delete nothing the old engine still needs until core-delete-old-engine. Nothing new is added to the old engine.
@@ -24,3 +24,5 @@ claimed-at: 2026-10-20T05:42:31.756Z
 **Notes.** Split Oct 19 from core-old-imports-population, which was sized M but touches five old-engine modules. The sibling slices are core-old-imports-population-org-profile, core-old-imports-population-traits and core-old-imports-population-town-employment.
 
 Sent back 2026-10-20 from PR #5070 (branch claude/org-profile): the new Core test imports World from src/simulation/types; remove that old-engine import; finish on that branch, merge main into it first. The item also links newer PR #5510, so coordinate the duplicate before building.
+
+Sent back 2026-10-20 from PR #5543 (branch claude/old-imports-org-profile): the new Core helper and test import old simulation types and life-queries; use a Core-owned input shape and move any legacy comparison outside Core; finish on that branch, merge main into it first.

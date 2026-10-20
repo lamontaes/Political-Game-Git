@@ -5,12 +5,12 @@ area: world
 kind: feature
 priority: 2
 size: L
-status: claimed
-claimed-by: claude/other-places-coarse
-pr:
+status: open
+claimed-by:
+pr: #5555
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-20T05:44:10.336Z
+claimed-at:
 ---
 
 **What.** Only the player's town has counted people. A president who visits another town (SG-OFFICE-FED-trip-residents), a relative who lives elsewhere, a candidate from another district and any person the player meets outside the town are identities with no household, job or pay in that place. Keep each other place coarse, as the owner's Oct 11 two-level rule says: counts by age, household type, occupation and pay band from the same census tables buildPopulation already reads, held per place and stepped by the regional economy, not a second simulation. A person met there is filled in from those counts by the same fill-in rule as the player's town, matching the counts (a place whose counts show 12 bakers has a baker with the pay the counts say).
@@ -22,3 +22,7 @@ claimed-at: 2026-10-20T05:44:10.336Z
 **Files.** src/core2/modules/residents.ts, src/core2/modules/regional.ts, src/core2/office-day-federal-president.ts, src/core2/data/stopgaps.json
 
 **Notes.** Found Oct 20 (claude/political-game-pool-yucp92-uu) while claiming office-stopgap-office-day-federal-president-missing-record: the regional module holds economy factors per region but no people, so there is nothing to fill a met person in from. Check docs/design/core2-porting-plan.md and DECISION-REGISTER.md first.
+
+Sent back 2026-10-20 from PR #5555 (branch claude/other-places-coarse): new Core coarse-place.ts imports old simulation population and town-employment runtime modules; read or port these inputs through Core-owned modules and data; finish on that branch, merge main into it first.
+
+Sent back 2026-10-20 from PR #5555 (branch claude/other-places-coarse): see the Cloud merger comment on that PR for the exact reason; finish on that branch, merge main into it first.
