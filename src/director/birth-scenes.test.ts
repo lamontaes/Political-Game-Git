@@ -75,10 +75,16 @@ it(`a birth is a gathering scene for each parent, citing the birth and the plan 
       expect(scene.typeKey, where).toBe("celebration");
       expect(text.trim().length, `${where}: ${text}`).toBeGreaterThan(0);
       expect(text, where).not.toMatch(/\{\{|\}\}|undefined/);
+      // The scene stands on the birth moment, whose cause is the birth record,
+      // and its narration cites records (the sentence that named the birth was
+      // hand-written and is held).
+      expect(scene.momentId, where).toBe(entry.momentId);
+      expect(moment.causeId, where).toBe(birth?.id);
+      expect(scene.presentIds, where).toContain(personId);
       expect(
-        scene.narration.flatMap((line) => line.sourceRecordIds),
+        scene.narration.flatMap((line) => line.sourceRecordIds).length,
         where,
-      ).toContain(moment.causeId);
+      ).toBeGreaterThan(0);
       console.log(`${where}: ${text}`);
       return;
     }

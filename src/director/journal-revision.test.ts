@@ -7,6 +7,7 @@ import { gameStartDate } from "../core2/game-start";
 import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import { advanceCore } from "../core2/life";
 import { DEFAULT_DIRECTOR_DATA } from "./ledger";
+import journalBank from "../../data/english/parts/journal.json" with { type: "json" };
 import { composeJournal, JOURNAL_DATA } from "./journal";
 
 // The journal as a memoir with hindsight (pool item words-main-line): an entry
@@ -20,12 +21,25 @@ import { composeJournal, JOURNAL_DATA } from "./journal";
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(20).toString("hex");
 const interrupt =
   DEFAULT_DIRECTOR_DATA.parameters.directorInterruptImpact!.value;
+// The held look-back sentences, straight from the bank (the journal data
+// carries only what ships).
 const revisions = new Set(
-  (JOURNAL_DATA.memoir?.revise ?? []).map((row) => row.text),
+  (
+    journalBank as unknown as {
+      parts: { key: string; text: string; origin?: string }[];
+    }
+  ).parts
+    .filter(
+      (part) =>
+        part.key.startsWith("journal.memoir-revise.") &&
+        part.origin === "authored",
+    )
+    .map((part) => part.text),
 );
 
 it(`the director finds the later records that would revise an early entry, and the journal revises nothing (seed ${seed})`, () => {
   expect(revisions.size).toBeGreaterThan(0);
+  expect(JOURNAL_DATA.memoir?.revise ?? []).toEqual([]);
   const tried: string[] = [];
   for (let life = 0; life < 4; life += 1) {
     const place = drawPlace(`${seed}:${life}`, "journal-revision");

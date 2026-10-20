@@ -136,15 +136,20 @@ describe("the officeholder's journal", () => {
     );
     const told = (id: string) =>
       lines.find((line) => line.sourceRecordIds.includes(id));
-    // The officeholder's journal sentences (taking office, a vote, a town
-    // hall, an interview) are hand-written and held (owner, Oct 6, EN-1 to
-    // EN-3; pool item words-journal-office-lines), so the journal tells none
-    // of them. It still tells the rest of the life, and still leaves out a
-    // declined interview and someone else's vote.
+    // The vote is told from a mined sentence and cites its bill. The
+    // sentences for taking office, a town hall and an interview are
+    // hand-written and held (owner, Oct 6, EN-1 to EN-3; pool item
+    // words-journal-office-lines), so the journal tells none of them, and
+    // still leaves out a declined interview and someone else's vote.
     expect(lines.length, where).toBeGreaterThan(0);
+    expect(told(voteId)?.text, where).toMatch(
+      new RegExp(
+        `^I voted for (Ordinance )?${bill.number.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}\\.`,
+      ),
+    );
+    expect(told(voteId)?.sourceRecordIds, where).toContain(bill.id);
     for (const id of [
       "took-office:fixture-seat:journal",
-      voteId,
       townHallId,
       interviewId,
       "office-act:interview:interview:declined:" + playerId,
