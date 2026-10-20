@@ -5,12 +5,12 @@ area: words
 kind: feature
 priority: 3
 size: M
-status: claimed
-claimed-by: claude/speech-craft-earned
+status: open
+claimed-by:
 pr:
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-20T07:48:01.448Z
+claimed-at:
 ---
 
 **What.** TODO
