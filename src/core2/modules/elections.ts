@@ -90,6 +90,8 @@ export interface RequirementCheck {
   readonly required: string;
   readonly actual: string;
   readonly source: string;
+  /** For an unmet minimum age: the day they turn the required age. */
+  readonly metOn?: string;
 }
 
 export interface FilingRow {
@@ -525,6 +527,14 @@ export function filingOfficeFor(
   return filingRulesFor(api, contest, side);
 }
 
+/** The day someone born on `birthDate` turns `years` (a February 29 birthday counts on March 1 in a common year). */
+function birthdayOn(birthDate: string, years: number): string {
+  const year = Number(birthDate.slice(0, 4)) + years;
+  const monthDay = birthDate.slice(5);
+  const leap = (year % 4 === 0 && year % 100 !== 0) || year % 400 === 0;
+  return `${year}-${monthDay === "02-29" && !leap ? "03-01" : monthDay}`;
+}
+
 /** Every rule for one person filing in one contest, checked today. */
 export function checkEligibility(
   api: CoreAPI,
@@ -598,6 +608,9 @@ export function checkEligibility(
       required: String(rules.minimumAge),
       actual: String(age),
       source: rules.source,
+      ...(age < rules.minimumAge
+        ? { metOn: birthdayOn(person.birthDate, rules.minimumAge) }
+        : {}),
     },
     {
       rule: "residency",

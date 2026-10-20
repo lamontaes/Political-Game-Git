@@ -5,7 +5,7 @@ area: core
 kind: wiring
 priority: 2
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/snapshot-cover-s5
 pr: #5036
 blocked-on:

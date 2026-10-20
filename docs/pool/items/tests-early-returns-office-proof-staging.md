@@ -5,9 +5,9 @@ area: core
 kind: cleanup
 priority: 3
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/early-returns-office-proof
-pr:
+pr: #5045
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-20T03:48:43.272Z
