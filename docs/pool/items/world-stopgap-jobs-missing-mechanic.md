@@ -22,3 +22,5 @@ claimed-at:
 **Files.** src/core2/modules/jobs.ts
 
 **Notes.** First row: A spell of unemployment pays no unemployment insurance.
+
+Sent back 2026-10-20 from PR #5300 (branch claude/ui-state-fund): the stopgap replacement text carries a 'Resolved Oct 19' date note; resolve the row properly without the date; finish on that branch, merge main into it first.
