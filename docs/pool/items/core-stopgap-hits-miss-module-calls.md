@@ -22,3 +22,5 @@ claimed-at:
 **Files.** src/core2/stopgaps.ts, src/core2/state.ts, src/core2/tooling/tripwires.ts
 
 **Notes.** Found Oct 20 (claude) while looking for open rows that could be resolved as unused. The probe was a throwaway test and is not kept.
+
+Sent back 2026-10-20 from PR #5452 (branch claude/stopgap-hits-active): stopgap-hits-module-calls.test.ts fails on its own head and with main merged in: the two housing markers it expects are not in the hits after 90 days; finish on that branch, merge main into it first.
