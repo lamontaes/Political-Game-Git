@@ -4,12 +4,13 @@ title: "Stopgaps in opening-employment (authored content): 1 open"
 area: core
 kind: stopgap
 priority: 3
-status: open
-claimed-by:
+status: blocked
+claimed-by: claude/pool-job-mix
 pr:
-blocked-on:
+blocked-on: dataset-bls-industry-occupation-matrix-bls-gov-403
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/data/opening-employment.json, kind authored content"
+claimed-at: 2026-10-19T23:41:36.732Z
 ---
 
 **What.** Replace or clear the 1 open authored content stopgap row(s) in src/core2/data/opening-employment.json: SG-P8-authored-job-mix. Each fake is replaced by the mechanic, or the feature that needs it is deleted.

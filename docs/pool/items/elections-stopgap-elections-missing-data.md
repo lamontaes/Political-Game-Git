@@ -4,10 +4,10 @@ title: "Stopgaps in elections (missing-data): 1 open"
 area: elections
 kind: stopgap
 priority: 3
-status: open
+status: blocked
 claimed-by:
 pr:
-blocked-on:
+blocked-on: research data: the row's replacement needs sourced data (Each place's own rule read into data/research/elections/filing-requirements.json....)
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/modules/elections.ts, kind missing-data"
 ---

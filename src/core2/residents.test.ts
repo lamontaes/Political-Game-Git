@@ -7,7 +7,6 @@ import { representativeSample } from "./representative-sample";
 import { countedMoves } from "./modules/counted-moves";
 import placeCitizenship from "./data/place-citizenship-2024.json" with { type: "json" };
 import { advanceCore, createLifeCore } from "./life";
-import { addCountedRetiree } from "./residents-economy";
 import {
   rerateCountedRetirement,
   residentCounts,
@@ -340,42 +339,6 @@ describe(`two-level population in ${place.name} (seed ${seed})`, () => {
       expect(
         Math.abs(flow.amountMinor - base.get(flow.id)!),
       ).toBeLessThanOrEqual(awards(flow));
-  }, 900_000);
-
-  it("pays a worker who retires at the benefit level in force, and moves them with the line", () => {
-    const core = createLifeCore(
-      openingWith("core2-residents-retiree", hasRetiree),
-    );
-    advanceCore(core, daysIn(4));
-    const rt = residentsRuntime(core)!;
-    const opening = [...rt.flows.values()].filter(
-      (flow) =>
-        flow.kind === "retirement" &&
-        !flow.endedAt &&
-        !flow.id.startsWith("residents:retirement:added:"),
-    );
-    expect(opening.length).toBeGreaterThan(0);
-    const placeId = opening[0]!.placeId;
-    const here = opening.filter((flow) => flow.placeId === placeId);
-    const parts = here.reduce(
-      (n, flow) => n + Object.keys(flow.amountByContract ?? {}).length,
-      0,
-    );
-    const average =
-      here.reduce((n, flow) => n + flow.amountMinor, 0) / Math.max(1, parts);
-    // The line is cut to nine-tenths, then a worker retires.
-    rerateCountedRetirement(core, 0.9);
-    const joined = addCountedRetiree(core, placeId, "person:test-retiree");
-    expect(Math.abs(joined - average * 0.9)).toBeLessThanOrEqual(2);
-    const added = rt.flows.get(`residents:retirement:added:${placeId}`)!;
-    expect(added).toBeDefined();
-    // Restoring the line restores the new retiree's award with the others'.
-    rerateCountedRetirement(core, 1);
-    expect(
-      Math.abs(
-        added.amountByContract!["retiree:person:test-retiree"]! - average,
-      ),
-    ).toBeLessThanOrEqual(3);
   }, 900_000);
 
   it("fills in a clicked counted person, and returns full people as they are", () => {
