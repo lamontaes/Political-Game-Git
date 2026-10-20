@@ -25,3 +25,5 @@ claimed-at: 2026-10-20T03:13:28.076Z
 **Notes.** Part 2 of 3 split from missing-engine-health-coverage-and-medical-spending (Oct 20).
 
 Released Oct 20 (claude): needs the coverage record from people-coverage-record-monthly-pass (claimed by claude/fs11vb-coverage-record) to price covered vs uncovered members, and the CE health-insurance and medical-services category rows (BLS cu-region-1-year-average-2024.xlsx, the file living-costs-category-data.ts cites) are not in living-costs-category-data.ts yet; a builder should add those rows first, then bind the flow.
+
+Tried Oct 20 (claude): the BLS workbook the category file cites returns HTTP 403 to this cloud container's proxy (curl with a browser user agent, 1,325-byte error page), so the health-insurance and medical-services rows could not be read from the source; they were not typed in from memory. Whoever builds this needs the workbook placed where the container can read it (or network access to bls.gov).
