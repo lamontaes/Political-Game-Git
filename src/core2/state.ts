@@ -1,5 +1,9 @@
 import { initialPersonState } from "./person-state";
-import { closenessAfter, openingClosenessHours } from "./closeness";
+import {
+  closenessAfter,
+  openingClosenessHours,
+  temperedHours,
+} from "./closeness";
 import { validateCompactChoice } from "./compact-choice";
 import { bookkeeping } from "./bookkeeping";
 import { queueDecisionDetail } from "./decision-detail";
@@ -1052,9 +1056,15 @@ export function coreAPI(core: CoreState): CoreAPI {
       };
       const at = core.date,
         // P15: `change` is hours of time together; closeness fades between contacts.
-        nextLevel = closenessAfter(core, previous, row.kind, change),
         actualActor = core.people.get(actorId),
         actualOther = core.people.get(otherId) ?? core.husks.get(otherId),
+        // Temperament sets how much the time together (or the quarrel) counts.
+        nextLevel = closenessAfter(
+          core,
+          previous,
+          row.kind,
+          temperedHours(core, actualActor, core.people.get(otherId), change),
+        ),
         storedKind = row.kind;
       const originalDecision =
         decision === undefined ? undefined : copyRelationshipEvidence(decision);
