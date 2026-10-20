@@ -5,13 +5,13 @@ area: core
 kind: cleanup
 priority: 2
 size: L
-status: blocked
-claimed-by: claude/old-imports-town-households
+status: open
+claimed-by:
 pr:
 blocked-on:
 after: core-old-imports-population,core-old-imports-opening-employment,core-old-imports-opening-work,core-old-imports-town-households,core-old-imports-opening-employment-jail-term,core-old-imports-opening-people,core-old-imports-schedule-workplace-types,core-old-imports-generated-world
 source: added with npm run pool -- add
-claimed-at: 2026-10-18T02:26:57.363Z
+claimed-at:
 ---
 
 **What.** This is the roll-up for removing the last old-engine imports from the opening builders. The files named in the title (`population.ts`, `opening-employment.ts`, `opening-work.ts`, `town-households.ts`) are each owned by a child item, and three more files the grep still lists (opening-people.ts, town-workplaces.ts with work-schedules.ts, and tooling/generated-world.ts) have their own new items. When all are done, the grep `grep -rlE 'from "\.\./(\.\./)?(simulation|presentation)' src/core2 --include=*.ts | grep -v test` prints nothing and the old `town-pay`, `town-employment`, `town-residents`, `work-schedules`, `life-queries` and `jail-terms` code the openings pulled in can be deleted.
