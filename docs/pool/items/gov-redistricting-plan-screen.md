@@ -5,12 +5,13 @@ area: play
 kind: feature
 priority: 3
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/peaceful-ritchie-03780x
 pr:
 blocked-on:
 after: gov-redistricting-who-draws
 source: added with npm run pool -- add
+claimed-at: 2026-10-20T00:47:20.088Z
 ---
 
 **What.** A plan-comparison view on the political map: per district, people, deviation, past vote, neighborhood make-up as district totals, and which incumbents are paired, so a player who sits where maps are drawn can compare the printed plans and bargain over them through the existing vote and negotiation surfaces. Neighborhood make-up is shown only as district totals, never on a person.

@@ -5,11 +5,12 @@ area: laws
 kind: wiring
 priority: 2
 size: L
-status: open
-claimed-by:
+status: blocked
+claimed-by: claude/political-game-pool-yucp92-n
 pr:
-blocked-on:
+blocked-on: laws-outcome-civil-tech
 source: added with npm run pool -- add
+claimed-at: 2026-10-20T00:47:27.993Z
 ---
 
 **What.** Nineteen law-reach policies still have a mechanic of none or records, so no other engine reads what they write (the guard in law-reach-placeholders.test.ts lists them). For each family, follow one law from its record to the payment or price it changed, the named person it reached, their choice or view, and the director's line, and replace the placeholder with the real effect. The claiming session splits this by family into bounded items first.
