@@ -4447,11 +4447,11 @@
     "file": "src/bench/creator.ts",
     "line": 172,
     "whatItFakes": "Changing the age in the creator moves only the birth date; the life's generated past (schooling, work, household, family ages) stays as it was drawn for the original age.",
-    "why": "World building draws the player's past during New game, before the creator runs, and there is no step to redraw it for a chosen age.",
+    "why": "Resolved Oct 20: New game passes the chosen birthday into the world build, which picks a resident of that age born nearest that day as the player (entrantBornNear in src/bench/world.ts), so the past is theirs and fits the age. Before: World building draws the player's past during New game, before the creator runs, and there is no step to redraw it for a chosen age.",
     "addedBy": "OPUS-PLAY",
     "addedAt": "2026-10-14",
     "replacement": "New game passes the chosen age and birthday into the world build (or a core redraw of the player's past) so the history matches the age.",
-    "status": "open"
+    "status": "resolved"
   },
   {
     "id": "SG-GOV-official-attendance",

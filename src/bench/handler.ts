@@ -257,6 +257,17 @@ export async function benchRequest(
               ...(url.searchParams.get("placeKey")
                 ? { placeKey: url.searchParams.get("placeKey")! }
                 : {}),
+              // The person chosen in the creator is built into the world at
+              // their age, so their past fits it.
+              ...(url.searchParams.get("person")
+                ? {
+                    playerBirthday: (({ birthYear, birthMonth, birthDay }) => ({
+                      year: birthYear,
+                      month: birthMonth,
+                      day: birthDay,
+                    }))(readChosenPerson(url.searchParams.get("person")!)),
+                  }
+                : {}),
             },
             (stage) => {
               buildProgress = { stage, done: 0, total: 0 };

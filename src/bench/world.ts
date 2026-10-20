@@ -147,6 +147,42 @@ export function entrantChoice(
   return { id: nearest.id, age: nearest.age, estimated: true };
 }
 
+/**
+ * The resident the creator's chosen birthday fits: of the same age on the
+ * opening date, the one born nearest that month and day (then by id); where
+ * nobody here is that age, the resident nearest the age. The life's past is
+ * theirs, so it already fits the age.
+ */
+export function entrantBornNear(
+  input: CoreInput,
+  placeId: string,
+  chosen: { year: number; month: number; day: number },
+): string {
+  const at = makeIsoDate(input.startedAt);
+  const chosenDate = makeIsoDate(
+    `${chosen.year}-${String(chosen.month).padStart(2, "0")}-${String(chosen.day).padStart(2, "0")}`,
+  );
+  const age = ageOnDate(chosenDate, at);
+  const dayOfYear = (month: number, day: number) => month * 31 + day;
+  const residents = input.people
+    .filter((person) => person.placeId === placeId && person.tier !== "husk")
+    .map((person) => {
+      const [, month, day] = person.birthDate.split("-").map(Number);
+      return {
+        id: person.id,
+        gap: Math.abs(ageOnDate(makeIsoDate(person.birthDate), at) - age),
+        near: Math.abs(
+          dayOfYear(month!, day!) - dayOfYear(chosen.month, chosen.day),
+        ),
+      };
+    })
+    .sort(
+      (a, b) => a.gap - b.gap || a.near - b.near || a.id.localeCompare(b.id),
+    );
+  if (!residents[0]) throw new Error("No resident here.");
+  return residents[0].id;
+}
+
 /** The stages a world builds in, by key; the screen names each (`loading` in controls.json). */
 export type BuildStage =
   "people" | "past" | "economy" | "core" | "government" | "opening" | "done";
@@ -167,6 +203,13 @@ type BuildOptions = {
   countScale?: number;
   /** A custom world (M6-04): what the player changed from real data. */
   settings?: WorldSettings;
+  /**
+   * With `twoLevel`: the player is a resident of this age on the opening
+   * date whose birthday falls nearest this month and day, as the creator
+   * chose, so the life's past fits the age. Absent: the golden path's
+   * entrant, who turns 18 soonest.
+   */
+  playerBirthday?: { year: number; month: number; day: number };
   /**
    * Sees the finished opening input just before the core starts from it
    * (the speed guard measures and hashes it; scripts/core2-guard/month.mjs).
@@ -257,7 +300,13 @@ function* benchWorldStages(
     // and their peers first, then the economy with the closures fix (outside
     // buyers by industry), light terms for counted households, two levels and
     // the counted voter groups.
-    playerId = entrantOf(input, place.context.jurisdiction.id);
+    playerId = options.playerBirthday
+      ? entrantBornNear(
+          input,
+          place.context.jurisdiction.id,
+          options.playerBirthday,
+        )
+      : entrantOf(input, place.context.jurisdiction.id);
     let withPlayer: CoreInput = {
       ...buildOpeningPeerContacts(input, { personIds: [playerId] }).input,
       playerId,
