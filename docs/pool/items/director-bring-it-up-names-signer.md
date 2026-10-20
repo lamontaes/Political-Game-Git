@@ -5,11 +5,12 @@ area: director
 kind: feature
 priority: 3
 size: S
-status: open
-claimed-by:
+status: blocked
+claimed-by: claude/political-game-pool-yucp92-m
 pr:
-blocked-on:
+blocked-on: Words line: the item text is an empty shell and the change needs new bank sentences (src/director/mined) worded by the English engine, which only the Words session writes
 source: added with npm run pool -- add
+claimed-at: 2026-10-20T00:46:39.336Z
 ---
 
 **What.** When a neighbor brings up a law that took effect, `src/director/bring-it-up.ts` names the subject and the outlet that printed the story but deliberately blames no one ("a printed story blames no one"). The press story's facts already carry `decidedBy` and `decision` (for example "signed" by the governor's term), so a reader who read that line could say who signed it. Let a reader name the signer when the story they read recorded one.
