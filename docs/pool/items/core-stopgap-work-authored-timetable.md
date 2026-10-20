@@ -4,7 +4,7 @@ title: "Stopgaps in work (authored-timetable): 1 open"
 area: core
 kind: stopgap
 priority: 3
-status: blocked
+status: open
 claimed-by:
 pr:
 blocked-on:
