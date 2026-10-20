@@ -2530,7 +2530,7 @@
     "value": 0.12,
     "tag": "ESTIMATED",
     "citation": "The share of public-building spending reserved for contracted custodial operations in the opening appropriation. IFMA's facility operations benchmark (2000, https://www.fmlink.com/?p=13268) puts janitorial at $1.08 of a $5.59 per rentable square foot cost of janitorial, utilities and maintenance (19 percent); public-building spending also includes capital outlay, so a lower 0.12 is used. FAR 37.101 recognizes janitorial service contracts; no source gives the public share itself.",
-    "estimatedFrom": "IFMA 19 percent of operating cost, reduced for capital outlay in public-building spending; stopgap research Oct 19 (B-people-behavior-2).",
+    "estimatedFrom": "IFMA 19 percent of operating cost, reduced for capital outlay in public-building spending; stopgap research (data/research/stopgaps-oct19, B-people-behavior-2).",
     "spread": {
       "low": 0.08,
       "high": 0.19,

@@ -12,7 +12,7 @@
       "ruleText": "Borough/city code sets it; about 60-70 days before October election (repo ruleText)",
       "citation": "AS 29.26.010 (municipal elections governed by ordinance)",
       "tag": "ESTIMATED",
-      "estimatedFrom": "Stopgap research Oct 19 (C-government-law, SG-GOV-filing-deadline-estimate): the typical lead the secondary sources give, 55 to 70 days before the election; the state or municipal code is not read.",
+      "estimatedFrom": "Stopgap research (data/research/stopgaps-oct19, C-government-law, SG-GOV-filing-deadline-estimate): the typical lead the secondary sources give, 55 to 70 days before the election; the state or municipal code is not read.",
       "spreadDays": [55, 70]
     },
     "US-AL": {
@@ -84,7 +84,7 @@
       "ruleText": "Charter-set, commonly 30-60 days (repo ruleText)",
       "citation": "15 Del. C. ch. 75 (municipal elections governed by charter)",
       "tag": "ESTIMATED",
-      "estimatedFrom": "Stopgap research Oct 19 (C-government-law, SG-GOV-filing-deadline-estimate): the typical lead the secondary sources give, 30 to 60 days before the election; the state or municipal code is not read.",
+      "estimatedFrom": "Stopgap research (data/research/stopgaps-oct19, C-government-law, SG-GOV-filing-deadline-estimate): the typical lead the secondary sources give, 30 to 60 days before the election; the state or municipal code is not read.",
       "spreadDays": [30, 60]
     },
     "US-FL": {
@@ -95,7 +95,7 @@
       "ruleText": "One-week qualifying period ending 60-90 days before election (repo ruleText)",
       "citation": "Fla. Stat. 99.093, 100.3605",
       "tag": "ESTIMATED",
-      "estimatedFrom": "Stopgap research Oct 19 (C-government-law, SG-GOV-filing-deadline-estimate): the typical lead the secondary sources give, 60 to 90 days before the election; the state or municipal code is not read.",
+      "estimatedFrom": "Stopgap research (data/research/stopgaps-oct19, C-government-law, SG-GOV-filing-deadline-estimate): the typical lead the secondary sources give, 60 to 90 days before the election; the state or municipal code is not read.",
       "spreadDays": [60, 90]
     },
     "US-GA": {
@@ -215,7 +215,7 @@
       "ruleText": "Set by municipal charter; estimate 45 days",
       "citation": "Md. Local Gov't Art. 4-104 and municipal charters",
       "tag": "ESTIMATED",
-      "estimatedFrom": "Stopgap research Oct 19 (C-government-law, SG-GOV-filing-deadline-estimate): the typical lead the secondary sources give, 30 to 60 days before the election; the state or municipal code is not read.",
+      "estimatedFrom": "Stopgap research (data/research/stopgaps-oct19, C-government-law, SG-GOV-filing-deadline-estimate): the typical lead the secondary sources give, 30 to 60 days before the election; the state or municipal code is not read.",
       "spreadDays": [30, 60]
     },
     "US-ME": {
