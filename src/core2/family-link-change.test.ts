@@ -118,9 +118,19 @@ function partnersIn(place: ReturnType<typeof drawPlace>): boolean {
     .moduleState(RENEWAL_MODULE_ID)
     .table("couples")
     .get(link.id) as unknown as
-    { status: string; motherId: string } | undefined;
+    { status: string; motherId: string; otherParentId: string } | undefined;
   expect(row?.status, "the couple's row").toBe("active");
   expect(row?.motherId).toBe(mother.id);
+  expect(row?.otherParentId).toBe(other.id);
+  console.info(
+    JSON.stringify({
+      seed,
+      place: place.key,
+      linkId: link.id,
+      motherId: mother.id,
+      otherParentId: other.id,
+    }),
+  );
   expect(() =>
     api.setPartnersV1({
       personIds: [mother.id, other.id],
