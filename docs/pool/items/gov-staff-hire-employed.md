@@ -5,7 +5,7 @@ area: gov
 kind: stopgap
 priority: 3
 size: S
-status: in-pr
+status: done
 claimed-by: claude/gov-staff-hire-employed
 pr: #5368
 blocked-on:
