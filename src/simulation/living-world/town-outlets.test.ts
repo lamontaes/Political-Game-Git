@@ -2,7 +2,8 @@ import { describe, expect, it } from "vitest";
 import { lifePlaces } from "../life-places";
 import { placeReferencePopulation } from "../nationwide-world/place-population";
 import { localBusinessSupplyFor } from "../local-business-counts";
-import { TOWN_WORKPLACES, workplaceOutlets } from "./town-employment";
+import { TOWN_WORKPLACES } from "../../core2/town-workplaces";
+import { workplaceOutlets } from "./town-employment";
 
 const KINDS: Record<string, readonly string[]> = {
   construction: ["construction"],

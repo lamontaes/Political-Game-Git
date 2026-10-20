@@ -31,15 +31,14 @@ import type {
 } from "../types";
 import {
   TOWN_EMPLOYMENT_VERSION,
-  TOWN_WORKPLACES,
   WORKING_AGE_MIN,
   fillTownJobs,
   laborStatus,
   townResidents,
   workplaceOutlets,
   writeTownEmployer,
-  type Workplace,
 } from "./town-employment";
+import { TOWN_WORKPLACES, type Workplace } from "../../core2/town-workplaces";
 import { TOWN_JOB_END_REASONS } from "./town-labor-market";
 import { TOWN_BUSINESS_WORKPLACES } from "./town-business-books";
 import {
