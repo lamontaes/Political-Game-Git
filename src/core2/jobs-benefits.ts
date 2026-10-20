@@ -11,8 +11,8 @@
  * it was filed under and cites the law row.
  */
 import type { ModuleTable } from "./module-state";
-import { lawInForce, LAWS_MODULE_ID } from "./modules/laws";
 import { BUDGETS_MODULE_ID, governments } from "./modules/budgets";
+import { lawInForce, LAWS_MODULE_ID } from "./modules/laws";
 import { lawApplied } from "./law-reach/applied";
 import { countedWeight } from "./law-reach/pay-reach";
 
@@ -256,26 +256,22 @@ export function fileClaim(
   return row;
 }
 
-/** Pays every open claim due by today from the state's fund outside the town. */
+/** Pays every open claim due by today from the state's unemployment fund: its treasury. */
 export function payClaims(api: CoreAPI, table: ModuleTable): void {
   const c = api.state as CoreState;
   for (const row of table.query("open", [true]) as unknown as ClaimRow[]) {
     if (row.nextPayAt > c.date) continue;
-    // The state's treasury pays, the fund its employers' unemployment tax
-    // fills; a world with no budgets engine pays from the town's outside account.
-    const treasury = c.modules.has(BUDGETS_MODULE_ID)
+    // The state's unemployment fund is its treasury, which the employers'
+    // state unemployment tax pays into (employer-taxes); a world with no
+    // state treasury open pays from the town's outside account.
+    const state = c.modules.has(BUDGETS_MODULE_ID)
       ? governments(api).find((g) => g.level === "state")
       : undefined;
-    let fund: { id: string } | undefined = treasury
-      ? { id: treasury.organizationId }
-      : undefined;
-    if (!fund) {
-      // stopgapId: SG-WORLD-jobs-benefits
-      api.stopgap("SG-WORLD-jobs-benefits");
-      fund = [...c.organizations.values()].find(
-        (org) => org.placeId === row.placeId && org.outsideFlow !== undefined,
-      );
-    }
+    const fund = state
+      ? c.organizations.get(state.organizationId)
+      : [...c.organizations.values()].find(
+          (org) => org.placeId === row.placeId && org.outsideFlow !== undefined,
+        );
     if (!fund) {
       table.put({
         ...row,
@@ -307,19 +303,35 @@ export function payClaims(api: CoreAPI, table: ModuleTable): void {
     // (counted-money.ts countedPayment); `paid` stays one claim's.
     const full = c.people.has(row.personId);
     const weight = full ? 1 : countedWeight(c, row.personId);
-    const paid = full
-      ? transferCash(api, id, fund.id, row.personId, row.weeklyMinor, source, {
-          personId: row.personId,
-        })
-      : countedPayment(api, {
-          id,
-          placeId: row.placeId as PlaceId,
-          personId: row.personId as PersonId,
-          otherOwnerId: fund.id,
-          amountMinor: -row.weeklyMinor,
-          reasonKey: id.split(":")[0]!,
-          source,
-        });
+    const pay = (payId: string, fromId: string, amountMinor: number) =>
+      full
+        ? transferCash(api, payId, fromId, row.personId, amountMinor, source, {
+            personId: row.personId,
+          })
+        : countedPayment(api, {
+            id: payId,
+            placeId: row.placeId as PlaceId,
+            personId: row.personId as PersonId,
+            otherOwnerId: fromId,
+            amountMinor: -amountMinor,
+            reasonKey: payId.split(":")[0]!,
+            source,
+          });
+    let paid = pay(id, fund.id, row.weeklyMinor);
+    // A state fund that cannot cover the week borrows the rest from outside
+    // the town, as a state borrows from the federal government when its fund
+    // runs short (26 U.S.C. 1201, Title XII advances).
+    if (state && paid < row.weeklyMinor) {
+      const advance = [...c.organizations.values()].find(
+        (org) => org.placeId === row.placeId && org.outsideFlow !== undefined,
+      );
+      if (advance)
+        paid += pay(
+          `unemployment-advance:${row.personId}:${c.date}`,
+          advance.id,
+          row.weeklyMinor - paid,
+        );
+    }
     if (row.lawId && paid > 0)
       lawApplied(api, {
         key: "unemployment-insurance",

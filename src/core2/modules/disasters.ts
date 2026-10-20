@@ -363,6 +363,23 @@ export const DISASTERS_MODULE: CoreModule = {
   },
 };
 
+/**
+ * What FEMA obligated to the town's county and town governments for a
+ * disaster, in cents: the federal share of the public assistance the
+ * declaration pays on its declared date. Zero where none was obligated.
+ */
+export function federalAidFor(api: CoreAPI, disasterNumber: number): number {
+  const rt = runtime(api);
+  if (!rt.county) return 0;
+  const row = (
+    assistance.byCountyDisaster as Record<
+      string,
+      { county: number; towns: Record<string, number> }
+    >
+  )[`${rt.county}|${disasterNumber}`];
+  return row ? row.county + (row.towns[rt.townName] ?? 0) : 0;
+}
+
 /** The declarations reaching this world's town, for tests and screens. */
 export function townDisasters(api: CoreAPI): readonly Disaster[] {
   const rt = runtime(api);
