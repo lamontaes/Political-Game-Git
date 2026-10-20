@@ -4212,7 +4212,8 @@
     "replacement": "The federal day opens the situation room on the crisis records (disasters first), with the cabinet secretary whose department answers it.",
     "addedBy": "OFFICE-FEDERAL",
     "addedAt": "2026-10-14",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "The federal day opens the situation room on the disasters engine's hazard.disaster records (crisesToday in src/core2/office-day-federal-president.ts): each incident stays listed for the situationRoomOpenDays after it begins, with the cabinet department that answers its type (Homeland Security by default, Health and Human Services for a biological incident, Agriculture for a drought) and its confirmed secretary, and the daily brief tells the president. Attacks and other national crises have no records yet; they join the list when an engine writes one."
   },
   {
     "id": "SG-OFFICE-FED-prepared",
