@@ -1510,9 +1510,12 @@ export function statementSpeechId(
 
 /** Where an ad is bought: an outlet and its followers (the press registers it). */
 let adOutlet:
-  | ((
-      api: CoreAPI,
-    ) => { organizationId: string; followerIds: readonly string[] } | null)
+  | ((api: CoreAPI) => {
+      organizationId: string;
+      followerIds: readonly string[];
+      /** Real adults who follow the outlet and are counted, not named people. */
+      countedFollowers?: number;
+    } | null)
   | null = null;
 export function registerAdOutlet(fn: typeof adOutlet): void {
   adOutlet = fn;
@@ -1529,6 +1532,8 @@ function adAudience(
 ): {
   readonly media: string;
   readonly viewers: readonly { p: PersonState }[];
+  /** Counted followers the same contacts reach: the rest of the buy after the named viewers. */
+  readonly countedViewers: number;
 } | null {
   const outlet = adOutlet?.(api) ?? null;
   if (!outlet) return null;
@@ -1540,7 +1545,28 @@ function adAudience(
     .filter((p): p is PersonState => p !== undefined)
     .slice(0, contacts)
     .map((p) => ({ p }));
-  return { media: outlet.organizationId, viewers };
+  // One model, two tiers: a counted follower is reached by the same contacts
+  // as a named one, a head counted for each real person the group stands for.
+  const countedViewers = Math.min(
+    outlet.countedFollowers ?? 0,
+    Math.max(0, contacts - viewers.length),
+  );
+  return { media: outlet.organizationId, viewers, countedViewers };
+}
+
+/**
+ * How many people an ad buy of this size reaches: the outlet's named
+ * followers first, then its counted ones, one contact each. For screens and
+ * tests; the buy itself is `runAd` or `buyAdTime`.
+ */
+export function adReach(
+  api: CoreAPI,
+  amountMinor: number,
+): { readonly named: number; readonly counted: number } {
+  const sold = adAudience(api, amountMinor);
+  return sold
+    ? { named: sold.viewers.length, counted: sold.countedViewers }
+    : { named: 0, counted: 0 };
 }
 
 /** Whether this world sells ad time: the campaigns engine is installed and open. */
@@ -1610,13 +1636,22 @@ export function runAd(
   if (amount <= 0) return [];
   const sold = adAudience(api, amount);
   if (!sold) return [];
-  const { media, viewers } = sold;
+  const { media, viewers, countedViewers } = sold;
   spend(api, input.filingId, {
     kind: "ad",
     sellerId: media,
     amountMinor: amount,
     citation: "Ad buy from the outlet's ad time",
   });
+  // The candidate's own ad is seen by the outlet's counted followers too; they
+  // count toward the town's recognition as the doors' and mail's counted adults do.
+  if (countedViewers > 0 && !input.attackFilingId) {
+    const after = campaignFor(api, input.filingId);
+    save(api, {
+      ...after,
+      countedReached: (after.countedReached ?? 0) + countedViewers,
+    });
+  }
   const target = input.attackFilingId
     ? campaignFor(api, input.attackFilingId)
     : campaign;

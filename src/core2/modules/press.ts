@@ -865,9 +865,11 @@ export function followersOf(api: CoreAPI, outletId: string): readonly string[] {
  * audience, television first where audiences tie. A national outlet's
  * audience in town is not sold to a town's race.
  */
-function adOutlet(
-  api: CoreAPI,
-): { organizationId: string; followerIds: readonly string[] } | null {
+function adOutlet(api: CoreAPI): {
+  organizationId: string;
+  followerIds: readonly string[];
+  countedFollowers: number;
+} | null {
   if (!api.state.modules.has(PRESS_MODULE_ID)) return null;
   const best = outletsHere(api)
     .filter((o) => o.tier !== "national")
@@ -879,7 +881,11 @@ function adOutlet(
         a.o.id.localeCompare(b.o.id),
     )[0];
   return best
-    ? { organizationId: best.o.organizationId, followerIds: best.followers }
+    ? {
+        organizationId: best.o.organizationId,
+        followerIds: best.followers,
+        countedFollowers: countedFollowersOf(api, best.o),
+      }
     : null;
 }
 
@@ -2197,7 +2203,7 @@ function writeProfile(
  * followers; for a national one, its kind's share of the town's counted
  * adults, split among the kind's outlets.
  */
-function countedFollowersOf(api: CoreAPI, outlet: OutletRow): number {
+export function countedFollowersOf(api: CoreAPI, outlet: OutletRow): number {
   // Counted once a week: the count reads every counted household.
   const cached = countedCache.get(api.state);
   if (
