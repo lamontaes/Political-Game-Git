@@ -35,7 +35,6 @@ import {
   WEB_VERSION,
   WIRED_INTO,
   type WebLink,
-  OUTCOME_WEB_MODULE_ID,
 } from "../outcome-web-model";
 import type { ModuleRow } from "../module-data";
 import type { CoreAPI, CoreEventInput, CoreModule, CoreState } from "../types";
