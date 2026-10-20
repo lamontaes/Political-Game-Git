@@ -61,5 +61,20 @@
     }
   ],
   "followUpMonths": [6, 18],
-  "highDepressionCutoff": "80th percentile of preloss CES-D z-scores; 49 high-baseline participants (M 1.61, SD 0.88), 156 low-baseline (M -0.39, SD 0.57)."
+  "highDepressionCutoff": "80th percentile of preloss CES-D z-scores; 49 high-baseline participants (M 1.61, SD 0.88), 156 low-baseline (M -0.39, SD 0.57).",
+  "evidence": {
+    "fetchedFrom": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=pubmed&id=12416919&rettype=abstract&retmode=text",
+    "retrievedOn": "2026-10-20",
+    "quotes": [
+      "This study gathered prospective data on 205 individuals several years prior to the death of their spouse and at 6- and 18-months postloss.",
+      "Common grief was relatively infrequent, and the resilient pattern most frequent."
+    ]
+  },
+  "parameterStatus": "SOURCED for the sample size (205), the five pattern names and the order (resilient most frequent, common grief infrequent), each quoted from the fetched abstract. ESTIMATED for the per-pattern shares: the abstract carries no counts and the full text was not reachable from the build environment, so the shares are carried from the paper's results table as recalled, with the spread below until the table is fetched.",
+  "shareSpread": {
+    "low": -0.05,
+    "high": 0.05,
+    "unit": "absolute share per pattern",
+    "citation": "estimate of recall error; the reported band (resilient + common-grief + depressed-improved = 0.668) reads as 0.62 to 0.72"
+  }
 }
