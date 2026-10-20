@@ -5,7 +5,7 @@ area: core
 kind: bug
 priority: 3
 size: S
-status: in-pr
+status: done
 claimed-by: claude/slow-world-test-timeouts
 pr: #5335
 blocked-on:
