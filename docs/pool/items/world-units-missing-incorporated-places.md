@@ -5,7 +5,7 @@ area: world
 kind: bug
 priority: 3
 size: S
-status: in-pr
+status: done
 claimed-by: claude/units-place-matches
 pr: #5053
 blocked-on:
