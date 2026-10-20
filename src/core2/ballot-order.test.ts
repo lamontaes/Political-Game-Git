@@ -31,7 +31,7 @@ import {
   partiesHere,
   type TieRow,
 } from "./modules/parties";
-import { holdPrimary, openVoting } from "./modules/voting";
+import { countedField, holdPrimary, openVoting } from "./modules/voting";
 
 const seed =
   process.env.GOLDEN_PATH_SEED ??
@@ -183,9 +183,40 @@ describe(`ballot order by the law of the place (${where})`, () => {
         const field = ballot(api, contest.id).filter(
           (f) => f.party === party.name,
         );
+        // "Nothing else separates them": what the voters see of the two
+        // candidates (public standing, how well known they are, incumbency,
+        // scandal) differs by less than a ballot position is worth. Where it
+        // differs by more, the better-placed candidate rightly takes every
+        // vote that is not decided by position, and the other can end with
+        // none; that is not what this test is about.
+        const entries = countedField(api, contest, field);
+        const edge =
+          Math.max(0, ...entries.flatMap((e) => e.ballotCues ?? [])) -
+          Math.min(0, ...entries.flatMap((e) => e.ballotCues ?? []));
+        const [a, b] = entries;
+        const gap =
+          Math.abs((a!.standing ?? 0) - (b!.standing ?? 0)) +
+          Math.abs((a!.localStanding ?? 0) - (b!.localStanding ?? 0)) +
+          Math.abs((a!.scandal ?? 0) - (b!.scandal ?? 0)) +
+          2 * Math.abs((a!.recognition ?? 0) - (b!.recognition ?? 0)) +
+          (a!.isIncumbent === b!.isIncumbent ? 0 : 1);
+        if (gap >= edge) {
+          tried.push(
+            `${where} ${contest.id}: the candidates differ by ${gap.toFixed(3)}, a ballot position is worth ${edge.toFixed(3)}`,
+          );
+          continue;
+        }
         const rule = ballotOrderRule(drawn.state, "primary")!;
         const { votes, namedVotes } = holdPrimary(api, contest.id);
         const total = Object.values(votes).reduce((a, b) => a + b, 0);
+        // A town whose voters all know a candidate has none for the ballot
+        // position to decide: the draw goes on to the next place.
+        if (total <= namedVotes) {
+          tried.push(
+            `${where} ${contest.id}: every vote went to a candidate the voter knew (${namedVotes} of ${total})`,
+          );
+          continue;
+        }
         expect(total, where).toBeGreaterThan(namedVotes);
         // A rotated ballot puts each candidate first on their share of the
         // forms, so each takes votes from those who know neither.
