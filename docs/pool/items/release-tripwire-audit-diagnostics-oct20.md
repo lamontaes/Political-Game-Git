@@ -5,9 +5,9 @@ area: core
 kind: bug
 priority: 2
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/tripwire-diagnostics
-pr:
+pr: #5594
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-20T07:43:23.614Z
