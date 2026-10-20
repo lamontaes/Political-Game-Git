@@ -22,3 +22,5 @@ claimed-at:
 **Files.** src/core2/modules/views.ts, src/core2/campaign-views.ts, src/core2/data/stopgaps.json
 
 **Notes.** From claude/political-game-pool-yucp92-ah, which claimed people-opening-stance-formation and found most of it built on claude/stance-from-loadings. Build this on top of that branch once it merges.
+
+Sent back 2026-10-20 from PR #5625 (branch claude/political-game-pool-yucp92-ah): Merging current origin/main conflicts in data/research/people/opening-stance-loadings.json, scripts/research/build-stance-loadings.py, and src/core2/modules/views.ts, plus stopgaps.json. Resolve the generator and code conflicts and regenerate the data on this branch, then rerun the changed-file gate. Its parent #5495 remains open, so this fixer stays based there and will not complete a pool item on a branch merge.; finish on that branch, merge main into it first.
