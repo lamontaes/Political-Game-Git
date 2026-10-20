@@ -4,13 +4,13 @@ title: "Stopgaps in press (missing-mechanic): 4 open"
 area: gov
 kind: stopgap
 priority: 3
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/political-game-pool-3xfqef
 pr: #5273
 blocked-on:
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/modules/press.ts, kind missing-mechanic"
-claimed-at:
+claimed-at: 2026-10-20T06:40:09.880Z
 ---
 
 **What.** Replace or clear the 4 open missing-mechanic stopgap row(s) in src/core2/modules/press.ts: SG-PEOPLE-press-interview-conversation, SG-PEOPLE-press-favors-and-leaks, SG-PEOPLE-press-endorsements, SG-PEOPLE-press-employer-enrollment. Each fake is replaced by the mechanic, or the feature that needs it is deleted.
