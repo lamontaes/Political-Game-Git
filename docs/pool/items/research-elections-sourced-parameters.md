@@ -5,11 +5,12 @@ area: elections
 kind: research
 priority: 2
 size: M
-status: blocked
+status: open
 claimed-by:
 pr:
 blocked-on:
 source: "collapsed Oct 19, 2026 from elections-stopgap-campaigns-missing-data, elections-stopgap-elections-estimated-calendar, elections-stopgap-elections-missing-data, elections-stopgap-voting-missing-data"
+claimed-at: 
 ---
 
 **What.** Apply the sourced rows in docs/research/pool-feeder-oct20/research-elections-sourced-parameters.md to the parameter table(s) and data files for sourced parameters for elections, campaigns and voting. Each row already carries a value, a low and high spread, a tag (SOURCED or ESTIMATED) and a citation, so the builder enters them, adds a reader for each research file, and resolves these stopgap rows in src/core2/data/stopgaps.json: SG-GOV-campaign-pollster-seller, SG-GOV-campaign-mail-seller, SG-GOV-campaign-venue-seller, SG-GOV-filing-deadline-estimate, SG-GOV-filing-fallbacks, SG-GOV-polling-place-kind, SG-GOV-ballot-order-estimates. Rows tagged mechanic name a change the area's builder makes to read the sourced inputs; build the simplest version and register what remains.
