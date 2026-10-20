@@ -72,7 +72,8 @@
       "source": "Raphael and Winter-Ebmer 2001 (JLE)",
       "from": "labor.unemployment-pct",
       "evidence": "researched",
-      "range": [0.02, 0.05]
+      "range": [0.02, 0.05],
+      "notes": "Raphael and Winter-Ebmer estimate crime rates on unemployment in a state panel (1970 to 1993, instrumented with defense contracts and oil price shocks), so they report no split by income, age, household kind or tenure (abstract and replication summaries read; the journal text was not reachable)."
     },
     {
       "key": "unemployment-to-vandalism",
@@ -110,7 +111,8 @@
       "anchor": "Violent offenses respond much less than property offenses",
       "source": "Raphael and Winter-Ebmer 2001",
       "from": "labor.unemployment-pct",
-      "evidence": "provisional"
+      "evidence": "provisional",
+      "notes": "Raphael and Winter-Ebmer estimate crime rates on unemployment in a state panel (1970 to 1993, instrumented with defense contracts and oil price shocks), so they report no split by income, age, household kind or tenure (abstract and replication summaries read; the journal text was not reachable)."
     },
     {
       "key": "unemployment-to-assault",
@@ -129,7 +131,8 @@
       "anchor": "Violent crime responds weakly to unemployment",
       "source": "Raphael and Winter-Ebmer 2001",
       "from": "labor.unemployment-pct",
-      "evidence": "provisional"
+      "evidence": "provisional",
+      "notes": "Raphael and Winter-Ebmer estimate crime rates on unemployment in a state panel (1970 to 1993, instrumented with defense contracts and oil price shocks), so they report no split by income, age, household kind or tenure (abstract and replication summaries read; the journal text was not reachable)."
     },
     {
       "key": "police-to-violent-crime",
@@ -473,7 +476,7 @@
       "source": "Farmer 2019 (Traffic Injury Prevention; IIHS); Ashenfelter and Greenstone 2004 (JPE); FHWA Highway Statistics 2022, Table FI-220",
       "from": "roads.rural-interstate-speed-limit",
       "evidence": "researched",
-      "notes": "Acts: each place's highest rural-interstate speed limit (IIHS, October 2026) and its traffic deaths per 100 million miles (NHTSA FARS via IIHS, 2024) are recorded and drift from those starting values, and the death rate moves 0.76% for each mile per hour of change in the limit.",
+      "notes": "Acts: each place's highest rural-interstate speed limit (IIHS, October 2026) and its traffic deaths per 100 million miles (NHTSA FARS via IIHS, 2024) are recorded and drift from those starting values, and the death rate moves 0.76% for each mile per hour of change in the limit. Farmer 2019 (IIHS) reports the fatality effect by road type (8.5 percent per 5 mph on interstates and freeways, 2.8 percent on other roads); the share of young drivers is only a control, so there is no split by age, income or household kind.",
       "range": [0.0056, 0.017]
     },
     {
@@ -495,7 +498,7 @@
       "from": "env.particulates:pct-of-start",
       "evidence": "researched",
       "range": [0.0035, 0.0065],
-      "notes": "Chay and Greenstone (NBER w10053) report no split of the infant mortality effect by income, mother's age or household kind (only by timing of death and county attainment status)."
+      "notes": "Chay and Greenstone (NBER w10053) report the infant mortality effect for all births and by timing of death, and mention race only as a control and for the black infants' sampling error; there is no split by income or mother's age or household kind."
     },
     {
       "key": "congestion-to-premature-births",
@@ -1087,7 +1090,7 @@
       "from": "labor.minimum-wage-to-median",
       "evidence": "contested",
       "range": [-0.5, 0],
-      "notes": "The cause is read: the state's minimum wage in force over the place's recorded median earnings spread over a 2,080-hour year (outcome-web labor.minimum-wage-to-median). Median earnings include part-year workers, so the ratio reads a little above one built on full-time hourly pay. Waiting on its outcome: low-wage jobs are not a kept place outcome, so nothing moves until a producer reads this link."
+      "notes": "The cause is read: the state's minimum wage in force over the place's recorded median earnings spread over a 2,080-hour year (outcome-web labor.minimum-wage-to-median). Median earnings include part-year workers, so the ratio reads a little above one built on full-time hourly pay. Waiting on its outcome: low-wage jobs are not a kept place outcome, so nothing moves until a producer reads this link. Cengiz, Dube, Lindner and Zipperer (QJE 2019) report that employment effects across age, education and exposure-probability groups are \"mostly close to zero and not statistically significant\" and the responses similar across demographic groups, so no moderator is set."
     },
     {
       "key": "unemployment-to-poverty",
@@ -1879,7 +1882,7 @@
       "from": "tax.property-rate",
       "evidence": "contested",
       "range": [0.02, 0.18],
-      "notes": "Sized, with its cause recorded and its outcome missing: each place's effective property tax rate on homes is now a place outcome (Tax Foundation, 2024), but rent is not a kept place outcome, so the link moves nothing until one is produced."
+      "notes": "Sized, with its cause recorded and its outcome missing: each place's effective property tax rate on homes is now a place outcome (Tax Foundation, 2024), but rent is not a kept place outcome, so the link moves nothing until one is produced. Tsoodle and Turner (Real Estate Economics 2008) estimate one pass-through of the property tax rate into rent for renters in 14 cities and report no split by renter income, household kind or tenure within renters."
     },
     {
       "key": "transit-loss-to-unemployment",
@@ -2269,7 +2272,8 @@
       "anchor": "About +6% infant mortality 2021-2023",
       "source": "Gemmill et al. 2025 (JAMA)",
       "from": "law:us-policy-positions:civil-family-community.restrict-abortion",
-      "evidence": "researched"
+      "evidence": "researched",
+      "notes": "Gemmill et al. (JAMA Pediatrics 2025) report the Texas infant and neonatal mortality increase for all births and state that \"available data did not enable us to investigate maternal or clinical characteristics of infant deaths\", so there is no split by age, income or household kind."
     },
     {
       "key": "abortion-denied-to-financial-distress",
@@ -3175,7 +3179,8 @@
       "evidence": "researched",
       "from": "law:us-policy-positions:environment-energy.clean-electricity-standard",
       "to": "energy.electricity-price",
-      "range": [0.03, 0.17]
+      "range": [0.03, 0.17],
+      "notes": "Greenstone and Nath report the retail price effect as a state average (11 percent higher seven years after an RPS, 17 percent at twelve years) per EPIC and BFI summaries; no split by income, tenure or household kind was found in the summaries read (full paper not reached)."
     },
     {
       "key": "flood-zone-limits-to-damage",
@@ -3287,7 +3292,7 @@
       "from": "law:us-federal-positions:labor-commerce.raise-federal-minimum-wage",
       "to": "labor.low-wage-jobs",
       "range": [-0.16, 0],
-      "notes": "Unsupported: the study's 8% is jobs lost among workers who earned under $15, a group a $15 minimum empties by definition, so a state base of jobs paying under $15 would read zero once the law is in force whatever happened to employment; the outcome needs a count of those workers' jobs, which the game does not keep."
+      "notes": "Unsupported: the study's 8% is jobs lost among workers who earned under $15, a group a $15 minimum empties by definition, so a state base of jobs paying under $15 would read zero once the law is in force whatever happened to employment; the outcome needs a count of those workers' jobs, which the game does not keep. Cengiz, Dube, Lindner and Zipperer (QJE 2019) report that employment effects across age, education and exposure-probability groups are \"mostly close to zero and not statistically significant\" and the responses similar across demographic groups, so no moderator is set. CBO reports the estimate for all workers."
     },
     {
       "key": "mandatory-minimum-cut-to-federal-prisoners",
@@ -3770,7 +3775,8 @@
       "reverseOnRepeal": "Repeal stops prospective award authority. It does not erase the award already paid or the pupil prior instruction. A subsequent return to another school needs a household decision and enrollment record.",
       "who": "Voucher-using pupils and their households, with school/provider-specific effects; nonparticipants cannot be assigned the recipient estimate.",
       "lagWhy": "The existing12-month lag represents a school year before assessment. Verify the cited voucher study follow-up and treatment group; a state-wide diluted coefficient is not the trial estimate.",
-      "aboutZero": false
+      "aboutZero": false,
+      "notes": "Abdulkadiroglu, Pathak and Walters (NBER w21839, section 3.6) find the Louisiana voucher effects \"similar across family income levels\" and report larger losses for younger children by grade (3 to 5: -0.62 standard deviations in math; 6 to 8: -0.21), which the subject does not carry; Wolf et al. 2013 (DC) find no significant math subgroup differences, so no moderator is set."
     },
     {
       "key": "vouchers-to-graduation",
@@ -3812,7 +3818,8 @@
       "reverseOnRepeal": "Repeal can remove funding for future enrollment choices. Previously completed schooling remains; a remaining pupil graduation consequence depends on their later school path.",
       "who": "Actual voucher participants in the study cohorts; statewide graduation requires measured participation and cohort shares.",
       "lagWhy": "The existing48-month lag approximates later graduation, but the pupil grade and cited follow-up define when completion could actually change.",
-      "aboutZero": false
+      "aboutZero": false,
+      "notes": "Wolf et al. 2013 (JPAM, DC Opportunity Scholarship Program) report graduation gains by subgroup (13 points for students from schools in need of improvement, 20 for female students, none significant for male students or lower performers) on fields the subject does not carry (school status, sex for schools, baseline score), so no moderator is set."
     },
     {
       "key": "poverty-to-math-proficiency",
@@ -3896,7 +3903,8 @@
       "evidence": "researched",
       "range": [0.01, 0.01],
       "floor": 0.25,
-      "ceiling": 3
+      "ceiling": 3,
+      "notes": "Internal link from the design record, with no research source behind it, so there is no reported split by income, age, household kind or tenure."
     },
     {
       "key": "crime-level-to-robbery",
@@ -3918,7 +3926,8 @@
       "evidence": "researched",
       "range": [0.01, 0.01],
       "floor": 0.25,
-      "ceiling": 3
+      "ceiling": 3,
+      "notes": "Internal link from the design record, with no research source behind it, so there is no reported split by income, age, household kind or tenure."
     },
     {
       "key": "crime-level-to-assault",
@@ -3940,7 +3949,8 @@
       "evidence": "researched",
       "range": [0.01, 0.01],
       "floor": 0.25,
-      "ceiling": 3
+      "ceiling": 3,
+      "notes": "Internal link from the design record, with no research source behind it, so there is no reported split by income, age, household kind or tenure."
     },
     {
       "key": "crime-level-to-vandalism",
@@ -3982,7 +3992,8 @@
       "anchor": "The place's drifting birth level scales births one for one.",
       "source": "Spec part 6: the entire world changes",
       "evidence": "researched",
-      "range": [0.01, 0.01]
+      "range": [0.01, 0.01],
+      "notes": "Internal link from the design record, with no research source behind it, so there is no reported split by income, age, household kind or tenure."
     },
     {
       "key": "right-to-work-to-turnout",
@@ -4075,7 +4086,8 @@
         "months": 6,
         "evidenceLimit": "Inherited repository source/anchor read; primary study verification and any new conversion remain Team9 research work."
       },
-      "aboutZero": false
+      "aboutZero": false,
+      "notes": "Dee and Pyne (Science Advances 2022) estimate the effect for Denver precincts by month and spillover to neighboring precincts and report no split by income, age, household kind or tenure of residents."
     },
     {
       "key": "curriculum-standards-to-math",
@@ -4500,7 +4512,8 @@
       "evidence": "contested",
       "anchor": "States that adopted right-to-carry laws had 13 to 15% more violent crime ten years on than their synthetic controls. The study compares shall-issue with may-issue permits, so it is a proxy for requiring a permit at all",
       "source": "Donohue, Aneja and Weber 2019, Journal of Empirical Legal Studies 16(2); RAND Science of Gun Policy",
-      "from": "law:us-policy-positions:justice-public-safety.permit-to-carry-concealed"
+      "from": "law:us-policy-positions:justice-public-safety.permit-to-carry-concealed",
+      "notes": "Donohue, Aneja and Weber (NBER w23510) estimate state crime rates and use age-sex-race population shares only as controls, so they report no split by income, age, household kind or tenure; RAND's review summarizes the same state-level estimates."
     },
     {
       "strength": "about-zero",
@@ -5008,7 +5021,8 @@
       "evidence": "researched",
       "anchor": "Transit ridership's elasticity with respect to fares is -0.2 to -0.5 in the first year. A fare falling to zero is read on the semi-log curve the paper recommends for fares near zero, where ridership rises by e to the elasticity: 22% to 65%, 42% at the middle of the range. Long-run elasticities of -0.6 to -0.9 would give more, so this is the first year's effect, held.",
       "source": "Litman 2025, Transit Price Elasticities and Cross-Elasticities, Victoria Transport Policy Institute, Table 15 and page 9",
-      "range": [0.22, 0.65]
+      "range": [0.22, 0.65],
+      "notes": "Litman (Victoria Transport Policy Institute, Transit Price Elasticities and Cross-Elasticities) says transit-dependent riders (low income, non-drivers, students, elderly) are less price sensitive than choice riders but gives no elasticities by group, so no weights are set."
     },
     {
       "key": "cannabis-sales-to-overdose-deaths",
@@ -5241,7 +5255,8 @@
       "evidence": "researched",
       "anchor": "Each 1% more transit service raises ridership about 0.5%: the elasticity with respect to service frequency averages 0.5, typical urban systems with 30-minute or better headways run about 0.30, and expanding routes into new areas typically gives 0.6 to 1.0. New service takes 1 to 3 years to reach its full ridership, so this acts from the first year. Only the part of service that laws and other causes moved is read, so service's own drift, which ridership's drift already stands for, is not counted twice.",
       "source": "Litman, Transit Price Elasticities and Cross-Elasticities, Victoria Transport Policy Institute, June 17, 2025, page 12 (Service Elasticities), https://www.vtpi.org/tranelas.pdf",
-      "range": [0.003, 0.01]
+      "range": [0.003, 0.01],
+      "notes": "Litman (Victoria Transport Policy Institute, Transit Price Elasticities and Cross-Elasticities) says transit-dependent riders (low income, non-drivers, students, elderly) are less price sensitive than choice riders but gives no elasticities by group, so no weights are set."
     },
     {
       "key": "federal-deficit-to-borrowing-cost",
