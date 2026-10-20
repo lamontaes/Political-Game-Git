@@ -5,13 +5,13 @@ area: world
 kind: wiring
 priority: 2
 size: M
-status: in-pr
-claimed-by: claude/world-accounts-api
+status: open
+claimed-by:
 pr: #5176
 blocked-on:
 after: core-finance-contracts-vs-obligations
 source: "core-needs-core-172 triage, Oct 15"
-claimed-at: 2026-10-19T21:58:11.349Z
+claimed-at:
 ---
 
 **What.** The first half of this item is already true: business, credit and housing move every dollar through `accounts.transfer` by way of `transferCash` (src/core2/world-transfer.ts), and a played year shows thousands of their entries on the journal (see Notes). Rent is also already a standing contract with arrears: housing holds each lease as a `finance.contracts` row with `arrearsMinor`, which is the core's older twin of `accounts.addObligation`. What is left in the world area is credit: each loan's monthly payment is recomputed in `serviceLoans` from the declining balance and tracked in the loan row (late, past due, charged off), not as a standing payment. Move credit's scheduled loan payments onto the shared payment layer once the core decides which layer that is (see core-finance-contracts-vs-obligations), and have the lender read the arrears at the moment it decides.
