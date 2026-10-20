@@ -302,10 +302,7 @@ const outletsCache = new Map<string, number>();
  * county's establishments of the kinds that stand for it (rounded, at least
  * one because an adult in town needs an employer), else the authored count.
  */
-export function workplaceOutlets(
-  town: EntityId,
-  workplace: Workplace,
-): number {
+export function workplaceOutlets(town: EntityId, workplace: Workplace): number {
   const kinds = OUTLET_BUSINESS_KINDS[workplace.key];
   if (!kinds) return workplace.outlets;
   const cacheKey = `${town}:${workplace.key}`;
@@ -1141,11 +1138,7 @@ export function townEmployerOutlets(
     else if (outlet >= workplaceOutlets(town, workplace)) later.push(outlet);
   }
   const outlets: number[] = [];
-  for (
-    let outlet = 0;
-    outlet < workplaceOutlets(town, workplace);
-    outlet += 1
-  )
+  for (let outlet = 0; outlet < workplaceOutlets(town, workplace); outlet += 1)
     if (!closed.has(outlet)) outlets.push(outlet);
   return [...outlets, ...later.sort((a, b) => a - b)];
 }

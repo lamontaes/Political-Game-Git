@@ -66,11 +66,13 @@ const town = townPlaceOf(core);
 const counted = residentCounts(core).find((r) => r.placeId === town);
 const kinds = new Map();
 for (const o of core.organizations.values())
-  if (o.placeId === town &&
+  if (
+    o.placeId === town &&
     o.kind === "employer" &&
     !o.outsideFlow &&
     !o.publicPayAuthority &&
-    !o.governmentFacts)
+    !o.governmentFacts
+  )
     kinds.set(o.kind, (kinds.get(o.kind) ?? 0) + 1);
 const supply =
   localBusinessSupplyFor(world.place.context.jurisdiction.id) ?? [];
