@@ -688,9 +688,14 @@ function portfolios(
         throw new Error(
           "Outside account mode or partition metadata is inconsistent.",
         );
-      if (live.allocatedMinor !== undefined)
+      // The shape check is bookkeeping; the commit writes the field in play too.
+      if (live.allocatedMinor !== undefined && bookkeeping())
         directField(live, "allocatedMinor");
-      const snapshot = { ...live, source: { ...live.source } };
+      // The copy exists to prove the live row didn't move before commit
+      // (bookkeeping); play reads the live row, which the projection never writes.
+      const snapshot = bookkeeping()
+        ? { ...live, source: { ...live.source } }
+        : live;
       accounts.set(id, snapshot);
       rows.push({ live, snapshot, source: live.source });
       if ((id === residualId) !== (live.allocatedMinor === undefined))
