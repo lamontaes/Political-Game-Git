@@ -5,10 +5,10 @@ area: words
 kind: wiring
 priority: 3
 size: S
-status: open
+status: blocked
 claimed-by:
 pr:
-blocked-on:
+blocked-on: director-speech-builder-occasion
 source: added with npm run pool -- add
 ---
 

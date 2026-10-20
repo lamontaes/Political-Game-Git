@@ -53,7 +53,12 @@ import {
   applySocialSecurityLevel,
   closeTreasuries,
   notePublicPay,
+  sameGovernment,
 } from "../budgets-treasury";
+import {
+  federalJurisdictionId,
+  stateJurisdictionId,
+} from "../government-jurisdictions";
 import { syncServiceCharges } from "../budgets-service-charges";
 
 export const BUDGETS_MODULE_ID = "core2-budgets-v1";
@@ -294,6 +299,12 @@ function government(
   // employers are outside payers with no cash; their pay should draw from
   // this treasury once the core links them (needs OPUS-CORE).
   const organizationId = `organization:treasury:${row.id}`;
+  const jurisdictionId =
+    row.level === "federal"
+      ? federalJurisdictionId()
+      : row.level === "state"
+        ? stateJurisdictionId(row.id)
+        : undefined;
   if (!api.state.organizations.has(organizationId))
     api.addOrganization({
       id: organizationId,
@@ -306,7 +317,11 @@ function government(
         citation: "U.S. Census Bureau, 2025 government units listing",
         asOf: api.state.date,
       },
-      governmentFacts: { governmentKey: unitId ?? row.id },
+      governmentFacts: {
+        governmentKey: unitId ?? row.id,
+        // A state's and the nation's offices name their government by jurisdiction.
+        ...(jurisdictionId ? { governmentJurisdictionId: jurisdictionId } : {}),
+      },
     });
   const full = { ...row, organizationId };
   table(api, "governments").put(full as unknown as ModuleRow);
@@ -497,12 +512,9 @@ export function openBudgets(core: CoreState): readonly GovernmentRow[] {
   // cover is a record the month's close reads (public-pay shortfall).
   for (const employer of core.organizations.values()) {
     const authority = employer.publicPayAuthority;
-    const key = employer.governmentFacts?.governmentKey;
-    if (!authority || !key) continue;
-    const treasury = govs.find(
-      (g) =>
-        core.organizations.get(g.organizationId)?.governmentFacts
-          ?.governmentKey === key,
+    if (!authority) continue;
+    const treasury = govs.find((g) =>
+      sameGovernment(employer, core.organizations.get(g.organizationId)!),
     );
     if (treasury)
       api.fundPublicPay(authority.id, treasury.organizationId, employer.source);

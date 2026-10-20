@@ -5,10 +5,10 @@ area: director
 kind: wiring
 priority: 3
 size: S
-status: open
+status: blocked
 claimed-by:
 pr:
-blocked-on:
+blocked-on: a play producer of built speeches
 source: added with npm run pool -- add
 ---
 

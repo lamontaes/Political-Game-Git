@@ -4,7 +4,7 @@ title: "District projects (community project funding):"
 area: office
 kind: feature
 priority: 2
-status: in-pr
+status: done
 claimed-by: claude/community-projects
 pr: #5170
 blocked-on:
@@ -22,3 +22,5 @@ claimed-at: 2026-10-19T21:42:56.395Z
 **Files.** src/core2/office-day-federal.ts, src/core2/modules/legislature.ts, src/core2/modules/budgets.ts, src/core2/data/legislature/bill-catalog.json
 
 **Notes.** Checklist line from OFFICE-FEDERAL.md; verify against main before starting.
+
+Oct 20: PR #5170 merged to main: a member's request becomes a bill line and a grant to the recipient's treasury; the politics-screen request act, its wording and the contractor-to-resident chain are left over.

@@ -5,12 +5,12 @@ area: world
 kind: bug
 priority: 2
 size: M
-status: in-pr
-claimed-by: claude/press-owner-household
+status: claimed
+claimed-by: claude/political-game-pool-yucp92-ww
 pr: #5050
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-18T11:09:06.443Z
+claimed-at: 2026-10-20T05:44:17.663Z
 ---
 
 **What.** TODO
@@ -22,3 +22,5 @@ claimed-at: 2026-10-18T11:09:06.443Z
 **Files.** TODO
 
 **Notes.** TODO
+
+Sent back 2026-10-20 from PR #5050 (branch claude/press-owner-household): the campaign-interview test excludes newly affected owners and staff so it passes; cover their filing eligibility explicitly and preserve interview assertions; finish on that branch, merge main into it first.

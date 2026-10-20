@@ -1480,7 +1480,6 @@ export function createDrivesModule(
               out.push(driveOffer(api, action, id, drive));
         return out;
       },
-      "unbuilt-system": () => [],
     },
     eligibilityRules: {
       "no-known-group-on-topic": (api, actor, offer) => {
@@ -1709,11 +1708,6 @@ export function createDrivesModule(
             offer.targetId,
             [offer.targetId],
           ),
-        );
-      },
-      "unbuilt-system": () => {
-        throw new Error(
-          "No core2 system exists for this act; it is never offered.",
         );
       },
     },

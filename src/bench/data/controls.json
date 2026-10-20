@@ -21,8 +21,7 @@
     "veto": "Veto",
     "case": "Case",
     "speak": "Spoke",
-    "state-of-the-city": "State of the city",
-    "send-budget": "Send the budget"
+    "state-of-the-city": "State of the city"
   },
   "endedBy": {
     "start": "Shift starts",
