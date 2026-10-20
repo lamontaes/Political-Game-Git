@@ -4,7 +4,7 @@ title: "Stopgaps in opening-private-tuition (aggregate-spending): 1 open"
 area: core
 kind: stopgap
 priority: 3
-status: blocked
+status: open
 claimed-by:
 pr: #5294
 blocked-on: core-private-tuition-yearly-reenrollment
@@ -22,3 +22,5 @@ claimed-at:
 **Files.** src/core2/opening-private-tuition.ts
 
 **Notes.** First row: Each household with school-age children pays its children's share of the town's private tuition (the national private share times the average tuition) to the town's private school; no family chooses a school, and no chil
+
+Oct 20 (claude): unblocked. The yearly re-ranking (#5504) and the counted families in it (#5633) are in PR, so what is left of SG-CORE-private-tuition-average is the owner ruling (OWNER-DECISIONS, Private school #5483): beliefs, the schools nearby and a child needs decide, not only money. Plan: add a belief term to the August ranking score from the household head view on `education.public-funds-for-private-schooling` (`viewOn` with `personLean`, which already calibrates over counted voters through `countedSources`; a counted head is built with `store.personInput` once a year), a schools-nearby term from the private schools in town (and the public school the child attends), and a needs term from the child records. Missing before building: a SOURCED size for how far belief shifts enrollment (for example NHES or PSS enrollment by parent faith or political lean); without it the weights would be invented numbers. Research that first (research-habit), then build; the ranking code is `reenrollPrivateTuition` in private-tuition-reenroll.ts and `countedSchoolFamilies` in modules/residents.ts.
