@@ -5,7 +5,7 @@ area: release
 kind: bug
 priority: 1
 size: S
-status: in-pr
+status: done
 claimed-by: claude/fix-release-decl-stopgaps
 pr: #5739
 blocked-on:
