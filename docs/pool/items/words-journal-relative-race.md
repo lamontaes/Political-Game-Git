@@ -8,7 +8,7 @@ size: M
 status: blocked
 claimed-by:
 pr:
-blocked-on: PR #5647 (words-authored-parts-shippable-sweep) is not merged: until it holds the authored parts, main still ships them and the slot is not empty; the replacement lines then need the civic-prose editorial review or a rebuilt mining corpus (46,191 documents, outside the repo)
+blocked-on: PR 5647 (words-authored-parts-shippable-sweep) is an unmerged draft, 'do not merge as is'; on main the lines still ship as authored shippable parts, so the slot is not empty and the rewritten test in the done-when does not exist yet. Needs the owner to grade the lines (the 5647 decision).
 source: added with npm run pool -- add
 ---
 
