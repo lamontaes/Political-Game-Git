@@ -1,0 +1,2 @@
+
+Oct 20 (research-reachable-sources-oct20): unblocked. Tract and block-group population shares come from the bulk files under https://www2.census.gov/programs-surveys/acs/summary_file/2023/table-based-SF/ and the Census Gazetteer at https://www2.census.gov/geo/docs/maps-data/data/gazetteer/2023_Gazetteer/ (both HTTP 200 from a cloud session). The done-when stands: a played world (buildBenchWorld), a drawn place and seed named in the PR body.
