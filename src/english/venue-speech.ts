@@ -85,7 +85,8 @@ export function wordVenueSpeech(
   const facts: Record<string, GroundedEnglishFact> = {
     name: {
       text: `${person.givenName} ${person.familyName}`,
-      sourceRecordIds: own,
+      // The speaker, and the record the speech is given on (a vote, a count).
+      sourceRecordIds: [...own, ...rest],
     },
   };
   const place = corePlaceByJurisdictionId(person.placeId as never);
