@@ -4,10 +4,10 @@ title: "Stopgaps in finance (estimated-mechanism): 1 open"
 area: world
 kind: stopgap
 priority: 3
-status: open
+status: blocked
 claimed-by:
 pr:
-blocked-on:
+blocked-on: research data: the row's replacement needs recorded, empirical or sourced data (Recorded household contracts and institution accounts, tested bankruptcy/closure policy and matched economic observables....)
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/data/finance.json, kind estimated-mechanism"
 ---
