@@ -295,7 +295,7 @@ registerLinePayments((api, gov) => {
  * is no longer wanted, or whose amount changed, is ended; a new or changed one
  * opens from tomorrow, a month at a time. A treasury pays what it holds.
  */
-function reconcileObligations(
+export function reconcileObligations(
   api: CoreAPI,
   input: {
     readonly rowKind: "benefit" | "voucher";
@@ -377,14 +377,21 @@ function monthsBetween(from: string, to: string): number {
   return to.slice(8, 10) < from.slice(8, 10) ? months - 1 : months;
 }
 
+/** The months ("YYYY-MM") a person has drawn the benefit under the work requirement. */
+interface DrawRow {
+  readonly id: string;
+  readonly key: string;
+  readonly months: readonly string[];
+}
+
 /**
- * Those the work requirement has stopped paying. The clock starts the day the
- * benefit first paid under the requirement (7 U.S.C. 2015(o)(2): three months
- * in any 36), the same clock for everyone reached; the ids are returned so the
- * caller keeps them off the pay list, and each named person's stop is recorded
- * with the law row that caused it.
+ * Those the work requirement has stopped paying (7 U.S.C. 2015(o)(2): three
+ * months in any 36). Each person's own months of benefit under the
+ * requirement count against their own window, from the day it took effect;
+ * the ids are returned so the caller keeps them off the pay list, and each
+ * named person's stop is recorded with the law row that caused it.
  */
-function timeLimitedNow(
+export function timeLimitedNow(
   api: CoreAPI,
   governmentId: string,
   key: string,
@@ -393,24 +400,19 @@ function timeLimitedNow(
   const stopped = new Set<string>();
   if (!limit) return stopped;
   const today = api.state.date;
-  const clockId = `clock|${key}|${governmentId}`;
-  const clock =
-    getRow<{ id: string; startedOn: string }>(api, "taken", clockId) ??
-    (() => {
-      const row = {
-        id: clockId,
-        key: `clock|${key}`,
-        startedOn: today > limit.since ? today : limit.since,
-      };
-      putRow(api, "taken", row);
-      return row;
-    })();
-  const start = clock.startedOn < limit.since ? limit.since : clock.startedOn;
-  const cyclePosition =
-    monthsBetween(start, today) %
-    reachParameter("snapWorkTimeLimitWindowMonths");
-  if (cyclePosition < reachParameter("snapWorkTimeLimitMonths")) return stopped;
+  const allowed = reachParameter("snapWorkTimeLimitMonths");
+  const window = reachParameter("snapWorkTimeLimitWindowMonths");
+  const thisMonth = today.slice(0, 7);
   for (const id of limit.reachedIds) {
+    const drawn = (
+      getRow<DrawRow>(api, "taken", `draw|${id}`)?.months ?? []
+    ).filter(
+      (m) =>
+        m !== thisMonth &&
+        m >= limit.since.slice(0, 7) &&
+        monthsBetween(`${m}-01`, today) < window,
+    );
+    if (drawn.length < allowed) continue;
     stopped.add(id);
     if (api.state.people.has(id))
       putRow(api, "taken", {
@@ -422,6 +424,26 @@ function timeLimitedNow(
       });
   }
   return stopped;
+}
+
+/** Those who draw this month under the requirement have the month counted against their own limit. */
+export function recordDraws(
+  api: CoreAPI,
+  limit: AssistanceTimeLimit | null | undefined,
+  drawing: Iterable<string>,
+): void {
+  if (!limit) return;
+  const month = api.state.date.slice(0, 7);
+  for (const id of drawing) {
+    if (!limit.reachedIds.has(id)) continue;
+    const row = getRow<DrawRow>(api, "taken", `draw|${id}`);
+    if (row?.months.includes(month)) continue;
+    putRow(api, "taken", {
+      id: `draw|${id}`,
+      key: "draw",
+      months: [...(row?.months ?? []), month],
+    } satisfies DrawRow);
+  }
 }
 
 /**
@@ -459,6 +481,11 @@ export function payBenefits(
     // the line's money goes to those still drawing.
     const limited = timeLimitedNow(api, govId, input.key, input.timeLimit);
     const drawing = input.heads.filter((h) => !limited.has(h.id));
+    recordDraws(
+      api,
+      input.timeLimit,
+      drawing.map((h) => h.id),
+    );
     const named = drawing.filter((h) => h.named);
     // Real heads: a counted row stands for as many households as its weight says.
     const everyone = drawing.reduce((n, h) => n + (h.scale ?? 1), 0);
