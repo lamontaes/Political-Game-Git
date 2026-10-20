@@ -1633,6 +1633,10 @@ function checkedText(
   );
   // The state's grant (or refusal) of local income-tax authority was read for
   // this body: it is the body the law lets tax, or keeps from taxing.
+  if (!stateBody) {
+    // stopgapId: SG-LAW-local-income-tax-authority-change
+    api.stopgap("SG-LAW-local-income-tax-authority-change");
+  }
   if (!stateBody)
     for (const [index, p] of provisions.entries()) {
       const read = authority[index]!;

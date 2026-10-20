@@ -89,6 +89,8 @@ interface PolicyDef {
   readonly enforcer: string;
   readonly source: string;
   readonly stopgapId?: string;
+  /** The engine that applies the law records whom it reached (lawApplied); no reach output is written here. */
+  readonly appliedByEngine?: boolean;
 }
 
 interface LineDef {
@@ -510,7 +512,7 @@ function runPolicy(
     def,
     input,
     inForce,
-    inForce
+    inForce && !def.appliedByEngine
       ? reachOf(api, {
           people: def.people,
           organizations: def.organizations,

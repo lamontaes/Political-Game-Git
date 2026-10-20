@@ -288,6 +288,8 @@ export function settleEstate(
 ): readonly { toId: string; amountMinor: number }[] {
   const person = api.state.people.get(personId);
   if (!person || person.alive) return [];
+  // stopgapId: SG-LAW-estates-counted-people
+  api.stopgap("SG-LAW-estates-counted-people");
   const accounts = api.accounts();
   const from = accounts.main(personId);
   // Benefits, pensions and other standing payments to them stop with their death.

@@ -4867,5 +4867,29 @@
     "addedAt": "2026-10-17",
     "replacement": "Each department's employing government read from the Census of Governments employment file by function, so a county health department, a fire district or a state agency's field office pays its own staff.",
     "status": "open"
+  },
+  {
+    "id": "SG-LAW-estates-counted-people",
+    "kind": "faked-mechanic",
+    "file": "src/core2/estates.ts",
+    "line": 292,
+    "whatItFakes": "Estate and inheritance taxes reach only full people: a counted resident who dies leaves no estate, so the wider population pays no death tax and its heirs are not taxed.",
+    "why": "The counted tier has no estates engine: counted deaths remove people from their group without settling an estate, heirs or a probate record.",
+    "addedBy": "claude/law-wiring",
+    "addedAt": "2026-10-20",
+    "replacement": "A counted-estates step in the residents engine that settles each counted death's estate by group (assets, heirs by relation, the estate and inheritance tax rows in force) through the same laws-death-taxes functions, times the group's weight.",
+    "status": "open"
+  },
+  {
+    "id": "SG-LAW-local-income-tax-authority-change",
+    "kind": "faked-mechanic",
+    "file": "src/core2/modules/legislature.ts",
+    "line": 1638,
+    "whatItFakes": "The state's grant of local income-tax authority is read and recorded when a local body drafts an income-tax bill, but no body can propose, enact or repeal the grant or its withdrawal.",
+    "why": "The bill catalog has no policy for a state to grant or withdraw local income-tax authority, and the bill-section words for it belong to the Words line.",
+    "addedBy": "claude/law-wiring",
+    "addedAt": "2026-10-20",
+    "replacement": "A bill-catalog grant/withdraw policy for local-income-tax-authority at the state level, with its section words from the Words line, enacted through the series-powers rows.",
+    "status": "open"
   }
 ]
