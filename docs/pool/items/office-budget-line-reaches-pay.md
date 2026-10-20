@@ -5,12 +5,12 @@ area: office
 kind: wiring
 priority: 3
 size: M
-status: in-pr
-claimed-by: claude/fs11vb-pay
+status: open
+claimed-by:
 pr: #5588
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-20T16:50:02.896Z
+claimed-at:
 ---
 
 **What.** PR #5573 showed the money moves against an amended administration line but a city employee's pay does not depend on the line's size. Make the line's amount an input the treasury reads when it sets or holds a department's payroll.
