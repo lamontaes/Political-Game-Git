@@ -22,3 +22,5 @@ claimed-at:
 **Files.** data/english/parts/interview.json, data/english/parts/bring-it-up.json, src/director/data/bring-it-up-rows.json, src/core2/press-desk.ts
 
 **Notes.** Checklist line from OPUS-PEOPLE.md; verify against main before starting.
+
+Sent back 2026-10-20 from PR #5180 (branch claude/political-game-pool-76ksvw): Merging current origin/main conflicts in code: src/bench/campaign-day-controls.test.ts, src/bench/campaign.ts, src/bench/creator.ts, src/bench/data/controls.json, src/bench/play.mjs, src/core2/counted-weight-money.test.ts, src/core2/modules/business.ts, src/core2/modules/place-prices.ts, src/core2/modules/press.ts, src/core2/news.test.ts, src/core2/office-proof.test.ts and src/director/office-scene.ts. Resolve these on this branch, preserving the current player controls, main behavior and each included fix, then rerun changed-file checks and the named proofs for the items this PR actually completes. Documentation/register conflicts are not the blocker.; finish on that branch, merge main into it first.
