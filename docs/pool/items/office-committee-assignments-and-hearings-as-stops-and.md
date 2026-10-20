@@ -4,10 +4,10 @@ title: "Committee assignments and hearings as stops and scenes."
 area: office
 kind: feature
 priority: 2
-status: claimed
+status: blocked
 claimed-by: claude/political-game-pool-yucp92-ss
 pr:
-blocked-on:
+blocked-on: words-hearing-chair-question
 milestone:
 source: "docs/coordination/OFFICE-STATE.md line 19 (unchecked checklist line)"
 claimed-at: 2026-10-20T04:59:54.277Z
