@@ -5237,5 +5237,17 @@
     "addedAt": "2026-10-20",
     "replacement": "Relief dollars by place in the budgets engine, an approval measure from the views engine, and sizes read from Healy and Malhotra 2009 and a confirmed approval source.",
     "status": "open"
+  },
+  {
+    "id": "SG-CORE-private-tuition-counted-reenroll",
+    "kind": "missing-mechanic",
+    "file": "src/core2/private-tuition-reenroll.ts",
+    "line": 1,
+    "whatItFakes": "Each August the town's full families are re-ranked by cash per child and their private school tuition contracts start or end to match the NCES share; the counted families keep the enrollment they opened with.",
+    "why": "A counted family's tuition is a share of a merged purchase flow with a contract part per household (opening-private-tuition.ts, residents.ts); starting or ending a part at runtime needs a residents-engine move that fill-in also takes back contract by contract.",
+    "addedBy": "claude/tuition-reenroll",
+    "addedAt": "2026-10-20",
+    "replacement": "The same August ranking over counted groups, with the flow's contract part for each household started or ended (pool item core-stopgap-opening-private-tuition-aggregate-spending).",
+    "status": "open"
   }
 ]
