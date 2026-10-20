@@ -1,3 +1,20 @@
+import type {
+  OrganizationClassification,
+  WorkRelationshipKind,
+  OccupationClassification,
+  WorkAuthority,
+  ScheduleRigidity,
+} from "../core2/work-types";
+export type {
+  OrganizationClassificationNamespace,
+  OrganizationClassification,
+  WorkRelationshipNamespace,
+  WorkRelationshipKind,
+  OccupationClassificationNamespace,
+  OccupationClassification,
+  WorkAuthority,
+  ScheduleRigidity,
+} from "../core2/work-types";
 import type { HistoricalPastMode } from "./historical-past-mode";
 import type { WorkPayCoverageDeterminationRecord } from "./pay-coverage-types";
 import type { LawScheduleTerm } from "./law-structured-terms";
@@ -1236,17 +1253,6 @@ export type LifeRecordProvenance =
       readonly asOf: IsoDate;
     };
 
-export type OrganizationClassificationNamespace =
-  | "sector"
-  | "membership"
-  | "service"
-  | "enterprise"
-  | "community"
-  | "international"
-  | "custom";
-export type OrganizationClassification =
-  `${OrganizationClassificationNamespace}:${string}`;
-
 export interface Organization {
   readonly id: EntityId;
   readonly stableKey: string;
@@ -1375,22 +1381,7 @@ export interface OrganizationParticipationStateRecord {
   readonly supersedesStateId: EntityId | null;
 }
 
-export type WorkRelationshipNamespace =
-  | "employment"
-  | "independent"
-  | "training"
-  | "volunteer"
-  | "family-work"
-  | "service"
-  | "custom";
-export type WorkRelationshipKind = `${WorkRelationshipNamespace}:${string}`;
-export type OccupationClassificationNamespace =
-  "occupation" | "profession" | "trade" | "practice" | "service" | "custom";
-export type OccupationClassification =
-  `${OccupationClassificationNamespace}:${string}`;
 export type WorkCompensation = "paid" | "unpaid" | "mixed" | "in-kind";
-export type WorkAuthority =
-  "directed" | "shared" | "self-directed" | "directs-others";
 export type WorkDependency = "independent" | "partly-dependent" | "dependent";
 export type WorkEconomicRisk = "organization-borne" | "shared" | "person-borne";
 
@@ -1402,7 +1393,6 @@ export interface ExpectedWeeklyTimeRange {
 export type AttentionDemand = "low" | "moderate" | "high" | "continuous";
 export type ConcurrencyPotential =
   "mostly-concurrent" | "partly-concurrent" | "mostly-exclusive";
-export type ScheduleRigidity = "flexible" | "mixed" | "rigid";
 export type Interruptibility =
   "interruptible" | "limited" | "non-interruptible";
 
