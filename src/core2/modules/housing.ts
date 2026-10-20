@@ -316,10 +316,18 @@ function householdIncome(
 export function withHousing(input: CoreInput): CoreInput {
   const town = townOf(input);
   if (!town) return input;
-  const tenure =
-    PLACE_TENURE[town.geoid] ??
-    COUNTY_TENURE[town.county] ??
-    nationTenure(town);
+  const placeTenure = PLACE_TENURE[town.geoid];
+  const countyTenure = COUNTY_TENURE[town.county] ?? nationTenure(town);
+  // A small place's survey share is shrunk toward its county's by sample size.
+  const tenure: [number, number] | undefined =
+    placeTenure && countyTenure
+      ? [
+          placeTenure[0] + pv("housingTenureShrinkHomes"),
+          placeTenure[1] +
+            (pv("housingTenureShrinkHomes") * countyTenure[1]) /
+              countyTenure[0],
+        ]
+      : (placeTenure ?? countyTenure);
   const [medianRent] = rentValueOf(town.county);
   if (!tenure || !medianRent) return input;
   const people = new Map(input.people.map((row) => [row.id, row]));

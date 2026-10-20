@@ -256,5 +256,16 @@
       "unit": "share of proposed rent",
       "citation": "Sensitivity range; behavioral tuning, not a measured fee."
     }
+  },
+  "housingTenureShrinkHomes": {
+    "value": 30,
+    "tag": "TUNABLE",
+    "citation": "A small place's ACS owner share is a sample reading (many tiny places read exactly 100% owned); it is pulled toward its county's share as if the county supplied this many homes (empirical-Bayes shrinkage of a binomial share).",
+    "spread": {
+      "low": 10,
+      "high": 100,
+      "unit": "homes",
+      "citation": "ACS 5-year tenure margins of error for places under 500 homes run roughly 5 to 15 points."
+    }
   }
 }
