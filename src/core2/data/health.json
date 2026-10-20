@@ -34,5 +34,28 @@
     "Conditions that begin during life, coverage records and the below-poverty-line onset cause are not ported; only opening conditions and the serious-illness onset and death they lead to run.",
     "Injury, sudden illness and births have no core2 producer yet.",
     "Household income for the opening condition ranking uses recorded job pay; households without recorded pay sort as unknown, as in the old rule."
-  ]
+  ],
+  "conscientiousnessTrait": "people-mind-v1:reliability",
+  "hazardLogPerLevelParameter": "healthConscientiousnessLogHazardPerLevel",
+  "behaviorConditions": [
+    {
+      "key": "substance-use-disorder",
+      "logOddsPerLevelParameter": "healthDrugUseLogOddsPerLevel"
+    },
+    {
+      "key": "copd",
+      "logOddsPerLevelParameter": "healthTobaccoLogOddsPerLevel"
+    }
+  ],
+  "traitStopgapId": "SG-TRAITS-counted-health-no-trait",
+  "jobLossSeverity": {
+    "lifeChangeUnitsParameter": "srrsFiredAtWork",
+    "maximumUnitsParameter": "srrsMaximumUnits",
+    "stopgapId": "SG-P10-event-severity"
+  },
+  "evictionSeverity": {
+    "lifeChangeUnitsParameter": "srrsForeclosure",
+    "maximumUnitsParameter": "srrsMaximumUnits",
+    "stopgapId": "SG-P10-event-severity"
+  }
 }
