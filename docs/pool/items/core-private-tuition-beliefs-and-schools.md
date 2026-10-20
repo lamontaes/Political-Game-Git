@@ -5,11 +5,12 @@ area: core
 kind: feature
 priority: 2
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/tuition-continuing
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-20T12:59:03.103Z
 ---
 
 **What.** SG-CORE-private-tuition-average still fakes enrollment: after PR 5667 the opening ranks families by cash per child scaled by their faith's affinity for private schooling, but enrollment is fixed at the opening, ignores which schools stand nearby or what the child needs, and the affinity is by faith only. Move each child's enrollment from the family's income, beliefs and the schools in reach, re-decided as those change (a job loss, a closing, a move), and close the stopgap row with the reader named. Look at docs/coordination/OWNER-DECISIONS.md first: the owner ruled on private school (#5483) on Oct 20.
