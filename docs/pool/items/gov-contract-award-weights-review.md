@@ -5,14 +5,14 @@ area: gov
 kind: research
 priority: 2
 size: S
-status: blocked
-claimed-by: claude/political-game-pool-yucp92-s
+status: open
+claimed-by:
 pr:
 after:
 blocked-on:
 milestone:
 source: "post-merge audit Oct 19 evening, item 7 (PR #5166)"
-claimed-at: 2026-10-20T01:27:02.279Z
+claimed-at:
 ---
 
 **What.** Change src/core2/modules/contracts.ts so the four TUNABLE weights in src/core2/data/contracts/parameters.json set bands and the members' reads decide. Today award() scores each firm as one weighted sum of price, capacity and closeness to the owner and the trait lean only slides the price and tie weights, so the formula decides. Give each member a second read of each firm that is theirs: the firm's record on this government's earlier awards (the contracts table: whether the last line was paid out and its workforce held) and, for a full person, their view of the firm's owner from closeness. Each read is clamped into the weight's band, so no weight can by itself outvote the others, and the member's decisionLean picks which reads count; the weights stay only as cited band limits with their spread.
