@@ -5,11 +5,12 @@ area: gov
 kind: feature
 priority: 3
 size: L
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/state-legislature-seats
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-19T23:29:41.717Z
 ---
 
 **What.** The offices engine seats only the legislature of the player's own state (a drawn place in Indiana had 150 serving members, and no other state had any: one state's offices and terms in the whole world). Congress exists for every state, and the officials engine fills in a few other states' leaders, but no other state's lower and upper houses exist as offices, seats and terms. So the Politics screen cannot list another state's legislators, which the owner asked for on Oct 16 (item play-politics-division-filter). Seat each state's chambers at the opening at the coarser level the Keep-it-simple rule allows (seat counts, parties and terms from the researched party counts in data/research/offices/legislature-party-counts-2026.json; named members filled in only when clicked), through the same offices engine, so any state can be shown and its members open as full people when met.
