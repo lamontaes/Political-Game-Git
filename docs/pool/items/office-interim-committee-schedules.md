@@ -5,12 +5,13 @@ area: office
 kind: research
 priority: 3
 size: M
-status: blocked
+status: open
 claimed-by:
 pr:
 blocked-on:
 after:
 source: added with npm run pool -- add
+claimed-at: 
 ---
 
 **What.** Between sessions a state legislator's calendar has one committee day, the same day of every month in every state: interimCommitteeDayOfMonth is 15, ESTIMATED with a spread of 1 to 28, read by src/core2/office-day-state.ts (the interim-committee entry, about line 375). Real interim committees meet by their own schedule: some monthly, some quarterly, some only when the leadership calls them, on days each legislature sets. Collect each state legislature's interim committee schedule (how many meetings a year, in which months, on what day or weekday), cite the source for each, and put it in a table office-day-state.ts reads in place of the single day, so a member's interim calendar differs by state.
