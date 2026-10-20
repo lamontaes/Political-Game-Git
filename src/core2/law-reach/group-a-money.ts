@@ -9,13 +9,16 @@
  * - Dedicated parks funding: the parks line of the government that passed it
  *   rises by the dedicated share; a repeal takes the same amount back out.
  * - Housing spending: a housing line above its base pays rent help to as
- *   many of the town's lowest-cash households as the extra money covers at
- *   the average voucher; a cut ends it for the households it no longer
- *   covers. The payments wait on rent contracts (SG-GOV-REACH-A-rent-assistance).
+ *   many of the town's lowest-cash renting households as the extra money
+ *   covers at the average voucher (never more than the rent): a monthly
+ *   payment from the government's treasury to the household's head, owed
+ *   until a cut ends it for the households it no longer covers. Counted
+ *   households wait (SG-GOV-REACH-A-rent-assistance).
  */
 import { paidLeaveProgram, paidLeavePremium } from "../paid-leave";
-import type { CoreAPI, CoreState } from "../types";
+import type { CoreAPI, CoreState, PersonState } from "../types";
 import type { ModuleRow } from "../module-data";
+import { addDays, makeIsoDate } from "../kernel/dates";
 import type { WorkPayrollJournalReceipt } from "../work-payroll-cash";
 import type { PolicyHandler } from "./host";
 import {
@@ -259,23 +262,42 @@ export const housingAssistance: PolicyHandler = (api, change) => {
     0,
     Math.floor(extra / reachParameter("housingAssistanceAnnualMinor")),
   );
-  // The households with the least cash per member come first.
+  // Only renting households have a rent to help with; the ones with the least
+  // cash per member come first.
   const adult = reachParameter("adultAge");
-  const byHousehold = new Map<string, { cash: number; members: number }>();
+  const core = api.state as CoreState;
+  const byHousehold = new Map<
+    string,
+    { cash: number; members: number; head: PersonState | null }
+  >();
   for (const person of townPeople(api)) {
-    const row = byHousehold.get(person.householdId) ?? { cash: 0, members: 0 };
+    const lease = core.finance.contracts.get(`lease:${person.householdId}`);
+    if (!lease || lease.endedAt) continue;
+    const row = byHousehold.get(person.householdId) ?? {
+      cash: 0,
+      members: 0,
+      head: null,
+    };
     row.cash += person.liquidMinor;
     row.members += 1;
+    // The oldest adult takes the payment.
+    if (
+      ageOn(person.birthDate, api.state.date) >= adult &&
+      (!row.head ||
+        person.birthDate < row.head.birthDate ||
+        (person.birthDate === row.head.birthDate && person.id < row.head.id))
+    )
+      row.head = person;
     byHousehold.set(person.householdId, row);
   }
-  const chosen = new Set(
+  const chosen = new Map(
     [...byHousehold]
+      .filter(([, row]) => row.head !== null)
       .sort(
         ([a, x], [b, y]) =>
           x.cash / x.members - y.cash / y.members || a.localeCompare(b),
       )
-      .slice(0, slots)
-      .map(([id]) => id),
+      .slice(0, slots),
   );
   const date = api.state.date;
   const people = townPeople(api).filter(
@@ -290,6 +312,19 @@ export const housingAssistance: PolicyHandler = (api, change) => {
     specOf(HOUSING_KEY, "assisted"),
     people.map((p) => ({ id: p.id, personId: p.id, count: null })),
   );
+  // The help is money: a monthly payment from the treasury to each head, no
+  // more than the household's rent.
+  const voucher = Math.floor(
+    reachParameter("housingAssistanceAnnualMinor") /
+      reachParameter("monthsPerYear"),
+  );
+  const want = new Map<string, number>();
+  for (const [householdId, row] of chosen) {
+    const rent = core.finance.contracts.get(`lease:${householdId}`)!;
+    const amount = Math.min(voucher, rent.amountMinor);
+    if (amount > 0 && row.head) want.set(row.head.id, amount);
+  }
+  reconcileRentHelp(api, gov, want);
   putMechanic(api, {
     id: `${HOUSING_KEY}:${gov.id}`,
     key: HOUSING_KEY,
@@ -303,3 +338,70 @@ export const housingAssistance: PolicyHandler = (api, change) => {
     },
   });
 };
+
+/**
+ * Keep the rent-help obligations as the wanted ones: a payment whose head or
+ * amount changed is ended, a new or changed one opens from tomorrow, a month
+ * at a time. A treasury pays what it holds.
+ */
+function reconcileRentHelp(
+  api: CoreAPI,
+  gov: GovernmentRow,
+  want: ReadonlyMap<string, number>,
+): void {
+  const accounts = api.accounts();
+  const table = reachTable(api, "payments");
+  const open = (
+    table.query("byKey", [HOUSING_KEY, null]) as unknown as {
+      id: string;
+      key: string;
+      recipientId: string;
+      obligationId: string;
+      amountMinor: number;
+      governmentId: string;
+    }[]
+  ).filter((r) => r.governmentId === gov.id);
+  const kept = new Set<string>();
+  for (const row of open) {
+    if (want.get(row.recipientId) === row.amountMinor) {
+      kept.add(row.recipientId);
+      continue;
+    }
+    if (!accounts.obligation(row.obligationId)?.endedAt)
+      accounts.endObligation(row.obligationId);
+    table.put({ ...row, endedOn: api.state.date } as unknown as ModuleRow);
+  }
+  const first = makeIsoDate(addDays(makeIsoDate(api.state.date), 1));
+  for (const [recipientId, amountMinor] of want) {
+    if (kept.has(recipientId)) continue;
+    const base = `rent-help:${gov.id}:${recipientId}:${api.state.date}`;
+    let obligationId = base;
+    for (let n = 2; accounts.obligation(obligationId); n += 1)
+      obligationId = `${base}#${n}`;
+    accounts.addObligation({
+      id: obligationId,
+      from: accounts.main(gov.organizationId),
+      to: accounts.main(recipientId),
+      amountMinor,
+      firstDueAt: first,
+      cadence: { kind: "months", every: 1 },
+      accruesArrears: false,
+      reasonKey: "law-reach:rent-assistance",
+      source: {
+        tag: "ESTIMATED",
+        citation: `Housing line as amended: rent help of at most ${amountMinor} a month, the average voucher (HUD, Picture of Subsidized Households 2023)`,
+        asOf: api.state.date,
+        estimatedFrom: "housingAssistanceAnnualMinor",
+      },
+    });
+    table.put({
+      id: obligationId,
+      key: HOUSING_KEY,
+      endedOn: null,
+      governmentId: gov.id,
+      recipientId,
+      obligationId,
+      amountMinor,
+    } as unknown as ModuleRow);
+  }
+}

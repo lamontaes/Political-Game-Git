@@ -1473,11 +1473,11 @@
     "kind": "missing-mechanic",
     "file": "src/core2/data/laws/reach-group-a.json",
     "line": 278,
-    "whatItFakes": "Housing spending records rent help on the lowest-cash households the extra money covers, but no rent payment is made for them.",
-    "why": "Households have no rent contracts to pay toward.",
+    "whatItFakes": "Housing spending pays rent help to the lowest-cash renting households the extra money covers (a monthly payment from the treasury to the household's head, no more than the rent), but only to full households: counted renting households are not reached.",
+    "why": "Counted renters have no per-household lease to pay toward; they are pooled flows.",
     "addedBy": "OPUS-GOV (sub-agent A)",
     "addedAt": "2026-10-12",
-    "replacement": "WORLD: rent contracts on renting households; CORE: a benefit payment from a treasury toward a household's rent through the journal.",
+    "replacement": "Counted renting households read by the same rule, times their count, once counted rent flows are keyed per household (world-counted-law-payouts-keyed).",
     "status": "open"
   },
   {
