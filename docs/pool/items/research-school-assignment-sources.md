@@ -22,3 +22,5 @@ claimed-at:
 **Files.** src/core2/data/opening-schools.json, data/research/people/, src/core2/data/stopgaps.json
 
 **Notes.** TODO
+
+Sent back 2026-10-20 from PR #5428 (branch claude/political-game-pool-yucp92-z): merge conflict with main in opening-private-tuition.ts and its test (code); finish on that branch, merge main into it first.
