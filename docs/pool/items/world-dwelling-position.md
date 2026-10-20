@@ -5,10 +5,10 @@ area: world
 kind: feature
 priority: 2
 size: M
-status: claimed
+status: blocked
 claimed-by: claude/political-game-pool-yucp92-cb
 pr:
-blocked-on:
+blocked-on: researcher: the town's tract or block-group population shares are not in the repo and the Census data service needs a key the cloud network lacks (api.census.gov answers Missing Key); needs a key or a bulk download
 source: found by gov-ward-map-from-dwellings
 claimed-at: 2026-10-20T17:06:43.239Z
 ---
