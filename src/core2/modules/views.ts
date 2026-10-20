@@ -25,6 +25,7 @@ import { ageOnDate, makeIsoDate } from "../kernel/dates";
 import { corePlaceByJurisdictionId } from "../place-lookup";
 import { PROFILE_FACT_KINDS, profileFor } from "../opening-profile";
 import { personStance } from "../campaign-views";
+import loadingsJson from "../../../data/research/people/opening-stance-loadings.json" with { type: "json" };
 import { currentCloseness } from "../closeness";
 import keysJson from "../data/views/ces-2024-views.json" with { type: "json" };
 import viewsJson from "../data/views/views.json" with { type: "json" };
@@ -126,7 +127,30 @@ export interface PersonView {
   /** The records and key cell the opening view came from. */
   basis: string;
   formedAt: string;
+  /**
+   * How far the person's faith (how important religion is to their group, 0 to
+   * 1) and four-year degree (1 or 0) sit from the average of their age band
+   * in their state; the stance loadings move each question's opening stance
+   * by these. Absent for a child, who has neither on record.
+   */
+  faithFromAverage?: number;
+  collegeFromAverage?: number;
 }
+
+const LOADINGS = (
+  loadingsJson as unknown as {
+    questions: Record<
+      string,
+      { loadings: { faith: { value: number }; college: { value: number } } }
+    >;
+  }
+).questions;
+const FAITH_IMPORTANCE: Readonly<Record<string, string>> = {
+  protestant: "faithImportanceProtestant",
+  catholic: "faithImportanceCatholic",
+  none: "faithImportanceNone",
+  "other-faith": "faithImportanceOtherFaith",
+};
 
 /**
  * The causes after one more event: the new one replaces its source's earlier
@@ -314,6 +338,41 @@ export function countedEngagement(
   return engagementFrom(api.state.seed, voter.id, mean);
 }
 
+/** A person's faith and degree against the average of their age band in their state, from their profile. */
+function profileFromAverage(
+  person: PersonState,
+  date: string,
+  seed: string,
+): { faithFromAverage?: number; collegeFromAverage?: number } {
+  const fact = (kind: string, key: string) =>
+    person.pastFacts?.find((row) => row.kind === kind)?.facts?.[key];
+  const profile = profileFor(person, seed, date);
+  const educ =
+    fact(PROFILE_FACT_KINDS.education, "level") ?? profile?.education;
+  const faith = fact(PROFILE_FACT_KINDS.faith, "group") ?? profile?.faith;
+  if (!educ || !faith || !FAITH_IMPORTANCE[faith]) return {};
+  const band = ageBand(
+    ageOnDate(makeIsoDate(person.birthDate), makeIsoDate(date)),
+  );
+  const state = stateOf(person);
+  const row = state ? VIEWS_KEYS.states[state] : undefined;
+  const educShares =
+    row?.educationShares[band] ?? VIEWS_KEYS.nationalEducationShares[band];
+  const faithShares =
+    row?.faithShares[band] ?? VIEWS_KEYS.nationalFaithShares[band];
+  if (!educShares || !faithShares) return {};
+  let expectedFaith = v("zero");
+  for (const [group, share] of Object.entries(faithShares))
+    expectedFaith +=
+      share * v(FAITH_IMPORTANCE[group] ?? "faithImportanceOtherFaith");
+  return {
+    faithFromAverage: v(FAITH_IMPORTANCE[faith]!) - expectedFaith,
+    collegeFromAverage:
+      (educ === "college" ? v("one") : v("zero")) -
+      (educShares.college ?? v("zero")),
+  };
+}
+
 /** A person's view, formed from their record the first time it is read. */
 export function viewOf(api: CoreAPI, personId: PersonId): PersonView | null {
   const table = viewsTable(api);
@@ -356,6 +415,7 @@ export function viewOf(api: CoreAPI, personId: PersonId): PersonView | null {
     label,
     basis,
     formedAt: api.state.date,
+    ...profileFromAverage(person, api.state.startedAt, seed),
   };
   table.put(view as unknown as { id: string });
   return view;
@@ -466,6 +526,30 @@ export function caseShift(
 }
 
 /**
+ * The person's opening stance on a question: where their lean puts them on its
+ * axis, plus what their faith and degree add beyond the lean (CES 2020
+ * loadings, `data/research/people/opening-stance-loadings.json`). A question
+ * the survey has no item for takes the lean alone.
+ */
+export function openingStance(
+  api: CoreAPI,
+  personId: PersonId,
+  question: string,
+  lean: number,
+): number {
+  const base = personStance(lean, question);
+  const row = LOADINGS[question.replace(/^us-policy-positions:/, "")];
+  if (!row) return base;
+  const view = viewOf(api, personId);
+  if (!view || view.faithFromAverage === undefined) return base;
+  return (
+    base +
+    row.loadings.faith.value * view.faithFromAverage +
+    row.loadings.college.value * (view.collegeFromAverage ?? v("zero"))
+  );
+}
+
+/**
  * The person's current view on a policy question, -1 to 1: where their
  * opening lean (`lean`, the campaigns engine's, -1 to 1) puts them on the
  * question's axis, plus how far what they have heard since has moved them.
@@ -480,7 +564,7 @@ export function viewOn(
     -v("one"),
     Math.min(
       v("one"),
-      personStance(lean, question) +
+      openingStance(api, personId, question, lean) +
         v("stanceViewWeight") * stanceOn(api, personId, question),
     ),
   );
