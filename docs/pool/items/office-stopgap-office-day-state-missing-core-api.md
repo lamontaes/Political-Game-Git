@@ -4,9 +4,9 @@ title: "Stopgaps in office-day-state (missing-core-api): 1 open"
 area: office
 kind: stopgap
 priority: 3
-status: claimed
+status: in-pr
 claimed-by: claude/pool-state-seat-person-2
-pr:
+pr: #5247
 blocked-on:
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/office-day-state.ts, kind missing-core-api"
