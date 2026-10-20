@@ -5,12 +5,12 @@ area: office
 kind: wiring
 priority: 3
 size: S
-status: dropped
-claimed-by: claude/schools-raise-hires
+status: open
+claimed-by:
 pr:
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-20T07:35:35.528Z
+claimed-at:
 ---
 
 **What.** PR #5588 proved a schools line cut ends teachers' jobs; the raise path (hire from the town's adults without work) is unproved.
