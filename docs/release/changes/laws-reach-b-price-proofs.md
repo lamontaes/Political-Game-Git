@@ -1,8 +1,6 @@
 ---
 id: laws-reach-b-price-proofs
-impact: minor
-section: Added
-title: People notice what a price law did to their bills when they heard about it
+impact: none
 ---
 
-A household whose bills change under a price law, such as free transit or a carbon price, now forms an opinion of that law if they heard the news story about it, and not before.
+Pool notes only: one work item now has a real description. No change to the game.
