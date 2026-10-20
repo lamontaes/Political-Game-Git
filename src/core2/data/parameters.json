@@ -5598,6 +5598,17 @@
       "citation": "A week (the routine retention window, routineRetentionDays) to a season; checked against the memory guard and the 'why' view."
     }
   },
+  "transferIdRetentionDays": {
+    "value": 62,
+    "tag": "TUNABLE",
+    "citation": "Owner ruling, Oct 12 (running memory stays small): how long the accounts engine remembers a used transfer id to refuse a duplicate write. A duplicate comes from a replay within the period; the balances and the journal keep the money itself.",
+    "spread": {
+      "low": 7,
+      "high": 400,
+      "unit": "days",
+      "citation": "A week to more than a year (the longest period any recurring payment id repeats over); checked against the journal tests and the memory guard."
+    }
+  },
   "circleActRetentionMonths": {
     "value": 12,
     "tag": "TUNABLE",

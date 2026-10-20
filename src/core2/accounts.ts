@@ -14,6 +14,7 @@
  * ```
  */
 import { addDays, makeIsoDate } from "./kernel/dates";
+import { parameter } from "./parameters";
 import type { CashJournalPosting } from "./journal";
 import type { CashJournalSourceSlot } from "./journal-state";
 import type { CoreAPI, CoreModule, CoreState, IsoDate, Source } from "./types";
@@ -100,6 +101,8 @@ export interface Accounts {
 interface Runtime {
   pending: Map<string, CashJournalSourceSlot>;
   transferIds: Set<string>;
+  /** The ids used each day, so ids older than the retention window can be forgotten. */
+  transferIdsByDay: Map<IsoDate, string[]>;
   obligations: Map<string, ObligationState>;
   due: Map<IsoDate, Set<string>>;
   deposits: Map<string, BankDeposit>;
@@ -124,12 +127,39 @@ export interface BankDeposit {
 const runtimes = new WeakMap<CoreState, Runtime>();
 registerWorldMapPart("core2-accounts", runtimes);
 
+/**
+ * Remember a used transfer id so a replay the same period is refused. Ids
+ * older than `transferIdRetentionDays` are forgotten: the check is a guard
+ * against a duplicate write, which happens within the period, and the id set
+ * would otherwise grow with every payment ever made.
+ */
+function rememberTransferId(rt: Runtime, date: IsoDate, id: string): void {
+  rt.transferIds.add(id);
+  const today = rt.transferIdsByDay.get(date);
+  if (today) today.push(id);
+  else {
+    rt.transferIdsByDay.set(date, [id]);
+    // A new day: forget the days that fell out of the window (oldest first).
+    const cutoff = new Date(`${date}T00:00:00Z`);
+    cutoff.setUTCDate(
+      cutoff.getUTCDate() - parameter("transferIdRetentionDays"),
+    );
+    const before = cutoff.toISOString().slice(0, 10);
+    for (const [day, ids] of rt.transferIdsByDay) {
+      if (day >= before) break;
+      for (const old of ids) rt.transferIds.delete(old);
+      rt.transferIdsByDay.delete(day);
+    }
+  }
+}
+
 function runtime(core: CoreState): Runtime {
   let rt = runtimes.get(core);
   if (!rt) {
     rt = {
       pending: new Map(),
       transferIds: new Set(),
+      transferIdsByDay: new Map(),
       obligations: new Map(),
       due: new Map(),
       deposits: new Map(),
@@ -322,7 +352,7 @@ export function transfer(
   if (!input.partial && available < input.amountMinor)
     throw new Error(`Insufficient funds in ${input.from} for ${input.id}.`);
   const paid = Math.min(input.amountMinor, Math.max(0, available));
-  rt.transferIds.add(input.id);
+  rememberTransferId(rt, date, input.id);
   const receipt: TransferReceipt = {
     id: input.id,
     date,
@@ -437,7 +467,7 @@ export function transferSplit(
       deltaMinor,
     }));
   if (postings.length < 2) return;
-  rt.transferIds.add(input.id);
+  rememberTransferId(rt, date, input.id);
   const due = { kind: DUE_KIND, id: input.id };
   rt.pending.set(input.id, {
     resolved: {
