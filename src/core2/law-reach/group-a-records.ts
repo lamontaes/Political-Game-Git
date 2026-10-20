@@ -584,12 +584,15 @@ function scheduleRefresh(api: CoreAPI, key: string): void {
 onReachCalendar(REFRESH_KIND, (api, work) => {
   const key = work.sourceRecordIds[0]!;
   const policy = POLICIES[key];
+  // Whether the law still stands is read from the laws in force, not from
+  // the rows: a law that reaches nobody today keeps its refresh, and the
+  // first person who comes to fit it gains the row.
+  const inForce = yesLevels(api, key)[0];
+  if (!policy || !inForce) return;
   const open = openReach(api, key);
-  // Repealed since the last read: nothing to keep up.
-  if (!policy || !open.length) return;
   for (const spec of policy.reaches.filter(followsRecords)) {
     const lawId =
-      open.find((row) => row.spec === spec.id)?.lawId ?? open[0]!.lawId;
+      open.find((row) => row.spec === spec.id)?.lawId ?? inForce.lawId;
     const targets = targetsOf(api, spec);
     writeRows(api, key, lawId, spec, targets);
     endRows(api, key, spec.id, new Set(targets.map((target) => target.id)));
