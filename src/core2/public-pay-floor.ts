@@ -11,7 +11,7 @@ import { addDays, makeIsoDate } from "./kernel/dates";
 import { jobsAt } from "./law-reach/group-b-money";
 import { reachParameter } from "./law-reach/group-b-people";
 import { BUDGETS_MODULE_ID, governments } from "./modules/budgets";
-import { lawChain, lawInForce } from "./modules/laws";
+import { LAWS_MODULE_ID, lawChain, lawInForce } from "./modules/laws";
 import type { LawLevelName } from "./laws-starting";
 import type { CoreAPI, CoreState, Source } from "./types";
 
@@ -88,6 +88,8 @@ export function publicPayFloorHourly(
   organizationId: string,
   job: { readonly hourlyMinor?: number; readonly wageDailyMinor: number },
 ): number {
+  // A world without the law engine has no floor to hold a hire to.
+  if (!(api.state as CoreState).modules.has(LAWS_MODULE_ID)) return 0;
   const level = levelOf(api, organizationId);
   if (!level) return 0;
   const floor = floorsByLevel(api).get(level);
