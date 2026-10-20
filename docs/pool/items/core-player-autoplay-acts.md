@@ -21,3 +21,4 @@ source: "found in core-player-money-spending (Lake Ridge, Virginia, seed d976114
 **Files.** src/core2/modules/drives.ts (`payDonation`), src/core2/life.ts, src/bench/player.ts
 
 **Notes.** Searched the register and OWNER-DECISIONS.md: both rulings stand and neither names gifts. Campaign gifts to candidates were a different case (a candidate's campaign drew on the player's account outside any choice of the character) and are fixed in #4448.
+Ruled in OWNER-DECISIONS.md, Oct 16/Oct 19.
