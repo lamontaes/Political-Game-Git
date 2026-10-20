@@ -22,3 +22,5 @@ claimed-at:
 **Files.** TODO
 
 **Notes.** TODO
+
+Sent back 2026-10-20 from PR #5155 (branch claude/standins-other-credit-business): The PR edits six pool/index files but explicitly declares no release declaration, and its changed files contain none under docs/release/changes. Add the required impact-none declaration for the actual planning-only split, then merge main and run the changed-file checks. Keep the unresolved stand-in implementations open; no registry row is completed by this docs change.; finish on that branch, merge main into it first.
