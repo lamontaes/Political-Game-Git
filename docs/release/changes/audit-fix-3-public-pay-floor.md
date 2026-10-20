@@ -1,6 +1,8 @@
 ---
 id: audit-fix-3-public-pay-floor
-impact: none
+impact: patch
+section: Fixed
+title: A public pay floor now reaches a government's aides and appointed heads
 ---
 
-No change a player can see: audit fix 3 corrects the wording of the public pay floor change (applied when the opening is posted) and adds a played-year test of it.
+Where a government passes a public pay floor, the aides and appointed heads it hires are paid at or above it from the day they are hired, and the monthly review raises the ones already on its payroll. Before, they were paid by the government's treasury, which the floor did not count as a public employer.
