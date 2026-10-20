@@ -19,6 +19,7 @@ import type { PolicyHandler } from "./host";
 import { BUDGETS_MODULE_ID, governments } from "../modules/budgets";
 import { countedResidents } from "../electorate";
 import { lawChain } from "../modules/laws";
+import { residentsRuntime } from "../modules/residents";
 import { fillInPerson } from "../state";
 import { baseLine, budgetToday } from "./group-a-money";
 import {
@@ -83,7 +84,10 @@ export const staffing: PolicyHandler = (api, change) => {
     const held = staffingOf(api, change.key, organizationId);
     const baseStaff =
       held?.baseStaff ??
-      (employers.length ? currentStaff(api, organizationId).length : 0);
+      (employers.length
+        ? currentStaff(api, organizationId).length +
+          countedStaff(api, organizationId).length
+        : 0);
     // With no such employer in the town (a county jail elsewhere), the
     // government's record carries the positions the change funds or cuts.
     const positions = employers.length
@@ -126,6 +130,34 @@ export const staffing: PolicyHandler = (api, change) => {
       });
   }
 };
+
+/**
+ * An employer's staff in the wider population, held in its counted wage flows
+ * (a school district's teachers): one model, two tiers, so a line change
+ * reaches them as it reaches the full staff. Each is filled in from the
+ * counts when the reach hires beside them or lets them go.
+ */
+function countedStaff(
+  api: CoreAPI,
+  organizationId: string,
+): readonly { jobId: string; personId: string }[] {
+  const rt = residentsRuntime(api.state as CoreState);
+  if (!rt) return [];
+  const out: { jobId: string; personId: string }[] = [];
+  for (const flow of rt.flows.values()) {
+    if (
+      flow.kind !== "wages" ||
+      flow.endedAt ||
+      flow.organizationId !== organizationId
+    )
+      continue;
+    for (const jobId of flow.jobIds ?? []) {
+      const job = rt.jobs.get(jobId);
+      if (job) out.push({ jobId, personId: job.personId });
+    }
+  }
+  return out.sort((a, b) => a.jobId.localeCompare(b.jobId));
+}
 
 /** Named adults without work, the most reliable first. */
 function candidates(api: CoreAPI): readonly string[] {
@@ -245,25 +277,33 @@ onReachCalendar(STAFFING_KIND, (api, work) => {
     work.sourceRecordIds[0]!,
   ) as unknown as StaffingRow | undefined;
   if (!row) return;
-  const staff = currentStaff(api, row.organizationId);
+  const state = api.state as CoreState;
+  const counted = countedStaff(api, row.organizationId);
+  const full = currentStaff(api, row.organizationId);
+  const headcount = full.length + counted.length;
   const target = Math.round(row.positions);
   const hired: string[] = [];
   const laidOff: string[] = [];
-  if (target > staff.length && staff.length) {
-    const template = staff[0]!;
+  if (target > headcount && headcount) {
+    // Hires copy a coworker's job; a district staffed only from the counts
+    // fills one of them in to be the template.
+    if (!full.length) fillInPerson(state, counted[0]!.personId);
+    const template = currentStaff(api, row.organizationId)[0];
+    if (!template) return;
     for (const personId of [...candidates(api), ...countedCandidates(api)]) {
-      if (staff.length + hired.length >= target) break;
+      if (headcount + hired.length >= target) break;
       // A counted adult becomes a full person from their records at hire.
-      if (!api.state.people.has(personId))
-        fillInPerson(api.state as CoreState, personId);
+      if (!state.people.has(personId)) fillInPerson(state, personId);
       if (hire(api, row, personId, template, work.source)) hired.push(personId);
       else break;
     }
-  } else if (target < staff.length) {
-    // The newest hires go first.
-    for (const s of [...staff].reverse()) {
-      if (staff.length - laidOff.length <= target) break;
-      if (!api.state.people.has(s.personId)) continue;
+  } else if (target < headcount) {
+    // The newest hires go first; the counted staff follow, last job id first.
+    const order = [...[...full].reverse(), ...[...counted].reverse()];
+    for (const s of order) {
+      if (headcount - laidOff.length <= target) break;
+      if (!state.people.has(s.personId)) fillInPerson(state, s.personId);
+      if (!state.people.has(s.personId)) continue;
       api.endJob(s.jobId, work.key);
       laidOff.push(s.personId);
     }

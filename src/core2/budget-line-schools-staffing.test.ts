@@ -16,6 +16,7 @@ import { addDays, makeIsoDate } from "./kernel/dates";
 import { advanceCore } from "./life";
 import { budgetsOf, governments } from "./modules/budgets";
 import { memberKey } from "./modules/legislature";
+import { residentsRuntime } from "./modules/residents";
 import { prepareAct, officeHost } from "./modules/office-day";
 import { townSeats } from "./modules/offices";
 import { budgetProposalDue, officeActHandlers } from "./office-day-acts";
@@ -54,10 +55,27 @@ function amendSchoolsLine(direction: -1 | 1) {
     const district = [...core.organizations.values()].find((o) =>
       (o.classification ?? "").startsWith("service:school"),
     );
-    const teachers = (organizationId: string) =>
-      [...core.jobs.values()].filter(
+    // A district's teachers are mostly counted workers (their jobs sit in the
+    // district's wage flows) and a few are full people; both are its staff.
+    const teachers = (organizationId: string) => {
+      const rt = residentsRuntime(core);
+      const full = [...core.jobs.values()].filter(
         (j) => j.organizationId === organizationId && !j.endsAt,
       );
+      const ids = new Set(full.map((j) => j.id));
+      const counted = new Set<string>();
+      for (const flow of rt?.flows.values() ?? [])
+        if (
+          flow.kind === "wages" &&
+          !flow.endedAt &&
+          flow.organizationId === organizationId
+        )
+          for (const id of flow.jobIds ?? []) if (!ids.has(id)) counted.add(id);
+      return [
+        ...full,
+        ...[...counted].map((id) => rt!.jobs.get(id)!).filter(Boolean),
+      ];
+    };
     if (!mayor || !city || !district || teachers(district.id).length < 4) {
       tried.push(`${where}: no mayor, city or district with teachers`);
       continue;

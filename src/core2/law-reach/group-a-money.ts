@@ -26,7 +26,7 @@ import type { PolicyHandler } from "./host";
 import {
   amendBudget,
   BUDGETS_MODULE_ID,
-  adoptedLine,
+  lineBeforeBill,
   budgetsOf,
   governments,
   type BudgetRow,
@@ -88,14 +88,14 @@ export function budgetToday(
   );
 }
 
-/** A line's amount before any amendment this year: the line as adopted. */
+/** A line's amount before any amendment this year: the line as it stood before the year's own budget bill, the base group B measures from. */
 export function baseLine(
   api: CoreAPI,
   gov: GovernmentRow,
   budget: BudgetRow,
   line: string,
 ): number {
-  return adoptedLine(api, gov, budget.fiscalYear, line);
+  return lineBeforeBill(api, gov, budget.fiscalYear, line);
 }
 
 // --- paid family leave -------------------------------------------------------------
