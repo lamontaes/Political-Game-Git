@@ -31,3 +31,5 @@ Checked Oct 16 (claude/director-moments-for-a-new-adult): "no moments" does not 
 Oct 20: The Oct 16 claim has no PR and is over two days old, so the claim is cleared.
 
 Oct 20: Switched from blocked to the automatic after: gate on director-civic-producers-government, so it opens by itself the moment those items are done.
+
+Sent back 2026-10-20 from PR #5644 (branch claude/political-game-pool-yucp92-ak): the new test redraws past places where the director never stops the skip (Point of Rocks, Wyoming), so it passes while the bug reproduces, and the moment's trace is not asserted to resolve; the test also sits under src/director, which only the Words session edits; finish on that branch, merge main into it first.
