@@ -317,8 +317,9 @@ function suitedResidents(
       // officeholder's full name does not hold a seat.
       if (isRealOfficeholderName(person.givenName, person.familyName))
         return false;
-      // A seat is not filled by a reporter, an editor or an outlet's owner:
-      // the same rule that keeps them off the ballot.
+      // The stand-in that seats a vacant office without an election does not
+      // pick by press job (a reporter put into an empty seat at the opening
+      // was the defect); they may still run and win it at the ballot.
       if (pressConflict(api, person.id)) return false;
       const age = year - Number(person.birthDate.slice(0, 4));
       return age >= 25 && age < 81;

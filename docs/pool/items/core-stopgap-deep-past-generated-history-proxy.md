@@ -4,10 +4,10 @@ title: "Stopgaps in deep-past (generated-history-proxy): 1 open"
 area: core
 kind: stopgap
 priority: 3
-status: open
+status: blocked
 claimed-by:
 pr:
-blocked-on:
+blocked-on: research data: the row's replacement needs sourced data (Era- and locality-specific sourced institution histories and validated cohort distributions; preserve existing personal facts....)
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/data/deep-past.json, kind generated-history-proxy"
 claimed-at:

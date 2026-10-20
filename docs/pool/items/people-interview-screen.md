@@ -5,12 +5,13 @@ area: play
 kind: wiring
 priority: 2
 size: M
-status: open
+status: blocked
 claimed-by:
 pr:
-blocked-on:
+blocked-on: spec: the item text is an empty TODO shell; the done-when must be written before it can be built (pool-todo-shells-need-spec)
 after: people-words
 source: added with npm run pool -- add
+claimed-at:
 ---
 
 **What.** The interview screen opens the interview through `interviewLines` (src/director/interview.ts): the reporter's open and each question are shown as spoken lines, and the player picks how to answer each one (plain, further, turn, brief, or the lie) from worded choices before the answers are passed to `answerInterview`. The choices are worded by the English engine from the mined interview bank, never typed into the screen. The player notices an interview that reads as a conversation with a reporter, not a form.

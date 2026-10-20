@@ -1,4 +1,4 @@
-import type { TraitEffectDeclaration } from "../../trait-packs";
+import type { TraitEffectDeclaration } from "../../../core2/trait-packs";
 
 /**
  * Competitiveness is seeking to win against others. Absence of the marked pattern contributes nothing and does not establish the opposite.

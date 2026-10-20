@@ -6,11 +6,11 @@ kind: bug
 priority: 2
 size: M
 status: claimed
-claimed-by: claude/business-entry-below-bds
+claimed-by: claude/business-entry-s14
 pr:
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-17T17:23:16.200Z
+claimed-at: 2026-10-20T00:17:56.780Z
 ---
 
 **What.** Businesses open at about a third of the Census rate in a played year: 5 opened against about 16 in eight drawn towns, while closures match. Find why entries run low, whether the entry rule, the capital a founder needs or the demand it reads. Fix it at the cause so the year's openings match the Census count within the stated spread.

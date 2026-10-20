@@ -1,4 +1,4 @@
-import type { TraitEffectDeclaration } from "../../trait-packs";
+import type { TraitEffectDeclaration } from "../../../core2/trait-packs";
 
 /** Tact adjusts delivery to avoid putting other people on the spot. */
 export const facetTactfulEffects: readonly TraitEffectDeclaration[] = [
