@@ -5,9 +5,9 @@ area: elections
 kind: wiring
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/elections-ads-reach-counted-followers
-pr:
+pr: #5328
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-20T00:21:47.380Z
