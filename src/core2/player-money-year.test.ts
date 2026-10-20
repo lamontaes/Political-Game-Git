@@ -17,6 +17,7 @@ import { setBookkeeping } from "./bookkeeping";
 import { gameStartDate } from "./game-start";
 import { addDays, makeIsoDate } from "./kernel/dates";
 import { advanceCore } from "./life";
+import { HOUSING_MODULE_ID } from "./modules/housing";
 import { coreAPI } from "./state";
 
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(16).toString("hex");
@@ -96,10 +97,37 @@ it("a played year moves the player's household money through pay, living costs, 
         total("accounts.transfer living", "outMinor"),
         where,
       ).toBeGreaterThan(0);
-      expect(
-        total("finance.contract-settlement finance", "outMinor"),
-        where,
-      ).toBeGreaterThan(0);
+      // Where they live is paid by the route their housing record calls for: a
+      // rent or a mortgage settles as a contract; a home owned outright pays
+      // the property tax instead.
+      const dwelling = api
+        .moduleState(HOUSING_MODULE_ID)
+        .table("dwellings")
+        .get(`dwelling:${me.householdId}`) as
+        { tenure: string; loanHolderId?: string } | undefined;
+      const owedByContract =
+        dwelling?.tenure === "rent" ||
+        (dwelling?.tenure === "own" && !!dwelling.loanHolderId);
+      if (owedByContract)
+        expect(
+          total("finance.contract-settlement finance", "outMinor"),
+          `${where}: ${dwelling?.tenure} dwelling, no settlement`,
+        ).toBeGreaterThan(0);
+      else {
+        // A home owned outright owes the property tax; a household that
+        // cannot pay it all keeps the rest as arrears on the record, naming
+        // the law, rather than the bill vanishing.
+        const arrears = api
+          .moduleState(HOUSING_MODULE_ID)
+          .table("taxArrears")
+          .get(`tax-arrears:${me.householdId}`) as
+          { amountMinor: number; lawRowId: string } | undefined;
+        expect(
+          total("accounts.transfer property-tax", "outMinor") +
+            (arrears?.amountMinor ?? 0),
+          `${where}: ${dwelling ? "home owned outright" : "no dwelling record"}, no property tax paid or owed`,
+        ).toBeGreaterThan(0);
+      }
       expect(
         total("budgets:withholding withholding", "outMinor"),
         where,
