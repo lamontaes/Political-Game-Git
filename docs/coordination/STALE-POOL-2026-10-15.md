@@ -1,5 +1,7 @@
 # Older pool PR disposition, October 15, 2026
 
+> **History.** This describes the old engine or a process that ended in October 2026. Don't follow it; read `AGENTS.md`, `ARCHITECTURE.md` and `docs/README.md`.
+
 This closes obsolete review vehicles, not the remaining feature gaps. The order names the older pool, English, session35 and title-scene branches; the inventory includes 27 open PRs created before October 12, including earlier threads still present in that queue. Active October 15 branches are excluded. No branch or history is deleted, no PR is merged, no old screen approval is reused, and no ungraded English is published.
 
 The source PR bodies, changed-path inventories and current replacement readers were reviewed. Several old heads include large inherited stacks, so their aggregate diff sizes are not used as proof of what landed. Each original head is pinned below for its research, old code and unresolved findings. The unique legal report is carried forward; other obsolete implementations stay in history under the owner's replace-rather-than-layer rule. Current specs and stopgaps continue to define unfinished work.

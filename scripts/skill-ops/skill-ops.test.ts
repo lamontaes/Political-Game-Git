@@ -5,20 +5,22 @@ import { describe, expect, it } from "vitest";
 
 const REPO_ROOT = join(dirname(fileURLToPath(import.meta.url)), "..", "..");
 const SKILL_ROOT = join(REPO_ROOT, ".agents", "skills");
+const CLAUDE_SKILL_ROOT = join(REPO_ROOT, ".claude", "skills");
 
 interface SkillContract {
   readonly name: string;
   readonly trigger: RegExp;
   readonly nontrigger: RegExp;
   readonly links: readonly string[];
-  /**
-   * The heading under which the skill states where it stops. Most entrypoints
-   * use "## Stop condition"; SKILLS1 entrypoints that scope the halt to the
-   * dependent change name it differently, so each contract declares its own.
-   */
+  /** The heading under which the skill states where it stops. */
   readonly boundary?: RegExp;
 }
 
+/**
+ * Skills whose descriptions must keep a discriminating trigger and nontrigger,
+ * and whose directory holds only SKILL.md (they reuse repository tooling
+ * instead of shipping their own).
+ */
 const contracts: readonly SkillContract[] = [
   {
     name: "civic-reports",
@@ -33,99 +35,28 @@ const contracts: readonly SkillContract[] = [
     ],
   },
   {
-    name: "project-operations",
-    trigger: /preflight, resume, recover, take over, receive or hand off/i,
-    nontrigger: /not a replacement for a feature brief/i,
-    links: [
-      ".agents/workflows/pg-preflight.md",
-      ".agents/workflows/pg-resume.md",
-      ".agents/workflows/pg-handoff.md",
-      ".agents/rules/git-worktrees.md",
-    ],
-  },
-  {
-    name: "prose-corpus-reconciliation",
-    trigger:
-      /computed-prose edits, branch integration, anchor drift, or interrupted ledger writes/i,
-    nontrigger:
-      /do not use to author prose, review prose style, or repair history by hand/i,
-    links: [
-      "docs/systems/prose-corpus.md",
-      "scripts/prose-corpus/anchor-history.ts",
-    ],
-  },
-  {
     name: "browser-visual-acceptance",
     trigger: /UI, interaction, responsive, scene, pose, or art review/i,
     nontrigger: /do not use for nonvisual unit-only changes/i,
     links: [
       ".agents/workflows/pg-visual-review.md",
       ".agents/rules/visual-acceptance.md",
-      "scripts/dev-identified.mjs",
+      "src/bench/server.ts",
+      "src/bench/no-scroll.browser.mjs",
     ],
-  },
-  {
-    name: "source-runtime-trace",
-    trigger:
-      /real-world source additions, source-status reviews, or claims that sourced data affects play/i,
-    nontrigger:
-      /do not use for deliberately fictional authored content or unsourced design speculation/i,
-    links: ["docs/systems/source-substrate.md"],
   },
   {
     name: "asset-scene-admission",
     trigger:
-      /garment\/body compatibility, environment intake, scene geometry, asset-bank disposition, or release review/i,
+      /environment intake, scene geometry, asset-bank disposition, or release review/i,
     nontrigger:
       /do not use to generate new art, infer rights, or approve pixels without review/i,
     links: [
       "docs/systems/art-assets.md",
-      "docs/systems/garment-morphology-fit.md",
       "docs/systems/scene-authoring-pipeline.md",
       "docs/systems/scene-and-person-presentation.md",
+      "art/people-engine/v2/README.md",
     ],
-  },
-  {
-    name: "worldbound-gameplay",
-    trigger:
-      /replacing fixed scenarios, named background Acts or name-swapped\s+templates/i,
-    nontrigger:
-      /Not for unrelated bug fixes, free-text legal advice or new art/i,
-    boundary: /## Stop only the dependent part/,
-    links: [
-      "src/simulation/legislation-content-contracts.ts",
-      "src/simulation/legislation-program-families.ts",
-      "src/simulation/legislation-drafting.ts",
-      "src/simulation/life-opportunities.ts",
-      "src/simulation/decisions.ts",
-    ],
-  },
-  {
-    name: "jurisdiction-profile-compilation",
-    trigger: /Use for nationwide rules and coverage/i,
-    nontrigger: /not real-person legal advice/i,
-    boundary: /## Validation and return/,
-    links: [
-      "src/simulation/rule-capability-resolver.ts",
-      "src/simulation/legislature-rule-packs.ts",
-      "src/simulation/executive-authority-rule-packs.ts",
-      "src/simulation/civil-personnel-contract.ts",
-      "src/simulation/municipal-government.ts",
-      "src/core2/reference/government-units.ts",
-    ],
-  },
-  {
-    name: "scene-led-ui-theme",
-    trigger: /Use for coherent controls, fitting and\s+hover\/focus behavior/i,
-    nontrigger: /not new simulation rules or unrelated UI frameworks/i,
-    boundary: /## Completion evidence/,
-    links: [],
-  },
-  {
-    name: "civic-gameplay-audit",
-    trigger: /Use for requested bounded gameplay acceptance/i,
-    nontrigger: /not a whole-project architecture or style review/i,
-    links: [".codex/agents/civic-gameplay-auditor.toml"],
   },
 ];
 
@@ -133,60 +64,82 @@ function skillText(name: string): string {
   return readFileSync(join(SKILL_ROOT, name, "SKILL.md"), "utf8");
 }
 
+function skillNames(root: string): string[] {
+  return readdirSync(root, { withFileTypes: true })
+    .filter((entry) => entry.isDirectory())
+    .map((entry) => entry.name)
+    .sort();
+}
+
+function filesUnder(root: string, prefix = ""): string[] {
+  const out: string[] = [];
+  for (const entry of readdirSync(join(root, prefix), {
+    withFileTypes: true,
+  })) {
+    const path = prefix ? `${prefix}/${entry.name}` : entry.name;
+    if (entry.isDirectory()) out.push(...filesUnder(root, path));
+    else out.push(path);
+  }
+  return out.sort();
+}
+
+/** The frontmatter's name and description; a folded (`>`) or one-line description. */
 function frontmatter(text: string): { name: string; description: string } {
-  const match =
-    /^---\nname:\s*([^\n]+)\ndescription:\s*>\n([\s\S]*?)\n---\n/.exec(text);
-  if (!match) throw new Error("invalid skill frontmatter");
+  const block = /^---\n([\s\S]*?)\n---\n/.exec(text);
+  if (!block) throw new Error("invalid skill frontmatter");
+  const lines = block[1].split("\n");
+  const name = /^name:\s*(.+)$/.exec(lines[0] ?? "")?.[1]?.trim() ?? "";
+  const at = lines.findIndex((line) => line.startsWith("description:"));
+  if (at < 0) throw new Error("skill frontmatter has no description");
+  const inline = lines[at].slice("description:".length).trim();
+  const folded: string[] = [];
+  if (inline === ">" || inline === "|") {
+    for (const line of lines.slice(at + 1)) {
+      if (!/^\s+/.test(line)) break;
+      folded.push(line.trim());
+    }
+  }
   return {
-    name: match[1].trim(),
-    description: match[2]
-      .split("\n")
-      .map((line) => line.trim())
-      .join(" "),
+    name,
+    description: inline === ">" || inline === "|" ? folded.join(" ") : inline,
   };
 }
 
-describe("SKILL-OPS1 repository skill discovery contracts", () => {
-  it("ships the bounded reusable entrypoints without feature-level variants", () => {
-    const discovered = readdirSync(SKILL_ROOT, { withFileTypes: true })
-      .filter((entry) => entry.isDirectory())
-      .map((entry) => entry.name)
-      .sort();
-    // The reusable entrypoints, plus the repository's own working-process
-    // skills (how a session starts, merges, proves and audits), which carry
-    // no skill-ops contract.
-    const processSkills = [
-      "ask-why",
-      "cto",
-      "merger",
-      "played-world-proof",
-      "session-start",
-      "trace-audit",
-      "words-engine",
-    ];
-    expect(discovered).toEqual(
-      [
-        "civic-prose",
-        ...contracts.map((contract) => contract.name),
-        ...processSkills,
-      ].sort(),
-    );
+describe("SKILL-OPS repository skills", () => {
+  const names = skillNames(SKILL_ROOT);
+
+  it("ships skills, each with valid frontmatter, a bounded description and a short body", () => {
+    expect(names.length).toBeGreaterThan(0);
+    for (const name of names) {
+      const text = skillText(name);
+      const metadata = frontmatter(text);
+      expect(metadata.name, name).toBe(name);
+      expect(metadata.name, name).toMatch(/^[a-z0-9-]{1,64}$/);
+      expect(metadata.description.length, name).toBeGreaterThan(40);
+      expect(metadata.description.length, name).toBeLessThanOrEqual(1024);
+      expect(metadata.description, name).not.toMatch(/<[a-z]/i);
+      expect(text.split("\n").length, name).toBeLessThan(500);
+    }
   });
 
-  it("discovers identical entrypoints in Codex and Claude roots", () => {
-    const claudeRoot = join(REPO_ROOT, ".claude", "skills");
-    const directories = (root: string) =>
-      readdirSync(root, { withFileTypes: true })
-        .filter((entry) => entry.isDirectory())
-        .map((entry) => entry.name)
-        .sort();
-    expect(directories(claudeRoot)).toEqual(directories(SKILL_ROOT));
-    for (const name of directories(SKILL_ROOT)) {
-      expect(
-        readFileSync(join(claudeRoot, name, "SKILL.md"), "utf8"),
-        name,
-      ).toBe(skillText(name));
+  it("mirrors every skill file byte for byte in the Claude root", () => {
+    expect(skillNames(CLAUDE_SKILL_ROOT)).toEqual(names);
+    for (const name of names) {
+      const source = join(SKILL_ROOT, name);
+      const mirror = join(CLAUDE_SKILL_ROOT, name);
+      expect(filesUnder(mirror), name).toEqual(filesUnder(source));
+      for (const file of filesUnder(source)) {
+        expect(readFileSync(join(mirror, file)), `${name}/${file}`).toEqual(
+          readFileSync(join(source, file)),
+        );
+      }
     }
+  });
+
+  it("names every skill in the AGENTS.md skills index", () => {
+    const agents = readFileSync(join(REPO_ROOT, "AGENTS.md"), "utf8");
+    const index = agents.slice(agents.indexOf("## Skills"));
+    for (const name of names) expect(index, name).toContain(`\`${name}\``);
   });
 
   for (const contract of contracts) {
@@ -268,7 +221,6 @@ describe("SKILL-OPS1 project delegation profile", () => {
       expect(compactRoot).toContain(required);
     }
     for (const required of [
-      "Plan no helpers by default",
       "user or repository/skill instructions authorize it",
       "independently useful bounded deliverable",
       "input, base/head, allowed paths and tools, expected output",
@@ -366,15 +318,9 @@ describe("SKILL-OPS1 civic prose correction", () => {
     }
   });
 
-  it("consumes the DEV-LAB2 interface without copying its implementation", () => {
+  it("points browser acceptance at the bench and its browser checks", () => {
     const visual = skillText("browser-visual-acceptance");
-    for (const required of [
-      "npm run dev:identified -- --port <port> --seed <seed>",
-      "/__dev/identity",
-      "PLAYWRIGHT_EXTERNAL_SERVER",
-      "PG_ARTIFACTS_DIR",
-      "PG_CACHE_DIR",
-    ]) {
+    for (const required of ["npm run bench", ".browser.mjs", "BENCH_BROWSER"]) {
       expect(visual).toContain(required);
     }
   });
