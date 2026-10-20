@@ -38,6 +38,7 @@ import stateMortality from "./data/state-mortality.json" with { type: "json" };
 import { bookkeeping } from "./bookkeeping";
 import { renewalParameter } from "./births-parameters";
 import { weighUnplanned } from "./births-unplanned";
+import { countedPayment } from "./counted-money";
 import { DEFAULT_HEALTH_DATA, severityImpulse } from "./modules/health";
 import { openingTemperaments } from "./opening-personality";
 import {
@@ -746,6 +747,29 @@ export function applyCountedFlows(
           : null,
         countsId: row.id,
       } as unknown as ModuleRow);
+      // Ending it pays the trip from the household's cash to the place's
+      // outside account, as a full household does, for each household the
+      // record stands for.
+      if (!decision.continues) {
+        const payee = [...api.state.organizations.values()].find(
+          (org) => org.placeId === placeId && org.outsideFlow !== undefined,
+        )?.id;
+        if (payee)
+          countedPayment(api, {
+            id: `${woman.id}:unplanned:${date}:trip`,
+            placeId,
+            householdId: record.household.id,
+            otherOwnerId: payee,
+            amountMinor: decision.travelMinor,
+            reasonKey: "renewal.unplanned-trip",
+            source: {
+              tag: "ESTIMATED",
+              asOf: date,
+              citation: `The trip to the nearest provider, ${decision.miles} miles, from the per-place table read by providerMiles.`,
+              estimatedFrom: "renewalTravelCostPerMileMinor",
+            },
+          });
+      }
     }
     // A continued pregnancy ends at term with a counted baby in the same household.
     for (const pregnancy of store.table(unplannedTable).rows()) {
