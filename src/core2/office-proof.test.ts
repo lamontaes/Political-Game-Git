@@ -25,21 +25,38 @@ import {
 } from "./office-day-state";
 import { drawPlace } from "../../scripts/core2-year/place";
 
-const seed = process.env.OFFICE_STATE_SEED || randomBytes(8).toString("hex");
-const place = drawPlace(seed, "office-state");
-console.log(`office-day-state: ${place.name} (${place.key}), seed ${seed}`);
-const world = buildBenchWorld(seed, gameStartDate(), {
-  twoLevel: true,
-  placeKey: place.key,
-});
+const baseSeed =
+  process.env.OFFICE_STATE_SEED || randomBytes(8).toString("hex");
+
+/** Build a played world; draw again, a bounded number of times, until the place has a governor and a legislator to play. */
+function drawWorld() {
+  const tried: string[] = [];
+  for (let attempt = 0; attempt < 6; attempt += 1) {
+    const seed = attempt ? `${baseSeed}:${attempt}` : baseSeed;
+    const place = drawPlace(seed, "office-state");
+    const world = buildBenchWorld(seed, gameStartDate(), {
+      twoLevel: true,
+      placeKey: place.key,
+    });
+    const api = coreAPI(world.core);
+    const seats = townSeats(api);
+    const governor = seats.find((s) => s.office.kind === "governor")?.holder
+      ?.personId;
+    const member = seats.find((s) => s.office.kind.startsWith("legislature-"))
+      ?.holder?.personId;
+    console.log(
+      `office-day-state: ${place.name} (${place.key}), seed ${seed}${governor && member ? "" : ", no state seat to play"}`,
+    );
+    if (governor && member)
+      return { seed, place, world, api, governor, member };
+    tried.push(`${place.name} (${place.key})`);
+  }
+  throw new Error(`No drawn place has a seat to play: ${tried.join("; ")}`);
+}
+
+const { seed, place, world, api, governor, member } = drawWorld();
 const core = world.core;
-const api = coreAPI(core);
 const player = new BenchPlayer(core, world.director);
-const seats = townSeats(api);
-const governor = seats.find((s) => s.office.kind === "governor")?.holder
-  ?.personId;
-const member = seats.find((s) => s.office.kind.startsWith("legislature-"))
-  ?.holder?.personId;
 
 /** Play day by day through `date`, doing what the stops hold as the character would. */
 function playThrough(date: string, personId: string) {
@@ -80,8 +97,6 @@ describe(`ten days in a state office (${place.name}, seed ${seed})`, () => {
     ["governor", governor],
   ] as const) {
     it(`plays ten days as the state's ${role}`, () => {
-      // Some territorial office data has no state seat to play.
-      if (!who) return;
       // The governor's days that carry the address and the budget are the
       // ones worth ten days; start the evening before the first of them.
       let from = core.date;
@@ -112,6 +127,6 @@ describe(`ten days in a state office (${place.name}, seed ${seed})`, () => {
       expect(core.date >= to).toBe(true);
       // The office day wrote something: an entry done or an act kept.
       expect(lines.length).toBeGreaterThan(0);
-    }, 900_000);
+    }, 1_800_000); // a full played world: building it and playing ten days of two offices takes minutes
   }
 });

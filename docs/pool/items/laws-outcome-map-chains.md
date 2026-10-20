@@ -5,11 +5,12 @@ area: laws
 kind: wiring
 priority: 2
 size: L
-status: open
-claimed-by:
+status: blocked
+claimed-by: claude/political-game-pool-yucp92-n
 pr:
-blocked-on:
+blocked-on: laws-outcome-civil-tech
 source: added with npm run pool -- add
+claimed-at: 2026-10-20T00:47:27.993Z
 ---
 
 **What.** Nineteen law-reach policies still have a mechanic of none or records, so no other engine reads what they write (the guard in law-reach-placeholders.test.ts lists them). For each family, follow one law from its record to the payment or price it changed, the named person it reached, their choice or view, and the director's line, and replace the placeholder with the real effect. The claiming session splits this by family into bounded items first.
@@ -20,4 +21,4 @@ source: added with npm run pool -- add
 
 **Files.** src/core2/law-reach/index.ts, src/core2/law-reach/group-a.ts, src/core2/law-reach/group-b.ts, src/core2/law-reach-placeholders.test.ts
 
-**Notes.** TODO
+**Notes.** Split Oct 20 (claude/political-game-pool-yucp92-n): the 21 placeholder policies are already divided by family into laws-outcome-justice (done, #5200), laws-outcome-labor-cannabis (in PR #5201), laws-outcome-health-fiscal (in PR #5179, with the sales tax) and laws-outcome-civil-tech (claimed, abortion, discrimination, age checks, facial recognition, data privacy, redistricting). The plain minimum-wage policy reads mechanic none on purpose: laws.ts raises every job under the floor on the effective date, so its effect is already a read. This item is done when those four are; it adds nothing of its own.

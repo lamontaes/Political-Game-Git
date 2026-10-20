@@ -5,7 +5,7 @@ area: office
 kind: feature
 priority: 3
 size: M
-status: in-pr
+status: done
 claimed-by: claude/budget-season-act
 pr: #5258
 blocked-on:
