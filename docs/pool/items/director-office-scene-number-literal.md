@@ -5,11 +5,12 @@ area: director
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/director-office-scene-number-literal
+pr: #5196
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-20T01:35:41.540Z
 ---
 
 **What.** The director test that keeps every number out of the director's code fails on main: src/director/office-scene.ts holds a bare numeric literal 0, added by the commit that made the office scene's target a seated official. The test lists it as office-scene.ts:0. Replace the literal with the parameter the other director files use, so the director test is green again. Add no new number to code.
