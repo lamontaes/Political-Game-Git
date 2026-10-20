@@ -5,12 +5,12 @@ area: people
 kind: wiring
 priority: 3
 size: S
-status: in-pr
-claimed-by: claude/renewal-unread-tables
+status: open
+claimed-by:
 pr: #4980
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-17T21:08:26.266Z
+claimed-at:
 ---
 
 **What.** In a one-year run of the played world (Parrott, Virginia (5160840), seed 0ad0af8699c4, `node --import tsx scripts/core2-year/table-trace.ts 0ad0af8699c4 365`), the renewal engine writes yearly counts and a copy of its parameters that no other engine reads (its births and plans rows are item core-unread-renewal-births-plans): `core2-renewal-v1/counts` (36 rows), `core2-renewal-v1/parameters` (25 rows). An effect is a read, so a table written and read by no other engine is a record that does nothing. Check first whether a screen reads it (the headless run does not open screens); if one does, say so in the item and close it; otherwise give the table a reader that decides something, or delete the writer and the table in the same change.
