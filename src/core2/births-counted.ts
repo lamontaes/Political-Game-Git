@@ -50,6 +50,8 @@ import {
   outcomeWebFactor,
   placeOutcome,
 } from "./modules/outcome-web";
+import { lawApplied } from "./law-reach/applied";
+import { LAWS_MODULE_ID, lawChain, lawInForce } from "./modules/laws";
 import type { ModuleRow } from "./module-data";
 import type { CoreAPI, PersonInput, PlaceId, Source } from "./types";
 
@@ -59,6 +61,7 @@ const PER_THOUSAND = 1000,
   MS_PER_DAY = 86_400_000,
   /** The month the first run steps back by to find the illnesses already under way. */
   DAYS_PER_COUNT_MONTH = 30;
+const RENEWAL_ID = "core2-renewal-v1";
 /** The youngest age at which anybody becomes a parent. */
 const YOUNGEST_PARENT_AGE = parameter("minimumParentAgeAtBirth");
 
@@ -278,7 +281,7 @@ export function applyCountedFlows(
     month = date.slice(0, 7);
   const p = (key: string) => renewalParameter(api, key);
   const months = p("monthsPerYear");
-  const store = api.moduleState("core2-renewal-v1");
+  const store = api.moduleState(RENEWAL_ID);
   for (const [placeId, households] of countedHouseholdsByPlace(core)) {
     const state = stateOf(api, placeId);
     const rates = birthRates(state.name);
@@ -501,6 +504,8 @@ export function applyCountedFlows(
     const current = countedHouseholdsByPlace(core).get(placeId) ?? [];
     const spacing = p("renewalCountedBirthSpacingDays");
     const today = Date.parse(date);
+    /** The real women of childbearing age the counted women stand for. */
+    let bearing = 0;
     const mothers: {
       record: ResidentHouseholdRecord;
       woman: PersonInput;
@@ -514,6 +519,7 @@ export function applyCountedFlows(
           ([[low, high]]) => age >= low && age <= high,
         )?.[1];
         if (!rate) continue;
+        bearing += weightOfPerson(woman);
         row.expected.births +=
           monthlyShare(rate * webBirthsFactor, months) * weightOfPerson(woman);
         const recent = record.people.some(
@@ -541,6 +547,7 @@ export function applyCountedFlows(
     mothers.sort(
       (a, b) => b.standing - a.standing || compare(a.woman.id, b.woman.id),
     );
+    recordAbortionRestriction(api, placeId, bearing);
     carry.births += row.expected.births;
     for (const { record, woman } of mothers) {
       // A baby in a record stands for as many babies as the household does.
@@ -573,6 +580,36 @@ export function applyCountedFlows(
     store.table(carryTable).put({ id: placeId, ...carry });
     notifyCountedDeaths(api, row);
   }
+}
+
+const ABORTION_KEY =
+  "us-policy-positions:civil-family-community.restrict-abortion";
+
+/**
+ * Where a restriction on abortion is law, the births the web counts rise by
+ * its researched effect (the web's factor on the birth rate carries it, after
+ * its lag): record the counted women of childbearing age the month's births
+ * were counted for, citing the law row in force.
+ */
+function recordAbortionRestriction(
+  api: CoreAPI,
+  placeId: string,
+  women: number,
+): void {
+  if (!api.state.modules.has(LAWS_MODULE_ID) || women <= 0) return;
+  // The law in force is the town's; other places are not read against it.
+  if (placeId !== lawChain(api).townPlaceId) return;
+  const law = lawInForce(api, ABORTION_KEY);
+  if (law.value !== 1 || !law.governing) return;
+  lawApplied(api, {
+    key: ABORTION_KEY,
+    lawId: law.governing.id,
+    targetId: `women-bearing:${placeId}`,
+    target: "group",
+    engine: RENEWAL_ID,
+    what: "birth-rate-under-restriction",
+    count: Math.round(women),
+  });
 }
 
 /** A counted baby: who they are comes from the world's seed. */

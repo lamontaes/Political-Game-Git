@@ -20,6 +20,8 @@
 import reach from "../data/laws/reach-group-b.json" with { type: "json" };
 import type { CoreAPI, JobInput } from "../types";
 import { registerPolicyHandler } from "./host";
+import { appliedOn, lawApplied } from "./applied";
+import { BUDGETS_MODULE_ID, governments } from "../modules/budgets";
 import { lawChain, lawInForce, LAWS_MODULE_ID } from "../modules/laws";
 import type { LawRowInput } from "../laws-starting";
 import {
@@ -320,6 +322,48 @@ function runPolicy(
       });
       terms.movedMinor =
         moved && !moved.undone ? (moved.moves.transit ?? 0) : 0;
+      // The treasury pays the moved money on each level's transit line; the
+      // residents it serves are one counted group, read like a full person.
+      // Every level's move is recorded under the law row just taken effect,
+      // since a new row ends the applied rows citing an older one.
+      for (const row of rowsOf<{
+        key: string;
+        governmentId: string;
+        moves: Record<string, number>;
+        undone: boolean;
+      }>(api, "taken")) {
+        if (
+          !inForce ||
+          row.key !== key ||
+          row.undone ||
+          !(row.moves.transit! > 0)
+        )
+          continue;
+        const gov = governments(api).find((g) => g.id === row.governmentId);
+        if (!gov) continue;
+        for (const [targetId, target, count] of [
+          [gov.id, "government", undefined],
+          [`residents:${gov.id}`, "group", gov.residents],
+        ] as const)
+          lawApplied(api, {
+            key,
+            lawId: input.lawId,
+            targetId,
+            target,
+            engine: BUDGETS_MODULE_ID,
+            what: "highway-money-moved-to-transit",
+            ...(count === undefined
+              ? {
+                  // Money is counted once per law row, however many levels re-record it.
+                  amountMinor: appliedOn(api, key).some(
+                    (r) => r.targetId === gov.id && r.lawId === input.lawId,
+                  )
+                    ? 0
+                    : row.moves.transit!,
+                }
+              : { count }),
+          });
+      }
       break;
     }
     case "pension-funding":

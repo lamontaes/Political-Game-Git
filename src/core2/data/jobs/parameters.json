@@ -421,5 +421,37 @@
       "unit": "days",
       "citation": "A referral helps while the search is live; the median unemployment spell is about ten weeks (Bureau of Labor Statistics, Current Population Survey)."
     }
+  },
+  "jobsOlderApplicantPenalty": {
+    "value": 3,
+    "tag": "TUNABLE",
+    "citation": "Older applicants draw fewer callbacks than younger ones with the same resume (Neumark, Burn and Button 2019, Journal of Political Economy: a large resume field experiment, callbacks for applicants in their mid-sixties well below those for applicants around thirty). Applied as score points taken off an employer's fit for the oldest applicants where no law bars it; three points is three years' experience in the fit score.",
+    "spread": {
+      "low": 1,
+      "high": 6,
+      "unit": "fit score at the oldest applicant age",
+      "citation": "Older applicants draw fewer callbacks than younger ones with the same resume (Neumark, Burn and Button 2019, Journal of Political Economy: a large resume field experiment, callbacks for applicants in their mid-sixties well below those for applicants around thirty). Applied as score points taken off an employer's fit for the oldest applicants where no law bars it; three points is three years' experience in the fit score."
+    }
+  },
+  "jobsAgeBiasFromAge": {
+    "value": 40,
+    "tag": "SOURCED",
+    "citation": "Age Discrimination in Employment Act, 29 U.S.C. 631(a): protects workers 40 and older."
+  },
+  "jobsAgeBiasFullAge": {
+    "value": 64,
+    "tag": "TUNABLE",
+    "citation": "The oldest age tested in the field experiment (Neumark, Burn and Button 2019): the penalty slides from the protected age to its full size here.",
+    "spread": {
+      "low": 62,
+      "high": 66,
+      "unit": "age in years",
+      "citation": "The oldest age tested in the field experiment (Neumark, Burn and Button 2019): the penalty slides from the protected age to its full size here."
+    }
+  },
+  "jobsAgeLawEmployees": {
+    "value": 20,
+    "tag": "SOURCED",
+    "citation": "Age Discrimination in Employment Act, 29 U.S.C. 630(b): covers employers with 20 or more employees; a state or local ban reaches smaller ones."
   }
 }

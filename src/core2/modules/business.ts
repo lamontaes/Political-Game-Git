@@ -8,6 +8,7 @@
  * scripted. Every payment moves through the ledger.
  */
 import { LAWS_MODULE_ID, lawChain, lawInForce } from "./laws";
+import { lawApplied } from "../law-reach/applied";
 import resourceParameters from "../data/laws/reach-group-b-parameters.json" with { type: "json" };
 import { chooseAct } from "../choice";
 import { countedPayment } from "../counted-money";
@@ -42,6 +43,7 @@ import {
   addResidentFlow,
   countedHeadcountOf,
   countedJobsOf,
+  outputLostPerYear,
   purchaseShareOf,
   shiftPurchaseShare,
 } from "../residents-economy";
@@ -1006,6 +1008,19 @@ function payCompliance(api: CoreAPI): void {
       requested,
       row.source,
     );
+    const statute = c.modules.has(LAWS_MODULE_ID)
+      ? lawOfCost(api, row.cause)
+      : null;
+    if (statute)
+      lawApplied(api, {
+        key: statute.key,
+        lawId: statute.lawId,
+        targetId: row.organizationId,
+        target: "organization",
+        engine: BUSINESS_MODULE_ID,
+        what: statute.what,
+        amountMinor: -paid,
+      });
     store(api)
       .table("compliance")
       .put({
@@ -1155,7 +1170,11 @@ function readGroundwaterLaw(api: CoreAPI): void {
     // This input slot may already be owned by another recorded restriction.
     if (existing && !owned) continue;
     const cause = `${prefix}${law.governing.id}`;
-    if (existing?.cause === cause) continue;
+    if (existing?.cause === cause) {
+      // Each month the farm sells less outside the town than it would without the cap.
+      recordGroundwaterLoss(api, question, law.governing.id, id);
+      continue;
+    }
     // stopgapId: SG-GOV-REACH-B-business-cost — farm irrigation exposure,
     // pumping records and crop-specific responses are not present yet.
     api.stopgap("SG-GOV-REACH-B-business-cost");
@@ -1172,34 +1191,88 @@ function readGroundwaterLaw(api: CoreAPI): void {
           "Agricultural operating limit using the existing withdrawal estimate and irrigation-output elasticity; individual irrigation exposure is not recorded.",
       },
     });
+    recordGroundwaterLoss(api, question, law.governing.id, id);
   }
 }
 
-/**
- * A consumer data privacy law binds the town's employing businesses to honor
- * customers' requests to see and delete their data. The duty costs a share of
- * the business's other operating costs (paid monthly like any compliance
- * cost, so the books and a closure review read it); a repeal ends it.
- */
-const DATA_PRIVACY_QUESTION =
-  "us-policy-positions:technology-privacy.consumer-data-privacy-law";
+/** The outside sales a groundwater cap takes from one farm this month, recorded as the law applied. */
+function recordGroundwaterLoss(
+  api: CoreAPI,
+  key: string,
+  lawId: string,
+  organizationId: string,
+): void {
+  lawApplied(api, {
+    key,
+    lawId,
+    targetId: organizationId,
+    target: "organization",
+    engine: BUSINESS_MODULE_ID,
+    what: "groundwater-output-limited",
+    amountMinor: -Math.round(
+      outputLostPerYear(core(api), organizationId) /
+        api.parameter("macroMonthsPerYear"),
+    ),
+  });
+}
 
-function readDataPrivacyLaw(api: CoreAPI): void {
+/**
+ * A law that puts a recurring duty on businesses (honoring customers' data
+ * requests, verifying the age of new account holders) costs each business it
+ * binds a share of its other operating costs. The cost is paid monthly like
+ * any compliance cost, so the books and a closure review read it, and the
+ * monthly payment is what the law is recorded as applying to; a repeal ends it.
+ */
+export const DATA_PRIVACY_QUESTION =
+  "us-policy-positions:technology-privacy.consumer-data-privacy-law";
+const AGE_VERIFICATION_QUESTION =
+  "us-policy-positions:technology-privacy.age-verification-for-social-media";
+
+interface BusinessDuty {
+  readonly question: string;
+  /** The classifications it binds; every employing enterprise where empty. */
+  readonly classifications: readonly string[];
+  readonly parameter: keyof typeof businessParameters;
+}
+
+const BUSINESS_DUTIES: readonly BusinessDuty[] = [
+  {
+    question: DATA_PRIVACY_QUESTION,
+    classifications: [],
+    parameter: "businessDataPrivacyShareOfCosts",
+  },
+  {
+    question: AGE_VERIFICATION_QUESTION,
+    classifications: businessData.ageVerification.classifications,
+    parameter: "businessAgeVerificationShareOfCosts",
+  },
+];
+
+const dutyCause = (question: string) => `law:${question}`;
+
+function readBusinessDuty(api: CoreAPI, duty: BusinessDuty): void {
   const c = core(api);
   if (!c.modules.has(LAWS_MODULE_ID)) return;
-  const law = lawInForce(api, DATA_PRIVACY_QUESTION);
+  const law = lawInForce(api, duty.question);
   const town = lawChain(api).townPlaceId;
   const table = store(api).table("operating");
-  const cause = `law:${DATA_PRIVACY_QUESTION}`;
+  const cause = dutyCause(duty.question);
+  const parameter = businessParameters[duty.parameter] as unknown as {
+    citation: string;
+    estimatedFrom: string;
+  };
   for (const [id, book] of c.finance.businesses) {
     const org = c.organizations.get(id);
     if (org?.placeId !== town) continue;
     const ruleId = `cost:${id}:${cause}`;
     const existing = table.get(ruleId);
     const employing = (c.finance.jobsByOrganization.get(id)?.size ?? 0) > 0;
+    const classification = classificationOf(c, id);
     if (
       book.closedAt ||
-      !classificationOf(c, id).startsWith("enterprise:") ||
+      !classification.startsWith("enterprise:") ||
+      (duty.classifications.length > 0 &&
+        !duty.classifications.includes(classification)) ||
       !employing ||
       law.value !== 1 ||
       !law.governing
@@ -1216,17 +1289,43 @@ function readDataPrivacyLaw(api: CoreAPI): void {
       continue;
     addRegulatoryCost(api, table, {
       organizationId: id,
-      shareOfCosts: api.parameter("businessDataPrivacyShareOfCosts"),
+      shareOfCosts: api.parameter(duty.parameter),
       cause,
       source: {
         tag: "ESTIMATED",
         asOf: c.date,
-        citation: `${law.governing.id}: ${String(law.governing.source)}; ${businessParameters.businessDataPrivacyShareOfCosts.citation}`,
-        estimatedFrom:
-          businessParameters.businessDataPrivacyShareOfCosts.estimatedFrom,
+        citation: `${law.governing.id}: ${String(law.governing.source)}; ${parameter.citation}`,
+        estimatedFrom: parameter.estimatedFrom,
       },
     });
   }
+}
+
+/**
+ * The statute behind a recurring compliance cost, as a policy question and the
+ * row in force, so the monthly payment is recorded as the law applied.
+ */
+function lawOfCost(
+  api: CoreAPI,
+  cause: string,
+): { key: string; lawId: string; what: string } | null {
+  const key =
+    cause === businessData.compliance.cause
+      ? CLEAN_AIR_QUESTION
+      : BUSINESS_DUTIES.find((duty) => dutyCause(duty.question) === cause)
+          ?.question;
+  if (!key) return null;
+  const law = lawInForce(api, key);
+  return law.value === 1 && law.governing
+    ? {
+        key,
+        lawId: law.governing.id,
+        what:
+          cause === businessData.compliance.cause
+            ? "clean-air-plan-cost"
+            : "compliance-duty-cost",
+      }
+    : null;
 }
 
 function month(api: CoreAPI): void {
@@ -1236,7 +1335,7 @@ function month(api: CoreAPI): void {
   reviewClosures(api);
   membershipPayouts(api);
   readGroundwaterLaw(api);
-  readDataPrivacyLaw(api);
+  for (const duty of BUSINESS_DUTIES) readBusinessDuty(api, duty);
   routeCompliance(api);
   payCompliance(api);
   recordOutsideCosts(api);

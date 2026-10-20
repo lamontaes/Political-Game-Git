@@ -18,6 +18,7 @@ import type { CoreAPI, CoreState } from "../types";
 import type { ModuleRow } from "../module-data";
 import type { WorkPayrollJournalReceipt } from "../work-payroll-cash";
 import type { PolicyHandler } from "./host";
+import { appliedOn, lawApplied } from "./applied";
 import {
   amendBudget,
   BUDGETS_MODULE_ID,
@@ -186,63 +187,135 @@ export function leavePremiumsOf(
   ]) as unknown as LeavePremium[];
 }
 
-// --- dedicated parks funding ----------------------------------------------------------
+// --- a law that adds to a budget line ------------------------------------------------
 
-export const parksFunding: PolicyHandler = (api, change) => {
-  applyRecords(api, PARKS_KEY, change.lawId, change.inForce);
-  const yes = change.inForce ? yesLevels(api, PARKS_KEY) : [];
-  const rows = reachTable(api, "mechanics").query("byKey", [
-    PARKS_KEY,
-  ]) as unknown as {
-    id: string;
-    active: boolean;
-    facts: Record<string, string | number>;
-  }[];
-  // Take back what a level that no longer says yes added.
-  for (const row of rows) {
-    if (!row.active) continue;
-    const still = yes.some((l) => `${PARKS_KEY}:${l.level}` === row.id);
-    if (still) continue;
-    amendBudget(api, {
-      governmentId: String(row.facts.governmentId),
-      line: "parks",
-      deltaMinor: -Number(row.facts.deltaMinor),
-      measureId: change.lawId,
-    });
-    putMechanic(api, {
-      id: row.id,
-      key: PARKS_KEY,
-      active: false,
-      since: api.state.date,
-      facts: { ...row.facts, repealedBy: change.lawId },
-    });
-  }
-  if (!api.state.modules.has(BUDGETS_MODULE_ID)) return;
-  for (const level of yes) {
-    const id = `${PARKS_KEY}:${level.level}`;
-    if (mechanicRow(api, id)?.active) continue;
-    const gov = governments(api).find((g) => g.level === level.level);
-    const budget = gov ? budgetToday(api, gov) : null;
-    if (!gov || !budget) continue;
-    const delta = Math.round(
-      (budget.spendingMinor.parks ?? 0) * reachParameter("parksDedicatedShare"),
-    );
-    if (delta <= 0) continue;
-    amendBudget(api, {
-      governmentId: gov.id,
-      line: "parks",
-      deltaMinor: delta,
-      measureId: level.lawId,
-    });
-    putMechanic(api, {
-      id,
-      key: PARKS_KEY,
-      active: true,
-      since: api.state.date,
-      facts: { governmentId: gov.id, deltaMinor: delta, lawId: level.lawId },
-    });
-  }
-};
+const FACIAL_KEY =
+  "us-policy-positions:technology-privacy.restrict-government-facial-recognition";
+
+/**
+ * A law that adds a share of a budget line at each level that says yes
+ * (dedicated parks funding, the police department's oversight duties under a
+ * facial recognition limit): the line of the government that passed it rises
+ * by the share, the treasury pays it on the line's usual schedule, and a
+ * repeal takes the same amount back out. The government and the residents it
+ * serves are recorded as the law applied.
+ */
+function lineAddition(input: {
+  readonly key: string;
+  readonly line: string;
+  readonly share: string;
+  readonly what: string;
+  /** Records for the people the law reaches (applyRecords) as well. */
+  readonly records: boolean;
+}): PolicyHandler {
+  return (api, change) => {
+    if (input.records)
+      applyRecords(api, input.key, change.lawId, change.inForce);
+    const yes = change.inForce ? yesLevels(api, input.key) : [];
+    const rows = reachTable(api, "mechanics").query("byKey", [
+      input.key,
+    ]) as unknown as {
+      id: string;
+      active: boolean;
+      facts: Record<string, string | number>;
+    }[];
+    // Take back what a level that no longer says yes added.
+    for (const row of rows) {
+      if (!row.active) continue;
+      const still = yes.some((l) => `${input.key}:${l.level}` === row.id);
+      if (still) continue;
+      amendBudget(api, {
+        governmentId: String(row.facts.governmentId),
+        line: input.line,
+        deltaMinor: -Number(row.facts.deltaMinor),
+        measureId: change.lawId,
+      });
+      putMechanic(api, {
+        id: row.id,
+        key: input.key,
+        active: false,
+        since: api.state.date,
+        facts: { ...row.facts, repealedBy: change.lawId },
+      });
+    }
+    if (!api.state.modules.has(BUDGETS_MODULE_ID)) return;
+    for (const level of yes) {
+      const id = `${input.key}:${level.level}`;
+      if (mechanicRow(api, id)?.active) continue;
+      const gov = governments(api).find((g) => g.level === level.level);
+      const budget = gov ? budgetToday(api, gov) : null;
+      if (!gov || !budget) continue;
+      const delta = Math.round(
+        (budget.spendingMinor[input.line] ?? 0) * reachParameter(input.share),
+      );
+      if (delta <= 0) continue;
+      amendBudget(api, {
+        governmentId: gov.id,
+        line: input.line,
+        deltaMinor: delta,
+        measureId: level.lawId,
+      });
+      putMechanic(api, {
+        id,
+        key: input.key,
+        active: true,
+        since: api.state.date,
+        facts: { governmentId: gov.id, deltaMinor: delta, lawId: level.lawId },
+      });
+    }
+    // Record every active level under the law row now taking effect: a new
+    // row ends the applied rows citing an older one.
+    const active = reachTable(api, "mechanics").query("byKey", [
+      input.key,
+    ]) as unknown as {
+      active: boolean;
+      facts: Record<string, string | number>;
+    }[];
+    for (const row of active) {
+      if (!change.inForce || !row.active) continue;
+      const gov = governments(api).find((g) => g.id === row.facts.governmentId);
+      if (!gov) continue;
+      const recorded = appliedOn(api, input.key).some(
+        (r) => r.targetId === gov.id && r.lawId === change.lawId,
+      );
+      lawApplied(api, {
+        key: input.key,
+        lawId: change.lawId,
+        targetId: gov.id,
+        target: "government",
+        engine: BUDGETS_MODULE_ID,
+        what: input.what,
+        amountMinor: recorded ? 0 : Number(row.facts.deltaMinor),
+      });
+      // The residents the line serves are one counted group, read like a full person.
+      lawApplied(api, {
+        key: input.key,
+        lawId: change.lawId,
+        targetId: `residents:${gov.id}`,
+        target: "group",
+        engine: BUDGETS_MODULE_ID,
+        what: input.what,
+        count: gov.residents,
+      });
+    }
+  };
+}
+
+export const parksFunding = lineAddition({
+  key: PARKS_KEY,
+  line: "parks",
+  share: "parksDedicatedShare",
+  what: "parks-line-funded",
+  records: true,
+});
+
+export const facialRecognition = lineAddition({
+  key: FACIAL_KEY,
+  line: "police",
+  share: "facialRecognitionOversightShare",
+  what: "police-oversight-funded",
+  records: true,
+});
 
 // --- housing spending --------------------------------------------------------------
 

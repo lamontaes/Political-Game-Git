@@ -24,7 +24,6 @@
       "service:nursing-home",
       "enterprise:health"
     ],
-    "online": ["enterprise:telecommunications"],
     "parks": ["enterprise:recreation"],
     "legislators": ["council", "county-board", "legislature-"]
   },
@@ -716,18 +715,6 @@
       "mechanic": "none",
       "reaches": [
         {
-          "id": "employers",
-          "target": "organizations",
-          "select": {
-            "group": "businesses",
-            "employing": true
-          },
-          "kind": "compliance",
-          "what": "may not refuse work to anyone for a protected trait",
-          "enforcer": "human rights commission",
-          "penalty": "civil fine and damages"
-        },
-        {
           "id": "landlords",
           "target": "organizations",
           "select": {
@@ -813,24 +800,13 @@
           "what": "needs a parent's consent to open a social media account",
           "enforcer": "the state attorney general",
           "penalty": "civil fine for the platform"
-        },
-        {
-          "id": "platforms",
-          "target": "organizations",
-          "select": {
-            "group": "online"
-          },
-          "kind": "compliance",
-          "what": "must verify the age of each new account holder",
-          "enforcer": "the state attorney general",
-          "penalty": "civil fine per violation"
         }
       ],
       "stopgapId": "SG-GOV-REACH-A-age-verification"
     },
     "us-policy-positions:technology-privacy.restrict-government-facial-recognition": {
       "source": "Limits on government facial recognition (San Francisco Stop Secret Surveillance Ordinance, 2019; Massachusetts Act of 2020).",
-      "mechanic": "none",
+      "mechanic": "police-oversight",
       "reaches": [
         {
           "id": "department",
@@ -869,18 +845,6 @@
           },
           "kind": "right",
           "what": "may see, correct and delete the data businesses hold on them",
-          "enforcer": "the state attorney general",
-          "penalty": "civil fine per violation"
-        },
-        {
-          "id": "businesses",
-          "target": "organizations",
-          "select": {
-            "group": "businesses",
-            "employing": true
-          },
-          "kind": "compliance",
-          "what": "must honor customers' requests to see and delete their data",
           "enforcer": "the state attorney general",
           "penalty": "civil fine per violation"
         }

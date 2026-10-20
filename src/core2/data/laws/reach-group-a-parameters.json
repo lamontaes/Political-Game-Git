@@ -146,6 +146,12 @@
       "source": "Trust for Public Land, LandVote: dedicated park levies typically add a fifth or more to a city's park spending.",
       "spread": [0.1, 0.5]
     },
+    "facialRecognitionOversightShare": {
+      "value": 0.004,
+      "tag": "ESTIMATED",
+      "source": "Surveillance technology ordinances (San Francisco Stop Secret Surveillance Ordinance, 2019; Massachusetts Act 253 of 2020) have a department write a use policy, report each year, and seek a court order before a face search: about one analyst-month a year in a small department, as a share of police spending.",
+      "spread": [0.001, 0.01]
+    },
     "lobbyingCoolingOffYears": {
       "value": 2,
       "tag": "ESTIMATED",
