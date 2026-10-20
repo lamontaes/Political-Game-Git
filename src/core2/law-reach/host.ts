@@ -17,12 +17,22 @@ import type { LawRowInput } from "../laws-starting";
 import { registerLawReach } from "./index";
 import { REACH_A_MODULE_ID } from "./group-a-records";
 import { REACH_B_MODULE_ID } from "./group-b-store";
+import {
+  appliedTo,
+  endApplied,
+  LAW_APPLIED_STATE,
+  LAW_APPLIED_TABLE,
+  type LawAppliedRow,
+} from "./applied";
+import type { ModuleRow } from "../module-data";
 
 /** Kept from the module it replaces, so a world opened before still finds it. */
 export const LAW_REACH_HOST_ID = "core2-law-effects-v1";
 
 export const LAW_REACH_HOST: CoreModule = {
   id: LAW_REACH_HOST_ID,
+  // Who each law reached as the engine applying it recorded it (applied.ts).
+  state: { schemaVersion: 1, tables: LAW_APPLIED_STATE },
   eventKinds: ["law-took-effect", "budget-line-changed"],
   onEvent: (api, event) => runHandlers(api, event),
 };
@@ -127,8 +137,6 @@ function runHandlers(api: CoreAPI, event: Readonly<CoreEventInput>): void {
     event.kind === "budget-line-changed"
       ? `budget-line:${facts.line}`
       : (facts.series ?? "");
-  const list = handlers.get(key);
-  if (!list) return;
   const value = facts.value === undefined ? null : Number(facts.value);
   const inForce =
     event.kind === "budget-line-changed"
@@ -136,6 +144,10 @@ function runHandlers(api: CoreAPI, event: Readonly<CoreEventInput>): void {
       : key.includes(":")
         ? inForceHere(api, key)
         : true;
+  if (event.kind === "law-took-effect")
+    endReplaced(api, key, inForce, facts.lawId);
+  const list = handlers.get(key);
+  if (!list) return;
   for (const handler of list)
     handler(api, {
       key,
@@ -145,6 +157,31 @@ function runHandlers(api: CoreAPI, event: Readonly<CoreEventInput>): void {
       value: Number.isFinite(value) ? value : null,
       placeId: event.placeId,
     });
+}
+
+/**
+ * A law taking effect ends the applied rows it replaces: every row on the key
+ * when the policy is no longer law here, else the rows citing an older law
+ * (the engines record the new one the next time they apply it).
+ */
+function endReplaced(
+  api: CoreAPI,
+  key: string,
+  inForce: boolean,
+  lawId: string | undefined,
+): void {
+  if (!key) return;
+  if (!inForce) {
+    endApplied(api, key);
+    return;
+  }
+  const table = api.moduleState(LAW_REACH_HOST_ID).table(LAW_APPLIED_TABLE);
+  for (const row of table.query("byKey", [
+    key,
+    null,
+  ]) as unknown as LawAppliedRow[])
+    if (lawId && row.lawId !== lawId)
+      table.put({ ...row, endedOn: api.state.date } as unknown as ModuleRow);
 }
 
 /** One law's reach on one person: what it does to them, since when, and whether it has ended. */
@@ -209,6 +246,16 @@ export function reachOn(
         since: row.since,
         endedOn: row.endedOn,
       });
+  for (const row of appliedTo(api, personId))
+    out.push({
+      id: row.id,
+      key: row.key,
+      lawId: row.lawId,
+      kind: row.engine,
+      what: row.what,
+      since: row.since,
+      endedOn: row.endedOn,
+    });
   return out.sort(
     (a, b) => a.since.localeCompare(b.since) || a.id.localeCompare(b.id),
   );
@@ -243,5 +290,12 @@ export function reachedBy(
     }[])
       if (row.lawId === lawId)
         out.push({ personId: row.personId, what: row.effect });
+  if (api.state.modules.has(LAW_REACH_HOST_ID))
+    for (const row of api
+      .moduleState(LAW_REACH_HOST_ID)
+      .table(LAW_APPLIED_TABLE)
+      .query("byKey", [key, null]) as unknown as LawAppliedRow[])
+      if (row.lawId === lawId && api.state.people.has(row.targetId))
+        out.push({ personId: row.targetId, what: row.what });
   return out.sort((a, b) => a.personId.localeCompare(b.personId));
 }
