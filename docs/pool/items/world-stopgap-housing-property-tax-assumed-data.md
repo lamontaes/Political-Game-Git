@@ -4,9 +4,9 @@ title: "Stopgaps in housing-property-tax (assumed-data): 1 open"
 area: world
 kind: stopgap
 priority: 3
-status: open
+status: in-pr
 claimed-by:
-pr:
+pr: #5270
 blocked-on:
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/housing-property-tax.ts, kind assumed-data"

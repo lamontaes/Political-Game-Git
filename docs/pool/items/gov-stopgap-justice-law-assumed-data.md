@@ -4,10 +4,10 @@ title: "Stopgaps in justice-law (assumed-data): 1 open"
 area: gov
 kind: stopgap
 priority: 3
-status: open
+status: blocked
 claimed-by:
 pr:
-blocked-on:
+blocked-on: research data: the row's replacement needs sourced data (Each place's bribery-of-a-public-official grade and range read into data/research/justice/sentencing-ranges-2026.json, read by offense key....)
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/justice-law.ts, kind assumed-data"
 ---
