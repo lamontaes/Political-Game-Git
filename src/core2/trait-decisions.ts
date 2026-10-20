@@ -168,13 +168,56 @@ export function leanedScore(
   noOptionId: string,
   bare: number,
 ): number {
-  const lean = leanBetween(
+  return reportLeaned(
     core,
     person,
-    decisionKinds(decisionId, yesOptionId),
-    decisionKinds(decisionId, noOptionId),
-    (key) => parameter(key, core.data.parameters),
+    decisionId,
+    leanBetween(
+      core,
+      person,
+      decisionKinds(decisionId, yesOptionId),
+      decisionKinds(decisionId, noOptionId),
+      (key) => parameter(key, core.data.parameters),
+    ),
+    bare,
   );
+}
+
+/**
+ * A counted person's two-way decision on exactly the chooser's arithmetic: the
+ * case for it (`bare`, every reason but personality) plus the decision's
+ * calibrated weight times the person's trait lean toward the yes option's
+ * act kinds less the no option's, unscaled, as `scoreOffers` adds it for a full
+ * person. The same weight therefore moves a counted person and a full person
+ * the same amount. For options whose act kinds live in their module's data.
+ */
+export function leanedByKinds(
+  core: Pick<CoreState, "data">,
+  person: Pick<PersonState, "traits"> & { id?: string },
+  decisionId: string,
+  yesKinds: readonly string[],
+  noKinds: readonly string[],
+  bare: number,
+): boolean {
+  return (
+    reportLeaned(
+      core,
+      person,
+      decisionId,
+      traitLean(core, person, yesKinds) - traitLean(core, person, noKinds),
+      bare,
+    ) > parameter("zero", core.data.parameters)
+  );
+}
+
+/** `bare` plus the weighted lean, reported to the audit probe with whether personality turned it. */
+function reportLeaned(
+  core: Pick<CoreState, "data">,
+  person: { id?: string },
+  decisionId: string,
+  lean: number,
+  bare: number,
+): number {
   const score = bare + lean * decisionTraitWeight(core, decisionId);
   const probe = traitProbe();
   if (probe?.formula) {
@@ -189,4 +232,21 @@ export function leanedScore(
     });
   }
   return score;
+}
+
+/**
+ * The trait term of a counted person's summed pull: the decision's calibrated
+ * weight times the lean toward the first act kinds less the second's, unscaled,
+ * as the chooser adds it for a full person.
+ */
+export function decisionTraitTerm(
+  core: Pick<CoreState, "data">,
+  person: Pick<PersonState, "traits">,
+  decisionId: string,
+  toward: readonly string[],
+  over: readonly string[],
+): number {
+  const lean = traitLean(core, person, toward) - traitLean(core, person, over);
+  traitProbe()?.formula?.({ decisionId, lean });
+  return lean * decisionTraitWeight(core, decisionId);
 }
