@@ -5,13 +5,13 @@ area: world
 kind: wiring
 priority: 2
 size: M
-status: in-pr
-claimed-by: claude/political-game-pool-8defjq
+status: open
+claimed-by:
 pr: #5080
 blocked-on:
 after: world-counted-reads-person-callers
 source: added with npm run pool -- add
-claimed-at: 2026-10-19T18:57:26.003Z
+claimed-at:
 ---
 
 **What.** TODO
