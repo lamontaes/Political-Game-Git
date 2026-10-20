@@ -4867,5 +4867,29 @@
     "addedAt": "2026-10-17",
     "replacement": "Each department's employing government read from the Census of Governments employment file by function, so a county health department, a fire district or a state agency's field office pays its own staff.",
     "status": "open"
+  },
+  {
+    "id": "SG-SCHOOL-college-completion",
+    "kind": "missing-engine",
+    "file": "src/core2/school-outcomes.ts",
+    "line": 1,
+    "whatItFakes": "The share of adults with a bachelor's degree (school.college-completion-pct) stays the web's ledger number (base times the links' factors); no engine decides who completes college.",
+    "why": "The measure is a stock of everyone 25 and older, and the core records no degrees or college enrollment on a person, so there is nothing for a student's June record to roll into; building it needs a college-going and degree record.",
+    "addedBy": "EFFECT-WEB-SCHOOLS",
+    "addedAt": "2026-10-20",
+    "replacement": "A college engine that gives each graduate an enrollment and completion record by the same standing rule, and a degree on each adult, read back as this measure.",
+    "status": "open"
+  },
+  {
+    "id": "SG-SCHOOL-equalized-funding-budget",
+    "kind": "missing-engine",
+    "file": "src/core2/school-outcomes.ts",
+    "line": 1,
+    "whatItFakes": "The equalized-funding law's link into spending per student is the web's number; no law handler moves the schools budget line, so the school spending measure does not follow the law.",
+    "why": "No handler in src/core2/law-reach moves the education budget for education.equalize-school-funding (law handlers belong to the law-wiring area).",
+    "addedBy": "EFFECT-WEB-SCHOOLS",
+    "addedAt": "2026-10-20",
+    "replacement": "A law-reach handler that moves the schools line of the budget in force (moveBudget), which the school engine's spending measure then reads.",
+    "status": "open"
   }
 ]

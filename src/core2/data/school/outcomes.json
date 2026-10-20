@@ -1,0 +1,44 @@
+{
+  "version": "core2-school-outcomes-v1",
+  "citation": "School outcomes are decided each year from the place's researched base (the web's 2024 state base) times the web's factor for each student's income fifth; who clears the line is each student's own standing.",
+  "gradeAgeFirst": 5,
+  "tested": {
+    "math": 8,
+    "reading": 8,
+    "graduation": 12
+  },
+  "testingDay": "02-15",
+  "testingCitation": "NAEP is administered in January through March (NCES, Nation's Report Card); the middle of that window is February 15. Graduation is decided on the last day of the school year the school module already ends on.",
+  "standing": {
+    "traits": ["facet-studious", "voluntary-effort"],
+    "attendanceWeightParameter": "schoolStandingAttendanceWeight",
+    "traitWeightParameter": "schoolStandingTraitWeight"
+  },
+  "gradient": {
+    "about": "Proficient share of the eligible and the not-eligible for the National School Lunch Program (grade 8, one state's 2022 NAEP profile), and the national four-year graduation rate of economically disadvantaged students against all students. Only the ratio of the two groups is used: each place's fifths are scaled so the place's mean is its own base times the web's factor.",
+    "eligibleShareByIncomeFifth": [1, 1, 0.5, 0, 0],
+    "eligibleShareEstimatedFrom": "About half of public school students are eligible for free or reduced-price lunch (NCES Condition of Education, public school students eligible for free or reduced-price lunch). The two lowest national household-income fifths are taken as eligible, the middle fifth as half eligible, the two highest as not.",
+    "math": {
+      "eligible": 11,
+      "notEligible": 41,
+      "tag": "ESTIMATED",
+      "source": "California Department of Education, National Assessment of Educational Progress Test Results (https://www.cde.ca.gov/TA/ac/sc/documents/naepresults.docx): Mathematics 2022, Grade 8, percent at NAEP Proficient plus Advanced: Eligible for National School Lunch 9 + 2, Not Eligible 25 + 16. A single state's profile, used for its ratio only."
+    },
+    "reading": {
+      "eligible": 19,
+      "notEligible": 45,
+      "tag": "ESTIMATED",
+      "source": "California Department of Education, National Assessment of Educational Progress Test Results (https://www.cde.ca.gov/TA/ac/sc/documents/naepresults.docx): Reading 2022, Grade 8, percent at NAEP Proficient plus Advanced: Eligible for National School Lunch 18 + 1, Not Eligible 37 + 8. A single state's profile, used for its ratio only."
+    },
+    "graduation": {
+      "eligible": 81,
+      "notEligible": 93,
+      "tag": "ESTIMATED",
+      "source": "NCES Condition of Education, Public High School Graduation Rates: 'economically disadvantaged students (81 percent)' against 'the U.S. average adjusted cohort graduation rate (ACGR) for public high school students was 87 percent' (2021-22). The not-disadvantaged rate is the figure that, with about half of students disadvantaged, gives 87 on average."
+    }
+  },
+  "stopgaps": {
+    "collegeCompletion": "SG-SCHOOL-college-completion",
+    "equalizedFunding": "SG-SCHOOL-equalized-funding-budget"
+  }
+}
