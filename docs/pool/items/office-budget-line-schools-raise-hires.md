@@ -22,3 +22,5 @@ claimed-at:
 **Files.** src/core2/budget-line-schools-staffing.test.ts
 
 **Notes.** TODO
+
+Sent back 2026-10-20 from PR #5632 (branch claude/schools-raise-test): school teachers are counted workers since #5568, so the budget-line-schools-staffing test's named-teacher precondition never holds and it fails in every draw with main merged in; prove the line change on the district's counted payroll; finish on that branch, merge main into it first.
