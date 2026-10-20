@@ -5,20 +5,23 @@ area: world
 kind: bug
 priority: 2
 size: S
-status: in-pr
-claimed-by: claude/counted-weight-payroll
+status: done
+claimed-by: claude/fs11vb-rr2
 pr: #5331
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-20T00:01:50.372Z
+claimed-at: 2026-10-20T11:25:59.280Z
 ---
 
-**What.** The counted-weight-money test fails in Unadilla, New York (3676001), seed 5a77dbcdef2b0732e8a0264421216708acfec92c0df37337f8480fed220214aa. The posting residents:wages:opening-payroll-calendar for organization_9051120a1c2af00e on 2025-02-20 is 5,819,280 against an expected upper bound of 5,554,574. Find why a counted payroll posting runs about 4.8 percent over the weighted wages it should stand for, and make the payroll and its bound agree.
+**What.** src/core2/counted-weight-money.test.ts failed on main on most random draws because it scaled the single-household run's opening payroll by a mean household weight, while the scaled world's opening pays more jobs (116 against 113 in Putnam, Connecticut), so the scaled payroll came out about 3 percent over its bound; a second failure, rents compared 0, came from towns with no counted rent flows. The money is right and the test is wrong. Compare each payroll with what its own jobs are owed (one day's pay over its jobs, weighted by each counted job's household, times the days the base run paid), skip a base run that paid only part of a day, and redraw up to three times when a town has no counted rent, failing if none pays any. PR #5331 (branch claude/counted-weight-payroll) built this and was sent back; finish it on that branch after merging main.
 
-**Rules.** Fix at the root: a red test is fixed in place or the code it guards is, never skipped or loosened. No dice. One rule, all 56 places: the place facts come from data, and the test names the place and seed it drew. One model, two tiers: the same dollars per household, times the count.
+**Rules.** Replace, never layer: the scaled-mean comparison is replaced, not kept beside the new one, and the bound is not loosened. One rule, all 56 places: the test draws its place and names the places it skipped. Every dollar must balance: the none-pays-more and tax checks stay as they are.
 
-**Done when.** In Unadilla, New York with that seed, and in two other drawn places, the opening payroll posting stays within the weighted wages and src/core2/counted-weight-money.test.ts passes.
+**Done when.** src/core2/counted-weight-money.test.ts passes on the two seeds that failed (Putnam, Connecticut and Franklin Lakes, New Jersey) and on three fresh drawn places named in the PR body, fails when a payroll pays more than its jobs are owed, and finishes inside its stated time limit with the reason for that limit written beside it.
 
-**Files.** src/core2/counted-weight-money.test.ts, src/core2/modules/residents.ts, src/core2/opening-payroll-calendar.ts
+**Files.** src/core2/counted-weight-money.test.ts
 
-**Notes.** Found by running src/core2 on main, Oct 19 (release-suite-red-list-on-main): assertion at counted-weight-money.test.ts:135, 'expected 5819280 to be less than or equal to 5554574'.
+**Notes.**
+Sent back 2026-10-20 from PR #5331 (branch claude/counted-weight-payroll): see the Cloud merger comment on that PR for the exact reason; finish on that branch, merge main into it first.
+
+Oct 20 (pool feeder): write-up filled from PR #5331's body; the town with no counted rent is filed as world-no-counted-rent-flows-small-town.

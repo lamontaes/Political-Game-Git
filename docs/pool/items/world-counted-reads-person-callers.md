@@ -5,12 +5,12 @@ area: world
 kind: wiring
 priority: 2
 size: M
-status: in-pr
-claimed-by: claude/political-game-pool-76ksvw
+status: open
+claimed-by:
 pr: #5080
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-20T05:12:15.527Z
+claimed-at:
 ---
 
 **What.** `residentPerson` and `store.peopleOf` still build a person record from a counted group's packed columns for 17 callers: `jobs.ts` (8), `jobs-benefits.ts` (2), `employer-taxes.ts` (2), `business.ts`, `candidacy.ts`, `credit.ts` (also `peopleOf`), `state.ts` (2) and `world-metrics.ts` (`householdOfPerson`). Each reads only a placeId, traits or a living cost, which the group already holds. Make each read the group (`reachOf`, group fields) the way the done counted-reads items did for their own lanes, so nothing but fill-in builds a counted person.
@@ -21,13 +21,8 @@ claimed-at: 2026-10-20T05:12:15.527Z
 
 **Files.** src/core2/modules/jobs.ts, jobs-benefits.ts, employer-taxes.ts, business.ts, candidacy.ts, credit.ts, world-metrics.ts, src/core2/state.ts
 
-**Notes.** Found taking core-counted-views-delete: its prerequisite items are done but these callers remain, and they sit in other areas, so the core session cannot delete the views until they move. The candidacy caller may need a government-area session.
-
 **Notes.** Sent back Oct 20 from PR #5080 (branch claude/political-game-pool-8defjq): src/core2/counted-facts-year.test.ts failed with 'Actual customer public owner coverage record is missing' during 365-day run; finish on that branch, merge main into it first.
 
 Found taking core-counted-views-delete: its prerequisite items are done but these callers remain, and they sit in other areas, so the core session cannot delete the views until they move. The candidacy caller may need a government-area session.
 
-**Result (Oct 20, claude/political-game-pool-76ksvw session).** Finished on claude/political-game-pool-8defjq: merged main (only pool docs conflicted), moved the last literal caller (world-metrics.ts householdOfPerson) to the group columns. residentPerson remains only inside fill-in (state.ts husk ties, residents.ts definition). Typecheck and eslint pass; counted-facts-year.test.ts passes in a drawn place (1 test). Not done: the one-year before/after comparison of jobs, taxes and loans beyond that test, and core-counted-views-delete is not yet unblocked by a run.
-
-Checked Oct 20 (claude/political-game-pool-8defjq), on head after merging main and the branch's own remote commit: the send-back ("Actual customer public owner coverage record is missing" during the 365-day run of counted-facts-year.test.ts) does not reproduce. The test passes with GOLDEN_PATH_SEED cfy-a, cfy-b and cfy-c and with a random place, and a 14-place sweep of a bookkeeping-on year (Twin Rivers NJ, Truth or Consequences NM, Mansfield MO, Clark Fork ID, Masonville KY, Kalaheo HI, Lincoln IL, Lake MS, Gardena ND, Pine Hill NY, Columbus NC, Cruz Bay VI, Laguna NM, Diablo CA; seeds sweep:0 to sweep:13 through drawPlace(..., "counted-facts-year")) ran clean. The message is raised by the finance cash source check (src/core2/finance-cash.ts), which this branch does not edit; it was probably a place-dependent failure on the main of that moment. If it recurs, attach the place and seed from the test's `where`.
-
+Sent back 2026-10-20 from PR #5080 (branch claude/political-game-pool-8defjq): merging main still conflicts in scripts/health/mortality-band.ts and src/core2/player-money-year.test.ts; finish on that branch, merge main into it first.

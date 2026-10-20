@@ -92,19 +92,21 @@ it("a played year moves the player's household money through pay, living costs, 
         total("work-payroll work-payroll", "inMinor"),
         where,
       ).toBeGreaterThan(0);
-      // Living costs leave through the town's sellers (`living:`), or, where the
-      // town has none, as the household's outside-living flow
-      // (`residents:outside-living:`); either way a journal record by id.
       expect(
-        total("accounts.transfer living", "outMinor") +
-          total("accounts.transfer residents", "outMinor"),
+        total("accounts.transfer living", "outMinor"),
         where,
       ).toBeGreaterThan(0);
-      // Housing leaves as a settled contract (rent or a mortgage) or, for a
-      // household that owns its home outright, as property tax.
+      // The household settles what it owes for where it lives by some route: a
+      // contract (a rent or mortgage), the property tax on a home it owns
+      // outright (Garyville, Louisiana), or, where no contract or tax is
+      // modeled for it (Christiansted, U.S. Virgin Islands), the outside
+      // living cost the counts' engine charges for housing it does not buy
+      // from a local seller. A household with none of the three has lost its
+      // housing cost.
       expect(
         total("finance.contract-settlement finance", "outMinor") +
-          total("accounts.transfer property-tax", "outMinor"),
+          total("accounts.transfer property-tax", "outMinor") +
+          total("accounts.transfer residents", "outMinor"),
         where,
       ).toBeGreaterThan(0);
       expect(
