@@ -4280,7 +4280,8 @@
       "evidence": "provisional",
       "anchor": "From 2018 to 2022, turnout rose about 1 point in districts drawn by long-standing commissions and 5 points in court-drawn ones, and being drawn into a competitive district added about 3 points; the comparison is descriptive, not a controlled study, and presidential turnout is barely touched by district lines",
       "source": "Brennan Center, The Turnout Effects of Redistricting Institutions; PS: Political Science and Politics 2023 (commissions and competitive elections)",
-      "range": [0, 0.015]
+      "range": [0, 0.015],
+      "notes": "The Brennan Center study reports turnout by redistricting institution and by whether a district became competitive, as district-level averages, with no split by voter income or age."
     },
     {
       "key": "term-limits-to-turnout",
