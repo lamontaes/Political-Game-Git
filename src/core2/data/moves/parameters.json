@@ -101,16 +101,6 @@
     "citation": "The youngest age band in the American Community Survey 2024 departure rates this engine reads (18 and 19); younger people move with their household.",
     "stopgapId": "SG-P15-moves-weights"
   },
-  "movesRiskWeight": {
-    "value": 0.3,
-    "tag": "TUNABLE",
-    "citation": "How much a person's trait lean toward moving away over staying put (every trait through the shared trait table, about -1 to 1; OPUS-TRAITS, Oct 12, 2026) loosens what holds them in town (a lean toward staying tightens it). Personality predicts moving within and between US states (Jokela 2009, Journal of Research in Personality 43(1):79-83); the size is a starting value.",
-    "stopgapId": "SG-P15-moves-weights",
-    "spread": {
-      "low": 0.1,
-      "high": 0.6
-    }
-  },
   "movesDaysPerYear": {
     "value": 365,
     "tag": "SOURCED",

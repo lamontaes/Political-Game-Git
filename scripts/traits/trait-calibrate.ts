@@ -139,6 +139,20 @@ for (const row of research.rows) {
   if (!prior || size > Math.abs(targetLogOdds(prior) ?? 0))
     strongest.set(row.id, row);
 }
+/**
+ * TRAIT_ASSUME="id=ratio,id=ratio": for a decision whose study gives a
+ * direction but no number (or has no row), calibrate to this odds ratio per
+ * standard deviation instead (the 1.1 to 1.3 the research file reports for
+ * single decisions), and say so in the parameter's citation.
+ */
+for (const pair of (process.env.TRAIT_ASSUME ?? "").split(",")) {
+  const [id, ratio] = pair.split("=");
+  if (!id || !ratio) continue;
+  strongest.set(id, {
+    ...(strongest.get(id) ?? { id }),
+    effect: { kind: "odds-ratio-per-sd", value: Number(ratio) },
+  });
+}
 const results = [...strongest.values()].map((row) => {
   // The study's sign says which way the trait moves the choice; the lean
   // already points toward the option, so the target is its size.

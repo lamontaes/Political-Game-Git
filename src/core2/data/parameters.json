@@ -569,12 +569,14 @@
     }
   },
   "traitWeightBusinessOwnerDraw": {
-    "value": 1,
-    "tag": "TUNABLE",
-    "citation": "The trait weight of the business.owner-draw decision. Starts at the general traitWeight (1); calibrated against its row in data/research/trait-effect-sizes.json with scripts/traits/trait-calibrate.ts.",
+    "value": 1.5,
+    "tag": "ESTIMATED",
+    "citation": "No study of owners' draws by personality was found; the default row of data/research/trait-effect-sizes.json (Fleeson and Gallagher 2009) is a different measure. Weight set where flips first appear in 204 played calls (place key 3223500, seed 7ae8589566f5): below about 1.3 nobody changes, above 2 more than a tenth do.",
     "spread": {
-      "status": "unmeasured",
-      "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
+      "low": 1,
+      "high": 2,
+      "unit": "weight",
+      "citation": "Bounds are where the first flips appear and where over a tenth of calls change."
     }
   },
   "traitWeightBusinessOpenLocation": {
@@ -587,66 +589,80 @@
     }
   },
   "traitWeightBusinessFound": {
-    "value": 1,
-    "tag": "TUNABLE",
-    "citation": "The trait weight of the business.found decision. Starts at the general traitWeight (1); calibrated against its row in data/research/trait-effect-sizes.json with scripts/traits/trait-calibrate.ts.",
+    "value": 2.04,
+    "tag": "ESTIMATED",
+    "citation": "Zhao and Seibert 2006, The Big Five personality dimensions and entrepreneurial status (Journal of Applied Psychology 91(2)): multiple R .37 across the five traits. Weight is ln(4.83) divided by 0.772, the mean lean gap between the thirds of counted adults leaning most and least toward founding (place key 3223500, seed 7ae8589566f5), so the odds ratio between the thirds is the study's 4.83. Full people found too rarely in a year to measure (2 of 12,867 weighings), so they take the same weight as counted people.",
     "spread": {
-      "status": "unmeasured",
-      "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
+      "low": 1.5,
+      "high": 2.6,
+      "unit": "weight",
+      "citation": "Zhao, Seibert and Lumpkin 2010 give R .36; the weight range gives odds ratios of 3 to 7.5 between the thirds."
     }
   },
   "traitWeightJobsReviewWorker": {
-    "value": 1,
-    "tag": "TUNABLE",
-    "citation": "The trait weight of the jobs.review-worker decision. Starts at the general traitWeight (1); calibrated against its row in data/research/trait-effect-sizes.json with scripts/traits/trait-calibrate.ts.",
+    "value": 4.05,
+    "tag": "ESTIMATED",
+    "citation": "Zimmerman 2008 (Personnel Psychology 61(2)): conscientiousness and agreeableness best predict actual turnover, direction only. Weight set with scripts/traits/trait-calibrate.ts (place key 3223500, seed 7ae8589566f5, 365 played days, 2,091 calls) to an odds ratio of 1.67 between the thirds, against an assumed 1.49 (1.2 per standard deviation, the 1.1 to 1.3 single-decision range of the research file). Large because staying scores about 2.5 above looking in the circumstances.",
     "spread": {
-      "status": "unmeasured",
-      "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
+      "low": 2,
+      "high": 6,
+      "unit": "weight",
+      "citation": "No interval in the study; 2 to 6 spans an odds ratio of about 1.2 to 2.5 in the same calls."
     }
   },
   "traitWeightJobsStartLooking": {
-    "value": 1,
-    "tag": "TUNABLE",
-    "citation": "The trait weight of the jobs.start-looking decision. Starts at the general traitWeight (1); calibrated against its row in data/research/trait-effect-sizes.json with scripts/traits/trait-calibrate.ts.",
+    "value": 0.05,
+    "tag": "ESTIMATED",
+    "citation": "Zimmerman 2008, Understanding the impact of personality traits on individuals' turnover decisions (Personnel Psychology 61(2)): emotional stability best predicts intentions to quit, direction only, no number in the accessible text. Weight set with scripts/traits/trait-calibrate.ts (place key 3223500, seed 7ae8589566f5, 365 played days, 872 calls) so the odds of looking, third leaning most against third leaning least, net of the same gap without personality, is 1.33 against an assumed target of 1.49 (1.2 per standard deviation, inside the 1.1 to 1.3 single-decision range of data/research/trait-effect-sizes.json).",
     "spread": {
-      "status": "unmeasured",
-      "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
+      "low": 0.03,
+      "high": 0.2,
+      "unit": "weight",
+      "citation": "Weights 0.05 to 0.2 keep the odds ratio between 1.2 and 2 in the same calls; the study gives no interval."
     }
   },
   "traitWeightJobsApply": {
-    "value": 1,
-    "tag": "TUNABLE",
-    "citation": "The trait weight of the jobs.apply decision. Starts at the general traitWeight (1); calibrated against its row in data/research/trait-effect-sizes.json with scripts/traits/trait-calibrate.ts.",
+    "value": 5,
+    "tag": "ESTIMATED",
+    "citation": "Kanfer, Wanberg and Kantrowitz 2001, Job search and employment: a personality-motivational analysis and meta-analytic review (Journal of Applied Psychology 86(5)): correlations of -.15 to .46, no trait-level number. No weight reaches the assumed 1.49 odds ratio: every weighed application scores exactly the unemployed need of 3 above waiting, so personality changes nothing below a weight of about 4.5 and is overwhelming (odds ratio 90) at 6. 5 is the smallest weight at which the most extreme personalities can decline an application (scripts/traits/trait-calibrate.ts, seed 7ae8589566f5, place key 3223500, 482 calls).",
     "spread": {
-      "status": "unmeasured",
-      "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
+      "low": 4.5,
+      "high": 6,
+      "unit": "weight",
+      "citation": "Bounds are the cliff: 4.5 changes no call, 6 changes about 7 percent of calls."
     }
   },
   "traitWeightJobsAcceptOffer": {
-    "value": 1,
-    "tag": "TUNABLE",
-    "citation": "The trait weight of the jobs.accept-offer decision. Starts at the general traitWeight (1); calibrated against its row in data/research/trait-effect-sizes.json with scripts/traits/trait-calibrate.ts.",
+    "value": 1.2,
+    "tag": "ESTIMATED",
+    "citation": "Direction only (Zimmerman 2008, Personnel Psychology 61(2); Kanfer et al. 2001). Weight set with scripts/traits/trait-calibrate.ts (place key 3223500, seed 7ae8589566f5, 365 played days, 2,441 calls) to an odds ratio of 1.77 between the thirds against an assumed 1.49 (1.2 per standard deviation, the 1.1 to 1.3 single-decision range of the research file).",
     "spread": {
-      "status": "unmeasured",
-      "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
+      "low": 1,
+      "high": 1.5,
+      "unit": "weight",
+      "citation": "Calls cluster at one score, so the odds ratio steps from 1 to over 8 between weights 1.1 and 1.5; 1 to 1.5 brackets the step."
     }
   },
   "traitWeightHousingBuyHome": {
-    "value": 1,
-    "tag": "TUNABLE",
-    "citation": "The trait weight of the housing.buy-home decision. Starts at the general traitWeight (1); calibrated against its row in data/research/trait-effect-sizes.json with scripts/traits/trait-calibrate.ts.",
+    "value": 2.5,
+    "tag": "ESTIMATED",
+    "citation": "No study of personality and becoming a homeowner was found (data/research/trait-effect-sizes.json). Weight set at the smallest value at which personality reaches any home purchase in 651 played weighings (place key 3223500, seed 7ae8589566f5, 365 days): nobody buys below about 2, and the odds ratio between the thirds is 9 at 2 and 22 at 3 from 4 and 10 buyers. Households that can afford the down payment score below keeping the rent by about half a point, so only the strongest leanings tip them. The cost of owning over renting is now the interest, not the whole payment.",
     "spread": {
-      "status": "unmeasured",
-      "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
+      "low": 2,
+      "high": 4,
+      "unit": "weight",
+      "citation": "2 is where the first purchases appear; 4 is where about 3 percent of weighings end in a purchase."
     }
   },
   "traitWeightCreditBorrow": {
-    "value": 1,
-    "tag": "TUNABLE",
-    "citation": "The trait weight of the credit.borrow decision. Starts at the general traitWeight (1); calibrated against its row in data/research/trait-effect-sizes.json with scripts/traits/trait-calibrate.ts.",
+    "value": 3.8,
+    "tag": "ESTIMATED",
+    "citation": "Brown and Taylor 2014, Household finances and the 'Big Five' personality traits (Journal of Economic Psychology 45): one standard deviation of extraversion goes with 21.7 percentage points more unsecured debt among single people. Taken as a probability swing, the odds ratio between the thirds is 7.6. Weight set with scripts/traits/trait-calibrate.ts (place key 3223500, seed 7ae8589566f5, 365 played days, 10,268 personal and business calls); 3.8 reaches 6.2 and no weight reaches 7.6 because the shortfall and cost reasons dominate. The paper's unit is ambiguous (a percentage change in the level of debt), so this is likely an upper bound.",
     "spread": {
-      "status": "unmeasured",
-      "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
+      "low": 1,
+      "high": 5,
+      "unit": "weight",
+      "citation": "Weight 1 gives an odds ratio of 1.6 in the same calls; 5 gives about 7. No interval in the study."
     }
   },
   "traitWeightCandidacyRun": {
@@ -713,48 +729,58 @@
     }
   },
   "traitWeightJobsCountedRetire": {
-    "value": 1,
-    "tag": "TUNABLE",
-    "citation": "The trait weight of the jobs.counted-retire decision. Starts at the general traitWeight (1); calibrated against its row in data/research/trait-effect-sizes.json with scripts/traits/trait-calibrate.ts.",
+    "value": 0.59,
+    "tag": "ESTIMATED",
+    "citation": "Counted workers' retiring pull is a logistic of their reasons. Weight is ln(1.49) divided by 0.676, the mean lean gap between the thirds of counted adults (place key 3223500, seed 7ae8589566f5), an odds ratio of 1.49 between the thirds, an assumed 1.2 per standard deviation inside the 1.1 to 1.3 single-decision range (no retirement-timing study with a number was found).",
     "spread": {
-      "status": "unmeasured",
-      "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
+      "low": 0.4,
+      "high": 0.8,
+      "unit": "weight",
+      "citation": "Odds ratio of 1.3 to 1.7 between the thirds."
     }
   },
   "traitWeightJobsCountedLook": {
-    "value": 1,
-    "tag": "TUNABLE",
-    "citation": "The trait weight of the jobs.counted-look decision. Starts at the general traitWeight (1); calibrated against its row in data/research/trait-effect-sizes.json with scripts/traits/trait-calibrate.ts.",
+    "value": 0.52,
+    "tag": "ESTIMATED",
+    "citation": "Counted workers' pull to look around and to quit is a logistic of their reasons, so a trait term multiplies the odds by e to the weight times lean. Weight is ln(1.49) divided by 0.756, the mean lean gap between the third of counted adults leaning most toward looking and the third leaning least (place key 3223500, seed 7ae8589566f5), so the odds ratio between the thirds is 1.49, the assumed 1.2 per standard deviation (direction only, Zimmerman 2008).",
     "spread": {
-      "status": "unmeasured",
-      "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
+      "low": 0.35,
+      "high": 0.7,
+      "unit": "weight",
+      "citation": "Odds ratio of 1.3 to 1.7 between the thirds."
     }
   },
   "traitWeightJobsCountedApply": {
-    "value": 1,
-    "tag": "TUNABLE",
-    "citation": "The trait weight of the jobs.counted-apply decision. Starts at the general traitWeight (1); calibrated against its row in data/research/trait-effect-sizes.json with scripts/traits/trait-calibrate.ts.",
+    "value": 0.35,
+    "tag": "ESTIMATED",
+    "citation": "Counted seekers weigh applying on the chooser's arithmetic (leanedByKinds). Direction only (Kanfer et al. 2001, Journal of Applied Psychology 86(5)). Weight set with scripts/traits/trait-calibrate.ts (place key 3223500, seed 7ae8589566f5, 365 played days, 16,011 calls) to an odds ratio of 1.57 against an assumed 1.49. Differs from the full-person weight because counted seekers' pay gaps put them near the threshold, while full seekers all sit at the unemployed need of 3.",
     "spread": {
-      "status": "unmeasured",
-      "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
+      "low": 0.2,
+      "high": 0.5,
+      "unit": "weight",
+      "citation": "0.1 to 0.4 spans odds ratios of about 1.2 to 2.1 in the same calls."
     }
   },
   "traitWeightJobsCountedAccept": {
-    "value": 1,
-    "tag": "TUNABLE",
-    "citation": "The trait weight of the jobs.counted-accept decision. Starts at the general traitWeight (1); calibrated against its row in data/research/trait-effect-sizes.json with scripts/traits/trait-calibrate.ts.",
+    "value": 1.5,
+    "tag": "ESTIMATED",
+    "citation": "Counted seekers answer an offer on the chooser's arithmetic (leanedByKinds). Direction only (Zimmerman 2008). Weight set with scripts/traits/trait-calibrate.ts (place key 3223500, seed 7ae8589566f5, 365 played days, 12,838 calls) to an odds ratio of 1.54 against an assumed 1.49 (1.2 per standard deviation). Close to the full-person weight of 1.2.",
     "spread": {
-      "status": "unmeasured",
-      "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
+      "low": 1.2,
+      "high": 1.8,
+      "unit": "weight",
+      "citation": "1 to 1.6 spans odds ratios of about 1.0 to 2 in the same calls."
     }
   },
   "traitWeightBusinessCountedFound": {
-    "value": 1,
-    "tag": "TUNABLE",
-    "citation": "The trait weight of the business.counted-found decision. Starts at the general traitWeight (1); calibrated against its row in data/research/trait-effect-sizes.json with scripts/traits/trait-calibrate.ts.",
+    "value": 2.04,
+    "tag": "ESTIMATED",
+    "citation": "Zhao and Seibert 2006 (Journal of Applied Psychology 91(2)): multiple R .37. Counted adults' founding pull is a logistic of their reasons; weight is ln(4.83) divided by 0.772, the mean lean gap between the thirds (place key 3223500, seed 7ae8589566f5), so the odds ratio between the thirds is the study's 4.83.",
     "spread": {
-      "status": "unmeasured",
-      "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
+      "low": 1.5,
+      "high": 2.6,
+      "unit": "weight",
+      "citation": "Zhao, Seibert and Lumpkin 2010 give R .36; the weight range gives odds ratios of 3 to 7.5 between the thirds."
     }
   },
   "traitWeightRetirementClaimAge": {
@@ -794,12 +820,14 @@
     }
   },
   "traitWeightMovesMoveAway": {
-    "value": 1,
-    "tag": "TUNABLE",
-    "citation": "The trait weight of the moves.move-away decision. Starts at the general traitWeight (1); calibrated against its row in data/research/trait-effect-sizes.json with scripts/traits/trait-calibrate.ts.",
+    "value": 0.366,
+    "tag": "ESTIMATED",
+    "citation": "Jokela 2009, Personality predicts migration within and between U.S. states (Journal of Research in Personality 43(1)): openness, odds ratio 1.19 per standard deviation between states over 7 to 11 years. Moves are a pull multiplied by e to the net of pushes and holds, so the weight is ln(1.19^2.18) divided by 1.036, the mean lean gap between the third of counted adults leaning most toward moving and the third leaning least (place key 3223500, seed 7ae8589566f5): an odds ratio of 1.46 between the thirds.",
     "spread": {
-      "status": "unmeasured",
-      "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
+      "low": 0.1,
+      "high": 0.6,
+      "unit": "weight",
+      "citation": "Jokela's interval for openness, 1.04 to 1.36 per standard deviation, gives weights 0.08 to 0.65."
     }
   },
   "traitWeightVotingTurnout": {

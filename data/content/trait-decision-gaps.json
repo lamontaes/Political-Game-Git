@@ -1,12 +1,7 @@
 {
   "version": 1,
   "note": "Why a personality decision did not run, or ran without personality turning it, in the October 20, 2026 audit (docs/reports/trait-wiring-2026-10-20.md). One row per decision with a gap; the matrix (scripts/traits/trait-wiring-matrix.ts) joins them. A row is removed when its fix lands.",
-  "formulaSiteAliases": {
-    "src/core2/modules/jobs.ts:2026": "jobs.counted-retire",
-    "src/core2/modules/jobs.ts:2167": "jobs.counted-look",
-    "src/core2/modules/jobs.ts:2237": "jobs.counted-look",
-    "src/core2/modules/business.ts:1513": "business.counted-found"
-  },
+  "formulaSiteAliases": {},
   "gaps": {
     "corruption.offer": {
       "class": "weight too small",
@@ -168,35 +163,40 @@
       "why": "A weekly clemency petition for a governor who is not the player is in review on another branch.",
       "fix": "In flight elsewhere."
     },
-    "housing.buy-home": {
-      "class": "weight too small",
-      "why": "Runs at the housing review but every household keeps renting (the buy baseline and down-payment terms outweigh any lean).",
-      "fix": "Calibrate the buy reasons so some households buy, then the trait weight."
-    },
     "jobs.apply": {
       "class": "weight too small",
-      "why": "Ran 545 times; the pick never changed with personality.",
-      "fix": "Calibrate against job-search research."
-    },
-    "jobs.review-worker": {
-      "class": "weight too small",
-      "why": "Ran 2,059 times; the pick never changed with personality.",
-      "fix": "Calibrate against turnover research."
+      "why": "Calibrated weight 5, but every full seeker's application scores exactly the unemployed need of 3 above waiting (src/core2/modules/jobs.ts:1586), so personality changes no application below a weight of about 4.5 and many above 6; no weight reaches the assumed 1.49 odds ratio (the study gives no number).",
+      "fix": "Make the need for work fall with weeks unemployed or with the cost of an application, then recalibrate."
     },
     "drives.respond": {
       "class": "weight too small",
       "why": "Ran 1,471 times; the pick never changed with personality in this place.",
       "fix": "Calibrate."
     },
-    "credit.borrow": {
-      "class": "rare",
-      "why": "Ran 16 times in the year.",
-      "fix": "Check what triggers borrowing; calibrate."
-    },
     "legislature.attend-sitting": {
       "class": "trait decides alone",
       "why": "Personality turned 96 of 100 picks: attending and missing score almost the same without it, so the trait term settles nearly every sitting (src/core2/modules/legislature.ts:2516).",
       "fix": "Add the member's duty reasons and calibrate the weight from attendance research."
+    },
+    "business.found": {
+      "class": "weight too small",
+      "why": "Full people found about 2 times in 13,000 weighings a year (their capital and room scores sit 2 to 25 below keeping), so the odds ratio cannot be measured; counted adults found on the study's weight (2.04) through business.counted-found.",
+      "fix": "Measure on a larger sample of full people or in a place with more full adults."
+    },
+    "business.open-location": {
+      "class": "weight too small",
+      "why": "Owners never open a second location in 282 weighings: the expand score sits 6 to 9 below keeping (baseline -3, room term, src/core2/modules/business.ts:1551), and no study of owners' expansion by personality has a number.",
+      "fix": "Find a study of owner expansion and calibrate the expand baseline against it."
+    },
+    "business.owner-draw": {
+      "class": "weight too small",
+      "why": "Owners draw in 200 of 200 weighings (the draw scores 0.7 to 4 above keeping); weight 1.5 is where the first draws flip and no study of owners' draws has a number.",
+      "fix": "Find a study of owner pay and calibrate the draw reasons against it."
+    },
+    "retirement.claim-age": {
+      "class": "no study number",
+      "why": "Claiming age moves by weight times lean times claimTraitPullYears; the only study found is an unverified abstract (data/research/trait-effect-sizes.json), so the weight stays at the general 1.",
+      "fix": "Find a claim-age study with a number and set the weight."
     }
   }
 }

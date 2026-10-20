@@ -24,7 +24,7 @@ import moverRates from "../../../data/research/migration/mover-rates-acs-2024.js
 import destinations from "../data/moves/destinations.json" with { type: "json" };
 import rows from "../data/moves/parameters.json" with { type: "json" };
 import { decisionFromScores, scoreOffers } from "../choice";
-import { decisionLean } from "../trait-decisions";
+import { decisionLean, decisionTraitWeight } from "../trait-decisions";
 import { MORTGAGE_PREFIX } from "../housing-mortgages";
 import { moveRecipientIncomeHome } from "../finance-state";
 import { sellHome } from "../housing-sale";
@@ -327,7 +327,7 @@ export function holdsOf(
       : zero,
     // A lean toward change and risk loosens the hold; one toward keeping
     // things the same tightens it.
-    temperament: -m(api, "movesRiskWeight") * temperament,
+    temperament: -decisionTraitWeight(core, "moves.move-away") * temperament,
   };
 }
 

@@ -7,7 +7,7 @@ import { corePlaceByJurisdictionId } from "./place-lookup";
 import type { EntityId } from "./kernel/brands";
 import { PARAMETERS, parameter, type Parameter } from "./parameters";
 import { DEFAULT_DATA } from "./data";
-import { decisionLean } from "./trait-decisions";
+import { decisionLean, decisionTraitWeight } from "./trait-decisions";
 import { stopgap } from "./stopgaps";
 import { recordedTraitSource } from "./trait-source";
 import type { FinanceContractInput, FinanceInput } from "./finance-types";
@@ -621,13 +621,14 @@ export function buildOpeningRetirementIncome(
               ? person.liquidMinor /
                 ((dailyCost * p("daysPerMeanYear")) / months)
               : values.claimFullBufferMonths!,
-          patience: decisionLean(
-            traitData,
-            person,
-            "retirement.claim-age",
-            "wait-to-claim",
-            "claim-now",
-          ),
+          patience:
+            decisionLean(
+              traitData,
+              person,
+              "retirement.claim-age",
+              "wait-to-claim",
+              "claim-now",
+            ) * decisionTraitWeight(traitData, "retirement.claim-age"),
         },
         {
           anchorYearsBeforeFull: values.claimAnchorYearsBeforeFull!,

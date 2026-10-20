@@ -18,7 +18,7 @@ import { addDays, daysBetween, makeIsoDate } from "../kernel/dates";
 import { ageOnDate } from "../kernel/dates";
 import type { Parameter } from "../parameters";
 import { stopgap } from "../stopgaps";
-import { traitLeanBetween } from "../trait-decisions";
+import { decisionTraitTerm } from "../trait-decisions";
 import type {
   ActOffer,
   CoreAPI,
@@ -1508,11 +1508,12 @@ function foundings(api: CoreAPI): void {
           (job.wageDailyMinor * p("jobsDaysPerYear")) / p("macroMonthsPerYear"),
         );
     const incomeOf = (personId: string) => monthlyPay.get(personId) ?? 0;
-    // Counted people have no chooser, so their personality enters here once, on the chooser's weight; full people get it from the chooser alone.
-    const foundLean = (person: Pick<PersonState, "traits">) =>
-      traitLeanBetween(
+    // Counted people have no chooser, so their personality enters here once, on the counted-founding decision's calibrated weight; full people get it from the chooser alone.
+    const foundTerm = (person: Pick<PersonState, "traits">) =>
+      decisionTraitTerm(
         c,
         person,
+        "business.counted-found",
         businessData.actions.found.actKinds,
         businessData.actions.notFound.actKinds,
       );
@@ -1631,7 +1632,7 @@ function foundings(api: CoreAPI): void {
           score:
             p("businessCountedFoundBaseline") +
             p("businessFoundRoomWeight") * gaps +
-            p("traitWeight") * foundLean({ traits: counted!.packedTraits(m) }) +
+            foundTerm({ traits: counted!.packedTraits(m) }) +
             p("businessFoundUnemployedWeight") *
               (seeker && !seeker.employed ? 1 : 0) +
             p("businessFoundProspectWeight") *

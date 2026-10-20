@@ -960,6 +960,8 @@ function buyHomes(api: CoreAPI): void {
       (lease.amountMinor / ((town[0] ?? 1) * 100 || 1));
     const down = value * housingData.mortgage.downPayment.firstTime;
     const payment = factor(value - down);
+    // What owning costs over renting is the interest: the rest of the payment is principal the household keeps as equity.
+    const interest = (value - down) * r;
     // What it can put down: cash, and the savings the bank holds for it.
     const savings = depositsHeld(c, household.id);
     const means = cash + savings;
@@ -968,7 +970,8 @@ function buyHomes(api: CoreAPI): void {
       buyOffer(true, household.id, {
         baseline: p("housingBuyBaseline"),
         cost:
-          -p("housingBuyCostWeight") * ((payment - lease.amountMinor) / income),
+          -p("housingBuyCostWeight") *
+          ((interest - lease.amountMinor) / income),
         down:
           -p("housingBuyDownWeight") *
           Math.max(0, Math.log((down + 1) / (means + 1))),
