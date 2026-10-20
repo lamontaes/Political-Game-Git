@@ -43,6 +43,15 @@ import {
 import { impressionOf } from "./modules/campaigns";
 import type { ModuleRow } from "./module-data";
 import { coreAPI } from "./state";
+import weekRows from "./data/office-day/state-week.json" with { type: "json" };
+import calendars from "../../data/research/laws/state-session-calendars.json" with { type: "json" };
+
+interface WeekRow {
+  sessionWeek: string[];
+  interimCommitteeDayOfMonth: number;
+  basis: string;
+  tag: string;
+}
 
 /** Plays one place; false where its offices data seats no state legislator or no governor (a territory's legislature). */
 function playPlace(seed: string, skipped: string[]): boolean {
@@ -89,6 +98,25 @@ function playPlace(seed: string, skipped: string[]): boolean {
         expect(entry.holderId).toBe(office.personId);
         expect(entry.source.citation.length, entry.id).toBeGreaterThan(0);
         kinds.get(office.role)!.add(entry.kind);
+        // The district week and the interim day are the place's own row, cited by it.
+        if (office.role === "legislator") {
+          const row = (weekRows.places as Record<string, WeekRow>)[
+            lawChain(api).stateKey
+          ]!;
+          const weekday = new Date(`${date}T00:00:00Z`).getUTCDay();
+          if (entry.kind === "floor-session")
+            expect(row.sessionWeek[weekday - 1], `${where} ${entry.id}`).toBe(
+              "floor",
+            );
+          if (entry.kind === "district-office" && weekday >= 1 && weekday <= 5)
+            expect(entry.source.citation, entry.id).toContain(row.basis);
+          if (entry.kind === "interim-committee") {
+            expect(Number(date.slice(8, 10)), entry.id).toBe(
+              row.interimCommitteeDayOfMonth,
+            );
+            expect(entry.source.citation, entry.id).toContain(row.basis);
+          }
+        }
       }
   }
   // A legislator has days of office whether the legislature sits or not.
@@ -402,3 +430,26 @@ it("a floor leader's answer to a member's request decides whether the bill is on
     `No drawn place seated a leader and members of both sides: ${skipped.join("; ")}`,
   );
 }, 1_800_000);
+
+it("every one of the 56 places has a district week and an interim committee day, marked as an estimate with its basis", () => {
+  const places = Object.keys(calendars.places).sort();
+  expect(places.length).toBe(56);
+  const rows = weekRows.places as Record<string, WeekRow>;
+  expect(Object.keys(rows).sort()).toEqual(places);
+  for (const key of places) {
+    const row = rows[key]!;
+    expect(row.tag, key).toBe("ESTIMATED");
+    expect(row.basis.length, key).toBeGreaterThan(20);
+    expect(row.sessionWeek.length, key).toBe(5);
+    expect(
+      row.sessionWeek.filter((d) => d === "floor").length,
+      key,
+    ).toBeGreaterThanOrEqual(2);
+    expect(row.interimCommitteeDayOfMonth, key).toBeGreaterThanOrEqual(1);
+    expect(row.interimCommitteeDayOfMonth, key).toBeLessThanOrEqual(28);
+  }
+  // Places differ: the week follows each body's own session length.
+  expect(
+    new Set(Object.values(rows).map((r) => r.sessionWeek.join())).size,
+  ).toBeGreaterThan(1);
+});

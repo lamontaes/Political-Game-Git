@@ -4,7 +4,7 @@ title: "Stopgaps in recalls (missing-data): 1 open"
 area: core
 kind: stopgap
 priority: 3
-status: in-pr
+status: open
 claimed-by:
 pr: #4918
 blocked-on:
@@ -24,3 +24,5 @@ claimed-at:
 **Notes.** First row: A recall petition's signatures from the town's unnamed voters are the named residents' signing share times the town's estimated electorate (population times the 2024 voting share), against whatever signature base the sta
 
 Sent back 2026-10-17 from PR #4918 (branch claude/recall-signature-groups): The new required-signature calculation passes the sum of fitted household weights directly to resolveRequiredSignatures, which rejects every non-integer baseCount. Convert the weighted electorate to the intended whole-voter count before calling that integer-only API and cover fractional weights. Also do not mark SG-GOV-recall-signature-groups fully resolved while the calculation ignores threshold.base: registered voters and votes cast for the office are replaced by all adults. Read the recorded statutory base, or retain a narrowed row and marker documenting that remaining approximation.; finish on that branch, merge main into it first.
+
+Sent back 2026-10-20 from PR #4918 (branch claude/recall-signature-groups): merging main conflicts in src/core2/modules/recalls.ts (main took the state recall bars in #5186); finish on that branch, merge main into it first.

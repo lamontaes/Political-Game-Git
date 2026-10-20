@@ -486,6 +486,12 @@
       "source": "How readily an official takes on the aide their office allows before their trait lean toward hiring over doing it alone (scaled trait lean runs about -1 to 1): most do, the most self-reliant don't.",
       "spread": [0, 0.5]
     },
+    "staffAbsenceTolerance": {
+      "value": 0.4,
+      "tag": "TUNABLE",
+      "source": "The share of an aide's scheduled days missed since the last look that an official puts up with before their trait lean toward letting someone go: an aide who comes in most days stays, one who never comes is let go.",
+      "spread": [0.2, 0.6]
+    },
     "staffKnownWeight": {
       "value": 0.1,
       "tag": "TUNABLE",

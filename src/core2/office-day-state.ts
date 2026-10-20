@@ -26,6 +26,7 @@
  * State entries use the shared engine’s holds, settings and act ledger.
  */
 import parameterRows from "./data/office-day/state-parameters.json" with { type: "json" };
+import weekRows from "./data/office-day/state-week.json" with { type: "json" };
 import perDiemRows from "./data/office-day/state-legislator-per-diem.json" with { type: "json" };
 import { sessionYear, type SessionWindow } from "./state-session-calendar";
 import { registerModule } from "./state";
@@ -130,10 +131,22 @@ export function stateDayParameter(key: string): number {
   return row.value;
 }
 
-/** What each weekday in session is for a member, Monday to Friday. */
-const SESSION_WEEK = PARAMETERS["sessionWeek"]!.value as readonly (
-  "floor" | "district"
-)[];
+interface StateWeekRow {
+  /** What each weekday in session is for a member, Monday to Friday. */
+  readonly sessionWeek: readonly ("floor" | "district")[];
+  readonly interimCommitteeDayOfMonth: number;
+  readonly basis: string;
+}
+const STATE_WEEKS = (
+  weekRows as unknown as { places: Record<string, StateWeekRow> }
+).places;
+
+/** A place's own district week and interim committee day; every place has a row. */
+function stateWeek(stateKey: string): StateWeekRow {
+  const row = STATE_WEEKS[stateKey];
+  if (!row) throw new Error(`No state week row for ${stateKey}`);
+  return row;
+}
 
 export interface PerDiemRow {
   readonly dailyMinor: number;
@@ -356,6 +369,11 @@ export function stateDay(
     tag,
     citation: `Regular session, ${office.stateKey} (${url})`,
   });
+  const week = stateWeek(office.stateKey);
+  const weekEstimate = (key: string) => ({
+    tag: "ESTIMATED" as const,
+    citation: `${key}, ${office.stateKey}: ${week.basis}`,
+  });
   // A tunable value is an estimate in the record's terms.
   const estimated = (key: string) => ({
     tag: "ESTIMATED" as const,
@@ -363,7 +381,7 @@ export function stateDay(
   });
   if (office.role === "legislator") {
     if (sitting && workday) {
-      const role = SESSION_WEEK[day - 1]!;
+      const role = week.sessionWeek[day - 1]!;
       const windowId = `session:${office.stateKey}:${sitting.window.conveneAt}`;
       if (role === "floor") {
         if (day === stateDayParameter("caucusWeekday"))
@@ -380,18 +398,15 @@ export function stateDay(
               `${office.officeId}:${seat.committee}`,
               estimated("committeeMeetsBeforeFloor"),
             );
-      } else add("district-office", office.seatId, estimated("sessionWeek"));
+      } else add("district-office", office.seatId, weekEstimate("sessionWeek"));
     } else if (!sitting && workday) {
-      add("district-office", office.seatId, estimated("sessionWeek"));
-      if (
-        Number(date.slice(8, 10)) ===
-        stateDayParameter("interimCommitteeDayOfMonth")
-      )
+      add("district-office", office.seatId, weekEstimate("sessionWeek"));
+      if (Number(date.slice(8, 10)) === week.interimCommitteeDayOfMonth)
         for (const seat of committeesOf(api, office.officeId, office.personId))
           add(
             "interim-committee",
             `${office.officeId}:${seat.committee}`,
-            estimated("interimCommitteeDayOfMonth"),
+            weekEstimate("interimCommitteeDayOfMonth"),
           );
     }
     return out;
@@ -1022,7 +1037,9 @@ function payPerDiem(api: CoreAPI): Record<string, number> {
   if (!days.length) return paidByLine;
   const floorDays = days.filter((d) => {
     const w = weekday(d);
-    return w >= 1 && w <= 5 && SESSION_WEEK[w - 1] === "floor";
+    return (
+      w >= 1 && w <= 5 && stateWeek(stateKey).sessionWeek[w - 1] === "floor"
+    );
   });
   const chambers = (
     api
