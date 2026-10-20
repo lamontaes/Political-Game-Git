@@ -1,11 +1,11 @@
 ---
 id: gov-more-governor-term-starts
-title: "Governors' term starts for five more states are read from their constitutions"
+title: "Governors' term starts for 24 more states: 7 read from their constitutions, 17 estimated"
 area: gov
 kind: stopgap
 priority: 3
 size: S
-status: in-pr
+status: done
 claimed-by: claude/fs11vb-more-term-starts
 pr: #5469
 blocked-on:
@@ -13,11 +13,11 @@ source: added with npm run pool -- add
 claimed-at: 2026-10-20T03:33:20.800Z
 ---
 
-**What.** The governor start clause is read for eight states in term-starts.json; this adds California (the Monday after January 1), Colorado (second Tuesday of January), Illinois and Indiana (second Monday) and New Jersey (third Tuesday). Each row cites its constitution or statute and is tagged SOURCED, except Indiana, which is ESTIMATED from the 1851 text and a 2025 inauguration. The other states' governor clauses are still unread, so SG-GOV-term-end-estimate stays open.
+**What.** The governor start clause is read for eight states in term-starts.json; this adds ten: California (the Monday after January 1), Colorado (second Tuesday of January), Illinois, Indiana, Ohio and Oklahoma (second Monday), Maryland (third Wednesday), New Jersey and Pennsylvania (third Tuesday) and Wisconsin (first Monday). Ten rows cite their constitution or statute; Indiana, Maryland and Wisconsin are ESTIMATED from older text and a recent inauguration; fourteen more (AZ, CT, GA, ID, KS, MN, MT, NE, NV, OR, TX, UT, VT, WY) are ESTIMATED from the usual clause, checked against the current governor's term start in Wikipedia's list, with the text itself unread. The other states' governor clauses are still unread, so SG-GOV-term-end-estimate stays open.
 
 **Rules.** No dice: the start day is the state's rule, not a roll. One rule, all 56 places: the rows live in data and the code names no state.
 
-**Done when.** src/core2/elections-law.test.ts shows each of the five states' governor term starting on its rule's day, including California's January 1 that falls on a Monday giving January 8.
+**Done when.** src/core2/elections-law.test.ts shows each of the 24 states' governor term starting on its rule's day, including California's January 1 that falls on a Monday giving January 8.
 
 **Files.** src/core2/data/elections/term-starts.json, src/core2/elections-law.test.ts
 

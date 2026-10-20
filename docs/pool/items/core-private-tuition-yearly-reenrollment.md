@@ -7,10 +7,10 @@ priority: 3
 size: M
 status: claimed
 claimed-by: claude/tuition-reenroll
-pr:
+pr: #5504
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-20T03:38:20.000Z
+claimed-at: 2026-10-20T14:04:54.492Z
 ---
 
 **What.** Private school enrollment is fixed at the opening: one monthly tuition contract per family, never revisited, so a family whose means change keeps or never gets a seat. Each August, re-rank the town's families with children aged 5 to 17 on their current cash per child, enroll the best-off until the NCES private share of the town's school-age children is reached, and end or start the monthly tuition contracts through the finance engine to match. The share still checks the town total and never picks a family.
@@ -24,3 +24,5 @@ claimed-at: 2026-10-20T03:38:20.000Z
 **Notes.** Part 1 of 3 split from core-stopgap-opening-private-tuition-aggregate-spending (Oct 20).
 
 Oct 20 (claude/tuition-reenroll): built for full families. Households' tuition lives in their everyday-living plan (`finance.livingPlans`, `cost-of-living.ts`), not in `finance.contracts`, so the August pass (`private-tuition-reenroll.ts`, called from the school module on `reenrollOn`) sets the plan's private-school line with the new `setEverydayPurchase`. Counted families keep the opening's enrollment (stopgap SG-CORE-private-tuition-counted-reenroll, left to the next part of the split).
+
+Sent back 2026-10-20 from PR #5504 (branch claude/tuition-reenroll): merge conflict with main in src/core2/modules/school.ts (code); finish on that branch, merge main into it first.

@@ -345,6 +345,10 @@ if (eleventh)
   log.push(
     `step 11: ballot ${eleventh.recordIds[0]} weighed ${eleventh.recordIds[1]}`,
   );
+const ninth = [me, ...(member ? [member] : [])]
+  .flatMap((id) => reachedSteps(w.core, id, since))
+  .find((row) => row.step === 9);
+if (ninth) log.push(`step 9: law read, ${ninth.recordIds[0]}`);
 log.push(`the character's day ended ${w.core.date}`);
 const place = w.place.displayName ?? w.place.key;
 console.log(

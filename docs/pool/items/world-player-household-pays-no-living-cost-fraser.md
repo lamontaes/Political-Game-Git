@@ -6,11 +6,11 @@ kind: bug
 priority: 2
 size: M
 status: in-pr
-claimed-by: claude/player-living-cost-fraser
-pr: #5473
+claimed-by: claude/political-game-pool-yucp92-az
+pr: #5681
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-20T03:15:03.154Z
+claimed-at: 2026-10-20T12:39:19.337Z
 ---
 
 **What.** In a played year at Fraser, Colorado (place key 0828305, seed d8c9a58ec15036cb5a0575d72278e307d5387c37154aa2080b5127be9aa64139) the player's household has pay and contracts but no 'accounts.transfer living' outflow at all. src/core2/player-money-year.test.ts fails there with 'expected 0 to be greater than 0' on the living-cost line. Other drawn places pass, so the household's living plan is skipped under some condition of this town's household or payer; the cause is not yet traced.
@@ -22,3 +22,7 @@ claimed-at: 2026-10-20T03:15:03.154Z
 **Files.** src/core2/modules/residents.ts, src/core2/cost-of-living.ts, src/core2/player-money-year.test.ts
 
 **Notes.** Found Oct 20 by sweeping src/core2 tests on clean main. Related but different: world-households-unpaid-living-costs-payday (#4937, arrears for full households) and world-living-costs-pay-from-household-members (done, #4939). Check whether #4937 already fixes this before building.
+
+Oct 20: Owner ruled on #5473 that background households may split from an 18-year-old when cheap to simulate and as common as in real life, but the player's own family does not leave the player before 1.0, so the hold in moves.ts stays and SG-P15-moves-player-home-stays can be marked resolved.
+
+Sent back 2026-10-20 from PR #5473 (branch claude/player-living-cost-fraser): see the Cloud merger comment on that PR for the exact reason; finish on that branch, merge main into it first.
