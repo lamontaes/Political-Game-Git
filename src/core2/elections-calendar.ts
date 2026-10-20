@@ -658,8 +658,25 @@ export function termEndAfter(
 }
 
 interface SpecialLawRow {
-  readonly kind: "days-after-vacancy" | "next-general";
+  readonly kind:
+    | "days-after-vacancy"
+    | "next-general"
+    | "next-uniform-date"
+    | "governor-sets-date";
   readonly days?: number;
+  /** next-uniform-date: days from the vacancy to the governor's order (an estimate where the law sets none). */
+  readonly orderLagDays?: number;
+  /** next-uniform-date: the election falls on the first uniform date on or after this many days after the order. */
+  readonly minDaysAfterOrder?: number;
+  /** next-uniform-date: the state's uniform dates, a weekday of a month or the November general election day. */
+  readonly uniformDates?: readonly (
+    | { readonly general: true }
+    | {
+        readonly month: number;
+        readonly weekday: number;
+        readonly nth: number;
+      }
+  )[];
   readonly tag: string;
   readonly citation: string;
 }
@@ -695,6 +712,40 @@ export function specialElectionDate(input: {
       source: row.citation,
     };
   }
+  if (row?.kind === "next-uniform-date") {
+    const earliest = addDays(
+      makeIsoDate(vacancyDate),
+      (row.orderLagDays ?? 0) + (row.minDaysAfterOrder ?? 0),
+    );
+    const year = Number(earliest.slice(0, 4));
+    const dates = [year, year + 1]
+      .flatMap((y) =>
+        (row.uniformDates ?? []).map((rule) =>
+          "general" in rule
+            ? novemberGeneralElectionDay(y)
+            : nthWeekday(y, rule.month, rule.weekday, rule.nth),
+        ),
+      )
+      .sort();
+    const electionDate = dates.find((d) => d >= earliest);
+    if (electionDate)
+      return {
+        electionDate,
+        basis: row.tag === "SOURCED" ? "read" : "estimated",
+        source: row.citation,
+      };
+  }
+  if (row?.kind === "governor-sets-date")
+    // The law leaves the day to the governor: no fixed rule to read, so the
+    // estimate dates it, and the source says the law was read.
+    return {
+      electionDate: addDays(
+        makeIsoDate(vacancyDate),
+        electionsParameter("specialElectionDaysEstimate"),
+      ),
+      basis: "estimated",
+      source: row.citation,
+    };
   if (row?.kind === "days-after-vacancy")
     return {
       electionDate: addDays(makeIsoDate(vacancyDate), row.days ?? 0),

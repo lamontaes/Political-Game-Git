@@ -6,11 +6,11 @@ kind: cleanup
 priority: 2
 size: M
 status: claimed
-claimed-by: claude/speed-score-terms
+claimed-by: claude/gc-churn-alloc
 pr:
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-20T02:52:55.893Z
+claimed-at: 2026-10-20T02:59:48.483Z
 ---
 
 **What.** In the CPU profile of a played year in Long Hill, Connecticut (seed m7b, 251 seconds), the garbage collector takes 52 seconds, the largest single line. A trace of the same year shows 4,539 young-generation scavenges taking 32 seconds, about 7 ms each, so many objects survive each one, and the heap peaks near 2.5 GB. Take a sampling heap profile of the year, name the three biggest allocators by file and function, and change each to reuse its storage or act on the day something changed. A larger young generation (--max-semi-space-size=128) ran the year in 169 seconds against 182 to 214, which is worth setting where the play process starts, but is not the fix.
