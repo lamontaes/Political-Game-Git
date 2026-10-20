@@ -22,3 +22,5 @@ claimed-at:
 **Files.** src/core2/residents-economy.ts, src/core2/modules/jobs.ts, src/core2/census-weight-economy.test.ts
 
 **Notes.** TODO
+
+Sent back 2026-10-20 from PR #5454 (branch claude/political-game-pool-yucp92-ee): the new census-weight-economy.test.ts in src/core2 imports placeReferencePopulation from src/simulation, and the body has no gate line at the top; finish on that branch, merge main into it first.
