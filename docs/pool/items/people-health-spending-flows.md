@@ -21,3 +21,6 @@ source: added with npm run pool -- add
 **Files.** src/core2/reference/living-costs-data.ts, src/core2/opening-finance.ts, src/core2/data/parameters.json
 
 **Notes.** TODO
+
+Scouted Oct 20 (claude): the CE rows are in the repo (`cu-region-1-year-average-2024.xlsx` and `cu-size-2024.xlsx`, rows 461 to 469: health insurance $4,055 and medical services $1,252 a year per consumer unit, with regional and household-size columns; `cu-income-before-taxes-2024.xlsx` has the same rows by income class). Adding them to `LIVING_COSTS_CATEGORY_DATA` and `REPRESENTATIVE_LIVING_COSTS` (living-costs-data.ts) and as categories in `opening-finance.json` (unbound like drugs, so the money goes to the outside market) raises the retained-category sum from $17,674 to about $22,980, 30 percent more living cost per adult. That moves every household's cash and the macro price calibration, so the builder measures the opening budgets before and after, recalibrates what drifts, and keeps the totals of the other categories unchanged. Premiums for a person covered by an employer or Medicaid are mostly not paid by them, so the flow must take the coverage (next item) into account rather than charge the average to everyone.
+
