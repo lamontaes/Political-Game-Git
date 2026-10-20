@@ -15,7 +15,7 @@
  * table trace and money from the journal trace; both hooks are off in play.
  */
 import { createHash } from "node:crypto";
-import { mkdirSync, writeFileSync } from "node:fs";
+import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { dirname } from "node:path";
 import { buildBenchWorld } from "../../src/bench/world";
 import { setBookkeeping } from "../../src/core2/bookkeeping";
@@ -788,7 +788,15 @@ function main(): void {
     ? runControl(drawn, allLaws(), false)
     : lawControl;
   console.error(`control world: ${Math.round((Date.now() - t) / 1000)}s`);
-  const results: unknown[] = [];
+  // A run picks up where an earlier one on the same file stopped.
+  const results: { key: string; error?: string }[] = existsSync(out)
+    ? (
+        JSON.parse(readFileSync(out, "utf8")) as {
+          results: { key: string; error?: string }[];
+        }
+      ).results.filter((r) => !r.error)
+    : [];
+  const done = new Set(results.map((r) => r.key));
   const write = () => {
     mkdirSync(dirname(out), { recursive: true });
     writeFileSync(
@@ -797,6 +805,7 @@ function main(): void {
     );
   };
   for (const law of laws) {
+    if (done.has(law.key)) continue;
     try {
       const r = checkLaw(
         drawn,
