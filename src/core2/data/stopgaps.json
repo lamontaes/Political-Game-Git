@@ -4627,6 +4627,19 @@
     "status": "resolved"
   },
   {
+    "id": "SG-STATE-dev-seat-player",
+    "kind": "missing-core-api",
+    "file": "src/core2/office-day-state.ts",
+    "line": 1167,
+    "whatItFakes": "Dev mode's custom start as a sitting state officeholder ended the seat's serving term and wrote the player's term into the offices engine's table directly, keeping the previous holder's party; it was not reached in ordinary play.",
+    "why": "The offices engine had no exported way to seat a chosen person (its own seatResident was internal).",
+    "addedBy": "OFFICE-STATE",
+    "addedAt": "2026-10-14",
+    "replacement": "An offices-engine function to seat a chosen person for the rest of a term (OPUS-GOV), with the player's own party from the parties engine, called by dev mode.",
+    "status": "resolved",
+    "resolution": "Done Oct 20 (office-stopgap-office-day-state-missing-core-api): the offices engine exports seatPerson, which seats a chosen person for the rest of a term, and dev mode's custom start calls it (modules/offices.ts, office-day-state.ts); the direct table write is deleted."
+  },
+  {
     "id": "SG-WORLD-deposit-wallet-buffer",
     "kind": "faked-mechanic",
     "file": "src/core2/credit-deposits.ts",
