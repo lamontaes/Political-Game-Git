@@ -4,12 +4,13 @@ title: "A town opens at its real Census size (population.ts still caps above 10,
 area: core
 kind: bug
 priority: 1
-status: blocked
+status: open
 claimed-by:
 pr:
 blocked-on: core-census-weight-model
 milestone:
 source: "owner rulings, Oct 15 afternoon (docs/coordination/OWNER-DECISIONS.md)"
+claimed-at: 
 ---
 
 **What.** The ruling says a town opens at its real Census size, but population.ts still caps above 10,000. Fix at the root.
