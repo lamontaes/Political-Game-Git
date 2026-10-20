@@ -22,3 +22,5 @@ claimed-at:
 **Files.** src/core2/modules/business.ts
 
 **Notes.** TODO
+
+Oct 20 (claude): duplicate of `core-speed-foundings-per-place` (branch `claude/speed-foundings`, another session), which already restructures the same function more widely (it weighs the town's counted founders once a month rather than once per kind of business). I found it after writing the same cut (pay table and sorted people built once per pass, `foundings` 9.0 -> 5.3 seconds in the profile), so I dropped mine unpushed. For the CTO to drop this item.
