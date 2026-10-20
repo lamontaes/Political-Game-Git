@@ -5,9 +5,9 @@ area: release
 kind: cleanup
 priority: 3
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/tripwire-scan-outside
-pr:
+pr: #5598
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-20T07:49:58.096Z

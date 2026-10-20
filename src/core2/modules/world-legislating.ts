@@ -28,7 +28,13 @@ import { sessionYear } from "../state-session-calendar";
 import { leaderOf, presidingOfficer } from "./leadership";
 import { officialStance } from "./officials";
 import { coreAPI, registerModule } from "../state";
-import type { CoreAPI, CoreModule, CoreState, Source } from "../types";
+import type {
+  CoreAPI,
+  CoreModule,
+  CoreState,
+  PersonState,
+  Source,
+} from "../types";
 import { nextMeeting } from "../office-day-calendar";
 import { addDays, makeIsoDate } from "../kernel/dates";
 import type { ModuleCalendarWork } from "../module-calendar";
@@ -42,8 +48,7 @@ import { lastEnactment, lawChain, LAWS_MODULE_ID } from "./laws";
 import type { LawRowInput } from "../laws-starting";
 import { OFFICES_MODULE_ID, type TermRow } from "./offices";
 import { partySide } from "../appointments";
-import { parameter } from "../parameters";
-import { decisionLean } from "../trait-decisions";
+import { decisionLean, termOfLean } from "../trait-decisions";
 import {
   authorityFor,
   beyondPower,
@@ -79,6 +84,12 @@ type FiledAgenda = (
   meetingDate: string,
   billIds: readonly string[],
 ) => void;
+type BillIntroduced = (api: CoreAPI, billId: string) => void;
+let billIntroduced: BillIntroduced | null = null;
+/** Called as each member's filed change becomes a bill in their chamber. */
+export function registerBillIntroduced(hook: BillIntroduced): void {
+  billIntroduced = hook;
+}
 let meetingHold: MeetingHold | null = null;
 let filedAgenda: FiledAgenda | null = null;
 export function registerMeetingHold(
@@ -275,17 +286,20 @@ export interface SessionBill {
  * parts their vote weighs (`legislature.ts`), plus how their traits lean
  * between filing and holding back. Read once per sitting.
  */
-interface Filer {
+export interface Filer {
   readonly term: TermRow;
   readonly key: string;
   readonly lean: number;
   readonly home: number;
+  /** The member as a person, for the trait term; absent for a named official not filled in. */
+  readonly person: PersonState | undefined;
+  /** Their traits' lean toward filing over holding back, unweighted. */
   readonly trait: number;
   /** Their own position on a question: an official's own ideal and causes (OPUS-OFFICIALS), anyone else's by their lean. */
   readonly stance: (question: string) => number;
 }
 
-function filerOf(api: CoreAPI, term: TermRow): Filer {
+export function filerOf(api: CoreAPI, term: TermRow): Filer {
   const key = memberKey(term);
   const lean = leanOf(api, key);
   const person = api.state.people.get(key);
@@ -294,9 +308,9 @@ function filerOf(api: CoreAPI, term: TermRow): Filer {
     key,
     lean,
     home: person ? townLean(api) : lean,
+    person,
     trait: person
-      ? parameter("traitDecisionWeight") *
-        decisionLean(
+      ? decisionLean(
           api.state,
           person,
           "world-legislating.bring-agenda",
@@ -335,20 +349,29 @@ function lawStanding(
 }
 
 /** A member's own reasons to carry a change on a question, pointing one way. */
-function filingReason(
+export function filingReason(
+  api: CoreAPI,
   f: Filer,
   question: string,
   direction: number,
   law: { settled: number; reluctance: number },
 ): number {
-  return (
+  const bare =
     (f.stance(question) +
       campaignParameter("constituentWeight") * personStance(f.home, question)) *
-      direction +
-    // A taste for change backs changing a settled law, not undoing a fresh one.
-    tasteForChange(f.trait, law.settled) -
-    law.reluctance
-  );
+      direction -
+    law.reluctance;
+  // A taste for change backs changing a settled law, not undoing a fresh one.
+  return f.person
+    ? bare +
+        termOfLean(
+          api.state,
+          f.person,
+          "world-legislating.bring-agenda",
+          tasteForChange(f.trait, law.settled),
+          bare,
+        )
+    : bare;
 }
 
 function townLean(api: CoreAPI): number {
@@ -419,7 +442,7 @@ function fileChanges(
       let best = 0;
       let cosponsors = 0;
       for (const member of filers) {
-        const reason = filingReason(member, question, direction, law);
+        const reason = filingReason(api, member, question, direction, law);
         if (reason <= 0) continue;
         cosponsors += 1;
         if (
@@ -433,7 +456,7 @@ function fileChanges(
       if (!sponsor) {
         if (
           !executive ||
-          filingReason(executive, question, direction, law) <= 0
+          filingReason(api, executive, question, direction, law) <= 0
         )
           continue;
         const request = proposeAsExecutive(api, {
@@ -458,7 +481,7 @@ function fileChanges(
             ),
           cosponsors,
           leaderReason: leader
-            ? filingReason(leader, question, direction, law)
+            ? filingReason(api, leader, question, direction, law)
             : 0,
           drafted,
         });
@@ -470,7 +493,7 @@ function fileChanges(
         sponsor,
         cosponsors,
         leaderReason: leader
-          ? filingReason(leader, question, direction, law)
+          ? filingReason(api, leader, question, direction, law)
           : 0,
       });
     }
@@ -971,6 +994,7 @@ function introduce(api: CoreAPI, sessionId: string, index: number): void {
       i === index ? { ...f, billId: bill.id } : f,
     ),
   } as unknown as ModuleRow);
+  billIntroduced?.(api, bill.id);
 }
 
 /** The chamber a member sits in: a state member's own office, a member of Congress's House or Senate. */
