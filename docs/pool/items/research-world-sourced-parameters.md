@@ -5,9 +5,9 @@ area: world
 kind: research
 priority: 2
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/research-credit-min-loan
-pr:
+pr: #5419
 blocked-on:
 source: "collapsed Oct 19, 2026 from world-stopgap-opening-finance-uncalibrated-opening-finance-calendar, world-stopgap-parameters-assumed-data, world-stopgap-parameters-uncalibrated-tunable"
 claimed-at: 2026-10-20T02:20:08.052Z

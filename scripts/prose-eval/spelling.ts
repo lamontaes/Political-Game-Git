@@ -25,7 +25,11 @@ const ROOT = path.resolve(
   "../..",
 );
 const write = process.argv.includes("--write");
-const files = execFileSync("git", ["ls-files"], { cwd: ROOT, encoding: "utf8" })
+const files = execFileSync("git", ["ls-files"], {
+  cwd: ROOT,
+  encoding: "utf8",
+  maxBuffer: 256 * 1024 * 1024,
+})
   .split("\n")
   .filter(Boolean);
 
