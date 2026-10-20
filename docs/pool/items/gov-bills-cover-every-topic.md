@@ -5,7 +5,7 @@ area: gov
 kind: feature
 priority: 3
 size: M
-status: in-pr
+status: done
 claimed-by: claude/fs11vb-bills-every-topic
 pr: #5444
 blocked-on:
