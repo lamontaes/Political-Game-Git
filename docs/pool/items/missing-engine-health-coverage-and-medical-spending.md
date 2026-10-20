@@ -5,13 +5,13 @@ area: people
 kind: feature
 priority: 2
 size: L
-status: blocked
-claimed-by: claude/fs11vb-health-coverage
+status: open
+claimed-by:
 pr:
 blocked-on:
 after: people-coverage-record-monthly-pass,people-coverage-counted,world-medical-spending-categories,gov-medicaid-coverage-reader
 source: added with npm run pool -- add
-claimed-at: 2026-10-20T03:03:19.238Z
+claimed-at:
 ---
 
 **What.** This is the roll-up for health spending in core2, which had none: living costs carried only drugs and medical supplies. It is built by four items: a coverage record for each person with a monthly premium flow (people-coverage-record-monthly-pass), the same coverage share for counted households (people-coverage-counted), the BLS Consumer Expenditure health insurance and medical services lines bound to household flows (world-medical-spending-categories), and the Medicaid expansion reader that gives eligible adults a coverage record and a lower bill (gov-medicaid-coverage-reader). When all four are done, this item is closed by checking the whole chain once in the played world: law row, eligibility, coverage record, premium and out-of-pocket flow, and the household's cash.
