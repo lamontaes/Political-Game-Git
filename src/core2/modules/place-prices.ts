@@ -24,8 +24,10 @@ import { BUDGETS_MODULE_ID, governments } from "./budgets";
 import lawParameters from "../data/laws/reach-group-b-parameters.json" with { type: "json" };
 import { DEFAULT_BUSINESS_BOOKS_DATA } from "../business-books";
 import { stopgap } from "../stopgaps";
+import { sha256Hex } from "../kernel/sha256";
 import { transferCash } from "../world-transfer";
 import { newsKey, storiesHeard } from "./news";
+import { lawApplied, type AppliedTarget } from "../law-reach/applied";
 import type { CoreAPI, CoreModule, CoreState, Source } from "../types";
 
 export const PLACE_PRICES_MODULE_ID = "place-prices";
@@ -53,6 +55,55 @@ interface Rule {
 }
 
 const MONTHS = 12;
+/** Every state sets 21 as the purchase age (NCSL, Cannabis Overview, 2024). */
+const CANNABIS_AGE = 21;
+
+/**
+ * Whether a named adult uses cannabis: a seeded draw of who they are from
+ * their id, against the sourced adult prevalence (generation of who exists,
+ * not a chance that decides anything they do). The same person is the same
+ * answer every month.
+ */
+export function usesCannabis(personId: string, prevalence: number): boolean {
+  return (
+    Number.parseInt(sha256Hex(`cannabis-use:${personId}`).slice(0, 8), 16) /
+      0x1_0000_0000 <
+    prevalence
+  );
+}
+
+/**
+ * The "persons" a cannabis rule spends for: each named adult who uses it
+ * stands for 1 / (prevalence x adult share) of a resident's average, so a
+ * town's total stays the sourced per-resident figure while a named adult
+ * who doesn't use it spends nothing. A counted group reads the same
+ * prevalence and adult share times its count.
+ */
+export function cannabisWeight(api: CoreAPI, adultUsers: number): number {
+  return (
+    adultUsers /
+    (api.parameter("pricesCannabisUsePrevalence") *
+      api.parameter("pricesCannabisAdultShare"))
+  );
+}
+
+/** Named members 21 and over who use cannabis. */
+function adultUsers(api: CoreAPI, memberIds: readonly string[]): number {
+  const c = core(api);
+  return memberIds.filter((id) => {
+    const born = c.people.get(id)?.birthDate;
+    if (!born) return false;
+    const years =
+      Number(c.date.slice(0, 4)) -
+      Number(born.slice(0, 4)) -
+      (c.date.slice(5) < born.slice(5) ? 1 : 0);
+    return (
+      years >= CANNABIS_AGE &&
+      usesCannabis(id, api.parameter("pricesCannabisUsePrevalence"))
+    );
+  }).length;
+}
+
 function store(api: CoreAPI) {
   return api.moduleState(PLACE_PRICES_MODULE_ID);
 }
@@ -431,6 +482,51 @@ function learnFromStory(
   learned.put({ id: key, personId, lawId, storyId: story.id });
 }
 
+/** The policy key and law row a price rule cites, or null for a rule no statute set. */
+function lawOf(rule: Rule): { key: string; lawId: string } | null {
+  if (!rule.cause.startsWith("law:")) return null;
+  const parts = rule.cause.split(":");
+  const lawId = parts.slice(3).join(":");
+  return lawId ? { key: `${parts[1]}:${parts[2]}`, lawId } : null;
+}
+
+/** Who a price law reached: the payer whose spending it changed and whoever took the money (signed: paid in is positive). */
+function recordApplied(
+  api: CoreAPI,
+  rule: Rule,
+  who: {
+    readonly targetId: string;
+    readonly target: AppliedTarget;
+    readonly count?: number;
+  },
+  amountMinor: number,
+  receivers: readonly { id: string; minor: number }[],
+): void {
+  const law = lawOf(rule);
+  if (!law) return;
+  const what = `${rule.good}-${rule.kind}`;
+  lawApplied(api, {
+    ...law,
+    ...who,
+    engine: PLACE_PRICES_MODULE_ID,
+    what,
+    amountMinor,
+  });
+  for (const receiver of receivers) {
+    if (!(receiver.minor > 0)) continue;
+    const isGovernment =
+      receiver.id === rule.payeeId || receiver.id === rule.providerId;
+    lawApplied(api, {
+      ...law,
+      targetId: receiver.id,
+      target: isGovernment ? "government" : "organization",
+      engine: PLACE_PRICES_MODULE_ID,
+      what: `${what}-received`,
+      amountMinor: receiver.minor,
+    });
+  }
+}
+
 function settle(
   api: CoreAPI,
   id: string,
@@ -440,6 +536,11 @@ function settle(
   countedHouseholdId?: string,
   outsideId?: string,
   sellers: readonly Seller[] = [],
+  who?: {
+    readonly targetId: string;
+    readonly target: AppliedTarget;
+    readonly count?: number;
+  },
 ): void {
   const c = core(api),
     outside = outsideId ?? outsideOf(c, rule.placeId);
@@ -450,6 +551,24 @@ function settle(
     (rule.kind === "offer" ? rule.providerId : rule.payeeId) ?? outside;
   const refund = Math.round(change.refundMinor),
     pay = Math.round(change.payMinor);
+  // The law is applied to this payer the moment its price moves their money.
+  if (who && (pay > 0 || refund > 0)) {
+    const parts = rule.kind === "sale" ? splitBy(pay, sellers) : [];
+    recordApplied(
+      api,
+      rule,
+      who,
+      pay - refund,
+      rule.kind === "sale"
+        ? sellers.map((seller, i) => ({ id: seller.id, minor: parts[i]! }))
+        : [
+            {
+              id: to,
+              minor: to === outside || to === accountOwnerId ? 0 : pay,
+            },
+          ],
+    );
+  }
   // The existing journal source names the law that changed this payment.
   // A cash difference is not, by itself, knowledge of who caused it.
   const sourceId = `${id}:${rule.cause}`;
@@ -555,9 +674,24 @@ function readPriceLaws(api: CoreAPI): void {
       return;
     }
     api.stopgap(gap);
+    // The enacting government's treasury; a place whose governing row names a
+    // jurisdiction with no budget (a territory) pays the town's nearest
+    // government that keeps one.
     const treasury = api.state.modules.has(BUDGETS_MODULE_ID)
-      ? governments(api).find((g) => g.id === law.governing!.jurisdiction)
-          ?.organizationId
+      ? (() => {
+          const all = governments(api);
+          const own = all.find((g) => g.id === law.governing!.jurisdiction);
+          if (own) return own.organizationId;
+          for (const level of lawChain(api).levels) {
+            const near = all.find((g) => g.id === level.jurisdiction);
+            if (near) return near.organizationId;
+          }
+          for (const level of ["city", "county", "state"] as const) {
+            const nearest = all.find((g) => g.level === level);
+            if (nearest) return nearest.organizationId;
+          }
+          return undefined;
+        })()
       : undefined;
     if (publicPayee && !treasury) {
       if (
@@ -732,7 +866,9 @@ function month(api: CoreAPI): void {
       const change = monthlyChange(
         rule,
         scaleFor(api, pay, rule.good),
-        members.length,
+        rule.good === "cannabis"
+          ? cannabisWeight(api, adultUsers(api, members))
+          : members.length,
       );
       // The controlled person's money moves only by their own choice (owner,
       // Oct 14), and a dependent one (no job) pays nothing of the household's
@@ -753,6 +889,7 @@ function month(api: CoreAPI): void {
         undefined,
         undefined,
         sellers,
+        { targetId: household.id, target: "household" },
       );
       learnFromStory(api, rule, payer, change, pay);
     }
@@ -764,7 +901,12 @@ function month(api: CoreAPI): void {
     const outside = outsideOf(c, rule.placeId);
     const byGroup = new Map<
       number,
-      { household: string; payMinor: number; refundMinor: number }
+      {
+        household: string;
+        payMinor: number;
+        refundMinor: number;
+        persons: number;
+      }
     >();
     for (const household of rt?.store.liveHouseholds() ?? []) {
       if (household.gone || household.placeId !== rule.placeId) continue;
@@ -780,13 +922,22 @@ function month(api: CoreAPI): void {
       const change = monthlyChange(
         rule,
         scaleFor(api, pay, rule.good),
-        persons,
+        rule.good === "cannabis"
+          ? cannabisWeight(
+              api,
+              persons *
+                api.parameter("pricesCannabisAdultShare") *
+                api.parameter("pricesCannabisUsePrevalence"),
+            )
+          : persons,
       );
       const total = byGroup.get(household.group) ?? {
         household: household.id,
         payMinor: 0,
         refundMinor: 0,
+        persons: 0,
       };
+      total.persons += persons;
       total.payMinor += Math.round(change.payMinor);
       total.refundMinor += Math.round(change.refundMinor);
       byGroup.set(household.group, total);
@@ -801,6 +952,11 @@ function month(api: CoreAPI): void {
         total.household,
         outside,
         sellers,
+        {
+          targetId: `${rule.placeId}:counted-group-${group}`,
+          target: "group",
+          count: total.persons,
+        },
       );
     // Businesses pay a dearer energy price on their own energy costs.
     if (rule.kind === "share")
@@ -823,6 +979,10 @@ function month(api: CoreAPI): void {
           change >= 0
             ? { payMinor: change, refundMinor: 0 }
             : { payMinor: 0, refundMinor: -change },
+          undefined,
+          undefined,
+          [],
+          { targetId: organizationId, target: "organization" },
         );
       }
   }
