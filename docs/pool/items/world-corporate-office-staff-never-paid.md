@@ -5,9 +5,9 @@ area: world
 kind: bug
 priority: 2
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/corporate-office-staff-paid
-pr:
+pr: #5041
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-18T03:04:27.797Z
