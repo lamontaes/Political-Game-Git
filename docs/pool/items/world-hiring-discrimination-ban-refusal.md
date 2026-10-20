@@ -5,10 +5,10 @@ area: world
 kind: feature
 priority: 2
 size: M
-status: open
+status: blocked
 claimed-by:
 pr:
-blocked-on:
+blocked-on: spec: the item text is an empty TODO shell; the done-when must be written before it can be built (pool-todo-shells-need-spec)
 after: world-hiring-bias-reasons
 source: added with npm run pool -- add
 ---

@@ -5,9 +5,9 @@ area: laws
 kind: wiring
 priority: 2
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/political-game-pool-b6g0dl
-pr:
+pr: #5201
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-19T21:54:38.432Z
