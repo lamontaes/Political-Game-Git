@@ -26,42 +26,46 @@ const total = (core: CoreState) =>
     0,
   );
 
+/** Draw places from the seed until one has a disaster beginning in the world's first year. */
+function worldWithFirstYearDisaster() {
+  let core: CoreState | undefined,
+    due: ReturnType<typeof townDisasters> = [];
+  let where = "",
+    opened = "",
+    yearEnd = "";
+  for (let draw = 0; draw < 12 && !due.length; draw++) {
+    const place = drawPlace(`${seed}:${draw}`, "core2-disasters");
+    where = `${place.name}, ${place.state} (draw ${draw})`;
+    core = createLifeCore(
+      generatedOpening(place, {
+        twoLevel: true,
+        settings: { population: 1500 },
+      }),
+    );
+    opened = core.date;
+    const end = new Date(`${opened}T00:00:00Z`);
+    end.setUTCFullYear(end.getUTCFullYear() + 1);
+    end.setUTCDate(end.getUTCDate() - 1);
+    yearEnd = end.toISOString().slice(0, 10);
+    due = townDisasters(coreAPI(core)).filter(
+      (row) => row.begins > opened && row.begins <= yearEnd,
+    );
+  }
+  if (!core || !due.length)
+    throw new Error(`no first-year disaster in 12 draws; last ${where}`);
+  return { core, due, where, opened, yearEnd };
+}
+
 describe(`disasters from the record (seed ${seed})`, () => {
   it("happens on FEMA's dates, pays the obligated assistance, and balances", () => {
     // Draw places from the seed until one has a disaster beginning in the
     // world's first year (any of the 56 places can be drawn; most years most
     // counties have none).
-    let core: CoreState | undefined,
-      due: ReturnType<typeof townDisasters> = [];
-    let where = "",
-      opened = "",
-      yearEnd = "";
-    for (let draw = 0; draw < 12 && !due.length; draw++) {
-      const place = drawPlace(`${seed}:${draw}`, "core2-disasters");
-      where = `${place.name}, ${place.state} (draw ${draw})`;
-      core = createLifeCore(
-        generatedOpening(place, {
-          twoLevel: true,
-          settings: { population: 1500 },
-        }),
-      );
-      opened = core.date;
-      const end = new Date(`${opened}T00:00:00Z`);
-      end.setUTCFullYear(end.getUTCFullYear() + 1);
-      end.setUTCDate(end.getUTCDate() - 1);
-      yearEnd = end.toISOString().slice(0, 10);
-      due = townDisasters(coreAPI(core)).filter(
-        (row) => row.begins > opened && row.begins <= yearEnd,
-      );
-    }
-    expect(
-      due.length,
-      `no first-year disaster in 12 draws; last ${where}`,
-    ).toBeGreaterThan(0);
-    const api = coreAPI(core!);
-    const start = total(core!);
-    advanceCore(core!, yearEnd);
-    const events = [...core!.durableLog.values()].filter(
+    const { core, due, where, opened, yearEnd } = worldWithFirstYearDisaster();
+    const api = coreAPI(core);
+    const start = total(core);
+    advanceCore(core, yearEnd);
+    const events = [...core.durableLog.values()].filter(
       (row) => row.kind === "hazard.disaster",
     );
     console.log(
@@ -108,7 +112,7 @@ describe(`disasters from the record (seed ${seed})`, () => {
     // Repairs: never more than the damage FEMA inspected in any one town.
     for (const row of disasterRepairsPaid(api))
       expect(row.cents).toBeLessThanOrEqual(most(row.disaster, 1));
-    expect(total(core!)).toBe(start);
+    expect(total(core)).toBe(start);
   }, 300_000);
 
   it("pays repairs to the outside market when the town has no builder (edge fixture)", () => {

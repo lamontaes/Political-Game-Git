@@ -4,10 +4,10 @@ title: "Stopgaps in parameters (uncalibrated-tunable): 1 open"
 area: core
 kind: stopgap
 priority: 3
-status: blocked
+status: dropped
 claimed-by:
 pr:
-blocked-on: research data: the row's replacement needs sourced data (Weights checked against bribery incidence surveys and public-corruption case counts by office (DOJ Public Integrity Section reports), with audits and ...)
+blocked-on: research-core-parameters-sourced-parameters
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/data/corruption/parameters.json, kind uncalibrated-tunable"
 ---
@@ -21,3 +21,5 @@ source: "src/core2/data/stopgaps.json, src/core2/data/corruption/parameters.json
 **Files.** src/core2/data/corruption/parameters.json
 
 **Notes.** First row: How much traits, money pressure and ties weigh in offering, taking and telling about a bribe.
+
+Folded into research-core-parameters-sourced-parameters (CTO, Oct 19, 2026).
