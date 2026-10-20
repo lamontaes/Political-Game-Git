@@ -88,7 +88,11 @@ function world(salt: string) {
   };
 }
 
-/** Two wealthy adults filed in the first contest both qualify for. */
+/**
+ * Two wealthy adults filed in the first contest both qualify for: the richest
+ * adults, in order, who the contest's rules let on the ballot (a national
+ * outlet's head lives elsewhere and a press owner may not run).
+ */
 function twoCandidates(
   api: CoreAPI,
   core: CoreState,
@@ -101,19 +105,18 @@ function twoCandidates(
     )
     .sort((a, b) => b.liquidMinor - a.liquidMinor || a.id.localeCompare(b.id));
   for (const contest of openContests(api)) {
-    const a = fileCandidacy(api, {
-      personId: adults[0]!.id,
-      contestId: contest.id,
-      platform: [],
-    });
-    if (a.status === "refused" || a.filing.status !== "on-ballot") continue;
-    const b = fileCandidacy(api, {
-      personId: adults[1]!.id,
-      contestId: contest.id,
-      platform: [],
-    });
-    if (b.status === "refused" || b.filing.status !== "on-ballot") continue;
-    return { you: a.filing, rival: b.filing };
+    const filed: FilingRow[] = [];
+    for (const adult of adults) {
+      const result = fileCandidacy(api, {
+        personId: adult.id,
+        contestId: contest.id,
+        platform: [],
+      });
+      if (result.status === "refused" || result.filing.status !== "on-ballot")
+        continue;
+      filed.push(result.filing);
+      if (filed.length === 2) return { you: filed[0]!, rival: filed[1]! };
+    }
   }
   return null;
 }
@@ -388,11 +391,23 @@ describe("candidates who read their party", () => {
       party,
       status: "on-ballot",
     });
+    // The nominees whose own view and their party's pull do not cancel: a
+    // person standing at 0 on every question has nothing continuous to show,
+    // so the sliding-scale proof is drawn from those who do stand somewhere.
+    const standing = adults.filter((p) =>
+      candidateAnswers(api, PLATFORM_QUESTIONS, filing(p.id, left)).some(
+        (x) => x.position !== null && x.position !== 0,
+      ),
+    );
+    expect(
+      standing.length,
+      `${where}: fewer than three adults stand anywhere under the left party`,
+    ).toBeGreaterThanOrEqual(3);
     const pairs: [string, string][] = [
       // The same person under each party, two people, and two officials the
       // world holds no view for (party alone).
-      [adults[0]!.id, adults[0]!.id],
-      [adults[1]!.id, adults[2]!.id],
+      [standing[0]!.id, standing[0]!.id],
+      [standing[1]!.id, standing[2]!.id],
       ["official:fixture:a", "official:fixture:b"],
     ];
     for (const [a, b] of pairs) {
