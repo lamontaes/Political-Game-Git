@@ -108,6 +108,11 @@ export const AMERICAN_ENGLISH_EXEMPT: readonly {
     reason: "transcription of statutory source language, preserved verbatim",
   },
   {
+    pattern: /^docs\/pool\/INDEX\.md$/,
+    reason:
+      "generated from the item files, which are checked themselves; an item id is a persisted identifier and keeps its spelling",
+  },
+  {
     pattern: /^docs\/writing\/[^/]*-original\.md$/,
     reason:
       "a report kept as it was sent, so the writing check is tested on it",

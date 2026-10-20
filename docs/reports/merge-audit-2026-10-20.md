@@ -8,7 +8,7 @@ Three reviewers read the diffs of the 55 PRs merged between 9:30 p.m. and midnig
 
 - **PRs merged after the merger itself sent them back, with no new commit:** #4886, #4968, #4976.
 - **Merged into another PR's branch, not main:** #4984 (its code reached main later through #5044; #5019 is still open and superseded).
-- **No check record:** checks were queued or cancelled at merge on nearly every PR, merges landed seconds after a main merge, and only #4885 has a merger comment naming the checks it ran.
+- **No check record:** checks were queued or canceled at merge on nearly every PR, merges landed seconds after a main merge, and only #4885 has a merger comment naming the checks it ran.
 - New merger rules were sent to all four lanes on October 20 (base must be main; never merge a send-back without a new fixing commit; rerun changed-file checks after merging main; one comment per merge naming the checks; send back narrowed tests, unexplained timeouts, hand-written player text, old-engine imports, duplicated pool sections and false claims).
 
 ## Fixes to make (pool item `release-merge-audit-oct20-fixes`)

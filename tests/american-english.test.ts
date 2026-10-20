@@ -359,6 +359,12 @@ const ALLOWED_FILES: readonly {
       "researched stopgap values quote real places and statutes: Ward County, Texas, and Nebraska's precinct or ward primary unit",
   },
   {
+    file: /^data\/research\/stopgaps-oct19\/census\/[A-Za-z0-9.-]+\.json$/,
+    words: /^(?:wards?|centre|grey)$/i,
+    reason:
+      "census place and county names as published (Sauk Centre, Grey Eagle, Ward County), and quotes of D.C.'s wards",
+  },
+  {
     file: /^data\/research\/(?:elections\/(?:filing-requirements|ballot-measures-2026)|campaigns\/campaign-finance-2026|offices\/state-offices)\.json$/,
     words: /^wards?$/i,
     reason:

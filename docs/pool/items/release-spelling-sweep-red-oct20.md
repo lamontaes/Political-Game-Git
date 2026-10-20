@@ -23,4 +23,4 @@ claimed-at: 2026-10-20T12:33:40.847Z
 
 **Notes.** TODO
 
-Merged #5490 on 2026-10-20 (git ls-files buffer, research "ward" rule, notes respelled), but both spelling tests are still red on main from newer files: census place names under data/research/stopgaps-oct19/census/ (Centre, Ward, Grey) that the new rule does not cover, and British forms in pool items, INDEX.md, docs/release/changes/port-trait-effects.md, docs/reports/merge-audit-2026-10-20.md and docs/reports/trait-wiring-2026-10-20.json (cancelled, catalogue, Harbour, Labour). Open for the rest.
+Merged #5490 on 2026-10-20 (git ls-files buffer, research "ward" rule, notes respelled), but both spelling tests are still red on main from newer files: census place names under data/research/stopgaps-oct19/census/ (Center, Ward, Gray) that the new rule does not cover, and British forms in pool items, INDEX.md, docs/release/changes/port-trait-effects.md, docs/reports/merge-audit-2026-10-20.md and docs/reports/trait-wiring-2026-10-20.json (canceled, catalog, Harbor, Labor). Open for the rest.

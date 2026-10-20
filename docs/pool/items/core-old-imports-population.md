@@ -13,7 +13,7 @@ source: added with npm run pool -- add
 claimed-at: 2026-10-19T18:01:40.192Z
 ---
 
-**What.** The opening population builder in src/core2/population.ts builds a full old-engine World first and then reads people, traits and employment from it. It still imports five old-engine modules: life-queries, town-employment and its generated meta, personality-catalogue, trait-registry and trait-packs. Found while claiming: this is L in practice, so it is split into three bounded items, each moving one piece into the core.
+**What.** The opening population builder in src/core2/population.ts builds a full old-engine World first and then reads people, traits and employment from it. It still imports five old-engine modules: life-queries, town-employment and its generated meta, personality-catalog, trait-registry and trait-packs. Found while claiming: this is L in practice, so it is split into three bounded items, each moving one piece into the core.
 
 **Rules.** Replace, never layer: each piece's old import is deleted from population.ts in the same change as its core replacement. One rule, all 56 places: nothing names a place. Wire to the world: the opening's records for a drawn place stay the same through every slice.
 
