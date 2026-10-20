@@ -5,12 +5,12 @@ area: world
 kind: bug
 priority: 1
 size: S
-status: blocked
-claimed-by:
-pr:
+status: claimed
+claimed-by: claude/census-owner-draws
+pr: #5306
 blocked-on: world-census-weight-economy
 source: added with npm run pool -- add
-claimed-at:
+claimed-at: 2026-10-20T03:41:12.123Z
 ---
 
 **What.** In Washington, D.C. opened at 69 times its sample (seed `big1`), a 30-day look at what enters and leaves the counted groups' funds, by journal source (a wrapper on `api.postJournal` summing postings to the `rt.funds` accounts), shows lines that do not track the weight. Per person in the town: owner draws are $11.7 against $427 in the small town (36 times too low), counted wages $26.5 against $170 (6 times; the hiring item in PR 4784 covers wages), retirement pay $143 against $307, and purchases $71 against $95. Rent, mortgage, outside living, unplaced wages and property tax now match the small town to within about 10 percent. Find why each line is short (the owner-draw flow and its payer's books first: `owner-draw:` entries in `src/core2/modules/business.ts` or `residents.ts`) and weight it, one line at a time.
@@ -24,3 +24,5 @@ claimed-at:
 **Notes.** Found measuring the uncapped opening (core-census-uncap-opening) after PR 4862 (unplaced wages and the groups' bank deposits).
 
 Looked at Oct 17 (claude/owner-draws-weighted-s5), not built, and the premise is wrong. An owner draw (`month` in `src/core2/modules/business.ts`, about line 1291) pays one business's retained profit to its one owner, a counted person standing for several real households. Multiplying the draw by the owner's weight would pay a business that does not scale to the weighted town profit it never earned. The draw is short per resident at scale 69 because the businesses are still the sample's: the weighted town buys from and employs through the same few firms (counted wages, purchases and the draws all draw on that one economy). So the short lines in the group-fund view (owner draws, counted wages, purchases, and possibly retirement) are one cause: businesses, jobs and their sales are not sized to the Census town, which is `world-census-weight-economy` (businesses and job counts, with the hiring part in PR 4784). Close this item when that one lands and the D.C. view at scale 69 (seed `big1`, group-fund sources over 30 days, per resident) shows these lines within 25 percent of the small town's.
+
+PR #5306 sent back: Test failed in Susanville, California (seed 6d6c5505b807665f0ebf54c6b4032b5b838ce7a64115038b05e5336cfc77108f) with ratio 0.669 (< 0.75 threshold).
