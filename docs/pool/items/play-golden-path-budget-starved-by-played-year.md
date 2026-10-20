@@ -5,12 +5,12 @@ area: play
 kind: bug
 priority: 2
 size: S
-status: in-pr
+status: open
 claimed-by:
 pr: #5506
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-18T19:27:25.983Z
+claimed-at:
 ---
 
 **What.** The golden-path suite on a pull request has one 300-second budget (scripts/core2-guard/policies.json, prMilliseconds) shared by all its specs, run in the order of docs/roadmap/features.json with the accepted ones first. The third accepted spec, M0-13 (the played world runs one game year), takes most of it: 168 seconds on a four-core container in Granville, Ohio, and about six minutes of the whole job on GitHub's runner. The accepted specs after it then get the leftover seconds. M2-06 timed out after 20 seconds of its budget and M2-07, M2-08, M2-04, M2-09 and M3-09 never ran, so the suite reports a regression on main and on every pull request, including a pool note. The failure says nothing about the code under test.
