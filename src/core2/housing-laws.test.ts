@@ -188,7 +188,7 @@ describe(`housing laws, ${draw.name}, seed ${draw.seed}`, () => {
       throw new Error(
         `no drawn world had a renewed tenant in both tiers: ${tried.join("; ")}`,
       );
-    const { core, api, rt, lease, flow, where } = found;
+    const { core, api, lease, flow, where } = found;
     const rentals = [
       {
         id: lease.id,

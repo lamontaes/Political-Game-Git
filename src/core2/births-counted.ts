@@ -404,8 +404,7 @@ export function applyCountedFlows(
       webDeath.recordId ??= found.recordId;
       return found.factor;
     };
-    const weightOfPerson = (person: Member) =>
-      weightOf.get(person.id) ?? 1;
+    const weightOfPerson = (person: Member) => weightOf.get(person.id) ?? 1;
     const start = { people: people.length, households: households.length };
     const row = {
       id: `${placeId}:${month}`,

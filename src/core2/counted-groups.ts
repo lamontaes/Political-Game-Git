@@ -453,18 +453,6 @@ export class CountedStore {
     return h.members.filter((m) => this.isCounted(m));
   }
 
-  /** A household still counted, by id. */
-  liveHousehold(id: string): CountedHousehold | undefined {
-    const ix = this.householdOf.get(id);
-    const h = ix === undefined ? undefined : this.households[ix];
-    return h && !h.gone ? h : undefined;
-  }
-
-  /** The ids of a household's counted members. */
-  memberIdsOf(h: CountedHousehold): PersonId[] {
-    return this.countedMembers(h).map((m) => this.ids[m]!);
-  }
-
   /** Every household still counted, in record order. */
   *liveHouseholds(): Iterable<CountedHousehold> {
     for (const h of this.households) if (!h.gone) yield h;
