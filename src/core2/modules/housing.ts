@@ -9,6 +9,7 @@ import { countyPopulationSharesForPlace } from "../reference/government-units";
 import { corePlaceByKey } from "../place-lookup";
 import { addDays, daysBetween, makeIsoDate } from "../kernel/dates";
 import housingData from "../data/housing/housing.json" with { type: "json" };
+import countyNeighbors from "../data/housing/county-neighbors.json" with { type: "json" };
 import housingParameters from "../data/housing/parameters.json" with { type: "json" };
 import type { Parameter } from "../parameters";
 import { stopgap } from "../stopgaps";
@@ -158,18 +159,34 @@ const STATE_RENT_VALUE = (() => {
     ]),
   );
 })();
+const NEIGHBORS = countyNeighbors.neighbors as Record<string, string[]>;
+/** The median of a county's neighbors' published values for one field (0 rent, 1 value), if any publish one. */
+function neighborMedian(county: string, field: 0 | 1): number | undefined {
+  const values = (NEIGHBORS[county] ?? [])
+    .map((id) => RENT_VALUE[id]?.[field])
+    .filter((v): v is number => !!v)
+    .sort((a, b) => a - b);
+  if (!values.length) return undefined;
+  const mid = values.length >> 1;
+  return values.length % 2
+    ? values[mid]
+    : Math.round((values[mid - 1]! + values[mid]!) / 2);
+}
 /**
  * A county's median rent and home value. Where the ACS withholds one (a county
- * with too few households), the state's household-weighted median stands in,
- * then the nation's; never zero, which would leave every owner without a home.
+ * with too few households), the median of its neighboring counties stands in
+ * (Census county adjacency), then the state's household-weighted median, then
+ * the nation's; never zero, which would leave every owner without a home.
  */
-function rentValueOf(county: string): [number | null, number | null] {
+export function rentValueOf(county: string): [number | null, number | null] {
   if (county.startsWith(`${NATION}:`)) return NATIONAL.rentValue;
   const row = RENT_VALUE[county] as [number | null, number | null] | undefined;
   if (row?.[0] && row[1]) return row;
-  stopgap("SG-WORLD-housing-county-estimate");
   const state = STATE_RENT_VALUE.get(county.slice(0, 2)) ?? NATIONAL.rentValue;
-  return [row?.[0] || state[0], row?.[1] || state[1]];
+  return [
+    row?.[0] || neighborMedian(county, 0) || state[0],
+    row?.[1] || neighborMedian(county, 1) || state[1],
+  ];
 }
 const DWELLINGS_KEY = "housingDwellings";
 const housingMacroParameter = (key: string): number => {

@@ -2693,7 +2693,8 @@
     "addedBy": "CLAUDE-WORLD",
     "addedAt": "2026-10-16",
     "replacement": "The county's own median from the ACS 5-year table when it is published, or the median of its neighboring counties.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "A county whose ACS median rent or home value is withheld takes the median of its neighboring counties' published values (Census county adjacency, housing/county-neighbors.json), then the state's, then the nation's."
   },
   {
     "id": "SG-WORLD-business-union-members",
