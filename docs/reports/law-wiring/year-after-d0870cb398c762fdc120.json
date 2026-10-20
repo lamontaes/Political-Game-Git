@@ -1,0 +1,534 @@
+{
+ "summary": {
+  "seed": "d0870cb398c762fdc120",
+  "place": {
+   "seed": "c2bb11adc9d15b5db4b79065092041c2c134c789e21adfeb0e88b86b4ca278b7",
+   "key": "5574500",
+   "name": "Sobieski, Wisconsin",
+   "state": "US-WI"
+  },
+  "days": 365,
+  "lawsTookEffect": 23,
+  "reachedSomeone": 10,
+  "movedMoney": 7,
+  "withOutcomeLinks": 20,
+  "movedOutcome": 5
+ },
+ "laws": [
+  {
+   "lawId": "law:county:55083:county:us-policy-positions:justice-public-safety.partner-with-federal-immigration-enforcement:general:2025-02-20:2025-1",
+   "series": "us-policy-positions:justice-public-safety.partner-with-federal-immigration-enforcement",
+   "level": "county",
+   "value": 1,
+   "effectiveDate": "2025-02-20",
+   "reached": 4,
+   "reach": {
+    "full": 0,
+    "groups": 4,
+    "groupPeople": 4,
+    "organizations": 0,
+    "other": 0,
+    "moneyMinor": 140,
+    "sample": [
+     "applied|us-policy-positions:justice-public-safety.partner-with-federal-immigration-enforcement|group:group:jurisdiction_1d41500994575655:town:adults:income-1:other:65-plus:retired",
+     "applied|us-policy-positions:justice-public-safety.partner-with-federal-immigration-enforcement|group:group:jurisdiction_1d41500994575655:town:with-children:income-1:mortgage:30-44:working",
+     "applied|us-policy-positions:justice-public-safety.partner-with-federal-immigration-enforcement|group:group:jurisdiction_1d41500994575655:town:with-children:income-2:mortgage:30-44:working"
+    ]
+   },
+   "outcomeLinks": 3,
+   "outcomeMoved": 24,
+   "outcomeSample": [
+    "web:jurisdiction_1d41500994575655:2025-02:enforcement-to-undocumented-employment",
+    "web:jurisdiction_1d41500994575655:2025-02:enforcement-to-us-born-employment"
+   ]
+  },
+  {
+   "lawId": "law:county:55083:county:us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones:general:2025-02-20:2025-2",
+   "series": "us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones",
+   "level": "county",
+   "value": 1,
+   "effectiveDate": "2025-02-20",
+   "reached": 0,
+   "reach": {
+    "full": 0,
+    "groups": 0,
+    "groupPeople": 0,
+    "organizations": 0,
+    "other": 0,
+    "moneyMinor": 0,
+    "sample": []
+   },
+   "outcomeLinks": 1,
+   "outcomeMoved": 0,
+   "outcomeSample": []
+  },
+  {
+   "lawId": "law:county:55083:county:us-policy-positions:transportation-infrastructure.shift-highway-funds-to-transit:general:2025-02-20:2025-2",
+   "series": "us-policy-positions:transportation-infrastructure.shift-highway-funds-to-transit",
+   "level": "county",
+   "value": 0,
+   "effectiveDate": "2025-02-20",
+   "reached": 0,
+   "reach": {
+    "full": 0,
+    "groups": 0,
+    "groupPeople": 0,
+    "organizations": 0,
+    "other": 0,
+    "moneyMinor": 0,
+    "sample": []
+   },
+   "outcomeLinks": 1,
+   "outcomeMoved": 0,
+   "outcomeSample": []
+  },
+  {
+   "lawId": "law:US-WI:state:us-policy-positions:education.raise-teacher-minimum-salary:general:2025-01-29:AB 1",
+   "series": "us-policy-positions:education.raise-teacher-minimum-salary",
+   "level": "state",
+   "value": 1,
+   "effectiveDate": "2025-01-29",
+   "reached": 5,
+   "reach": {
+    "full": 3,
+    "groups": 1,
+    "groupPeople": 0,
+    "organizations": 1,
+    "other": 0,
+    "moneyMinor": 0,
+    "sample": [
+     "us-policy-positions:education.raise-teacher-minimum-salary|person_a3877d9c3bed5f15|2025-01-29",
+     "us-policy-positions:education.raise-teacher-minimum-salary|person_0c69b2217a4af8e4|2025-01-29",
+     "us-policy-positions:education.raise-teacher-minimum-salary|person_e8391c2e12587d70|2025-06-20"
+    ]
+   },
+   "outcomeLinks": 1,
+   "outcomeMoved": 0,
+   "outcomeSample": []
+  },
+  {
+   "lawId": "law:US-WI:state:us-policy-positions:justice-public-safety.raise-juvenile-court-age:general:2025-02-27:SB 1",
+   "series": "us-policy-positions:justice-public-safety.raise-juvenile-court-age",
+   "level": "state",
+   "value": 1,
+   "effectiveDate": "2025-02-27",
+   "reached": 4,
+   "reach": {
+    "full": 0,
+    "groups": 4,
+    "groupPeople": 4,
+    "organizations": 0,
+    "other": 0,
+    "moneyMinor": 14999,
+    "sample": [
+     "applied|us-policy-positions:justice-public-safety.raise-juvenile-court-age|group:group:jurisdiction_1d41500994575655:town:with-children:income-4:other:45-64:working",
+     "applied|us-policy-positions:justice-public-safety.raise-juvenile-court-age|group:group:jurisdiction_1d41500994575655:town:with-children:income-2:other:45-64:working",
+     "applied|us-policy-positions:justice-public-safety.raise-juvenile-court-age|group:group:jurisdiction_1d41500994575655:town:with-children:income-1:other:45-64:not-working"
+    ]
+   },
+   "outcomeLinks": 1,
+   "outcomeMoved": 0,
+   "outcomeSample": []
+  },
+  {
+   "lawId": "law:US-WI:state:us-policy-positions:health-human-services.expand-medicaid-eligibility:general:2025-03-06:AB 6",
+   "series": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+   "level": "state",
+   "value": 1,
+   "effectiveDate": "2025-03-06",
+   "reached": 36,
+   "reach": {
+    "full": 34,
+    "groups": 2,
+    "groupPeople": 17,
+    "organizations": 0,
+    "other": 0,
+    "moneyMinor": 2376000,
+    "sample": [
+     "us-policy-positions:health-human-services.expand-medicaid-eligibility|person_cd1b105dd98a867a|2025-03-06",
+     "us-policy-positions:health-human-services.expand-medicaid-eligibility|person_cd1b115dd98a882d|2025-03-06",
+     "us-policy-positions:health-human-services.expand-medicaid-eligibility|person_eb883ac1b50ba398|2025-03-06"
+    ]
+   },
+   "outcomeLinks": 3,
+   "outcomeMoved": 15,
+   "outcomeSample": [
+    "web:jurisdiction_1d41500994575655:2025-03:medicaid-expansion-to-coverage",
+    "web:jurisdiction_1d41500994575655:2025-04:medicaid-expansion-to-coverage"
+   ]
+  },
+  {
+   "lawId": "law:US-WI:state:us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal:general:2025-03-12:SB 7",
+   "series": "us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal",
+   "level": "state",
+   "value": 0,
+   "effectiveDate": "2025-03-12",
+   "reached": 0,
+   "reach": {
+    "full": 0,
+    "groups": 0,
+    "groupPeople": 0,
+    "organizations": 0,
+    "other": 0,
+    "moneyMinor": 0,
+    "sample": []
+   },
+   "outcomeLinks": 1,
+   "outcomeMoved": 4,
+   "outcomeSample": [
+    "web:jurisdiction_1d41500994575655:2025-03:groundwater-limits-to-irrigation-pumping",
+    "web:jurisdiction_1d41500994575655:2025-04:groundwater-limits-to-irrigation-pumping"
+   ]
+  },
+  {
+   "lawId": "law:US-WI:state:us-policy-positions:government-operations.ban-lobbying-after-office:general:2025-03-13:SB 5",
+   "series": "us-policy-positions:government-operations.ban-lobbying-after-office",
+   "level": "state",
+   "value": 1,
+   "effectiveDate": "2025-03-13",
+   "reached": 165,
+   "reach": {
+    "full": 165,
+    "groups": 0,
+    "groupPeople": 0,
+    "organizations": 0,
+    "other": 0,
+    "moneyMinor": 0,
+    "sample": [
+     "reach:law:US-WI:state:us-policy-positions:government-operations.ban-lobbying-after-office:general:2025-03-13:SB 5:officials:person_32cc8c65aadaea7c:2025-03-13",
+     "reach:law:US-WI:state:us-policy-positions:government-operations.ban-lobbying-after-office:general:2025-03-13:SB 5:officials:person_e8cced5afc045186:2025-03-13",
+     "reach:law:US-WI:state:us-policy-positions:government-operations.ban-lobbying-after-office:general:2025-03-13:SB 5:officials:person_fd2f9b74b02f56d0:2025-03-13"
+    ]
+   },
+   "outcomeLinks": 0,
+   "outcomeMoved": 0,
+   "outcomeSample": []
+  },
+  {
+   "lawId": "law:US-WI:state:us-policy-positions:government-operations.legislative-term-limits:general:2025-03-19:SB 9",
+   "series": "us-policy-positions:government-operations.legislative-term-limits",
+   "level": "state",
+   "value": 1,
+   "effectiveDate": "2025-03-19",
+   "reached": 397,
+   "reach": {
+    "full": 397,
+    "groups": 0,
+    "groupPeople": 0,
+    "organizations": 0,
+    "other": 0,
+    "moneyMinor": 0,
+    "sample": [
+     "reach:law:US-WI:state:us-policy-positions:government-operations.legislative-term-limits:general:2025-03-19:SB 9:legislators:person_4c46a631b548bcf1:2025-03-19",
+     "reach:law:US-WI:state:us-policy-positions:government-operations.legislative-term-limits:general:2025-03-19:SB 9:legislators:person_53015ac7570e1c06:2025-03-19",
+     "reach:law:US-WI:state:us-policy-positions:government-operations.legislative-term-limits:general:2025-03-19:SB 9:legislators:person_7033ee456cb20150:2025-03-19"
+    ]
+   },
+   "outcomeLinks": 1,
+   "outcomeMoved": 0,
+   "outcomeSample": []
+  },
+  {
+   "lawId": "law:US-WI:state:us-policy-positions:fiscal.fund-pensions-to-schedule:general:2025-03-19:SB 10",
+   "series": "us-policy-positions:fiscal.fund-pensions-to-schedule",
+   "level": "state",
+   "value": 0,
+   "effectiveDate": "2025-03-19",
+   "reached": 0,
+   "reach": {
+    "full": 0,
+    "groups": 0,
+    "groupPeople": 0,
+    "organizations": 0,
+    "other": 0,
+    "moneyMinor": 0,
+    "sample": []
+   },
+   "outcomeLinks": 1,
+   "outcomeMoved": 11,
+   "outcomeSample": [
+    "web:jurisdiction_1d41500994575655:2025-03:pension-funding-to-borrowing-cost",
+    "web:jurisdiction_1d41500994575655:2025-04:pension-funding-to-borrowing-cost"
+   ]
+  },
+  {
+   "lawId": "law:US-WI:state:us-policy-positions:housing-land-use.rent-stabilization:general:2025-03-19:SB 10",
+   "series": "us-policy-positions:housing-land-use.rent-stabilization",
+   "level": "state",
+   "value": 0,
+   "effectiveDate": "2025-03-19",
+   "reached": 0,
+   "reach": {
+    "full": 0,
+    "groups": 0,
+    "groupPeople": 0,
+    "organizations": 0,
+    "other": 0,
+    "moneyMinor": 0,
+    "sample": []
+   },
+   "outcomeLinks": 2,
+   "outcomeMoved": 0,
+   "outcomeSample": []
+  },
+  {
+   "lawId": "law:US-WI:state:us-policy-positions:transportation-infrastructure.public-broadband:general:2025-04-10:AB 13",
+   "series": "us-policy-positions:transportation-infrastructure.public-broadband",
+   "level": "state",
+   "value": 1,
+   "effectiveDate": "2025-04-10",
+   "reached": 79,
+   "reach": {
+    "full": 0,
+    "groups": 78,
+    "groupPeople": 229,
+    "organizations": 1,
+    "other": 0,
+    "moneyMinor": 6039360,
+    "sample": [
+     "applied|us-policy-positions:transportation-infrastructure.public-broadband|jurisdiction_1d41500994575655:counted-group-22",
+     "applied|us-policy-positions:transportation-infrastructure.public-broadband|jurisdiction_1d41500994575655:counted-group-24",
+     "applied|us-policy-positions:transportation-infrastructure.public-broadband|household_495a633a80087f00"
+    ]
+   },
+   "outcomeLinks": 1,
+   "outcomeMoved": 0,
+   "outcomeSample": []
+  },
+  {
+   "lawId": "law:US-WI:state:us-policy-positions:transportation-infrastructure.shift-highway-funds-to-transit:general:2025-04-10:AB 13",
+   "series": "us-policy-positions:transportation-infrastructure.shift-highway-funds-to-transit",
+   "level": "state",
+   "value": 0,
+   "effectiveDate": "2025-04-10",
+   "reached": 0,
+   "reach": {
+    "full": 0,
+    "groups": 0,
+    "groupPeople": 0,
+    "organizations": 0,
+    "other": 0,
+    "moneyMinor": 0,
+    "sample": []
+   },
+   "outcomeLinks": 1,
+   "outcomeMoved": 0,
+   "outcomeSample": []
+  },
+  {
+   "lawId": "law:US-WI:state:us-policy-positions:fiscal.minimum-reserve-balance:general:2025-04-16:SB 14",
+   "series": "us-policy-positions:fiscal.minimum-reserve-balance",
+   "level": "state",
+   "value": 0,
+   "effectiveDate": "2025-04-16",
+   "reached": 0,
+   "reach": {
+    "full": 0,
+    "groups": 0,
+    "groupPeople": 0,
+    "organizations": 0,
+    "other": 0,
+    "moneyMinor": 0,
+    "sample": []
+   },
+   "outcomeLinks": 1,
+   "outcomeMoved": 10,
+   "outcomeSample": [
+    "web:jurisdiction_1d41500994575655:2025-04:reserve-balance-to-borrowing-cost",
+    "web:jurisdiction_1d41500994575655:2025-05:reserve-balance-to-borrowing-cost"
+   ]
+  },
+  {
+   "lawId": "law:US-WI:state:us-policy-positions:fiscal.exempt-groceries-from-sales-tax:general:2025-04-16:SB 14",
+   "series": "us-policy-positions:fiscal.exempt-groceries-from-sales-tax",
+   "level": "state",
+   "value": 1,
+   "effectiveDate": "2025-04-16",
+   "reached": 232,
+   "reach": {
+    "full": 227,
+    "groups": 2,
+    "groupPeople": 171,
+    "organizations": 3,
+    "other": 0,
+    "moneyMinor": 10712309,
+    "sample": [
+     "us-policy-positions:fiscal.exempt-groceries-from-sales-tax|person_e8391d2e12587f23|2025-06-20",
+     "us-policy-positions:fiscal.exempt-groceries-from-sales-tax|person_8d2f9f6aac2f6d54|2025-07-20",
+     "us-policy-positions:fiscal.exempt-groceries-from-sales-tax|person_ba4876afbeb35d27|2025-07-20"
+    ]
+   },
+   "outcomeLinks": 2,
+   "outcomeMoved": 0,
+   "outcomeSample": []
+  },
+  {
+   "lawId": "law:US-WI:state:us-policy-positions:government-operations.require-photo-id-to-vote:general:2025-04-17:AB 14",
+   "series": "us-policy-positions:government-operations.require-photo-id-to-vote",
+   "level": "state",
+   "value": 0,
+   "effectiveDate": "2025-04-17",
+   "reached": 0,
+   "reach": {
+    "full": 0,
+    "groups": 0,
+    "groupPeople": 0,
+    "organizations": 0,
+    "other": 0,
+    "moneyMinor": 0,
+    "sample": []
+   },
+   "outcomeLinks": 2,
+   "outcomeMoved": 0,
+   "outcomeSample": []
+  },
+  {
+   "lawId": "law:US-WI:state:us-policy-positions:housing-land-use.rent-stabilization:general:2025-04-17:AB 14",
+   "series": "us-policy-positions:housing-land-use.rent-stabilization",
+   "level": "state",
+   "value": 0,
+   "effectiveDate": "2025-04-17",
+   "reached": 0,
+   "reach": {
+    "full": 0,
+    "groups": 0,
+    "groupPeople": 0,
+    "organizations": 0,
+    "other": 0,
+    "moneyMinor": 0,
+    "sample": []
+   },
+   "outcomeLinks": 2,
+   "outcomeMoved": 0,
+   "outcomeSample": []
+  },
+  {
+   "lawId": "law:US-WI:state:us-policy-positions:government-operations.broaden-local-authority:general:2025-04-30:SB 19",
+   "series": "us-policy-positions:government-operations.broaden-local-authority",
+   "level": "state",
+   "value": 0,
+   "effectiveDate": "2025-04-30",
+   "reached": 0,
+   "reach": {
+    "full": 0,
+    "groups": 0,
+    "groupPeople": 0,
+    "organizations": 0,
+    "other": 0,
+    "moneyMinor": 0,
+    "sample": []
+   },
+   "outcomeLinks": 0,
+   "outcomeMoved": 0,
+   "outcomeSample": []
+  },
+  {
+   "lawId": "law:US-WI:state:us-policy-positions:environment-energy.clean-electricity-standard:general:2025-04-30:SB 19",
+   "series": "us-policy-positions:environment-energy.clean-electricity-standard",
+   "level": "state",
+   "value": 1,
+   "effectiveDate": "2025-04-30",
+   "reached": 0,
+   "reach": {
+    "full": 0,
+    "groups": 0,
+    "groupPeople": 0,
+    "organizations": 0,
+    "other": 0,
+    "moneyMinor": 0,
+    "sample": []
+   },
+   "outcomeLinks": 2,
+   "outcomeMoved": 0,
+   "outcomeSample": []
+  },
+  {
+   "lawId": "law:US-WI:state:us-policy-positions:housing-land-use.rent-stabilization:general:2025-04-30:SB 19",
+   "series": "us-policy-positions:housing-land-use.rent-stabilization",
+   "level": "state",
+   "value": 0,
+   "effectiveDate": "2025-04-30",
+   "reached": 0,
+   "reach": {
+    "full": 0,
+    "groups": 0,
+    "groupPeople": 0,
+    "organizations": 0,
+    "other": 0,
+    "moneyMinor": 0,
+    "sample": []
+   },
+   "outcomeLinks": 2,
+   "outcomeMoved": 0,
+   "outcomeSample": []
+  },
+  {
+   "lawId": "law:US-WI:state:us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax:general:2025-05-29:AB 24",
+   "series": "us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax",
+   "level": "state",
+   "value": 1,
+   "effectiveDate": "2025-05-29",
+   "reached": 79,
+   "reach": {
+    "full": 0,
+    "groups": 78,
+    "groupPeople": 229,
+    "organizations": 1,
+    "other": 0,
+    "moneyMinor": 2342848,
+    "sample": [
+     "applied|us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax|jurisdiction_1d41500994575655:counted-group-22",
+     "applied|us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax|jurisdiction_1d41500994575655:counted-group-24",
+     "applied|us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax|household_495a633a80087f00"
+    ]
+   },
+   "outcomeLinks": 0,
+   "outcomeMoved": 0,
+   "outcomeSample": []
+  },
+  {
+   "lawId": "law:US-WI:state:us-policy-positions:environment-energy.clean-electricity-standard:general:2025-05-29:AB 24",
+   "series": "us-policy-positions:environment-energy.clean-electricity-standard",
+   "level": "state",
+   "value": 1,
+   "effectiveDate": "2025-05-29",
+   "reached": 106,
+   "reach": {
+    "full": 0,
+    "groups": 78,
+    "groupPeople": 229,
+    "organizations": 28,
+    "other": 0,
+    "moneyMinor": 2728755,
+    "sample": [
+     "applied|us-policy-positions:environment-energy.clean-electricity-standard|jurisdiction_1d41500994575655:counted-group-22",
+     "applied|us-policy-positions:environment-energy.clean-electricity-standard|organization_ce01e08bceafad3f",
+     "applied|us-policy-positions:environment-energy.clean-electricity-standard|jurisdiction_1d41500994575655:counted-group-24"
+    ]
+   },
+   "outcomeLinks": 2,
+   "outcomeMoved": 0,
+   "outcomeSample": []
+  },
+  {
+   "lawId": "law:US-WI:state:us-policy-positions:housing-land-use.rent-stabilization:general:2025-05-29:AB 24",
+   "series": "us-policy-positions:housing-land-use.rent-stabilization",
+   "level": "state",
+   "value": 0,
+   "effectiveDate": "2025-05-29",
+   "reached": 0,
+   "reach": {
+    "full": 0,
+    "groups": 0,
+    "groupPeople": 0,
+    "organizations": 0,
+    "other": 0,
+    "moneyMinor": 0,
+    "sample": []
+   },
+   "outcomeLinks": 2,
+   "outcomeMoved": 0,
+   "outcomeSample": []
+  }
+ ]
+}
