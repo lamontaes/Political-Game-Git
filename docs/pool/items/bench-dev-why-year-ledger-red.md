@@ -5,12 +5,12 @@ area: play
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/n3-bench-dev-why-year-ledger-red
 pr: #4974
 blocked-on:
 source: added with npm run pool -- add
-claimed-at:
+claimed-at: 2026-10-20T15:42:44.411Z
 ---
 
 **What.** TODO
