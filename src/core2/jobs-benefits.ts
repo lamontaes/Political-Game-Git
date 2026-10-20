@@ -50,7 +50,7 @@ export interface ClaimRow {
   lawId?: string;
   source?: Source;
   endedAt?: string;
-  endReason?: "hired" | "exhausted" | "no-payer";
+  endReason?: "hired" | "exhausted" | "no-payer" | "left";
 }
 
 const DAYS_PER_WEEK = 7;
@@ -229,14 +229,34 @@ export function payClaims(api: CoreAPI, table: ModuleTable): void {
       });
       continue;
     }
+    // A claimant who is neither a full person nor still counted has left the
+    // town's records (moved away): there is no one to pay.
+    if (
+      !c.people.has(row.personId) &&
+      residentsRuntime(c)?.store.countedMember(row.personId) === undefined
+    ) {
+      table.put({
+        ...row,
+        open: false,
+        endedAt: c.date,
+        endReason: "left",
+      });
+      continue;
+    }
     const source = row.source ?? unemploymentTerms(api).source;
+    const payee = c.people.has(row.personId)
+      ? row.personId
+      : row.payeeAccountOwnerId;
     let paid = transferCash(
       api,
       `unemployment-benefit:${row.personId}:${c.date}`,
       fund.id,
-      row.payeeAccountOwnerId,
+      // A claimant filled in since filing is paid as a full person; a counted
+      // one lands in their own household's group account.
+      payee,
       row.weeklyMinor,
       source,
+      { personId: row.personId },
     );
     // A state fund that cannot cover the week borrows the rest from outside
     // the town, as a state borrows from the federal government when its fund
@@ -250,9 +270,10 @@ export function payClaims(api: CoreAPI, table: ModuleTable): void {
           api,
           `unemployment-advance:${row.personId}:${c.date}`,
           advance.id,
-          row.payeeAccountOwnerId,
+          payee,
           row.weeklyMinor - paid,
           source,
+          { personId: row.personId },
         );
     }
     const weeksLeft = row.weeksLeft - 1;

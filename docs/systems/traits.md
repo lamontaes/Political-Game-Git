@@ -1,5 +1,7 @@
 # Traits
 
+> **History.** This describes the old engine or a process that ended in October 2026. Don't follow it; read `AGENTS.md`, `ARCHITECTURE.md` and `docs/README.md`.
+
 **Status: PROPOSED.** This is the seam put in front of the owner before it is
 built. Nothing described here exists yet. The five traits that exist today are
 described as they are, and the proposal is marked as such throughout.
