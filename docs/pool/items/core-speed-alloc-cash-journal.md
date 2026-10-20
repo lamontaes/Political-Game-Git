@@ -5,12 +5,12 @@ area: core
 kind: cleanup
 priority: 2
 size: M
-status: claimed
-claimed-by: claude/core-speed-alloc-cash-journal
-pr:
-blocked-on:
+status: done
+claimed-by: claude/political-game-pool-yucp92-z
+pr: #5499
+blocked-on: core-speed-journal-bigint
 source: added with npm run pool -- add
-claimed-at: 2026-10-20T02:19:22.773Z
+claimed-at: 2026-10-20T02:24:43.816Z
 ---
 
 **What.** A sampling allocation profile of a played year in Long Hill, Connecticut (seed m7b, key 0943580, 365 days, 60,914 MB allocated including collected objects) put the cash journal first: postCashJournal 2,958 MB (4.9 percent), projectCashJournal 2,603 MB (4.3 percent), portfolios 1,389 MB (2.3 percent), volumes 869 MB, plusTotals and the Map and Set copies they make about 1 GB more, 8 to 9 GB in all. Every posting builds exact-arithmetic (BigInt) amounts, maps of volumes and portfolios, and copies of its totals for each entry. Cut that allocation, for example by keeping running totals in place and building a projection only when bookkeeping is on, without changing any amount or the balance checks.
@@ -22,3 +22,5 @@ claimed-at: 2026-10-20T02:19:22.773Z
 **Files.** src/core2/journal-state.ts, src/core2/journal.ts
 
 **Notes.** TODO
+
+Read Oct 20 (claude/political-game-pool-b6g0dl), nothing built. The first thing in the allocation is `portfolios` in journal-state.ts: for every owner a posting touches it walks the owner's complete account index and copies each account (`{ ...live, source: { ...live.source } }`) and checks the index is consistent. A town's residents owner holds one fund account per counted group, so one posting to it costs one copy per group, and the cost grows with the group count. Under `bookkeeping() === false` the consistency checks could go and only the posted accounts and the residual need a snapshot, but the residual's balance is the owner's cash less every other account's allocation, so the owner's allocated total has to be kept as a running sum first (and verified against the full walk in a test with bookkeeping on). That is the plan; it touches the conserving ledger, so it should go through a core-area session with the journal tests running first.
