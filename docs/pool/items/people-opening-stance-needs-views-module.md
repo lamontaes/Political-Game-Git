@@ -5,9 +5,9 @@ area: people
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/opening-stance-views
-pr:
+pr: #5752
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-20T20:31:10.546Z
