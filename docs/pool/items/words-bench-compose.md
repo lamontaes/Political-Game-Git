@@ -5,9 +5,9 @@ area: words
 kind: feature
 priority: 1
 size: M
-status: claimed
+status: done
 claimed-by: claude/words-bench-compose
-pr:
+pr: #4907
 blocked-on:
 after: words-bench-stage
 source: added with npm run pool -- add

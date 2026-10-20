@@ -1,16 +1,16 @@
 ---
 id: core-old-imports-population
-title: "The opening population builder reads the core's character history, upbringing, traits and world types, not the old engine's"
+title: "The opening population builder reads the core, not the old engine"
 area: core
 kind: cleanup
 priority: 2
 size: L
-status: claimed
+status: in-pr
 claimed-by: claude/old-imports-population
-pr:
+pr: #5068
 blocked-on: "core-old-imports-population-org-profile, core-old-imports-population-traits, core-old-imports-population-town-employment"
 source: added with npm run pool -- add
-claimed-at: 2026-10-19
+claimed-at: 2026-10-19T18:01:40.192Z
 ---
 
 **What.** The opening population builder in src/core2/population.ts builds a full old-engine World first and then reads people, traits and employment from it. It still imports five old-engine modules: life-queries, town-employment and its generated meta, personality-catalogue, trait-registry and trait-packs. Found while claiming: this is L in practice, so it is split into three bounded items, each moving one piece into the core.
