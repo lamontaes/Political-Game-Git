@@ -5,9 +5,9 @@ area: elections
 kind: research
 priority: 2
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/ballot-order-statutes
-pr:
+pr: #5621
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-20T08:26:17.844Z
