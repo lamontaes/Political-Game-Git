@@ -4,9 +4,9 @@ title: "The budget season:"
 area: office
 kind: feature
 priority: 2
-status: claimed
+status: in-pr
 claimed-by: claude/political-game-pool-udtiwn
-pr: #5533
+pr: #5217
 blocked-on:
 milestone:
 source: "docs/coordination/OFFICE-LOCAL.md line 30 (unchecked checklist line)"
