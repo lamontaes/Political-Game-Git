@@ -4,7 +4,7 @@ title: "Stopgaps in drives (counted-giving): 1 open"
 area: people
 kind: stopgap
 priority: 3
-status: blocked
+status: open
 claimed-by:
 pr:
 blocked-on:
