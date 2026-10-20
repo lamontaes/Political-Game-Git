@@ -30,6 +30,7 @@ import { officialStance } from "./officials";
 import { coreAPI, registerModule } from "../state";
 import type { CoreAPI, CoreModule, CoreState, Source } from "../types";
 import { nextMeeting } from "../office-day-calendar";
+import { addDays, makeIsoDate } from "../kernel/dates";
 import type { ModuleCalendarWork } from "../module-calendar";
 import type { ModuleRow } from "../module-data";
 import {
@@ -64,6 +65,29 @@ import {
   type BillRow,
   type Sitting,
 } from "./legislature";
+
+/**
+ * A local body's member filings can be held for the player's meeting: the
+ * office-day engine says whether to (the player sits on the body and holds
+ * the clock) and takes the filed bills onto the meeting's agenda, voting them
+ * when the meeting closes. Without it, filings are voted as they are filed.
+ */
+type MeetingHold = (api: CoreAPI, officeId: string) => boolean;
+type FiledAgenda = (
+  api: CoreAPI,
+  officeId: string,
+  meetingDate: string,
+  billIds: readonly string[],
+) => void;
+let meetingHold: MeetingHold | null = null;
+let filedAgenda: FiledAgenda | null = null;
+export function registerMeetingHold(
+  hold: MeetingHold,
+  filed: FiledAgenda,
+): void {
+  meetingHold = hold;
+  filedAgenda = filed;
+}
 
 const QUESTION_SCOPES = questionScopes.questions as Readonly<
   Record<string, { levels: readonly string[] }>
@@ -498,12 +522,15 @@ function holdSession(
     readonly allowed: (question: string, value: number) => boolean;
     /** A change the body turned down recently enough that its rules bar it again. */
     readonly barred: (question: string, direction: number) => boolean;
+    /** The meeting these filings wait for: filed now, voted when it closes. */
+    readonly holdFor?: string;
   },
 ): void {
   const leaderKey = input.leader ? memberKey(input.leader) : null;
   const filed = fileChanges(api, input);
   const floorTime = Math.round(input.floorDays * input.billsPerFloorDay);
   const bills: SessionBill[] = [];
+  const heldIds: string[] = [];
   filed.forEach((item, index) => {
     const drafted =
       item.drafted ??
@@ -520,8 +547,11 @@ function holdSession(
       });
     const reached = index < floorTime;
     const bill = reached
-      ? holdVote(api, drafted.id)
+      ? input.holdFor
+        ? drafted
+        : holdVote(api, drafted.id)
       : dieOnCalendar(api, drafted);
+    if (reached && input.holdFor) heldIds.push(drafted.id);
     bills.push({
       number: bill.number,
       question: item.question,
@@ -532,6 +562,8 @@ function holdSession(
       fate: reached ? "voted" : "not-reached",
     });
   });
+  if (input.holdFor && input.body)
+    filedAgenda?.(api, input.body.id, input.holdFor, heldIds);
   api
     .moduleState(WORLD_LEGISLATING_MODULE_ID)
     .table("sessions")
@@ -1054,7 +1086,9 @@ function closeSession(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
  */
 function localMeeting(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
   const officeId = work.sourceRecordIds[0]!;
-  scheduleMeeting(api, officeId);
+  const meetingDate = work.sourceRecordIds[1] ?? api.state.date;
+  scheduleMeeting(api, officeId, meetingDate);
+  const hold = meetingDate > api.state.date && !!meetingHold?.(api, officeId);
   const body: Body = { id: officeId, members: members(api, officeId) };
   // The presiding member the body elected, else the most senior.
   const presiding = presidingOfficer(api, officeId);
@@ -1081,6 +1115,7 @@ function localMeeting(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
     body,
     filers: body.members,
     leader,
+    ...(hold ? { holdFor: meetingDate } : {}),
     // One regular meeting: its agenda time at a policy ordinance's hearing
     // and debate.
     floorDays: 1,
@@ -1103,6 +1138,20 @@ function localMeeting(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
     barred: (question, direction) =>
       recentlyDefeated(api, officeId, question, direction),
   });
+}
+
+/** The body's bills by number, as they stand now. */
+function liveBills(api: CoreAPI, officeId: string): Map<string, BillRow> {
+  return new Map(
+    (
+      api
+        .moduleState(LEGISLATURE_MODULE_ID)
+        .table("bills")
+        .rows() as unknown as BillRow[]
+    )
+      .filter((bill) => bill.bodyOfficeId === officeId)
+      .map((bill) => [bill.number, bill] as const),
+  );
 }
 
 /**
@@ -1134,15 +1183,23 @@ function recentlyDefeated(
     (s) =>
       s.bodyOfficeId === officeId &&
       s.date >= since &&
-      (s.bills ?? []).some(
-        (b) =>
+      (s.bills ?? []).some((b) => {
+        // A filing held for the meeting was drafted when the session was
+        // written; its vote since is read from the bill itself.
+        const status =
+          b.status === "drafted"
+            ? (liveBills(api, officeId).get(b.number)?.status ?? b.status)
+            : b.status;
+        return (
           b.question === question &&
           b.change === (direction > 0 ? "enact" : "repeal") &&
           b.fate === "voted" &&
-          b.status !== "enacted" &&
-          b.status !== "overridden" &&
-          b.status !== "awaiting-signature",
-      ),
+          status !== "drafted" &&
+          status !== "enacted" &&
+          status !== "overridden" &&
+          status !== "awaiting-signature"
+        );
+      }),
   );
 }
 
@@ -1152,13 +1209,12 @@ function recentlyDefeated(
  * meeting on the player's calendar. A body that does not meet as a body (one
  * seat) has no meeting.
  */
-function scheduleMeeting(api: CoreAPI, officeId: string): void {
-  const next = nextMeeting(
-    api,
-    officeId,
-    api.state.date,
-    lawChain(api).countyGeoids[0],
-  );
+function scheduleMeeting(
+  api: CoreAPI,
+  officeId: string,
+  after: string = api.state.date,
+): void {
+  const next = nextMeeting(api, officeId, after, lawChain(api).countyGeoids[0]);
   const meetings = api
     .moduleState(WORLD_LEGISLATING_MODULE_ID)
     .table("nextMeetings");
@@ -1171,12 +1227,16 @@ function scheduleMeeting(api: CoreAPI, officeId: string): void {
     date: next.date,
     source: next.rule.source,
   } as unknown as ModuleRow);
+  // Members file the day before a meeting the player will sit in, so the
+  // bills are on its agenda when the player's stop comes; otherwise on the day.
+  const eve = addDays(makeIsoDate(next.date), -1);
+  const early = !!meetingHold?.(api, officeId) && eve > api.state.date;
   api.moduleCalendar(WORLD_LEGISLATING_MODULE_ID).schedule({
     key: `local-meeting:${officeId}:${next.date}`,
-    date: next.date,
+    date: early ? eve : next.date,
     kind: "local-meeting",
     source: next.rule.source,
-    sourceRecordIds: [officeId],
+    sourceRecordIds: [officeId, next.date],
   });
 }
 
