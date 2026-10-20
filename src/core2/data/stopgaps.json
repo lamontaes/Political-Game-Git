@@ -1717,11 +1717,11 @@
     "kind": "missing-engine",
     "file": "src/core2/data/laws/reach-group-b.json",
     "line": 232,
-    "whatItFakes": "A ban on new gas hookups is a compliance record on builders and utilities; no building cost or fuel choice changes.",
-    "why": "No construction projects or building fuel choices exist in the core.",
+    "whatItFakes": "A gas-hookup ban raises the housing engine's new-construction cost (modules/housing.ts sets allElectric, housing-construction.ts prices it into single and multifamily starts), but no household's appliance fuel choice or utility bill changes.",
+    "why": "Construction cost by code is read; fuel choice and household energy bills aren't modeled, so the ban's effect on a household stops at the price and supply of new homes.",
     "addedBy": "OPUS-GOV (sub-agent B)",
     "addedAt": "2026-10-12",
-    "replacement": "OPUS-WORLD housing and business engine: new-construction cost and appliance fuel by code in force (setBuildingCode({ placeId, allElectric: true })).",
+    "replacement": "A household energy-bill and appliance-fuel record read by the ban once utilities are modeled.",
     "status": "open"
   },
   {
@@ -1777,11 +1777,11 @@
     "kind": "missing-engine",
     "file": "src/core2/data/laws/reach-group-b.json",
     "line": 328,
-    "whatItFakes": "Farmland protection is a rule record on farms, builders and real-estate firms; no parcel or development changes.",
-    "why": "Land parcels and development aren't modeled.",
+    "whatItFakes": "Farmland protection reduces new-housing starts through the housing engine (zoning farmlandProtected, housing-construction.ts), but there are no land parcels, so which fields stay farmland and what farms earn don't change.",
+    "why": "Development is read as a share of buildable land; individual parcels and farm use aren't modeled.",
     "addedBy": "OPUS-GOV (sub-agent B)",
     "addedAt": "2026-10-12",
-    "replacement": "OPUS-WORLD housing engine: land parcels with zoning, read by new construction (zoneParcels({ placeId, use: \"agricultural\", protected: true })).",
+    "replacement": "Land parcels with a use and an owner, read by new construction and by farm output.",
     "status": "open"
   },
   {
