@@ -1,37 +1,55 @@
 import { randomBytes } from "node:crypto";
 import { describe, expect, it } from "vitest";
-import { birthCohortGivenName as oldBirthCohortGivenName } from "../../simulation/given-name-cohorts";
+import TOP_SHARE from "../data/names/given-name-top-share.json" with { type: "json" };
 import {
   birthCohortGivenName,
-  COHORT_GIVEN_NAME_SHARE,
+  cohortGivenNameShare,
 } from "./given-name-cohorts";
 
-// The opening draws given names from here now. Until the old engine is
-// retired, its copy must give every person the same name.
+// The opening draws given names from here. The share of people who take a
+// cohort name is the published share of births the decade's top 100 names
+// account for, by decade and sex (given-name-top-share.json).
 describe("given names by birth year", () => {
   const seed = randomBytes(8).toString("hex");
+  const shares = TOP_SHARE.share as unknown as Record<
+    string,
+    Record<"male" | "female", number>
+  >;
 
-  it(`match the old engine for every person (seed ${seed})`, () => {
-    let changed = 0;
-    for (let index = 0; index < 600; index++) {
-      const person = {
-        givenName: "Placeholder",
-        familyName: "Sample",
-        birthDate: `${1925 + (index % 100)}-0${1 + (index % 9)}-15`,
-        gender: (["male", "female", "nonbinary", undefined] as const)[
-          index % 4
-        ],
-      };
-      const key = `person:${seed}:${index}`;
-      const next = birthCohortGivenName(seed, key, person as never);
-      expect(next, key).toBe(
-        oldBirthCohortGivenName(seed, key, person as never),
-      );
-      if (next !== person.givenName) changed++;
+  it(`the fraction taking a cohort name matches the published share for every decade and sex (seed ${seed})`, () => {
+    const people = 2000;
+    for (const [decade, row] of Object.entries(shares)) {
+      for (const sex of ["male", "female"] as const) {
+        // The middle year of the decade stands at that decade's own share.
+        const year = Number.parseInt(decade, 10) + 5;
+        let took = 0;
+        for (let index = 0; index < people; index++) {
+          const next = birthCohortGivenName(
+            seed,
+            `person:${decade}:${sex}:${index}`,
+            {
+              givenName: "Placeholder",
+              familyName: "Sample",
+              birthDate: `${year}-06-15`,
+              gender: sex,
+            },
+          );
+          if (next !== "Placeholder") took++;
+        }
+        // Five binomial standard deviations at 2,000 people is about 0.056.
+        expect(
+          Math.abs(took / people - row[sex]),
+          `${decade} ${sex}`,
+        ).toBeLessThan(0.06);
+      }
     }
-    // Some take a cohort name and some keep the ordinary draw's name.
-    expect(changed).toBeGreaterThan(0);
-    expect(changed).toBeLessThan(600);
+  });
+
+  it("falls with the decade: the 1950s took more cohort names than the 2000s", () => {
+    for (const sex of ["male", "female"] as const)
+      expect(cohortGivenNameShare(sex, 1955)).toBeGreaterThan(
+        cohortGivenNameShare(sex, 2005),
+      );
   });
 
   it("keeps the given name when the world states no binary gender", () => {
@@ -44,10 +62,5 @@ describe("given names by birth year", () => {
           gender,
         }),
       ).toBe("Alex");
-  });
-
-  it("is a share, not all or none", () => {
-    expect(COHORT_GIVEN_NAME_SHARE).toBeGreaterThan(0);
-    expect(COHORT_GIVEN_NAME_SHARE).toBeLessThan(1);
   });
 });
