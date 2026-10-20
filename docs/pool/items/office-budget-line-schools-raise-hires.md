@@ -5,12 +5,12 @@ area: office
 kind: wiring
 priority: 3
 size: S
-status: claimed
-claimed-by: claude/schools-raise-test
-pr:
+status: open
+claimed-by:
+pr: #5632
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-20T08:27:45.026Z
+claimed-at:
 ---
 
 **What.** PR #5588 proved a schools line cut ends teachers' jobs; the raise path (hire from the town's adults without work) is unproved.
@@ -22,3 +22,5 @@ claimed-at: 2026-10-20T08:27:45.026Z
 **Files.** src/core2/budget-line-schools-staffing.test.ts
 
 **Notes.** TODO
+
+Sent back 2026-10-20 from PR #5632 (branch claude/schools-raise-test): school teachers are counted workers since #5568, so the budget-line-schools-staffing test's named-teacher precondition never holds and it fails in every draw with main merged in; prove the line change on the district's counted payroll; finish on that branch, merge main into it first.
