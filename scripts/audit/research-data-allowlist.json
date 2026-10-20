@@ -140,6 +140,34 @@
     {
       "file": "data/research/stopgaps-oct19/E-careers-finance.json",
       "reason": "Raw research result for the open stopgap rows (value, spread, sources, one-line builder note each); builders apply a row into the game's own data and resolve its stopgap (pool item research-stopgaps-oct19-apply), the game never reads the file."
+    },
+    {
+      "file": "data/research/assumption-markers.json",
+      "reason": "Scan output listing the placeholder and unresearched markers found in src on one commit; evidence for the stopgap audit, not game data."
+    },
+    {
+      "file": "data/research/census-2020-island-areas-places.json",
+      "reason": "Census 2020 Island Areas place identities and populations, research for SG-CORE-territory-places; no engine reads it yet."
+    },
+    {
+      "file": "data/research/economic-context-reviewed-bindings.json",
+      "reason": "Reviewed BEA area bindings kept as research evidence for the economic-context engine; no engine reads the file yet."
+    },
+    {
+      "file": "data/research/new-game-geography-defaults.json",
+      "reason": "Origin and fixture place keys recorded as research evidence for the new-game flow; no engine reads the file yet."
+    },
+    {
+      "file": "data/research/p2-law-estimate-ledger.json",
+      "reason": "Ledger of law-rule estimates and their sources, the audit trail behind estimated law rows; evidence, not read at run time."
+    },
+    {
+      "file": "data/research/p2-personnel-estimate-ledger.json",
+      "reason": "Ledger of personnel-rule estimates and their sources, the audit trail behind estimated personnel rows; evidence, not read at run time."
+    },
+    {
+      "file": "data/research/stand-in-figures-2026-10-12.json",
+      "reason": "Research on the number stand-ins open on Oct 12, 2026 (class, current value, recommended value or bounds, source); builders apply rows into the parameter tables."
     }
   ],
   "awaitingReader": [
@@ -190,11 +218,6 @@
     {
       "prefix": "data/research/apportionment/",
       "files": 1,
-      "reason": "Research evidence gathered for this area; no code under src/ or scripts/ reads these files yet. Found unread on Oct 16 when the scanner stopped counting a quoted \"data/research/\" prefix as a read of everything under it."
-    },
-    {
-      "prefix": "data/research/",
-      "files": 6,
       "reason": "Research evidence gathered for this area; no code under src/ or scripts/ reads these files yet. Found unread on Oct 16 when the scanner stopped counting a quoted \"data/research/\" prefix as a read of everything under it."
     },
     {
