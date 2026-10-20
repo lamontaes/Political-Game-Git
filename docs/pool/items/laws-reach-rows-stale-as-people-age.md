@@ -7,7 +7,7 @@ priority: 2
 size: M
 status: in-pr
 claimed-by: claude/reach-stale
-pr: #5397
+pr: #5403
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-20T01:43:21.366Z
