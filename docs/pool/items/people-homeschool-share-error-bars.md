@@ -5,11 +5,12 @@ area: people
 kind: research
 priority: 3
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/pool-homeschool-error-bars
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-20T04:13:54.236Z
 ---
 
 **What.** TODO
