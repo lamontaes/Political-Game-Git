@@ -5,10 +5,10 @@ area: people
 kind: feature
 priority: 2
 size: L
-status: claimed
+status: blocked
 claimed-by: claude/fs11vb-health-coverage
 pr:
-blocked-on:
+blocked-on: people-coverage-record-monthly-pass
 source: added with npm run pool -- add
 claimed-at: 2026-10-20T03:03:19.238Z
 ---
