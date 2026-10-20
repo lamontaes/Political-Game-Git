@@ -204,10 +204,44 @@ describe("M4-06 the record follows you", () => {
       );
       return countedChoice(without) !== countedChoice(b!.appeal);
     });
-    expect(
-      changed.length,
-      `${place} ${seed} weighed ${weighed.length}`,
-    ).toBeGreaterThan(0);
+    // Whether the record flips anyone depends on how close the race is for the
+    // voters who weigh it, which no place guarantees. What always holds is the
+    // accounting: each candidate's record term is the sum of the recorded
+    // reasons' effects, and a voter's choice changes without it exactly when
+    // the record is bigger than the margin (the top two, strictly).
+    const leader = (totals: [string, number][]) => {
+      const ranked = [...totals].sort(
+        (a, b) => b[1] - a[1] || a[0].localeCompare(b[0]),
+      );
+      return ranked.length > 1 && ranked[0]![1] > ranked[1]![1]
+        ? ranked[0]![0]
+        : null;
+    };
+    for (const b of weighed) {
+      const entries = Object.entries(b!.appeal);
+      for (const [id, a] of entries)
+        expect(
+          a.record,
+          `${place} ${seed} record term of ${id} on ${b!.id}`,
+        ).toBeCloseTo(
+          (b!.recordReasons?.[id] ?? []).reduce((n, r) => n + r.effect, 0),
+          9,
+        );
+      if (entries.length < 2) continue;
+      const withRecord = leader(entries.map(([id, a]) => [id, a.total]));
+      const without = leader(
+        entries.map(([id, a]) => [id, a.total - a.record]),
+      );
+      expect(
+        countedChoice(b!.appeal) ===
+          countedChoice(
+            Object.fromEntries(
+              entries.map(([id, a]) => [id, { total: a.total - a.record }]),
+            ),
+          ),
+        `${place} ${seed} ${b!.id}`,
+      ).toBe(withRecord === without);
+    }
     govReport(
       "record",
       JSON.stringify({
