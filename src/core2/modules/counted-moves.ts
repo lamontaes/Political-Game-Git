@@ -352,6 +352,13 @@ const stateOfPlace = (placeId: string) =>
   corePlaceByJurisdictionId(placeId as never)?.stateJurisdictionKey?.slice(
     "US-".length,
   );
+/**
+ * The state a counted household lives in. The town's counted households keep
+ * the place id of their governing unit, which the place lookup may not know
+ * (a consolidated town, a balance); they are the town's people, in its state.
+ */
+const homeStateOf = (rt: Pick<Runtime, "townState">, placeId: string) =>
+  stateOfPlace(placeId) ?? rt.townState;
 
 function month(api: CoreAPI): void {
   const core = api.state as CoreState;
@@ -428,8 +435,8 @@ function month(api: CoreAPI): void {
     }
   >();
   for (const h of store.liveHouseholds()) {
-    const home = stateOfPlace(h.placeId);
-    if (!home || !rt.states.has(home)) continue;
+    const home = homeStateOf(rt, h.placeId);
+    if (!rt.states.has(home)) continue;
     // Real people: a record stands for as many households as its weight says.
     const people = store.weightedCount(h);
     if (!people) continue;
@@ -574,7 +581,7 @@ function month(api: CoreAPI): void {
       orderOf(g).shift();
       const group = store.groups[g]!;
       const dests = dues.get(g)!.rows;
-      const home = stateOfPlace(next.placeId)!;
+      const home = homeStateOf(rt, next.placeId);
       const to =
         [...dests]
           .filter(([, v]) => v > 0)

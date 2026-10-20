@@ -1975,8 +1975,21 @@ export function fillInPerson(core: CoreState, personId: PersonId): PersonState {
     // A member born or married into the household while it was in the counts has no full record yet: they are admitted below, as in a first fill-in.
     const back = record.people.filter((row) => core.people.has(row.id));
     for (const row of back) api.updatePerson(row.id, { tier: row.tier });
+    // A member still on file in the counted place whom the counted record no
+    // longer holds comes back with the household too, so it moves whole.
+    const unrecorded = (core.households.get(home.id)?.memberIds ?? []).filter(
+      (id) => {
+        const kept = core.people.get(id);
+        return (
+          kept !== undefined &&
+          kept.alive &&
+          isDemoted(kept) &&
+          !back.some((row) => row.id === id)
+        );
+      },
+    );
     api.relocatePeopleV1({
-      personIds: back.map((row) => row.id),
+      personIds: [...back.map((row) => row.id), ...unrecorded],
       placeId: home.placeId,
       ...(record.people[0]?.countyId
         ? { countyId: record.people[0].countyId }

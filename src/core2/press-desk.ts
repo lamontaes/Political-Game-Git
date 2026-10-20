@@ -20,6 +20,7 @@ import { isPolicyTopic, type WireItem, type WireLevel } from "./press-topics";
 import type { CoreAPI, CoreState, PersonId } from "./types";
 import { printStory, type Story } from "./modules/news";
 import { isPublicFigure } from "./past-public";
+import { reachedBy } from "./law-reach/host";
 import {
   stancesOf,
   viewOf,
@@ -468,13 +469,30 @@ export function runDesk(
   const core = api.state as CoreState;
   const inTown = (id: string) =>
     core.people.get(id)?.placeId === ctx.townPlaceId;
+  // A law taking effect names no one, but it involves the outlet's followers
+  // it reaches: the named ones the law-reach records name (every named
+  // follower where they hold no record for it, since a law in force binds the
+  // town) and the counted followers, who are read by the same rule as a
+  // full follower.
+  const involved = (item: WireItem): number => {
+    const lawId = item.facts?.lawId;
+    const key = item.facts?.series;
+    if (item.kind !== "law-took-effect" || !lawId || !key) return 0;
+    const reached = new Set(reachedBy(api, key, lawId).map((r) => r.personId));
+    const named = reached.size
+      ? followers.filter((id) => reached.has(id)).length
+      : followers.length;
+    return named + ctx.countedFollowers(outlet);
+  };
   const base = open.map((item) => ({
     item,
     proximity: p(
       (outlet.tier === "national" ? NATIONAL_PROXIMITY : PROXIMITY)[item.level],
     ),
     readerCare: care.get(item.topic) ?? 0,
-    people: Math.log1p(item.subjectIds.filter(inTown).length),
+    people: Math.log1p(
+      Math.max(item.subjectIds.filter(inTown).length, involved(item)),
+    ),
     renown: Math.log1p(
       item.subjectIds.filter((id) => isPublicFigure(api, id)).length,
     ),

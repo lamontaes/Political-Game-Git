@@ -5,11 +5,12 @@ area: play
 kind: wiring
 priority: 2
 size: M
-status: open
-claimed-by:
-pr:
+status: done
+claimed-by: claude/step-11-next-election
+pr: #4901
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-17T09:31:45.066Z
 ---
 
 **What.** The last golden-path step, "the next election uses the record", is built in the voting engine (an incumbent's record, votes and promises kept or broken, is weighed by a voter who knows the officeholder: `recordAppeal` in `src/core2/modules/voting.ts`) but nothing detects or checks it from the player's path. `reachedSteps` (`src/bench/reached.ts`) stops at step 10, and `path-check.ts` ends right after the player's law takes effect, years before the seat's next election. Detect step 11 as: an election for the seat the player holds, after their bill took effect, whose ballots (kept for the player's circle) carry `recordReasons` for the player naming a record item by id; and let `path-check.ts` run on to that election in a place where it is within a few years.
@@ -21,3 +22,5 @@ source: added with npm run pool -- add
 **Files.** src/bench/reached.ts, src/bench/path-check.ts, src/core2/modules/voting.ts, src/core2/modules/record.ts
 
 **Notes.** Steps 3 to 10 now run end to end in `path-check.ts` (PRs #4876 and #4887). On Deer Island, Oregon (seed pc-d) the player's seat is a four-year county commissioner term, so the next election is 2030; a council with two-year terms would reach it sooner.
+
+Measured Oct 17 (claude): on Deer Island, Oregon (seed pc-d) `GOLDEN_PATH_TO_NEXT_ELECTION=1` lives the commissioner's bill through its law to the 2028-11-07 election; steps 3 to 11 reached (1017 s, bookkeeping on for the run).

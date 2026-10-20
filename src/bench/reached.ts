@@ -1,6 +1,7 @@
 import { coreAPI } from "../core2/state";
 import { resultOf } from "../core2/modules/voting";
 import type { FilingRow } from "../core2/modules/elections";
+import type { BallotRow } from "../core2/modules/voting";
 import type { BillRow } from "../core2/modules/legislature";
 import type { CoreState } from "../core2/types";
 import { PRESS_MODULE_ID } from "../core2/modules/press";
@@ -13,17 +14,23 @@ const has = (core: CoreState, id: string) => core.modules.has(id);
  * The golden-path steps a person has actually played, each with the records
  * that show it. Read-only; opening history never counts.
  */
-export function reachedSteps(core: CoreState, personId: string) {
+export function reachedSteps(
+  core: CoreState,
+  personId: string,
+  /** Only bills introduced on or after this date count (a check that plays one bill of its own). */
+  since?: string,
+) {
   const api = coreAPI(core);
   const out: { step: number; recordIds: string[] }[] = [];
-  const filings = has(core, "core2-elections-v1")
-    ? (
-        api
-          .moduleState("core2-elections-v1")
-          .table("filings")
-          .query("byPerson", [personId]) as unknown as FilingRow[]
-      ).filter((row) => row.filedWith !== "incumbent stands again")
+  const everyFiling = has(core, "core2-elections-v1")
+    ? (api
+        .moduleState("core2-elections-v1")
+        .table("filings")
+        .query("byPerson", [personId]) as unknown as FilingRow[])
     : [];
+  const filings = everyFiling.filter(
+    (row) => row.filedWith !== "incumbent stands again",
+  );
   if (filings.length)
     out.push({ step: 3, recordIds: filings.map((f) => f.id) });
   if (has(core, "core2-campaigns-v1")) {
@@ -61,7 +68,9 @@ export function reachedSteps(core: CoreState, personId: string) {
         .moduleState("core2-legislature-v1")
         .table("bills")
         .rows() as unknown as BillRow[]
-    ).filter((b) => b.sponsorId === personId);
+    ).filter(
+      (b) => b.sponsorId === personId && (!since || b.introduced >= since),
+    );
     if (bills.length) out.push({ step: 6, recordIds: bills.map((b) => b.id) });
     const dealt = bills.filter((b) => b.deals.length);
     if (dealt.length) out.push({ step: 7, recordIds: dealt.map((b) => b.id) });
@@ -115,6 +124,44 @@ export function reachedSteps(core: CoreState, personId: string) {
           step: 10,
           recordIds: [...storyIds, ...readers.slice(0, 5)],
         });
+    }
+    // Step 11, the next election uses the record: after a bill of theirs took
+    // effect, a voter weighing this person on a ballot for the seat gave the
+    // bill's vote as a reason (kept on ballots for the player's circle, and
+    // for everyone when bookkeeping is on).
+    if (enacted.length && has(core, "core2-voting-v1")) {
+      const ballots = api.moduleState("core2-voting-v1").table("ballots");
+      const tookEffectOn = (b: BillRow) =>
+        [...(core.logByKind.get("law-took-effect") ?? [])]
+          .map(
+            (id) =>
+              core.durableLog.get(id) as
+                { date: string; facts?: { lawId?: string } } | undefined,
+          )
+          .filter((e) => e?.facts?.lawId?.endsWith(`:${b.number}`))
+          .map((e) => e!.date)
+          .sort()[0] ?? null;
+      for (const b of enacted) {
+        const item = `vote:${b.number}:${personId}`;
+        const since = tookEffectOn(b);
+        const hit = everyFiling
+          .flatMap(
+            (f) =>
+              ballots.query("byContest", [
+                f.contestId,
+              ]) as unknown as BallotRow[],
+          )
+          .find(
+            (ballot) =>
+              since !== null &&
+              ballot.date >= since &&
+              ballot.recordReasons?.[personId]?.some((r) => r.itemId === item),
+          );
+        if (hit) {
+          out.push({ step: 11, recordIds: [hit.id, item] });
+          break;
+        }
+      }
     }
   }
   return out;

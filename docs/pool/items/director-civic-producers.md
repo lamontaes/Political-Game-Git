@@ -5,12 +5,12 @@ area: director
 kind: wiring
 priority: 1
 size: M
-status: open
-claimed-by:
+status: blocked
+claimed-by: claude/director-civic-producers
 pr:
-blocked-on: "director-civic-roles"
+blocked-on: director-civic-producers-government,director-civic-producers-government-rest
 source: "director-reach, PR #4508"
-claimed-at:
+claimed-at: 2026-10-19T18:01:34.276Z
 ---
 
 **What.** The director's catalog still marks fifteen civic situation types as waiting on a producer, though the core already writes the records they name. These are election.result (race-won, race-lost), legislature.sign-or-veto (bill-signed, veto), legislature.hold-hearing (public-hearing), legislative-vote (floor-vote), candidate-filed (filing, campaign-stop), recall-petition (recall), press.exposed (scandal), work.job-lost (layoff), housing.eviction (eviction-notice), law.effect-learned (law-takes-effect), economy.board-appointment (appointment) and office.approached (press-interview). Make the director's ledger write a moment for the person each record reaches, drop the awaitingProducer mark from each type, and let it fire a scene when that person is watched.
@@ -26,3 +26,7 @@ claimed-at:
 Original note: Found by the reach report in director-reach (PR #4508): in a played year of Rarity Bay, Tennessee, no type fired from the household's year except the reunion kind, and forty types said why not.
 
 Sent back 2026-10-16 from PR #4600 (branch claude/director-civic-producers-government): Merging current main into claude/director-civic-producers-government conflicts in docs/pool/items/director-civic-producers-government-rest.md, src/director/civic-roles.ts, src/director/data/director.json. Resolve and push these conflicts on this branch before local checks can run; finish on that branch, merge main into it first.
+
+Sent back 2026-10-17 from PR #4600 (branch claude/director-civic-producers-government): Morning check: the new src/director/government-scenes.test.ts returns successfully when no full-person seat exists and again when the bill was not voted. Both paths bypass every floor-vote/signing/veto assertion. Draw an eligible generated-world case with bounded retries and fail if none reaches the case, then preserve the scene and role assertions. A logged reason followed by return is still a skipped acceptance test.; finish on that branch, merge main into it first.
+
+Sent back 2026-10-17 from PR #4606 (branch claude/director-civic-producers-government-rest): Morning check: new press-scenes.test.ts returns successfully when no outlet or seated resident exists, bypassing all published-interview and role assertions. The stacked government-scenes.test.ts likewise returns before assertions when there is no full-person seat or no vote. Draw an eligible case with bounded retries and fail when the case cannot be reached. Also record Government-area agreement for the recalls.ts event changes, or split that edit into its owning-area PR.; finish on that branch, merge main into it first.

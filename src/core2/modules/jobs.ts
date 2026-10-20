@@ -29,12 +29,13 @@ import { inCustody } from "./justice";
 import { regionalMonth } from "./regional";
 import { isDemoted } from "../counted-groups";
 import { residentPerson, residentsRuntime } from "./residents";
+import { claimRetirementNow } from "./retirement-claims";
 import { MOVED_AWAY_EVENT } from "./moves";
 import { endClaim, fileClaim, payClaims } from "../jobs-benefits";
 import { meetAtWork } from "../encounters";
 import {
   addCountedJob,
-  addCountedRetiree,
+  countedHeadsOf,
   countedJobsOf,
   endCountedJob,
   rerateCountedJobs,
@@ -87,6 +88,8 @@ export interface PositionRow {
   /** Held for the person the player controls while they decide on its offer. */
   offeredTo?: string;
   offerId?: string;
+  /** How many jobs the opening stands for: a counted worker's household weight; absent for one. */
+  heads?: number;
   /** The owner raised this unfilled opening's pay: when last, how many times, and what it first offered. */
   raisedOn?: string;
   raises?: number;
@@ -132,9 +135,11 @@ interface EmployerRow {
   /** Fraction of a posting's withdrawal carried to the next review. */
   withdrawCarry?: number;
   /** Jobs of workers who left (died, moved, quit, retired), oldest first, each to be replaced. */
-  leavers?: { jobId: string; personId: string }[];
+  leavers?: { jobId: string; personId: string; heads?: number }[];
   /** The counted workers' jobs at the last review (job to worker), to find who left outside the jobs engine. */
   countedJobs?: Record<string, string>;
+  /** What each of those jobs stood for at the last review, in jobs (the household weight), for a worker whose household is gone. */
+  countedHeads?: Record<string, number>;
 }
 
 function store(api: CoreAPI) {
@@ -165,6 +170,22 @@ function currentJobs(api: CoreAPI, organizationId: string) {
     ...countedJobsOf(core(api), organizationId),
   ];
 }
+
+/** How many jobs a job record stands for: one for a full person's, the household weight for a counted worker's. */
+function headsOf(c: CoreState, job: Pick<JobInput, "id" | "personId">): number {
+  return c.jobs.has(job.id) ? 1 : countedHeadsOf(c, job.personId);
+}
+
+/** The jobs a staff holds, a counted worker's record standing for its household's weight. */
+function staffHeads(c: CoreState, jobs: readonly JobInput[]): number {
+  let heads = 0;
+  for (const job of jobs) heads += headsOf(c, job);
+  return heads;
+}
+
+/** The jobs an opening stands for. */
+const positionHeads = (position: Pick<PositionRow, "heads">): number =>
+  position.heads ?? 1;
 
 /** A person's traits, whether they are a full person or still counted. */
 function traitsOf(
@@ -242,7 +263,13 @@ function record(
 ): void {
   // A worker who leaves (a quit, retirement, move or death) is replaced: the employer's need grows by one at once.
   if (row.kind === "quit" || row.kind === "left-work")
-    noteLeaver(api, row.organizationId, row.jobId, row.personId);
+    noteLeaver(
+      api,
+      row.organizationId,
+      row.jobId,
+      row.personId,
+      headsOf(core(api), { id: row.jobId, personId: row.personId }),
+    );
   store(api)
     .table("changes")
     .put({
@@ -254,7 +281,7 @@ function record(
 }
 
 /**
- * Someone left an employer's staff: its need grows by one at once, and the
+ * Someone left an employer's staff: its need grows by the jobs they stood for (one for a full person) at once, and the
  * leaver's job waits to be replaced in the same role (owner, Oct 14: every
  * role is refilled when its holder dies, leaves or is removed).
  */
@@ -263,6 +290,7 @@ function noteLeaver(
   organizationId: string,
   jobId: string,
   personId: string,
+  heads: number,
 ): void {
   const employer = store(api).table("employers").get(organizationId) as
     EmployerRow | undefined;
@@ -271,8 +299,11 @@ function noteLeaver(
     .table("employers")
     .put({
       ...employer,
-      need: employer.need + 1,
-      leavers: [...(employer.leavers ?? []), { jobId, personId }],
+      need: employer.need + heads,
+      leavers: [
+        ...(employer.leavers ?? []),
+        { jobId, personId, ...(heads === 1 ? {} : { heads }) },
+      ],
     });
 }
 
@@ -369,10 +400,26 @@ function noteCountedLeavers(api: CoreAPI): void {
         ["layoff", "quit", "left-work", "closure"].some((kind) =>
           changes.get(`job-change:${job.endsAt}:${id}:${kind}`),
         );
-      if (!ownEnd) noteLeaver(api, row.id, id, row.countedJobs![id]!);
+      if (!ownEnd)
+        noteLeaver(
+          api,
+          row.id,
+          id,
+          row.countedJobs![id]!,
+          row.countedHeads?.[id] ?? 1,
+        );
     }
     const fresh = (employers.get(row.id) as unknown as EmployerRow) ?? row;
-    employers.put({ ...fresh, countedJobs: now });
+    const heads: Record<string, number> = {};
+    for (const [id, personId] of Object.entries(now)) {
+      const weight = countedHeadsOf(c, personId);
+      if (weight !== 1) heads[id] = weight;
+    }
+    employers.put({
+      ...fresh,
+      countedJobs: now,
+      ...(Object.keys(heads).length ? { countedHeads: heads } : {}),
+    });
   }
 }
 
@@ -519,15 +566,16 @@ const roleOf = (job: Pick<JobInput, "occupationClassification" | "title">) =>
 export function roleMix(
   jobs: readonly JobInput[],
   full: readonly JobInput[] = [],
+  heads: (job: JobInput) => number = () => 1,
 ): Record<string, { count: number; templateJobId: string }> {
   const fullIds = new Set(full.map((job) => job.id));
   const mix: Record<string, { count: number; templateJobId: string }> = {};
   for (const job of [...jobs].sort((a, b) => a.id.localeCompare(b.id))) {
     const role = roleOf(job),
       row = mix[role];
-    if (!row) mix[role] = { count: 1, templateJobId: job.id };
+    if (!row) mix[role] = { count: heads(job), templateJobId: job.id };
     else {
-      row.count += 1;
+      row.count += heads(job);
       if (fullIds.has(job.id) && !fullIds.has(row.templateJobId))
         row.templateJobId = job.id;
     }
@@ -544,6 +592,7 @@ export function roleMix(
 export function rolesByDeficit(
   mix: Readonly<Record<string, { count: number }>>,
   have: Readonly<Record<string, number>>,
+  filling = 1,
 ): string[] {
   const total = Object.values(mix).reduce((sum, row) => sum + row.count, 0);
   const held = Object.values(have).reduce((sum, n) => sum + n, 0);
@@ -551,7 +600,8 @@ export function rolesByDeficit(
   return Object.keys(mix)
     .map((role) => ({
       role,
-      deficit: (mix[role]!.count / total) * (held + 1) - (have[role] ?? 0),
+      deficit:
+        (mix[role]!.count / total) * (held + filling) - (have[role] ?? 0),
     }))
     .sort((a, b) => b.deficit - a.deficit || a.role.localeCompare(b.role))
     .map((row) => row.role);
@@ -607,9 +657,11 @@ function open(api: CoreAPI): void {
         .put({
           id,
           isEmployer: true,
-          openingStaff: currentJobs(api, id).length,
+          openingStaff: staffHeads(c, currentJobs(api, id)),
           need: 0,
-          mix: roleMix(currentJobs(api, id), fullJobs(api, id)),
+          mix: roleMix(currentJobs(api, id), fullJobs(api, id), (job) =>
+            headsOf(c, job),
+          ),
         });
   // The nation's opening unemployment when the national economy runs; its long-run rate otherwise.
   const macro = c.modules.has("macro")
@@ -702,24 +754,36 @@ export function affordableStaff(
 }
 
 /**
- * An opening nobody has taken for a while may be offered more by its owner
- * (owner, Oct 16): the raise is a share of the offered pay that follows the
- * owner's traits (an open-handed one raises, a stubborn one holds), and only
- * what the business's last month of trading can carry. No cap beyond that:
- * an employer who cannot afford it does not raise it.
+ * An opening nobody has taken may be offered more by its owner (owner, Oct 16:
+ * "if they can't afford it they can't afford it; if they're stubborn they
+ * might not do it"). The raise is read from the employer's books and its
+ * owner's traits; no step and no waiting period is fixed.
+ *
+ * - What the seat can carry: each head's share of what the last month left
+ *   after purchases and compliance (the wages it has to cover), read against
+ *   the opening's pay now. A seat already paid at or above that share is not
+ *   raised: the employer cannot afford it.
+ * - What the empty seat has cost: the days it has stood empty times that
+ *   share a day. Nothing has been lost on the first day, so nothing is raised
+ *   on it; the longer it stands, the more the owner will add.
+ * - Who decides: the owner's open-handedness, from the shared chooser
+ *   (`decisionLean`), scales what they will add; a stubborn owner adds
+ *   nothing.
+ * The added monthly cost is the least of those three and the room the last
+ * month's trading left, which raises already given this review use up.
  */
 export function raiseUnfilledPay(
   api: CoreAPI,
   organizationId: string,
   positions: PositionRow[],
   trading: BusinessTradingMonth | undefined,
+  heads: number,
 ): void {
   const c = core(api);
-  if (!trading || trading.days <= 0) return;
+  if (!trading || trading.days <= 0 || heads <= 0) return;
   const ownerId = ownerOf(api, organizationId);
   const owner = ownerId ? c.people.get(ownerId) : undefined;
   if (!ownerId || !owner?.alive) return;
-  const after = api.parameter("jobsRaiseAfterDays");
   const lean = decisionLean(
     c,
     owner,
@@ -727,29 +791,42 @@ export function raiseUnfilledPay(
     "raise-pay",
     "hold-pay",
   );
-  const step = (api.parameter("jobsRaiseStepShare") * (1 + lean)) / 2;
-  if (step <= 0) return;
+  const openHanded = (1 + lean) / 2;
+  if (openHanded <= 0) return;
   const monthDays = api.parameter("jobsDaysPerYear") / 12;
+  const perMonth = monthDays / trading.days;
   // What the last month left after wages, purchases and compliance, in a month's days, less raises already given this review.
   let room =
-    ((trading.salesMinor -
+    (trading.salesMinor -
       trading.payrollMinor -
       trading.costsMinor -
       trading.complianceMinor) *
-      monthDays) /
-    trading.days;
-  for (const position of positions) {
+    perMonth;
+  // What one head's seat can carry in a month: sales less purchases and compliance, shared across the heads.
+  const carriesMonthly =
+    ((trading.salesMinor - trading.costsMinor - trading.complianceMinor) *
+      perMonth) /
+    heads;
+  if (carriesMonthly <= 0) return;
+  for (const [at, position] of positions.entries()) {
     if (position.status !== "open" || position.offeredTo) continue;
+    const hours = jobById(api, position.templateJobId)?.hoursDaily ?? 0;
+    if (hours <= 0) continue;
     const since = position.raisedOn ?? position.openedAt;
     const waited =
       (Date.parse(`${c.date}T00:00:00Z`) - Date.parse(`${since}T00:00:00Z`)) /
       86_400_000;
-    if (waited < after) continue;
-    const hours = jobById(api, position.templateJobId)?.hoursDaily ?? 0;
-    const next = Math.round(position.hourlyMinor * (1 + step));
-    const added = (next - position.hourlyMinor) * hours * monthDays;
-    if (next <= position.hourlyMinor || added > room) continue;
-    room -= added;
+    // What the seat has cost standing empty since it was last priced.
+    const lost = (waited * carriesMonthly) / monthDays;
+    const paysMonthly = position.hourlyMinor * hours * monthDays;
+    const added = Math.min(
+      room,
+      carriesMonthly - paysMonthly,
+      lost * openHanded,
+    );
+    const next = position.hourlyMinor + Math.floor(added / (hours * monthDays));
+    if (next <= position.hourlyMinor) continue;
+    room -= (next - position.hourlyMinor) * hours * monthDays;
     const raised: PositionRow = {
       ...position,
       hourlyMinor: next,
@@ -761,7 +838,8 @@ export function raiseUnfilledPay(
     store(api)
       .table("positions")
       .put(raised as unknown as { id: string });
-    Object.assign(position, raised);
+    // The caller's rows are the table's own and read-only: its list takes the raised row.
+    positions[at] = raised;
   }
 }
 
@@ -780,6 +858,9 @@ function reviewEmployers(api: CoreAPI): void {
     if (!book || book.closedAt) continue;
     const jobs = currentJobs(api, row.id),
       positions = [...openPositions(api, row.id)];
+    // Staff and postings in jobs: a counted worker's record stands for its household's weight.
+    const staff = staffHeads(c, jobs);
+    let posted = positions.reduce((n, row) => n + positionHeads(row), 0);
     const projected =
       (book.capacityMinor > 0
         ? // Real demand: the books' demand in the business's own opening prices.
@@ -789,7 +870,7 @@ function reviewEmployers(api: CoreAPI): void {
       // The season: the industry's staffing this month against the opening's (BLS CES seasonal factors).
       seasonalStaffing(book.kindId, c.date, opened);
     const trading = businessTradingMonth(api, row.id);
-    raiseUnfilledPay(api, row.id, positions, trading);
+    raiseUnfilledPay(api, row.id, positions, trading, staff);
     const observedStaff =
       trading && trading.days > 0 && book.capacityMinor > 0
         ? (row.openingStaff * trading.salesMinor * p("jobsDaysPerYear")) /
@@ -808,7 +889,7 @@ function reviewEmployers(api: CoreAPI): void {
       salesStaff * p("jobsSalesForecastWeight");
     const target =
       trading && trading.lossMonths > 0
-        ? affordableStaff(demandTarget, jobs.length, trading)
+        ? affordableStaff(demandTarget, staff, trading)
         : demandTarget;
     const monthlyPayroll = book.annualPayrollMinor / p("macroMonthsPerYear");
     const cash = c.organizations.get(row.id)!.liquidMinor;
@@ -816,10 +897,7 @@ function reviewEmployers(api: CoreAPI): void {
     const reach =
       cash / (cash + p("jobsCashCoverMonths") * monthlyPayroll || 1);
     // Staff and postings beyond the target lapse gradually: each position of surplus withdraws a share of a posting a month, the rest carried.
-    const excess = Math.max(
-      0,
-      Math.min(positions.length, jobs.length + positions.length - target),
-    );
+    const excess = Math.max(0, Math.min(posted, staff + posted - target));
     let carry =
       excess > 0
         ? (row.withdrawCarry ?? 0) + p("jobsWithdrawActedPerMonth") * excess
@@ -829,10 +907,11 @@ function reviewEmployers(api: CoreAPI): void {
       store(api)
         .table("positions")
         .put({ ...position, status: "withdrawn" });
-      carry -= 1;
+      carry -= positionHeads(position);
+      posted -= positionHeads(position);
     }
     if (!positions.length || excess === 0) carry = 0;
-    const gap = target - jobs.length - positions.length;
+    const gap = target - staff - posted;
     // A firm losing money cannot defer the unaffordable payroll as long as
     // an ordinary demand adjustment. The same loss memory that supports a
     // closure moves its response smoothly toward the full staffing gap.
@@ -841,8 +920,10 @@ function reviewEmployers(api: CoreAPI): void {
     const adjustment = p("jobsStaffGapActedPerMonth");
     const shrinkAdjustment = adjustment + (1 - adjustment) * lossPressure;
     // Replacements for leavers count only while staff is below target; above it, attrition does the shrinking.
+    // A shrink carried from an earlier month is stale once the firm is short of staff: a leaver's job is still owed.
+    const owed = (row.leavers ?? []).reduce((n, l) => n + (l.heads ?? 1), 0);
     let need =
-      (gap > 0 ? row.need : Math.min(row.need, 0)) +
+      (gap > 0 ? Math.max(row.need, owed) : Math.min(row.need, 0)) +
       (gap > 0 ? adjustment * gap * reach : shrinkAdjustment * gap);
     // A new business's first roles come from its template business.
     const from =
@@ -865,11 +946,20 @@ function reviewEmployers(api: CoreAPI): void {
     // With no role to copy, a business can't open positions; its need waits, never past its gap.
     if (!fromJobs.length && need > 0) need = Math.min(need, Math.max(0, gap));
     // The roles the staff is made of (cooks and servers alike, counted workers included), and what the employer holds of each now.
-    const mix = row.mix ?? roleMix(fromJobs, fullJobs(api, from));
+    const mix =
+      row.mix ??
+      roleMix(fromJobs, fullJobs(api, from), (job) => headsOf(c, job));
     const have: Record<string, number> = {};
-    for (const job of jobs) have[roleOf(job)] = (have[roleOf(job)] ?? 0) + 1;
+    for (const job of jobs)
+      have[roleOf(job)] = (have[roleOf(job)] ?? 0) + headsOf(c, job);
     for (const position of positions)
-      have[position.occupation] = (have[position.occupation] ?? 0) + 1;
+      have[position.occupation] =
+        (have[position.occupation] ?? 0) + positionHeads(position);
+    // What a new opening stands for when no leaver's job is being replaced: the employer's counted workers' typical weight.
+    const countedStaff = jobs.filter((job) => !c.jobs.has(job.id));
+    const typical = countedStaff.length
+      ? staffHeads(c, countedStaff) / countedStaff.length
+      : 1;
     const live = fullJobs(api, from);
     const copyable = (role: string): JobInput | undefined => {
       const ofRole = fromJobs.filter((job) => roleOf(job) === role);
@@ -889,20 +979,24 @@ function reviewEmployers(api: CoreAPI): void {
         : undefined;
     };
     const leavers = [...(row.leavers ?? [])];
-    while (need >= 1 && fromJobs.length) {
+    // A leaver recorded with no weight stood for one job.
+    const standsFor = (leaver?: { heads?: number }) =>
+      leaver ? (leaver.heads ?? 1) : typical;
+    while (need >= standsFor(leavers[0]) && fromJobs.length) {
       // A leaver's role is refilled first, as that role; then the role furthest below the mix.
       const replaces = leavers.shift();
+      const stands = standsFor(replaces);
       const left = replaces ? jobById(api, replaces.jobId) : undefined;
       const role =
         left && copyable(roleOf(left))
           ? roleOf(left)
-          : rolesByDeficit(mix, have).find((r) => copyable(r));
+          : rolesByDeficit(mix, have, stands).find((r) => copyable(r));
       const template = role ? copyable(role) : undefined;
       if (!template) {
         if (replaces) leavers.unshift(replaces);
         break;
       }
-      have[roleOf(template)] = (have[roleOf(template)] ?? 0) + 1;
+      have[roleOf(template)] = (have[roleOf(template)] ?? 0) + stands;
       const id = `position:${row.id}:${api.state.date}:${Math.floor(need)}`;
       store(api)
         .table("positions")
@@ -916,6 +1010,7 @@ function reviewEmployers(api: CoreAPI): void {
           hourlyMinor: payFor(api, row.id, template),
           openedAt: api.state.date,
           status: "open",
+          ...(stands === 1 ? {} : { heads: stands }),
           reasonKey: replaces
             ? jobsData.reasons.replacement
             : jobsData.reasons.opening,
@@ -928,45 +1023,52 @@ function reviewEmployers(api: CoreAPI): void {
           gap,
           target,
         });
-      need -= 1;
+      need -= stands;
     }
     const jobChangeIds: string[] = [];
-    while (need <= -1) {
+    for (;;) {
       if (positions.length) {
-        const position = positions.pop()!;
+        const position = positions[positions.length - 1]!;
+        if (need > -positionHeads(position)) break;
+        positions.pop();
         store(api)
           .table("positions")
           .put({ ...position, status: "withdrawn" });
-      } else {
-        const staff = currentJobs(api, row.id);
-        if (!staff.length) break;
-        const changeId = layOff(
-          api,
-          row.id,
-          staff,
-          {
-            target,
-            projected,
-            observedStaff,
-            salesStaff,
-            shrinkAdjustment,
-            demand: book.annualDemandMinor,
-            capacity: book.capacityMinor,
-            ...(trading
-              ? {
-                  salesMinor: trading.salesMinor,
-                  payrollMinor: trading.payrollMinor,
-                  costsMinor: trading.costsMinor,
-                  complianceMinor: trading.complianceMinor,
-                  lossMonths: trading.lossMonths,
-                }
-              : {}),
-          },
-          trading?.id,
-        );
-        if (changeId) jobChangeIds.push(changeId);
+        need += positionHeads(position);
+        continue;
       }
-      need += 1;
+      if (need > -1) break;
+      const staff = currentJobs(api, row.id);
+      if (!staff.length) break;
+      const laid = layOff(
+        api,
+        row.id,
+        staff,
+        -need,
+        {
+          target,
+          projected,
+          observedStaff,
+          salesStaff,
+          shrinkAdjustment,
+          demand: book.annualDemandMinor,
+          capacity: book.capacityMinor,
+          ...(trading
+            ? {
+                salesMinor: trading.salesMinor,
+                payrollMinor: trading.payrollMinor,
+                costsMinor: trading.costsMinor,
+                complianceMinor: trading.complianceMinor,
+                lossMonths: trading.lossMonths,
+              }
+            : {}),
+        },
+        trading?.id,
+      );
+      // The next worker to go stands for more jobs than the staff is over by: wait.
+      if (laid === "over") break;
+      if (laid?.id) jobChangeIds.push(laid.id);
+      need += laid?.heads ?? 1;
     }
     if (jobChangeIds.length) {
       // The employer's staffing announcement goes to the existing press wire;
@@ -1057,14 +1159,33 @@ function tenureYears(api: CoreAPI, job: JobInput): number {
   );
 }
 
+/** The full worker who runs a firm with no recorded owner: the best paid of those staying, ties by id. */
+function managerOf(
+  c: CoreState,
+  staff: readonly JobInput[],
+  leaving: JobInput,
+): string | undefined {
+  return staff
+    .filter(
+      (row) =>
+        row.personId !== leaving.personId && c.people.get(row.personId)?.alive,
+    )
+    .sort(
+      (a, b) =>
+        (b.hourlyMinor ?? 0) - (a.hourlyMinor ?? 0) ||
+        a.personId.localeCompare(b.personId),
+    )[0]?.personId;
+}
+
 /** The business decides who goes: the worker whose tenure and record it values least. */
 function layOff(
   api: CoreAPI,
   organizationId: string,
   staff: readonly JobInput[],
+  budget: number,
   values: Readonly<Record<string, number>>,
   tradingId?: string,
-): string | undefined {
+): { heads: number; id?: string } | "over" | undefined {
   const c = core(api),
     reliability = jobsData.traits.reliability;
   const keep = (job: JobInput) =>
@@ -1075,6 +1196,9 @@ function layOff(
     .filter((row) => !pinnedJobs(c).has(row.id))
     .sort((a, b) => keep(a) - keep(b) || a.id.localeCompare(b.id))[0];
   if (!job) return;
+  // The jobs this record stands for may not exceed what the staff is over by.
+  const heads = headsOf(c, job);
+  if (heads > budget + 1e-9) return "over";
   const keepScore = keep(job);
   // Which book holds the job decides how it ends: a person filled in since
   // the hire can still have a job row only in the counted books.
@@ -1085,9 +1209,10 @@ function layOff(
   // the hire is full now, but their job can still live only in the counted books.
   if (c.jobs.has(job.id)) api.endJob(job.id, `jobs:layoff:${api.state.date}`);
   else endCountedJob(c, job.id);
-  // The owner decides; a business without a recorded owner decides as itself.
-  const decidedBy = ownerOf(api, organizationId);
-  if (!decidedBy) stopgap("SG-WORLD-jobs-layoff-decider");
+  // The owner decides; a firm with no recorded owner is run by its best-paid
+  // full worker still on the staff, ties by id. Only a firm with no one left
+  // to decide it lets go of its last worker as itself (it is closing).
+  const decidedBy = ownerOf(api, organizationId) ?? managerOf(c, staff, job);
   record(api, {
     personId: job.personId,
     organizationId,
@@ -1123,7 +1248,7 @@ function layOff(
     jobsData.reasons.layoff,
     weeksWorked,
   );
-  if (inCustody(api, job.personId)) return;
+  if (inCustody(api, job.personId)) return { heads };
   if (counted)
     store(api)
       .table("countedSeekers")
@@ -1145,7 +1270,7 @@ function layOff(
       jobsData.reasons.layoff,
       job.hourlyMinor ?? 0,
     );
-  return `job-change:${api.state.date}:${job.id}:layoff`;
+  return { heads, id: `job-change:${api.state.date}:${job.id}:layoff` };
 }
 
 /** Each worker: stay, look around, or leave work, from pay against the going rate, savings, needs and traits. */
@@ -1567,8 +1692,11 @@ function runWeek(api: CoreAPI): void {
       }
       return top;
     };
+    // An opening that stands for several jobs stays open after a hire; one who already held a job of it is not offered it again.
     // A declined offer leaves the opening available to the next applicant.
-    let pool = [...applicants];
+    let pool = applicants.filter(
+      (row) => !c.jobs.has(`job:${position.id}:${row.personId}`),
+    );
     while (pool.length) {
       const best = pick(pool);
       pool = pool.filter((row) => row !== best);
@@ -1905,10 +2033,8 @@ function reviewCountedRetirements(api: CoreAPI): void {
     store(api).table("countedSeekers").remove(job.personId);
     endClaim(api, store(api).table("claims"), job.personId);
     endCountedJob(c, job.id);
-    // Their income goes on as their place's retirees' does (stand-in until their own claim is modeled).
-    stopgap("SG-WORLD-jobs-counted-retiree-income");
-    const placeId = residentPerson(c, job.personId)?.placeId;
-    if (placeId) addCountedRetiree(c, placeId, job.personId);
+    // Their income goes on from their own claim: age, covered work and traits.
+    claimRetirementNow(api, job.personId);
     record(api, {
       personId: job.personId,
       organizationId: job.organizationId,
@@ -2588,9 +2714,15 @@ function hire(
       ),
       at: c.date,
     });
+  // A full person fills one job of an opening that stands for several; it stays open for the rest.
+  const left = positionHeads(position) - 1;
   store(api)
     .table("positions")
-    .put({ ...position, status: "filled", filledBy: person.id });
+    .put(
+      left >= 1
+        ? { ...position, heads: left }
+        : { ...position, status: "filled", filledBy: person.id },
+    );
   store(api).table("seekers").remove(person.id);
   endSpell(api, person.id);
   // The new hire meets the full people already working there.
