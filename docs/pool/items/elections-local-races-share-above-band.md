@@ -22,3 +22,5 @@ claimed-at: 2026-10-20T13:42:16.419Z
 **Files.** src/core2/data/candidacy/parameters.json,src/core2/candidacy-calibration.test.ts
 
 **Notes.** TODO
+
+- Cloud merger, after #5733 merged: the staying-out pull is recorded at 3.8 to 4.4, but the share of local seats with one candidate is still 85 to 92 percent against the band of 58 to 75, so this item stays open.
