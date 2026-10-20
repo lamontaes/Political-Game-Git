@@ -4,13 +4,14 @@ title: "Stopgaps in opening-finance (authored-opening-counterparty-crosswalk): 1
 area: world
 kind: stopgap
 priority: 3
-status: blocked
+status: open
 claimed-by:
 pr:
 blocked-on:
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/data/opening-finance.json, kind authored-opening-counterparty-crosswalk"
 after: world-io-supplier-shares
+claimed-at: 
 ---
 
 **What.** The opening binds each household's and firm's standing purchase budget to counterparties through broad category crosswalks and capacity-weighted ties, with positive-cost household members pooled in recorded order; no observed customer choice, product, delivery or supplier contract is established (src/core2/data/opening-finance.json, src/core2/opening-finance.ts). Replace the capacity-weighted ties with a choice that has actor knowledge: each household splits its category spending among the providers it knows in town by a sliding weight of the provider's capacity (staff), distance decay from the home (the decay scale an ESTIMATED parameter with spread), price level, the household's habit (last month's provider keeps a pull) and its thrift trait; a firm's supplier purchases are split by the supplier shares in world-io-supplier-shares between suppliers in town and the outside market. The Consumer Expenditure Survey category splits stay as the amounts. A counted household splits its category by the same weights times its count, and fill-in keeps the same providers. Unbound categories remain a gap only where no provider of that kind exists, and then the spending goes to the outside market account, not nowhere.
