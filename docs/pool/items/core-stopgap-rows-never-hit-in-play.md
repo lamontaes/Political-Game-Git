@@ -5,11 +5,12 @@ area: core
 kind: cleanup
 priority: 3
 size: M
-status: open
-claimed-by:
+status: blocked
+claimed-by: claude/fs11vb-rows-never-hit
 pr:
-blocked-on:
+blocked-on: core-stopgap-never-hit-audit
 source: added with npm run pool -- add
+claimed-at: 2026-10-20T03:36:05.434Z
 ---
 
 **What.** A probe on Oct 20 (built on the recorder fix in the pool item core-stopgap-hits-miss-module-calls, PR #5452) ran `buildBenchWorld` with every module in three places drawn from all 56 (seeds `hits-h1`, `hits-h2`, `hits-h3`, purpose `hits`), two years each, and collected `core.stopgapHits`. Of the open rows in `src/core2/data/stopgaps.json`, 101 never ran; 161 did. A row that never runs in play is either a fake that no played path reaches any more (resolve it with its replacement named, or delete the code and the row together), or one that only fires in a place, law or choice these three worlds did not reach. Go through the 101, decide each by reading its marker and the code around it, and for each one either resolve it, delete it, or write the place or situation that reaches it in its `why`.
