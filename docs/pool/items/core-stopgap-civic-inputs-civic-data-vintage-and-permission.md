@@ -4,10 +4,11 @@ title: "Stopgaps in civic-inputs (civic-data-vintage-and-permission): 1 open"
 area: core
 kind: stopgap
 priority: 3
-status: blocked
-claimed-by: claude/stopgap-civic-inputs
+status: open
+claimed-by:
 pr:
 blocked-on:
+after: research-deep-past-sourced-parameters
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/data/civic-inputs.json, kind civic-data-vintage-and-permission"
 claimed-at: 2026-10-19T23:09:40.671Z
@@ -22,3 +23,5 @@ claimed-at: 2026-10-19T23:09:40.671Z
 **Files.** src/core2/data/civic-inputs.json
 
 **Notes.** First row: Current indexed institution and canonical generated employer classifications stand in for historical public directories. Meeting permissions, membership acceptance, and public authority are not established by these names
+
+Oct 20: Switched from blocked to the automatic after: gate on research-deep-past-sourced-parameters, so it opens by itself the moment those items are done.
