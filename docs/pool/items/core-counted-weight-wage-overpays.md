@@ -5,11 +5,12 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/political-game-pool-76ksvw
+pr: #5180
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-20T03:21:43.135Z
 ---
 
 **What.** counted-weight-money.test fails in Western Springs, Illinois, seed 7948de2094a32969f465293c52050d63bce0e46645b5a0729d7fd22ccbc0190c: the payroll flow residents:wages:opening-payroll-calendar for one organization paid 37,454,550 on 2025-02-20 against a ceiling of 36,991,745 (the single-household payment times the pay-weighted mean household weight, plus 4). An employer short of cash may pay less but never more. Find whether the wage scale is computed from the wrong jobs or the payment carries an unpaid balance into its first payment, and fix the engine or the test's expectation.

@@ -5,9 +5,9 @@ area: laws
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/graduated-tax-guam
-pr:
+pr: #5462
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-20T03:18:33.727Z

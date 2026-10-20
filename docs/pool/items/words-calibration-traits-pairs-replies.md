@@ -13,12 +13,12 @@ source: added with npm run pool -- add
 claimed-at: 2026-10-20T02:33:43.864Z
 ---
 
-**What.** TODO
+**What.** The calibration table built under words-bench-calibration holds each piece's running grade and each register's target length. The rest of that item's design is not built: per-trait pulls toward each bearing and toward longer or shorter lines, per move pair whether the arrangement read naturally, and reply ranking in src/director/conversation.ts. Build them as more weights in data/english/calibration.json that the engine reads.
 
-**Rules.** TODO
+**Rules.** An effect is a read, not a record: a weight nobody reads is a placeholder. No dice; every number TUNABLE with its spread.
 
-**Done when.** TODO
+**Done when.** A test in scripts/dialogue-batch/calibration.test.ts shows a trait-weighted choice and a reply ranking differ before and after a grade.
 
-**Files.** TODO
+**Files.** data/english/calibration.json, scripts/dialogue-batch/apply-grades.ts, src/english/english-composition.ts, src/director/conversation.ts
 
-**Notes.** TODO
+**Notes.** Split from words-bench-calibration Oct 19.
