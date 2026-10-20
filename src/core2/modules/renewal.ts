@@ -1,4 +1,4 @@
-import { RENEWAL_PARAMETERS, renewalParameter } from "../births-parameters";
+import { renewalParameter } from "../births-parameters";
 import { addDays, daysBetween, makeIsoDate } from "../kernel/dates";
 import {
   BIRTHS_STOPGAP,
@@ -258,10 +258,6 @@ function deliver(api: CoreAPI, pregnancyId: string): void {
 /** One opening index build; subsequent reviews read one candidate, never the world/history. */
 function initialize(api: CoreAPI): void {
   scheduleCounted(api);
-  for (const [key, row] of Object.entries(RENEWAL_PARAMETERS)) {
-    const configured = api.state.data.parameters[key] ?? row;
-    table(api, "parameters").put({ id: key, ...configured });
-  }
   const children = new Map<string, string[]>();
   for (const link of api.state.familyLinks.values())
     if (link.kind === "parent-child") {
@@ -269,6 +265,7 @@ function initialize(api: CoreAPI): void {
       ids.push(link.personIds[1]);
       children.set(link.personIds[0], ids);
     }
+  // stopgapId: SG-TRAITS-partnerships-no-engine (couples come only from the opening; nobody partners or separates in play, so no temperament read decides it)
   for (const link of api.state.familyLinks.values()) {
     if (link.kind !== "partner") continue;
     const people = link.personIds.map((id) => api.state.people.get(id)!);
@@ -345,7 +342,6 @@ export const RENEWAL_MODULE: CoreModule = {
   state: {
     schemaVersion: 1,
     tables: {
-      parameters: {},
       couples: {
         indexes: {
           byMother: { fields: ["motherId"] },

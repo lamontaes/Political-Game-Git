@@ -5,7 +5,7 @@ area: people
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/people-filing-and-loss-scenes-for-non-candidates
 pr: #5056
 blocked-on:

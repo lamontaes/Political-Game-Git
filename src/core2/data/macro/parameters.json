@@ -366,28 +366,6 @@
       "citation": "Estimated inertial policy rules close about 15 to 30 percent of the gap per quarter (Clarida, Gali and Gertler 2000, QJE)."
     }
   },
-  "macroSmoothingPerPatience": {
-    "value": 0.05,
-    "tag": "TUNABLE",
-    "citation": "Patient members move more gradually; traitScale 3.",
-    "spread": {
-      "low": 0.0,
-      "high": 0.1,
-      "unit": "share per trait point",
-      "citation": "Patient members move more gradually; traitScale 3."
-    }
-  },
-  "macroMoveSizeCostPerRisk": {
-    "value": 0.1,
-    "tag": "TUNABLE",
-    "citation": "Cautious members distrust large moves; traitScale 3.",
-    "spread": {
-      "low": 0.0,
-      "high": 0.3,
-      "unit": "score per squared point per trait point",
-      "citation": "Cautious members distrust large moves; traitScale 3."
-    }
-  },
   "macroRatePullWeight": {
     "value": 4.0,
     "tag": "TUNABLE",

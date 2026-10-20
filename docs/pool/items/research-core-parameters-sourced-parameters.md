@@ -5,10 +5,10 @@ area: core
 kind: research
 priority: 2
 size: M
-status: open
+status: blocked
 claimed-by:
 pr:
-blocked-on:
+blocked-on: researcher: per-place or calibration sourcing, each row cited; first row's replacement: Travel time between the two people's places once relatives carry a place, from Census Gazetteer place centroids, with visits falli
 source: "collapsed Oct 19, 2026 from core-stopgap-parameters-estimated-behavior, core-stopgap-parameters-estimated-data, core-stopgap-parameters-uncalibrated-time-plan, core-stopgap-parameters-uncalibrated-tunable-2, core-stopgap-parameters-uncalibrated-tunable-3, core-stopgap-parameters-uncalibrated-tunable-4"
 ---
 

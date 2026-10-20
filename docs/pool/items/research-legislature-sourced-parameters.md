@@ -5,10 +5,10 @@ area: gov
 kind: research
 priority: 2
 size: M
-status: open
+status: blocked
 claimed-by:
 pr:
-blocked-on:
+blocked-on: researcher: per-place or calibration sourcing, each row cited; first row's replacement: Per-city and per-county charter research on who may introduce legislation, read by proposalRight.
 source: "collapsed Oct 19, 2026 from gov-stopgap-executive-proposal-assumed-data, gov-stopgap-legislature-assumed-data, gov-stopgap-legislature-estimated-rule"
 ---
 

@@ -4,13 +4,13 @@ title: "Every scene has an endpoint, stated on the batch page"
 area: words
 kind: feature
 priority: 1
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/words-scene-endpoints-2
 pr: #4612
 blocked-on:
 milestone:
 source: "owner, Oct 15 evening, batch 11 grading"
-claimed-at:
+claimed-at: 2026-10-20T01:42:37.116Z
 ---
 
 **What.** Every scene has an endpoint, stated on the batch page. This work was sent back by the merger on 2026-10-16 and is open for any builder to finish. The reason it came back: merging main conflicts in src/director/conversation.test.ts (code or data, left for the author); resolve and push. Finish it on the existing branch claude/words-scene-endpoints, after merging main into it with a plain merge.
