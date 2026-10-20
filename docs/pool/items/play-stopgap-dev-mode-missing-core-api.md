@@ -4,13 +4,14 @@ title: "Stopgaps in dev-mode (missing-core-api): 1 open"
 area: play
 kind: stopgap
 priority: 3
-status: blocked
+status: open
 claimed-by:
 pr:
 blocked-on:
 milestone:
 source: "src/core2/data/stopgaps.json, src/bench/dev-mode.ts, kind missing-core-api"
 after:
+claimed-at: 
 ---
 
 **What.** Dev mode's `reach(lawId)` in src/bench/dev-mode.ts scans the raw tables of the laws module and the two law-reach stores for rows that carry the law's id and guesses full and counted people from whichever field it finds, so a law effect that leaves no row naming it is invisible. Add one core function, `lawReachCount(api, lawId)` in src/core2/law-reach/host.ts next to `reachOn` and `reachedBy`, that returns the reach of one law across both tiers: reach A rows (named persons, organizations, seats, and counted groups through their `count`), reach B `people` rows and its `groups` rows (`reached` of `of`), and the laws module's `raises` (a full job's holder, or a counted job's wage-flow headcount). It returns record ids, the set of full people, and a counted head count with the group total it is out of. Then make `DevMode.reach` call it and delete the table-scanning loop and the stopgap marker.
