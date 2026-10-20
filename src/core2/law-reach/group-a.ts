@@ -17,6 +17,7 @@ import { housingAssistance, paidLeave, parksFunding } from "./group-a-money";
 import { staffing } from "./group-a-staffing";
 import { votingLaw } from "./group-a-voting";
 import { rightToWork } from "./group-a-union";
+import { publicBargaining } from "./group-a-bargaining";
 
 const records: PolicyHandler = (api, change) =>
   applyRecords(api, change.key, change.lawId, change.inForce);
@@ -41,6 +42,7 @@ const MECHANICS: Readonly<Record<string, readonly PolicyHandler[]>> = {
   "parks-funding": [parksFunding],
   "housing-assistance": [housingAssistance],
   staffing: [staffing],
+  "public-bargaining": [records, publicBargaining],
   "right-to-work": [records, rightToWork],
   voting: [votingLaw],
   "office-limits": [votingLaw],
