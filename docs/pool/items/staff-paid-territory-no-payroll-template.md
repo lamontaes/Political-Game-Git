@@ -5,7 +5,7 @@ area: gov
 kind: bug
 priority: 1
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/staff-paid-territory
 pr: #5712
 blocked-on:
