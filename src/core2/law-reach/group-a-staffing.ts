@@ -191,6 +191,10 @@ function hire(
     hourlyMinor: commitment.hourlyMinor,
     scheduleSource: source,
     paySource: source,
+    // The coworker's employer is the new hire's, and so is its public pay authority.
+    ...(commitment.publicPayAuthorityId
+      ? { publicPayAuthorityId: commitment.publicPayAuthorityId }
+      : {}),
   };
   // The new hire is paid on the same calendar as the coworker whose job they copy.
   api.startJob(newJob, newCommitment, {
