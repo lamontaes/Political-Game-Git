@@ -22,3 +22,4 @@ claimed-at:
 **Files.** src/core2/modules/housing.ts, src/core2/residents-economy.ts, src/core2/housing-mortgages.ts, src/core2/housing.test.ts
 
 **Notes.** Read Oct 19 (claude/counted-renters-buy-g08lgv), not built: full-household buy path is `buyHomes` (about line 860) with `lendMortgage`; counted mortgages are built at the opening by `housing-mortgages.ts` (one flow per place and holder, a part per household, `countedMortgageFlowId`); a part is removed by `endFlowPart` and a counted removal by `removeCountedHousehold` (`housing-homeless.ts`); `housing-foreclosure.ts` already ends counted mortgage parts. Missing: an `addFlowPart` for a mortgage, the counted down-payment source, and the bank-room check (`room`) for a new loan.
+Sent back 2026-10-20 from PR #5243 (branch claude/counted-renters-buy): Merge conflict with main in docs/pool/items/world-counted-renters-buy.md; superseded by PR #5367.
