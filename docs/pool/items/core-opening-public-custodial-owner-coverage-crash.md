@@ -5,11 +5,12 @@ area: core
 kind: bug
 priority: 1
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/custodial-owner-crash
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-20T05:52:14.176Z
 ---
 
 **What.** buildBenchWorld with seed 3c95bb8562a14177f929263165b4517d25ed5263bf83f68c84dead5d0aae3069:2 (Robertsdale, Pennsylvania, key 4265296) stops in advanceCore on 2026-11-01 with 'Actual customer public owner coverage record is missing' (finance-cash.ts publicCustomerRecords, via settleFinanceContract). The contract is p8-opening-customer-builder-v1:public-agreement:gus2025:174495 (custodial services) bought by Township of Wood, whose organization has placeId jurisdiction_2616a930aa215a53 at settlement while its appropriation covers the town's place jurisdiction_f530a311fd1974a1 and holds no ownerCoverage record. opening-customers.ts writes ownerCoverage only when the group has identity and coverage sources, which a non-county buyer's group never has, so the settlement check (buyer placeId differs from the covered place) fails: the buyer's place was different from the covered place by the time of settlement, though the builder grouped it under the covered place. Find where the township's placeId is changed after the opening customers are built (or why the group is keyed to the town) and make the contract record what settlement needs, or leave the contract unbuilt with a registered gap.
