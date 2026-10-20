@@ -157,6 +157,7 @@ export function birthCircumstances(
   const conditions = conditionsOf(api, mother.id);
   const distance = (age - p("renewalAgeCenter")) / p("renewalAgeSpread");
   // SG-M1-births-circumstances: record proxies explicitly; no missing medical fact means permission.
+  // stopgapId: SG-WEB-births-full-tier (the outcome web's birth links that full couples' own records do not carry)
   return {
     age:
       p("renewalAgeWeight") *

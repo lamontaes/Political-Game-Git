@@ -10,7 +10,7 @@ claimed-by: claude/political-game-pool-yucp92-z
 pr: #5428
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-20T02:25:04.359Z
+claimed-at: 2026-10-20T13:46:20.949Z
 ---
 
 **What.** SG-P15-school-assignment still places each child by a seeded pick among the schools teaching their entry grade in their place, county or state, weighted by students per grade. The replacement reads NCES school attendance boundaries (SABS) with the household's location, and private (PSS) and homeschool shares by state. Source the private and homeschool shares by state with a year, a unit and a spread, and record them in data/research/people/ with a reader; the boundary lookup needs household locations and is left to the builder.
@@ -22,3 +22,5 @@ claimed-at: 2026-10-20T02:25:04.359Z
 **Files.** src/core2/data/opening-schools.json, data/research/people/, src/core2/data/stopgaps.json
 
 **Notes.** TODO
+
+Sent back 2026-10-20 from PR #5428 (branch claude/political-game-pool-yucp92-z): merge conflict with main in opening-private-tuition.ts and its test (code); finish on that branch, merge main into it first.
