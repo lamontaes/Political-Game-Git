@@ -5,11 +5,12 @@ area: words
 kind: feature
 priority: 1
 size: M
-status: open
-claimed-by:
+status: blocked
+claimed-by: claude/words-birth-scene-lead
 pr:
-blocked-on:
+blocked-on: PR 5647 (words-authored-parts-shippable-sweep) is an unmerged draft, 'do not merge as is'; on main the birth lead still ships authored shippable parts, so the slot is not empty and the done-when test does not exist yet. Also needs the owner to grade the replacement lines (the 5647 decision).
 source: added with npm run pool -- add
+claimed-at: 2026-10-20T11:03:22.105Z
 ---
 
 **What.** The held hand-written sentences in data/english/parts/scene-words.json left the lead of the birth gathering scene with no shippable part, so the game shows nothing there until the English engine writes it. Compose or mine the line for the lead of the birth gathering scene from the person-birth record and the plan behind it, as engine-written bank parts with their source, and have the director use it. The player would read the line again, written by the engine from the record.

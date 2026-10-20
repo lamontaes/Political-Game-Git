@@ -5,11 +5,12 @@ area: words
 kind: feature
 priority: 1
 size: M
-status: open
-claimed-by:
+status: blocked
+claimed-by: claude/words-journal-memoir-revise
 pr:
-blocked-on:
+blocked-on: PR 5647 (words-authored-parts-shippable-sweep) is an unmerged draft, 'do not merge as is'; on main the journal lines still ship as authored shippable parts, so the slot is not empty and the rewritten test in the done-when does not exist yet. Needs the owner to grade the lines (the 5647 decision).
 source: added with npm run pool -- add
+claimed-at: 2026-10-20T11:05:04.406Z
 ---
 
 **What.** The held hand-written sentences in data/english/parts/journal.json left the memoir look-back sentence for a revised entry with no shippable part, so the game shows nothing there until the English engine writes it. Compose or mine the line for the memoir look-back sentence for a revised entry from the later moment's echo of an earlier moment and both cause records, as engine-written bank parts with their source, and have the director use it. The player would read the line again, written by the engine from the record.
