@@ -7,11 +7,11 @@ priority: 2
 size: M
 status: open
 claimed-by:
-pr:
+pr: #5337
 after: gov-public-contract-awards
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-16T03:52:50.396Z
+claimed-at:
 ---
 
 **What.** Let a bribe (src/core2/modules/corruption.ts) buy a public contract award as well as a vote. The game has no public contract-award decision today: core2 has public customers in finance (finance-plan.ts, opening-customers.ts) but no body or official that awards a contract between bidders, so there is nothing for a bribe to change. The award decision must exist before corruption can change its outcome.
@@ -24,4 +24,4 @@ claimed-at: 2026-10-16T03:52:50.396Z
 
 **Notes.** Owner ruling, Oct 19, 2026: yes, the game awards public contracts; unblocked. Looked at 2026-10-16: not built, because building it means adding a procurement mechanic nobody has asked for. OWNER DECISION NEEDED: should public contract awards exist (a council or executive choosing between bidders), or is a bribe for a vote the only corruption the game needs for early access? Checked DECISION-REGISTER.md and OWNER-DECISIONS.md: no ruling on contract awards.
 
-Built Oct 20 on claude/political-game-pool-yucp92-k, stacked on the contract awards of PR #5166 (gov-public-contract-awards): at the award, a bidder's owner may offer each member of the body a bribe through corruption.ts, the member decides, and a taken bribe adds to that member's score for the briber's firm. The award row lists every offer (crime id, member, firm, taken), the taken bribes whose member then ranked the briber's firm first (`boughtVotes`), and the firm the body would have chosen without them when that differs (`withoutBribes`).
+Sent back 2026-10-20 from PR #5337 (branch claude/political-game-pool-yucp92-k): see the Cloud merger comment on that PR for the exact reason; finish on that branch, merge main into it first.

@@ -13,7 +13,7 @@
  * line's purchases each month, and the award keeps those payments.
  */
 import { closenessBetween } from "../closeness";
-import { decisionLean } from "../trait-decisions";
+import { decisionLean, decisionTraitWeight } from "../trait-decisions";
 import rows from "../data/contracts/parameters.json" with { type: "json" };
 import {
   budgetInForce,
@@ -172,6 +172,7 @@ function award(
   }
   // With no one seated the body's rules alone decide: price and workforce.
   const voters = members.length ? members : [null];
+  const traitWeight = decisionTraitWeight(state, DECISION);
   const count = (withBribes: boolean) => {
     const totals = new Map(firms.map((f) => [f.organizationId, 0]));
     const tally = new Map(firms.map((f) => [f.organizationId, 0]));
@@ -199,11 +200,9 @@ function award(
             ? closenessBetween(state, person.id, ownerId)
             : 0;
         const score =
-          c("contractPriceWeight") *
-            (1 - c("contractTraitWeight") * lean) *
-            price +
+          c("contractPriceWeight") * (1 - traitWeight * lean) * price +
           c("contractCapacityWeight") * capacity +
-          c("contractTieWeight") * (1 + c("contractTraitWeight") * lean) * tie +
+          c("contractTieWeight") * (1 + traitWeight * lean) * tie +
           (withBribes && person
             ? c("contractBribeWeight") *
               (given.get(`${person.id}|${firm.organizationId}`) ?? 0)
