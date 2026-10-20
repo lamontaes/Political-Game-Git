@@ -2872,6 +2872,18 @@
     "status": "open"
   },
   {
+    "id": "SG-P15-moves-player-home-stays",
+    "kind": "owner-decision",
+    "file": "src/core2/modules/moves.ts",
+    "line": 1,
+    "whatItFakes": "No one in the player's own household moves away through the engine, so the player is never left alone with a lease, no job and no cash when the adults who earn leave town.",
+    "why": "Fraser, Colorado (seed d8c9a58e, place 0828305): at 17 the player's parents and siblings moved away on Feb 12 with their cash and the household's only job, and the player's lease went into arrears and ended. Whether parents may leave an 18-year-old player behind, and with what, is the owner's call; no ruling exists in the decision register.",
+    "addedBy": "claude/player-living-cost-fraser",
+    "addedAt": "2026-10-20",
+    "replacement": "The owner's ruling on whether and how the player's household members may move away, and what they leave the player (a home, an allowance, a guardian).",
+    "status": "open"
+  },
+  {
     "id": "SG-P15-moves-pinned-jobs",
     "kind": "faked-mechanic",
     "file": "src/core2/modules/moves.ts",

@@ -55,6 +55,7 @@ const STOPGAP = "SG-P15-moves-weights";
 const OWNER_STOPGAP = "SG-P15-moves-owners-stay";
 const INACTIVE_TIER = "husk";
 const PINNED_STOPGAP = "SG-P15-moves-pinned-jobs";
+const PLAYER_HOME_STOPGAP = "SG-P15-moves-player-home-stays";
 
 type Rates = Readonly<Record<string, number>>;
 const RATES = moverRates as unknown as {
@@ -908,6 +909,17 @@ function decide(api: CoreAPI, person: Readonly<PersonState>): Departure | null {
   const playerId = (api.state as CoreState).playerId;
   if (playerId && (going.includes(playerId) || partner?.id === playerId))
     return null;
+  // The player's own home is not taken apart by the engine: when the player
+  // lives in the household and is not going, the household stays as it is.
+  if (
+    playerId &&
+    (api.state as CoreState).households
+      .get(person.householdId)
+      ?.memberIds.includes(playerId)
+  ) {
+    api.stopgap(PLAYER_HOME_STOPGAP);
+    return null;
+  }
   if (
     going.length > api.parameter("one") &&
     ownsWithMortgage(api.state as CoreState, person.householdId) &&
