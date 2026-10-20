@@ -62,7 +62,13 @@ const shiftOf = (measure: string): Shift =>
 const moveBy = (cause: Shift, value: number) =>
   cause.by ?? value * (cause.relative ?? 0);
 const CHOSEN = process.env.EFFECT_TWINS_CAUSES?.split(",").filter(Boolean);
-const CAUSES = (CHOSEN ?? RUNNING_FROM).map(shiftOf);
+/** Causes read through a named reader (a law value) have no record row to shift. */
+const CAUSES = (CHOSEN ?? RUNNING_FROM)
+  .filter(
+    (measure) =>
+      !(engineMeasure(measure) as { reader?: string } | undefined)?.reader,
+  )
+  .map(shiftOf);
 const MONTHS = Number(process.env.EFFECT_TWINS_MONTHS || 4);
 
 /** Every record a played world keeps, as counts and sums by kind. */
@@ -97,11 +103,24 @@ function shift(core: CoreState, cause: Shift): string[] {
   const api = coreAPI(core);
   const month = core.date.slice(0, 7);
   const touched: string[] = [];
-  const engine = engineMeasure(cause.measure);
+  const engine = engineMeasure(cause.measure) as
+    | (ReturnType<typeof engineMeasure> & { module?: string; table?: string })
+    | undefined;
   if (engine) {
-    const table = api.moduleState(WORLD_METRICS_MODULE_ID).table("months");
-    for (const row of table.rows() as unknown as Record<string, unknown>[]) {
-      if (!String(row.date).startsWith(month)) continue;
+    // An engine that keeps its own month rows (the crime records) is shifted
+    // in its latest row; the economy's rows in this month's.
+    const own = engine.module !== undefined;
+    const table = api
+      .moduleState(engine.module ?? WORLD_METRICS_MODULE_ID)
+      .table(engine.table ?? "months");
+    const rows = table.rows() as unknown as Record<string, unknown>[];
+    const latest = rows.reduce(
+      (max, row) => (String(row.date) > max ? String(row.date) : max),
+      "",
+    );
+    for (const row of rows) {
+      if (own ? row.date !== latest : !String(row.date).startsWith(month))
+        continue;
       const value = row[engine.field];
       if (typeof value !== "number") continue;
       table.put({

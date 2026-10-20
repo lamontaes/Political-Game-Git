@@ -12447,7 +12447,7 @@
     "seed": "ew20oct26",
     "place": "Paris, Arkansas, US-AR (0553480)",
     "months": 3,
-    "seconds": 1212,
+    "seconds": 1238,
     "results": [
       {
         "cause": "births.rate-index",
@@ -12483,13 +12483,44 @@
           "web:jurisdiction_2516a182010dba98:2025-03",
           "web:jurisdiction_2516a182010dba98:2025-04"
         ],
+        "links": ["crime-to-out-migration"],
+        "movedRecordKinds": []
+      },
+      {
+        "cause": "crime.violent-victimization-index",
+        "shiftedBy": "10% of its level",
+        "shiftedRecords": [
+          "jurisdiction_2516a182010dba98:2025-02",
+          "jurisdiction_2516a182010dba98:2025-03"
+        ],
         "links": [
           "crime-level-to-burglary",
           "crime-level-to-robbery",
           "crime-level-to-assault",
           "crime-level-to-vandalism"
         ],
-        "movedRecordKinds": []
+        "movedRecordKinds": [
+          {
+            "record": "core2-crime-v1/carry:sum",
+            "control": 5.124193415932395,
+            "shifted": 2.5831508855201637
+          },
+          {
+            "record": "core2-crime-v1/months:sum",
+            "control": 24538.466875148253,
+            "shifted": 24595.44977370656
+          },
+          {
+            "record": "core2-crime-v1/pressure:sum",
+            "control": 3.2411934159324023,
+            "shifted": 1.6111508855201695
+          },
+          {
+            "record": "core2-crime-v1/tallies:rows",
+            "control": 38,
+            "shifted": 39
+          }
+        ]
       },
       {
         "cause": "env.particulates",
@@ -12517,12 +12548,32 @@
         "cause": "household.poverty-pct",
         "shiftedBy": "10% of its level",
         "shiftedRecords": [
-          "web:jurisdiction_2516a182010dba98:2025-02",
-          "web:jurisdiction_2516a182010dba98:2025-03",
-          "web:jurisdiction_2516a182010dba98:2025-04"
+          "metrics:jurisdiction_1a0c3a0fcaa7c390:2025-02-02",
+          "metrics:jurisdiction_2516a182010dba98:2025-02-02",
+          "metrics:US-AK:2025-02-02"
         ],
         "links": ["poverty-to-math-proficiency"],
         "movedRecordKinds": []
+      },
+      {
+        "cause": "housing.home-prices",
+        "shiftedBy": "10% of its level",
+        "shiftedRecords": [
+          "metrics:jurisdiction_1a0c3a0fcaa7c390:2025-02-02",
+          "metrics:jurisdiction_2516a182010dba98:2025-02-02",
+          "metrics:jurisdiction_8acca737ebc52bd4:2025-02-02"
+        ],
+        "links": [
+          "home-prices-to-owner-births",
+          "home-prices-to-renter-births"
+        ],
+        "movedRecordKinds": [
+          {
+            "record": "world-metrics/months:sum",
+            "control": 606610734792.4066,
+            "shifted": 606613782895.3068
+          }
+        ]
       },
       {
         "cause": "labor.unemployment-pct",
@@ -12542,7 +12593,33 @@
           "unemployment-to-births",
           "unemployment-to-uninsured"
         ],
-        "movedRecordKinds": []
+        "movedRecordKinds": [
+          {
+            "record": "core2-crime-v1/carry:sum",
+            "control": 5.124193415932395,
+            "shifted": 4.241411039006399
+          },
+          {
+            "record": "core2-crime-v1/months:sum",
+            "control": 24538.466875148253,
+            "shifted": 24538.21847860038
+          },
+          {
+            "record": "core2-crime-v1/openings:sum",
+            "control": 0.02359703438830673,
+            "shifted": 0.023904019268913394
+          },
+          {
+            "record": "core2-crime-v1/pressure:sum",
+            "control": 3.2411934159324023,
+            "shifted": 2.1504110390064053
+          },
+          {
+            "record": "core2-crime-v1/tallies:rows",
+            "control": 38,
+            "shifted": 39
+          }
+        ]
       },
       {
         "cause": "police.officers-per-1000",
@@ -12557,7 +12634,23 @@
           "police-to-property-crime",
           "police-to-low-level-arrests"
         ],
-        "movedRecordKinds": []
+        "movedRecordKinds": [
+          {
+            "record": "core2-crime-v1/carry:sum",
+            "control": 5.124193415932395,
+            "shifted": 4.647714992730651
+          },
+          {
+            "record": "core2-crime-v1/months:sum",
+            "control": 24538.466875148253,
+            "shifted": 24533.15765982422
+          },
+          {
+            "record": "core2-crime-v1/pressure:sum",
+            "control": 3.2411934159324023,
+            "shifted": 2.7647149927306627
+          }
+        ]
       },
       {
         "cause": "program.snap-receipt",
@@ -12604,17 +12697,6 @@
         "movedRecordKinds": []
       },
       {
-        "cause": "tax.property-rate",
-        "shiftedBy": "10% of its level",
-        "shiftedRecords": [
-          "web:jurisdiction_2516a182010dba98:2025-02",
-          "web:jurisdiction_2516a182010dba98:2025-03",
-          "web:jurisdiction_2516a182010dba98:2025-04"
-        ],
-        "links": ["property-tax-to-rent"],
-        "movedRecordKinds": []
-      },
-      {
         "cause": "tax.state-corporate-rate",
         "shiftedBy": "10% of its level",
         "shiftedRecords": [
@@ -12623,7 +12705,13 @@
           "web:jurisdiction_2516a182010dba98:2025-04"
         ],
         "links": ["corporate-tax-incidence"],
-        "movedRecordKinds": []
+        "movedRecordKinds": [
+          {
+            "record": "jobs/pay:sum",
+            "control": 39.318515747814914,
+            "shifted": 39.38663201029017
+          }
+        ]
       },
       {
         "cause": "transit.service-access",
