@@ -63,18 +63,12 @@
   "followUpMonths": [6, 18],
   "highDepressionCutoff": "80th percentile of preloss CES-D z-scores; 49 high-baseline participants (M 1.61, SD 0.88), 156 low-baseline (M -0.39, SD 0.57).",
   "evidence": {
-    "fetchedFrom": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=pubmed&id=12416919&rettype=abstract&retmode=text",
+    "fetchedFrom": "https://sites.bu.edu/deborahcarr/files/2020/09/bonanno-et-al-2002.pdf",
     "retrievedOn": "2026-10-20",
     "quotes": [
-      "This study gathered prospective data on 205 individuals several years prior to the death of their spouse and at 6- and 18-months postloss.",
-      "Common grief was relatively infrequent, and the resilient pattern most frequent."
+      "As anticipated, most of the sample (n = 185; 90.2%) were captured by five conceptually relevant patterns: common grief (n = 22; 10.7%); chronic grief (n = 32; 15.6%); resilient (n = 94; 45.9%); chronic depression (n = 16; 7.8%); and depressed-improved (n = 21; 10.2%).",
+      "the remaining 20 participants (9.8%) were spread sparsely across the delayed grief (n = 8; 3.9%), delayed-improved (n = 10; 4.9%), and improved-relapsed (n = 2; 1.0%) patterns."
     ]
   },
-  "parameterStatus": "SOURCED for the sample size (205), the five pattern names and the order (resilient most frequent, common grief infrequent), each quoted from the fetched abstract. ESTIMATED for the per-pattern shares: the abstract carries no counts and the full text was not reachable from the build environment, so the shares are carried from the paper's results table as recalled, with the spread below until the table is fetched.",
-  "shareSpread": {
-    "low": -0.05,
-    "high": 0.05,
-    "unit": "absolute share per pattern",
-    "citation": "estimate of recall error; the reported band (resilient + common-grief + depressed-improved = 0.668) reads as 0.62 to 0.72"
-  }
+  "parameterStatus": "SOURCED: every pattern's count and share is quoted from the paper's Results, 'Bereavement Patterns', in the full text fetched above."
 }
