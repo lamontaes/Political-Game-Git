@@ -5,9 +5,9 @@ area: world
 kind: wiring
 priority: 2
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/port-town-employment
-pr: #5093
+pr: #5540
 blocked-on:
 source: "split from core-remaining-port-the-opening-town-builder-population (an L item), Oct 15"
 claimed-at: 2026-10-20T05:30:55.383Z
