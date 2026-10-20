@@ -22,3 +22,5 @@ claimed-at:
 **Files.** src/core2/office-day-state.ts, src/core2/office-day-registry.ts, src/core2/legislature-committees.ts, src/core2/data/legislature/committees.json
 
 **Notes.** Checklist line from OFFICE-STATE.md; verify against main before starting.
+
+Oct 20: PR #5107 merged and the committee day cites the seating and hearing records, but the chair's question and witness lines and a learn-your-seat scene are not built.

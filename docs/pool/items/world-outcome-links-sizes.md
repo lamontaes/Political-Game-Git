@@ -7,9 +7,10 @@ priority: 2
 size: M
 status: open
 claimed-by:
-pr:
+pr: #5207
 blocked-on:
 source: "split from core-stopgap-outcome-web-faked-mechanic (SG-WEB-outcome-drift), Oct 15"
+claimed-at:
 ---
 
 **What.** 41 of the outcome web's researched links have no size (`size-not-set`), plus nine person-level ones, so they cannot move their outcome. Read each link's source, set its effect size with a spread and a lag, and mark it SOURCED or ESTIMATED in `data/research/outcome-web/links.json`. Links whose research gives no size stay unbuilt with the reason written. The links include: police to low-level arrests, class size to scores, eviction to homelessness, broadband to employment, new apartments to nearby rent and graduation to earnings.
