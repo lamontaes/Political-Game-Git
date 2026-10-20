@@ -5,10 +5,10 @@ area: world
 kind: research
 priority: 2
 size: S
-status: claimed
+status: blocked
 claimed-by: claude/fhfa-mortgage-index
 pr:
-blocked-on:
+blocked-on: owner-decision: may FHFA's MIRS Transition Index (not a replacement for PMMS) stand in for the excluded Freddie Mac survey after 2019
 source: added with npm run pool -- add
 claimed-at: 2026-10-20T04:11:00.147Z
 ---
@@ -22,3 +22,5 @@ claimed-at: 2026-10-20T04:11:00.147Z
 **Files.** src/core2/data/macro/history.json, src/core2/macro-model.ts, src/core2/data/stopgaps.json, docs/coordination/OWNER-DECISIONS.md
 
 **Notes.** TODO
+
+Checked Oct 20 before building: the page at https://www.fhfa.gov/data/mirs lists the index monthly (September 2026 6.48, August 6.51, July 6.35; history.json's PMMS-based mortgage30Pct for 2026-09 is 6.86, so the two differ by about 0.4 point). FHFA states the index is its own adjusted version of Freddie Mac's survey, "is not a replacement for PMMS" and is "intended to be used in lieu of the discontinued [ARM] index for currently outstanding loans, and not as a reference rate on newly-originated adjustable-rate mortgages". The game wants the level of new 30-year fixed rates, which the index is not meant to be, and it would move every post-2019 rate down by 0.3 to 0.4 point. That is a ruling for the CTO or the owner (whether the index may stand in for the excluded survey), not a data fetch. Not built.
