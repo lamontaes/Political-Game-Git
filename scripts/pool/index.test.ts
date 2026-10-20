@@ -3,7 +3,7 @@ import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
 import { execFileSync } from "node:child_process";
-import { command, quality, run } from "./index";
+import { command, flags, quality, run } from "./index";
 
 export const GOOD = `**What.** The sales law never reaches the retailer ledger. A buyer pays the old price at the counter. The player would notice, while shopping in any town, that the shelf price never moves after the law passes, in any town they visit.
 
@@ -132,8 +132,8 @@ describe("claims and gates", () => {
       expect(
         command(["claim", "laws-a", "--branch", "b2", "--no-push"]),
       ).toMatch(/already claimed by b1; take the next item/);
-      expect(command(["status", "laws-a", "done", "--no-push"])).toMatch(
-        /--by cto/,
+      expect(command(["status", "laws-a", "done", "--no-push"], {})).toMatch(
+        /--by=cto/,
       );
       expect(
         command([
@@ -160,6 +160,22 @@ describe("claims and gates", () => {
     } finally {
       process.chdir(cwd);
     }
+  });
+});
+
+describe("flags", () => {
+  it("reads --key value, --key=value and POOL_BY", () => {
+    expect(flags(["status", "x", "done", "--by", "cto"], {}).f.by).toBe("cto");
+    expect(flags(["status", "x", "done", "--by=cto"], {}).f.by).toBe("cto");
+    expect(flags(["status", "x", "done"], { POOL_BY: "cto" }).f.by).toBe("cto");
+    expect(flags(["status", "x", "done", "--pr=12"], {}).f.pr).toBe("12");
+    expect(flags(["status", "x", "done"], {}).f.by).toBeUndefined();
+    expect(flags(["status", "x", "done", "cto"], {}).pos).toEqual([
+      "status",
+      "x",
+      "done",
+      "cto",
+    ]);
   });
 });
 
