@@ -6,11 +6,11 @@ kind: feature
 priority: 3
 size: M
 status: in-pr
-claimed-by: claude/union-membership-record
+claimed-by: claude/union-membership
 pr: #5302
 blocked-on:
 source: split from core-stopgap-membership-dues-assumed-data, Oct 19
-claimed-at: 2026-10-19T23:58:24.553Z
+claimed-at: 2026-10-20T03:36:34.011Z
 ---
 
 **What.** TODO
@@ -21,4 +21,4 @@ claimed-at: 2026-10-19T23:58:24.553Z
 
 **Files.** TODO
 
-**Notes.** TODO
+**Notes.** PR #5302 sent back: Merge conflict with main in src/core2/data/stopgaps.json.
