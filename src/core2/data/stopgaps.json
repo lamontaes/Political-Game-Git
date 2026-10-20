@@ -5149,5 +5149,17 @@
     "addedAt": "2026-10-20",
     "replacement": "A court escrow fund account that holds each bail apart from spendable treasury cash, returned in full at disposition.",
     "status": "open"
+  },
+  {
+    "id": "SG-GOV-public-post-standard-week",
+    "kind": "assumed-data",
+    "file": "src/core2/public-payroll.ts",
+    "line": 0,
+    "whatItFakes": "A public post (an aide, a department head) in a place where no job in reach has a work schedule and payday to follow takes a standard Monday-to-Friday full-time week from the morning start and a biweekly government payday, the same for every such post.",
+    "why": "An island area's town opens with only zero-hour office seats as full-tier jobs, so there is no schedule to copy and its posts went unpaid.",
+    "addedBy": "claude/political-game-pool-yucp92-bx",
+    "addedAt": "2026-10-20",
+    "replacement": "Ordinary full-tier jobs with recorded schedules and paydays in every place (pool item world-territory-village-opens-with-no-employers), which the post then follows as it does elsewhere.",
+    "status": "open"
   }
 ]
