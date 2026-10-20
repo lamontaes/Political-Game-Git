@@ -29,6 +29,7 @@ import { incomeBandOf } from "./residents";
 import { registerPricesWebGaps } from "./prices-web-gaps";
 import { transferCash } from "../world-transfer";
 import { newsKey, storiesHeard } from "./news";
+import { lawApplied, type AppliedTarget } from "../law-reach/applied";
 import type { CoreAPI, CoreModule, CoreState, Source } from "../types";
 
 export const PLACE_PRICES_MODULE_ID = "place-prices";
@@ -440,6 +441,51 @@ function learnFromStory(
   learned.put({ id: key, personId, lawId, storyId: story.id });
 }
 
+/** The policy key and law row a price rule cites, or null for a rule no statute set. */
+function lawOf(rule: Rule): { key: string; lawId: string } | null {
+  if (!rule.cause.startsWith("law:")) return null;
+  const parts = rule.cause.split(":");
+  const lawId = parts.slice(3).join(":");
+  return lawId ? { key: `${parts[1]}:${parts[2]}`, lawId } : null;
+}
+
+/** Who a price law reached: the payer whose spending it changed and whoever took the money (signed: paid in is positive). */
+function recordApplied(
+  api: CoreAPI,
+  rule: Rule,
+  who: {
+    readonly targetId: string;
+    readonly target: AppliedTarget;
+    readonly count?: number;
+  },
+  amountMinor: number,
+  receivers: readonly { id: string; minor: number }[],
+): void {
+  const law = lawOf(rule);
+  if (!law) return;
+  const what = `${rule.good}-${rule.kind}`;
+  lawApplied(api, {
+    ...law,
+    ...who,
+    engine: PLACE_PRICES_MODULE_ID,
+    what,
+    amountMinor,
+  });
+  for (const receiver of receivers) {
+    if (!(receiver.minor > 0)) continue;
+    const isGovernment =
+      receiver.id === rule.payeeId || receiver.id === rule.providerId;
+    lawApplied(api, {
+      ...law,
+      targetId: receiver.id,
+      target: isGovernment ? "government" : "organization",
+      engine: PLACE_PRICES_MODULE_ID,
+      what: `${what}-received`,
+      amountMinor: receiver.minor,
+    });
+  }
+}
+
 function settle(
   api: CoreAPI,
   id: string,
@@ -449,6 +495,11 @@ function settle(
   countedHouseholdId?: string,
   outsideId?: string,
   sellers: readonly Seller[] = [],
+  who?: {
+    readonly targetId: string;
+    readonly target: AppliedTarget;
+    readonly count?: number;
+  },
 ): void {
   const c = core(api),
     outside = outsideId ?? outsideOf(c, rule.placeId);
@@ -459,6 +510,24 @@ function settle(
     (rule.kind === "offer" ? rule.providerId : rule.payeeId) ?? outside;
   const refund = Math.round(change.refundMinor),
     pay = Math.round(change.payMinor);
+  // The law is applied to this payer the moment its price moves their money.
+  if (who && (pay > 0 || refund > 0)) {
+    const parts = rule.kind === "sale" ? splitBy(pay, sellers) : [];
+    recordApplied(
+      api,
+      rule,
+      who,
+      pay - refund,
+      rule.kind === "sale"
+        ? sellers.map((seller, i) => ({ id: seller.id, minor: parts[i]! }))
+        : [
+            {
+              id: to,
+              minor: to === outside || to === accountOwnerId ? 0 : pay,
+            },
+          ],
+    );
+  }
   // The existing journal source names the law that changed this payment.
   // A cash difference is not, by itself, knowledge of who caused it.
   const sourceId = `${id}:${rule.cause}`;
@@ -564,9 +633,24 @@ function readPriceLaws(api: CoreAPI): void {
       return;
     }
     api.stopgap(gap);
+    // The enacting government's treasury; a place whose governing row names a
+    // jurisdiction with no budget (a territory) pays the town's nearest
+    // government that keeps one.
     const treasury = api.state.modules.has(BUDGETS_MODULE_ID)
-      ? governments(api).find((g) => g.id === law.governing!.jurisdiction)
-          ?.organizationId
+      ? (() => {
+          const all = governments(api);
+          const own = all.find((g) => g.id === law.governing!.jurisdiction);
+          if (own) return own.organizationId;
+          for (const level of lawChain(api).levels) {
+            const near = all.find((g) => g.id === level.jurisdiction);
+            if (near) return near.organizationId;
+          }
+          for (const level of ["city", "county", "state"] as const) {
+            const nearest = all.find((g) => g.level === level);
+            if (nearest) return nearest.organizationId;
+          }
+          return undefined;
+        })()
       : undefined;
     if (publicPayee && !treasury) {
       if (
@@ -870,6 +954,7 @@ function month(api: CoreAPI): void {
         undefined,
         undefined,
         sellers,
+        { targetId: household.id, target: "household" },
       );
       learnFromStory(api, rule, payer, change, pay);
     }
@@ -881,7 +966,12 @@ function month(api: CoreAPI): void {
     const outside = outsideOf(c, rule.placeId);
     const byGroup = new Map<
       number,
-      { household: string; payMinor: number; refundMinor: number }
+      {
+        household: string;
+        payMinor: number;
+        refundMinor: number;
+        persons: number;
+      }
     >();
     for (const household of rt?.store.liveHouseholds() ?? []) {
       if (household.gone || household.placeId !== rule.placeId) continue;
@@ -905,7 +995,9 @@ function month(api: CoreAPI): void {
         household: household.id,
         payMinor: 0,
         refundMinor: 0,
+        persons: 0,
       };
+      total.persons += persons;
       total.payMinor += Math.round(change.payMinor);
       total.refundMinor += Math.round(change.refundMinor);
       byGroup.set(household.group, total);
@@ -920,6 +1012,11 @@ function month(api: CoreAPI): void {
         total.household,
         outside,
         sellers,
+        {
+          targetId: `${rule.placeId}:counted-group-${group}`,
+          target: "group",
+          count: total.persons,
+        },
       );
     // Businesses pay a dearer energy price on their own energy costs.
     if (rule.kind === "share")
@@ -945,6 +1042,10 @@ function month(api: CoreAPI): void {
           change >= 0
             ? { payMinor: change, refundMinor: 0 }
             : { payMinor: 0, refundMinor: -change },
+          undefined,
+          undefined,
+          [],
+          { targetId: organizationId, target: "organization" },
         );
       }
   }

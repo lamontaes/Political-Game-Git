@@ -9,6 +9,7 @@
  * its best-placed applicant, and the applicant accepts or declines. Every
  * job change is a record with its reason and, for a layoff, who decided it.
  */
+import type { ModuleTable } from "../module-state";
 import { addDays, daysBetween, makeIsoDate } from "../kernel/dates";
 import { chooseAct, decisionFromScores, scoreOffers } from "../choice";
 import jobsData from "../data/jobs/jobs.json" with { type: "json" };
@@ -2063,9 +2064,10 @@ export function strongestPulls<T extends { id: string; score: number }>(
   api: CoreAPI,
   key: string,
   rows: readonly T[],
+  /** The table the caller keeps its carry in; the jobs module's own when the caller is the jobs engine. */
+  state: ModuleTable = store(api).table("state"),
 ): T[] {
   stopgap("SG-WORLD-jobs-counted-choices");
-  const state = store(api).table("state");
   const row = (state.get(`pulls:${key}`) as { carry: number } | undefined) ?? {
     carry: 0,
   };

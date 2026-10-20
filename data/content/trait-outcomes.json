@@ -20,9 +20,9 @@
       "id": "outcome.personality-heritability",
       "title": "Children resemble their parents",
       "engine": "src/core2/births-people.ts",
-      "wired": "partly",
-      "evidence": "src/core2/births-people.ts:102 draws the newborn with its parents as subjects",
-      "why": "The parents are redrawn from the seed on the birth date rather than read from their recorded traits, so a child resembles a redrawn parent; counted newborns are seeded without inheritance (SG-PW8-counted-newborn-temperament, src/core2/births-counted.ts:586)."
+      "wired": true,
+      "evidence": "src/core2/births-people.ts:102 draws a newborn from its parents' inherited parts (regenerated from the seed, the same parts the opening drew); measured parent-child correlation in two drawn places (buildBenchWorld seeds herit1 and herit2, 78 and 192 pairs): 0.03 to 0.34 by dimension, mean 0.18, against 0.20 to 0.28 expected from a heritability of 0.40 (Vukasovic & Bratko 2015)",
+      "note": "Counted newborns are seeded without their parents' parts: SG-PW8-counted-newborn-temperament."
     },
     {
       "id": "outcome.mean-level-change-with-age",
@@ -98,31 +98,31 @@
       "id": "outcome.relationship-formation",
       "title": "Making friends and acquaintances",
       "engine": "src/core2/modules/life.ts",
-      "wired": "partly",
-      "evidence": "life.daily-act contact-known-person is a chooser option, so sociable people choose contact more",
-      "why": "Who becomes a new acquaintance, and how fast a tie warms, reads no trait."
+      "wired": true,
+      "evidence": "src/core2/closeness.ts temperedHours (relationships.warm-to): a contact's hours count by both people's warmth; read by src/core2/state.ts relationship() at every change of a tie; test src/core2/closeness.traits.test.ts"
     },
     {
       "id": "outcome.conflict",
       "title": "Arguments and grudges",
       "engine": "src/core2/modules/drives.ts",
-      "wired": "partly",
-      "evidence": "drives.respond hold-grudge is a chooser option",
-      "why": "Whether a disagreement becomes a quarrel reads no trait."
+      "wired": true,
+      "evidence": "src/core2/closeness.ts temperedHours (relationships.fall-out): a quarrel's lost hours (a confrontation, src/core2/modules/drives.ts; an unrewarded bribe, src/core2/modules/corruption.ts) count by both people's hold-on lean; test src/core2/closeness.traits.test.ts"
     },
     {
       "id": "outcome.marriage-formation",
       "title": "Partnering and marriage",
       "engine": "src/core2/modules/renewal.ts",
       "wired": false,
-      "why": "src/core2/modules/renewal.ts reads no trait for partnering."
+      "why": "No engine forms or ends a partnership in play; the partnership items in the pool are gated on core family-link work.",
+      "stopgapId": "SG-TRAITS-partnerships-no-engine"
     },
     {
       "id": "outcome.divorce",
       "title": "Separation and divorce",
       "engine": "src/core2/modules/renewal.ts",
       "wired": false,
-      "why": "src/core2/modules/renewal.ts reads no trait for separation."
+      "why": "No engine forms or ends a partnership in play; the partnership items in the pool are gated on core family-link work.",
+      "stopgapId": "SG-TRAITS-partnerships-no-engine"
     },
     {
       "id": "outcome.trust-generalized",
