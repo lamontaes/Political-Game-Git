@@ -2829,7 +2829,7 @@
     "id": "SG-WEB-outcome-drift",
     "kind": "faked-mechanic",
     "file": "src/core2/modules/outcome-web.ts",
-    "line": 411,
+    "line": 429,
     "whatItFakes": "Each outcome the web keeps (crime, schooling, coverage, turnout and the rest) stays at its place's real starting level except where a researched link moves it; nothing else in the world moves it.",
     "why": "The research's drift sizes (data/research/outcome-web/place-outcome-bases-2024.json, defaultDrift) include a monthly chance of a society-wide wave, which the no-dice rule forbids; the causes behind drift are not yet modeled.",
     "addedBy": "OPUS-WEB",
@@ -2943,7 +2943,9 @@
     "addedBy": "OPUS-WORLD",
     "addedAt": "2026-10-12",
     "replacement": "State unemployment insurance under the law in force, paid through postJournal from the state's fund.",
-    "status": "open"
+    "resolvedAt": "2026-10-20",
+    "resolution": "payClaims in src/core2/jobs-benefits.ts pays each benefit from the state treasury on the budgets module, which the employers' state unemployment tax pays into (employer-taxes); a week the treasury cannot cover is advanced from the town's outside account.",
+    "status": "resolved"
   },
   {
     "id": "SG-PLAY-doors-fill-in",
@@ -3406,7 +3408,7 @@
     "kind": "missing-engine",
     "file": "src/core2/data/laws/public-pay-floor.json",
     "line": 3,
-    "whatItFakes": "The public pay floor's employer-to-level map is a first cut (public schools count as town employers), (a public hire is now held to the floor on the day it is hired, by the jobs engine). Councils, legislatures and Congress can now draft it from the bill catalog (OPUS-GOV, Oct 14).",
+    "whatItFakes": "The public pay floor's employer-to-level map is a first cut (public schools count as town employers). A public post filled by the government (an aide, a department head) is paid at the floor in force the day it is filled, and a jobs-engine opening at the floor in force the day it is posted. Councils, legislatures and Congress can now draft it from the bill catalog (OPUS-GOV, Oct 14).",
     "why": "The CTO ruled (October 14, 2026) that a public-salary base is a standing law at each level and asked dev mode's PR to add the data row and the smallest read hook, for the GOV wiring session to own after merge.",
     "addedBy": "OPUS-PLAY",
     "addedAt": "2026-10-14",
@@ -4201,9 +4203,10 @@
     "whatItFakes": "What the player prepares for a federal act (the stances a re-election filing runs on, the budget request's line changes, the joint address's answers) is kept in the federal day's own table, beside the engine's.",
     "why": "OFFICE-LOCAL's prepareAct takes only the local acts' ids; the federal day may not change the engine.",
     "replacement": "OFFICE-LOCAL's prepareAct taking any registered kit's act ids (asked on the PR); the federal table is deleted.",
+    "resolution": "Resolved Oct 20: prepareAct in src/core2/modules/office-day.ts takes any registered kit's act id (a string), and the federal day's own table is deleted; what the player prepares for a federal act is kept in the office-day engine's own table.",
     "addedBy": "OFFICE-FEDERAL",
     "addedAt": "2026-10-14",
-    "status": "open"
+    "status": "resolved"
   },
   {
     "id": "SG-GOV-committee-names-national",
@@ -4815,7 +4818,8 @@
     "addedBy": "claude/office-committee-meeting",
     "addedAt": "2026-10-17",
     "replacement": "The owner's ruling on which pre-vote hooks run on the committee day (docs/coordination/OWNER-DECISIONS.md).",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "The committee's day runs whatever the records already fire for a body on a sitting day, at the stage the body's own rules put them, from data. The pre-vote hooks are named (staff-brief, interest-organize, public-comment, own-vote); src/core2/data/legislature/committee-day.json says which run at the committee stage, holdCommittee runs those before the committee decides and marks them on the bill (hooksRun), and the floor day runs only those not yet run."
   },
   {
     "id": "SG-GOV-clemency-boards",
@@ -5127,6 +5131,54 @@
     "addedBy": "claude/political-game-pool-yucp92-yy",
     "addedAt": "2026-10-20",
     "replacement": "A project record with a start, a cost, milestones the contractor's payments fund and a completion date the funded work reaches, which the office day reads for the ribbon.",
+    "status": "open"
+  },
+  {
+    "id": "SG-WEB-snap-receipt-ledger",
+    "kind": "missing-engine",
+    "file": "src/core2/modules/outcome-web.ts",
+    "line": 431,
+    "whatItFakes": "The share of residents receiving SNAP (program.snap-receipt) is a place number in the outcome web's ledger: its start is the USDA state level and only web links move it; no household is enrolled or paid.",
+    "why": "The core pays no SNAP and keeps no enrollment record (see SG-GOV-REACH-B-assistance-benefits), so nothing can count who receives it.",
+    "addedBy": "effect-web-poverty",
+    "addedAt": "2026-10-20",
+    "replacement": "The benefits writer of pool item laws-reach-b-snap-benefit pays SNAP to households by income and size; a world-metrics field counts recipients by weight and engineMeasures reads it.",
+    "status": "open"
+  },
+  {
+    "id": "SG-WEB-food-insecurity-ledger",
+    "kind": "missing-engine",
+    "file": "src/core2/modules/outcome-web.ts",
+    "line": 432,
+    "whatItFakes": "The share of households that are food insecure (household.food-insecurity) is a place number in the outcome web's ledger: its start is the USDA state level and web links move it; no household's food budget or SNAP receipt decides it.",
+    "why": "No engine records a household's food spending against its income or its SNAP benefit.",
+    "addedBy": "effect-web-poverty",
+    "addedAt": "2026-10-20",
+    "replacement": "A food-insecurity record per household from its income, its food prices and its SNAP benefit, counted by weight in world-metrics and read through engineMeasures.",
+    "status": "open"
+  },
+  {
+    "id": "SG-WEB-poverty-licensing-no-engine",
+    "kind": "missing-engine",
+    "file": "src/core2/modules/outcome-web.ts",
+    "line": 434,
+    "whatItFakes": "Reducing occupational licensing is meant to open licensed work and raise pay at the bottom, but no engine lets the law change who may take a licensed job, so the law reaches no household's income and the poverty measure does not move for it.",
+    "why": "The jobs engine has no licensing requirement per occupation to repeal.",
+    "addedBy": "effect-web-poverty",
+    "addedAt": "2026-10-20",
+    "replacement": "The jobs engine reads a licensing law row when seekers match to jobs, so a repeal opens licensed jobs to seekers (pool item world-licensing-reform-jobs).",
+    "status": "open"
+  },
+  {
+    "id": "SG-WEB-poverty-graduation-no-engine",
+    "kind": "missing-engine",
+    "file": "src/core2/modules/outcome-web.ts",
+    "line": 435,
+    "whatItFakes": "Higher graduation is meant to raise adult pay a decade later, but no engine ties schooling to the pay a graduate is hired at, so graduation reaches no household's income and the poverty measure does not move for it.",
+    "why": "The jobs engine prices a hire from the occupation and market, not from the person's schooling.",
+    "addedBy": "effect-web-poverty",
+    "addedAt": "2026-10-20",
+    "replacement": "The jobs engine prices schooling into hires and wages from the person's own schooling record (pool item world-schooling-to-pay).",
     "status": "open"
   },
   {
