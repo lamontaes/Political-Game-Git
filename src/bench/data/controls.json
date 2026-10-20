@@ -16,6 +16,7 @@
     "meet-department-head": "Meet",
     "name-department-head": "Name a department head",
     "talk-to-colleague": "Talk about your bill",
+    "cut-ribbon": "Cut the ribbon",
     "vote": "Vote",
     "sign": "Sign",
     "veto": "Veto",
@@ -66,6 +67,8 @@
   "campaignOutings": {
     "doors": "Knock on doors",
     "calls": "Call donors",
+    "event": "Hold an event",
+    "interview": "Ask for an interview",
     "hours": "hours"
   },
   "venues": {
@@ -141,6 +144,14 @@
     "sign": "Sign",
     "veto": "Veto",
     "own": "Decide for me"
+  },
+  "budgetEditor": {
+    "title": "Budget lines to send",
+    "-20": "Cut 20%",
+    "-10": "Cut 10%",
+    "0": "No change",
+    "10": "Add 10%",
+    "20": "Add 20%"
   },
   "deals": {
     "title": "Deal to offer when you talk",
@@ -251,6 +262,7 @@
   },
   "politics": {
     "seats": "Seats",
+    "notChosenHere": "Not chosen by this place's voters",
     "votes": "Votes",
     "yes": "Yes",
     "no": "No",
