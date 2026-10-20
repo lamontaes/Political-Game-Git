@@ -5,7 +5,7 @@ area: people
 kind: wiring
 priority: 2
 size: M
-status: in-pr
+status: dropped
 claimed-by:
 pr: #5104
 blocked-on:

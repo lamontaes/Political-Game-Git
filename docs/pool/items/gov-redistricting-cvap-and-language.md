@@ -5,12 +5,13 @@ area: gov
 kind: research
 priority: 3
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/peaceful-ritchie-03780x
 pr:
 blocked-on:
 after: gov-redistricting-neighborhood-data
 source: added with npm run pool -- add
+claimed-at: 2026-10-20T00:13:25.999Z
 ---
 
 **What.** The Voting Rights Act test counts citizen voting-age people, not all voting-age people, and the language-minority provisions use the Section 203 determinations by county. Add the ACS citizen voting-age population by race and Hispanic origin at the block group (the Census CVAP special tabulation) and the list of counties and the languages covered by Section 203, as data beside the neighborhood packs, so the map challenge can measure Gingles 1 on citizens.

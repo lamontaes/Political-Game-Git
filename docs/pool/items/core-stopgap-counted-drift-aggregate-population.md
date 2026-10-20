@@ -4,9 +4,9 @@ title: "Stopgaps in counted-drift (aggregate-population): 3 open"
 area: core
 kind: stopgap
 priority: 3
-status: in-pr
+status: done
 claimed-by: claude/pool-counted-drift-stale
-pr: #5255
+pr: #4889
 blocked-on:
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/modules/counted-drift.ts, kind aggregate-population"
