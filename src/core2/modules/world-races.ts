@@ -62,7 +62,13 @@ import {
   type CandidateReasons,
 } from "../electorate-inputs";
 import electorsData from "../data/elections/electoral-votes.json" with { type: "json" };
-import { OFFICES_MODULE_ID, type TermRow } from "./offices";
+import {
+  OFFICES_MODULE_ID,
+  registerSpecialElections,
+  townSeats,
+  vacancyFilled,
+  type TermRow,
+} from "./offices";
 import { drawOfficialIdentity } from "../officials-identity";
 import { novemberGeneralElectionDay } from "../gov-rules/town-election-calendar";
 
@@ -115,6 +121,8 @@ export function openWorldRaces(core: CoreState): void {
     registerModule(core, WORLD_RACES_MODULE);
   const api = coreAPI(core);
   rememberOpeningElectorate(api);
+  // A vacancy outside the town is filled by a race the world counts.
+  registerSpecialElections(openSpecialRace, "world-races");
   let year = Number(core.date.slice(0, 4));
   if (novemberGeneralElectionDay(year) <= core.date) year += 1;
   scheduleElection(api, nextRaceYear(api, year));
@@ -189,6 +197,20 @@ const congress = (
   }
 ).congress;
 
+/** The vacancy a special race fills and the end of the term it serves. */
+interface SpecialRace {
+  readonly vacancyId: string;
+  readonly termEnd: string | null;
+}
+
+/** A party's candidate in a special race, named. */
+interface SpecialCandidate {
+  readonly party: string;
+  readonly side: number;
+  readonly incumbent: boolean;
+  readonly identity: TermRow["identity"];
+}
+
 interface Race {
   readonly seatId: string;
   readonly office: string;
@@ -225,12 +247,150 @@ function raceWork(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
       });
     return;
   }
+  if (work.kind === SPECIAL_KIND) decideSpecial(api, work);
   if (work.kind === "seat-winner") seat(api, work.sourceRecordIds[0]!);
   if (work.kind === "electors-meet")
     electoralCollege(api, Number(work.sourceRecordIds[0]));
   if (work.kind === "contingent-election")
     decideContingent(api, Number(work.sourceRecordIds[0]));
   if (work.kind === "inauguration") inaugurate(api, work.sourceRecordIds[0]!);
+}
+
+const SPECIAL_KIND = "special-race";
+
+/** The winner takes the seat the day after the count. */
+const dayAfter = (date: string) =>
+  new Date(Date.parse(`${date}T00:00:00Z`) + 86_400_000)
+    .toISOString()
+    .slice(0, 10);
+
+/**
+ * A vacancy in a seat outside the town (a House district or a state
+ * legislative district) is filled by a real race: on the special election
+ * day its places vote as they do in the general election, between the two
+ * major parties' named candidates, and the winner serves the unexpired term.
+ * Returns false for any other seat, which the other engines or the
+ * stand-in fill.
+ */
+function openSpecialRace(
+  api: CoreAPI,
+  input: {
+    readonly vacancyId: string;
+    readonly seatId: string;
+    readonly electionDate: string;
+    readonly termEnd: string | null;
+  },
+): boolean {
+  if (!api.state.modules.has(WORLD_RACES_MODULE_ID)) return false;
+  const offices = api.moduleState(OFFICES_MODULE_ID);
+  const seat = offices.table("seats").get(input.seatId) as unknown as
+    { coversTown: boolean; officeId: string } | undefined;
+  const office = seat
+    ? (offices.table("offices").get(seat.officeId) as unknown as
+        { kind: string; elected: boolean } | undefined)
+    : undefined;
+  if (!seat || !office?.elected || seat.coversTown) return false;
+  if (office.kind !== "us-house" && !office.kind.startsWith("legislature-"))
+    return false;
+  // The town's own seats are the voting engine's.
+  if (townSeats(api).some((entry) => entry.seat.id === input.seatId))
+    return false;
+  api.moduleCalendar(WORLD_RACES_MODULE_ID).schedule({
+    key: `special:${input.vacancyId}:${input.electionDate}`,
+    date:
+      input.electionDate > api.state.date ? input.electionDate : api.state.date,
+    kind: SPECIAL_KIND,
+    source: {
+      tag: "SOURCED",
+      citation: `Special election for ${input.vacancyId}`,
+      asOf: api.state.date,
+    },
+    sourceRecordIds: [input.vacancyId, input.seatId, input.termEnd ?? ""],
+  });
+  return true;
+}
+
+/** Count a special race on its election day. */
+function decideSpecial(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
+  const [vacancyId, seatId, termEnd] = work.sourceRecordIds;
+  const offices = api.moduleState(OFFICES_MODULE_ID);
+  const vacancy = offices.table("vacancies").get(vacancyId!) as unknown as
+    { status: string } | undefined;
+  if (!vacancy || vacancy.status !== "awaiting-election") return;
+  const seat = offices.table("seats").get(seatId!) as unknown as
+    | {
+        id: string;
+        officeId: string;
+        district: string | null;
+        electionYear?: number;
+      }
+    | undefined;
+  const office = seat
+    ? (offices.table("offices").get(seat.officeId) as unknown as
+        | { kind: string; termYears: number | null; jurisdiction?: string }
+        | undefined)
+    : undefined;
+  if (!seat || !office) return;
+  const year = Number(api.state.date.slice(0, 4));
+  decide(
+    api,
+    {
+      ...seatRace(api, seat, office, year),
+      seatedOn: dayAfter(api.state.date),
+    },
+    year,
+    { vacancyId: vacancyId!, termEnd: termEnd || null },
+  );
+}
+
+/**
+ * The two parties' candidates in a special race, each with a name drawn from
+ * the race's id: the party of the seat's holder stands its holder.
+ */
+function specialCandidates(
+  api: CoreAPI,
+  race: Race,
+  parties: readonly { party: string; side: number; incumbent: boolean }[],
+  raceId: string,
+): readonly SpecialCandidate[] {
+  const offices = api.moduleState(OFFICES_MODULE_ID);
+  const holder = (
+    offices
+      .table("terms")
+      .query("bySeatStatus", [race.seatId, "serving"]) as unknown as TermRow[]
+  )[0];
+  const loaded = offices.table("loaded").get("town") as unknown as {
+    worldSeed: string;
+  };
+  const stateKey = `US-${race.usps}`;
+  return parties.map((c) => {
+    if (holder && holder.party === c.party)
+      return {
+        party: c.party,
+        side: c.side,
+        incumbent: true,
+        identity: holder.identity,
+      };
+    const drawn = drawOfficialIdentity({
+      worldSeed: loaded.worldSeed,
+      seatKey: `${raceId}:${c.party}`,
+      stateUsps: race.usps,
+      role: "state-executive-challenger",
+      referenceDate: api.state.date,
+    });
+    return {
+      party: c.party,
+      side: c.side,
+      incumbent: false,
+      identity: {
+        givenName: drawn.givenName,
+        familyName: drawn.familyName,
+        gender: drawn.gender,
+        birthDate: drawn.birthDate,
+        homeState: stateKey,
+      },
+    };
+  });
 }
 
 /** The first Tuesday after the second Wednesday in December. */
@@ -606,11 +766,57 @@ function inaugurate(api: CoreAPI, rowId: string): void {
     openNextCycle(api, "seat:US:president");
 }
 
+/** The race for a seat the offices engine holds outside the town, in `year`. */
+function seatRace(
+  api: CoreAPI,
+  seat: {
+    readonly id: string;
+    readonly officeId: string;
+    readonly district: string | null;
+    readonly electionYear?: number;
+  },
+  office: {
+    readonly kind: string;
+    readonly termYears: number | null;
+    readonly jurisdiction?: string;
+  },
+  year: number,
+): Race {
+  const offices = api.moduleState(OFFICES_MODULE_ID);
+  const house = office.kind === "us-house";
+  const stateKey = office.jurisdiction?.startsWith("US-")
+    ? office.jurisdiction
+    : lawChain(api).stateKey;
+  const holder = (
+    offices
+      .table("terms")
+      .query("bySeatStatus", [seat.id, "serving"]) as unknown as TermRow[]
+  )[0];
+  const code = (seat.district ?? "00").padStart(2, "0");
+  return {
+    seatId: seat.id,
+    office: office.kind,
+    usps: stateKey.slice(3),
+    code,
+    incumbentParty: holder?.party ?? null,
+    leanSource: house
+      ? "2024 House vote in the district"
+      : "the district's own 2024 general election, else the state's 2024 two-party vote over its districts at the holder's typical margin",
+    seatedOn: house
+      ? `${year + 1}-01-03`
+      : (holder?.endDate ?? `${year + 1}-01-01`),
+    offices: {
+      seatId: seat.id,
+      officeId: seat.officeId,
+      termYears: office.termYears,
+    },
+  };
+}
+
 /** Every race this year the town's named voters don't decide. */
 function racesIn(api: CoreAPI, year: number): readonly Race[] {
   const races: Race[] = [];
   const stateKey = lawChain(api).stateKey;
-  const congressStart = `${year + 1}-01-03`;
   // Seats in the town's own state the town doesn't vote for.
   const offices = api.moduleState(OFFICES_MODULE_ID);
   const officeRows = new Map(
@@ -638,31 +844,9 @@ function racesIn(api: CoreAPI, year: number): readonly Race[] {
     // Congress is elected in even years only.
     if (house && year % 2) continue;
     if (legislature && seat.electionYear !== year) continue;
-    const holder = (
-      offices
-        .table("terms")
-        .query("bySeatStatus", [seat.id, "serving"]) as unknown as TermRow[]
-    )[0];
-    const code = (seat.district ?? "00").padStart(2, "0");
-    races.push({
-      seatId: seat.id,
-      office: office.kind,
-      usps: stateKey.slice(3),
-      code,
-      incumbentParty: holder?.party ?? null,
-      leanSource: house
-        ? "2024 House vote in the district"
-        : "the district's own 2024 general election, else the state's 2024 two-party vote over its districts at the holder's typical margin",
-      seatedOn: house
-        ? congressStart
-        : (holder?.endDate ?? `${year + 1}-01-01`),
-      offices: {
-        seatId: seat.id,
-        officeId: seat.officeId,
-        termYears: office.termYears,
-      },
-    });
+    races.push(seatRace(api, seat, office, year));
   }
+  const congressStart = `${year + 1}-01-03`;
   // Congress outside the town's state, in even years.
   if (year % 2) return races.sort((a, b) => a.seatId.localeCompare(b.seatId));
   for (const [state, seats] of Object.entries(congress)) {
@@ -822,7 +1006,12 @@ const sideOf = caucusSide;
  * (an incumbent official the world doesn't name, with the typical
  * campaign); the other major party fields a typical challenger.
  */
-function decide(api: CoreAPI, race: Race, year: number): void {
+function decide(
+  api: CoreAPI,
+  race: Race,
+  year: number,
+  special?: SpecialRace,
+): void {
   const side = sideOf(race.incumbentParty);
   // stopgapId: SG-GOV-world-race-candidates
   api.stopgap("SG-GOV-world-race-candidates");
@@ -897,8 +1086,11 @@ function decide(api: CoreAPI, race: Race, year: number): void {
   const incumbency =
     (r ? r.incumbency + r.experience : 0) -
     (d ? d.incumbency + d.experience : 0);
+  const raceId = special
+    ? `race:${race.seatId}:${date}:special`
+    : `race:${race.seatId}:${year}`;
   const row: RaceRow = {
-    id: `race:${race.seatId}:${year}`,
+    id: raceId,
     seatId: race.seatId,
     office: race.office,
     date,
@@ -917,6 +1109,9 @@ function decide(api: CoreAPI, race: Race, year: number): void {
   table(api, "races").put({
     ...row,
     offices: race.offices ?? null,
+    ...(special
+      ? { special, candidates: specialCandidates(api, race, parties, row.id) }
+      : {}),
   } as unknown as ModuleRow);
   recordPlaces(api, row.id, counted.places);
   api.moduleCalendar(WORLD_RACES_MODULE_ID).schedule({
@@ -963,7 +1158,12 @@ export function racePlacesOf(
 /** Seat the winner on the term's first day. */
 function seat(api: CoreAPI, raceId: string): void {
   const race = table(api, "races").get(raceId) as unknown as
-    (RaceRow & { offices: Race["offices"] | null }) | undefined;
+    | (RaceRow & {
+        offices: Race["offices"] | null;
+        special?: SpecialRace;
+        candidates?: readonly SpecialCandidate[];
+      })
+    | undefined;
   if (!race) return;
   if (!race.offices) {
     table(api, "seats").put({
@@ -993,40 +1193,53 @@ function seat(api: CoreAPI, raceId: string): void {
   const loaded = offices.table("loaded").get("town") as unknown as {
     worldSeed: string;
   };
+  const named = race.candidates?.find((c) => c.party === race.winnerParty);
   const identity = reelected
     ? serving[0]!.identity
-    : (() => {
-        const drawn = drawOfficialIdentity({
-          worldSeed: loaded.worldSeed,
-          seatKey: raceId,
-          stateUsps: lawChain(api).stateKey.slice(3),
-          role: "state-executive-challenger",
-          referenceDate: api.state.date,
-        });
-        return {
-          givenName: drawn.givenName,
-          familyName: drawn.familyName,
-          gender: drawn.gender,
-          birthDate: drawn.birthDate,
-          homeState: lawChain(api).stateKey,
-        };
-      })();
+    : named
+      ? named.identity
+      : (() => {
+          const drawn = drawOfficialIdentity({
+            worldSeed: loaded.worldSeed,
+            seatKey: raceId,
+            stateUsps: lawChain(api).stateKey.slice(3),
+            role: "state-executive-challenger",
+            referenceDate: api.state.date,
+          });
+          return {
+            givenName: drawn.givenName,
+            familyName: drawn.familyName,
+            gender: drawn.gender,
+            birthDate: drawn.birthDate,
+            homeState: lawChain(api).stateKey,
+          };
+        })();
   const years = race.offices.termYears;
+  // A special election's winner serves what was left of the term.
+  const termId = `term:${race.seatId}:${api.state.date}:elected`;
   terms.put({
-    id: `term:${race.seatId}:${api.state.date}:elected`,
+    id: termId,
     seatId: race.seatId,
     officeId: race.offices.officeId,
     personId: reelected ? serving[0]!.personId : null,
     identity,
     party: race.winnerParty,
     startDate: api.state.date,
-    endDate: years
-      ? `${Number(api.state.date.slice(0, 4)) + years}${api.state.date.slice(4)}`
-      : null,
+    endDate: race.special
+      ? race.special.termEnd
+      : years
+        ? `${Number(api.state.date.slice(0, 4)) + years}${api.state.date.slice(4)}`
+        : null,
     endEstimated: false,
-    reached: `elected ${race.date}`,
+    reached: race.special
+      ? `elected in a special election ${race.date}`
+      : `elected ${race.date}`,
     status: "serving",
   } as unknown as ModuleRow);
+  if (race.special) {
+    vacancyFilled(api, race.special.vacancyId, termId);
+    return;
+  }
   const seatRow = offices.table("seats").get(race.seatId) as unknown as
     { electionYear?: number } | undefined;
   if (seatRow && years)

@@ -4,9 +4,9 @@ title: "Stopgaps in parameters (authored-finance-policy): 1 open"
 area: core
 kind: stopgap
 priority: 3
-status: claimed
+status: in-pr
 claimed-by: claude/stopgap-finance-policy
-pr:
+pr: #5375
 blocked-on:
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/data/parameters.json, kind authored-finance-policy"
