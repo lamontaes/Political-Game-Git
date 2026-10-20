@@ -22,3 +22,5 @@ claimed-at:
 **Files.** src/core2/modules/meetings.ts, scripts/english-corpus/body-bank.ts, src/director/scene.ts, data/english/parts/hearing.json, data/english/parts/meeting.json
 
 **Notes.** Written Oct 20 (claude/budget-hearing-spec) from the code: the composer and its played-world test (`scripts/english-corpus/body-bank-world.test.ts`, PR #5187) already word a parks budget vote from a bill's own records. Missing: the speakers (public-comment statements) in the scene, and a director or bench reader. Waits on #5187 for the bank and composer.
+
+Sent back 2026-10-20 from PR #5359 (branch claude/budget-hearing-build): data/english/parts/address.json adds two entries with origin authored and shippable true, while the body says they have not been graded. The morning check forbids shipping authored bank pieces before grading. Keep them held until graded, and correct the player-visible release claim to match that state. This is also a non-main fixer: its parent must be handled in its share, and a branch-only merge must not mark the main pool item done.; finish on that branch, merge main into it first.
