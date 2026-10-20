@@ -5,12 +5,12 @@ area: gov
 kind: feature
 priority: 2
 size: M
-status: claimed
-claimed-by: claude/political-game-pool-yucp92-oo
+status: open
+claimed-by:
 pr: #5072
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-20T04:41:24.521Z
+claimed-at:
 ---
 
 **What.** The news archive reports the year before day one but carries no business closures, because the generated past holds none: businesses start on day one. Generate the closures of the town's businesses in that year from the business engine's own past, as records with the owner, the workers and the date. Carry them into the archive so a shop that closed last year is in the news history and the people it employed remember it.
