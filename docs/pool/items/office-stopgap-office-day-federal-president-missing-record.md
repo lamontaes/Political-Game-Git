@@ -4,9 +4,9 @@ title: "Stopgaps in office-day-federal-president (missing-record): 2 open"
 area: office
 kind: stopgap
 priority: 2
-status: claimed
+status: in-pr
 claimed-by: claude/president-missing-record
-pr:
+pr: #5124
 blocked-on:
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/office-day-federal-president.ts, kind missing-record"

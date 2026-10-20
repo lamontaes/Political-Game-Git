@@ -10,7 +10,7 @@ on:
 # Concurrency is per job: a newer push to main waits for a candidate still
 # building or validating (release-main-validate) to finish, and GitHub keeps
 # only the newest pending run; one that is publishing or packaging
-# (release-main-publish) is never cancelled either.
+# (release-main-publish) is never canceled either.
 
 permissions:
   contents: read
