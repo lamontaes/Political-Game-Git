@@ -811,8 +811,10 @@ describe("law reach, group B: every policy reaches people through its engine", (
       );
       const rows = open();
       const named = rows.filter((r) => api.state.people.has(r.recipientId));
-      const countedRow = rows.find((r) => !api.state.people.has(r.recipientId));
-      return { heads, reachedIds, named, countedRow };
+      const countedRows = rows.filter(
+        (r) => !api.state.people.has(r.recipientId),
+      );
+      return { heads, reachedIds, named, countedRows };
     };
     enact(work, 1, "state");
     // The law writes no second record: the benefit is where it is read.
@@ -853,10 +855,17 @@ describe("law reach, group B: every policy reaches people through its engine", (
     const countedDrawing = past.heads.filter(
       (h) => !h.named && !past.reachedIds.has(h.id),
     ).length;
-    if (rate > 0 && countedDrawing > 0)
-      expect(past.countedRow?.amountMinor, `${where} pooled payment`).toBe(
+    // Each counted household's share goes to its own group's fund, one row
+    // per fund, each floored to whole cents.
+    if (rate > 0 && countedDrawing > 0) {
+      const paid = past.countedRows.reduce((n, r) => n + r.amountMinor, 0);
+      expect(paid, `${where} counted payments`).toBeLessThanOrEqual(
         rate * countedDrawing,
       );
+      expect(paid, `${where} counted payments`).toBeGreaterThanOrEqual(
+        rate * countedDrawing - past.countedRows.length,
+      );
+    }
     report.assistanceWork = {
       heads: past.heads.length,
       stopped: stopped.length,
