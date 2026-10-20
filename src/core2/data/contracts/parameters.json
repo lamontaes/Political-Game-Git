@@ -13,10 +13,5 @@
     "value": 1.5,
     "tag": "TUNABLE",
     "citation": "Weight on the member's closeness to the firm's owner, which counts more for a member whose traits lean to bending rules and trusting and less for one who follows rules (a sliding scale, no threshold). Local officials favor firms they know where oversight is thin (Coviello and Gagliarducci 2017, Tenure in Office and Public Procurement, American Economic Journal: Economic Policy 9(3):59-105). Spread 0.5 to 3."
-  },
-  "contractTraitWeight": {
-    "value": 0.5,
-    "tag": "TUNABLE",
-    "citation": "How far a member's traits move weight between price and the tie to a firm's owner: at full lean the price weight falls by this share and the tie weight rises by it. Spread 0.25 to 0.75, so a rule-following member still counts price at half its weight and a rule-bending member still counts price."
   }
 }
