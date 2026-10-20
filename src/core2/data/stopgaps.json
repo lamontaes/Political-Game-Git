@@ -2987,11 +2987,11 @@
     "file": "src/bench/data/controls.json",
     "line": 3,
     "whatItFakes": "Where OPUS-WORDS' mined bank has no name for an act yet (care for a relative, join an association, hold a meeting, visit an office), the play screen names its choice button from a bench table of control names (“Look after”).",
-    "why": "The mined choice-names bank (data/english/parts/choice-names.json) covers about half the core's acts; a raw action id is not something a player should read.",
+    "why": "Resolved Oct 20: every act now has a name in the bank (data/english/parts/choice-names.json) and the play screen reads its control names from it (actionNames in src/bench/words.ts, served at /api/controls); the bench table is removed. Before: The mined choice-names bank (data/english/parts/choice-names.json) covers about half the core's acts; a raw action id is not something a player should read.",
     "addedBy": "OPUS-PLAY",
     "addedAt": "2026-10-12",
     "replacement": "Mined names for every act in OPUS-WORDS' bank, composed by OPUS-PEOPLE's English engine; then this table is removed.",
-    "status": "open"
+    "status": "resolved"
   },
   {
     "id": "SG-PLAY-opening-economy-fallback",

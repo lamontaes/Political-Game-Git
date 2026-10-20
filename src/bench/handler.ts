@@ -88,7 +88,7 @@ import type { CoreState } from "../core2/types";
 import { benchProgress } from "./progress";
 import { townPlaces, visitPlace } from "./places";
 import { lawChanges } from "./changes";
-import { choiceName, policyNames } from "./words";
+import { actionNames, choiceName, policyNames } from "./words";
 import controls from "./data/controls.json" with { type: "json" };
 
 // This is a reference to engine-owned state, not a parallel state or writer.
@@ -608,7 +608,11 @@ export async function benchRequest(
         return;
       }
       if (request.method === "GET" && url.pathname === "/api/controls") {
-        send(200, { ...controls, policyNames: policyNames() });
+        send(200, {
+          ...controls,
+          actions: actionNames(),
+          policyNames: policyNames(),
+        });
         return;
       }
       if (request.method === "GET" && url.pathname === "/api/progress") {

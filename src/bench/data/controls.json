@@ -1,28 +1,5 @@
 {
   "about": "Control names for the play screen: what each choice button does and the label for what ended a skip, named like any other control. They are not lines anyone says; the English engine's words replace them when it has them.",
-  "stopgapId": "SG-PLAY-act-control-names",
-  "actions": {
-    "work-shift": "Go to work",
-    "rest": "Rest",
-    "contact-known-person": "Get in touch",
-    "care-for-relative": "Look after",
-    "join-association": "Join",
-    "organize-meeting": "Hold a meeting",
-    "approach-office": "Visit the office",
-    "look-up-local-institution": "Look up",
-    "office-hours": "Office hours",
-    "town-hall": "Town hall",
-    "interview": "Interview",
-    "meet-department-head": "Meet",
-    "name-department-head": "Name a department head",
-    "talk-to-colleague": "Talk about your bill",
-    "vote": "Vote",
-    "sign": "Sign",
-    "veto": "Veto",
-    "case": "Case",
-    "speak": "Spoke",
-    "state-of-the-city": "State of the city"
-  },
   "endedBy": {
     "start": "Shift starts",
     "end": "Shift ends",
