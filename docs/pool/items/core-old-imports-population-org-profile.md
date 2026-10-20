@@ -5,11 +5,12 @@ area: core
 kind: cleanup
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/political-game-pool-yucp92-nn
 pr:
 blocked-on:
 source: split from core-old-imports-population
+claimed-at: 2026-10-20T04:37:00.905Z
 ---
 
 **What.** The opening asks the old life-queries module for each organization's latest profile record (organizationProfileAt). The opening population builder in src/core2/population.ts still builds a whole old-engine World first and reads these pieces from src/simulation. Move only what the opening uses into the core as data and small functions, and delete nothing the old engine still needs until core-delete-old-engine. Nothing new is added to the old engine.
