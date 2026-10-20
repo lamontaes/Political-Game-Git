@@ -5,7 +5,7 @@ area: people
 kind: owner-decision
 priority: 3
 size: S
-status: blocked
+status: done
 claimed-by:
 pr:
 blocked-on: owner
