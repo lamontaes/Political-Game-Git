@@ -13,7 +13,7 @@ source: added with npm run pool -- add
 claimed-at:
 ---
 
-**What.** An allocation profile of a played year in Discovery Harbour, Hawaii (seed m7a, 23 GB allocated) puts the cash journal's posting functions at about 14 percent of allocation: postCashJournal, projectCashJournal, volumes, portfolios and plusTotals. plusTotals and volumes build BigInt values for every posting and owner total only to check that a sum of whole minor amounts stays exact, which a safe-integer check on the plain sum does equally well.
+**What.** An allocation profile of a played year in Discovery Harbour, Hawaii (seed m7a, 23 GB allocated) puts the cash journal's posting functions at about 14 percent of allocation: postCashJournal, projectCashJournal, volumes, portfolios and plusTotals. plusTotals and volumes build BigInt values for every posting and owner total only to check that a sum of whole minor amounts stays exact, which a safe-integer check on the plain sum does equally well. A later CPU profile shows this is not worth doing (see the notes).
 
 **Rules.** Every dollar must still balance (the journal tests are the check); Speed: no change may make a year more than 20 percent slower, and a year in the dense town must come under two minutes.
 
