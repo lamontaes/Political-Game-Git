@@ -46,6 +46,7 @@ import { lawChain } from "./modules/laws";
 import { OFFICES_MODULE_ID, type TermRow } from "./modules/offices";
 import {
   billOf,
+  committeeHearingsOn,
   leanOf,
   memberKey,
   members,
@@ -54,6 +55,7 @@ import {
 } from "./modules/legislature";
 import {
   COMMITTEES,
+  committeeAssignment,
   committeeRoster,
   leaderOf,
   LEADERSHIP_MODULE_ID,
@@ -535,6 +537,43 @@ function spendTime(
   return touched;
 }
 
+/**
+ * What a member at a committee sits through: the record that seated the
+ * committee (who assigned it, and when) and each hearing it held that day,
+ * with the bill, the chair, the witnesses and the vote. Written into the
+ * entry's reasons; the ids it returns are the records read.
+ */
+function committeeSitting(
+  api: CoreAPI,
+  entry: StateDayEntry,
+  reasons: Record<string, number | string>,
+): string[] {
+  const [chamber, committee] = splitCommittee(entry.subject);
+  const ids: string[] = [];
+  const seated = committeeAssignment(api, chamber, committee);
+  if (seated) {
+    ids.push(seated.id);
+    reasons["assignedBy"] = seated.assignedBy;
+    reasons["seatedSince"] = seated.since;
+  }
+  for (const hearing of committeeHearingsOn(
+    api,
+    chamber,
+    committee,
+    entry.date,
+  )) {
+    ids.push(hearing.id);
+    reasons[`hearing:${hearing.id}`] = hearing.heard ? "heard" : "held";
+    reasons[`chair:${hearing.id}`] = hearing.chairId;
+    reasons[`bill:${hearing.id}`] = hearing.billId;
+    reasons[`witnesses:${hearing.id}`] = hearing.witnesses
+      .map((w) => w.personId)
+      .join(",");
+    reasons[`vote:${hearing.id}`] = `${hearing.yes}-${hearing.no}`;
+  }
+  return ids;
+}
+
 /** The state's treasury, or the outside payer standing for another state's. */
 function stateTreasury(api: CoreAPI, stateKey: string): string {
   if (api.state.modules.has(BUDGETS_MODULE_ID)) {
@@ -582,6 +621,13 @@ export function actOn(
           ...spendTime(api, entry.holderId, room(api, entry, office), sourceId),
         );
       }
+      // A member at their committee learns where they sit, and what it heard
+      // that day, from the records that seated and convened it.
+      if (
+        chosen.attend &&
+        (entry.kind === "committee" || entry.kind === "interim-committee")
+      )
+        recordIds.push(...committeeSitting(api, entry, reasons));
       if (entry.kind === "floor-session")
         table(api, "attendance").put({
           id: `${entry.holderId}:${entry.date}`,
