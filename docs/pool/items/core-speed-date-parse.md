@@ -24,3 +24,5 @@ claimed-at:
 **Notes.** TODO
 
 Sent back 2026-10-20 from PR #5381 (branch claude/speed-date-parse): see the Cloud merger comment on that PR for the exact reason; finish on that branch, merge main into it first.
+
+Sent back 2026-10-20 from PR #5381 (branch claude/speed-date-parse): The body explicitly says the done-when profile was not run: core-speed-date-parse requires a seed-m7b played-year profile with makeIsoDate and epochDayOf together below 1 percent. A microbenchmark and a combined timing with three other PRs do not supply that proof. Run and report the named profile on this merged head before completing the item.; finish on that branch, merge main into it first.
