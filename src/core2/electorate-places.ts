@@ -13,6 +13,7 @@ import COUNTY_PRESIDENTIAL from "./data/county-presidential-2024.json" with { ty
 import PLACE_CITIZENSHIP from "./data/place-citizenship-2024.json" with { type: "json" };
 import calibration from "../../data/source/electoral-calibration-2024/corpus.json" with { type: "json" };
 import delegates from "../../data/research/elections/house-delegates-2024.json" with { type: "json" };
+import legislativeResults from "../../data/research/elections/state-legislative-results-2024.json" with { type: "json" };
 import { partySide } from "./appointments";
 import { campaignParameter } from "./campaign-views";
 import { parameter } from "./parameters";
@@ -365,7 +366,9 @@ export function legislativePlace(
 ): ElectoratePlace | null {
   const votes = stateTwoPartyVotes(usps) / Math.max(1, districts);
   if (!votes) return null;
+  const own = legislativeDistrictShare(usps, seatKey);
   const share =
+    own ??
     ownRightShare ??
     0.5 + holderSide * campaignParameter("legislativeSeatMargin");
   return makePlace(
@@ -374,11 +377,36 @@ export function legislativePlace(
     usps,
     votes * (1 - share),
     votes * share,
-    ownRightShare === null
-      ? `${CLERK} (state two-party vote over its districts; the holder's party at the typical margin)`
-      : `${CLERK} (state two-party vote over its districts; the town's county's 2024 lean)`,
+    own !== null
+      ? `${CLERK} (state two-party vote over its districts; the district's own 2024 general election result)`
+      : ownRightShare === null
+        ? `${CLERK} (state two-party vote over its districts; the holder's party at the typical margin)`
+        : `${CLERK} (state two-party vote over its districts; the town's county's 2024 lean)`,
     holderSide,
   );
+}
+
+/**
+ * The Republican share of the two-party vote in a seat's own district at the
+ * 2024 general election, from the district-by-district returns; null where
+ * the district had none or only one major party ran (an unopposed seat's
+ * count says nothing about how its voters split).
+ * The seat key is `seat:<state>:<upper|lower|unicameral>:<district>:<member>`.
+ */
+export function legislativeDistrictShare(
+  usps: string,
+  seatKey: string,
+): number | null {
+  const [, , chamber, district] = seatKey.split(":");
+  if (!chamber || district === undefined) return null;
+  const row = (
+    legislativeResults.states as unknown as Record<
+      string,
+      Record<string, Record<string, readonly number[]>> | undefined
+    >
+  )[usps]?.[chamber === "lower" ? "state-lower" : "state-upper"]?.[district];
+  if (!row || !row[0] || !row[1]) return null;
+  return row[1] / (row[0] + row[1]);
 }
 
 /** The county place a town's counties fall in, from its recorded county names. */

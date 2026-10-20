@@ -1269,7 +1269,7 @@
     "file": "src/core2/modules/world-races.ts",
     "line": 682,
     "whatItFakes": "A race the town doesn't vote in is counted on the counted residents' engine at a coarser level (a House district's, the state's counties', a legislative district's eligible voters, voting as the town's counted residents would on each place's 2024 lean), but its candidates are each party's typical candidate (the holder stands for their party with the typical campaign) rather than people with records, and a state legislative district with no read result is the state's vote over its districts leaning to its holder's party at the typical margin.",
-    "why": "Fictional candidates with records for every seat in the country aren't built (PEOPLE's who runs), and state legislative district results aren't read.",
+    "why": "Fictional candidates with records for every seat in the country aren't built (PEOPLE's who runs). State legislative district results are read from the MIT Election Lab's 2024 precinct returns (gov-legislative-district-results-2024, Oct 20, 2026: 4,867 district results in 41 states, 3,067 contested); a district in a state absent from that file (Alabama, Arizona, Indiana, Louisiana, Maryland, Mississippi, New Jersey, Virginia, Washington and others), or unopposed by one major party, still leans to its holder's party at the typical margin, now sourced (campaigns legislativeSeatMargin).",
     "addedBy": "OPUS-GOV",
     "addedAt": "2026-10-12",
     "replacement": "Each race's candidates as fictional people with records and campaigns, and each legislative district's own 2024 result.",

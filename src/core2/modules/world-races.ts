@@ -652,7 +652,7 @@ function racesIn(api: CoreAPI, year: number): readonly Race[] {
       incumbentParty: holder?.party ?? null,
       leanSource: house
         ? "2024 House vote in the district"
-        : "the state's 2024 two-party vote over its districts, the holder's party at the typical margin",
+        : "the district's own 2024 general election, else the state's 2024 two-party vote over its districts at the holder's typical margin",
       seatedOn: house
         ? congressStart
         : (holder?.endDate ?? `${year + 1}-01-01`),

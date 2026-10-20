@@ -555,8 +555,8 @@
     "legislativeSeatMargin": {
       "value": 0.12,
       "tag": "ESTIMATED",
-      "source": "How far a state legislative district without a read result leans to its holder's party, in two-party share: the median state legislative general election margin is about 25 points (Ballotpedia, 'Margin of victory analysis for the 2024 state legislative elections'), so about 0.12 of share.",
-      "spread": [0.05, 0.2]
+      "source": "How far a state legislative district without a read result (a state absent from the 2024 returns, or a district unopposed by one of the major parties) leans to its holder's party, in two-party share: the median distance from an even split across the 3,067 contested 2024 state legislative districts in 41 states is 0.1195 of share, quartiles 0.062 and 0.198 (MIT Election Data and Science Lab, State Precinct-Level Returns 2024, compiled in data/research/elections/state-legislative-results-2024.json). Read only where the district's own result is missing (src/core2/electorate-places.ts legislativePlace).",
+      "spread": [0.06, 0.2]
     },
     "primaryTurnoutCost": {
       "value": 1.15,
