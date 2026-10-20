@@ -5,12 +5,12 @@ area: world
 kind: bug
 priority: 3
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/fs11vb-arrears
 pr: #5524
 blocked-on:
 source: added with npm run pool -- add
-claimed-at:
+claimed-at: 2026-10-20T16:56:36.284Z
 ---
 
 **What.** Add a bound or write-off for arrears that retry daily and grow forever for jobless households, add a test for it, measure a dense-town year, and close #4937 as a duplicate.
