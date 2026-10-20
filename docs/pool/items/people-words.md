@@ -4,13 +4,13 @@ title: "Words:"
 area: people
 kind: feature
 priority: 2
-status: in-pr
-claimed-by: claude/political-game-pool-76ksvw
+status: open
+claimed-by:
 pr: #5180
 blocked-on:
 milestone:
 source: "docs/coordination/OPUS-PEOPLE.md line 19 (unchecked checklist line)"
-claimed-at: 2026-10-19T21:55:12.861Z
+claimed-at:
 ---
 
 **What.** Two Words pieces remain from the press work: the interview lines (reporter questions as plain, further, turn, brief and the lie) and the printed-story row in bring-it-up (SG-PEOPLE-press-bring-it-up-row). The bank for interviews is `data/english/parts/interview.json` and the bring-it-up rows are `src/director/data/bring-it-up-rows.json`. PR #4156 (as of 2026-10-15) has no pool item; check whether it has merged. The player would notice a reporter asking real questions and neighbors mentioning what the paper printed.
