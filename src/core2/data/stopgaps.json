@@ -3613,18 +3613,6 @@
     "status": "open"
   },
   {
-    "id": "SG-GOV-justice-prosecutor-stand-in",
-    "kind": "missing-data",
-    "file": "src/core2/justice-law.ts",
-    "line": 88,
-    "whatItFakes": "A state prosecutor's office where the offices data has neither a county prosecutor covering the town nor an elected attorney general.",
-    "why": "Appointed attorneys general and territorial prosecutors are not in the offices data.",
-    "addedBy": "OPUS-GOV",
-    "addedAt": "2026-10-14",
-    "replacement": "Appointed attorneys general and territorial attorneys general as offices in the offices data, with their appointing rule.",
-    "status": "open"
-  },
-  {
     "id": "SG-GOV-justice-bribery-grade",
     "kind": "assumed-data",
     "file": "src/core2/justice-law.ts",

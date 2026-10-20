@@ -48,8 +48,9 @@ function servingTerm(api: CoreAPI, officeId: string): TermRow | undefined {
 
 /**
  * The town's prosecutor: the county's elected prosecutor where the offices
- * data has one, else the state attorney general (who prosecutes statewide in
- * the states with no county prosecutor), else a stand-in office.
+ * data has one, else the state attorney general (elected, or appointed where
+ * the state appoints; who prosecutes statewide in the states with no county
+ * prosecutor).
  */
 export function prosecutorFor(api: CoreAPI): ProsecutorOffice {
   const chain = lawChain(api);
@@ -86,22 +87,9 @@ export function prosecutorFor(api: CoreAPI): ProsecutorOffice {
         : { tag: "SOURCED", citation: office.source, asOf: date },
     };
   }
-  // stopgapId: SG-GOV-justice-prosecutor-stand-in
-  api.stopgap("SG-GOV-justice-prosecutor-stand-in");
-  return {
-    officeId: `prosecutor:${chain.stateKey}`,
-    level: "state",
-    termId: null,
-    personId: null,
-    party: null,
-    source: {
-      tag: "ESTIMATED",
-      citation:
-        "The state's prosecutor, standing in where the offices data has neither a county prosecutor nor an attorney general.",
-      asOf: date,
-      estimatedFrom: "SG-GOV-justice-prosecutor-stand-in",
-    },
-  };
+  throw new Error(
+    `No prosecutor office covers ${chain.stateKey}: the offices data has neither a county prosecutor nor an attorney general.`,
+  );
 }
 
 interface DispositionRow {
