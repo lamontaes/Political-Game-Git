@@ -13,6 +13,7 @@
  * or federal office has no counter in the town: the role stays unfilled, and
  * the scene says so by the reach report, never by an invented clerk.
  */
+import { P } from "../core2/parameters";
 import { coreAPI } from "../core2/state";
 import type { CoreAPI, CoreState, PersonId } from "../core2/types";
 import {
@@ -139,7 +140,10 @@ export function civicFill(
       const outlet = row ? null : townOutlet(api);
       return free(
         living(core, [
-          row?.reporterId ?? outlet?.reporterIds[0] ?? outlet?.headId ?? null,
+          row?.reporterId ??
+            outlet?.reporterIds.at(P.zero) ??
+            outlet?.headId ??
+            null,
         ]),
       );
     }
