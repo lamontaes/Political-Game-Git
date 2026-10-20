@@ -5,12 +5,12 @@ area: core
 kind: wiring
 priority: 3
 size: S
-status: open
-claimed-by:
+status: in-pr
+claimed-by: claude/moves-unread
 pr: #4978
 blocked-on:
 source: added with npm run pool -- add
-claimed-at:
+claimed-at: 2026-10-20T16:19:13.942Z
 ---
 
 **What.** In a one-year run of the played world (Parrott, Virginia (5160840), seed 0ad0af8699c4, `node --import tsx scripts/core2-year/table-trace.ts 0ad0af8699c4 365`), the counted-moves engine writes each month's pulls, state rows and household moves and no other engine reads them in the traced year: `core2-counted-moves-v1/moves` (140 rows), `core2-counted-moves-v1/pulls` (62 rows), `core2-counted-moves-v1/states` (56 rows). An effect is a read, so a table written and read by no other engine is a record that does nothing. Check first whether a screen reads it (the headless run does not open screens); if one does, say so in the item and close it; otherwise give the table a reader that decides something, or delete the writer and the table in the same change.

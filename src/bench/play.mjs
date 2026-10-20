@@ -1297,9 +1297,15 @@ async function campaignRows() {
     causes,
     debates,
   } of v.campaigns) {
-    const goOut = async (outing) => {
+    const goOut = async (outing, outletId) => {
+      const kindOf = {
+        doors: "canvass",
+        calls: "raise-money",
+        event: "event",
+        interview: "interview",
+      };
       const result = await post(
-        `/api/campaign/day?${new URLSearchParams({ filingId: filing.id, kind: outing === "doors" ? "canvass" : "raise-money" })}`,
+        `/api/campaign/day?${new URLSearchParams({ filingId: filing.id, kind: kindOf[outing], ...(outletId ? { outletId } : {}) })}`,
       );
       campaignResult = [
         controls.campaignOutings[outing],
@@ -1375,7 +1381,9 @@ async function campaignRows() {
               textContent: `${controls.campaignOutings[choice.outing]} · ${choice.hours} ${controls.campaignOutings.hours}`,
               disabled: !choice.available,
             });
-            b.addEventListener("click", () => goOut(choice.outing));
+            b.addEventListener("click", () =>
+              goOut(choice.outing, choice.outletId),
+            );
             return b;
           }),
         ),
@@ -3749,6 +3757,14 @@ const sheets = {
     // The key people the opening names: one list for both screens.
     const keyPeople = v.keyPeople.map((k) => {
       const line = row(k.officeTitle, k.name);
+      // The President and Vice President a territory's voters do not choose.
+      if (k.chosenByHere === false)
+        line.append(
+          el("span", {
+            className: "label",
+            textContent: controls.politics.notChosenHere,
+          }),
+        );
       // Play anyone: a resident officeholder can be taken over (bench only).
       if (k.resident && k.personId !== me.id) {
         const b = el("button", {

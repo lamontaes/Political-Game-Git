@@ -5,7 +5,7 @@ area: people
 kind: research
 priority: 3
 size: S
-status: in-pr
+status: done
 claimed-by: claude/homeschool-error-bars
 pr: #5608
 blocked-on:

@@ -5,7 +5,7 @@ area: play
 kind: feature
 priority: 2
 size: S
-status: in-pr
+status: done
 claimed-by: claude/play-mark-gap
 pr: #5204
 blocked-on:
