@@ -62,6 +62,23 @@ export interface PlannedAct {
 const plans = new WeakMap<CoreState, Map<IsoDate, PlannedAct[]>>();
 registerWorldMapPart("core2-free-block-plans", plans);
 
+/** Effects that are one conversation: planned once, and not offered again while planned. */
+const ONCE_EFFECTS = new Set<string>(FREE_BLOCK_DATA.oncePerPlanEffects);
+const plannedOnce = new WeakMap<CoreState, Map<string, Set<string>>>();
+registerWorldMapPart("core2-free-block-planned-once", plannedOnce);
+
+/** Whether the person has this act planned for a later day already (the plan runs it; the act's own record takes over after). */
+export function isPlannedOnce(
+  core: CoreState,
+  personId: string,
+  effect: string,
+  targetId: string,
+): boolean {
+  return (
+    plannedOnce.get(core)?.get(personId)?.has(`${effect}|${targetId}`) ?? false
+  );
+}
+
 /** Acts planned for this date, removed from the plan as they are handed out. */
 export function takePlannedActs(
   core: CoreState,
@@ -95,6 +112,13 @@ export function runDuePlannedActs(core: CoreState): number {
 }
 
 function keep(core: CoreState, act: PlannedAct): void {
+  if (ONCE_EFFECTS.has(act.offer.definition.effect)) {
+    let byPerson = plannedOnce.get(core);
+    if (!byPerson) plannedOnce.set(core, (byPerson = new Map()));
+    let set = byPerson.get(act.personId);
+    if (!set) byPerson.set(act.personId, (set = new Set()));
+    set.add(`${act.offer.definition.effect}|${act.offer.targetId}`);
+  }
   let byDate = plans.get(core);
   if (!byDate) {
     byDate = new Map();

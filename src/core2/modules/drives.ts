@@ -1,3 +1,4 @@
+import { isPlannedOnce } from "../free-block";
 import drivesJson from "../data/drives.json" with { type: "json" };
 import { daysBetween, makeIsoDate } from "../kernel/dates";
 import { chooseAct } from "../choice";
@@ -1405,6 +1406,7 @@ export function createDrivesModule(
           const id = ids.find(
             (id) =>
               !drive.told.has(id) &&
+              !isPlannedOnce(api.state, actor.id, action.effect, id) &&
               id !== actor.id &&
               api.state.people.get(id)?.alive,
           );
