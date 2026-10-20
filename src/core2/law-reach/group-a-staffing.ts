@@ -16,8 +16,13 @@ import type {
 } from "../types";
 import type { ModuleRow } from "../module-data";
 import type { PolicyHandler } from "./host";
-import { BUDGETS_MODULE_ID, governments } from "../modules/budgets";
-import { baseLine, budgetToday } from "./group-a-money";
+import {
+  BUDGETS_MODULE_ID,
+  governments,
+  lineBeforeBill,
+} from "../modules/budgets";
+import { countedStaffOf } from "../modules/residents";
+import { budgetToday } from "./group-a-money";
 import {
   ageOn,
   currentStaff,
@@ -44,6 +49,8 @@ interface StaffingRow {
   readonly positions: number;
   readonly lawId: string;
   readonly setOn: string;
+  /** The fiscal year the base staff was taken in; a new year starts from the staff then in place. */
+  readonly fiscalYear?: number;
 }
 
 /** The staffing a budget line funds at one employer, if a change has set it. */
@@ -68,7 +75,9 @@ export const staffing: PolicyHandler = (api, change) => {
   const gov = governments(api).find((g) => g.level === change.level);
   const budget = gov ? budgetToday(api, gov) : null;
   if (!gov || !budget) return;
-  const base = baseLine(api, gov, budget, line);
+  // The line before this year's own budget bill: the amount the staff in place
+  // was sized for, so a bill's raise or cut reaches the people it funds.
+  const base = lineBeforeBill(api, gov, budget.fiscalYear, line);
   if (base <= 0) return;
   const ratio = (budget.spendingMinor[line] ?? 0) / base;
   const employers = townOrganizations(api, rule.employers);
@@ -79,8 +88,12 @@ export const staffing: PolicyHandler = (api, change) => {
   for (const organizationId of funded) {
     const held = staffingOf(api, change.key, organizationId);
     const baseStaff =
-      held?.baseStaff ??
-      (employers.length ? currentStaff(api, organizationId).length : 0);
+      held?.fiscalYear === budget.fiscalYear
+        ? held.baseStaff
+        : employers.length
+          ? currentStaff(api, organizationId).length +
+            countedStaffOf(api.state as CoreState, organizationId)
+          : 0;
     // With no such employer in the town (a county jail elsewhere), the
     // government's record carries the positions the change funds or cuts.
     const positions = employers.length
@@ -95,6 +108,7 @@ export const staffing: PolicyHandler = (api, change) => {
       positions,
       lawId: change.lawId,
       setOn: api.state.date,
+      fiscalYear: budget.fiscalYear,
     };
     table.put(row as unknown as ModuleRow);
     writeRows(api, change.key, change.lawId, specOf(change.key, "positions"), [
@@ -214,20 +228,23 @@ onReachCalendar(STAFFING_KIND, (api, work) => {
   ) as unknown as StaffingRow | undefined;
   if (!row) return;
   const staff = currentStaff(api, row.organizationId);
+  // The district's counted workers fill positions too: the round hires or
+  // lays off named staff only for what the funded positions leave over.
+  const counted = countedStaffOf(api.state as CoreState, row.organizationId);
   const target = Math.round(row.positions);
   const hired: string[] = [];
   const laidOff: string[] = [];
-  if (target > staff.length && staff.length) {
+  if (target > staff.length + counted && staff.length) {
     const template = staff[0]!;
     for (const personId of candidates(api)) {
-      if (staff.length + hired.length >= target) break;
+      if (staff.length + counted + hired.length >= target) break;
       if (hire(api, row, personId, template, work.source)) hired.push(personId);
       else break;
     }
-  } else if (target < staff.length) {
+  } else if (target < staff.length + counted) {
     // The newest hires go first.
     for (const s of [...staff].reverse()) {
-      if (staff.length - laidOff.length <= target) break;
+      if (staff.length + counted - laidOff.length <= target) break;
       if (!api.state.people.has(s.personId)) continue;
       api.endJob(s.jobId, work.key);
       laidOff.push(s.personId);

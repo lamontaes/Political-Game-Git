@@ -27,6 +27,11 @@ The CTO's only writer. When two rulings conflict, the most recent wins unless th
 - **Memory** (`core-memory-election-log-growth`): after a year, keep the summary and reasons of the player's routine decisions, not every detail.
 - **The Mac update dialog** (`core-stopgap-main-player-text-gap`): its words come from the English engine, like all player text.
 
+- **Models (owner, Oct 20; replaces the Oct 15 "Sonnet only" rule):** a big cross-system job runs as an Opus lead session with Sonnet helpers: "start an Opus cloud session and allow it Sonnet helpers" (laws), then the same for the effect web and traits, "with 8 helpers". Builders and fixers run on whatever the owner picks for the job ("I can do 2 Opus sessions or 4 Sonnet"). The CTO may use Sonnet helpers for research and audits ("up to 5 Sonnet subagents").
+- **Merging (owner, Oct 20; replaces "only the CTO merges"):** merger sessions merge (Antigravity lanes, Codex, Claude cloud mergers) under `.agents/skills/merger/SKILL.md`, each in its own share. The CTO audits their merges and fixes the skill when a merger slips ("Look at the mistakes Codex has made before on merges... Fix the merging skill"). Nobody merges their own PR; the CTO merges only its own docs, skill and pool PRs.
+- **Usage (owner, Oct 20):** at 83% of the weekly limit he chose "wiring only, lean": the three wiring sessions keep going at three helpers each; pool builders and the pool feeder pause until the weekly reset or his word.
+- **Agent instructions (owner, Oct 20):** keep every skill and doc current, create the skills the work needs and delete dead ones, following Anthropic's guidance; "this will help me perpetually."
+
 ## Ruled by the CTO overnight, October 14, 2026 (from standing rules; the owner may overrule)
 
 - **Counted people keep about 30 bytes each in packed columns** (two-tier package) rather than being regenerated from the seed as the MEMORY-FLAT package said; the newer design meets the memory goal (heap after opening 766 MB to 451 MB) and the year halves (146 s to 72 s in Robbins). Conflict flagged; newest wins.
@@ -196,6 +201,8 @@ The CTO's only writer. When two rulings conflict, the most recent wins unless th
 - The CTO holds a batch whose scenes are mostly repeats of the same few situations, the same way it holds one with record defects.
 
 ## Oct 15, afternoon: usage (owner, repeated; now written)
+
+Replaced on Oct 20 (see "Oct 20: rulings"): Opus leads with Sonnet helpers are allowed, and merger sessions merge. Kept below for the record.
 
 - Sonnet is the only Claude model that builds, reviews or merges. No Opus sessions or sub-agents of any kind.
 - The CTO session answers the owner and prepares orders, rulings, skills and reports. It never merges, reads diffs, logs or test output, runs tests, creates PRs or holds PR subscriptions; a Sonnet helper does those and returns a table.
