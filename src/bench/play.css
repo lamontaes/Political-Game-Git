@@ -1151,6 +1151,10 @@ body.dev .dev-ring {
   overflow: hidden;
   max-width: 760px;
 }
+/* A page of a plain list: the rows of the other pages are out of the box. */
+.paged-out {
+  display: none !important;
+}
 #sheet-pager {
   flex: none;
   margin-top: 12px;
@@ -1158,11 +1162,14 @@ body.dev .dev-ring {
 #sheet-pager:not([hidden]) {
   display: flex;
 }
-/* A long screen reads in two columns. */
+/* A long screen reads in two columns. Columns fill to the box's height and flow
+   sideways, so the pager turns them; balanced columns of no set height let a
+   page run past the box. */
 #sheet-body.cols {
   max-width: none;
   columns: 2 420px;
   column-gap: 48px;
+  column-fill: auto;
 }
 #sheet-body > * {
   break-inside: avoid;
@@ -2405,4 +2412,9 @@ body.dev .dev-ring {
   display: flex;
   gap: 16px;
   margin-top: 24px;
+}
+
+/* A line marked as a gap shows it took (play-mark-gap). */
+#talk-gap.marked {
+  opacity: 0.55;
 }

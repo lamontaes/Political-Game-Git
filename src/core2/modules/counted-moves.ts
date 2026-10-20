@@ -28,6 +28,7 @@ import {
 import { stateFigures, type RegionMonth } from "../regional-model";
 import { LAWS_MODULE_ID, lawInForce } from "./laws";
 import { REGIONAL_MODULE_ID } from "./regional";
+import { webFactorFor, type Subject } from "../outcome-web-reach";
 import {
   admitCountedHousehold,
   countedParameter,
@@ -52,7 +53,6 @@ import type {
 
 export const COUNTED_MOVES_MODULE_ID = "core2-counted-moves-v1";
 const TABLE = "moves";
-const STATES_TABLE = "states";
 const PULLS_TABLE = "pulls";
 
 /** Coarse age bands and the ACS bands each averages. */
@@ -423,6 +423,7 @@ function month(api: CoreAPI): void {
     }
     return row;
   };
+  const webCache = new Map<string, number>();
   const groupPulls = new Map<
     number,
     { total: number; byCause: Record<string, number>; people: number }
@@ -450,14 +451,41 @@ function month(api: CoreAPI): void {
     if (head.adults === 0) continue;
     // Each adult's own age sets their rate of leaving (ACS); the household
     // goes as one, at its adults' average, with its children.
-    let rates = 0;
+    let rates = 0,
+      adultAges = 0;
     for (const m of store.countedMembers(h)) {
       const age = ageOn(store.born[m]!, date);
-      if (age >= 18) rates += rateFor(home, acsBand(age));
+      if (age >= 18) {
+        rates += rateFor(home, acsBand(age));
+        adultAges += age;
+      }
+    }
+    // The outcome web's links land on this household by its adults' age,
+    // tenure, kind and income, as they land on a full person in town
+    // (moves.ts): the same factors, once per kind of household this month.
+    const group = store.groups[h.group]!;
+    const age = Math.round(adultAges / head.adults);
+    const webKey = `${h.placeId}|${h.group}|${age}`;
+    let web = webCache.get(webKey);
+    if (web === undefined) {
+      const subject: Subject = {
+        age,
+        tenure: h.tenure === "rent" ? "rent" : "own",
+        householdKind: group.kind,
+        incomeFifth: group.incomeBand,
+        work: group.work,
+      };
+      web =
+        webFactorFor(api, h.placeId, "population.out-migration", subject) *
+        (h.tenure === "rent"
+          ? webFactorFor(api, h.placeId, "housing.renter-moves", subject)
+          : 1);
+      webCache.set(webKey, web);
     }
     const weight =
       people *
       (rates / head.adults) *
+      web *
       Math.exp(-holdOf(residents, h, date)) *
       rt.holdNorm.get(h.placeId)!;
     const wages = Math.round(head.wages / 1000) * 1000;
@@ -729,9 +757,6 @@ function month(api: CoreAPI): void {
   rt.totals.set(monthKey, totals);
   for (const key of [...rt.totals.keys()].sort().slice(0, -3))
     rt.totals.delete(key);
-  const table = api.moduleState(COUNTED_MOVES_MODULE_ID).table(STATES_TABLE);
-  for (const [usps, people] of totals)
-    table.put({ id: usps, month: monthKey, people } as unknown as ModuleRow);
 }
 
 function countedPeople(residents: ResidentsRuntime): number {
@@ -1060,7 +1085,7 @@ export const COUNTED_MOVES_MODULE: CoreModule = {
   id: COUNTED_MOVES_MODULE_ID,
   state: {
     schemaVersion: 1,
-    tables: { [TABLE]: {}, [STATES_TABLE]: {}, [PULLS_TABLE]: {} },
+    tables: { [TABLE]: {}, [PULLS_TABLE]: {} },
   },
   onDay(api) {
     if (!api.state.date.endsWith("-01")) return;

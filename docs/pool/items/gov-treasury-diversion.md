@@ -5,12 +5,12 @@ area: gov
 kind: feature
 priority: 2
 size: M
-status: open
-claimed-by:
+status: in-pr
+claimed-by: claude/political-game-pool-76ksvw
 pr: #4587
 blocked-on:
 source: added with npm run pool -- add
-claimed-at:
+claimed-at: 2026-10-20T03:02:54.270Z
 ---
 
 **What.** An official can divert a budget line's money, recorded on the treasury's books. This work was sent back by the merger on 2026-10-16 and is open for any builder to finish. The reason it came back: merging main conflicts in src/core2/budgets-treasury.ts, src/core2/data/corruption/parameters.json (code or data, left for the author); resolve and push. Finish it on the existing branch claude/gov-treasury-diversion, after merging main into it with a plain merge.
@@ -34,3 +34,5 @@ Sent back 2026-10-16 from PR #4587 (branch claude/gov-treasury-diversion): The n
 Sent back 2026-10-16 from PR #4587 (branch claude/gov-treasury-diversion): src/core2/treasury-diversion.test.ts fails on this branch merged with current main: seed 7c3221f14c85aa8c: nobody took any in 8 places; finish on that branch, merge main into it first.
 
 Sent back 2026-10-17 from PR #4587 (branch claude/gov-treasury-diversion): Morning check: the new corruption.diversions table has no non-test reader (the PR explicitly defers its audit/complaint consumer). Wire it to an existing decision, audit, director or journal consumer, or remove the write-only table. The current test substitutes residents with registerGovernmentExecutive and manually funds the treasury; also provide the ordinary generated-world route using the actual officeholder and monthly treasury producer, with seed and record ids. The earlier skipped-test defect is fixed.; finish on that branch, merge main into it first.
+
+Sent back 2026-10-20 from PR #4587 (branch claude/gov-treasury-diversion): Morning check and test timeout: treasury-diversion.test.ts timed out, and corruption.diversions table has no non-test reader and no stopgap row; finish on that branch, merge main into it first.
