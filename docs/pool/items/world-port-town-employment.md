@@ -27,3 +27,5 @@ Oct 19 (claude/port-town-workplaces): the workplace tables half is done. Role, W
 
 Oct 20 (cto): sent back PR #5100. EntityId in src/core2/town-employment-mix.ts imported from ../simulation/types (old engine) instead of ./types. Pool item status was also dropped on main when stacked PR #5093 was dropped, causing merge conflict.
 
+
+Oct 20 (claude/port-town-employment): the labor-status half is done. `laborStatus`, `townResidents`, `activeWorkers`, `townOrganizationsOf`, `Resident`, `TownLaborStatus` and the working ages moved unchanged to src/core2/town-labor.ts; opening-employment.ts, population.test.ts and the five old readers import them there, and the old file keeps no copy. Still to port: `ensureTownEmployment`, `fillTownJobs`, `writeTownEmployer`, `townEmployerOutlets` (population.ts still imports `ensureTownEmployment`), and the mix half is in #5100.
