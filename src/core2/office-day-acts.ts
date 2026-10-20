@@ -41,7 +41,14 @@ import {
 } from "./modules/press";
 import { appoint, appointmentsIn, postsToFill } from "./modules/executive";
 import { lawChain } from "./modules/laws";
+import {
+  BUDGETS_MODULE_ID,
+  budgetPriorities,
+  governments,
+  setBudgetPriorities,
+} from "./modules/budgets";
 import { deliverSpeech } from "./modules/speech";
+import { cutRibbon, ribbonsToCut } from "./modules/projects";
 import { personLean, personStance, questionAxis } from "./campaign-views";
 import { POLICY_QUESTIONS } from "./policy-answers";
 import {
@@ -57,6 +64,7 @@ export const OFFICE_DUTY = "office-duty";
 const DEPARTMENT_HEAD = "department-head";
 const TOWN_POST = "town-post";
 const COLLEAGUE = "colleague";
+const PUBLIC_PROJECT = "public-project";
 
 const act = (
   id: string,
@@ -103,12 +111,14 @@ export const OFFICE_ACTS: readonly ActionDefinition[] = [
     ["cooperate", "follow-rules"],
     TOWN_POST,
   ),
+  act("propose-budget", "proposeBudgetActHours", ["follow-rules", "cooperate"]),
   act(
     "talk-to-colleague",
     "colleagueActHours",
     ["cooperate", "engage", "speak-out"],
     COLLEAGUE,
   ),
+  act("cut-ribbon", "ribbonActHours", ["engage", "speak-out"], PUBLIC_PROJECT),
 ];
 
 const HOURS = (
@@ -161,6 +171,27 @@ const LOCAL_PARAMETERS = {
     estimatedFrom: "The season most annual addresses fall in.",
     spread: [2, 6],
   },
+  proposeBudgetActHours: HOURS(
+    2,
+    "A mayor or county executive sending the budget to the council or board: the signing and transmittal take about two hours once the departments' requests are in.",
+    "Typical transmittal of an executive budget.",
+    [1, 6],
+  ),
+  budgetProposalLeadDays: {
+    value: 60,
+    tag: "ESTIMATED",
+    citation:
+      "How long before the fiscal year an executive sends the budget: the Government Finance Officers Association's budget-process practice has the proposal in the legislative body's hands well ahead of adoption, and city and county charters commonly set 60 to 90 days before the year starts.",
+    estimatedFrom:
+      "Common charter lead times before the fiscal year; no count of every place's charter exists.",
+    spread: [30, 120],
+  },
+  ribbonActHours: HOURS(
+    1,
+    "A ribbon-cutting ceremony: a short program, the cut and photographs, about an hour with travel.",
+    "Typical dedication or grand-opening ceremony length.",
+    [0.5, 2],
+  ),
   colleagueActHours: HOURS(
     0.5,
     "A member asking a colleague for their vote on a pending bill: a half-hour conversation, by phone or over coffee.",
@@ -250,6 +281,8 @@ export interface Prepared {
   readonly outletId?: string;
   /** The person the player names to a vacant town post, and the post, in place of the appointer's own first choice. */
   readonly nominee?: { readonly post: string; readonly personId: string };
+  /** The spending changes by budget line the executive sends with the budget. */
+  readonly budget?: { readonly changes: Readonly<Record<string, number>> };
   /** A deal to offer a colleague, by member, when talking about the player's bill. */
   readonly deals?: Readonly<Record<string, "favor" | "back-their-item">>;
 }
@@ -265,7 +298,9 @@ export function officeActProviders(host: OfficeActHost) {
     ): ActOffer[] =>
       holds(api, actor) &&
       (action.id !== "state-of-the-city" || addressDue(api, host, actor.id)) &&
-      (action.id !== "town-hall" || townHallDue(api, host, actor.id))
+      (action.id !== "town-hall" || townHallDue(api, host, actor.id)) &&
+      (action.id !== "propose-budget" ||
+        budgetProposalDue(api, host, actor.id) !== null)
         ? [
             {
               definition: action,
@@ -302,6 +337,19 @@ export function officeActProviders(host: OfficeActHost) {
         ? postsToFill(api, actor.id).map((post) => ({
             definition: action,
             targetId: post.key,
+            availableHours: api.parameter(action.effortParameter),
+          }))
+        : [],
+    // Each finished public work of the town's governments whose ribbon is still open.
+    [PUBLIC_PROJECT]: (
+      api: CoreAPI,
+      actor: Readonly<PersonState>,
+      action: ActionDefinition,
+    ): ActOffer[] =>
+      holds(api, actor)
+        ? ribbonsToCut(api).map((project) => ({
+            definition: action,
+            targetId: project.id,
             availableHours: api.parameter(action.effortParameter),
           }))
         : [],
@@ -353,6 +401,49 @@ function addressDue(
     executive &&
     !host.given(api, personId, "state-of-the-city", api.state.date.slice(0, 4))
   );
+}
+
+/**
+ * The government whose budget a mayor or county executive sends, while the
+ * season is open: within the lead time before its fiscal year starts, with no
+ * proposal from them in that year. Null when it is not their season.
+ */
+export function budgetProposalDue(
+  api: CoreAPI,
+  host: OfficeActHost,
+  personId: string,
+): { governmentId: string; fiscalYearStarts: string } | null {
+  if (!api.state.modules.has(BUDGETS_MODULE_ID)) return null;
+  const offices = api.moduleState("core2-offices-v1").table("offices");
+  const kind = host
+    .officesOf(api, personId)
+    .map(
+      (id) =>
+        (offices.get(id) as unknown as { kind: string } | undefined)?.kind ??
+        "",
+    )
+    .find((k) => EXECUTIVE_KINDS.has(k));
+  if (!kind) return null;
+  const level = kind === "mayor" ? "city" : "county";
+  const gov = governments(api).find((g) => g.level === level);
+  if (!gov) return null;
+  const year = Number(api.state.date.slice(0, 4));
+  const starts =
+    `${year}-${gov.fiscalYearStart}` > api.state.date
+      ? `${year}-${gov.fiscalYearStart}`
+      : `${year + 1}-${gov.fiscalYearStart}`;
+  const days = daysBetween(makeIsoDate(api.state.date), makeIsoDate(starts));
+  if (days <= 0 || days > api.parameter("budgetProposalLeadDays")) return null;
+  // Sent already this season (the lead time is the season's length).
+  const last = host.lastGiven(api, personId, "propose-budget");
+  if (
+    last &&
+    daysBetween(makeIsoDate(last), makeIsoDate(api.state.date)) <=
+      api.parameter("budgetProposalLeadDays")
+  )
+    return null;
+  if (budgetPriorities(api, gov.id)?.setBy === personId) return null;
+  return { governmentId: gov.id, fiscalYearStarts: starts };
 }
 
 /** A town hall is held on a cadence: not again until the interval has passed since the official's last. */
@@ -583,9 +674,53 @@ export function officeActHandlers(host: OfficeActHost) {
       host.clearPrepared(api, actorId, "state-of-the-city");
     },
     /**
+     * The executive sends the budget in its season: the player's changes by
+     * line where they made them, else the executive's own priorities by the
+     * budgets engine's rule (their lean on each line), which the council or
+     * board reads when it votes the budget at the year's start.
+     */
+    "propose-budget": (api: CoreAPI, actorId: string) => {
+      const due = budgetProposalDue(api, host, actorId);
+      if (!due) return;
+      const prepared = host.prepared(api, actorId, "propose-budget");
+      if (prepared?.budget)
+        setBudgetPriorities(api, {
+          governmentId: due.governmentId,
+          setBy: actorId,
+          changes: prepared.budget.changes,
+        });
+      host.keep(api, {
+        personId: actorId,
+        kind: "propose-budget",
+        how: prepared?.budget ? "did" : "own-choice",
+        recordId: prepared?.budget
+          ? `priorities:${due.governmentId}`
+          : `priorities:${due.governmentId}:executive-rule`,
+        position: null,
+        detail: `${due.governmentId} budget for the year starting ${due.fiscalYearStarts}`,
+      });
+      host.clearPrepared(api, actorId, "propose-budget");
+    },
+    /**
      * The appointing official fills a vacant town post: the candidate their
      * own reasons rank first, confirmed by the council where the form asks it.
      */
+    /** The ribbon of a finished public work is cut: a public record and a news item. */
+    "cut-ribbon": (api: CoreAPI, actorId: string, offer: ActOffer) => {
+      const ribbon = cutRibbon(api, {
+        projectId: offer.targetId,
+        cutBy: actorId,
+      });
+      if (!ribbon) return;
+      host.keep(api, {
+        personId: actorId,
+        kind: "cut-ribbon",
+        how: "did",
+        recordId: ribbon.projectId,
+        position: null,
+        detail: ribbon.projectId,
+      });
+    },
     "name-department-head": (
       api: CoreAPI,
       actorId: string,

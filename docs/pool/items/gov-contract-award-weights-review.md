@@ -5,11 +5,11 @@ area: gov
 kind: research
 priority: 2
 size: S
-status: claimed
+status: blocked
 claimed-by: claude/political-game-pool-yucp92-s
 pr:
 after:
-blocked-on:
+blocked-on: design: members need a second read of each firm before their traits can change a ranking; see the Notes
 milestone:
 source: "post-merge audit Oct 19 evening, item 7 (PR #5166)"
 claimed-at: 2026-10-20T01:27:02.279Z
@@ -24,3 +24,5 @@ claimed-at: 2026-10-20T01:27:02.279Z
 **Files.** src/core2/modules/contracts.ts, src/core2/data/contracts/parameters.json, src/core2/modules/legislature.ts
 
 **Notes.** Found in the post-merge audit of Oct 19 evening. Leave PR #5166 as merged.
+
+Reviewed Oct 20 (claude, claude/political-game-pool-yucp92-s), not fixed. Four drawn towns, 400 played days each, 106 awards (all with two or more bids): the cheapest bidder won 67, the largest won 72, and the members split between firms in only 11. In the other 95 every member ranked the same firm first. Why: price and workforce are the same for every member and rank the firms the same way whatever the weights' size; only the tie to the owner differs by member, and a member rarely knows a business owner (closeness is zero for strangers), so the officials' traits never change a ranking. The weights are therefore not the problem (a scale on a shared term cannot change who wins); the officials have too little to read. A fix needs a second read per member about each firm that most members hold, for example the member's closeness to the firm's workers, or whether the member or their household bought from it, and a record of which read decided each split. That is a design choice for the Government line (which reads count as the official's knowledge of a firm); build it as a new item once chosen. The cited weights keep their spreads.
