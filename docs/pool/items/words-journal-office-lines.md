@@ -5,10 +5,10 @@ area: words
 kind: feature
 priority: 1
 size: M
-status: claimed
+status: blocked
 claimed-by: claude/words-journal-office-lines
 pr:
-blocked-on:
+blocked-on: PR 5647 (words-authored-parts-shippable-sweep) is an unmerged draft, 'do not merge as is'; on main the journal lines still ship as authored shippable parts, so the slot is not empty and the rewritten test in the done-when does not exist yet. Needs the owner to grade the lines (the 5647 decision).
 source: added with npm run pool -- add
 claimed-at: 2026-10-20T11:05:11.595Z
 ---
