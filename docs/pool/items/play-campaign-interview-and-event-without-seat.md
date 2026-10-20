@@ -24,3 +24,5 @@ claimed-at:
 **Notes.** Filed by fs11vb from the Oct 20 merge audit, fix 4 (which allowed filing the gap as its own item).
 
 Sent back 2026-10-20 from PR #5710 (branch claude/fs11vb-ev): merging main conflicts in src/bench/campaign.ts, play.mjs and campaign-day-controls.test.ts: #5674 already added the event and interview days on main; finish on that branch, merge main into it first.
+
+Sent back 2026-10-20 from PR #5710 (branch claude/fs11vb-ev): docs/pool/items/play-campaign-interview-and-event-without-seat.md Done when requires both choices taken in a drawn buildBenchWorld with engine act/cause record ids. The revised test still uses setup() to build its own small world and permits the event to remain unavailable, and the body explicitly says no candidate could fund an event in the generated worlds tried. Filing the funding defect is useful but does not prove this item complete. Keep the unconditional interview assertions, finish the generated-world event path, and report both act/cause ids with the place and full seed before this item can be marked done.; finish on that branch, merge main into it first.
