@@ -5,12 +5,12 @@ area: gov
 kind: stopgap
 priority: 3
 size: S
-status: claimed
-claimed-by: claude/staff-hire-employed
-pr:
+status: in-pr
+claimed-by: claude/gov-staff-hire-employed
+pr: #5355
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-20T00:00:54.466Z
+claimed-at: 2026-10-20T00:54:06.270Z
 ---
 
 **What.** TODO

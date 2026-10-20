@@ -15,26 +15,13 @@
     "why": "OPUS-GOV's laws module keeps every level's law rows (series, jurisdiction, value, effectiveDate) and announces each phase as a law-took-effect event; a law measure is 1 when any level's latest row in force says yes."
   },
   "keptOutcomes": {
-    "crime.burglary": {
-      "scale": "rate",
-      "unit": "burglary victimizations per 1,000 households a year",
-      "national": 8.2,
+    "births.rate": {
+      "scale": "index",
+      "unit": "index, 100 at the place's own starting birth rate (the renewal engine's natality rates by age)",
       "source": {
-        "tag": "ESTIMATED",
-        "asOf": "2024-12-31",
-        "citation": "Bureau of Justice Statistics, Criminal Victimization 2024 (https://bjs.ojp.gov/document/cv24.pdf), as recorded in data/research/crime/roadmap-r38-victimization-reporting.json.",
-        "estimatedFrom": "The national 2024 NCVS household burglary rate; no state rate is recorded, so every place starts from the national figure."
-      }
-    },
-    "crime.robbery": {
-      "scale": "rate",
-      "unit": "robbery victimizations per 1,000 persons 12 and older a year",
-      "national": 2.2,
-      "source": {
-        "tag": "ESTIMATED",
-        "asOf": "2024-12-31",
-        "citation": "Bureau of Justice Statistics, Criminal Victimization 2024 (https://bjs.ojp.gov/document/cv24.pdf), as recorded in data/research/crime/roadmap-r38-victimization-reporting.json.",
-        "estimatedFrom": "The national 2024 NCVS robbery rate; no state rate is recorded, so every place starts from the national figure."
+        "tag": "SOURCED",
+        "citation": "The renewal engine's natality rates (data/research/renewal/natality-2023.json, natality-2024.json) are the base; the links move them proportionally.",
+        "asOf": "2024-07-01"
       }
     },
     "crime.assault": {
@@ -48,6 +35,39 @@
         "estimatedFrom": "The national 2024 NCVS assault rates; no state rate is recorded, so every place starts from the national figure."
       }
     },
+    "crime.burglary": {
+      "scale": "rate",
+      "unit": "burglary victimizations per 1,000 households a year",
+      "national": 8.2,
+      "source": {
+        "tag": "ESTIMATED",
+        "asOf": "2024-12-31",
+        "citation": "Bureau of Justice Statistics, Criminal Victimization 2024 (https://bjs.ojp.gov/document/cv24.pdf), as recorded in data/research/crime/roadmap-r38-victimization-reporting.json.",
+        "estimatedFrom": "The national 2024 NCVS household burglary rate; no state rate is recorded, so every place starts from the national figure."
+      }
+    },
+    "crime.property": {
+      "scale": "rate",
+      "unit": "property victimizations per 1,000 households a year",
+      "national": 97.6,
+      "source": {
+        "tag": "ESTIMATED",
+        "asOf": "2024-12-31",
+        "citation": "Bureau of Justice Statistics, Criminal Victimization, 2024 (https://bjs.ojp.gov/document/cv24.pdf), table 2, total property crime (burglary, trespassing, motor vehicle theft and other theft), legacy instrument.",
+        "estimatedFrom": "The national 2024 NCVS total property crime rate; Every place starts from the national figure; no place-level series is recorded, so each starts at the national level and the web moves it from there."
+      }
+    },
+    "crime.robbery": {
+      "scale": "rate",
+      "unit": "robbery victimizations per 1,000 persons 12 and older a year",
+      "national": 2.2,
+      "source": {
+        "tag": "ESTIMATED",
+        "asOf": "2024-12-31",
+        "citation": "Bureau of Justice Statistics, Criminal Victimization 2024 (https://bjs.ojp.gov/document/cv24.pdf), as recorded in data/research/crime/roadmap-r38-victimization-reporting.json.",
+        "estimatedFrom": "The national 2024 NCVS robbery rate; no state rate is recorded, so every place starts from the national figure."
+      }
+    },
     "crime.vandalism": {
       "scale": "index",
       "unit": "index, 100 at the place's own starting vandalism rate",
@@ -58,13 +78,147 @@
         "estimatedFrom": "Index form: 100 is where the place began; the links move it proportionally."
       }
     },
-    "births.rate": {
-      "scale": "index",
-      "unit": "index, 100 at the place's own starting birth rate (the renewal engine's natality rates by age)",
+    "health.mortality-55-64": {
+      "scale": "rate",
+      "unit": "deaths per 100,000 people ages 55 to 64 a year",
+      "national": 859.8,
       "source": {
-        "tag": "SOURCED",
-        "citation": "The renewal engine's natality rates (data/research/renewal/natality-2023.json, natality-2024.json) are the base; the links move them proportionally.",
-        "asOf": "2024-07-01"
+        "tag": "ESTIMATED",
+        "asOf": "2024-12-31",
+        "citation": "National Center for Health Statistics, Mortality in the United States: Provisional Data, 2025 (VSRR No. 44, https://www.cdc.gov/nchs/data/vsrr/vsrr044.pdf), table of final 2024 age-specific death rates, ages 55 to 64.",
+        "estimatedFrom": "The national final 2024 rate; Every place starts from the national figure; no place-level series is recorded, so each starts at the national level and the web moves it from there."
+      }
+    },
+    "health.youth-firearm-deaths": {
+      "scale": "rate",
+      "unit": "firearm deaths per 100,000 people ages 1 to 19 a year",
+      "national": 5.9,
+      "source": {
+        "tag": "ESTIMATED",
+        "asOf": "2023-12-31",
+        "citation": "CDC WONDER mortality data, 2021 to 2023, as reported by America's Health Rankings, Firearm Deaths among Children, ages 1 to 19 (https://www.americashealthrankings.org/explore/measures/firearm_deaths_children).",
+        "estimatedFrom": "The national 2021 to 2023 rate for ages 1 to 19; Every place starts from the national figure; no place-level series is recorded, so each starts at the national level and the web moves it from there."
+      }
+    },
+    "health.youth-firearm-suicide": {
+      "scale": "rate",
+      "unit": "firearm suicides per 100,000 people ages 10 to 19 a year",
+      "national": 3.0,
+      "source": {
+        "tag": "ESTIMATED",
+        "asOf": "2023-12-31",
+        "citation": "Johns Hopkins Center for Gun Violence Solutions and Center for Suicide Prevention analysis of final CDC data, Gun Suicides in the U.S., 2023 (reported by Stateline, https://stateline.org/2025/06/27/gun-suicides-in-us-reached-record-high-in-2023/): 1,252 gun suicides ages 10 to 19 in 2023; rate 3.0 for white youth and 3.3 for Black youth.",
+        "estimatedFrom": "About 3 per 100,000, between the two reported group rates of 3.0 and 3.3; the all-youth rate itself was not in the report text. Every place starts from the national figure; no place-level series is recorded, so each starts at the national level and the web moves it from there."
+      }
+    },
+    "housing.eviction": {
+      "scale": "share",
+      "unit": "eviction cases filed per 100 renter households a year",
+      "national": 7.6,
+      "source": {
+        "tag": "ESTIMATED",
+        "asOf": "2024-12-31",
+        "citation": "Eviction Lab, Eviction Tracking System 2024 report (https://evictionlab.org/ets-report-2024/): filing rate 7.6 percent across the tracked cities and full states.",
+        "estimatedFrom": "The rate across the places Eviction Lab tracks, not a count of the whole country. Every place starts from the national figure; no place-level series is recorded, so each starts at the national level and the web moves it from there."
+      }
+    },
+    "housing.rent": {
+      "scale": "level",
+      "unit": "median gross rent, dollars a month",
+      "national": 1406,
+      "source": {
+        "tag": "ESTIMATED",
+        "asOf": "2023-12-31",
+        "citation": "U.S. Census Bureau, American Community Survey 2023 1-year estimates, table B25064, median gross rent, United States (as listed in the Hawaii DBEDT databook, https://files.hawaii.gov/dbedt/economic/databook/2023-individual/14/140823.pdf).",
+        "estimatedFrom": "The national 2023 median; Every place starts from the national figure; no place-level series is recorded, so each starts at the national level and the web moves it from there."
+      }
+    },
+    "justice.federal-incarcerated-per-100k": {
+      "scale": "rate",
+      "unit": "federal prisoners per 100,000 U.S. residents",
+      "national": 43,
+      "source": {
+        "tag": "ESTIMATED",
+        "asOf": "2023-12-31",
+        "citation": "Bureau of Justice Statistics, Prisoners in 2023 (https://bjs.ojp.gov/document/p23st.pdf), as reported by USAFacts: 43 federal prisoners per 100,000 residents.",
+        "estimatedFrom": "The national 2023 rate, taken from a secondary report of the BJS tables; it is a national figure for every place."
+      }
+    },
+    "justice.pretrial-detained": {
+      "scale": "rate",
+      "unit": "people held in local jails without a conviction per 100,000 residents",
+      "national": 139.6,
+      "source": {
+        "tag": "ESTIMATED",
+        "asOf": "2023-06-30",
+        "citation": "Bureau of Justice Statistics, Jail Inmates in 2023 preliminary release (https://bjs.ojp.gov/preliminary-data-release-jails-2023): 467,600 of 664,200 people in local jails at midyear 2023 were unconvicted.",
+        "estimatedFrom": "467,600 divided by the 2023 U.S. resident population of about 335 million; the count includes people held for reasons other than a pending charge. Every place starts from the national figure; no place-level series is recorded, so each starts at the national level and the web moves it from there."
+      }
+    },
+    "labor.low-wage-jobs": {
+      "scale": "share",
+      "unit": "percent of workers paid less than $15 an hour",
+      "national": 15,
+      "source": {
+        "tag": "ESTIMATED",
+        "asOf": "2022-12-31",
+        "citation": "Economic Policy Institute press release on 2022 wages: more than 20 million workers, 15 percent of the workforce, paid less than $15 an hour (https://www.epi.org/press/new-report-finds-the-lowest-paid-workers-have-seen-historically-fast-wage-growth-since-2019/).",
+        "estimatedFrom": "The national 2022 share from Current Population Survey wage data; the 2023 national total was not found. Every place starts from the national figure; no place-level series is recorded, so each starts at the national level and the web moves it from there."
+      }
+    },
+    "labor.undocumented-employment": {
+      "scale": "share",
+      "unit": "percent of the labor force that is unauthorized immigrant workers",
+      "national": 4.8,
+      "source": {
+        "tag": "ESTIMATED",
+        "asOf": "2022-12-31",
+        "citation": "Pew Research Center estimate for 2022 from American Community Survey data: 8.3 million unauthorized immigrant workers, 4.8 percent of the U.S. labor force (cited in Economic Policy Institute, FAQ on unauthorized immigrants, https://files.epi.org/uploads/FAQ-Unauthorized-Immigrants-v5.pdf).",
+        "estimatedFrom": "The national 2022 share, taken from a secondary citation of the Pew estimate; Every place starts from the national figure; no place-level series is recorded, so each starts at the national level and the web moves it from there."
+      }
+    },
+    "labor.us-born-employment": {
+      "scale": "share",
+      "unit": "employment-population ratio of native-born people 16 and older, percent",
+      "national": 59.3,
+      "source": {
+        "tag": "ESTIMATED",
+        "asOf": "2024-12-31",
+        "citation": "Bureau of Labor Statistics, Foreign-Born Workers: Labor Force Characteristics, 2024 (https://www.bls.gov/news.release/forbrn.nr0.htm): native-born employment-population ratio 59.3 percent.",
+        "estimatedFrom": "The national 2024 ratio; Every place starts from the national figure; no place-level series is recorded, so each starts at the national level and the web moves it from there."
+      }
+    },
+    "labor.wages": {
+      "scale": "level",
+      "unit": "average hourly earnings of private employees, dollars",
+      "national": 35.69,
+      "source": {
+        "tag": "ESTIMATED",
+        "asOf": "2024-12-31",
+        "citation": "Bureau of Labor Statistics, Current Employment Statistics, Average Hourly Earnings of All Employees, Total Private (CES0500000003), seasonally adjusted, December 2024 (https://fred.stlouisfed.org/data/CES0500000003).",
+        "estimatedFrom": "The national December 2024 figure; Every place starts from the national figure; no place-level series is recorded, so each starts at the national level and the web moves it from there."
+      }
+    },
+    "school.hispanic-enrollment": {
+      "scale": "share",
+      "unit": "percent of public school students who are Hispanic",
+      "national": 28.9,
+      "source": {
+        "tag": "ESTIMATED",
+        "asOf": "2022-10-01",
+        "citation": "National Center for Education Statistics, Common Core of Data, fall 2022 public school enrollment by race and ethnicity: Hispanic 28.9 percent of 49.6 million students (https://nces.ed.gov/learn/press-release/nces-data-show-public-school-enrollment-held-steady-overall-fall-2022-fall-2023).",
+        "estimatedFrom": "The national fall 2022 share; Every place starts from the national figure; no place-level series is recorded, so each starts at the national level and the web moves it from there."
+      }
+    },
+    "voting.youth-turnout": {
+      "scale": "share",
+      "unit": "percent of citizens ages 18 to 29 who voted in the presidential election",
+      "national": 50.8,
+      "source": {
+        "tag": "ESTIMATED",
+        "asOf": "2024-11-05",
+        "citation": "U.S. Census Bureau, Voting and Registration in the Election of November 2024 (P20-590, https://www2.census.gov/library/publications/2026/demo/p20-590.pdf), table 2: 23,540 thousand voted of 46,380 thousand citizens ages 18 to 29.",
+        "estimatedFrom": "Computed from the table's counts for ages 18 to 29, because its age rows begin at 18 to 29; the link is researched for ages 18 to 24. Every place starts from the national figure; no place-level series is recorded, so each starts at the national level and the web moves it from there."
       }
     }
   },

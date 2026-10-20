@@ -5,11 +5,12 @@ area: core
 kind: owner-decision
 priority: 3
 size: S
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/memory-budget-decision
+pr: #5314
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-20T00:12:49.659Z
 ---
 
 **What.** SG-P8-work-result-retention marks the number of quiet weekly work rollups the game keeps before deleting them, and several parameters-file stopgaps of kind authored-memory-budget are the same: an engineering limit on memory, not a missing behavior. The question: may such a budget close as a TUNABLE parameter with the spread it was checked against, instead of staying an open stopgap that blocks the release build?
