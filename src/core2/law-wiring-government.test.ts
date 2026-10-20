@@ -39,7 +39,11 @@ import {
   type TermRow,
 } from "./modules/offices";
 import { lobbyingBarredUntil } from "./law-reach/group-a-voting";
-import { currentStaff, townOrganizations } from "./law-reach/group-a-records";
+import {
+  currentStaff,
+  townOrganizations,
+  yesLevels,
+} from "./law-reach/group-a-records";
 import { drawPlace } from "../../tests/golden-path/place";
 
 const P = "us-policy-positions:government-operations.";
@@ -186,6 +190,10 @@ describe(`government operations laws are applied by their engines (seed ${seed})
         const lawIds = new Map<string, string[]>();
         for (const key of [...VOTING_LAWS, REDISTRICT, TERM, LOBBY, HOME_RULE])
           lawIds.set(key, setQuestion(api, key, 1, "enact"));
+        const inForce = (key: string) => [
+          ...(lawIds.get(key) ?? []),
+          ...yesLevels(api, key).map((l) => l.lawId),
+        ];
         for (const [key, ids] of lawIds)
           expect(ids.length, `${where}: ${key} enacted`).toBeGreaterThan(0);
 
@@ -239,8 +247,9 @@ describe(`government operations laws are applied by their engines (seed ${seed})
             ).toBe(true);
           for (const r of rows) {
             expect(r.engine, r.id).toBe("core2-voting-v1");
+            // The law the test enacted, or a later yes a body in play passed over it.
             expect(
-              lawIds.get(key),
+              inForce(key),
               `${where}: ${r.id} cites the enacted law`,
             ).toContain(r.lawId);
           }
@@ -361,10 +370,9 @@ describe(`government operations laws are applied by their engines (seed ${seed})
           );
           for (const r of rows) {
             expect(what, `${where}: ${r.id}`).toContain(r.what);
-            expect(
-              lawIds.get(key),
-              `${where}: ${r.id} cites the law`,
-            ).toContain(r.lawId);
+            expect(inForce(key), `${where}: ${r.id} cites the law`).toContain(
+              r.lawId,
+            );
           }
         }
 
