@@ -33,6 +33,12 @@ The full row-by-row grades, each with its evidence and the reason a link is miss
 - **The outcome web has 118 researched links that start from a law.** Of those, 72 are built, 28 are about zero by their research, 11 have no outcome the web produces, 8 have no researched size and 2 have no recorded cause (`data/research/outcome-web/links.json`). Many built links did not move their measure in the run. Each one's reason is in the table.
 - **A budget change made directly is not news.** A budget line amended outside a bill emits its event with news off (`src/core2/modules/budgets.ts:1409`). In play, a line changes when a bill passes, and the bill's passage is the story. The knowing link for budget lines is checked through that route once the budget family's test runs it.
 
+## Family fixes so far
+
+- Government and elections, #5582: the four voting laws reach named voters and counted groups. The county, city or state pays to mail ballots, issue IDs and register voters out of its administration line. Term limits, the lobbying ban, home rule and ward lines record whom they applied to.
+- Labor and pay, #5589: every minimum wage raise names the workers it raised, full and counted. Payroll taxes name each worker and employer with the tax. Unemployment benefits are paid from the state fund, and counted claimants are paid times the people they stand for.
+- In progress: prices and sales taxes, housing and credit, health and schools, taxes and public finance, justice, and rights, environment, farms and parks.
+
 ## What happens next
 
 The laws are split into eight families, each fixed on its own pull request with one test per law in a drawn place:
