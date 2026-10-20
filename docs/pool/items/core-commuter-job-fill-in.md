@@ -5,9 +5,9 @@ area: core
 kind: feature
 priority: 2
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/commuter-job
-pr:
+pr: #5613
 blocked-on:
 after: core-outside-pay-authority
 source: "split of core-outside-wage-obligation (L), Oct 20"

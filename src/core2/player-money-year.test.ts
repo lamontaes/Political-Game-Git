@@ -17,6 +17,7 @@ import { setBookkeeping } from "./bookkeeping";
 import { gameStartDate } from "./game-start";
 import { addDays, makeIsoDate } from "./kernel/dates";
 import { advanceCore } from "./life";
+import { propertyTaxRateInForce } from "./housing-property-tax";
 import { HOUSING_MODULE_ID } from "./modules/housing";
 import { coreAPI } from "./state";
 
@@ -99,7 +100,10 @@ it("a played year moves the player's household money through pay, living costs, 
       ).toBeGreaterThan(0);
       // Where they live is paid by the route their housing record calls for: a
       // rent or a mortgage settles as a contract; a home owned outright pays
-      // the property tax instead.
+      // the property tax where a rate is in force (Garyville, Louisiana); where
+      // no contract or tax is modeled (Christiansted, U.S. Virgin Islands), the
+      // household pays the outside living cost the counts' engine charges for
+      // housing it does not buy from a local seller.
       const dwelling = api
         .moduleState(HOUSING_MODULE_ID)
         .table("dwellings")
@@ -108,12 +112,13 @@ it("a played year moves the player's household money through pay, living costs, 
       const owedByContract =
         dwelling?.tenure === "rent" ||
         (dwelling?.tenure === "own" && !!dwelling.loanHolderId);
+      const taxed = propertyTaxRateInForce(api, me.placeId) !== null;
       if (owedByContract)
         expect(
           total("finance.contract-settlement finance", "outMinor"),
           `${where}: ${dwelling?.tenure} dwelling, no settlement`,
         ).toBeGreaterThan(0);
-      else {
+      else if (dwelling && taxed) {
         // A home owned outright owes the property tax; a household that
         // cannot pay it all keeps the rest as arrears on the record, naming
         // the law, rather than the bill vanishing.
@@ -125,9 +130,13 @@ it("a played year moves the player's household money through pay, living costs, 
         expect(
           total("accounts.transfer property-tax", "outMinor") +
             (arrears?.amountMinor ?? 0),
-          `${where}: ${dwelling ? "home owned outright" : "no dwelling record"}, no property tax paid or owed`,
+          `${where}: home owned outright, no property tax paid or owed`,
         ).toBeGreaterThan(0);
-      }
+      } else
+        expect(
+          total("accounts.transfer residents", "outMinor"),
+          `${where}: ${dwelling ? "owned outright, no tax rate in force" : "no dwelling record"}, no outside living cost paid`,
+        ).toBeGreaterThan(0);
       expect(
         total("budgets:withholding withholding", "outMinor"),
         where,
