@@ -5,11 +5,12 @@ area: world
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/husks-in-town-cash
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-20T02:08:29.791Z
 ---
 
 **What.** GOLDEN_PATH_SEED=b90e85374cbb0b64 npx vitest run src/core2/opening-adults-cash.test.ts fails on clean main in Golconda, Nevada: 14 of 36 resident adults hold no cash, account or deposit, 39 percent against a bound of 26 percent. Thirteen of the 14 are husk-tier relatives of town residents whose records place them in the town (the test counts a husk as a resident when it lives in town), and one is a weekly-tier 18-year-old with no job. In a town this small the kin generator places many relatives locally and husks hold no wallet until they are met. Decide whether an in-town husk is a resident who should open with a wallet like a counted household member, or a relative the test should list as unmet, and make the records and the test agree.
