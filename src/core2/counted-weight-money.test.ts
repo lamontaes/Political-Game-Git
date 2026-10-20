@@ -116,7 +116,7 @@ function play(seed: string, key: string, countScale: number) {
   return { core, rt, entries };
 }
 
-it("rent and pay of counted households are moved times their weights, and the books balance", () => {
+function compareOne() {
   // A town with no counted renter has no rent to compare: draw again, a
   // few times, and fail if none of the draws pays any (pinned with
   // CWM_SEED and CWM_KEY to replay one).
@@ -193,7 +193,7 @@ it("rent and pay of counted households are moved times their weights, and the bo
         expect(
           Math.abs(many.tax - taxExpected),
           `${where} ${id}: tax ${one.tax} -> ${many.tax}`,
-        ).toBeLessThanOrEqual(Math.max(8, taxExpected * 0.05));
+        ).toBeLessThanOrEqual(Math.max(8, taxExpected * 0.02));
         taxed += one.tax > 0 ? 1 : 0;
       }
     }
@@ -201,10 +201,32 @@ it("rent and pay of counted households are moved times their weights, and the bo
   expect(rents, `${where}: rents compared`).toBeGreaterThan(5);
   // Flows that paid a part of a whole number of days are skipped above, so
   // the payrolls actually compared are counted, and too few fails.
-  expect(wages, `${where}: payrolls compared`).toBeGreaterThan(5);
+  // Too few payrolls compared (the town's employers all ran short of whole
+  // days): this draw proves nothing about pay, so the test draws another.
+  if (wages <= 5)
+    return { where, base, scaled, wages, compared: false as const };
   expect(rentsInFull, `${where}: rents paid in full`).toBeGreaterThan(0);
   expect(paidInFull, `${where}: payrolls paid in full`).toBeGreaterThan(0);
   expect(taxed, `${where}: payrolls with tax withheld`).toBeGreaterThan(0);
+  return { where, base, scaled, wages, compared: true as const };
+}
+
+it("rent and pay of counted households are moved times their weights, and the books balance", () => {
+  // Draw whole towns, a few times, until one compares enough payrolls; fail
+  // naming each draw if none does.
+  const skipped: string[] = [];
+  let found: ReturnType<typeof compareOne> | undefined;
+  for (let outer = 0; outer < 4 && !found?.compared; outer += 1) {
+    found = compareOne();
+    if (!found.compared)
+      skipped.push(`${found.where}: ${found.wages} payrolls compared`);
+    if (process.env.CWM_SEED) break;
+  }
+  expect(
+    found?.compared,
+    `too few payrolls compared in ${skipped.join("; ")}`,
+  ).toBe(true);
+  const { where, base, scaled } = found!;
 
   // A bill an engine sends one household (a tax, a benefit) is for one real
   // household: the record's group pays it as many times as it stands for, and
