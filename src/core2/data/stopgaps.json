@@ -4838,5 +4838,29 @@
     "addedAt": "2026-10-17",
     "replacement": "The owner's ruling on which pre-vote hooks run on the committee day (docs/coordination/OWNER-DECISIONS.md).",
     "status": "open"
+  },
+  {
+    "id": "SG-GOV-REACH-A-citizenship-cooperation",
+    "kind": "missing-mechanic",
+    "file": "src/core2/data/laws/reach-group-a.json",
+    "line": 0,
+    "whatItFakes": "Partnering with federal immigration enforcement reaches named noncitizens as a record, but no local police agreement is made, no person is held or handed over, and no case reaches the justice engine.",
+    "why": "The justice engine hears only corruption cases; a cooperation agreement needs a case route (laws-justice-citizenship-cooperation). Found by the law-reach placeholder guard (src/core2/law-reach-placeholders.test.ts) on Oct 19, 2026: the handler's mechanic is none and the first row for it (SG-GOV-REACH-A-citizenship, the citizenship record) is resolved.",
+    "addedBy": "claude (laws-outcome-map)",
+    "addedAt": "2026-10-19",
+    "replacement": "laws-justice-citizenship-cooperation: a local agreement the police act on, with the person, the case and the justice record.",
+    "status": "open"
+  },
+  {
+    "id": "SG-GOV-REACH-A-firearm-storage-duty",
+    "kind": "missing-mechanic",
+    "file": "src/core2/data/laws/reach-group-a.json",
+    "line": 0,
+    "whatItFakes": "Child access prevention records the storage duty on adults in owning households with a child, but no unsecured gun is found, no child is harmed and no case reaches the justice engine.",
+    "why": "The justice engine hears only corruption cases; a storage duty needs an incident and a case route (laws-justice-firearm-storage). Found by the law-reach placeholder guard on Oct 19, 2026: the handler's mechanic is none and the first row for it (SG-GOV-REACH-A-firearms, the ownership record) is resolved.",
+    "addedBy": "claude (laws-outcome-map)",
+    "addedAt": "2026-10-19",
+    "replacement": "laws-justice-firearm-storage: an incident record the duty is read against, and the case the justice engine hears.",
+    "status": "open"
   }
 ]
