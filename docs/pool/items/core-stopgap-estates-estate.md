@@ -4,7 +4,7 @@ title: "Stopgaps in estates (estate): 1 open"
 area: core
 kind: stopgap
 priority: 3
-status: claimed
+status: in-pr
 claimed-by: claude/estates-stopgap
 pr: #5275
 blocked-on:

@@ -64,13 +64,9 @@
     "venue": "Where",
     "retold": "retold"
   },
-  "campaignDay": {
-    "title": "Today",
-    "canvass": "Canvass",
-    "event": "Hold an event",
-    "interview": "Ask for an interview",
-    "raise-money": "Call donors",
-    "rest": "Rest",
+  "campaignOutings": {
+    "doors": "Knock on doors",
+    "calls": "Call donors",
     "hours": "hours"
   },
   "venues": {
