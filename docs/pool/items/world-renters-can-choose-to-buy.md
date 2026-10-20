@@ -5,9 +5,9 @@ area: world
 kind: feature
 priority: 2
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/renters-buy
-pr:
+pr: #5736
 blocked-on:
 source: split of world-home-turnover (Oct 18)
 claimed-at: 2026-10-20T15:57:02.511Z
