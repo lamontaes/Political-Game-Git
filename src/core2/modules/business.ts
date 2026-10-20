@@ -1530,18 +1530,50 @@ function foundings(api: CoreAPI): void {
     (peopleById ??= [...c.people.values()].sort((a, b) =>
       a.id.localeCompare(b.id),
     ));
+  // Counted people have no chooser, so their personality enters once, on the
+  // chooser's weight; full people get it from the chooser alone.
+  // The counted people of founding age in a place, with their personality's
+  // lean and what they could put in, built once per place: none of it depends
+  // on the market, and a founding returns before anything changes.
+  const foundersByPlace = new Map<
+    string,
+    { personId: string; lean: number; cashMinor: number }[]
+  >();
+  const countedFoundersOf = (placeId: string, owners: ReadonlySet<string>) => {
+    let list = foundersByPlace.get(placeId);
+    if (list) return list;
+    list = [];
+    const counted = residentsRuntime(c)?.store;
+    for (const h of counted?.liveHouseholds() ?? []) {
+      if (h.placeId !== placeId) continue;
+      for (const m of counted!.countedMembers(h)) {
+        const personId = counted!.ids[m]!;
+        const age = ageOn(counted!.born[m]!);
+        if (
+          owners.has(personId) ||
+          age < p("businessFounderMinimumAge") ||
+          age >= p("businessFounderMaximumAge")
+        )
+          continue;
+        list.push({
+          personId,
+          lean: traitLeanBetween(
+            c,
+            { traits: counted!.packedTraits(m) },
+            businessData.actions.found.actKinds,
+            businessData.actions.notFound.actKinds,
+          ),
+          cashMinor: counted!.liquid[m]! + founderSavings(c, personId).minor,
+        });
+      }
+    }
+    foundersByPlace.set(placeId, list);
+    return list;
+  };
   // An unaffordable market does not prevent an entrant in another market.
   for (const market of markets) {
     const gaps = gapsOf(market);
     const incomeOf = (personId: string) => monthlyPayOf().get(personId) ?? 0;
-    // Counted people have no chooser, so their personality enters here once, on the chooser's weight; full people get it from the chooser alone.
-    const foundLean = (person: Pick<PersonState, "traits">) =>
-      traitLeanBetween(
-        c,
-        person,
-        businessData.actions.found.actKinds,
-        businessData.actions.notFound.actKinds,
-      );
     const ownerRows = store(api)
       .table("owners")
       .query("all", [true]) as unknown as OwnerRow[];
@@ -1632,38 +1664,22 @@ function foundings(api: CoreAPI): void {
     if (!c.modules.has("jobs")) continue;
     const countedSeekers = api.moduleState("jobs").table("countedSeekers");
     const rows: { id: string; score: number }[] = [];
-    const counted = residentsRuntime(c)?.store;
-    for (const h of counted?.liveHouseholds() ?? []) {
-      if (h.placeId !== market.placeId) continue;
-      for (const m of counted!.countedMembers(h)) {
-        const personId = counted!.ids[m]!;
-        const age = ageOn(counted!.born[m]!);
-        if (
-          owners.has(personId) ||
-          age < p("businessFounderMinimumAge") ||
-          age >= p("businessFounderMaximumAge")
-        )
-          continue;
-        const seeker = countedSeekers.get(personId) as
-          { employed: boolean } | undefined;
-        rows.push({
-          id: personId,
-          score:
-            p("businessCountedFoundBaseline") +
-            p("businessFoundRoomWeight") * gaps +
-            p("traitWeight") * foundLean({ traits: counted!.packedTraits(m) }) +
-            p("businessFoundUnemployedWeight") *
-              (seeker && !seeker.employed ? 1 : 0) +
-            p("businessFoundProspectWeight") *
-              prospect(market, incomeOf(personId)) -
-            p("businessFoundCapitalWeight") *
-              capital(
-                market,
-                incomeOf(personId),
-                counted!.liquid[m]! + founderSavings(c, personId).minor,
-              ),
-        });
-      }
+    for (const f of countedFoundersOf(market.placeId, owners)) {
+      const seeker = countedSeekers.get(f.personId) as
+        { employed: boolean } | undefined;
+      rows.push({
+        id: f.personId,
+        score:
+          p("businessCountedFoundBaseline") +
+          p("businessFoundRoomWeight") * gaps +
+          p("traitWeight") * f.lean +
+          p("businessFoundUnemployedWeight") *
+            (seeker && !seeker.employed ? 1 : 0) +
+          p("businessFoundProspectWeight") *
+            prospect(market, incomeOf(f.personId)) -
+          p("businessFoundCapitalWeight") *
+            capital(market, incomeOf(f.personId), f.cashMinor),
+      });
     }
     for (const founder of strongestPulls(api, "found", rows)) {
       if (found(api, founder.id, market)) return;
