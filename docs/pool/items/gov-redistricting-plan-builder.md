@@ -11,7 +11,7 @@ pr:
 blocked-on:
 after: gov-redistricting-neighborhood-data,gov-redistricting-census-count
 source: added with npm run pool -- add
-claimed-at: 2026-10-20T00:21:38.617Z
+claimed-at: 2026-10-20T00:26:44.650Z
 ---
 
 **What.** TODO

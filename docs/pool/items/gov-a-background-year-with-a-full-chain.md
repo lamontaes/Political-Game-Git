@@ -4,13 +4,13 @@ title: "A background year with a full chain."
 area: gov
 kind: feature
 priority: 2
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/pool-background-chain
+pr: #5333
 blocked-on:
 milestone:
 source: "docs/coordination/OPUS-GOV.md line 195 (unchecked checklist line)"
-claimed-at:
+claimed-at: 2026-10-20T00:27:47.643Z
 ---
 
 **What.** In 11 played years (4 plain, 7 where the player proposed a minimum-wage raise) the background world made one bribe offer and zero reports, because the only bribe route is the employers' lobby on a minimum-wage bill and only the player proposes one. Make background bodies propose bills with money at stake (a minimum wage where local authority allows it, budget lines with vendors, permits) so interest groups, offers, reports and cases arise from causes with no player push. The player would notice corruption stories, complaints and trials in the news that no one in the room started.

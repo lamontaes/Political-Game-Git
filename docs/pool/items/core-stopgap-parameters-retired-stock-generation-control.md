@@ -26,3 +26,4 @@ claimed-at:
 **Checked Oct 17.** Stale: both rows (SG-P8-param-openingRetirementFundingLiquidShare and SG-P8-param-openingRetirementPayerReserveMonths) are already `resolved` in src/core2/data/stopgaps.json. Nothing to build; the CTO can drop this item.
 
 Dropped (CTO, Oct 19, 2026): every row it names is already resolved in stopgaps.json.
+Checked Oct 19 (claude/retirement-reserve-params): both rows are already resolved in `src/core2/data/stopgaps.json`. `SG-P8-param-openingRetirementPayerReserveMonths` (line 735) and `SG-P8-param-openingRetirementFundingLiquidShare` (line 771) carry `"status": "resolved"` with "Done Oct 13 (OPUS-CORE): the retired key is removed; no producer read it", and neither key is in `src/core2/data/parameters.json` or read by any source file (`grep` of `src/` finds them only in `stopgaps.json`). Nothing is left to build; the CTO can set this item done.
