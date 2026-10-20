@@ -5,7 +5,7 @@ area: release
 kind: bug
 priority: 1
 size: S
-status: in-pr
+status: done
 claimed-by: claude/speech-voices-spec
 pr: #5765
 blocked-on:
