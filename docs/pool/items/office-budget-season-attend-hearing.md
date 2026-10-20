@@ -5,10 +5,10 @@ area: office
 kind: feature
 priority: 2
 size: L
-status: claimed
+status: blocked
 claimed-by: claude/budget-hearing-agenda
 pr:
-blocked-on:
+blocked-on: PR #5533 (the budget hearing before the vote) is not merged; the hearing is a calendar work, not a meeting, and the vote on the heard bill is at the year's start, so attending needs a stop at the hearing that does not call holdVote on the budget bill (adjourn would). Build on #5533 once merged.
 source: added with npm run pool -- add
 claimed-at: 2026-10-20T06:41:35.954Z
 ---
