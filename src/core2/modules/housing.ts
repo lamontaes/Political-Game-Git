@@ -256,7 +256,9 @@ function townOf(input: CoreInput): Town | undefined {
       ? [...countyPopulationSharesForPlace(geoid)].sort(
           (a, b) => (b[1] ?? 0) - (a[1] ?? 0),
         )[0]?.[0]
-      : geoid;
+      : geoid.length === "SSCCC".length
+        ? geoid
+        : undefined;
   const counts = new Map<string, number>();
   for (const row of input.households)
     counts.set(row.placeId, (counts.get(row.placeId) ?? 0) + 1);
