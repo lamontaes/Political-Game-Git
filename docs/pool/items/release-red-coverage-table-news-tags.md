@@ -5,11 +5,12 @@ area: words
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/news-tags
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-20T06:49:28.979Z
 ---
 
 **What.** tag-moves.ts --check reports 2 part tags differ: news.law-took-effect.measure-took-effect-on-date and its sibling carry a move tag without the key the rules give them.
