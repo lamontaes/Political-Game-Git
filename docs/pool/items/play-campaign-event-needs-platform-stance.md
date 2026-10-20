@@ -5,10 +5,10 @@ area: play
 kind: bug
 priority: 3
 size: S
-status: claimed
+status: blocked
 claimed-by: claude/event-platform-stance
 pr:
-blocked-on:
+blocked-on: PR #5549 deletes the Today list, including the Hold an event control this bug is about; a stance now comes from the speech builder. If #5549 merges the bug closes; if the owner wants events back, they come as a scene that asks for a stance first
 source: added with npm run pool -- add
 claimed-at: 2026-10-20T13:41:41.135Z
 ---
