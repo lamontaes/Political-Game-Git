@@ -5,11 +5,12 @@ area: core
 kind: feature
 priority: 2
 size: M
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/outside-pay-authority
+pr: #5577
 blocked-on:
 source: "split of core-outside-wage-obligation (L), Oct 20"
+claimed-at: 2026-10-20T06:35:51.262Z
 ---
 
 **What.** The pay-resolution step (`resolvePublicWorkPayDue`) accepts an employer only when it holds stock or is a recorded public owner, so a private employer outside the town cannot pay a worker from the place's outside account. Give the place's outside account a pay authority in `src/core2/opening-outside-market.ts`, and let `resolvePublicWorkPayDue` accept an employer that is its own zero-stock outside owner when the authority and an exact due record are present. The wages then post on the journal from the outside account to the worker, never from nowhere.

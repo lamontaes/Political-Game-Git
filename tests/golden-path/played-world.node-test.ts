@@ -40,7 +40,7 @@ import {
   residentPerson,
   residentsRuntime,
 } from "../../src/core2/modules/residents";
-import { departuresOf } from "../../src/core2/modules/moves";
+import { departuresSeen, watchDepartures } from "../../src/core2/modules/moves";
 import {
   BUDGETS_MODULE_ID,
   budgetsOf,
@@ -255,6 +255,8 @@ function playWorld(seed: string) {
   const buildSeconds = (performance.now() - buildStarted) / 1000;
   const openingHeapMiB = heapMiB();
   const core = world.core;
+  // No engine reads departures in play; the check watches the moved-away event.
+  watchDepartures(core);
   const start = core.date;
   const end = addDays(makeIsoDate(start), Math.round(365.25 * years));
   const nextJanuary = `${Number(start.slice(0, 4)) + 1}-01-01`;
@@ -573,7 +575,7 @@ function playWorld(seed: string) {
       : pass(`${endingTerms.length} ending terms all followed`);
 
   // Break 8: nobody keeps an office after moving away.
-  const departures = departuresOf(api).filter((d) => d.date >= start);
+  const departures = departuresSeen(core).filter((d) => d.date >= start);
   const termsBefore = (id: string, date: string) =>
     terms.some((t) => t.personId === id && String(t.startDate) <= date);
   const movedOfficials = departures.flatMap((d) =>

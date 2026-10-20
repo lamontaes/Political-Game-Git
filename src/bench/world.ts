@@ -45,6 +45,7 @@ import { openMeetings } from "../core2/modules/meetings";
 import { officeDayData, openOfficeDay } from "../core2/office-day-levels";
 import { openCases } from "../core2/modules/constituent-cases";
 import { openJustice } from "../core2/modules/justice";
+import { openPublicSafety } from "../core2/modules/public-safety";
 import { openThePast } from "../core2/past";
 import { peopleData, peopleModules } from "../director/play-modules";
 import { renewalData } from "../core2/births-setup";
@@ -386,6 +387,8 @@ function* benchWorldStages(
   openOfficeDay(core, seed);
   // Prosecutors, trials and prisons: reads the corruption engine's records.
   openJustice(core);
+  // Ordinary crime, courts, jail, firearm laws and fire service.
+  openPublicSafety(core);
   // The world has a past (OPUS-CORE): prior elections, voting records, law
   // histories, the year's news and what the public knows, before day one.
   openThePast(core, seed);
