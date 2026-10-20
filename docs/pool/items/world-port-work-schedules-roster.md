@@ -5,7 +5,7 @@ area: world
 kind: cleanup
 priority: 2
 size: M
-status: in-pr
+status: done
 claimed-by: claude/work-schedules-roster
 pr: #5097
 blocked-on:
