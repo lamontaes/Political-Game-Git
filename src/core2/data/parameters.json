@@ -560,12 +560,15 @@
     }
   },
   "traitWeightMacroRateVote": {
-    "value": 1,
-    "tag": "TUNABLE",
-    "citation": "The trait weight of the macro.rate-vote decision. Starts at the general traitWeight (1); calibrated against its row in data/research/trait-effect-sizes.json with scripts/traits/trait-calibrate.ts.",
+    "value": 0.03,
+    "tag": "ESTIMATED",
+    "citation": "The trait weight of the macro.rate-vote decision, fitted on a played year of Ely, Nevada (key 3223500, seed 7ae8589566f5) with 96 board votes by a finer sweep than scripts/traits/trait-calibrate.ts's 0.05 grid: 0.03 gives an odds ratio of 2.37 of moving the rate rather than holding between the thirds of votes leaning most toward moving and least, net of the same gap with personality off, against the target of 2.24 (the default personality-behavior study scaled for a single occasion to r = .2); personality turns about 5 of 100 votes. The module pulls (macroRatePullWeight) are large, so the fit is narrow. The board's hand-picked patience and risk traits (macroSmoothingPerPatience, macroMoveSizeCostPerRisk) were removed so personality enters the vote once, here.",
+    "estimatedFrom": "default.personality-behavior in data/research/trait-effect-sizes.json, scaled from average-level to a single occasion.",
     "spread": {
-      "status": "unmeasured",
-      "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
+      "low": 0.015,
+      "high": 0.045,
+      "unit": "weight",
+      "citation": "Weight at r = .1 and r = .3 of the single-occasion range (half and one and a half times the r = .2 weight). "
     }
   },
   "traitWeightBusinessOwnerDraw": {
@@ -668,12 +671,14 @@
     }
   },
   "traitWeightContractsAward": {
-    "value": 1,
+    "value": 0.5,
     "tag": "TUNABLE",
-    "citation": "The trait weight of the contracts.award decision. Starts at the general traitWeight (1); calibrated against its row in data/research/trait-effect-sizes.json with scripts/traits/trait-calibrate.ts.",
+    "citation": "The trait weight of the contracts.award decision: how far a member's traits move weight between price and the tie to a firm's owner (at full lean the price weight falls by this share and the tie weight rises by it). Replaces contractTraitWeight of 0.5. Not a two-way outcome, so scripts/traits/trait-calibrate.ts cannot fit it.",
     "spread": {
-      "status": "unmeasured",
-      "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
+      "low": 0.25,
+      "high": 0.75,
+      "unit": "weight",
+      "citation": "Weight at r = .1 and r = .3 of the single-occasion range (half and one and a half times the r = .2 weight). "
     }
   },
   "traitWeightCorruptionOffer": {
@@ -1001,48 +1006,62 @@
     }
   },
   "traitWeightLegislatureMemberPosition": {
-    "value": 1,
-    "tag": "TUNABLE",
-    "citation": "The trait weight of the legislature.member-position decision. Starts at the general traitWeight (1); calibrated against its row in data/research/trait-effect-sizes.json with scripts/traits/trait-calibrate.ts.",
+    "value": 0.2,
+    "tag": "ESTIMATED",
+    "citation": "The trait weight of the legislature.member-position decision, found with scripts/traits/trait-calibrate.ts on a played year of Ely, Nevada (key 3223500, seed 7ae8589566f5): 0.2 gives an odds ratio of 2.19 of a yes vote between the third of 10,336 member positions leaning most toward yes and the third leaning least, net of the same gap with personality off, against the target of 2.24. No study of legislators' roll-call votes by personality was retrievable (Dietrich et al. 2012 could not be read), so the target is the default personality-behavior study scaled for a single occasion to r = .2: Fleeson & Gallagher 2009, average-level r = .42 to .56, single-decision r = .1 to .3. Party, district and record still decide most votes.",
+    "estimatedFrom": "default.personality-behavior in data/research/trait-effect-sizes.json, scaled from average-level to a single occasion; replaces the hand-set traitDecisionWeight of 0.5.",
     "spread": {
-      "status": "unmeasured",
-      "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
+      "low": 0.1,
+      "high": 0.3,
+      "unit": "weight",
+      "citation": "Weight at r = .1 and r = .3 of the single-occasion range (half and one and a half times the r = .2 weight). "
     }
   },
   "traitWeightLegislatureHoldHearing": {
-    "value": 1,
-    "tag": "TUNABLE",
-    "citation": "The trait weight of the legislature.hold-hearing decision. Starts at the general traitWeight (1); calibrated against its row in data/research/trait-effect-sizes.json with scripts/traits/trait-calibrate.ts.",
+    "value": 1.35,
+    "tag": "ESTIMATED",
+    "citation": "The trait weight of the legislature.hold-hearing decision, found with scripts/traits/trait-calibrate.ts on a played year of Ely, Nevada (key 3223500, seed 7ae8589566f5): 1.35 gives an odds ratio of 2.01 of holding the hearing between the thirds of 78 chair decisions, against the target of 2.24 (the default personality-behavior study scaled for a single occasion to r = .2). Few calls, so the weight is noisy.",
+    "estimatedFrom": "default.personality-behavior in data/research/trait-effect-sizes.json, scaled from average-level to a single occasion; replaces the hand-set traitDecisionWeight of 0.5.",
     "spread": {
-      "status": "unmeasured",
-      "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
+      "low": 0.675,
+      "high": 2.025,
+      "unit": "weight",
+      "citation": "Weight at r = .1 and r = .3 of the single-occasion range (half and one and a half times the r = .2 weight). "
     }
   },
   "traitWeightLegislatureSignOrVeto": {
-    "value": 1,
-    "tag": "TUNABLE",
-    "citation": "The trait weight of the legislature.sign-or-veto decision. Starts at the general traitWeight (1); calibrated against its row in data/research/trait-effect-sizes.json with scripts/traits/trait-calibrate.ts.",
+    "value": 0.2,
+    "tag": "ESTIMATED",
+    "citation": "The trait weight of the legislature.sign-or-veto decision. Only 29 desk decisions ran in the audit year, too few for scripts/traits/trait-calibrate.ts (30 needed), so this carries the weight calibrated for legislature.member-position, the same legislators weighing a bill against the same record, with the same default target (the default personality-behavior study scaled for a single occasion to r = .2).",
+    "estimatedFrom": "traitWeightLegislatureMemberPosition (0.2), calibrated on 10,336 calls; replaces the hand-set traitDecisionWeight of 0.5.",
     "spread": {
-      "status": "unmeasured",
-      "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
+      "low": 0.1,
+      "high": 0.3,
+      "unit": "weight",
+      "citation": "Weight at r = .1 and r = .3 of the single-occasion range (half and one and a half times the r = .2 weight). "
     }
   },
   "traitWeightLegislatureBudgetPriorities": {
-    "value": 1,
+    "value": 0.5,
     "tag": "TUNABLE",
-    "citation": "The trait weight of the legislature.budget-priorities decision. Starts at the general traitWeight (1); calibrated against its row in data/research/trait-effect-sizes.json with scripts/traits/trait-calibrate.ts.",
+    "citation": "The trait weight of the legislature.budget-priorities decision: how far an executive's temperament scales how much of the budget they move (a multiplier of 1 plus the weight times the lean, so a lean of 1 moves half again as much). Not a two-way outcome, so scripts/traits/trait-calibrate.ts cannot fit it; carries the 0.5 the site used as traitDecisionWeight, with a spread of half to one and a half of that.",
     "spread": {
-      "status": "unmeasured",
-      "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
+      "low": 0.25,
+      "high": 0.75,
+      "unit": "weight",
+      "citation": "Weight at r = .1 and r = .3 of the single-occasion range (half and one and a half times the r = .2 weight). "
     }
   },
   "traitWeightWorldLegislatingBringAgenda": {
-    "value": 1,
-    "tag": "TUNABLE",
-    "citation": "The trait weight of the world-legislating.bring-agenda decision. Starts at the general traitWeight (1); calibrated against its row in data/research/trait-effect-sizes.json with scripts/traits/trait-calibrate.ts.",
+    "value": 0.15,
+    "tag": "ESTIMATED",
+    "citation": "The trait weight of the world-legislating.bring-agenda decision, found with scripts/traits/trait-calibrate.ts on a played year of Ely, Nevada (key 3223500, seed 7ae8589566f5): 0.15 gives an odds ratio of 2.31 of filing a change between the thirds of 4,583 filing decisions, against the target of 2.24 (the default personality-behavior study scaled for a single occasion to r = .2).",
+    "estimatedFrom": "default.personality-behavior in data/research/trait-effect-sizes.json, scaled from average-level to a single occasion; replaces the hand-set traitDecisionWeight of 0.5.",
     "spread": {
-      "status": "unmeasured",
-      "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
+      "low": 0.075,
+      "high": 0.225,
+      "unit": "weight",
+      "citation": "Weight at r = .1 and r = .3 of the single-occasion range (half and one and a half times the r = .2 weight). "
     }
   },
   "traitWeightConstituentCasesBringCase": {
@@ -1208,57 +1227,119 @@
     }
   },
   "traitWeightLegislatureAttendSitting": {
-    "value": 1,
-    "tag": "TUNABLE",
-    "citation": "The trait weight of the legislature.attend-sitting decision. Starts at the general traitWeight (1); calibrated against its row in data/research/trait-effect-sizes.json with scripts/traits/trait-calibrate.ts.",
+    "value": 0.1,
+    "tag": "ESTIMATED",
+    "citation": "The trait weight of the legislature.attend-sitting decision. Salgado (2002), 'The Big Five personality dimensions and counterproductive behaviors' (Int. J. Selection and Assessment 10), found no Big Five trait significantly predicting absenteeism, so the trait share is the smallest in this family: half the 0.2 of legislature.member-position, which is r = .1 against r = .2. scripts/traits/trait-calibrate.ts could not fit it, because with a seat, session and close-vote duty most gated sittings are attended whatever the temperament (a miss rate near 1 percent leaves no gap between the thirds), so the weight is set by that ratio and checked by how many sittings personality turns (about 8 of 100 gated sittings, down from 96 of 100 when personality was the only reason).",
+    "estimatedFrom": "traitWeightLegislatureMemberPosition (0.2) halved for r = .1; Salgado 2002 found no significant Big Five predictor of absenteeism.",
     "spread": {
-      "status": "unmeasured",
-      "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
+      "low": 0.05,
+      "high": 0.15,
+      "unit": "weight",
+      "citation": "Weight at r = .1 and r = .3 of the single-occasion range (half and one and a half times the r = .2 weight). "
     }
   },
   "traitWeightLegislaturePoisonPill": {
-    "value": 1,
-    "tag": "TUNABLE",
-    "citation": "The trait weight of the legislature.poison-pill decision. Starts at the general traitWeight (1); calibrated against its row in data/research/trait-effect-sizes.json with scripts/traits/trait-calibrate.ts.",
+    "value": 0.2,
+    "tag": "ESTIMATED",
+    "citation": "The trait weight of the legislature.poison-pill decision. One call in the audit year, so no calibration sample; this carries the weight calibrated for legislature.member-position (same legislators, same record), with the default target (the default personality-behavior study scaled for a single occasion to r = .2).",
+    "estimatedFrom": "traitWeightLegislatureMemberPosition (0.2), calibrated on 10,336 calls.",
     "spread": {
-      "status": "unmeasured",
-      "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
+      "low": 0.1,
+      "high": 0.3,
+      "unit": "weight",
+      "citation": "Weight at r = .1 and r = .3 of the single-occasion range (half and one and a half times the r = .2 weight). "
     }
   },
   "traitWeightOfficeDayStateAttend": {
-    "value": 1,
-    "tag": "TUNABLE",
-    "citation": "The trait weight of the office-day-state.attend decision. Starts at the general traitWeight (1); calibrated against its row in data/research/trait-effect-sizes.json with scripts/traits/trait-calibrate.ts.",
+    "value": 0.1,
+    "tag": "ESTIMATED",
+    "citation": "The trait weight of the office-day-state.attend decision. Carries the weight of legislature.attend-sitting (the same behavior, absenteeism, where Salgado 2002 found no significant Big Five predictor). scripts/traits/trait-calibrate.ts cannot fit it on the audit year's 315 calls: every member attended, because the attendance duty of 0.6 outweighs any temperament (lean tops out near 0.6 and the weight is a fraction of that), which matches real attendance above 90 percent.",
+    "estimatedFrom": "traitWeightLegislatureAttendSitting (0.1).",
     "spread": {
-      "status": "unmeasured",
-      "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
+      "low": 0.05,
+      "high": 0.15,
+      "unit": "weight",
+      "citation": "Weight at r = .1 and r = .3 of the single-occasion range (half and one and a half times the r = .2 weight). "
     }
   },
   "traitWeightOfficeDayStateLeaderRequest": {
-    "value": 1,
-    "tag": "TUNABLE",
-    "citation": "The trait weight of the office-day-state.leader-request decision. Starts at the general traitWeight (1); calibrated against its row in data/research/trait-effect-sizes.json with scripts/traits/trait-calibrate.ts.",
+    "value": 0.2,
+    "tag": "ESTIMATED",
+    "citation": "The trait weight of the office-day-state.leader-request decision. Replaces the hand-set leaderRequestTraitWeight of 0.4. scripts/traits/trait-calibrate.ts cannot fit it on the audit year's 49 requests: the leader's party term (a same-party request is granted, an other-party one refused) outweighs temperament, so personality turned none of them, which is how party leaders schedule. Carries the weight calibrated for legislature.member-position (0.2), with the default target (the default personality-behavior study scaled for a single occasion to r = .2).",
+    "estimatedFrom": "traitWeightLegislatureMemberPosition (0.2).",
     "spread": {
-      "status": "unmeasured",
-      "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
+      "low": 0.1,
+      "high": 0.3,
+      "unit": "weight",
+      "citation": "Weight at r = .1 and r = .3 of the single-occasion range (half and one and a half times the r = .2 weight). "
     }
   },
   "traitWeightAppointmentsWeigh": {
-    "value": 1,
+    "value": 0.5,
     "tag": "TUNABLE",
-    "citation": "The trait weight of the appointments.weigh decision. Starts at the general traitWeight (1); calibrated against its row in data/research/trait-effect-sizes.json with scripts/traits/trait-calibrate.ts.",
+    "citation": "The trait weight of the appointments.weigh decision: how far an appointer's traits tilt loyalty against merit when weighing a nominee (a lean of 1 counts loyalty 1.5 and merit 0.5). Replaces the appointmentLoyaltyMeritSwing of 0.5 (patronage studies: Lewis 2008). Not a two-way outcome, so scripts/traits/trait-calibrate.ts cannot fit it.",
     "spread": {
-      "status": "unmeasured",
-      "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
+      "low": 0.25,
+      "high": 0.75,
+      "unit": "weight",
+      "citation": "Weight at r = .1 and r = .3 of the single-occasion range (half and one and a half times the r = .2 weight). "
     }
   },
   "traitWeightJobsRaiseForOpening": {
     "value": 1,
     "tag": "TUNABLE",
-    "citation": "The trait weight of the jobs.raise-for-opening decision. Starts at the general traitWeight (1); calibrated against its row in data/research/trait-effect-sizes.json with scripts/traits/trait-calibrate.ts.",
+    "citation": "The trait weight of the jobs.raise-for-opening decision: how far an owner's open-handedness scales what they add to an unfilled seat's pay (the share added is one half of 1 plus the weight times the lean, so a lean of 1 adds the full cost the seat has run up and a lean of -1 adds nothing). Not a two-way outcome, so scripts/traits/trait-calibrate.ts cannot fit it; unchanged from the site's earlier one-half-of-1-plus-lean.",
     "spread": {
-      "status": "unmeasured",
-      "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
+      "low": 0.5,
+      "high": 1.5,
+      "unit": "weight",
+      "citation": "Weight at r = .1 and r = .3 of the single-occasion range (half and one and a half times the r = .2 weight). "
+    }
+  },
+  "traitWeightRelationshipsWarmTo": {
+    "value": 1.15,
+    "tag": "ESTIMATED",
+    "citation": "Jokela, Alvergne, Pollet & Lummaa 2011, 'Reproductive behavior and personality traits of the Five Factor Model', European Journal of Personality, Table 2: odds of a first marriage 1.35 per SD of extraversion, the nearest sourced measure of how readily warm, outgoing people form close ties (Selfhout et al. 2010 report the direction for friendship selection without an extractable size). The weight is ln(1.35) over the person-level standard deviation of the warm-to lean, 0.262, measured over 1,813 full people of a drawn place (buildBenchWorld seed sd1), so a pair one standard deviation warmer builds closeness 1.35 times as fast.",
+    "estimatedFrom": "ln(1.35) / 0.262 = 1.15",
+    "spread": {
+      "low": 0.83,
+      "high": 1.45,
+      "unit": "weight",
+      "citation": "Men 1.53 and women 1.22 per SD (same table) give ln(1.22)/0.262 to ln(1.53)/0.262; the low end also covers a lean spread up to 0.31."
+    }
+  },
+  "traitWeightRelationshipsFallOut": {
+    "value": 1.01,
+    "tag": "ESTIMATED",
+    "citation": "Roberts, Kuncel, Shiner, Caspi & Goldberg 2007, 'The power of personality', Perspectives on Psychological Science: agreeableness and divorce, r = -0.18, the nearest sourced measure of how much a quarrel costs a tie between people who hold on to it (Jensen-Campbell & Graziano 2001 give the direction for conflict). Converted to 1.39 times the loss per SD (logit pi/sqrt(3) times r/sqrt(1-r^2)) and divided by the person-level standard deviation of the fall-out lean, 0.326, measured over 1,813 full people of a drawn place (buildBenchWorld seed sd1).",
+    "estimatedFrom": "ln(1.39) / 0.326 = 1.01",
+    "spread": {
+      "low": 0.6,
+      "high": 1.4,
+      "unit": "weight",
+      "citation": "The conscientiousness (r = -0.13) and neuroticism (r = 0.17) divorce correlations in the same paper bound the size from 1.27 to 1.39 per SD; the high end allows a smaller lean spread."
+    }
+  },
+  "relationshipsWarmToLeanCenter": {
+    "value": 0.129,
+    "tag": "ESTIMATED",
+    "citation": "The mean warm-to lean of 1,813 full people in a drawn place (buildBenchWorld seed sd1), subtracted so the average pair keeps the closeness model's hours (Hall 2019).",
+    "spread": {
+      "low": 0.08,
+      "high": 0.18,
+      "unit": "lean",
+      "citation": "The mean moves with each place's age and sex mix; checked against the standard deviation 0.262 over the root of the people counted."
+    }
+  },
+  "relationshipsFallOutLeanCenter": {
+    "value": -0.083,
+    "tag": "ESTIMATED",
+    "citation": "The mean fall-out lean of 1,813 full people in a drawn place (buildBenchWorld seed sd1), subtracted so the average quarrel costs the hours the engine that wrote it set.",
+    "spread": {
+      "low": -0.13,
+      "high": -0.03,
+      "unit": "lean",
+      "citation": "The mean moves with each place's age and sex mix; checked against the standard deviation 0.326."
     }
   },
   "traitWeightOfficeDayStateClemency": {
@@ -1374,30 +1455,36 @@
     }
   },
   "appraisalDistressTraitWeight": {
-    "value": 0.5,
-    "tag": "TUNABLE",
-    "citation": "No direct source for this coefficient, duration or prototype limit; tunable. Empirical calibration or owner budget approval is pending and blocks prototype release.",
+    "value": 0.255,
+    "tag": "ESTIMATED",
+    "citation": "Bolger, N., & Schilling, E. A. (1991), Personality and the problems of everyday life: The role of neuroticism in exposure and reactivity to daily stressors, Journal of Personality 59(3), 355-386: exposure and reactivity explained over 40% of the distress gap between high- and low-neuroticism people, reactivity twice as much as exposure, so reactivity is about two thirds of that, 0.27 of the gap. Reading the gap as the stressor-driven distress of a low-neuroticism person, the most reactive person (brooding and concern for distress at the top of the scale) responds about 1 + 2/3 times as strongly as the least; with the two appraisal traits multiplying, a trait at 2 levels reads 2/3 of the way up the trait scale of 3, so a weight of 0.255 each moves it 0.17 and gives (1.17 x 1.17) / (1 - 0.17) = 1.65. This weight is for concern for distress.",
     "stopgapId": "SG-P8-param-appraisalDistressTraitWeight",
     "spread": {
-      "status": "unmeasured",
-      "reason": "No empirical parameter bounds have been identified. Related outcome statistics or inherited model assumptions do not establish bounds on this parameter."
+      "low": 0.15,
+      "high": 0.375,
+      "unit": "weight",
+      "citation": "Ratio of most to least reactive 1.3 to 2.1 across a reactivity share of 0.2 to 0.4 of the gap."
     },
     "checkRange": {
       "ref": "P9-OUTCOME-WHOLE-LIFE"
-    }
+    },
+    "estimatedFrom": "The paper reports shares of the distress gap, not a per-trait response slope (its tables were not retrieved); the reading of the gap as the low-neuroticism stressor response is an assumption."
   },
   "appraisalBroodingTraitWeight": {
-    "value": 0.5,
-    "tag": "TUNABLE",
-    "citation": "No direct source for this coefficient, duration or prototype limit; tunable. Empirical calibration or owner budget approval is pending and blocks prototype release.",
+    "value": 0.255,
+    "tag": "ESTIMATED",
+    "citation": "Bolger, N., & Schilling, E. A. (1991), Personality and the problems of everyday life: The role of neuroticism in exposure and reactivity to daily stressors, Journal of Personality 59(3), 355-386: exposure and reactivity explained over 40% of the distress gap between high- and low-neuroticism people, reactivity twice as much as exposure, so reactivity is about two thirds of that, 0.27 of the gap. Reading the gap as the stressor-driven distress of a low-neuroticism person, the most reactive person (brooding and concern for distress at the top of the scale) responds about 1 + 2/3 times as strongly as the least; with the two appraisal traits multiplying, a trait at 2 levels reads 2/3 of the way up the trait scale of 3, so a weight of 0.255 each moves it 0.17 and gives (1.17 x 1.17) / (1 - 0.17) = 1.65. This weight is for brooding.",
     "stopgapId": "SG-P8-param-appraisalBroodingTraitWeight",
     "spread": {
-      "status": "unmeasured",
-      "reason": "No empirical parameter bounds have been identified. Related outcome statistics or inherited model assumptions do not establish bounds on this parameter."
+      "low": 0.15,
+      "high": 0.375,
+      "unit": "weight",
+      "citation": "Ratio of most to least reactive 1.3 to 2.1 across a reactivity share of 0.2 to 0.4 of the gap."
     },
     "checkRange": {
       "ref": "P9-OUTCOME-WHOLE-LIFE"
-    }
+    },
+    "estimatedFrom": "The paper reports shares of the distress gap, not a per-trait response slope (its tables were not retrieved); the reading of the gap as the low-neuroticism stressor response is an assumption."
   },
   "emotionDurationMinHours": {
     "value": 0.5,
@@ -5782,6 +5869,64 @@
     },
     "checkRange": {
       "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
+  },
+  "srrsFiredAtWork": {
+    "value": 47,
+    "tag": "SOURCED",
+    "citation": "Holmes TH, Rahe RH. The Social Readjustment Rating Scale. Journal of Psychosomatic Research 11(2):213-218, 1967, Table 3 life change units. Item 8, fired at work: 47 units."
+  },
+  "srrsForeclosure": {
+    "value": 30,
+    "tag": "SOURCED",
+    "citation": "Holmes TH, Rahe RH. The Social Readjustment Rating Scale. Journal of Psychosomatic Research 11(2):213-218, 1967, Table 3 life change units. Item 22, foreclosure of mortgage or loan: 30 units (stands for losing a home to eviction)."
+  },
+  "healthConscientiousnessLogHazardPerLevel": {
+    "value": -0.128,
+    "tag": "ESTIMATED",
+    "citation": "Kern, M. L., & Friedman, H. S. (2008), Do conscientious individuals live longer? A quantitative review, Health Psychology 27(5), 505-512: r = .11 (95% CI .05-.17) with longevity. Converted to a hazard slope: r times a lifespan SD of 15 years is 1.65 years per trait SD; adult mortality doubles about every 8 years (Gompertz slope 0.087 per year), so a 1.65-year shift is a log hazard of -0.144 per SD; the opening levels have SD 1.095, giving -0.128 per level.",
+    "estimatedFrom": "Lifespan SD and the Gompertz slope are round figures, not drawn from the life table.",
+    "spread": {
+      "low": -0.058,
+      "high": -0.198,
+      "unit": "log hazard per conscientiousness level",
+      "citation": "Kern and Friedman 2008 confidence interval r .05 to .17, same conversion."
+    }
+  },
+  "healthDrugUseLogOddsPerLevel": {
+    "value": -0.716,
+    "tag": "ESTIMATED",
+    "citation": "Bogg, T., & Roberts, B. W. (2004), Conscientiousness and health-related behaviors: A meta-analysis of the leading behavioral contributors to mortality, Psychological Bulletin 130(6), 887-919: conscientiousness with drug use r = -.28, the largest domain. Point-biserial to logit slope per SD is r over sqrt(q(1-q)) with q = 0.15 holding the condition (pack prevalence 8.5-27%), -0.784 per SD, divided by the level SD 1.095.",
+    "estimatedFrom": "One holding share for all ages; the slope per SD would be steeper where fewer hold it.",
+    "spread": {
+      "low": -0.307,
+      "high": -0.716,
+      "unit": "log odds per conscientiousness level",
+      "citation": "Bogg and Roberts 2004: other behavioral domains -.12 to -.25, drug use -.28."
+    }
+  },
+  "healthTobaccoLogOddsPerLevel": {
+    "value": -0.528,
+    "tag": "ESTIMATED",
+    "citation": "Bogg, T., & Roberts, B. W. (2004), Conscientiousness and health-related behaviors: A meta-analysis of the leading behavioral contributors to mortality, Psychological Bulletin 130(6), 887-919: conscientiousness with the other health behaviors r = -.12 to -.25 (midpoint -.185 for tobacco). Logit slope per SD is r over sqrt(q(1-q)) with q = 0.116 adult current smokers (CDC 2022), -0.578 per SD, divided by the level SD 1.095. Applied to the chronic lung disease condition smoking drives.",
+    "estimatedFrom": "The tobacco domain value is not separately retrieved; the midpoint of the reported range stands in.",
+    "spread": {
+      "low": -0.312,
+      "high": -0.713,
+      "unit": "log odds per conscientiousness level",
+      "citation": "Bogg and Roberts 2004 range r -.12 to -.25."
+    }
+  },
+  "traitChangeEventShift": {
+    "value": 0.1,
+    "tag": "ESTIMATED",
+    "citation": "Direction: emotional stability falls after adverse life events (Specht, J. (2017), Personality development across the lifespan, and Specht, Egloff, & Schmukle (2011), Stability and change of personality across the life course: The impact of age and major life events on mean-level and rank-order stability of the Big Five, Journal of Personality and Social Psychology 101(4), 862-882). Size: one event moves the hidden standard score of each emotional-stability trait by 0.1 of a standard deviation, in the range the event studies report as small; the per-event coefficients in the papers were not retrieved.",
+    "estimatedFrom": "The size is a round figure inside \"small\"; only the direction is from the sources.",
+    "spread": {
+      "low": 0.05,
+      "high": 0.25,
+      "unit": "standard deviations per event",
+      "citation": "Small effects in the life-event personality literature; not retrieved per event."
     }
   }
 }
