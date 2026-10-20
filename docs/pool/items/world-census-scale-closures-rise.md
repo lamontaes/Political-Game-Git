@@ -22,3 +22,5 @@ claimed-at:
 **Files.** src/core2/modules/business.ts, src/core2/modules/jobs.ts, src/core2/census-weight-economy.test.ts
 
 **Notes.** TODO
+
+Sent back 2026-10-20 from PR #5553 (branch claude/closures-rise): new Core test imports the old simulation population reader and impact:none mislabels gameplay changes to sales and owner payouts; use a Core-owned reader and a gameplay release declaration; finish on that branch, merge main into it first.
