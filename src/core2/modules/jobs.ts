@@ -31,7 +31,12 @@ import { isDemoted } from "../counted-groups";
 import { residentPerson, residentsRuntime } from "./residents";
 import { claimRetirementNow } from "./retirement-claims";
 import { MOVED_AWAY_EVENT } from "./moves";
-import { endClaim, fileClaim, payClaims } from "../jobs-benefits";
+import {
+  endClaim,
+  fileClaim,
+  payClaims,
+  type ClaimRow,
+} from "../jobs-benefits";
 import { meetAtWork } from "../encounters";
 import {
   addCountedJob,
@@ -1545,8 +1550,11 @@ function runWeek(api: CoreAPI): void {
   for (const row of positions)
     byPlace.set(row.placeId, [...(byPlace.get(row.placeId) ?? []), row]);
   const applications = new Map<string, SeekerRow[]>();
+  // Each seeker's contacts this week (the employers they applied to).
+  const contacts = new Map<string, number>();
   const apply = (positionId: string, seeker: SeekerRow) => {
     if (inCustody(api, seeker.personId)) return;
+    contacts.set(seeker.personId, (contacts.get(seeker.personId) ?? 0) + 1);
     const list = applications.get(positionId);
     if (list) list.push(seeker);
     else applications.set(positionId, [seeker]);
@@ -1633,6 +1641,25 @@ function runWeek(api: CoreAPI): void {
         0
       )
         apply(position.id, seeker);
+  }
+  // A claimant's week of looking for work is on the record, for the benefit
+  // week it covers to read against the state's contact rule. The person the
+  // player controls does the rule in the background, so has no record to fall short.
+  for (const claim of store(api)
+    .table("claims")
+    .query("open", [true]) as unknown as ClaimRow[]) {
+    if (controlled(c, claim.personId)) continue;
+    store(api)
+      .table("searches")
+      .put({
+        id: `search:${claim.personId}:${c.date}`,
+        claimId: claim.id,
+        personId: claim.personId,
+        week: c.date,
+        contacts: contacts.get(claim.personId) ?? 0,
+        openings: byPlace.get(claim.placeId)?.length ?? 0,
+        required: claim.contactsRequired ?? 0,
+      } as never);
   }
   // Counted applicants retain their work history. Read it once for this
   // matching round, including jobs hired and ended during play.
@@ -2779,6 +2806,7 @@ export const JOBS_MODULE: CoreModule = {
           byPerson: { fields: ["personId", "open"] },
         },
       },
+      searches: { indexes: { byPerson: { fields: ["personId"] } } },
       changes: {
         indexes: {
           byPerson: { fields: ["personId"] },
@@ -2914,7 +2942,7 @@ export const JOBS_MODULE: CoreModule = {
         .get(work.sourceRecordIds[0] ?? "") as JobOfferRow | undefined;
       if (row?.status === "pending") settleOffer(api, row, "lapsed");
     } else if (work.kind === "jobs-week") {
-      payClaims(api, store(api).table("claims"));
+      payClaims(api, store(api).table("claims"), store(api).table("searches"));
       runWeek(api);
       scheduleWeek(api);
     }
