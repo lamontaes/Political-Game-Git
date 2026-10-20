@@ -10,6 +10,7 @@
  * read recorded results and incumbents and are the next pieces of
  * gov-redistricting-plan-builder.
  */
+import limits from "./data/redistricting/deviation-limits.json" with { type: "json" };
 import type { CvapUnit, NeighborhoodUnit } from "./neighborhoods";
 
 export interface PlanUnit {
@@ -107,3 +108,113 @@ export const asPlanUnit = (unit: NeighborhoodUnit): PlanUnit => ({
   geoid: unit.geoid,
   population: unit.population,
 });
+
+export type PlanLevel = "us-house" | "state-legislature" | "local";
+
+/** The total spread (largest district over smallest, as a share of the ideal) a level's law allows. */
+export function deviationLimit(level: PlanLevel): number {
+  return limits.levels[level].maxTotalDeviation;
+}
+
+/** Total deviation: the gap between the largest and smallest district over the ideal. */
+export function totalDeviation(plan: Plan): number {
+  const people = planStats(plan).map((row) => row.people);
+  const ideal = people.reduce((n, p) => n + p, 0) / Math.max(1, people.length);
+  return ideal > 0 ? (Math.max(...people) - Math.min(...people)) / ideal : 0;
+}
+
+/** Whether a plan is within the population limit for the level it is drawn for. */
+export function meetsDeviationLimit(plan: Plan, level: PlanLevel): boolean {
+  return totalDeviation(plan) <= deviationLimit(level);
+}
+
+export interface CitizenPlanUnit extends PlanUnit {
+  /** Citizen voting-age people. */
+  readonly cvap: number;
+  /** Of them, White alone and not Hispanic. */
+  readonly cvapWhite: number;
+}
+
+/**
+ * The plan that meets the Voting Rights Act test: of all the ways to cut the
+ * units, in id order, into districts within the level's population limit, the
+ * one with the most districts whose citizen voting-age people are a majority
+ * not White-alone-non-Hispanic (the Gingles first condition, measured from the
+ * units). Ties go to the plan nearest equal population. Returns undefined if no
+ * cut meets the limit.
+ */
+export function vraPlan(
+  units: readonly CitizenPlanUnit[],
+  districts: number,
+  level: PlanLevel,
+): Plan | undefined {
+  const sorted = [...units].sort((a, b) => a.geoid.localeCompare(b.geoid));
+  const n = sorted.length;
+  const total = sorted.reduce((s, u) => s + u.population, 0);
+  const ideal = total / districts;
+  // Each district may be half the total spread above or below the ideal.
+  const half = deviationLimit(level) / 2;
+  const low = ideal * (1 - half),
+    high = ideal * (1 + half);
+  const pop = new Float64Array(n + 1),
+    cvap = new Float64Array(n + 1),
+    white = new Float64Array(n + 1);
+  sorted.forEach((u, i) => {
+    pop[i + 1] = pop[i]! + u.population;
+    cvap[i + 1] = cvap[i]! + u.cvap;
+    white[i + 1] = white[i]! + u.cvapWhite;
+  });
+  // best[j][i]: the most majority-minority districts, then the least squared miss, for the first i units in j districts.
+  const best: ({ wins: number; miss: number; from: number } | undefined)[][] =
+    Array.from(
+      { length: districts + 1 },
+      () =>
+        new Array<{ wins: number; miss: number; from: number } | undefined>(
+          n + 1,
+        ),
+    );
+  best[0]![0] = { wins: 0, miss: 0, from: -1 };
+  for (let j = 1; j <= districts; j += 1) {
+    let start = 0;
+    for (let i = j; i <= n; i += 1) {
+      // Starts whose district population lies in [low, high], moving forward as i does.
+      while (start < i && pop[i]! - pop[start]! > high) start += 1;
+      for (let from = start; from < i; from += 1) {
+        const people = pop[i]! - pop[from]!;
+        if (people < low) break;
+        const prev = best[j - 1]![from];
+        if (!prev) continue;
+        const c = cvap[i]! - cvap[from]!;
+        const win = c > 0 && (c - (white[i]! - white[from]!)) / c > 0.5 ? 1 : 0;
+        const miss = prev.miss + ((people - ideal) / ideal) ** 2;
+        const here = best[j]![i];
+        const wins = prev.wins + win;
+        if (
+          !here ||
+          wins > here.wins ||
+          (wins === here.wins && miss < here.miss)
+        )
+          best[j]![i] = { wins, miss, from };
+      }
+    }
+  }
+  if (!best[districts]![n]) return undefined;
+  const cuts: number[] = [];
+  for (let j = districts, i = n; j >= 1; j -= 1) {
+    cuts.unshift(i);
+    i = best[j]![i]!.from;
+  }
+  const runs: PlanUnit[][] = [];
+  const districtOf = new Map<string, number>();
+  let from = 0;
+  cuts.forEach((to, index) => {
+    const run = sorted.slice(from, to).map((u) => ({
+      geoid: u.geoid,
+      population: u.population,
+    }));
+    runs.push(run);
+    for (const u of run) districtOf.set(u.geoid, index + 1);
+    from = to;
+  });
+  return { districtOf, districts: runs };
+}

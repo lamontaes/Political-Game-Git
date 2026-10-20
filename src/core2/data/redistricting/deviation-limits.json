@@ -1,0 +1,23 @@
+{
+  "about": "How far a district's population may be from the ideal, as the total spread between the largest and smallest district divided by the ideal (a district may be half this far above or below). Courts read equal population strictly for congressional maps and more loosely for state legislative and local ones.",
+  "levels": {
+    "us-house": {
+      "maxTotalDeviation": 0.001,
+      "tag": "SOURCED",
+      "source": "Karcher v. Daggett, 462 U.S. 725 (1983) and Wesberry v. Sanders, 376 U.S. 1 (1964): congressional districts must be as nearly equal in population as practicable; a variance must be justified by a legitimate state objective. 0.001 (one tenth of one percent) is the working limit; most states draw to within a few people.",
+      "spread": [0, 0.005]
+    },
+    "state-legislature": {
+      "maxTotalDeviation": 0.1,
+      "tag": "SOURCED",
+      "source": "Brown v. Thomson, 462 U.S. 835 (1983), Gaffney v. Cummings, 412 U.S. 735 (1973) and Reynolds v. Sims, 377 U.S. 533 (1964): a total deviation under 10 percent is presumptively constitutional for state legislative districts; above it the state must justify the plan.",
+      "spread": [0.05, 0.16]
+    },
+    "local": {
+      "maxTotalDeviation": 0.1,
+      "tag": "SOURCED",
+      "source": "Abate v. Mundt, 403 U.S. 182 (1971) and Avery v. Midland County, 390 U.S. 474 (1968): the one person, one vote rule applies to local bodies; the 10 percent presumption for state legislative plans is applied to them.",
+      "spread": [0.05, 0.16]
+    }
+  }
+}

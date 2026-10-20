@@ -8,10 +8,15 @@ import { describe, expect, it } from "vitest";
 import { cvapUnits, neighborhoodUnits } from "./neighborhoods";
 import {
   asPlanUnit,
+  deviationLimit,
   districtCvapMakeup,
   evenPlan,
   maxDeviation,
+  meetsDeviationLimit,
   planStats,
+  totalDeviation,
+  vraPlan,
+  type CitizenPlanUnit,
 } from "./redistricting-plans";
 
 describe("the even plan", () => {
@@ -58,5 +63,49 @@ describe("the even plan", () => {
 
   it("refuses a plan with no districts", () => {
     expect(() => evenPlan([], 0)).toThrow();
+  });
+});
+
+describe("the population limit and the Voting Rights Act plan", () => {
+  it("reads each level's limit from data and holds the even plan to it", async () => {
+    const units = (await neighborhoodUnits("NM")).map(asPlanUnit);
+    const plan = evenPlan(units, 3);
+    expect(deviationLimit("us-house")).toBe(0.001);
+    expect(deviationLimit("state-legislature")).toBe(0.1);
+    expect(meetsDeviationLimit(plan, "state-legislature")).toBe(true);
+    // Block groups are too coarse for the strict congressional limit without splitting one.
+    expect(totalDeviation(plan)).toBeGreaterThan(0);
+  });
+
+  it("draws New Mexico's 3 districts for a majority-minority citizen voting-age count where one can be made", async () => {
+    const units = await neighborhoodUnits("NM");
+    const cit = new Map((await cvapUnits("NM")).map((c) => [c.geoid, c]));
+    const citizens: CitizenPlanUnit[] = units.map((u) => ({
+      geoid: u.geoid,
+      population: u.population,
+      cvap: cit.get(u.geoid)?.cvap ?? 0,
+      cvapWhite: cit.get(u.geoid)?.cvapNhWhite ?? 0,
+    }));
+    const plan = vraPlan(citizens, 3, "state-legislature");
+    expect(plan).toBeDefined();
+    expect(meetsDeviationLimit(plan!, "state-legislature")).toBe(true);
+    const make = districtCvapMakeup(plan!, await cvapUnits("NM"));
+    const even = districtCvapMakeup(
+      evenPlan(units.map(asPlanUnit), 3),
+      await cvapUnits("NM"),
+    );
+    const majorities = (rows: typeof make) =>
+      rows.filter((r) => r.minorityShare > 0.5).length;
+    // Never fewer majority-minority districts than the even plan, and every unit is placed.
+    expect(majorities(make)).toBeGreaterThanOrEqual(majorities(even));
+    expect(plan!.districtOf.size).toBe(units.length);
+  }, 120_000);
+
+  it("returns nothing when no cut can meet the limit", async () => {
+    const units: CitizenPlanUnit[] = [
+      { geoid: "1", population: 1000, cvap: 800, cvapWhite: 100 },
+      { geoid: "2", population: 10, cvap: 8, cvapWhite: 1 },
+    ];
+    expect(vraPlan(units, 2, "us-house")).toBeUndefined();
   });
 });
