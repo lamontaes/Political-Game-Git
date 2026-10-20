@@ -5,13 +5,13 @@ area: director
 kind: wiring
 priority: 1
 size: M
-status: claimed
-claimed-by: claude/director-civic-producers-government
+status: open
+claimed-by:
 pr: #4600
 blocked-on:
 after: director-civic-roles
 source: "director-civic-producers, found building it"
-claimed-at: 2026-10-20T02:56:27.964Z
+claimed-at:
 ---
 
 **What.** Bill signing, veto, hearings, floor votes, recalls, scandals, appointments and a law reaching a person fire as scenes. This work was sent back by the merger on 2026-10-16 and is open for any builder to finish. The reason it came back: The top of the PR body lacks a gate line naming the in-session checks on changed files and their results. Add the named checks and results at the top (a pool id may precede it); "Local checks pass" alone does not name the checks. Finish it on the existing branch claude/director-civic-producers-government, after merging main into it with a plain merge.
@@ -35,3 +35,5 @@ Sent back 2026-10-17 from PR #4600 (branch claude/director-civic-producers-gover
 Sent back 2026-10-19 from PR #4600 (branch claude/director-civic-producers-government): Morning check: src/director/government-scenes.test.ts returns successfully without assertions when no eligible body exists (lines 50–54) or the bill never reaches a vote (lines 102–110); these silent passes skip the acceptance case. Draw another place and fail if the case is never reached; finish on that branch, merge main into it first.
 
 Sent back 2026-10-20 from PR #4600 (branch claude/director-civic-producers-government): Code or data conflict with main in src/director/civic-roles.ts, src/director/data/director.json, src/director/government-scenes.test.ts; finish on that branch, merge main into it first.
+
+Oct 20 (claude, claude/civic-producers-government-landed): nothing left to finish on PR #4600's branch. Merging current main into `claude/director-civic-producers-government` leaves a tree identical to main: the work is already on main as commit 172ad46fc0 ("Director: a floor vote, a signing and a veto are scenes for the people they reach") with its release declaration `docs/release/changes/director-civic-producers-government.md`, and the skipped-acceptance fix the merger asked for landed as 2816e931c7 ("Scene tests: draw again up to eight places and fail when no case is reached"); `src/director/government-scenes.test.ts` on main draws up to eight places and fails if none reaches a voted bill. The item was left open and sent back from a PR whose content main already holds. The merger can mark it done and close PR #4600.
