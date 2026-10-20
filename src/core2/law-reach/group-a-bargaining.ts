@@ -161,12 +161,14 @@ onReachCalendar(KIND, (api, work) => {
     // The first named worker raised, so the contract can be followed to a person.
     let sample: { jobId: string; from: number; to: number } | undefined;
     for (const job of jobs) {
-      const to = Math.round(job.hourlyMinor! * (1 + growth));
-      if (to <= job.hourlyMinor!) continue;
+      // The job is the live record: read its pay before the re-rate changes it.
+      const from = job.hourlyMinor!;
+      const to = Math.round(from * (1 + growth));
+      if (to <= from) continue;
       api.rerateJob(job.id, to, source);
       raised += 1;
       if (!sample && core.jobs.has(job.id))
-        sample = { jobId: job.id, from: job.hourlyMinor!, to };
+        sample = { jobId: job.id, from, to };
     }
     putMechanic(api, {
       id,

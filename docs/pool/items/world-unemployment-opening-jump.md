@@ -5,12 +5,12 @@ area: world
 kind: bug
 priority: 2
 size: M
-status: claimed
-claimed-by: claude/unemployment-jump
+status: dropped
+claimed-by: claude/political-game-pool-3xfqef-2
 pr: #4913
-blocked-on:
+blocked-on: world-local-sales-below-opening-forecast
 source: added with npm run pool -- add
-claimed-at: 2026-10-19T22:07:00.618Z
+claimed-at: 2026-10-19T22:23:51.875Z
 ---
 
 **What.** A town's unemployment rate (seekers over employed plus seekers) climbs from about 4 percent in the first week to 11 to 14 percent by month six, against a start near the place's real rate. Find what pushes people out of work in the first months and fix the cause. The measurement in the notes shows the climb is layoffs, not search. The fix is the sales gap named in the notes.

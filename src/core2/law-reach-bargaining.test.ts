@@ -119,7 +119,11 @@ describe("public-sector bargaining sets a unit's pay from its employer's budget 
       if (f.sampleJobId !== undefined) {
         const change = core.work.payChanges
           .get(String(f.sampleJobId))
-          ?.find((c) => c.source.citation.includes(String(f.line)));
+          ?.find(
+            (c) =>
+              c.source.citation.includes(String(f.line)) &&
+              c.source.citation.includes("the unit's contract"),
+          );
         expect(
           change,
           `${place.key}: pay change on ${f.sampleJobId}`,
@@ -130,13 +134,20 @@ describe("public-sector bargaining sets a unit's pay from its employer's budget 
         );
       }
       // A repeal at every level in force stops the next contract.
+      const repealed = new Set(yesLevels(api, KEY).map((l) => l.lawId));
       for (const l of yesLevels(api, KEY))
         setLaw(api, l.level, 0, `no:${attempt}:${l.level}`);
       advanceCore(core, addDays(makeIsoDate(core.date), 2));
       expect(yesLevels(api, KEY)).toHaveLength(0);
-      const count = contracts(api).length;
+      const before = new Set(contracts(api).map((c) => c.id));
       advanceCore(core, addDays(makeIsoDate(core.date), 400));
-      expect(contracts(api)).toHaveLength(count);
+      // A year on, the world's own legislature may have enacted the law again;
+      // any contract since then cites that new law, never the repealed one.
+      for (const c of contracts(api).filter((row) => !before.has(row.id)))
+        expect(
+          repealed.has(String(c.facts.lawId)),
+          `${place.key}: ${c.id} was bargained under the repealed ${c.facts.lawId}`,
+        ).toBe(false);
       return;
     }
     throw new Error(
