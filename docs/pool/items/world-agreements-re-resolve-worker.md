@@ -5,9 +5,9 @@ area: world
 kind: stopgap
 priority: 2
 size: M
-status: claimed
+status: done
 claimed-by: claude/agreement-re-resolve-s7
-pr:
+pr: #5129
 blocked-on:
 source: "split from core-moves-pinned-and-income-stopgaps, Oct 15"
 claimed-at: 2026-10-19T18:55:19.961Z
