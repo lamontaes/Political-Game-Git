@@ -6,11 +6,11 @@ kind: bug
 priority: 2
 size: S
 status: claimed
-claimed-by: claude/political-game-pool-yucp92-ff
+claimed-by: claude/closures-rise
 pr:
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-20T03:33:30.564Z
+claimed-at: 2026-10-20T04:15:07.098Z
 ---
 
 **What.** After outside demand was scaled by the count scale, a town opened at its Census size (Chantilly, Virginia) still shows 114 closure rows in the jobs engine in a played year, against none at the sample size. Closures remove the firm and its workers' jobs. Find why firms close at Census scale (their books, credit or owner draws read a figure that does not scale) and make the reads agree.

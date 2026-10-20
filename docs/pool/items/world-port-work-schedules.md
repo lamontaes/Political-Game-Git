@@ -24,3 +24,5 @@ claimed-at: 2026-10-19T18:33:59.606Z
 **Notes.** Part of the opening town builder port (docs/coordination/core.md line 27; docs/design/old-core-retirement-map.md). Do the parts in any order; each keeps the town the same.
 
 Looked at 2026-10-16: bigger than S. `workSchedulesFor` is not a lookup: it builds an employer roster index from `world.history.workRelationships` (`jobIndex`, about lines 273 to 512 of the old file) and reads `life-queries`, `time-work`, `work-absence`, `vitality-integrity` and `town-employment`, so only the `WORK_PATTERNS` and `WORKPLACE_PATTERN` tables move cleanly (as data). Six old-engine files still import it (protests, law-interest-groups, campaign-canvass, campaign-helpers, campaign-life-activities, relationship-contact), so moving it also means porting or deleting those readers, or "replace, never layer" is broken by a copy. Do the tables as data first, then the roster rule on the opening's own job rows.
+
+Oct 19 (claude/port-work-patterns): the tables half is done. WORK_PATTERNS and its types moved to src/core2/work-patterns.ts, and opening-work.ts reads them there. The roster rule is the new item world-port-work-schedules-roster.
