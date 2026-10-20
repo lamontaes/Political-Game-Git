@@ -18,11 +18,24 @@ import { renewRentalLeases } from "./housing-occupancy";
 import { townFigures } from "./modules/housing";
 import { OUTCOME_WEB_MODULE_ID, type WebMonth } from "./modules/outcome-web";
 import { coreAPI } from "./state";
-import { drawPlace } from "../../scripts/core2-year/place";
+import { worldWith, type PlayedWorld } from "./tooling/world-with";
 import type { CoreState } from "./types";
 
 const seed = process.env.WEB_HOUSING_SEED || randomBytes(8).toString("hex");
-const place = drawPlace(seed, "web-housing");
+// A drawn town with a working full household (the homeless review needs pay to read).
+const workingHousehold = (core: CoreState, town: string) =>
+  [...core.households.values()].find(
+    (h) =>
+      h.placeId === town &&
+      h.memberIds.some((id) => {
+        const job = core.jobs.get(core.people.get(id)?.jobId ?? "");
+        return job !== undefined && job.endsAt === undefined;
+      }),
+  );
+const first = worldWith(seed, "web-housing", (world) =>
+  Boolean(workingHousehold(world.core, world.placeId)),
+);
+const place = first.place;
 
 interface Run {
   webRecordId: string;
@@ -32,12 +45,14 @@ interface Run {
   homelessFactorRecord: string | null;
 }
 
-function play(shift: boolean): Run {
+function play(shift: boolean, built?: PlayedWorld): Run {
   const opening = gameStartDate();
-  const world = buildBenchWorld(seed, opening, {
-    twoLevel: true,
-    placeKey: place.key,
-  });
+  const world =
+    built ??
+    buildBenchWorld(place.seed, opening, {
+      twoLevel: true,
+      placeKey: place.key,
+    });
   const core = world.core as CoreState;
   // To the 10th of a month, after the web's day: the shifted record then stands for the next day's reads.
   let tenth = addDays(makeIsoDate(opening), 40);
@@ -118,18 +133,7 @@ function play(shift: boolean): Run {
         .carryMulti,
     ) - before;
   // A household without a home, whose pay is 0.8 of what the landlord asks.
-  const household = [...core.households.values()].find(
-    (h) =>
-      h.placeId === town &&
-      h.memberIds.some((id) => {
-        const job = core.jobs.get(core.people.get(id)?.jobId ?? "");
-        return job !== undefined && job.endsAt === undefined;
-      }),
-  );
-  if (!household)
-    throw new Error(
-      `no working household in ${town}: ${[...core.households.values()].filter((h) => h.placeId === town).length} households there, ${[...core.households.values()].length} in all, ${[...core.jobs.values()].filter((j) => j.endsAt === undefined).length} open jobs`,
-    );
+  const household = workingHousehold(core, town)!;
   for (const id of household.memberIds) {
     const person = core.people.get(id) as { liquidMinor: number };
     person.liquidMinor = 1e12;
@@ -166,7 +170,7 @@ function play(shift: boolean): Run {
 
 describe(`housing follows the outcome web (${place.name}, seed ${seed})`, () => {
   it("renewed rents, apartment starts and a homeless household's way back move with the web's factors", () => {
-    const base = play(false);
+    const base = play(false, first.world);
     const moved = play(true);
     // Rents: every lease, full and counted, renews 5 percent higher in the shifted run.
     expect(moved.rents.size).toBeGreaterThan(0);
