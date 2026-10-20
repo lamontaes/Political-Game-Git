@@ -9,6 +9,8 @@
  * English engine; this returns record data and ids only.
  */
 import { moneySince, watchMoney } from "../core2/tooling/money-watch";
+import { bookkeeping } from "../core2/bookkeeping";
+import { journalCheckCounts } from "../core2/journal";
 import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import { coreAPI, personOrFillIn } from "../core2/state";
 import { advanceCore, availableActs, type Controller } from "../core2/life";
@@ -262,6 +264,11 @@ export class DevMode {
           facts,
         };
       });
+  }
+
+  /** Whether the cash journal's structural checks ran, and how to turn them on for a disputed result. */
+  journalChecks() {
+    return { checking: bookkeeping(), ...journalCheckCounts() };
   }
 
   // 1. Laws ---------------------------------------------------------------
