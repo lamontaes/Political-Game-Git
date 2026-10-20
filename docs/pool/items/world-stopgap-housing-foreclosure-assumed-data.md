@@ -4,10 +4,10 @@ title: "Stopgaps in housing-foreclosure (assumed-data): 1 open"
 area: world
 kind: stopgap
 priority: 3
-status: open
+status: blocked
 claimed-by:
 pr:
-blocked-on:
+blocked-on: research data: the row's replacement needs sourced data (Each place's foreclosure steps read from its statute text and court rules, with its own average days to complete....)
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/housing-foreclosure.ts, kind assumed-data"
 ---

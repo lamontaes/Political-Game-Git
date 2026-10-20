@@ -4,10 +4,10 @@ title: "Stopgaps in opening-payroll-calendar (estimated-opening-employer-pay-cal
 area: core
 kind: stopgap
 priority: 3
-status: open
+status: blocked
 claimed-by:
 pr:
-blocked-on:
+blocked-on: dataset-employer-payroll-calendars
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/data/opening-payroll-calendar.json, kind estimated-opening-employer-pay-calendar"
 ---

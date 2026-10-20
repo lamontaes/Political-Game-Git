@@ -5,14 +5,14 @@
   "counts": {
     "markers": 213,
     "byKind": {
-      "unresearched": 52,
       "placeholder": 133,
+      "unresearched": 52,
       "blanket": 29
     },
     "byPath": {
+      "other": 105,
       "law": 75,
       "government": 31,
-      "other": 105,
       "money": 2
     },
     "withoutQuestion": 136,
@@ -20,6 +20,42 @@
     "moneyOrLawQuestions": 30
   },
   "markers": [
+    {
+      "file": "src/core2/condition-pack.ts",
+      "line": 158,
+      "text": "// PLACEHOLDER(research: chronic-condition-income-gradients): the 2026 pack",
+      "kinds": ["placeholder"],
+      "path": "other",
+      "researchQuestionId": "chronic-condition-income-gradients",
+      "researchQuestionFiled": false
+    },
+    {
+      "file": "src/core2/condition-pack.ts",
+      "line": 258,
+      "text": "? `${CONDITION_PACK_KEY}: ${condition.label}, ${grade.key}, recorded at age ${Math.floor(age)}, multiplies mortality strain by ${weight.toFixed(2)} (PLACEHOLDER",
+      "kinds": ["placeholder"],
+      "path": "other",
+      "researchQuestionId": "chronic-condition-income-gradients",
+      "researchQuestionFiled": false
+    },
+    {
+      "file": "src/core2/death-causes.ts",
+      "line": 66,
+      "text": "* PLACEHOLDER(research: how-long-a-serious-illness-lasts-by-age). How many",
+      "kinds": ["placeholder"],
+      "path": "other",
+      "researchQuestionId": "how-long-a-serious-illness-lasts-by-age",
+      "researchQuestionFiled": true
+    },
+    {
+      "file": "src/core2/death-causes.ts",
+      "line": 81,
+      "text": "* PLACEHOLDER(research: causes-of-death-by-age). The share of the remaining",
+      "kinds": ["placeholder"],
+      "path": "other",
+      "researchQuestionId": "causes-of-death-by-age",
+      "researchQuestionFiled": true
+    },
     {
       "file": "src/simulation/campaign-compliance.ts",
       "line": 663,
@@ -198,42 +234,6 @@
       "kinds": ["unresearched"],
       "path": "other",
       "researchQuestionId": "place-population-today",
-      "researchQuestionFiled": true
-    },
-    {
-      "file": "src/simulation/crisis/condition-pack.ts",
-      "line": 193,
-      "text": "// PLACEHOLDER(research: chronic-condition-income-gradients): the 2026 pack",
-      "kinds": ["placeholder"],
-      "path": "other",
-      "researchQuestionId": "chronic-condition-income-gradients",
-      "researchQuestionFiled": false
-    },
-    {
-      "file": "src/simulation/crisis/condition-pack.ts",
-      "line": 314,
-      "text": "? `${CONDITION_PACK_KEY}: ${condition.label}, ${grade.key}, recorded at age ${Math.floor(age)}, multiplies mortality strain by ${weight.toFixed(2)} (PLACEHOLDER",
-      "kinds": ["placeholder"],
-      "path": "other",
-      "researchQuestionId": "chronic-condition-income-gradients",
-      "researchQuestionFiled": false
-    },
-    {
-      "file": "src/simulation/crisis/death-causes.ts",
-      "line": 64,
-      "text": "* PLACEHOLDER(research: how-long-a-serious-illness-lasts-by-age). How many",
-      "kinds": ["placeholder"],
-      "path": "other",
-      "researchQuestionId": "how-long-a-serious-illness-lasts-by-age",
-      "researchQuestionFiled": true
-    },
-    {
-      "file": "src/simulation/crisis/death-causes.ts",
-      "line": 79,
-      "text": "* PLACEHOLDER(research: causes-of-death-by-age). The share of the remaining",
-      "kinds": ["placeholder"],
-      "path": "other",
-      "researchQuestionId": "causes-of-death-by-age",
       "researchQuestionFiled": true
     },
     {

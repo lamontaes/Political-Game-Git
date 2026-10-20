@@ -4,10 +4,10 @@ title: "Stopgaps in housing (assumed-data): 2 open"
 area: world
 kind: stopgap
 priority: 3
-status: open
+status: blocked
 claimed-by:
 pr:
-blocked-on:
+blocked-on: research data: the row's replacement needs sourced data or calibration (see the item's stopgap row)
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/modules/housing.ts, kind assumed-data"
 ---

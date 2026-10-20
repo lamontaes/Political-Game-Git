@@ -4,10 +4,10 @@ title: "Stopgaps in offices-state (assumed-data): 1 open"
 area: office
 kind: stopgap
 priority: 3
-status: open
+status: blocked
 claimed-by:
 pr:
-blocked-on:
+blocked-on: research data: the row's replacement needs sourced data (Every row checked against Ballotpedia's partisan composition pages or the state's own records....)
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/offices-state.ts, kind assumed-data"
 ---

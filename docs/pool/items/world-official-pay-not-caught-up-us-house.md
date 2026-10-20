@@ -5,12 +5,12 @@ area: gov
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/official-pay-catchup-s5
+pr: #5008
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 
+claimed-at: 2026-10-17T23:55:27.158Z
 ---
 
 **What.** TODO

@@ -4,10 +4,10 @@ title: "Stopgaps in offices (estimated-calendar): 1 open"
 area: office
 kind: stopgap
 priority: 3
-status: open
+status: blocked
 claimed-by:
 pr:
-blocked-on:
+blocked-on: research data: the row's replacement needs sourced data (Each state's governor start rule (FIXER stand-in figures: AK, HI, FL, DE, LA, VA, ME and the rest), county bodies from county-election-schedule-by-sta...)
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/modules/offices.ts, kind estimated-calendar"
 ---

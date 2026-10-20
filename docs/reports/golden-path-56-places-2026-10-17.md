@@ -31,6 +31,14 @@ Three more fixes cover the path itself. A law that names no one now ranks in loc
 
 Open: the two items above and a federal member's bill.
 
+## After the press fixes
+
+I ran the same 56 places again once the small-town press fixes were in. The two places where the law went unprinted, Cobb Island, Maryland and Midway, Louisiana, now reach step 10, because their local newspaper and stations stay open. The counts are now: step 11 in 1 place, step 10 in 30, step 8 in 24, step 7 in 1, and nothing crashed or ran silent. Arizona (Bullhead City) now prints its result and reads step 8.
+
+Two places moved on the vote alone: Mattydale, New York went from a failed bill to an enacted one, and Georgetown, Mississippi went the other way. A town's vote depends on its members' views, which change when the world around them changes, so a place near the line can flip.
+
+The press fixes were an opening cash buffer for local outlets, revenue sized to cover payroll taxes, and a post's hourly rate set over the hours its schedule runs. The last one was needed: the press staff were paid 20 percent over their listed pay.
+
 ## Method
 
 One locality per jurisdiction, chosen by a hash of the jurisdiction (seed `all56`), three places at a time, each with `node --import tsx src/bench/path-check.ts` and `GOLDEN_PATH_PLACE_KEY`. Arizona (Bullhead City) printed nothing in the parallel run and read step 8 when run alone (382 seconds); the cause of the silence was not found. The next election (step 11) was not forced in this run, since it needs a flag and years of play.

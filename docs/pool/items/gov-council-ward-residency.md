@@ -5,7 +5,7 @@ area: gov
 kind: wiring
 priority: 2
 size: S
-status: open
+status: in-pr
 claimed-by:
 pr: #4859
 after: gov-council-election-method
