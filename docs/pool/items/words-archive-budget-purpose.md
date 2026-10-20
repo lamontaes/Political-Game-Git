@@ -21,4 +21,4 @@ claimed-at:
 
 **Files.** TODO
 
-**Notes.** TODO
+**Notes.** Sent back 2026-10-20 from PR #5240 (branch claude/words-archive-budget-purpose): budget wording test can pass with no budget-adopted stories; assert the collection is nonempty and keep its wording assertions; finish on that branch, merge main into it first.
