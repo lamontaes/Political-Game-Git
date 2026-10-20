@@ -5,11 +5,12 @@ area: laws
 kind: wiring
 priority: 1
 size: L
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/law-wiring-audit
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-20T05:58:17.880Z
 ---
 
 **What.** Laws take effect and most reach nobody, move no money and move no outcome measure. Build a checker that changes every law in drawn places and grades nine links, publish the matrix, then wire every family of laws on its own pull request. Each family's engine records whom it applied a law to through lawApplied.
