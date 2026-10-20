@@ -24,3 +24,5 @@ claimed-at: 2026-10-20T05:12:15.527Z
 **Notes.** Sent back Oct 20 from PR #5080 (branch claude/political-game-pool-8defjq): src/core2/counted-facts-year.test.ts failed with 'Actual customer public owner coverage record is missing' during 365-day run; finish on that branch, merge main into it first.
 
 Found taking core-counted-views-delete: its prerequisite items are done but these callers remain, and they sit in other areas, so the core session cannot delete the views until they move. The candidacy caller may need a government-area session.
+
+**Result (Oct 20, claude/political-game-pool-76ksvw session).** Finished on claude/political-game-pool-8defjq: merged main (only pool docs conflicted), moved the last literal caller (world-metrics.ts householdOfPerson) to the group columns. residentPerson remains only inside fill-in (state.ts husk ties, residents.ts definition). Typecheck and eslint pass; counted-facts-year.test.ts passes in a drawn place (1 test). Not done: the one-year before/after comparison of jobs, taxes and loans beyond that test, and core-counted-views-delete is not yet unblocked by a run.

@@ -96,10 +96,15 @@ export function townMetrics(api: CoreAPI) {
     if (!job || job.endsAt !== undefined || flow.endedAt || !placeId) continue;
     at(placeId).employed += 1;
     if (job.hourlyMinor) at(placeId).hourly.push(job.hourlyMinor);
-    const householdId = rt!.householdOfPerson.get(job.personId);
+    // The worker's group, read from its columns, not through a person record.
+    const m = rt!.store.countedMember(job.personId);
+    const home =
+      m === undefined
+        ? undefined
+        : rt!.store.households[rt!.store.household[m]!];
     earn(
-      householdId ? rt!.store.liveHousehold(householdId)?.placeId : undefined,
-      householdId,
+      home && !home.gone ? home.placeId : undefined,
+      home?.id,
       job.wageDailyMinor,
     );
   }
