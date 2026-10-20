@@ -5,12 +5,12 @@ area: world
 kind: bug
 priority: 2
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/political-game-pool-udtiwn
 pr: #5473
 blocked-on:
 source: added with npm run pool -- add
-claimed-at:
+claimed-at: 2026-10-20T12:22:05.393Z
 ---
 
 **What.** In a played year at Fraser, Colorado (place key 0828305, seed d8c9a58ec15036cb5a0575d72278e307d5387c37154aa2080b5127be9aa64139) the player's household has pay and contracts but no 'accounts.transfer living' outflow at all. src/core2/player-money-year.test.ts fails there with 'expected 0 to be greater than 0' on the living-cost line. Other drawn places pass, so the household's living plan is skipped under some condition of this town's household or payer; the cause is not yet traced.
