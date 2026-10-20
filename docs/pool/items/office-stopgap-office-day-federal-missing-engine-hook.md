@@ -4,13 +4,13 @@ title: "Stopgaps in office-day-federal (missing-engine-hook): 1 open"
 area: office
 kind: stopgap
 priority: 3
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/pool-fed-prepared
 pr: #5262
 blocked-on:
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/office-day-federal.ts, kind missing-engine-hook"
-claimed-at:
+claimed-at: 2026-10-20T03:13:19.852Z
 ---
 
 **What.** Replace or clear the 1 open missing-engine-hook stopgap row(s) in src/core2/office-day-federal.ts: SG-OFFICE-FED-prepared. Each fake is replaced by the mechanic, or the feature that needs it is deleted.
