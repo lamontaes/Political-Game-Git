@@ -5,12 +5,12 @@ area: gov
 kind: wiring
 priority: 3
 size: M
-status: in-pr
-claimed-by: claude/rival-campaign-day
+status: claimed
+claimed-by: claude/fs11vb-rival
 pr: #5268
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-19T23:23:02.039Z
+claimed-at: 2026-10-20T15:34:04.586Z
 ---
 
 **What.** TODO
@@ -22,3 +22,5 @@ claimed-at: 2026-10-19T23:23:02.039Z
 **Files.** TODO
 
 **Notes.** TODO
+
+Sent back 2026-10-20 from PR #5268 (branch claude/rival-campaign-day): the owner's Oct 20 ruling asks for rivals to choose among the campaign acts by money, standing and traits (a chooser pass), and the branch keeps a fixed money-then-canvass sequence; it also adds owner notes in code comments; finish on that branch, merge main into it first.
