@@ -5,11 +5,12 @@ area: gov
 kind: bug
 priority: 3
 size: S
-status: open
-claimed-by:
-pr:
+status: done
+claimed-by: claude/ballot-order-no-voters
+pr: #5485
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-20T03:57:10.145Z
 ---
 
 **What.** src/core2/ballot-order.test.ts, 'a primary between two candidates nothing else separates counts the party's voters across the race', fails for contest seat:US-MT:us-senate:1:2026-11-03 in Winnett, Montana: the race counted 0 voters. It fails the same on clean main with that seed (GOLDEN_PATH_SEED).
@@ -21,3 +22,5 @@ source: added with npm run pool -- add
 **Files.** src/core2/ballot-order.test.ts, src/core2/modules/voting.ts
 
 **Notes.** TODO
+
+Checked Oct 20 (corrected): the earlier note here claimed the same seed fails at different assertions. That was wrong: main had moved between my runs. Three runs on one main give the identical failure, `expected 61 to be greater than 61` (`total > namedVotes`): in Winnett, Montana (seed 9cc9a291e9264b809336a856fddf141339c9acffe4ba35b0c900e4db647a09cb) the two candidates' primary draws 60 and 1 votes and every vote is one a voter cast for a candidate they knew, so there is no voter left for the ballot position to decide. The engine is deterministic; the test assumed some voters know neither candidate. Fixed in the test by drawing the next place when every vote is a named vote.
