@@ -1514,6 +1514,22 @@
           "actKinds": ["confront", "refuse"]
         }
       ]
+    },
+    {
+      "id": "housing.settle-arrears",
+      "site": "src/core2/modules/housing.ts",
+      "owner": "OPUS-WORLD",
+      "route": "formula",
+      "options": [
+        {
+          "id": "housing-settle-owed",
+          "actKinds": ["follow-rules", "commit"]
+        },
+        {
+          "id": "housing-let-lapse",
+          "actKinds": ["play-safe", "withdraw"]
+        }
+      ]
     }
   ],
   "outside": [
