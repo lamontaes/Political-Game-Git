@@ -5,11 +5,12 @@ area: gov
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/sales-tax-venturia
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-20T05:36:59.327Z
 ---
 
 **What.** budgets.test.ts 'the sales tax in force is collected on the town's purchases, each level's share to its treasury' fails on main for the draw Venturia, North Dakota (US-ND), seed 3c95bb8562a14177f929263165b4517d25ed5263bf83f68c84dead5d0aae3069:1, with 'expected 0 to be greater than 0': no sales tax reached a treasury in that run. Reproduce with GOLDEN_PATH_SEED set to that seed. Find why the town's purchases yield no tax there (a state with no local rate and a tiny town, a missing treasury, or purchases that never reach the collector) and make the test hold for it by fixing the cause.
