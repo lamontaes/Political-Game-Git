@@ -5,11 +5,12 @@ area: laws
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/law-reach-group-b-red
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-20T13:26:51.823Z
 ---
 
 **What.** On main at 13:20 UTC on Oct 20, src/core2/law-reach-group-b.test.ts fails two of its 31 tests. One assertion reads 'expected 34 to be 35', and a counted-group payment check reads 'expected +0 to be 173' (Caesars Head, South Carolina, seed a1cbdd1ba948906c50ccef54d5c9c516e60a557be8709315780ae9d882c63289) and '+0 to be 165' (Hendersonville, Tennessee). The cause is not yet traced; it predates #5288, which was merged with the same two failures.
