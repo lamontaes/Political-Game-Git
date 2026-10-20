@@ -16,6 +16,12 @@ import {
 } from "../condition-pack";
 import { remainingDaysAfterOnset } from "../death-causes";
 import {
+  DEATH_WEB_REFRESH_DAY,
+  deathWebFactor,
+  markWaitingHealthLinks,
+} from "../health-web";
+import { incomeBandOf } from "../counted-income-fifth";
+import {
   firstThresholdDay,
   MULTIPLIER_ONE,
   thresholdUnits,
@@ -64,7 +70,19 @@ export interface HealthData {
   resilienceScaleParameter: string;
   resilience: { stopgapId: string };
   resilienceSpread: string;
+  /** The trait that stands for conscientiousness (the dimension its facets are anchored to). */
+  conscientiousnessTrait: string;
+  /** Strain scales with it (Kern and Friedman 2008), the population mean held. */
+  hazardLogPerLevelParameter: string;
+  /** Conditions that behavior drives: who holds them shifts with it (Bogg and Roberts 2004). */
+  behaviorConditions: readonly {
+    key: string;
+    logOddsPerLevelParameter: string;
+  }[];
+  traitStopgapId: string;
   onsetSeverity: Severity;
+  jobLossSeverity: Severity;
+  evictionSeverity: Severity;
   deathSeverity: Severity;
   source: Source & { asOf?: string };
   gaps: readonly string[];
@@ -105,6 +123,13 @@ interface HealthRuntime {
   /** Each person's strain as assigned, to recompute when their conditions of life change. */
   plans: Map<PersonId, HealthPlan>;
   /**
+   * The mean of each trait-driven factor over the people at the opening
+   * (key: "hazard" or a condition key), so the factor is divided by it and
+   * the population's totals stay what the life tables say: personality
+   * shifts who, not how many.
+   */
+  traitNorm: Map<string, number>;
+  /**
    * What a death moved in kin who are still counted, kept for the day they are
    * filled in (one model, two tiers): a counted person has no mood to move, so
    * the impulse waits on the counted household and lands decayed by the days
@@ -133,6 +158,8 @@ interface HealthPlan {
   conditionKey?: string;
   /** Housing status changes, oldest first: the date and the factor on strain from then. */
   housing: { date: Day; factor: number }[];
+  /** The outcome web's factor on this person's death hazard, from each month it moved, oldest first. */
+  web: { date: Day; factor: number }[];
   evictedOn?: Day;
 }
 
@@ -154,11 +181,76 @@ function runtime(state: Readonly<CoreState>): HealthRuntime {
       onsets: zero,
       deaths: zero,
       plans: new Map(),
+      traitNorm: new Map(),
       bereaved: new Map(),
     };
     runtimes.set(state, row);
   }
   return row;
+}
+
+/** A person's conscientiousness level, -2..2 (zero when they carry none). */
+function conscientiousness(
+  data: HealthData,
+  person: Readonly<Pick<PersonState, "traits">>,
+): number {
+  return person.traits[data.conscientiousnessTrait] ?? 0;
+}
+
+/**
+ * The factor on a person's strain from their conscientiousness: the log
+ * hazard per level (Kern and Friedman 2008, r = .11 with longevity) times
+ * their level, over the opening's mean of the same factor. Read each time
+ * their onset is booked, so a changed trait changes the next booking.
+ */
+function hazardFactor(
+  api: CoreAPI,
+  data: HealthData,
+  row: HealthRuntime,
+  person: Readonly<PersonState>,
+): number {
+  const slope = api.parameter(data.hazardLogPerLevelParameter);
+  return (
+    Math.exp(slope * conscientiousness(data, person)) /
+    (row.traitNorm.get("hazard") ?? api.parameter("one"))
+  );
+}
+
+/** The log-odds slopes by behavior-driven condition. */
+function behaviorSlopes(
+  api: CoreAPI,
+  data: HealthData,
+): ReadonlyMap<string, number> {
+  return new Map(
+    data.behaviorConditions.map((row) => [
+      row.key,
+      api.parameter(row.logOddsPerLevelParameter),
+    ]),
+  );
+}
+
+/** Each factor's mean over the people alive at the opening. */
+function setTraitNorms(
+  api: CoreAPI,
+  data: HealthData,
+  row: HealthRuntime,
+  people: readonly Readonly<PersonState>[],
+) {
+  const n = Math.max(people.length, api.parameter("one"));
+  const mean = (slope: number) =>
+    people.reduce(
+      (sum, person) => sum + Math.exp(slope * conscientiousness(data, person)),
+      api.parameter("zero"),
+    ) / n;
+  row.traitNorm.set(
+    "hazard",
+    mean(api.parameter(data.hazardLogPerLevelParameter)),
+  );
+  for (const condition of data.behaviorConditions)
+    row.traitNorm.set(
+      condition.key,
+      mean(api.parameter(condition.logOddsPerLevelParameter)),
+    );
 }
 
 function index(map: Map<IsoDate, Set<PersonId>>, date: IsoDate, id: PersonId) {
@@ -231,7 +323,17 @@ function lateConditions(
   const digits = api.parameter("resilienceHashDigits");
   const radix = api.parameter("seedPlaceHashRadix");
   const held: string[] = [];
+  const row = runtime(api.state);
+  const slopes = behaviorSlopes(api, data);
   for (const condition of CONDITION_PACK) {
+    // Behavior-driven conditions: the odds scale with conscientiousness,
+    // over the opening's mean so the prevalence overall is unchanged.
+    const slope = slopes.get(condition.key);
+    const shift =
+      slope === undefined
+        ? api.parameter("one")
+        : Math.exp(slope * conscientiousness(data, person)) /
+          (row.traitNorm.get(condition.key) ?? api.parameter("one"));
     const hash = stableHash(
       `${api.state.seed}:${data.conditionHoldingKey}:${condition.key}:${person.id}`,
     );
@@ -239,7 +341,8 @@ function lateConditions(
       Number.parseInt(hash.slice(api.parameter("zero"), digits), radix) /
       radix ** digits;
     if (
-      quantile < conditionPrevalence(condition, age, data.calibrationCategory)
+      quantile <
+      conditionPrevalence(condition, age, data.calibrationCategory) * shift
     )
       held.push(condition.key);
   }
@@ -287,6 +390,7 @@ function assignPerson(
     micros,
     ...(strongest ? { conditionKey: strongest.key } : {}),
     housing: [],
+    web: [],
   });
   scheduleOnset(api, data, row, person, from);
 }
@@ -304,6 +408,7 @@ function segments(api: CoreAPI, plan: HealthPlan) {
   const dates = [
     plan.from,
     ...plan.housing.map((row) => row.date),
+    ...plan.web.map((row) => row.date),
     ...(plan.evictedOn && evictionEnds ? [plan.evictedOn, evictionEnds] : []),
   ]
     .filter((date) => date >= plan.from)
@@ -319,9 +424,12 @@ function segments(api: CoreAPI, plan: HealthPlan) {
       date < evictionEnds
         ? p("healthEvictionHazardFactor")
         : p("one");
+    const web =
+      [...plan.web].reverse().find((row) => row.date <= date)?.factor ??
+      p("one");
     return {
       effectiveAt: date,
-      micros: Math.round(plan.micros * housing * evicted),
+      micros: Math.round(plan.micros * housing * evicted * web),
     };
   });
 }
@@ -344,12 +452,19 @@ function scheduleOnset(
   const horizon = dateAtAge(makeIsoDate(person.birthDate), SSA_2023_MAX_AGE);
   if (horizon <= from) return;
   const multipliers = segments(api, plan);
+  // Their conscientiousness, read now, sets how fast strain builds; the
+  // illness's severity below stays the conditions' own.
+  const factor = hazardFactor(api, data, row, person);
+  api.stopgap(data.traitStopgapId);
   const onset = firstThresholdDay(
     {
       birthDate: makeIsoDate(person.birthDate),
       category: data.calibrationCategory,
       exposureStart: plan.from,
-      multipliers,
+      multipliers: multipliers.map((segment) => ({
+        ...segment,
+        micros: Math.round(segment.micros * factor),
+      })),
     },
     plan.threshold,
     from,
@@ -404,11 +519,45 @@ function housingChanged(
   }
 }
 
+/**
+ * Once a month, after the outcome web has written its month, each person's
+ * death hazard takes the web's factor for their age and income fifth (the
+ * same factor a counted person's chance of a serious illness takes). A
+ * change books a new segment from today and moves the onset; past strain
+ * keeps the factors it was earned under. An illness already begun runs its
+ * course.
+ */
+function refreshWebFactors(api: CoreAPI, data: HealthData, row: HealthRuntime) {
+  const day = Number(api.state.date.slice(8, 10));
+  if (day !== DEATH_WEB_REFRESH_DAY) return;
+  markWaitingHealthLinks(api);
+  const p = (key: string) => api.parameter(key);
+  const today = makeIsoDate(api.state.date);
+  const pay = householdMonthlyPay(api);
+  for (const [id, plan] of row.plans) {
+    const person = api.state.people.get(id);
+    if (!person?.alive || row.cases.get(id)?.onsetEventId) continue;
+    const monthly = pay.get(person.householdId);
+    const web = deathWebFactor(
+      api,
+      person.placeId,
+      Math.floor(exactAge(api, person.birthDate, today)),
+      monthly == null ? undefined : incomeBandOf(monthly * p("monthsPerYear")),
+    ).factor;
+    const last = plan.web.at(-1)?.factor ?? p("one");
+    if (web === last) continue;
+    plan.web.push({ date: today, factor: web });
+    api.stopgap(data.stopgapId);
+    scheduleOnset(api, data, row, person, today);
+  }
+}
+
 function initialize(api: CoreAPI, data: HealthData, row: HealthRuntime) {
   api.stopgap(data.stopgapId);
   const start = makeIsoDate(api.state.startedAt);
   const pay = householdMonthlyPay(api);
   const alive = [...api.state.people.values()].filter((person) => person.alive);
+  setTraitNorms(api, data, row, alive);
   const assignments = startingConditionAssignments(
     alive.map((person) => ({
       personId: person.id as EntityId,
@@ -416,7 +565,9 @@ function initialize(api: CoreAPI, data: HealthData, row: HealthRuntime) {
       age: exactAge(api, person.birthDate, start),
       category: data.calibrationCategory,
       monthlyHouseholdIncomeMinor: pay.get(person.householdId) ?? null,
+      conscientiousness: conscientiousness(data, person),
     })),
+    behaviorSlopes(api, data),
   );
   for (const person of alive)
     assignPerson(
@@ -643,6 +794,7 @@ export function createHealthModule(
       const row = runtime(api.state);
       if (!row.initialized) initialize(api, data, row);
       else admitNewcomers(api, data, row);
+      if (row.initialized) refreshWebFactors(api, data, row);
       const date = makeIsoDate(api.state.date);
       for (const id of [...(row.onsetsByDate.get(date) ?? [])].sort()) {
         const person = api.state.people.get(id);
@@ -743,4 +895,12 @@ export function healthReport(core: Readonly<CoreState>) {
       [...(row?.bereaved ?? new Map())].map(([id, list]) => [id, [...list]]),
     ),
   };
+}
+
+/** The outcome web's factor now on one person's death hazard (1 where it has moved nothing). */
+export function healthDeathWebOf(
+  state: Readonly<CoreState>,
+  personId: PersonId,
+): number {
+  return runtimes.get(state)?.plans.get(personId)?.web.at(-1)?.factor ?? 1;
 }

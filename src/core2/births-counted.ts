@@ -45,10 +45,14 @@ import { openingTemperaments } from "./opening-personality";
 import {
   addCountedPerson,
   countedHouseholdsByPlace,
+  householdIncome,
+  incomeBandOf,
   removeCountedPerson,
   residentsRuntime,
 } from "./modules/residents";
+import { deathWebFactor } from "./health-web";
 import type { ResidentHouseholdRecord } from "./residents";
+import { webFactorFor } from "./outcome-web-reach";
 import {
   OUTCOME_WEB_MODULE_ID,
   outcomeWebFactor,
@@ -313,13 +317,35 @@ export function applyCountedFlows(
     // (one model, two tiers): every expected count is in real people, and an
     // event in its record consumes that many.
     const weightOf = new Map<string, number>();
-    const counted = residentsRuntime(core)?.store;
+    const runtime = residentsRuntime(core);
+    const counted = runtime?.store;
+    // The household's income fifth, for the outcome web's factor on a death.
+    const fifthOf = new Map<string, number>();
     for (const record of households) {
       const at = counted?.householdOf.get(record.household.id);
       const weight =
         at === undefined ? 1 : counted!.weightOf(counted!.households[at]!);
-      for (const person of record.people) weightOf.set(person.id, weight);
+      const fifth =
+        at === undefined
+          ? undefined
+          : incomeBandOf(householdIncome(runtime!, counted!.households[at]!));
+      for (const person of record.people) {
+        weightOf.set(person.id, weight);
+        if (fifth !== undefined) fifthOf.set(person.id, fifth);
+      }
     }
+    // The web's factor on each member's chance of a serious illness, by age and fifth.
+    const webDeath: { recordId: string | null } = { recordId: null };
+    const webDeaths = (person: PersonInput, on: string) => {
+      const found = deathWebFactor(
+        api,
+        placeId,
+        ageOf(person, on),
+        fifthOf.get(person.id),
+      );
+      webDeath.recordId ??= found.recordId;
+      return found.factor;
+    };
     const weightOfPerson = (person: PersonInput) =>
       weightOf.get(person.id) ?? 1;
     const start = { people: people.length, households: households.length };
@@ -348,6 +374,8 @@ export function applyCountedFlows(
       // the web month record it was read from (null where the web is off).
       webBirths: webBirthsFactor,
       webRecordId: webBirths?.recordId ?? null,
+      /** The web month record the deaths' factor was read from (null where it is off or moved nothing). */
+      webDeathRecordId: null as string | null,
       endPeople: 0,
       endHouseholds: 0,
     };
@@ -416,7 +444,9 @@ export function applyCountedFlows(
                   member.looks?.gender,
                   Number(member.birthDate.slice(0, 4)),
                   ageOf(member, on),
-                ) * mortality,
+                ) *
+                  mortality *
+                  webDeaths(member, on),
               ),
               months,
             ) *
@@ -501,6 +531,7 @@ export function applyCountedFlows(
         delete owed[key];
       }
     row.ill = ill.size;
+    row.webDeathRecordId = webDeath.recordId;
 
     // Births: the state's rate for every counted woman of each age, summed;
     // the households whose circumstances stand best toward a child first.
@@ -525,8 +556,13 @@ export function applyCountedFlows(
           ([[low, high]]) => age >= low && age <= high,
         )?.[1];
         if (!rate) continue;
+        // The web's links land on each woman by her own age (a recession
+        // delays births most among women in their early twenties).
+        const webFactor = webOn
+          ? webFactorFor(api, placeId, "births.rate", { age, sex: "female" })
+          : 1;
         row.expected.births +=
-          monthlyShare(rate * webBirthsFactor, months) * weightOfPerson(woman);
+          monthlyShare(rate * webFactor, months) * weightOfPerson(woman);
         const recent = record.people.some(
           (row) =>
             woman.familyIds.includes(row.id) &&
