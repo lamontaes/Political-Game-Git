@@ -25,6 +25,7 @@ import { openOfficialPay } from "../core2/modules/official-pay";
 import { openHomelessCount } from "../core2/modules/homeless-count";
 import { openEstates } from "../core2/estates";
 import { openEmployerTaxes } from "../core2/modules/employer-taxes";
+import { openContracts } from "../core2/modules/contracts";
 import { openLegislature } from "../core2/modules/legislature";
 import { openOfficials } from "../core2/modules/officials";
 import { openLawReach } from "../core2/law-reach/host";
@@ -383,6 +384,8 @@ function* benchWorldStages(
   openEstates(core);
   openEmployerTaxes(core);
   openLegislature(core);
+  // Each government's body awards the town's public contracts (gov-public-contract-awards).
+  openContracts(core);
   // Chambers elect their leaders and seat committees; the executives
   // appoint their department heads and cabinets (OPUS-GOV).
   openLeadership(core);

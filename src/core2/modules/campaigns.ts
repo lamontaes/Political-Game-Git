@@ -83,8 +83,16 @@ export interface CampaignRow {
   readonly askCursor?: number;
   /** Where the next mail drop starts in the town's list of addresses. */
   readonly mailCursor?: number;
-  /** Counted adults (not yet full people) its doors and mail reached. */
+  /** Counted adults (not yet full people) its doors, mail and ads reached. */
   readonly countedReached?: number;
+  /** What each ad bought reached: the outlet, the full followers and the counted adults, one record per buy. */
+  readonly adReaches?: readonly {
+    readonly id: string;
+    readonly date: string;
+    readonly outletId: string;
+    readonly full: number;
+    readonly counted: number;
+  }[];
   /** Money set aside toward an event's venue and a poll, not yet paid. */
   readonly eventFundMinor?: number;
   readonly pollFundMinor?: number;
@@ -829,10 +837,16 @@ export function doorsKnockedOf(
  * research and public opinion polling) and mail is 541860 (direct mail
  * advertising), both professional services, or a printer (NAICS 323,
  * manufacturing); an evening's venue is a hall, lodge or restaurant room.
+ * A town's campaign-staff firm (political consulting) is the first seller of
+ * polls and mail: campaigns are its customers.
  */
 const SELLER_KINDS: Readonly<Record<Purchase, readonly string[]>> = {
-  poll: ["enterprise:professional-services"],
-  mail: ["enterprise:professional-services", "enterprise:manufacturing"],
+  poll: ["enterprise:political-consulting", "enterprise:professional-services"],
+  mail: [
+    "enterprise:political-consulting",
+    "enterprise:professional-services",
+    "enterprise:manufacturing",
+  ],
   event: [
     "enterprise:recreation",
     "enterprise:lodging",
@@ -840,7 +854,7 @@ const SELLER_KINDS: Readonly<Record<Purchase, readonly string[]>> = {
     "enterprise:restaurant",
   ],
 };
-type Purchase = "poll" | "mail" | "event";
+export type Purchase = "poll" | "mail" | "event";
 const sellerCache = new WeakMap<object, Map<string, string | null>>();
 
 /**
@@ -848,7 +862,7 @@ const sellerCache = new WeakMap<object, Map<string, string | null>>();
  * (the first of the first fitting kind, in the order they're recorded), or
  * a registered stand-in seller where the town has none.
  */
-function seller(api: CoreAPI, purchase: Purchase): string {
+export function seller(api: CoreAPI, purchase: Purchase): string {
   const core = api.state as CoreState;
   const town = townRow(api).townPlaceId;
   const cache = sellerCache.get(core) ?? new Map<string, string | null>();
@@ -1510,9 +1524,11 @@ export function statementSpeechId(
 
 /** Where an ad is bought: an outlet and its followers (the press registers it). */
 let adOutlet:
-  | ((
-      api: CoreAPI,
-    ) => { organizationId: string; followerIds: readonly string[] } | null)
+  | ((api: CoreAPI) => {
+      organizationId: string;
+      followerIds: readonly string[];
+      countedFollowers: number;
+    } | null)
   | null = null;
 export function registerAdOutlet(fn: typeof adOutlet): void {
   adOutlet = fn;
@@ -1523,24 +1539,36 @@ export function registerAdOutlet(fn: typeof adOutlet): void {
  * followers. Where no press is open there is no outlet to sell ad time and
  * no audience to reach, so nothing is bought.
  */
-function adAudience(
+export function adAudience(
   api: CoreAPI,
   amount: number,
 ): {
   readonly media: string;
   readonly viewers: readonly { p: PersonState }[];
+  /** Counted adults the ad reaches, by the same rule times their count. */
+  readonly countedViewers: number;
 } | null {
   const outlet = adOutlet?.(api) ?? null;
   if (!outlet) return null;
   const contacts = Math.floor(
     (amount / 1000) * campaignParameter("adContactsPerThousandMinor"),
   );
-  const viewers = outlet.followerIds
+  const full = outlet.followerIds
     .map((id) => api.state.people.get(id))
-    .filter((p): p is PersonState => p !== undefined)
-    .slice(0, contacts)
+    .filter((p): p is PersonState => p !== undefined);
+  // One rule for both tiers: the contacts the money buys fall on the outlet's
+  // followers, full and counted alike, in the same proportion; the most
+  // engaged full followers are reached first.
+  const followers = full.length + outlet.countedFollowers;
+  const share = followers ? Math.min(1, contacts / followers) : 0;
+  const viewers = full
+    .slice(0, Math.round(share * full.length))
     .map((p) => ({ p }));
-  return { media: outlet.organizationId, viewers };
+  return {
+    media: outlet.organizationId,
+    viewers,
+    countedViewers: Math.round(share * outlet.countedFollowers),
+  };
 }
 
 /** Whether this world sells ad time: the campaigns engine is installed and open. */
@@ -1610,7 +1638,7 @@ export function runAd(
   if (amount <= 0) return [];
   const sold = adAudience(api, amount);
   if (!sold) return [];
-  const { media, viewers } = sold;
+  const { media, viewers, countedViewers } = sold;
   spend(api, input.filingId, {
     kind: "ad",
     sellerId: media,
@@ -1620,6 +1648,31 @@ export function runAd(
   const target = input.attackFilingId
     ? campaignFor(api, input.attackFilingId)
     : campaign;
+  // The counted adults the ad reached are counted as reached, as a mailer's
+  // are, and the buy is kept as a record of who it reached.
+  if (countedViewers > 0) {
+    const reached = campaignFor(api, target.filingId);
+    save(api, {
+      ...reached,
+      countedReached: (reached.countedReached ?? 0) + countedViewers,
+    });
+  }
+  if (viewers.length + countedViewers > 0) {
+    const buyer = campaignFor(api, campaign.filingId);
+    save(api, {
+      ...buyer,
+      adReaches: [
+        ...(buyer.adReaches ?? []),
+        {
+          id: `ad-reach:${campaign.id}:${api.state.date}:${buyer.spentMinor}`,
+          date: api.state.date,
+          outletId: media,
+          full: viewers.length,
+          counted: countedViewers,
+        },
+      ],
+    });
+  }
   const causes: CauseRow[] = [];
   for (const { p } of viewers) {
     // An attack ad shows the viewer the rival's record at its worst for them:

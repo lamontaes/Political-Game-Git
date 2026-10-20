@@ -4,10 +4,10 @@ title: "Stopgaps in finance (estimated-mechanism): 1 open"
 area: world
 kind: stopgap
 priority: 3
-status: open
+status: blocked
 claimed-by:
 pr:
-blocked-on:
+blocked-on: engine or design: Prototype finance mechanism; real household purchase decisions, complete institutional accounts and jurisdiction-specific insolvency process remain absent.
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/data/finance.json, kind estimated-mechanism"
 ---
