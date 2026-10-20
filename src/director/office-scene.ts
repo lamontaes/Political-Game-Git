@@ -22,12 +22,14 @@
 import type { EnglishSurface } from "../english/grounded-english";
 import addressJson from "../../data/english/parts/address.json" with { type: "json" };
 import choiceNamesJson from "../../data/english/parts/choice-names.json" with { type: "json" };
+import hearingJson from "../../data/english/parts/hearing.json" with { type: "json" };
 import sceneWordsJson from "../../data/english/parts/scene-words.json" with { type: "json" };
 import speechParameters from "../core2/data/speech/parameters.json" with { type: "json" };
 import { closenessBetween } from "../core2/closeness";
 import {
   billOf,
   bodyOf,
+  type CommitteeRecord,
   memberKey,
   memberPosition,
   members,
@@ -68,6 +70,13 @@ export interface OfficeSceneRows {
     bank: string;
     keysByLean: Readonly<Record<"for" | "against" | "even", readonly string[]>>;
   };
+  hearing: {
+    bank: string;
+    questionKeys: readonly string[];
+    replyKeys: readonly string[];
+    pressKeys: readonly string[];
+    followUpKeys: readonly string[];
+  };
   parameters: Readonly<Record<string, { value: number; tag: string }>>;
 }
 export const OFFICE_SCENE_ROWS = rowsJson as unknown as OfficeSceneRows;
@@ -80,6 +89,7 @@ interface MinedPart {
 const BANKS: Readonly<Record<string, ReadonlyMap<string, MinedPart>>> = {
   address: partsOf(addressJson),
   "choice-names": partsOf(choiceNamesJson),
+  hearing: partsOf(hearingJson),
   "scene-words": partsOf(sceneWordsJson),
 };
 function partsOf(bank: unknown): ReadonlyMap<string, MinedPart> {
@@ -184,7 +194,7 @@ function officialsCoverBody(
       : body.kind.startsWith("us-house")
         ? "US:us-house"
         : `${body.jurisdiction}:${body.kind}`;
-  return officialsIn(api, key).length > 0;
+  return officialsIn(api, key).length > P.zero;
 }
 
 /**
@@ -485,4 +495,93 @@ export function chooseOfficeScene(
     before,
     after,
   };
+}
+
+export interface HearingTurn {
+  speakerId: PersonId;
+  role: "chair" | "witness";
+  line: RenderedLine;
+}
+
+/** A committee hearing's exchange: the chair's questions and the witness's answer, each a bank part. */
+export interface HearingExchange {
+  hearingId: string;
+  turns: HearingTurn[];
+}
+
+/**
+ * What the chair asks the first witness at a committee hearing and what the
+ * witness says back, worded from the hearing bank. The chair opens with a
+ * question about the bill, the witness takes it, and the chair follows up:
+ * pressing for a plain yes or no where the committee's vote was within
+ * `hearingTightMargin`, else with a short question. A hearing with no
+ * living chair or respondent has no exchange. The wording is picked by the
+ * renderer's stable hash of the hearing; no roll decides anything.
+ */
+export function hearingExchange(
+  core: CoreState,
+  hearing: CommitteeRecord,
+): HearingExchange | null {
+  const rows = OFFICE_SCENE_ROWS;
+  const chairId = hearing.chairId as PersonId;
+  // The first witness answers; a hearing with none puts the chair's question
+  // to the first member of the committee who sits and lives.
+  const witnessId = [
+    ...hearing.witnesses.map((w) => w.personId),
+    ...hearing.memberIds.filter((id) => id !== hearing.chairId),
+  ].find((id) => core.people.get(id)?.alive) as PersonId | undefined;
+  if (!witnessId || !core.people.get(chairId)?.alive) return null;
+  const say = (
+    holderId: PersonId,
+    keys: readonly string[],
+    moment: string,
+  ): RenderedLine | null =>
+    renderLine({
+      seed: core.seed,
+      surface: "dialogue",
+      holderId,
+      bankKey: `office-scene:hearing:${moment}`,
+      version: rows.version,
+      variants: variantsFor({ bank: rows.hearing.bank }, keys),
+      facts: {},
+      momentKey: `office-scene:hearing:${hearing.id}:${moment}`,
+      fallbackSourceId: hearing.id,
+    });
+  const tight =
+    Math.abs(hearing.yes - hearing.no) <= parameter(rows, "hearingTightMargin");
+  const spec: [HearingTurn["role"], PersonId, readonly string[], string][] = [
+    ["chair", chairId, rows.hearing.questionKeys, "question"],
+    ["witness", witnessId, rows.hearing.replyKeys, "reply"],
+    [
+      "chair",
+      chairId,
+      tight ? rows.hearing.pressKeys : rows.hearing.followUpKeys,
+      "follow-up",
+    ],
+  ];
+  const turns: HearingTurn[] = [];
+  for (const [role, speakerId, keys, moment] of spec) {
+    const line = say(speakerId, keys, moment);
+    if (line) turns.push({ speakerId, role, line });
+  }
+  return turns.length > P.one ? { hearingId: hearing.id, turns } : null;
+}
+
+/**
+ * The exchanges for the hearings a state day entry's result names (its
+ * `hearing:<id>` reasons), each from the committee record it cites.
+ */
+export function hearingExchangesIn(
+  core: CoreState,
+  reasons: Readonly<Record<string, number | string>>,
+): HearingExchange[] {
+  const api = coreAPI(core);
+  const table = api.moduleState("core2-legislature-v1").table("committees");
+  return Object.keys(reasons).flatMap((key) => {
+    if (!key.startsWith("hearing:")) return [];
+    const record = table.get(key.slice("hearing:".length)) as unknown as
+      CommitteeRecord | undefined;
+    const exchange = record ? hearingExchange(core, record) : null;
+    return exchange ? [exchange] : [];
+  });
 }

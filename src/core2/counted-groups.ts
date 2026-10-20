@@ -454,10 +454,18 @@ export class CountedStore {
     return h.members.filter((m) => this.isCounted(m));
   }
 
-  /** Every household still counted, in record order. */
-  *liveHouseholds(): Iterable<CountedHousehold> {
-    for (const h of this.households) if (!h.gone) yield h;
+  /**
+   * The households still counted, in record order. The list is kept until a
+   * household joins or leaves, so the many readers that walk it each day share
+   * one array instead of each making a generator and a result object per
+   * household. A reader must not change it; one that retires households while
+   * walking it sees the households as they were when it began.
+   */
+  liveHouseholds(): readonly CountedHousehold[] {
+    return (this.#live ??= this.households.filter((h) => !h.gone));
   }
+  /** Not state: rebuilt from `households` on first read after a change. */
+  #live: CountedHousehold[] | undefined;
 
   /**
    * A counted member as a person record, built from the columns now. Its
@@ -579,6 +587,7 @@ export class CountedStore {
         : {}),
     };
     this.households.push(h);
+    this.#live = undefined;
     this.householdOf.set(h.id, index);
     return h;
   }
@@ -601,6 +610,7 @@ export class CountedStore {
       if (this.state[m] === MemberState.Counted) this.state[m] = state;
     if (h.group >= 0) this.groups[h.group]!.households.delete(h.index);
     h.gone = true;
+    this.#live = undefined;
   }
 }
 

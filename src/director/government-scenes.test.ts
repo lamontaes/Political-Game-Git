@@ -16,6 +16,7 @@ import {
   scheduleVote,
 } from "../core2/modules/legislature";
 import { townSeats } from "../core2/modules/offices";
+import { composeScene } from "./scene";
 import { coreAPI } from "../core2/state";
 
 // A floor vote, a signing and a veto are scenes (owner, Oct 15): the roll
@@ -27,7 +28,11 @@ const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(20).toString("hex");
 // not vote in the run; draw again, a bounded number of times, and fail if none does.
 const ATTEMPTS = 8;
 
-const run = (attemptSeed: string): boolean => {
+/** Members' floor words found by the last run. */
+let floorWords = 0;
+
+const run = (attemptSeed: string, legislatureOnly = false): boolean => {
+  floorWords = 0;
   const place = drawPlace(attemptSeed, "government-scenes");
   const seed = attemptSeed;
   setBookkeeping(false);
@@ -45,6 +50,7 @@ const run = (attemptSeed: string): boolean => {
         row.holder?.personId &&
         core.people.has(row.holder.personId) &&
         ["city", "county", "state"].includes(row.office.level) &&
+        (!legislatureOnly || row.office.kind.startsWith("legislature-")) &&
         members(api, row.office.id).length > 1 &&
         bodyOf(api, row.office.id),
     )
@@ -116,6 +122,30 @@ const run = (attemptSeed: string): boolean => {
     expect(scene.roles.find((row) => row.role === "member")!.personIds).toEqual(
       [id],
     );
+    // A legislature's member says their piece in their chamber's register,
+    // citing their own vote and the roll call; a town council has no floor
+    // register, so its scene carries no words.
+    const entry = director.ledger.people
+      .get(id)!
+      .schedule.find(
+        (row) =>
+          row.momentId.includes(voteCause) &&
+          row.bindings.some((bound) => bound.typeKey === "floor-vote"),
+      )!;
+    const staged = composeScene(core, director, id, entry);
+    const kind = seat!.office.kind;
+    if (kind.startsWith("legislature-") || kind.startsWith("us-")) {
+      expect(
+        staged?.speech,
+        `${id} on ${bill.id} in ${kind}: no words`,
+      ).toBeDefined();
+      expect(staged!.speech!.speakerId).toBe(id);
+      expect(staged!.speech!.sourceRecordIds).toContain(voteCause);
+      expect(
+        staged!.speech!.sourceRecordIds.some((rec) => rec.startsWith("vote:")),
+      ).toBe(true);
+      floorWords += 1;
+    } else expect(staged?.speech).toBeUndefined();
     const colleagues = scene.roles.find((row) => row.role === "colleagues")!;
     // A chamber's seats can change hands over a long run: its members before the run or after it.
     const sat = [...everyone, ...seatedNow];
@@ -159,3 +189,13 @@ it(`a bill's vote and the executive's act are scenes for the people they reach (
     `no drawn place from seed ${seed} voted a bill with a full-person seat`,
   ).toBe(true);
 }, 1_800_000);
+
+it(`a state legislator's floor vote scene carries their words, citing their vote and the roll call (up to ${ATTEMPTS} drawn places from seed ${seed})`, () => {
+  let reached = false;
+  for (let attempt = 0; attempt < ATTEMPTS && !reached; attempt += 1)
+    reached = run(`${seed}:legislature:${attempt}`, true) && floorWords > 0;
+  expect(
+    reached,
+    `no drawn place voted a bill in a state chamber with a watched member (seed ${seed})`,
+  ).toBe(true);
+}, 3_600_000);

@@ -6,6 +6,7 @@ import { setBookkeeping } from "../core2/bookkeeping";
 import { gameStartDate } from "../core2/game-start";
 import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import { advanceCore } from "../core2/life";
+import { composeScene } from "./scene";
 
 // A resident who stands up to speak at a public meeting has a hearing scene
 // (owner, Oct 15: scenes fire from recorded causes). The cause is the town's
@@ -49,6 +50,20 @@ it(`a public comment is a hearing scene for the speaker, citing the comment reco
         where,
       ).toContain(personId);
       expect(binding.presentIds.length, where).toBeGreaterThan(1);
+      // The speaker says their piece, in public-comment words from the
+      // remark the record holds for them, citing that remark.
+      const scene = composeScene(core, director, personId, entry);
+      expect(scene?.speech, where).toBeDefined();
+      expect(scene!.speech!.text.length, where).toBeGreaterThan(3);
+      expect(scene!.speech!.speakerId, where).toBe(
+        binding.roles.find((r) => r.role === "speaker")!.personIds[0],
+      );
+      expect(
+        scene!.speech!.sourceRecordIds.some(
+          (id) => id.startsWith("remark:") || id.includes("remark"),
+        ),
+        `${where}: ${scene!.speech!.sourceRecordIds.join(",")}`,
+      ).toBe(true);
       return;
     }
     tried.push(place.name);

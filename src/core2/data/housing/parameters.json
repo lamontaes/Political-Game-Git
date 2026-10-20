@@ -267,5 +267,38 @@
       "unit": "share of proposed rent",
       "citation": "Sensitivity range; behavioral tuning, not a measured fee."
     }
+  },
+  "housingNoticeOwnerCashWeight": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "How much a landlord short of cash weighs rent owed more heavily: a landlord with a year of this tenant's rent on hand adds nothing, one with none adds this much. Small landlords' thin cash buffers (Census Bureau and HUD, Rental Housing Finance Survey 2018: individual investors own most rental properties) make arrears matter more to them; set so a cashless landlord serves notice about a month sooner, and checked against Eviction Lab 2018 filing rates (7.8 per 100 renter households nationally).",
+    "spread": {
+      "low": 0.5,
+      "high": 2,
+      "unit": "score for an owner with no cash against a year of the tenant's rent",
+      "citation": "How much a landlord short of cash weighs rent owed more heavily: a landlord with a year of this tenant's rent on hand adds nothing, one with none adds this much. Small landlords' thin cash buffers (Census Bureau and HUD, Rental Housing Finance Survey 2018: individual investors own most rental properties) make arrears matter more to them; set so a cashless landlord serves notice about a month sooner, and checked against Eviction Lab 2018 filing rates (7.8 per 100 renter households nationally)."
+    }
+  },
+  "housingRentalsPerLocalOwner": {
+    "value": 8,
+    "tag": "TUNABLE",
+    "citation": "How many of a town's rentals one local individual owner holds. Individual investors own 72 percent of rental properties but 41 percent of rental units (Census Bureau and HUD, Rental Housing Finance Survey 2018), so a typical individual owner holds a few properties of a few units each; the value is tuned, not measured, and the real distribution is skewed.",
+    "spread": {
+      "low": 3,
+      "high": 25,
+      "unit": "rentals per local owner",
+      "citation": "How many of a town's rentals one local individual owner holds. Individual investors own 72 percent of rental properties but 41 percent of rental units (Census Bureau and HUD, Rental Housing Finance Survey 2018), so a typical individual owner holds a few properties of a few units each; the value is tuned, not measured, and the real distribution is skewed."
+    }
+  },
+  "housingLocalOwnerShare": {
+    "value": 0.41,
+    "tag": "ESTIMATED",
+    "citation": "The share of rent that reaches individual owners who live in the town: individual investors own 41 percent of rental units nationally (HUD and Census Bureau, Rental Housing Finance Survey 2018 release, May 2020). Not every individual investor lives in the town where the unit is, so the low end is lower than the national share; the rest goes to owners outside the town.",
+    "spread": {
+      "low": 0.25,
+      "high": 0.44,
+      "unit": "share of rent above a month's receipts",
+      "citation": "The share of rent that reaches individual owners who live in the town: individual investors own 41 percent of rental units nationally (HUD and Census Bureau, Rental Housing Finance Survey 2018 release, May 2020). Not every individual investor lives in the town where the unit is, so the low end is lower than the national share; the rest goes to owners outside the town."
+    }
   }
 }

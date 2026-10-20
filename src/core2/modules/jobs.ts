@@ -15,7 +15,6 @@ import jobsData from "../data/jobs/jobs.json" with { type: "json" };
 import jobsParameters from "../data/jobs/parameters.json" with { type: "json" };
 import seasonal from "../data/jobs/seasonal.json" with { type: "json" };
 import type { Parameter } from "../parameters";
-import { stopgap } from "../stopgaps";
 import { traitLean } from "../choice";
 import { decisionLean, traitLeanBetween } from "../trait-decisions";
 import {
@@ -469,7 +468,7 @@ function endSpell(api: CoreAPI, personId: string): void {
 /** The opening's seekers: jobless working-age adults with the most pressing need to work, as many as the region's rate implies. */
 function openSeekers(api: CoreAPI, unemploymentPct: number): void {
   // Until the two-level population, only part of the town's work is generated; see the stopgap.
-  stopgap("SG-WORLD-jobs-opening-seekers");
+  api.stopgap("SG-WORLD-jobs-opening-seekers");
   const c = core(api),
     [young, old] = jobsData.workingAge as [number, number];
   const employed = [...c.jobs.values()].filter(
@@ -510,7 +509,7 @@ function openCountedSeekers(api: CoreAPI, unemploymentPct: number): void {
   const c = core(api),
     rt = residentsRuntime(c);
   if (!rt) return;
-  stopgap("SG-WORLD-jobs-opening-seekers");
+  api.stopgap("SG-WORLD-jobs-opening-seekers");
   const [young, old] = jobsData.workingAge as [number, number];
   const working = new Set(
     [...rt.wageFlowByJob.keys()].map((id) => rt.jobs.get(id)?.personId),
@@ -1607,7 +1606,7 @@ function runWeek(api: CoreAPI): void {
   const counted = store(api)
     .table("countedSeekers")
     .query("all", [true]) as unknown as SeekerRow[];
-  if (counted.length) stopgap("SG-WORLD-jobs-counted-choices");
+  if (counted.length) api.stopgap("SG-WORLD-jobs-counted-choices");
   for (const seeker of counted) {
     if (inCustody(api, seeker.personId)) continue;
     // A seeker who died or moved away with their household is no one to hire.
@@ -1985,7 +1984,7 @@ export function strongestPulls<T extends { id: string; score: number }>(
   key: string,
   rows: readonly T[],
 ): T[] {
-  stopgap("SG-WORLD-jobs-counted-choices");
+  api.stopgap("SG-WORLD-jobs-counted-choices");
   const state = store(api).table("state");
   const row = (state.get(`pulls:${key}`) as { carry: number } | undefined) ?? {
     carry: 0,
@@ -2491,7 +2490,7 @@ function offerToPlayer(
     sourceRecordIds: [id],
   });
   if (!isExplicitlyControlledPersonV1(c, personId)) return;
-  stopgap("SG-WORLD-jobs-offer-deadline-reminder");
+  api.stopgap("SG-WORLD-jobs-offer-deadline-reminder");
   const stopSource = source(
     api,
     `${position.organizationId} offered ${position.title} at ${position.hourlyMinor} cents an hour (${id}).`,

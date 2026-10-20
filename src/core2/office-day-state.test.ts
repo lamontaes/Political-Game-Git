@@ -40,6 +40,9 @@ import {
 import { impressionOf } from "./modules/campaigns";
 import type { ModuleRow } from "./module-data";
 import { coreAPI } from "./state";
+import hearingBank from "../../data/english/parts/hearing.json" with { type: "json" };
+import { hearingExchangesIn } from "../director/office-scene";
+import type { CommitteeRecord } from "./modules/legislature";
 
 /** Plays one place; false where its offices data seats no state legislator or no governor (a territory's legislature). */
 function playPlace(seed: string, skipped: string[]): boolean {
@@ -315,4 +318,82 @@ it("a floor leader's answer to a member's request decides whether the bill is on
   throw new Error(
     `No drawn place seated a leader and members of both sides: ${skipped.join("; ")}`,
   );
+}, 1_800_000);
+
+// A committee day's hearing in the played world: the chair asks the witness
+// a question, the witness takes it and the chair follows up, each line a
+// hearing-bank part, shown with the day's result and citing the hearing record.
+it("words a committee hearing as the chair's question, the witness's reply and a follow-up", () => {
+  const skipped: string[] = [];
+  const bankTexts = new Set(
+    (hearingBank as { parts: { text: string }[] }).parts.map((p) => p.text),
+  );
+  for (let attempt = 0; attempt < 5; attempt++) {
+    const seed = randomBytes(8).toString("hex");
+    const place = drawPlace(seed, "office-hearing");
+    const where = `${place.name} [${place.key}], seed ${seed}`;
+    setBookkeeping(false);
+    let core: ReturnType<typeof buildBenchWorld>["core"];
+    let hearing: CommitteeRecord | undefined;
+    try {
+      core = buildBenchWorld(seed, gameStartDate(), {
+        twoLevel: true,
+        placeKey: place.key,
+      }).core;
+      const start = makeIsoDate(core.date);
+      for (let day = 120; day <= 730 && !hearing; day += 120) {
+        advanceCore(core, addDays(start, day));
+        hearing = (
+          coreAPI(core)
+            .moduleState("core2-legislature-v1")
+            .table("committees")
+            .rows() as unknown as CommitteeRecord[]
+        ).find(
+          (row) =>
+            row.memberIds.length > 1 &&
+            stateOfficeOf(coreAPI(core), row.chairId),
+        );
+      }
+    } catch (error) {
+      // A world that fails to build or advance is a defect, not a place to
+      // skip: it fails here naming the place and seed so it can be replayed.
+      throw new Error(
+        `${where}: the world failed: ${(error as Error).message}`,
+        {
+          cause: error,
+        },
+      );
+    }
+    const api = coreAPI(core);
+    if (!hearing) {
+      skipped.push(where);
+      continue;
+    }
+    const office = stateOfficeOf(api, hearing.chairId);
+    if (!office) {
+      skipped.push(`${where} (chair holds no state office)`);
+      continue;
+    }
+    const entry = stateDay(api, office, hearing.date).find(
+      (row) =>
+        (row.kind === "committee" || row.kind === "interim-committee") &&
+        row.subject === `${hearing!.chamber}:${hearing!.committee}`,
+    );
+    expect(entry, where).toBeDefined();
+    const result = actOn(api, entry!);
+    expect(result.reasons[`hearing:${hearing.id}`], where).toBeDefined();
+    const [exchange] = hearingExchangesIn(core, result.reasons);
+    expect(exchange?.hearingId, where).toBe(hearing.id);
+    expect(exchange!.turns.length, where).toBeGreaterThan(1);
+    expect(exchange!.turns[0]!.speakerId, where).toBe(hearing.chairId);
+    expect(exchange!.turns[1]!.speakerId, where).not.toBe(hearing.chairId);
+    for (const turn of exchange!.turns) {
+      expect(bankTexts.has(turn.line.text), `${where} ${turn.line.text}`).toBe(
+        true,
+      );
+      expect(turn.line.sourceRecordIds, where).toContain(hearing.id);
+    }
+    return;
+  }
+  throw new Error(`No drawn place held a hearing: ${skipped.join("; ")}`);
 }, 1_800_000);

@@ -400,8 +400,7 @@ export function withHousing(input: CoreInput): CoreInput {
       )
       .map((row, i) => [row.id, i]),
   );
-  // A landlord until businesses growing (M1-08) gives rentals real owners.
-  stopgap("SG-WORLD-housing-landlord");
+  // The town's rentals are paid to one landlord business; its owners are named from the residents once the world runs (assignLandlordOwners).
   const landlordId = `organization:landlord:${town.placeId}`;
   const source: Source = {
     tag: "ESTIMATED",
@@ -602,7 +601,7 @@ function steps(api: CoreAPI): Steps & { usps: string } {
   const row = EVICTION[usps];
   if (!row) throw new Error("No recorded eviction steps for this place.");
   // Steps below "high" confidence are recalled, not read from the statute text yet.
-  if (row.confidence !== "high") stopgap("SG-WORLD-housing-eviction-steps");
+  if (row.confidence !== "high") api.stopgap("SG-WORLD-housing-eviction-steps");
   return { ...row, usps };
 }
 
@@ -812,14 +811,14 @@ function amortize(api: CoreAPI): void {
 
 /**
  * The landlord keeps a month of rent against costs and pays the rest out of
- * the town: to rentals' owners, who mostly live elsewhere, and to suppliers.
+ * the town: the local owners' share to their own accounts, the rest to
+ * rentals' owners who live elsewhere and to suppliers.
  */
 function landlordPayout(api: CoreAPI): void {
   const c = core(api);
-  // One ownerless landlord until rentals have owners (businesses growing); see the stopgap.
-  stopgap("SG-WORLD-housing-landlord");
   for (const landlord of c.organizations.values()) {
     if (!landlord.id.startsWith("organization:landlord:")) continue;
+    assignLandlordOwners(api, landlord);
     const outside = [...c.organizations.values()].find(
       (row) =>
         row.placeId === landlord.placeId && row.outsideFlow !== undefined,
@@ -833,22 +832,286 @@ function landlordPayout(api: CoreAPI): void {
       if (flow.payeeId === landlord.id && !flow.endedAt)
         monthly += flow.amountMinor;
     const excess = landlord.liquidMinor - monthly;
-    if (excess > 0)
-      transferCash(
-        api,
-        `landlord-payout:${landlord.id}:${c.date}`,
-        landlord.id,
-        outside.id,
-        excess,
-        {
-          tag: "ESTIMATED",
-          asOf: c.date,
-          citation: housingData.source.citation,
-          estimatedFrom:
-            "Rent above a month's receipts goes to rentals' owners and suppliers outside the town.",
-        },
-      );
+    if (excess <= 0) continue;
+    const source: Source = {
+      tag: "ESTIMATED",
+      asOf: c.date,
+      citation: housingData.source.citation,
+      estimatedFrom:
+        "Rent above a month's receipts goes to rentals' owners and suppliers; the local owners' share reaches the owners' own accounts.",
+    };
+    // The local owners' share is split among them by how many rentals each holds.
+    const owners = landlordOwners(api, landlord.id);
+    const local = owners.length
+      ? Math.floor(excess * api.parameter("housingLocalOwnerShare"))
+      : 0;
+    let paid = 0;
+    if (local > 0) {
+      const held = new Map<string, number>();
+      for (const owner of rentalOwners(api, landlord.id).values())
+        held.set(owner, (held.get(owner) ?? 0) + 1);
+      const total = [...held.values()].reduce((sum, n) => sum + n, 0);
+      for (const ownerId of [...held.keys()].sort()) {
+        const got = transferCash(
+          api,
+          `landlord-payout:${landlord.id}:${c.date}:${ownerId}`,
+          landlord.id,
+          ownerId,
+          Math.floor((local * held.get(ownerId)!) / total),
+          source,
+        );
+        paid += got;
+        const row = store(api)
+          .table("landlords")
+          .get(`landlord-owner:${landlord.id}:${ownerId}`) as
+          LandlordOwnerRow | undefined;
+        if (row && got > 0)
+          store(api)
+            .table("landlords")
+            .put({ ...row, receivedMinor: (row.receivedMinor ?? 0) + got });
+      }
+    }
+    transferCash(
+      api,
+      `landlord-payout:${landlord.id}:${c.date}`,
+      landlord.id,
+      outside.id,
+      excess - paid,
+      source,
+    );
   }
+}
+
+const NOTICE_PULL = "housing:notice-pull";
+
+interface LandlordOwnerRow {
+  id: string;
+  landlordId: string;
+  ownerId: string;
+  since: string;
+  basis: string;
+  /** What the owner's share of the town's rent has paid them so far. */
+  receivedMinor?: number;
+}
+
+/**
+ * A town's rentals have local owners: full residents of the town, richest
+ * first among the households that own their home, one owner per
+ * `housingRentalsPerLocalOwner` rentals. They are generated from the
+ * residents until the opening records who owns which rental (stopgap).
+ */
+function assignLandlordOwners(
+  api: CoreAPI,
+  landlord: { id: string; placeId: string },
+): void {
+  const c = core(api);
+  // Owners are generated from the town's residents until the opening records who owns each rental.
+  api.stopgap("SG-WORLD-housing-landlord-owner-assignment");
+  const table = store(api).table("landlords");
+  const have = (
+    table.query("byLandlord", [landlord.id]) as unknown as LandlordOwnerRow[]
+  ).filter((row) => c.people.get(row.ownerId)?.alive);
+  const rentals = leaseIds(api, landlord.id).length;
+  const wanted = Math.max(
+    1,
+    Math.ceil(rentals / api.parameter("housingRentalsPerLocalOwner")),
+  );
+  if (have.length >= wanted) return;
+  const taken = new Set(have.map((row) => row.ownerId));
+  const owning = new Set(
+    (
+      store(api).table("dwellings").rows() as unknown as {
+        householdId: string;
+        tenure: string;
+      }[]
+    )
+      .filter((row) => row.tenure === "own")
+      .map((row) => row.householdId),
+  );
+  const candidates = [...c.people.values()]
+    .filter(
+      (person) =>
+        person.alive &&
+        person.placeId === landlord.placeId &&
+        !taken.has(person.id) &&
+        person.id.startsWith("person_") &&
+        owning.has(person.householdId),
+    )
+    .sort((a, b) => b.liquidMinor - a.liquidMinor || a.id.localeCompare(b.id));
+  for (const person of candidates.slice(0, wanted - have.length)) {
+    table.put({
+      id: `landlord-owner:${landlord.id}:${person.id}`,
+      landlordId: landlord.id,
+      ownerId: person.id,
+      since: c.date,
+      basis: "richest-home-owner-in-town",
+    });
+  }
+}
+
+/** The living full residents who own a town's rentals, by id. */
+function landlordOwners(api: CoreAPI, landlordId: string): string[] {
+  const c = core(api);
+  return (
+    store(api)
+      .table("landlords")
+      .query("byLandlord", [landlordId]) as unknown as LandlordOwnerRow[]
+  )
+    .map((row) => row.ownerId)
+    .filter((id) => c.people.get(id)?.alive)
+    .sort();
+}
+
+/** Every rent a landlord is paid: full leases and counted households' rent flows. */
+function leaseIds(api: CoreAPI, landlordId: string): string[] {
+  const c = core(api);
+  const out: string[] = [];
+  for (const [id, row] of c.finance.contracts)
+    if (row.payeeId === landlordId && id.startsWith("lease:") && !row.endedAt)
+      out.push(id);
+  for (const flow of residentsRuntime(c)?.flows.values() ?? [])
+    if (
+      flow.payeeId === landlordId &&
+      flow.id.startsWith("rent:") &&
+      !flow.endedAt
+    )
+      out.push(flow.id);
+  return out;
+}
+
+const rentalOwnerCache = new WeakMap<
+  object,
+  Map<string, Map<string, string>>
+>();
+
+/**
+ * Who owns each of a town's rentals: the rentals in order of their ids, in
+ * blocks of `housingRentalsPerLocalOwner`, handed to the owners from the
+ * richest down (so the richest owner holds the first block). The same every
+ * month while the owners stay the same.
+ */
+function rentalOwners(api: CoreAPI, landlordId: string): Map<string, string> {
+  const c = core(api);
+  const owners = landlordOwners(api, landlordId);
+  const key = `${c.date}|${owners.join(",")}`;
+  const byLandlord = rentalOwnerCache.get(c) ?? new Map();
+  rentalOwnerCache.set(c, byLandlord);
+  const cached = byLandlord.get(landlordId);
+  if (cached && (cached as Map<string, string> & { key?: string }).key === key)
+    return cached;
+  const ranked = [...owners].sort(
+    (a, b) =>
+      (c.people.get(b)?.liquidMinor ?? 0) -
+        (c.people.get(a)?.liquidMinor ?? 0) || a.localeCompare(b),
+  );
+  const per = api.parameter("housingRentalsPerLocalOwner");
+  const out = new Map<string, string>() as Map<string, string> & {
+    key?: string;
+  };
+  if (ranked.length)
+    [...leaseIds(api, landlordId)].sort().forEach((id, at) => {
+      out.set(id, ranked[Math.min(ranked.length - 1, Math.floor(at / per))]!);
+    });
+  out.key = key;
+  byLandlord.set(landlordId, out);
+  return out;
+}
+
+/** The owner of one rental, or none when the town's rentals have no recorded owner. */
+function ownerOfLease(
+  api: CoreAPI,
+  landlordId: string,
+  leaseId: string,
+): string | undefined {
+  return rentalOwners(api, landlordId).get(leaseId);
+}
+
+const prefixed = (reasons: object | undefined) =>
+  Object.fromEntries(
+    Object.entries(reasons ?? {}).map(([key, value]) => [
+      `chosen:${key}`,
+      value,
+    ]),
+  );
+
+function noticeOffer(
+  serve: boolean,
+  targetId: string,
+  reasons: Record<string, number>,
+): ActOffer {
+  const row = serve
+    ? housingData.actions.serveNotice
+    : housingData.actions.waitOnRent;
+  return {
+    definition: {
+      id: row.id,
+      actKinds: row.actKinds,
+      goalKinds: [],
+      need: "money",
+      effortParameter: "zero",
+      effectParameter: "zero",
+      targetKind: "housing-option",
+      effect: "housing-choice",
+    },
+    targetId,
+    availableHours: 1,
+    effortHours: 0,
+    reasonBindings: Object.entries(reasons).map(([id, value]) => ({
+      id,
+      provider: NOTICE_PULL,
+      weightParameter: "one",
+      arguments: { value: String(value) },
+    })),
+  };
+}
+
+/**
+ * Whether a rental's owner serves notice on a late lease. The owner weighs
+ * the months of rent owed, how long it has been late and how short of cash
+ * they are, with their own traits, and chooses between waiting and serving.
+ * A rental with no recorded owner is decided by the same reasons without the
+ * owner's traits and cash (stopgap), serving when they are in favor.
+ */
+function ownerServes(
+  api: CoreAPI,
+  landlordId: string,
+  late: { id: string; months: number; late: number; rentMinor: number },
+): { serve: boolean; ownerId?: string; reasons: Record<string, number> } {
+  const c = core(api),
+    p = (key: string) => api.parameter(key);
+  const ownerId = ownerOfLease(api, landlordId, late.id);
+  const reasons: Record<string, number> = {
+    baseline: p("housingNoticeBaseline"),
+    arrears: p("housingNoticeArrearsWeight") * late.months,
+    late: p("housingNoticeLateWeight") * late.late,
+  };
+  const owner = ownerId ? c.people.get(ownerId) : undefined;
+  if (!ownerId || !owner) {
+    api.stopgap("SG-WORLD-housing-landlord-owner-assignment");
+    return {
+      serve: Object.values(reasons).reduce((a, b) => a + b, 0) > 0,
+      reasons,
+    };
+  }
+  // An owner with a year of this rent in hand adds nothing; one with none adds the full weight.
+  reasons.ownerCash =
+    p("housingNoticeOwnerCashWeight") *
+    (1 -
+      Math.min(
+        1,
+        Math.max(0, owner.liquidMinor) /
+          Math.max(1, late.rentMinor * p("macroMonthsPerYear")),
+      ));
+  const result = chooseAct(c, ownerId, [
+    noticeOffer(false, late.id, {}),
+    noticeOffer(true, late.id, reasons),
+  ]);
+  return {
+    serve:
+      result.selected!.definition.id === housingData.actions.serveNotice.id,
+    ownerId,
+    reasons: { ...reasons, ...prefixed(result.selectedReasons) },
+  };
 }
 
 const BUY_PULL = "housing:pull";
@@ -921,7 +1184,7 @@ function buyHomes(api: CoreAPI): void {
   const factor = (principal: number) =>
     r > 0 ? (principal * r) / (1 - (1 + r) ** -term) : principal / term;
   // Home prices follow consumer prices until a house price index is in the data.
-  stopgap("SG-WORLD-housing-price-index");
+  api.stopgap("SG-WORLD-housing-price-index");
   for (const [id, lease] of [...c.finance.contracts].sort((a, b) =>
     a[0].localeCompare(b[0]),
   )) {
@@ -1104,8 +1367,17 @@ function review(api: CoreAPI): void {
   occupyCompletedRentals(api);
   landlordPayout(api);
   buyHomes(api);
-  // The landlord weighs each late lease past the grace period: how many months of rent are owed and how long.
-  const late: { id: string; score: number; months: number }[] = [];
+  // Each rental's owner weighs its late lease past the grace period: how many months of rent are owed, how long, and their own cash.
+  const late: {
+    id: string;
+    landlordId: string;
+    months: number;
+    late: number;
+    rentMinor: number;
+    householdId: string;
+    owedMinor: number;
+    counted: boolean;
+  }[] = [];
   for (const [id, row] of c.finance.contracts) {
     if (
       !id.startsWith("lease:") ||
@@ -1121,90 +1393,63 @@ function review(api: CoreAPI): void {
       makeIsoDate(c.date),
     );
     if (days <= law.gracePeriodDays) continue;
-    const owed = row.amountMinor > 0 ? row.arrearsMinor / row.amountMinor : 0;
-    const months = days / daysPerMonth(api);
     late.push({
       id,
-      months: owed,
-      score:
-        api.parameter("housingNoticeBaseline") +
-        api.parameter("housingNoticeArrearsWeight") * owed +
-        api.parameter("housingNoticeLateWeight") * months,
+      landlordId: row.payeeId,
+      months: row.amountMinor > 0 ? row.arrearsMinor / row.amountMinor : 0,
+      late: days / daysPerMonth(api),
+      rentMinor: row.amountMinor,
+      householdId: row.householdId!,
+      owedMinor: row.arrearsMinor,
+      counted: false,
     });
   }
-  // Counted households behind on rent, by their group's arrears, weighed by the same reasons.
+  // Counted households behind on rent, by their group's arrears, weighed by the same owner rule.
   const town = c.placeMetadata?.housingTown;
-  const counted = new Map(
-    (town
-      ? countedLate(
-          api,
-          town,
-          (leaseId) =>
-            store(api).table("cases").query("openByLease", [leaseId, true])
-              .length > 0,
-        )
-      : []
-    ).map((row) => [row.leaseId, row]),
-  );
-  for (const row of counted.values())
-    late.push({
-      id: row.leaseId,
-      months: row.months,
-      score:
-        api.parameter("housingNoticeBaseline") +
-        api.parameter("housingNoticeArrearsWeight") * row.months +
-        api.parameter("housingNoticeLateWeight") * row.months,
-    });
-  // One ownerless landlord serves notice; its patience is its reasons, not an owner's yet (see the stopgap).
-  stopgap("SG-WORLD-housing-landlord");
-  for (const { id } of landlordPulls(api, late)) {
-    const lease = c.finance.contracts.get(id);
-    const late = counted.get(id);
-    const householdId = lease?.householdId ?? late?.householdId;
-    if (!householdId) continue;
+  if (town)
+    for (const row of countedLate(
+      api,
+      town,
+      (leaseId) =>
+        store(api).table("cases").query("openByLease", [leaseId, true]).length >
+        0,
+    ))
+      late.push({
+        id: row.leaseId,
+        landlordId: row.landlordId,
+        months: row.months,
+        late: row.months,
+        rentMinor: row.months > 0 ? row.owedMinor / row.months : 0,
+        householdId: row.householdId,
+        owedMinor: row.owedMinor,
+        counted: true,
+      });
+  for (const row of late.sort((a, b) => a.id.localeCompare(b.id))) {
+    const decision = ownerServes(api, row.landlordId, row);
+    if (!decision.serve) continue;
     // The player's household is evicted like any other (owner, Oct 14).
-    const caseId = `eviction:${id}:${c.date}`;
+    const caseId = `eviction:${row.id}:${c.date}`;
     const cureBy = addDays(makeIsoDate(c.date), Math.max(1, law.noticeDays));
     store(api)
       .table("cases")
       .put({
         id: caseId,
-        leaseId: id,
-        householdId,
-        landlordId: lease?.payeeId ?? late!.landlordId,
-        counted: !lease,
+        leaseId: row.id,
+        householdId: row.householdId,
+        landlordId: row.landlordId,
+        ...(decision.ownerId ? { ownerId: decision.ownerId } : {}),
+        counted: row.counted,
         open: true,
         stage: "notice",
-        owedAtNoticeMinor: lease?.arrearsMinor ?? late!.owedMinor,
+        owedAtNoticeMinor: row.owedMinor,
         noticeAt: c.date,
         cureBy,
         law: { ...law, estimatedFields: [...law.estimatedFields] },
         reasonKey: housingData.reasons.notice,
+        noticeReasons: decision.reasons,
       });
     schedule(api, `cure:${caseId}`, cureBy, "housing-cure-deadline", caseId);
   }
-}
-
-/**
- * Which late leases the landlord serves notice on this month: as many as
- * the summed pull of every late lease (each its logistic of its reasons),
- * carried month to month, strongest first.
- */
-function landlordPulls<T extends { id: string; score: number }>(
-  api: CoreAPI,
-  rows: readonly T[],
-): T[] {
-  const state = store(api).table("state");
-  const carry =
-    (state.get("pulls:landlord-notice") as { carry: number } | undefined)
-      ?.carry ?? 0;
-  let total = rows.length ? carry : 0;
-  for (const row of rows) total += 1 / (1 + Math.exp(-row.score));
-  const count = Math.floor(total);
-  state.put({ id: "pulls:landlord-notice", carry: total - count });
-  return [...rows]
-    .sort((a, b) => b.score - a.score || a.id.localeCompare(b.id))
-    .slice(0, count);
 }
 
 /** The household's members pay toward the lease's arrears from their cash, largest balance first. */
@@ -1779,6 +2024,7 @@ export const HOUSING_MODULE: CoreModule = {
       mortgages: {},
       purchases: {},
       dwellings: {},
+      landlords: { indexes: { byLandlord: { fields: ["landlordId"] } } },
       counsel: {},
       assessments: {},
       taxArrears: {},
@@ -1797,6 +2043,9 @@ export const HOUSING_MODULE: CoreModule = {
   },
   reasonProviders: {
     [BUY_PULL]: (_api, _actor, _offer, binding) => ({
+      value: Number(binding.arguments!.value),
+    }),
+    [NOTICE_PULL]: (_api, _actor, _offer, binding) => ({
       value: Number(binding.arguments!.value),
     }),
   },

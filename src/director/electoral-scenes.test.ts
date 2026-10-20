@@ -7,6 +7,7 @@ import { gameStartDate } from "../core2/game-start";
 import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import { advanceCore } from "../core2/life";
 import {
+  checkEligibility,
   ELECTIONS_MODULE_ID,
   fileCandidacy,
   openContests,
@@ -17,6 +18,7 @@ import { filingClerkFor } from "../core2/modules/filing-clerk";
 import { retellingsOf, SPEECH_MODULE_ID } from "../core2/modules/speech";
 import { askToVolunteer, campaignFor } from "../core2/modules/campaigns";
 import { resultOf } from "../core2/modules/voting";
+import { composeScene } from "./scene";
 import { coreAPI } from "../core2/state";
 
 // A race won or lost is a scene for the candidate (owner, Oct 15): the night
@@ -111,6 +113,18 @@ it(`a candidate's night of the count is a won or lost scene citing the result, i
         (id) => core.people.get(id)?.alive && id !== filing.personId,
       ),
     );
+    // The night's words: a victory for the winner and a concession for the
+    // loser, citing the result record the scene rests on.
+    const staged = composeScene(core, director, filing.personId, entry);
+    expect(
+      staged?.speech,
+      `${filing.personId} ${won ? "won" : "lost"} ${filing.contestId}: no words`,
+    ).toBeDefined();
+    expect(staged!.speech!.speakerId).toBe(filing.personId);
+    expect(staged!.speech!.text.length).toBeGreaterThan(3);
+    expect(staged!.speech!.sourceRecordIds).toContain(
+      `election-result:${filing.contestId}`,
+    );
     stated.push(
       `${filing.personId} ${won ? "won" : "lost"} ${filing.contestId} (${scene.setting.kind} ${scene.setting.recordId}; supporters ${supporters.length}, family ${family.length})`,
     );
@@ -146,9 +160,21 @@ it(`filing is a scene with the office's clerk and a campaign speech is a stop wi
   }
   const clerk = filingClerkFor(api, contest.id)!;
   const filings: FilingRow[] = [];
+  // Residents who meet every filing rule are watched and then file, until
+  // three are on the ballot. The director must watch a person before they
+  // file to see the filing, and every person watched is followed through the
+  // whole campaign, so only those who can file are watched (pool item
+  // director-electoral-filing-test-slow: watching every resident tried made
+  // the test run for most of an hour in a town where few could file).
   for (const person of town) {
     if (filings.length >= 3) break;
     if (person.id === clerk.personId) continue;
+    if (
+      !checkEligibility(api, person.id, contest.id, "party").every(
+        (row) => row.met,
+      )
+    )
+      continue;
     director.watch(core, person.id);
     const result = fileCandidacy(api, {
       personId: person.id,

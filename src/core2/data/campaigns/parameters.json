@@ -978,6 +978,12 @@
       "source": "A stump speech opens with one move (greeting, thanks or why they are running), the exordium of classical oratory (Cicero, De Inventione I.20) and the opening of a modern campaign speech.",
       "spread": [1, 2]
     },
+    "speechCraftSpeechesForFull": {
+      "value": 12,
+      "tag": "TUNABLE",
+      "source": "How many finished speeches a speaker has composed before their crafted lines (a list of three, a contrast) are as likely as plain ones. Skill at oratory builds with practice (Atkinson 1984, 'Our Masters' Voices', on devices as learned technique; Ericsson, Krampe and Tesch-Romer 1993, on deliberate practice); the number is tuned, not measured, and checked only that a first-time speaker rarely uses a device and a seasoned one often does.",
+      "spread": [5, 30]
+    },
     "speechBodyParts": {
       "value": 3,
       "tag": "ESTIMATED",

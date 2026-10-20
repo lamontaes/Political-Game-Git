@@ -35,6 +35,28 @@ interface Entry {
   readonly wageScale?: number;
 }
 
+const DRAWS = 8;
+/** The most one pass compares of each: the test needs more than five of both. */
+const NEEDED = 8;
+
+/** Whether the town opens with enough counted rents and payrolls to compare. */
+function comparableFlows(seed: string, key: string): boolean {
+  setBookkeeping(false);
+  const { core } = buildBenchWorld(seed, gameStartDate(), {
+    twoLevel: true,
+    placeKey: key,
+  });
+  const rt = residentsRuntime(core)!;
+  let rents = 0;
+  let payrolls = 0;
+  for (const flow of rt.flows.values()) {
+    if (flow.endedAt || flow.amountMinor <= 0) continue;
+    if (flow.id.startsWith("rent:")) rents += 1;
+    else if (flow.id.startsWith("residents:wages:")) payrolls += 1;
+  }
+  return rents >= NEEDED && payrolls >= NEEDED;
+}
+
 function play(seed: string, key: string, countScale: number) {
   setBookkeeping(false);
   const { core } = buildBenchWorld(seed, gameStartDate(), {
@@ -89,11 +111,24 @@ function play(seed: string, key: string, countScale: number) {
 }
 
 it("rent and pay of counted households are moved times their weights, and the books balance", () => {
-  const draw = drawPlace(
-    randomBytes(32).toString("hex"),
-    "census-weight-money",
-  );
-  const where = `${draw.name} [${draw.key}], seed ${draw.seed}`;
+  // A very small town has too few counted rents or payrolls to compare, so
+  // places are drawn in turn until one has enough; the ones passed over are
+  // named if none does.
+  const drawSeed =
+    process.env.GOLDEN_PATH_SEED ?? randomBytes(32).toString("hex");
+  let draw = drawPlace(`${drawSeed}:0`, "census-weight-money");
+  const passedOver: string[] = [];
+  for (let at = 0; at < DRAWS; at += 1) {
+    draw = drawPlace(`${drawSeed}:${at}`, "census-weight-money");
+    const enough = comparableFlows(draw.seed, draw.key);
+    if (enough) break;
+    passedOver.push(`${draw.name} [${draw.key}]`);
+    if (at === DRAWS - 1)
+      throw new Error(
+        `no drawn place had enough counted rents and payrolls to compare: ${passedOver.join("; ")} (seed ${drawSeed})`,
+      );
+  }
+  const where = `${draw.name} [${draw.key}], draw seed ${drawSeed}, place seed ${draw.seed}`;
   const base = play(draw.seed, draw.key, 1);
   const scaled = play(draw.seed, draw.key, SCALE);
 

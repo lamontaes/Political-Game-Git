@@ -94,6 +94,41 @@
       "value": 2,
       "tag": "TUNABLE",
       "citation": "How far a personal appeal carries per unit of the two people's closeness today, against a face-to-face case on the merits (the speech engine's speechImpulse, which the appeal is multiplied from): close ties move political views more than acquaintances do (Huckfeldt and Sprague 1995, Citizens, Politics and Social Communication). No study sets the size; at 2 an appeal to someone at half closeness weighs as much as the case. Spread 1 to 3."
+    },
+    "hearingTightMargin": {
+      "value": 1,
+      "tag": "TUNABLE",
+      "citation": "How narrow a committee vote must be (yes minus no, in votes) for the chair to press the witness for a plain yes or no rather than a follow-up. Not studied; a one-vote margin is the closest a vote can be without tying (a tie is margin 0). Spread 0 to 2."
     }
+  },
+  "hearing": {
+    "bank": "hearing",
+    "questionKeys": [
+      "hearing.question.what-would-this-bill-change-for-you",
+      "hearing.question.how-would-this-bill-affect-the-people-you-speak-for",
+      "hearing.question.what-does-the-committee-need-to-know-before-it-votes",
+      "hearing.question.who-does-this-bill-help-and-who-does-it-hurt",
+      "hearing.question.can-you-give-us-an-example",
+      "hearing.question.could-you-elaborate-on-that"
+    ],
+    "replyKeys": [
+      "hearing.answer.thank-you-for-the-question",
+      "hearing.answer.thank-you-for-that-question",
+      "hearing.answer.thank-you-for-your-question",
+      "hearing.answer.that-is-a-great-question"
+    ],
+    "pressKeys": ["hearing.question.yes-or-no"],
+    "followUpKeys": [
+      "hearing.question.is-that-right",
+      "hearing.question.is-that-fair-to-say",
+      "hearing.question.why",
+      "hearing.question.correct",
+      "hearing.question.is-that-correct",
+      "hearing.question.would-you-agree-with-that",
+      "hearing.question.is-that-true",
+      "hearing.question.why-not",
+      "hearing.question.what-does-that-mean",
+      "hearing.question.is-that-fair"
+    ]
   }
 }
