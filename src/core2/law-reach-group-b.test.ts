@@ -294,7 +294,7 @@ describe("law reach, group B: every policy reaches people through its engine", (
   beforeAll(() => build());
 
   it("registers a handler for every group B policy and budget line", () => {
-    expect(GROUP_B_KEYS.length).toBe(35);
+    expect(GROUP_B_KEYS.length).toBe(34);
   });
 
   // ---- Records reaching named people, counted residents and employers ----
@@ -593,17 +593,8 @@ describe("law reach, group B: every policy reaches people through its engine", (
       expect(row.terms[`${LOCAL}Rate`] ?? 0).toBe(0);
   });
 
-  it("a city sales tax rate reaches every household and seller as a price record", () => {
-    const before = lawInForce(api, "sales-tax").value ?? 0;
-    enact("sales-tax", 1, LOCAL, "percent");
-    const rate = lawInForce(api, "sales-tax").value ?? 0;
-    expect(rate).toBeGreaterThan(0);
-    expect(reached("sales-tax"), where).toBe(householdsWithAdults());
-    for (const row of openPeople("sales-tax"))
-      expect(row.terms.ratePercent).toBe(rate);
-    report.salesTax = { before, after: rate };
-    enact("sales-tax", 0, LOCAL, "percent");
-  });
+  // The sales tax is no longer a group B policy: its rows follow the law row and
+  // are read by the purchase-tax engine (law-wiring-prices.test.ts).
 
   // ---- Budget lines reach what they pay for ----
   const serviceLines: [string, number | null][] = [
