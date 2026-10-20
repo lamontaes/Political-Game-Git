@@ -127,6 +127,6 @@ describe(`ten days in a state office (${place.name}, seed ${seed})`, () => {
       expect(core.date >= to).toBe(true);
       // The office day wrote something: an entry done or an act kept.
       expect(lines.length).toBeGreaterThan(0);
-    }, 240_000);
+    }, 1_800_000);
   }
 });

@@ -5,13 +5,14 @@ area: gov
 kind: stopgap
 priority: 2
 size: M
-status: open
-claimed-by:
-pr:
+status: blocked
+claimed-by: claude/ward-map
+pr: #5106
 after: gov-council-election-method
-blocked-on:
+blocked-on: world-dwelling-locations
 milestone:
 source: "stopgap SG-GOV-ward-map, added by gov-council-election-method"
+claimed-at: 2026-10-19T19:07:44.446Z
 ---
 
 **What.** A council seat chosen by part of town counts the voters of its part. Today the part of town is a run of households in the town's recorded order, cut to near equal adults, because the world holds no street map. Draw the parts from the town's dwellings (the council or a commission draws them to near equal population, as the charter says) and place each household and each sitting member by their dwelling. The old engine's `living-world/town-wards.ts` holds the drawing rules (council versus commission, the courts' allowed deviation); port only what the golden path uses.
