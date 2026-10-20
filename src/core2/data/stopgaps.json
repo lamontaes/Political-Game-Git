@@ -3155,11 +3155,11 @@
     "kind": "aggregate-spending",
     "file": "src/core2/opening-private-tuition.ts",
     "line": 1,
-    "whatItFakes": "Each household with school-age children pays its children's share of the town's private tuition (the national private share times the average tuition) to the town's private school; no family chooses a school, and no child is enrolled.",
+    "whatItFakes": "The town's families with school-age children are ranked by cash per child and the best-off enroll all their children in the private school until the town's private share of school-age children (NCES) is reached, each paying the average private tuition. The family's beliefs, the schools nearby and the child's own needs do not yet enter, and enrollment is fixed at the opening.",
     "why": "Private schools had no customers at all, so they closed in every town.",
     "addedBy": "OPUS-CORE",
     "addedAt": "2026-10-12",
-    "replacement": "PEOPLE's schools engine: each child's enrollment, chosen from the family's income, beliefs and the schools near them, with tuition paid by the families who enroll.",
+    "replacement": "PEOPLE's schools engine: each child's enrollment chosen from the family's income, beliefs and the schools nearby, moving as they change. Means-ranked enrollment replaced the even spread of the town's average on Oct 19.",
     "status": "open"
   },
   {
