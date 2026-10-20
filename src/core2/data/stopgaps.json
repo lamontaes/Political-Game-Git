@@ -5201,5 +5201,89 @@
     "addedAt": "2026-10-20",
     "replacement": "Relief dollars by place in the budgets engine, an approval measure from the views engine, and sizes read from Healy and Malhotra 2009 and a confirmed approval source.",
     "status": "open"
+  },
+  {
+    "id": "SG-EFFECT-WEB-prices-gov-borrowing",
+    "kind": "missing-mechanic",
+    "file": "src/core2/modules/prices-web-gaps.ts",
+    "line": 11,
+    "whatItFakes": "Five links (balanced-budget, pension-funding, reserve-balance, federal-deficit and newspaper-closure to borrowing cost) move a state's general-obligation spread, in basis points over a AAA state.",
+    "why": "No state or local government borrows in the core: only the federal treasury borrows (budgets-treasury.ts) and its interest is a budget line, not a rate a bond sets, so no engine pays or records a state bond rate. The newspaper link also has no place-level newspaper series and no size.",
+    "addedBy": "effect-web-prices",
+    "addedAt": "2026-10-20",
+    "replacement": "A state and local borrowing engine (bond issues with a coupon over the AAA benchmark) that reads webReach for gov.borrowing-cost and pays interest at the rate it sets.",
+    "status": "open"
+  },
+  {
+    "id": "SG-EFFECT-WEB-prices-high-cost-loans",
+    "kind": "missing-mechanic",
+    "file": "src/core2/modules/prices-web-gaps.ts",
+    "line": 12,
+    "whatItFakes": "The loan-rate-cap links move the count of consumer lenders (payday, title and installment) per 100,000 residents.",
+    "why": "The credit engine lends one product, the town bank's personal loan at prime plus spread, which never reaches a high-cost rate; there is no payday or title lender, and the cap law already ceilings that loan's rate in householdApplications.",
+    "addedBy": "effect-web-prices",
+    "addedAt": "2026-10-20",
+    "replacement": "A high-cost lender product in credit.ts whose loans (and their count per 100,000) the cap links' factor multiplies.",
+    "status": "open"
+  },
+  {
+    "id": "SG-EFFECT-WEB-prices-roads-condition",
+    "kind": "missing-record",
+    "file": "src/core2/modules/prices-web-gaps.ts",
+    "line": 13,
+    "whatItFakes": "Fix-it-first moves the share of roads in poor condition; the share is kept only in the web.",
+    "why": "No engine keeps road condition: setRoadCondition in place-prices.ts has no caller. The web's kept share reaches households through poor-roads-to-prices on business prices (finance-state.ts), so the repair cost is charged once.",
+    "addedBy": "effect-web-prices",
+    "addedAt": "2026-10-20",
+    "replacement": "A roads engine (or a budget line that calls setRoadCondition) that owns the poor share and multiplies it by webFactorFor.",
+    "status": "open"
+  },
+  {
+    "id": "SG-EFFECT-WEB-prices-transit-service",
+    "kind": "missing-record",
+    "file": "src/core2/modules/prices-web-gaps.ts",
+    "line": 14,
+    "whatItFakes": "Shifting highway money to transit moves transit service (vehicle revenue miles per resident); the service is kept only in the web.",
+    "why": "No transit agency or service record exists; the service change reaches riders through transit-service-to-ridership into the trips each household takes (place-prices.ts).",
+    "addedBy": "effect-web-prices",
+    "addedAt": "2026-10-20",
+    "replacement": "A transit agency record of service miles that the service link's factor multiplies.",
+    "status": "open"
+  },
+  {
+    "id": "SG-EFFECT-WEB-prices-rail-ridership",
+    "kind": "missing-engine",
+    "file": "src/core2/modules/prices-web-gaps.ts",
+    "line": 15,
+    "whatItFakes": "A federal rail expansion raises intercity rail riders per 1,000 residents.",
+    "why": "The core has no intercity rail service, station or fare, so there is nothing to carry the rider count.",
+    "addedBy": "effect-web-prices",
+    "addedAt": "2026-10-20",
+    "replacement": "An intercity rail engine whose boardings per place multiply by webFactorFor(rail.intercity-ridership).",
+    "status": "open"
+  },
+  {
+    "id": "SG-EFFECT-WEB-prices-past-due-debt",
+    "kind": "missing-record",
+    "file": "src/core2/modules/prices-web-gaps.ts",
+    "line": 16,
+    "whatItFakes": "Student-debt relief and an abortion denial each move households' past-due debt.",
+    "why": "The abortion link's cause is a person event the game does not record; the student-debt link has no size or unit until a bill sets the terms. Credit keeps past-due loans but no household record these causes write to.",
+    "addedBy": "effect-web-prices",
+    "addedAt": "2026-10-20",
+    "replacement": "A recorded denial event and a student-loan balance on the household that credit.ts past-due loans can read.",
+    "status": "open"
+  },
+  {
+    "id": "SG-EFFECT-WEB-prices-nondisaster-transfers",
+    "kind": "missing-record",
+    "file": "src/core2/modules/prices-web-gaps.ts",
+    "line": 17,
+    "whatItFakes": "A severe disaster raises a place's non-disaster public transfers.",
+    "why": "Disasters are recorded (disasters.ts) but transfers are not kept by kind, so no engine reads or pays a non-disaster transfer series to scale.",
+    "addedBy": "effect-web-prices",
+    "addedAt": "2026-10-20",
+    "replacement": "Budget transfers split by disaster and non-disaster that the disaster link's factor multiplies.",
+    "status": "open"
   }
 ]

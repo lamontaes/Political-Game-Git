@@ -723,7 +723,7 @@
       "from": "disaster.severe",
       "evidence": "provisional",
       "range": [0.015, 0.027],
-      "notes": "Unsupported until a disaster record is readable: the game has no per-place reader for a severe disaster, and non-disaster transfers are not a kept place outcome."
+      "notes": "Unsupported until a disaster record is readable: the game has no per-place reader for a severe disaster, and non-disaster transfers are not a kept place outcome. Transfers are not kept by kind (stopgap SG-EFFECT-WEB-prices-nondisaster-transfers)."
     },
     {
       "key": "disaster-to-out-migration",
@@ -2368,7 +2368,7 @@
       "from": "person.abortion-denied",
       "evidence": "researched",
       "range": [0.585, 0.975],
-      "notes": "Person-level in substance: the effect is one woman denied an abortion, which the game does not record per place; the abortion law itself acts through infant deaths."
+      "notes": "Person-level in substance: the effect is one woman denied an abortion, which the game does not record per place; the abortion law itself acts through infant deaths. No denial event is recorded (stopgap SG-EFFECT-WEB-prices-past-due-debt)."
     },
     {
       "key": "universal-childcare-to-mothers-work",
@@ -2514,7 +2514,7 @@
       "source": "Gao, Lee and Murphy 2020 (JFE)",
       "from": "press.local-newspaper",
       "evidence": "researched",
-      "notes": "Unsupported until a unit adapter exists: the study prices county bonds after a county paper closes, but the game's outcome is a state's general obligation spread and the game has no place-level newspaper series."
+      "notes": "Unsupported until a unit adapter exists: the study prices county bonds after a county paper closes, but the game's outcome is a state's general obligation spread and the game has no place-level newspaper series. No government in the core borrows at a rate a state bond sets (stopgap SG-EFFECT-WEB-prices-gov-borrowing)."
     },
     {
       "key": "newspaper-closure-to-engagement",
@@ -3202,7 +3202,8 @@
       "evidence": "provisional",
       "from": "law:us-policy-positions:business-commerce.cap-consumer-loan-rates",
       "to": "finance.high-cost-loans",
-      "range": [-0.61, -0.2]
+      "range": [-0.61, -0.2],
+      "notes": "The credit engine has no high-cost lender product (stopgap SG-EFFECT-WEB-prices-high-cost-loans); its personal loan is already held under the cap law's ceiling."
     },
     {
       "key": "paid-leave-to-mothers-work",
@@ -3282,7 +3283,8 @@
       "source": "Consequences of Bottle Bills, Journal of Marketing 2025 (doi 10.1177/00222429251347284), abstract read; Bureau of Economic Analysis, NIPA personal consumption expenditures 2024 (DNBVRC, DAOPRC, DPCERC)",
       "evidence": "provisional",
       "from": "law:us-policy-positions:environment-energy.bottle-deposit",
-      "to": "household.prices"
+      "to": "household.prices",
+      "notes": "Reaches the world through each business's own price at its review (finance-state.ts). The study reports one markup on covered drinks and no split by buyer, so the link is not varied."
     },
     {
       "key": "clean-electricity-to-price",
@@ -3302,7 +3304,8 @@
       "evidence": "researched",
       "from": "law:us-policy-positions:environment-energy.clean-electricity-standard",
       "to": "energy.electricity-price",
-      "range": [0.03, 0.17]
+      "range": [0.03, 0.17],
+      "notes": "Read by the household electricity charge in place-prices.ts, replacing the law's recorded compliance-cost share once this link runs, so the cause is charged once. The dollar spread across households comes from the engine's income elasticity of electricity spending, so no further weights are added here."
     },
     {
       "key": "flood-zone-limits-to-damage",
@@ -3556,7 +3559,8 @@
       "evidence": "researched",
       "from": "law:us-federal-positions:trade.raise-tariffs",
       "to": "household.prices",
-      "range": [0.005, 0.01]
+      "range": [0.005, 0.01],
+      "notes": "Reaches the world through each business's own price at its review (finance-state.ts reads household.prices). Household incidence by income (Fajgelbaum et al. 2020; Amiti, Redding and Weinstein 2019) comes from what each household buys, which a business's single price does not carry, so the link is not varied."
     },
     {
       "key": "housing-vouchers-to-homelessness",
@@ -3642,7 +3646,8 @@
         "measure": "law:us-policy-positions:business-commerce.cap-consumer-loan-rates",
         "effectAtFull": -1,
         "mode": "scale"
-      }
+      },
+      "notes": "The credit engine has no high-cost lender product (stopgap SG-EFFECT-WEB-prices-high-cost-loans)."
     },
     {
       "key": "student-debt-relief-to-finances",
@@ -3662,7 +3667,7 @@
       "evidence": "to-confirm",
       "from": "law:us-federal-positions:education.forgive-student-loans",
       "to": "finance.past-due-debt",
-      "notes": "Unsupported until a bill sets the terms: the only causal study covers private loans already in default, and the outcome's unit is undefined."
+      "notes": "Unsupported until a bill sets the terms: the only causal study covers private loans already in default, and the outcome's unit is undefined. No household record carries this (stopgap SG-EFFECT-WEB-prices-past-due-debt)."
     },
     {
       "key": "more-immigration-to-workforce",
@@ -5120,7 +5125,29 @@
       "evidence": "provisional",
       "anchor": "State bans on municipal broadband cut access about 4.5% from 2012 to 2018; that measured availability, and subscriptions move less",
       "source": "Whitacre and Gallardo 2020, Telecommunications Policy 44(9)",
-      "range": [0, 0.02]
+      "range": [0, 0.02],
+      "notes": "Read by the share of households subscribing to the public offer (place-prices.ts). Home access moves least where nearly everyone already subscribes, so the effect is weighted by the share without a subscription.",
+      "varies": [
+        {
+          "by": "incomeFifth",
+          "bands": [
+            {
+              "is": 0,
+              "weight": 0.754,
+              "share": 0.2
+            },
+            {
+              "is": 4,
+              "weight": 0.053,
+              "share": 0.2
+            }
+          ],
+          "tag": "ESTIMATED",
+          "source": "Pew Research Center, Americans' Use of Mobile Technology and Home Broadband (Gelles-Watnick, survey May 19 to Sept. 5, 2023)",
+          "quote": "\"Nearly all (95%) adults with an annual household income of at least $100,000 say they have one.\" \"This compares with 57% of adults in households that make less than $30,000 per year.\"",
+          "estimatedFrom": "A new subscription can only come from a household without one, so the proportional rise in subscribing is the unserved share over the subscribing share: 43/57 = 0.754 for households under $30,000 (the lowest income fifth) and 5/95 = 0.053 for $100,000 and over (the top fifth); the middle three fifths are not reported and read the average."
+        }
+      ]
     },
     {
       "key": "gas-hookup-ban-to-child-asthma",
@@ -5226,7 +5253,8 @@
       "anchor": "States with strict anti-deficit rules paid 15 to 20 basis points less than states with lax rules on general-obligation bonds, 1973 to 1996; a statute moves a state partway, so 8",
       "source": "Poterba and Rueben 1999, State Fiscal Institutions and the U.S. Municipal Bond Market (NBER w6237)",
       "range": [-20, 0],
-      "floor": -19
+      "floor": -19,
+      "notes": "No government in the core borrows at a rate a state bond sets (stopgap SG-EFFECT-WEB-prices-gov-borrowing)."
     },
     {
       "key": "pension-funding-to-borrowing-cost",
@@ -5247,7 +5275,8 @@
       "anchor": "Spreads rose 7 to 15 basis points for each 10% of revenue lost in pension funds in states in the lower half of credit quality. The recorded game estimate is a 3-basis-point reduction, with a -8 to 0 range, because paying the full contribution heads off only part of that observed loss effect (Novy-Marx and Rauh 2012).",
       "source": "Novy-Marx and Rauh 2012, AEJ: Economic Policy 4(2)",
       "range": [-8, 0],
-      "floor": -7
+      "floor": -7,
+      "notes": "No government in the core borrows at a rate a state bond sets (stopgap SG-EFFECT-WEB-prices-gov-borrowing)."
     },
     {
       "key": "reserve-balance-to-borrowing-cost",
@@ -5268,7 +5297,8 @@
       "anchor": "ESTIMATED FROM THE RECORDED FISCAL-LAW AVERAGE: a minimum reserve balance lowers borrowing cost by 3 basis points, with a -6 to 0 range. The basis is the game's same -3-basis-point estimate for full pension funding; Pew 2017 and Wagner 2004 establish that rainy-day funds raise ratings and lower yields but do not provide basis points per law.",
       "source": "Pew Charitable Trusts 2017; Wagner 2004",
       "range": [-6, 0],
-      "floor": -5
+      "floor": -5,
+      "notes": "No government in the core borrows at a rate a state bond sets (stopgap SG-EFFECT-WEB-prices-gov-borrowing)."
     },
     {
       "key": "fare-free-transit-to-ridership",
@@ -5288,7 +5318,8 @@
       "evidence": "researched",
       "anchor": "Transit ridership's elasticity with respect to fares is -0.2 to -0.5 in the first year. A fare falling to zero is read on the semi-log curve the paper recommends for fares near zero, where ridership rises by e to the elasticity: 22% to 65%, 42% at the middle of the range. Long-run elasticities of -0.6 to -0.9 would give more, so this is the first year's effect, held.",
       "source": "Litman 2025, Transit Price Elasticities and Cross-Elasticities, Victoria Transport Policy Institute, Table 15 and page 9",
-      "range": [0.22, 0.65]
+      "range": [0.22, 0.65],
+      "notes": "Read by the trips each household takes in place-prices.ts. The sources reachable (Litman 2025; pilot write-ups) give no ridership split by income, so the link is not varied."
     },
     {
       "key": "cannabis-sales-to-overdose-deaths",
@@ -5424,7 +5455,8 @@
       "evidence": "provisional",
       "anchor": "Where federal law let highway money go to transit (1992 to 2006), states spent about 3% of the whole federal-aid highway program on transit, 13% of the flexible part; California put nearly 40% of its flexible money there, and 19 states less than 2%. The same 3% of a state's own highway spending (Census Bureau, 2022: $128.0 billion) is 5.9% of what transit agencies spend to run service (FTA National Transit Database, 2024: $65.6 billion), so service rises about 6% at the average cost per mile. The spread takes 2% to 40% of the flexible part. The lag is a budget cycle and the buses it buys, the most common use GAO found.",
       "source": "GAO-07-772, Highway and Transit Investments: Flexible Funding Supports State and Local Transportation Priorities (2007); Census Bureau, 2022 Census of Governments: Finance, Table 1 (state highways); FTA National Transit Database 2024 (data.transportation.gov ekg5-frzt, total operating expenses)",
-      "range": [0.01, 0.18]
+      "range": [0.01, 0.18],
+      "notes": "No transit service record exists (stopgap SG-EFFECT-WEB-prices-transit-service); its effect reaches riders through transit-service-to-ridership."
     },
     {
       "key": "farmland-easements-to-farmland-lost",
@@ -5518,13 +5550,16 @@
       },
       "size": 0.005,
       "per": "percent a law or other cause moved the place's transit service (vehicle revenue miles per resident)",
-      "lagMonths": 12,
+      "lagMonths": 0,
       "group": "place",
       "owner": "M",
       "evidence": "researched",
       "anchor": "Each 1% more transit service raises ridership about 0.5%: the elasticity with respect to service frequency averages 0.5, typical urban systems with 30-minute or better headways run about 0.30, and expanding routes into new areas typically gives 0.6 to 1.0. New service takes 1 to 3 years to reach its full ridership, so this acts from the first year. Only the part of service that laws and other causes moved is read, so service's own drift, which ridership's drift already stands for, is not counted twice.",
       "source": "Litman, Transit Price Elasticities and Cross-Elasticities, Victoria Transport Policy Institute, June 17, 2025, page 12 (Service Elasticities), https://www.vtpi.org/tranelas.pdf",
-      "range": [0.003, 0.01]
+      "range": [0.003, 0.01],
+      "phaseInMonths": 24,
+      "notes": "New service takes 1 to 3 years to reach its full ridership (Litman 2025): no lag, and the effect builds over 24 months, the middle of that range. The sources reachable give no split by income, so the link is not varied. Read by the trips each household takes (place-prices.ts).",
+      "phaseInSource": "Litman 2025 (Victoria Transport Policy Institute, Transit Price Elasticities and Cross-Elasticities): new or improved service takes one to three years to reach its full ridership; 24 months is the middle of that range."
     },
     {
       "key": "federal-deficit-to-borrowing-cost",
@@ -5544,7 +5579,8 @@
       "evidence": "researched",
       "anchor": "A one point rise in the projected federal deficit over GDP raises long-term interest rates about 25 basis points, and the rates states pay to borrow move with them. A law that cuts spending lowers what every state pays; a law that spends more raises it. Markets price the projected deficit when the law is made, so there is no lag. The paper's summary gives no band, so the spread is the default for researched links, 25% either way.",
       "floor": -19,
-      "source": "Laubach 2009, New Evidence on the Interest Rate Effects of Budget Deficits and Debt, Journal of the European Economic Association 7(4): 858-885; the deficit change from data/research/federal/federal-outlay-terms-fy2025.json (Treasury Monthly Treasury Statement, BEA, CBO)"
+      "source": "Laubach 2009, New Evidence on the Interest Rate Effects of Budget Deficits and Debt, Journal of the European Economic Association 7(4): 858-885; the deficit change from data/research/federal/federal-outlay-terms-fy2025.json (Treasury Monthly Treasury Statement, BEA, CBO)",
+      "notes": "No government in the core borrows at a rate a state bond sets (stopgap SG-EFFECT-WEB-prices-gov-borrowing)."
     },
     {
       "key": "fix-it-first-to-poor-roads",
@@ -5564,7 +5600,8 @@
       "evidence": "provisional",
       "anchor": "Fix-it-first moves highway capital from new lanes to repair: from the national 45% repair toward the 70% of states with good roads, 55% more repair at the same total. That much more rehabilitation cuts the share of roads in poor condition by about 38% over twenty years, and 47% of that gain comes in the first five: 18% fewer poor roads once the first repaving cycle is done. Only the five-year step is carried, since a link acts in one step; the further gain over the next fifteen years is left out rather than counted early",
       "source": "Transportation for America, Repair Priorities (2014): states spent $16.5 billion a year repairing roads and $20.4 billion adding lanes in 2009 to 2011 (45% repair); Repair Priorities 2026: states with good roads spend more than $2.35 on repair per $1 on expansion (70% repair). FHWA, 25th Conditions and Performance Report (2024), Exhibits 7-5 and 7-6: raising highway rehabilitation from $31.4 billion to $49.4 billion a year (+57%) cuts the 2038 share of travel on poor pavement from 15.7% to 9.6%, and from $49.4 billion to $64.6 billion (+31%) from 9.6% to 6.2%; Exhibit 8-13: at flat spending 15.8% falls to 11.8% in five years and 7.3% in twenty",
-      "range": [-0.3, -0.08]
+      "range": [-0.3, -0.08],
+      "notes": "No engine keeps road condition (stopgap SG-EFFECT-WEB-prices-roads-condition); its effect reaches households through poor-roads-to-prices."
     },
     {
       "key": "poor-roads-to-prices",
@@ -5584,7 +5621,8 @@
       "evidence": "provisional",
       "anchor": "Rough roads cost drivers in repairs, tires, fuel and a car that wears out sooner: $130 billion a year when 33% of major urban roads were substandard (2016), 1.02% of the $12.75 trillion Americans spent that year, or 0.031% of prices per point of rough road. Only the part of the road share that laws moved counts, so the roads' own drift does not move prices",
       "source": "TRIP, Bumpy Roads Ahead (2018), $130 billion a year in extra vehicle operating costs on major urban roads in poor or mediocre condition in 2016, 33% of them; Bureau of Economic Analysis, personal consumption expenditures 2016, $12.75 trillion. ESTIMATED FROM AVERAGE: TRIP counts mediocre roads as well as poor ones, so each point of poor road is taken to cost what a point of substandard road does",
-      "range": [0.00015, 0.0005]
+      "range": [0.00015, 0.0005],
+      "notes": "Carries the cost of rough roads to drivers once, through business prices at their review (finance-state.ts); the road repair rule in place-prices.ts is not also moved by the web. The research gives one national cost and no split by buyer, so the link is not varied."
     },
     {
       "key": "federal-rail-expansion-to-riders",
@@ -5604,7 +5642,8 @@
       "evidence": "provisional",
       "anchor": "A federal law that pays to expand passenger rail funds the plan Amtrak asked Congress for: 62.5% more riders over 15 years, with the first added service 30 months in (src/simulation/federal-passenger-rail.ts). Rail ridership forecasts come true only in part: across 25 rail projects, actual traffic averaged 51.4% below forecast, with a standard deviation of 28.1 points. So each percent the plan projects adds 0.486% more riders, and each world draws between 0.205% and 0.767%, one standard deviation either way. The same share reaches every place Amtrak serves. The timing is the plan's own, so the link acts in the month the plan's riders arrive. Provisional: the projection is Amtrak's, not a measured result of a past federal law.",
       "source": "Amtrak, Amtrak Connects US (2021), https://assets.amtrakconnectsus.com/uploads/2021/03/Amtrak-Connects-US-Vision-with-Map-Final.pdf; Flyvbjerg, Skamris Holm and Buhl 2005, Journal of the American Planning Association 71(2), https://arxiv.org/pdf/1303.6654; riders from Amtrak's fiscal year 2024 state fact sheets, read September 29, 2026",
-      "range": [0.00205, 0.00767]
+      "range": [0.00205, 0.00767],
+      "notes": "No intercity rail service exists in the core (stopgap SG-EFFECT-WEB-prices-rail-ridership)."
     },
     {
       "key": "parks-spending-to-exercise-access",
