@@ -24,3 +24,5 @@ claimed-at: 2026-10-20T06:23:07.756Z
 **Notes.** The old pool body was the empty template; this is the real one. Split Oct 15: the duplicate copy is removed in this PR, the two row replacements are the blocked-on items.
 
 Oct 20: Everything it waited on is done, so it is open.
+
+Oct 20 (claude/moves-pinned-income): nothing left to build, ready for the CTO to mark done. `src/core2/pinned-jobs.ts` is gone (commit 590e262977: agreements no longer pin jobs; `agreement-jobs-free.test.ts` shows it), SG-P15-moves-pinned-jobs and SG-FIXER-moves-income-household are both `resolved` in stopgaps.json with no marker left in src, and `moves.test.ts` ("pays a mover's recorded income into the household where they live now") covers the award half. The item body's file list is out of date.
