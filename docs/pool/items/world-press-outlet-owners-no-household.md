@@ -5,12 +5,12 @@ area: world
 kind: bug
 priority: 2
 size: M
-status: in-pr
-claimed-by: claude/press-owner-household
+status: open
+claimed-by:
 pr: #5050
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-18T11:09:06.443Z
+claimed-at:
 ---
 
 **What.** TODO
