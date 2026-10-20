@@ -5,11 +5,12 @@ area: core
 kind: bug
 priority: 3
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/political-game-pool-yucp92-ax
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-20T12:17:21.581Z
 ---
 
 **What.** The Oct 20 merge audit asked for a saves test that restores a world and checks frozen records. Records that exist at the opening restore frozen (shown in src/core2/saves.test.ts). Records a producer creates after the opening do not: core.work.payrollLedgerByCommitment and core.work.earnedPayPeriods rows are frozen in the played game under bookkeeping and unfrozen after loadGame, because the rebuilt world has no record at that path to take frozen state from. Only bookkeeping (tests and the bench) freezes records, so play is unaffected.
