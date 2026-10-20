@@ -21,4 +21,4 @@ claimed-at: 2026-10-20T05:53:06.868Z
 
 **Files.** src/bench/play.mjs, src/bench/play.css, src/bench/no-scroll.browser.mjs
 
-**Notes.** TODO
+**Notes.** Oct 20: four runs of no-scroll.browser.mjs on main in Chromium 1194 (Galena, Ohio; continued life) pass, with the Politics sheet at #sheet 3px and 4 pages, start and after a day. It did not reproduce there; try a drawn new game in another place before changing the layout.
