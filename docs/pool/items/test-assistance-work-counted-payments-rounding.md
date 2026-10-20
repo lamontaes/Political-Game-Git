@@ -10,6 +10,7 @@ claimed-by:
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at:
 ---
 
 **What.** With GOLDEN_PATH_SEED 741e1fe731e2aef3a39de315f1d07c4368754d2d0409b3bbeacc39f43896b2b6 and GOLDEN_PATH_PLACE_KEY territory:GU:inarajan, the assistance work requirement test expects counted groups' payments of rate times counted heads (97713) but the engine pays 97728: the test floors the per-head rate and counts heads, while payBenefits floors per group on the fitted household weight. Make the test's expected value follow the engine's per-group arithmetic, or fix the engine if the test's rule is the intended one.
