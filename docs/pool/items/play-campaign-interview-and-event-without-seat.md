@@ -5,11 +5,12 @@ area: play
 kind: feature
 priority: 2
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/fs11vb-ev
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-20T14:17:53.452Z
 ---
 
 **What.** Merge audit fix 4 found that the campaign day (PR #5549) offers the doors and the calls as scenes, but a candidate who holds no seat has no control to ask for an interview or to hold an event; those choices exist in the engine (interview and event kinds in takeCampaignDayChoice) and the bench view throws on 'event'. Add a scene control or a press-desk entry so a candidate in a race can ask an outlet for an interview and hold an event, each running the engine's own act. The player would notice an interview and an event among the day's choices and a scene for each.
