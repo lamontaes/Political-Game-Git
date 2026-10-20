@@ -990,6 +990,7 @@ function renderTalk(value) {
   if (value?.otherId !== talk?.otherId) lying = false;
   talk = value;
   show("talk", Boolean(value));
+  $("talk-gap").classList.remove("marked");
   if (!value) return;
   const other = value.lines.find((line) => line.speakerId === value.otherId);
   if (
@@ -1027,6 +1028,12 @@ async function talkTo(otherId, momentId) {
   );
 }
 // Saying nothing is a smaller control beside the four replies (owner, Oct 14).
+// A line that does not read right is marked where it is said; no time passes.
+$("talk-gap").addEventListener("click", async () => {
+  if (!talk) return;
+  await post("/api/gap");
+  $("talk-gap").classList.add("marked");
+});
 $("talk-silent").addEventListener("click", async () => {
   if (!talk) return;
   lying = false;
@@ -1671,6 +1678,41 @@ async function officeRows() {
         })(),
       ),
     ),
+    // The budget you may send now: the change to each line, in steps of its amount.
+    ...(v.budget
+      ? [
+          el(
+            "div",
+            { className: "row campaign" },
+            el("b", { textContent: controls.budgetEditor.title }),
+            ...v.budget.lines.map((row) => {
+              const pick = el(
+                "select",
+                {},
+                ...[-20, -10, 0, 10, 20].map((pct) => {
+                  const minor = Math.round((row.amountMinor * pct) / 100);
+                  return el("option", {
+                    value: String(minor),
+                    selected: row.changeMinor === minor,
+                    textContent: controls.budgetEditor[String(pct)],
+                  });
+                }),
+              );
+              pick.addEventListener("change", async () => {
+                await post(
+                  `/api/office/budget-line?${new URLSearchParams({ line: row.line, changeMinor: pick.value })}`,
+                );
+              });
+              return el(
+                "label",
+                {},
+                ` ${row.name} ${dollars(row.amountMinor)} `,
+                pick,
+              );
+            }),
+          ),
+        ]
+      : []),
     // The deal to offer each colleague who votes on a bill of yours when you talk to them.
     ...(v.deals ?? []).map((bill) =>
       el(
