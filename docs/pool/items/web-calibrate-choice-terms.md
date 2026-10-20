@@ -24,3 +24,5 @@ claimed-at:
 **Notes.** TODO
 
 Sent back 2026-10-20 from PR #5654 (branch claude/web-calibrate): src/core2/births-full-web.test.ts fails with main merged (run seed 85f1ab6ee110a92f: the factor-0.9 planning share equals the base, 0.0756 vs 0.0756, in all nine drawn places); finish on that branch, merge main into it first.
+
+Sent back 2026-10-20 from PR #5654 (branch claude/web-calibrate): births-full-web.test.ts still fails on the merged head: the factor-0.9 planning share equals the base in every drawn place; finish on that branch, merge main into it first.
