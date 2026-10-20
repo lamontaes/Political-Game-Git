@@ -5,7 +5,7 @@ area: gov
 kind: bug
 priority: 1
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/firearm-storage-extra-duty
 pr: #5371
 blocked-on:
