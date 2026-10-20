@@ -1,4 +1,3 @@
-import { pressConflict } from "../press-conflict";
 /**
  * Elections, part one: contests and filing (golden path step 3).
  *
@@ -85,7 +84,6 @@ export interface RequirementCheck {
     | "residency"
     | "party-member"
     | "term-limit"
-    | "press-employment"
     | "district-residency";
   readonly met: boolean;
   readonly required: string;
@@ -623,15 +621,6 @@ export function checkEligibility(
         "Assumed: most ward and district charters ask it (SG-GOV-ward-residency)",
     });
   }
-  const conflict = pressConflict(api, personId);
-  checks.push({
-    rule: "press-employment",
-    met: !conflict,
-    required: "no active press employment or ownership",
-    actual: conflict ? `${conflict.role}:${conflict.outletId}` : "none",
-    source:
-      "CTO ruling pending owner confirmation, October 14, 2026: press staff and owners cannot run while working for or owning an outlet",
-  });
   // Registration is research metadata, not a modeled status. The game has
   // no separate registration step (AGENTS.md: no paperwork); do not report
   // an adult resident as registered without a registration record.
