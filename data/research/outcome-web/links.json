@@ -1878,7 +1878,8 @@
       "from": "tax.property-rate",
       "evidence": "contested",
       "range": [0.02, 0.18],
-      "notes": "In the new core the cause is read from the engine's own record (src/core2/data/outcome-web/outcome-web.json causeFrom): the property tax rate in force for the town (the budgets module's law row the housing engine bills owners by), as a percent of home value, against the rate at the web's opening. Size is the center of the 0.02 to 0.18 range (Carroll and Yinger 1994 at 0.02; Tsoodle and Turner 2008 at 0.17 to 0.18); the engine renews each lease by the change in the web's rent factor since the lease last renewed (src/core2/housing-occupancy.ts renewRentalLeases), full and counted renters alike. The sources report one pass-through for renters as a group, so the link is not varied."
+      "notes": "In the new core the cause is read from the engine's own record (src/core2/data/outcome-web/outcome-web.json causeFrom): the property tax rate in force for the town (the budgets module's law row the housing engine bills owners by), as a percent of home value, against the rate at the web's opening. Size is the center of the 0.02 to 0.18 range (Carroll and Yinger 1994 at 0.02; Tsoodle and Turner 2008 at 0.17 to 0.18); the engine renews each lease by the change in the web's rent factor since the lease last renewed (src/core2/housing-occupancy.ts renewRentalLeases), full and counted renters alike. The sources report one pass-through for renters as a group, so the link is not varied.",
+      "readFrom": "housing.property-tax-rate"
     },
     {
       "key": "transit-loss-to-unemployment",

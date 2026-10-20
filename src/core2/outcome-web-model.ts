@@ -32,6 +32,11 @@ export type Shape =
 export interface WebLink {
   readonly key: string;
   readonly from: string;
+  /**
+   * The measure the new core reads the cause from when it is not `from` (the
+   * old engine's name): an engine's own records, e.g. the victimization index.
+   */
+  readonly readFrom?: string;
   readonly to: string;
   readonly shape: Shape;
   readonly size: number | null;
@@ -100,12 +105,8 @@ interface BaseDefinition {
   readonly places: Readonly<Record<string, number>>;
 }
 
-/** Links whose cause the new core reads from an engine's own record rather than the research's measure. */
-const CAUSE_FROM =
-  (local as { causeFrom?: Readonly<Record<string, string>> }).causeFrom ?? {};
 export const WEB_LINKS = (web.links as unknown as readonly WebLink[]).map(
-  (link) =>
-    CAUSE_FROM[link.key] ? { ...link, from: CAUSE_FROM[link.key]! } : link,
+  (link) => (link.readFrom ? { ...link, from: link.readFrom } : link),
 );
 export const WEB_VERSION = web.version;
 /** The date the research's base levels describe; laws in force then are the baseline. */
