@@ -5,10 +5,10 @@ area: gov
 kind: bug
 priority: 2
 size: M
-status: open
+status: blocked
 claimed-by:
 pr: #5724
-blocked-on: world-territory-village-opens-with-no-employers
+blocked-on: PR 5712 (staff-paid-territory-no-payroll-template) fixes the same cause in the same file; merge it, then the CTO can close PR 5724 and drop this item
 source: added with npm run pool -- add
 claimed-at:
 ---
