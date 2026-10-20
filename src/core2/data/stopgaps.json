@@ -2689,11 +2689,11 @@
     "file": "src/core2/modules/housing.ts",
     "line": 169,
     "whatItFakes": "Where the ACS withholds a county's median rent or home value (a county with very few households: Kalawao, Hawaii; Edwards, Kenedy, Loving and Culberson, Texas), the state's household-weighted county median stands in, then the nation's.",
-    "why": "world-property-tax-zero-home-values: a missing value read as zero left every owner in the county without a home, so no property tax was collected.",
+    "why": "Resolved Oct 19 (gov-standins-housing): a county the ACS withholds takes the household-weighted median of its neighboring counties (Census county adjacency, src/core2/data/housing/county-neighbors.json); the state and nation stand in only if no neighbor publishes. world-property-tax-zero-home-values: a missing value read as zero left every owner in the county without a home. world-property-tax-zero-home-values: a missing value read as zero left every owner in the county without a home, so no property tax was collected.",
     "addedBy": "CLAUDE-WORLD",
     "addedAt": "2026-10-16",
     "replacement": "The county's own median from the ACS 5-year table when it is published, or the median of its neighboring counties.",
-    "status": "open"
+    "status": "resolved"
   },
   {
     "id": "SG-WORLD-business-union-members",
