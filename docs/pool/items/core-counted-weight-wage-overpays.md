@@ -24,3 +24,5 @@ claimed-at: 2026-10-20T03:21:43.135Z
 **Notes.** Found Oct 20 while fixing core-counted-weight-money-small-town-red.
 
 **Result (Oct 20).** Not an engine defect. The engine's payroll matched its own weights (the test already asserts that). The two worlds (sample and times-three) differ slightly in their jobs and pay, so one world's payment times the weights is the wrong ceiling: 12,121,107 in the sample against 37,454,550 in the scaled world is 3.09 times where the weights say 3.05. The test now scales what each world paid per dollar of its own daily pay. Seed 7948de20... (replayable with COUNTED_WEIGHT_SEED and COUNTED_WEIGHT_KEY=1780242) passes.
+
+**Fresh draws (Oct 20).** Two fresh random draws of src/core2/counted-weight-money.test.ts passed, with the small-town draw-on and the per-world pay ceiling in place.
