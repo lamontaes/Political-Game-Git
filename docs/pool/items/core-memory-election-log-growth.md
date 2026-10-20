@@ -5,9 +5,9 @@ area: core
 kind: research
 priority: 3
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/memory-player-decisions
-pr:
+pr: #5623
 blocked-on: owner-decision-may-player-old-decisions-be-compacted
 source: added with npm run pool -- add
 claimed-at: 2026-10-20T09:13:46.755Z
