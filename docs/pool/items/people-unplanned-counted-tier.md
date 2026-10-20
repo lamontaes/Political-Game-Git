@@ -5,12 +5,12 @@ area: people
 kind: feature
 priority: 3
 size: M
-status: in-pr
-claimed-by: claude/unplanned-counted-tier
+status: open
+claimed-by:
 pr: #5757
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-20T21:41:26.032Z
+claimed-at:
 ---
 
 **What.** Only full people in couples are covered by the unplanned-pregnancy exposure. Counted women need the same rule times their count (one model, two tiers).
