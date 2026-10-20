@@ -5,10 +5,10 @@ area: laws
 kind: stopgap
 priority: 3
 size: M
-status: claimed
+status: blocked
 claimed-by: claude/pool-medicaid
 pr:
-blocked-on:
+blocked-on: missing-engine-health-coverage-and-medical-spending
 source: added with npm run pool -- add
 claimed-at: 2026-10-20T02:30:18.002Z
 ---
