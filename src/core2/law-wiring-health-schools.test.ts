@@ -2,8 +2,7 @@
  * Health, assistance and schools laws wired end to end, in one played world:
  * Medicaid expansion (and its work requirement and federal match), the
  * assistance work requirement and the SNAP maximum, universal preschool,
- * public funds for private schooling, and the schools and health budget
- * lines. For each: who it reached (full people and counted groups), the
+ * and public funds for private schooling. For each: who it reached (full people and counted groups), the
  * payment that applied it and the money that moved, the outcome-web effect,
  * and that a repeal ends it. A place with nobody the laws apply to is
  * redrawn; every place tried is named in a failure.
@@ -14,12 +13,11 @@ import { drawPlace } from "../../scripts/core2-year/place";
 import { buildBenchWorld } from "../bench/world";
 import { setBookkeeping } from "./bookkeeping";
 import { gameStartDate } from "./game-start";
-import { govMeasure } from "./gov-measures";
 import { addDays, makeIsoDate } from "./kernel/dates";
 import { appliedOn, appliedTo } from "./law-reach/applied";
 import { rowsOf } from "./law-reach/group-b-store";
 import { advanceCore } from "./life";
-import { amendBudget, budgetsOf, governments } from "./modules/budgets";
+import { governments } from "./modules/budgets";
 import { enactLaw, lawChain, lawInForce, LAWS_MODULE_ID } from "./modules/laws";
 import { residentsRuntime } from "./modules/residents";
 import { OUTCOME_WEB_MODULE_ID } from "./modules/outcome-web";
@@ -120,20 +118,6 @@ function firedIn(api: CoreAPI, link: string): string | undefined {
   return webMonths(api).find((m) => (m.effects[link] ?? 0) !== 0)?.id;
 }
 
-/** A government that carries this budget line with money in it. */
-function lineGovernment(api: CoreAPI, line: string) {
-  const order = ["city", "county", "state"];
-  return governments(api)
-    .filter((g) => order.includes(g.level))
-    .sort((a, b) => order.indexOf(a.level) - order.indexOf(b.level))
-    .find((g) => {
-      const budget = [...budgetsOf(api, g.id)].sort(
-        (x, y) => y.fiscalYear - x.fiscalYear,
-      )[0];
-      return (budget?.spendingMinor[line] ?? 0) > 0;
-    });
-}
-
 /** Whether the town's households pay a private school, as named contracts or a counted flow. */
 function hasTuition(core: CoreState, town: string): boolean {
   for (const c of core.finance.contracts.values())
@@ -168,11 +152,6 @@ function tryPlace(where: string, seed: string, key: string): string | null {
   if (!lawInForce(api, "snap-maximum").value) return "no SNAP law in force";
   if (!hasTuition(core, lawChain(api).townPlaceId))
     return "no private-school tuition contract";
-  const schools = lineGovernment(api, "schools");
-  const health = lineGovernment(api, "healthAndHospitals");
-  if (!schools || !health)
-    return "no government carries the schools or health line";
-
   // The starting yeses are repealed first, so each law takes effect as a change.
   const baselineYes = new Map<string, boolean>();
   for (const q of QUESTIONS) {
@@ -181,22 +160,6 @@ function tryPlace(where: string, seed: string, key: string): string | null {
   }
   advance(core, 2);
   for (const q of QUESTIONS) enact(api, q, "on");
-  const amend = (gov: { id: string }, line: string) => {
-    const budget = [...budgetsOf(api, gov.id)].sort(
-      (a, b) => b.fiscalYear - a.fiscalYear,
-    )[0]!;
-    amendBudget(api, {
-      governmentId: gov.id,
-      line,
-      deltaMinor: Math.max(
-        100_000_00,
-        Math.round(budget.spendingMinor[line]! * 0.2),
-      ),
-      measureId: `health-schools-${line}`,
-    });
-  };
-  amend(schools, "schools");
-  amend(health, "healthAndHospitals");
   advance(core, ENACTED_DAYS);
 
   const taken = () => rowsOf<Taken>(api, "taken");
@@ -301,23 +264,6 @@ function tryPlace(where: string, seed: string, key: string): string | null {
     appliedOn(api, ASSIST_WORK).length,
     say("the assistance work requirement was read for no one"),
   ).toBeGreaterThan(0);
-
-  // The budget lines: the schools line moves spending per student in the web.
-  const schoolsPct = govMeasure(api, "budget.schools-added-pct");
-  const healthPct = govMeasure(api, "budget.healthAndHospitals-added-pct");
-  expect(schoolsPct ?? 0, say("schools line change not read")).toBeGreaterThan(
-    0,
-  );
-  expect(healthPct ?? 0, say("health line change not read")).toBeGreaterThan(0);
-  const spendingMonth = webMonths(api).at(-1)!;
-  expect(
-    spendingMonth.values["school.spending-per-student"],
-    say("per-student spending did not rise with the schools line"),
-  ).toBeGreaterThan(spendingMonth.bases["school.spending-per-student"]!);
-  expect(
-    firedIn(api, "schools-spending-to-spending-per-student"),
-    say("the schools link did not fire"),
-  ).toBeTruthy();
 
   // Hold every law a different way from where the place began (laws it
   // already had are repealed, the others stay) so each link's cause differs

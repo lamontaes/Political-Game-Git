@@ -14,13 +14,6 @@
     "eventKind": "law-took-effect",
     "why": "OPUS-GOV's laws module keeps every level's law rows (series, jurisdiction, value, effectiveDate) and announces each phase as a law-took-effect event; a law measure is 1 when any level's latest row in force says yes."
   },
-  "budgetLineMeasures": {
-    "about": "Government measures that read how far one budget line sits above its base this fiscal year (gov-measures.ts). The value is the line the measure reads.",
-    "measures": {
-      "budget.schools-added-pct": "schools",
-      "budget.healthAndHospitals-added-pct": "healthAndHospitals"
-    }
-  },
   "keptOutcomes": {
     "births.rate": {
       "scale": "index",
