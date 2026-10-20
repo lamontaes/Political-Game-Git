@@ -61,6 +61,7 @@ import { LAWS_MODULE_ID, lawChain, lawInForce } from "./laws";
 import { BUDGETS_MODULE_ID, governments } from "./budgets";
 import housingConstruction from "../data/housing/construction.json" with { type: "json" };
 import lawParameters from "../data/laws/reach-group-a-parameters.json" with { type: "json" };
+import { DEFAULT_HEALTH_DATA, severityImpulse } from "./health";
 import {
   countedOwnersBehind,
   foreclosureRemoval,
@@ -1803,6 +1804,9 @@ function remove(api: CoreAPI, caseId: string, owed: number): void {
     },
     publicRecord: true,
     topic: row.landlordId,
+    // Losing the home is a life change (Holmes and Rahe, foreclosure, 30
+    // units); each member's appraisal scales it by their own traits.
+    ...severityImpulse(api, DEFAULT_HEALTH_DATA.evictionSeverity),
   });
   // Where they go: a relative with room, a shelter bed, else the street.
   placeRemovedHousehold(api, {
