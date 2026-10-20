@@ -7,7 +7,7 @@ priority: 2
 size: S
 status: in-pr
 claimed-by: claude/press-staff-exit-spread
-pr: #5332
+pr: #5353
 blocked-on: "gov-stopgap-press-staff-missing-record"
 source: "gov-stopgap-press-faked-mechanic, PR #4596"
 claimed-at: 2026-10-20T00:17:31.355Z
