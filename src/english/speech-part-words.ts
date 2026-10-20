@@ -50,7 +50,7 @@ interface BankPart {
 }
 interface AuthoredPart {
   key: string;
-  role: string;
+  move: string;
   text: string;
   shippable: boolean;
 }
@@ -96,7 +96,7 @@ function variantsOf(source: MoveSource): LinePartVariant[] {
     for (const part of AUTHORED)
       if (
         part.shippable &&
-        part.role === source.authored &&
+        part.move === source.authored &&
         !heldByGrades(part.key)
       )
         variants.push({

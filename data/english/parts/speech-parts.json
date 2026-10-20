@@ -1,6 +1,6 @@
 {
   "schema": "english-parts/1",
-  "register": "rally",
+  "register": "speech-parts",
   "description": "Sentences for the parts of a composed campaign speech (src/core2/speech-composition.ts) that the mined address bank has no sentence for: a stand against a measure, a vote cast or a promise kept, a rival's broken promise, a pledge and talk about the town. Each is authored to the calibrated patterns of the mined campaign moves (plain, first person, one sentence, a slot for the record's word), with record words as slots. The mined moves (thanks, an issue, an ask, a close, a rival's vote) stay in address.json.",
   "slots": {
     "place": "The speaker's town, county or state, from the place records.",
@@ -9,195 +9,316 @@
     "opponent": "The rival candidate, by name, from the contest record."
   },
   "maxWords": 14,
-  "origin": "authored",
-  "author": "Claude Code, pool session",
-  "date": "2026-10-19",
   "parts": [
     {
-      "key": "speech-part.why-running.1",
-      "role": "why-running",
+      "key": "speech-parts.why-running.1",
+      "move": "why-running",
+      "kind": "spoken",
       "text": "I'm running because {place} deserves a voice that listens.",
-      "shippable": true
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Code, pool session",
+      "date": "2026-10-19"
     },
     {
-      "key": "speech-part.why-running.2",
-      "role": "why-running",
+      "key": "speech-parts.why-running.2",
+      "move": "why-running",
+      "kind": "spoken",
       "text": "I'm running because I love {place}, and I want to see it do better.",
-      "shippable": true
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Code, pool session",
+      "date": "2026-10-19"
     },
     {
-      "key": "speech-part.stance-repeal.1",
-      "role": "stance-repeal",
+      "key": "speech-parts.stance-repeal.1",
+      "move": "stance-repeal",
+      "kind": "spoken",
       "text": "I'm against {issue}.",
-      "shippable": true
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Code, pool session",
+      "date": "2026-10-19"
     },
     {
-      "key": "speech-part.stance-repeal.2",
-      "role": "stance-repeal",
+      "key": "speech-parts.stance-repeal.2",
+      "move": "stance-repeal",
+      "kind": "spoken",
       "text": "I won't support {issue}.",
-      "shippable": true
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Code, pool session",
+      "date": "2026-10-19"
     },
     {
-      "key": "speech-part.stance-repeal.3",
-      "role": "stance-repeal",
+      "key": "speech-parts.stance-repeal.3",
+      "move": "stance-repeal",
+      "kind": "spoken",
       "text": "On {issue}, I'll be plain: I'm against it.",
-      "shippable": true
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Code, pool session",
+      "date": "2026-10-19"
     },
     {
-      "key": "speech-part.record-vote-for.1",
-      "role": "record-vote-for",
+      "key": "speech-parts.record-vote-for.1",
+      "move": "record-vote-for",
+      "kind": "spoken",
       "text": "I voted for {issue}, and I'd do it again.",
-      "shippable": true
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Code, pool session",
+      "date": "2026-10-19"
     },
     {
-      "key": "speech-part.record-vote-for.2",
-      "role": "record-vote-for",
+      "key": "speech-parts.record-vote-for.2",
+      "move": "record-vote-for",
+      "kind": "spoken",
       "text": "When {issue} came up, I voted yes.",
-      "shippable": true
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Code, pool session",
+      "date": "2026-10-19"
     },
     {
-      "key": "speech-part.record-vote-against.1",
-      "role": "record-vote-against",
+      "key": "speech-parts.record-vote-against.1",
+      "move": "record-vote-against",
+      "kind": "spoken",
       "text": "I voted against {issue}, and I'd do it again.",
-      "shippable": true
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Code, pool session",
+      "date": "2026-10-19"
     },
     {
-      "key": "speech-part.record-vote-against.2",
-      "role": "record-vote-against",
+      "key": "speech-parts.record-vote-against.2",
+      "move": "record-vote-against",
+      "kind": "spoken",
       "text": "When {issue} came up, I voted no.",
-      "shippable": true
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Code, pool session",
+      "date": "2026-10-19"
     },
     {
-      "key": "speech-part.kept-enact.1",
-      "role": "kept-enact",
+      "key": "speech-parts.kept-enact.1",
+      "move": "kept-enact",
+      "kind": "spoken",
       "text": "I told you I would {goal}, and I did.",
-      "shippable": true
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Code, pool session",
+      "date": "2026-10-19"
     },
     {
-      "key": "speech-part.kept-enact.2",
-      "role": "kept-enact",
+      "key": "speech-parts.kept-enact.2",
+      "move": "kept-enact",
+      "kind": "spoken",
       "text": "I gave you my word on {issue}, and I kept it.",
-      "shippable": true
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Code, pool session",
+      "date": "2026-10-19"
     },
     {
-      "key": "speech-part.kept-repeal.1",
-      "role": "kept-repeal",
+      "key": "speech-parts.kept-repeal.1",
+      "move": "kept-repeal",
+      "kind": "spoken",
       "text": "I told you I'd stand against {issue}, and I did.",
-      "shippable": true
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Code, pool session",
+      "date": "2026-10-19"
     },
     {
-      "key": "speech-part.kept-repeal.2",
-      "role": "kept-repeal",
-      "text": "I gave you my word on {issue}, and I kept it.",
-      "shippable": true
+      "key": "speech-parts.kept-repeal.2",
+      "move": "kept-repeal",
+      "kind": "spoken",
+      "text": "I said I would stand against {issue}, and I held to it.",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Code, pool session",
+      "date": "2026-10-19"
     },
     {
-      "key": "speech-part.broken-promise.1",
-      "role": "broken-promise",
+      "key": "speech-parts.broken-promise.1",
+      "move": "broken-promise",
+      "kind": "spoken",
       "text": "{opponent} made a promise about {issue} and broke it.",
-      "shippable": true
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Code, pool session",
+      "date": "2026-10-19"
     },
     {
-      "key": "speech-part.broken-promise.2",
-      "role": "broken-promise",
+      "key": "speech-parts.broken-promise.2",
+      "move": "broken-promise",
+      "kind": "spoken",
       "text": "{opponent} gave you their word on {issue}, then voted the other way.",
-      "shippable": true
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Code, pool session",
+      "date": "2026-10-19"
     },
     {
-      "key": "speech-part.rival-against.1",
-      "role": "rival-against",
+      "key": "speech-parts.rival-against.1",
+      "move": "rival-against",
+      "kind": "spoken",
       "text": "{opponent} is against {issue}.",
-      "shippable": true
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Code, pool session",
+      "date": "2026-10-19"
     },
     {
-      "key": "speech-part.rival-against.2",
-      "role": "rival-against",
+      "key": "speech-parts.rival-against.2",
+      "move": "rival-against",
+      "kind": "spoken",
       "text": "{opponent} won't support {issue}.",
-      "shippable": true
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Code, pool session",
+      "date": "2026-10-19"
     },
     {
-      "key": "speech-part.pledge-enact.1",
-      "role": "pledge-enact",
+      "key": "speech-parts.pledge-enact.1",
+      "move": "pledge-enact",
+      "kind": "spoken",
       "text": "I promise you I will {goal}.",
-      "shippable": true
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Code, pool session",
+      "date": "2026-10-19"
     },
     {
-      "key": "speech-part.pledge-enact.2",
-      "role": "pledge-enact",
+      "key": "speech-parts.pledge-enact.2",
+      "move": "pledge-enact",
+      "kind": "spoken",
       "text": "Send me to work, and I will {goal}.",
-      "shippable": true
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Code, pool session",
+      "date": "2026-10-19"
     },
     {
-      "key": "speech-part.pledge-repeal.1",
-      "role": "pledge-repeal",
+      "key": "speech-parts.pledge-repeal.1",
+      "move": "pledge-repeal",
+      "kind": "spoken",
       "text": "I promise you I will stand against {issue}.",
-      "shippable": true
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Code, pool session",
+      "date": "2026-10-19"
     },
     {
-      "key": "speech-part.pledge-repeal.2",
-      "role": "pledge-repeal",
+      "key": "speech-parts.pledge-repeal.2",
+      "move": "pledge-repeal",
+      "kind": "spoken",
       "text": "Send me to work, and I'll vote against {issue}.",
-      "shippable": true
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Code, pool session",
+      "date": "2026-10-19"
     },
     {
-      "key": "speech-part.unity.1",
-      "role": "unity",
+      "key": "speech-parts.unity.1",
+      "move": "unity",
+      "kind": "spoken",
       "text": "Whoever you voted for before, I'll work for all of us in {place}.",
-      "shippable": true
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Code, pool session",
+      "date": "2026-10-19"
     },
     {
-      "key": "speech-part.unity.2",
-      "role": "unity",
+      "key": "speech-parts.unity.2",
+      "move": "unity",
+      "kind": "spoken",
       "text": "We're all neighbors in {place}, and I'll work for every one of you.",
-      "shippable": true
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Code, pool session",
+      "date": "2026-10-19"
     },
     {
-      "key": "speech-part.town-neighbors.1",
-      "role": "town-neighbors",
+      "key": "speech-parts.town-neighbors.1",
+      "move": "town-neighbors",
+      "kind": "spoken",
       "text": "I know my neighbors in {place}, and they know me.",
-      "shippable": true
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Code, pool session",
+      "date": "2026-10-19"
     },
     {
-      "key": "speech-part.town-neighbors.2",
-      "role": "town-neighbors",
+      "key": "speech-parts.town-neighbors.2",
+      "move": "town-neighbors",
+      "kind": "spoken",
       "text": "The people of {place} look out for one another.",
-      "shippable": true
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Code, pool session",
+      "date": "2026-10-19"
     },
     {
-      "key": "speech-part.town-work.1",
-      "role": "town-work",
+      "key": "speech-parts.town-work.1",
+      "move": "town-work",
+      "kind": "spoken",
       "text": "People in {place} work hard, and they ought to get ahead.",
-      "shippable": true
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Code, pool session",
+      "date": "2026-10-19"
     },
     {
-      "key": "speech-part.town-work.2",
-      "role": "town-work",
+      "key": "speech-parts.town-work.2",
+      "move": "town-work",
+      "kind": "spoken",
       "text": "Folks in {place} get up every morning and go to work.",
-      "shippable": true
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Code, pool session",
+      "date": "2026-10-19"
     },
     {
-      "key": "speech-part.town-future.1",
-      "role": "town-future",
+      "key": "speech-parts.town-future.1",
+      "move": "town-future",
+      "kind": "spoken",
       "text": "I want {place} to be a town our kids can stay in.",
-      "shippable": true
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Code, pool session",
+      "date": "2026-10-19"
     },
     {
-      "key": "speech-part.town-future.2",
-      "role": "town-future",
+      "key": "speech-parts.town-future.2",
+      "move": "town-future",
+      "kind": "spoken",
       "text": "I want a future in {place} we can all be proud of.",
-      "shippable": true
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Code, pool session",
+      "date": "2026-10-19"
     },
     {
-      "key": "speech-part.town-history.1",
-      "role": "town-history",
+      "key": "speech-parts.town-history.1",
+      "move": "town-history",
+      "kind": "spoken",
       "text": "{place} has been through hard times before, and it's still here.",
-      "shippable": true
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Code, pool session",
+      "date": "2026-10-19"
     },
     {
-      "key": "speech-part.town-history.2",
-      "role": "town-history",
+      "key": "speech-parts.town-history.2",
+      "move": "town-history",
+      "kind": "spoken",
       "text": "We've built something in {place}, and I want to protect it.",
-      "shippable": true
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Code, pool session",
+      "date": "2026-10-19"
     }
   ]
 }
