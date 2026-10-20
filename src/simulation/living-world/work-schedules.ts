@@ -37,7 +37,7 @@ import type {
 } from "../types";
 import { workAbsenceAt } from "./work-absence";
 import { isPersonAliveAt } from "../vitality-integrity";
-import { townWorkplaceFor } from "./town-employment";
+import { townWorkplaceFor } from "../../core2/town-workplaces";
 
 export const WORK_SCHEDULES_VERSION = "work-schedules-v1";
 
