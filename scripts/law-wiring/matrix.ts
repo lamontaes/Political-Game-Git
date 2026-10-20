@@ -426,6 +426,10 @@ function table(
   }[],
 ): string {
   const lines = [
+    "# Law wiring table",
+    "",
+    "Every law the game has, graded on the nine wiring links in two drawn places. Each cell is the link's status; the full law-wiring report gives every reason and record id.",
+    "",
     "| Law | Family | " + LINKS.join(" | ") + " | Overall |",
     "| --- | --- | " + LINKS.map(() => "---").join(" | ") + " | --- |",
   ];

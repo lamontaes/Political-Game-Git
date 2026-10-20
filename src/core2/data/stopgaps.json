@@ -460,11 +460,11 @@
     "kind": "missing-local-observation",
     "file": "src/core2/data/resident-employment.json",
     "line": 726,
-    "whatItFakes": "Uses national pre-opening CPS age ratios and a tunable local scale when actual county ACS cells are unavailable.",
+    "whatItFakes": "Uses national pre-opening CPS age ratios and a tunable local scale for the four island areas (Guam, the U.S. Virgin Islands, American Samoa and the Northern Mariana Islands, which have no ACS five-year table) and for a county whose own cell for an age is empty. Every county and Puerto Rico municipio now reads its ACS 2020-2024 B23001 rows (resident-employment-counties.json).",
     "why": "Census estimate API requires a key; national and territorial comparability and local spread remain unmeasured.",
     "addedBy": "SOL-1258",
     "addedAt": "2026-10-09",
-    "replacement": "Valid county B23001 civilian employed/resident-age observations, suppression/MOE handling and territorial equivalents.",
+    "replacement": "The island areas' own employment-by-age observations (the 2020 Decennial Census island-area tables) and suppression/MOE handling.",
     "status": "open"
   },
   {
@@ -1070,9 +1070,9 @@
   {
     "id": "SG-GOV-views-stand-in",
     "kind": "missing-engine",
-    "file": "src/core2/data/campaigns/parameters.json",
-    "line": 9,
-    "whatItFakes": "Each person's stance on a policy question is their lean times the question's measured left-right axis. Where PEOPLE's views engine runs, the lean orders people by their own view (CES 2024 cell plus household); elsewhere, by three personality facets. The order is then placed against the area's real 2024 vote.",
+    "file": "src/core2/modules/campaigns.ts",
+    "line": 292,
+    "whatItFakes": "A person's opening stance on a policy question is their lean times the question's measured left-right axis, plus, for the eight questions the CES 2020 has an item for, what their faith and four-year degree add beyond the lean (src/core2/modules/views.ts openingStance, data/research/people/opening-stance-loadings.json). The other questions take the lean alone, and no trait loading exists because the CES has no personality measure.",
     "why": "OPUS-PEOPLE's views engine (values and stances formed from each person's life) isn't on core2 yet.",
     "addedBy": "OPUS-GOV",
     "addedAt": "2026-10-12",
@@ -1791,12 +1791,12 @@
     "id": "SG-GOV-REACH-B-road-condition",
     "kind": "missing-engine",
     "file": "src/core2/data/laws/reach-group-b.json",
-    "line": 379,
-    "whatItFakes": "The highways line is a road service level record on drivers and road builders; commute time and vehicle costs don't change.",
-    "why": "There is no road condition or commuting cost in the core.",
+    "line": 361,
+    "whatItFakes": "The highways line sets the share of the town's roads in poor condition (poorRoadShareAt, with a TUNABLE elasticity of 1), and drivers' repair bills follow it through place-prices; commute time does not change.",
+    "why": "There is no commute-time model in the core, so road condition has one reader, vehicle repair spending.",
     "addedBy": "OPUS-GOV (sub-agent B)",
     "addedAt": "2026-10-12",
-    "replacement": "OPUS-WORLD regional engine: setRoadCondition({ placeId, level }) read by commute time and vehicle costs.",
+    "replacement": "A commute-time model that reads the town's poor-road share.",
     "status": "open"
   },
   {
@@ -2264,8 +2264,10 @@
     "why": "Core2 has no hearings or legislature.",
     "addedBy": "OPUS-DRIVES",
     "addedAt": "2026-10-09",
-    "replacement": "Resolved Oct 19: the act row is deleted. Testimony is a resident's remark at a hearing or meeting (the meetings module's remarks and hearings), chosen from the resident's own views, so a second drive act would be a parallel route.",
-    "status": "resolved"
+    "replacement": "The legislature/committee module's hearing calendar offering testimony slots.",
+    "status": "resolved",
+    "resolvedAt": "2026-10-19",
+    "resolution": "the act row is deleted. Testimony is a resident's remark at a hearing or meeting (the meetings module's remarks and hearings), chosen from the resident's own views, so a second drive act would be a parallel route."
   },
   {
     "id": "SG-P10-candidacy-unbuilt",
@@ -2276,8 +2278,10 @@
     "why": "Core2 has no elections or filing.",
     "addedBy": "OPUS-DRIVES",
     "addedAt": "2026-10-09",
-    "replacement": "Resolved Oct 19: the act row is deleted. Who runs is decided by the elections and candidacy modules (candidacy.ts, candidate-pool.ts, world-races), so a drive act would be a parallel route.",
-    "status": "resolved"
+    "replacement": "The elections module's filing and campaign acts.",
+    "status": "resolved",
+    "resolvedAt": "2026-10-19",
+    "resolution": "the act row is deleted. Who runs is decided by the elections and candidacy modules (candidacy.ts, candidate-pool.ts, world-races), so a drive act would be a parallel route."
   },
   {
     "id": "SG-P10-lobbying-unbuilt",
@@ -2288,8 +2292,10 @@
     "why": "Core2 has no legislature or member contact system.",
     "addedBy": "OPUS-DRIVES",
     "addedAt": "2026-10-09",
-    "replacement": "Resolved Oct 19: the act row is deleted. Lobbying is the interest-groups module's contact with a legislator, so a drive act would be a parallel route.",
-    "status": "resolved"
+    "replacement": "The legislature module's member-contact and bill-sponsor acts.",
+    "status": "resolved",
+    "resolvedAt": "2026-10-19",
+    "resolution": "the act row is deleted. Lobbying is the interest-groups module's contact with a legislator, so a drive act would be a parallel route."
   },
   {
     "id": "SG-P10-health-minimal-port",
@@ -3146,9 +3152,9 @@
   {
     "id": "SG-CORE-private-tuition-average",
     "kind": "aggregate-spending",
-    "file": "src/core2/data/opening-private-tuition.json",
-    "line": 3,
-    "whatItFakes": "The town's families with school-age children are ranked by cash per child and the best-off enroll all their children in the private school until the town's private share of school-age children (NCES) is reached, each paying the average private tuition. The family's beliefs, the schools nearby and the child's own needs do not yet enter, and enrollment is fixed at the opening.",
+    "file": "src/core2/opening-private-tuition.ts",
+    "line": 1,
+    "whatItFakes": "The town's families with school-age children are ranked by cash per child and the best-off enroll all their children in the private school until the town's state's private share of students (NCES, fall 2021) is reached, each paying the average private tuition. The family's beliefs, the schools nearby and the child's own needs do not yet enter, and enrollment is fixed at the opening.",
     "why": "Private schools had no customers at all, so they closed in every town.",
     "addedBy": "OPUS-CORE",
     "addedAt": "2026-10-12",
@@ -4195,9 +4201,10 @@
     "whatItFakes": "What the player prepares for a federal act (the stances a re-election filing runs on, the budget request's line changes, the joint address's answers) is kept in the federal day's own table, beside the engine's.",
     "why": "OFFICE-LOCAL's prepareAct takes only the local acts' ids; the federal day may not change the engine.",
     "replacement": "OFFICE-LOCAL's prepareAct taking any registered kit's act ids (asked on the PR); the federal table is deleted.",
+    "resolution": "Resolved Oct 20: prepareAct in src/core2/modules/office-day.ts takes any registered kit's act id (a string), and the federal day's own table is deleted; what the player prepares for a federal act is kept in the office-day engine's own table.",
     "addedBy": "OFFICE-FEDERAL",
     "addedAt": "2026-10-14",
-    "status": "open"
+    "status": "resolved"
   },
   {
     "id": "SG-GOV-committee-names-national",
@@ -5266,6 +5273,102 @@
     "addedBy": "claude/law-wiring-final",
     "addedAt": "2026-10-20",
     "replacement": "A starting row of no floor in every place (value null, sourced to the absence of a statute), and the checker sets a floor above the lowest public wage.",
+    "status": "open"
+  },
+  {
+    "id": "SG-EFFECT-WEB-prices-gov-borrowing",
+    "kind": "missing-mechanic",
+    "file": "src/core2/modules/prices-web-gaps.ts",
+    "line": 11,
+    "whatItFakes": "Five links (balanced-budget, pension-funding, reserve-balance, federal-deficit and newspaper-closure to borrowing cost) move a state's general-obligation spread, in basis points over a AAA state.",
+    "why": "No state or local government borrows in the core: only the federal treasury borrows (budgets-treasury.ts) and its interest is a budget line, not a rate a bond sets, so no engine pays or records a state bond rate. The newspaper link also has no place-level newspaper series and no size.",
+    "addedBy": "effect-web-prices",
+    "addedAt": "2026-10-20",
+    "replacement": "A state and local borrowing engine (bond issues with a coupon over the AAA benchmark) that reads webReach for gov.borrowing-cost and pays interest at the rate it sets.",
+    "status": "open"
+  },
+  {
+    "id": "SG-EFFECT-WEB-prices-high-cost-loans",
+    "kind": "missing-mechanic",
+    "file": "src/core2/modules/prices-web-gaps.ts",
+    "line": 12,
+    "whatItFakes": "The loan-rate-cap links move the count of consumer lenders (payday, title and installment) per 100,000 residents.",
+    "why": "The credit engine lends one product, the town bank's personal loan at prime plus spread, which never reaches a high-cost rate; there is no payday or title lender, and the cap law already ceilings that loan's rate in householdApplications.",
+    "addedBy": "effect-web-prices",
+    "addedAt": "2026-10-20",
+    "replacement": "A high-cost lender product in credit.ts whose loans (and their count per 100,000) the cap links' factor multiplies.",
+    "status": "open"
+  },
+  {
+    "id": "SG-EFFECT-WEB-prices-roads-condition",
+    "kind": "missing-record",
+    "file": "src/core2/modules/prices-web-gaps.ts",
+    "line": 13,
+    "whatItFakes": "Fix-it-first moves the share of roads in poor condition; the share is kept only in the web.",
+    "why": "No engine keeps road condition: setRoadCondition in place-prices.ts has no caller. The web's kept share reaches households through poor-roads-to-prices on business prices (finance-state.ts), so the repair cost is charged once.",
+    "addedBy": "effect-web-prices",
+    "addedAt": "2026-10-20",
+    "replacement": "A roads engine (or a budget line that calls setRoadCondition) that owns the poor share and multiplies it by webFactorFor.",
+    "status": "open"
+  },
+  {
+    "id": "SG-EFFECT-WEB-prices-transit-service",
+    "kind": "missing-record",
+    "file": "src/core2/modules/prices-web-gaps.ts",
+    "line": 14,
+    "whatItFakes": "Shifting highway money to transit moves transit service (vehicle revenue miles per resident); the service is kept only in the web.",
+    "why": "No transit agency or service record exists; the service change reaches riders through transit-service-to-ridership into the trips each household takes (place-prices.ts).",
+    "addedBy": "effect-web-prices",
+    "addedAt": "2026-10-20",
+    "replacement": "A transit agency record of service miles that the service link's factor multiplies.",
+    "status": "open"
+  },
+  {
+    "id": "SG-EFFECT-WEB-prices-rail-ridership",
+    "kind": "missing-engine",
+    "file": "src/core2/modules/prices-web-gaps.ts",
+    "line": 15,
+    "whatItFakes": "A federal rail expansion raises intercity rail riders per 1,000 residents.",
+    "why": "The core has no intercity rail service, station or fare, so there is nothing to carry the rider count.",
+    "addedBy": "effect-web-prices",
+    "addedAt": "2026-10-20",
+    "replacement": "An intercity rail engine whose boardings per place multiply by webFactorFor(rail.intercity-ridership).",
+    "status": "open"
+  },
+  {
+    "id": "SG-EFFECT-WEB-prices-past-due-debt",
+    "kind": "missing-record",
+    "file": "src/core2/modules/prices-web-gaps.ts",
+    "line": 16,
+    "whatItFakes": "Student-debt relief and an abortion denial each move households' past-due debt.",
+    "why": "The abortion link's cause is a person event the game does not record; the student-debt link has no size or unit until a bill sets the terms. Credit keeps past-due loans but no household record these causes write to.",
+    "addedBy": "effect-web-prices",
+    "addedAt": "2026-10-20",
+    "replacement": "A recorded denial event and a student-loan balance on the household that credit.ts past-due loans can read.",
+    "status": "open"
+  },
+  {
+    "id": "SG-EFFECT-WEB-prices-nondisaster-transfers",
+    "kind": "missing-record",
+    "file": "src/core2/modules/prices-web-gaps.ts",
+    "line": 17,
+    "whatItFakes": "A severe disaster raises a place's non-disaster public transfers.",
+    "why": "Disasters are recorded (disasters.ts) but transfers are not kept by kind, so no engine reads or pays a non-disaster transfer series to scale.",
+    "addedBy": "effect-web-prices",
+    "addedAt": "2026-10-20",
+    "replacement": "Budget transfers split by disaster and non-disaster that the disaster link's factor multiplies.",
+    "status": "open"
+  },
+  {
+    "id": "SG-CORE-private-tuition-counted-reenroll",
+    "kind": "missing-mechanic",
+    "file": "src/core2/private-tuition-reenroll.ts",
+    "line": 1,
+    "whatItFakes": "Each August the town's full families are re-ranked by cash per child and their private school tuition contracts start or end to match the NCES share; the counted families keep the enrollment they opened with.",
+    "why": "A counted family's tuition is a share of a merged purchase flow with a contract part per household (opening-private-tuition.ts, residents.ts); starting or ending a part at runtime needs a residents-engine move that fill-in also takes back contract by contract.",
+    "addedBy": "claude/tuition-reenroll",
+    "addedAt": "2026-10-20",
+    "replacement": "The same August ranking over counted groups, with the flow's contract part for each household started or ended (pool item core-stopgap-opening-private-tuition-aggregate-spending).",
     "status": "open"
   }
 ]

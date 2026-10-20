@@ -4720,18 +4720,6 @@
     "tag": "SOURCED",
     "citation": "NCES, Digest of Education Statistics 2021, Table 205.50: average tuition at all private elementary and secondary schools, 2011–12, $12,420 in constant 2020–21 dollars. https://nces.ed.gov/programs/digest/d21/tables/dt21_205.50.asp"
   },
-  "openingPrivateSchoolShare": {
-    "value": 0.085,
-    "tag": "ESTIMATED",
-    "citation": "NCES Fast Facts, Back-to-school statistics: fall 2021, 4.7 million private and 49.4 million public elementary and secondary students; NCES NHES 2019: about 2.8% of school-age children homeschooled.",
-    "estimatedFrom": "4.7 / (49.4 + 4.7 + about 1.6 homeschooled) ≈ 0.085 of school-age children in private schools.",
-    "spread": {
-      "low": 0.04,
-      "high": 0.14,
-      "unit": "share of children aged 5–17",
-      "citation": "State private shares from NCES Digest Table 205.80 range roughly 4% to 14%."
-    }
-  },
   "openingCustomerClubMembershipsAnnualNationalUsd": {
     "value": 272,
     "tag": "SOURCED",
