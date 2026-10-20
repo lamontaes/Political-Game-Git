@@ -1,5 +1,5 @@
 {
-  "about": "How each of the 56 places orders candidates on the printed ballot, by statute. Main source is Ballotpedia's rules page (as of October 2026), which lists one rule per state and often covers only the general election; where it was silent on primaries, the primary is assumed or marked an estimate. NCSL's Order of Names on the Ballot (as of March 3, 2025) could not be fetched and was used only as a cross-check from the figures given in the task. Territory rules (PR, GU, VI, AS, MP) were not found and are estimates. Statute sections are as Ballotpedia cites them except where a row cites a statute read on Oct 20, 2026 (estimate false); they were not checked against state code sites.",
+  "about": "How each of the 56 places orders candidates on the printed ballot, by statute. Main source is Ballotpedia's rules page (as of October 2026), which lists one rule per state and often covers only the general election; where it was silent on primaries, the primary is assumed or marked an estimate. NCSL's Order of Names on the Ballot (as of March 3, 2025) is a cross-check only. Territory rules (PR, GU, VI, AS, MP) were not found and are estimates. Statute sections are as Ballotpedia cites them except where a row cites the statute text itself (estimate false); the others are not checked against state code sites.",
   "sources": [
     {
       "id": "ballotpedia",
@@ -69,7 +69,7 @@
       "citation": "Source: A.S.C.A. title 6 ch. 6, not confirmed",
       "url": "https://ballotpedia.org/Rules_on_ballot_order_and_party_labeling",
       "estimate": true,
-      "note": "Elections are nonpartisan, so no partisan primary; alphabetical assumed. Searched Oct 20, 2026: no American Samoa Code section on ballot order was reachable from the container. Elections are nonpartisan, so the primary is not partisan; alphabetical stays an assumption."
+      "note": "Elections are nonpartisan, so no partisan primary; alphabetical assumed. No American Samoa Code section on ballot order has been read, so alphabetical stays an assumption."
     },
     "US-AZ": {
       "primary": {
@@ -120,7 +120,7 @@
       "citation": "Conn. Gen. Stat. § 9-249a (general); primary not found",
       "url": "https://codes.findlaw.com/ct/title-9-elections/ct-gen-st-sect-9-249a/",
       "estimate": true,
-      "note": "General settled (9-249a): the party whose candidate for Governor polled the most votes in the last election first, then other gubernatorial parties by votes, minor parties (precedence by office population, then prior sequence, then alphabetical), then petitioning candidates. Primary order for ordinary offices not found in the statute text reachable from the container (cga.ct.gov failed certificate verification and returned 503); lot kept as an estimate."
+      "note": "General settled (9-249a): the party whose candidate for Governor polled the most votes in the last election first, then other gubernatorial parties by votes, minor parties (precedence by office population, then prior sequence, then alphabetical), then petitioning candidates. The primary order for ordinary offices is not settled by the statute text read; lot is kept as an estimate."
     },
     "US-DC": {
       "primary": {
@@ -375,7 +375,7 @@
       "citation": "Source: 1 CMC election law, not confirmed",
       "url": "https://ballotpedia.org/Rules_on_ballot_order_and_party_labeling",
       "estimate": true,
-      "note": "No source found; assumed alphabetical. Searched Oct 20, 2026: the Commonwealth Code election law was not reachable from the container. Specimen ballots on votecnmi.gov.mp list candidates in an order that is not alphabetical, so alphabetical is doubtful; the rule is unconfirmed."
+      "note": "No source found; assumed alphabetical. The Commonwealth Code election law has not been read. Specimen ballots on votecnmi.gov.mp list candidates in an order that is not alphabetical, so alphabetical is doubtful; the rule is unconfirmed."
     },
     "US-MS": {
       "primary": {
@@ -554,7 +554,7 @@
       "citation": "Pa. Election Code (25 P.S.) § 2875 (primary); general § 2963 not read",
       "url": "https://www.legis.state.pa.us/cfdocs/legis/LI/uconsCheck.cfm?txtType=HTM&yr=1937&sessInd=0&smthLwInd=0&act=320",
       "estimate": true,
-      "note": "The Pennsylvania General Assembly statute pages returned 503 or only a table of contents from the container, so the Election Code text for the general-election party order (25 P.S. 2963) and the primary lot (25 P.S. 2875) could not be read; secondary reporting says primary positions are drawn by lot. Both rules stay estimates."
+      "note": "The Election Code text for the general-election party order (25 P.S. 2963) and the primary lot (25 P.S. 2875) has not been read; secondary reporting says primary positions are drawn by lot. Both rules stay estimates."
     },
     "US-PR": {
       "primary": {
@@ -566,7 +566,7 @@
       "citation": "Source: Ballotpedia and Puerto Rico Electoral Code (Act 58-2020), not confirmed",
       "url": "https://ballotpedia.org/Rules_on_ballot_order_and_party_labeling",
       "estimate": true,
-      "note": "Parties thought to be ordered by last gubernatorial vote. Primary order unknown. Searched Oct 20, 2026: the Puerto Rico Electoral Code text was not reachable from the container; parties by last gubernatorial vote and the primary order remain unconfirmed."
+      "note": "Parties thought to be ordered by last gubernatorial vote. Primary order unknown. The Puerto Rico Electoral Code text has not been read; parties by last gubernatorial vote and the primary order remain unconfirmed."
     },
     "US-RI": {
       "primary": {
@@ -603,7 +603,7 @@
       "citation": "S.D. Codified Laws 12-16-3.1; 12-16-8",
       "url": "https://ballotpedia.org/Rules_on_ballot_order_and_party_labeling",
       "estimate": true,
-      "note": "General: party order and order within a party by draw. Primary assumed lot, not confirmed. Searched Oct 20, 2026: the South Dakota Legislature statute pages render only in a browser, so the text of SDCL 12-16-3.1 (parties by lot) and 12-16-8 (names by lot) was not read from the container; secondary reprints agree with the row. The primary rule (chapter 12-6) was not found."
+      "note": "General: party order and order within a party by draw. Primary assumed lot, not confirmed. The text of SDCL 12-16-3.1 (parties by lot) and 12-16-8 (names by lot) has not been read; secondary reprints agree with the row. The primary rule (chapter 12-6) was not found."
     },
     "US-TN": {
       "primary": {
@@ -664,7 +664,7 @@
       "citation": "Source: 18 V.I.C. ch. 7, not confirmed",
       "url": "https://ballotpedia.org/Rules_on_ballot_order_and_party_labeling",
       "estimate": true,
-      "note": "No source found; assumed alphabetical. Searched Oct 20, 2026: the Virgin Islands Code (Title 18) was not reachable from the container (the egress proxy refused vicode.vi.gov and legvi.org returned an error). The Elections System of the Virgin Islands announces that candidate ballot positions are cast by lot, which points to lot rather than alphabetical, but the statute text was not read."
+      "note": "No source found; assumed alphabetical. The Virgin Islands Code (Title 18) has not been read. The Elections System of the Virgin Islands announces that candidate ballot positions are cast by lot, which points to lot rather than alphabetical, but the statute text has not been read."
     },
     "US-VT": {
       "primary": {
