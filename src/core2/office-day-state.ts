@@ -26,15 +26,16 @@
  * State entries use the shared engine’s holds, settings and act ledger.
  */
 import parameterRows from "./data/office-day/state-parameters.json" with { type: "json" };
+import weekRows from "./data/office-day/state-week.json" with { type: "json" };
 import perDiemRows from "./data/office-day/state-legislator-per-diem.json" with { type: "json" };
 import { sessionYear, type SessionWindow } from "./state-session-calendar";
 import { registerModule } from "./state";
-import { decisionLean } from "./trait-decisions";
+import { decisionLean, leanedTerm } from "./trait-decisions";
 import { closenessBetween } from "./closeness";
 import { personLean, personStance, PLATFORM_QUESTIONS } from "./campaign-views";
 import { lineForPost, registerLinePayments } from "./budgets-treasury";
 import { outsideGovernment } from "./outside-governments";
-import { stableHash } from "./kernel/ids";
+import { stableHash, pairKey } from "./kernel/ids";
 import { addDays, makeIsoDate } from "./kernel/dates";
 import {
   appointStatePost,
@@ -54,6 +55,7 @@ import { lawChain } from "./modules/laws";
 import { OFFICES_MODULE_ID, type TermRow } from "./modules/offices";
 import {
   billOf,
+  hasSitting,
   committeeHearingsOn,
   leanOf,
   memberKey,
@@ -81,6 +83,7 @@ import {
   ownCaseDecision,
 } from "./modules/constituent-cases";
 import { deliverSpeech, SPEECH_MODULE_ID } from "./modules/speech";
+import { registerBillIntroduced } from "./modules/world-legislating";
 import { followersOf, outletsHere } from "./modules/press";
 import type { ModuleRow } from "./module-data";
 import type {
@@ -128,10 +131,22 @@ export function stateDayParameter(key: string): number {
   return row.value;
 }
 
-/** What each weekday in session is for a member, Monday to Friday. */
-const SESSION_WEEK = PARAMETERS["sessionWeek"]!.value as readonly (
-  "floor" | "district"
-)[];
+interface StateWeekRow {
+  /** What each weekday in session is for a member, Monday to Friday. */
+  readonly sessionWeek: readonly ("floor" | "district")[];
+  readonly interimCommitteeDayOfMonth: number;
+  readonly basis: string;
+}
+const STATE_WEEKS = (
+  weekRows as unknown as { places: Record<string, StateWeekRow> }
+).places;
+
+/** A place's own district week and interim committee day; every place has a row. */
+function stateWeek(stateKey: string): StateWeekRow {
+  const row = STATE_WEEKS[stateKey];
+  if (!row) throw new Error(`No state week row for ${stateKey}`);
+  return row;
+}
 
 export interface PerDiemRow {
   readonly dailyMinor: number;
@@ -354,6 +369,11 @@ export function stateDay(
     tag,
     citation: `Regular session, ${office.stateKey} (${url})`,
   });
+  const week = stateWeek(office.stateKey);
+  const weekEstimate = (key: string) => ({
+    tag: "ESTIMATED" as const,
+    citation: `${key}, ${office.stateKey}: ${week.basis}`,
+  });
   // A tunable value is an estimate in the record's terms.
   const estimated = (key: string) => ({
     tag: "ESTIMATED" as const,
@@ -361,7 +381,7 @@ export function stateDay(
   });
   if (office.role === "legislator") {
     if (sitting && workday) {
-      const role = SESSION_WEEK[day - 1]!;
+      const role = week.sessionWeek[day - 1]!;
       const windowId = `session:${office.stateKey}:${sitting.window.conveneAt}`;
       if (role === "floor") {
         if (day === stateDayParameter("caucusWeekday"))
@@ -378,18 +398,15 @@ export function stateDay(
               `${office.officeId}:${seat.committee}`,
               estimated("committeeMeetsBeforeFloor"),
             );
-      } else add("district-office", office.seatId, estimated("sessionWeek"));
+      } else add("district-office", office.seatId, weekEstimate("sessionWeek"));
     } else if (!sitting && workday) {
-      add("district-office", office.seatId, estimated("sessionWeek"));
-      if (
-        Number(date.slice(8, 10)) ===
-        stateDayParameter("interimCommitteeDayOfMonth")
-      )
+      add("district-office", office.seatId, weekEstimate("sessionWeek"));
+      if (Number(date.slice(8, 10)) === week.interimCommitteeDayOfMonth)
         for (const seat of committeesOf(api, office.officeId, office.personId))
           add(
             "interim-committee",
             `${office.officeId}:${seat.committee}`,
-            estimated("interimCommitteeDayOfMonth"),
+            weekEstimate("interimCommitteeDayOfMonth"),
           );
     }
     return out;
@@ -535,12 +552,19 @@ const DUTY_DECISION = "office-day-state.attend";
 const CLEMENCY_DECISION = "office-day-state.clemency";
 
 /** The character's own lean toward showing up: duty beside their traits. */
-function ownAttendance(
+export function ownAttendance(
   api: CoreAPI,
   person: Readonly<PersonState>,
   duty: number,
 ): { attend: boolean; lean: number; duty: number } {
-  const lean = decisionLean(api.state, person, DUTY_DECISION, "attend", "skip");
+  const lean = leanedTerm(
+    api.state,
+    person,
+    DUTY_DECISION,
+    "attend",
+    "skip",
+    duty,
+  );
   return { attend: duty + lean > 0, lean, duty };
 }
 
@@ -571,7 +595,7 @@ function spendTime(
   const touched: string[] = [];
   for (const other of others) {
     if (other === holderId || !api.state.people.get(other)?.alive) continue;
-    const id = [holderId, other].sort().join(":");
+    const id = pairKey(holderId, other);
     if ((api.state as CoreState).relationships.has(id))
       api.relationship(holderId, other, "contact", hours, undefined, {
         cause: "office-day-state.meeting",
@@ -1013,7 +1037,9 @@ function payPerDiem(api: CoreAPI): Record<string, number> {
   if (!days.length) return paidByLine;
   const floorDays = days.filter((d) => {
     const w = weekday(d);
-    return w >= 1 && w <= 5 && SESSION_WEEK[w - 1] === "floor";
+    return (
+      w >= 1 && w <= 5 && stateWeek(stateKey).sessionWeek[w - 1] === "floor"
+    );
   });
   const chambers = (
     api
@@ -1190,6 +1216,39 @@ function liveToday(api: CoreAPI): void {
   }
 }
 
+/**
+ * A governor who is not the player takes up the week's petition for clemency
+ * on the review day, from their own temperament and the share of the term
+ * served (the same rule `actOn` gives the character), where their state's
+ * law lets the governor decide and a prisoner of that state is serving. Only
+ * the petition is taken up; the governor's other days stay the player's.
+ */
+function computerGovernorsDay(api: CoreAPI): void {
+  const today = api.state.date;
+  if (weekday(today) !== stateDayParameter("clemencyReviewWeekday")) return;
+  const playerId = controlled(api);
+  const governors = new Set(
+    (
+      api
+        .moduleState(OFFICES_MODULE_ID)
+        .table("terms")
+        .rows() as unknown as TermRow[]
+    )
+      .filter((t) => t.status === "serving" && t.personId)
+      .map((t) => t.personId!),
+  );
+  for (const personId of [...governors].sort()) {
+    if (personId === playerId || !api.state.people.get(personId)?.alive)
+      continue;
+    const office = stateOfficeOf(api, personId);
+    if (office?.role !== "governor") continue;
+    if (!prisonersServing(api, office.stateKey).length) continue;
+    for (const entry of stateDay(api, office, today))
+      if (entry.kind === "clemency" && !table(api, "results").get(entry.id))
+        actOn(api, entry);
+  }
+}
+
 /** Seat the day's entries for a player just seated in a state office (the dev start, or taking office). */
 export function startStateDay(api: CoreAPI): void {
   scheduleTomorrow(api);
@@ -1292,6 +1351,7 @@ registerOfficeActs({
   },
   onDay(api) {
     liveToday(api);
+    computerGovernorsDay(api);
   },
   onAfterDay: scheduleTomorrow,
 });
@@ -1447,6 +1507,33 @@ export function appointGovernor(api: CoreAPI, post: string, personId?: string) {
 
 const LEADER_DECISION = "office-day-state.leader-request";
 
+/**
+ * A state legislator other than the player who has just drafted a bill asks
+ * their chamber's agenda-setter for a hearing; the leader answers from the
+ * party, their tie to the member and their own traits. Registered with the
+ * legislating engine, which calls it as each filed change becomes a bill.
+ */
+registerBillIntroduced((api, billId) => {
+  if (!api.state.modules.has(OFFICE_DAY_STATE_MODULE_ID)) return;
+  const bill = billOf(api, billId);
+  if (!bill || bill.status !== "drafted") return;
+  if (bill.sponsorId === controlled(api)) return;
+  const office = stateOfficeOf(api, bill.sponsorId);
+  if (!office || office.role !== "legislator") return;
+  if (bill.bodyOfficeId !== office.officeId) return;
+  if (!hasSitting(api, office.officeId)) return;
+  const leaderId =
+    leaderOf(api, office.officeId, "majority-leader") ??
+    presidingOfficer(api, office.officeId);
+  if (
+    !leaderId ||
+    leaderId === bill.sponsorId ||
+    !api.state.people.get(leaderId)
+  )
+    return;
+  askLeaderForHearing(api, bill.sponsorId, billId);
+});
+
 /** A member's request to the floor leader to schedule their bill, and the leader's answer with the reasons. */
 export interface LeaderRequestRow {
   readonly id: string;
@@ -1458,6 +1545,16 @@ export interface LeaderRequestRow {
   /** The sitting the bill was put on when the leader agreed. */
   readonly scheduledFor: string | null;
   readonly reasons: Readonly<Record<string, number>>;
+  /**
+   * Set when the member came back with something the leader accepted (a
+   * favor, or backing the leader's own item): the deal the leader weighed and
+   * the earlier refusal's reasons, so the new answer can be traced to it.
+   */
+  readonly offer?: {
+    readonly kind: string;
+    readonly obligationId: string;
+    readonly earlierReasons: Readonly<Record<string, number>>;
+  };
 }
 
 /**
@@ -1475,7 +1572,13 @@ export function askLeaderForHearing(
   const id = `leader-request:${billId}`;
   const existing = table(api, "leaderRequests").get(id) as unknown as
     LeaderRequestRow | undefined;
-  if (existing) return existing;
+  // A granted request stands; a refused one is read again only when the
+  // member has since made the leader an offer the leader accepted.
+  const accepted =
+    existing && !existing.granted
+      ? acceptedLeaderOffer(api, existing)
+      : undefined;
+  if (existing && !accepted) return existing;
   const office = stateOfficeOf(api, memberId);
   if (!office || office.role !== "legislator")
     throw new Error(`${memberId} holds no state legislative seat.`);
@@ -1502,11 +1605,24 @@ export function askLeaderForHearing(
     tie:
       closenessBetween(api.state as CoreState, leaderId, memberId) *
       stateDayParameter("leaderRequestTieWeight"),
-    traits:
-      decisionLean(api.state, leader, LEADER_DECISION, "grant", "refuse") *
-      stateDayParameter("leaderRequestTraitWeight"),
   };
-  const granted = Object.values(reasons).reduce((a, b) => a + b, 0) > 0;
+  const offered = accepted
+    ? stateDayParameter(
+        accepted.kind === "back-their-item"
+          ? "leaderRequestBackingWeight"
+          : "leaderRequestFavorWeight",
+      )
+    : 0;
+  const bare = reasons.party + reasons.tie + offered;
+  const traits = leanedTerm(
+    api.state,
+    leader,
+    LEADER_DECISION,
+    "grant",
+    "refuse",
+    bare,
+  );
+  const granted = bare + traits > 0;
   const already = api
     .moduleCalendar(LEGISLATURE_MODULE_ID)
     .get(`meeting:${billId}`);
@@ -1518,8 +1634,60 @@ export function askLeaderForHearing(
     date: api.state.date,
     granted,
     scheduledFor: granted ? (already?.date ?? scheduleVote(api, billId)) : null,
-    reasons,
+    reasons: { ...reasons, ...(accepted ? { offer: offered } : {}), traits },
+    ...(accepted
+      ? {
+          offer: {
+            kind: accepted.kind,
+            obligationId: accepted.obligationId,
+            earlierReasons: existing!.reasons,
+          },
+        }
+      : {}),
   };
   table(api, "leaderRequests").put(row as unknown as ModuleRow);
   return row;
+}
+
+/**
+ * The member has just offered a deal on a bill whose request the leader
+ * refused: the leader reads the answer again with what they were offered.
+ * Nothing happens for a bill with no refused request.
+ */
+export function reanswerLeaderRequest(
+  api: CoreAPI,
+  memberId: string,
+  billId: string,
+): LeaderRequestRow | undefined {
+  const held = table(api, "leaderRequests").get(
+    `leader-request:${billId}`,
+  ) as unknown as LeaderRequestRow | undefined;
+  if (!held || held.granted) return undefined;
+  return askLeaderForHearing(api, memberId, billId);
+}
+
+/**
+ * The deal the bill's leader accepted from the member after the leader
+ * refused the request: its kind and the obligation the member now owes
+ * (legislature `offerDeal` records both), or nothing.
+ */
+function acceptedLeaderOffer(
+  api: CoreAPI,
+  refused: LeaderRequestRow,
+): { kind: string; obligationId: string } | undefined {
+  const bill = billOf(api, refused.billId);
+  if (!bill) return undefined;
+  const deal = bill.deals
+    .map((d, index) => ({ d, index }))
+    .filter(
+      ({ d }) =>
+        d.memberId === refused.leaderId &&
+        d.status === "accepted" &&
+        d.kind !== "amend" &&
+        d.date >= refused.date,
+    )
+    .at(-1);
+  if (!deal) return undefined;
+  const obligationId = `obligation:${bill.id}:${refused.leaderId}:${deal.index}`;
+  return { kind: deal.d.kind, obligationId };
 }

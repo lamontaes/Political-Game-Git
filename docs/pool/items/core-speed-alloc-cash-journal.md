@@ -5,7 +5,7 @@ area: core
 kind: cleanup
 priority: 2
 size: M
-status: in-pr
+status: done
 claimed-by: claude/political-game-pool-yucp92-z
 pr: #5499
 blocked-on: core-speed-journal-bigint
@@ -22,3 +22,5 @@ claimed-at: 2026-10-20T02:24:43.816Z
 **Files.** src/core2/journal-state.ts, src/core2/journal.ts
 
 **Notes.** TODO
+
+Read Oct 20 (claude/political-game-pool-b6g0dl), nothing built. The first thing in the allocation is `portfolios` in journal-state.ts: for every owner a posting touches it walks the owner's complete account index and copies each account (`{ ...live, source: { ...live.source } }`) and checks the index is consistent. A town's residents owner holds one fund account per counted group, so one posting to it costs one copy per group, and the cost grows with the group count. Under `bookkeeping() === false` the consistency checks could go and only the posted accounts and the residual need a snapshot, but the residual's balance is the owner's cash less every other account's allocation, so the owner's allocated total has to be kept as a running sum first (and verified against the full walk in a test with bookkeeping on). That is the plan; it touches the conserving ledger, so it should go through a core-area session with the journal tests running first.

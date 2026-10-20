@@ -5,11 +5,12 @@ area: release
 kind: bug
 priority: 3
 size: S
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/political-game-pool-76ksvw
+pr: #5180
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-20T04:32:20.825Z
 ---
 
 **What.** Remove the duplicated sections in world-corporate-office-staff-never-paid, world-utility-staff-never-paid and people-press-turnover-no-leavers-no-openings, and the owner and date notes added to data citations and stopgap text.

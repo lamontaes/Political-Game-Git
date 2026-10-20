@@ -43,8 +43,11 @@ it("a counted resident's agreement with a platform equals the filled-in person's
   for (const voter of picked) {
     const lean = 0.3;
     const profile = countedStanceProfile(api, voter);
-    expect(profile, `${where}: ${voter.id} has a profile`).not.toBeNull();
-    profiles.add(`${profile!.faith}|${profile!.college}`);
+    expect(
+      profile.faithFromAverage,
+      `${where}: ${voter.id} has a profile`,
+    ).toBeDefined();
+    profiles.add(`${profile.faithFromAverage}|${profile.collegeFromAverage}`);
     const counted = groupAgreement(lean, platform, profile);
     fillInPerson(core as CoreState, voter.id as never);
     const full = agreementWith(api, voter.id, lean, platform);

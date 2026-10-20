@@ -20,12 +20,11 @@
  *
  * Views form when first read, so a person filled in later gets theirs too.
  */
-import { stableHash } from "../kernel/ids";
+import { stableHash, pairKey } from "../kernel/ids";
 import { ageOnDate, makeIsoDate } from "../kernel/dates";
 import { corePlaceByJurisdictionId } from "../place-lookup";
 import { PROFILE_FACT_KINDS, profileFor } from "../opening-profile";
 import {
-  faithIndexOf,
   loadingShift,
   personStance,
   type StanceProfile,
@@ -131,7 +130,22 @@ export interface PersonView {
   /** The records and key cell the opening view came from. */
   basis: string;
   formedAt: string;
+  /**
+   * How far the person's faith (how important religion is to their group, 0 to
+   * 1) and four-year degree (1 or 0) sit from the average of their age band
+   * in their state; the stance loadings move each question's opening stance
+   * by these. Absent for a child, who has neither on record.
+   */
+  faithFromAverage?: number;
+  collegeFromAverage?: number;
 }
+
+const FAITH_IMPORTANCE: Readonly<Record<string, string>> = {
+  protestant: "faithImportanceProtestant",
+  catholic: "faithImportanceCatholic",
+  none: "faithImportanceNone",
+  "other-faith": "faithImportanceOtherFaith",
+};
 
 /**
  * The causes after one more event: the new one replaces its source's earlier
@@ -194,7 +208,7 @@ function normal(key: string): number {
   );
 }
 
-function stateOf(person: PersonState): string | null {
+function stateOf(person: Pick<PersonState, "placeId">): string | null {
   const place = corePlaceByJurisdictionId(person.placeId as never);
   const key = place?.stateJurisdictionKey;
   return key ? key.slice(key.lastIndexOf("-") + v("one")) : null;
@@ -319,6 +333,42 @@ export function countedEngagement(
   return engagementFrom(api.state.seed, voter.id, mean);
 }
 
+/** A person's faith and degree against the average of their age band in their state, from their profile. */
+function profileFromAverage(
+  person: Pick<PersonState, "id" | "householdId" | "birthDate" | "placeId"> &
+    Partial<Pick<PersonState, "pastFacts">>,
+  date: string,
+  seed: string,
+): StanceProfile {
+  const fact = (kind: string, key: string) =>
+    person.pastFacts?.find((row) => row.kind === kind)?.facts?.[key];
+  const profile = profileFor(person, seed, date);
+  const educ =
+    fact(PROFILE_FACT_KINDS.education, "level") ?? profile?.education;
+  const faith = fact(PROFILE_FACT_KINDS.faith, "group") ?? profile?.faith;
+  if (!educ || !faith || !FAITH_IMPORTANCE[faith]) return {};
+  const band = ageBand(
+    ageOnDate(makeIsoDate(person.birthDate), makeIsoDate(date)),
+  );
+  const state = stateOf(person);
+  const row = state ? VIEWS_KEYS.states[state] : undefined;
+  const educShares =
+    row?.educationShares[band] ?? VIEWS_KEYS.nationalEducationShares[band];
+  const faithShares =
+    row?.faithShares[band] ?? VIEWS_KEYS.nationalFaithShares[band];
+  if (!educShares || !faithShares) return {};
+  let expectedFaith = v("zero");
+  for (const [group, share] of Object.entries(faithShares))
+    expectedFaith +=
+      share * v(FAITH_IMPORTANCE[group] ?? "faithImportanceOtherFaith");
+  return {
+    faithFromAverage: v(FAITH_IMPORTANCE[faith]!) - expectedFaith,
+    collegeFromAverage:
+      (educ === "college" ? v("one") : v("zero")) -
+      (educShares.college ?? v("zero")),
+  };
+}
+
 /** A person's view, formed from their record the first time it is read. */
 export function viewOf(api: CoreAPI, personId: PersonId): PersonView | null {
   const table = viewsTable(api);
@@ -361,6 +411,7 @@ export function viewOf(api: CoreAPI, personId: PersonId): PersonView | null {
     label,
     basis,
     formedAt: api.state.date,
+    ...profileFromAverage(person, api.state.startedAt, seed),
   };
   table.put(view as unknown as { id: string });
   return view;
@@ -399,9 +450,7 @@ export function standingWith(
             (v("leanMax") - v("leanMin")),
       )
     : half;
-  const tie = api.state.relationships.get(
-    [listener.id, speakerId].sort().join(":"),
-  );
+  const tie = api.state.relationships.get(pairKey(listener.id, speakerId));
   const closeness = tie ? currentCloseness(api.state, tie) : v("zero");
   const partyOf = (id: string) =>
     api.state.modules.has(PARTIES_STORE)
@@ -473,6 +522,23 @@ export function caseShift(
 }
 
 /**
+ * The person's opening stance on a question: where their lean puts them on its
+ * axis, plus what their faith and degree add beyond the lean (CES 2020
+ * loadings, `data/research/people/opening-stance-loadings.json`). A question
+ * the survey has no item for takes the lean alone.
+ */
+export function openingStance(
+  api: CoreAPI,
+  personId: PersonId,
+  question: string,
+  lean: number,
+): number {
+  const base = personStance(lean, question);
+  if (!api.state.modules.has(VIEWS_MODULE_ID)) return base;
+  return base + loadingShift(viewOf(api, personId), question);
+}
+
+/**
  * The person's current view on a policy question, -1 to 1: where their
  * opening lean (`lean`, the campaigns engine's, -1 to 1) puts them on the
  * question's axis, plus how far what they have heard since has moved them.
@@ -487,73 +553,32 @@ export function viewOn(
     -v("one"),
     Math.min(
       v("one"),
-      personStance(lean, question) +
-        openingLoadingShift(api, personId, question) +
+      openingStance(api, personId, question, lean) +
         v("stanceViewWeight") * stanceOn(api, personId, question),
     ),
   );
 }
 
-const profiles = new WeakMap<object, Map<PersonId, StanceProfile | null>>();
+const profiles = new WeakMap<object, Map<PersonId, StanceProfile>>();
 
 /**
- * A person's place on the survey's faith index (their faith group's CES 2020
- * mean) and whether they hold a four-year degree, from the same education and
- * faith records their opening view is read with. A counted resident has no
- * past facts, so the world's seed gives the same profile they will have when
- * they are filled in (`profileFor` depends on nobody else).
+ * A counted resident's faith and degree against the average of their age band
+ * in their state: the profile they will have when filled in, kept for the
+ * world. A counted resident has no past facts, so the world's seed gives the
+ * same profile the person will have once met (`profileFor` depends on nobody
+ * else, and `viewOf` reads it the same way).
  */
-export function stanceProfileOf(
-  person: Pick<PersonState, "id" | "householdId" | "birthDate" | "placeId"> &
-    Partial<Pick<PersonState, "pastFacts">>,
-  seed: string,
-  startedAt: string,
-): StanceProfile | null {
-  const fact = (kind: string, key: string) =>
-    person.pastFacts?.find((row) => row.kind === kind)?.facts?.[key];
-  const profile = profileFor(person, seed, startedAt);
-  const educ =
-    fact(PROFILE_FACT_KINDS.education, "level") ?? profile?.education;
-  const group = fact(PROFILE_FACT_KINDS.faith, "group") ?? profile?.faith;
-  const faith = group ? faithIndexOf(group) : undefined;
-  return faith !== undefined && educ !== undefined
-    ? { faith, college: educ === "college" ? v("one") : v("zero") }
-    : null;
-}
-
-/** A counted resident's faith and degree: the profile they will have when filled in, kept for the world. */
 export function countedStanceProfile(
   api: CoreAPI,
   voter: Pick<PersonState, "id" | "householdId" | "birthDate" | "placeId">,
-): StanceProfile | null {
+): StanceProfile {
   const held = profiles.get(api.state) ?? new Map();
   profiles.set(api.state, held);
-  if (held.has(voter.id)) return held.get(voter.id) ?? null;
-  const out = stanceProfileOf(voter, api.state.seed, api.state.startedAt);
+  const kept = held.get(voter.id);
+  if (kept) return kept;
+  const out = profileFromAverage(voter, api.state.startedAt, api.state.seed);
   held.set(voter.id, out);
   return out;
-}
-
-/** A full person's faith and degree, kept for the world. */
-export function stanceProfile(api: CoreAPI, personId: PersonId) {
-  const held = profiles.get(api.state) ?? new Map();
-  profiles.set(api.state, held);
-  if (held.has(personId)) return held.get(personId) ?? null;
-  const person = api.state.people.get(personId);
-  const out = person
-    ? stanceProfileOf(person, api.state.seed, api.state.startedAt)
-    : null;
-  held.set(personId, out);
-  return out;
-}
-
-/** What a full person's faith and degree add to their opening stance on a question (see `loadingShift`). */
-export function openingLoadingShift(
-  api: CoreAPI,
-  personId: PersonId,
-  question: string,
-): number {
-  return loadingShift(stanceProfile(api, personId), question);
 }
 
 /**

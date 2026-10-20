@@ -5,11 +5,12 @@ area: world
 kind: bug
 priority: 3
 size: S
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/political-game-pool-76ksvw
+pr: #5180
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-20T04:32:30.623Z
 ---
 
 **What.** Assert both halves of the hire, explain or revert the threefold timeouts, and run the full residents.test.ts.

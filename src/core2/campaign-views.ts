@@ -319,39 +319,34 @@ export function publicOffset(
   return Math.abs(axis) * (2 * share - 1);
 }
 
-/** Where a person sits on the survey's faith index (0 to 1) and whether they hold a four-year degree (0 or 1). */
+/** How far a person's faith (0 to 1) and four-year degree (1 or 0) sit from the average of their age band in their state; absent for a child. */
 export interface StanceProfile {
-  readonly faith: number;
-  readonly college: number;
+  readonly faithFromAverage?: number;
+  readonly collegeFromAverage?: number;
 }
 
 const LOADINGS = stanceLoadings.questions as unknown as Record<
   string,
   { loadings: { faith: { value: number }; college: { value: number } } }
 >;
-const PREDICTORS = stanceLoadings.predictors;
-
-/** The faith index a CES 2020 faith group sits at (its mean), or undefined for a group the survey lacks. */
-export function faithIndexOf(group: string): number | undefined {
-  return (PREDICTORS.faithMeanByGroup as Record<string, number>)[group];
-}
 
 /**
  * What a person's faith and degree add to their opening stance on a question
  * the 2020 Cooperative Election Study asked (`opening-stance-loadings.json`):
- * each loading times how far they sit from the average person, so a town's
- * mean stance stays on the lean axis. A question with no survey item, or a
- * person with no profile, adds nothing (ESTIMATED).
+ * each loading times how far they sit from the average of their age band. A
+ * question with no survey item, or a person with no profile, adds nothing
+ * (ESTIMATED).
  */
 export function loadingShift(
   profile: StanceProfile | null | undefined,
   question: string,
 ): number {
-  const loadings = LOADINGS[question]?.loadings;
+  const loadings =
+    LOADINGS[question.replace(/^us-policy-positions:/, "")]?.loadings;
   if (!loadings || !profile) return 0;
   return (
-    loadings.faith.value * (profile.faith - PREDICTORS.nationalFaithMean) +
-    loadings.college.value * (profile.college - PREDICTORS.collegeShare)
+    loadings.faith.value * (profile.faithFromAverage ?? 0) +
+    loadings.college.value * (profile.collegeFromAverage ?? 0)
   );
 }
 
