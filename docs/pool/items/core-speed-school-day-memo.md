@@ -5,7 +5,7 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/speed-school-day
 pr: #5389
 blocked-on:
