@@ -47,7 +47,7 @@ const WEB_FILES = new Set([
 /** Readers that turn an outcome into what people notice and how they vote. */
 const KNOWING = /electorate-inputs|views|news|press|director|english/;
 const ACCESSORS =
-  /outcomeWebFactor|placeOutcome|personWebFactor|webFactorFor|webEffectFor/;
+  /outcomeWebFactor|placeOutcome|webReach|webFactorFor|turnoutWeb|deathWebFactor/;
 
 function files(dir: string): string[] {
   return readdirSync(dir).flatMap((name) => {
@@ -168,7 +168,35 @@ function size(link: WebLink & { range?: number[]; anchor?: string }): Point {
   };
 }
 
-function reaches(link: WebLink): Point {
+/** Open stopgap rows, by the link keys their text names. */
+const STOPGAPS = (
+  JSON.parse(
+    readFileSync(join(ROOT, "src/core2/data/stopgaps.json"), "utf8"),
+  ) as {
+    id: string;
+    status?: string;
+    whatItFakes?: string;
+    why?: string;
+    replacement?: string;
+  }[]
+).filter((row) => row.status !== "resolved" && row.status !== "closed");
+function stopgapFor(key: string): string | undefined {
+  const pattern = new RegExp(
+    `(^|[^a-z0-9-])${key.replace(/[-]/g, "\\-")}([^a-z0-9-]|$)`,
+  );
+  return STOPGAPS.find((row) =>
+    pattern.test(
+      `${row.whatItFakes ?? ""} ${row.why ?? ""} ${row.replacement ?? ""}`,
+    ),
+  )?.id;
+}
+
+function reaches(link: WebLink & { carriedBy?: string }): Point {
+  if (link.carriedBy)
+    return {
+      status: "pass",
+      evidence: `carried by an engine, not the web: ${link.carriedBy}`,
+    };
   const engine = engineReaders(link.to);
   if (engine.length) return { status: "pass", evidence: where(engine) };
   if (
@@ -255,7 +283,22 @@ function timing(
   };
 }
 
+/** Outcomes voters read from an engine's records rather than by name. */
+const ELECTORATE = readFileSync(
+  join(ROOT, "src/core2/electorate-inputs.ts"),
+  "utf8",
+);
+const VOTERS_READ_RECORDS = /modules\/crime/.test(ELECTORATE)
+  ? ["crime.burglary", "crime.robbery", "crime.assault", "crime.property"]
+  : [];
+
 function knowing(link: WebLink): Point {
+  if (VOTERS_READ_RECORDS.includes(link.to))
+    return {
+      status: "pass",
+      evidence:
+        "src/core2/electorate-inputs.ts townConditions reads the victimization records voters lived through",
+    };
   const rows = knowingReaders(link.to);
   if (rows.length && engineReaders(link.to).length)
     return { status: "pass", evidence: where(rows) };
@@ -295,6 +338,8 @@ export interface MatrixRow {
   readonly webCoverage: "wired" | "waiting";
   readonly points: Record<string, Point>;
   readonly wiredPoints: number;
+  /** An open stopgap row that names this link, with its reason. */
+  readonly stopgap: string | null;
 }
 
 export function matrix(): {
@@ -325,6 +370,7 @@ export function matrix(): {
       wiredPoints: Object.values(points).filter(
         (p) => p.status === "pass" || p.status === "n/a",
       ).length,
+      stopgap: stopgapFor(link.key) ?? null,
     };
   });
   // One row per wanted measure: every cause or outcome a link names.
@@ -397,6 +443,11 @@ function summary(rows: readonly MatrixRow[]) {
     lawLinks: by((row) => row.lawLink),
     webCoverageWired: by((row) => row.webCoverage === "wired"),
     allEightPoints: by(all),
+    reachesOrCarried: by((row) => row.points.reaches!.status === "pass"),
+    namedInAStopgap: by((row) => row.stopgap !== null),
+    notReachingAndNoStopgap: by(
+      (row) => row.points.reaches!.status !== "pass" && row.stopgap === null,
+    ),
     reachesTheWorld: by((row) => row.points.reaches!.status === "pass"),
     withAnyModerator: by((row) => row.points.varied!.status !== "fail"),
     byPoint: Object.fromEntries(
