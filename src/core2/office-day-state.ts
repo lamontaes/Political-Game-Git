@@ -1199,6 +1199,39 @@ function liveToday(api: CoreAPI): void {
   }
 }
 
+/**
+ * A governor who is not the player takes up the week's petition for clemency
+ * on the review day, from their own temperament and the share of the term
+ * served (the same rule `actOn` gives the character), where their state's
+ * law lets the governor decide and a prisoner of that state is serving. Only
+ * the petition is taken up; the governor's other days stay the player's.
+ */
+function computerGovernorsDay(api: CoreAPI): void {
+  const today = api.state.date;
+  if (weekday(today) !== stateDayParameter("clemencyReviewWeekday")) return;
+  const playerId = controlled(api);
+  const governors = new Set(
+    (
+      api
+        .moduleState(OFFICES_MODULE_ID)
+        .table("terms")
+        .rows() as unknown as TermRow[]
+    )
+      .filter((t) => t.status === "serving" && t.personId)
+      .map((t) => t.personId!),
+  );
+  for (const personId of [...governors].sort()) {
+    if (personId === playerId || !api.state.people.get(personId)?.alive)
+      continue;
+    const office = stateOfficeOf(api, personId);
+    if (office?.role !== "governor") continue;
+    if (!prisonersServing(api, office.stateKey).length) continue;
+    for (const entry of stateDay(api, office, today))
+      if (entry.kind === "clemency" && !table(api, "results").get(entry.id))
+        actOn(api, entry);
+  }
+}
+
 /** Seat the day's entries for a player just seated in a state office (the dev start, or taking office). */
 export function startStateDay(api: CoreAPI): void {
   scheduleTomorrow(api);
@@ -1301,6 +1334,7 @@ registerOfficeActs({
   },
   onDay(api) {
     liveToday(api);
+    computerGovernorsDay(api);
   },
   onAfterDay: scheduleTomorrow,
 });
