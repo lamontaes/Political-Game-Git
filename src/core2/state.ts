@@ -125,6 +125,7 @@ import type {
   IsoDate,
   PlaceId,
 } from "./types";
+import { pairKey } from "./kernel/ids";
 
 // Exact successful factory identity, private to this module. No caller can admit a host.
 const actualCore = new WeakSet<CoreState>(),
@@ -451,7 +452,7 @@ export function createCore(
       // Relatives in the counts are husks until met (two-level population).
       if (!core.people.has(id) && !core.husks.has(id))
         throw new Error(`Absent family member: ${id}`);
-      const relationshipId = [actor.id, id].sort().join(":");
+      const relationshipId = pairKey(actor.id, id);
       if (!core.relationships.has(relationshipId))
         api.relationship(
           actor.id,
@@ -1038,7 +1039,7 @@ export function coreAPI(core: CoreState): CoreAPI {
             (typeof reason.sourceId !== "string" || !reason.sourceId.trim())))
       )
         throw new Error("Invalid relationship change reason.");
-      const id = [actorId, otherId].sort().join(":");
+      const id = pairKey(actorId, otherId);
       const previous = core.relationships.get(id);
       const beforeLevel = previous?.level ?? p("zero");
       const beforeContactDate = previous?.lastContactDate;
@@ -2222,7 +2223,7 @@ export function fillInPerson(core: CoreState, personId: PersonId): PersonState {
       for (const id of other.familyIds)
         if (newcomers.has(id)) {
           core.people.get(id)!.familyIds.add(other.id);
-          const relationshipId = [other.id, id].sort().join(":");
+          const relationshipId = pairKey(other.id, id);
           if (!core.relationships.has(relationshipId))
             api.relationship(
               other.id,
@@ -2242,7 +2243,7 @@ export function fillInPerson(core: CoreState, personId: PersonId): PersonState {
     for (const id of [...actor.familyIds, ...actor.knownIds]) husk(id);
     for (const id of actor.familyIds)
       if (core.people.has(id)) {
-        const relationshipId = [actor.id, id].sort().join(":");
+        const relationshipId = pairKey(actor.id, id);
         if (!core.relationships.has(relationshipId))
           api.relationship(
             actor.id,
@@ -2470,7 +2471,7 @@ export function promoteHusk(core: CoreState, input: PersonInput): PersonState {
   });
   const api = coreAPI(core);
   for (const id of actor.familyIds) {
-    if (core.relationships.has([actor.id, id].sort().join(":"))) continue;
+    if (core.relationships.has(pairKey(actor.id, id))) continue;
     api.relationship(
       actor.id,
       id,
