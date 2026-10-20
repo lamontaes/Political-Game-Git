@@ -32,12 +32,22 @@ function civilDay(value: string): number {
     value.charCodeAt(7) !== 45
   )
     return NaN;
-  let year = 0;
-  for (const at of [0, 1, 2, 3]) {
-    const digit = value.charCodeAt(at) - 48;
-    if (digit < 0 || digit > 9) return NaN;
-    year = year * 10 + digit;
-  }
+  const y1 = value.charCodeAt(0) - 48;
+  const y2 = value.charCodeAt(1) - 48;
+  const y3 = value.charCodeAt(2) - 48;
+  const y4 = value.charCodeAt(3) - 48;
+  if (
+    y1 < 0 ||
+    y1 > 9 ||
+    y2 < 0 ||
+    y2 > 9 ||
+    y3 < 0 ||
+    y3 > 9 ||
+    y4 < 0 ||
+    y4 > 9
+  )
+    return NaN;
+  const year = y1 * 1000 + y2 * 100 + y3 * 10 + y4;
   const m1 = value.charCodeAt(5) - 48;
   const m2 = value.charCodeAt(6) - 48;
   const d1 = value.charCodeAt(8) - 48;
@@ -67,14 +77,15 @@ function civilDay(value: string): number {
         : 31;
   if (day > monthLength) return NaN;
   const y = month <= 2 ? year - 1 : year;
-  const era = Math.floor(y / 400);
+  // Years before 0000 never occur; year 0 in January or February counts as -1.
+  const era = y >= 0 ? (y / 400) | 0 : -1;
   const yearOfEra = y - era * 400;
   const dayOfYear =
-    Math.floor((153 * (month + (month > 2 ? -3 : 9)) + 2) / 5) + day - 1;
+    (((153 * (month + (month > 2 ? -3 : 9)) + 2) / 5) | 0) + day - 1;
   const dayOfEra =
     yearOfEra * 365 +
-    Math.floor(yearOfEra / 4) -
-    Math.floor(yearOfEra / 100) +
+    ((yearOfEra / 4) | 0) -
+    ((yearOfEra / 100) | 0) +
     dayOfYear;
   return era * 146097 + dayOfEra - 719468;
 }
