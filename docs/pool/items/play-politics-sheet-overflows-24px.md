@@ -5,12 +5,12 @@ area: play
 kind: bug
 priority: 3
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/political-game-pool-3xfqef-20
 pr:
 blocked-on:
 source: added with npm run pool -- add
-claimed-at:
+claimed-at: 2026-10-20T05:53:06.868Z
 ---
 
 **What.** src/bench/no-scroll.browser.mjs fails on main: start and after a day, the Politics sheet's div.cols is 24 pixels taller than its box (the sheet pages four pages but the columns box itself overflows by more than the 8 pixel slack). Find which row or heading in the Government tab sits outside the pager's box and make the sheet fit.
