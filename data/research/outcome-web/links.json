@@ -427,21 +427,21 @@
     },
     {
       "key": "crime-to-out-migration",
-      "status": "size-not-set",
-      "unsupportedReason": "size-not-set",
+      "status": "built",
+      "unsupportedReason": null,
       "to": "population.out-migration",
       "strength": "strong",
       "shape": {
         "kind": "linear"
       },
-      "size": null,
-      "per": "reported crime",
+      "size": 4e-5,
+      "per": "violent crime per 100,000 residents",
       "lagMonths": 0,
       "group": "families with children, higher incomes",
       "owner": "O",
-      "anchor": "Each added reported crime: about 1 fewer city resident, mostly moving to the suburbs",
-      "source": "Cullen and Levitt 1999 (REStat)",
-      "from": "crime.reported-per-capita",
+      "anchor": "Each added reported crime per resident, over five years, lowers the chance a central-city household stays by 1.18 (Table 6a column 2). Against the 29.5% of households that left within five years (Table 4), one more reported crime per 100,000 residents raises the rate of leaving by about 0.004%.",
+      "source": "Cullen and Levitt 1999, Review of Economics and Statistics 81(2), Table 4 (Goers 0.295) and Table 6a column 2 (-1.18, standard error 0.57)",
+      "from": "crime.violent",
       "evidence": "researched",
       "researchSizing": {
         "estimate": 1.18,
@@ -450,10 +450,39 @@
         "unit": "out-migration probability change per change in reported crimes per resident over five years",
         "source": "https://pricetheory.uchicago.edu/levitt/Papers/CullenLevittCrimeUrban1999.pdf",
         "location": "Table 6a column 2, household controls; coefficient -1.18 on staying, sign reversed for leaving",
-        "status": "blocked-runtime-unit-and-time-conversion",
-        "requiredConnection": "Need recorded migration baseline and five-year exposure interval before proportional rate multiplier. This is not an immediate monthly multiplier or an observed individual move."
+        "status": "applied",
+        "requiredConnection": "Applied as a proportional change in the rate of leaving: 1.18 / 100,000 per crime per resident, over the 0.295 five-year share who left (Table 4), 0.00004 per reported crime per 100,000 residents, read as the average of the last 60 months (the paper's five-year change)."
       },
-      "notes": "Unsupported until a unit adapter exists: the study measures people leaving per added reported crime, but the game keeps violent crime per 100,000, not total reported crime per resident; see the research packet in researchSizing."
+      "notes": "Size by the paper's own conversion: the study counts all reported index crimes (violent and property, 'similar coefficients on both types') per resident and the game's cause is violent crime per 100,000 residents, so one more violent crime per 100,000 is one more reported crime per 100,000. 95% interval of the coefficient (0.063 to 2.297) gives the range. The paper measures a one-time loss over five years from a five-year rise in crime; the web applies it as a sustained rate while the level stays up, which overstates a level that stays high for many years. By schooling the relative response is nearly flat (Table 6a divided by Table 4 Goers: more than 12 years 1.54/0.413 = 3.7, 12 years 1.27/0.292 = 4.3, under 12 years 0.77/0.172 = 4.5), so no income moderator is added. Chain: the cause crime.violent is the web's own kept value today (moved by the crime links, e.g. unemployment and policing laws); it has no engine record, so the chain is law or unemployment -> crime.violent (web ledger) -> leaving (moves.ts and counted-moves.ts).",
+      "range": [2.1e-6, 7.8e-5],
+      "phaseInMonths": 60,
+      "varies": [
+        {
+          "by": "householdKind",
+          "bands": [
+            {
+              "is": "with-children",
+              "weight": 1.51,
+              "share": 0.35
+            },
+            {
+              "is": "adults",
+              "weight": 0.97,
+              "share": 0.48
+            },
+            {
+              "is": "one-adult",
+              "weight": 0.97,
+              "share": 0.17
+            }
+          ],
+          "tag": "ESTIMATED",
+          "source": "Cullen and Levitt 1999, Table 6b (With Children and No Children columns) (https://pricetheory.uchicago.edu/levitt/Papers/CullenLevittCrimeUrban1999.pdf); household shares from Census Bureau 2024 Families and Living Arrangements",
+          "quote": "\"Households with children are more likely to leave central cities in response to rising crime.\" Table 6b, change in per capita crime: with children -1.51 (0.63), no children -0.97 (0.55).",
+          "estimatedFrom": "The with-children and no-children coefficients are used as the ratio 1.51 to 0.97. They are changes in the probability of staying, not relative to each group's own rate of leaving (the paper gives no group baselines), so the gradient is conservative: households with children leave less often, which would make their relative response larger. Shares: about 43% of the 64% of households that are family households include a child under 18 (27.5% of households, about 35% of adults); the rest split between one adult and several."
+        }
+      ],
+      "phaseInSource": "Cullen and Levitt 1999 (Review of Economics and Statistics), Tables 4 and 6a: the response is estimated as the change in city population over a five-year window against the change in crime over the same five years, so the full effect is the five-year one; 60 months spreads it over that window."
     },
     {
       "key": "speed-limit-to-traffic-deaths",
@@ -473,7 +502,7 @@
       "source": "Farmer 2019 (Traffic Injury Prevention; IIHS); Ashenfelter and Greenstone 2004 (JPE); FHWA Highway Statistics 2022, Table FI-220",
       "from": "roads.rural-interstate-speed-limit",
       "evidence": "researched",
-      "notes": "Acts: each place's highest rural-interstate speed limit (IIHS, October 2026) and its traffic deaths per 100 million miles (NHTSA FARS via IIHS, 2024) are recorded and drift from those starting values, and the death rate moves 0.76% for each mile per hour of change in the limit.",
+      "notes": "Acts: each place's highest rural-interstate speed limit (IIHS, October 2026) and its traffic deaths per 100 million miles (NHTSA FARS via IIHS, 2024) are recorded and drift from those starting values, and the death rate moves 0.76% for each mile per hour of change in the limit. Reaches people through the share of deaths at each age that crashes stand for (IIHS 2022 crash deaths per 100,000 by age over the life table's death rate); the studies report no income moderator.",
       "range": [0.0056, 0.017]
     },
     {
@@ -494,7 +523,8 @@
       "source": "Chay and Greenstone 2003 (NBER w10053, Air Quality, Infant Mortality, and the Clean Air Act of 1970); Chay and Greenstone 2003 (QJE)",
       "from": "env.particulates:pct-of-start",
       "evidence": "researched",
-      "range": [0.0035, 0.0065]
+      "range": [0.0035, 0.0065],
+      "notes": "No moderator by income: Currie and Neidell 2005 (NBER w10251) find \"the same exposure to pollution will have the same effect on mortality risk regardless of race or maternal education\"; Chay and Greenstone find black infant mortality more sensitive but with sampling errors \"too large for a reliable conclusion\". Left unvaried."
     },
     {
       "key": "congestion-to-premature-births",
@@ -707,7 +737,7 @@
       "from": "disaster.severe",
       "evidence": "provisional",
       "range": [0.025, 0.1],
-      "notes": "Unsupported until a disaster record is readable: the game has no per-place reader for a severe disaster; out-migration is kept, so this acts once one exists."
+      "notes": "Unsupported until a disaster record is readable: the game has no per-place reader for a severe disaster; out-migration is kept, so this acts once one exists. Stopgap SG-WEB-moves-disaster-severity: the disasters engine records FEMA declarations without deaths, so no per-place severe-disaster record exists; the researched size (0.05, range 0.025 to 0.1) is kept for when one does. Research gives no heterogeneity by person (county-level decade study)."
     },
     {
       "key": "disaster-to-home-values",
@@ -1681,7 +1711,32 @@
       "anchor": "Renter mobility -20%",
       "source": "Diamond, McQuade and Qian 2019 (AER)",
       "from": "law:us-policy-positions:housing-land-use.rent-stabilization",
-      "evidence": "researched"
+      "evidence": "researched",
+      "varies": [
+        {
+          "by": "age",
+          "bands": [
+            {
+              "min": 0,
+              "max": 40,
+              "weight": 0.0125,
+              "share": 0.627
+            },
+            {
+              "min": 40,
+              "max": 200,
+              "weight": 0.0515,
+              "share": 0.373
+            }
+          ],
+          "tag": "ESTIMATED",
+          "source": "Diamond, McQuade and Qian 2019 (AER 109(9)), NBER Working Paper 24181 section 4 on heterogeneity and Figures 2 and 3 (https://www.nber.org/papers/w24181.pdf); renters by age from Census CPS ASEC 2023 geographic mobility Table 5 (https://www2.census.gov/programs-surveys/demo/tables/geographic-mobility/2023/cps-2023/mig_05_2023_1yr.xlsx)",
+          "quote": "\"First, we find that the effects are weaker for younger individuals.\" \"Older, low turnover households have a strong, positive response to rent control.\" \"These effects are significantly stronger among older households and among households that have already spent a number of years at their treated address.\"",
+          "estimatedFrom": "Figures 2 and 3 give the effect on staying at the 1994 address (percentage points) for tenants aged 20 to 39 and 40 to 65 who had lived there 4 to 14 years (low turnover): young 0.018 and 0.007 (mean 0.0125), old 0.062 and 0.041 (mean 0.0515). The high-turnover cells are noisy and, for older tenants in high-rent-appreciation zip codes, negative (-0.107), which the authors attribute to landlords removing tenants; evictions are the eviction engine's, so they are left out here. Shares: renters by age in CPS ASEC 2023 Table 5 (101,024 thousand renters; ages 0 to 29, 30 to 44 and 45 and over), with the 30 to 44 band split 10 to 5 years at age 40. The subject has no years-at-address, so the low-turnover contrast carries the age gradient."
+        }
+      ],
+      "notes": "Diamond, McQuade and Qian report the effect as a 20% reduction in renter mobility (NBER WP 24181: 'the beneficiaries of rent control are between 10 and 20% more likely to remain at their 1994 address'); the center (-0.20) is kept and the range is 10 to 20. The effect is a level shift in the share who stay, not a build-up, so no phase-in. Renters only: the renter-moves rate is read by moves.ts and counted-moves.ts for tenants. Evictions of covered tenants are the eviction engine's.",
+      "range": [-0.2, -0.1]
     },
     {
       "key": "rent-burden-to-homelessness",
@@ -2037,7 +2092,42 @@
       "source": "Dettling and Kearney 2014 (JPubE); Kearney, Levine and Pardue 2022 (JEP); Currie and Schwandt 2014 (PNAS)",
       "from": "labor.unemployment-pct",
       "evidence": "researched",
-      "range": [-0.014, -0.005]
+      "range": [-0.014, -0.005],
+      "varies": [
+        {
+          "by": "age",
+          "bands": [
+            {
+              "min": 20,
+              "max": 25,
+              "weight": 2.761,
+              "share": 0.1745
+            },
+            {
+              "min": 40,
+              "max": 55,
+              "weight": 0,
+              "share": 0.0431
+            },
+            {
+              "min": 10,
+              "max": 20,
+              "weight": 0.662,
+              "share": 0.0394
+            },
+            {
+              "min": 25,
+              "max": 40,
+              "weight": 0.662,
+              "share": 0.7428
+            }
+          ],
+          "tag": "ESTIMATED",
+          "source": "Currie and Schwandt 2014, Short- and long-term effects of unemployment on fertility, PNAS 111(41), Results and Fig. 2 (https://pmc.ncbi.nlm.nih.gov/articles/PMC4205620/); birth shares by mother's age from NCHS NVSR 75-02, table 6, 2024 age-specific rates (data/research/renewal/natality-2024.json)",
+          "quote": "\"The fertility response to changes in the unemployment rate is strongest for women 20–24 y of age.\" \"The point estimate for the 20–24 age group is −1.20 in this specification, compared with −1.27 in first differences.\" \"With increasing age, the relationship becomes weaker, and it is virtually zero for women 40 and older.\" The all-ages state slope is −0.46 (Fig. 1C).",
+          "estimatedFrom": "Women 20 to 24 respond 1.27/0.46 = 2.761 times the average and women 40 and older not at all, as the paper says; the text gives no figure for the other ages, so they share one weight (0.662) set so the births-weighted average is the researched size. Birth shares by age are the 2024 national age-specific rates over their sum, taking equal numbers of women in each five-year band."
+        }
+      ]
     },
     {
       "key": "enforcement-to-undocumented-employment",
@@ -2546,7 +2636,7 @@
       "shape": {
         "kind": "linear"
       },
-      "size": -0.094,
+      "size": -0.0188,
       "per": "law in force",
       "lagMonths": 12,
       "group": "low-income adults 55 to 64",
@@ -2570,7 +2660,44 @@
         "evidenceLimit": "Inherited repository source/anchor read; primary study verification and any new conversion remain Team9 research work."
       },
       "aboutZero": false,
-      "notes": "Not hooked by design: crisis/health-coverage.ts already applies this row's 9.4% to the death hazard of each covered low-income person aged 55 to 64, so a place death rate that also applied it would count the law twice, and would wrongly cut every 55- to 64-year-old's deaths by a low-income group's share. A state base now exists (CDC 2022 deaths at 55 to 64, data.cdc.gov 9bhg-hcku, over ACS B01001 population); a producer of health.mortality-55-64 should count the recorded deaths instead."
+      "notes": "Not hooked by design: crisis/health-coverage.ts already applies this row's 9.4% to the death hazard of each covered low-income person aged 55 to 64, so a place death rate that also applied it would count the law twice, and would wrongly cut every 55- to 64-year-old's deaths by a low-income group's share. A state base now exists (CDC 2022 deaths at 55 to 64, data.cdc.gov 9bhg-hcku, over ACS B01001 population); a producer of health.mortality-55-64 should count the recorded deaths instead. The size is now the place-wide average: 9.4% (7.0% in year 0 to 11.9% in year 3, range 7.0 to 11.9) among the low-income sample times its one-fifth share; the lowest income fifth takes the full cut. The effect is already 7.0% in year 0, so a ramp from zero would misstate it and no phase-in is set.",
+      "range": [-0.0238, -0.014],
+      "varies": [
+        {
+          "by": "incomeFifth",
+          "bands": [
+            {
+              "is": 0,
+              "weight": 1,
+              "share": 0.2
+            },
+            {
+              "is": 1,
+              "weight": 0,
+              "share": 0.2
+            },
+            {
+              "is": 2,
+              "weight": 0,
+              "share": 0.2
+            },
+            {
+              "is": 3,
+              "weight": 0,
+              "share": 0.2
+            },
+            {
+              "is": 4,
+              "weight": 0,
+              "share": 0.2
+            }
+          ],
+          "tag": "ESTIMATED",
+          "source": "Miller, Johnson and Wherry 2021, Medicaid and Mortality, QJE 136(3) (NBER w26081), Introduction, Section II and Section V (income-group checks)",
+          "quote": "\"We include only individuals who either are in families with income at or under 138 percent of the FPL or who have less than a high school degree.\" \"Using this model, we estimate an average reduction in annual mortality of 0.132 percentage points. This represents a reduction in mortality of about 9.4 percent relative to the sample mean\". For ages 55 to 64 in families at 400% of the poverty level or more: \"small but, for some years, statistically significant reductions in mortality\".",
+          "estimatedFrom": "The 9.4% is the cut among the low-income sample, so the whole 55-to-64 population's cut is smaller. The lowest national income fifth (households under about 138% of the poverty level) stands for the sample and takes the full effect; the higher fifths take none (the paper finds only small changes at 400% of the poverty level and above). The link's size is the sample's 9.4% times the sample's one-fifth share, so the average over all 55- to 64-year-olds is a fifth of it and the lowest fifth gets the full 9.4%."
+        }
+      ]
     },
     {
       "key": "medicaid-expansion-to-medical-debt",
@@ -3162,7 +3289,68 @@
       },
       "from": "labor.unemployment-pct",
       "evidence": "researched",
-      "range": [0.03, 0.08]
+      "range": [0.03, 0.08],
+      "varies": [
+        {
+          "by": "sex",
+          "bands": [
+            {
+              "is": "male",
+              "weight": 1.67,
+              "share": 0.5
+            },
+            {
+              "is": "female",
+              "weight": 0.5,
+              "share": 0.5
+            }
+          ],
+          "tag": "ESTIMATED",
+          "source": "Cawley, Moriya and Simon 2015, The Impact of the Macroeconomy on Health Insurance Coverage: Evidence from the Great Recession, Health Economics 24(2) (NBER w17600), Table 2 and the fixed-effects note",
+          "quote": "\"a one-point rise in the state unemployment rate is associated with a 1.67 percentage point drop in the probability that men have coverage\" (men -1.67); \"For women, the comparable numbers are -0.50 and -0.45 (neither is statistically significant).\"",
+          "estimatedFrom": "Men's drop of 1.67 points against women's 0.50 (not significant), equal numbers of each sex."
+        },
+        {
+          "by": "age",
+          "bands": [
+            {
+              "min": 0,
+              "max": 18,
+              "weight": 0,
+              "share": 0.215
+            },
+            {
+              "min": 18,
+              "max": 35,
+              "weight": 1.34,
+              "share": 0.2188
+            },
+            {
+              "min": 35,
+              "max": 50,
+              "weight": 1.56,
+              "share": 0.1931
+            },
+            {
+              "min": 50,
+              "max": 65,
+              "weight": 2.5,
+              "share": 0.1931
+            },
+            {
+              "min": 65,
+              "max": 200,
+              "weight": 0,
+              "share": 0.18
+            }
+          ],
+          "tag": "ESTIMATED",
+          "source": "Cawley, Moriya and Simon 2015 (NBER w17600), Extension: Subgroup Analyses by Age, Table 7 and Table 2 (children); shares from the Census Bureau's 2024 estimates (children 21.5%, 65 and older 18.0%)",
+          "quote": "\"a decrease in the probability of coverage of 1.34 percentage points (1.93%) for men aged 18-34, 1.56 percentage points (1.93%) for men aged 35-49, and 2.50 percentage points (2.87%) for men aged 50-64.\" Children: \"the probability that a child has health insurance coverage through any source is not significantly correlated with the unemployment rate.\"",
+          "estimatedFrom": "Men's age coefficients, applied to both sexes (\"The magnitudes of the marginal effects for women also rise monotonically with age\"); children no change; 65 and older assumed unchanged (Medicare; the study samples ages 18 to 64). The remaining 60.5% of people, 18 to 64, split by years of age (17, 15 and 15 years)."
+        }
+      ],
+      "notes": "The study finds no difference by education or income worth a weight: for men, \"Each is significantly different from zero, but they are not significantly different from each other.\""
     },
     {
       "key": "federal-minimum-wage-to-poverty",
@@ -4798,7 +4986,8 @@
       "owner": "F-cloud",
       "evidence": "about-zero",
       "anchor": "Taxes move few people: even millionaires rarely leave high-tax states",
-      "source": "Young, Varner, Lurie and Prisinzano 2016, American Sociological Review"
+      "source": "Young, Varner, Lurie and Prisinzano 2016, American Sociological Review",
+      "notes": "About zero for the population, kept at zero. Young, Varner, Lurie and Prisinzano 2016: 'millionaire tax flight is occurring, but only at the margins of statistical and socioeconomic significance'; the annual millionaire migration rate is 2.4 percent against 2.9 percent for the general population. Moretti and Wilson 2017 (AER) find a long-run elasticity of about 1.7 for star scientists at the 99th percentile of income, who are about 1% of people, so the average person's rate does not move. The researched response is concentrated in the top income fifth, and the engines already carry it from their own records: counted-moves.ts (pullBetween) reads the town state's income-tax law in force and the other states' 2026 table into the income pull, by wage, so a web read on the same law would count it twice. Full people have no tax pull yet (stopgap SG-WEB-moves-full-tax-pull). No moderator rows: a weight on a size of zero moves nothing."
     },
     {
       "key": "graduated-income-tax-to-out-migration",
@@ -4817,7 +5006,8 @@
       "owner": "F-cloud",
       "evidence": "about-zero",
       "anchor": "Taxes move few people: even millionaires rarely leave high-tax states",
-      "source": "Young, Varner, Lurie and Prisinzano 2016, American Sociological Review"
+      "source": "Young, Varner, Lurie and Prisinzano 2016, American Sociological Review",
+      "notes": "About zero for the population, kept at zero. Young, Varner, Lurie and Prisinzano 2016: 'millionaire tax flight is occurring, but only at the margins of statistical and socioeconomic significance'; the annual millionaire migration rate is 2.4 percent against 2.9 percent for the general population. Moretti and Wilson 2017 (AER) find a long-run elasticity of about 1.7 for star scientists at the 99th percentile of income, who are about 1% of people, so the average person's rate does not move. The researched response is concentrated in the top income fifth, and the engines already carry it from their own records: counted-moves.ts (pullBetween) reads the town state's income-tax law in force and the other states' 2026 table into the income pull, by wage, so a web read on the same law would count it twice. Full people have no tax pull yet (stopgap SG-WEB-moves-full-tax-pull). No moderator rows: a weight on a size of zero moves nothing."
     },
     {
       "key": "balanced-budget-to-borrowing-cost",

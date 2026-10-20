@@ -29,12 +29,12 @@ import parameterRows from "./data/office-day/state-parameters.json" with { type:
 import perDiemRows from "./data/office-day/state-legislator-per-diem.json" with { type: "json" };
 import { sessionYear, type SessionWindow } from "./state-session-calendar";
 import { registerModule } from "./state";
-import { decisionLean } from "./trait-decisions";
+import { decisionLean, leanedTerm } from "./trait-decisions";
 import { closenessBetween } from "./closeness";
 import { personLean, personStance, PLATFORM_QUESTIONS } from "./campaign-views";
 import { lineForPost, registerLinePayments } from "./budgets-treasury";
 import { outsideGovernment } from "./outside-governments";
-import { stableHash } from "./kernel/ids";
+import { stableHash, pairKey } from "./kernel/ids";
 import { addDays, makeIsoDate } from "./kernel/dates";
 import {
   appointStatePost,
@@ -54,6 +54,7 @@ import { lawChain } from "./modules/laws";
 import { OFFICES_MODULE_ID, type TermRow } from "./modules/offices";
 import {
   billOf,
+  hasSitting,
   committeeHearingsOn,
   leanOf,
   memberKey,
@@ -81,6 +82,7 @@ import {
   ownCaseDecision,
 } from "./modules/constituent-cases";
 import { deliverSpeech, SPEECH_MODULE_ID } from "./modules/speech";
+import { registerBillIntroduced } from "./modules/world-legislating";
 import { followersOf, outletsHere } from "./modules/press";
 import type { ModuleRow } from "./module-data";
 import type {
@@ -535,12 +537,19 @@ const DUTY_DECISION = "office-day-state.attend";
 const CLEMENCY_DECISION = "office-day-state.clemency";
 
 /** The character's own lean toward showing up: duty beside their traits. */
-function ownAttendance(
+export function ownAttendance(
   api: CoreAPI,
   person: Readonly<PersonState>,
   duty: number,
 ): { attend: boolean; lean: number; duty: number } {
-  const lean = decisionLean(api.state, person, DUTY_DECISION, "attend", "skip");
+  const lean = leanedTerm(
+    api.state,
+    person,
+    DUTY_DECISION,
+    "attend",
+    "skip",
+    duty,
+  );
   return { attend: duty + lean > 0, lean, duty };
 }
 
@@ -571,7 +580,7 @@ function spendTime(
   const touched: string[] = [];
   for (const other of others) {
     if (other === holderId || !api.state.people.get(other)?.alive) continue;
-    const id = [holderId, other].sort().join(":");
+    const id = pairKey(holderId, other);
     if ((api.state as CoreState).relationships.has(id))
       api.relationship(holderId, other, "contact", hours, undefined, {
         cause: "office-day-state.meeting",
@@ -1447,6 +1456,33 @@ export function appointGovernor(api: CoreAPI, post: string, personId?: string) {
 
 const LEADER_DECISION = "office-day-state.leader-request";
 
+/**
+ * A state legislator other than the player who has just drafted a bill asks
+ * their chamber's agenda-setter for a hearing; the leader answers from the
+ * party, their tie to the member and their own traits. Registered with the
+ * legislating engine, which calls it as each filed change becomes a bill.
+ */
+registerBillIntroduced((api, billId) => {
+  if (!api.state.modules.has(OFFICE_DAY_STATE_MODULE_ID)) return;
+  const bill = billOf(api, billId);
+  if (!bill || bill.status !== "drafted") return;
+  if (bill.sponsorId === controlled(api)) return;
+  const office = stateOfficeOf(api, bill.sponsorId);
+  if (!office || office.role !== "legislator") return;
+  if (bill.bodyOfficeId !== office.officeId) return;
+  if (!hasSitting(api, office.officeId)) return;
+  const leaderId =
+    leaderOf(api, office.officeId, "majority-leader") ??
+    presidingOfficer(api, office.officeId);
+  if (
+    !leaderId ||
+    leaderId === bill.sponsorId ||
+    !api.state.people.get(leaderId)
+  )
+    return;
+  askLeaderForHearing(api, bill.sponsorId, billId);
+});
+
 /** A member's request to the floor leader to schedule their bill, and the leader's answer with the reasons. */
 export interface LeaderRequestRow {
   readonly id: string;
@@ -1502,11 +1538,17 @@ export function askLeaderForHearing(
     tie:
       closenessBetween(api.state as CoreState, leaderId, memberId) *
       stateDayParameter("leaderRequestTieWeight"),
-    traits:
-      decisionLean(api.state, leader, LEADER_DECISION, "grant", "refuse") *
-      stateDayParameter("leaderRequestTraitWeight"),
   };
-  const granted = Object.values(reasons).reduce((a, b) => a + b, 0) > 0;
+  const bare = reasons.party + reasons.tie;
+  const traits = leanedTerm(
+    api.state,
+    leader,
+    LEADER_DECISION,
+    "grant",
+    "refuse",
+    bare,
+  );
+  const granted = bare + traits > 0;
   const already = api
     .moduleCalendar(LEGISLATURE_MODULE_ID)
     .get(`meeting:${billId}`);
@@ -1518,7 +1560,7 @@ export function askLeaderForHearing(
     date: api.state.date,
     granted,
     scheduledFor: granted ? (already?.date ?? scheduleVote(api, billId)) : null,
-    reasons,
+    reasons: { ...reasons, traits },
   };
   table(api, "leaderRequests").put(row as unknown as ModuleRow);
   return row;
