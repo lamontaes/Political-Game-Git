@@ -7,7 +7,7 @@ priority: 3
 status: blocked
 claimed-by:
 pr:
-blocked-on: research data: the row's replacement needs recorded, empirical or sourced data (The counted owner group's share of the profit taxed by the income tax law in force where they live, as a flow of the owner group. Business premises re...)
+blocked-on: engine or design: A business's books record no premises or their value, so there is nothing for the property-tax rate in force to read.
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/modules/employer-taxes.ts, kind missing-engine"
 ---

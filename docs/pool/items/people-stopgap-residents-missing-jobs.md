@@ -7,7 +7,7 @@ priority: 3
 status: blocked
 claimed-by:
 pr:
-blocked-on: research data: the row's replacement needs recorded, empirical or sourced data (Recorded jobs for every employed resident: town firms in the missing industries (health care, education, government) and commutes to employers in othe...)
+blocked-on: engine or design: The opening's town workplaces cover only part of the county's industry mix (e.g. 34% in Mill Creek, Oklahoma), so most working residents had no income and the residents' account ran dry within months.
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/residents.ts, kind missing-jobs"
 ---
