@@ -5,11 +5,12 @@ area: release
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/release-pool-pushes
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-20T09:40:54.429Z
 ---
 
 **What.** Pool claim and status commits push to main every minute or two and each cancels the Release run before it, so no run finishes and a red main cannot be told from a green one. The last run that finished was 8383 (success, 08:26 UTC Oct 20); runs 9297 to 9325 are all cancelled. Let pool-only pushes skip the Release run or stop cancelling the run for the last non-pool commit; see release-skip-pool-only-commits.
