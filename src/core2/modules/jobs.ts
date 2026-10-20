@@ -28,12 +28,12 @@ import {
   ownerOf,
   type BusinessTradingMonth,
 } from "./business";
-import { LAWS_MODULE_ID, lawInForce } from "./laws";
 import {
   ageBiasAt,
   recordEmployerBound,
   recordHiredUnderBan,
 } from "../jobs-age-bias";
+import { LAWS_MODULE_ID, lawInForce, socialSecurityAges } from "./laws";
 import { publicPayFloorHourly } from "../public-pay-floor";
 import { inCustody } from "./justice";
 import { regionalMonth } from "./regional";
@@ -1191,7 +1191,7 @@ function payFor(
         (rate * payLevel(api, placeId)) / (set?.level ?? api.parameter("one")),
       )
     : rate;
-  // A public employer's hire is held to the public pay floor on the day it is made.
+  // A public employer's opening is posted at the public pay floor in force the day it is posted; a hire from it is paid what it was posted at.
   const publicFloor = core(api).modules.has(LAWS_MODULE_ID)
     ? publicPayFloorHourly(api, organizationId, template)
     : 0;
@@ -1384,7 +1384,7 @@ function reviewWorkers(api: CoreAPI): void {
     const age =
       daysBetween(makeIsoDate(person.birthDate), makeIsoDate(c.date)) /
       p("jobsDaysPerYear");
-    const pastRetirementAge = Math.max(0, age - p("jobsEarliestRetirementAge"));
+    const pastRetirementAge = Math.max(0, age - retirementOnsetYears(api));
     const result = chooseAct(c, person.id, [
       offer("stay", job.id, {}),
       offer("look", job.id, {
@@ -2092,6 +2092,27 @@ export function strongestPulls<T extends { id: string; score: number }>(
     .slice(0, count);
 }
 
+const onsetToday = new WeakMap<object, { date: string; years: number }>();
+
+/**
+ * The age at which retiring starts to pull on a worker: the earliest Social
+ * Security claim age under the law in force, so a law that moves it moves
+ * when people leave work (the outcome web's retirement-age link, read by the
+ * engine at the moment it decides). Where no law is open, the sourced 62.
+ * The earliest claim age is the law's own value, the same for every birth
+ * year, so it is read once a day.
+ */
+export function retirementOnsetYears(api: CoreAPI): number {
+  const held = onsetToday.get(api.state);
+  if (held?.date === api.state.date) return held.years;
+  const years = core(api).modules.has(LAWS_MODULE_ID)
+    ? socialSecurityAges(api, "1960-06-01").earliestMonths /
+      api.parameter("monthsPerYear")
+    : api.parameter("jobsEarliestRetirementAge");
+  onsetToday.set(api.state, { date: api.state.date, years });
+  return years;
+}
+
 /** Counted workers 62 and over weigh retiring by the same reasons as full people, without the chooser (stopgap). */
 function reviewCountedRetirements(api: CoreAPI): void {
   const c = core(api),
@@ -2106,7 +2127,7 @@ function reviewCountedRetirements(api: CoreAPI): void {
       const age =
         daysBetween(makeIsoDate(person.birthDate), makeIsoDate(c.date)) /
         p("jobsDaysPerYear");
-      const past = age - p("jobsEarliestRetirementAge");
+      const past = age - retirementOnsetYears(api);
       if (past <= 0) continue;
       rows.push({
         id: job.id,

@@ -5,7 +5,7 @@ area: world
 kind: bug
 priority: 2
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/grangeville-broke
 pr: #5080
 blocked-on:
