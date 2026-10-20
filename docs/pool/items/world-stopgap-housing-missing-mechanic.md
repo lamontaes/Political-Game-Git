@@ -4,13 +4,14 @@ title: "Stopgaps in housing (missing-mechanic): 1 open"
 area: world
 kind: stopgap
 priority: 3
-status: blocked
+status: open
 claimed-by:
 pr:
 blocked-on:
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/modules/housing.ts, kind missing-mechanic"
 after: world-housing-landlord-owners
+claimed-at: 
 ---
 
 **What.** Vacancy moves rents at renewal, and completed new rentals now admit unassigned households (`occupyCompletedRentals` in src/core2/housing-occupancy.ts), but the opening's rental stock has no unit inventory, only the place's counts `rentalUnits` and `vacantRental` in the housing `stock` table, so arrivals into and departures from existing apartments are not assigned to a unit. Record the opening's rental units: a `units` table in the housing module with one row per unit (place, landlord, bedrooms, rent, tenant household or vacant), built at the opening from the leases that exist plus vacant units equal to the place's rental vacancy (ACS rental vacancy rate), with counted renters held as unit blocks by bedroom and rent band with a count. Route every arrival (a household moving in through the moves engine, a counted move) through unit assignment by bedrooms and rent against income, and every departure (move out, eviction, death of the last member) through release, then derive `vacantRental` from the units and delete the plus-one and minus-one edits to the stock row.
