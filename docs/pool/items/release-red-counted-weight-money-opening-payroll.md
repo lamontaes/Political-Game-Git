@@ -22,3 +22,5 @@ claimed-at:
 **Files.** TODO
 
 **Notes.** TODO
+
+Sent back 2026-10-20 from PR #5331 (branch claude/counted-weight-payroll): see the Cloud merger comment on that PR for the exact reason; finish on that branch, merge main into it first.
