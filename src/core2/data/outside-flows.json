@@ -4,6 +4,12 @@
   "flows": [
     {
       "kind": "accounts.transfer",
+      "idPrefix": "donation-outside",
+      "matchedBy": "own-money",
+      "what": "Gifts to a campaign for a seat wider than the town from the adults of its district or state outside the town, one record per place group."
+    },
+    {
+      "kind": "accounts.transfer",
       "idPrefix": "residents",
       "matchedBy": "goods-and-services",
       "what": "Counted households' purchases from outside sellers and pay from outside employers, through the residents engine's pooled account."

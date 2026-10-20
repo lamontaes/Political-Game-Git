@@ -24,6 +24,10 @@ import { BUDGETS_MODULE_ID, governments } from "./budgets";
 import lawParameters from "../data/laws/reach-group-b-parameters.json" with { type: "json" };
 import { DEFAULT_BUSINESS_BOOKS_DATA } from "../business-books";
 import { stopgap } from "../stopgaps";
+import { webReach, type Subject } from "../outcome-web-reach";
+import { incomeBandOf } from "./residents";
+import { registerPricesWebGaps } from "./prices-web-gaps";
+import { sha256Hex } from "../kernel/sha256";
 import { transferCash } from "../world-transfer";
 import { newsKey, storiesHeard } from "./news";
 import { lawApplied, type AppliedTarget } from "../law-reach/applied";
@@ -54,6 +58,55 @@ interface Rule {
 }
 
 const MONTHS = 12;
+/** Every state sets 21 as the purchase age (NCSL, Cannabis Overview, 2024). */
+const CANNABIS_AGE = 21;
+
+/**
+ * Whether a named adult uses cannabis: a seeded draw of who they are from
+ * their id, against the sourced adult prevalence (generation of who exists,
+ * not a chance that decides anything they do). The same person is the same
+ * answer every month.
+ */
+export function usesCannabis(personId: string, prevalence: number): boolean {
+  return (
+    Number.parseInt(sha256Hex(`cannabis-use:${personId}`).slice(0, 8), 16) /
+      0x1_0000_0000 <
+    prevalence
+  );
+}
+
+/**
+ * The "persons" a cannabis rule spends for: each named adult who uses it
+ * stands for 1 / (prevalence x adult share) of a resident's average, so a
+ * town's total stays the sourced per-resident figure while a named adult
+ * who doesn't use it spends nothing. A counted group reads the same
+ * prevalence and adult share times its count.
+ */
+export function cannabisWeight(api: CoreAPI, adultUsers: number): number {
+  return (
+    adultUsers /
+    (api.parameter("pricesCannabisUsePrevalence") *
+      api.parameter("pricesCannabisAdultShare"))
+  );
+}
+
+/** Named members 21 and over who use cannabis. */
+function adultUsers(api: CoreAPI, memberIds: readonly string[]): number {
+  const c = core(api);
+  return memberIds.filter((id) => {
+    const born = c.people.get(id)?.birthDate;
+    if (!born) return false;
+    const years =
+      Number(c.date.slice(0, 4)) -
+      Number(born.slice(0, 4)) -
+      (c.date.slice(5) < born.slice(5) ? 1 : 0);
+    return (
+      years >= CANNABIS_AGE &&
+      usesCannabis(id, api.parameter("pricesCannabisUsePrevalence"))
+    );
+  }).length;
+}
+
 function store(api: CoreAPI) {
   return api.moduleState(PLACE_PRICES_MODULE_ID);
 }
@@ -207,6 +260,8 @@ export function monthlyChange(
   >,
   scale: number,
   persons: number,
+  /** What the outcome web carries into this household's use: trips taken and the share subscribing, each against its own base. */
+  web: { trips?: number; subscribe?: number } = {},
 ): { payMinor: number; refundMinor: number } {
   const g = goods.goods;
   switch (rule.kind) {
@@ -225,7 +280,7 @@ export function monthlyChange(
       const t = g["transit-fare"],
         trips = (t.tripsPerHouseholdYear * scale) / MONTHS;
       return {
-        payMinor: trips * rule.value,
+        payMinor: trips * (web.trips ?? 1) * rule.value,
         refundMinor: trips * t.farePerTripMinor,
       };
     }
@@ -256,8 +311,12 @@ export function monthlyChange(
       const b = g.broadband;
       if (rule.value >= b.monthlyPriceMinor)
         return { payMinor: 0, refundMinor: 0 };
+      const subscribing = Math.min(
+        1,
+        b.subscriptionShare * (web.subscribe ?? 1),
+      );
       return {
-        payMinor: rule.value * b.subscriptionShare,
+        payMinor: rule.value * subscribing,
         refundMinor: b.monthlyPriceMinor * b.subscriptionShare,
       };
     }
@@ -788,15 +847,121 @@ export function businessEnergyCostYear(
   return Math.round(annualOtherCostsMinor * share * row.value);
 }
 
+/**
+ * What the outcome web adds to a place's use of a good this month. Electricity
+ * is the exception that replaces rather than adds: a clean-electricity
+ * standard's recorded compliance cost stands in for the price until the web's
+ * own link to the electricity price is running, then the web's price is the
+ * price (the same cause is never charged twice).
+ */
+function webUse(
+  api: CoreAPI,
+  rule: Rule,
+  subject: Subject,
+): { rule: Rule; trips: number; subscribe: number } {
+  const same = { rule, trips: 1, subscribe: 1 };
+  if (rule.good === "electricity" && rule.kind === "share") {
+    const reach = webReach(
+      api,
+      rule.placeId,
+      "energy.electricity-price",
+      subject,
+    );
+    if (!reach.parts.length) return same;
+    const carried = reach.parts.some(
+      (part) => part.link === "clean-electricity-to-price",
+    );
+    return {
+      ...same,
+      rule: {
+        ...rule,
+        value: (carried ? 1 : 1 + rule.value) * reach.factor - 1,
+      },
+    };
+  }
+  if (rule.good === "transit-fare" && rule.kind === "price")
+    return {
+      ...same,
+      trips: webReach(api, rule.placeId, "transit.ridership", subject).factor,
+    };
+  if (rule.good === "broadband" && rule.kind === "offer")
+    return {
+      ...same,
+      subscribe: webReach(api, rule.placeId, "broadband.home-access", subject)
+        .factor,
+    };
+  return same;
+}
+
+/** The town's rules, plus a rule at no change for a good the web alone moves (an electricity price or transit trips with no statute of their own). */
+function withWebRules(api: CoreAPI, rules: Rule[]): Rule[] {
+  if (!api.state.modules.has(LAWS_MODULE_ID)) return rules;
+  const placeId = lawChain(api).townPlaceId;
+  const out = [...rules];
+  const source: Source = {
+    tag: "ESTIMATED",
+    asOf: api.state.date,
+    citation: `Outcome web month row for ${placeId}`,
+    estimatedFrom:
+      "The web's factor on the measure, with the consumption parameters in data/prices.",
+  };
+  const add = (
+    good: Good,
+    kind: Rule["kind"],
+    measure: string,
+    value: number,
+  ) => {
+    if (
+      rules.some(
+        (r) => r.placeId === placeId && r.good === good && r.kind === kind,
+      )
+    )
+      return;
+    if (webReach(api, placeId, measure).factor === 1) return;
+    out.push({
+      id: `${placeId}:${good}:${kind}`,
+      placeId,
+      good,
+      kind,
+      value,
+      cause: `web:${measure}`,
+      since: api.state.date,
+      source,
+    });
+  };
+  add("electricity", "share", "energy.electricity-price", 0);
+  add(
+    "transit-fare",
+    "price",
+    "transit.ridership",
+    goods.goods["transit-fare"].farePerTripMinor,
+  );
+  return out;
+}
+
 /** Each month: every rule's change in spending, settled for each full household and each place's counted households together. */
 function month(api: CoreAPI): void {
   const c = core(api);
   readPriceLaws(api);
-  const rules = store(api)
-    .table("rules")
-    .query("all", [true]) as unknown as Rule[];
+  registerPricesWebGaps(api);
+  const rules = withWebRules(
+    api,
+    store(api).table("rules").query("all", [true]) as unknown as Rule[],
+  );
   if (!rules.length) return;
   const rt = residentsRuntime(c);
+  // The web's factors on this place's use of a good, by income fifth: read once a band, not once a household.
+  const bands = new Map<string, ReturnType<typeof webUse>>();
+  const useFor = (rule: Rule, payMonthlyMinor: number) => {
+    const fifth = incomeBandOf(payMonthlyMinor * MONTHS);
+    const key = `${rule.placeId}|${rule.good}|${rule.kind}|${rule.cause}|${fifth}`;
+    let use = bands.get(key);
+    if (!use) {
+      use = webUse(api, rule, { incomeFifth: fifth });
+      bands.set(key, use);
+    }
+    return use;
+  };
   for (const rule of rules) {
     const sellers =
       rule.kind === "sale" ? licensedSellers(c, rule.placeId) : [];
@@ -813,10 +978,14 @@ function month(api: CoreAPI): void {
           pay +=
             (job.wageDailyMinor * api.parameter("jobsDaysPerYear")) / MONTHS;
       }
+      const use = useFor(rule, pay);
       const change = monthlyChange(
-        rule,
+        use.rule,
         scaleFor(api, pay, rule.good),
-        members.length,
+        rule.good === "cannabis"
+          ? cannabisWeight(api, adultUsers(api, members))
+          : members.length,
+        use,
       );
       // The controlled person's money moves only by their own choice (owner,
       // Oct 14), and a dependent one (no job) pays nothing of the household's
@@ -867,10 +1036,19 @@ function month(api: CoreAPI): void {
           pay +=
             (job.wageDailyMinor * api.parameter("jobsDaysPerYear")) / MONTHS;
       }
+      const use = useFor(rule, pay);
       const change = monthlyChange(
-        rule,
+        use.rule,
         scaleFor(api, pay, rule.good),
-        persons,
+        rule.good === "cannabis"
+          ? cannabisWeight(
+              api,
+              persons *
+                api.parameter("pricesCannabisAdultShare") *
+                api.parameter("pricesCannabisUsePrevalence"),
+            )
+          : persons,
+        use,
       );
       const total = byGroup.get(household.group) ?? {
         household: household.id,
@@ -911,7 +1089,10 @@ function month(api: CoreAPI): void {
             : "pricesBusinessFuelShare",
         );
         const change =
-          (book.annualOtherCostsMinor * share * rule.value) / MONTHS;
+          (book.annualOtherCostsMinor *
+            share *
+            webUse(api, rule, {}).rule.value) /
+          MONTHS;
         settle(
           api,
           `price:${rule.id}:${c.date}:${organizationId}`,
