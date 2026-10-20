@@ -1,7 +1,7 @@
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import { expect, it } from "vitest";
-import { benchRequest } from "../../src/bench/handler";
+import { benchRequest } from "./handler";
 
 // M7-04: no developer or proof pages in the shipped build. The client bundle
 // is built from the play page alone, the installed game's play server runs
