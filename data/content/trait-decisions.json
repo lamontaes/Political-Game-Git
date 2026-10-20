@@ -570,7 +570,7 @@
     },
     {
       "id": "conversation.believe-claim",
-      "site": "src/director/conversation.ts",
+      "site": "src/core2/heard-claims.ts",
       "owner": "OPUS-PEOPLE",
       "route": "formula",
       "traitWeightParameter": "traitWeightConversationBelieveClaim",
