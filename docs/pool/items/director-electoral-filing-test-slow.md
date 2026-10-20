@@ -20,4 +20,4 @@ source: added with npm run pool -- add
 
 **Files.** src/director/electoral-scenes.test.ts
 
-**Notes.** Found Oct 20 while testing the victory and concession scene words. Replay: GOLDEN_PATH_SEED=fs1, 1,200 seconds exceeded on both a branch and clean main (the place was not printed, since the test hung before naming it). An earlier random draw timed out at 900 seconds on a branch; a later random draw passed on main. The other test in the file, the night of the count, passes.
+**Notes.** Found Oct 20 while testing the victory and concession scene words. Cause: the test tried residents in id order, watched each one before filing (the director only sees a filing it watched from the start) and kept every watched person for the whole campaign; in a town where few residents met the filing rules (Mound, Louisiana: a board seat for one district) it watched thousands, so the run passed 1,200 seconds on clean main and on a branch. Fixed in the pull request that carries this note: it checks eligibility with checkEligibility first and watches and files only residents who pass, three at most. GOLDEN_PATH_SEED fs1 now takes 103 seconds, fs2 240 and fs3 82, all passing.

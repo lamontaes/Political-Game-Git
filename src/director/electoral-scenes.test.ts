@@ -7,6 +7,7 @@ import { gameStartDate } from "../core2/game-start";
 import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import { advanceCore } from "../core2/life";
 import {
+  checkEligibility,
   ELECTIONS_MODULE_ID,
   fileCandidacy,
   openContests,
@@ -159,9 +160,21 @@ it(`filing is a scene with the office's clerk and a campaign speech is a stop wi
   }
   const clerk = filingClerkFor(api, contest.id)!;
   const filings: FilingRow[] = [];
+  // Residents who meet every filing rule are watched and then file, until
+  // three are on the ballot. The director must watch a person before they
+  // file to see the filing, and every person watched is followed through the
+  // whole campaign, so only those who can file are watched (pool item
+  // director-electoral-filing-test-slow: watching every resident tried made
+  // the test run for most of an hour in a town where few could file).
   for (const person of town) {
     if (filings.length >= 3) break;
     if (person.id === clerk.personId) continue;
+    if (
+      !checkEligibility(api, person.id, contest.id, "party").every(
+        (row) => row.met,
+      )
+    )
+      continue;
     director.watch(core, person.id);
     const result = fileCandidacy(api, {
       personId: person.id,
