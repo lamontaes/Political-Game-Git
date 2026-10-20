@@ -566,19 +566,29 @@ export function keepForCountedKin(
   dead: Readonly<PersonState>,
   event: CoreEventInput,
 ): void {
-  const row = runtime(api.state);
-  const counted = residentsRuntime(api.state)?.store;
-  if (!counted || (!event.moodImpulse && !event.stressImpulse)) return;
   const kin = new Set<PersonId>(dead.familyIds);
   for (const id of api.state.households.get(dead.householdId)?.memberIds ?? [])
     kin.add(id);
-  for (const id of [...kin].sort()) {
-    if (id === dead.id || api.state.people.has(id)) continue;
+  keepBereavement(api, dead.id, kin, event);
+}
+
+/** The same for a death in the counts: its counted kin, named by id, keep what it moved. */
+export function keepBereavement(
+  api: CoreAPI,
+  deadId: PersonId,
+  kinIds: Iterable<PersonId>,
+  event: Pick<CoreEventInput, "id" | "date" | "moodImpulse" | "stressImpulse">,
+): void {
+  const row = runtime(api.state);
+  const counted = residentsRuntime(api.state)?.store;
+  if (!counted || (!event.moodImpulse && !event.stressImpulse)) return;
+  for (const id of [...new Set(kinIds)].sort()) {
+    if (id === deadId || api.state.people.has(id)) continue;
     if (counted.countedMember(id) === undefined) continue;
     const list = row.bereaved.get(id) ?? [];
     list.push({
       eventId: event.id,
-      deadId: dead.id,
+      deadId,
       date: makeIsoDate(event.date),
       moodImpulse: event.moodImpulse ?? api.parameter("zero"),
       stressImpulse: event.stressImpulse ?? api.parameter("zero"),
@@ -728,5 +738,9 @@ export function healthReport(core: Readonly<CoreState>) {
     cases: row ? [...row.cases.values()] : [],
     conditionsByPerson: row?.conditionsByPerson ?? new Map(),
     resilienceLines: row?.resilienceLines ?? new Map(),
+    /** Counted kin a death moved who are not yet filled in, by id. */
+    bereaved: new Map(
+      [...(row?.bereaved ?? new Map())].map(([id, list]) => [id, [...list]]),
+    ),
   };
 }

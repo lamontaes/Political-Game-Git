@@ -5,7 +5,11 @@ import { drawPlace } from "../../scripts/core2-year/place";
 import { createRenewalCore } from "./births-setup";
 import { addDays, makeIsoDate } from "./kernel/dates";
 import { advanceCore } from "./life";
-import { createHealthModule, keepForCountedKin } from "./modules/health";
+import {
+  createHealthModule,
+  healthReport,
+  keepForCountedKin,
+} from "./modules/health";
 import { residentsRuntime } from "./modules/residents";
 import { coreAPI, fillInPerson } from "./state";
 import { generatedOpening } from "./tooling/generated-world";
@@ -81,3 +85,41 @@ it(`a counted kin filled in after a death carries what is left of its mood impul
     `No drawn place had a full person with counted kin (seed ${seed})`,
   );
 }, 600_000);
+
+it(`a death in the counts is kept for its counted kin and lands when they are filled in (seed ${seed})`, () => {
+  for (let attempt = 0; attempt < 6; attempt += 1) {
+    const place = drawPlace(`${seed}:counted:${attempt}`, "health-bereaved");
+    const core = createRenewalCore(
+      generatedOpening(place, { twoLevel: true }),
+      { modules: [createHealthModule()] },
+    );
+    const api = coreAPI(core);
+    const where = `${place.name} (draw ${attempt})`;
+    // A year of months: counted deaths happen from illnesses under way.
+    for (let m = 0; m < 12; m += 1) {
+      advanceCore(core, addDays(makeIsoDate(core.date), 31));
+      const kept = healthReport(core).bereaved;
+      if (!kept.size) continue;
+      const [kinId, [first]] = [...kept].sort(([a], [b]) =>
+        a.localeCompare(b),
+      )[0]!;
+      const filled = fillInPerson(core, kinId);
+      // The late event was admitted (events keep their ids), and the kin's
+      // own mood now sits below their baseline.
+      expect(
+        core.eventIds.has(`${first!.eventId}:late:${kinId}`),
+        `${where}: late event for ${kinId}`,
+      ).toBe(true);
+      const after = core.people.get(filled.id)!;
+      expect(after.affect.mood, `${where}: mood`).toBeLessThan(
+        after.affect.moodBaseline,
+      );
+      expect(healthReport(core).bereaved.has(kinId), where).toBe(false);
+      void api;
+      return;
+    }
+  }
+  throw new Error(
+    `No counted death with counted kin in 6 places (seed ${seed})`,
+  );
+}, 900_000);

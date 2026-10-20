@@ -36,7 +36,11 @@ import areaNames from "../../data/research/renewal/area-names.json" with { type:
 import lifeTables from "./data/ssa-cohort-life-tables.json" with { type: "json" };
 import stateMortality from "./data/state-mortality.json" with { type: "json" };
 import { renewalParameter } from "./births-parameters";
-import { DEFAULT_HEALTH_DATA, severityImpulse } from "./modules/health";
+import {
+  DEFAULT_HEALTH_DATA,
+  keepBereavement,
+  severityImpulse,
+} from "./modules/health";
 import { openingTemperaments } from "./opening-personality";
 import {
   addCountedPerson,
@@ -96,9 +100,16 @@ export function notifyCountedDeaths(
     const witnessIds = [...witnesses]
       .filter((id) => id !== deceasedId && api.state.people.get(id)?.alive)
       .sort();
-    if (!witnessIds.length) continue;
     const kind = DEFAULT_HEALTH_DATA.deathEventKind;
     const id = `${kind}:${deceasedId}:${api.state.date}`;
+    // Kin who are still counted keep what the death moved, for the day they
+    // are filled in (the health module lands it then).
+    keepBereavement(api, deceasedId, deceased.familyIds ?? [], {
+      id,
+      date: api.state.date,
+      ...severityImpulse(api, DEFAULT_HEALTH_DATA.deathSeverity),
+    });
+    if (!witnessIds.length) continue;
     api.emit({
       id,
       kind,
