@@ -5,11 +5,12 @@ area: director
 kind: bug
 priority: 3
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/political-game-pool-7xkkii
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-20T07:01:17.938Z
 ---
 
 **What.** The second test in src/director/electoral-scenes.test.ts (a filing is a scene with the office's clerk, and a campaign speech is a stop with its listeners) runs past 20 minutes in some drawn places, so it times out at its own 900-second limit or hangs far past it. With GOLDEN_PATH_SEED fs1 it ran over 1,200 seconds on clean main and on a branch alike, while another random draw on main finished within the limit. Find what the test does in the slow places (a long advance, a search that never finds its contest, or a year of play) and bound it, so the test finishes in every drawn place.
