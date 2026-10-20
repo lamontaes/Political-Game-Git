@@ -98,6 +98,13 @@ describe("M2-10 state and federal races in the world", () => {
       // Counted in its places: the share is the places' votes, and every
       // race keeps each party's reasons.
       expect(r.reasons?.length).toBe(2);
+      // Each side has a named candidate, the incumbent being the seat's holder.
+      expect(r.candidates?.length, r.seatId).toBe(2);
+      for (const c of r.candidates!)
+        expect(
+          `${c.identity.givenName} ${c.identity.familyName}`.trim().length,
+          r.seatId,
+        ).toBeGreaterThan(1);
       // A territory's delegate seat is decided at its 2024 delegate lean,
       // its size not yet read (SG-GOV-delegate-race-size).
       if (!r.votes!.republican && !r.votes!.democratic) {
@@ -129,8 +136,17 @@ describe("M2-10 state and federal races in the world", () => {
       const serving = terms.query("bySeatStatus", [
         r.seatId,
         "serving",
-      ]) as unknown as { party: string; startDate: string }[];
+      ]) as unknown as {
+        party: string;
+        startDate: string;
+        identity: { givenName: string; familyName: string };
+      }[];
       expect(serving[0]?.party, r.seatId).toBe(r.winnerParty);
+      // The person seated is the candidate the race named.
+      const winner = r.candidates!.find((c) => c.party === r.winnerParty)!;
+      expect(serving[0]?.identity.familyName, r.seatId).toBe(
+        winner.identity.familyName,
+      );
     }
     const flips = races.filter(
       (r) => sideOf(r.winnerParty) !== sideOf(r.incumbentParty),

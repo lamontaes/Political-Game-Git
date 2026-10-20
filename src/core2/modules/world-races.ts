@@ -88,6 +88,16 @@ export interface RaceRow {
   readonly reasons?: readonly CandidateReasons[];
   /** How many places counted it. */
   readonly places?: number;
+  /** The two candidates, named: the seat's holder for the incumbent, a seeded person otherwise. */
+  readonly candidates?: readonly RaceCandidate[];
+}
+
+/** A candidate in a race the town does not vote in. */
+export interface RaceCandidate {
+  readonly side: number;
+  readonly party: string;
+  readonly incumbent: boolean;
+  readonly identity: TermRow["identity"];
 }
 
 export const WORLD_RACES_MODULE: CoreModule = {
@@ -817,6 +827,45 @@ function partyOnSideIn(stateKey: string, side: number): string {
 const sideOf = caucusSide;
 
 /**
+ * Who a party's candidate is: the seat's holder for the incumbent; for anyone
+ * else a person drawn from the world's seed and the seat, the same one every
+ * time the race is read.
+ */
+function candidateIdentity(
+  api: CoreAPI,
+  race: Race,
+  year: number,
+  candidate: { readonly side: number; readonly incumbent: boolean },
+): TermRow["identity"] {
+  if (candidate.incumbent) {
+    const holder = api
+      .moduleState(OFFICES_MODULE_ID)
+      .table("terms")
+      .query("bySeatStatus", [race.seatId, "serving"])[0] as unknown as
+      TermRow | undefined;
+    if (holder) return holder.identity;
+  }
+  const loaded = api
+    .moduleState(OFFICES_MODULE_ID)
+    .table("loaded")
+    .get("town") as unknown as { worldSeed: string };
+  const drawn = drawOfficialIdentity({
+    worldSeed: loaded.worldSeed,
+    seatKey: `race:${race.seatId}:${year}:${candidate.side}`,
+    stateUsps: race.usps,
+    role: "state-executive-challenger",
+    referenceDate: api.state.date,
+  });
+  return {
+    givenName: drawn.givenName,
+    familyName: drawn.familyName,
+    gender: drawn.gender,
+    birthDate: drawn.birthDate,
+    homeState: `US-${race.usps}`,
+  };
+}
+
+/**
  * Decide a race the town doesn't vote in: its blocks count it on the same
  * engine as the town's own races. The seat's holder stands for their party
  * (an incumbent official the world doesn't name, with the typical
@@ -876,6 +925,12 @@ function decide(api: CoreAPI, race: Race, year: number): void {
     }),
   );
   const reasons = candidates.map((c) => candidateReasons(c, conditions));
+  const named = parties.map((c) => ({
+    side: c.side,
+    party: c.party,
+    incumbent: c.incumbent,
+    identity: candidateIdentity(api, race, year, c),
+  }));
   const counted = countPlaces(
     sampleFor(api, date),
     coarse(places, townsState, electorateChange(api)),
@@ -913,6 +968,7 @@ function decide(api: CoreAPI, race: Race, year: number): void {
     votes: { republican: rep, democratic: dem },
     reasons,
     places: counted.places.length,
+    candidates: named,
   };
   table(api, "races").put({
     ...row,
@@ -990,27 +1046,12 @@ function seat(api: CoreAPI, raceId: string): void {
       endEstimated: false,
       endedBy: "term ended",
     } as unknown as ModuleRow);
-  const loaded = offices.table("loaded").get("town") as unknown as {
-    worldSeed: string;
-  };
-  const identity = reelected
-    ? serving[0]!.identity
-    : (() => {
-        const drawn = drawOfficialIdentity({
-          worldSeed: loaded.worldSeed,
-          seatKey: raceId,
-          stateUsps: lawChain(api).stateKey.slice(3),
-          role: "state-executive-challenger",
-          referenceDate: api.state.date,
-        });
-        return {
-          givenName: drawn.givenName,
-          familyName: drawn.familyName,
-          gender: drawn.gender,
-          birthDate: drawn.birthDate,
-          homeState: lawChain(api).stateKey,
-        };
-      })();
+  // The winner takes the seat as the person the race named.
+  const named = race.candidates?.find(
+    (c) => c.party === race.winnerParty,
+  )?.identity;
+  const identity = reelected ? serving[0]!.identity : named;
+  if (!identity) throw new Error(`Race ${raceId} named no winner to seat.`);
   const years = race.offices.termYears;
   terms.put({
     id: `term:${race.seatId}:${api.state.date}:elected`,

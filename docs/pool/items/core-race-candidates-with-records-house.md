@@ -21,3 +21,5 @@ source: added with npm run pool -- add
 **Files.** src/core2/modules/world-races.ts, src/core2/modules/candidacy.ts, src/core2/data/stopgaps.json
 
 **Notes.** Split out of core-world-race-lean-candidates (L). The legislative-district results half is gov-legislative-district-results-2024. Claude, Oct 20.
+
+Partly built Oct 20 (claude/political-game-pool-yucp92-l): each out-of-town race now names its two candidates (the seat's holder, and a challenger drawn from the world's seed and the seat) and seats the winner as the person named; the typical-candidate draw at seating is deleted. Still open: the who-runs decision from the people engines, and a record and campaign for each candidate.
