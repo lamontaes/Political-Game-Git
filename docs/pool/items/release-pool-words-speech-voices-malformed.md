@@ -5,12 +5,12 @@ area: release
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
-pr: #5196
+status: in-pr
+claimed-by: claude/pool-speech-voices
+pr: #5763
 blocked-on:
 source: added with npm run pool -- add
-claimed-at:
+claimed-at: 2026-10-20T23:20:13.516Z
 ---
 
 **What.** The pool check (`npm run pool -- --check`) rejects priority-1 and priority-2 items whose text is too thin, and the item words-speech-voices was among them: its Done when and Files did not meet the rules. On main today words-speech-voices passes the check; the only line that names it is this item's own, which was filed as an empty shell (every section TODO) and so fails the same check. This item is closed by giving the shell a real body, and by keeping the check clean for words-speech-voices.
