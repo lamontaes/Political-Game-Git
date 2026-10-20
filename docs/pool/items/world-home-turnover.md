@@ -5,10 +5,10 @@ area: world
 kind: feature
 priority: 2
 size: L
-status: claimed
+status: blocked
 claimed-by: claude/home-turnover-split
-pr:
-blocked-on:
+pr: #5034
+blocked-on: world-home-turnover-year-check
 source: added with npm run pool -- add
 claimed-at: 2026-10-18T02:28:04.005Z
 ---

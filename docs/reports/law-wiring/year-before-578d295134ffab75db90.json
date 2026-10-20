@@ -1,0 +1,577 @@
+{
+  "summary": {
+    "seed": "578d295134ffab75db90",
+    "place": {
+      "seed": "50d5fc4e07d8692b019d24337534a96b39732d434350cf9ae3aa1a054f68011e",
+      "key": "3985288",
+      "name": "Williamsburg, Ohio",
+      "state": "US-OH"
+    },
+    "days": 365,
+    "lawsTookEffect": 26,
+    "reachedSomeone": 5,
+    "movedMoney": 0,
+    "withOutcomeLinks": 25,
+    "movedOutcome": 8
+  },
+  "laws": [
+    {
+      "lawId": "law:county:39025:county:us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones:general:2025-02-20:2025-1",
+      "series": "us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones",
+      "level": "county",
+      "value": 1,
+      "effectiveDate": "2025-02-20",
+      "reached": 0,
+      "reach": {
+        "full": 0,
+        "groups": 0,
+        "groupPeople": 0,
+        "organizations": 0,
+        "other": 0,
+        "moneyMinor": 0,
+        "sample": []
+      },
+      "outcomeLinks": 1,
+      "outcomeMoved": 0,
+      "outcomeSample": []
+    },
+    {
+      "lawId": "law:county:39025:county:us-policy-positions:transportation-infrastructure.shift-highway-funds-to-transit:general:2025-02-20:2025-1",
+      "series": "us-policy-positions:transportation-infrastructure.shift-highway-funds-to-transit",
+      "level": "county",
+      "value": 0,
+      "effectiveDate": "2025-02-20",
+      "reached": 0,
+      "reach": {
+        "full": 0,
+        "groups": 0,
+        "groupPeople": 0,
+        "organizations": 0,
+        "other": 0,
+        "moneyMinor": 0,
+        "sample": []
+      },
+      "outcomeLinks": 1,
+      "outcomeMoved": 0,
+      "outcomeSample": []
+    },
+    {
+      "lawId": "law:county:39025:county:us-policy-positions:justice-public-safety.partner-with-federal-immigration-enforcement:general:2025-02-20:2025-2",
+      "series": "us-policy-positions:justice-public-safety.partner-with-federal-immigration-enforcement",
+      "level": "county",
+      "value": 1,
+      "effectiveDate": "2025-02-20",
+      "reached": 2,
+      "reach": {
+        "full": 0,
+        "groups": 1,
+        "groupPeople": 8,
+        "organizations": 1,
+        "other": 0,
+        "moneyMinor": 0,
+        "sample": [
+          "reach:law:county:39025:county:us-policy-positions:justice-public-safety.partner-with-federal-immigration-enforcement:general:2025-02-20:2025-2:department:organization_d439523c86106882:2025-02-20",
+          "reach:law:county:39025:county:us-policy-positions:justice-public-safety.partner-with-federal-immigration-enforcement:general:2025-02-20:2025-2:noncitizens:counted:noncitizens:2025-02-20"
+        ]
+      },
+      "outcomeLinks": 3,
+      "outcomeMoved": 24,
+      "outcomeSample": [
+        "web:jurisdiction_85404d37e34c70d6:2025-02:enforcement-to-undocumented-employment",
+        "web:jurisdiction_85404d37e34c70d6:2025-02:enforcement-to-us-born-employment"
+      ]
+    },
+    {
+      "lawId": "law:county:39025:county:us-policy-positions:justice-public-safety.civilian-oversight-of-police:general:2025-02-20:2025-3",
+      "series": "us-policy-positions:justice-public-safety.civilian-oversight-of-police",
+      "level": "county",
+      "value": 1,
+      "effectiveDate": "2025-02-20",
+      "reached": 2,
+      "reach": {
+        "full": 1,
+        "groups": 0,
+        "groupPeople": 0,
+        "organizations": 1,
+        "other": 0,
+        "moneyMinor": 0,
+        "sample": [
+          "reach:law:county:39025:county:us-policy-positions:justice-public-safety.civilian-oversight-of-police:general:2025-02-20:2025-3:officers:person_1824e2925758220d:2025-02-20",
+          "reach:law:county:39025:county:us-policy-positions:justice-public-safety.civilian-oversight-of-police:general:2025-02-20:2025-3:department:organization_d439523c86106882:2025-02-20"
+        ]
+      },
+      "outcomeLinks": 1,
+      "outcomeMoved": 0,
+      "outcomeSample": []
+    },
+    {
+      "lawId": "law:county:39025:county:us-policy-positions:transportation-infrastructure.shift-highway-funds-to-transit:general:2025-02-20:2025-3",
+      "series": "us-policy-positions:transportation-infrastructure.shift-highway-funds-to-transit",
+      "level": "county",
+      "value": 0,
+      "effectiveDate": "2025-02-20",
+      "reached": 0,
+      "reach": {
+        "full": 0,
+        "groups": 0,
+        "groupPeople": 0,
+        "organizations": 0,
+        "other": 0,
+        "moneyMinor": 0,
+        "sample": []
+      },
+      "outcomeLinks": 1,
+      "outcomeMoved": 0,
+      "outcomeSample": []
+    },
+    {
+      "lawId": "law:place:3985288:city:us-policy-positions:housing-land-use.right-to-counsel-in-eviction:general:2025-02-20:2025-1",
+      "series": "us-policy-positions:housing-land-use.right-to-counsel-in-eviction",
+      "level": "city",
+      "value": 1,
+      "effectiveDate": "2025-02-20",
+      "reached": 0,
+      "reach": {
+        "full": 0,
+        "groups": 0,
+        "groupPeople": 0,
+        "organizations": 0,
+        "other": 0,
+        "moneyMinor": 0,
+        "sample": []
+      },
+      "outcomeLinks": 1,
+      "outcomeMoved": 0,
+      "outcomeSample": []
+    },
+    {
+      "lawId": "law:place:3985288:city:us-policy-positions:transportation-infrastructure.shift-highway-funds-to-transit:general:2025-02-20:2025-1",
+      "series": "us-policy-positions:transportation-infrastructure.shift-highway-funds-to-transit",
+      "level": "city",
+      "value": 0,
+      "effectiveDate": "2025-02-20",
+      "reached": 0,
+      "reach": {
+        "full": 0,
+        "groups": 0,
+        "groupPeople": 0,
+        "organizations": 0,
+        "other": 0,
+        "moneyMinor": 0,
+        "sample": []
+      },
+      "outcomeLinks": 1,
+      "outcomeMoved": 0,
+      "outcomeSample": []
+    },
+    {
+      "lawId": "law:county:39025:county:us-policy-positions:justice-public-safety.civilian-oversight-of-police:general:2025-02-27:2025-4",
+      "series": "us-policy-positions:justice-public-safety.civilian-oversight-of-police",
+      "level": "county",
+      "value": 0,
+      "effectiveDate": "2025-02-27",
+      "reached": 0,
+      "reach": {
+        "full": 0,
+        "groups": 0,
+        "groupPeople": 0,
+        "organizations": 0,
+        "other": 0,
+        "moneyMinor": 0,
+        "sample": []
+      },
+      "outcomeLinks": 1,
+      "outcomeMoved": 0,
+      "outcomeSample": []
+    },
+    {
+      "lawId": "law:US-OH:state:us-policy-positions:labor-workforce.right-to-work:general:2025-05-19:HB 2",
+      "series": "us-policy-positions:labor-workforce.right-to-work",
+      "level": "state",
+      "value": 1,
+      "effectiveDate": "2025-05-19",
+      "reached": 160,
+      "reach": {
+        "full": 158,
+        "groups": 1,
+        "groupPeople": 1049,
+        "organizations": 1,
+        "other": 0,
+        "moneyMinor": 0,
+        "sample": [
+          "reach:law:US-OH:state:us-policy-positions:labor-workforce.right-to-work:general:2025-05-19:HB 2:workers:person_71bf99d41991f32d:2025-05-19",
+          "reach:law:US-OH:state:us-policy-positions:labor-workforce.right-to-work:general:2025-05-19:HB 2:workers:person_71bf98d41991f17a:2025-05-19",
+          "reach:law:US-OH:state:us-policy-positions:labor-workforce.right-to-work:general:2025-05-19:HB 2:workers:person_3739ac86387a4cbc:2025-05-19"
+        ]
+      },
+      "outcomeLinks": 1,
+      "outcomeMoved": 0,
+      "outcomeSample": []
+    },
+    {
+      "lawId": "law:US-OH:state:us-policy-positions:labor-workforce.raise-minimum-wage:general:2025-05-19:HB 3",
+      "series": "us-policy-positions:labor-workforce.raise-minimum-wage",
+      "level": "state",
+      "value": 0,
+      "effectiveDate": "2025-05-19",
+      "reached": 0,
+      "reach": {
+        "full": 0,
+        "groups": 0,
+        "groupPeople": 0,
+        "organizations": 0,
+        "other": 0,
+        "moneyMinor": 0,
+        "sample": []
+      },
+      "outcomeLinks": 0,
+      "outcomeMoved": 0,
+      "outcomeSample": []
+    },
+    {
+      "lawId": "law:US-OH:state:us-policy-positions:labor-workforce.public-sector-collective-bargaining:general:2025-05-19:HB 4",
+      "series": "us-policy-positions:labor-workforce.public-sector-collective-bargaining",
+      "level": "state",
+      "value": 0,
+      "effectiveDate": "2025-05-19",
+      "reached": 0,
+      "reach": {
+        "full": 0,
+        "groups": 0,
+        "groupPeople": 0,
+        "organizations": 0,
+        "other": 0,
+        "moneyMinor": 0,
+        "sample": []
+      },
+      "outcomeLinks": 2,
+      "outcomeMoved": 9,
+      "outcomeSample": [
+        "web:jurisdiction_85404d37e34c70d6:2025-05:public-bargaining-to-earnings",
+        "web:jurisdiction_85404d37e34c70d6:2025-06:public-bargaining-to-earnings"
+      ]
+    },
+    {
+      "lawId": "law:US-OH:state:us-policy-positions:justice-public-safety.raise-handgun-purchase-age:general:2025-05-26:HB 5",
+      "series": "us-policy-positions:justice-public-safety.raise-handgun-purchase-age",
+      "level": "state",
+      "value": 0,
+      "effectiveDate": "2025-05-26",
+      "reached": 0,
+      "reach": {
+        "full": 0,
+        "groups": 0,
+        "groupPeople": 0,
+        "organizations": 0,
+        "other": 0,
+        "moneyMinor": 0,
+        "sample": []
+      },
+      "outcomeLinks": 1,
+      "outcomeMoved": 9,
+      "outcomeSample": [
+        "web:jurisdiction_85404d37e34c70d6:2025-05:min-age-to-youth-gun-suicide",
+        "web:jurisdiction_85404d37e34c70d6:2025-06:min-age-to-youth-gun-suicide"
+      ]
+    },
+    {
+      "lawId": "law:US-OH:state:us-policy-positions:fiscal.exempt-groceries-from-sales-tax:general:2025-05-26:HB 6",
+      "series": "us-policy-positions:fiscal.exempt-groceries-from-sales-tax",
+      "level": "state",
+      "value": 0,
+      "effectiveDate": "2025-05-26",
+      "reached": 1,
+      "reach": {
+        "full": 0,
+        "groups": 1,
+        "groupPeople": 0,
+        "organizations": 0,
+        "other": 0,
+        "moneyMinor": 0,
+        "sample": [
+          "us-policy-positions:fiscal.exempt-groceries-from-sales-tax|jurisdiction_85404d37e34c70d6"
+        ]
+      },
+      "outcomeLinks": 2,
+      "outcomeMoved": 2,
+      "outcomeSample": [
+        "web:jurisdiction_85404d37e34c70d6:2025-12:grocery-exemption-to-food-insecurity",
+        "web:jurisdiction_85404d37e34c70d6:2026-01:grocery-exemption-to-food-insecurity"
+      ]
+    },
+    {
+      "lawId": "law:US-OH:state:us-policy-positions:housing-land-use.rent-stabilization:general:2025-05-26:HB 6",
+      "series": "us-policy-positions:housing-land-use.rent-stabilization",
+      "level": "state",
+      "value": 0,
+      "effectiveDate": "2025-05-26",
+      "reached": 0,
+      "reach": {
+        "full": 0,
+        "groups": 0,
+        "groupPeople": 0,
+        "organizations": 0,
+        "other": 0,
+        "moneyMinor": 0,
+        "sample": []
+      },
+      "outcomeLinks": 2,
+      "outcomeMoved": 0,
+      "outcomeSample": []
+    },
+    {
+      "lawId": "law:US-OH:state:us-policy-positions:business-commerce.legalize-cannabis-sales:general:2025-06-02:HB 8",
+      "series": "us-policy-positions:business-commerce.legalize-cannabis-sales",
+      "level": "state",
+      "value": 0,
+      "effectiveDate": "2025-06-02",
+      "reached": 0,
+      "reach": {
+        "full": 0,
+        "groups": 0,
+        "groupPeople": 0,
+        "organizations": 0,
+        "other": 0,
+        "moneyMinor": 0,
+        "sample": []
+      },
+      "outcomeLinks": 3,
+      "outcomeMoved": 8,
+      "outcomeSample": [
+        "web:jurisdiction_85404d37e34c70d6:2025-06:cannabis-sales-to-youth-use",
+        "web:jurisdiction_85404d37e34c70d6:2025-07:cannabis-sales-to-youth-use"
+      ]
+    },
+    {
+      "lawId": "law:US-OH:state:us-policy-positions:health-human-services.expand-medicaid-eligibility:general:2025-06-09:HB 11",
+      "series": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+      "level": "state",
+      "value": 0,
+      "effectiveDate": "2025-06-09",
+      "reached": 1,
+      "reach": {
+        "full": 0,
+        "groups": 1,
+        "groupPeople": 0,
+        "organizations": 0,
+        "other": 0,
+        "moneyMinor": 0,
+        "sample": [
+          "us-policy-positions:health-human-services.expand-medicaid-eligibility|jurisdiction_85404d37e34c70d6"
+        ]
+      },
+      "outcomeLinks": 3,
+      "outcomeMoved": 11,
+      "outcomeSample": [
+        "web:jurisdiction_85404d37e34c70d6:2025-06:medicaid-expansion-to-coverage",
+        "web:jurisdiction_85404d37e34c70d6:2025-06:medicaid-expansion-to-mortality"
+      ]
+    },
+    {
+      "lawId": "law:US-OH:state:us-policy-positions:housing-land-use.rent-stabilization:general:2025-06-09:HB 11",
+      "series": "us-policy-positions:housing-land-use.rent-stabilization",
+      "level": "state",
+      "value": 0,
+      "effectiveDate": "2025-06-09",
+      "reached": 0,
+      "reach": {
+        "full": 0,
+        "groups": 0,
+        "groupPeople": 0,
+        "organizations": 0,
+        "other": 0,
+        "moneyMinor": 0,
+        "sample": []
+      },
+      "outcomeLinks": 2,
+      "outcomeMoved": 0,
+      "outcomeSample": []
+    },
+    {
+      "lawId": "law:US-OH:state:us-policy-positions:environment-energy.clean-electricity-standard:general:2025-06-16:HB 14",
+      "series": "us-policy-positions:environment-energy.clean-electricity-standard",
+      "level": "state",
+      "value": 0,
+      "effectiveDate": "2025-06-16",
+      "reached": 0,
+      "reach": {
+        "full": 0,
+        "groups": 0,
+        "groupPeople": 0,
+        "organizations": 0,
+        "other": 0,
+        "moneyMinor": 0,
+        "sample": []
+      },
+      "outcomeLinks": 2,
+      "outcomeMoved": 16,
+      "outcomeSample": [
+        "web:jurisdiction_85404d37e34c70d6:2025-06:clean-electricity-to-price",
+        "web:jurisdiction_85404d37e34c70d6:2025-06:clean-electricity-to-particulates"
+      ]
+    },
+    {
+      "lawId": "law:US-OH:state:us-policy-positions:justice-public-safety.restore-voting-after-sentence:general:2025-06-16:HB 16",
+      "series": "us-policy-positions:justice-public-safety.restore-voting-after-sentence",
+      "level": "state",
+      "value": 0,
+      "effectiveDate": "2025-06-16",
+      "reached": 0,
+      "reach": {
+        "full": 0,
+        "groups": 0,
+        "groupPeople": 0,
+        "organizations": 0,
+        "other": 0,
+        "moneyMinor": 0,
+        "sample": []
+      },
+      "outcomeLinks": 1,
+      "outcomeMoved": 0,
+      "outcomeSample": []
+    },
+    {
+      "lawId": "law:US-OH:state:us-policy-positions:housing-land-use.rent-stabilization:general:2025-06-16:HB 16",
+      "series": "us-policy-positions:housing-land-use.rent-stabilization",
+      "level": "state",
+      "value": 0,
+      "effectiveDate": "2025-06-16",
+      "reached": 0,
+      "reach": {
+        "full": 0,
+        "groups": 0,
+        "groupPeople": 0,
+        "organizations": 0,
+        "other": 0,
+        "moneyMinor": 0,
+        "sample": []
+      },
+      "outcomeLinks": 2,
+      "outcomeMoved": 0,
+      "outcomeSample": []
+    },
+    {
+      "lawId": "law:US-OH:state:us-policy-positions:justice-public-safety.raise-juvenile-court-age:general:2025-08-11:HB 37",
+      "series": "us-policy-positions:justice-public-safety.raise-juvenile-court-age",
+      "level": "state",
+      "value": 0,
+      "effectiveDate": "2025-08-11",
+      "reached": 0,
+      "reach": {
+        "full": 0,
+        "groups": 0,
+        "groupPeople": 0,
+        "organizations": 0,
+        "other": 0,
+        "moneyMinor": 0,
+        "sample": []
+      },
+      "outcomeLinks": 1,
+      "outcomeMoved": 0,
+      "outcomeSample": []
+    },
+    {
+      "lawId": "law:US-OH:state:us-policy-positions:housing-land-use.rent-stabilization:general:2025-08-11:HB 37",
+      "series": "us-policy-positions:housing-land-use.rent-stabilization",
+      "level": "state",
+      "value": 0,
+      "effectiveDate": "2025-08-11",
+      "reached": 0,
+      "reach": {
+        "full": 0,
+        "groups": 0,
+        "groupPeople": 0,
+        "organizations": 0,
+        "other": 0,
+        "moneyMinor": 0,
+        "sample": []
+      },
+      "outcomeLinks": 2,
+      "outcomeMoved": 0,
+      "outcomeSample": []
+    },
+    {
+      "lawId": "law:US-OH:state:us-policy-positions:justice-public-safety.partner-with-federal-immigration-enforcement:general:2025-08-25:SB 1",
+      "series": "us-policy-positions:justice-public-safety.partner-with-federal-immigration-enforcement",
+      "level": "state",
+      "value": 1,
+      "effectiveDate": "2025-08-25",
+      "reached": 0,
+      "reach": {
+        "full": 0,
+        "groups": 0,
+        "groupPeople": 0,
+        "organizations": 0,
+        "other": 0,
+        "moneyMinor": 0,
+        "sample": []
+      },
+      "outcomeLinks": 3,
+      "outcomeMoved": 12,
+      "outcomeSample": [
+        "web:jurisdiction_85404d37e34c70d6:2025-08:enforcement-to-undocumented-employment",
+        "web:jurisdiction_85404d37e34c70d6:2025-08:enforcement-to-us-born-employment"
+      ]
+    },
+    {
+      "lawId": "law:US-OH:state:us-policy-positions:housing-land-use.rent-stabilization:general:2025-08-25:SB 1",
+      "series": "us-policy-positions:housing-land-use.rent-stabilization",
+      "level": "state",
+      "value": 0,
+      "effectiveDate": "2025-08-25",
+      "reached": 0,
+      "reach": {
+        "full": 0,
+        "groups": 0,
+        "groupPeople": 0,
+        "organizations": 0,
+        "other": 0,
+        "moneyMinor": 0,
+        "sample": []
+      },
+      "outcomeLinks": 2,
+      "outcomeMoved": 0,
+      "outcomeSample": []
+    },
+    {
+      "lawId": "law:place:3985288:city:us-policy-positions:housing-land-use.right-to-counsel-in-eviction:general:2025-08-14:2025-2",
+      "series": "us-policy-positions:housing-land-use.right-to-counsel-in-eviction",
+      "level": "city",
+      "value": 0,
+      "effectiveDate": "2025-08-14",
+      "reached": 0,
+      "reach": {
+        "full": 0,
+        "groups": 0,
+        "groupPeople": 0,
+        "organizations": 0,
+        "other": 0,
+        "moneyMinor": 0,
+        "sample": []
+      },
+      "outcomeLinks": 1,
+      "outcomeMoved": 0,
+      "outcomeSample": []
+    },
+    {
+      "lawId": "law:county:39025:county:us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones:general:2025-12-11:2025-5",
+      "series": "us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones",
+      "level": "county",
+      "value": 0,
+      "effectiveDate": "2025-12-11",
+      "reached": 0,
+      "reach": {
+        "full": 0,
+        "groups": 0,
+        "groupPeople": 0,
+        "organizations": 0,
+        "other": 0,
+        "moneyMinor": 0,
+        "sample": []
+      },
+      "outcomeLinks": 1,
+      "outcomeMoved": 0,
+      "outcomeSample": []
+    }
+  ]
+}

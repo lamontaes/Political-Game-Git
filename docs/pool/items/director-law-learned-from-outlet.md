@@ -5,9 +5,9 @@ area: director
 kind: wiring
 priority: 2
 size: M
-status: claimed
+status: done
 claimed-by: claude/law-learned-outlet
-pr:
+pr: #5152
 after:
 blocked-on:
 source: "owner ruling Oct 16 (who tells a person a law changed their money); audit Oct 19, Part A on #4747"
@@ -23,3 +23,5 @@ claimed-at: 2026-10-19T20:31:58.600Z
 **Files.** src/director/civic-roles.ts, src/director/law-reached-scenes.test.ts, src/director/data/situation-types.json, src/director/data/stopgaps.json
 
 **Notes.** #4747 is sent back with this note (audit Oct 19, merger order). Rebuild on its branch after merging main.
+
+Oct 20: PR #5152 merged to main: the law-takes-effect scene belongs to the reached person alone and no teller is invented.

@@ -4,10 +4,10 @@ title: "Stopgaps in parameters (uncalibrated-tunable): 1 open"
 area: gov
 kind: stopgap
 priority: 3
-status: open
+status: dropped
 claimed-by:
 pr:
-blocked-on:
+blocked-on: research-gov-sourced-parameters
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/data/news/parameters.json, kind uncalibrated-tunable"
 ---
@@ -21,3 +21,5 @@ source: "src/core2/data/stopgaps.json, src/core2/data/news/parameters.json, kind
 **Files.** src/core2/data/news/parameters.json
 
 **Notes.** First row: How fast outlets reach people by how closely they follow politics, how long a story stays news, and how many stories pass at a contact; one generic local outlet stands for all.
+
+Folded into research-gov-sourced-parameters (CTO, Oct 19, 2026).
