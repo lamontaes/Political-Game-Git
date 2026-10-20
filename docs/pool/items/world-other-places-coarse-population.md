@@ -22,3 +22,5 @@ claimed-at:
 **Files.** src/core2/modules/residents.ts, src/core2/modules/regional.ts, src/core2/office-day-federal-president.ts, src/core2/data/stopgaps.json
 
 **Notes.** Found Oct 20 (claude/political-game-pool-yucp92-uu) while claiming office-stopgap-office-day-federal-president-missing-record: the regional module holds economy factors per region but no people, so there is nothing to fill a met person in from. Check docs/design/core2-porting-plan.md and DECISION-REGISTER.md first.
+
+Sent back 2026-10-20 from PR #5555 (branch claude/other-places-coarse): new Core coarse-place.ts imports old simulation population and town-employment runtime modules; read or port these inputs through Core-owned modules and data; finish on that branch, merge main into it first.
