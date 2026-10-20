@@ -5,9 +5,9 @@ area: people
 kind: research
 priority: 2
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/residents-county-employment
-pr:
+pr: #5690
 blocked-on: researcher: per-place or calibration sourcing, each row cited; first row's replacement: Valid county B23001 civilian employed/resident-age observations, suppression/MOE handling and territorial equivalents. (parameter
 source: "collapsed Oct 19, 2026 from people-stopgap-resident-employment-missing-local-observation, people-stopgap-residents-aggregate-cadence, people-stopgap-residents-assumed-data"
 claimed-at: 2026-10-20T13:19:45.139Z
