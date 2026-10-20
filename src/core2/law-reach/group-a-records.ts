@@ -526,7 +526,75 @@ export function applyRecords(
   }
   for (const spec of policy.reaches)
     writeRows(api, key, lawId, spec, targetsOf(api, spec));
+  scheduleRefresh(api, key);
 }
+
+// --- rows chosen by age or a child in the home follow the records ------------
+
+const REFRESH_KIND = "reach-refresh";
+
+/** A spec whose people change with a birthday, a birth or a move. */
+function followsRecords(spec: ReachSpec): boolean {
+  const select = spec.select;
+  return (
+    spec.target === "people" &&
+    !!select &&
+    !!(
+      select.ageFrom ||
+      select.ageBelow ||
+      select.withChildBelow ||
+      select.firearmHousehold
+    )
+  );
+}
+
+/**
+ * The first of next month: the records a row was chosen from (a birthday, a
+ * birth in the household, a move) are read again, so a person who turned of
+ * age gains the row on that month's first day and a household whose last
+ * child grew up loses it. Scheduled only for a policy that has such a spec,
+ * and again only while the policy still has open rows.
+ */
+function scheduleRefresh(api: CoreAPI, key: string): void {
+  const policy = POLICIES[key];
+  if (!policy || !policy.reaches.some(followsRecords)) return;
+  const calendar = api.moduleCalendar(REACH_A_MODULE_ID);
+  const next = new Date(`${api.state.date}T00:00:00Z`);
+  next.setUTCMonth(next.getUTCMonth() + 1, 1);
+  const date = next.toISOString().slice(0, 10);
+  const slot = `${REFRESH_KIND}:${key}:${date}`;
+  if (calendar.get(slot)) return;
+  calendar.schedule({
+    key: slot,
+    date: date > tomorrow(api.state.date) ? date : tomorrow(api.state.date),
+    kind: REFRESH_KIND,
+    source: {
+      tag: "ESTIMATED",
+      asOf: api.state.date,
+      citation:
+        "The rows a law put on people chosen by age or a child at home are read again from the people and households as they are.",
+      estimatedFrom:
+        "A monthly read of the records; a birthday or a birth is reflected on the first of the following month.",
+    },
+    sourceRecordIds: [key],
+  });
+}
+
+onReachCalendar(REFRESH_KIND, (api, work) => {
+  const key = work.sourceRecordIds[0]!;
+  const policy = POLICIES[key];
+  const open = openReach(api, key);
+  // Repealed since the last read: nothing to keep up.
+  if (!policy || !open.length) return;
+  for (const spec of policy.reaches.filter(followsRecords)) {
+    const lawId =
+      open.find((row) => row.spec === spec.id)?.lawId ?? open[0]!.lawId;
+    const targets = targetsOf(api, spec);
+    writeRows(api, key, lawId, spec, targets);
+    endRows(api, key, spec.id, new Set(targets.map((target) => target.id)));
+  }
+  scheduleRefresh(api, key);
+});
 
 /** The spec a mechanic writes its own rows with. */
 export function specOf(key: string, specId: string): ReachSpec {

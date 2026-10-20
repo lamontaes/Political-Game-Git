@@ -90,4 +90,47 @@ describe(`child access prevention (${place.name}, seed ${seed})`, () => {
         4 * Math.sqrt((rate * (1 - rate)) / n) + 1 / n,
       );
   });
+
+  it("keeps the duty on the records as they change: a household whose last child grew up loses it, a new adult gains it", () => {
+    const chain = lawChain(api);
+    const stateKey = chain.stateKey;
+    const adult = reachParameter("adultAge");
+    const below = reachParameter("childAgeBelow");
+    const before = new Set(
+      openReach(api, KEY)
+        .filter((r) => core.people.has(r.targetId))
+        .map((r) => r.targetId),
+    );
+    // The first of a month more than a year on: the refresh has run on that day.
+    const later = makeIsoDate(`${Number(core.date.slice(0, 4)) + 2}-02-01`);
+    advanceCore(core, later);
+    const ageOf = (birth: string) =>
+      Number(later.slice(0, 4)) -
+      Number(birth.slice(0, 4)) -
+      (later.slice(5) < birth.slice(5) ? 1 : 0);
+    const expected = new Set(
+      townPeople(api)
+        .filter((p) => {
+          if (ageOf(p.birthDate) < adult) return false;
+          const home = core.households.get(p.householdId);
+          const child = (home?.memberIds ?? []).some((id) => {
+            const m = core.people.get(id);
+            return m?.alive === true && ageOf(m.birthDate) < below;
+          });
+          return child && householdOwnsFirearm(api, p.householdId, stateKey);
+        })
+        .map((p) => p.id),
+    );
+    const after = new Set(
+      openReach(api, KEY)
+        .filter((r) => core.people.has(r.targetId))
+        .map((r) => r.targetId),
+    );
+    const ended = [...before].filter((id) => !after.has(id));
+    const gained = [...after].filter((id) => !before.has(id));
+    console.log(
+      `household-firearms: after two years the duty ended for ${ended.length} adults and opened for ${gained.length}`,
+    );
+    expect(after).toEqual(expected);
+  }, 900_000);
 });
