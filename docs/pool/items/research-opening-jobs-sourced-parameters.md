@@ -5,10 +5,10 @@ area: core
 kind: research
 priority: 2
 size: M
-status: claimed
+status: blocked
 claimed-by: claude/political-game-pool-yucp92-aa
 pr:
-blocked-on:
+blocked-on: builder first: each row is a mechanic, not a single sourced number; see the Notes
 source: "collapsed Oct 19, 2026 from core-stopgap-opening-coworkers-estimated-behavior, core-stopgap-opening-employment-authored-content, core-stopgap-opening-employment-opening-allocation, core-stopgap-opening-payroll-calendar-estimated-opening-employer-pay-calendar"
 claimed-at: 2026-10-20T02:31:03.328Z
 ---

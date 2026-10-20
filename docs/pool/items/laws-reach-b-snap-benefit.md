@@ -5,9 +5,9 @@ area: laws
 kind: stopgap
 priority: 3
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/snap-benefit
-pr:
+pr: #5443
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-20T02:29:31.351Z

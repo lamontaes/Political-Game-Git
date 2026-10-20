@@ -5,10 +5,10 @@ area: gov
 kind: research
 priority: 2
 size: M
-status: claimed
+status: blocked
 claimed-by: claude/political-game-pool-yucp92-x
 pr:
-blocked-on:
+blocked-on: a researcher: 56 places of statute and roster pages plus Pew news-habit data, each cited; see the Notes
 source: "collapsed Oct 19, 2026 from gov-stopgap-justice-law-assumed-data, gov-stopgap-officials-assumed-data, gov-stopgap-parameters-uncalibrated-tunable"
 claimed-at: 2026-10-20T02:20:19.520Z
 ---
