@@ -5,7 +5,7 @@ import {
   type TraitEffectDeclaration,
   type TraitLoadRejection,
   type TraitPack,
-} from "./trait-packs";
+} from "../core2/trait-packs";
 
 /**
  * Traits that arrive in an installed content pack.

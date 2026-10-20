@@ -4,12 +4,13 @@ title: "Stopgaps in creator (partial-model): 1 open"
 area: play
 kind: stopgap
 priority: 3
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/political-game-pool-76ksvw
+pr: #5180
 blocked-on:
 milestone:
 source: "src/core2/data/stopgaps.json, src/bench/creator.ts, kind partial-model"
+claimed-at: 2026-10-20T00:43:16.820Z
 ---
 
 **What.** Replace or clear the 1 open partial-model stopgap row(s) in src/bench/creator.ts: SG-PLAY-creator-age-keeps-past. Each fake is replaced by the mechanic, or the feature that needs it is deleted.

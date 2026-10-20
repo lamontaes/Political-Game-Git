@@ -6,12 +6,12 @@ kind: stopgap
 priority: 1
 size: S
 status: claimed
-claimed-by: claude/outside-revenue-retire
+claimed-by: claude/outside-revenue
 pr:
 blocked-on:
 after: gov-outside-revenue-taxes,gov-outside-revenue-fees,gov-outside-revenue-borrowing,gov-outside-spending-payees
 source: added with npm run pool -- add
-claimed-at: 2026-10-19T22:02:20.579Z
+claimed-at: 2026-10-20T02:01:25.963Z
 ---
 
 **What.** `closeMonth` in `src/core2/modules/budgets.ts` still pays every treasury an even twelfth of its yearly revenue and every spending line an even twelfth from the outside account, registered as stopgap SG-GOV-outside-revenue-monthly and marked plug in `src/core2/data/outside-flows.json`. Once the five sibling items have replaced each revenue and spending family with real payers and payees, this item deletes the plug code, its outside-flows rows and the stopgap row. The dollar test must then reject any flow still matching a plug row.
@@ -23,3 +23,5 @@ claimed-at: 2026-10-19T22:02:20.579Z
 **Files.** src/core2/modules/budgets.ts, src/core2/budgets-treasury.ts, src/core2/data/outside-flows.json, src/core2/data/stopgaps.json
 
 **Notes.** Rewritten to the quality gate 2026-10-15 (the item was a stub when added with `npm run pool -- add`).
+
+Released Oct 20 (claude): siblings gov-outside-revenue-fees is still claimed and gov-outside-revenue-real-payers is blocked, so the plug still carries flows; retire it after both are done.
