@@ -22,3 +22,5 @@ claimed-at:
 **Files.** src/core2/opening-private-tuition.ts, src/core2/modules/school.ts, src/core2/data/opening-private-tuition.json
 
 **Notes.** Part 1 of 3 split from core-stopgap-opening-private-tuition-aggregate-spending (Oct 20).
+
+Sent back 2026-10-20 from PR #5504 (branch claude/tuition-reenroll): merge conflict with main in src/core2/modules/school.ts (code); finish on that branch, merge main into it first.
