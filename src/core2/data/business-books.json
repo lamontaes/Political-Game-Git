@@ -329,6 +329,13 @@
       "stopgapId": "SG-P8-business-books-classification"
     },
     {
+      "classification": "enterprise:political-consulting",
+      "kindId": "professional",
+      "fundingRoute": "business",
+      "citation": "A campaign-staff firm is a public relations and political consulting practice, inside professional, scientific, and technical services (NAICS 5418 and 541820); the campaigns that hire it for polls and mail are its customers.",
+      "stopgapId": "SG-P8-business-books-classification"
+    },
+    {
       "classification": "enterprise:building-services",
       "kindId": "building-services",
       "fundingRoute": "business",

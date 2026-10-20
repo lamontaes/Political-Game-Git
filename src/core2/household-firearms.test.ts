@@ -52,10 +52,13 @@ describe(`child access prevention (${place.name}, seed ${seed})`, () => {
     advanceCore(core, addDays(makeIsoDate(core.date), 2));
     const adult = reachParameter("adultAge");
     const below = reachParameter("childAgeBelow");
+    // The duty opens on the law's effective date, the day before the test
+    // looks: someone who turns 18 in between is not yet an adult to it.
+    const effective = addDays(makeIsoDate(core.date), -1);
     const ageOf = (birth: string) =>
-      Number(core.date.slice(0, 4)) -
+      Number(effective.slice(0, 4)) -
       Number(birth.slice(0, 4)) -
-      (core.date.slice(5) < birth.slice(5) ? 1 : 0);
+      (effective.slice(5) < birth.slice(5) ? 1 : 0);
     const people = townPeople(api);
     const expected = new Set(
       people

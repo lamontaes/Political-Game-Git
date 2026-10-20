@@ -5,11 +5,12 @@ area: world
 kind: bug
 priority: 2
 size: M
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/utility-household-bills
+pr: #5033
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-18T02:20:13.489Z
 ---
 
 **What.** The electric and water utility in a county (classification enterprise:utility) opened with no cash, no business books and no customers, so its staff were never paid: Yazoo City, Mississippi (seed d4) had 23 counted jobs and 30,161 asked per payday with nothing paid after four months. The utility is now a business kind with its sourced IRS corporation-return margin, pay share and cost share, so it opens with a cash buffer and books. Its customers are the households: a residential electricity service in the opening-customer data takes each household's Consumer Expenditure Survey electricity spending (by region and household size) as a monthly bill to the utility.

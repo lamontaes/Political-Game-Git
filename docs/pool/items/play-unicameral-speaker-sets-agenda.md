@@ -5,7 +5,7 @@ area: play
 kind: bug
 priority: 1
 size: S
-status: in-pr
+status: done
 claimed-by: claude/path-session-bills
 pr: #4956
 blocked-on:
