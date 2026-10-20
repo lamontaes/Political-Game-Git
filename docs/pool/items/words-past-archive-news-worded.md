@@ -5,7 +5,7 @@ area: words
 kind: feature
 priority: 3
 size: S
-status: in-pr
+status: done
 claimed-by: claude/words-past-archive-news
 pr: #5225
 blocked-on:

@@ -5,9 +5,9 @@ area: release
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/pool-claim-after
-pr:
+pr: #5276
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-19T23:33:02.766Z
