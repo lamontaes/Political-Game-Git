@@ -171,5 +171,6 @@ describe(`deaths carry a cause the web moves (${place.name}, seed ${seed})`, () 
     });
     expect(plain.cause).not.toBe(OVERDOSE_CAUSE);
     expect(owed.cause).toBe(OVERDOSE_CAUSE);
+    // Two played worlds, up to a year each in a small town, as in health-web.test.ts.
   }, 1_200_000);
 });
