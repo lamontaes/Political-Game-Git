@@ -4,9 +4,9 @@ title: "Main line:"
 area: words
 kind: feature
 priority: 2
-status: claimed
+status: in-pr
 claimed-by: claude/words-main-line
-pr:
+pr: #5242
 blocked-on:
 milestone:
 source: "docs/coordination/words.md line 46 (unchecked checklist line)"

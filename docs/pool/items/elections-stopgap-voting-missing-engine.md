@@ -10,6 +10,7 @@ pr:
 blocked-on:
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/modules/voting.ts, kind missing-engine"
+claimed-at:
 ---
 
 **What.** Replace or clear the 1 open missing-engine stopgap row(s) in src/core2/modules/voting.ts: SG-GOV-who-runs-stand-in. Each fake is replaced by the mechanic, or the feature that needs it is deleted.

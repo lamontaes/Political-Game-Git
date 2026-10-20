@@ -6139,6 +6139,114 @@
       }
     },
     {
+      "key": "journal.memoir-revise.i-did-not-know-then-what-name-would-mean-to-me",
+      "move": "memoir-revise",
+      "kind": "spoken",
+      "text": "I did not know then what {name} would mean to me.",
+      "uses": [
+        {
+          "move": "memoir-revise",
+          "subject": "memoir",
+          "role": "revise",
+          "choice": "revise",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "revise"
+            }
+          ]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item words-main-line)",
+      "date": "2026-10-19",
+      "tag": {
+        "move": "recall"
+      }
+    },
+    {
+      "key": "journal.memoir-revise.i-thought-little-of-name-then",
+      "move": "memoir-revise",
+      "kind": "spoken",
+      "text": "I thought little of {name} then.",
+      "uses": [
+        {
+          "move": "memoir-revise",
+          "subject": "memoir",
+          "role": "revise",
+          "choice": "revise",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "revise"
+            }
+          ]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item words-main-line)",
+      "date": "2026-10-19",
+      "tag": {
+        "move": "recall"
+      }
+    },
+    {
+      "key": "journal.memoir-revise.name-mattered-more-than-i-knew",
+      "move": "memoir-revise",
+      "kind": "spoken",
+      "text": "{name} mattered more than I knew.",
+      "uses": [
+        {
+          "move": "memoir-revise",
+          "subject": "memoir",
+          "role": "revise",
+          "choice": "revise",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "revise"
+            }
+          ]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item words-main-line)",
+      "date": "2026-10-19",
+      "tag": {
+        "move": "recall"
+      }
+    },
+    {
+      "key": "journal.memoir-revise.it-began-with-name-though-i-did-not-see-it-then",
+      "move": "memoir-revise",
+      "kind": "spoken",
+      "text": "It began with {name}, though I did not see it then.",
+      "uses": [
+        {
+          "move": "memoir-revise",
+          "subject": "memoir",
+          "role": "revise",
+          "choice": "revise",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "revise"
+            }
+          ]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item words-main-line)",
+      "date": "2026-10-19",
+      "tag": {
+        "move": "recall"
+      }
+    },
+    {
       "key": "journal.home-line-met.i-met-other-in-place",
       "move": "home-line-met",
       "kind": "spoken",
