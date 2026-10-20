@@ -5,12 +5,12 @@ area: world
 kind: bug
 priority: 2
 size: M
-status: in-pr
-claimed-by: claude/player-year-settlements
+status: open
+claimed-by:
 pr: #5580
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-20T06:10:05.483Z
+claimed-at:
 ---
 
 **What.** GOLDEN_PATH_SEED=8ef6f174b538bfe5a528b8fd9f7a1fba2c4d50f11343a37f36749ae3fa570d02 GOLDEN_PATH_PLACE_KEY=2228345 npx vitest run src/core2/player-money-year.test.ts fails at src/core2/player-money-year.test.ts line 102: the player's household total for finance.contract-settlement outMinor is 0 over a played year, so no rent, bill or subscription is ever settled. Found Oct 20 on main while checking world-town-public-works-staff-never-paid (a different failure from that item: the payroll line passes here). Find which contract the household should settle and why none does in this place (a missing landlord, a contract that never comes due, or a settlement that posts under another kind).
