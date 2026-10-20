@@ -5,12 +5,13 @@ area: gov
 kind: feature
 priority: 3
 size: L
-status: blocked
+status: open
 claimed-by:
 pr:
 blocked-on:
 after: gov-justice-counted-incidents, gov-justice-counted-dispositions, gov-justice-counted-fill-in
 source: added with npm run pool -- add
+claimed-at: 
 ---
 
 **What.** Roll-up of the counted tier of the justice engine, split Oct 20 into three parts: gov-justice-counted-incidents (counted groups carry incident counts by the same cause rule as full people), gov-justice-counted-dispositions (charges, pleas, convictions and sentences by group through the same decision rule, feeding the jail and prison counts) and gov-justice-counted-fill-in (a counted adult filled in matches the group's case and custody counts). Nothing is built under this item itself; it is done when its three parts are done.
