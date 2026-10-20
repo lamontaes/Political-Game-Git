@@ -260,6 +260,14 @@ export const PRESS_MODULE: CoreModule = {
           byCandidate: { fields: ["candidateId"] },
         },
       },
+      // An outlet's editorial call on a contest: whom it endorsed, or that it
+      // endorsed no one, with the regard of its head and owner behind it.
+      endorsements: {
+        indexes: {
+          byContest: { fields: ["contestId"] },
+          byOutlet: { fields: ["outletId"] },
+        },
+      },
     },
   },
   onDay: enrollPressEmployers,
@@ -2458,12 +2466,149 @@ export function refreshPressStaff(api: CoreAPI): void {
   pressStaffChanged(api);
 }
 
+/** One outlet's endorsement call on one contest (a row of the endorsements table). */
+export interface EndorsementRow {
+  readonly id: string;
+  readonly outletId: string;
+  readonly contestId: string;
+  /** The endorsed candidate; null where the outlet endorsed no one. */
+  readonly candidateId: string | null;
+  /** The head's and owner's regard for each candidate, and the weighted score behind the call. */
+  readonly regard: Readonly<Record<string, number>>;
+  readonly score: number;
+  readonly date: string;
+  readonly storyId: string | null;
+}
+
+/** Every endorsement an outlet has made or declined to make on a contest. */
+export function endorsementsOf(
+  api: CoreAPI,
+  contestId: string,
+): readonly EndorsementRow[] {
+  return table(api, "endorsements").query("byContest", [
+    contestId,
+  ]) as unknown as EndorsementRow[];
+}
+
+/**
+ * The editorial calls of the final weeks: each local outlet's head and owner
+ * weigh their regard for the candidates on a contest's ballot (closeness,
+ * a grudge, how near their views sit; the same regard that tilts the paper's
+ * coverage) and the outlet backs the one they hold highest, if it is above
+ * zero and above the rest. Staff and owners who are themselves on the ballot
+ * are not weighed. The call is printed as a story and the outlet's followers
+ * move toward the candidate by how strongly the paper felt; a call with no
+ * candidate worth backing is recorded as none.
+ */
+function endorseContests(
+  api: CoreAPI,
+  ctx: DeskContext,
+  contests: readonly ContestRow[],
+): void {
+  const p = pressParameter;
+  const horizon = addDays(
+    makeIsoDate(api.state.date),
+    7 * p("endorsementWeeks"),
+  );
+  for (const outlet of outletsHere(api)) {
+    if (outlet.tier === "national") continue;
+    const reporterId = (outlet.reporterIds ?? []).find(
+      (id) => api.state.people.get(id)?.alive,
+    );
+    const judges = [
+      { id: outlet.headId, weight: p("slantPublisherWeight") },
+      { id: outlet.ownerId, weight: p("slantOwnerWeight") },
+    ].filter(
+      (j): j is { id: string; weight: number } =>
+        !!j.id && !!api.state.people.get(j.id)?.alive,
+    );
+    if (!reporterId || !judges.length) continue;
+    const weights = judges.reduce((n, j) => n + j.weight, 0);
+    for (const contest of contests) {
+      if (contest.electionDate > horizon) continue;
+      const id = `endorse:${outlet.id}:${contest.id}`;
+      if (table(api, "endorsements").get(id)) continue;
+      const slate = ballot(api, contest.id).filter(
+        (f) =>
+          f.status === "on-ballot" &&
+          api.state.people.get(f.personId)?.alive &&
+          !judges.some((j) => j.id === f.personId) &&
+          !(outlet.reporterIds ?? []).includes(f.personId),
+      );
+      if (slate.length < 2) continue;
+      const regards: Record<string, number> = {};
+      for (const f of slate)
+        regards[f.personId] =
+          judges.reduce(
+            (n, j) => n + j.weight * regard(api, p, j.id, f.personId),
+            0,
+          ) / weights;
+      const ranked = Object.entries(regards).sort(
+        (a, b) => b[1] - a[1] || a[0].localeCompare(b[0]),
+      );
+      const [top, score] = ranked[0]!;
+      const backed = score > 0 && score > ranked[1]![1];
+      let storyId: string | null = null;
+      if (backed) {
+        const story = printItem(
+          api,
+          ctx,
+          outlet,
+          reporterId,
+          {
+            id,
+            kind: "endorsement",
+            date: api.state.date,
+            level: "town",
+            topic: `person:${top}`,
+            desiredChange: "endorse",
+            ending: false,
+            subjectIds: [top],
+          },
+          null,
+          {
+            slant: {
+              slant: Math.min(1, score),
+              reasons: {
+                lean: 0,
+                tie: Math.min(1, score),
+                publisher: 0,
+                advertiser: 0,
+              },
+            },
+            facts: { [`endorsed:${contest.id}`]: top },
+          },
+        );
+        storyId = story.id;
+        for (const voterId of ctx.followers(outlet.id))
+          if (voterId !== top)
+            touchImpression(api, {
+              voterId,
+              officialId: top,
+              act: "endorsement",
+              target: Math.min(1, score),
+              weight: p("endorsementReaderWeight") * Math.min(1, score),
+              rapport: 0,
+            });
+      }
+      table(api, "endorsements").put({
+        id,
+        outletId: outlet.id,
+        contestId: contest.id,
+        candidateId: backed ? top : null,
+        regard: regards,
+        score,
+        date: api.state.date,
+        storyId,
+      } as unknown as ModuleRow);
+    }
+  }
+}
+
 function pressWeek(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
   if (work.kind !== "press-week") return;
   scheduleWeek(api, api.state.date);
   refreshPressStaff(api);
-  // stopgapId: SG-PEOPLE-press-endorsements
-  api.stopgap("SG-PEOPLE-press-endorsements");
   // The week's stories: each reporter files from the fresh wire.
   const wire = freshWire(api);
   // A national outlet covers the nation and the town's own state; a town's
@@ -2500,6 +2645,7 @@ function pressWeek(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
       )
         refuse(api, row);
   if (!contests.length) return;
+  endorseContests(api, ctx, contests);
   const filings = contests
     .flatMap((c) => ballot(api, c.id))
     .filter((f) => f.status === "on-ballot")

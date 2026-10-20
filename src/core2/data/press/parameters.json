@@ -511,6 +511,18 @@
       "tag": "TUNABLE",
       "source": "Weight of how many public figures a story names (a president, a governor, a member of Congress) in what a reporter picks: elite persons are a news value in their own right (Galtung and Ruge 1965, The Structure of Foreign News, Journal of Peace Research 2(1):64-91). Spread 0.5 to 2.",
       "spread": [0.5, 2]
+    },
+    "endorsementWeeks": {
+      "value": 3,
+      "tag": "TUNABLE",
+      "source": "Weeks before an election in which a local outlet's head and owner settle whom the paper endorses (editorial boards publish in the last weeks of a campaign: Ansolabehere, Lessem and Snyder 2006 on newspaper endorsements).",
+      "spread": [2, 6]
+    },
+    "endorsementReaderWeight": {
+      "value": 0.25,
+      "tag": "TUNABLE",
+      "source": "How far a reader's view of a candidate moves toward the outlet's endorsement, at full agreement between the head's and owner's regard and the candidate (endorsement effects on voters: Chiang and Knight 2011; Druckman and Parkin 2005). Scaled by the endorsement's score, so a lukewarm endorsement moves readers less.",
+      "spread": [0.1, 0.4]
     }
   }
 }

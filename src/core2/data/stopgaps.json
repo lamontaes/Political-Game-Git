@@ -3781,7 +3781,8 @@
     "addedBy": "OPUS-PEOPLE",
     "addedAt": "2026-10-14",
     "replacement": "An outlet's head and owner endorse from the outlet's line, their regard for the candidates and the candidates' records, printed as a story the views and voting engines read.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "Done Oct 20 (gov-stopgap-press-missing-mechanic): in the final endorsementWeeks before a contest each local outlet's head and owner weigh their regard for the candidates on the ballot and the outlet backs the one held highest (above zero and above the rest), printed as an endorsement story; its followers' impressions of that candidate move through the campaigns engine's endorsement act, which the voting engine reads. Calls, and the regard behind each, are in the press module's endorsements table; src/core2/press-endorsements.test.ts follows one in a played year."
   },
   {
     "id": "SG-PEOPLE-press-national-payroll",
