@@ -10,15 +10,19 @@ claimed-by: claude/disaster-repairs-no-market
 pr: #5327
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-20T11:22:10.636Z
+claimed-at: 2026-10-20T21:00:23.893Z
 ---
 
-**What.** A disaster declared in a town with no builder and no recorded outside market stopped the game with "No outside market recorded for jurisdiction_b0f9d889016644c9". The household repair payment in `src/core2/modules/disasters.ts` pays builders in town, or the town's outside market when there are none, and the outside market is not recorded for every town. Households now keep their money and nothing moves where there is no one to pay.
+**What.** TODO
 
-**Rules.** Wire to the world: the repair payment moves money only to a recorded payee. Estimate, never UNKNOWN does not apply here because no payee exists; the stopgap marker already on this path stays.
+**Rules.** TODO
 
-**Done when.** The test in src/core2/disasters-no-market.test.ts plays a year in Guthrie, Oklahoma on seed 35f504a41ec4764f52666b6c5ccd1992aa077e83 (salt "stories-from-engines") through the declared disaster without stopping, with the ledger balanced.
+**Done when.** TODO
 
-**Files.** src/core2/modules/disasters.ts, src/core2/modules/residents.ts, src/core2/disasters-no-market.test.ts
+**Files.** TODO
 
-**Notes.** Found Oct 19 while writing the M4-01 moments test. A town with no builders and no outside market may still deserve a repair payee (a county contractor); that is a design question left for the disasters owner.
+**Notes.** TODO
+
+Sent back 2026-10-20 from PR #5327 (branch claude/disaster-repairs-no-market): see the Cloud merger comment on that PR for the exact reason; finish on that branch, merge main into it first.
+
+Sent back 2026-10-20 from PR #5327 (branch claude/disaster-repairs-no-market): src/core2/disasters-no-market.test.ts uses only one pinned seed with no drawn-place case beside it, and never asserts that a disaster or the no-payee repair path occurred. The date-advanced and balanced-ledger assertions can pass without exercising the claimed regression. Keep the named repro, add a bounded drawn-place case, and assert the declared disaster/repair record and absent-payee path before asserting balanced money.; finish on that branch, merge main into it first.

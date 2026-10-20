@@ -5,12 +5,12 @@ area: world
 kind: bug
 priority: 3
 size: M
-status: in-pr
-claimed-by: claude/audit-18-data-verify
+status: open
+claimed-by:
 pr: #5512
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-20T04:42:02.760Z
+claimed-at:
 ---
 
 **What.** Check Connecticut property-tax due dates against statute, fix the Michigan row tagged SOURCED whose rule differs for primary-electing cities, and regenerate town-business-books.generated.ts from the script and check the three IRS values.
@@ -22,3 +22,7 @@ claimed-at: 2026-10-20T04:42:02.760Z
 **Files.** data, src/core2/town-business-books.generated.ts
 
 **Notes.** Item 18 of docs/reports/merge-audit-2026-10-20.md, split from release-merge-audit-oct20-fixes.
+
+Sent back 2026-10-20 from PR #5512 (branch claude/audit-18): the new core2 test imports the IRS table from src/simulation, and the new data citations carry access dates (Oct 19 and Oct 20, 2026); finish on that branch, merge main into it first.
+
+Sent back 2026-10-20 from PR #5512 (branch claude/audit-18): audit-18-data.test.ts fails for an American Samoa place with no property-tax dates; finish on that branch, merge main into it first.

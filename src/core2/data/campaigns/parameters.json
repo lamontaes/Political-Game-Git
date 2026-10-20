@@ -192,6 +192,12 @@
       "source": "Pew Research Center (2024), 'Changing Partisan Coalitions in a Politically Divided Nation': about 7% of adults neither identify with nor lean toward a party.",
       "spread": [0.05, 0.1]
     },
+    "noPartyDeliberationWeight": {
+      "value": 0.1,
+      "tag": "TUNABLE",
+      "source": "How far a careful thinker (deliberation, -2 to 2) sits from having no party: each point adds this much to how firmly they lean, so the people with no party are those who lean nowhere and think least, and independents are those who think it through. Independents are more often engaged and informed than people with no lean (Pew 2024, Changing Partisan Coalitions), but no study gives a size. The share with no party is fixed at noPartyShare; the weight only orders who they are.",
+      "spread": [0.05, 0.2]
+    },
     "partyLoyaltyWeight": {
       "value": 0.5,
       "tag": "TUNABLE",
@@ -486,6 +492,12 @@
       "source": "How readily an official takes on the aide their office allows before their trait lean toward hiring over doing it alone (scaled trait lean runs about -1 to 1): most do, the most self-reliant don't.",
       "spread": [0, 0.5]
     },
+    "staffAbsenceTolerance": {
+      "value": 0.4,
+      "tag": "TUNABLE",
+      "source": "The share of an aide's scheduled days missed since the last look that an official puts up with before their trait lean toward letting someone go: an aide who comes in most days stays, one who never comes is let go.",
+      "spread": [0.2, 0.6]
+    },
     "staffKnownWeight": {
       "value": 0.1,
       "tag": "TUNABLE",
@@ -549,8 +561,9 @@
     "legislativeSeatMargin": {
       "value": 0.12,
       "tag": "ESTIMATED",
-      "source": "How far a state legislative district without a read result leans to its holder's party, in two-party share: the median state legislative general election margin is about 25 points (Ballotpedia, 'Margin of victory analysis for the 2024 state legislative elections'), so about 0.12 of share.",
-      "spread": [0.05, 0.2]
+      "source": "How far a state legislative district without its own read result (a state the source lacks, a nonpartisan or unmatched district, or a seat one party did not contest) leans to its holder's party, in two-party share. Checked against the districts that do have a result: across the 3,182 Census state legislative districts matched to a contested 2024 race, the median distance of the Republican two-party share from one half is 0.121, with 10th to 90th percentiles of 0.025 to 0.271 (MIT Election Data and Science Lab, State Precinct-Level Returns 2024, doi:10.7910/DVN/DODOBJ; src/core2/legislative-district-results.ts). Districts with a result use their own vote, not this figure.",
+      "estimatedFrom": "median over contested districts of |Republican two-party share - 0.5| (data/research/elections/medsl-2024-legislative-district-results.json); uncontested seats lean further, so this understates them",
+      "spread": [0.025, 0.271]
     },
     "primaryTurnoutCost": {
       "value": 1.15,
@@ -665,6 +678,24 @@
       "tag": "ESTIMATED",
       "source": "What a campaign pays per completed telephone interview: $36 to $53 (midpoint about $45; BMC Medical Research Methodology 12:32), $46 to $80 by web; a whole local poll of a few hundred interviews runs $15,000 to $40,000 (Daily Montanan, 2023), consistent. data/research/money/poll-interview-prices.json (carried from #2486). Not scaled by place.",
       "spread": [3600, 8000]
+    },
+    "outsideDonorShare": {
+      "value": 0.02,
+      "tag": "ESTIMATED",
+      "source": "Share of the adults who lean a candidate's way, in the district or state outside the town, who give that candidate money in a cycle: 12% of adults gave to some candidate in the year before the 2016 election (Pew Research Center, 5 facts about U.S. political donations, 2017, from the American National Election Studies), spread over the several races a donor sees, so a few in a hundred give to any one.",
+      "spread": [0.005, 0.05]
+    },
+    "outsideReachPerTurn": {
+      "value": 0.02,
+      "tag": "TUNABLE",
+      "source": "The share of a district's or state's like-minded adults a campaign's mail, email and call lists reach in one turn; its whole list takes about fifty turns, so a campaign running a year reaches its list before the last weeks.",
+      "spread": [0.005, 0.08]
+    },
+    "outsideDonorIncomeUsd": {
+      "value": 100000,
+      "tag": "ESTIMATED",
+      "source": "The family income of a typical individual donor to a candidate: donors skew to higher incomes (Pew Research Center, 5 facts about U.S. political donations, 2017); the cash they hold beyond a cushion is read from the Survey of Consumer Finances by income (medianTransactionBalance).",
+      "spread": [60000, 150000]
     },
     "pollAnswerThreshold": {
       "value": 1.4,
@@ -965,30 +996,6 @@
       "tag": "TUNABLE",
       "source": "How far a named voter's ballot may run against their own recorded view (the views engine's lean over its maximum, 0 to 1) before it must carry a recorded reason that outweighs the view: 0.5 is the views engine's 'liberal' or 'conservative' label (lean ±1 of ±2). Read by the ballot checks (PW-3); the ballot itself weighs the view, never this number.",
       "spread": [0.25, 0.75]
-    },
-    "speechOpeningParts": {
-      "value": 1,
-      "tag": "ESTIMATED",
-      "source": "A stump speech opens with one move (greeting, thanks or why they are running), the exordium of classical oratory (Cicero, De Inventione I.20) and the opening of a modern campaign speech.",
-      "spread": [1, 2]
-    },
-    "speechBodyParts": {
-      "value": 3,
-      "tag": "ESTIMATED",
-      "source": "A stump speech makes a few points rather than many (the rule of three in political speechwriting; Atkinson 1984, 'Our Masters' Voices', on three-part lists as the applause-eliciting unit).",
-      "spread": [2, 5]
-    },
-    "speechClosingParts": {
-      "value": 1,
-      "tag": "ESTIMATED",
-      "source": "A stump speech ends with one closing move (an ask for the vote, a thank you or a pledge), the peroration of classical oratory (Cicero, De Inventione I.52).",
-      "spread": [1, 2]
-    },
-    "speechOffersPerStep": {
-      "value": 4,
-      "tag": "SOURCED",
-      "source": "Owner ruling, Oct 14, 2026: a speech is composed one part at a time from four offered parts, as in Suzerain.",
-      "spread": [4, 4]
     },
     "staffMinimumAge": {
       "value": 18,
