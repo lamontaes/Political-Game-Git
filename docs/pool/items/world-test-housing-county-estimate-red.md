@@ -5,7 +5,7 @@ area: world
 kind: bug
 priority: 2
 size: S
-status: in-pr
+status: done
 claimed-by: claude/housing-county-estimate-red
 pr: #5604
 blocked-on:
