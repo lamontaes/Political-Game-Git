@@ -22,3 +22,5 @@ claimed-at:
 **Files.** src/core2/snapshot.ts, src/core2/saves.test.ts
 
 **Notes.** Found Oct 20 while building fix 6 of release-merge-audit-oct20-morning-fixes (claude/political-game-pool-yucp92-at). Also answers that item's question about seal(): shared $ref objects are already frozen when reached a second time, so seal() returns early; no change is needed there.
+
+Sent back 2026-10-20 from PR #5676 (branch claude/political-game-pool-yucp92-ax): Merging current origin/main conflicts in src/core2/saves.test.ts. Resolve that code conflict on this fixer branch, preserving the parent test and the current main saves behavior, then rerun the changed-file gate. Its base PR #5670 is still open, so this fixer remains targeted at that branch and will not complete a pool item on a non-main merge.; finish on that branch, merge main into it first.
