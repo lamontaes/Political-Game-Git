@@ -120,7 +120,7 @@ export function wordVenueSpeech(
     worldSeed: api.state.seed,
     bankVersion: "words-address-v1",
     stage: input.chair === "female" ? "chair-female" : "chair-male",
-    sourceRecordIds: own,
+    sourceRecordIds: [...own, ...rest],
     facts,
     speaker: { personId: input.speakerId as never, traits: {} },
     knowledge: Object.entries(facts).map(([factKey, fact]) => ({
