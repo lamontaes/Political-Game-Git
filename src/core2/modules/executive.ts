@@ -55,7 +55,10 @@ import { addDays, makeIsoDate } from "../kernel/dates";
 import { BUDGETS_MODULE_ID, governments } from "./budgets";
 import { lineForPost, postPayCapDaily } from "../budgets-treasury";
 import { startPublicJob } from "../public-payroll";
+import { parameter } from "../parameters";
+import { medianTransactionBalance } from "../starting-cash";
 import { filingRequirements } from "./elections";
+import { pairKey } from "../kernel/ids";
 
 export const EXECUTIVE_MODULE_ID = "core2-executive-v1";
 
@@ -277,7 +280,7 @@ function townPostInput(api: CoreAPI, spec: PostSpec, chosenId?: string) {
       qualification: qualification(api, p, spec.key, date),
       known:
         !!appointer?.personId &&
-        relationships.has([appointer.personId, p.id].sort().join(":")),
+        relationships.has(pairKey(appointer.personId, p.id)),
     })),
   };
 }
@@ -481,6 +484,22 @@ function seatCabinetPerson(
       /:$/,
       "",
     );
+  const employer = (
+    api.state.modules.has(BUDGETS_MODULE_ID) ? governments(api) : []
+  ).find((g) => g.level === "state")?.organizationId;
+  const post = `state:${spec.key}`;
+  const maxDailyMinor = employer
+    ? postPayCapDaily(
+        api,
+        employer,
+        post,
+        input.posts.filter(
+          (other) =>
+            lineForPost("state", `state:${other.key}`) ===
+            lineForPost("state", post),
+        ).length,
+      )
+    : undefined;
   fillInIdentity(core, {
     id: personId,
     givenName: identity.givenName,
@@ -488,6 +507,19 @@ function seatCabinetPerson(
     birthDate: identity.birthDate,
     placeId: state,
     gender: identity.gender,
+    // What a family at their pay keeps in its accounts (SCF 2022), as the
+    // town's generated residents do; later hires arrive with what they have.
+    ...(maxDailyMinor !== undefined && core.date === core.startedAt
+      ? {
+          openingLiquidMinor: Math.round(
+            medianTransactionBalance(
+              (maxDailyMinor *
+                parameter("daysPerMeanYear", core.data.parameters)) /
+                parameter("minorPerDollar", core.data.parameters),
+            ) * parameter("minorPerDollar", core.data.parameters),
+          ),
+        }
+      : {}),
     source: {
       tag: "ESTIMATED",
       asOf: api.state.date,
@@ -496,23 +528,14 @@ function seatCabinetPerson(
         "The research file names the post, not the person; the person is drawn from the world's seed like any invented official.",
     },
   });
-  const employer = (
-    api.state.modules.has(BUDGETS_MODULE_ID) ? governments(api) : []
-  ).find((g) => g.level === "state")?.organizationId;
   if (employer) {
-    const post = `state:${spec.key}`;
-    const toFill = input.posts.filter(
-      (other) =>
-        lineForPost("state", `state:${other.key}`) ===
-        lineForPost("state", post),
-    ).length;
     startPublicJob(api, {
       personId,
       employerId: employer,
       post,
       title: spec.title,
       hourlyMinor: campaignParameter("appointeeHourlyMinor"),
-      maxDailyMinor: postPayCapDaily(api, employer, post, toFill),
+      maxDailyMinor,
       scheduleFromPlaceId: lawChain(api).townPlaceId,
       citation: `Appointment ${input.appointmentId}`,
     });
@@ -792,7 +815,7 @@ export function appointStatePost(
       lean: personLean(api.state.people, person, 0),
       qualification: qualification(api, person, spec.key, api.state.date),
       known: (api.state as CoreState).relationships.has(
-        [input.executiveId, person.id].sort().join(":"),
+        pairKey(input.executiveId, person.id),
       ),
     })),
     confirmingBody: confirmation
