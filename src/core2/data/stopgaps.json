@@ -2482,7 +2482,8 @@
     "addedBy": "OPUS-WORLD",
     "addedAt": "2026-10-12",
     "replacement": "The two-level population's labor-force counts by place, age and job (CPS and LAUS), with full people filled in from them.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "The opening's seekers are chosen per place from that place's own unemployment rate (the region's month when the regional engine runs, the nation's otherwise), for the named people and the counted ones alike."
   },
   {
     "id": "SG-WORLD-jobs-layoff-decider",
