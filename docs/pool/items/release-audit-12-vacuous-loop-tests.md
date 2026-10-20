@@ -22,3 +22,5 @@ claimed-at: 2026-10-20T04:32:36.887Z
 **Files.** tests touched by #5016, #5033, #5008 and #5020
 
 **Notes.** Item 12 of docs/reports/merge-audit-2026-10-20.md, split from release-merge-audit-oct20-fixes.
+
+**Result (Oct 20).** Added a nonempty assertion before the loop in utility-staff-paid.test.ts (wage flows), campaign-consulting-firm.test.ts (wage flows), law-reach-group-a.test.ts (hires) and official-pay-death.test.ts (officials; the pinned draw still names the official who died). The first, second and fourth files pass (4 tests, drawn places); law-reach-group-a.test.ts was not run in this session (its edit sits inside a branch that already asserts the hires grew).

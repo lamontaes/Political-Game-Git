@@ -626,6 +626,9 @@ describe("audit 13, law breadth group A: every policy reaches people", () => {
           funded[0]!.baseStaff * ((2 * amount) / amount),
         );
         expect(up, `${where}: ${key} no hires`).toBeGreaterThan(before);
+        expect(hired.length, `${where}: ${key} hires to check`).toBeGreaterThan(
+          0,
+        );
         for (const row of hired) {
           const jobId = core.people.get(row.targetId)?.jobId;
           expect(jobId, where).toBeDefined();

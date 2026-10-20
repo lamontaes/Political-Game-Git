@@ -39,6 +39,9 @@ describe("an official who died", () => {
         .moduleState(OFFICIALS_MODULE_ID)
         .table("officials")
         .rows() as unknown as OfficialRow[];
+      // The loop below proves nothing over no officials; the pinned draw also
+      // names the one who died, and a random draw may have no death at all.
+      expect(officials.length, `officials in ${where}`).toBeGreaterThan(0);
       const dead = officials.filter((o) => !core.people.get(o.id)?.alive);
       if (drawSeed === "9a11da355dc8b557")
         expect(
