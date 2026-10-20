@@ -17,7 +17,6 @@
     "emission-rules-to-particulates",
     "work-requirement-to-coverage",
     "snap-to-food-insecurity",
-    "unemployment-to-poverty",
     "enforcement-to-hispanic-enrollment",
     "graduation-to-turnout",
     "rent-control-to-rental-supply",
@@ -76,7 +75,6 @@
     "vouchers-to-graduation",
     "poverty-to-math-proficiency",
     "uninsured-to-graduation",
-    "graduation-to-poverty",
     "crime-level-to-burglary",
     "crime-level-to-robbery",
     "crime-level-to-assault",
@@ -89,18 +87,12 @@
     "curriculum-standards-to-math",
     "teacher-minimum-salary-to-graduation",
     "property-tax-cap-to-math",
-    "grocery-exemption-to-poverty",
     "civilian-oversight-to-crime",
     "harm-reduction-to-crime",
-    "licensing-reform-to-poverty",
     "independent-redistricting-to-turnout",
     "term-limits-to-turnout",
     "library-funding-to-math",
-    "income-tax-to-poverty",
-    "graduated-income-tax-to-poverty",
     "facial-recognition-limit-to-crime",
-    "anti-discrimination-to-poverty",
-    "incentive-cap-to-poverty",
     "by-right-permitting-to-homelessness",
     "housing-preemption-to-homelessness",
     "inclusionary-to-homelessness",
@@ -110,9 +102,6 @@
     "mandatory-minimums-to-violent-crime",
     "clean-electricity-to-particulates",
     "carbon-price-to-particulates",
-    "retirement-age-to-poverty",
-    "top-income-tax-rate-to-poverty",
-    "student-loan-forgiveness-to-poverty",
     "grocery-exemption-to-food-insecurity",
     "harm-reduction-to-overdose-deaths",
     "public-bargaining-to-earnings",
@@ -128,7 +117,6 @@
     "fare-free-transit-to-ridership",
     "cannabis-sales-to-overdose-deaths",
     "privacy-law-to-earnings",
-    "city-anti-discrimination-to-poverty",
     "highway-money-for-transit-to-service",
     "farmland-easements-to-farmland-lost",
     "groundwater-limits-to-irrigation-pumping",
@@ -245,10 +233,15 @@
       "needsSize": true
     },
     "minimum-wage-to-poverty": {
-      "waitingOn": ["labor.minimum-wage-change-pct"]
+      "waitingOn": [],
+      "carriedBy": "src/core2/modules/jobs.ts wageFloor raises pay; src/core2/world-poverty.ts counts it"
     },
     "minimum-wage-to-low-wage-jobs": {
       "waitingOn": ["labor.minimum-wage-to-median"]
+    },
+    "unemployment-to-poverty": {
+      "waitingOn": [],
+      "carriedBy": "src/core2/modules/jobs.ts: a lost job ends its pay; src/core2/world-poverty.ts counts the household"
     },
     "parent-incarceration-to-household-income": {
       "waitingOn": ["justice.parent-incarcerated", "household.income"],
@@ -431,7 +424,8 @@
       "waitingOn": ["disaster.flood-damage"]
     },
     "federal-minimum-wage-to-poverty": {
-      "waitingOn": ["labor.minimum-wage-gap-to-15"]
+      "waitingOn": [],
+      "carriedBy": "src/core2/law-reach/group-a-wages.ts writes the wage row that src/core2/modules/jobs.ts wageFloor applies"
     },
     "student-debt-relief-to-finances": {
       "waitingOn": ["finance.past-due-debt"],
@@ -440,6 +434,38 @@
     "more-immigration-to-workforce": {
       "waitingOn": ["labor.workforce"],
       "needsSize": true
+    },
+    "graduation-to-poverty": {
+      "waitingOn": [],
+      "carriedBy": "none yet: no engine path (stopgap SG-WEB-poverty-graduation-no-engine); the measure reads the pay once the jobs engine prices schooling"
+    },
+    "grocery-exemption-to-poverty": {
+      "waitingOn": [],
+      "carriedBy": "src/core2/world-poverty.ts: the measure counts income before taxes"
+    },
+    "licensing-reform-to-poverty": {
+      "waitingOn": [],
+      "carriedBy": "none yet: no engine path (stopgap SG-WEB-poverty-licensing-no-engine); the measure reads the pay once the jobs engine opens licensed jobs"
+    },
+    "income-tax-to-poverty": {
+      "waitingOn": [],
+      "carriedBy": "src/core2/world-poverty.ts: the measure counts income before taxes"
+    },
+    "graduated-income-tax-to-poverty": {
+      "waitingOn": [],
+      "carriedBy": "src/core2/world-poverty.ts: the measure counts income before taxes"
+    },
+    "anti-discrimination-to-poverty": {
+      "waitingOn": [],
+      "carriedBy": "src/core2/world-poverty.ts: about zero in the research; whatever incomes do shows in the measure"
+    },
+    "incentive-cap-to-poverty": {
+      "waitingOn": [],
+      "carriedBy": "src/core2/world-poverty.ts: about zero in the research; hiring changes reach it through pay"
+    },
+    "retirement-age-to-poverty": {
+      "waitingOn": [],
+      "carriedBy": "src/core2/modules/retirement-claims.ts reads the claim ages in the law row (src/core2/social-security-law.ts)"
     },
     "immigration-to-crime": {
       "waitingOn": ["crime.rate-index"]
@@ -455,6 +481,14 @@
       "waitingOn": ["crime.rate-index"],
       "needsSize": true
     },
+    "top-income-tax-rate-to-poverty": {
+      "waitingOn": [],
+      "carriedBy": "src/core2/world-poverty.ts: the measure counts income before taxes"
+    },
+    "student-loan-forgiveness-to-poverty": {
+      "waitingOn": [],
+      "carriedBy": "src/core2/world-poverty.ts: debt relief is not money income"
+    },
     "congress-stock-ban-to-member-returns": {
       "waitingOn": ["government.member-market-returns"],
       "needsSize": true
@@ -462,6 +496,10 @@
     "library-materials-to-reading": {
       "waitingOn": [],
       "needsSize": true
+    },
+    "city-anti-discrimination-to-poverty": {
+      "waitingOn": [],
+      "carriedBy": "src/core2/world-poverty.ts: about zero in the research; whatever incomes do shows in the measure"
     },
     "defense-contracts-to-earnings": {
       "waitingOn": ["federal.defense-boost-pct"]
@@ -734,14 +772,6 @@
     },
     "labor.formal-employment": {
       "owner": "OPUS-WORLD",
-      "links": 1
-    },
-    "labor.minimum-wage-change-pct": {
-      "owner": "OPUS-GOV",
-      "links": 1
-    },
-    "labor.minimum-wage-gap-to-15": {
-      "owner": "OPUS-GOV",
       "links": 1
     },
     "labor.minimum-wage-to-median": {

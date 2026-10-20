@@ -5195,5 +5195,53 @@
     "addedAt": "2026-10-20",
     "replacement": "Relief dollars by place in the budgets engine, an approval measure from the views engine, and sizes read from Healy and Malhotra 2009 and a confirmed approval source.",
     "status": "open"
+  },
+  {
+    "id": "SG-WEB-snap-receipt-ledger",
+    "kind": "missing-engine",
+    "file": "src/core2/modules/outcome-web.ts",
+    "line": 431,
+    "whatItFakes": "The share of residents receiving SNAP (program.snap-receipt) is a place number in the outcome web's ledger: its start is the USDA state level and only web links move it; no household is enrolled or paid.",
+    "why": "The core pays no SNAP and keeps no enrollment record (see SG-GOV-REACH-B-assistance-benefits), so nothing can count who receives it.",
+    "addedBy": "effect-web-poverty",
+    "addedAt": "2026-10-20",
+    "replacement": "The benefits writer of pool item laws-reach-b-snap-benefit pays SNAP to households by income and size; a world-metrics field counts recipients by weight and engineMeasures reads it.",
+    "status": "open"
+  },
+  {
+    "id": "SG-WEB-food-insecurity-ledger",
+    "kind": "missing-engine",
+    "file": "src/core2/modules/outcome-web.ts",
+    "line": 432,
+    "whatItFakes": "The share of households that are food insecure (household.food-insecurity) is a place number in the outcome web's ledger: its start is the USDA state level and web links move it; no household's food budget or SNAP receipt decides it.",
+    "why": "No engine records a household's food spending against its income or its SNAP benefit.",
+    "addedBy": "effect-web-poverty",
+    "addedAt": "2026-10-20",
+    "replacement": "A food-insecurity record per household from its income, its food prices and its SNAP benefit, counted by weight in world-metrics and read through engineMeasures.",
+    "status": "open"
+  },
+  {
+    "id": "SG-WEB-poverty-licensing-no-engine",
+    "kind": "missing-engine",
+    "file": "src/core2/modules/outcome-web.ts",
+    "line": 434,
+    "whatItFakes": "Reducing occupational licensing is meant to open licensed work and raise pay at the bottom, but no engine lets the law change who may take a licensed job, so the law reaches no household's income and the poverty measure does not move for it.",
+    "why": "The jobs engine has no licensing requirement per occupation to repeal.",
+    "addedBy": "effect-web-poverty",
+    "addedAt": "2026-10-20",
+    "replacement": "The jobs engine reads a licensing law row when seekers match to jobs, so a repeal opens licensed jobs to seekers (pool item world-licensing-reform-jobs).",
+    "status": "open"
+  },
+  {
+    "id": "SG-WEB-poverty-graduation-no-engine",
+    "kind": "missing-engine",
+    "file": "src/core2/modules/outcome-web.ts",
+    "line": 435,
+    "whatItFakes": "Higher graduation is meant to raise adult pay a decade later, but no engine ties schooling to the pay a graduate is hired at, so graduation reaches no household's income and the poverty measure does not move for it.",
+    "why": "The jobs engine prices a hire from the occupation and market, not from the person's schooling.",
+    "addedBy": "effect-web-poverty",
+    "addedAt": "2026-10-20",
+    "replacement": "The jobs engine prices schooling into hires and wages from the person's own schooling record (pool item world-schooling-to-pay).",
+    "status": "open"
   }
 ]
