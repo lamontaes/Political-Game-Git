@@ -51,6 +51,8 @@ import {
   modeledShare,
   moveBudget,
   payBenefits,
+  payCoverage,
+  payPreschool,
   payVouchers,
   raiseToSalaryFloor,
   residentsOf,
@@ -60,6 +62,8 @@ import {
 
 type Mechanic =
   | "records"
+  | "medicaid-coverage"
+  | "preschool-payment"
   | "compliance-cost"
   | "assistance-time-limit"
   | "school-voucher"
@@ -247,6 +251,32 @@ function assistanceTimeLimit(
       selectResidents(facts, people, stateKey).map((r) => r.id),
     ),
   };
+}
+
+const MEDICAID_EXPAND =
+  "us-policy-positions:health-human-services.expand-medicaid-eligibility";
+const MEDICAID_WORK =
+  "us-policy-positions:health-human-services.medicaid-work-requirement";
+
+/**
+ * Who Medicaid expansion covers as the payment reads it: the adults the
+ * expansion reaches, less those the work requirement ends coverage for (its
+ * hours, income and young-child terms) while that requirement is law.
+ */
+function medicaidCovered(
+  api: CoreAPI,
+  facts: TownFacts,
+  stateKey: string,
+): ResidentFacts[] {
+  const people = data.policies[MEDICAID_EXPAND]?.people;
+  if (!people) return [];
+  const covered = selectResidents(facts, people, stateKey);
+  const workPeople = data.policies[MEDICAID_WORK]?.people;
+  if (!workPeople || !questionInForce(api, MEDICAID_WORK)) return covered;
+  const ended = new Set(
+    selectResidents(facts, workPeople, stateKey).map((r) => r.id),
+  );
+  return covered.filter((r) => !ended.has(r.id));
 }
 
 /** Teachers the salary floor covers: those the town's public school district employs. */
@@ -491,11 +521,83 @@ function runPolicy(
       );
       return;
     }
+    case "medicaid-coverage": {
+      const paid = payCoverage(api, {
+        key,
+        inForce,
+        covered: inForce ? medicaidCovered(api, facts, chain.stateKey) : [],
+      });
+      finish(
+        api,
+        key,
+        def,
+        input,
+        inForce,
+        inForce
+          ? reachOf(api, {
+              organizations: def.organizations,
+              terms,
+              personTerms: paid.named,
+              selected: facts.residents.filter(
+                (r) => r.named && paid.named.has(r.id),
+              ),
+              counted: paid.counted,
+              countedOf: facts.residents
+                .filter((r) => !r.named)
+                .reduce((n, r) => n + (r.scale ?? 1), 0),
+            })
+          : null,
+      );
+      return;
+    }
+    case "preschool-payment": {
+      const children =
+        inForce && def.people
+          ? selectResidents(facts, def.people, chain.stateKey)
+          : [];
+      const paid = payPreschool(api, {
+        key,
+        inForce,
+        children,
+        residents: facts.residents,
+      });
+      finish(
+        api,
+        key,
+        def,
+        input,
+        inForce,
+        inForce
+          ? reachOf(api, {
+              organizations: def.organizations,
+              terms,
+              personTerms: paid.named,
+              selected: children.filter((c) => c.named),
+              counted: paid.counted,
+              countedOf: facts.residents
+                .filter((r) => !r.named)
+                .reduce((n, r) => n + (r.scale ?? 1), 0),
+            })
+          : null,
+      );
+      return;
+    }
     case "farm-output":
       return; // The business engine reads the law when setting production limits.
     case "property-assessment":
       return; // The housing assessment reads the cap through budgets when billing.
     case "records":
+      // The expansion's payment reads this requirement; run it again now.
+      if (key === MEDICAID_WORK)
+        for (const row of rowsOf<ActiveRow>(api, "active"))
+          if (row.id === MEDICAID_EXPAND)
+            runPolicy(api, MEDICAID_EXPAND, {
+              lawId: row.lawId,
+              level: row.level,
+              inForce: questionInForce(api, MEDICAID_EXPAND),
+              enacting: questionInForce(api, MEDICAID_EXPAND),
+              value: lawRow(api, row.lawId)?.value ?? null,
+            });
       if (key === "sales-tax") {
         const answer = lawInForce(api, "sales-tax");
         terms.ratePercent = answer.value ?? 0;
