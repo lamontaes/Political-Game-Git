@@ -5,11 +5,12 @@ area: world
 kind: research
 priority: 2
 size: M
-status: open
-claimed-by:
-pr:
+status: done
+claimed-by: claude/commute-flow-data-s9
+pr: #5143
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-19T20:21:55.982Z
 ---
 
 **What.** The repository holds commute times (ACS B08303) but no commuting flows, so the opening cannot say how many of a place's residents work elsewhere or how many of its workers live elsewhere. Build a script that reads the LEHD LODES origin-destination files (public, reachable from the cloud environment) and the block-to-place crosswalk, and writes a sourced per-place table: residents who work in the place, residents who work outside it, and workers in the place who live outside it. Cover all 56 places; a place with no LODES coverage (some territories) starts from the national average marked ESTIMATED with its source and spread.
