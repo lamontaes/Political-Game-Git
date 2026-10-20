@@ -510,6 +510,72 @@
       "tag": {
         "move": "deliver-news"
       }
+    },
+    {
+      "key": "news.election-result.name-won-the-race-for-office",
+      "move": "election-result",
+      "kind": "spoken",
+      "text": "{name} won the race for {office}.",
+      "uses": [
+        {
+          "move": "election-result",
+          "subject": "news",
+          "role": "election-result",
+          "choice": "lede"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item words-archive-election-office)",
+      "date": "2026-10-20",
+      "tag": {
+        "move": "announce-result",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "news.election-result.name-was-elected-office",
+      "move": "election-result",
+      "kind": "spoken",
+      "text": "{name} was elected {office}.",
+      "uses": [
+        {
+          "move": "election-result",
+          "subject": "news",
+          "role": "election-result",
+          "choice": "lede"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item words-archive-election-office)",
+      "date": "2026-10-20",
+      "tag": {
+        "move": "announce-result",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "news.election-result.name-takes-the-office-of-office",
+      "move": "election-result",
+      "kind": "spoken",
+      "text": "{name} won election as {office}.",
+      "uses": [
+        {
+          "move": "election-result",
+          "subject": "news",
+          "role": "election-result",
+          "choice": "lede"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item words-archive-election-office)",
+      "date": "2026-10-20",
+      "tag": {
+        "move": "announce-result",
+        "key": "honor"
+      }
     }
   ]
 }

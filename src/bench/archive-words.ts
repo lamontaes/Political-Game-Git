@@ -1,3 +1,5 @@
+import { OFFICES_MODULE_ID } from "../core2/modules/offices";
+import { coreAPI } from "../core2/state";
 import type { EntityId } from "../core2/kernel/brands";
 import type { CoreState } from "../core2/types";
 import { composeNewsStory, type StoryKind } from "../english/english-newscast";
@@ -66,9 +68,18 @@ export function wordArchiveStory(
     if (!winner) return null;
     kind = "election";
     speaker = winner.id;
+    // Which office the race was for, from the office record the result names.
+    const officeId = String(story.facts.officeId ?? "");
+    const office = (
+      coreAPI(core)
+        .moduleState(OFFICES_MODULE_ID)
+        .table("offices")
+        .get(officeId) as { title?: string } | undefined
+    )?.title;
     facts = {
       name: fact(`${winner.givenName} ${winner.familyName}`, [winner.id]),
       won: fact("yes", [winner.id]),
+      ...(office ? { office: fact(office, [officeId]) } : {}),
     };
   } else if (recordKind === "law-enacted" || recordKind === "law-took-effect") {
     // A law is named by its series on the bill catalog; one with no name stays a record.
