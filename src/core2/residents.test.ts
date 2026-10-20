@@ -205,7 +205,7 @@ describe(`two-level population in ${place.name} (seed ${seed})`, () => {
     const state = residentsRuntime(core)!.flows.get(flow.id)!;
     expect(state.earnedDaysByDue?.[due]).toBeUndefined();
     expect(state.arrearsMinor).toBe(0);
-  }, 900_000);
+  }, 300_000);
 
   it("fills in a counted worker who matches the employer's books", () => {
     const core = createLifeCore(two);
@@ -297,7 +297,7 @@ describe(`two-level population in ${place.name} (seed ${seed})`, () => {
     expect(core.people.get(retireeId)!.liquidMinor).not.toBe(cashBefore);
     expect(own.arrearsMinor).toBe(0);
     expect(total()).toBe(start);
-  }, 900_000);
+  }, 300_000);
 
   it("pays counted and filled-in retirees at the benefit level in force", () => {
     const core = createLifeCore(
@@ -339,7 +339,7 @@ describe(`two-level population in ${place.name} (seed ${seed})`, () => {
       expect(
         Math.abs(flow.amountMinor - base.get(flow.id)!),
       ).toBeLessThanOrEqual(awards(flow));
-  }, 900_000);
+  }, 300_000);
 
   it("fills in a clicked counted person, and returns full people as they are", () => {
     const core = createLifeCore(two);
