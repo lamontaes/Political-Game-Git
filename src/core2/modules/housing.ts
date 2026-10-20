@@ -1548,6 +1548,11 @@ function build(api: CoreAPI): void {
       c.modules.has(LAWS_MODULE_ID) &&
       landlord.placeId === lawChain(api).townPlaceId
     ) {
+      // By-right multifamily zoning reaches the builders through the outcome web's factor on large buildings (housing-construction.ts); its row is the one the decision is recorded under.
+      const multifamily = lawInForce(
+        api,
+        "us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones",
+      );
       const inclusionary = lawInForce(
         api,
         "us-policy-positions:housing-land-use.inclusionary-requirement",
