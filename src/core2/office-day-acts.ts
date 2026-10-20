@@ -23,6 +23,7 @@ import type { ModuleRow } from "./module-data";
 import { extendData } from "./data";
 import { daysBetween, makeIsoDate } from "./kernel/dates";
 import { officeActKits, type OfficeActKit } from "./office-day-registry";
+import { reanswerLeaderRequest } from "./office-day-state";
 import { snapshotExplicitControlV1 } from "./player-control-state-v1";
 import {
   casesFor,
@@ -48,9 +49,12 @@ import {
   setBudgetPriorities,
 } from "./modules/budgets";
 import { deliverSpeech } from "./modules/speech";
+import { cutRibbon, ribbonsToCut } from "./modules/projects";
 import { personLean, personStance, questionAxis } from "./campaign-views";
 import { POLICY_QUESTIONS } from "./policy-answers";
+import { adviseOnBudget, servingStaffOf } from "./modules/staff";
 import {
+  executiveBudgetChanges,
   learnStake,
   LEGISLATURE_MODULE_ID,
   memberKey,
@@ -63,6 +67,7 @@ export const OFFICE_DUTY = "office-duty";
 const DEPARTMENT_HEAD = "department-head";
 const TOWN_POST = "town-post";
 const COLLEAGUE = "colleague";
+const PUBLIC_PROJECT = "public-project";
 
 const act = (
   id: string,
@@ -116,6 +121,7 @@ export const OFFICE_ACTS: readonly ActionDefinition[] = [
     ["cooperate", "engage", "speak-out"],
     COLLEAGUE,
   ),
+  act("cut-ribbon", "ribbonActHours", ["engage", "speak-out"], PUBLIC_PROJECT),
 ];
 
 const HOURS = (
@@ -183,6 +189,12 @@ const LOCAL_PARAMETERS = {
       "Common charter lead times before the fiscal year; no count of every place's charter exists.",
     spread: [30, 120],
   },
+  ribbonActHours: HOURS(
+    1,
+    "A ribbon-cutting ceremony: a short program, the cut and photographs, about an hour with travel.",
+    "Typical dedication or grand-opening ceremony length.",
+    [0.5, 2],
+  ),
   colleagueActHours: HOURS(
     0.5,
     "A member asking a colleague for their vote on a pending bill: a half-hour conversation, by phone or over coffee.",
@@ -332,6 +344,19 @@ export function officeActProviders(host: OfficeActHost) {
         ? postsToFill(api, actor.id).map((post) => ({
             definition: action,
             targetId: post.key,
+            availableHours: api.parameter(action.effortParameter),
+          }))
+        : [],
+    // Each finished public work of the town's governments whose ribbon is still open.
+    [PUBLIC_PROJECT]: (
+      api: CoreAPI,
+      actor: Readonly<PersonState>,
+      action: ActionDefinition,
+    ): ActOffer[] =>
+      holds(api, actor)
+        ? ribbonsToCut(api).map((project) => ({
+            definition: action,
+            targetId: project.id,
             availableHours: api.parameter(action.effortParameter),
           }))
         : [],
@@ -594,6 +619,9 @@ export function officeActHandlers(host: OfficeActHost) {
               kind: deal,
             })
           : null;
+        // A leader who refused to schedule the bill hears what they were
+        // offered and answers again.
+        if (dealt?.accepted) reanswerLeaderRequest(api, actorId, bill.id);
         host.keep(api, {
           personId: actorId,
           kind: "talk-to-colleague",
@@ -665,21 +693,64 @@ export function officeActHandlers(host: OfficeActHost) {
       const due = budgetProposalDue(api, host, actorId);
       if (!due) return;
       const prepared = host.prepared(api, actorId, "propose-budget");
-      if (prepared?.budget)
+      let changes: Readonly<Record<string, number>> | undefined =
+        prepared?.budget?.changes;
+      let advice = "";
+      if (!changes) {
+        // The character proposes their own priorities by the budgets rule;
+        // an aide who reads the council tells them which lines it will not
+        // pass, and each at-risk line is cut to the share of those read who
+        // favor it, so what they send is what the council can pass.
+        const own = executiveBudgetChanges(
+          api,
+          due.governmentId,
+          Number(due.fiscalYearStarts.slice(0, 4)),
+        );
+        if (own && Object.keys(own.changes).length) {
+          changes = own.changes;
+          const aide = servingStaffOf(api, actorId)[0];
+          const trimmed: Record<string, number> = {};
+          const advised: string[] = [];
+          for (const [line, delta] of Object.entries(own.changes).sort(
+            ([x], [y]) => x.localeCompare(y),
+          )) {
+            // One line at a time: a line the aide cannot read stays as proposed.
+            const heard = aide
+              ? adviseOnBudget(api, aide.id, due.governmentId, {
+                  [line]: delta,
+                })
+              : null;
+            const row = heard?.lines[0];
+            if (heard && row) advised.push(heard.work.id);
+            const share = row?.atRisk
+              ? Math.min(
+                  ...row.chambers.map((c) =>
+                    c.favor + c.oppose > 0 ? c.favor / (c.favor + c.oppose) : 1,
+                  ),
+                )
+              : 1;
+            const cut = Math.round(delta * share);
+            if (cut !== 0) trimmed[line] = cut;
+          }
+          changes = trimmed;
+          if (advised.length) advice = `; advice ${advised.join(",")}`;
+        }
+      }
+      if (changes)
         setBudgetPriorities(api, {
           governmentId: due.governmentId,
           setBy: actorId,
-          changes: prepared.budget.changes,
+          changes,
         });
       host.keep(api, {
         personId: actorId,
         kind: "propose-budget",
         how: prepared?.budget ? "did" : "own-choice",
-        recordId: prepared?.budget
+        recordId: changes
           ? `priorities:${due.governmentId}`
           : `priorities:${due.governmentId}:executive-rule`,
         position: null,
-        detail: `${due.governmentId} budget for the year starting ${due.fiscalYearStarts}`,
+        detail: `${due.governmentId} budget for the year starting ${due.fiscalYearStarts}${advice}`,
       });
       host.clearPrepared(api, actorId, "propose-budget");
     },
@@ -687,6 +758,22 @@ export function officeActHandlers(host: OfficeActHost) {
      * The appointing official fills a vacant town post: the candidate their
      * own reasons rank first, confirmed by the council where the form asks it.
      */
+    /** The ribbon of a finished public work is cut: a public record and a news item. */
+    "cut-ribbon": (api: CoreAPI, actorId: string, offer: ActOffer) => {
+      const ribbon = cutRibbon(api, {
+        projectId: offer.targetId,
+        cutBy: actorId,
+      });
+      if (!ribbon) return;
+      host.keep(api, {
+        personId: actorId,
+        kind: "cut-ribbon",
+        how: "did",
+        recordId: ribbon.projectId,
+        position: null,
+        detail: ribbon.projectId,
+      });
+    },
     "name-department-head": (
       api: CoreAPI,
       actorId: string,

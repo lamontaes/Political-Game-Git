@@ -58,6 +58,7 @@ import {
   type BillRow,
   type DeskAction,
 } from "./legislature";
+import { registerMeetingHold } from "./world-legislating";
 import {
   nextMeeting as nextOnRule,
   bodyPopulation,
@@ -595,9 +596,10 @@ function keepAct(api: CoreAPI, act: Omit<OfficeActRow, "id" | "date">): void {
 /**
  * Before any vote: a player who sits on the body and has not chosen votes
  * as the character would, from its own position (the rule every member's
- * vote follows). The ordinances members file at their own meetings are
- * voted at the start of the day, before any stop, so the character votes
- * those itself. stopgapId: SG-OFFICE-member-filings-at-midnight
+ * vote follows). The ordinances members file are filed the day before the
+ * meeting and wait on its agenda (`holdsMemberFilings`), so the player's
+ * scene sees them first; only a meeting scheduled with less than a day's
+ * notice still has its filings voted before the stop.
  */
 function ownVote(api: CoreAPI, billId: string): void {
   const player = playerOf(api);
@@ -629,6 +631,46 @@ function ownVote(api: CoreAPI, billId: string): void {
     detail: vote,
   });
 }
+
+/**
+ * A body the player sits on, while the player holds the clock: its members'
+ * ordinances are filed the day before the meeting and wait on its agenda,
+ * for the player's scene to take up (or for the meeting to close).
+ */
+function holdsMemberFilings(api: CoreAPI, officeId: string): boolean {
+  if (!api.state.modules.has(OFFICE_DAY_MODULE_ID)) return false;
+  const player = playerOf(api);
+  return (
+    player !== undefined &&
+    snapshotExplicitControlV1(api.state).personId === player &&
+    members(api, officeId).some(sits(player))
+  );
+}
+
+/** Ordinances members filed for a meeting go on its agenda; with no meeting row they are voted now. */
+function placeFiled(
+  api: CoreAPI,
+  officeId: string,
+  date: string,
+  billIds: readonly string[],
+): void {
+  const row = meetingOf(api, meetingId(officeId, date));
+  if (!row || row.status === "adjourned") {
+    for (const billId of billIds) holdVote(api, billId);
+    return;
+  }
+  for (const billId of billIds)
+    table(api, "agendaItems").put({
+      id: billId,
+      officeId,
+      date,
+    } as unknown as ModuleRow);
+  table(api, "meetings").put({
+    ...row,
+    agenda: [...new Set([...row.agenda, ...billIds])].sort(),
+  } as unknown as ModuleRow);
+}
+registerMeetingHold(holdsMemberFilings, placeFiled);
 
 const sits = (personId: string) => (term: TermRow) =>
   term.personId === personId || memberKey(term) === personId;

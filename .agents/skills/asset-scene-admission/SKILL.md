@@ -1,10 +1,12 @@
 ---
 name: asset-scene-admission
 description: >
-  Evaluate Political Game asset fit and scene admission from candidate evidence
-  through runtime release and visual proof. Use for garment/body compatibility,
-  environment intake, scene geometry, asset-bank disposition, or release review;
-  do not use to generate new art, infer rights, or approve pixels without review.
+  Admits art into Our Civic Duty: checks a candidate's source, rights and
+  lineage, derives runtime tiers, keeps world text in dynamic slots, runs the
+  art gates and confirms the asset in play. Use for people figures and hair
+  pieces, environment intake, scene geometry, asset-bank disposition, or
+  release review; do not use to generate new art, infer rights, or approve
+  pixels without review.
 ---
 
 # Asset fit and scene admission
@@ -12,44 +14,31 @@ description: >
 Read the relevant contracts before acting:
 
 - `docs/systems/art-assets.md` for candidate versus runtime release;
-- `docs/systems/garment-morphology-fit.md` for body/pose fit;
-- `docs/systems/scene-authoring-pipeline.md` and
-  `docs/systems/scene-and-person-presentation.md` for scenes;
-- `$browser-visual-acceptance` for real visual proof.
+- `docs/systems/scene-authoring-pipeline.md` and `docs/systems/scene-and-person-presentation.md` for scenes;
+- `art/people-engine/v2/README.md` for the current people figures (whole figures plus separate hair pieces);
+- `browser-visual-acceptance` for the check in play.
 
-Reuse `scripts/art-asset-factory/` and existing authoring modules. Do not add a
-parallel validator or scene-specific React/CSS path.
+Reuse `scripts/art-asset-factory/`. Don't add a parallel validator or a scene-specific screen path.
 
-## Bounded workflow
+## Workflow
 
-1. Run `$project-operations` preflight. Name the candidate asset, source lineage,
-   rights state, current manifest disposition, intended body/pose or scene family,
-   dynamic surface, and actual consumer.
-2. Keep source master, derived tier, development fixture, candidate, and released
-   runtime asset distinct. Visibility does not establish public-domain or
-   commercial rights. An external upscale must declare its parent and native
-   detail; repository tooling never enlarges a raster.
-3. For environments, use the existing sequence as applicable:
-   `intake:environment`, `derive:tiers`, `scaffold:scene`, and `bank:art`.
-   Geometry begins unresolved. Never infer a world label or access grant from a
-   filename, family, or tag; simulation-owned text belongs in dynamic slots.
-4. For garments, use the existing measured body-family + pose-family profile and
-   `derive:garment-fit`. Never borrow across a missing pairing, loosen a bound to
-   make a candidate pass, or treat a baked head as a finished face.
-5. Run focused admission/negative controls, then the required art gates:
-   `npm run validate:art`, `npm run inventory:art`, and `npm run qa:art`.
-   Use `readiness:art` only for its existing preserved-asset reconciliation.
-6. Prove the intended consumer and perform browser/visual acceptance. Report
-   candidate failures as failures; do not turn a count of derived files into a
-   claim that a person, wardrobe, or room is usable.
+1. Name the candidate, its source and lineage, its rights state, its manifest disposition, and the room, figure family or surface it serves.
+2. Keep source master, derived tier, candidate and released runtime asset distinct.
+   - Being visible online doesn't establish public-domain or commercial rights.
+   - An external upscale must declare its parent. Repository tooling never enlarges a raster.
+3. Environments: derive runtime tiers with `npm run derive:scene-tiers`.
+   - Geometry starts unresolved.
+   - Never infer a world label or access grant from a filename, family or tag.
+   - Anything the simulation owns (names, seals, headlines, dates) goes in a dynamic slot, never in the picture.
+4. People:
+   - one whole figure per pose and angle, bald, with hair pieces fitted per angle;
+   - seated people come from cut, per-seat occupants checked by hand;
+   - scale, front and seat lines come from the room's staging data, not the art.
+5. Run the art gates: `npm run validate:art`, `npm run inventory:art` and `npm run qa:art`.
+6. Show the asset used by its real consumer in a drawn place, with a screenshot (`browser-visual-acceptance`). A count of derived files is not a usable room or person.
 
-Deliberately authored fictional imagery/content is not prohibited, but its source,
-rights, status, and role must be declared. Missing measurements stay missing and
-carry their real confidence class.
+Deliberately authored fictional imagery is allowed, but its source, rights and role must be declared. Missing measurements stay missing and carry their real confidence class.
 
 ## Stop condition
 
-Stop before release on unknown or incompatible rights, undeclared lineage,
-fabricated precision, unresolved blocking geometry, unreadable dynamic surfaces,
-missing body/pose fit, validation refusal, absent normal consumer, or failed human
-visual review. Report the exact residual art/metadata need.
+Stop before release on unknown or incompatible rights, undeclared lineage, fabricated precision, unresolved blocking geometry, unreadable dynamic surfaces, a validation refusal, no real consumer, or a failed visual review. Report the exact art or metadata still needed.
