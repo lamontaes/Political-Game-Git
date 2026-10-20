@@ -22,3 +22,5 @@ claimed-at:
 **Files.** TODO
 
 **Notes.** TODO
+
+Sent back 2026-10-20 from PR #5352 (branch claude/tender-mendel-ijzjo8): merging main conflicts in src/core2/modules/world-races.ts; finish on that branch, merge main into it first.
