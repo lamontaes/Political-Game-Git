@@ -37,6 +37,7 @@ import {
   colleagueDeal,
   interviewOutlet,
   nameHeadPick,
+  budgetLinePick,
   officeView,
 } from "./office";
 import { bankView } from "./bank";
@@ -769,6 +770,22 @@ export async function benchRequest(
             player.personId,
             url.searchParams.get("post") ?? "",
             url.searchParams.get("nomineeId") ?? "",
+          ),
+        );
+        return;
+      }
+      if (
+        request.method === "POST" &&
+        url.pathname === "/api/office/budget-line"
+      ) {
+        if (!player?.personId) throw new Error("Choose a resident first.");
+        send(
+          200,
+          budgetLinePick(
+            requireCore(),
+            player.personId,
+            url.searchParams.get("line") ?? "",
+            Number(url.searchParams.get("changeMinor")),
           ),
         );
         return;

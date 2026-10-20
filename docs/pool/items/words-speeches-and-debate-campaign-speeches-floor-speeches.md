@@ -4,13 +4,13 @@ title: "Speeches and debate (campaign speeches, floor speeches, public comment),
 area: words
 kind: feature
 priority: 2
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/political-game-pool-7xkkii
+pr: #5196
 blocked-on:
 milestone:
 source: "docs/coordination/words.md line 37 (unchecked checklist line)"
-claimed-at:
+claimed-at: 2026-10-19T22:19:00.484Z
 ---
 
 **What.** Campaign speeches, floor speeches, public comment and interviews have registers and a bank (`data/english/parts/address.json`, `interview.json`, `hearing.json`) but no full path from the player's choices to what is said at each venue. Build the speech parts for each register (house-floor, senate-floor, state-floor, hearing, public-comment, chair, campaign, victory, concession) and the debate and interview exchange, with the part chosen from the speaker's record and positions. The player would notice a floor speech that sounds like a floor speech and a concession that sounds like a concession.
@@ -19,6 +19,6 @@ claimed-at:
 
 **Done when.** In a one-year run of the played world (`buildBenchWorld`, every module installed) in a place drawn from all 56 with a seed the builder did not choose (name both in the PR body): a campaign speech, a floor speech and a public comment delivered in the year each compose from the right register's parts (speech and part ids named) and are composed through the real engine in a drawn place (named, with seed) and graded by the owner in the next words batch page under `docs/grading/`. Tests in `scripts/english-corpus/address-bank.test.ts` and `src/core2/speech-composition.test.ts`. The owner plays it: speaks at a council hearing and hears the register.
 
-**Files.** data/english/parts/address.json, scripts/english-corpus/address-bank.ts, src/core2/speech-composition.ts, src/core2/modules/speech.ts
+**Files.** data/english/parts/address.json, scripts/english-corpus/address-bank.ts, src/director/speech-builder.ts, src/core2/modules/speech.ts
 
 **Notes.** Checklist line from words.md; verify against main before starting.

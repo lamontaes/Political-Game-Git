@@ -4,7 +4,7 @@ title: "Finish #4309: the unit suite follows what the game does now"
 area: release
 kind: cleanup
 priority: 2
-status: claimed
+status: in-pr
 claimed-by: release/green-suite
 pr: #4309
 blocked-on:

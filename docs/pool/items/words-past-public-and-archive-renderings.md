@@ -5,11 +5,12 @@ area: words
 kind: feature
 priority: 2
 size: M
-status: open
-claimed-by:
-pr:
-blocked-on:
+status: in-pr
+claimed-by: claude/political-game-pool-yucp92-bn
+pr: #5704
+blocked-on: words: the merger accepts edits under src/director and data/english only from the Words session; the CTO must confirm a non-Words branch or hand this to the Words line (merger comment, Oct 20)
 source: added with npm run pool -- add
+claimed-at: 2026-10-20T14:02:05.835Z
 ---
 
 **What.** TODO
@@ -21,3 +22,5 @@ source: added with npm run pool -- add
 **Files.** TODO
 
 **Notes.** TODO
+
+Sent back 2026-10-20 from PR #5216 (branch claude/words-past-public-archive): authored shippable player text (origin authored, shippable true) in data/english/parts/public-figure.json; finish on that branch, merge main into it first.
