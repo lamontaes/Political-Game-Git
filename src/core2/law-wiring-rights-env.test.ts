@@ -109,7 +109,15 @@ it("wires the rights, technology, environment, agriculture, parks and roads laws
         ),
       );
       if (!emitters.length || !has("enterprise:agriculture")) continue;
-      if (!has("enterprise:telecommunications")) continue;
+      // Age verification binds an online platform with workers (business.ts readBusinessDuty).
+      if (
+        !orgs.some(
+          (o) =>
+            o.classification === "enterprise:telecommunications" &&
+            (core.finance.jobsByOrganization.get(o.id)?.size ?? 0) > 0,
+        )
+      )
+        continue;
       const gov = governments(api).find((g) => g.level === "city");
       if (!gov) continue;
 
