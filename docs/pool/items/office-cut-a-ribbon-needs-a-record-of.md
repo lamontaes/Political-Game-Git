@@ -22,3 +22,5 @@ claimed-at:
 **Files.** src/core2/modules/budgets.ts, src/core2/office-day-acts.ts, src/core2/modules/office-day.ts, src/core2/modules/housing.ts
 
 **Notes.** Checklist line from OFFICE-LOCAL.md; verify against main before starting.
+
+Sent back 2026-10-20 from PR #5535 (branch claude/cut-ribbon): the next fiscal-year budget stands in for actual public-work completion without a stopgap row and marker; use a completion record or register and accurately describe the assumption; finish on that branch, merge main into it first.
