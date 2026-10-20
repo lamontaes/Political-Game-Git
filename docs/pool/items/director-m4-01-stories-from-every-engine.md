@@ -5,13 +5,13 @@ area: director
 kind: feature
 priority: 3
 size: L
-status: in-pr
-claimed-by: claude/director-m4-01
+status: open
+claimed-by:
 pr: #5336
 blocked-on:
 milestone: M4
 source: "docs/roadmap/later-specs-draft.md M4-01"
-claimed-at: 2026-10-20T00:09:02.134Z
+claimed-at:
 ---
 
 **What.** The director turns campaigns, votes, laws and money into moments: big ones interrupt, smaller ones wait or become journal lines, and callbacks come through people. (Owner: OPUS-PEOPLE.)
