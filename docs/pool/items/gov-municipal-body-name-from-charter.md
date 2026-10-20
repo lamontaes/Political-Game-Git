@@ -5,7 +5,7 @@ area: gov
 kind: stopgap
 priority: 2
 size: S
-status: in-pr
+status: done
 claimed-by: claude/pool-gov-municipal-body-name
 pr: #5175
 blocked-on:

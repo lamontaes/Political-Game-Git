@@ -5,9 +5,9 @@ area: core
 kind: cleanup
 priority: 2
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/fs11vb-old-imports
-pr:
+pr: #5514
 blocked-on:
 source: split from core-old-imports-population
 claimed-at: 2026-10-20T04:38:57.089Z

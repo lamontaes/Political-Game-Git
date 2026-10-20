@@ -5,11 +5,12 @@ area: world
 kind: bug
 priority: 3
 size: M
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/audit-18-data-verify
+pr: #5512
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-20T04:42:02.760Z
 ---
 
 **What.** Check Connecticut property-tax due dates against statute, fix the Michigan row tagged SOURCED whose rule differs for primary-electing cities, and regenerate town-business-books.generated.ts from the script and check the three IRS values.
