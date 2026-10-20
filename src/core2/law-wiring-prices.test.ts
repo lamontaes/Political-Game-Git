@@ -278,6 +278,20 @@ function run(
         rows.some((r) => r.amountMinor > 0),
         `${where}: ${l.row.series} rows carry the tax collected`,
       ).toBe(true);
+      // The buyers paid it: full people and the place's counted residents, each with the people it stands for.
+      const buyers = rows.filter(
+        (r) => r.target === "person" || r.target === "group",
+      );
+      expect(
+        buyers.some((r) => r.target === "person" && r.amountMinor > 0),
+        `${where}: ${l.row.series} full buyers paid`,
+      ).toBe(true);
+      expect(
+        buyers.some(
+          (r) => r.target === "group" && r.amountMinor > 0 && r.count > 1,
+        ),
+        `${where}: ${l.row.series} counted buyers paid`,
+      ).toBe(true);
     }
   }
 

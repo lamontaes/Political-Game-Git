@@ -131,57 +131,94 @@ export function taxInside(paidMinor: number, ratePercent: number): number {
   return Math.floor((paidMinor * ratePercent) / (100 + ratePercent));
 }
 
-const countedPeople = new WeakMap<CoreState, Map<string, number>>();
-
-/** The counted people a place's residents stand for, kept for the day. */
-function countedPeopleIn(core: CoreState, placeId: string, date: IsoDate) {
-  let days = countedPeople.get(core);
-  if (!days) countedPeople.set(core, (days = new Map()));
-  const key = `${placeId}|${date}`;
-  let n = days.get(key);
-  if (n === undefined) {
-    if (days.size > 256) days.clear();
-    const rt = residentsRuntime(core);
-    n = 0;
-    for (const household of rt?.store.liveHouseholds() ?? [])
-      if (!household.gone && household.placeId === placeId)
-        n += rt!.store.countedCount(household);
-    days.set(key, n);
-  }
-  return n;
+interface Pending {
+  readonly key: string;
+  readonly lawId: string;
+  readonly targetId: string;
+  readonly target: "person" | "group" | "organization";
+  /** The place whose counted residents a group target stands for. */
+  readonly countedIn?: PlaceId;
+  readonly what: string;
+  amountMinor: number;
 }
 
-/** An exemption spared these buyers (full people or a place's counted residents) and this seller tax on a sale. */
-function recordSpared(
-  api: CoreAPI,
-  sale: SalesReceiptNotice,
-  key: string,
-  lawId: string,
-  sparedMinor: number,
-): void {
-  const share = Math.floor(sparedMinor / Math.max(1, sale.buyerIds.length));
-  for (const buyerId of sale.buyerIds)
+/**
+ * What the day's sales did to each law's targets, summed per law and target
+ * and recorded once when the day ends: a law row per sale would write the
+ * same few rows thousands of times.
+ */
+const pending = new WeakMap<CoreState, Map<string, Pending>>();
+
+function note(
+  core: CoreState,
+  input: Omit<Pending, "amountMinor">,
+  minor: number,
+) {
+  let day = pending.get(core);
+  if (!day) pending.set(core, (day = new Map()));
+  const id = `${input.key}|${input.lawId}|${input.targetId}|${input.what}`;
+  const held = day.get(id);
+  if (held) held.amountMinor += minor;
+  else day.set(id, { ...input, amountMinor: minor });
+}
+
+/** Record the day's sums as applied rows; a counted group stands for its place's weighted counted people. */
+function flushApplied(api: CoreAPI): void {
+  const day = pending.get(api.state);
+  if (!day?.size) return;
+  const people = new Map<string, number>();
+  for (const row of day.values()) {
+    let count: number | undefined;
+    if (row.target === "group") {
+      count = people.get(row.countedIn!);
+      if (count === undefined) {
+        count =
+          residentsRuntime(api.state)?.store.weightedPeople(row.countedIn!) ??
+          1;
+        people.set(row.countedIn!, count);
+      }
+    }
     lawApplied(api, {
-      key,
-      lawId,
-      targetId: buyerId,
-      target: sale.counted ? "group" : "person",
-      ...(sale.counted
-        ? { count: countedPeopleIn(api.state, sale.placeId, sale.date) }
-        : {}),
+      key: row.key,
+      lawId: row.lawId,
+      targetId: row.targetId,
+      target: row.target,
+      ...(count === undefined ? {} : { count: Math.max(1, count) }),
       engine: PURCHASE_TAX_MODULE_ID,
-      what: "sales-tax-exempt",
-      amountMinor: -share,
+      what: row.what,
+      amountMinor: row.amountMinor,
     });
-  lawApplied(api, {
-    key,
-    lawId,
-    targetId: sale.sellerId,
-    target: "organization",
-    engine: PURCHASE_TAX_MODULE_ID,
-    what: "sales-tax-exempt",
-    amountMinor: -sparedMinor,
-  });
+  }
+  day.clear();
+}
+
+/** A sale's buyers and seller, noted under a law: money is the buyers' (positive: tax paid; negative: tax spared). */
+function noteSale(
+  core: CoreState,
+  sale: SalesReceiptNotice,
+  law: { readonly key: string; readonly lawId: string },
+  what: string,
+  buyersMinor: number,
+  sellerMinor: number,
+): void {
+  const share = Math.round(buyersMinor / Math.max(1, sale.buyerIds.length));
+  for (const buyerId of sale.buyerIds)
+    note(
+      core,
+      {
+        ...law,
+        targetId: buyerId,
+        target: sale.counted ? "group" : "person",
+        ...(sale.counted ? { countedIn: sale.placeId } : {}),
+        what,
+      },
+      share,
+    );
+  note(
+    core,
+    { ...law, targetId: sale.sellerId, target: "organization", what },
+    sellerMinor,
+  );
 }
 
 function collect(api: CoreAPI, sale: SalesReceiptNotice): void {
@@ -205,19 +242,25 @@ function collect(api: CoreAPI, sale: SalesReceiptNotice): void {
     if (exempt && exempt.lawKey && exempt.lawId) {
       const spared = taxInside(sale.paidMinor, tax.ratePercent) - amountMinor;
       if (spared > 0)
-        recordSpared(api, sale, exempt.lawKey, exempt.lawId, spared);
+        noteSale(
+          core,
+          sale,
+          { key: exempt.lawKey, lawId: exempt.lawId },
+          "sales-tax-exempt",
+          -spared,
+          -spared,
+        );
     }
     if (amountMinor <= 0) continue;
     for (const law of tax.laws ?? [])
-      lawApplied(api, {
-        key: law.key,
-        lawId: law.lawId,
-        targetId: seller.id,
-        target: "organization",
-        engine: PURCHASE_TAX_MODULE_ID,
-        what: "sales-tax-collected",
-        amountMinor: Math.round(amountMinor / tax.laws!.length),
-      });
+      noteSale(
+        core,
+        sale,
+        law,
+        "sales-tax-paid",
+        amountMinor / tax.laws!.length,
+        amountMinor / tax.laws!.length,
+      );
     // Tax left unremitted earlier is added to this remittance and paid first.
     const key = `${tax.id}:${seller.id}`,
       prior = arrearsRows(core).get(key),
@@ -248,4 +291,5 @@ function collect(api: CoreAPI, sale: SalesReceiptNotice): void {
 export const PURCHASE_TAX_MODULE: CoreModule = {
   id: PURCHASE_TAX_MODULE_ID,
   onSalesReceipt: collect,
+  onAfterDay: flushApplied,
 };
