@@ -17,6 +17,6 @@ source: added by EFFECT-WEB-WIRING
 
 **Rules.** One rule, all 56 places; never narrow the test or pick a seed that passes.
 
-**Done when.** M2-01 passes on that seed and on fresh random seeds, and the golden-path runner shows M2-01 passed.
+**Done when.** The offices test passes on that seed and on three fresh seeds in a drawn place each, and the golden-path runner on the fix branch shows M2-01 passed.
 
 **Files.** src/core2/offices.test.ts, the opening's office-history writer.
