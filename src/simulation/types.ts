@@ -97,6 +97,20 @@ import type {
   PublicGovernmentIdentity,
   SimulationMoment,
 } from "../core2/kernel/brands";
+import type {
+  MindCatalog,
+  MindStrength,
+  PersonalValueDefinition,
+  PersonalityExpressionDefinition,
+  PersonalityTendencyDefinition,
+} from "../core2/mind-types";
+export type {
+  MindCatalog,
+  MindStrength,
+  PersonalValueDefinition,
+  PersonalityExpressionDefinition,
+  PersonalityTendencyDefinition,
+};
 export type {
   CurrencyCode,
   EntityId,
@@ -262,35 +276,6 @@ export interface PolicyCatalog {
   readonly subjectOrder: readonly EntityId[];
   readonly principles: Readonly<Record<string, PoliticalPrincipleDefinition>>;
   readonly principleOrder: readonly EntityId[];
-}
-
-export interface PersonalityExpressionDefinition {
-  readonly key: string;
-  readonly label: string;
-  readonly description: string;
-}
-
-export interface PersonalityTendencyDefinition {
-  readonly id: EntityId;
-  readonly stableKey: string;
-  readonly name: string;
-  readonly description: string;
-  readonly expressions: readonly PersonalityExpressionDefinition[];
-}
-
-export interface PersonalValueDefinition {
-  readonly id: EntityId;
-  readonly stableKey: string;
-  readonly name: string;
-  readonly description: string;
-}
-
-export interface MindCatalog {
-  readonly catalogVersion: "mind-catalog-v1";
-  readonly tendencies: Readonly<Record<string, PersonalityTendencyDefinition>>;
-  readonly tendencyOrder: readonly EntityId[];
-  readonly values: Readonly<Record<string, PersonalValueDefinition>>;
-  readonly valueOrder: readonly EntityId[];
 }
 
 export type PersonDetailLevel = "lightweight" | "materialized";
@@ -1071,7 +1056,6 @@ export interface MindRecordProvenance {
   readonly note: string | null;
 }
 
-export type MindStrength = "subtle" | "moderate" | "strong" | "defining";
 export type MindConfidence = "low" | "medium" | "high";
 
 export interface PersonalityTendencyRecord {

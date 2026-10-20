@@ -47,6 +47,8 @@
     "src/core2/condition-pack.ts",
     "src/core2/death-causes.ts",
     "src/core2/health-hazard.ts",
+    "src/core2/mind-types.ts",
+    "src/core2/opening-people.ts",
     "src/core2/health-mortality-table.ts",
     "src/core2/business-names.ts",
     "src/core2/household-mix.generated.ts",

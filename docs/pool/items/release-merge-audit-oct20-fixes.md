@@ -5,10 +5,10 @@ area: release
 kind: bug
 priority: 2
 size: L
-status: claimed
+status: blocked
 claimed-by: claude/merge-audit-fixes
 pr:
-blocked-on:
+blocked-on: release-audit-01-news-office-proof-tests
 source: "docs/reports/merge-audit-2026-10-20.md"
 claimed-at: 2026-10-20T04:18:13.609Z
 ---

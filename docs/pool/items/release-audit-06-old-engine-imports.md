@@ -5,11 +5,12 @@ area: release
 kind: bug
 priority: 2
 size: M
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/political-game-pool-76ksvw
+pr: #5180
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-20T04:25:36.732Z
 ---
 
 **What.** Move the imported types into core2, remove the dangling town-employment-mix.ts line from tsconfig.node.json, and close #5084 as a duplicate carried in by #5097.

@@ -5,11 +5,12 @@ area: release
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/fs11vb-audit-01
+pr: #5180
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-20T04:19:41.038Z
 ---
 
 **What.** Draw places with bounded retries until one has a county and a state office, assert the feature, and fail on exhaustion; keep the no-county case as its own test; put the governor test timeout back near 240,000 ms or state why.

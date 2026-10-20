@@ -17,6 +17,9 @@ The CTO's only writer. When two rulings conflict, the most recent wins unless th
 - **Bribe offers** (#5333): zero offers in a plain year is fine. Offers follow reputation: someone known to take bribes, or to trade favors for money, draws many more requests.
 - **A town with no open jobs** (#5174): yes, the player is offered work elsewhere in the region (the outside employers).
 
+- **The menu structure** (owner, from the menu study): the scene is home; menus are overlays that pause time with the room's people still visible. Bottom left: the player card, with the vertical icon rail above it (names on hover): Journal, Calendar, Money, Politics, News, People, Travel. News gets its own rail button. Options (settings, guide, quit to title) moves off the rail to the Esc key and the title screen. Clicking your own portrait opens You, with Work and study as its second tab. Politics: Government, Issues, Budgets, Parties, plus Your office only while you hold a seat and Campaigns only once you've filed. Alerts: a toast for news that just reached you, a dot on a rail icon for something unread, a scene when something needs you; no pop-up lists. Actions start from people, places and scenes, not menu lists.
+- **The campaign day:** no "Today" list of acts. Campaign acts are scenes you go to (a venue for a speech, doors to knock, an interview, a debate); the Campaigns tab shows standing and polls only.
+
 ## Ruled by the CTO overnight, October 14, 2026 (from standing rules; the owner may overrule)
 
 - **Counted people keep about 30 bytes each in packed columns** (two-tier package) rather than being regenerated from the seed as the MEMORY-FLAT package said; the newer design meets the memory goal (heap after opening 766 MB to 451 MB) and the year halves (146 s to 72 s in Robbins). Conflict flagged; newest wins.
