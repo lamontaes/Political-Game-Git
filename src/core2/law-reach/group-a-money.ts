@@ -25,11 +25,11 @@ import {
   type GovernmentRow,
 } from "../modules/budgets";
 import { lawChain } from "../modules/laws";
+import { onReachPayroll } from "./reach-workers";
 import {
   applyRecords,
   ensureReachA,
   mechanicRow,
-  onReachPayroll,
   PREMIUM_KIND,
   putMechanic,
   REACH_A_MODULE_ID,

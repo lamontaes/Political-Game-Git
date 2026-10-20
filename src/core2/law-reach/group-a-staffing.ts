@@ -18,11 +18,11 @@ import type { ModuleRow } from "../module-data";
 import type { PolicyHandler } from "./host";
 import { BUDGETS_MODULE_ID, governments } from "../modules/budgets";
 import { baseLine, budgetToday } from "./group-a-money";
+import { onReachCalendar } from "./reach-workers";
 import {
   ageOn,
   currentStaff,
   ensureReachA,
-  onReachCalendar,
   reachParameter,
   reachTable,
   REACH_A_MODULE_ID,
