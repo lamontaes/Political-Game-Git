@@ -5,9 +5,9 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/speed-pair-key
-pr:
+pr: #5413
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-20T02:09:28.675Z

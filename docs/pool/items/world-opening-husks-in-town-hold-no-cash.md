@@ -5,9 +5,9 @@ area: world
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/husks-cash
-pr:
+pr: #5423
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-20T02:11:06.582Z
