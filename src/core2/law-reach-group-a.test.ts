@@ -442,11 +442,19 @@ describe("audit 13, law breadth group A: every policy reaches people", () => {
       sign: 1 | -1,
     ) => {
       expect(electionLawTurnoutCost(api, who, minutes), where).toBe(0);
-      recordRoundTrip(key, () => {
-        const cost = electionLawTurnoutCost(api, who, minutes);
-        costs[key] = cost;
-        expect(Math.sign(cost), `${where}: ${key} cost ${cost}`).toBe(sign);
-      });
+      // The election laws' reach rows are the voting engine's applied rows,
+      // written on registration and election day and asserted in
+      // law-wiring-government.test.ts; here the cost is read at enactment.
+      recordRoundTrip(
+        key,
+        () => {
+          const cost = electionLawTurnoutCost(api, who, minutes);
+          costs[key] = cost;
+          expect(Math.sign(cost), `${where}: ${key} cost ${cost}`).toBe(sign);
+        },
+        undefined,
+        true,
+      );
       expect(electionLawTurnoutCost(api, who, minutes), where).toBe(0);
     };
     check(PHOTO_ID, idle ?? worker.person, idle ? 0 : worker.minutes, 1);
