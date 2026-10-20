@@ -5,9 +5,9 @@ area: people
 kind: bug
 priority: 2
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/health-full-deaths
-pr:
+pr: #5481
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-20T03:08:38.742Z

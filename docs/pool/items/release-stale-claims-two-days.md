@@ -22,3 +22,5 @@ claimed-at:
 **Files.** docs/pool/items/world-corporate-office-staff-never-paid.md, docs/pool/items/world-home-turnover.md, docs/pool/items/core-old-imports-opening-work.md, docs/pool/items/world-worker-unpaid-four-months.md
 
 **Notes.** TODO
+
+Corrected Oct 20 (claude/stale-claims-evidence): the premise was wrong. I read an older listing. On current main the four items are in-pr with open PRs (three are pool-notes-only branches, the fourth, #5011, was updated Oct 20 03:33 UTC), so no claim is stale and nothing is blocked. The CTO can drop this item.
