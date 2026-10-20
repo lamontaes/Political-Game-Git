@@ -5,12 +5,12 @@ area: core
 kind: stopgap
 priority: 3
 size: M
-status: blocked
+status: open
 claimed-by:
 pr:
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 
+claimed-at:
 after: core-race-candidates-with-records-house
 ---
 
