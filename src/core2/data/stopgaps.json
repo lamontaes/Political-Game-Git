@@ -4838,5 +4838,17 @@
     "addedAt": "2026-10-17",
     "replacement": "The owner's ruling on which pre-vote hooks run on the committee day (docs/coordination/OWNER-DECISIONS.md).",
     "status": "open"
+  },
+  {
+    "id": "SG-GOV-bail-not-escrowed",
+    "kind": "missing-mechanic",
+    "file": "src/core2/modules/justice.ts",
+    "line": 1054,
+    "whatItFakes": "Posted bail goes into the prosecuting government's general treasury cash, so the treasury can spend it before the trial and hand back only what it still holds; the shortfall is recorded on the return, not escrowed.",
+    "why": "The journal has no court fund or escrow account to set bail aside; adding one is a new account kind under the treasury's owner.",
+    "addedBy": "claude",
+    "addedAt": "2026-10-20",
+    "replacement": "A court escrow fund account that holds each bail apart from spendable treasury cash, returned in full at disposition.",
+    "status": "open"
   }
 ]

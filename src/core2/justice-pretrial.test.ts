@@ -155,15 +155,22 @@ describe(`pretrial bail, ${where}`, () => {
       );
       expect(core.cashJournal.nextSequence, where).toBeGreaterThan(before);
       advanceCore(core, addDays(makeIsoDate(c.trialDate!), 1));
-      const back = fines.get(`bail-return:${c.id}`) as unknown as {
-        postings: { accountId: string; deltaMinor: number }[];
-      };
-      expect(back, `${where}: bail not returned for ${c.id}`).toBeDefined();
-      expect(
-        back.postings.find((x) => x.accountId === `cash:${person.id}:residual`)!
-          .deltaMinor,
-        where,
-      ).toBe(bail);
+      const back = fines.get(`bail-return:${c.id}`) as unknown as
+        | {
+            shortMinor?: number;
+            postings: { accountId: string; deltaMinor: number }[];
+          }
+        | undefined;
+      // The treasury hands back what it still holds (SG-GOV-bail-not-escrowed);
+      // the rest is recorded as short. No return at all means it held nothing.
+      const returned = back
+        ? back.postings.find(
+            (x) => x.accountId === `cash:${person.id}:residual`,
+          )!.deltaMinor
+        : 0;
+      expect(returned + (back?.shortMinor ?? bail - returned), where).toBe(
+        bail,
+      );
       return;
     }
     throw new Error(`${where}: no defendant went to trial`);

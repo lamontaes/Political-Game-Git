@@ -937,6 +937,8 @@ function treasuryFor(api: CoreAPI, officeId: string): string | null {
 interface FineRecord {
   readonly id: string;
   readonly reason: "fine" | "forfeiture" | "bail" | "bail-return";
+  /** A bail return the treasury could not cover in full: what it still owes. */
+  readonly shortMinor?: number;
   readonly date: string;
   readonly personId: PersonId;
   readonly treasuryId: string;
@@ -1041,13 +1043,23 @@ function returnBail(api: CoreAPI, caseId: string): void {
     FineRecord | undefined;
   if (!held || table(api, "fines").get(`bail-return:${caseId}`)) return;
   const state = api.state as CoreState;
-  const amount = held.postings.find((x) => x.id === "treasury")!.deltaMinor;
+  // The treasury hands back what it still holds; the rest stays owed on the case's bail record.
+  const accounts = api.accounts();
+  const heldMinor = held.postings.find((x) => x.id === "treasury")!.deltaMinor;
+  const amount = Math.min(
+    heldMinor,
+    Math.max(0, accounts.balance(accounts.main(held.treasuryId))),
+  );
+  // stopgapId: SG-GOV-bail-not-escrowed
+  api.stopgap("SG-GOV-bail-not-escrowed");
+  if (amount <= 0) return;
   const record: FineRecord = {
     id: `bail-return:${caseId}`,
     reason: "bail-return",
     date: api.state.date,
     personId: held.personId,
     treasuryId: held.treasuryId,
+    shortMinor: heldMinor - amount,
     postings: [
       {
         id: "treasury",
