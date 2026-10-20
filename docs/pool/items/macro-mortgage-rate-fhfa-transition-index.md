@@ -5,12 +5,12 @@ area: world
 kind: research
 priority: 2
 size: S
-status: blocked
-claimed-by: claude/fhfa-mortgage-index
+status: open
+claimed-by:
 pr:
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-20T04:11:00.147Z
+claimed-at:
 ---
 
 **What.** src/core2/data/macro/history.json cites Freddie Mac's survey for mortgage30Pct after 2019, but the CTO excluded that survey (ruling on #3959) and stopgap SG-WORLD-macro-mortgage-spread says the post-April-2019 rate is the 10-year Treasury plus a spread. Replace every month from 2019-06 onward with FHFA's own government series, the Mortgage Interest Rate Survey Transition Index (https://www.fhfa.gov/data/mirs, 6.48 for September 2026), so that mortgageAt in src/core2/macro-model.ts reads a published figure for any month the index covers and adds no spread. Cite FHFA in the file's source block, and mark the series ESTIMATED because FHFA says the index is its adjusted version of Freddie Mac's survey and not a rate for new loans (it runs about 0.3 to 0.4 point below the old values). Register an owner-decision stopgap for that caveat and resolve SG-WORLD-macro-mortgage-spread.
