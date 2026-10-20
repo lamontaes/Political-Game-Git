@@ -5,9 +5,9 @@ area: core
 kind: bug
 priority: 3
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/political-game-pool-yucp92-ai
-pr:
+pr: #5631
 blocked-on:
 after: people-resting-stress-test-flaky
 source: added with npm run pool -- add
