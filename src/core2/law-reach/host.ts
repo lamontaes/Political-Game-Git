@@ -12,7 +12,7 @@
  */
 import { coreAPI, registerModule } from "../state";
 import type { CoreAPI, CoreEventInput, CoreModule, CoreState } from "../types";
-import { lawChain, LAWS_MODULE_ID } from "../modules/laws";
+import { lawChain, lawInForce, LAWS_MODULE_ID } from "../modules/laws";
 import type { LawRowInput } from "../laws-starting";
 import { registerLawReach } from "./index";
 import { REACH_A_MODULE_ID } from "./group-a-records";
@@ -144,8 +144,7 @@ function runHandlers(api: CoreAPI, event: Readonly<CoreEventInput>): void {
       : key.includes(":")
         ? inForceHere(api, key)
         : true;
-  if (event.kind === "law-took-effect")
-    endReplaced(api, key, inForce, facts.lawId);
+  if (event.kind === "law-took-effect") endReplaced(api, key, inForce);
   const list = handlers.get(key);
   if (!list) return;
   for (const handler of list)
@@ -161,26 +160,29 @@ function runHandlers(api: CoreAPI, event: Readonly<CoreEventInput>): void {
 
 /**
  * A law taking effect ends the applied rows it replaces: every row on the key
- * when the policy is no longer law here, else the rows citing an older law
- * (the engines record the new one the next time they apply it).
+ * when the policy is no longer law here; for an amount, the rows citing a row
+ * no level holds in force any more (the engines record the new one the next
+ * time they apply it). A policy question enacted again at another level while it
+ * is already law replaces nothing.
  */
-function endReplaced(
-  api: CoreAPI,
-  key: string,
-  inForce: boolean,
-  lawId: string | undefined,
-): void {
+function endReplaced(api: CoreAPI, key: string, inForce: boolean): void {
   if (!key) return;
   if (!inForce) {
     endApplied(api, key);
     return;
   }
+  if (key.includes(":")) return;
+  const inForceRows = new Set(
+    lawInForce(api, key)
+      .levels.map((l) => l.row?.id)
+      .filter((id): id is string => id !== undefined),
+  );
   const table = api.moduleState(LAW_REACH_HOST_ID).table(LAW_APPLIED_TABLE);
   for (const row of table.query("byKey", [
     key,
     null,
   ]) as unknown as LawAppliedRow[])
-    if (lawId && row.lawId !== lawId)
+    if (!inForceRows.has(row.lawId))
       table.put({ ...row, endedOn: api.state.date } as unknown as ModuleRow);
 }
 
