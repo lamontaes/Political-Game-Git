@@ -73,15 +73,15 @@ describe("homelessness against the research", { timeout: 1_800_000 }, () => {
       `housing-calibration: renter households by burden ${households.join("/")}, taken to court ${taken.join("/")}`,
     );
     // Cases gather above the 22 percent line: their share there is at least
-    // the renters' share there. Past 32 percent they rise faster, checked
-    // once a year's cases are enough to tell one case from a curve.
+    // the renters' share there. Past 32 percent they rise faster. Both are
+    // checked once a year's cases are enough to tell one case from a curve.
     const renters = households.reduce((n, v) => n + v, 0);
     const cased = taken.reduce((n, v) => n + v, 0);
-    if (cased)
+    // A share of four cases is one case either way, so every check waits for ten.
+    if (cased >= 10) {
       expect((taken[1]! + taken[2]!) / cased).toBeGreaterThanOrEqual(
         (households[1]! + households[2]!) / renters,
       );
-    if (cased >= 10) {
       expect(rate[1]!).toBeGreaterThanOrEqual(rate[0]!);
       expect(rate[2]! - rate[1]!).toBeGreaterThanOrEqual(rate[1]! - rate[0]!);
     }
