@@ -5,9 +5,9 @@ area: gov
 kind: research
 priority: 3
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/official-salary-table-test
-pr:
+pr: #5312
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-20T00:09:25.050Z
