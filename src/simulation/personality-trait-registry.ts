@@ -4,8 +4,8 @@ import {
   TRAIT_SHAPES,
   type PeopleTrait,
 } from "./people-trait-definitions";
-import type { CatalogueScale } from "./personality-catalogue";
-import { CATALOGUE_SCALES } from "./personality-catalogue.generated";
+import type { CatalogueScale } from "../core2/personality-catalogue";
+import { CATALOGUE_SCALES } from "../core2/personality-catalogue.generated";
 import { loadedTraitRegistry } from "./trait-registry";
 
 /** The five words Lamontae approved for how strongly a trait is held. */
@@ -126,7 +126,7 @@ export const PERSONALITY_TRAIT_READERS: readonly TraitReaderRegistration[] = [
     trait: "personality-v1:self-confidence",
     kind: "decision",
     reader:
-      "career.consider-another-term — src/simulation/traits/effects/self-confidence.ts",
+      "career.consider-another-term — src/core2/trait-effects/self-confidence.ts",
   },
   {
     trait: "personality-v1:patience",
@@ -157,19 +157,19 @@ export const PERSONALITY_TRAIT_READERS: readonly TraitReaderRegistration[] = [
     trait: "personality-v1:facet-affectionate",
     kind: "decision",
     reader:
-      "registeredTraitConsiderations — src/simulation/traits/effects/facet-affectionate.ts",
+      "registeredTraitConsiderations — src/core2/trait-effects/facet-affectionate.ts",
   },
   {
     trait: "personality-v1:facet-thrill-seeking",
     kind: "decision",
     reader:
-      "registeredTraitConsiderations — src/simulation/traits/effects/facet-thrill-seeking.ts",
+      "registeredTraitConsiderations — src/core2/trait-effects/facet-thrill-seeking.ts",
   },
   {
     trait: "personality-v1:facet-zealous",
     kind: "decision",
     reader:
-      "registeredTraitConsiderations — src/simulation/traits/effects/facet-zealous.ts",
+      "registeredTraitConsiderations — src/core2/trait-effects/facet-zealous.ts",
   },
   {
     trait: "personality-v1:facet-envious",
@@ -199,13 +199,13 @@ export const PERSONALITY_TRAIT_READERS: readonly TraitReaderRegistration[] = [
     trait: "personality-v1:facet-supportive",
     kind: "decision",
     reader:
-      "registeredTraitConsiderations — src/simulation/traits/effects/facet-supportive.ts",
+      "registeredTraitConsiderations — src/core2/trait-effects/facet-supportive.ts",
   },
   {
     trait: "personality-v1:facet-comforting",
     kind: "decision",
     reader:
-      "registeredTraitConsiderations — src/simulation/traits/effects/facet-comforting.ts",
+      "registeredTraitConsiderations — src/core2/trait-effects/facet-comforting.ts",
   },
   {
     trait: "personality-v1:facet-mischievous",
@@ -236,7 +236,7 @@ export const PERSONALITY_TRAIT_READERS: readonly TraitReaderRegistration[] = [
     trait: "personality-v1:facet-tender-hearted",
     kind: "decision",
     reader:
-      "registeredTraitConsiderations — src/simulation/traits/effects/facet-tender-hearted.ts",
+      "registeredTraitConsiderations — src/core2/trait-effects/facet-tender-hearted.ts",
   },
   {
     trait: "personality-v1:facet-opportunistic",
@@ -247,19 +247,19 @@ export const PERSONALITY_TRAIT_READERS: readonly TraitReaderRegistration[] = [
     trait: "personality-v1:facet-studious",
     kind: "decision",
     reader:
-      "registeredTraitConsiderations — src/simulation/traits/effects/facet-studious.ts",
+      "registeredTraitConsiderations — src/core2/trait-effects/facet-studious.ts",
   },
   {
     trait: "personality-v1:facet-blunt",
     kind: "decision",
     reader:
-      "registeredTraitConsiderations — src/simulation/traits/effects/facet-blunt.ts",
+      "registeredTraitConsiderations — src/core2/trait-effects/facet-blunt.ts",
   },
   {
     trait: "personality-v1:facet-brazen",
     kind: "decision",
     reader:
-      "registeredTraitConsiderations — src/simulation/traits/effects/facet-brazen.ts",
+      "registeredTraitConsiderations — src/core2/trait-effects/facet-brazen.ts",
   },
   {
     trait: "personality-v1:facet-meticulous",
