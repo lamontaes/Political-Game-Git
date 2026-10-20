@@ -5,12 +5,12 @@ area: core
 kind: stopgap
 priority: 3
 size: M
-status: open
-claimed-by:
+status: in-pr
+claimed-by: claude/fs11vb-rch
 pr: #5340
 blocked-on:
 source: added with npm run pool -- add
-claimed-at:
+claimed-at: 2026-10-20T14:26:53.554Z
 ---
 
 **What.** TODO
