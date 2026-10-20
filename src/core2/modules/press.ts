@@ -1581,8 +1581,6 @@ export function answerInterview(
     InterviewRow | undefined;
   if (!row || row.status !== "invited")
     throw new Error(`No interview waiting: ${interviewId}`);
-  // stopgapId: SG-PEOPLE-press-interview-conversation
-  api.stopgap("SG-PEOPLE-press-interview-conversation");
   const speaker = speakerOf(api, row);
   const given = row.questions.map((question): InterviewAnswer => {
     const answer = answers.find((a) => a.question === question);

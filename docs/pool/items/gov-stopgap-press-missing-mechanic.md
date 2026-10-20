@@ -22,3 +22,5 @@ claimed-at: 2026-10-19T23:22:30.405Z
 **Files.** src/core2/modules/press.ts
 
 **Notes.** First row: An interview's answers carry the conversation's moves (plain, further, turn, brief) and the lie as record data, but the screen does not yet open the interview through the director's conversation, so the player cannot see
+
+Oct 20 (claude, claude/political-game-pool-76ksvw): SG-PEOPLE-press-interview-conversation is resolved by the interview screen (`people-interview-screen`, #5180); its marker in `press.ts` is removed. Three rows remain here: favors-and-leaks, endorsements and employer-enrollment (and the outlet-revenue row elsewhere).

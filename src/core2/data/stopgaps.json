@@ -3714,11 +3714,11 @@
     "file": "src/core2/modules/press.ts",
     "line": 1359,
     "whatItFakes": "An interview's answers carry the conversation's moves (plain, further, turn, brief) and the lie as record data, but the screen does not yet open the interview through the director's conversation, so the player cannot see the reporter's questions as spoken lines or pick a move from worded choices.",
-    "why": "The conversation engine and its word banks are being rewritten by the words session (PR #4156); interview lines need its mined banks and adapters.",
+    "why": "Resolved Oct 20: an interview waiting for the player is shown on the campaign screen with the reporter's lines from the interview bank, the player picks a move for each question (plainly, a further fact, turn it on a rival, briefly, the lie) and the chosen moves go to answerInterview (src/bench/campaign.ts interviewAnswer, src/director/interview.ts). The answers are then told as a conversation. Before: The conversation engine and its word banks are being rewritten by the words session (PR #4156); interview lines need its mined banks and adapters.",
     "addedBy": "OPUS-PEOPLE",
     "addedAt": "2026-10-14",
     "replacement": "An interview subject in the director's conversation: the reporter asks each question as a line, the four moves and the lie are the player's choices, and the chosen move is passed to answerInterview.",
-    "status": "open"
+    "status": "resolved"
   },
   {
     "id": "SG-PEOPLE-press-bring-it-up-row",
