@@ -5,7 +5,7 @@ area: people
 kind: feature
 priority: 3
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/people-prestart-history
 pr: #5228
 blocked-on:

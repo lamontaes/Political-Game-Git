@@ -1227,12 +1227,12 @@
     "id": "SG-GOV-recall-signature-groups",
     "kind": "missing-data",
     "file": "src/core2/modules/recalls.ts",
-    "line": 321,
-    "whatItFakes": "A recall petition's signatures from the town's unnamed voters are the named residents' signing share times the town's estimated electorate (population times the 2024 voting share), against whatever signature base the state's rule names.",
-    "why": "CORE's voter groups and real voter rolls aren't populated in generated worlds.",
+    "line": 311,
+    "whatItFakes": "A recall petition's required signatures read the state's named base from the world's records where it holds them (votes cast for the office, or at the town's last election of that level, from the recorded results). Where it holds none, the base is sized from the real averages: registered voters (the town's eligible voters times the national registration share), the last gubernatorial vote (the town's population times the voting share, scaled to a midterm), and votes cast before the town has held an election.",
+    "why": "The world keeps no voter rolls and does not keep a statewide race's votes by town, and a new town has held no election yet. The counted residents sign and vote by the same rule as named people, and the base is a whole count of voters.",
     "addedBy": "OPUS-GOV",
     "addedAt": "2026-10-12",
-    "replacement": "Signatures gathered by the organizer's and volunteers' real contacts, plus CORE's voter groups, counted against the rule's own base (registered voters or last vote cast).",
+    "replacement": "Registered voters read from the town's rolls and the town's share of the last gubernatorial vote read from the state's returns, once the world keeps them.",
     "status": "open"
   },
   {
@@ -2829,7 +2829,7 @@
     "id": "SG-WEB-outcome-drift",
     "kind": "faked-mechanic",
     "file": "src/core2/modules/outcome-web.ts",
-    "line": 411,
+    "line": 429,
     "whatItFakes": "Each outcome the web keeps (crime, schooling, coverage, turnout and the rest) stays at its place's real starting level except where a researched link moves it; nothing else in the world moves it.",
     "why": "The research's drift sizes (data/research/outcome-web/place-outcome-bases-2024.json, defaultDrift) include a monthly chance of a society-wide wave, which the no-dice rule forbids; the causes behind drift are not yet modeled.",
     "addedBy": "OPUS-WEB",
@@ -2943,7 +2943,9 @@
     "addedBy": "OPUS-WORLD",
     "addedAt": "2026-10-12",
     "replacement": "State unemployment insurance under the law in force, paid through postJournal from the state's fund.",
-    "status": "open"
+    "resolvedAt": "2026-10-20",
+    "resolution": "payClaims in src/core2/jobs-benefits.ts pays each benefit from the state treasury on the budgets module, which the employers' state unemployment tax pays into (employer-taxes); a week the treasury cannot cover is advanced from the town's outside account.",
+    "status": "resolved"
   },
   {
     "id": "SG-PLAY-doors-fill-in",
@@ -5129,6 +5131,54 @@
     "addedBy": "claude/political-game-pool-yucp92-yy",
     "addedAt": "2026-10-20",
     "replacement": "A project record with a start, a cost, milestones the contractor's payments fund and a completion date the funded work reaches, which the office day reads for the ribbon.",
+    "status": "open"
+  },
+  {
+    "id": "SG-WEB-snap-receipt-ledger",
+    "kind": "missing-engine",
+    "file": "src/core2/modules/outcome-web.ts",
+    "line": 431,
+    "whatItFakes": "The share of residents receiving SNAP (program.snap-receipt) is a place number in the outcome web's ledger: its start is the USDA state level and only web links move it; no household is enrolled or paid.",
+    "why": "The core pays no SNAP and keeps no enrollment record (see SG-GOV-REACH-B-assistance-benefits), so nothing can count who receives it.",
+    "addedBy": "effect-web-poverty",
+    "addedAt": "2026-10-20",
+    "replacement": "The benefits writer of pool item laws-reach-b-snap-benefit pays SNAP to households by income and size; a world-metrics field counts recipients by weight and engineMeasures reads it.",
+    "status": "open"
+  },
+  {
+    "id": "SG-WEB-food-insecurity-ledger",
+    "kind": "missing-engine",
+    "file": "src/core2/modules/outcome-web.ts",
+    "line": 432,
+    "whatItFakes": "The share of households that are food insecure (household.food-insecurity) is a place number in the outcome web's ledger: its start is the USDA state level and web links move it; no household's food budget or SNAP receipt decides it.",
+    "why": "No engine records a household's food spending against its income or its SNAP benefit.",
+    "addedBy": "effect-web-poverty",
+    "addedAt": "2026-10-20",
+    "replacement": "A food-insecurity record per household from its income, its food prices and its SNAP benefit, counted by weight in world-metrics and read through engineMeasures.",
+    "status": "open"
+  },
+  {
+    "id": "SG-WEB-poverty-licensing-no-engine",
+    "kind": "missing-engine",
+    "file": "src/core2/modules/outcome-web.ts",
+    "line": 434,
+    "whatItFakes": "Reducing occupational licensing is meant to open licensed work and raise pay at the bottom, but no engine lets the law change who may take a licensed job, so the law reaches no household's income and the poverty measure does not move for it.",
+    "why": "The jobs engine has no licensing requirement per occupation to repeal.",
+    "addedBy": "effect-web-poverty",
+    "addedAt": "2026-10-20",
+    "replacement": "The jobs engine reads a licensing law row when seekers match to jobs, so a repeal opens licensed jobs to seekers (pool item world-licensing-reform-jobs).",
+    "status": "open"
+  },
+  {
+    "id": "SG-WEB-poverty-graduation-no-engine",
+    "kind": "missing-engine",
+    "file": "src/core2/modules/outcome-web.ts",
+    "line": 435,
+    "whatItFakes": "Higher graduation is meant to raise adult pay a decade later, but no engine ties schooling to the pay a graduate is hired at, so graduation reaches no household's income and the poverty measure does not move for it.",
+    "why": "The jobs engine prices a hire from the occupation and market, not from the person's schooling.",
+    "addedBy": "effect-web-poverty",
+    "addedAt": "2026-10-20",
+    "replacement": "The jobs engine prices schooling into hires and wages from the person's own schooling record (pool item world-schooling-to-pay).",
     "status": "open"
   },
   {
