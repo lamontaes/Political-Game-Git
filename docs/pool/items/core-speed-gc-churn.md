@@ -22,3 +22,22 @@ claimed-at:
 **Files.** src/core2/state.ts, src/core2/journal-state.ts, src/core2/module-state.ts, src/core2/life.ts
 
 **Notes.** TODO
+
+Oct 20 (claude, claude/gc-churn-alloc): measured, not changed. A sampling heap profile that counts objects the collector already freed (V8 `HeapProfiler.startSampling` with `includeObjectsCollectedByMinorGC` and `includeObjectsCollectedByMajorGC`, 64 KiB interval, started after the world is built; the default `--heap-prof` shows only what is alive at the end and hides churn) of one played year in Long Hill, Connecticut (0943580, seed m7b, bookkeeping off, `node --max-old-space-size=8192`): the year took 169 seconds, build 29 seconds, and the sampler saw 59.8 GB allocated. The biggest allocators by function (MB of 59,830 sampled):
+
+| MB                    | function                                              | file                                         |
+| --------------------- | ----------------------------------------------------- | -------------------------------------------- |
+| 5,176                 | `next` (iterator results)                             | built in, from `for...of` over Maps and Sets |
+| 4,115                 | `sort`                                                | built in, array copies for sorts             |
+| 2,621                 | `projectCashJournal`                                  | src/core2/journal.ts                         |
+| 1,543                 | `releaseResidentHousehold`                            | src/core2/modules/residents.ts               |
+| 1,535                 | `portfolios`                                          | src/core2/journal-state.ts                   |
+| 1,481                 | `scoreOffers`                                         | src/core2/choice.ts                          |
+| 1,261                 | anonymous                                             | src/core2/births-counted.ts                  |
+| 1,200                 | `countedFollowers`                                    | src/core2/modules/press.ts                   |
+| 1,123                 | `availableActs`                                       | src/core2/life.ts                            |
+| 1,099                 | `recentStoriesHeard`                                  | src/core2/modules/news.ts                    |
+| 1,023                 | `planFreeTime`                                        | src/core2/free-block.ts                      |
+| 914 / 967 / 864 / 624 | `postCashJournal`, anonymous, `volumes`, `plusTotals` | src/core2/journal-state.ts                   |
+
+The cash journal (`journal.ts` plus `journal-state.ts`) is the largest cluster, about 7.5 GB: it does its money arithmetic in `BigInt` per posting (`projectCashJournal`'s `deltas`, `credits`, `debits`; `plusTotals`; `volumes`, which also builds a two-element array of maps per posting), copies each touched owner's whole account index (`ids = [...index]`) and a snapshot of every account of every touched owner (`portfolios`), for rollback that play never needs. That is the first change to make: number arithmetic with a `Number.isSafeInteger` check and a `BigInt` fallback only on overflow, and no per-posting tuple arrays or account snapshots when bookkeeping is off. Not done in this change because it rewrites the money path and each step needs the money-balance tests and a before and after year on the same quiet machine, which is a core session's job. The next clusters are the per-day sorts and iterator results in `scoreOffers`, `availableActs`, `planFreeTime` (the people loop) and `countedFollowers` and `recentStoriesHeard` (the press and news reads, which scan counted followers and stories each day instead of on the day something changed). The profiler script is a 30-line wrapper; it can be rebuilt from this note.
