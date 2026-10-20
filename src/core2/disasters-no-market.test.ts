@@ -30,8 +30,26 @@ const hasOutsideMarket = (core: CoreState): boolean => {
   }
 };
 
+/** The town's open builders: the repairs' payees inside it. */
+const openBuilders = (core: CoreState): number => {
+  const town = core.people.get(core.playerId ?? "")?.placeId;
+  return [...core.organizations.values()].filter(
+    (org) =>
+      org.classification === "enterprise:construction" &&
+      org.placeId === town &&
+      !core.finance.closures.has(org.id),
+  ).length;
+};
+
 /** The year's declared disasters, the repairs paid for them, and the ledger. */
-function check(core: CoreState, where: string): number {
+function check(
+  core: CoreState,
+  where: string,
+): {
+  declared: number;
+  damaged: readonly { id: string; number: number; homes: string }[];
+  repaired: ReadonlySet<number>;
+} {
   const api = coreAPI(core);
   advanceCore(core, addDays(makeIsoDate(core.date), 365));
   const declared = [...core.durableLog.values()].filter(
@@ -41,23 +59,27 @@ function check(core: CoreState, where: string): number {
     0,
   );
   const repaired = new Set(disasterRepairsPaid(api).map((r) => r.disaster));
-  const damaged = declared.filter((row) => row.facts?.damagedHomes);
-  for (const row of damaged) {
+  const damaged = declared
+    .filter((row) => row.facts?.damagedHomes)
+    .map((row) => ({
+      id: row.id,
+      number: Number(row.facts?.disasterNumber),
+      homes: String(row.facts?.damagedHomes),
+    }));
+  for (const row of damaged)
     // Households that lost homes paid a recorded payee, or no payee is
     // recorded for the town and nothing moved.
-    const number = Number(row.facts?.disasterNumber);
     expect(
-      repaired.has(number) || !hasOutsideMarket(core),
-      `${where}: disaster ${number} (${row.id}, damaged homes ${row.facts?.damagedHomes}) has a payee or no outside market`,
+      repaired.has(row.number) || !hasOutsideMarket(core),
+      `${where}: disaster ${row.number} (${row.id}, damaged homes ${row.homes}) has a payee or no outside market`,
     ).toBe(true);
-  }
   console.log(
-    `${where}: ${declared.length} declared, ${damaged.length} with damaged homes, ${repaired.size} repaired`,
+    `${where}: ${declared.length} declared, ${damaged.length} with damaged homes (${damaged.map((d) => d.id).join(", ")}), ${repaired.size} repaired`,
   );
   expect(core.cashJournal.totals.grossDebitMinor, where).toBe(
     core.cashJournal.totals.grossCreditMinor,
   );
-  return declared.length;
+  return { declared: declared.length, damaged, repaired };
 }
 
 it(`plays a year through a disaster with no one to pay for repairs (${place.name}, seed ${seed})`, () => {
@@ -68,7 +90,17 @@ it(`plays a year through a disaster with no one to pay for repairs (${place.name
       placeKey: place.key,
     });
     const where = `${place.name} (${place.key}), seed ${seed}`;
-    check(core, where);
+    const { damaged, repaired } = check(core, where);
+    // The regression's own case: homes were damaged, the town has no open
+    // builder and records no outside market, so no one is paid for repairs.
+    expect(damaged.length, `${where}: homes damaged`).toBeGreaterThan(0);
+    expect(openBuilders(core), `${where}: open builders in town`).toBe(0);
+    expect(hasOutsideMarket(core), `${where}: an outside market`).toBe(false);
+    for (const row of damaged)
+      expect(
+        repaired.has(row.number),
+        `${where}: disaster ${row.number} (${row.id}) repaired with no payee`,
+      ).toBe(false);
   } finally {
     setBookkeeping(true);
   }
