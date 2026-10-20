@@ -1,5 +1,7 @@
 # OFFICE-LOCAL status
 
+> **History.** This describes the old engine or a process that ended in October 2026. Don't follow it; read `AGENTS.md`, `ARCHITECTURE.md` and `docs/README.md`.
+
 Only OFFICE-LOCAL writes this file. Package: `docs/packages/office-play.md`. Branch: `office/local`, draft PR #4219 to main; the top of its body is the live status.
 
 - **Owns:** the office-day engine, `src/core2/modules/office-day.ts`, its helpers `src/core2/office-day-*.ts` and its data `src/core2/data/office-day/`; the local part of the package (the council or board meeting, committee seats, the budget season, the stipend, the mayor's or manager's departments). On the play page, the meeting and desk scenes and the office panel (`src/bench/office.ts`), by the package's order to replace the seat screen's buttons.
