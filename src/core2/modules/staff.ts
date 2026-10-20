@@ -133,7 +133,9 @@ export const STAFF_MODULE: CoreModule = {
 };
 
 export function openStaff(core: CoreState): void {
-  registerLegislatureHooks({ beforeVote: briefBeforeVote });
+  registerLegislatureHooks({
+    beforeVote: { name: "staff-brief", run: briefBeforeVote },
+  });
   if (core.modules.has(STAFF_MODULE_ID)) return;
   registerModule(core, STAFF_MODULE);
   scheduleReview(coreAPI(core), core.date);
