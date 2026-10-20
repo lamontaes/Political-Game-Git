@@ -13,7 +13,6 @@
  * pulled hardest. People arrive in the town the same way from every other
  * place. The regional engine reads each state's counts.
  */
-import { bookkeeping } from "../bookkeeping";
 import { createStableId, stableHash } from "../kernel/ids";
 import moverRates from "../../../data/research/migration/mover-rates-acs-2024.json" with { type: "json" };
 import stateTax from "../../../data/research/money/state-income-tax-2026.json" with { type: "json" };
@@ -26,6 +25,7 @@ import { corePlaceByJurisdictionId } from "../place-lookup";
 import { stateFigures, type RegionMonth } from "../regional-model";
 import { LAWS_MODULE_ID, lawInForce } from "./laws";
 import { REGIONAL_MODULE_ID } from "./regional";
+import { webFactorFor, type Subject } from "../outcome-web-reach";
 import {
   admitCountedHousehold,
   countedParameter,
@@ -50,6 +50,7 @@ import type {
 
 export const COUNTED_MOVES_MODULE_ID = "core2-counted-moves-v1";
 const TABLE = "moves";
+const PULLS_TABLE = "pulls";
 
 /** Coarse age bands and the ACS bands each averages. */
 const COARSE = [
@@ -133,8 +134,6 @@ interface Runtime {
   serial: number;
   /** After-tax real income by state and wage, for this month (cleared each month). */
   netCache: Map<string, number>;
-  /** People due to leave this month, by group (bookkeeping only; tests read it). */
-  pullPerMonth: Map<string, number>;
 }
 const runtimes = new WeakMap<CoreState, Runtime>();
 registerWorldMapPart("core2-counted-moves", runtimes);
@@ -308,7 +307,6 @@ function runtimeOf(api: CoreAPI): Runtime | undefined {
     holdNorm: new Map(),
     serial: 0,
     netCache: new Map(),
-    pullPerMonth: new Map(),
   };
   openCoarse(core, rt);
   runtimes.set(core, rt);
@@ -420,12 +418,11 @@ function month(api: CoreAPI): void {
     }
     return row;
   };
-  const pulled = new Set<number>();
-  rt.pullPerMonth.clear();
-  const noteDue = (groupId: string, due: number) => {
-    if (bookkeeping())
-      rt.pullPerMonth.set(groupId, (rt.pullPerMonth.get(groupId) ?? 0) + due);
-  };
+  const webCache = new Map<string, number>();
+  const groupPulls = new Map<
+    number,
+    { total: number; byCause: Record<string, number>; people: number }
+  >();
   // Each household's people times its age's leaving rate and what holds it,
   // summed by group, home state and wage step: households alike in these
   // weigh the same places the same way.
@@ -436,6 +433,7 @@ function month(api: CoreAPI): void {
       home: string;
       wages: number;
       weight: number;
+      people: number;
     }
   >();
   for (const h of store.liveHouseholds()) {
@@ -448,14 +446,41 @@ function month(api: CoreAPI): void {
     if (head.adults === 0) continue;
     // Each adult's own age sets their rate of leaving (ACS); the household
     // goes as one, at its adults' average, with its children.
-    let rates = 0;
+    let rates = 0,
+      adultAges = 0;
     for (const m of store.countedMembers(h)) {
       const age = ageOn(store.born[m]!, date);
-      if (age >= 18) rates += rateFor(home, acsBand(age));
+      if (age >= 18) {
+        rates += rateFor(home, acsBand(age));
+        adultAges += age;
+      }
+    }
+    // The outcome web's links land on this household by its adults' age,
+    // tenure, kind and income, as they land on a full person in town
+    // (moves.ts): the same factors, once per kind of household this month.
+    const group = store.groups[h.group]!;
+    const age = Math.round(adultAges / head.adults);
+    const webKey = `${h.placeId}|${h.group}|${age}`;
+    let web = webCache.get(webKey);
+    if (web === undefined) {
+      const subject: Subject = {
+        age,
+        tenure: h.tenure === "rent" ? "rent" : "own",
+        householdKind: group.kind,
+        incomeFifth: group.incomeBand,
+        work: group.work,
+      };
+      web =
+        webFactorFor(api, h.placeId, "population.out-migration", subject) *
+        (h.tenure === "rent"
+          ? webFactorFor(api, h.placeId, "housing.renter-moves", subject)
+          : 1);
+      webCache.set(webKey, web);
     }
     const weight =
       people *
       (rates / head.adults) *
+      web *
       Math.exp(-holdOf(residents, h, date)) *
       rt.holdNorm.get(h.placeId)!;
     const wages = Math.round(head.wages / 1000) * 1000;
@@ -465,8 +490,10 @@ function month(api: CoreAPI): void {
       home,
       wages,
       weight: 0,
+      people: 0,
     };
     row.weight += weight;
+    row.people += people;
     alike.set(key, row);
   }
   const statePeople = new Map(
@@ -475,7 +502,12 @@ function month(api: CoreAPI): void {
   for (const row of alike.values()) {
     const group = store.groups[row.group]!;
     const elsewhere = nationPeople - statePeople.get(row.home)!;
-    pulled.add(row.group);
+    const summary = groupPulls.get(row.group) ?? {
+      total: 0,
+      byCause: {},
+      people: 0,
+    };
+    summary.people += row.people;
     // Out of state: each state by its people and its pull.
     for (const dest of stateList) {
       if (dest.usps === row.home) continue;
@@ -488,13 +520,34 @@ function month(api: CoreAPI): void {
         12;
       const key = `${group.id}|${dest.usps}`;
       rt.leave.set(key, (rt.leave.get(key) ?? 0) + due);
-      noteDue(group.id, due);
+      summary.total += due;
+      for (const [cause, value] of Object.entries(parts))
+        summary.byCause[cause] = (summary.byCause[cause] ?? 0) + due * value;
     }
     // Within the state (same taxes and prices).
     const due = (row.weight * inState) / 12;
     const key = `${group.id}|${row.home}`;
     rt.leave.set(key, (rt.leave.get(key) ?? 0) + due);
-    noteDue(group.id, due);
+    summary.total += due;
+    groupPulls.set(row.group, summary);
+  }
+  for (const [g, summary] of groupPulls) {
+    const cause = summary.total > 0 ? summary.byCause : {};
+    api
+      .moduleState(COUNTED_MOVES_MODULE_ID)
+      .table(PULLS_TABLE)
+      .put({
+        id: store.groups[g]!.id,
+        date,
+        people: summary.people,
+        moversPerMonth: summary.total,
+        byCause: Object.fromEntries(
+          Object.entries(cause).map(([k, v]) => [
+            k,
+            summary.total ? v / summary.total : 0,
+          ]),
+        ),
+      } as unknown as ModuleRow);
   }
   // A whole household leaves as its place's movers come due, rounded to the
   // nearest household (the balance carries): from the group whose movers
@@ -513,7 +566,7 @@ function month(api: CoreAPI): void {
     return { rows, total };
   };
   const byPlace = new Map<PlaceId, number[]>();
-  for (const g of pulled) {
+  for (const g of groupPulls.keys()) {
     const first = store.households[[...store.groups[g]!.households][0]!];
     if (!first) continue;
     const list = byPlace.get(first.placeId) ?? [];
@@ -588,7 +641,8 @@ function month(api: CoreAPI): void {
       departCountedHousehold(core, next.id);
       const dest = rt.states.get(to)!;
       for (const b of bands) dest.people[b] = dest.people[b]! + weight;
-      record(api, () => ({
+      const reasons = pullFor(home, to, headOf(residents, next, date).wages);
+      record(api, {
         id: `move:out:${next.id}:${date}`,
         date,
         direction: "out",
@@ -597,11 +651,8 @@ function month(api: CoreAPI): void {
         fromPlace: next.placeId,
         toPlace: to === home ? `${to}:rest-of-state` : to,
         people: size,
-        reasons:
-          to === home
-            ? {}
-            : pullFor(home, to, headOf(residents, next, date).wages),
-      }));
+        reasons: to === home ? {} : reasons,
+      });
     }
   }
 
@@ -694,17 +745,11 @@ function coarseIndex(age: number): number {
   return age < 18 ? 0 : age < 30 ? 1 : age < 45 ? 2 : age < 65 ? 3 : 4;
 }
 
-/**
- * The ledger of moves is bookkeeping (AGENTS.md, "Keep it simple"): nothing
- * in play reads it, so only tests and the bench keep it. The dollars, the
- * counts and the pulls the engines read are not affected.
- */
-function record(api: CoreAPI, make: () => MoveRecord): void {
-  if (!bookkeeping()) return;
+function record(api: CoreAPI, row: MoveRecord): void {
   api
     .moduleState(COUNTED_MOVES_MODULE_ID)
     .table(TABLE)
-    .put(make() as unknown as ModuleRow);
+    .put(row as unknown as ModuleRow);
 }
 
 /**
@@ -759,35 +804,38 @@ function arrivals(
       left -= size;
       // They settle where the household they resemble lives.
       const placeId = template.placeId;
-      const arrived = newcomers(api, rt, residents, template, origin!, source);
+      const record = newcomers(api, rt, residents, template, origin!, source);
       // A newcomer household stands for as many as the one it resembles.
-      admitCountedHousehold(core, arrived, store.weightOf(template));
-      const h = store.households[store.householdOf.get(arrived.household.id)!]!;
+      admitCountedHousehold(core, record, store.weightOf(template));
+      const h = store.households[store.householdOf.get(record.household.id)!]!;
       // Working-age newcomers share the place's unplaced workers at its rate.
       h.unplacedWorkers = jobShare(residents, h, rates, date);
       rt.serial++;
-      record(api, () => ({
-        id: `move:in:${arrived.household.id}:${date}`,
-        date,
-        direction: "in",
-        householdId: arrived.household.id,
-        groupId: store.groups[h.group]!.id,
-        fromPlace:
-          origin === rt.townState ? `${origin}:rest-of-state` : origin!,
-        toPlace: placeId,
-        people: size,
-        reasons:
-          origin === rt.townState
-            ? {}
-            : pullBetween(
-                api,
-                rt,
-                origin!,
-                rt.townState,
-                headOf(residents, h, date).wages,
-                jobless,
-              ),
-      }));
+      api
+        .moduleState(COUNTED_MOVES_MODULE_ID)
+        .table(TABLE)
+        .put({
+          id: `move:in:${record.household.id}:${date}`,
+          date,
+          direction: "in",
+          householdId: record.household.id,
+          groupId: store.groups[h.group]!.id,
+          fromPlace:
+            origin === rt.townState ? `${origin}:rest-of-state` : origin!,
+          toPlace: placeId,
+          people: size,
+          reasons:
+            origin === rt.townState
+              ? {}
+              : pullBetween(
+                  api,
+                  rt,
+                  origin!,
+                  rt.townState,
+                  headOf(residents, h, date).wages,
+                  jobless,
+                ),
+        } as unknown as ModuleRow);
     }
     rt.arrive.set(key, left);
   }
@@ -953,12 +1001,16 @@ export function countedStateGrowth(
   return a && b ? b / a : undefined;
 }
 
-/** The people the last monthly weighing found due to leave one counted group (bookkeeping only). */
-export function countedPullPerMonth(
-  core: CoreState,
+/** The pull toward each place for one counted group, as last weighed. */
+export function countedPull(
+  api: CoreAPI,
   groupId: string,
-): number | undefined {
-  return runtimes.get(core)?.pullPerMonth.get(groupId);
+): { moversPerMonth: number; byCause: Record<string, number> } | undefined {
+  return api
+    .moduleState(COUNTED_MOVES_MODULE_ID)
+    .table(PULLS_TABLE)
+    .get(groupId) as unknown as
+    { moversPerMonth: number; byCause: Record<string, number> } | undefined;
 }
 
 /** The moves recorded so far, oldest first. */
@@ -987,7 +1039,7 @@ export const COUNTED_MOVES_MODULE: CoreModule = {
   id: COUNTED_MOVES_MODULE_ID,
   state: {
     schemaVersion: 1,
-    tables: { [TABLE]: {} },
+    tables: { [TABLE]: {}, [PULLS_TABLE]: {} },
   },
   onDay(api) {
     if (!api.state.date.endsWith("-01")) return;

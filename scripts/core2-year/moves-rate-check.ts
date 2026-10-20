@@ -14,7 +14,7 @@ import { addDays, makeIsoDate } from "../../src/core2/kernel/dates";
 import { advanceCore } from "../../src/core2/life";
 import { countedResidents } from "../../src/core2/electorate";
 import { countedMoves } from "../../src/core2/modules/counted-moves";
-import { departuresOf } from "../../src/core2/modules/moves";
+import { departuresSeen, watchDepartures } from "../../src/core2/modules/moves";
 import { coreAPI } from "../../src/core2/state";
 import { lawChain } from "../../src/core2/modules/laws";
 import rates from "../../data/research/migration/mover-rates-acs-2024.json" with { type: "json" };
@@ -40,13 +40,13 @@ const seeds = process.argv.slice(2).length
 const total = { expected: 0, actual: 0 };
 for (const seed of seeds) {
   const place = drawPlace(seed, "moves-rate-check");
-  // The move ledger it counts is kept only under bookkeeping.
-  setBookkeeping(true);
+  setBookkeeping(false);
   const { core } = buildBenchWorld(place.seed, gameStartDate(), {
     twoLevel: true,
     placeKey: place.key,
   });
   const api = coreAPI(core);
+  watchDepartures(core);
   const state = lawChain(api).stateKey;
   const byState = (
     rates.places as unknown as Record<
@@ -72,7 +72,10 @@ for (const seed of seeds) {
     expected += weight * ((table as Record<string, number>)[band] ?? 0);
   }
   advanceCore(core, addDays(makeIsoDate(start), 365));
-  const full = departuresOf(api).reduce((n, row) => n + row.withIds.length, 0);
+  const full = departuresSeen(core).reduce(
+    (n, row) => n + row.withIds.length,
+    0,
+  );
   const counted = countedMoves(api)
     .filter((row) => row.direction === "out")
     .reduce((n, row) => n + row.people, 0);

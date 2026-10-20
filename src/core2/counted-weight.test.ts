@@ -7,7 +7,7 @@ import { setBookkeeping } from "./bookkeeping";
 import { addDays, makeIsoDate } from "./kernel/dates";
 import { advanceCore } from "./life";
 import { forgetTownFacts, townFacts } from "./law-reach/group-b-people";
-import { countedPullPerMonth } from "./modules/counted-moves";
+import { COUNTED_MOVES_MODULE_ID } from "./modules/counted-moves";
 import { reachOf } from "./counted-reach";
 import { gameStartDate } from "./game-start";
 import { lawChain } from "./modules/laws";
@@ -111,23 +111,14 @@ it("weighs movers in real people: the monthly pull is the unscaled pull times th
     // Moves are weighed on the first of each month.
     let day = makeIsoDate(world.core.date);
     while (!day.endsWith("-01")) day = addDays(day, 1);
-    // The weighing's figure is kept only under bookkeeping.
-    const was = setBookkeeping(true);
-    try {
-      advanceCore(world.core, day);
-    } finally {
-      setBookkeeping(was);
-    }
-    const out = new Map<string, Pull>();
-    for (const group of world.store.groups) {
-      const moversPerMonth = countedPullPerMonth(world.core, group.id);
-      if (moversPerMonth === undefined) continue;
-      let people = 0;
-      for (const index of group.households)
-        people += world.store.weightedCount(world.store.households[index]!);
-      out.set(group.id, { people, moversPerMonth });
-    }
-    return out;
+    advanceCore(world.core, day);
+    return new Map(
+      coreAPI(world.core)
+        .moduleState(COUNTED_MOVES_MODULE_ID)
+        .table("pulls")
+        .rows()
+        .map((row) => [String(row.id), row as unknown as Pull]),
+    );
   };
   // Draw places until one opens with counted groups in the town itself.
   for (let attempt = 0; attempt < 8; attempt++) {
