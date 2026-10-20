@@ -42,6 +42,7 @@ import type {
   GroundedEnglishPacket,
 } from "../english/grounded-english";
 import { composeAddress } from "../english/english-composition";
+import { addressesGivenBy } from "../core2/modules/speech";
 import {
   openingMoves,
   openingSpeechKind,
@@ -443,7 +444,11 @@ function composeAddressOf(
     );
     // stopgapId: SG-PEOPLE-address-register
     markWordsStopgap("SG-PEOPLE-address-register");
-    const address = composeAddress(base, "election-night", moves);
+    // A device is the speaker's to use only once the record shows enough
+    // addresses given by them (speech.ts keeps one record per address).
+    const address = composeAddress(base, "election-night", moves, {
+      addressesGiven: addressesGivenBy(coreAPI(core), president.id),
+    });
     if (address.kind !== "rendered") {
       if (section.required) return null;
       continue;

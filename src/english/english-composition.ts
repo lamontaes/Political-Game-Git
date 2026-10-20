@@ -39,6 +39,7 @@ import {
 } from "./grounded-english";
 import {
   REGISTER_CARDS,
+  deviceEarned,
   registerAllows,
   type SpeechDevice,
   type SpeechRegister,
@@ -160,6 +161,13 @@ export interface CompositionContext {
    * about them. A disclosure may copy only facts sourced wholly from these.
    */
   readonly speakerOwnRecordIds?: readonly EntityId[];
+  /**
+   * How many addresses the speaker has given, counted from the record. A
+   * crafted device (a contrast, a list of three, a callback, a quotation) is
+   * spoken only once the speaker has given enough to have earned it; none
+   * recorded means none earned.
+   */
+  readonly addressesGiven?: number;
   /** The owner's grades; a part they held back is not chosen. */
   readonly partGrades?: PartGradeLedger;
   /** The owner's numeric grades as weights: the best-scoring pieces are kept. */
@@ -412,6 +420,8 @@ function conditionProblems(
     if (!context.register) problems.push("no register for a device");
     else if (!registerAllows(context.register, variant.device))
       problems.push(`${context.register} does not admit ${variant.device}`);
+    if (!deviceEarned(variant.device, context.addressesGiven ?? 0))
+      problems.push(`the speaker has not earned ${variant.device}`);
     if (variant.device === "disclosure") {
       const own = new Set(context.speakerOwnRecordIds ?? []);
       const keys = variantFactKeys(variant);

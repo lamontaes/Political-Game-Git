@@ -1296,52 +1296,6 @@
       "citation": "Weight at r = .1 and r = .3 of the single-occasion range (half and one and a half times the r = .2 weight). "
     }
   },
-  "traitWeightRelationshipsWarmTo": {
-    "value": 1.15,
-    "tag": "ESTIMATED",
-    "citation": "Jokela, Alvergne, Pollet & Lummaa 2011, 'Reproductive behavior and personality traits of the Five Factor Model', European Journal of Personality, Table 2: odds of a first marriage 1.35 per SD of extraversion, the nearest sourced measure of how readily warm, outgoing people form close ties (Selfhout et al. 2010 report the direction for friendship selection without an extractable size). The weight is ln(1.35) over the person-level standard deviation of the warm-to lean, 0.262, measured over 1,813 full people of a drawn place (buildBenchWorld seed sd1), so a pair one standard deviation warmer builds closeness 1.35 times as fast.",
-    "estimatedFrom": "ln(1.35) / 0.262 = 1.15",
-    "spread": {
-      "low": 0.83,
-      "high": 1.45,
-      "unit": "weight",
-      "citation": "Men 1.53 and women 1.22 per SD (same table) give ln(1.22)/0.262 to ln(1.53)/0.262; the low end also covers a lean spread up to 0.31."
-    }
-  },
-  "traitWeightRelationshipsFallOut": {
-    "value": 1.01,
-    "tag": "ESTIMATED",
-    "citation": "Roberts, Kuncel, Shiner, Caspi & Goldberg 2007, 'The power of personality', Perspectives on Psychological Science: agreeableness and divorce, r = -0.18, the nearest sourced measure of how much a quarrel costs a tie between people who hold on to it (Jensen-Campbell & Graziano 2001 give the direction for conflict). Converted to 1.39 times the loss per SD (logit pi/sqrt(3) times r/sqrt(1-r^2)) and divided by the person-level standard deviation of the fall-out lean, 0.326, measured over 1,813 full people of a drawn place (buildBenchWorld seed sd1).",
-    "estimatedFrom": "ln(1.39) / 0.326 = 1.01",
-    "spread": {
-      "low": 0.6,
-      "high": 1.4,
-      "unit": "weight",
-      "citation": "The conscientiousness (r = -0.13) and neuroticism (r = 0.17) divorce correlations in the same paper bound the size from 1.27 to 1.39 per SD; the high end allows a smaller lean spread."
-    }
-  },
-  "relationshipsWarmToLeanCenter": {
-    "value": 0.129,
-    "tag": "ESTIMATED",
-    "citation": "The mean warm-to lean of 1,813 full people in a drawn place (buildBenchWorld seed sd1), subtracted so the average pair keeps the closeness model's hours (Hall 2019).",
-    "spread": {
-      "low": 0.08,
-      "high": 0.18,
-      "unit": "lean",
-      "citation": "The mean moves with each place's age and sex mix; checked against the standard deviation 0.262 over the root of the people counted."
-    }
-  },
-  "relationshipsFallOutLeanCenter": {
-    "value": -0.083,
-    "tag": "ESTIMATED",
-    "citation": "The mean fall-out lean of 1,813 full people in a drawn place (buildBenchWorld seed sd1), subtracted so the average quarrel costs the hours the engine that wrote it set.",
-    "spread": {
-      "low": -0.13,
-      "high": -0.03,
-      "unit": "lean",
-      "citation": "The mean moves with each place's age and sex mix; checked against the standard deviation 0.326."
-    }
-  },
   "traitWeightOfficeDayStateClemency": {
     "value": 1,
     "tag": "TUNABLE",
@@ -5264,12 +5218,12 @@
     }
   },
   "responseSecureHomeFit": {
-    "value": 3.0,
+    "value": 3,
     "tag": "TUNABLE",
     "citation": "How strongly losing a home, or facing an eviction, pushes toward a resolve to secure a home again. Carrying on keeps its baseline (responseCarryOnBaseline), so a fit near 3 lets most people form the resolve while those whose traits lean toward keeping things the same carry on (owner, Oct 14: 'not being homeless is some people's motivation'). Measured: Washington, D.C. (seed 646c5d940e1a), a home loss given to 7 jobless adults on February 19, 2025 (dev mode): 5 formed it and 2 carried on; at 1.5, 1 of 7; at 4.0, 7 of 7.",
     "spread": {
-      "low": 2.0,
-      "high": 4.0,
+      "low": 2,
+      "high": 4,
       "unit": "fit",
       "citation": "From one in three forming it to all of them, in the same check."
     }
@@ -5331,13 +5285,13 @@
     "estimatedFrom": "Holmes and Rahe (1967), as for driveEvictionImpulse; spread 0.3 to 0.6"
   },
   "healthShelteredHazardFactor": {
-    "value": 2.0,
+    "value": 2,
     "tag": "ESTIMATED",
     "citation": "How much faster strain toward serious illness and death builds for a person in a homeless shelter. Homeless people in high-income countries die at two to five times the rate of the general population (Fazel, Geddes and Kushel 2014, 'The health of homeless people in high-income countries', The Lancet 384(9953):1529-1540); sheltered people sit at the low end.",
     "estimatedFrom": "Fazel, Geddes and Kushel (2014); the low end of their range for sheltered adults",
     "spread": {
       "low": 1.5,
-      "high": 3.0,
+      "high": 3,
       "unit": "times the housed rate",
       "citation": "Within Fazel et al.'s range for sheltered adults."
     }
@@ -5349,7 +5303,7 @@
     "estimatedFrom": "Fazel, Geddes and Kushel (2014) and Roncarati et al. (2018)",
     "spread": {
       "low": 2.5,
-      "high": 5.0,
+      "high": 5,
       "unit": "times the housed rate",
       "citation": "The upper half of Fazel et al.'s range."
     }
@@ -5359,7 +5313,7 @@
     "tag": "TUNABLE",
     "citation": "How much faster strain builds for a person doubled up with relatives after losing their home: crowded and unstable housing raises the risk of illness, well short of a shelter's (the sheltered factor's lower bound is 1.5).",
     "spread": {
-      "low": 1.0,
+      "low": 1,
       "high": 1.5,
       "unit": "times the housed rate",
       "citation": "From no change to the sheltered factor's low end."
@@ -5371,7 +5325,7 @@
     "citation": "How much faster strain builds in the years after an eviction: eviction raises hospital and emergency department use and lowers earnings for about two years (Collinson, Humphries, Mader, Reed, Tannenbaum and van Dijk 2024, 'Eviction and Poverty in American Cities', The Quarterly Journal of Economics 139(1):57-120).",
     "estimatedFrom": "Collinson et al. (2024); a modest rise, as their effects on health care use are modest",
     "spread": {
-      "low": 1.0,
+      "low": 1,
       "high": 1.3,
       "unit": "times the rate before",
       "citation": "From no change to a third higher."
@@ -5791,12 +5745,12 @@
     }
   },
   "willAgeWeight": {
-    "value": 1.0,
+    "value": 1,
     "tag": "TUNABLE",
     "citation": "How much each year past willAgeMidpointYears adds to a person's lean toward having made a will, in midpoint-lengths: older people far more often have one. Checked against Gallup (May 2016, 'Majority in U.S. Do Not Have a Will'): 44% of U.S. adults have a will, rising with age to about two in three past 65.",
     "spread": {
       "low": 0.5,
-      "high": 2.0,
+      "high": 2,
       "unit": "lean per midpoint-length of age",
       "citation": "From a gentle rise with age to most older adults having one."
     }
@@ -5837,12 +5791,12 @@
     }
   },
   "trustWealthWeight": {
-    "value": 1.0,
+    "value": 1,
     "tag": "TUNABLE",
     "citation": "How much each e-fold of an estate past trustWealthMidpointMinor adds to a person's lean toward having set up a living trust. Trust holding climbs from rare among ordinary families to common among the very wealthy (Federal Reserve, Survey of Consumer Finances 2022).",
     "spread": {
       "low": 0.5,
-      "high": 2.0,
+      "high": 2,
       "unit": "lean per e-fold of estate",
       "citation": "From a gentle rise with wealth to most of the very wealthy holding a trust."
     }
@@ -5869,6 +5823,107 @@
     },
     "checkRange": {
       "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
+  },
+  "speechCraftHalfAddresses": {
+    "value": 12,
+    "tag": "TUNABLE",
+    "citation": "How many recorded addresses a speaker has given when their craft is half of what it can become (craft = addresses / (addresses + this)). No source measures the learning curve of public speaking in addresses given; set so a speaker who gives an address about once a month is at half craft after a year.",
+    "spread": {
+      "low": 4,
+      "high": 40,
+      "unit": "addresses",
+      "citation": "Chosen range; no study sets how many addresses it takes a speaker to master a device. Checked by a new speaker's first addresses being plain and a speaker of many addresses using the devices, not measured."
+    }
+  },
+  "speechDeviceQuotationDifficulty": {
+    "value": 0.15,
+    "tag": "TUNABLE",
+    "citation": "Where on the craft scale (0 to 1) a speaker first has the quotation device in hand: a speaker whose craft is at or above it may use the device where the setting admits it. Ordered from easiest (quoting) to hardest (calling back to an earlier address); the order, not the numbers, is the design.",
+    "spread": {
+      "low": 0.05,
+      "high": 0.25,
+      "unit": "craft (0 to 1)",
+      "citation": "Chosen range; no study sets how many addresses it takes a speaker to master a device. Checked by a new speaker's first addresses being plain and a speaker of many addresses using the devices, not measured."
+    }
+  },
+  "speechDeviceContrastDifficulty": {
+    "value": 0.3,
+    "tag": "TUNABLE",
+    "citation": "Where on the craft scale (0 to 1) a speaker first has the contrast device in hand: a speaker whose craft is at or above it may use the device where the setting admits it. Ordered from easiest (quoting) to hardest (calling back to an earlier address); the order, not the numbers, is the design.",
+    "spread": {
+      "low": 0.2,
+      "high": 0.4,
+      "unit": "craft (0 to 1)",
+      "citation": "Chosen range; no study sets how many addresses it takes a speaker to master a device. Checked by a new speaker's first addresses being plain and a speaker of many addresses using the devices, not measured."
+    }
+  },
+  "speechDeviceThreePartListDifficulty": {
+    "value": 0.45,
+    "tag": "TUNABLE",
+    "citation": "Where on the craft scale (0 to 1) a speaker first has the threepartlist device in hand: a speaker whose craft is at or above it may use the device where the setting admits it. Ordered from easiest (quoting) to hardest (calling back to an earlier address); the order, not the numbers, is the design.",
+    "spread": {
+      "low": 0.35,
+      "high": 0.55,
+      "unit": "craft (0 to 1)",
+      "citation": "Chosen range; no study sets how many addresses it takes a speaker to master a device. Checked by a new speaker's first addresses being plain and a speaker of many addresses using the devices, not measured."
+    }
+  },
+  "speechDeviceCallbackDifficulty": {
+    "value": 0.6,
+    "tag": "TUNABLE",
+    "citation": "Where on the craft scale (0 to 1) a speaker first has the callback device in hand: a speaker whose craft is at or above it may use the device where the setting admits it. Ordered from easiest (quoting) to hardest (calling back to an earlier address); the order, not the numbers, is the design.",
+    "spread": {
+      "low": 0.5,
+      "high": 0.7,
+      "unit": "craft (0 to 1)",
+      "citation": "Chosen range; no study sets how many addresses it takes a speaker to master a device. Checked by a new speaker's first addresses being plain and a speaker of many addresses using the devices, not measured."
+    }
+  },
+  "traitWeightRelationshipsWarmTo": {
+    "value": 1.15,
+    "tag": "ESTIMATED",
+    "citation": "Jokela, Alvergne, Pollet & Lummaa 2011, 'Reproductive behavior and personality traits of the Five Factor Model', European Journal of Personality, Table 2: odds of a first marriage 1.35 per SD of extraversion, the nearest sourced measure of how readily warm, outgoing people form close ties (Selfhout et al. 2010 report the direction for friendship selection without an extractable size). The weight is ln(1.35) over the person-level standard deviation of the warm-to lean, 0.262, measured over 1,813 full people of a drawn place (buildBenchWorld seed sd1), so a pair one standard deviation warmer builds closeness 1.35 times as fast.",
+    "estimatedFrom": "ln(1.35) / 0.262 = 1.15",
+    "spread": {
+      "low": 0.83,
+      "high": 1.45,
+      "unit": "weight",
+      "citation": "Men 1.53 and women 1.22 per SD (same table) give ln(1.22)/0.262 to ln(1.53)/0.262; the low end also covers a lean spread up to 0.31."
+    }
+  },
+  "traitWeightRelationshipsFallOut": {
+    "value": 1.01,
+    "tag": "ESTIMATED",
+    "citation": "Roberts, Kuncel, Shiner, Caspi & Goldberg 2007, 'The power of personality', Perspectives on Psychological Science: agreeableness and divorce, r = -0.18, the nearest sourced measure of how much a quarrel costs a tie between people who hold on to it (Jensen-Campbell & Graziano 2001 give the direction for conflict). Converted to 1.39 times the loss per SD (logit pi/sqrt(3) times r/sqrt(1-r^2)) and divided by the person-level standard deviation of the fall-out lean, 0.326, measured over 1,813 full people of a drawn place (buildBenchWorld seed sd1).",
+    "estimatedFrom": "ln(1.39) / 0.326 = 1.01",
+    "spread": {
+      "low": 0.6,
+      "high": 1.4,
+      "unit": "weight",
+      "citation": "The conscientiousness (r = -0.13) and neuroticism (r = 0.17) divorce correlations in the same paper bound the size from 1.27 to 1.39 per SD; the high end allows a smaller lean spread."
+    }
+  },
+  "relationshipsWarmToLeanCenter": {
+    "value": 0.129,
+    "tag": "ESTIMATED",
+    "citation": "The mean warm-to lean of 1,813 full people in a drawn place (buildBenchWorld seed sd1), subtracted so the average pair keeps the closeness model's hours (Hall 2019).",
+    "spread": {
+      "low": 0.08,
+      "high": 0.18,
+      "unit": "lean",
+      "citation": "The mean moves with each place's age and sex mix; checked against the standard deviation 0.262 over the root of the people counted."
+    }
+  },
+  "relationshipsFallOutLeanCenter": {
+    "value": -0.083,
+    "tag": "ESTIMATED",
+    "citation": "The mean fall-out lean of 1,813 full people in a drawn place (buildBenchWorld seed sd1), subtracted so the average quarrel costs the hours the engine that wrote it set.",
+    "spread": {
+      "low": -0.13,
+      "high": -0.03,
+      "unit": "lean",
+      "citation": "The mean moves with each place's age and sex mix; checked against the standard deviation 0.326."
     }
   },
   "srrsFiredAtWork": {
