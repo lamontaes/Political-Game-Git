@@ -17,7 +17,11 @@ import seasonal from "../data/jobs/seasonal.json" with { type: "json" };
 import type { Parameter } from "../parameters";
 import { stopgap } from "../stopgaps";
 import { traitLean } from "../choice";
-import { decisionLean, traitLeanBetween } from "../trait-decisions";
+import {
+  decisionLean,
+  decisionTraitWeight,
+  traitLeanBetween,
+} from "../trait-decisions";
 import {
   businessTradingMonth,
   ownerOf,
@@ -63,6 +67,7 @@ import type {
 } from "../types";
 import type { WorkPayrollCalendarInput } from "../work-pay-period";
 import { isExplicitlyControlledPersonV1 } from "../player-control-state-v1";
+import { DEFAULT_HEALTH_DATA, severityImpulse } from "./health";
 import {
   playerClockFrontierV1,
   registerModuleStopV1,
@@ -801,7 +806,8 @@ export function raiseUnfilledPay(
     "raise-pay",
     "hold-pay",
   );
-  const openHanded = (1 + lean) / 2;
+  const openHanded =
+    (1 + decisionTraitWeight(c, "jobs.raise-for-opening") * lean) / 2;
   if (openHanded <= 0) return;
   const monthDays = api.parameter("jobsDaysPerYear") / 12;
   const perMonth = monthDays / trading.days;
@@ -1263,6 +1269,9 @@ function layOff(
     source: source(api, "A layoff decided from the business's books."),
     publicRecord: false,
     topic: organizationId,
+    // Being fired is a life change (Holmes and Rahe, 47 units); how hard it
+    // lands is the person's own appraisal (emotion.ts reads their traits).
+    ...severityImpulse(api, DEFAULT_HEALTH_DATA.jobLossSeverity),
     // Who decided and where, for the scene at work: the director reads them.
     facts: { decidedBy: decidedBy ?? organizationId, organizationId },
   });
