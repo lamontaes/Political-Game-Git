@@ -4,13 +4,13 @@ title: "Cut a ribbon (needs a record of a finished public project; none exists).
 area: office
 kind: feature
 priority: 2
-status: in-pr
-claimed-by: claude/political-game-pool-yucp92-yy
+status: open
+claimed-by:
 pr: #5560
 blocked-on:
 milestone:
 source: "docs/coordination/OFFICE-LOCAL.md line 33 (unchecked checklist line)"
-claimed-at: 2026-10-20T06:12:08.094Z
+claimed-at:
 ---
 
 **What.** Checked against main on Oct 16: OPEN. There is no public project record: public works are budget lines that pay town businesses by share (`budgets-treasury.ts`), and the only project record is private housing (`housing.ts` `ProjectRow`). Next: A public project record: a budget line becomes a project with contractor payments, finishes on a date and emits a record the office day reads for a ribbon-cutting act. The player would notice the act on the politics screen as a choice among people, never a form.
