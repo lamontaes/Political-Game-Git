@@ -470,18 +470,26 @@ export function federalOffices(
 const STATEWIDE = statewideParties as unknown as {
   places: Record<
     string,
-    Record<string, { party: string | null; partisanElection: boolean }>
+    Record<
+      string,
+      {
+        party: string | null;
+        partisanElection: boolean;
+        estimated?: string;
+      }
+    >
   >;
 };
 /**
  * The party holding a statewide executive office at the start, where its
- * election carries party labels (null for a nonpartisan office). The research
- * was compiled without live sources: SG-GOV-statewide-parties-unverified.
+ * election carries party labels (null for a nonpartisan office). All but
+ * four rows were checked against a live source (Oct 19 research); those four
+ * keep the stopgap: SG-GOV-statewide-parties-unverified.
  */
 function statewidePartyOf(stateKey: string, key: string): string | null {
   const row = STATEWIDE.places[stateKey]?.[key];
   if (!row?.partisanElection) return null;
-  stopgap("SG-GOV-statewide-parties-unverified");
+  if (row.estimated) stopgap("SG-GOV-statewide-parties-unverified");
   return row.party;
 }
 

@@ -3062,7 +3062,7 @@
     "kind": "assumed-data",
     "file": "src/core2/offices-state.ts",
     "line": 428,
-    "whatItFakes": "60 of 261 statewide executive offices (superintendents, insurance, labor and land commissioners, commissions and boards, D.C. and the territories) take their holder's party from rows not verified against a live source (data/research/offices/statewide-executive-parties-2026.json); 201 rows were verified against Wikipedia's current officeholder lists on 2026-10-13.",
+    "whatItFakes": "4 of 261 statewide executive offices (Hawaii's Office of Hawaiian Affairs trustees, the Virgin Islands boards of education and elections, the Northern Marianas attorney general) take their holder's party from rows not verified against a live source (data/research/offices/statewide-executive-parties-2026.json); the other 257 were checked against Wikipedia or Ballotpedia pages (Oct 13 and Oct 19).",
     "why": "Ballotpedia and NASS couldn't be fetched, and Wikipedia has no current list for those offices.",
     "addedBy": "OPUS-GOV",
     "addedAt": "2026-10-13",

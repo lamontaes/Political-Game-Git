@@ -87,8 +87,7 @@
       "public-service-commission": {
         "party": "Republican",
         "partisanElection": true,
-        "sourceId": "ballotpedia-state-executives",
-        "estimated": "not verified against a live source"
+        "sourceId": "ballotpedia-state-executives"
       }
     },
     "US-AK": {
@@ -101,9 +100,9 @@
     "US-AZ": {
       "lieutenant-governor": {
         "party": null,
-        "partisanElection": false,
+        "partisanElection": true,
         "sourceId": "ballotpedia-state-executives",
-        "estimated": "Wikipedia lists no lieutenant governor for this state; not verified against a live source"
+        "note": "vacant until Jan 2027; first election Nov 2026"
       },
       "secretary-of-state": {
         "party": "Democratic",
@@ -123,20 +122,17 @@
       "superintendent": {
         "party": "Republican",
         "partisanElection": true,
-        "sourceId": "ballotpedia-state-executives",
-        "estimated": "not verified against a live source"
+        "sourceId": "ballotpedia-state-executives"
       },
       "state-mine-inspector": {
         "party": "Republican",
         "partisanElection": true,
-        "sourceId": "ballotpedia-state-executives",
-        "estimated": "not verified against a live source"
+        "sourceId": "ballotpedia-state-executives"
       },
       "corporation-commission": {
         "party": "Republican",
         "partisanElection": true,
-        "sourceId": "ballotpedia-state-executives",
-        "estimated": "not verified against a live source"
+        "sourceId": "ballotpedia-state-executives"
       }
     },
     "US-AR": {
@@ -168,8 +164,7 @@
       "land-commissioner": {
         "party": "Republican",
         "partisanElection": true,
-        "sourceId": "ballotpedia-state-executives",
-        "estimated": "not verified against a live source"
+        "sourceId": "ballotpedia-state-executives"
       }
     },
     "US-CA": {
@@ -201,14 +196,12 @@
       "insurance-commissioner": {
         "party": "Democratic",
         "partisanElection": true,
-        "sourceId": "ballotpedia-state-executives",
-        "estimated": "not verified against a live source"
+        "sourceId": "ballotpedia-state-executives"
       },
       "superintendent": {
-        "party": "Democratic",
+        "party": null,
         "partisanElection": false,
-        "sourceId": "ballotpedia-state-executives",
-        "estimated": "not verified against a live source"
+        "sourceId": "ballotpedia-state-executives"
       }
     },
     "US-CO": {
@@ -284,8 +277,7 @@
       "insurance-commissioner": {
         "party": "Democratic",
         "partisanElection": true,
-        "sourceId": "ballotpedia-state-executives",
-        "estimated": "not verified against a live source"
+        "sourceId": "ballotpedia-state-executives"
       }
     },
     "US-FL": {
@@ -329,8 +321,7 @@
       "superintendent": {
         "party": "Republican",
         "partisanElection": true,
-        "sourceId": "ballotpedia-state-executives",
-        "estimated": "not verified against a live source"
+        "sourceId": "ballotpedia-state-executives"
       },
       "agriculture-commissioner": {
         "party": "Republican",
@@ -340,20 +331,18 @@
       "insurance-commissioner": {
         "party": "Republican",
         "partisanElection": true,
-        "sourceId": "ballotpedia-state-executives",
-        "estimated": "not verified against a live source"
+        "sourceId": "ballotpedia-state-executives"
       },
       "labor-commissioner": {
         "party": "Republican",
         "partisanElection": true,
-        "sourceId": "ballotpedia-state-executives",
-        "estimated": "not verified against a live source"
+        "sourceId": "ballotpedia-state-executives"
       },
       "public-service-commission": {
         "party": "Republican",
         "partisanElection": true,
         "sourceId": "ballotpedia-state-executives",
-        "estimated": "not verified against a live source"
+        "note": "CHANGED: 3R-2D, not all R"
       }
     },
     "US-HI": {
@@ -366,7 +355,7 @@
         "party": null,
         "partisanElection": false,
         "sourceId": "ballotpedia-state-executives",
-        "estimated": "not verified against a live source"
+        "estimated": "Stopgap research Oct 19: estimate: not fetched"
       }
     },
     "US-ID": {
@@ -398,8 +387,7 @@
       "superintendent": {
         "party": "Republican",
         "partisanElection": true,
-        "sourceId": "ballotpedia-state-executives",
-        "estimated": "not verified against a live source"
+        "sourceId": "ballotpedia-state-executives"
       }
     },
     "US-IL": {
@@ -512,8 +500,7 @@
       "insurance-commissioner": {
         "party": "Republican",
         "partisanElection": true,
-        "sourceId": "ballotpedia-state-executives",
-        "estimated": "not verified against a live source"
+        "sourceId": "ballotpedia-state-executives"
       }
     },
     "US-KY": {
@@ -577,8 +564,7 @@
       "insurance-commissioner": {
         "party": "Republican",
         "partisanElection": true,
-        "sourceId": "ballotpedia-state-executives",
-        "estimated": "not verified against a live source"
+        "sourceId": "ballotpedia-state-executives"
       }
     },
     "US-MD": {
@@ -644,14 +630,12 @@
       "state-board-of-education": {
         "party": "Democratic",
         "partisanElection": true,
-        "sourceId": "ballotpedia-state-executives",
-        "estimated": "not verified against a live source"
+        "sourceId": "ballotpedia-state-executives"
       },
       "university-boards": {
         "party": "Democratic",
         "partisanElection": true,
-        "sourceId": "ballotpedia-state-executives",
-        "estimated": "not verified against a live source"
+        "sourceId": "ballotpedia-state-executives"
       }
     },
     "US-MN": {
@@ -710,8 +694,7 @@
       "insurance-commissioner": {
         "party": "Republican",
         "partisanElection": true,
-        "sourceId": "ballotpedia-state-executives",
-        "estimated": "not verified against a live source"
+        "sourceId": "ballotpedia-state-executives"
       }
     },
     "US-MO": {
@@ -765,8 +748,7 @@
       "superintendent": {
         "party": "Republican",
         "partisanElection": true,
-        "sourceId": "ballotpedia-state-executives",
-        "estimated": "not verified against a live source"
+        "sourceId": "ballotpedia-state-executives"
       }
     },
     "US-NE": {
@@ -828,7 +810,7 @@
         "party": "Democratic",
         "partisanElection": true,
         "sourceId": "ballotpedia-state-executives",
-        "estimated": "Wikipedia shows the office vacant with a Democratic acting officeholder; not verified against a live source"
+        "note": "Ballotpedia: office currently vacant, last held by a Democrat; 2025 winner Democratic"
       }
     },
     "US-NM": {
@@ -860,8 +842,7 @@
       "land-commissioner": {
         "party": "Democratic",
         "partisanElection": true,
-        "sourceId": "ballotpedia-state-executives",
-        "estimated": "not verified against a live source"
+        "sourceId": "ballotpedia-state-executives"
       }
     },
     "US-NY": {
@@ -910,8 +891,7 @@
       "superintendent": {
         "party": "Democratic",
         "partisanElection": true,
-        "sourceId": "ballotpedia-state-executives",
-        "estimated": "not verified against a live source"
+        "sourceId": "ballotpedia-state-executives"
       },
       "agriculture-commissioner": {
         "party": "Republican",
@@ -921,14 +901,12 @@
       "insurance-commissioner": {
         "party": "Republican",
         "partisanElection": true,
-        "sourceId": "ballotpedia-state-executives",
-        "estimated": "not verified against a live source"
+        "sourceId": "ballotpedia-state-executives"
       },
       "labor-commissioner": {
         "party": "Republican",
         "partisanElection": true,
-        "sourceId": "ballotpedia-state-executives",
-        "estimated": "not verified against a live source"
+        "sourceId": "ballotpedia-state-executives"
       }
     },
     "US-ND": {
@@ -958,10 +936,10 @@
         "sourceId": "wiki-auditor"
       },
       "superintendent": {
-        "party": "Republican",
+        "party": null,
         "partisanElection": false,
         "sourceId": "ballotpedia-state-executives",
-        "estimated": "not verified against a live source"
+        "note": "CHANGED: Ballotpedia lists holder Nonpartisan (new holder), not Republican"
       },
       "agriculture-commissioner": {
         "party": "Republican",
@@ -971,20 +949,17 @@
       "insurance-commissioner": {
         "party": "Republican",
         "partisanElection": true,
-        "sourceId": "ballotpedia-state-executives",
-        "estimated": "not verified against a live source"
+        "sourceId": "ballotpedia-state-executives"
       },
       "tax-commissioner": {
         "party": "Republican",
         "partisanElection": true,
-        "sourceId": "ballotpedia-state-executives",
-        "estimated": "not verified against a live source"
+        "sourceId": "ballotpedia-state-executives"
       },
       "public-service-commission": {
         "party": "Republican",
         "partisanElection": true,
-        "sourceId": "ballotpedia-state-executives",
-        "estimated": "not verified against a live source"
+        "sourceId": "ballotpedia-state-executives"
       }
     },
     "US-OH": {
@@ -1038,26 +1013,22 @@
       "superintendent": {
         "party": "Republican",
         "partisanElection": true,
-        "sourceId": "ballotpedia-state-executives",
-        "estimated": "not verified against a live source"
+        "sourceId": "ballotpedia-state-executives"
       },
       "labor-commissioner": {
         "party": "Republican",
         "partisanElection": true,
-        "sourceId": "ballotpedia-state-executives",
-        "estimated": "not verified against a live source"
+        "sourceId": "ballotpedia-state-executives"
       },
       "insurance-commissioner": {
         "party": "Republican",
         "partisanElection": true,
-        "sourceId": "ballotpedia-state-executives",
-        "estimated": "not verified against a live source"
+        "sourceId": "ballotpedia-state-executives"
       },
       "corporation-commission": {
         "party": "Republican",
         "partisanElection": true,
-        "sourceId": "ballotpedia-state-executives",
-        "estimated": "not verified against a live source"
+        "sourceId": "ballotpedia-state-executives"
       }
     },
     "US-OR": {
@@ -1079,8 +1050,7 @@
       "labor-commissioner": {
         "party": null,
         "partisanElection": false,
-        "sourceId": "ballotpedia-state-executives",
-        "estimated": "not verified against a live source"
+        "sourceId": "ballotpedia-state-executives"
       }
     },
     "US-PA": {
@@ -1156,8 +1126,7 @@
       "superintendent": {
         "party": "Republican",
         "partisanElection": true,
-        "sourceId": "ballotpedia-state-executives",
-        "estimated": "not verified against a live source"
+        "sourceId": "ballotpedia-state-executives"
       },
       "agriculture-commissioner": {
         "party": "Republican",
@@ -1194,14 +1163,12 @@
       "land-commissioner": {
         "party": "Republican",
         "partisanElection": true,
-        "sourceId": "ballotpedia-state-executives",
-        "estimated": "not verified against a live source"
+        "sourceId": "ballotpedia-state-executives"
       },
       "public-utilities-commission": {
         "party": "Republican",
         "partisanElection": true,
-        "sourceId": "ballotpedia-state-executives",
-        "estimated": "not verified against a live source"
+        "sourceId": "ballotpedia-state-executives"
       }
     },
     "US-TX": {
@@ -1223,8 +1190,7 @@
       "land-commissioner": {
         "party": "Republican",
         "partisanElection": true,
-        "sourceId": "ballotpedia-state-executives",
-        "estimated": "not verified against a live source"
+        "sourceId": "ballotpedia-state-executives"
       },
       "agriculture-commissioner": {
         "party": "Republican",
@@ -1234,8 +1200,7 @@
       "railroad-commission": {
         "party": "Republican",
         "partisanElection": true,
-        "sourceId": "ballotpedia-state-executives",
-        "estimated": "not verified against a live source"
+        "sourceId": "ballotpedia-state-executives"
       }
     },
     "US-UT": {
@@ -1328,20 +1293,17 @@
       "land-commissioner": {
         "party": "Democratic",
         "partisanElection": true,
-        "sourceId": "ballotpedia-state-executives",
-        "estimated": "not verified against a live source"
+        "sourceId": "ballotpedia-state-executives"
       },
       "superintendent": {
-        "party": "Democratic",
+        "party": null,
         "partisanElection": false,
-        "sourceId": "ballotpedia-state-executives",
-        "estimated": "not verified against a live source"
+        "sourceId": "ballotpedia-state-executives"
       },
       "insurance-commissioner": {
         "party": "Democratic",
         "partisanElection": true,
-        "sourceId": "ballotpedia-state-executives",
-        "estimated": "not verified against a live source"
+        "sourceId": "ballotpedia-state-executives"
       }
     },
     "US-WV": {
@@ -1395,8 +1357,7 @@
       "superintendent": {
         "party": null,
         "partisanElection": false,
-        "sourceId": "ballotpedia-state-executives",
-        "estimated": "not verified against a live source"
+        "sourceId": "ballotpedia-state-executives"
       }
     },
     "US-WY": {
@@ -1418,108 +1379,96 @@
       "superintendent": {
         "party": "Republican",
         "partisanElection": true,
-        "sourceId": "ballotpedia-state-executives",
-        "estimated": "not verified against a live source"
+        "sourceId": "ballotpedia-state-executives"
       }
     },
     "US-DC": {
       "mayor": {
         "party": "Democratic",
         "partisanElection": true,
-        "sourceId": "ballotpedia-state-executives",
-        "estimated": "not verified against a live source"
+        "sourceId": "ballotpedia-state-executives"
       },
       "attorney-general": {
         "party": "Democratic",
         "partisanElection": true,
-        "sourceId": "ballotpedia-state-executives",
-        "estimated": "not verified against a live source"
+        "sourceId": "ballotpedia-state-executives"
       },
       "council-chair": {
         "party": "Democratic",
         "partisanElection": true,
-        "sourceId": "ballotpedia-state-executives",
-        "estimated": "not verified against a live source"
+        "sourceId": "ballotpedia-state-executives"
       },
       "state-board-of-education-president": {
         "party": null,
         "partisanElection": false,
-        "sourceId": "ballotpedia-state-executives",
-        "estimated": "not verified against a live source"
+        "sourceId": "ballotpedia-state-executives"
       }
     },
     "US-GU": {
       "lieutenant-governor": {
         "party": "Democratic",
         "partisanElection": true,
-        "sourceId": "ballotpedia-state-executives",
-        "estimated": "not verified against a live source"
+        "sourceId": "ballotpedia-state-executives"
       },
       "attorney-general": {
         "party": "Republican",
         "partisanElection": true,
-        "sourceId": "ballotpedia-state-executives",
-        "estimated": "not verified against a live source"
+        "sourceId": "ballotpedia-state-executives"
       },
       "public-auditor": {
         "party": null,
         "partisanElection": false,
-        "sourceId": "ballotpedia-state-executives",
-        "estimated": "not verified against a live source"
+        "sourceId": "ballotpedia-state-executives"
       },
       "consolidated-commission-on-utilities": {
         "party": null,
         "partisanElection": false,
-        "sourceId": "ballotpedia-state-executives",
-        "estimated": "not verified against a live source"
+        "sourceId": "ballotpedia-state-executives"
       }
     },
     "US-VI": {
       "lieutenant-governor": {
         "party": "Democratic",
         "partisanElection": true,
-        "sourceId": "ballotpedia-state-executives",
-        "estimated": "not verified against a live source"
+        "sourceId": "ballotpedia-state-executives"
       },
       "board-of-education": {
-        "party": null,
-        "partisanElection": false,
+        "party": "Democratic",
+        "partisanElection": true,
         "sourceId": "ballotpedia-state-executives",
-        "estimated": "not verified against a live source"
+        "estimated": "Stopgap research Oct 19: low: 2024 results list Democratic winners in both districts"
       },
       "board-of-elections": {
         "party": null,
-        "partisanElection": false,
+        "partisanElection": true,
         "sourceId": "ballotpedia-state-executives",
-        "estimated": "not verified against a live source"
+        "estimated": "Stopgap research Oct 19: low: winners include both D and R in 2024"
       }
     },
     "US-AS": {
       "lieutenant-governor": {
         "party": null,
         "partisanElection": false,
-        "sourceId": "ballotpedia-state-executives",
-        "estimated": "not verified against a live source"
+        "sourceId": "ballotpedia-state-executives"
       }
     },
     "US-MP": {
       "lieutenant-governor": {
-        "party": "Independent",
+        "party": "Republican",
         "partisanElection": false,
         "sourceId": "ballotpedia-state-executives",
-        "estimated": "not verified against a live source"
+        "note": "CHANGED: now Republican (was I); governor ticket is by nonpartisan-style ballot"
       },
       "attorney-general": {
         "party": null,
         "partisanElection": false,
         "sourceId": "ballotpedia-state-executives",
-        "estimated": "not verified against a live source"
+        "estimated": "Stopgap research Oct 19: low: Wikipedia list omits elected AG; no party"
       },
       "board-of-education": {
         "party": null,
         "partisanElection": false,
-        "sourceId": "ballotpedia-state-executives",
-        "estimated": "not verified against a live source"
+        "sourceId": "ballotpedia-state-executives"
       }
     }
   }
