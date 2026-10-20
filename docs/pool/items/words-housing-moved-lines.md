@@ -5,11 +5,12 @@ area: words
 kind: wiring
 priority: 2
 size: M
-status: open
+status: blocked
 claimed-by:
-pr:
-blocked-on:
+pr: #5178
+blocked-on: words: the merger accepts edits under src/director and data/english only from the Words session; the CTO must confirm a non-Words branch or hand this to the Words line (merger comment, Oct 20)
 source: added with npm run pool -- add
+claimed-at:
 ---
 
 **What.** TODO
@@ -21,3 +22,5 @@ source: added with npm run pool -- add
 **Files.** TODO
 
 **Notes.** TODO
+
+Sent back 2026-10-20 from PR #5178 (branch claude/political-game-pool-khi2o3): edits src/director by a session that is not the Words session; finish on that branch, merge main into it first.
