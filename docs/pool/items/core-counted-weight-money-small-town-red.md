@@ -6,11 +6,11 @@ kind: bug
 priority: 3
 size: S
 status: claimed
-claimed-by: claude/political-game-pool-7xkkii
+claimed-by: claude/political-game-pool-76ksvw
 pr:
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-20T02:49:23.390Z
+claimed-at: 2026-10-20T03:11:58.883Z
 ---
 
 **What.** TODO
