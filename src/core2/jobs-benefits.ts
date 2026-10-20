@@ -49,7 +49,7 @@ export interface ClaimRow {
   lawId?: string;
   source?: Source;
   endedAt?: string;
-  endReason?: "hired" | "exhausted" | "no-payer";
+  endReason?: "hired" | "exhausted" | "no-payer" | "left";
 }
 
 const DAYS_PER_WEEK = 7;
@@ -219,6 +219,20 @@ export function payClaims(api: CoreAPI, table: ModuleTable): void {
         open: false,
         endedAt: c.date,
         endReason: "no-payer",
+      });
+      continue;
+    }
+    // A claimant who is neither a full person nor still counted has left the
+    // town's records (moved away): there is no one to pay.
+    if (
+      !c.people.has(row.personId) &&
+      residentsRuntime(c)?.store.countedMember(row.personId) === undefined
+    ) {
+      table.put({
+        ...row,
+        open: false,
+        endedAt: c.date,
+        endReason: "left",
       });
       continue;
     }
