@@ -132,4 +132,50 @@ describe(`pretrial bail, ${where}`, () => {
     }
     expect(freed, `${where}: no defendant freed`).toBeGreaterThan(0);
   }, 1_200_000);
+
+  it("moves posted bail from the defendant's cash to the treasury and back when the trial opens", () => {
+    const bail = justiceParameters.pretrialBailMinor.value;
+    const rich = adults.filter((p) => (p.liquidMinor ?? 0) >= bail * 2);
+    expect(rich.length, where).toBeGreaterThan(0);
+    // Cash bail is law again from tomorrow: the earlier case ended it today.
+    advanceCore(core, addDays(makeIsoDate(core.date), 1));
+    setBailLaw(0);
+    for (const person of rich.slice(0, 20)) {
+      const before = core.cashJournal.nextSequence;
+      const c = charge(person.id);
+      if (!c || c.plea) continue;
+      expect(pretrialOf(c)!.decision, `${where}: ${person.id}`).toBe("posted");
+      const fines = api.moduleState(JUSTICE_MODULE_ID).table("fines");
+      const held = fines.get(`bail:${c.id}`) as unknown as {
+        postings: { accountId: string; deltaMinor: number }[];
+      };
+      expect(held, `${where}: no bail record for ${c.id}`).toBeDefined();
+      expect(
+        held.postings.map((x) => x.deltaMinor).sort((a, b) => a - b),
+      ).toEqual([-bail, bail]);
+      expect(held.postings[0]!.accountId, where).toBe(
+        `cash:${person.id}:residual`,
+      );
+      expect(core.cashJournal.nextSequence, where).toBeGreaterThan(before);
+      advanceCore(core, addDays(makeIsoDate(c.trialDate!), 1));
+      const back = fines.get(`bail-return:${c.id}`) as unknown as
+        | {
+            shortMinor?: number;
+            postings: { accountId: string; deltaMinor: number }[];
+          }
+        | undefined;
+      // The treasury hands back what it still holds (SG-GOV-bail-not-escrowed);
+      // the rest is recorded as short. No return at all means it held nothing.
+      const returned = back
+        ? back.postings.find(
+            (x) => x.accountId === `cash:${person.id}:residual`,
+          )!.deltaMinor
+        : 0;
+      expect(returned + (back?.shortMinor ?? bail - returned), where).toBe(
+        bail,
+      );
+      return;
+    }
+    throw new Error(`${where}: no defendant went to trial`);
+  }, 1_200_000);
 });

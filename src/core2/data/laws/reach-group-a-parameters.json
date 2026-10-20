@@ -158,6 +158,11 @@
       "source": "Grounded Solutions Network, Inclusionary Housing Database (2021): the typical set-aside is 10 to 20% of new homes.",
       "spread": [0.1, 0.2]
     },
+    "monthsPerYear": {
+      "value": 12,
+      "tag": "SOURCED",
+      "source": "Calendar year."
+    },
     "housingAssistanceAnnualMinor": {
       "value": 1150000,
       "tag": "ESTIMATED",
