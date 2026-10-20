@@ -4,7 +4,7 @@ title: "OPUS-WORLD economy engines branch (#3996)"
 area: world
 kind: feature
 priority: 2
-status: claimed
+status: dropped
 claimed-by: opus-world
 pr: #3996
 blocked-on:
