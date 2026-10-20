@@ -7,9 +7,10 @@ priority: 2
 size: M
 status: open
 claimed-by:
-pr:
+pr: #5557
 blocked-on:
 source: PR #5557, branch effect-web-reach; no existing matching pool item found
+claimed-at: 
 ---
 
 **What.** PR #5557 adds an age-specific unemployment effect on births in src/core2/births-counted.ts. The full-person family-plan and birth paths do not read the new web factor, so the same cause affects the two tiers differently. Apply the same researched rule to both paths, or register the missing full-person path as an explicit stopgap and accurately label the partial change before it ships.
