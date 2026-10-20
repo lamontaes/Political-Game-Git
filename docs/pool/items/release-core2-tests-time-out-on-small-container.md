@@ -10,7 +10,7 @@ claimed-by: claude/core2-test-timeouts
 pr: #5344
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-20T00:33:12.812Z
+claimed-at: 2026-10-20T13:35:46.516Z
 ---
 
 **What.** TODO
@@ -22,3 +22,5 @@ claimed-at: 2026-10-20T00:33:12.812Z
 **Files.** TODO
 
 **Notes.** TODO
+
+Sent back 2026-10-20 from PR #5344 (branch claude/core2-test-timeouts): merge conflict with main in code; merge main and resolve; finish on that branch, merge main into it first.

@@ -18,13 +18,14 @@ import {
 } from "../core2/campaign-day";
 import type { FilingRow } from "../core2/modules/elections";
 import type { CoreState } from "../core2/types";
+import { dwellingKind } from "../core2/modules/housing";
 import { retellingsOf } from "../core2/modules/speech";
 import {
   answerDebate,
   debatesIn,
   type DebateRow,
 } from "../core2/modules/meetings";
-import type { InterviewAnswer } from "../core2/modules/press";
+import { interviewsFor, type InterviewAnswer } from "../core2/modules/press";
 import {
   beginSpeech,
   chooseSpeechPart,
@@ -36,6 +37,16 @@ import scenePlaces from "./data/scene-places.json" with { type: "json" };
 
 const ELECTIONS = "core2-elections-v1";
 const CAMPAIGNS = "core2-campaigns-v1";
+
+/** The campaign day's acts that open as a scene, by the name the screen's control carries. */
+const OUTINGS: Partial<
+  Record<CampaignDayKind, "doors" | "calls" | "event" | "interview">
+> = {
+  canvass: "doors",
+  "raise-money": "calls",
+  event: "event",
+  interview: "interview",
+};
 
 /** The player's campaigns: one for each filing on the ballot. */
 export function campaignView(core: CoreState, personId: string) {
@@ -69,12 +80,26 @@ export function campaignView(core: CoreState, personId: string) {
         polls: polls.slice(-3),
         // What the contest turns on: each candidate's acts and how the people they reached came to feel.
         causes: contestCauses(core, filing.contestId, personId),
-        // The day's choices the records offer, each with the hours it takes.
-        day: campaignDayChoices(api, filing.id).map((choice) => ({
-          kind: choice.kind,
-          hours: choice.hours,
-          available: choice.available,
-        })),
+        // Where the player can go out and meet people today: a street of doors, the phone bank.
+        outings: campaignDayChoices(api, filing.id).flatMap((choice) => {
+          const outing = OUTINGS[choice.kind];
+          if (!outing) return [];
+          // An interview is asked of an outlet: the one that invited the candidate, else the first with room.
+          const outletId =
+            choice.kind === "interview"
+              ? (interviewsFor(api, filing.personId).find(
+                  (i) => i.id === choice.facts.invitedInterviewIds[0],
+                )?.outletId ?? choice.facts.outlets[0]?.outletId)
+              : undefined;
+          return [
+            {
+              outing,
+              hours: choice.hours,
+              available: choice.available,
+              ...(outletId ? { outletId } : {}),
+            },
+          ];
+        }),
         // Debates the outlet has invited the candidates to, waiting for their answers.
         debates: debatesIn(api, filing.contestId)
           .filter((row) => row.status === "invited")
@@ -226,6 +251,75 @@ function speechScene(
   };
 }
 
+/** The people an outing reached: who answered the doors, who was asked for money. */
+function outingPeople(
+  core: CoreState,
+  kind: CampaignDayKind,
+  result: {
+    causeIds: readonly string[];
+    giftIds: readonly string[];
+  },
+): string[] {
+  const api = coreAPI(core);
+  const ids =
+    kind === "canvass"
+      ? result.causeIds.map(
+          (id) =>
+            (
+              api.moduleState(CAMPAIGNS).table("causes").get(id) as unknown as
+                CauseRow | undefined
+            )?.voterId ?? "",
+        )
+      : kind === "raise-money"
+        ? result.giftIds.map((id) => id.split("|")[1] ?? "")
+        : kind === "event"
+          ? result.causeIds.map(
+              (id) =>
+                (
+                  api
+                    .moduleState(CAMPAIGNS)
+                    .table("causes")
+                    .get(id) as unknown as CauseRow | undefined
+                )?.voterId ?? "",
+            )
+          : [];
+  return [...new Set(ids)].filter((id) => core.people.get(id)?.alive);
+}
+
+/**
+ * Doors and calls where they happen: the street the first household that answered
+ * lives on (by its kind of dwelling) or the phone bank, the candidate up front.
+ */
+function outingScene(
+  core: CoreState,
+  personId: string,
+  kind: CampaignDayKind,
+  met: readonly string[],
+) {
+  const first = core.people.get(met[0] ?? "")?.householdId ?? "";
+  const dwelling = (first && dwellingKind(coreAPI(core), first)) || "house";
+  const doors = scenePlaces.doorKnockingPlaces as Record<string, string>;
+  const place =
+    kind === "canvass"
+      ? (doors[dwelling] ?? doors.house!)
+      : kind === "event"
+        ? scenePlaces.speechPlaces[0]!
+        : scenePlaces.phoneBankPlace;
+  const ids = [personId, ...met].filter((id) => core.people.get(id)?.alive);
+  return {
+    place,
+    backdrop: backdropFile(place, 16 * 60),
+    ...stagePeople(
+      core,
+      place,
+      ids.map((id) => {
+        const row = core.people.get(id)!;
+        return { id, name: `${row.givenName} ${row.familyName}` };
+      }),
+    ),
+  };
+}
+
 /** The player answers a debate they were invited to, one position (or none) for each question it asks. */
 export function debateAnswer(
   core: CoreState,
@@ -262,7 +356,12 @@ export function campaignDay(
   const result = takeCampaignDayChoice(api, input.filingId, kind, {
     ...(input.outletId ? { outletId: input.outletId } : {}),
   });
+  const met = outingPeople(core, kind, result);
   return {
+    ...(met.length ? { scene: outingScene(core, personId, kind, met) } : {}),
+    households: [
+      ...new Set(met.map((id) => core.people.get(id)?.householdId ?? "")),
+    ].filter(Boolean),
     kind: result.kind,
     hours: result.hours,
     doorsKnocked: result.doorsKnocked,
