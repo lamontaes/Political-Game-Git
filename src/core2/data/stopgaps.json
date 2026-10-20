@@ -4006,10 +4006,10 @@
     "line": 1,
     "whatItFakes": "A town split between state legislative districts places its counted households into the districts by income order, filling each district in proportion to its Census population in the town, so each district holds a slice of the town's income ladder.",
     "why": "The game reads only each district's population in the town (Census place-district populations); it has no district-level income, housing or vote tables, and no home locations.",
-    "replacement": "Each district's own Census tables (ACS by state legislative district: income, tenure, age) and its election results, so households are placed by the district's real mix.",
+    "replacement": "Resolved Oct 20: households are placed by each district's own ACS 2020-2024 B19001 income mix, fitted to the Census place-district populations (src/core2/data/district-household-income.json; shown in district-placement-mix.test.ts).",
     "addedBy": "OPUS-CORE (one model, two tiers)",
     "addedAt": "2026-10-14",
-    "status": "open"
+    "status": "resolved"
   },
   {
     "id": "SG-CORE-filled-unplaced-income",

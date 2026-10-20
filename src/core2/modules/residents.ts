@@ -54,6 +54,7 @@ import { incomeBandOf } from "../counted-income-fifth";
 
 export { incomeBandOf };
 import { placeDistrictPopulations } from "../../districts/place-population-share";
+import districtIncome from "../data/district-household-income.json" with { type: "json" };
 import { stopgap } from "../stopgaps";
 import { corePlaceByKey } from "../place-lookup";
 import {
@@ -424,7 +425,6 @@ function jobless(
   return n;
 }
 
-export const DISTRICT_STOPGAP = "SG-CORE-district-placement";
 const FILLED_UNPLACED_STOPGAP = "SG-CORE-filled-unplaced-income";
 
 /** The town's districts and their people (state House, else state Senate), by GEOID. */
@@ -441,13 +441,40 @@ export function townDistricts(core: CoreState): [string, number][] {
   return [];
 }
 
+/** Households per income bin of each state legislative district (ACS 2020-2024 B19001), by chamber and GEOID. */
+const DISTRICT_INCOME = districtIncome as unknown as {
+  binUpperDollars: readonly (number | null)[];
+  districts: Readonly<
+    Record<string, Readonly<Record<string, readonly number[]>>>
+  >;
+};
+const CENTS = 100;
+
+function incomeBinOf(incomeMinorYear: number): number {
+  const uppers = DISTRICT_INCOME.binUpperDollars;
+  for (let bin = 0; bin < uppers.length; bin++) {
+    const upper = uppers[bin];
+    if (
+      upper === null ||
+      upper === undefined ||
+      incomeMinorYear <= upper * CENTS
+    )
+      return bin;
+  }
+  return uppers.length - 1;
+}
+
 /**
  * A town whose people split between districts (the Census place-district
- * populations): its counted households fill the districts in proportion to
- * the districts' people, in order of their income, so each district holds
- * the households its share of the town's income ladder holds
- * (SG-CORE-district-placement until the districts' own Census tables are
- * read). Other places are whole.
+ * populations): its counted households are placed in the districts by each
+ * district's own household income mix (ACS B19001 for the district), so a
+ * district known for its richer or poorer households holds more of the
+ * town's, and not a slice of the income ladder. Each income bin's households
+ * are shared across the districts in proportion to the districts' own bin
+ * counts, fitted (iterative proportional fitting) so every district also
+ * holds the town's share of people that the Census place-district tabulation
+ * gives it; the households of a bin go to the district furthest below its
+ * share, in order of income then id. Other places are whole.
  */
 function placeInDistricts(
   core: CoreState,
@@ -456,25 +483,65 @@ function placeInDistricts(
 ): void {
   const districts = townDistricts(core);
   if (districts.length < 2) return;
-  stopgap(DISTRICT_STOPGAP);
   const placeId = townPlaceOf(core);
   const town = households.filter((h) => h.placeId === placeId);
-  const ordered = [...town].sort(
-    (a, b) =>
-      householdIncome(rt, a) - householdIncome(rt, b) || (a.id < b.id ? -1 : 1),
-  );
-  const people = ordered.reduce((n, h) => n + rt.store.weightedCount(h), 0);
+  const bins = DISTRICT_INCOME.binUpperDollars.length;
+  const inBin: CountedHousehold[][] = Array.from({ length: bins }, () => []);
+  const demand = new Array<number>(bins).fill(0);
+  for (const h of town) {
+    const bin = incomeBinOf(householdIncome(rt, h));
+    inBin[bin]!.push(h);
+    demand[bin]! += rt.store.weightedCount(h);
+  }
+  const people = demand.reduce((n, count) => n + count, 0);
   const total = districts.reduce((n, [, count]) => n + count, 0);
-  let d = 0,
-    filled = 0,
-    edge = (districts[0]![1] / total) * people;
-  for (const h of ordered) {
-    while (filled >= edge && d < districts.length - 1) {
-      d++;
-      edge += (districts[d]![1] / total) * people;
+  if (people === 0 || total === 0) return;
+  // The districts' own mix: a seed of households per bin, and the town's share of people each must hold.
+  const seed = districts.map(([id]) => {
+    const [chamber, geoid] = id.split(":") as [string, string];
+    const row = DISTRICT_INCOME.districts[chamber]?.[geoid];
+    return Array.from({ length: bins }, (_, bin) => row?.[bin] ?? 0);
+  });
+  const target = districts.map(([, count]) => (count / total) * people);
+  // A bin no district has any households in is shared by the districts' sizes.
+  const plan = seed.map((row, d) =>
+    row.map((count, bin) =>
+      seed.every((other) => (other[bin] ?? 0) === 0)
+        ? target[d]!
+        : count + 1e-9,
+    ),
+  );
+  for (let round = 0; round < 60; round++) {
+    for (let bin = 0; bin < bins; bin++) {
+      const column = plan.reduce((n, row) => n + row[bin]!, 0);
+      if (column > 0)
+        for (const row of plan) row[bin] = (row[bin]! * demand[bin]!) / column;
     }
-    h.district = districts[d]![0];
-    filled += rt.store.weightedCount(h);
+    for (let d = 0; d < districts.length; d++) {
+      const row = plan[d]!.reduce((n, count) => n + count, 0);
+      if (row > 0)
+        for (let bin = 0; bin < bins; bin++)
+          plan[d]![bin] = (plan[d]![bin]! * target[d]!) / row;
+    }
+  }
+  // Place each bin's households where they fall furthest below the plan.
+  const held = plan.map((row) => row.map(() => 0));
+  for (let bin = 0; bin < bins; bin++) {
+    const ordered = [...inBin[bin]!].sort(
+      (a, b) =>
+        householdIncome(rt, a) - householdIncome(rt, b) ||
+        (a.id < b.id ? -1 : 1),
+    );
+    for (const h of ordered) {
+      let best = 0;
+      let deficit = -Infinity;
+      for (let d = 0; d < districts.length; d++) {
+        const gap = plan[d]![bin]! - held[d]![bin]!;
+        if (gap > deficit + 1e-9) [best, deficit] = [d, gap];
+      }
+      h.district = districts[best]![0];
+      held[best]![bin]! += rt.store.weightedCount(h);
+    }
   }
 }
 
