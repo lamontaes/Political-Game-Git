@@ -4,13 +4,13 @@ title: "Stopgaps in budgets (missing-engine): 1 open"
 area: gov
 kind: stopgap
 priority: 3
-status: claimed
-claimed-by: claude/budget-adoption-narrow
+status: open
+claimed-by:
 pr:
 blocked-on:
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/modules/budgets.ts, kind missing-engine"
-claimed-at: 2026-10-20T00:58:13.493Z
+claimed-at:
 ---
 
 **What.** Replace or clear the 1 open missing-engine stopgap row(s) in src/core2/modules/budgets.ts: SG-GOV-budget-adopted-by-rule. Each fake is replaced by the mechanic, or the feature that needs it is deleted.
