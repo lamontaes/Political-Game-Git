@@ -5,9 +5,9 @@ area: office
 kind: feature
 priority: 3
 size: L
-status: claimed
+status: in-pr
 claimed-by: claude/m5-04-verified
-pr:
+pr: #5424
 blocked-on:
 milestone: M5
 source: "docs/roadmap/later-specs-draft.md M5-04"

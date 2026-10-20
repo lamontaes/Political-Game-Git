@@ -5,10 +5,10 @@ area: world
 kind: research
 priority: 2
 size: M
-status: claimed
+status: blocked
 claimed-by: claude/political-game-pool-yucp92-v
 pr:
-blocked-on:
+blocked-on: CTO: confirm the Freddie Mac PMMS exclusion (#3959) was reversed, then resolve SG-WORLD-macro-mortgage-spread; territory statistics still to source
 source: "collapsed Oct 19, 2026 from world-stopgap-macro-model-estimated-series, world-stopgap-regional-model-estimated-series"
 claimed-at: 2026-10-20T02:17:41.176Z
 ---
