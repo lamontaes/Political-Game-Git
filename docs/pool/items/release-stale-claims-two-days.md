@@ -31,3 +31,5 @@ claimed-at: 2026-10-20T03:42:34.942Z
 - claude/worker-unpaid-four-months (world-worker-unpaid-four-months): 4 commits, two of them real (the wages-unpaid check script); **PR #5011 is open** (draft). The pool entry on main still said claimed with no PR because its in-pr status commit sits on that branch; I set it in-pr with #5011 on main. Not stale, and not mine to release.
 
 So nothing is lost if the first three are released: they carry no code. Whether to release them is still the CTO's call.
+
+**Correction, Oct 20 (claude).** Looking up each branch's pull requests (the first check looked only at commits): all four have an open draft PR: #5035 (core-old-imports-opening-work), #5041 (world-corporate-office-staff-never-paid), #5034 (world-home-turnover) and #5011 (world-worker-unpaid-four-months). The pool entries on main showed "claimed" with no PR because each branch's in-pr status commit sat on the branch, not on main; I set all four in-pr with those numbers. So none of the four claims is stale and nothing needs a CTO release. This item can be dropped.
