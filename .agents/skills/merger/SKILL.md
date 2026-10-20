@@ -1,6 +1,6 @@
 ---
 name: merger
-description: Merge and validate pull requests for Our Civic Duty as the CTO's merger: changed-file checks in your own cloud environment, the morning check, merge on green, stale GitHub runs cleared. Use when a session is asked to merge or validate PRs.
+description: Merges and validates pull requests for Our Civic Duty: changed-file checks on the merged result in its own environment, the morning check, head-pinned merges in a share shared with other mergers, send-backs that reopen pool items, stale GitHub runs cleared. Use when a session is asked to merge or validate PRs.
 ---
 
 # Merger
@@ -9,14 +9,14 @@ You are the CTO's merger. The CTO never merges or reads diffs; you do, and retur
 
 Never: merge a PR you authored, delete anything, close a PR, force-push, rebase, amend, or run the full suite.
 
-**Cloud sessions set the override themselves** (Oct 15, 2026): a session in a cloud environment runs every npm command with `OCD_STORAGE_OVERRIDE="cloud session, owner approved Oct 14"` and never asks anyone to confirm it; the storage rules protect a developer's own computer, not cloud containers. If `node_modules` is missing, install once.
+**Cloud sessions set the override themselves** (Oct 15, 2026): a session in a cloud environment runs every npm command with `OCD_STORAGE_OVERRIDE="cloud session, owner approved Oct 14"` and never asks anyone to confirm it; the storage rules protect a developer's own computer, not cloud containers. If `node_modules` is missing, run `npm install` once.
 
 ## What went wrong before (read this)
 
 Every rule below comes from a merge audit. The ones that hurt most:
 
-- **Badges are not checks.** On Oct 19, 40 PRs merged in under four minutes on GitHub's badges, with no main merged in and no checks run. Every merge needs its own merge of main, its own checks on that merged result, and a comment naming them.
-- **A send-back is not undone by time.** On Oct 20, three PRs were merged after the merger itself had sent them back, with no new commit.
+- **Badges are not checks.** Once, 40 PRs merged in under four minutes on GitHub's badges, with no main merged in and no checks run. Every merge needs its own merge of main, its own checks on that merged result, and a comment naming them.
+- **A send-back is not undone by time.** Three PRs were merged after the merger itself had sent them back, with no new commit.
 - **Base branches.** A PR merged into another PR's branch was counted as merged to main and its pool item flipped to done.
 - **Weak tests passed.** Tests that return early, assert `>= 0`, loop over an empty set, or wrap every assertion in `if (found)` passed review and merged.
 - **Done-when skipped.** PRs merged without the proof their pool item's done-when names: the browser check never run, the played-world case never added.
@@ -66,6 +66,8 @@ List with `gh api 'repos/lamontaes/Political-Game-Git/pulls?state=open&per_page=
    - `npm run zero-dice`
    - `npm run release:check -- --mode pr`
    - `npm run pool -- --check`
+   - `npm run old-imports` when the PR touches `src/core2`
+   - `npm run test:skill-ops` when the PR touches `AGENTS.md`, `CLAUDE.md`, `.agents/`, `.claude/`, `.codex/` or `.cursor/`
 
    A failure that also fails on clean `origin/main` does not block; say so in the table. `pool --check` already fails on main for old thin items, so only failures in the PR's own items count. A single test over 10 minutes: run it alone once more before calling it a failure.
 
@@ -106,7 +108,7 @@ List with `gh api 'repos/lamontaes/Political-Game-Git/pulls?state=open&per_page=
    - Hand-written player text in code or data (`origin: "authored"` with `shippable: true`).
    - Code in `src/core2` importing from `src/simulation`.
    - Owner names or dated owner notes in code or shipped data.
-   - Edits under `src/director/`, `src/presentation/english-*` or `data/english/` by a session that is not the Words session.
+   - Edits under `src/director/`, `src/english/` or `data/english/` by a session that is not the Words session.
    - British spellings.
    - A docs/pool item with sections pasted twice.
 
@@ -114,8 +116,8 @@ List with `gh api 'repos/lamontaes/Political-Game-Git/pulls?state=open&per_page=
    - No release declaration in `docs/release/changes/`. Impact none carries only id and impact; patch and minor also need a section and a title.
 
 6. **Merge on green.** If the PR is a draft without "work in progress" in its body, mark it ready first. There is no REST route for this: `pulls/N/ccr/ready_for_review` returns 404, and merging a draft returns 405. Use `gh pr ready N`, or the GraphQL mutation `gh api graphql -f query='mutation($id:ID!){markPullRequestReadyForReview(input:{pullRequestId:$id}){pullRequest{isDraft}}}' -f id="$(gh api repos/lamontaes/Political-Game-Git/pulls/N --jq .node_id)"`, or `update_pull_request` with `draft: false`. Read the PR again and confirm `draft` is false. Then merge with the head pinned (section 1). Right after, post one comment: "<prefix> merged at <sha>. Checks run here: <list>, all passed."
-7. **A send-back goes back to the pool.** After commenting the reason on the PR, set its pool item back to open so any builder can finish it: `node --import tsx scripts/pool/index.ts status <id> open --by cto` (space, not equals). Append one line to the item's Notes: `Sent back <date> from PR #N (branch X): <reason in one sentence>; finish on that branch, merge main into it first.` If the item id is not in the PR, match it by branch name or title. Any defect you find that is not the PR's own (a failing test on main, a stand-in elsewhere) becomes a new pool item: `npm run pool -- add <id> --title ... --area ... --kind bug --priority 1 --size S`.
-8. **Pool.** After a merge into main, find the item (`grep -l "pr: #N" docs/pool/items/*.md`) and run `node --import tsx scripts/pool/index.ts status <id> done --pr N --by cto`; it pushes to main as a one-file commit. Never flip an item for a merge into a branch other than main.
+7. **A send-back goes back to the pool.** After commenting the reason on the PR, set its pool item back to open so any builder can finish it: `npm run pool -- status <id> open --by=cto`. Append one line to the item's Notes: `Sent back <date> from PR #N (branch X): <reason in one sentence>; finish on that branch, merge main into it first.` If the item id is not in the PR, match it by branch name or title. Any defect you find that is not the PR's own (a failing test on main, a stand-in elsewhere) becomes a new pool item: `npm run pool -- add <id> --title ... --area ... --kind bug --priority 1 --size S`.
+8. **Pool.** After a merge into main, the pool-done workflow flips the item to done on its own: it reads `Pool item: <id>` on the PR body's first line, or finds the item whose `pr:` field names the PR. Check the item (`grep -l "pr: #N" docs/pool/items/*.md`) a minute later; only if it didn't flip, run `npm run pool -- status <id> done --pr N --by=cto`, which pushes a one-file commit to main. Never flip an item for a merge into a branch other than main.
 
 ## 3. Stale runs
 

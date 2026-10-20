@@ -5,12 +5,12 @@ area: gov
 kind: bug
 priority: 1
 size: M
-status: claimed
-claimed-by: claude/territory-payroll
+status: open
+claimed-by:
 pr: #5712
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-20T18:49:44.374Z
+claimed-at:
 ---
 
 **What.** Merge audit fix 5 asked for a pinned regression of #5559 (staff paid in a territory). On main it does not hold: in Charlotte Amalie East, U.S. Virgin Islands (place territory:VI:charlotte-amalie-east, seed p3) all 19 aides of the delegate, governor, lieutenant governor, boards and legislature are unpaid after 120 days of play, because startPublicJob finds no job to take a schedule from: of 1,426 running jobs at the start, none has a work commitment with a payroll calendar (the territory's workers are counted, not full people), so even taking the longest-hours job anywhere finds no template, and the post is held unpaid. Give a post with no template a schedule built from the parameters (the full-time week and the paydays the opening's work builder uses) so the aide is paid.
@@ -30,3 +30,5 @@ Sent back 2026-10-20 from PR #5712 (branch claude/territory-payroll): merging ma
 Sent back 2026-10-20 from PR #5712 (branch claude/territory-payroll): staff-paid-every-place.test.ts fails with main merged: the president's aide in Wendell, Idaho (1686320) has no payroll record; finish on that branch, merge main into it first.
 
 Sent back 2026-10-20 from PR #5712 (branch claude/territory-payroll): On main merged at d26fb2715, staff-paid-every-place.test.ts:62 fails the required drawn-place case: Mustang, Texas (4850184), world seed b1b42a77246ea4d8022653a8c55b696ebb578c9c13812a0d171a91105844b7c2, aide staffer:official:term:seat:US:president:2025-01-20:person:aide:official:term:seat:US:president:2025-01-20:3 has zero matching payroll records after 120 days. The pinned VI case passes; all other local gates pass except unrelated old pool items. Diagnose this unpaid aide, retain the failing case beside the drawn-place test, and do not weaken the payment assertion.; finish on that branch, merge main into it first.
+
+Sent back 2026-10-20 from PR #5712 (branch claude/territory-payroll): src/core2/staff-paid-every-place.test.ts:62-66 replaces the failing payroll assertion with continue for every post under 30 days old. That narrows the required payment proof and can leave zero commitments whose payment is checked; the body itself says the 29-day-old aide already had a payday, so the comment that every younger post has had no payday is false. Retain Mustang beside the drawn case, advance far enough for the witnessed aide to have an actual payday (or derive eligibility from its real calendar), assert a nonempty set of due commitments, and prove each was credited rather than blanket-exempting a month of hires.; finish on that branch, merge main into it first.
