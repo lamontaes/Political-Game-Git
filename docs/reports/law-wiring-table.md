@@ -16,7 +16,7 @@
 | public funds for private schooling           | education          | yes    | yes    | yes   | SG      | yes   | SG  | yes     | yes    | yes       | stopgapped |
 | raise teacher minimum salary                 | education          | yes    | yes    | yes   | SG      | SG    | SG  | yes     | yes    | yes       | stopgapped |
 | Spending: higherEducation                    | education          | yes    | yes    | yes   | yes     | yes   | SG  | SG      | yes    | yes       | stopgapped |
-| Local income tax rate                        | taxes-finance      | yes    | yes    | yes   | yes     | yes   | SG  | yes     | SG     | yes       | stopgapped |
+| Local income tax rate                        | taxes-finance      | yes    | yes    | yes   | yes     | yes   | SG  | yes     | yes    | yes       | stopgapped |
 | Local sales tax rate                         | taxes-finance      | yes    | yes    | yes   | yes     | yes   | SG  | yes     | yes    | yes       | stopgapped |
 | Property tax rate                            | taxes-finance      | yes    | yes    | yes   | yes     | yes   | SG  | yes     | yes    | yes       | stopgapped |
 | Corporate income tax rate                    | taxes-finance      | yes    | yes    | yes   | yes     | yes   | SG  | yes     | yes    | yes       | stopgapped |
@@ -176,7 +176,6 @@
 **Local income tax rate** (`income-tax`)
 
 - web: no researched outcome-web link starts from this law or a measure it sets; the research would measure household income after tax and out-migration (SG-LAW-outcome-link-unresearched)
-- repeal: past paychecks' rows stay open after the rate is put back (SG-LAW-wiring-dated-tax-rows)
 
 **Local sales tax rate** (`sales-tax`)
 

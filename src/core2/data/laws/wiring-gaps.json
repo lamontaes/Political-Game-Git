@@ -208,10 +208,6 @@
       }
     },
     {
-      "stopgapId": "SG-LAW-wiring-dated-tax-rows",
-      "laws": { "income-tax": ["repeal"] }
-    },
-    {
       "stopgapId": "SG-LAW-budget-line-reach-not-ended",
       "laws": {
         "budget-line:administration": ["repeal"],

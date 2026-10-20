@@ -2424,7 +2424,7 @@
     "src/core2/counted-money.ts:422": 134,
     "src/core2/modules/counted-moves.ts:180": 124,
     "src/core2/life.ts:549": 2,
-    "src/core2/law-reach/group-b.ts:534": 2
+    "src/core2/law-reach/group-b.ts:534 <- src/core2/life.ts:549": 2
    },
    "openingRow": "law:US-NE:state:income-tax:general:2026-01-01:from-start",
    "money": {
@@ -2595,21 +2595,16 @@
     ]
    },
    "afterUndoChanged": {
-    "fullPeople": 64,
+    "fullPeople": 0,
     "countedGroups": 0,
     "countedPeople": 0,
     "households": 0,
     "organizations": 0,
     "governments": 0,
     "other": 0,
-    "open": 64,
+    "open": 0,
     "ended": 0,
-    "sample": [
-     "income-tax|person_014872ba8397579a|2025-01-21",
-     "income-tax|person_014873ba8397594d|2025-01-21",
-     "income-tax|person_02977976e9a4e00e|2025-01-21",
-     "income-tax|person_02977a76e9a4e1c1|2025-01-21"
-    ]
+    "sample": []
    },
    "seconds": 12
   },
@@ -5940,7 +5935,7 @@
     "ended": 0,
     "sample": []
    },
-   "seconds": 13
+   "seconds": 12
   },
   {
    "key": "us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones",

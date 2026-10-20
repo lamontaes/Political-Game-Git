@@ -148,13 +148,6 @@
         "id": "SG-LAW-wiring-checker-window"
       }
     },
-    "income-tax": {
-      "repeal": {
-        "status": "stopgap",
-        "why": "past paychecks' rows stay open after the rate is put back",
-        "id": "SG-LAW-wiring-dated-tax-rows"
-      }
-    },
     "inheritance-tax": {
       "reach": {
         "status": "stopgap",

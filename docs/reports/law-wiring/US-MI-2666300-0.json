@@ -2461,7 +2461,7 @@
     "src/core2/modules/budgets.ts:1165": 150,
     "src/core2/modules/counted-moves.ts:180": 122,
     "src/core2/life.ts:549": 2,
-    "src/core2/law-reach/group-b.ts:534": 2
+    "src/core2/law-reach/group-b.ts:534 <- src/core2/life.ts:549": 2
    },
    "openingRow": "law:US-MI:state:income-tax:general:2026-01-01:from-start",
    "money": {
@@ -2653,21 +2653,16 @@
     ]
    },
    "afterUndoChanged": {
-    "fullPeople": 60,
+    "fullPeople": 0,
     "countedGroups": 0,
     "countedPeople": 0,
     "households": 0,
     "organizations": 0,
     "governments": 0,
     "other": 0,
-    "open": 60,
+    "open": 0,
     "ended": 0,
-    "sample": [
-     "income-tax|person_0161274dc68d50d8|2025-01-21",
-     "income-tax|person_02518394bd09bf0a|2025-01-21",
-     "income-tax|person_03c56c71b4e8aacd|2025-01-21",
-     "income-tax|person_050bfb0ce0ab8e28|2025-01-21"
-    ]
+    "sample": []
    },
    "seconds": 14
   },
@@ -5964,7 +5959,7 @@
     "ended": 0,
     "sample": []
    },
-   "seconds": 13
+   "seconds": 15
   },
   {
    "key": "us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones",

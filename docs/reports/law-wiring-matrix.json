@@ -70,10 +70,10 @@
     "n/a": 0
    },
    "repeal": {
-    "wired": 70,
+    "wired": 71,
     "partial": 0,
     "missing": 0,
-    "stopgap": 18,
+    "stopgap": 17,
     "n/a": 1
    },
    "allPlaces": {
@@ -1235,9 +1235,9 @@
      "why": ""
     },
     "repeal": {
-     "status": "stopgap",
-     "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 133 open under the changed row -> after the old amount is put back 60 still cite it; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 145 open under the changed row -> after the old amount is put back 64 still cite it",
-     "why": "past paychecks' rows stay open after the rate is put back (SG-LAW-wiring-dated-tax-rows)"
+     "status": "wired",
+     "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 133 open under the changed row -> after the old amount is put back 0 still cite it; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 145 open under the changed row -> after the old amount is put back 0 still cite it",
+     "why": ""
     },
     "allPlaces": {
      "status": "wired",
