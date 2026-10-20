@@ -5,12 +5,12 @@ area: world
 kind: stopgap
 priority: 2
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/fs11vb-jobs
 pr: #5232
 blocked-on:
 source: added with npm run pool -- add
-claimed-at:
+claimed-at: 2026-10-20T15:19:39.229Z
 ---
 
 **What.** TODO
