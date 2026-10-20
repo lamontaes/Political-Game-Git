@@ -5,7 +5,7 @@ area: world
 kind: research
 priority: 2
 size: M
-status: in-pr
+status: done
 claimed-by:
 pr: #5534
 blocked-on:
