@@ -5,7 +5,7 @@ area: release
 kind: bug
 priority: 1
 size: M
-status: in-pr
+status: done
 claimed-by: claude/political-game-pool-yucp92-ao
 pr: #5655
 blocked-on:
