@@ -4,13 +4,14 @@ title: "Stopgaps in finance-state (receipt-budget-proxy): 1 open"
 area: world
 kind: stopgap
 priority: 3
-status: blocked
+status: open
 claimed-by:
 pr:
 blocked-on:
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/finance-state.ts, kind receipt-budget-proxy"
 after: world-io-supplier-shares, world-stopgap-opening-finance-authored-opening-counterparty-crosswalk, world-stopgap-finance-estimated-mechanism
+claimed-at: 
 ---
 
 **What.** In src/core2/finance-state.ts, a firm's supplier purchasing allowance is a cost-to-revenue ratio applied to each day's received sales, split across active routes by largest-remainder rounding and accumulated until due, which exhausted retailers in the completed finance year and left other firms without customers. Replace the allowance with ordering: at the business module's monthly review the owner orders inputs from the firm's suppliers in an amount set by expected sales (the recent trend), stock on hand against the days of supply for its kind (`inventoryDays` in world-io-supplier-shares), and cash the firm can spare after wages and bills; the order becomes a payable due on the supplier's terms (net 30 unless the supplier's contract says otherwise) and is paid from cash when due, or becomes arrears under world-stopgap-finance-estimated-mechanism. Suppliers are those the counterparty step chose. Delete the allowance, its accumulation, the routes' residue and the `SG-P8-finance-sales-receipt-budgets` marker and flag in finance.json.
