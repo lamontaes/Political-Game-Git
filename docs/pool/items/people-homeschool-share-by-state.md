@@ -21,3 +21,5 @@ source: added with npm run pool -- add
 **Files.** data/research/people, src/core2/opening-private-tuition.ts
 
 **Notes.** TODO
+
+Looked at Oct 20 (claude, claude/political-game-pool-yucp92-ee): the state figures exist in the Census Bureau's Household Pulse Survey (2023-24 school year: Alaska 16.2 percent, Tennessee 10.8, Montana 9.0, down to Connecticut 3.0, D.C. 3.0, Massachusetts 3.4, as a Johns Hopkins analysis reports) but the Bureau's tables for them are public-use files by survey week, and the survey's broader definition of homeschooling reads higher than the NCES household survey's (about 6 percent against 2.8 percent nationally). The researcher chooses the definition first (the NHES one is national only), then builds the state table from the Pulse files with their own citation.
