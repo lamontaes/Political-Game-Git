@@ -5,13 +5,13 @@ area: director
 kind: wiring
 priority: 1
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/director-civic-producers-government
 pr: #4600
 blocked-on:
 after: director-civic-roles
 source: "director-civic-producers, found building it"
-claimed-at:
+claimed-at: 2026-10-20T02:56:27.964Z
 ---
 
 **What.** Bill signing, veto, hearings, floor votes, recalls, scandals, appointments and a law reaching a person fire as scenes. This work was sent back by the merger on 2026-10-16 and is open for any builder to finish. The reason it came back: The top of the PR body lacks a gate line naming the in-session checks on changed files and their results. Add the named checks and results at the top (a pool id may precede it); "Local checks pass" alone does not name the checks. Finish it on the existing branch claude/director-civic-producers-government, after merging main into it with a plain merge.
