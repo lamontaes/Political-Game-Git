@@ -5,7 +5,7 @@ area: office
 kind: wiring
 priority: 3
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/budget-season-chain
 pr: #5573
 blocked-on:
