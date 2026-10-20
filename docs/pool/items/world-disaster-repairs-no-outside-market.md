@@ -5,7 +5,7 @@ area: world
 kind: bug
 priority: 1
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/disaster-repairs-no-market
 pr: #5327
 blocked-on:

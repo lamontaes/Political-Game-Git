@@ -5,12 +5,12 @@ area: release
 kind: bug
 priority: 2
 size: S
-status: in-pr
-claimed-by: claude/pool-claim-after
+status: open
+claimed-by:
 pr: #5276
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-19T23:33:02.766Z
+claimed-at:
 ---
 
 **What.** TODO
@@ -22,3 +22,5 @@ claimed-at: 2026-10-19T23:33:02.766Z
 **Files.** TODO
 
 **Notes.** TODO
+
+Sent back 2026-10-20 from PR #5276 (branch claude/pool-claim-after): merge conflict with main in scripts/pool/index.test.ts (code); finish on that branch, merge main into it first.
