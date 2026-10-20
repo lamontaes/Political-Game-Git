@@ -4,10 +4,10 @@ title: "Stopgaps in parameters (estimated-data): 1 open"
 area: core
 kind: stopgap
 priority: 3
-status: blocked
+status: dropped
 claimed-by:
 pr:
-blocked-on: research data: the row's replacement needs sourced data (Enactment years from the research for each policy answer (NCSL and state code histories), read by the law history in place of the seeded age....)
+blocked-on: research-core-parameters-sourced-parameters
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/data/past/parameters.json, kind estimated-data"
 ---
@@ -21,3 +21,5 @@ source: "src/core2/data/stopgaps.json, src/core2/data/past/parameters.json, kind
 **Files.** src/core2/data/past/parameters.json
 
 **Notes.** First row: A law the research records only as in force at the opening (a state's policy answers, a law carried back to the start date) is given an enactment date between one and twenty years before day one, fixed by the world's see
+
+Folded into research-core-parameters-sourced-parameters (CTO, Oct 19, 2026).

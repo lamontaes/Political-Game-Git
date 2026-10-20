@@ -5,9 +5,9 @@ area: gov
 kind: feature
 priority: 2
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/political-game-pool-yucp92-k
-pr:
+pr: #5337
 after: gov-public-contract-awards
 blocked-on:
 source: added with npm run pool -- add
