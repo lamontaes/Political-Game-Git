@@ -1695,7 +1695,7 @@
     "kind": "faked-mechanic",
     "file": "src/core2/data/laws/reach-group-b.json",
     "line": 184,
-    "whatItFakes": "The existing assessment and tax bill now read the cap law and settle full and counted owners through their own accounts. A yes/no catalog law still uses a generic estimated assessment cap rather than statutory levy-versus-assessment scope, exemptions or ownership-reset terms.",
+    "whatItFakes": "The existing assessment and tax bill now read the cap law and settle full and counted owners through their own accounts. A yes/no catalog law reads its state's own cap size and scope where src/core2/data/laws/property-tax-caps.json has the state (CA, FL, MI, OR, AZ, TX, NM, OK, NY, AR); every other state still uses a generic estimated assessment cap, and no state yet reads levy limits, exemptions, CPI-lesser-of caps or ownership-reset terms beyond a buyer being assessed afresh.",
     "why": "Session A wires the existing property-tax engine. The catalog has no numeric statutory cap or exemption terms, and the world has no delivered tax notice linking the assessment to an informed stance and director line.",
     "addedBy": "OPUS-GOV (sub-agent B)",
     "addedAt": "2026-10-12",
