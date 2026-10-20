@@ -5,7 +5,7 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: done
+status: in-pr
 claimed-by: claude/speed-pay-period
 pr: #5385
 blocked-on:

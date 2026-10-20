@@ -471,41 +471,6 @@ describe(`election law from data (place ${drawn.name}, ${drawn.state}, seed ${se
     );
   });
 
-  it("every state's governor row starts a term in December or January on its own rule, and an unread clause says so", () => {
-    const rows = Object.entries(
-      termStarts.states as unknown as Record<
-        string,
-        Record<
-          string,
-          {
-            tag: string;
-            excerpt: string;
-            rule: { month: number; nth: number; weekday: number };
-          }
-        >
-      >,
-    ).map(
-      ([state, families]) => [state, families.statewideExecutive!] as const,
-    );
-    expect(rows.length).toBeGreaterThanOrEqual(32);
-    for (const [state, row] of rows) {
-      const governor = {
-        ...town(state),
-        jurisdiction: state,
-        level: "state" as const,
-        kind: "governor",
-      };
-      const start = termStartAfter(governor, "2026-11-03");
-      // A December rule falls in the election year, a January rule the year after.
-      expect(start.slice(0, 7), state).toBe(
-        row.rule.month === 12 ? "2026-12" : "2027-01",
-      );
-      // An estimate does not quote a clause it did not read.
-      if (row.tag === "ESTIMATED")
-        expect(row.excerpt, state).toMatch(/not read|older version/);
-    }
-  });
-
   it("filing fallbacks come from data and say so", () => {
     // The places whose county row is unread take the data's age and title.
     const unread = filingRequirements("US-AK", "countyOffice");

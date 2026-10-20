@@ -5,7 +5,7 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: done
+status: in-pr
 claimed-by: claude/budgets-test-outside-authority
 pr: #5590
 blocked-on:

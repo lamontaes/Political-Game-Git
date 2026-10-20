@@ -5,12 +5,12 @@ area: release
 kind: bug
 priority: 1
 size: S
-status: in-pr
-claimed-by: claude/political-game-pool-yucp92-ay
-pr: #5678
+status: open
+claimed-by:
+pr: #5490
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-20T12:33:40.847Z
+claimed-at:
 ---
 
 **What.** On main after #5459 (112 stopgap research values), tests/american-english.test.ts fails on three hits in data/research/stopgaps-oct19 (on holiday timing, a Nebraska precinct or ward, and Ward County, Texas), and tests/american-english-sweep.test.ts and npm run spelling crash with spawnSync git ENOBUFS because the tracked file list is larger than execFileSync's default 1 MiB buffer. Reword the prose hit, exempt the recorded ward wording and the county name the way the other research files are exempt, and give both git ls-files calls a large maxBuffer.

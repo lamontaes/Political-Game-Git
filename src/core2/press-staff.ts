@@ -26,7 +26,6 @@ import { parameter } from "./parameters";
 import { medianTransactionBalance } from "./starting-cash";
 import { countedResidents } from "./electorate";
 import { startPublicJob } from "./public-payroll";
-import { giveLivingCost } from "./official-living";
 import staffJson from "./data/press/staff.json" with { type: "json" };
 import mastheadsJson from "./data/press/mastheads.json" with { type: "json" };
 import type { CoreAPI, CoreState, PersonId, Source } from "./types";
@@ -113,8 +112,6 @@ export interface StaffRow {
   readonly role: StaffRole;
   readonly jobId: string | null;
   readonly hiredOn: string;
-  /** An owner given a household cost at hire, which they spend out of each week through this date. */
-  readonly livedThrough?: string;
   /** When they left the outlet (another job, a move, death). */
   readonly leftOn?: string;
   /** Why: died, moved, layoff, quit, left-work, closure, left-job. */
@@ -271,23 +268,11 @@ function seatStaff(
           citation: input.source.citation,
         })
       : null;
-  // An owner holds the outlet and is on no payroll, so nothing gives them a
-  // household: a wealthy owner's cost and savings, at the income the press
-  // parameters set, with the savings paid in from outside.
-  const lives =
-    !pay &&
-    giveLivingCost(api, {
-      personId: id,
-      stateKey: input.stateKey,
-      annualMinor: input.parameter("ownerHouseholdIncomeMinor"),
-      governmentKey: input.stateKey,
-    });
   return {
     id,
     outletId: input.outletId,
     role: input.role.id,
     jobId,
     hiredOn: core.date,
-    ...(lives ? { livedThrough: core.date } : {}),
   };
 }

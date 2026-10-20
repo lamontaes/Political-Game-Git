@@ -5,12 +5,12 @@ area: core
 kind: bug
 priority: 3
 size: S
-status: open
-claimed-by:
+status: in-pr
+claimed-by: claude/weight-test-draws
 pr: #5622
 blocked-on:
 source: added with npm run pool -- add
-claimed-at:
+claimed-at: 2026-10-20T09:13:02.384Z
 ---
 
 **What.** counted-weight-unplaced.test.ts asserts base.unplaced > 0 for any drawn place, and counted-weight-macro asserts workers grow with scale; places with no unplaced flow (Nessen City, Michigan 2656960, seed c5c8d898...; Chalan Laulau MP, seed 156730cb...) fail the same on the base branch.
@@ -22,5 +22,3 @@ claimed-at:
 **Files.** src/core2/counted-weight-unplaced.test.ts, src/core2/counted-weight-macro.test.ts
 
 **Notes.** TODO
-
-Sent back 2026-10-20 from PR #5622 (branch claude/weight-test-draws): merge conflict in counted-weight-macro.test.ts after #5626 changed the same test; finish on that branch, merge main into it first.

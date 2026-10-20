@@ -17,12 +17,10 @@ import { budgetPriorities, budgetsOf, governments } from "./modules/budgets";
 import { officeActsOf, officeHost, prepareAct } from "./modules/office-day";
 import { townSeats } from "./modules/offices";
 import {
-  executiveBudgetChanges,
   LEGISLATURE_MODULE_ID,
   memberKey,
   type BillRow,
 } from "./modules/legislature";
-import { hireStaff, servingStaffOf, staffCandidates } from "./modules/staff";
 import { budgetProposalDue, officeActHandlers } from "./office-day-acts";
 import { coreAPI } from "./state";
 
@@ -119,75 +117,5 @@ it("the executive's budget act opens in its season and its changes are what the 
   }
   throw new Error(
     `no mayor with a city budget in 6 places: ${tried.join("; ")}; ${seed}`,
-  );
-}, 3_600_000);
-
-it("the character's own budget is cut by an aide's read of the council", () => {
-  const tried: string[] = [];
-  for (let draw = 0; draw < 6; draw += 1) {
-    const place = drawPlace(`${seed}:advice:${draw}`, "budget-advice");
-    const where = `${place.name} (${place.key}), seed ${place.seed}`;
-    const { core } = buildBenchWorld(place.seed, gameStartDate(), {
-      twoLevel: true,
-      placeKey: place.key,
-    });
-    const api = coreAPI(core);
-    const mayor = townSeats(api).find(
-      (s) => s.office.kind === "mayor" && s.holder?.personId,
-    );
-    const city = governments(api).find((g) => g.level === "city");
-    if (!mayor || !city) {
-      tried.push(`${where}: no mayor or city`);
-      continue;
-    }
-    const mayorId = memberKey(mayor.holder!);
-    const pick = staffCandidates(api, mayorId)[0];
-    if (!pick) {
-      tried.push(`${where}: no aide candidate`);
-      continue;
-    }
-    hireStaff(api, {
-      officialId: mayorId,
-      personId: pick.personId,
-      role: "aide",
-    });
-    const lead = api.parameter("budgetProposalLeadDays");
-    const year = Number(core.date.slice(0, 4));
-    const next =
-      `${year}-${city.fiscalYearStart}` > core.date
-        ? `${year}-${city.fiscalYearStart}`
-        : `${year + 1}-${city.fiscalYearStart}`;
-    const open = addDays(makeIsoDate(next), -(lead - 1));
-    if (core.date < open) advanceCore(core, open);
-    expect(
-      servingStaffOf(api, mayorId).length,
-      `${where}: the aide serves`,
-    ).toBeGreaterThan(0);
-    const own = executiveBudgetChanges(api, city.id, Number(next.slice(0, 4)));
-    if (!own || !Object.keys(own.changes).length) {
-      tried.push(`${where}: the mayor's lean changes no line`);
-      continue;
-    }
-    officeActHandlers(officeHost)["propose-budget"]!(api, mayorId, {} as never);
-    const sent = budgetPriorities(api, city.id)?.changes ?? {};
-    for (const [line, delta] of Object.entries(sent)) {
-      expect(Math.sign(delta), `${where} ${line}`).toBe(
-        Math.sign(own.changes[line]!),
-      );
-      expect(Math.abs(delta), `${where} ${line}`).toBeLessThanOrEqual(
-        Math.abs(own.changes[line]!),
-      );
-    }
-    const kept = officeActsOf(api, mayorId).find(
-      (r) => r.kind === "propose-budget",
-    );
-    expect(kept?.detail, where).toMatch(/advice /);
-    console.log(
-      `${where}: ${kept!.detail}; lines ${Object.keys(own.changes).length} to ${Object.keys(sent).length}`,
-    );
-    return;
-  }
-  throw new Error(
-    `no mayor with an aide and a budget in 6 places: ${tried.join("; ")}; ${seed}`,
   );
 }, 3_600_000);

@@ -338,12 +338,6 @@
       "source": "Youngest owners of a local outlet or station group (owners of U.S. newspapers and station groups are mostly past 50: Pew 2019 newspaper ownership study; Forbes 400 media owners).",
       "spread": [30, 50]
     },
-    "ownerHouseholdIncomeMinor": {
-      "value": 35000000,
-      "tag": "ESTIMATED",
-      "source": "The yearly household income of an outlet's owner, in cents, taken as the lower limit of the top 5 percent of U.S. households (Census Bureau, Historical Income Tables, Table H-1, recent years about $330,000 to $370,000), since the pool's press ruling has outlets owned by wealthy owners. It sets their living cost basket and the bank balance a family at that income keeps (SCF 2022).",
-      "spread": [25000000, 45000000]
-    },
     "ownerAgeMax": {
       "value": 85,
       "tag": "ESTIMATED",

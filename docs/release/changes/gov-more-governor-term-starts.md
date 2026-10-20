@@ -5,4 +5,4 @@ section: Fixed
 title: Governors in 24 more states now take office in January on the day their state usually sets.
 ---
 
-The terms of the governors you meet in 24 more states now end on each state's own January day instead of January 1. Seven are read from the state's constitution or code; seventeen are estimates from the usual rule.
+The terms of the governors you meet in 24 more states now end on each state's own January day instead of January 1. Ten are read from the state's constitution or code; fourteen are estimates from the usual rule.

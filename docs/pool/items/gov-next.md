@@ -19,7 +19,7 @@ claimed-at: 2026-10-16T02:51:24.228Z
 
 **Done when.** In a drawn place and seed (named) the player, from `/play`, files for a local seat, knocks doors, asks for a donation, gives a staged speech and joins a party, and each act appears as a record id read by the voters' views or the campaign tallies. A browser spec in `src/bench/sheets.browser.mjs` (or a new `campaign.browser.mjs`) walks the controls, and the screenshot at 1672x941 is merged on the owner's yes. The owner plays it: runs a door-to-door day and sees who he met.
 
-**Files.** src/bench/campaign.ts, src/bench/data/controls.json, src/bench/play.mjs, src/core2/campaign-day.ts, src/director/speech-builder.ts
+**Files.** src/bench/campaign.ts, src/bench/data/controls.json, src/bench/play.mjs, src/core2/campaign-day.ts, src/core2/speech-composition.ts
 
 **Notes.** Checklist line from OPUS-GOV.md; verify against main before starting.
 

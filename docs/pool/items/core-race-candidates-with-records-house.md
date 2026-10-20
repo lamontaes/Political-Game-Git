@@ -5,12 +5,12 @@ area: core
 kind: stopgap
 priority: 3
 size: M
-status: open
-claimed-by:
+status: in-pr
+claimed-by: claude/political-game-pool-yucp92-l
 pr: #5340
 blocked-on:
 source: added with npm run pool -- add
-claimed-at:
+claimed-at: 2026-10-20T00:41:40.946Z
 ---
 
 **What.** TODO
@@ -22,5 +22,3 @@ claimed-at:
 **Files.** TODO
 
 **Notes.** TODO
-
-Sent back 2026-10-20 from PR #5340 (branch claude/political-game-pool-yucp92-l): merge conflict with main in code; merge main and resolve; finish on that branch, merge main into it first.

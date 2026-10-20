@@ -1,6 +1,6 @@
 ---
 id: gov-more-governor-term-starts
-title: "Governors' term starts for 24 more states: 7 read from their constitutions, 17 estimated"
+title: "Governors' term starts for 24 more states are read from their constitutions"
 area: gov
 kind: stopgap
 priority: 3

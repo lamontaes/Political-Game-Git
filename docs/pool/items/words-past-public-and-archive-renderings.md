@@ -5,12 +5,12 @@ area: words
 kind: feature
 priority: 2
 size: M
-status: open
-claimed-by:
+status: in-pr
+claimed-by: claude/words-past-public-archive
 pr: #5216
 blocked-on:
 source: added with npm run pool -- add
-claimed-at:
+claimed-at: 2026-10-19T22:19:52.383Z
 ---
 
 **What.** TODO
@@ -22,5 +22,3 @@ claimed-at:
 **Files.** TODO
 
 **Notes.** TODO
-
-Sent back 2026-10-20 from PR #5216 (branch claude/words-past-public-archive): authored shippable player text (origin authored, shippable true) in data/english/parts/public-figure.json; finish on that branch, merge main into it first.

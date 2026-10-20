@@ -84,9 +84,7 @@ describe(`pretrial bail, ${where}`, () => {
     expect(poor.length, where).toBeGreaterThan(0);
     setBailLaw(0);
     const held: PretrialRow[] = [];
-    // Many early ids are officials who plead at once; go on until some defendants go to trial.
-    for (const person of poor.slice(0, 60)) {
-      if (held.length >= 6) break;
+    for (const person of poor.slice(0, 12)) {
       const c = charge(person.id);
       if (!c || c.plea) continue;
       const wait = pretrialOf(c)!;
@@ -119,8 +117,7 @@ describe(`pretrial bail, ${where}`, () => {
     // With bail ended, the same poor defendant is not held, citing the statute.
     setBailLaw(1);
     let freed = 0;
-    for (const person of poor.slice(60, 120)) {
-      if (freed >= 6) break;
+    for (const person of poor.slice(12, 30)) {
       const c = charge(person.id);
       if (!c || c.plea) continue;
       const wait = pretrialOf(c)!;

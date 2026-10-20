@@ -1031,7 +1031,11 @@ export function fileStandingCandidates(api: CoreAPI, contestId: string): void {
     .moduleState(ELECTIONS_MODULE_ID)
     .table("contests")
     .get(contestId) as unknown as ContestRow;
-  if (api.state.modules.has("candidacy")) return;
+  if (
+    (contest.level === "state" || contest.level === "federal") &&
+    api.state.modules.has("candidacy")
+  )
+    return;
   const filings = api.moduleState(ELECTIONS_MODULE_ID).table("filings");
   const onBallot = ballot(api, contestId);
   // Whoever holds the seat when filing closes stands as its incumbent: an

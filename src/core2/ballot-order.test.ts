@@ -45,7 +45,6 @@ const KINDS = [
   "rotation",
   "lot",
   "party",
-  "endorsed-first-then-alphabetical",
   "incumbent-first",
   "filing-order",
   "official-discretion",
@@ -111,11 +110,7 @@ describe(`ballot order by the law of the place (${where})`, () => {
       } else expect(forms, `${where} ${stage}`).toHaveLength(1);
       const surname = (id: string) =>
         candidates.find((c) => c.id === id)!.surname;
-      // (The party endorsement is not a record yet, so that order reads alphabetically.)
-      if (
-        rule.kind === "alphabetical" ||
-        rule.kind === "endorsed-first-then-alphabetical"
-      )
+      if (rule.kind === "alphabetical")
         expect(forms[0]!.map(surname)).toEqual([...names].sort());
       if (rule.kind === "party")
         expect(

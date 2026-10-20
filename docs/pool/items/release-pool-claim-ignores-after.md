@@ -6,11 +6,11 @@ kind: bug
 priority: 2
 size: S
 status: in-pr
-claimed-by: claude/fs11vb-pca
+claimed-by: claude/pool-claim-after
 pr: #5276
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-20T13:31:03.988Z
+claimed-at: 2026-10-19T23:33:02.766Z
 ---
 
 **What.** TODO
@@ -22,5 +22,3 @@ claimed-at: 2026-10-20T13:31:03.988Z
 **Files.** TODO
 
 **Notes.** TODO
-
-Sent back 2026-10-20 from PR #5276 (branch claude/pool-claim-after): merge conflict with main in scripts/pool/index.test.ts (code); finish on that branch, merge main into it first.

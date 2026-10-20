@@ -5,10 +5,10 @@ area: world
 kind: bug
 priority: 2
 size: M
-status: blocked
+status: open
 claimed-by:
 pr: #5369
-blocked-on: world-counted-headcount-falls-faster-than-population: the premise is out of date (entry runs high at sample scale); a Census-scale check waits on PR 5685, and the CTO retitles the item
+blocked-on:
 source: added with npm run pool -- add
 claimed-at:
 ---

@@ -17,7 +17,7 @@ claimed-at: 2026-10-20T11:42:19.481Z
 
 **Rules.** Research before building: real data checks the simulation and never decides an outcome by itself. Cite publisher, year and URL in the data. Never copy a publisher's table whole.
 
-**Done when.** A list in this item's Notes names, for each blocked research item, the host its source is on and whether it is reachable; at least two items that were blocked on outside data are moved to open or in-pr with the data fetched; no item is marked blocked on a host that is reachable, and each moved item's own done-when names the drawn place and played world (buildBenchWorld) its data will be checked in.
+**Done when.** A list in this item's Notes names, for each blocked research item, the host its source is on and whether it is reachable; at least two items that were blocked on outside data are moved to open or in-pr with the data fetched; no item is marked blocked on a host that is reachable.
 
 **Files.** docs/pool/items
 

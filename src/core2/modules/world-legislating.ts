@@ -159,7 +159,13 @@ function townBodies(api: CoreAPI): readonly string[] {
       o.kind === "county-board" ||
       o.kind === "township-board",
   );
-  return offices.map((o) => o.id).sort();
+  // A township board legislates for the town where no council does: its
+  // ordinances are the town's own local law (SG-GOV-township-law-level).
+  const council = offices.some((o) => o.kind === "council");
+  return offices
+    .filter((o) => !(council && o.kind === "township-board"))
+    .map((o) => o.id)
+    .sort();
 }
 
 /** A government's own answer in force on a policy question: its latest enacted row, else its recorded starting answer. */
@@ -1119,14 +1125,13 @@ function localMeeting(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
     .table("offices")
     .get(officeId) as unknown as { kind: string } | undefined;
   const chain = lawChain(api);
-  // Each body legislates for its own government: a county board for its
-  // county, a township board for its township, a council for its place.
+  // stopgapId: SG-GOV-township-law-level
+  if (office?.kind === "township-board")
+    api.stopgap("SG-GOV-township-law-level");
   const own =
     office?.kind === "county-board"
       ? chain.levels.find((l) => l.level === "county")?.jurisdiction
-      : office?.kind === "township-board"
-        ? chain.levels.find((l) => l.level === "township")?.jurisdiction
-        : chain.levels[chain.levels.length - 1]!.jurisdiction;
+      : chain.levels[chain.levels.length - 1]!.jurisdiction;
   const jurisdiction = own ?? chain.townPlaceId;
   holdSession(api, {
     key: work.key,

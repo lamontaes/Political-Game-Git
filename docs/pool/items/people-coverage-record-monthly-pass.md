@@ -5,7 +5,7 @@ area: people
 kind: feature
 priority: 2
 size: M
-status: done
+status: in-pr
 claimed-by: claude/fs11vb-coverage-record
 pr: #5460
 blocked-on:
@@ -17,7 +17,7 @@ claimed-at: 2026-10-20T03:05:53.579Z
 
 **Rules.** An effect is a read, not a record: the household premium flow must read the coverage record when it pays, or the record is a placeholder. One model, two tiers: a counted group is covered and pays by the same rule as a full person times its weight. No dice: coverage follows age, income, employment, the law in force and the state, never a roll.
 
-**Done when.** In a one-year run of buildBenchWorld in a drawn place from all 56 (name place and seed), every living full person holds a coverage record, a named employed adult's household pays a monthly premium by journal record id that an uncovered neighbor's household does not, the cash journal balances, and src/core2/health-coverage.test.ts proves it. Counted groups are the follow-up item people-coverage-counted (stopgap SG-PEOPLE-coverage-counted), narrowed out of this one on Oct 20.
+**Done when.** In a one-year run of buildBenchWorld in a drawn place from all 56 (name place and seed), a named employed adult and a counted group each hold a coverage record, their household pays a monthly premium by journal record id that an uncovered neighbor's household does not, the cash journal balances, and src/core2/health-coverage.test.ts proves it.
 
 **Files.** src/core2/modules/health.ts, src/core2/health-coverage.ts, src/core2/data/health/coverage.json
 

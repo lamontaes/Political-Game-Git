@@ -4,7 +4,7 @@ title: "Stopgaps in world-legislating (behavior): 1 open"
 area: gov
 kind: stopgap
 priority: 3
-status: done
+status: in-pr
 claimed-by: claude/township-law-level
 pr: #5463
 blocked-on: engine or design: Towns governed by a township board never legislated at all: only councils and county boards met (Oct 13 lawmaking-volume fix).

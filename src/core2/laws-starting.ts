@@ -4,7 +4,7 @@
  * Rows come from `data/laws/starting-law.json`, which
  * `scripts/research/build-starting-law.py` builds from the sourced research
  * files. A place's chain is federal, its state (or district or territory), its
- * county areas, the township over it where one governs, and the place itself; only those jurisdictions' rows load, so a
+ * county areas and the place itself; only those jurisdictions' rows load, so a
  * world never carries another place's law.
  */
 import startingLaw from "./data/laws/starting-law.json" with { type: "json" };
@@ -13,9 +13,8 @@ import {
   governmentUnitsForPlace,
 } from "./reference/government-units";
 import { corePlaceByKey } from "./place-lookup";
-import { placeLocalGovernmentUnits } from "./gov-rules/local-governments";
 
-export type LawLevelName = "federal" | "state" | "county" | "township" | "city";
+export type LawLevelName = "federal" | "state" | "county" | "city";
 
 export interface LawChainLevel {
   readonly level: LawLevelName;
@@ -106,13 +105,6 @@ export function lawChainForPlace(placeKey: string): LawChain {
         level: "county",
         jurisdiction: `county:${county}`,
       })),
-      // A township over the place makes its own law, between its county's and the city's.
-      ...placeLocalGovernmentUnits(place)
-        .townships.slice(0, 1)
-        .map((unit): LawChainLevel => ({
-          level: "township",
-          jurisdiction: unit.id,
-        })),
       { level: "city", jurisdiction: `place:${geoid}` },
     ],
   };

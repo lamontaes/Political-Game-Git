@@ -22,6 +22,4 @@ claimed-at: 2026-10-19T23:46:04.008Z
 
 **Files.** src/core2/data/laws/reach-group-b.json
 
-**Notes.** Split Oct 19 into laws-reach-b-price-proofs, -medicaid-coverage, -snap-benefit, -schools-preschool-tuition, -housing-codes-land and -roads-parks (13 rows across six engines). Closed when all six are done.
-
-**Original notes.** First row: The price engine now reads fare-free transit and refunds each full and counted household's estimated fare expenditure.
+**Notes.** First row: The price engine now reads fare-free transit and refunds each full and counted household's estimated fare expenditure.

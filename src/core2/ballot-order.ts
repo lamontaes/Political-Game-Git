@@ -18,7 +18,6 @@ export type BallotOrderKind =
   | "rotation"
   | "lot"
   | "party"
-  | "endorsed-first-then-alphabetical"
   | "incumbent-first"
   | "filing-order"
   | "official-discretion";
@@ -115,10 +114,7 @@ function orderBy(
   const sorted = [...list];
   switch (kind) {
     // A layout (`ballotForms`) asked for an order within itself: by surname.
-    // The party-endorsed candidate leads where the law says so; no endorsement
-    // is a record yet, so the order here is the alphabetical one after it.
     case "party":
-    case "endorsed-first-then-alphabetical":
     case "incumbent-first":
     case "alphabetical":
     case "rotation":

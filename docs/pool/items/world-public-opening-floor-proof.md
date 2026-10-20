@@ -5,9 +5,9 @@ area: world
 kind: bug
 priority: 2
 size: M
-status: in-pr
+status: claimed
 claimed-by: claude/opening-floor-proof
-pr: #5679
+pr:
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-20T11:06:36.982Z

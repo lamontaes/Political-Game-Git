@@ -27,7 +27,6 @@ import {
   type ResidentFacts,
   type TownFacts,
 } from "./group-b-people";
-import { flowWeights, fundOf } from "../counted-money";
 import { getRow, putRow, rowsOf } from "./group-b-store";
 import { registerLinePayments } from "../budgets-treasury";
 import tuition from "../data/opening-private-tuition.json" with { type: "json" };
@@ -296,9 +295,6 @@ registerLinePayments((api, gov) => {
  * is no longer wanted, or whose amount changed, is ended; a new or changed one
  * opens from tomorrow, a month at a time. A treasury pays what it holds.
  */
-/** A recipient that is a counted group's fund account, not an owner's main account. */
-const FUND = "fund-account:";
-
 function reconcileObligations(
   api: CoreAPI,
   input: {
@@ -342,9 +338,7 @@ function reconcileObligations(
     accounts.addObligation({
       id: obligationId,
       from: accounts.main(gov.organizationId),
-      to: recipientId.startsWith(FUND)
-        ? recipientId.slice(FUND.length)
-        : accounts.main(recipientId),
+      to: accounts.main(recipientId),
       amountMinor,
       firstDueAt: first,
       cadence: { kind: "months", every: reachParameter("reviewEveryMonths") },
@@ -450,7 +444,11 @@ export function payBenefits(
   },
 ): Map<string, Record<string, number>> {
   const core = api.state as CoreState;
+  const town = lawChain(api).townPlaceId;
   const rt = residentsRuntime(core);
+  const residentsOrg = rt?.input.accounts.find(
+    (a) => a.placeId === town,
+  )?.accountId;
   const months = reachParameter("monthsPerYear");
   const want = new Map<string, number>();
   const out = new Map<string, Record<string, number>>();
@@ -476,25 +474,9 @@ export function payBenefits(
       terms.monthlyMinor! += perHousehold;
       out.set(head.id, terms);
     }
-    if (counted && rt) {
-      // Each counted household's benefit lands in its own group's fund, so the
-      // group that qualifies is the group that is paid. A fitted weight is not
-      // a whole number; an obligation is whole cents.
-      const byGroup = new Map<number, number>();
-      for (const head of drawing) {
-        if (head.named) continue;
-        const ix = rt.store.householdOf.get(head.householdId);
-        const group =
-          ix === undefined ? undefined : rt.store.households[ix]?.group;
-        if (group === undefined) continue;
-        byGroup.set(group, (byGroup.get(group) ?? 0) + (head.scale ?? 1));
-      }
-      for (const [group, households] of byGroup) {
-        const amount = Math.floor(perHousehold * households);
-        if (amount > 0)
-          want.set(`${govId}|${FUND}${fundOf(api, rt, group)}`, amount);
-      }
-    }
+    if (counted && residentsOrg)
+      // A fitted weight is not a whole number; an obligation is whole cents.
+      want.set(`${govId}|${residentsOrg}`, Math.floor(perHousehold * counted));
   }
   reconcileObligations(api, {
     rowKind: "benefit",
@@ -562,6 +544,10 @@ export function payVouchers(
       named.set(payer, { monthlyMinor: want.get(pair)! });
     }
     const rt = residentsRuntime(core);
+    const residentsOrg = rt?.input.accounts.find(
+      (a) => a.placeId === town,
+    )?.accountId;
+    let countedTuition = 0;
     for (const flow of rt?.flows.values() ?? []) {
       if (
         flow.kind !== "purchase" ||
@@ -570,33 +556,13 @@ export function payVouchers(
         flow.endedAt
       )
         continue;
+      countedTuition += flow.amountMinor;
       counted += Object.keys(flow.amountByContract ?? {}).length;
     }
-    // Each group's share of the tuition flow goes to that group's fund.
-    let paidGroups = 0;
-    if (rt)
-      for (const flow of rt.flows.values()) {
-        if (
-          flow.kind !== "purchase" ||
-          flow.financeKind !== tuition.contractKind ||
-          flow.placeId !== town ||
-          flow.endedAt
-        )
-          continue;
-        const weights = flowWeights(rt, flow);
-        const total = [...weights.values()].reduce((a, b) => a + b, 0);
-        if (!(total > 0)) continue;
-        for (const [group, weight] of weights) {
-          const amount = Math.floor(
-            (flow.amountMinor * share * weight) / total,
-          );
-          if (amount <= 0) continue;
-          const pair = `${state.id}|${FUND}${fundOf(api, rt, group)}`;
-          want.set(pair, (want.get(pair) ?? 0) + amount);
-          paidGroups += 1;
-        }
-      }
-    if (!paidGroups) counted = 0;
+    const amount = Math.floor(countedTuition * share);
+    if (residentsOrg && amount > 0)
+      want.set(`${state.id}|${residentsOrg}`, amount);
+    else counted = 0;
   }
   reconcileObligations(api, {
     rowKind: "voucher",

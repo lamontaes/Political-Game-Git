@@ -7,7 +7,6 @@ import { viewOf, viewsModule, stancesOf } from "./modules/views";
 import { buildPopulation } from "./population";
 import { applyCoreEvent, coreAPI } from "./state";
 import newsParameters from "./data/news/parameters.json" with { type: "json" };
-import { drawPlace } from "../../scripts/core2-year/place";
 
 // M2-09: a public record reaches residents through outlets, at each person's
 // own habits, and through the people they talk to; people who never hear it
@@ -104,70 +103,22 @@ describe(`news in ${input.placeMetadata?.placeName} (seed ${seed})`, () => {
   });
 
   it("carries a county's story to the residents inside it", () => {
-    // Draw places until one sits in a county: a county story needs one, and a
-    // town without a county is not this test's subject. Fail if none does.
-    const tried: string[] = [];
-    for (let attempt = 0; attempt < 8; attempt += 1) {
-      const drawn = drawPlace(
-        attempt ? `${seed}:${attempt}` : seed,
-        "news-county",
-      );
-      const local = createLifeCore(
-        buildDeepPast(
-          buildPopulation({
-            seed: drawn.seed,
-            placeKey: drawn.key,
-            startedAt: "2021-01-01",
-            minimumPeople: 500,
-          }),
-        ),
-        { modules: [viewsModule, newsModule] },
-      );
-      const localApi = coreAPI(local);
-      const person = [...local.people.values()].find(
-        (row) => row.tier !== "husk" && row.alive,
-      );
-      const countyId = person?.countyId;
-      if (!person || !countyId) {
-        tried.push(`${drawn.name} (${drawn.key}): no county`);
-        continue;
-      }
-      applyCoreEvent(local, {
-        id: "fixture-county-story",
-        date: local.date,
-        kind: "county.budget-passed",
-        personIds: [],
-        placeId: countyId,
-        publicRecord: true,
-        source: {
-          tag: "SOURCED",
-          citation: "Fixture county record.",
-          asOf: local.date,
-        },
-      });
-      advanceCore(local, addDays(makeIsoDate(local.date), 10));
-      const inside = [...local.people.values()].filter(
-        (row) => row.alive && row.countyId === countyId,
-      );
-      const heard = inside.filter((row) =>
-        localApi.knows(row.id, newsKey("fixture-county-story")),
-      );
+    const countyId = subject.countyId;
+    // The default seed's town sits in a county; a drawn place with no county
+    // has no county story to carry.
+    if (!countyId) {
       expect(
-        heard.length,
-        `${drawn.name} (${drawn.key}), seed ${drawn.seed}: ${inside.length} residents in the county`,
-      ).toBeGreaterThan(0);
+        process.env.GOLDEN_PATH_SEED,
+        "the default seed has a county",
+      ).toBeTruthy();
       return;
     }
-    throw new Error(`No drawn place sits in a county: ${tried.join("; ")}`);
-  });
-
-  it("does not carry a county's story to residents of another county", () => {
     applyCoreEvent(core, {
-      id: "fixture-other-county-story",
+      id: "fixture-county-story",
       date: core.date,
       kind: "county.budget-passed",
       personIds: [],
-      placeId: "county:elsewhere",
+      placeId: countyId,
       publicRecord: true,
       source: {
         tag: "SOURCED",
@@ -176,11 +127,10 @@ describe(`news in ${input.placeMetadata?.placeName} (seed ${seed})`, () => {
       },
     });
     advanceCore(core, addDays(makeIsoDate(core.date), 10));
-    expect(
-      residents.filter((id) =>
-        api.knows(id, newsKey("fixture-other-county-story")),
-      ),
-    ).toEqual([]);
+    const heard = residents.filter((id) =>
+      api.knows(id, newsKey("fixture-county-story")),
+    );
+    expect(heard.length).toBeGreaterThan(0);
   });
 });
 

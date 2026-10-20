@@ -5,12 +5,12 @@ area: world
 kind: bug
 priority: 2
 size: S
-status: claimed
-claimed-by: claude/census-closures
+status: in-pr
+claimed-by: claude/fs11vb-closures
 pr: #5553
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-20T12:41:22.232Z
+claimed-at: 2026-10-20T06:19:29.296Z
 ---
 
 **What.** After outside demand was scaled by the count scale, a town opened at its Census size (Chantilly, Virginia) still shows 114 closure rows in the jobs engine in a played year, against none at the sample size. Closures remove the firm and its workers' jobs. Find why firms close at Census scale (their books, credit or owner draws read a figure that does not scale) and make the reads agree.
@@ -33,5 +33,3 @@ Sent back 2026-10-20 from PR #5553 (branch claude/closures-rise): new Core test 
 | 4     | 4 (the largest `settings.economy.outsideDemand` allows) | 6                                              | 206          |
 
 Every closure carries the reason `finance.unfunded-obligation-cash-and-credit-exhausted` (two at scale 8 are `losses-kept`), and the unpaid obligation is the counted workers' payroll (`residents:wages:opening-payroll-calendar:<employer>` on its February paydays, or a later `work-payroll`). So: (1) counted payroll is multiplied by the weight but the outside sales that fund much of it are not (`scaleOutsideSales` takes only the world setting, not the count scale), and scaling them by the count scale removes most closures; (2) six small local firms (an insurance agency, two restaurants, a salon, a bowling alley, a TV station) still run out of cash between May and January at scale 4 even with outside demand scaled, which is the shape of `world-local-sales-below-opening-forecast`; and (3) the opening cash buffers were not checked against the weighted payroll. The Done-when names `src/core2/census-weight-economy.test.ts`, which is not on main; it belongs to the in-flight Census-weight PRs (#5373, #5306), so this item should be built after they merge.
-
-Sent back 2026-10-20 from PR #5553 (branch claude/closures-rise): its own census-scale closures test fails in Central Falls, Rhode Island (3 closures at Census size, none at sample size); finish on that branch, merge main into it first.

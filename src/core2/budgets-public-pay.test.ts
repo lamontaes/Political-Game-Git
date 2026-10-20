@@ -1,4 +1,3 @@
-import { OUTSIDE_MARKET_KIND } from "./opening-outside-market";
 import { randomBytes } from "node:crypto";
 import { expect, it } from "vitest";
 import { buildBenchWorld } from "../bench/world";
@@ -28,8 +27,7 @@ it(`an opening public employer's wages come out of its government's treasury in 
   const { core } = world;
   const api = coreAPI(core);
   const employers = [...core.organizations.values()].filter(
-    // A government's own employers; the outside account's authority is paid by no treasury.
-    (row) => row.publicPayAuthority && row.kind !== OUTSIDE_MARKET_KIND,
+    (row) => row.publicPayAuthority,
   );
   if (!employers.length) {
     console.log(`WIRED ${place.name} ${seed}: no opening public employer`);

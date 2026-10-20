@@ -40,33 +40,14 @@ function bySeller(core: CoreState) {
 }
 
 it("moves a filled-in household's purchases to its own plan and loses none", () => {
+  const draw = drawPlace(randomBytes(32).toString("hex"), "fill-in-purchases");
   setBookkeeping(false);
-  // A place whose counted households buy from no seller in town (a very small
-  // one) has no purchase to move: draw the next place, and fail by name if
-  // none of eight has a seller.
-  const root = randomBytes(32).toString("hex");
-  const tried: string[] = [];
-  let found:
-    | {
-        draw: ReturnType<typeof drawPlace>;
-        core: CoreState;
-        before: ReturnType<typeof bySeller>;
-      }
-    | undefined;
-  for (let n = 0; n < 8 && !found; n += 1) {
-    const draw = drawPlace(`${root}:${n}`, "fill-in-purchases");
-    const { core } = buildBenchWorld(draw.seed, gameStartDate(), {
-      twoLevel: true,
-      placeKey: draw.key,
-    });
-    const before = bySeller(core);
-    if (before.counted.size) found = { draw, core, before };
-    else tried.push(`${draw.name} (seed ${draw.seed})`);
-  }
-  if (!found)
-    throw new Error(`no counted household buys in town: ${tried.join("; ")}`);
-  const { draw, core, before } = found;
+  const { core } = buildBenchWorld(draw.seed, gameStartDate(), {
+    twoLevel: true,
+    placeKey: draw.key,
+  });
   const store = residentsRuntime(core)!.store;
+  const before = bySeller(core);
   const sellers = [...before.counted.keys()];
   expect(sellers.length, `${draw.name}, seed ${draw.seed}`).toBeGreaterThan(0);
 

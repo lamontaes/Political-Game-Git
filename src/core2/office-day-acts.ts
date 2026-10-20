@@ -51,9 +51,7 @@ import { deliverSpeech } from "./modules/speech";
 import { cutRibbon, ribbonsToCut } from "./modules/projects";
 import { personLean, personStance, questionAxis } from "./campaign-views";
 import { POLICY_QUESTIONS } from "./policy-answers";
-import { adviseOnBudget, servingStaffOf } from "./modules/staff";
 import {
-  executiveBudgetChanges,
   learnStake,
   LEGISLATURE_MODULE_ID,
   memberKey,
@@ -685,64 +683,21 @@ export function officeActHandlers(host: OfficeActHost) {
       const due = budgetProposalDue(api, host, actorId);
       if (!due) return;
       const prepared = host.prepared(api, actorId, "propose-budget");
-      let changes: Readonly<Record<string, number>> | undefined =
-        prepared?.budget?.changes;
-      let advice = "";
-      if (!changes) {
-        // The character proposes their own priorities by the budgets rule;
-        // an aide who reads the council tells them which lines it will not
-        // pass, and each at-risk line is cut to the share of those read who
-        // favor it, so what they send is what the council can pass.
-        const own = executiveBudgetChanges(
-          api,
-          due.governmentId,
-          Number(due.fiscalYearStarts.slice(0, 4)),
-        );
-        if (own && Object.keys(own.changes).length) {
-          changes = own.changes;
-          const aide = servingStaffOf(api, actorId)[0];
-          const trimmed: Record<string, number> = {};
-          const advised: string[] = [];
-          for (const [line, delta] of Object.entries(own.changes).sort(
-            ([x], [y]) => x.localeCompare(y),
-          )) {
-            // One line at a time: a line the aide cannot read stays as proposed.
-            const heard = aide
-              ? adviseOnBudget(api, aide.id, due.governmentId, {
-                  [line]: delta,
-                })
-              : null;
-            const row = heard?.lines[0];
-            if (heard && row) advised.push(heard.work.id);
-            const share = row?.atRisk
-              ? Math.min(
-                  ...row.chambers.map((c) =>
-                    c.favor + c.oppose > 0 ? c.favor / (c.favor + c.oppose) : 1,
-                  ),
-                )
-              : 1;
-            const cut = Math.round(delta * share);
-            if (cut !== 0) trimmed[line] = cut;
-          }
-          changes = trimmed;
-          if (advised.length) advice = `; advice ${advised.join(",")}`;
-        }
-      }
-      if (changes)
+      if (prepared?.budget)
         setBudgetPriorities(api, {
           governmentId: due.governmentId,
           setBy: actorId,
-          changes,
+          changes: prepared.budget.changes,
         });
       host.keep(api, {
         personId: actorId,
         kind: "propose-budget",
         how: prepared?.budget ? "did" : "own-choice",
-        recordId: changes
+        recordId: prepared?.budget
           ? `priorities:${due.governmentId}`
           : `priorities:${due.governmentId}:executive-rule`,
         position: null,
-        detail: `${due.governmentId} budget for the year starting ${due.fiscalYearStarts}${advice}`,
+        detail: `${due.governmentId} budget for the year starting ${due.fiscalYearStarts}`,
       });
       host.clearPrepared(api, actorId, "propose-budget");
     },

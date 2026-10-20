@@ -966,6 +966,30 @@
       "source": "How far a named voter's ballot may run against their own recorded view (the views engine's lean over its maximum, 0 to 1) before it must carry a recorded reason that outweighs the view: 0.5 is the views engine's 'liberal' or 'conservative' label (lean ±1 of ±2). Read by the ballot checks (PW-3); the ballot itself weighs the view, never this number.",
       "spread": [0.25, 0.75]
     },
+    "speechOpeningParts": {
+      "value": 1,
+      "tag": "ESTIMATED",
+      "source": "A stump speech opens with one move (greeting, thanks or why they are running), the exordium of classical oratory (Cicero, De Inventione I.20) and the opening of a modern campaign speech.",
+      "spread": [1, 2]
+    },
+    "speechBodyParts": {
+      "value": 3,
+      "tag": "ESTIMATED",
+      "source": "A stump speech makes a few points rather than many (the rule of three in political speechwriting; Atkinson 1984, 'Our Masters' Voices', on three-part lists as the applause-eliciting unit).",
+      "spread": [2, 5]
+    },
+    "speechClosingParts": {
+      "value": 1,
+      "tag": "ESTIMATED",
+      "source": "A stump speech ends with one closing move (an ask for the vote, a thank you or a pledge), the peroration of classical oratory (Cicero, De Inventione I.52).",
+      "spread": [1, 2]
+    },
+    "speechOffersPerStep": {
+      "value": 4,
+      "tag": "SOURCED",
+      "source": "Owner ruling, Oct 14, 2026: a speech is composed one part at a time from four offered parts, as in Suzerain.",
+      "spread": [4, 4]
+    },
     "staffMinimumAge": {
       "value": 18,
       "tag": "SOURCED",
