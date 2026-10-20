@@ -105,12 +105,9 @@ it("a town above 10,000 stands for its Census size in people, workers, rental st
   }
   // Housing: the rental stock grows with the renters it stands for.
   expect(rentals(big), where).toBeGreaterThan(rentals(base));
-  // Macro hears a town of the Census size.
+  // Macro hears the larger town: its residents (the town and the places around it) grow by the town's own growth.
   expect(
-    townResidents(big) / draw.reference,
+    townResidents(big) - townResidents(base),
     `macro: ${facts}`,
-  ).toBeGreaterThan(0.9);
-  expect(townResidents(big) / draw.reference, `macro: ${facts}`).toBeLessThan(
-    1.1,
-  );
+  ).toBeCloseTo(sum(big, "people") - basePeople, 3);
 }, 900_000);
