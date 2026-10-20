@@ -585,6 +585,10 @@
       {
         "move": "^time$",
         "tag": "close"
+      },
+      {
+        "move": "^question$",
+        "tag": "ask"
       }
     ],
     "interview": [
