@@ -4,10 +4,10 @@ title: "Stopgaps in budgets-treasury (faked-mechanic): 2 open"
 area: gov
 kind: stopgap
 priority: 2
-status: claimed
+status: blocked
 claimed-by: claude/pool-gov-budgets
 pr:
-blocked-on: "gov-public-payroll-wire, core-income-award-level-change"
+blocked-on: cto-close-both-children-done
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/budgets-treasury.ts, kind faked-mechanic"
 claimed-at: 2026-10-20T00:26:41.427Z
