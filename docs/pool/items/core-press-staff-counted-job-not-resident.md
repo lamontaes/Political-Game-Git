@@ -1,0 +1,24 @@
+---
+id: core-press-staff-counted-job-not-resident
+title: "refreshPressStaff throws Not in the wider population for a counted job's worker (Bascom, Florida, seed 78df996a2a76eb81378fcb7c5c00238bb398b33a)"
+area: core
+kind: bug
+priority: 1
+size: M
+status: claimed
+claimed-by: claude/press-staff-counted
+pr:
+blocked-on:
+source: added with npm run pool -- add
+claimed-at: 2026-10-20T07:15:58.730Z
+---
+
+**What.** In Bascom, Florida with seed 78df996a2a76eb81378fcb7c5c00238bb398b33a, advanceCore throws 'Not in the wider population: person_4f9db9d9b815de95' from fillInPerson (state.ts:1997) called by refreshPressStaff (press.ts, the loop over countedJobsOf(core, outlet.organizationId)) during pressWeek. A counted job names a worker no household in the counts holds and no full person is left to return, so the press week stops the game.
+
+**Rules.** Find why the counted job outlives its worker (a death, a move or a household returned and renumbered) and fix it where the job is kept, not with a try/catch in press. Wire to the world: prove it in the generated world with the same seed.
+
+**Done when.** GOLDEN_PATH_SEED=78df996a2a76eb81378fcb7c5c00238bb398b33a npx vitest run src/director/electoral-scenes.test.ts (on the words/word-pack head) passes both tests, and a test in src/core2 fails before and passes after on the same seed.
+
+**Files.** src/core2/modules/press.ts,src/core2/state.ts,src/core2/counted-groups.ts
+
+**Notes.** Found Oct 20 while merging main into words/word-pack (PR #4626): the same two electoral-scenes tests failed in Bascom on the merged head. The run takes about 24 minutes. Not shown on a clean main: press.ts and state.ts here match main's.
