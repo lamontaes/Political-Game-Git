@@ -4,10 +4,10 @@ title: "Stopgaps in opening-finance (uncalibrated-opening-finance-calendar): 1 o
 area: world
 kind: stopgap
 priority: 3
-status: blocked
+status: dropped
 claimed-by:
 pr:
-blocked-on: research data: the row's replacement needs sourced data (Recorded standing-term calendars or identified dated purchase/budget distributions, explicit operating claim priorities and actual supplier/cost inven...)
+blocked-on: research-world-sourced-parameters
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/data/opening-finance.json, kind uncalibrated-opening-finance-calendar"
 ---
@@ -21,3 +21,5 @@ source: "src/core2/data/stopgaps.json, src/core2/data/opening-finance.json, kind
 **Files.** src/core2/data/opening-finance.json
 
 **Notes.** First row: Monthly aggregation, first-next-period-month due phase, opening assigned-cost cap, normalized opening price, mean-year steady active-schedule annualization and inherited calendar-wage fallback. Estimated household budget
+
+Folded into research-world-sourced-parameters (CTO, Oct 19, 2026).

@@ -5,11 +5,12 @@ area: core
 kind: cleanup
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/speed-press
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-20T01:12:57.008Z
 ---
 
 **What.** In the CPU profile of a played year in Long Hill, Connecticut (seed m7b), countedFollowers in the press engine takes 5.2 seconds and the press and news files together 13 seconds of 251. The followers of an outlet are counted again each time a story reaches people, though they change only when a person subscribes, moves or dies. Keep the counted followers by outlet and update them on those changes.
