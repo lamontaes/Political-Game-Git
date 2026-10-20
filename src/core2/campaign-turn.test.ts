@@ -118,6 +118,21 @@ function twoCandidates(
   return null;
 }
 
+/**
+ * A world in which two wealthy adults can file in the first contest. A small
+ * town may have none, so another place is drawn (up to eight) before failing.
+ */
+function worldWithPair(salt: string) {
+  for (let attempt = 0; attempt < 8; attempt += 1) {
+    const w = world(`${salt}:${attempt}`);
+    const pair = twoCandidates(w.api, w.core);
+    if (pair) return { ...w, pair };
+  }
+  throw new Error(
+    `no drawn place had two candidates for the first contest in 8 draws (run seed ${runSeed}, ${salt})`,
+  );
+}
+
 const electionOf = (api: CoreAPI, filing: FilingRow) =>
   (
     api
@@ -128,13 +143,8 @@ const electionOf = (api: CoreAPI, filing: FilingRow) =>
 
 describe("campaigns that raise and spend", () => {
   it("a world candidate's turns raise money from people by their reasons and spend it on the journal", () => {
-    const { core, api, where } = world("money");
-    const pair = twoCandidates(api, core);
-    expect(
-      pair,
-      `no contest two candidates could both file for: ${where}`,
-    ).not.toBeNull();
-    const { rival } = pair!;
+    const { core, api, where, pair } = worldWithPair("money");
+    const { rival } = pair;
     const cashBefore = new Map(
       [...core.people.values()].map((p) => [p.id, p.liquidMinor]),
     );
@@ -226,10 +236,8 @@ describe("campaigns that raise and spend", () => {
   }, 300_000);
 
   it("a donor's running total is read from its indexed row, not from the history of payments", () => {
-    const { core, api, where } = world("gift-index");
-    const pair = twoCandidates(api, core);
-    expect(pair, where).not.toBeNull();
-    const { rival } = pair!;
+    const { api, pair } = worldWithPair("gift-index");
+    const { rival } = pair;
     // Donors decide for their own reasons: a few turns reach more of them.
     const gifts = () =>
       api
@@ -251,10 +259,8 @@ describe("campaigns that raise and spend", () => {
   }, 300_000);
 
   it("an ad is a message the views engine reads for the people who saw it", () => {
-    const { core, api, where } = world("ad-views");
-    const pair = twoCandidates(api, core);
-    expect(pair, where).not.toBeNull();
-    const { rival } = pair!;
+    const { core, api, where, pair } = worldWithPair("ad-views");
+    const { rival } = pair;
     // Money to spend, from the people who'd give it.
     campaignTurn(api, rival.id, electionOf(api, rival));
     const campaign = campaignFor(api, rival.id);
@@ -291,10 +297,8 @@ describe("campaigns that raise and spend", () => {
 
 describe("statements and questions", () => {
   it("a stance is one platform entry per question and every promise keeps its own record", () => {
-    const { core, api, outlets, where } = world("statements");
-    const pair = twoCandidates(api, core);
-    expect(pair, where).not.toBeNull();
-    const { you } = pair!;
+    const { api, outlets, pair } = worldWithPair("statements");
+    const { you } = pair;
     const questions = PLATFORM_QUESTIONS.slice(0, 3);
     const venues = [
       "outlet:a",
@@ -325,10 +329,8 @@ describe("statements and questions", () => {
   }, 300_000);
 
   it("reporters ask from the race's record and ask differently once answered", () => {
-    const { core, api, outlets, where } = world("questions");
-    const pair = twoCandidates(api, core);
-    expect(pair, where).not.toBeNull();
-    const { you } = pair!;
+    const { api, outlets, where, pair } = worldWithPair("questions");
+    const { you } = pair;
     const first = interviewQuestions(api, you);
     expect(first.length, where).toBeGreaterThan(0);
     // A local paper or radio station takes any candidate its people and
