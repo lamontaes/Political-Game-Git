@@ -5,12 +5,12 @@ area: words
 kind: wiring
 priority: 2
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/political-game-pool-yucp92-bp
 pr: #5178
-blocked-on:
+blocked-on: words: the merger accepts edits under src/director and data/english only from the Words session; the CTO must confirm a non-Words branch or hand this to the Words line (merger comment, Oct 20)
 source: added with npm run pool -- add
-claimed-at:
+claimed-at: 2026-10-20T14:15:53.647Z
 ---
 
 **What.** TODO

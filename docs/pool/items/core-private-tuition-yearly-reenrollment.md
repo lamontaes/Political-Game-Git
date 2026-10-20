@@ -5,12 +5,12 @@ area: core
 kind: feature
 priority: 3
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/tuition-reenroll
 pr: #5504
 blocked-on:
 source: added with npm run pool -- add
-claimed-at:
+claimed-at: 2026-10-20T14:04:54.492Z
 ---
 
 **What.** Private school enrollment is fixed at the opening: one monthly tuition contract per family, never revisited, so a family whose means change keeps or never gets a seat. Each August, re-rank the town's families with children aged 5 to 17 on their current cash per child, enroll the best-off until the NCES private share of the town's school-age children is reached, and end or start the monthly tuition contracts through the finance engine to match. The share still checks the town total and never picks a family.

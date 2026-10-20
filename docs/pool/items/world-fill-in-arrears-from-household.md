@@ -5,13 +5,13 @@ area: world
 kind: wiring
 priority: 2
 size: S
-status: open
-claimed-by:
-pr: #5142
+status: in-pr
+claimed-by: claude/political-game-pool-yucp92-bh
+pr: #5699
 after:
 blocked-on:
 source: "owner ruling Oct 19 (a counted household's arrears when filled in); audit Oct 19, Part A 'What it fakes' 4"
-claimed-at:
+claimed-at: 2026-10-20T13:38:49.170Z
 ---
 
 **What.** When a counted household with an open eviction case is filled in, `src/core2/modules/housing.ts` carries the case and lets the lease take up the arrears the group ran up from the notice date, under an owner-decision stopgap. The owner ruled on Oct 19: "it depends on the people; it can be yes or no." The household carries back rent or not from its own record: its income against its housing cost over the months it was counted, the place's conditions, and its traits once filled in; no fixed share carries and no fixed share is cured. Build the read and resolve `SG-WORLD-housing-fill-in-arrears`.
