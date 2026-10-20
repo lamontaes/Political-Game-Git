@@ -3,7 +3,7 @@ import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
 import { execFileSync } from "node:child_process";
-import { command, quality, run } from "./index";
+import { command, flags, quality, run } from "./index";
 
 export const GOOD = `**What.** The sales law never reaches the retailer ledger. A buyer pays the old price at the counter. The player would notice, while shopping in any town, that the shelf price never moves after the law passes, in any town they visit.
 
@@ -132,8 +132,8 @@ describe("claims and gates", () => {
       expect(
         command(["claim", "laws-a", "--branch", "b2", "--no-push"]),
       ).toMatch(/already claimed by b1; take the next item/);
-      expect(command(["status", "laws-a", "done", "--no-push"])).toMatch(
-        /--by cto/,
+      expect(command(["status", "laws-a", "done", "--no-push"], {})).toMatch(
+        /--by=cto/,
       );
       expect(
         command([
@@ -160,6 +160,22 @@ describe("claims and gates", () => {
     } finally {
       process.chdir(cwd);
     }
+  });
+});
+
+describe("flags", () => {
+  it("reads --key value, --key=value and POOL_BY", () => {
+    expect(flags(["status", "x", "done", "--by", "cto"], {}).f.by).toBe("cto");
+    expect(flags(["status", "x", "done", "--by=cto"], {}).f.by).toBe("cto");
+    expect(flags(["status", "x", "done"], { POOL_BY: "cto" }).f.by).toBe("cto");
+    expect(flags(["status", "x", "done", "--pr=12"], {}).f.pr).toBe("12");
+    expect(flags(["status", "x", "done"], {}).f.by).toBeUndefined();
+    expect(flags(["status", "x", "done", "cto"], {}).pos).toEqual([
+      "status",
+      "x",
+      "done",
+      "cto",
+    ]);
   });
 });
 
@@ -191,5 +207,72 @@ describe("quality gate", () => {
     expect(run(dir, false).warnings.join()).toMatch(/laws-bad: What/);
     expect(run(dir, false).errors).toEqual([]);
     expect(run(dir, true).errors.join()).toMatch(/laws-bad: Rules/);
+  });
+});
+
+describe("add", () => {
+  it("refuses a priority 1 or 2 item without its body and writes one that passes the gate", () => {
+    const dir = mkdtempSync(join(tmpdir(), "pool-add-"));
+    const pool = join(dir, "docs", "pool");
+    mkdirSync(join(pool, "items"), { recursive: true });
+    const cwd = process.cwd();
+    const g = (...a: string[]): string =>
+      execFileSync("git", a, { cwd: dir, encoding: "utf8" });
+    g("init", "-q");
+    g("config", "user.email", "t@t");
+    g("config", "user.name", "t");
+    writeFileSync(join(pool, "items", "laws-a.md"), item("laws-a"));
+    run(pool, false);
+    g("add", ".");
+    g("commit", "-qm", "init");
+    process.chdir(dir);
+    try {
+      const head = [
+        "add",
+        "laws-new",
+        "--title",
+        "A new item",
+        "--area",
+        "laws",
+      ];
+      const rest = ["--kind", "wiring", "--priority", "2", "--no-push"];
+      const refused = command([...head, ...rest]);
+      expect(refused).toContain("missing --what, --rules, --done, --files");
+      expect(() =>
+        readFileSync(join(pool, "items", "laws-new.md"), "utf8"),
+      ).toThrow();
+      const body = [
+        "--what",
+        "The sales law never reaches the retailer ledger. A buyer pays the old price at the counter. The player would notice, while shopping in any town, that the shelf price never moves after the law passes, in any town they visit.",
+        "--rules",
+        "Wire to the world: the law must move a price and a ledger line for every retailer in the module.",
+        "--done",
+        "A one-year played world in a drawn place shows the retailer ledger record id changing after the law, and the test in tests/pool-x.test.ts proves it. The owner plays it: pass the law and see the shelf price move.",
+        "--files",
+        "src/core2/modules/example.ts",
+      ];
+      expect(command([...head, ...rest, ...body])).toBeNull();
+      const written = readFileSync(join(pool, "items", "laws-new.md"), "utf8");
+      expect(written).not.toContain("TODO\n\n**Rules");
+      expect(run(pool, true).errors).toEqual([]);
+      // Priority 3 may still start from the template.
+      expect(
+        command([
+          "add",
+          "laws-late",
+          "--title",
+          "A later item",
+          "--area",
+          "laws",
+          "--kind",
+          "wiring",
+          "--priority",
+          "3",
+          "--no-push",
+        ]),
+      ).toBeNull();
+    } finally {
+      process.chdir(cwd);
+    }
   });
 });

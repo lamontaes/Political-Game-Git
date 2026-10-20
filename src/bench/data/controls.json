@@ -16,6 +16,7 @@
     "meet-department-head": "Meet",
     "name-department-head": "Name a department head",
     "talk-to-colleague": "Talk about your bill",
+    "cut-ribbon": "Cut the ribbon",
     "vote": "Vote",
     "sign": "Sign",
     "veto": "Veto",
@@ -63,13 +64,11 @@
     "venue": "Where",
     "retold": "retold"
   },
-  "campaignDay": {
-    "title": "Today",
-    "canvass": "Canvass",
+  "campaignOutings": {
+    "doors": "Knock on doors",
+    "calls": "Call donors",
     "event": "Hold an event",
     "interview": "Ask for an interview",
-    "raise-money": "Call donors",
-    "rest": "Rest",
     "hours": "hours"
   },
   "venues": {
@@ -145,6 +144,14 @@
     "sign": "Sign",
     "veto": "Veto",
     "own": "Decide for me"
+  },
+  "budgetEditor": {
+    "title": "Budget lines to send",
+    "-20": "Cut 20%",
+    "-10": "Cut 10%",
+    "0": "No change",
+    "10": "Add 10%",
+    "20": "Add 20%"
   },
   "deals": {
     "title": "Deal to offer when you talk",
@@ -274,6 +281,7 @@
   "results": {
     "turnout": "Turnout",
     "exitPoll": "Exit poll",
+    "wonIn": "Where it was won",
     "you": "You",
     "unopposed": "Unopposed",
     "abstained": "—"
@@ -292,7 +300,15 @@
     "monthly": "per month",
     "deductions": "Paycheck deductions",
     "assets": "Assets",
-    "debts": "Debts"
+    "debts": "Debts",
+    "lastMonth": "Last month",
+    "monthHousing": "Home costs",
+    "monthEveryday": "Everyday living",
+    "monthPaid": "Paid",
+    "monthUnpaid": "Left unpaid",
+    "loanPayments": "Loan payments",
+    "loanDue": "due",
+    "loanPaid": "paid"
   },
   "staffingNews": {
     "jobsLost": "Jobs lost",
