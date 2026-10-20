@@ -4,9 +4,9 @@ title: "Party loyalty calibrated from each legislature's public roll calls"
 area: laws
 kind: research
 priority: 2
-status: claimed
+status: in-pr
 claimed-by: claude/political-game-pool-yucp92-rr
-pr: #5159
+pr: #5521
 blocked-on:
 milestone:
 source: "owner rulings, Oct 15 afternoon (docs/coordination/OWNER-DECISIONS.md)"
