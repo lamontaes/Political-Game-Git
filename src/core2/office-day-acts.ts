@@ -183,15 +183,6 @@ const LOCAL_PARAMETERS = {
       "Common charter lead times before the fiscal year; no count of every place's charter exists.",
     spread: [30, 120],
   },
-  budgetHearingLeadDays: {
-    value: 30,
-    tag: "ESTIMATED",
-    citation:
-      "How long before the fiscal year the body holds its public hearing on the executive's budget: the Government Finance Officers Association's budget-process practice and the truth-in-budgeting hearing laws many states set put the hearing two to six weeks before adoption, after the proposal is in the body's hands.",
-    estimatedFrom:
-      "Common statutory and charter hearing lead times; no count of every place's charter exists.",
-    spread: [14, 45],
-  },
   colleagueActHours: HOURS(
     0.5,
     "A member asking a colleague for their vote on a pending bill: a half-hour conversation, by phone or over coffee.",
