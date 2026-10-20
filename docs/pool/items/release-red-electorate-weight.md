@@ -1,16 +1,16 @@
 ---
 id: release-red-electorate-weight
-title: "electorate-weight test fails at line 40: a counted voter is not counted as many times as its household stands for"
-area: gov
+title: "The electorate-weight test fails on main at line 40: expected false to be true"
+area: release
 kind: bug
 priority: 2
 size: S
-status: in-pr
-claimed-by: claude/red-electorate-weight
+status: open
+claimed-by:
 pr: #5318
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-19T23:57:24.608Z
+claimed-at:
 ---
 
 **What.** The electorate-weight test fails at line 40, where it expects true and gets false: a counted voter is not counted as many times as its household stands for. Find which side is wrong, the electorate input that should multiply a counted voter by its household weight or the test's expectation, and fix it so the town's vote count follows the weight. The town's vote totals then match its counted households.
@@ -22,3 +22,5 @@ claimed-at: 2026-10-19T23:57:24.608Z
 **Files.** src/core2/electorate-weight.test.ts, src/core2/electorate-inputs.ts, src/core2/electorate.ts
 
 **Notes.** Found by running src/core2 on main, Oct 19 (release-suite-red-list-on-main): AssertionError 'expected false to be true' at electorate-weight.test.ts:40. The failure did not print the place or seed; print them first.
+
+PR #5318 sent back: Merge conflict with main in src/core2/electorate-weight.test.ts.
