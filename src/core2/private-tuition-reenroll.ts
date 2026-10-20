@@ -13,6 +13,7 @@
  * SG-CORE-private-tuition-counted-reenroll).
  */
 import data from "./data/opening-private-tuition.json" with { type: "json" };
+import { privateShareOf } from "./opening-private-tuition";
 import { ageOnDate, makeIsoDate } from "./kernel/dates";
 import type { FinanceContractInput } from "./finance-types";
 import { setEverydayPurchase } from "./cost-of-living";
@@ -96,10 +97,7 @@ export function reenrollPrivateTuition(api: CoreAPI): void {
     a[0].localeCompare(b[0]),
   )) {
     const total = list.reduce((sum, row) => sum + row.children, 0);
-    const quota = Math.max(
-      1,
-      Math.round(total * p("openingPrivateSchoolShare")),
-    );
+    const quota = Math.max(1, Math.round(total * privateShareOf(core)));
     const local = schools.filter((row) => row.placeId === placeId);
     let taken = 0;
     for (const family of [...list].sort(
@@ -148,7 +146,7 @@ export function reenrollPrivateTuition(api: CoreAPI): void {
       tag: "ESTIMATED",
       asOf: date,
       citation: data.citation,
-      estimatedFrom: `${want.children} children aged ${p("openingSchoolAgeFirst")}–${p("openingSchoolAgeLast")} at average tuition $${p("openingPrivateTuitionAnnualUsd")} a year; this family is among the best-off per child in a town where the private share of school-age children is ${p("openingPrivateSchoolShare")}.`,
+      estimatedFrom: `${want.children} children aged ${p("openingSchoolAgeFirst")}–${p("openingSchoolAgeLast")} at average tuition $${p("openingPrivateTuitionAnnualUsd")} a year; this family is among the best-off per child in a town where the private share of school-age children is ${privateShareOf(core)}.`,
     };
     api.addFinanceContract({
       id: `private-tuition:${householdId}:${date}`,
