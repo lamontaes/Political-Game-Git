@@ -27,6 +27,9 @@ export interface HomeSale {
   readonly surplusMinor: number;
   readonly lossMinor: number;
   readonly reasonKey: string;
+  /** The dead owner whose estate the sale belongs to, and the death that opened it. */
+  readonly decedentId?: string;
+  readonly deathEventId?: string;
 }
 
 /** A household's home sale on a date, if it sold. */
@@ -48,6 +51,7 @@ export function sellHome(
   api: CoreAPI,
   householdId: string,
   reasonKey: string,
+  estate?: { decedentId: string; deathEventId: string },
 ): HomeSale | undefined {
   if (!api.state.modules.has(HOUSING)) return undefined;
   const c = api.state as CoreState;
@@ -74,7 +78,7 @@ export function sellHome(
     asOf: c.date,
     citation:
       "Housing engine: the home's value in the dwellings table, paid by the outside market.",
-    estimatedFrom: `${householdId} sold its home when its owners left (${reasonKey}).`,
+    estimatedFrom: `${householdId} sold its home (${reasonKey}).`,
   };
   const stamp = `${householdId}:${c.date}`;
   let toLender = 0;
@@ -91,7 +95,10 @@ export function sellHome(
     toLender += paid;
     remaining -= paid;
   }
-  const first = household.memberIds.find((id) => c.people.get(id)?.alive);
+  // A sale for an estate pays its surplus into the estate, for the heirs.
+  const first =
+    estate?.decedentId ??
+    household.memberIds.find((id) => c.people.get(id)?.alive);
   const surplus =
     remaining > 0 && first
       ? transferCash(
@@ -135,6 +142,9 @@ export function sellHome(
     surplusMinor: surplus,
     lossMinor: Math.max(0, owed - toLender),
     reasonKey,
+    ...(estate
+      ? { decedentId: estate.decedentId, deathEventId: estate.deathEventId }
+      : {}),
   };
   table(api, "sales").put(sale as unknown as ModuleRow);
   return sale;
