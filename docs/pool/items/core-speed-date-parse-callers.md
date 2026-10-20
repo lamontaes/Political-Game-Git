@@ -5,9 +5,9 @@ area: core
 kind: cleanup
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/speed-date-callers
-pr:
+pr: #5766
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-20T23:37:55.936Z
