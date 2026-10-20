@@ -5,9 +5,9 @@ area: core
 kind: bug
 priority: 1
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/dense-speed
-pr:
+pr: #5372
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-20T01:04:35.914Z
