@@ -5,11 +5,12 @@ area: play
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/campaign-browser-check
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-20T12:40:35.823Z
 ---
 
 **What.** PR 5674 added Hold an event and Ask for an interview controls to the Campaigns screen (src/bench/play.mjs, src/bench/data/controls.json) and PR 5549's done-when named a browser check that was never run. Open the Campaigns screen in a real browser in a drawn place with a candidate on a ballot, and confirm it shows the four outing controls (doors, event, interview, calls) with their control names, no list of acts, and that taking an event shows the venue scene and taking an interview shows its result line. File a pool item for anything that looks wrong.
