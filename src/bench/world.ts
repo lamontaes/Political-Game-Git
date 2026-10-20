@@ -63,6 +63,7 @@ import { recordOpeningStory } from "../director/opening-story";
 import {
   applyOpeningSettings as applyWorldSettings,
   checkSettings as checkWorldSettings,
+  scaleBusinessCash,
   scaleOutsideSales,
   type WorldSettings,
 } from "../core2/world-settings";
@@ -297,19 +298,22 @@ function* benchWorldStages(
     // A town opened at a multiple of its sample pays that multiple of wages
     // (its counted workers stand for several), so its outside buyers buy that
     // multiple too: sales and payroll scale together, as the people do.
-    opening = scaleOutsideSales(
-      (settings.economy?.outsideDemand ?? 1) * (options.countScale ?? 1),
-      withWorldEconomy(
-        collapseToTwoLevels(economy, {
-          keep: kept,
-          ...(options.countScale && options.countScale !== 1
-            ? {
-                weights: {
-                  [place.context.jurisdiction.id]: options.countScale,
-                },
-              }
-            : {}),
-        }),
+    opening = scaleBusinessCash(
+      options.countScale ?? 1,
+      scaleOutsideSales(
+        (settings.economy?.outsideDemand ?? 1) * (options.countScale ?? 1),
+        withWorldEconomy(
+          collapseToTwoLevels(economy, {
+            keep: kept,
+            ...(options.countScale && options.countScale !== 1
+              ? {
+                  weights: {
+                    [place.context.jurisdiction.id]: options.countScale,
+                  },
+                }
+              : {}),
+          }),
+        ),
       ),
     );
     releaseRecentHistory();
