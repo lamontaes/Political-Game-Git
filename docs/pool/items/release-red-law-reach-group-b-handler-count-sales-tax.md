@@ -5,11 +5,12 @@ area: release
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/political-game-pool-udtiwn
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-20T12:18:56.125Z
 ---
 
 **What.** Two tests in src/core2/law-reach-group-b.test.ts fail on origin/main's src/core2, checked Oct 20. 'registers a handler for every group B policy and budget line' expects 35 handlers and gets 34, so a policy row was added or a handler removed without the other. 'a city sales tax rate reaches every household and seller as a price record' fails with seed fe0ccacfdc69466b7eaf7b6844dcd892c394fb70e12524e00314298c091b21de in Pecktonville, Maryland (place 2460770): expected 253 price records and got 0. Find the change that broke each and fix the code or the registry, not the test's bound.
