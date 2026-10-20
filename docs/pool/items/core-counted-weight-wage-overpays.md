@@ -16,7 +16,7 @@ source: added with npm run pool -- add
 
 **Rules.** One model, two tiers: a counted group pays as many times as it stands for and no more. No dice. One rule, all 56 places: the check draws its place and names it with the seed.
 
-**Done when.** In the played world (buildBenchWorld), src/core2/counted-weight-money.test.ts passes for seed 7948de2094a32969f465293c52050d63bce0e46645b5a0729d7fd22ccbc0190c and for three fresh random draws, and every dollar still balances.
+**Done when.** In the played world (buildBenchWorld), src/core2/counted-weight-money.test.ts passes for seed 7948de2094a32969f465293c52050d63bce0e46645b5a0729d7fd22ccbc0190c and for three fresh random draws, and every dollar still balances on the journal, with the payroll flow named above paying no more than its households' weights allow.
 
 **Files.** src/core2/counted-money.ts, src/core2/counted-weight-money.test.ts, src/core2/modules/residents.ts
 
