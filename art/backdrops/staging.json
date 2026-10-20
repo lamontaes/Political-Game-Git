@@ -95,7 +95,7 @@
           "depth": 61,
           "seatY": 56,
           "group": "counsel",
-          "clipBelowY": 48.4,
+          "clipBelowY": 48.8,
           "role": "counsel",
           "id": "appellate-courtroom:spot:7"
         },
@@ -119,7 +119,7 @@
           "depth": 61,
           "seatY": 56,
           "group": "counsel",
-          "clipBelowY": 48.4,
+          "clipBelowY": 48.8,
           "role": "counsel",
           "id": "appellate-courtroom:spot:9"
         },
@@ -131,7 +131,7 @@
           "depth": 61,
           "seatY": 56,
           "group": "counsel",
-          "clipBelowY": 48.4,
+          "clipBelowY": 48.8,
           "role": "counsel",
           "id": "appellate-courtroom:spot:10"
         },
@@ -5564,7 +5564,7 @@
           "pose": "sit",
           "facing": "left",
           "depth": 39.4,
-          "clipBelowY": 29.4,
+          "clipBelowY": 30.5,
           "seatY": 33.8,
           "group": "witness",
           "floor": "witness-stand",
@@ -10136,7 +10136,7 @@
           "depth": 61,
           "seatY": 55,
           "group": "desk",
-          "clipBelowY": 53.5,
+          "clipBelowY": 55.2,
           "role": "general",
           "id": "police-station:spot:7"
         },
@@ -11172,7 +11172,7 @@
       "horizonY": 30,
       "metersPercent": 0.61,
       "floors": {
-        "dais": 0.66
+        "dais": 0.96
       },
       "spots": [
         {
@@ -11181,7 +11181,7 @@
           "pose": "sit",
           "facing": "viewer",
           "depth": 43,
-          "clipBelowY": 33.2,
+          "clipBelowY": 33.5,
           "seatY": 38.6,
           "group": "dais",
           "floor": "dais",
@@ -11194,7 +11194,7 @@
           "pose": "sit",
           "facing": "viewer",
           "depth": 43,
-          "clipBelowY": 33.2,
+          "clipBelowY": 33.5,
           "seatY": 38.6,
           "group": "dais",
           "floor": "dais",
@@ -11282,7 +11282,7 @@
           "depth": 43,
           "seatY": 38.6,
           "group": "dais",
-          "clipBelowY": 33.2,
+          "clipBelowY": 33.5,
           "floor": "dais",
           "role": "member-at-dais",
           "id": "school-board-room:spot:9"
@@ -11295,7 +11295,7 @@
           "depth": 43,
           "seatY": 38.6,
           "group": "dais",
-          "clipBelowY": 33.2,
+          "clipBelowY": 33.5,
           "floor": "dais",
           "role": "member-at-dais",
           "id": "school-board-room:spot:10"
@@ -20099,7 +20099,7 @@
           "depth": 61,
           "seatY": 55.6,
           "group": "members",
-          "clipBelowY": 48,
+          "clipBelowY": 50,
           "role": "member-at-dais",
           "id": "us-senate-floor:spot:8"
         },
@@ -20111,7 +20111,7 @@
           "depth": 61,
           "seatY": 55.6,
           "group": "members",
-          "clipBelowY": 48,
+          "clipBelowY": 50,
           "role": "member-at-dais",
           "id": "us-senate-floor:spot:9"
         },
