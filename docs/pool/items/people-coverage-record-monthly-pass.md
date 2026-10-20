@@ -5,7 +5,7 @@ area: people
 kind: feature
 priority: 2
 size: M
-status: in-pr
+status: done
 claimed-by: claude/fs11vb-coverage-record
 pr: #5460
 blocked-on:
