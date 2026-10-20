@@ -24,3 +24,11 @@ claimed-at: 2026-10-19T19:06:50.473Z
 **Files.** `data/english/batches/`.
 
 **Notes.** Raised by the acting CTO on Oct 16 while ruling merge order for PR #4459.
+
+**Decision (Oct 19, Claude session, checked against main).** Graded batch JSON does not belong in the repository once the owner's grades are folded into `data/english/part-grades.json`.
+
+- **Stays:** `data/english/part-grades.json` (the ledger the game's grade reader uses, and the only record of the owner's grades), the pieces that reached `data/english/parts/`, and the Markdown pages in `docs/grading/` the owner reads.
+- **Moves out:** every `data/english/batches/batch-<n>.json` once its id is in the ledger's `batches` list. Evidence it is safe: `tests/source/data-shipping.test.ts` lists `data/english/batches` and `data/english/grades` as NOT_SHIPPED authoring records, and `withKept` in `scripts/dialogue-batch/apply-grades.ts` exists to keep grades from batches whose files were deleted after folding. The ledger lists batch-1, batch-2, batch-7, batch-9-relayed and batch-9 today, but batch-7.json and batch-9.json are not removable yet: their grade files need them, and deleting both drops the per-kind graded counts in data/english/coverage.json (found Oct 19; see words-coverage-graded-counts-kept); batches 6, 10, 11, 12-staged and the two named ones wait for the owner's grades.
+- **PR #4459:** batches 12, 13 and 14 (about 490,000 lines) should not merge as JSON. The Words session folds them into the ledger and the Markdown pages, then drops the JSON from that PR so it stops conflicting. That edit is on #4459's branch, which I may not push to.
+
+Follow-ups: words-batch-files-delete-folded for the removable files on main.
