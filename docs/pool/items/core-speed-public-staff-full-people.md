@@ -5,11 +5,12 @@ area: core
 kind: bug
 priority: 1
 size: M
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/counted-school-staff
+pr: #5551
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-20T05:53:19.616Z
 ---
 
 **What.** PR #5044 (school staff pay) made the public school district a funded employer, and staff of a funded employer are kept as full people because pay for a counted public workforce is not built. In Long Hill, Connecticut (seed m7b) the bisected year went from 220.3 s (e715c5bc7) to 256.7 s (0a4bf1e41), +36 s, with about 13 s more after the next merge, because every extra full person acts each day: perform, activate, work onDay, relationship changes and news telling. Pay the district's teachers (and any other funded department's staff) as a counted workforce through the treasury, the way a counted worker is paid by an employer, or give the staff the weekly tier a town's other public workers use, so a dense town's year stops growing with its teacher count, without changing who is paid or how much.
