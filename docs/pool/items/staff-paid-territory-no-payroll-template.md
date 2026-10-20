@@ -5,9 +5,9 @@ area: gov
 kind: bug
 priority: 1
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/territory-payroll
-pr:
+pr: #5712
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-20T14:00:19.126Z

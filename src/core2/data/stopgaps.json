@@ -2482,7 +2482,8 @@
     "addedBy": "OPUS-WORLD",
     "addedAt": "2026-10-12",
     "replacement": "The two-level population's labor-force counts by place, age and job (CPS and LAUS), with full people filled in from them.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "The opening's seekers are chosen per place from that place's own unemployment rate (the region's month when the regional engine runs, the nation's otherwise), for the named people and the counted ones alike."
   },
   {
     "id": "SG-WORLD-jobs-layoff-decider",
@@ -3816,7 +3817,7 @@
     "kind": "estate",
     "file": "src/core2/estates.ts",
     "line": 1,
-    "whatItFakes": "A full person's estate is only their cash and the standing payments they owed: homes, loans, businesses and accounts other than their main one are not settled. A relative who is still only a counted record does not inherit.",
+    "whatItFakes": "A full person's estate is only their cash and the standing payments they owed: homes, loans, businesses and accounts other than their main one are not settled.",
     "why": "Money stress audit defect 6 (Oct 14): a dead person's cash stayed on their record. Cash first; the rest of an estate needs property and debt records the core doesn't settle yet.",
     "addedBy": "OPUS-CORE",
     "addedAt": "2026-10-14",
