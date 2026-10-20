@@ -5,12 +5,12 @@ area: people
 kind: feature
 priority: 2
 size: M
-status: open
-claimed-by:
+status: blocked
+claimed-by: claude/political-game-pool-yucp92-bb
 pr: #5180
-blocked-on:
+blocked-on: Words line: the item text is an empty shell and the scenes need sentences worded by the English engine and a director producer for officeholder records
 source: added with npm run pool -- add
-claimed-at:
+claimed-at: 2026-10-20T02:31:57.448Z
 ---
 
 **What.** TODO
