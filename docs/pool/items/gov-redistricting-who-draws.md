@@ -5,12 +5,13 @@ area: gov
 kind: feature
 priority: 3
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/peaceful-ritchie-03780x
 pr:
 blocked-on:
 after: gov-redistricting-plan-builder
 source: added with npm run pool -- add
+claimed-at: 2026-10-20T00:36:12.479Z
 ---
 
 **What.** Read who holds the pen from the independent-redistricting law in force (government-operations.independent-redistricting, real answers in data/research/laws/starting-law-2026.json) and have that body choose among the printed plans with recorded reasons; the same world with a commission and with a legislature produces different maps. Resolves stopgap SG-GOV-REACH-A-redistricting once the engine reads the law.

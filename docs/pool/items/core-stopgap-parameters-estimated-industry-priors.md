@@ -10,6 +10,7 @@ pr:
 blocked-on:
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/data/parameters.json, kind estimated-industry-priors"
+claimed-at:
 ---
 
 **What.** Replace or clear the 1 open estimated-industry-priors stopgap row(s) in src/core2/data/parameters.json: SG-P8-business-books-priors. Each fake is replaced by the mechanic, or the feature that needs it is deleted.
@@ -21,3 +22,5 @@ source: "src/core2/data/stopgaps.json, src/core2/data/parameters.json, kind esti
 **Files.** src/core2/data/parameters.json
 
 **Notes.** First row: Firm demand/cost priors from later-vintage corporate aggregate ratios and conditional credit-line source rows, not observed individual-firm books or credit approval.
+
+Looked at Oct 20 (claude/political-game-pool-3xfqef-6), released unbuilt: SG-P8-business-books-priors names its replacement as recorded firm budgets or cohort-matched individual firm data with measured distributions. That is a data-sourcing task (an established source such as the Census Annual Business Survey or BLS/SOI size-class tables, matched by industry and size), not an engine change; a builder with web access starts there, and the priors in `parameters.json` keep their ESTIMATED tag until then.
