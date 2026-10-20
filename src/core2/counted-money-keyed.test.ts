@@ -12,7 +12,10 @@ import type { CoreState } from "./types";
 // residual sweep finds nothing to share by people. The bench world, a place
 // drawn from all 56 on a seed nobody chose.
 const seed = process.env.COUNTED_KEYED_SEED ?? randomBytes(8).toString("hex");
-const place = drawPlace(seed, "counted-keyed");
+const place = drawPlace(
+  seed,
+  process.env.COUNTED_KEYED_PURPOSE ?? "counted-keyed",
+);
 
 describe(`counted money is keyed (${place.name}, seed ${seed})`, () => {
   it("pays no counted money unkeyed in a played year", () => {
