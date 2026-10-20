@@ -1074,7 +1074,7 @@
     "kind": "missing-engine",
     "file": "src/core2/modules/campaigns.ts",
     "line": 292,
-    "whatItFakes": "Each person's stance on a policy question is their lean times the question's measured left-right axis. Where PEOPLE's views engine runs, the lean orders people by their own view (CES 2024 cell plus household); elsewhere, by three personality facets. The order is then placed against the area's real 2024 vote.",
+    "whatItFakes": "A person's opening stance on a policy question is their lean times the question's measured left-right axis, plus, for the eight questions the CES 2020 has an item for, what their faith and four-year degree add beyond the lean (src/core2/modules/views.ts openingStance, data/research/people/opening-stance-loadings.json). The other questions take the lean alone, and no trait loading exists because the CES has no personality measure.",
     "why": "OPUS-PEOPLE's views engine (values and stances formed from each person's life) isn't on core2 yet.",
     "addedBy": "OPUS-GOV",
     "addedAt": "2026-10-12",
