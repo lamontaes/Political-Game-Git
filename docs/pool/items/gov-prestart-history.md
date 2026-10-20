@@ -21,4 +21,4 @@ claimed-at:
 
 **Files.** src/core2/pre-start.ts, src/core2/modules/offices.ts, src/core2/modules/budgets.ts
 
-**Notes.** core.md line 214, checked Oct 15.
+**Notes.** Sent back 2026-10-20 from PR #5234 (branch claude/gov-prestart-history): Refused under morning check (a feature that writes a record nothing reads); another engine must read the seat-reached records in play; finish on that branch, merge main into it first. core.md line 214, checked Oct 15.
