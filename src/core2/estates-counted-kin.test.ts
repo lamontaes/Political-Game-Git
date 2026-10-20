@@ -8,7 +8,7 @@ import { randomBytes } from "node:crypto";
 import { expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { buildBenchWorld } from "../bench/world";
-import { settleEstate } from "./estates";
+import { heirsOf, settleEstate } from "./estates";
 import { addDays, makeIsoDate } from "./kernel/dates";
 import { advanceCore } from "./life";
 import { gameStartDate } from "./game-start";
@@ -38,6 +38,16 @@ it("pays a counted child of the dead and fills them in", () => {
       );
       if (!kid) continue;
       const kidId = String(kid.facts!.otherPersonId);
+      // The child is only a counted record: a full-people-only lookup (the old
+      // rule) finds no living heir here, so the first assertion is what failed
+      // before the change.
+      expect(core.people.has(kidId), `${where}: ${kidId} is counted`).toBe(
+        false,
+      );
+      expect(
+        heirsOf(api, dead).heirs,
+        `${where}: the counted child is an heir`,
+      ).toContain(kidId);
       api.updatePerson(dead.id, { alive: false });
       settleEstate(api, dead.id, "event:death");
       // Probate waits its timeline, then the heirs take.
