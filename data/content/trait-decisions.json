@@ -1383,7 +1383,7 @@
       "id": "legislature.poison-pill",
       "site": "src/core2/modules/legislature.ts",
       "owner": "OPUS-GOV",
-      "route": "chooser",
+      "route": "formula",
       "traitWeightParameter": "traitWeightLegislaturePoisonPill",
       "options": [
         {
