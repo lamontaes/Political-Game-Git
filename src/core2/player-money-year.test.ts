@@ -44,6 +44,10 @@ it("a played year moves the player's household money through pay, living costs, 
           .map((id) => core.cashJournal.residualAccountByOwner.get(id))
           .filter((id): id is string => id !== undefined),
       );
+      // Recorded at the start: does any contract name the household as payer?
+      const contracted = [...core.finance.contracts.values()].some((c) =>
+        c.payerIds.some((id) => members.includes(id)),
+      );
       const flows = new Map<
         string,
         { inMinor: number; outMinor: number; entries: string[] }
@@ -87,10 +91,12 @@ it("a played year moves the player's household money through pay, living costs, 
         );
       const total = (kind: string, side: "inMinor" | "outMinor") =>
         flows.get(kind)?.[side] ?? 0;
-      // Pay comes in; living costs, housing (rent and bills under a contract,
-      // or the property tax of a household that owns its home) and withholding
-      // go out. An owner with no mortgage settles no contract, so the housing
-      // cost is the contract settlements or the property tax, either one.
+      // Pay comes in; living costs, housing and withholding go out. The
+      // housing route is the one the household's records require: a household
+      // that a contract names as payer (rent, a mortgage, bills) settles it; one
+      // with no contract owns its home and pays its property tax. A household
+      // with a contract cannot pass on its property tax alone, nor an owner on
+      // someone else's contract.
       expect(
         total("work-payroll work-payroll", "inMinor"),
         where,
@@ -99,11 +105,16 @@ it("a played year moves the player's household money through pay, living costs, 
         total("accounts.transfer living", "outMinor"),
         where,
       ).toBeGreaterThan(0);
-      expect(
-        total("finance.contract-settlement finance", "outMinor") +
+      if (contracted)
+        expect(
+          total("finance.contract-settlement finance", "outMinor"),
+          `${where}: the household's recorded contracts are settled`,
+        ).toBeGreaterThan(0);
+      else
+        expect(
           total("accounts.transfer property-tax", "outMinor"),
-        `${where}: housing cost (contracts or property tax)`,
-      ).toBeGreaterThan(0);
+          `${where}: an owner household with no contract pays property tax`,
+        ).toBeGreaterThan(0);
       expect(
         total("budgets:withholding withholding", "outMinor"),
         where,
