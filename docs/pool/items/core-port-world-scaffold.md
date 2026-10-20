@@ -5,13 +5,13 @@ area: core
 kind: wiring
 priority: 2
 size: M
-status: open
-claimed-by:
+status: blocked
+claimed-by: claude/political-game-pool-yucp92-aj
 pr:
-blocked-on:
+blocked-on: core-old-imports-population-town-employment
 after: core-old-imports-opening-employment
 source: "split from core-remaining-port-the-opening-town-builder-population (an L item), Oct 15"
-claimed-at: 2026-10-19T18:35:36.559Z
+claimed-at: 2026-10-20T09:47:38.757Z
 ---
 
 **What.** `population.ts` builds an old-engine world (`simulation/world`: `createWorld`, `assertWorldIntegrity`, `writeWithWorldIntegrityOnce`, and the `simulation/types` household, membership, location, kinship and partner records) only so the people writer and the employment matcher have somewhere to write. Give the builder a core-form target for those records so the world scaffolding leaves `population.ts`. The other parts of this port (people, names, town employment, pay, schedules, residents) each return core records into the same target. The player notices nothing: the same town opens. Build only what the golden path needs, and write fresh where that is simpler.
