@@ -5,9 +5,9 @@ area: people
 kind: research
 priority: 3
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/homeschool-error-bars
-pr:
+pr: #5608
 blocked-on:
 after: people-homeschool-share-by-state
 source: added with npm run pool -- add
