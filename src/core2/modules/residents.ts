@@ -2540,7 +2540,8 @@ export function keepCalendar(
 }
 
 /** The commuter job's id for a person; the demotion reads it to put the pay back. */
-export const commuterJobId = (personId: string) => `job:commuter:${personId}`;
+export const commuterJobId = (personId: string, startsAt: string) =>
+  `job:commuter:${personId}:${startsAt}`;
 
 /**
  * A filled-in household's jobless worker takes a job with the place's outside
@@ -2583,7 +2584,7 @@ function startCommuterJob(
       "A filled-in household's share of the place's unplaced workers' pay, as a job with an employer outside the town (the place's commute shares).",
     estimatedFrom: `Flow ${flow.id}: ${amount} minor units every ${cadence} days over a ${weekHours}-hour week.`,
   };
-  const jobId = commuterJobId(personId);
+  const jobId = commuterJobId(personId, startsAt);
   const job: JobInput = {
     id: jobId,
     personId,

@@ -4014,7 +4014,7 @@
     "line": 1,
     "whatItFakes": "A filled-in household keeps its share of the place's unplaced workers' pay (counted workers no employer's books hold) as its own flow, untaxed, until it returns to the counts.",
     "why": "The opening places only some counted workers in recorded jobs; the rest are paid from one place-level flow with no employer to file a W-2.",
-    "replacement": "Resolved Oct 20: a filled-in worker with an unplaced income holds a job (job:commuter:<personId>) at the place's outside account, paid through the payroll calendar with withholding; demotion ends it and returns the pay to the unplaced pool. Shown in unplaced-fill-in-job.test.ts (pool item core-commuter-job-fill-in).",
+    "replacement": "Resolved Oct 20: a filled-in worker with an unplaced income holds a job (job:commuter:<personId>:<start>) at the place's outside account, paid through the payroll calendar with withholding; demotion ends it and returns the pay to the unplaced pool. Shown in unplaced-fill-in-job.test.ts (pool item core-commuter-job-fill-in).",
     "addedBy": "OPUS-CORE (one model, two tiers)",
     "addedAt": "2026-10-14",
     "status": "resolved"
