@@ -22,3 +22,5 @@ claimed-at:
 **Files.** TODO
 
 **Notes.** TODO
+
+Sent back 2026-10-20 from PR #4974 (branch claude/dev-why-ledger-s5): narrows dev-why.test.ts to pick only a paid worker, hiding the unpaid-public-worker bug; the test must stay red until world-public-employer-staff-never-paid is fixed or pick its subject without excluding the bug; finish on that branch, merge main into it first.
