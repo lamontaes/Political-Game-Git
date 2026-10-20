@@ -594,14 +594,14 @@
     },
     {
       "key": "water-violations-to-infant-health",
-      "status": "size-not-set",
-      "unsupportedReason": "size-not-set",
+      "status": "built",
+      "unsupportedReason": null,
       "to": "health.low-birthweight",
       "strength": "moderate",
       "shape": {
         "kind": "linear"
       },
-      "size": null,
+      "size": 0.06,
       "per": "violation during pregnancy",
       "lagMonths": 0,
       "group": "less-educated mothers most",
@@ -610,7 +610,8 @@
       "source": "Currie et al. 2013 (CJE)",
       "from": "env.drinking-water-violations",
       "evidence": "researched",
-      "notes": "Unsupported until sized: the study finds lower birth weight per violation during pregnancy without a slope on the game's violations-per-system measure. Low birth weight is now a place outcome (CDC, 2023), so the outcome side is ready once a size is set."
+      "notes": "ESTIMATED. Currie et al. 2013 (CJE 46(3); NBER w18876, Table 3 column 4, New Jersey births 1997-2007, mother fixed effects): a drinking-water violation during pregnancy raised the incidence of low birth weight by 0.0032 (SE 0.0015), about 6% of the mean (0.053); the 95% interval is 0.0003 to 0.0061, or 0.6 to 11.5% of the mean. The game's cause is violations per community water system in a year (U.S. 2.5), so one more violation per system a year is read as one more in-utero exposure for a birth served by that system; that mapping is an estimate. The study finds the effect among less-educated mothers (Table 4 interaction: +0.0085 on any contamination, +0.0098 on a chemical one) and none distinguishable from zero among the rest. The size checks totals and never picks one baby's outcome.",
+      "range": [0.006, 0.115]
     },
     {
       "key": "heat-to-deaths",
