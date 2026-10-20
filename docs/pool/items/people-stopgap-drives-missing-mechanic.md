@@ -4,13 +4,13 @@ title: "Stopgaps in drives (missing-mechanic): 4 open"
 area: people
 kind: stopgap
 priority: 3
-status: in-pr
-claimed-by: claude/drives-unbuilt-acts
-pr: #5289
+status: open
+claimed-by:
+pr: #5578
 blocked-on:
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/data/drives.json, kind missing-mechanic"
-claimed-at: 2026-10-19T23:43:32.982Z
+claimed-at:
 ---
 
 **What.** Replace or clear the 4 open missing-mechanic stopgap row(s) in src/core2/data/drives.json: SG-P10-cause-group-founding, SG-P10-testify-unbuilt, SG-P10-candidacy-unbuilt, SG-P10-lobbying-unbuilt. Each fake is replaced by the mechanic, or the feature that needs it is deleted.
@@ -22,5 +22,14 @@ claimed-at: 2026-10-19T23:43:32.982Z
 **Files.** src/core2/data/drives.json
 
 **Notes.** First row: A resident founds a cause group instantly with no charter, registration, dues or officers.
+
+SG-P10-testify-unbuilt, SG-P10-candidacy-unbuilt, and SG-P10-lobbying-unbuilt were resolved in PR #5289 by removing the unbuilt act rows and handlers. 1 row remains open (SG-P10-cause-group-founding).
+
+
+Oct 19 (claude, claude/drives-unbuilt-acts): the three `unbuilt-system` act rows (testify-at-hearing, run-for-office, lobby-legislator) and their handlers are deleted and `SG-P10-testify-unbuilt`, `SG-P10-candidacy-unbuilt` and `SG-P10-lobbying-unbuilt` resolved: the hearings, candidacy and interest-groups modules already own those routes, so a drive act would be a parallel one. Their bench scene places and figure poses are deleted too. Left for the Words line: the `testify-at-hearing`, `run-for-office` and `lobby-legislator` entries in `data/english/parts/choice-names.json` and `data/content/trait-decisions.json`, which the English engine may use for other scenes. `SG-P10-cause-group-founding` stays open.
+
+Looked at Oct 20 (claude/political-game-pool-3xfqef-25), released unbuilt. The one open row, SG-P10-cause-group-founding, says a resident founds a cause group with no charter, registration, dues or officers. A charter, a registration and a filing are real-world steps, and AGENTS.md "This is a game, not a spreadsheet" says they are built only when the golden path needs them, The Political Process has them (`docs/roadmap/political-process-baseline.md` does not list founding paperwork), or the owner asked for them by name; I searched the decision register and OWNER-DECISIONS.md and found no ruling on founding a group. So the question for the owner is whether founding a group should cost anything the player does (dues, officers, a charter) or stay one act; the group's real depth (members who join from their views, a treasury that dues fill, officers who decide) may be the part worth building, and that is `interest-groups` engine work in the government area. Until he answers, the row stays registered as it is.
+
+Sent back 2026-10-20 from PR #5578 (branch claude/drives-missing-mechanic): the stopgap resolution text carries a 'Resolved Oct 20' date note and a PR reference, and the owner question in the body is not registered as an owner-decision stopgap or in OWNER-DECISIONS.md; finish on that branch, merge main into it first.
 
 Oct 19 (claude, claude/cause-group-founding-resolved): `SG-P10-cause-group-founding` resolved as kept by design: a charter, registration, dues or officers step is the paperwork the "game, not a spreadsheet" rule bars. The CTO should confirm that reading; if the owner wants it, reopen as `owner-decision`.

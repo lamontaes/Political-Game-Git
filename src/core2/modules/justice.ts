@@ -43,7 +43,7 @@ import type {
 import { CORRUPTION_MODULE_ID, type CrimeRecord } from "./corruption";
 import { BUDGETS_MODULE_ID, governments } from "./budgets";
 import { lawChain } from "./laws";
-import { vacateSeat } from "./offices";
+import { OFFICES_MODULE_ID, vacateSeat } from "./offices";
 import { closenessBetween } from "../closeness";
 import {
   briberyRange,
@@ -144,6 +144,21 @@ export interface SentenceRow {
   readonly jobsEnded: readonly string[];
   readonly reasons: Readonly<Record<string, number>>;
   readonly source: Source;
+}
+
+/** A governor's commutation: the rest of a prison term ended early. */
+export interface ClemencyRow {
+  readonly id: string;
+  readonly sentenceId: string;
+  readonly custodyId: string;
+  readonly personId: PersonId;
+  readonly grantedBy: string;
+  readonly date: string;
+  /** The release date the court set, before the commutation. */
+  readonly releaseWas: string;
+  /** Days of the term it ended early. */
+  readonly daysRemitted: number;
+  readonly reasons: Readonly<Record<string, number | string>>;
 }
 
 export interface CustodyRow {
@@ -692,6 +707,9 @@ export function chargeDecision(api: CoreAPI, investigationId: string): void {
     if (pleads) convict(api, row, true);
     else {
       const wait = decidePretrial(api, JUSTICE_MODULE_ID, id, target.personId);
+      const bailTreasury = treasuryFor(api, inv.prosecutorOfficeId);
+      if (wait?.decision === "posted" && bailTreasury)
+        holdBail(api, id, target.personId, bailTreasury, wait.bailMinor);
       if (wait)
         emit(
           api,
@@ -730,6 +748,7 @@ function trial(api: CoreAPI, caseId: string): void {
   const row = table(api, "cases").get(caseId) as unknown as CaseRow | undefined;
   if (!row || row.status !== "charged") return;
   endPretrial(api, JUSTICE_MODULE_ID, caseId);
+  returnBail(api, caseId);
   const person = api.state.people.get(row.defendantId);
   if (!person?.alive) {
     table(api, "cases").put({
@@ -932,7 +951,7 @@ function treasuryFor(api: CoreAPI, officeId: string): string | null {
 
 interface FineRecord {
   readonly id: string;
-  readonly reason: "fine" | "forfeiture";
+  readonly reason: "fine" | "forfeiture" | "bail" | "bail-return";
   readonly date: string;
   readonly personId: PersonId;
   readonly treasuryId: string;
@@ -959,7 +978,11 @@ function fineSlot(api: CoreAPI, id: string): CashJournalSourceSlot | undefined {
       citation:
         row.reason === "forfeiture"
           ? "The bribe money a court forfeits on a bribery conviction, paid to the treasury."
-          : "A court's fine on a bribery conviction, paid to the treasury.",
+          : row.reason === "bail"
+            ? "A defendant's bail, held in the court escrow under the prosecuting government's treasury until the trial."
+            : row.reason === "bail-return"
+              ? "A defendant's bail, returned in full from the court escrow when the trial opens."
+              : "A court's fine on a bribery conviction, paid to the treasury.",
       asOf: row.date,
     },
     expectedPostings: row.postings.map((x) => ({ ...x })),
@@ -984,6 +1007,8 @@ function payToTreasury(
   personId: PersonId,
   treasuryId: string,
   amountMinor: number,
+  /** Where the money lands: the treasury's spendable cash unless a held fund is named. */
+  toAccountId: string = `cash:${treasuryId}:residual`,
 ): number {
   const state = api.state as CoreState;
   const from = `cash:${personId}:residual`;
@@ -998,11 +1023,7 @@ function payToTreasury(
     treasuryId,
     postings: [
       { id: "person", accountId: from, deltaMinor: -amount },
-      {
-        id: "treasury",
-        accountId: `cash:${treasuryId}:residual`,
-        deltaMinor: amount,
-      },
+      { id: "treasury", accountId: toAccountId, deltaMinor: amount },
     ],
   };
   table(api, "fines").put(record as unknown as ModuleRow);
@@ -1014,6 +1035,84 @@ function payToTreasury(
     postings: record.postings,
   });
   return amount;
+}
+
+/**
+ * The court escrow fund under a treasury's owner: bail sits here, apart from
+ * the cash the government can spend, until the trial returns it.
+ */
+function escrowOf(api: CoreAPI, treasuryId: string): string {
+  const state = api.state as CoreState;
+  const id = `account:${treasuryId}:court-escrow`;
+  if (!state.cashJournal.accounts.has(id))
+    api.registerCashAccount({
+      id,
+      ownerId: treasuryId,
+      name: "court-escrow",
+      allocatedMinor: 0,
+      source: {
+        tag: "SOURCED",
+        citation:
+          "Bail is held by the court apart from the government's own funds until the case is heard.",
+        asOf: api.state.date,
+      },
+    });
+  return id;
+}
+
+/** Bail posted: the bail leaves the defendant's cash for the court escrow under the treasury, held until the trial. */
+function holdBail(
+  api: CoreAPI,
+  caseId: string,
+  personId: PersonId,
+  treasuryId: string,
+  bailMinor: number,
+): void {
+  payToTreasury(
+    api,
+    `bail:${caseId}`,
+    "bail",
+    personId,
+    treasuryId,
+    bailMinor,
+    escrowOf(api, treasuryId),
+  );
+}
+
+/** The trial opens: the escrow hands the whole bail back, whatever the treasury has spent since. */
+function returnBail(api: CoreAPI, caseId: string): void {
+  const held = table(api, "fines").get(`bail:${caseId}`) as unknown as
+    FineRecord | undefined;
+  if (!held || table(api, "fines").get(`bail-return:${caseId}`)) return;
+  const state = api.state as CoreState;
+  const heldMinor = held.postings.find((x) => x.id === "treasury")!.deltaMinor;
+  const record: FineRecord = {
+    id: `bail-return:${caseId}`,
+    reason: "bail-return",
+    date: api.state.date,
+    personId: held.personId,
+    treasuryId: held.treasuryId,
+    postings: [
+      {
+        id: "treasury",
+        accountId: escrowOf(api, held.treasuryId),
+        deltaMinor: -heldMinor,
+      },
+      {
+        id: "person",
+        accountId: `cash:${held.personId}:residual`,
+        deltaMinor: heldMinor,
+      },
+    ],
+  };
+  table(api, "fines").put(record as unknown as ModuleRow);
+  api.postJournal({
+    id: `journal:${api.state.date}:${state.cashJournal.nextSequence}`,
+    date: api.state.date,
+    expectedSequence: state.cashJournal.nextSequence,
+    sourceRef: { kind: FINE_KIND, id: record.id },
+    postings: record.postings,
+  });
 }
 
 // ---------------------------------------------------------------------------
@@ -1146,6 +1245,166 @@ function release(api: CoreAPI, custodyId: string): void {
 }
 
 // ---------------------------------------------------------------------------
+// Clemency
+
+const daysFrom = (from: string, to: string) =>
+  Math.round(
+    (Date.parse(`${to}T00:00:00Z`) - Date.parse(`${from}T00:00:00Z`)) /
+      86_400_000,
+  );
+
+/** The share of a prison term a person has served by a date (0 to 1). */
+export function servedShare(
+  custody: Pick<CustodyRow, "from" | "until">,
+  date: string,
+): number {
+  const term = daysFrom(custody.from, custody.until);
+  return term > 0
+    ? Math.min(1, Math.max(0, daysFrom(custody.from, date) / term))
+    : 1;
+}
+
+/**
+ * The state whose law a sentence was passed under, read from the office that
+ * prosecuted the case: a state office is its own state's, a local prosecutor
+ * covers the town and so the town's state, and a federal office (or one the
+ * offices module does not hold) belongs to no state a governor can act for.
+ */
+export function sentenceStateKey(
+  api: CoreAPI,
+  sentenceId: string,
+): string | null {
+  const sentence = table(api, "sentences").get(sentenceId) as unknown as
+    SentenceRow | undefined;
+  const found = sentence
+    ? (table(api, "cases").get(sentence.caseId) as unknown as
+        CaseRow | undefined)
+    : undefined;
+  if (!found) return null;
+  const stand = "prosecutor:";
+  // The stand-in prosecutor is named for its state.
+  if (found.prosecutorOfficeId.startsWith(stand))
+    return found.prosecutorOfficeId.slice(stand.length);
+  if (!api.state.modules.has(OFFICES_MODULE_ID)) return null;
+  const office = api
+    .moduleState(OFFICES_MODULE_ID)
+    .table("offices")
+    .get(found.prosecutorOfficeId) as unknown as
+    { level: string; jurisdiction: string } | undefined;
+  if (!office || office.level === "federal") return null;
+  return office.level === "state"
+    ? office.jurisdiction
+    : lawChain(api).stateKey;
+}
+
+/**
+ * Everyone serving a prison term today, the longest served first. Given a
+ * state, only those sentenced under that state's law: the prisoners its
+ * governor may commute.
+ */
+export function prisonersServing(
+  api: CoreAPI,
+  stateKey?: string,
+): readonly CustodyRow[] {
+  if (!api.state.modules.has(JUSTICE_MODULE_ID)) return [];
+  const date = api.state.date;
+  return (
+    table(api, "custody").query("byStatus", [
+      "serving",
+    ]) as unknown as CustodyRow[]
+  )
+    .filter((row) => row.from < date)
+    .filter(
+      (row) =>
+        stateKey === undefined ||
+        sentenceStateKey(api, row.sentenceId) === stateKey,
+    )
+    .sort(
+      (a, b) =>
+        servedShare(b, date) - servedShare(a, date) || a.id.localeCompare(b.id),
+    );
+}
+
+/** The commutations on record for a person. */
+export function clemenciesOf(
+  api: CoreAPI,
+  personId: PersonId,
+): readonly ClemencyRow[] {
+  if (!api.state.modules.has(JUSTICE_MODULE_ID)) return [];
+  return table(api, "clemencies").query("byPerson", [
+    personId,
+  ]) as unknown as ClemencyRow[];
+}
+
+/**
+ * A governor ends the rest of a person's prison term: the sentence's release
+ * date and the custody's end become today, the release is carried out as it
+ * would be at the end of the term (the court's date's calendar entry then finds nothing to do), and the commutation stays on record with
+ * the days it took off. Null where the person is not serving one.
+ */
+export function grantClemency(
+  api: CoreAPI,
+  input: {
+    readonly custodyId: string;
+    readonly grantedBy: string;
+    /** The state the governor acts for: its clemency reaches only its own sentences. */
+    readonly stateKey: string;
+    readonly reasons?: Readonly<Record<string, number | string>>;
+  },
+): ClemencyRow | null {
+  const custody = table(api, "custody").get(input.custodyId) as unknown as
+    CustodyRow | undefined;
+  if (!custody || custody.status !== "serving") return null;
+  // A governor cannot commute another state's sentence or a federal one.
+  if (sentenceStateKey(api, custody.sentenceId) !== input.stateKey) return null;
+  const sentence = table(api, "sentences").get(
+    custody.sentenceId,
+  ) as unknown as SentenceRow | undefined;
+  if (!sentence) return null;
+  const today = api.state.date;
+  const row: ClemencyRow = {
+    id: `clemency:${sentence.id}`,
+    sentenceId: sentence.id,
+    custodyId: custody.id,
+    personId: custody.personId,
+    grantedBy: input.grantedBy,
+    date: today,
+    releaseWas: custody.until,
+    daysRemitted: Math.max(0, daysFrom(today, custody.until)),
+    reasons: input.reasons ?? {},
+  };
+  table(api, "sentences").put({
+    ...sentence,
+    releaseDate: today,
+  } as unknown as ModuleRow);
+  table(api, "custody").put({
+    ...custody,
+    until: today,
+  } as unknown as ModuleRow);
+  // The release scheduled for the court's date still fires, and finds the custody already released.
+  release(api, custody.id);
+  table(api, "clemencies").put(row as unknown as ModuleRow);
+  emit(
+    api,
+    "justice.clemency",
+    `justice.clemency:${sentence.id}`,
+    [custody.personId],
+    {
+      sentenceId: sentence.id,
+      grantedBy: input.grantedBy,
+      daysRemitted: String(row.daysRemitted),
+    },
+    {
+      tag: "SOURCED",
+      citation:
+        "The governor's power to commute a sentence under the state's law.",
+      asOf: today,
+    },
+  );
+  return row;
+}
+
+// ---------------------------------------------------------------------------
 // Reads for other engines
 
 /** Whether the person is serving a prison term today. */
@@ -1272,6 +1531,7 @@ export const JUSTICE_MODULE: CoreModule = {
         },
       },
       fines: {},
+      clemencies: { indexes: { byPerson: { fields: ["personId"] } } },
       pretrial: { indexes: { byPerson: { fields: ["personId"] } } },
     },
   },
