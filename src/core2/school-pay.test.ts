@@ -84,7 +84,7 @@ it(`a public school district's full teachers are paid from the town treasury, se
   process.stdout.write(
     `school-pay full: ${place.name} (seed ${seed}): ${district.name}, ${staying.length} full teachers paid from ${link.treasuryId}\n`,
   );
-}, 1_800_000);
+}, 900_000);
 
 it(`a public school district's counted teachers are paid by the town government's treasury, seed ${seed}`, () => {
   const { core, place, district, authority, flows, link } =
@@ -101,4 +101,4 @@ it(`a public school district's counted teachers are paid by the town government'
   process.stdout.write(
     `school-pay counted: ${place.name} (seed ${seed}): ${district.name}, ${flows.length} counted payrolls paid from ${link.treasuryId}\n`,
   );
-}, 1_800_000);
+}, 900_000);

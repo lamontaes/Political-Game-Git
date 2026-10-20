@@ -1282,19 +1282,34 @@ function speechPanel(filing, venue) {
 async function campaignRows() {
   const v = await api(`/api/campaign?id=${encodeURIComponent(me.id)}`);
   const rows = [];
-  for (const { filing, campaign, polls, day, causes, debates } of v.campaigns) {
-    const takeDay = async (kind) => {
+  for (const {
+    filing,
+    campaign,
+    polls,
+    outings,
+    causes,
+    debates,
+  } of v.campaigns) {
+    const goOut = async (outing) => {
       const result = await post(
-        `/api/campaign/day?${new URLSearchParams({ filingId: filing.id, kind })}`,
+        `/api/campaign/day?${new URLSearchParams({ filingId: filing.id, kind: outing === "doors" ? "canvass" : "raise-money" })}`,
       );
       campaignResult = [
-        controls.campaignDay[kind],
+        controls.campaignOutings[outing],
         result.doorsKnocked ? `${result.doorsKnocked} doors` : "",
         result.reached ? `${result.reached} reached` : "",
         result.raisedMinor ? dollars(result.raisedMinor) : "",
       ]
         .filter(Boolean)
         .join(" · ");
+      // The doors and the calls are seen where they happen, with the people reached.
+      if (result.scene) {
+        closeSheet();
+        $("backdrop").src = result.scene.backdrop.url;
+        drawPeople(result.scene.people);
+        $("card-why").textContent = campaignResult;
+        return;
+      }
       openSheet("campaigns");
     };
     const act = async (kind, extra = {}) => {
@@ -1347,14 +1362,13 @@ async function campaignRows() {
         el(
           "div",
           {},
-          el("b", { textContent: controls.campaignDay.title }),
-          ...(day ?? []).map((choice) => {
+          ...(outings ?? []).map((choice) => {
             const b = el("button", {
               type: "button",
-              textContent: `${controls.campaignDay[choice.kind]} · ${choice.hours} ${controls.campaignDay.hours}`,
+              textContent: `${controls.campaignOutings[choice.outing]} · ${choice.hours} ${controls.campaignOutings.hours}`,
               disabled: !choice.available,
             });
-            b.addEventListener("click", () => takeDay(choice.kind));
+            b.addEventListener("click", () => goOut(choice.outing));
             return b;
           }),
         ),
