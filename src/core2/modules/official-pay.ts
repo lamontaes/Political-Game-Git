@@ -40,6 +40,8 @@ const TABLE = salaries as unknown as {
   provenance: {
     estimated: {
       spreadPct: { governor: number; legislator: number; statewide: number };
+      statewideShareOfGovernor: number;
+      statewideShareBasis: string;
       estimatedFrom: string;
     };
   };
@@ -153,6 +155,21 @@ export function officialSalary(row: OfficialRow): OfficialSalary | null {
             ? spread.legislator
             : spread.statewide,
       estimatedFrom: TABLE.provenance.estimated.estimatedFrom,
+    };
+  }
+  // No statewide figure at all (a territory): the share of the governor's pay
+  // the table uses for the secretary of state and treasurer.
+  const governor =
+    SOURCED_PAY.get(`governor:${row.stateKey.replace(/^US-/, "")}`)
+      ?.annualDollars ?? state.governor;
+  if (typeof governor === "number") {
+    const share = TABLE.provenance.estimated.statewideShareOfGovernor;
+    return {
+      annualMinor: Math.round(governor * share) * 100,
+      citation: `${row.stateKey} ${share} of the governor's pay (the table has no statewide figure for ${row.officeKind}): ${state.source}`,
+      tag: "ESTIMATED",
+      spreadPct: TABLE.provenance.estimated.spreadPct.statewide,
+      estimatedFrom: `${TABLE.provenance.estimated.estimatedFrom} ${TABLE.provenance.estimated.statewideShareBasis}`,
     };
   }
   return null;

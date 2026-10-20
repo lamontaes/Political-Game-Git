@@ -524,8 +524,8 @@
     "why": "Retention span is an owner budget assumption, not a human forgetting measurement; later readers and legal obligations need audit.",
     "addedBy": "SOL-1258",
     "addedAt": "2026-10-09",
-    "replacement": "Owner-approved bounded retention plus reader/callback/reload assertions; preserve consequential evidence and full focus history.",
-    "status": "open"
+    "replacement": "Resolved Oct 20: the owner ruled running memory stays small (Oct 12, DECISION-REGISTER 'Speed and memory'), so the retention span is a tunable engineering memory budget, tagged TUNABLE with its spread, and only the dev-why bench reads old rollups (pool item owner-stopgap-memory-budgets).",
+    "status": "resolved"
   },
   {
     "id": "SG-P8-business-books-priors",
@@ -1050,8 +1050,8 @@
     "kind": "missing-engine",
     "file": "src/core2/modules/offices.ts",
     "line": 981,
-    "whatItFakes": "Where the voting engine isn't running, a special election's seat goes to the best-suited eligible person on the day instead of a vote. With voting open it is a real race. Its date is the state's law for the office where special-election-law.json reads it, else the 90-day estimate (SG-GOV-special-election-timing).",
-    "why": "M2's election engine hasn't been built on core2 yet.",
+    "whatItFakes": "A special election for a seat no race engine counts (a statewide executive seat, a judge, a seat of another body) goes to the best-suited eligible person on the day instead of a vote. The town's own seats are real races in the voting engine, and a House or legislative district outside the town is counted by the world races (named party candidates, the winner serves the unexpired term). The date is the state's law for the office where special-election-law.json reads it, else the 90-day estimate (SG-GOV-special-election-timing).",
+    "why": "The world races count only House and legislative districts; the other kinds have no counted race yet. Narrowed Oct 19 (claude/special-election-races).",
     "addedBy": "OPUS-GOV",
     "addedAt": "2026-10-12",
     "replacement": "Each office's special-election timing from its law (many fill at the next general election).",
@@ -1497,11 +1497,11 @@
     "kind": "missing-mechanic",
     "file": "src/core2/data/laws/reach-group-a.json",
     "line": 311,
-    "whatItFakes": "Rent renewal now reads stabilization for full leases and counted rent flows, but applies the catalog's estimated cap to every rented building and has no delivered renewal notice linking a tenant's stance to the saving.",
-    "why": "Building exemptions and enacted cap terms are not yet resolved; the director needs a received notice of an actual rent change, not eligibility assigned to every adult.",
+    "whatItFakes": "Rent renewal reads stabilization for full leases and counted rent flows, but applies the catalog's estimated cap to every rented building. A full tenant gets a renewal notice (the law, old rent, market rent, charged rent) and learns of the saving; a counted tenant gets no notice.",
+    "why": "Building exemptions and enacted cap terms are not yet resolved; a counted tenant is not a person who can be told.",
     "addedBy": "OPUS-GOV (sub-agent A)",
     "addedAt": "2026-10-12",
-    "replacement": "Resolve the statute's cap and building exemptions from records, then deliver the renewal notice with law, old rent, market rent and charged rent; prove the paid bill, tenant's informed stance and director line.",
+    "replacement": "Resolve the statute's cap and building exemptions from records; counted tenants are told in the same share when they are filled in as a full person.",
     "status": "open"
   },
   {
@@ -2622,7 +2622,9 @@
     "why": "The core rejects the agreement's next payment once the named job ends (\"Visitor qualification no longer resolves its actual product job\"), seen in year two of Absecon, New Jersey.",
     "addedBy": "OPUS-WORLD",
     "addedAt": "2026-10-12",
-    "replacement": "OPUS-CORE lets a visitor agreement re-resolve its qualification to any current qualified worker at the provider; then this filter goes."
+    "replacement": "OPUS-CORE lets a visitor agreement re-resolve its qualification to any current qualified worker at the provider; then this filter goes.",
+    "status": "resolved",
+    "resolvedBy": "Claude session on the pool item world-agreements-re-resolve-worker, October 19, 2026: deleted src/core2/pinned-jobs.ts and the jobs engine's filters on it. A saved agreement already follows its product jobs' real life in finance-cash.ts (productJobRelations: an ended job drops out and the supplier's current staff in the product occupations carry it; with none, the agreement ends), so a named job's holder may now be laid off, quit, retire or move."
   },
   {
     "id": "SG-WORLD-business-counted-owner-choice",
@@ -2881,7 +2883,8 @@
     "addedBy": "OPUS-PEOPLE",
     "addedAt": "2026-10-12",
     "replacement": "Agreements re-resolve their qualifying worker when a job ends (WORLD/CORE), and the jobs engine exports its pinned-job lookup; then these holders can move like anyone else.",
-    "status": "open"
+    "status": "resolved",
+    "resolvedBy": "Same change, October 19, 2026: the moves engine's copy of the lookup is deleted, so a holder of a job a saved agreement names moves like anyone else and the agreement re-resolves at its next payment (finance-cash.ts productJobRelations)."
   },
   {
     "id": "SG-FIXER-moves-income-household",
@@ -3148,18 +3151,18 @@
     "addedBy": "OPUS-CORE",
     "addedAt": "2026-10-12",
     "replacement": "Census 2020 Island Areas place identities (the research request territory-place-identities), read into the same listing. Oct 14 (OPUS-CORE): the candidate list is built (src/core2/data/places/territory-places-census.json, 158 inhabited villages with Census GEOIDs and 2020 populations, every current key kept, by tooling/build-territory-places.ts); the swap waits until PEOPLE's population builder reads places through the core lookup.",
-    "status": "open"
+    "status": "resolved"
   },
   {
     "id": "SG-CORE-private-tuition-average",
     "kind": "aggregate-spending",
     "file": "src/core2/opening-private-tuition.ts",
     "line": 1,
-    "whatItFakes": "Each household with school-age children pays its children's share of the town's private tuition (the national private share times the average tuition) to the town's private school; no family chooses a school, and no child is enrolled.",
+    "whatItFakes": "The town's families with school-age children are ranked by cash per child and the best-off enroll all their children in the private school until the town's private share of school-age children (NCES) is reached, each paying the average private tuition. The family's beliefs, the schools nearby and the child's own needs do not yet enter, and enrollment is fixed at the opening.",
     "why": "Private schools had no customers at all, so they closed in every town.",
     "addedBy": "OPUS-CORE",
     "addedAt": "2026-10-12",
-    "replacement": "PEOPLE's schools engine: each child's enrollment, chosen from the family's income, beliefs and the schools near them, with tuition paid by the families who enroll.",
+    "replacement": "PEOPLE's schools engine: each child's enrollment chosen from the family's income, beliefs and the schools nearby, moving as they change. Means-ranked enrollment replaced the even spread of the town's average on Oct 19.",
     "status": "open"
   },
   {
@@ -4862,6 +4865,18 @@
     "addedBy": "claude/governor-clemency",
     "addedAt": "2026-10-17",
     "replacement": "A clemency board engine (members, petitions, recommendations) and the council or senate consent, read by the governor's act where the law requires it.",
+    "status": "open"
+  },
+  {
+    "id": "SG-WORLD-department-government",
+    "kind": "estimated-behavior",
+    "file": "src/core2/opening-department-pay.ts",
+    "line": 90,
+    "whatItFakes": "A town's police, fire, public works and public health departments and its local government offices are paid by the town's own government (its city or village, else its township), a state office in town by its state and a post office by the nation. The opening's data does not say which unit employs a given department, so the link is assumed.",
+    "why": "The departments held no cash and no pay link, so their workers were never paid. The Census of Governments lists functions by government but not which unit staffs a town's own departments.",
+    "addedBy": "claude/public-staff-never-paid",
+    "addedAt": "2026-10-17",
+    "replacement": "Each department's employing government read from the Census of Governments employment file by function, so a county health department, a fire district or a state agency's field office pays its own staff.",
     "status": "open"
   }
 ]

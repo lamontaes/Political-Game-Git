@@ -5,9 +5,9 @@ area: world
 kind: bug
 priority: 2
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/player-living-cost-fraser
-pr:
+pr: #5473
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-20T03:15:03.154Z

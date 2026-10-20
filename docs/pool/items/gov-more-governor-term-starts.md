@@ -5,11 +5,12 @@ area: gov
 kind: stopgap
 priority: 3
 size: S
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/fs11vb-more-term-starts
+pr: #5469
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-20T03:33:20.800Z
 ---
 
 **What.** The governor start clause is read for eight states in term-starts.json; this adds California (the Monday after January 1), Colorado (second Tuesday of January), Illinois and Indiana (second Monday) and New Jersey (third Tuesday). Each row cites its constitution or statute and is tagged SOURCED, except Indiana, which is ESTIMATED from the 1851 text and a 2025 inauguration. The other states' governor clauses are still unread, so SG-GOV-term-end-estimate stays open.
