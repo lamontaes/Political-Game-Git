@@ -52,7 +52,7 @@ import {
 } from "./reference/living-costs-data";
 import { organizationProfileAt } from "../simulation/life-queries";
 import { ensureTownEmployment } from "../simulation/living-world/town-employment";
-import { TOWN_EMPLOYMENT_META } from "../simulation/living-world/town-employment.generated";
+import { TOWN_EMPLOYMENT_META } from "./reference/town-employment.generated";
 import {
   nationalMedianAnnualWage,
   townJobRate,

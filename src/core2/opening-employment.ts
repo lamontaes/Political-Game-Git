@@ -11,9 +11,7 @@ import { organizationProfileAt } from "../simulation/life-queries";
 import {
   activeWorkers,
   laborStatus,
-  townEmploymentMix,
   townResidents,
-  townWorkplaceWeights,
 } from "../simulation/living-world/town-employment";
 import {
   TOWN_MEDIAN_TENURE_BY_AGE,
@@ -24,7 +22,8 @@ import {
   type Role,
   type Workplace,
 } from "./town-workplaces";
-import { TOWN_EMPLOYMENT_META } from "../simulation/living-world/town-employment.generated";
+import { townEmploymentMix, townWorkplaceWeights } from "./town-employment-mix";
+import { TOWN_EMPLOYMENT_META } from "./reference/town-employment.generated";
 import {
   nationalMedianAnnualWage,
   townJobRate,

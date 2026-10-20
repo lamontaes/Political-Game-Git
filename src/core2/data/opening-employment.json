@@ -28,7 +28,7 @@
   "source": {
     "tag": "ESTIMATED",
     "citations": [
-      "Existing Census County Business Patterns 2023 county sector employment and BLS OEWS May 2025 public ownership mix in town-employment.generated.ts; not resident employment or observed establishment staff.",
+      "Existing Census County Business Patterns 2023 county sector employment and BLS OEWS May 2025 public ownership mix in src/core2/reference/town-employment.generated.ts; not resident employment or observed establishment staff.",
       "Existing TOWN_WORKPLACES and Role weights in town-employment.ts are authored game assumptions, not measured sector-to-SOC staffing shares.",
       "Existing TOWN_JOB_SOC and BLS OEWS May 2025 wage references in town-pay.generated.ts; same-occupation national median is a labeled fallback where no local observation exists.",
       "Existing BLS Employee Tenure in January 2026 age-cohort median table in town-employment.ts; later-vintage opening proxy, no individual tenure spread reconstructed."
