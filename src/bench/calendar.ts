@@ -5,6 +5,7 @@ import { lawHere } from "../core2/modules/laws";
 import type { ContestRow } from "../core2/modules/elections";
 import type { CoreState } from "../core2/types";
 import { storiesHeard } from "../core2/modules/news";
+import { storyHeadline } from "../director/story-headlines";
 
 const ELECTIONS = "core2-elections-v1";
 // Engineering window for the calendar screen, not a model value.
@@ -133,5 +134,8 @@ export function heardItems(core: CoreState, personId: string) {
       facts: story.facts,
       staffing: staffingNews(core, story.facts),
       ...wordArchiveStory(core, story),
+      // The paper's own words for the story, in place of the record's keys
+      // on the News screen.
+      ...(storyHeadline(core, story) ?? {}),
     }));
 }

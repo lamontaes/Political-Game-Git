@@ -88,11 +88,14 @@ type MinedVariant = Extract<LinePartVariant, { kind: "template" }>;
 function variants(
   bank: Bank,
   match: (use: { subject: string; role: string }) => boolean,
+  includeHeld = false,
 ): MinedVariant[] {
   return bank.parts
     .filter(
       (part) =>
-        part.shippable && !heldByGrades(part.key) && part.uses.some(match),
+        (part.shippable || includeHeld) &&
+        !heldByGrades(part.key) &&
+        part.uses.some(match),
     )
     .map((part) => {
       // "Good morning" is said only in the morning, "Good evening" and
@@ -158,6 +161,26 @@ function line(
   return result.kind === "rendered"
     ? { text: result.text, sourceRecordIds: [...result.sourceRecordIds] }
     : null;
+}
+
+/**
+ * A headline from the headlines bank for the roles a story's record fits
+ * (`law-raised`, `law-repealed`, ...), composed from the packet's facts, or
+ * null when no piece of those roles has its slots filled.
+ */
+export function composeHeadline(
+  packet: GroundedEnglishPacket,
+  roles: readonly string[],
+  /** Grading and tests only: also use parts held back until graded; play never sets it. */
+  includeHeld = false,
+): { text: string; sourceRecordIds: string[] } | null {
+  return line(
+    packet,
+    `headline/${roles.join("+")}`,
+    "news",
+    "tell",
+    variants(HEADLINES_BANK, (use) => roles.includes(use.role), includeHeld),
+  );
 }
 
 export interface NewsStory {
