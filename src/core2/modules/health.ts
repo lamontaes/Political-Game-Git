@@ -63,7 +63,19 @@ export interface HealthData {
   resilienceScaleParameter: string;
   resilience: { stopgapId: string };
   resilienceSpread: string;
+  /** The trait that stands for conscientiousness (the dimension its facets are anchored to). */
+  conscientiousnessTrait: string;
+  /** Strain scales with it (Kern and Friedman 2008), the population mean held. */
+  hazardLogPerLevelParameter: string;
+  /** Conditions that behavior drives: who holds them shifts with it (Bogg and Roberts 2004). */
+  behaviorConditions: readonly {
+    key: string;
+    logOddsPerLevelParameter: string;
+  }[];
+  traitStopgapId: string;
   onsetSeverity: Severity;
+  jobLossSeverity: Severity;
+  evictionSeverity: Severity;
   deathSeverity: Severity;
   source: Source & { asOf?: string };
   gaps: readonly string[];
@@ -103,6 +115,13 @@ interface HealthRuntime {
   deaths: number;
   /** Each person's strain as assigned, to recompute when their conditions of life change. */
   plans: Map<PersonId, HealthPlan>;
+  /**
+   * The mean of each trait-driven factor over the people at the opening
+   * (key: "hazard" or a condition key), so the factor is divided by it and
+   * the population's totals stay what the life tables say: personality
+   * shifts who, not how many.
+   */
+  traitNorm: Map<string, number>;
 }
 
 /** A day on the hazard model's calendar. */
@@ -138,10 +157,75 @@ function runtime(state: Readonly<CoreState>): HealthRuntime {
       onsets: zero,
       deaths: zero,
       plans: new Map(),
+      traitNorm: new Map(),
     };
     runtimes.set(state, row);
   }
   return row;
+}
+
+/** A person's conscientiousness level, -2..2 (zero when they carry none). */
+function conscientiousness(
+  data: HealthData,
+  person: Readonly<Pick<PersonState, "traits">>,
+): number {
+  return person.traits[data.conscientiousnessTrait] ?? 0;
+}
+
+/**
+ * The factor on a person's strain from their conscientiousness: the log
+ * hazard per level (Kern and Friedman 2008, r = .11 with longevity) times
+ * their level, over the opening's mean of the same factor. Read each time
+ * their onset is booked, so a changed trait changes the next booking.
+ */
+function hazardFactor(
+  api: CoreAPI,
+  data: HealthData,
+  row: HealthRuntime,
+  person: Readonly<PersonState>,
+): number {
+  const slope = api.parameter(data.hazardLogPerLevelParameter);
+  return (
+    Math.exp(slope * conscientiousness(data, person)) /
+    (row.traitNorm.get("hazard") ?? api.parameter("one"))
+  );
+}
+
+/** The log-odds slopes by behavior-driven condition. */
+function behaviorSlopes(
+  api: CoreAPI,
+  data: HealthData,
+): ReadonlyMap<string, number> {
+  return new Map(
+    data.behaviorConditions.map((row) => [
+      row.key,
+      api.parameter(row.logOddsPerLevelParameter),
+    ]),
+  );
+}
+
+/** Each factor's mean over the people alive at the opening. */
+function setTraitNorms(
+  api: CoreAPI,
+  data: HealthData,
+  row: HealthRuntime,
+  people: readonly Readonly<PersonState>[],
+) {
+  const n = Math.max(people.length, api.parameter("one"));
+  const mean = (slope: number) =>
+    people.reduce(
+      (sum, person) => sum + Math.exp(slope * conscientiousness(data, person)),
+      api.parameter("zero"),
+    ) / n;
+  row.traitNorm.set(
+    "hazard",
+    mean(api.parameter(data.hazardLogPerLevelParameter)),
+  );
+  for (const condition of data.behaviorConditions)
+    row.traitNorm.set(
+      condition.key,
+      mean(api.parameter(condition.logOddsPerLevelParameter)),
+    );
 }
 
 function index(map: Map<IsoDate, Set<PersonId>>, date: IsoDate, id: PersonId) {
@@ -214,7 +298,17 @@ function lateConditions(
   const digits = api.parameter("resilienceHashDigits");
   const radix = api.parameter("seedPlaceHashRadix");
   const held: string[] = [];
+  const row = runtime(api.state);
+  const slopes = behaviorSlopes(api, data);
   for (const condition of CONDITION_PACK) {
+    // Behavior-driven conditions: the odds scale with conscientiousness,
+    // over the opening's mean so the prevalence overall is unchanged.
+    const slope = slopes.get(condition.key);
+    const shift =
+      slope === undefined
+        ? api.parameter("one")
+        : Math.exp(slope * conscientiousness(data, person)) /
+          (row.traitNorm.get(condition.key) ?? api.parameter("one"));
     const hash = stableHash(
       `${api.state.seed}:${data.conditionHoldingKey}:${condition.key}:${person.id}`,
     );
@@ -222,7 +316,8 @@ function lateConditions(
       Number.parseInt(hash.slice(api.parameter("zero"), digits), radix) /
       radix ** digits;
     if (
-      quantile < conditionPrevalence(condition, age, data.calibrationCategory)
+      quantile <
+      conditionPrevalence(condition, age, data.calibrationCategory) * shift
     )
       held.push(condition.key);
   }
@@ -327,12 +422,19 @@ function scheduleOnset(
   const horizon = dateAtAge(makeIsoDate(person.birthDate), SSA_2023_MAX_AGE);
   if (horizon <= from) return;
   const multipliers = segments(api, plan);
+  // Their conscientiousness, read now, sets how fast strain builds; the
+  // illness's severity below stays the conditions' own.
+  const factor = hazardFactor(api, data, row, person);
+  api.stopgap(data.traitStopgapId);
   const onset = firstThresholdDay(
     {
       birthDate: makeIsoDate(person.birthDate),
       category: data.calibrationCategory,
       exposureStart: plan.from,
-      multipliers,
+      multipliers: multipliers.map((segment) => ({
+        ...segment,
+        micros: Math.round(segment.micros * factor),
+      })),
     },
     plan.threshold,
     from,
@@ -392,6 +494,7 @@ function initialize(api: CoreAPI, data: HealthData, row: HealthRuntime) {
   const start = makeIsoDate(api.state.startedAt);
   const pay = householdMonthlyPay(api);
   const alive = [...api.state.people.values()].filter((person) => person.alive);
+  setTraitNorms(api, data, row, alive);
   const assignments = startingConditionAssignments(
     alive.map((person) => ({
       personId: person.id as EntityId,
@@ -399,7 +502,9 @@ function initialize(api: CoreAPI, data: HealthData, row: HealthRuntime) {
       age: exactAge(api, person.birthDate, start),
       category: data.calibrationCategory,
       monthlyHouseholdIncomeMinor: pay.get(person.householdId) ?? null,
+      conscientiousness: conscientiousness(data, person),
     })),
+    behaviorSlopes(api, data),
   );
   for (const person of alive)
     assignPerson(
