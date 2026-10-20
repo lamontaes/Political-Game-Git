@@ -11,8 +11,14 @@
  * how unevenly) come from src/core2/outcome-web-twins.test.ts, which writes
  * its findings to the same matrix under `twins`.
  */
-import { readdirSync, readFileSync, statSync, writeFileSync } from "node:fs";
-import { join, relative } from "node:path";
+import {
+  existsSync,
+  readdirSync,
+  readFileSync,
+  statSync,
+  writeFileSync,
+} from "node:fs";
+import { dirname, join, relative } from "node:path";
 import {
   causeAvailable,
   derivedOf,
@@ -64,8 +70,14 @@ function readers(): Map<string, { file: string; line: number }[]> {
   for (const path of SRC_DIRS.flatMap(files)) {
     const file = relative(ROOT, path);
     if (WEB_FILES.has(file)) continue;
-    const text = readFileSync(path, "utf8");
-    if (!ACCESSORS.test(text)) continue;
+    const own = readFileSync(path, "utf8");
+    if (!ACCESSORS.test(own)) continue;
+    // An engine may name the measures it reads in a data file it imports.
+    const imported = [...own.matchAll(/from "(\.[^"]+\.json)"/g)]
+      .map((m) => join(dirname(path), m[1]!))
+      .filter((file) => existsSync(file))
+      .map((file) => readFileSync(file, "utf8"));
+    const text = [own, ...imported].join("\n");
     text.split("\n").forEach((line, at) => {
       for (const match of line.matchAll(/"([a-z][a-z0-9-]*\.[a-z0-9.:-]+)"/g)) {
         const measure = match[1]!;
