@@ -56,6 +56,8 @@ export { incomeBandOf };
 import { placeDistrictPopulations } from "../../districts/place-population-share";
 import { stopgap } from "../stopgaps";
 import { corePlaceByKey } from "../place-lookup";
+import { sellHome } from "../housing-sale";
+import { coreAPI } from "../state";
 import {
   chargeGroups,
   flowWeights,
@@ -2299,6 +2301,7 @@ export function removeCountedPerson(
     regroupHousehold(rt, h, core.date);
     return paid.filter((row) => row.amountMinor > 0);
   }
+  sellCountedHome(core, rt, h, personId);
   endHouseholdFlows(rt, h, core.date);
   rt.openingCashByPlace.set(
     h.placeId,
@@ -2306,6 +2309,45 @@ export function removeCountedPerson(
   );
   store.retire(h, MemberState.Dead);
   return [];
+}
+
+/**
+ * A counted household whose last member died sells its home, once for each
+ * real household its record stands for: the lender is paid first, and the
+ * surplus joins its group's money with the cash of the dead (the counted
+ * residents are their heirs). A town without the housing engine sells none.
+ */
+function sellCountedHome(
+  core: CoreState,
+  rt: ResidentsRuntime,
+  h: CountedHousehold,
+  decedentId: PersonId,
+): void {
+  const api = rt.api ?? coreAPI(core);
+  sellHome(
+    api,
+    h.id,
+    "estate.counted-last-owner",
+    { decedentId, deathEventId: `death:${decedentId}` },
+    {
+      placeId: h.placeId,
+      weight: rt.store.weightOf(h),
+      surplus: (amountMinor, id, buyerId) => {
+        const from = core.cashJournal.residualAccountByOwner.get(buyerId);
+        if (!rt.api || !rt.funded || !from || h.group < 0) return 0;
+        transferSplit(core, rt.api, {
+          id,
+          lines: [
+            { accountId: from, deltaMinor: -amountMinor },
+            { accountId: fundOf(rt.api, rt, h.group), deltaMinor: amountMinor },
+          ],
+          reasonKey: "residents.counted-estate.home-surplus",
+          source: rt.input.source,
+        });
+        return amountMinor;
+      },
+    },
+  );
 }
 
 /** A household leaving the counts: its purchases, mortgage, rent and awards stop here. */
