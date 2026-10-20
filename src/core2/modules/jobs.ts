@@ -895,8 +895,10 @@ function reviewEmployers(api: CoreAPI): void {
     const adjustment = p("jobsStaffGapActedPerMonth");
     const shrinkAdjustment = adjustment + (1 - adjustment) * lossPressure;
     // Replacements for leavers count only while staff is below target; above it, attrition does the shrinking.
+    // A shrink carried from an earlier month is stale once the firm is short of staff: a leaver's job is still owed.
+    const owed = (row.leavers ?? []).reduce((n, l) => n + (l.heads ?? 1), 0);
     let need =
-      (gap > 0 ? row.need : Math.min(row.need, 0)) +
+      (gap > 0 ? Math.max(row.need, owed) : Math.min(row.need, 0)) +
       (gap > 0 ? adjustment * gap * reach : shrinkAdjustment * gap);
     // A new business's first roles come from its template business.
     const from =
