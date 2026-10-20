@@ -22,3 +22,5 @@ claimed-at:
 **Files.** src/core2/modules/residents.ts,src/core2/data/parameters.json,src/core2/data/stopgaps.json,data/research/people/
 
 **Notes.** TODO
+
+Tracking corrected 2026-10-20: this split item was created in-pr after PR #5698 had already been sent back for formatting src/core2/data/district-household-income.json. The branch claude/district-placement still has no commit after that review, so the item is open, matching the existing Cloud merger comment; finish on that branch and merge main into it first.
