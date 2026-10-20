@@ -22,3 +22,4 @@ claimed-at:
 **Files.** src/core2/modules/voting.ts, src/core2/data/campaigns/parameters.json, docs/coordination/OWNER-DECISIONS.md
 
 **Notes.** Owner ruling (Oct 15): Shor-McCarty may calibrate the state-chamber party-loyalty parameter; nothing ships, no citation; one calibration input weighted against roll calls.
+Sent back 2026-10-20 from PR #5159 (branch claude/political-game-pool-l9cym2): Morning check failed because stopgap row SG-LAWS-state-party-loyalty-target was deleted from stopgaps.json instead of resolved; finish on that branch, merge main into it first.
