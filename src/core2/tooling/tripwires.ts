@@ -397,6 +397,31 @@ function inspectProductionSource(
   markers: SourceMarker[],
   contentIds: ReadonlySet<string>,
 ): void {
+  // A marker may name its stopgap through a constant of the same file
+  // (`const STOPGAP = "SG-..."; api.stopgap(STOPGAP)`).
+  const stopgapConstants = new Map<string, string>();
+  const collectConstants = (node: ts.Node): void => {
+    if (
+      ts.isVariableDeclaration(node) &&
+      ts.isIdentifier(node.name) &&
+      node.initializer
+    ) {
+      const value = stringLiteralValue(node.initializer);
+      if (value !== undefined && STOPGAP_ID.test(value))
+        stopgapConstants.set(node.name.text, value);
+    }
+    ts.forEachChild(node, collectConstants);
+  };
+  collectConstants(sourceFile);
+  // The long-standing comment form: `// stopgapId: SG-...` (or the same inside a
+  // block comment) beside the code that fakes something.
+  sourceFile.text.split(/\r\n|\n|\r/).forEach((text, index) => {
+    const match = /^\s*(?:\/\/|\/?\*+)\s*stopgapId:\s*(SG-[A-Za-z0-9-]+)/.exec(
+      text,
+    );
+    if (match && STOPGAP_ID.test(match[1]!))
+      markers.push({ id: match[1]!, file, line: index + 1 });
+  });
   const reportAt = (code: string, node: ts.Node, message: string) => {
     const { line } = sourceFile.getLineAndCharacterOfPosition(
       node.getStart(sourceFile),
@@ -415,7 +440,12 @@ function inspectProductionSource(
 
     if (ts.isCallExpression(node) && isStopgapCallee(node.expression)) {
       const argument = node.arguments[0];
-      const id = argument && stringLiteralValue(argument);
+      const id =
+        argument &&
+        (stringLiteralValue(argument) ??
+          (ts.isIdentifier(argument)
+            ? stopgapConstants.get(argument.text)
+            : undefined));
       if (!argument) {
         reportAt(
           "malformed-stopgap-marker",
@@ -973,6 +1003,18 @@ function collectJsonMarkers(
     }
     cursor = value?.end ?? valueStart;
   }
+  // A data file may also list the stopgaps it carries: "stopgapIds": ["SG-..."].
+  for (const list of sourceText.matchAll(/"stopgapIds"\s*:\s*\[([^\]]*)\]/g)) {
+    const listStart = list.index! + list[0].indexOf("[");
+    for (const item of list[1]!.matchAll(/"(SG-[A-Za-z0-9-]+)"/g)) {
+      const at = listStart + 1 + item.index!;
+      markers.push({
+        id: item[1]!,
+        file,
+        line: sourceText.slice(0, at).split(/\r\n|\n|\r/).length,
+      });
+    }
+  }
 }
 
 function collectContentIdentifiers(
@@ -1065,6 +1107,10 @@ function inspectMarkerLedger(
 
   for (const entry of entries) {
     const rows = markersById.get(entry.id);
+    // A resolved row records what was fixed; its marker left the code with the fake.
+    if (!rows && entry.status === "resolved") continue;
+    // Only src/core2 is scanned: a row for a marker elsewhere cannot be audited here.
+    if (!rows && !entry.file.startsWith("src/core2/")) continue;
     if (!rows) {
       diagnostics.push({
         code: "stale-stopgap-entry",
