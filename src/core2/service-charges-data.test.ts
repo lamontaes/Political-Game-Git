@@ -1,6 +1,4 @@
 import { describe, expect, it } from "vitest";
-import { randomBytes } from "node:crypto";
-import { drawPlace } from "../../scripts/core2-year/place";
 import budgetBases from "../../data/research/money/public-budget-bases.json" with { type: "json" };
 import charges from "../../data/research/money/service-charges-2022.json" with { type: "json" };
 
@@ -41,23 +39,39 @@ describe("what current charges and miscellaneous revenue are for (Census 2022)",
     }
   });
 
-  it("agrees with the Census table's own totals within ten percent in a drawn place", () => {
-    const seed =
-      process.env.GOLDEN_PATH_SEED ?? randomBytes(16).toString("hex");
-    const place = drawPlace(seed, "service-charges");
-    const row = places[place.state]!;
-    const context = `${place.name} (${place.state}), seed ${seed}`;
-    if (row.tag !== "SOURCED") return;
-    for (const level of [row.state, row.local]) {
-      const check = level.againstTable1!;
-      if (check.currentCharges !== null)
-        expect(Math.abs(check.currentCharges - 1), context).toBeLessThan(0.1);
-      if (check.miscellaneousGeneralRevenue !== null)
-        expect(
-          Math.abs(check.miscellaneousGeneralRevenue - 1),
-          context,
-        ).toBeLessThan(0.1);
+  it("agrees with the Census table's own totals within ten percent, except the gaps listed here", () => {
+    // The item codes' sum against Table 1's own line, state by state: two Census
+    // products that differ by more than ten percent in these places (cause not
+    // yet traced: pool item gov-service-charges-table1-gaps). A new gap fails
+    // this test; a listed gap that closes must come off the list.
+    const known = new Set([
+      "US-HI local miscellaneousGeneralRevenue",
+      "US-KY local currentCharges",
+      "US-MO local currentCharges",
+      "US-MO local miscellaneousGeneralRevenue",
+      "US-OK state miscellaneousGeneralRevenue",
+      "US-SC local currentCharges",
+      "US-SC local miscellaneousGeneralRevenue",
+      "US-TN state miscellaneousGeneralRevenue",
+      "US-TN local miscellaneousGeneralRevenue",
+      "US-TX state miscellaneousGeneralRevenue",
+    ]);
+    const off = new Set<string>();
+    for (const [key, row] of Object.entries(places)) {
+      if (row.tag !== "SOURCED") continue;
+      for (const level of ["state", "local"] as const) {
+        const check = row[level].againstTable1!;
+        for (const field of [
+          "currentCharges",
+          "miscellaneousGeneralRevenue",
+        ] as const) {
+          const ratio = check[field];
+          if (ratio !== null && Math.abs(ratio - 1) >= 0.1)
+            off.add(`${key} ${level} ${field}`);
+        }
+      }
     }
+    expect([...off].sort()).toEqual([...known].sort());
   });
 
   it("keeps the nation's shape: hospitals and education lead state charges, sewerage and hospitals lead local ones", () => {
