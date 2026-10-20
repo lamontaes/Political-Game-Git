@@ -5,7 +5,7 @@ area: world
 kind: bug
 priority: 2
 size: M
-status: claimed
+status: dropped
 claimed-by: claude/world-state-income-tax-withholding
 pr:
 blocked-on:

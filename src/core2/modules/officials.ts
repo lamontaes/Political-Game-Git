@@ -29,6 +29,7 @@ import { coreAPI, fillInIdentity, registerModule } from "../state";
 import type { CoreAPI, CoreModule, CoreState, Source } from "../types";
 import type { ModuleRow } from "../module-data";
 import { campaignParameter, publicOffset } from "../campaign-views";
+import { legislativeDistrictResult } from "../legislative-district-results";
 import { caseShift } from "./views";
 import { partyName, partySide } from "../appointments";
 import { drawOfficialIdentity } from "../officials-identity";
@@ -102,8 +103,21 @@ export const OFFICIALS_MODULE: CoreModule = {
       candidates: { indexes: { byContest: { fields: ["contestId"] } } },
     },
   },
-  eventKinds: ["took-office"],
+  eventKinds: ["took-office", "life.death"],
   onEvent: (api, event) => {
+    // An official who dies leaves the seat that day; the pay and the seat's
+    // next holder follow from the row's end.
+    if (event.kind === "life.death") {
+      for (const personId of event.personIds) {
+        const row = officialOf(api, personId);
+        if (row && row.ended === null)
+          table(api, "officials").put({
+            ...row,
+            ended: api.state.date,
+          } as unknown as ModuleRow);
+      }
+      return;
+    }
     const seatId = event.facts?.["seatId"];
     const winner = event.personIds[0];
     if (typeof seatId === "string" && winner) tookOffice(api, winner, seatId);
@@ -185,8 +199,25 @@ function seatLean(
   bodyKind: BodyKind,
   district: string | null,
   party: string | null,
+  officeKind = "",
 ): { lean: number; source: string } {
   const state = stateLeanOf(stateKey);
+  const chamber = /^legislature-(upper|lower|unicameral)$/.exec(
+    officeKind,
+  )?.[1];
+  if (bodyKind === "legislature" && district !== null && chamber) {
+    const own = legislativeDistrictResult(
+      stateKey.slice(3),
+      chamber as "upper" | "lower" | "unicameral",
+      district,
+    );
+    if (own)
+      return {
+        lean:
+          (own.republican - own.democratic) / (own.republican + own.democratic),
+        source: "2024 state legislative vote in the district (MEDSL)",
+      };
+  }
   if (bodyKind === "us-house" && district !== null) {
     const code = /^\d+$/.test(district) ? district.padStart(2, "0") : "00";
     const share = houseShare.get(`${stateKey.slice(3)}-${code}`);
@@ -559,7 +590,7 @@ function seatAll(
   const leans = new Map(
     all.map((s) => [
       s.key,
-      seatLean(s.stateKey, s.bodyKind, s.district, s.party),
+      seatLean(s.stateKey, s.bodyKind, s.district, s.party, s.officeKind),
     ]),
   );
   const groups = new Map<string, number[]>();
@@ -1244,6 +1275,7 @@ export function officialCandidate(
     facts.bodyKind,
     facts.seat.district,
     party,
+    facts.office.kind,
   ).lean;
   // Anyone already running somewhere this year runs only there.
   const running = new Set(
@@ -1398,6 +1430,7 @@ function tookOffice(api: CoreAPI, personId: string, seatId: string): void {
     facts.bodyKind,
     facts.seat.district,
     party,
+    facts.office.kind,
   );
   const row: OfficialRow = {
     id: personId,

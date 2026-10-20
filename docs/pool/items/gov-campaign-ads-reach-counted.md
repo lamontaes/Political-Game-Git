@@ -5,7 +5,7 @@ area: gov
 kind: wiring
 priority: 2
 size: S
-status: in-pr
+status: done
 claimed-by: claude/ads-reach-counted
 pr: #5136
 after:
@@ -23,3 +23,7 @@ claimed-at: 2026-10-19T20:10:05.448Z
 **Files.** src/core2/modules/campaigns.ts, src/core2/campaign-ads.test.ts, src/core2/counted-groups.ts
 
 **Notes.** Supersedes the audit's working id elections-ads-reach-counted-followers. The payroll-tax change that ran one function over both tiers is the pattern to copy.
+
+Oct 19 (claude/ads-reach-counted): built. `countedFollowers(api, outletId)` in press.ts gives the counted adults in town who follow an outlet by the same rule as the full people (Pew share by age band) times each household's weight, with the outlet's slice of its kind from the full people's split. `adAudience` in campaigns.ts now spreads the contacts a buy pays for over full and counted followers in one proportion; the counted share lands in `countedReached` (which voting.ts already reads for recognition) and each buy is kept as an `adReaches` record (id, outlet, full, counted). Left: a played campaign with a larger budget to show the tally move over a full election cycle, and the cause-group ad (`buyAdTime`) still reaches full people only.
+
+Oct 20: PR #5136 merged to main: an ad reaches an outlet's counted followers by the same rule as full ones; the cause-group ad (buyAdTime) and a full-cycle tally proof are left over.

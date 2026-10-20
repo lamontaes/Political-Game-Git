@@ -123,7 +123,7 @@ export interface CampaignDayOptions {
   /** For `interview`: answer an invitation already waiting. */
   readonly interviewId?: string;
   /**
-   * A world candidate's day (owner, Oct 19: rivals take the same choices as
+   * A world candidate's day (rivals take the same choices as
    * the player): the same acts for any living candidate on the ballot, whose
    * money and doors the campaign engine runs, never the controlled person's.
    */
@@ -173,12 +173,8 @@ function townHouseholdCount(api: CoreAPI): number {
     if (person?.alive && core.households.has(person.householdId))
       ids.add(person.householdId);
   }
-  for (const record of residentsRuntime(core)?.households.values() ?? [])
-    if (
-      record.household.placeId === town &&
-      !core.households.has(record.household.id)
-    )
-      ids.add(record.household.id);
+  for (const h of residentsRuntime(core)?.store.liveHouseholds() ?? [])
+    if (h.placeId === town && !core.households.has(h.id)) ids.add(h.id);
   return ids.size;
 }
 

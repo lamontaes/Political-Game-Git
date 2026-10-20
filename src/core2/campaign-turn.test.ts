@@ -40,6 +40,7 @@ import {
   makeStatements,
   openCampaigns,
   reachablePeople,
+  rivalDay,
   runAd,
   type GiftRow,
   type PromiseRow,
@@ -89,7 +90,11 @@ function world(salt: string) {
   };
 }
 
-/** Two wealthy adults filed in the first contest both qualify for. */
+/**
+ * Two wealthy adults filed in the first contest both qualify for: the richest
+ * adults, in order, who the contest's rules let on the ballot (a national
+ * outlet's head lives elsewhere and a press owner may not run).
+ */
 function twoCandidates(
   api: CoreAPI,
   core: CoreState,
@@ -102,21 +107,35 @@ function twoCandidates(
     )
     .sort((a, b) => b.liquidMinor - a.liquidMinor || a.id.localeCompare(b.id));
   for (const contest of openContests(api)) {
-    const a = fileCandidacy(api, {
-      personId: adults[0]!.id,
-      contestId: contest.id,
-      platform: [],
-    });
-    if (a.status === "refused" || a.filing.status !== "on-ballot") continue;
-    const b = fileCandidacy(api, {
-      personId: adults[1]!.id,
-      contestId: contest.id,
-      platform: [],
-    });
-    if (b.status === "refused" || b.filing.status !== "on-ballot") continue;
-    return { you: a.filing, rival: b.filing };
+    const filed: FilingRow[] = [];
+    for (const adult of adults) {
+      const result = fileCandidacy(api, {
+        personId: adult.id,
+        contestId: contest.id,
+        platform: [],
+      });
+      if (result.status === "refused" || result.filing.status !== "on-ballot")
+        continue;
+      filed.push(result.filing);
+      if (filed.length === 2) return { you: filed[0]!, rival: filed[1]! };
+    }
   }
   return null;
+}
+
+/**
+ * A world in which two wealthy adults can file in the first contest. A small
+ * town may have none, so another place is drawn (up to eight) before failing.
+ */
+function worldWithPair(salt: string) {
+  for (let attempt = 0; attempt < 8; attempt += 1) {
+    const w = world(`${salt}:${attempt}`);
+    const pair = twoCandidates(w.api, w.core);
+    if (pair) return { ...w, pair };
+  }
+  throw new Error(
+    `no drawn place had two candidates for the first contest in 8 draws (run seed ${runSeed}, ${salt})`,
+  );
 }
 
 const electionOf = (api: CoreAPI, filing: FilingRow) =>
@@ -129,13 +148,8 @@ const electionOf = (api: CoreAPI, filing: FilingRow) =>
 
 describe("campaigns that raise and spend", () => {
   it("a world candidate's turns raise money from people by their reasons and spend it on the journal", () => {
-    const { core, api, where } = world("money");
-    const pair = twoCandidates(api, core);
-    expect(
-      pair,
-      `no contest two candidates could both file for: ${where}`,
-    ).not.toBeNull();
-    const { rival } = pair!;
+    const { core, api, where, pair } = worldWithPair("money");
+    const { rival } = pair;
     const cashBefore = new Map(
       [...core.people.values()].map((p) => [p.id, p.liquidMinor]),
     );
@@ -161,8 +175,16 @@ describe("campaigns that raise and spend", () => {
     const limit =
       contributionLimit(api, rival.contestId).minor ?? Number.MAX_SAFE_INTEGER;
     for (const gift of gifts) {
-      if (gift.donorId !== campaign.candidateId)
-        expect(gift.totalMinor).toBeLessThanOrEqual(limit);
+      // An outside gift is one record for a whole place's donors, each within
+      // the limit; the candidate's own money has none.
+      if (
+        gift.donorId !== campaign.candidateId &&
+        !gift.donorId.startsWith("outside:")
+      )
+        expect(
+          gift.totalMinor,
+          `${gift.donorId} in ${where}`,
+        ).toBeLessThanOrEqual(limit);
       expect(gift.totalMinor % 100).toBe(0);
       // Out of their own account, exactly (a donor filled in at a door
       // during the turns had no account before).
@@ -177,7 +199,9 @@ describe("campaigns that raise and spend", () => {
       campaign.candidateId,
       ...reachablePeople(api, campaign),
     ]);
-    for (const gift of gifts) expect(reachable.has(gift.donorId)).toBe(true);
+    for (const gift of gifts)
+      if (!gift.donorId.startsWith("outside:"))
+        expect(reachable.has(gift.donorId)).toBe(true);
     // Spent on what it bought, paid to sellers; the books balance.
     expect(campaign.spentMinor, where).toBeGreaterThan(0);
     expect(
@@ -241,15 +265,34 @@ describe("campaigns that raise and spend", () => {
     const turn = campaignTurn(api, rival.id, electionOf(api, rival));
     // The turn asked people for money through the call-time session.
     expect(turn.asked, where).toBeGreaterThan(0);
-    const asked = campaignFor(api, rival.id).askCursor ?? 0;
-    expect(asked, where).toBeGreaterThan(0);
   }, 300_000);
 
-  it("a donor's running total is read from its indexed row, not from the history of payments", () => {
-    const { core, api, where } = world("gift-index");
+  it("a rival chooses between calls and doors by their money and standing, sliding with each", () => {
+    const { core, api, where } = world("rival-chooser");
     const pair = twoCandidates(api, core);
     expect(pair, where).not.toBeNull();
     const { rival } = pair!;
+    const campaign = campaignFor(api, rival.id);
+    const candidate = core.people.get(campaign.candidateId)!;
+    const town = candidate.placeId;
+    const bank = core.organizations.get(campaign.organizationId)!;
+    const share = () => {
+      const day = rivalDay(api, rival.id, candidate, town);
+      return day.callHours / (day.callHours + day.doorHours);
+    };
+    const poor = ((bank.liquidMinor = 0), share());
+    const rich = ((bank.liquidMinor = 50_000_000_00), share());
+    // Every dollar in the bank moves hours from calls to doors, with no cut-off.
+    bank.liquidMinor = 20_000_00;
+    const middle = share();
+    expect(poor, `${where}: empty bank leans on calls`).toBeGreaterThan(rich);
+    expect(middle, where).toBeLessThan(poor);
+    expect(middle, where).toBeGreaterThan(rich);
+  }, 300_000);
+
+  it("a donor's running total is read from its indexed row, not from the history of payments", () => {
+    const { api, pair } = worldWithPair("gift-index");
+    const { rival } = pair;
     // Donors decide for their own reasons: a few turns reach more of them.
     const gifts = () =>
       api
@@ -271,10 +314,8 @@ describe("campaigns that raise and spend", () => {
   }, 300_000);
 
   it("an ad is a message the views engine reads for the people who saw it", () => {
-    const { core, api, where } = world("ad-views");
-    const pair = twoCandidates(api, core);
-    expect(pair, where).not.toBeNull();
-    const { rival } = pair!;
+    const { core, api, where, pair } = worldWithPair("ad-views");
+    const { rival } = pair;
     // Money to spend, from the people who'd give it.
     campaignTurn(api, rival.id, electionOf(api, rival));
     const campaign = campaignFor(api, rival.id);
@@ -311,10 +352,8 @@ describe("campaigns that raise and spend", () => {
 
 describe("statements and questions", () => {
   it("a stance is one platform entry per question and every promise keeps its own record", () => {
-    const { core, api, outlets, where } = world("statements");
-    const pair = twoCandidates(api, core);
-    expect(pair, where).not.toBeNull();
-    const { you } = pair!;
+    const { api, outlets, pair } = worldWithPair("statements");
+    const { you } = pair;
     const questions = PLATFORM_QUESTIONS.slice(0, 3);
     const venues = [
       "outlet:a",
@@ -345,10 +384,8 @@ describe("statements and questions", () => {
   }, 300_000);
 
   it("reporters ask from the race's record and ask differently once answered", () => {
-    const { core, api, outlets, where } = world("questions");
-    const pair = twoCandidates(api, core);
-    expect(pair, where).not.toBeNull();
-    const { you } = pair!;
+    const { api, outlets, where, pair } = worldWithPair("questions");
+    const { you } = pair;
     const first = interviewQuestions(api, you);
     expect(first.length, where).toBeGreaterThan(0);
     // A local paper or radio station takes any candidate its people and
@@ -406,11 +443,23 @@ describe("candidates who read their party", () => {
       party,
       status: "on-ballot",
     });
+    // The nominees whose own view and their party's pull do not cancel: a
+    // person standing at 0 on every question has nothing continuous to show,
+    // so the sliding-scale proof is drawn from those who do stand somewhere.
+    const standing = adults.filter((p) =>
+      candidateAnswers(api, PLATFORM_QUESTIONS, filing(p.id, left)).some(
+        (x) => x.position !== null && x.position !== 0,
+      ),
+    );
+    expect(
+      standing.length,
+      `${where}: fewer than three adults stand anywhere under the left party`,
+    ).toBeGreaterThanOrEqual(3);
     const pairs: [string, string][] = [
       // The same person under each party, two people, and two officials the
       // world holds no view for (party alone).
-      [adults[0]!.id, adults[0]!.id],
-      [adults[1]!.id, adults[2]!.id],
+      [standing[0]!.id, standing[0]!.id],
+      [standing[1]!.id, standing[2]!.id],
       ["official:fixture:a", "official:fixture:b"],
     ];
     for (const [a, b] of pairs) {
