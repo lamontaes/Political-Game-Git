@@ -5,9 +5,9 @@ area: core
 kind: cleanup
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/political-game-pool-76ksvw
-pr: #0
+pr: #5180
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-20T03:08:03.624Z
