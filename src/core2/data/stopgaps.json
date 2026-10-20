@@ -4867,5 +4867,17 @@
     "addedAt": "2026-10-17",
     "replacement": "Each department's employing government read from the Census of Governments employment file by function, so a county health department, a fire district or a state agency's field office pays its own staff.",
     "status": "open"
+  },
+  {
+    "id": "SG-WORDS-speech-craft-earned",
+    "kind": "owner-decision",
+    "file": "src/english/speech-registers.ts",
+    "line": 358,
+    "whatItFakes": "A speaker earns one more crafted device (contrast, three-part list, disclosure, quotation, callback, in that order) for each address of theirs on record; what counts as an address and how many earn each device is the owner's call. No producer of address records exists yet, so no speaker has earned any device.",
+    "why": "The register cards admit a device by setting alone. The earned rule needs a speaker id and a record of addresses given, which the press-briefing newscast does not carry (its anchor is a packet slot).",
+    "addedBy": "claude/speech-craft",
+    "addedAt": "2026-10-20",
+    "replacement": "The owner's ruling on what counts as an address and how many earn each device, and a producer that writes an address record when a person gives a floor speech, briefing or town hall.",
+    "status": "open"
   }
 ]

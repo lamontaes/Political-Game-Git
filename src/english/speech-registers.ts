@@ -351,6 +351,17 @@ function words(key: string, label: string, value: number) {
   };
 }
 
+/**
+ * The crafted devices a speaker has earned: one more for each address of
+ * theirs on record, in the order of `SPEECH_DEVICES`, so a first-time speaker
+ * speaks plainly and the devices come with practice, none at a cutoff.
+ * (Registered stopgap SG-WORDS-speech-craft-earned: what counts as an address
+ * and how many earn each device is the owner's call.)
+ */
+export function devicesEarned(addressCount: number): readonly SpeechDevice[] {
+  return SPEECH_DEVICES.slice(0, Math.max(0, Math.floor(addressCount)));
+}
+
 export function registerAllows(
   register: SpeechRegister,
   device: SpeechDevice,

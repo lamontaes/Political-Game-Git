@@ -39,6 +39,7 @@ import {
 } from "./grounded-english";
 import {
   REGISTER_CARDS,
+  devicesEarned,
   registerAllows,
   type SpeechDevice,
   type SpeechRegister,
@@ -160,6 +161,12 @@ export interface CompositionContext {
    * about them. A disclosure may copy only facts sourced wholly from these.
    */
   readonly speakerOwnRecordIds?: readonly EntityId[];
+  /**
+   * Records of addresses the speaker has given, read from saved records. A
+   * crafted device is spoken only as far as these earn it (`devicesEarned`),
+   * and they become sources of the line.
+   */
+  readonly speakerAddressRecordIds?: readonly EntityId[];
   /** The owner's grades; a part they held back is not chosen. */
   readonly partGrades?: PartGradeLedger;
   /** The owner's numeric grades as weights: the best-scoring pieces are kept. */
@@ -412,6 +419,12 @@ function conditionProblems(
     if (!context.register) problems.push("no register for a device");
     else if (!registerAllows(context.register, variant.device))
       problems.push(`${context.register} does not admit ${variant.device}`);
+    if (
+      !devicesEarned(context.speakerAddressRecordIds?.length ?? 0).includes(
+        variant.device,
+      )
+    )
+      problems.push(`the speaker has not earned ${variant.device}`);
     if (variant.device === "disclosure") {
       const own = new Set(context.speakerOwnRecordIds ?? []);
       const keys = variantFactKeys(variant);
@@ -475,6 +488,7 @@ function conditionSources(
     );
   if (variant.requiresMood && context.mood)
     ids.push(...context.mood.sourceRecordIds);
+  if (variant.device) ids.push(...(context.speakerAddressRecordIds ?? []));
   return ids;
 }
 
