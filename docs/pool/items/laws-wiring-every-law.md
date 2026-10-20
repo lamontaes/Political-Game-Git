@@ -5,9 +5,9 @@ area: laws
 kind: wiring
 priority: 1
 size: L
-status: claimed
+status: in-pr
 claimed-by: claude/law-wiring-audit
-pr:
+pr: #5547
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-20T05:58:17.880Z
