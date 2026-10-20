@@ -5,11 +5,12 @@ area: gov
 kind: bug
 priority: 3
 size: S
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/political-game-pool-76ksvw
+pr: #5180
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-20T04:32:17.754Z
 ---
 
 **What.** Relabel the release note to say only a player governor can use the commute power and no screen offers it, and add a pool item for computer governors acting on clemency.

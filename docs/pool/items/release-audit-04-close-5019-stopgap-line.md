@@ -5,11 +5,12 @@ area: release
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/peaceful-ritchie-03780x
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-20T04:20:56.076Z
 ---
 
 **What.** Close #5019 as superseded by #5044 and correct the line number the stopgap row SG-WORLD-department-government names; check the marker is at that line with a test run of the stopgap tripwire.

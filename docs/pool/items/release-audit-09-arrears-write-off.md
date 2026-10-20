@@ -7,9 +7,10 @@ priority: 3
 size: M
 status: open
 claimed-by:
-pr:
+pr: #5524
 blocked-on:
 source: added with npm run pool -- add
+claimed-at:
 ---
 
 **What.** Add a bound or write-off for arrears that retry daily and grow forever for jobless households, add a test for it, measure a dense-town year, and close #4937 as a duplicate.
@@ -21,3 +22,5 @@ source: added with npm run pool -- add
 **Files.** src/core2/modules/living-costs.ts
 
 **Notes.** Item 9 of docs/reports/merge-audit-2026-10-20.md, split from release-merge-audit-oct20-fixes.
+
+Sent back 2026-10-20 from PR #5524 (branch claude/audit-09-arrears): living-costs-arrears.test.ts fails on a random draw (Ofu, American Samoa) where no household goes unpaid, so the non-vacuous check needs a bounded redraw until a place has an unpaid household; finish on that branch, merge main into it first.
