@@ -7,7 +7,7 @@ priority: 3
 status: blocked
 claimed-by:
 pr:
-blocked-on: art: six painted residence rooms (white-house and governor-residence living, dining, bedroom) in the four conditions; code already reads them when present
+blocked-on: art: six painted residence rooms from the art pipeline; the code already reads them when they exist
 milestone:
 source: "src/core2/data/stopgaps.json, src/bench/scene.ts, kind placeholder-art"
 after:

@@ -8,7 +8,7 @@ size: M
 status: blocked
 claimed-by: claude/fs11vb-rows-never-hit
 pr:
-blocked-on: core-stopgap-never-hit-audit
+blocked-on: duplicate of core-stopgap-never-hit-audit (pool feeder Oct 20); CTO to drop
 source: added with npm run pool -- add
 claimed-at: 2026-10-20T03:36:05.434Z
 ---

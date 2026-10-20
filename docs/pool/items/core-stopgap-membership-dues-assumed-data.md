@@ -7,7 +7,7 @@ priority: 3
 status: blocked
 claimed-by: claude/political-game-pool-pdqjm6
 pr:
-blocked-on: 1.0 (owner, Oct 20)
+blocked-on: deferred to 1.0: unions, membership rules and strikes come with 1.0 (owner, Oct 20)
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/membership-dues.ts, kind assumed-data"
 claimed-at: 2026-10-19T22:42:08.819Z

@@ -8,7 +8,7 @@ size: S
 status: blocked
 claimed-by:
 pr:
-blocked-on: a play producer of built speeches
+blocked-on: overtaken: the bench gives built speeches through giveSpeech; core-speech-heard-occasion and director-retire-stage-speech-builder carry the rest (pool feeder Oct 20); CTO to drop
 source: added with npm run pool -- add
 ---
 

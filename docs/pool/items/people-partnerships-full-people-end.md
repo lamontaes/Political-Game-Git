@@ -8,7 +8,7 @@ size: M
 status: blocked
 claimed-by:
 pr:
-blocked-on: spec: the item text is an empty TODO shell; the done-when must be written before it can be built (pool-todo-shells-need-spec)
+blocked-on: duplicate of people-partnership-ends (pool feeder Oct 20); CTO to drop
 after: core-family-link-change,core-household-membership-change
 source: added with npm run pool -- add
 ---
