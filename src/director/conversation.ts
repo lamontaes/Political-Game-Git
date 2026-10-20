@@ -114,6 +114,8 @@ export interface ConversationData {
   tells?: Readonly<Record<string, Readonly<Record<string, string>>>>;
   /** The ledger labels, by prefix, that are something happening to a person. */
   happenings?: { prefixes: readonly string[] };
+  /** The subject kinds relatives do not raise or ask between them (owner, Oct 15, evening). */
+  familyTalk: { dropped: readonly string[] };
   /** What the player answers when the other person raises one of their own subjects. */
   otherRaises: Readonly<Record<string, { kind: string; stage: string }>>;
   subjects: Readonly<Record<string, SubjectBank>>;
@@ -836,6 +838,11 @@ export function subjectsBetween(
         },
       },
     });
+  // Between relatives, a talk is personal only (owner, Oct 15, evening).
+  if (speaker.familyIds.has(listenerId))
+    return out.filter(
+      (row) => !CONVERSATION_RULES.familyTalk.dropped.includes(row.kind),
+    );
   return out;
 }
 

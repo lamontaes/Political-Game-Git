@@ -1151,6 +1151,10 @@ body.dev .dev-ring {
   overflow: hidden;
   max-width: 760px;
 }
+/* A page of a plain list: the rows of the other pages are out of the box. */
+.paged-out {
+  display: none !important;
+}
 #sheet-pager {
   flex: none;
   margin-top: 12px;

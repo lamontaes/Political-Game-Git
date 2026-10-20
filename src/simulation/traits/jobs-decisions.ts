@@ -1,4 +1,4 @@
-import type { DecisionDeclaration } from "../trait-packs";
+import type { DecisionDeclaration } from "../../core2/trait-packs";
 
 /** Job decisions exposed to trait packs. */
 export const JOB_TRAIT_DECISIONS = {

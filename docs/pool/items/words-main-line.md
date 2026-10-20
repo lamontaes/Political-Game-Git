@@ -4,13 +4,13 @@ title: "Main line:"
 area: words
 kind: feature
 priority: 2
-status: claimed
-claimed-by: claude/political-game-pool-3xfqef
-pr:
+status: done
+claimed-by: claude/words-main-line
+pr: #5242
 blocked-on:
 milestone:
 source: "docs/coordination/words.md line 46 (unchecked checklist line)"
-claimed-at: 2026-10-19T21:57:24.610Z
+claimed-at: 2026-10-19T22:16:26.286Z
 ---
 
 **What.** The Words main line is the journal as a memoir with procedural revisions and the director's scenes, which the owner ruled come first. Today the journal states each event once and never revises it. Build the memoir shape: first-person entries grounded in records, with later entries revising earlier ones when the record changes the meaning ('I thought it was nothing; it turned out to be the start of everything'), only when the record shows it. Batch 9 is the first page for this, and its grades steer the rounds. The player would notice a journal that reads like a life told back, with the older entries gaining hindsight.
@@ -22,3 +22,5 @@ claimed-at: 2026-10-19T21:57:24.610Z
 **Files.** src/director/journal.ts, src/director/data/journal-rows.json, data/english/parts/journal.json, src/director/mined/journal-bank.ts
 
 **Notes.** Checklist line from words.md; verify against main before starting.
+
+Oct 20: PR #5242 merged to main: a journal entry revises an earlier one only when a later record shows its weight grew.

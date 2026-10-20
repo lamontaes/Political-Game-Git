@@ -4,7 +4,7 @@ title: "Money calibration sources without restricted originals (#713)"
 area: world
 kind: research
 priority: 2
-status: claimed
+status: in-pr
 claimed-by: codex/assignments-5-money-sources-safe
 pr: #713
 blocked-on:

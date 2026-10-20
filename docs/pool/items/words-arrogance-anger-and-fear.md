@@ -6,7 +6,7 @@ kind: feature
 priority: 2
 status: open
 claimed-by:
-pr:
+pr: #5219
 blocked-on:
 milestone:
 source: "docs/coordination/words.md line 50 (unchecked checklist line)"
@@ -22,3 +22,4 @@ claimed-at:
 **Files.** scripts/english-corpus/shapes/, scripts/english-corpus/mine-shapes.py, data/english/parts/, src/director/conversation.ts, tests/english-parts-banks.test.ts
 
 **Notes.** Checklist line from words.md; verify against main before starting.
+Sent back 2026-10-20 from PR #5219 (branch claude/political-game-pool-a4tcd1): Parts in data/english/parts/stance.json have origin: authored and shippable: true; finish on that branch, merge main into it first.

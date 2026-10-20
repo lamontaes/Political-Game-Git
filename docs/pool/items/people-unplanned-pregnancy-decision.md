@@ -4,9 +4,9 @@ title: "Unplanned pregnancies and the decision, reading the abortion law where s
 area: people
 kind: feature
 priority: 2
-status: claimed
+status: in-pr
 claimed-by: claude/political-game-pool-pdqjm6
-pr:
+pr: #5220
 blocked-on:
 milestone:
 source: "found while building laws-record-only-reads"
@@ -22,3 +22,5 @@ claimed-at: 2026-10-19T21:54:56.245Z
 **Files.** src/core2/modules/renewal.ts, src/core2/data/renewal/parameters.json, src/core2/data/laws/reach-group-a.json, src/core2/data/stopgaps.json
 
 **Notes.** SG-GOV-REACH-A-abortion. Split out of laws-record-only-reads on Oct 15; Session A had already checked main and found no record to read.
+
+Oct 20: Owner ruled on #5220 that unplanned pregnancies happen to people in the background from each person's own records and the law where they live, never to the player's own character or household, with nothing new shown to the player, so SG-PEOPLE-unplanned-pregnancy can be marked resolved.
