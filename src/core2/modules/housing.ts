@@ -54,6 +54,7 @@ import {
   renewRentalLeases,
 } from "../housing-occupancy";
 import { residentsRuntime } from "./residents";
+import { sendLawNotice } from "../housing-notices";
 import { LAWS_MODULE_ID, lawChain, lawInForce } from "./laws";
 import { BUDGETS_MODULE_ID, governments } from "./budgets";
 import housingConstruction from "../data/housing/construction.json" with { type: "json" };
@@ -1300,6 +1301,28 @@ function step(api: CoreAPI, caseId: string, kind: string): void {
       planPaymentsMade: 0,
       reasonKey: housingData.reasons.settled,
     });
+    // A full household is told in writing: the law gave it a lawyer, and the
+    // lawyer reached a plan in place of a judgment.
+    if (counsel?.counselLawId && c.households.has(row.householdId))
+      sendLawNotice(api, {
+        memberIds: c.households.get(row.householdId)!.memberIds,
+        kind: "housing.settlement-notice",
+        recordId: caseId,
+        lawId: counsel.counselLawId,
+        topic: RIGHT_TO_COUNSEL,
+        desiredChange: "enact",
+        noticeFacts: {
+          caseId,
+          owedMinor: String(owed),
+          installmentMinor: String(plan.installmentMinor),
+          months: String(plan.months),
+          counselPaymentId: counsel.counselPaymentId,
+        },
+        moodImpulse: api.parameter("housingSettlementReliefImpulse"),
+        learnedFacts: { owedMinor: String(owed) },
+        noticeCitation: `Settlement notice for ${caseId} under ${counsel.counselLawId}`,
+        learnedCitation: `Learned from the settlement notice for ${caseId} that ${counsel.counselLawId} gave them a lawyer who reached a payment plan`,
+      });
     schedule(
       api,
       `plan:${caseId}:1`,
@@ -1549,6 +1572,9 @@ export function setRightToCounsel(
     .table("counsel")
     .put({ id: placeId, inForce, ...(fundedById ? { fundedById } : {}) });
 }
+
+const RIGHT_TO_COUNSEL =
+  "us-policy-positions:housing-land-use.right-to-counsel-in-eviction";
 
 /** The funding government pays the legal services provider for the case, through the ledger. */
 function payCounsel(api: CoreAPI, caseId: string, placeId: string) {

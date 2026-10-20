@@ -178,6 +178,17 @@
       "citation": "Same scale as benefitChangeImpulseScale: 0.5 to 2."
     }
   },
+  "housingSettlementReliefImpulse": {
+    "value": 0.5,
+    "tag": "TUNABLE",
+    "citation": "How hard being offered a repayment plan in place of a judgment lands on a household's mood: a mid-size life-event impulse on the scale the drives engine reads (lifeEventMoodScale).",
+    "spread": {
+      "low": 0.25,
+      "high": 1,
+      "unit": "mood impulse",
+      "citation": "Half to double the mid-size life-event impulse."
+    }
+  },
   "housingNewHomeSupplyMonths": {
     "value": 9,
     "tag": "TUNABLE",
