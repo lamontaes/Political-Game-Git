@@ -5,12 +5,12 @@ area: core
 kind: bug
 priority: 1
 size: M
-status: in-pr
-claimed-by: claude/dense-speed
+status: open
+claimed-by:
 pr: #5372
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-20T01:04:35.914Z
+claimed-at:
 ---
 
 **What.** Measured Oct 20, 2026 on a 4-core cloud container with nothing else running: npm run speed:year -- --seed m7b --exclusive, a played year in Long Hill, Connecticut, takes 194, 200 and 214 seconds in three runs, over the 120-second limit in AGENTS.md. The same command on seed m7a, Discovery Harbour, Hawaii, takes 52 seconds, so the cost follows the town's size. A CPU profile of the 251 seconds shows no single hotspot: garbage collection is 52 seconds, and the largest named functions are 3 to 6 seconds each. This umbrella item is done when the parts filed beside it, found by that profile, bring the year under the limit.
@@ -21,4 +21,4 @@ claimed-at: 2026-10-20T01:04:35.914Z
 
 **Files.** src/core2/life.ts, src/core2/modules/press.ts, src/core2/kernel/dates.ts, scripts/speed-years/run.ts
 
-**Notes.** TODO
+**Notes.** Profiled Oct 20 (seed m7b, Long Hill, CT, 4 cores): 176.6 s wall, 210 s sampled. Self time: garbage collector 38.9 s; postCashJournal 5.9; makeIsoDate 4.3; releaseResidentHousehold 4.2; projectCashJournal 4.0; people.ts anon 3.6; parameter 3.4 (already map-cached); state.ts anon 3.2; portfolios 2.5; countedFollowers 2.4; availableActs 2.2. Flat: no function above 6 s, so the cut has to come from allocation churn (GC is 19%) and several 2 to 6 s items. Child filed: core-speed-cash-journal-posting. Next steps: a heap allocation profile (--heap-prof) to find what churns the GC, then children per top allocator.
