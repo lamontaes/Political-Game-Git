@@ -5,14 +5,14 @@ area: gov
 kind: wiring
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/ward-residency-g08lgv
 pr: #4859
 after: gov-council-election-method
 blocked-on:
 milestone:
 source: "found by gov-council-election-method"
-claimed-at:
+claimed-at: 2026-10-20T03:04:41.497Z
 ---
 
 **What.** Voters of a ward seat are now limited to their ward, but a resident of any part of town can still file for the seat. Where the charter or the state's law requires a district candidate to live in the district (`data/research/local-government/governing-body-seat-qualification.json`), the filing check refuses a resident of another part, with the recorded reason.
