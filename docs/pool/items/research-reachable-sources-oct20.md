@@ -5,7 +5,7 @@ area: core
 kind: research
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/research-reachable-sources-oct20
 pr: #5491
 blocked-on:
