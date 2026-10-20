@@ -5,14 +5,14 @@ area: gov
 kind: stopgap
 priority: 1
 size: L
-status: blocked
-claimed-by: claude/gov-outside-revenue-real-payers
+status: open
+claimed-by:
 pr: #4475
 blocked-on:
 milestone:
 after: gov-outside-revenue-taxes,gov-outside-revenue-fees,gov-outside-revenue-aid,gov-outside-revenue-borrowing,gov-outside-spending-payees,gov-outside-revenue-retire-plug
 source: "split from core-outside-flow-provenance-gate; stopgap SG-GOV-outside-revenue-monthly"
-claimed-at: 2026-10-15T22:06:14.562Z
+claimed-at:
 ---
 
 **What.** This is the roll-up for replacing the monthly outside-revenue plug (stopgap SG-GOV-outside-revenue-monthly). `closeMonth` in src/core2/modules/budgets.ts used to credit every treasury an even twelfth of its yearly revenue from the outside account; the work is split by revenue and spending family: gov-outside-revenue-taxes, gov-outside-revenue-fees (with its data and wiring parts), gov-outside-revenue-aid, gov-outside-revenue-borrowing and gov-outside-spending-payees, then gov-outside-revenue-retire-plug deletes the plug code, its rows and the stopgap. When those are done this item is closed by checking the whole picture once in a played world: every revenue line has a named payer on its real date and every spending line a named payee.
