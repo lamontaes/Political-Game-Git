@@ -554,14 +554,19 @@ export function writeRows(
   );
   for (const target of targets) {
     const held = holding.get(target.id);
-    // A group's count follows its records; a person or organization's row stands.
-    if (held && (held.count === target.count || target.count === null))
+    // A group's count follows its records; a person or organization's row
+    // stands, cited to the law row now applying it.
+    if (
+      held &&
+      (held.count === target.count || target.count === null) &&
+      held.lawId === lawId
+    )
       continue;
     const row: ReachRow = {
       id: held?.id ?? `reach:${lawId}:${spec.id}:${target.id}:${date}`,
       key,
       spec: spec.id,
-      lawId: held?.lawId ?? lawId,
+      lawId,
       target: spec.target,
       targetId: target.id,
       kind: spec.kind,
