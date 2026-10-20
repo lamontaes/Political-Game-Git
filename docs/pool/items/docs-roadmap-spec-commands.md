@@ -5,13 +5,13 @@ area: docs
 kind: cleanup
 priority: 3
 size: S
-status: blocked
-claimed-by: claude/political-game-pool-pdqjm6
+status: open
+claimed-by:
 pr:
 blocked-on:
 milestone:
 source: "found by docs-roadmap-m2-m3-passes (Oct 15, 2026)"
-claimed-at: 2026-10-19T22:40:16.678Z
+claimed-at:
 ---
 
 **What.** Eleven M2 and M3 specs in docs/roadmap/features.json have `command: null` (M2-03, M2-10, M3-01 to M3-08, M3-10), so their `passes` can never be set. For each, read the spec's `test` text against the candidate test file named in Notes below, and write the `command` in the file's existing form, `node node_modules/vitest/vitest.mjs run --config src/core2/tooling/vitest.config.ts <test file>` (the form M3-09 uses). Where a candidate test covers only part of the spec text, name both files or leave `passes` false and add a pool item for the missing test; M3-02 (negotiating) has no obvious test, so add the item for one. Run each command on a fresh random seed in a drawn place and set `passes` to match the result.
