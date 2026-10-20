@@ -22,3 +22,5 @@ claimed-at:
 **Files.** src/core2/player-money-year.test.ts, src/core2/opening-finance.ts, src/core2/starting-cash.ts
 
 **Notes.** TODO
+
+Sent back 2026-10-20 from PR #5080 (branch claude/political-game-pool-8defjq): merging main still conflicts in scripts/health/mortality-band.ts and src/core2/player-money-year.test.ts; finish on that branch, merge main into it first.
