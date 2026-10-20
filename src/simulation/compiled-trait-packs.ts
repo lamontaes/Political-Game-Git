@@ -1,7 +1,7 @@
 import { legislatureTraitPack } from "./legislature-trait-pack";
 import { peopleTraitPack } from "./people-trait-pack";
-import { personalityCataloguePack } from "./personality-catalogue";
-import type { TraitPack } from "./trait-packs";
+import { personalityCataloguePack } from "../core2/personality-catalogue";
+import type { TraitPack } from "../core2/trait-packs";
 
 /**
  * The trait packs this build compiles in, in load order, and the one place a

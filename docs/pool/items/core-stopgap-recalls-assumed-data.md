@@ -4,10 +4,10 @@ title: "Stopgaps in recalls (assumed-data): 1 open"
 area: core
 kind: stopgap
 priority: 3
-status: blocked
+status: dropped
 claimed-by:
 pr:
-blocked-on: dataset-state-recall-timing-statutes-ncsl-blocked
+blocked-on: research-core-sourced-parameters
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/modules/recalls.ts, kind assumed-data"
 ---
@@ -21,3 +21,5 @@ source: "src/core2/data/stopgaps.json, src/core2/modules/recalls.ts, kind assume
 **Files.** src/core2/modules/recalls.ts
 
 **Notes.** First row: One national bar on when a local recall may start (not in a term's first 180 days; not again in a term after one failed), not each state's own statute.
+
+Folded into research-core-sourced-parameters (CTO, Oct 19, 2026).
