@@ -330,6 +330,8 @@ type FilingRuleRow = {
     readonly weekday?: number;
     readonly nth?: number;
     readonly plusDays?: number;
+    /** The rule falls this many calendar years before the election's year (a December filing for a February election). */
+    readonly yearsBefore?: number;
   };
   readonly ruleText?: string | null;
   readonly citation: string;
@@ -351,7 +353,7 @@ export function municipalFilingDeadline(
   const row = filingRules[stateKey];
   if (!row) return null;
   const { rule } = row;
-  const year = Number(electionDate.slice(0, 4));
+  const year = Number(electionDate.slice(0, 4)) - (rule.yearsBefore ?? 0);
   let date: string | null = null;
   if (rule.kind === "days-before-election")
     date = addDays(makeIsoDate(electionDate), -(rule.days ?? 0));

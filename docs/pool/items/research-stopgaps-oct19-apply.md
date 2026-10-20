@@ -6,18 +6,18 @@ kind: stopgap
 priority: 2
 size: L
 status: claimed
-claimed-by: claude/apply-stopgaps-d
+claimed-by: claude/apply-stopgap-research
 pr:
 blocked-on:
 source: "data/research/stopgaps-oct19/README.md"
-claimed-at: 2026-10-20T03:19:38.197Z
+claimed-at: 2026-10-20T03:33:04.306Z
 ---
 
 **What.** `data/research/stopgaps-oct19/` holds a researched value, spread, sources and a one-line builder note for each of 112 open stopgap rows. Apply them: move each value into the game's data or code, resolve the stopgap row with the source, and keep low-confidence rows labeled as estimates with their spread. Split by file (A to E) so several builders can take a part each.
 
 **Rules.** One rule, all 56 places; estimate, never unknown; estimate labels show only in developer mode; never copy a publisher's table whole; AGENTS.md rules.
 
-**Done when.** Every row in the five files is applied or carries a written reason it can't be yet, and the stopgaps report shows them resolved.
+**Done when.** Every row in the five files and the census folder is applied to the game's data or code or carries a written reason it cannot be yet, each applied value is read by a test in a drawn place, and the stopgaps report shows those rows resolved with their sources.
 
 **Files.** data/research/stopgaps-oct19/, src/core2/data/stopgaps.json
 
