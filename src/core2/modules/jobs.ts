@@ -2742,6 +2742,13 @@ function hire(
       scheduleTemplateJobId: template.id,
       paySource: jobSource,
       scheduleSource: jobSource,
+      // A public employer's hire is owned by its public pay authority, as its staff are.
+      ...(c.organizations.get(position.organizationId)?.publicPayAuthority
+        ? {
+            publicPayAuthorityId: c.organizations.get(position.organizationId)!
+              .publicPayAuthority!.id,
+          }
+        : {}),
     },
     newCalendar,
   );
