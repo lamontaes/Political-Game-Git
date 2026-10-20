@@ -799,7 +799,7 @@ function heardScandal(
   return stories.some((storyId) => api.knows(personId, newsKey(storyId)));
 }
 
-function countedField(
+export function countedField(
   api: CoreAPI,
   contest: ContestRow,
   field: readonly FilingRow[],

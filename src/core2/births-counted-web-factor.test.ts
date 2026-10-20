@@ -13,6 +13,7 @@ import { gameStartDate } from "./game-start";
 import { addDays, makeIsoDate } from "./kernel/dates";
 import { advanceCore } from "./life";
 import type * as OutcomeWeb from "./modules/outcome-web";
+import type * as OutcomeWebReach from "./outcome-web-reach";
 import { RENEWAL_MODULE_ID } from "./modules/renewal";
 import { coreAPI } from "./state";
 import { drawPlace } from "../../scripts/core2-year/place";
@@ -21,6 +22,11 @@ const held = vi.hoisted(() => ({ factor: 1 }));
 vi.mock("./modules/outcome-web", async (original) => ({
   ...(await original<OutcomeWeb>()),
   outcomeWebFactor: () => held.factor,
+}));
+// Each woman's own factor (her age's share of the web's links) is held too.
+vi.mock("./outcome-web-reach", async (original) => ({
+  ...(await original<OutcomeWebReach>()),
+  webFactorFor: () => held.factor,
 }));
 
 const seed = process.env.WEB_BIRTHS_SEED || randomBytes(8).toString("hex");

@@ -5,12 +5,12 @@ area: core
 kind: bug
 priority: 2
 size: M
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/peaceful-ritchie-03780x
+pr: #5076
 blocked-on:
 source: added with npm run pool -- add
-claimed-at:
+claimed-at: 2026-10-20T02:21:45.708Z
 ---
 
 **What.** releaseResidentHousehold and returnToCounts in src/core2/modules/residents.ts build new objects and copies for every household filled in or returned, 2,000 MB and 1,104 MB in one played year. It was found by an allocation profile of a played year in Long Hill, Connecticut (seed m7b, 365 days, 60 GB sampled), where it allocated 5.1 percent (3,100 MB) of the bytes. The year takes 194 to 214 seconds against the 120-second limit, and garbage collection is about 19 percent of it. Cut the allocation without changing any result.
@@ -22,3 +22,5 @@ claimed-at:
 **Files.** src/core2/modules/residents.ts
 
 **Notes.** TODO
+
+Tried Oct 20 (claude/political-game-pool-3xfqef-10, pushed, no PR): in `releaseResidentHousehold`'s purchase branch, `{ ...present }` became `ownMap(present)` (copy once, then edit in place), the pattern the wages and retirement branches already use. Results identical on Long Hill, Connecticut (seed m7b, 365 days): date, 201 fill-ins, 2,510 full people, people liquid 10,100,889,932, organizations liquid 905,349,282,919, 1,292 flows with the same amount sum, 30,802 counted people, 20,857 households, 1,346 workers, before and after. Speed did not move: `npm run speed:year -- --seed m7b --exclusive` 163.2 s before, 164 s after, one run each on the 4-core container. So the purchase-branch copy is not where the year goes; the remaining candidates in the two functions are the per-release `record.people` and `Map` constructions, `splitWhole`, `transferSplit`'s line arrays and the calendars map, and `returnToCounts`'s own spread (that one is pool item `core-release-household-copies-purchase-parts`, PR #5057). A builder needs the allocation profile (`--heap-prof`; the script `scripts/speed-years/alloc-profile.ts` is not on main) to name the allocator before changing code.
