@@ -694,7 +694,7 @@
         "key": "threat"
       },
       {
-        "move": "^(memoir-remember|memoir-hook|memoir-young|memoir-when-age|look-back)",
+        "move": "^(memoir-remember|memoir-hook|memoir-revise|memoir-young|memoir-when-age|look-back)",
         "tag": "recall"
       },
       {
