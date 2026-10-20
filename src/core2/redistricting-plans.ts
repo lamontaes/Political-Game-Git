@@ -135,45 +135,48 @@ export interface CitizenPlanUnit extends PlanUnit {
   readonly cvapWhite: number;
 }
 
+/** A unit with named quantities a goal sums over a district (votes, incumbents, citizens). */
+export interface FeaturedUnit extends PlanUnit {
+  readonly features: readonly number[];
+}
+
 /**
- * The plan that meets the Voting Rights Act test: of all the ways to cut the
- * units, in id order, into districts within the level's population limit, the
- * one with the most districts whose citizen voting-age people are a majority
- * not White-alone-non-Hispanic (the Gingles first condition, measured from the
- * units). Ties go to the plan nearest equal population. Returns undefined if no
- * cut meets the limit.
+ * The best way to cut the units, in id order, into districts within the
+ * level's population limit: the one whose districts score highest in total,
+ * where a district's score comes from the sums of its units' features, ties to
+ * the plan nearest equal population. Every goal (a majority-minority district,
+ * a seat for the drawer's party, a district with one sitting member) is a
+ * score function over those sums. Returns undefined if no cut meets the limit.
  */
-export function vraPlan(
-  units: readonly CitizenPlanUnit[],
+export function scoredPlan(
+  units: readonly FeaturedUnit[],
   districts: number,
   level: PlanLevel,
+  score: (sums: readonly number[]) => number,
 ): Plan | undefined {
   const sorted = [...units].sort((a, b) => a.geoid.localeCompare(b.geoid));
   const n = sorted.length;
+  const width = sorted[0]?.features.length ?? 0;
   const total = sorted.reduce((s, u) => s + u.population, 0);
   const ideal = total / districts;
   // Each district may be half the total spread above or below the ideal.
   const half = deviationLimit(level) / 2;
   const low = ideal * (1 - half),
     high = ideal * (1 + half);
-  const pop = new Float64Array(n + 1),
-    cvap = new Float64Array(n + 1),
-    white = new Float64Array(n + 1);
+  const pop = new Float64Array(n + 1);
+  const prefix = Array.from({ length: width }, () => new Float64Array(n + 1));
   sorted.forEach((u, i) => {
     pop[i + 1] = pop[i]! + u.population;
-    cvap[i + 1] = cvap[i]! + u.cvap;
-    white[i + 1] = white[i]! + u.cvapWhite;
+    for (let f = 0; f < width; f += 1)
+      prefix[f]![i + 1] = prefix[f]![i]! + u.features[f]!;
   });
-  // best[j][i]: the most majority-minority districts, then the least squared miss, for the first i units in j districts.
-  const best: ({ wins: number; miss: number; from: number } | undefined)[][] =
-    Array.from(
-      { length: districts + 1 },
-      () =>
-        new Array<{ wins: number; miss: number; from: number } | undefined>(
-          n + 1,
-        ),
-    );
-  best[0]![0] = { wins: 0, miss: 0, from: -1 };
+  type Cell = { value: number; miss: number; from: number };
+  const best: (Cell | undefined)[][] = Array.from(
+    { length: districts + 1 },
+    () => new Array<Cell | undefined>(n + 1),
+  );
+  best[0]![0] = { value: 0, miss: 0, from: -1 };
+  const sums = new Array<number>(width).fill(0);
   for (let j = 1; j <= districts; j += 1) {
     let start = 0;
     for (let i = j; i <= n; i += 1) {
@@ -184,17 +187,17 @@ export function vraPlan(
         if (people < low) break;
         const prev = best[j - 1]![from];
         if (!prev) continue;
-        const c = cvap[i]! - cvap[from]!;
-        const win = c > 0 && (c - (white[i]! - white[from]!)) / c > 0.5 ? 1 : 0;
+        for (let f = 0; f < width; f += 1)
+          sums[f] = prefix[f]![i]! - prefix[f]![from]!;
+        const value = prev.value + score(sums);
         const miss = prev.miss + ((people - ideal) / ideal) ** 2;
         const here = best[j]![i];
-        const wins = prev.wins + win;
         if (
           !here ||
-          wins > here.wins ||
-          (wins === here.wins && miss < here.miss)
+          value > here.value ||
+          (value === here.value && miss < here.miss)
         )
-          best[j]![i] = { wins, miss, from };
+          best[j]![i] = { value, miss, from };
       }
     }
   }
@@ -217,4 +220,87 @@ export function vraPlan(
     from = to;
   });
   return { districtOf, districts: runs };
+}
+
+/**
+ * The plan that meets the Voting Rights Act test: the most districts whose
+ * citizen voting-age people are a majority not White-alone-non-Hispanic (the
+ * Gingles first condition, measured from the units).
+ */
+export function vraPlan(
+  units: readonly CitizenPlanUnit[],
+  districts: number,
+  level: PlanLevel,
+): Plan | undefined {
+  return scoredPlan(
+    units.map((u) => ({
+      geoid: u.geoid,
+      population: u.population,
+      features: [u.cvap, u.cvapWhite],
+    })),
+    districts,
+    level,
+    ([cvap, white]) => (cvap! > 0 && (cvap! - white!) / cvap! > 0.5 ? 1 : 0),
+  );
+}
+
+export interface VotingPlanUnit extends PlanUnit {
+  /** Votes the drawer's party won in the unit at the last election, and the votes it lost. */
+  readonly ours: number;
+  readonly theirs: number;
+}
+
+/** The plan with the most seats for the drawer's party, from the units' recorded votes. */
+export function partisanPlan(
+  units: readonly VotingPlanUnit[],
+  districts: number,
+  level: PlanLevel,
+): Plan | undefined {
+  return scoredPlan(
+    units.map((u) => ({
+      geoid: u.geoid,
+      population: u.population,
+      features: [u.ours, u.theirs],
+    })),
+    districts,
+    level,
+    ([ours, theirs]) => (ours! > theirs! ? 1 : 0),
+  );
+}
+
+export interface HomedPlanUnit extends PlanUnit {
+  /** Sitting members who live in the unit. */
+  readonly members: number;
+}
+
+/**
+ * The plan that protects sitting members: the most districts holding exactly
+ * one of them, so none is paired with another and none is left out of a
+ * district of their own.
+ */
+export function incumbentPlan(
+  units: readonly HomedPlanUnit[],
+  districts: number,
+  level: PlanLevel,
+): Plan | undefined {
+  return scoredPlan(
+    units.map((u) => ({
+      geoid: u.geoid,
+      population: u.population,
+      features: [u.members],
+    })),
+    districts,
+    level,
+    ([members]) => (members === 1 ? 1 : 0),
+  );
+}
+
+/** The sitting members a district holds, by the units they live in. */
+export function membersIn(
+  plan: Plan,
+  homes: ReadonlyMap<string, number>,
+): number[] {
+  return plan.districts.map((run) =>
+    run.reduce((n, unit) => n + (homes.get(unit.geoid) ?? 0), 0),
+  );
 }

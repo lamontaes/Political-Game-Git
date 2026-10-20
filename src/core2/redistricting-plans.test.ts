@@ -13,6 +13,9 @@ import {
   evenPlan,
   maxDeviation,
   meetsDeviationLimit,
+  incumbentPlan,
+  membersIn,
+  partisanPlan,
   planStats,
   totalDeviation,
   vraPlan,
@@ -107,5 +110,70 @@ describe("the population limit and the Voting Rights Act plan", () => {
       { geoid: "2", population: 10, cvap: 8, cvapWhite: 1 },
     ];
     expect(vraPlan(units, 2, "us-house")).toBeUndefined();
+  });
+});
+
+describe("the other goals' plans", () => {
+  it("draws the most seats for a party from recorded votes, and no more than the votes allow", async () => {
+    const units = await neighborhoodUnits("NM");
+    // Votes follow the citizens' make-up, a stand-in for recorded results: our party wins where minority citizens are a majority.
+    const cit = new Map((await cvapUnits("NM")).map((c) => [c.geoid, c]));
+    const voting = units.map((u) => {
+      const c = cit.get(u.geoid);
+      const minority = c ? c.cvap - c.cvapNhWhite : 0;
+      return {
+        geoid: u.geoid,
+        population: u.population,
+        ours: minority,
+        theirs: c ? c.cvapNhWhite : 0,
+      };
+    });
+    const best = partisanPlan(voting, 3, "state-legislature");
+    expect(best).toBeDefined();
+    const seatsOf = (plan: NonNullable<typeof best>) =>
+      plan.districts.filter((run) => {
+        let o = 0,
+          t = 0;
+        for (const u of run) {
+          const v = voting.find((x) => x.geoid === u.geoid)!;
+          o += v.ours;
+          t += v.theirs;
+        }
+        return o > t;
+      }).length;
+    expect(seatsOf(best!)).toBeGreaterThanOrEqual(
+      seatsOf(evenPlan(units.map(asPlanUnit), 3)),
+    );
+  }, 120_000);
+
+  it("keeps sitting members apart when it can: 3 members, 3 districts, one each", async () => {
+    const units = await neighborhoodUnits("NM");
+    // Three members live in the first, a middle and the last block group by id.
+    const ids = units.map((u) => u.geoid);
+    const homes = new Map([
+      [ids[0]!, 1],
+      [ids[Math.floor(ids.length / 2)]!, 1],
+      [ids.at(-1)!, 1],
+    ]);
+    const homed = units.map((u) => ({
+      geoid: u.geoid,
+      population: u.population,
+      members: homes.get(u.geoid) ?? 0,
+    }));
+    const plan = incumbentPlan(homed, 3, "state-legislature");
+    expect(plan).toBeDefined();
+    expect(membersIn(plan!, homes)).toEqual([1, 1, 1]);
+    // Two members in one unit cannot be parted: the plan holds them in one district.
+    const together = new Map([[ids[0]!, 2]]);
+    const pair = incumbentPlan(
+      units.map((u) => ({
+        geoid: u.geoid,
+        population: u.population,
+        members: together.get(u.geoid) ?? 0,
+      })),
+      3,
+      "state-legislature",
+    );
+    expect(membersIn(pair!, together).filter((n) => n === 2)).toHaveLength(1);
   });
 });
