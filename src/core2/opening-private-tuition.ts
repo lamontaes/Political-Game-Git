@@ -18,7 +18,9 @@ import type { FinanceContractInput } from "./finance-types";
 import type { CoreInput, Source } from "./types";
 
 /** The private share of students in the town's state (NCES, fall 2021); the median where the state has no row. */
-function privateShareOf(input: CoreInput): number {
+export function privateShareOf(input: {
+  readonly placeMetadata?: Readonly<Record<string, string>>;
+}): number {
   const key = input.placeMetadata?.placeKey;
   const state = key ? corePlaceByKey(key)?.stateJurisdictionKey : undefined;
   const row = (shares.states as Readonly<Record<string, { share: number }>>)[
