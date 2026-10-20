@@ -5,12 +5,12 @@ area: world
 kind: stopgap
 priority: 2
 size: M
-status: claimed
-claimed-by: claude/political-game-pool-3xfqef-2
-pr:
+status: in-pr
+claimed-by: claude/fs11vb-jobs
+pr: #5232
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-19T22:27:55.559Z
+claimed-at: 2026-10-20T15:19:39.229Z
 ---
 
 **What.** TODO
@@ -22,3 +22,5 @@ claimed-at: 2026-10-19T22:27:55.559Z
 **Files.** TODO
 
 **Notes.** TODO
+
+Sent back 2026-10-20 from PR #5232 (branch claude/political-game-pool-3xfqef-2): deletes stopgap row SG-WORLD-jobs-offer-deadline-reminder; mark it resolved with its replacement instead; finish on that branch, merge main into it first.

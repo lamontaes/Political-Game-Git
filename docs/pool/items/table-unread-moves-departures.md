@@ -5,12 +5,12 @@ area: people
 kind: wiring
 priority: 3
 size: S
-status: blocked
-claimed-by: claude/political-game-pool-yucp92-d
-pr: #4971
-blocked-on: a director or journal line that words departure reasons (Words line)
+status: done
+claimed-by: claude/table-unread-moves-departures
+pr: #5366
+blocked-on: design: tests and proofs read every departure, but only circle events are kept in the durable log; needs a ruling on a test-only listener or circle-only rows
 source: added with npm run pool -- add
-claimed-at: 2026-10-19T22:51:37.054Z
+claimed-at: 2026-10-20T00:56:48.859Z
 ---
 
 **What.** In a one-year run of the played world (Parrott, Virginia (5160840), seed 0ad0af8699c4, `node --import tsx scripts/core2-year/table-trace.ts 0ad0af8699c4 365`), the moves engine writes a departure row for each household that leaves and no other engine reads it: `moves/departures` (16 rows). An effect is a read, so a table written and read by no other engine is a record that does nothing. Check first whether a screen reads it (the headless run does not open screens); if one does, say so in the item and close it; otherwise give the table a reader that decides something, or delete the writer and the table in the same change.
@@ -27,4 +27,8 @@ Looked at Oct 17 (claude, claude/departures-why), not built. The `departures` ro
 
 Merged findings/prerequisites from PR #4971 on 2026-10-18; the remaining implementation is unfinished and this item stays open. Continue it on a new branch and PR.
 
-Claude, Oct 19: the journal (journal-rows.json, event:person.moved-away) and the director (director.json eventKind person.moved-away) already read the event with the departure's id; only the row's reasons, cash and home-sale fields are unread. The useful reader words those reasons, which is the Words line's, so this waits on a line that cites the departure by id. Deleting the table would break moves.test.ts, moves-cash.test.ts and three year proofs.
+Update Oct 19: OWNER-DECISIONS.md (Unread tables, #4899) rules that unread tables are deleted by default, kept only where a golden-path screen reads them with that read built in the same PR. So the work is a deletion: remove the departures table and departuresOf, and rewrite the readers that exist only to check it: moves.test.ts (reasons, reads, destinations), moves-cash.test.ts and the proofs world-wiring-year.ts, world-economy-year.ts, moves-proof.ts and moves-rate-check.ts to read the people.moved-away events instead (the event carries ids, destination, home sale; cash and reasons would need adding to its facts or be dropped). It is a sizable test rewrite, not blocked by anything but time; the next builder can take it.
+
+Claude, Oct 19 (second look): the Oct 19 ruling says delete, but the readers are the engine's own tests (moves.test.ts, moves-cash.test.ts) and four year proofs, which check every departure's reasons. The durable log cannot replace the table for them: retainLog (src/core2/state.ts) keeps only events in the player's circle, public records and news, so most departures are not kept. Two ways forward: (1) keep rows only for the player's circle and rewrite the tests to draw a circle departure, or (2) give the engine a test-only listener the tests register and delete the table. The CTO or the next builder picks one; neither is a quick change.
+
+Built Oct 19 (claude/table-unread-moves-departures), option 2 of the second look: the `departures` table and its writer are deleted; the full departure record now rides on the `people.moved-away` event (fact `moves:departure`), and `watchDepartures(core)` / `departuresSeen(core)` in moves.ts are a test-only listener that moves.test.ts, moves-cash.test.ts and the four year proofs register right after building the world. `scripts/core2-year/table-trace.ts` (seed a1b2c3d4e5f6, 365 days) no longer lists `moves/departures`.

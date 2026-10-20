@@ -5,12 +5,13 @@ area: world
 kind: wiring
 priority: 2
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/macro-outlays
 pr:
 after: world-macro-federal-dollar-finish
 blocked-on:
 source: "trial PR #4990's finding; acting CTO, Oct 19"
+claimed-at: 2026-10-20T02:00:59.251Z
 ---
 
 **What.** One town is its share of the nation, so a federal line the player passes barely moves national output when only the town's own chain is followed (1.8e-8 of output in the trial). The outside account's outlays and other places' budgets reach the same payout engines as indexed totals, counted at the coarser tier, so national output is the sum over all places of dollars paid and spent, the town in full and the rest by index. This is the registered replacement of SG-WORLD-macro-public-budget; the stopgap is resolved when the indexed totals are read.
@@ -22,3 +23,7 @@ source: "trial PR #4990's finding; acting CTO, Oct 19"
 **Files.** src/core2/modules/macro.ts, src/core2/budgets-treasury.ts, src/core2/data/macro/parameters.json
 
 **Notes.** Found by the GLM 5.3 trial on branch trial/glm/federal-dollar (#4990). Waits on world-macro-federal-dollar-finish so the chain it extends is on main first.
+
+Released Oct 20 (claude): the chain this extends (world-macro-federal-dollar-finish, PR #4990) is not on main and `macroFederalOutlayResponseBand` does not exist in src/core2/data/macro/parameters.json yet; build after #4990 merges.
+
+Checked Oct 19 (claude): every stopgap row this item names is already resolved in src/core2/data/stopgaps.json: SG-WORLD-macro-public-budget is resolved in stopgaps.json (Resolved Oct 16 (owner ruling, no fiscal multiplier): the macro engine carries no budget impulse or multiplier. A public dollar moves output...). The CTO can drop this item.

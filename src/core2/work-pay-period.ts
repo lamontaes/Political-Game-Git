@@ -260,6 +260,9 @@ function guardedRecord<T extends object>(
   raw: T,
   u: Units,
 ): T {
+  // Play reads the record as it is; the copy exists for the read guard that
+  // tests and the bench run with bookkeeping on.
+  if (!bookkeeping()) return raw;
   r.payload(raw, u.zero, u.one);
   const result = Object.create(null) as Record<PropertyKey, unknown>;
   for (const key of r.keys(raw))
@@ -399,6 +402,14 @@ function requestSource(at: string): Source {
   };
 }
 
+/**
+ * The same boundary is asked for again and again (every worker on a calendar,
+ * every payday): it is a pure function of the calendar's first period start,
+ * the month offset and the nominal day, so the answers are kept, bounded.
+ */
+const BOUNDARIES = new Map<string, string>();
+const BOUNDARY_LIMIT = 100_000;
+
 function monthBoundary(
   c: WorkPayrollCalendarInput,
   months: number,
@@ -407,6 +418,9 @@ function monthBoundary(
 ): string {
   if (!Number.isSafeInteger(months))
     throw new Error("Payroll month offset overflows.");
+  const key = `${c.firstPeriodStartsAt}|${months}|${nominalDay}`;
+  const held = BOUNDARIES.get(key);
+  if (held !== undefined) return held;
   const d = new Date(`${date(c.firstPeriodStartsAt)}T00:00:00.000Z`);
   d.setUTCDate(u.one);
   d.setUTCMonth(d.getUTCMonth() + months);
@@ -414,7 +428,10 @@ function monthBoundary(
   last.setUTCMonth(last.getUTCMonth() + u.one);
   last.setUTCDate(u.zero);
   d.setUTCDate(Math.min(nominalDay, last.getUTCDate()));
-  return date(d.toISOString().split("T")[u.zero]!);
+  const result = date(d.toISOString().split("T")[u.zero]!);
+  if (BOUNDARIES.size >= BOUNDARY_LIMIT) BOUNDARIES.clear();
+  BOUNDARIES.set(key, result);
+  return result;
 }
 
 function anchorPosition(c: WorkPayrollCalendarInput, u: Units): number {
