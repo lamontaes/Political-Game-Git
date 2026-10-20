@@ -5,12 +5,12 @@ area: people
 kind: feature
 priority: 2
 size: M
-status: claimed
-claimed-by: claude/director-officeholders
+status: open
+claimed-by:
 pr: #5180
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-20T02:28:32.475Z
+claimed-at:
 ---
 
 **What.** TODO
