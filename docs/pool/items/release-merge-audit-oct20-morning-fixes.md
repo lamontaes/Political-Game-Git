@@ -5,9 +5,9 @@ area: release
 kind: bug
 priority: 1
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/political-game-pool-yucp92-ao
-pr:
+pr: #5655
 blocked-on:
 source: CTO merge audit, Oct 20 morning
 claimed-at: 2026-10-20T10:36:14.534Z
