@@ -22,3 +22,5 @@ claimed-at:
 **Files.** src/core2/opening-finance.ts, src/core2/opening-capital.ts
 
 **Notes.** TODO
+
+Sent back 2026-10-20 from PR #5562 (branch claude/political-game-pool-3xfqef-21): main already has the identical owner-coverage guard from #5548, making this second guard unreachable; keep the regression, remove the duplicate and declare test-only impact, or prove a distinct fix; finish on that branch, merge main into it first.
