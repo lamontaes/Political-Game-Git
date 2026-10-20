@@ -48,7 +48,9 @@ The full row-by-row grades, each with its evidence and the reason a link is miss
 
 - Government and elections, #5582: the four voting laws reach named voters and counted groups. The county, city or state pays to mail ballots, issue IDs and register voters out of its administration line. Term limits, the lobbying ban, home rule and ward lines record whom they applied to.
 - Labor and pay, #5589: every minimum wage raise names the workers it raised, full and counted. Payroll taxes name each worker and employer with the tax. Unemployment benefits are paid from the state fund, and counted claimants are paid times the people they stand for.
-- In progress: prices and sales taxes, housing and credit, health and schools, taxes and public finance, justice, and rights, environment, farms and parks.
+- Prices and sales taxes, #5629: the price laws record each household, counted group, seller and treasury they charged or paid at the monthly settlement. The grocery exemption now spares tax on groceries; before, it matched no seller. The sales tax names its buyers and sellers.
+- Justice, #5642: a monthly public-safety engine runs the town's ordinary crime through arrest, court, bail, jail and prison under the laws in force. It counts arrests by group and never names a person by age alone. Firearm laws reach gun-owning households with their costs and fees. Oversight and immigration partnership cost the city and county. The police, fire and corrections lines set service.
+- In progress: housing and credit, health and schools, taxes and public finance, and rights, environment, farms and parks.
 
 ## What happens next
 
