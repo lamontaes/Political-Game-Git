@@ -2245,15 +2245,17 @@
   },
   {
     "id": "SG-P10-cause-group-founding",
-    "kind": "owner-decision",
+    "kind": "missing-mechanic",
     "file": "src/core2/data/drives.json",
     "line": 552,
-    "whatItFakes": "A resident founds a cause group in one act on a recorded drive, with no charter, registration, dues or officers. Whether founding a group should cost the player anything (dues, officers, a charter) or stay one act is the owner's call.",
+    "whatItFakes": "A resident founds a cause group instantly with no charter, registration, dues or officers.",
     "why": "Organizing needs a place for others to join; the nonprofit and association engine is not built.",
     "addedBy": "OPUS-DRIVES",
     "addedAt": "2026-10-09",
-    "replacement": "The owner's ruling on whether founding a group costs anything the player does (docs/coordination/OWNER-DECISIONS.md); if it does, interest-groups engine work in the government area.",
-    "status": "open"
+    "replacement": "An association engine with formation steps, registration law per place and membership rules.",
+    "status": "resolved",
+    "resolvedAt": "2026-10-20",
+    "resolution": "Founding stays one act on a recorded drive (the found-cause-group act in src/core2/data/drives.json): the standing rule 'This is a game, not a spreadsheet' in AGENTS.md admits no charter, registration or dues step the golden path does not need and The Political Process does not have. The group's depth is where it reacts: the members who join and what the interest-groups engine does with it."
   },
   {
     "id": "SG-P10-testify-unbuilt",
