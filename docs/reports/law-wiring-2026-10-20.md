@@ -4,21 +4,21 @@ When a law takes effect, people hear about it on the news, but for most laws not
 
 ## Where things stand
 
-Grades come from two towns drawn at random from all 56 places: Prescott, Michigan (seed a91c03e7d2b84f10) and Uehling, Nebraska (seed 5e27b0c4196fd3a8). Each world was built the way the game builds it: two levels of population, with the economy on. 44 of the 89 laws have been measured in a played world so far. The other 45 are graded from data only until their run finishes.
+Grades come from two towns drawn at random from all 56 places: Prescott, Michigan (seed a91c03e7d2b84f10) and Uehling, Nebraska (seed 5e27b0c4196fd3a8). Each world was built the way the game builds it: two levels of population, with the economy on. All 89 laws were measured in both towns. These are the grades before any family fix lands.
 
 | Link                                | Wired | Partial | Missing | Stopgap |
 | ----------------------------------- | ----- | ------- | ------- | ------- |
 | 1. Exists in all 56 places          | 88    | 0       | 1       | 0       |
 | 2. A body can enact and repeal it   | 88    | 0       | 1       | 0       |
-| 3. Reaches people and organizations | 22    | 4       | 32      | 31      |
-| 4. Read by the engine it changes    | 22    | 11      | 31      | 25      |
-| 5. Moves money                      | 24    | 0       | 35      | 30      |
-| 6. Moves its outcome-web measures   | 7     | 3       | 44      | 35      |
-| 7. People learn of it by a read     | 38    | 0       | 51      | 0       |
-| 8. Repeal stops it                  | 24    | 0       | 65      | 0       |
-| 9. Same code path everywhere        | 24    | 2       | 63      | 0       |
+| 3. Reaches people and organizations | 40    | 14      | 19      | 16      |
+| 4. Read by the engine it changes    | 39    | 18      | 16      | 16      |
+| 5. Moves money                      | 44    | 0       | 25      | 20      |
+| 6. Moves its outcome-web measures   | 16    | 9       | 39      | 25      |
+| 7. People learn of it by a read     | 80    | 0       | 9       | 0       |
+| 8. Repeal stops it                  | 47    | 0       | 42      | 0       |
+| 9. Same code path everywhere        | 51    | 3       | 35      | 0       |
 
-Counts are laws, out of 89. Laws not yet run count as missing on links 3 to 9 until their run finishes. "Stopgap" means a registered stopgap already names the missing piece. That is not wiring, and each stopgap stays on the list to clear.
+Counts are laws, out of 89. "Stopgap" means a registered stopgap already names the missing piece. That is not wiring, and each stopgap stays on the list to clear.
 
 The full row-by-row grades, each with its evidence and the reason a link is missing, are in `docs/reports/law-wiring-table.md` and `docs/reports/law-wiring-matrix.json`.
 

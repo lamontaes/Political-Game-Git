@@ -6446,6 +6446,3561 @@
     "sample": []
    },
    "seconds": 29
+  },
+  {
+   "key": "us-policy-positions:environment-energy.price-carbon",
+   "kind": "question",
+   "family": "energy-environment",
+   "inForceAtOpening": false,
+   "change": "enacted at city (law:place:3149425:city:us-policy-positions:environment-energy.price-carbon:general:2025-01-21:law-wiring-6c6b4297) effective 2025-01-21; then repealed at city effective 2025-02-26",
+   "lawIds": [
+    "law:place:3149425:city:us-policy-positions:environment-energy.price-carbon:general:2025-01-21:law-wiring-6c6b4297",
+    "law:place:3149425:city:us-policy-positions:environment-energy.price-carbon:general:2025-02-26:law-wiring-6c6b4297-b"
+   ],
+   "openingReach": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 0,
+    "sample": []
+   },
+   "reach": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 0,
+    "sample": []
+   },
+   "readers": {
+    "src/core2/modules/outcome-web.ts:154": 80,
+    "src/core2/modules/world-legislating.ts:248": 32,
+    "src/core2/modules/world-legislating.ts:178": 16,
+    "src/core2/life.ts:549": 5,
+    "src/core2/modules/legislature.ts:2011": 2,
+    "src/core2/modules/world-legislating.ts:325": 2,
+    "src/core2/modules/place-prices.ts:546": 2
+   },
+   "openingRow": "law:US-NE:state:us-policy-positions:environment-energy.price-carbon:general:starting",
+   "money": {
+    "direct": [],
+    "diff": [
+     {
+      "kind": "accounts.transfer @ src/core2/world-transfer.ts:37",
+      "treatment": 10085469,
+      "control": 8886205,
+      "ids": [
+       "journal:2025-02-01:1824",
+       "journal:2025-02-01:1825",
+       "journal:2025-02-01:1826"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/counted-money.ts:740",
+      "treatment": 1228725,
+      "control": 1079454,
+      "ids": [
+       "journal:2025-02-03:7657",
+       "journal:2025-02-03:7658",
+       "journal:2025-02-03:7659"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/modules/residents.ts:1684",
+      "treatment": 1360114,
+      "control": 1374294,
+      "ids": [
+       "journal:2025-02-19:8171",
+       "journal:2025-02-19:8172",
+       "journal:2025-02-19:8173"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/modules/moves.ts:683",
+      "treatment": 1026723,
+      "control": 1028337,
+      "ids": [
+       "journal:2025-02-06:7875",
+       "journal:2025-02-13:7972",
+       "journal:2025-02-21:8228"
+      ]
+     },
+     {
+      "kind": "drive-donation @ src/core2/modules/drives.ts:1076",
+      "treatment": 115,
+      "control": 122,
+      "ids": [
+       "journal:2025-02-24:8264",
+       "journal:2025-02-25:8334"
+      ]
+     }
+    ],
+    "diffKinds": 5,
+    "cited": [
+     {
+      "token": "law:place:3149425:city:us-policy-positions:environment-energy.price-carbon:general:2025-01-21:law-wiring-6c6b4297",
+      "gross": 1355149,
+      "ids": [
+       "journal:2025-02-03:7623",
+       "journal:2025-02-03:7624",
+       "journal:2025-02-03:7625"
+      ]
+     },
+     {
+      "token": "us-policy-positions:environment-energy.price-carbon",
+      "gross": 1355149,
+      "ids": [
+       "journal:2025-02-03:7623",
+       "journal:2025-02-03:7624",
+       "journal:2025-02-03:7625"
+      ]
+     },
+     {
+      "token": "law-wiring-6c6b4297",
+      "gross": 1355149,
+      "ids": [
+       "journal:2025-02-03:7623",
+       "journal:2025-02-03:7624",
+       "journal:2025-02-03:7625"
+      ]
+     }
+    ]
+   },
+   "web": {
+    "links": [
+     {
+      "key": "carbon-price-to-emissions",
+      "status": "built",
+      "to": "env.emissions"
+     },
+     {
+      "key": "carbon-price-to-particulates",
+      "status": "built",
+      "to": "env.particulates"
+     }
+    ],
+    "fired": [],
+    "firedCount": 0
+   },
+   "heard": {
+    "people": 72,
+    "sample": [
+     "person_10606db92b470665:printed:outlet:newspaper:0:jurisdiction_45a3b3ebe97fe71d:law-took-effect:law:place:3149425:city:us-policy-positions:environment-energy.price-carbon:general:2025-01-21:law-wiring-6c6b4297",
+     "person_014873ba8397594d:printed:outlet:newspaper:0:jurisdiction_45a3b3ebe97fe71d:law-took-effect:law:place:3149425:city:us-policy-positions:environment-energy.price-carbon:general:2025-01-21:law-wiring-6c6b4297",
+     "person_3b8e45617114c97d:printed:outlet:newspaper:0:jurisdiction_45a3b3ebe97fe71d:law-took-effect:law:place:3149425:city:us-policy-positions:environment-energy.price-carbon:general:2025-01-21:law-wiring-6c6b4297"
+    ]
+   },
+   "afterUndo": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 0,
+    "sample": []
+   },
+   "seconds": 28
+  },
+  {
+   "key": "budget-line:police",
+   "kind": "budget-line",
+   "family": "justice",
+   "inForceAtOpening": false,
+   "change": "place:3149425 police 4776349 -> 14776349 by law-wiring-e6fd8b9f",
+   "lawIds": [
+    "law-wiring-e6fd8b9f"
+   ],
+   "openingReach": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 0,
+    "sample": []
+   },
+   "reach": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 1,
+    "governments": 0,
+    "other": 0,
+    "open": 1,
+    "ended": 0,
+    "sample": [
+     "reach:law-wiring-e6fd8b9f:positions:organization_323a5cedbef21846:2025-01-20"
+    ]
+   },
+   "readers": {},
+   "openingRow": null,
+   "money": {
+    "direct": [],
+    "diff": [
+     {
+      "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:579",
+      "treatment": 37178541521432,
+      "control": 37178541537624,
+      "ids": [
+       "journal:2025-02-01:1618",
+       "journal:2025-02-01:1619",
+       "journal:2025-02-01:1620"
+      ]
+     }
+    ],
+    "diffKinds": 1,
+    "cited": []
+   },
+   "web": {
+    "links": [],
+    "fired": [],
+    "firedCount": 0
+   },
+   "heard": {
+    "people": 0,
+    "sample": []
+   },
+   "afterUndo": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 1,
+    "governments": 0,
+    "other": 0,
+    "open": 1,
+    "ended": 0,
+    "sample": [
+     "reach:law-wiring-e6fd8b9f:positions:organization_323a5cedbef21846:2025-01-20"
+    ]
+   },
+   "seconds": 40
+  },
+  {
+   "key": "us-policy-positions:justice-public-safety.civilian-oversight-of-police",
+   "kind": "question",
+   "family": "justice",
+   "inForceAtOpening": false,
+   "change": "enacted at city (law:place:3149425:city:us-policy-positions:justice-public-safety.civilian-oversight-of-police:general:2025-01-21:law-wiring-d1a63142) effective 2025-01-21; then repealed at city effective 2025-02-26",
+   "lawIds": [
+    "law:place:3149425:city:us-policy-positions:justice-public-safety.civilian-oversight-of-police:general:2025-01-21:law-wiring-d1a63142",
+    "law:place:3149425:city:us-policy-positions:justice-public-safety.civilian-oversight-of-police:general:2025-02-26:law-wiring-d1a63142-b"
+   ],
+   "openingReach": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 0,
+    "sample": []
+   },
+   "reach": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 1,
+    "governments": 0,
+    "other": 0,
+    "open": 1,
+    "ended": 0,
+    "sample": [
+     "reach:law:place:3149425:city:us-policy-positions:justice-public-safety.civilian-oversight-of-police:general:2025-01-21:law-wiring-d1a63142:department:organization_323a5cedbef21846:2025-01-21"
+    ]
+   },
+   "readers": {
+    "src/core2/modules/legislature.ts:2011": 610,
+    "src/core2/modules/outcome-web.ts:154": 48,
+    "src/core2/modules/world-legislating.ts:248": 30,
+    "src/core2/modules/world-legislating.ts:178": 16,
+    "src/core2/life.ts:549": 9,
+    "src/core2/modules/world-legislating.ts:325": 7
+   },
+   "openingRow": "law:US-NE:state:us-policy-positions:justice-public-safety.civilian-oversight-of-police:general:starting",
+   "money": {
+    "direct": [],
+    "diff": [
+     {
+      "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2351",
+      "treatment": 14076699,
+      "control": 14026980,
+      "ids": [
+       "journal:2025-01-28:1547",
+       "journal:2025-01-28:1550",
+       "journal:2025-01-29:1588"
+      ]
+     },
+     {
+      "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1349",
+      "treatment": 107432374,
+      "control": 107424848,
+      "ids": [
+       "journal:2025-01-28:1548",
+       "journal:2025-01-28:1551",
+       "journal:2025-01-29:1589"
+      ]
+     },
+     {
+      "kind": "employer-taxes:share @ src/core2/modules/employer-taxes.ts:616",
+      "treatment": 2662138,
+      "control": 2656693,
+      "ids": [
+       "journal:2025-01-25:1544",
+       "journal:2025-01-27:1546",
+       "journal:2025-01-28:1549"
+      ]
+     },
+     {
+      "kind": "drive-donation @ src/core2/modules/drives.ts:1076",
+      "treatment": 0,
+      "control": 122,
+      "ids": [
+       "journal:2025-02-24:8173",
+       "journal:2025-02-25:8243"
+      ]
+     }
+    ],
+    "diffKinds": 4,
+    "cited": []
+   },
+   "web": {
+    "links": [
+     {
+      "key": "civilian-oversight-to-crime",
+      "status": "built",
+      "to": "crime.violent"
+     }
+    ],
+    "fired": [],
+    "firedCount": 0
+   },
+   "heard": {
+    "people": 85,
+    "sample": [
+     "person_10606db92b470665:printed:outlet:newspaper:0:jurisdiction_45a3b3ebe97fe71d:law-took-effect:law:place:3149425:city:us-policy-positions:justice-public-safety.civilian-oversight-of-police:general:2025-01-21:law-wiring-d1a63142",
+     "person_014873ba8397594d:printed:outlet:newspaper:0:jurisdiction_45a3b3ebe97fe71d:law-took-effect:law:place:3149425:city:us-policy-positions:justice-public-safety.civilian-oversight-of-police:general:2025-01-21:law-wiring-d1a63142",
+     "person_3b8e45617114c97d:printed:outlet:newspaper:0:jurisdiction_45a3b3ebe97fe71d:law-took-effect:law:place:3149425:city:us-policy-positions:justice-public-safety.civilian-oversight-of-police:general:2025-01-21:law-wiring-d1a63142"
+    ]
+   },
+   "afterUndo": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 1,
+    "sample": []
+   },
+   "seconds": 38
+  },
+  {
+   "key": "us-policy-positions:justice-public-safety.partner-with-federal-immigration-enforcement",
+   "kind": "question",
+   "family": "justice",
+   "inForceAtOpening": false,
+   "change": "enacted at city (law:place:3149425:city:us-policy-positions:justice-public-safety.partner-with-federal-immigration-enforcement:general:2025-01-21:law-wiring-8eb3a911) effective 2025-01-21; then repealed at city effective 2025-02-26",
+   "lawIds": [
+    "law:place:3149425:city:us-policy-positions:justice-public-safety.partner-with-federal-immigration-enforcement:general:2025-01-21:law-wiring-8eb3a911",
+    "law:place:3149425:city:us-policy-positions:justice-public-safety.partner-with-federal-immigration-enforcement:general:2025-02-26:law-wiring-8eb3a911-b"
+   ],
+   "openingReach": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 0,
+    "sample": []
+   },
+   "reach": {
+    "fullPeople": 2,
+    "countedGroups": 1,
+    "countedPeople": 8,
+    "households": 0,
+    "organizations": 1,
+    "governments": 0,
+    "other": 0,
+    "open": 4,
+    "ended": 0,
+    "sample": [
+     "reach:law:place:3149425:city:us-policy-positions:justice-public-safety.partner-with-federal-immigration-enforcement:general:2025-01-21:law-wiring-8eb3a911:department:organization_323a5cedbef21846:2025-01-21",
+     "reach:law:place:3149425:city:us-policy-positions:justice-public-safety.partner-with-federal-immigration-enforcement:general:2025-01-21:law-wiring-8eb3a911:noncitizens:person_3b8e45617114c97d:2025-01-21",
+     "reach:law:place:3149425:city:us-policy-positions:justice-public-safety.partner-with-federal-immigration-enforcement:general:2025-01-21:law-wiring-8eb3a911:noncitizens:person_1f0aeb3215325dc6:2025-01-21",
+     "reach:law:place:3149425:city:us-policy-positions:justice-public-safety.partner-with-federal-immigration-enforcement:general:2025-01-21:law-wiring-8eb3a911:noncitizens:counted:noncitizens:2025-01-21"
+    ]
+   },
+   "readers": {
+    "src/core2/modules/legislature.ts:2011": 164,
+    "src/core2/modules/outcome-web.ts:154": 112,
+    "src/core2/modules/world-legislating.ts:248": 32,
+    "src/core2/modules/world-legislating.ts:178": 16,
+    "src/core2/modules/world-legislating.ts:325": 5,
+    "src/core2/life.ts:549": 5
+   },
+   "openingRow": "law:US-NE:state:us-policy-positions:justice-public-safety.partner-with-federal-immigration-enforcement:general:starting",
+   "money": {
+    "direct": [],
+    "diff": [
+     {
+      "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2351",
+      "treatment": 14018477,
+      "control": 14026980,
+      "ids": [
+       "journal:2025-01-28:1547",
+       "journal:2025-01-28:1550",
+       "journal:2025-01-29:1588"
+      ]
+     },
+     {
+      "kind": "employer-taxes:share @ src/core2/modules/employer-taxes.ts:616",
+      "treatment": 2655762,
+      "control": 2656693,
+      "ids": [
+       "journal:2025-01-25:1544",
+       "journal:2025-01-27:1546",
+       "journal:2025-01-28:1549"
+      ]
+     },
+     {
+      "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1349",
+      "treatment": 107423975,
+      "control": 107424848,
+      "ids": [
+       "journal:2025-01-28:1548",
+       "journal:2025-01-28:1551",
+       "journal:2025-01-29:1589"
+      ]
+     }
+    ],
+    "diffKinds": 3,
+    "cited": []
+   },
+   "web": {
+    "links": [
+     {
+      "key": "enforcement-to-hispanic-enrollment",
+      "status": "outcome-not-produced",
+      "to": "school.hispanic-enrollment"
+     },
+     {
+      "key": "enforcement-to-undocumented-employment",
+      "status": "outcome-not-produced",
+      "to": "labor.undocumented-employment"
+     },
+     {
+      "key": "enforcement-to-us-born-employment",
+      "status": "outcome-not-produced",
+      "to": "labor.us-born-employment"
+     }
+    ],
+    "fired": [
+     {
+      "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-01",
+      "link": "enforcement-to-undocumented-employment",
+      "effect": -0.057
+     },
+     {
+      "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-01",
+      "link": "enforcement-to-us-born-employment",
+      "effect": -0.005
+     },
+     {
+      "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-02",
+      "link": "enforcement-to-undocumented-employment",
+      "effect": -0.057
+     },
+     {
+      "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-02",
+      "link": "enforcement-to-us-born-employment",
+      "effect": -0.005
+     }
+    ],
+    "firedCount": 4
+   },
+   "heard": {
+    "people": 71,
+    "sample": [
+     "person_10606db92b470665:printed:outlet:newspaper:0:jurisdiction_45a3b3ebe97fe71d:law-took-effect:law:place:3149425:city:us-policy-positions:justice-public-safety.partner-with-federal-immigration-enforcement:general:2025-01-21:law-wiring-8eb3a911",
+     "person_014873ba8397594d:printed:outlet:newspaper:0:jurisdiction_45a3b3ebe97fe71d:law-took-effect:law:place:3149425:city:us-policy-positions:justice-public-safety.partner-with-federal-immigration-enforcement:general:2025-01-21:law-wiring-8eb3a911",
+     "person_3b8e45617114c97d:printed:outlet:newspaper:0:jurisdiction_45a3b3ebe97fe71d:law-took-effect:law:place:3149425:city:us-policy-positions:justice-public-safety.partner-with-federal-immigration-enforcement:general:2025-01-21:law-wiring-8eb3a911"
+    ]
+   },
+   "afterUndo": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 4,
+    "sample": []
+   },
+   "seconds": 27
+  },
+  {
+   "key": "us-policy-positions:justice-public-safety.end-cash-bail",
+   "kind": "question",
+   "family": "justice",
+   "inForceAtOpening": false,
+   "change": "enacted at city (law:place:3149425:city:us-policy-positions:justice-public-safety.end-cash-bail:general:2025-01-21:law-wiring-84938433) effective 2025-01-21; then repealed at city effective 2025-02-26",
+   "lawIds": [
+    "law:place:3149425:city:us-policy-positions:justice-public-safety.end-cash-bail:general:2025-01-21:law-wiring-84938433",
+    "law:place:3149425:city:us-policy-positions:justice-public-safety.end-cash-bail:general:2025-02-26:law-wiring-84938433-b"
+   ],
+   "openingReach": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 0,
+    "sample": []
+   },
+   "reach": {
+    "fullPeople": 66,
+    "countedGroups": 1,
+    "countedPeople": 99,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 67,
+    "ended": 0,
+    "sample": [
+     "reach:law:place:3149425:city:us-policy-positions:justice-public-safety.end-cash-bail:general:2025-01-21:law-wiring-84938433:adults:person_eadfec9a418d1fed:2025-01-21",
+     "reach:law:place:3149425:city:us-policy-positions:justice-public-safety.end-cash-bail:general:2025-01-21:law-wiring-84938433:adults:person_eadfeb9a418d1e3a:2025-01-21",
+     "reach:law:place:3149425:city:us-policy-positions:justice-public-safety.end-cash-bail:general:2025-01-21:law-wiring-84938433:adults:person_328f136709e7c650:2025-01-21",
+     "reach:law:place:3149425:city:us-policy-positions:justice-public-safety.end-cash-bail:general:2025-01-21:law-wiring-84938433:adults:person_328f146709e7c803:2025-01-21"
+    ]
+   },
+   "readers": {
+    "src/core2/modules/outcome-web.ts:154": 80,
+    "src/core2/modules/world-legislating.ts:248": 32,
+    "src/core2/modules/world-legislating.ts:178": 16,
+    "src/core2/life.ts:549": 5,
+    "src/core2/modules/legislature.ts:2011": 4,
+    "src/core2/modules/world-legislating.ts:325": 2
+   },
+   "openingRow": "law:US-NE:state:us-policy-positions:justice-public-safety.end-cash-bail:general:starting",
+   "money": {
+    "direct": [],
+    "diff": [],
+    "diffKinds": 0,
+    "cited": []
+   },
+   "web": {
+    "links": [
+     {
+      "key": "end-cash-bail-to-pretrial-detention",
+      "status": "outcome-not-produced",
+      "to": "justice.pretrial-detained"
+     },
+     {
+      "key": "end-cash-bail-to-violent-crime",
+      "status": "about-zero",
+      "to": "crime.violent"
+     }
+    ],
+    "fired": [
+     {
+      "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-01",
+      "link": "end-cash-bail-to-pretrial-detention",
+      "effect": -0.2
+     },
+     {
+      "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-02",
+      "link": "end-cash-bail-to-pretrial-detention",
+      "effect": -0.2
+     }
+    ],
+    "firedCount": 2
+   },
+   "heard": {
+    "people": 71,
+    "sample": [
+     "person_10606db92b470665:printed:outlet:newspaper:0:jurisdiction_45a3b3ebe97fe71d:law-took-effect:law:place:3149425:city:us-policy-positions:justice-public-safety.end-cash-bail:general:2025-01-21:law-wiring-84938433",
+     "person_014873ba8397594d:printed:outlet:newspaper:0:jurisdiction_45a3b3ebe97fe71d:law-took-effect:law:place:3149425:city:us-policy-positions:justice-public-safety.end-cash-bail:general:2025-01-21:law-wiring-84938433",
+     "person_3b8e45617114c97d:printed:outlet:newspaper:0:jurisdiction_45a3b3ebe97fe71d:law-took-effect:law:place:3149425:city:us-policy-positions:justice-public-safety.end-cash-bail:general:2025-01-21:law-wiring-84938433"
+    ]
+   },
+   "afterUndo": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 67,
+    "sample": []
+   },
+   "seconds": 35
+  },
+  {
+   "key": "budget-line:corrections",
+   "kind": "budget-line",
+   "family": "justice",
+   "inForceAtOpening": false,
+   "change": "place:3149425 corrections 0 -> 10000000 by law-wiring-b12dcfab",
+   "lawIds": [
+    "law-wiring-b12dcfab"
+   ],
+   "openingReach": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 0,
+    "sample": []
+   },
+   "reach": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 0,
+    "sample": []
+   },
+   "readers": {},
+   "openingRow": null,
+   "money": {
+    "direct": [],
+    "diff": [
+     {
+      "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:579",
+      "treatment": 37178541521432,
+      "control": 37178541537624,
+      "ids": [
+       "journal:2025-02-01:1618",
+       "journal:2025-02-01:1619",
+       "journal:2025-02-01:1620"
+      ]
+     }
+    ],
+    "diffKinds": 1,
+    "cited": []
+   },
+   "web": {
+    "links": [],
+    "fired": [],
+    "firedCount": 0
+   },
+   "heard": {
+    "people": 0,
+    "sample": []
+   },
+   "afterUndo": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 0,
+    "sample": []
+   },
+   "seconds": 34
+  },
+  {
+   "key": "us-policy-positions:justice-public-safety.restore-voting-after-sentence",
+   "kind": "question",
+   "family": "justice",
+   "inForceAtOpening": true,
+   "change": "repealed at state effective 2025-01-21; then enacted at city (law:place:3149425:city:us-policy-positions:justice-public-safety.restore-voting-after-sentence:general:2025-02-26:law-wiring-9af17480-b) effective 2025-02-26",
+   "lawIds": [
+    "law:US-NE:state:us-policy-positions:justice-public-safety.restore-voting-after-sentence:general:starting",
+    "law:US-NE:state:us-policy-positions:justice-public-safety.restore-voting-after-sentence:general:2025-01-21:law-wiring-9af17480",
+    "law:place:3149425:city:us-policy-positions:justice-public-safety.restore-voting-after-sentence:general:2025-02-26:law-wiring-9af17480-b"
+   ],
+   "openingReach": {
+    "fullPeople": 0,
+    "countedGroups": 1,
+    "countedPeople": 1,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 1,
+    "ended": 0,
+    "sample": [
+     "reach:law:US-NE:state:us-policy-positions:justice-public-safety.restore-voting-after-sentence:general:starting:restored:estimated:restored:2025-01-20"
+    ]
+   },
+   "reach": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 1,
+    "sample": []
+   },
+   "readers": {
+    "src/core2/modules/legislature.ts:2011": 256,
+    "src/core2/modules/outcome-web.ts:154": 48,
+    "src/core2/modules/world-legislating.ts:248": 24,
+    "src/core2/law-reach/group-a-records.ts:270": 24,
+    "src/core2/modules/world-legislating.ts:178": 16,
+    "src/core2/life.ts:549": 5,
+    "src/core2/modules/world-legislating.ts:325": 2
+   },
+   "openingRow": "law:US-NE:state:us-policy-positions:justice-public-safety.restore-voting-after-sentence:general:starting",
+   "money": {
+    "direct": [],
+    "diff": [],
+    "diffKinds": 0,
+    "cited": []
+   },
+   "web": {
+    "links": [
+     {
+      "key": "restore-voting-to-turnout",
+      "status": "built",
+      "to": "voting.turnout-pct"
+     }
+    ],
+    "fired": [],
+    "firedCount": 0
+   },
+   "heard": {
+    "people": 81,
+    "sample": [
+     "person_10606db92b470665:printed:outlet:cable:0:national:law-took-effect:law:US-NE:state:us-policy-positions:justice-public-safety.restore-voting-after-sentence:general:2025-01-21:law-wiring-9af17480",
+     "person_014873ba8397594d:printed:outlet:cable:0:national:law-took-effect:law:US-NE:state:us-policy-positions:justice-public-safety.restore-voting-after-sentence:general:2025-01-21:law-wiring-9af17480",
+     "person_3b8e45617114c97d:printed:outlet:cable:0:national:law-took-effect:law:US-NE:state:us-policy-positions:justice-public-safety.restore-voting-after-sentence:general:2025-01-21:law-wiring-9af17480"
+    ]
+   },
+   "afterUndo": {
+    "fullPeople": 0,
+    "countedGroups": 1,
+    "countedPeople": 1,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 1,
+    "ended": 1,
+    "sample": [
+     "reach:law:place:3149425:city:us-policy-positions:justice-public-safety.restore-voting-after-sentence:general:2025-02-26:law-wiring-9af17480-b:restored:estimated:restored:2025-02-26"
+    ]
+   },
+   "seconds": 31
+  },
+  {
+   "key": "us-policy-positions:justice-public-safety.raise-juvenile-court-age",
+   "kind": "question",
+   "family": "justice",
+   "inForceAtOpening": true,
+   "change": "repealed at state effective 2025-01-21; then enacted at city (law:place:3149425:city:us-policy-positions:justice-public-safety.raise-juvenile-court-age:general:2025-02-26:law-wiring-e19ea271-b) effective 2025-02-26",
+   "lawIds": [
+    "law:US-NE:state:us-policy-positions:justice-public-safety.raise-juvenile-court-age:general:starting",
+    "law:US-NE:state:us-policy-positions:justice-public-safety.raise-juvenile-court-age:general:2025-01-21:law-wiring-e19ea271",
+    "law:place:3149425:city:us-policy-positions:justice-public-safety.raise-juvenile-court-age:general:2025-02-26:law-wiring-e19ea271-b"
+   ],
+   "openingReach": {
+    "fullPeople": 3,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 1,
+    "governments": 0,
+    "other": 0,
+    "open": 4,
+    "ended": 0,
+    "sample": [
+     "reach:law:US-NE:state:us-policy-positions:justice-public-safety.raise-juvenile-court-age:general:starting:young-adults:person_d7dd19d8395ddc6d:2025-01-20",
+     "reach:law:US-NE:state:us-policy-positions:justice-public-safety.raise-juvenile-court-age:general:starting:young-adults:person_571e973828a92105:2025-01-20",
+     "reach:law:US-NE:state:us-policy-positions:justice-public-safety.raise-juvenile-court-age:general:starting:young-adults:person_00a28a6650e55809:2025-01-20",
+     "reach:law:US-NE:state:us-policy-positions:justice-public-safety.raise-juvenile-court-age:general:starting:department:organization_323a5cedbef21846:2025-01-20"
+    ]
+   },
+   "reach": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 4,
+    "sample": []
+   },
+   "readers": {
+    "src/core2/modules/outcome-web.ts:154": 48,
+    "src/core2/modules/world-legislating.ts:248": 24,
+    "src/core2/modules/world-legislating.ts:178": 16,
+    "src/core2/life.ts:549": 5,
+    "src/core2/modules/legislature.ts:2011": 2,
+    "src/core2/modules/world-legislating.ts:325": 2
+   },
+   "openingRow": "law:US-NE:state:us-policy-positions:justice-public-safety.raise-juvenile-court-age:general:starting",
+   "money": {
+    "direct": [],
+    "diff": [],
+    "diffKinds": 0,
+    "cited": []
+   },
+   "web": {
+    "links": [
+     {
+      "key": "juvenile-court-age-to-crime",
+      "status": "about-zero",
+      "to": "crime.violent"
+     }
+    ],
+    "fired": [],
+    "firedCount": 0
+   },
+   "heard": {
+    "people": 81,
+    "sample": [
+     "person_10606db92b470665:printed:outlet:cable:0:national:law-took-effect:law:US-NE:state:us-policy-positions:justice-public-safety.raise-juvenile-court-age:general:2025-01-21:law-wiring-e19ea271",
+     "person_014873ba8397594d:printed:outlet:cable:0:national:law-took-effect:law:US-NE:state:us-policy-positions:justice-public-safety.raise-juvenile-court-age:general:2025-01-21:law-wiring-e19ea271",
+     "person_3b8e45617114c97d:printed:outlet:cable:0:national:law-took-effect:law:US-NE:state:us-policy-positions:justice-public-safety.raise-juvenile-court-age:general:2025-01-21:law-wiring-e19ea271"
+    ]
+   },
+   "afterUndo": {
+    "fullPeople": 3,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 1,
+    "governments": 0,
+    "other": 0,
+    "open": 4,
+    "ended": 4,
+    "sample": [
+     "reach:law:place:3149425:city:us-policy-positions:justice-public-safety.raise-juvenile-court-age:general:2025-02-26:law-wiring-e19ea271-b:young-adults:person_d7dd19d8395ddc6d:2025-02-26",
+     "reach:law:place:3149425:city:us-policy-positions:justice-public-safety.raise-juvenile-court-age:general:2025-02-26:law-wiring-e19ea271-b:young-adults:person_571e973828a92105:2025-02-26",
+     "reach:law:place:3149425:city:us-policy-positions:justice-public-safety.raise-juvenile-court-age:general:2025-02-26:law-wiring-e19ea271-b:young-adults:person_00a28a6650e55809:2025-02-26",
+     "reach:law:place:3149425:city:us-policy-positions:justice-public-safety.raise-juvenile-court-age:general:2025-02-26:law-wiring-e19ea271-b:department:organization_323a5cedbef21846:2025-02-26"
+    ]
+   },
+   "seconds": 26
+  },
+  {
+   "key": "us-policy-positions:justice-public-safety.child-access-prevention",
+   "kind": "question",
+   "family": "justice",
+   "inForceAtOpening": false,
+   "change": "enacted at city (law:place:3149425:city:us-policy-positions:justice-public-safety.child-access-prevention:general:2025-01-21:law-wiring-839e7cff) effective 2025-01-21; then repealed at city effective 2025-02-26",
+   "lawIds": [
+    "law:place:3149425:city:us-policy-positions:justice-public-safety.child-access-prevention:general:2025-01-21:law-wiring-839e7cff",
+    "law:place:3149425:city:us-policy-positions:justice-public-safety.child-access-prevention:general:2025-02-26:law-wiring-839e7cff-b"
+   ],
+   "openingReach": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 0,
+    "sample": []
+   },
+   "reach": {
+    "fullPeople": 8,
+    "countedGroups": 1,
+    "countedPeople": 13,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 9,
+    "ended": 0,
+    "sample": [
+     "reach:law:place:3149425:city:us-policy-positions:justice-public-safety.child-access-prevention:general:2025-01-21:law-wiring-839e7cff:parents:person_6fbcbae4fb891ce1:2025-01-21",
+     "reach:law:place:3149425:city:us-policy-positions:justice-public-safety.child-access-prevention:general:2025-01-21:law-wiring-839e7cff:parents:person_6fbcb9e4fb891b2e:2025-01-21",
+     "reach:law:place:3149425:city:us-policy-positions:justice-public-safety.child-access-prevention:general:2025-01-21:law-wiring-839e7cff:parents:person_5151e25ede5bf89f:2025-01-21",
+     "reach:law:place:3149425:city:us-policy-positions:justice-public-safety.child-access-prevention:general:2025-01-21:law-wiring-839e7cff:parents:person_5151e15ede5bf6ec:2025-01-21"
+    ]
+   },
+   "readers": {
+    "src/core2/modules/outcome-web.ts:154": 48,
+    "src/core2/modules/world-legislating.ts:248": 32,
+    "src/core2/modules/world-legislating.ts:178": 16,
+    "src/core2/life.ts:549": 5,
+    "src/core2/modules/legislature.ts:2011": 2,
+    "src/core2/modules/world-legislating.ts:325": 2
+   },
+   "openingRow": "law:US-NE:state:us-policy-positions:justice-public-safety.child-access-prevention:general:starting",
+   "money": {
+    "direct": [],
+    "diff": [],
+    "diffKinds": 0,
+    "cited": []
+   },
+   "web": {
+    "links": [
+     {
+      "key": "child-access-law-to-youth-gun-deaths",
+      "status": "outcome-not-produced",
+      "to": "health.youth-firearm-deaths"
+     }
+    ],
+    "fired": [
+     {
+      "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-01",
+      "link": "child-access-law-to-youth-gun-deaths",
+      "effect": -0.13
+     },
+     {
+      "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-02",
+      "link": "child-access-law-to-youth-gun-deaths",
+      "effect": -0.13
+     }
+    ],
+    "firedCount": 2
+   },
+   "heard": {
+    "people": 71,
+    "sample": [
+     "person_10606db92b470665:printed:outlet:newspaper:0:jurisdiction_45a3b3ebe97fe71d:law-took-effect:law:place:3149425:city:us-policy-positions:justice-public-safety.child-access-prevention:general:2025-01-21:law-wiring-839e7cff",
+     "person_014873ba8397594d:printed:outlet:newspaper:0:jurisdiction_45a3b3ebe97fe71d:law-took-effect:law:place:3149425:city:us-policy-positions:justice-public-safety.child-access-prevention:general:2025-01-21:law-wiring-839e7cff",
+     "person_3b8e45617114c97d:printed:outlet:newspaper:0:jurisdiction_45a3b3ebe97fe71d:law-took-effect:law:place:3149425:city:us-policy-positions:justice-public-safety.child-access-prevention:general:2025-01-21:law-wiring-839e7cff"
+    ]
+   },
+   "afterUndo": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 9,
+    "sample": []
+   },
+   "seconds": 34
+  },
+  {
+   "key": "us-policy-positions:justice-public-safety.permit-to-carry-concealed",
+   "kind": "question",
+   "family": "justice",
+   "inForceAtOpening": false,
+   "change": "enacted at city (law:place:3149425:city:us-policy-positions:justice-public-safety.permit-to-carry-concealed:general:2025-01-21:law-wiring-e5f9b19b) effective 2025-01-21; then repealed at city effective 2025-02-26",
+   "lawIds": [
+    "law:place:3149425:city:us-policy-positions:justice-public-safety.permit-to-carry-concealed:general:2025-01-21:law-wiring-e5f9b19b",
+    "law:place:3149425:city:us-policy-positions:justice-public-safety.permit-to-carry-concealed:general:2025-02-26:law-wiring-e5f9b19b-b"
+   ],
+   "openingReach": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 0,
+    "sample": []
+   },
+   "reach": {
+    "fullPeople": 66,
+    "countedGroups": 2,
+    "countedPeople": 99,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 68,
+    "ended": 0,
+    "sample": [
+     "reach:law:place:3149425:city:us-policy-positions:justice-public-safety.permit-to-carry-concealed:general:2025-01-21:law-wiring-e5f9b19b:adults:person_eadfec9a418d1fed:2025-01-21",
+     "reach:law:place:3149425:city:us-policy-positions:justice-public-safety.permit-to-carry-concealed:general:2025-01-21:law-wiring-e5f9b19b:adults:person_eadfeb9a418d1e3a:2025-01-21",
+     "reach:law:place:3149425:city:us-policy-positions:justice-public-safety.permit-to-carry-concealed:general:2025-01-21:law-wiring-e5f9b19b:adults:person_328f136709e7c650:2025-01-21",
+     "reach:law:place:3149425:city:us-policy-positions:justice-public-safety.permit-to-carry-concealed:general:2025-01-21:law-wiring-e5f9b19b:adults:person_328f146709e7c803:2025-01-21"
+    ]
+   },
+   "readers": {
+    "src/core2/modules/outcome-web.ts:154": 80,
+    "src/core2/modules/world-legislating.ts:248": 32,
+    "src/core2/modules/world-legislating.ts:178": 16,
+    "src/core2/life.ts:549": 5,
+    "src/core2/modules/legislature.ts:2011": 2,
+    "src/core2/modules/world-legislating.ts:325": 2
+   },
+   "openingRow": "law:US-NE:state:us-policy-positions:justice-public-safety.permit-to-carry-concealed:general:starting",
+   "money": {
+    "direct": [],
+    "diff": [],
+    "diffKinds": 0,
+    "cited": []
+   },
+   "web": {
+    "links": [
+     {
+      "key": "concealed-carry-permit-to-firearm-homicide",
+      "status": "built",
+      "to": "crime.firearm-homicide"
+     },
+     {
+      "key": "carry-permit-to-violent-crime",
+      "status": "built",
+      "to": "crime.violent"
+     }
+    ],
+    "fired": [
+     {
+      "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-01",
+      "link": "concealed-carry-permit-to-firearm-homicide",
+      "effect": -0.08
+     },
+     {
+      "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-02",
+      "link": "concealed-carry-permit-to-firearm-homicide",
+      "effect": -0.08
+     }
+    ],
+    "firedCount": 2
+   },
+   "heard": {
+    "people": 71,
+    "sample": [
+     "person_10606db92b470665:printed:outlet:newspaper:0:jurisdiction_45a3b3ebe97fe71d:law-took-effect:law:place:3149425:city:us-policy-positions:justice-public-safety.permit-to-carry-concealed:general:2025-01-21:law-wiring-e5f9b19b",
+     "person_014873ba8397594d:printed:outlet:newspaper:0:jurisdiction_45a3b3ebe97fe71d:law-took-effect:law:place:3149425:city:us-policy-positions:justice-public-safety.permit-to-carry-concealed:general:2025-01-21:law-wiring-e5f9b19b",
+     "person_3b8e45617114c97d:printed:outlet:newspaper:0:jurisdiction_45a3b3ebe97fe71d:law-took-effect:law:place:3149425:city:us-policy-positions:justice-public-safety.permit-to-carry-concealed:general:2025-01-21:law-wiring-e5f9b19b"
+    ]
+   },
+   "afterUndo": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 68,
+    "sample": []
+   },
+   "seconds": 25
+  },
+  {
+   "key": "us-policy-positions:justice-public-safety.raise-handgun-purchase-age",
+   "kind": "question",
+   "family": "justice",
+   "inForceAtOpening": true,
+   "change": "repealed at state effective 2025-01-21; then enacted at city (law:place:3149425:city:us-policy-positions:justice-public-safety.raise-handgun-purchase-age:general:2025-02-26:law-wiring-ec1d9e98-b) effective 2025-02-26",
+   "lawIds": [
+    "law:US-NE:state:us-policy-positions:justice-public-safety.raise-handgun-purchase-age:general:starting",
+    "law:US-NE:state:us-policy-positions:justice-public-safety.raise-handgun-purchase-age:general:2025-01-21:law-wiring-ec1d9e98",
+    "law:place:3149425:city:us-policy-positions:justice-public-safety.raise-handgun-purchase-age:general:2025-02-26:law-wiring-ec1d9e98-b"
+   ],
+   "openingReach": {
+    "fullPeople": 0,
+    "countedGroups": 1,
+    "countedPeople": 1,
+    "households": 0,
+    "organizations": 3,
+    "governments": 0,
+    "other": 0,
+    "open": 4,
+    "ended": 0,
+    "sample": [
+     "reach:law:US-NE:state:us-policy-positions:justice-public-safety.raise-handgun-purchase-age:general:starting:dealers:organization_31edee1019232ef0:2025-01-20",
+     "reach:law:US-NE:state:us-policy-positions:justice-public-safety.raise-handgun-purchase-age:general:starting:dealers:organization_31edef10192330a3:2025-01-20",
+     "reach:law:US-NE:state:us-policy-positions:justice-public-safety.raise-handgun-purchase-age:general:starting:dealers:organization_31edf11019233409:2025-01-20",
+     "reach:law:US-NE:state:us-policy-positions:justice-public-safety.raise-handgun-purchase-age:general:starting:counted-young-adults:counted:counted-young-adults:2025-01-20"
+    ]
+   },
+   "reach": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 4,
+    "sample": []
+   },
+   "readers": {
+    "src/core2/modules/outcome-web.ts:154": 48,
+    "src/core2/modules/world-legislating.ts:248": 24,
+    "src/core2/modules/world-legislating.ts:178": 16,
+    "src/core2/life.ts:549": 5,
+    "src/core2/modules/legislature.ts:2011": 2,
+    "src/core2/modules/world-legislating.ts:325": 2
+   },
+   "openingRow": "law:US-NE:state:us-policy-positions:justice-public-safety.raise-handgun-purchase-age:general:starting",
+   "money": {
+    "direct": [],
+    "diff": [],
+    "diffKinds": 0,
+    "cited": []
+   },
+   "web": {
+    "links": [
+     {
+      "key": "min-age-to-youth-gun-suicide",
+      "status": "outcome-not-produced",
+      "to": "health.youth-firearm-suicide"
+     }
+    ],
+    "fired": [
+     {
+      "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-01",
+      "link": "min-age-to-youth-gun-suicide",
+      "effect": 0.18
+     },
+     {
+      "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-02",
+      "link": "min-age-to-youth-gun-suicide",
+      "effect": 0.18
+     }
+    ],
+    "firedCount": 2
+   },
+   "heard": {
+    "people": 81,
+    "sample": [
+     "person_10606db92b470665:printed:outlet:cable:0:national:law-took-effect:law:US-NE:state:us-policy-positions:justice-public-safety.raise-handgun-purchase-age:general:2025-01-21:law-wiring-ec1d9e98",
+     "person_014873ba8397594d:printed:outlet:cable:0:national:law-took-effect:law:US-NE:state:us-policy-positions:justice-public-safety.raise-handgun-purchase-age:general:2025-01-21:law-wiring-ec1d9e98",
+     "person_3b8e45617114c97d:printed:outlet:cable:0:national:law-took-effect:law:US-NE:state:us-policy-positions:justice-public-safety.raise-handgun-purchase-age:general:2025-01-21:law-wiring-ec1d9e98"
+    ]
+   },
+   "afterUndo": {
+    "fullPeople": 0,
+    "countedGroups": 1,
+    "countedPeople": 1,
+    "households": 0,
+    "organizations": 3,
+    "governments": 0,
+    "other": 0,
+    "open": 4,
+    "ended": 4,
+    "sample": [
+     "reach:law:place:3149425:city:us-policy-positions:justice-public-safety.raise-handgun-purchase-age:general:2025-02-26:law-wiring-ec1d9e98-b:dealers:organization_31edee1019232ef0:2025-02-26",
+     "reach:law:place:3149425:city:us-policy-positions:justice-public-safety.raise-handgun-purchase-age:general:2025-02-26:law-wiring-ec1d9e98-b:dealers:organization_31edef10192330a3:2025-02-26",
+     "reach:law:place:3149425:city:us-policy-positions:justice-public-safety.raise-handgun-purchase-age:general:2025-02-26:law-wiring-ec1d9e98-b:dealers:organization_31edf11019233409:2025-02-26",
+     "reach:law:place:3149425:city:us-policy-positions:justice-public-safety.raise-handgun-purchase-age:general:2025-02-26:law-wiring-ec1d9e98-b:counted-young-adults:counted:counted-young-adults:2025-02-26"
+    ]
+   },
+   "seconds": 30
+  },
+  {
+   "key": "us-policy-positions:justice-public-safety.stand-your-ground",
+   "kind": "question",
+   "family": "justice",
+   "inForceAtOpening": false,
+   "change": "enacted at city (law:place:3149425:city:us-policy-positions:justice-public-safety.stand-your-ground:general:2025-01-21:law-wiring-a5971c34) effective 2025-01-21; then repealed at city effective 2025-02-26",
+   "lawIds": [
+    "law:place:3149425:city:us-policy-positions:justice-public-safety.stand-your-ground:general:2025-01-21:law-wiring-a5971c34",
+    "law:place:3149425:city:us-policy-positions:justice-public-safety.stand-your-ground:general:2025-02-26:law-wiring-a5971c34-b"
+   ],
+   "openingReach": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 0,
+    "sample": []
+   },
+   "reach": {
+    "fullPeople": 66,
+    "countedGroups": 1,
+    "countedPeople": 99,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 67,
+    "ended": 0,
+    "sample": [
+     "reach:law:place:3149425:city:us-policy-positions:justice-public-safety.stand-your-ground:general:2025-01-21:law-wiring-a5971c34:adults:person_eadfec9a418d1fed:2025-01-21",
+     "reach:law:place:3149425:city:us-policy-positions:justice-public-safety.stand-your-ground:general:2025-01-21:law-wiring-a5971c34:adults:person_eadfeb9a418d1e3a:2025-01-21",
+     "reach:law:place:3149425:city:us-policy-positions:justice-public-safety.stand-your-ground:general:2025-01-21:law-wiring-a5971c34:adults:person_328f136709e7c650:2025-01-21",
+     "reach:law:place:3149425:city:us-policy-positions:justice-public-safety.stand-your-ground:general:2025-01-21:law-wiring-a5971c34:adults:person_328f146709e7c803:2025-01-21"
+    ]
+   },
+   "readers": {
+    "src/core2/modules/outcome-web.ts:154": 48,
+    "src/core2/modules/world-legislating.ts:248": 32,
+    "src/core2/modules/world-legislating.ts:178": 16,
+    "src/core2/life.ts:549": 5,
+    "src/core2/modules/legislature.ts:2011": 2,
+    "src/core2/modules/world-legislating.ts:325": 2
+   },
+   "openingRow": "law:US-NE:state:us-policy-positions:justice-public-safety.stand-your-ground:general:starting",
+   "money": {
+    "direct": [],
+    "diff": [],
+    "diffKinds": 0,
+    "cited": []
+   },
+   "web": {
+    "links": [
+     {
+      "key": "stand-your-ground-to-homicide",
+      "status": "built",
+      "to": "crime.firearm-homicide"
+     }
+    ],
+    "fired": [
+     {
+      "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-01",
+      "link": "stand-your-ground-to-homicide",
+      "effect": 0.08
+     },
+     {
+      "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-02",
+      "link": "stand-your-ground-to-homicide",
+      "effect": 0.08
+     }
+    ],
+    "firedCount": 2
+   },
+   "heard": {
+    "people": 71,
+    "sample": [
+     "person_10606db92b470665:printed:outlet:newspaper:0:jurisdiction_45a3b3ebe97fe71d:law-took-effect:law:place:3149425:city:us-policy-positions:justice-public-safety.stand-your-ground:general:2025-01-21:law-wiring-a5971c34",
+     "person_014873ba8397594d:printed:outlet:newspaper:0:jurisdiction_45a3b3ebe97fe71d:law-took-effect:law:place:3149425:city:us-policy-positions:justice-public-safety.stand-your-ground:general:2025-01-21:law-wiring-a5971c34",
+     "person_3b8e45617114c97d:printed:outlet:newspaper:0:jurisdiction_45a3b3ebe97fe71d:law-took-effect:law:place:3149425:city:us-policy-positions:justice-public-safety.stand-your-ground:general:2025-01-21:law-wiring-a5971c34"
+    ]
+   },
+   "afterUndo": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 67,
+    "sample": []
+   },
+   "seconds": 27
+  },
+  {
+   "key": "budget-line:fire",
+   "kind": "budget-line",
+   "family": "justice",
+   "inForceAtOpening": false,
+   "change": "place:3149425 fire 4497704 -> 14497704 by law-wiring-aff49982",
+   "lawIds": [
+    "law-wiring-aff49982"
+   ],
+   "openingReach": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 0,
+    "sample": []
+   },
+   "reach": {
+    "fullPeople": 2,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 1,
+    "governments": 0,
+    "other": 0,
+    "open": 3,
+    "ended": 0,
+    "sample": [
+     "reach:law-wiring-aff49982:positions:organization_0b67d044f31d8f60:2025-01-20",
+     "reach:law-wiring-aff49982:hired:person_71230c0fa545c0f8:2025-01-21",
+     "reach:law-wiring-aff49982:hired:person_03819202b5d285c1:2025-01-21"
+    ]
+   },
+   "readers": {},
+   "openingRow": null,
+   "money": {
+    "direct": [],
+    "diff": [
+     {
+      "kind": "accounts.transfer @ src/core2/world-transfer.ts:37",
+      "treatment": 9499909,
+      "control": 8886205,
+      "ids": [
+       "journal:2025-01-21:1527",
+       "journal:2025-02-01:1825",
+       "journal:2025-02-01:1826"
+      ]
+     },
+     {
+      "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2351",
+      "treatment": 14280766,
+      "control": 14026980,
+      "ids": [
+       "journal:2025-01-28:1548",
+       "journal:2025-01-28:1551",
+       "journal:2025-01-29:1589"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/cost-of-living.ts:305",
+      "treatment": 3704321,
+      "control": 3548680,
+      "ids": [
+       "journal:2025-02-01:1899",
+       "journal:2025-02-01:1902",
+       "journal:2025-02-01:1905"
+      ]
+     },
+     {
+      "kind": "finance.contract-settlement @ src/core2/finance-cash.ts:2591",
+      "treatment": 14850835,
+      "control": 14773981,
+      "ids": [
+       "journal:2025-02-01:1866",
+       "journal:2025-02-01:1867",
+       "journal:2025-02-01:1868"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:579",
+      "treatment": 37178541521432,
+      "control": 37178541537624,
+      "ids": [
+       "journal:2025-02-01:1619",
+       "journal:2025-02-01:1620",
+       "journal:2025-02-01:1621"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/modules/purchase-tax.ts:142",
+      "treatment": 1431059,
+      "control": 1415893,
+      "ids": [
+       "journal:2025-02-01:1900",
+       "journal:2025-02-01:1901",
+       "journal:2025-02-01:1903"
+      ]
+     },
+     {
+      "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1349",
+      "treatment": 107436946,
+      "control": 107424848,
+      "ids": [
+       "journal:2025-01-28:1549",
+       "journal:2025-01-28:1552",
+       "journal:2025-01-29:1590"
+      ]
+     },
+     {
+      "kind": "employer-taxes:share @ src/core2/modules/employer-taxes.ts:616",
+      "treatment": 2653086,
+      "control": 2656693,
+      "ids": [
+       "journal:2025-01-25:1545",
+       "journal:2025-01-27:1547",
+       "journal:2025-01-28:1550"
+      ]
+     }
+    ],
+    "diffKinds": 8,
+    "cited": []
+   },
+   "web": {
+    "links": [],
+    "fired": [],
+    "firedCount": 0
+   },
+   "heard": {
+    "people": 0,
+    "sample": []
+   },
+   "afterUndo": {
+    "fullPeople": 4,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 1,
+    "governments": 0,
+    "other": 0,
+    "open": 5,
+    "ended": 0,
+    "sample": [
+     "reach:law-wiring-aff49982:hired:person_71230c0fa545c0f8:2025-01-21",
+     "reach:law-wiring-aff49982:hired:person_03819202b5d285c1:2025-01-21",
+     "reach:law-wiring-aff49982:positions:organization_0b67d044f31d8f60:2025-01-20",
+     "reach:law-wiring-aff49982-undo:laid-off:person_71230c0fa545c0f8:2025-02-26"
+    ]
+   },
+   "seconds": 26
+  },
+  {
+   "key": "us-policy-positions:government-operations.all-mail-voting",
+   "kind": "question",
+   "family": "government",
+   "inForceAtOpening": false,
+   "change": "enacted at city (law:place:3149425:city:us-policy-positions:government-operations.all-mail-voting:general:2025-01-21:law-wiring-d2e20612) effective 2025-01-21; then repealed at city effective 2025-02-26",
+   "lawIds": [
+    "law:place:3149425:city:us-policy-positions:government-operations.all-mail-voting:general:2025-01-21:law-wiring-d2e20612",
+    "law:place:3149425:city:us-policy-positions:government-operations.all-mail-voting:general:2025-02-26:law-wiring-d2e20612-b"
+   ],
+   "openingReach": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 0,
+    "sample": []
+   },
+   "reach": {
+    "fullPeople": 66,
+    "countedGroups": 2,
+    "countedPeople": 198,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 68,
+    "ended": 0,
+    "sample": [
+     "reach:law:place:3149425:city:us-policy-positions:government-operations.all-mail-voting:general:2025-01-21:law-wiring-d2e20612:voters:person_eadfec9a418d1fed:2025-01-21",
+     "reach:law:place:3149425:city:us-policy-positions:government-operations.all-mail-voting:general:2025-01-21:law-wiring-d2e20612:voters:person_eadfeb9a418d1e3a:2025-01-21",
+     "reach:law:place:3149425:city:us-policy-positions:government-operations.all-mail-voting:general:2025-01-21:law-wiring-d2e20612:voters:person_328f136709e7c650:2025-01-21",
+     "reach:law:place:3149425:city:us-policy-positions:government-operations.all-mail-voting:general:2025-01-21:law-wiring-d2e20612:voters:person_328f146709e7c803:2025-01-21"
+    ]
+   },
+   "readers": {
+    "src/core2/modules/outcome-web.ts:154": 48,
+    "src/core2/modules/world-legislating.ts:248": 32,
+    "src/core2/law-reach/group-a-records.ts:270": 24,
+    "src/core2/modules/world-legislating.ts:178": 16,
+    "src/core2/life.ts:549": 5,
+    "src/core2/modules/legislature.ts:2011": 2,
+    "src/core2/modules/world-legislating.ts:325": 2
+   },
+   "openingRow": "law:US-NE:state:us-policy-positions:government-operations.all-mail-voting:general:starting",
+   "money": {
+    "direct": [],
+    "diff": [],
+    "diffKinds": 0,
+    "cited": []
+   },
+   "web": {
+    "links": [
+     {
+      "key": "all-mail-voting-to-turnout",
+      "status": "built",
+      "to": "voting.turnout-pct"
+     },
+     {
+      "key": "all-mail-voting-to-party-share",
+      "status": "about-zero",
+      "to": "voting.party-share"
+     }
+    ],
+    "fired": [
+     {
+      "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-01",
+      "link": "all-mail-voting-to-turnout",
+      "effect": 0.035
+     },
+     {
+      "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-02",
+      "link": "all-mail-voting-to-turnout",
+      "effect": 0.035
+     }
+    ],
+    "firedCount": 2
+   },
+   "heard": {
+    "people": 71,
+    "sample": [
+     "person_10606db92b470665:printed:outlet:newspaper:0:jurisdiction_45a3b3ebe97fe71d:law-took-effect:law:place:3149425:city:us-policy-positions:government-operations.all-mail-voting:general:2025-01-21:law-wiring-d2e20612",
+     "person_014873ba8397594d:printed:outlet:newspaper:0:jurisdiction_45a3b3ebe97fe71d:law-took-effect:law:place:3149425:city:us-policy-positions:government-operations.all-mail-voting:general:2025-01-21:law-wiring-d2e20612",
+     "person_3b8e45617114c97d:printed:outlet:newspaper:0:jurisdiction_45a3b3ebe97fe71d:law-took-effect:law:place:3149425:city:us-policy-positions:government-operations.all-mail-voting:general:2025-01-21:law-wiring-d2e20612"
+    ]
+   },
+   "afterUndo": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 68,
+    "sample": []
+   },
+   "seconds": 22
+  },
+  {
+   "key": "us-policy-positions:government-operations.automatic-voter-registration",
+   "kind": "question",
+   "family": "government",
+   "inForceAtOpening": false,
+   "change": "enacted at city (law:place:3149425:city:us-policy-positions:government-operations.automatic-voter-registration:general:2025-01-21:law-wiring-a42ed39a) effective 2025-01-21; then repealed at city effective 2025-02-26",
+   "lawIds": [
+    "law:place:3149425:city:us-policy-positions:government-operations.automatic-voter-registration:general:2025-01-21:law-wiring-a42ed39a",
+    "law:place:3149425:city:us-policy-positions:government-operations.automatic-voter-registration:general:2025-02-26:law-wiring-a42ed39a-b"
+   ],
+   "openingReach": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 0,
+    "sample": []
+   },
+   "reach": {
+    "fullPeople": 66,
+    "countedGroups": 2,
+    "countedPeople": 198,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 68,
+    "ended": 0,
+    "sample": [
+     "reach:law:place:3149425:city:us-policy-positions:government-operations.automatic-voter-registration:general:2025-01-21:law-wiring-a42ed39a:voters:person_eadfec9a418d1fed:2025-01-21",
+     "reach:law:place:3149425:city:us-policy-positions:government-operations.automatic-voter-registration:general:2025-01-21:law-wiring-a42ed39a:voters:person_eadfeb9a418d1e3a:2025-01-21",
+     "reach:law:place:3149425:city:us-policy-positions:government-operations.automatic-voter-registration:general:2025-01-21:law-wiring-a42ed39a:voters:person_328f136709e7c650:2025-01-21",
+     "reach:law:place:3149425:city:us-policy-positions:government-operations.automatic-voter-registration:general:2025-01-21:law-wiring-a42ed39a:voters:person_328f146709e7c803:2025-01-21"
+    ]
+   },
+   "readers": {
+    "src/core2/modules/outcome-web.ts:154": 48,
+    "src/core2/modules/world-legislating.ts:248": 32,
+    "src/core2/law-reach/group-a-records.ts:270": 24,
+    "src/core2/modules/world-legislating.ts:178": 16,
+    "src/core2/life.ts:549": 5,
+    "src/core2/modules/legislature.ts:2011": 2,
+    "src/core2/modules/world-legislating.ts:325": 2
+   },
+   "openingRow": "law:US-NE:state:us-policy-positions:government-operations.automatic-voter-registration:general:starting",
+   "money": {
+    "direct": [],
+    "diff": [],
+    "diffKinds": 0,
+    "cited": []
+   },
+   "web": {
+    "links": [
+     {
+      "key": "automatic-registration-to-turnout",
+      "status": "built",
+      "to": "voting.turnout-pct"
+     }
+    ],
+    "fired": [],
+    "firedCount": 0
+   },
+   "heard": {
+    "people": 71,
+    "sample": [
+     "person_10606db92b470665:printed:outlet:newspaper:0:jurisdiction_45a3b3ebe97fe71d:law-took-effect:law:place:3149425:city:us-policy-positions:government-operations.automatic-voter-registration:general:2025-01-21:law-wiring-a42ed39a",
+     "person_014873ba8397594d:printed:outlet:newspaper:0:jurisdiction_45a3b3ebe97fe71d:law-took-effect:law:place:3149425:city:us-policy-positions:government-operations.automatic-voter-registration:general:2025-01-21:law-wiring-a42ed39a",
+     "person_3b8e45617114c97d:printed:outlet:newspaper:0:jurisdiction_45a3b3ebe97fe71d:law-took-effect:law:place:3149425:city:us-policy-positions:government-operations.automatic-voter-registration:general:2025-01-21:law-wiring-a42ed39a"
+    ]
+   },
+   "afterUndo": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 68,
+    "sample": []
+   },
+   "seconds": 17
+  },
+  {
+   "key": "us-policy-positions:government-operations.independent-redistricting",
+   "kind": "question",
+   "family": "government",
+   "inForceAtOpening": false,
+   "change": "enacted at city (law:place:3149425:city:us-policy-positions:government-operations.independent-redistricting:general:2025-01-21:law-wiring-d8732557) effective 2025-01-21; then repealed at city effective 2025-02-26",
+   "lawIds": [
+    "law:place:3149425:city:us-policy-positions:government-operations.independent-redistricting:general:2025-01-21:law-wiring-d8732557",
+    "law:place:3149425:city:us-policy-positions:government-operations.independent-redistricting:general:2025-02-26:law-wiring-d8732557-b"
+   ],
+   "openingReach": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 0,
+    "sample": []
+   },
+   "reach": {
+    "fullPeople": 61,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 61,
+    "ended": 0,
+    "sample": [
+     "reach:law:place:3149425:city:us-policy-positions:government-operations.independent-redistricting:general:2025-01-21:law-wiring-d8732557:legislators:person_588e191aff272692:2025-01-21",
+     "reach:law:place:3149425:city:us-policy-positions:government-operations.independent-redistricting:general:2025-01-21:law-wiring-d8732557:legislators:person_76f3548ac1386f13:2025-01-21",
+     "reach:law:place:3149425:city:us-policy-positions:government-operations.independent-redistricting:general:2025-01-21:law-wiring-d8732557:legislators:person_d96e913f8c1c35dd:2025-01-21",
+     "reach:law:place:3149425:city:us-policy-positions:government-operations.independent-redistricting:general:2025-01-21:law-wiring-d8732557:legislators:person_2b524f16856d23c7:2025-01-21"
+    ]
+   },
+   "readers": {
+    "src/core2/modules/outcome-web.ts:154": 48,
+    "src/core2/modules/world-legislating.ts:248": 32,
+    "src/core2/modules/world-legislating.ts:178": 16,
+    "src/core2/life.ts:549": 5,
+    "src/core2/modules/legislature.ts:2011": 2,
+    "src/core2/modules/world-legislating.ts:325": 2
+   },
+   "openingRow": "law:US-NE:state:us-policy-positions:government-operations.independent-redistricting:general:starting",
+   "money": {
+    "direct": [],
+    "diff": [],
+    "diffKinds": 0,
+    "cited": []
+   },
+   "web": {
+    "links": [
+     {
+      "key": "independent-redistricting-to-turnout",
+      "status": "built",
+      "to": "voting.turnout-pct"
+     }
+    ],
+    "fired": [],
+    "firedCount": 0
+   },
+   "heard": {
+    "people": 71,
+    "sample": [
+     "person_10606db92b470665:printed:outlet:newspaper:0:jurisdiction_45a3b3ebe97fe71d:law-took-effect:law:place:3149425:city:us-policy-positions:government-operations.independent-redistricting:general:2025-01-21:law-wiring-d8732557",
+     "person_014873ba8397594d:printed:outlet:newspaper:0:jurisdiction_45a3b3ebe97fe71d:law-took-effect:law:place:3149425:city:us-policy-positions:government-operations.independent-redistricting:general:2025-01-21:law-wiring-d8732557",
+     "person_3b8e45617114c97d:printed:outlet:newspaper:0:jurisdiction_45a3b3ebe97fe71d:law-took-effect:law:place:3149425:city:us-policy-positions:government-operations.independent-redistricting:general:2025-01-21:law-wiring-d8732557"
+    ]
+   },
+   "afterUndo": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 61,
+    "sample": []
+   },
+   "seconds": 16
+  },
+  {
+   "key": "us-policy-positions:government-operations.require-photo-id-to-vote",
+   "kind": "question",
+   "family": "government",
+   "inForceAtOpening": true,
+   "change": "repealed at state effective 2025-01-21; then enacted at city (law:place:3149425:city:us-policy-positions:government-operations.require-photo-id-to-vote:general:2025-02-26:law-wiring-232a6f8b-b) effective 2025-02-26",
+   "lawIds": [
+    "law:US-NE:state:us-policy-positions:government-operations.require-photo-id-to-vote:general:starting",
+    "law:US-NE:state:us-policy-positions:government-operations.require-photo-id-to-vote:general:2025-01-21:law-wiring-232a6f8b",
+    "law:place:3149425:city:us-policy-positions:government-operations.require-photo-id-to-vote:general:2025-02-26:law-wiring-232a6f8b-b"
+   ],
+   "openingReach": {
+    "fullPeople": 52,
+    "countedGroups": 2,
+    "countedPeople": 222,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 54,
+    "ended": 0,
+    "sample": [
+     "reach:law:US-NE:state:us-policy-positions:government-operations.require-photo-id-to-vote:general:starting:voters:person_eadfec9a418d1fed:2025-01-20",
+     "reach:law:US-NE:state:us-policy-positions:government-operations.require-photo-id-to-vote:general:starting:voters:person_eadfeb9a418d1e3a:2025-01-20",
+     "reach:law:US-NE:state:us-policy-positions:government-operations.require-photo-id-to-vote:general:starting:voters:person_328f136709e7c650:2025-01-20",
+     "reach:law:US-NE:state:us-policy-positions:government-operations.require-photo-id-to-vote:general:starting:voters:person_328f146709e7c803:2025-01-20"
+    ]
+   },
+   "reach": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 54,
+    "sample": []
+   },
+   "readers": {
+    "src/core2/modules/outcome-web.ts:154": 48,
+    "src/core2/modules/world-legislating.ts:248": 24,
+    "src/core2/law-reach/group-a-records.ts:270": 24,
+    "src/core2/modules/world-legislating.ts:178": 16,
+    "src/core2/life.ts:549": 5,
+    "src/core2/modules/legislature.ts:2011": 2,
+    "src/core2/modules/world-legislating.ts:325": 2
+   },
+   "openingRow": "law:US-NE:state:us-policy-positions:government-operations.require-photo-id-to-vote:general:starting",
+   "money": {
+    "direct": [],
+    "diff": [],
+    "diffKinds": 0,
+    "cited": []
+   },
+   "web": {
+    "links": [
+     {
+      "key": "voter-id-to-turnout",
+      "status": "about-zero",
+      "to": "voting.turnout-pct"
+     },
+     {
+      "key": "voter-id-to-registration",
+      "status": "about-zero",
+      "to": "voting.registration"
+     }
+    ],
+    "fired": [],
+    "firedCount": 0
+   },
+   "heard": {
+    "people": 81,
+    "sample": [
+     "person_10606db92b470665:printed:outlet:cable:0:national:law-took-effect:law:US-NE:state:us-policy-positions:government-operations.require-photo-id-to-vote:general:2025-01-21:law-wiring-232a6f8b",
+     "person_014873ba8397594d:printed:outlet:cable:0:national:law-took-effect:law:US-NE:state:us-policy-positions:government-operations.require-photo-id-to-vote:general:2025-01-21:law-wiring-232a6f8b",
+     "person_3b8e45617114c97d:printed:outlet:cable:0:national:law-took-effect:law:US-NE:state:us-policy-positions:government-operations.require-photo-id-to-vote:general:2025-01-21:law-wiring-232a6f8b"
+    ]
+   },
+   "afterUndo": {
+    "fullPeople": 75,
+    "countedGroups": 2,
+    "countedPeople": 176,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 77,
+    "ended": 54,
+    "sample": [
+     "reach:law:place:3149425:city:us-policy-positions:government-operations.require-photo-id-to-vote:general:2025-02-26:law-wiring-232a6f8b-b:voters:person_eadfec9a418d1fed:2025-02-26",
+     "reach:law:place:3149425:city:us-policy-positions:government-operations.require-photo-id-to-vote:general:2025-02-26:law-wiring-232a6f8b-b:voters:person_eadfeb9a418d1e3a:2025-02-26",
+     "reach:law:place:3149425:city:us-policy-positions:government-operations.require-photo-id-to-vote:general:2025-02-26:law-wiring-232a6f8b-b:voters:person_328f136709e7c650:2025-02-26",
+     "reach:law:place:3149425:city:us-policy-positions:government-operations.require-photo-id-to-vote:general:2025-02-26:law-wiring-232a6f8b-b:voters:person_328f146709e7c803:2025-02-26"
+    ]
+   },
+   "seconds": 15
+  },
+  {
+   "key": "us-policy-positions:government-operations.same-day-voter-registration",
+   "kind": "question",
+   "family": "government",
+   "inForceAtOpening": false,
+   "change": "enacted at city (law:place:3149425:city:us-policy-positions:government-operations.same-day-voter-registration:general:2025-01-21:law-wiring-ae301ed8) effective 2025-01-21; then repealed at city effective 2025-02-26",
+   "lawIds": [
+    "law:place:3149425:city:us-policy-positions:government-operations.same-day-voter-registration:general:2025-01-21:law-wiring-ae301ed8",
+    "law:place:3149425:city:us-policy-positions:government-operations.same-day-voter-registration:general:2025-02-26:law-wiring-ae301ed8-b"
+   ],
+   "openingReach": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 0,
+    "sample": []
+   },
+   "reach": {
+    "fullPeople": 66,
+    "countedGroups": 2,
+    "countedPeople": 198,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 68,
+    "ended": 0,
+    "sample": [
+     "reach:law:place:3149425:city:us-policy-positions:government-operations.same-day-voter-registration:general:2025-01-21:law-wiring-ae301ed8:voters:person_eadfec9a418d1fed:2025-01-21",
+     "reach:law:place:3149425:city:us-policy-positions:government-operations.same-day-voter-registration:general:2025-01-21:law-wiring-ae301ed8:voters:person_eadfeb9a418d1e3a:2025-01-21",
+     "reach:law:place:3149425:city:us-policy-positions:government-operations.same-day-voter-registration:general:2025-01-21:law-wiring-ae301ed8:voters:person_328f136709e7c650:2025-01-21",
+     "reach:law:place:3149425:city:us-policy-positions:government-operations.same-day-voter-registration:general:2025-01-21:law-wiring-ae301ed8:voters:person_328f146709e7c803:2025-01-21"
+    ]
+   },
+   "readers": {
+    "src/core2/modules/outcome-web.ts:154": 48,
+    "src/core2/modules/world-legislating.ts:248": 32,
+    "src/core2/law-reach/group-a-records.ts:270": 24,
+    "src/core2/modules/world-legislating.ts:178": 16,
+    "src/core2/life.ts:549": 5,
+    "src/core2/modules/legislature.ts:2011": 2,
+    "src/core2/modules/world-legislating.ts:325": 2
+   },
+   "openingRow": "law:US-NE:state:us-policy-positions:government-operations.same-day-voter-registration:general:starting",
+   "money": {
+    "direct": [],
+    "diff": [],
+    "diffKinds": 0,
+    "cited": []
+   },
+   "web": {
+    "links": [
+     {
+      "key": "same-day-registration-to-youth-turnout",
+      "status": "outcome-not-produced",
+      "to": "voting.youth-turnout"
+     }
+    ],
+    "fired": [
+     {
+      "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-01",
+      "link": "same-day-registration-to-youth-turnout",
+      "effect": 0.13
+     },
+     {
+      "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-02",
+      "link": "same-day-registration-to-youth-turnout",
+      "effect": 0.13
+     }
+    ],
+    "firedCount": 2
+   },
+   "heard": {
+    "people": 71,
+    "sample": [
+     "person_10606db92b470665:printed:outlet:newspaper:0:jurisdiction_45a3b3ebe97fe71d:law-took-effect:law:place:3149425:city:us-policy-positions:government-operations.same-day-voter-registration:general:2025-01-21:law-wiring-ae301ed8",
+     "person_014873ba8397594d:printed:outlet:newspaper:0:jurisdiction_45a3b3ebe97fe71d:law-took-effect:law:place:3149425:city:us-policy-positions:government-operations.same-day-voter-registration:general:2025-01-21:law-wiring-ae301ed8",
+     "person_3b8e45617114c97d:printed:outlet:newspaper:0:jurisdiction_45a3b3ebe97fe71d:law-took-effect:law:place:3149425:city:us-policy-positions:government-operations.same-day-voter-registration:general:2025-01-21:law-wiring-ae301ed8"
+    ]
+   },
+   "afterUndo": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 68,
+    "sample": []
+   },
+   "seconds": 17
+  },
+  {
+   "key": "us-policy-positions:government-operations.ban-lobbying-after-office",
+   "kind": "question",
+   "family": "government",
+   "inForceAtOpening": false,
+   "change": "enacted at city (law:place:3149425:city:us-policy-positions:government-operations.ban-lobbying-after-office:general:2025-01-21:law-wiring-36fe109e) effective 2025-01-21; then repealed at city effective 2025-02-26",
+   "lawIds": [
+    "law:place:3149425:city:us-policy-positions:government-operations.ban-lobbying-after-office:general:2025-01-21:law-wiring-36fe109e",
+    "law:place:3149425:city:us-policy-positions:government-operations.ban-lobbying-after-office:general:2025-02-26:law-wiring-36fe109e-b"
+   ],
+   "openingReach": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 0,
+    "sample": []
+   },
+   "reach": {
+    "fullPeople": 81,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 81,
+    "ended": 0,
+    "sample": [
+     "reach:law:place:3149425:city:us-policy-positions:government-operations.ban-lobbying-after-office:general:2025-01-21:law-wiring-36fe109e:officials:person_588e191aff272692:2025-01-21",
+     "reach:law:place:3149425:city:us-policy-positions:government-operations.ban-lobbying-after-office:general:2025-01-21:law-wiring-36fe109e:officials:person_76f3548ac1386f13:2025-01-21",
+     "reach:law:place:3149425:city:us-policy-positions:government-operations.ban-lobbying-after-office:general:2025-01-21:law-wiring-36fe109e:officials:person_d96e913f8c1c35dd:2025-01-21",
+     "reach:law:place:3149425:city:us-policy-positions:government-operations.ban-lobbying-after-office:general:2025-01-21:law-wiring-36fe109e:officials:person_2b524f16856d23c7:2025-01-21"
+    ]
+   },
+   "readers": {
+    "src/core2/modules/legislature.ts:2011": 164,
+    "src/core2/modules/world-legislating.ts:248": 32,
+    "src/core2/law-reach/group-a-records.ts:270": 24,
+    "src/core2/modules/world-legislating.ts:178": 16,
+    "src/core2/life.ts:549": 5,
+    "src/core2/modules/world-legislating.ts:325": 2
+   },
+   "openingRow": "law:US-NE:state:us-policy-positions:government-operations.ban-lobbying-after-office:general:starting",
+   "money": {
+    "direct": [],
+    "diff": [],
+    "diffKinds": 0,
+    "cited": []
+   },
+   "web": {
+    "links": [],
+    "fired": [],
+    "firedCount": 0
+   },
+   "heard": {
+    "people": 71,
+    "sample": [
+     "person_10606db92b470665:printed:outlet:newspaper:0:jurisdiction_45a3b3ebe97fe71d:law-took-effect:law:place:3149425:city:us-policy-positions:government-operations.ban-lobbying-after-office:general:2025-01-21:law-wiring-36fe109e",
+     "person_014873ba8397594d:printed:outlet:newspaper:0:jurisdiction_45a3b3ebe97fe71d:law-took-effect:law:place:3149425:city:us-policy-positions:government-operations.ban-lobbying-after-office:general:2025-01-21:law-wiring-36fe109e",
+     "person_3b8e45617114c97d:printed:outlet:newspaper:0:jurisdiction_45a3b3ebe97fe71d:law-took-effect:law:place:3149425:city:us-policy-positions:government-operations.ban-lobbying-after-office:general:2025-01-21:law-wiring-36fe109e"
+    ]
+   },
+   "afterUndo": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 81,
+    "sample": []
+   },
+   "seconds": 15
+  },
+  {
+   "key": "public-pay-floor",
+   "kind": "amount",
+   "family": "government",
+   "inForceAtOpening": false,
+   "change": "public-pay-floor 0 -> 1 at city (law:place:3149425:city:public-pay-floor:general:2025-01-21:law-wiring-cbc3c613) effective 2025-01-21",
+   "lawIds": [
+    "law:place:3149425:city:public-pay-floor:general:2025-01-21:law-wiring-cbc3c613",
+    "law:place:3149425:city:public-pay-floor:general:2025-02-26:law-wiring-cbc3c613-undo"
+   ],
+   "openingReach": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 0,
+    "sample": []
+   },
+   "reach": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 0,
+    "sample": []
+   },
+   "readers": {
+    "src/core2/public-pay-floor.ts:30": 2,
+    "src/core2/life.ts:549": 1
+   },
+   "openingRow": null,
+   "money": {
+    "direct": [],
+    "diff": [],
+    "diffKinds": 0,
+    "cited": []
+   },
+   "web": {
+    "links": [],
+    "fired": [],
+    "firedCount": 0
+   },
+   "heard": {
+    "people": 71,
+    "sample": [
+     "person_10606db92b470665:printed:outlet:newspaper:0:jurisdiction_45a3b3ebe97fe71d:law-took-effect:law:place:3149425:city:public-pay-floor:general:2025-01-21:law-wiring-cbc3c613",
+     "person_014873ba8397594d:printed:outlet:newspaper:0:jurisdiction_45a3b3ebe97fe71d:law-took-effect:law:place:3149425:city:public-pay-floor:general:2025-01-21:law-wiring-cbc3c613",
+     "person_3b8e45617114c97d:printed:outlet:newspaper:0:jurisdiction_45a3b3ebe97fe71d:law-took-effect:law:place:3149425:city:public-pay-floor:general:2025-01-21:law-wiring-cbc3c613"
+    ]
+   },
+   "afterUndo": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 0,
+    "sample": []
+   },
+   "seconds": 14
+  },
+  {
+   "key": "budget-line:administration",
+   "kind": "budget-line",
+   "family": "government",
+   "inForceAtOpening": false,
+   "change": "place:3149425 administration 4128880 -> 14128880 by law-wiring-190055c7",
+   "lawIds": [
+    "law-wiring-190055c7"
+   ],
+   "openingReach": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 0,
+    "sample": []
+   },
+   "reach": {
+    "fullPeople": 5,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 1,
+    "governments": 0,
+    "other": 0,
+    "open": 6,
+    "ended": 0,
+    "sample": [
+     "reach:law-wiring-190055c7:positions:organization_66aa7ca5030a42f2:2025-01-20",
+     "reach:law-wiring-190055c7:hired:person_71230c0fa545c0f8:2025-01-21",
+     "reach:law-wiring-190055c7:hired:person_03819202b5d285c1:2025-01-21",
+     "reach:law-wiring-190055c7:hired:person_5adf61e87a0a8e37:2025-01-21"
+    ]
+   },
+   "readers": {},
+   "openingRow": null,
+   "money": {
+    "direct": [],
+    "diff": [
+     {
+      "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2351",
+      "treatment": 16521327,
+      "control": 14026980,
+      "ids": [
+       "journal:2025-01-28:1548",
+       "journal:2025-01-28:1551",
+       "journal:2025-01-29:1589"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/world-transfer.ts:37",
+      "treatment": 9499072,
+      "control": 8886205,
+      "ids": [
+       "journal:2025-01-21:1527",
+       "journal:2025-02-01:1825",
+       "journal:2025-02-01:1826"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/cost-of-living.ts:305",
+      "treatment": 3704321,
+      "control": 3548680,
+      "ids": [
+       "journal:2025-02-01:1899",
+       "journal:2025-02-01:1902",
+       "journal:2025-02-01:1905"
+      ]
+     },
+     {
+      "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1349",
+      "treatment": 107570672,
+      "control": 107424848,
+      "ids": [
+       "journal:2025-01-28:1549",
+       "journal:2025-01-28:1552",
+       "journal:2025-01-29:1590"
+      ]
+     },
+     {
+      "kind": "finance.contract-settlement @ src/core2/finance-cash.ts:2591",
+      "treatment": 14850835,
+      "control": 14773981,
+      "ids": [
+       "journal:2025-02-01:1866",
+       "journal:2025-02-01:1867",
+       "journal:2025-02-01:1868"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:579",
+      "treatment": 37178541521432,
+      "control": 37178541537624,
+      "ids": [
+       "journal:2025-02-01:1619",
+       "journal:2025-02-01:1620",
+       "journal:2025-02-01:1621"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/modules/purchase-tax.ts:142",
+      "treatment": 1431059,
+      "control": 1415893,
+      "ids": [
+       "journal:2025-02-01:1900",
+       "journal:2025-02-01:1901",
+       "journal:2025-02-01:1903"
+      ]
+     },
+     {
+      "kind": "employer-taxes:share @ src/core2/modules/employer-taxes.ts:616",
+      "treatment": 2653086,
+      "control": 2656693,
+      "ids": [
+       "journal:2025-01-25:1545",
+       "journal:2025-01-27:1547",
+       "journal:2025-01-28:1550"
+      ]
+     }
+    ],
+    "diffKinds": 8,
+    "cited": []
+   },
+   "web": {
+    "links": [],
+    "fired": [],
+    "firedCount": 0
+   },
+   "heard": {
+    "people": 0,
+    "sample": []
+   },
+   "afterUndo": {
+    "fullPeople": 10,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 1,
+    "governments": 0,
+    "other": 0,
+    "open": 11,
+    "ended": 0,
+    "sample": [
+     "reach:law-wiring-190055c7:hired:person_71230c0fa545c0f8:2025-01-21",
+     "reach:law-wiring-190055c7:hired:person_03819202b5d285c1:2025-01-21",
+     "reach:law-wiring-190055c7:hired:person_5adf61e87a0a8e37:2025-01-21",
+     "reach:law-wiring-190055c7:hired:person_5151e25ede5bf89f:2025-01-21"
+    ]
+   },
+   "seconds": 16
+  },
+  {
+   "key": "us-policy-positions:government-operations.broaden-local-authority",
+   "kind": "question",
+   "family": "government",
+   "inForceAtOpening": true,
+   "change": "repealed at state effective 2025-01-21; then enacted at city (law:place:3149425:city:us-policy-positions:government-operations.broaden-local-authority:general:2025-02-26:law-wiring-3e9c78cc-b) effective 2025-02-26",
+   "lawIds": [
+    "law:US-NE:state:us-policy-positions:government-operations.broaden-local-authority:general:starting",
+    "law:US-NE:state:us-policy-positions:government-operations.broaden-local-authority:general:2025-01-21:law-wiring-3e9c78cc",
+    "law:place:3149425:city:us-policy-positions:government-operations.broaden-local-authority:general:2025-02-26:law-wiring-3e9c78cc-b"
+   ],
+   "openingReach": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 0,
+    "sample": []
+   },
+   "reach": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 0,
+    "sample": []
+   },
+   "readers": {
+    "src/core2/policy-authority.ts:45": 62,
+    "src/core2/modules/world-legislating.ts:248": 24,
+    "src/core2/modules/world-legislating.ts:178": 16,
+    "src/core2/life.ts:549": 5,
+    "src/core2/modules/legislature.ts:2011": 2,
+    "src/core2/modules/world-legislating.ts:325": 2
+   },
+   "openingRow": "law:US-NE:state:us-policy-positions:government-operations.broaden-local-authority:general:starting",
+   "money": {
+    "direct": [],
+    "diff": [
+     {
+      "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2351",
+      "treatment": 13869101,
+      "control": 14026980,
+      "ids": [
+       "journal:2025-01-28:1547",
+       "journal:2025-01-28:1550",
+       "journal:2025-01-29:1588"
+      ]
+     },
+     {
+      "kind": "employer-taxes:share @ src/core2/modules/employer-taxes.ts:616",
+      "treatment": 2664001,
+      "control": 2656693,
+      "ids": [
+       "journal:2025-01-25:1544",
+       "journal:2025-01-27:1546",
+       "journal:2025-01-28:1549"
+      ]
+     },
+     {
+      "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1349",
+      "treatment": 107418883,
+      "control": 107424848,
+      "ids": [
+       "journal:2025-01-28:1548",
+       "journal:2025-01-28:1551",
+       "journal:2025-01-29:1589"
+      ]
+     },
+     {
+      "kind": "drive-donation @ src/core2/modules/drives.ts:1076",
+      "treatment": 0,
+      "control": 122,
+      "ids": [
+       "journal:2025-02-24:8173",
+       "journal:2025-02-25:8243"
+      ]
+     }
+    ],
+    "diffKinds": 4,
+    "cited": []
+   },
+   "web": {
+    "links": [],
+    "fired": [],
+    "firedCount": 0
+   },
+   "heard": {
+    "people": 92,
+    "sample": [
+     "person_10606db92b470665:printed:outlet:newspaper:0:jurisdiction_45a3b3ebe97fe71d:law-took-effect:law:US-NE:state:us-policy-positions:government-operations.broaden-local-authority:general:2025-01-21:law-wiring-3e9c78cc",
+     "person_014873ba8397594d:printed:outlet:newspaper:0:jurisdiction_45a3b3ebe97fe71d:law-took-effect:law:US-NE:state:us-policy-positions:government-operations.broaden-local-authority:general:2025-01-21:law-wiring-3e9c78cc",
+     "person_3b8e45617114c97d:printed:outlet:newspaper:0:jurisdiction_45a3b3ebe97fe71d:law-took-effect:law:US-NE:state:us-policy-positions:government-operations.broaden-local-authority:general:2025-01-21:law-wiring-3e9c78cc"
+    ]
+   },
+   "afterUndo": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 0,
+    "sample": []
+   },
+   "seconds": 15
+  },
+  {
+   "key": "us-policy-positions:government-operations.legislative-term-limits",
+   "kind": "question",
+   "family": "government",
+   "inForceAtOpening": true,
+   "change": "repealed at state effective 2025-01-21; then enacted at city (law:place:3149425:city:us-policy-positions:government-operations.legislative-term-limits:general:2025-02-26:law-wiring-b04adc48-b) effective 2025-02-26",
+   "lawIds": [
+    "law:US-NE:state:us-policy-positions:government-operations.legislative-term-limits:general:starting",
+    "law:US-NE:state:us-policy-positions:government-operations.legislative-term-limits:general:2025-01-21:law-wiring-b04adc48",
+    "law:place:3149425:city:us-policy-positions:government-operations.legislative-term-limits:general:2025-02-26:law-wiring-b04adc48-b"
+   ],
+   "openingReach": {
+    "fullPeople": 61,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 61,
+    "ended": 0,
+    "sample": [
+     "reach:law:US-NE:state:us-policy-positions:government-operations.legislative-term-limits:general:starting:legislators:person_588e191aff272692:2025-01-20",
+     "reach:law:US-NE:state:us-policy-positions:government-operations.legislative-term-limits:general:starting:legislators:person_76f3548ac1386f13:2025-01-20",
+     "reach:law:US-NE:state:us-policy-positions:government-operations.legislative-term-limits:general:starting:legislators:person_d96e913f8c1c35dd:2025-01-20",
+     "reach:law:US-NE:state:us-policy-positions:government-operations.legislative-term-limits:general:starting:legislators:person_2b524f16856d23c7:2025-01-20"
+    ]
+   },
+   "reach": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 61,
+    "sample": []
+   },
+   "readers": {
+    "src/core2/modules/legislature.ts:2011": 227,
+    "src/core2/modules/outcome-web.ts:154": 48,
+    "src/core2/modules/world-legislating.ts:248": 24,
+    "src/core2/law-reach/group-a-records.ts:270": 24,
+    "src/core2/modules/world-legislating.ts:178": 16,
+    "src/core2/life.ts:549": 5,
+    "src/core2/modules/world-legislating.ts:325": 2
+   },
+   "openingRow": "law:US-NE:state:us-policy-positions:government-operations.legislative-term-limits:general:starting",
+   "money": {
+    "direct": [],
+    "diff": [],
+    "diffKinds": 0,
+    "cited": []
+   },
+   "web": {
+    "links": [
+     {
+      "key": "term-limits-to-turnout",
+      "status": "about-zero",
+      "to": "voting.turnout-pct"
+     }
+    ],
+    "fired": [],
+    "firedCount": 0
+   },
+   "heard": {
+    "people": 81,
+    "sample": [
+     "person_10606db92b470665:printed:outlet:cable:0:national:law-took-effect:law:US-NE:state:us-policy-positions:government-operations.legislative-term-limits:general:2025-01-21:law-wiring-b04adc48",
+     "person_014873ba8397594d:printed:outlet:cable:0:national:law-took-effect:law:US-NE:state:us-policy-positions:government-operations.legislative-term-limits:general:2025-01-21:law-wiring-b04adc48",
+     "person_3b8e45617114c97d:printed:outlet:cable:0:national:law-took-effect:law:US-NE:state:us-policy-positions:government-operations.legislative-term-limits:general:2025-01-21:law-wiring-b04adc48"
+    ]
+   },
+   "afterUndo": {
+    "fullPeople": 61,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 61,
+    "ended": 61,
+    "sample": [
+     "reach:law:place:3149425:city:us-policy-positions:government-operations.legislative-term-limits:general:2025-02-26:law-wiring-b04adc48-b:legislators:person_588e191aff272692:2025-02-26",
+     "reach:law:place:3149425:city:us-policy-positions:government-operations.legislative-term-limits:general:2025-02-26:law-wiring-b04adc48-b:legislators:person_76f3548ac1386f13:2025-02-26",
+     "reach:law:place:3149425:city:us-policy-positions:government-operations.legislative-term-limits:general:2025-02-26:law-wiring-b04adc48-b:legislators:person_d96e913f8c1c35dd:2025-02-26",
+     "reach:law:place:3149425:city:us-policy-positions:government-operations.legislative-term-limits:general:2025-02-26:law-wiring-b04adc48-b:legislators:person_2b524f16856d23c7:2025-02-26"
+    ]
+   },
+   "seconds": 14
+  },
+  {
+   "key": "us-policy-positions:civil-family-community.ban-discrimination-in-housing-and-work",
+   "kind": "question",
+   "family": "rights",
+   "inForceAtOpening": false,
+   "change": "enacted at city (law:place:3149425:city:us-policy-positions:civil-family-community.ban-discrimination-in-housing-and-work:general:2025-01-21:law-wiring-ca2a5d7b) effective 2025-01-21; then repealed at city effective 2025-02-26",
+   "lawIds": [
+    "law:place:3149425:city:us-policy-positions:civil-family-community.ban-discrimination-in-housing-and-work:general:2025-01-21:law-wiring-ca2a5d7b",
+    "law:place:3149425:city:us-policy-positions:civil-family-community.ban-discrimination-in-housing-and-work:general:2025-02-26:law-wiring-ca2a5d7b-b"
+   ],
+   "openingReach": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 0,
+    "sample": []
+   },
+   "reach": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 20,
+    "governments": 0,
+    "other": 0,
+    "open": 20,
+    "ended": 0,
+    "sample": [
+     "reach:law:place:3149425:city:us-policy-positions:civil-family-community.ban-discrimination-in-housing-and-work:general:2025-01-21:law-wiring-ca2a5d7b:employers:organization_01b157d5b2d5f916:2025-01-21",
+     "reach:law:place:3149425:city:us-policy-positions:civil-family-community.ban-discrimination-in-housing-and-work:general:2025-01-21:law-wiring-ca2a5d7b:employers:organization_01b158d5b2d5fac9:2025-01-21",
+     "reach:law:place:3149425:city:us-policy-positions:civil-family-community.ban-discrimination-in-housing-and-work:general:2025-01-21:law-wiring-ca2a5d7b:employers:organization_07da3fc20d983a22:2025-01-21",
+     "reach:law:place:3149425:city:us-policy-positions:civil-family-community.ban-discrimination-in-housing-and-work:general:2025-01-21:law-wiring-ca2a5d7b:employers:organization_1b967d9a5ffa2ffd:2025-01-21"
+    ]
+   },
+   "readers": {
+    "src/core2/modules/legislature.ts:2011": 349,
+    "src/core2/modules/outcome-web.ts:154": 48,
+    "src/core2/modules/world-legislating.ts:248": 32,
+    "src/core2/modules/world-legislating.ts:178": 16,
+    "src/core2/life.ts:549": 5,
+    "src/core2/modules/world-legislating.ts:325": 2
+   },
+   "openingRow": "law:US-NE:state:us-policy-positions:civil-family-community.ban-discrimination-in-housing-and-work:general:starting",
+   "money": {
+    "direct": [],
+    "diff": [],
+    "diffKinds": 0,
+    "cited": []
+   },
+   "web": {
+    "links": [
+     {
+      "key": "anti-discrimination-to-poverty",
+      "status": "about-zero",
+      "to": "household.poverty-pct"
+     }
+    ],
+    "fired": [],
+    "firedCount": 0
+   },
+   "heard": {
+    "people": 71,
+    "sample": [
+     "person_10606db92b470665:printed:outlet:newspaper:0:jurisdiction_45a3b3ebe97fe71d:law-took-effect:law:place:3149425:city:us-policy-positions:civil-family-community.ban-discrimination-in-housing-and-work:general:2025-01-21:law-wiring-ca2a5d7b",
+     "person_014873ba8397594d:printed:outlet:newspaper:0:jurisdiction_45a3b3ebe97fe71d:law-took-effect:law:place:3149425:city:us-policy-positions:civil-family-community.ban-discrimination-in-housing-and-work:general:2025-01-21:law-wiring-ca2a5d7b",
+     "person_3b8e45617114c97d:printed:outlet:newspaper:0:jurisdiction_45a3b3ebe97fe71d:law-took-effect:law:place:3149425:city:us-policy-positions:civil-family-community.ban-discrimination-in-housing-and-work:general:2025-01-21:law-wiring-ca2a5d7b"
+    ]
+   },
+   "afterUndo": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 20,
+    "sample": []
+   },
+   "seconds": 17
+  },
+  {
+   "key": "us-policy-positions:civil-family-community.dedicated-parks-funding",
+   "kind": "question",
+   "family": "rights",
+   "inForceAtOpening": true,
+   "change": "repealed at state effective 2025-01-21; then enacted at city (law:place:3149425:city:us-policy-positions:civil-family-community.dedicated-parks-funding:general:2025-02-26:law-wiring-39b393c4-b) effective 2025-02-26",
+   "lawIds": [
+    "law:US-NE:state:us-policy-positions:civil-family-community.dedicated-parks-funding:general:starting",
+    "law:US-NE:state:us-policy-positions:civil-family-community.dedicated-parks-funding:general:2025-01-21:law-wiring-39b393c4",
+    "law:place:3149425:city:us-policy-positions:civil-family-community.dedicated-parks-funding:general:2025-02-26:law-wiring-39b393c4-b"
+   ],
+   "openingReach": {
+    "fullPeople": 76,
+    "countedGroups": 1,
+    "countedPeople": 151,
+    "households": 0,
+    "organizations": 1,
+    "governments": 0,
+    "other": 0,
+    "open": 78,
+    "ended": 0,
+    "sample": [
+     "reach:law:US-NE:state:us-policy-positions:civil-family-community.dedicated-parks-funding:general:starting:recreation:organization_cbfc5223476b3c20:2025-01-20",
+     "reach:law:US-NE:state:us-policy-positions:civil-family-community.dedicated-parks-funding:general:starting:residents:person_eadfec9a418d1fed:2025-01-20",
+     "reach:law:US-NE:state:us-policy-positions:civil-family-community.dedicated-parks-funding:general:starting:residents:person_eadfeb9a418d1e3a:2025-01-20",
+     "reach:law:US-NE:state:us-policy-positions:civil-family-community.dedicated-parks-funding:general:starting:residents:person_eadfea9a418d1c87:2025-01-20"
+    ]
+   },
+   "reach": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 78,
+    "sample": []
+   },
+   "readers": {
+    "src/core2/life.ts:549": 5
+   },
+   "openingRow": "law:US-NE:state:us-policy-positions:civil-family-community.dedicated-parks-funding:general:starting",
+   "money": {
+    "direct": [
+     {
+      "kind": "accounts.transfer @ src/core2/law-reach/group-b-money.ts:790",
+      "treatment": 29806600,
+      "control": 29835597,
+      "ids": [
+       "journal:2025-02-20:8101"
+      ]
+     }
+    ],
+    "diff": [
+     {
+      "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:829",
+      "treatment": 58548479771256,
+      "control": 58548607836842,
+      "ids": [
+       "journal:2025-02-01:1641",
+       "journal:2025-02-01:1642",
+       "journal:2025-02-01:1643"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/law-reach/group-b-money.ts:790",
+      "treatment": 29806600,
+      "control": 29835597,
+      "ids": [
+       "journal:2025-02-20:8101"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:579",
+      "treatment": 37178541521432,
+      "control": 37178541537624,
+      "ids": [
+       "journal:2025-02-01:1618",
+       "journal:2025-02-01:1619",
+       "journal:2025-02-01:1620"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/world-transfer.ts:37",
+      "treatment": 8882581,
+      "control": 8886205,
+      "ids": [
+       "journal:2025-02-01:1824",
+       "journal:2025-02-01:1825",
+       "journal:2025-02-01:1826"
+      ]
+     }
+    ],
+    "diffKinds": 4,
+    "cited": []
+   },
+   "web": {
+    "links": [],
+    "fired": [],
+    "firedCount": 0
+   },
+   "heard": {
+    "people": 89,
+    "sample": [
+     "person_eadfea9a418d1c87:budget-line-changed:budget:US-NE:2024:parks:law:US-NE:state:us-policy-positions:civil-family-community.dedicated-parks-funding:general:starting",
+     "person_02977a76e9a4e1c1:budget-line-changed:budget:US-NE:2024:parks:law:US-NE:state:us-policy-positions:civil-family-community.dedicated-parks-funding:general:starting",
+     "person_e855af1ca8e2ee43:budget-line-changed:budget:US-NE:2024:parks:law:US-NE:state:us-policy-positions:civil-family-community.dedicated-parks-funding:general:starting"
+    ]
+   },
+   "afterUndo": {
+    "fullPeople": 104,
+    "countedGroups": 1,
+    "countedPeople": 123,
+    "households": 0,
+    "organizations": 1,
+    "governments": 0,
+    "other": 0,
+    "open": 106,
+    "ended": 78,
+    "sample": [
+     "reach:law:place:3149425:city:us-policy-positions:civil-family-community.dedicated-parks-funding:general:2025-02-26:law-wiring-39b393c4-b:recreation:organization_cbfc5223476b3c20:2025-02-26",
+     "reach:law:place:3149425:city:us-policy-positions:civil-family-community.dedicated-parks-funding:general:2025-02-26:law-wiring-39b393c4-b:residents:person_eadfec9a418d1fed:2025-02-26",
+     "reach:law:place:3149425:city:us-policy-positions:civil-family-community.dedicated-parks-funding:general:2025-02-26:law-wiring-39b393c4-b:residents:person_eadfeb9a418d1e3a:2025-02-26",
+     "reach:law:place:3149425:city:us-policy-positions:civil-family-community.dedicated-parks-funding:general:2025-02-26:law-wiring-39b393c4-b:residents:person_eadfea9a418d1c87:2025-02-26"
+    ]
+   },
+   "seconds": 13
+  },
+  {
+   "key": "us-policy-positions:civil-family-community.restrict-abortion",
+   "kind": "question",
+   "family": "rights",
+   "inForceAtOpening": true,
+   "change": "repealed at state effective 2025-01-21; then enacted at city (law:place:3149425:city:us-policy-positions:civil-family-community.restrict-abortion:general:2025-02-26:law-wiring-38f1507c-b) effective 2025-02-26",
+   "lawIds": [
+    "law:US-NE:state:us-policy-positions:civil-family-community.restrict-abortion:general:starting",
+    "law:US-NE:state:us-policy-positions:civil-family-community.restrict-abortion:general:2025-01-21:law-wiring-38f1507c",
+    "law:place:3149425:city:us-policy-positions:civil-family-community.restrict-abortion:general:2025-02-26:law-wiring-38f1507c-b"
+   ],
+   "openingReach": {
+    "fullPeople": 23,
+    "countedGroups": 1,
+    "countedPeople": 30,
+    "households": 0,
+    "organizations": 2,
+    "governments": 0,
+    "other": 0,
+    "open": 26,
+    "ended": 0,
+    "sample": [
+     "reach:law:US-NE:state:us-policy-positions:civil-family-community.restrict-abortion:general:starting:women:person_eadfea9a418d1c87:2025-01-20",
+     "reach:law:US-NE:state:us-policy-positions:civil-family-community.restrict-abortion:general:starting:women:person_328f146709e7c803:2025-01-20",
+     "reach:law:US-NE:state:us-policy-positions:civil-family-community.restrict-abortion:general:starting:women:person_02977976e9a4e00e:2025-01-20",
+     "reach:law:US-NE:state:us-policy-positions:civil-family-community.restrict-abortion:general:starting:women:person_5a25c780bc2b2e82:2025-01-20"
+    ]
+   },
+   "reach": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 26,
+    "sample": []
+   },
+   "readers": {
+    "src/core2/modules/outcome-web.ts:154": 84,
+    "src/core2/modules/world-legislating.ts:248": 24,
+    "src/core2/modules/world-legislating.ts:178": 16,
+    "src/core2/life.ts:549": 5,
+    "src/core2/modules/legislature.ts:2011": 2,
+    "src/core2/modules/world-legislating.ts:325": 2
+   },
+   "openingRow": "law:US-NE:state:us-policy-positions:civil-family-community.restrict-abortion:general:starting",
+   "money": {
+    "direct": [],
+    "diff": [],
+    "diffKinds": 0,
+    "cited": []
+   },
+   "web": {
+    "links": [
+     {
+      "key": "abortion-ban-to-births",
+      "status": "built",
+      "to": "births.rate"
+     },
+     {
+      "key": "abortion-ban-to-infant-deaths",
+      "status": "built",
+      "to": "health.infant-mortality"
+     }
+    ],
+    "fired": [
+     {
+      "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-01",
+      "link": "abortion-ban-to-births",
+      "effect": -0.023
+     },
+     {
+      "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-01",
+      "link": "abortion-ban-to-infant-deaths",
+      "effect": -0.06
+     }
+    ],
+    "firedCount": 2
+   },
+   "heard": {
+    "people": 81,
+    "sample": [
+     "person_10606db92b470665:printed:outlet:cable:0:national:law-took-effect:law:US-NE:state:us-policy-positions:civil-family-community.restrict-abortion:general:2025-01-21:law-wiring-38f1507c",
+     "person_014873ba8397594d:printed:outlet:cable:0:national:law-took-effect:law:US-NE:state:us-policy-positions:civil-family-community.restrict-abortion:general:2025-01-21:law-wiring-38f1507c",
+     "person_3b8e45617114c97d:printed:outlet:cable:0:national:law-took-effect:law:US-NE:state:us-policy-positions:civil-family-community.restrict-abortion:general:2025-01-21:law-wiring-38f1507c"
+    ]
+   },
+   "afterUndo": {
+    "fullPeople": 33,
+    "countedGroups": 1,
+    "countedPeople": 20,
+    "households": 0,
+    "organizations": 2,
+    "governments": 0,
+    "other": 0,
+    "open": 36,
+    "ended": 26,
+    "sample": [
+     "reach:law:place:3149425:city:us-policy-positions:civil-family-community.restrict-abortion:general:2025-02-26:law-wiring-38f1507c-b:women:person_eadfea9a418d1c87:2025-02-26",
+     "reach:law:place:3149425:city:us-policy-positions:civil-family-community.restrict-abortion:general:2025-02-26:law-wiring-38f1507c-b:women:person_328f146709e7c803:2025-02-26",
+     "reach:law:place:3149425:city:us-policy-positions:civil-family-community.restrict-abortion:general:2025-02-26:law-wiring-38f1507c-b:women:person_02977976e9a4e00e:2025-02-26",
+     "reach:law:place:3149425:city:us-policy-positions:civil-family-community.restrict-abortion:general:2025-02-26:law-wiring-38f1507c-b:women:person_5a25c780bc2b2e82:2025-02-26"
+    ]
+   },
+   "seconds": 14
+  },
+  {
+   "key": "us-policy-positions:technology-privacy.age-verification-for-social-media",
+   "kind": "question",
+   "family": "technology",
+   "inForceAtOpening": false,
+   "change": "enacted at city (law:place:3149425:city:us-policy-positions:technology-privacy.age-verification-for-social-media:general:2025-01-21:law-wiring-03d2708e) effective 2025-01-21; then repealed at city effective 2025-02-26",
+   "lawIds": [
+    "law:place:3149425:city:us-policy-positions:technology-privacy.age-verification-for-social-media:general:2025-01-21:law-wiring-03d2708e",
+    "law:place:3149425:city:us-policy-positions:technology-privacy.age-verification-for-social-media:general:2025-02-26:law-wiring-03d2708e-b"
+   ],
+   "openingReach": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 0,
+    "sample": []
+   },
+   "reach": {
+    "fullPeople": 17,
+    "countedGroups": 1,
+    "countedPeople": 10,
+    "households": 0,
+    "organizations": 1,
+    "governments": 0,
+    "other": 0,
+    "open": 19,
+    "ended": 0,
+    "sample": [
+     "reach:law:place:3149425:city:us-policy-positions:technology-privacy.age-verification-for-social-media:general:2025-01-21:law-wiring-03d2708e:minors:person_eadfea9a418d1c87:2025-01-21",
+     "reach:law:place:3149425:city:us-policy-positions:technology-privacy.age-verification-for-social-media:general:2025-01-21:law-wiring-03d2708e:minors:person_eadfe99a418d1ad4:2025-01-21",
+     "reach:law:place:3149425:city:us-policy-positions:technology-privacy.age-verification-for-social-media:general:2025-01-21:law-wiring-03d2708e:minors:person_e855b31ca8e2f50f:2025-01-21",
+     "reach:law:place:3149425:city:us-policy-positions:technology-privacy.age-verification-for-social-media:general:2025-01-21:law-wiring-03d2708e:minors:person_e42121b4628143d4:2025-01-21"
+    ]
+   },
+   "readers": {
+    "src/core2/modules/world-legislating.ts:248": 32,
+    "src/core2/modules/world-legislating.ts:178": 16,
+    "src/core2/life.ts:549": 5,
+    "src/core2/modules/legislature.ts:2011": 2,
+    "src/core2/modules/world-legislating.ts:325": 2
+   },
+   "openingRow": "law:US-NE:state:us-policy-positions:technology-privacy.age-verification-for-social-media:general:starting",
+   "money": {
+    "direct": [],
+    "diff": [],
+    "diffKinds": 0,
+    "cited": []
+   },
+   "web": {
+    "links": [],
+    "fired": [],
+    "firedCount": 0
+   },
+   "heard": {
+    "people": 71,
+    "sample": [
+     "person_10606db92b470665:printed:outlet:newspaper:0:jurisdiction_45a3b3ebe97fe71d:law-took-effect:law:place:3149425:city:us-policy-positions:technology-privacy.age-verification-for-social-media:general:2025-01-21:law-wiring-03d2708e",
+     "person_014873ba8397594d:printed:outlet:newspaper:0:jurisdiction_45a3b3ebe97fe71d:law-took-effect:law:place:3149425:city:us-policy-positions:technology-privacy.age-verification-for-social-media:general:2025-01-21:law-wiring-03d2708e",
+     "person_3b8e45617114c97d:printed:outlet:newspaper:0:jurisdiction_45a3b3ebe97fe71d:law-took-effect:law:place:3149425:city:us-policy-positions:technology-privacy.age-verification-for-social-media:general:2025-01-21:law-wiring-03d2708e"
+    ]
+   },
+   "afterUndo": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 19,
+    "sample": []
+   },
+   "seconds": 15
+  },
+  {
+   "key": "us-policy-positions:technology-privacy.restrict-government-facial-recognition",
+   "kind": "question",
+   "family": "technology",
+   "inForceAtOpening": false,
+   "change": "enacted at city (law:place:3149425:city:us-policy-positions:technology-privacy.restrict-government-facial-recognition:general:2025-01-21:law-wiring-7d767e2c) effective 2025-01-21; then repealed at city effective 2025-02-26",
+   "lawIds": [
+    "law:place:3149425:city:us-policy-positions:technology-privacy.restrict-government-facial-recognition:general:2025-01-21:law-wiring-7d767e2c",
+    "law:place:3149425:city:us-policy-positions:technology-privacy.restrict-government-facial-recognition:general:2025-02-26:law-wiring-7d767e2c-b"
+   ],
+   "openingReach": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 0,
+    "sample": []
+   },
+   "reach": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 1,
+    "governments": 0,
+    "other": 0,
+    "open": 1,
+    "ended": 0,
+    "sample": [
+     "reach:law:place:3149425:city:us-policy-positions:technology-privacy.restrict-government-facial-recognition:general:2025-01-21:law-wiring-7d767e2c:department:organization_323a5cedbef21846:2025-01-21"
+    ]
+   },
+   "readers": {
+    "src/core2/modules/outcome-web.ts:154": 48,
+    "src/core2/modules/world-legislating.ts:248": 32,
+    "src/core2/modules/world-legislating.ts:178": 16,
+    "src/core2/life.ts:549": 5,
+    "src/core2/modules/legislature.ts:2011": 2,
+    "src/core2/modules/world-legislating.ts:325": 2
+   },
+   "openingRow": "law:US-NE:state:us-policy-positions:technology-privacy.restrict-government-facial-recognition:general:starting",
+   "money": {
+    "direct": [],
+    "diff": [],
+    "diffKinds": 0,
+    "cited": []
+   },
+   "web": {
+    "links": [
+     {
+      "key": "facial-recognition-limit-to-crime",
+      "status": "built",
+      "to": "crime.violent"
+     }
+    ],
+    "fired": [],
+    "firedCount": 0
+   },
+   "heard": {
+    "people": 71,
+    "sample": [
+     "person_10606db92b470665:printed:outlet:newspaper:0:jurisdiction_45a3b3ebe97fe71d:law-took-effect:law:place:3149425:city:us-policy-positions:technology-privacy.restrict-government-facial-recognition:general:2025-01-21:law-wiring-7d767e2c",
+     "person_014873ba8397594d:printed:outlet:newspaper:0:jurisdiction_45a3b3ebe97fe71d:law-took-effect:law:place:3149425:city:us-policy-positions:technology-privacy.restrict-government-facial-recognition:general:2025-01-21:law-wiring-7d767e2c",
+     "person_3b8e45617114c97d:printed:outlet:newspaper:0:jurisdiction_45a3b3ebe97fe71d:law-took-effect:law:place:3149425:city:us-policy-positions:technology-privacy.restrict-government-facial-recognition:general:2025-01-21:law-wiring-7d767e2c"
+    ]
+   },
+   "afterUndo": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 1,
+    "sample": []
+   },
+   "seconds": 18
+  },
+  {
+   "key": "us-policy-positions:technology-privacy.consumer-data-privacy-law",
+   "kind": "question",
+   "family": "technology",
+   "inForceAtOpening": true,
+   "change": "repealed at state effective 2025-01-21; then enacted at city (law:place:3149425:city:us-policy-positions:technology-privacy.consumer-data-privacy-law:general:2025-02-26:law-wiring-7b10c9c6-b) effective 2025-02-26",
+   "lawIds": [
+    "law:US-NE:state:us-policy-positions:technology-privacy.consumer-data-privacy-law:general:starting",
+    "law:US-NE:state:us-policy-positions:technology-privacy.consumer-data-privacy-law:general:2025-01-21:law-wiring-7b10c9c6",
+    "law:place:3149425:city:us-policy-positions:technology-privacy.consumer-data-privacy-law:general:2025-02-26:law-wiring-7b10c9c6-b"
+   ],
+   "openingReach": {
+    "fullPeople": 52,
+    "countedGroups": 1,
+    "countedPeople": 111,
+    "households": 0,
+    "organizations": 15,
+    "governments": 0,
+    "other": 0,
+    "open": 68,
+    "ended": 0,
+    "sample": [
+     "reach:law:US-NE:state:us-policy-positions:technology-privacy.consumer-data-privacy-law:general:starting:consumers:person_eadfec9a418d1fed:2025-01-20",
+     "reach:law:US-NE:state:us-policy-positions:technology-privacy.consumer-data-privacy-law:general:starting:consumers:person_eadfeb9a418d1e3a:2025-01-20",
+     "reach:law:US-NE:state:us-policy-positions:technology-privacy.consumer-data-privacy-law:general:starting:consumers:person_328f136709e7c650:2025-01-20",
+     "reach:law:US-NE:state:us-policy-positions:technology-privacy.consumer-data-privacy-law:general:starting:consumers:person_328f146709e7c803:2025-01-20"
+    ]
+   },
+   "reach": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 68,
+    "sample": []
+   },
+   "readers": {
+    "src/core2/modules/legislature.ts:2011": 283,
+    "src/core2/modules/outcome-web.ts:154": 48,
+    "src/core2/modules/world-legislating.ts:248": 24,
+    "src/core2/modules/world-legislating.ts:178": 16,
+    "src/core2/life.ts:549": 5,
+    "src/core2/modules/world-legislating.ts:325": 2,
+    "src/core2/modules/business.ts:1190": 2
+   },
+   "openingRow": "law:US-NE:state:us-policy-positions:technology-privacy.consumer-data-privacy-law:general:starting",
+   "money": {
+    "direct": [],
+    "diff": [
+     {
+      "kind": "accounts.transfer @ src/core2/world-transfer.ts:37",
+      "treatment": 8259494,
+      "control": 8886205,
+      "ids": [
+       "journal:2025-02-01:1824",
+       "journal:2025-02-01:1825",
+       "journal:2025-02-01:1826"
+      ]
+     }
+    ],
+    "diffKinds": 1,
+    "cited": []
+   },
+   "web": {
+    "links": [
+     {
+      "key": "privacy-law-to-earnings",
+      "status": "about-zero",
+      "to": "labor.median-earnings"
+     }
+    ],
+    "fired": [],
+    "firedCount": 0
+   },
+   "heard": {
+    "people": 81,
+    "sample": [
+     "person_10606db92b470665:printed:outlet:cable:0:national:law-took-effect:law:US-NE:state:us-policy-positions:technology-privacy.consumer-data-privacy-law:general:2025-01-21:law-wiring-7b10c9c6",
+     "person_014873ba8397594d:printed:outlet:cable:0:national:law-took-effect:law:US-NE:state:us-policy-positions:technology-privacy.consumer-data-privacy-law:general:2025-01-21:law-wiring-7b10c9c6",
+     "person_3b8e45617114c97d:printed:outlet:cable:0:national:law-took-effect:law:US-NE:state:us-policy-positions:technology-privacy.consumer-data-privacy-law:general:2025-01-21:law-wiring-7b10c9c6"
+    ]
+   },
+   "afterUndo": {
+    "fullPeople": 75,
+    "countedGroups": 1,
+    "countedPeople": 88,
+    "households": 0,
+    "organizations": 17,
+    "governments": 0,
+    "other": 0,
+    "open": 93,
+    "ended": 68,
+    "sample": [
+     "reach:law:place:3149425:city:us-policy-positions:technology-privacy.consumer-data-privacy-law:general:2025-02-26:law-wiring-7b10c9c6-b:consumers:person_eadfec9a418d1fed:2025-02-26",
+     "reach:law:place:3149425:city:us-policy-positions:technology-privacy.consumer-data-privacy-law:general:2025-02-26:law-wiring-7b10c9c6-b:consumers:person_eadfeb9a418d1e3a:2025-02-26",
+     "reach:law:place:3149425:city:us-policy-positions:technology-privacy.consumer-data-privacy-law:general:2025-02-26:law-wiring-7b10c9c6-b:consumers:person_328f136709e7c650:2025-02-26",
+     "reach:law:place:3149425:city:us-policy-positions:technology-privacy.consumer-data-privacy-law:general:2025-02-26:law-wiring-7b10c9c6-b:consumers:person_328f146709e7c803:2025-02-26"
+    ]
+   },
+   "seconds": 17
+  },
+  {
+   "key": "us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal",
+   "kind": "question",
+   "family": "agriculture",
+   "inForceAtOpening": false,
+   "change": "enacted at city (law:place:3149425:city:us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal:general:2025-01-21:law-wiring-70bb716f) effective 2025-01-21; then repealed at city effective 2025-02-26",
+   "lawIds": [
+    "law:place:3149425:city:us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal:general:2025-01-21:law-wiring-70bb716f",
+    "law:place:3149425:city:us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal:general:2025-02-26:law-wiring-70bb716f-b"
+   ],
+   "openingReach": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 0,
+    "sample": []
+   },
+   "reach": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 0,
+    "sample": []
+   },
+   "readers": {
+    "src/core2/modules/outcome-web.ts:154": 48,
+    "src/core2/modules/world-legislating.ts:248": 32,
+    "src/core2/modules/legislature.ts:2011": 30,
+    "src/core2/modules/world-legislating.ts:178": 16,
+    "src/core2/life.ts:549": 5,
+    "src/core2/modules/world-legislating.ts:325": 2,
+    "src/core2/modules/business.ts:1137": 2
+   },
+   "openingRow": "law:US-NE:state:us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal:general:starting",
+   "money": {
+    "direct": [],
+    "diff": [
+     {
+      "kind": "interest-group-dues @ src/core2/modules/interest-groups.ts:432",
+      "treatment": 150000,
+      "control": 200000,
+      "ids": [
+       "journal:2025-02-25:8174",
+       "journal:2025-02-25:8175",
+       "journal:2025-02-25:8176"
+      ]
+     }
+    ],
+    "diffKinds": 1,
+    "cited": []
+   },
+   "web": {
+    "links": [
+     {
+      "key": "groundwater-limits-to-irrigation-pumping",
+      "status": "built",
+      "to": "water.irrigation-groundwater"
+     }
+    ],
+    "fired": [],
+    "firedCount": 0
+   },
+   "heard": {
+    "people": 71,
+    "sample": [
+     "person_10606db92b470665:printed:outlet:newspaper:0:jurisdiction_45a3b3ebe97fe71d:law-took-effect:law:place:3149425:city:us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal:general:2025-01-21:law-wiring-70bb716f",
+     "person_014873ba8397594d:printed:outlet:newspaper:0:jurisdiction_45a3b3ebe97fe71d:law-took-effect:law:place:3149425:city:us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal:general:2025-01-21:law-wiring-70bb716f",
+     "person_3b8e45617114c97d:printed:outlet:newspaper:0:jurisdiction_45a3b3ebe97fe71d:law-took-effect:law:place:3149425:city:us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal:general:2025-01-21:law-wiring-70bb716f"
+    ]
+   },
+   "afterUndo": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 0,
+    "sample": []
+   },
+   "seconds": 15
+  },
+  {
+   "key": "us-policy-positions:agriculture-natural-resources.protect-farmland-from-development",
+   "kind": "question",
+   "family": "agriculture",
+   "inForceAtOpening": false,
+   "change": "enacted at city (law:place:3149425:city:us-policy-positions:agriculture-natural-resources.protect-farmland-from-development:general:2025-01-21:law-wiring-cdbf4067) effective 2025-01-21; then repealed at city effective 2025-02-26",
+   "lawIds": [
+    "law:place:3149425:city:us-policy-positions:agriculture-natural-resources.protect-farmland-from-development:general:2025-01-21:law-wiring-cdbf4067",
+    "law:place:3149425:city:us-policy-positions:agriculture-natural-resources.protect-farmland-from-development:general:2025-02-26:law-wiring-cdbf4067-b"
+   ],
+   "openingReach": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 0,
+    "sample": []
+   },
+   "reach": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 0,
+    "sample": []
+   },
+   "readers": {
+    "src/core2/modules/legislature.ts:2011": 158,
+    "src/core2/modules/outcome-web.ts:154": 48,
+    "src/core2/modules/world-legislating.ts:248": 32,
+    "src/core2/modules/world-legislating.ts:178": 16,
+    "src/core2/life.ts:549": 5,
+    "src/core2/modules/world-legislating.ts:325": 2,
+    "src/core2/modules/housing.ts:1504": 2
+   },
+   "openingRow": "law:US-NE:state:us-policy-positions:agriculture-natural-resources.protect-farmland-from-development:general:starting",
+   "money": {
+    "direct": [],
+    "diff": [
+     {
+      "kind": "interest-group-dues @ src/core2/modules/interest-groups.ts:432",
+      "treatment": 50000,
+      "control": 200000,
+      "ids": [
+       "journal:2025-02-25:8174"
+      ]
+     }
+    ],
+    "diffKinds": 1,
+    "cited": []
+   },
+   "web": {
+    "links": [
+     {
+      "key": "farmland-easements-to-farmland-lost",
+      "status": "built",
+      "to": "farmland.developed-acres"
+     }
+    ],
+    "fired": [],
+    "firedCount": 0
+   },
+   "heard": {
+    "people": 71,
+    "sample": [
+     "person_10606db92b470665:printed:outlet:newspaper:0:jurisdiction_45a3b3ebe97fe71d:law-took-effect:law:place:3149425:city:us-policy-positions:agriculture-natural-resources.protect-farmland-from-development:general:2025-01-21:law-wiring-cdbf4067",
+     "person_014873ba8397594d:printed:outlet:newspaper:0:jurisdiction_45a3b3ebe97fe71d:law-took-effect:law:place:3149425:city:us-policy-positions:agriculture-natural-resources.protect-farmland-from-development:general:2025-01-21:law-wiring-cdbf4067",
+     "person_3b8e45617114c97d:printed:outlet:newspaper:0:jurisdiction_45a3b3ebe97fe71d:law-took-effect:law:place:3149425:city:us-policy-positions:agriculture-natural-resources.protect-farmland-from-development:general:2025-01-21:law-wiring-cdbf4067"
+    ]
+   },
+   "afterUndo": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 0,
+    "sample": []
+   },
+   "seconds": 13
+  },
+  {
+   "key": "budget-line:parks",
+   "kind": "budget-line",
+   "family": "parks-culture",
+   "inForceAtOpening": false,
+   "change": "place:3149425 parks 3599296 -> 13599296 by law-wiring-17ac6c1b",
+   "lawIds": [
+    "law-wiring-17ac6c1b"
+   ],
+   "openingReach": {
+    "fullPeople": 76,
+    "countedGroups": 1,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 1,
+    "governments": 0,
+    "other": 0,
+    "open": 78,
+    "ended": 0,
+    "sample": [
+     "budget-line:parks|person_00a28a6650e55809|2025-01-20",
+     "budget-line:parks|person_02977976e9a4e00e|2025-01-20",
+     "budget-line:parks|person_02977a76e9a4e1c1|2025-01-20",
+     "budget-line:parks|person_03819202b5d285c1|2025-01-20"
+    ]
+   },
+   "reach": {
+    "fullPeople": 30,
+    "countedGroups": 1,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 31,
+    "ended": 0,
+    "sample": [
+     "budget-line:parks|person:press:outlet:newspaper:0:jurisdiction_45a3b3ebe97fe71d:owner:0|2025-01-20",
+     "budget-line:parks|person:press:outlet:newspaper:1:jurisdiction_45a3b3ebe97fe71d:owner:0|2025-01-20",
+     "budget-line:parks|person_014872ba8397579a|2025-01-20",
+     "budget-line:parks|person_014873ba8397594d|2025-01-20"
+    ]
+   },
+   "readers": {},
+   "openingRow": null,
+   "money": {
+    "direct": [],
+    "diff": [
+     {
+      "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:579",
+      "treatment": 37178541521432,
+      "control": 37178541537624,
+      "ids": [
+       "journal:2025-02-01:1618",
+       "journal:2025-02-01:1619",
+       "journal:2025-02-01:1620"
+      ]
+     }
+    ],
+    "diffKinds": 1,
+    "cited": []
+   },
+   "web": {
+    "links": [
+     {
+      "key": "parks-spending-to-exercise-access",
+      "status": "built",
+      "to": "parks.access-to-exercise"
+     }
+    ],
+    "fired": [],
+    "firedCount": 0
+   },
+   "heard": {
+    "people": 77,
+    "sample": [
+     "person_eadfea9a418d1c87:budget-line-changed:budget:US-NE:2024:parks:law:US-NE:state:us-policy-positions:civil-family-community.dedicated-parks-funding:general:starting",
+     "person_02977a76e9a4e1c1:budget-line-changed:budget:US-NE:2024:parks:law:US-NE:state:us-policy-positions:civil-family-community.dedicated-parks-funding:general:starting",
+     "person_e855af1ca8e2ee43:budget-line-changed:budget:US-NE:2024:parks:law:US-NE:state:us-policy-positions:civil-family-community.dedicated-parks-funding:general:starting"
+    ]
+   },
+   "afterUndo": {
+    "fullPeople": 104,
+    "countedGroups": 1,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 1,
+    "governments": 0,
+    "other": 0,
+    "open": 106,
+    "ended": 2,
+    "sample": [
+     "budget-line:parks|person_00a28a6650e55809|2025-01-20",
+     "budget-line:parks|person_02977976e9a4e00e|2025-01-20",
+     "budget-line:parks|person_02977a76e9a4e1c1|2025-01-20",
+     "budget-line:parks|person_03819202b5d285c1|2025-01-20"
+    ]
+   },
+   "seconds": 14
+  },
+  {
+   "key": "local-income-tax-authority",
+   "kind": "amount",
+   "family": "starting law",
+   "inForceAtOpening": false,
+   "change": "local-income-tax-authority 0 -> 1 at state (law:US-NE:state:local-income-tax-authority:general:2025-01-21:law-wiring-c99b7dfc) effective 2025-01-21",
+   "lawIds": [
+    "law:US-NE:state:local-income-tax-authority:general:2025-01-21:law-wiring-c99b7dfc",
+    "law:US-NE:state:local-income-tax-authority:general:2026-01-01:from-start",
+    "law:US-NE:state:local-income-tax-authority:general:2025-02-26:law-wiring-c99b7dfc-undo"
+   ],
+   "openingReach": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 0,
+    "sample": []
+   },
+   "reach": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 0,
+    "sample": []
+   },
+   "readers": {
+    "src/core2/life.ts:549": 1
+   },
+   "openingRow": "law:US-NE:state:local-income-tax-authority:general:2026-01-01:from-start",
+   "money": {
+    "direct": [],
+    "diff": [],
+    "diffKinds": 0,
+    "cited": []
+   },
+   "web": {
+    "links": [],
+    "fired": [],
+    "firedCount": 0
+   },
+   "heard": {
+    "people": 81,
+    "sample": [
+     "person_10606db92b470665:printed:outlet:cable:0:national:law-took-effect:law:US-NE:state:local-income-tax-authority:general:2025-01-21:law-wiring-c99b7dfc",
+     "person_014873ba8397594d:printed:outlet:cable:0:national:law-took-effect:law:US-NE:state:local-income-tax-authority:general:2025-01-21:law-wiring-c99b7dfc",
+     "person_3b8e45617114c97d:printed:outlet:cable:0:national:law-took-effect:law:US-NE:state:local-income-tax-authority:general:2025-01-21:law-wiring-c99b7dfc"
+    ]
+   },
+   "afterUndo": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 0,
+    "sample": []
+   },
+   "seconds": 15
+  },
+  {
+   "key": "local-minimum-wage-authority",
+   "kind": "amount",
+   "family": "starting law",
+   "inForceAtOpening": false,
+   "change": "local-minimum-wage-authority 1 -> 2 at state (law:US-NE:state:local-minimum-wage-authority:general:2025-01-21:law-wiring-d5735231) effective 2025-01-21",
+   "lawIds": [
+    "law:US-NE:state:local-minimum-wage-authority:general:2025-01-21:law-wiring-d5735231",
+    "law:US-NE:state:local-minimum-wage-authority:general:2000-01-01",
+    "law:US-NE:state:local-minimum-wage-authority:general:2025-02-26:law-wiring-d5735231-undo"
+   ],
+   "openingReach": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 0,
+    "sample": []
+   },
+   "reach": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 0,
+    "sample": []
+   },
+   "readers": {
+    "src/core2/modules/retirement-claims.ts:92": 10650,
+    "src/core2/modules/budgets.ts:1134": 8874,
+    "src/core2/modules/employer-taxes.ts:523": 620,
+    "src/core2/modules/budgets.ts:1126": 564,
+    "src/core2/paid-leave.ts:23": 344,
+    "src/core2/modules/employer-taxes.ts:507": 310,
+    "src/core2/modules/employer-taxes.ts:515": 310,
+    "src/core2/modules/constituent-cases.ts:150": 140,
+    "src/core2/counted-money.ts:393": 130,
+    "src/core2/counted-money.ts:394": 130,
+    "src/core2/counted-money.ts:395": 130,
+    "src/core2/modules/counted-moves.ts:179": 124,
+    "src/core2/gov-measures.ts:253": 48,
+    "src/core2/gov-measures.ts:110": 16,
+    "src/core2/gov-measures.ts:114": 16,
+    "src/core2/gov-measures.ts:122": 16,
+    "src/core2/gov-measures.ts:186": 16,
+    "src/core2/life.ts:549": 15,
+    "src/core2/modules/place-prices.ts:546": 14,
+    "src/core2/modules/credit.ts:1079": 4,
+    "src/core2/modules/business.ts:1137": 2,
+    "src/core2/modules/business.ts:1190": 2,
+    "src/core2/modules/business.ts:919": 2,
+    "src/core2/modules/budgets.ts:652": 2,
+    "src/core2/modules/budgets.ts:660": 2,
+    "src/core2/modules/housing.ts:1492": 2,
+    "src/core2/modules/housing.ts:1496": 2,
+    "src/core2/modules/housing.ts:1500": 2,
+    "src/core2/modules/housing.ts:1504": 2
+   },
+   "openingRow": "law:US-NE:state:local-minimum-wage-authority:general:2000-01-01",
+   "money": {
+    "direct": [],
+    "diff": [],
+    "diffKinds": 0,
+    "cited": []
+   },
+   "web": {
+    "links": [],
+    "fired": [],
+    "firedCount": 0
+   },
+   "heard": {
+    "people": 81,
+    "sample": [
+     "person_10606db92b470665:printed:outlet:cable:0:national:law-took-effect:law:US-NE:state:local-minimum-wage-authority:general:2025-01-21:law-wiring-d5735231",
+     "person_014873ba8397594d:printed:outlet:cable:0:national:law-took-effect:law:US-NE:state:local-minimum-wage-authority:general:2025-01-21:law-wiring-d5735231",
+     "person_3b8e45617114c97d:printed:outlet:cable:0:national:law-took-effect:law:US-NE:state:local-minimum-wage-authority:general:2025-01-21:law-wiring-d5735231"
+    ]
+   },
+   "afterUndo": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 0,
+    "sample": []
+   },
+   "seconds": 18
+  },
+  {
+   "key": "unemployment-insurance",
+   "kind": "amount",
+   "family": "starting law",
+   "inForceAtOpening": false,
+   "change": "unemployment-insurance 1 -> 2 at state (law:US-NE:state:unemployment-insurance:general:2025-01-21:law-wiring-989c1403) effective 2025-01-21",
+   "lawIds": [
+    "law:US-NE:state:unemployment-insurance:general:2025-01-21:law-wiring-989c1403",
+    "law:US-NE:state:unemployment-insurance:general:2026-01-01:from-start",
+    "law:US-NE:state:unemployment-insurance:general:2025-02-26:law-wiring-989c1403-undo"
+   ],
+   "openingReach": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 0,
+    "sample": []
+   },
+   "reach": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 0,
+    "sample": []
+   },
+   "readers": {
+    "src/core2/life.ts:549": 1
+   },
+   "openingRow": "law:US-NE:state:unemployment-insurance:general:2026-01-01:from-start",
+   "money": {
+    "direct": [],
+    "diff": [],
+    "diffKinds": 0,
+    "cited": []
+   },
+   "web": {
+    "links": [],
+    "fired": [],
+    "firedCount": 0
+   },
+   "heard": {
+    "people": 81,
+    "sample": [
+     "person_10606db92b470665:printed:outlet:cable:0:national:law-took-effect:law:US-NE:state:unemployment-insurance:general:2025-01-21:law-wiring-989c1403",
+     "person_014873ba8397594d:printed:outlet:cable:0:national:law-took-effect:law:US-NE:state:unemployment-insurance:general:2025-01-21:law-wiring-989c1403",
+     "person_3b8e45617114c97d:printed:outlet:cable:0:national:law-took-effect:law:US-NE:state:unemployment-insurance:general:2025-01-21:law-wiring-989c1403"
+    ]
+   },
+   "afterUndo": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 0,
+    "sample": []
+   },
+   "seconds": 18
   }
  ]
 }
