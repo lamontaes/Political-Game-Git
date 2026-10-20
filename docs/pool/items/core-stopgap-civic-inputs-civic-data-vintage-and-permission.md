@@ -7,7 +7,7 @@ priority: 3
 status: blocked
 claimed-by: claude/stopgap-civic-inputs
 pr:
-blocked-on:
+blocked-on: research-deep-past-sourced-parameters
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/data/civic-inputs.json, kind civic-data-vintage-and-permission"
 claimed-at: 2026-10-19T23:09:40.671Z

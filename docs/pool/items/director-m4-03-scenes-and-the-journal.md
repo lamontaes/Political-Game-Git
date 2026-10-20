@@ -5,12 +5,13 @@ area: director
 kind: feature
 priority: 3
 size: L
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/director-m4-verify
+pr: #5345
 blocked-on:
 milestone: M4
 source: "docs/roadmap/later-specs-draft.md M4-03"
+claimed-at: 2026-10-20T00:45:59.187Z
 ---
 
 **What.** Scene narration in second person; "My life" in first person, selective, never inventing a feeling. (Owner: OPUS-PEOPLE.)

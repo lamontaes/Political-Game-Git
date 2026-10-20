@@ -5,12 +5,12 @@ area: play
 kind: feature
 priority: 3
 size: S
-status: open
-claimed-by:
+status: blocked
+claimed-by: claude/pool-budget-editor
 pr:
-blocked-on:
+blocked-on: office-budget-season-mayor-act
 source: added with npm run pool -- add
-claimed-at:
+claimed-at: 2026-10-19T23:15:06.999Z
 ---
 
 **What.** TODO
