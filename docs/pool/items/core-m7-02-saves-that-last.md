@@ -5,12 +5,13 @@ area: core
 kind: feature
 priority: 3
 size: L
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/political-game-pool-76ksvw
 pr:
 blocked-on:
 milestone: M7
 source: "docs/roadmap/later-specs-draft.md M7-02"
+claimed-at: 2026-10-20T01:34:31.535Z
 ---
 
 **What.** A versioned save format; a save can always continue, and updates don't break it. (Owner: OPUS-CORE.)

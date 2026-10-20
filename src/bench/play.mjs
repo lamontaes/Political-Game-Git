@@ -3625,20 +3625,20 @@ const sheets = {
                 const won = s.elections.find(
                   (e) => e.termId === s.holder.termId,
                 );
-                line.append(
-                  el("div", {
-                    className: "row",
-                    textContent: [
-                      `${s.holder.serviceStart} – ${s.holder.endDate ?? ""}`,
-                      s.holder.reached,
-                      won
-                        ? `${won.date} ${Math.round(won.share * 100)}% ${won.termId}`
-                        : null,
-                    ]
-                      .filter(Boolean)
-                      .join(" · "),
-                  }),
-                );
+                const history = el("div", {
+                  className: "row",
+                  textContent: [
+                    `${s.holder.serviceStart} – ${s.holder.endDate ?? ""}`,
+                    s.holder.reached,
+                    won ? `${won.date} ${Math.round(won.share * 100)}%` : null,
+                  ]
+                    .filter(Boolean)
+                    .join(" · "),
+                });
+                // The record the line reads, for the specs; never shown as text.
+                history.dataset.term = s.holder.termId;
+                if (won) history.dataset.election = won.termId;
+                line.append(history);
               }
               if (s.holder?.personId) {
                 const b = el("button", {
