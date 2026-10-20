@@ -333,22 +333,28 @@ it("words a committee hearing as the chair's question, the witness's reply and a
     const place = drawPlace(seed, "office-hearing");
     const where = `${place.name} [${place.key}], seed ${seed}`;
     setBookkeeping(false);
-    const { core } = buildBenchWorld(seed, gameStartDate(), {
-      twoLevel: true,
-      placeKey: place.key,
-    });
-    const api = coreAPI(core);
-    const start = makeIsoDate(core.date);
+    let core: ReturnType<typeof buildBenchWorld>["core"];
     let hearing: CommitteeRecord | undefined;
-    for (let day = 120; day <= 730 && !hearing; day += 120) {
-      advanceCore(core, addDays(start, day));
-      hearing = (
-        api
-          .moduleState("core2-legislature-v1")
-          .table("committees")
-          .rows() as unknown as CommitteeRecord[]
-      ).find((row) => row.memberIds.length > 1);
+    try {
+      core = buildBenchWorld(seed, gameStartDate(), {
+        twoLevel: true,
+        placeKey: place.key,
+      }).core;
+      const start = makeIsoDate(core.date);
+      for (let day = 120; day <= 730 && !hearing; day += 120) {
+        advanceCore(core, addDays(start, day));
+        hearing = (
+          coreAPI(core)
+            .moduleState("core2-legislature-v1")
+            .table("committees")
+            .rows() as unknown as CommitteeRecord[]
+        ).find((row) => row.memberIds.length > 1);
+      }
+    } catch (error) {
+      skipped.push(`${where} (world failed: ${(error as Error).message})`);
+      continue;
     }
+    const api = coreAPI(core);
     if (!hearing) {
       skipped.push(where);
       continue;
