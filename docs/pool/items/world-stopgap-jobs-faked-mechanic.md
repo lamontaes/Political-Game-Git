@@ -5,10 +5,11 @@ area: world
 kind: stopgap
 priority: 2
 size: L
-status: blocked
-claimed-by: claude/split-jobs-stopgaps
+status: open
+claimed-by:
 pr:
-blocked-on: world-jobs-opening-seekers
+blocked-on:
+after: world-jobs-opening-seekers
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/modules/jobs.ts, kind faked-mechanic"
 claimed-at: 2026-10-19T22:26:02.801Z
@@ -23,3 +24,5 @@ claimed-at: 2026-10-19T22:26:02.801Z
 **Files.** src/core2/modules/jobs.ts, src/core2/data/stopgaps.json, src/core2/jobs.test.ts
 
 **Notes.** First row: The opening's job seekers are the jobless working-age adults whose money covers the fewest days, as many as the nation's unemployment rate implies against the generated jobs; the other jobless adults sit outside the mode
+
+Oct 20: Switched from blocked to the automatic after: gate on world-jobs-opening-seekers, so it opens by itself the moment those items are done.

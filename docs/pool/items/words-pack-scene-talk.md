@@ -5,7 +5,7 @@ area: words
 kind: feature
 priority: 1
 size: M
-status: claimed
+status: in-pr
 claimed-by: words/word-pack
 pr: #4626
 blocked-on:

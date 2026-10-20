@@ -5,9 +5,9 @@ area: people
 kind: feature
 priority: 3
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/husk-wallet
-pr:
+pr: #5468
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-20T03:17:33.850Z

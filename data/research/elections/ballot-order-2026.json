@@ -112,15 +112,16 @@
     },
     "US-CT": {
       "primary": {
-        "kind": "alphabetical"
+        "kind": "endorsed-first-then-alphabetical"
       },
       "general": {
-        "kind": "party"
+        "kind": "party",
+        "unit": "governor vote last election, then other governor-candidate parties by vote, minor parties, petitioners"
       },
       "citation": "Conn. Gen. Stat. 9-437(b) (primary), 9-249a (general)",
       "url": "https://www.cga.ct.gov/current/pub/chap_147.htm",
-      "estimate": true,
-      "note": "Primary: party-endorsed candidate on first line, others by alphabetical surname. one nominee per office per party; primary: alphabetical by surname General order: governor vote last election, then other governor-candidate parties by vote, minor parties, petitioners. The party-endorsed candidate is listed first in the primary; this calendar lists the primary alphabetically."
+      "estimate": false,
+      "note": "Primary: party-endorsed candidate on first line, others by alphabetical surname."
     },
     "US-DC": {
       "primary": {
@@ -139,12 +140,13 @@
         "kind": "alphabetical"
       },
       "general": {
-        "kind": "party"
+        "kind": "party",
+        "unit": "Democratic first column, Republican second, other parties as the Department decides, unaffiliated alphabetical after"
       },
       "citation": "15 Del. C. 4502(a),(d)",
       "url": "https://delcode.delaware.gov/title15/c045/index.html",
       "estimate": false,
-      "note": "4502(d): in a primary the candidates are listed in alphabetic order. within-party order not stated (one nominee per office); alphabetical assumed General order: Democratic first column, Republican second, other parties as the Department decides, unaffiliated alphabetical after."
+      "note": "4502(d): in a primary the candidates are listed in alphabetic order."
     },
     "US-FL": {
       "primary": {
@@ -184,7 +186,7 @@
       "citation": "3 GCA 7105(b),(c); 7106",
       "url": "https://col.guamcourts.gov/sites/default/files/3gc007.pdf",
       "estimate": false,
-      "note": "7106 applies the same rule to all other offices. nominees listed in columns in the order of lots drawn"
+      "note": "7106 applies the same rule to all other offices."
     },
     "US-HI": {
       "primary": {
@@ -203,12 +205,14 @@
         "unit": "precinct (names rotated in the manner of 49.31)"
       },
       "general": {
-        "kind": "party"
+        "kind": "party",
+        "within": "rotation",
+        "unit": "alphabetical start, rotated by precinct; top two parties from last election alternate first place by county number (even/odd) and by election type and cycle"
       },
       "citation": "Iowa Code 49.31; 43.28",
       "url": "https://www.legis.iowa.gov/docs/code/43.28.html",
       "estimate": false,
-      "note": "multi-seat at-large offices: alphabetical in first precinct, then rotate by precinct (49.31(2)(b)) General order: top two parties from last election alternate first place by county number (even/odd) and by election type and cycle."
+      "note": "General: the two largest parties alternate first place by county. Primary assumed alphabetical, not confirmed."
     },
     "US-ID": {
       "primary": {
@@ -222,7 +226,7 @@
       "citation": "Idaho Code 34-903(4)",
       "url": "https://legislature.idaho.gov/statutesrules/idstat/Title34/T34CH9/SECT34-903/",
       "estimate": false,
-      "note": "Statewide and federal contests fall in entities over 25,000 voters, so they rotate; random alphabet is only for small entities. n/a (rotation or random alphabet applies to all candidates for an office)"
+      "note": "Statewide and federal contests fall in entities over 25,000 voters, so they rotate; random alphabet is only for small entities."
     },
     "US-IL": {
       "primary": {
@@ -306,12 +310,13 @@
       },
       "general": {
         "kind": "party",
-        "within": "alphabetical"
+        "within": "alphabetical",
+        "unit": "majority party, principal minority party, others by registration, then non-party"
       },
       "citation": "Md. Election Law 9-210(j)",
       "url": "https://mgaleg.maryland.gov/mgawebsite/Laws/StatuteText?article=gel&section=9-210&enactments=false",
       "estimate": false,
-      "note": "alphabetical by surname in both primary and general General order: majority party, principal minority party, others by registration, then non-party."
+      "note": "General: majority party, principal minority party, then by registration, then non-party. Primary and within-party order assumed alphabetical, not confirmed."
     },
     "US-ME": {
       "primary": {
@@ -359,12 +364,13 @@
       },
       "general": {
         "kind": "party",
-        "within": "filing-order"
+        "within": "filing-order",
+        "unit": "party with most governor votes first, then by vote, new parties by petition filing date, independents last"
       },
       "citation": "Mo. Rev. Stat. 115.395 (primary), 115.239 (general)",
       "url": "https://revisor.mo.gov/main/OneSection.aspx?section=115.395",
       "estimate": false,
-      "note": "one nominee per party per office General order: party with most governor votes first, then by vote, new parties by petition filing date, independents last."
+      "note": "General: party of last governor winner first, then vote order, new parties by petition filing, independents last. Primary (assumed lot) and within-party order not confirmed."
     },
     "US-MP": {
       "primary": {
@@ -429,7 +435,7 @@
       "citation": "N.D.C.C. 16.1-11-27 (primary), 16.1-06-05(4) (general)",
       "url": "https://ndlegis.gov/cencode/t16-1c11.pdf",
       "estimate": false,
-      "note": "Separate alternation sequence for statewide/county-wide offices and for sub-county districts. n/a (all names for an office alternated)"
+      "note": "Separate alternation sequence for statewide/county-wide offices and for sub-county districts."
     },
     "US-NE": {
       "primary": {
@@ -438,12 +444,13 @@
       },
       "general": {
         "kind": "party",
-        "within": "rotation"
+        "within": "rotation",
+        "unit": "party with most governor votes first, then by votes, petition candidates after"
       },
       "citation": "Neb. Rev. Stat. 32-810(3), 32-815(1)",
       "url": "https://nebraskalegislature.gov/laws/statutes.php?statute=32-815",
       "estimate": false,
-      "note": "two or more nominees of one party: rotated by precinct General order: party with most governor votes first, then by votes, petition candidates after."
+      "note": "General: parties by gubernatorial vote, petition candidates after. Within-party order not confirmed."
     },
     "US-NH": {
       "primary": {
@@ -479,7 +486,7 @@
       "citation": "N.M. Admin. Code 1.10.7.8-1.10.7.10",
       "url": "https://www.srca.nm.gov/parts/title01/01.010.0007.html",
       "estimate": false,
-      "note": "The rule applies to all Election Code elections. ties resolved by later letters, then card draw"
+      "note": "The rule applies to all Election Code elections."
     },
     "US-NV": {
       "primary": {
@@ -562,12 +569,13 @@
         "unit": "public drawing by the party's central governing body"
       },
       "general": {
-        "kind": "party"
+        "kind": "party",
+        "unit": "majority state party first, then principal party second, then other parties of the last general election, petition parties by certification date, independents by certification date"
       },
       "citation": "Ley 58-2020 Art. 9.12 (general), Art. 7.17(3) (primary)",
       "url": "https://aldia.microjuris.com/wp-content/uploads/2020/10/l_58_20-1.pdf",
       "estimate": false,
-      "note": "one nominee per office per party General order: majority state party first, then principal party second, then other parties of the last general election, petition parties by certification date, independents by certification date."
+      "note": "Parties thought to be ordered by last gubernatorial vote. Primary order unknown."
     },
     "US-RI": {
       "primary": {
@@ -599,12 +607,13 @@
       },
       "general": {
         "kind": "party",
-        "within": "lot"
+        "within": "lot",
+        "unit": "party columns drawn by lot by the secretary of state"
       },
       "citation": "S.D. Codified Laws 12-16-3.1, 12-16-8",
       "url": "https://sdlegislature.gov/api/Statutes/12-16-3.1.html",
       "estimate": false,
-      "note": "by lot General order: party columns drawn by lot by the secretary of state."
+      "note": "General: party order and order within a party by draw. Primary assumed lot, not confirmed."
     },
     "US-TN": {
       "primary": {
@@ -650,12 +659,13 @@
       },
       "general": {
         "kind": "party",
-        "within": "alphabetical"
+        "within": "alphabetical",
+        "unit": "parties by lot drawn by the State Board"
       },
       "citation": "Va. Code 24.2-529 (primary), 24.2-613(C) (general)",
       "url": "https://law.lis.virginia.gov/vacode/title24.2/chapter5/section24.2-529/",
       "estimate": false,
-      "note": "alphabetical within party General order: parties by lot drawn by the State Board."
+      "note": "General: party order by lot. Primary assumed alphabetical, not confirmed."
     },
     "US-VI": {
       "primary": {
@@ -723,12 +733,14 @@
         "unit": "precinct (all elections)"
       },
       "general": {
-        "kind": "party"
+        "kind": "party",
+        "within": "rotation",
+        "unit": "alphabetical, subject to rotation; parties by county U.S. House vote; provisional parties drawn by the secretary of state; independents alphabetical"
       },
       "citation": "Wyo. Stat. 22-6-121, 22-6-122",
       "url": "https://wyoleg.gov/statutes/compress/title22.pdf",
       "estimate": false,
-      "note": "alphabetical, subject to rotation by precinct General order: parties by county U.S. House vote; provisional parties drawn by the secretary of state; independents alphabetical."
+      "note": "General: parties by county U.S. House vote, provisional parties by draw, independents alphabetical; multi-seat offices rotate by precinct. Primary assumed alphabetical, not confirmed."
     }
   }
 }

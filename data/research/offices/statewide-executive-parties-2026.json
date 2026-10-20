@@ -342,7 +342,7 @@
         "party": "Republican",
         "partisanElection": true,
         "sourceId": "ballotpedia-state-executives",
-        "note": "CHANGED: 3R-2D, not all R"
+        "estimated": "Ballotpedia: 3 Republicans and 2 Democrats, so the majority party; the single party field records the majority"
       }
     },
     "US-HI": {
@@ -355,7 +355,7 @@
         "party": null,
         "partisanElection": false,
         "sourceId": "ballotpedia-state-executives",
-        "estimated": "Stopgap research Oct 19: estimate: not fetched"
+        "estimated": "estimate: not fetched"
       }
     },
     "US-ID": {
@@ -938,8 +938,7 @@
       "superintendent": {
         "party": null,
         "partisanElection": false,
-        "sourceId": "ballotpedia-state-executives",
-        "note": "CHANGED: Ballotpedia lists holder Nonpartisan (new holder), not Republican"
+        "sourceId": "ballotpedia-state-executives"
       },
       "agriculture-commissioner": {
         "party": "Republican",
@@ -1436,13 +1435,13 @@
         "party": "Democratic",
         "partisanElection": true,
         "sourceId": "ballotpedia-state-executives",
-        "estimated": "Stopgap research Oct 19: low: 2024 results list Democratic winners in both districts"
+        "estimated": "low: 2024 results list Democratic winners in both districts"
       },
       "board-of-elections": {
         "party": null,
         "partisanElection": true,
         "sourceId": "ballotpedia-state-executives",
-        "estimated": "Stopgap research Oct 19: low: winners include both D and R in 2024"
+        "estimated": "low: winners include both D and R in 2024"
       }
     },
     "US-AS": {
@@ -1456,14 +1455,13 @@
       "lieutenant-governor": {
         "party": "Republican",
         "partisanElection": false,
-        "sourceId": "ballotpedia-state-executives",
-        "note": "CHANGED: now Republican (was I); governor ticket is by nonpartisan-style ballot"
+        "sourceId": "ballotpedia-state-executives"
       },
       "attorney-general": {
         "party": null,
         "partisanElection": false,
         "sourceId": "ballotpedia-state-executives",
-        "estimated": "Stopgap research Oct 19: low: Wikipedia list omits elected AG; no party"
+        "estimated": "low: Wikipedia list omits elected AG; no party"
       },
       "board-of-education": {
         "party": null,

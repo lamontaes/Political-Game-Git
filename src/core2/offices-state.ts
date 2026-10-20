@@ -483,7 +483,7 @@ const STATEWIDE = statewideParties as unknown as {
 /**
  * The party holding a statewide executive office at the start, where its
  * election carries party labels (null for a nonpartisan office). All but
- * four rows were checked against a live source (Oct 19 research); those four
+ * four rows were checked against a live source; those four
  * keep the stopgap: SG-GOV-statewide-parties-unverified.
  */
 function statewidePartyOf(stateKey: string, key: string): string | null {
@@ -613,8 +613,13 @@ export function stateOffices(
         d.geoid === mine?.geoid,
       );
     }
+    // Roster districts the Census geography doesn't name (New Hampshire's
+    // floterial and county-numbered districts, Maryland's and Vermont's
+    // sub-districts, a tribe's delegate in Maine) still seat their sitting
+    // members, elected by their own district: none covers the town. An
+    // at-large seat is elected by the whole state, the town included.
     for (const [name, members] of Object.entries(rows))
-      if (!matched.has(name) && /large/i.test(name)) add(name, members, true);
+      if (!matched.has(name)) add(name, members, /large/i.test(name));
     // A chamber with a recorded size but no district geography or roster (a
     // territory's legislature): its seats are elected by the whole territory
     // until the districts are read, so the body can meet and vote.

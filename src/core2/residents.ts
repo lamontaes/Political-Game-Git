@@ -38,6 +38,7 @@ import type {
   WorkCommitmentInput,
 } from "./types";
 import PLACE_EARNINGS from "./data/place-earnings-2024.json" with { type: "json" };
+import schools from "./data/opening-public-schools.json" with { type: "json" };
 
 export const RESIDENTS_STOPGAP = "SG-CORE-residents-cadence";
 export const RESIDENTS_KIND = "residents";
@@ -216,6 +217,22 @@ function daysBetweenInclusive(from: IsoDate, through: string): number {
   );
 }
 
+/**
+ * A public school district's teachers are counted workers like any town's:
+ * the district's pay owner (the town government's) pays their wages through the
+ * counts' payroll, so there is no reason to keep them, and their households,
+ * as full people (the year of a dense town grew 36 s when #5044 kept them).
+ */
+export function isSchoolDistrict(org: {
+  classification?: string;
+  publicPayAuthority?: unknown;
+}): boolean {
+  return (
+    !!org.publicPayAuthority &&
+    (org.classification ?? "").startsWith(schools.classification)
+  );
+}
+
 /** Who stays a full person: the circle, whole households, and public workers. */
 export function fullPeople(input: CoreInput): Set<PersonId> {
   // The circle: the player, family and the people they know (coworkers they
@@ -231,7 +248,8 @@ export function fullPeople(input: CoreInput): Set<PersonId> {
     const employer = organizations.get(job.organizationId);
     if (
       employer &&
-      (employer.kind !== "employer" || employer.publicPayAuthority)
+      (employer.kind !== "employer" ||
+        (employer.publicPayAuthority && !isSchoolDistrict(employer)))
     )
       keep.add(job.personId);
   }
@@ -285,6 +303,17 @@ export function collapseToTwoLevels(
       "Wider population: the generated households of this place, kept as records and counts rather than individually simulated people (two-level population).",
     estimatedFrom:
       "Totals equal the full generated opening: people, cash, wages, retirement income and household purchases.",
+  };
+  // A school district holds no cash: its counted teachers are paid by the pay
+  // owner of its authority (the town government's), as its full ones are.
+  const organizationsById = new Map(input.organizations.map((o) => [o.id, o]));
+  const payerOf = (organizationId: string) => {
+    const org = organizationsById.get(organizationId);
+    const owner =
+      org && isSchoolDistrict(org)
+        ? org.publicPayAuthority?.ownerId
+        : undefined;
+    return owner && organizationsById.has(owner) ? owner : organizationId;
   };
   const accountByPlace = new Map<PlaceId, string>();
   const residentCash = new Map<string, number>();
@@ -374,7 +403,7 @@ export function collapseToTwoLevels(
     const base = {
       kind: "wages" as const,
       financeKind: "work.count-payroll",
-      payerId: calendar.organizationId,
+      payerId: payerOf(calendar.organizationId),
       payeeId: group.residentsId,
       residentsId: group.residentsId,
       placeId: group.placeId,

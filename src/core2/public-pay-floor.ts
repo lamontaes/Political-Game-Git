@@ -40,6 +40,32 @@ function floorsByLevel(api: CoreAPI) {
 }
 
 /**
+ * The hourly pay a public employer's job must reach today under the floor in
+ * force at its level or above (0 where none binds it): the pay at which the
+ * job's daily wage meets the yearly floor, at the job's own hours. The hiring
+ * engines read it when they set a new hire's pay, so a public hire is never
+ * paid under the floor for a month.
+ */
+export function publicPayFloorHourly(
+  api: CoreAPI,
+  organizationId: string,
+  job: { readonly hourlyMinor?: number; readonly wageDailyMinor: number },
+): number {
+  const classification =
+    (api.state as CoreState).organizations.get(organizationId)
+      ?.classification ?? "";
+  const level = EMPLOYER_LEVELS[classification];
+  if (!level) return 0;
+  const floor = floorsByLevel(api).get(level);
+  const hourly = job.hourlyMinor ?? 0;
+  if (!floor || hourly <= 0 || job.wageDailyMinor <= 0) return 0;
+  const floorDaily =
+    (floor.dollars * reachParameter("centsPerDollar")) /
+    reachParameter("daysPerYear");
+  return Math.ceil((hourly * floorDaily) / job.wageDailyMinor);
+}
+
+/**
  * Raise every public job in town paid under its floor; returns the raises.
  * Schedules the next monthly review while any floor is in force.
  */
@@ -80,8 +106,12 @@ export function holdPublicPay(
   const next = new Date(`${core.date}T00:00:00Z`);
   next.setUTCMonth(next.getUTCMonth() + 1);
   const date = makeIsoDate(next.toISOString().slice(0, 10));
-  api.moduleCalendar("core2-laws-v1").schedule({
-    key: `${PUBLIC_PAY_REVIEW}:${date}`,
+  const calendar = api.moduleCalendar("core2-laws-v1");
+  const key = `${PUBLIC_PAY_REVIEW}:${date}`;
+  // Two floors taking effect the same day share the one review.
+  if (calendar.get(key)) return raised;
+  calendar.schedule({
+    key,
     date: date > core.date ? date : addDays(makeIsoDate(core.date), 1),
     kind: PUBLIC_PAY_REVIEW,
     source: { ...source, asOf: core.date },
