@@ -5,7 +5,7 @@ area: core
 kind: owner-decision
 priority: 3
 size: S
-status: in-pr
+status: done
 claimed-by: claude/memory-budget-decision
 pr: #5314
 blocked-on:
