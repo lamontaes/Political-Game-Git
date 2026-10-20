@@ -104,7 +104,7 @@ import {
   isExplicitlyControlledPersonV1,
   prepareControlledActTraceV1,
 } from "./player-control-state-v1";
-import { stopgap } from "./stopgaps";
+import { recordStopgapsIn, stopgap } from "./stopgaps";
 import { initialFocusPeople } from "./focus";
 import { nativityFact } from "./nativity";
 import type {
@@ -797,6 +797,7 @@ const writerAPIs = new WeakMap<CoreState, CoreAPI>();
 
 /** Local writers validate their own rows; no whole-world pass occurs per act. */
 export function coreAPI(core: CoreState): CoreAPI {
+  recordStopgapsIn(core.stopgapHits);
   const prior = writerAPIs.get(core);
   if (prior) return prior;
   const p = (key: string) => {
