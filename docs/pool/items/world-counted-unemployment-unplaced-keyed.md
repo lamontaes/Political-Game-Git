@@ -5,12 +5,12 @@ area: world
 kind: wiring
 priority: 3
 size: S
-status: in-pr
-claimed-by: claude/counted-unemployment-keyed
+status: open
+claimed-by:
 pr: #5271
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-19T23:23:28.249Z
+claimed-at:
 ---
 
 **What.** An unemployment claim filed by a counted worker with no household member record (an unplaced worker) is paid through `transferCash` to the place's residents account, so `countedPayment` finds no person or household and splits it across the place's groups by their people. Key it to the household that holds the unplaced worker (the household whose `unplacedWorkers` count the worker belongs to) so that household's group account takes the benefit.
