@@ -5,12 +5,13 @@ area: words
 kind: wiring
 priority: 3
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/address-records
 pr:
 blocked-on:
 after: words-speech-craft-earned
 source: added with npm run pool -- add
+claimed-at: 2026-10-20T08:05:58.342Z
 ---
 
 **What.** PR #5601 added the gate that admits a crafted device only as far as the speaker's recorded addresses earn it (speakerAddressRecordIds, devicesEarned), but nothing writes an address record and the press-briefing newscast carries its anchor only as a packet slot, so no played-world line uses the gate. Write one address record each time a person gives a floor speech, a briefing or a town hall in the director's producers, with the speaker, the register, the date and the source scene id, and pass the speaker's records into the composer as speakerAddressRecordIds. Give the newscast a speaker person id where the speaker is a recorded person (a press secretary) so the records can be found.
