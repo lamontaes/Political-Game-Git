@@ -4,13 +4,13 @@ title: "Governor:"
 area: office
 kind: feature
 priority: 2
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/office-governor
 pr: #4871
 blocked-on:
 milestone:
 source: "docs/coordination/OFFICE-STATE.md line 23 (unchecked checklist line)"
-claimed-at:
+claimed-at: 2026-10-20T02:02:07.229Z
 ---
 
 **What.** Checked against main on Oct 16: PARTLY. Built: the budget message (`budget-proposal` reads into `councilBudget`), executive orders (one orderable order), the line-item veto (`executiveItemVeto`), the State of the State, and appointment (`appointGovernor`, called only from a script, not an office-day entry). Missing: clemency anywhere; emergency and Guard powers are deferred by the owner. Next: Clemency, and make governor appointment an office-day entry. The player would notice the act on the politics screen as a choice among people, never a form.
