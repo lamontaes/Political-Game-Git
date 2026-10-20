@@ -5,12 +5,12 @@ area: world
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/disasters-outside-market
 pr: #5253
 blocked-on:
 source: added with npm run pool -- add
-claimed-at:
+claimed-at: 2026-10-20T02:28:07.751Z
 ---
 
 **What.** A disaster declared in a drawn place once stopped the game with "No outside market recorded for the jurisdiction", thrown by `outsideMarketFor` in `disasters.payHouseholds` when the town has no open builder to pay for repairs and the world records no outside market for the town. The repair payment now goes to the town's builders, or to the outside market, or, where neither exists, is skipped so the households pay nothing for repairs and the game goes on. The first-year disaster test now draws its world through one helper.
