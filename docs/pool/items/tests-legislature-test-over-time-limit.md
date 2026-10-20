@@ -5,11 +5,12 @@ area: gov
 kind: bug
 priority: 3
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/legislature-test-slow
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-20T01:23:08.737Z
 ---
 
 **What.** TODO
