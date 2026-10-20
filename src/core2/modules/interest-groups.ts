@@ -39,6 +39,7 @@ import { OFFICES_MODULE_ID, type TermRow } from "./offices";
 import { ownerOf } from "./business";
 import { lobbyingBarredUntil } from "../law-reach/group-a-voting";
 import { groupBPolicy } from "../law-reach/group-b";
+import { businessEnergyCostYear } from "./place-prices";
 import { jobsAt } from "../law-reach/group-b-money";
 import { reachParameter } from "../law-reach/group-b-people";
 import {
@@ -227,19 +228,36 @@ function employerStakes(api: CoreAPI, b: BillRow): readonly EmployerStake[] {
     const bound = policy?.organizations;
     // A policy that pays the employers it binds (vouchers, a tax exemption) costs them nothing.
     if (!bound?.length || policy?.employersGain) continue;
-    // stopgapId: SG-GOV-bound-employer-cost-estimate (a share of payroll stands for what the law costs)
-    api.stopgap("SG-GOV-bound-employer-cost-estimate");
     const costs = new Map<string, { annualMinor: number }>();
+    const priced = businessEnergyCostYear(api, p.question, 1) !== null;
+    // A law that prices energy costs each employer what its own energy costs
+    // come to (the price engine's arithmetic); any other bound policy still
+    // stands on an estimated share of payroll.
+    if (!priced)
+      // stopgapId: SG-GOV-bound-employer-cost-estimate (a share of payroll stands for what the law costs)
+      api.stopgap("SG-GOV-bound-employer-cost-estimate");
     for (const job of jobsAt(api, bound)) {
       const row = costs.get(job.organizationId) ?? { annualMinor: 0 };
-      costs.set(job.organizationId, {
-        annualMinor: Math.round(
-          row.annualMinor +
-            job.wageDailyMinor *
-              reachParameter("daysPerYear") *
-              campaignParameter("boundEmployerCostShare"),
-        ),
-      });
+      if (priced) {
+        const book = (api.state as CoreState).finance.businesses.get(
+          job.organizationId,
+        );
+        costs.set(job.organizationId, {
+          annualMinor: businessEnergyCostYear(
+            api,
+            p.question,
+            book?.annualOtherCostsMinor ?? 0,
+          )!,
+        });
+      } else
+        costs.set(job.organizationId, {
+          annualMinor: Math.round(
+            row.annualMinor +
+              job.wageDailyMinor *
+                reachParameter("daysPerYear") *
+                campaignParameter("boundEmployerCostShare"),
+          ),
+        });
     }
     if (costs.size)
       out.push({
