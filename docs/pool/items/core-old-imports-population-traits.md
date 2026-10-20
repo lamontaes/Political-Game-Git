@@ -22,3 +22,5 @@ claimed-at:
 **Files.** src/core2/population.ts, src/core2/opening-personality.ts, src/simulation/trait-registry.ts, src/simulation/trait-packs.ts, src/simulation/personality-catalogue.ts
 
 **Notes.** Split Oct 19 from core-old-imports-population, which was sized M but touches five old-engine modules. The sibling slices are core-old-imports-population-org-profile, core-old-imports-population-traits and core-old-imports-population-town-employment.
+
+Sent back 2026-10-20 from PR #5514 (branch claude/fs11vb-old-imports): the new src/core2/people-trait-definitions.ts imports types from src/simulation, and a moved comment carries an owner note; finish on that branch, merge main into it first.
