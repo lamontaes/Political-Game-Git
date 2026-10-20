@@ -5,9 +5,9 @@ area: gov
 kind: feature
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/community-inclusion
-pr:
+pr: #5387
 after:
 blocked-on:
 milestone:
