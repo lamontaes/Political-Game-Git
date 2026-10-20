@@ -4,13 +4,14 @@ title: "Stopgaps in drives (cause-group-spending): 1 open"
 area: people
 kind: stopgap
 priority: 3
-status: blocked
+status: open
 claimed-by:
 pr:
 blocked-on:
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/modules/drives.ts, kind cause-group-spending"
 after:
+claimed-at: 
 ---
 
 **What.** Let a cause group choose what its money buys, not only ad time. Today `spendGroupFunds` in drives.ts spends a share of the group's balance each month on `buyAdTime` from the campaigns engine and nothing else (stopgap SG-CORE-cause-group-ads-only). The campaigns engine already sells the other reach: `holdEvent` rents a venue and calls people, `sendMail` pays a mailer to addresses, and a press purchase reaches readers. Give the group the same menu through the shared chooser: each month it scores ad time, an event, a mailer and saving toward a cause cost (a lawyer for the cause, a petition drive only where the golden path needs one), reading its members' plans, its balance against each item's minimum buy, and the reach per dollar each already reports. The winning purchase is bought through the same seller records as a campaign's, and its audience is the people who hear it, who then hold the cause in the views engine.
