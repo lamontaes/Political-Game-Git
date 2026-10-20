@@ -4816,7 +4816,8 @@
     "addedBy": "claude/office-committee-meeting",
     "addedAt": "2026-10-17",
     "replacement": "The owner's ruling on which pre-vote hooks run on the committee day (docs/coordination/OWNER-DECISIONS.md).",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "The committee's day runs whatever the records already fire for a body on a sitting day, at the stage the body's own rules put them, from data. The pre-vote hooks are named (staff-brief, interest-organize, public-comment, own-vote); src/core2/data/legislature/committee-day.json says which run at the committee stage, holdCommittee runs those before the committee decides and marks them on the bill (hooksRun), and the floor day runs only those not yet run."
   },
   {
     "id": "SG-GOV-clemency-boards",
