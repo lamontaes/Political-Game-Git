@@ -1,4 +1,4 @@
-import type { TraitEffectDeclaration } from "../../trait-packs";
+import type { TraitEffectDeclaration } from "../../../core2/trait-packs";
 
 /**
  * A cocky person overestimates their own prospects and advertises that

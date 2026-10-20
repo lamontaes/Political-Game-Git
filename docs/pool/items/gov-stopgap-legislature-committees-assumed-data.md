@@ -4,10 +4,10 @@ title: "Stopgaps in legislature-committees (assumed-data): 1 open"
 area: gov
 kind: stopgap
 priority: 3
-status: open
+status: blocked
 claimed-by:
 pr:
-blocked-on:
+blocked-on: engine or design: The audit found every bill going to one 'general' committee. Each chamber's own committee list is not in the data yet; the nine subjects are the ones nearly every chamber keeps.
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/legislature-committees.ts, kind assumed-data"
 ---
