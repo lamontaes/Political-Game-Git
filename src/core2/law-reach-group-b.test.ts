@@ -982,28 +982,70 @@ describe("law reach, group B: every policy reaches people through its engine", (
         );
     }
     const past = standing();
-    const stopped = past.heads.filter((h) => past.reachedIds.has(h.id));
+    // The requirement stops a head it reaches once that person's own months on
+    // the benefit since it took effect reach its limit within its window; a
+    // head it reached later, with fewer months, still draws.
+    const since = (
+      lawInForce(api, work).governing?.effectiveDate ?? api.state.date
+    ).slice(0, 7);
+    const thisMonth = api.state.date.slice(0, 7);
+    const monthsAgo = (m: string) =>
+      (Number(thisMonth.slice(0, 4)) - Number(m.slice(0, 4))) *
+        reachParameter("monthsPerYear") +
+      Number(thisMonth.slice(5, 7)) -
+      Number(m.slice(5, 7));
+    const draws = new Map(
+      table<{ id: string; months: string[] }>("taken")
+        .filter((r) => r.id.startsWith("draw|"))
+        .map((r) => [r.id.slice("draw|".length), r.months]),
+    );
+    const usedUp = (id: string) =>
+      (draws.get(id) ?? []).filter(
+        (m) =>
+          m !== thisMonth &&
+          m >= since &&
+          monthsAgo(m) < reachParameter("snapWorkTimeLimitWindowMonths"),
+      ).length >= reachParameter("snapWorkTimeLimitMonths");
+    const stopped = past.heads.filter(
+      (h) => past.reachedIds.has(h.id) && usedUp(h.id),
+    );
+    expect(
+      stopped.length,
+      `${where}: nobody reached the time limit`,
+    ).toBeGreaterThan(0);
     for (const head of stopped.filter((h) => h.named))
       expect(
         past.named.some((r) => r.recipientId === head.id),
         `${where} ${head.id} still paid after the limit`,
       ).toBe(false);
-    // The line's money goes to the heads still drawing, so the pooled payment for counted households is that rate times the counted heads still drawing.
-    const drawing = past.heads.length - stopped.length;
+    // The line's money goes to the heads still drawing, each counted row for
+    // the households it stands for; each group's fund is paid that rate times
+    // its households still drawing, in whole cents.
+    const stillDrawing = past.heads.filter((h) => !stopped.includes(h));
+    const households = stillDrawing.reduce((n, h) => n + (h.scale ?? 1), 0);
     const rate = Math.floor(
       ((group(key)?.terms.townDeltaMinor ?? 0) *
         modeledShare(api, townFacts(api, town))) /
         reachParameter("monthsPerYear") /
-        Math.max(1, drawing),
+        Math.max(1, households),
     );
-    const countedDrawing = past.heads.filter(
-      (h) => !h.named && !past.reachedIds.has(h.id),
-    ).length;
-    if (rate > 0 && countedDrawing > 0)
+    const store = residentsRuntime(core)!.store;
+    const byGroup = new Map<number, number>();
+    for (const h of stillDrawing.filter((x) => !x.named)) {
+      const ix = store.householdOf.get(h.householdId);
+      const g = ix === undefined ? undefined : store.households[ix]?.group;
+      if (g !== undefined)
+        byGroup.set(g, (byGroup.get(g) ?? 0) + (h.scale ?? 1));
+    }
+    const expectedCounted = [...byGroup.values()].reduce(
+      (n, units) => n + Math.floor(rate * units),
+      0,
+    );
+    if (rate > 0 && byGroup.size > 0)
       expect(
         past.countedRows.reduce((n, r) => n + r.amountMinor, 0),
         `${where} counted groups' payments`,
-      ).toBe(rate * countedDrawing);
+      ).toBe(expectedCounted);
     for (const row of past.countedRows)
       expect(row.recipientId, `${where} ${row.id}`).toMatch(/^fund-account:/);
     report.assistanceWork = {

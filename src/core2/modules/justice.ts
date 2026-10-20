@@ -952,8 +952,6 @@ function treasuryFor(api: CoreAPI, officeId: string): string | null {
 interface FineRecord {
   readonly id: string;
   readonly reason: "fine" | "forfeiture" | "bail" | "bail-return";
-  /** A bail return the treasury could not cover in full: what it still owes. */
-  readonly shortMinor?: number;
   readonly date: string;
   readonly personId: PersonId;
   readonly treasuryId: string;
@@ -981,9 +979,9 @@ function fineSlot(api: CoreAPI, id: string): CashJournalSourceSlot | undefined {
         row.reason === "forfeiture"
           ? "The bribe money a court forfeits on a bribery conviction, paid to the treasury."
           : row.reason === "bail"
-            ? "A defendant's bail, held by the prosecuting government's treasury until the trial."
+            ? "A defendant's bail, held in the court escrow under the prosecuting government's treasury until the trial."
             : row.reason === "bail-return"
-              ? "A defendant's bail, returned by the treasury when the trial opens."
+              ? "A defendant's bail, returned in full from the court escrow when the trial opens."
               : "A court's fine on a bribery conviction, paid to the treasury.",
       asOf: row.date,
     },
@@ -1009,6 +1007,8 @@ function payToTreasury(
   personId: PersonId,
   treasuryId: string,
   amountMinor: number,
+  /** Where the money lands: the treasury's spendable cash unless a held fund is named. */
+  toAccountId: string = `cash:${treasuryId}:residual`,
 ): number {
   const state = api.state as CoreState;
   const from = `cash:${personId}:residual`;
@@ -1023,11 +1023,7 @@ function payToTreasury(
     treasuryId,
     postings: [
       { id: "person", accountId: from, deltaMinor: -amount },
-      {
-        id: "treasury",
-        accountId: `cash:${treasuryId}:residual`,
-        deltaMinor: amount,
-      },
+      { id: "treasury", accountId: toAccountId, deltaMinor: amount },
     ],
   };
   table(api, "fines").put(record as unknown as ModuleRow);
@@ -1041,7 +1037,30 @@ function payToTreasury(
   return amount;
 }
 
-/** Bail posted: the bail leaves the defendant's cash for the treasury that holds it until the trial. */
+/**
+ * The court escrow fund under a treasury's owner: bail sits here, apart from
+ * the cash the government can spend, until the trial returns it.
+ */
+function escrowOf(api: CoreAPI, treasuryId: string): string {
+  const state = api.state as CoreState;
+  const id = `account:${treasuryId}:court-escrow`;
+  if (!state.cashJournal.accounts.has(id))
+    api.registerCashAccount({
+      id,
+      ownerId: treasuryId,
+      name: "court-escrow",
+      allocatedMinor: 0,
+      source: {
+        tag: "SOURCED",
+        citation:
+          "Bail is held by the court apart from the government's own funds until the case is heard.",
+        asOf: api.state.date,
+      },
+    });
+  return id;
+}
+
+/** Bail posted: the bail leaves the defendant's cash for the court escrow under the treasury, held until the trial. */
 function holdBail(
   api: CoreAPI,
   caseId: string,
@@ -1049,42 +1068,40 @@ function holdBail(
   treasuryId: string,
   bailMinor: number,
 ): void {
-  payToTreasury(api, `bail:${caseId}`, "bail", personId, treasuryId, bailMinor);
+  payToTreasury(
+    api,
+    `bail:${caseId}`,
+    "bail",
+    personId,
+    treasuryId,
+    bailMinor,
+    escrowOf(api, treasuryId),
+  );
 }
 
-/** The trial opens: the treasury hands the bail back, as much as it still holds. */
+/** The trial opens: the escrow hands the whole bail back, whatever the treasury has spent since. */
 function returnBail(api: CoreAPI, caseId: string): void {
   const held = table(api, "fines").get(`bail:${caseId}`) as unknown as
     FineRecord | undefined;
   if (!held || table(api, "fines").get(`bail-return:${caseId}`)) return;
   const state = api.state as CoreState;
-  // The treasury hands back what it still holds; the rest stays owed on the case's bail record.
-  const accounts = api.accounts();
   const heldMinor = held.postings.find((x) => x.id === "treasury")!.deltaMinor;
-  const amount = Math.min(
-    heldMinor,
-    Math.max(0, accounts.balance(accounts.main(held.treasuryId))),
-  );
-  // stopgapId: SG-GOV-bail-not-escrowed
-  api.stopgap("SG-GOV-bail-not-escrowed");
-  if (amount <= 0) return;
   const record: FineRecord = {
     id: `bail-return:${caseId}`,
     reason: "bail-return",
     date: api.state.date,
     personId: held.personId,
     treasuryId: held.treasuryId,
-    shortMinor: heldMinor - amount,
     postings: [
       {
         id: "treasury",
-        accountId: `cash:${held.treasuryId}:residual`,
-        deltaMinor: -amount,
+        accountId: escrowOf(api, held.treasuryId),
+        deltaMinor: -heldMinor,
       },
       {
         id: "person",
         accountId: `cash:${held.personId}:residual`,
-        deltaMinor: amount,
+        deltaMinor: heldMinor,
       },
     ],
   };
