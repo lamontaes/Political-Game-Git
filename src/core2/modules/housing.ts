@@ -660,49 +660,68 @@ function rehouse(api: CoreAPI): void {
         ? typical
         : (c.finance.contracts.get(`lease:${householdId}`)?.amountMinor ?? 0);
     },
-    (householdId, rentMinor) => {
-      const household = c.households.get(householdId)!;
-      const offer = offers.get(householdId);
-      const landlordId =
-        offer?.project.payerId ?? `organization:landlord:${household.placeId}`;
-      if (!c.organizations.has(landlordId)) return;
-      const id = `lease:${householdId}:${c.date}`;
-      api.addFinanceContract({
-        id,
-        householdId,
-        payerIds: household.memberIds.filter((m) => c.people.get(m)?.alive),
-        payeeId: landlordId,
-        kind: LEASE_KIND,
-        amountMinor: rentMinor,
-        dueAt: makeIsoDate(nextDue(c.date)),
-        periodMonths: 1,
-        accruesArrears: true,
-        source: {
-          tag: "ESTIMATED",
-          asOf: c.date,
-          citation: housingData.source.citation,
-          estimatedFrom: `Rents again at the offered rent once pay reached ${api.parameter("housingRehouseIncomeMultiple")} times it.`,
-        },
-      });
-      store(api)
-        .table("dwellings")
-        .put({
-          id: `dwelling:${householdId}`,
-          householdId,
-          tenure: "rent",
-          kind:
-            (
-              store(api).table("dwellings").get(`dwelling:${householdId}`) as
-                { kind?: string } | undefined
-            )?.kind ?? "apartment",
-          rentMinor,
-          since: c.date,
-          basis: "rehoused",
-        });
-      if (offer) occupyRehousedRental(api, offer, householdId, id);
-      return id;
-    },
+    (householdId, rentMinor) =>
+      leaseHousehold(api, householdId, rentMinor, offers.get(householdId)),
   );
+}
+
+/** The town's typical monthly rent; none where it has no other renters. */
+export function typicalRentMinor(api: CoreAPI, placeId: string): number {
+  return townFigures(api, placeId).rentMinor;
+}
+
+/**
+ * A household without a home signs a lease at a rent: from the town's landlord
+ * (or the landlord of the offered unit, which it then consumes), due next month,
+ * paid by its living members. Returns the lease id, or none when the town has
+ * no landlord.
+ */
+export function leaseHousehold(
+  api: CoreAPI,
+  householdId: string,
+  rentMinor: number,
+  offer?: CompletedRentalOffer,
+): string | undefined {
+  const c = core(api);
+  const household = c.households.get(householdId)!;
+  const landlordId =
+    offer?.project.payerId ?? `organization:landlord:${household.placeId}`;
+  if (!c.organizations.has(landlordId)) return undefined;
+  const id = `lease:${householdId}:${c.date}`;
+  api.addFinanceContract({
+    id,
+    householdId,
+    payerIds: household.memberIds.filter((m) => c.people.get(m)?.alive),
+    payeeId: landlordId,
+    kind: LEASE_KIND,
+    amountMinor: rentMinor,
+    dueAt: makeIsoDate(nextDue(c.date)),
+    periodMonths: 1,
+    accruesArrears: true,
+    source: {
+      tag: "ESTIMATED",
+      asOf: c.date,
+      citation: housingData.source.citation,
+      estimatedFrom: `Rents again at the offered rent once pay reached ${api.parameter("housingRehouseIncomeMultiple")} times it.`,
+    },
+  });
+  store(api)
+    .table("dwellings")
+    .put({
+      id: `dwelling:${householdId}`,
+      householdId,
+      tenure: "rent",
+      kind:
+        (
+          store(api).table("dwellings").get(`dwelling:${householdId}`) as
+            { kind?: string } | undefined
+        )?.kind ?? "apartment",
+      rentMinor,
+      since: c.date,
+      basis: "rehoused",
+    });
+  if (offer) occupyRehousedRental(api, offer, householdId, id);
+  return id;
 }
 
 /** Rent owed past the grace period starts a case: the landlord serves the notice the law requires. */
@@ -1296,8 +1315,7 @@ function step(api: CoreAPI, caseId: string, kind: string): void {
     });
     schedule(api, `hearing:${caseId}`, hearingAt, "housing-hearing", caseId);
   } else if (kind === "housing-hearing") {
-    // Courts are parked: the hearing follows the law's conditions (rent owed, notice given) with no judge's discretion.
-    stopgap("SG-WORLD-housing-hearing-without-judge");
+    // Evictions without courts (owner, Oct 14, OWNER-DECISIONS.md): the hearing is a dated step of the statute that follows its conditions (rent owed, notice given); there is no judge or court scene until courts come.
     if (owed <= 0)
       return put({
         open: false,

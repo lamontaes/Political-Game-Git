@@ -4,9 +4,9 @@ title: "Speeches and debate (campaign speeches, floor speeches, public comment),
 area: words
 kind: feature
 priority: 2
-status: claimed
+status: in-pr
 claimed-by: claude/political-game-pool-7xkkii
-pr:
+pr: #5196
 blocked-on:
 milestone:
 source: "docs/coordination/words.md line 37 (unchecked checklist line)"

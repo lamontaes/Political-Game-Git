@@ -5,7 +5,7 @@ area: people
 kind: bug
 priority: 2
 size: M
-status: in-pr
+status: done
 claimed-by: claude/press-opening-cash
 pr: #4999
 blocked-on:

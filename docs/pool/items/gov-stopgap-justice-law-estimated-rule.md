@@ -4,10 +4,10 @@ title: "Stopgaps in justice-law (estimated-rule): 1 open"
 area: gov
 kind: stopgap
 priority: 3
-status: open
+status: blocked
 claimed-by:
 pr:
-blocked-on:
+blocked-on: engine or design: The common rule in state constitutions and codes; each state's rule and its timing (conviction, sentencing or final appeal) are not read.
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/justice-law.ts, kind estimated-rule"
 ---
