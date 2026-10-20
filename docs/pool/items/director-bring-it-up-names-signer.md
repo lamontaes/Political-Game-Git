@@ -5,11 +5,11 @@ area: director
 kind: feature
 priority: 3
 size: S
-status: blocked
-claimed-by: claude/political-game-pool-yucp92-m
+status: open
+claimed-by:
 pr:
 blocked-on:
-claimed-at: 2026-10-20T00:46:39.336Z
+claimed-at:
 source: added with npm run pool -- add
 ---
 
