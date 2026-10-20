@@ -4,10 +4,10 @@ title: "Stopgaps in health (estimated-behavior): 1 open"
 area: people
 kind: stopgap
 priority: 3
-status: open
+status: dropped
 claimed-by:
 pr:
-blocked-on:
+blocked-on: research-health-sourced-parameters
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/data/health.json, kind estimated-behavior"
 ---
@@ -21,3 +21,5 @@ source: "src/core2/data/stopgaps.json, src/core2/data/health.json, kind estimate
 **Files.** src/core2/data/health.json
 
 **Notes.** First row: Event impulses scale Holmes-Rahe life change units into core2 stress and mood impulses with tunable conversions.
+
+Folded into research-health-sourced-parameters (CTO, Oct 19, 2026).
