@@ -4,12 +4,13 @@ title: "Stopgaps in counted-drift (aggregate-population): 3 open"
 area: core
 kind: stopgap
 priority: 3
-status: open
-claimed-by:
-pr:
+status: done
+claimed-by: claude/pool-counted-drift-stale
+pr: #4889
 blocked-on:
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/modules/counted-drift.ts, kind aggregate-population"
+claimed-at: 2026-10-19T23:16:14.900Z
 ---
 
 **What.** Replace or clear the 3 open aggregate-population stopgap row(s) in src/core2/modules/counted-drift.ts: SG-CORE-counted-drift, SG-CORE-counted-moves, SG-CORE-counted-drift-named-workers. Each fake is replaced by the mechanic, or the feature that needs it is deleted.

@@ -13,12 +13,12 @@ source: added with npm run pool -- add
 claimed-at: 2026-10-19T21:00:58.536Z
 ---
 
-**What.** `src/director/office-scene-levels.test.ts` fails on clean main and on `words/word-pack` with OFFICE_SCENE_SEED=3f4d6341ed8d0121, which draws Vaitogi, American Samoa. The state-level office scene opens on someone `officialOf` does not find, so the first assertion that the target is an official reads undefined. The second test finds no recorded vote that reads the moved position (state yes, federal yes, 0 votes) to August 7, 2027. A territory's legislature may be seated differently from a state's, so the scene's target pick and the vote read do not meet there.
+**What.** In a territory town (Vaitogi, American Samoa, `OFFICE_SCENE_SEED` 3f4d6341ed8d0121) the state-level office scene picked a colleague who held a seat but was not an official the officials engine had seated, so the scene's target had no stance a case could move. The scene's check of the moved stance then failed because a case made by a sponsor who is not the played person keeps only its latest cause. Pick only seated officials as targets in a body the officials engine covers, and check the case through the hearing count the views engine keeps for everyone.
 
-**Rules.** One rule, all 56 places: a territory's legislature is cast and voted through the same office scene as a state's, from its own records.
+**Rules.** An effect is a read, not a record: a scene targets someone whose stance a vote reads. One rule, all 56 places: the check draws places and names the seed. No dice: the target is the colleague nearest the player's side by recorded position.
 
-**Done when.** The test passes with OFFICE_SCENE_SEED=3f4d6341ed8d0121 and with three seeds the builder did not choose, each naming the drawn place and the target's record id in the test output.
+**Done when.** In a played world in a place drawn from all 56 and a seed the builder did not choose (name both in the PR body), the office scene opens on a seated official at the state and the federal level and the vote reads the moved position, and `src/director/office-scene-levels.test.ts` passes on the pinned seed 3f4d6341ed8d0121 and on two other seeds.
 
-**Files.** `src/director/office-scene.ts`, `src/director/office-scene-levels.test.ts`, `src/core2/modules/officials.ts`.
+**Files.** src/director/office-scene.ts, src/director/office-scene-levels.test.ts
 
-**Notes.** Found by the Words session on Oct 19 while checking #4626; the same failure on main rules out the word pack. `core-counted-drift-delete` also lists this test as one whose numbers move.
+**Notes.** Red on main with the pinned seed. Fixed in the pull request that carries this note.

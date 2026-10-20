@@ -4,12 +4,13 @@ title: "Stopgaps in main (player-text-gap): 1 open"
 area: core
 kind: stopgap
 priority: 3
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/desktop-update-text
+pr: #5251
 blocked-on:
 milestone:
 source: "src/core2/data/stopgaps.json, desktop/main.mjs, kind player-text-gap"
+claimed-at: 2026-10-19T23:11:57.820Z
 ---
 
 **What.** Replace or clear the 1 open player-text-gap stopgap row(s) in desktop/main.mjs: SG-PLAY-desktop-update-dialog-text. Each fake is replaced by the mechanic, or the feature that needs it is deleted.
