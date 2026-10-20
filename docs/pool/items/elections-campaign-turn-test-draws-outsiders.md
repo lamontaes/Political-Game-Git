@@ -5,7 +5,7 @@ area: elections
 kind: bug
 priority: 2
 size: S
-status: in-pr
+status: done
 claimed-by: claude/campaign-turn-test-draws-s5
 pr: #4885
 blocked-on:
