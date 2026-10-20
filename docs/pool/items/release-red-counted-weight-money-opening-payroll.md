@@ -5,7 +5,7 @@ area: world
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/fs11vb-rr2
 pr: #5331
 blocked-on:
