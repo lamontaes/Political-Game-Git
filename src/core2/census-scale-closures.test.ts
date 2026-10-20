@@ -1,9 +1,10 @@
 /**
  * Pool item world-census-scale-closures-rise: a town opened at its Census size
- * pays that multiple of wages (its counted workers stand for several) and
- * takes in that multiple of sales, so no firm closes for want of cash to meet
- * its payroll. A drawn place above 10,000 people, opened at reference over the
- * 10,000-person sample, played for a year.
+ * pays that multiple of wages (its counted workers stand for several), takes
+ * in that multiple of sales and holds that multiple of cash, so it closes no
+ * more firms than the same town at the sample size. A drawn place above
+ * 10,000 people, opened at reference over the 10,000-person sample, played
+ * for a year each way.
  */
 import { createHash, randomBytes } from "node:crypto";
 import { expect, it } from "vitest";
@@ -37,28 +38,38 @@ function drawLargeTown() {
   throw new Error(`no drawn place between 12,000 and 40,000 (seed ${base})`);
 }
 
-it("no firm in a Census-size town closes for want of cash to pay its wages", () => {
-  const { draw, reference } = drawLargeTown();
-  const where = `${draw.name} (${draw.key}), census ${reference}, seed ${draw.seed}`;
+function play(seed: string, key: string, countScale: number) {
   setBookkeeping(false);
-  const { core } = buildBenchWorld(draw.seed, gameStartDate(), {
+  const { core } = buildBenchWorld(seed, gameStartDate(), {
     twoLevel: true,
-    placeKey: draw.key,
-    countScale: reference / SAMPLE,
+    placeKey: key,
+    ...(countScale !== 1 ? { countScale } : {}),
   });
   advanceCore(core, addDays(makeIsoDate(core.date), 365));
-  const unfunded = [...(core as CoreState).finance.closures.values()].filter(
-    (closure) => closure.reasonKey.includes("unfunded-obligation"),
+  const closed = [...(core as CoreState).finance.closures.values()].map(
+    (closure) =>
+      `${closure.organizationId} ${closure.date} ${closure.reasonKey}`,
   );
-  expect(
-    unfunded.map((closure) => `${closure.organizationId} ${closure.date}`),
-    where,
-  ).toEqual([]);
-  // The closures that did happen, by job change id.
   const changes = coreAPI(core)
     .moduleState(JOBS_MODULE_ID)
     .table("changes")
     .rows() as unknown as { id: string; kind: string }[];
-  const closures = changes.filter((row) => row.kind === "closure");
-  console.log(`CLOSURES ${where}: ${closures.length} closure rows`);
-}, 1_800_000);
+  return {
+    closed,
+    rows: changes.filter((row) => row.kind === "closure").length,
+  };
+}
+
+it("a Census-size town closes no more firms than the same town at the sample size", () => {
+  const { draw, reference } = drawLargeTown();
+  const where = `${draw.name} (${draw.key}), census ${reference}, seed ${draw.seed}`;
+  const sample = play(draw.seed, draw.key, 1);
+  const scaled = play(draw.seed, draw.key, reference / SAMPLE);
+  console.log(
+    `CLOSURES ${where}: sample ${sample.closed.length} firms ${sample.rows} job rows; census ${scaled.closed.length} firms ${scaled.rows} job rows`,
+  );
+  expect(
+    scaled.closed.length,
+    `${where}: sample closed ${sample.closed.join("; ")}; census closed ${scaled.closed.join("; ")}`,
+  ).toBeLessThanOrEqual(sample.closed.length);
+}, 3_600_000);
