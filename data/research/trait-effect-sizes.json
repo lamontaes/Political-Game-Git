@@ -872,13 +872,25 @@
     },
     {
       "id": "legislature.member-position",
-      "trait": "none found",
-      "outcome": "legislator personality and roll-call voting",
-      "effect": null,
-      "source": null,
-      "quote": "",
-      "quoteVerified": false,
-      "notes": "Second pass: the paper is Dietrich, Lasley, Mondak, Remmel & Turner (2012, Political Psychology 33, 195-210) but its abstract could not be retrieved (Europe PMC returned an unrelated record for the guessed DOI). Ramey, Klingler & Hollibaugh estimate legislators' Big Five from floor speeches and report personality relates to behavior even controlling for ideology, but no number was verified."
+      "trait": "any Big Five trait (general)",
+      "outcome": "a legislator voting yes on a bill (single occasion)",
+      "effect": {
+        "kind": "correlation",
+        "value": 0.2,
+        "low": null,
+        "high": null
+      },
+      "source": {
+        "authors": "Fleeson, W., & Gallagher, P.",
+        "year": 2009,
+        "title": "The implications of Big Five standing for the distribution of trait manifestation in behavior: Fifteen experience-sampling studies and a meta-analysis",
+        "venue": "Journal of Personality and Social Psychology 97(6), 1097-1114",
+        "url": "https://doi.org/10.1037/a0016786"
+      },
+      "quote": "Results show that traits, contrary to expectations, were strongly predictive of individual differences in trait manifestation in behavior, predicting average levels with correlations between .42 and .56 (approaching .60 for stringently restricted studies).",
+      "quoteVerified": true,
+      "notes": "No study of this decision was retrievable, so the row uses the default personality-behavior study (Fleeson & Gallagher 2009, average-level r = .42 to .56 over many occasions) scaled for a single occasion: the notes of default.personality-behavior put single-decision effects at r = .1 to .3, and this row takes the midpoint, r = .2. Plainly an estimate, not a measurement of this decision. The specific paper, Dietrich, Lasley, Mondak, Remmel & Turner (2012, Political Psychology 33, 195-210), could not be retrieved; Ramey, Klingler & Hollibaugh report personality relates to legislators' behavior even controlling for ideology, with no verified number.",
+      "option": "yes"
     },
     {
       "id": "offices.accept-appointment",
@@ -920,6 +932,182 @@
       "quote": "Results show that traits, contrary to expectations, were strongly predictive of individual differences in trait manifestation in behavior, predicting average levels with correlations between .42 and .56 (approaching .60 for stringently restricted studies).",
       "quoteVerified": true,
       "notes": "Default for decisions with no specific study. value is the lower bound of the reported .42-.56 range (conservative); low/high are the range ends, not a confidence interval. Applies to average behavior over many occasions; single-decision effects are much smaller (see the specific rows, mostly r = .1 to .3 or odds ratios of 1.1 to 1.3 per SD). Ozer & Benet-Martinez (2006, Annual Review of Psychology) is a qualitative review with no pooled number."
+    },
+    {
+      "id": "legislature.attend-sitting",
+      "option": "sitting-attend",
+      "trait": "any Big Five trait (general)",
+      "outcome": "a legislator attending a sitting (absenteeism; single occasion)",
+      "effect": {
+        "kind": "correlation",
+        "value": 0.1,
+        "low": null,
+        "high": null
+      },
+      "source": {
+        "authors": "Fleeson, W., & Gallagher, P.",
+        "year": 2009,
+        "title": "The implications of Big Five standing for the distribution of trait manifestation in behavior: Fifteen experience-sampling studies and a meta-analysis",
+        "venue": "Journal of Personality and Social Psychology 97(6), 1097-1114",
+        "url": "https://doi.org/10.1037/a0016786"
+      },
+      "quote": "Results show that traits, contrary to expectations, were strongly predictive of individual differences in trait manifestation in behavior, predicting average levels with correlations between .42 and .56 (approaching .60 for stringently restricted studies).",
+      "quoteVerified": true,
+      "notes": "Salgado (2002, see work.attend-shift) found no Big Five trait significantly predicting absenteeism, so the trait share is set at the small end of the single-occasion range in default.personality-behavior's notes (r = .1 against .2 elsewhere). Fleeson & Gallagher 2009 (average-level r = .42 to .56) is the only general source; conscientiousness is the trait the pulls load on, as for work.attend-shift. Plainly an estimate."
+    },
+    {
+      "id": "legislature.hold-hearing",
+      "option": "hear",
+      "trait": "any Big Five trait (general)",
+      "outcome": "a committee chair holding a hearing (single occasion)",
+      "effect": {
+        "kind": "correlation",
+        "value": 0.2,
+        "low": null,
+        "high": null
+      },
+      "source": {
+        "authors": "Fleeson, W., & Gallagher, P.",
+        "year": 2009,
+        "title": "The implications of Big Five standing for the distribution of trait manifestation in behavior: Fifteen experience-sampling studies and a meta-analysis",
+        "venue": "Journal of Personality and Social Psychology 97(6), 1097-1114",
+        "url": "https://doi.org/10.1037/a0016786"
+      },
+      "quote": "Results show that traits, contrary to expectations, were strongly predictive of individual differences in trait manifestation in behavior, predicting average levels with correlations between .42 and .56 (approaching .60 for stringently restricted studies).",
+      "quoteVerified": true,
+      "notes": "No study of this decision was retrievable, so the row uses the default personality-behavior study (Fleeson & Gallagher 2009, average-level r = .42 to .56 over many occasions) scaled for a single occasion: the notes of default.personality-behavior put single-decision effects at r = .1 to .3, and this row takes the midpoint, r = .2. Plainly an estimate, not a measurement of this decision."
+    },
+    {
+      "id": "legislature.sign-or-veto",
+      "option": "sign",
+      "trait": "any Big Five trait (general)",
+      "outcome": "an executive signing rather than vetoing a bill (single occasion)",
+      "effect": {
+        "kind": "correlation",
+        "value": 0.2,
+        "low": null,
+        "high": null
+      },
+      "source": {
+        "authors": "Fleeson, W., & Gallagher, P.",
+        "year": 2009,
+        "title": "The implications of Big Five standing for the distribution of trait manifestation in behavior: Fifteen experience-sampling studies and a meta-analysis",
+        "venue": "Journal of Personality and Social Psychology 97(6), 1097-1114",
+        "url": "https://doi.org/10.1037/a0016786"
+      },
+      "quote": "Results show that traits, contrary to expectations, were strongly predictive of individual differences in trait manifestation in behavior, predicting average levels with correlations between .42 and .56 (approaching .60 for stringently restricted studies).",
+      "quoteVerified": true,
+      "notes": "No study of this decision was retrievable, so the row uses the default personality-behavior study (Fleeson & Gallagher 2009, average-level r = .42 to .56 over many occasions) scaled for a single occasion: the notes of default.personality-behavior put single-decision effects at r = .1 to .3, and this row takes the midpoint, r = .2. Plainly an estimate, not a measurement of this decision."
+    },
+    {
+      "id": "legislature.poison-pill",
+      "option": "pill-move",
+      "trait": "any Big Five trait (general)",
+      "outcome": "a member bending the rules to sink a bill (single occasion)",
+      "effect": {
+        "kind": "correlation",
+        "value": 0.2,
+        "low": null,
+        "high": null
+      },
+      "source": {
+        "authors": "Fleeson, W., & Gallagher, P.",
+        "year": 2009,
+        "title": "The implications of Big Five standing for the distribution of trait manifestation in behavior: Fifteen experience-sampling studies and a meta-analysis",
+        "venue": "Journal of Personality and Social Psychology 97(6), 1097-1114",
+        "url": "https://doi.org/10.1037/a0016786"
+      },
+      "quote": "Results show that traits, contrary to expectations, were strongly predictive of individual differences in trait manifestation in behavior, predicting average levels with correlations between .42 and .56 (approaching .60 for stringently restricted studies).",
+      "quoteVerified": true,
+      "notes": "No study of this decision was retrievable, so the row uses the default personality-behavior study (Fleeson & Gallagher 2009, average-level r = .42 to .56 over many occasions) scaled for a single occasion: the notes of default.personality-behavior put single-decision effects at r = .1 to .3, and this row takes the midpoint, r = .2. Plainly an estimate, not a measurement of this decision."
+    },
+    {
+      "id": "world-legislating.bring-agenda",
+      "option": "bring",
+      "trait": "any Big Five trait (general)",
+      "outcome": "a member filing a change rather than holding back (single occasion)",
+      "effect": {
+        "kind": "correlation",
+        "value": 0.2,
+        "low": null,
+        "high": null
+      },
+      "source": {
+        "authors": "Fleeson, W., & Gallagher, P.",
+        "year": 2009,
+        "title": "The implications of Big Five standing for the distribution of trait manifestation in behavior: Fifteen experience-sampling studies and a meta-analysis",
+        "venue": "Journal of Personality and Social Psychology 97(6), 1097-1114",
+        "url": "https://doi.org/10.1037/a0016786"
+      },
+      "quote": "Results show that traits, contrary to expectations, were strongly predictive of individual differences in trait manifestation in behavior, predicting average levels with correlations between .42 and .56 (approaching .60 for stringently restricted studies).",
+      "quoteVerified": true,
+      "notes": "No study of this decision was retrievable, so the row uses the default personality-behavior study (Fleeson & Gallagher 2009, average-level r = .42 to .56 over many occasions) scaled for a single occasion: the notes of default.personality-behavior put single-decision effects at r = .1 to .3, and this row takes the midpoint, r = .2. Plainly an estimate, not a measurement of this decision."
+    },
+    {
+      "id": "office-day-state.attend",
+      "option": "attend",
+      "trait": "any Big Five trait (general)",
+      "outcome": "a state legislator attending a session, committee or caucus (absenteeism; single occasion)",
+      "effect": {
+        "kind": "correlation",
+        "value": 0.1,
+        "low": null,
+        "high": null
+      },
+      "source": {
+        "authors": "Fleeson, W., & Gallagher, P.",
+        "year": 2009,
+        "title": "The implications of Big Five standing for the distribution of trait manifestation in behavior: Fifteen experience-sampling studies and a meta-analysis",
+        "venue": "Journal of Personality and Social Psychology 97(6), 1097-1114",
+        "url": "https://doi.org/10.1037/a0016786"
+      },
+      "quote": "Results show that traits, contrary to expectations, were strongly predictive of individual differences in trait manifestation in behavior, predicting average levels with correlations between .42 and .56 (approaching .60 for stringently restricted studies).",
+      "quoteVerified": true,
+      "notes": "Salgado (2002, see work.attend-shift) found no Big Five trait significantly predicting absenteeism, so the trait share is set at the small end of the single-occasion range in default.personality-behavior's notes (r = .1 against .2 elsewhere). Fleeson & Gallagher 2009 (average-level r = .42 to .56) is the only general source; conscientiousness is the trait the pulls load on, as for work.attend-shift. Plainly an estimate."
+    },
+    {
+      "id": "office-day-state.leader-request",
+      "option": "grant",
+      "trait": "any Big Five trait (general)",
+      "outcome": "a floor leader agreeing to schedule a member's bill (single occasion)",
+      "effect": {
+        "kind": "correlation",
+        "value": 0.2,
+        "low": null,
+        "high": null
+      },
+      "source": {
+        "authors": "Fleeson, W., & Gallagher, P.",
+        "year": 2009,
+        "title": "The implications of Big Five standing for the distribution of trait manifestation in behavior: Fifteen experience-sampling studies and a meta-analysis",
+        "venue": "Journal of Personality and Social Psychology 97(6), 1097-1114",
+        "url": "https://doi.org/10.1037/a0016786"
+      },
+      "quote": "Results show that traits, contrary to expectations, were strongly predictive of individual differences in trait manifestation in behavior, predicting average levels with correlations between .42 and .56 (approaching .60 for stringently restricted studies).",
+      "quoteVerified": true,
+      "notes": "No study of this decision was retrievable, so the row uses the default personality-behavior study (Fleeson & Gallagher 2009, average-level r = .42 to .56 over many occasions) scaled for a single occasion: the notes of default.personality-behavior put single-decision effects at r = .1 to .3, and this row takes the midpoint, r = .2. Plainly an estimate, not a measurement of this decision."
+    },
+    {
+      "id": "macro.rate-vote",
+      "option": "macro-rate-move",
+      "trait": "any Big Five trait (general)",
+      "outcome": "a central-bank board member voting to move the rate rather than hold (single occasion)",
+      "effect": {
+        "kind": "correlation",
+        "value": 0.2,
+        "low": null,
+        "high": null
+      },
+      "source": {
+        "authors": "Fleeson, W., & Gallagher, P.",
+        "year": 2009,
+        "title": "The implications of Big Five standing for the distribution of trait manifestation in behavior: Fifteen experience-sampling studies and a meta-analysis",
+        "venue": "Journal of Personality and Social Psychology 97(6), 1097-1114",
+        "url": "https://doi.org/10.1037/a0016786"
+      },
+      "quote": "Results show that traits, contrary to expectations, were strongly predictive of individual differences in trait manifestation in behavior, predicting average levels with correlations between .42 and .56 (approaching .60 for stringently restricted studies).",
+      "quoteVerified": true,
+      "notes": "No study of this decision was retrievable, so the row uses the default personality-behavior study (Fleeson & Gallagher 2009, average-level r = .42 to .56 over many occasions) scaled for a single occasion: the notes of default.personality-behavior put single-decision effects at r = .1 to .3, and this row takes the midpoint, r = .2. Plainly an estimate, not a measurement of this decision."
     },
     {
       "id": "work.attend-shift",

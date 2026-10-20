@@ -106,6 +106,80 @@ function shiftFor(
   return row.sign * (ageShift + sexShift);
 }
 
+/** The temperament dimensions and the traits anchored to them, for the engine that changes them over a life. */
+export const PERSONALITY_DIMENSIONS = SPEC.dimensions.map((row) => ({
+  traitId: `${PEOPLE_MIND_VERSION}:${row.trait}`,
+  name: row.trait,
+}));
+export const PERSONALITY_ANCHORED = ANCHORED.filter(
+  (row) => row.dimension >= p("zero") && row.loading !== p("zero"),
+).map((row) => ({
+  traitId: row.id,
+  dimensionIndex: row.dimension,
+  loading: row.loading,
+}));
+
+/**
+ * One year of the same sourced age curve the opening reads: how far a
+ * dimension's standard score moves in the year after `age`. Zero below the
+ * curve's minimum age.
+ */
+export function yearlyPersonalityShift(
+  dimensionIndex: number,
+  age: number,
+): number {
+  const row = SPEC.dimensions[dimensionIndex]!;
+  return (
+    (row.sign * (curve(row, age + p("one")) - curve(row, age))) / SPEC.tScoreSd
+  );
+}
+
+/** The -2..2 level a standard score falls in (the opening's own cut points). */
+export function personalityLevel(z: number): number {
+  return level(z);
+}
+
+/**
+ * A standard score inside a level's band, at the place `at` (0 to 1) of the
+ * band's probability: where a person carrying that level started. The place
+ * is a generation fact keyed to the person (the opening kept only the level),
+ * so the same person always starts at the same score.
+ */
+export function personalityLevelScore(value: number, at: number): number {
+  const cuts = SPEC.levels.cutPoints;
+  const index = SPEC.levels.values.indexOf(value);
+  const low = index === p("zero") ? -Infinity : cuts[index - p("one")]!;
+  const high = index === cuts.length ? Infinity : cuts[index]!;
+  const cdf = (x: number) =>
+    x === Infinity
+      ? p("one")
+      : x === -Infinity
+        ? p("zero")
+        : normalCdf(x, p("one"), p("two"));
+  const target = cdf(low) + at * (cdf(high) - cdf(low));
+  // Bisection on the normal CDF between wide bounds.
+  let lo = -SPEC.levels.bisectBound;
+  let hi = SPEC.levels.bisectBound;
+  for (let step = 0; step < SPEC.levels.bisectSteps; step += 1) {
+    const mid = (lo + hi) / p("two");
+    if (cdf(mid) < target) lo = mid;
+    else hi = mid;
+  }
+  return (lo + hi) / p("two");
+}
+
+/** Standard normal CDF (Abramowitz and Stegun 7.1.26 error function). */
+function normalCdf(x: number, one: number, two: number): number {
+  const t = one / (one + 0.3275911 * (Math.abs(x) / Math.sqrt(two)));
+  const poly =
+    ((((1.061405429 * t - 1.453152027) * t + 1.421413741) * t - 0.284496736) *
+      t +
+      0.254829592) *
+    t;
+  const erf = one - poly * Math.exp((-x * x) / two);
+  return (one + (x < 0 ? -erf : erf)) / two;
+}
+
 function level(z: number): number {
   let index = p("zero");
   for (const cut of SPEC.levels.cutPoints) if (z >= cut) index += p("one");

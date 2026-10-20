@@ -5,13 +5,13 @@ area: people
 kind: feature
 priority: 2
 size: M
-status: open
-claimed-by:
-pr: #5358
+status: in-pr
+claimed-by: claude/narrative-seam
+pr: #5614
 blocked-on:
 after: words-pack-scene-talk
 source: added with npm run pool -- add
-claimed-at:
+claimed-at: 2026-10-20T09:10:24.618Z
 ---
 
 **What.** Piece-picking moves from the director's scene-talk into the English engine. The director should emit only the situation and the moves, and the English engine should choose the pieces that voice each move. Today the director's scene-talk picks the words, which splits the wording between two places.
