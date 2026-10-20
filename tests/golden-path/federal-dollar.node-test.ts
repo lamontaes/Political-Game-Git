@@ -1,11 +1,12 @@
 /**
- * The federal dollar's chain, asserted in a played world (trial work order): the town builds exactly as the player gets it (`buildBenchWorld`,
- * two-level, every module the bench installs) and runs a game year. In one
- * world the player passes a federal budget line in dev mode — Social Security
- * up a twentieth, on the same writer the president's own February request
- * uses — and Congress votes it on the fiscal year's first day; in the control
- * world no line is passed and the year's budget adopts at its base. The test
- * follows the dollars by record id and fails when any link is missing:
+ * The federal dollar's chain, asserted in a played world: the town builds
+ * exactly as the player gets it (`buildBenchWorld`, two-level, every module the
+ * bench installs) and runs a game year. In one world the player passes a
+ * federal budget line in dev mode — Social Security up a twentieth, on the same
+ * writer the president's own February request uses — and Congress votes it on
+ * the fiscal year's first day; in the control world no line is passed and the
+ * year's budget adopts at its base. The test follows the dollars by record id
+ * and fails when any link is missing:
  *
  *   the budget row → the treasury's journal entries (the payment ids of its
  *   monthly closes) → payees the dollars reached in town (the Social Security
@@ -15,7 +16,7 @@
  *   the sellers' books, the sales tax collected) → the jobs engine reading
  *   the sellers' demand → the town's paid income, which the national month
  *   row reads. National output no longer answers the budget through a
- *   coefficient: the change is read only through the dollars that landed
+ *   coefficient: the change is read only through the dollars that landed,
  *   so the control world's last month is the "before".
  *
  * Run: node --max-old-space-size=8192 --import tsx --test tests/golden-path/federal-dollar.node-test.ts

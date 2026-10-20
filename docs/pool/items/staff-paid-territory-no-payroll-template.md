@@ -5,12 +5,12 @@ area: gov
 kind: bug
 priority: 1
 size: M
-status: in-pr
+status: claimed
 claimed-by: claude/territory-payroll
 pr: #5712
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-20T17:45:12.244Z
+claimed-at: 2026-10-20T18:49:44.374Z
 ---
 
 **What.** Merge audit fix 5 asked for a pinned regression of #5559 (staff paid in a territory). On main it does not hold: in Charlotte Amalie East, U.S. Virgin Islands (place territory:VI:charlotte-amalie-east, seed p3) all 19 aides of the delegate, governor, lieutenant governor, boards and legislature are unpaid after 120 days of play, because startPublicJob finds no job to take a schedule from: of 1,426 running jobs at the start, none has a work commitment with a payroll calendar (the territory's workers are counted, not full people), so even taking the longest-hours job anywhere finds no template, and the post is held unpaid. Give a post with no template a schedule built from the parameters (the full-time week and the paydays the opening's work builder uses) so the aide is paid.
@@ -26,3 +26,7 @@ claimed-at: 2026-10-20T17:45:12.244Z
 Oct 20 (fs11vb, diagnosed, nothing built): logged every `startPublicJob` call in the repro world. The 19 jobs in the town are the officials' own seat jobs (`job:office:seat:US-VI:unicameral:At-large:N:…`), and none has a work commitment or payroll calendar, so every candidate template is skipped ("no commitment/calendar"). Letting the lookup fall back to the longest-hours job anywhere (a change in `src/core2/public-payroll.ts`, tried and reverted) found nothing either: commitments and calendars exist only for full people whose opening schedule was built, and none of the territory's workers is one. So the fix has to build a schedule and a payroll calendar for the post from the parameters (the full-time week `openingFullTimeWeeklyHours`, `daysPerWeek`, and the paydays the opening's payroll calendar builder uses in `src/core2/opening-payroll-calendar.ts`) when no template exists, replacing the template lookup rather than sitting beside it.
 
 Sent back 2026-10-20 from PR #5712 (branch claude/territory-payroll): merging main conflicts in src/core2/public-payroll.ts (#5668 changed the schedule template order there); finish on that branch, merge main into it first.
+
+Sent back 2026-10-20 from PR #5712 (branch claude/territory-payroll): staff-paid-every-place.test.ts fails with main merged: the president's aide in Wendell, Idaho (1686320) has no payroll record; finish on that branch, merge main into it first.
+
+Sent back 2026-10-20 from PR #5712 (branch claude/territory-payroll): On main merged at d26fb2715, staff-paid-every-place.test.ts:62 fails the required drawn-place case: Mustang, Texas (4850184), world seed b1b42a77246ea4d8022653a8c55b696ebb578c9c13812a0d171a91105844b7c2, aide staffer:official:term:seat:US:president:2025-01-20:person:aide:official:term:seat:US:president:2025-01-20:3 has zero matching payroll records after 120 days. The pinned VI case passes; all other local gates pass except unrelated old pool items. Diagnose this unpaid aide, retain the failing case beside the drawn-place test, and do not weaken the payment assertion.; finish on that branch, merge main into it first.
