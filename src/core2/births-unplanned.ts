@@ -3,7 +3,7 @@ import { ageOnDate, makeIsoDate } from "./kernel/dates";
 import { renewalParameter } from "./births-parameters";
 import { birthCircumstances, type BirthCouple } from "./births-plan";
 import { lawInForce } from "./modules/laws";
-import { corePlaceByJurisdictionId } from "./place-lookup";
+import { corePlaceByJurisdictionId, corePlaceByKey } from "./place-lookup";
 import type { EntityId } from "./kernel/brands";
 import type { CoreAPI } from "./types";
 
@@ -33,10 +33,15 @@ const PROVIDER_PLACES = providerDistance.places as unknown as Readonly<
 export function providerMiles(
   placeId: string,
   restricted: boolean,
+  worldPlaceKey?: string,
 ): { miles: number; stateKey: string } {
-  const stateKey = corePlaceByJurisdictionId(
-    placeId as EntityId,
-  )?.stateJurisdictionKey;
+  // A town's own households keep their governing unit's id, which the place
+  // lookup may not know: they live in the world's own place's state.
+  const stateKey =
+    corePlaceByJurisdictionId(placeId as EntityId)?.stateJurisdictionKey ??
+    (worldPlaceKey
+      ? corePlaceByKey(worldPlaceKey)?.stateJurisdictionKey
+      : undefined);
   const row = stateKey ? PROVIDER_PLACES[stateKey] : undefined;
   if (!stateKey || !row)
     throw new Error(`No provider distance recorded for place ${placeId}`);
@@ -123,7 +128,11 @@ export function decideUnplanned(
   const circumstances = birthCircumstances(api, mother, couple, asOf);
   const raising = Object.values(circumstances).reduce((sum, v) => sum + v, 0);
   const law = restrictionRead(api);
-  const { miles } = providerMiles(mother.placeId, law.restricted);
+  const { miles } = providerMiles(
+    mother.placeId,
+    law.restricted,
+    api.state.placeMetadata?.placeKey,
+  );
   const travelMinor = Math.round(miles * p("renewalTravelCostPerMileMinor"));
   const cash = api.state.households
     .get(mother.householdId)!
