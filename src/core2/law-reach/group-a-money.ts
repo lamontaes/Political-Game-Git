@@ -9,24 +9,19 @@
  * - Dedicated parks funding: the parks line of the government that passed it
  *   rises by the dedicated share; a repeal takes the same amount back out.
  * - Housing spending: a housing line above its base pays rent help to as
- *   many of the town's lowest-cash renting households as the extra money
- *   covers at the average voucher (never more than the rent): a monthly
- *   payment from the government's treasury to the household's head, owed
- *   until a cut ends it for the households it no longer covers. Counted
- *   households wait (SG-GOV-REACH-A-rent-assistance).
+ *   many of the town's lowest-cash households as the extra money covers at
+ *   the average voucher; a cut ends it for the households it no longer
+ *   covers. The payments wait on rent contracts (SG-GOV-REACH-A-rent-assistance).
  */
 import { paidLeaveProgram, paidLeavePremium } from "../paid-leave";
-import type { CoreAPI, CoreState, PersonState } from "../types";
+import type { CoreAPI, CoreState } from "../types";
 import type { ModuleRow } from "../module-data";
-import { addDays, makeIsoDate } from "../kernel/dates";
-import { HOUSING_MODULE_ID, townFigures } from "../modules/housing";
-import { residentsRuntime } from "../modules/residents";
 import type { WorkPayrollJournalReceipt } from "../work-payroll-cash";
 import type { PolicyHandler } from "./host";
 import {
   amendBudget,
   BUDGETS_MODULE_ID,
-  lineBeforeBill,
+  adoptedLine,
   budgetsOf,
   governments,
   type BudgetRow,
@@ -58,7 +53,7 @@ const PARKS_KEY =
   "us-policy-positions:civil-family-community.dedicated-parks-funding";
 const HOUSING_KEY = "budget-line:housing";
 
-const LEVEL_ORDER = ["federal", "state", "county", "township", "city"];
+const LEVEL_ORDER = ["federal", "state", "county", "city"];
 
 /** The government at the highest level that says yes (its treasury runs the program). */
 function governmentFor(
@@ -88,14 +83,14 @@ export function budgetToday(
   );
 }
 
-/** A line's amount before any amendment this year: the line as it stood before the year's own budget bill, the base group B measures from. */
+/** A line's amount before any amendment this year: the line as adopted. */
 export function baseLine(
   api: CoreAPI,
   gov: GovernmentRow,
   budget: BudgetRow,
   line: string,
 ): number {
-  return lineBeforeBill(api, gov, budget.fiscalYear, line);
+  return adoptedLine(api, gov, budget.fiscalYear, line);
 }
 
 // --- paid family leave -------------------------------------------------------------
@@ -264,53 +259,24 @@ export const housingAssistance: PolicyHandler = (api, change) => {
     0,
     Math.floor(extra / reachParameter("housingAssistanceAnnualMinor")),
   );
-  // Only renting households have a rent to help with; the ones with the least
-  // cash per member come first.
+  // The households with the least cash per member come first.
   const adult = reachParameter("adultAge");
-  const core = api.state as CoreState;
-  const byHousehold = new Map<
-    string,
-    { cash: number; members: number; head: PersonState | null }
-  >();
+  const byHousehold = new Map<string, { cash: number; members: number }>();
   for (const person of townPeople(api)) {
-    const lease = core.finance.contracts.get(`lease:${person.householdId}`);
-    if (!lease || lease.endedAt) continue;
-    const row = byHousehold.get(person.householdId) ?? {
-      cash: 0,
-      members: 0,
-      head: null,
-    };
+    const row = byHousehold.get(person.householdId) ?? { cash: 0, members: 0 };
     row.cash += person.liquidMinor;
     row.members += 1;
-    // The oldest adult takes the payment.
-    if (
-      ageOn(person.birthDate, api.state.date) >= adult &&
-      (!row.head ||
-        person.birthDate < row.head.birthDate ||
-        (person.birthDate === row.head.birthDate && person.id < row.head.id))
-    )
-      row.head = person;
     byHousehold.set(person.householdId, row);
   }
-  // The slots are shared across every renting household, named or counted,
-  // in proportion: a counted renter is helped by the same rule as a full one.
-  const town = lawChain(api).townPlaceId;
-  const figures = api.state.modules.has(HOUSING_MODULE_ID)
-    ? townFigures(api, town)
-    : { renters: 0, rentMinor: 0 };
-  const totalRenters = Math.max(figures.renters, byHousehold.size);
-  const share = totalRenters > 0 ? Math.min(1, slots / totalRenters) : 0;
-  const chosen = new Map(
+  const chosen = new Set(
     [...byHousehold]
-      .filter(([, row]) => row.head !== null)
       .sort(
         ([a, x], [b, y]) =>
           x.cash / x.members - y.cash / y.members || a.localeCompare(b),
       )
-      .slice(0, Math.floor(share * byHousehold.size)),
+      .slice(0, slots)
+      .map(([id]) => id),
   );
-  const countedRenters = totalRenters - byHousehold.size;
-  const countedHelped = Math.floor(share * countedRenters);
   const date = api.state.date;
   const people = townPeople(api).filter(
     (p) => chosen.has(p.householdId) && ageOn(p.birthDate, date) >= adult,
@@ -324,106 +290,16 @@ export const housingAssistance: PolicyHandler = (api, change) => {
     specOf(HOUSING_KEY, "assisted"),
     people.map((p) => ({ id: p.id, personId: p.id, count: null })),
   );
-  // The help is money: a monthly payment from the treasury to each head, no
-  // more than the household's rent.
-  const voucher = Math.floor(
-    reachParameter("housingAssistanceAnnualMinor") /
-      reachParameter("monthsPerYear"),
-  );
-  const want = new Map<string, number>();
-  for (const [householdId, row] of chosen) {
-    const rent = core.finance.contracts.get(`lease:${householdId}`)!;
-    const amount = Math.min(voucher, rent.amountMinor);
-    if (amount > 0 && row.head) want.set(row.head.id, amount);
-  }
-  // The counted renters' help is paid to their place's pooled residents
-  // account, the voucher (at most the typical rent) for each household helped.
-  const residentsOrg = residentsRuntime(core)?.input.accounts.find(
-    (a) => a.placeId === town,
-  )?.accountId;
-  if (residentsOrg && countedHelped > 0)
-    want.set(
-      residentsOrg,
-      countedHelped * Math.min(voucher, figures.rentMinor || voucher),
-    );
-  reconcileRentHelp(api, gov, want);
   putMechanic(api, {
     id: `${HOUSING_KEY}:${gov.id}`,
     key: HOUSING_KEY,
-    active: chosen.size + countedHelped > 0,
+    active: chosen.size > 0,
     since: date,
     facts: {
       governmentId: gov.id,
       extraMinor: extra,
-      households: chosen.size + countedHelped,
+      households: chosen.size,
       lawId: change.lawId,
     },
   });
 };
-
-/**
- * Keep the rent-help obligations as the wanted ones: a payment whose head or
- * amount changed is ended, a new or changed one opens from tomorrow, a month
- * at a time. A treasury pays what it holds.
- */
-function reconcileRentHelp(
-  api: CoreAPI,
-  gov: GovernmentRow,
-  want: ReadonlyMap<string, number>,
-): void {
-  const accounts = api.accounts();
-  const table = reachTable(api, "payments");
-  const open = (
-    table.query("byKey", [HOUSING_KEY, null]) as unknown as {
-      id: string;
-      key: string;
-      recipientId: string;
-      obligationId: string;
-      amountMinor: number;
-      governmentId: string;
-    }[]
-  ).filter((r) => r.governmentId === gov.id);
-  const kept = new Set<string>();
-  for (const row of open) {
-    if (want.get(row.recipientId) === row.amountMinor) {
-      kept.add(row.recipientId);
-      continue;
-    }
-    if (!accounts.obligation(row.obligationId)?.endedAt)
-      accounts.endObligation(row.obligationId);
-    table.put({ ...row, endedOn: api.state.date } as unknown as ModuleRow);
-  }
-  const first = makeIsoDate(addDays(makeIsoDate(api.state.date), 1));
-  for (const [recipientId, amountMinor] of want) {
-    if (kept.has(recipientId)) continue;
-    const base = `rent-help:${gov.id}:${recipientId}:${api.state.date}`;
-    let obligationId = base;
-    for (let n = 2; accounts.obligation(obligationId); n += 1)
-      obligationId = `${base}#${n}`;
-    accounts.addObligation({
-      id: obligationId,
-      from: accounts.main(gov.organizationId),
-      to: accounts.main(recipientId),
-      amountMinor,
-      firstDueAt: first,
-      cadence: { kind: "months", every: 1 },
-      accruesArrears: false,
-      reasonKey: "law-reach:rent-assistance",
-      source: {
-        tag: "ESTIMATED",
-        citation: `Housing line as amended: rent help of at most ${amountMinor} a month, the average voucher (HUD, Picture of Subsidized Households 2023)`,
-        asOf: api.state.date,
-        estimatedFrom: "housingAssistanceAnnualMinor",
-      },
-    });
-    table.put({
-      id: obligationId,
-      key: HOUSING_KEY,
-      endedOn: null,
-      governmentId: gov.id,
-      recipientId,
-      obligationId,
-      amountMinor,
-    } as unknown as ModuleRow);
-  }
-}
