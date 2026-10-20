@@ -7,7 +7,7 @@ priority: 1
 size: M
 status: in-pr
 claimed-by: claude/political-game-pool-yucp92-q
-pr: #5373
+pr: #5454
 blocked-on: world-census-weight-macro-regional
 milestone:
 source: "split of core-town-size-census (L): owner ruling core-od-town-size, OWNER-DECISIONS.md"
