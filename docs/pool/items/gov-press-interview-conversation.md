@@ -5,11 +5,12 @@ area: words
 kind: wiring
 priority: 3
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/press-interview-conversation
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-20T07:45:25.633Z
 ---
 
 **What.** An interview's answers carry the conversation's moves (plain, further, turn, brief) and the lie as record data, but the screen does not open the interview through the director's conversation, so the player cannot see the reporter's questions as spoken lines or choose a move from worded choices. Open an interview as a director conversation subject: the reporter asks each question as a line, the four moves and the lie are the player's choices, and the chosen move is passed to answerInterview in src/core2/modules/press.ts.
