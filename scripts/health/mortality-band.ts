@@ -18,6 +18,8 @@ import { advanceCore } from "../../src/core2/life";
 import { healthReport } from "../../src/core2/modules/health";
 
 const DAYS_A_YEAR = 365;
+// MORTALITY_YEARS=3 plays three years and compares with three years of the table.
+const YEARS = Number(process.env.MORTALITY_YEARS ?? 1);
 const seeds = process.argv.slice(2);
 if (!seeds.length) throw new Error("Name at least one seed.");
 let deaths = 0;
@@ -31,18 +33,21 @@ for (const seed of seeds) {
   for (const person of core.people.values()) {
     if (!person.alive) continue;
     people += 1;
-    const hazard =
-      Number(
-        (doubledAgeYearHazard(
-          ageOnDate(makeIsoDate(person.birthDate), start),
-          "equal-mixture",
-        ) *
-          BigInt(MULTIPLIER_ONE)) /
-          (FIXED_SCALE + FIXED_SCALE),
-      ) / MULTIPLIER_ONE;
+    // The table's hazard summed over the years played, the person a year older each year.
+    let hazard = 0;
+    for (let year = 0; year < YEARS; year += 1)
+      hazard +=
+        Number(
+          (doubledAgeYearHazard(
+            ageOnDate(makeIsoDate(person.birthDate), start) + year,
+            "equal-mixture",
+          ) *
+            BigInt(MULTIPLIER_ONE)) /
+            (FIXED_SCALE + FIXED_SCALE),
+        ) / MULTIPLIER_ONE;
     table += 1 - Math.exp(-hazard);
   }
-  advanceCore(core, addDays(start, DAYS_A_YEAR));
+  advanceCore(core, addDays(start, DAYS_A_YEAR * YEARS));
   const died = healthReport(core).deaths ?? 0;
   deaths += died;
   expected += table;
