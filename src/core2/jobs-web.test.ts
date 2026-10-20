@@ -137,7 +137,7 @@ describe(`the labor engine and the outcome web (${place.name}, seed ${seed})`, (
     expect(webReach(api, town, MOTHERS).recordId).toBeTruthy();
   }, 900_000); // one played world, 41 days, plus its build
 
-  it("a higher participation factor moves who is at work, a higher wage factor moves new pay, a lower low-wage factor shrinks low-wage staff", async () => {
+  it("a higher participation factor moves who is at work, and a lower low-wage factor shrinks low-wage staff", async () => {
     const days = 80;
     const lowWage = (core: CoreState) =>
       [...core.jobs.values()].filter(
@@ -170,6 +170,10 @@ describe(`the labor engine and the outcome web (${place.name}, seed ${seed})`, (
     }).core;
     await trial(base, lifted, days);
     // Two played worlds of 40 + 80 days each.
+  }, 1_800_000); // two played worlds, 40 + 80 days each, queued behind other sessions
+
+  it("a higher wage factor moves the pay of new postings", async () => {
+    await wageTrial(build(), build(), 80);
   }, 1_800_000); // two played worlds, 40 + 80 days each, queued behind other sessions
 });
 
@@ -206,20 +210,8 @@ async function trial(base: CoreState, lifted: CoreState, days: number) {
     const a = laborGroupShares(coreAPI(base), town),
       b = laborGroupShares(coreAPI(lifted), town);
     const rate = (x: { of: number; at: number }) => x.at / x.of;
-    // New postings carry the wage factor.
-    const postings = (core: CoreState) =>
-      (
-        coreAPI(core)
-          .moduleState(JOBS_MODULE_ID)
-          .table("positions")
-          .rows() as unknown as { hourlyMinor: number; openedAt: string }[]
-      ).filter((row) => row.openedAt > "0");
-    const mean = (core: CoreState) => {
-      const rows = postings(core);
-      return rows.reduce((n, r) => n + r.hourlyMinor, 0) / rows.length;
-    };
     console.log(
-      `web labor twins: ${place.name} seed ${seed}: at work mothers ${rate(a[MOTHERS]).toFixed(4)}->${rate(b[MOTHERS]).toFixed(4)}, married ${rate(a[MARRIED_WOMEN]).toFixed(4)}->${rate(b[MARRIED_WOMEN]).toFixed(4)}, older ${rate(a[OLDER_WORK]).toFixed(4)}->${rate(b[OLDER_WORK]).toFixed(4)}; low-wage jobs ${a["labor.low-wage-jobs"].at.toFixed(0)}->${b["labor.low-wage-jobs"].at.toFixed(0)}; mean posting ${mean(base).toFixed(0)}->${mean(lifted).toFixed(0)}`,
+      `web labor twins: ${place.name} seed ${seed}: at work mothers ${rate(a[MOTHERS]).toFixed(4)}->${rate(b[MOTHERS]).toFixed(4)}, married ${rate(a[MARRIED_WOMEN]).toFixed(4)}->${rate(b[MARRIED_WOMEN]).toFixed(4)}, older ${rate(a[OLDER_WORK]).toFixed(4)}->${rate(b[OLDER_WORK]).toFixed(4)}; low-wage jobs ${a["labor.low-wage-jobs"].at.toFixed(0)}->${b["labor.low-wage-jobs"].at.toFixed(0)}`,
     );
     expect(
       rate(b[MOTHERS]) + rate(b[MARRIED_WOMEN]) + rate(b[OLDER_WORK]),
@@ -229,6 +221,68 @@ async function trial(base: CoreState, lifted: CoreState, days: number) {
     expect(b["labor.low-wage-jobs"].at).toBeLessThan(
       a["labor.low-wage-jobs"].at,
     );
-    expect(mean(lifted)).toBeGreaterThan(mean(base) * 1.03);
   }
+}
+
+/**
+ * New pay carries the wage factor. The low-wage factor changes how many
+ * people an employer hires, so the all-factors twin may post nothing after
+ * the shift. This twin shifts only the wage factor, and each posting made
+ * after the shift is read against the pay of the job it copies, which is the
+ * same job in both worlds, so who happens to be hired cannot move the result.
+ */
+async function wageTrial(base: CoreState, paid: CoreState, days: number) {
+  play(base, 40);
+  play(paid, 40);
+  const wageBase = (
+    coreAPI(paid)
+      .moduleState(OUTCOME_WEB_MODULE_ID)
+      .table("months")
+      .rows() as unknown as WebMonth[]
+  )[0]!.bases["labor.wages"]!;
+  const raise = { "corporate-tax-incidence": 0.1 * wageBase };
+  const shiftDay = makeIsoDate(paid.date);
+  expect(setEffects(paid, raise).length).toBeGreaterThan(0);
+  play(paid, 1, raise);
+  play(base, 1);
+  expect(
+    webReach(coreAPI(paid), townOf(paid), "labor.wages").factor,
+  ).toBeGreaterThan(1.05);
+  play(base, days);
+  play(paid, days, raise);
+  const newPay = (core: CoreState) => {
+    const ratios = (
+      coreAPI(core)
+        .moduleState(JOBS_MODULE_ID)
+        .table("positions")
+        .rows() as unknown as {
+        hourlyMinor: number;
+        openedAt: string;
+        templateJobId: string;
+      }[]
+    )
+      .filter((row) => row.openedAt > shiftDay)
+      .flatMap((row) => {
+        const template = core.jobs.get(row.templateJobId)?.hourlyMinor;
+        return template ? [row.hourlyMinor / template] : [];
+      });
+    return {
+      n: ratios.length,
+      mean: ratios.reduce((n, r) => n + r, 0) / ratios.length,
+    };
+  };
+  const before = newPay(base),
+    after = newPay(paid);
+  console.log(
+    `web labor wage twin: ${place.name} seed ${seed}: new postings ${before.n}->${after.n}, pay against the copied job ${before.mean.toFixed(4)}->${after.mean.toFixed(4)}`,
+  );
+  expect(
+    before.n,
+    "postings made after the shift in the base world",
+  ).toBeGreaterThan(0);
+  expect(
+    after.n,
+    "postings made after the shift in the wage-shifted world",
+  ).toBeGreaterThan(0);
+  expect(after.mean).toBeGreaterThan(before.mean * 1.03);
 }
