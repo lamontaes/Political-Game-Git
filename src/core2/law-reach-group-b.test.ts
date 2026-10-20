@@ -481,6 +481,10 @@ describe("law reach, group B: every policy reaches people through its engine", (
     }
     const since = api.state.date;
     advanceCore(core, after(api.state.date, 30));
+    // A payday must fall in the window, or the act has no paycheck to change.
+    for (let month = 0; month < 3 && !paidSince(since); month += 1)
+      advanceCore(core, after(api.state.date, 30));
+    expect(paidSince(since), `${where}: no payday in 120 days`).toBe(true);
     const cityLines = [...core.people.keys()].flatMap((id) =>
       withholdingOf(api, id)
         .filter((w) => w.date >= since)
@@ -500,9 +504,9 @@ describe("law reach, group B: every policy reaches people through its engine", (
     const appliedRows = appliedOn(api, key).filter(
       (r) => r.target === "person" && r.amountMinor > 0,
     );
-    if (had) expect(appliedRows.length, where).toBeGreaterThanOrEqual(0);
-    else if (paidSince(since))
-      expect(appliedRows.length, where).toBeGreaterThan(0);
+    // Where the city already had an income tax, the act wrote no row, so its own key reached no one.
+    if (had) expect(appliedRows.length, where).toBe(0);
+    else expect(appliedRows.length, where).toBeGreaterThan(0);
     report.cityIncomeTax = {
       paychecks: cityLines.length,
       collectedMinor: cityLines.reduce((n, l) => n + l.minor, 0),
@@ -1003,6 +1007,7 @@ describe("law reach, group B: every policy reaches people through its engine", (
     enact(key, 1, gov.level);
     const reserve = `reserve:${gov.organizationId}`;
     const held = accounts.balance(reserve);
+    const target = group(key)!.terms.targetMinor!;
     const spending = Object.values(
       budgetNow(api, gov.id)?.spendingMinor ?? {},
     ).reduce((a, b) => a + b, 0);
@@ -1013,8 +1018,8 @@ describe("law reach, group B: every policy reaches people through its engine", (
         townShare(api, gov) *
         modeledShare(api, townFacts(api, town)),
     );
-    const target = expected;
     const numbers = `${where}: cash ${cash}, spending ${spending}, target ${target}, held ${held}`;
+    expect(target, numbers).toBe(expected);
     expect(held, numbers).toBeLessThanOrEqual(target);
     // The treasury is recorded as held to the reserve, with the cash set aside.
     const reached = appliedOn(api, key).find((r) => r.targetId === gov.id);
