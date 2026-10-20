@@ -50,6 +50,9 @@ import {
 } from "../counted-groups";
 import type { FinanceContractInput } from "../finance-types";
 import COUNTED_ROWS from "../data/counted/parameters.json" with { type: "json" };
+import { incomeBandOf } from "../counted-income-fifth";
+
+export { incomeBandOf };
 import { placeDistrictPopulations } from "../../districts/place-population-share";
 import { stopgap } from "../stopgaps";
 import { corePlaceByKey } from "../place-lookup";
@@ -281,20 +284,6 @@ function householdKeys(
     out[part] = (out[part] ?? 0) + amount;
   }
   return out;
-}
-
-const cents = (dollars: number) => dollars * 100;
-
-/** The national household-income fifth a yearly income falls in (0 to 4). */
-export function incomeBandOf(incomeMinorYear: number): number {
-  let band = 0;
-  for (let i = 1; i <= 4; i++)
-    if (
-      incomeMinorYear >
-      cents(countedParameter(`countedIncomeFifthLimit${i}Dollars`))
-    )
-      band = i;
-  return band;
 }
 
 /** A counted household's yearly income: recorded pay, retirement awards and its unplaced workers' pay. */
@@ -1435,6 +1424,36 @@ export function countedHouseholdOf(
     : rt!.store.households[rt!.store.household[m]!];
 }
 
+/**
+ * The flows a filled-in household can be taking its share back from: the
+ * pooled wage flows (they name jobs), the pooled retirement and purchase
+ * flows (they name contracts). Most flows are one household's own rent, which
+ * a fill-in finds by its id, so the scan skips them; the list keeps the order
+ * of the flows and grows with them, since flows are only ever added.
+ */
+const pooled = new WeakMap<object, { scanned: number; ids: string[] }>();
+export function* pooledFlows(rt: ResidentsRuntime): Generator<FlowState> {
+  let seen = pooled.get(rt.flows);
+  if (!seen) pooled.set(rt.flows, (seen = { scanned: 0, ids: [] }));
+  const pools = (flow: FlowState) =>
+    (flow.kind === "wages" && flow.perDayMinorByJob) ||
+    ((flow.kind === "retirement" || flow.kind === "purchase") &&
+      flow.amountByContract);
+  if (seen.scanned < rt.flows.size) {
+    let at = 0;
+    for (const [id, flow] of rt.flows) {
+      if (at++ < seen.scanned) continue;
+      if (pools(flow)) seen.ids.push(id);
+    }
+    seen.scanned = rt.flows.size;
+  }
+  // By id, so a flow replaced since is read as it stands now.
+  for (const id of seen.ids) {
+    const flow = rt.flows.get(id)!;
+    if (pools(flow)) yield flow;
+  }
+}
+
 const partsOf = (householdId: string) =>
   new Set([
     householdPart(householdId),
@@ -1544,11 +1563,11 @@ export function releaseResidentHousehold(
   const incomeIds = new Set(
     record.contracts.filter((row) => row.recipientIncome).map((row) => row.id),
   );
-  for (const flow of rt.flows.values()) {
-    if (flow.id === `rent:${householdId}` && !flow.endedAt) {
-      end(flow, core.date, "filled-in");
-      continue;
-    }
+  // The household's own rent ends; the scan below is of the pooled flows only.
+  const rent = rt.flows.get(`rent:${householdId}`);
+  if (rent && rent.id === `rent:${householdId}` && !rent.endedAt)
+    end(rent, core.date, "filled-in");
+  for (const flow of pooledFlows(rt)) {
     if (flow.kind === "wages" && flow.perDayMinorByJob) {
       // Copy only a flow that pays one of these jobs.
       const present = flow.perDayMinorByJob;
