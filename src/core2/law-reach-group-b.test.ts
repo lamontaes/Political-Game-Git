@@ -811,8 +811,12 @@ describe("law reach, group B: every policy reaches people through its engine", (
       );
       const rows = open();
       const named = rows.filter((r) => api.state.people.has(r.recipientId));
-      const countedRow = rows.find((r) => !api.state.people.has(r.recipientId));
-      return { heads, reachedIds, named, countedRow };
+      // Counted households are paid into their groups' funds, one row each.
+      const countedRows = rows.filter(
+        (r) => !api.state.people.has(r.recipientId),
+      );
+      const countedPaid = countedRows.reduce((n, r) => n + r.amountMinor, 0);
+      return { heads, reachedIds, named, countedRows, countedPaid };
     };
     enact(work, 1, "state");
     // The law writes no second record: the benefit is where it is read.
@@ -853,10 +857,16 @@ describe("law reach, group B: every policy reaches people through its engine", (
     const countedDrawing = past.heads.filter(
       (h) => !h.named && !past.reachedIds.has(h.id),
     ).length;
-    if (rate > 0 && countedDrawing > 0)
-      expect(past.countedRow?.amountMinor, `${where} pooled payment`).toBe(
+    if (rate > 0 && countedDrawing > 0) {
+      // Each group's row is whole cents, so the groups together fall short of
+      // the pooled figure by less than a cent a group.
+      expect(past.countedPaid, `${where} counted payment`).toBeLessThanOrEqual(
         rate * countedDrawing,
       );
+      expect(past.countedPaid, `${where} counted payment`).toBeGreaterThan(
+        rate * countedDrawing - past.countedRows.length - 1,
+      );
+    }
     report.assistanceWork = {
       heads: past.heads.length,
       stopped: stopped.length,
