@@ -23,4 +23,8 @@ claimed-at: 2026-10-20T03:33:04.306Z
 
 **Notes.** The rows still blocked on the Census API key are named in the README.
 
+Applied Oct 20 (claude, PR for SG-GOV-statewide-parties-unverified, C-government-law): 49 rows verified against Ballotpedia lose their `estimated` flag; corrections: MP lieutenant governor Independent -> Republican, CA / WA / ND superintendents (nonpartisan offices) party -> none, GA public service commission kept Republican as the 3R-2D majority with the note. Still estimated (11 rows: AZ and NJ lieutenant governor, HI OHA, VI boards, MP attorney general, others the research marked low). Note: claude/apply-stopgap-research also claimed this item; rows applied so far are in #5461, #5465, #5466 and this PR, so check those before taking a row.
+
+Applied Oct 20 (claude, PR for SG-GOV-ballot-order-estimates): 14 places (CT DE GU IA ID MD MO ND NE NM PR SD VA WY) set from the researched statute readings with estimate false; new kind endorsed-first-then-alphabetical (CT primary; ordered alphabetically until endorsements are a record); AS MP VI PA WI IN stay estimate true as the research says.
+
 Applied Oct 20 (claude, second PR): SG-WORLD-housing-foreclosure-steps (process-class median fill computed from the data's 14 published averages, 174 / 2007 / 2293 days; `PROCESS_TYPICAL_DAYS` in housing-foreclosure.ts; test housing-foreclosure-days.test.ts; row kept open, text revised). Skipped on purpose: SG-WORLD-macro-mortgage-spread, whose basis says the FRED series is Freddie Mac PMMS that the CTO excluded, so its table can only check a government series, not ship.

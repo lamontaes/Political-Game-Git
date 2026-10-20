@@ -9674,7 +9674,7 @@
           "kind": "special-election",
           "nominalDaysAfterVacancy": 147,
           "c": "m",
-          "rule": "The governor must issue a proclamation for a special election within 14 days of a vacancy in the U.S. House. | A special primary election takes place on the ninth or 10th Tuesday before the special election (depending on holiday timing). The special election must take place on a Tuesday between 126 and 140 day"
+          "rule": "The governor must issue a proclamation for a special election within 14 days of a vacancy in the U.S. House. | A special primary election takes place on the ninth or 10th Tuesday before the special election (depending on when a holiday falls). The special election must take place on a Tuesday between 126 and 140 day"
         },
         "usSenate": {
           "kind": "next-general",
