@@ -1,4 +1,4 @@
-/* global process, URL, console, document */
+/* global process, URL, console, document, getComputedStyle */
 // Every sheet of a new game, at the start and after a day, fits its window:
 // its body and the page overflow by no more than 8 pixels (owner, M6-02: main
 // screens do not scroll).
