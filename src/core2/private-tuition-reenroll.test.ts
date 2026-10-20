@@ -38,19 +38,41 @@ it(`a family that fell below the cutoff stops paying tuition and one that rose a
     advanceCore(core, to(tuition.reenrollOn, year));
     advanceCore(core, to("08-02", year));
     const before = tuitionPlans(state);
-    const young = (householdId: string) => {
+    // A family the engine ranks next August: children of school age then (the
+    // opening's own ages) and an adult past them, living.
+    const next = to("08-02", year + 1);
+    const first = api.parameter("openingSchoolAgeFirst");
+    const last = api.parameter("openingSchoolAgeLast");
+    const family = (householdId: string) => {
       const home = state.households.get(householdId)!;
-      const people = home.memberIds.map((id) => state.people.get(id)!);
+      const people = home.memberIds
+        .map((id) => state.people.get(id)!)
+        .filter((p) => p.alive);
       const age = (p: { birthDate: string }) =>
-        ageOnDate(makeIsoDate(p.birthDate), makeIsoDate(core.date));
-      const kids = people.filter((p) => age(p) <= 12);
-      const adults = people.filter((p) => age(p) >= 25);
-      return kids.length && adults.length ? adults : undefined;
+        ageOnDate(makeIsoDate(p.birthDate), next);
+      const kids = people.filter((p) => age(p) >= first && age(p) <= last);
+      const adults = people.filter((p) => age(p) > last);
+      return kids.length && adults.length
+        ? { adults, children: kids.length }
+        : undefined;
     };
+    const young = (householdId: string) => family(householdId)?.adults;
     const enrolled = [...before.keys()].find((id) => young(id));
     const town = enrolled ? state.households.get(enrolled)!.placeId : "";
+    // The quota the engine fills that August; the claim that a family which
+    // lost its means stops holds only where the best-off family alone fills it.
+    const townChildren = [...state.households.values()]
+      .filter((home) => home.placeId === town)
+      .reduce((sum, home) => sum + (family(home.id)?.children ?? 0), 0);
+    const quota = Math.max(
+      1,
+      Math.round(townChildren * api.parameter("openingPrivateSchoolShare")),
+    );
     const other = [...state.households.values()].find(
-      (home) => home.placeId === town && !before.has(home.id) && young(home.id),
+      (home) =>
+        home.placeId === town &&
+        !before.has(home.id) &&
+        (family(home.id)?.children ?? 0) >= quota,
     );
     const outside = outsideAccountOf(api);
     if (!enrolled || !other || !outside) continue;
