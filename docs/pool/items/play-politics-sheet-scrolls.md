@@ -22,3 +22,5 @@ claimed-at: 2026-10-20T01:57:57.103Z
 **Files.** src/bench/play.mjs,src/bench/play.css,src/bench/no-scroll.browser.mjs
 
 **Notes.** TODO
+
+Dropped Oct 20 (claude): a measuring mistake. The check compared the sheet body's scroll height with its client height, but a tall sheet is paged by the pager (the box is moved a page at a time, its overflow is hidden), so that height is not scrolling. Rewritten to ask whether the player can scroll it freely and whether the pager shows when it is tall, all eleven sheets pass in a new game (Orange Blossom, California). Nothing to fix here.

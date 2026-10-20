@@ -60,17 +60,26 @@ try {
       // the page itself fit the window (the pager pages what does not).
       const size = await page.evaluate(() => {
         const body = document.getElementById("sheet-body");
-        const scrolls = (e) =>
-          e && e.scrollHeight > e.clientHeight + 8
-            ? e.scrollHeight - e.clientHeight
-            : 0;
+        const pager = document.getElementById("sheet-pager");
+        const hidden = (e) => getComputedStyle(e).overflowY === "hidden";
+        // Content taller than the window is paged by the pager (it moves the
+        // box itself), which is fine while the player cannot scroll it
+        // freely (overflow hidden) and a pager shows to move between pages.
+        const tall = body.scrollHeight > body.clientHeight + 8;
         return {
-          body: scrolls(body),
-          sheet: scrolls(document.getElementById("sheet")),
-          page: scrolls(document.documentElement),
+          body:
+            tall && !hidden(body) ? body.scrollHeight - body.clientHeight : 0,
+          pagerMissing:
+            tall && pager.hidden ? body.scrollHeight - body.clientHeight : 0,
+          page:
+            document.documentElement.scrollHeight >
+            document.documentElement.clientHeight + 8
+              ? document.documentElement.scrollHeight -
+                document.documentElement.clientHeight
+              : 0,
         };
       });
-      if (size.body || size.sheet || size.page)
+      if (size.body || size.pagerMissing || size.page)
         over.push(`${when} · ${tab}: ${JSON.stringify(size)}`);
       await page.keyboard.press("Escape");
     }
