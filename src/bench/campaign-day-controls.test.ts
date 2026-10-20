@@ -25,7 +25,7 @@ import {
 } from "../core2/modules/campaigns";
 import { interviewsFor } from "../core2/modules/press";
 import { campaignDayChoices } from "../core2/campaign-day";
-import { campaignDay, campaignView } from "./campaign";
+import { campaignAct, campaignDay, campaignView } from "./campaign";
 import controls from "./data/controls.json" with { type: "json" };
 
 const runSeed =
@@ -201,6 +201,27 @@ function play(
       kind: "canvass",
     });
     if (calls.raisedMinor === 0 && doors.doorsKnocked === 0) break;
+  }
+  // What the donors left short of the venue, the candidate chooses to put
+  // in from their own money (the player's own choice, by its control).
+  if (!eventControl().available) {
+    const short = campaignDayChoices(api, filing.id).find(
+      (c) => c.kind === "event",
+    )!;
+    if (short.kind === "event") {
+      const need = short.facts.venuePriceMinor - short.facts.cashMinor;
+      const given = campaignAct(core, personId, {
+        filingId: filing.id,
+        kind: "contribute",
+        amountMinor: need,
+      }).answers[0]!.givenMinor;
+      expect(given, `own money in: ${where}`).toBeLessThanOrEqual(need);
+      if (given === need)
+        expect(
+          eventControl().available,
+          `the venue is paid for: ${where}`,
+        ).toBe(true);
+    }
   }
   if (!eventControl().available) {
     const venue = campaignDayChoices(api, filing.id).find(

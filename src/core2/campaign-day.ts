@@ -421,10 +421,7 @@ export function takeCampaignDayChoice(
     spendTime();
     let raised = 0;
     const giftIds: string[] = [];
-    // The candidate backs their own campaign first, by the same reasons as a
-    // rival's (campaignTurn): a day of call time is the player's own choice to
-    // raise money, their own included.
-    for (const id of [player, ...askedIds]) {
+    for (const id of askedIds) {
       const amount = askForDonation(api, filingId, id);
       if (amount > 0) {
         raised += amount;
