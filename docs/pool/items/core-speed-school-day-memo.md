@@ -5,12 +5,12 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/speed-school-day-memo
 pr: #5389
 blocked-on:
 source: added with npm run pool -- add
-claimed-at:
+claimed-at: 2026-10-20T11:36:58.589Z
 ---
 
 **What.** A profile of a played year in Discovery Harbour, Hawaii (seed m7a) shows onHoliday in modules/school.ts at 0.7 seconds of self time, 1.5 percent of the year. isSchoolDay is a pure function of the date, yet due() calls it for every person each day, rebuilding Date objects for each holiday row.
