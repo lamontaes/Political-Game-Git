@@ -9,6 +9,7 @@
  * Census Bureau itself counts as 0 read 0. This is the reference figure the
  * world starts from, not a live count.
  */
+import territoryPlaces from "../data/places/territory-places.json" with { type: "json" };
 import acsPlaces from "../../../data/research/money/place-population-acs-2024.json" with { type: "json" };
 import placePopulationTable from "../../../data/tables/place-population.json" with { type: "json" };
 
@@ -38,9 +39,24 @@ const ACS_PLACE_POPULATION = acsPlaces.places as Readonly<
   Record<string, number>
 >;
 
-export type PlacePopulationSource = "census-estimate-2025" | "acs-2020-2024";
+export type PlacePopulationSource =
+  "census-estimate-2025" | "acs-2020-2024" | "census-2020-island-areas";
 
-/** The 2025 estimate where one exists, else the ACS count, else null. */
+/** The 2020 Census count of each island-area village, by its Census GEOID. */
+const ISLAND_AREA_POPULATION = new Map(
+  (
+    territoryPlaces.rows as unknown as readonly [
+      string,
+      string,
+      string,
+      string | null,
+      string,
+      number,
+    ][]
+  ).map((row) => [row[4], row[5]] as const),
+);
+
+/** The 2025 estimate where one exists, else the ACS count, else an island-area village's 2020 count, else null. */
 export function placeReferencePopulation(
   placeGeoid: string,
 ): { readonly value: number; readonly source: PlacePopulationSource } | null {
@@ -48,5 +64,9 @@ export function placeReferencePopulation(
   if (estimate !== null)
     return { value: estimate, source: "census-estimate-2025" };
   const acs = ACS_PLACE_POPULATION[placeGeoid];
-  return acs === undefined ? null : { value: acs, source: "acs-2020-2024" };
+  if (acs !== undefined) return { value: acs, source: "acs-2020-2024" };
+  const island = ISLAND_AREA_POPULATION.get(placeGeoid);
+  return island === undefined
+    ? null
+    : { value: island, source: "census-2020-island-areas" };
 }
