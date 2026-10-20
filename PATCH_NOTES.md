@@ -296,6 +296,22 @@ Repaired after an independent audit, before review:
 - A promise can only be conditioned on something the game can actually settle.
   One condition on the list could never come true and is gone.
 
+## PRE-ALPHA 0.19.2
+
+_Released October 19, 2026._
+
+### Fixed
+
+- **Press outlets receive their opening cash once** Newspapers and stations keep
+  their existing opening cash buffer without receiving another startup payment
+  when their employers are enrolled.
+
+- **Your town's paper and stations no longer close in their first weeks** A
+  local newspaper or television station used to open with no cash, so the gap
+  between its first payday and its first month of sales could close it within
+  weeks and lay off its reporters. Each now opens with the cash buffer an
+  ordinary small business holds, so the town keeps its press.
+
 ## PRE-ALPHA 0.19.1
 
 _Released October 19, 2026._
@@ -930,7 +946,7 @@ _Released October 16, 2026._
 
 - **Run a campaign day from the game** A candidate can now run a campaign day
   from the campaigns sheet: canvass, hold an event, ask for an interview, call
-  donors or rest, with each choice showing the hours it takes and greyed out
+  donors or rest, with each choice showing the hours it takes and grayed out
   when the records say it is not available today. The doors knocked show on the
   campaign line.
 
@@ -1419,7 +1435,7 @@ _Released October 16, 2026._
 
 - **The release gate on main finishes again** The release gate on main finishes
   again: the release writer no longer overflows when the release notes get long,
-  and a new push waits for the running check instead of cancelling it.
+  and a new push waits for the running check instead of canceling it.
 
 - **Nobody stands in your bedroom without a reason** At night, when you are in
   your own bedroom, nobody is drawn there. Before, someone you had just talked
