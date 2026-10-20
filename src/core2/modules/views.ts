@@ -128,6 +128,28 @@ export interface PersonView {
   formedAt: string;
 }
 
+/**
+ * The causes after one more event: the new one replaces its source's earlier
+ * row (same speaker, same record) and moves to the end, carrying how many
+ * events that source has moved the stance and by how much in all.
+ */
+function withCause(
+  causes: Stance["causes"],
+  cause: Stance["causes"][number],
+): Stance["causes"] {
+  const same = (row: Stance["causes"][number]) =>
+    row.speakerId === cause.speakerId && row.learnedFrom === cause.learnedFrom;
+  const earlier = causes.find(same);
+  return [
+    ...causes.filter((row) => !same(row)),
+    {
+      ...cause,
+      count: (earlier?.count ?? (earlier ? 1 : 0)) + 1,
+      total: (earlier?.total ?? earlier?.change ?? 0) + cause.change,
+    },
+  ];
+}
+
 export interface Stance {
   id: string;
   personId: PersonId;
@@ -143,6 +165,9 @@ export interface Stance {
     speakerId?: string;
     /** The record (a story heard, a notice) by which they learned of the law, vote or bill the event cites. */
     learnedFrom?: string;
+    /** How many events from this same source (speaker and record) have moved the stance, and by how much in all. `eventId`, `date` and `change` are the latest. */
+    count?: number;
+    total?: number;
   }[];
   /** How many times each speaker has made a case to them: the repeat wear-out reads this, whatever causes are kept. */
   heard?: Readonly<Record<string, number>>;
@@ -586,13 +611,18 @@ export const viewsModule: CoreModule = {
             ? prior.desiredChange
             : event.desiredChange,
         strength: Math.abs(strength),
-        // Every cause is kept for the player's circle and when bookkeeping is
-        // on; for anyone else only the latest (the speech that just moved
-        // them), since the wear-out reads `heard`.
-        causes: [
-          ...(keepsWhy(api.state as CoreState, personId)
+        // The player's circle (and every person when bookkeeping is on) keeps
+        // why the stance is what it is: one cause per source, the speaker and
+        // the record they learned it from, holding that source's latest event
+        // and how often and how much it has moved the stance. A source
+        // heard from every day is one row, so the list is as long as the
+        // number of distinct sources, never the number of events. For anyone
+        // else only the latest (the speech that just moved them), since the
+        // wear-out reads `heard`.
+        causes: withCause(
+          keepsWhy(api.state as CoreState, personId)
             ? (prior?.causes ?? [])
-            : []),
+            : [],
           {
             eventId: event.id,
             date: event.date,
@@ -600,7 +630,7 @@ export const viewsModule: CoreModule = {
             ...(speakerId ? { speakerId } : {}),
             ...(learnedFrom ? { learnedFrom } : {}),
           },
-        ],
+        ),
         ...(speakerId || prior?.heard
           ? {
               heard: {

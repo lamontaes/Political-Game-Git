@@ -1,4 +1,4 @@
-import type { TraitEffectDeclaration } from "../../trait-packs";
+import type { TraitEffectDeclaration } from "../../../core2/trait-packs";
 
 /**
  * Bravery is readiness to act despite perceived personal threat when the purpose matters. It bears on whether an officeholder seeks another term.
