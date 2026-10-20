@@ -43,7 +43,7 @@ import type {
 import { CORRUPTION_MODULE_ID, type CrimeRecord } from "./corruption";
 import { BUDGETS_MODULE_ID, governments } from "./budgets";
 import { lawChain } from "./laws";
-import { vacateSeat } from "./offices";
+import { OFFICES_MODULE_ID, vacateSeat } from "./offices";
 import { closenessBetween } from "../closeness";
 import {
   briberyRange,
@@ -59,6 +59,7 @@ import {
   type ProsecutorOffice,
 } from "../justice-law";
 import { holdInCustody, releaseFromCustody } from "../justice-custody";
+import { decidePretrial, endPretrial } from "../justice-pretrial";
 
 export const JUSTICE_MODULE_ID = "core2-justice-v1";
 const FINE_KIND = "justice-fine";
@@ -143,6 +144,21 @@ export interface SentenceRow {
   readonly jobsEnded: readonly string[];
   readonly reasons: Readonly<Record<string, number>>;
   readonly source: Source;
+}
+
+/** A governor's commutation: the rest of a prison term ended early. */
+export interface ClemencyRow {
+  readonly id: string;
+  readonly sentenceId: string;
+  readonly custodyId: string;
+  readonly personId: PersonId;
+  readonly grantedBy: string;
+  readonly date: string;
+  /** The release date the court set, before the commutation. */
+  readonly releaseWas: string;
+  /** Days of the term it ended early. */
+  readonly daysRemitted: number;
+  readonly reasons: Readonly<Record<string, number | string>>;
 }
 
 export interface CustodyRow {
@@ -689,7 +705,24 @@ export function chargeDecision(api: CoreAPI, investigationId: string): void {
       days.source,
     );
     if (pleads) convict(api, row, true);
-    else
+    else {
+      const wait = decidePretrial(api, JUSTICE_MODULE_ID, id, target.personId);
+      if (wait)
+        emit(
+          api,
+          wait.decision === "held"
+            ? "justice.held-before-trial"
+            : "justice.bail-set",
+          `justice.pretrial:${id}`,
+          [target.personId],
+          {
+            caseId: id,
+            decision: wait.decision,
+            bailMinor: String(wait.bailMinor),
+            ...(wait.lawId ? { lawId: wait.lawId } : {}),
+          },
+          days.source,
+        );
       api.moduleCalendar(JUSTICE_MODULE_ID).schedule({
         key: `trial:${id}`,
         date: trialDate!,
@@ -697,6 +730,7 @@ export function chargeDecision(api: CoreAPI, investigationId: string): void {
         source: days.source,
         sourceRecordIds: [id],
       });
+    }
   }
   table(api, "investigations").put({
     ...inv,
@@ -710,6 +744,7 @@ export function chargeDecision(api: CoreAPI, investigationId: string): void {
 function trial(api: CoreAPI, caseId: string): void {
   const row = table(api, "cases").get(caseId) as unknown as CaseRow | undefined;
   if (!row || row.status !== "charged") return;
+  endPretrial(api, JUSTICE_MODULE_ID, caseId);
   const person = api.state.people.get(row.defendantId);
   if (!person?.alive) {
     table(api, "cases").put({
@@ -1126,6 +1161,166 @@ function release(api: CoreAPI, custodyId: string): void {
 }
 
 // ---------------------------------------------------------------------------
+// Clemency
+
+const daysFrom = (from: string, to: string) =>
+  Math.round(
+    (Date.parse(`${to}T00:00:00Z`) - Date.parse(`${from}T00:00:00Z`)) /
+      86_400_000,
+  );
+
+/** The share of a prison term a person has served by a date (0 to 1). */
+export function servedShare(
+  custody: Pick<CustodyRow, "from" | "until">,
+  date: string,
+): number {
+  const term = daysFrom(custody.from, custody.until);
+  return term > 0
+    ? Math.min(1, Math.max(0, daysFrom(custody.from, date) / term))
+    : 1;
+}
+
+/**
+ * The state whose law a sentence was passed under, read from the office that
+ * prosecuted the case: a state office is its own state's, a local prosecutor
+ * covers the town and so the town's state, and a federal office (or one the
+ * offices module does not hold) belongs to no state a governor can act for.
+ */
+export function sentenceStateKey(
+  api: CoreAPI,
+  sentenceId: string,
+): string | null {
+  const sentence = table(api, "sentences").get(sentenceId) as unknown as
+    SentenceRow | undefined;
+  const found = sentence
+    ? (table(api, "cases").get(sentence.caseId) as unknown as
+        CaseRow | undefined)
+    : undefined;
+  if (!found) return null;
+  const stand = "prosecutor:";
+  // The stand-in prosecutor is named for its state.
+  if (found.prosecutorOfficeId.startsWith(stand))
+    return found.prosecutorOfficeId.slice(stand.length);
+  if (!api.state.modules.has(OFFICES_MODULE_ID)) return null;
+  const office = api
+    .moduleState(OFFICES_MODULE_ID)
+    .table("offices")
+    .get(found.prosecutorOfficeId) as unknown as
+    { level: string; jurisdiction: string } | undefined;
+  if (!office || office.level === "federal") return null;
+  return office.level === "state"
+    ? office.jurisdiction
+    : lawChain(api).stateKey;
+}
+
+/**
+ * Everyone serving a prison term today, the longest served first. Given a
+ * state, only those sentenced under that state's law: the prisoners its
+ * governor may commute.
+ */
+export function prisonersServing(
+  api: CoreAPI,
+  stateKey?: string,
+): readonly CustodyRow[] {
+  if (!api.state.modules.has(JUSTICE_MODULE_ID)) return [];
+  const date = api.state.date;
+  return (
+    table(api, "custody").query("byStatus", [
+      "serving",
+    ]) as unknown as CustodyRow[]
+  )
+    .filter((row) => row.from < date)
+    .filter(
+      (row) =>
+        stateKey === undefined ||
+        sentenceStateKey(api, row.sentenceId) === stateKey,
+    )
+    .sort(
+      (a, b) =>
+        servedShare(b, date) - servedShare(a, date) || a.id.localeCompare(b.id),
+    );
+}
+
+/** The commutations on record for a person. */
+export function clemenciesOf(
+  api: CoreAPI,
+  personId: PersonId,
+): readonly ClemencyRow[] {
+  if (!api.state.modules.has(JUSTICE_MODULE_ID)) return [];
+  return table(api, "clemencies").query("byPerson", [
+    personId,
+  ]) as unknown as ClemencyRow[];
+}
+
+/**
+ * A governor ends the rest of a person's prison term: the sentence's release
+ * date and the custody's end become today, the release is carried out as it
+ * would be at the end of the term (the court's date's calendar entry then finds nothing to do), and the commutation stays on record with
+ * the days it took off. Null where the person is not serving one.
+ */
+export function grantClemency(
+  api: CoreAPI,
+  input: {
+    readonly custodyId: string;
+    readonly grantedBy: string;
+    /** The state the governor acts for: its clemency reaches only its own sentences. */
+    readonly stateKey: string;
+    readonly reasons?: Readonly<Record<string, number | string>>;
+  },
+): ClemencyRow | null {
+  const custody = table(api, "custody").get(input.custodyId) as unknown as
+    CustodyRow | undefined;
+  if (!custody || custody.status !== "serving") return null;
+  // A governor cannot commute another state's sentence or a federal one.
+  if (sentenceStateKey(api, custody.sentenceId) !== input.stateKey) return null;
+  const sentence = table(api, "sentences").get(
+    custody.sentenceId,
+  ) as unknown as SentenceRow | undefined;
+  if (!sentence) return null;
+  const today = api.state.date;
+  const row: ClemencyRow = {
+    id: `clemency:${sentence.id}`,
+    sentenceId: sentence.id,
+    custodyId: custody.id,
+    personId: custody.personId,
+    grantedBy: input.grantedBy,
+    date: today,
+    releaseWas: custody.until,
+    daysRemitted: Math.max(0, daysFrom(today, custody.until)),
+    reasons: input.reasons ?? {},
+  };
+  table(api, "sentences").put({
+    ...sentence,
+    releaseDate: today,
+  } as unknown as ModuleRow);
+  table(api, "custody").put({
+    ...custody,
+    until: today,
+  } as unknown as ModuleRow);
+  // The release scheduled for the court's date still fires, and finds the custody already released.
+  release(api, custody.id);
+  table(api, "clemencies").put(row as unknown as ModuleRow);
+  emit(
+    api,
+    "justice.clemency",
+    `justice.clemency:${sentence.id}`,
+    [custody.personId],
+    {
+      sentenceId: sentence.id,
+      grantedBy: input.grantedBy,
+      daysRemitted: String(row.daysRemitted),
+    },
+    {
+      tag: "SOURCED",
+      citation:
+        "The governor's power to commute a sentence under the state's law.",
+      asOf: today,
+    },
+  );
+  return row;
+}
+
+// ---------------------------------------------------------------------------
 // Reads for other engines
 
 /** Whether the person is serving a prison term today. */
@@ -1252,6 +1447,8 @@ export const JUSTICE_MODULE: CoreModule = {
         },
       },
       fines: {},
+      clemencies: { indexes: { byPerson: { fields: ["personId"] } } },
+      pretrial: { indexes: { byPerson: { fields: ["personId"] } } },
     },
   },
   eventKinds: ["crime.told"],
