@@ -1480,6 +1480,56 @@
           "actKinds": ["help-others", "trust", "take-risk"]
         }
       ]
+    },
+    {
+      "id": "relationships.warm-to",
+      "site": "src/core2/state.ts",
+      "owner": "OPUS-PEOPLE",
+      "route": "formula",
+      "traitWeightParameter": "traitWeightRelationshipsWarmTo",
+      "options": [
+        {
+          "id": "cool",
+          "actKinds": ["withdraw", "keep-same"]
+        },
+        {
+          "id": "warm",
+          "actKinds": ["engage", "cooperate", "trust"]
+        }
+      ]
+    },
+    {
+      "id": "relationships.fall-out",
+      "site": "src/core2/state.ts",
+      "owner": "OPUS-PEOPLE",
+      "route": "formula",
+      "traitWeightParameter": "traitWeightRelationshipsFallOut",
+      "options": [
+        {
+          "id": "let-go",
+          "actKinds": ["concede", "cooperate"]
+        },
+        {
+          "id": "hold-on",
+          "actKinds": ["confront", "refuse"]
+        }
+      ]
+    },
+    {
+      "id": "housing.settle-arrears",
+      "site": "src/core2/modules/housing.ts",
+      "owner": "OPUS-WORLD",
+      "route": "formula",
+      "options": [
+        {
+          "id": "housing-settle-owed",
+          "actKinds": ["follow-rules", "commit"]
+        },
+        {
+          "id": "housing-let-lapse",
+          "actKinds": ["play-safe", "withdraw"]
+        }
+      ]
     }
   ],
   "outside": [

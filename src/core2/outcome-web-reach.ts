@@ -14,8 +14,9 @@
  */
 import type { CensusRegion } from "./reference/census-regions";
 import type { HeadWork, HouseholdKind } from "./counted-groups";
-import { OUTCOME_WEB_MODULE_ID, type WebMonth } from "./modules/outcome-web";
+import type { WebMonth } from "./modules/outcome-web";
 import {
+  OUTCOME_WEB_MODULE_ID,
   scaleOf,
   WEB_LINKS,
   WIRED_INTO,
