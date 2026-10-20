@@ -3476,7 +3476,7 @@
     "kind": "missing-data",
     "file": "src/core2/past-elections.ts",
     "line": 294,
-    "whatItFakes": "A territory's prior elections (its delegate and governor) count only the town's own ballots, since territories cast no presidential vote to scale from.",
+    "whatItFakes": "A territory's prior governor race (Puerto Rico and American Samoa only; Guam, the Northern Marianas and the Virgin Islands read their reported governor ballots, and every territory with a delegate total reads it for the delegate race) counts only the town's own ballots, since territories cast no presidential vote to scale from.",
     "why": "The 2024 election research holds presidential totals for the states and D.C. only; territory election returns are not in the repository.",
     "addedBy": "OPUS-CORE (the-world-has-a-past)",
     "addedAt": "2026-10-14",
