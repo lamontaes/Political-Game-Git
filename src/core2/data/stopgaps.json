@@ -4936,11 +4936,11 @@
     "kind": "missing-mechanic",
     "file": "src/core2/births-plan.ts",
     "line": 159,
-    "whatItFakes": "Full couples decide on a child from their own age, children, work, income, room, savings, health and closeness, and none of the outcome web's birth links reach them. Counted women take the web's factor per woman (src/core2/births-counted.ts), so a full woman and a counted woman of the same age, tenure and place differ on the links the full decision does not carry: home prices (owners up, renters down), an enforced abortion ban, and the place's drifting birth level.",
-    "why": "The unemployment link is left out for full couples on purpose: a lost job already lowers their work and income terms, so the web's link would count the same recession twice. The other links have no term in the plan score, and the score is a choice between planning and waiting, not a rate the factor can multiply; turning a factor into a score term needs its own calibration against the births it produces.",
+    "whatItFakes": "Full couples' plan now carries a web term (the log of the birth factor for the mother's age and home, without the unemployment link, times renewalWebWeight = 1.4). The weight was fitted from one pooled read in one town: Pine Ridge, South Carolina, seed 8715a35c2631f35d, 180 couple-months, couples planning 29 at weight 0, 29 at 1, 39 at 10, 60 at 30, a rise of about 0.7 per unit of score. The played-year twin test (src/core2/births-plan-web.test.ts) has not yet passed on a drawn place: its first run in Rockville, Connecticut, seed bb6e4dc7335205a6 moved planning couples 11 to 12 (9%) against a factor of 1.41, a sample of 11 couples too small to confirm the size.",
+    "why": "The unemployment link is left out on purpose: a lost job already lowers the couple's work and income terms. The size is unconfirmed until the twin test passes with more couples planning.",
     "addedBy": "EFFECT-WEB-WIRING",
     "addedAt": "2026-10-20",
-    "replacement": "A conditions term in the plan score that reads webReach for the woman's own age and tenure, leaving out the links her own records already carry (unemployment), with a weight calibrated in a played year so full births move by the researched size, as counted births do.",
+    "replacement": "Run src/core2/births-plan-web.test.ts on drawn places until the share of planning couples moves by the factor within the stated range, then close this row.",
     "status": "open"
   },
   {

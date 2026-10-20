@@ -4,6 +4,7 @@ import type { EntityId } from "./kernel/brands";
 import { healthReport } from "./modules/health";
 import { currentCloseness } from "./closeness";
 import { renewalParameter } from "./births-parameters";
+import { webReach } from "./outcome-web-reach";
 import { scoreOffers, decisionFromScores } from "./choice";
 import { decisionKinds } from "./trait-decisions";
 import type { ActOffer, ActionDefinition, CoreAPI, PersonState } from "./types";
@@ -71,6 +72,43 @@ export function partnershipStart(
         Math.round(p("renewalUnionAgeYears") * p("daysPerMeanYear")),
       );
   return estimate < couple.startedAt ? estimate : couple.startedAt;
+}
+
+/** The link left out of the plan's web term: a lost job already lowers the couple's own work and income terms. */
+const OWN_RECORD_LINK = "unemployment-to-births";
+
+/** Whether the couple owns their home, from the housing dwelling record (undefined where no record says). */
+function tenureOf(
+  api: CoreAPI,
+  householdId: string,
+): "own" | "rent" | undefined {
+  if (!api.state.modules.has("housing")) return undefined;
+  const row = api
+    .moduleState("housing")
+    .table("dwellings")
+    .get(`dwelling:${householdId}`) as { tenure?: string } | undefined;
+  return row?.tenure ? (row.tenure === "own" ? "own" : "rent") : undefined;
+}
+
+/**
+ * The outcome web's pull on a couple's plan: the log of the birth factor for
+ * the mother's age and home (the links her own records do not carry), times
+ * the web weight, so a factor of 1.01 raises the share of couples that plan
+ * by about one percent.
+ */
+function webPull(api: CoreAPI, mother: Readonly<PersonState>, age: number) {
+  const reach = webReach(api, mother.placeId, "births.rate", {
+    age,
+    sex: "female",
+    tenure: tenureOf(api, mother.householdId),
+  });
+  let factor = 1;
+  for (const part of reach.parts)
+    if (part.link !== OWN_RECORD_LINK) factor *= 1 + part.effect * part.weight;
+  return (
+    renewalParameter(api, "renewalWebWeight") *
+    Math.log(Math.max(factor, Number.MIN_VALUE))
+  );
 }
 
 /**
@@ -195,6 +233,7 @@ export function birthCircumstances(
           ? currentCloseness(api.state, relationship)
           : p("renewalUnknownCloseness")) -
         p("one")),
+    web: webPull(api, mother, age),
     partnership:
       mother.householdId === partner.householdId
         ? p("one")

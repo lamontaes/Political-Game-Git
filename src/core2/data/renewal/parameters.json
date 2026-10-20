@@ -141,6 +141,17 @@
     },
     "stopgapId": "SG-M1-births-circumstances"
   },
+  "renewalWebWeight": {
+    "value": 1.4,
+    "tag": "TUNABLE",
+    "citation": "Weight on the log of the outcome web's birth factor (home prices by tenure, abortion ban, birth-level drift; the unemployment link is left out because a lost job already lowers the couple's work and income terms) in the plan score. Fitted in a played town: the share of couples that plan rose about 0.7 for each unit of score added, so a weight of 1.4 moves that share by about the factor.",
+    "spread": {
+      "low": 1,
+      "high": 30,
+      "unit": "multiplier on a log factor",
+      "citation": "Weights 1, 10 and 30 played in one drawn town against 0: the share of couples that plan rose 0.69 to 0.73 per unit of score added across the range."
+    }
+  },
   "renewalWaitPull": {
     "value": 1,
     "tag": "TUNABLE",
