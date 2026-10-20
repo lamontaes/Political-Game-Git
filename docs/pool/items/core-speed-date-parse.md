@@ -22,3 +22,5 @@ claimed-at:
 **Files.** src/core2/kernel/dates.ts, src/core2/modules/business.ts, src/core2/closeness.ts, src/core2/work-pay-period.ts
 
 **Notes.** TODO
+
+Sent back 2026-10-20 from PR #5381 (branch claude/speed-date-parse): see the Cloud merger comment on that PR for the exact reason; finish on that branch, merge main into it first.
