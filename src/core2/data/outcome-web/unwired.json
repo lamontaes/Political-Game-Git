@@ -50,22 +50,10 @@
       "stopgapId": "SG-WEB-unread-crime-larceny"
     },
     {
-      "link": "child-access-law-to-youth-gun-deaths",
-      "outcome": "health.youth-firearm-deaths",
-      "reason": "engine doesn't read the factor: health.youth-firearm-deaths moves only in the web's monthly ledger; no engine multiplies its own rates by it",
-      "stopgapId": "SG-WEB-unread-health-youth-firearm-deaths"
-    },
-    {
       "link": "stand-your-ground-to-homicide",
       "outcome": "crime.firearm-homicide",
       "reason": "engine doesn't read the factor: crime.firearm-homicide moves only in the web's monthly ledger; no engine multiplies its own rates by it",
       "stopgapId": "SG-CORE-crime-firearm-homicide"
-    },
-    {
-      "link": "min-age-to-youth-gun-suicide",
-      "outcome": "health.youth-firearm-suicide",
-      "reason": "engine doesn't read the factor: health.youth-firearm-suicide moves only in the web's monthly ledger; no engine multiplies its own rates by it",
-      "stopgapId": "SG-WEB-unread-health-youth-firearm-suicide"
     },
     {
       "link": "congestion-to-premature-births",
@@ -602,12 +590,6 @@
       "stopgapId": "SG-WEB-unread-household-food-insecurity"
     },
     {
-      "link": "harm-reduction-to-overdose-deaths",
-      "outcome": "health.overdose-deaths",
-      "reason": "engine doesn't read the factor: health.overdose-deaths moves only in the web's monthly ledger; no engine multiplies its own rates by it",
-      "stopgapId": "SG-WEB-unread-health-overdose-deaths"
-    },
-    {
       "link": "gas-hookup-ban-to-child-asthma",
       "outcome": "health.child-asthma-pct",
       "reason": "engine doesn't read the factor: health.child-asthma-pct moves only in the web's monthly ledger; no engine multiplies its own rates by it",
@@ -636,12 +618,6 @@
       "outcome": "gov.borrowing-cost",
       "reason": "engine doesn't read the factor: gov.borrowing-cost moves only in the web's monthly ledger; no engine multiplies its own rates by it",
       "stopgapId": "SG-WEB-unread-gov-borrowing-cost"
-    },
-    {
-      "link": "cannabis-sales-to-overdose-deaths",
-      "outcome": "health.overdose-deaths",
-      "reason": "engine doesn't read the factor: health.overdose-deaths moves only in the web's monthly ledger; no engine multiplies its own rates by it",
-      "stopgapId": "SG-WEB-unread-health-overdose-deaths"
     },
     {
       "link": "congress-stock-ban-to-member-returns",
