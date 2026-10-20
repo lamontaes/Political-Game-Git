@@ -4,7 +4,7 @@ title: "Stopgaps in credit-deposits (faked-mechanic): 1 open"
 area: world
 kind: stopgap
 priority: 2
-status: claimed
+status: in-pr
 claimed-by: claude/credit-deposits
 pr: #5316
 blocked-on:
