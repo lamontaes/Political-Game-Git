@@ -3,6 +3,11 @@ import { resolveLawInForce } from "./laws-in-force";
 import { lawChainForPlace, startingLawRows } from "./laws-starting";
 import { openingEmploymentFromRecordedRoles } from "./opening-employment";
 import { createOpeningEmployerCapital } from "./opening-capital";
+import {
+  departmentGovernment,
+  departmentLinkSource,
+  departmentOwnersOf,
+} from "./opening-department-pay";
 import { openingHistoricalCountyOwnerFacts } from "./opening-public-owner";
 import {
   prepareOpeningPublicPayAuthorities,
@@ -17,7 +22,7 @@ import {
   characterHistoryContextPersonId,
   createCharacterHistoryContextPeople,
   type CharacterHistoryContextPersonInput,
-} from "../simulation/character-history";
+} from "./opening-people";
 import {
   ageOnDate,
   daysBetween,
@@ -66,7 +71,7 @@ import {
 } from "./town-households";
 import { placeLocalGovernmentUnits } from "./gov-rules/local-governments";
 import { placeReferencePopulation } from "./gov-rules/place-population";
-import { PERSONALITY_PACK } from "../simulation/personality-catalogue";
+import { PERSONALITY_PACK } from "./personality-catalogue";
 import { PEOPLE_MIND_VERSION, PEOPLE_TRAITS } from "./people-mind";
 import {
   upbringingCoreValueFrom,
@@ -883,6 +888,7 @@ export function buildPopulation(options: PopulationOptions): CoreInput {
       "Opening employment uses national CPS age priors with tunable missing-county scaling; no sourced local or territorial employment rate is claimed.",
     );
   const publicPayIdentities: OpeningPublicEmployerIdentity[] = [];
+  const departmentOwners = departmentOwnersOf(place);
   const historicalCountyPayingOwnerIds: Record<string, string> = {};
   const organizations: OrganizationInput[] = world.history.organizations.map(
     (organization) => {
@@ -897,6 +903,9 @@ export function buildPopulation(options: PopulationOptions): CoreInput {
         startedAt,
       });
       for (const gap of publicOwner.gaps) gaps.add(gap);
+      const department = publicOwner.governmentFacts
+        ? undefined
+        : departmentGovernment(profile.classification, departmentOwners);
       if (publicOwner.governmentFacts && publicOwner.identitySource) {
         const governmentKey = publicOwner.governmentFacts.governmentKey!;
         const priorOwnerId = historicalCountyPayingOwnerIds[governmentKey];
@@ -918,6 +927,14 @@ export function buildPopulation(options: PopulationOptions): CoreInput {
           ],
           source: publicOwner.identitySource,
         });
+      } else if (!profile.publicGovernmentIdentity && department) {
+        stopgap("SG-WORLD-department-government");
+        publicPayIdentities.push({
+          organizationId: organization.id,
+          identity: department.identity,
+          basisRecordIds: [profile.id],
+          source: departmentLinkSource(employmentSource, profile.id),
+        });
       } else if (profile.publicGovernmentIdentity) {
         publicPayIdentities.push({
           organizationId: organization.id,
@@ -937,6 +954,7 @@ export function buildPopulation(options: PopulationOptions): CoreInput {
         classification: profile.classification,
         governmentFacts:
           publicOwner.governmentFacts ??
+          department?.governmentFacts ??
           (profile.publicGovernmentIdentity
             ? {
                 governmentKind: profile.publicGovernmentIdentity.kind,
@@ -1219,6 +1237,25 @@ export function buildPopulation(options: PopulationOptions): CoreInput {
       openingAllocation.templateJobIdByJob,
     ),
   );
+  // A job states the week its schedule runs: the hourly rate (the occupation's
+  // market rate) is paid for those minutes, so the stated hours and daily pay
+  // follow them, and a hire that copies the job copies the same week.
+  const scheduledMinutes = new Map(
+    plannedCommitments.map((row) => [row.jobId, row.expectedWeeklyMinutes]),
+  );
+  for (const [index, job] of jobs.entries()) {
+    const minutes = scheduledMinutes.get(job.id);
+    if (minutes === undefined || !(minutes > p("zero"))) continue;
+    const hoursDaily = minutes / p("minutesPerHour") / p("daysPerWeek");
+    if (hoursDaily === job.hoursDaily) continue;
+    const hourlyMinor =
+      job.hourlyMinor ?? Math.round(job.wageDailyMinor / job.hoursDaily);
+    jobs[index] = {
+      ...job,
+      hoursDaily,
+      wageDailyMinor: Math.round(hourlyMinor * hoursDaily),
+    };
+  }
   const openingCapital = createOpeningEmployerCapital(
     {
       seed: options.seed,
