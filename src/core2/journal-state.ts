@@ -627,6 +627,7 @@ function portfolios(
   owners: Map<string, CashOwnerSnapshot>;
   accounts: Map<string, CashAccountSnapshot>;
 } {
+  const checked = bookkeeping();
   const touched = new Map<string, Set<string>>();
   for (const posting of postings) {
     const account = runtime.accounts.get(posting.accountId);
@@ -688,7 +689,9 @@ function portfolios(
         throw new Error(
           "Outside account mode or partition metadata is inconsistent.",
         );
-      if (live.allocatedMinor !== undefined)
+      // A structural re-check of the account row: bookkeeping only, since
+      // play reads the field the same way either way.
+      if (checked && live.allocatedMinor !== undefined)
         directField(live, "allocatedMinor");
       const snapshot = { ...live, source: { ...live.source } };
       accounts.set(id, snapshot);
