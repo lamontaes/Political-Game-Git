@@ -393,8 +393,8 @@ export class CountedStore {
    */
   weightedPeople(placeId: PlaceId): number {
     let n = 0;
-    for (const h of this.liveHouseholds())
-      if (h.placeId === placeId) n += this.weightedCount(h);
+    for (const h of this.households)
+      if (!h.gone && h.placeId === placeId) n += this.weightedCount(h);
     return n;
   }
 
@@ -427,7 +427,7 @@ export class CountedStore {
     );
     if (!found.size)
       found = near(
-        [...this.liveHouseholds()].filter((x) => x.placeId === h.placeId),
+        this.households.filter((x) => !x.gone && x.placeId === h.placeId),
       );
     if (!found.size) return people;
     const added = people / found.size;
@@ -443,8 +443,33 @@ export class CountedStore {
   }
 
   /** Every household still counted, in record order. */
-  *liveHouseholds(): Iterable<CountedHousehold> {
-    for (const h of this.households) if (!h.gone) yield h;
+  liveHouseholds(): Iterable<CountedHousehold> {
+    const households = this.households;
+    return {
+      [Symbol.iterator](): Iterator<CountedHousehold> {
+        let at = 0;
+        // One result object for the whole walk: a generator allocates one per
+        // household, and a played year walks every household many times. A
+        // household that goes mid-walk is still skipped (checked as it comes).
+        const result = { done: false, value: undefined } as unknown as {
+          done: boolean;
+          value: CountedHousehold;
+        };
+        return {
+          next(): IteratorResult<CountedHousehold> {
+            while (at < households.length) {
+              const h = households[at++]!;
+              if (h.gone) continue;
+              result.done = false;
+              result.value = h;
+              return result as IteratorResult<CountedHousehold>;
+            }
+            result.done = true;
+            return result as IteratorResult<CountedHousehold>;
+          },
+        };
+      },
+    };
   }
 
   /**
@@ -630,7 +655,7 @@ export class CountedHouseholdMap implements ReadonlyMap<
   constructor(private readonly store: CountedStore) {}
   get size(): number {
     let n = 0;
-    for (const h of this.store.liveHouseholds()) n += h.gone ? 0 : 1;
+    for (const h of this.store.households) if (!h.gone) n += 1;
     return n;
   }
   private live(id: string): CountedHousehold | undefined {

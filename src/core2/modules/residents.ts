@@ -373,8 +373,8 @@ export function regroupHousehold(
 function unplacedShare(rt: ResidentsRuntime, h: CountedHousehold): number {
   if (h.unplacedWorkers <= 0) return 0;
   let total = 0;
-  for (const x of rt.store.liveHouseholds())
-    if (x.placeId === h.placeId)
+  for (const x of rt.store.households)
+    if (!x.gone && x.placeId === h.placeId)
       total += x.unplacedWorkers * rt.store.weightOf(x);
   return total > 0 ? h.unplacedWorkers / total : 0;
 }

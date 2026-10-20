@@ -28,9 +28,9 @@ it("an open counted eviction case follows its household to the lease it is fille
     const api = coreAPI(core);
     const rt = residentsRuntime(core)!;
     // A counted household that pays rent through the residents engine.
-    const household = rt.store
-      .liveHouseholds()
-      .find((h) => (rt.flows.get(`rent:${h.id}`)?.amountMinor ?? 0) > 0);
+    const household = [...rt.store.liveHouseholds()].find(
+      (h) => (rt.flows.get(`rent:${h.id}`)?.amountMinor ?? 0) > 0,
+    );
     if (!household) continue;
     const members = rt.store.countedMembers(household);
     if (!members.length) continue;
