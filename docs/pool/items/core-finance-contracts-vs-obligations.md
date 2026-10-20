@@ -5,11 +5,12 @@ area: core
 kind: cleanup
 priority: 2
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/finance-contracts
 pr:
 blocked-on:
 source: found by the world-accounts-api proof (Oct 19)
+claimed-at: 2026-10-20T14:46:15.098Z
 ---
 
 **What.** Housing leases, bills and tuition run as `finance.contracts` rows with `arrearsMinor` (src/core2/finance-state.ts), while retirement claims and group B law reach use `accounts.addObligation` with its own arrears (src/core2/accounts.ts). The two do the same job with two sets of rules for due dates, partial payment and arrears. Replace one with the other so a standing payment has one layer, one arrears record and one place the engines read; the old layer's code, rows and tests are deleted in the same change.
