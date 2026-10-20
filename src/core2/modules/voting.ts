@@ -1031,11 +1031,7 @@ export function fileStandingCandidates(api: CoreAPI, contestId: string): void {
     .moduleState(ELECTIONS_MODULE_ID)
     .table("contests")
     .get(contestId) as unknown as ContestRow;
-  if (
-    (contest.level === "state" || contest.level === "federal") &&
-    api.state.modules.has("candidacy")
-  )
-    return;
+  if (api.state.modules.has("candidacy")) return;
   const filings = api.moduleState(ELECTIONS_MODULE_ID).table("filings");
   const onBallot = ballot(api, contestId);
   // stopgapId: SG-GOV-who-runs-stand-in
