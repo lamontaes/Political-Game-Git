@@ -2,6 +2,10 @@
   "about": "Research data files under data/research that no non-test file in src/ or scripts/ reads, and why (tests/guards/research-data-has-reader.test.ts). rawSource entries are evidence the game is not meant to read. awaitingReader entries are research waiting for the code that should read it: that list may only shrink (the guard holds it at or under its ceiling), so an entry must leave in the same change that gives its file a reader. Each names its engine and the squad that owns its reader, from docs/codex/audit-by-engine-2026-10-01.md. A new data file with no reader and no entry fails the guard.",
   "rawSource": [
     {
+      "file": "data/research/assumption-markers.json",
+      "reason": "Scan output listing the placeholder and unresearched markers found in src on one commit; evidence for the stopgap audit, not game data."
+    },
+    {
       "file": "data/research/bill-samples/city/alexandria-virginia.json",
       "reason": "Raw enacted-bill sample, the evidence the lever table and docs/research/bill-samples were measured from; the game reads what was measured, not the sample."
     },
@@ -82,6 +86,14 @@
       "reason": "Raw enacted-bill sample, the evidence the lever table and docs/research/bill-samples were measured from; the game reads what was measured, not the sample."
     },
     {
+      "file": "data/research/census-2020-island-areas-places.json",
+      "reason": "Census 2020 Island Areas place identities and populations, research for SG-CORE-territory-places; no engine reads it yet."
+    },
+    {
+      "file": "data/research/economic-context-reviewed-bindings.json",
+      "reason": "Reviewed BEA area bindings kept as research evidence for the economic-context engine; no engine reads the file yet."
+    },
+    {
       "file": "data/research/laws/coordinator-crime-population-sizing.json",
       "reason": "A sizing receipt (source head, coefficient source, runtime proof) for a decision already applied in links.json."
     },
@@ -114,12 +126,32 @@
       "reason": "Roadmap R37 register of the source URLs checked for rights and licenses; evidence for the release review, not a table the simulation reads."
     },
     {
+      "file": "data/research/new-game-geography-defaults.json",
+      "reason": "Origin and fixture place keys recorded as research evidence for the new-game flow; no engine reads the file yet."
+    },
+    {
       "file": "data/research/outcome-web/cloud-f-new-measure-bases-2024.draft.json",
       "reason": "Research record behind CLOUD F's place outcomes; the values the game uses live in place-outcome-bases-2024.json."
     },
     {
       "file": "data/research/outcome-web/social-media-age-verification-contracts.json",
       "reason": "A decision receipt for a removed link and its replacements; the replacements live in links.json."
+    },
+    {
+      "file": "data/research/p2-law-estimate-ledger.json",
+      "reason": "Ledger of law-rule estimates and their sources, the audit trail behind estimated law rows; evidence, not read at run time."
+    },
+    {
+      "file": "data/research/p2-personnel-estimate-ledger.json",
+      "reason": "Ledger of personnel-rule estimates and their sources, the audit trail behind estimated personnel rows; evidence, not read at run time."
+    },
+    {
+      "file": "data/research/people/census-household-pulse-homeschool-replicate-errors-2023.json",
+      "reason": "Raw Census Household Pulse replicate-weight standard errors behind the homeschool share and its shrinkage check; evidence for the figure, which the game reads from its own parameter table, not from this file."
+    },
+    {
+      "file": "data/research/stand-in-figures-2026-10-12.json",
+      "reason": "Research on the number stand-ins open on Oct 12, 2026 (class, current value, recommended value or bounds, source); builders apply rows into the parameter tables."
     },
     {
       "file": "data/research/stopgaps-oct19/A-people-behavior-1.json",
@@ -142,32 +174,40 @@
       "reason": "Raw research result for the open stopgap rows (value, spread, sources, one-line builder note each); builders apply a row into the game's own data and resolve its stopgap (pool item research-stopgaps-oct19-apply), the game never reads the file."
     },
     {
-      "file": "data/research/assumption-markers.json",
-      "reason": "Scan output listing the placeholder and unresearched markers found in src on one commit; evidence for the stopgap audit, not game data."
+      "file": "data/research/stopgaps-oct19/census/census-SG-CORE-district-placement.json",
+      "reason": "Raw Census rerun result for open stopgap rows (value, spread, sources, one-line builder note each); builders apply a row into the game's own data and resolve its stopgap, the game never reads the file."
     },
     {
-      "file": "data/research/census-2020-island-areas-places.json",
-      "reason": "Census 2020 Island Areas place identities and populations, research for SG-CORE-territory-places; no engine reads it yet."
+      "file": "data/research/stopgaps-oct19/census/census-SG-P15-kin-generation.json",
+      "reason": "Raw Census rerun result for open stopgap rows (value, spread, sources, one-line builder note each); builders apply a row into the game's own data and resolve its stopgap, the game never reads the file."
     },
     {
-      "file": "data/research/economic-context-reviewed-bindings.json",
-      "reason": "Reviewed BEA area bindings kept as research evidence for the economic-context engine; no engine reads the file yet."
+      "file": "data/research/stopgaps-oct19/census/census-SG-P15-moves-weights.json",
+      "reason": "Raw Census rerun result for open stopgap rows (value, spread, sources, one-line builder note each); builders apply a row into the game's own data and resolve its stopgap, the game never reads the file."
     },
     {
-      "file": "data/research/new-game-geography-defaults.json",
-      "reason": "Origin and fixture place keys recorded as research evidence for the new-game flow; no engine reads the file yet."
+      "file": "data/research/stopgaps-oct19/census/census-SG-P15-partnership-model-places.json",
+      "reason": "Raw Census rerun result for open stopgap rows (value, spread, sources, one-line builder note each); builders apply a row into the game's own data and resolve its stopgap, the game never reads the file."
     },
     {
-      "file": "data/research/p2-law-estimate-ledger.json",
-      "reason": "Ledger of law-rule estimates and their sources, the audit trail behind estimated law rows; evidence, not read at run time."
+      "file": "data/research/stopgaps-oct19/census/census-SG-P15-partnership-model.json",
+      "reason": "Raw Census rerun result for open stopgap rows (value, spread, sources, one-line builder note each); builders apply a row into the game's own data and resolve its stopgap, the game never reads the file."
     },
     {
-      "file": "data/research/p2-personnel-estimate-ledger.json",
-      "reason": "Ledger of personnel-rule estimates and their sources, the audit trail behind estimated personnel rows; evidence, not read at run time."
+      "file": "data/research/stopgaps-oct19/census/census-SG-PW8-partnership-start.json",
+      "reason": "Raw Census rerun result for open stopgap rows (value, spread, sources, one-line builder note each); builders apply a row into the game's own data and resolve its stopgap, the game never reads the file."
     },
     {
-      "file": "data/research/stand-in-figures-2026-10-12.json",
-      "reason": "Research on the number stand-ins open on Oct 12, 2026 (class, current value, recommended value or bounds, source); builders apply rows into the parameter tables."
+      "file": "data/research/stopgaps-oct19/census/census-SG-WORLD-housing-county-estimate.json",
+      "reason": "Raw Census rerun result for open stopgap rows (value, spread, sources, one-line builder note each); builders apply a row into the game's own data and resolve its stopgap, the game never reads the file."
+    },
+    {
+      "file": "data/research/stopgaps-oct19/census/census-SG-WORLD-property-tax-rate.json",
+      "reason": "Raw Census rerun result for open stopgap rows (value, spread, sources, one-line builder note each); builders apply a row into the game's own data and resolve its stopgap, the game never reads the file."
+    },
+    {
+      "file": "data/research/stopgaps-oct19/census/census-rerun.results.json",
+      "reason": "Raw Census rerun result for open stopgap rows (value, spread, sources, one-line builder note each); builders apply a row into the game's own data and resolve its stopgap, the game never reads the file."
     }
   ],
   "awaitingReader": [
