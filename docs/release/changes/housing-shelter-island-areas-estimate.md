@@ -1,5 +1,5 @@
 ---
-id: research-stopgaps-oct19-apply-shelter-territory
+id: housing-shelter-island-areas-estimate
 impact: patch
 section: Changed
 title: American Samoa and the Marianas get an island-area shelter estimate
