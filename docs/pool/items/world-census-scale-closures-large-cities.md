@@ -5,11 +5,12 @@ area: world
 kind: bug
 priority: 2
 size: M
-status: open
+status: in-pr
 claimed-by:
-pr:
+pr: #5803
 blocked-on:
 source: added with npm run pool -- add
+claimed-at:
 ---
 
 **What.** The census-scale closures test draws places from 10,000 to 40,000 people because a larger city's year does not fit one test process's memory. Washington, D.C. (census 693,645, scale 69.4), drawn once, closed 5 firms at its Census size against none at the sample size before the payroll-savings and owner-draw fixes of PR #5553, and was not rerun after them. Measure a large city at its Census size after those fixes and fix any remaining reader that does not multiply by the weight.

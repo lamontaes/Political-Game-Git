@@ -5,9 +5,9 @@ area: core
 kind: bug
 priority: 2
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/opelika-memory
-pr:
+pr: #5787
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-21T07:12:50.915Z
