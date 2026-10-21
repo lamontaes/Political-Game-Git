@@ -421,27 +421,5 @@
       "unit": "days",
       "citation": "A referral helps while the search is live; the median unemployment spell is about ten weeks (Bureau of Labor Statistics, Current Population Survey)."
     }
-  },
-  "jobsRaiseAfterDays": {
-    "value": 60,
-    "tag": "TUNABLE",
-    "citation": "How long an opening stands unfilled before its employer weighs raising the pay. No series gives this directly; calibrated by checking that the resulting pay growth on long-open postings stays inside the range of the Atlanta Fed Wage Growth Tracker (job switchers against stayers) and the Indeed Hiring Lab posted-wage tracker, which are checks on the totals and not coefficients here.",
-    "spread": {
-      "low": 30,
-      "high": 120,
-      "unit": "days an opening stands before its pay is reviewed",
-      "citation": "One to four months, the usual span over which a posting is called hard to fill."
-    }
-  },
-  "jobsRaiseStepShare": {
-    "value": 0.03,
-    "tag": "TUNABLE",
-    "citation": "The most an employer raises an unfilled opening's pay in one review, as a share of its offered pay, for an employer that is fully open-handed; one that holds its pay raises nothing, and between the two it follows its owner's traits. Calibrated against posted-wage growth on long-open postings (Atlanta Fed Wage Growth Tracker; Indeed Hiring Lab wage tracker) as a check on totals.",
-    "spread": {
-      "low": 0.01,
-      "high": 0.06,
-      "unit": "share of offered hourly pay per review",
-      "citation": "Annual wage growth for job switchers has run about three to six percent; a review every two months at the top of the range stays inside it."
-    }
   }
 }

@@ -5,7 +5,7 @@ area: core
 kind: owner-decision
 priority: 3
 size: S
-status: blocked
+status: done
 claimed-by:
 pr:
 blocked-on: owner
@@ -21,3 +21,4 @@ source: "core-needs-core-172 triage, Oct 15"
 **Files.** docs/coordination/OWNER-DECISIONS.md, src/core2/data/stopgaps.json
 
 **Notes.** core.md line 227, checked Oct 15. Related: core-stopgap-outcome-web-faked-mechanic.
+Ruled in OWNER-DECISIONS.md, Oct 16/Oct 19.
