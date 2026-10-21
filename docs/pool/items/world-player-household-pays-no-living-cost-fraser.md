@@ -7,7 +7,7 @@ priority: 2
 size: M
 status: open
 claimed-by:
-pr: #5473
+pr: #5681
 blocked-on:
 source: added with npm run pool -- add
 claimed-at:
@@ -26,3 +26,5 @@ claimed-at:
 Oct 20: Owner ruled on #5473 that background households may split from an 18-year-old when cheap to simulate and as common as in real life, but the player's own family does not leave the player before 1.0, so the hold in moves.ts stays and SG-P15-moves-player-home-stays can be marked resolved.
 
 Sent back 2026-10-20 from PR #5473 (branch claude/player-living-cost-fraser): see the Cloud merger comment on that PR for the exact reason; finish on that branch, merge main into it first.
+
+Sent back 2026-10-21 from PR #5681 (branch claude/political-game-pool-yucp92-az): The owner/date-note repair is present. The item Done when still requires the Fraser player-money-year.test.ts run with the household living outflow shown by journal record id, plus three other random places. The body provides no living-outflow journal id and names only two other seeds, f1 and f2. Supply the named test evidence for Fraser and three additional draws, with full places/seeds and the journal id, in the required Done when table. The fixer reports moves-minors/tripwires instead of this missing acceptance proof. No local gate pass is claimed here.; finish on that branch, merge main into it first.
