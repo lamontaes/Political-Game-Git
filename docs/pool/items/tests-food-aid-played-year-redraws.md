@@ -5,11 +5,12 @@ area: laws
 kind: bug
 priority: 3
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/food-aid-redraw
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-21T11:39:25.221Z
 ---
 
 **What.** src/core2/law-reach/group-b-food-aid.test.ts 'pays qualifying households from the federal treasury' returns early, asserting only that nothing is paid, when the drawn place has no SNAP law (a territory on a block grant). In such a draw the payment path is never checked. A merger sent #5443 back for it; that PR's code reached main through the law-wiring-health-schools branch (merge e1e06a334c), early return included.
