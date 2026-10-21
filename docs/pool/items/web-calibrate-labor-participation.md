@@ -5,12 +5,12 @@ area: core
 kind: wiring
 priority: 2
 size: M
-status: claimed
-claimed-by: claude/web-labor
+status: open
+claimed-by:
 pr:
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-21T03:28:07.880Z
+claimed-at:
 ---
 
 **What.** Split from web-calibrate-choice-terms Oct 21. No engine reads the web's retirement-age-to-older-work link today (it is listed unread in src/core2/data/outcome-web/coverage.json) and the old SG-LABOR-participation-scale marker is gone from the code. Add the web's factor as a term in the jobs engine's participation choice for people aged 62 to 67, and fit its weight in a played year so the group's working share moves by the researched size, as counted participation does.
