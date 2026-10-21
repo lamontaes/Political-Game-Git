@@ -372,5 +372,17 @@
       "citation": "Closeness runs 0 to 1; a close tie should be able to outweigh the cut."
     },
     "stopgapId": "SG-GOV-justice-weights"
+  },
+  "pretrialBailMinor": {
+    "value": 1000000,
+    "tag": "ESTIMATED",
+    "citation": "Median felony bail amount set by state courts in the 75 largest counties, $10,000 (Bureau of Justice Statistics, State Court Processing Statistics 2009, Felony Defendants in Large Urban Counties, Table 14). Stands for the amount a charged official must post to wait out the trial at home.",
+    "estimatedFrom": "BJS SCPS 2009, Table 14",
+    "spread": {
+      "low": 500000,
+      "high": 2500000,
+      "unit": "minor-currency",
+      "citation": "BJS reports medians from about $5,000 (assault, drug) to $25,000 (murder)."
+    }
   }
 }

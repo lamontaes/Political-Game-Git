@@ -5,9 +5,9 @@ area: gov
 kind: bug
 priority: 2
 size: M
-status: in-pr
+status: done
 claimed-by: claude/public-posts-pay-schedule
-pr: #5022
+pr: #5013
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-18T01:00:42.004Z
@@ -22,3 +22,5 @@ claimed-at: 2026-10-18T01:00:42.004Z
 **Files.** src/core2/public-payroll.ts, src/core2/press-pay-matches-schedule.test.ts
 
 **Notes.** Filed at the same time as the fix. The press staff are covered by the test; the other posts that use `startPublicJob` (executive appointees, state staff, office jobs) take the same code path and are not yet checked one by one. The jobs outside `startPublicJob` are `world-opening-schedules-run-over-job-hours`. The CTO may close this item once those posts are checked.
+
+Checked Oct 18 (claude/public-posts-pay-schedule): the fix in `startPublicJob` holds for every kind of public post. `src/core2/public-post-pay-matches-schedule.test.ts` runs a drawn place for 120 days and holds every open `job:public:` post (department heads, the state chief election official, press staff, office seats, officials' aides) to its stated annual pay within 2 percent; it passed in six drawn places (seeds q1 to q5 and one random). Nothing outside `startPublicJob` is covered; that stays with `world-opening-schedules-run-over-job-hours`.

@@ -4,9 +4,9 @@ title: "Stopgaps in credit (faked-mechanic): 1 open"
 area: world
 kind: stopgap
 priority: 2
-status: claimed
+status: done
 claimed-by: claude/world-stopgap-credit-faked-mechanic
-pr:
+pr: #5257
 blocked-on:
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/modules/credit.ts, kind faked-mechanic"

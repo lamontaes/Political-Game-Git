@@ -4,10 +4,10 @@ title: "Stopgaps in parameters (uncalibrated-tunable): 1 open"
 area: gov
 kind: stopgap
 priority: 3
-status: open
+status: blocked
 claimed-by:
 pr:
-blocked-on:
+blocked-on: engine or design: The small justice engine needs a first version; the research gives the directions (Gordon 2009 on partisan prosecution, the Justice Manual's charging standard, the Sentencing Guidelines), not these co
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/data/justice/parameters.json, kind uncalibrated-tunable"
 ---

@@ -5,7 +5,7 @@ area: words
 kind: feature
 priority: 2
 size: M
-status: in-pr
+status: done
 claimed-by: claude/law-subjects-bring-it-up
 pr: #5177
 after:

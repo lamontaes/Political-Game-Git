@@ -4,10 +4,10 @@ title: "Stopgaps in opening-capital (estimated-private-opening-cash-crosswalk): 
 area: core
 kind: stopgap
 priority: 3
-status: open
+status: dropped
 claimed-by:
 pr:
-blocked-on:
+blocked-on: research-opening-capital-sourced-parameters
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/data/opening-capital.json, kind estimated-private-opening-cash-crosswalk"
 ---
@@ -21,3 +21,5 @@ source: "src/core2/data/stopgaps.json, src/core2/data/opening-capital.json, kind
 **Files.** src/core2/data/opening-capital.json
 
 **Notes.** First row: Generated private-employer opening cash stock from real JPMC quartile/median anchors and an explicitly estimated WHO prior times scheduled payroll plus a compatible IRS nonwage accounting-cost proxy; not observed individ
+
+Folded into research-opening-capital-sourced-parameters (CTO, Oct 19, 2026).

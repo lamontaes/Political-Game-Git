@@ -6,11 +6,11 @@ kind: stopgap
 priority: 3
 status: claimed
 claimed-by: claude/pool-encounters-meetings
-pr:
+pr: #5265
 blocked-on:
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/data/encounters.json, kind behavior-model-gap"
-claimed-at: 2026-10-19T23:17:13.826Z
+claimed-at: 2026-10-21T16:26:17.372Z
 ---
 
 **What.** Replace or clear the 1 open behavior-model-gap stopgap row(s) in src/core2/data/encounters.json: SG-P15-encounters. Each fake is replaced by the mechanic, or the feature that needs it is deleted.
@@ -22,3 +22,5 @@ claimed-at: 2026-10-19T23:17:13.826Z
 **Files.** src/core2/data/encounters.json
 
 **Notes.** First row: New people are met only on a visit (the host's household) and on joining a group (its other members); the first tie holds the act's hours. Meetings at an organized meeting wait for attendance, and new coworkers for jobs
+
+Sent back 2026-10-20 from PR #5265 (branch claude/pool-encounters-meetings): The body explicitly leaves SG-P15-encounters open for public-comment/council meetings, neighbors and first-tie-hours evidence. The linked item Done when requires its rows resolved and a one-year played-world downstream read by record id. A town-hall-only unit proof does not complete it. Split the completed bounded town-hall change from the remaining explicit open work, or finish the original acceptance before marking that item done.; finish on that branch, merge main into it first.

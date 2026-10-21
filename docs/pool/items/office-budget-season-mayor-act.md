@@ -5,9 +5,9 @@ area: office
 kind: feature
 priority: 3
 size: M
-status: claimed
+status: done
 claimed-by: claude/budget-season-act
-pr:
+pr: #5258
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-19T23:14:58.176Z
