@@ -5,10 +5,10 @@ area: core
 kind: research
 priority: 2
 size: M
-status: open
+status: blocked
 claimed-by:
 pr:
-blocked-on:
+blocked-on: researcher: per-place or calibration sourcing, each row cited; first row's replacement: Validated data coefficients and activity totals across documented P9 lives and real cohort spreads. (parameter rows: src/core2/dat
 source: "collapsed Oct 19, 2026 from core-stopgap-content-estimated-behavior, core-stopgap-content-uncalibrated-tunable"
 ---
 

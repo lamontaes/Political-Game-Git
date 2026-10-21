@@ -5,11 +5,12 @@ area: people
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/political-game-pool-udtiwn
+pr: #5217
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-20T01:31:38.230Z
 ---
 
 **What.** TODO
