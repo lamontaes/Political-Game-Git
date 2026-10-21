@@ -5,11 +5,12 @@ area: core
 kind: cleanup
 priority: 3
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/speed-people-sort
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-21T22:22:45.860Z
 ---
 
 **What.** buildPopulation (src/core2/population.ts) keys each sibling tie as [child, sibling].sort().join(':'), a temporary array and a sort per tie; the kernel's pairKey builds the same key without them. The remaining slice of PR 5409 after main carried pairKey and its other call sites.
