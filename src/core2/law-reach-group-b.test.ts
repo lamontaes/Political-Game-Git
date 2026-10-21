@@ -134,8 +134,8 @@ function build(options: { pinned: boolean }): void {
         (r) => r.named,
       );
     // The assistance work requirement then stops a welfare head it reaches
-    // after the time limit: the town needs a named head both the welfare line
-    // pays and the requirement reaches.
+    // after the time limit: the town needs a head (named or counted) both the
+    // welfare line pays and the requirement reaches.
     const reachedByAssistanceWork = new Set(
       selectResidents(
         facts,
@@ -149,7 +149,7 @@ function build(options: { pinned: boolean }): void {
       facts,
       { incomeBelowPovertyShare: "assistanceIncomeShare", householdHead: true },
       stateKey,
-    ).some((h) => h.named && reachedByAssistanceWork.has(h.id));
+    ).some((h) => reachedByAssistanceWork.has(h.id));
     if (
       !options.pinned &&
       (!covers("health-human-services.expand-medicaid-eligibility").length ||
