@@ -24,3 +24,7 @@ claimed-at:
 **Notes.** core.md line 177, checked Oct 15: only renewal, health and the base set are declared covered.
 
 Sent back 2026-10-20 from PR #5036 (branch claude/snapshot-cover-s5): Merge main conflicts require author resolution: src/core2/modules/elections.ts.; finish on that branch, merge main into it first.
+
+Sent back 2026-10-20 from PR #5036 (branch claude/snapshot-cover-s5): Code conflict with main in src/core2/modules/executive.ts; finish on that branch, merge main into it first.
+
+Sent back 2026-10-20 from PR #5036 (branch claude/snapshot-cover-s5): The title says a saved game restores exactly as saved, but the body explicitly leaves six engines unsaved and reports a differing candidacy field in Greenvale plus an unexplained news-day difference elsewhere. core-snapshot-cover-rest Done when requires uncoveredModules(core) empty and no differing field after restore; those proofs are not met. Finish the six engines and the named round-trip proof, or track the completed bounded snapshot repair separately while leaving the umbrella unfinished and correcting the release/title claim.; finish on that branch, merge main into it first.

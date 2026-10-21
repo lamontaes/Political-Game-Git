@@ -5,10 +5,10 @@ area: core
 kind: research
 priority: 2
 size: M
-status: open
+status: blocked
 claimed-by:
 pr:
-blocked-on:
+blocked-on: researcher: per-place or calibration sourcing, each row cited; first row's replacement: Use recorded individual budgets and product-compatible agreements plus matched service-level size/region priors and actor purchasi
 source: "collapsed Oct 19, 2026 from core-stopgap-opening-customers-estimated-opening-customer-prior, core-stopgap-opening-customers-unresolved-external-product-buyer-demand-crosswalk, core-stopgap-opening-public-owner-estimated-historical-government-identity-continuity, core-stopgap-opening-public-owner-estimated-public-buyer-geographic-reach"
 ---
 
