@@ -5,7 +5,7 @@ area: core
 kind: bug
 priority: 3
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/snapshot-reseal
 pr: #5676
 blocked-on:
