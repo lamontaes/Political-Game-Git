@@ -4,13 +4,13 @@ title: "Stopgaps in credit-deposits (faked-mechanic): 1 open"
 area: world
 kind: stopgap
 priority: 2
-status: in-pr
-claimed-by: claude/credit-deposits
+status: open
+claimed-by:
 pr: #5316
 blocked-on:
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/credit-deposits.ts, kind faked-mechanic"
-claimed-at: 2026-10-20T14:46:29.601Z
+claimed-at:
 ---
 
 **What.** The stopgap row(s) SG-WORLD-deposit-wallet-buffer in src/core2/credit-deposits.ts mark a shortcut that is still live in play. Today savings and withdrawals are reviewed monthly with a three-month wallet reserve, so extraordinary payments and estate settlement never ask the bank for a withdrawal directly. The row stays open until the real mechanic replaces the fake, or the feature that needs the fake is deleted. This item replaces it and clears the row in src/core2/data/stopgaps.json.
@@ -24,3 +24,5 @@ claimed-at: 2026-10-20T14:46:29.601Z
 **Notes.** First row: Savings and withdrawals are reviewed monthly with a three-month wallet reserve; extraordinary payments and estate settlement do not yet request bank withdrawals directly. Dormant claims remain owed, not deleted.
 
 Sent back 2026-10-20 from PR #5316 (branch claude/deposit-withdrawal-s13): merging main now conflicts in src/core2/estates.ts (it passed every check before main moved); finish on that branch, merge main into it first.
+
+Sent back 2026-10-20 from PR #5316 (branch claude/deposit-withdrawal-s13): The body explicitly says no played-year proof was completed. The item requires a drawn one-year buildBenchWorld, a payment larger than the wallet causing a bank withdrawal, deposit/withdrawal ids and balanced books, and the owner big-bill path. The unit estate fixture and a partially narrowed stopgap do not complete that acceptance. Finish the named proof or split the completed estate-specific scope from the still-open larger-payment item.; finish on that branch, merge main into it first.

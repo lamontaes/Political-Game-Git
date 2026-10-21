@@ -19,6 +19,7 @@ import {
   CALIBRATED_AT,
   derivedOf,
   engineMeasure,
+  engineOwned,
   fixedBaseline,
   isLaw,
   KEPT_OUTCOMES,
@@ -202,12 +203,13 @@ function readEngine(
       ? { value: read.value * definition.unitScale, recordId: read.recordId }
       : null;
   }
-  // Engine measures are read from the economy's monthly rows (world-metrics).
-  if (!(api.state as CoreState).modules.has(WORLD_METRICS_MODULE_ID))
-    return null;
+  // Engine measures are read from the economy's monthly rows (world-metrics),
+  // or from the month rows of the engine that owns them.
+  const owner = definition.module ?? WORLD_METRICS_MODULE_ID;
+  if (!(api.state as CoreState).modules.has(owner)) return null;
   const recorded = api
-    .moduleState(WORLD_METRICS_MODULE_ID)
-    .table("months")
+    .moduleState(owner)
+    .table(definition.table ?? "months")
     .query("byPlace", [placeId]) as unknown as readonly ({
     date: string;
     id: string;
@@ -412,6 +414,11 @@ function recordMonth(api: CoreAPI, placeId: string, state: WebState): WebMonth {
   const effects: Record<string, number> = {};
   for (const outcome of KEPT_OUTCOMES) {
     const base = baseOf(outcome, state.stateKey).value;
+    // An engine's own record of the outcome stands as read (poverty).
+    if (engineOwned(outcome) && r.values[outcome] !== undefined) {
+      bases[outcome] = base;
+      continue;
+    }
     const level = scaleOf(outcome) === "level";
     let product = 1,
       added = 0;
@@ -457,6 +464,12 @@ function run(api: CoreAPI, announced = false): void {
   if (!state) return;
   // Kept outcomes hold at their base apart from their causes; see the stopgap.
   api.stopgap("SG-WEB-outcome-drift");
+  // No engine keeps SNAP receipt or food insecurity; they stay ledger numbers.
+  api.stopgap("SG-WEB-snap-receipt-ledger");
+  api.stopgap("SG-WEB-food-insecurity-ledger");
+  // Causes of poverty that reach no incomes yet (poverty itself is the engine's).
+  api.stopgap("SG-WEB-poverty-licensing-no-engine");
+  api.stopgap("SG-WEB-poverty-graduation-no-engine");
   api.stopgap("SG-WEB-housing-links-unsized");
   api.stopgap("SG-WEB-disaster-severity");
   for (const placeId of placesOf(api)) {

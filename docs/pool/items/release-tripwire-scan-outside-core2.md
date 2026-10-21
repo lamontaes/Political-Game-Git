@@ -5,7 +5,7 @@ area: release
 kind: cleanup
 priority: 3
 size: S
-status: in-pr
+status: done
 claimed-by: claude/tripwire-scan-outside
 pr: #5598
 blocked-on:
