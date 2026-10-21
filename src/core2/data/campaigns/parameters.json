@@ -360,6 +360,12 @@
       "source": "Days from a recall petition's certification to the recall vote (state laws commonly set 60 to 90 days, or the next regular election).",
       "spread": [45, 120]
     },
+    "registeredShareOfEligible": {
+      "value": 0.736,
+      "tag": "ESTIMATED",
+      "source": "Census Bureau, voting topic page (census.gov/topics/public-sector/voting.html): \"In the 2024 presidential election, 73.6% of the voting-age population was registered to vote\". Applied to a town's eligible voters where the world keeps no voter rolls; states run roughly 65 to 85 percent.",
+      "spread": [0.65, 0.85]
+    },
     "recallThresholdEstimate": {
       "value": 25,
       "tag": "ESTIMATED",

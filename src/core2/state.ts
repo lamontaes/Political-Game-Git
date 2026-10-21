@@ -1657,6 +1657,97 @@ export function coreAPI(core: CoreState): CoreAPI {
       for (const mover of movers as PersonState[])
         mover.householdId = input.householdId;
     },
+    setPartnersV1(input) {
+      const [a, b] = [...input.personIds].sort() as [string, string];
+      const left = core.people.get(a),
+        right = core.people.get(b);
+      if (!left?.alive || !right?.alive || a === b)
+        throw new Error("Partners are two different living people.");
+      makeIsoDate(input.source.asOf);
+      const links = [...core.familyLinks.values()].filter(
+        (row) => row.kind === "partner",
+      );
+      const between = links.find(
+        (row) => row.personIds.includes(a) && row.personIds.includes(b),
+      );
+      const record = (
+        person: PersonState,
+        other: PersonState,
+        id: string,
+        kind: "family:partner" | "family:former-partner",
+        summary: string,
+      ) => {
+        person.pastFacts = [
+          ...(person.pastFacts ?? []),
+          {
+            id: `${id}:${kind}:${person.id}`,
+            date: core.date,
+            kind,
+            summary,
+            source: input.source,
+            facts: { otherPersonId: other.id },
+          },
+        ];
+      };
+      if (input.together) {
+        const adultAge = api.parameter("benchmarkAdultMinimumAge");
+        const ageNow = (born: string) =>
+          Number(core.date.slice(0, 4)) -
+          Number(born.slice(0, 4)) -
+          (core.date.slice(5) < born.slice(5) ? 1 : 0);
+        if (
+          between ||
+          links.some(
+            (row) => row.personIds.includes(a) || row.personIds.includes(b),
+          ) ||
+          [left, right].some((row) => ageNow(row.birthDate) < adultAge)
+        )
+          throw new Error("Partners are single adults.");
+        const id = `partnership:${a}:${b}:${core.date}`;
+        core.familyLinks.set(id, { id, kind: "partner", personIds: [a, b] });
+        left.familyIds.add(b);
+        right.familyIds.add(a);
+        record(left, right, id, "family:partner", "partner");
+        record(right, left, id, "family:partner", "partner");
+        api.emit({
+          id: `family.partnered:${id}`,
+          date: core.date,
+          kind: "family.partnered",
+          personIds: [a, b],
+          placeId: left.placeId,
+          publicRecord: false,
+          source: input.source,
+          facts: { linkId: id },
+        });
+      } else {
+        if (!between) throw new Error("These two are not partners.");
+        core.familyLinks.delete(between.id);
+        record(
+          left,
+          right,
+          between.id,
+          "family:former-partner",
+          "former partner",
+        );
+        record(
+          right,
+          left,
+          between.id,
+          "family:former-partner",
+          "former partner",
+        );
+        api.emit({
+          id: `family.separated:${between.id}:${core.date}`,
+          date: core.date,
+          kind: "family.separated",
+          personIds: [a, b],
+          placeId: left.placeId,
+          publicRecord: false,
+          source: input.source,
+          facts: { linkId: between.id },
+        });
+      }
+    },
     fundPublicPay(authorityId, treasuryId, source) {
       makeIsoDate(source.asOf);
       if (source.asOf > core.date)
