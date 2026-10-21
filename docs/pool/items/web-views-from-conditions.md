@@ -22,3 +22,5 @@ claimed-at: 2026-10-20T10:09:21.273Z
 **Files.** src/core2/modules/views.ts, src/core2/outcome-news.ts
 
 **Notes.** TODO
+
+Oct 20 (claude): read DECISION-REGISTER.md and OWNER-DECISIONS.md first; nothing rules on it, so the question is written under Open in OWNER-DECISIONS.md with a recommended default. When the owner rules, record it there; if yes, add a wiring item (views.ts, outcome-news.ts).

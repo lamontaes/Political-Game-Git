@@ -5,15 +5,15 @@ area: core
 kind: wiring
 priority: 2
 size: M
-status: claimed
-claimed-by: claude/web-calibrate-terms
-pr:
+status: in-pr
+claimed-by: claude/web-calibrate
+pr: #5654
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-20T10:10:01.576Z
+claimed-at: 2026-10-21T03:17:29.079Z
 ---
 
-**What.** Two engines read the web's factor as a term in a choice that picks the higher score, not as a rate: full couples' plan-a-child choice (stopgap SG-WEB-births-full-tier, which has no term yet) and the jobs engine's participation pull (SG-LABOR-participation-scale, where a +0.3 older-work effect moved the share only 3%). Fit each term's weight in a played year so the group's share moves by the researched size, as counted births and counted participation already do.
+**What.** Two engines read the web's factor as a term in a choice that picks the higher score, not as a rate: full couples' plan-a-child choice (stopgap SG-WEB-births-full-tier, which has no term yet) and the jobs engine's participation pull (SG-LABOR-participation-scale, where a +0.3 older-work effect moved the share only 3%). Fit each term's weight in a played year so the group's share moves by the researched size, as counted births and counted participation already do. The fitted weight goes in the parameter table tagged TUNABLE with the researched size as its check, and the choice itself still reads each person's own records.
 
 **Rules.** An effect is a read, not a record; one model, two tiers; no dice; numbers live in the parameter table tagged TUNABLE with the spread checked against.
 
@@ -23,4 +23,9 @@ claimed-at: 2026-10-20T10:10:01.576Z
 
 **Notes.** TODO
 
-Oct 20 (claude, Sonnet, claimed and released unbuilt): neither piece this item calibrates is on main yet. `SG-WEB-births-full-tier` and `SG-LABOR-participation-scale` are not in stopgaps.json on main, `src/core2/jobs-web.ts` does not exist, and `births-plan.ts` has no web term (the web factor is read only by the counted births in `births-counted.ts`; #5557 adds the age-specific factor and registers `SG-WEB-births-age-counted-only`). So there is no term to fit a weight for. Start once the PRs that add the two terms have merged (the full couples' plan-a-child term and the jobs participation term), then fit each weight against the researched 0.75 percent a point and the 62-to-67 share in a one-year bench world.
+Sent back 2026-10-20 from PR #5654 (branch claude/web-calibrate): src/core2/births-full-web.test.ts fails with main merged (run seed 85f1ab6ee110a92f: the factor-0.9 planning share equals the base, 0.0756 vs 0.0756, in all nine drawn places); finish on that branch, merge main into it first.
+
+Sent back 2026-10-20 from PR #5654 (branch claude/web-calibrate): docs/pool/items/web-calibrate-choice-terms.md:20 requires a one-year drawn played-world proof of full births and the retirement-age-to-older-work effect, with both stopgaps resolved. The new births test measures planning choices, and the body explicitly leaves the labor term unbuilt, so that named proof is missing. Also remove the new owner/date attribution in src/core2/births-full-web.test.ts:4; state the two-tier rule without the dated owner note.; finish on that branch, merge main into it first.
+Sent back 2026-10-20 from PR #5654 (branch claude/web-calibrate): births-full-web.test.ts still fails on the merged head: the factor-0.9 planning share equals the base in every drawn place; finish on that branch, merge main into it first.
+
+Checked against main (claimed and released unbuilt): `SG-WEB-births-full-tier` is on main (#5557 added the age-specific factor), so the full couples' births term exists to calibrate. The jobs participation term is not: `SG-LABOR-participation-scale` is not in stopgaps.json and `src/core2/jobs-web.ts` does not exist. The births weight can be fitted now against the researched 0.75 percent a point; the 62-to-67 share waits for the participation term (built on #5654's branch). Fit each in a one-year bench world.

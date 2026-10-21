@@ -5,7 +5,7 @@ area: world
 kind: bug
 priority: 2
 size: S
-status: in-pr
+status: done
 claimed-by: claude/housing-laws-demoted-rent
 pr: #5638
 blocked-on:
