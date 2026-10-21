@@ -5028,7 +5028,9 @@
       "low": 0.29,
       "high": 0.67,
       "unit": "ratio of private enrollment share to adult share",
-      "citation": "Plus or minus 40 percent for the school-follows-family assumption and the year-to-year range of the NCES shares (fall 1999, 2011 and 2021 tables).",
+      "citation": "Plus or minus 40 percent for the school-follows-family assumption and the year-to-year range of the NCES shares (fall 1999, 2011 and 2021 tables)."
+    }
+  },
   "healthWorkerContributionSingleAnnualUsd": {
     "value": 1368,
     "tag": "SOURCED",
