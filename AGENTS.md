@@ -40,7 +40,7 @@ This section overrides anything heavier elsewhere in this file, in a skill or in
 1. **Start** (`session-start`): read this file, the item and its Notes, and the last rulings in `docs/coordination/OWNER-DECISIONS.md`. Install, then run the golden-path suite (`node --import tsx tests/golden-path/runner.mjs`) before changing anything.
 2. **Red main comes first** (owner, Oct 15). If the latest release run on main is red, claim `release-main-red`, fix it at the root on its own PR, then return to your item.
 3. **Build** one item at a time to its done-when, committing each meaningful unit with its tests passing.
-4. **Open the PR ready for review**, following `.github/PULL_REQUEST_TEMPLATE.md`. Line 1 is `Pool item: <id>`, then the gate line naming your changed-file checks and their results, then what changed for the player, what was removed, and any **OWNER DECISIONS NEEDED**. Set the item `in-pr`.
+4. **Open the PR ready for review**, following `.github/PULL_REQUEST_TEMPLATE.md`. Line 1 is `Pool item: <id>`, then the gate line naming your changed-file checks and their results, then what changed for the player, the **Done when** table (each line of the item's done-when with its evidence), what was removed, and any **OWNER DECISIONS NEEDED**. Before opening it, run the self-check in `session-start`: a done-when line without evidence means the item isn't done. Set the item `in-pr`.
 5. **Done means it works in play:** another engine reads what it wrote in a played world (`played-world-proof`), the guards pass, and the owner can play it.
 
 ## Placeholders
