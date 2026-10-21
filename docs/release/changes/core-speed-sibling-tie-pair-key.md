@@ -1,5 +1,5 @@
 ---
-id: core-speed-pair-key
+id: core-speed-sibling-tie-pair-key
 impact: none
 ---
 

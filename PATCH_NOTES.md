@@ -296,6 +296,42 @@ Repaired after an independent audit, before review:
 - A promise can only be conditioned on something the game can actually settle.
   One condition on the list could never come true and is gone.
 
+## PRE-ALPHA 0.21.0
+
+_Released October 21, 2026._
+
+### Improved
+
+- **American Samoa, Guam, the Northern Marianas and the Virgin Islands start
+  with their own housing figures.** Homes in these four island areas now start
+  from their own 2020 Census owner share, rent and home value instead of the
+  nation's. Owners' opening home values in every place also preserve household
+  variation while centering the median on that place's own housing value, moved
+  by its price index to the opening date.
+
+## PRE-ALPHA 0.20.4
+
+_Released October 21, 2026._
+
+### Changed
+
+- **The player's parents no longer move away and leave the player with nothing**
+  When the player lives in a household, the moves engine no longer takes that
+  household apart: the adults who earn and hold its cash stay, so the player is
+  not left alone with a lease, no job and no money.
+
+## PRE-ALPHA 0.20.3
+
+_Released October 21, 2026._
+
+### Changed
+
+- **People's opening stances are kept as records with their reasons** On the
+  questions the national survey asked, a person's faith and schooling now set
+  their opening stance once, as a record that keeps those reasons, instead of
+  being worked out again each time someone asks. Two neighbors of different
+  faith and schooling start out holding different stances.
+
 ## PRE-ALPHA 0.20.2
 
 _Released October 21, 2026._
