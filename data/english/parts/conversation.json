@@ -1603,9 +1603,7 @@
           "subject": "other-work",
           "role": "answer",
           "choice": "ack",
-          "stages": [
-            "working"
-          ]
+          "stages": ["working"]
         },
         {
           "move": "home-reply-answer-brief",
@@ -1644,9 +1642,7 @@
           "subject": "other-work",
           "role": "answer",
           "choice": "ack-none",
-          "stages": [
-            "none"
-          ]
+          "stages": ["none"]
         },
         {
           "move": "other-work-answer-brief",
@@ -2174,9 +2170,7 @@
           "subject": "other-work",
           "role": "reply",
           "choice": "at",
-          "stages": [
-            "working"
-          ]
+          "stages": ["working"]
         }
       ],
       "transcriptsUsing": 13,
@@ -2225,9 +2219,7 @@
           "subject": "other-work",
           "role": "reply",
           "choice": "at",
-          "stages": [
-            "working"
-          ]
+          "stages": ["working"]
         }
       ],
       "transcriptsUsing": 35,
@@ -2275,9 +2267,7 @@
           "subject": "other-work",
           "role": "reply",
           "choice": "at",
-          "stages": [
-            "working"
-          ]
+          "stages": ["working"]
         },
         {
           "move": "own-work-new-answer-brief",
@@ -2333,9 +2323,7 @@
           "subject": "other-work",
           "role": "reply",
           "choice": "at",
-          "stages": [
-            "working"
-          ]
+          "stages": ["working"]
         }
       ],
       "transcriptsUsing": 4,
@@ -2374,9 +2362,7 @@
           "subject": "shared-work",
           "role": "reply",
           "choice": "still",
-          "stages": [
-            "still"
-          ]
+          "stages": ["still"]
         }
       ],
       "transcriptsUsing": 2,
@@ -2413,9 +2399,7 @@
           "subject": "shared-work",
           "role": "reply",
           "choice": "still",
-          "stages": [
-            "still"
-          ]
+          "stages": ["still"]
         }
       ],
       "transcriptsUsing": 2,
@@ -2664,9 +2648,7 @@
           "subject": "home",
           "role": "answer",
           "choice": "years",
-          "stages": [
-            "moved"
-          ]
+          "stages": ["moved"]
         }
       ],
       "transcriptsUsing": 8,
@@ -3032,18 +3014,14 @@
           "subject": "own-work",
           "role": "lie",
           "choice": "left",
-          "stages": [
-            "none"
-          ]
+          "stages": ["none"]
         },
         {
           "move": "shared-work-reply-left",
           "subject": "shared-work",
           "role": "reply",
           "choice": "left",
-          "stages": [
-            "left"
-          ]
+          "stages": ["left"]
         }
       ],
       "transcriptsUsing": 67,
@@ -3083,18 +3061,14 @@
           "subject": "own-work",
           "role": "lie",
           "choice": "left",
-          "stages": [
-            "none"
-          ]
+          "stages": ["none"]
         },
         {
           "move": "shared-work-reply-left",
           "subject": "shared-work",
           "role": "reply",
           "choice": "left",
-          "stages": [
-            "left"
-          ]
+          "stages": ["left"]
         }
       ],
       "transcriptsUsing": 82,
@@ -3130,9 +3104,7 @@
           "subject": "own-work",
           "role": "lie",
           "choice": "left",
-          "stages": [
-            "none"
-          ]
+          "stages": ["none"]
         }
       ],
       "transcriptsUsing": 12,
@@ -3167,18 +3139,14 @@
           "subject": "own-work",
           "role": "lie",
           "choice": "left",
-          "stages": [
-            "none"
-          ]
+          "stages": ["none"]
         },
         {
           "move": "shared-work-reply-left",
           "subject": "shared-work",
           "role": "reply",
           "choice": "left",
-          "stages": [
-            "left"
-          ]
+          "stages": ["left"]
         }
       ],
       "transcriptsUsing": 14,
@@ -3213,9 +3181,7 @@
           "subject": "own-work",
           "role": "lie",
           "choice": "elsewhere",
-          "stages": [
-            "elsewhere"
-          ]
+          "stages": ["elsewhere"]
         }
       ],
       "transcriptsUsing": 11,
@@ -3248,9 +3214,7 @@
           "subject": "own-work",
           "role": "lie",
           "choice": "elsewhere",
-          "stages": [
-            "elsewhere"
-          ]
+          "stages": ["elsewhere"]
         }
       ],
       "transcriptsUsing": 2,
@@ -3353,9 +3317,7 @@
           "subject": "other-work",
           "role": "reply",
           "choice": "at",
-          "stages": [
-            "working"
-          ]
+          "stages": ["working"]
         },
         {
           "move": "own-work-new-answer-brief",
@@ -3438,9 +3400,7 @@
           "subject": "other-work",
           "role": "reply",
           "choice": "at",
-          "stages": [
-            "working"
-          ]
+          "stages": ["working"]
         },
         {
           "move": "own-work-new-answer-brief",
@@ -3545,9 +3505,7 @@
           "subject": "other-work",
           "role": "reply",
           "choice": "none",
-          "stages": [
-            "none"
-          ]
+          "stages": ["none"]
         }
       ],
       "transcriptsUsing": 2,
@@ -3578,9 +3536,7 @@
           "subject": "other-work",
           "role": "reply",
           "choice": "none",
-          "stages": [
-            "none"
-          ]
+          "stages": ["none"]
         }
       ],
       "transcriptsUsing": 15,
@@ -3615,9 +3571,7 @@
           "subject": "other-work",
           "role": "answer",
           "choice": "ack",
-          "stages": [
-            "working"
-          ]
+          "stages": ["working"]
         },
         {
           "move": "shared-work-answer-plain",
@@ -3671,9 +3625,7 @@
           "subject": "other-work",
           "role": "answer",
           "choice": "ack",
-          "stages": [
-            "working"
-          ]
+          "stages": ["working"]
         },
         {
           "move": "heard-work-reply-ok",
@@ -3726,9 +3678,7 @@
           "subject": "other-work",
           "role": "answer",
           "choice": "ack",
-          "stages": [
-            "working"
-          ]
+          "stages": ["working"]
         },
         {
           "move": "mutual-answer-ack",
@@ -3816,9 +3766,7 @@
           "subject": "other-work",
           "role": "answer",
           "choice": "ack",
-          "stages": [
-            "working"
-          ]
+          "stages": ["working"]
         },
         {
           "move": "lie-doubt-question",
@@ -3875,9 +3823,7 @@
           "subject": "other-work",
           "role": "answer",
           "choice": "ack",
-          "stages": [
-            "working"
-          ]
+          "stages": ["working"]
         },
         {
           "move": "home-reply-answer-ack",
@@ -3896,9 +3842,7 @@
           "subject": "other-work",
           "role": "answer",
           "choice": "ack-none",
-          "stages": [
-            "none"
-          ]
+          "stages": ["none"]
         },
         {
           "move": "heard-work-reply-ok",
@@ -3953,9 +3897,7 @@
           "subject": "other-work",
           "role": "answer",
           "choice": "ack",
-          "stages": [
-            "working"
-          ]
+          "stages": ["working"]
         },
         {
           "move": "home-reply-answer-ack",
@@ -3968,9 +3910,7 @@
           "subject": "other-work",
           "role": "answer",
           "choice": "ack-none",
-          "stages": [
-            "none"
-          ]
+          "stages": ["none"]
         },
         {
           "move": "heard-work-reply-ok",
@@ -4043,18 +3983,14 @@
           "subject": "other-work",
           "role": "answer",
           "choice": "ack",
-          "stages": [
-            "working"
-          ]
+          "stages": ["working"]
         },
         {
           "move": "other-work-answer-ack-none",
           "subject": "other-work",
           "role": "answer",
           "choice": "ack-none",
-          "stages": [
-            "none"
-          ]
+          "stages": ["none"]
         },
         {
           "move": "heard-work-reply-ok",
@@ -4105,9 +4041,7 @@
           "subject": "other-work",
           "role": "answer",
           "choice": "ack",
-          "stages": [
-            "working"
-          ]
+          "stages": ["working"]
         },
         {
           "move": "tenure-reply-answer-turn",
@@ -4167,9 +4101,7 @@
           "subject": "other-work",
           "role": "answer",
           "choice": "ack",
-          "stages": [
-            "working"
-          ]
+          "stages": ["working"]
         },
         {
           "move": "tenure-reply-answer-turn",
@@ -4243,9 +4175,7 @@
           "subject": "other-work",
           "role": "answer",
           "choice": "ack",
-          "stages": [
-            "working"
-          ]
+          "stages": ["working"]
         },
         {
           "move": "heard-work-reply-ok",
@@ -4297,9 +4227,7 @@
           "subject": "other-work",
           "role": "answer",
           "choice": "tenure",
-          "stages": [
-            "working"
-          ],
+          "stages": ["working"],
           "raises": "their-tenure"
         },
         {
@@ -4337,9 +4265,7 @@
           "subject": "other-work",
           "role": "answer",
           "choice": "tenure",
-          "stages": [
-            "working"
-          ],
+          "stages": ["working"],
           "raises": "their-tenure"
         },
         {
@@ -4378,9 +4304,7 @@
           "subject": "other-work",
           "role": "answer",
           "choice": "tenure",
-          "stages": [
-            "working"
-          ],
+          "stages": ["working"],
           "raises": "their-tenure"
         }
       ],
@@ -4652,9 +4576,7 @@
           "subject": "home",
           "role": "answer",
           "choice": "years",
-          "stages": [
-            "moved"
-          ]
+          "stages": ["moved"]
         }
       ],
       "transcriptsUsing": 7,
@@ -4686,9 +4608,7 @@
           "subject": "home",
           "role": "answer",
           "choice": "years",
-          "stages": [
-            "moved"
-          ]
+          "stages": ["moved"]
         }
       ],
       "transcriptsUsing": 5,
@@ -4722,9 +4642,7 @@
           "subject": "home",
           "role": "answer",
           "choice": "always",
-          "stages": [
-            "born"
-          ]
+          "stages": ["born"]
         }
       ],
       "transcriptsUsing": 17,
@@ -4759,9 +4677,7 @@
           "subject": "home",
           "role": "answer",
           "choice": "always",
-          "stages": [
-            "born"
-          ]
+          "stages": ["born"]
         }
       ],
       "transcriptsUsing": 12,
@@ -4794,18 +4710,14 @@
           "subject": "home",
           "role": "answer",
           "choice": "always",
-          "stages": [
-            "born"
-          ]
+          "stages": ["born"]
         },
         {
           "move": "home-new-answer-always",
           "subject": "home-new",
           "role": "answer",
           "choice": "always",
-          "stages": [
-            "born"
-          ]
+          "stages": ["born"]
         }
       ],
       "transcriptsUsing": 9,
@@ -4839,9 +4751,7 @@
           "subject": "home",
           "role": "answer",
           "choice": "always",
-          "stages": [
-            "born"
-          ]
+          "stages": ["born"]
         }
       ],
       "transcriptsUsing": 5,
@@ -4937,9 +4847,7 @@
           "subject": "home",
           "role": "lie",
           "choice": "moved",
-          "stages": [
-            "none"
-          ]
+          "stages": ["none"]
         }
       ],
       "transcriptsUsing": 6,
@@ -4971,9 +4879,7 @@
           "subject": "home",
           "role": "lie",
           "choice": "moved",
-          "stages": [
-            "none"
-          ]
+          "stages": ["none"]
         }
       ],
       "transcriptsUsing": 33,
@@ -5010,9 +4916,7 @@
           "subject": "home",
           "role": "lie",
           "choice": "elsewhere",
-          "stages": [
-            "elsewhere"
-          ]
+          "stages": ["elsewhere"]
         }
       ],
       "transcriptsUsing": 22,
@@ -5052,9 +4956,7 @@
           "subject": "home",
           "role": "lie",
           "choice": "elsewhere",
-          "stages": [
-            "elsewhere"
-          ]
+          "stages": ["elsewhere"]
         }
       ],
       "transcriptsUsing": 33,
@@ -5209,9 +5111,7 @@
           "subject": "home-new",
           "role": "answer",
           "choice": "always",
-          "stages": [
-            "born"
-          ]
+          "stages": ["born"]
         }
       ],
       "transcriptsUsing": 107,
@@ -5256,9 +5156,7 @@
           "subject": "home-new",
           "role": "answer",
           "choice": "always",
-          "stages": [
-            "born"
-          ]
+          "stages": ["born"]
         }
       ],
       "transcriptsUsing": 213,
@@ -5307,9 +5205,7 @@
           "subject": "home-new",
           "role": "answer",
           "choice": "always",
-          "stages": [
-            "born"
-          ]
+          "stages": ["born"]
         }
       ],
       "transcriptsUsing": 37,
@@ -5466,9 +5362,7 @@
           "subject": "home-new",
           "role": "lie",
           "choice": "none",
-          "stages": [
-            "none"
-          ]
+          "stages": ["none"]
         }
       ],
       "transcriptsUsing": 9,
@@ -5543,9 +5437,7 @@
           "subject": "home-reply",
           "role": "answer",
           "choice": "same",
-          "stages": [
-            "same"
-          ]
+          "stages": ["same"]
         }
       ],
       "transcriptsUsing": 3,
@@ -5577,9 +5469,7 @@
           "subject": "home-reply",
           "role": "answer",
           "choice": "same",
-          "stages": [
-            "same"
-          ]
+          "stages": ["same"]
         }
       ],
       "transcriptsUsing": 26,
@@ -7472,9 +7362,7 @@
           "subject": "mutual",
           "role": "reply",
           "choice": "saw",
-          "stages": [
-            "saw"
-          ]
+          "stages": ["saw"]
         }
       ],
       "transcriptsUsing": 3,
@@ -7506,9 +7394,7 @@
           "subject": "mutual",
           "role": "reply",
           "choice": "not",
-          "stages": [
-            "not"
-          ]
+          "stages": ["not"]
         }
       ],
       "transcriptsUsing": 4,
@@ -7540,9 +7426,7 @@
           "subject": "mutual",
           "role": "reply",
           "choice": "not",
-          "stages": [
-            "not"
-          ]
+          "stages": ["not"]
         }
       ],
       "transcriptsUsing": 4,
@@ -7575,9 +7459,7 @@
           "subject": "mutual",
           "role": "reply",
           "choice": "not",
-          "stages": [
-            "not"
-          ]
+          "stages": ["not"]
         }
       ],
       "transcriptsUsing": 2,
@@ -7607,18 +7489,14 @@
           "subject": "mutual",
           "role": "answer",
           "choice": "mine-saw",
-          "requiresFacts": [
-            "my_when"
-          ]
+          "requiresFacts": ["my_when"]
         },
         {
           "move": "asked-mutual-answer-saw",
           "subject": "asked-mutual",
           "role": "answer",
           "choice": "saw",
-          "requiresFacts": [
-            "my_when"
-          ]
+          "requiresFacts": ["my_when"]
         }
       ],
       "transcriptsUsing": 3,
@@ -7650,12 +7528,8 @@
           "subject": "mutual",
           "role": "answer",
           "choice": "mine-not",
-          "stages": [
-            "not"
-          ],
-          "requiresFacts": [
-            "my_not"
-          ]
+          "stages": ["not"],
+          "requiresFacts": ["my_not"]
         }
       ],
       "transcriptsUsing": 2,
@@ -7685,12 +7559,8 @@
           "subject": "mutual",
           "role": "answer",
           "choice": "mine-not",
-          "stages": [
-            "not"
-          ],
-          "requiresFacts": [
-            "my_not"
-          ]
+          "stages": ["not"],
+          "requiresFacts": ["my_not"]
         }
       ],
       "transcriptsUsing": 4,
@@ -7787,18 +7657,14 @@
           "subject": "news",
           "role": "answer",
           "choice": "no",
-          "stages": [
-            "not-heard"
-          ]
+          "stages": ["not-heard"]
         },
         {
           "move": "asked-mutual-answer-not",
           "subject": "asked-mutual",
           "role": "answer",
           "choice": "not",
-          "requiresFacts": [
-            "my_not"
-          ]
+          "requiresFacts": ["my_not"]
         },
         {
           "move": "asked-mutual-answer-brief",
@@ -8794,9 +8660,7 @@
           "subject": "family",
           "role": "answer",
           "choice": "ill",
-          "stages": [
-            "ill"
-          ]
+          "stages": ["ill"]
         }
       ],
       "transcriptsUsing": 8,
@@ -8827,9 +8691,7 @@
           "subject": "family",
           "role": "answer",
           "choice": "ill",
-          "stages": [
-            "ill"
-          ]
+          "stages": ["ill"]
         }
       ],
       "transcriptsUsing": 2,
@@ -8861,9 +8723,7 @@
           "subject": "family",
           "role": "answer",
           "choice": "ill",
-          "stages": [
-            "ill"
-          ]
+          "stages": ["ill"]
         }
       ],
       "transcriptsUsing": 3,
@@ -8895,9 +8755,7 @@
           "subject": "family",
           "role": "answer",
           "choice": "gone",
-          "stages": [
-            "died"
-          ]
+          "stages": ["died"]
         }
       ],
       "transcriptsUsing": 2,
@@ -8928,9 +8786,7 @@
           "subject": "family",
           "role": "answer",
           "choice": "gone",
-          "stages": [
-            "died"
-          ]
+          "stages": ["died"]
         }
       ],
       "transcriptsUsing": 7,
@@ -8966,9 +8822,7 @@
           "subject": "family",
           "role": "answer",
           "choice": "gone",
-          "stages": [
-            "died"
-          ]
+          "stages": ["died"]
         }
       ],
       "transcriptsUsing": 12,
@@ -9002,9 +8856,7 @@
           "subject": "family",
           "role": "answer",
           "choice": "gone",
-          "stages": [
-            "died"
-          ]
+          "stages": ["died"]
         }
       ],
       "transcriptsUsing": 21,
@@ -9039,9 +8891,7 @@
           "subject": "family",
           "role": "answer",
           "choice": "gone",
-          "stages": [
-            "died"
-          ]
+          "stages": ["died"]
         }
       ],
       "transcriptsUsing": 2,
@@ -9072,9 +8922,7 @@
           "subject": "family",
           "role": "answer",
           "choice": "gone",
-          "stages": [
-            "died"
-          ]
+          "stages": ["died"]
         }
       ],
       "transcriptsUsing": 15,
@@ -9639,9 +9487,7 @@
           "subject": "school",
           "role": "answer",
           "choice": "done",
-          "stages": [
-            "graduated"
-          ]
+          "stages": ["graduated"]
         }
       ],
       "transcriptsUsing": 6,
@@ -9944,9 +9790,7 @@
           "subject": "news",
           "role": "answer",
           "choice": "yes",
-          "stages": [
-            "heard"
-          ]
+          "stages": ["heard"]
         }
       ],
       "transcriptsUsing": 2,
@@ -9977,9 +9821,7 @@
           "subject": "news",
           "role": "answer",
           "choice": "yes",
-          "stages": [
-            "heard"
-          ]
+          "stages": ["heard"]
         }
       ],
       "transcriptsUsing": 8,
@@ -10013,9 +9855,7 @@
           "subject": "news",
           "role": "answer",
           "choice": "yes",
-          "stages": [
-            "heard"
-          ]
+          "stages": ["heard"]
         }
       ],
       "transcriptsUsing": 9,
@@ -10048,9 +9888,7 @@
           "subject": "news",
           "role": "answer",
           "choice": "yes",
-          "stages": [
-            "heard"
-          ]
+          "stages": ["heard"]
         }
       ],
       "transcriptsUsing": 44,
@@ -10090,9 +9928,7 @@
           "subject": "news",
           "role": "answer",
           "choice": "yes",
-          "stages": [
-            "heard"
-          ]
+          "stages": ["heard"]
         }
       ],
       "transcriptsUsing": 5,
@@ -10126,9 +9962,7 @@
           "subject": "news",
           "role": "answer",
           "choice": "yes",
-          "stages": [
-            "heard"
-          ]
+          "stages": ["heard"]
         }
       ],
       "transcriptsUsing": 513,
@@ -10177,9 +10011,7 @@
           "subject": "news",
           "role": "answer",
           "choice": "no",
-          "stages": [
-            "not-heard"
-          ]
+          "stages": ["not-heard"]
         },
         {
           "move": "job-lost-reply-answer-ask",
@@ -10243,9 +10075,7 @@
           "subject": "news",
           "role": "answer",
           "choice": "no",
-          "stages": [
-            "not-heard"
-          ]
+          "stages": ["not-heard"]
         },
         {
           "move": "asked-mutual-answer-brief",
@@ -10320,9 +10150,7 @@
           "subject": "news",
           "role": "answer",
           "choice": "no",
-          "stages": [
-            "not-heard"
-          ]
+          "stages": ["not-heard"]
         }
       ],
       "transcriptsUsing": 7,
@@ -10354,9 +10182,7 @@
           "subject": "news",
           "role": "answer",
           "choice": "no",
-          "stages": [
-            "not-heard"
-          ]
+          "stages": ["not-heard"]
         }
       ],
       "transcriptsUsing": 12,
@@ -10391,9 +10217,7 @@
           "subject": "news",
           "role": "answer",
           "choice": "no",
-          "stages": [
-            "not-heard"
-          ]
+          "stages": ["not-heard"]
         }
       ],
       "transcriptsUsing": 104,
@@ -10438,9 +10262,7 @@
           "subject": "news",
           "role": "answer",
           "choice": "no",
-          "stages": [
-            "not-heard"
-          ]
+          "stages": ["not-heard"]
         }
       ],
       "transcriptsUsing": 538,
@@ -10491,9 +10313,7 @@
           "subject": "news",
           "role": "answer",
           "choice": "no",
-          "stages": [
-            "not-heard"
-          ]
+          "stages": ["not-heard"]
         }
       ],
       "transcriptsUsing": 24,
@@ -10528,9 +10348,7 @@
           "subject": "news",
           "role": "answer",
           "choice": "no",
-          "stages": [
-            "not-heard"
-          ]
+          "stages": ["not-heard"]
         }
       ],
       "transcriptsUsing": 69,
@@ -10575,9 +10393,7 @@
           "subject": "other-work",
           "role": "answer",
           "choice": "ack-none",
-          "stages": [
-            "none"
-          ]
+          "stages": ["none"]
         },
         {
           "move": "job-lost-reply-answer-comfort",
@@ -10751,9 +10567,7 @@
           "subject": "other-work",
           "role": "answer",
           "choice": "ack-none",
-          "stages": [
-            "none"
-          ]
+          "stages": ["none"]
         },
         {
           "move": "job-lost-reply-answer-comfort",
@@ -13141,9 +12955,7 @@
           "subject": "other-work",
           "role": "answer",
           "choice": "ack-none",
-          "stages": [
-            "none"
-          ]
+          "stages": ["none"]
         },
         {
           "move": "job-lost-reply-answer-comfort",
@@ -13227,9 +13039,7 @@
           "subject": "other-work",
           "role": "answer",
           "choice": "ack-none",
-          "stages": [
-            "none"
-          ]
+          "stages": ["none"]
         },
         {
           "move": "job-lost-reply-answer-comfort",
@@ -13773,9 +13583,7 @@
           "subject": "own-work-new",
           "role": "lie",
           "choice": "elsewhere",
-          "stages": [
-            "elsewhere"
-          ]
+          "stages": ["elsewhere"]
         }
       ],
       "transcriptsUsing": 1075,
@@ -13845,9 +13653,7 @@
           "subject": "own-work-new",
           "role": "lie",
           "choice": "elsewhere",
-          "stages": [
-            "elsewhere"
-          ]
+          "stages": ["elsewhere"]
         }
       ],
       "transcriptsUsing": 13,
@@ -13884,9 +13690,7 @@
           "subject": "own-work-new",
           "role": "lie",
           "choice": "elsewhere",
-          "stages": [
-            "elsewhere"
-          ]
+          "stages": ["elsewhere"]
         }
       ],
       "transcriptsUsing": 35,
@@ -13922,9 +13726,7 @@
           "subject": "own-work-new",
           "role": "lie",
           "choice": "elsewhere",
-          "stages": [
-            "elsewhere"
-          ]
+          "stages": ["elsewhere"]
         }
       ],
       "transcriptsUsing": 15,
@@ -13959,9 +13761,7 @@
           "subject": "own-work-new",
           "role": "lie",
           "choice": "elsewhere",
-          "stages": [
-            "elsewhere"
-          ]
+          "stages": ["elsewhere"]
         }
       ],
       "transcriptsUsing": 74,
@@ -14033,9 +13833,7 @@
           "subject": "asked-mutual",
           "role": "answer",
           "choice": "not",
-          "requiresFacts": [
-            "my_not"
-          ]
+          "requiresFacts": ["my_not"]
         }
       ],
       "transcriptsUsing": 5,
@@ -14068,9 +13866,7 @@
           "subject": "asked-mutual",
           "role": "answer",
           "choice": "not",
-          "requiresFacts": [
-            "my_not"
-          ]
+          "requiresFacts": ["my_not"]
         }
       ],
       "transcriptsUsing": 4,
@@ -14101,9 +13897,7 @@
           "subject": "asked-mutual",
           "role": "answer",
           "choice": "not",
-          "requiresFacts": [
-            "my_not"
-          ]
+          "requiresFacts": ["my_not"]
         }
       ],
       "transcriptsUsing": 61,
@@ -14473,9 +14267,7 @@
           "subject": "home",
           "role": "lie",
           "choice": "moved",
-          "stages": [
-            "none"
-          ]
+          "stages": ["none"]
         }
       ],
       "transcriptsUsing": 4,
@@ -14507,9 +14299,7 @@
           "subject": "mutual",
           "role": "reply",
           "choice": "saw",
-          "stages": [
-            "saw"
-          ]
+          "stages": ["saw"]
         }
       ],
       "transcriptsUsing": 8,
@@ -14543,9 +14333,7 @@
           "subject": "mutual",
           "role": "reply",
           "choice": "not",
-          "stages": [
-            "not"
-          ]
+          "stages": ["not"]
         }
       ],
       "transcriptsUsing": 2,
@@ -14576,18 +14364,14 @@
           "subject": "mutual",
           "role": "reply",
           "choice": "not",
-          "stages": [
-            "not"
-          ]
+          "stages": ["not"]
         },
         {
           "move": "asked-mutual-answer-not",
           "subject": "asked-mutual",
           "role": "answer",
           "choice": "not",
-          "requiresFacts": [
-            "my_not"
-          ]
+          "requiresFacts": ["my_not"]
         }
       ],
       "transcriptsUsing": 3,
@@ -14618,18 +14402,14 @@
           "subject": "mutual",
           "role": "answer",
           "choice": "mine-saw",
-          "requiresFacts": [
-            "my_when"
-          ]
+          "requiresFacts": ["my_when"]
         },
         {
           "move": "asked-mutual-answer-saw",
           "subject": "asked-mutual",
           "role": "answer",
           "choice": "saw",
-          "requiresFacts": [
-            "my_when"
-          ]
+          "requiresFacts": ["my_when"]
         }
       ],
       "transcriptsUsing": 8,
@@ -14754,9 +14534,7 @@
           "subject": "family",
           "role": "answer",
           "choice": "gone",
-          "stages": [
-            "died"
-          ]
+          "stages": ["died"]
         }
       ],
       "transcriptsUsing": 2,
@@ -14848,9 +14626,7 @@
           "subject": "other-work",
           "role": "answer",
           "choice": "ack-none",
-          "stages": [
-            "none"
-          ]
+          "stages": ["none"]
         },
         {
           "move": "job-lost-reply-answer-comfort",
@@ -15098,9 +14874,7 @@
           "subject": "job-cause",
           "role": "raise",
           "choice": "raise",
-          "stages": [
-            "closure"
-          ]
+          "stages": ["closure"]
         }
       ],
       "transcriptsUsing": 2,
@@ -15132,9 +14906,7 @@
           "subject": "job-cause",
           "role": "raise",
           "choice": "raise",
-          "stages": [
-            "closure"
-          ]
+          "stages": ["closure"]
         }
       ],
       "transcriptsUsing": 2,
@@ -15165,9 +14937,7 @@
           "subject": "job-cause",
           "role": "raise",
           "choice": "raise",
-          "stages": [
-            "closure"
-          ]
+          "stages": ["closure"]
         }
       ],
       "transcriptsUsing": 2,
@@ -16057,9 +15827,7 @@
           "subject": "job-cause",
           "role": "raise",
           "choice": "raise",
-          "stages": [
-            "closure"
-          ]
+          "stages": ["closure"]
         }
       ],
       "transcriptsUsing": 2,
@@ -16090,9 +15858,7 @@
           "subject": "job-cause",
           "role": "raise",
           "choice": "raise",
-          "stages": [
-            "closure"
-          ]
+          "stages": ["closure"]
         }
       ],
       "transcriptsUsing": 2,

@@ -588,18 +588,14 @@
           "subject": "state-of-the-union",
           "role": "report",
           "choice": "report",
-          "requiresFacts": [
-            "unemployment-down"
-          ]
+          "requiresFacts": ["unemployment-down"]
         },
         {
           "move": "inaugural-report",
           "subject": "inaugural",
           "role": "report",
           "choice": "report",
-          "requiresFacts": [
-            "unemployment-down"
-          ]
+          "requiresFacts": ["unemployment-down"]
         }
       ],
       "transcriptsUsing": 3,
@@ -629,18 +625,14 @@
           "subject": "state-of-the-union",
           "role": "report",
           "choice": "report",
-          "requiresFacts": [
-            "unemployment-down"
-          ]
+          "requiresFacts": ["unemployment-down"]
         },
         {
           "move": "inaugural-report",
           "subject": "inaugural",
           "role": "report",
           "choice": "report",
-          "requiresFacts": [
-            "unemployment-down"
-          ]
+          "requiresFacts": ["unemployment-down"]
         }
       ],
       "transcriptsUsing": 9,
@@ -670,18 +662,14 @@
           "subject": "state-of-the-union",
           "role": "report",
           "choice": "report",
-          "requiresFacts": [
-            "inflation-down"
-          ]
+          "requiresFacts": ["inflation-down"]
         },
         {
           "move": "inaugural-report",
           "subject": "inaugural",
           "role": "report",
           "choice": "report",
-          "requiresFacts": [
-            "inflation-down"
-          ]
+          "requiresFacts": ["inflation-down"]
         }
       ],
       "transcriptsUsing": 13,
@@ -711,18 +699,14 @@
           "subject": "state-of-the-union",
           "role": "report",
           "choice": "report",
-          "requiresFacts": [
-            "inflation-down"
-          ]
+          "requiresFacts": ["inflation-down"]
         },
         {
           "move": "inaugural-report",
           "subject": "inaugural",
           "role": "report",
           "choice": "report",
-          "requiresFacts": [
-            "inflation-down"
-          ]
+          "requiresFacts": ["inflation-down"]
         }
       ],
       "transcriptsUsing": 6,
@@ -752,18 +736,14 @@
           "subject": "state-of-the-union",
           "role": "report",
           "choice": "report",
-          "requiresFacts": [
-            "inflation-up"
-          ]
+          "requiresFacts": ["inflation-up"]
         },
         {
           "move": "inaugural-report",
           "subject": "inaugural",
           "role": "report",
           "choice": "report",
-          "requiresFacts": [
-            "inflation-up"
-          ]
+          "requiresFacts": ["inflation-up"]
         }
       ],
       "transcriptsUsing": 2,
@@ -793,18 +773,14 @@
           "subject": "state-of-the-union",
           "role": "report",
           "choice": "report",
-          "requiresFacts": [
-            "prices-high"
-          ]
+          "requiresFacts": ["prices-high"]
         },
         {
           "move": "inaugural-report",
           "subject": "inaugural",
           "role": "report",
           "choice": "report",
-          "requiresFacts": [
-            "prices-high"
-          ]
+          "requiresFacts": ["prices-high"]
         }
       ],
       "transcriptsUsing": 6,
@@ -835,18 +811,14 @@
           "subject": "state-of-the-union",
           "role": "report",
           "choice": "report",
-          "requiresFacts": [
-            "prices-high"
-          ]
+          "requiresFacts": ["prices-high"]
         },
         {
           "move": "inaugural-report",
           "subject": "inaugural",
           "role": "report",
           "choice": "report",
-          "requiresFacts": [
-            "prices-high"
-          ]
+          "requiresFacts": ["prices-high"]
         }
       ],
       "transcriptsUsing": 7,
@@ -876,18 +848,14 @@
           "subject": "state-of-the-union",
           "role": "report",
           "choice": "report",
-          "requiresFacts": [
-            "prices-down"
-          ]
+          "requiresFacts": ["prices-down"]
         },
         {
           "move": "inaugural-report",
           "subject": "inaugural",
           "role": "report",
           "choice": "report",
-          "requiresFacts": [
-            "prices-down"
-          ]
+          "requiresFacts": ["prices-down"]
         }
       ],
       "transcriptsUsing": 4,
@@ -917,18 +885,14 @@
           "subject": "state-of-the-union",
           "role": "report",
           "choice": "report",
-          "requiresFacts": [
-            "prices-up"
-          ]
+          "requiresFacts": ["prices-up"]
         },
         {
           "move": "inaugural-report",
           "subject": "inaugural",
           "role": "report",
           "choice": "report",
-          "requiresFacts": [
-            "prices-up"
-          ]
+          "requiresFacts": ["prices-up"]
         }
       ],
       "transcriptsUsing": 2,
@@ -958,18 +922,14 @@
           "subject": "state-of-the-union",
           "role": "report",
           "choice": "report",
-          "requiresFacts": [
-            "gas-down"
-          ]
+          "requiresFacts": ["gas-down"]
         },
         {
           "move": "inaugural-report",
           "subject": "inaugural",
           "role": "report",
           "choice": "report",
-          "requiresFacts": [
-            "gas-down"
-          ]
+          "requiresFacts": ["gas-down"]
         }
       ],
       "transcriptsUsing": 4,
@@ -999,18 +959,14 @@
           "subject": "state-of-the-union",
           "role": "report",
           "choice": "report",
-          "requiresFacts": [
-            "gas-down"
-          ]
+          "requiresFacts": ["gas-down"]
         },
         {
           "move": "inaugural-report",
           "subject": "inaugural",
           "role": "report",
           "choice": "report",
-          "requiresFacts": [
-            "gas-down"
-          ]
+          "requiresFacts": ["gas-down"]
         }
       ],
       "transcriptsUsing": 2,
@@ -1040,18 +996,14 @@
           "subject": "state-of-the-union",
           "role": "report",
           "choice": "report",
-          "requiresFacts": [
-            "wages-up"
-          ]
+          "requiresFacts": ["wages-up"]
         },
         {
           "move": "inaugural-report",
           "subject": "inaugural",
           "role": "report",
           "choice": "report",
-          "requiresFacts": [
-            "wages-up"
-          ]
+          "requiresFacts": ["wages-up"]
         }
       ],
       "transcriptsUsing": 21,
@@ -1081,18 +1033,14 @@
           "subject": "state-of-the-union",
           "role": "report",
           "choice": "report",
-          "requiresFacts": [
-            "wages-up"
-          ]
+          "requiresFacts": ["wages-up"]
         },
         {
           "move": "inaugural-report",
           "subject": "inaugural",
           "role": "report",
           "choice": "report",
-          "requiresFacts": [
-            "wages-up"
-          ]
+          "requiresFacts": ["wages-up"]
         }
       ],
       "transcriptsUsing": 23,
@@ -1123,18 +1071,14 @@
           "subject": "state-of-the-union",
           "role": "report",
           "choice": "report",
-          "requiresFacts": [
-            "wages-up"
-          ]
+          "requiresFacts": ["wages-up"]
         },
         {
           "move": "inaugural-report",
           "subject": "inaugural",
           "role": "report",
           "choice": "report",
-          "requiresFacts": [
-            "wages-up"
-          ]
+          "requiresFacts": ["wages-up"]
         }
       ],
       "transcriptsUsing": 4,
@@ -1164,20 +1108,14 @@
           "subject": "state-of-the-union",
           "role": "report",
           "choice": "report",
-          "requiresFacts": [
-            "wages-up",
-            "inflation-down"
-          ]
+          "requiresFacts": ["wages-up", "inflation-down"]
         },
         {
           "move": "inaugural-report",
           "subject": "inaugural",
           "role": "report",
           "choice": "report",
-          "requiresFacts": [
-            "wages-up",
-            "inflation-down"
-          ]
+          "requiresFacts": ["wages-up", "inflation-down"]
         }
       ],
       "transcriptsUsing": 2,
@@ -1207,18 +1145,14 @@
           "subject": "state-of-the-union",
           "role": "report",
           "choice": "report",
-          "requiresFacts": [
-            "growth-up"
-          ]
+          "requiresFacts": ["growth-up"]
         },
         {
           "move": "inaugural-report",
           "subject": "inaugural",
           "role": "report",
           "choice": "report",
-          "requiresFacts": [
-            "growth-up"
-          ]
+          "requiresFacts": ["growth-up"]
         }
       ],
       "transcriptsUsing": 11,
@@ -1248,18 +1182,14 @@
           "subject": "state-of-the-union",
           "role": "report",
           "choice": "report",
-          "requiresFacts": [
-            "growth-up"
-          ]
+          "requiresFacts": ["growth-up"]
         },
         {
           "move": "inaugural-report",
           "subject": "inaugural",
           "role": "report",
           "choice": "report",
-          "requiresFacts": [
-            "growth-up"
-          ]
+          "requiresFacts": ["growth-up"]
         }
       ],
       "transcriptsUsing": 26,
@@ -1289,18 +1219,14 @@
           "subject": "state-of-the-union",
           "role": "report",
           "choice": "report",
-          "requiresFacts": [
-            "growth-up"
-          ]
+          "requiresFacts": ["growth-up"]
         },
         {
           "move": "inaugural-report",
           "subject": "inaugural",
           "role": "report",
           "choice": "report",
-          "requiresFacts": [
-            "growth-up"
-          ]
+          "requiresFacts": ["growth-up"]
         }
       ],
       "transcriptsUsing": 6,
@@ -1331,18 +1257,14 @@
           "subject": "state-of-the-union",
           "role": "report",
           "choice": "report",
-          "requiresFacts": [
-            "growth-up"
-          ]
+          "requiresFacts": ["growth-up"]
         },
         {
           "move": "inaugural-report",
           "subject": "inaugural",
           "role": "report",
           "choice": "report",
-          "requiresFacts": [
-            "growth-up"
-          ]
+          "requiresFacts": ["growth-up"]
         }
       ],
       "transcriptsUsing": 4,
@@ -1372,18 +1294,14 @@
           "subject": "state-of-the-union",
           "role": "report",
           "choice": "report",
-          "requiresFacts": [
-            "growth-high"
-          ]
+          "requiresFacts": ["growth-high"]
         },
         {
           "move": "inaugural-report",
           "subject": "inaugural",
           "role": "report",
           "choice": "report",
-          "requiresFacts": [
-            "growth-high"
-          ]
+          "requiresFacts": ["growth-high"]
         }
       ],
       "transcriptsUsing": 10,
@@ -1413,18 +1331,14 @@
           "subject": "state-of-the-union",
           "role": "report",
           "choice": "report",
-          "requiresFacts": [
-            "growth-high"
-          ]
+          "requiresFacts": ["growth-high"]
         },
         {
           "move": "inaugural-report",
           "subject": "inaugural",
           "role": "report",
           "choice": "report",
-          "requiresFacts": [
-            "growth-high"
-          ]
+          "requiresFacts": ["growth-high"]
         }
       ],
       "transcriptsUsing": 5,
@@ -1454,18 +1368,14 @@
           "subject": "state-of-the-union",
           "role": "report",
           "choice": "report",
-          "requiresFacts": [
-            "jobs-up"
-          ]
+          "requiresFacts": ["jobs-up"]
         },
         {
           "move": "inaugural-report",
           "subject": "inaugural",
           "role": "report",
           "choice": "report",
-          "requiresFacts": [
-            "jobs-up"
-          ]
+          "requiresFacts": ["jobs-up"]
         }
       ],
       "transcriptsUsing": 15,
@@ -1495,18 +1405,14 @@
           "subject": "state-of-the-union",
           "role": "report",
           "choice": "report",
-          "requiresFacts": [
-            "jobs-up"
-          ]
+          "requiresFacts": ["jobs-up"]
         },
         {
           "move": "inaugural-report",
           "subject": "inaugural",
           "role": "report",
           "choice": "report",
-          "requiresFacts": [
-            "jobs-up"
-          ]
+          "requiresFacts": ["jobs-up"]
         }
       ],
       "transcriptsUsing": 5,
@@ -1536,18 +1442,14 @@
           "subject": "state-of-the-union",
           "role": "report",
           "choice": "report",
-          "requiresFacts": [
-            "jobs-up"
-          ]
+          "requiresFacts": ["jobs-up"]
         },
         {
           "move": "inaugural-report",
           "subject": "inaugural",
           "role": "report",
           "choice": "report",
-          "requiresFacts": [
-            "jobs-up"
-          ]
+          "requiresFacts": ["jobs-up"]
         }
       ],
       "transcriptsUsing": 25,
@@ -1577,18 +1479,14 @@
           "subject": "state-of-the-union",
           "role": "report",
           "choice": "report",
-          "requiresFacts": [
-            "jobs-up"
-          ]
+          "requiresFacts": ["jobs-up"]
         },
         {
           "move": "inaugural-report",
           "subject": "inaugural",
           "role": "report",
           "choice": "report",
-          "requiresFacts": [
-            "jobs-up"
-          ]
+          "requiresFacts": ["jobs-up"]
         }
       ],
       "transcriptsUsing": 11,
@@ -1618,18 +1516,14 @@
           "subject": "state-of-the-union",
           "role": "report",
           "choice": "report",
-          "requiresFacts": [
-            "jobs-up"
-          ]
+          "requiresFacts": ["jobs-up"]
         },
         {
           "move": "inaugural-report",
           "subject": "inaugural",
           "role": "report",
           "choice": "report",
-          "requiresFacts": [
-            "jobs-up"
-          ]
+          "requiresFacts": ["jobs-up"]
         }
       ],
       "transcriptsUsing": 4,
@@ -1660,18 +1554,14 @@
           "subject": "state-of-the-union",
           "role": "report",
           "choice": "report",
-          "requiresFacts": [
-            "jobs-up"
-          ]
+          "requiresFacts": ["jobs-up"]
         },
         {
           "move": "inaugural-report",
           "subject": "inaugural",
           "role": "report",
           "choice": "report",
-          "requiresFacts": [
-            "jobs-up"
-          ]
+          "requiresFacts": ["jobs-up"]
         }
       ],
       "transcriptsUsing": 2,
@@ -1701,18 +1591,14 @@
           "subject": "state-of-the-union",
           "role": "report",
           "choice": "report",
-          "requiresFacts": [
-            "deficit-down"
-          ]
+          "requiresFacts": ["deficit-down"]
         },
         {
           "move": "inaugural-report",
           "subject": "inaugural",
           "role": "report",
           "choice": "report",
-          "requiresFacts": [
-            "deficit-down"
-          ]
+          "requiresFacts": ["deficit-down"]
         }
       ],
       "transcriptsUsing": 5,
@@ -1743,18 +1629,14 @@
           "subject": "state-of-the-union",
           "role": "report",
           "choice": "report",
-          "requiresFacts": [
-            "factory-jobs-up"
-          ]
+          "requiresFacts": ["factory-jobs-up"]
         },
         {
           "move": "inaugural-report",
           "subject": "inaugural",
           "role": "report",
           "choice": "report",
-          "requiresFacts": [
-            "factory-jobs-up"
-          ]
+          "requiresFacts": ["factory-jobs-up"]
         }
       ],
       "transcriptsUsing": 4,
@@ -1784,18 +1666,14 @@
           "subject": "state-of-the-union",
           "role": "report",
           "choice": "report",
-          "requiresFacts": [
-            "crime-down"
-          ]
+          "requiresFacts": ["crime-down"]
         },
         {
           "move": "inaugural-report",
           "subject": "inaugural",
           "role": "report",
           "choice": "report",
-          "requiresFacts": [
-            "crime-down"
-          ]
+          "requiresFacts": ["crime-down"]
         }
       ],
       "transcriptsUsing": 3,

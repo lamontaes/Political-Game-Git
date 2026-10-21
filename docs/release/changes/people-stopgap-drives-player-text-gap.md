@@ -1,8 +1,6 @@
 ---
 id: people-stopgap-drives-player-text-gap
-impact: patch
-section: Fixed
-title: Associations residents found have real names
+impact: none
 ---
 
-A group that residents found over a cause is now named for its town and, when it formed over a business or organization, for that name, instead of showing its internal key in your journal.
+Held for grading: the names a founded group will show (its town and, over a business, that name) are written as authored pieces in the English bank and stay off until the owner grades them; nothing shown to the player changes yet.

@@ -1610,9 +1610,7 @@
           "subject": "house-floor",
           "role": "tribute-story",
           "choice": "tribute-story",
-          "requiresFacts": [
-            "survived-by-wife"
-          ]
+          "requiresFacts": ["survived-by-wife"]
         }
       ],
       "transcriptsUsing": 9,
@@ -1643,9 +1641,7 @@
           "subject": "house-floor",
           "role": "tribute-story",
           "choice": "tribute-story",
-          "requiresFacts": [
-            "survived-by-husband"
-          ]
+          "requiresFacts": ["survived-by-husband"]
         }
       ],
       "transcriptsUsing": 2,
@@ -3732,9 +3728,7 @@
           "subject": "public-comment",
           "role": "story",
           "choice": "story",
-          "requiresFacts": [
-            "grew-up-here"
-          ]
+          "requiresFacts": ["grew-up-here"]
         }
       ],
       "transcriptsUsing": 9,
@@ -3768,9 +3762,7 @@
           "subject": "public-comment",
           "role": "story",
           "choice": "story",
-          "requiresFacts": [
-            "cannot-afford"
-          ]
+          "requiresFacts": ["cannot-afford"]
         }
       ],
       "transcriptsUsing": 10,
@@ -3804,9 +3796,7 @@
           "subject": "public-comment",
           "role": "story",
           "choice": "story",
-          "requiresFacts": [
-            "lost-job"
-          ]
+          "requiresFacts": ["lost-job"]
         }
       ],
       "transcriptsUsing": 4,
@@ -3838,9 +3828,7 @@
           "subject": "public-comment",
           "role": "story",
           "choice": "story",
-          "requiresFacts": [
-            "issue-safety"
-          ]
+          "requiresFacts": ["issue-safety"]
         }
       ],
       "transcriptsUsing": 4,
@@ -5156,9 +5144,7 @@
           "subject": "campaign",
           "role": "self",
           "choice": "self",
-          "requiresFacts": [
-            "occupation-nurse"
-          ]
+          "requiresFacts": ["occupation-nurse"]
         }
       ],
       "transcriptsUsing": 4,
@@ -5191,9 +5177,7 @@
           "subject": "campaign",
           "role": "self",
           "choice": "self",
-          "requiresFacts": [
-            "occupation-farmer"
-          ]
+          "requiresFacts": ["occupation-farmer"]
         }
       ],
       "transcriptsUsing": 5,
@@ -5227,9 +5211,7 @@
           "subject": "campaign",
           "role": "self",
           "choice": "self",
-          "requiresFacts": [
-            "veteran"
-          ]
+          "requiresFacts": ["veteran"]
         }
       ],
       "transcriptsUsing": 3,
@@ -5262,10 +5244,7 @@
           "subject": "campaign",
           "role": "self",
           "choice": "self",
-          "requiresFacts": [
-            "has-children",
-            "is-mother"
-          ]
+          "requiresFacts": ["has-children", "is-mother"]
         }
       ],
       "transcriptsUsing": 2,
@@ -5297,10 +5276,7 @@
           "subject": "campaign",
           "role": "self",
           "choice": "self",
-          "requiresFacts": [
-            "has-children",
-            "is-father"
-          ]
+          "requiresFacts": ["has-children", "is-father"]
         }
       ],
       "transcriptsUsing": 2,
@@ -5587,9 +5563,7 @@
           "subject": "campaign",
           "role": "issue",
           "choice": "issue",
-          "requiresFacts": [
-            "challenger"
-          ]
+          "requiresFacts": ["challenger"]
         }
       ],
       "transcriptsUsing": 48,
@@ -5625,9 +5599,7 @@
           "subject": "campaign",
           "role": "issue",
           "choice": "issue",
-          "requiresFacts": [
-            "challenger"
-          ]
+          "requiresFacts": ["challenger"]
         }
       ],
       "transcriptsUsing": 2,
@@ -5658,9 +5630,7 @@
           "subject": "campaign",
           "role": "issue",
           "choice": "issue",
-          "requiresFacts": [
-            "challenger"
-          ]
+          "requiresFacts": ["challenger"]
         }
       ],
       "transcriptsUsing": 3,
@@ -5691,9 +5661,7 @@
           "subject": "campaign",
           "role": "issue",
           "choice": "issue",
-          "requiresFacts": [
-            "issue-prices"
-          ]
+          "requiresFacts": ["issue-prices"]
         }
       ],
       "transcriptsUsing": 5,
@@ -5724,9 +5692,7 @@
           "subject": "campaign",
           "role": "issue",
           "choice": "issue",
-          "requiresFacts": [
-            "issue-hardship"
-          ]
+          "requiresFacts": ["issue-hardship"]
         }
       ],
       "transcriptsUsing": 13,
@@ -5835,9 +5801,7 @@
           "subject": "campaign",
           "role": "issue",
           "choice": "issue",
-          "requiresFacts": [
-            "issue-children"
-          ]
+          "requiresFacts": ["issue-children"]
         }
       ],
       "transcriptsUsing": 2,
@@ -5868,9 +5832,7 @@
           "subject": "campaign",
           "role": "issue",
           "choice": "issue",
-          "requiresFacts": [
-            "issue-jobs"
-          ]
+          "requiresFacts": ["issue-jobs"]
         }
       ],
       "transcriptsUsing": 2,
@@ -6004,9 +5966,7 @@
           "subject": "campaign",
           "role": "contrast",
           "choice": "contrast",
-          "requiresFacts": [
-            "challenger"
-          ]
+          "requiresFacts": ["challenger"]
         }
       ],
       "transcriptsUsing": 69,
@@ -6513,9 +6473,7 @@
           "subject": "victory",
           "role": "claim",
           "choice": "claim",
-          "requiresFacts": [
-            "won"
-          ]
+          "requiresFacts": ["won"]
         }
       ],
       "transcriptsUsing": 45,
@@ -6554,9 +6512,7 @@
           "subject": "victory",
           "role": "claim",
           "choice": "claim",
-          "requiresFacts": [
-            "won"
-          ]
+          "requiresFacts": ["won"]
         }
       ],
       "transcriptsUsing": 116,
@@ -7065,9 +7021,7 @@
           "subject": "state-of-the-union",
           "role": "report",
           "choice": "report",
-          "requiresFacts": [
-            "economy-growing"
-          ]
+          "requiresFacts": ["economy-growing"]
         }
       ],
       "transcriptsUsing": 3,
@@ -7097,9 +7051,7 @@
           "subject": "state-of-the-union",
           "role": "report",
           "choice": "report",
-          "requiresFacts": [
-            "economy-growing"
-          ]
+          "requiresFacts": ["economy-growing"]
         }
       ],
       "transcriptsUsing": 13,
@@ -7130,9 +7082,7 @@
           "subject": "state-of-the-union",
           "role": "report",
           "choice": "report",
-          "requiresFacts": [
-            "jobs-up"
-          ]
+          "requiresFacts": ["jobs-up"]
         }
       ],
       "transcriptsUsing": 16,
@@ -7164,9 +7114,7 @@
           "subject": "state-of-the-union",
           "role": "report",
           "choice": "report",
-          "requiresFacts": [
-            "wages-up"
-          ]
+          "requiresFacts": ["wages-up"]
         }
       ],
       "transcriptsUsing": 25,
@@ -8058,9 +8006,7 @@
           "subject": "inaugural",
           "role": "moment",
           "choice": "moment",
-          "requiresFacts": [
-            "rebuilding"
-          ]
+          "requiresFacts": ["rebuilding"]
         }
       ],
       "transcriptsUsing": 2,
@@ -8994,9 +8940,7 @@
           "subject": "campaign",
           "role": "self",
           "choice": "self",
-          "requiresFacts": [
-            "owns-business"
-          ]
+          "requiresFacts": ["owns-business"]
         }
       ],
       "transcriptsUsing": 2,
@@ -9027,9 +8971,7 @@
           "subject": "campaign",
           "role": "self",
           "choice": "self",
-          "requiresFacts": [
-            "occupation-teacher"
-          ]
+          "requiresFacts": ["occupation-teacher"]
         }
       ],
       "transcriptsUsing": 2,
@@ -9153,9 +9095,7 @@
           "subject": "state-of-the-union",
           "role": "report",
           "choice": "report",
-          "requiresFacts": [
-            "unemployment-record-low"
-          ]
+          "requiresFacts": ["unemployment-record-low"]
         }
       ],
       "transcriptsUsing": 2,

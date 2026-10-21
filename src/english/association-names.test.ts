@@ -5,6 +5,7 @@ import { drawPlace } from "../../scripts/core2-year/place";
 import { setBookkeeping } from "../core2/bookkeeping";
 import { gameStartDate } from "../core2/game-start";
 import { coreAPI } from "../core2/state";
+import bank from "../../data/english/parts/association-names.json" with { type: "json" };
 import { organizationName } from "./association-names";
 
 // A founded cause group is named from the bank (pool item
@@ -36,18 +37,32 @@ it(`a founded group is worded from the association bank (${where})`, () => {
     } as never);
     return organizationName(core, id)!;
   };
-  const withTopic = found("organization:cause-group:test:one", employer.id);
-  const plain = found("organization:cause-group:test:two");
-  for (const name of [withTopic, plain]) {
-    expect(name, where).not.toMatch(/organization:|cause-group/);
-    expect(name.length, where).toBeGreaterThan(0);
-    expect(name, where).not.toMatch(/[{}]/);
+  found("organization:cause-group:test:one", employer.id);
+  found("organization:cause-group:test:two");
+  // The authored pieces stay held until the owner grades them
+  // (shippable: false), so the engine words nothing yet and a founded group is
+  // not shown under a hand-made name: the lookup returns nothing to show.
+  expect(
+    organizationName(core, "organization:cause-group:test:one"),
+  ).toBeUndefined();
+  expect(
+    organizationName(core, "organization:cause-group:test:two"),
+  ).toBeUndefined();
+  // The bank holds pieces for both wordings, all held, none carrying a
+  // structured key, so grading can release them.
+  const parts = (
+    bank as unknown as {
+      parts: { move: string; text: string; shippable: boolean }[];
+    }
+  ).parts;
+  for (const move of ["association-name-topic", "association-name-plain"]) {
+    const group = parts.filter((part) => part.move === move);
+    expect(group.length, move).toBeGreaterThan(0);
+    for (const part of group) {
+      expect(part.shippable, part.text).toBe(false);
+      expect(part.text).not.toMatch(/organization:|cause-group/);
+    }
   }
-  expect(withTopic, where).toContain(employer.name);
-  // The same group is always worded the same way.
-  expect(organizationName(core, "organization:cause-group:test:one")).toBe(
-    withTopic,
-  );
   // An employer keeps its own name.
   expect(organizationName(core, employer.id)).toBe(employer.name);
 }, 3_600_000);
