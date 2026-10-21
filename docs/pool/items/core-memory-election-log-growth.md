@@ -5,12 +5,12 @@ area: core
 kind: research
 priority: 3
 size: M
-status: in-pr
-claimed-by: claude/memory-player-decisions
+status: open
+claimed-by:
 pr: #5663
 blocked-on: owner-decision-may-player-old-decisions-be-compacted
 source: added with npm run pool -- add
-claimed-at: 2026-10-20T17:44:36.455Z
+claimed-at:
 ---
 
 **What.** After the withholding, campaign, drive-fact and ballot trims a three-year Juliaetta run (seed memremeasure1, place key 1642130) still grows about 8.5 MiB a month. By JSON size the largest tables still growing are `core.durableLog` (+19.8 MB over months 12 to 30), `core.eventIds` (+5.8), `core2-campaigns-v1/money` (+4.7), `core2-employer-taxes-v1/shares` (+3.8), `speech/retellings` (+2.9), `core2-world-races-v1/places` (+2.4) and `candidacy/decisions` (+2.2). The heap also steps up about 35 MB in each election month. Find what the step is (the live-allocation sampler over months 21 to 23 puts holdElection, world-races recordPlaces and campaign speech first) and trim each to what an engine reads.
@@ -30,3 +30,5 @@ Oct 19 (claude/memory-election-log, claimed and released, nothing built). Re-mea
 Measured Oct 19 (claude, claude/political-game-pool-yucp92-i): the three-year run (seed memremeasure1, place key 1642130, CORE2_BOOKKEEPING=0) grows 9.2 MiB a month on main (heap 470 to 790 MB; 569 at month 12, 685 at month 24). At month 14 the durable log holds 10,386 person.acted rows (23.6 MB of JSON) and `core.eventIds` 15,363 ids (1,782 are `office.voted:bill`, 840 `event:economy.state-jobs-report`, 609 `news.read:printed`, then `speech:` ids). Tried: cutting the runner-up and each reason's terms from a condensed circle act (src/core2/decision-detail.ts). The month-by-month heap was within 1 MB of main at every month, so the condensed act records are not where the growth is; the change was reverted. The dropped acts and the log's JSON are small beside the 9 MiB; the growth is held by something the tables do not show (the sampler's scoreOffers, publishEventAppraisal and drives respond allocations). Next step is a heap-snapshot diff between months 20 and 23 with retainers of the largest arrays, not another table trim.
 
 Sent back 2026-10-20 from PR #5623 (branch claude/memory-player-decisions): owner and date notes in parameters.json, decision-detail.ts and the test must not ship; finish on that branch, merge main into it first.
+
+Sent back 2026-10-21 from PR #5645 (branch claude/memory-transfer-ids): docs/pool/items/core-memory-election-log-growth.md:20 requires the named 36-month run at or under 5 MiB per month. This PR reports 8.8 MB per month and explicitly says the goal is not met; the item is also currently attached to #5663. The source-note repair is present, but the transfer-id retention slice needs its own bounded tracking item and duplicate-write/retention proof, leaving the broader memory goal and its current PR open. Do not complete the shared memory item for this partial optimization. No local gate pass is claimed.; finish on that branch, merge main into it first.
