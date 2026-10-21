@@ -7,7 +7,6 @@
  * outside account per place, so every such dollar is reported outside money.
  */
 import { makeIsoDate } from "./kernel/dates";
-import { stopgap } from "./stopgaps";
 import outsideMarket from "./data/outside-market.json" with { type: "json" };
 import type { ResidentFlowInput, ResidentsInput } from "./residents";
 import type { CoreInput, OrganizationInput, Source } from "./types";
@@ -23,7 +22,6 @@ export interface OutsideMarketShare {
 
 export interface OutsideMarketData {
   version: string;
-  stopgapId: string;
   note?: string;
   weeksPerYear: number;
   cadenceDays: number;
@@ -51,6 +49,28 @@ export function outsideMarketAccount(
         "Customers and suppliers outside the town: nonresident consumers, outside businesses, landlords and lenders, and government programs.",
       estimatedFrom: "src/core2/data/outside-market.json",
     },
+    // The account is a recorded owner of its place's outside pay: a worker whose
+    // employer is the outside account is paid from it against an exact due record
+    // (public-work-pay.ts reads this authority and refuses any employer without one).
+    governmentFacts: {
+      governmentKind: "jurisdiction",
+      governmentJurisdictionId: placeId,
+    },
+    publicPayAuthority: {
+      id: `outside-pay:${placeId}`,
+      ownerId: `outside-market:${placeId}`,
+      governmentKey: `jurisdiction:${placeId}`,
+      jurisdictionId: placeId,
+      workCommitmentIds: [],
+      basisRecordIds: [`outside-market:${placeId}`],
+      source: {
+        tag: "ESTIMATED",
+        asOf: start,
+        citation:
+          "The place's outside account pays wages of employers outside the town against dated due records; it holds no cash of its own.",
+        estimatedFrom: "src/core2/data/outside-market.json",
+      },
+    },
     source: {
       tag: "ESTIMATED",
       asOf: start,
@@ -65,7 +85,6 @@ export function addOutsideMarket(
   input: CoreInput,
   data: OutsideMarketData = outsideMarket as OutsideMarketData,
 ): CoreInput {
-  stopgap(data.stopgapId);
   const start = makeIsoDate(input.startedAt);
   const organizations = new Map(input.organizations.map((o) => [o.id, o]));
   const accounts = new Map<string, OrganizationInput>();

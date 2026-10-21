@@ -4,13 +4,13 @@ title: "Stopgaps in laws (missing-engine): 1 open"
 area: laws
 kind: stopgap
 priority: 3
-status: open
-claimed-by:
-pr: #5285
+status: in-pr
+claimed-by: claude/laws-missing-engine
+pr: #5575
 blocked-on:
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/modules/laws.ts, kind missing-engine"
-claimed-at:
+claimed-at: 2026-10-20T06:44:43.650Z
 ---
 
 **What.** Replace or clear the 1 open missing-engine stopgap row(s) in src/core2/modules/laws.ts: SG-GOV-public-pay-floor-owner. Each fake is replaced by the mechanic, or the feature that needs it is deleted.

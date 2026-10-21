@@ -5,7 +5,7 @@ area: core
 kind: feature
 priority: 2
 size: S
-status: in-pr
+status: done
 claimed-by: claude/political-game-pool-3xfqef-27
 pr: #5570
 blocked-on:
