@@ -7,7 +7,7 @@ priority: 3
 size: M
 status: open
 claimed-by:
-pr: #5443
+pr: #5720
 blocked-on:
 source: added with npm run pool -- add
 claimed-at:
@@ -24,3 +24,5 @@ claimed-at:
 Sent back 2026-10-20 from PR #5443 (branch claude/snap-benefit): the played-year test returns early where no SNAP law is in force; redraw instead; finish on that branch, merge main into it first.
 
 **Notes.** Checked Oct 19 before building: SNAP and means-tested benefits appear nowhere in docs/roadmap/political-process-baseline.md, the golden path, DECISION-REGISTER.md or OWNER-DECISIONS.md. AGENTS.md ("This is a game, not a spreadsheet") makes a new baseline benefit a question for the owner, not a feature. OWNER QUESTION: should the game pay households a baseline SNAP benefit, or should the assistance law stay a rule on the welfare line's raise only? Until he rules, leave this item unbuilt. Split from laws-stopgap-reach-group-b-missing-engine on Oct 19; the stopgap rows named above are its 13.
+
+Sent back 2026-10-20 from PR #5720 (branch claude/political-game-pool-yucp92-bt): merging main conflicts in the group-b food-aid and money code: #5652 already put a SNAP benefit on main, so reconcile with it first; finish on that branch, merge main into it first.

@@ -1,6 +1,8 @@
 ---
 id: office-presidential-orders-pardons-the-situation-room
-impact: none
+impact: patch
+section: Improved
+title: A president's order raises federal pay
 ---
 
-Engine only: a president order the public pay floor review reads; no screen yet.
+A president can now issue an order that sets federal pay policy. The public pay review reads the order in force, so federal workers' paychecks change with it. Pardons and the situation room are not built yet.

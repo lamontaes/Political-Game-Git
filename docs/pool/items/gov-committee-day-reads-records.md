@@ -5,7 +5,7 @@ area: gov
 kind: wiring
 priority: 2
 size: M
-status: claimed
+status: done
 claimed-by: claude/committee-day-records
 pr: #5168
 after:

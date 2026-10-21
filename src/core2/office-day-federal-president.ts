@@ -55,14 +55,18 @@ import {
   OFFICE_DAY_FEDERAL_MODULE_ID,
   addFederalDayPart,
   addFederalWorldPart,
-  clearPreparedFederal,
   federalParameter,
   federalSeatOf,
   holdFederal,
-  preparedFederal,
   releaseFederal,
 } from "./office-day-federal";
-import { officeActsOf, officeHost, stopsOf } from "./modules/office-day";
+import {
+  clearPrepared,
+  officeActsOf,
+  officeHost,
+  preparedFor,
+  stopsOf,
+} from "./modules/office-day";
 import {
   issuePresidentialOrder,
   pendingPresidentialOrders,
@@ -649,9 +653,9 @@ addFederalDayPart((api, personId) => {
     budgetRequestDate(year(date)).date === date &&
     !gave(api, personId, "budget-request", date)
   ) {
-    const prepared = preparedFederal(api, personId, BUDGET_REQUEST);
+    const prepared = preparedFor(api, personId, BUDGET_REQUEST);
     requestBudget(api, personId, prepared?.changes);
-    clearPreparedFederal(api, personId, BUDGET_REQUEST);
+    clearPrepared(api, personId, BUDGET_REQUEST);
   }
   if (
     budgetRequestDate(year(tomorrow)).date === tomorrow &&
@@ -662,7 +666,7 @@ addFederalDayPart((api, personId) => {
     jointAddress(year(date)).date === date &&
     !gave(api, personId, "joint-address", date)
   ) {
-    const answers = preparedFederal(api, personId, JOINT_ADDRESS)?.answers;
+    const answers = preparedFor(api, personId, JOINT_ADDRESS)?.answers;
     deliverAddress(
       api,
       personId,
@@ -672,7 +676,7 @@ addFederalDayPart((api, personId) => {
           position,
         })),
     );
-    clearPreparedFederal(api, personId, JOINT_ADDRESS);
+    clearPrepared(api, personId, JOINT_ADDRESS);
   }
   if (jointAddress(year(tomorrow)).date === tomorrow && stops["joint-address"])
     holdFederal(
