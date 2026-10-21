@@ -7,10 +7,9 @@
  *
  * The rate, the cap and who's paid come from the law in force (OPUS-GOV's
  * `lawInForce(api, "property-tax")` and the county's treasury), registered
- * with `registerPropertyTax` by the budgets module. Where the law in force
- * records no rate, the state's average effective rate is the estimate, paid
- * outside the town. The levy is paid monthly, as through escrow: the budgets
- * read the year's total, and no county's due dates are in the law data.
+ * with `registerPropertyTax` by the budgets engine. Where none is registered
+ * nothing is billed. The state's average effective rate still sizes the
+ * opening's outside living cost (`stateEffectiveRate`).
  */
 import taxData from "./data/housing/property-tax.json" with { type: "json" };
 import { countedPayment } from "./counted-money";
@@ -43,7 +42,7 @@ export interface PropertyTaxArrearsRow {
 }
 
 const ARREARS_PREFIX = "tax-arrears:";
-const STATE_AVERAGE_LAW = "property-tax:state-average-rate";
+const UNNAMED_LAW = "property-tax:unnamed-law-row";
 
 type TermsSource = (
   api: CoreAPI,
@@ -91,7 +90,7 @@ export function propertyTaxDueDates(usps: string): PropertyTaxDueDates {
 /**
  * The property tax rate in force where owners are billed, as a share of home
  * value, and the law row it stands on; none until a government's rate is
- * registered (the state average the engine falls back on is not a rate in force).
+ * registered.
  */
 export function propertyTaxRateInForce(
   api: CoreAPI,
@@ -105,19 +104,9 @@ export function propertyTaxRateInForce(
     : null;
 }
 
-function terms(api: CoreAPI, placeId: string): PropertyTaxTerms {
-  const registered = termsSource?.(api, placeId);
-  if (registered) return registered;
-  return {
-    rate: stateEffectiveRate(api.state.placeMetadata?.housingState ?? ""),
-    source: {
-      tag: "ESTIMATED",
-      asOf: api.state.date,
-      citation: taxData.source.citation,
-      estimatedFrom:
-        "The state's average effective rate on owner-occupied homes, where the law in force records no rate.",
-    },
-  };
+/** The rate, cap and payee in force; none where no law is registered (the budgets engine registers it from the law in force). */
+function terms(api: CoreAPI, placeId: string): PropertyTaxTerms | undefined {
+  return termsSource?.(api, placeId);
 }
 
 interface AssessmentRow {
@@ -142,6 +131,8 @@ export function billPropertyTax(
   const c = api.state as CoreState,
     year = Number(c.date.slice(0, 4)),
     months = api.parameter("macroMonthsPerYear");
+  // Monthly, as escrow pays it; a county's own due dates (once or twice a year) come with its law.
+  api.stopgap("SG-WORLD-property-tax-monthly");
   const owedRow = (id: string) =>
     arrears.get(ARREARS_PREFIX + id) as unknown as
       PropertyTaxArrearsRow | undefined;
@@ -164,13 +155,14 @@ export function billPropertyTax(
       placeId: home.placeId,
       amountMinor: unpaid,
       since: prior?.since ?? c.date,
-      lawRowId: prior?.lawRowId ?? t.lawRowId ?? STATE_AVERAGE_LAW,
+      lawRowId: prior?.lawRowId ?? t.lawRowId ?? UNNAMED_LAW,
     });
   };
-  const byPlace = new Map<string, PropertyTaxTerms>();
+  const byPlace = new Map<string, PropertyTaxTerms | null>();
   const termsFor = (placeId: string) => {
     let row = byPlace.get(placeId);
-    if (!row) byPlace.set(placeId, (row = terms(api, placeId)));
+    if (row === undefined)
+      byPlace.set(placeId, (row = terms(api, placeId) ?? null));
     return row;
   };
   const payee = (placeId: string, t: PropertyTaxTerms) =>
@@ -181,6 +173,8 @@ export function billPropertyTax(
   let total = 0;
   for (const home of homes) {
     const t = termsFor(home.placeId);
+    // No law in force for this place: nothing is billed.
+    if (!t) continue;
     const id = `assessment:${home.householdId}`;
     const last = assessments.get(id) as unknown as AssessmentRow | undefined;
     // Each January the assessment follows the market, no faster than a cap where the law sets one.
@@ -222,7 +216,7 @@ export function billPropertyTax(
         if (paid >= bill) break;
         paid += transferCash(
           api,
-          `property-tax:${home.householdId}:${c.date}:${personId}:${t.lawRowId ?? STATE_AVERAGE_LAW}:${t.assessmentLawRowId ?? "uncapped"}`,
+          `property-tax:${home.householdId}:${c.date}:${personId}:${t.lawRowId ?? UNNAMED_LAW}:${t.assessmentLawRowId ?? "uncapped"}`,
           personId,
           to,
           bill - paid,
@@ -233,7 +227,7 @@ export function billPropertyTax(
       keepArrears(home.householdId, home, t, bill - paid);
     } else {
       const paid = countedPayment(api, {
-        id: `property-tax:${home.householdId}:${c.date}:${t.lawRowId ?? STATE_AVERAGE_LAW}:${t.assessmentLawRowId ?? "uncapped"}`,
+        id: `property-tax:${home.householdId}:${c.date}:${t.lawRowId ?? UNNAMED_LAW}:${t.assessmentLawRowId ?? "uncapped"}`,
         placeId: home.placeId,
         householdId: home.householdId,
         otherOwnerId: to,
