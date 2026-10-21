@@ -77,13 +77,23 @@ describe("a settlement under the right to counsel is a notice", () => {
           .filter((st) => st !== undefined);
         expect(held.length, `${where}: ${row.id} nobody was told`).toBe(1);
         expect(held[0]!.desiredChange, where).toBe("enact");
+        // The holder received the notice the day the case settled.
+        const notice = `event:event:housing.settlement-notice:${row.id}:${row.settledAt}:experienced`;
         expect(
-          held[0]!.causes.some((c) =>
-            String(c.learnedFrom).includes(
-              `housing.settlement-notice:${row.id}:`,
-            ),
+          api.knows(held[0]!.personId, notice),
+          `${where}: ${notice}`,
+        ).toBe(true);
+        // Outside the player's circle a stance keeps only its latest cause,
+        // so the notice is cited unless a later source moved it since.
+        const cited = held[0]!.causes.some((c) =>
+          String(c.learnedFrom).includes(
+            `housing.settlement-notice:${row.id}:`,
           ),
-          `${where}: ${row.id}`,
+        );
+        const latest = held[0]!.causes.at(-1)!;
+        expect(
+          cited || latest.date > row.settledAt!,
+          `${where}: ${row.id} ${JSON.stringify(held[0]!.causes)}`,
         ).toBe(true);
       }
       return;
