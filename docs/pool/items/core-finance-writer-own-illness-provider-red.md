@@ -5,11 +5,12 @@ area: core
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/finance-writer-own-illness
+pr: #5829
 blocked-on:
 source: clean main af83f0e661, found while validating the unused funding-plan cleanup
+claimed-at: 2026-10-21T21:44:06.358Z
 ---
 
 **What.** Four finance-writer-contract.test.ts cases fail on clean main with an unregistered work.own-illness reason provider. Their free work admission reaches scoreOffers with that binding but no provider installed in the minimal fixture. The exception prevents the tests from reaching their intended closure, rejected-admission and finite-lender conservation assertions, so repair the fixture wiring or the owning eligibility gate at its source.

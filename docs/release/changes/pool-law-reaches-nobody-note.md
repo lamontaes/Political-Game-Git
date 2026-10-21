@@ -1,5 +1,5 @@
 ---
-id: pool-speed-alloc-profile
+id: pool-law-reaches-nobody-note
 impact: none
 ---
 

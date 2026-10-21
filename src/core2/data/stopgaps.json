@@ -32,8 +32,8 @@
     "why": "P13 reported that twenty school acquaintances contacted the player on 134 to 236 of 355 days in the measured year; these are P13 measurements, not independently rerun here.",
     "addedBy": "SOL-1258",
     "addedAt": "2026-10-09",
-    "replacement": "Source-qualified contact-frequency and availability by current tie type, checked against actual contacts in the ordinary world rather than a forced encounter schedule.",
-    "status": "open"
+    "replacement": "Measured in played worlds (src/core2/life-contact-frequency.test.ts, a drawn place and seed each run): over 355 days the player's acquaintances outside the household are in contact on 0 to 52 days (most on 0 to 3), against P13's 134 to 236; contact follows the company need and the tie, with no forced encounter schedule. The household's own contact is SG-P8-household-shared-time-contact.",
+    "status": "resolved"
   },
   {
     "id": "SG-P8-household-shared-time-contact",
@@ -2689,12 +2689,12 @@
     "id": "SG-WORLD-housing-island-areas",
     "kind": "assumed-data",
     "file": "src/core2/modules/housing.ts",
-    "line": 134,
-    "whatItFakes": "Where no ACS tenure or rent table covers a place (American Samoa, Guam, the Northern Marianas, the Virgin Islands), homes are owned in the nation's share and rents and values start at the nation's household-weighted county medians.",
-    "why": "The American Community Survey does not cover the four island areas; their 2020 Census tables are not in the data yet.",
+    "line": 160,
+    "whatItFakes": "A place that no Census county table covers and that is not one of the four island areas (American Samoa, Guam, the Northern Marianas, the Virgin Islands, which now start from their own Census 2020 rows) starts from the nation's owner share and household-weighted county medians.",
+    "why": "Every other place has a Census county tenure, rent and value table or one of the four island areas' own Census 2020 rows; a place with neither has no table of its own in the data.",
     "addedBy": "OPUS-WORLD",
     "addedAt": "2026-10-12",
-    "replacement": "Census 2020 Island Areas tenure, gross rent and value tables for each island area.",
+    "replacement": "That place's own tenure, rent and value table; if no such place is reachable, delete the fallback and this row.",
     "status": "open"
   },
   {
