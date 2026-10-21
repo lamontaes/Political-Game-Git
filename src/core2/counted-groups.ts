@@ -342,11 +342,6 @@ export class CountedStore {
     return m !== undefined && this.isCounted(m) ? m : undefined;
   }
 
-  /** The household record a member belongs to. */
-  householdOfMember(member: number): CountedHousehold {
-    return this.households[this.household[member]!]!;
-  }
-
   group(key: GroupKey): CountedGroup {
     const id = groupId(key);
     let ix = this.groupOf.get(id);
