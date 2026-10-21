@@ -6,6 +6,7 @@
  */
 import { makeIsoDate } from "./kernel/dates";
 import { financeIndex } from "./finance-state";
+import { admitPublicPayAuthority } from "./public-work-pay";
 import type { WorkPayrollCalendarInput } from "./work-pay-period";
 import type {
   CoreAPI,
@@ -39,6 +40,24 @@ export function startRecordedJob(
     makeIsoDate(commitment.startsAt) < core.date
   )
     throw new Error("A job start's commitment and calendar must be its own.");
+  // A hire at a public employer joins the employer's public pay authority:
+  // its due pay is resolved only for the commitments the authority owns.
+  const employer = core.organizations.get(job.organizationId)!;
+  const authority = employer.publicPayAuthority;
+  if (commitment.publicPayAuthorityId !== undefined) {
+    if (authority?.id !== commitment.publicPayAuthorityId)
+      throw new Error(
+        "A job start's public pay authority must be its employer's.",
+      );
+    if (!authority.workCommitmentIds.includes(commitment.id))
+      employer.publicPayAuthority = admitPublicPayAuthority(
+        {
+          ...authority,
+          workCommitmentIds: [...authority.workCommitmentIds, commitment.id],
+        },
+        core.date,
+      );
+  }
   core.jobs.set(job.id, { ...job });
   financeIndex(core.finance.jobsByOrganization, job.organizationId, job.id);
   api.updatePerson(actor.id, { jobId: job.id });
@@ -72,6 +91,22 @@ export function startSalariedPost(
   core.jobs.set(job.id, { ...job });
   financeIndex(core.finance.jobsByOrganization, job.organizationId, job.id);
   api.updatePerson(actor.id, { jobId: job.id });
+}
+
+/**
+ * Whether the person already worked today: a job ends before its day's work
+ * (calendar work runs first on the world's clock, but after the day on the
+ * player's), so someone who has worked today cannot leave theirs for a new
+ * post until tomorrow.
+ */
+export function workedToday(
+  core: CoreState,
+  person: Readonly<{ jobId?: string }>,
+): boolean {
+  return (
+    !!person.jobId &&
+    core.work.lastAttendanceByJob.get(person.jobId)?.date === core.date
+  );
 }
 
 export function endRecordedJob(

@@ -4,10 +4,10 @@ title: "Stopgaps in whole-figures (missing-data): 1 open"
 area: play
 kind: stopgap
 priority: 3
-status: open
+status: blocked
 claimed-by:
 pr:
-blocked-on:
+blocked-on: engine or design: The approved art has 4 teen and 4 child looks, one activity each, and no adult version of any teen look.
 milestone:
 source: "src/core2/data/stopgaps.json, src/bench/whole-figures.ts, kind missing-data"
 ---
