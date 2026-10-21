@@ -569,7 +569,7 @@
     "file": "src/core2/data/parameters.json",
     "line": 1911,
     "whatItFakes": "Every borrower repays its facilities from half of its cash (businessRepaymentShare, an authored liquidity policy) in finishFinanceDay, with no underwriting, priority-of-claims policy or lender decision behind it.",
-    "why": "The finance engine settles facility interest and repayment with finite cash, but the share a firm repays is one authored number, not a behavior rule. The unused pure funding-plan calculator that also carried this stopgap was deleted (pool item core-stopgap-parameters-authored-finance-policy).",
+    "why": "The finance engine settles facility interest and repayment with finite cash, but the share a firm repays is one authored number, not a behavior rule.",
     "addedBy": "SOL-1258",
     "addedAt": "2026-10-09",
     "replacement": "Recorded facility terms and a repayment decision from the firm's cash need, the lender's terms and claim priority, with the share derived from them.",
