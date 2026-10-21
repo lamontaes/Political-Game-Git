@@ -13,13 +13,20 @@ import { buildBenchWorld } from "../bench/world";
 import { gameStartDate } from "./game-start";
 import { addDays, makeIsoDate } from "./kernel/dates";
 import { advanceCore } from "./life";
-import { budgetPriorities, budgetsOf, governments } from "./modules/budgets";
+import {
+  BUDGETS_MODULE_ID,
+  budgetPriorities,
+  budgetsOf,
+  governments,
+} from "./modules/budgets";
+import { treasuryMonthsOf, treasuryParameter } from "./budgets-treasury";
 import { officeActsOf, officeHost, prepareAct } from "./modules/office-day";
 import { townSeats } from "./modules/offices";
 import {
   executiveBudgetChanges,
   LEGISLATURE_MODULE_ID,
   memberKey,
+  registerLegislatureHooks,
   type BillRow,
 } from "./modules/legislature";
 import { hireStaff, servingStaffOf, staffCandidates } from "./modules/staff";
@@ -28,6 +35,16 @@ import { budgetHearingOf } from "./modules/legislature";
 import { coreAPI } from "./state";
 
 const seed = process.env.BUDGET_SEASON_SEED ?? randomBytes(8).toString("hex");
+// How many times the pre-vote pass reached each bill: a floor-stage hook of
+// the test's own, which the hearing must run once and nothing run again.
+const hookRuns = new Map<string, number>();
+registerLegislatureHooks({
+  beforeVote: {
+    name: "budget-season-test",
+    run: (_api, billId) =>
+      hookRuns.set(billId, (hookRuns.get(billId) ?? 0) + 1),
+  },
+});
 
 it("the executive's budget act opens in its season and its changes are what the council votes", () => {
   const tried: string[] = [];
@@ -131,8 +148,41 @@ it("the executive's budget act opens in its season and its changes are what the 
     const adopted = budgetsOf(api, city.id).find(
       (b) => b.adoptedOn === next || b.startsOn === next,
     );
+    // Each pre-vote handler ran once on the budget bill, at the hearing.
+    expect(hookRuns.get(bill!.id), `${where}: hooks on ${bill!.id}`).toBe(1);
+    const ran = bill!.hooksRun ?? [];
+    expect(new Set(ran).size, `${where}: ${ran.join(", ")}`).toBe(ran.length);
+    expect(ran, where).toContain("budget-season-test");
+    expect(adopted, `${where}: the ${fiscalYear} budget adopted`).toBeDefined();
+    // The treasury reads the passed budget when it pays: the first month
+    // closed under it pays the line's twelfth plus what it fell short before.
+    const months = api.moduleState(BUDGETS_MODULE_ID);
+    const owedBefore =
+      (
+        months.table("arrears").get(city.id) as unknown as
+          { lines: Record<string, number> } | undefined
+      )?.lines[line] ?? 0;
+    const paidUnder = () =>
+      treasuryMonthsOf(api, city.id).find((m) => m.budgetId === adopted!.id);
+    for (let day = 0; day < 45 && !paidUnder(); day += 1)
+      advanceCore(core, addDays(makeIsoDate(core.date), 1));
+    const month = paidUnder();
+    expect(
+      month,
+      `${where}: a treasury month under ${adopted!.id}`,
+    ).toBeDefined();
+    const paidLine = month!.lines[line]!;
+    expect(paidLine.dueMinor, `${where}: ${month!.id} ${line}`).toBe(
+      Math.round(
+        (adopted!.spendingMinor[line] ?? 0) /
+          treasuryParameter("monthsPerYear"),
+      ) + owedBefore,
+    );
+    const linePayments = month!.paymentIds.filter((id) =>
+      id.includes(`:${line}:`),
+    );
     process.stdout.write(
-      `${where}: mayor ${mayorId} sent priorities:${city.id}; ${hearing!.id} on ${hearing!.heldOn} with ${hearing!.speakerIds.length} speakers; bill ${bill!.id}; adopted ${adopted?.id}\n`,
+      `${where}: mayor ${mayorId} sent priorities:${city.id}; ${hearing!.id} on ${hearing!.heldOn} with ${hearing!.speakerIds.length} speakers; bill ${bill!.id} (hooks once: ${ran.join(", ")}); adopted ${adopted!.id} with ${line} at ${adopted!.spendingMinor[line]}; ${month!.id} paid ${line} due ${paidLine.dueMinor} (in town ${paidLine.inTownMinor}, providers ${paidLine.providersMinor}, outside ${paidLine.outsideMinor}) by ${linePayments.join(", ") || "in-town pay only"}\n`,
     );
     return;
   }

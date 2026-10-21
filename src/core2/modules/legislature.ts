@@ -512,7 +512,7 @@ function holdCouncilBudgetHearing(
     sponsorId: sponsor,
     provisions,
   });
-  for (const hook of beforeVoteHooks) hook.run(api, bill.id);
+  runBeforeVote(api, bill.id, "hearing");
   const speakers = remarkSpeakers(api, bill.id);
   const row: BudgetHearingRow = {
     id: `hearing:${gov.id}:${fy}`,
@@ -3489,12 +3489,14 @@ export function movesPill(
  * Run the pre-vote hooks the records fire for a body on a sitting day. The
  * committee's day runs the ones the data puts at the committee stage
  * (`committee-day.json`) and marks them on the bill; the floor day runs every
- * hook that has not run.
+ * hook that has not run. A budget's public hearing is the bill's one pass
+ * before its vote: it runs every hook that has not run and marks each, so no
+ * later pass runs one again.
  */
 function runBeforeVote(
   api: CoreAPI,
   billId: string,
-  stage: "committee" | "floor",
+  stage: "committee" | "floor" | "hearing",
 ): void {
   for (const hook of beforeVoteHooks) {
     if (stage === "committee" && !committeeStageHooks.has(hook.name)) continue;
@@ -3502,7 +3504,7 @@ function runBeforeVote(
       BillRow | undefined;
     if (!bill || bill.hooksRun?.includes(hook.name)) continue;
     hook.run(api, billId);
-    if (stage !== "committee") continue;
+    if (stage === "floor") continue;
     const after = table(api, "bills").get(billId) as unknown as BillRow;
     table(api, "bills").put({
       ...after,
