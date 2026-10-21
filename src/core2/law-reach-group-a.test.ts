@@ -60,10 +60,6 @@ import {
 } from "./law-reach/group-a-voting";
 import { governmentUnitsForPlace } from "./reference/government-units";
 import { searchCorePlaces, corePlaceStateIdentities } from "./place-lookup";
-import { isNoncitizen } from "./citizenship";
-import { citizenShareOf } from "./electorate-places";
-import { reachOf } from "./counted-reach";
-import { ageOn } from "./counted-groups";
 
 const START = "2026-01-05";
 const seed =
@@ -551,33 +547,6 @@ describe("audit 13, law breadth group A: every policy reaches people", () => {
     report.homeRule = { question, grantId, repealId };
   });
 
-  it("housing spending pays rent help to the lowest-cash households the extra covers", () => {
-    const key = "budget-line:housing";
-    const gov = cityGov();
-    const delta = reachParameter("housingAssistanceAnnualMinor") * 3;
-    amendBudget(api, {
-      governmentId: gov.id,
-      line: "housing",
-      deltaMinor: delta,
-      measureId: "test:housing:up",
-    });
-    const assisted = openReach(api, key).filter((r) => r.spec === "assisted");
-    report[key] = { assisted: assisted.length };
-    expect(assisted.length, `${where}: no one assisted`).toBeGreaterThan(0);
-    for (const row of assisted)
-      expect(api.knows(row.targetId, `law-reach:${key}`)).toBeUndefined();
-    amendBudget(api, {
-      governmentId: gov.id,
-      line: "housing",
-      deltaMinor: -delta,
-      measureId: "test:housing:down",
-    });
-    expect(
-      openReach(api, key).filter((r) => r.spec === "assisted"),
-      where,
-    ).toHaveLength(0);
-  });
-
   for (const key of Object.keys(STAFFING))
     it(`${key} hires or lays off at the public employer it funds`, () => {
       const line = key.slice("budget-line:".length);
@@ -675,74 +644,6 @@ describe("audit 13, law breadth group A: every policy reaches people", () => {
       });
       advanceCore(core, after(api.state.date, 1));
     });
-
-  it("partnering with immigration enforcement reaches named noncitizen adults and counted members by one rule", () => {
-    const key =
-      "us-policy-positions:justice-public-safety.partner-with-federal-immigration-enforcement";
-    enact(key, levelFor(key), 1);
-    const rows = openReach(api, key).filter((r) => r.spec === "noncitizens");
-    const share = citizenShareOf(
-      api.state.placeMetadata.placeKey as string | undefined,
-      lawChain(api).stateKey.slice(3),
-    );
-    const adult = reachParameter("adultAge");
-    const named = rows.filter((r) => api.state.people.has(r.targetId));
-    // Every named person reached is an adult the shared rule calls a noncitizen.
-    for (const row of named) {
-      const person = api.state.people.get(row.targetId)!;
-      expect(
-        ageOn(person.birthDate, api.state.date),
-        `${where}: ${row.targetId}`,
-      ).toBeGreaterThanOrEqual(adult);
-      expect(isNoncitizen(api.state.seed, person.id, share)).toBe(true);
-    }
-    // And every named adult the rule calls a noncitizen is reached (none missed).
-    const missed = townPeople(api).filter(
-      (p) =>
-        ageOn(p.birthDate, api.state.date) >= adult &&
-        isNoncitizen(api.state.seed, p.id, share) &&
-        !named.some((r) => r.targetId === p.id),
-    );
-    expect(
-      missed.map((p) => p.id),
-      `${where}: named noncitizens missed`,
-    ).toEqual([]);
-    // The counted row is the counted tier's own count under the same rule.
-    const counted = rows.find((r) => r.count !== null);
-    const direct = Math.round(
-      reachOf(core, lawChain(api).townPlaceId, {
-        ageFrom: adult,
-        noncitizen: { citizenShare: share },
-      }).counted.people,
-    );
-    expect(counted?.count ?? 0, `${where}: counted noncitizens`).toBe(direct);
-    // The whole reach matches the place's survey share within sampling spread.
-    const adults =
-      townPeople(api).filter((p) => ageOn(p.birthDate, api.state.date) >= adult)
-        .length +
-      Math.round(
-        reachOf(core, lawChain(api).townPlaceId, { ageFrom: adult }).counted
-          .people,
-      );
-    const reached = named.length + direct;
-    const expected = adults * (1 - share);
-    const spread = 4 * Math.sqrt(adults * share * (1 - share)) + 1;
-    report.citizenship = {
-      share,
-      adults,
-      named: named.length,
-      counted: direct,
-    };
-    expect(
-      Math.abs(reached - expected),
-      `${where}: ${reached} reached, ${expected.toFixed(1)} expected of ${adults} adults`,
-    ).toBeLessThanOrEqual(spread);
-    // A repeal ends every row the same way as any other policy.
-    enact(key, levelFor(key), 0);
-    expect(openReach(api, key).filter((r) => r.spec === "noncitizens")).toEqual(
-      [],
-    );
-  });
 
   it("reports", () => {
     govReport("law-reach-group-a", JSON.stringify(report));

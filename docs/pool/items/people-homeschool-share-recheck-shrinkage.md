@@ -5,12 +5,13 @@ area: people
 kind: research
 priority: 3
 size: S
-status: open
-claimed-by:
-pr:
+status: done
+claimed-by: claude/homeschool-error-bars
+pr: #5608
 blocked-on:
 after: people-homeschool-share-by-state
 source: added with npm run pool -- add
+claimed-at: 2026-10-20T08:22:42.152Z
 ---
 
 **What.** Compare the shrunk state homeschool shares with the replicate-weight standard errors in docs/reports/homeschool-share-error-bars-2026-10-20.md and say whether the pull of 40 household records is large enough.
