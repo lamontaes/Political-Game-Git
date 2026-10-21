@@ -5,19 +5,20 @@ area: core
 kind: cleanup
 priority: 2
 size: S
-status: open
-claimed-by:
-pr:
+status: done
+claimed-by: claude/old-imports-tooling
+pr: #5032
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-18T02:34:22.508Z
 ---
 
-**What.** Three tooling scripts under `src/core2/tooling/` import the old engine: `generated-world.ts` (history index and world), `build-place-lookup-data.ts` (legislation scenarios, demo jurisdiction context, legislature rule packs, seats of government, state reference) and `build-opening-schools.ts` (local institutions data). Point each at the core's copy of the data or the file it generates from, and delete what nothing else reads. These run at build time, not in play.
+**What.** Two tooling scripts under `src/core2/tooling/` imported the old engine for work that is already done: `build-opening-schools.ts` read one type from the old institutions file, and `build-place-lookup-data.ts` generated `place-lookup.json` once at port time from six old-engine sources. The schools script now defines the file shape it reads, and the one-time place lookup generator is deleted, since its data file is the product and nothing reruns it. The third script, `generated-world.ts`, releases the old World's history and checks, which the opening's old World still needs, so it moves with core-old-imports-population.
 
-**Rules.** Replace, never layer: the old import is deleted when its replacement lands. Build only what the golden path needs. Same town by record id for a drawn place before and after. One rule, all 56 places: no place is named in code.
+**Rules.** Replace, never layer: the old import is deleted when its replacement lands, and a generator whose output is checked in and whose sources are being deleted is deleted too. One rule, all 56 places: no place is named in code.
 
-**Done when.** The grep for imports of the old engine under `src/core2/tooling` prints nothing, the typecheck passes, and each script writes the same output file it wrote before, checked by hash in the PR body, on a drawn place and a seed the builder did not choose, with a test in src/core2 that names the file.
+**Done when.** The grep for imports of the old engine in `src/core2/tooling/build-opening-schools.ts` and `src/core2/tooling/build-place-lookup-data.ts` prints nothing, the typecheck passes, rerunning the schools script writes `src/core2/data/opening-schools.json` with the same hash, and the place lookup and disaster tests pass on a drawn place and a random seed.
 
-**Files.** src/core2/tooling/generated-world.ts, src/core2/tooling/build-place-lookup-data.ts, src/core2/tooling/build-opening-schools.ts
+**Files.** src/core2/tooling/build-opening-schools.ts, src/core2/tooling/build-place-lookup-data.ts, src/core2/place-lookup.ts, src/core2/data/places/place-lookup.json
 
-**Notes.** Split Oct 17 from core-old-imports-opening-builders. Tooling only; nothing in play reads these.
+**Notes.** Built Oct 17 (claude/old-imports-tooling). The schools output hash is 3d803165f927020e before and after (first 16 characters of the sha256). `generated-world.ts` stays with core-old-imports-population.

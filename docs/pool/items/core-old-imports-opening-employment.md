@@ -5,19 +5,20 @@ area: core
 kind: cleanup
 priority: 2
 size: M
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/old-imports-opening-employment
+pr: #5071
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-19T18:11:11.377Z
 ---
 
-**What.** `src/core2/opening-employment.ts` imports the old engine's `living-world/town-employment` (1,718 lines, with its generated meta), `life-queries` (1,206 lines, read by 199 files) and `justice/jail-terms`. Move what the opening's job allocation uses into the core and delete the rest. The opening's job allocation is the only reader in the core.
+**What.** The opening's employment allocation still imports the old town-employment, life-queries and jail-terms code. Port only what the allocation uses into the core and read the core's own copies. Delete the old imports from the opening files in the same change, so nothing is left layered beside the new reads.
 
-**Rules.** Replace, never layer: the old import is deleted when its replacement lands. Build only what the golden path needs. Same town by record id for a drawn place before and after. One rule, all 56 places: no place is named in code.
+**Rules.** Replace, never layer: the old import is deleted in the same change that adds the core's read, and the PR body counts what was removed. One rule, all 56 places: the allocation reads place facts from data and never names a place.
 
-**Done when.** The grep for imports of the old engine in `src/core2/opening-employment.ts` prints nothing, the typecheck passes, and a drawn-place opening allocates the same jobs by record id before and after.
+**Done when.** For a drawn place and a seed the builder did not choose, the opening built by `buildBenchWorld` allocates the same jobs by record id before and after, `opening-employment-provenance.test.ts` passes, and a search shows no import of the old town-employment, life-queries or jail-terms modules in the opening files.
 
-**Files.** src/core2/opening-employment.ts, src/simulation/living-world/town-employment.ts, src/simulation/life-queries.ts, src/simulation/justice/jail-terms.ts
+**Files.** src/core2/opening-employment.ts, src/core2/opening-employment-provenance.test.ts
 
-**Notes.** Split Oct 17 from core-old-imports-opening-builders. `population.ts` also reads `ensureTownEmployment` and `organizationProfileAt`, so the move may be shared with core-old-imports-population.
+**Notes.** Body filled Oct 19 (claude) from the title and the repo's engine layout; the claimant should sharpen it.

@@ -1,4 +1,4 @@
-import type { DecisionDeclaration } from "../trait-packs";
+import type { DecisionDeclaration } from "../../core2/trait-packs";
 
 /**
  * Whether somebody serving a sentence asks for clemency, published for the

@@ -5,12 +5,12 @@ area: gov
 kind: wiring
 priority: 3
 size: S
-status: open
-claimed-by:
+status: done
+claimed-by: claude/results-where-won
 pr: #4947
 blocked-on:
 source: added with npm run pool -- add
-claimed-at:
+claimed-at: 2026-10-19T18:29:37.731Z
 ---
 
 **What.** In a one-year run of the played world (Parrott, Virginia (5160840), seed 0ad0af8699c4, `node --import tsx scripts/core2-year/table-trace.ts 0ad0af8699c4 365`), the voting engine writes counted-ballot and place rows that no other engine reads in the traced year: `core2-voting-v1/countedBallots` (4 rows), `core2-voting-v1/places` (400 rows). An effect is a read, so a table written and read by no other engine is a record that does nothing. Check first whether a screen reads it (the headless run does not open screens); if one does, say so in the item and close it; otherwise give the table a reader that decides something, or delete the writer and the table in the same change.
