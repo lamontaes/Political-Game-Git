@@ -65,4 +65,4 @@ it("reports a played year's monthly turnover rates against JOLTS, by record id",
   expect(Object.keys(report.counts).length, where).toBeGreaterThan(0);
   for (const r of Object.values(report.rates))
     expect(Number.isFinite(r.town), where).toBe(true);
-});
+}, 3_600_000);

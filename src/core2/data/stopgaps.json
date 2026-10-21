@@ -1292,7 +1292,7 @@
     "why": "Two-level population (owner, Oct 11): only the circle is simulated person by person; the merged flows keep every monthly total equal to the full opening.",
     "addedBy": "OPUS-CORE",
     "addedAt": "2026-10-12",
-    "replacement": "Wider-population spending timed from the counts' pay dates and income, with absence and turnover rates by industry checked against BLS JOLTS and CPS.",
+    "replacement": "Wider-population spending timed from the counts' pay dates and income, and absence and turnover by industry read from the counts. The rows to check against are sourced (data/research/people/jolts-cps-turnover-absence-2025.json: BLS JOLTS 2025 annual hires, separations, quits and layoffs rates and CPS 2025 absence rates by industry), read by src/core2/turnover-check.ts; the mechanic that uses them is pool item people-residents-cadence-mechanic. Measured Oct 21 (Salem, Utah, seed 07f42052624493fd): hires 2.18 a month against JOLTS 3.3, quits 2.11 against 2.0, layoffs 0.27 against 1.1, separations 2.68 against 3.3.",
     "status": "open"
   },
   {
