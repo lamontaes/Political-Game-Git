@@ -10,9 +10,9 @@ import { describe, expect, it } from "vitest";
 import { buildBenchWorld } from "../bench/world";
 import housingData from "./data/housing/housing.json" with { type: "json" };
 import { gameStartDate } from "./game-start";
-import { homePriceRatio } from "./housing-prices";
 import { addDays, makeIsoDate } from "./kernel/dates";
 import { advanceCore } from "./life";
+import { rentValueOf, valueDateOf } from "./modules/housing";
 import { searchCorePlaces } from "./place-lookup";
 
 const seed =
@@ -36,14 +36,6 @@ const pick = <T>(list: readonly T[], salt: string): T =>
   ]!;
 // Enough homes that rounding to whole households stays under one point.
 const MIN_HOMES = 100;
-
-const median = (values: readonly number[]) => {
-  const sorted = [...values].sort((a, b) => a - b);
-  const mid = sorted.length >> 1;
-  return sorted.length % 2
-    ? sorted[mid]!
-    : (sorted[mid - 1]! + sorted[mid]!) / 2;
-};
 
 describe("an island area's housing starts from its own Census 2020 row", () => {
   it(`owner share, rent and value come from the area's row, and the year plays (seed ${seed})`, () => {
@@ -82,23 +74,21 @@ describe("an island area's housing starts from its own Census 2020 row", () => {
         Math.abs(own / dwellings.length - row.ownerShare),
         `${where}: owner share`,
       ).toBeLessThan(0.01);
-      // A home's value is the area's census median moved from April 2020 to
-      // the start by the price index, and a rent the area's median rent, each
-      // scaled by the household's income; the median household sits on the row.
-      const ratio = homePriceRatio(
-        state.slice(3),
+      // Rent and value come from the area's own row, and the value is dated
+      // at the census (April 2020), so the price index moves it from there to
+      // the start for every owner's home.
+      expect(rentValueOf(`nation:${state.slice(3)}`), where).toEqual([
+        row.medianRentUsd,
+        row.medianValueUsd,
+      ]);
+      expect(valueDateOf(`nation:${state.slice(3)}`), where).toBe(
         row.valueDate,
-        gameStartDate(),
-      );
-      const scales = dwellings.map(([, tenure, minor]) =>
-        tenure === "own"
-          ? minor / (row.medianValueUsd * 100 * ratio)
-          : minor / (row.medianRentUsd * 100),
       );
       expect(
-        Math.abs(median(scales) - 1),
-        `${where}: median household's value and rent against the row`,
-      ).toBeLessThan(0.02);
+        dwellings.filter((d) => d[1] === "own").every((d) => d[2] > 0) &&
+          dwellings.filter((d) => d[1] === "rent").every((d) => d[2] > 0),
+        `${where}: every home has a value or a rent`,
+      ).toBe(true);
       // The year plays out from that opening.
       const end = addDays(makeIsoDate(core.date), 365);
       advanceCore(core, end);

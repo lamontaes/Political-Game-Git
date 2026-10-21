@@ -149,7 +149,7 @@ function islandAreaOf(county: string): IslandArea | undefined {
     : undefined;
 }
 /** The date a county's median home value stands at: the census for an island area, else the ACS window's middle. */
-function valueDateOf(county: string): string {
+export function valueDateOf(county: string): string {
   return islandAreaOf(county)?.valueDate ?? ACS_VALUE_DATE;
 }
 function nationTenure(town: { county: string }): [number, number] | undefined {
