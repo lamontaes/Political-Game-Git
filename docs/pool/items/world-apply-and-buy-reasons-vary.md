@@ -21,4 +21,4 @@ claimed-at:
 
 **Files.** src/core2/modules/jobs.ts, src/core2/modules/housing.ts
 
-**Notes.** TODO
+**Notes.** Apply half built (PR for claude/apply-buy-reasons): `unemployedNeed` in jobs.ts scales the need to apply by the household's runway in days, as the look decision already did; the test is src/core2/jobs-apply-need-varies.test.ts. The home-buying half is not built: nobody buys in a played year, so its circumstance reasons need the buy path (see world-counted-renters-buy) first. Item stays open for that half.
