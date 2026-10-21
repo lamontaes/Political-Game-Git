@@ -5,9 +5,9 @@ area: laws
 kind: bug
 priority: 3
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/medicaid-debt-link
-pr:
+pr: #5798
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-21T11:12:55.982Z
