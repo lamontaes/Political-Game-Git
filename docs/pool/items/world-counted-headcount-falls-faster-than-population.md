@@ -5,12 +5,12 @@ area: world
 kind: bug
 priority: 2
 size: M
-status: in-pr
-claimed-by: claude/political-game-pool-yucp92-ee
-pr: #5454
+status: done
+claimed-by: claude/political-game-pool-yucp92-bc
+pr: #5685
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-20T03:07:04.883Z
+claimed-at: 2026-10-20T12:56:44.128Z
 ---
 
 **What.** A town above 10,000 opened at its Census size (countScale set to Census over 10,000) loses counted workers much faster than its people. In a drawn town of 23,800 people, the weighted headcount at employers (countedHeadcountOf summed over businesses) went from 2,753 at day 2 to 1,980 at day 182 and 1,645 at day 365, a fall of 40 percent, while the town's counted people fell 7 percent (23,803 to 22,239) and its adults 5 percent. The residents' own worker count fell 15 percent. Weighted jobs are being lost and not refilled at the household weight, so the economy shrinks by itself.
@@ -22,3 +22,5 @@ claimed-at: 2026-10-20T03:07:04.883Z
 **Files.** src/core2/residents-economy.ts, src/core2/modules/jobs.ts, src/core2/census-weight-economy.test.ts
 
 **Notes.** TODO
+
+Sent back 2026-10-20 from PR #5454 (branch claude/political-game-pool-yucp92-ee): the new census-weight-economy.test.ts in src/core2 imports placeReferencePopulation from src/simulation, and the body has no gate line at the top; finish on that branch, merge main into it first.

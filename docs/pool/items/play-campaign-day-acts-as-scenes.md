@@ -5,11 +5,12 @@ area: play
 kind: feature
 priority: 2
 size: L
-status: open
-claimed-by:
-pr:
+status: done
+claimed-by: claude/campaign-acts-scenes
+pr: #5549
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-20T05:57:05.783Z
 ---
 
 **What.** The Campaigns tab still lists the campaign day's acts (the Today list: doors, calls, fundraising) with hours. The owner ruled on Oct 20 that the campaign day has no list of acts and that speeches, doors, interviews and debates are scenes. Speeches, interviews and debates already open as panels or scenes; doors, calls and fundraising by day have none, so the list cannot be removed without leaving the player no way to do them. Build a doors scene (a street of homes from the district's records, the person who answers read from their record) and a call and fundraising scene, then delete the Today list.

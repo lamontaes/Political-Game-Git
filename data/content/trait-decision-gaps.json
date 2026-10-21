@@ -1,0 +1,202 @@
+{
+  "version": 1,
+  "note": "Why a personality decision did not run, or ran without personality turning it, in the trait-wiring audit (docs/reports/trait-wiring-2026-10-20.md). One row per decision with a gap; the matrix (scripts/traits/trait-wiring-matrix.ts) joins them. A row is removed when its fix lands.",
+  "formulaSiteAliases": {
+    "src/core2/modules/jobs.ts:2026": "jobs.counted-retire",
+    "src/core2/modules/jobs.ts:2167": "jobs.counted-look",
+    "src/core2/modules/jobs.ts:2237": "jobs.counted-look",
+    "src/core2/modules/business.ts:1513": "business.counted-found"
+  },
+  "gaps": {
+    "corruption.offer": {
+      "class": "weight too small",
+      "why": "Runs about 4 times a year (a lobbyist's first meeting with a member on a bill with employer costs, src/core2/modules/interest-groups.ts:372); the yes score never beats corruptionHonestPull 3, so every offer is declined and the trait never turns one.",
+      "fix": "Weigh the stake against the official's own money need and calibrate the honesty pull from the honesty-humility effect size."
+    },
+    "corruption.take": {
+      "class": "trigger needs a record nobody writes",
+      "why": "Runs only after an offer says yes (src/core2/modules/corruption.ts:177); no offer did.",
+      "fix": "Same as corruption.offer."
+    },
+    "corruption.tell": {
+      "class": "trigger needs a record nobody writes",
+      "why": "Needs a taken bribe's crime row (src/core2/modules/corruption.ts:215); none was written.",
+      "fix": "Same as corruption.offer."
+    },
+    "justice.report": {
+      "class": "trigger needs a record nobody writes",
+      "why": "Needs a crime row from corruption (src/core2/modules/justice.ts:250); ran twice from other crimes.",
+      "fix": "Same as corruption.offer."
+    },
+    "justice.prosecute": {
+      "class": "trigger needs a record nobody writes",
+      "why": "Follows a report (src/core2/modules/justice.ts:300).",
+      "fix": "Same as corruption.offer."
+    },
+    "justice.plea": {
+      "class": "trigger needs a record nobody writes",
+      "why": "Follows a charge (src/core2/modules/justice.ts:549).",
+      "fix": "Same as corruption.offer."
+    },
+    "press.tip": {
+      "class": "trigger needs a record nobody writes",
+      "why": "Needs a crime.told event for a taken bribe (src/core2/modules/press.ts:2049).",
+      "fix": "Same as corruption.offer."
+    },
+    "recalls.organize": {
+      "class": "no trigger",
+      "why": "Only a county or city ordinance taking effect starts one, and only where the state allows recall without grounds (src/core2/modules/recalls.ts:159, :190); most places have no petition recall or require grounds.",
+      "fix": "Let a reported scandal or crime start a for-cause recall where the state requires grounds."
+    },
+    "recalls.sign": {
+      "class": "no trigger",
+      "why": "Follows an organizer (src/core2/modules/recalls.ts:299).",
+      "fix": "Same as recalls.organize."
+    },
+    "recalls.vote": {
+      "class": "no trigger",
+      "why": "Needs a recall on the ballot (src/core2/modules/recalls.ts:380).",
+      "fix": "Same as recalls.organize."
+    },
+    "ballot-measures.vote": {
+      "class": "runs only on a date outside the year",
+      "why": "The earliest measure in data/elections/ballot-measures.json is June 16, 2026; the played year ends January 20, 2026.",
+      "fix": "Add odd-year measures or let an ordinance refer a local measure."
+    },
+    "voting.turnout": {
+      "class": "runs only on a date outside the year",
+      "why": "The played year runs January 20, 2025 to January 20, 2026; most places hold no election in 2025, so turnout runs only where a 2025 local or state election exists.",
+      "fix": "Seed odd-year local elections where the place holds them; measure in a second year otherwise."
+    },
+    "voting.back-incumbent": {
+      "class": "runs only on a date outside the year",
+      "why": "Same as voting.turnout.",
+      "fix": "Same as voting.turnout."
+    },
+    "voting.exit-poll": {
+      "class": "runs only on a date outside the year",
+      "why": "Same as voting.turnout.",
+      "fix": "Same as voting.turnout."
+    },
+    "voting.stand-again": {
+      "class": "runs only on a date outside the year",
+      "why": "Same as voting.turnout.",
+      "fix": "Same as voting.turnout."
+    },
+    "campaigns.open-door": {
+      "class": "runs only on a date outside the year",
+      "why": "Needs a filed, on-ballot race (src/core2/modules/campaigns.ts:2323); filings opened in 1 of 3 places measured.",
+      "fix": "Same as voting.turnout."
+    },
+    "campaigns.donate": {
+      "class": "runs only on a date outside the year",
+      "why": "Same as campaigns.open-door.",
+      "fix": "Same as voting.turnout."
+    },
+    "campaigns.rival-hours": {
+      "class": "runs only on a date outside the year",
+      "why": "Same as campaigns.open-door.",
+      "fix": "Same as voting.turnout."
+    },
+    "campaigns.answer-poll": {
+      "class": "runs only on a date outside the year",
+      "why": "Same as campaigns.open-door, plus a poll fund (src/core2/modules/campaigns.ts:2253).",
+      "fix": "Same as voting.turnout."
+    },
+    "campaigns.retell": {
+      "class": "runs only on a date outside the year",
+      "why": "Same as campaigns.open-door.",
+      "fix": "Same as voting.turnout."
+    },
+    "campaigns.volunteer": {
+      "class": "no trigger (player only)",
+      "why": "Only the bench's developer call asks (src/bench/campaign.ts:168); a world candidate never asks anyone to volunteer.",
+      "fix": "In campaignTurn, ask reachable people to volunteer as it asks for donations."
+    },
+    "campaigns.endorse": {
+      "class": "no trigger (player only)",
+      "why": "Only the bench's developer call asks (src/bench/campaign.ts:182).",
+      "fix": "In campaignTurn, ask the people closest to the candidate for endorsements."
+    },
+    "offices.accept-appointment": {
+      "class": "rare",
+      "why": "Runs only when a serving local official dies or moves away and the post fills by appointment (src/core2/modules/offices.ts:1067).",
+      "fix": "Add resignation as a vacancy cause."
+    },
+    "constituent-cases.handle-case": {
+      "class": "no trigger (staff takes the case first)",
+      "why": "A staffer's decision is tried first (src/core2/modules/constituent-cases.ts:451), so the official's own read never runs where an official has staff.",
+      "fix": "Let the official's own lean set what the staffer is told."
+    },
+    "conversation.believe-claim": {
+      "class": "no trigger (player only)",
+      "why": "Read only when the player's line makes a claim (src/director/conversation.ts:2169).",
+      "fix": "Read it where people pass on claims to each other (speech retell, news pass-on)."
+    },
+    "conversation.reply-reach": {
+      "class": "no trigger (player only)",
+      "why": "Read only in a conversation the player opens.",
+      "fix": "Player-only by design; covered by the player's conversations."
+    },
+    "bring-it-up.blame": {
+      "class": "no trigger (player only)",
+      "why": "Read only in a conversation the player opens (src/director/bring-it-up.ts:105).",
+      "fix": "Player-only by design."
+    },
+    "press.accept-interview": {
+      "class": "runs only on a date outside the year",
+      "why": "Interviews are scheduled only within weeks of an election (src/core2/modules/press.ts:2460).",
+      "fix": "Same as voting.turnout."
+    },
+    "press.dig": {
+      "class": "runs only on a date outside the year",
+      "why": "Follows an interview answer that contradicts a record (src/core2/modules/press.ts:1753).",
+      "fix": "Same as voting.turnout."
+    },
+    "estates.will": {
+      "class": "rare",
+      "why": "Runs when someone with an estate dies (src/core2/estates.ts:283).",
+      "fix": "None needed; rare by nature."
+    },
+    "office-day-state.clemency": {
+      "class": "rare",
+      "why": "A weekly clemency petition for a governor who is not the player is in review on another branch.",
+      "fix": "In flight elsewhere."
+    },
+    "housing.buy-home": {
+      "class": "weight too small",
+      "why": "Runs at the housing review but every household keeps renting (the buy baseline and down-payment terms outweigh any lean).",
+      "fix": "Calibrate the buy reasons so some households buy, then the trait weight."
+    },
+    "jobs.apply": {
+      "class": "weight too small",
+      "why": "Ran 545 times; the pick never changed with personality.",
+      "fix": "Calibrate against job-search research."
+    },
+    "jobs.review-worker": {
+      "class": "weight too small",
+      "why": "Ran 2,059 times; the pick never changed with personality.",
+      "fix": "Calibrate against turnover research."
+    },
+    "drives.respond": {
+      "class": "circumstances saturate the choice",
+      "why": "Personality turned none of 1,471 drive responses in Ely, Nevada at any weight up to 8: the drive's own strength separates the options. No study gives a size (neuroticism and rumination is the direction).",
+      "fix": "None until the options score closer or a study gives a size; the general trait weight of 1 stands."
+    },
+    "credit.borrow": {
+      "class": "rare",
+      "why": "Ran 16 times in the year.",
+      "fix": "Check what triggers borrowing; calibrate."
+    },
+    "school.attend": {
+      "class": "circumstances saturate the choice",
+      "why": "Children attend 99.95% of school days (10,587 kept weighings, Ely, Nevada); personality turns none below a weight of 1 and at 1 the third least inclined misses at 11 times the odds. Real chronic absence is far higher and follows illness, family and poverty, which the school choice does not read (src/core2/modules/school.ts:149). Poropat 2009 (conscientiousness r 0.19) measures performance, not attendance.",
+      "fix": "Give the school choice the child's illness and the household's circumstances, then calibrate."
+    },
+    "life.daily-act": {
+      "class": "no study number",
+      "why": "Personality turned 14.8% of 29,520 daily-activity picks at the general trait weight of 1. Studies of extraversion and time spent socializing (Mehl et al. 2006) report no extractable coefficient, so the general weight stands.",
+      "fix": "Calibrate when a study gives a size for extraversion and social time."
+    }
+  }
+}
