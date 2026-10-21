@@ -9,8 +9,12 @@ import { placeReferencePopulation } from "./gov-rules/place-population";
 import { SAMPLE, compareClosures } from "./census-scale-closures-support";
 
 const OPELIKA = { key: "0157048", seed: "op1" };
+// The wholesaler closed on 2025-07-02, short of cash on a payday with its
+// savings in the bank. A year of this town at the sample size outgrows one
+// test process's memory from August on, so the case plays to late August.
+const DAYS = 220;
 
-it("Opelika, Alabama at its Census size closes no more closure rows than at the sample size", () => {
+it("Opelika, Alabama at its Census size closes no more closure rows than at the sample size, through its wholesaler's July payday", () => {
   const reference = placeReferencePopulation(OPELIKA.key)?.value;
   expect(reference).toBeGreaterThan(SAMPLE);
   compareClosures(
@@ -18,5 +22,8 @@ it("Opelika, Alabama at its Census size closes no more closure rows than at the 
     OPELIKA.seed,
     OPELIKA.key,
     reference!,
+    DAYS,
   );
-}, 3_600_000);
+  // Both worlds' 220 days took 548 seconds at one worker on a 4-core
+  // container; about twice that.
+}, 1_200_000);

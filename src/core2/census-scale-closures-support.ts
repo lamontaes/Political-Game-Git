@@ -1,5 +1,5 @@
 /**
- * A town played a year at the sample size and at its Census size, for the
+ * A town played at the sample size and at its Census size, for the
  * tests of pool item world-census-scale-closures-rise. Each test file plays
  * its own towns, so one process holds only its own worlds.
  */
@@ -15,14 +15,14 @@ import type { CoreState } from "./types";
 
 export const SAMPLE = 10_000;
 
-function play(seed: string, key: string, countScale: number) {
+function play(seed: string, key: string, countScale: number, days: number) {
   setBookkeeping(false);
   const { core } = buildBenchWorld(seed, gameStartDate(), {
     twoLevel: true,
     placeKey: key,
     ...(countScale !== 1 ? { countScale } : {}),
   });
-  advanceCore(core, addDays(makeIsoDate(core.date), 365));
+  advanceCore(core, addDays(makeIsoDate(core.date), days));
   const closed = [...(core as CoreState).finance.closures.values()].map(
     (closure) =>
       `${closure.organizationId} ${closure.date} ${closure.reasonKey}`,
@@ -41,17 +41,18 @@ function play(seed: string, key: string, countScale: number) {
   return { closed, rows };
 }
 
-/** One town played a year at the sample size and at its Census size: the Census run closes no more job rows. */
+/** One town played at the sample size and at its Census size (a year unless told): the Census run closes no more job rows. */
 export function compareClosures(
   where: string,
   seed: string,
   key: string,
   reference: number,
+  days = 365,
 ) {
-  const sample = play(seed, key, 1);
-  const scaled = play(seed, key, reference / SAMPLE);
-  console.log(
-    `CLOSURES ${where}: sample ${sample.closed.length} firms ${sample.rows.length} job rows; census ${scaled.closed.length} firms ${scaled.rows.length} job rows`,
+  const sample = play(seed, key, 1, days);
+  const scaled = play(seed, key, reference / SAMPLE, days);
+  process.stdout.write(
+    `CLOSURES ${where}: sample ${sample.closed.length} firms ${sample.rows.length} job rows; census ${scaled.closed.length} firms ${scaled.rows.length} job rows\n`,
   );
   expect(
     scaled.rows.length,
