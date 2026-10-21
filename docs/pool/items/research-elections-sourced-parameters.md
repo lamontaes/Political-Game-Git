@@ -5,10 +5,10 @@ area: elections
 kind: research
 priority: 2
 size: M
-status: open
+status: blocked
 claimed-by:
 pr:
-blocked-on:
+blocked-on: researcher: per-place or calibration sourcing, each row cited; first row's replacement: The region's or state's real polling firms (County Business Patterns NAICS 541910 by county) as recorded organizations a campaign
 source: "collapsed Oct 19, 2026 from elections-stopgap-campaigns-missing-data, elections-stopgap-elections-estimated-calendar, elections-stopgap-elections-missing-data, elections-stopgap-voting-missing-data"
 ---
 
