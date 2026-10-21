@@ -57,7 +57,6 @@ const OWNER_STOPGAP = "SG-P15-moves-owners-stay";
 const TAX_STOPGAP = "SG-WEB-moves-full-tax-pull";
 const DISASTER_STOPGAP = "SG-WEB-moves-disaster-severity";
 const INACTIVE_TIER = "husk";
-const PINNED_STOPGAP = "SG-P15-moves-pinned-jobs";
 const PLAYER_HOME_STOPGAP = "SG-P15-moves-player-home-stays";
 
 type Rates = Readonly<Record<string, number>>;
