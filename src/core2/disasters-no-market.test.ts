@@ -118,6 +118,9 @@ it(`plays a year through a disaster with no one to pay for repairs (${place.name
         `${at} repairs`,
       ).toEqual([]);
     }
+    console.log(
+      `${where}: damaged-home disasters ${damaged.map((d) => `${d.number} (${d.damagedHomes} homes, builders ${d.payees?.builders}, outside market ${d.payees?.market})`).join(", ")}; repair payments ${repaired.length}; journal debit ${core.cashJournal.totals.grossDebitMinor} credit ${core.cashJournal.totals.grossCreditMinor}`,
+    );
     checkLedger(core, where);
   } finally {
     setBookkeeping(true);
@@ -130,7 +133,7 @@ it("a place drawn from all 56 where a disaster damaged homes pays repairs to a r
   setBookkeeping(false);
   try {
     let played = 0;
-    for (let draw = 0; draw < 24 && played < 6; draw++) {
+    for (let draw = 0; draw < 120 && played < 6; draw++) {
       const drawn = drawPlace(`${drawSeed}:${draw}`, "disasters-no-market");
       const core = createLifeCore(
         generatedOpening(drawn, {
@@ -157,6 +160,9 @@ it("a place drawn from all 56 where a disaster damaged homes pays repairs to a r
         // A payee is recorded and was paid, or none is and nothing moved.
         expect(repaired.has(number), at).toBe(payee);
       }
+      console.log(
+        `${where}: damaged-home disasters ${damaged.map((d) => `${d.number} (${d.damagedHomes} homes, builders ${d.payees?.builders}, outside market ${d.payees?.market}, repaired ${repaired.has(d.number)})`).join(", ")}; played ${played} places`,
+      );
       checkLedger(core, where);
       return;
     }
