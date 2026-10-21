@@ -122,3 +122,12 @@ export function createStableIdFromParts(
   }
   return `${kind}_${hasher.digest()}` as EntityId;
 }
+
+/**
+ * The id two people share (their relationship): both ids in code-unit order,
+ * joined by ":". The same string as `[a, b].sort().join(":")`, without the
+ * array and the sort a hot path would allocate for each pair it looks up.
+ */
+export function pairKey(a: string, b: string): string {
+  return a <= b ? `${a}:${b}` : `${b}:${a}`;
+}

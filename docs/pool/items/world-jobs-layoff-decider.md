@@ -5,11 +5,12 @@ area: world
 kind: stopgap
 priority: 2
 size: M
-status: open
-claimed-by:
-pr:
+status: done
+claimed-by: claude/jobs-layoff-decider
+pr: #5213
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-19T22:27:23.646Z
 ---
 
 **What.** A layoff today names the business itself as the one who decided it whenever no owner is recorded. Replace that fallback with the owner or manager person the firm actually has (the M1-08 record, or the highest-paid worker where none is recorded), deciding from their own traits and the books. The laid-off worker can then say who let them go, and the decider's view of the firm can be asked why.

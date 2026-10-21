@@ -5,11 +5,12 @@ area: world
 kind: stopgap
 priority: 2
 size: M
-status: open
+status: blocked
 claimed-by:
 pr:
-blocked-on:
+blocked-on: design: an aggregate chooser for counted groups (counted pulls already use the full person's reasons)
 source: added with npm run pool -- add
+claimed-at:
 ---
 
 **What.** Counted workers retire, quit, start looking and stop looking by summed pulls rather than the shared chooser, and they apply to every opening in their place. Replace this with the same chooser full people use, applied to a counted group and multiplied by its count, or fill a counted person in at the moment they meet an employer. Nothing about a counted worker's choice may differ from a full person's with the same traits and money.

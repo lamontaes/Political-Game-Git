@@ -5,20 +5,22 @@ area: world
 kind: stopgap
 priority: 2
 size: M
-status: claimed
-claimed-by: claude/political-game-pool-3xfqef-2
-pr:
+status: done
+claimed-by: claude/opening-seekers-region
+pr: #5211
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-19T22:26:33.128Z
+claimed-at: 2026-10-19T22:29:47.477Z
 ---
 
-**What.** The opening names as job seekers the jobless working-age adults whose money covers the fewest days, as many as the national unemployment rate implies, and leaves the other jobless adults outside the labor force. Replace this with the place's own labor-force counts by age and job (CPS and LAUS) read at the opening, with full people filled in from the counted groups, so seekers are a group read with the same rule as any person. The player sees a town whose unemployed look like the real ones, not only the poorest.
+**What.** `openSeekers` and `openCountedSeekers` in jobs.ts pick the opening's seekers by neediness alone (fewest days of money; fewest earners in the household), as many as the unemployment rate implies. Replace the pick with the labor-force structure: split the seeker count across age bands by each band's unemployment rate against the overall rate (CPS annual averages), then pick the neediest within each band, for full people and counted adults alike. Update the stopgap row SG-WORLD-jobs-opening-seekers to what remains faked.
 
-**Rules.** One model, two tiers: counted people and full people are read by the same rule, times their count. No dice: hires, layoffs and retirements come from books, fit, need and the law in force, never a monthly chance. Replace, never layer: the fake is deleted in the same change and the row SG-WORLD-jobs-opening-seekers is cleared in src/core2/data/stopgaps.json, never closed by deleting it alone.
+**Rules.** Estimate, never UNKNOWN: the age ratios are a sourced table in `src/core2/data/jobs/`, tagged SOURCED with the BLS table cited. No dice: the within-band pick stays need-ordered. One model, two tiers: full and counted people use the same band quotas. One rule, all 56 places: the national ratios apply to every place's own rate.
 
-**Done when.** In a one-year run of the played world (buildBenchWorld, a drawn place from all 56 and a seed the builder did not choose, both named in the PR body) the mechanic above appears by job, decision or claim record id, a test in src/core2/jobs.test.ts shows it, the stopgap tripwire test shows SG-WORLD-jobs-opening-seekers resolved, and the PR body names one affected person by record id.
+**Done when.** In a drawn place of `buildBenchWorld` two-level at day 0, the seekers' age-band shares match the table's implied shares within one person per band, by seeker record ids, and a test in `src/core2/jobs.test.ts` checks it; SG-WORLD-jobs-opening-seekers is narrowed or resolved in `stopgaps.json`.
 
-**Files.** src/core2/modules/jobs.ts, src/core2/data/stopgaps.json, src/core2/jobs.test.ts
+**Files.** src/core2/modules/jobs.ts, src/core2/data/jobs/age-unemployment.json, src/core2/data/stopgaps.json
 
-**Notes.** Split from world-stopgap-jobs-faked-mechanic (an L item) on Oct 19; row SG-WORLD-jobs-opening-seekers.
+**Notes.** Looked at Oct 19 (claude/political-game-pool-3xfqef-2), not built: the CPS unemployment rate by age (bls.gov/cps/cpsaat10.htm, annual averages) could not be retrieved with a citation from the cloud session (search returned only secondary figures), and the rules forbid unsourced numbers. A builder with web access fetches Table A-10 first.
+
+Split from world-stopgap-jobs-faked-mechanic (an L item) on Oct 19; row SG-WORLD-jobs-opening-seekers.
