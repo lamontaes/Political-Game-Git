@@ -32,7 +32,7 @@ interface AllowEntry {
  */
 const AWAITING_READER_CEILING = 7;
 /** The same for the files found unread on Oct 16 (see `unreadFound`). */
-const UNREAD_FOUND_CEILING = 159;
+const UNREAD_FOUND_CEILING = 153;
 
 const allowlist = JSON.parse(
   readFileSync(

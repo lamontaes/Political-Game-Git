@@ -5,12 +5,12 @@ area: core
 kind: wiring
 priority: 3
 size: M
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/peaceful-ritchie-03780x
+pr: #5076
 blocked-on:
 source: added with npm run pool -- add
-claimed-at:
+claimed-at: 2026-10-19T19:08:01.316Z
 ---
 
 **What.** `scripts/audit/research-data-unread-baseline.json` names 370 files under `data/research` that no code in `src/` or `scripts/` reads. The research data guard used to count the bare folder name `data/research/` as a read of every file, which hid them; the guard now counts only real reads and holds these 370 on a list that may only shrink. Go through them folder by folder: wire each file to the engine that should read it, list it as raw source with a one-line reason, or move it to the waiting list with its engine and owner. Take each file off the baseline as it is settled.
@@ -30,3 +30,13 @@ Second batch Oct 17 (claude): the whole core-figures/P0-12 folder (109 files) is
 Third batch Oct 17 (claude): `scripts/core2-year/census-components-check.ts` reads the whole `data/research/renewal/moves` folder (Census Vintage 2025 county components of population change, roadmap R9) and compares a played town's year with its state, so those files have a reader and a use; it found the net-moving shortfall filed as `world-town-net-moving-negative`.
 
 Fourth batch Oct 17 (claude): `scripts/core2-year/opening-tenure-check.ts` reads `data/research/housing/tenure-acs-2024.json` and compares a played town's opening renter share with its Census place's. In eight drawn places the shares match to the percent (Summersville, West Virginia 32 and 32; Murfreesboro, Arkansas 29 and 29; Cherry Creek, New York 11 and 11; Hoosick Falls, New York 36 and 36; Noroton, Connecticut 28 and 28; Welby, Colorado 27 and 28; Weymouth Town, Massachusetts 33 and 33; South Greeley, Wyoming 26 and 26). Households differ where the town opens as a sample of its Census count (Welby 4,335 against 5,894; Weymouth Town 4,664 against 25,759), the known cap that core-census-uncap-opening removes. `unreadFound` falls to 176. The jobs folder (JOLTS tables 1, 2, 4, 5 and 7, unemployment duration, OEWS staffing) is the data `world-hires-below-jolts` and `world-unemployment-opening-jump` need for their targets, and the FHFA price files can check home values the same way; next readers to write.
+
+Sent back 2026-10-17 from PR #4953 (branch claude/business-entry-exit-check-v2): Merging current main (d3d2b3ec1a) conflicts in docs/pool/items/world-business-entry-below-bds.md. Resolve these conflicts on this branch and push before local validation can run.; finish on that branch, merge main into it first.
+
+Sent back 2026-10-18 from PR #4926 (branch claude/research-data-roadmap-triage): Merging current main (e99e4a0436) conflicts in docs/pool/items/core-research-data-unread-triage.md. Resolve these conflicts on this branch and push before local validation can run.; finish on that branch, merge main into it first.
+
+Sent back 2026-10-18 from PR #4949 (branch claude/research-triage-starting-law): Merging current main (f20f3700e5) conflicts in docs/pool/items/core-research-data-unread-triage.md, docs/pool/items/world-town-net-moving-negative.md. Resolve these conflicts on this branch and push before local validation can run.; finish on that branch, merge main into it first.
+
+Sent back 2026-10-18 from PR #4950 (branch claude/research-triage-evidence): Merging current main (f359364281) conflicts in docs/pool/items/core-research-data-unread-triage.md, docs/pool/items/world-town-net-moving-negative.md. Resolve these conflicts on this branch and push before local validation can run.; finish on that branch, merge main into it first.
+
+Sent back 2026-10-18 from PR #4951 (branch claude/fhfa-growth-check): Merging current main (ca0832d084) conflicts in docs/pool/items/core-research-data-unread-triage.md, docs/pool/items/world-town-net-moving-negative.md. Resolve these conflicts on this branch and push before local validation can run.; finish on that branch, merge main into it first.

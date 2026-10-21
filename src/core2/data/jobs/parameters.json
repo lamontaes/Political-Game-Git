@@ -422,26 +422,24 @@
       "citation": "A referral helps while the search is live; the median unemployment spell is about ten weeks (Bureau of Labor Statistics, Current Population Survey)."
     }
   },
-  "jobsRaiseAfterDays": {
-    "value": 60,
-    "tag": "TUNABLE",
-    "citation": "How long an opening stands unfilled before its employer weighs raising the pay. No series gives this directly; calibrated by checking that the resulting pay growth on long-open postings stays inside the range of the Atlanta Fed Wage Growth Tracker (job switchers against stayers) and the Indeed Hiring Lab posted-wage tracker, which are checks on the totals and not coefficients here.",
-    "spread": {
-      "low": 30,
-      "high": 120,
-      "unit": "days an opening stands before its pay is reviewed",
-      "citation": "One to four months, the usual span over which a posting is called hard to fill."
-    }
+  "jobsMotherYoungChildYears": {
+    "value": 5,
+    "tag": "SOURCED",
+    "citation": "Malik 2018 (Center for American Progress), mothers with children under 5, the group the D.C. universal pre-K result is measured on."
   },
-  "jobsRaiseStepShare": {
-    "value": 0.03,
-    "tag": "TUNABLE",
-    "citation": "The most an employer raises an unfilled opening's pay in one review, as a share of its offered pay, for an employer that is fully open-handed; one that holds its pay raises nothing, and between the two it follows its owner's traits. Calibrated against posted-wage growth on long-open postings (Atlanta Fed Wage Growth Tracker; Indeed Hiring Lab wage tracker) as a check on totals.",
-    "spread": {
-      "low": 0.01,
-      "high": 0.06,
-      "unit": "share of offered hourly pay per review",
-      "citation": "Annual wage growth for job switchers has run about three to six percent; a review every two months at the top of the range stays inside it."
-    }
+  "jobsAdultAge": {
+    "value": 18,
+    "tag": "SOURCED",
+    "citation": "Age of majority; a household's children are its members under 18 (Census household definitions)."
+  },
+  "jobsFullRetirementAge": {
+    "value": 67,
+    "tag": "SOURCED",
+    "citation": "42 U.S.C. 416(l): the full Social Security retirement age is 67 for those born in 1960 or later; the upper end of the 62 to 67 group the older-employment outcome covers."
+  },
+  "jobsLowWageLineHourlyMinor": {
+    "value": 1500,
+    "tag": "SOURCED",
+    "citation": "$15 an hour in cents: the line of the labor.low-wage-jobs outcome (Economic Policy Institute: 15 percent of workers paid under $15 an hour in 2022)."
   }
 }

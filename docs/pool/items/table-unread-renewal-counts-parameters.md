@@ -5,12 +5,12 @@ area: people
 kind: wiring
 priority: 3
 size: S
-status: in-pr
-claimed-by: claude/renewal-unread-tables
+status: done
+claimed-by: claude/renewal-tables-read
 pr: #4980
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-17T21:08:26.266Z
+claimed-at: 2026-10-20T03:49:41.867Z
 ---
 
 **What.** In a one-year run of the played world (Parrott, Virginia (5160840), seed 0ad0af8699c4, `node --import tsx scripts/core2-year/table-trace.ts 0ad0af8699c4 365`), the renewal engine writes yearly counts and a copy of its parameters that no other engine reads (its births and plans rows are item core-unread-renewal-births-plans): `core2-renewal-v1/counts` (36 rows), `core2-renewal-v1/parameters` (25 rows). An effect is a read, so a table written and read by no other engine is a record that does nothing. Check first whether a screen reads it (the headless run does not open screens); if one does, say so in the item and close it; otherwise give the table a reader that decides something, or delete the writer and the table in the same change.
@@ -22,3 +22,5 @@ claimed-at: 2026-10-17T21:08:26.266Z
 **Files.** src/core2/modules/renewal.ts, scripts/core2-year/table-trace.ts
 
 **Notes.** Found by the table trace pass (core-wiring-gaps-trace-pass), report docs/reports/table-trace-2026-10-17.md.
+
+Sent back 2026-10-20 from PR #4980 (branch claude/renewal-unread-tables): Code conflict with main in src/core2/births-counted.ts; finish on that branch, merge main into it first.

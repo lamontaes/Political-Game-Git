@@ -74,20 +74,22 @@ export function reviewBankDeposits(api: CoreAPI, bankId: string): void {
         cash: fundBalance(api, rt, h.group),
         account: fundOf(api, rt, h.group),
       };
-      group.people += rt.store.countedCount(h);
+      // A record stands for as many households as its weight says.
+      group.people += rt.store.weightedCount(h);
       groups.set(h.group, group);
     }
     for (const h of homes) {
       const group = groups.get(h.group)!;
       const members = rt.store.countedMembers(h);
       if (!members.length || !group.people) continue;
+      const weight = rt.store.weightOf(h);
       const cashMinor = Math.floor(
-        (group.cash * members.length) / group.people,
+        (group.cash * members.length * weight) / group.people,
       );
-      const dailyCosts = members.reduce(
-        (sum, member) => sum + rt.store.living[member]!,
-        0,
-      );
+      // The cushion is each real household's, times the households the record stands for.
+      const dailyCosts =
+        members.reduce((sum, member) => sum + rt.store.living[member]!, 0) *
+        weight;
       targets.push({
         holderId: h.id,
         kind: "household",

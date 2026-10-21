@@ -5,7 +5,7 @@ area: core
 kind: bug
 priority: 1
 size: S
-status: in-pr
+status: done
 claimed-by: claude/counted-moves-town-groups
 pr: #4877
 blocked-on:

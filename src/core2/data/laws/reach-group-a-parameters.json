@@ -187,6 +187,18 @@
       "source": "Fortin, Lemieux and Lloyd, Right-to-Work Laws, Unionization, and Wage Setting (NBER Working Paper 30098, 2022): union membership falls about 4 percentage points five years after adoption, in an event study of five states.",
       "spread": [2, 6]
     },
+    "publicBargainingPayPremium": {
+      "value": 0.05,
+      "tag": "ESTIMATED",
+      "source": "Public-sector union wage differential after controlling for worker characteristics: 3.68 percent (NBER Working Paper 1920); a survey of 75 studies reports 8 to 12 percent without such controls (Cato Institute Research Brief 71), and some quasi-experimental studies find little effect. The value is the conditional estimate rounded up, inside the literature's range.",
+      "spread": [0.03, 0.12]
+    },
+    "publicBargainingPhaseYears": {
+      "value": 3,
+      "tag": "ESTIMATED",
+      "source": "A first contract takes time to be bargained and phased in; contracts commonly run three years. Spread over those years here.",
+      "spread": [1, 5]
+    },
     "rightToWorkPhaseYears": {
       "value": 5,
       "tag": "ESTIMATED",

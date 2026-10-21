@@ -5,11 +5,12 @@ area: people
 kind: bug
 priority: 2
 size: M
-status: open
-claimed-by:
-pr:
+status: done
+claimed-by: claude/press-opening-cash
+pr: #4999
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-17T23:40:04.916Z
 ---
 
 **What.** A town of 1,774 people (Cobb Island, Maryland, place 2418200, seed all56, `buildBenchWorld`) opens with one local newspaper and four local television stations, each with an owner, a head and a reporter. Advancing the world in 120-day steps, the newspaper and one station closed on March 24, 2025 (staff rows show `leftBecause: closure`, the head and reporter both leaving that day), a second and third followed by May 2026, and by September 2026 none of the five local outlets has a reporter. Midway, Louisiana (2250395, same seed) ends the same way: four stations, none with a reporter by March 2028. With no reporter, `runDesk` returns nothing (`!outlet.reporterIds.length`, `src/core2/press-desk.ts`), so a law that took effect in town is printed by no outlet and the golden path stops at step 9 in both places (28 other places that enacted a bill reached step 10). Find why the outlets are sized to open five outlets in a town this small, why they close (the outlet's revenue is a standing payment sized from its audience, `gov-press-outlet-revenue`, against its payroll), and why a closed outlet stays on the list of outlets with no reporters instead of leaving it.

@@ -5,11 +5,12 @@ area: core
 kind: cleanup
 priority: 2
 size: L
-status: open
-claimed-by:
+status: blocked
+claimed-by: claude/old-imports-town-households
 pr:
-blocked-on:
+blocked-on: core-old-imports-town-households
 source: added with npm run pool -- add
+claimed-at: 2026-10-18T02:26:57.363Z
 ---
 
 **What.** Seven non-test files in `src/core2` still import the old engine folders: `population.ts`, `opening-employment.ts`, `opening-work.ts`, `town-households.ts`, `tooling/generated-world.ts`, `tooling/build-place-lookup-data.ts` and `tooling/build-opening-schools.ts`. They pull in `town-pay` (2,169 lines), `town-employment` (1,718), `town-residents` (907), `work-schedules` (714), `life-queries` (1,206, used by 199 files) and `jail-terms`. Move what the golden path still uses into the core, write it fresh where that is simpler, and delete the rest.

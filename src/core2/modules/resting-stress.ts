@@ -12,7 +12,6 @@ import { affectAt } from "../emotion";
 import { careNeedOf } from "./health";
 import { restingStress } from "../resting-stress";
 import { parameter, parameterValues } from "../parameters";
-import { registerModule } from "../state";
 import type { ModuleRow } from "../module-data";
 import type { CoreModule, CoreState } from "../types";
 
@@ -48,8 +47,3 @@ export const RESTING_STRESS_MODULE: CoreModule = {
     return undefined;
   },
 };
-
-export function openRestingStress(core: CoreState): void {
-  if (core.modules.has(RESTING_STRESS_MODULE_ID)) return;
-  registerModule(core, RESTING_STRESS_MODULE);
-}

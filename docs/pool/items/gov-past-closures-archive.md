@@ -5,11 +5,12 @@ area: gov
 kind: feature
 priority: 2
 size: M
-status: open
+status: in-pr
 claimed-by:
-pr:
+pr: #5513
 blocked-on:
 source: added with npm run pool -- add
+claimed-at:
 ---
 
 **What.** The news archive reports the year before day one but carries no business closures, because the generated past holds none: businesses start on day one. Generate the closures of the town's businesses in that year from the business engine's own past, as records with the owner, the workers and the date. Carry them into the archive so a shop that closed last year is in the news history and the people it employed remember it.
@@ -20,4 +21,6 @@ source: added with npm run pool -- add
 
 **Files.** src/core2/past-news.ts, src/core2/modules/business.ts, src/core2/past-business.ts, src/core2/data/stopgaps.json
 
-**Notes.** Split from gov-past-deaths-closures-archive (the deaths half is built there). The deaths come from the kin generator's life-table line; closures need a business history the generator does not yet keep.
+**Notes.** Sent back Oct 20 from PR #5072 (branch claude/past-business-closures): diff contained unrelated edits under src/director/ and data/english/ outside the government area; finish on that branch, merge main into it first.
+
+Split from gov-past-deaths-closures-archive (the deaths half is built there). The deaths come from the kin generator's life-table line; closures need a business history the generator does not yet keep.

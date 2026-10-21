@@ -5,11 +5,12 @@ area: people
 kind: feature
 priority: 2
 size: L
-status: open
-claimed-by:
-pr:
-blocked-on:
+status: dropped
+claimed-by: claude/partnerships
+pr: #5189
+blocked-on: people-partnerships-full-people-form
 source: added with npm run pool -- add
+claimed-at: 2026-10-19T22:09:20.815Z
 ---
 
 **What.** A played year in Epping, New Hampshire (seed bf16c3219c00, 2,001 full people and about 12,700 counted, bench world with every module installed, Oct 17) writes 22,453 acts and a few hundred cause, news and office events, and no event of anyone partnering, marrying, separating, divorcing or leaving their parents' home. Households change only by a birth, a death, a move or a household leaving the counts (`opening-partnership.ts` sets partnerships once, at the opening). Real towns turn over roughly six marriages and two to three divorces per thousand residents a year (CDC NCHS marriage and divorce rates; ACS marital events in the last year, table B12503 and B13010), and young adults leave their parents' homes in their twenties (ACS B09021). Over a few years the town's household mix and the player's own circle stop looking like a town's.
