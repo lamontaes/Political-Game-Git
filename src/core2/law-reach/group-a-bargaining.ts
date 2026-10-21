@@ -18,6 +18,7 @@ import {
   type GovernmentRow,
 } from "../modules/budgets";
 import { publicEmployerLevel } from "../public-pay-floor";
+import type { LawLevelName } from "../laws-starting";
 import type { CoreAPI, CoreState, Source } from "../types";
 import { jobsAt } from "./group-b-money";
 import type { PolicyHandler } from "./host";
@@ -40,7 +41,7 @@ const SEASON_DAYS = 120;
 const daysBetween = (from: string, to: string) =>
   (Date.parse(`${to}T00:00:00Z`) - Date.parse(`${from}T00:00:00Z`)) /
   86_400_000;
-const ORDER = ["federal", "state", "county", "city"] as const;
+const ORDER: readonly LawLevelName[] = ["federal", "state", "county", "city"];
 
 /** The government that pays a unit's line: the employer's own level, else the nearest above that budgets it. */
 function fundingGovernment(
@@ -102,9 +103,7 @@ function covered(
   const level = publicEmployerLevel(classification);
   if (!level) return false;
   const at = ORDER.indexOf(level);
-  return yes.some(
-    (l) => ORDER.indexOf(l.level as (typeof ORDER)[number]) <= at,
-  );
+  return yes.some((l) => ORDER.indexOf(l.level as LawLevelName) <= at);
 }
 
 export const publicBargaining: PolicyHandler = (api, change) => {
