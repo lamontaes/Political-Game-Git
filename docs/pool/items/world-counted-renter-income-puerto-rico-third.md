@@ -5,12 +5,12 @@ area: world
 kind: bug
 priority: 2
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/pr-renter-income
 pr:
 blocked-on:
 source: added with npm run pool -- add
-claimed-at:
+claimed-at: 2026-10-21T11:42:42.154Z
 ---
 
 **What.** In Puerto Rico place 7237336 (world seed 63ef211a72f7f8d3519652d91152eaf5cda51a871ae2bed4e9221c537c7bd2f8), with rents now read from Puerto Rico's own counties, the counted renter households' median rent is 380 dollars a month and their median income 6,295 dollars a year, a burden of 72 percent; 85 percent of them are over 32 percent. USAFacts' reading of the ACS puts Puerto Rico's median gross rent at about 580 dollars, 37.5 percent of renter income (2024), so a median renter income near 18,560. householdIncome (modules/residents.ts) counts wages, retirement awards and each household's share of the place's unplaced workers (the same fraction for every jobless adult, here 0.29 of 21,680 dollars), but no public transfers, and the even share makes every jobless household alike. Find where the gap comes from (transfers not counted, the unplaced share spread evenly, or the opening's employment target) and fix it at the cause for all 56 places.
