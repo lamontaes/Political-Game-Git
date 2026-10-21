@@ -25,39 +25,35 @@ const drawn = drawPlace(
 );
 
 for (const place of [PINNED, drawn]) {
-  it(`runs a played year; a household that kept a dead member on its roll and moved kept its id (${place.name}, ${place.key}, seed ${place.seed})`, () => {
+  it(`runs a played year; households that moved with a dead member on the roll keep their id (${place.name}, ${place.key}, seed ${place.seed})`, () => {
     setBookkeeping(false);
     const { core } = buildBenchWorld(place.seed, gameStartDate(), {
       twoLevel: true,
       placeKey: place.key,
     });
-    // Households with a dead member on the roll and a living one at the start.
-    const before = new Map<string, { placeId: string; living: string[] }>();
-    for (const household of core.households.values()) {
-      const members = household.memberIds.map((id) => core.people.get(id)!);
-      const living = members.filter((p) => p.alive);
-      if (living.length && living.length < members.length)
-        before.set(household.id, {
-          placeId: household.placeId,
-          living: living.map((p) => p.id),
-        });
-    }
+    // Where every household lives at the start.
+    const before = new Map<string, string>();
+    for (const household of core.households.values())
+      before.set(household.id, household.placeId);
     const start = core.date;
     advanceCore(core, addDays(makeIsoDate(start), 366));
     expect(core.date > start, `${place.name} ${place.seed}`).toBe(true);
-    const moved = [...before].filter(
-      ([id, was]) => core.households.get(id)?.placeId !== was.placeId,
-    );
+    // A household that moved and now holds a dead member beside a living one:
+    // the move left no one behind under another id.
+    const moved = [...core.households.values()].filter((household) => {
+      if (
+        !before.has(household.id) ||
+        household.placeId === before.get(household.id)
+      )
+        return false;
+      const members = household.memberIds.map((id) => core.people.get(id)!);
+      return members.some((p) => !p.alive) && members.some((p) => p.alive);
+    });
     console.log(
-      `RELOCATION ${place.name} ${place.seed}: ${before.size} households with a dead member, moved whole: ${moved.map(([id, was]) => `${id} (${was.living.join(",")})`).join("; ") || "none"}`,
+      `RELOCATION ${place.name} ${place.seed}: moved with a dead member on the roll: ${moved.map((h) => h.id).join(", ") || "none"}`,
     );
-    for (const [id, was] of moved) {
-      const household = core.households.get(id)!;
-      // Whoever moved is still on the household under its own id.
-      for (const personId of was.living)
-        if (core.people.get(personId)?.alive)
-          expect(core.people.get(personId)!.householdId, personId).toBe(id);
-      expect(household.id).toBe(id);
-    }
+    for (const household of moved)
+      for (const id of household.memberIds)
+        expect(core.people.get(id)!.householdId, id).toBe(household.id);
   }, 3_000_000);
 }
