@@ -5,12 +5,12 @@ area: core
 kind: stopgap
 priority: 3
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/house-candidates
 pr: #5340
 blocked-on:
 source: added with npm run pool -- add
-claimed-at:
+claimed-at: 2026-10-21T15:22:43.811Z
 ---
 
 **What.** TODO
