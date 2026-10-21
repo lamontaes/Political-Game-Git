@@ -2816,7 +2816,8 @@ function offerToPlayer(
     positionId: position.id,
     organizationId: position.organizationId,
     title: position.title,
-    hourlyMinor: position.hourlyMinor,
+    // The pay offered is what the person would be hired at, schooling included.
+    hourlyMinor: hirePay(api, position, personId),
     fit,
     offeredAt: c.date,
     deadline,
