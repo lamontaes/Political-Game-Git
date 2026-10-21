@@ -4,13 +4,13 @@ title: "Stopgaps in opening-private-tuition (aggregate-spending): 1 open"
 area: core
 kind: stopgap
 priority: 3
-status: in-pr
-claimed-by: claude/tuition-faith
+status: open
+claimed-by:
 pr: #5667
 blocked-on: core-private-tuition-yearly-reenrollment
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/opening-private-tuition.ts, kind aggregate-spending"
-claimed-at: 2026-10-20T10:11:36.360Z
+claimed-at:
 ---
 
 **What.** Replace or clear the 1 open aggregate-spending stopgap row(s) in src/core2/opening-private-tuition.ts: SG-CORE-private-tuition-average. Each fake is replaced by the mechanic, or the feature that needs it is deleted.
@@ -30,3 +30,5 @@ Oct 20 (claude, claude/tuition-choice, released unbuilt): first search for a sou
 Oct 20 (claude, Sonnet, claimed and released unbuilt): two things a builder needs to know before starting. (1) The ranking this item changes, `reenrollPrivateTuition` in `private-tuition-reenroll.ts`, is not on main; it lives on #5504's branch (`claude/tuition-reenroll`) and the counted families on #5633, so build on those once merged, or stacked on them. (2) The household's faith group is a profile fact (`PROFILE_FACT_KINDS.faith`, group) that views.ts reads from a person's past facts or `profileFor`; for a full family that read is straightforward, for a counted one it follows `countedEngagement`. The belief weight still has no sourced size: a search for NHES 2019 enrollment by parents' religion found no table (the General Social Survey study by Sander 2005 gives the direction only: Catholics, evangelical Protestants and frequent attenders have higher demand). Take the NHES 2019 school-choice tables from nces.ed.gov, or have the owner accept an ESTIMATED weight, and the other two terms (schools nearby needs a private-school orientation field on the organization; a child's needs needs the child records' health and learning facts) each need their own small data step.
 
 Oct 20 (claude, claude/fs11vb-private-tuition): read and released, not built. `withPrivateTuition` (src/core2/opening-private-tuition.ts, 134 lines) runs once on the opening input: it ranks each town's families with children aged 5 to 17 by cash per child, takes the best-off until the NCES private share is reached, and writes one monthly finance contract per enrolled family (`opening-private-tuition:<household>:<school>`, payer the family's adults, payee the school). Nothing revisits it, so a family whose means change keeps or never gets a seat. Replacing it needs (1) a yearly pass (each August) that re-ranks the town's families on their current cash per child, and ends and creates those contracts through the finance engine; (2) a rule that reads the family's views and the schools nearby, which needs the schools engine decision named in the row's replacement, and an answer under DECISION-REGISTER.md on whether belief should enter at all; and (3) the same rule for counted families, who have no such contract. That is the schools engine, an L item, and should be split before it is claimed again.
+
+Sent back 2026-10-21 from PR #5667 (branch claude/tuition-faith): src/core2/private-tuition-choice.ts:17-18 explicitly keeps SG-CORE-private-tuition-average open for nearby schools and child needs, and the changed stopgap row is still open. docs/pool/items/core-stopgap-opening-private-tuition-aggregate-spending.md:20 instead requires the rows resolved and a replacement read in a one-year played world by record id. The owner/date-note repair is present, but this first-of-three-terms PR cannot complete that umbrella. Track the demonstrated faith term under a bounded item with its own played-world proof, leaving the remaining terms open, or finish the full acceptance. No local gate pass is claimed.; finish on that branch, merge main into it first.
