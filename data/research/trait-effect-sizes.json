@@ -10,7 +10,8 @@
         "kind": "logit-coef-full-range",
         "value": 1.26,
         "low": 0.378,
-        "high": 2.142
+        "high": 2.142,
+        "traitSd": 0.22
       },
       "source": {
         "authors": "Mondak, J. J., Hibbing, M. V., Canache, D., Seligson, M. A., & Anderson, M. R.",
@@ -19,9 +20,9 @@
         "venue": "American Political Science Review 104(1), 85-110",
         "url": "https://doi.org/10.1017/S0003055409990359"
       },
-      "quote": "Substantively, the largest effects in Table 2 are those for openness and extraversion.",
+      "quote": "Table 2, row \"Voter turnout (N = 1,062)\", column Openness to Experience: \"1.26∗∗\", standard error \"(0.45)\". Table 2 notes: \"Cell entries are binomial logistic regression coefficients\" and \"All personality variables range in value from 0 to 1.\" Table 1, Openness to experience: Scale Mean (SD) \"0.46\" \"(0.22)\".",
       "quoteVerified": true,
-      "notes": "Coefficient is the binomial logit coefficient from Mondak et al. (2010) Table 2 (2006 Cooperative Congressional Election Study, US adults, N about 1,060; controls age, female, black); the trait is scaled 0 to 1 so the coefficient is the log-odds change from lowest to highest trait score, not per SD. low/high = coefficient +/- 1.96 x reported SE. "
+      "notes": "Coefficient is the binomial logit coefficient from Mondak et al. (2010) Table 2 (2006 Cooperative Congressional Election Study, US adults, N about 1,060; controls age, female, black); the trait is scaled 0 to 1 so the coefficient is the log-odds change from lowest to highest trait score, not per SD. low/high = coefficient +/- 1.96 x reported SE. Per standard deviation the coefficient is multiplied by the trait's Table 1 standard deviation, 0.22 of the 0 to 1 range."
     },
     {
       "id": "voting.turnout",
@@ -31,7 +32,8 @@
         "kind": "logit-coef-full-range",
         "value": -1.42,
         "low": -2.204,
-        "high": -0.636
+        "high": -0.636,
+        "traitSd": 0.22
       },
       "source": {
         "authors": "Mondak, J. J., Hibbing, M. V., Canache, D., Seligson, M. A., & Anderson, M. R.",
@@ -40,9 +42,9 @@
         "venue": "American Political Science Review 104(1), 85-110",
         "url": "https://doi.org/10.1017/S0003055409990359"
       },
-      "quote": "Substantively, the largest effects in Table 2 are those for openness and extraversion.",
+      "quote": "Table 2, row \"Voter turnout (N = 1,062)\", column Emotional Stability: \"−1.42∗∗∗\", standard error \"(0.40)\". Table 2 notes: \"Cell entries are binomial logistic regression coefficients\" and \"All personality variables range in value from 0 to 1.\" Table 1, Emotional stability: Scale Mean (SD) \"0.40\" \"(0.22)\".",
       "quoteVerified": true,
-      "notes": "Coefficient is the binomial logit coefficient from Mondak et al. (2010) Table 2 (2006 Cooperative Congressional Election Study, US adults, N about 1,060; controls age, female, black); the trait is scaled 0 to 1 so the coefficient is the log-odds change from lowest to highest trait score, not per SD. low/high = coefficient +/- 1.96 x reported SE. Negative sign for emotional stability (higher neuroticism raises turnout) is flagged by the authors as inconsistent with Gerber et al."
+      "notes": "Coefficient is the binomial logit coefficient from Mondak et al. (2010) Table 2 (2006 Cooperative Congressional Election Study, US adults, N about 1,060; controls age, female, black); the trait is scaled 0 to 1 so the coefficient is the log-odds change from lowest to highest trait score, not per SD. low/high = coefficient +/- 1.96 x reported SE. Negative sign for emotional stability (higher neuroticism raises turnout) is flagged by the authors as inconsistent with Gerber et al. Per standard deviation the coefficient is multiplied by the trait's Table 1 standard deviation, 0.22 of the 0 to 1 range."
     },
     {
       "id": "campaigns.volunteer",
@@ -52,7 +54,8 @@
         "kind": "logit-coef-full-range",
         "value": 2.02,
         "low": 0.57,
-        "high": 3.47
+        "high": 3.47,
+        "traitSd": 0.22
       },
       "source": {
         "authors": "Mondak, J. J., Hibbing, M. V., Canache, D., Seligson, M. A., & Anderson, M. R.",
@@ -61,9 +64,9 @@
         "venue": "American Political Science Review 104(1), 85-110",
         "url": "https://doi.org/10.1017/S0003055409990359"
       },
-      "quote": "Substantively, the largest effects in Table 2 are those for openness and extraversion.",
+      "quote": "Table 2, row \"Work for a party or candidate (1,066)\", column Openness to Experience: \"2.02∗∗∗\", standard error \"(0.74)\". Table 2 notes: \"Cell entries are binomial logistic regression coefficients\" and \"All personality variables range in value from 0 to 1.\" Table 1, Openness to experience: Scale Mean (SD) \"0.46\" \"(0.22)\".",
       "quoteVerified": true,
-      "notes": "Coefficient is the binomial logit coefficient from Mondak et al. (2010) Table 2 (2006 Cooperative Congressional Election Study, US adults, N about 1,060; controls age, female, black); the trait is scaled 0 to 1 so the coefficient is the log-odds change from lowest to highest trait score, not per SD. low/high = coefficient +/- 1.96 x reported SE. "
+      "notes": "Coefficient is the binomial logit coefficient from Mondak et al. (2010) Table 2 (2006 Cooperative Congressional Election Study, US adults, N about 1,060; controls age, female, black); the trait is scaled 0 to 1 so the coefficient is the log-odds change from lowest to highest trait score, not per SD. low/high = coefficient +/- 1.96 x reported SE. Per standard deviation the coefficient is multiplied by the trait's Table 1 standard deviation, 0.22 of the 0 to 1 range."
     },
     {
       "id": "campaigns.volunteer",
@@ -73,7 +76,8 @@
         "kind": "logit-coef-full-range",
         "value": 1.15,
         "low": -0.104,
-        "high": 2.404
+        "high": 2.404,
+        "traitSd": 0.26
       },
       "source": {
         "authors": "Mondak, J. J., Hibbing, M. V., Canache, D., Seligson, M. A., & Anderson, M. R.",
@@ -82,9 +86,9 @@
         "venue": "American Political Science Review 104(1), 85-110",
         "url": "https://doi.org/10.1017/S0003055409990359"
       },
-      "quote": "Substantively, the largest effects in Table 2 are those for openness and extraversion.",
+      "quote": "Table 2, row \"Work for a party or candidate (1,066)\", column Extraversion: \"1.15#\", standard error \"(0.64)\". Table 2 notes: \"Cell entries are binomial logistic regression coefficients\" and \"All personality variables range in value from 0 to 1.\" Table 1, Extraversion: Scale Mean (SD) \"0.41\" \"(0.26)\".",
       "quoteVerified": true,
-      "notes": "Coefficient is the binomial logit coefficient from Mondak et al. (2010) Table 2 (2006 Cooperative Congressional Election Study, US adults, N about 1,060; controls age, female, black); the trait is scaled 0 to 1 so the coefficient is the log-odds change from lowest to highest trait score, not per SD. low/high = coefficient +/- 1.96 x reported SE. Only p<.10 in the source table."
+      "notes": "Coefficient is the binomial logit coefficient from Mondak et al. (2010) Table 2 (2006 Cooperative Congressional Election Study, US adults, N about 1,060; controls age, female, black); the trait is scaled 0 to 1 so the coefficient is the log-odds change from lowest to highest trait score, not per SD. low/high = coefficient +/- 1.96 x reported SE. Only p<.10 in the source table. Per standard deviation the coefficient is multiplied by the trait's Table 1 standard deviation, 0.26 of the 0 to 1 range."
     },
     {
       "id": "campaigns.donate",
@@ -94,7 +98,8 @@
         "kind": "logit-coef-full-range",
         "value": 1.25,
         "low": 0.407,
-        "high": 2.093
+        "high": 2.093,
+        "traitSd": 0.22
       },
       "source": {
         "authors": "Mondak, J. J., Hibbing, M. V., Canache, D., Seligson, M. A., & Anderson, M. R.",
@@ -103,9 +108,9 @@
         "venue": "American Political Science Review 104(1), 85-110",
         "url": "https://doi.org/10.1017/S0003055409990359"
       },
-      "quote": "Substantively, the largest effects in Table 2 are those for openness and extraversion.",
+      "quote": "Table 2, row \"Respondent contributed money to a political party or candidate (1,066)\" (the label is set over two lines in the paper), column Openness to Experience: \"1.25∗∗\", standard error \"(0.43)\". Table 2 notes: \"Cell entries are binomial logistic regression coefficients\" and \"All personality variables range in value from 0 to 1.\" Table 1, Openness to experience: Scale Mean (SD) \"0.46\" \"(0.22)\".",
       "quoteVerified": true,
-      "notes": "Coefficient is the binomial logit coefficient from Mondak et al. (2010) Table 2 (2006 Cooperative Congressional Election Study, US adults, N about 1,060; controls age, female, black); the trait is scaled 0 to 1 so the coefficient is the log-odds change from lowest to highest trait score, not per SD. low/high = coefficient +/- 1.96 x reported SE. "
+      "notes": "Coefficient is the binomial logit coefficient from Mondak et al. (2010) Table 2 (2006 Cooperative Congressional Election Study, US adults, N about 1,060; controls age, female, black); the trait is scaled 0 to 1 so the coefficient is the log-odds change from lowest to highest trait score, not per SD. low/high = coefficient +/- 1.96 x reported SE. Per standard deviation the coefficient is multiplied by the trait's Table 1 standard deviation, 0.22 of the 0 to 1 range."
     },
     {
       "id": "campaigns.endorse",
@@ -115,7 +120,8 @@
         "kind": "logit-coef-full-range",
         "value": 2.07,
         "low": 1.404,
-        "high": 2.736
+        "high": 2.736,
+        "traitSd": 0.22
       },
       "source": {
         "authors": "Mondak, J. J., Hibbing, M. V., Canache, D., Seligson, M. A., & Anderson, M. R.",
@@ -124,9 +130,9 @@
         "venue": "American Political Science Review 104(1), 85-110",
         "url": "https://doi.org/10.1017/S0003055409990359"
       },
-      "quote": "Substantively, the largest effects in Table 2 are those for openness and extraversion.",
+      "quote": "Table 2, row \"Try to convince people to vote for/against a candidate (1,064)\" (the label is set over two lines in the paper), column Openness to Experience: \"2.07∗∗∗\", standard error \"(0.34)\". Table 2 notes: \"Cell entries are binomial logistic regression coefficients\" and \"All personality variables range in value from 0 to 1.\" Table 1, Openness to experience: Scale Mean (SD) \"0.46\" \"(0.22)\".",
       "quoteVerified": true,
-      "notes": "Coefficient is the binomial logit coefficient from Mondak et al. (2010) Table 2 (2006 Cooperative Congressional Election Study, US adults, N about 1,060; controls age, female, black); the trait is scaled 0 to 1 so the coefficient is the log-odds change from lowest to highest trait score, not per SD. low/high = coefficient +/- 1.96 x reported SE. "
+      "notes": "Coefficient is the binomial logit coefficient from Mondak et al. (2010) Table 2 (2006 Cooperative Congressional Election Study, US adults, N about 1,060; controls age, female, black); the trait is scaled 0 to 1 so the coefficient is the log-odds change from lowest to highest trait score, not per SD. low/high = coefficient +/- 1.96 x reported SE. Per standard deviation the coefficient is multiplied by the trait's Table 1 standard deviation, 0.22 of the 0 to 1 range."
     },
     {
       "id": "campaigns.endorse",
@@ -136,7 +142,8 @@
         "kind": "logit-coef-full-range",
         "value": 0.51,
         "low": -0.039,
-        "high": 1.059
+        "high": 1.059,
+        "traitSd": 0.26
       },
       "source": {
         "authors": "Mondak, J. J., Hibbing, M. V., Canache, D., Seligson, M. A., & Anderson, M. R.",
@@ -145,9 +152,9 @@
         "venue": "American Political Science Review 104(1), 85-110",
         "url": "https://doi.org/10.1017/S0003055409990359"
       },
-      "quote": "Substantively, the largest effects in Table 2 are those for openness and extraversion.",
+      "quote": "Table 2, row \"Try to convince people to vote for/against a candidate (1,064)\" (the label is set over two lines in the paper), column Extraversion: \"0.51#\", standard error \"(0.28)\". Table 2 notes: \"Cell entries are binomial logistic regression coefficients\" and \"All personality variables range in value from 0 to 1.\" Table 1, Extraversion: Scale Mean (SD) \"0.41\" \"(0.26)\".",
       "quoteVerified": true,
-      "notes": "Coefficient is the binomial logit coefficient from Mondak et al. (2010) Table 2 (2006 Cooperative Congressional Election Study, US adults, N about 1,060; controls age, female, black); the trait is scaled 0 to 1 so the coefficient is the log-odds change from lowest to highest trait score, not per SD. low/high = coefficient +/- 1.96 x reported SE. Only p<.10 in the source table."
+      "notes": "Coefficient is the binomial logit coefficient from Mondak et al. (2010) Table 2 (2006 Cooperative Congressional Election Study, US adults, N about 1,060; controls age, female, black); the trait is scaled 0 to 1 so the coefficient is the log-odds change from lowest to highest trait score, not per SD. low/high = coefficient +/- 1.96 x reported SE. Only p<.10 in the source table. Per standard deviation the coefficient is multiplied by the trait's Table 1 standard deviation, 0.26 of the 0 to 1 range."
     },
     {
       "id": "campaigns.open-door",
@@ -157,7 +164,8 @@
         "kind": "pp-full-range",
         "value": 0.22,
         "low": null,
-        "high": null
+        "high": null,
+        "traitSd": 0.26
       },
       "source": {
         "authors": "Mondak, J. J., Hibbing, M. V., Canache, D., Seligson, M. A., & Anderson, M. R.",
@@ -168,7 +176,7 @@
       },
       "quote": "With other variables held constant at mean or modal values, the predicted probability of having contacted a member of Congress rises from 0.28 to 0.45 across the values of openness to experience, and from 0.27 to 0.49 across extraversion.",
       "quoteVerified": true,
-      "notes": "Predicted probability rises 0.27 to 0.49 (22 points) across the full extraversion range; logit coefficient 0.92 (SE .27). This describes a citizen contacting an official, used here as a proxy; no study of officials opening their doors to constituents by personality was found. Not per SD."
+      "notes": "Predicted probability rises 0.27 to 0.49 (22 points) across the full extraversion range; logit coefficient 0.92 (SE .27). This describes a citizen contacting an official, used here as a proxy; no study of officials opening their doors to constituents by personality was found. Not per SD. Table 1 gives Extraversion's standard deviation as 0.26 of the 0 to 1 range (\"Scale Mean (SD) 0.41 (0.26)\"); the swing per standard deviation uses it."
     },
     {
       "id": "meetings.take-part",
@@ -178,7 +186,8 @@
         "kind": "logit-coef-full-range",
         "value": 1.92,
         "low": 1.195,
-        "high": 2.645
+        "high": 2.645,
+        "traitSd": 0.26
       },
       "source": {
         "authors": "Mondak, J. J., Hibbing, M. V., Canache, D., Seligson, M. A., & Anderson, M. R.",
@@ -187,9 +196,9 @@
         "venue": "American Political Science Review 104(1), 85-110",
         "url": "https://doi.org/10.1017/S0003055409990359"
       },
-      "quote": "Substantively, the largest effects in Table 2 are those for openness and extraversion.",
+      "quote": "Table 2, row \"Attended a public meeting with House member or senator in past two years (1,063)\" (the label is set over two lines in the paper), column Extraversion: \"1.92∗∗∗\", standard error \"(0.37)\". Table 2 notes: \"Cell entries are binomial logistic regression coefficients\" and \"All personality variables range in value from 0 to 1.\" Table 1, Extraversion: Scale Mean (SD) \"0.41\" \"(0.26)\".",
       "quoteVerified": true,
-      "notes": "Coefficient is the binomial logit coefficient from Mondak et al. (2010) Table 2 (2006 Cooperative Congressional Election Study, US adults, N about 1,060; controls age, female, black); the trait is scaled 0 to 1 so the coefficient is the log-odds change from lowest to highest trait score, not per SD. low/high = coefficient +/- 1.96 x reported SE. "
+      "notes": "Coefficient is the binomial logit coefficient from Mondak et al. (2010) Table 2 (2006 Cooperative Congressional Election Study, US adults, N about 1,060; controls age, female, black); the trait is scaled 0 to 1 so the coefficient is the log-odds change from lowest to highest trait score, not per SD. low/high = coefficient +/- 1.96 x reported SE. Per standard deviation the coefficient is multiplied by the trait's Table 1 standard deviation, 0.26 of the 0 to 1 range."
     },
     {
       "id": "meetings.take-part",
@@ -199,7 +208,8 @@
         "kind": "logit-coef-full-range",
         "value": 1.65,
         "low": 0.67,
-        "high": 2.63
+        "high": 2.63,
+        "traitSd": 0.26
       },
       "source": {
         "authors": "Mondak, J. J., Hibbing, M. V., Canache, D., Seligson, M. A., & Anderson, M. R.",
@@ -208,9 +218,9 @@
         "venue": "American Political Science Review 104(1), 85-110",
         "url": "https://doi.org/10.1017/S0003055409990359"
       },
-      "quote": "Substantively, the largest effects in Table 2 are those for openness and extraversion.",
+      "quote": "Table 2, row \"Attend meetings or election rallies (1,066)\" (the label is set over two lines in the paper), column Extraversion: \"1.65∗∗\", standard error \"(0.50)\". Table 2 notes: \"Cell entries are binomial logistic regression coefficients\" and \"All personality variables range in value from 0 to 1.\" Table 1, Extraversion: Scale Mean (SD) \"0.41\" \"(0.26)\".",
       "quoteVerified": true,
-      "notes": "Coefficient is the binomial logit coefficient from Mondak et al. (2010) Table 2 (2006 Cooperative Congressional Election Study, US adults, N about 1,060; controls age, female, black); the trait is scaled 0 to 1 so the coefficient is the log-odds change from lowest to highest trait score, not per SD. low/high = coefficient +/- 1.96 x reported SE. "
+      "notes": "Coefficient is the binomial logit coefficient from Mondak et al. (2010) Table 2 (2006 Cooperative Congressional Election Study, US adults, N about 1,060; controls age, female, black); the trait is scaled 0 to 1 so the coefficient is the log-odds change from lowest to highest trait score, not per SD. low/high = coefficient +/- 1.96 x reported SE. Per standard deviation the coefficient is multiplied by the trait's Table 1 standard deviation, 0.26 of the 0 to 1 range."
     },
     {
       "id": "candidacy.run",
@@ -1133,7 +1143,8 @@
       },
       "quote": "The effects of individual personality traits on the marriage probabilities of men and women are quite distinct, though there are two common elements in all specifications—openness to experience decreases marriage for both men and women, while conscientiousness increases the probability of marriage.",
       "quoteVerified": true,
-      "notes": "Value is the average marginal effect of conscientiousness for men from Table 3 column 2 (0.055, SE 0.013), as a probability change (0.055 = 5.5 points) per SD; women 0.031 (SE 0.010). Openness: women -0.044 (SE 0.010), men -0.034 (SE 0.014). Women: extraversion +0.037 (SE 0.013). Traits were standardized by gender (source text). CI is value +/- 1.96 SE. Germany, cohorts born 1945-1970."
+      "notes": "Value is the average marginal effect of conscientiousness for men from Table 3 column 2 (0.055, SE 0.013), as a probability change (0.055 = 5.5 points) per SD; women 0.031 (SE 0.010). Openness: women -0.044 (SE 0.010), men -0.034 (SE 0.014). Women: extraversion +0.037 (SE 0.013). Traits were standardized by gender (source text). CI is value +/- 1.96 SE. Germany, cohorts born 1945-1970.",
+      "outcomeIsProbability": true
     },
     {
       "id": "outcome.stress-reactivity",

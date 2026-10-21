@@ -15,7 +15,7 @@ import {
 } from "./group-a-wages";
 import {
   facialRecognition,
-  housingAssistance,
+  housingLineMeasure,
   paidLeave,
   parksFunding,
 } from "./group-a-money";
@@ -49,7 +49,8 @@ const MECHANICS: Readonly<Record<string, readonly PolicyHandler[]>> = {
   "paid-leave-premium": [paidLeave],
   "parks-funding": [parksFunding],
   "police-oversight": [facialRecognition],
-  "housing-assistance": [housingAssistance],
+  // The housing engine pays the assistance monthly (housing-assistance.ts), citing the measure kept here.
+  "housing-assistance": [housingLineMeasure],
   staffing: [staffing],
   "public-bargaining": [records, publicBargaining],
   "right-to-work": [records, rightToWork],
