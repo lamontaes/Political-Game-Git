@@ -5,12 +5,12 @@ area: world
 kind: stopgap
 priority: 2
 size: M
-status: in-pr
-claimed-by: claude/standins-jobs
+status: open
+claimed-by:
 pr: #5193
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-20T05:01:22.329Z
+claimed-at:
 ---
 
 **What.** The jobs engine still holds open stand-ins (SG-WORLD-jobs-opening-seekers, -layoff-decider, -counted-choices, -counted-retiree-income, -benefits and -offer-deadline-reminder in src/core2/data/stopgaps.json). Redo them one at a time against main's current files, as the closed branch stopgaps/gov-world did against an older main. Each row ends replaced by the mechanic, or relabeled as an ESTIMATED value with its source and spread; unemployment insurance reads the state's law in force.
@@ -26,3 +26,5 @@ claimed-at: 2026-10-20T05:01:22.329Z
 - Oct 19: SG-WORLD-jobs-opening-seekers resolved on `claude/opening-seekers-region`: opening seekers per place from that place's own rate, both tiers.
   Sent back 2026-10-20 from PR #5193 (branch claude/standins-jobs): Merge main 680fdf18aadf into claude/standins-jobs conflicts in: src/core2/modules/jobs.ts. Resolve these files with a normal merge before changed-file validation; no integrated green head exists.; finish on that branch, merge main into it first. Current replacement claim and PR are preserved.
   Sent back 2026-10-20 from PR #5211 (branch claude/opening-seekers-region): Merge conflict with main in docs/pool/items/gov-standins-jobs.md; finish on that branch, merge main into it first.
+
+Sent back 2026-10-21 from PR #5193 (branch claude/standins-jobs): The code-conflict and test-heap fixes are present; the bounded test now fails when no owned layoff is found, so this is not a vacuity objection. The remaining acceptance proof is missing: docs/pool/items/gov-standins-jobs.md:20 requires a named worker's layoff and benefit-claim record IDs in a one-year buildBenchWorld run, with drawn place and seed in the body. The historical three-place counts have no seeds or record IDs, and the new test intentionally stops after a matching layoff rather than supplying that year/claim chain. The final diff only adds the test, notes and release declaration; the layoff mechanic is already on main. Provide the named proof or track the completed test-only scope separately so this main merge cannot auto-complete the unfinished gov-standins-jobs item from its current first-line pool marker. Also narrow docs/release/changes/standins-jobs-layoff.md:6: it says the test checks the best-paid-worker fallback, but jobs-layoff-owner.test.ts:50 filters to businesses with an owner and never tests that fallback. No local gate green is claimed for these morning-check gaps.; finish on that branch, merge main into it first.

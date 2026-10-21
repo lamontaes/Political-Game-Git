@@ -6,11 +6,11 @@ kind: research
 priority: 2
 size: S
 status: in-pr
-claimed-by:
+claimed-by: claude/reachable-sources
 pr: #5491
 blocked-on:
 source: added with npm run pool -- add
-claimed-at:
+claimed-at: 2026-10-21T21:20:20.243Z
 ---
 
 **What.** Checked Oct 20 from a cloud session: www2.census.gov (ACS PUMS and summary files), data.cdc.gov, www.fhfa.gov, apps.bea.gov, www.pewresearch.org, gss.norc.org and dataverse.harvard.edu return 200 and a 188 MB Cooperative Election Study file downloaded in one call; api.census.gov redirects (a key is needed), and www.bls.gov and www.ssa.gov return 403. Several research and stopgap items were marked blocked on 'outside data' on the belief that all of these fail. Re-read each blocked research item, pick the ones whose source is on a reachable host, and take them.
@@ -32,3 +32,5 @@ Sent back 2026-10-20 from PR #5491 (branch claude/reachable-sources): The remain
 Sent back 2026-10-20 from PR #5491 (branch claude/reachable-sources): The release declaration and corrected docs-only scope address the earlier return, and current main merges cleanly here. The item still requires at least two previously blocked items to be moved to open or in-pr with the data fetched. The new Notes record directory HTTP 200 responses and remove the two blocks, but give no fetched ACS B15001/B05/B11 tables or tract/block-group data for those two items. A reachable directory is not that required fetched-data proof. Add the named downloads and evidence for both moved items before marking this sweep done; keep their own played-world requirements intact.; finish on that branch, merge main into it first.
 
 Sent back 2026-10-21 from PR #5491 (branch claude/reachable-sources): The fetched ACS-file notes address the earlier directory-only return. The body still lacks the Done when evidence table required by merger skill section 2.5. Map the complete blocked-item/host list, two unblocked items with their fetched-file URLs and values, absence of reachable-host blocks, and preservation of each moved items drawn buildBenchWorld acceptance to their actual Notes. Also replace the housing title with the research-host sweep that is the remaining diff. No local gate pass is claimed here.; finish on that branch, merge main into it first.
+
+Sent back 2026-10-21 from PR #5491 (branch claude/reachable-sources): The body/title/table fixes and fetched-data proof are present, and the docs conflict is resolved with both Notes kept. One receipt count is false: docs/pool/items/research-deep-past-sourced-parameters.md:35 says the B15001 file contains 48 state rows. I downloaded the exact 160,422,985-byte file; SHA-256 90a66ecbfb1c944650df98ee3ca68088693f76c2b6f308e99c2e99af1e69b688 matches, and its GEO_ID prefix 0400000US has 52 state-level rows: all 50 states, D.C. and Puerto Rico. Correct 48 to that explicit 52-row scope. The 85,381 tract rows, 32,325 place rows, U.S. total 258,742,302 and margin 4,128 all match; the B01003 receipt also matches here. Typecheck, changed-file Prettier, zero-dice and release check passed locally; pool has five unrelated errors reproduced on frozen main. Main integration is plain-pushed at 775c8b8ac9.; finish on that branch, merge main into it first.
