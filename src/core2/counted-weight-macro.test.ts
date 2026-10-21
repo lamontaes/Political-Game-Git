@@ -55,13 +55,15 @@ function filledIn(core: ReturnType<typeof open>["core"]) {
   return held;
 }
 
-function check(seed: string, key: string, where: string) {
+/** False where the place opens with no counted workers: nothing to check there. */
+function check(seed: string, key: string, where: string): boolean {
   const base = open(seed, key);
-  const big = open(seed, key, SCALE);
   const sum = (
     core: typeof base.core,
     field: "people" | "households" | "workers",
   ) => residentCounts(core).reduce((n, row) => n + row[field], 0);
+  if (sum(base.core, "workers") <= 0) return false;
+  const big = open(seed, key, SCALE);
   // The counts follow the weighted store place by place.
   for (const { core } of [base, big]) {
     const store = residentsRuntime(core)!.store;
@@ -90,17 +92,28 @@ function check(seed: string, key: string, where: string) {
   expect(big.state.townResidents, where).toBeGreaterThan(
     base.state.townResidents,
   );
+  return true;
 }
 
 it("counts the people, households and workers a counted record stands for, and macro hears the town at that size", () => {
-  const draw = drawPlace(randomBytes(32).toString("hex"), "census-macro");
-  check(draw.seed, draw.key, `seed ${draw.seed}, ${draw.name} (${draw.key})`);
-}, 900_000);
+  // Some places open with no counted workers; draw again until one has them,
+  // and fail if none does.
+  const tried: string[] = [];
+  for (let i = 0; i < 8; i += 1) {
+    const draw = drawPlace(randomBytes(32).toString("hex"), "census-macro");
+    const where = `seed ${draw.seed}, ${draw.name} (${draw.key})`;
+    if (check(draw.seed, draw.key, where)) return;
+    tried.push(where);
+  }
+  throw new Error(`No counted workers at the opening in: ${tried.join("; ")}`);
+}, 1_800_000);
 
 it("holds in the small town where the count once ran over (Huntington Center, Vermont)", () => {
-  check(
-    "81f3003b4329071a3e587bb803de9acf3816104a8fcfb0e6ca02e3ba1d4276ff",
-    "5034675",
-    "seed 81f3003b…, Huntington Center, Vermont (5034675)",
-  );
+  expect(
+    check(
+      "81f3003b4329071a3e587bb803de9acf3816104a8fcfb0e6ca02e3ba1d4276ff",
+      "5034675",
+      "seed 81f3003b…, Huntington Center, Vermont (5034675)",
+    ),
+  ).toBe(true);
 }, 900_000);
