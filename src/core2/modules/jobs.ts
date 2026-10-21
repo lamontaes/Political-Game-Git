@@ -13,6 +13,7 @@ import type { ModuleTable } from "../module-state";
 import { addDays, daysBetween, makeIsoDate } from "../kernel/dates";
 import { chooseAct, decisionFromScores, scoreOffers } from "../choice";
 import jobsData from "../data/jobs/jobs.json" with { type: "json" };
+import ageUnemployment from "../data/jobs/age-unemployment.json" with { type: "json" };
 import jobsParameters from "../data/jobs/parameters.json" with { type: "json" };
 import seasonal from "../data/jobs/seasonal.json" with { type: "json" };
 import type { Parameter } from "../parameters";
@@ -509,11 +510,59 @@ function openingRate(api: CoreAPI, placeId: string): number {
   return api.parameter("macroNaturalUnemploymentPct");
 }
 
-/** Seekers a rate implies against the jobs held: the held jobs times rate over one minus rate. */
-function seekersFor(api: CoreAPI, held: number, ratePct: number): number {
-  return Math.round(
-    (held * ratePct) / (api.parameter("macroHundred") - ratePct),
+/** An age's band in the labor-force table. */
+function ageBand(age: number): number {
+  const index = ageUnemployment.bands.findIndex(
+    (band) => age >= band.from && age < band.to,
   );
+  return Math.max(0, index);
+}
+
+/** A band's unemployment rate over the overall rate; a place's rate times it is the band's rate there. */
+function bandRatio(index: number): number {
+  const band = ageUnemployment.bands[index]!,
+    total = ageUnemployment.total;
+  return (
+    band.unemployed / band.laborForce / (total.unemployed / total.laborForce)
+  );
+}
+
+/**
+ * The seekers each age band holds in each place: a band's jobs held times its
+ * rate over one minus its rate, the place's rate scaled by the band's ratio.
+ * A place's seekers are the sum over its bands, rounded once, and handed to
+ * the bands by largest remainder, so a small place keeps its seekers.
+ * `held` is keyed `place|band`; the result is keyed the same way.
+ */
+function bandQuotas(
+  api: CoreAPI,
+  held: Map<string, number>,
+): Map<string, number> {
+  const hundred = api.parameter("macroHundred"),
+    byPlace = new Map<string, { key: string; exact: number }[]>();
+  for (const [key, jobs] of [...held].sort(([a], [b]) => a.localeCompare(b))) {
+    const [placeId, index] = key.split("|") as [string, string];
+    const rate = bandRatio(Number(index)) * openingRate(api, placeId);
+    byPlace.set(placeId, [
+      ...(byPlace.get(placeId) ?? []),
+      { key, exact: (jobs * rate) / (hundred - rate) },
+    ]);
+  }
+  const quotas = new Map<string, number>();
+  for (const rows of byPlace.values()) {
+    let left =
+      Math.round(rows.reduce((sum, row) => sum + row.exact, 0)) -
+      rows.reduce((sum, row) => sum + Math.floor(row.exact), 0);
+    for (const row of rows) quotas.set(row.key, Math.floor(row.exact));
+    for (const row of [...rows].sort(
+      (a, b) => (b.exact % 1) - (a.exact % 1) || a.key.localeCompare(b.key),
+    )) {
+      if (left <= 0) break;
+      quotas.set(row.key, quotas.get(row.key)! + 1);
+      left--;
+    }
+  }
+  return quotas;
 }
 
 /**
@@ -525,16 +574,20 @@ function seekersFor(api: CoreAPI, held: number, ratePct: number): number {
 function openSeekers(api: CoreAPI): void {
   const c = core(api),
     [young, old] = jobsData.workingAge as [number, number];
+  const ageOf = (person: PersonState) =>
+    daysBetween(makeIsoDate(person.birthDate), makeIsoDate(c.date)) /
+    api.parameter("jobsDaysPerYear");
+  // The jobs held, counted by place and age band: the place's labor force.
   const heldBy = new Map<string, number>();
   for (const job of c.jobs.values()) {
     if (job.endsAt !== undefined) continue;
-    const placeId = c.people.get(job.personId)?.placeId;
-    if (placeId) heldBy.set(placeId, (heldBy.get(placeId) ?? 0) + 1);
+    const holder = c.people.get(job.personId);
+    if (!holder) continue;
+    const key = `${holder.placeId}|${ageBand(ageOf(holder))}`;
+    heldBy.set(key, (heldBy.get(key) ?? 0) + 1);
   }
   const jobless = [...c.people.values()].filter((person) => {
-    const age =
-      daysBetween(makeIsoDate(person.birthDate), makeIsoDate(c.date)) /
-      api.parameter("jobsDaysPerYear");
+    const age = ageOf(person);
     return (
       person.alive &&
       !person.jobId &&
@@ -549,18 +602,23 @@ function openSeekers(api: CoreAPI): void {
     person.livingCostDailyMinor > 0
       ? person.liquidMinor / person.livingCostDailyMinor
       : Number.POSITIVE_INFINITY;
-  const places = new Set(jobless.map((person) => person.placeId));
-  for (const placeId of [...places].sort())
-    jobless
-      .filter((person) => person.placeId === placeId)
+  // In each place and age band, as many as the band's rate there implies
+  // against the jobs held in the band; the neediest within the band seek.
+  const groups = new Map<string, PersonState[]>();
+  for (const person of jobless) {
+    const key = `${person.placeId}|${ageBand(ageOf(person))}`;
+    groups.set(key, [...(groups.get(key) ?? []), person]);
+  }
+  const quotas = bandQuotas(api, heldBy);
+  for (const key of [...groups.keys()].sort()) {
+    groups
+      .get(key)!
       .sort((a, b) => days(a) - days(b) || a.id.localeCompare(b.id))
-      .slice(
-        0,
-        seekersFor(api, heldBy.get(placeId) ?? 0, openingRate(api, placeId)),
-      )
+      .slice(0, quotas.get(key) ?? 0)
       .forEach((person) =>
         startSeeking(api, person.id, false, "opening-unemployed", 0),
       );
+  }
 }
 
 /** The wider population's seekers at the opening: jobless working-age adults in the households with the fewest earners, as many as the rate implies. */
@@ -572,14 +630,20 @@ function openCountedSeekers(api: CoreAPI): void {
   const working = new Set(
     [...rt.wageFlowByJob.keys()].map((id) => rt.jobs.get(id)?.personId),
   );
-  const candidates: { personId: string; placeId: string; share: number }[] = [];
-  const workingByPlace = new Map<string, number>();
+  const candidates: {
+    personId: string;
+    placeId: string;
+    share: number;
+    band: number;
+  }[] = [];
+  const workingBy = new Map<string, number>();
   const counted = rt.store;
+  const ageAt = (m: number) =>
+    daysBetween(makeIsoDate(counted.born[m]!), makeIsoDate(c.date)) /
+    api.parameter("jobsDaysPerYear");
   for (const h of counted.liveHouseholds()) {
     const adults = counted.countedMembers(h).filter((m) => {
-      const age =
-        daysBetween(makeIsoDate(counted.born[m]!), makeIsoDate(c.date)) /
-        api.parameter("jobsDaysPerYear");
+      const age = ageAt(m);
       return age >= young && age < old;
     });
     if (!adults.length) continue;
@@ -587,34 +651,27 @@ function openCountedSeekers(api: CoreAPI): void {
       adults.filter((m) => working.has(counted.ids[m]!)).length / adults.length;
     for (const m of adults) {
       const personId = counted.ids[m]!;
+      const placeId = counted.strings[counted.placeIx[m]!]!,
+        band = ageBand(ageAt(m));
       if (working.has(personId)) {
-        const placeId = counted.strings[counted.placeIx[m]!]!;
-        workingByPlace.set(placeId, (workingByPlace.get(placeId) ?? 0) + 1);
+        const key = `${placeId}|${band}`;
+        workingBy.set(key, (workingBy.get(key) ?? 0) + 1);
       }
       if (!working.has(personId) && !inCustody(api, personId))
-        candidates.push({
-          personId,
-          placeId: counted.strings[counted.placeIx[m]!]!,
-          share,
-        });
+        candidates.push({ personId, placeId, share, band });
     }
   }
-  // In each place, as many as that place's rate implies against the jobs its
-  // counted workers hold: the same rule as the named people, times the count.
-  for (const placeId of [
-    ...new Set(candidates.map((row) => row.placeId)),
-  ].sort())
+  // In each place and age band, as many as the band's rate there implies
+  // against the jobs its counted workers hold: the same rule as the named
+  // people, times the count.
+  const quotas = bandQuotas(api, workingBy);
+  for (const key of [
+    ...new Set(candidates.map((row) => `${row.placeId}|${row.band}`)),
+  ].sort()) {
     candidates
-      .filter((row) => row.placeId === placeId)
+      .filter((row) => `${row.placeId}|${row.band}` === key)
       .sort((a, b) => a.share - b.share || a.personId.localeCompare(b.personId))
-      .slice(
-        0,
-        seekersFor(
-          api,
-          workingByPlace.get(placeId) ?? 0,
-          openingRate(api, placeId),
-        ),
-      )
+      .slice(0, quotas.get(key) ?? 0)
       .forEach((row) =>
         store(api).table("countedSeekers").put({
           id: row.personId,
@@ -627,6 +684,7 @@ function openCountedSeekers(api: CoreAPI): void {
           referenceHourlyMinor: 0,
         }),
       );
+  }
 }
 
 /** A job's role: its occupation, or its title where it has none. */
