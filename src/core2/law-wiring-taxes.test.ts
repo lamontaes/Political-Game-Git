@@ -140,10 +140,16 @@ function attempt(index: number): Attempt {
   // A body in play may repeal one of these acts during the run (a state
   // legislature voting the income tax questions down); the test puts it back
   // each month so every read happens under it.
+  // Putting an income tax question back writes its own income-tax row, so the
+  // raise is made again on the row then in force.
   for (let day = 0; day < 170; day += 30) {
-    for (const key of QUESTIONS)
-      if (lawInForce(api, key).value !== 1)
-        setQuestion(api, key, 1, key === CAP ? undefined : "state");
+    const back = QUESTIONS.filter((key) => lawInForce(api, key).value !== 1);
+    for (const key of back)
+      setQuestion(api, key, 1, key === CAP ? undefined : "state");
+    if (back.includes(ADOPT) || back.includes(GRADUATED)) {
+      run(core, 2);
+      ids.income = scaleAmount(api, "income-tax", 1.1);
+    }
     run(core, Math.min(30, 170 - day));
   }
   const missing = [
