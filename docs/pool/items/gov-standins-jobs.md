@@ -5,12 +5,12 @@ area: world
 kind: stopgap
 priority: 2
 size: M
-status: in-pr
-claimed-by: claude/standins-jobs
+status: open
+claimed-by:
 pr: #5193
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-20T05:01:22.329Z
+claimed-at:
 ---
 
 **What.** The jobs engine still holds open stand-ins (SG-WORLD-jobs-opening-seekers, -layoff-decider, -counted-choices, -counted-retiree-income, -benefits and -offer-deadline-reminder in src/core2/data/stopgaps.json). Redo them one at a time against main's current files, as the closed branch stopgaps/gov-world did against an older main. Each row ends replaced by the mechanic, or relabeled as an ESTIMATED value with its source and spread; unemployment insurance reads the state's law in force.
