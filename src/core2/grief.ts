@@ -13,7 +13,7 @@
  */
 import { registerWorldMapPart } from "./snapshot";
 import { daysBetween, makeIsoDate } from "./kernel/dates";
-import { stableHash } from "./kernel/ids";
+import { stableHash, pairKey } from "./kernel/ids";
 import { inverseStandardNormal } from "./kernel/deterministic-math";
 import { currentCloseness } from "./closeness";
 import data from "./data/grief.json" with { type: "json" };
@@ -99,9 +99,7 @@ export function recordDeath(
       if (id === deceasedId) continue;
       const person = api.state.people.get(id);
       if (!person?.alive || !person.familyIds.has(deceasedId)) continue;
-      const tie = api.state.relationships.get(
-        [id, deceasedId].sort().join(":"),
-      );
+      const tie = api.state.relationships.get(pairKey(id, deceasedId));
       if (!tie) continue;
       const rows = store.get(id) ?? [];
       rows.push({
