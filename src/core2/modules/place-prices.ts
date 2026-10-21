@@ -24,6 +24,9 @@ import { BUDGETS_MODULE_ID, governments } from "./budgets";
 import lawParameters from "../data/laws/reach-group-b-parameters.json" with { type: "json" };
 import { DEFAULT_BUSINESS_BOOKS_DATA } from "../business-books";
 import { stopgap } from "../stopgaps";
+import { webReach, type Subject } from "../outcome-web-reach";
+import { incomeBandOf } from "./residents";
+import { registerPricesWebGaps } from "./prices-web-gaps";
 import { sha256Hex } from "../kernel/sha256";
 import { transferCash } from "../world-transfer";
 import { newsKey, storiesHeard } from "./news";
@@ -234,6 +237,20 @@ export function setRoadCondition(
   });
 }
 
+/**
+ * The share of roads in poor condition when the highways line stands at
+ * `level` times its base: the base share, falling as the line rises and
+ * rising as it falls (never more than every road).
+ */
+export function poorRoadShareAt(api: CoreAPI, level: number): number {
+  const base = goods.goods["vehicle-repair"].poorShareBase;
+  if (level <= 0) return 1;
+  return Math.min(
+    1,
+    base / level ** api.parameter("pricesRoadLevelElasticity"),
+  );
+}
+
 /** A law repealed or a budget restored: the place's rule for the good ends. */
 export function endPlaceRule(
   api: CoreAPI,
@@ -257,6 +274,8 @@ export function monthlyChange(
   >,
   scale: number,
   persons: number,
+  /** What the outcome web carries into this household's use: trips taken and the share subscribing, each against its own base. */
+  web: { trips?: number; subscribe?: number } = {},
 ): { payMinor: number; refundMinor: number } {
   const g = goods.goods;
   switch (rule.kind) {
@@ -275,7 +294,7 @@ export function monthlyChange(
       const t = g["transit-fare"],
         trips = (t.tripsPerHouseholdYear * scale) / MONTHS;
       return {
-        payMinor: trips * rule.value,
+        payMinor: trips * (web.trips ?? 1) * rule.value,
         refundMinor: trips * t.farePerTripMinor,
       };
     }
@@ -306,8 +325,12 @@ export function monthlyChange(
       const b = g.broadband;
       if (rule.value >= b.monthlyPriceMinor)
         return { payMinor: 0, refundMinor: 0 };
+      const subscribing = Math.min(
+        1,
+        b.subscriptionShare * (web.subscribe ?? 1),
+      );
       return {
-        payMinor: rule.value * b.subscriptionShare,
+        payMinor: rule.value * subscribing,
         refundMinor: b.monthlyPriceMinor * b.subscriptionShare,
       };
     }
@@ -838,15 +861,121 @@ export function businessEnergyCostYear(
   return Math.round(annualOtherCostsMinor * share * row.value);
 }
 
+/**
+ * What the outcome web adds to a place's use of a good this month. Electricity
+ * is the exception that replaces rather than adds: a clean-electricity
+ * standard's recorded compliance cost stands in for the price until the web's
+ * own link to the electricity price is running, then the web's price is the
+ * price (the same cause is never charged twice).
+ */
+function webUse(
+  api: CoreAPI,
+  rule: Rule,
+  subject: Subject,
+): { rule: Rule; trips: number; subscribe: number } {
+  const same = { rule, trips: 1, subscribe: 1 };
+  if (rule.good === "electricity" && rule.kind === "share") {
+    const reach = webReach(
+      api,
+      rule.placeId,
+      "energy.electricity-price",
+      subject,
+    );
+    if (!reach.parts.length) return same;
+    const carried = reach.parts.some(
+      (part) => part.link === "clean-electricity-to-price",
+    );
+    return {
+      ...same,
+      rule: {
+        ...rule,
+        value: (carried ? 1 : 1 + rule.value) * reach.factor - 1,
+      },
+    };
+  }
+  if (rule.good === "transit-fare" && rule.kind === "price")
+    return {
+      ...same,
+      trips: webReach(api, rule.placeId, "transit.ridership", subject).factor,
+    };
+  if (rule.good === "broadband" && rule.kind === "offer")
+    return {
+      ...same,
+      subscribe: webReach(api, rule.placeId, "broadband.home-access", subject)
+        .factor,
+    };
+  return same;
+}
+
+/** The town's rules, plus a rule at no change for a good the web alone moves (an electricity price or transit trips with no statute of their own). */
+function withWebRules(api: CoreAPI, rules: Rule[]): Rule[] {
+  if (!api.state.modules.has(LAWS_MODULE_ID)) return rules;
+  const placeId = lawChain(api).townPlaceId;
+  const out = [...rules];
+  const source: Source = {
+    tag: "ESTIMATED",
+    asOf: api.state.date,
+    citation: `Outcome web month row for ${placeId}`,
+    estimatedFrom:
+      "The web's factor on the measure, with the consumption parameters in data/prices.",
+  };
+  const add = (
+    good: Good,
+    kind: Rule["kind"],
+    measure: string,
+    value: number,
+  ) => {
+    if (
+      rules.some(
+        (r) => r.placeId === placeId && r.good === good && r.kind === kind,
+      )
+    )
+      return;
+    if (webReach(api, placeId, measure).factor === 1) return;
+    out.push({
+      id: `${placeId}:${good}:${kind}`,
+      placeId,
+      good,
+      kind,
+      value,
+      cause: `web:${measure}`,
+      since: api.state.date,
+      source,
+    });
+  };
+  add("electricity", "share", "energy.electricity-price", 0);
+  add(
+    "transit-fare",
+    "price",
+    "transit.ridership",
+    goods.goods["transit-fare"].farePerTripMinor,
+  );
+  return out;
+}
+
 /** Each month: every rule's change in spending, settled for each full household and each place's counted households together. */
 function month(api: CoreAPI): void {
   const c = core(api);
   readPriceLaws(api);
-  const rules = store(api)
-    .table("rules")
-    .query("all", [true]) as unknown as Rule[];
+  registerPricesWebGaps(api);
+  const rules = withWebRules(
+    api,
+    store(api).table("rules").query("all", [true]) as unknown as Rule[],
+  );
   if (!rules.length) return;
   const rt = residentsRuntime(c);
+  // The web's factors on this place's use of a good, by income fifth: read once a band, not once a household.
+  const bands = new Map<string, ReturnType<typeof webUse>>();
+  const useFor = (rule: Rule, payMonthlyMinor: number) => {
+    const fifth = incomeBandOf(payMonthlyMinor * MONTHS);
+    const key = `${rule.placeId}|${rule.good}|${rule.kind}|${rule.cause}|${fifth}`;
+    let use = bands.get(key);
+    if (!use) {
+      use = webUse(api, rule, { incomeFifth: fifth });
+      bands.set(key, use);
+    }
+    return use;
+  };
   for (const rule of rules) {
     const sellers =
       rule.kind === "sale" ? licensedSellers(c, rule.placeId) : [];
@@ -863,12 +992,14 @@ function month(api: CoreAPI): void {
           pay +=
             (job.wageDailyMinor * api.parameter("jobsDaysPerYear")) / MONTHS;
       }
+      const use = useFor(rule, pay);
       const change = monthlyChange(
-        rule,
+        use.rule,
         scaleFor(api, pay, rule.good),
         rule.good === "cannabis"
           ? cannabisWeight(api, adultUsers(api, members))
           : members.length,
+        use,
       );
       // The controlled person's money moves only by their own choice (owner,
       // Oct 14), and a dependent one (no job) pays nothing of the household's
@@ -919,8 +1050,9 @@ function month(api: CoreAPI): void {
           pay +=
             (job.wageDailyMinor * api.parameter("jobsDaysPerYear")) / MONTHS;
       }
+      const use = useFor(rule, pay);
       const change = monthlyChange(
-        rule,
+        use.rule,
         scaleFor(api, pay, rule.good),
         rule.good === "cannabis"
           ? cannabisWeight(
@@ -930,6 +1062,7 @@ function month(api: CoreAPI): void {
                 api.parameter("pricesCannabisUsePrevalence"),
             )
           : persons,
+        use,
       );
       const total = byGroup.get(household.group) ?? {
         household: household.id,
@@ -970,7 +1103,10 @@ function month(api: CoreAPI): void {
             : "pricesBusinessFuelShare",
         );
         const change =
-          (book.annualOtherCostsMinor * share * rule.value) / MONTHS;
+          (book.annualOtherCostsMinor *
+            share *
+            webUse(api, rule, {}).rule.value) /
+          MONTHS;
         settle(
           api,
           `price:${rule.id}:${c.date}:${organizationId}`,

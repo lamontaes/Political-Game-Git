@@ -1998,6 +1998,7 @@
   "openingRetirementClaimTraitPullYears": {
     "value": 4,
     "tag": "TUNABLE",
+    "stopgapId": "SG-P8-param-openingRetirementClaimTraitPullYears",
     "citation": "SSA Annual Statistical Supplement 2022, Table 6.B5: claim ages spread from 62 (about 25% in 2021) to 70 and later (about 8%); one unit of patience (mean of deliberation, reliability and less risk) moves a claim about a year and a half.",
     "estimatedFrom": "Explicit opening-generation prior. No claim of observed individual history, 2021 legal entitlement or parameter-specific empirical bound.",
     "spread": {
@@ -4495,6 +4496,18 @@
     "citation": "Share of a place's residents in one year of age at school ages: the 2020 Census counted 42.6 million people aged 5 to 14 of 331.4 million, about 1.29% per single year (U.S. Census Bureau, 2020 Census Demographic and Housing Characteristics, Table P12). Sizes a place's catchment of schools when its own schools are not recorded.",
     "estimatedFrom": "2020 Census DHC P12, national; spread 0.011 to 0.015 across places (older and younger places)"
   },
+  "livingCostWriteOffBills": {
+    "value": 4,
+    "tag": "ESTIMATED",
+    "citation": "FFIEC, Uniform Retail Credit Classification and Account Management Policy (2000): closed-end retail credit is charged off at 120 days past due and open-end credit at 180 days; a month's bill is the unit here.",
+    "estimatedFrom": "120 days past due is four monthly bills; open-end accounts at 180 days would be six. A household's outside living costs (utilities, phone, insurance and the like) are written off after about four unpaid bills.",
+    "spread": {
+      "low": 3,
+      "high": 6,
+      "unit": "monthly bills unpaid before the debt is written off",
+      "citation": "Utility disconnection and collection practice (about 60 to 90 days) to the FFIEC open-end charge-off age (180 days)."
+    }
+  },
   "supplierTradeTermsDays": {
     "value": 30,
     "tag": "ESTIMATED",
@@ -4718,18 +4731,6 @@
     "value": 12420,
     "tag": "SOURCED",
     "citation": "NCES, Digest of Education Statistics 2021, Table 205.50: average tuition at all private elementary and secondary schools, 2011–12, $12,420 in constant 2020–21 dollars. https://nces.ed.gov/programs/digest/d21/tables/dt21_205.50.asp"
-  },
-  "openingPrivateSchoolShare": {
-    "value": 0.085,
-    "tag": "ESTIMATED",
-    "citation": "NCES Fast Facts, Back-to-school statistics: fall 2021, 4.7 million private and 49.4 million public elementary and secondary students; NCES NHES 2019: about 2.8% of school-age children homeschooled.",
-    "estimatedFrom": "4.7 / (49.4 + 4.7 + about 1.6 homeschooled) ≈ 0.085 of school-age children in private schools.",
-    "spread": {
-      "low": 0.04,
-      "high": 0.14,
-      "unit": "share of children aged 5–17",
-      "citation": "State private shares from NCES Digest Table 205.80 range roughly 4% to 14%."
-    }
   },
   "openingCustomerClubMembershipsAnnualNationalUsd": {
     "value": 272,
@@ -5019,12 +5020,14 @@
     }
   },
   "traitWeightWorkAttendShift": {
-    "value": 1,
-    "tag": "TUNABLE",
-    "citation": "The trait weight of the work.attend-shift decision. Starts at the general traitWeight (1); calibrated against its row in data/research/trait-effect-sizes.json with scripts/traits/trait-calibrate.ts.",
+    "value": 0.1,
+    "tag": "ESTIMATED",
+    "citation": "Salgado 2002, 'The Big Five personality dimensions and counterproductive behaviors' (International Journal of Selection and Assessment 10): 'none of the Big Five personality measures were found to be predictors of absenteeism'. The weight is the largest that keeps the odds of missing between the third leaning most toward missing and the third leaning least near a small single-decision effect (1.24 at 0.1 against an assumed 1.1 per standard deviation, scripts/traits/trait-calibrate.ts, Ely, Nevada, key 3223500, seed 7ae8589566f5, 14,008 shift weighings); at the general weight of 1 the ratio was 61, so temperament decided who missed work. Illness now decides most absences (workAbsenceIllnessWeight).",
     "spread": {
-      "status": "unmeasured",
-      "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
+      "low": 0.05,
+      "high": 0.2,
+      "unit": "weight",
+      "citation": "Odds ratios 1.16 to 1.72 between the thirds in the same calls; the study's null bounds it above."
     }
   },
   "traitWeightDrivesRespond": {
@@ -5130,12 +5133,14 @@
     }
   },
   "traitWeightCandidacyRun": {
-    "value": 1,
-    "tag": "TUNABLE",
-    "citation": "The trait weight of the candidacy.run decision. Starts at the general traitWeight (1); calibrated against its row in data/research/trait-effect-sizes.json with scripts/traits/trait-calibrate.ts.",
+    "value": 0.91,
+    "tag": "ESTIMATED",
+    "citation": "van de Wardt, Bundi, Loewen, Rasmussen, Sheffer and Varone (2026), Too honest and humble to run for office?, European Journal of Political Research 65, having run for office, honesty-humility -0.03 per interquartile range: target odds ratio 1.21 between thirds. The chooser's trait term is the only place personality enters (the separate temperament reason was removed). Found with the cross-product calibration of the played years of Newfane VT, Ute IA, Clifton KS and Cameron SC (seeds c1, d1, d3, d12, 365 days each, scripts/traits/trait-wiring-audit.ts): every kept reason total met with every kept trait lean, the weight at which the odds of the studied option between the top and bottom third of lean match the study's, with the threshold moved so the share who say yes is unchanged. Reached 1.21.",
     "spread": {
-      "status": "unmeasured",
-      "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
+      "low": 0.45,
+      "high": 1.4,
+      "unit": "weight",
+      "citation": "Scaled linearly from the study's reported interval (or half to one and a half times where none is reported) to the weight."
     }
   },
   "traitWeightSpeechRetell": {
@@ -5312,12 +5317,14 @@
     }
   },
   "traitWeightVotingStandAgain": {
-    "value": 1,
-    "tag": "TUNABLE",
-    "citation": "The trait weight of the voting.stand-again decision. Starts at the general traitWeight (1); calibrated against its row in data/research/trait-effect-sizes.json with scripts/traits/trait-calibrate.ts.",
+    "value": 0.2,
+    "tag": "ESTIMATED",
+    "citation": "van de Wardt, Bundi, Loewen, Rasmussen, Sheffer and Varone (2026), Too honest and humble to run for office?, European Journal of Political Research 65, having run for office, honesty-humility -0.03 per interquartile range, as the proxy for an incumbent standing again (no study of incumbents' decisions was found): target odds ratio 1.21 between thirds. Found by the cross-product method over the ages of Newfane VT's adults 30 to 85 with the age reason added to the decision, so that 82% stand (about 81% of local incumbents seek reelection). Reached 1.19.",
     "spread": {
-      "status": "unmeasured",
-      "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
+      "low": 0.1,
+      "high": 0.3,
+      "unit": "weight",
+      "citation": "Scaled linearly from the study's reported interval (or half to one and a half times where none is reported) to the weight."
     }
   },
   "traitWeightBallotMeasuresVote": {
@@ -5357,21 +5364,25 @@
     }
   },
   "traitWeightCampaignsVolunteer": {
-    "value": 1,
-    "tag": "TUNABLE",
-    "citation": "The trait weight of the campaigns.volunteer decision. Starts at the general traitWeight (1); calibrated against its row in data/research/trait-effect-sizes.json with scripts/traits/trait-calibrate.ts.",
+    "value": 0.15,
+    "tag": "ESTIMATED",
+    "citation": "Mondak, Hibbing, Canache, Seligson and Anderson (2010), Personality and Civic Engagement, American Political Science Review 104(1), Table 2, worked for a party or candidate, openness logit 2.02 over the trait's full range (95% interval 0.57 to 3.47): target odds ratio 2.41 between thirds. Found with the cross-product calibration of the played years of Newfane VT, Ute IA, Clifton KS and Cameron SC (seeds c1, d1, d3, d12, 365 days each, scripts/traits/trait-wiring-audit.ts): every kept reason total met with every kept trait lean, the weight at which the odds of the studied option between the top and bottom third of lean match the study's, with the volunteer threshold set at 1.0 (the largest the campaign calibration test's range of acquaintances who volunteer allows without losing the closest circle). Reached 2.42.",
     "spread": {
-      "status": "unmeasured",
-      "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
+      "low": 0.042,
+      "high": 0.26,
+      "unit": "weight",
+      "citation": "Scaled linearly from the study's reported interval (or half to one and a half times where none is reported) to the weight."
     }
   },
   "traitWeightCampaignsDonate": {
-    "value": 1,
-    "tag": "TUNABLE",
-    "citation": "The trait weight of the campaigns.donate decision. Starts at the general traitWeight (1); calibrated against its row in data/research/trait-effect-sizes.json with scripts/traits/trait-calibrate.ts.",
+    "value": 0.065,
+    "tag": "ESTIMATED",
+    "citation": "Mondak, Hibbing, Canache, Seligson and Anderson (2010), Personality and Civic Engagement, American Political Science Review 104(1), Table 2, contributed money, openness logit 1.25 (interval 0.41 to 2.09): target odds ratio 1.72 between thirds. Found with the cross-product calibration of the played years of Newfane VT, Ute IA, Clifton KS and Cameron SC (seeds c1, d1, d3, d12, 365 days each, scripts/traits/trait-wiring-audit.ts): every kept reason total met with every kept trait lean, the weight at which the odds of the studied option between the top and bottom third of lean match the study's, with the threshold moved so the share who say yes is unchanged. Reached 1.72 on whether a person's reasons to give clear zero; no threshold moved because a gift grows with the reason.",
     "spread": {
-      "status": "unmeasured",
-      "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
+      "low": 0.021,
+      "high": 0.109,
+      "unit": "weight",
+      "citation": "Scaled linearly from the study's reported interval (or half to one and a half times where none is reported) to the weight."
     }
   },
   "traitWeightCampaignsEndorse": {
@@ -5384,30 +5395,36 @@
     }
   },
   "traitWeightCampaignsOpenDoor": {
-    "value": 1,
-    "tag": "TUNABLE",
-    "citation": "The trait weight of the campaigns.open-door decision. Starts at the general traitWeight (1); calibrated against its row in data/research/trait-effect-sizes.json with scripts/traits/trait-calibrate.ts.",
+    "value": 0.085,
+    "tag": "ESTIMATED",
+    "citation": "Mondak, Hibbing, Canache, Seligson and Anderson (2010), Personality and Civic Engagement, American Political Science Review 104(1), contacted a member of Congress, extraversion 0.27 to 0.49 across its range (logit 0.92, SE 0.27), used as the citizen-side proxy for answering a stranger's knock: target odds ratio 1.48 between thirds. Found with the cross-product calibration of the played years of Newfane VT, Ute IA, Clifton KS and Cameron SC (seeds c1, d1, d3, d12, 365 days each, scripts/traits/trait-wiring-audit.ts): every kept reason total met with every kept trait lean, the weight at which the odds of the studied option between the top and bottom third of lean match the study's, with the threshold moved so the share who say yes is unchanged. Reached 1.44.",
     "spread": {
-      "status": "unmeasured",
-      "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
+      "low": 0.036,
+      "high": 0.134,
+      "unit": "weight",
+      "citation": "Scaled linearly from the study's reported interval (or half to one and a half times where none is reported) to the weight."
     }
   },
   "traitWeightCampaignsRetell": {
-    "value": 1,
-    "tag": "TUNABLE",
-    "citation": "The trait weight of the campaigns.retell decision. Starts at the general traitWeight (1); calibrated against its row in data/research/trait-effect-sizes.json with scripts/traits/trait-calibrate.ts.",
+    "value": 4.9,
+    "tag": "ESTIMATED",
+    "citation": "Mondak, Hibbing, Canache, Seligson and Anderson (2010), Personality and Civic Engagement, American Political Science Review 104(1), Table 2, tried to convince people how to vote, openness logit 2.07 (interval 1.40 to 2.74), as the proxy for telling family a campaign story (no study of retelling by personality was found): target ratio 2.47 between thirds. A retelling's reach is 1 plus this weight times the lean, so the weight is the one at which the top third's mean reach is 2.45 times the bottom third's across the adults of Newfane VT (seed c1). The campaign's second-hand weight was lowered to keep the town's mean reach where it was.",
     "spread": {
-      "status": "unmeasured",
-      "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
+      "low": 3.3,
+      "high": 6.6,
+      "unit": "weight",
+      "citation": "Scaled linearly from the study's reported interval (or half to one and a half times where none is reported) to the weight."
     }
   },
   "traitWeightCampaignsAnswerPoll": {
-    "value": 1,
-    "tag": "TUNABLE",
-    "citation": "The trait weight of the campaigns.answer-poll decision. Starts at the general traitWeight (1); calibrated against its row in data/research/trait-effect-sizes.json with scripts/traits/trait-calibrate.ts.",
+    "value": 0.095,
+    "tag": "ESTIMATED",
+    "citation": "Mondak, Hibbing, Canache, Seligson and Anderson (2010), Personality and Civic Engagement, American Political Science Review 104(1), contacted a member of Congress, extraversion (proxy for answering a pollster's call; no study of poll response by personality was found): target odds ratio 1.48 between thirds. Found by the same cross-product method on the age reasons of every adult of Newfane VT (seed c1) met with their trait leans, with the threshold moved so the share who answer is unchanged. Reached 1.46.",
     "spread": {
-      "status": "unmeasured",
-      "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
+      "low": 0.04,
+      "high": 0.15,
+      "unit": "weight",
+      "citation": "Scaled linearly from the study's reported interval (or half to one and a half times where none is reported) to the weight."
     }
   },
   "traitWeightCampaignsRivalHours": {
@@ -5596,12 +5613,14 @@
     }
   },
   "traitWeightPressAcceptInterview": {
-    "value": 1,
-    "tag": "TUNABLE",
-    "citation": "The trait weight of the press.accept-interview decision. Starts at the general traitWeight (1); calibrated against its row in data/research/trait-effect-sizes.json with scripts/traits/trait-calibrate.ts.",
+    "value": 1.98,
+    "tag": "ESTIMATED",
+    "citation": "Mondak, Hibbing, Canache, Seligson and Anderson (2010), Personality and Civic Engagement, American Political Science Review 104(1), tried to convince people how to vote, openness logit 2.07 (interval 1.40 to 2.74), as the proxy for speaking to a reporter: target odds ratio 2.47 between thirds. Nearly every candidate has no closeness or grudge with the asking reporter, so no circumstance varies and the weight is set on the latent-logit scale: the study's log odds divided by the gap between the top and bottom third's mean lean (0.456) across the adults of Newfane VT (seed c1). Only a candidate strongly averse to a reporter declines.",
     "spread": {
-      "status": "unmeasured",
-      "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
+      "low": 1.3,
+      "high": 2.7,
+      "unit": "weight",
+      "citation": "Scaled linearly from the study's reported interval (or half to one and a half times where none is reported) to the weight."
     }
   },
   "traitWeightPressDig": {
@@ -5677,12 +5696,14 @@
     }
   },
   "traitWeightCampaignsPartyFirmness": {
-    "value": 1,
-    "tag": "TUNABLE",
-    "citation": "The trait weight of the campaigns.party-firmness decision. Starts at the general traitWeight (1); calibrated against its row in data/research/trait-effect-sizes.json with scripts/traits/trait-calibrate.ts.",
+    "value": 0.44,
+    "tag": "ESTIMATED",
+    "citation": "Mondak, Hibbing, Canache, Seligson and Anderson (2010), Personality and Civic Engagement, American Political Science Review 104(1), Table 2, worked for a party or candidate, openness logit 2.02 (interval 0.57 to 3.47), as the proxy for holding a party's line (no study of party firmness by personality was found): target odds ratio 2.41 between thirds. Firmness is a share around one half, so the weight is the one at which the odds of a firm tie between the top and bottom third of lean differ by 2.37 across the adults of Newfane VT (seed c1).",
     "spread": {
-      "status": "unmeasured",
-      "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
+      "low": 0.12,
+      "high": 0.77,
+      "unit": "weight",
+      "citation": "Scaled linearly from the study's reported interval (or half to one and a half times where none is reported) to the weight."
     }
   },
   "traitWeightEstatesWill": {
@@ -5965,6 +5986,18 @@
       "high": 0.25,
       "unit": "standard deviations per event",
       "citation": "Small effects in the life-event personality literature; not retrieved per event."
+    }
+  },
+  "workAbsenceIllnessWeight": {
+    "value": 0.3,
+    "tag": "ESTIMATED",
+    "citation": "BLS Current Population Survey 2023, Table 46: full-time wage and salary workers lose 1.7% of scheduled hours to absence (lost worktime rate), illness or injury being about two thirds of absences (2.2 of a 3.2% absence rate, data/research/stand-in-figures-2026-10-12.json). The weight on a person's own care need (src/core2/modules/health.ts careNeedOf, 0 to 1) is set so missed shifts come to that share: in Ely, Nevada (key 3223500, seed 7ae8589566f5, 45 played days, 3,782 shift weighings) weights 0.2, 0.5 and 1.5 gave 1.1%, 3.7% and 11.1% of shifts missed; 0.3 sits at the 1.7% target.",
+    "estimatedFrom": "Interpolated between 0.2 (1.1%) and 0.5 (3.7%) to 1.7%.",
+    "spread": {
+      "low": 0.2,
+      "high": 0.4,
+      "unit": "score per unit of care need",
+      "citation": "The 1.2% to 2.5% lost-worktime band of data/research/stopgaps-oct19/A-people-behavior-1.json."
     }
   }
 }

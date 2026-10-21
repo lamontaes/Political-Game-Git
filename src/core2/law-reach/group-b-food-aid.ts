@@ -27,6 +27,7 @@ import {
   type AssistanceTimeLimit,
   governmentAt,
   reconcileObligations,
+  recordApplied,
   recordDraws,
   timeLimitedNow,
 } from "./group-b-money";
@@ -154,6 +155,8 @@ export function runFoodAid(
     const limited = timeLimitedNow(api, gov.id, FOOD_AID_KEY, timeLimit);
     const paid: string[] = [];
     let countedMinor = 0;
+    let countedHouseholds = 0;
+    const lawId = lawInForce(api, "snap-maximum").governing?.id ?? "";
     for (const head of heads) {
       if (limited.has(head.id)) continue;
       const household = facts.households.get(head.householdId);
@@ -165,9 +168,32 @@ export function runFoodAid(
       );
       if (dollars <= 0) continue;
       paid.push(head.id);
-      if (head.named) want.set(`${gov.id}|${head.id}`, dollars * cents);
-      else countedMinor += dollars * cents * (head.scale ?? 1);
+      if (head.named) {
+        want.set(`${gov.id}|${head.id}`, dollars * cents);
+        // The maximum allotment is read here, where the household's benefit is set.
+        recordApplied(api, {
+          key: "snap-maximum",
+          lawId,
+          targetId: head.householdId,
+          target: "household",
+          what: "snap-benefit-set",
+          amountMinor: dollars * cents,
+        });
+      } else {
+        countedMinor += dollars * cents * (head.scale ?? 1);
+        countedHouseholds += head.scale ?? 1;
+      }
     }
+    if (countedMinor > 0)
+      recordApplied(api, {
+        key: "snap-maximum",
+        lawId,
+        targetId: `${chain.townPlaceId}:snap-households`,
+        target: "group",
+        what: "snap-benefit-set",
+        count: Math.max(1, Math.round(countedHouseholds)),
+        amountMinor: Math.floor(countedMinor),
+      });
     recordDraws(api, timeLimit, paid);
     if (countedMinor > 0 && residentsOrg)
       want.set(`${gov.id}|${residentsOrg}`, Math.floor(countedMinor));
