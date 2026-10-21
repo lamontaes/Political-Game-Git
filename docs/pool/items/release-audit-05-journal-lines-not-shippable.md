@@ -5,12 +5,12 @@ area: release
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: in-pr
+claimed-by: claude/audit-05-journal-lines
 pr: #5507
 blocked-on:
 source: added with npm run pool -- add
-claimed-at:
+claimed-at: 2026-10-21T21:21:17.436Z
 ---
 
 **What.** Set the nine lines marked origin authored and shippable true to not shippable until the English engine grades them. The test must require the partners-met and parent-job lines in addition to the roots case. It must fail when a required subject is absent, instead of passing on the roots line alone.
