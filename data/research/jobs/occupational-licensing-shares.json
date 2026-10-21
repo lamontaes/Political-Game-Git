@@ -1,0 +1,231 @@
+{
+  "source": {
+    "publisher": "U.S. Bureau of Labor Statistics, Current Population Survey",
+    "table": "Table 53. Certification and licensing status of the employed by occupation, 2025 annual averages (11-month averages excluding October 2025)",
+    "url": "https://www.bls.gov/cps/cpsaat53.htm",
+    "retrieved": "2026-10-21",
+    "note": "BLS publishes these estimates for the nation only (https://www.bls.gov/cps/certifications-and-licenses.htm: 'These are estimates for the nation as a whole'). A license is a state or federal credential required by law; a certification is not."
+  },
+  "nationalByOccupation": [
+    {
+      "occupation": "Total, 16 years and over",
+      "employedThousands": 163493,
+      "percentCertificationOrLicense": 24.0,
+      "percentLicense": 21.6,
+      "tag": "SOURCED"
+    },
+    {
+      "occupation": "Management, professional, and related occupations",
+      "employedThousands": 71338,
+      "percentCertificationOrLicense": 33.6,
+      "percentLicense": 30.1,
+      "tag": "SOURCED"
+    },
+    {
+      "occupation": "Management, business, and financial operations occupations",
+      "employedThousands": 31049,
+      "percentCertificationOrLicense": 21.1,
+      "percentLicense": 17.8,
+      "tag": "SOURCED"
+    },
+    {
+      "occupation": "Management occupations",
+      "employedThousands": 20876,
+      "percentCertificationOrLicense": 21.0,
+      "percentLicense": 18.0,
+      "tag": "SOURCED"
+    },
+    {
+      "occupation": "Business and financial operations occupations",
+      "employedThousands": 10173,
+      "percentCertificationOrLicense": 21.3,
+      "percentLicense": 17.3,
+      "tag": "SOURCED"
+    },
+    {
+      "occupation": "Professional and related occupations",
+      "employedThousands": 40289,
+      "percentCertificationOrLicense": 43.2,
+      "percentLicense": 39.7,
+      "tag": "SOURCED"
+    },
+    {
+      "occupation": "Computer and mathematical occupations",
+      "employedThousands": 6711,
+      "percentCertificationOrLicense": 13.3,
+      "percentLicense": 6.4,
+      "tag": "SOURCED"
+    },
+    {
+      "occupation": "Architecture and engineering occupations",
+      "employedThousands": 3675,
+      "percentCertificationOrLicense": 22.4,
+      "percentLicense": 19.1,
+      "tag": "SOURCED"
+    },
+    {
+      "occupation": "Life, physical, and social science occupations",
+      "employedThousands": 1858,
+      "percentCertificationOrLicense": 24.3,
+      "percentLicense": 21.6,
+      "tag": "SOURCED"
+    },
+    {
+      "occupation": "Community and social services occupations",
+      "employedThousands": 2846,
+      "percentCertificationOrLicense": 40.4,
+      "percentLicense": 36.1,
+      "tag": "SOURCED"
+    },
+    {
+      "occupation": "Legal occupations",
+      "employedThousands": 1880,
+      "percentCertificationOrLicense": 62.2,
+      "percentLicense": 59.8,
+      "tag": "SOURCED"
+    },
+    {
+      "occupation": "Education, training, and library occupations",
+      "employedThousands": 9452,
+      "percentCertificationOrLicense": 49.8,
+      "percentLicense": 48.3,
+      "tag": "SOURCED"
+    },
+    {
+      "occupation": "Arts, design, entertainment, sports, and media occupations",
+      "employedThousands": 3504,
+      "percentCertificationOrLicense": 12.2,
+      "percentLicense": 9.8,
+      "tag": "SOURCED"
+    },
+    {
+      "occupation": "Healthcare practitioners and technical occupations",
+      "employedThousands": 10364,
+      "percentCertificationOrLicense": 75.1,
+      "percentLicense": 71.3,
+      "tag": "SOURCED"
+    },
+    {
+      "occupation": "Service occupations",
+      "employedThousands": 27230,
+      "percentCertificationOrLicense": 21.0,
+      "percentLicense": 19.3,
+      "tag": "SOURCED"
+    },
+    {
+      "occupation": "Healthcare support occupations",
+      "employedThousands": 5830,
+      "percentCertificationOrLicense": 36.0,
+      "percentLicense": 33.4,
+      "tag": "SOURCED"
+    },
+    {
+      "occupation": "Protective service occupations",
+      "employedThousands": 3344,
+      "percentCertificationOrLicense": 34.8,
+      "percentLicense": 32.7,
+      "tag": "SOURCED"
+    },
+    {
+      "occupation": "Food preparation and serving related occupations",
+      "employedThousands": 8292,
+      "percentCertificationOrLicense": 8.1,
+      "percentLicense": 7.1,
+      "tag": "SOURCED"
+    },
+    {
+      "occupation": "Building and grounds cleaning and maintenance occupations",
+      "employedThousands": 5708,
+      "percentCertificationOrLicense": 8.0,
+      "percentLicense": 6.9,
+      "tag": "SOURCED"
+    },
+    {
+      "occupation": "Personal care and service occupations",
+      "employedThousands": 4057,
+      "percentCertificationOrLicense": 33.1,
+      "percentLicense": 30.4,
+      "tag": "SOURCED"
+    },
+    {
+      "occupation": "Sales and office occupations",
+      "employedThousands": 30604,
+      "percentCertificationOrLicense": 13.0,
+      "percentLicense": 11.6,
+      "tag": "SOURCED"
+    },
+    {
+      "occupation": "Sales and related occupations",
+      "employedThousands": 14159,
+      "percentCertificationOrLicense": 16.2,
+      "percentLicense": 14.7,
+      "tag": "SOURCED"
+    },
+    {
+      "occupation": "Office and administrative support occupations",
+      "employedThousands": 16444,
+      "percentCertificationOrLicense": 10.3,
+      "percentLicense": 8.9,
+      "tag": "SOURCED"
+    },
+    {
+      "occupation": "Natural resources, construction, and maintenance occupations",
+      "employedThousands": 14550,
+      "percentCertificationOrLicense": 19.2,
+      "percentLicense": 16.7,
+      "tag": "SOURCED"
+    },
+    {
+      "occupation": "Farming, fishing, and forestry occupations",
+      "employedThousands": 1000,
+      "percentCertificationOrLicense": 9.6,
+      "percentLicense": 8.7,
+      "tag": "SOURCED"
+    },
+    {
+      "occupation": "Construction and extraction occupations",
+      "employedThousands": 8490,
+      "percentCertificationOrLicense": 18.1,
+      "percentLicense": 16.3,
+      "tag": "SOURCED"
+    },
+    {
+      "occupation": "Installation, maintenance, and repair occupations",
+      "employedThousands": 5060,
+      "percentCertificationOrLicense": 23.1,
+      "percentLicense": 18.8,
+      "tag": "SOURCED"
+    },
+    {
+      "occupation": "Production, transportation, and material moving occupations",
+      "employedThousands": 19770,
+      "percentCertificationOrLicense": 14.2,
+      "percentLicense": 12.8,
+      "tag": "SOURCED"
+    },
+    {
+      "occupation": "Production occupations",
+      "employedThousands": 7889,
+      "percentCertificationOrLicense": 10.6,
+      "percentLicense": 8.6,
+      "tag": "SOURCED"
+    },
+    {
+      "occupation": "Transportation and material moving occupations",
+      "employedThousands": 11881,
+      "percentCertificationOrLicense": 16.7,
+      "percentLicense": 15.6,
+      "tag": "SOURCED"
+    }
+  ],
+  "byState": {
+    "tag": "ESTIMATED",
+    "method": "No fetchable current state table was found: BLS publishes the national table only; the Brookings chart of state shares (Harris poll, first half of 2013) is an image, and the Institute for Justice and Minneapolis Fed state figures were not available as text. Every place therefore starts from the national occupation share, which a later state table can replace row by row.",
+    "spread": {
+      "low": 14,
+      "high": 33.3,
+      "unit": "percent of the workforce licensed, state to state",
+      "citation": "Brookings, 'Share of workforce licensed by state' (Mar 9, 2015), https://www.brookings.edu/articles/share-of-workforce-licensed-by-state: Iowa 33.3 percent, Nevada 30.7, Washington 30.5; South Carolina, Rhode Island, New Hampshire and Indiana under 15 percent; Harris poll, first half of 2013. The Institute for Justice reports 14 percent (Georgia) to 27 percent (Nevada) in a later study (year not confirmed)."
+    }
+  }
+}

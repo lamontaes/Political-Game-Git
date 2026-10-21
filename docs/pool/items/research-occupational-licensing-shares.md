@@ -22,3 +22,5 @@ claimed-at: 2026-10-21T17:25:31.761Z
 **Files.** data/research/labor/occupational-licensing-shares.json,docs/research/occupational-licensing.md
 
 **Notes.** TODO
+
+Oct 21 (claude, claude/licensing-shares): done for the national table, not the state one. `data/research/jobs/occupational-licensing-shares.json` holds BLS CPS Table 53 (2025 annual averages, https://www.bls.gov/cps/cpsaat53.htm) as SOURCED rows: percent with a license by occupation group (all workers 21.6, healthcare practitioners 71.3, legal 59.8, education 48.3, food service 7.1). `src/core2/occupational-licensing.ts` reads it (`licensedShare`, `licensedShareSpread`), tested beside it in a drawn place. No fetchable state table exists: BLS publishes the national table only; Brookings' state chart (Harris poll, first half of 2013) is an image, and Institute for Justice and Minneapolis Fed state figures were not available as text. So every place starts from the national share (ESTIMATED), checked against the 14 to 33.3 percent state spread from Brookings; a state table from the Minneapolis Fed dashboard's IPUMS-CPS extracts would replace it row by row. Item stays open for that.
