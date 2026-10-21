@@ -335,12 +335,6 @@ const ALLOWED_FILES: readonly {
       "research records of real charters, D.C. and a state constitution, where ward is the recorded seat type or wording",
   },
   {
-    file: /^data\/research\/elections\/ballot-order-2026\.json$/,
-    words: /^wards?$/i,
-    reason:
-      "research record of state ballot-order statutes; Nebraska's rotates candidates by precinct or ward (Neb. Rev. Stat. 32-815)",
-  },
-  {
     file: /^src\/simulation\/municipal-governments\.generated\.ts$/,
     words: /^(?:wards?|elected members?|councillors?)$/i,
     reason:
@@ -365,7 +359,13 @@ const ALLOWED_FILES: readonly {
       "researched stopgap values quote real places and statutes: Ward County, Texas, and Nebraska's precinct or ward primary unit",
   },
   {
-    file: /^data\/research\/(?:elections\/(?:filing-requirements|ballot-measures-2026)|campaigns\/campaign-finance-2026|offices\/state-offices)\.json$/,
+    file: /^data\/research\/stopgaps-oct19\/census\/[A-Za-z0-9.-]+\.json$/,
+    words: /^(?:wards?|centre|grey)$/i,
+    reason:
+      "census place and county names as published (Sauk Centre, Grey Eagle, Ward County), and quotes of D.C.'s wards",
+  },
+  {
+    file: /^data\/research\/(?:elections\/(?:filing-requirements|ballot-measures-2026|ballot-order-2026)|campaigns\/campaign-finance-2026|offices\/state-offices)\.json$/,
     words: /^wards?$/i,
     reason:
       "research facts about real charters and statutes: D.C.'s eight wards, and the municipal filing rules whose recorded seat type is ward; never deleted",
