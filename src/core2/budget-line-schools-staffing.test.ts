@@ -187,6 +187,9 @@ it("a raise to the city's schools line hires named adults who had no work at the
     hired.length,
     `${r.where}: schools line ${r.priorLine} raised by ${r.change}, adopted ${r.adopted?.id}; ${r.staffBefore.length} teachers before`,
   ).toBeGreaterThan(0);
+  console.log(
+    `schools raise: ${r.where}: ${hired.length} hired at ${r.district.id}; jobs ${jobIds.slice(0, 5).join(", ")}; people ${hired.slice(0, 5).join(", ")}`,
+  );
   // Each hire is a person the town's records show without a job beforehand,
   // and the job is a record at the district.
   for (const personId of hired)
