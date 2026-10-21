@@ -19,6 +19,19 @@ it("older workers by tier", { timeout: 3_000_000 }, () => {
     }
   };
   report("opening");
+  const openingFull = new Set(core.people.keys());
+  const ageOf = (b: string) => { const d = core.date; return Number(d.slice(0,4)) - Number(b.slice(0,4)) - (d.slice(5) < b.slice(5) ? 1 : 0); };
   advanceCore(core, addDays(makeIsoDate(core.date), 365));
   report("one year");
+  let newcomers = 0, newWorking = 0, oldTimers = 0, oldWorking = 0;
+  for (const person of core.people.values()) {
+    if (!person.alive || person.placeId !== town && false) continue;
+    const a = ageOf(person.birthDate);
+    if (a < 62 || a >= 67) continue;
+    const job = person.jobId ? core.jobs.get(person.jobId) : undefined;
+    const working = !!job && job.endsAt === undefined;
+    if (openingFull.has(person.id)) { oldTimers++; if (working) oldWorking++; }
+    else { newcomers++; if (working) newWorking++; }
+  }
+  console.log(`OLDER newcomers ${newWorking}/${newcomers}; there at opening ${oldWorking}/${oldTimers}`);
 });
