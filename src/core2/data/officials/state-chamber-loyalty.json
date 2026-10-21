@@ -1,7 +1,7 @@
 {
   "about": "How hard party pressure bears on a member of each state chamber, as a multiple of the average state chamber's (1). Read at the member's vote by the officials engine. A chamber absent here (a nonpartisan or unicameral body, a territory) takes one.",
   "tag": "ESTIMATED",
-  "source": "Calibrated, not shipped: each chamber's multiple is its members' party polarization (the gap between the two parties' median positions over the spread within the parties, state legislators serving 2010 to 2018) over the all-chamber mean, held between 0.6 and 1.2. Chambers run from a gap under 2 spreads to nearly 10. Owner ruling, Oct 15: one calibration input; the parties' own roll calls, once collected, are weighed against it.",
+  "source": "Calibrated, not shipped: each chamber's multiple is its members' party polarization (the gap between the two parties' median positions over the spread within the parties, state legislators serving 2010 to 2018) over the all-chamber mean, held between 0.6 and 1.2. Chambers run from a gap under 2 spreads to nearly 10. One calibration input: the parties' own roll calls, once collected, are weighed against it.",
   "spread": [0.6, 1.2],
   "chambers": {
     "AK": {
