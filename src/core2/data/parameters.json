@@ -4776,7 +4776,7 @@
     }
   },
   "circleDecisionDetailDays": {
-    "value": 30,
+    "value": 7,
     "tag": "TUNABLE",
     "citation": "Owner rulings, Oct 11 ('save why reasons only for the player and the people they deal with') and Oct 12 (running memory stays small): how long a circle member's act keeps every option's score before only its chosen reasons remain.",
     "spread": {
