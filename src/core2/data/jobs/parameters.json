@@ -164,9 +164,9 @@
     "citation": "Mean weeks per month (52.14 / 12)."
   },
   "jobsEnterBaseline": {
-    "value": -1.5,
+    "value": -2.5,
     "tag": "TUNABLE",
-    "citation": "How far starting to look sits below staying out before money pressure; checked against CPS flows into the labor force and the region's unemployment rate.",
+    "citation": "How far starting to look sits below staying out before money pressure, for a full person and a counted adult alike; checked against CPS flows into the labor force and the region's unemployment rate (in two drawn towns, counted seekers settle at about 5% to 7% of the counted jobs; at -1.5 they were about twice the jobs).",
     "spread": {
       "low": -3,
       "high": 0,
