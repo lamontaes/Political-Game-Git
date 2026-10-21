@@ -1,0 +1,458 @@
+{
+  "about": "Per-place district week and interim committee day for the state officeholder's day, read by office-day-state.ts in place of a global default. The week comes from the place's own regular-session length in data/research/laws/state-session-calendars.json (2026 windows). The interim committee day is the average (no place's own interim schedule is in the repository; see pool item office-interim-committee-schedules).",
+  "tag": "ESTIMATED",
+  "spread": {
+    "floorDaysPerWeek": "two to five",
+    "interimCommitteeDayOfMonth": [1, 28]
+  },
+  "places": {
+    "US-AK": {
+      "sessionWeek": ["district", "floor", "floor", "floor", "district"],
+      "interimCommitteeDayOfMonth": 15,
+      "tag": "ESTIMATED",
+      "basis": "a regular session of 60 to 159 calendar days in its longest year: floor Tuesday to Thursday, the district Monday and Friday (NCSL, 'Legislative Calendars')",
+      "regularSessionDays": 120,
+      "meetsThroughYear": false
+    },
+    "US-AL": {
+      "sessionWeek": ["district", "floor", "floor", "floor", "district"],
+      "interimCommitteeDayOfMonth": 15,
+      "tag": "ESTIMATED",
+      "basis": "a regular session of 60 to 159 calendar days in its longest year: floor Tuesday to Thursday, the district Monday and Friday (NCSL, 'Legislative Calendars')",
+      "regularSessionDays": 104,
+      "meetsThroughYear": false
+    },
+    "US-AR": {
+      "sessionWeek": ["district", "floor", "floor", "floor", "district"],
+      "interimCommitteeDayOfMonth": 15,
+      "tag": "ESTIMATED",
+      "basis": "a regular session of 60 to 159 calendar days in its longest year: floor Tuesday to Thursday, the district Monday and Friday (NCSL, 'Legislative Calendars')",
+      "regularSessionDays": 88,
+      "meetsThroughYear": false
+    },
+    "US-AS": {
+      "sessionWeek": ["district", "floor", "floor", "floor", "district"],
+      "interimCommitteeDayOfMonth": 15,
+      "tag": "ESTIMATED",
+      "basis": "a regular session of 60 to 159 calendar days in its longest year: floor Tuesday to Thursday, the district Monday and Friday (NCSL, 'Legislative Calendars')",
+      "regularSessionDays": 126,
+      "meetsThroughYear": false
+    },
+    "US-AZ": {
+      "sessionWeek": ["district", "floor", "floor", "floor", "district"],
+      "interimCommitteeDayOfMonth": 15,
+      "tag": "ESTIMATED",
+      "basis": "a regular session of 60 to 159 calendar days in its longest year: floor Tuesday to Thursday, the district Monday and Friday (NCSL, 'Legislative Calendars')",
+      "regularSessionDays": 103,
+      "meetsThroughYear": false
+    },
+    "US-CA": {
+      "sessionWeek": ["floor", "floor", "floor", "floor", "district"],
+      "interimCommitteeDayOfMonth": 15,
+      "tag": "ESTIMATED",
+      "basis": "full-time or near it: the calendar has the body meeting through the year or over 160 days of regular session in its longest year; floor sessions Monday to Thursday, the district Friday (NCSL, 'Legislative Session Length'; Rosenthal 2004)",
+      "regularSessionDays": 249,
+      "meetsThroughYear": false
+    },
+    "US-CO": {
+      "sessionWeek": ["district", "floor", "floor", "floor", "district"],
+      "interimCommitteeDayOfMonth": 15,
+      "tag": "ESTIMATED",
+      "basis": "a regular session of 60 to 159 calendar days in its longest year: floor Tuesday to Thursday, the district Monday and Friday (NCSL, 'Legislative Calendars')",
+      "regularSessionDays": 119,
+      "meetsThroughYear": false
+    },
+    "US-CT": {
+      "sessionWeek": ["district", "floor", "floor", "floor", "district"],
+      "interimCommitteeDayOfMonth": 15,
+      "tag": "ESTIMATED",
+      "basis": "a regular session of 60 to 159 calendar days in its longest year: floor Tuesday to Thursday, the district Monday and Friday (NCSL, 'Legislative Calendars')",
+      "regularSessionDays": 147,
+      "meetsThroughYear": false
+    },
+    "US-DC": {
+      "sessionWeek": ["floor", "floor", "floor", "floor", "district"],
+      "interimCommitteeDayOfMonth": 15,
+      "tag": "ESTIMATED",
+      "basis": "full-time or near it: the calendar has the body meeting through the year or over 160 days of regular session in its longest year; floor sessions Monday to Thursday, the district Friday (NCSL, 'Legislative Session Length'; Rosenthal 2004)",
+      "regularSessionDays": 0,
+      "meetsThroughYear": true
+    },
+    "US-DE": {
+      "sessionWeek": ["floor", "floor", "floor", "floor", "district"],
+      "interimCommitteeDayOfMonth": 15,
+      "tag": "ESTIMATED",
+      "basis": "full-time or near it: the calendar has the body meeting through the year or over 160 days of regular session in its longest year; floor sessions Monday to Thursday, the district Friday (NCSL, 'Legislative Session Length'; Rosenthal 2004)",
+      "regularSessionDays": 169,
+      "meetsThroughYear": false
+    },
+    "US-FL": {
+      "sessionWeek": ["floor", "floor", "floor", "floor", "floor"],
+      "interimCommitteeDayOfMonth": 15,
+      "tag": "ESTIMATED",
+      "basis": "a short regular session (under 60 calendar days in its longest year in the calendar): members sit every weekday to finish the work (NCSL, 'Legislative Session Length')",
+      "regularSessionDays": 59,
+      "meetsThroughYear": false
+    },
+    "US-GA": {
+      "sessionWeek": ["district", "floor", "floor", "floor", "district"],
+      "interimCommitteeDayOfMonth": 15,
+      "tag": "ESTIMATED",
+      "basis": "a regular session of 60 to 159 calendar days in its longest year: floor Tuesday to Thursday, the district Monday and Friday (NCSL, 'Legislative Calendars')",
+      "regularSessionDays": 84,
+      "meetsThroughYear": false
+    },
+    "US-GU": {
+      "sessionWeek": ["floor", "floor", "floor", "floor", "district"],
+      "interimCommitteeDayOfMonth": 15,
+      "tag": "ESTIMATED",
+      "basis": "full-time or near it: the calendar has the body meeting through the year or over 160 days of regular session in its longest year; floor sessions Monday to Thursday, the district Friday (NCSL, 'Legislative Session Length'; Rosenthal 2004)",
+      "regularSessionDays": 364,
+      "meetsThroughYear": true
+    },
+    "US-HI": {
+      "sessionWeek": ["district", "floor", "floor", "floor", "district"],
+      "interimCommitteeDayOfMonth": 15,
+      "tag": "ESTIMATED",
+      "basis": "a regular session of 60 to 159 calendar days in its longest year: floor Tuesday to Thursday, the district Monday and Friday (NCSL, 'Legislative Calendars')",
+      "regularSessionDays": 107,
+      "meetsThroughYear": false
+    },
+    "US-IA": {
+      "sessionWeek": ["district", "floor", "floor", "floor", "district"],
+      "interimCommitteeDayOfMonth": 15,
+      "tag": "ESTIMATED",
+      "basis": "a regular session of 60 to 159 calendar days in its longest year: floor Tuesday to Thursday, the district Monday and Friday (NCSL, 'Legislative Calendars')",
+      "regularSessionDays": 109,
+      "meetsThroughYear": false
+    },
+    "US-ID": {
+      "sessionWeek": ["district", "floor", "floor", "floor", "district"],
+      "interimCommitteeDayOfMonth": 15,
+      "tag": "ESTIMATED",
+      "basis": "a regular session of 60 to 159 calendar days in its longest year: floor Tuesday to Thursday, the district Monday and Friday (NCSL, 'Legislative Calendars')",
+      "regularSessionDays": 110,
+      "meetsThroughYear": false
+    },
+    "US-IL": {
+      "sessionWeek": ["floor", "floor", "floor", "floor", "district"],
+      "interimCommitteeDayOfMonth": 15,
+      "tag": "ESTIMATED",
+      "basis": "full-time or near it: the calendar has the body meeting through the year or over 160 days of regular session in its longest year; floor sessions Monday to Thursday, the district Friday (NCSL, 'Legislative Session Length'; Rosenthal 2004)",
+      "regularSessionDays": 143,
+      "meetsThroughYear": true
+    },
+    "US-IN": {
+      "sessionWeek": ["district", "floor", "floor", "floor", "district"],
+      "interimCommitteeDayOfMonth": 15,
+      "tag": "ESTIMATED",
+      "basis": "a regular session of 60 to 159 calendar days in its longest year: floor Tuesday to Thursday, the district Monday and Friday (NCSL, 'Legislative Calendars')",
+      "regularSessionDays": 111,
+      "meetsThroughYear": false
+    },
+    "US-KS": {
+      "sessionWeek": ["district", "floor", "floor", "floor", "district"],
+      "interimCommitteeDayOfMonth": 15,
+      "tag": "ESTIMATED",
+      "basis": "a regular session of 60 to 159 calendar days in its longest year: floor Tuesday to Thursday, the district Monday and Friday (NCSL, 'Legislative Calendars')",
+      "regularSessionDays": 113,
+      "meetsThroughYear": false
+    },
+    "US-KY": {
+      "sessionWeek": ["district", "floor", "floor", "floor", "district"],
+      "interimCommitteeDayOfMonth": 15,
+      "tag": "ESTIMATED",
+      "basis": "a regular session of 60 to 159 calendar days in its longest year: floor Tuesday to Thursday, the district Monday and Friday (NCSL, 'Legislative Calendars')",
+      "regularSessionDays": 99,
+      "meetsThroughYear": false
+    },
+    "US-LA": {
+      "sessionWeek": ["district", "floor", "floor", "floor", "district"],
+      "interimCommitteeDayOfMonth": 15,
+      "tag": "ESTIMATED",
+      "basis": "a regular session of 60 to 159 calendar days in its longest year: floor Tuesday to Thursday, the district Monday and Friday (NCSL, 'Legislative Calendars')",
+      "regularSessionDays": 84,
+      "meetsThroughYear": false
+    },
+    "US-MA": {
+      "sessionWeek": ["floor", "floor", "floor", "floor", "district"],
+      "interimCommitteeDayOfMonth": 15,
+      "tag": "ESTIMATED",
+      "basis": "full-time or near it: the calendar has the body meeting through the year or over 160 days of regular session in its longest year; floor sessions Monday to Thursday, the district Friday (NCSL, 'Legislative Session Length'; Rosenthal 2004)",
+      "regularSessionDays": 0,
+      "meetsThroughYear": true
+    },
+    "US-MD": {
+      "sessionWeek": ["district", "floor", "floor", "floor", "district"],
+      "interimCommitteeDayOfMonth": 15,
+      "tag": "ESTIMATED",
+      "basis": "a regular session of 60 to 159 calendar days in its longest year: floor Tuesday to Thursday, the district Monday and Friday (NCSL, 'Legislative Calendars')",
+      "regularSessionDays": 89,
+      "meetsThroughYear": false
+    },
+    "US-ME": {
+      "sessionWeek": ["floor", "floor", "floor", "floor", "district"],
+      "interimCommitteeDayOfMonth": 15,
+      "tag": "ESTIMATED",
+      "basis": "full-time or near it: the calendar has the body meeting through the year or over 160 days of regular session in its longest year; floor sessions Monday to Thursday, the district Friday (NCSL, 'Legislative Session Length'; Rosenthal 2004)",
+      "regularSessionDays": 161,
+      "meetsThroughYear": false
+    },
+    "US-MI": {
+      "sessionWeek": ["floor", "floor", "floor", "floor", "district"],
+      "interimCommitteeDayOfMonth": 15,
+      "tag": "ESTIMATED",
+      "basis": "full-time or near it: the calendar has the body meeting through the year or over 160 days of regular session in its longest year; floor sessions Monday to Thursday, the district Friday (NCSL, 'Legislative Session Length'; Rosenthal 2004)",
+      "regularSessionDays": 0,
+      "meetsThroughYear": true
+    },
+    "US-MN": {
+      "sessionWeek": ["district", "floor", "floor", "floor", "district"],
+      "interimCommitteeDayOfMonth": 15,
+      "tag": "ESTIMATED",
+      "basis": "a regular session of 60 to 159 calendar days in its longest year: floor Tuesday to Thursday, the district Monday and Friday (NCSL, 'Legislative Calendars')",
+      "regularSessionDays": 125,
+      "meetsThroughYear": false
+    },
+    "US-MO": {
+      "sessionWeek": ["district", "floor", "floor", "floor", "district"],
+      "interimCommitteeDayOfMonth": 15,
+      "tag": "ESTIMATED",
+      "basis": "a regular session of 60 to 159 calendar days in its longest year: floor Tuesday to Thursday, the district Monday and Friday (NCSL, 'Legislative Calendars')",
+      "regularSessionDays": 128,
+      "meetsThroughYear": false
+    },
+    "US-MP": {
+      "sessionWeek": ["floor", "floor", "floor", "floor", "district"],
+      "interimCommitteeDayOfMonth": 15,
+      "tag": "ESTIMATED",
+      "basis": "full-time or near it: the calendar has the body meeting through the year or over 160 days of regular session in its longest year; floor sessions Monday to Thursday, the district Friday (NCSL, 'Legislative Session Length'; Rosenthal 2004)",
+      "regularSessionDays": 0,
+      "meetsThroughYear": true
+    },
+    "US-MS": {
+      "sessionWeek": ["district", "floor", "floor", "floor", "district"],
+      "interimCommitteeDayOfMonth": 15,
+      "tag": "ESTIMATED",
+      "basis": "a regular session of 60 to 159 calendar days in its longest year: floor Tuesday to Thursday, the district Monday and Friday (NCSL, 'Legislative Calendars')",
+      "regularSessionDays": 89,
+      "meetsThroughYear": false
+    },
+    "US-MT": {
+      "sessionWeek": ["district", "floor", "floor", "floor", "district"],
+      "interimCommitteeDayOfMonth": 15,
+      "tag": "ESTIMATED",
+      "basis": "a regular session of 60 to 159 calendar days in its longest year: floor Tuesday to Thursday, the district Monday and Friday (NCSL, 'Legislative Calendars')",
+      "regularSessionDays": 116,
+      "meetsThroughYear": false
+    },
+    "US-NC": {
+      "sessionWeek": ["floor", "floor", "floor", "floor", "district"],
+      "interimCommitteeDayOfMonth": 15,
+      "tag": "ESTIMATED",
+      "basis": "full-time or near it: the calendar has the body meeting through the year or over 160 days of regular session in its longest year; floor sessions Monday to Thursday, the district Friday (NCSL, 'Legislative Session Length'; Rosenthal 2004)",
+      "regularSessionDays": 101,
+      "meetsThroughYear": true
+    },
+    "US-ND": {
+      "sessionWeek": ["district", "floor", "floor", "floor", "district"],
+      "interimCommitteeDayOfMonth": 15,
+      "tag": "ESTIMATED",
+      "basis": "a regular session of 60 to 159 calendar days in its longest year: floor Tuesday to Thursday, the district Monday and Friday (NCSL, 'Legislative Calendars')",
+      "regularSessionDays": 115,
+      "meetsThroughYear": false
+    },
+    "US-NE": {
+      "sessionWeek": ["district", "floor", "floor", "floor", "district"],
+      "interimCommitteeDayOfMonth": 15,
+      "tag": "ESTIMATED",
+      "basis": "a regular session of 60 to 159 calendar days in its longest year: floor Tuesday to Thursday, the district Monday and Friday (NCSL, 'Legislative Calendars')",
+      "regularSessionDays": 152,
+      "meetsThroughYear": false
+    },
+    "US-NH": {
+      "sessionWeek": ["floor", "floor", "floor", "floor", "district"],
+      "interimCommitteeDayOfMonth": 15,
+      "tag": "ESTIMATED",
+      "basis": "full-time or near it: the calendar has the body meeting through the year or over 160 days of regular session in its longest year; floor sessions Monday to Thursday, the district Friday (NCSL, 'Legislative Session Length'; Rosenthal 2004)",
+      "regularSessionDays": 174,
+      "meetsThroughYear": true
+    },
+    "US-NJ": {
+      "sessionWeek": ["floor", "floor", "floor", "floor", "district"],
+      "interimCommitteeDayOfMonth": 15,
+      "tag": "ESTIMATED",
+      "basis": "full-time or near it: the calendar has the body meeting through the year or over 160 days of regular session in its longest year; floor sessions Monday to Thursday, the district Friday (NCSL, 'Legislative Session Length'; Rosenthal 2004)",
+      "regularSessionDays": 0,
+      "meetsThroughYear": true
+    },
+    "US-NM": {
+      "sessionWeek": ["district", "floor", "floor", "floor", "district"],
+      "interimCommitteeDayOfMonth": 15,
+      "tag": "ESTIMATED",
+      "basis": "a regular session of 60 to 159 calendar days in its longest year: floor Tuesday to Thursday, the district Monday and Friday (NCSL, 'Legislative Calendars')",
+      "regularSessionDays": 60,
+      "meetsThroughYear": false
+    },
+    "US-NV": {
+      "sessionWeek": ["district", "floor", "floor", "floor", "district"],
+      "interimCommitteeDayOfMonth": 15,
+      "tag": "ESTIMATED",
+      "basis": "a regular session of 60 to 159 calendar days in its longest year: floor Tuesday to Thursday, the district Monday and Friday (NCSL, 'Legislative Calendars')",
+      "regularSessionDays": 119,
+      "meetsThroughYear": false
+    },
+    "US-NY": {
+      "sessionWeek": ["floor", "floor", "floor", "floor", "district"],
+      "interimCommitteeDayOfMonth": 15,
+      "tag": "ESTIMATED",
+      "basis": "full-time or near it: the calendar has the body meeting through the year or over 160 days of regular session in its longest year; floor sessions Monday to Thursday, the district Friday (NCSL, 'Legislative Session Length'; Rosenthal 2004)",
+      "regularSessionDays": 0,
+      "meetsThroughYear": true
+    },
+    "US-OH": {
+      "sessionWeek": ["floor", "floor", "floor", "floor", "district"],
+      "interimCommitteeDayOfMonth": 15,
+      "tag": "ESTIMATED",
+      "basis": "full-time or near it: the calendar has the body meeting through the year or over 160 days of regular session in its longest year; floor sessions Monday to Thursday, the district Friday (NCSL, 'Legislative Session Length'; Rosenthal 2004)",
+      "regularSessionDays": 0,
+      "meetsThroughYear": true
+    },
+    "US-OK": {
+      "sessionWeek": ["district", "floor", "floor", "floor", "district"],
+      "interimCommitteeDayOfMonth": 15,
+      "tag": "ESTIMATED",
+      "basis": "a regular session of 60 to 159 calendar days in its longest year: floor Tuesday to Thursday, the district Monday and Friday (NCSL, 'Legislative Calendars')",
+      "regularSessionDays": 116,
+      "meetsThroughYear": false
+    },
+    "US-OR": {
+      "sessionWeek": ["district", "floor", "floor", "floor", "district"],
+      "interimCommitteeDayOfMonth": 15,
+      "tag": "ESTIMATED",
+      "basis": "a regular session of 60 to 159 calendar days in its longest year: floor Tuesday to Thursday, the district Monday and Friday (NCSL, 'Legislative Calendars')",
+      "regularSessionDays": 159,
+      "meetsThroughYear": false
+    },
+    "US-PA": {
+      "sessionWeek": ["floor", "floor", "floor", "floor", "district"],
+      "interimCommitteeDayOfMonth": 15,
+      "tag": "ESTIMATED",
+      "basis": "full-time or near it: the calendar has the body meeting through the year or over 160 days of regular session in its longest year; floor sessions Monday to Thursday, the district Friday (NCSL, 'Legislative Session Length'; Rosenthal 2004)",
+      "regularSessionDays": 328,
+      "meetsThroughYear": true
+    },
+    "US-PR": {
+      "sessionWeek": ["floor", "floor", "floor", "floor", "district"],
+      "interimCommitteeDayOfMonth": 15,
+      "tag": "ESTIMATED",
+      "basis": "full-time or near it: the calendar has the body meeting through the year or over 160 days of regular session in its longest year; floor sessions Monday to Thursday, the district Friday (NCSL, 'Legislative Session Length'; Rosenthal 2004)",
+      "regularSessionDays": 262,
+      "meetsThroughYear": false
+    },
+    "US-RI": {
+      "sessionWeek": ["floor", "floor", "floor", "floor", "district"],
+      "interimCommitteeDayOfMonth": 15,
+      "tag": "ESTIMATED",
+      "basis": "full-time or near it: the calendar has the body meeting through the year or over 160 days of regular session in its longest year; floor sessions Monday to Thursday, the district Friday (NCSL, 'Legislative Session Length'; Rosenthal 2004)",
+      "regularSessionDays": 175,
+      "meetsThroughYear": true
+    },
+    "US-SC": {
+      "sessionWeek": ["district", "floor", "floor", "floor", "district"],
+      "interimCommitteeDayOfMonth": 15,
+      "tag": "ESTIMATED",
+      "basis": "a regular session of 60 to 159 calendar days in its longest year: floor Tuesday to Thursday, the district Monday and Friday (NCSL, 'Legislative Calendars')",
+      "regularSessionDays": 142,
+      "meetsThroughYear": false
+    },
+    "US-SD": {
+      "sessionWeek": ["district", "floor", "floor", "floor", "district"],
+      "interimCommitteeDayOfMonth": 15,
+      "tag": "ESTIMATED",
+      "basis": "a regular session of 60 to 159 calendar days in its longest year: floor Tuesday to Thursday, the district Monday and Friday (NCSL, 'Legislative Calendars')",
+      "regularSessionDays": 76,
+      "meetsThroughYear": false
+    },
+    "US-TN": {
+      "sessionWeek": ["district", "floor", "floor", "floor", "district"],
+      "interimCommitteeDayOfMonth": 15,
+      "tag": "ESTIMATED",
+      "basis": "a regular session of 60 to 159 calendar days in its longest year: floor Tuesday to Thursday, the district Monday and Friday (NCSL, 'Legislative Calendars')",
+      "regularSessionDays": 106,
+      "meetsThroughYear": false
+    },
+    "US-TX": {
+      "sessionWeek": ["district", "floor", "floor", "floor", "district"],
+      "interimCommitteeDayOfMonth": 15,
+      "tag": "ESTIMATED",
+      "basis": "a regular session of 60 to 159 calendar days in its longest year: floor Tuesday to Thursday, the district Monday and Friday (NCSL, 'Legislative Calendars')",
+      "regularSessionDays": 139,
+      "meetsThroughYear": false
+    },
+    "US-UT": {
+      "sessionWeek": ["floor", "floor", "floor", "floor", "floor"],
+      "interimCommitteeDayOfMonth": 15,
+      "tag": "ESTIMATED",
+      "basis": "a short regular session (under 60 calendar days in its longest year in the calendar): members sit every weekday to finish the work (NCSL, 'Legislative Session Length')",
+      "regularSessionDays": 45,
+      "meetsThroughYear": false
+    },
+    "US-VA": {
+      "sessionWeek": ["floor", "floor", "floor", "floor", "floor"],
+      "interimCommitteeDayOfMonth": 15,
+      "tag": "ESTIMATED",
+      "basis": "a short regular session (under 60 calendar days in its longest year in the calendar): members sit every weekday to finish the work (NCSL, 'Legislative Session Length')",
+      "regularSessionDays": 59,
+      "meetsThroughYear": false
+    },
+    "US-VI": {
+      "sessionWeek": ["floor", "floor", "floor", "floor", "district"],
+      "interimCommitteeDayOfMonth": 15,
+      "tag": "ESTIMATED",
+      "basis": "full-time or near it: the calendar has the body meeting through the year or over 160 days of regular session in its longest year; floor sessions Monday to Thursday, the district Friday (NCSL, 'Legislative Session Length'; Rosenthal 2004)",
+      "regularSessionDays": 0,
+      "meetsThroughYear": true
+    },
+    "US-VT": {
+      "sessionWeek": ["district", "floor", "floor", "floor", "district"],
+      "interimCommitteeDayOfMonth": 15,
+      "tag": "ESTIMATED",
+      "basis": "a regular session of 60 to 159 calendar days in its longest year: floor Tuesday to Thursday, the district Monday and Friday (NCSL, 'Legislative Calendars')",
+      "regularSessionDays": 122,
+      "meetsThroughYear": false
+    },
+    "US-WA": {
+      "sessionWeek": ["district", "floor", "floor", "floor", "district"],
+      "interimCommitteeDayOfMonth": 15,
+      "tag": "ESTIMATED",
+      "basis": "a regular session of 60 to 159 calendar days in its longest year: floor Tuesday to Thursday, the district Monday and Friday (NCSL, 'Legislative Calendars')",
+      "regularSessionDays": 104,
+      "meetsThroughYear": false
+    },
+    "US-WI": {
+      "sessionWeek": ["floor", "floor", "floor", "floor", "district"],
+      "interimCommitteeDayOfMonth": 15,
+      "tag": "ESTIMATED",
+      "basis": "full-time or near it: the calendar has the body meeting through the year or over 160 days of regular session in its longest year; floor sessions Monday to Thursday, the district Friday (NCSL, 'Legislative Session Length'; Rosenthal 2004)",
+      "regularSessionDays": 0,
+      "meetsThroughYear": true
+    },
+    "US-WV": {
+      "sessionWeek": ["floor", "floor", "floor", "floor", "floor"],
+      "interimCommitteeDayOfMonth": 15,
+      "tag": "ESTIMATED",
+      "basis": "a short regular session (under 60 calendar days in its longest year in the calendar): members sit every weekday to finish the work (NCSL, 'Legislative Session Length')",
+      "regularSessionDays": 59,
+      "meetsThroughYear": false
+    },
+    "US-WY": {
+      "sessionWeek": ["floor", "floor", "floor", "floor", "floor"],
+      "interimCommitteeDayOfMonth": 15,
+      "tag": "ESTIMATED",
+      "basis": "a short regular session (under 60 calendar days in its longest year in the calendar): members sit every weekday to finish the work (NCSL, 'Legislative Session Length')",
+      "regularSessionDays": 51,
+      "meetsThroughYear": false
+    }
+  }
+}

@@ -5,10 +5,10 @@ area: laws
 kind: research
 priority: 2
 size: M
-status: open
+status: blocked
 claimed-by:
 pr:
-blocked-on:
+blocked-on: researcher: per-place or calibration sourcing, each row cited; first row's replacement: OPUS-GOV budgets: public-budget-bases.json carries each island area's population and finances (Census Island Areas, PR government
 source: "collapsed Oct 19, 2026 from laws-stopgap-group-b-money-missing-data, laws-stopgap-laws-data-gap, laws-stopgap-reach-group-a-missing-mechanic"
 ---
 

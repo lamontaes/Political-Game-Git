@@ -5,10 +5,10 @@ area: people
 kind: research
 priority: 2
 size: M
-status: open
+status: blocked
 claimed-by:
 pr:
-blocked-on:
+blocked-on: researcher: per-place or calibration sourcing, each row cited; first row's replacement: Source-matched individual reproductive/clinical records, dated pregnancy outcomes, dwelling capacity and coupled choice calibratio
 source: "collapsed Oct 19, 2026 from people-stopgap-births-plan-unmeasured-life-loop-model, people-stopgap-drives-estimated-behavior, people-stopgap-opening-kin-estimated-behavior, people-stopgap-views-partial-model"
 ---
 
