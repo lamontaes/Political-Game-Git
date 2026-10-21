@@ -5,9 +5,9 @@ area: people
 kind: research
 priority: 2
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/residents-cadence
-pr:
+pr: #5796
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-21T10:57:50.920Z
