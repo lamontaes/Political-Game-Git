@@ -15,9 +15,9 @@ import { PUBLIC_EMPLOYER_CLASSES } from "../public-pay-floor";
 import type { PolicyHandler } from "./host";
 import { jobsAt } from "./group-b-money";
 import { payReach } from "./pay-reach";
+import { onReachCalendar } from "./reach-workers";
 import {
   ensureReachA,
-  onReachCalendar,
   reachParameter,
   reachTable,
   REACH_A_MODULE_ID,

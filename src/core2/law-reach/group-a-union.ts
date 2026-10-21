@@ -17,9 +17,9 @@ import { residentsRuntime } from "../modules/residents";
 import { setResidentFlowAmount } from "../residents-economy";
 import { lawApplied } from "./applied";
 import type { PolicyHandler } from "./host";
+import { onReachCalendar } from "./reach-workers";
 import {
   ensureReachA,
-  onReachCalendar,
   reachParameter,
   reachTable,
   REACH_A_MODULE_ID,
