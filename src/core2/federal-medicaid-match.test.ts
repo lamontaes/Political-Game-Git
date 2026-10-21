@@ -13,6 +13,7 @@ import { gameStartDate } from "./game-start";
 import { addDays, makeIsoDate } from "./kernel/dates";
 import { advanceCore } from "./life";
 import { governments } from "./modules/budgets";
+import { federalDebtOf } from "./budgets-treasury";
 import { rowsOf } from "./law-reach/group-b-store";
 import { coreAPI } from "./state";
 
@@ -42,6 +43,9 @@ it(
       const federal = governments(api).find((g) => g.level === "federal")!;
       const accounts = api.accounts();
       const treasury = accounts.main(federal.organizationId);
+      const lent = () =>
+        federalDebtOf(api).reduce((sum, row) => sum + row.borrowedMinor, 0);
+      const lentBefore = lent();
       const balances: number[] = [];
       for (let month = 0; month < 12; month++) {
         advanceCore(core, addDays(makeIsoDate(core.date), 30));
@@ -81,7 +85,7 @@ it(
       if (!due) continue;
       witnessed += 1;
       process.stdout.write(
-        `federal Medicaid share: ${label}; ${due} came due, paid ${paid}, e.g. ${shares[0]!.obligationId}; treasury balance by month ${balances.join(", ")}\n`,
+        `federal Medicaid share: ${label}; ${due} came due, paid ${paid}, e.g. ${shares[0]!.obligationId}; treasury balance by month ${balances.join(", ")}; borrowed in the year ${lent() - lentBefore}\n`,
       );
     }
     process.stdout.write(`federal medicaid draws: ${tried.join("; ")}\n`);
