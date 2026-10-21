@@ -51,7 +51,7 @@ import {
 } from "../turnout";
 import { coreAPI, registerModule } from "../state";
 import { closenessBetween } from "../closeness";
-import { decisionLean } from "../trait-decisions";
+import { decisionLean, leanedYes } from "../trait-decisions";
 import { parameter } from "../parameters";
 import type { CoreAPI, CoreModule, CoreState, PersonState } from "../types";
 import type { ModuleCalendarWork } from "../module-calendar";
@@ -309,6 +309,45 @@ const ageOn = (p: Readonly<Pick<PersonState, "birthDate">>, date: string) =>
   Number(date.slice(0, 4)) -
   Number(p.birthDate.slice(0, 4)) -
   (date.slice(5) < p.birthDate.slice(5) ? 1 : 0);
+
+/**
+ * Whether a serving incumbent who is a full person stands again: the base
+ * reason, less what their age takes from it, and the person's calibrated
+ * trait lean toward standing over retiring.
+ */
+export function standsAgain(
+  api: CoreAPI,
+  incumbent: Readonly<PersonState>,
+): boolean {
+  return leanedYes(
+    api.state,
+    incumbent,
+    "voting.stand-again",
+    "stand",
+    "retire",
+    standAgainReason(api, incumbent),
+  );
+}
+
+/** The reasons to stand again before personality: the base, less the weight of age past the pivot. */
+export function standAgainReason(
+  api: CoreAPI,
+  incumbent: Readonly<PersonState>,
+): number {
+  return (
+    campaignParameter("votingStandAgainBase") -
+    campaignParameter("votingStandAgainAgeWeight") *
+      Math.min(
+        1,
+        Math.max(
+          0,
+          (ageOn(incumbent, api.state.date) -
+            campaignParameter("votingStandAgainAgePivot")) /
+            campaignParameter("votingStandAgainAgeSpan"),
+        ),
+      )
+  );
+}
 
 /** Put every contest's election day and the winner's first day on the calendar. */
 export function openVoting(core: CoreState): void {
@@ -1121,17 +1160,7 @@ export function fileStandingCandidates(api: CoreAPI, contestId: string): void {
     : undefined;
   // A full person stands from their own traits; a placeholder incumbent
   // keeps the standing rule.
-  const stands =
-    !incumbentPerson ||
-    campaignParameter("votingStandAgainBase") +
-      decisionLean(
-        api.state,
-        incumbentPerson,
-        "voting.stand-again",
-        "stand",
-        "retire",
-      ) >
-      0;
+  const stands = !incumbentPerson || standsAgain(api, incumbentPerson);
   if (
     incumbent &&
     alive &&
