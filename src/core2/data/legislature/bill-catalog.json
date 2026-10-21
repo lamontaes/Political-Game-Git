@@ -88,6 +88,24 @@
           "supported": true,
           "policies": [
             {
+              "id": "law:medicare-tax",
+              "name": "Medicare tax rate",
+              "kind": "law-amount",
+              "series": "medicare-tax",
+              "unit": "percent-of-wages",
+              "operations": ["raise", "lower"],
+              "levels": ["federal"]
+            },
+            {
+              "id": "law:medicaid-match",
+              "name": "Medicaid federal match",
+              "kind": "law-amount",
+              "series": "medicaid-match",
+              "unit": "percent",
+              "operations": ["raise", "lower"],
+              "levels": ["federal"]
+            },
+            {
               "id": "question:us-policy-positions:health-human-services.expand-medicaid-eligibility",
               "name": "expand medicaid eligibility",
               "kind": "policy-question",
@@ -282,6 +300,42 @@
               "levels": ["city"]
             },
             {
+              "id": "law:property-tax",
+              "name": "Property tax rate",
+              "kind": "law-amount",
+              "series": "property-tax",
+              "unit": "percent of home value per year",
+              "operations": ["raise", "lower"],
+              "levels": ["state", "city"]
+            },
+            {
+              "id": "law:corporate-income-tax",
+              "name": "Corporate income tax rate",
+              "kind": "law-amount",
+              "series": "corporate-income-tax",
+              "unit": "percent-flat",
+              "operations": ["raise", "lower"],
+              "levels": ["federal", "state"]
+            },
+            {
+              "id": "law:estate-tax",
+              "name": "Estate tax rate",
+              "kind": "law-amount",
+              "series": "estate-tax",
+              "unit": "percent-top-rate",
+              "operations": ["raise", "lower"],
+              "levels": ["federal", "state"]
+            },
+            {
+              "id": "law:inheritance-tax",
+              "name": "Inheritance tax rate",
+              "kind": "law-amount",
+              "series": "inheritance-tax",
+              "unit": "percent-top-rate",
+              "operations": ["raise", "lower"],
+              "levels": ["state"]
+            },
+            {
               "id": "question:us-policy-positions:fiscal.adopt-income-tax",
               "name": "adopt income tax",
               "kind": "policy-question",
@@ -379,8 +433,18 @@
       "topics": [
         {
           "name": "Food assistance",
-          "supported": false,
-          "policies": []
+          "supported": true,
+          "policies": [
+            {
+              "id": "law:snap-maximum",
+              "name": "SNAP maximum benefit",
+              "kind": "law-amount",
+              "series": "snap-maximum",
+              "unit": "USD/month",
+              "operations": ["raise", "lower"],
+              "levels": ["federal"]
+            }
+          ]
         },
         {
           "name": "Cash assistance",
@@ -408,13 +472,51 @@
         },
         {
           "name": "Unemployment benefits",
-          "supported": false,
-          "policies": []
+          "supported": true,
+          "policies": [
+            {
+              "id": "law:federal-unemployment-tax",
+              "name": "Federal unemployment tax rate",
+              "kind": "law-amount",
+              "series": "federal-unemployment-tax",
+              "unit": "percent-of-wages",
+              "operations": ["raise", "lower"],
+              "levels": ["federal"]
+            },
+            {
+              "id": "law:state-unemployment-tax",
+              "name": "State unemployment tax rate",
+              "kind": "law-amount",
+              "series": "state-unemployment-tax",
+              "unit": "percent-of-wages",
+              "operations": ["raise", "lower"],
+              "levels": ["state"]
+            },
+            {
+              "id": "law:unemployment-weekly-maximum",
+              "name": "Unemployment weekly maximum",
+              "kind": "law-amount",
+              "series": "unemployment-weekly-maximum",
+              "unit": "USD/week",
+              "operations": ["raise", "lower"],
+              "levels": ["state"]
+            }
+          ]
         },
         {
           "name": "Retirement and survivor benefits",
-          "supported": false,
-          "policies": []
+          "supported": true,
+          "policies": [
+            {
+              "id": "law:social-security-tax",
+              "name": "Social Security tax rate",
+              "kind": "law-amount",
+              "series": "social-security-tax",
+              "unit": "percent-of-wages",
+              "operations": ["raise", "lower"],
+              "levels": ["federal"]
+            }
+          ]
         },
         {
           "name": "Elder and caregiver support",

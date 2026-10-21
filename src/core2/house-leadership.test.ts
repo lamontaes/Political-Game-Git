@@ -7,8 +7,7 @@
  */
 import { randomBytes } from "node:crypto";
 import { describe, expect, it } from "vitest";
-import { buildBenchWorld } from "../bench/world";
-import { gameStartDate } from "./game-start";
+import { worldWith, type PlayedWorld } from "./tooling/world-with";
 import { FEDERAL_HOUSE } from "./modules/legislature";
 import {
   LEADERSHIP_MODULE_ID,
@@ -18,24 +17,21 @@ import {
 } from "./modules/leadership";
 import { townSeats } from "./modules/offices";
 import { coreAPI } from "./state";
-import { drawPlace } from "../../scripts/core2-year/place";
 
 const seed =
   process.env.HOUSE_LEADERSHIP_SEED || randomBytes(8).toString("hex");
-const place = drawPlace(seed, "house-leadership");
+const hasDelegation = (w: PlayedWorld) =>
+  townSeats(coreAPI(w.core)).some((s) => s.office.kind.startsWith("us-house"));
+// A territory's delegate sits in no numbered House seat: draw until one does.
+const { world, place } = worldWith(seed, "house-leadership", hasDelegation);
 console.log(`house-leadership: ${place.name} (${place.key}), seed ${seed}`);
-const world = buildBenchWorld(seed, gameStartDate(), {
-  twoLevel: true,
-  placeKey: place.key,
-});
 const api = coreAPI(world.core);
 
 describe(`the House's leaders (${place.name}, seed ${seed})`, () => {
   it("are the chamber's speaker and floor leaders for a delegation seat too", () => {
     const delegation = townSeats(api).find((s) =>
       s.office.kind.startsWith("us-house"),
-    );
-    if (!delegation) return;
+    )!;
     const body = delegation.office.id;
     const speaker = leaderOf(api, FEDERAL_HOUSE, "speaker");
     expect(speaker).not.toBeNull();

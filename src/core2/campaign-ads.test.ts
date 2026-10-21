@@ -7,20 +7,28 @@
  */
 import { randomBytes } from "node:crypto";
 import { describe, expect, it } from "vitest";
-import { buildBenchWorld } from "../bench/world";
-import { gameStartDate } from "./game-start";
+import { worldWith, type PlayedWorld } from "./tooling/world-with";
 import { coreAPI } from "./state";
-import { adTimeForSale, buyAdTime } from "./modules/campaigns";
-import { followersOf, outletsHere } from "./modules/press";
-import { drawPlace } from "../../scripts/core2-year/place";
+import { adAudience, adTimeForSale, buyAdTime } from "./modules/campaigns";
+import { campaignParameter } from "./campaign-views";
+import { countedFollowers, followersOf, outletsHere } from "./modules/press";
 
 const seed = process.env.CAMPAIGN_ADS_SEED || randomBytes(8).toString("hex");
-const place = drawPlace(seed, "campaign-ads");
+// A place whose press has a local outlet and a buyer with money to spend.
+const buyerIn = (core: PlayedWorld["core"]) =>
+  [...core.people.values()]
+    .filter((p) => p.alive && p.tier !== "husk" && p.liquidMinor > 50_000)
+    .sort(
+      (a, b) => b.liquidMinor - a.liquidMinor || a.id.localeCompare(b.id),
+    )[0];
+const { world, place } = worldWith(
+  seed,
+  "campaign-ads",
+  (w) =>
+    outletsHere(coreAPI(w.core)).some((o) => o.tier !== "national") &&
+    !!buyerIn(w.core),
+);
 console.log(`campaign-ads: ${place.name} (${place.key}), seed ${seed}`);
-const world = buildBenchWorld(seed, gameStartDate(), {
-  twoLevel: true,
-  placeKey: place.key,
-});
 const core = world.core;
 const api = coreAPI(core);
 const cash = (id: string) => core.organizations.get(id)?.liquidMinor ?? 0;
@@ -29,14 +37,7 @@ describe(`ad time (${place.name}, seed ${seed})`, () => {
   it("is bought from the town's outlet and reaches its followers", () => {
     expect(adTimeForSale(api)).toBe(true);
     const outlets = outletsHere(api).filter((o) => o.tier !== "national");
-    // A place whose press has no local outlet has no ad time to sell.
-    if (!outlets.length) return;
-    const buyer = [...core.people.values()]
-      .filter((p) => p.alive && p.tier !== "husk" && p.liquidMinor > 50_000)
-      .sort(
-        (a, b) => b.liquidMinor - a.liquidMinor || a.id.localeCompare(b.id),
-      )[0];
-    if (!buyer) return;
+    const buyer = buyerIn(core)!;
     const buyerBefore = buyer.liquidMinor;
     const before = Object.fromEntries(
       outlets.map((o) => [o.organizationId, cash(o.organizationId)]),
@@ -59,5 +60,48 @@ describe(`ad time (${place.name}, seed ${seed})`, () => {
     const followers = new Set(followersOf(api, seller.id));
     expect(reached.length).toBeGreaterThan(0);
     for (const p of reached) expect(followers.has(p.id)).toBe(true);
+  });
+
+  // The counted population is most of a town: an ad reaches a counted group by
+  // the same rule as a full person, times its count (one function, two tiers).
+  it("reaches the outlet's counted followers as well as its full ones, in one proportion", () => {
+    const outlets = outletsHere(api).filter((o) => o.tier !== "national");
+    // The outlet an ad is bought from has full followers and counted ones.
+    const seller = [...outlets].sort(
+      (a, b) =>
+        followersOf(api, b.id).length - followersOf(api, a.id).length ||
+        a.id.localeCompare(b.id),
+    )[0]!;
+    const full = followersOf(api, seller.id).length;
+    const counted = countedFollowers(api, seller.id);
+    expect(full, `${place.name}`).toBeGreaterThan(0);
+    expect(
+      counted,
+      `${place.name}: counted followers of ${seller.id}`,
+    ).toBeGreaterThan(0);
+    // A buy is sized in contacts, so a town's small outlet is not reached
+    // whole by a fixed small sum: price the buys by the followers.
+    const priced = (contacts: number) =>
+      Math.ceil(
+        (contacts * 1000) / campaignParameter("adContactsPerThousandMinor"),
+      );
+    const total = full + counted;
+    // A buy that covers every follower reaches every follower of both tiers.
+    const everyone = adAudience(api, priced(total))!;
+    expect(everyone.viewers.length).toBe(full);
+    expect(everyone.countedViewers).toBe(counted);
+    // A buy for a quarter of the followers reaches the same share of each
+    // tier, to the rounding of each tier's size.
+    const small = adAudience(api, priced(Math.max(1, Math.floor(total / 4))))!;
+    const share = (n: number, of: number) => (of ? n / of : 0);
+    expect(small.viewers.length + small.countedViewers).toBeLessThan(
+      everyone.viewers.length + everyone.countedViewers,
+    );
+    expect(
+      Math.abs(
+        share(small.viewers.length, full) -
+          share(small.countedViewers, counted),
+      ),
+    ).toBeLessThanOrEqual(0.5 / full + 0.5 / counted + 1e-9);
   });
 });

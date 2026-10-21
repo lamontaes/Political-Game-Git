@@ -22,6 +22,11 @@
   - estimate labels show only in developer mode, never to players;
   - nothing shows "unknown", and nothing is hard-coded;
   - the old core is deleted.
+- **Nothing from the workroom:** no owner's decisions, dates or work notes ship in the game:
+  - every "(owner, Oct 14)"-style note, ruling date, session name, PR number and work-order reference is removed from the game's code and data (about 240 files under `src` today);
+  - code comments say what the code does, not who decided it or when;
+  - the shipped build strips comments and carries no source maps, so nothing written for the team reaches a player's machine;
+  - the release build refuses while any such note is found (a scan of `src`, the game's data and the built files).
 - **Updates:** a Steam build every night, made in the cloud. Updates come through Steam. Proof and developer pages aren't in the shipped build.
 - **Bug reports:** a "Report a bug" button, plus a prompt after a crash. Each sends its log only when the player presses send (owner, Oct 12).
 - **Windows and Mac at launch** (owner, Oct 12). The Mac build is signed and notarized; the owner buys Apple's developer membership before launch.
@@ -54,7 +59,7 @@
 
 ## How you'll know it works
 
-You install the Steam build on a minimum-spec PC. A new game loads within two minutes while the story plays, and a year of play runs in under two minutes. A save from last week still loads after an update. You find no estimates, unknowns, real politicians or developer pages anywhere. The store page is live by Friday.
+You install the Steam build on a minimum-spec PC. A new game loads within two minutes while the story plays, and a year of play runs in under two minutes. A save from last week still loads after an update. You find no estimates, unknowns, real politicians, developer pages or owner's notes anywhere. The store page is live by Friday.
 
 ## Your decisions it follows
 
@@ -77,6 +82,10 @@ You install the Steam build on a minimum-spec PC. A new game loads within two mi
 - Nightly Steam build in the cloud; no proof pages in the build (Oct 6). "No signing before 1.0" (Oct 6) is superseded for Mac on Oct 12: the Mac build ships signed at launch.
 - Officeholders fictional, no real presidents, public-domain quotes; legal check "Start now" (Oct 10).
 - Official sources instead of the Book of the States (Oct 11).
+
+**Workroom notes**
+
+- Dated owner's decisions in the game, like "(owner, Oct 14, 2026)" in the code, are "unacceptable" and must not ship; they go on this checklist for launch (Oct 19).
 
 **Steam**
 

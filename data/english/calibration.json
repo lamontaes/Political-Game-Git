@@ -1,0 +1,27 @@
+{
+  "schema": "english-calibration/1",
+  "step": {
+    "value": 0.25,
+    "tag": "TUNABLE",
+    "citation": "How far one owner grade moves a piece's running grade (on a scale of -1 to 1) or a register's target length (in words).",
+    "spread": {
+      "low": 0.1,
+      "high": 0.5,
+      "unit": "grade or words per owner grade",
+      "citation": "Small enough that one grade never decides a choice, large enough that a dozen grades in one direction do."
+    }
+  },
+  "lengthWeight": {
+    "value": 0.1,
+    "tag": "TUNABLE",
+    "citation": "How much one word of distance from a register's target length counts against a piece, against its running grade.",
+    "spread": {
+      "low": 0.02,
+      "high": 0.3,
+      "unit": "grade per word",
+      "citation": "A piece five words off its register's target loses about half a running-grade point at the middle value."
+    }
+  },
+  "registers": {},
+  "parts": {}
+}

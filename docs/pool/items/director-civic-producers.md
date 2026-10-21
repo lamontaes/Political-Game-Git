@@ -5,12 +5,12 @@ area: director
 kind: wiring
 priority: 1
 size: M
-status: open
-claimed-by:
+status: blocked
+claimed-by: claude/director-civic-producers
 pr:
-blocked-on: "director-civic-roles"
+blocked-on: director-civic-producers-government,director-civic-producers-government-rest
 source: "director-reach, PR #4508"
-claimed-at:
+claimed-at: 2026-10-19T18:01:34.276Z
 ---
 
 **What.** The director's catalog still marks fifteen civic situation types as waiting on a producer, though the core already writes the records they name. These are election.result (race-won, race-lost), legislature.sign-or-veto (bill-signed, veto), legislature.hold-hearing (public-hearing), legislative-vote (floor-vote), candidate-filed (filing, campaign-stop), recall-petition (recall), press.exposed (scandal), work.job-lost (layoff), housing.eviction (eviction-notice), law.effect-learned (law-takes-effect), economy.board-appointment (appointment) and office.approached (press-interview). Make the director's ledger write a moment for the person each record reaches, drop the awaitingProducer mark from each type, and let it fire a scene when that person is watched.

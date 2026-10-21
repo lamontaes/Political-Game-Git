@@ -4,10 +4,10 @@ title: "Stopgaps in housing (estimated-law): 1 open"
 area: world
 kind: stopgap
 priority: 3
-status: open
+status: dropped
 claimed-by:
 pr:
-blocked-on:
+blocked-on: research-housing-sourced-parameters
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/modules/housing.ts, kind estimated-law"
 ---
@@ -21,3 +21,5 @@ source: "src/core2/data/stopgaps.json, src/core2/modules/housing.ts, kind estima
 **Files.** src/core2/modules/housing.ts
 
 **Notes.** First row: Eviction steps not yet read from official text: of 56 places, 30 have the notice period read, 23 whether a tenant can cure, 36 the hearing period and 34 the stay; the other values are recalled from secondary summaries, a
+
+Folded into research-housing-sourced-parameters (CTO, Oct 19, 2026).

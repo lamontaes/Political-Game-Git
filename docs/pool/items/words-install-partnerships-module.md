@@ -5,10 +5,10 @@ area: words
 kind: wiring
 priority: 1
 size: S
-status: open
+status: blocked
 claimed-by:
 pr:
-blocked-on:
+blocked-on: people-partnership-forms
 source: added with npm run pool -- add
 ---
 
