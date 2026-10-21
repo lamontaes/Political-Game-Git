@@ -5,10 +5,10 @@ area: world
 kind: research
 priority: 2
 size: M
-status: open
+status: blocked
 claimed-by:
 pr:
-blocked-on:
+blocked-on: researcher: per-place or calibration sourcing, each row cited; first row's replacement: A house price step in the economy (the region's incomes, rates and vacancy), territorial price data, and sellers who are the town'
 source: "collapsed Oct 19, 2026 from world-stopgap-housing-assumed-data, world-stopgap-housing-estimated-law, world-stopgap-housing-foreclosure-assumed-data, world-stopgap-housing-homeless-assumed-data, world-stopgap-housing-mortgages-assumed-data"
 ---
 
@@ -29,3 +29,5 @@ source: "collapsed Oct 19, 2026 from world-stopgap-housing-assumed-data, world-s
 **Files.** src/core2/housing-foreclosure.ts, src/core2/housing-homeless.ts, src/core2/housing-mortgages.ts, src/core2/modules/housing.ts, src/core2/data/parameters.json, src/core2/data/stopgaps.json, data/research/world/
 
 **Notes.** Folded from: world-stopgap-housing-assumed-data, world-stopgap-housing-estimated-law, world-stopgap-housing-foreclosure-assumed-data, world-stopgap-housing-homeless-assumed-data, world-stopgap-housing-mortgages-assumed-data. Rows that are not numbers (missing mechanics in law reach, for example) stay registered; this item sources what they will read.
+
+Figures found Oct 20 for SG-WORLD-housing-island-areas (claude/political-game-pool-b6g0dl; read through Census Bureau pages by search and fetch, not from the DHC tables on data.census.gov; nothing built, the item is blocked). 2020 Census Island Areas, median home value (Census story "New 2020 Island Areas Censuses Data Show Homeownership and Median Home Values", July 2023): U.S. Virgin Islands $290,600, Guam $277,800, Northern Mariana Islands $184,200, American Samoa $84,400. Owner share of occupied units (Census 2020 DHC and cross-tabulation press releases): Guam 52.0 percent, Northern Mariana Islands 29.0, American Samoa 71.1, U.S. Virgin Islands 47.8. Median gross rent for all units is only partly found: Guam $1,057 (DHC summary file); for units built in 2019 or 2020 only, Northern Mariana Islands $502, American Samoa $658, U.S. Virgin Islands $926 (a different universe, not comparable). A builder needs the all-units gross rent for the other three from data.census.gov (DHC rent tables), a per-island research file under data/research/housing/ with a reader in nationTenure and the rent/value fallback in src/core2/modules/housing.ts, and the Census notes on data quality (pandemic collection effects; high allocation rates in Guam).

@@ -112,6 +112,73 @@ describe(`election law from data (place ${drawn.name}, ${drawn.state}, seed ${se
     expect(municipalFilingDeadline("US-TX", "2025-05-03")?.date).toBe(
       "2025-02-14",
     );
+    // Georgia's qualifying window closes the Friday after the third Monday in
+    // August: August 18, 2025 is that Monday, so the deadline is the 22nd.
+    expect(municipalFilingDeadline("US-GA", election)?.date).toBe("2025-08-22");
+    // Nevada's window closes the second Friday after the first Monday in
+    // March (2026: March 2 to 13), West Virginia's the last Saturday of
+    // January, Kentucky's the second Tuesday in August.
+    expect(municipalFilingDeadline("US-NV", "2026-11-03")?.date).toBe(
+      "2026-03-13",
+    );
+    expect(municipalFilingDeadline("US-WV", "2026-06-09")?.date).toBe(
+      "2026-01-31",
+    );
+    expect(municipalFilingDeadline("US-KY", "2025-11-04")?.date).toBe(
+      "2025-08-12",
+    );
+    // Arizona's papers are due 120 days before the election: Tempe's March 10,
+    // 2026 election closed filing on November 10, 2025.
+    expect(municipalFilingDeadline("US-AZ", "2026-03-10")?.date).toBe(
+      "2025-11-10",
+    );
+    // Wyoming's filing closes 81 days before the primary, which is the first
+    // Tuesday after the third Monday in August: August 18, 2026, so May 29.
+    expect(municipalFilingDeadline("US-WY", "2026-11-03")?.date).toBe(
+      "2026-05-29",
+    );
+    // Michigan's charter cities that file for the general election close
+    // on the fifteenth Tuesday before it: July 22, 2025 for November 4.
+    expect(municipalFilingDeadline("US-MI", "2025-11-04")?.date).toBe(
+      "2025-07-22",
+    );
+    // New Hampshire's window ends the Friday of the week after the seventh
+    // Wednesday before a Tuesday town election: March 11, 2025 gives
+    // January 31; Mississippi's closed January 31, 2025 for the April 1 primary.
+    expect(municipalFilingDeadline("US-NH", "2025-03-11")?.date).toBe(
+      "2025-01-31",
+    );
+    expect(municipalFilingDeadline("US-MS", "2025-06-03")?.date).toBe(
+      "2025-01-31",
+    );
+    // Pennsylvania's petitions close the tenth Tuesday before the third-Tuesday
+    // May primary: March 7, 2023 for the May 16 primary.
+    expect(municipalFilingDeadline("US-PA", "2023-11-07")?.date).toBe(
+      "2023-03-07",
+    );
+    // Oklahoma's filing closes the Wednesday of the first week of December,
+    // the year before a February or April election: December 3, 2025 for 2026.
+    expect(municipalFilingDeadline("US-OK", "2026-04-07")?.date).toBe(
+      "2025-12-03",
+    );
+    // Indiana's city declarations close 88 days before the May primary:
+    // February 3, 2023 for the May 2 primary.
+    expect(municipalFilingDeadline("US-IN", "2023-11-07")?.date).toBe(
+      "2023-02-03",
+    );
+    // Rhode Island's declarations close the Wednesday of the last Monday to
+    // Wednesday run in June: June 26, 2024 and June 24, 2026 (the state's form).
+    expect(municipalFilingDeadline("US-RI", "2024-11-05")?.date).toBe(
+      "2024-06-26",
+    );
+    expect(municipalFilingDeadline("US-RI", "2026-11-03")?.date).toBe(
+      "2026-06-24",
+    );
+    // Connecticut's petitions go to the town clerk by the 90th day before the
+    // election: August 6, 2025 for November 4.
+    expect(municipalFilingDeadline("US-CT", "2025-11-04")?.date).toBe(
+      "2025-08-06",
+    );
     // Every one of the 56 places has a row with a citation and a tag.
     const rows = Object.values(
       filingDeadlines.places as Record<
@@ -236,6 +303,124 @@ describe(`election law from data (place ${drawn.name}, ${drawn.state}, seed ${se
     expect(unread.source).toMatch(/ESTIMATED/);
   });
 
+  it("a U.S. House vacancy in Alaska or Iowa is dated by that state's law as GAO describes it, with the estimate's source naming the statute", () => {
+    for (const [state, days, statute] of [
+      ["US-AK", 135, "Alaska Stat. 15.40.140"],
+      ["US-IA", 50, "Iowa Code 69.14"],
+      ["US-NY", 75, "Election Law 6-114"],
+      ["US-WA", 150, "RCW 29A.28.041"],
+      ["US-GA", 45, "O.C.G.A. 21-2-543"],
+      ["US-PA", 75, "25 P.S. 2777"],
+      ["US-MA", 152, "M.G.L. ch. 54 sec. 140"],
+      ["US-TN", 140, "Tenn. Code 2-16-101"],
+      ["US-MD", 160, "Election Law 8-710"],
+      ["US-NJ", 150, "A5886/S4664"],
+      ["US-AR", 120, "Ark. Code 7-8-104"],
+      ["US-VT", 120, "17 V.S.A. 2621"],
+      ["US-KS", 87, "K.S.A. 25-3501"],
+      ["US-NE", 82, "Neb. Rev. Stat. 32-564"],
+      ["US-SD", 85, "SDCL 12-11-1"],
+      ["US-WY", 89, "W.S. 22-18"],
+      ["US-IL", 120, "10 ILCS 5/25-7"],
+      ["US-AZ", 200, "HB 2538"],
+      ["US-NV", 120, "NRS 304.230"],
+      ["US-WV", 102, "W. Va. Code 3-10-4"],
+      ["US-SC", 137, "S.C. Code 7-13-190"],
+      ["US-CT", 70, "9-212"],
+      ["US-NM", 84, "1-15-18.1"],
+      ["US-MS", 90, "23-15-853"],
+      ["US-MT", 92, "Montana's 2015 law"],
+    ] as const) {
+      const office = {
+        ...town(state),
+        level: "federal",
+        kind: "us-house",
+        jurisdiction: state,
+      } as OfficeInput;
+      const read = specialElectionDate({
+        office,
+        stateKey: state,
+        vacancyDate: "2026-03-01",
+      });
+      const expected = new Date(Date.parse("2026-03-01") + days * 86_400_000)
+        .toISOString()
+        .slice(0, 10);
+      expect(read.electionDate, state).toBe(expected);
+      expect(read.source, state).toContain(statute);
+      if (["US-AK", "US-IA"].includes(state))
+        expect(read.source, state).toContain("GAO-24-107789");
+    }
+  });
+
+  it("Texas dates a U.S. House vacancy on the first uniform date after the 36th day, and a governor-sets state says its law was read", () => {
+    const house = (state: string) =>
+      ({
+        ...town(state),
+        level: "federal",
+        kind: "us-house",
+        jurisdiction: state,
+      }) as OfficeInput;
+    // 2026-01-05 + 36 days = 2026-02-10: the first uniform date after it is the first Saturday in May.
+    const spring = specialElectionDate({
+      office: house("US-TX"),
+      stateKey: "US-TX",
+      vacancyDate: "2026-01-05",
+    });
+    expect(spring.electionDate).toBe("2026-05-02");
+    expect(spring.source).toContain("203.004");
+    // 2026-06-01 + 36 days = 2026-07-07: the next uniform date is the November general election day.
+    const fall = specialElectionDate({
+      office: house("US-TX"),
+      stateKey: "US-TX",
+      vacancyDate: "2026-06-01",
+    });
+    expect(fall.electionDate).toBe("2026-11-03");
+    // Ohio's governor sets the day: the estimate dates it and the source cites the law.
+    const ohio = specialElectionDate({
+      office: house("US-OH"),
+      stateKey: "US-OH",
+      vacancyDate: "2026-03-01",
+    });
+    expect(ohio.basis).toBe("estimated");
+    expect(ohio.source).toContain("3521.03");
+    expect(ohio.electionDate).toBe("2026-05-30");
+    // Colorado's governor sets the day; the estimate dates it, and the source cites the section.
+    const colorado = specialElectionDate({
+      office: house("US-CO"),
+      stateKey: "US-CO",
+      vacancyDate: "2026-03-01",
+    });
+    expect(colorado.source).toContain("1-12-202");
+    expect(colorado.basis).toBe("estimated");
+  });
+
+  it("a state legislative vacancy is dated by the state's law where the data reads it", () => {
+    const seat = (state: string) =>
+      ({
+        ...town(state),
+        level: "state",
+        kind: "legislature-upper",
+        jurisdiction: state,
+      }) as OfficeInput;
+    for (const [state, days, cite] of [
+      ["US-GA", 55, "21-2-544"],
+      ["US-MN", 35, "204D.19"],
+      ["US-DE", 33, "7102"],
+      ["US-NY", 35, "6-114"],
+    ] as const) {
+      const read = specialElectionDate({
+        office: seat(state),
+        stateKey: state,
+        vacancyDate: "2026-03-01",
+      });
+      const expected = new Date(Date.parse("2026-03-01") + days * 86_400_000)
+        .toISOString()
+        .slice(0, 10);
+      expect(read.electionDate, state).toBe(expected);
+      expect(read.source, state).toContain(cite);
+    }
+  });
+
   it("a term starts on the office's own rule, the data's default where none is read", () => {
     const office = town("US-NC");
     const start = termStartAfter(office, "2026-11-03");
@@ -260,10 +445,65 @@ describe(`election law from data (place ${drawn.name}, ${drawn.state}, seed ${se
     expect(termStartAfter(governor("US-VA"), "2025-11-04")).toBe("2026-01-17");
     // Washington: Wednesday after the second Monday in January.
     expect(termStartAfter(governor("US-WA"), "2024-11-05")).toBe("2025-01-15");
+    // California: the Monday after January 1 (a January 1 that is a Monday gives January 8).
+    expect(termStartAfter(governor("US-CA"), "2026-11-03")).toBe("2027-01-04");
+    expect(termStartAfter(governor("US-CA"), "2028-11-07")).toBe("2029-01-08");
+    // Colorado: second Tuesday; Illinois and Indiana: second Monday; New Jersey: third Tuesday.
+    expect(termStartAfter(governor("US-CO"), "2026-11-03")).toBe("2027-01-12");
+    expect(termStartAfter(governor("US-IL"), "2026-11-03")).toBe("2027-01-11");
+    expect(termStartAfter(governor("US-IN"), "2028-11-07")).toBe("2029-01-08");
+    expect(termStartAfter(governor("US-NJ"), "2025-11-04")).toBe("2026-01-20");
+    // Ohio and Oklahoma: second Monday; Pennsylvania: third Tuesday; Maryland: third Wednesday; Wisconsin: first Monday.
+    expect(termStartAfter(governor("US-OH"), "2026-11-03")).toBe("2027-01-11");
+    expect(termStartAfter(governor("US-OK"), "2026-11-03")).toBe("2027-01-11");
+    expect(termStartAfter(governor("US-PA"), "2026-11-03")).toBe("2027-01-19");
+    expect(termStartAfter(governor("US-MD"), "2026-11-03")).toBe("2027-01-20");
+    expect(termStartAfter(governor("US-WI"), "2026-11-03")).toBe("2027-01-04");
+    // Estimated from the usual clause: Nebraska's first Thursday after the first Tuesday, Connecticut's Wednesday after the first Monday, Vermont's first Thursday after the first Wednesday, Texas's third Tuesday.
+    expect(termStartAfter(governor("US-NE"), "2026-11-03")).toBe("2027-01-07");
+    expect(termStartAfter(governor("US-CT"), "2026-11-03")).toBe("2027-01-06");
+    expect(termStartAfter(governor("US-VT"), "2026-11-03")).toBe("2027-01-07");
+    expect(termStartAfter(governor("US-TX"), "2026-11-03")).toBe("2027-01-19");
+    expect(termStartAfter(governor("US-AZ"), "2026-11-03")).toBe("2027-01-04");
     // An unread state keeps the data's default.
     expect(termStartAfter(governor("US-NC"), "2026-11-03")).toBe(
       `2027-${termStarts.default.monthDay}`,
     );
+  });
+
+  it("every state's governor row starts a term in December or January on its own rule, and an unread clause says so", () => {
+    const rows = Object.entries(
+      termStarts.states as unknown as Record<
+        string,
+        Record<
+          string,
+          {
+            tag: string;
+            excerpt: string;
+            rule: { month: number; nth: number; weekday: number };
+          }
+        >
+      >,
+    ).map(
+      ([state, families]) => [state, families.statewideExecutive!] as const,
+    );
+    expect(rows.length).toBeGreaterThanOrEqual(32);
+    for (const [state, row] of rows) {
+      const governor = {
+        ...town(state),
+        jurisdiction: state,
+        level: "state" as const,
+        kind: "governor",
+      };
+      const start = termStartAfter(governor, "2026-11-03");
+      // A December rule falls in the election year, a January rule the year after.
+      expect(start.slice(0, 7), state).toBe(
+        row.rule.month === 12 ? "2026-12" : "2027-01",
+      );
+      // An estimate does not quote a clause it did not read.
+      if (row.tag === "ESTIMATED")
+        expect(row.excerpt, state).toMatch(/not read|older version/);
+    }
   });
 
   it("filing fallbacks come from data and say so", () => {

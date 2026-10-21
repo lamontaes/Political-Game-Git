@@ -14,6 +14,7 @@ import { makeIsoDate } from "./kernel/dates";
 import { sendLawNotice } from "./housing-notices";
 import { nextDue } from "./housing-homeless";
 import { addResidentFlow, setResidentFlowAmount } from "./residents-economy";
+import { webFactorFor } from "./outcome-web-reach";
 import type { CoreAPI, CoreState } from "./types";
 
 interface Tenant {
@@ -102,15 +103,20 @@ function tenants(api: CoreAPI): Tenant[] {
   const rt = residentsRuntime(c);
   if (rt)
     for (const house of rt.store.liveHouseholds()) {
-      if (house.gone || c.households.has(house.id) || house.tenure !== "rent")
-        continue;
+      if (house.gone || house.tenure !== "rent") continue;
+      // A household filled in keeps its record in the core: the full-tier loop
+      // above renews its lease. One returned to the counts keeps the record too,
+      // but its lease has ended and its rent is the flow again, so only a
+      // live lease puts a household in the full tier.
+      const lease = c.finance.contracts.get(`lease:${house.id}`);
+      if (c.households.has(house.id) && lease && !lease.endedAt) continue;
       const flow = rt.flows.get(`rent:${house.id}`);
       if (!flow || flow.endedAt || table(api, "statuses").get(house.id))
         continue;
       rows.push({
         id: house.id,
         placeId: house.placeId,
-        memberIds: rt.households.get(house.id)?.household.memberIds ?? [],
+        memberIds: rt.store.memberIdsOf(house),
         tier: "counted",
         leaseId: flow.id,
         landlordId: flow.payeeId,
@@ -140,9 +146,7 @@ export function releaseVacatedRentals(api: CoreAPI): void {
       ProjectRow | undefined;
     if (!project) continue;
     const full = c.households.get(row.householdId);
-    const counted = full
-      ? undefined
-      : rt?.households.get(row.householdId)?.household;
+    const counted = full ? undefined : rt?.store.liveHousehold(row.householdId);
     const flow = rt?.flows.get(`rent:${row.householdId}`);
     const hasLease = full
       ? liveLeases.has(row.householdId) &&
@@ -326,6 +330,16 @@ export function occupyCompletedRentals(api: CoreAPI): void {
 export function renewRentalLeases(api: CoreAPI): void {
   if (!regionalRegistered(api)) return;
   const c = api.state as CoreState;
+  // The web's factor on rents is one per place and month; every lease there reads the same.
+  const webFactors = new Map<string, number>();
+  const webFactor = (placeId: string) => {
+    let factor = webFactors.get(placeId);
+    if (factor === undefined) {
+      factor = webFactorFor(api, placeId, "housing.rent");
+      webFactors.set(placeId, factor);
+    }
+    return factor;
+  };
   for (const tenant of tenants(api)) {
     const level = regionalLevel(api, tenant.placeId);
     if (!level) continue;
@@ -339,10 +353,17 @@ export function renewRentalLeases(api: CoreAPI): void {
         ? stock.vacantRental / stock.rentalUnits
         : undefined;
     const last = table(api, "renewals").get(tenant.leaseId) as
-      { renewedAt: string; regionPay: number; vacancy?: number } | undefined;
+      | {
+          renewedAt: string;
+          regionPay: number;
+          vacancy?: number;
+          webFactor?: number;
+        }
+      | undefined;
     if (!last) {
       table(api, "renewals").put({
         id: tenant.leaseId,
+        webFactor: webFactor(tenant.placeId),
         regionPay: level.hourlyEarnings,
         renewedAt: c.date,
         rentMinor: tenant.rentMinor,
@@ -366,9 +387,13 @@ export function renewRentalLeases(api: CoreAPI): void {
         ? 1
         : ((vacancy + unitShare) / (last.vacancy + unitShare)) **
           -api.parameter("housingRentVacancyElasticity");
+    // The outcome web's rent factor is a level against the place's start; a lease moves by
+    // the change in it since the lease last renewed, so a steady factor is not charged twice.
+    const webChange = webFactor(tenant.placeId) / (last.webFactor ?? 1);
     const marketRentMinor = Math.round(
       ((tenant.rentMinor * level.hourlyEarnings) / last.regionPay) *
-        vacancyFactor,
+        vacancyFactor *
+        webChange,
     );
     // Rent stabilization in force where the household lives caps the rise.
     const law =
@@ -399,6 +424,8 @@ export function renewRentalLeases(api: CoreAPI): void {
       householdId: tenant.id,
       tier: tenant.tier,
       regionPay: level.hourlyEarnings,
+      webFactor: webFactor(tenant.placeId),
+      webChange,
       renewedAt: c.date,
       rentMinor: rent,
       previousRentMinor: tenant.rentMinor,
@@ -536,7 +563,7 @@ export function occupyRehousedRental(
   const countedIndex = rt?.store.householdOf.get(householdId);
   const counted =
     countedIndex === undefined ? undefined : rt!.store.households[countedIndex];
-  const house = full ?? rt?.households.get(householdId)?.household;
+  const house = full ?? (counted && !counted.gone ? counted : undefined);
   const lease = full
     ? c.finance.contracts.get(leaseId)
     : rt?.flows.get(leaseId);
@@ -606,7 +633,7 @@ export function occupyRehousedRental(
   table(api, "moves").put({
     id: `housing-move:${householdId}:${c.date}`,
     householdId,
-    personIds: [...house.memberIds],
+    personIds: full ? [...full.memberIds] : rt!.store.memberIdsOf(counted!),
     tier: full ? "full" : "counted",
     projectId: offer.project.id,
     leaseId,

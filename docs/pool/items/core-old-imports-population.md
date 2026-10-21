@@ -1,24 +1,24 @@
 ---
 id: core-old-imports-population
-title: "The opening population builder reads the core's character history, upbringing, traits and world types, not the old engine's"
+title: "The opening population builder reads the core, not the old engine"
 area: core
 kind: cleanup
 priority: 2
-size: M
+size: L
 status: in-pr
 claimed-by: claude/old-imports-population
 pr: #5068
-blocked-on:
+blocked-on: "core-old-imports-population-org-profile, core-old-imports-population-traits, core-old-imports-population-town-employment"
 source: added with npm run pool -- add
 claimed-at: 2026-10-19T18:01:40.192Z
 ---
 
-**What.** The opening population builder still reads the old engine's character history, upbringing, traits and world types. Read the core's own versions of each, porting only what the builder uses. Remove the old imports in the same change, so the builder reads only the core when it makes a person.
+**What.** The opening population builder in src/core2/population.ts builds a full old-engine World first and then reads people, traits and employment from it. It still imports five old-engine modules: life-queries, town-employment and its generated meta, personality-catalogue, trait-registry and trait-packs. Found while claiming: this is L in practice, so it is split into three bounded items, each moving one piece into the core.
 
-**Rules.** Replace, never layer: the old imports are deleted with the new reads and the PR body counts what was removed. One model, two tiers: a filled-in person must still match what the records say, seeded from the world so the same person returns each time.
+**Rules.** Replace, never layer: each piece's old import is deleted from population.ts in the same change as its core replacement. One rule, all 56 places: nothing names a place. Wire to the world: the opening's records for a drawn place stay the same through every slice.
 
-**Done when.** For a drawn place and a seed the builder did not choose, `buildBenchWorld` produces the same people by record id before and after, `src/core2/population.test.ts` passes, and no import of the old engine's character history, upbringing, traits or world types remains in the population builder.
+**Done when.** The three sub-items are done and src/core2/population.ts imports nothing from src/simulation; buildBenchWorld in a drawn place and seed named in the PR body opens with the same records as before, and the opening tests pass.
 
-**Files.** src/core2/population.ts, src/core2/population.test.ts
+**Files.** src/core2/population.ts
 
-**Notes.** Body filled Oct 19 (claude) from the title and the repo's engine layout; the claimant should sharpen it.
+**Notes.** Split Oct 19. Sub-items: core-old-imports-population-org-profile (S), core-old-imports-population-traits (M), core-old-imports-population-town-employment (M, do with core-old-imports-opening-employment). The deeper cause is that the opening builds an old World first; ending that is core-delete-old-engine's last step.
