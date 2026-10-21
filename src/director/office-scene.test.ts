@@ -149,7 +149,7 @@ function play(): {
       });
     }
     proof.push(
-      `office scene: seed ${seed}, try ${i}, ${place.name} (${place.key}), ${captured ? `scene on ${date}` : `no town vote with a scene in ${maxDays} days`}`,
+      `office scene: seed ${seed}, try ${i}, ${place.name} (${place.key}), ${captured ? `scene on ${date}` : `no town vote with a scene in ${maxDays} days`}; committee deaths so far ${committeeDeaths.length}${committeeDeaths[0] ? `, first ${committeeDeaths[0].billId}` : ""}`,
     );
     if (captured) return { place, core: world.core, date };
   }
@@ -194,7 +194,7 @@ describe("the office scene", () => {
   );
 
   it("logs the place, seed, bill, target and events", () => {
-    console.log(proof.join("\n"));
+    process.stdout.write(`${proof.join("\n")}\n`);
     expect(proof.length).toBeGreaterThan(1);
   });
 
