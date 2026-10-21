@@ -1,6 +1,17 @@
 {
   "entries": [
     {
+      "version": "0.21.2",
+      "releasedOn": "2026-10-21",
+      "revision": "d5e42ecc1ee74a22857847afa435143135a9d351",
+      "changeIds": [
+        "core-speed-dense-town-note",
+        "counted-voters-read-group-stances",
+        "pool-vehicle-tax-findings",
+        "world-census-scale-closures-rise"
+      ]
+    },
+    {
       "version": "0.21.1",
       "releasedOn": "2026-10-21",
       "revision": "9a95c291044821df1d751a46fccd875f22c7ab94",
