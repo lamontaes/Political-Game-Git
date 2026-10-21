@@ -5,12 +5,12 @@ area: people
 kind: feature
 priority: 2
 size: L
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/cadence
 pr:
 blocked-on:
 source: added with npm run pool -- add
-claimed-at:
+claimed-at: 2026-10-21T16:34:33.888Z
 ---
 
 **What.** SG-CORE-residents-cadence in src/core2/residents.ts still merges the wider population's purchases per seller, kind and week of the month and pays them monthly, and counted workers always work their full schedule. The rows are sourced now (data/research/people/jolts-cps-turnover-absence-2025.json, read by src/core2/turnover-check.ts). Measured Oct 21, Salem, Utah, seed 07f42052624493fd: hires 2.18 a month against JOLTS 3.3, quits 2.11 against 2.0, layoffs 0.27 against 1.1, separations 2.68 against 3.3. Build counted purchases timed from each group's own pay dates, and counted absence and layoffs that follow the same reasons as full workers, times their count.
