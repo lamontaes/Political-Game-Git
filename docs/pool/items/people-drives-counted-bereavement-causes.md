@@ -9,7 +9,6 @@ status: open
 claimed-by:
 pr:
 blocked-on:
-after: people-drives-counted-job-loss-causes
 source: added with npm run pool -- add
 ---
 
@@ -21,4 +20,4 @@ source: added with npm run pool -- add
 
 **Files.** src/core2/births-counted.ts, src/core2/modules/drives.ts, src/core2/data/drives.json, src/core2/data/health.json
 
-**Notes.** Split from people-drives-counted-tier-causes, after the job-loss wiring (#5816).
+**Notes.** Split from people-drives-counted-tier-causes. Built stacked on the job-loss wiring (#5816), whose counted-actor path it reuses.
