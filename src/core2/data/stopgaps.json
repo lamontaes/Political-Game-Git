@@ -1227,12 +1227,12 @@
     "id": "SG-GOV-recall-signature-groups",
     "kind": "missing-data",
     "file": "src/core2/modules/recalls.ts",
-    "line": 321,
-    "whatItFakes": "A recall petition's signatures from the town's unnamed voters are the named residents' signing share times the town's estimated electorate (population times the 2024 voting share), against whatever signature base the state's rule names.",
-    "why": "CORE's voter groups and real voter rolls aren't populated in generated worlds.",
+    "line": 311,
+    "whatItFakes": "A recall petition's required signatures read the state's named base from the world's records where it holds them (votes cast for the office, or at the town's last election of that level, from the recorded results). Where it holds none, the base is sized from the real averages: registered voters (the town's eligible voters times the national registration share), the last gubernatorial vote (the town's population times the voting share, scaled to a midterm), and votes cast before the town has held an election.",
+    "why": "The world keeps no voter rolls and does not keep a statewide race's votes by town, and a new town has held no election yet. The counted residents sign and vote by the same rule as named people, and the base is a whole count of voters.",
     "addedBy": "OPUS-GOV",
     "addedAt": "2026-10-12",
-    "replacement": "Signatures gathered by the organizer's and volunteers' real contacts, plus CORE's voter groups, counted against the rule's own base (registered voters or last vote cast).",
+    "replacement": "Registered voters read from the town's rolls and the town's share of the last gubernatorial vote read from the state's returns, once the world keeps them.",
     "status": "open"
   },
   {
@@ -1317,7 +1317,9 @@
     "addedBy": "OPUS-CORE",
     "addedAt": "2026-10-12",
     "replacement": "Outside demand from the national and regional economy engines (OPUS-WORLD): exports, government programs and visitors as their own dated buyers.",
-    "status": "open"
+    "status": "resolved",
+    "resolvedAt": "2026-10-20",
+    "resolution": "Closed as a labeled estimate: the outside buyers' flow is each firm's researched industry share of receipts (src/core2/data/outside-market.json, with value, low and high), and the macro and regional engines already scale it every month (scaleOutsideSales, limitOutsideSales); nothing tops a firm up to its projection."
   },
   {
     "id": "SG-CORE-owner-distributions",
@@ -1341,7 +1343,9 @@
     "addedBy": "OPUS-CORE",
     "addedAt": "2026-10-12",
     "replacement": "Recorded jobs for every employed resident: town firms in the missing industries (health care, education, government) and commutes to employers in other places (LEHD LODES origin-destination flows), with their own pay.",
-    "status": "open"
+    "status": "resolved",
+    "resolvedAt": "2026-10-20",
+    "resolution": "Closed as a labeled estimate: counted workers the opening could not place earn the place's ACS median earnings, a modeled population's out-of-town pay with its ESTIMATED source and spread on the flow, not a faked mechanic."
   },
   {
     "id": "SG-CORE-voluntary-closure-final-pay",
@@ -1365,7 +1369,9 @@
     "addedBy": "OPUS-CORE",
     "addedAt": "2026-10-12",
     "replacement": "The outside-spending model (category location-quotient leakage) that pays the non-local basket to outside sellers by category. Rent and mortgages are already paid to recorded landlords and the bank by OPUS-WORLD's housing engine (checked Oct 16, Rush Valley, Utah, seed rent1); turn the rest off with collapseToTwoLevels(input, { outsideLivingCosts: false }) once the model exists.",
-    "status": "open"
+    "status": "resolved",
+    "resolvedAt": "2026-10-20",
+    "resolution": "Closed as a labeled estimate: the counted wider population is a modeled population, so the part of its living cost not bought from a recorded local seller is a CEX and HUD estimate with its source on the flow, and rent and mortgages are already paid to recorded landlords and the bank by the housing engine."
   },
   {
     "id": "SG-CORE-identity-fill-in-traits",
@@ -2475,7 +2481,9 @@
     "addedBy": "OPUS-WORLD",
     "addedAt": "2026-10-12",
     "replacement": "The two-level population's labor-force counts by place, age and job (CPS and LAUS), with full people filled in from them.",
-    "status": "open"
+    "status": "resolved",
+    "resolvedAt": "2026-10-20",
+    "resolution": "openSeekers and openCountedSeekers in src/core2/modules/jobs.ts count the jobs held in each place by age band (the named workers and the counted ones alike) and size each band's seekers from the place's own rate (openingRate, the regional series from LAUS) times the band's ratio in src/core2/data/jobs/age-unemployment.json (CPS Table 3); the neediest jobless adults in the band seek."
   },
   {
     "id": "SG-WORLD-jobs-layoff-decider",
@@ -2727,7 +2735,9 @@
     "addedBy": "OPUS-WORLD",
     "addedAt": "2026-10-12",
     "replacement": "registerPropertyTax with the county's rate, cap and treasury from the law in force.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "The budgets engine registers the rate, cap and payee from the law in force (registerPropertyTax) in every played world; the state-average fallback is deleted, and a place with no law registered is billed nothing. The state average still sizes the opening's outside living cost.",
+    "resolvedAt": "2026-10-20"
   },
   {
     "id": "SG-WORLD-property-tax-monthly",
@@ -4846,87 +4856,75 @@
     "status": "open"
   },
   {
-    "id": "SG-EFFECT-WEB-prices-gov-borrowing",
-    "kind": "missing-mechanic",
-    "file": "src/core2/modules/prices-web-gaps.ts",
-    "line": 11,
-    "whatItFakes": "Five links (balanced-budget, pension-funding, reserve-balance, federal-deficit and newspaper-closure to borrowing cost) move a state's general-obligation spread, in basis points over a AAA state.",
-    "why": "No state or local government borrows in the core: only the federal treasury borrows (budgets-treasury.ts) and its interest is a budget line, not a rate a bond sets, so no engine pays or records a state bond rate. The newspaper link also has no place-level newspaper series and no size.",
-    "addedBy": "effect-web-prices",
+    "id": "SG-LABOR-counted-partner-proxy",
+    "kind": "estimated-behavior",
+    "file": "src/core2/jobs-web.ts",
+    "line": 1,
+    "whatItFakes": "A counted member's marital status and which relative is their child: a woman is married when an adult relative within the minimum parent age of her age lives in her household, and a mother when a relative under 5 is at least that much younger.",
+    "why": "The counts keep family pairs without their kind and carry no marital status, so the web's mothers and married-women outcomes cannot read a counted woman's own record.",
+    "addedBy": "effect-web-labor",
     "addedAt": "2026-10-20",
-    "replacement": "A state and local borrowing engine (bond issues with a coupon over the AAA benchmark) that reads webReach for gov.borrowing-cost and pays interest at the rate it sets.",
+    "replacement": "Counted members' partner and parent-child links kept in the counts, read in place of the age rule.",
     "status": "open"
   },
   {
-    "id": "SG-EFFECT-WEB-prices-high-cost-loans",
-    "kind": "missing-mechanic",
-    "file": "src/core2/modules/prices-web-gaps.ts",
-    "line": 12,
-    "whatItFakes": "The loan-rate-cap links move the count of consumer lenders (payday, title and installment) per 100,000 residents.",
-    "why": "The credit engine lends one product, the town bank's personal loan at prime plus spread, which never reaches a high-cost rate; there is no payday or title lender, and the cap law already ceilings that loan's rate in householdApplications.",
-    "addedBy": "effect-web-prices",
+    "id": "SG-LABOR-no-legal-status",
+    "kind": "faked-mechanic",
+    "file": "src/core2/jobs-web.ts",
+    "line": 1,
+    "whatItFakes": "Undocumented and U.S.-born employment: the web keeps them as place numbers, but no person carries a nativity or legal status, so no hire, layoff or quit can read the enforcement links.",
+    "why": "People are generated without a birthplace or work authorization; inventing one per person would be a guess that decides who loses work.",
+    "addedBy": "effect-web-labor",
     "addedAt": "2026-10-20",
-    "replacement": "A high-cost lender product in credit.ts whose loans (and their count per 100,000) the cap links' factor multiplies.",
+    "replacement": "A nativity and work-authorization record on people (full and counted), read by the jobs engine's hiring and layoff decisions.",
     "status": "open"
   },
   {
-    "id": "SG-EFFECT-WEB-prices-roads-condition",
-    "kind": "missing-record",
-    "file": "src/core2/modules/prices-web-gaps.ts",
-    "line": 13,
-    "whatItFakes": "Fix-it-first moves the share of roads in poor condition; the share is kept only in the web.",
-    "why": "No engine keeps road condition: setRoadCondition in place-prices.ts has no caller. The web's kept share reaches households through poor-roads-to-prices on business prices (finance-state.ts), so the repair cost is charged once.",
-    "addedBy": "effect-web-prices",
+    "id": "SG-LABOR-minimum-wage-ratio",
+    "kind": "faked-mechanic",
+    "file": "src/core2/jobs-web.ts",
+    "line": 1,
+    "whatItFakes": "The minimum-wage-to-low-wage-jobs link needs the minimum wage as a share of the place's median wage (labor.minimum-wage-to-median), which no engine records.",
+    "why": "The wage floor is read by the jobs engine for pay, but the ratio to the median is not a kept measure.",
+    "addedBy": "effect-web-labor",
     "addedAt": "2026-10-20",
-    "replacement": "A roads engine (or a budget line that calls setRoadCondition) that owns the poor share and multiplies it by webFactorFor.",
+    "replacement": "A reader in the jobs engine of the wage floor over the place's median hourly pay, added to the engine measures.",
     "status": "open"
   },
   {
-    "id": "SG-EFFECT-WEB-prices-transit-service",
-    "kind": "missing-record",
-    "file": "src/core2/modules/prices-web-gaps.ts",
-    "line": 14,
-    "whatItFakes": "Shifting highway money to transit moves transit service (vehicle revenue miles per resident); the service is kept only in the web.",
-    "why": "No transit agency or service record exists; the service change reaches riders through transit-service-to-ridership into the trips each household takes (place-prices.ts).",
-    "addedBy": "effect-web-prices",
+    "id": "SG-LABOR-person-exposure",
+    "kind": "faked-mechanic",
+    "file": "src/core2/jobs-web.ts",
+    "line": 1,
+    "whatItFakes": "Birth-year pollution, teacher quality and neighborhood years acting on adult earnings: they need each person's own exposure-years record, which no engine keeps.",
+    "why": "The links are person-level (exposure-years shape); a place rate would apply them to the wrong people.",
+    "addedBy": "effect-web-labor",
     "addedAt": "2026-10-20",
-    "replacement": "A transit agency record of service miles that the service link's factor multiplies.",
+    "replacement": "A per-person exposure record (air in the birth year, teachers' value-added, years in a better neighborhood) read when pay is set.",
     "status": "open"
   },
   {
-    "id": "SG-EFFECT-WEB-prices-rail-ridership",
-    "kind": "missing-engine",
-    "file": "src/core2/modules/prices-web-gaps.ts",
-    "line": 15,
-    "whatItFakes": "A federal rail expansion raises intercity rail riders per 1,000 residents.",
-    "why": "The core has no intercity rail service, station or fare, so there is nothing to carry the rider count.",
-    "addedBy": "effect-web-prices",
+    "id": "SG-LABOR-unsized-links",
+    "kind": "faked-mechanic",
+    "file": "src/core2/jobs-web.ts",
+    "line": 1,
+    "whatItFakes": "Graduation to earnings, transit loss to unemployment, broadband to employment and incentive deals to industry jobs have no researched size the game can use, and their causes or outcomes are not recorded.",
+    "why": "Their sources give a study-unit effect (one lost line, a county gaining broadband, one deal) that no conversion turns into the game's slopes; the sizes are to confirm.",
+    "addedBy": "effect-web-labor",
     "addedAt": "2026-10-20",
-    "replacement": "An intercity rail engine whose boardings per place multiply by webFactorFor(rail.intercity-ridership).",
+    "replacement": "Sizes confirmed from the sources and the cause measures (graduation share, transit access, deal records) recorded by their engines.",
     "status": "open"
   },
   {
-    "id": "SG-EFFECT-WEB-prices-past-due-debt",
-    "kind": "missing-record",
-    "file": "src/core2/modules/prices-web-gaps.ts",
-    "line": 16,
-    "whatItFakes": "Student-debt relief and an abortion denial each move households' past-due debt.",
-    "why": "The abortion link's cause is a person event the game does not record; the student-debt link has no size or unit until a bill sets the terms. Credit keeps past-due loans but no household record these causes write to.",
-    "addedBy": "effect-web-prices",
+    "id": "SG-LABOR-pretrial-employment",
+    "kind": "faked-mechanic",
+    "file": "src/core2/jobs-web.ts",
+    "line": 1,
+    "whatItFakes": "Pretrial detention lowering formal employment: the justice engine decides each detention from the law, but no engine records formal-sector employment, and a place rate would count the detention twice.",
+    "why": "The cause is a person's own detention in the justice records; the jobs engine does not read it when a detained person's job ends.",
+    "addedBy": "effect-web-labor",
     "addedAt": "2026-10-20",
-    "replacement": "A recorded denial event and a student-loan balance on the household that credit.ts past-due loans can read.",
-    "status": "open"
-  },
-  {
-    "id": "SG-EFFECT-WEB-prices-nondisaster-transfers",
-    "kind": "missing-record",
-    "file": "src/core2/modules/prices-web-gaps.ts",
-    "line": 17,
-    "whatItFakes": "A severe disaster raises a place's non-disaster public transfers.",
-    "why": "Disasters are recorded (disasters.ts) but transfers are not kept by kind, so no engine reads or pays a non-disaster transfer series to scale.",
-    "addedBy": "effect-web-prices",
-    "addedAt": "2026-10-20",
-    "replacement": "Budget transfers split by disaster and non-disaster that the disaster link's factor multiplies.",
+    "replacement": "The jobs engine reading a person's detention record in custody-related separations and a formal-employment measure from jobs records.",
     "status": "open"
   },
   {
@@ -4939,6 +4937,30 @@
     "addedBy": "EFFECT-WEB-WIRING",
     "addedAt": "2026-10-20",
     "replacement": "A conditions term in the plan score that reads webReach for the woman's own age and tenure, leaving out the links her own records already carry (unemployment), with a weight calibrated in a played year so full births move by the researched size, as counted births do.",
+    "status": "open"
+  },
+  {
+    "id": "SG-LABOR-participation-scale",
+    "kind": "uncalibrated-tunable",
+    "file": "src/core2/jobs-web.ts",
+    "line": 1,
+    "whatItFakes": "The size of the web's participation effects on who is at work: the engine adds the log of the web's factor to a deterministic choice score, which reaches the records but is not fitted to the researched size.",
+    "why": "Measured in a played town: an older-work effect of +0.3 (a 30% change in the researched outcome) moved the share of 62 to 67 year olds at work from 0.656 to 0.677, about 3%, because the choice scores are logistic and the entry and exit pulls are small.",
+    "addedBy": "effect-web-labor",
+    "addedAt": "2026-10-20",
+    "replacement": "A weight on the term, fitted in a played year so each group's share moves by the researched size (mothers, married women, ages 62 to 67).",
+    "status": "open"
+  },
+  {
+    "id": "SG-LABOR-defense-cause",
+    "kind": "missing-record",
+    "file": "src/core2/jobs-web.ts",
+    "line": 1,
+    "whatItFakes": "defense-contracts-to-earnings does nothing: its cause federal.defense-boost-pct (extra defense contracts as a share of the state's output) is not recorded by any engine, so the link never runs; the pay level already reads labor.median-earnings and will carry it once the cause exists.",
+    "why": "No federal procurement engine records state contract awards.",
+    "addedBy": "effect-web-labor",
+    "addedAt": "2026-10-20",
+    "replacement": "A federal spending engine recording each state's defense contract awards, read as federal.defense-boost-pct.",
     "status": "open"
   },
   {
@@ -5194,6 +5216,18 @@
     "status": "open"
   },
   {
+    "id": "SG-LABOR-low-wage-unreviewed",
+    "kind": "faked-mechanic",
+    "file": "src/core2/jobs-web.ts",
+    "line": 251,
+    "whatItFakes": "minimum-wage-to-low-wage-jobs and federal-minimum-wage-to-low-wage-jobs scale only the staffing targets of employers the jobs engine reviews, and in played towns none of those has a job under the line; the town's low-wage jobs belong to organizations the review never reaches, so the factor moves no record.",
+    "why": "In a bench world (Sail Harbor, Connecticut, seed 6bad944e1a974146) all 32 reviewed employers had no heads under the line while about 190 of the town's 208 low-wage jobs sat with organizations outside the employers table; summed staffing need was identical to 15 digits with the factor at 0.5.",
+    "addedBy": "effect-web-labor",
+    "addedAt": "2026-10-20",
+    "replacement": "The jobs engine applies the low-wage factor to every organization whose jobs labor.low-wage-jobs counts, at the moment it sets that organization's staffing, shown in a low-wage-only twin by employer id.",
+    "status": "open"
+  },
+  {
     "id": "SG-WEB-housing-links-unsized",
     "kind": "missing-mechanic",
     "file": "src/core2/modules/outcome-web.ts",
@@ -5288,6 +5322,90 @@
     "addedBy": "EFFECT-WEB-VOTING",
     "addedAt": "2026-10-20",
     "replacement": "Relief dollars by place in the budgets engine, an approval measure from the views engine, and sizes read from Healy and Malhotra 2009 and a confirmed approval source.",
+    "status": "open"
+  },
+  {
+    "id": "SG-EFFECT-WEB-prices-gov-borrowing",
+    "kind": "missing-mechanic",
+    "file": "src/core2/modules/prices-web-gaps.ts",
+    "line": 11,
+    "whatItFakes": "Five links (balanced-budget, pension-funding, reserve-balance, federal-deficit and newspaper-closure to borrowing cost) move a state's general-obligation spread, in basis points over a AAA state.",
+    "why": "No state or local government borrows in the core: only the federal treasury borrows (budgets-treasury.ts) and its interest is a budget line, not a rate a bond sets, so no engine pays or records a state bond rate. The newspaper link also has no place-level newspaper series and no size.",
+    "addedBy": "effect-web-prices",
+    "addedAt": "2026-10-20",
+    "replacement": "A state and local borrowing engine (bond issues with a coupon over the AAA benchmark) that reads webReach for gov.borrowing-cost and pays interest at the rate it sets.",
+    "status": "open"
+  },
+  {
+    "id": "SG-EFFECT-WEB-prices-high-cost-loans",
+    "kind": "missing-mechanic",
+    "file": "src/core2/modules/prices-web-gaps.ts",
+    "line": 12,
+    "whatItFakes": "The loan-rate-cap links move the count of consumer lenders (payday, title and installment) per 100,000 residents.",
+    "why": "The credit engine lends one product, the town bank's personal loan at prime plus spread, which never reaches a high-cost rate; there is no payday or title lender, and the cap law already ceilings that loan's rate in householdApplications.",
+    "addedBy": "effect-web-prices",
+    "addedAt": "2026-10-20",
+    "replacement": "A high-cost lender product in credit.ts whose loans (and their count per 100,000) the cap links' factor multiplies.",
+    "status": "open"
+  },
+  {
+    "id": "SG-EFFECT-WEB-prices-roads-condition",
+    "kind": "missing-record",
+    "file": "src/core2/modules/prices-web-gaps.ts",
+    "line": 13,
+    "whatItFakes": "Fix-it-first moves the share of roads in poor condition; the share is kept only in the web.",
+    "why": "No engine keeps road condition: setRoadCondition in place-prices.ts has no caller. The web's kept share reaches households through poor-roads-to-prices on business prices (finance-state.ts), so the repair cost is charged once.",
+    "addedBy": "effect-web-prices",
+    "addedAt": "2026-10-20",
+    "replacement": "A roads engine (or a budget line that calls setRoadCondition) that owns the poor share and multiplies it by webFactorFor.",
+    "status": "open"
+  },
+  {
+    "id": "SG-EFFECT-WEB-prices-transit-service",
+    "kind": "missing-record",
+    "file": "src/core2/modules/prices-web-gaps.ts",
+    "line": 14,
+    "whatItFakes": "Shifting highway money to transit moves transit service (vehicle revenue miles per resident); the service is kept only in the web.",
+    "why": "No transit agency or service record exists; the service change reaches riders through transit-service-to-ridership into the trips each household takes (place-prices.ts).",
+    "addedBy": "effect-web-prices",
+    "addedAt": "2026-10-20",
+    "replacement": "A transit agency record of service miles that the service link's factor multiplies.",
+    "status": "open"
+  },
+  {
+    "id": "SG-EFFECT-WEB-prices-rail-ridership",
+    "kind": "missing-engine",
+    "file": "src/core2/modules/prices-web-gaps.ts",
+    "line": 15,
+    "whatItFakes": "A federal rail expansion raises intercity rail riders per 1,000 residents.",
+    "why": "The core has no intercity rail service, station or fare, so there is nothing to carry the rider count.",
+    "addedBy": "effect-web-prices",
+    "addedAt": "2026-10-20",
+    "replacement": "An intercity rail engine whose boardings per place multiply by webFactorFor(rail.intercity-ridership).",
+    "status": "open"
+  },
+  {
+    "id": "SG-EFFECT-WEB-prices-past-due-debt",
+    "kind": "missing-record",
+    "file": "src/core2/modules/prices-web-gaps.ts",
+    "line": 16,
+    "whatItFakes": "Student-debt relief and an abortion denial each move households' past-due debt.",
+    "why": "The abortion link's cause is a person event the game does not record; the student-debt link has no size or unit until a bill sets the terms. Credit keeps past-due loans but no household record these causes write to.",
+    "addedBy": "effect-web-prices",
+    "addedAt": "2026-10-20",
+    "replacement": "A recorded denial event and a student-loan balance on the household that credit.ts past-due loans can read.",
+    "status": "open"
+  },
+  {
+    "id": "SG-EFFECT-WEB-prices-nondisaster-transfers",
+    "kind": "missing-record",
+    "file": "src/core2/modules/prices-web-gaps.ts",
+    "line": 17,
+    "whatItFakes": "A severe disaster raises a place's non-disaster public transfers.",
+    "why": "Disasters are recorded (disasters.ts) but transfers are not kept by kind, so no engine reads or pays a non-disaster transfer series to scale.",
+    "addedBy": "effect-web-prices",
+    "addedAt": "2026-10-20",
+    "replacement": "Budget transfers split by disaster and non-disaster that the disaster link's factor multiplies.",
     "status": "open"
   },
   {

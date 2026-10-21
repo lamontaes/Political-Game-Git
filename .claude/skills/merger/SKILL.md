@@ -80,6 +80,7 @@ List with `gh api 'repos/lamontaes/Political-Game-Git/pulls?state=open&per_page=
 
    **Done-when not met**
    - The item's done-when is found with `grep -l "pr: #N" docs/pool/items/*.md` or the item id in the PR body. Every proof it names must be in the PR: a played world built with `buildBenchWorld`, a browser check, a named test, a seed in the body. Name the missing proof.
+   - The PR body's **Done when** table (from the PR template) has one row per done-when line with its evidence. A missing table, or a row whose evidence is not in the diff or the body, is a send-back naming that row. Builders run this same list on themselves first (`session-start`, "Self-check before the PR").
 
    **Claims that don't match the diff**
    - The title, body or release note claims something the diff doesn't do.
