@@ -4,10 +4,10 @@ title: "Stopgaps in births-plan (unmeasured-life-loop-model): 1 open"
 area: people
 kind: stopgap
 priority: 3
-status: open
+status: dropped
 claimed-by:
 pr:
-blocked-on:
+blocked-on: research-people-sourced-parameters
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/births-plan.ts, kind unmeasured-life-loop-model"
 ---
@@ -21,3 +21,5 @@ source: "src/core2/data/stopgaps.json, src/core2/births-plan.ts, kind unmeasured
 **Files.** src/core2/births-plan.ts
 
 **Notes.** First row: Old smooth family-plan coefficients; living-cost and household-size housing proxies, recorded affect health proxy, identity gender carrier proxy, successful planned singleton pregnancy with fixed conception-relative dura
+
+Folded into research-people-sourced-parameters (CTO, Oct 19, 2026).

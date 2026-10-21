@@ -4,10 +4,10 @@ title: "Stopgaps in deep-past (shared-past-generation-gap): 2 open"
 area: core
 kind: stopgap
 priority: 3
-status: open
+status: dropped
 claimed-by:
 pr:
-blocked-on:
+blocked-on: research-deep-past-sourced-parameters
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/deep-past.ts, kind shared-past-generation-gap"
 claimed-at:
@@ -22,3 +22,5 @@ claimed-at:
 **Files.** src/core2/deep-past.ts
 
 **Notes.** First row: Historical acquaintances are seeded for the player alone and carry no dated shared moments keyed to both people. Other residents have no generated acquaintance history for a reunion to read.
+
+Folded into research-deep-past-sourced-parameters (CTO, Oct 19, 2026).

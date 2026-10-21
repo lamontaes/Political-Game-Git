@@ -4,10 +4,10 @@ title: "Stopgaps in finance-state (receipt-budget-proxy): 1 open"
 area: world
 kind: stopgap
 priority: 3
-status: open
+status: blocked
 claimed-by:
 pr:
-blocked-on:
+blocked-on: engine or design: The completed finance year exhausted retailers with forecast-based input budgets and left most other firms without customers. Industry-level IRS ratios exist, but individual invoices and a verified in
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/finance-state.ts, kind receipt-budget-proxy"
 ---

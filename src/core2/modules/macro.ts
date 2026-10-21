@@ -419,8 +419,7 @@ function meet(api: CoreAPI, meetingId: string): void {
   const voters = votersOn(core.date, members);
   const moves = rateOptions(state.policyRatePct, p);
   const votes = voters.map((member) => {
-    const person = core.people.get(member.personId)!;
-    const view = memberView(member, person.traits, readings, p);
+    const view = memberView(member, readings, p);
     const result = chooseAct(
       core,
       member.personId,
