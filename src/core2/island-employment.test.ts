@@ -61,13 +61,26 @@ describe(`island-area employment by age (run seed ${seed})`, () => {
       core.placeMetadata.openingEmploymentReceipt!,
     );
     expect(receipt.ageTargets.length, where).toBeGreaterThan(0);
+    const area = String(pick[4]).slice(0, 2);
+    const rows = table.counties as Record<string, Record<string, number[]>>;
     for (const band of receipt.ageTargets) {
+      // The band is placed by the island's own table: its rate is the table's employed share.
+      const [population, employed] = rows[area]![band.key.split(":")[1]!]!;
       expect(band.basis, `${where} ${band.key}`).toMatch(/^county-ACS/);
+      expect(band.rate, `${where} ${band.key}`).toBeCloseTo(
+        employed! / population!,
+        10,
+      );
+      expect(
+        band.remaining,
+        `${where} ${band.key} remaining`,
+      ).toBeGreaterThanOrEqual(0);
       console.log(
-        `${where}: ${band.key} rate ${band.rate.toFixed(3)} residents ${band.residents} target ${band.target} recorded ${band.recorded} added ${band.added}`,
+        `${where}: ${band.key} rate ${band.rate.toFixed(3)} residents ${band.residents} target ${band.target} recorded ${band.recorded} added ${band.added} remaining ${band.remaining}`,
       );
     }
-    advanceCore(core, addDays(makeIsoDate(core.date), 365));
-    expect(core.date > gameStartDate(), where).toBe(true);
+    const start = core.date;
+    advanceCore(core, addDays(makeIsoDate(start), 365));
+    expect(core.date, where).toBe(addDays(makeIsoDate(start), 365));
   }, 1_800_000);
 });

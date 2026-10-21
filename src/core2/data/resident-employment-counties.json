@@ -25,19 +25,23 @@
   "sources": {
     "60": {
       "citation": "U.S. Census Bureau, 2020 Island Areas Censuses Demographic and Housing Characteristics Summary File for American Samoa, table PCT47 (Sex by Age by Employment Status for the Population 16 Years and Over in Households, excluding people in military housing units), island-wide record, as2020.dhc.zip, segment as000282020.dhc, https://www2.census.gov/programs-surveys/decennial/2020/data/island-areas/american-samoa/demographic-and-housing-characteristics-file/. Each age row pools the male and female cells; the civilian population is the pooled total minus the table's armed-forces subtotal, and 65-and-over rows carry the age total to match the ACS rows above.",
-      "asOf": "2020-04-01"
+      "asOf": "2020-04-01",
+      "limits": "Complete-count enumeration of the island, so no sampling margin of error exists and none is invented. Disclosure avoidance is data swapping (it leaves the island-wide marginal totals unchanged) and partially synthetic values for group quarters. Counts cover household residents only, so group quarters are left out (and in Guam the military installations, where only basic questions were asked). The island-wide record is published without suppression; village, district and municipality rows can be suppressed or blanked for reliability and are not used here."
     },
     "66": {
       "citation": "U.S. Census Bureau, 2020 Island Areas Censuses Demographic and Housing Characteristics Summary File for Guam, table PCT47 (Sex by Age by Employment Status for the Population 16 Years and Over in Households, excluding people in military housing units), island-wide record, gu2020.dhc.zip, segment gu000292020.dhc, https://www2.census.gov/programs-surveys/decennial/2020/data/island-areas/guam/demographic-and-housing-characteristics-file/. Each age row pools the male and female cells; the civilian population is the pooled total minus the table's armed-forces subtotal, and 65-and-over rows carry the age total to match the ACS rows above.",
-      "asOf": "2020-04-01"
+      "asOf": "2020-04-01",
+      "limits": "Complete-count enumeration of the island, so no sampling margin of error exists and none is invented. Disclosure avoidance is data swapping (it leaves the island-wide marginal totals unchanged) and partially synthetic values for group quarters. Counts cover household residents only, so group quarters are left out (and in Guam the military installations, where only basic questions were asked). The island-wide record is published without suppression; village, district and municipality rows can be suppressed or blanked for reliability and are not used here."
     },
     "69": {
       "citation": "U.S. Census Bureau, 2020 Island Areas Censuses Demographic and Housing Characteristics Summary File for the Commonwealth of the Northern Mariana Islands, table PCT47 (Sex by Age by Employment Status for the Population 16 Years and Over in Households, excluding people in military housing units), island-wide record, mp2020.dhc.zip, segment mp000292020.dhc, https://www2.census.gov/programs-surveys/decennial/2020/data/island-areas/commonwealth-of-the-northern-mariana-islands/demographic-and-housing-characteristics-file/. Each age row pools the male and female cells; the civilian population is the pooled total minus the table's armed-forces subtotal, and 65-and-over rows carry the age total to match the ACS rows above.",
-      "asOf": "2020-04-01"
+      "asOf": "2020-04-01",
+      "limits": "Complete-count enumeration of the island, so no sampling margin of error exists and none is invented. Disclosure avoidance is data swapping (it leaves the island-wide marginal totals unchanged) and partially synthetic values for group quarters. Counts cover household residents only, so group quarters are left out (and in Guam the military installations, where only basic questions were asked). The island-wide record is published without suppression; village, district and municipality rows can be suppressed or blanked for reliability and are not used here."
     },
     "78": {
       "citation": "U.S. Census Bureau, 2020 Island Areas Censuses Demographic and Housing Characteristics Summary File for the U.S. Virgin Islands, table PCT47 (Sex by Age by Employment Status for the Population 16 Years and Over in Households, excluding people in military housing units), island-wide record, vi2020.dhc.zip, segment vi000312020.dhc, https://www2.census.gov/programs-surveys/decennial/2020/data/island-areas/us-virgin-islands/demographic-and-housing-characteristics-file/. Each age row pools the male and female cells; the civilian population is the pooled total minus the table's armed-forces subtotal, and 65-and-over rows carry the age total to match the ACS rows above.",
-      "asOf": "2020-04-01"
+      "asOf": "2020-04-01",
+      "limits": "Complete-count enumeration of the island, so no sampling margin of error exists and none is invented. Disclosure avoidance is data swapping (it leaves the island-wide marginal totals unchanged) and partially synthetic values for group quarters. Counts cover household residents only, so group quarters are left out (and in Guam the military installations, where only basic questions were asked). The island-wide record is published without suppression; village, district and municipality rows can be suppressed or blanked for reliability and are not used here."
     }
   },
   "counties": {
