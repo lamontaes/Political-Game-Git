@@ -5,12 +5,12 @@ area: world
 kind: research
 priority: 2
 size: M
-status: in-pr
-claimed-by: claude/employer-attitude
+status: open
+claimed-by:
 pr: #5805
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-21T13:49:17.367Z
+claimed-at:
 ---
 
 **What.** The hiring engine needs a sourced table of how much more often employers call back some applicants than others, with a spread between employers, before a hiring decision can cite a recorded attitude (world-hiring-bias-reasons) or a discrimination ban can refuse one. PR #5191 built src/core2/data/jobs/employer-callback-gaps.json from Quillian et al. 2017, Bertrand and Mullainathan 2004, Kline, Rose and Walters 2022 and others, but was sent back because no engine reads it. Finish it with its first reader: each employer's owner is generated with an attitude drawn once from the table's between-employer spread (seeded generation of who exists), and the hiring score in the jobs engine reads it, so the table is not dead data. Tag the older-applicant and Pager 2003 rows ESTIMATED until read from the papers.
