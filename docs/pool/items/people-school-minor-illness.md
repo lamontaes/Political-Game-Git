@@ -5,11 +5,12 @@ area: people
 kind: feature
 priority: 3
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/school-minor-illness
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-21T15:12:03.099Z
 ---
 
 **What.** Played towns show children attending 99 percent of school days or more (Monroe, Oregon 99.8 percent, Guam 99.3 percent) against NCES average daily non-attendance of 6.5 to 10 percent, because the child's reason to stay home reads careNeedOf, which is zero except for a serious onset or a held chronic condition. The health module has no passing illness (colds, flu, injury) that raises a person's care need for days. Add short episodes to the health module from the person's age, season and household (a sick sibling) so a child's care need rises for a few days, read by school and work absence alike.
