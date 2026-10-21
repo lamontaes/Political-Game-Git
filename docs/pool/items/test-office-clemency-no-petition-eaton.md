@@ -5,9 +5,9 @@ area: gov
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/clemency-eaton
-pr:
+pr: #5779
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-21T05:35:32.279Z
