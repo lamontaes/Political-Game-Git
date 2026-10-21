@@ -22,9 +22,16 @@ import {
 
 const seed = process.env.DISTRICT_MIX_SEED ?? randomBytes(8).toString("hex");
 const income = districtIncome as unknown as {
+  binUpperDollars: (number | null)[];
   districts: Record<string, Record<string, number[]>>;
 };
-const RICH_FROM = 11; // bins from $75,000 up
+const CENTS = 100;
+/** The income bin a household's yearly income (minor units) falls in. */
+const binOf = (minor: number) => {
+  const uppers = income.binUpperDollars;
+  const bin = uppers.findIndex((u) => u === null || minor <= u * CENTS);
+  return bin < 0 ? uppers.length - 1 : bin;
+};
 
 it("places a split town's households by each district's own income mix", () => {
   const tried: string[] = [];
@@ -45,23 +52,11 @@ it("places a split town's households by each district's own income mix", () => {
       (h) => h.district !== undefined && h.district !== "town",
     );
     const people = new Map<string, number>();
-    const byDistrict = new Map<
-      string,
-      { sum: number; count: number; bins: Set<number> }
-    >();
     let total = 0;
     for (const h of households) {
       const count = rt.store.weightedCount(h);
       people.set(h.district!, (people.get(h.district!) ?? 0) + count);
       total += count;
-      const entry = byDistrict.get(h.district!) ?? {
-        sum: 0,
-        count: 0,
-        bins: new Set(),
-      };
-      entry.sum += householdIncome(rt, h) * count;
-      entry.count += count;
-      byDistrict.set(h.district!, entry);
     }
     expect(total, where).toBeGreaterThan(0);
     // Each district holds the town's share of people the Census table gives it.
@@ -71,26 +66,31 @@ it("places a split town's households by each district's own income mix", () => {
         Math.abs((people.get(id) ?? 0) / total - count / censusTotal),
         `${where}: ${id}`,
       ).toBeLessThan(0.05);
-    // A richer district (a larger share of its own households at $75,000 and up) holds richer households.
+    // The town's median household sets the line: a district is richer when a
+    // larger share of its own households (ACS) sit in bins above the town's
+    // median bin. The line is the town's, so each district's placed households
+    // are counted on both sides of it; a fixed dollar line would leave a poor
+    // town with a handful of households above it.
+    const incomes = households
+      .map((h) => householdIncome(rt, h))
+      .sort((a, b) => a - b);
+    const median = incomes[Math.floor(incomes.length / 2)]!;
+    const richFrom = binOf(median) + 1;
     const rich = (id: string) => {
       const [chamber, geoid] = id.split(":") as [string, string];
       const bins = income.districts[chamber]![geoid]!;
       const all = bins.reduce((a, b) => a + b, 0);
-      return bins.slice(RICH_FROM).reduce((a, b) => a + b, 0) / all;
+      return bins.slice(richFrom).reduce((a, b) => a + b, 0) / all;
     };
     const ranked = districts
       .map(([id]) => id)
-      .filter((id) => byDistrict.get(id)?.count)
+      .filter((id) => people.get(id))
       .sort((a, b) => rich(a) - rich(b));
     if (ranked.length < 2 || rich(ranked.at(-1)!) - rich(ranked[0]!) < 0.1) {
       tried.push(`${where}: districts too alike to rank`);
       continue;
     }
     // No district takes a slice of the income ladder: each holds households from below and above the town's median.
-    const incomes = households
-      .map((h) => householdIncome(rt, h))
-      .sort((a, b) => a - b);
-    const median = incomes[Math.floor(incomes.length / 2)]!;
     for (const [id] of districts)
       if ((people.get(id) ?? 0) > 20) {
         const mine = households
@@ -101,12 +101,22 @@ it("places a split town's households by each district's own income mix", () => {
           `${where}: ${id} holds a slice of the ladder`,
         ).toBe(true);
       }
-    const mean = (id: string) =>
-      byDistrict.get(id)!.sum / byDistrict.get(id)!.count;
+    // The richer district holds a larger share of its households above the line.
+    const above = (id: string) => {
+      let up = 0;
+      let all = 0;
+      for (const h of households)
+        if (h.district === id) {
+          const count = rt.store.weightedCount(h);
+          all += count;
+          if (binOf(householdIncome(rt, h)) >= richFrom) up += count;
+        }
+      return up / all;
+    };
     expect(
-      mean(ranked.at(-1)!),
+      above(ranked.at(-1)!),
       `${where}: richest district holds richer households`,
-    ).toBeGreaterThan(mean(ranked[0]!));
+    ).toBeGreaterThan(above(ranked[0]!));
     console.log(`${where}: ${ranked.length} districts placed by their own mix`);
     return;
   }
