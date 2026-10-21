@@ -1208,6 +1208,7 @@ export interface CoreAPI {
         | "lastActDate"
         | "discretionaryEligibleV1"
         | "livingCostDailyMinor"
+        | "traits"
       >
     >,
   ): void;
@@ -1238,6 +1239,33 @@ export interface CoreAPI {
     placeId: PlaceId;
     countyId?: PlaceId;
     householdId: string;
+    source: Source;
+  }): void;
+  /**
+   * People change household in the same town: they join `householdId` (an
+   * existing household, or a new one made here at their place) and leave the
+   * households they were in. Each moving household's share of the everyday
+   * spending follows them, the home obligations they shared (the lease) are
+   * paid by the household they now belong to, and one left with no payer
+   * ends. A household left with no member keeps its record and ends its own
+   * obligations; an owned home is for the caller to sell first. All movers
+   * must be living full people at the same place.
+   */
+  changeHouseholdV1(input: {
+    personIds: readonly PersonId[];
+    householdId: string;
+    source: Source;
+  }): void;
+  /**
+   * Two living adults become partners (`together`), or stop being: a partner
+   * link is added or ended, each person's relatives and past facts record it
+   * with the date, and the event `family.partnered` or `family.separated` is
+   * emitted for the engines (the births engine takes up a new couple). Where
+   * the two live is the caller's business (`changeHouseholdV1`).
+   */
+  setPartnersV1(input: {
+    personIds: readonly [PersonId, PersonId];
+    together: boolean;
     source: Source;
   }): void;
   /** New hourly pay from today for a full or counted worker (e.g. a wage law). */

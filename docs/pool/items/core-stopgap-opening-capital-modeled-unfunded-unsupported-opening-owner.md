@@ -4,10 +4,10 @@ title: "Stopgaps in opening-capital (modeled-unfunded-unsupported-opening-owner)
 area: core
 kind: stopgap
 priority: 3
-status: blocked
+status: dropped
 claimed-by:
 pr:
-blocked-on: research data: the row's replacement needs sourced data (REVIEW16 public-budget and national modules must supply genuine dated funding authority, appropriations and treasury/account receipts for represented ...)
+blocked-on: research-opening-capital-sourced-parameters
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/data/opening-capital.json, kind modeled-unfunded-unsupported-opening-owner"
 ---
@@ -21,3 +21,5 @@ source: "src/core2/data/stopgaps.json, src/core2/data/opening-capital.json, kind
 **Files.** src/core2/data/opening-capital.json
 
 **Notes.** First row: Fresh generated public, institution, nonbusiness and unknown owners open with modeled zero-funded prototype journal cash pending genuine dated funding. The technical zero is not an observed zero balance and has no privat
+
+Folded into research-opening-capital-sourced-parameters (CTO, Oct 19, 2026).

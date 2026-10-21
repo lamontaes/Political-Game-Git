@@ -35,3 +35,5 @@ Sent back 2026-10-17 from PR #4459 (branch words/scene-talk): The gate line and 
 
 Sent back 2026-10-19 from PR #4459 (branch words/scene-talk): Merge main conflicts require author resolution: data/english/parts/scene-words.json, scripts/dialogue-batch/coverage-table.test.ts; finish on that branch, merge main into it first.
 Sent back 2026-10-19 from PR #4459 (branch words/scene-talk): merge conflicts in data/english and scripts/english-corpus/moves.json; finish on that branch, merge main into it first.
+
+Fixer, Oct 20 (PR #4459, branch words/scene-talk): handed back for a Words-line design call. Main now has its own calibration engine (src/english/english-calibration.ts, data/english/calibration.json, commit fc129ba79e) and a different grading-profile schema, so merging main conflicts in 11 files; keep one engine (suggested: main's english-calibration.ts, porting this branch's trait and move-pair weights, which pool item words-calibration-traits-pairs-replies asks for) and finish on the branch.
