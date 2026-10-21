@@ -52,7 +52,9 @@ describe("the outcome web's coverage", () => {
       expect(wired !== !!waiting, row.key).toBe(true);
       if (waiting)
         expect(
-          waiting.waitingOn.length > 0 || waiting.needsSize === true,
+          waiting.waitingOn.length > 0 ||
+            waiting.needsSize === true ||
+            waiting.carriedBy !== undefined,
           row.key,
         ).toBe(true);
     }

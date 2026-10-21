@@ -4,13 +4,13 @@ title: "Stopgaps in housing-property-tax (assumed-data): 1 open"
 area: world
 kind: stopgap
 priority: 3
-status: claimed
-claimed-by: claude/political-game-pool-yucp92-g
+status: done
+claimed-by:
 pr: #5270
 blocked-on:
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/housing-property-tax.ts, kind assumed-data"
-claimed-at: 2026-10-20T20:36:29.015Z
+claimed-at:
 ---
 
 **What.** Replace or clear the 1 open assumed-data stopgap row(s) in src/core2/housing-property-tax.ts: SG-WORLD-property-tax-rate. Each fake is replaced by the mechanic, or the feature that needs it is deleted.
@@ -24,3 +24,5 @@ claimed-at: 2026-10-20T20:36:29.015Z
 **Notes.** First row: Every owner pays the state's average effective property tax rate, to the outside account, with no assessment cap. PR #5270 sent back: Merge conflict with main in code files src/core2/housing-property-tax.ts and src/core2/housing-property-tax.test.ts.
 
 Sent back 2026-10-20 from PR #5270 (branch claude/political-game-pool-yucp92-g): merging main now conflicts in src/core2/housing-property-tax.ts (it passed every check before main moved; the earlier done mark was a merger script error); finish on that branch, merge main into it first.
+
+Sent back 2026-10-20 from PR #5270 (branch claude/political-game-pool-yucp92-g): Main merges cleanly and is plain-pushed; the local gate was not claimed complete. src/core2/property-tax-played.test.ts:28-39 does not prove the required law/bill/payment chain: assessments may be empty, the collector assertion is conditional, and the tax-arrears:unnamed prefix is never generated (actual ids are assessment:<household> or tax-arrears:<household>; the law id is a separate field). The empty-filter assertion therefore passes even without exercising a lawful bill. Require a nonempty assessed/billed owner, verify the actual law row id and a positive treasury journal payment in the drawn played year, and assert the removed state-average id is absent from those actual law/source fields.; finish on that branch, merge main into it first.
