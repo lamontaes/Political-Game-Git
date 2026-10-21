@@ -1,8 +1,9 @@
 ---
 name: ask-why
 description: >
-  Use before sending any report or proof: answer why for each odd number or
-  pattern, with a cause named by file and line, or "not found".
+  Checks a report or proof for odd numbers and patterns and names each one's
+  cause by file and line, or "not found". Use before sending any report,
+  proof or PR body that quotes results.
 ---
 
 # Ask why
