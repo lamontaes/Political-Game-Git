@@ -5,12 +5,12 @@ area: play
 kind: bug
 priority: 3
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/state-seat-key
 pr: #4946
 blocked-on:
 source: added with npm run pool -- add
-claimed-at:
+claimed-at: 2026-10-21T11:30:36.174Z
 ---
 
 **What.** TODO
