@@ -5,12 +5,12 @@ area: laws
 kind: stopgap
 priority: 3
 status: in-pr
-claimed-by: claude/pool-public-floor-hire
-pr: #5285
+claimed-by: claude/laws-missing-engine
+pr: #5575
 blocked-on:
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/modules/laws.ts, kind missing-engine"
-claimed-at: 2026-10-19T23:31:54.170Z
+claimed-at: 2026-10-20T06:44:43.650Z
 ---
 
 **What.** Replace or clear the 1 open missing-engine stopgap row(s) in src/core2/modules/laws.ts: SG-GOV-public-pay-floor-owner. Each fake is replaced by the mechanic, or the feature that needs it is deleted.
@@ -22,3 +22,6 @@ claimed-at: 2026-10-19T23:31:54.170Z
 **Files.** src/core2/modules/laws.ts
 
 **Notes.** First row: The public pay floor's employer-to-level map is a first cut (public schools count as town employers), and a later public hire is held to the floor at the next monthly review rather than on the day it is hired. Councils,
+
+Public hire held to floor on day of hire was resolved in PR #5285 via publicPayFloorHourly; employer-to-level map (school districts as own level) remains open.
+

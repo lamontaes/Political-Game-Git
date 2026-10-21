@@ -5,10 +5,11 @@ area: laws
 kind: wiring
 priority: 3
 size: L
-status: blocked
+status: open
 claimed-by:
 pr:
-blocked-on: laws-justice-pretrial-release
+blocked-on:
+after: laws-justice-pretrial-release
 milestone:
 source: "split of laws-remaining-families (Oct 15)"
 ---
@@ -22,3 +23,5 @@ source: "split of laws-remaining-families (Oct 15)"
 **Files.** src/core2/modules/justice.ts, src/core2/law-reach/group-a*.ts.
 
 **Notes.** Owner: police and the war design are 1.0.
+
+Oct 20: Switched from blocked to the automatic after: gate on laws-justice-pretrial-release, so it opens by itself the moment those items are done.
