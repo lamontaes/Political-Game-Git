@@ -1,6 +1,6 @@
 /**
  * Unemployment claims read the state's work-search rule (world-unemployment-work-search;
- * owner ruling Oct 20: recorded law, simulated, no form for the player). Each
+ * recorded law, simulated, no form for the player). Each
  * week the matching records a claimant's contacts (the employers they applied
  * to) against the openings near them; the benefit week pays the share of its
  * amount those contacts earn against the state's weekly contact rule, capped
