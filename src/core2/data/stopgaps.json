@@ -2608,6 +2608,18 @@
     "resolution": "counted workers retire, quit, look around, stay, start looking, stop looking and apply by the same offers and the same chooser as full people (workerOffers, reviewCountedWorkers, reviewCountedEntry and the shared weekly consider in modules/jobs.ts), each record deciding for the household weight it stands for. Their record holds no needs, so strain is the neutral zero; age, savings, traits and tenure are read from it, and a decision's recorded reasons are kept on the change or seeker row. The acceptance of an offer by an employed counted worker stays acceptScore, which full people also use."
   },
   {
+    "id": "SG-WORLD-jobs-quit-rate-uncalibrated",
+    "kind": "uncalibrated-tunable",
+    "file": "src/core2/modules/jobs.ts",
+    "line": 1458,
+    "whatItFakes": "Quitting and looking around while employed are now decided by the shared chooser for full and counted workers alike, and win only on a large pay gap, so a played year has far fewer quits than JOLTS reports; the old summed-pull churn that matched JOLTS quit rates is gone.",
+    "why": "One rule for both tiers replaced the counted summed pulls; the leave and look terms were retuned for retirement and entry, not yet for quits.",
+    "addedBy": "CLAUDE-WORLD",
+    "addedAt": "2026-10-20",
+    "replacement": "The leave and look terms (quitScore, jobsLookBaseline, jobsPayGapWeight) calibrated so a played year's quits per worker match JOLTS total private quits by month, measured in drawn places.",
+    "status": "open"
+  },
+  {
     "id": "SG-WORLD-counted-owner-pulls",
     "kind": "faked-mechanic",
     "file": "src/core2/modules/jobs.ts",

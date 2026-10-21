@@ -1441,6 +1441,7 @@ function workerOffers(
   const gap = unemploymentGap(api, who.placeId);
   const savings =
     p("jobsMoneyBufferWeight") * Math.log1p(Math.max(0, bufferMonths));
+  stopgap("SG-WORLD-jobs-quit-rate-uncalibrated");
   return {
     age,
     bufferMonths,
@@ -1454,6 +1455,7 @@ function workerOffers(
       }),
       // Leaving to nothing: the typical-tenure baseline, less for a longer tenure, more for pay below the going
       // rate, less where jobs are scarce; strain on time or health pushes, and savings only make it possible.
+      // stopgapId: SG-WORLD-jobs-quit-rate-uncalibrated (quits under the shared chooser not yet checked against JOLTS)
       offer("leave", job.id, {
         quit: quitScore(p, {
           payGap,
