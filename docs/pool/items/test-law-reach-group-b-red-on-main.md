@@ -5,9 +5,9 @@ area: laws
 kind: bug
 priority: 1
 size: S
-status: claimed
+status: done
 claimed-by: claude/law-reach-group-b-red
-pr:
+pr: #5694
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-20T13:26:51.823Z

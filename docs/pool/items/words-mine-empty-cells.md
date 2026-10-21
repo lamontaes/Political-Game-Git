@@ -6,7 +6,7 @@ kind: research
 priority: 2
 status: open
 claimed-by:
-pr: #5187
+pr: #5701
 blocked-on:
 milestone:
 source: "words-and-director order 3"
@@ -25,3 +25,5 @@ claimed-at:
 Sent back 2026-10-20 from PR #5187 (branch claude/political-game-pool-g08lgv): Parts in data/english/parts/meeting.json and hearing.json have origin: authored and shippable: true; finish on that branch, merge main into it first.
 
 Sent back 2026-10-20 from PR #5187 (branch claude/political-game-pool-g08lgv): with the authored parts held (shippable false) the body-bank tests find no part and fail; finish on that branch, merge main into it first.
+
+Sent back 2026-10-21 from PR #5701 (branch claude/political-game-pool-yucp92-bm): The date-note repair is present and the new authored parts remain held, which is correct. However, words-mine-empty-cells Done when requires before/after coverage counts, a drawn whole exchange using each new bank, and the owner being able to attend a council meeting and hear it. The body explicitly says nothing can reach play yet and supplies no before/after counts or full drawn place/seed. Keep these held parts, but track their bounded preparatory work separately or finish the named acceptance; add the required Done when evidence table. No local gate pass is claimed here.; finish on that branch, merge main into it first.
