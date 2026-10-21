@@ -68,6 +68,24 @@ describe(`presidential succession in the played world: ${where}`, () => {
     expect(nextVice.personId).not.toBe(vice.personId);
     expect(world.core.people.get(nextVice.personId!)?.alive).toBe(true);
     expect(nextVice.reached).toContain("both houses");
+    // The field of three: the two the bodies passed over stay on the roster as
+    // considered and never seated, so they are not seats left empty.
+    const field = (
+      api
+        .moduleState("core2-officials-v1")
+        .table("officials")
+        .rows() as unknown as {
+        seatId: string;
+        ended: string | null;
+        seated?: false;
+      }[]
+    ).filter((row) =>
+      row.seatId.startsWith(`seat:vice-president:${world.core.date}:`),
+    );
+    expect(field.length, where).toBe(3);
+    expect(field.filter((row) => row.seated === false).length, where).toBe(2);
+    for (const row of field.filter((r) => r.seated === false))
+      expect(row.ended, where).toBe(world.core.date);
     const records = successions(api);
     expect(records.map((r) => r.position).sort()).toEqual([
       "nominated and confirmed",

@@ -413,6 +413,45 @@ export function employerShareOf(
 }
 
 /**
+ * The share of a worker's yearly wage an employer pays in payroll taxes under
+ * the law in force today: Social Security and Medicare (each to its wage
+ * base) and the federal and state unemployment taxes, read from the same law
+ * rows `payEmployerShare` reads on each payday. A business sizes what its
+ * revenue must cover from this.
+ */
+export function employerTaxShareOfWage(
+  api: CoreAPI,
+  annualWageMinor: number,
+): number {
+  if (annualWageMinor <= 0) return 0;
+  const rate = (row: {
+    value: number | null;
+    terms?: Record<string, unknown>;
+  }) =>
+    typeof row.terms?.employerRate === "number"
+      ? row.terms.employerRate
+      : (row.value ?? 0);
+  const upTo = (row: { terms?: Record<string, unknown> }) =>
+    Math.min(
+      annualWageMinor,
+      Math.round(Number(row.terms?.wageBase ?? Infinity) * 100),
+    );
+  let minor = 0;
+  const ss = lawInForce(api, "social-security-tax").governing;
+  if (ss?.value) minor += (upTo(ss) * rate(ss)) / 100;
+  const med = lawInForce(api, "medicare-tax").governing;
+  if (med?.value) minor += (annualWageMinor * rate(med)) / 100;
+  for (const series of ["federal-unemployment-tax", "state-unemployment-tax"]) {
+    const row = lawInForce(api, series).governing;
+    if (!row?.value) continue;
+    const notCovered = (row.terms?.notCovered as string[] | undefined) ?? [];
+    if (notCovered.includes(lawChain(api).stateKey)) continue;
+    minor += (upTo(row) * row.value) / 100;
+  }
+  return minor / annualWageMinor;
+}
+
+/**
  * One payday's employer share. `wages` is the whole payday, `workers` the
  * people it pays (one for a paycheck, the counted workers of a flow, each on
  * the same wages), so the law's rates and wage bases are read per worker and

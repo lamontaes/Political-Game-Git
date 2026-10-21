@@ -5,7 +5,7 @@ area: gov
 kind: bug
 priority: 2
 size: S
-status: in-pr
+status: done
 claimed-by: claude/appointee-not-seat-holder-s5
 pr: #4952
 blocked-on:

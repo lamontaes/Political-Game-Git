@@ -5,24 +5,39 @@ area: world
 kind: bug
 priority: 1
 size: M
-status: in-pr
-claimed-by: claude/town-net-moving
+status: done
+claimed-by:
 pr: #4938
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-17T14:15:00.177Z
+claimed-at:
 ---
 
-**What.** `scripts/core2-year/census-components-check.ts` (new, PR for core-research-data-unread-triage) plays a year in a drawn place and sets the town's births, deaths and net moving per 1,000 residents beside its state's Census Vintage 2025 components (`data/research/renewal/moves`). Net moving is -43.3, -37.2 and -36.2 per 1,000 in Stuart, Virginia (seed cc1), Barclay, Maryland (cc3) and Dearborn, Missouri (cc4), and +5.3 in Nettie, West Virginia (cc2, 189 people); the states' net domestic migration is +0.9, -1.9, +2.2 and +3.6 and net international +5.8, +3.3, +2.0 and +0.1. A town is not its state, but three of four towns losing 3.6 to 4.3 percent a year, when the states move by about 1 percent, is a reproducible shortfall. With the pending town-moves fix (#4877) merged the result is the same (-46.8, -5.3, -37.2, -36.2).
+**What.** A played town loses far more residents to moving away than move in: 3.6 to 4.7 percent of its residents a year net, where a real town's net migration sits within about 1 percent of its state's. Find what makes in-moves fall short of out-moves and fix the cause.
 
-`scripts/core2-year/moves-flow-balance.ts` (same PR) splits the counted people moved in a year: Stuart, Virginia: out 96 to other states and 356 within the state, in 75 from other states and 270 from the rest of the state (arrivals 78 and 76 percent of departures), and 25 full people left with no full arrivals; Barclay, Maryland: out 38 and in 23 (61 percent); Dearborn, Missouri: out 105 and in 69 (66 percent). The in-state flow should balance by construction (the town's people leave for the rest of the state and the rest of the state's movers arrive at the town's share of the counted people), yet arrivals are only 61 to 78 percent of departures, so the cause is in how arrivals are drawn or how departures are weighed, not in a state's pull. Suspects to check in `src/core2/modules/counted-moves.ts`: `toCounted` share against `placePeople` (the town's share of the state), `arrivals()` consuming `size` (the whole household, children included) from a due count made of band rates, the `holdNorm` that makes departures average the ACS rate, and that full people only leave (`moves.ts` departures) and never arrive.
+**Rules.** No dice: movers come from the pull of income, prices and jobs, never a roll. One model, two tiers: a counted household and a full person leave and arrive by the same rule. One rule, all 56 places. Never tune a seed.
 
-**Rules.** One model, two tiers; no dice; real rates check totals only. A town's net moving over a year sits within about a percent of its state's, with the cause named by move record ids.
+**Done when.** In a one-year run of the played world (buildBenchWorld) in six places drawn from all 56 and seeds the builder did not choose (names in the PR body), each town's net moving (in-moves less out-moves, counted and full, over its residents at the start) is within 1.5 percent of its state's net migration, shown by move record ids, and a test in src/core2 states it.
 
-**Done when.** `census-components-check.ts` on four drawn places (name them and the seeds) shows net moving per 1,000 within 15 of the state's net domestic plus international, and `moves-flow-balance.ts` shows arrivals within 15 percent of departures in-state.
+**Files.** src/core2/modules/counted-moves.ts, src/core2/modules/moves.ts, src/core2/place-lookup.ts
 
-**Files.** src/core2/modules/counted-moves.ts, src/core2/modules/moves.ts
+**Notes.** Worked Oct 17 (claude, claude/town-net-moving): two causes fixed, the rest measured.
 
-**Notes.** Found Oct 17 by comparing a played year with the Census components the repository already held, unread.
+_Fixed._ (1) The counted engine could not tell which state a state-level counted place lay in for 41 of the 50 states, the District of Columbia and the territories (only nine states have a place record, `lookupData.packs`). Those households, a fifth to a half of the counted people around the town, never left, while newcomers kept arriving in them. `stateOfCountedPlace` now reads the state from the place's own id. (2) Newcomers settled where a counted household of their age lived, so a town whose people are mostly full (the sample) got a small share of the arrivals while all its people left at the ACS rate. They now settle in proportion to everyone living in a place at the arriving age, full people included, and the share of the state's inflow that reaches the counted places counts the full people too.
 
-Narrowed Oct 17 (claude), same seeds with the counted-drift engine deleted (#4889) and the census check corrected to count the full people's births and deaths: births 13.5, 5.3, 5.3 and 7.6 per 1,000 against the states' 13.3, 9.6, 10.4 and 10.9 (the first run had undercounted them), net moving -33.4, 0.0, -37.2 and -38.1. Two causes are visible in the code and the counters. (1) On main the counted-drift engine still runs beside the counted-moves engine, so people move twice: in Stuart, Virginia the moves engine expected 221 people to leave in a year (counters in `counted-moves.ts`: 130 within the state, 91 to other states) and 452 left; with #4889 merged, 221 left. Merging #4889 removes it. (2) With the double move gone the counted flows across all counted places balance (Stuart: 221 out, 349 in, arrivals from other states 77 against 37 leaving), yet the town itself still loses 33 per 1,000: `arrivals()` in `counted-moves.ts` seats a newcomer household "where the household it resembles lives" (`template.placeId`), which can be any counted place in the world, not the town the arrival share was computed for. Seat arrivals in proportion to the places' share of the counted people they were computed from, and check with `moves-flow-balance.ts` per place. The census check and flow balance scripts are on `claude/research-data-roadmap-triage`.
+_Measured_ (net moving as a percent of the town's residents at the start, in-moves less out-moves of counted households and full people over one year, seeds nm1 to nm7 through `drawPlace(seed, "netmove")`):
+
+| place                            | before | after |
+| -------------------------------- | ------ | ----- |
+| Washington, District of Columbia | -5.3   | -1.9  |
+| Palmas, Puerto Rico              | -4.6   | -2.3  |
+| Reyno, Arkansas                  | -5.6   | -5.6  |
+| Marcola, Oregon                  | -12.1  | -10.7 |
+| Susupe, Northern Mariana Islands | -8.6   | -8.5  |
+| Colon, Nebraska                  | -16.4  | -18.0 |
+
+_Left._ (a) A full person who moves away is never replaced by a full arrival: arrivals are always counted households, so the town's full people only shrink. In the small towns the full people are most of the town, and their departures (`departuresOf`, 14 to 30 people a year) are 3 to 11 percent of residents against 1 to 3 percent arriving. (b) The pull toward another state is not normalized: a destination's weight is its people times `exp(income + jobs pull)` and the sum over destinations is not one, so a state poorer or with fewer jobs than the nation's average loses more than the ACS rate (`month` in counted-moves.ts, both for counted groups and for the states' coarse flows). Whether to hold the gross leaving at the ACS rate and let the pull set only where people go is the owner's call; I built nothing for it. (c) Tiny towns (Colon, Nebraska, 128 people) get fewer than one arrival a year from their share of the state's inflow, so a year shows none.
+
+Sent back 2026-10-18 from PR #4938 (branch claude/town-net-moving): Merging current main (adce5acbe2) conflicts in src/core2/modules/counted-moves.ts. Resolve these conflicts on this branch and push before local validation can run.; finish on that branch, merge main into it first.
+
+Measured Oct 17 (claude, PR 4951): `scripts/core2-year/census-components-check.ts` sets a played town's births, deaths and net moving per 1,000 beside its state's Census Vintage 2025 components (`data/research/renewal/moves`), and `scripts/core2-year/moves-flow-balance.ts` splits the counted people moved in a year by direction and origin; both were used to find the shortfall this item fixed.

@@ -16,7 +16,6 @@
  * only, and their tables are read by module id to avoid import cycles.
  */
 import { seededBetween } from "./past-module";
-import { pressConflict } from "./press-conflict";
 import { partySide } from "./appointments";
 import { officeFamily } from "./elections-calendar";
 import { OFFICIALS_DATA } from "./officials-roster";
@@ -329,8 +328,6 @@ function buildPool(api: CoreAPI, scope: RaceScope): readonly PoolMember[] {
     roleStanding = 0,
   ) => {
     if (!personId || !api.state.people.has(personId)) return;
-    // A working reporter, head or owner of an outlet does not stand for office.
-    if (pressConflict(api, personId)) return;
     const draft = drafts.get(personId) ?? {
       roles: new Set<PoolRole>(),
       sourceIds: new Set<string>(),

@@ -5,12 +5,12 @@ area: core
 kind: wiring
 priority: 3
 size: M
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/peaceful-ritchie-03780x
+pr: #5076
 blocked-on:
 source: added with npm run pool -- add
-claimed-at:
+claimed-at: 2026-10-19T19:08:01.316Z
 ---
 
 **What.** `scripts/audit/research-data-unread-baseline.json` names 370 files under `data/research` that no code in `src/` or `scripts/` reads. The research data guard used to count the bare folder name `data/research/` as a read of every file, which hid them; the guard now counts only real reads and holds these 370 on a list that may only shrink. Go through them folder by folder: wire each file to the engine that should read it, list it as raw source with a one-line reason, or move it to the waiting list with its engine and owner. Take each file off the baseline as it is settled.
@@ -36,3 +36,13 @@ Oct 17 (claude/research-triage-starting-law): 28 more files are listed as raw so
 Oct 17 (claude/research-triage-evidence): ten more evidence files (validation, verification, hand-off, manifest, gap and source-check records, and the assumption-marker scan) are listed as raw source with a reason each. 121 remain. Left unread on purpose because they hold figures an engine could read: the core-figures `findings.json` rows, the programs tables, the roadmap-r8 business tables, the FHFA price files, the lw0x effect-readiness records (their `runtimeActivation` field says a reader may be expected) and the ledgers of estimates.
 
 Oct 17 (claude/fhfa-growth-check): `scripts/core2-year/fhfa-growth-check.ts` sets the engine's one-year price ratio (`homePriceRatio`, May 2025 to May 2026) beside FHFA's published one-year growth for each of 51 states and reads `roadmap-r4-fhfa-state-2026q2.json`: mean gap 1.2 points, worst Alaska (engine 3.9 percent, FHFA 8.3), Vermont -3.0, New Mexico +3.3. Part of the gap is the product (the summary is purchase-only and seasonally adjusted, the engine's index all-transactions and not adjusted). 120 files remain.
+
+Sent back 2026-10-17 from PR #4953 (branch claude/business-entry-exit-check-v2): Merging current main (d3d2b3ec1a) conflicts in docs/pool/items/world-business-entry-below-bds.md. Resolve these conflicts on this branch and push before local validation can run.; finish on that branch, merge main into it first.
+
+Sent back 2026-10-18 from PR #4926 (branch claude/research-data-roadmap-triage): Merging current main (e99e4a0436) conflicts in docs/pool/items/core-research-data-unread-triage.md. Resolve these conflicts on this branch and push before local validation can run.; finish on that branch, merge main into it first.
+
+Sent back 2026-10-18 from PR #4949 (branch claude/research-triage-starting-law): Merging current main (f20f3700e5) conflicts in docs/pool/items/core-research-data-unread-triage.md, docs/pool/items/world-town-net-moving-negative.md. Resolve these conflicts on this branch and push before local validation can run.; finish on that branch, merge main into it first.
+
+Sent back 2026-10-18 from PR #4950 (branch claude/research-triage-evidence): Merging current main (f359364281) conflicts in docs/pool/items/core-research-data-unread-triage.md, docs/pool/items/world-town-net-moving-negative.md. Resolve these conflicts on this branch and push before local validation can run.; finish on that branch, merge main into it first.
+
+Sent back 2026-10-18 from PR #4951 (branch claude/fhfa-growth-check): Merging current main (ca0832d084) conflicts in docs/pool/items/core-research-data-unread-triage.md, docs/pool/items/world-town-net-moving-negative.md. Resolve these conflicts on this branch and push before local validation can run.; finish on that branch, merge main into it first.

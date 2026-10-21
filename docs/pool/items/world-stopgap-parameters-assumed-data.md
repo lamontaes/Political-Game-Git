@@ -4,10 +4,10 @@ title: "Stopgaps in parameters (assumed-data): 1 open"
 area: world
 kind: stopgap
 priority: 3
-status: open
+status: dropped
 claimed-by:
 pr:
-blocked-on:
+blocked-on: research-world-sourced-parameters
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/data/business/parameters.json, kind assumed-data"
 ---
@@ -21,3 +21,5 @@ source: "src/core2/data/stopgaps.json, src/core2/data/business/parameters.json, 
 **Files.** src/core2/data/business/parameters.json
 
 **Notes.** First row: A compliance duty costs every bound business twice the manufacturing average pollution-abatement share of its operating costs.
+
+Folded into research-world-sourced-parameters (CTO, Oct 19, 2026).
