@@ -4,9 +4,9 @@ title: "Stopgaps in parameters (uncalibrated-tunable): 1 open"
 area: elections
 kind: stopgap
 priority: 3
-status: claimed
+status: in-pr
 claimed-by: claude/candidacy-calibration-g08lgv
-pr:
+pr: #5436
 blocked-on:
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/data/candidacy/parameters.json, kind uncalibrated-tunable"

@@ -13,7 +13,7 @@
  * line's purchases each month, and the award keeps those payments.
  */
 import { closenessBetween } from "../closeness";
-import { decisionLean } from "../trait-decisions";
+import { decisionLean, decisionTraitWeight } from "../trait-decisions";
 import rows from "../data/contracts/parameters.json" with { type: "json" };
 import {
   budgetInForce,
@@ -124,6 +124,7 @@ function award(
   const votes: Record<string, string> = {};
   // With no one seated the body's rules alone decide: price and workforce.
   const voters = members.length ? members : [null];
+  const traitWeight = decisionTraitWeight(state, DECISION);
   for (const member of voters) {
     const person = member?.personId
       ? state.people.get(member.personId)
@@ -147,11 +148,9 @@ function award(
           ? closenessBetween(state, person.id, ownerId)
           : 0;
       const score =
-        c("contractPriceWeight") *
-          (1 - c("contractTraitWeight") * lean) *
-          price +
+        c("contractPriceWeight") * (1 - traitWeight * lean) * price +
         c("contractCapacityWeight") * capacity +
-        c("contractTieWeight") * (1 + c("contractTraitWeight") * lean) * tie;
+        c("contractTieWeight") * (1 + traitWeight * lean) * tie;
       totals.set(firm.organizationId, totals.get(firm.organizationId)! + score);
       if (
         !best ||
