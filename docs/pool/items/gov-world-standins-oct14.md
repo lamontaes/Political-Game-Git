@@ -4,7 +4,7 @@ title: "Government and economy stand-ins replaced or removed (#4146)"
 area: gov
 kind: stopgap
 priority: 2
-status: claimed
+status: in-pr
 claimed-by: claude/pick-gov-world-standins-oct14
 pr: #4146
 blocked-on:
