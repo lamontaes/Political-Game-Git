@@ -1,6 +1,6 @@
 ---
 id: pool-check-red-stub-items
-title: "pool --check fails on main: eight stub items are missing required sections"
+title: "pool --check fails on main: seven stub items are missing required sections"
 area: core
 kind: cleanup
 priority: 3
@@ -13,7 +13,7 @@ source: added with npm run pool -- add
 claimed-at: 2026-10-21T15:08:49.061Z
 ---
 
-**What.** npm run pool -- --check reports errors on eight items: core-speed-journal-bigint, core-speed-year-over-limit-dense-town, people-births-age-shape-narrow, people-leave-parents-home, words-past-public-and-archive-renderings, world-jobs-counted-retiree-income and world-jobs-quit-rate-jolts. Their What, Rules, Done when or Files sections are stubs or too short for the item format. Each owner should fill in its own item, since the Rules and Done when lines are theirs to word.
+**What.** npm run pool -- --check reports errors on seven items: core-speed-journal-bigint, core-speed-year-over-limit-dense-town, people-births-age-shape-narrow, people-leave-parents-home, words-past-public-and-archive-renderings, world-jobs-counted-retiree-income and world-jobs-quit-rate-jolts. Their What, Rules, Done when or Files sections are stubs or too short for the item format. Each owner should fill in its own item, since the Rules and Done when lines are theirs to word.
 
 **Rules.** Look before you ask: read each item's Notes and its PR before rewording, and keep what the owner or the author already decided.
 
