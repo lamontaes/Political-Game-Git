@@ -4,10 +4,10 @@ title: "Stopgaps in opening-schools (estimated-behavior): 1 open"
 area: people
 kind: stopgap
 priority: 3
-status: open
+status: dropped
 claimed-by:
 pr:
-blocked-on:
+blocked-on: research-school-sourced-parameters
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/data/opening-schools.json, kind estimated-behavior"
 ---
@@ -21,3 +21,5 @@ source: "src/core2/data/stopgaps.json, src/core2/data/opening-schools.json, kind
 **Files.** src/core2/data/opening-schools.json
 
 **Notes.** First row: Each child's school is a seeded pick among the public schools teaching their entry grade in their place, else in their county and its places, else (for places the county geography does not cover: the territories and Puer
+
+Folded into research-school-sourced-parameters (CTO, Oct 19, 2026).

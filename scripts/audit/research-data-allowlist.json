@@ -2,6 +2,10 @@
   "about": "Research data files under data/research that no non-test file in src/ or scripts/ reads, and why (tests/guards/research-data-has-reader.test.ts). rawSource entries are evidence the game is not meant to read. awaitingReader entries are research waiting for the code that should read it: that list may only shrink (the guard holds it at or under its ceiling), so an entry must leave in the same change that gives its file a reader. Each names its engine and the squad that owns its reader, from docs/codex/audit-by-engine-2026-10-01.md. A new data file with no reader and no entry fails the guard.",
   "rawSource": [
     {
+      "file": "data/research/assumption-markers.json",
+      "reason": "Scan output listing the placeholder and unresearched markers found in src on one commit; evidence for the stopgap audit, not game data."
+    },
+    {
       "file": "data/research/bill-samples/city/alexandria-virginia.json",
       "reason": "Raw enacted-bill sample, the evidence the lever table and docs/research/bill-samples were measured from; the game reads what was measured, not the sample."
     },
@@ -82,46 +86,6 @@
       "reason": "Raw enacted-bill sample, the evidence the lever table and docs/research/bill-samples were measured from; the game reads what was measured, not the sample."
     },
     {
-      "file": "data/research/laws/coordinator-crime-population-sizing.json",
-      "reason": "A sizing receipt (source head, coefficient source, runtime proof) for a decision already applied in links.json."
-    },
-    {
-      "file": "data/research/licenses/roadmap-r37-source-rights-register.json",
-      "reason": "Roadmap R37 register of the rights and licenses of the sources the game draws on; evidence for the release review, not a table the simulation reads."
-    },
-    {
-      "file": "data/research/licenses/roadmap-r37-unit-inventory.json",
-      "reason": "Roadmap R37 inventory of the research units checked for rights; evidence for the release review, not a table the simulation reads."
-    },
-    {
-      "file": "data/research/licenses/roadmap-r37-url-register-01.json",
-      "reason": "Roadmap R37 register of the source URLs checked for rights and licenses; evidence for the release review, not a table the simulation reads."
-    },
-    {
-      "file": "data/research/licenses/roadmap-r37-url-register-02.json",
-      "reason": "Roadmap R37 register of the source URLs checked for rights and licenses; evidence for the release review, not a table the simulation reads."
-    },
-    {
-      "file": "data/research/licenses/roadmap-r37-url-register-03.json",
-      "reason": "Roadmap R37 register of the source URLs checked for rights and licenses; evidence for the release review, not a table the simulation reads."
-    },
-    {
-      "file": "data/research/licenses/roadmap-r37-url-register-04.json",
-      "reason": "Roadmap R37 register of the source URLs checked for rights and licenses; evidence for the release review, not a table the simulation reads."
-    },
-    {
-      "file": "data/research/licenses/roadmap-r37-url-register-05.json",
-      "reason": "Roadmap R37 register of the source URLs checked for rights and licenses; evidence for the release review, not a table the simulation reads."
-    },
-    {
-      "file": "data/research/outcome-web/cloud-f-new-measure-bases-2024.draft.json",
-      "reason": "Research record behind CLOUD F's place outcomes; the values the game uses live in place-outcome-bases-2024.json."
-    },
-    {
-      "file": "data/research/outcome-web/social-media-age-verification-contracts.json",
-      "reason": "A decision receipt for a removed link and its replacements; the replacements live in links.json."
-    },
-    {
       "file": "data/research/campaigns/roadmap-r14-finance.json",
       "reason": "Roadmap research record R14: the sources read, their terms of use and the gaps found, kept as the evidence the design cites; the game reads the data built from it, not this record."
     },
@@ -134,88 +98,16 @@
       "reason": "Roadmap research record R17: the sources read, their terms of use and the gaps found, kept as the evidence the design cites; the game reads the data built from it, not this record."
     },
     {
+      "file": "data/research/census-2020-island-areas-places.json",
+      "reason": "Census 2020 Island Areas place identities and populations, research for SG-CORE-territory-places; no engine reads it yet."
+    },
+    {
       "file": "data/research/constituent-cases/roadmap-r28-casework-scope.json",
       "reason": "Roadmap research record R28: the sources read, their terms of use and the gaps found, kept as the evidence the design cites; the game reads the data built from it, not this record."
     },
     {
       "file": "data/research/constitutions/roadmap-r39-amendment-boundaries.json",
       "reason": "Roadmap research record R39: the sources read, their terms of use and the gaps found, kept as the evidence the design cites; the game reads the data built from it, not this record."
-    },
-    {
-      "file": "data/research/corruption/roadmap-r29-aggregate-enforcement.json",
-      "reason": "Roadmap research record R29: the sources read, their terms of use and the gaps found, kept as the evidence the design cites; the game reads the data built from it, not this record."
-    },
-    {
-      "file": "data/research/crime/roadmap-r38-victimization-reporting.json",
-      "reason": "Roadmap research record R38: the sources read, their terms of use and the gaps found, kept as the evidence the design cites; the game reads the data built from it, not this record."
-    },
-    {
-      "file": "data/research/direct-democracy/roadmap-r30-recall-examples.json",
-      "reason": "Roadmap research record R30: the sources read, their terms of use and the gaps found, kept as the evidence the design cites; the game reads the data built from it, not this record."
-    },
-    {
-      "file": "data/research/education/roadmap-r40-cost-loans-directory.json",
-      "reason": "Roadmap research record R40: the sources read, their terms of use and the gaps found, kept as the evidence the design cites; the game reads the data built from it, not this record."
-    },
-    {
-      "file": "data/research/executive/roadmap-r25-powers-source-filter.json",
-      "reason": "Roadmap research record R25: the sources read, their terms of use and the gaps found, kept as the evidence the design cites; the game reads the data built from it, not this record."
-    },
-    {
-      "file": "data/research/executive/roadmap-r26-staff-boundaries.json",
-      "reason": "Roadmap research record R26: the sources read, their terms of use and the gaps found, kept as the evidence the design cites; the game reads the data built from it, not this record."
-    },
-    {
-      "file": "data/research/implementation/roadmap-r24-delivery-incidence.json",
-      "reason": "Roadmap research record R24: the sources read, their terms of use and the gaps found, kept as the evidence the design cites; the game reads the data built from it, not this record."
-    },
-    {
-      "file": "data/research/interest-groups/roadmap-r27-disclosure-measurement.json",
-      "reason": "Roadmap research record R27: the sources read, their terms of use and the gaps found, kept as the evidence the design cites; the game reads the data built from it, not this record."
-    },
-    {
-      "file": "data/research/legislatures/roadmap-r21-procedure.json",
-      "reason": "Roadmap research record R21: the sources read, their terms of use and the gaps found, kept as the evidence the design cites; the game reads the data built from it, not this record."
-    },
-    {
-      "file": "data/research/legislatures/roadmap-r22-throughput.json",
-      "reason": "Roadmap research record R22: the sources read, their terms of use and the gaps found, kept as the evidence the design cites; the game reads the data built from it, not this record."
-    },
-    {
-      "file": "data/research/news/roadmap-r20-local-news.json",
-      "reason": "Roadmap research record R20: the sources read, their terms of use and the gaps found, kept as the evidence the design cites; the game reads the data built from it, not this record."
-    },
-    {
-      "file": "data/research/offices/roadmap-r34-pay-and-transition.json",
-      "reason": "Roadmap research record R34: the sources read, their terms of use and the gaps found, kept as the evidence the design cites; the game reads the data built from it, not this record."
-    },
-    {
-      "file": "data/research/parties/roadmap-r19-organization-and-electors.json",
-      "reason": "Roadmap research record R19: the sources read, their terms of use and the gaps found, kept as the evidence the design cites; the game reads the data built from it, not this record."
-    },
-    {
-      "file": "data/research/public-costs/roadmap-r23-labor-transit-and-fiscal-notes.json",
-      "reason": "Roadmap research record R23: the sources read, their terms of use and the gaps found, kept as the evidence the design cites; the game reads the data built from it, not this record."
-    },
-    {
-      "file": "data/research/speech-sources/roadmap-r31-record-catalog.json",
-      "reason": "Roadmap research record R31: the sources read, their terms of use and the gaps found, kept as the evidence the design cites; the game reads the data built from it, not this record."
-    },
-    {
-      "file": "data/research/speech-sources/roadmap-r31-state-local-catalog.json",
-      "reason": "Roadmap research record R31: the sources read, their terms of use and the gaps found, kept as the evidence the design cites; the game reads the data built from it, not this record."
-    },
-    {
-      "file": "data/research/succession/roadmap-r35-intestacy-examples.json",
-      "reason": "Roadmap research record R35: the sources read, their terms of use and the gaps found, kept as the evidence the design cites; the game reads the data built from it, not this record."
-    },
-    {
-      "file": "data/research/talk/roadmap-r32-conversation-and-rights.json",
-      "reason": "Roadmap research record R32: the sources read, their terms of use and the gaps found, kept as the evidence the design cites; the game reads the data built from it, not this record."
-    },
-    {
-      "file": "data/research/talk/roadmap-r32-lying-study-supplement.json",
-      "reason": "Roadmap research record R32: the sources read, their terms of use and the gaps found, kept as the evidence the design cites; the game reads the data built from it, not this record."
     },
     {
       "file": "data/research/core-figures/P0-12/death-causes-by-age-2024.json",
@@ -654,8 +546,88 @@
       "reason": "NOAA Storm Events 2024 annual hazard totals for WY (reported events, deaths, injuries and damage), kept as the evidence a disaster hazard would be calibrated from once the owner rules on disasters in play (pool item owner-disasters-in-play); no engine reads it yet."
     },
     {
+      "file": "data/research/core-figures/roadmap-priorities-0-1-validation.json",
+      "reason": "Validation record for the roadmap priority 0 and 1 research (what passed and which gaps were named); evidence about the research, not data an engine reads."
+    },
+    {
+      "file": "data/research/corruption/roadmap-r29-aggregate-enforcement.json",
+      "reason": "Roadmap research record R29: the sources read, their terms of use and the gaps found, kept as the evidence the design cites; the game reads the data built from it, not this record."
+    },
+    {
+      "file": "data/research/crime/roadmap-r38-victimization-reporting.json",
+      "reason": "Roadmap research record R38: the sources read, their terms of use and the gaps found, kept as the evidence the design cites; the game reads the data built from it, not this record."
+    },
+    {
+      "file": "data/research/direct-democracy/roadmap-r30-recall-examples.json",
+      "reason": "Roadmap research record R30: the sources read, their terms of use and the gaps found, kept as the evidence the design cites; the game reads the data built from it, not this record."
+    },
+    {
+      "file": "data/research/drives/roadmap-r10-crisis-tables-verified.json",
+      "reason": "Verification record for the crisis regression tables (each coefficient with its reported cell); evidence the drives research was read correctly, not data an engine reads."
+    },
+    {
+      "file": "data/research/economic-context-reviewed-bindings.json",
+      "reason": "Reviewed BEA area bindings kept as research evidence for the economic-context engine; no engine reads the file yet."
+    },
+    {
+      "file": "data/research/education/roadmap-r40-cost-loans-directory.json",
+      "reason": "Roadmap research record R40: the sources read, their terms of use and the gaps found, kept as the evidence the design cites; the game reads the data built from it, not this record."
+    },
+    {
+      "file": "data/research/executive/roadmap-r25-powers-source-filter.json",
+      "reason": "Roadmap research record R25: the sources read, their terms of use and the gaps found, kept as the evidence the design cites; the game reads the data built from it, not this record."
+    },
+    {
+      "file": "data/research/executive/roadmap-r26-staff-boundaries.json",
+      "reason": "Roadmap research record R26: the sources read, their terms of use and the gaps found, kept as the evidence the design cites; the game reads the data built from it, not this record."
+    },
+    {
+      "file": "data/research/federal/defense-contracts-by-state-fy2024.json",
+      "reason": "Build input: scripts/research/federal-spending-by-state.py reads it and writes the compiled table the engine reads; the game reads the compiled table, not this file."
+    },
+    {
+      "file": "data/research/history/roadmap-r12-handoff.json",
+      "reason": "Research hand-off for the historical budget series: its adoption rules and the gaps by jurisdiction are notes for whoever builds a reader, not data an engine reads."
+    },
+    {
+      "file": "data/research/housing/acs-2024-owner-moved-in.json",
+      "reason": "Build input: data/research/housing/build_core_data.py compiles it into src/core2/data/housing, the table the housing engines read; the game reads the compiled table, not this file."
+    },
+    {
+      "file": "data/research/housing/acs-2024-units-in-structure.json",
+      "reason": "Build input: data/research/housing/build_core_data.py compiles it into src/core2/data/housing, the table the housing engines read; the game reads the compiled table, not this file."
+    },
+    {
+      "file": "data/research/housing/construction-2026.json",
+      "reason": "Build input: data/research/housing/build_construction.py compiles it into src/core2/data/housing, the table the housing engines read; the game reads the compiled table, not this file."
+    },
+    {
+      "file": "data/research/housing/eviction-steps-2026.json",
+      "reason": "Build input: data/research/housing/build_core_data.py compiles it into src/core2/data/housing, the table the housing engines read; the game reads the compiled table, not this file."
+    },
+    {
+      "file": "data/research/housing/fhfa-hpi-state-2026q2.json",
+      "reason": "Build input: data/research/housing/build_core_data.py compiles it into src/core2/data/housing, the table the housing engines read; the game reads the compiled table, not this file."
+    },
+    {
+      "file": "data/research/housing/roadmap-r4-fhfa-coverage-verified.json",
+      "reason": "Verification record: for each FHFA row, which place it covers; evidence that the price files were matched to places, not a table an engine reads."
+    },
+    {
+      "file": "data/research/implementation/roadmap-r24-delivery-incidence.json",
+      "reason": "Roadmap research record R24: the sources read, their terms of use and the gaps found, kept as the evidence the design cites; the game reads the data built from it, not this record."
+    },
+    {
+      "file": "data/research/interest-groups/roadmap-r27-disclosure-measurement.json",
+      "reason": "Roadmap research record R27: the sources read, their terms of use and the gaps found, kept as the evidence the design cites; the game reads the data built from it, not this record."
+    },
+    {
       "file": "data/research/jobs/ces-seasonal-factors-2010-2019.json",
       "reason": "BLS Current Employment Statistics seasonal factors and JOLTS layoffs by month, 2010 to 2019 (retrieved through FRED): evidence for the seasonal staffing pattern; the jobs engine applies its own seasonal figures and does not read this file."
+    },
+    {
+      "file": "data/research/jobs/employer-callback-gaps.json",
+      "reason": "Sourced callback-gap evidence (field experiments and the between-employer spread) kept as research until the hiring engine reads employer attitudes (pool items world-hiring-bias-reasons and world-sale-eligibility-reads); nothing in the engine reads it yet, so it is not an engine table."
     },
     {
       "file": "data/research/jobs/roadmap-r3-calibration-findings.json",
@@ -694,32 +666,8 @@
       "reason": "BLS unemployment duration, 2025 (stock of the currently unemployed, not completed spells): the target for how long a seeker stays unemployed, for pool item world-unemployment-opening-jump; no engine reads it yet."
     },
     {
-      "file": "data/research/history/roadmap-r12-handoff.json",
-      "reason": "Research hand-off for the historical budget series: its adoption rules and the gaps by jurisdiction are notes for whoever builds a reader, not data an engine reads."
-    },
-    {
-      "file": "data/research/programs/roadmap-r6-handoff.json",
-      "reason": "Research hand-off for the program tables: which official numbers were extracted and which requests were refused, a record of gaps, not data an engine reads."
-    },
-    {
-      "file": "data/research/housing/acs-2024-owner-moved-in.json",
-      "reason": "Build input: data/research/housing/build_core_data.py compiles it into src/core2/data/housing, the table the housing engines read; the game reads the compiled table, not this file."
-    },
-    {
-      "file": "data/research/housing/acs-2024-units-in-structure.json",
-      "reason": "Build input: data/research/housing/build_core_data.py compiles it into src/core2/data/housing, the table the housing engines read; the game reads the compiled table, not this file."
-    },
-    {
-      "file": "data/research/housing/eviction-steps-2026.json",
-      "reason": "Build input: data/research/housing/build_core_data.py compiles it into src/core2/data/housing, the table the housing engines read; the game reads the compiled table, not this file."
-    },
-    {
-      "file": "data/research/housing/fhfa-hpi-state-2026q2.json",
-      "reason": "Build input: data/research/housing/build_core_data.py compiles it into src/core2/data/housing, the table the housing engines read; the game reads the compiled table, not this file."
-    },
-    {
-      "file": "data/research/housing/construction-2026.json",
-      "reason": "Build input: data/research/housing/build_construction.py compiles it into src/core2/data/housing, the table the housing engines read; the game reads the compiled table, not this file."
+      "file": "data/research/laws/coordinator-crime-population-sizing.json",
+      "reason": "A sizing receipt (source head, coefficient source, runtime proof) for a decision already applied in links.json."
     },
     {
       "file": "data/research/laws/local-starting-law/local-income-tax.json",
@@ -770,15 +718,47 @@
       "reason": "Build input: scripts/research/build-starting-law.py compiles it into src/core2/data/laws/starting-law.json, the table the laws module reads; the game reads the compiled table, not this file."
     },
     {
-      "file": "data/research/federal/defense-contracts-by-state-fy2024.json",
-      "reason": "Build input: scripts/research/federal-spending-by-state.py reads it and writes the compiled table the engine reads; the game reads the compiled table, not this file."
+      "file": "data/research/legislatures/roadmap-r21-procedure.json",
+      "reason": "Roadmap research record R21: the sources read, their terms of use and the gaps found, kept as the evidence the design cites; the game reads the data built from it, not this record."
     },
     {
-      "file": "data/research/macro/series/monthly.json",
-      "reason": "Build input: data/research/macro/build_core_data.py reads it and writes the compiled table the engine reads; the game reads the compiled table, not this file."
+      "file": "data/research/legislatures/roadmap-r22-throughput.json",
+      "reason": "Roadmap research record R22: the sources read, their terms of use and the gaps found, kept as the evidence the design cites; the game reads the data built from it, not this record."
+    },
+    {
+      "file": "data/research/licenses/roadmap-r37-source-rights-register.json",
+      "reason": "Roadmap R37 register of the rights and licenses of the sources the game draws on; evidence for the release review, not a table the simulation reads."
+    },
+    {
+      "file": "data/research/licenses/roadmap-r37-unit-inventory.json",
+      "reason": "Roadmap R37 inventory of the research units checked for rights; evidence for the release review, not a table the simulation reads."
+    },
+    {
+      "file": "data/research/licenses/roadmap-r37-url-register-01.json",
+      "reason": "Roadmap R37 register of the source URLs checked for rights and licenses; evidence for the release review, not a table the simulation reads."
+    },
+    {
+      "file": "data/research/licenses/roadmap-r37-url-register-02.json",
+      "reason": "Roadmap R37 register of the source URLs checked for rights and licenses; evidence for the release review, not a table the simulation reads."
+    },
+    {
+      "file": "data/research/licenses/roadmap-r37-url-register-03.json",
+      "reason": "Roadmap R37 register of the source URLs checked for rights and licenses; evidence for the release review, not a table the simulation reads."
+    },
+    {
+      "file": "data/research/licenses/roadmap-r37-url-register-04.json",
+      "reason": "Roadmap R37 register of the source URLs checked for rights and licenses; evidence for the release review, not a table the simulation reads."
+    },
+    {
+      "file": "data/research/licenses/roadmap-r37-url-register-05.json",
+      "reason": "Roadmap R37 register of the source URLs checked for rights and licenses; evidence for the release review, not a table the simulation reads."
     },
     {
       "file": "data/research/macro/series/bands.json",
+      "reason": "Build input: data/research/macro/build_core_data.py reads it and writes the compiled table the engine reads; the game reads the compiled table, not this file."
+    },
+    {
+      "file": "data/research/macro/series/monthly.json",
       "reason": "Build input: data/research/macro/build_core_data.py reads it and writes the compiled table the engine reads; the game reads the compiled table, not this file."
     },
     {
@@ -798,6 +778,10 @@
       "reason": "Build input: data/research/macro/build_core_data.py reads it and writes the compiled table the engine reads; the game reads the compiled table, not this file."
     },
     {
+      "file": "data/research/macro/series/receipts.json",
+      "reason": "Receipts (source, retrieval date and checksum) of the downloads behind the macro series; cited by the macro build, evidence for the series rather than data an engine reads."
+    },
+    {
       "file": "data/research/money/business-taxes-2026.json",
       "reason": "Build input: scripts/research/build-starting-law.py reads it and writes the compiled table the engine reads; the game reads the compiled table, not this file."
     },
@@ -806,12 +790,76 @@
       "reason": "Build input: scripts/research/build-starting-law.py reads it and writes the compiled table the engine reads; the game reads the compiled table, not this file."
     },
     {
+      "file": "data/research/money/spending-preferences-by-party.json",
+      "reason": "Build input: scripts/research/build-budget-line-axes.py reads it and writes the compiled table the engine reads; the game reads the compiled table, not this file."
+    },
+    {
       "file": "data/research/money/state-corporate-income-tax-2026.json",
       "reason": "Build input: scripts/research/build-starting-law.py reads it and writes the compiled table the engine reads; the game reads the compiled table, not this file."
     },
     {
-      "file": "data/research/money/spending-preferences-by-party.json",
-      "reason": "Build input: scripts/research/build-budget-line-axes.py reads it and writes the compiled table the engine reads; the game reads the compiled table, not this file."
+      "file": "data/research/new-game-geography-defaults.json",
+      "reason": "Origin and fixture place keys recorded as research evidence for the new-game flow; no engine reads the file yet."
+    },
+    {
+      "file": "data/research/news/roadmap-r20-local-news.json",
+      "reason": "Roadmap research record R20: the sources read, their terms of use and the gaps found, kept as the evidence the design cites; the game reads the data built from it, not this record."
+    },
+    {
+      "file": "data/research/offices/roadmap-r34-pay-and-transition.json",
+      "reason": "Roadmap research record R34: the sources read, their terms of use and the gaps found, kept as the evidence the design cites; the game reads the data built from it, not this record."
+    },
+    {
+      "file": "data/research/offices/roadmap-r7-gaps.json",
+      "reason": "Gap record: for each jurisdiction, which office authority was not retrieved and why; notes for the research still to do, not data an engine reads."
+    },
+    {
+      "file": "data/research/outcome-web/cloud-f-new-measure-bases-2024.draft.json",
+      "reason": "Research record behind CLOUD F's place outcomes; the values the game uses live in place-outcome-bases-2024.json."
+    },
+    {
+      "file": "data/research/outcome-web/social-media-age-verification-contracts.json",
+      "reason": "A decision receipt for a removed link and its replacements; the replacements live in links.json."
+    },
+    {
+      "file": "data/research/outcome-web/unsized-links-source-checks-2026-10-05.json",
+      "reason": "One primary-source lookup per unsized outcome link, kept as evidence for why a link stays unsized; no coefficient was admitted from it."
+    },
+    {
+      "file": "data/research/p2-law-estimate-ledger.json",
+      "reason": "Ledger of law-rule estimates and their sources, the audit trail behind estimated law rows; evidence, not read at run time."
+    },
+    {
+      "file": "data/research/p2-personnel-estimate-ledger.json",
+      "reason": "Ledger of personnel-rule estimates and their sources, the audit trail behind estimated personnel rows; evidence, not read at run time."
+    },
+    {
+      "file": "data/research/parties/roadmap-r19-organization-and-electors.json",
+      "reason": "Roadmap research record R19: the sources read, their terms of use and the gaps found, kept as the evidence the design cites; the game reads the data built from it, not this record."
+    },
+    {
+      "file": "data/research/places/roadmap-r11-handoff.json",
+      "reason": "Hand-off notes for the territory research: which files hold identities and populations and what gaps remain; notes for whoever builds a reader."
+    },
+    {
+      "file": "data/research/places/roadmap-r11-population-v2025-manifest.json",
+      "reason": "Manifest of the 2025 population files (sources, retrieval, gaps); evidence about the downloads, not data an engine reads."
+    },
+    {
+      "file": "data/research/programs/roadmap-r6-handoff.json",
+      "reason": "Research hand-off for the program tables: which official numbers were extracted and which requests were refused, a record of gaps, not data an engine reads."
+    },
+    {
+      "file": "data/research/programs/roadmap-r6-highway-stages-verified.json",
+      "reason": "Verification record naming which stage of the FHWA tables each file holds; evidence for the highway tables, not data an engine reads."
+    },
+    {
+      "file": "data/research/public-costs/roadmap-r23-labor-transit-and-fiscal-notes.json",
+      "reason": "Roadmap research record R23: the sources read, their terms of use and the gaps found, kept as the evidence the design cites; the game reads the data built from it, not this record."
+    },
+    {
+      "file": "data/research/regional/roadmap-r1-findings.json",
+      "reason": "Source list, mechanism notes and release policy of the regional research; evidence about the series, not a table an engine reads."
     },
     {
       "file": "data/research/regional/series/metro-unemployment.json",
@@ -826,52 +874,48 @@
       "reason": "Build input: data/research/regional/build_core_data.py reads it and writes the compiled table the engine reads; the game reads the compiled table, not this file."
     },
     {
-      "file": "data/research/macro/series/receipts.json",
-      "reason": "Receipts (source, retrieval date and checksum) of the downloads behind the macro series; cited by the macro build, evidence for the series rather than data an engine reads."
+      "file": "data/research/speech-sources/roadmap-r31-record-catalog.json",
+      "reason": "Roadmap research record R31: the sources read, their terms of use and the gaps found, kept as the evidence the design cites; the game reads the data built from it, not this record."
+    },
+    {
+      "file": "data/research/speech-sources/roadmap-r31-state-local-catalog.json",
+      "reason": "Roadmap research record R31: the sources read, their terms of use and the gaps found, kept as the evidence the design cites; the game reads the data built from it, not this record."
     },
     {
       "file": "data/research/stand-in-figures-2026-10-12.json",
-      "reason": "The CTO's stand-in research, cited as the source of the macro mortgage spread and public budget impulse parameters (data/research/macro/build_core_data.py); evidence, not a table an engine reads."
+      "reason": "Research on the number stand-ins open on Oct 12, 2026 (class, current value, recommended value or bounds, source); builders apply rows into the parameter tables."
     },
     {
-      "file": "data/research/core-figures/roadmap-priorities-0-1-validation.json",
-      "reason": "Validation record for the roadmap priority 0 and 1 research (what passed and which gaps were named); evidence about the research, not data an engine reads."
+      "file": "data/research/stopgaps-oct19/A-people-behavior-1.json",
+      "reason": "Raw research result for the open stopgap rows (value, spread, sources, one-line builder note each); builders apply a row into the game's own data and resolve its stopgap (pool item research-stopgaps-oct19-apply), the game never reads the file."
     },
     {
-      "file": "data/research/housing/roadmap-r4-fhfa-coverage-verified.json",
-      "reason": "Verification record: for each FHFA row, which place it covers; evidence that the price files were matched to places, not a table an engine reads."
+      "file": "data/research/stopgaps-oct19/B-people-behavior-2.json",
+      "reason": "Raw research result for the open stopgap rows (value, spread, sources, one-line builder note each); builders apply a row into the game's own data and resolve its stopgap (pool item research-stopgaps-oct19-apply), the game never reads the file."
     },
     {
-      "file": "data/research/drives/roadmap-r10-crisis-tables-verified.json",
-      "reason": "Verification record for the crisis regression tables (each coefficient with its reported cell); evidence the drives research was read correctly, not data an engine reads."
+      "file": "data/research/stopgaps-oct19/C-government-law.json",
+      "reason": "Raw research result for the open stopgap rows (value, spread, sources, one-line builder note each); builders apply a row into the game's own data and resolve its stopgap (pool item research-stopgaps-oct19-apply), the game never reads the file."
     },
     {
-      "file": "data/research/programs/roadmap-r6-highway-stages-verified.json",
-      "reason": "Verification record naming which stage of the FHWA tables each file holds; evidence for the highway tables, not data an engine reads."
+      "file": "data/research/stopgaps-oct19/D-economy-world.json",
+      "reason": "Raw research result for the open stopgap rows (value, spread, sources, one-line builder note each); builders apply a row into the game's own data and resolve its stopgap (pool item research-stopgaps-oct19-apply), the game never reads the file."
     },
     {
-      "file": "data/research/places/roadmap-r11-handoff.json",
-      "reason": "Hand-off notes for the territory research: which files hold identities and populations and what gaps remain; notes for whoever builds a reader."
+      "file": "data/research/stopgaps-oct19/E-careers-finance.json",
+      "reason": "Raw research result for the open stopgap rows (value, spread, sources, one-line builder note each); builders apply a row into the game's own data and resolve its stopgap (pool item research-stopgaps-oct19-apply), the game never reads the file."
     },
     {
-      "file": "data/research/places/roadmap-r11-population-v2025-manifest.json",
-      "reason": "Manifest of the 2025 population files (sources, retrieval, gaps); evidence about the downloads, not data an engine reads."
+      "file": "data/research/succession/roadmap-r35-intestacy-examples.json",
+      "reason": "Roadmap research record R35: the sources read, their terms of use and the gaps found, kept as the evidence the design cites; the game reads the data built from it, not this record."
     },
     {
-      "file": "data/research/assumption-markers.json",
-      "reason": "Scan record of the words PLACEHOLDER, UNRESEARCHED and SET BY HAND found in the source on one head; an audit snapshot, not data an engine reads."
+      "file": "data/research/talk/roadmap-r32-conversation-and-rights.json",
+      "reason": "Roadmap research record R32: the sources read, their terms of use and the gaps found, kept as the evidence the design cites; the game reads the data built from it, not this record."
     },
     {
-      "file": "data/research/outcome-web/unsized-links-source-checks-2026-10-05.json",
-      "reason": "One primary-source lookup per unsized outcome link, kept as evidence for why a link stays unsized; no coefficient was admitted from it."
-    },
-    {
-      "file": "data/research/offices/roadmap-r7-gaps.json",
-      "reason": "Gap record: for each jurisdiction, which office authority was not retrieved and why; notes for the research still to do, not data an engine reads."
-    },
-    {
-      "file": "data/research/regional/roadmap-r1-findings.json",
-      "reason": "Source list, mechanism notes and release policy of the regional research; evidence about the series, not a table an engine reads."
+      "file": "data/research/talk/roadmap-r32-lying-study-supplement.json",
+      "reason": "Roadmap research record R32: the sources read, their terms of use and the gaps found, kept as the evidence the design cites; the game reads the data built from it, not this record."
     }
   ],
   "awaitingReader": [
@@ -925,11 +969,6 @@
       "reason": "Research evidence gathered for this area; no code under src/ or scripts/ reads these files yet. Found unread on Oct 16 when the scanner stopped counting a quoted \"data/research/\" prefix as a read of everything under it."
     },
     {
-      "prefix": "data/research/",
-      "files": 4,
-      "reason": "Research evidence gathered for this area; no code under src/ or scripts/ reads these files yet. Found unread on Oct 16 when the scanner stopped counting a quoted \"data/research/\" prefix as a read of everything under it."
-    },
-    {
       "prefix": "data/research/budgets/",
       "files": 4,
       "reason": "Research evidence gathered for this area; no code under src/ or scripts/ reads these files yet. Found unread on Oct 16 when the scanner stopped counting a quoted \"data/research/\" prefix as a read of everything under it."
@@ -941,6 +980,11 @@
     },
     {
       "prefix": "data/research/congress/",
+      "files": 1,
+      "reason": "Research evidence gathered for this area; no code under src/ or scripts/ reads these files yet. Found unread on Oct 16 when the scanner stopped counting a quoted \"data/research/\" prefix as a read of everything under it."
+    },
+    {
+      "prefix": "data/research/core-figures/",
       "files": 1,
       "reason": "Research evidence gathered for this area; no code under src/ or scripts/ reads these files yet. Found unread on Oct 16 when the scanner stopped counting a quoted \"data/research/\" prefix as a read of everything under it."
     },
@@ -1002,11 +1046,6 @@
     {
       "prefix": "data/research/core-figures/P0-9/",
       "files": 4,
-      "reason": "Research evidence gathered for this area; no code under src/ or scripts/ reads these files yet. Found unread on Oct 16 when the scanner stopped counting a quoted \"data/research/\" prefix as a read of everything under it."
-    },
-    {
-      "prefix": "data/research/core-figures/",
-      "files": 1,
       "reason": "Research evidence gathered for this area; no code under src/ or scripts/ reads these files yet. Found unread on Oct 16 when the scanner stopped counting a quoted \"data/research/\" prefix as a read of everything under it."
     },
     {

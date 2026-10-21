@@ -110,6 +110,12 @@ describe(`votes in the played world: ${world.place.key} (seed ${seed})`, () => {
     for (const result of results) {
       const contest = contests().find((c) => c.id === result.contestId);
       if (!contest || !local(contest) || !result.countedEligible) continue;
+      // A seat nobody filed for has no name on its ballot: everyone who
+      // turned out left it blank, and no one wins it.
+      if (!Object.keys(result.totals).length) {
+        expect(result.winnerId, result.id).toBeNull();
+        continue;
+      }
       const namedBallots = ballots.filter(
         (b) => b.contestId === result.contestId && b.voted && b.choice,
       ).length;
