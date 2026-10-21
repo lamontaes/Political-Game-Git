@@ -5,7 +5,7 @@ area: release
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/arrears-jobless-proof
 pr: #5760
 blocked-on:
