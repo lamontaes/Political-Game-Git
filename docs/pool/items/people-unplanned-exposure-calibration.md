@@ -7,7 +7,7 @@ priority: 2
 size: M
 status: in-pr
 claimed-by: claude/unplanned-exposure-calibration
-pr: #5801
+pr: #5788
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-21T07:46:56.830Z
