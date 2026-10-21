@@ -4,13 +4,13 @@ title: "Stopgaps in budgets-treasury (faked-mechanic): 2 open"
 area: gov
 kind: stopgap
 priority: 2
-status: blocked
-claimed-by: claude/gov-budgets-treasury
+status: done
+claimed-by: claude/pool-gov-budgets
 pr:
-blocked-on: "gov-public-payroll-wire, core-income-award-level-change"
+blocked-on:
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/budgets-treasury.ts, kind faked-mechanic"
-claimed-at: 2026-10-16T02:47:37.925Z
+claimed-at: 2026-10-20T00:26:41.427Z
 ---
 
 **What.** Two faked-mechanic stopgaps remain in `budgets-treasury.ts`. SG-GOV-public-employers-outside: the opening's public employers in town (schools, police, fire, county offices) pay workers from outside accounts, so the treasury's lines for that work pay the outside account instead of those employers. SG-GOV-opening-award-level: when the federal Social Security line is cut or raised, the retirement awards the opening wrote for full people keep their amount. Link each public employer to its government's treasury and let the award level follow the line. The player would notice a school budget cut reaching the teachers' pay and a Social Security cut reaching the retirees he knows.
@@ -24,3 +24,7 @@ claimed-at: 2026-10-16T02:47:37.925Z
 **Notes.** First row: The opening's public employers in town (schools, police, fire, county offices) pay their workers from outside accounts; the treasury's lines for that work pay the outside account instead of those employers.
 
 **Split (Oct 16).** Two rows, two engines: the public employers paid from outside accounts is `gov-public-payroll-wire` (the core's `fundPublicPay` exists and nothing calls it), and the opening retirement awards that keep their amount is `core-income-award-level-change`. This item is done when both are.
+
+Checked Oct 20 (claude/political-game-pool-3xfqef-5): both rows are `resolved` in `src/core2/data/stopgaps.json` (SG-GOV-public-employers-outside by `gov-public-payroll-wire`, #4623; SG-GOV-opening-award-level by `core-income-award-level-change`, #4661), and `budgets-treasury.ts` holds no stopgap call. Nothing is left to build; the CTO can close it as done on its children.
+
+Oct 20: Both rows are resolved in stopgaps.json (#4623, #4661) and nothing is left to build.

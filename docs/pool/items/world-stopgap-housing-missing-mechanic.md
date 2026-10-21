@@ -4,10 +4,10 @@ title: "Stopgaps in housing (missing-mechanic): 1 open"
 area: world
 kind: stopgap
 priority: 3
-status: open
+status: blocked
 claimed-by:
 pr:
-blocked-on:
+blocked-on: engine or design: New-unit occupancy and its vacancy changes are recorded; the opening rental stock has no individual unit inventory.
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/modules/housing.ts, kind missing-mechanic"
 ---

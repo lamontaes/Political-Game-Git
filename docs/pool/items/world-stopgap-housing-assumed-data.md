@@ -4,10 +4,10 @@ title: "Stopgaps in housing (assumed-data): 2 open"
 area: world
 kind: stopgap
 priority: 3
-status: blocked
+status: dropped
 claimed-by:
 pr:
-blocked-on: research data: the row's replacement needs sourced data or calibration (see the item's stopgap row)
+blocked-on: research-housing-sourced-parameters
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/modules/housing.ts, kind assumed-data"
 ---
@@ -21,3 +21,5 @@ source: "src/core2/data/stopgaps.json, src/core2/modules/housing.ts, kind assume
 **Files.** src/core2/modules/housing.ts
 
 **Notes.** First row: Home prices follow FHFA's state house price index through its latest quarter (2026 Q2); after it, and where FHFA has no rows (Puerto Rico and the island areas), they follow consumer prices (CPI-U, which in the data ends
+
+Folded into research-housing-sourced-parameters (CTO, Oct 19, 2026).

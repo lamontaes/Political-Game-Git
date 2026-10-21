@@ -139,7 +139,8 @@
       "package": "FIXER-PLAYED-WORLD-TEST",
       "test": "The world the player gets (buildBenchWorld, two-level, economy on, in a place drawn from all 56) runs one game year on PRs and three worlds of three years nightly; every installed module runs, people other than the player make varied choices, the player turns 18 in play, school-age people attend school, taxes are still withheld after January 1, a passed budget changes spending, a non-budget bill is introduced, every ended term is filled, nobody serves after moving away, a named challenger runs, counted voters vote in local races, the counted population changes, a baby is born over three years, homes have values and rents, pay reaches a spendable account, a new business's loan fits its founder, and memory stays under its bound. Assertions failing today are listed with the session fixing each and must flip to a real pass when fixed.",
       "command": "node --max-old-space-size=8192 --expose-gc --import tsx --test-reporter=spec tests/golden-path/played-world.node-test.ts",
-      "passes": true
+      "passes": true,
+      "longRunning": true
     },
     {
       "id": "M1-01",

@@ -4,10 +4,10 @@ title: "Stopgaps in opening-customers (estimated-opening-customer-prior): 3 open
 area: core
 kind: stopgap
 priority: 3
-status: blocked
+status: dropped
 claimed-by:
 pr:
-blocked-on: research data: the row's replacement needs sourced data (Use recorded individual budgets and product-compatible agreements plus matched service-level size/region priors and actor purchasing producers....)
+blocked-on: research-opening-customers-sourced-parameters
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/data/opening-customers.json, kind estimated-opening-customer-prior"
 ---
@@ -21,3 +21,5 @@ source: "src/core2/data/stopgaps.json, src/core2/data/opening-customers.json, ki
 **Files.** src/core2/data/opening-customers.json
 
 **Notes.** First row: Unconditional CEX service means become capped fictional household opening budgets with named counterparties. National component proportions scale regional/household-size parent categories. Equal initial vendor shares are
+
+Folded into research-opening-customers-sourced-parameters (CTO, Oct 19, 2026).

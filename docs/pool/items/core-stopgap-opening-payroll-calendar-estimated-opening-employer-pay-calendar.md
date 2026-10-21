@@ -4,10 +4,10 @@ title: "Stopgaps in opening-payroll-calendar (estimated-opening-employer-pay-cal
 area: core
 kind: stopgap
 priority: 3
-status: blocked
+status: dropped
 claimed-by:
 pr:
-blocked-on: dataset-employer-payroll-calendars
+blocked-on: research-opening-jobs-sourced-parameters
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/data/opening-payroll-calendar.json, kind estimated-opening-employer-pay-calendar"
 ---
@@ -21,3 +21,5 @@ source: "src/core2/data/stopgaps.json, src/core2/data/opening-payroll-calendar.j
 **Files.** src/core2/data/opening-payroll-calendar.json
 
 **Notes.** First row: Fresh employer-owned payroll frequency/phase/lag calendars estimated from dated business-frequency evidence and separately qualified public/education examples; no actual fictional employer term or legal compliance claime
+
+Folded into research-opening-jobs-sourced-parameters (CTO, Oct 19, 2026).

@@ -4,10 +4,10 @@ title: "Stopgaps in laws (data-gap): 1 open"
 area: laws
 kind: stopgap
 priority: 3
-status: blocked
+status: dropped
 claimed-by:
 pr:
-blocked-on: research data: the row's replacement needs sourced data (Sourced phases in force on January 20, 2025 for each series and place in src/core2/data/laws/starting-law.json (2025 tax brackets and rates, FY2025 SN...)
+blocked-on: research-law-reach-sourced-parameters
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/modules/laws.ts, kind data-gap"
 ---
@@ -21,3 +21,5 @@ source: "src/core2/data/stopgaps.json, src/core2/modules/laws.ts, kind data-gap"
 **Files.** src/core2/modules/laws.ts
 
 **Notes.** First row: A law whose first recorded phase begins after the January 20, 2025 start (most income tax, sales tax, property tax, SNAP, unemployment and Medicaid rows begin October 2025 or January 2026) is in force from the start at t
+
+Folded into research-law-reach-sourced-parameters (CTO, Oct 19, 2026).

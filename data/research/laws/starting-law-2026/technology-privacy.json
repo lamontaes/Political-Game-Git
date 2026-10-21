@@ -1064,7 +1064,7 @@
           "preempts": true,
           "cite": "Va. Code § 59.1-577.1 (2025, c. 703, SB 854)",
           "source": "https://law.lis.virginia.gov/vacode/title59.1/chapter53/section59.1-577.1/",
-          "note": "Platforms must use commercially reasonable methods to determine whether a user is under 16 and limit such users to one hour a day absent verifiable parental consent; it took effect 1/1/2026 and was preliminarily enjoined by a federal judge on 2/27/2026."
+          "note": "Platforms must use commercially reasonable methods to determine whether a user is under 16 and limit such users to one hour a day absent verifiable parental consent; it took effect 1/1/2026 and was preliminarily enjoined by a federal judge on 2/27/2026. The parameter schema has no exact term for its protected-user boundary plus daily screen-time limit and parental-consent exception."
         },
         "US-VI": {
           "answer": "no",
