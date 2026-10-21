@@ -5,13 +5,13 @@ area: core
 kind: feature
 priority: 2
 size: M
-status: in-pr
+status: claimed
 claimed-by: claude/commuter-job
 pr: #5613
 blocked-on:
 after: core-outside-pay-authority
 source: "split of core-outside-wage-obligation (L), Oct 20"
-claimed-at: 2026-10-20T06:47:54.316Z
+claimed-at: 2026-10-21T21:47:28.095Z
 ---
 
 **What.** When a counted household is filled in, its jobless workers today get a cloned unplaced income flow (`returnUnplacedPay`), which is not a job anyone can see. Replace that with a real commuter job: a worker takes a job at an employer outside town (`startCommuterJob` in `src/core2/modules/residents.ts`), with a regular payday and tax withheld to the treasuries. The neighbor you meet then has an employer, a schedule and a paycheck.
@@ -24,4 +24,4 @@ claimed-at: 2026-10-20T06:47:54.316Z
 
 **Notes.** Split Oct 20 from core-outside-wage-obligation (L). Needs core-outside-pay-authority first. The sent-back reasons on #5076 to avoid: no loosened test tolerance, no unstated timeout increases, nothing new in src/simulation.
 
-Oct 20 (claude/commuter-job): a filled-in worker with an unplaced income now holds `job:commuter:<personId>:<start>` at the place outside account, paid by the payroll calendar with withholding; demotion ends the job and returns the pay and the household unplaced workers to the counted group (`protectedPeople` no longer treats the outside account as a public employer). Stopgap SG-CORE-filled-unplaced-income resolved. Test: `unplaced-fill-in-job.test.ts`.
+Sent back 2026-10-21 from PR #5613 (branch claude/commuter-job): `docs/pool/items/core-commuter-job-fill-in.md:21` requires a one-year buildBenchWorld run with its drawn place and full seed named in the PR body, and payday and withholding journal entry IDs. The body only describes the test contract; it names neither a successful drawn run nor those entry IDs. `src/core2/unplaced-fill-in-job.test.ts:80` checks that a payroll receipt ID exists but does not print the required journal chain. Supply the named positive played-world trace (including the withholding entries, or the recorded no-tax reason under the place law) and the counted-weight/opening-capital results before requesting merge.; finish on that branch, merge main into it first.
