@@ -4,7 +4,7 @@ title: "Stopgaps in drives (player-text-gap): 1 open"
 area: people
 kind: stopgap
 priority: 3
-status: claimed
+status: in-pr
 claimed-by: claude/association-names
 pr: #5287
 blocked-on:

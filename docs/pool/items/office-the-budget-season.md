@@ -4,13 +4,13 @@ title: "The budget season:"
 area: office
 kind: feature
 priority: 2
-status: in-pr
-claimed-by: claude/pick-office-the-budget-season
+status: open
+claimed-by:
 pr: #5217
 blocked-on:
 milestone:
 source: "docs/coordination/OFFICE-LOCAL.md line 30 (unchecked checklist line)"
-claimed-at: 2026-10-21T09:46:01.284Z
+claimed-at:
 ---
 
 **What.** The local budget is passed without a season: the executive's proposal is not an act at its time of year and the council's budget hearing is not on the calendar. Add the budget season: the mayor or executive proposes the budget at the time the body's data sets, the council holds a hearing on the calendar, and the player acts at each step. The player would notice the proposal arriving in its month, a public hearing with speakers, and the vote that sets next year's lines.
@@ -26,3 +26,5 @@ claimed-at: 2026-10-21T09:46:01.284Z
 Sent back 2026-10-20 from PR #5533 (branch claude/political-game-pool-yucp92-tt): see the Cloud merger comment on that PR for the exact reason; finish on that branch, merge main into it first.
 
 Sent back 2026-10-20 from PR #5217 (branch claude/political-game-pool-udtiwn): Merging current origin/main conflicts in code: src/core2/jobs-benefits.ts, src/core2/law-reach-group-b.test.ts, src/core2/law-reach/group-b-money.ts, src/core2/world-transfer.ts, and src/core2/data/candidacy/parameters.json. Resolve those on this branch, preserving current main behavior and every included budget-season/money slice, then rerun only the changed-file checks and the required played-world budget chain. The pool-note conflict is resolvable documentation; it is these code conflicts that prevent this merger from gating the merged result.; finish on that branch, merge main into it first.
+
+Sent back 2026-10-21 from PR #5533 (branch claude/political-game-pool-yucp92-tt): `src/core2/modules/legislature.ts:515` invokes all pre-vote hooks directly at the hearing, bypassing the stage selection and hooksRun bookkeeping in runBeforeVote; a scheduled committee/floor pass can therefore run those handlers again on the same bill. Route the hearing through the data-driven stage dispatch and prove each applicable handler runs once. `docs/pool/items/office-the-budget-season.md:20` also requires the proposal/hearing/vote-to-amended-treasury-payment chain by record id in a one-year drawn buildBenchWorld run. The body explicitly says that payment was not newly tested, and the added test only checks the hearing and bill; supply that missing payment/person trace before merge. Morning check blocks this head; no local gate pass is claimed.; finish on that branch, merge main into it first.
