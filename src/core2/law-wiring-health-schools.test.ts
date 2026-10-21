@@ -37,7 +37,10 @@ const QUESTIONS = [EXPAND, MEDICAID_WORK, ASSIST_WORK, PRESCHOOL, VOUCHER];
 const SEED = process.env.GOLDEN_PATH_SEED ?? randomBytes(20).toString("hex");
 const TRIES = 12;
 const ENACTED_DAYS = 40;
-const HELD_MONTHS = 8;
+// The slowest link lags six months and reads the law as it stood that long ago
+// on the web's own row day, so a hold needs the lag plus three rows to show it
+// whatever day of the month the law changed.
+const HELD_MONTHS = 9;
 const DAYS_PER_MONTH = 30;
 
 interface Taken {
@@ -278,8 +281,6 @@ function tryPlace(where: string, seed: string, key: string): string | null {
     }
     advance(core, DAYS_PER_MONTH);
   }
-  for (const m of webMonths(api))
-    console.log("MDEBT", m.date, m.id.slice(-7), "law", m.values["law:us-policy-positions:health-human-services.expand-medicaid-eligibility"], "effects", JSON.stringify(Object.entries(m.effects).filter(([k]) => k.includes("medicaid"))));
   const lags = [
     ["medicaid-expansion-to-coverage"],
     ["medicaid-expansion-to-medical-debt"],
