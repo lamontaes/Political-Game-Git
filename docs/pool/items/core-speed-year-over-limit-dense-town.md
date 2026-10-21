@@ -5,9 +5,9 @@ area: core
 kind: bug
 priority: 1
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/speed-year-policy-semi-space
-pr: #5372
+pr: #5820
 blocked-on: its children, the core-speed-* items (alloc, journal, date parse, gc churn, pair key); this umbrella is done when they bring the year under 120 s
 source: added with npm run pool -- add
 claimed-at: 2026-10-21T17:11:28.806Z
