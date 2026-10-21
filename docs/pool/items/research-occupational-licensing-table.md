@@ -22,3 +22,5 @@ claimed-at: 2026-10-21T12:35:44.978Z
 **Files.** data/research/world/,src/core2/data/jobs/
 
 **Notes.** TODO
+
+Partly done Oct 21 (claude, PR #5802): the national table by 22 major occupation groups (BLS CPS 2023 Table 53) with a reader is in. Still open: a state table (Institute for Justice's 14 to 27 percent across states could not be fetched; the page returned 403; try BLS state tables, the Minneapolis Fed licensing dashboard, or the Census SIPP), and the crosswalk from the jobs data's classes to these groups.
