@@ -236,9 +236,9 @@ interface CountedBallotsRow {
   readonly cost: readonly number[];
   /** Real voters each kept ballot stands for (absent on rows kept before the Census weight; one). */
   readonly weight?: readonly number[];
-  /** Each voter's faith and degree against their age band's average (NaN with no profile; absent on rows kept before the loadings). */
-  readonly faith?: readonly number[];
-  readonly college?: readonly number[];
+  /** Each voter's faith and degree against their age band's average (null where none is recorded; absent on rows kept before the loadings). */
+  readonly faith?: readonly (number | null)[];
+  readonly college?: readonly (number | null)[];
 }
 
 /** One voter's turnout on a ballot: its parts and the propensity they came to. */
@@ -2198,8 +2198,8 @@ export function holdElection(api: CoreAPI, contestId: string): ResultRow {
     interest: [] as number[],
     cost: [] as number[],
     weight: [] as number[],
-    faith: [] as number[],
-    college: [] as number[],
+    faith: [] as (number | null)[],
+    college: [] as (number | null)[],
   };
   const countedAdults = wards > 0 ? countedAdultsToday(api) : 0;
   let countedAdultIndex = 0;
@@ -2250,8 +2250,9 @@ export function holdElection(api: CoreAPI, contestId: string): ResultRow {
     kept.cost.push(t.cost);
     kept.weight.push(voter.weight);
     const profile = countedStanceProfile(api, voter);
-    kept.faith.push(profile.faithFromAverage ?? NaN);
-    kept.college.push(profile.collegeFromAverage ?? NaN);
+    // Module data holds JSON: a missing distance is kept as null.
+    kept.faith.push(profile.faithFromAverage ?? null);
+    kept.college.push(profile.collegeFromAverage ?? null);
     countedVoted += t.propensity * voter.weight;
     if (choice)
       countedVotes[choice] =
@@ -3008,7 +3009,9 @@ function countedBallotAt(row: CountedBallotsRow, i: number): CountedBallotRow {
         row.faith && row.college && Number.isFinite(row.faith[i])
           ? {
               faithFromAverage: row.faith[i]!,
-              collegeFromAverage: row.college[i]!,
+              ...(Number.isFinite(row.college[i])
+                ? { collegeFromAverage: row.college[i]! }
+                : {}),
             }
           : null,
     }),
