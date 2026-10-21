@@ -30,14 +30,35 @@ jobs:
         env:
           EVENT_NAME: ${{ github.event_name }}
         run: |
-          mode=""
-          if [ "$EVENT_NAME" = "schedule" ]; then mode="--nightly"; fi
+          mode="--skip-long"
+          if [ "$EVENT_NAME" = "schedule" ]; then mode="--nightly --skip-long"; fi
           node --import tsx tests/golden-path/runner.mjs $mode --output "$RUNNER_TEMP/golden-path.json"
       - uses: actions/upload-artifact@v4
         if: always()
         with:
           name: golden-path
           path: ${{ runner.temp }}/golden-path.json
+  # The played year (M0-13) takes most of a run's time, so it has its own job
+  # and budget (policies.json longRunningMilliseconds) and cannot starve the quick specs.
+  golden-path-year:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35 # policies.json goldenJobMinutes; includes dependency setup
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+          cache: npm
+      - run: npm ci
+      - name: Golden-path long-running commands
+        run: node --import tsx tests/golden-path/runner.mjs --only-long --output "$RUNNER_TEMP/golden-path-year.json"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: golden-path-year
+          path: ${{ runner.temp }}/golden-path-year.json
   core-changes:
     runs-on: ubuntu-latest
     outputs:
