@@ -7,7 +7,7 @@ priority: 2
 size: S
 status: in-pr
 claimed-by: claude/budget-line-hires-tx
-pr: #0
+pr: #5809
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-21T14:23:42.401Z
