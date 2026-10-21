@@ -1,0 +1,242 @@
+{
+  "about": "Deaths by cause and age band, the shares a death is assigned from. Each cause's share of all deaths in its age band is deaths over all deaths in the band; the shares are linear between band midpoints so no age is a cliff, and the rest is 'other'. A band the source does not report has zero deaths.",
+  "refreshNote": "The outcome web's factor on a cause multiplies that cause's share (see src/core2/death-cause.ts).",
+  "allDeaths": {
+    "source": {
+      "tag": "SOURCED",
+      "citation": "NCHS Data Brief No. 521, Mortality in the United States, 2023, Table 3 (deaths by age group) and Table 5 (infant deaths). Total 3,090,964 deaths in 2023.",
+      "asOf": "2023-12-31"
+    },
+    "bands": [
+      {
+        "min": 0,
+        "max": 1,
+        "deaths": 20145
+      },
+      {
+        "min": 1,
+        "max": 5,
+        "deaths": 4059
+      },
+      {
+        "min": 5,
+        "max": 15,
+        "deaths": 6005
+      },
+      {
+        "min": 15,
+        "max": 25,
+        "deaths": 33711
+      },
+      {
+        "min": 25,
+        "max": 35,
+        "deaths": 67449
+      },
+      {
+        "min": 35,
+        "max": 45,
+        "deaths": 105336
+      },
+      {
+        "min": 45,
+        "max": 55,
+        "deaths": 166773
+      },
+      {
+        "min": 55,
+        "max": 65,
+        "deaths": 376534
+      },
+      {
+        "min": 65,
+        "max": 75,
+        "deaths": 627680
+      },
+      {
+        "min": 75,
+        "max": 85,
+        "deaths": 798188
+      },
+      {
+        "min": 85,
+        "max": 120,
+        "deaths": 885004
+      }
+    ]
+  },
+  "causes": [
+    {
+      "id": "drug-overdose",
+      "measure": "health.overdose-deaths",
+      "webAges": null,
+      "method": "deaths",
+      "source": {
+        "tag": "SOURCED",
+        "citation": "NCHS Data Brief No. 522, Drug Overdose Deaths in the United States, 2003-2023, Table 2 and Figure 2: drug overdose deaths 2023 by age group (105,007 in all). The brief reports no row under age 15, so that band holds zero.",
+        "asOf": "2023-12-31"
+      },
+      "bands": [
+        {
+          "min": 0,
+          "max": 15,
+          "deaths": 0
+        },
+        {
+          "min": 15,
+          "max": 25,
+          "deaths": 5926
+        },
+        {
+          "min": 25,
+          "max": 35,
+          "deaths": 20770
+        },
+        {
+          "min": 35,
+          "max": 45,
+          "deaths": 27005
+        },
+        {
+          "min": 45,
+          "max": 55,
+          "deaths": 21593
+        },
+        {
+          "min": 55,
+          "max": 65,
+          "deaths": 20606
+        },
+        {
+          "min": 65,
+          "max": 120,
+          "deaths": 8694
+        }
+      ]
+    },
+    {
+      "id": "firearm-homicide",
+      "measure": "health.youth-firearm-deaths",
+      "webAges": {
+        "min": 1,
+        "max": 20
+      },
+      "method": "deaths",
+      "scaleToTotal": 17927,
+      "source": {
+        "tag": "ESTIMATED",
+        "citation": "Age spread: CDC QuickStats supplementary table, Percentage of Suicides and Homicides Involving a Firearm Among Persons Aged 10 Years and Over, by Age Group, United States, 2022 (stacks.cdc.gov/view/cdc/160513), firearm homicide deaths 6,114; 9,697; 3,027; 625 (ICD-10 U01.4, X93-X95), nothing reported under age 10. Level: NCHS Data Brief No. 526, Trends in Death Rates for Leading Methods of Injury, 2003-2023, Table 4: 17,927 firearm homicides in 2023. The 2022 counts are scaled to the 2023 total.",
+        "asOf": "2023-12-31",
+        "estimatedFrom": "2022 age counts scaled to the 2023 national total; spread the size of the year-to-year change in the total (2022 19,463 to 2023 17,927)"
+      },
+      "bands": [
+        {
+          "min": 0,
+          "max": 10,
+          "deaths": 0
+        },
+        {
+          "min": 10,
+          "max": 25,
+          "deaths": 6114
+        },
+        {
+          "min": 25,
+          "max": 45,
+          "deaths": 9697
+        },
+        {
+          "min": 45,
+          "max": 65,
+          "deaths": 3027
+        },
+        {
+          "min": 65,
+          "max": 120,
+          "deaths": 625
+        }
+      ]
+    },
+    {
+      "id": "firearm-suicide",
+      "measure": "health.youth-firearm-suicide",
+      "webAges": {
+        "min": 10,
+        "max": 20
+      },
+      "method": "deaths",
+      "scaleToTotal": 27300,
+      "source": {
+        "tag": "ESTIMATED",
+        "citation": "Age spread: CDC QuickStats supplementary table (stacks.cdc.gov/view/cdc/160513), 2022, firearm suicide deaths 3,421; 7,989; 8,250; 7,367 (ICD-10 X72-X74), nothing reported under age 10. Level: NCHS Data Brief No. 526, Table 3: 27,300 firearm suicides in 2023. The 2022 counts are scaled to the 2023 total.",
+        "asOf": "2023-12-31",
+        "estimatedFrom": "2022 age counts scaled to the 2023 national total; spread the size of the year-to-year change in the total (2022 27,027 to 2023 27,300)"
+      },
+      "bands": [
+        {
+          "min": 0,
+          "max": 10,
+          "deaths": 0
+        },
+        {
+          "min": 10,
+          "max": 25,
+          "deaths": 3421
+        },
+        {
+          "min": 25,
+          "max": 45,
+          "deaths": 7989
+        },
+        {
+          "min": 45,
+          "max": 65,
+          "deaths": 8250
+        },
+        {
+          "min": 65,
+          "max": 120,
+          "deaths": 7367
+        }
+      ]
+    },
+    {
+      "id": "motor-vehicle",
+      "measure": "traffic.fatality-rate",
+      "webAges": null,
+      "method": "rate",
+      "source": {
+        "tag": "SOURCED",
+        "citation": "Insurance Institute for Highway Safety, Fatality Facts, Yearly snapshot: motor vehicle crash deaths per 100,000 people by age group, 2022 (https://www.iihs.org/topics/fatality-statistics/detail/yearly-snapshot). All road users: under 13, 859 deaths, 1.7; 13 to 19, 2,896 deaths, 9.6; 20 to 34, 12,282 deaths, 18.0; 35 to 69, 20,832 deaths, 14.4; 70 and over, 5,658 deaths, 14.4.",
+        "asOf": "2022-12-31"
+      },
+      "bands": [
+        {
+          "min": 0,
+          "max": 13,
+          "ratePer100000": 1.7
+        },
+        {
+          "min": 13,
+          "max": 20,
+          "ratePer100000": 9.6
+        },
+        {
+          "min": 20,
+          "max": 35,
+          "ratePer100000": 18.0
+        },
+        {
+          "min": 35,
+          "max": 70,
+          "ratePer100000": 14.4
+        },
+        {
+          "min": 70,
+          "max": 120,
+          "ratePer100000": 14.4
+        }
+      ]
+    }
+  ]
+}

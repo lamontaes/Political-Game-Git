@@ -1,8 +1,9 @@
 ---
 name: played-world-proof
 description: >
-  Use before calling any feature finished: prove it in a one-year run of the
-  played world, with another engine reading what it wrote, named by record id.
+  Proves an Our Civic Duty feature in a one-year run of the played world, with
+  another engine reading what it wrote, named by record id. Use before calling
+  any feature, law or module finished.
 ---
 
 # Played-world proof
@@ -40,6 +41,6 @@ Name the few people it reached by record id. Most people are untouched; say so.
 
 - An effect is a read: a record nobody else reads is a placeholder. Register it as a stopgap.
 - Hand-inserted fixtures prove edge cases only.
-- Speed: measure a game year before and after on the same base, on the same machine, one process at a time. No change makes a year more than 20% slower. A year must run under two minutes.
+- Speed: measure a game year before and after with `npm run speed:year`, on the same base and machine, one process at a time. No change makes a year more than 20% slower. A year must run under two minutes.
 - Every dollar balances; the golden-path suite must stay green.
 - Answer why for every number you report (see `ask-why`).
