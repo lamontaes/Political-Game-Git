@@ -26,13 +26,19 @@ describe(`a household returned to the counts, where a member then died, ${place.
       ...(player?.familyIds ?? []),
       ...(player?.knownIds ?? []),
     ]);
-    const record = [...rt.households.values()].find(
-      (row) =>
-        row.people.length >= 2 && row.people.every((p) => !circle.has(p.id)),
-    )!;
+    // A counted household of two or more, none of them in the player's circle.
+    const store = rt.store;
+    const record = [...store.liveHouseholds()]
+      .map((h) => ({
+        householdId: h.id,
+        ids: store.countedMembers(h).map((m) => store.ids[m]!),
+      }))
+      .find(
+        (row) => row.ids.length >= 2 && row.ids.every((id) => !circle.has(id)),
+      );
     expect(record, `${place.name}; seed ${seed}`).toBeDefined();
-    const [first, second] = record.people.map((p) => p.id);
-    const householdId = record.household.id;
+    const [first, second] = record!.ids;
+    const householdId = record!.householdId;
     fillInPerson(core, first!);
     // The household returns to the counts, and a member dies there: the
     // counted record drops them while their full record is still on file.
