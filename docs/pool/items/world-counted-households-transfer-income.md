@@ -22,3 +22,5 @@ claimed-at:
 **Files.** src/core2/modules/residents.ts, src/core2/residents.ts
 
 **Notes.** Found working world-counted-renter-income-puerto-rico-third (see its Oct 21 notes for the ACS figures fetched: B19055, B19065, B19067 for Puerto Rico).
+
+Oct 21 (claude): not built. The Done-when starts from "the branch's whole unplaced workers merged" (claude/pr-renter-income), which is not on main, so the day-one no-income share cannot be measured from main. Take it after that lands. Claim released.
