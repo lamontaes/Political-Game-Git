@@ -5,9 +5,9 @@ area: world
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/transfer-two-accounts
-pr:
+pr: #5795
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-21T10:04:25.272Z

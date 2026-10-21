@@ -6,11 +6,11 @@ kind: feature
 priority: 2
 size: M
 status: in-pr
-claimed-by:
+claimed-by: claude/political-game-pool-yucp92-oo
 pr: #5513
 blocked-on:
 source: added with npm run pool -- add
-claimed-at:
+claimed-at: 2026-10-21T22:16:17.185Z
 ---
 
 **What.** The news archive reports the year before day one but carries no business closures, because the generated past holds none: businesses start on day one. Generate the closures of the town's businesses in that year from the business engine's own past, as records with the owner, the workers and the date. Carry them into the archive so a shop that closed last year is in the news history and the people it employed remember it.
@@ -24,3 +24,5 @@ claimed-at:
 **Notes.** Sent back Oct 20 from PR #5072 (branch claude/past-business-closures): diff contained unrelated edits under src/director/ and data/english/ outside the government area; finish on that branch, merge main into it first.
 
 Split from gov-past-deaths-closures-archive (the deaths half is built there). The deaths come from the kin generator's life-table line; closures need a business history the generator does not yet keep.
+
+Sent back 2026-10-21 from PR #5513 (branch claude/political-game-pool-yucp92-oo): `src/core2/past.test.ts:100-109` makes its only positive closure assertion conditional on both an expected count and a retiree, then checks the archive reader only inside a loop over closures. A drawn world with zero expected closures or no eligible former owner can therefore pass this entire new test with no closure or archive/read record checked. Add a bounded drawn-place search that requires at least one generated closure, its printed story, and the former owner’s heard record before success; keep a separate explicit zero-case test if needed. The owner/date cleanup fixes the prior return, but this vacuous acceptance path remains. Morning check blocks this head; no local gate pass is claimed.; finish on that branch, merge main into it first.
