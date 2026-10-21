@@ -1,6 +1,6 @@
 import { registeredTraitConsiderations } from "../trait-readings";
 import { traitRegistryFor } from "../trait-registry";
-import type { DecisionDeclaration } from "../trait-packs";
+import type { DecisionDeclaration } from "../../core2/trait-packs";
 import type { DecisionConsideration, EntityId, World } from "../types";
 
 export { JOB_TRAIT_DECISIONS } from "./jobs-decisions";

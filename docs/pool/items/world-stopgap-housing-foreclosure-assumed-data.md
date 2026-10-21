@@ -4,10 +4,10 @@ title: "Stopgaps in housing-foreclosure (assumed-data): 1 open"
 area: world
 kind: stopgap
 priority: 3
-status: blocked
+status: dropped
 claimed-by:
 pr:
-blocked-on: research data: the row's replacement needs sourced data (Each place's foreclosure steps read from its statute text and court rules, with its own average days to complete....)
+blocked-on: research-housing-sourced-parameters
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/housing-foreclosure.ts, kind assumed-data"
 ---
@@ -21,3 +21,5 @@ source: "src/core2/data/stopgaps.json, src/core2/housing-foreclosure.ts, kind as
 **Files.** src/core2/housing-foreclosure.ts
 
 **Notes.** First row: A state's foreclosure timeline that was not read from its statute (or that has no published average) is taken from secondary summaries or the national average days to complete.
+
+Folded into research-housing-sourced-parameters (CTO, Oct 19, 2026).

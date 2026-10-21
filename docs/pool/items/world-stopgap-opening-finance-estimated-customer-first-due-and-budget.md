@@ -4,10 +4,10 @@ title: "Stopgaps in opening-finance (estimated-customer-first-due-and-budget-hor
 area: world
 kind: stopgap
 priority: 3
-status: open
+status: blocked
 claimed-by:
 pr:
-blocked-on:
+blocked-on: engine or design: CEX annual expenditure and aggregate public fiscal-year data cannot choose an individual invoice day or legally end a standing due obligation.
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/data/opening-finance.json, kind estimated-customer-first-due-and-budget-horizon"
 ---

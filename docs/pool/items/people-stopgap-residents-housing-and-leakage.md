@@ -4,10 +4,10 @@ title: "Stopgaps in residents (housing-and-leakage): 1 open"
 area: people
 kind: stopgap
 priority: 3
-status: open
+status: blocked
 claimed-by:
 pr:
-blocked-on:
+blocked-on: engine or design: Rent and non-local spending were never paid, so household cash grew without limit.
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/residents.ts, kind housing-and-leakage"
 ---

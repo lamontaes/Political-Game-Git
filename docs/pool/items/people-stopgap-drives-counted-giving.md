@@ -4,10 +4,10 @@ title: "Stopgaps in drives (counted-giving): 1 open"
 area: people
 kind: stopgap
 priority: 3
-status: open
+status: blocked
 claimed-by:
 pr:
-blocked-on:
+blocked-on: engine or design: CTO, Oct 14: groups raise from the counted population as well as from full people, by the same rule times the count.
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/modules/drives.ts, kind counted-giving"
 claimed-at:
