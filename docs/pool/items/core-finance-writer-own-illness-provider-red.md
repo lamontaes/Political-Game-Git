@@ -5,9 +5,9 @@ area: core
 kind: bug
 priority: 1
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/finance-writer-own-illness
-pr:
+pr: #5829
 blocked-on:
 source: clean main af83f0e661, found while validating the unused funding-plan cleanup
 claimed-at: 2026-10-21T21:44:06.358Z
