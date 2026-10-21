@@ -86,7 +86,7 @@ export function buildNewborn(
   parents: readonly string[],
   source: Source,
 ) {
-  const mother = api.state.people.get(parents[0])!;
+  const mother = api.state.people.get(parents[0]!)!;
   const id = createStableId(
     "person",
     `${api.state.seed}:${pregnancyId}:newborn`,
@@ -135,7 +135,7 @@ export function buildNewborn(
         source,
         facts: {
           pregnancyId,
-          motherId: parents[0],
+          motherId: parents[0]!,
           ...(parents[1] ? { otherParentId: parents[1] } : {}),
           placeId: mother.placeId,
         },

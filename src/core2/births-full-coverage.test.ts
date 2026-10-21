@@ -101,6 +101,8 @@ describe(`full women's births by age band (seed ${seed})`, () => {
         rows.push(
           `${label} total: ${totalActual} against ${totalExpected.toFixed(1)}`,
         );
+        sumExpected += totalExpected;
+        sumActual += totalActual;
       }
       console.log(rows.join("\n"));
       // Real rates check the total: within three Poisson spreads of the CDC count.
