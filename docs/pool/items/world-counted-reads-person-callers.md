@@ -7,7 +7,7 @@ priority: 2
 size: M
 status: open
 claimed-by:
-pr: #5080
+pr:
 blocked-on:
 source: added with npm run pool -- add
 claimed-at:
@@ -26,3 +26,7 @@ claimed-at:
 Found taking core-counted-views-delete: its prerequisite items are done but these callers remain, and they sit in other areas, so the core session cannot delete the views until they move. The candidacy caller may need a government-area session.
 
 Sent back 2026-10-20 from PR #5080 (branch claude/political-game-pool-8defjq): merging main still conflicts in scripts/health/mortality-band.ts and src/core2/player-money-year.test.ts; finish on that branch, merge main into it first.
+
+Sent back 2026-10-20 from PR #5080 (branch claude/political-game-pool-8defjq): The formatting/conflict repair addresses the previous return. The primary item still requires no residentPerson/peopleOf/householdOfPerson callers outside fill-in and a one-year before/after equality of jobs, taxes and loans. The body explicitly leaves the shared chooser calling residentPerson outside fill-in; counted-facts-year.test.ts checks that jobs and employer-tax rows exist and the ledger balances, rather than the required before/after jobs-tax-loan equality. A split follow-up item does not change this primary item\x27s still-global Done when, and the rest item remains a TODO shell. Supply the named elimination/equivalence proof, or give the completed bounded stage its own valid item while preserving the unfinished removal and research work as open.; finish on that branch, merge main into it first.
+
+Split: jobs, unemployment claims, employer taxes, credit, business and candidacy are world-counted-reads-six-engines (PR #5080). Still calling `residentPerson`: estates.ts (an existence check), the fill-in placeholder in state.ts and the counted-groups view.

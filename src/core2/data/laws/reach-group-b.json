@@ -316,6 +316,7 @@
   "budgetLines": {
     "highways": {
       "effect": "road-service-level",
+      "roadCondition": true,
       "people": {
         "ageFrom": "drivingAge"
       },

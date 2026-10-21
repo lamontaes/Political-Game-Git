@@ -5,7 +5,7 @@ area: release
 kind: research
 priority: 2
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/red-list
 pr: #5080
 blocked-on:
