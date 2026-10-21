@@ -126,7 +126,10 @@ function town(
     api: ReturnType<typeof coreAPI>;
   }) => boolean,
 ) {
-  for (let attempt = 0; attempt < 12; attempt += 1) {
+  const tried: string[] = [];
+  // Many towns have no council (boards, selectmen, commissions), so a draw
+  // can pass over a good many before one qualifies.
+  for (let attempt = 0; attempt < 48; attempt += 1) {
     const state = pick(states, `${salt}:${attempt}`);
     const places = [
       ...searchCorePlaces("", Number.MAX_SAFE_INTEGER, {
@@ -155,9 +158,10 @@ function town(
     );
     if (council.length >= 3 && (!ready || ready({ core, api })))
       return { core, api, key, council };
+    tried.push(`${key} (${council.length} seated)`);
   }
   throw new Error(
-    `no town with a seated council${ready ? " and what the test needs" : ""} (${salt}, seed ${seed})`,
+    `no town with a seated council${ready ? " and what the test needs" : ""} (${salt}, seed ${seed}); tried ${tried.join("; ")}`,
   );
 }
 

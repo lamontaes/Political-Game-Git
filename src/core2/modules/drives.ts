@@ -1,3 +1,4 @@
+import { isPlannedOnce } from "../free-block";
 import drivesJson from "../data/drives.json" with { type: "json" };
 import { daysBetween, makeIsoDate } from "../kernel/dates";
 import { chooseAct } from "../choice";
@@ -211,6 +212,8 @@ interface DrivesRuntime {
   predicted: Map<PersonId, PredictedChoice>;
   /** Canonical donation records the cash journal resolves through this module's provider. */
   donations: Map<string, DonationRecord>;
+  /** Whom each person has told about each cause, kept when a drive fades and forms again and across drives on one topic. */
+  told: Map<string, Set<PersonId>>;
 }
 
 interface DonationRecord {
@@ -246,10 +249,23 @@ function runtimeFor(state: Readonly<CoreState>): DrivesRuntime {
       decisions: [],
       predicted: new Map(),
       donations: new Map(),
+      told: new Map(),
     };
     runtimes.set(state, row);
   }
   return row;
+}
+
+function toldFor(
+  runtime: DrivesRuntime,
+  personId: PersonId,
+  topic: string,
+): Set<PersonId> {
+  // By cause, not by drive: two drives on one topic are one cause to the person.
+  const key = `${personId}|${topic}`;
+  let told = runtime.told.get(key);
+  if (!told) runtime.told.set(key, (told = new Set()));
+  return told;
 }
 
 const core = (api: CoreAPI) => api.state as CoreState;
@@ -743,7 +759,8 @@ export function respond(
           formations: [],
           acts: [],
           actCount: p("zero"),
-          told: new Set(),
+          // Who they have told about this cause outlives the drive itself.
+          told: toldFor(runtime, actor.id, identity.topic),
         };
         mine.set(drive.id, drive);
         runtime.drives.set(`${actor.id}|${drive.id}`, drive);
@@ -1389,6 +1406,7 @@ export function createDrivesModule(
           const id = ids.find(
             (id) =>
               !drive.told.has(id) &&
+              !isPlannedOnce(api.state, actor.id, action.effect, id) &&
               id !== actor.id &&
               api.state.people.get(id)?.alive,
           );

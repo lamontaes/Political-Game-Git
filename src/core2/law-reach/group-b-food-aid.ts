@@ -15,6 +15,7 @@
 import type { CoreAPI, CoreState } from "../types";
 import { lawChain, lawInForce, LAWS_MODULE_ID } from "../modules/laws";
 import { residentsRuntime } from "../modules/residents";
+import { fundOf } from "../counted-money";
 import type { LawRowInput } from "../laws-starting";
 import {
   povertyLineDollars,
@@ -144,9 +145,9 @@ export function runFoodAid(
   const want = new Map<string, number>();
   if (allotment) {
     const cents = reachParameter("centsPerDollar");
-    const residentsOrg = residentsRuntime(
-      api.state as CoreState,
-    )?.input.accounts.find((a) => a.placeId === chain.townPlaceId)?.accountId;
+    const rt = residentsRuntime(api.state as CoreState);
+    // Each counted household's benefit is paid into its own group's fund.
+    const byFund = new Map<string, number>();
     const heads = selectResidents(
       facts,
       { householdHead: true },
@@ -182,6 +183,16 @@ export function runFoodAid(
       } else {
         countedMinor += dollars * cents * (head.scale ?? 1);
         countedHouseholds += head.scale ?? 1;
+        const ix = rt?.store.householdOf.get(head.householdId);
+        const group =
+          ix === undefined ? undefined : rt!.store.households[ix]?.group;
+        if (group !== undefined) {
+          const fund = fundOf(api, rt!, group);
+          byFund.set(
+            fund,
+            (byFund.get(fund) ?? 0) + dollars * cents * (head.scale ?? 1),
+          );
+        }
       }
     }
     if (countedMinor > 0)
@@ -195,8 +206,9 @@ export function runFoodAid(
         amountMinor: Math.floor(countedMinor),
       });
     recordDraws(api, timeLimit, paid);
-    if (countedMinor > 0 && residentsOrg)
-      want.set(`${gov.id}|${residentsOrg}`, Math.floor(countedMinor));
+    for (const [fund, minor] of byFund)
+      if (Math.floor(minor) > 0)
+        want.set(`${gov.id}|fund-account:${fund}`, Math.floor(minor));
     if (want.size) api.stopgap(STOPGAP);
   }
   reconcileObligations(api, {

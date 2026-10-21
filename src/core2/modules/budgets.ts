@@ -23,8 +23,10 @@ import { corePlaceByKey } from "../place-lookup";
 import { placeLocalGovernmentUnits } from "../gov-rules/local-governments";
 import budgetBases from "../../../data/research/money/public-budget-bases.json" with { type: "json" };
 import federal from "../../../data/research/money/federal-budget-fy2025.json" with { type: "json" };
+import budgetSeasonData from "../data/budgets/budget-season.json" with { type: "json" };
 import localYears from "../data/budgets/local-fiscal-years.json" with { type: "json" };
 import localSplit from "../../../data/research/budgets/local-spending-by-type.json" with { type: "json" };
+import { addDays, makeIsoDate } from "../kernel/dates";
 import { coreAPI, registerModule } from "../state";
 import { keepsWhy } from "../why-kept";
 import type { CoreAPI, CoreModule, CoreState, Source } from "../types";
@@ -242,6 +244,7 @@ export const BUDGETS_MODULE: CoreModule = {
     [WITHHOLDING_KIND]: (api, reference) => withholdingSlot(api, reference.id),
   },
   onCalendarWork: (api, work) => {
+    runBudgetSeason(api, work);
     adoptBudget(api, work);
     closeMonth(api, work);
     if (work.kind === "outside-revenue" || work.kind === "budget-adoption")
@@ -542,6 +545,7 @@ export function openBudgets(core: CoreState): readonly GovernmentRow[] {
       },
       sourceRecordIds: [gov.id],
     });
+    scheduleBudgetSeason(api, gov, fy + 1);
   }
   syncSalesTax(api);
   syncServiceCharges(api);
@@ -1025,11 +1029,123 @@ export function putBudget(api: CoreAPI, budget: BudgetRow): void {
 let councilBudgetVote:
   ((api: CoreAPI, gov: GovernmentRow, fy: number) => BudgetRow | null) | null =
   null;
-/** The legislature engine registers how a council votes its budget. */
+/** The steps of a budget's season the legislature engine takes ahead of the fiscal year. */
+export interface BudgetSeasonSteps {
+  /** The day a local body takes the step: its first regular meeting on or after the date. */
+  readonly onMeetingDay: (
+    api: CoreAPI,
+    gov: GovernmentRow,
+    date: string,
+    step: "hearing" | "vote",
+  ) => string;
+  readonly propose: (
+    api: CoreAPI,
+    gov: GovernmentRow,
+    fy: number,
+    source: Source,
+  ) => void;
+  readonly hear: (
+    api: CoreAPI,
+    gov: GovernmentRow,
+    fy: number,
+    source: Source,
+  ) => void;
+  readonly vote: (api: CoreAPI, gov: GovernmentRow, fy: number) => void;
+}
+let budgetSeason: BudgetSeasonSteps | null = null;
+/** The legislature engine registers how a council votes its budget, and its season. */
 export function registerBudgetVote(
   vote: (api: CoreAPI, gov: GovernmentRow, fy: number) => BudgetRow | null,
+  season?: BudgetSeasonSteps,
 ): void {
   councilBudgetVote = vote;
+  budgetSeason = season ?? null;
+}
+
+const SEASON_STEPS = [
+  "budget-proposal",
+  "budget-hearing",
+  "budget-vote",
+] as const;
+const seasonDays = budgetSeasonData.daysBeforeFiscalYear as Record<
+  string,
+  Record<(typeof SEASON_STEPS)[number], number>
+>;
+
+/**
+ * Schedules a government's budget season for the fiscal year that starts
+ * next: the executive's proposal, the body's public hearing and its vote, each
+ * a set number of days before the year starts (budget-season.json), a local
+ * body's on its regular meeting day. A step whose day has passed is skipped;
+ * the vote then falls on the year's first day.
+ */
+function scheduleBudgetSeason(
+  api: CoreAPI,
+  gov: GovernmentRow,
+  fy: number,
+): void {
+  if (!budgetSeason) return;
+  const days = seasonDays[gov.level];
+  if (!days) return;
+  const start = `${fy}-${gov.fiscalYearStart}`;
+  const calendar = api.moduleCalendar(BUDGETS_MODULE_ID);
+  for (const kind of SEASON_STEPS) {
+    const target = addDays(makeIsoDate(start), -days[kind]);
+    const date =
+      kind === "budget-proposal"
+        ? target
+        : budgetSeason.onMeetingDay(
+            api,
+            gov,
+            target,
+            kind === "budget-hearing" ? "hearing" : "vote",
+          );
+    const key = `${kind}:${gov.id}:${fy}`;
+    if (date <= api.state.date || date >= start || calendar.get(key)) continue;
+    calendar.schedule({
+      key,
+      date,
+      kind,
+      source: {
+        tag: "ESTIMATED",
+        citation: budgetSeasonData.citation,
+        asOf: api.state.date,
+        estimatedFrom: "data/budgets/budget-season.json",
+      },
+      sourceRecordIds: [gov.id, String(fy)],
+    });
+  }
+}
+
+/**
+ * The legislature engine opens after the budgets: once it has registered its
+ * season, every government's coming fiscal year gets its season scheduled.
+ */
+export function openBudgetSeason(api: CoreAPI): void {
+  if (!api.state.modules.has(BUDGETS_MODULE_ID)) return;
+  for (const gov of governments(api))
+    scheduleBudgetSeason(
+      api,
+      gov,
+      fiscalYearOf(api.state.date, gov.fiscalYearStart) + 1,
+    );
+}
+
+function runBudgetSeason(
+  api: CoreAPI,
+  work: Readonly<ModuleCalendarWork>,
+): void {
+  if (!budgetSeason || !SEASON_STEPS.some((k) => k === work.kind)) return;
+  const gov = table(api, "governments").get(
+    work.sourceRecordIds[0]!,
+  ) as unknown as GovernmentRow | undefined;
+  const fy = Number(work.sourceRecordIds[1]);
+  if (!gov) return;
+  if (work.kind === "budget-proposal")
+    budgetSeason.propose(api, gov, fy, work.source);
+  else if (work.kind === "budget-hearing")
+    budgetSeason.hear(api, gov, fy, work.source);
+  else budgetSeason.vote(api, gov, fy);
 }
 
 function adoptBudget(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
@@ -1114,6 +1230,7 @@ function adoptBudget(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
     source: work.source,
     sourceRecordIds: [gov.id],
   });
+  scheduleBudgetSeason(api, gov, fy + 1);
 }
 
 /** The government account a law row's jurisdiction pays into. */

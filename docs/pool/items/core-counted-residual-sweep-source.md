@@ -26,3 +26,5 @@ claimed-at: 2026-10-20T13:39:00.800Z
 Sent back 2026-10-20 from PR #5356 (branch claude/residual-sweep-source): merge conflict with main in code; merge main and resolve; finish on that branch, merge main into it first.
 
 Correction 2026-10-20: the send-back above for PR #5356 was a mistake (two merger gate runs overlapped in one checkout); the branch merges cleanly with main and is being gated again. No author action needed.
+
+Unemployment benefits now pass the claimant (first slice, PR #5217); on main the other payers pass their funds too, and SG-CORE-counted-unkeyed-money is resolved; counted-money-keyed.test.ts reads unkeyedSharedMinor over a played year.

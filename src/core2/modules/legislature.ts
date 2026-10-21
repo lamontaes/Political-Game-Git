@@ -33,7 +33,7 @@ import committeeDayData from "../data/legislature/committee-day.json" with { typ
 import ties from "../../../data/research/elections/tie-rules-2026.json" with { type: "json" };
 import provisionQuestions from "../../../data/research/legislature/provision-questions.json" with { type: "json" };
 import { POLICY_QUESTIONS } from "../policy-answers";
-import { registerModule } from "../state";
+import { coreAPI, registerModule } from "../state";
 import type {
   ActionDefinition,
   ActOffer,
@@ -72,6 +72,7 @@ import {
   enactBudget,
   governments,
   registerBudgetVote,
+  openBudgetSeason,
   type BudgetRow,
   type GovernmentRow,
 } from "./budgets";
@@ -105,6 +106,7 @@ import { decisionKinds } from "../trait-decisions";
 import { discretionaryHours } from "./work";
 import { COMMITTEES, committeeForSection } from "../legislature-committees";
 import { addDays, makeIsoDate } from "../kernel/dates";
+import { meetingRule, meetsOn, nextMeeting } from "../office-day-calendar";
 import {
   bodyNumbering,
   designation,
@@ -277,6 +279,10 @@ export const LEGISLATURE_MODULE: CoreModule = {
       obligations: {},
       choices: {},
       itemVetoes: {},
+      /** The executive's budget proposal for a government's coming fiscal year, sent in its season. */
+      budgetProposals: {},
+      /** A budget vote taken ahead of the fiscal year's start, settled on its first day. */
+      budgetDecisions: {},
       projectRequests: {},
     },
   },
@@ -383,9 +389,15 @@ export function governingMembers(
 export function openLegislature(core: CoreState): void {
   if (!core.modules.has(LEGISLATURE_MODULE_ID))
     registerModule(core, LEGISLATURE_MODULE);
-  registerBudgetVote(councilBudget);
+  registerBudgetVote(councilBudget, {
+    onMeetingDay: budgetMeetingDay,
+    propose: proposeBudget,
+    hear: hearBudget,
+    vote: voteBudgetAhead,
+  });
   // Every body's members are people with reasons of their own (OPUS-OFFICIALS).
   if (core.modules.has(OFFICES_MODULE_ID)) openOfficials(core);
+  openBudgetSeason(coreAPI(core));
 }
 
 /**
@@ -402,11 +414,51 @@ function councilBudget(
   gov: GovernmentRow,
   fy: number,
 ): BudgetRow | null {
+  const id = `${gov.id}:${fy}`;
+  // A vote taken in the budget season settles on the fiscal year's first day.
+  const ahead = table(api, "budgetDecisions").get(id) as unknown as
+    BudgetDecision | undefined;
+  const decision = ahead ?? decideBudget(api, gov, fy);
+  if (!decision) return null;
+  if (ahead) table(api, "budgetDecisions").remove(id);
+  table(api, "budgetProposals").remove(id);
+  return settleBudget(api, gov, fy, decision);
+}
+
+/** What the body decided on a budget bill, kept until the fiscal year starts. */
+interface BudgetDecision {
+  readonly billId: string;
+  readonly number: string;
+  readonly body: string;
+  readonly adopted: boolean;
+  readonly vetoed: boolean;
+  readonly passed: Readonly<Record<string, number>>;
+  readonly votes: string;
+  readonly amended: string;
+}
+
+/** The body takes its budget vote ahead of the fiscal year, in the budget season. */
+function voteBudgetAhead(api: CoreAPI, gov: GovernmentRow, fy: number): void {
+  const decision = decideBudget(api, gov, fy);
+  if (decision)
+    table(api, "budgetDecisions").put({
+      id: `${gov.id}:${fy}`,
+      ...decision,
+    } as unknown as ModuleRow);
+}
+
+function decideBudget(
+  api: CoreAPI,
+  gov: GovernmentRow,
+  fy: number,
+): BudgetDecision | null {
   const chambers = budgetChambers(api, gov);
   if (!chambers || !chambers.chambers.every((c) => members(api, c).length))
     return null;
   const priorities =
-    budgetPriorities(api, gov.id) ?? executivePriorities(api, gov, fy);
+    budgetPriorities(api, gov.id) ??
+    storedProposal(api, gov, fy) ??
+    executivePriorities(api, gov, fy);
   const carried = budgetCarry(api, gov, fy);
   // The executive's proposed changes, else the departments' requests at the
   // funding already enacted. A proposal that changes nothing is the
@@ -573,41 +625,60 @@ function councilBudget(
       return [line.line, line.value];
     }),
   );
-  const votes = tallies.join(", ");
-  // A passed bill's line changes become the government's enacted lines; a
-  // failed one leaves last year's enacted lines in force.
-  const budget = adopted
-    ? enactBudget(
-        api,
-        gov,
-        fy,
-        `${chambers.body} vote ${votes}${
-          halved.size || dropped.length
-            ? ` (amended: ${[
-                ...[...halved.entries()]
-                  .filter(([line]) => !dropped.includes(line))
-                  .map(([line, n]) => `${line} cut to 1/${2 ** n}`),
-                ...dropped.map((line) => `${line} dropped`),
-              ].join(", ")})`
-            : ""
-        }, ${bill.number}`,
-        passed,
-      )
-    : carriedBudget(
-        api,
-        gov,
-        fy,
-        desk === "vetoed"
-          ? `carried forward after the executive vetoed ${bill.number} ${votes}`
-          : `carried forward after ${chambers.body} rejected ${bill.number} ${votes}`,
-      );
-  clearBudgetPriorities(api, gov.id);
   table(api, "bills").put({
     ...bill,
     provisions: kept.length ? kept : provisions,
     kind: "budget",
     status: adopted ? "enacted" : "failed",
   } as unknown as ModuleRow);
+  return {
+    billId: bill.id,
+    number: bill.number,
+    body: chambers.body,
+    adopted,
+    vetoed: desk === "vetoed",
+    passed,
+    votes: tallies.join(", "),
+    amended:
+      halved.size || dropped.length
+        ? ` (amended: ${[
+            ...[...halved.entries()]
+              .filter(([line]) => !dropped.includes(line))
+              .map(([line, n]) => `${line} cut to 1/${2 ** n}`),
+            ...dropped.map((line) => `${line} dropped`),
+          ].join(", ")})`
+        : "",
+  };
+}
+
+/**
+ * The fiscal year starts: a passed bill's line changes become the
+ * government's enacted lines; a failed one leaves last year's enacted lines
+ * in force.
+ */
+function settleBudget(
+  api: CoreAPI,
+  gov: GovernmentRow,
+  fy: number,
+  d: BudgetDecision,
+): BudgetRow {
+  const budget = d.adopted
+    ? enactBudget(
+        api,
+        gov,
+        fy,
+        `${d.body} vote ${d.votes}${d.amended}, ${d.number}`,
+        d.passed,
+      )
+    : carriedBudget(
+        api,
+        gov,
+        fy,
+        d.vetoed
+          ? `carried forward after the executive vetoed ${d.number} ${d.votes}`
+          : `carried forward after ${d.body} rejected ${d.number} ${d.votes}`,
+      );
+  clearBudgetPriorities(api, gov.id);
   return budget;
 }
 
@@ -649,6 +720,128 @@ export function budgetLineStakes(
       return { chamber, memberId, stake: p.views + p.constituents };
     }),
   );
+}
+
+/** The executive's proposal as sent in the budget season, else none. */
+function storedProposal(
+  api: CoreAPI,
+  gov: GovernmentRow,
+  fy: number,
+): { setBy: string; changes: Record<string, number> } | null {
+  const row = table(api, "budgetProposals").get(
+    `${gov.id}:${fy}`,
+  ) as unknown as
+    { setBy: string; changes: Record<string, number> } | undefined;
+  return row ? { setBy: row.setBy, changes: row.changes } : null;
+}
+
+/**
+ * A local body hears and votes its budget at a regular meeting on its own
+ * rule (office-day-calendar.ts): the hearing at the first on or after the
+ * season's day, the vote at the last on or before it.
+ * A state or Congress sits on the day the season names.
+ */
+function budgetMeetingDay(
+  api: CoreAPI,
+  gov: GovernmentRow,
+  date: string,
+  step: "hearing" | "vote",
+): string {
+  if (gov.level === "federal" || gov.level === "state") return date;
+  const chambers = budgetChambers(api, gov);
+  if (!chambers) return date;
+  const countyGeoid = lawChain(api).countyGeoids[0];
+  const rule = meetingRule(api, chambers.introducedIn, countyGeoid);
+  if (!rule) return date;
+  // The hearing is the first meeting on or after the day; the vote is the
+  // last meeting on or before it, so a body that meets once a month still
+  // votes before its year starts.
+  if (step === "vote")
+    for (let i = 0; i < 40; i++) {
+      const day = addDays(makeIsoDate(date), -i);
+      if (meetsOn(rule, day)) return day;
+    }
+  return (
+    nextMeeting(
+      api,
+      chambers.introducedIn,
+      addDays(makeIsoDate(date), -1),
+      countyGeoid,
+    )?.date ?? date
+  );
+}
+
+/**
+ * The budget season's first step: the executive sends the year's budget, the
+ * priorities already set for it (the player's own) or else their own lean on
+ * each line. The body's vote reads this proposal.
+ */
+function proposeBudget(
+  api: CoreAPI,
+  gov: GovernmentRow,
+  fy: number,
+  source: Source,
+): void {
+  const set = budgetPriorities(api, gov.id);
+  const proposal = set ?? executivePriorities(api, gov, fy);
+  if (!proposal) return;
+  const id = `budget-proposal:${gov.id}:${fy}`;
+  table(api, "budgetProposals").put({
+    id: `${gov.id}:${fy}`,
+    setBy: proposal.setBy,
+    changes: { ...proposal.changes },
+    sentOn: api.state.date,
+    record: id,
+  } as unknown as ModuleRow);
+  api.emit({
+    id,
+    date: api.state.date,
+    kind: "budget-proposed",
+    personIds: api.state.people.has(proposal.setBy) ? [proposal.setBy] : [],
+    placeId: lawChain(api).townPlaceId,
+    source,
+    publicRecord: true,
+    news: true,
+    facts: {
+      governmentId: gov.id,
+      fiscalYear: String(fy),
+      proposedBy: proposal.setBy,
+      lines: String(Object.keys(proposal.changes).length),
+      how: set ? "set-by-executive" : "executive-rule",
+    },
+  });
+}
+
+/**
+ * The season's public hearing: the body takes up the proposal in the open,
+ * before its vote, so the town can see which lines it would change.
+ */
+function hearBudget(
+  api: CoreAPI,
+  gov: GovernmentRow,
+  fy: number,
+  source: Source,
+): void {
+  const chambers = budgetChambers(api, gov);
+  if (!chambers) return;
+  const proposal = storedProposal(api, gov, fy);
+  api.emit({
+    id: `budget-hearing:${gov.id}:${fy}`,
+    date: api.state.date,
+    kind: "budget-hearing",
+    personIds: [],
+    placeId: lawChain(api).townPlaceId,
+    source,
+    publicRecord: true,
+    news: true,
+    facts: {
+      governmentId: gov.id,
+      fiscalYear: String(fy),
+      body: chambers.body,
+      lines: String(Object.keys(proposal?.changes ?? {}).length),
+      proposal: proposal ? `budget-proposal:${gov.id}:${fy}` : "none",
+    },
+  });
 }
 
 /**
@@ -2979,6 +3172,7 @@ function committeeStage(
       if (api.state.people.get(w.personId)?.alive && room.length)
         deliverSpeech(api, {
           id: `speech:hearing:${bill.id}:${chamber}:${w.personId}`,
+          occasion: "hearing",
           speakerId: w.personId,
           placeId: lawChain(api).townPlaceId,
           topic: question.question,

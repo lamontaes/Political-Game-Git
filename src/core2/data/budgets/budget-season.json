@@ -1,0 +1,22 @@
+{
+  "about": "How many days before a government's fiscal year starts each step of its budget season falls: the executive's proposal, the body's public hearing and its vote. A local body takes the hearing and the vote on its first regular meeting on or after the day.",
+  "citation": "ESTIMATED: GFOA, Best Practices: Budgeting (a proposed budget reaches the governing body about three months before the year and is adopted before it starts); NCSL, Fiscal Year and Budget Cycle (governors send budgets about five months ahead; legislatures pass them before the year); Congressional Budget Act of 1974 (the President's budget is due the first Monday of February; Congress's target is before October 1).",
+  "daysBeforeFiscalYear": {
+    "city": { "budget-proposal": 90, "budget-hearing": 45, "budget-vote": 21 },
+    "county": {
+      "budget-proposal": 90,
+      "budget-hearing": 45,
+      "budget-vote": 21
+    },
+    "state": {
+      "budget-proposal": 150,
+      "budget-hearing": 90,
+      "budget-vote": 30
+    },
+    "federal": {
+      "budget-proposal": 240,
+      "budget-hearing": 120,
+      "budget-vote": 14
+    }
+  }
+}

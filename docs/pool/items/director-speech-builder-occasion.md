@@ -12,12 +12,12 @@ blocked-on: a play producer of built speeches
 source: added with npm run pool -- add
 ---
 
-**What.** TODO
+**What.** The director's speech builder delivers speeches through deliverSpeech without an occasion, so those speeches carry no speech:occasion fact. Pass the occasion the builder knows (the scene it staged) so every heard speech names where it was given.
 
-**Rules.** TODO
+**Rules.** No hand-written player text: the occasion is a record value the English engine words. Replace, never layer: the builder passes the occasion, with no second record beside it.
 
-**Done when.** TODO
+**Done when.** In a one-year run of the played world (buildBenchWorld, a drawn place, seed named in the PR body) a speech the builder delivers has speech:occasion on its heard event, by record id, and a test in src/director covers it.
 
-**Files.** TODO
+**Files.** src/director/speech-builder.ts
 
-**Notes.** Checked Oct 20: deliverSpeech (src/core2/modules/speech.ts:99) has no occasion field and emits no speech:occasion fact; the builder's giveBuiltSpeech (src/director/speech-builder.ts:390) has no caller outside tests, so nothing in play gives a built speech. Nothing to build until a producer gives a built speech in play; the occasion would then be a record id (the rally, hearing or meeting it was given at), never typed text.
+**Notes.** Follow-up from core-speech-heard-occasion (PR #5217). src/director belongs to the Words session.

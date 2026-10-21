@@ -1624,6 +1624,7 @@ export function makeStatements(
         id:
           statementSpeechId(campaign.candidateId, api.state.date, input) +
           (index ? `:${index}` : ""),
+        occasion: "campaign",
         speakerId: speaker.id,
         placeId: speaker.placeId,
         topic: statement.question,

@@ -616,6 +616,36 @@ export function payBenefits(
 }
 
 /**
+ * The funds of the counted groups a set of counted residents belong to, with
+ * each group's real residents (a row's weight times its household's scale), so
+ * a payment for them lands in the group that qualifies for it.
+ */
+function countedUnitsByFund(
+  api: CoreAPI,
+  rt: NonNullable<ReturnType<typeof residentsRuntime>>,
+  rows: readonly ResidentFacts[],
+): Map<string, number> {
+  const byGroup = new Map<number, number>();
+  for (const r of rows) {
+    if (r.named) continue;
+    const ix = rt.store.householdOf.get(r.householdId);
+    const group = ix === undefined ? undefined : rt.store.households[ix]?.group;
+    if (group === undefined) continue;
+    byGroup.set(
+      group,
+      (byGroup.get(group) ?? 0) + (r.weight ?? 1) * (r.scale ?? 1),
+    );
+  }
+  const out = new Map<string, number>();
+  for (const [group, units] of byGroup)
+    out.set(
+      fundOf(api, rt, group),
+      (out.get(fundOf(api, rt, group)) ?? 0) + units,
+    );
+  return out;
+}
+
+/**
  * Medicaid expansion as a payment: the state treasury pays each covered
  * adult's monthly medical spending (the Consumer Expenditure Survey's drugs
  * and medical supplies), a month at a time from the welfare and Medicaid line.
@@ -673,6 +703,7 @@ export function payCoverage(
     )?.accountId;
     let countedPeople = 0;
     let federalMinor = 0;
+    const rtCoverage = residentsRuntime(core);
     for (const r of input.covered) {
       if (r.named) {
         federalMinor += split(monthly, r.id);
@@ -687,10 +718,19 @@ export function payCoverage(
         });
       } else countedPeople += (r.weight ?? 1) * (r.scale ?? 1);
     }
-    if (residentsOrg && countedPeople > 0) {
+    if (residentsOrg && rtCoverage && countedPeople > 0) {
       counted = Math.round(countedPeople);
-      const total = Math.floor(monthly * countedPeople);
-      federalMinor += split(total, residentsOrg);
+      // Each counted adult's coverage is paid into their own group's fund.
+      let total = 0;
+      for (const [fund, units] of countedUnitsByFund(
+        api,
+        rtCoverage,
+        input.covered,
+      )) {
+        const part = Math.floor(monthly * units);
+        total += part;
+        federalMinor += split(part, `${FUND}${fund}`);
+      }
       recordApplied(api, {
         key: input.key,
         lawId: input.lawId,
@@ -776,6 +816,7 @@ export function payPreschool(
       (a) => a.placeId === town,
     )?.accountId;
     let countedChildren = 0;
+    const rtPreschool = residentsRuntime(core);
     for (const child of input.children) {
       if (!child.named) {
         countedChildren += (child.weight ?? 1) * (child.scale ?? 1);
@@ -795,12 +836,19 @@ export function payPreschool(
         amountMinor: monthly,
       });
     }
-    if (residentsOrg && countedChildren > 0) {
+    if (residentsOrg && rtPreschool && countedChildren > 0) {
       counted = Math.round(countedChildren);
-      want.set(
-        `${state.id}|${residentsOrg}`,
-        Math.floor(monthly * countedChildren),
-      );
+      // Each counted child's preschool is paid into their household group's fund.
+      let paid = 0;
+      for (const [fund, units] of countedUnitsByFund(
+        api,
+        rtPreschool,
+        input.children,
+      )) {
+        const part = Math.floor(monthly * units);
+        paid += part;
+        if (part > 0) want.set(`${state.id}|${FUND}${fund}`, part);
+      }
       recordApplied(api, {
         key: input.key,
         lawId: input.lawId,
@@ -808,7 +856,7 @@ export function payPreschool(
         target: "group",
         what: "preschool-paid",
         count: counted,
-        amountMinor: Math.floor(monthly * countedChildren),
+        amountMinor: paid,
       });
     }
   }
