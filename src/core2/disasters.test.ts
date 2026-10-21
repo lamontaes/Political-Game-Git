@@ -3,6 +3,8 @@ import { describe, expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
 import assistance from "./data/disasters/assistance.json" with { type: "json" };
 import households from "./data/disasters/households.json" with { type: "json" };
+import { buildBenchWorld } from "../bench/world";
+import { gameStartDate } from "./game-start";
 import { advanceCore, createLifeCore } from "./life";
 import {
   disasterAssistancePaid,
@@ -123,12 +125,10 @@ describe(`disasters from the record (seed ${seed})`, () => {
     for (let draw = 0; draw < 12; draw++) {
       const place = drawPlace(`${seed}:edge:${draw}`, "core2-disasters");
       const where = `${place.name}, ${place.state} (seed ${seed}:edge:${draw})`;
-      const core = createLifeCore(
-        generatedOpening(place, {
-          twoLevel: true,
-          settings: { population: 1500 },
-        }),
-      );
+      const { core } = buildBenchWorld(place.seed, gameStartDate(), {
+        twoLevel: true,
+        placeKey: place.key,
+      });
       const end = new Date(`${core.date}T00:00:00Z`);
       end.setUTCFullYear(end.getUTCFullYear() + 1);
       end.setUTCDate(end.getUTCDate() - 1);
@@ -177,10 +177,15 @@ describe(`disasters from the record (seed ${seed})`, () => {
         paid,
       );
       expect(core.cashJournal.latestByAccount.get(payee), where).toBeDefined();
+      process.stdout.write(
+        `disaster repairs to the outside market: ${where}; disaster ${events.find((e) => Number(e.facts?.disasterNumber) === repairs[0]!.disaster)!.id}; repair ${repairs[0]!.disaster} ${repairs[0]!.cents} cents to ${payee}; journal ${core.cashJournal.latestByAccount.get(payee)?.id ?? ""}\n`,
+      );
       return;
     }
     throw new Error(
       `no declared disaster paid repairs to an outside market in 12 draws:\n${tried.join("\n")}`,
     );
+    // One drawn town's year with a disaster took about 270 seconds on a
+    // 4-core container, past the 300 seconds the other case has; about twice that.
   }, 600_000);
 });
