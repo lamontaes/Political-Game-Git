@@ -386,7 +386,7 @@ function initialize(api: CoreAPI): void {
     review(api, row);
   }
   // A full woman with no recorded partner plans from her own records, by the
-  // same path as a couple's (SG-WEB-births-full-tier: her partner is unrecorded).
+  // same path as a couple's (stopgapId: SG-PEOPLE-births-no-partner-owner-decision).
   for (const person of api.state.people.values()) {
     if (
       person.looks?.gender !== "female" ||

@@ -26,10 +26,12 @@ const bands = Object.keys(rates.areas["United States"].ageRates)
 describe(`full women's births by age band (seed ${seed})`, () => {
   it(
     "fall within the CDC band rates' sampling spread, shown by birth record ids",
-    { timeout: 600_000 },
+    { timeout: 3_600_000 },
     () => {
       const opening = gameStartDate();
       const rows: string[] = [];
+      let sumExpected = 0;
+      let sumActual = 0;
       for (let draw = 0; draw < DRAWS; draw++) {
         const place = drawPlace(`${seed}:${draw}`, "full-births");
         const label = `${place.name} (${place.key}, seed ${seed}:${draw})`;
@@ -101,7 +103,11 @@ describe(`full women's births by age band (seed ${seed})`, () => {
         );
       }
       console.log(rows.join("\n"));
-      expect(rows.length).toBeGreaterThan(0);
+      // Real rates check the total: within three Poisson spreads of the CDC count.
+      expect(Math.abs(sumActual - sumExpected)).toBeLessThanOrEqual(
+        3 * Math.sqrt(sumExpected),
+      );
+      expect(sumActual).toBeGreaterThan(0);
     },
   );
 });

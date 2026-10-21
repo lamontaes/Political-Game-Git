@@ -5311,5 +5311,17 @@
     "addedAt": "2026-10-20",
     "replacement": "The same August ranking over counted groups, with the flow's contract part for each household started or ended (pool item core-stopgap-opening-private-tuition-aggregate-spending).",
     "status": "open"
+  },
+  {
+    "id": "SG-PEOPLE-births-no-partner-owner-decision",
+    "kind": "owner-decision",
+    "file": "src/core2/modules/renewal.ts",
+    "line": 389,
+    "whatItFakes": "A full woman with no recorded partner plans a birth alone, with the other parent unrecorded, so the full tier's births follow the counted women's. Whether she should instead be given a partner at the opening, or her child get a recorded other parent, is the owner's call.",
+    "why": "26 of 990 full women aged 15 to 49 were in a couple, so full births ran about ten times below the CDC rates; the full tier has mostly one-person households.",
+    "addedBy": "claude/couples-plan-share",
+    "addedAt": "2026-10-21",
+    "replacement": "The owner's ruling on partners for the full tier (docs/coordination/OWNER-DECISIONS.md).",
+    "status": "open"
   }
 ]
