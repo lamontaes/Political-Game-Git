@@ -1,0 +1,30 @@
+{
+  "about": "The place outcomes people can hear about: each is a kept outcome of the outcome web that another engine reads (the file that reads it is named), with the subject its story is about. A month's record names every one of these that moved; the press decides what to print. The views engine holds stances only on policy questions and budget lines, so none of these topics moves a view by itself: a heard story is a known fact, and what reads it (the electorate's town conditions) cites the story.",
+  "measures": {
+    "labor.unemployment-pct": {
+      "topic": "economy",
+      "readBy": "src/core2/electorate-inputs.ts"
+    },
+    "crime.burglary": {
+      "topic": "crime",
+      "readBy": "src/core2/electorate-inputs.ts"
+    },
+    "crime.robbery": {
+      "topic": "crime",
+      "readBy": "src/core2/electorate-inputs.ts"
+    },
+    "crime.assault": {
+      "topic": "crime",
+      "readBy": "src/core2/electorate-inputs.ts"
+    },
+    "crime.vandalism": {
+      "topic": "crime",
+      "readBy": "src/core2/electorate-inputs.ts"
+    },
+    "housing.rent": {
+      "topic": "housing",
+      "readBy": null,
+      "stopgapId": "SG-WEB-knowing-rent-reader"
+    }
+  }
+}

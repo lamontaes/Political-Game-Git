@@ -4,10 +4,10 @@ title: "Stopgaps in finance-state (business-closure): 1 open"
 area: world
 kind: stopgap
 priority: 3
-status: open
+status: blocked
 claimed-by:
 pr:
-blocked-on:
+blocked-on: engine or design: WORLD's owners needed a way to close a solvent business; a full wind-down (final pay, settling payables, selling assets) is not built yet.
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/finance-state.ts, kind business-closure"
 ---

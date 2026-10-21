@@ -22,3 +22,5 @@ claimed-at: 2026-10-19T18:51:07.746Z
 **Files.** src/core2/law-reach/group-a-voting.ts, src/core2/modules/justice.ts, src/core2/counted-groups.ts, src/core2/data/elections/felony-disenfranchisement.json
 
 **Notes.** Split from laws-stopgap-reach-group-a-missing-record. The named-person half is in the group A voting PR (barredFromVoting).
+
+Looked at Oct 19 (claude/convictions-counted-reach), not built: the justice engine (`src/core2/modules/justice.ts`) has no counted-level cases at all. `convictionsOf` and `sentenceUnfinished` read only full people's `cases` and `sentences` rows, and nothing in justice mentions counted groups, so there are no counted convictions for the electorate to subtract. `felonyDisenfranchisedShare` (`src/core2/law-reach/group-a-voting.ts`) is read in two places in `src/core2/electorate-inputs.ts` (lines 238 and 256). This item therefore needs a counted crime and sentencing model first (what moves a counted adult to a charge, from needs, drives and the town's conditions, with no roll). Split it before building: one item for counted cases by group in justice, then this one to read them. Size L.
