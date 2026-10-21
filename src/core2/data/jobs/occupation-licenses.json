@@ -1,0 +1,152 @@
+{
+  "version": "bls-cps-2023-table-53",
+  "source": {
+    "tag": "SOURCED",
+    "citation": "U.S. Bureau of Labor Statistics, Current Population Survey, Table 53 'Certification and licensing status of the employed by occupation', 2023 annual averages, https://www.bls.gov/cps/data/aa2023/cpsaat53.pdf. A license is awarded by a government agency and conveys a legal authority to work in an occupation; a certification is issued by a non-governmental body. All employed: 21.6 percent hold a license, 2.5 percent a certification only (Table 49, https://www.bls.gov/cps/data/aa2023/cpsaat49.pdf)."
+  },
+  "nationalEmployedLicensedShare": 0.216,
+  "spreadRelative": {
+    "low": 0.85,
+    "high": 1.15,
+    "tag": "ESTIMATED",
+    "citation": "The CPS table gives no standard errors. A relative band of 15 percent either way is assumed from the survey's sampling error on groups of 1 to 10 million workers; it is a placeholder band, not a published interval."
+  },
+  "groups": [
+    {
+      "id": "management",
+      "title": "Management occupations",
+      "employedThousands": 20906,
+      "licensedShare": 0.183
+    },
+    {
+      "id": "business-financial",
+      "title": "Business and financial operations occupations",
+      "employedThousands": 9638,
+      "licensedShare": 0.176
+    },
+    {
+      "id": "computer-math",
+      "title": "Computer and mathematical occupations",
+      "employedThousands": 6502,
+      "licensedShare": 0.07
+    },
+    {
+      "id": "architecture-engineering",
+      "title": "Architecture and engineering occupations",
+      "employedThousands": 3602,
+      "licensedShare": 0.187
+    },
+    {
+      "id": "science",
+      "title": "Life, physical, and social science occupations",
+      "employedThousands": 1870,
+      "licensedShare": 0.201
+    },
+    {
+      "id": "community-social",
+      "title": "Community and social services occupations",
+      "employedThousands": 2879,
+      "licensedShare": 0.348
+    },
+    {
+      "id": "legal",
+      "title": "Legal occupations",
+      "employedThousands": 1897,
+      "licensedShare": 0.628
+    },
+    {
+      "id": "education",
+      "title": "Education, training, and library occupations",
+      "employedThousands": 9403,
+      "licensedShare": 0.508
+    },
+    {
+      "id": "arts-media",
+      "title": "Arts, design, entertainment, sports, and media occupations",
+      "employedThousands": 3478,
+      "licensedShare": 0.085
+    },
+    {
+      "id": "healthcare-practitioner",
+      "title": "Healthcare practitioners and technical occupations",
+      "employedThousands": 10099,
+      "licensedShare": 0.719
+    },
+    {
+      "id": "healthcare-support",
+      "title": "Healthcare support occupations",
+      "employedThousands": 5123,
+      "licensedShare": 0.351
+    },
+    {
+      "id": "protective-service",
+      "title": "Protective service occupations",
+      "employedThousands": 3105,
+      "licensedShare": 0.343
+    },
+    {
+      "id": "food-service",
+      "title": "Food preparation and serving related occupations",
+      "employedThousands": 8189,
+      "licensedShare": 0.061
+    },
+    {
+      "id": "cleaning-maintenance",
+      "title": "Building and grounds cleaning and maintenance occupations",
+      "employedThousands": 5534,
+      "licensedShare": 0.061
+    },
+    {
+      "id": "personal-care",
+      "title": "Personal care and service occupations",
+      "employedThousands": 4220,
+      "licensedShare": 0.305
+    },
+    {
+      "id": "sales",
+      "title": "Sales and related occupations",
+      "employedThousands": 14325,
+      "licensedShare": 0.152
+    },
+    {
+      "id": "office-admin",
+      "title": "Office and administrative support occupations",
+      "employedThousands": 15954,
+      "licensedShare": 0.086
+    },
+    {
+      "id": "farming-forestry",
+      "title": "Farming, fishing, and forestry occupations",
+      "employedThousands": 987,
+      "licensedShare": 0.069
+    },
+    {
+      "id": "construction",
+      "title": "Construction and extraction occupations",
+      "employedThousands": 8457,
+      "licensedShare": 0.152
+    },
+    {
+      "id": "installation-repair",
+      "title": "Installation, maintenance, and repair occupations",
+      "employedThousands": 4881,
+      "licensedShare": 0.164
+    },
+    {
+      "id": "production",
+      "title": "Production occupations",
+      "employedThousands": 8280,
+      "licensedShare": 0.077
+    },
+    {
+      "id": "transportation",
+      "title": "Transportation and material moving occupations",
+      "employedThousands": 11706,
+      "licensedShare": 0.161
+    }
+  ],
+  "gaps": [
+    "No state dimension: the BLS table is national and the state license shares seen in a search summary (Institute for Justice, 14 to 27 percent across states) could not be fetched or quoted, so every place reads the national share with the relative band above until a state table is fetched.",
+    "No crosswalk from the jobs data's own occupation classes (for example trade:cook, profession:teacher) to these groups yet, and no record of who holds a license; the jobs engine cannot read a repeal until both exist (pool item world-licensing-reform-jobs)."
+  ]
+}
