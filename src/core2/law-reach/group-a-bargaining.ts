@@ -22,10 +22,10 @@ import type { LawLevelName } from "../laws-starting";
 import type { CoreAPI, CoreState, Source } from "../types";
 import { jobsAt } from "./group-b-money";
 import type { PolicyHandler } from "./host";
+import { onReachCalendar } from "./reach-workers";
 import {
   ensureReachA,
   mechanicRow,
-  onReachCalendar,
   putMechanic,
   REACH_A_MODULE_ID,
   tomorrow,
