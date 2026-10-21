@@ -49,43 +49,46 @@ describe("a settlement under the right to counsel is a notice", () => {
           measureId: `notice-counsel-${level.level}`,
           citation: "Right to counsel in force from the first day",
         });
-      for (let day = 0; day < 365; day += 1)
+      // Each settlement is checked the day it happens: what a person knows
+      // fades and, outside the player's circle, a stance keeps only its
+      // latest cause, so a later day proves nothing about the notice.
+      let checked = 0;
+      for (let day = 0; day < 365; day += 1) {
         advanceCore(core, addDays(makeIsoDate(core.date), 1));
-      const settled = (
-        api.moduleState("housing").table("cases").rows() as unknown as {
-          id: string;
-          householdId: string;
-          stage: string;
-          counted?: boolean;
-          counselLawId?: string | null;
-          settledAt?: string;
-        }[]
-      ).filter(
-        (row) =>
-          !row.counted &&
-          row.counselLawId &&
-          row.settledAt &&
-          core.households.has(row.householdId),
-      );
-      if (!settled.length) continue;
-      for (const row of settled) {
-        const house = core.households.get(row.householdId)!;
-        const held = house.memberIds
-          .map((id) =>
-            stancesOf(api, id).find((st) => st.topic === RIGHT_TO_COUNSEL),
-          )
-          .filter((st) => st !== undefined);
-        expect(held.length, `${where}: ${row.id} nobody was told`).toBe(1);
-        expect(held[0]!.desiredChange, where).toBe("enact");
-        expect(
-          held[0]!.causes.some((c) =>
-            String(c.learnedFrom).includes(
-              `housing.settlement-notice:${row.id}:`,
-            ),
-          ),
-          `${where}: ${row.id}`,
-        ).toBe(true);
+        const today = api.state.date;
+        const settled = (
+          api.moduleState("housing").table("cases").rows() as unknown as {
+            id: string;
+            householdId: string;
+            counted?: boolean;
+            counselLawId?: string | null;
+            settledAt?: string;
+          }[]
+        ).filter(
+          (row) =>
+            !row.counted &&
+            row.counselLawId &&
+            row.settledAt === today &&
+            core.households.has(row.householdId),
+        );
+        for (const row of settled) {
+          const notice = `event:event:housing.settlement-notice:${row.id}:${today}:experienced`;
+          const told = core.households
+            .get(row.householdId)!
+            .memberIds.filter((id) => api.knows(id, notice) !== undefined);
+          expect(told.length, `${where}: ${row.id} nobody was told`).toBe(1);
+          const stance = stancesOf(api, told[0]!).find(
+            (st) => st.topic === RIGHT_TO_COUNSEL,
+          );
+          expect(stance?.desiredChange, `${where}: ${row.id}`).toBe("enact");
+          expect(
+            stance!.causes.at(-1)?.learnedFrom,
+            `${where}: ${row.id} ${JSON.stringify(stance!.causes)}`,
+          ).toBe(notice);
+          checked += 1;
+        }
       }
+      if (!checked) continue;
       return;
     }
     throw new Error(
