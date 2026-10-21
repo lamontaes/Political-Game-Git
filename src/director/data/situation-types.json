@@ -1841,7 +1841,8 @@
                 "key": "winnerId",
                 "is": "other"
               }
-            ]
+            ],
+            "causeNames": "subject"
           },
           "causeEngine": "elections",
           "causeRecord": "election-result",
@@ -2063,7 +2064,7 @@
         {
           "match": {
             "label": "cause:event:veto-override",
-            "causeFact": { "key": "sponsorId", "is": "subject" }
+            "causeFacts": [{ "key": "sponsorId", "is": "subject" }]
           },
           "causeEngine": "legislature",
           "causeRecord": "veto-override",
@@ -2432,7 +2433,7 @@
         {
           "match": {
             "causeKind": "event:speech.heard",
-            "causeFact": { "key": "views:speaker", "is": "subject" }
+            "causeFacts": [{ "key": "views:speaker", "is": "subject" }]
           },
           "causeEngine": "speech",
           "causeRecord": "speech.heard",
@@ -2474,7 +2475,10 @@
       "timing": "at-cause",
       "causes": [
         {
-          "match": { "label": "cause:event:candidate-filed" },
+          "match": {
+            "label": "cause:event:candidate-filed",
+            "causeNames": "subject"
+          },
           "causeEngine": "elections",
           "causeRecord": "candidate-filed",
           "bind": {
@@ -2526,7 +2530,7 @@
           "match": {
             "label": "money:job-ended",
             "counterpart": "none",
-            "causeFact": { "key": "decidedBy", "is": "other" }
+            "causeFacts": [{ "key": "decidedBy", "is": "other" }]
           },
           "causeEngine": "work",
           "causeRecord": "work.job-lost",
