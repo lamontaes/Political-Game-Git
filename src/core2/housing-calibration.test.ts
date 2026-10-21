@@ -95,9 +95,12 @@ describe("homelessness against the research", { timeout: 1_800_000 }, () => {
       counts.sheltered +
       counts.unsheltered;
     const homeless = counts.sheltered + counts.unsheltered;
-    const state = (hud.places as Record<string, { per10k: number }>)[
-      `US-${usps}`
-    ]!.per10k;
+    // No HUD Continuum of Care counts American Samoa or the Northern
+    // Marianas (the file's `unknown`): their reference is the national rate,
+    // an estimate, never no reference.
+    const state =
+      (hud.places as Record<string, { per10k: number }>)[`US-${usps}`]
+        ?.per10k ?? hud.national.per10k;
     const expected = (state * people) / 10_000;
     console.log(
       `housing-calibration: ${homeless} homeless of ${people} (${((homeless / people) * 10_000).toFixed(1)} per 10,000) against HUD ${usps} ${state}`,
