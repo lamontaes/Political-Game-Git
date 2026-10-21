@@ -5,11 +5,12 @@ area: people
 kind: wiring
 priority: 3
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/school-attendance
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-21T14:41:35.122Z
 ---
 
 **What.** Children attend 99.95% of school days and the choice reads no illness or household circumstance; add them and calibrate the trait term.
