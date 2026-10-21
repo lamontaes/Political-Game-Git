@@ -1,6 +1,6 @@
 ---
 id: web-calibrate-choice-terms
-title: "Calibrate the outcome web's terms in deterministic choices (full-tier births, labor participation)"
+title: "Calibrate the outcome web's birth term in full couples' plan-a-child choice"
 area: core
 kind: wiring
 priority: 2
@@ -17,7 +17,7 @@ claimed-at: 2026-10-21T03:17:29.079Z
 
 **Rules.** An effect is a read, not a record; one model, two tiers; no dice; numbers live in the parameter table tagged TUNABLE with the spread checked against.
 
-**Done when.** In a one-year bench world in a drawn place, shifting the web row for unemployment-to-births moves full couples' births by the researched 0.75% a point within its range, and retirement-age-to-older-work moves the 62-to-67 share by its researched size; both stopgaps resolved; tests name place and seed.
+**Done when.** In a one-year bench world in a drawn place, shifting the web row for unemployment-to-births moves full couples' births by the researched 0.75% a point within its range; stopgap SG-WEB-births-full-tier resolved; tests name place and seed. The labor half (retirement-age-to-older-work) moved to `web-calibrate-labor-participation` on Oct 21.
 
 **Files.** src/core2/births-plan.ts, src/core2/jobs-web.ts, src/core2/modules/jobs.ts
 
