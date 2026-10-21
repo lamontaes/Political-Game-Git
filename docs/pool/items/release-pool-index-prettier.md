@@ -5,7 +5,7 @@ area: release
 kind: bug
 priority: 3
 size: S
-status: in-pr
+status: done
 claimed-by: claude/pool-index-prettier
 pr: #5012
 blocked-on:

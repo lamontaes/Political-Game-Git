@@ -4,9 +4,9 @@ title: "Stopgaps in counted-money (faked-mechanic): 1 open"
 area: world
 kind: stopgap
 priority: 2
-status: claimed
+status: in-pr
 claimed-by: claude/political-game-pool-udtiwn
-pr:
+pr: #5217
 blocked-on:
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/counted-money.ts, kind faked-mechanic"

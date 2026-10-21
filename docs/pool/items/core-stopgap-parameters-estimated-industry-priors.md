@@ -4,10 +4,10 @@ title: "Stopgaps in parameters (estimated-industry-priors): 1 open"
 area: core
 kind: stopgap
 priority: 3
-status: open
+status: blocked
 claimed-by:
 pr:
-blocked-on:
+blocked-on: engine or design: The prototype has recorded planned payroll and industry/classification evidence but lacks individual sales, operating-cost and credit-facility observations. Suppressed-cost estimates retain their orig
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/data/parameters.json, kind estimated-industry-priors"
 claimed-at:

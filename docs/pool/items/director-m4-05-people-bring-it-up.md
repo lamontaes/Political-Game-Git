@@ -5,13 +5,13 @@ area: director
 kind: feature
 priority: 3
 size: L
-status: claimed
-claimed-by: claude/director-m4-05
-pr:
+status: open
+claimed-by:
+pr: #5343
 blocked-on:
 milestone: M4
 source: "docs/roadmap/later-specs-draft.md M4-05"
-claimed-at: 2026-10-20T00:39:32.944Z
+claimed-at:
 ---
 
 **What.** People mention what changed and who did it, in their own words. (Owner: OPUS-PEOPLE.)
@@ -22,4 +22,4 @@ claimed-at: 2026-10-20T00:39:32.944Z
 
 **Files.** see spec
 
-**Notes.** Priority 3 until scheduled. Verify how much is built before starting.
+**Notes.** Verified Oct 19: src/director/bring-it-up-law.test.ts, bring-it-up.test.ts and bring-it-up-press.test.ts pass (5 tests). In a played world in drawn places a reader of a law-took-effect story brings it up, naming the outlet and the subject; a change a person saw or was told of names who they believe caused it. Not met: a printed story blames no one, so a law story's signer is not named (director-bring-it-up-names-signer). Priority 3 until scheduled. Verify how much is built before starting.
