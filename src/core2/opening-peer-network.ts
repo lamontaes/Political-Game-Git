@@ -439,3 +439,25 @@ export function buildOpeningPeerContacts(
     reports,
   };
 }
+
+/**
+ * How strongly a school peer's name is still recalled: flat through the near
+ * window after the school context, then falling smoothly (exponentially, fit
+ * through the near and far points) with the years since. A strength, never a
+ * chance per person.
+ */
+export function peerNameRecall(
+  cohortYear: number,
+  date: string,
+  registry: Readonly<Record<string, Parameter>> = PARAMETERS,
+): number {
+  const par = (key: string) => parameter(key, registry);
+  const years = Math.max(0, Number(date.slice(0, 4)) - cohortYear);
+  const nearYears = par("peerNameRecallNearYears");
+  const near = par("peerNameRecallNearStrength");
+  if (years <= nearYears) return near;
+  const rate =
+    Math.log(near / par("peerNameRecallFarStrength")) /
+    (par("peerNameRecallFarYears") - nearYears);
+  return near * Math.exp(-rate * (years - nearYears));
+}

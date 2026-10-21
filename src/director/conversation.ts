@@ -32,6 +32,7 @@ import { addDays, ageOnDate, makeIsoDate } from "../core2/kernel/dates";
 import { ADDRESS_FACT } from "./opening-facts";
 import { stableHash } from "../core2/kernel/ids";
 import { corePlaceByJurisdictionId } from "../core2/place-lookup";
+import { peerNameRecall } from "../core2/opening-peer-network";
 import { P } from "../core2/parameters";
 import { HOUSING_MODULE_ID } from "../core2/modules/housing";
 import { JOBS_MODULE_ID } from "../core2/modules/jobs";
@@ -136,6 +137,8 @@ export interface Subject {
   aboutId?: string;
   /** The stage its own line is said in, from its record (a layoff, a closure). */
   stage?: string;
+  /** How strongly the other's name is still recalled (a school peer fades with the years). */
+  recall?: number;
 }
 
 /** Which mined sentence said a line, and what picked it (for reports and grading). */
@@ -679,6 +682,10 @@ export function subjectsBetween(
         id: `shared-school:${context.id}`,
         kind: "shared-school",
         aboutId: context.id,
+        recall: peerNameRecall(
+          Number(context.facts?.cohortYear ?? core.date.slice(zero, 4)),
+          core.date,
+        ),
         facts: {
           school: {
             text: properName(context.facts?.schoolName ?? ""),
@@ -1396,7 +1403,7 @@ function mainTopic(
         ? Number.POSITIVE_INFINITY
         : occasion.counterpartIds.includes(otherId) &&
             SHARED_KINDS.includes(subject.kind)
-          ? Number.MAX_VALUE
+          ? Number.MAX_VALUE * (subject.recall ?? 1)
           : topicWeight(core, director, holderId, subject, data);
     if (weight > zero && (!best || weight > best.weight))
       best = { subject, asks, weight };

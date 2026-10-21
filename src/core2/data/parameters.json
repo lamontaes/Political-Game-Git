@@ -909,6 +909,58 @@
       "ref": "P9-OUTCOME-WHOLE-LIFE"
     }
   },
+  "peerNameRecallNearStrength": {
+    "value": 0.9,
+    "tag": "ESTIMATED",
+    "citation": "Bahrick, Bahrick and Wittlinger 1975, Journal of Experimental Psychology: General 104(1), 54-75: name recognition of high school classmates stays near 90% for about 15 years after graduation.",
+    "estimatedFrom": "Recognition strength of a cohort peer's name within the near window after leaving school.",
+    "spread": {
+      "low": 0.6,
+      "high": 0.95,
+      "unit": "share of peer names recognized",
+      "citation": "Bahrick 1975 recognition range across the near window, widened for a generated cohort."
+    },
+    "stopgapId": "SG-P8-opening-peer-network"
+  },
+  "peerNameRecallNearYears": {
+    "value": 15,
+    "tag": "ESTIMATED",
+    "citation": "Bahrick, Bahrick and Wittlinger 1975: recognition holds flat to about 15 years after graduation.",
+    "estimatedFrom": "Years since the school context at which name recognition starts to fall.",
+    "spread": {
+      "low": 10,
+      "high": 20,
+      "unit": "years since school",
+      "citation": "Spread around the 15-year plateau reported in Bahrick 1975."
+    },
+    "stopgapId": "SG-P8-opening-peer-network"
+  },
+  "peerNameRecallFarStrength": {
+    "value": 0.7,
+    "tag": "ESTIMATED",
+    "citation": "Bahrick, Bahrick and Wittlinger 1975: name recognition about 70% near 47 to 50 years after graduation.",
+    "estimatedFrom": "Recognition strength of a cohort peer's name at the far point.",
+    "spread": {
+      "low": 0.6,
+      "high": 0.95,
+      "unit": "share of peer names recognized",
+      "citation": "Bahrick 1975 recognition range, widened for a generated cohort."
+    },
+    "stopgapId": "SG-P8-opening-peer-network"
+  },
+  "peerNameRecallFarYears": {
+    "value": 50,
+    "tag": "ESTIMATED",
+    "citation": "Bahrick, Bahrick and Wittlinger 1975: the far test point, about 47 to 50 years after graduation.",
+    "estimatedFrom": "Years since the school context at which the far strength applies.",
+    "spread": {
+      "low": 47,
+      "high": 55,
+      "unit": "years since school",
+      "citation": "Bahrick 1975 far test point."
+    },
+    "stopgapId": "SG-P8-opening-peer-network"
+  },
   "openingPeerGroupSize": {
     "value": 20,
     "tag": "ESTIMATED",
