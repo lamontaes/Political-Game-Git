@@ -556,6 +556,31 @@ export function aidedLines(
 }
 
 /** The month's close for every treasury: revenue in, then each budget line out, top down. */
+/**
+ * What an account's standing payments ask of it from today to the next
+ * monthly close: each obligation due by then, with what it already owes.
+ */
+function standingDue(api: CoreAPI, account: string, date: string): number {
+  const next = new Date(
+    Date.UTC(
+      Number(date.slice(0, 4)),
+      Number(date.slice(5, 7)),
+      Number(date.slice(8, 10)),
+    ),
+  )
+    .toISOString()
+    .slice(0, 10);
+  return api
+    .accounts()
+    .obligationsFrom(account)
+    .filter((row) => row.nextDueAt !== undefined && row.nextDueAt <= next)
+    .reduce(
+      (sum, row) =>
+        sum + row.amountMinor + (row.accruesArrears ? row.arrearsMinor : 0),
+      0,
+    );
+}
+
 export function closeTreasuries(api: CoreAPI, source: Source): void {
   const outside = outsideAccountOf(api);
   if (!outside) return;
@@ -783,12 +808,15 @@ export function closeTreasuries(api: CoreAPI, source: Source): void {
     let borrowed = 0;
     const borrowedByHolder: Record<string, number> = {};
     const interestByHolder: Record<string, number> = {};
-    if (gov.level === "federal" && have < need) {
+    // Its standing payments falling due before the next close (a program's
+    // federal share of a covered adult's care) are the month's payments too.
+    const standing = gov.level === "federal" ? standingDue(api, main, date) : 0;
+    if (gov.level === "federal" && have < need + standing) {
       // The U.S. Treasury borrows what the month's payments need beyond what
       // it holds, issued to the groups that hold its debt in their shares.
       const holders = federalDebtOf(api);
       const wanted = splitBy(
-        need - Math.max(0, have),
+        need + standing - Math.max(0, have),
         DEBT.holders.map((h) => h.share),
       );
       holders.forEach((holder, i) => {
