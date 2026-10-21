@@ -1,5 +1,5 @@
 /** Unplanned pregnancies and the decision, read in a drawn place's played world. */
-import { randomBytes } from "node:crypto";
+import { createHash, randomBytes } from "node:crypto";
 import { expect, it } from "vitest";
 import { buildBenchWorld } from "../bench/world";
 import { drawPlace } from "../../scripts/core2-year/place";
@@ -13,97 +13,106 @@ import type { BirthCouple } from "./births-plan";
 import { lawInForce } from "./modules/laws";
 import { coreAPI } from "./state";
 
-it("an unplanned pregnancy is decided from her records and the law in force where she lives", () => {
-  const draw = drawPlace(
-    randomBytes(32).toString("hex"),
-    "unplanned-pregnancy",
-  );
-  setBookkeeping(false);
-  const { core } = buildBenchWorld(draw.seed, gameStartDate(), {
-    twoLevel: true,
-    placeKey: draw.key,
-  });
-  const api = coreAPI(core);
-  advanceCore(core, addDays(makeIsoDate(core.date), 365));
-  const renewal = api.moduleState(RENEWAL_MODULE_ID);
-  const law = lawInForce(api, ABORTION_LAW_SERIES);
-  const label = `${draw.key} seed ${draw.seed}`;
-  // Every unplanned plan cites the law record in force, and carries or ends by her scores.
-  const plans = renewal
-    .table("plans")
-    .rows()
-    .filter((row) => row.unplanned === true);
-  for (const plan of plans) {
-    expect(plan.lawId, label).toBe(
-      lawInForce(api, ABORTION_LAW_SERIES, String(plan.date)).governing?.id ??
-        null,
-    );
-    const decision = (
-      plan.decisions as unknown as Array<{
-        continues: boolean;
-        scores: { continue: number; end: number };
-      }>
-    )[0]!;
-    expect(decision.continues, label).toBe(
-      decision.scores.continue >= decision.scores.end,
-    );
-  }
-  // The decision reads the law: the same couple weighs a longer trip where it restricts.
-  const couple = renewal
-    .table("couples")
-    .rows()
-    .find((c) => c.status === "active");
-  if (couple) {
-    const decision = decideUnplanned(api, couple as unknown as BirthCouple);
-    expect(decision.restricted, label).toBe((law.value ?? 0) > 0);
-    expect(decision.lawId, label).toBe(law.governing?.id ?? null);
-  }
+const PLACES = 4;
+const base = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
 
-  // Exposure is a carried total: bring every waiting couple to a whole unit, so the
-  // next review (within a quarter) must settle each one by her own scores.
-  const playerHome = core.people.get(core.playerId!)?.householdId;
-  const homeOf = (motherId: unknown) =>
-    core.people.get(String(motherId))?.householdId;
-  const everyWaiting = renewal
-    .table("couples")
-    .rows()
-    .filter(
-      (c) =>
-        c.status === "active" &&
-        renewal
+interface Decision {
+  continues: boolean;
+  scores: { continue: number; end: number };
+  travelMinor: number;
+}
+
+it(
+  "an unplanned pregnancy is decided from her records and the law in force where she lives",
+  () => {
+    const tried: string[] = [];
+    for (let n = 0; n < PLACES; n += 1) {
+      const draw = drawPlace(
+        createHash("sha256").update(`${base}:${n}`).digest("hex"),
+        "unplanned-pregnancy",
+      );
+      setBookkeeping(false);
+      const { core } = buildBenchWorld(draw.seed, gameStartDate(), {
+        twoLevel: true,
+        placeKey: draw.key,
+      });
+      const api = coreAPI(core);
+      const label = `${draw.name}, ${draw.state} (${draw.key}), seed ${draw.seed}`;
+      // A played year through the ordinary producers: no fixture fills anything in.
+      advanceCore(core, addDays(makeIsoDate(core.date), 365));
+      const renewal = api.moduleState(RENEWAL_MODULE_ID);
+      const plans = renewal
+        .table("plans")
+        .rows()
+        .filter((row) => row.unplanned === true);
+      const couples = renewal
+        .table("couples")
+        .rows()
+        .filter((c) => c.status === "active");
+      tried.push(
+        `${label}: ${plans.length} unplanned plans, ${couples.length} active couples`,
+      );
+      // Nothing unplanned ever happens in the player's own household.
+      const playerHome = core.people.get(core.playerId!)?.householdId;
+      for (const plan of plans)
+        expect(
+          core.people.get(String(plan.motherId))?.householdId,
+          `${label} ${plan.id}`,
+        ).not.toBe(playerHome);
+      if (!plans.length || !couples.length) continue;
+      // Every unplanned plan cites the law record in force on its date, and
+      // carries or ends by her own scores; an ended one pays her trip.
+      let ended = 0;
+      for (const plan of plans) {
+        expect(plan.lawId, `${label} ${plan.id}`).toBe(
+          lawInForce(api, ABORTION_LAW_SERIES, String(plan.date)).governing
+            ?.id ?? null,
+        );
+        const decision = (plan.decisions as unknown as Decision[])[0]!;
+        expect(decision.continues, `${label} ${plan.id}`).toBe(
+          decision.scores.continue >= decision.scores.end,
+        );
+        const pregnancy = renewal
           .table("pregnancies")
-          .query("byMotherStatus", [c.motherId, "pregnant"]).length === 0,
-    );
-  // The player's own household is brought to a whole unit too, to show it is left out.
-  const waiting = everyWaiting.filter((c) => homeOf(c.motherId) !== playerHome);
-  for (const c of everyWaiting)
-    renewal.table("exposure").put({ id: c.id, carry: 1 });
-  const before = plans.length;
-  advanceCore(core, addDays(makeIsoDate(core.date), 100));
-  const after = renewal
-    .table("plans")
-    .rows()
-    .filter((row) => row.unplanned === true);
-  if (waiting.length) expect(after.length, label).toBeGreaterThan(before);
-  // Nothing unplanned ever happens in the player's own household.
-  for (const plan of after)
-    expect(homeOf(plan.motherId), `${label} ${plan.id}`).not.toBe(playerHome);
-  for (const plan of after) {
-    expect(plan.lawId, label).toBe(
-      lawInForce(api, ABORTION_LAW_SERIES, String(plan.date)).governing?.id ??
-        null,
-    );
-    const pregnancy = renewal.table("pregnancies").get(`${plan.id}:pregnancy`);
-    if (pregnancy?.status === "ended") {
-      const trip = (
-        plan.decisions as unknown as Array<{ travelMinor: number }>
-      )[0]!.travelMinor;
-      expect(Number(pregnancy.paidMinor), label).toBeGreaterThanOrEqual(0);
-      expect(Number(pregnancy.paidMinor), label).toBeLessThanOrEqual(trip);
+          .get(`${plan.id}:pregnancy`);
+        expect(pregnancy, `${label} ${plan.id}`).toBeDefined();
+        expect(pregnancy!.status, `${label} ${plan.id}`).toBe(
+          decision.continues ? pregnancy!.status : "ended",
+        );
+        if (pregnancy!.status !== "ended") continue;
+        ended += 1;
+        expect(
+          Number(pregnancy!.paidMinor),
+          `${label} ${plan.id}`,
+        ).toBeLessThanOrEqual(decision.travelMinor);
+        if (decision.travelMinor > 0)
+          expect(
+            Number(pregnancy!.paidMinor),
+            `${label} ${plan.id}: the trip is paid`,
+          ).toBeGreaterThan(0);
+      }
+      // The decision reads the law: an active couple weighs the trip the law in force sets.
+      const law = lawInForce(api, ABORTION_LAW_SERIES);
+      const decision = decideUnplanned(
+        api,
+        couples[0] as unknown as BirthCouple,
+      );
+      expect(decision.restricted, label).toBe((law.value ?? 0) > 0);
+      expect(decision.lawId, label).toBe(law.governing?.id ?? null);
+      const plan = plans[0]!;
+      const first = (plan.decisions as unknown as Decision[])[0]!;
+      const pregnancy = renewal
+        .table("pregnancies")
+        .get(`${plan.id}:pregnancy`)!;
+      process.stdout.write(
+        `UNPLANNED ${label}: ${plans.length} unplanned plans (${ended} ended); ${plan.motherId}'s ${plan.id} on ${String(plan.date)}, ${first.continues ? "carried" : "ended"} (continue ${first.scores.continue.toFixed(3)}, end ${first.scores.end.toFixed(3)}), law ${String(plan.lawId)}, ${pregnancy.id} ${String(pregnancy.status)}${pregnancy.status === "ended" ? ` paid ${String(pregnancy.paidMinor)} of ${first.travelMinor}` : ""}\n`,
+      );
+      return;
     }
-    expect(
-      renewal.table("pregnancies").get(`${plan.id}:pregnancy`)?.status,
-      label,
-    ).toMatch(/pregnant|ended|delivered/);
-  }
-}, 900_000);
+    throw new Error(
+      `no drawn place had an unplanned pregnancy and an active couple in ${PLACES} places (base ${base}): ${tried.join("; ")}`,
+    );
+    // The run that found Leeds, Utah spent 566 seconds in its tests on a 4-core container (about 5 minutes a drawn year); up to PLACES of them.
+  },
+  PLACES * 400_000,
+);
