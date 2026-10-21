@@ -1,320 +1,320 @@
 {
- "summary": {
-  "seed": "578d295134ffab75db90",
-  "place": {
-   "seed": "50d5fc4e07d8692b019d24337534a96b39732d434350cf9ae3aa1a054f68011e",
-   "key": "3985288",
-   "name": "Williamsburg, Ohio",
-   "state": "US-OH"
+  "summary": {
+    "seed": "578d295134ffab75db90",
+    "place": {
+      "seed": "50d5fc4e07d8692b019d24337534a96b39732d434350cf9ae3aa1a054f68011e",
+      "key": "3985288",
+      "name": "Williamsburg, Ohio",
+      "state": "US-OH"
+    },
+    "days": 365,
+    "lawsTookEffect": 13,
+    "reachedSomeone": 8,
+    "movedMoney": 6,
+    "withOutcomeLinks": 12,
+    "movedOutcome": 3
   },
-  "days": 365,
-  "lawsTookEffect": 13,
-  "reachedSomeone": 8,
-  "movedMoney": 6,
-  "withOutcomeLinks": 12,
-  "movedOutcome": 3
- },
- "laws": [
-  {
-   "lawId": "law:county:39025:county:us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones:general:2025-02-20:2025-1",
-   "series": "us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones",
-   "level": "county",
-   "value": 1,
-   "effectiveDate": "2025-02-20",
-   "reached": 0,
-   "reach": {
-    "full": 0,
-    "groups": 0,
-    "groupPeople": 0,
-    "organizations": 0,
-    "other": 0,
-    "moneyMinor": 0,
-    "sample": []
-   },
-   "outcomeLinks": 1,
-   "outcomeMoved": 0,
-   "outcomeSample": []
-  },
-  {
-   "lawId": "law:county:39025:county:us-policy-positions:housing-land-use.inclusionary-requirement:general:2025-02-20:2025-2",
-   "series": "us-policy-positions:housing-land-use.inclusionary-requirement",
-   "level": "county",
-   "value": 1,
-   "effectiveDate": "2025-02-20",
-   "reached": 0,
-   "reach": {
-    "full": 0,
-    "groups": 0,
-    "groupPeople": 0,
-    "organizations": 0,
-    "other": 0,
-    "moneyMinor": 0,
-    "sample": []
-   },
-   "outcomeLinks": 1,
-   "outcomeMoved": 0,
-   "outcomeSample": []
-  },
-  {
-   "lawId": "law:county:39025:county:us-policy-positions:justice-public-safety.civilian-oversight-of-police:general:2025-02-20:2025-3",
-   "series": "us-policy-positions:justice-public-safety.civilian-oversight-of-police",
-   "level": "county",
-   "value": 1,
-   "effectiveDate": "2025-02-20",
-   "reached": 0,
-   "reach": {
-    "full": 0,
-    "groups": 0,
-    "groupPeople": 0,
-    "organizations": 0,
-    "other": 0,
-    "moneyMinor": 0,
-    "sample": []
-   },
-   "outcomeLinks": 1,
-   "outcomeMoved": 0,
-   "outcomeSample": []
-  },
-  {
-   "lawId": "law:place:3985288:city:us-policy-positions:justice-public-safety.partner-with-federal-immigration-enforcement:general:2025-02-20:2025-1",
-   "series": "us-policy-positions:justice-public-safety.partner-with-federal-immigration-enforcement",
-   "level": "city",
-   "value": 1,
-   "effectiveDate": "2025-02-20",
-   "reached": 5,
-   "reach": {
-    "full": 0,
-    "groups": 5,
-    "groupPeople": 5,
-    "organizations": 0,
-    "other": 0,
-    "moneyMinor": 384,
-    "sample": [
-     "applied|us-policy-positions:justice-public-safety.partner-with-federal-immigration-enforcement|group:group:jurisdiction_85404d37e34c70d6:town:adults:income-1:other:65-plus:retired",
-     "applied|us-policy-positions:justice-public-safety.partner-with-federal-immigration-enforcement|group:group:jurisdiction_85404d37e34c70d6:town:with-children:income-1:mortgage:45-64:working",
-     "applied|us-policy-positions:justice-public-safety.partner-with-federal-immigration-enforcement|group:group:jurisdiction_85404d37e34c70d6:town:with-children:income-2:mortgage:45-64:working"
-    ]
-   },
-   "outcomeLinks": 3,
-   "outcomeMoved": 24,
-   "outcomeSample": [
-    "web:jurisdiction_85404d37e34c70d6:2025-02:enforcement-to-undocumented-employment",
-    "web:jurisdiction_85404d37e34c70d6:2025-02:enforcement-to-us-born-employment"
-   ]
-  },
-  {
-   "lawId": "law:US-OH:state:us-policy-positions:labor-workforce.right-to-work:general:2025-04-27:HB 1",
-   "series": "us-policy-positions:labor-workforce.right-to-work",
-   "level": "state",
-   "value": 1,
-   "effectiveDate": "2025-04-27",
-   "reached": 118,
-   "reach": {
-    "full": 114,
-    "groups": 2,
-    "groupPeople": 1178,
-    "organizations": 2,
-    "other": 0,
-    "moneyMinor": 10700,
-    "sample": [
-     "reach:law:US-OH:state:us-policy-positions:labor-workforce.right-to-work:general:2025-04-27:HB 1:workers:person_71bf99d41991f32d:2025-04-27",
-     "reach:law:US-OH:state:us-policy-positions:labor-workforce.right-to-work:general:2025-04-27:HB 1:workers:person_71bf98d41991f17a:2025-04-27",
-     "reach:law:US-OH:state:us-policy-positions:labor-workforce.right-to-work:general:2025-04-27:HB 1:workers:person_3739ac86387a4cbc:2025-04-27"
-    ]
-   },
-   "outcomeLinks": 1,
-   "outcomeMoved": 0,
-   "outcomeSample": []
-  },
-  {
-   "lawId": "law:US-OH:state:us-policy-positions:justice-public-safety.stand-your-ground:general:2025-06-01:HB 14",
-   "series": "us-policy-positions:justice-public-safety.stand-your-ground",
-   "level": "state",
-   "value": 1,
-   "effectiveDate": "2025-06-01",
-   "reached": 76,
-   "reach": {
-    "full": 0,
-    "groups": 76,
-    "groupPeople": 76,
-    "organizations": 0,
-    "other": 0,
-    "moneyMinor": 31462,
-    "sample": [
-     "applied|us-policy-positions:justice-public-safety.stand-your-ground|group:group:jurisdiction_85404d37e34c70d6:town:adults:income-0:other:45-64:working",
-     "applied|us-policy-positions:justice-public-safety.stand-your-ground|group:group:jurisdiction_85404d37e34c70d6:town:one-adult:income-0:other:18-29:working",
-     "applied|us-policy-positions:justice-public-safety.stand-your-ground|group:group:jurisdiction_85404d37e34c70d6:town:with-children:income-2:rent:18-29:working"
-    ]
-   },
-   "outcomeLinks": 1,
-   "outcomeMoved": 0,
-   "outcomeSample": []
-  },
-  {
-   "lawId": "law:US-OH:state:us-policy-positions:health-human-services.medicaid-work-requirement:general:2025-06-01:HB 16",
-   "series": "us-policy-positions:health-human-services.medicaid-work-requirement",
-   "level": "state",
-   "value": 1,
-   "effectiveDate": "2025-06-01",
-   "reached": 18,
-   "reach": {
-    "full": 17,
-    "groups": 1,
-    "groupPeople": 0,
-    "organizations": 0,
-    "other": 0,
-    "moneyMinor": 0,
-    "sample": [
-     "us-policy-positions:health-human-services.medicaid-work-requirement|person:press:outlet:newspaper:3:jurisdiction_85404d37e34c70d6:owner:0|2025-06-01",
-     "us-policy-positions:health-human-services.medicaid-work-requirement|person_0ef2cc0994fbed0c|2025-06-01",
-     "us-policy-positions:health-human-services.medicaid-work-requirement|person_41b9d201cd0c10a4|2025-06-01"
-    ]
-   },
-   "outcomeLinks": 2,
-   "outcomeMoved": 0,
-   "outcomeSample": []
-  },
-  {
-   "lawId": "law:US-OH:state:us-policy-positions:technology-privacy.age-verification-for-social-media:general:2025-06-15:HB 20",
-   "series": "us-policy-positions:technology-privacy.age-verification-for-social-media",
-   "level": "state",
-   "value": 1,
-   "effectiveDate": "2025-06-15",
-   "reached": 47,
-   "reach": {
-    "full": 36,
-    "groups": 1,
-    "groupPeople": 185,
-    "organizations": 10,
-    "other": 0,
-    "moneyMinor": 1500761,
-    "sample": [
-     "reach:law:US-OH:state:us-policy-positions:technology-privacy.age-verification-for-social-media:general:2025-06-15:HB 20:minors:person_71bf96d41991ee14:2025-06-15",
-     "reach:law:US-OH:state:us-policy-positions:technology-privacy.age-verification-for-social-media:general:2025-06-15:HB 20:minors:person_fa42ec3fba9bc4be:2025-06-15",
-     "reach:law:US-OH:state:us-policy-positions:technology-privacy.age-verification-for-social-media:general:2025-06-15:HB 20:minors:person_be65e3e40cf24bc8:2025-06-15"
-    ]
-   },
-   "outcomeLinks": 0,
-   "outcomeMoved": 0,
-   "outcomeSample": []
-  },
-  {
-   "lawId": "law:US-OH:state:us-policy-positions:justice-public-safety.partner-with-federal-immigration-enforcement:general:2025-07-06:SB 3",
-   "series": "us-policy-positions:justice-public-safety.partner-with-federal-immigration-enforcement",
-   "level": "state",
-   "value": 1,
-   "effectiveDate": "2025-07-06",
-   "reached": 0,
-   "reach": {
-    "full": 0,
-    "groups": 0,
-    "groupPeople": 0,
-    "organizations": 0,
-    "other": 0,
-    "moneyMinor": 0,
-    "sample": []
-   },
-   "outcomeLinks": 3,
-   "outcomeMoved": 14,
-   "outcomeSample": [
-    "web:jurisdiction_85404d37e34c70d6:2025-07:enforcement-to-undocumented-employment",
-    "web:jurisdiction_85404d37e34c70d6:2025-07:enforcement-to-us-born-employment"
-   ]
-  },
-  {
-   "lawId": "law:US-OH:state:us-policy-positions:government-operations.same-day-voter-registration:general:2025-07-14:HB 22",
-   "series": "us-policy-positions:government-operations.same-day-voter-registration",
-   "level": "state",
-   "value": 1,
-   "effectiveDate": "2025-07-14",
-   "reached": 1919,
-   "reach": {
-    "full": 211,
-    "groups": 1708,
-    "groupPeople": 1708,
-    "organizations": 0,
-    "other": 0,
-    "moneyMinor": 1062500,
-    "sample": [
-     "applied|us-policy-positions:government-operations.same-day-voter-registration|person_08f21e773d1bbf7d",
-     "applied|us-policy-positions:government-operations.same-day-voter-registration|person_09995b78b384f78a",
-     "applied|us-policy-positions:government-operations.same-day-voter-registration|person_09995c78b384f93d"
-    ]
-   },
-   "outcomeLinks": 1,
-   "outcomeMoved": 7,
-   "outcomeSample": [
-    "web:jurisdiction_85404d37e34c70d6:2025-07:same-day-registration-to-youth-turnout",
-    "web:jurisdiction_85404d37e34c70d6:2025-08:same-day-registration-to-youth-turnout"
-   ]
-  },
-  {
-   "lawId": "law:US-OH:state:us-policy-positions:technology-privacy.consumer-data-privacy-law:general:2025-08-04:HB 28",
-   "series": "us-policy-positions:technology-privacy.consumer-data-privacy-law",
-   "level": "state",
-   "value": 1,
-   "effectiveDate": "2025-08-04",
-   "reached": 257,
-   "reach": {
-    "full": 227,
-    "groups": 1,
-    "groupPeople": 1653,
-    "organizations": 29,
-    "other": 0,
-    "moneyMinor": 56923144,
-    "sample": [
-     "reach:law:US-OH:state:us-policy-positions:technology-privacy.consumer-data-privacy-law:general:2025-08-04:HB 28:consumers:person_71bf99d41991f32d:2025-08-04",
-     "reach:law:US-OH:state:us-policy-positions:technology-privacy.consumer-data-privacy-law:general:2025-08-04:HB 28:consumers:person_71bf98d41991f17a:2025-08-04",
-     "reach:law:US-OH:state:us-policy-positions:technology-privacy.consumer-data-privacy-law:general:2025-08-04:HB 28:consumers:person_71bf95d41991ec61:2025-08-04"
-    ]
-   },
-   "outcomeLinks": 1,
-   "outcomeMoved": 0,
-   "outcomeSample": []
-  },
-  {
-   "lawId": "law:US-OH:state:us-policy-positions:government-operations.independent-redistricting:general:2025-08-04:HB 29",
-   "series": "us-policy-positions:government-operations.independent-redistricting",
-   "level": "state",
-   "value": 1,
-   "effectiveDate": "2025-08-04",
-   "reached": 140,
-   "reach": {
-    "full": 140,
-    "groups": 0,
-    "groupPeople": 0,
-    "organizations": 0,
-    "other": 0,
-    "moneyMinor": 0,
-    "sample": [
-     "reach:law:US-OH:state:us-policy-positions:government-operations.independent-redistricting:general:2025-08-04:HB 29:legislators:person_54b73d1ef0e90759:2025-08-04",
-     "reach:law:US-OH:state:us-policy-positions:government-operations.independent-redistricting:general:2025-08-04:HB 29:legislators:person_fe0902fce5448d61:2025-08-04",
-     "reach:law:US-OH:state:us-policy-positions:government-operations.independent-redistricting:general:2025-08-04:HB 29:legislators:person_071c05ec0cf9318a:2025-08-04"
-    ]
-   },
-   "outcomeLinks": 1,
-   "outcomeMoved": 0,
-   "outcomeSample": []
-  },
-  {
-   "lawId": "law:US-OH:state:us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties:general:2025-08-18:HB 34",
-   "series": "us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties",
-   "level": "state",
-   "value": 1,
-   "effectiveDate": "2025-08-18",
-   "reached": 0,
-   "reach": {
-    "full": 0,
-    "groups": 0,
-    "groupPeople": 0,
-    "organizations": 0,
-    "other": 0,
-    "moneyMinor": 0,
-    "sample": []
-   },
-   "outcomeLinks": 1,
-   "outcomeMoved": 0,
-   "outcomeSample": []
-  }
- ]
+  "laws": [
+    {
+      "lawId": "law:county:39025:county:us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones:general:2025-02-20:2025-1",
+      "series": "us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones",
+      "level": "county",
+      "value": 1,
+      "effectiveDate": "2025-02-20",
+      "reached": 0,
+      "reach": {
+        "full": 0,
+        "groups": 0,
+        "groupPeople": 0,
+        "organizations": 0,
+        "other": 0,
+        "moneyMinor": 0,
+        "sample": []
+      },
+      "outcomeLinks": 1,
+      "outcomeMoved": 0,
+      "outcomeSample": []
+    },
+    {
+      "lawId": "law:county:39025:county:us-policy-positions:housing-land-use.inclusionary-requirement:general:2025-02-20:2025-2",
+      "series": "us-policy-positions:housing-land-use.inclusionary-requirement",
+      "level": "county",
+      "value": 1,
+      "effectiveDate": "2025-02-20",
+      "reached": 0,
+      "reach": {
+        "full": 0,
+        "groups": 0,
+        "groupPeople": 0,
+        "organizations": 0,
+        "other": 0,
+        "moneyMinor": 0,
+        "sample": []
+      },
+      "outcomeLinks": 1,
+      "outcomeMoved": 0,
+      "outcomeSample": []
+    },
+    {
+      "lawId": "law:county:39025:county:us-policy-positions:justice-public-safety.civilian-oversight-of-police:general:2025-02-20:2025-3",
+      "series": "us-policy-positions:justice-public-safety.civilian-oversight-of-police",
+      "level": "county",
+      "value": 1,
+      "effectiveDate": "2025-02-20",
+      "reached": 0,
+      "reach": {
+        "full": 0,
+        "groups": 0,
+        "groupPeople": 0,
+        "organizations": 0,
+        "other": 0,
+        "moneyMinor": 0,
+        "sample": []
+      },
+      "outcomeLinks": 1,
+      "outcomeMoved": 0,
+      "outcomeSample": []
+    },
+    {
+      "lawId": "law:place:3985288:city:us-policy-positions:justice-public-safety.partner-with-federal-immigration-enforcement:general:2025-02-20:2025-1",
+      "series": "us-policy-positions:justice-public-safety.partner-with-federal-immigration-enforcement",
+      "level": "city",
+      "value": 1,
+      "effectiveDate": "2025-02-20",
+      "reached": 5,
+      "reach": {
+        "full": 0,
+        "groups": 5,
+        "groupPeople": 5,
+        "organizations": 0,
+        "other": 0,
+        "moneyMinor": 384,
+        "sample": [
+          "applied|us-policy-positions:justice-public-safety.partner-with-federal-immigration-enforcement|group:group:jurisdiction_85404d37e34c70d6:town:adults:income-1:other:65-plus:retired",
+          "applied|us-policy-positions:justice-public-safety.partner-with-federal-immigration-enforcement|group:group:jurisdiction_85404d37e34c70d6:town:with-children:income-1:mortgage:45-64:working",
+          "applied|us-policy-positions:justice-public-safety.partner-with-federal-immigration-enforcement|group:group:jurisdiction_85404d37e34c70d6:town:with-children:income-2:mortgage:45-64:working"
+        ]
+      },
+      "outcomeLinks": 3,
+      "outcomeMoved": 24,
+      "outcomeSample": [
+        "web:jurisdiction_85404d37e34c70d6:2025-02:enforcement-to-undocumented-employment",
+        "web:jurisdiction_85404d37e34c70d6:2025-02:enforcement-to-us-born-employment"
+      ]
+    },
+    {
+      "lawId": "law:US-OH:state:us-policy-positions:labor-workforce.right-to-work:general:2025-04-27:HB 1",
+      "series": "us-policy-positions:labor-workforce.right-to-work",
+      "level": "state",
+      "value": 1,
+      "effectiveDate": "2025-04-27",
+      "reached": 118,
+      "reach": {
+        "full": 114,
+        "groups": 2,
+        "groupPeople": 1178,
+        "organizations": 2,
+        "other": 0,
+        "moneyMinor": 10700,
+        "sample": [
+          "reach:law:US-OH:state:us-policy-positions:labor-workforce.right-to-work:general:2025-04-27:HB 1:workers:person_71bf99d41991f32d:2025-04-27",
+          "reach:law:US-OH:state:us-policy-positions:labor-workforce.right-to-work:general:2025-04-27:HB 1:workers:person_71bf98d41991f17a:2025-04-27",
+          "reach:law:US-OH:state:us-policy-positions:labor-workforce.right-to-work:general:2025-04-27:HB 1:workers:person_3739ac86387a4cbc:2025-04-27"
+        ]
+      },
+      "outcomeLinks": 1,
+      "outcomeMoved": 0,
+      "outcomeSample": []
+    },
+    {
+      "lawId": "law:US-OH:state:us-policy-positions:justice-public-safety.stand-your-ground:general:2025-06-01:HB 14",
+      "series": "us-policy-positions:justice-public-safety.stand-your-ground",
+      "level": "state",
+      "value": 1,
+      "effectiveDate": "2025-06-01",
+      "reached": 76,
+      "reach": {
+        "full": 0,
+        "groups": 76,
+        "groupPeople": 76,
+        "organizations": 0,
+        "other": 0,
+        "moneyMinor": 31462,
+        "sample": [
+          "applied|us-policy-positions:justice-public-safety.stand-your-ground|group:group:jurisdiction_85404d37e34c70d6:town:adults:income-0:other:45-64:working",
+          "applied|us-policy-positions:justice-public-safety.stand-your-ground|group:group:jurisdiction_85404d37e34c70d6:town:one-adult:income-0:other:18-29:working",
+          "applied|us-policy-positions:justice-public-safety.stand-your-ground|group:group:jurisdiction_85404d37e34c70d6:town:with-children:income-2:rent:18-29:working"
+        ]
+      },
+      "outcomeLinks": 1,
+      "outcomeMoved": 0,
+      "outcomeSample": []
+    },
+    {
+      "lawId": "law:US-OH:state:us-policy-positions:health-human-services.medicaid-work-requirement:general:2025-06-01:HB 16",
+      "series": "us-policy-positions:health-human-services.medicaid-work-requirement",
+      "level": "state",
+      "value": 1,
+      "effectiveDate": "2025-06-01",
+      "reached": 18,
+      "reach": {
+        "full": 17,
+        "groups": 1,
+        "groupPeople": 0,
+        "organizations": 0,
+        "other": 0,
+        "moneyMinor": 0,
+        "sample": [
+          "us-policy-positions:health-human-services.medicaid-work-requirement|person:press:outlet:newspaper:3:jurisdiction_85404d37e34c70d6:owner:0|2025-06-01",
+          "us-policy-positions:health-human-services.medicaid-work-requirement|person_0ef2cc0994fbed0c|2025-06-01",
+          "us-policy-positions:health-human-services.medicaid-work-requirement|person_41b9d201cd0c10a4|2025-06-01"
+        ]
+      },
+      "outcomeLinks": 2,
+      "outcomeMoved": 0,
+      "outcomeSample": []
+    },
+    {
+      "lawId": "law:US-OH:state:us-policy-positions:technology-privacy.age-verification-for-social-media:general:2025-06-15:HB 20",
+      "series": "us-policy-positions:technology-privacy.age-verification-for-social-media",
+      "level": "state",
+      "value": 1,
+      "effectiveDate": "2025-06-15",
+      "reached": 47,
+      "reach": {
+        "full": 36,
+        "groups": 1,
+        "groupPeople": 185,
+        "organizations": 10,
+        "other": 0,
+        "moneyMinor": 1500761,
+        "sample": [
+          "reach:law:US-OH:state:us-policy-positions:technology-privacy.age-verification-for-social-media:general:2025-06-15:HB 20:minors:person_71bf96d41991ee14:2025-06-15",
+          "reach:law:US-OH:state:us-policy-positions:technology-privacy.age-verification-for-social-media:general:2025-06-15:HB 20:minors:person_fa42ec3fba9bc4be:2025-06-15",
+          "reach:law:US-OH:state:us-policy-positions:technology-privacy.age-verification-for-social-media:general:2025-06-15:HB 20:minors:person_be65e3e40cf24bc8:2025-06-15"
+        ]
+      },
+      "outcomeLinks": 0,
+      "outcomeMoved": 0,
+      "outcomeSample": []
+    },
+    {
+      "lawId": "law:US-OH:state:us-policy-positions:justice-public-safety.partner-with-federal-immigration-enforcement:general:2025-07-06:SB 3",
+      "series": "us-policy-positions:justice-public-safety.partner-with-federal-immigration-enforcement",
+      "level": "state",
+      "value": 1,
+      "effectiveDate": "2025-07-06",
+      "reached": 0,
+      "reach": {
+        "full": 0,
+        "groups": 0,
+        "groupPeople": 0,
+        "organizations": 0,
+        "other": 0,
+        "moneyMinor": 0,
+        "sample": []
+      },
+      "outcomeLinks": 3,
+      "outcomeMoved": 14,
+      "outcomeSample": [
+        "web:jurisdiction_85404d37e34c70d6:2025-07:enforcement-to-undocumented-employment",
+        "web:jurisdiction_85404d37e34c70d6:2025-07:enforcement-to-us-born-employment"
+      ]
+    },
+    {
+      "lawId": "law:US-OH:state:us-policy-positions:government-operations.same-day-voter-registration:general:2025-07-14:HB 22",
+      "series": "us-policy-positions:government-operations.same-day-voter-registration",
+      "level": "state",
+      "value": 1,
+      "effectiveDate": "2025-07-14",
+      "reached": 1919,
+      "reach": {
+        "full": 211,
+        "groups": 1708,
+        "groupPeople": 1708,
+        "organizations": 0,
+        "other": 0,
+        "moneyMinor": 1062500,
+        "sample": [
+          "applied|us-policy-positions:government-operations.same-day-voter-registration|person_08f21e773d1bbf7d",
+          "applied|us-policy-positions:government-operations.same-day-voter-registration|person_09995b78b384f78a",
+          "applied|us-policy-positions:government-operations.same-day-voter-registration|person_09995c78b384f93d"
+        ]
+      },
+      "outcomeLinks": 1,
+      "outcomeMoved": 7,
+      "outcomeSample": [
+        "web:jurisdiction_85404d37e34c70d6:2025-07:same-day-registration-to-youth-turnout",
+        "web:jurisdiction_85404d37e34c70d6:2025-08:same-day-registration-to-youth-turnout"
+      ]
+    },
+    {
+      "lawId": "law:US-OH:state:us-policy-positions:technology-privacy.consumer-data-privacy-law:general:2025-08-04:HB 28",
+      "series": "us-policy-positions:technology-privacy.consumer-data-privacy-law",
+      "level": "state",
+      "value": 1,
+      "effectiveDate": "2025-08-04",
+      "reached": 257,
+      "reach": {
+        "full": 227,
+        "groups": 1,
+        "groupPeople": 1653,
+        "organizations": 29,
+        "other": 0,
+        "moneyMinor": 56923144,
+        "sample": [
+          "reach:law:US-OH:state:us-policy-positions:technology-privacy.consumer-data-privacy-law:general:2025-08-04:HB 28:consumers:person_71bf99d41991f32d:2025-08-04",
+          "reach:law:US-OH:state:us-policy-positions:technology-privacy.consumer-data-privacy-law:general:2025-08-04:HB 28:consumers:person_71bf98d41991f17a:2025-08-04",
+          "reach:law:US-OH:state:us-policy-positions:technology-privacy.consumer-data-privacy-law:general:2025-08-04:HB 28:consumers:person_71bf95d41991ec61:2025-08-04"
+        ]
+      },
+      "outcomeLinks": 1,
+      "outcomeMoved": 0,
+      "outcomeSample": []
+    },
+    {
+      "lawId": "law:US-OH:state:us-policy-positions:government-operations.independent-redistricting:general:2025-08-04:HB 29",
+      "series": "us-policy-positions:government-operations.independent-redistricting",
+      "level": "state",
+      "value": 1,
+      "effectiveDate": "2025-08-04",
+      "reached": 140,
+      "reach": {
+        "full": 140,
+        "groups": 0,
+        "groupPeople": 0,
+        "organizations": 0,
+        "other": 0,
+        "moneyMinor": 0,
+        "sample": [
+          "reach:law:US-OH:state:us-policy-positions:government-operations.independent-redistricting:general:2025-08-04:HB 29:legislators:person_54b73d1ef0e90759:2025-08-04",
+          "reach:law:US-OH:state:us-policy-positions:government-operations.independent-redistricting:general:2025-08-04:HB 29:legislators:person_fe0902fce5448d61:2025-08-04",
+          "reach:law:US-OH:state:us-policy-positions:government-operations.independent-redistricting:general:2025-08-04:HB 29:legislators:person_071c05ec0cf9318a:2025-08-04"
+        ]
+      },
+      "outcomeLinks": 1,
+      "outcomeMoved": 0,
+      "outcomeSample": []
+    },
+    {
+      "lawId": "law:US-OH:state:us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties:general:2025-08-18:HB 34",
+      "series": "us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties",
+      "level": "state",
+      "value": 1,
+      "effectiveDate": "2025-08-18",
+      "reached": 0,
+      "reach": {
+        "full": 0,
+        "groups": 0,
+        "groupPeople": 0,
+        "organizations": 0,
+        "other": 0,
+        "moneyMinor": 0,
+        "sample": []
+      },
+      "outcomeLinks": 1,
+      "outcomeMoved": 0,
+      "outcomeSample": []
+    }
+  ]
 }
