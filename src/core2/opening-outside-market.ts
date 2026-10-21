@@ -7,7 +7,6 @@
  * outside account per place, so every such dollar is reported outside money.
  */
 import { makeIsoDate } from "./kernel/dates";
-import { stopgap } from "./stopgaps";
 import outsideMarket from "./data/outside-market.json" with { type: "json" };
 import type { ResidentFlowInput, ResidentsInput } from "./residents";
 import type { CoreInput, OrganizationInput, Source } from "./types";
@@ -23,7 +22,6 @@ export interface OutsideMarketShare {
 
 export interface OutsideMarketData {
   version: string;
-  stopgapId: string;
   note?: string;
   weeksPerYear: number;
   cadenceDays: number;
@@ -87,7 +85,6 @@ export function addOutsideMarket(
   input: CoreInput,
   data: OutsideMarketData = outsideMarket as OutsideMarketData,
 ): CoreInput {
-  stopgap(data.stopgapId);
   const start = makeIsoDate(input.startedAt);
   const organizations = new Map(input.organizations.map((o) => [o.id, o]));
   const accounts = new Map<string, OrganizationInput>();
