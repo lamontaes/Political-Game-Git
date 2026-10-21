@@ -134,9 +134,9 @@ export const PROPER_NAMES: readonly {
   },
   {
     pattern: /^docs\/pool\/INDEX\.md$/,
-    names: ["cancelled", "labelled"],
+    names: ["cancelled"],
     reason:
-      "the generated index links items by their persisted ids (release-main-runs-cancelled-by-pool-pushes, release-spelling-labelled-stopgaps); identifiers keep their spelling",
+      "the generated index links items by their persisted ids (release-main-runs-cancelled-by-pool-pushes); identifiers keep their spelling",
   },
 ];
 

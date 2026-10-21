@@ -5,12 +5,12 @@ area: core
 kind: research
 priority: 2
 size: S
-status: in-pr
-claimed-by: claude/reachable-sources
+status: open
+claimed-by:
 pr: #5491
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-20T23:15:58.355Z
+claimed-at:
 ---
 
 **What.** Checked Oct 20 from a cloud session: www2.census.gov (ACS PUMS and summary files), data.cdc.gov, www.fhfa.gov, apps.bea.gov, www.pewresearch.org, gss.norc.org and dataverse.harvard.edu return 200 and a 188 MB Cooperative Election Study file downloaded in one call; api.census.gov redirects (a key is needed), and www.bls.gov and www.ssa.gov return 403. Several research and stopgap items were marked blocked on 'outside data' on the belief that all of these fail. Re-read each blocked research item, pick the ones whose source is on a reachable host, and take them.
@@ -30,3 +30,5 @@ Sent back 2026-10-20 from PR #5491 (branch claude/reachable-sources): see the Cl
 Sent back 2026-10-20 from PR #5491 (branch claude/reachable-sources): The remaining diff contains only docs/pool/items/research-reachable-sources-oct20.md and no docs/release/changes declaration. Add an impact:none declaration for the actual research-host sweep, with only id and impact in its frontmatter, and describe that remaining scope rather than the housing change already on main. A docs-only PR still needs the release declaration required by the merger rule.; finish on that branch, merge main into it first.
 
 Sent back 2026-10-20 from PR #5491 (branch claude/reachable-sources): The release declaration and corrected docs-only scope address the earlier return, and current main merges cleanly here. The item still requires at least two previously blocked items to be moved to open or in-pr with the data fetched. The new Notes record directory HTTP 200 responses and remove the two blocks, but give no fetched ACS B15001/B05/B11 tables or tract/block-group data for those two items. A reachable directory is not that required fetched-data proof. Add the named downloads and evidence for both moved items before marking this sweep done; keep their own played-world requirements intact.; finish on that branch, merge main into it first.
+
+Sent back 2026-10-21 from PR #5491 (branch claude/reachable-sources): The fetched ACS-file notes address the earlier directory-only return. The body still lacks the Done when evidence table required by merger skill section 2.5. Map the complete blocked-item/host list, two unblocked items with their fetched-file URLs and values, absence of reachable-host blocks, and preservation of each moved items drawn buildBenchWorld acceptance to their actual Notes. Also replace the housing title with the research-host sweep that is the remaining diff. No local gate pass is claimed here.; finish on that branch, merge main into it first.
