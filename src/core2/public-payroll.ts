@@ -7,15 +7,8 @@
  */
 import { inCustody } from "./modules/justice";
 import { addDays, makeIsoDate } from "./kernel/dates";
-import { stopgap } from "./stopgaps";
-import type { CoreAPI, CoreState, Source, WorkCommitmentInput } from "./types";
-import type { WorkPayrollCalendarInput } from "./work-pay-period";
-
-interface Followed {
-  template: { id: string; hoursDaily: number; synthetic?: boolean };
-  commitment: WorkCommitmentInput;
-  calendar: WorkPayrollCalendarInput;
-}
+import { publicPayFloorHourly } from "./public-pay-floor";
+import type { CoreAPI, CoreState, Source } from "./types";
 
 /** Puts a person on a government's payroll today; returns the job id, or null without a schedule to follow. */
 export function startPublicJob(
@@ -50,48 +43,45 @@ export function startPublicJob(
     jobId = `${base}:${stint}`;
   }
   // The longest-hours job where the employer sits to follow, a public
-  // employer's first (the person may live elsewhere).
-  const where =
-    input.scheduleFromPlaceId ?? c.organizations.get(input.employerId)!.placeId;
-  const templates = [...c.jobs.values()]
-    .filter(
-      (j) =>
-        j.endsAt === undefined &&
-        c.organizations.get(j.organizationId)?.placeId === where,
-    )
-    .sort(
-      (a, b) =>
-        b.hoursDaily - a.hoursDaily ||
-        Number(!!c.organizations.get(b.organizationId)?.governmentFacts) -
-          Number(!!c.organizations.get(a.organizationId)?.governmentFacts) ||
-        a.id.localeCompare(b.id),
-    );
-  const followed = function* (): Generator<Followed> {
-    for (const template of templates) {
-      const commitment = [
-        ...(c.work.commitmentsByPerson.get(template.personId) ?? []),
-      ]
-        .map((id) => c.work.commitments.get(id)!)
-        .find((row) => row.jobId === template.id && row.endsAt === undefined);
-      const calendarId =
-        commitment && c.work.payrollCalendarByCommitment.get(commitment.id);
-      const calendar = calendarId
-        ? c.work.payrollCalendars.get(calendarId)
-        : undefined;
-      if (commitment && calendar) yield { template, commitment, calendar };
-    }
-    // Nothing in reach has a schedule and payday (an island area's town opens
-    // with only zero-hour office seats): the post takes a standard full-time
-    // week and a government biweekly payday.
-    yield standardWeek(api, input.employerId, person.id, jobId);
-  };
-  for (const { template, commitment, calendar } of followed()) {
+  // employer's first (the person may live elsewhere). Its own place's jobs
+  // come first.
+  const templatesAt = (where: string) =>
+    [...c.jobs.values()]
+      .filter(
+        (j) =>
+          j.endsAt === undefined &&
+          c.organizations.get(j.organizationId)?.placeId === where,
+      )
+      .sort(
+        (a, b) =>
+          b.hoursDaily - a.hoursDaily ||
+          Number(!!c.organizations.get(b.organizationId)?.governmentFacts) -
+            Number(!!c.organizations.get(a.organizationId)?.governmentFacts) ||
+          a.id.localeCompare(b.id),
+      );
+  const own = templatesAt(c.organizations.get(input.employerId)!.placeId);
+  // The other place's jobs are reached only when none of the employer's own has a schedule and payday.
+  const templates = input.scheduleFromPlaceId
+    ? [...own, ...templatesAt(input.scheduleFromPlaceId)]
+    : own;
+  for (const template of templates) {
+    const commitment = [
+      ...(c.work.commitmentsByPerson.get(template.personId) ?? []),
+    ]
+      .map((id) => c.work.commitments.get(id)!)
+      .find((row) => row.jobId === template.id && row.endsAt === undefined);
+    const calendarId =
+      commitment && c.work.payrollCalendarByCommitment.get(commitment.id);
+    const calendar = calendarId
+      ? c.work.payrollCalendars.get(calendarId)
+      : undefined;
+    if (!commitment || !calendar) continue;
     // A post's pay is stated for a full-time week, whatever week the
     // schedule it follows runs.
     const postHoursDaily =
       api.parameter("openingFullTimeWeeklyHours") /
       api.parameter("daysPerWeek");
-    const postedHourlyMinor =
+    const linePostedHourlyMinor =
       input.maxDailyMinor === undefined
         ? input.hourlyMinor
         : Math.min(
@@ -99,7 +89,16 @@ export function startPublicJob(
             Math.floor(input.maxDailyMinor / postHoursDaily),
           );
     // A post its line cannot pay at all is held unpaid.
-    if (postedHourlyMinor <= 0) return null;
+    if (linePostedHourlyMinor <= 0) return null;
+    // A public post is paid at the public pay floor in force the day it is
+    // filled, not a month later at the review.
+    const postedHourlyMinor = Math.max(
+      linePostedHourlyMinor,
+      publicPayFloorHourly(api, input.employerId, {
+        hourlyMinor: linePostedHourlyMinor,
+        wageDailyMinor: Math.round(linePostedHourlyMinor * postHoursDaily),
+      }),
+    );
     // Payroll pays the hourly rate for the minutes the schedule runs. The
     // template's schedule can run longer or shorter than the post's week, so
     // the rate is set over the scheduled minutes: the post's pay is what its
@@ -127,9 +126,7 @@ export function startPublicJob(
       tag: "ESTIMATED",
       asOf: api.state.date,
       citation: input.citation,
-      estimatedFrom: template.synthetic
-        ? "The post's pay; a standard full-time week and a government biweekly payday, as no job in reach has a schedule to follow (SG-GOV-public-post-standard-week)."
-        : `The post's pay; schedule and paydays follow ${template.id}.`,
+      estimatedFrom: `The post's pay; schedule and paydays follow ${template.id}.`,
     };
     const commitmentId = `work-commitment:${jobId}`;
     const calendarIdNew = `payroll-calendar:${jobId}`;
@@ -154,7 +151,7 @@ export function startPublicJob(
         startsAt,
         endsAt: undefined,
         hourlyMinor,
-        ...(template.synthetic ? {} : { scheduleTemplateJobId: template.id }),
+        scheduleTemplateJobId: template.id,
         paySource: source,
         scheduleSource: source,
       },
@@ -163,9 +160,7 @@ export function startPublicJob(
         id: calendarIdNew,
         organizationId: input.employerId,
         workCommitmentIds: [commitmentId],
-        basisRecordIds: template.synthetic
-          ? [input.employerId]
-          : [input.employerId, template.id],
+        basisRecordIds: [input.employerId, template.id],
         effectiveFrom: [startsAt, calendar.effectiveFrom].sort().at(-1)!,
         source,
       },
@@ -173,74 +168,4 @@ export function startPublicJob(
     return jobId;
   }
   return null;
-}
-
-/**
- * A standard full-time week and a biweekly government payday for a post with
- * no job in reach to follow: weekdays from the morning start, the full-time
- * hours spread over them, periods two weeks long and paid the usual number of
- * days after each period ends.
- */
-function standardWeek(
-  api: CoreAPI,
-  employerId: string,
-  personId: string,
-  jobId: string,
-): Followed {
-  stopgap("SG-GOV-public-post-standard-week");
-  const p = (key: string) => api.parameter(key);
-  const startsAt = addDays(makeIsoDate(api.state.date), p("one"));
-  const weeklyMinutes = p("openingFullTimeWeeklyHours") * p("minutesPerHour");
-  const workdays = p("fridayIndex");
-  const source: Source = {
-    tag: "ESTIMATED",
-    asOf: api.state.date,
-    citation:
-      "A standard full-time week (BLS CPS 2021 average hours) and a biweekly government payday (the opening's government proxy).",
-    estimatedFrom:
-      "Used only where no job in reach has a schedule to follow; SG-GOV-public-post-standard-week.",
-  };
-  const periodDays = p("two") * p("daysPerWeek");
-  return {
-    template: {
-      id: "standard-public-week",
-      hoursDaily: p("openingFullTimeWeeklyHours") / workdays,
-      synthetic: true,
-    },
-    commitment: {
-      id: `work-commitment:${jobId}`,
-      jobId,
-      personId,
-      organizationId: employerId,
-      startsAt,
-      anchorDate: startsAt,
-      periodDays: p("daysPerWeek"),
-      slots: Array.from({ length: workdays }, (_, offsetDays) => ({
-        offsetDays,
-        startMinute: p("workMorningStartMinute"),
-        minutes: weeklyMinutes / workdays,
-      })),
-      expectedWeeklyMinutes: weeklyMinutes,
-      hourlyMinor: p("zero"),
-      scheduleSource: source,
-      paySource: source,
-    },
-    calendar: {
-      id: `payroll-calendar:${jobId}`,
-      organizationId: employerId,
-      workCommitmentIds: [`work-commitment:${jobId}`],
-      basisRecordIds: [employerId],
-      rule: "fixed-days-after-inclusive-period-end" as const,
-      periodDays,
-      firstPeriodStartsAt: startsAt,
-      firstPaydayAt: addDays(
-        makeIsoDate(startsAt),
-        periodDays - p("one") + p("openingPayrollPeriodEndLagDays"),
-      ),
-      nonbusinessDayRule: "no-adjustment" as const,
-      effectiveFrom: startsAt,
-      arrearsRule: "carry-to-next-recorded-payday" as const,
-      source,
-    },
-  };
 }
