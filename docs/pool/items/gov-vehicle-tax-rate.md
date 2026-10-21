@@ -17,7 +17,7 @@ source: split from gov-town-payers-vehicle-tax
 
 **Rules.** One model, two tiers: a counted household is read by the same rule as a full household, times its count. One rule, all 56 places: no state, city or GEOID named in logic. An effect is a read, not a record: the next slice must read what this one writes at the moment the tax is due.
 
-**Done when.** In a played world in a drawn place, the rate a household would owe is shown by law row id or by budget line id, and the sum over the jurisdiction's vehicles equals the budgeted line. A test in src/core2 draws a random place from all 56 with a named seed and proves it in buildBenchWorld over a one-year run, naming the record ids.
+**Done when.** In a played world in a drawn place, the rate a household would owe is shown by law row id or by budget line id. Where the budget-derived fallback is used, the sum over the jurisdiction's vehicles equals that budgeted line; a sourced statutory rate keeps its own value. A test in src/core2 draws a random place from all 56 with a named seed and proves it in buildBenchWorld over a one-year run, naming the record ids.
 
 **Files.** src/core2/data/laws/, src/core2/budgets-treasury.ts, src/core2/data/budgets/revenue-payers.json
 
