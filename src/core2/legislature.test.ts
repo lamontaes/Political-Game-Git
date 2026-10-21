@@ -386,9 +386,19 @@ describe(
               amountMinor: 10_000,
             }),
           );
+        // An appropriations bill is carried by the chamber's majority: a
+        // minority member's bill dies in a committee the majority chairs, by
+        // their recorded party positions. The sponsor is the first member on
+        // the majority side.
+        const seats = members(api, body);
+        const majority = Math.sign(
+          seats.reduce((sum, t) => sum + partySide(t.party), 0),
+        );
+        const sponsorTerm =
+          seats.find((t) => partySide(t.party) === majority) ?? seats[0]!;
         const bill = appropriationsWithProjects(api, {
           bodyOfficeId: body,
-          sponsorId: memberKey(members(api, body)[0]!),
+          sponsorId: memberKey(sponsorTerm),
         });
         const after = requests.map((r) => projectRequestOf(api, r.id)!);
         // Every request is settled on standing, with its reasons kept.
