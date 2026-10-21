@@ -21,7 +21,6 @@
  */
 import questionScopes from "../../../data/research/powers-catalog/question-powers.json" with { type: "json" };
 import geography from "../../../data/research/geography/state-reference.json" with { type: "json" };
-import federalAnswers from "../data/legislature/federal-answers.json" with { type: "json" };
 import congressSessions from "../data/legislature/congress-sessions.json" with { type: "json" };
 import { townConcernShare } from "./meetings";
 import { sessionYear } from "../state-session-calendar";
@@ -60,7 +59,6 @@ import {
   leanOf,
   memberKey,
   members,
-  POLICY_QUESTIONS,
   proposeAsExecutive,
   FEDERAL_SENATE,
   LEGISLATURE_MODULE_ID,
@@ -69,6 +67,7 @@ import {
   tasteForChange,
   type BillRow,
   type Sitting,
+  answerIn,
 } from "./legislature";
 
 /**
@@ -160,36 +159,6 @@ function townBodies(api: CoreAPI): readonly string[] {
       o.kind === "township-board",
   );
   return offices.map((o) => o.id).sort();
-}
-
-/** A government's own answer in force on a policy question: its latest enacted row, else its recorded starting answer. */
-const FEDERAL_ANSWERS = (
-  federalAnswers as unknown as {
-    questions: Record<string, { answer: string }>;
-  }
-).questions;
-
-export function answerIn(
-  api: CoreAPI,
-  stateKey: string,
-  question: string,
-  /** Count acts already enacted that haven't taken effect yet. */
-  enacted = false,
-): number | null {
-  const rows = (
-    api
-      .moduleState(LAWS_MODULE_ID)
-      .table("laws")
-      .query("bySeries", [stateKey, question]) as unknown as LawRowInput[]
-  )
-    .filter((r) => enacted || r.effectiveDate <= api.state.date)
-    .sort((a, b) => b.effectiveDate.localeCompare(a.effectiveDate));
-  if (rows[0]) return rows[0].value === 1 ? 1 : -1;
-  const answer =
-    stateKey === "US"
-      ? FEDERAL_ANSWERS[question]?.answer
-      : POLICY_QUESTIONS[question]?.answers[stateKey]?.answer;
-  return answer === "yes" ? 1 : answer === "no" ? -1 : null;
 }
 
 function chamber(
