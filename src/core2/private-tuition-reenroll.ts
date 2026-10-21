@@ -15,6 +15,7 @@
  * part into its own living-plan seller.
  */
 import data from "./data/opening-private-tuition.json" with { type: "json" };
+import { bookkeeping } from "./bookkeeping";
 import { ageOnDate, makeIsoDate } from "./kernel/dates";
 import type { FinanceContractInput } from "./finance-types";
 import { setEverydayPurchase } from "./cost-of-living";
@@ -23,7 +24,19 @@ import {
   countedTuitionPlans,
   setCountedTuition,
 } from "./modules/residents";
+import { privateShareOf } from "./opening-private-tuition";
 import type { CoreAPI, CoreState, Source } from "./types";
+
+/** The list the last August ranking used, kept only while bookkeeping is on (tests and the bench read it). */
+const rankingUsed = new WeakMap<
+  CoreState,
+  { id: string; placeId: string; cashPerChild: number; counted: boolean }[]
+>();
+
+/** The families the last August ranking ordered, with the cash per child it read; undefined unless bookkeeping was on. */
+export function lastTuitionRanking(core: CoreState) {
+  return rankingUsed.get(core);
+}
 
 /** Each household's tuition now: the private school its everyday-living plan pays and the monthly amount. */
 export function tuitionPlans(
@@ -111,6 +124,18 @@ export function reenrollPrivateTuition(api: CoreAPI): void {
     });
     families.set(family.placeId, list);
   }
+  if (bookkeeping())
+    rankingUsed.set(
+      core,
+      [...families].flatMap(([placeId, list]) =>
+        list.map((row) => ({
+          id: row.id,
+          placeId,
+          cashPerChild: row.cashPerChild,
+          counted: row.counted === true,
+        })),
+      ),
+    );
   const now = tuitionPlans(core);
   const countedNow = countedTuitionPlans(
     core,
@@ -128,7 +153,7 @@ export function reenrollPrivateTuition(api: CoreAPI): void {
     const total = list.reduce((sum, row) => sum + row.children * row.weight, 0);
     const quota = Math.max(
       1,
-      Math.round(total * p("openingPrivateSchoolShare")),
+      Math.round(total * privateShareOf(placeId, core.placeMetadata?.placeKey)),
     );
     const local = schools.filter((row) => row.placeId === placeId);
     let taken = 0;
@@ -177,7 +202,7 @@ export function reenrollPrivateTuition(api: CoreAPI): void {
     tag: "ESTIMATED",
     asOf: date,
     citation: data.citation,
-    estimatedFrom: `Counted families with children aged ${firstAge}–${lastAge} at average tuition $${p("openingPrivateTuitionAnnualUsd")} a year, ranked by cash per child with the full families until the private share of school-age children (${p("openingPrivateSchoolShare")}) is reached.`,
+    estimatedFrom: `Counted families with children aged ${firstAge}–${lastAge} at average tuition $${p("openingPrivateTuitionAnnualUsd")} a year, ranked by cash per child with the full families until the private share of its state's school-age children (${privateShareOf(schools[0]?.placeId, core.placeMetadata?.placeKey)}) is reached.`,
   };
   const schoolOf = new Map(schools.map((row) => [row.id, row]));
   for (const [householdId, current] of countedNow) {
@@ -210,7 +235,7 @@ export function reenrollPrivateTuition(api: CoreAPI): void {
       tag: "ESTIMATED",
       asOf: date,
       citation: data.citation,
-      estimatedFrom: `${want.children} children aged ${p("openingSchoolAgeFirst")}–${p("openingSchoolAgeLast")} at average tuition $${p("openingPrivateTuitionAnnualUsd")} a year; this family is among the best-off per child in a town where the private share of school-age children is ${p("openingPrivateSchoolShare")}.`,
+      estimatedFrom: `${want.children} children aged ${p("openingSchoolAgeFirst")}–${p("openingSchoolAgeLast")} at average tuition $${p("openingPrivateTuitionAnnualUsd")} a year; this family is among the best-off per child in a town where the private share of its state's students is ${privateShareOf(core.organizations.get(want.schoolId)?.placeId, core.placeMetadata?.placeKey)}.`,
     };
     api.addFinanceContract({
       id: `private-tuition:${householdId}:${date}`,

@@ -13,7 +13,7 @@ import {
   residentsRuntime,
 } from "./modules/residents";
 import { parameter as p } from "./parameters";
-import { tuitionPlans } from "./private-tuition-reenroll";
+import { lastTuitionRanking, tuitionPlans } from "./private-tuition-reenroll";
 import { fillInPerson } from "./state";
 import type { CoreState } from "./types";
 
@@ -41,7 +41,11 @@ it(`counted families are ranked with full ones each August, pay the school as a 
     const schoolIds = new Set(schools.map((row) => row.id));
     const towns = new Set(schools.map((row) => row.placeId));
     const year = Number(core.date.slice(0, 4));
-    advanceCore(core, makeIsoDate(`${year}-${tuition.reenrollOn}`));
+    // The ranking reads what families hold on the day it runs, so the test
+    // keeps the list the engine ordered (kept while bookkeeping is on).
+    setBookkeeping(true);
+    advanceCore(core, addDays(makeIsoDate(`${year}-${tuition.reenrollOn}`), 1));
+    setBookkeeping(false);
     const families = countedSchoolFamilies(
       state,
       towns,
@@ -62,6 +66,98 @@ it(`counted families are ranked with full ones each August, pay the school as a 
       median(enrolled),
       `${where}: enrolled hold more per child`,
     ).toBeGreaterThanOrEqual(median(out));
+    // A full and a counted household are ranked on one list by cash per
+    // child, so they enroll or stay out together: in a town, no full family
+    // that holds more per child than an enrolled counted one is out, and no
+    // counted family that holds more than an enrolled full one is out.
+    const ranking = lastTuitionRanking(state);
+    expect(ranking, `${where}: the August ranking was kept`).toBeDefined();
+    // A full family pays the school through its living plan or, with no plan,
+    // through a tuition contract.
+    const fullPaying = new Set(tuitionPlans(state).keys());
+    for (const contract of state.finance.contracts.values())
+      if (
+        !contract.endedAt &&
+        contract.kind === tuition.contractKind &&
+        schoolIds.has(contract.payeeId) &&
+        contract.amountMinor > 0 &&
+        contract.householdId
+      )
+        fullPaying.add(contract.householdId);
+    const fullFamilies = ranking!
+      .filter((row) => !row.counted)
+      .map((row) => ({
+        id: row.id,
+        placeId: row.placeId,
+        cash: row.cashPerChild,
+      }));
+    // A household that left the counts that day (moved, died, filled in)
+    // cannot start a contract, so it is not a pair.
+    const stillCounted = (id: string) => {
+      const ix = rt.store.householdOf.get(id);
+      return ix !== undefined && !rt.store.households[ix]!.gone;
+    };
+    const rankedCounted = ranking!
+      .filter((row) => row.counted && stillCounted(row.id))
+      .map((row) => ({
+        householdId: row.id,
+        placeId: row.placeId,
+        cashPerChild: row.cashPerChild,
+      }));
+    const pairs: {
+      fullId: string;
+      countedId: string;
+      gap: number;
+      together: boolean;
+    }[] = [];
+    for (const full of fullFamilies)
+      for (const counted of rankedCounted) {
+        if (counted.placeId !== full.placeId) continue;
+        const fullIn = fullPaying.has(full.id),
+          countedIn = plans.has(counted.householdId);
+        // The rule ranks by cash per child, then by id (a tie at the quota's
+        // edge goes to the smaller id), so the ranking decides the pair.
+        const fullFirst =
+          full.cash > counted.cashPerChild ||
+          (full.cash === counted.cashPerChild &&
+            full.id.localeCompare(counted.householdId) < 0);
+        const [firstIn, lastIn] = fullFirst
+          ? [fullIn, countedIn]
+          : [countedIn, fullIn];
+        if (lastIn)
+          expect(
+            firstIn,
+            `${where}: ${full.id} (${full.cash}) and ${counted.householdId} (${counted.cashPerChild}) rank on one list, so the one ranked first is in when the other is`,
+          ).toBe(true);
+        pairs.push({
+          fullId: full.id,
+          countedId: counted.householdId,
+          gap: Math.abs(full.cash - counted.cashPerChild),
+          together: fullIn === countedIn,
+        });
+      }
+    // The closest pair of one full and one counted household that enrolled
+    // together and the closest that stayed out together both exist.
+    const nearest = (enrolledTogether: boolean) =>
+      pairs
+        .filter(
+          (row) =>
+            row.together && plans.has(row.countedId) === enrolledTogether,
+        )
+        .sort((a, b) => a.gap - b.gap)[0];
+    const inPair = nearest(true),
+      outPair = nearest(false);
+    expect(
+      inPair,
+      `${where}: a full and a counted household enrolled together`,
+    ).toBeDefined();
+    expect(
+      outPair,
+      `${where}: a full and a counted household stayed out together`,
+    ).toBeDefined();
+    console.log(
+      `${where}: full ${inPair!.fullId} and counted ${inPair!.countedId} enrolled together (gap ${inPair!.gap.toFixed(2)} minor per child); full ${outPair!.fullId} and counted ${outPair!.countedId} stayed out together (gap ${outPair!.gap.toFixed(2)})`,
+    );
     // Each pays a child's tuition times its children, as a part of the school's flow.
     const perChild = Math.round(
       (p("openingPrivateTuitionAnnualUsd") * p("minorPerDollar")) /
@@ -84,6 +180,12 @@ it(`counted families are ranked with full ones each August, pay the school as a 
       flow.lastPaidMinor ?? 0,
       `${where}: ${flow.id} was paid`,
     ).toBeGreaterThan(0);
+    // The tuition reached the school's account as a journal record.
+    const record0 = state.cashJournal.latestByOwner.get(school);
+    expect(record0, `${where}: the school's journal record`).toBeDefined();
+    console.log(
+      `${where}: ${flow.id} paid school ${school}, journal record ${record0!.id}`,
+    );
     // Filling a family in leaves its enrollment and its tuition as they were.
     const before = plans.get(enrolled[0]!.householdId)!;
     const record =
