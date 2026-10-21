@@ -5,9 +5,9 @@ area: release
 kind: bug
 priority: 1
 size: S
-status: claimed
+status: done
 claimed-by: claude/fix-figures-declaration
-pr:
+pr: #5126
 blocked-on:
 source: found by release:check while splitting gov-world-standins-oct14
 claimed-at: 2026-10-19T19:55:28.695Z

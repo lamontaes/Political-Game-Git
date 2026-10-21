@@ -5,19 +5,24 @@ area: world
 kind: stopgap
 priority: 2
 size: M
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/standins-jobs
+pr: #5193
 blocked-on:
-source: split from gov-world-standins-oct14
+source: added with npm run pool -- add
+claimed-at: 2026-10-20T05:01:22.329Z
 ---
 
-**What.** PR #4146 (branch stopgaps/gov-world) relabeled or replaced 7 stopgap rows across several engines in one change, and it can no longer be merged: main moved on and 42 files conflict. This item redoes the jobs engine's rows against main's current files, one engine's worth at a time. For each row, either build the real mechanic and close the row, or turn the stand-in into a labeled estimate with its source and spread and state what replaces it. The rows are: SG-WORLD-jobs-opening-seekers, SG-WORLD-jobs-layoff-decider, SG-WORLD-jobs-benefits-terms, SG-WORLD-jobs-counted-choices, SG-WORLD-jobs-agreement-pinned, SG-WORLD-jobs-counted-retiree-income, SG-WORLD-jobs-benefits.
+**What.** The jobs engine still holds open stand-ins (SG-WORLD-jobs-opening-seekers, -layoff-decider, -counted-choices, -counted-retiree-income, -benefits and -offer-deadline-reminder in src/core2/data/stopgaps.json). Redo them one at a time against main's current files, as the closed branch stopgaps/gov-world did against an older main. Each row ends replaced by the mechanic, or relabeled as an ESTIMATED value with its source and spread; unemployment insurance reads the state's law in force.
 
-**Rules.** Placeholders: a row closes only when the real mechanic or a sourced, labeled estimate replaces the fake, never by deleting the row. Replace, never layer: the stand-in is deleted in the same change. Estimate, never UNKNOWN: a value a player can see starts from the real average with a spread and a source. One rule, all 56 places: the move names no place in code.
+**Rules.** Placeholders: a stand-in row closes only by a replacement or by a labeled estimate with its source and spread, never by deleting the row alone. Replace, never layer: the old marker and its wording are deleted in the same change, and the PR body counts them. Look before you ask: read docs/coordination/DECISION-REGISTER.md and OWNER-DECISIONS.md and search docs/ before registering or reopening anything. One model, two tiers: a counted worker or retiree is read by the same rule as a full person times their count.
 
-**Done when.** In a one-year played world (buildBenchWorld, a drawn place from all 56, seed and place named in the PR body) each listed row that is closed shows another engine reading what replaced it, by record id, and the rows still open in src/core2/data/stopgaps.json each carry a reason; the stopgap tripwire test and the tests for the changed engine pass.
+**Done when.** In a one-year run of the played world (buildBenchWorld) in a place drawn from all 56 and a seed the builder did not choose (name both in the PR body), each row handled is resolved in stopgaps.json with a one-line resolution and its marker gone, a named worker's layoff and benefit claim is shown by record id, and src/core2/jobs.test.ts, jobs-benefits tests and the tripwire tests pass.
 
 **Files.** src/core2/modules/jobs.ts, src/core2/jobs-benefits.ts, src/core2/data/jobs/parameters.json, src/core2/data/stopgaps.json
 
-**Notes.** Split Oct 19 from gov-world-standins-oct14 (see PR #5120 for the conflict list). The old branch stopgaps/gov-world holds the earlier attempt at each row; read its diff for the approach, then redo it on a fresh branch from main.
+**Notes.** Replaces the jobs share of PR #4146. The layoff decider is the business's recorded owner.
+
+- Oct 19: SG-WORLD-jobs-opening-seekers resolved on `claude/opening-seekers-region`: opening seekers per place from that place's own rate, both tiers.
+  Sent back 2026-10-20 from PR #5193 (branch claude/standins-jobs): Merge main 680fdf18aadf into claude/standins-jobs conflicts in: src/core2/modules/jobs.ts. Resolve these files with a normal merge before changed-file validation; no integrated green head exists.; finish on that branch, merge main into it first. Current replacement claim and PR are preserved.
+  Sent back 2026-10-20 from PR #5211 (branch claude/opening-seekers-region): Merge conflict with main in docs/pool/items/gov-standins-jobs.md; finish on that branch, merge main into it first.

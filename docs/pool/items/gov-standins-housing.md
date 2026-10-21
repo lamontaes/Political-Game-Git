@@ -5,19 +5,20 @@ area: world
 kind: stopgap
 priority: 2
 size: M
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/political-game-pool-v8txtd
+pr: #5205
 blocked-on:
-source: split from gov-world-standins-oct14
+source: added with npm run pool -- add
+claimed-at: 2026-10-19T22:19:12.591Z
 ---
 
-**What.** PR #4146 (branch stopgaps/gov-world) relabeled or replaced 7 stopgap rows across several engines in one change, and it can no longer be merged: main moved on and 42 files conflict. This item redoes the housing engine's rows against main's current files, one engine's worth at a time. For each row, either build the real mechanic and close the row, or turn the stand-in into a labeled estimate with its source and spread and state what replaces it. The rows are: SG-WORLD-housing-landlord, SG-WORLD-housing-hearing-without-judge, SG-WORLD-housing-vacancy, SG-WORLD-housing-counted-rent, SG-WORLD-property-tax-rate, SG-WORLD-property-tax-monthly, SG-WORLD-housing-new-home-buyers.
+**What.** The housing engine (src/core2/modules/housing.ts and its helpers) carries stand-ins that are registered as open stopgap rows: the one ownerless landlord, the pooled counted rent, the eviction steps recalled from secondary summaries, a hearing without a judge, the vacancy rule and the property-tax rate and due dates. Sent-back PR #4146 (branch stopgaps/gov-world) removed the eviction hearing, judgment and payment-plan steps and several markers in one change. Finish it in bounded parts: for each row either replace it with the real mechanic, or relabel it as a sourced estimate with a source and a spread, and clear its row in src/core2/data/stopgaps.json only when the fake is gone.
 
-**Rules.** Placeholders: a row closes only when the real mechanic or a sourced, labeled estimate replaces the fake, never by deleting the row. Replace, never layer: the stand-in is deleted in the same change. Estimate, never UNKNOWN: a value a player can see starts from the real average with a spread and a source. One rule, all 56 places: the move names no place in code.
+**Rules.** Placeholders: a row is never closed by deleting it without the mechanic, and an unregistered placeholder is a defect. Replace, never layer: the old code and markers are deleted in the same change that replaces them. Estimate, never UNKNOWN: a relabeled stand-in shows its source and spread. One rule, all 56 places: eviction steps and due dates come from place data. Courts come after early access (AGENTS.md), so check the register before removing any court step.
 
-**Done when.** In a one-year played world (buildBenchWorld, a drawn place from all 56, seed and place named in the PR body) each listed row that is closed shows another engine reading what replaced it, by record id, and the rows still open in src/core2/data/stopgaps.json each carry a reason; the stopgap tripwire test and the tests for the changed engine pass.
+**Done when.** For each housing row changed, a test in src/core2/housing.test.ts in a drawn place (buildBenchWorld, seed named in the PR body) shows the replaced behavior by case or lease record id, and the stopgap tripwire test shows the row resolved or relabeled in stopgaps.json. The owner plays it: let rent go unpaid and read what the landlord does and why.
 
-**Files.** src/core2/modules/housing.ts, src/core2/housing-property-tax.ts, src/core2/housing-construction.ts, src/core2/data/housing/housing.json, src/core2/data/stopgaps.json
+**Files.** src/core2/modules/housing.ts, src/core2/housing-property-tax.ts, src/core2/housing-occupancy.ts, src/core2/data/housing/housing.json, src/core2/data/stopgaps.json, src/core2/housing.test.ts
 
-**Notes.** Split Oct 19 from gov-world-standins-oct14 (see PR #5120 for the conflict list). The old branch stopgaps/gov-world holds the earlier attempt at each row; read its diff for the approach, then redo it on a fresh branch from main.
+**Notes.** Oct 19 (claude/standins-housing, released). Do not port PR #4146's housing slice mechanically: it deletes mechanics and markers on a main that has moved. Take one row at a time from the per-engine items world-stopgap-housing-faked-mechanic and world-stopgap-housing-property-tax-faked-mechanic.

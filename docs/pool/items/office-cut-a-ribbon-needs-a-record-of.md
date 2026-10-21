@@ -4,13 +4,13 @@ title: "Cut a ribbon (needs a record of a finished public project; none exists).
 area: office
 kind: feature
 priority: 2
-status: claimed
-claimed-by: claude/public-project-ribbon
-pr:
+status: done
+claimed-by:
+pr: #5560
 blocked-on:
 milestone:
 source: "docs/coordination/OFFICE-LOCAL.md line 33 (unchecked checklist line)"
-claimed-at: 2026-10-19T19:41:04.629Z
+claimed-at:
 ---
 
 **What.** Checked against main on Oct 16: OPEN. There is no public project record: public works are budget lines that pay town businesses by share (`budgets-treasury.ts`), and the only project record is private housing (`housing.ts` `ProjectRow`). Next: A public project record: a budget line becomes a project with contractor payments, finishes on a date and emits a record the office day reads for a ribbon-cutting act. The player would notice the act on the politics screen as a choice among people, never a form.
@@ -22,3 +22,7 @@ claimed-at: 2026-10-19T19:41:04.629Z
 **Files.** src/core2/modules/budgets.ts, src/core2/office-day-acts.ts, src/core2/modules/office-day.ts, src/core2/modules/housing.ts
 
 **Notes.** Checklist line from OFFICE-LOCAL.md; verify against main before starting.
+
+Sent back 2026-10-20 from PR #5535 (branch claude/cut-ribbon): the next fiscal-year budget stands in for actual public-work completion without a stopgap row and marker; use a completion record or register and accurately describe the assumption; finish on that branch, merge main into it first.
+
+Sent back 2026-10-20 from PR #5560 (branch claude/political-game-pool-yucp92-yy): finish-date stopgap is now registered, but the release note still presents actual completion and player-facing news although the body admits a fiscal-year proxy and unworded news; make the declaration accurate; finish on that branch, merge main into it first.

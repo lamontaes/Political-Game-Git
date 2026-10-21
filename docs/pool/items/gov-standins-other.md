@@ -7,17 +7,20 @@ priority: 2
 size: M
 status: open
 claimed-by:
-pr:
-blocked-on:
-source: split from gov-world-standins-oct14
+pr: #5155
+blocked-on: gov-standin-budgets-adopted-by-rule
+source: added with npm run pool -- add
+claimed-at:
 ---
 
-**What.** PR #4146 (branch stopgaps/gov-world) relabeled or replaced 18 stopgap rows across several engines in one change, and it can no longer be merged: main moved on and 42 files conflict. This item redoes the credit, business, staff, budgets, legislature, interest-group, renewal and macro rows against main's current files, one engine's worth at a time. For each row, either build the real mechanic and close the row, or turn the stand-in into a labeled estimate with its source and spread and state what replaces it. The rows are: SG-GOV-staff-hire-out-of-work, SG-GOV-budget-adopted-by-rule, SG-GOV-committee-structure, SG-GOV-group-lobbyist-stand-in, SG-GOV-staff-unpaid, SG-M1-opening-pregnancies, SG-WORLD-macro-mortgage-spread, SG-WORLD-macro-public-budget, SG-WORLD-credit-line-stand-in, SG-WORLD-credit-business-applies, SG-WORLD-credit-bank-equity-only, SG-WORLD-business-counted-owner-choice, SG-WORLD-prices-household-shares, SG-WEB-outcome-drift, SG-WORLD-business-no-successor, SG-GOV-appointee-pay, SG-GOV-electorate-approval, SG-GOV-township-law-level.
+**What.** The credit, business, staff, budgets, legislature and macro engines still hold open stand-ins (for example SG-WORLD-credit-business-applies, SG-WORLD-macro-mortgage-spread, SG-GOV-staff-hire-out-of-work, SG-GOV-staff-unpaid, SG-GOV-budget-adopted-by-rule, SG-GOV-committee-structure, SG-P8-business-books-priors and SG-WORLD-business-compliance-cost in src/core2/data/stopgaps.json). Redo them one area at a time against main's current files, as the closed branch stopgaps/gov-world did against an older main. Each row ends replaced, or relabeled as an ESTIMATED value with its source and spread.
 
-**Rules.** Placeholders: a row closes only when the real mechanic or a sourced, labeled estimate replaces the fake, never by deleting the row. Replace, never layer: the stand-in is deleted in the same change. Estimate, never UNKNOWN: a value a player can see starts from the real average with a spread and a source. One rule, all 56 places: the move names no place in code.
+**Rules.** Placeholders: a stand-in row closes only by a replacement or by a labeled estimate with its source and spread, never by deleting the row alone. Replace, never layer: the old marker and its wording are deleted in the same change, and the PR body counts them. Look before you ask: read docs/coordination/DECISION-REGISTER.md and OWNER-DECISIONS.md and search docs/ before registering or reopening anything.
 
-**Done when.** In a one-year played world (buildBenchWorld, a drawn place from all 56, seed and place named in the PR body) each listed row that is closed shows another engine reading what replaced it, by record id, and the rows still open in src/core2/data/stopgaps.json each carry a reason; the stopgap tripwire test and the tests for the changed engine pass.
+**Done when.** In a one-year run of the played world (buildBenchWorld) in a place drawn from all 56 and a seed the builder did not choose (name both in the PR body), each row handled is resolved in stopgaps.json with a one-line resolution and its marker gone, the engine's own tests pass (credit.test.ts, staff.test.ts, budgets.test.ts, legislature.test.ts, macro tests) and so do the tripwire tests.
 
-**Files.** src/core2/modules/credit.ts, src/core2/modules/business.ts, src/core2/modules/staff.ts, src/core2/modules/budgets.ts, src/core2/modules/legislature.ts, src/core2/modules/renewal.ts, src/core2/data/stopgaps.json
+**Files.** src/core2/modules/credit.ts, src/core2/modules/business.ts, src/core2/modules/staff.ts, src/core2/modules/budgets.ts, src/core2/modules/legislature.ts, src/core2/modules/macro.ts, src/core2/data/stopgaps.json
 
-**Notes.** Split Oct 19 from gov-world-standins-oct14 (see PR #5120 for the conflict list). The old branch stopgaps/gov-world holds the earlier attempt at each row; read its diff for the approach, then redo it on a fresh branch from main.
+**Notes.** Replaces the government and economy share of PR #4146 that is not elections, housing, jobs or law reach. About 21 rows were open on Oct 19.
+
+Sent back 2026-10-20 from PR #5155 (branch claude/standins-other-credit-business): The PR edits six pool/index files but explicitly declares no release declaration, and its changed files contain none under docs/release/changes. Add the required impact-none declaration for the actual planning-only split, then merge main and run the changed-file checks. Keep the unresolved stand-in implementations open; no registry row is completed by this docs change.; finish on that branch, merge main into it first.

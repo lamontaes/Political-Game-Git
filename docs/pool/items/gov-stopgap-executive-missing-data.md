@@ -4,10 +4,10 @@ title: "Stopgaps in executive (missing-data): 1 open"
 area: gov
 kind: stopgap
 priority: 3
-status: open
+status: blocked
 claimed-by:
 pr:
-blocked-on:
+blocked-on: engine or design: The research helper fetched no sources; verification against state constitutions, Book of the States Table 4.10 and NCSL is still to do.
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/modules/executive.ts, kind missing-data"
 ---
