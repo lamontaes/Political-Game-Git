@@ -4948,8 +4948,8 @@
     "why": "The unemployment link is left out for full couples on purpose: a lost job already lowers their work and income terms, so the web's link would count the same recession twice. The other links have no term in the plan score, and the score is a choice between planning and waiting, not a rate the factor can multiply; turning a factor into a score term needs its own calibration against the births it produces.",
     "addedBy": "EFFECT-WEB-WIRING",
     "addedAt": "2026-10-20",
-    "replacement": "A conditions term in the plan score that reads webReach for the woman's own age and tenure, leaving out the links her own records already carry (unemployment), with a weight calibrated in a played year so full births move by the researched size, as counted births do.",
-    "status": "open"
+    "replacement": "Resolved Oct 21: a web term in the plan score (renewalWebWeight) reads the place's birth-rate factor, so a full couple's choice moves with it as the counted women's births do; fitted in src/core2/births-full-web.test.ts (elasticity 0.5 to 2 over 16 drawn places). The unemployment link is read through the factor like the others, so its effect is shared with the income and work terms.",
+    "status": "resolved"
   },
   {
     "id": "SG-TRAITS-counted-health-no-trait",
