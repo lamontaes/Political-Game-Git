@@ -5,12 +5,12 @@ area: laws
 kind: wiring
 priority: 1
 size: L
-status: done
-claimed-by: claude/law-wiring-audit
+status: open
+claimed-by:
 pr: #5547
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-20T05:58:17.880Z
+claimed-at:
 ---
 
 **What.** Laws take effect and most reach nobody, move no money and move no outcome measure. Build a checker that changes every law in drawn places and grades nine links, publish the matrix, then wire every family of laws on its own pull request. Each family's engine records whom it applied a law to through lawApplied.
@@ -22,3 +22,5 @@ claimed-at: 2026-10-20T05:58:17.880Z
 **Files.** scripts/law-wiring/check.ts, src/core2/law-reach/applied.ts, src/core2/law-reach/host.ts, docs/reports/law-wiring-2026-10-20.md
 
 **Notes.** TODO
+
+Sent back 2026-10-21 from PR #5669 (branch claude/law-wiring-rights-env): src/core2/data/laws/reach-group-a.json removes three reach rows: discrimination/employers, age-verification/platforms and data-privacy/businesses (around lines 554, 640 and 687), plus the online selector. The PR description says four records-only reach rows were removed. Correct that count and its removal list to match the final diff; the morning check requires checking these claims rather than accepting them. Main merged cleanly and was plain-pushed here. Comparing stopgap IDs confirms no row was lost; no local gate pass is claimed.; finish on that branch, merge main into it first.
