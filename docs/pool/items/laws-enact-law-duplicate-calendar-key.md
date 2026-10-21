@@ -5,7 +5,7 @@ area: laws
 kind: bug
 priority: 1
 size: S
-status: in-pr
+status: done
 claimed-by: claude/duplicate-law-effect-key-s5
 pr: #4900
 blocked-on:

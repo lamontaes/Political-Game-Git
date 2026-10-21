@@ -21,6 +21,16 @@ import { stopgap } from "./stopgaps";
 import type { IsoDate, PersonId } from "./types";
 
 const SPEC = OPENING_KIN.personality;
+// The named constants and the correlated pairs, read once: they are static,
+// and the opening draws them for every person.
+const ZERO = p("zero"),
+  ONE = p("one"),
+  TWO = p("two");
+const PAIRS = SPEC.correlatedPairs.map((pair) => ({
+  first: SPEC.dimensions.findIndex((row) => row.trait === pair.first),
+  second: SPEC.dimensions.findIndex((row) => row.trait === pair.second),
+  rho: p(pair.parameter),
+}));
 
 /**
  * Every other trait in the shared trait table, tied to one temperament
@@ -60,25 +70,16 @@ export interface TemperamentSubject {
 }
 
 function normal(rng: SeededRng): number {
-  const u = p("one") - rng.next();
-  return (
-    Math.sqrt(-p("two") * Math.log(u)) *
-    Math.cos(p("two") * Math.PI * rng.next())
-  );
+  const u = ONE - rng.next();
+  return Math.sqrt(-TWO * Math.log(u)) * Math.cos(TWO * Math.PI * rng.next());
 }
 
 /** Independent standard normals per dimension, then the registered correlated pairs. */
 function draws(rng: SeededRng): number[] {
   const values = SPEC.dimensions.map((row) => normal(rng.fork(row.trait)));
-  for (const pair of SPEC.correlatedPairs) {
-    const first = SPEC.dimensions.findIndex((row) => row.trait === pair.first);
-    const second = SPEC.dimensions.findIndex(
-      (row) => row.trait === pair.second,
-    );
-    const rho = p(pair.parameter);
+  for (const { first, second, rho } of PAIRS)
     values[second] =
-      rho * values[first]! + Math.sqrt(p("one") - rho * rho) * values[second]!;
-  }
+      rho * values[first]! + Math.sqrt(ONE - rho * rho) * values[second]!;
   return values;
 }
 
@@ -96,19 +97,93 @@ function shiftFor(
   const ageShift =
     (curve(row, age) - curve(row, p("personalityReferenceAge"))) /
     SPEC.tScoreSd;
-  const half = row.sexDMaleMinusFemale / p("two");
+  const half = row.sexDMaleMinusFemale / TWO;
   const sexShift =
     gender === OPENING_KIN.genders.male
       ? half
       : gender === OPENING_KIN.genders.female
         ? -half
-        : p("zero");
+        : ZERO;
   return row.sign * (ageShift + sexShift);
 }
 
+/** The temperament dimensions and the traits anchored to them, for the engine that changes them over a life. */
+export const PERSONALITY_DIMENSIONS = SPEC.dimensions.map((row) => ({
+  traitId: `${PEOPLE_MIND_VERSION}:${row.trait}`,
+  name: row.trait,
+}));
+export const PERSONALITY_ANCHORED = ANCHORED.filter(
+  (row) => row.dimension >= p("zero") && row.loading !== p("zero"),
+).map((row) => ({
+  traitId: row.id,
+  dimensionIndex: row.dimension,
+  loading: row.loading,
+}));
+
+/**
+ * One year of the same sourced age curve the opening reads: how far a
+ * dimension's standard score moves in the year after `age`. Zero below the
+ * curve's minimum age.
+ */
+export function yearlyPersonalityShift(
+  dimensionIndex: number,
+  age: number,
+): number {
+  const row = SPEC.dimensions[dimensionIndex]!;
+  return (
+    (row.sign * (curve(row, age + p("one")) - curve(row, age))) / SPEC.tScoreSd
+  );
+}
+
+/** The -2..2 level a standard score falls in (the opening's own cut points). */
+export function personalityLevel(z: number): number {
+  return level(z);
+}
+
+/**
+ * A standard score inside a level's band, at the place `at` (0 to 1) of the
+ * band's probability: where a person carrying that level started. The place
+ * is a generation fact keyed to the person (the opening kept only the level),
+ * so the same person always starts at the same score.
+ */
+export function personalityLevelScore(value: number, at: number): number {
+  const cuts = SPEC.levels.cutPoints;
+  const index = SPEC.levels.values.indexOf(value);
+  const low = index === p("zero") ? -Infinity : cuts[index - p("one")]!;
+  const high = index === cuts.length ? Infinity : cuts[index]!;
+  const cdf = (x: number) =>
+    x === Infinity
+      ? p("one")
+      : x === -Infinity
+        ? p("zero")
+        : normalCdf(x, p("one"), p("two"));
+  const target = cdf(low) + at * (cdf(high) - cdf(low));
+  // Bisection on the normal CDF between wide bounds.
+  let lo = -SPEC.levels.bisectBound;
+  let hi = SPEC.levels.bisectBound;
+  for (let step = 0; step < SPEC.levels.bisectSteps; step += 1) {
+    const mid = (lo + hi) / p("two");
+    if (cdf(mid) < target) lo = mid;
+    else hi = mid;
+  }
+  return (lo + hi) / p("two");
+}
+
+/** Standard normal CDF (Abramowitz and Stegun 7.1.26 error function). */
+function normalCdf(x: number, one: number, two: number): number {
+  const t = one / (one + 0.3275911 * (Math.abs(x) / Math.sqrt(two)));
+  const poly =
+    ((((1.061405429 * t - 1.453152027) * t + 1.421413741) * t - 0.284496736) *
+      t +
+      0.254829592) *
+    t;
+  const erf = one - poly * Math.exp((-x * x) / two);
+  return (one + (x < 0 ? -erf : erf)) / two;
+}
+
 function level(z: number): number {
-  let index = p("zero");
-  for (const cut of SPEC.levels.cutPoints) if (z >= cut) index += p("one");
+  let index = ZERO;
+  for (const cut of SPEC.levels.cutPoints) if (z >= cut) index += ONE;
   return SPEC.levels.values[index]!;
 }
 
@@ -119,8 +194,8 @@ export function openingTemperaments(
   stopgap("SG-P15-personality-mapping");
   const h2 = p("personalityHeritability");
   const inheritedSd = Math.sqrt(h2);
-  const segregationSd = Math.sqrt(h2 / p("two"));
-  const ownSd = Math.sqrt(p("one") - h2);
+  const segregationSd = Math.sqrt(h2 / TWO);
+  const ownSd = Math.sqrt(ONE - h2);
   const root = new SeededRng(options.seed).fork("p15-opening-temperament");
   const genetic = new Map<PersonId, number[]>();
   const result = new Map<PersonId, Record<string, number>>();
@@ -136,14 +211,13 @@ export function openingTemperaments(
       .filter((row): row is number[] => row !== undefined);
     const unseen = rng.fork("unseen-parent");
     const parentGenes = [...known];
-    while (parentGenes.length < p("two") && known.length > p("zero"))
+    while (parentGenes.length < TWO && known.length > ZERO)
       parentGenes.push(draws(unseen).map((value) => value * inheritedSd));
     const segregation = draws(rng.fork("segregation"));
     const genes = known.length
       ? segregation.map(
           (value, index) =>
-            (parentGenes[p("zero")]![index]! + parentGenes[p("one")]![index]!) /
-              p("two") +
+            (parentGenes[ZERO]![index]! + parentGenes[ONE]![index]!) / TWO +
             value * segregationSd,
         )
       : segregation.map((value) => value * inheritedSd);
@@ -157,7 +231,7 @@ export function openingTemperaments(
     const scores: number[] = [];
     SPEC.dimensions.forEach((row, index) => {
       const upbringing =
-        (subject.upbringing?.[row.trait] ?? p("zero")) *
+        (subject.upbringing?.[row.trait] ?? ZERO) *
         p("personalityUpbringingShift");
       const z =
         genes[index]! +
@@ -169,11 +243,10 @@ export function openingTemperaments(
     });
     const ownTraits = rng.fork("traits");
     for (const row of ANCHORED) {
-      const shared =
-        row.dimension < p("zero") ? p("zero") : scores[row.dimension]!;
+      const shared = row.dimension < ZERO ? ZERO : scores[row.dimension]!;
       traits[row.id] = level(
         row.loading * shared +
-          Math.sqrt(p("one") - row.loading * row.loading) * normal(ownTraits),
+          Math.sqrt(ONE - row.loading * row.loading) * normal(ownTraits),
       );
     }
     result.set(subject.id, traits);

@@ -29,6 +29,7 @@ const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
 
 describe(`an appointer names a department head (seed ${seed})`, () => {
   it("opens a post when its head dies, and the act fills it with a confirmed, paid, recorded choice", () => {
+    const unpaid: string[] = [];
     for (let attempt = 0; attempt < 8; attempt += 1) {
       const place = drawPlace(`${seed}:${attempt}`, "name-head");
       const where = `${place.name}; seed ${place.seed}`;
@@ -90,6 +91,12 @@ describe(`an appointer names a department head (seed ${seed})`, () => {
         expect(named.confirmation.yes, where).toBeGreaterThan(
           named.confirmation.no,
         );
+      // A town whose budget line cannot pay the post at all names its head
+      // unpaid (stopgap SG-GOV-appointee-pay): draw again for a town that can.
+      if (!holder.jobId) {
+        unpaid.push(where);
+        continue;
+      }
       // They are on the town's payroll for the post.
       expect(holder.jobId, `${where} ${named.id}`).toMatch(
         new RegExp(`^job:public:town:${head.post}:`),
@@ -112,7 +119,9 @@ describe(`an appointer names a department head (seed ${seed})`, () => {
       );
       return;
     }
-    throw new Error(`No town with an appointed head in 8 draws; ${seed}`);
+    throw new Error(
+      `No town with an appointed head and a pay line to name them in 8 draws; ${seed}; named unpaid in: ${unpaid.join(" | ") || "none"}`,
+    );
   }, 1_200_000);
 
   it("lists the people an open post could go to, and a pick other than the first is the one named", () => {

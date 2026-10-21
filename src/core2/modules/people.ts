@@ -28,14 +28,14 @@ import { GRIEF, griefToday, recordDeath } from "../grief";
 import { ENCOUNTERS } from "../encounters";
 import { runDuePlannedActs } from "../free-block";
 import { OPENING_KIN } from "../opening-kin";
-import type {
-  ActOffer,
-  CoreAPI,
-  CoreModule,
-  PersonState,
-  Relationship,
-} from "../types";
+import type { ActOffer, CoreAPI, PersonState, Relationship } from "../types";
 import { offer } from "./life";
+import type {
+  HistoryWriter,
+  PreStartModule,
+  PreStartWindow,
+} from "../pre-start";
+import { pairKey } from "../kernel/ids";
 
 export const PEOPLE_MODULE_ID = "core2-people-p15-v1";
 const LOOKUP = {
@@ -75,7 +75,7 @@ function shareHomeTime(api: CoreAPI): void {
         const family = a.familyIds.has(b.id);
         // Housemates who are not family start where living together settles.
         if (opening) {
-          if (!family && !core.relationships.has([a.id, b.id].sort().join(":")))
+          if (!family && !core.relationships.has(pairKey(a.id, b.id)))
             api.relationship(
               a.id,
               b.id,
@@ -143,8 +143,51 @@ function dependents(
   return rows;
 }
 
-export const PEOPLE_MODULE: CoreModule = {
+/**
+ * Pre-start people pass (M1-14): a full person's own dated records that fall
+ * before day one (their birth and each dated past fact: moves, jobs,
+ * partnerships) are entered in the history, so the world's past can be read
+ * by record id. Nothing is generated here: counted people carry no individual
+ * past until they are filled in, and the records' own sources are kept.
+ */
+function peopleHistory(
+  api: CoreAPI,
+  window: PreStartWindow,
+  history: HistoryWriter,
+): void {
+  for (const person of api.state.people.values()) {
+    if (person.tier === "husk") continue;
+    const inside = (date: string) =>
+      date >= window.from && date <= window.through;
+    if (inside(person.birthDate))
+      history.record({
+        id: `person-history:${person.id}:birth`,
+        date: makeIsoDate(person.birthDate),
+        kind: "person.birth",
+        placeId: person.placeId,
+        personIds: [person.id],
+        facts: { personId: person.id },
+        publicRecord: true,
+        source: person.source,
+      });
+    for (const fact of person.pastFacts ?? [])
+      if (inside(fact.date))
+        history.record({
+          id: `person-history:${person.id}:${fact.id}`,
+          date: makeIsoDate(fact.date),
+          kind: `person.${fact.kind}`,
+          placeId: person.placeId,
+          personIds: [person.id],
+          facts: { personId: person.id, ...(fact.facts ?? {}) },
+          publicRecord: false,
+          source: fact.source,
+        });
+  }
+}
+
+export const PEOPLE_MODULE: PreStartModule = {
   id: PEOPLE_MODULE_ID,
+  preStart: { phase: "people", run: peopleHistory },
   onDay: (api) => {
     shareHomeTime(api);
   },
@@ -207,7 +250,7 @@ export const PEOPLE_MODULE: CoreModule = {
       let untied: string | undefined;
       for (const id of actor.knownIds) {
         if (!api.state.people.get(id)?.alive) continue;
-        if (api.state.relationships.has([actor.id, id].sort().join(":")))
+        if (api.state.relationships.has(pairKey(actor.id, id)))
           out.push(offer(api, actor, action, id));
         else if (untied === undefined || id < untied) untied = id;
       }
@@ -227,7 +270,7 @@ export const PEOPLE_MODULE: CoreModule = {
       return { value: grief, sourceIds };
     },
     "tie-fading": (api, actor, offer) => {
-      const id = [actor.id, offer.targetId].sort().join(":");
+      const id = pairKey(actor.id, offer.targetId);
       const row = api.state.relationships.get(id);
       const other = api.state.people.get(offer.targetId);
       if (!row || !other) return undefined;
