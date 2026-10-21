@@ -5,12 +5,12 @@ area: world
 kind: bug
 priority: 2
 size: M
-status: blocked
-claimed-by: claude/political-game-pool-l9cym2-d
+status: open
+claimed-by:
 pr:
 blocked-on: jobs-no-openings-in-small-towns
 source: added with npm run pool -- add
-claimed-at: 2026-10-19T21:59:12.245Z
+claimed-at:
 ---
 
 **What.** Four drawn towns from the start of the game (the controlled person is a jobless 18-year-old; the seed is `off:0` to `off:3`): Addison (Webster Springs), West Virginia and Fort Laramie, Wyoming made the player no job offer in a whole year; Winchester, Kentucky made 3 by day 240 and 7 by day 365; Falmouth, Maine made 1 by day 56 and 6 by day 365. The player is never a registered seeker (the engine never answers for the controlled person), so an offer comes only when an employer's open position picks them. In a town where positions open rarely or fit poorly, a player who wants work gets nothing to accept. Find why employers in those towns never pick the player (openings, fit score, age band) and give the player a way to find work that is not luck: the same open positions every other jobless adult is matched to should reach the player as offers on the same rule.
@@ -32,3 +32,5 @@ claimed-at: 2026-10-19T21:59:12.245Z
 **Measured (claude, Oct 17).** In Addison, West Virginia (place 5400364, seed off:0, `buildBenchWorld`, 365 days from January 20, 2025, the player born March 7, 2007 with no job) the player was an applicant to only four positions in the whole year: two on March 3 (32 and 33 applicants), one on April 7 (32) and one on April 21 (32), each of them a role with a schedule on record, 8 or 9 of the applicants counted and the rest full people. After April 21 no opening reached the weekly pick with the player in it. So the town opens few positions and each draws about 32 applicants; the player is one of 32 with no experience. The item's earlier reading holds; what is left to settle is whether a first job should rank applicants by experience at all.
 
 **Measured (claude, Oct 19, branch claude/player-offers-s10).** The cause is not the player's fit. Weeks to the player's first offer in a played year from the start (`buildBenchWorld`, seed off:0, the 18-year-old jobless player): Addison, West Virginia (5400364) week 11; Fort Laramie, Wyoming (5628230) none in 52 weeks; Glenwood, North Carolina (3726560) week 19; Orient, South Dakota (4647460) none. I capped a seeker's experience credit at what the opening asks for (O*NET Job Zone years): the four numbers did not change, so experience was not what kept the player out. In Fort Laramie the jobs engine opened no position at all in the year (the weekly match returns at once on "no open positions"), with 27 businesses and 7 separations (2 layoffs, 3 quits, 2 left-work). So there was nothing to offer, and the player's rank never mattered. The code change was dropped, not shipped. The open cause is filed as jobs-no-openings-in-small-towns; this item waits on it for the towns with no openings, and its Addison-style case (few openings, many applicants) needs the first-job rule discussed above.
+
+Sent back 2026-10-20 from PR #5174 (branch claude/player-jobless-offers): This is a findings-only PR: it does not produce the job offer the linked bug item requires, and the experience/entry-requirement work remains open. Supply the required drawn played-world jobless-player offer by position/job record id, or track the completed measurement separately while leaving the implementation item open. A findings note cannot complete the still-unfixed job-offer acceptance.; finish on that branch, merge main into it first.
