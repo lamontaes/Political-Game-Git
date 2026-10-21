@@ -19,9 +19,6 @@
     },
     "registered-voter": {
       "choice": "register"
-    },
-    "district-residency": {
-      "choice": "ward"
     }
   }
 }
