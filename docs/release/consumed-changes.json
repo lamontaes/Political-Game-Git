@@ -1,6 +1,15 @@
 {
   "entries": [
     {
+      "version": "0.20.3",
+      "releasedOn": "2026-10-21",
+      "revision": "9a9cb5285d813b2d1179f3f64838d4b8692aaa62",
+      "changeIds": [
+        "corruption-test-two-takes",
+        "people-opening-stance-record-after-loadings"
+      ]
+    },
+    {
       "version": "0.20.2",
       "releasedOn": "2026-10-21",
       "revision": "52e3f70781320c9d786936cd294bc91de84b3cd1",
