@@ -5,12 +5,12 @@ area: core
 kind: cleanup
 priority: 2
 size: S
-status: in-pr
-claimed-by: claude/speed-date-callers
+status: open
+claimed-by:
 pr: #5766
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-20T23:37:55.936Z
+claimed-at:
 ---
 
 **What.** After PR 5381 reads dates by arithmetic, the seed m7b profile (Long Hill, Connecticut, key 0943580) still shows civilDay at 2.39 s of 227 s (1.06 percent) and makeIsoDate at 0.05 s. By caller, the time is spread: news about 0.46 s, the closeness elapsed read 0.36 s, the work pay period date 0.22 s, activityAgeId 0.12 s, periodAtIndex 0.09 s, business foundings 0.07 s and about a dozen more under 0.07 s. Each calls for the same dates again and again. Keep the day number beside the string where the record is written, or compute a date's age once a day, at each of these callers.
