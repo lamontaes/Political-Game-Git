@@ -214,6 +214,8 @@ export const REACH_A_MODULE: CoreModule = {
   journalSourceProviders: {
     [PREMIUM_KIND]: (api, reference) => premiumSlot(api, reference.id),
   },
+  eventKinds: ["person-birth", "family.partnered", "family.separated"],
+  onEvent: (api) => refreshAfterHouseholdChange(api),
   onCalendarWork: (api, work) => calendarWorkers.get(work.kind)?.(api, work),
   onWorkPayroll: (api, receipt) => {
     for (const worker of payrollWorkers) worker(api, receipt);
@@ -549,40 +551,68 @@ function followsRecords(spec: ReachSpec): boolean {
   );
 }
 
+/** The first day `ageOn` counts the person as this age (a leap-day birth turns it on March 1 in a common year). */
+function ageReachedOn(birthDate: string, age: number): string {
+  const year = Number(birthDate.slice(0, 4)) + age;
+  const monthDay = birthDate.slice(5);
+  const leap = (year % 4 === 0 && year % 100 !== 0) || year % 400 === 0;
+  return `${year}-${monthDay === "02-29" && !leap ? "03-01" : monthDay}`;
+}
+
 /**
- * The first of next month: the records a row was chosen from (a birthday, a
- * birth in the household, a move) are read again, so a person who turned of
- * age gains the row on that month's first day and a household whose last
- * child grew up loses it. Scheduled only for a policy that has such a spec,
- * and again only while the policy still has open rows.
+ * The next day a row of this policy can change by a birthday: the earliest
+ * day after today that a person in town reaches an age the policy's specs
+ * select by, or a child in a household reaches the age that makes the
+ * household "with a child". A birth, a partnering or a separation is handled
+ * on its own day (`onEvent` below), so nothing is read on a schedule.
+ */
+export function nextAgeChange(api: CoreAPI, key: string): string | undefined {
+  const policy = POLICIES[key];
+  if (!policy) return undefined;
+  const ages = new Set<number>();
+  for (const spec of policy.reaches.filter(followsRecords)) {
+    const select = spec.select!;
+    for (const name of [select.ageFrom, select.ageBelow, select.withChildBelow])
+      if (name) ages.add(reachParameter(name));
+  }
+  const today = api.state.date;
+  let soonest: string | undefined;
+  for (const person of townPeople(api))
+    for (const age of ages) {
+      const day = ageReachedOn(person.birthDate, age);
+      if (day > today && (!soonest || day < soonest)) soonest = day;
+    }
+  return soonest;
+}
+
+/**
+ * Schedules the policy's next refresh for the day a birthday changes who it
+ * reaches. Scheduled only for a policy that has such a spec.
  */
 function scheduleRefresh(api: CoreAPI, key: string): void {
   const policy = POLICIES[key];
   if (!policy || !policy.reaches.some(followsRecords)) return;
+  const date = nextAgeChange(api, key);
+  if (!date) return;
   const calendar = api.moduleCalendar(REACH_A_MODULE_ID);
-  const next = new Date(`${api.state.date}T00:00:00Z`);
-  next.setUTCMonth(next.getUTCMonth() + 1, 1);
-  const date = next.toISOString().slice(0, 10);
   const slot = `${REFRESH_KIND}:${key}:${date}`;
   if (calendar.get(slot)) return;
   calendar.schedule({
     key: slot,
-    date: date > tomorrow(api.state.date) ? date : tomorrow(api.state.date),
+    date,
     kind: REFRESH_KIND,
     source: {
-      tag: "ESTIMATED",
+      tag: "SOURCED",
       asOf: api.state.date,
       citation:
-        "The rows a law put on people chosen by age or a child at home are read again from the people and households as they are.",
-      estimatedFrom:
-        "A monthly read of the records; a birthday or a birth is reflected on the first of the following month.",
+        "The rows a law put on people chosen by age or a child at home are read again on the day a birthday changes who it reaches.",
     },
     sourceRecordIds: [key],
   });
 }
 
-onReachCalendar(REFRESH_KIND, (api, work) => {
-  const key = work.sourceRecordIds[0]!;
+/** Read the policy's age- and household-chosen rows again from the records as they stand. */
+function refreshRecords(api: CoreAPI, key: string): void {
   const policy = POLICIES[key];
   // Whether the law still stands is read from the laws in force, not from
   // the rows: a law that reaches nobody today keeps its refresh, and the
@@ -597,8 +627,24 @@ onReachCalendar(REFRESH_KIND, (api, work) => {
     writeRows(api, key, lawId, spec, targets);
     endRows(api, key, spec.id, new Set(targets.map((target) => target.id)));
   }
+}
+
+onReachCalendar(REFRESH_KIND, (api, work) => {
+  const key = work.sourceRecordIds[0]!;
+  refreshRecords(api, key);
   scheduleRefresh(api, key);
 });
+
+/** A birth, a partnering or a separation changes who is in a home today. */
+export function refreshAfterHouseholdChange(api: CoreAPI): void {
+  for (const key of Object.keys(POLICIES)) {
+    const policy = POLICIES[key]!;
+    if (!policy.reaches.some(followsRecords) || !openReach(api, key).length)
+      continue;
+    refreshRecords(api, key);
+    scheduleRefresh(api, key);
+  }
+}
 
 /** The spec a mechanic writes its own rows with. */
 export function specOf(key: string, specId: string): ReachSpec {
