@@ -5,11 +5,12 @@ area: world
 kind: wiring
 priority: 3
 size: S
-status: open
-claimed-by:
-pr:
+status: done
+claimed-by: claude/macro-repricings-why-s5
+pr: #4981
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-17T21:22:01.430Z
 ---
 
 **What.** In a one-year run of the played world (Parrott, Virginia (5160840), seed 0ad0af8699c4, `node --import tsx scripts/core2-year/table-trace.ts 0ad0af8699c4 365`), the macro engine records each repricing of the economy and no other engine, screen or journal line reads it: `macro/repricings` (16 rows). An effect is a read, so a table written and read by no other engine is a record that does nothing. Check first whether a screen reads it (the headless run does not open screens); if one does, say so in the item and close it; otherwise give the table a reader that decides something, or delete the writer and the table in the same change.
@@ -21,3 +22,5 @@ source: added with npm run pool -- add
 **Files.** src/core2/modules/macro.ts, scripts/core2-year/table-trace.ts
 
 **Notes.** Found by the table trace pass (core-wiring-gaps-trace-pass), report docs/reports/table-trace-2026-10-17.md.
+
+Worked Oct 17 (claude, claude/macro-repricings-why-s5). No play screen read `macro/repricings`; the dev API payload (`worldPanels`) dumped the table and no client rendered it. The table now has a reader: dev mode's why panel for a repricing row (`src/bench/dev-why.ts`, `repricingPanels`) lists the credit line's rate history, each change with the central bank meeting behind it (the `byFacility` index the table already had). `src/bench/dev-why-repricing.test.ts` draws places until a credit line was repriced in a year and checks the panel's rows against the macro engine's own. `scripts/core2-year/table-trace.ts` now opens the screens that read engine tables (the Money screen's bank view, this why panel) before counting reads: Parrott, Virginia, seed 0ad0af8699c4, 365 days no longer lists `macro/repricings` or the credit tables. This branch stacks on the credit PR (#4979), which adds the Money screen call to the trace.

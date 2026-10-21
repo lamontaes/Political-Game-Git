@@ -1,6 +1,132 @@
 {
   "entries": [
     {
+      "version": "0.19.2",
+      "releasedOn": "2026-10-19",
+      "revision": "79442a1bf18f44ca63609862addb2bd4fb5c94e5",
+      "changeIds": [
+        "board-appointer-test-redraws",
+        "game-start-territory-president",
+        "office-day-federal-territory-senate",
+        "press-one-opening-buffer",
+        "press-outlet-working-capital",
+        "world-public-hire-joins-pay-authority"
+      ]
+    },
+    {
+      "version": "0.19.1",
+      "releasedOn": "2026-10-19",
+      "revision": "592c3ef884c1805f6e48242a522220fe23ffefa6",
+      "changeIds": [
+        "housing-no-opening-value",
+        "pool-jobless-households",
+        "pool-repair-bodies-2",
+        "pool-utility-staff"
+      ]
+    },
+    {
+      "version": "0.19.0",
+      "releasedOn": "2026-10-17",
+      "revision": "c209b17547ae4f19c6bbf19b8eed7a119f5506f2",
+      "changeIds": [
+        "core-counted-drift-delete",
+        "core-counted-moves-town-groups-never-leave",
+        "core-counted-views-town-groups-national-cell",
+        "core-old-import-official-pay",
+        "core-residents-rerate-test-flaky",
+        "core-world-races-test-territory-at-large",
+        "director-appointment-scene-governor-none",
+        "elections-candidacy-test-race-nobody-filed",
+        "elections-career-test-party-member",
+        "golden-path-56-places-update",
+        "gov-appointee-not-seat-holder",
+        "gov-bill-fails-when-every-member-abstains",
+        "gov-body-named-by-member-title",
+        "gov-winner-is-seat-term-id",
+        "laws-enact-law-duplicate-calendar-key",
+        "laws-price-law-not-dependent-player",
+        "office-committee-seats-on-a-council-that-has",
+        "people-resting-stress-dead-open-call",
+        "play-government-screen-capitals",
+        "play-path-check-committee-tally",
+        "play-territory-map-geometry",
+        "pool-note-drift-delete",
+        "pool-player-jobless-measured",
+        "pool-player-jobless-note",
+        "pool-posts-hours-dup",
+        "pool-press-revenue-gap",
+        "pool-press-revenue-gap-fix",
+        "pool-repair-six-bodies",
+        "pool-schedule-hours",
+        "pool-school-staff",
+        "press-outlets-open-with-cash",
+        "public-post-pay-matches-schedule",
+        "release-hygiene-tests-red-oct17",
+        "release-world-modules-resting-stress",
+        "succession-unchosen-nominees-not-seats",
+        "table-unread-moves-departures",
+        "tests-draw-wider-casework-name-head",
+        "tests-early-returns-legislature",
+        "tests-early-returns-office",
+        "tests-early-returns-parties",
+        "tests-early-returns-ptax-offers",
+        "tests-early-returns-schools-market",
+        "tests-early-returns-terms-officials",
+        "tests-no-self-skipping-tests",
+        "tests-renewal-snapshot-tiny-place",
+        "words-scene-cause-person-birth",
+        "world-benefits-weighted-whole",
+        "world-census-weight-hiring",
+        "world-census-weight-unplaced-wages",
+        "world-households-unpaid-living-costs-test-draw",
+        "world-housing-laws-counted-tenant-rent",
+        "world-housing-opening-test-all-owners-town",
+        "world-jobs-benefits-stopgap-truth",
+        "world-rent-flows",
+        "world-unemployment-opening-jump"
+      ]
+    },
+    {
+      "version": "0.18.5",
+      "releasedOn": "2026-10-17",
+      "revision": "4a403bd7a341013cdc146d98076059a19f4f360a",
+      "changeIds": ["golden-path-56-places", "news-front-page"]
+    },
+    {
+      "version": "0.18.4",
+      "releasedOn": "2026-10-17",
+      "revision": "c5f0366b434a2355d8c9a1c80651c8a675b76220",
+      "changeIds": [
+        "jobs-raise-frozen-rows",
+        "tests-path-check-legislature-session-days"
+      ]
+    },
+    {
+      "version": "0.18.3",
+      "releasedOn": "2026-10-17",
+      "revision": "f5c80c6ca4344902e778b4391dfb8b81e48a5d05",
+      "changeIds": ["unicameral-speaker-sets-agenda"]
+    },
+    {
+      "version": "0.18.2",
+      "releasedOn": "2026-10-17",
+      "revision": "46e4b3383eedd09da425e00beea2dbb08904b4a6",
+      "changeIds": ["press-law-ranks-by-reach"]
+    },
+    {
+      "version": "0.18.1",
+      "releasedOn": "2026-10-17",
+      "revision": "6db3ecb8551e51252272578cb8bcb2694c4403b0",
+      "changeIds": [
+        "core-fill-in-returning-unrecorded-member",
+        "office-job-end-worked-today",
+        "play-step-11-next-election-uses-record",
+        "pool-all-places-audit",
+        "pool-bill-abstain",
+        "pool-press-law-unprinted"
+      ]
+    },
+    {
       "version": "0.18.0",
       "releasedOn": "2026-10-17",
       "revision": "4a30149ef008d0acdfa83eb40a6fb010d5b5be9d",

@@ -5,7 +5,7 @@ area: core
 kind: research
 priority: 3
 size: M
-status: in-pr
+status: done
 claimed-by: claude/table-trace
 pr: #4869
 blocked-on:

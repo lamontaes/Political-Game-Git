@@ -3,4 +3,4 @@ id: world-unemployment-opening-jump-item
 impact: none
 ---
 
-A pool item records that a town's unemployment rate jumps in its first three months of play; nothing a player sees changes.
+Pool items record what two sessions looked at for outcome causes and unemployment work search; nothing a player sees changes.

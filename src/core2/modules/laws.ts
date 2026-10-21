@@ -441,8 +441,25 @@ export function enactLaw(
     readonly terms?: Readonly<Record<string, unknown>>;
   },
 ): LawRowInput {
+  const lawsTable = api.moduleState(LAWS_MODULE_ID).table("laws");
+  const baseId = `law:${input.jurisdiction}:${input.level}:${input.series}:general:${input.effectiveDate}:${input.measureId}`;
+  const byBill = input.terms?.enactedByBill;
+  const enactedBy = (id: string) =>
+    (lawsTable.get(id) as unknown as LawRowInput | undefined)?.terms
+      ?.enactedByBill;
+  // Measure numbers repeat across bodies and sessions: a row another bill
+  // enacted keeps its id, and a later provision of the same bill on the same
+  // series and date replaces the earlier one (one row, one calendar entry).
+  let id = baseId;
+  for (
+    let n = 2;
+    lawsTable.get(id) && (byBill === undefined || enactedBy(id) !== byBill);
+    n += 1
+  )
+    id = `${baseId}:${n}`;
+  const replaced = lawsTable.get(id) !== undefined;
   const row: LawRowInput = {
-    id: `law:${input.jurisdiction}:${input.level}:${input.series}:general:${input.effectiveDate}:${input.measureId}`,
+    id,
     jurisdiction: input.jurisdiction,
     level: input.level,
     series: input.series,
@@ -465,14 +482,16 @@ export function enactLaw(
     citation: input.citation,
     asOf: api.state.date,
   };
-  if (input.effectiveDate > api.state.date)
-    api.moduleCalendar(LAWS_MODULE_ID).schedule({
-      key: `effect:${row.id}`,
-      date: input.effectiveDate,
-      kind: "law-takes-effect",
-      source,
-      sourceRecordIds: [row.id],
-    });
+  if (input.effectiveDate > api.state.date) {
+    if (!replaced)
+      api.moduleCalendar(LAWS_MODULE_ID).schedule({
+        key: `effect:${row.id}`,
+        date: input.effectiveDate,
+        kind: "law-takes-effect",
+        source,
+        sourceRecordIds: [row.id],
+      });
+  }
   // An act in force the day it's enacted (a federal act without a date of
   // its own) takes effect now (audit 3: federal acts never fired).
   else

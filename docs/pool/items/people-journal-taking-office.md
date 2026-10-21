@@ -5,7 +5,7 @@ area: people
 kind: feature
 priority: 3
 size: S
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -28,4 +28,4 @@ Checked Oct 16 by a Claude session: this duplicates `people-officeholder-journal
 
 Sent back 2026-10-16 from PR #4697 (branch claude/journal-taking-office): The top of the PR body lacks a gate line naming the in-session checks on changed files and their results. Add the named checks and results at the top (a pool id may precede it); "Local checks pass" alone does not name the checks; finish on that branch, merge main into it first.
 
-Checked Oct 17 (claude): already built. `src/director/journal-office.test.ts` (item people-officeholder-journal, #4511, done) draws a place, gives the watched player a took-office event, a vote, a town hall and an interview, and reads their journal: each is told in the player's own "My life" and cites its record by id (the took-office event and the office-day acts). It passes on current main. Nothing left to build; recommend the CTO sets this item done.
+Dropped (CTO, Oct 19, 2026): duplicate of people-officeholder-journal (done, #4511); journal-office.test.ts covers it.

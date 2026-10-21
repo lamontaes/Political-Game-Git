@@ -5,13 +5,13 @@ area: world
 kind: feature
 priority: 1
 size: M
-status: blocked
-claimed-by: claude/world-census-weight-economy
-pr:
+status: in-pr
+claimed-by: claude/political-game-pool-yucp92-q
+pr: #5454
 blocked-on: world-census-weight-macro-regional
 milestone:
 source: "split of core-town-size-census (L): owner ruling core-od-town-size, OWNER-DECISIONS.md"
-claimed-at: 2026-10-15T22:01:44.414Z
+claimed-at: 2026-10-20T01:05:39.185Z
 ---
 
 **What.** Split on Oct 15 into world-census-weight-headcount, world-census-weight-hiring, world-census-weight-housing and world-census-weight-macro-regional (this item became blocked on the last); done when all four are. Original text: businesses, job counts, housing units and local business counts for a town above 10,000 follow its Census size (the local business counts already read the reference population) instead of the 10,000 sample, and counted workers' weights fill those jobs.
@@ -24,4 +24,4 @@ claimed-at: 2026-10-15T22:01:44.414Z
 
 **Notes.** Found by the session that claimed core-town-size-census: the cap is `Math.min(target, real)` in `buildPopulation` (`src/core2/population.ts`, about line 507) with `targetPopulation` = 10,000 in `src/core2/data/parameters.json`. A town is generated one household and one person record at a time (about 12 s and 1.4 GB for 10,000), and counted groups keep one index per household (`src/core2/counted-groups.ts`), so a city of millions cannot open by raising the target. The design the ruling points at: each counted household record carries a weight (how many real households it stands for) and every reader multiplies by it.
 
-Measured Oct 17 (claude): the same place and seed opened as a sample and at `countScale` 3, 200 days played, world-metrics row for the town, per 1,000 weighted residents. Place 4123800 (seed `sca2`): employed 212 at the sample and 53 at scale 3; unemployment rate 9.0 and 30.2 percent; median rent $1,133 and $1,493 a month; eviction orders in the month 0 and 25; businesses open per 1,000, 6.2 and 2.2. Place 5529950 (seed `sca`): employed 1,494 and 556 per 1,000, unemployment 4.8 and 11.1 percent, businesses open 172 and 49 per 1,000. Median household earnings, home values and prices were within a few percent. So the people triple while employers and jobs stay the sample's, and the town's jobless rate, rents and evictions move for that reason alone. Measured on main plus the births fix (PR 4894) without the hiring (PR 4784) and unplaced-wages (PR 4862) changes still in review, so part of the gap may close when those land; re-measure then. Births and deaths were weighted in PR 4894; this is the part that still keeps a town from opening at its Census count.
+Looked at Oct 20 (claude, claude/census-weight-economy-check), released unbuilt. All four children are done (headcount #4603, hiring #4784, housing #4605, macro-regional #4844), so nothing is left to build here; what remains is the umbrella's own proof, which needs a town above 10,000 opened with `countScale` (the Oct 17 Washington, D.C. run in `core-census-uncap-opening` already holds the people, workers and year-time figures). A drawn place is almost always under 10,000 (`scripts/core2-year/census-match.mjs`, 4 seeds, ran with a town of 162 people), so the check needs a named large place or a search for one above 10,000, run once with `countScale` set to reference over sample. The CTO can close this item as done on its children, or leave it for the uncap item's measurement.

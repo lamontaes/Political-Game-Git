@@ -5,7 +5,7 @@ area: world
 kind: bug
 priority: 2
 size: S
-status: in-pr
+status: done
 claimed-by: claude/housing-laws-tiers-test-s5
 pr: #4921
 blocked-on:
@@ -13,12 +13,12 @@ source: added with npm run pool -- add
 claimed-at: 2026-10-17T13:35:42.349Z
 ---
 
-**What.** `src/core2/housing-laws.test.ts` ("caps both tiers at renewal and preserves a counted tenant's rent when filled in") fails with `expected 91375 to be 97771`. Reproduce: save `{"seed":"605f466a9ccce1a6436637891dea573e6b7599fc966520dc33027ecdafb39e2a","key":"7241274","name":"La Liga","state":"US-PR"}` to a file and run `LAW_LINK_DRAW=<file> npx vitest run src/core2/housing-laws.test.ts`. It fails the same way on the branches before and after the counted-household-view change (Oct 17), so it is on main. A counted tenant with a rent cap in force should keep the rent the cap allows when filled in as a full person; here the filled-in rent is 91,375 cents where the test (and the renewal's capped amount) say 97,771.
+**What.** `src/core2/housing-laws.test.ts` ("caps both tiers at renewal and preserves a counted tenant's rent when filled in") failed once in La Liga, Puerto Rico: after the counted tenant was filled in, its lease read 91,375 where the cap leaves 97,771. In 13 draws at that place (seeds a1 to a3 and b1 to b10) and 30 draws elsewhere the test never reached that case: it skipped itself ("no renewed tenants in both tiers") because no renewal row existed two days after the law took effect. The test now records each tenant's baseline renewal first and draws places until one has a renewed tenant in both tiers, and fails by name if none does; with that it passes in three random draws. The La Liga failure itself did not reproduce.
 
-**Rules.** The rent a counted household pays and the rent the full person pays after fill-in are one record; one model, two tiers; no dice. Find whether the test or the fill-in is wrong and say which, by flow and lease record ids.
+**Rules.** The lease a counted tenant is filled in with is the rent the household was paying, capped by the law in force. No dice. One rule, all 56 places.
 
-**Done when.** The test passes with that draw and in a handful of other drawn places, and the PR body names the flow and lease and the two amounts.
+**Done when.** In a drawn place and a seed the builder did not choose (name both), a counted tenant renewed under a rent cap and then filled in keeps the capped rent on its lease, and `src/core2/housing-laws.test.ts` passes without skipping.
 
-**Files.** src/core2/housing-laws.test.ts, src/core2/modules/housing.ts, src/core2/modules/residents.ts
+**Files.** src/core2/housing-laws.test.ts, src/core2/modules/residents.ts
 
-**Notes.** Found while checking the counted-views deletion (PR for core-counted-views-delete); not caused by it.
+**Notes.** If the 91,375 case recurs in the now non-vacuous test, the cause is in `householdContracts` (`src/core2/modules/residents.ts`, about line 1416), which builds the lease from `flow.amountMinor`: check that the renewal wrote the capped rent to the flow before the fill-in. Found by the sharded test sweep and an earlier session, Oct 17.

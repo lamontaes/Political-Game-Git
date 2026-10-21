@@ -18,6 +18,8 @@ import { acceptJobOffer, jobOffersFor } from "./modules/jobs";
 import { coreAPI } from "./state";
 
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
+const PINNED_CANNABIS =
+  "882f087cbdc1f53b3b6ac0f190d8de0549a6107f418a5dd30c6ef81c61c30e7f"; // Nevada: a dependent player was charged the household's cannabis spending
 const PINNED = "d97611412a84"; // Lake Ridge, Virginia: before the fix, 106 gifts to a Lt. Governor campaign
 
 function playYear(worldSeed: string, placeKey?: string) {
@@ -79,6 +81,9 @@ function playYear(worldSeed: string, placeKey?: string) {
 describe("the player's money", () => {
   for (const [label, worldSeed, placeKey] of [
     ["pinned seed", PINNED, undefined],
+    // A dependent player in a state where cannabis sales are legal: the
+    // household's price change fell on the player's account.
+    ["pinned seed, cannabis state", PINNED_CANNABIS, "3269200"],
     [
       "random place",
       ...(() => {

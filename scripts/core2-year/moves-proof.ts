@@ -11,7 +11,7 @@ import { setBookkeeping } from "../../src/core2/bookkeeping";
 import { coreAPI } from "../../src/core2/state";
 import { DevMode } from "../../src/bench/dev-mode";
 import { BenchPlayer } from "../../src/bench/player";
-import { departuresOf } from "../../src/core2/modules/moves";
+import { departuresSeen, watchDepartures } from "../../src/core2/modules/moves";
 import { addDays, makeIsoDate } from "../../src/core2/kernel/dates";
 
 setBookkeeping(false);
@@ -19,6 +19,7 @@ const seed = process.argv[2] ?? randomBytes(6).toString("hex");
 const world = buildBenchWorld(seed, gameStartDate(), { twoLevel: true });
 const core = world.core;
 const api = coreAPI(core);
+watchDepartures(core);
 console.log(
   `${world.place.displayName}, seed ${seed}, ${core.people.size} people`,
 );
@@ -49,7 +50,7 @@ while (core.date < end) {
   dev.advance(addDays(makeIsoDate(core.date), 1));
 }
 
-const departures = departuresOf(api);
+const departures = departuresSeen(core);
 const byDay = new Map<string, number>();
 for (const row of departures) {
   const day = row.date.slice(8);
