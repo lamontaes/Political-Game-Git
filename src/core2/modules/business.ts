@@ -41,6 +41,7 @@ import type { BusinessBooksState } from "../finance-types";
 import {
   addResidentFlow,
   countedHeadcountOf,
+  countedHeadsOf,
   countedJobsOf,
   weightedPayrollMinor,
   purchaseShareOf,
@@ -1322,14 +1323,19 @@ function month(api: CoreAPI): void {
         // Only cash past the payroll cushion is spare: a draw never takes the
         // cash the next payroll needs, whatever profit the business has kept.
         const wanted = Math.min(retained * share, Math.max(0, cash - cushion));
+        // The business's cash is already at the town's weight, and a counted
+        // payment multiplies by the owner's household weight: ask for one
+        // household's part so the group receives what the business pays.
+        const heads = found.full ? 1 : countedHeadsOf(c, owner.id);
         drawn = found.full
           ? transferCash(api, id, row.id, account, wanted, source)
-          : countedPayment(api, {
+          : heads *
+            countedPayment(api, {
               id,
               placeId: owner.placeId,
               personId: owner.id,
               otherOwnerId: row.id,
-              amountMinor: -Math.floor(wanted),
+              amountMinor: -Math.floor(wanted / heads),
               reasonKey: "owner-draw",
               source,
             });

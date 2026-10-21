@@ -7,69 +7,47 @@
  * for a year each way.
  */
 import { createHash, randomBytes } from "node:crypto";
-import { expect, it } from "vitest";
-import { buildBenchWorld } from "../bench/world";
+import { it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
-import { placePopulation } from "./gov-rules/place-population";
-import { setBookkeeping } from "./bookkeeping";
-import { gameStartDate } from "./game-start";
-import { addDays, makeIsoDate } from "./kernel/dates";
-import { advanceCore } from "./life";
+import { placeReferencePopulation } from "./gov-rules/place-population";
 import { corePlaceByKey } from "./place-lookup";
-import { JOBS_MODULE_ID } from "./modules/jobs";
-import { coreAPI } from "./state";
-import type { CoreState } from "./types";
+import { SAMPLE, compareClosures } from "./census-scale-closures-support";
 
-const SAMPLE = 10_000;
+const REDRAWS = 200;
+/** A year of a larger city at its Census size does not fit one test process's memory. */
+const LARGEST = 40_000;
 const base = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
 
-/** The first drawn place whose Census population is between 12,000 and 40,000. */
+/**
+ * A drawn place whose Census population is above 10,000 and at most 40,000, redrawing (bounded)
+ * until one is; the failure names every place and seed it tried.
+ */
 function drawLargeTown() {
-  for (let i = 0; i < 4000; i += 1) {
+  const tried: string[] = [];
+  for (let i = 0; i < REDRAWS; i += 1) {
     const draw = drawPlace(
       createHash("sha256").update(`${base}:${i}`).digest("hex"),
       "world-census-scale-closures",
     );
     const geoid = corePlaceByKey(draw.key)?.sourceGeoid;
-    const reference = geoid ? placePopulation(geoid) : null;
-    if (reference && reference >= 12_000 && reference <= 40_000)
+    const reference = geoid ? placeReferencePopulation(geoid)?.value : null;
+    if (reference && reference > SAMPLE && reference <= LARGEST)
       return { draw, reference };
+    tried.push(
+      `${draw.name} (${draw.key}) seed ${draw.seed}: ${reference ?? "no population"}`,
+    );
   }
-  throw new Error(`no drawn place between 12,000 and 40,000 (seed ${base})`);
-}
-
-function play(seed: string, key: string, countScale: number) {
-  setBookkeeping(false);
-  const { core } = buildBenchWorld(seed, gameStartDate(), {
-    twoLevel: true,
-    placeKey: key,
-    ...(countScale !== 1 ? { countScale } : {}),
-  });
-  advanceCore(core, addDays(makeIsoDate(core.date), 365));
-  const closed = [...(core as CoreState).finance.closures.values()].map(
-    (closure) =>
-      `${closure.organizationId} ${closure.date} ${closure.reasonKey}`,
+  throw new Error(
+    `no drawn place from ${SAMPLE} to ${LARGEST} in ${REDRAWS} redraws (base ${base}); tried ${tried.join("; ")}`,
   );
-  const changes = coreAPI(core)
-    .moduleState(JOBS_MODULE_ID)
-    .table("changes")
-    .rows() as unknown as { id: string; kind: string }[];
-  return {
-    closed,
-    rows: changes.filter((row) => row.kind === "closure").length,
-  };
 }
 
-it("a Census-size town closes no more firms than the same town at the sample size", () => {
+it("a drawn Census-size town closes no more closure rows than the same town at the sample size", () => {
   const { draw, reference } = drawLargeTown();
-  const where = `${draw.name} (${draw.key}), census ${reference}, seed ${draw.seed}`;
-  const sample = play(draw.seed, draw.key, 1);
-  const scaled = play(draw.seed, draw.key, reference / SAMPLE);
-  console.log(
-    `CLOSURES ${where}: sample ${sample.closed.length} firms ${sample.rows} job rows; census ${scaled.closed.length} firms ${scaled.rows} job rows`,
+  compareClosures(
+    `${draw.name} (${draw.key}), census ${reference}, seed ${draw.seed}`,
+    draw.seed,
+    draw.key,
+    reference,
   );
-  expect(
-    scaled.closed.length,
-    `${where}: sample closed ${sample.closed.join("; ")}; census closed ${scaled.closed.join("; ")}`,
-  ).toBeLessThanOrEqual(sample.closed.length);
 }, 3_600_000);

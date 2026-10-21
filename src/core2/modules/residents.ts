@@ -14,12 +14,7 @@ import {
   type ResidentHouseholdRecord,
   type ResidentsInput,
 } from "../residents";
-import {
-  depositsHeld,
-  transfer,
-  transferSplit,
-  withdrawSavings,
-} from "../accounts";
+import { drawSavingsToCover, transfer, transferSplit } from "../accounts";
 import { livingCostParts } from "../living-cost-split";
 import { splitMarketDemand } from "../business-books";
 import { OUTSIDE_MARKET_KIND } from "../opening-outside-market";
@@ -712,21 +707,13 @@ function spendableFromSavings(
   flowId: string,
 ): number {
   const cash = spendable(core, ownerId);
-  if (cash >= owed || !core.finance.businesses.has(ownerId)) return cash;
-  const held = depositsHeld(core, ownerId);
-  if (held <= 0) return cash;
-  withdrawSavings(core, api, {
+  if (cash >= owed) return cash;
+  drawSavingsToCover(core, api, {
     id: `savings-for-payment:${flowId}@${core.date}`,
     holderId: ownerId,
-    customerAccountId: api.accounts().main(ownerId),
-    amountMinor: Math.min(held, owed - cash),
-    source: {
-      tag: "ESTIMATED",
-      asOf: core.date,
-      citation:
-        "A business's deposits are its own money; it draws them when its cash falls short of a payment due (JPMorgan Chase Institute, Cash is King: Flows, Balances, and Buffer Days, 2016).",
-      estimatedFrom: `Flow ${flowId} asked ${owed} minor units against ${cash} in cash.`,
-    },
+    owedMinor: owed,
+    asOf: core.date,
+    reason: `Flow ${flowId} asked ${owed} minor units against ${cash} in cash.`,
   });
   return spendable(core, ownerId);
 }
