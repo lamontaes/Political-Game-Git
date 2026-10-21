@@ -2,7 +2,7 @@
 id: core-snapshot-cover-rest
 impact: patch
 section: Improved
-title: A saved game restores exactly, and most engines no longer force a replay
+title: Restoring a saved world keeps each record as saved, and 47 more engines declare their state saved
 ---
 
-Loading a saved game used to put some shared records back wrong, so a person's history could change on load. Restoring now keeps each record as it was saved, and most engines declare their state saved, so loading does not have to replay the game from the opening.
+Restoring a saved world used to put some shared records back wrong, so one person's history could overwrite everyone's. Each record now comes back as it was saved, and 47 more engines declare their state saved. Six engines are still unsaved (jobs and the three office-day engines, candidacy and news), so loading still replays the game from the opening for now.
