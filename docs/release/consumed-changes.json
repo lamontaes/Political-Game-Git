@@ -1,6 +1,19 @@
 {
   "entries": [
     {
+      "version": "0.21.1",
+      "releasedOn": "2026-10-21",
+      "revision": "9a95c291044821df1d751a46fccd875f22c7ab94",
+      "changeIds": [
+        "pool-corporate-office-body",
+        "pool-law-reaches-nobody-note",
+        "release-audit-05-journal-lines-not-shippable",
+        "research-reachable-sources-oct20",
+        "split-gov-standins",
+        "tests-early-returns-campaign-turn"
+      ]
+    },
+    {
       "version": "0.21.0",
       "releasedOn": "2026-10-21",
       "revision": "340a3db5f86c439cc3ff974629756ad316b02dd6",
