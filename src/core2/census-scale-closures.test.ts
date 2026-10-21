@@ -50,4 +50,7 @@ it("a drawn Census-size town closes no more closure rows than the same town at t
     draw.key,
     reference,
   );
+  // Lisbon, Wisconsin (11,150 people) took 728 seconds for its two years at
+  // one worker on a 4-core container; a town near 40,000 carries about four
+  // times the weight, so up to about five times that.
 }, 3_600_000);
