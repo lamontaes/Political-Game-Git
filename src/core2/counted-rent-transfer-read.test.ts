@@ -63,7 +63,7 @@ function playYear(attempt: number) {
       row.previousRentMinor !== undefined &&
       row.renewedAt > start &&
       row.householdId !== undefined &&
-      rt.households.has(row.householdId),
+      rt.store.householdOf.has(row.householdId),
   );
   return { place, core, api, start, renewed };
 }
