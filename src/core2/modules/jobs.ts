@@ -29,7 +29,17 @@ import { LAWS_MODULE_ID, lawInForce, socialSecurityAges } from "./laws";
 import { publicPayFloorHourly } from "../public-pay-floor";
 import { inCustody } from "./justice";
 import { regionalMonth } from "./regional";
-import { isDemoted } from "../counted-groups";
+import { ageOn, isDemoted } from "../counted-groups";
+import { webFactorFor, type Subject } from "../outcome-web-reach";
+import {
+  countedFacts,
+  fullFacts,
+  inGroup,
+  lowWageStaffFactor,
+  markUnwiredLaborLinks,
+  participationShift,
+  type LaborFacts,
+} from "../jobs-web";
 import { residentPerson, residentsRuntime } from "./residents";
 import { claimRetirementNow } from "./retirement-claims";
 import { MOVED_AWAY_EVENT } from "./moves";
@@ -984,9 +994,21 @@ function reviewEmployers(api: CoreAPI): void {
       p("jobsStaffGapActedPerMonth") * (observedStaff - previousSalesStaff);
     // The market forecast already reads regional and national conditions.
     // Actual receipts let firms diverge when customers pay different sellers.
+    // The web's factor on low-wage jobs (a higher wage floor) moves the
+    // employer's own target by the low-wage share of its staff.
+    let lowHeads = 0;
+    for (const job of jobs)
+      if ((job.hourlyMinor ?? 0) < p("jobsLowWageLineHourlyMinor"))
+        lowHeads += headsOf(c, job);
     const demandTarget =
-      projected * (1 - p("jobsSalesForecastWeight")) +
-      salesStaff * p("jobsSalesForecastWeight");
+      (projected * (1 - p("jobsSalesForecastWeight")) +
+        salesStaff * p("jobsSalesForecastWeight")) *
+      lowWageStaffFactor(
+        api,
+        c.organizations.get(row.id)!.placeId,
+        lowHeads,
+        staff,
+      );
     const target =
       trading && trading.lossMonths > 0
         ? affordableStaff(demandTarget, staff, trading)
@@ -1402,6 +1424,8 @@ interface WorkerFacts {
   livingCostDailyMinor: number;
   /** Time and health strain; a counted record holds no needs, so its strain is the neutral zero. */
   strain: number;
+  /** The labor web's log factor on staying at work for this worker's groups; it lowers the pull to leave. */
+  stay: number;
 }
 
 /**
@@ -1462,12 +1486,14 @@ function workerOffers(
           tenureYears: tenureYears(api, job),
           unemploymentGapPts: gap,
         }),
+        ...(who.stay ? { web: -who.stay } : {}),
         strain: who.strain * (p("one") + savings),
       }),
       ...(pastRetirementAge > 0
         ? [
             offer("leave", `retire:${job.id}`, {
               baseline: p("jobsRetireBaseline"),
+              ...(who.stay ? { web: -who.stay } : {}),
               age: p("jobsRetireAgeWeight") * pastRetirementAge,
               savings,
             }),
@@ -1505,6 +1531,16 @@ function reviewWorkers(api: CoreAPI): void {
       liquidMinor: person.liquidMinor,
       livingCostDailyMinor: person.livingCostDailyMinor,
       strain,
+      // The web's factor on staying at work for this worker's groups (mothers
+      // of young children, married women, 62 to 67).
+      stay: person.placeId
+        ? participationShift(
+            api,
+            person.placeId,
+            fullFacts(api, person.id, (key) => api.parameter(key))!,
+            (key) => api.parameter(key),
+          )
+        : 0,
     });
     const result = chooseAct(c, person.id, offers);
     const chosen = result.selected!.definition.id;
@@ -1540,6 +1576,7 @@ function reviewWorkers(api: CoreAPI): void {
       });
     }
   }
+  markUnwiredLaborLinks();
   reviewJobless(api);
   reviewCountedWorkers(api, going);
   reviewCountedEntry(api);
@@ -1547,12 +1584,40 @@ function reviewWorkers(api: CoreAPI): void {
 }
 
 /** The place's pay level against the opening: national hourly earnings times its region's pay. */
-function payLevel(api: CoreAPI, placeId: string): number {
+function payLevel(api: CoreAPI, placeId: string, subject?: Subject): number {
   const c = core(api);
   const condition = (c.finance.conditionsByPlace.get(placeId) ?? [])
     .filter((row) => row.at <= c.date)
     .at(-1);
-  return condition?.wagePriceFactor ?? api.parameter("one");
+  // The web's policy effects on pay (a corporate tax passed to workers, a
+  // public bargaining law) land on each worker by their own band.
+  return (
+    (condition?.wagePriceFactor ?? api.parameter("one")) *
+    webFactorFor(api, placeId, "labor.wages", subject) *
+    webFactorFor(api, placeId, "labor.median-earnings", subject)
+  );
+}
+
+/** What the web's pay factors need to know of a worker, from the full or counted record. */
+function workerSubject(c: CoreState, personId: string): Subject | undefined {
+  const person = c.people.get(personId);
+  if (person) {
+    const gender = person.looks?.gender;
+    return {
+      age: ageOn(person.birthDate, c.date),
+      ...(gender === "female" || gender === "male" ? { sex: gender } : {}),
+    };
+  }
+  const store = residentsRuntime(c)?.store;
+  const m = store?.countedMember(personId);
+  if (!store || m === undefined) return undefined;
+  const gender = store.strings[store.genderIx[m]!];
+  return {
+    age: ageOn(store.born[m]!, c.date),
+    ...(gender === "female" || gender === "male" ? { sex: gender } : {}),
+    incomeFifth:
+      store.groups[store.households[store.household[m]!]!.group]?.incomeBand,
+  };
 }
 
 /**
@@ -1583,7 +1648,7 @@ function raisePay(api: CoreAPI): void {
       (api.parameter("jobsDaysPerYear") * (months - 1)) / months
     )
       continue;
-    const now = payLevel(api, placeId);
+    const now = payLevel(api, placeId, workerSubject(c, job.personId));
     const hourly = Math.round((job.hourlyMinor * now) / level);
     if (hourly > 0 && hourly !== job.hourlyMinor && !c.jobs.has(job.id))
       counted.set(job.id, hourly);
@@ -1648,10 +1713,17 @@ function reviewJobless(api: CoreAPI): void {
       cost += member.livingCostDailyMinor;
     }
     const days = cost > 0 ? liquid / cost : Number.POSITIVE_INFINITY;
+    const enter = participationShift(
+      api,
+      person.placeId,
+      fullFacts(api, person.id, p)!,
+      p,
+    );
     const result = chooseAct(c, person.id, [
       offer("wait", person.id, {}),
       offer("look", person.id, {
         baseline: p("jobsEnterBaseline"),
+        ...(enter ? { web: enter } : {}),
         needWork:
           p("jobsUnemployedNeedWeight") /
           (p("one") + days / (p("jobsDaysPerYear") / p("macroMonthsPerYear"))),
@@ -2173,6 +2245,112 @@ function reasonsOf(
 }
 
 /**
+ * The labor outcomes the web keeps, read off the records: the share of each
+ * group at work (full people and counted members, a counted household
+ * standing for its weight) and the share of jobs under the low-wage line.
+ */
+export function laborGroupShares(
+  api: CoreAPI,
+  placeId: string,
+): Record<
+  | "labor.mothers-participation"
+  | "labor.married-women-participation"
+  | "labor.older-employment"
+  | "labor.low-wage-jobs",
+  { readonly of: number; readonly at: number }
+> {
+  const c = core(api),
+    p = (key: string) => api.parameter(key);
+  const out = {
+    "labor.mothers-participation": { of: 0, at: 0 },
+    "labor.married-women-participation": { of: 0, at: 0 },
+    "labor.older-employment": { of: 0, at: 0 },
+    "labor.low-wage-jobs": { of: 0, at: 0 },
+  };
+  // Participation is being at work or looking for work; older employment is being at work.
+  const looking = new Set<string>(
+    [
+      ...(store(api).table("seekers").rows() as unknown as SeekerRow[]),
+      ...(store(api).table("countedSeekers").rows() as unknown as SeekerRow[]),
+    ].map((row) => row.personId),
+  );
+  const tally = (
+    facts: LaborFacts,
+    id: string,
+    working: boolean,
+    weight: number,
+  ) => {
+    for (const key of Object.keys(out).slice(0, 3))
+      if (inGroup(key, facts, p)) {
+        const row = out[key as keyof typeof out];
+        row.of += weight;
+        if (working || (key !== "labor.older-employment" && looking.has(id)))
+          row.at += weight;
+      }
+  };
+  const worked = new Set<string>();
+  for (const job of c.jobs.values()) {
+    if (job.endsAt !== undefined) continue;
+    const person = c.people.get(job.personId);
+    if (!person?.alive || person.placeId !== placeId) continue;
+    worked.add(job.personId);
+    out["labor.low-wage-jobs"].of += 1;
+    if ((job.hourlyMinor ?? 0) < p("jobsLowWageLineHourlyMinor"))
+      out["labor.low-wage-jobs"].at += 1;
+  }
+  for (const person of c.people.values())
+    if (person.alive && person.placeId === placeId)
+      tally(fullFacts(api, person.id, p)!, person.id, worked.has(person.id), 1);
+  const rt = residentsRuntime(c);
+  if (rt) {
+    const working = new Set<string>();
+    for (const [jobId, flow] of rt.wageFlowByJob) {
+      const job = rt.jobs.get(jobId);
+      if (job && !job.endsAt && !flow.endedAt) {
+        working.add(job.personId);
+        const place = rt.store.countedMember(job.personId);
+        if (
+          place !== undefined &&
+          rt.store.strings[rt.store.placeIx[place]!] === placeId
+        ) {
+          const w = rt.store.weightOf(
+            rt.store.households[rt.store.household[place]!]!,
+          );
+          out["labor.low-wage-jobs"].of += w;
+          if ((job.hourlyMinor ?? 0) < p("jobsLowWageLineHourlyMinor"))
+            out["labor.low-wage-jobs"].at += w;
+        }
+      }
+    }
+    for (const h of rt.store.liveHouseholds()) {
+      if (h.placeId !== placeId) continue;
+      const w = rt.store.weightOf(h);
+      for (const m of rt.store.countedMembers(h))
+        tally(
+          countedFacts(api, rt.store, m, p),
+          rt.store.ids[m]!,
+          working.has(rt.store.ids[m]!),
+          w,
+        );
+    }
+  }
+  return out;
+}
+
+/** The web's log factor on the pull to be at work for one counted person, from the counts. */
+function countedShift(
+  api: CoreAPI,
+  personId: string,
+  placeId: string,
+  p: (key: string) => number,
+): number {
+  const store = residentsRuntime(core(api))?.store;
+  const m = store?.countedMember(personId);
+  if (!store || m === undefined) return 0;
+  return participationShift(api, placeId, countedFacts(api, store, m, p), p);
+}
+
+/**
  * Counted workers (the wider population) stay, look around, quit or retire by
  * the same offers and the same chooser as full people, each record deciding
  * for the household it stands for (its weight is how many jobs end or are
@@ -2206,6 +2384,9 @@ function reviewCountedWorkers(
         liquidMinor: person.liquidMinor,
         livingCostDailyMinor: person.livingCostDailyMinor,
         strain: api.parameter("zero"),
+        stay: countedShift(api, job.personId, person.placeId, (key) =>
+          api.parameter(key),
+        ),
       });
       decided.push({
         job,
@@ -2307,6 +2488,13 @@ function reviewCountedEntry(api: CoreAPI): void {
         p("jobsDaysPerYear");
       if (age < young || age >= old) continue;
       const placeId = counted.strings[counted.placeIx[m]!]!;
+      // The web's factor on being at work for this person's groups, as a full person's.
+      const enter = participationShift(
+        api,
+        placeId,
+        countedFacts(api, counted, m, p),
+        p,
+      );
       // The household's money against its costs, as a full person's household reads.
       if (days === undefined) {
         let liquid = 0,
@@ -2321,6 +2509,7 @@ function reviewCountedEntry(api: CoreAPI): void {
         offer("wait", personId, {}),
         offer("look", personId, {
           baseline: p("jobsEnterBaseline"),
+          ...(enter ? { web: enter } : {}),
           needWork:
             p("jobsUnemployedNeedWeight") / (p("one") + days / monthDays),
           unemployment:
