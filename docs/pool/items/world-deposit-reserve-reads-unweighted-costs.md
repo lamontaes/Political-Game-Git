@@ -5,9 +5,9 @@ area: world
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/deposit-reserve-weighted
-pr:
+pr: #5791
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-21T09:36:08.307Z

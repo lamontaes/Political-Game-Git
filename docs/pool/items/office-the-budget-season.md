@@ -4,7 +4,7 @@ title: "The budget season:"
 area: office
 kind: feature
 priority: 2
-status: claimed
+status: in-pr
 claimed-by: claude/pick-office-the-budget-season
 pr: #5217
 blocked-on:
