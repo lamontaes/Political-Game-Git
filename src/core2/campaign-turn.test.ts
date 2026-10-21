@@ -173,8 +173,11 @@ describe("campaigns that raise and spend", () => {
     const limit =
       contributionLimit(api, rival.contestId).minor ?? Number.MAX_SAFE_INTEGER;
     for (const gift of gifts) {
+      // An outside place's row stands for all its donors: the limit is per
+      // person, so it is read as the row's total over its donors.
+      const perPerson = gift.totalMinor / (gift.donors ?? 1);
       if (gift.donorId !== campaign.candidateId)
-        expect(gift.totalMinor).toBeLessThanOrEqual(limit);
+        expect(perPerson).toBeLessThanOrEqual(limit);
       expect(gift.totalMinor % 100).toBe(0);
       // Out of their own account, exactly (a donor filled in at a door
       // during the turns had no account before).
@@ -189,7 +192,9 @@ describe("campaigns that raise and spend", () => {
       campaign.candidateId,
       ...reachablePeople(api, campaign),
     ]);
-    for (const gift of gifts) expect(reachable.has(gift.donorId)).toBe(true);
+    for (const gift of gifts)
+      if (!gift.donorId.startsWith("outside:"))
+        expect(reachable.has(gift.donorId)).toBe(true);
     // Spent on what it bought, paid to sellers; the books balance.
     expect(campaign.spentMinor, where).toBeGreaterThan(0);
     expect(
@@ -247,9 +252,14 @@ describe("campaigns that raise and spend", () => {
         .moduleState(CAMPAIGNS_MODULE_ID)
         .table("gifts")
         .query("byCampaign", [rival.id]) as unknown as GiftRow[];
-    for (let turn = 0; turn < 5 && !gifts().length; turn += 1)
+    for (
+      let turn = 0;
+      turn < 5 && !gifts().some((row) => !row.donorId.startsWith("outside:"));
+      turn += 1
+    )
       campaignTurn(api, rival.id, electionOf(api, rival));
-    const gift = gifts()[0];
+    // An outside place's row is many donors, not one indexed donor.
+    const gift = gifts().find((row) => !row.donorId.startsWith("outside:"));
     // A town where no one the campaign reached would give has nothing to read.
     if (!gift) return;
     // Forget every payment record: the donor has still given what they'd give.

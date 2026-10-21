@@ -122,6 +122,12 @@ export interface GiftRow {
   readonly donorId: string;
   readonly totalMinor: number;
   readonly lastDate: string;
+  /**
+   * How many people one row stands for: 1 (absent) for a named donor, the
+   * count of an outside place's donors for an `outside:` row, whose limit is
+   * read per person (total over donors).
+   */
+  readonly donors?: number;
 }
 
 export interface ImpressionRow {
@@ -1339,6 +1345,7 @@ export function askOutsideDonors(api: CoreAPI, filingId: string): number {
       donorId,
       totalMinor: given + paid,
       lastDate: api.state.date,
+      donors: (giftOf(api, filingId, donorId)?.donors ?? 0) + donors,
     } satisfies GiftRow as unknown as ModuleRow);
     total += paid;
   }
