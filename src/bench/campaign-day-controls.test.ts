@@ -20,7 +20,6 @@ import {
 import {
   CAMPAIGNS_MODULE_ID,
   campaignFor,
-  causesFor,
   doorsKnockedOf,
 } from "../core2/modules/campaigns";
 import { interviewsFor } from "../core2/modules/press";
@@ -74,17 +73,79 @@ function fileLocal(
   return null;
 }
 
+/** The ids of the door causes the engine has recorded for one candidate. */
+function doorCauseIds(api: ReturnType<typeof coreAPI>, personId: string) {
+  return new Set(
+    (
+      api
+        .moduleState(CAMPAIGNS_MODULE_ID)
+        .table("causes")
+        .rows() as unknown as { id: string; candidateId: string; act: string }[]
+    )
+      .filter((c) => c.candidateId === personId && c.act === "door")
+      .map((c) => c.id),
+  );
+}
+
 /**
- * One candidate's campaign day from the view. Returns "unfunded" when the
- * calls could not pay for the venue (so the next candidate is tried), and
- * asserts everything else.
+ * One canvass, checked against the engine's records. The doors open as a
+ * scene on a street, naming the households that answered, when someone
+ * answered; on a day nobody did there is no scene and no household. The
+ * households are the distinct households of the people the engine recorded
+ * a door cause for on this canvass (one household can give several causes,
+ * so this is not the count of causes reached). Returns whether anyone
+ * answered.
+ */
+function checkCanvass(
+  core: CoreState,
+  api: ReturnType<typeof coreAPI>,
+  personId: string,
+  before: ReadonlySet<string>,
+  taken: ReturnType<typeof campaignDay>,
+  where: string,
+): boolean {
+  expect(taken.doorsKnocked, `doors knocked: ${where}`).toBeGreaterThan(0);
+  const causes = api.moduleState(CAMPAIGNS_MODULE_ID).table("causes");
+  const voters = new Set(
+    [...doorCauseIds(api, personId)]
+      .filter((id) => !before.has(id))
+      .map((id) => (causes.get(id) as unknown as { voterId: string }).voterId)
+      .filter((id) => core.people.get(id)?.alive),
+  );
+  const households = new Set(
+    [...voters].map((id) => core.people.get(id)!.householdId),
+  );
+  expect(
+    new Set(taken.households),
+    `households that answered: ${where}`,
+  ).toEqual(households);
+  expect(taken.reached, `causes recorded: ${where}`).toBeGreaterThanOrEqual(
+    voters.size,
+  );
+  if (voters.size > 0) {
+    expect(taken.scene?.place, where).toMatch(/^door-knocking-/);
+  } else {
+    expect(
+      taken.scene,
+      `no scene when nobody answered: ${where}`,
+    ).toBeUndefined();
+    expect(taken.households, where).toEqual([]);
+  }
+  return voters.size > 0;
+}
+
+/**
+ * One candidate's campaign day from the view. The result is "unfunded" when
+ * the calls could not pay for the venue (so the next candidate is tried),
+ * and `answered` says whether anyone answered any of the day's canvasses;
+ * everything else is asserted.
  */
 function play(
   core: CoreState,
   api: ReturnType<typeof coreAPI>,
   filing: FilingRow,
   where: string,
-): string {
+): { result: string; answered: boolean } {
   const personId = filing.personId;
 
   const view = campaignView(core, personId).campaigns.find(
@@ -111,38 +172,12 @@ function play(
   ).toThrow();
 
   // Canvass: the doors knocked on the campaign screen are the engine's own records.
+  const firstDoors = doorCauseIds(api, personId);
   const taken = campaignDay(core, personId, {
     filingId: filing.id,
     kind: "canvass",
   });
-  expect(taken.doorsKnocked, `doors knocked: ${where}`).toBeGreaterThan(0);
-  // The doors open as a scene on a street, naming the households that
-  // answered, when someone answered; on a day nobody did there is no scene
-  // and no household. The households are the distinct households of the
-  // people the engine recorded a door cause for (one household can give
-  // several causes, so this is not the count of causes reached).
-  const answered = [...core.people.values()].filter((person) =>
-    causesFor(api, person.id, personId).some((cause) => cause.act === "door"),
-  );
-  const answeredHouseholds = new Set(
-    answered.map((person) => person.householdId),
-  );
-  expect(
-    new Set(taken.households),
-    `households that answered: ${where}`,
-  ).toEqual(answeredHouseholds);
-  expect(taken.reached, `causes recorded: ${where}`).toBeGreaterThanOrEqual(
-    answered.length,
-  );
-  if (answered.length > 0) {
-    expect(taken.scene?.place, where).toMatch(/^door-knocking-/);
-  } else {
-    expect(
-      taken.scene,
-      `no scene when nobody answered: ${where}`,
-    ).toBeUndefined();
-    expect(taken.households, where).toEqual([]);
-  }
+  let answered = checkCanvass(core, api, personId, firstDoors, taken, where);
   expect(
     doorsKnockedOf(api, campaignFor(api, filing.id).id).length,
     where,
@@ -196,10 +231,13 @@ function play(
     });
     if (eventControl().available) break;
     if (!outing("doors").available) break;
+    const knocked = doorCauseIds(api, personId);
     const doors = campaignDay(core, personId, {
       filingId: filing.id,
       kind: "canvass",
     });
+    if (checkCanvass(core, api, personId, knocked, doors, where))
+      answered = true;
     if (calls.raisedMinor === 0 && doors.doorsKnocked === 0) break;
   }
   // What the donors left short of the venue, the candidate chooses to put
@@ -227,9 +265,13 @@ function play(
     const venue = campaignDayChoices(api, filing.id).find(
       (c) => c.kind === "event",
     )!;
-    return venue.kind === "event"
-      ? `unfunded: cash ${venue.facts.cashMinor} of ${venue.facts.venuePriceMinor}, ${venue.facts.platformStances} stances`
-      : "unfunded";
+    return {
+      result:
+        venue.kind === "event"
+          ? `unfunded: cash ${venue.facts.cashMinor} of ${venue.facts.venuePriceMinor}, ${venue.facts.platformStances} stances`
+          : "unfunded",
+      answered,
+    };
   }
   const causeIds = () =>
     (
@@ -265,13 +307,18 @@ function play(
     campaignDay(core, personId, { filingId: filing.id, kind: "rest" }).reached,
     where,
   ).toBe(0);
-  return "done";
+  return { result: "done", answered };
 }
 
 it(
   "shows the day's choices with control names and runs the one taken through the engine",
   () => {
+    // The places are redrawn until a candidate has held an event and some
+    // canvass has been answered; a draw where nobody answered still ran the
+    // nobody-answered checks.
     const tried: string[] = [];
+    let held = false;
+    let answeredAt = "";
     for (let n = 0; n < PLACES; n++) {
       const { core, api, adults, where } = openWorld(
         `campaign-day-controls:${n}`,
@@ -283,14 +330,22 @@ it(
         const filing = fileLocal(core, api, candidate);
         if (!filing) continue;
         filed++;
-        const result = play(core, api, filing, where);
-        if (result === "done") return;
-        notes.push(result);
+        const { result, answered } = play(core, api, filing, where);
+        if (answered && !answeredAt) answeredAt = `${where}, ${filing.id}`;
+        notes.push(`${result}${answered ? ", answered" : ", nobody answered"}`);
+        if (result === "done") {
+          held = true;
+          break;
+        }
       }
       tried.push(`${where} (${filed} filed; ${notes.join("; ")})`);
+      if (held && answeredAt) {
+        process.stdout.write(`canvass answered: ${answeredAt}\n`);
+        return;
+      }
     }
     throw new Error(
-      `no candidate could pay for an event in ${PLACES} places: ${tried.join(" | ")}`,
+      `${held ? "" : "no candidate could pay for an event; "}${answeredAt ? "" : "no canvass was answered; "}in ${PLACES} places: ${tried.join(" | ")}`,
     );
     // One drawn place, built and played through its campaign days, took 196
     // seconds on a 4-core container (Springville, Utah); up to PLACES of them.
