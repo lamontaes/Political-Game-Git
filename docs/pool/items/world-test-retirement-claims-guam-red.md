@@ -5,12 +5,12 @@ area: world
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: done
+claimed-by: claude/retirement-guam-g08lgv
 pr: #5299
 blocked-on:
 source: added with npm run pool -- add
-claimed-at:
+claimed-at: 2026-10-20T01:27:26.273Z
 ---
 
 **What.** The test "starts each claimant's monthly award, and every dollar balances" in src/core2/retirement-claims.test.ts fails at line 92 in Sinajana, Guam with seed 6a90f37e0d49d267cb388d1216908e30: an assertion that a boolean is true gets false. It fails the same way on main without the counted-retiree change, so it is red on main for that seed. Find which claim does not start and fix the cause, not the test.

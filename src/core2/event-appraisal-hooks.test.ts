@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { advanceDate } from "./calendar";
 import { chooseAct } from "./choice";
-import { closenessAfter } from "./closeness";
+import { closenessAfter, temperedHours } from "./closeness";
 import { PEOPLE_MODULE } from "./modules/people";
 import { DEFAULT_DATA } from "./data";
 import { appraiseEvent } from "./emotion";
@@ -514,7 +514,13 @@ describe("ordered relationship mutation notices", () => {
           core,
           { level: firstLevel, lastContactDate: date, kind: "contact" },
           "contact",
-          -parameter("one"),
+          // The two people's temperaments set how much the hour counts.
+          temperedHours(
+            core,
+            core.people.get(actorId),
+            core.people.get(otherId),
+            -parameter("one"),
+          ),
         ),
       },
     ]);
@@ -729,7 +735,17 @@ describe("saved actual relationship change causes", () => {
     expect(evidence.requestedChange).toBe(hours);
     expect(evidence.before).toEqual({ level: parameter("zero") });
     expect(evidence.after).toEqual({
-      level: closenessAfter(core, undefined, "contact", hours),
+      level: closenessAfter(
+        core,
+        undefined,
+        "contact",
+        temperedHours(
+          core,
+          core.people.get(actorId),
+          core.people.get(otherId),
+          hours,
+        ),
+      ),
       lastContactDate: date,
     });
     expect(evidence.decision!.compactChoice).toEqual(decision.compactChoice);
@@ -827,7 +843,12 @@ describe("saved actual relationship change causes", () => {
         core,
         { level: first.after.level, lastContactDate: date, kind: "family" },
         "coworker",
-        -parameter("one"),
+        temperedHours(
+          core,
+          core.people.get(actorId),
+          core.people.get(otherId),
+          -parameter("one"),
+        ),
       ),
     );
     expect(
@@ -963,7 +984,12 @@ it("keeps an outside-circle relationship result without saving change explanatio
       core,
       undefined,
       "contact",
-      parameter("relationContactGain"),
+      temperedHours(
+        core,
+        core.people.get(actorId),
+        core.people.get(otherId),
+        parameter("relationContactGain"),
+      ),
     ),
   );
   expect(row.lastContactDate).toBe(date);

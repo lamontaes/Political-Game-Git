@@ -5,13 +5,13 @@ area: release
 kind: feature
 priority: 3
 size: L
-status: claimed
-claimed-by: claude/political-game-pool-76ksvw
+status: blocked
+claimed-by:
 pr:
-blocked-on:
+blocked-on: not scheduled: a roadmap milestone at priority 3 until the weekly reschedule (AGENTS.md: saves and release work wait for early-access preparation); an L item is split by whoever claims it once scheduled
 milestone: M7
 source: "docs/roadmap/later-specs-draft.md M7-04"
-claimed-at: 2026-10-20T01:25:25.428Z
+claimed-at:
 ---
 
 **What.** Automatic updates, content updates without a reinstall, in-game bug reports with logs, crash reports. (Owner: Anyone free.)
