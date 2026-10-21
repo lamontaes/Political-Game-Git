@@ -5,7 +5,7 @@ area: gov
 kind: feature
 priority: 2
 size: M
-status: in-pr
+status: open
 claimed-by:
 pr: #5513
 blocked-on:
@@ -24,3 +24,5 @@ claimed-at:
 **Notes.** Sent back Oct 20 from PR #5072 (branch claude/past-business-closures): diff contained unrelated edits under src/director/ and data/english/ outside the government area; finish on that branch, merge main into it first.
 
 Split from gov-past-deaths-closures-archive (the deaths half is built there). The deaths come from the kin generator's life-table line; closures need a business history the generator does not yet keep.
+
+Sent back 2026-10-21 from PR #5513 (branch claude/political-game-pool-yucp92-oo): `src/core2/past.test.ts:100-109` makes its only positive closure assertion conditional on both an expected count and a retiree, then checks the archive reader only inside a loop over closures. A drawn world with zero expected closures or no eligible former owner can therefore pass this entire new test with no closure or archive/read record checked. Add a bounded drawn-place search that requires at least one generated closure, its printed story, and the former owner’s heard record before success; keep a separate explicit zero-case test if needed. The owner/date cleanup fixes the prior return, but this vacuous acceptance path remains. Morning check blocks this head; no local gate pass is claimed.; finish on that branch, merge main into it first.
