@@ -212,6 +212,17 @@
       "citation": "BLS CPS participation by age, 2015-2019."
     }
   },
+  "jobsRetireWebWeight": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "Scales the pull the outcome web's retirement-age link puts on retiring: the score falls by this weight times the log of the web's factor on older workers' employment (labor.older-employment) for the worker's age and sex, so a law that raises the retirement age keeps more of the 62 to 67 group at work. Checked against the link's researched size, a 0.10 rise in the group's employment per two-year rise in the full retirement age (range 0.04 to 0.22; Mastrobuoni 2009, Journal of Public Economics).",
+    "spread": {
+      "low": 0.5,
+      "high": 2,
+      "unit": "score per log factor",
+      "citation": "Fitted in a played year to the link's researched range."
+    }
+  },
   "jobsOnTheJobSearchMonths": {
     "value": 3,
     "tag": "TUNABLE",
