@@ -5,11 +5,12 @@ area: people
 kind: wiring
 priority: 2
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/counted-illness-causes
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-21T17:37:48.907Z
 ---
 
 **What.** When someone in the wider population falls seriously ill (births-counted.ts), no event is recorded, so neither they nor the household they live with perceive it. A named person and their family perceive a serious illness through the serious-illness rule in drives.ts and may take up a cause. Record a counted onset as a private event of its own kind naming the ill person as its counted subject and their household, and have each respond by the same rule, read from their counted records. A cause they take up is kept until they are filled in.
