@@ -5,9 +5,9 @@ area: gov
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/vote-level-township
-pr:
+pr: #5827
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-21T19:35:29.308Z
