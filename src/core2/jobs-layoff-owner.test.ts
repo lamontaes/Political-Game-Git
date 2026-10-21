@@ -1,8 +1,8 @@
 /**
- * A layoff in a business names its owner as who decided it (pool item
- * gov-standins-jobs, SG-WORLD-jobs-layoff-decider): in a played year in a
- * drawn place, no layoff at a business names the business itself, and the
- * owner on its books is the one named.
+ * A layoff at an owned business names the owner on its books as decider
+ * (pool item jobs-layoff-owner-decides-test). In a drawn played world,
+ * advance a month at a time until an owned layoff appears; fail if bounded
+ * draws run out. This does not prove the broader gov-standins-jobs chain.
  */
 import { randomBytes } from "node:crypto";
 import { expect, it } from "vitest";
