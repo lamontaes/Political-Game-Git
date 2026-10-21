@@ -14,7 +14,7 @@ source: added with npm run pool -- add
 claimed-at:
 ---
 
-**What.** countedAppeal in electorate.ts still reads a counted voter's recognition of a candidate through platformAgreement(lean, platform), the lean-times-axis stand-in, while full people read agreementWith. Give each counted group the stance its members' traits imply (the same formation rule times the count) and read it there, so a counted voter and a full voter of the same traits agree with a platform alike.
+**What.** countedAppeal in electorate.ts still reads a counted voter's recognition of a candidate through platformAgreement(lean, platform), the lean-times-axis stand-in, while full people read agreementWith. Give each counted group the stance its members' traits imply (the same formation rule times the count) and read it there. A counted voter and a full voter of the same traits must agree with a platform alike.
 
 **Rules.** One model, two tiers: the counted group is read by the same rule as a full person, times its count. No dice. The chain is the acceptance.
 

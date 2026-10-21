@@ -4,7 +4,7 @@ title: "Stopgaps in opening-outside-market (outside-demand): 1 open"
 area: core
 kind: stopgap
 priority: 3
-status: in-pr
+status: done
 claimed-by: claude/pool-outside-demand
 pr: #5297
 blocked-on:
