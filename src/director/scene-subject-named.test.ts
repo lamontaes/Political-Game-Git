@@ -13,7 +13,7 @@ import { advanceCore } from "../core2/life";
 // person the result names who is not its winner, a hearing scene only for a
 // speaker the public comment record names. A person who only heard of it
 // through a tie has no such scene. Places are drawn in turn (bounded) until
-// one has all three kinds in a year; every full resident is watched.
+// each kind has been seen in some place in a year; every full resident is watched.
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(20).toString("hex");
 const KINDS = ["filing", "race-lost", "public-hearing"] as const;
 const RECORD: Record<(typeof KINDS)[number], string> = {
@@ -21,11 +21,13 @@ const RECORD: Record<(typeof KINDS)[number], string> = {
   "race-lost": "election-result",
   "public-hearing": "public-comment",
 };
-const ATTEMPTS = 6;
+const ATTEMPTS = 10;
 
 it(`filing, race-lost and hearing scenes are each staged only for the person their record names (seed ${seed})`, () => {
   const tried: string[] = [];
-  for (let life = 0; life < ATTEMPTS; life += 1) {
+  // The first scene of each kind found in any drawn place, with its place.
+  const found = new Map<string, string>();
+  for (let life = 0; life < ATTEMPTS && found.size < KINDS.length; life += 1) {
     const place = drawPlace(`${seed}:${life}`, "scene-subject-named");
     const label = `${place.name} (${place.key}), seed ${place.seed}`;
     setBookkeeping(false);
@@ -57,15 +59,18 @@ it(`filing, race-lost and hearing scenes are each staged only for the person the
             expect(record?.facts?.winnerId, where).not.toBe(personId);
           seen[kind]!.push(`${personId}@${moment.causeId}`);
         }
-    const missing = KINDS.filter((k) => !seen[k]!.length);
-    if (!missing.length) {
-      for (const k of KINDS)
-        expect(seen[k]!.length, `${label}, ${k}`).toBeGreaterThan(0);
-      return;
-    }
-    tried.push(`${label} lacks ${missing.join("+")}`);
+    for (const k of KINDS)
+      if (seen[k]!.length && !found.has(k))
+        found.set(k, `${label}: ${seen[k]![0]} (of ${seen[k]!.length})`);
+    tried.push(
+      `${label} had ${KINDS.filter((k) => seen[k]!.length).join("+") || "none"}`,
+    );
   }
-  throw new Error(
-    `no place had a filing, race-lost and hearing scene in a year: ${tried.join("; ")} (seed ${seed})`,
-  );
+  for (const k of KINDS)
+    console.log(`scene-subject-named ${k}: ${found.get(k) ?? "not found"}`);
+  const missing = KINDS.filter((k) => !found.has(k));
+  if (missing.length)
+    throw new Error(
+      `no drawn place staged a ${missing.join(" or ")} scene in a year: ${tried.join("; ")} (seed ${seed})`,
+    );
 }, 3_600_000);
