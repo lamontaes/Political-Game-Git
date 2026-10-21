@@ -38,7 +38,7 @@ function yearOf(draw: number) {
     draw ? `${seed}:${draw}` : seed,
     "housing-calibration",
   );
-  const where = `place ${place.key}, seed ${place.seed}`;
+  const where = `place ${place.key}, draw seed ${draw ? `${seed}:${draw}` : seed}, world seed ${place.seed}`;
   console.log(`housing-calibration: ${where}`);
   const { core } = buildBenchWorld(place.seed, gameStartDate(), {
     twoLevel: true,
