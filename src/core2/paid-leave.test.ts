@@ -129,4 +129,4 @@ it("records native premiums for both tiers and reads a controlled repeal immedia
   } finally {
     setBookkeeping(true);
   }
-}, 900_000);
+}, 120_000);

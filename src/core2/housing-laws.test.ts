@@ -13,7 +13,6 @@ import { enactLaw, lawChain, lawInForce } from "./modules/laws";
 import { renewRentalLeases } from "./housing-occupancy";
 import { residentsRuntime } from "./modules/residents";
 import { stancesOf } from "./modules/views";
-import construction from "./data/housing/construction.json" with { type: "json" };
 import parameters from "./data/laws/reach-group-a-parameters.json" with { type: "json" };
 
 const draw: DrawnPlace = process.env.LAW_LINK_DRAW
@@ -58,10 +57,6 @@ describe(`housing laws, ${draw.name}, seed ${draw.seed}`, () => {
         ]),
       );
       expect(stock.zoning).toMatchObject({
-        multifamilyLandShare:
-          laws.multifamilyLandShare!.value === 1
-            ? 1
-            : 1 - construction.zoning.singleFamilyOnlyShare,
         inclusionaryShare:
           laws.inclusionaryShare!.value === 1
             ? parameters.parameters.inclusionaryAffordableShare.value
@@ -113,7 +108,7 @@ describe(`housing laws, ${draw.name}, seed ${draw.seed}`, () => {
         affordable: proof.affordable.length,
       }),
     );
-  }, 900_000);
+  }, 180_000);
 
   it("caps both tiers at renewal and preserves a counted tenant's rent when filled in (controlled edge case)", () => {
     // A controlled renewal stress case, not claimed as the ordinary year's

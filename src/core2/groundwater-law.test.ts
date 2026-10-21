@@ -150,4 +150,6 @@ it("reads withdrawal law at farm production and removes its limit on repeal", ()
   } finally {
     setBookkeeping(true);
   }
-}, 900_000);
+  // Measured: 156 s and 189 s of test time at two workers on a 4-core container
+  // (a drawn farm town's played year); 300 s leaves room without hiding a slowdown.
+}, 300_000);
