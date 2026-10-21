@@ -5,9 +5,9 @@ area: gov
 kind: bug
 priority: 3
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/repass-law-in-force
-pr:
+pr: #5778
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-21T02:21:31.090Z
