@@ -13,13 +13,13 @@ source: added with npm run pool -- add
 claimed-at:
 ---
 
-**What.** TODO
+**What.** The director staged a filing scene and a race-lost scene around listeners tied to a candidate, as if they had filed or lost a race they never entered, and staged hearing scenes around people who never spoke. A participant scene (a filing, a race lost, a public hearing) must be staged only around a person its cause record names. src/director/scheduling.ts checks the staged person against the record's named people, and the situation types in src/director/data/situation-types.json mark which kinds are participant scenes.
 
-**Rules.** TODO
+**Rules.** Ask why: each staged participant scene answers why this person, by the cause record that names them. A loser's scene goes only to a named candidate who is not the record's winner. No hand-written player text: only who is staged changes, never the words.
 
-**Done when.** TODO
+**Done when.** In a played world built with buildBenchWorld in a drawn place (up to 6 draws from all 56, failing with every place and seed tried), src/director/scene-subject-named.test.ts finds at least one filing, one race-lost and one hearing scene. It asserts each kind separately: the filing's person is named by its candidate-filed record, the race-lost person is named by its election-result record and is not its winnerId, and the hearing's person is named by its public-comment record. The PR body names the place, seed and each record id.
 
-**Files.** TODO
+**Files.** src/director/scheduling.ts, src/director/data/situation-types.json, src/director/scene-subject-named.test.ts, src/director/cause-names.test.ts
 
 **Notes.** TODO
 
