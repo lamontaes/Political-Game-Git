@@ -74,7 +74,10 @@ function amendSchoolsLine(direction: -1 | 1) {
           for (const id of flow.jobIds ?? []) if (!ids.has(id)) counted.add(id);
       return [
         ...full,
-        ...[...counted].map((id) => rt!.jobs.get(id)!).filter(Boolean),
+        // A counted job that has ended is no longer staff.
+        ...[...counted]
+          .map((id) => rt!.jobs.get(id)!)
+          .filter((job) => job && job.endsAt === undefined),
       ];
     };
     if (!mayor || !city || !district || teachers(district.id).length < 4) {
