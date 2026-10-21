@@ -4,10 +4,10 @@ title: "Stopgaps in residents (missing-jobs): 1 open"
 area: people
 kind: stopgap
 priority: 3
-status: open
+status: blocked
 claimed-by:
 pr:
-blocked-on:
+blocked-on: engine or design: The opening's town workplaces cover only part of the county's industry mix (e.g. 34% in Mill Creek, Oklahoma), so most working residents had no income and the residents' account ran dry within months.
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/residents.ts, kind missing-jobs"
 ---

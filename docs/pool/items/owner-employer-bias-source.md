@@ -6,10 +6,11 @@ kind: owner-decision
 priority: 3
 size: S
 status: blocked
-claimed-by:
+claimed-by: claude/political-game-pool-yucp92-f
 pr:
-blocked-on: owner decision
+blocked-on: spec: people carry no protected traits except age, so a ban has nothing to refuse
 source: added with npm run pool -- add
+claimed-at: 2026-10-19T23:02:36.413Z
 ---
 
 **What.** What makes an employer pass over an applicant? The discrimination ban (SG-GOV-REACH-A-discrimination) has nothing to refuse, because hiring in jobs.ts picks by fit (experience and reliability) and the applicant's own answer, and nothing records an employer's bias against a group. A refusal drawn from the law alone would be a dice roll. The question is which recorded thing makes an employer pass over someone: a trait of the owner or hiring manager, a view about a group, or a record of past complaints.
@@ -20,4 +21,4 @@ source: added with npm run pool -- add
 
 **Files.** docs/coordination/OWNER-DECISIONS.md
 
-**Notes.** Looked up Oct 19: DECISION-REGISTER.md and OWNER-DECISIONS.md hold no ruling on this. Split from world-sale-eligibility-reads.
+**Notes.** Claude, Oct 19: the ruling is in OWNER-DECISIONS.md (employer passing over an applicant, #5102): the owner's traits and views read against the applicant's record, reasons recorded, and a ban refuses a decision citing a protected trait. Not built: a person (PersonInput in src/core2/types.ts) carries no protected trait except age (birthDate); there is no recorded sex, race, religion or disability, and the owner's views of groups do not exist. The hire pick in src/core2/modules/jobs.ts (fit: experience, reliability, referral) has no such input. Building this first needs a spec for which protected traits a person has, where they come from (census data, per place) and how an owner's view of a group is formed. That is a population-model decision, not a jobs change.
