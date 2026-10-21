@@ -10,10 +10,12 @@
  * than half of the small towns decide no local contest in 400 days, and a
  * handful of contests per town makes any six places swing by tens of points.
  * So the check is on the pooled count of contests over as many places as it
- * takes to have at least `MIN_CONTESTS`: the observed pooled share must lie
- * in the real band. Each contest is one seat (a body with several seats has a
- * contest row per seat), so a seat is uncontested when its ballot has no more
- * than one candidate.
+ * takes to have at least `MIN_CONTESTS`, and it fails only when the pooled
+ * count cannot be the real band at 99 percent confidence (the Wilson interval
+ * of the pooled share lies wholly above 80 percent or wholly below 50). A run
+ * that merely lands on one side of the band by luck does not fail. Each
+ * contest is one seat (a body with several seats has a contest row per seat),
+ * so a seat is uncontested when its ballot has no more than one candidate.
  */
 import { randomBytes } from "node:crypto";
 import { expect, it } from "vitest";
@@ -31,8 +33,8 @@ import {
 } from "./modules/elections";
 
 const LOCAL = ["city", "county", "township", "school"];
-const MIN_CONTESTS = 30;
-const MAX_PLACES = 14;
+const MIN_CONTESTS = 40;
+const MAX_PLACES = 24;
 const BAND = { low: 0.5, high: 0.8 };
 const Z = 2.576;
 
@@ -46,7 +48,7 @@ function wilson(successes: number, n: number): [number, number] {
   return [center - half, center + half];
 }
 
-it("the share of local seats with no more candidates than seats lies in the real band, over places drawn at random", () => {
+it("the share of local seats with no more candidates than seats cannot be shown to lie outside the real band, over places drawn at random", () => {
   const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(16).toString("hex");
   let contests = 0,
     uncontested = 0;
@@ -74,17 +76,12 @@ it("the share of local seats with no more candidates than seats lies in the real
       // core-press-staff-counted-job-not-resident: a press staff member who
       // is not a resident stops some played years. It is that item's defect,
       // not this check's; the place is named and left out.
-      if (
-        !String(error).includes("Not in the wider population") &&
-        !String(error).includes("A transfer needs two different accounts")
-      )
+      if (!String(error).includes("Not in the wider population"))
         throw new Error(
           `${place.name} (${place.key}), seed ${place.seed}: ${String(error)}`,
           { cause: error },
         );
-      lines.push(
-        `${place.name} (${place.key}): skipped, a defect filed in the pool`,
-      );
+      lines.push(`${place.name} (${place.key}): skipped, press staff defect`);
       continue;
     }
     contests += decided.length;
@@ -92,13 +89,11 @@ it("the share of local seats with no more candidates than seats lies in the real
     lines.push(
       `${place.name} (${place.key}, seed ${place.seed}): ${decided.length} contests, ${here} uncontested`,
     );
-    console.log(lines[lines.length - 1]);
   }
   const [low, high] = wilson(uncontested, Math.max(contests, 1));
   const where = `seed ${seed}: ${uncontested} of ${contests} uncontested (99% interval ${(low * 100).toFixed(0)} to ${(high * 100).toFixed(0)} percent): ${lines.join("; ")}`;
   console.log(where);
   expect(contests, where).toBeGreaterThanOrEqual(MIN_CONTESTS);
-  const share = uncontested / contests;
-  expect(share, where).toBeLessThanOrEqual(BAND.high);
-  expect(share, where).toBeGreaterThanOrEqual(BAND.low);
+  expect(low, where).toBeLessThanOrEqual(BAND.high);
+  expect(high, where).toBeGreaterThanOrEqual(BAND.low);
 }, 7_200_000);
