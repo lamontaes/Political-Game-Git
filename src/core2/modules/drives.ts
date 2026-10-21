@@ -120,7 +120,9 @@ type FactKey =
   | "response"
   | "role"
   | "originEvent"
-  | "countedSubject";
+  | "countedSubject"
+  | "countedPerceivers"
+  | "countedHousehold";
 
 export const DEFAULT_DRIVES_DATA = drivesJson as unknown as DrivesData;
 
@@ -367,7 +369,11 @@ const roleOperations: Readonly<Record<string, RoleTest>> = {
       (id) =>
         id !== actor.id &&
         api.state.people.get(id)?.householdId === actor.householdId,
-    ),
+    ) ||
+    // A counted subject's household, named by the event itself.
+    (!!actor.householdId &&
+      event.facts?.["counted-household"] === actor.householdId &&
+      !event.personIds.includes(actor.id)),
   "known-to-subject": (api, actor, event) =>
     event.personIds.some(
       (id) =>
@@ -1491,6 +1497,14 @@ export function createDrivesModule(
       // The counted people it happened to perceive it as its subjects, by the same rule.
       for (const id of countedSubjects(api, data, event))
         respond(api, data, id, { ...event, personIds: [id] });
+      // Counted people the event happened around (the household a counted
+      // death left), each perceiving it with the counted subject as its subject.
+      const subject = event.facts?.[data.factKeys.countedSubject];
+      const around = event.facts?.[data.factKeys.countedPerceivers];
+      if (subject && around)
+        for (const id of JSON.parse(around) as PersonId[])
+          if (!api.state.people.has(id))
+            respond(api, data, id, { ...event, personIds: [subject] });
     },
     offerProviders: {
       "drive-confidant": (api, actor, action) => {
@@ -1837,6 +1851,9 @@ export function countedDrivesHeld(api: CoreAPI): {
   kind: string;
   sourceEventId: string;
   strength: number;
+  /** How they stood toward the event that formed it, and that event's facts. */
+  role?: string;
+  sourceFacts?: Readonly<Record<string, string>>;
 }[] {
   const out: {
     personId: PersonId;
@@ -1844,6 +1861,8 @@ export function countedDrivesHeld(api: CoreAPI): {
     kind: string;
     sourceEventId: string;
     strength: number;
+    role?: string;
+    sourceFacts?: Readonly<Record<string, string>>;
   }[] = [];
   for (const [personId, mine] of runtimeFor(api.state).countedByPerson)
     for (const drive of mine.values())
@@ -1853,6 +1872,14 @@ export function countedDrivesHeld(api: CoreAPI): {
         kind: drive.kind,
         sourceEventId: drive.sourceEventId,
         strength: currentStrength(api, drive),
+        ...(drive.formations[0]
+          ? {
+              role: drive.formations[0].role,
+              ...(drive.formations[0].event.facts
+                ? { sourceFacts: drive.formations[0].event.facts }
+                : {}),
+            }
+          : {}),
       });
   return out;
 }

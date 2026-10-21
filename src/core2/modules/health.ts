@@ -65,6 +65,8 @@ export interface HealthData {
   calibrationCategory: "equal-mixture" | "male" | "female";
   onsetEventKind: string;
   deathEventKind: string;
+  /** A death in the wider population, recorded for the household that outlives them. */
+  countedDeathEventKind: string;
   topicPrefix: string;
   desiredChangePrefix: string;
   unconditionedTopic: string;
