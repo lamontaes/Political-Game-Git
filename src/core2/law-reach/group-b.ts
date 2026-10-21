@@ -20,6 +20,12 @@
 import reach from "../data/laws/reach-group-b.json" with { type: "json" };
 import type { CoreAPI, JobInput } from "../types";
 import { registerPolicyHandler } from "./host";
+import {
+  endPlaceRule,
+  PLACE_PRICES_MODULE_ID,
+  poorRoadShareAt,
+  setRoadCondition,
+} from "../modules/place-prices";
 import { lawChain, lawInForce, LAWS_MODULE_ID } from "../modules/laws";
 import type { LawRowInput } from "../laws-starting";
 import {
@@ -59,6 +65,7 @@ import {
   residentsOf,
   scalePayroll,
   serviceLevel,
+  source,
 } from "./group-b-money";
 import { runFoodAid } from "./group-b-food-aid";
 import { lawNoLongerApplies } from "./applied";
@@ -108,6 +115,8 @@ interface LineDef {
     readonly compensationShare: string;
   };
   readonly benefit?: boolean;
+  /** The line's level sets the share of the town's roads in poor condition. */
+  readonly roadCondition?: boolean;
   readonly stopgapId?: string;
 }
 
@@ -748,6 +757,20 @@ function runBudgetLine(api: CoreAPI, line: string, lawId: string): void {
       modeledShare: share,
       timeLimit: assistanceTimeLimit(api, facts, chain.stateKey),
     });
+  }
+  if (def.roadCondition && api.state.modules.has(PLACE_PRICES_MODULE_ID)) {
+    // Drivers' repair bills follow the roads' condition (place-prices reads the rule monthly).
+    if (inForce)
+      setRoadCondition(api, {
+        placeId: chain.townPlaceId,
+        poorShare: poorRoadShareAt(api, service.level),
+        cause: `law-reach:budget-line:${line}`,
+        source: source(
+          api,
+          `Budget line ${line} at ${service.level.toFixed(3)} of its base`,
+        ),
+      });
+    else endPlaceRule(api, chain.townPlaceId, "vehicle-repair", "road");
   }
   if (inForce && def.stopgapId) api.stopgap(def.stopgapId);
   const reachNow = reachOf(api, {

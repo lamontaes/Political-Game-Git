@@ -5,7 +5,7 @@ area: world
 kind: research
 priority: 2
 size: M
-status: done
+status: open
 claimed-by:
 pr: #5534
 blocked-on:
@@ -24,3 +24,5 @@ claimed-at:
 **Notes.** Sent back 2026-10-20 from PR #5191 (branch claude/employer-attitude): Morning check failed because employer-callback-gaps.json is not read by any engine in core2; finish on that branch, merge main into it first.
 
 Oct 20 (pool feeder): write-up filled from PR #5191's body and its send-back. world-hiring-bias-reasons (claimed) builds the reasons on top of this reader.
+
+Sent back 2026-10-20 from PR #5191 (branch claude/employer-attitude): Merging current origin/main produces 366 conflicted files, including code in src/core2/modules/jobs.ts, src/core2/modules/press.ts, src/core2/trait-effects/index.ts, src/core2/trait-effects/initial-trust.ts, src/director/office-scene.ts, src/simulation/compiled-trait-packs.ts, tests/golden-path/runner.node-test.mjs and tsconfig.node.json, plus the English news bank and current merger/researcher instructions. Repair this branch against current main with plain commits, preserving the current engines, bank grading and main instructions, then rerun the changed-file gate. This merger cannot hand-resolve those code or English-bank conflicts.; finish on that branch, merge main into it first.
