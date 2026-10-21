@@ -41,6 +41,7 @@ interface StateSteps {
 const DATA = foreclosureData as unknown as {
   federalDelinquencyDays: number;
   nationalTypicalDaysToComplete: number;
+  typicalDaysByProcess: Record<string, { value: number }>;
   places: Record<string, StateSteps>;
 };
 
@@ -76,12 +77,16 @@ export function foreclosureSteps(usps: string): StateSteps & {
     redemptionDaysAfterSale: row?.redemptionDaysAfterSale ?? null,
     statute: row?.statute ?? "",
     confidence: row?.confidence ?? "low",
-    // Sales follow the state's average time from first filing to sale; the
-    // nation's where none is published (the statute's notices are the floor).
+    // Sales follow the state's average time from first filing to sale; where
+    // none is published, the median of places with the same process (a
+    // judicial state runs ten times longer than a nonjudicial one), else the
+    // nation's (the statute's notices are the floor).
     daysToSale: Math.max(
       1,
       statutory,
-      row?.typicalDaysToComplete ?? DATA.nationalTypicalDaysToComplete,
+      row?.typicalDaysToComplete ??
+        DATA.typicalDaysByProcess[row?.process ?? ""]?.value ??
+        DATA.nationalTypicalDaysToComplete,
     ),
     redemptionDays: Math.max(0, row?.redemptionDaysAfterSale ?? 0),
   };

@@ -2527,12 +2527,19 @@
     "stopgapId": "SG-P8-opening-customer-generation"
   },
   "openingCustomerPublicCleaningBudgetShare": {
-    "value": 0.1,
+    "value": 0.12,
     "tag": "ESTIMATED",
-    "citation": "A disclosed tenth of public-building spending is reserved for contracted custodial operations in the fictional opening appropriation. FAR 37.101 recognizes janitorial service contracts; neither FAR nor Census identifies this fraction. Applicability: Published aggregate mean and sampling error are not individual dispersion. No individual budget/account spread or crosswalk calibration has been measured.",
-    "estimatedFrom": "A disclosed tenth of public-building spending is reserved for contracted custodial operations in the fictional opening appropriation. FAR 37.101 recognizes janitorial service contracts; neither FAR nor Census identifies this fraction.",
+    "citation": "The share of public-building spending reserved for contracted custodial operations in the opening appropriation. IFMA's facility operations benchmark (2000, https://www.fmlink.com/?p=13268) puts janitorial at $1.08 of a $5.59 per rentable square foot cost of janitorial, utilities and maintenance (19 percent); public-building spending also includes capital outlay, so a lower 0.12 is used. FAR 37.101 recognizes janitorial service contracts; no source gives the public share itself.",
+    "estimatedFrom": "IFMA 19 percent of operating cost, reduced for capital outlay in public-building spending; stopgap research (data/research/stopgaps-oct19, B-people-behavior-2).",
+    "spread": {
+      "low": 0.08,
+      "high": 0.19,
+      "unit": "share of public-building spending",
+      "citation": "High end the IFMA janitorial share of operating cost (0.19); low end the same share with a larger capital-outlay portion removed."
+    },
     "stopgapId": "SG-P8-opening-customer-public-procurement"
   },
+
   "openingCustomerLocalAuthorityBudgetCoverage": {
     "value": 0.25,
     "tag": "ESTIMATED",
@@ -4170,13 +4177,14 @@
     }
   },
   "volunteerHours": {
-    "value": 2,
-    "tag": "TUNABLE",
-    "citation": "Hours of one volunteering session for a cause group. P10 prototype starting value; no direct source for this coefficient. Calibration against P9 life replays and bereaved/activist cohort spreads is pending and blocks release.",
-    "stopgapId": "SG-P10-params-uncalibrated",
+    "value": 2.18,
+    "tag": "SOURCED",
+    "citation": "BLS American Time Use Survey 2024, Table 1 (https://www.bls.gov/news.release/atus.t01.htm): people who volunteered (organizational and civic activities) on an average day spent 2.18 hours at it (men 2.20, women 2.16). Hours of one volunteering session for a cause group.",
     "spread": {
-      "status": "unmeasured",
-      "reason": "No volunteering-session duration source has been read into the repository yet."
+      "low": 2.16,
+      "high": 2.2,
+      "unit": "hours per participant per day",
+      "citation": "BLS ATUS 2024 Table 1: women 2.16 hours, men 2.20 hours."
     },
     "checkRange": {
       "ref": "P9-OUTCOME-WHOLE-LIFE"
@@ -4405,8 +4413,7 @@
     "value": 0.106,
     "tag": "ESTIMATED",
     "citation": "Scale at which the SSA 2023 period life table hazard counts against each person's resilience line, with the recorded chronic-condition weights (data/research/health/chronic-condition-pack-2026.json) multiplying it, chosen so expected yearly deaths match the life table applied to the same residents.",
-    "estimatedFrom": "Calibration probe, October 9, 2026: two generated 10,000-resident towns (Sacramento, California, seed p10-drives-proof-2026-10-09: 0.1064; Kingsville, Texas, seed p10-probe: 0.1052) solved for equal expected deaths over 2021 against the SSA 2023 table. Totals only; no person's outcome is set by it.",
-    "stopgapId": "SG-P10-resilience-scale"
+    "estimatedFrom": "Calibration probe, October 9, 2026: two generated 10,000-resident towns (Sacramento, California, seed p10-drives-proof-2026-10-09: 0.1064; Kingsville, Texas, seed p10-probe: 0.1052) solved for equal expected deaths over 2021 against the SSA 2023 table. Totals only; no person's outcome is set by it. The town's state death rate over the nation's (health/state-mortality-index.json) multiplies it."
   },
   "resilienceHashDigits": {
     "value": 8,

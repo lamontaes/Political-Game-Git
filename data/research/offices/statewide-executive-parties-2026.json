@@ -100,9 +100,9 @@
     "US-AZ": {
       "lieutenant-governor": {
         "party": null,
-        "partisanElection": false,
+        "partisanElection": true,
         "sourceId": "ballotpedia-state-executives",
-        "estimated": "Wikipedia lists no lieutenant governor for this state; not verified against a live source"
+        "note": "vacant until Jan 2027; first election Nov 2026"
       },
       "secretary-of-state": {
         "party": "Democratic",
@@ -355,7 +355,7 @@
         "party": null,
         "partisanElection": false,
         "sourceId": "ballotpedia-state-executives",
-        "estimated": "not verified against a live source"
+        "estimated": "estimate: not fetched"
       }
     },
     "US-ID": {
@@ -810,7 +810,7 @@
         "party": "Democratic",
         "partisanElection": true,
         "sourceId": "ballotpedia-state-executives",
-        "estimated": "Wikipedia shows the office vacant with a Democratic acting officeholder; not verified against a live source"
+        "note": "Ballotpedia: office currently vacant, last held by a Democrat; 2025 winner Democratic"
       }
     },
     "US-NM": {
@@ -1432,16 +1432,16 @@
         "sourceId": "ballotpedia-state-executives"
       },
       "board-of-education": {
-        "party": null,
-        "partisanElection": false,
+        "party": "Democratic",
+        "partisanElection": true,
         "sourceId": "ballotpedia-state-executives",
-        "estimated": "not verified against a live source"
+        "estimated": "low: 2024 results list Democratic winners in both districts"
       },
       "board-of-elections": {
         "party": null,
-        "partisanElection": false,
+        "partisanElection": true,
         "sourceId": "ballotpedia-state-executives",
-        "estimated": "not verified against a live source"
+        "estimated": "low: winners include both D and R in 2024"
       }
     },
     "US-AS": {
@@ -1461,7 +1461,7 @@
         "party": null,
         "partisanElection": false,
         "sourceId": "ballotpedia-state-executives",
-        "estimated": "not verified against a live source"
+        "estimated": "low: Wikipedia list omits elected AG; no party"
       },
       "board-of-education": {
         "party": null,

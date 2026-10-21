@@ -98,8 +98,13 @@ describe("M2-10 state and federal races in the world", () => {
       // Counted in its places: the share is the places' votes, and every
       // race keeps each party's reasons.
       expect(r.reasons?.length).toBe(2);
-      // A territory's delegate seat is decided at its 2024 delegate lean,
-      // its size not yet read (SG-GOV-delegate-race-size).
+      // A territory's delegate seat is counted like any district, sized by
+      // its registered voters and decided at its 2024 delegate lean.
+      if (["PR", "GU", "VI", "AS", "MP"].includes(r.usps))
+        expect(
+          r.votes!.republican + r.votes!.democratic,
+          `${r.seatId}: delegate race counted no voters`,
+        ).toBeGreaterThan(0);
       if (!r.votes!.republican && !r.votes!.democratic) {
         expect(sideOf(r.winnerParty), r.seatId).not.toBe(0);
         continue;

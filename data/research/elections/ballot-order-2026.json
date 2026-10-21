@@ -66,10 +66,10 @@
       "general": {
         "kind": "alphabetical"
       },
-      "citation": "Source: A.S.C.A. title 6 ch. 6, not confirmed",
-      "url": "https://ballotpedia.org/Rules_on_ballot_order_and_party_labeling",
+      "citation": "A.S.C.A. title 6 (not read)",
+      "url": "https://aselectionoffice.gov/",
       "estimate": true,
-      "note": "Elections are nonpartisan, so no partisan primary; alphabetical assumed."
+      "note": "Elections nonpartisan; federal law (48 USC 1734) leaves delegate ballot order to the territory. Keep estimate flag. n/a (nonpartisan)"
     },
     "US-AZ": {
       "primary": {
@@ -248,10 +248,10 @@
         "kind": "party",
         "within": "alphabetical"
       },
-      "citation": "Ind. Code 3-11-2-6",
-      "url": "https://ballotpedia.org/Rules_on_ballot_order_and_party_labeling",
+      "citation": "Ind. Code 3-10-1-18 (primary), 3-11-2-6 (general)",
+      "url": "https://iga.in.gov/laws/",
       "estimate": true,
-      "note": "General: party columns by the secretary of state vote, then petition filing order. Primary and within-party order assumed alphabetical, not confirmed."
+      "note": "alphabetical by surname General order: major party with most votes for secretary of state in the county first, second, then others, then parties by petition filing order."
     },
     "US-KS": {
       "primary": {
@@ -374,15 +374,15 @@
     },
     "US-MP": {
       "primary": {
-        "kind": "alphabetical"
+        "kind": "lot"
       },
       "general": {
-        "kind": "alphabetical"
+        "kind": "lot"
       },
-      "citation": "Source: 1 CMC election law, not confirmed",
-      "url": "https://ballotpedia.org/Rules_on_ballot_order_and_party_labeling",
+      "citation": "1 CMC election law (not read)",
+      "url": "https://www.votecnmi.gov.mp/",
       "estimate": true,
-      "note": "No source found; assumed alphabetical."
+      "note": "Commission notices show 'Approval of Ballot Layout'; specimen ballots number candidates. Keep estimate flag. unknown"
     },
     "US-MS": {
       "primary": {
@@ -556,13 +556,12 @@
         "kind": "lot"
       },
       "general": {
-        "kind": "party",
-        "within": "alphabetical"
+        "kind": "party"
       },
-      "citation": "25 Pa. Stat. 2962; 2963",
-      "url": "https://ballotpedia.org/Rules_on_ballot_order_and_party_labeling",
+      "citation": "25 P.S. 2962; 2963 (not read)",
+      "url": "https://www.spotlightpa.org/news/2024/02/pennsylvania-election-2024-state-house-ballot-lottery-explainer/",
       "estimate": true,
-      "note": "General: parties by gubernatorial vote, new parties alphabetical by party. Within-party order not confirmed."
+      "note": "not verified General order: party of the governor listed first (reported); statute text not read."
     },
     "US-PR": {
       "primary": {
@@ -670,15 +669,15 @@
     },
     "US-VI": {
       "primary": {
-        "kind": "alphabetical"
+        "kind": "lot"
       },
       "general": {
-        "kind": "alphabetical"
+        "kind": "lot"
       },
-      "citation": "Source: 18 V.I.C. ch. 7, not confirmed",
-      "url": "https://ballotpedia.org/Rules_on_ballot_order_and_party_labeling",
+      "citation": "18 V.I.C. 419 (not read)",
+      "url": "https://vivote.gov/",
       "estimate": true,
-      "note": "No source found; assumed alphabetical."
+      "note": "unknown"
     },
     "US-VT": {
       "primary": {
@@ -708,13 +707,12 @@
         "kind": "lot"
       },
       "general": {
-        "kind": "party",
-        "within": "lot"
+        "kind": "party"
       },
-      "citation": "Wis. Stat. 5.64",
-      "url": "https://ballotpedia.org/Rules_on_ballot_order_and_party_labeling",
+      "citation": "Wis. Stat. 5.64(1)(b),(es); 5.62; 5.60(1)(b)",
+      "url": "https://docs.legis.wisconsin.gov/document/statutes/5.64",
       "estimate": true,
-      "note": "General: parties by gubernatorial vote, unaffiliated by draw. Primary (assumed lot) and within-party order not confirmed."
+      "note": "not verified General order: party columns by the party's president or governor vote at last general election; independent presidential candidates by lot."
     },
     "US-WV": {
       "primary": {

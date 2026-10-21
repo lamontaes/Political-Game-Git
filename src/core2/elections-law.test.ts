@@ -108,6 +108,21 @@ describe(`election law from data (place ${drawn.name}, ${drawn.state}, seed ${se
         .toISOString()
         .slice(0, 10),
     );
+    // Places the code does not fix take the researched lead, marked estimated.
+    for (const [state, days] of [
+      ["US-AK", 60],
+      ["US-DE", 45],
+      ["US-FL", 75],
+      ["US-MD", 45],
+    ] as const) {
+      const est = municipalFilingDeadline(state, "2025-11-04");
+      expect(est?.estimated, state).toBe(true);
+      expect(est?.date, state).toBe(
+        new Date(Date.parse("2025-11-04T00:00:00Z") - days * 86400000)
+          .toISOString()
+          .slice(0, 10),
+      );
+    }
     // A rule written in days: Texas's 78th day.
     expect(municipalFilingDeadline("US-TX", "2025-05-03")?.date).toBe(
       "2025-02-14",
