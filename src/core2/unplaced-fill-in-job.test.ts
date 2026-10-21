@@ -8,6 +8,7 @@ import { addDays, makeIsoDate } from "./kernel/dates";
 import { advanceCore } from "./life";
 import { BUDGETS_MODULE_ID, withholdingOf } from "./modules/budgets";
 import { countedDemotions } from "./modules/counted-demotion";
+import { lawInForce } from "./modules/laws";
 import { residentsRuntime } from "./modules/residents";
 import { OUTSIDE_MARKET_KIND } from "./opening-outside-market";
 import { coreAPI, fillInPerson } from "./state";
@@ -59,6 +60,9 @@ it(`a filled-in jobless worker holds an outside job with a payday and withholdin
       if (commuter) break;
     }
     if (!commuter) continue;
+    // The neighbor the player meets: their records are kept like anyone the
+    // player deals with, withholding included.
+    state.focusPersonIds.add(commuter.id);
     const job = state.jobs.get(commuter.jobId!)!;
     const employer = state.organizations.get(job.organizationId)!;
     expect(employer.kind, `${where}: employer is the outside account`).toBe(
@@ -93,8 +97,34 @@ it(`a filled-in jobless worker holds an outside job with a payday and withholdin
       counted?.minor ?? 0,
       `${where}: ${commuter.id} pay counted`,
     ).toBeGreaterThan(0);
-    for (const line of withholdingOf(api, commuter.id))
-      expect(line.date, where).toBeDefined();
+    // Each payday's withholding names the payroll receipt it was taken from.
+    const withheld = withholdingOf(api, commuter.id);
+    for (const row of withheld) {
+      expect(row.payrollReceiptId, `${where}: ${row.id}`).toBeTruthy();
+      expect(row.paidMinor, `${where}: ${row.id}`).toBeGreaterThan(0);
+    }
+    // Nothing withheld only where the law in force taxes none of this pay.
+    const taxLaw = ["income-tax", "social-security-tax", "medicare-tax"].map(
+      (series) => `${series} ${lawInForce(api, series).value ?? "none"}`,
+    );
+    if (!withheld.length)
+      for (const series of [
+        "income-tax",
+        "social-security-tax",
+        "medicare-tax",
+      ])
+        expect(
+          lawInForce(api, series).value ?? 0,
+          `${where}: nothing withheld, so ${series} is not in force`,
+        ).toBe(0);
+    const trace = `${commuter.id} holds ${job.id} at ${employer.id}; paid ${ledger!.paidMinor}, last payroll receipt ${ledger!.lastPayrollReceiptId}; withholding ${
+      withheld
+        .map(
+          (row) =>
+            `${row.id} from ${row.payrollReceiptId}: ${row.lines.length} lines, postings ${row.postings.map((x) => x.id).join(" ")}`,
+        )
+        .join("; ") || `none recorded (law in force: ${taxLaw.join(", ")})`
+    }; year's pay counted ${counted!.minor}`;
     expect(state.organizations.get(employer.id)!.liquidMinor).toBe(0);
     // Out of the player's life for the world's 180 to 240 days, the household
     // goes back to the counts: the job ends and its pay goes back to the pool.
@@ -116,6 +146,9 @@ it(`a filled-in jobless worker holds an outside job with a payday and withholdin
     ).toBeGreaterThan(0);
     expect(core.cashJournal.totals.grossDebitMinor).toBe(
       core.cashJournal.totals.grossCreditMinor,
+    );
+    process.stdout.write(
+      `COMMUTER ${where} (place seed ${place.seed}): ${trace}; job ended ${state.jobs.get(job.id)!.endsAt}\n`,
     );
     return;
   }
