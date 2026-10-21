@@ -81,6 +81,68 @@ describe("P8 release tripwires", () => {
     expect(codes).toContain("stale-stopgap-entry");
   });
 
+  it("reads a marker named by a constant, by a comment, or by a data file's stopgapIds list", () => {
+    const rows = [
+      stopgapEntry("SG-P8-CONST", "src/core2/model.ts", 2),
+      stopgapEntry("SG-P8-COMMENT", "src/core2/model.ts", 3),
+      stopgapEntry("SG-P8-LISTED", "src/core2/data/rows.json", 4),
+    ];
+    const root = fixtureRoot({
+      sourceFiles: {
+        "src/core2/model.ts":
+          'const STOPGAP = "SG-P8-CONST";\napi.stopgap(STOPGAP);\n// stopgapId: SG-P8-COMMENT\n',
+        "src/core2/data/rows.json":
+          '{\n  "stopgapIds": [\n    "SG-P8-OTHER",\n    "SG-P8-LISTED"\n  ]\n}\n',
+      },
+      stopgaps: [
+        ...rows,
+        stopgapEntry("SG-P8-OTHER", "src/core2/data/rows.json", 3),
+      ],
+    });
+    const codes = auditCore2Tripwires(root).diagnostics.map((row) => row.code);
+    expect(codes).not.toContain("stale-stopgap-entry");
+    expect(codes).not.toContain("stopgap-location-mismatch");
+    expect(codes).not.toContain("unregistered-source-marker");
+  });
+
+  it("reads markers in the bench and the desktop shell and reports a row that points elsewhere", () => {
+    const root = fixtureRoot({
+      sourceFiles: {
+        "src/bench/scene.ts": "// one\n// stopgapId: SG-P8-BENCH\n",
+        "desktop/main.mjs": 'const id = "SG-P8-SHELL";\napi.stopgap(id);\n',
+        "src/bench/data/controls.json":
+          '{\n  "stopgapId": "SG-P8-CONTROLS"\n}\n',
+      },
+      stopgaps: [
+        stopgapEntry("SG-P8-BENCH", "src/bench/scene.ts", 1),
+        stopgapEntry("SG-P8-SHELL", "desktop/main.mjs", 2),
+        stopgapEntry("SG-P8-CONTROLS", "src/bench/data/controls.json", 2),
+      ],
+    });
+    const rows = auditCore2Tripwires(root).diagnostics.filter(
+      (row) =>
+        row.code.startsWith("stopgap-") ||
+        row.code === "stale-stopgap-entry" ||
+        row.code === "unregistered-source-marker",
+    );
+    expect(rows.map((row) => `${row.code} ${row.file}:${row.line}`)).toEqual([
+      "stopgap-location-mismatch src/bench/scene.ts:2",
+    ]);
+  });
+
+  it("needs no marker for a resolved row or for a row whose file the audit does not scan (outside the core, the bench and the shell)", () => {
+    const root = fixtureRoot({
+      sourceFiles: {},
+      stopgaps: [
+        stopgapEntry("SG-P8-DONE", "src/core2/gone.ts", 1, "resolved"),
+        stopgapEntry("SG-P8-BENCH", "docs/other/scene.ts", 5),
+      ],
+    });
+    expect(
+      auditCore2Tripwires(root).diagnostics.map((row) => row.code),
+    ).not.toContain("stale-stopgap-entry");
+  });
+
   it("requires a ledger location to match the marker's actual line", () => {
     const entry = stopgapEntry("SG-P8-002", "src/core2/model.ts", 1);
     const root = fixtureRoot({
