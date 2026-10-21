@@ -448,6 +448,13 @@ export function command(
           );
         if (fm.status !== "open")
           throw new Error(`${id} is ${fm.status}, not open`);
+        const waiting = ids(fm.after).filter(
+          (a) => readItem(a).status !== "done",
+        );
+        if (waiting.length)
+          throw new Error(
+            `${id} waits on ${waiting.join(", ")}; take the top of Next up`,
+          );
         writeFileSync(
           itemPath(id),
           setFields(readFileSync(itemPath(id), "utf8"), {

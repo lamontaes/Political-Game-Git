@@ -5,9 +5,9 @@ area: people
 kind: feature
 priority: 2
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/coverage-counted
-pr:
+pr: #5475
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-20T03:24:51.813Z

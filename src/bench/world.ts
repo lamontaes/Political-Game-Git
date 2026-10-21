@@ -22,11 +22,13 @@ import { openVoting } from "../core2/modules/voting";
 import { openRecord } from "../core2/modules/record";
 import { openBudgets } from "../core2/modules/budgets";
 import { openOfficialPay } from "../core2/modules/official-pay";
+import { openCrime } from "../core2/modules/crime";
 import { openCoverage } from "../core2/modules/coverage";
 import { openHomelessCount } from "../core2/modules/homeless-count";
 import { openEstates } from "../core2/estates";
 import { openEmployerTaxes } from "../core2/modules/employer-taxes";
 import { openContracts } from "../core2/modules/contracts";
+import { openProjects } from "../core2/modules/projects";
 import { openLegislature } from "../core2/modules/legislature";
 import { openOfficials } from "../core2/modules/officials";
 import { openLawReach } from "../core2/law-reach/host";
@@ -45,6 +47,7 @@ import { openMeetings } from "../core2/modules/meetings";
 import { officeDayData, openOfficeDay } from "../core2/office-day-levels";
 import { openCases } from "../core2/modules/constituent-cases";
 import { openJustice } from "../core2/modules/justice";
+import { openPublicSafety } from "../core2/modules/public-safety";
 import { openThePast } from "../core2/past";
 import { peopleData, peopleModules } from "../director/play-modules";
 import { renewalData } from "../core2/births-setup";
@@ -296,7 +299,8 @@ function* benchWorldStages(
     // flows, and the core's stand-in owner payouts come off. People it adds
     // (the central bank's board) are named officials and stay full people.
     opening = scaleOutsideSales(
-      settings.economy?.outsideDemand ?? 1,
+      // A town opened at its Census size sells to the outside as much more as its firms are bigger.
+      (settings.economy?.outsideDemand ?? 1) * (options.countScale ?? 1),
       withWorldEconomy(
         collapseToTwoLevels(economy, {
           keep: kept,
@@ -353,11 +357,14 @@ function* benchWorldStages(
   // Officials are paid from the treasuries budgets just opened (OPUS-CORE).
   openOfficialPay(core);
   openHomelessCount(core);
+  // Crimes that happen to households, from the national rates and the web's factors (OPUS-CORE).
+  openCrime(core);
   openEstates(core);
   openEmployerTaxes(core);
   openLegislature(core);
   // Each government's body awards the town's public contracts (gov-public-contract-awards).
   openContracts(core);
+  openProjects(core);
   // Chambers elect their leaders and seat committees; the executives
   // appoint their department heads and cabinets (OPUS-GOV).
   openLeadership(core);
@@ -385,6 +392,8 @@ function* benchWorldStages(
   openOfficeDay(core, seed);
   // Prosecutors, trials and prisons: reads the corruption engine's records.
   openJustice(core);
+  // Ordinary crime, courts, jail, firearm laws and fire service.
+  openPublicSafety(core);
   // The world has a past (OPUS-CORE): prior elections, voting records, law
   // histories, the year's news and what the public knows, before day one.
   openThePast(core, seed);
