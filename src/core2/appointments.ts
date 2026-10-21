@@ -12,6 +12,8 @@
  * real party makeup, seat by seat (public-domain roster).
  */
 import { campaignParameter } from "./campaign-views";
+import { decisionLean, decisionTraitWeight } from "./trait-decisions";
+import type { CoreState } from "./types";
 import partySides from "./data/elections/party-sides.json" with { type: "json" };
 import partyCounts from "../../data/research/offices/legislature-party-counts-2026.json" with { type: "json" };
 
@@ -30,7 +32,32 @@ export interface NominationReasons {
   readonly alignment: number;
   readonly qualification: number;
   readonly acquaintance: number;
+  /** How much the appointer's own traits count loyalty and merit (1 each where no appointer is named). */
+  readonly loyaltyWeight?: number;
+  readonly meritWeight?: number;
   readonly total: number;
+}
+
+/**
+ * How an appointer's own traits weigh the terms of a nomination: loyalty
+ * (alignment and acquaintance) against merit (qualification). A sliding scale
+ * around one for each; where the traits tilt neither way both are 1.
+ */
+export function appointerWeighing(
+  core: Pick<CoreState, "data" | "people">,
+  appointerId: string | undefined,
+): { readonly loyalty: number; readonly merit: number } | undefined {
+  const person = appointerId ? core.people.get(appointerId) : undefined;
+  if (!person) return undefined;
+  const tilt =
+    decisionLean(
+      core,
+      person,
+      "appointments.weigh",
+      "appoint-loyalty",
+      "appoint-merit",
+    ) * decisionTraitWeight(core, "appointments.weigh");
+  return { loyalty: 1 + tilt, merit: 1 - tilt };
 }
 
 export interface Appointment {
@@ -126,6 +153,8 @@ export function nominateAndConfirm(input: {
    * their side than the other side's would be.
    */
   readonly tolerance?: number;
+  /** The appointer's own weighing (`appointerWeighing`); equal weights where none is named. */
+  readonly weighing?: { readonly loyalty: number; readonly merit: number };
 }): Appointment {
   const reasons = input.candidates
     .map((c): NominationReasons => {
@@ -133,12 +162,17 @@ export function nominateAndConfirm(input: {
       const acquaintance = c.known
         ? campaignParameter("appointmentAcquaintanceWeight")
         : 0;
+      const loyalty = input.weighing?.loyalty ?? 1;
+      const merit = input.weighing?.merit ?? 1;
       return {
         candidateId: c.id,
         alignment,
         qualification: c.qualification,
         acquaintance,
-        total: alignment + c.qualification + acquaintance,
+        ...(input.weighing
+          ? { loyaltyWeight: loyalty, meritWeight: merit }
+          : {}),
+        total: loyalty * (alignment + acquaintance) + merit * c.qualification,
       };
     })
     .sort(

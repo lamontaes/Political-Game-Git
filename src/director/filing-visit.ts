@@ -58,6 +58,11 @@ export interface FilingVisit {
   choices: {
     key: string;
     text: string;
+    /**
+     * What the screen's control is: filing is its own control, named by the
+     * screen, so it never reads like acknowledging a refusal.
+     */
+    control: "pick" | "file" | "acknowledge";
     action: FilingAction;
     sourceRecordIds: readonly string[];
   }[];
@@ -134,6 +139,7 @@ export function openFilingVisit(
       visit.choices.push({
         key: `pick:${contest.id}`,
         text: line.text,
+        control: "pick",
         action: { kind: "pick", contestId: contest.id },
         sourceRecordIds: line.sourceRecordIds,
       });
@@ -217,6 +223,7 @@ export function pickContest(
       visit.choices.push({
         key,
         text: line.text,
+        control: action.kind === "file" ? "file" : "acknowledge",
         action,
         sourceRecordIds: line.sourceRecordIds,
       });

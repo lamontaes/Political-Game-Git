@@ -12,6 +12,12 @@
       "stopgapId": "SG-P13-param-directorMomentFloor",
       "checkRange": {
         "ref": "P13-STORED-MOMENTS-PER-ADULT-YEAR"
+      },
+      "spread": {
+        "low": 0.11,
+        "high": 0.22,
+        "unit": "life-change units divided by 100",
+        "citation": "Smallest adult row ('Minor violations of the law'): 11 units on the 1967 Holmes and Rahe scale, 22.14 in the 2021 replication (Wallace and others 2023). The floor and the interrupt line move together or not at all (data/research/stand-in-figures-2026-10-12.json)."
       }
     },
     "directorInterruptImpact": {
@@ -21,6 +27,10 @@
       "stopgapId": "SG-P13-param-directorInterruptImpact",
       "checkRange": {
         "ref": "P13-OWNER-INTERRUPT-LINE"
+      },
+      "spread": {
+        "status": "unmeasured",
+        "reason": "A pacing choice by the owner, not a quantity any study measures; the marriage anchor is 50 life-change units in both the 1967 scale and its 2021 replication (Wallace and others 2023), so the line does not move if the scale is updated."
       }
     },
     "directorScaleFeeling": {
@@ -68,6 +78,10 @@
       "stopgapId": "SG-P13-param-directorScaleHealth",
       "checkRange": {
         "ref": "P13-CALIBRATION-YEAR"
+      },
+      "spread": {
+        "status": "unmeasured",
+        "reason": "The watched person's own death is a design weight at the top of the scale; no stress scale rates one's own death (the top row, a spouse's death, is 100 in 1967 and 86.83 in the 2021 replication)."
       }
     },
     "directorWeightTieSociability": {
@@ -77,6 +91,12 @@
       "stopgapId": "SG-P13-param-directorWeightTieSociability",
       "checkRange": {
         "ref": "P13-CALIBRATION-YEAR"
+      },
+      "spread": {
+        "low": 0,
+        "high": 0.25,
+        "unit": "share added to a tie change's weight",
+        "citation": "No source gives this weight; personality traits did not consistently moderate responses to major life events in the British Household Panel Survey, so a large tilt is argued against and 0 is not contradicted (data/research/stand-in-figures-2026-10-12.json)."
       }
     },
     "directorWeightMoneyRisk": {
@@ -86,6 +106,12 @@
       "stopgapId": "SG-P13-param-directorWeightMoneyRisk",
       "checkRange": {
         "ref": "P13-CALIBRATION-YEAR"
+      },
+      "spread": {
+        "low": -0.25,
+        "high": 0,
+        "unit": "share added to a money loss's weight",
+        "citation": "Same evidence and limits as the sociability tilt; the sign (risk-avoiders weigh a loss more) is the standard loss-aversion direction (data/research/stand-in-figures-2026-10-12.json)."
       }
     },
     "directorCostHorizonDays": {
@@ -100,6 +126,10 @@
       "stopgapId": "SG-P13-param-directorTies",
       "checkRange": {
         "ref": "P13-CALIBRATION-YEAR"
+      },
+      "spread": {
+        "status": "unmeasured",
+        "reason": "The anchor of the tie scale: a close family member's death on the Holmes and Rahe scale; ranked against other ties by no source found."
       }
     },
     "directorTieChild": {
@@ -109,6 +139,10 @@
       "stopgapId": "SG-P13-param-directorTies",
       "checkRange": {
         "ref": "P13-CALIBRATION-YEAR"
+      },
+      "spread": {
+        "status": "unmeasured",
+        "reason": "The anchor of the tie scale: a close family member's death on the Holmes and Rahe scale; ranked against other ties by no source found."
       }
     },
     "directorTieSibling": {
@@ -118,6 +152,10 @@
       "stopgapId": "SG-P13-param-directorTies",
       "checkRange": {
         "ref": "P13-CALIBRATION-YEAR"
+      },
+      "spread": {
+        "status": "unmeasured",
+        "reason": "No source ranks this tie against parents and children; kept as the October 8, 2026 design weight until a replay calibration of thread importance against recorded closeness."
       }
     },
     "directorTieGrandparent": {
@@ -127,6 +165,10 @@
       "stopgapId": "SG-P13-param-directorTies",
       "checkRange": {
         "ref": "P13-CALIBRATION-YEAR"
+      },
+      "spread": {
+        "status": "unmeasured",
+        "reason": "No source ranks this tie against parents and children; kept as the October 8, 2026 design weight until a replay calibration of thread importance against recorded closeness."
       }
     },
     "directorTieGrandchild": {
@@ -136,14 +178,24 @@
       "stopgapId": "SG-P13-param-directorTies",
       "checkRange": {
         "ref": "P13-CALIBRATION-YEAR"
+      },
+      "spread": {
+        "status": "unmeasured",
+        "reason": "No source ranks this tie against parents and children; kept as the October 8, 2026 design weight until a replay calibration of thread importance against recorded closeness."
       }
     },
     "directorTiePartner": {
-      "value": 0.5,
+      "value": 0.79,
       "tag": "ESTIMATED",
-      "citation": "Not in the October 8, 2026 calibration, which had no partner row. Set equal to a parent or child; Holmes and Rahe (1967) rank a spouse's death (100) above a close family member's (63), so this is a floor.",
-      "estimatedFrom": "October 8, 2026 parent tie and Holmes and Rahe (1967) ranking",
-      "stopgapId": "SG-P13-param-directorTies"
+      "citation": "Not in the October 8, 2026 calibration, which had no partner row. Scaled from the parent and child anchor (0.5) by the ratio of a spouse's death to a close family member's on the 1967 scale the director uses: 100 / 63 x 0.5 = 0.79 (0.57 on the 2021 replication, 86.83 / 75.84 x 0.5). Derived, not published (data/research/stand-in-figures-2026-10-12.json).",
+      "estimatedFrom": "October 8, 2026 parent tie scaled by the Holmes and Rahe (1967) spouse-to-close-family ratio",
+      "stopgapId": "SG-P13-param-directorTies",
+      "spread": {
+        "low": 0.57,
+        "high": 0.79,
+        "unit": "tie weight",
+        "citation": "2021 replication ratio 0.57 to 1967 ratio 0.79."
+      }
     },
     "directorTieSharedHome": {
       "value": 0.3,
@@ -152,6 +204,10 @@
       "stopgapId": "SG-P13-param-directorTies",
       "checkRange": {
         "ref": "P13-CALIBRATION-YEAR"
+      },
+      "spread": {
+        "status": "unmeasured",
+        "reason": "No source ranks this tie against parents and children; kept as the October 8, 2026 design weight until a replay calibration of thread importance against recorded closeness."
       }
     },
     "directorFadingDiscount": {
@@ -161,25 +217,35 @@
       "stopgapId": "SG-P13-param-directorTies",
       "checkRange": {
         "ref": "P13-CALIBRATION-YEAR"
+      },
+      "spread": {
+        "status": "unmeasured",
+        "reason": "No measured decay of how much a faded tie still matters; kept as the October 8, 2026 design weight."
       }
     },
     "directorFriendHalfLifeDays": {
       "value": 548,
-      "tag": "TUNABLE",
-      "citation": "Owner question 4 (P13 design note): about 18 months, the same value P15 uses for closeness between people who are not relatives. No study reports a half-life for closeness without contact: Roberts and Dunbar (2015), Human Nature 26(4):426-450, report only that friends' closeness fell over their 18-month study, and 18 months is the study's length, not a half-life. To be calibrated against network turnover over years (for example Mollenhorst, Volker and Flap 2014, once checked), the target P15 uses.",
-      "stopgapId": "SG-P13-param-directorHalfLives",
-      "checkRange": {
-        "ref": "P9-OUTCOME-WHOLE-LIFE"
-      }
+      "tag": "ESTIMATED",
+      "citation": "Owner question 4 (P13 design note): about 18 months, the same value P15 uses for closeness between people who are not relatives. No study reports a half-life for closeness without contact: Roberts and Dunbar (2015), Human Nature 26(4):426-450, report only that friends' closeness fell over their 18-month study, and 18 months is the study's length, not a half-life. Checked: Roberts and Dunbar (2015) inner-layer friend retention over 18 months converts to a 526-day half-life if decay is exponential (25 students in a high-turnover transition).",
+      "spread": {
+        "low": 526,
+        "high": 548,
+        "unit": "days",
+        "citation": "Roberts and Dunbar (2015) converted to a half-life, 526 days; the owner's 18 months, 548."
+      },
+      "estimatedFrom": "Owner question 4 (about 18 months), the value P15 uses, checked against Roberts and Dunbar (2015) retention converted to a half-life"
     },
     "directorKinHalfLifeDays": {
-      "value": 1096,
-      "tag": "TUNABLE",
-      "citation": "Owner question 4 (P13 design note): about 36 months, twice the friend half-life, the same value P15 uses for relatives. Roberts and Dunbar (2015) report kin closeness holding steady while friends' fell, but give no half-life. To be calibrated against network turnover over years (for example Mollenhorst, Volker and Flap 2014, once checked), the target P15 uses.",
-      "stopgapId": "SG-P13-param-directorHalfLives",
-      "checkRange": {
-        "ref": "P9-OUTCOME-WHOLE-LIFE"
-      }
+      "value": 1095,
+      "tag": "ESTIMATED",
+      "citation": "Owner question 4 (P13 design note): about 36 months, twice the friend half-life, the same value P15 uses for relatives. Roberts and Dunbar (2015) report kin closeness holding steady while friends' fell, but give no half-life. Equal to the core's closenessKinHalfLifeDays (1095); the two had differed by a day. Checked: Roberts and Dunbar (2015) inner-layer kin retention over 18 months converts to a 1,078-day half-life if decay is exponential (25 students in a high-turnover transition).",
+      "spread": {
+        "low": 1078,
+        "high": 1095,
+        "unit": "days",
+        "citation": "Roberts and Dunbar (2015) converted to a half-life, 1,078 days; the owner's 36 months, 1,095."
+      },
+      "estimatedFrom": "Owner question 4 (36 months), the value P15 uses, checked against Roberts and Dunbar (2015) retention converted to a half-life"
     },
     "directorRenewedFading": {
       "value": 0.5,
@@ -188,6 +254,10 @@
       "stopgapId": "SG-P13-param-directorRenewedFading",
       "checkRange": {
         "ref": "P13-CALIBRATION-YEAR"
+      },
+      "spread": {
+        "status": "unmeasured",
+        "reason": "Labels a contact a renewal and decides no outcome; it follows from the friend and kin half-lives."
       }
     },
     "directorAnniversaryHalfDays": {
@@ -197,6 +267,10 @@
       "stopgapId": "SG-P13-param-directorAnniversaryHalfDays",
       "checkRange": {
         "ref": "P13-OWNER-ANNIVERSARY"
+      },
+      "spread": {
+        "status": "unmeasured",
+        "reason": "The owner's answer 7: no study measures how many days grief or recall stays raised around an anniversary; the only measured window is one week."
       }
     },
     "directorPastChildBorn": {
@@ -204,56 +278,104 @@
       "tag": "ESTIMATED",
       "citation": "Owner answer 5, October 9, 2026: a recorded past fact scores the stress scale's 'Gain of a new family member' row, 39 life-change units divided by 100 (Holmes and Rahe 1967).",
       "estimatedFrom": "Holmes and Rahe (1967) Social Readjustment Rating Scale",
-      "stopgapId": "SG-P13-past-fact-estimates"
+      "stopgapId": "SG-P13-past-fact-estimates",
+      "spread": {
+        "low": 0.39,
+        "high": 0.52,
+        "unit": "life-change units divided by 100",
+        "citation": "1967 Holmes and Rahe value to the 2021 replication (Wallace and others 2023; 540 mostly British adults online): the 1967 values are the lower bound."
+      }
     },
     "directorPastPartner": {
       "value": 0.5,
       "tag": "ESTIMATED",
       "citation": "Owner answer 5, October 9, 2026: a recorded past fact scores the stress scale's 'Marriage' row, 50 life-change units divided by 100 (Holmes and Rahe 1967).",
       "estimatedFrom": "Holmes and Rahe (1967) Social Readjustment Rating Scale",
-      "stopgapId": "SG-P13-past-fact-estimates"
+      "stopgapId": "SG-P13-past-fact-estimates",
+      "spread": {
+        "low": 0.5,
+        "high": 0.5,
+        "unit": "life-change units divided by 100",
+        "citation": "1967 Holmes and Rahe value to the 2021 replication (Wallace and others 2023; 540 mostly British adults online): the 1967 values are the lower bound."
+      }
     },
     "directorPastSchoolStage": {
       "value": 0.26,
       "tag": "ESTIMATED",
       "citation": "Owner answer 5, October 9, 2026: a recorded past fact scores the stress scale's 'Begin or end school' row, 26 life-change units divided by 100 (Holmes and Rahe 1967).",
       "estimatedFrom": "Holmes and Rahe (1967) Social Readjustment Rating Scale",
-      "stopgapId": "SG-P13-past-fact-estimates"
+      "stopgapId": "SG-P13-past-fact-estimates",
+      "spread": {
+        "low": 0.26,
+        "high": 0.34,
+        "unit": "life-change units divided by 100",
+        "citation": "1967 Holmes and Rahe value to the 2021 replication (Wallace and others 2023; 540 mostly British adults online): the 1967 values are the lower bound."
+      }
     },
     "directorPastWorkStart": {
       "value": 0.2,
       "tag": "ESTIMATED",
       "citation": "Owner answer 5, October 9, 2026: a recorded past fact scores the stress scale's 'Change in work hours or conditions' row, 20 life-change units divided by 100 (Holmes and Rahe 1967).",
       "estimatedFrom": "Holmes and Rahe (1967) Social Readjustment Rating Scale",
-      "stopgapId": "SG-P13-past-fact-estimates"
+      "stopgapId": "SG-P13-past-fact-estimates",
+      "spread": {
+        "low": 0.2,
+        "high": 0.37,
+        "unit": "life-change units divided by 100",
+        "citation": "1967 Holmes and Rahe value to the 2021 replication (Wallace and others 2023; 540 mostly British adults online): the 1967 values are the lower bound."
+      }
     },
     "directorPastEraJobLoss": {
       "value": 0.47,
       "tag": "ESTIMATED",
       "citation": "Owner answer 5, October 9, 2026: a recorded past fact scores the stress scale's 'Fired at work' row, 47 life-change units divided by 100 (Holmes and Rahe 1967).",
       "estimatedFrom": "Holmes and Rahe (1967) Social Readjustment Rating Scale",
-      "stopgapId": "SG-P13-past-fact-estimates"
+      "stopgapId": "SG-P13-past-fact-estimates",
+      "spread": {
+        "low": 0.47,
+        "high": 0.61,
+        "unit": "life-change units divided by 100",
+        "citation": "1967 Holmes and Rahe value to the 2021 replication (Wallace and others 2023; 540 mostly British adults online): the 1967 values are the lower bound."
+      }
     },
     "directorPastEraFamilyDeath": {
       "value": 0.63,
       "tag": "ESTIMATED",
       "citation": "Owner answer 5, October 9, 2026: a recorded past fact scores the stress scale's 'Death of a close family member' row, 63 life-change units divided by 100 (Holmes and Rahe 1967).",
       "estimatedFrom": "Holmes and Rahe (1967) Social Readjustment Rating Scale",
-      "stopgapId": "SG-P13-past-fact-estimates"
+      "stopgapId": "SG-P13-past-fact-estimates",
+      "spread": {
+        "low": 0.63,
+        "high": 0.76,
+        "unit": "life-change units divided by 100",
+        "citation": "1967 Holmes and Rahe value to the 2021 replication (Wallace and others 2023; 540 mostly British adults online): the 1967 values are the lower bound."
+      }
     },
     "directorPastEraIllness": {
       "value": 0.53,
       "tag": "ESTIMATED",
       "citation": "Owner answer 5, October 9, 2026: a recorded past fact scores the stress scale's 'Personal injury or illness' row, 53 life-change units divided by 100 (Holmes and Rahe 1967).",
       "estimatedFrom": "Holmes and Rahe (1967) Social Readjustment Rating Scale",
-      "stopgapId": "SG-P13-past-fact-estimates"
+      "stopgapId": "SG-P13-past-fact-estimates",
+      "spread": {
+        "low": 0.53,
+        "high": 0.64,
+        "unit": "life-change units divided by 100",
+        "citation": "1967 Holmes and Rahe value to the 2021 replication (Wallace and others 2023; 540 mostly British adults online): the 1967 values are the lower bound."
+      }
     },
     "directorPastEraFinancialLoss": {
       "value": 0.38,
       "tag": "ESTIMATED",
       "citation": "Owner answer 5, October 9, 2026: a recorded past fact scores the stress scale's 'Change in financial state' row, 38 life-change units divided by 100 (Holmes and Rahe 1967).",
       "estimatedFrom": "Holmes and Rahe (1967) Social Readjustment Rating Scale",
-      "stopgapId": "SG-P13-past-fact-estimates"
+      "stopgapId": "SG-P13-past-fact-estimates",
+      "spread": {
+        "low": 0.38,
+        "high": 0.52,
+        "unit": "life-change units divided by 100",
+        "citation": "1967 Holmes and Rahe value to the 2021 replication (Wallace and others 2023; 540 mostly British adults online): the 1967 values are the lower bound."
+      }
     },
     "directorMemoryRecentDays": {
       "value": 91,
@@ -278,6 +400,12 @@
       "tag": "ESTIMATED",
       "citation": "Filing to run for office, sized as the Social Readjustment Rating Scale's 'Outstanding personal achievement', 28 life-change units divided by 100 (Holmes and Rahe 1967), the same scale the director uses for every life event.",
       "estimatedFrom": "Holmes and Rahe (1967); spread 0.2 to 0.35"
+    },
+    "directorCampaignSpeechImpact": {
+      "value": 0.15,
+      "tag": "ESTIMATED",
+      "citation": "Speaking to a campaign crowd, sized like hearing back from a town office (0.15): no Social Readjustment Rating Scale item covers it (Holmes and Rahe 1967), and it sits below filing to run (0.28) so it reaches the candidate's journal without interrupting play (interrupt line 0.5). Checked by the stop appearing as a scene for a campaigning candidate in a played year.",
+      "estimatedFrom": "Holmes and Rahe (1967), no matching item; spread 0.05 to 0.28"
     },
     "directorOfficeReplyImpact": {
       "value": 0.15,
@@ -360,6 +488,18 @@
       "value": 4,
       "tag": "SOURCED",
       "citation": "Owner ruling, Oct 14, 2026 (afternoon, docs/coordination/OWNER-DECISIONS.md): a conversation always offers four replies ranked by the engine, with 'say nothing' a smaller control beside them, never one of the four."
+    },
+    "directorFarewellWordings": {
+      "value": 4,
+      "tag": "ESTIMATED",
+      "citation": "How many wordings of a parting word the conversation tries to find one not already said in the talk. The words bank holds a handful of farewells per register, so four tries reach one that is new in nearly every talk; checked by the repetition guard on a played year's talks.",
+      "spread": {
+        "low": 2,
+        "high": 8,
+        "unit": "wordings tried",
+        "citation": "Fewer repeats a farewell sooner; more only costs a few extra lookups."
+      },
+      "estimatedFrom": "The size of the parting-word bank in data/english/parts: a handful of wordings per register, so four tries reach one not yet said; spread 2 to 8"
     },
     "dialogueGuardJournalOpeners": {
       "value": 0.48,
@@ -865,6 +1005,36 @@
         "ref": "WORDS-TALK-ADDRESS-IMPACT"
       }
     },
+    "directorFloorVoteImpact": {
+      "value": 0.29,
+      "tag": "ESTIMATED",
+      "citation": "A floor vote on a bill a member sits in, sized as the Social Readjustment Rating Scale's 'Change in responsibilities at work', 29 life-change units divided by 100 (Holmes and Rahe 1967), the scale the filing and election impacts use.",
+      "estimatedFrom": "Holmes and Rahe (1967); spread 0.2 to 0.35"
+    },
+    "directorExecutiveActionImpact": {
+      "value": 0.28,
+      "tag": "ESTIMATED",
+      "citation": "A bill signed or vetoed reaches its sponsor at the size of the Social Readjustment Rating Scale's 'Outstanding personal achievement', 28 life-change units divided by 100 (Holmes and Rahe 1967); a veto falls between that and 'Trouble with boss' (23).",
+      "estimatedFrom": "Holmes and Rahe (1967); spread 0.2 to 0.35"
+    },
+    "directorRecallImpact": {
+      "value": 0.23,
+      "tag": "ESTIMATED",
+      "citation": "A recall petition against an official, sized as the Social Readjustment Rating Scale's 'Trouble with boss', 23 life-change units divided by 100 (Holmes and Rahe 1967), a public dispute with those one answers to.",
+      "estimatedFrom": "Holmes and Rahe (1967); spread 0.15 to 0.3"
+    },
+    "directorLawLearnedImpact": {
+      "value": 0.11,
+      "tag": "ESTIMATED",
+      "citation": "Learning why one's own check or estate shrank: sized as the Social Readjustment Rating Scale's 'Change in financial state', 38 life-change units, scaled to a news item's share (about 0.3 of it) because the person only learns the cause of a change already felt (Holmes and Rahe 1967); below the interrupt line (0.5) so it reaches the journal and can become a scene without interrupting play.",
+      "estimatedFrom": "Holmes and Rahe (1967), item 'Change in financial state'; spread 0.05 to 0.2"
+    },
+    "directorPublicCommentImpact": {
+      "value": 0.15,
+      "tag": "ESTIMATED",
+      "citation": "A resident standing up to speak at a public meeting before a vote. No Social Readjustment Rating Scale item covers it (Holmes and Rahe 1967); sized like an officeholder's act (0.15), below filing to run (0.28), so it reaches the speaker's journal and can become a hearing scene without interrupting play (interrupt line 0.5). Checked by the comment appearing as a hearing scene in a played year.",
+      "estimatedFrom": "Holmes and Rahe (1967), no matching item; spread 0.05 to 0.28"
+    },
     "directorOfficeActImpact": {
       "value": 0.15,
       "tag": "ESTIMATED",
@@ -1037,6 +1207,23 @@
       "impactParameter": "directorFilingImpact"
     },
     {
+      "eventKind": "veto-override",
+      "channel": "cause",
+      "impactParameter": "directorElectionResultImpact",
+      "counterpartFact": "executiveId"
+    },
+    {
+      "eventKind": "recall-outcome",
+      "channel": "cause",
+      "impactParameter": "directorElectionResultImpact",
+      "counterpartFact": "memberId"
+    },
+    {
+      "eventKind": "speech.heard",
+      "channel": "cause",
+      "impactParameter": "directorCampaignSpeechImpact"
+    },
+    {
       "eventKind": "election-result",
       "channel": "cause",
       "impactParameter": "directorElectionResultImpact"
@@ -1047,14 +1234,39 @@
       "impactParameter": "directorElectionResultImpact"
     },
     {
+      "eventKind": "law.effect-learned",
+      "channel": "cause",
+      "impactParameter": "directorLawLearnedImpact"
+    },
+    {
+      "eventKind": "economy.board-appointment",
+      "channel": "cause",
+      "impactParameter": "directorElectionResultImpact"
+    },
+    {
       "eventKind": "office.replied",
       "channel": "cause",
       "impactParameter": "directorOfficeReplyImpact"
     },
     {
+      "eventKind": "legislative-vote",
+      "channel": "cause",
+      "impactParameter": "directorFloorVoteImpact"
+    },
+    {
+      "eventKind": "executive-action",
+      "channel": "cause",
+      "impactParameter": "directorExecutiveActionImpact"
+    },
+    {
       "eventKind": "office.introduced",
       "channel": "cause",
       "impactParameter": "directorOfficeActImpact"
+    },
+    {
+      "eventKind": "public-comment",
+      "channel": "cause",
+      "impactParameter": "directorPublicCommentImpact"
     },
     {
       "eventKind": "office.voted",
@@ -1116,6 +1328,21 @@
       "eventKind": "justice.released",
       "channel": "feeling",
       "impactParameter": "directorReleasedImpact"
+    },
+    {
+      "eventKind": "interview-published",
+      "channel": "cause",
+      "impactParameter": "directorFilingImpact"
+    },
+    {
+      "eventKind": "press.exposed",
+      "channel": "feeling",
+      "impactParameter": "directorChargedImpact"
+    },
+    {
+      "eventKind": "recall-petition",
+      "channel": "cause",
+      "impactParameter": "directorRecallImpact"
     }
   ]
 }

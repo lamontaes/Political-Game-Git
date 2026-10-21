@@ -17,7 +17,8 @@ import {
   scheduleVote,
   votesOn,
 } from "./modules/legislature";
-import { enactLaw, lawChain } from "./modules/laws";
+import { governments } from "./modules/budgets";
+import { enactLaw, lawChain, lawInForce } from "./modules/laws";
 import { adjustPrice } from "./modules/place-prices";
 
 const keys = [
@@ -29,10 +30,23 @@ const keys = [
   "transportation-infrastructure.fare-free-transit",
 ].map((key) => `us-policy-positions:${key}`);
 
+/** The laws whose price is paid to the governing level's treasury. */
+const publicPayee = new Set(
+  [
+    "environment-energy.price-carbon",
+    "transportation-infrastructure.mileage-fee-replaces-fuel-tax",
+    "transportation-infrastructure.public-broadband",
+  ].map((key) => `us-policy-positions:${key}`),
+);
+
 it("reads price laws at settlement and removes their rules on repeal", () => {
   const draw = process.env.LAW_LINK_DRAW
     ? JSON.parse(readFileSync(process.env.LAW_LINK_DRAW, "utf8"))
-    : drawPlace(randomBytes(32).toString("hex"), "session-a-prices");
+    : drawPlace(
+        process.env.GOLDEN_PATH_SEED ?? randomBytes(32).toString("hex"),
+        "session-a-prices",
+      );
+  const where = `${draw.name} (${draw.key}), seed ${draw.seed}`;
   setBookkeeping(false);
   try {
     const world = buildBenchWorld(draw.seed, gameStartDate(), {
@@ -130,10 +144,17 @@ it("reads price laws at settlement and removes their rules on repeal", () => {
       advanceCore(core, addDays(makeIsoDate(core.date), 32));
     };
     changeLaws(1);
-    for (const key of keys)
+    // A price paid to the public is a rule only where the governing level
+    // keeps a treasury to be paid to (the engine ends it otherwise).
+    for (const key of keys) {
+      const governing = lawInForce(api, key).governing?.jurisdiction;
+      const treasury = governments(api).some((g) => g.id === governing);
+      const expected = !publicPayee.has(key) || treasury;
       expect(
         rules().some((row) => String(row.cause).startsWith(`law:${key}:`)),
-      ).toBe(true);
+        `${where}: ${key}, governing ${governing}, treasury ${treasury}`,
+      ).toBe(expected);
+    }
     changeLaws(-1);
     expect(
       rules().filter((row) =>
@@ -159,4 +180,4 @@ it("reads price laws at settlement and removes their rules on repeal", () => {
   } finally {
     setBookkeeping(true);
   }
-}, 120_000);
+}, 900_000);

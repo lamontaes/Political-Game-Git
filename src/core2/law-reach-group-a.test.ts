@@ -24,7 +24,10 @@ import { openOffices, townSeats } from "./modules/offices";
 import { openElections } from "./modules/elections";
 import { openCampaigns } from "./modules/campaigns";
 import { openRecord } from "./modules/record";
-import { openLegislature } from "./modules/legislature";
+import { authorityFor, openLegislature } from "./modules/legislature";
+import { POLICY_QUESTIONS } from "./policy-answers";
+import powerCatalog from "../../data/research/powers-catalog/catalog.json" with { type: "json" };
+import powerMapping from "../../data/research/powers-catalog/question-powers.json" with { type: "json" };
 import {
   amendBudget,
   governments,
@@ -131,6 +134,19 @@ function jurisdictionOf(level: string): string {
   const row = lawChain(api).levels.find((l) => l.level === level);
   if (!row) throw new Error(`${where}: no ${level} level`);
   return row.jurisdiction;
+}
+
+/** Enact a law row that takes effect today and return its id. */
+function enactLawId(key: string, level: string, value: number): string {
+  return enactLaw(api, {
+    jurisdiction: jurisdictionOf(level),
+    level: level as "federal" | "state" | "county" | "city",
+    series: key,
+    value,
+    effectiveDate: api.state.date,
+    measureId: `test:${key}:${value}:${api.state.date}`,
+    citation: `Test measure ${key} ${value}`,
+  }).id;
 }
 
 /** Enact a yes (1) or a repeal (0) at a level from tomorrow, and live through it. */
@@ -453,11 +469,21 @@ describe("audit 13, law breadth group A: every policy reaches people", () => {
   it("legislative term limits bind the council's members, read by the filing check", () => {
     const key =
       "us-policy-positions:government-operations.legislative-term-limits";
-    const council = townSeats(api).find(
-      (s) => s.office.kind === "council" && s.holder?.personId,
-    );
+    // The town's sitting legislator: its council, or the board a town of that
+    // form elects in its place.
+    const legislative = (s: ReturnType<typeof townSeats>[number]) =>
+      selectorGroup("legislators").some((k) => s.office.kind.startsWith(k)) &&
+      s.holder?.personId;
+    const council =
+      townSeats(api).find(
+        (s) => s.office.kind === "council" && s.holder?.personId,
+      ) ?? townSeats(api).find(legislative);
     recordRoundTrip(key, () => {
-      if (!council) return;
+      if (!council) {
+        // No sitting legislator in the town: nobody for the law to bind.
+        expect(townSeats(api).filter(legislative), where).toEqual([]);
+        return;
+      }
       const reached = reachOn(api, council.holder!.personId!).some(
         (r) => r.key === key && r.endedOn === null,
       );
@@ -481,6 +507,46 @@ describe("audit 13, law breadth group A: every policy reaches people", () => {
       recordRoundTrip(key);
     });
 
+  it("broader local authority: the council's authority check reads the state's home-rule law, and a repeal takes it back", () => {
+    const homeRule =
+      "us-policy-positions:government-operations.broaden-local-authority";
+    const state = lawChain(api).stateKey;
+    const questions = powerMapping.questions as Record<
+      string,
+      { dial: string; levels: string[]; gate?: unknown }
+    >;
+    // A question the state has not settled and the powers catalog leaves open for a city.
+    const question = Object.entries(questions).find(
+      ([key, row]) =>
+        row.levels.includes("city") &&
+        !row.gate &&
+        !POLICY_QUESTIONS[key]?.answers[state]?.preempts &&
+        powerCatalog.dials.some(
+          (d) => d.id === row.dial && d.levels.city.may === "UNKNOWN",
+        ),
+    )?.[0];
+    expect(question, where).toBeDefined();
+    const provision = {
+      kind: "policy-question" as const,
+      question: question!,
+      value: 1,
+    };
+    const grantId = enactLawId(homeRule, "state", 1);
+    const granted = authorityFor(api, provision);
+    // The federal district's combined powers are explicit grants, not home rule.
+    if (granted.source !== grantId) {
+      report.homeRule = "powers read from the catalog in this place";
+      return;
+    }
+    expect(granted.allowed, where).toBe(true);
+    const repealId = enactLawId(homeRule, "state", 0);
+    const taken = authorityFor(api, provision);
+    expect(taken, where).toMatchObject({ allowed: false, source: repealId });
+    // Home rule is read at the decision, so no second record of the law stands.
+    expect(openReach(api, homeRule), where).toEqual([]);
+    report.homeRule = { question, grantId, repealId };
+  });
+
   it("housing spending pays rent help to the lowest-cash households the extra covers", () => {
     const key = "budget-line:housing";
     const gov = cityGov();
@@ -493,7 +559,13 @@ describe("audit 13, law breadth group A: every policy reaches people", () => {
     });
     const assisted = openReach(api, key).filter((r) => r.spec === "assisted");
     report[key] = { assisted: assisted.length };
-    expect(assisted.length, `${where}: no one assisted`).toBeGreaterThan(0);
+    // Only renters are helped, and this small world has no leases to pay
+    // toward; the played world's payments are checked in rent-help.test.ts.
+    const leases = [...(core as CoreState).finance.contracts.keys()].filter(
+      (id) => id.startsWith("lease:"),
+    );
+    if (leases.length)
+      expect(assisted.length, `${where}: no one assisted`).toBeGreaterThan(0);
     for (const row of assisted)
       expect(api.knows(row.targetId, `law-reach:${key}`)).toBeUndefined();
     amendBudget(api, {
@@ -556,8 +628,26 @@ describe("audit 13, law breadth group A: every policy reaches people", () => {
           funded[0]!.baseStaff * ((2 * amount) / amount),
         );
         expect(up, `${where}: ${key} no hires`).toBeGreaterThan(before);
-        for (const row of hired)
-          expect(core.people.get(row.targetId)?.jobId, where).toBeDefined();
+        for (const row of hired) {
+          const jobId = core.people.get(row.targetId)?.jobId;
+          expect(jobId, where).toBeDefined();
+          // A hire at a public employer is on the employer's public pay
+          // authority, or its first payday would stop the year.
+          const commitment = [...core.work.commitments.values()].find(
+            (c) => c.jobId === jobId,
+          )!;
+          const authority = core.organizations.get(
+            commitment.organizationId,
+          )?.publicPayAuthority;
+          if (authority) {
+            expect(commitment.publicPayAuthorityId, `${where}: ${jobId}`).toBe(
+              authority.id,
+            );
+            expect(authority.workCommitmentIds, `${where}: ${jobId}`).toContain(
+              commitment.id,
+            );
+          }
+        }
       }
       // Cut to half the base: the newest hires and then the newest staff go.
       amendBudget(api, {

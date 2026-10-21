@@ -5,11 +5,12 @@ area: world
 kind: stopgap
 priority: 2
 size: M
-status: open
-claimed-by:
-pr:
+status: done
+claimed-by: claude/world-counted-reads-housing
+pr: #4843
 blocked-on:
 source: "split from core-stopgap-counted-groups-faked-mechanic (SG-CORE-counted-person-views), Oct 15"
+claimed-at: 2026-10-16T21:43:08.032Z
 ---
 
 **What.** `modules/housing.ts` reads a counted household's place and members through `residentsRuntime(c).households` (near lines 1311, 1411 and 1674). Read the group's tenure, place and counts instead; a household's lease is a group fact times its count. Today the stand-in builds a person or household record with no past and no ties for every counted member the engine touches. A counted group is read with the same rule as a full person, times its count, so the engine's total must not change.

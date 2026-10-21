@@ -22,8 +22,11 @@ import {
 } from "./gov-rules/names-data";
 import { isRealOfficeholderName } from "./officials-names";
 import { fillInIdentity, fillInPerson } from "./state";
+import { parameter } from "./parameters";
+import { medianTransactionBalance } from "./starting-cash";
 import { countedResidents } from "./electorate";
 import { startPublicJob } from "./public-payroll";
+import { giveLivingCost } from "./official-living";
 import staffJson from "./data/press/staff.json" with { type: "json" };
 import mastheadsJson from "./data/press/mastheads.json" with { type: "json" };
 import type { CoreAPI, CoreState, PersonId, Source } from "./types";
@@ -110,6 +113,8 @@ export interface StaffRow {
   readonly role: StaffRole;
   readonly jobId: string | null;
   readonly hiredOn: string;
+  /** An owner given a household cost at hire, which they spend out of each week through this date. */
+  readonly livedThrough?: string;
   /** When they left the outlet (another job, a move, death). */
   readonly leftOn?: string;
   /** Why: died, moved, layoff, quit, left-work, closure, left-job. */
@@ -183,6 +188,7 @@ export function hireStaffMember(
     const person = fillInPerson(core, resident);
     return seatStaff(api, input, key, person.id);
   }
+  const minorPerDollar = parameter("minorPerDollar", core.data.parameters);
   const neighbor =
     home === input.townPlaceId
       ? [...(core.peopleByPlace.get(input.townPlaceId) ?? [])]
@@ -201,6 +207,17 @@ export function hireStaffMember(
     gender: gender === "female" || gender === "male" ? gender : "nonbinary",
     // The town's own cadence, as its neighbors live.
     ...(neighbor?.tier ? { tier: neighbor.tier } : {}),
+    // What a family at their pay keeps in its accounts (SCF 2022), as the
+    // town's generated residents do; later hires arrive with what they have.
+    ...(input.role.payParameter && core.date === core.startedAt
+      ? {
+          openingLiquidMinor: Math.round(
+            medianTransactionBalance(
+              input.parameter(input.role.payParameter) / minorPerDollar,
+            ) * minorPerDollar,
+          ),
+        }
+      : {}),
     source: input.source,
   } as Parameters<typeof fillInIdentity>[1]);
   return seatStaff(api, input, key, id);
@@ -211,7 +228,7 @@ export function hireStaffMember(
  * first in id order (the ids are the world's seeded hashes); undefined when
  * the town has none left.
  */
-function townResident(
+export function townResident(
   core: CoreState,
   townPlaceId: string,
   minAge: number,
@@ -254,11 +271,23 @@ function seatStaff(
           citation: input.source.citation,
         })
       : null;
+  // An owner holds the outlet and is on no payroll, so nothing gives them a
+  // household: a wealthy owner's cost and savings, at the income the press
+  // parameters set, with the savings paid in from outside.
+  const lives =
+    !pay &&
+    giveLivingCost(api, {
+      personId: id,
+      stateKey: input.stateKey,
+      annualMinor: input.parameter("ownerHouseholdIncomeMinor"),
+      governmentKey: input.stateKey,
+    });
   return {
     id,
     outletId: input.outletId,
     role: input.role.id,
     jobId,
     hiredOn: core.date,
+    ...(lives ? { livedThrough: core.date } : {}),
   };
 }

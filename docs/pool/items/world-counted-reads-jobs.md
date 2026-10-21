@@ -5,11 +5,12 @@ area: world
 kind: stopgap
 priority: 2
 size: M
-status: open
-claimed-by:
-pr:
+status: done
+claimed-by: claude/world-counted-reads-jobs
+pr: #4852
 blocked-on:
 source: "split from core-stopgap-counted-groups-faked-mechanic (SG-CORE-counted-person-views), Oct 15"
+claimed-at: 2026-10-16T23:56:23.321Z
 ---
 
 **What.** `modules/jobs.ts` walks `rt.households.values()` (lines near 503, 1813 and 2058) to match counted workers to openings, quits and rates, getting a household record built on demand from the group's packed columns. Read the groups' counts and fields (and the counted jobs table) instead, and fill in a person only when one is picked by name. Today the stand-in builds a person or household record with no past and no ties for every counted member the engine touches. A counted group is read with the same rule as a full person, times its count, so the engine's total must not change.

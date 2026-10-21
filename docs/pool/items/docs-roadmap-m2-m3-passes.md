@@ -4,7 +4,7 @@ title: "Verify M2 and M3 specs in features.json and set passes where built"
 area: docs
 kind: cleanup
 priority: 3
-status: open
+status: done
 claimed-by:
 pr: #4513
 blocked-on:
@@ -24,3 +24,5 @@ claimed-at:
 **Notes.** None.
 
 Sent back 2026-10-16 from PR #4513 (branch claude/roadmap-m2-m3-passes): merging main conflicts in src/core2/news.test.ts (code or data, left for the author); resolve and push; finish on that branch, merge main into it first.
+
+Sent back 2026-10-16 from PR #4513 (branch claude/roadmap-m2-m3-passes): Merger: not merged. Merging current main into this branch conflicts in docs/pool/INDEX.md (generated; `npm run pool` rebuilds it) and src/core2/news.test.ts (a test file). Please merge main, resolve the test, regenerate the index and push; finish on that branch, merge main into it first.

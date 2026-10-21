@@ -10,7 +10,8 @@ import { RENEWAL_MODULE_ID } from "./modules/renewal";
 import rates from "../../data/research/migration/mover-rates-acs-2024.json" with { type: "json" };
 import { advanceCore } from "./life";
 import {
-  departuresOf,
+  departuresSeen,
+  watchDepartures,
   holdsOf,
   MOVED_AWAY_EVENT,
   movesModule,
@@ -33,6 +34,7 @@ const input = generatedOpening(
 );
 const core = createRenewalCore(input, { modules: [movesModule] });
 const api = coreAPI(core);
+watchDepartures(core);
 const cash = () =>
   [...core.people.values(), ...core.organizations.values()].reduce(
     (sum, row) => sum + row.liquidMinor,
@@ -109,7 +111,7 @@ const expectedBirths =
 const end = new Date(`${input.startedAt}T00:00:00Z`);
 end.setUTCMonth(end.getUTCMonth() + MONTHS);
 advanceCore(core, end.toISOString().slice(0, 10));
-const departures = departuresOf(api);
+const departures = departuresSeen(core);
 const departedAdults = departures
   .flatMap((row) => row.withIds)
   .filter((id) => adults.some((row) => row.id === id));
@@ -207,9 +209,10 @@ describe(`moves over half a year in ${input.placeMetadata?.placeName} (seed ${se
     expect(residents.some((row) => left.has(row.id))).toBe(false);
   });
 
-  it("never moves someone away from the household their recorded income is paid into", () => {
-    // A pension or Social Security award names its household; the core
-    // refuses the next payment once its person lives elsewhere.
+  it("pays a mover's recorded income into the household where they live now", () => {
+    // A pension or Social Security award follows its person: its term names
+    // the household they live in, and the saved award still names the one
+    // it was written for.
     for (const row of core.finance.contracts.values()) {
       const term = row.recipientIncome;
       if (!term || row.endedAt) continue;
@@ -218,6 +221,10 @@ describe(`moves over half a year in ${input.placeMetadata?.placeName} (seed ${se
       expect(core.households.get(term.householdId)!.memberIds).toContain(
         person.id,
       );
+      if (term.movedOn) {
+        expect(term.recordedHouseholdId).toBeDefined();
+        expect(term.recordedHouseholdId).not.toBe(term.householdId);
+      }
     }
   });
 

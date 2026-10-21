@@ -5,12 +5,12 @@ area: people
 kind: bug
 priority: 2
 size: M
-status: open
-claimed-by:
-pr:
+status: done
+claimed-by: claude/m0-07-relative-hours
+pr: #4821
 blocked-on:
 source: added with npm run pool -- add
-claimed-at:
+claimed-at: 2026-10-16T20:21:27.956Z
 ---
 
 **What.** The golden-path check M0-07 (src/core2/m0-meeting-people.test.ts, "keeps visits to parents and siblings inside the GSS ranges, and hours near ATUS") fails in some places: Nevada, Missouri (359 hours a year per adult against a limit of 341), Belgium, Wisconsin (seed c3, 348) and Mount Morris, New York (seed d4, 344), while four other drawn places pass. The visits sit inside the GSS quartile range, but each visit is the sourced 1.92 hours (socialHours, BLS ATUS 2025), so a place whose visits run in the upper half of the range exceeds twice the ATUS non-household-family time (170 hours a year, limit 341). Find which input is off (the visit count's upper bound, the hours per visit, or how much of ATUS time with non-household family belongs to parents and siblings) and calibrate it so the check holds across places, without weakening the check's factor of two.

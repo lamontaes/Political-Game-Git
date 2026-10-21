@@ -5,7 +5,7 @@ area: words
 kind: bug
 priority: 1
 size: S
-status: open
+status: done
 claimed-by:
 pr: #4634
 blocked-on:
@@ -24,3 +24,5 @@ claimed-at:
 **Notes.** Found by the merger after merging #4477; the merger had run only the changed test files and missed this neighbor. A second director case, the world moments, is separately red on main (director-world-moments-red-on-main).
 
 Sent back 2026-10-16 from PR #4634 (branch claude/director-literals): merging main conflicts in src/director/speech-builder.ts (code or data, left for the author); resolve and push; finish on that branch, merge main into it first.
+
+Sent back 2026-10-16 from PR #4634 (branch claude/director-literals): Sent back by the merger: merging main conflicts in src/director/speech-builder.ts (code or data, left for the author); resolve and push Finish on this branch (merge main into it first), then it goes back in line; finish on that branch, merge main into it first.

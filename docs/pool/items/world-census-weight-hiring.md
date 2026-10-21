@@ -5,20 +5,25 @@ area: world
 kind: wiring
 priority: 1
 size: M
-status: open
-claimed-by:
-pr:
+status: done
+claimed-by: claude/world-census-weight-hiring
+pr: #4784
 blocked-on:
 after: world-census-weight-headcount
 source: added with npm run pool -- add
+claimed-at: 2026-10-17T01:02:27.367Z
 ---
 
-**What.** The jobs engine acts on a counted job record that stands for several jobs: openings, hires, quits and layoffs (`modules/jobs.ts` lines near 198, 1231, 1747, 1892, 1970) move the record's weight in jobs, and an opening a full person fills takes one job out of the record's count rather than the whole record.
+**What.** Hiring, layoffs and openings treat a counted job record as as many jobs as its household weight. This work was sent back by the merger on 2026-10-16 and is open for any builder to finish. The reason it came back: The new counted-weight-hiring.test.ts can pass without exercising its claims: the replacement-opening test asserts only inside base/scaled loops without requiring any matched openings, and the layoff test returns early when told.length is zero. The morning check refuses skipped tests. Require an applicable generated/edge fixture with actual weighted replacement openings and an employer to lay off, then retain the weight and no-over-layoff assertions rather than passing empty coverage. Finish it on the existing branch claude/world-census-weight-hiring, after merging main into it with a plain merge.
 
-**Rules.** One model, two tiers (a counted group is read by every engine with the same rule as a full person, times its count); no dice; one rule, all 56 places; an effect is a read; speed (a year under two minutes, no more than 20% slower than base); replace, never layer.
+**Rules.** Follow the standing rule "Replace, never layer" and the other standing rules in AGENTS.md; merge main into the branch with a plain merge and never force-push. A release declaration in docs/release/changes/ and a gate line at the top of the PR body stay required before the merger takes it again.
 
-**Done when.** In a one-year run of a drawn town at scale 3, layoffs and openings at an employer are three times the scale-one counts, a full person hired into an opening leaves the counted jobs short by exactly one, and scale one is identical to base. Named by job and employer ids. The owner plays it: nothing yet; this is the base for the Census-size opening.
+**Done when.** The reason above is fixed on the branch, the changed-file tests pass in a drawn place and the branch merges cleanly with main, the PR body carries its gate line, and the merger can merge the pull request without sending it back again.
 
-**Files.** src/core2/modules/jobs.ts, src/core2/residents-economy.ts
+**Files.** docs/pool/items/world-census-weight-hiring.md and the files that pull request #4784 changes on claude/world-census-weight-hiring
 
 **Notes.** Split from world-census-weight-economy (claude/world-census-weight-economy) when it was claimed: the original is an L. The weight is `CountedStore.weightOf` (core-census-weight-model, merged); counted money already moves times the weight (core-census-weight-money, #4467). Test by opening a drawn town with `buildBenchWorld(..., { countScale: 3 })` against the same seed at scale one.
+
+Sent back 2026-10-16 from PR #4784 (branch claude/world-census-weight-hiring): The new counted-weight-hiring.test.ts can pass without exercising its claims: the replacement-opening test asserts only inside base/scaled loops without requiring any matched openings, and the layoff test returns early when told.length is zero. The morning check refuses skipped tests. Require an applicable generated/edge fixture with actual weighted replacement openings and an employer to lay off, then retain the weight and no-over-layoff assertions rather than passing empty coverage; finish on that branch, merge main into it first.
+
+Sent back 2026-10-17 from PR #4784 (branch claude/world-census-weight-hiring): merging main conflicts in src/core2/modules/jobs.ts (code or data, left for the author); resolve and push; finish on that branch, merge main into it first.

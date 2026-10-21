@@ -222,30 +222,235 @@
     "estimatedFrom": "Municipal customer-service standards; spread 2 to 14 calendar days. No US-wide survey of town office reply times was found."
   },
   "stressBaseline": {
-    "value": 0.25,
-    "tag": "TUNABLE",
-    "citation": "No direct source for this coefficient, duration or prototype limit; tunable. Empirical calibration or owner budget approval is pending and blocks prototype release.",
+    "value": 0.314,
+    "tag": "ESTIMATED",
+    "citation": "Klein et al. (2016), 'Psychological stress in the German general population: PSS-10 norm values', BMC Psychiatry 16:159, N=2,463, Table 4 (https://pmc.ncbi.nlm.nih.gov/articles/PMC4877813), read in full on 2026-10-16. The value is the opening stress of a newcomer and the average the modeled population is checked against; each person's own resting stress is computed by restingStress from their situation.",
+    "estimatedFrom": "The average person's resting stress, as a share of the 40-point PSS-10 scale: 12.57 of 40 (SD 6.42) in the German general-population norm. The U.S. norm (Cohen & Janicki-Deverts 2012, J. Applied Social Psychology 42:1320-1334) was not retrievable here and runs higher; the spread covers it.",
     "spread": {
-      "status": "unmeasured",
-      "reason": "No empirical parameter bounds have been identified. Related outcome statistics or inherited model assumptions do not establish bounds on this parameter."
-    },
-    "stopgapId": "SG-P8-param-stressBaseline",
-    "checkRange": {
-      "ref": "P9-OUTCOME-WHOLE-LIFE"
+      "low": 0.3,
+      "high": 0.42,
+      "unit": "share of the PSS-10 scale (points / 40)",
+      "citation": "Klein et al. (2016), 'Psychological stress in the German general population: PSS-10 norm values', BMC Psychiatry 16:159, N=2,463, Table 4 (https://pmc.ncbi.nlm.nih.gov/articles/PMC4877813), read in full on 2026-10-16. The value is the opening stress of a newcomer and the average the modeled population is checked against; each person's own resting stress is computed by restingStress from their situation."
+    }
+  },
+  "restingStressFloor": {
+    "value": 0.261,
+    "tag": "ESTIMATED",
+    "citation": "The part of resting stress that no recorded situation explains: the intercept of the resting-stress sum, set so the modeled population's average equals stressBaseline (the PSS-10 norm) in a drawn place.",
+    "estimatedFrom": "Calibrated to stressBaseline; the intercept moves with the weights below. Recalibrated Oct 19 from 0.271: across 28 drawn towns (seeds sm-0 to sm-13 and sn-0 to sn-13 of the stress calibration) the adults' mean sat 0.0098 above the norm (town-to-town spread 0.012), so the intercept comes down by that gap.",
+    "spread": {
+      "low": 0.1,
+      "high": 0.3,
+      "unit": "share of the PSS-10 scale (points / 40)",
+      "citation": "Klein et al. (2016), 'Psychological stress in the German general population: PSS-10 norm values', BMC Psychiatry 16:159, N=2,463, Table 4 (https://pmc.ncbi.nlm.nih.gov/articles/PMC4877813), read in full on 2026-10-16."
+    }
+  },
+  "restingStressMoneyWeight": {
+    "value": 0.065,
+    "tag": "ESTIMATED",
+    "citation": "Klein et al. (2016), 'Psychological stress in the German general population: PSS-10 norm values', BMC Psychiatry 16:159, N=2,463, Table 4 (https://pmc.ncbi.nlm.nih.gov/articles/PMC4877813), read in full on 2026-10-16.",
+    "estimatedFrom": "The PSS-10 gap between the lowest and highest income group in the German norm: 13.83 against 11.36, 2.47 points of 40.",
+    "spread": {
+      "low": 0.04,
+      "high": 0.1,
+      "unit": "share of the PSS-10 scale (points / 40)",
+      "citation": "Klein et al. (2016), 'Psychological stress in the German general population: PSS-10 norm values', BMC Psychiatry 16:159, N=2,463, Table 4 (https://pmc.ncbi.nlm.nih.gov/articles/PMC4877813), read in full on 2026-10-16."
+    }
+  },
+  "restingStressMoneyHalfMonths": {
+    "value": 1,
+    "tag": "ESTIMATED",
+    "citation": "No survey of stress by months of cash was found; the half-point is an estimate with this spread.",
+    "estimatedFrom": "Months of living costs held in cash at which money pressure is half its largest. Typical savings guidance asks for three to six months; a month is where a shock first bites.",
+    "spread": {
+      "low": 0.5,
+      "high": 3,
+      "unit": "months of living costs",
+      "citation": "No survey of stress by months of cash was found; the half-point is an estimate with this spread."
+    }
+  },
+  "restingStressJoblessWeight": {
+    "value": 0.077,
+    "tag": "ESTIMATED",
+    "citation": "Klein et al. (2016), 'Psychological stress in the German general population: PSS-10 norm values', BMC Psychiatry 16:159, N=2,463, Table 4 (https://pmc.ncbi.nlm.nih.gov/articles/PMC4877813), read in full on 2026-10-16.",
+    "estimatedFrom": "The PSS-10 gap between unemployed and employed people in the German norm: 15.39 against 12.32, 3.07 points of 40.",
+    "spread": {
+      "low": 0.05,
+      "high": 0.1,
+      "unit": "share of the PSS-10 scale (points / 40)",
+      "citation": "Klein et al. (2016), 'Psychological stress in the German general population: PSS-10 norm values', BMC Psychiatry 16:159, N=2,463, Table 4 (https://pmc.ncbi.nlm.nih.gov/articles/PMC4877813), read in full on 2026-10-16."
+    }
+  },
+  "restingStressWorkAgeFrom": {
+    "value": 16,
+    "tag": "ESTIMATED",
+    "citation": "Klein et al. (2016) Table 4: employment status groups; no age cut-offs are given, so these are estimates.",
+    "estimatedFrom": "Age at which being without a job starts to count as being out of work. The ramp is a sliding scale between these ages; the German norm's retired group (12.14) sits at the employed level.",
+    "spread": {
+      "low": 11,
+      "high": 21,
+      "unit": "years of age",
+      "citation": "Klein et al. (2016) Table 4: employment status groups; no age cut-offs are given, so these are estimates."
+    }
+  },
+  "restingStressWorkAgeFullFrom": {
+    "value": 25,
+    "tag": "ESTIMATED",
+    "citation": "Klein et al. (2016) Table 4: employment status groups; no age cut-offs are given, so these are estimates.",
+    "estimatedFrom": "Age from which being without a job counts in full. The ramp is a sliding scale between these ages; the German norm's retired group (12.14) sits at the employed level.",
+    "spread": {
+      "low": 20,
+      "high": 30,
+      "unit": "years of age",
+      "citation": "Klein et al. (2016) Table 4: employment status groups; no age cut-offs are given, so these are estimates."
+    }
+  },
+  "restingStressWorkAgeFullTo": {
+    "value": 55,
+    "tag": "ESTIMATED",
+    "citation": "Klein et al. (2016) Table 4: employment status groups; no age cut-offs are given, so these are estimates.",
+    "estimatedFrom": "Age to which being without a job counts in full. The ramp is a sliding scale between these ages; the German norm's retired group (12.14) sits at the employed level.",
+    "spread": {
+      "low": 50,
+      "high": 60,
+      "unit": "years of age",
+      "citation": "Klein et al. (2016) Table 4: employment status groups; no age cut-offs are given, so these are estimates."
+    }
+  },
+  "restingStressWorkAgeTo": {
+    "value": 70,
+    "tag": "ESTIMATED",
+    "citation": "Klein et al. (2016) Table 4: employment status groups; no age cut-offs are given, so these are estimates.",
+    "estimatedFrom": "Age by which being without a job no longer counts as being out of work (retirement). The ramp is a sliding scale between these ages; the German norm's retired group (12.14) sits at the employed level.",
+    "spread": {
+      "low": 65,
+      "high": 75,
+      "unit": "years of age",
+      "citation": "Klein et al. (2016) Table 4: employment status groups; no age cut-offs are given, so these are estimates."
+    }
+  },
+  "restingStressYouthWeight": {
+    "value": 0.033,
+    "tag": "ESTIMATED",
+    "citation": "Klein et al. (2016), 'Psychological stress in the German general population: PSS-10 norm values', BMC Psychiatry 16:159, N=2,463, Table 4 (https://pmc.ncbi.nlm.nih.gov/articles/PMC4877813), read in full on 2026-10-16.",
+    "estimatedFrom": "The PSS-10 gap between ages 14-19 and the adult groups in the German norm: 14.05 against 12.74, 1.3 points of 40.",
+    "spread": {
+      "low": 0.02,
+      "high": 0.05,
+      "unit": "share of the PSS-10 scale (points / 40)",
+      "citation": "Klein et al. (2016), 'Psychological stress in the German general population: PSS-10 norm values', BMC Psychiatry 16:159, N=2,463, Table 4 (https://pmc.ncbi.nlm.nih.gov/articles/PMC4877813), read in full on 2026-10-16."
+    }
+  },
+  "restingStressYouthFromAge": {
+    "value": 19,
+    "tag": "ESTIMATED",
+    "citation": "Klein et al. (2016), 'Psychological stress in the German general population: PSS-10 norm values', BMC Psychiatry 16:159, N=2,463, Table 4 (https://pmc.ncbi.nlm.nih.gov/articles/PMC4877813), read in full on 2026-10-16.",
+    "estimatedFrom": "Age up to which the youth gap holds in full; it fades to nothing by restingStressYouthToAge.",
+    "spread": {
+      "low": 17,
+      "high": 21,
+      "unit": "years of age",
+      "citation": "Klein et al. (2016), 'Psychological stress in the German general population: PSS-10 norm values', BMC Psychiatry 16:159, N=2,463, Table 4 (https://pmc.ncbi.nlm.nih.gov/articles/PMC4877813), read in full on 2026-10-16."
+    }
+  },
+  "restingStressYouthToAge": {
+    "value": 30,
+    "tag": "ESTIMATED",
+    "citation": "Klein et al. (2016), 'Psychological stress in the German general population: PSS-10 norm values', BMC Psychiatry 16:159, N=2,463, Table 4 (https://pmc.ncbi.nlm.nih.gov/articles/PMC4877813), read in full on 2026-10-16.",
+    "estimatedFrom": "Age by which the youth gap is gone (the 20-39 group is at the population average).",
+    "spread": {
+      "low": 25,
+      "high": 40,
+      "unit": "years of age",
+      "citation": "Klein et al. (2016), 'Psychological stress in the German general population: PSS-10 norm values', BMC Psychiatry 16:159, N=2,463, Table 4 (https://pmc.ncbi.nlm.nih.gov/articles/PMC4877813), read in full on 2026-10-16."
+    }
+  },
+  "restingStressElderWeight": {
+    "value": 0.02,
+    "tag": "ESTIMATED",
+    "citation": "Klein et al. (2016), 'Psychological stress in the German general population: PSS-10 norm values', BMC Psychiatry 16:159, N=2,463, Table 4 (https://pmc.ncbi.nlm.nih.gov/articles/PMC4877813), read in full on 2026-10-16.",
+    "estimatedFrom": "The PSS-10 gap between ages 60 and over and the population in the German norm: 11.94 against 12.57, about 0.8 points of 40.",
+    "spread": {
+      "low": 0.01,
+      "high": 0.04,
+      "unit": "share of the PSS-10 scale (points / 40)",
+      "citation": "Klein et al. (2016), 'Psychological stress in the German general population: PSS-10 norm values', BMC Psychiatry 16:159, N=2,463, Table 4 (https://pmc.ncbi.nlm.nih.gov/articles/PMC4877813), read in full on 2026-10-16."
+    }
+  },
+  "restingStressElderFromAge": {
+    "value": 50,
+    "tag": "ESTIMATED",
+    "citation": "Klein et al. (2016), 'Psychological stress in the German general population: PSS-10 norm values', BMC Psychiatry 16:159, N=2,463, Table 4 (https://pmc.ncbi.nlm.nih.gov/articles/PMC4877813), read in full on 2026-10-16.",
+    "estimatedFrom": "Age at which the fall begins; it is complete by restingStressElderToAge.",
+    "spread": {
+      "low": 45,
+      "high": 55,
+      "unit": "years of age",
+      "citation": "Klein et al. (2016), 'Psychological stress in the German general population: PSS-10 norm values', BMC Psychiatry 16:159, N=2,463, Table 4 (https://pmc.ncbi.nlm.nih.gov/articles/PMC4877813), read in full on 2026-10-16."
+    }
+  },
+  "restingStressElderToAge": {
+    "value": 70,
+    "tag": "ESTIMATED",
+    "citation": "Klein et al. (2016), 'Psychological stress in the German general population: PSS-10 norm values', BMC Psychiatry 16:159, N=2,463, Table 4 (https://pmc.ncbi.nlm.nih.gov/articles/PMC4877813), read in full on 2026-10-16.",
+    "estimatedFrom": "Age at which the full older-age reduction holds.",
+    "spread": {
+      "low": 60,
+      "high": 75,
+      "unit": "years of age",
+      "citation": "Klein et al. (2016), 'Psychological stress in the German general population: PSS-10 norm values', BMC Psychiatry 16:159, N=2,463, Table 4 (https://pmc.ncbi.nlm.nih.gov/articles/PMC4877813), read in full on 2026-10-16."
+    }
+  },
+  "restingStressBroodingWeight": {
+    "value": 0.25,
+    "tag": "ESTIMATED",
+    "citation": "How much a person who broods dwells on stress, and a person low in brooding is spared it: the shift at the largest recorded brooding trait value (a recorded trait of one tenth of that value moves it a tenth as far). No verified survey table of PSS-10 by personality trait was found; neuroticism-type traits are among the strongest correlates of perceived stress, so the weight lets an extreme trait account for about 10 PSS-10 points (1.5 SD of the norm), since recorded traits cluster near the middle of their range (SD about 0.11 of the maximum).",
+    "estimatedFrom": "How much a person who broods dwells on stress: the largest shift a recorded brooding trait gives. No verified survey table of PSS-10 by personality trait was found; the size follows the usual finding that neuroticism-type traits are among the strongest correlates of perceived stress, and is set so the modeled spread is a fraction of the norm SD (6.42 points, 0.16).",
+    "spread": {
+      "low": 0.1,
+      "high": 0.4,
+      "unit": "share of the PSS-10 scale (points / 40)",
+      "citation": "Estimated from the width of the PSS-10 norm SD in Klein et al. (2016); no trait-specific table was retrieved."
+    }
+  },
+  "restingStressCalmWeight": {
+    "value": 0.2,
+    "tag": "ESTIMATED",
+    "citation": "Estimated from the width of the PSS-10 norm SD in Klein et al. (2016); no trait-specific table was retrieved.",
+    "estimatedFrom": "How much a calm person's stress is lowered, and a person low in calm raised, at the largest recorded trait value. Estimated like restingStressBroodingWeight.",
+    "spread": {
+      "low": 0.08,
+      "high": 0.35,
+      "unit": "share of the PSS-10 scale (points / 40)",
+      "citation": "Estimated from the width of the PSS-10 norm SD in Klein et al. (2016); no trait-specific table was retrieved."
+    }
+  },
+  "restingStressHealthWeight": {
+    "value": 0.077,
+    "tag": "ESTIMATED",
+    "citation": "Klein et al. (2016), 'Psychological stress in the German general population: PSS-10 norm values', BMC Psychiatry 16:159, N=2,463, Table 4 (https://pmc.ncbi.nlm.nih.gov/articles/PMC4877813), read in full on 2026-10-16.",
+    "estimatedFrom": "A health problem that asks all of a person's time (care need 1) weighs as much as being out of work. No survey table of PSS-10 by health status was retrieved, so the unemployed gap (3.07 points of 40) stands in as the size of a major life burden.",
+    "spread": {
+      "low": 0.04,
+      "high": 0.12,
+      "unit": "share of the PSS-10 scale (points / 40)",
+      "citation": "Klein et al. (2016), 'Psychological stress in the German general population: PSS-10 norm values', BMC Psychiatry 16:159, N=2,463, Table 4 (https://pmc.ncbi.nlm.nih.gov/articles/PMC4877813), read in full on 2026-10-16."
     }
   },
   "moodBaseline": {
     "value": 0,
-    "tag": "TUNABLE",
-    "citation": "No direct source for this coefficient, duration or prototype limit; tunable. Empirical calibration or owner budget approval is pending and blocks prototype release.",
-    "stopgapId": "SG-P8-param-moodBaseline",
+    "tag": "ESTIMATED",
+    "citation": "A definition, not a measured figure: the mood channel is signed affect relative to each person's own set point (affect research treats day-to-day mood as deviation around a stable personal baseline; Kuppens, Oravecz & Tuerlinckx 2010, J. Pers. Soc. Psychol. 99(6), 'Feelings change: accounting for individual differences in the temporal dynamics of affect'). Before any recorded event a person sits at their own set point, which is 0 on this scale.",
     "spread": {
-      "status": "unmeasured",
-      "reason": "No empirical parameter bounds have been identified. Related outcome statistics or inherited model assumptions do not establish bounds on this parameter."
+      "low": 0,
+      "high": 0,
+      "unit": "signed affect relative to the person's set point",
+      "citation": "Definitional; see citation."
     },
     "checkRange": {
       "ref": "P9-OUTCOME-WHOLE-LIFE"
-    }
+    },
+    "estimatedFrom": "Zero by construction; individual differences live in traits and appraisal weights, not in this baseline."
   },
   "moodHalfLifeDays": {
     "value": 1,
@@ -380,9 +585,9 @@
     }
   },
   "companyHorizonDays": {
-    "value": 7,
+    "value": 14,
     "tag": "TUNABLE",
-    "citation": "No direct source for this coefficient, duration or prototype limit; tunable. Empirical calibration or owner budget approval is pending and blocks prototype release.",
+    "citation": "No direct source for this coefficient, duration or prototype limit; tunable. Set by the M0-07 check against ATUS 2019 time with family outside the household (28 minutes a day, 170 hours a year): at 7 days adults visited relatives outside the home for 351 to 364 hours a year in four of six drawn places (2.1 times ATUS, over the check's limit of twice), at 14 days for 231 to 268 hours a year in twelve drawn places (1.4 to 1.6 times). Empirical calibration of the need itself is still pending.",
     "stopgapId": "SG-P8-param-companyHorizonDays",
     "spread": {
       "status": "unmeasured",
@@ -431,30 +636,36 @@
     }
   },
   "appraisalDistressTraitWeight": {
-    "value": 0.5,
-    "tag": "TUNABLE",
-    "citation": "No direct source for this coefficient, duration or prototype limit; tunable. Empirical calibration or owner budget approval is pending and blocks prototype release.",
+    "value": 0.255,
+    "tag": "ESTIMATED",
+    "citation": "Bolger, N., & Schilling, E. A. (1991), Personality and the problems of everyday life: The role of neuroticism in exposure and reactivity to daily stressors, Journal of Personality 59(3), 355-386: exposure and reactivity explained over 40% of the distress gap between high- and low-neuroticism people, reactivity twice as much as exposure, so reactivity is about two thirds of that, 0.27 of the gap. Reading the gap as the stressor-driven distress of a low-neuroticism person, the most reactive person (brooding and concern for distress at the top of the scale) responds about 1 + 2/3 times as strongly as the least; with the two appraisal traits multiplying, a trait at 2 levels reads 2/3 of the way up the trait scale of 3, so a weight of 0.255 each moves it 0.17 and gives (1.17 x 1.17) / (1 - 0.17) = 1.65. This weight is for concern for distress.",
     "stopgapId": "SG-P8-param-appraisalDistressTraitWeight",
     "spread": {
-      "status": "unmeasured",
-      "reason": "No empirical parameter bounds have been identified. Related outcome statistics or inherited model assumptions do not establish bounds on this parameter."
+      "low": 0.15,
+      "high": 0.375,
+      "unit": "weight",
+      "citation": "Ratio of most to least reactive 1.3 to 2.1 across a reactivity share of 0.2 to 0.4 of the gap."
     },
     "checkRange": {
       "ref": "P9-OUTCOME-WHOLE-LIFE"
-    }
+    },
+    "estimatedFrom": "The paper reports shares of the distress gap, not a per-trait response slope (its tables were not retrieved); the reading of the gap as the low-neuroticism stressor response is an assumption."
   },
   "appraisalBroodingTraitWeight": {
-    "value": 0.5,
-    "tag": "TUNABLE",
-    "citation": "No direct source for this coefficient, duration or prototype limit; tunable. Empirical calibration or owner budget approval is pending and blocks prototype release.",
+    "value": 0.255,
+    "tag": "ESTIMATED",
+    "citation": "Bolger, N., & Schilling, E. A. (1991), Personality and the problems of everyday life: The role of neuroticism in exposure and reactivity to daily stressors, Journal of Personality 59(3), 355-386: exposure and reactivity explained over 40% of the distress gap between high- and low-neuroticism people, reactivity twice as much as exposure, so reactivity is about two thirds of that, 0.27 of the gap. Reading the gap as the stressor-driven distress of a low-neuroticism person, the most reactive person (brooding and concern for distress at the top of the scale) responds about 1 + 2/3 times as strongly as the least; with the two appraisal traits multiplying, a trait at 2 levels reads 2/3 of the way up the trait scale of 3, so a weight of 0.255 each moves it 0.17 and gives (1.17 x 1.17) / (1 - 0.17) = 1.65. This weight is for brooding.",
     "stopgapId": "SG-P8-param-appraisalBroodingTraitWeight",
     "spread": {
-      "status": "unmeasured",
-      "reason": "No empirical parameter bounds have been identified. Related outcome statistics or inherited model assumptions do not establish bounds on this parameter."
+      "low": 0.15,
+      "high": 0.375,
+      "unit": "weight",
+      "citation": "Ratio of most to least reactive 1.3 to 2.1 across a reactivity share of 0.2 to 0.4 of the gap."
     },
     "checkRange": {
       "ref": "P9-OUTCOME-WHOLE-LIFE"
-    }
+    },
+    "estimatedFrom": "The paper reports shares of the distress gap, not a per-trait response slope (its tables were not retrieved); the reading of the gap as the low-neuroticism stressor response is an assumption."
   },
   "emotionDurationMinHours": {
     "value": 0.5,
@@ -976,30 +1187,31 @@
     }
   },
   "workSleepReserveHours": {
-    "value": 9.03,
+    "value": 8.7,
     "tag": "ESTIMATED",
-    "citation": "BLS American Time Use Survey 2025, Table 1 (https://www.bls.gov/news.release/atus.t01.htm) and Table 2 (https://www.bls.gov/news.release/atus.t02.htm): sleeping (primary activity, naps included) averages 9.03 hours per diary day for all days; 8.76 weekdays, 9.68 weekends and holidays; men 8.93, women 9.13.",
+    "citation": "BLS American Time Use Survey 2025, Table 8B (https://www.bls.gov/news.release/atus.t08b.htm), employed adults 18 and over, annual averages: sleeping 8.83 hours per diary day with no household child under 18, 8.56 with one. Not-employed adults sleep more (Table 8C: 9.37 and 9.31); all adults average 9.03 (Table 1, https://www.bls.gov/news.release/atus.t01.htm).",
     "spread": {
-      "low": 8.76,
-      "high": 9.68,
+      "low": 8.56,
+      "high": 8.83,
       "unit": "hours per diary day",
-      "citation": "BLS ATUS 2025 Table 2: weekdays 8.76 to weekends and holidays 9.68."
+      "citation": "BLS ATUS 2025 Table 8B, employed adults: with a household child under 18 (8.56) to with none (8.83)."
     },
     "stopgapId": "SG-P8-work-time-reserve",
     "checkRange": {
       "ref": "EMPIRICAL-PRIMARY-ACTIVITY-AGE"
     },
-    "estimatedFrom": "Daily time reserved for sleep is the ATUS all-days population mean of primary-activity sleep. Standard BLS tables do not cut sleep by employment status, so the all-population mean is used for workers."
+    "estimatedFrom": "The midpoint of the two employed-adult figures in Table 8B, because the table gives no total for employed adults and the share of employed adults with a child at home is not read here. It replaces the all-adults mean of 9.03, which includes people who do not work."
   },
   "workRoutineRetentionWeeks": {
     "value": 4,
     "tag": "TUNABLE",
-    "citation": "No measured bound for this prototype parameter. Number of quiet completed weekly work rollups retained per worker; full focus results and open obligations stay separate.",
+    "citation": "An engineering memory budget, not a measure of anything in the world: the owner ruled that running memory stays small and keeps a condensed index, not every log record (owner, Oct 12, 2026, DECISION-REGISTER 'Speed and memory'). Number of quiet completed weekly work rollups kept per worker; full focus results, cumulative totals and open obligations are kept separately. Only the dev-why bench reads old rollups.",
     "spread": {
-      "status": "unmeasured",
-      "reason": "Calibration not run; this value is not claimed as an empirical estimate."
+      "low": 1,
+      "high": 13,
+      "unit": "weeks",
+      "citation": "Read from the code, not measured: the only reader of old rollups is the bench's why-trace (src/bench/dev-why.ts), a debug switch; the memory guard (scripts/core2-guard/memory.mjs) is the check to run before widening it."
     },
-    "stopgapId": "SG-P8-work-result-retention",
     "checkRange": {
       "ref": "P9-OUTCOME-WHOLE-LIFE"
     }
@@ -1094,11 +1306,11 @@
       "ref": "EMPIRICAL-PRIMARY-ACTIVITY-AGE"
     }
   },
-  "workWakingRecoveryHours": {
+  "restDayHours": {
     "value": 5.16,
     "tag": "ESTIMATED",
     "citation": "BLS American Time Use Survey 2025, Table 3: leisure and sports, 5.16 hours per day for people 15 and over (src/core2/data/time-use-reference.json).",
-    "estimatedFrom": "The rest act stands for an evening of leisure, so it takes the ATUS daily leisure and sports time, averaged over everyone 15 and over (CTO, October 10, 2026: rest gets a real leisure length so it competes for the evening). ATUS leisure ranges from 3.89 hours (35 to 44) to 7.39 (75 and over); one value serves every age here.",
+    "estimatedFrom": "The rest act stands for the day's leisure: the free-time planner (free-block.ts) takes at most one act per need per day, so one rest act is the whole day's leisure and takes the ATUS daily leisure and sports time, averaged over everyone 15 and over (CTO, October 10, 2026: rest gets a real leisure length so it competes for the evening). Measured Oct 19: shortening it to one sitting cuts the leisure hours per day almost in proportion, because a person still rests once a day (docs/pool/items/core-recovery-hours-per-offer.md). ATUS leisure ranges from 3.89 hours (35 to 44) to 7.39 (75 and over); one value serves every age here.",
     "stopgapId": "SG-P8-work-time-reserve",
     "spread": {
       "status": "unmeasured",
@@ -1649,42 +1861,48 @@
   },
   "businessCrowdingResponse": {
     "value": 0.1,
-    "tag": "TUNABLE",
-    "citation": "Old town-finances crowdingPriceResponse is explicitly PLACEHOLDER; no observed firm price adjustment coefficient is claimed.",
-    "stopgapId": "SG-P8-business-books-dynamics",
+    "tag": "ESTIMATED",
+    "citation": "Nakamura and Steinsson (2008), 'Five Facts about Prices,' Quarterly Journal of Economics 123(4), Table I (https://business.columbia.edu/sites/default/files-efs/pubfiles/3556/fivefacts.pdf): median monthly frequency of regular price change 8.7-11.9%.",
     "spread": {
-      "status": "unmeasured",
-      "reason": "Requires matched capacity/utilization/price changes; no identified coefficient range is available."
+      "low": 0.03,
+      "high": 0.24,
+      "unit": "monthly log price change per unit of excess demand",
+      "citation": "f from 0.087 to 0.119 (Nakamura and Steinsson 2008) over e from 3 (rival sellers, Broda and Weinstein 2006) to 0.5 (market demand)."
     },
     "checkRange": {
       "ref": "P9-OUTCOME-WHOLE-LIFE"
-    }
+    },
+    "estimatedFrom": "Derived: a firm closes about the monthly change frequency f of its price gap each month, and clearing excess demand x takes a price move of x over the demand elasticity e it faces, so the response is about f/e; f = 0.10 and e = 1 give 0.1."
   },
   "businessPriceStepMaximum": {
     "value": 0.05,
     "tag": "TUNABLE",
-    "citation": "Old town-finances priceStepMax is an authored per-review cap; this pure calculator does not establish a review cadence or measured cap.",
+    "citation": "A per-review cap on the price move from demand pressure. Nakamura and Steinsson (2008), 'Five Facts about Prices,' QJE 123(4): the median absolute size of a regular consumer price change is 8.5% (6.1% to 14.2% by major group), made about once every 8 to 11 months; a monthly cap of 5% keeps a monthly review's move below one typical change.",
     "stopgapId": "SG-P8-business-books-dynamics",
     "spread": {
-      "status": "unmeasured",
-      "reason": "No matched review-period price-step distribution identifies this cap; cadence and coefficient calibration remain open."
+      "low": 0.05,
+      "high": 0.142,
+      "unit": "largest monthly log price change",
+      "citation": "Nakamura and Steinsson (2008): per-change sizes 6.1%-14.2% by major group; the cap is checked from 0.05 up to that range."
     },
     "checkRange": {
       "ref": "P9-OUTCOME-WHOLE-LIFE"
     }
   },
   "businessRivalPriceElasticity": {
-    "value": 3,
-    "tag": "TUNABLE",
-    "citation": "Old town-finances rivalPriceElasticity is explicitly PLACEHOLDER; capacity times relative-price weight is an uncalibrated allocation model.",
-    "stopgapId": "SG-P8-business-books-dynamics",
+    "value": 2.7,
+    "tag": "ESTIMATED",
+    "citation": "Broda and Weinstein (2006), 'Globalization and the Gains from Variety,' Quarterly Journal of Economics 121(2), Table 4 (FRBNY Staff Report 180, https://www.newyorkfed.org/medialibrary/media/research/staff_reports/sr180.html): median elasticity of substitution between varieties, 1990-2001, 2.7 at SITC-5.",
     "spread": {
-      "status": "unmeasured",
-      "reason": "Requires actual within-market price, capacity and spending-share observations; no coefficient bounds measured."
+      "low": 1.6,
+      "high": 9.7,
+      "unit": "elasticity of substitution between rival sellers",
+      "citation": "Broda and Weinstein (2006), SITC-5 10th and 90th percentiles, 1990-2001."
     },
     "checkRange": {
       "ref": "P9-OUTCOME-WHOLE-LIFE"
-    }
+    },
+    "estimatedFrom": "US import varieties by source country, used for rival local sellers of one kind; close local substitutes are likely more elastic than the median."
   },
   "businessRepaymentShare": {
     "value": 0.5,
@@ -1780,6 +1998,7 @@
   "openingRetirementClaimTraitPullYears": {
     "value": 4,
     "tag": "TUNABLE",
+    "stopgapId": "SG-P8-param-openingRetirementClaimTraitPullYears",
     "citation": "SSA Annual Statistical Supplement 2022, Table 6.B5: claim ages spread from 62 (about 25% in 2021) to 70 and later (about 8%); one unit of patience (mean of deliberation, reliability and less risk) moves a claim about a year and a half.",
     "estimatedFrom": "Explicit opening-generation prior. No claim of observed individual history, 2021 legal entitlement or parameter-specific empirical bound.",
     "spread": {
@@ -1795,15 +2014,15 @@
     "checkRange": {
       "ref": "EMPIRICAL-OPENING-RETIREMENT-INCOME"
     },
-    "value": 0.75,
+    "value": 0.685,
     "tag": "ESTIMATED",
     "citation": "SSA, Social Security Bulletin 65(1), 'Outcome Indicators' (https://www.ssa.gov/policy/docs/ssb/v65n1/v65n1p70.html): share of quarters with covered earnings from age 22 to the year before first claiming, men retiring in 2002 0.84, women 0.66. CRS R47330 (SSA estimates for 1950–1959 cohorts): 62% of workers surviving to 67 have 35 or more covered years between 22 and 67.",
-    "estimatedFrom": "The simple average of the men's and women's shares, 0.75; one value for everyone until people's own work histories carry it.",
+    "estimatedFrom": "The source counts quarters from age 22; the game's adults start at 18 (openingRetirementCareerStartAgeYears), so each share is turned into covered years over the claim age less 22 and divided by the years from 18: 0.75 (the men's and women's shares averaged) times (64.08 - 22) / (64.08 - 18) = 0.685, using the opening's measured mean claim age of 64.08. One value for everyone until people's own work histories carry it.",
     "spread": {
-      "low": 0.66,
-      "high": 0.84,
-      "unit": "share of adult years with covered earnings",
-      "citation": "SSA Bulletin 65(1): women 0.66, men 0.84."
+      "low": 0.603,
+      "high": 0.767,
+      "unit": "share of adult years (from 18) with covered earnings",
+      "citation": "SSA Bulletin 65(1): women 0.66 and men 0.84 from age 22, each times (64.08 - 22) / (64.08 - 18)."
     }
   },
   "openingRetirementCoveredTraitPull": {
@@ -1855,52 +2074,10 @@
     "tag": "SOURCED",
     "citation": "SSA, Annual Statistical Supplement 2021, Table 5.B6 (December 2020), https://www.ssa.gov/policy/docs/statcomps/supplement/2021/5b.html: the 95th percentile benefit, computed from the published bins, is 1.88 times the mean."
   },
-  "openingRetirementPayerReserveMonths": {
-    "value": 0,
-    "tag": "TUNABLE",
-    "citation": "Deprecated compatibility parameter. CTO REVIEW 15 rejects prepaid retirement reserve stocks: new paying views and the outside-flow owner start at zero independent of this key. Dated genuine obligations, not annual outlays or survival targets, authorize later outside payments. Zero is the accounting policy, not an unobserved Treasury/program cash value.",
-    "estimatedFrom": "Retired stock-generation control; it is retained only for compatibility and supplies no new opening cash.",
-    "spread": {
-      "status": "unmeasured",
-      "reason": "Unused historical stock coefficient; active outside-due flows do not read it. No observed payer cash-stock dispersion is claimed."
-    },
-    "stopgapId": "SG-P8-param-openingRetirementPayerReserveMonths",
-    "checkRange": {
-      "ref": "EMPIRICAL-OPENING-RETIREMENT-INCOME"
-    }
-  },
   "openingRetirementPeriodMonths": {
     "value": 1,
     "tag": "SOURCED",
     "citation": "Sourced monthly benefit cadence only. The first bill on the first day of the next month and later fixed-day successors in opening-income.ts remain an explicitly ESTIMATED calendar prior. They do not implement 20 CFR 404.1807 insured-worker cycling, exceptions or holiday/early-payment rules; see src/core2/data/research/retirement-opening-2021.json observations.ssaPaymentDayRule2020."
-  },
-  "openingRetirementFundingEnvelopeShare": {
-    "value": 0,
-    "tag": "TUNABLE",
-    "citation": "Retired compatibility parameter. REVIEW 15 retirement funding reads exact saved due income terms; this key supplies no stock, flow allocation, cap or end.",
-    "estimatedFrom": "Historical stopgap retained for source/save compatibility only; no active funding producer reads this key.",
-    "spread": {
-      "status": "unmeasured",
-      "reason": "National outlays do not identify a portfolio allocation, individual amount distribution or payer liquid-stock interval."
-    },
-    "stopgapId": "SG-P8-param-openingRetirementFundingEnvelopeShare",
-    "checkRange": {
-      "ref": "EMPIRICAL-RETIREMENT-FUNDING-FLOWS"
-    }
-  },
-  "openingRetirementFundingLiquidShare": {
-    "value": 0,
-    "tag": "TUNABLE",
-    "citation": "Retired compatibility parameter. REVIEW 15 retirement funding reads exact saved due income terms; this key supplies no stock, flow allocation, cap or end.",
-    "estimatedFrom": "Historical stopgap retained for source/save compatibility only; no active funding producer reads this key.",
-    "spread": {
-      "status": "unmeasured",
-      "reason": "Unused historical stock coefficient; exact recorded due-income flows replace stock allocation. No observed program liquid-stock interval is claimed."
-    },
-    "stopgapId": "SG-P8-param-openingRetirementFundingLiquidShare",
-    "checkRange": {
-      "ref": "EMPIRICAL-RETIREMENT-FUNDING-FLOWS"
-    }
   },
   "openingRetirementFundingPublicAnnualOutlayMinor": {
     "value": 95236200000000,
@@ -4188,12 +4365,12 @@
     }
   },
   "responseSecureHomeFit": {
-    "value": 3.0,
+    "value": 3,
     "tag": "TUNABLE",
     "citation": "How strongly losing a home, or facing an eviction, pushes toward a resolve to secure a home again. Carrying on keeps its baseline (responseCarryOnBaseline), so a fit near 3 lets most people form the resolve while those whose traits lean toward keeping things the same carry on (owner, Oct 14: 'not being homeless is some people's motivation'). Measured: Washington, D.C. (seed 646c5d940e1a), a home loss given to 7 jobless adults on February 19, 2025 (dev mode): 5 formed it and 2 carried on; at 1.5, 1 of 7; at 4.0, 7 of 7.",
     "spread": {
-      "low": 2.0,
-      "high": 4.0,
+      "low": 2,
+      "high": 4,
       "unit": "fit",
       "citation": "From one in three forming it to all of them, in the same check."
     }
@@ -4255,13 +4432,13 @@
     "estimatedFrom": "Holmes and Rahe (1967), as for driveEvictionImpulse; spread 0.3 to 0.6"
   },
   "healthShelteredHazardFactor": {
-    "value": 2.0,
+    "value": 2,
     "tag": "ESTIMATED",
     "citation": "How much faster strain toward serious illness and death builds for a person in a homeless shelter. Homeless people in high-income countries die at two to five times the rate of the general population (Fazel, Geddes and Kushel 2014, 'The health of homeless people in high-income countries', The Lancet 384(9953):1529-1540); sheltered people sit at the low end.",
     "estimatedFrom": "Fazel, Geddes and Kushel (2014); the low end of their range for sheltered adults",
     "spread": {
       "low": 1.5,
-      "high": 3.0,
+      "high": 3,
       "unit": "times the housed rate",
       "citation": "Within Fazel et al.'s range for sheltered adults."
     }
@@ -4273,7 +4450,7 @@
     "estimatedFrom": "Fazel, Geddes and Kushel (2014) and Roncarati et al. (2018)",
     "spread": {
       "low": 2.5,
-      "high": 5.0,
+      "high": 5,
       "unit": "times the housed rate",
       "citation": "The upper half of Fazel et al.'s range."
     }
@@ -4283,7 +4460,7 @@
     "tag": "TUNABLE",
     "citation": "How much faster strain builds for a person doubled up with relatives after losing their home: crowded and unstable housing raises the risk of illness, well short of a shelter's (the sheltered factor's lower bound is 1.5).",
     "spread": {
-      "low": 1.0,
+      "low": 1,
       "high": 1.5,
       "unit": "times the housed rate",
       "citation": "From no change to the sheltered factor's low end."
@@ -4295,7 +4472,7 @@
     "citation": "How much faster strain builds in the years after an eviction: eviction raises hospital and emergency department use and lowers earnings for about two years (Collinson, Humphries, Mader, Reed, Tannenbaum and van Dijk 2024, 'Eviction and Poverty in American Cities', The Quarterly Journal of Economics 139(1):57-120).",
     "estimatedFrom": "Collinson et al. (2024); a modest rise, as their effects on health care use are modest",
     "spread": {
-      "low": 1.0,
+      "low": 1,
       "high": 1.3,
       "unit": "times the rate before",
       "citation": "From no change to a third higher."
@@ -4318,6 +4495,18 @@
     "tag": "ESTIMATED",
     "citation": "Share of a place's residents in one year of age at school ages: the 2020 Census counted 42.6 million people aged 5 to 14 of 331.4 million, about 1.29% per single year (U.S. Census Bureau, 2020 Census Demographic and Housing Characteristics, Table P12). Sizes a place's catchment of schools when its own schools are not recorded.",
     "estimatedFrom": "2020 Census DHC P12, national; spread 0.011 to 0.015 across places (older and younger places)"
+  },
+  "livingCostWriteOffBills": {
+    "value": 4,
+    "tag": "ESTIMATED",
+    "citation": "FFIEC, Uniform Retail Credit Classification and Account Management Policy (2000): closed-end retail credit is charged off at 120 days past due and open-end credit at 180 days; a month's bill is the unit here.",
+    "estimatedFrom": "120 days past due is four monthly bills; open-end accounts at 180 days would be six. A household's outside living costs (utilities, phone, insurance and the like) are written off after about four unpaid bills.",
+    "spread": {
+      "low": 3,
+      "high": 6,
+      "unit": "monthly bills unpaid before the debt is written off",
+      "citation": "Utility disconnection and collection practice (about 60 to 90 days) to the FFIEC open-end charge-off age (180 days)."
+    }
   },
   "supplierTradeTermsDays": {
     "value": 30,
@@ -4543,18 +4732,6 @@
     "tag": "SOURCED",
     "citation": "NCES, Digest of Education Statistics 2021, Table 205.50: average tuition at all private elementary and secondary schools, 2011–12, $12,420 in constant 2020–21 dollars. https://nces.ed.gov/programs/digest/d21/tables/dt21_205.50.asp"
   },
-  "openingPrivateSchoolShare": {
-    "value": 0.085,
-    "tag": "ESTIMATED",
-    "citation": "NCES Fast Facts, Back-to-school statistics: fall 2021, 4.7 million private and 49.4 million public elementary and secondary students; NCES NHES 2019: about 2.8% of school-age children homeschooled.",
-    "estimatedFrom": "4.7 / (49.4 + 4.7 + about 1.6 homeschooled) ≈ 0.085 of school-age children in private schools.",
-    "spread": {
-      "low": 0.04,
-      "high": 0.14,
-      "unit": "share of children aged 5–17",
-      "citation": "State private shares from NCES Digest Table 205.80 range roughly 4% to 14%."
-    }
-  },
   "openingCustomerClubMembershipsAnnualNationalUsd": {
     "value": 272,
     "tag": "SOURCED",
@@ -4607,6 +4784,17 @@
       "high": 90,
       "unit": "days",
       "citation": "A week (the routine retention window, routineRetentionDays) to a season; checked against the memory guard and the 'why' view."
+    }
+  },
+  "playerDecisionDetailDays": {
+    "value": 365,
+    "tag": "TUNABLE",
+    "citation": "How long the player's own routine act keeps every option's score before only its chosen reasons remain; after a year the summary and reasons are kept, not every detail.",
+    "spread": {
+      "low": 180,
+      "high": 730,
+      "unit": "days",
+      "citation": "Half a year to two years; checked against the memory guard (scripts/core2-guard/memory.mjs) and the 'why' view."
     }
   },
   "circleActRetentionMonths": {
@@ -4715,12 +4903,12 @@
     }
   },
   "willAgeWeight": {
-    "value": 1.0,
+    "value": 1,
     "tag": "TUNABLE",
     "citation": "How much each year past willAgeMidpointYears adds to a person's lean toward having made a will, in midpoint-lengths: older people far more often have one. Checked against Gallup (May 2016, 'Majority in U.S. Do Not Have a Will'): 44% of U.S. adults have a will, rising with age to about two in three past 65.",
     "spread": {
       "low": 0.5,
-      "high": 2.0,
+      "high": 2,
       "unit": "lean per midpoint-length of age",
       "citation": "From a gentle rise with age to most older adults having one."
     }
@@ -4761,12 +4949,12 @@
     }
   },
   "trustWealthWeight": {
-    "value": 1.0,
+    "value": 1,
     "tag": "TUNABLE",
     "citation": "How much each e-fold of an estate past trustWealthMidpointMinor adds to a person's lean toward having set up a living trust. Trust holding climbs from rare among ordinary families to common among the very wealthy (Federal Reserve, Survey of Consumer Finances 2022).",
     "spread": {
       "low": 0.5,
-      "high": 2.0,
+      "high": 2,
       "unit": "lean per e-fold of estate",
       "citation": "From a gentle rise with wealth to most of the very wealthy holding a trust."
     }
@@ -4780,6 +4968,1018 @@
       "high": 2000,
       "unit": "households",
       "citation": "From about four times the longest search measured to the point a draw costs a visible fraction of the opening's build time."
+    }
+  },
+  "careNeedHalfExcessHazard": {
+    "value": 6,
+    "tag": "TUNABLE",
+    "citation": "The combined chronic-condition hazard weight above ordinary health (the weight that sets a person's illness onset) that asks for half of full care from a relative at home. A grown relative's care need is excess / (excess + this). Checked on three generated towns over 90 days (seeds care-a, care-b, care-c; Filley, Nebraska; Slaughter Beach and Ardencroft, Delaware): values of 3 and 6 gave the same share of person-days caring for household members (21.5%, 3.4% and 48.8%, against 18.8%, 0.2% and 43.6% with children alone; ATUS 2025 Table 1 household care 22.0% of person-days), because a relative who asks for any care draws the act; the value sets how strongly. No direct source for the value itself.",
+    "stopgapId": "SG-P8-life-utility",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Calibrated to one ATUS share; no empirical range for how much condition hazard asks for care in these score units."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
+  },
+  "healthWorkerContributionSingleAnnualUsd": {
+    "value": 1368,
+    "tag": "SOURCED",
+    "citation": "KFF, 2024 Employer Health Benefits Survey: covered workers with single coverage contributed an average of $1,368 a year (https://www.kff.org/health-costs/2024-employer-health-benefits-survey/), read through search results on 2026-10-20; not the survey's own page."
+  },
+  "healthWorkerContributionFamilyAnnualUsd": {
+    "value": 6296,
+    "tag": "SOURCED",
+    "citation": "KFF, 2024 Employer Health Benefits Survey: covered workers with family coverage contributed an average of $6,296 a year, out of an average family premium of $25,572 (https://www.kff.org/health-costs/2024-employer-health-benefits-survey/), read through search results on 2026-10-20; not the survey's own page."
+  },
+  "healthEmployerPolicyholderShare": {
+    "value": 0.55,
+    "tag": "ESTIMATED",
+    "citation": "The share of employed working-age adults who hold an employer plan in their own name. Not read directly from any table.",
+    "estimatedFrom": "The Census Bureau's Health Insurance Coverage in the United States: 2023 (P60-284) puts employment-based coverage at 53.7 percent of the whole population, dependents included, and the KFF 2024 survey shows most covered workers also cover family members; about half to two thirds of employed adults holding their own plan fits both. Assigned by rank (larger employers and higher pay first), never a roll.",
+    "spread": {
+      "low": 0.45,
+      "high": 0.65,
+      "unit": "share of employed working-age adults",
+      "citation": "The Census Bureau's 2023 employment-based coverage rate and the KFF 2024 survey's mix of single and family coverage bound it; nothing measures the share directly."
+    }
+  },
+  "healthMedicareAge": {
+    "value": 65,
+    "tag": "SOURCED",
+    "citation": "Social Security Act sec. 1811 (42 U.S.C. 1395c): Medicare Part A eligibility begins at age 65."
+  },
+  "traitWeightLifeDailyAct": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "The trait weight of the life.daily-act decision. Starts at the general traitWeight (1); calibrated against its row in data/research/trait-effect-sizes.json with scripts/traits/trait-calibrate.ts.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
+    }
+  },
+  "traitWeightWorkAttendShift": {
+    "value": 0.1,
+    "tag": "ESTIMATED",
+    "citation": "Salgado 2002, 'The Big Five personality dimensions and counterproductive behaviors' (International Journal of Selection and Assessment 10): 'none of the Big Five personality measures were found to be predictors of absenteeism'. The weight is the largest that keeps the odds of missing between the third leaning most toward missing and the third leaning least near a small single-decision effect (1.24 at 0.1 against an assumed 1.1 per standard deviation, scripts/traits/trait-calibrate.ts, Ely, Nevada, key 3223500, seed 7ae8589566f5, 14,008 shift weighings); at the general weight of 1 the ratio was 61, so temperament decided who missed work. Illness now decides most absences (workAbsenceIllnessWeight).",
+    "spread": {
+      "low": 0.05,
+      "high": 0.2,
+      "unit": "weight",
+      "citation": "Odds ratios 1.16 to 1.72 between the thirds in the same calls; the study's null bounds it above."
+    }
+  },
+  "traitWeightDrivesRespond": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "The trait weight of the drives.respond decision. Starts at the general traitWeight (1); calibrated against its row in data/research/trait-effect-sizes.json with scripts/traits/trait-calibrate.ts.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
+    }
+  },
+  "traitWeightMacroRateVote": {
+    "value": 0.03,
+    "tag": "ESTIMATED",
+    "citation": "The trait weight of the macro.rate-vote decision, fitted on a played year of Ely, Nevada (key 3223500, seed 7ae8589566f5) with 96 board votes by a finer sweep than scripts/traits/trait-calibrate.ts's 0.05 grid: 0.03 gives an odds ratio of 2.37 of moving the rate rather than holding between the thirds of votes leaning most toward moving and least, net of the same gap with personality off, against the target of 2.24 (the default personality-behavior study scaled for a single occasion to r = .2); personality turns about 5 of 100 votes. The module pulls (macroRatePullWeight) are large, so the fit is narrow. The board's hand-picked patience and risk traits (macroSmoothingPerPatience, macroMoveSizeCostPerRisk) were removed so personality enters the vote once, here.",
+    "estimatedFrom": "default.personality-behavior in data/research/trait-effect-sizes.json, scaled from average-level to a single occasion.",
+    "spread": {
+      "low": 0.015,
+      "high": 0.045,
+      "unit": "weight",
+      "citation": "Weight at r = .1 and r = .3 of the single-occasion range (half and one and a half times the r = .2 weight). "
+    }
+  },
+  "traitWeightBusinessOwnerDraw": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "The trait weight of the business.owner-draw decision. Starts at the general traitWeight (1); calibrated against its row in data/research/trait-effect-sizes.json with scripts/traits/trait-calibrate.ts.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
+    }
+  },
+  "traitWeightBusinessOpenLocation": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "The trait weight of the business.open-location decision. Starts at the general traitWeight (1); calibrated against its row in data/research/trait-effect-sizes.json with scripts/traits/trait-calibrate.ts.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
+    }
+  },
+  "traitWeightBusinessFound": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "The trait weight of the business.found decision. Starts at the general traitWeight (1); calibrated against its row in data/research/trait-effect-sizes.json with scripts/traits/trait-calibrate.ts.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
+    }
+  },
+  "traitWeightJobsReviewWorker": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "The trait weight of the jobs.review-worker decision. Starts at the general traitWeight (1); calibrated against its row in data/research/trait-effect-sizes.json with scripts/traits/trait-calibrate.ts.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
+    }
+  },
+  "traitWeightJobsStartLooking": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "The trait weight of the jobs.start-looking decision. Starts at the general traitWeight (1); calibrated against its row in data/research/trait-effect-sizes.json with scripts/traits/trait-calibrate.ts.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
+    }
+  },
+  "traitWeightJobsApply": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "The trait weight of the jobs.apply decision. Starts at the general traitWeight (1); calibrated against its row in data/research/trait-effect-sizes.json with scripts/traits/trait-calibrate.ts.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
+    }
+  },
+  "traitWeightJobsAcceptOffer": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "The trait weight of the jobs.accept-offer decision. Starts at the general traitWeight (1); calibrated against its row in data/research/trait-effect-sizes.json with scripts/traits/trait-calibrate.ts.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
+    }
+  },
+  "traitWeightHousingBuyHome": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "The trait weight of the housing.buy-home decision. Starts at the general traitWeight (1); calibrated against its row in data/research/trait-effect-sizes.json with scripts/traits/trait-calibrate.ts.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
+    }
+  },
+  "traitWeightCreditBorrow": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "The trait weight of the credit.borrow decision. Starts at the general traitWeight (1); calibrated against its row in data/research/trait-effect-sizes.json with scripts/traits/trait-calibrate.ts.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
+    }
+  },
+  "traitWeightCandidacyRun": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "The trait weight of the candidacy.run decision. Starts at the general traitWeight (1); calibrated against its row in data/research/trait-effect-sizes.json with scripts/traits/trait-calibrate.ts.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
+    }
+  },
+  "traitWeightSpeechRetell": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "The trait weight of the speech.retell decision. Starts at the general traitWeight (1); calibrated against its row in data/research/trait-effect-sizes.json with scripts/traits/trait-calibrate.ts.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
+    }
+  },
+  "traitWeightContractsAward": {
+    "value": 0.5,
+    "tag": "TUNABLE",
+    "citation": "The trait weight of the contracts.award decision: how far a member's traits move weight between price and the tie to a firm's owner (at full lean the price weight falls by this share and the tie weight rises by it). Replaces contractTraitWeight of 0.5. Not a two-way outcome, so scripts/traits/trait-calibrate.ts cannot fit it.",
+    "spread": {
+      "low": 0.25,
+      "high": 0.75,
+      "unit": "weight",
+      "citation": "Weight at r = .1 and r = .3 of the single-occasion range (half and one and a half times the r = .2 weight). "
+    }
+  },
+  "traitWeightCorruptionOffer": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "The trait weight of the corruption.offer decision. Starts at the general traitWeight (1); calibrated against its row in data/research/trait-effect-sizes.json with scripts/traits/trait-calibrate.ts.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
+    }
+  },
+  "traitWeightCorruptionTake": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "The trait weight of the corruption.take decision. Starts at the general traitWeight (1); calibrated against its row in data/research/trait-effect-sizes.json with scripts/traits/trait-calibrate.ts.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
+    }
+  },
+  "traitWeightCorruptionTell": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "The trait weight of the corruption.tell decision. Starts at the general traitWeight (1); calibrated against its row in data/research/trait-effect-sizes.json with scripts/traits/trait-calibrate.ts.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
+    }
+  },
+  "traitWeightRenewalPlanChild": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "The trait weight of the renewal.plan-child decision. Starts at the general traitWeight (1); calibrated against its row in data/research/trait-effect-sizes.json with scripts/traits/trait-calibrate.ts.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
+    }
+  },
+  "traitWeightJobsCountedRetire": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "The trait weight of the jobs.counted-retire decision. Starts at the general traitWeight (1); calibrated against its row in data/research/trait-effect-sizes.json with scripts/traits/trait-calibrate.ts.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
+    }
+  },
+  "traitWeightJobsCountedLook": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "The trait weight of the jobs.counted-look decision. Starts at the general traitWeight (1); calibrated against its row in data/research/trait-effect-sizes.json with scripts/traits/trait-calibrate.ts.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
+    }
+  },
+  "traitWeightJobsCountedApply": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "The trait weight of the jobs.counted-apply decision. Starts at the general traitWeight (1); calibrated against its row in data/research/trait-effect-sizes.json with scripts/traits/trait-calibrate.ts.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
+    }
+  },
+  "traitWeightJobsCountedAccept": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "The trait weight of the jobs.counted-accept decision. Starts at the general traitWeight (1); calibrated against its row in data/research/trait-effect-sizes.json with scripts/traits/trait-calibrate.ts.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
+    }
+  },
+  "traitWeightBusinessCountedFound": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "The trait weight of the business.counted-found decision. Starts at the general traitWeight (1); calibrated against its row in data/research/trait-effect-sizes.json with scripts/traits/trait-calibrate.ts.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
+    }
+  },
+  "traitWeightRetirementClaimAge": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "The trait weight of the retirement.claim-age decision. Starts at the general traitWeight (1); calibrated against its row in data/research/trait-effect-sizes.json with scripts/traits/trait-calibrate.ts.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
+    }
+  },
+  "traitWeightBringItUpBlame": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "The trait weight of the bring-it-up.blame decision. Starts at the general traitWeight (1); calibrated against its row in data/research/trait-effect-sizes.json with scripts/traits/trait-calibrate.ts.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
+    }
+  },
+  "traitWeightConversationBelieveClaim": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "The trait weight of the conversation.believe-claim decision. Starts at the general traitWeight (1); calibrated against its row in data/research/trait-effect-sizes.json with scripts/traits/trait-calibrate.ts.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
+    }
+  },
+  "traitWeightConversationReplyReach": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "The trait weight of the conversation.reply-reach decision. Starts at the general traitWeight (1); calibrated against its row in data/research/trait-effect-sizes.json with scripts/traits/trait-calibrate.ts.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
+    }
+  },
+  "traitWeightMovesMoveAway": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "The trait weight of the moves.move-away decision. Starts at the general traitWeight (1); calibrated against its row in data/research/trait-effect-sizes.json with scripts/traits/trait-calibrate.ts.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
+    }
+  },
+  "traitWeightVotingTurnout": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "The trait weight of the voting.turnout decision. Starts at the general traitWeight (1); calibrated against its row in data/research/trait-effect-sizes.json with scripts/traits/trait-calibrate.ts.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
+    }
+  },
+  "traitWeightVotingBackIncumbent": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "The trait weight of the voting.back-incumbent decision. Starts at the general traitWeight (1); calibrated against its row in data/research/trait-effect-sizes.json with scripts/traits/trait-calibrate.ts.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
+    }
+  },
+  "traitWeightVotingExitPoll": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "The trait weight of the voting.exit-poll decision. Starts at the general traitWeight (1); calibrated against its row in data/research/trait-effect-sizes.json with scripts/traits/trait-calibrate.ts.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
+    }
+  },
+  "traitWeightVotingStandAgain": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "The trait weight of the voting.stand-again decision. Starts at the general traitWeight (1); calibrated against its row in data/research/trait-effect-sizes.json with scripts/traits/trait-calibrate.ts.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
+    }
+  },
+  "traitWeightBallotMeasuresVote": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "The trait weight of the ballot-measures.vote decision. Starts at the general traitWeight (1); calibrated against its row in data/research/trait-effect-sizes.json with scripts/traits/trait-calibrate.ts.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
+    }
+  },
+  "traitWeightRecallsOrganize": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "The trait weight of the recalls.organize decision. Starts at the general traitWeight (1); calibrated against its row in data/research/trait-effect-sizes.json with scripts/traits/trait-calibrate.ts.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
+    }
+  },
+  "traitWeightRecallsSign": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "The trait weight of the recalls.sign decision. Starts at the general traitWeight (1); calibrated against its row in data/research/trait-effect-sizes.json with scripts/traits/trait-calibrate.ts.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
+    }
+  },
+  "traitWeightRecallsVote": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "The trait weight of the recalls.vote decision. Starts at the general traitWeight (1); calibrated against its row in data/research/trait-effect-sizes.json with scripts/traits/trait-calibrate.ts.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
+    }
+  },
+  "traitWeightCampaignsVolunteer": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "The trait weight of the campaigns.volunteer decision. Starts at the general traitWeight (1); calibrated against its row in data/research/trait-effect-sizes.json with scripts/traits/trait-calibrate.ts.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
+    }
+  },
+  "traitWeightCampaignsDonate": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "The trait weight of the campaigns.donate decision. Starts at the general traitWeight (1); calibrated against its row in data/research/trait-effect-sizes.json with scripts/traits/trait-calibrate.ts.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
+    }
+  },
+  "traitWeightCampaignsEndorse": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "The trait weight of the campaigns.endorse decision. Starts at the general traitWeight (1); calibrated against its row in data/research/trait-effect-sizes.json with scripts/traits/trait-calibrate.ts.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
+    }
+  },
+  "traitWeightCampaignsOpenDoor": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "The trait weight of the campaigns.open-door decision. Starts at the general traitWeight (1); calibrated against its row in data/research/trait-effect-sizes.json with scripts/traits/trait-calibrate.ts.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
+    }
+  },
+  "traitWeightCampaignsRetell": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "The trait weight of the campaigns.retell decision. Starts at the general traitWeight (1); calibrated against its row in data/research/trait-effect-sizes.json with scripts/traits/trait-calibrate.ts.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
+    }
+  },
+  "traitWeightCampaignsAnswerPoll": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "The trait weight of the campaigns.answer-poll decision. Starts at the general traitWeight (1); calibrated against its row in data/research/trait-effect-sizes.json with scripts/traits/trait-calibrate.ts.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
+    }
+  },
+  "traitWeightCampaignsRivalHours": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "The trait weight of the campaigns.rival-hours decision. Starts at the general traitWeight (1); calibrated against its row in data/research/trait-effect-sizes.json with scripts/traits/trait-calibrate.ts.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
+    }
+  },
+  "traitWeightPartiesJoin": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "The trait weight of the parties.join decision. Starts at the general traitWeight (1); calibrated against its row in data/research/trait-effect-sizes.json with scripts/traits/trait-calibrate.ts.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
+    }
+  },
+  "traitWeightPartiesAttend": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "The trait weight of the parties.attend decision. Starts at the general traitWeight (1); calibrated against its row in data/research/trait-effect-sizes.json with scripts/traits/trait-calibrate.ts.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
+    }
+  },
+  "traitWeightStaffHire": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "The trait weight of the staff.hire decision. Starts at the general traitWeight (1); calibrated against its row in data/research/trait-effect-sizes.json with scripts/traits/trait-calibrate.ts.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
+    }
+  },
+  "traitWeightInterestGroupsMemberJoin": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "The trait weight of the interest-groups.member-join decision. Starts at the general traitWeight (1); calibrated against its row in data/research/trait-effect-sizes.json with scripts/traits/trait-calibrate.ts.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
+    }
+  },
+  "traitWeightInterestGroupsEmployerJoin": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "The trait weight of the interest-groups.employer-join decision. Starts at the general traitWeight (1); calibrated against its row in data/research/trait-effect-sizes.json with scripts/traits/trait-calibrate.ts.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
+    }
+  },
+  "traitWeightInterestGroupsLobbyist": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "The trait weight of the interest-groups.lobbyist decision. Starts at the general traitWeight (1); calibrated against its row in data/research/trait-effect-sizes.json with scripts/traits/trait-calibrate.ts.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
+    }
+  },
+  "traitWeightOfficesAcceptAppointment": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "The trait weight of the offices.accept-appointment decision. Starts at the general traitWeight (1); calibrated against its row in data/research/trait-effect-sizes.json with scripts/traits/trait-calibrate.ts.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
+    }
+  },
+  "traitWeightLegislatureMemberPosition": {
+    "value": 0.2,
+    "tag": "ESTIMATED",
+    "citation": "The trait weight of the legislature.member-position decision, found with scripts/traits/trait-calibrate.ts on a played year of Ely, Nevada (key 3223500, seed 7ae8589566f5): 0.2 gives an odds ratio of 2.19 of a yes vote between the third of 10,336 member positions leaning most toward yes and the third leaning least, net of the same gap with personality off, against the target of 2.24. No study of legislators' roll-call votes by personality was retrievable (Dietrich et al. 2012 could not be read), so the target is the default personality-behavior study scaled for a single occasion to r = .2: Fleeson & Gallagher 2009, average-level r = .42 to .56, single-decision r = .1 to .3. Party, district and record still decide most votes.",
+    "estimatedFrom": "default.personality-behavior in data/research/trait-effect-sizes.json, scaled from average-level to a single occasion; replaces the hand-set traitDecisionWeight of 0.5.",
+    "spread": {
+      "low": 0.1,
+      "high": 0.3,
+      "unit": "weight",
+      "citation": "Weight at r = .1 and r = .3 of the single-occasion range (half and one and a half times the r = .2 weight). "
+    }
+  },
+  "traitWeightLegislatureHoldHearing": {
+    "value": 1.35,
+    "tag": "ESTIMATED",
+    "citation": "The trait weight of the legislature.hold-hearing decision, found with scripts/traits/trait-calibrate.ts on a played year of Ely, Nevada (key 3223500, seed 7ae8589566f5): 1.35 gives an odds ratio of 2.01 of holding the hearing between the thirds of 78 chair decisions, against the target of 2.24 (the default personality-behavior study scaled for a single occasion to r = .2). Few calls, so the weight is noisy.",
+    "estimatedFrom": "default.personality-behavior in data/research/trait-effect-sizes.json, scaled from average-level to a single occasion; replaces the hand-set traitDecisionWeight of 0.5.",
+    "spread": {
+      "low": 0.675,
+      "high": 2.025,
+      "unit": "weight",
+      "citation": "Weight at r = .1 and r = .3 of the single-occasion range (half and one and a half times the r = .2 weight). "
+    }
+  },
+  "traitWeightLegislatureSignOrVeto": {
+    "value": 0.2,
+    "tag": "ESTIMATED",
+    "citation": "The trait weight of the legislature.sign-or-veto decision. Only 29 desk decisions ran in the audit year, too few for scripts/traits/trait-calibrate.ts (30 needed), so this carries the weight calibrated for legislature.member-position, the same legislators weighing a bill against the same record, with the same default target (the default personality-behavior study scaled for a single occasion to r = .2).",
+    "estimatedFrom": "traitWeightLegislatureMemberPosition (0.2), calibrated on 10,336 calls; replaces the hand-set traitDecisionWeight of 0.5.",
+    "spread": {
+      "low": 0.1,
+      "high": 0.3,
+      "unit": "weight",
+      "citation": "Weight at r = .1 and r = .3 of the single-occasion range (half and one and a half times the r = .2 weight). "
+    }
+  },
+  "traitWeightLegislatureBudgetPriorities": {
+    "value": 0.5,
+    "tag": "TUNABLE",
+    "citation": "The trait weight of the legislature.budget-priorities decision: how far an executive's temperament scales how much of the budget they move (a multiplier of 1 plus the weight times the lean, so a lean of 1 moves half again as much). Not a two-way outcome, so scripts/traits/trait-calibrate.ts cannot fit it; carries the 0.5 the site used as traitDecisionWeight, with a spread of half to one and a half of that.",
+    "spread": {
+      "low": 0.25,
+      "high": 0.75,
+      "unit": "weight",
+      "citation": "Weight at r = .1 and r = .3 of the single-occasion range (half and one and a half times the r = .2 weight). "
+    }
+  },
+  "traitWeightWorldLegislatingBringAgenda": {
+    "value": 0.15,
+    "tag": "ESTIMATED",
+    "citation": "The trait weight of the world-legislating.bring-agenda decision, found with scripts/traits/trait-calibrate.ts on a played year of Ely, Nevada (key 3223500, seed 7ae8589566f5): 0.15 gives an odds ratio of 2.31 of filing a change between the thirds of 4,583 filing decisions, against the target of 2.24 (the default personality-behavior study scaled for a single occasion to r = .2).",
+    "estimatedFrom": "default.personality-behavior in data/research/trait-effect-sizes.json, scaled from average-level to a single occasion; replaces the hand-set traitDecisionWeight of 0.5.",
+    "spread": {
+      "low": 0.075,
+      "high": 0.225,
+      "unit": "weight",
+      "citation": "Weight at r = .1 and r = .3 of the single-occasion range (half and one and a half times the r = .2 weight). "
+    }
+  },
+  "traitWeightConstituentCasesBringCase": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "The trait weight of the constituent-cases.bring-case decision. Starts at the general traitWeight (1); calibrated against its row in data/research/trait-effect-sizes.json with scripts/traits/trait-calibrate.ts.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
+    }
+  },
+  "traitWeightConstituentCasesHandleCase": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "The trait weight of the constituent-cases.handle-case decision. Starts at the general traitWeight (1); calibrated against its row in data/research/trait-effect-sizes.json with scripts/traits/trait-calibrate.ts.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
+    }
+  },
+  "traitWeightStaffFollowThrough": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "The trait weight of the staff.follow-through decision. Starts at the general traitWeight (1); calibrated against its row in data/research/trait-effect-sizes.json with scripts/traits/trait-calibrate.ts.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
+    }
+  },
+  "traitWeightJobsBenefitsFileClaim": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "The trait weight of the jobs-benefits.file-claim decision. Starts at the general traitWeight (1); calibrated against its row in data/research/trait-effect-sizes.json with scripts/traits/trait-calibrate.ts.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
+    }
+  },
+  "traitWeightNewsPassOn": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "The trait weight of the news.pass-on decision. Starts at the general traitWeight (1); calibrated against its row in data/research/trait-effect-sizes.json with scripts/traits/trait-calibrate.ts.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
+    }
+  },
+  "traitWeightPressFollowNews": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "The trait weight of the press.follow-news decision. Starts at the general traitWeight (1); calibrated against its row in data/research/trait-effect-sizes.json with scripts/traits/trait-calibrate.ts.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
+    }
+  },
+  "traitWeightPressAcceptInterview": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "The trait weight of the press.accept-interview decision. Starts at the general traitWeight (1); calibrated against its row in data/research/trait-effect-sizes.json with scripts/traits/trait-calibrate.ts.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
+    }
+  },
+  "traitWeightPressDig": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "The trait weight of the press.dig decision. Starts at the general traitWeight (1); calibrated against its row in data/research/trait-effect-sizes.json with scripts/traits/trait-calibrate.ts.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
+    }
+  },
+  "traitWeightPressTip": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "The trait weight of the press.tip decision. Starts at the general traitWeight (1); calibrated against its row in data/research/trait-effect-sizes.json with scripts/traits/trait-calibrate.ts.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
+    }
+  },
+  "traitWeightMeetingsTakePart": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "The trait weight of the meetings.take-part decision. Starts at the general traitWeight (1); calibrated against its row in data/research/trait-effect-sizes.json with scripts/traits/trait-calibrate.ts.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
+    }
+  },
+  "traitWeightSchoolAttend": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "The trait weight of the school.attend decision. Starts at the general traitWeight (1); calibrated against its row in data/research/trait-effect-sizes.json with scripts/traits/trait-calibrate.ts.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
+    }
+  },
+  "traitWeightJusticeReport": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "The trait weight of the justice.report decision. Starts at the general traitWeight (1); calibrated against its row in data/research/trait-effect-sizes.json with scripts/traits/trait-calibrate.ts.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
+    }
+  },
+  "traitWeightJusticeProsecute": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "The trait weight of the justice.prosecute decision. Starts at the general traitWeight (1); calibrated against its row in data/research/trait-effect-sizes.json with scripts/traits/trait-calibrate.ts.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
+    }
+  },
+  "traitWeightJusticePlea": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "The trait weight of the justice.plea decision. Starts at the general traitWeight (1); calibrated against its row in data/research/trait-effect-sizes.json with scripts/traits/trait-calibrate.ts.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
+    }
+  },
+  "traitWeightMeetingsHoldTownHall": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "The trait weight of the meetings.hold-town-hall decision. Starts at the general traitWeight (1); calibrated against its row in data/research/trait-effect-sizes.json with scripts/traits/trait-calibrate.ts.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
+    }
+  },
+  "traitWeightCampaignsPartyFirmness": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "The trait weight of the campaigns.party-firmness decision. Starts at the general traitWeight (1); calibrated against its row in data/research/trait-effect-sizes.json with scripts/traits/trait-calibrate.ts.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
+    }
+  },
+  "traitWeightEstatesWill": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "The trait weight of the estates.will decision. Starts at the general traitWeight (1); calibrated against its row in data/research/trait-effect-sizes.json with scripts/traits/trait-calibrate.ts.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
+    }
+  },
+  "traitWeightEstatesTrust": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "The trait weight of the estates.trust decision. Starts at the general traitWeight (1); calibrated against its row in data/research/trait-effect-sizes.json with scripts/traits/trait-calibrate.ts.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
+    }
+  },
+  "traitWeightLegislatureAttendSitting": {
+    "value": 0.1,
+    "tag": "ESTIMATED",
+    "citation": "The trait weight of the legislature.attend-sitting decision. Salgado (2002), 'The Big Five personality dimensions and counterproductive behaviors' (Int. J. Selection and Assessment 10), found no Big Five trait significantly predicting absenteeism, so the trait share is the smallest in this family: half the 0.2 of legislature.member-position, which is r = .1 against r = .2. scripts/traits/trait-calibrate.ts could not fit it, because with a seat, session and close-vote duty most gated sittings are attended whatever the temperament (a miss rate near 1 percent leaves no gap between the thirds), so the weight is set by that ratio and checked by how many sittings personality turns (about 8 of 100 gated sittings, down from 96 of 100 when personality was the only reason).",
+    "estimatedFrom": "traitWeightLegislatureMemberPosition (0.2) halved for r = .1; Salgado 2002 found no significant Big Five predictor of absenteeism.",
+    "spread": {
+      "low": 0.05,
+      "high": 0.15,
+      "unit": "weight",
+      "citation": "Weight at r = .1 and r = .3 of the single-occasion range (half and one and a half times the r = .2 weight). "
+    }
+  },
+  "traitWeightLegislaturePoisonPill": {
+    "value": 0.2,
+    "tag": "ESTIMATED",
+    "citation": "The trait weight of the legislature.poison-pill decision. One call in the audit year, so no calibration sample; this carries the weight calibrated for legislature.member-position (same legislators, same record), with the default target (the default personality-behavior study scaled for a single occasion to r = .2).",
+    "estimatedFrom": "traitWeightLegislatureMemberPosition (0.2), calibrated on 10,336 calls.",
+    "spread": {
+      "low": 0.1,
+      "high": 0.3,
+      "unit": "weight",
+      "citation": "Weight at r = .1 and r = .3 of the single-occasion range (half and one and a half times the r = .2 weight). "
+    }
+  },
+  "traitWeightOfficeDayStateAttend": {
+    "value": 0.1,
+    "tag": "ESTIMATED",
+    "citation": "The trait weight of the office-day-state.attend decision. Carries the weight of legislature.attend-sitting (the same behavior, absenteeism, where Salgado 2002 found no significant Big Five predictor). scripts/traits/trait-calibrate.ts cannot fit it on the audit year's 315 calls: every member attended, because the attendance duty of 0.6 outweighs any temperament (lean tops out near 0.6 and the weight is a fraction of that), which matches real attendance above 90 percent.",
+    "estimatedFrom": "traitWeightLegislatureAttendSitting (0.1).",
+    "spread": {
+      "low": 0.05,
+      "high": 0.15,
+      "unit": "weight",
+      "citation": "Weight at r = .1 and r = .3 of the single-occasion range (half and one and a half times the r = .2 weight). "
+    }
+  },
+  "traitWeightOfficeDayStateLeaderRequest": {
+    "value": 0.2,
+    "tag": "ESTIMATED",
+    "citation": "The trait weight of the office-day-state.leader-request decision. Replaces the hand-set leaderRequestTraitWeight of 0.4. scripts/traits/trait-calibrate.ts cannot fit it on the audit year's 49 requests: the leader's party term (a same-party request is granted, an other-party one refused) outweighs temperament, so personality turned none of them, which is how party leaders schedule. Carries the weight calibrated for legislature.member-position (0.2), with the default target (the default personality-behavior study scaled for a single occasion to r = .2).",
+    "estimatedFrom": "traitWeightLegislatureMemberPosition (0.2).",
+    "spread": {
+      "low": 0.1,
+      "high": 0.3,
+      "unit": "weight",
+      "citation": "Weight at r = .1 and r = .3 of the single-occasion range (half and one and a half times the r = .2 weight). "
+    }
+  },
+  "traitWeightAppointmentsWeigh": {
+    "value": 0.5,
+    "tag": "TUNABLE",
+    "citation": "The trait weight of the appointments.weigh decision: how far an appointer's traits tilt loyalty against merit when weighing a nominee (a lean of 1 counts loyalty 1.5 and merit 0.5). Replaces the appointmentLoyaltyMeritSwing of 0.5 (patronage studies: Lewis 2008). Not a two-way outcome, so scripts/traits/trait-calibrate.ts cannot fit it.",
+    "spread": {
+      "low": 0.25,
+      "high": 0.75,
+      "unit": "weight",
+      "citation": "Weight at r = .1 and r = .3 of the single-occasion range (half and one and a half times the r = .2 weight). "
+    }
+  },
+  "traitWeightJobsRaiseForOpening": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "The trait weight of the jobs.raise-for-opening decision: how far an owner's open-handedness scales what they add to an unfilled seat's pay (the share added is one half of 1 plus the weight times the lean, so a lean of 1 adds the full cost the seat has run up and a lean of -1 adds nothing). Not a two-way outcome, so scripts/traits/trait-calibrate.ts cannot fit it; unchanged from the site's earlier one-half-of-1-plus-lean.",
+    "spread": {
+      "low": 0.5,
+      "high": 1.5,
+      "unit": "weight",
+      "citation": "Weight at r = .1 and r = .3 of the single-occasion range (half and one and a half times the r = .2 weight). "
+    }
+  },
+  "traitWeightRelationshipsWarmTo": {
+    "value": 1.15,
+    "tag": "ESTIMATED",
+    "citation": "Jokela, Alvergne, Pollet & Lummaa 2011, 'Reproductive behavior and personality traits of the Five Factor Model', European Journal of Personality, Table 2: odds of a first marriage 1.35 per SD of extraversion, the nearest sourced measure of how readily warm, outgoing people form close ties (Selfhout et al. 2010 report the direction for friendship selection without an extractable size). The weight is ln(1.35) over the person-level standard deviation of the warm-to lean, 0.262, measured over 1,813 full people of a drawn place (buildBenchWorld seed sd1), so a pair one standard deviation warmer builds closeness 1.35 times as fast.",
+    "estimatedFrom": "ln(1.35) / 0.262 = 1.15",
+    "spread": {
+      "low": 0.83,
+      "high": 1.45,
+      "unit": "weight",
+      "citation": "Men 1.53 and women 1.22 per SD (same table) give ln(1.22)/0.262 to ln(1.53)/0.262; the low end also covers a lean spread up to 0.31."
+    }
+  },
+  "traitWeightRelationshipsFallOut": {
+    "value": 1.01,
+    "tag": "ESTIMATED",
+    "citation": "Roberts, Kuncel, Shiner, Caspi & Goldberg 2007, 'The power of personality', Perspectives on Psychological Science: agreeableness and divorce, r = -0.18, the nearest sourced measure of how much a quarrel costs a tie between people who hold on to it (Jensen-Campbell & Graziano 2001 give the direction for conflict). Converted to 1.39 times the loss per SD (logit pi/sqrt(3) times r/sqrt(1-r^2)) and divided by the person-level standard deviation of the fall-out lean, 0.326, measured over 1,813 full people of a drawn place (buildBenchWorld seed sd1).",
+    "estimatedFrom": "ln(1.39) / 0.326 = 1.01",
+    "spread": {
+      "low": 0.6,
+      "high": 1.4,
+      "unit": "weight",
+      "citation": "The conscientiousness (r = -0.13) and neuroticism (r = 0.17) divorce correlations in the same paper bound the size from 1.27 to 1.39 per SD; the high end allows a smaller lean spread."
+    }
+  },
+  "relationshipsWarmToLeanCenter": {
+    "value": 0.129,
+    "tag": "ESTIMATED",
+    "citation": "The mean warm-to lean of 1,813 full people in a drawn place (buildBenchWorld seed sd1), subtracted so the average pair keeps the closeness model's hours (Hall 2019).",
+    "spread": {
+      "low": 0.08,
+      "high": 0.18,
+      "unit": "lean",
+      "citation": "The mean moves with each place's age and sex mix; checked against the standard deviation 0.262 over the root of the people counted."
+    }
+  },
+  "relationshipsFallOutLeanCenter": {
+    "value": -0.083,
+    "tag": "ESTIMATED",
+    "citation": "The mean fall-out lean of 1,813 full people in a drawn place (buildBenchWorld seed sd1), subtracted so the average quarrel costs the hours the engine that wrote it set.",
+    "spread": {
+      "low": -0.13,
+      "high": -0.03,
+      "unit": "lean",
+      "citation": "The mean moves with each place's age and sex mix; checked against the standard deviation 0.326."
+    }
+  },
+  "traitWeightOfficeDayStateClemency": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "The trait weight of the office-day-state.clemency decision. Starts at the general traitWeight (1); calibrated against its row in data/research/trait-effect-sizes.json with scripts/traits/trait-calibrate.ts.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
+    }
+  },
+  "businessIrsUtilityMargin": {
+    "value": 0.0303,
+    "tag": "SOURCED",
+    "citation": "IRS SOI tax year 2022 Table 5.1, https://www.irs.gov/pub/irs-soi/22co51ccr.xlsx; compiled utilities net income less deficit / receipts; aggregate ratio."
+  },
+  "businessIrsUtilityPayrollShare": {
+    "value": 0.046,
+    "tag": "SOURCED",
+    "citation": "IRS SOI tax year 2022 Table 5.1, https://www.irs.gov/pub/irs-soi/22co51ccr.xlsx; compiled utilities officers plus salaries and wages / receipts; aggregate ratio."
+  },
+  "businessIrsUtilitySalesCostShare": {
+    "value": 0.621,
+    "tag": "SOURCED",
+    "citation": "IRS SOI tax year 2022 Table 5.1, https://www.irs.gov/pub/irs-soi/22co51ccr.xlsx; compiled utilities cost of goods sold / other deductions; aggregate ratio."
+  },
+  "openingCustomerElectricityNationalAnnualUsd": {
+    "value": 1833,
+    "tag": "SOURCED",
+    "citation": "BLS CEX Consumer Expenditure Surveys, calendar 2024, item Electricity, annual USD per consumer unit, region-of-residence All consumer units (data/source/consumer-expenditure/regional-corpus.json.gz). Parent category only, not a seller product scope. Applicability: Published aggregate mean and sampling error are not individual dispersion. No individual budget/account spread or crosswalk calibration has been measured.",
+    "stopgapId": "SG-P8-opening-customer-generation"
+  },
+  "openingCustomerElectricityNortheastAnnualUsd": {
+    "value": 1802,
+    "tag": "SOURCED",
+    "citation": "BLS CEX Consumer Expenditure Surveys, calendar 2024, item Electricity, annual USD per consumer unit, region-of-residence Northeast (data/source/consumer-expenditure/regional-corpus.json.gz). Parent category only, not a seller product scope. Applicability: Published aggregate mean and sampling error are not individual dispersion. No individual budget/account spread or crosswalk calibration has been measured.",
+    "stopgapId": "SG-P8-opening-customer-generation"
+  },
+  "openingCustomerElectricityMidwestAnnualUsd": {
+    "value": 1516,
+    "tag": "SOURCED",
+    "citation": "BLS CEX Consumer Expenditure Surveys, calendar 2024, item Electricity, annual USD per consumer unit, region-of-residence Midwest (data/source/consumer-expenditure/regional-corpus.json.gz). Parent category only, not a seller product scope. Applicability: Published aggregate mean and sampling error are not individual dispersion. No individual budget/account spread or crosswalk calibration has been measured.",
+    "stopgapId": "SG-P8-opening-customer-generation"
+  },
+  "openingCustomerElectricitySouthAnnualUsd": {
+    "value": 2042,
+    "tag": "SOURCED",
+    "citation": "BLS CEX Consumer Expenditure Surveys, calendar 2024, item Electricity, annual USD per consumer unit, region-of-residence South (data/source/consumer-expenditure/regional-corpus.json.gz). Parent category only, not a seller product scope. Applicability: Published aggregate mean and sampling error are not individual dispersion. No individual budget/account spread or crosswalk calibration has been measured.",
+    "stopgapId": "SG-P8-opening-customer-generation"
+  },
+  "openingCustomerElectricityWestAnnualUsd": {
+    "value": 1787,
+    "tag": "SOURCED",
+    "citation": "BLS CEX Consumer Expenditure Surveys, calendar 2024, item Electricity, annual USD per consumer unit, region-of-residence West (data/source/consumer-expenditure/regional-corpus.json.gz). Parent category only, not a seller product scope. Applicability: Published aggregate mean and sampling error are not individual dispersion. No individual budget/account spread or crosswalk calibration has been measured.",
+    "stopgapId": "SG-P8-opening-customer-generation"
+  },
+  "openingCustomerElectricitySize1AnnualUsd": {
+    "value": 1197,
+    "tag": "SOURCED",
+    "citation": "BLS CEX Consumer Expenditure Surveys, calendar 2024, item Electricity, annual USD per consumer unit, consumer-unit-size One person (data/source/consumer-expenditure/regional-corpus.json.gz). Parent category only, not a seller product scope. Applicability: Published aggregate mean and sampling error are not individual dispersion. No individual budget/account spread or crosswalk calibration has been measured.",
+    "stopgapId": "SG-P8-opening-customer-generation"
+  },
+  "openingCustomerElectricitySize2AnnualUsd": {
+    "value": 1884,
+    "tag": "SOURCED",
+    "citation": "BLS CEX Consumer Expenditure Surveys, calendar 2024, item Electricity, annual USD per consumer unit, consumer-unit-size Two people (data/source/consumer-expenditure/regional-corpus.json.gz). Parent category only, not a seller product scope. Applicability: Published aggregate mean and sampling error are not individual dispersion. No individual budget/account spread or crosswalk calibration has been measured.",
+    "stopgapId": "SG-P8-opening-customer-generation"
+  },
+  "openingCustomerElectricitySize3AnnualUsd": {
+    "value": 2137,
+    "tag": "SOURCED",
+    "citation": "BLS CEX Consumer Expenditure Surveys, calendar 2024, item Electricity, annual USD per consumer unit, consumer-unit-size Three people (data/source/consumer-expenditure/regional-corpus.json.gz). Parent category only, not a seller product scope. Applicability: Published aggregate mean and sampling error are not individual dispersion. No individual budget/account spread or crosswalk calibration has been measured.",
+    "stopgapId": "SG-P8-opening-customer-generation"
+  },
+  "openingCustomerElectricitySize4AnnualUsd": {
+    "value": 2341,
+    "tag": "SOURCED",
+    "citation": "BLS CEX Consumer Expenditure Surveys, calendar 2024, item Electricity, annual USD per consumer unit, consumer-unit-size Four people (data/source/consumer-expenditure/regional-corpus.json.gz). Parent category only, not a seller product scope. Applicability: Published aggregate mean and sampling error are not individual dispersion. No individual budget/account spread or crosswalk calibration has been measured.",
+    "stopgapId": "SG-P8-opening-customer-generation"
+  },
+  "openingCustomerElectricitySize5plusAnnualUsd": {
+    "value": 2522,
+    "tag": "SOURCED",
+    "citation": "BLS CEX Consumer Expenditure Surveys, calendar 2024, item Electricity, annual USD per consumer unit, consumer-unit-size Five or more people (data/source/consumer-expenditure/regional-corpus.json.gz). Parent category only, not a seller product scope. Applicability: Published aggregate mean and sampling error are not individual dispersion. No individual budget/account spread or crosswalk calibration has been measured.",
+    "stopgapId": "SG-P8-opening-customer-generation"
+  },
+  "openingCustomerResidentialElectricityAnnualNationalUsd": {
+    "value": 1833,
+    "tag": "SOURCED",
+    "citation": "BLS CEX Consumer Expenditure Surveys, calendar 2024, item Electricity, all consumer units, annual USD per consumer unit (data/source/consumer-expenditure/regional-corpus.json.gz). Electricity only: gas and fuel oil, water, sewer and trash are excluded (a government's service charges carry the last two). Applicability: Published aggregate mean and sampling error are not individual dispersion. No individual budget/account spread or crosswalk calibration has been measured.",
+    "stopgapId": "SG-P8-opening-customer-generation"
+  },
+  "srrsFiredAtWork": {
+    "value": 47,
+    "tag": "SOURCED",
+    "citation": "Holmes TH, Rahe RH. The Social Readjustment Rating Scale. Journal of Psychosomatic Research 11(2):213-218, 1967, Table 3 life change units. Item 8, fired at work: 47 units."
+  },
+  "srrsForeclosure": {
+    "value": 30,
+    "tag": "SOURCED",
+    "citation": "Holmes TH, Rahe RH. The Social Readjustment Rating Scale. Journal of Psychosomatic Research 11(2):213-218, 1967, Table 3 life change units. Item 22, foreclosure of mortgage or loan: 30 units (stands for losing a home to eviction)."
+  },
+  "healthConscientiousnessLogHazardPerLevel": {
+    "value": -0.128,
+    "tag": "ESTIMATED",
+    "citation": "Kern, M. L., & Friedman, H. S. (2008), Do conscientious individuals live longer? A quantitative review, Health Psychology 27(5), 505-512: r = .11 (95% CI .05-.17) with longevity. Converted to a hazard slope: r times a lifespan SD of 15 years is 1.65 years per trait SD; adult mortality doubles about every 8 years (Gompertz slope 0.087 per year), so a 1.65-year shift is a log hazard of -0.144 per SD; the opening levels have SD 1.095, giving -0.128 per level.",
+    "estimatedFrom": "Lifespan SD and the Gompertz slope are round figures, not drawn from the life table.",
+    "spread": {
+      "low": -0.058,
+      "high": -0.198,
+      "unit": "log hazard per conscientiousness level",
+      "citation": "Kern and Friedman 2008 confidence interval r .05 to .17, same conversion."
+    }
+  },
+  "healthDrugUseLogOddsPerLevel": {
+    "value": -0.716,
+    "tag": "ESTIMATED",
+    "citation": "Bogg, T., & Roberts, B. W. (2004), Conscientiousness and health-related behaviors: A meta-analysis of the leading behavioral contributors to mortality, Psychological Bulletin 130(6), 887-919: conscientiousness with drug use r = -.28, the largest domain. Point-biserial to logit slope per SD is r over sqrt(q(1-q)) with q = 0.15 holding the condition (pack prevalence 8.5-27%), -0.784 per SD, divided by the level SD 1.095.",
+    "estimatedFrom": "One holding share for all ages; the slope per SD would be steeper where fewer hold it.",
+    "spread": {
+      "low": -0.307,
+      "high": -0.716,
+      "unit": "log odds per conscientiousness level",
+      "citation": "Bogg and Roberts 2004: other behavioral domains -.12 to -.25, drug use -.28."
+    }
+  },
+  "healthTobaccoLogOddsPerLevel": {
+    "value": -0.528,
+    "tag": "ESTIMATED",
+    "citation": "Bogg, T., & Roberts, B. W. (2004), Conscientiousness and health-related behaviors: A meta-analysis of the leading behavioral contributors to mortality, Psychological Bulletin 130(6), 887-919: conscientiousness with the other health behaviors r = -.12 to -.25 (midpoint -.185 for tobacco). Logit slope per SD is r over sqrt(q(1-q)) with q = 0.116 adult current smokers (CDC 2022), -0.578 per SD, divided by the level SD 1.095. Applied to the chronic lung disease condition smoking drives.",
+    "estimatedFrom": "The tobacco domain value is not separately retrieved; the midpoint of the reported range stands in.",
+    "spread": {
+      "low": -0.312,
+      "high": -0.713,
+      "unit": "log odds per conscientiousness level",
+      "citation": "Bogg and Roberts 2004 range r -.12 to -.25."
+    }
+  },
+  "traitChangeEventShift": {
+    "value": 0.1,
+    "tag": "ESTIMATED",
+    "citation": "Direction: emotional stability falls after adverse life events (Specht, J. (2017), Personality development across the lifespan, and Specht, Egloff, & Schmukle (2011), Stability and change of personality across the life course: The impact of age and major life events on mean-level and rank-order stability of the Big Five, Journal of Personality and Social Psychology 101(4), 862-882). Size: one event moves the hidden standard score of each emotional-stability trait by 0.1 of a standard deviation, in the range the event studies report as small; the per-event coefficients in the papers were not retrieved.",
+    "estimatedFrom": "The size is a round figure inside \"small\"; only the direction is from the sources.",
+    "spread": {
+      "low": 0.05,
+      "high": 0.25,
+      "unit": "standard deviations per event",
+      "citation": "Small effects in the life-event personality literature; not retrieved per event."
+    }
+  },
+  "workAbsenceIllnessWeight": {
+    "value": 0.3,
+    "tag": "ESTIMATED",
+    "citation": "BLS Current Population Survey 2023, Table 46: full-time wage and salary workers lose 1.7% of scheduled hours to absence (lost worktime rate), illness or injury being about two thirds of absences (2.2 of a 3.2% absence rate, data/research/stand-in-figures-2026-10-12.json). The weight on a person's own care need (src/core2/modules/health.ts careNeedOf, 0 to 1) is set so missed shifts come to that share: in Ely, Nevada (key 3223500, seed 7ae8589566f5, 45 played days, 3,782 shift weighings) weights 0.2, 0.5 and 1.5 gave 1.1%, 3.7% and 11.1% of shifts missed; 0.3 sits at the 1.7% target.",
+    "estimatedFrom": "Interpolated between 0.2 (1.1%) and 0.5 (3.7%) to 1.7%.",
+    "spread": {
+      "low": 0.2,
+      "high": 0.4,
+      "unit": "score per unit of care need",
+      "citation": "The 1.2% to 2.5% lost-worktime band of data/research/stopgaps-oct19/A-people-behavior-1.json."
     }
   }
 }

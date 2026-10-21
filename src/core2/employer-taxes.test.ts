@@ -78,10 +78,13 @@ describe("employer payroll tax share", { timeout: 600_000 }, () => {
           minor: wageBase - 1000,
         } as never);
     advanceCore(core, "2026-04-05");
-    const rows = api
-      .moduleState(EMPLOYER_TAXES_MODULE_ID)
-      .table("shares")
-      .rows() as unknown as EmployerTaxRecord[];
+    // The counted workers' shares are checked in employer-taxes-counted.test.ts.
+    const rows = (
+      api
+        .moduleState(EMPLOYER_TAXES_MODULE_ID)
+        .table("shares")
+        .rows() as unknown as EmployerTaxRecord[]
+    ).filter((r) => !r.counted);
     expect(rows.length, where).toBeGreaterThan(0);
     const ss = lawInForce(api, "social-security-tax").governing!;
     const medicare = lawInForce(api, "medicare-tax").governing!;

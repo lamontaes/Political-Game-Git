@@ -4,12 +4,13 @@ title: "District office:"
 area: office
 kind: feature
 priority: 2
-status: open
-claimed-by:
-pr:
+status: done
+claimed-by: claude/office-district-office
+pr: #4786
 blocked-on:
 milestone:
 source: "docs/coordination/OFFICE-STATE.md line 21 (unchecked checklist line)"
+claimed-at: 2026-10-16T17:09:05.706Z
 ---
 
 **What.** Checked against main on Oct 16: PARTLY. The state day already adds a district-office entry on district days and interim workdays; its act holds office hours and calls `casesFor` and `handleCase`, the cases engine already routes to state legislators, and staff handle cases the member does not. What is missing is the proof and a screen: no test imports office-day-state and nothing in src/bench reads the entry. Next: Prove the district office end to end, and give it a surface on the politics screen. The player would notice the act on the politics screen as a choice among people, never a form.

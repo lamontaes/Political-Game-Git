@@ -85,8 +85,6 @@ export interface OpeningIncomeData {
     benefitReferenceCoveredMonths: string;
     benefitFactorMinimum: string;
     benefitFactorMaximum: string;
-    /** Deprecated compatibility key; new payers have no prepaid stock. */
-    payerReserveMonths: string;
     periodMonths: string;
   };
   labels: { coverage: string; claim: string; award: string };
@@ -249,7 +247,6 @@ export function buildOpeningRetirementIncome(
     values.periodMonths !== one ||
     values.coveredFraction! <= zero ||
     values.coveredFraction! > one ||
-    values.payerReserveMonths! < zero ||
     values.benefitFactorMinimum! <= zero ||
     values.benefitFactorMaximum! < values.benefitFactorMinimum!
   )

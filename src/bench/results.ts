@@ -1,51 +1,21 @@
 import { coreAPI } from "../core2/state";
-import { ballotOf, resultOf } from "../core2/modules/voting";
-import { drawOfficialIdentity } from "../core2/officials-identity";
+import {
+  ballotOf,
+  candidateIdentity,
+  placesOf,
+  resultOf,
+} from "../core2/modules/voting";
 import type { ContestRow, FilingRow } from "../core2/modules/elections";
 import type { CoreAPI, CoreState } from "../core2/types";
 import { backdropFile, hasBackdrop, stagePeople } from "./scene";
 import scenePlaces from "./data/scene-places.json" with { type: "json" };
 
 const ELECTIONS = "core2-elections-v1";
-const OFFICES = "core2-offices-v1";
 
 /** A candidate's name from the records: a resident, an official's term, or a drawn challenger. */
 function candidateName(api: CoreAPI, id: string): string {
-  const person = api.state.people.get(id);
-  if (person) return `${person.givenName} ${person.familyName}`;
-  if (id.startsWith("official:term:")) {
-    const term = api
-      .moduleState(OFFICES)
-      .table("terms")
-      .get(id.slice("official:".length)) as
-      { identity?: { givenName: string; familyName: string } } | undefined;
-    if (term?.identity)
-      return `${term.identity.givenName} ${term.identity.familyName}`;
-  }
-  if (id.startsWith("official:challenger:")) {
-    // Stopgap SG-PLAY-challenger-name: the voting module draws a challenger's
-    // identity privately; the bench draws it the same way until it exports a
-    // name reader.
-    const loaded = api
-      .moduleState(OFFICES)
-      .table("loaded")
-      .get("town") as unknown as { worldSeed: string };
-    const town = api
-      .moduleState(ELECTIONS)
-      .table("town")
-      .get("town") as unknown as {
-      stateKey: string;
-    };
-    const drawn = drawOfficialIdentity({
-      worldSeed: loaded.worldSeed,
-      seatKey: id,
-      stateUsps: town.stateKey.slice(3),
-      role: "state-executive-challenger",
-      referenceDate: api.state.date,
-    });
-    return `${drawn.givenName} ${drawn.familyName}`;
-  }
-  return id;
+  const who = candidateIdentity(api, id);
+  return who ? `${who.givenName} ${who.familyName}` : id;
 }
 
 /** Election night: every race held so far, newest first, and the player's ballot. */
@@ -90,11 +60,27 @@ export function electionResults(core: CoreState, playerId: string) {
           named: result.namedVotes[id] ?? 0,
         }))
         .sort((a, b) => b.votes - a.votes),
+      /** One name on the ballot: nobody ran against them. */
+      unopposed: Object.keys(result.totals).length === 1,
       winner: result.winnerId ? name(result.winnerId) : null,
       takesOffice: result.takesOffice,
       namedTurnout: result.namedTurnout,
       namedEligible: result.namedEligible,
       electorate: result.electorate,
+      /** Where the race was won: each place's leader, with the votes cast there. */
+      places: placesOf(api, contest.id)
+        .map((place) => {
+          const leader = Object.entries(place.votes).sort(
+            (a, b) => b[1] - a[1] || a[0].localeCompare(b[0]),
+          )[0];
+          return {
+            id: place.placeId,
+            name: place.name,
+            cast: place.cast,
+            leader: leader && leader[1] > 0 ? name(leader[0]) : null,
+          };
+        })
+        .sort((a, b) => b.cast - a.cast || a.id.localeCompare(b.id)),
       exitPoll: Object.fromEntries(
         Object.entries(result.exitPoll).map(([id, n]) => [
           id.startsWith("official:") || core.people.has(id) ? name(id) : id,

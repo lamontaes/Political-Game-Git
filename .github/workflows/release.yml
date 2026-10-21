@@ -3,13 +3,19 @@ name: Release
 on:
   push:
     branches: [main]
+    # A commit that touches only the pool (a claim, a status change, an add)
+    # changes no code or declaration, so it starts no run to be cancelled by
+    # the next one. A push that also changes anything else still runs.
+    paths-ignore:
+      - "docs/pool/**"
   # Manual final drain for a release candidate that lost a main fast-forward
   # race and had no later merge to trigger another run.
   workflow_dispatch:
 
-# Concurrency is per job: a newer push to main cancels a candidate still
-# building or validating (release-main-validate) and never one that is
-# publishing or packaging (release-main-publish).
+# Concurrency is per job: a newer push to main waits for a candidate still
+# building or validating (release-main-validate) to finish, and GitHub keeps
+# only the newest pending run; one that is publishing or packaging
+# (release-main-publish) is never canceled either.
 
 permissions:
   contents: read
@@ -28,7 +34,7 @@ jobs:
     timeout-minutes: 20
     concurrency:
       group: release-main-validate
-      cancel-in-progress: true
+      cancel-in-progress: false
     permissions:
       contents: read
     if: >-
@@ -170,11 +176,12 @@ jobs:
     timeout-minutes: 60
     permissions:
       contents: read
-    # A newer push to main replaces a candidate that is still validating; one
-    # that has passed is never cancelled (the publish jobs below).
+    # A newer push to main waits for a candidate that is still validating to
+    # finish (GitHub keeps only the newest pending run); one that has passed
+    # is never cancelled (the publish jobs below).
     concurrency:
       group: release-main-validate
-      cancel-in-progress: true
+      cancel-in-progress: false
     env:
       SOURCE_SHA: ${{ needs.build_candidate.outputs.source_sha }}
       CANDIDATE_SHA: ${{ needs.build_candidate.outputs.candidate_sha }}

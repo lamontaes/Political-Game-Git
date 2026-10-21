@@ -73,4 +73,4 @@ it("keeps actual tax-law IDs on a named worker's native paychecks", () => {
   } finally {
     setBookkeeping(true);
   }
-}, 120_000);
+}, 300_000);

@@ -26,6 +26,7 @@ import { generatePersonIdentity } from "./gov-rules/person-identity";
 import { SeededRng } from "./kernel/rng";
 import partnershipJson from "./data/opening-partnership.json" with { type: "json" };
 import { parameter as p } from "./parameters";
+import pastParameters from "./data/past/parameters.json" with { type: "json" };
 import { stopgap } from "./stopgaps";
 import type { IsoDate, PersonId } from "./types";
 
@@ -101,6 +102,24 @@ export interface OpeningKin {
   parentsOf: Map<PersonId, PersonId[]>;
   /** P15 part 3: dated moves, at the age each person's own move line was crossed. */
   moves: { personId: PersonId; date: IsoDate; kind: "in" | "away" }[];
+  /**
+   * Parents who died in the year before day one, from the same life-table
+   * line that decides whether a parent is alive: the relative who survives
+   * them, and who they were. They are not in the world; the past keeps them.
+   */
+  deaths: KinDeath[];
+}
+
+export interface KinDeath {
+  /** The resident whose parent died. */
+  survivorId: PersonId;
+  relation: "father" | "mother";
+  stableKey: string;
+  givenName: string;
+  familyName: string;
+  birthDate: IsoDate;
+  gender: string;
+  date: IsoDate;
 }
 
 interface Dated {
@@ -166,6 +185,18 @@ function hazardBetween(
 }
 
 /** A person's own exponential line: they are alive while their cohort's hazard stays below it. */
+function survivesAt(
+  draw: number,
+  sex: string,
+  birthYear: number,
+  fromAge: number,
+  toAge: number,
+) {
+  return (
+    hazardBetween(sex, birthYear, fromAge, toAge) < -Math.log(p("one") - draw)
+  );
+}
+
 function survives(
   rng: SeededRng,
   sex: string,
@@ -173,10 +204,27 @@ function survives(
   fromAge: number,
   toAge: number,
 ) {
-  return (
-    hazardBetween(sex, birthYear, fromAge, toAge) <
-    -Math.log(p("one") - rng.next())
-  );
+  return survivesAt(rng.next(), sex, birthYear, fromAge, toAge);
+}
+
+/**
+ * The day a person who did not live to `toAge` died, when it fell within the
+ * last `windowYears` of that span: the hazard they had left on entering the
+ * window, spread evenly over it. Null when they died before the window.
+ */
+function diedInWindow(
+  draw: number,
+  sex: string,
+  birthYear: number,
+  fromAge: number,
+  toAge: number,
+  windowYears: number,
+): number | null {
+  const line = -Math.log(p("one") - draw);
+  const before = hazardBetween(sex, birthYear, fromAge, toAge - windowYears);
+  const through = hazardBetween(sex, birthYear, fromAge, toAge);
+  if (before >= line || through <= before) return null;
+  return (line - before) / (through - before);
 }
 
 /** Cumulative hazard of moving away between two ages, from the yearly leaving rates by band. */
@@ -314,9 +362,11 @@ export function buildOpeningKin(
     relations: [],
     parentsOf: new Map(),
     moves: [],
+    deaths: [],
   };
   const startedAt = makeIsoDate(options.startedAt);
   const adultAge = p("benchmarkAdultMinimumAge");
+  const archiveDays = pastParameters.pastArchiveDays.value;
   const interval = p("kinInterbirthYears");
   const minParentAge = OPENING_KIN.fertilityByAge.rows[p("zero")]!.minAge;
   const maxMotherAge = OPENING_KIN.fertilityByAge.completedFromAge;
@@ -477,16 +527,52 @@ export function buildOpeningKin(
         ["mother", FEMALE, motherAge],
       ] as const) {
         const pr = r.fork(role);
+        const draw = pr.next();
         if (
-          !survives(
-            pr,
+          !survivesAt(
+            draw,
             gender,
             birthYear - Math.round(parentAge),
             parentAge,
             parentAge + age,
           )
-        )
+        ) {
+          const through = diedInWindow(
+            draw,
+            gender,
+            birthYear - Math.round(parentAge),
+            parentAge,
+            parentAge + age,
+            archiveDays / p("daysPerMeanYear"),
+          );
+          if (through !== null) {
+            const stableKey = `${household.stableKey}:kin:origin:${index}:${role}`;
+            const birthDate = dateInYear(
+              pr.fork("died"),
+              birthYear - Math.round(parentAge),
+            );
+            const named = options.name({
+              stableKey,
+              gender,
+              birthDate,
+              familyName: lineName,
+            });
+            out.deaths.push({
+              survivorId: adult.id,
+              relation: role,
+              stableKey,
+              givenName: named.givenName,
+              familyName: named.familyName,
+              birthDate,
+              gender,
+              date: addDays(
+                addDays(startedAt, -archiveDays),
+                Math.round(through * archiveDays),
+              ),
+            });
+          }
           continue;
+        }
         const sinceGrown = parentAge + Math.max(age - adultAge, p("zero"));
         const parent = makePerson(
           `origin:${index}:${role}`,

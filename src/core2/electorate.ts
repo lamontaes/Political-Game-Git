@@ -19,6 +19,7 @@ import {
 import { electorateParameter } from "./electorate-inputs";
 import { interestOf, turnoutShare } from "./turnout";
 import type { ElectoratePlace } from "./electorate-places";
+import { stateOfPlaceKey } from "./places";
 import { residentsRuntime } from "./modules/residents";
 import { isDemoted } from "./counted-groups";
 import { VIEWS_KEYS, VIEWS_MODULE_ID, viewOf } from "./modules/views";
@@ -34,11 +35,31 @@ export interface CountedVoter {
   readonly traits: Readonly<Record<string, number>>;
   /** Scheduled weekly work, from their recorded commitments. */
   readonly weeklyMinutes: number;
+  /** The highest hourly pay of their open work commitments; zero with no work. */
+  readonly hourlyMinor: number;
   /** Real voters this record stands for (its household's weight; one where the town opened at its own count). */
   readonly weight: number;
 }
 
 const cache = new WeakMap<CoreState, { date: string; rows: CountedVoter[] }>();
+
+/** The state key of the world's own town ("US-MA"), the home of its counted people. */
+function townStateKey(core: CoreState): string {
+  return stateOfPlaceKey(core.placeMetadata?.placeKey ?? "") ?? "";
+}
+
+/** A counted resident's survey cell (see `surveyCell`): their state's, falling back to the nation's where the survey has no state sample. */
+export function countedSurveyCell(
+  core: CoreState,
+  voter: Pick<CountedVoter, "placeId" | "birthDate">,
+) {
+  return surveyCell(
+    voter.placeId,
+    voter.birthDate,
+    core.startedAt,
+    townStateKey(core),
+  );
+}
 
 /** Every counted resident still counted (not filled in), with their record's facts. */
 export function countedResidents(core: CoreState): readonly CountedVoter[] {
@@ -54,12 +75,18 @@ export function countedResidents(core: CoreState): readonly CountedVoter[] {
     const store = rt.store;
     for (const h of store.liveHouseholds()) {
       const minutes = new Map<string, number>();
-      for (const c of h.workCommitments)
-        if (c.endsAt === undefined || c.endsAt > core.date)
-          minutes.set(
-            c.personId,
-            (minutes.get(c.personId) ?? 0) + c.expectedWeeklyMinutes,
-          );
+      const hourly = new Map<string, number>();
+      for (const c of h.workCommitments) {
+        if (c.endsAt !== undefined && c.endsAt <= core.date) continue;
+        minutes.set(
+          c.personId,
+          (minutes.get(c.personId) ?? 0) + c.expectedWeeklyMinutes,
+        );
+        hourly.set(
+          c.personId,
+          Math.max(hourly.get(c.personId) ?? 0, c.hourlyMinor),
+        );
+      }
       for (const m of store.countedMembers(h)) {
         const id = store.ids[m]!;
         // A full person returned to the counts votes as counted.
@@ -71,6 +98,7 @@ export function countedResidents(core: CoreState): readonly CountedVoter[] {
           placeId: store.text(store.placeIx[m]!)!,
           traits: store.packedTraits(m),
           weeklyMinutes: minutes.get(id) ?? 0,
+          hourlyMinor: hourly.get(id) ?? 0,
           weight: store.weightOf(h),
         });
       }
@@ -103,6 +131,35 @@ export function customPolitics(core: CoreState): {
   };
 }
 
+/**
+ * A custom world's strength for one party (`politics.partyStrength`, a
+ * multiplier by party name): how hard that party's label pulls a voter whose
+ * lean favors it. A name matches the party's label whether or not "Party" is
+ * written; no setting, or no match, is 1.
+ */
+export function partyStrength(core: CoreState, party: string | null): number {
+  const raw = core.placeMetadata.worldSettings;
+  if (!party || typeof raw !== "string" || !raw) return 1;
+  const strengths = (
+    JSON.parse(raw) as {
+      politics?: { partyStrength?: Readonly<Record<string, number>> };
+    }
+  ).politics?.partyStrength;
+  if (!strengths) return 1;
+  const label = party.toLowerCase();
+  for (const [name, value] of Object.entries(strengths)) {
+    const key = name.toLowerCase().replace(/\s*party$/, "");
+    if (
+      key &&
+      (label === key ||
+        label.startsWith(`${key} `) ||
+        label === name.toLowerCase())
+    )
+      return value;
+  }
+  return 1;
+}
+
 /** Let the counted residents rank with the full people for lean. */
 export function registerElectorate(core: CoreState): void {
   registerCountedPeople(core.people, () => countedResidents(core));
@@ -118,7 +175,12 @@ export function registerElectorate(core: CoreState): void {
       for (const row of countedResidents(core)) counted.set(row.id, row);
     const row = counted.get(person.id);
     if (!row) return 0;
-    const cell = surveyCell(row.placeId, row.birthDate, core.startedAt);
+    const cell = surveyCell(
+      row.placeId,
+      row.birthDate,
+      core.startedAt,
+      townStateKey(core),
+    );
     return cell.mean + cell.sd * z;
   });
 }
@@ -139,8 +201,13 @@ function surveyCell(
   placeId: string,
   birthDate: string,
   date: string,
+  townState: string,
 ): { mean: number; sd: number; engagement?: number } {
-  const key = corePlaceByJurisdictionId(placeId as never)?.stateJurisdictionKey;
+  // The town's own counted households keep their governing unit's place id,
+  // which the place lookup may not know: they are the town's people, in its state.
+  const key =
+    corePlaceByJurisdictionId(placeId as never)?.stateJurisdictionKey ??
+    townState;
   const state = key ? key.slice(key.lastIndexOf("-") + 1) : "";
   const age =
     Number(date.slice(0, 4)) -
@@ -183,7 +250,12 @@ export function engagementOf(
   if (core.people.has(voter.id))
     return viewOf(coreAPI(core), voter.id)?.engagement ?? null;
   if (!voter.birthDate || !voter.placeId) return null;
-  const cell = surveyCell(voter.placeId, voter.birthDate, core.startedAt) as {
+  const cell = surveyCell(
+    voter.placeId,
+    voter.birthDate,
+    core.startedAt,
+    townStateKey(core),
+  ) as {
     engagement?: number;
   };
   return cell.engagement ?? VIEWS_KEYS.national.engagement ?? null;

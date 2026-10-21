@@ -6,20 +6,36 @@ kind: wiring
 priority: 1
 size: M
 status: in-pr
-claimed-by: claude/director-civic-producers-government
+claimed-by: claude/fs11vb-director-producers
 pr: #4600
 blocked-on:
 after: director-civic-roles
 source: "director-civic-producers, found building it"
-claimed-at: 2026-10-16T03:54:32.099Z
+claimed-at: 2026-10-20T03:00:28.244Z
 ---
 
-**What.** Bill signing, veto, hearings, floor votes, recalls, scandals, appointments and a law reaching a person fire as scenes. The core writes events or decisions for each (the legislature's sign-or-veto and hold-hearing decisions, `recall-petition`, `press.exposed`, `economy.board-appointment`, `law.effect-learned`), but the director has no moment for them and marks their types as waiting on a producer. Give each a moment for the person it reaches, drop the mark, and bind the roles from records.
+**What.** Bill signing, veto, hearings, floor votes, recalls, scandals, appointments and a law reaching a person fire as scenes. This work was sent back by the merger on 2026-10-16 and is open for any builder to finish. The reason it came back: The top of the PR body lacks a gate line naming the in-session checks on changed files and their results. Add the named checks and results at the top (a pool id may precede it); "Local checks pass" alone does not name the checks. Finish it on the existing branch claude/director-civic-producers-government, after merging main into it with a plain merge.
 
-**Rules.** No dice: a scene fires from a recorded cause, never a roll, and a quiet day fires nothing. The chain is the acceptance: each fired scene is traced from its cause record to the scene to the journal line. One rule, all 56 places: a random place and seed from all 56, named. Speed: the ledger acts on the day a record is written, never by scanning the world each day.
+**Rules.** Follow the standing rule "Replace, never layer" and the other standing rules in AGENTS.md; merge main into the branch with a plain merge and never force-push. A release declaration in docs/release/changes/ and a gate line at the top of the PR body stay required before the merger takes it again.
 
-**Done when.** In a one-year run of the played world (buildBenchWorld) in a drawn place and a seed the builder did not choose, a player who sits on a body sees a floor-vote scene and a bill-signing scene, each traced to its record id, and the reach report (src/director/reach.ts) lists these types as fired or names a real reason in that year. Tests in src/director/director.test.ts and office-scene.test.ts prove it. The owner plays it: he signs a bill and the signing scene opens.
+**Done when.** The reason above is fixed on the branch, the changed-file tests pass in a drawn place and the branch merges cleanly with main, the PR body carries its gate line, and the merger can merge the pull request without sending it back again.
 
-**Files.** src/director/ledger.ts, src/director/scheduling.ts, src/director/data/situation-types.json, src/core2/modules/legislature.ts
+**Files.** docs/pool/items/director-civic-producers-government.md and the files that pull request #4600 changes on claude/director-civic-producers-government
 
 **Notes.** Needs director-civic-roles for the chair, members and press. Some of these records are decisions, not events, so the legislature may need to emit an event first, which belongs to the government area. Split out of director-civic-producers.
+
+Sent back 2026-10-16 from PR #4600 (branch claude/director-civic-producers-government): The top of the PR body lacks a gate line naming the in-session checks on changed files and their results. Add the named checks and results at the top (a pool id may precede it); "Local checks pass" alone does not name the checks; finish on that branch, merge main into it first.
+
+Sent back 2026-10-16 from PR #4600 (branch claude/director-civic-producers-government): Merging current main into claude/director-civic-producers-government conflicts in docs/pool/items/director-civic-producers-government-rest.md, src/director/civic-roles.ts, src/director/data/director.json. Resolve and push these conflicts on this branch before local checks can run; finish on that branch, merge main into it first.
+
+Sent back 2026-10-17 from PR #4600 (branch claude/director-civic-producers-government): merging main conflicts in src/director/civic-roles.ts, src/director/data/director.json (code or data, left for the author); resolve and push; finish on that branch, merge main into it first.
+
+Sent back 2026-10-17 from PR #4600 (branch claude/director-civic-producers-government): Morning check: the new src/director/government-scenes.test.ts returns successfully when no full-person seat exists and again when the bill was not voted. Both paths bypass every floor-vote/signing/veto assertion. Draw an eligible generated-world case with bounded retries and fail if none reaches the case, then preserve the scene and role assertions. A logged reason followed by return is still a skipped acceptance test.; finish on that branch, merge main into it first.
+
+Sent back 2026-10-19 from PR #4600 (branch claude/director-civic-producers-government): Morning check: src/director/government-scenes.test.ts returns successfully without assertions when no eligible body exists (lines 50–54) or the bill never reaches a vote (lines 102–110); these silent passes skip the acceptance case. Draw another place and fail if the case is never reached; finish on that branch, merge main into it first.
+
+Sent back 2026-10-20 from PR #4600 (branch claude/director-civic-producers-government): Code or data conflict with main in src/director/civic-roles.ts, src/director/data/director.json, src/director/government-scenes.test.ts; finish on that branch, merge main into it first.
+
+Oct 20 (claude, claude/civic-producers-government-landed): nothing left to finish on PR #4600's branch. Merging current main into `claude/director-civic-producers-government` leaves a tree identical to main: the work is already on main as commit 172ad46fc0 ("Director: a floor vote, a signing and a veto are scenes for the people they reach") with its release declaration `docs/release/changes/director-civic-producers-government.md`, and the skipped-acceptance fix the merger asked for landed as 2816e931c7 ("Scene tests: draw again up to eight places and fail when no case is reached"); `src/director/government-scenes.test.ts` on main draws up to eight places and fails if none reaches a voted bill. The item was left open and sent back from a PR whose content main already holds. The merger can mark it done and close PR #4600.
+
+Oct 20 (fs11vb): merged main into the #4600 branch and took main's side of the four conflicts (`civic-roles.ts`, `director.json`, `government-scenes.test.ts`, the `-rest` item); the result has no difference from main at all. Main already holds the floor-vote, bill-signed and veto scenes with no `awaitingProducer` marks (landed with #4606), and `src/director/government-scenes.test.ts` passes on main (1 test). So #4600 adds nothing main lacks; the CTO can mark this item done and close #4600 as superseded.

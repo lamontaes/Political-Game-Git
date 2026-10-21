@@ -1,3 +1,4 @@
+import { jobsView, answerJobOffer } from "./jobs";
 import { personOrFillIn } from "../core2/state";
 import { SITUATION_LIBRARY } from "../director/scheduling";
 import { bringItUp } from "../director/bring-it-up";
@@ -10,9 +11,19 @@ import { gameStartDate } from "../core2/game-start";
 import { knownCard, personCard } from "./card";
 import { OPENING_EVENING_MINUTE, openingFrames } from "./opening";
 import { calendarItems, heardItems, newsItems } from "./calendar";
-import { campaignAct, campaignView } from "./campaign";
+import {
+  campaignAct,
+  campaignDay,
+  campaignView,
+  debateAnswer,
+  speechBegin,
+  speechGive,
+  speechPick,
+  speechView,
+} from "./campaign";
+import type { SpeechBuild } from "../director/speech-builder";
 import { storyScene } from "./story";
-import { economyView } from "./economy";
+import { economyView, worldPanels } from "./economy";
 import { electionResults, resultsScene } from "./results";
 import { seatAct, seatView } from "./legislature";
 import {
@@ -23,6 +34,10 @@ import {
   meetingSpeak,
   meetingSceneView,
   officeStops,
+  colleagueDeal,
+  interviewOutlet,
+  nameHeadPick,
+  budgetLinePick,
   officeView,
 } from "./office";
 import { bankView } from "./bank";
@@ -35,6 +50,7 @@ import {
   type BenchFilingVisit,
 } from "./filing";
 import { backdropPath, benchScene } from "./scene";
+import { DevMode } from "./dev-mode";
 import { titleScene } from "./title";
 import { ageOnDate, makeIsoDate } from "../core2/kernel/dates";
 import {
@@ -62,7 +78,13 @@ import {
   type Conversation,
 } from "../director/conversation";
 import { composeJournal } from "../director/journal";
-import { fileForOffice, governmentView } from "./government";
+import {
+  fileForOffice,
+  governmentView,
+  joinPartyAs,
+  politicsStates,
+  stateLegislators,
+} from "./government";
 import type { Director } from "../director/ledger";
 import type { CoreState } from "../core2/types";
 import { benchProgress } from "./progress";
@@ -82,6 +104,8 @@ let placeName = "";
 let titleVisits = 0;
 let conversation: Conversation | undefined;
 let filingVisit: BenchFilingVisit | undefined;
+/** The speech the player is building, one part at a time. */
+let speechBuild: SpeechBuild | undefined;
 // Where the build is, for the loading screen's polls.
 let buildProgress: { stage: string; done: number; total: number } = {
   stage: "done",
@@ -163,6 +187,15 @@ export const serialize = (value: unknown) =>
 function requireCore(): CoreState {
   if (!core) throw new Error("Generate a town first.");
   return core;
+}
+
+let marker: DevMode | undefined;
+/** The dev-mode record writer for the current town, which holds the gap marks. */
+function gapMarker(): DevMode {
+  const current = requireCore();
+  if (marker?.core !== current)
+    marker = new DevMode(current, director, player, placeId);
+  return marker;
 }
 
 /** The world the developer view reads (dev-api.ts), the same engine state. */
@@ -364,6 +397,26 @@ export async function benchRequest(
         if (!conversation) throw new Error("No conversation is open.");
         conversation = sayNothing(requireCore(), conversation);
         send(200, talkView(conversation));
+        return;
+      }
+      if (request.method === "POST" && url.pathname === "/api/gap") {
+        // Mark the talk's newest line as a gap (play-mark-gap): one record
+        // naming the scene and the line; no game time passes.
+        if (!conversation) throw new Error("No conversation is open.");
+        const view = talkView(conversation)!;
+        const at = Number(
+          url.searchParams.get("line") ?? view.lines.length - 1,
+        );
+        const line = view.lines[at];
+        if (!line) throw new Error("No such line.");
+        const sceneId =
+          conversation.occasion?.id ??
+          `talk:${conversation.playerId}:${conversation.otherId}:${requireCore().date}`;
+        send(200, gapMarker().markGap(sceneId, `${sceneId}#${at}`, line.text));
+        return;
+      }
+      if (request.method === "GET" && url.pathname === "/api/gaps") {
+        send(200, gapMarker().gaps());
         return;
       }
       if (request.method === "POST" && url.pathname === "/api/talk/leave") {
@@ -690,6 +743,66 @@ export async function benchRequest(
         send(200, officeView(requireCore(), player.personId));
         return;
       }
+      if (
+        request.method === "POST" &&
+        url.pathname === "/api/office/interview-outlet"
+      ) {
+        if (!player?.personId) throw new Error("Choose a resident first.");
+        send(
+          200,
+          interviewOutlet(
+            requireCore(),
+            player.personId,
+            url.searchParams.get("outletId") ?? "",
+          ),
+        );
+        return;
+      }
+      if (
+        request.method === "POST" &&
+        url.pathname === "/api/office/name-head-pick"
+      ) {
+        if (!player?.personId) throw new Error("Choose a resident first.");
+        send(
+          200,
+          nameHeadPick(
+            requireCore(),
+            player.personId,
+            url.searchParams.get("post") ?? "",
+            url.searchParams.get("nomineeId") ?? "",
+          ),
+        );
+        return;
+      }
+      if (
+        request.method === "POST" &&
+        url.pathname === "/api/office/budget-line"
+      ) {
+        if (!player?.personId) throw new Error("Choose a resident first.");
+        send(
+          200,
+          budgetLinePick(
+            requireCore(),
+            player.personId,
+            url.searchParams.get("line") ?? "",
+            Number(url.searchParams.get("changeMinor")),
+          ),
+        );
+        return;
+      }
+      if (request.method === "POST" && url.pathname === "/api/office/deal") {
+        if (!player?.personId) throw new Error("Choose a resident first.");
+        send(
+          200,
+          colleagueDeal(
+            requireCore(),
+            player.personId,
+            url.searchParams.get("memberId") ?? "",
+            url.searchParams.get("deal") ?? "",
+          ),
+        );
+        return;
+      }
       if (request.method === "POST" && url.pathname === "/api/seat/act") {
         if (!player?.personId) throw new Error("Choose a resident first.");
         const q = (key: string) => url.searchParams.get(key) ?? undefined;
@@ -727,6 +840,10 @@ export async function benchRequest(
         );
         return;
       }
+      if (request.method === "GET" && url.pathname === "/api/world-panels") {
+        send(200, worldPanels(requireCore(), placeId));
+        return;
+      }
       if (request.method === "GET" && url.pathname === "/api/story") {
         if (!player?.personId || !director)
           throw new Error("Choose a resident first.");
@@ -758,12 +875,77 @@ export async function benchRequest(
           campaignAct(requireCore(), player.personId, {
             filingId: url.searchParams.get("filingId") ?? "",
             kind: url.searchParams.get("kind") ?? "",
-            hours: number("hours"),
-            venue: url.searchParams.get("venue") ?? undefined,
-            statements: url.searchParams.get("statements") ?? undefined,
             amountMinor: number("amountMinor"),
             sampleSize: number("sampleSize"),
           }),
+        );
+        return;
+      }
+      if (
+        request.method === "POST" &&
+        url.pathname === "/api/campaign/speech/begin"
+      ) {
+        if (!player?.personId) throw new Error("Choose a resident first.");
+        speechBuild = speechBegin(requireCore(), player.personId);
+        send(200, speechView(speechBuild));
+        return;
+      }
+      if (
+        request.method === "POST" &&
+        url.pathname === "/api/campaign/speech/pick"
+      ) {
+        if (!speechBuild) throw new Error("No speech is being built.");
+        speechBuild = speechPick(
+          requireCore(),
+          speechBuild,
+          url.searchParams.get("key") ?? "",
+        );
+        send(200, speechView(speechBuild));
+        return;
+      }
+      if (
+        request.method === "POST" &&
+        url.pathname === "/api/campaign/speech/give"
+      ) {
+        if (!player?.personId) throw new Error("Choose a resident first.");
+        if (!speechBuild) throw new Error("No speech is being built.");
+        const given = speechGive(requireCore(), player.personId, speechBuild, {
+          filingId: url.searchParams.get("filingId") ?? "",
+          venue: url.searchParams.get("venue") ?? "",
+        });
+        speechBuild = undefined;
+        send(200, given);
+        return;
+      }
+      if (request.method === "POST" && url.pathname === "/api/campaign/day") {
+        if (!player?.personId) throw new Error("Choose a resident first.");
+        send(
+          200,
+          campaignDay(requireCore(), player.personId, {
+            filingId: url.searchParams.get("filingId") ?? "",
+            kind: url.searchParams.get("kind") ?? "",
+            outletId: url.searchParams.get("outletId") ?? undefined,
+          }),
+        );
+        return;
+      }
+      if (
+        request.method === "POST" &&
+        url.pathname === "/api/campaign/debate"
+      ) {
+        if (!player?.personId) throw new Error("Choose a resident first.");
+        const answers = JSON.parse(url.searchParams.get("answers") ?? "[]") as {
+          question: string;
+          position: number | null;
+        }[];
+        send(
+          200,
+          debateAnswer(
+            requireCore(),
+            player.personId,
+            url.searchParams.get("debateId") ?? "",
+            answers,
+          ),
         );
         return;
       }
@@ -842,14 +1024,57 @@ export async function benchRequest(
         );
         return;
       }
+      if (request.method === "GET" && url.pathname === "/api/jobs") {
+        if (!player?.personId) throw new Error("Choose a resident first.");
+        send(200, jobsView(requireCore(), player.personId));
+        return;
+      }
+      if (request.method === "POST" && url.pathname === "/api/jobs/answer") {
+        if (!player?.personId) throw new Error("Choose a resident first.");
+        send(
+          200,
+          answerJobOffer(
+            requireCore(),
+            player.personId,
+            url.searchParams.get("offerId") ?? "",
+            url.searchParams.get("answer") ?? "",
+          ),
+        );
+        return;
+      }
       if (request.method === "GET" && url.pathname === "/api/card") {
         send(200, personCard(requireCore(), url.searchParams.get("id") ?? ""));
+        return;
+      }
+      if (
+        request.method === "GET" &&
+        url.pathname === "/api/government/state"
+      ) {
+        send(200, {
+          states: politicsStates(),
+          legislators: stateLegislators(
+            requireCore(),
+            url.searchParams.get("state") ?? "",
+          ),
+        });
         return;
       }
       if (request.method === "GET" && url.pathname === "/api/government") {
         send(
           200,
           governmentView(requireCore(), url.searchParams.get("id") ?? ""),
+        );
+        return;
+      }
+      if (request.method === "POST" && url.pathname === "/api/party/join") {
+        if (!player?.personId) throw new Error("Choose a resident first.");
+        send(
+          200,
+          joinPartyAs(
+            requireCore(),
+            player.personId,
+            url.searchParams.get("partyId") ?? "",
+          ),
         );
         return;
       }

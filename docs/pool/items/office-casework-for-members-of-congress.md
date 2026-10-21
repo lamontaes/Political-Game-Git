@@ -4,12 +4,13 @@ title: "Casework for members of Congress:"
 area: office
 kind: feature
 priority: 2
-status: open
-claimed-by:
-pr:
+status: done
+claimed-by: claude/office-casework-congress
+pr: #4789
 blocked-on:
 milestone:
 source: "docs/coordination/OFFICE-FEDERAL.md line 21 (unchecked checklist line)"
+claimed-at: 2026-10-16T18:30:36.812Z
 ---
 
 **What.** Checked against main on Oct 16: OPEN. `localOfficials()` in `constituent-cases.ts` lists only council, mayor and state legislators, never the town's US representative or senators, and `problemOf` knows two problems (looking for work, paid under the minimum wage). `SG-OFFICE-FED-federal-casework` is still open. Next: Route the town's constituent cases to its US representative and let the member's staff or the member handle them, changing the resident's situation. The player would notice the act on the politics screen as a choice among people, never a form.

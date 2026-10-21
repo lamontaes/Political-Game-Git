@@ -5,7 +5,8 @@ import { gameStartDate } from "./game-start";
 import { promisesOf, votesOf } from "./modules/record";
 import { LAWS_MODULE_ID } from "./modules/laws";
 import { NEWS_MODULE_ID } from "./modules/news";
-import { outletsHere, townOutlet } from "./modules/press";
+import { outletsHere, PRESS_MODULE_ID, townOutlet } from "./modules/press";
+import { ARCHIVE_STORY_KIND } from "./press-desk";
 import {
   lawHistory,
   PAST_MODULE_ID,
@@ -102,6 +103,36 @@ describe(`the world has a past (${world.place.key}, seed ${seed})`, () => {
     ).toBe(true);
     // One list of outlets: the news engine keeps none of its own.
     expect(() => api.moduleState(NEWS_MODULE_ID).table("outlets")).toThrow();
+  });
+
+  it("has the press write every archive story, with its source record and framing", () => {
+    const paper = townOutlet(api)!;
+    const archived = api
+      .moduleState(NEWS_MODULE_ID)
+      .table("stories")
+      .rows()
+      .filter((s) => (s.date as string) < opening);
+    expect(archived.length).toBeGreaterThan(0);
+    const printed = api
+      .moduleState(PRESS_MODULE_ID)
+      .table("archive")
+      .rows() as unknown as { id: string; slant: number }[];
+    for (const story of archived) {
+      const where = `${world.place.key}, seed ${seed}, ${story.id}`;
+      // One writer: no story keeps a kind of the news archive's own.
+      expect(story.kind, where).toBe(ARCHIVE_STORY_KIND);
+      const facts = story.facts as Record<string, string>;
+      expect(facts.recordId, where).toBeTruthy();
+      expect(facts.recordKind, where).toBeTruthy();
+      // The paper's reporter slanted it, and the story carries that framing.
+      const row = printed.find((p) => p.id === story.id);
+      if (row) expect(story.framing, where).toBe(row.slant);
+      else expect(paper.reporterIds?.length ?? 0, where).toBe(0);
+    }
+    // The desk's own stories stay the desk's: no archive row is among them.
+    const desk = api.moduleState(PRESS_MODULE_ID).table("stories").rows();
+    for (const row of printed)
+      expect(desk.some((d) => d.id === row.id)).toBe(false);
   });
 
   it("lets the player know the president without having met them", () => {

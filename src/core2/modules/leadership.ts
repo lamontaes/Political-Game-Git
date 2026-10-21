@@ -138,6 +138,21 @@ export function openLeadership(core: CoreState): void {
   void coreAPI(core);
 }
 
+/**
+ * The body a seat's chamber really is: a seat in the U.S. House or Senate is
+ * organized with the whole chamber (its speaker, its leaders and whips), not
+ * as a body of the one seat or the home delegation that holds it.
+ */
+function chamberOf(api: CoreAPI, chamber: string): string {
+  if (chamber === FEDERAL_HOUSE || chamber === FEDERAL_SENATE) return chamber;
+  const kind = (
+    api.moduleState(OFFICES_MODULE_ID).table("offices").get(chamber) as
+      { kind: string } | undefined
+  )?.kind;
+  if (kind?.startsWith("us-house")) return FEDERAL_HOUSE;
+  return kind === "us-senate" ? FEDERAL_SENATE : chamber;
+}
+
 /** Which kind of chamber a body is, for its rules of organization. */
 function templateOf(api: CoreAPI, chamber: string): Template {
   if (chamber === FEDERAL_HOUSE) return "federal-house";
@@ -314,7 +329,8 @@ function standing(
  * Organize a body if its membership changed since it last did: elect its
  * posts and assign its committees. Returns its posts.
  */
-export function organize(api: CoreAPI, chamber: string): readonly PostRow[] {
+export function organize(api: CoreAPI, body: string): readonly PostRow[] {
+  const chamber = chamberOf(api, body);
   const all = members(api, chamber);
   const signature = all.map(memberKey).sort().join("|");
   const done = table(api, "organized").get(chamber) as
@@ -583,9 +599,10 @@ function assignCommittees(
 /** A body's committee as its leadership seated it (organizing it first if needed). */
 export function committeeRoster(
   api: CoreAPI,
-  chamber: string,
+  body: string,
   committee: string,
 ): { memberIds: readonly string[]; chairId: string } | null {
+  const chamber = chamberOf(api, body);
   organize(api, chamber);
   const row = table(api, "committees").get(
     `${chamber}:${committee}`,
@@ -593,13 +610,34 @@ export function committeeRoster(
   return row ? { memberIds: row.memberIds, chairId: row.chairId } : null;
 }
 
+/**
+ * The record that seated a committee: its id (`chamber:committee`), who
+ * assigned it and the day, for a member told where they sit. Null where the
+ * body has no such committee.
+ */
+export function committeeAssignment(
+  api: CoreAPI,
+  body: string,
+  committee: string,
+): { id: string; assignedBy: string; since: string } | null {
+  const chamber = chamberOf(api, body);
+  organize(api, chamber);
+  const row = table(api, "committees").get(
+    `${chamber}:${committee}`,
+  ) as unknown as CommitteeRow | undefined;
+  return row
+    ? { id: row.id, assignedBy: row.assignedBy, since: row.since }
+    : null;
+}
+
 /** The holder of a post (a speaker, a majority leader, a council president). */
 export function leaderOf(
   api: CoreAPI,
-  chamber: string,
+  body: string,
   post: string,
 ): string | null {
   if (!api.state.modules.has(LEADERSHIP_MODULE_ID)) return null;
+  const chamber = chamberOf(api, body);
   organize(api, chamber);
   const row = table(api, "posts").get(`${chamber}:${post}`) as unknown as
     PostRow | undefined;
@@ -625,10 +663,11 @@ export function standForPost(
     readonly personId: string;
   },
 ): void {
+  const chamber = chamberOf(api, input.chamber);
   table(api, "choices").put({
-    id: `stand:${input.chamber}:${input.post}:${input.personId}`,
+    id: `stand:${chamber}:${input.post}:${input.personId}`,
   });
-  table(api, "organized").remove(input.chamber);
+  table(api, "organized").remove(chamber);
 }
 
 /** The player's own vote for a post; without one, the player abstains. */
@@ -641,9 +680,10 @@ export function voteForPost(
     readonly candidateId: string;
   },
 ): void {
+  const chamber = chamberOf(api, input.chamber);
   table(api, "choices").put({
-    id: `vote:${input.chamber}:${input.post}:${input.voterId}`,
+    id: `vote:${chamber}:${input.post}:${input.voterId}`,
     candidateId: input.candidateId,
   });
-  table(api, "organized").remove(input.chamber);
+  table(api, "organized").remove(chamber);
 }

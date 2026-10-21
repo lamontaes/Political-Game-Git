@@ -1,4 +1,4 @@
-import { RENEWAL_PARAMETERS, renewalParameter } from "../births-parameters";
+import { renewalParameter } from "../births-parameters";
 import { addDays, daysBetween, makeIsoDate } from "../kernel/dates";
 import {
   BIRTHS_STOPGAP,
@@ -255,13 +255,8 @@ function deliver(api: CoreAPI, pregnancyId: string): void {
   );
 }
 
-/** One opening index build; subsequent reviews read one candidate, never the world/history. */
-function initialize(api: CoreAPI): void {
-  scheduleCounted(api);
-  for (const [key, row] of Object.entries(RENEWAL_PARAMETERS)) {
-    const configured = api.state.data.parameters[key] ?? row;
-    table(api, "parameters").put({ id: key, ...configured });
-  }
+/** Each parent's children, from the parent-child links. */
+function childrenByParent(api: CoreAPI): Map<string, string[]> {
   const children = new Map<string, string[]>();
   for (const link of api.state.familyLinks.values())
     if (link.kind === "parent-child") {
@@ -269,34 +264,54 @@ function initialize(api: CoreAPI): void {
       ids.push(link.personIds[1]);
       children.set(link.personIds[0], ids);
     }
+  return children;
+}
+
+/**
+ * The couple a partner link makes for the births engine: a living pair in one
+ * household, one of whom is a mother. Absent for any other pair.
+ */
+function coupleFromLink(
+  api: CoreAPI,
+  link: { readonly id: string; readonly personIds: readonly [string, string] },
+  children: ReadonlyMap<string, readonly string[]>,
+): BirthCouple | undefined {
+  const people = link.personIds.map((id) => api.state.people.get(id)!);
+  const mother = people.find((person) => person.looks?.gender === "female");
+  if (
+    !mother ||
+    people.some((person) => !person.alive) ||
+    people[0]!.householdId !== people[1]!.householdId
+  )
+    return undefined;
+  const other = people.find((person) => person.id !== mother.id)!;
+  const partnerFact = mother.pastFacts?.find(
+    (fact) =>
+      fact.kind === "family:partner" && fact.facts?.otherPersonId === other.id,
+  );
+  return {
+    id: link.id,
+    motherId: mother.id,
+    otherParentId: other.id,
+    startedAt: partnerFact?.date ?? api.state.startedAt,
+    childIds: [
+      ...new Set([
+        ...(children.get(mother.id) ?? []),
+        ...(children.get(other.id) ?? []),
+      ]),
+    ],
+  };
+}
+
+/** One opening index build; subsequent reviews read one candidate, never the world/history. */
+function initialize(api: CoreAPI): void {
+  scheduleCounted(api);
+  const children = childrenByParent(api);
+  // stopgapId: SG-TRAITS-partnerships-no-engine (couples come from the opening and from links a core call makes; no engine decides in play who partners or separates, so no temperament read decides it)
   for (const link of api.state.familyLinks.values()) {
     if (link.kind !== "partner") continue;
-    const people = link.personIds.map((id) => api.state.people.get(id)!);
-    const mother = people.find((person) => person.looks?.gender === "female");
-    if (
-      !mother ||
-      people.some((person) => !person.alive) ||
-      people[0]!.householdId !== people[1]!.householdId
-    )
-      continue;
-    const other = people.find((person) => person.id !== mother.id)!;
-    const partnerFact = mother.pastFacts?.find(
-      (fact) =>
-        fact.kind === "family:partner" &&
-        fact.facts?.otherPersonId === other.id,
-    );
-    const row: BirthCouple = {
-      id: link.id,
-      motherId: mother.id,
-      otherParentId: other.id,
-      startedAt: partnerFact?.date ?? api.state.startedAt,
-      childIds: [
-        ...new Set([
-          ...(children.get(mother.id) ?? []),
-          ...(children.get(other.id) ?? []),
-        ]),
-      ],
-    };
+    const row = coupleFromLink(api, link, children);
+    if (!row) continue;
     table(api, "couples").put({
       ...row,
       childIds: [...row.childIds],
@@ -345,7 +360,6 @@ export const RENEWAL_MODULE: CoreModule = {
   state: {
     schemaVersion: 1,
     tables: {
-      parameters: {},
       couples: {
         indexes: {
           byMother: { fields: ["motherId"] },
@@ -369,6 +383,9 @@ export const RENEWAL_MODULE: CoreModule = {
           byPlace: { fields: ["placeId"] },
           byParent: { fields: ["motherId"] },
         },
+      },
+      countedIllness: {
+        indexes: { byPlace: { fields: ["placeId"] } },
       },
       /** One row per place per month: what moved in the counted population. */
       counts: {
@@ -402,6 +419,23 @@ export const RENEWAL_MODULE: CoreModule = {
         sourceIds: [row.id, actor.id, actor.householdId],
       };
     },
+  },
+  eventKinds: ["family.partnered"],
+  // A couple formed in play has its births reviewed from that day.
+  onEvent(api, event) {
+    if (event.kind !== "family.partnered" || !initialized.has(api.state))
+      return;
+    const link = api.state.familyLinks.get(String(event.facts?.linkId));
+    const row = link
+      ? coupleFromLink(api, link, childrenByParent(api))
+      : undefined;
+    if (!row) return;
+    table(api, "couples").put({
+      ...row,
+      childIds: [...row.childIds],
+      status: "active",
+    });
+    review(api, row);
   },
   onDay(api) {
     if (!initialized.has(api.state)) {

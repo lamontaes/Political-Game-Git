@@ -438,7 +438,7 @@ export function groupWithholding(
 }
 
 /** Workers a wage flow pays in each group (its jobs; unplaced workers by their share). */
-function workersByGroup(
+export function workersByGroup(
   rt: ResidentsRuntime,
   flow: SplitFlow,
 ): Map<number, number> {

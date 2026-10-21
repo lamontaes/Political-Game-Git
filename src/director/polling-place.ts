@@ -27,13 +27,11 @@ import type { CoreAPI, CoreState, PersonId } from "../core2/types";
 import type { IsoDate } from "../core2/kernel/brands";
 import type { Ledger, PollingVisitRecord } from "./types";
 import pollingData from "./data/polling-place.json" with { type: "json" };
-import { markWordsStopgap } from "./stopgaps";
 
 const DATA = pollingData as unknown as {
   situationKey: string;
   place: string;
   votingAge: { value: number };
-  stopgapId: string;
 };
 
 export interface PollingCandidate {
@@ -153,7 +151,6 @@ export function pollingVisitDue(
     pollingContest(core, api, row),
   );
   if (!contests.length) return null;
-  markWordsStopgap(DATA.stopgapId);
   const household = core.households.get(core.people.get(personId)!.householdId);
   return {
     record: kept ?? {

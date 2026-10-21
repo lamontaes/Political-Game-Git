@@ -57,14 +57,8 @@ import {
   outletsHere,
   type InterviewAnswer,
 } from "./press";
-import {
-  personLean,
-  personStance,
-  platformAgreement,
-  questionAxis,
-  type Stance,
-} from "../campaign-views";
-import { viewOn } from "./views";
+import { personLean, questionAxis, type Stance } from "../campaign-views";
+import { agreementWith, viewOn } from "./views";
 import { POLICY_QUESTIONS } from "../policy-answers";
 import { deliverSpeech, SPEECH_MODULE_ID } from "./speech";
 
@@ -153,7 +147,7 @@ const civic = (p: Readonly<PersonState>, core: Pick<CoreState, "data">) =>
 
 export function openMeetings(core: CoreState): void {
   registerLegislatureHooks({
-    beforeVote: publicComment,
+    beforeVote: { name: "public-comment", run: publicComment },
     positionTerm: roomTerm,
   });
   if (core.modules.has(MEETINGS_MODULE_ID)) return;
@@ -467,7 +461,12 @@ function ownView(
   const host = api.state.people.get(hostId);
   return questions.map((question) => {
     if (!host) return { question, position: null };
-    const view = personStance(personLean(api.state.people, host, 0), question);
+    const view = viewOn(
+      api,
+      host.id,
+      question,
+      personLean(api.state.people, host, 0),
+    );
     return { question, position: view === 0 ? null : Math.sign(view) };
   });
 }
@@ -511,7 +510,7 @@ export function holdTownHall(
       const lean = personLean(api.state.people, p, 0);
       const weight = concerns(api, p);
       const salience = (q: string) =>
-        Math.abs(personStance(lean, q)) *
+        Math.abs(viewOn(api, p.id, q, lean)) *
         (1 + meetingParameter("lifeConcernWeight") * (weight(q) ? 1 : 0));
       const question = questions
         .slice()
@@ -561,7 +560,9 @@ export function holdTownHall(
         voterId: p.id,
         officialId: input.hostId,
         act: "town-hall",
-        target: platformAgreement(
+        target: agreementWith(
+          api,
+          p.id,
           personLean(api.state.people, p, 0),
           statements,
         ),
@@ -648,7 +649,8 @@ function considerTownHalls(api: CoreAPI): void {
     let value = split.get(question);
     if (value === undefined) {
       const forIt = adults.filter(
-        (p) => personStance(personLean(api.state.people, p, 0), question) > 0,
+        (p) =>
+          viewOn(api, p.id, question, personLean(api.state.people, p, 0)) > 0,
       ).length;
       const share = adults.length ? forIt / adults.length : 0.5;
       split.set(question, (value = 1 - Math.abs(2 * share - 1)));

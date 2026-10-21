@@ -427,6 +427,8 @@ describe("jobs", () => {
       api = coreAPI(core),
       total = money(core);
     withBooks(core, 0.25);
+    // The log keeps the events of the player's circle, which the director reads.
+    core.focusPersonIds.add("w1");
     advanceCore(core, "2021-04-30");
     const layoffs = api
       .moduleState("jobs")
@@ -435,12 +437,29 @@ describe("jobs", () => {
     expect(layoffs.length).toBeGreaterThan(0);
     expect(layoffs[0]).toMatchObject({
       reasonKey: "demand-below-staff",
-      decidedBy: employer,
       personId: "w1",
     });
+    // No owner is recorded, so a worker still on the staff decided it: the
+    // best paid of those staying, ties by id; never the firm as a person.
+    const staying = ["w2", "w3"]
+      .map((id) => core.people.get(id)!)
+      .map((person) => ({ id: person.id, job: core.jobs.get(person.jobId!)! }))
+      .sort(
+        (a, b) =>
+          (b.job.hourlyMinor ?? 0) - (a.job.hourlyMinor ?? 0) ||
+          a.id.localeCompare(b.id),
+      );
+    const decider = staying[0]!.id;
+    expect(layoffs[0]).toMatchObject({ decidedBy: decider });
+    expect(decider).not.toBe(employer);
     expect(
       core.eventIds.has(`event:work.job-lost:${layoffs[0]!.date}:job:w1`),
     ).toBe(true);
+    // The event carries who decided and where, for the director's scene at work.
+    expect(
+      core.durableLog.get(`event:work.job-lost:${layoffs[0]!.date}:job:w1`)
+        ?.facts,
+    ).toEqual({ decidedBy: decider, organizationId: employer });
     expect(api.moduleState("jobs").table("seekers").get("w1")).toBeTruthy();
     expect(money(core)).toBe(total);
   });
@@ -943,6 +962,101 @@ describe("staffing recovery", () => {
       ),
     ).toBe(true);
     expect(core.finance.businesses.get(employer)!.closedAt).toBeUndefined();
+  });
+});
+
+describe("quitting during an employed search", () => {
+  it("keeps a counted worker eligible to leave while already looking", () => {
+    const core = createLifeCore(
+      collapseToTwoLevels(input(), {
+        keep: new Set(["w1", "w3", "w4", "s1", "s2"]),
+      }),
+      {
+        data: {
+          ...data,
+          parameters: {
+            ...data.parameters,
+            jobsQuitBaseline: {
+              ...data.parameters.jobsQuitBaseline!,
+              value: 20,
+            },
+          },
+        },
+        modules: [JOBS_MODULE],
+      },
+    );
+    const api = coreAPI(core);
+    withBooks(core, 1);
+    api.moduleState("jobs").table("countedSeekers").put({
+      id: "w2",
+      personId: "w2",
+      placeId: place,
+      isSeeker: true,
+      employed: true,
+      since: start,
+      reasonKey: "looking-around",
+      referenceHourlyMinor: 1500,
+    });
+    advanceCore(core, "2021-03-02");
+    expect(
+      api
+        .moduleState("jobs")
+        .table("changes")
+        .query("byPerson", ["w2"])
+        .some(
+          (row) =>
+            row.kind === "quit" && row.reasonKey === jobsData.reasons.leftJob,
+        ),
+    ).toBe(true);
+  });
+});
+
+describe("retirement during an employed search", () => {
+  it("lets both tiers reconsider work and clears a retired worker's search", () => {
+    const fixture = input();
+    fixture.people = fixture.people.map((person) =>
+      ["w1", "w2"].includes(person.id)
+        ? { ...person, birthDate: "1920-01-01" }
+        : person,
+    );
+    const core = createLifeCore(
+      collapseToTwoLevels(fixture, {
+        keep: new Set(["w1", "w3", "w4", "s1", "s2"]),
+      }),
+      { data, modules: [JOBS_MODULE] },
+    );
+    const api = coreAPI(core);
+    withBooks(core, 1);
+    for (const [personId, table] of [
+      ["w1", "seekers"],
+      ["w2", "countedSeekers"],
+    ])
+      api.moduleState("jobs").table(table!).put({
+        id: personId!,
+        personId: personId!,
+        placeId: place,
+        isSeeker: true,
+        employed: true,
+        since: start,
+        reasonKey: "looking-around",
+        referenceHourlyMinor: 1500,
+      });
+    advanceCore(core, "2021-04-02");
+    for (const [personId, table] of [
+      ["w1", "seekers"],
+      ["w2", "countedSeekers"],
+    ]) {
+      expect(
+        api
+          .moduleState("jobs")
+          .table("changes")
+          .query("byPerson", [personId!])
+          .some((row) => row.reasonKey === jobsData.reasons.retired),
+      ).toBe(true);
+      expect(
+        api.moduleState("jobs").table(table!).get(personId!),
+      ).toBeUndefined();
+    }
   });
 });
 

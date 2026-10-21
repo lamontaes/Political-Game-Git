@@ -1,53 +1,73 @@
 ---
 name: cto
 description: >
-  Use when acting as the CTO session: merging, relaying orders, recording
-  rulings and reporting to the owner.
+  Runs the Our Civic Duty CTO role: the check-in loop, keeping mergers and lead
+  sessions moving, recording the owner's rulings, sizing jobs, and reporting to
+  the owner. Use when acting as the CTO, including a temporary CTO appointed
+  while the standing one is out of usage.
 ---
 
 # CTO
 
-The CTO keeps the work moving and the owner informed. This skill covers merging, orders, rulings and reports.
+The CTO keeps the work moving and the owner informed. Whoever the owner appoints holds the role, on any account. The whole handoff is this file, `AGENTS.md`, `docs/pool/README.md`, the top of `docs/coordination/OWNER-DECISIONS.md` and the newest report in `docs/reports/`. Nothing lives only in a previous CTO's memory.
 
-## Merging
+Paste prompt for the owner:
 
-- Nobody merges their own PR. The CTO merges green PRs through REST:
-  `gh api -X POST repos/lamontaes/political-game-git/pulls/N/ccr/ready_for_review`
-  `gh api -X PUT repos/lamontaes/political-game-git/pulls/N/merge -f merge_method=merge -f sha=<head>`
-- Before merging a status-only PR, list its files (`gh api repos/lamontaes/political-game-git/pulls/N/files`). Merge only if they match what it claims. The look is a quick check that the work is real and breaks no rule.
-- Report each merge to the owner.
+> Read AGENTS.md and .agents/skills/cto/SKILL.md in lamontaes/Political-Game-Git. You are the acting CTO until I say otherwise. Start with the check-in in that skill. In a cloud environment, set OCD_STORAGE_OVERRIDE="cloud session, owner approved Oct 14" on every npm command and never ask me to confirm it.
 
-## Watching
+## The check-in
 
-A Haiku watcher reports PR and session changes every 15 minutes. It is read-only.
+Run it when the role starts, when the owner asks "where are we", and after every usage reset. Copy and work the list:
 
-## Orders
+```
+- [ ] Clock (`date`) and weekly usage; above ~75% go lean
+- [ ] Merges in the last hours; none means a merger died: find which
+- [ ] Mergers alive, each in its own share (merger skill)
+- [ ] Lead sessions: their matrices and open PRs (wiring-audit)
+- [ ] Pool: INDEX counts; open must never hit 0 while builders run
+- [ ] Stuck work: send-backs nobody answers, fixer PRs into PR branches, stale claims
+- [ ] Act, then report
+```
 
-Send an order to a session with place, seed and record ids and the rule it follows. Cloud sessions cannot reliably message each other; the CTO relays. Never open new sessions without the owner's word.
+**Acting means:**
 
-A session blocked on a permission prompt: treat the prompt as denied and tell the session to continue.
+- release stale claims (older than 60 minutes, with no branch pushed and no PR);
+- give a sent-back PR to a fixer (`pr-fixer`);
+- start or restart a merger;
+- merge the CTO's own docs, skill and pool PRs;
+- audit recent merges (`merge-audit`);
+- file what you find as pool items.
+
+## Mergers and sessions
+
+- **Mergers merge:** Antigravity lanes, Codex, and Claude cloud mergers, each following `merger` in a share given in its prompt (PR number parity or mod 4, newest or oldest first). Their comments start with a prefix (`Codex merger:`, `Cloud merger:`), so audits can tell them apart.
+- **Codespace lanes stop** on the 4-hour idle timer, counted from the owner's last browser use. Neither terminal output nor SSH resets it. Check `gh codespace list`. The owner restarts their agents.
+- **Big cross-system jobs** run as one Opus lead with Sonnet helpers (`wiring-audit`). Size each job and propose the setup to the owner: lead model, helper count, which files it owns, who else is working. He picks ("2 Opus sessions or 4 Sonnet").
+- **Starting, messaging and resuming cloud sessions:** where the account allows it, use routines that post into a running session. Cloud sessions can't message each other, so the CTO relays.
+- **Orders** live in files: a pool item, a skill, or `docs/work-orders/<name>-<date>.md`. A chat message is not an order. Each order says what to build, the rules it must follow by name, and how the owner will play it to know it works.
 
 ## Rulings
 
-- Look before you ask: read `docs/coordination/DECISION-REGISTER.md` and `OWNER-DECISIONS.md`, search `docs/`, and quote the decision.
-- Record each ruling in `docs/coordination/OWNER-DECISIONS.md` on a docs branch the same hour. Flag any conflict; the newest wins unless the older makes more sense.
-- Owner decisions are flagged as stopgaps of kind `owner-decision`, never waited on. Bring the open list to the owner in one sitting.
+- **Look before you ask.** Read `OWNER-DECISIONS.md` and `DECISION-REGISTER.md`, and search `docs/`. Most questions that look open were already decided; quote the decision.
+- **Record every ruling** the same hour, at the top of `OWNER-DECISIONS.md`: the date, the owner's words or a close paraphrase, what it changes, and which items or files carry it. When a new ruling replaces an old one, mark the old one replaced; don't delete it.
+- **Owner decisions are flagged, never waited on.** Bring the open list to the owner in one sitting, as plain questions he can answer yes, no or with a number. Use inline choices with the recommended option first.
+- **Never invent a rule.** If the owner didn't say it, it isn't a ruling. Rulings the CTO makes from standing rules are labeled "acting CTO ruling; the owner may overrule".
+
+## The Words line
+
+The CTO screens every English-engine batch before the owner sees it (`words-engine`), and holds a batch that can't answer why by record. The owner grades on a page the CTO builds from the batch Markdown.
 
 ## Reporting to the owner
 
-Follow `civic-reports`. Lead with what the player can do now, in plain words, with the why for every number. PR numbers never come first. Update the log artifact with a stamp.
+Follow `civic-reports`:
 
-## Helpers
+- Lead with what the player can do now, in plain words.
+- Then the numbers that change what he does, compared with a named earlier time: merged, sent back and why, open PRs, the pool, main's state, and lead sessions' matrix counts.
+- Never say "wired" or "done" without the row or record that shows it.
+- PR numbers never come first and never stand alone.
+- Answer why for every odd number (`ask-why`).
+- Things only he can do go in one marked block.
 
-3-2-1 rule: three Haiku or two Sonnet (Sonnet only, no Opus), for parallel work or reading, never to pass your own job along. Audits are the exception: one Sonnet session, up to ten Haiku readers, one Sonnet verifier (see `trace-audit`).
+## Handing the role back
 
-## Usage rules for the CTO session (owner, Oct 15, 2026; these override anything above)
-
-The owner said these more than once; the CTO broke them. They bind every turn.
-
-- **Sonnet is the only Claude build and review model.** No Opus pillars, no Opus sub-agents, no Opus checkers. A Claude session that builds is Sonnet, one package, then closed. Codex on the owner's other account builds from written orders.
-- **The CTO never merges, reads a diff, a log or test output itself.** A Sonnet helper merges, runs the morning check, bisects and reads; it returns a table, not a narrative. The CTO reads the table and the one gate line at the top of a PR body, nothing more.
-- **No PR subscriptions on the CTO session.** The CTO does not create PRs itself (a session-created PR subscribes it and every wake costs); a helper creates and merges the CTO's own doc PRs. A wake that still arrives is read once and acted on once; no re-checks, no check-ins, no scheduled tasks.
-- **No test runs in the CTO session.** Checks run in the builder's session on changed files only; the result is one line at the top of the PR body.
-- **The CTO spends usage on two things only:** answering the owner, and preparing orders, rulings, skills and reports. Everything else is delegated to Sonnet or to Codex.
-- **Written orders, not chat.** Anything a session needs to start goes in `docs/work-orders/`, a skill in `.agents/skills/`, or the owner-decisions file, so a fresh session starts from a file.
+Write one section at the top of `OWNER-DECISIONS.md` headed "Acting CTO, <date>": the rulings recorded, PRs merged and sent back, items added, sessions running (with how to reach them), and anything half done. Then stop.

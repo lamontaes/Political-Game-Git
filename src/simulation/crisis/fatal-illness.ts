@@ -16,7 +16,7 @@ import {
   FATAL_ILLNESS_PROGNOSIS_AT,
   fatalIllnessEpisodeKey,
   remainingDaysAfterOnset,
-} from "./death-causes";
+} from "../../core2/death-causes";
 import { MULTIPLIER_ONE } from "../../core2/health-hazard";
 import { beginHealthEpisode } from "./health";
 import {

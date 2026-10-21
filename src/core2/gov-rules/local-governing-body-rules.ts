@@ -113,3 +113,16 @@ export function localGoverningBodyRules(
         : modalShare(typical.termYears),
   };
 }
+
+/**
+ * The name the town's charter gives its governing body ("Anchorage
+ * Assembly"), where the game has compiled the town's government and its
+ * reading names the body; null where it has not.
+ */
+export function localGoverningBodyName(
+  unit: GovernmentUnitIdentity,
+): string | null {
+  if (!hasGoverningBody(unit)) return null;
+  const government = municipalGovernmentForUnit(unit);
+  return government ? (primaryReading(government).bodyName ?? null) : null;
+}

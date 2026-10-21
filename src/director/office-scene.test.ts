@@ -33,7 +33,7 @@ import {
 const seed = process.env.OFFICE_SCENE_SEED ?? randomBytes(8).toString("hex");
 const opening = "2026-10-12";
 const maxDays = 120;
-const maxPlaces = 4;
+const maxPlaces = 8;
 
 interface Captured {
   scene: OfficeScene;
@@ -57,6 +57,12 @@ const townBody = (api: CoreAPI, officeId: string) =>
 
 const proof: string[] = [];
 let captured: Captured | null = null;
+// Scenes whose bill died in committee, with no floor vote held on it.
+const committeeDeaths: {
+  billId: string;
+  status: string | undefined;
+  votes: number;
+}[] = [];
 let armed = false;
 registerLegislatureHooks({
   beforeVote(api, billId) {
@@ -98,6 +104,24 @@ function play(): {
     for (let day = 0; day < maxDays && !captured; day += 1) {
       date = addDay(date);
       advanceCore(world.core, date);
+      // The scene opens just before the body votes. A bill its committee did
+      // not report dies there with no floor vote at all, so no member's vote
+      // is ever recorded: that scene is kept apart (it is the committee-failure
+      // case) and the search goes on to a bill that reaches the floor.
+      if (captured) {
+        const held = captured as Captured;
+        const voted = votesOn(coreAPI(world.core), held.scene.billId).some(
+          (row) => row.memberId === held.scene.targetId,
+        );
+        if (!voted) {
+          committeeDeaths.push({
+            billId: held.scene.billId,
+            status: billOf(coreAPI(world.core), held.scene.billId)?.status,
+            votes: votesOn(coreAPI(world.core), held.scene.billId).length,
+          });
+          captured = null;
+        }
+      }
     }
     armed = false;
     proof.push(
@@ -163,6 +187,9 @@ describe("the office scene", () => {
     // Every line is said from records, and names the target from their term.
     for (const line of scene.narration)
       expect(line.sourceRecordIds.length).toBeGreaterThan(0);
+    // The last narrator line says what is happening, naming the member.
+    const lead = scene.narration.at(-1)!.text;
+    expect(lead).toMatch(/\b(member you need to reach|is the one to reach)\b/);
     expect(scene.choices.map((c) => c.key)).toContain("silent");
     expect(scene.choices.map((c) => c.key)).toContain("make-case");
   });
@@ -201,5 +228,12 @@ describe("the office scene", () => {
     expect(vote!.position.views).not.toBeCloseTo(caseResult.before.views, 10);
     if (vote!.vote === "yes" || vote!.vote === "no")
       expect(vote!.vote).toBe(vote!.position.total > 0 ? "yes" : "no");
+  });
+
+  it("a bill its committee did not report has no floor vote, and its scene is not taken for the vote", () => {
+    for (const death of committeeDeaths) {
+      expect(death.status, death.billId).toBe("failed");
+      expect(death.votes, death.billId).toBe(0);
+    }
   });
 });

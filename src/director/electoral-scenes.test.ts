@@ -8,9 +8,13 @@ import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import { advanceCore } from "../core2/life";
 import {
   ELECTIONS_MODULE_ID,
+  fileCandidacy,
+  openContests,
   type ContestRow,
   type FilingRow,
 } from "../core2/modules/elections";
+import { filingClerkFor } from "../core2/modules/filing-clerk";
+import { retellingsOf, SPEECH_MODULE_ID } from "../core2/modules/speech";
 import { askToVolunteer, campaignFor } from "../core2/modules/campaigns";
 import { resultOf } from "../core2/modules/voting";
 import { coreAPI } from "../core2/state";
@@ -113,4 +117,106 @@ it(`a candidate's night of the count is a won or lost scene citing the result, i
   }
   expect(stated.length).toBeGreaterThan(0);
   console.log(`SCENES ${place.name} ${seed}\n${stated.join("\n")}`);
+}, 900_000);
+
+// A candidate who files is met by the clerk of the filing office, and a
+// campaigning candidate who speaks to a crowd has a campaign stop (owner,
+// Oct 15). The causes are the filing's own announcement and the speech the
+// campaign gave; the clerk is the person the office's records name and the
+// crowd is the speech's recorded listeners.
+it(`filing is a scene with the office's clerk and a campaign speech is a stop with its listeners, in ${place.name}, seed ${seed}`, () => {
+  setBookkeeping(false);
+  const world = buildBenchWorld(place.seed, gameStartDate(), {
+    twoLevel: true,
+    placeKey: place.key,
+  });
+  const { core, director } = world;
+  const api = coreAPI(core);
+  const town = [...core.people.values()]
+    .filter((p) => p.alive && p.id !== core.playerId)
+    .sort((a, b) => a.id.localeCompare(b.id));
+  const contest = openContests(api).find(
+    (row) =>
+      (row.family === "municipalOffice" || row.family === "countyOffice") &&
+      filingClerkFor(api, row.id),
+  );
+  if (!contest) {
+    console.log(`NO CLERK CONTEST ${place.name} ${seed}`);
+    return;
+  }
+  const clerk = filingClerkFor(api, contest.id)!;
+  const filings: FilingRow[] = [];
+  for (const person of town) {
+    if (filings.length >= 3) break;
+    if (person.id === clerk.personId) continue;
+    director.watch(core, person.id);
+    const result = fileCandidacy(api, {
+      personId: person.id,
+      contestId: contest.id,
+      platform: [],
+    });
+    if (result.status === "on-ballot") filings.push(result.filing);
+  }
+  expect(filings.length, "residents who can file").toBeGreaterThan(0);
+  advanceCore(core, addDays(makeIsoDate(core.date), 2));
+  const lines: string[] = [];
+  for (const filing of filings) {
+    const book = director.ledger.people.get(filing.personId)!;
+    const entry = book.schedule.find((row) =>
+      row.momentId.includes(`candidate-filed:${filing.id}`),
+    );
+    const scene = entry?.bindings.find((row) => row.typeKey === "filing");
+    expect(scene, `${filing.id} has no filing scene`).toBeTruthy();
+    expect(
+      scene!.roles.find((row) => row.role === "candidate")!.personIds,
+    ).toEqual([filing.personId]);
+    // The clerk is the office's recorded clerk, never an invented one.
+    expect(scene!.roles.find((row) => row.role === "clerk")!.personIds).toEqual(
+      [clerk.personId],
+    );
+    lines.push(
+      `${filing.personId} filed ${filing.id}; clerk ${clerk.personId} (${clerk.basis} ${clerk.recordId}); scene ${entry!.momentId}`,
+    );
+  }
+  // The campaign runs to election day; each speech to a crowd is a stop.
+  advanceCore(core, addDays(makeIsoDate(contest.electionDate), -1));
+  let stops = 0;
+  const speechIds = (
+    api.moduleState(SPEECH_MODULE_ID).table("retellings").rows() as unknown as {
+      speechId: string;
+    }[]
+  )
+    .map((row) => row.speechId)
+    .filter((id, index, all) => all.indexOf(id) === index);
+  for (const filing of filings) {
+    const book = director.ledger.people.get(filing.personId)!;
+    for (const entry of book.schedule) {
+      const scene = entry.bindings.find(
+        (row) => row.typeKey === "campaign-stop",
+      );
+      if (!scene) continue;
+      const speechId = speechIds.find((id) => entry.momentId.includes(id));
+      expect(
+        speechId,
+        `${entry.momentId} cites no recorded speech`,
+      ).toBeTruthy();
+      const heard = new Set(
+        retellingsOf(api, speechId!).map((row) => row.listenerId),
+      );
+      expect(
+        scene.roles.find((row) => row.role === "candidate")!.personIds,
+      ).toEqual([filing.personId]);
+      for (const id of scene.roles.find((row) => row.role === "voters")!
+        .personIds)
+        expect(heard.has(id), `${id} was not in the crowd of ${speechId}`).toBe(
+          true,
+        );
+      stops += 1;
+      lines.push(`${filing.personId} campaign stop ${entry.momentId}`);
+    }
+  }
+  console.log(
+    `FILING ${place.name} ${seed} stops ${stops}\n${lines.join("\n")}`,
+  );
+  expect(stops, "a campaign stop for a speaking candidate").toBeGreaterThan(0);
 }, 900_000);

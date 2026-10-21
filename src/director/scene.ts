@@ -28,6 +28,8 @@ export interface SceneWords {
   present: Variant[];
   /** The day, as the narrator opens: "It's a Tuesday in March." */
   frame: Variant[];
+  /** What is happening, by the staged situation's type. */
+  leads: readonly { typeKey: string; variants: Variant[] }[];
   causes: readonly { labelPrefix: string; variants: Variant[] }[];
 }
 /** `data/scene-rows.json`: the scene's structure, holding no sentences. */
@@ -35,6 +37,7 @@ export interface SceneRows {
   version: string;
   and: string;
   settings: readonly string[];
+  leads: readonly string[];
   causes: readonly string[];
 }
 /** The default words are the mined bank's. */
@@ -269,6 +272,35 @@ export function composeScene(
     if (line) sentences.push(line);
   }
 
+  // What is happening, from the staged situation's type. It names only
+  // someone the scene places in the room: not the person a funeral is for.
+  const talkToId =
+    opener?.personIds.find((id) => id !== personId) ??
+    moment.counterpartIds.find((id) => binding.presentIds.includes(id));
+  const lead = words.leads.find((row) => row.typeKey === binding.typeKey);
+  if (lead) {
+    const facts: Record<string, Fact> = {};
+    const other = talkToId ? who(talkToId) : null;
+    if (other) facts.other = other;
+    const job = person.jobId ? core.jobs.get(person.jobId) : undefined;
+    const org = job ? core.organizations.get(job.organizationId) : undefined;
+    if (org)
+      facts.employer = {
+        text: properName(org.name),
+        sourceRecordIds: [org.id],
+      };
+    const town = place(person.placeId);
+    if (town) facts.place = town;
+    const line = render(
+      `scene-lead:${lead.typeKey}`,
+      lead.variants,
+      facts,
+      `${moment.id}:lead`,
+      other ? "other" : "alone",
+    );
+    if (line) sentences.push(line);
+  }
+
   // What led here, from the moment's cause.
   const cause = words.causes.find((row) =>
     moment.label.startsWith(row.labelPrefix),
@@ -313,9 +345,6 @@ export function composeScene(
         },
       ]
     : [];
-  const talkToId =
-    opener?.personIds.find((id) => id !== personId) ??
-    moment.counterpartIds.find((id) => binding.presentIds.includes(id));
   return {
     momentId: moment.id,
     typeKey: binding.typeKey,

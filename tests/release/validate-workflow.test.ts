@@ -7,7 +7,9 @@ const browserWorkflow = readFileSync(".github/workflows/browser.yml", "utf8");
 describe("deterministic validation workflow capacity", () => {
   it("keeps the required aggregate named validate and does not green a failed job", () => {
     expect(validate).toContain("name: validate\n    if: always()");
-    expect(validate).toContain("needs:\n      - repository\n      - unit");
+    expect(validate).toContain(
+      "needs:\n      - repository\n      - scope\n      - unit",
+    );
     expect(validate).toContain(
       '"$repository" != "success" || "$unit" != "success"',
     );
@@ -51,23 +53,37 @@ describe("deterministic validation workflow capacity", () => {
     expect(browserWorkflow).not.toContain("contents: write");
     expect(browserWorkflow).toContain("permissions:\n  contents: read");
     expect(browserWorkflow).toContain("actions: read");
-    // Separate runs must not cancel each other, and main keeps the base
-    // verdict every lane reads to tell an inherited failure from its own.
+    // Separate runs must not cancel each other. The browser workflow keeps
+    // main's verdict as the base every lane reads; validate lets a newer push
+    // replace the older run everywhere (owner rule, Oct 1, 2026).
     for (const workflow of [validate, browserWorkflow]) {
       expect(workflow).toContain(
         "group: ${{ github.workflow }}-${{ github.event_name }}-${{ github.ref }}",
       );
-      expect(workflow).toContain(
-        "cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}",
-      );
-      expect(workflow).toContain(
-        'on:\n  pull_request:\n  push:\n    branches: [main, "codex/**"]',
-      );
     }
+    expect(validate).toContain("cancel-in-progress: true");
+    expect(validate).toContain(
+      "on:\n  pull_request:\n  push:\n    branches: [main]",
+    );
+    expect(browserWorkflow).toContain(
+      "cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}",
+    );
+    // Owner rule (Oct 1, 2026): the full browser suite runs only when started
+    // by hand.
+    expect(browserWorkflow).toContain("on:");
+    expect(browserWorkflow).toContain("  workflow_dispatch:");
+    expect(browserWorkflow).not.toContain("  pull_request:");
   });
 
-  it("splits repository validation from file-level unit and browser shards", () => {
-    expect(validate).toContain("npm run validate:ci-sharded");
+  it("checks only the changed files in validate, and shards the browser suite", () => {
+    // Owner rule (Oct 12, 2026): never run the full repository. Validate
+    // checks the files a change touches and runs only its changed tests.
+    expect(validate).toContain("Check only the files this change touches");
+    expect(validate).toContain("Run only the changed test files");
+    expect(validate).toContain('npx vitest run "${files[@]}"');
+    expect(validate).not.toContain("npm run validate");
+    expect(validate).not.toContain("validate:ci-sharded");
+    expect(validate).not.toContain("--shard=");
     expect(browserWorkflow).toContain("npx playwright test --shard=");
     expect(browserWorkflow).toContain("write-e2e-shard-inventory.ts");
     expect(browserWorkflow).toContain("write-e2e-baseline-inventory.ts");
@@ -77,41 +93,11 @@ describe("deterministic validation workflow capacity", () => {
     expect(browserWorkflow).toContain(
       "run: node --import tsx scripts/dev-lab/assert-e2e-shard-union.ts /tmp/playwright-suite-baseline/baseline-inventory.json /tmp/playwright-shard-inventories\n",
     );
-    const repositoryAt = validate.indexOf("\n  repository:\n");
-    expect(repositoryAt).toBeGreaterThan(-1);
-    // Same fail-open family as the aggregate slice above: if either bound is
-    // absent, indexOf returns -1 and the negative assertions below pass over a
-    // one-character string. Prove both bounds first.
-    const unitAt = validate.indexOf("\n  unit:\n");
-    const aggregateAt = validate.indexOf("\n  validate:\n");
-    expect(unitAt).toBeGreaterThan(-1);
-    expect(aggregateAt).toBeGreaterThan(unitAt);
-    const unit = validate.slice(unitAt, aggregateAt);
-    const repository = validate.slice(repositoryAt, unitAt);
     const browserAt = browserWorkflow.indexOf("\n  browser:\n");
     const browserSuiteAt = browserWorkflow.indexOf("\n  browser-suite:\n");
     expect(browserAt).toBeGreaterThan(-1);
     expect(browserSuiteAt).toBeGreaterThan(browserAt);
     const browser = browserWorkflow.slice(browserAt, browserSuiteAt);
-    expect(repository).toContain("npm run validate:ci-sharded");
-
-    // Every shard reports what it ran and each aggregate refuses a run whose
-    // shards do not partition the whole suite.
-    expect(unit).toContain("--shard=${{ matrix.shard }}/${{ matrix.total }}");
-    expect(unit).toContain("unit-shard-report-");
-    expect(unit).not.toContain("npm run validate");
-    // Pinned whole, for the same reason as the browser union check above.
-    expect(validate).toContain(
-      "run: node --import tsx scripts/dev-lab/assert-unit-shard-union.ts /tmp/unit-suite-baseline/files.txt /tmp/unit-shard-reports\n",
-    );
-    // The sharded chain is the full validate chain with only the unit step
-    // removed, so nothing is dropped by sharding.
-    const scripts = JSON.parse(readFileSync("package.json", "utf8"))
-      .scripts as Record<string, string>;
-    expect(scripts.validate).toContain("npm run test && ");
-    expect(scripts["validate:ci-sharded"]).toBe(
-      scripts.validate.replace("npm run test && ", ""),
-    );
     expect(browser).toContain("npx playwright test --shard=");
     expect(browser).not.toContain("npm run validate");
     expect(browser).toContain("timeout-minutes: 75");
@@ -121,10 +107,8 @@ describe("deterministic validation workflow capacity", () => {
   });
 
   it("preserves trusted checkout, action versions, and exact PR-head refs", () => {
-    expect(validate.match(/actions\/checkout@v7/g)).toHaveLength(3);
-    expect(validate.match(/actions\/setup-node@v7/g)).toHaveLength(3);
-    expect(validate.match(/actions\/upload-artifact@v7/g)).toHaveLength(2);
-    expect(validate).toContain("actions/download-artifact@v7");
+    expect(validate.match(/actions\/checkout@v7/g)).toHaveLength(2);
+    expect(validate.match(/actions\/setup-node@v7/g)).toHaveLength(2);
     expect(browserWorkflow.match(/actions\/checkout@v7/g)).toHaveLength(3);
     expect(browserWorkflow.match(/actions\/setup-node@v7/g)).toHaveLength(3);
     expect(browserWorkflow.match(/actions\/upload-artifact@v7/g)).toHaveLength(

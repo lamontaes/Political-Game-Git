@@ -1,4 +1,5 @@
 /** Session B: ordinary played-world turnover, firm reasons and downstream benefit reads. */
+import { heardItems } from "../../src/bench/calendar";
 import { performance } from "node:perf_hooks";
 import { buildBenchWorld } from "../../src/bench/world";
 import { gameStartDate } from "../../src/core2/game-start";
@@ -31,13 +32,26 @@ const cashTotal = () =>
     0,
   );
 const openingCash = cashTotal();
-const employed = () =>
-  [
-    ...core.jobs.values(),
-    ...(residentsRuntime(core)?.jobs.values() ?? []),
-  ].filter(
-    (job) => !job.endsAt && core.finance.businesses.has(job.organizationId),
+const excludedJobIds = new Set<string>();
+const employed = () => {
+  const jobs = new Map(
+    [...core.jobs.values()]
+      .filter((job) => !job.endsAt && core.people.get(job.personId)?.alive)
+      .map((job) => [job.id, job]),
+  );
+  const rt = residentsRuntime(core);
+  for (const job of rt?.jobs.values() ?? []) {
+    if (job.endsAt || !core.finance.businesses.has(job.organizationId))
+      continue;
+    const flow = rt?.wageFlowByJob.get(job.id);
+    if (flow && !flow.endedAt && flow.organizationId === job.organizationId)
+      jobs.set(job.id, job);
+    else excludedJobIds.add(job.id);
+  }
+  return [...jobs.values()].filter((job) =>
+    core.finance.businesses.has(job.organizationId),
   ).length;
+};
 const months: { date: string; employed: number }[] = [];
 const end = new Date(`${start}T00:00:00Z`);
 end.setUTCFullYear(end.getUTCFullYear() + 1);
@@ -46,6 +60,8 @@ const rows = (module: string, table: string) =>
     string,
     unknown
   >[];
+const deliveredStaffing = new Map<string, unknown>();
+const publishedStaffing = new Map<string, unknown>();
 const staffingWire = new Map<string, Record<string, unknown>>();
 const coverageStories = new Map<string, Record<string, unknown>>();
 for (let at = new Date(`${start}T00:00:00Z`); at < end;) {
@@ -59,6 +75,24 @@ for (let at = new Date(`${start}T00:00:00Z`); at < end;) {
   for (const row of rows("core2-press-v1", "stories"))
     if (String(row.wireId).includes("business.staff-reduced"))
       coverageStories.set(String(row.id), row);
+  for (const row of rows("news", "stories"))
+    if (String(row.id).includes("business.staff-reduced"))
+      publishedStaffing.set(String(row.id), row);
+  for (const row of rows("news", "heard")) {
+    if (
+      !publishedStaffing.has(String(row.storyId)) ||
+      deliveredStaffing.has(String(row.id))
+    )
+      continue;
+    const personId = String(row.personId);
+    deliveredStaffing.set(String(row.id), {
+      ...row,
+      learnedTrading: core.knowledgeByPerson.get(personId)?.get("tradingId"),
+      screen: heardItems(core, personId).find(
+        (story) => story.id === row.storyId,
+      ),
+    });
+  }
 }
 const allChanges = rows("jobs", "changes");
 const changes = allChanges.filter((row) =>
@@ -69,7 +103,13 @@ const rates = Object.fromEntries(
   (["hire", "quit", "layoff"] as const).map((kind) => {
     const count = changes.filter(
       (row) =>
-        row.kind === kind || (kind === "layoff" && row.kind === "closure"),
+        row.kind === kind ||
+        (kind === "layoff" && row.kind === "closure") ||
+        // JOLTS quits include voluntary departures out of the labor force,
+        // but exclude retirement, death and involuntary separation.
+        (kind === "quit" &&
+          row.kind === "left-work" &&
+          row.reasonKey === jobsData.reasons.leftWork),
     ).length;
     const band =
       jobsData.turnover.industries.total[
@@ -102,6 +142,7 @@ console.log(
       modules: [...core.modules.keys()],
       rates,
       months,
+      excludedJobIds: [...excludedJobIds],
       changes,
       closures: [...core.finance.closures.values()],
       openPositions: rows("jobs", "positions").filter(
@@ -119,6 +160,8 @@ console.log(
       everyRecordedChangeHasReason: allChanges.every(
         (row) => row.reasonKey && row.decidedBy,
       ),
+      publishedStaffing: [...publishedStaffing.values()],
+      deliveredStaffing: [...deliveredStaffing.values()],
       coverageStories: [...coverageStories.values()],
       staffingWire: [...staffingWire.values()],
       layoffs: layoffs.slice(0, 8).map((row) => ({

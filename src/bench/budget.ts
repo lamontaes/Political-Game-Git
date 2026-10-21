@@ -9,6 +9,9 @@ import {
 import type { TermRow } from "../core2/modules/offices";
 import type { CoreState } from "../core2/types";
 import { properName } from "../director/words";
+import lineNames from "../core2/data/budgets/line-names.json" with { type: "json" };
+
+const NAMES = lineNames.lines as Record<string, { name: string }>;
 
 const OFFICES = "core2-offices-v1";
 const EXECUTIVES = /^(mayor|governor|county-executive|president)$/;
@@ -28,9 +31,12 @@ function executiveOf(core: CoreState, personId: string): Set<string> {
   return out;
 }
 
+/** A budget line with the name its source table gives it; a line with no name is a defect the budget test lists. */
+export const lineName = (line: string): string | undefined => NAMES[line]?.name;
+
 const sorted = (lines: Readonly<Record<string, number>>) =>
   Object.entries(lines)
-    .map(([line, minor]) => ({ line, minor }))
+    .map(([line, minor]) => ({ line, name: lineName(line), minor }))
     .sort((a, b) => b.minor - a.minor);
 
 /** Every government over the town, its latest budget, and the player's taxes. */

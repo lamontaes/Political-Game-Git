@@ -1,7 +1,7 @@
 {
   "id": "official-salaries-2026",
   "asOf": "2026-10-12",
-  "about": "Annual US dollars, 2024-2026 vintage. Web sources (Ballotpedia, NCSL) were unreachable in this session, so figures come from recalled published values and are all marked estimate. AG, secretary of state and treasurer are about 90, 80 and 80 percent of the governor. Null means the office does not exist there or is not a separate post (DC mayor is listed as governor; territory legislators in the legislator row).",
+  "about": "Annual US dollars. A governor's and (where one annual figure exists) a legislator's pay is read from the sourced facts in src/simulation/office-pay.generated.ts (data/source/official-office-pay/facts.json, each citing its statute or commission and effective year); the figures below are the fallback for everything else, recalled published values marked ESTIMATED with the spread in provenance.estimated until each office is cited (pool item gov-official-salary-research). AG, secretary of state and treasurer are about 90, 80 and 80 percent of the governor. Null means the office does not exist there or is not a separate post (DC mayor is listed as governor; territory legislators in the legislator row).",
   "federal": {
     "president": 400000,
     "vicePresident": 284600,
@@ -636,5 +636,19 @@
     "notes": "Rough medians across all sizes of county and city; small places pay little. Estimated from ICMA and NACo survey summaries as remembered.",
     "source": "https://icma.org; https://www.naco.org",
     "estimate": true
+  },
+  "provenance": {
+    "estimated": {
+      "tag": "ESTIMATED",
+      "statewideShareOfGovernor": 0.8,
+      "spreadPct": {
+        "governor": 21,
+        "legislator": 15,
+        "statewide": 21
+      },
+      "estimatedFrom": "Recalled published values, 2024-2026 vintage, used where no sourced figure exists: the governors of Alabama, Indiana, Kentucky, D.C. and American Samoa, the legislators of the states without a single annual figure, and every lieutenant governor, attorney general, secretary of state and treasurer.",
+      "statewideShareBasis": "A statewide post the table has no figure for (an attorney general, secretary of state or treasurer in a territory) is set at the share of the governor's pay the table uses for secretary of state and treasurer, 0.8.",
+      "spreadBasis": "The 80th percentile of the gap between this table's recalled figures and the sourced ones in data/source/official-office-pay/facts.json: governors, 51 sourced (median gap 10 percent, 80th percentile 21 percent); legislators, 29 sourced (median 6 percent, 80th percentile 15 percent). The other statewide offices were set as shares of the governor's pay, so they take the governor's spread."
+    }
   }
 }

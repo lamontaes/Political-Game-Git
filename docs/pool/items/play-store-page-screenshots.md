@@ -4,12 +4,13 @@ title: "Store page screenshots."
 area: play
 kind: feature
 priority: 2
-status: open
-claimed-by:
-pr:
+status: done
+claimed-by: claude/play-store-shots-election-night
+pr: #4795
 blocked-on:
 milestone:
 source: "docs/coordination/play.md line 138 (unchecked checklist line)"
+claimed-at: 2026-10-16T18:55:23.695Z
 ---
 
 **What.** Checked against main on Oct 16: `src/bench/store-shots.mjs` exists, but election night prints the exit poll and turnout as raw pairs with typed labels and has no unopposed-race handling. Next: Word the exit-poll line through the English engine and mark unopposed races. The player would see it as a choice among people, never a form.

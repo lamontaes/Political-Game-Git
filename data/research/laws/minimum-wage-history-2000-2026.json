@@ -66,6 +66,12 @@
       "title": "U.S. Department of the Interior, Minimum Wage in U.S. Territories (CNMI rate $3.05 set by P.L. 9-73 in 1996)",
       "url": "https://www.doi.gov/ocl/hearings/110/IncreasedMinimumWage_022808",
       "retrieved": "2026-10-13"
+    },
+    {
+      "id": "AK-DOLWD",
+      "title": "Alaska Department of Labor and Workforce Development, news release 24-26 (Nov 27, 2024): Alaska's minimum wage rises to $11.91 on Jan 1, 2025 by the annual inflation adjustment; Ballot Measure 1 (2024) sets $13.00 from Jul 1, 2025",
+      "url": "https://dol.alaska.gov/news/2024/news24-26.htm",
+      "retrieved": "2026-10-17"
     }
   ],
   "federal": [
@@ -160,10 +166,14 @@
         "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
       },
       {
+        "effectiveDate": "2025-01-01",
+        "rateMinor": 1191,
+        "sourceId": "AK-DOLWD"
+      },
+      {
         "effectiveDate": "2025-07-01",
         "rateMinor": 1300,
-        "sourceId": "PAYROLL-2026",
-        "estimated": "Ballot Measure 1 (2024): $13.00 on 2025-07-01 per search summary; Jan 1 2025 indexed value 11.91 not fetched"
+        "sourceId": "AK-DOLWD"
       }
     ],
     "US-AL": {

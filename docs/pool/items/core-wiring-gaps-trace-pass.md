@@ -5,12 +5,13 @@ area: core
 kind: research
 priority: 3
 size: M
-status: open
-claimed-by:
-pr:
+status: done
+claimed-by: claude/table-trace
+pr: #4869
 blocked-on:
 milestone:
 source: "follow-up to core-wiring-gaps (static scan, Oct 15, 2026)"
+claimed-at: 2026-10-17T04:35:15.477Z
 ---
 
 **What.** The static scan in `core-wiring-gaps` found tables with no reader by name. It cannot see a record an engine writes to a person, the journal or the log that no other engine reads, nor a read through a helper that builds the table name. Run a one-year played world and, for each module, list what it wrote (tables, events, person fields, journal entries) against what another module read, using the existing read tracing in a debug run. File one pool item per writer with no reader, naming the record ids.

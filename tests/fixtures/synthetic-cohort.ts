@@ -1,10 +1,10 @@
 import {
   CONDITION_PACK,
   conditionHazard,
-  conditionOnsetDay,
   startingConditionAssignments,
-} from "../../src/simulation/crisis/condition-pack";
-import { remainingDaysAfterOnset } from "../../src/simulation/crisis/death-causes";
+} from "../../src/core2/condition-pack";
+import { conditionOnsetDay } from "../../src/simulation/crisis/condition-pack";
+import { remainingDaysAfterOnset } from "../../src/core2/death-causes";
 import {
   firstThresholdDay,
   MULTIPLIER_ONE,

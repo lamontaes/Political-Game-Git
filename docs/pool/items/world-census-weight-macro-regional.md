@@ -5,15 +5,16 @@ area: world
 kind: wiring
 priority: 1
 size: M
-status: open
-claimed-by:
-pr:
+status: done
+claimed-by: claude/census-weight-macro-s5
+pr: #4844
 blocked-on:
 after: world-census-weight-hiring,world-census-weight-housing
 source: added with npm run pool -- add
+claimed-at: 2026-10-16T23:52:25.839Z
 ---
 
-**What.** With headcount, hiring and housing weighted, size the town to its Census count: employment by industry and the housing stock follow the Census reference population (the local business counts in `src/simulation/local-business-counts.ts` already do) instead of the 10,000-person sample, and the macro and regional engines (`modules/macro.ts`, `modules/regional.ts`) read the scaled counts.
+**What.** With headcount, hiring and housing weighted, size the town to its Census count: employment by industry and the housing stock follow the Census reference population (the local business counts in `src/simulation/local-business-counts.ts` already do) instead of the 10,000-person sample, and the macro and regional engines (`modules/macro.ts`, `modules/regional.ts`) read the scaled counts. Prove it in a one-year run of the played world in a drawn place and a seed the builder did not choose, naming the records the change touched. File anything found along the way as its own pool item.
 
 **Rules.** One model, two tiers (a counted group is read by every engine with the same rule as a full person, times its count); no dice; one rule, all 56 places; an effect is a read; speed (a year under two minutes, no more than 20% slower than base); replace, never layer.
 

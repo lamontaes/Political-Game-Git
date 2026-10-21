@@ -668,6 +668,9 @@
         <ol id="talk-lines"></ol>
         <div id="talk-choices" class="replies"></div>
         <div class="acts">
+          <button id="talk-gap" class="action small" type="button">
+            Mark gap
+          </button>
           <button id="talk-silent" class="action small" type="button">
             Say nothing
           </button>
@@ -685,16 +688,39 @@
         ></label>
       </section>
 
-      <section id="person" class="panel dossier" hidden>
-        <img id="person-figure" alt="" />
+      <section
+        id="person"
+        class="panel dossier"
+        role="dialog"
+        aria-labelledby="person-name"
+        hidden
+      >
+        <div class="dossier-media">
+          <img id="person-background" alt="" hidden />
+          <img id="person-figure" alt="" hidden />
+        </div>
         <div class="dossier-main">
           <h2 id="person-name" class="heading"></h2>
           <p id="person-role" class="role"></p>
           <div id="person-facts"></div>
+          <div id="person-pager" class="acts" hidden>
+            <button
+              type="button"
+              class="action small"
+              data-person-label="back"
+            ></button>
+            <button
+              type="button"
+              class="action primary small"
+              data-person-label="continue"
+            ></button>
+          </div>
           <div class="acts">
-            <button id="person-talk" class="action primary" type="button">
-              Talk
-            </button>
+            <button
+              id="person-talk"
+              class="action primary"
+              type="button"
+            ></button>
             <button
               id="person-close"
               class="glyph close"

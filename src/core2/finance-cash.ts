@@ -321,10 +321,13 @@ function incomeAward(
     r.field(values, "status") !== r.field(rule, "status") ||
     payers.length !== session.one ||
     r.field(values, "payerId") !== payers[session.zero] ||
-    Number(r.field(values, "monthlyMinor")) !== r.field(row, "amountMinor") ||
+    (r.field(term, "adjustedMinor") ??
+      Number(r.field(values, "monthlyMinor"))) !==
+      r.field(row, "amountMinor") ||
     (r.field(values, "kindId") && r.field(values, "kindId") !== kindId) ||
     (r.field(values, "householdId") &&
-      r.field(values, "householdId") !== homeId) ||
+      r.field(values, "householdId") !==
+        (r.field(term, "recordedHouseholdId") ?? homeId)) ||
     Object.keys(required ?? {}).some(
       (key) => r.field(values, key) !== r.field(required!, key),
     )

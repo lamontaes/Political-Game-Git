@@ -8,9 +8,12 @@
  * this one's words.
  */
 import { P } from "../core2/parameters";
-import { applyCoreEvent } from "../core2/state";
+import { storyOfReadEvent } from "../core2/modules/news";
+import { printedStoryOf } from "../core2/modules/press";
+import { applyCoreEvent, coreAPI } from "../core2/state";
 import { decisionLean } from "../core2/trait-decisions";
 import type { CoreState, PersonId, PersonState, Source } from "../core2/types";
+import { storyTopicName } from "./question-names";
 import { renderLine, type Variant } from "./render";
 import { bringDataFromBank } from "./mined/scene-bank";
 import { possessive, properName } from "./words";
@@ -23,6 +26,10 @@ export interface BringData {
   changes: readonly {
     eventKind: string;
     institutionFact: { prefix: string; suffix: string };
+    /** A printed story a reader remembers: its subject is the outlet, its topic comes from the story record, and no one is blamed. */
+    story?: boolean;
+    /** Event ids that start this way are changes of this kind when heard from someone. */
+    eventIdPrefix?: string;
     line: Variant[];
   }[];
   blame: Readonly<Record<Attribution["how"], Variant[]>>;
@@ -36,6 +43,8 @@ export interface BringRows {
   changes: readonly {
     eventKind: string;
     institutionFact: { prefix: string; suffix: string };
+    story?: boolean;
+    eventIdPrefix?: string;
   }[];
   blame: readonly Attribution["how"][];
 }
@@ -93,7 +102,12 @@ export function changesKnownTo(
       if (!out.has(eventId))
         out.set(eventId, {
           eventId,
-          kind: data.changes[P.zero]!.eventKind,
+          kind: (
+            data.changes.find(
+              (row) =>
+                row.eventIdPrefix && eventId.startsWith(row.eventIdPrefix),
+            ) ?? data.changes[P.zero]!
+          ).eventKind,
           institutionId: fact.value,
           learnedAt: fact.learnedAt,
           route: "heard",
@@ -195,7 +209,20 @@ export function bringItUp(
   listenerId: PersonId,
   data: BringData = BRING_IT_UP_DATA,
 ): BroughtUp | null {
-  const change = changesKnownTo(core, speakerId, data)[P.zero];
+  // The newest change they know of that can be put into words: a printed
+  // story is remembered only when the catalog names its topic.
+  const api = coreAPI(core);
+  const storyTopic = (change: KnownChange): string | null => {
+    const storyId = storyOfReadEvent(change.eventId);
+    const story = storyId ? printedStoryOf(api, storyId) : undefined;
+    const topic = story ? storyTopicName(story.topic) : null;
+    return topic ? topic.toLowerCase() : null;
+  };
+  const speakable = (change: KnownChange) =>
+    !!nameOf(core, change.institutionId) &&
+    (!data.changes.find((row) => row.eventKind === change.kind)?.story ||
+      storyTopic(change) !== null);
+  const change = changesKnownTo(core, speakerId, data).find(speakable);
   const subject = change ? nameOf(core, change.institutionId) : null;
   if (!change || !subject) return null;
   const attribution = believedCause(core, speakerId, change, data);
@@ -217,30 +244,40 @@ export function bringItUp(
       fallbackSourceId: change.eventId,
     });
   const lines = [];
+  const topic = words.story ? storyTopic(change) : null;
   const first = say("change", words.line, {
     subject: {
       text: subject,
       sourceRecordIds: [change.eventId, change.institutionId],
     },
+    ...(topic
+      ? { topic: { text: topic, sourceRecordIds: [change.eventId] } }
+      : {}),
   });
   if (first) lines.push(first);
-  const who = attribution.blamedId ? nameOf(core, attribution.blamedId) : null;
-  const second = say(
-    `blame:${attribution.how}`,
-    data.blame[who ? attribution.how : "unknown"],
-    who
-      ? {
-          who: {
-            text: who,
-            sourceRecordIds: [attribution.sourceId ?? change.eventId],
-          },
-          whose: {
-            text: possessive(who),
-            sourceRecordIds: [attribution.sourceId ?? change.eventId],
-          },
-        }
-      : {},
-  );
+  // A printed story blames no one: the outlet only printed it.
+  const who =
+    attribution.blamedId && !words.story
+      ? nameOf(core, attribution.blamedId)
+      : null;
+  const second = words.story
+    ? null
+    : say(
+        `blame:${attribution.how}`,
+        data.blame[who ? attribution.how : "unknown"],
+        who
+          ? {
+              who: {
+                text: who,
+                sourceRecordIds: [attribution.sourceId ?? change.eventId],
+              },
+              whose: {
+                text: possessive(who),
+                sourceRecordIds: [attribution.sourceId ?? change.eventId],
+              },
+            }
+          : {},
+      );
   if (second) lines.push(second);
   // What was said reaches the listener: the change, and the blame if any.
   const speaker = core.people.get(speakerId)!;

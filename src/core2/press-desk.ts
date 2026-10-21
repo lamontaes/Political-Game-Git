@@ -13,12 +13,15 @@
  * change it favors, and its readers are moved by their standing with the
  * reporter who wrote it.
  */
+import { OUTCOME_MONTH_KIND } from "./outcome-news";
 import { addDays, makeIsoDate } from "./kernel/dates";
 import { questionAxis } from "./campaign-views";
 import { closenessBetween } from "./closeness";
 import { isPolicyTopic, type WireItem, type WireLevel } from "./press-topics";
 import type { CoreAPI, CoreState, PersonId } from "./types";
-import { printStory } from "./modules/news";
+import { printStory, type Story } from "./modules/news";
+import { isPublicFigure } from "./past-public";
+import { reachedBy } from "./law-reach/host";
 import {
   stancesOf,
   viewOf,
@@ -45,6 +48,8 @@ export interface PickReasons {
   readonly readerCare: number;
   /** People in town it names (log scale). */
   readonly people: number;
+  /** Public figures it names, such as a president or a governor (log scale). */
+  readonly renown: number;
   /** The reporter's own causes on its topic and grudges against those it names. */
   readonly drive: number;
   readonly score: number;
@@ -336,8 +341,6 @@ export function printItem(
     receivedCounted: 0,
     interviewId: options.interviewId ?? null,
   };
-  // stopgapId: SG-PEOPLE-press-bring-it-up-row
-  api.stopgap("SG-PEOPLE-press-bring-it-up-row");
   const received = printStory(
     api,
     {
@@ -353,6 +356,8 @@ export function printItem(
       framing: slant,
       moodImpulse: (ctx.parameter("storyImpulse") * (1 + Math.abs(slant))) / 2,
       facts: {
+        ...item.facts,
+        sourceRecordId: item.id,
         // What a reader can bring up: which outlet printed what. The reporter
         // makes the story's case, so a reader moves by their standing with
         // the reporter (views engine); the outlet's line already chose the
@@ -372,6 +377,76 @@ export function printItem(
   };
   ctx.save(saved);
   return saved;
+}
+
+/** The kind of the news story the press writes about a record from before day one. */
+export const ARCHIVE_STORY_KIND = "press.archived";
+
+/**
+ * Write a story about a record from before day one (the news archive): the
+ * outlet's reporter slants and frames it exactly as a printed story, and it
+ * is returned for the press's archive table, but nobody receives it going forward.
+ * The archive (past-news.ts) decides who heard it and when, by the news
+ * engine's delivery rule. With no reporter at the outlet the story is
+ * unslanted and has no printed row.
+ */
+export function archiveItem(
+  api: CoreAPI,
+  ctx: DeskContext,
+  outlet: DeskOutlet,
+  reporterId: string | null,
+  item: WireItem,
+  facts: Readonly<Record<string, string>>,
+): { story: Story; printed: PrintedStory | null } {
+  const { slant, reasons } = reporterId
+    ? slantOf(api, ctx, outlet, reporterId, item)
+    : {
+        slant: 0,
+        reasons: { lean: 0, tie: 0, publisher: 0, advertiser: 0 },
+      };
+  const argued =
+    slant < 0
+      ? (FLIP[item.desiredChange] ?? item.desiredChange)
+      : item.desiredChange;
+  const id = `printed:${outlet.id}:${item.id}`;
+  const printed: PrintedStory | null = reporterId
+    ? {
+        id,
+        outletId: outlet.id,
+        organizationId: outlet.organizationId,
+        reporterId,
+        wireId: item.id,
+        kind: item.kind,
+        date: item.date,
+        topic: item.topic,
+        desiredChange: argued,
+        recordedChange: item.desiredChange,
+        ending: item.ending,
+        subjectIds: item.subjectIds,
+        slant,
+        pick: null,
+        slantReasons: reasons,
+        readers: 0,
+        receivedNamed: 0,
+        receivedCounted: 0,
+        interviewId: null,
+      }
+    : null;
+  return {
+    printed,
+    story: {
+      id,
+      kind: ARCHIVE_STORY_KIND,
+      outletId: outlet.organizationId,
+      date: item.date,
+      placeId: ctx.townPlaceId,
+      topic: item.topic,
+      ...(isPolicyTopic(item.topic) ? { desiredChange: argued } : {}),
+      framing: slant,
+      moodImpulse: (ctx.parameter("storyImpulse") * (1 + Math.abs(slant))) / 2,
+      facts: { ...facts, recordKind: item.kind },
+    },
+  };
 }
 
 /**
@@ -395,13 +470,40 @@ export function runDesk(
   const core = api.state as CoreState;
   const inTown = (id: string) =>
     core.people.get(id)?.placeId === ctx.townPlaceId;
+  // A law taking effect names no one, but it involves the outlet's followers
+  // it reaches: the named ones the law-reach records name (every named
+  // follower where they hold no record for it, since a law in force binds the
+  // town) and the counted followers, who are read by the same rule as a
+  // full follower.
+  const involved = (item: WireItem): number => {
+    // A month's move in the town's conditions reaches every follower in
+    // proportion to its size (the largest relative move among its facts).
+    if (item.kind === OUTCOME_MONTH_KIND)
+      return (
+        Math.min(1, Number(item.facts?.magnitude ?? 0)) *
+        (followers.length + ctx.countedFollowers(outlet))
+      );
+    const lawId = item.facts?.lawId;
+    const key = item.facts?.series;
+    if (item.kind !== "law-took-effect" || !lawId || !key) return 0;
+    const reached = new Set(reachedBy(api, key, lawId).map((r) => r.personId));
+    const named = reached.size
+      ? followers.filter((id) => reached.has(id)).length
+      : followers.length;
+    return named + ctx.countedFollowers(outlet);
+  };
   const base = open.map((item) => ({
     item,
     proximity: p(
       (outlet.tier === "national" ? NATIONAL_PROXIMITY : PROXIMITY)[item.level],
     ),
     readerCare: care.get(item.topic) ?? 0,
-    people: Math.log1p(item.subjectIds.filter(inTown).length),
+    people: Math.log1p(
+      Math.max(item.subjectIds.filter(inTown).length, involved(item)),
+    ),
+    renown: Math.log1p(
+      item.subjectIds.filter((id) => isPublicFigure(api, id)).length,
+    ),
   }));
   const taken = new Set<string>();
   const out: PrintedStory[] = [];
@@ -419,6 +521,7 @@ export function runDesk(
             (1 +
               p("storyReaderCareWeight") * row.readerCare +
               p("storyPeopleWeight") * row.people +
+              p("storyRenownWeight") * row.renown +
               p("storyDriveWeight") * drive),
         };
       })
@@ -439,6 +542,7 @@ export function runDesk(
           proximity: row.proximity,
           readerCare: row.readerCare,
           people: row.people,
+          renown: row.renown,
           drive: row.drive,
           score: row.score,
           rank: rank + 1,

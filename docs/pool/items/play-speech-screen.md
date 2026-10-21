@@ -5,11 +5,12 @@ area: play
 kind: feature
 priority: 2
 size: M
-status: open
-claimed-by:
-pr:
+status: done
+claimed-by: claude/speech-screen
+pr: #4815
 blocked-on:
 source: "words-speech-built-in-stages, PR #4477"
+claimed-at: 2026-10-16T20:26:31.154Z
 ---
 
 **What.** Checked against main on Oct 16: The speech builder (`src/director/speech-builder.ts`, `giveBuiltSpeech`) is not on main; the only speech control is the one-click Speech button. Next: After the builder lands, a four-by-four speech screen on /play. The player would see it as a choice among people, never a form.

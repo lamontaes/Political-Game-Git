@@ -730,17 +730,10 @@ describe("source-qualified due retirement flows with zero opening stock", () => 
         person("person:other-place", "place:other"),
       ]),
     );
-    const parameters = {
-      ...registry("openingRetirementFundingPublicAnnualOutlayMinor", p("one")),
-      openingRetirementFundingEnvelopeShare: {
-        ...PARAMETERS.openingRetirementFundingEnvelopeShare!,
-        value: p("zero"),
-      },
-      openingRetirementFundingLiquidShare: {
-        ...PARAMETERS.openingRetirementFundingLiquidShare!,
-        value: p("one"),
-      },
-    };
+    const parameters = registry(
+      "openingRetirementFundingPublicAnnualOutlayMinor",
+      p("one"),
+    );
     const first = build(input, { parameters });
     const reversed = build(
       {

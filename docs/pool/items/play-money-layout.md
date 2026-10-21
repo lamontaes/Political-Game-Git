@@ -4,13 +4,13 @@ title: "Money gets a dedicated account overview (#4321)"
 area: play
 kind: feature
 priority: 2
-status: in-pr
-claimed-by: claude/play-money-layout
+status: done
+claimed-by:
 pr: #4580
 blocked-on:
 milestone:
 source: "astra order 1; PR #4321 branch play/money-layout"
-claimed-at: 2026-10-16T03:38:03.719Z
+claimed-at:
 ---
 
 **What.** PR #4321 (branch play/money-layout) gives Money a dedicated account overview: balances, income and spending, and where money went, read from the journal. It was sent back on 2026-10-15 for a code conflict with main in `src/bench/play.mjs`. Merge main into the branch, finish the screen to the owner's mockup in `docs/ui/mocks/screens-2026-10-14/` (README.md, shots/, page/), and retake the screenshot. The player would notice his accounts, bills and income laid out the way a bank app would show them, in words, from his real records.
@@ -23,3 +23,9 @@ claimed-at: 2026-10-16T03:38:03.719Z
 
 **Notes.** One PR per screen; gate: browser spec for the screen.
 Sent back 2026-10-15 from PR #4321 (branch play/money-layout): code conflict with main in src/bench/play.mjs; finish on that branch, merge main into it first.
+
+Sent back 2026-10-16 from PR #4580 (branch claude/play-money-layout): Merger: not merged. Merging current main into this branch conflicts in src/bench/play.mjs. Please merge main, resolve the conflict and push; finish on that branch, merge main into it first.
+
+Sent back 2026-10-16 from PR #4580 (branch claude/play-money-layout): This stacked PR includes the failing person-card change from #4579. Its src/bench/person-card.browser.mjs and person-card implementation in play.mjs are byte-for-byte identical to the tested #4579 versions: the new check fails at line 72 because card.tie.lastContactDate is still rendered. Fix that shared card implementation on the stack and merge main again; do not weaken the browser assertion. Main was merged and pushed cleanly here; finish on that branch, merge main into it first.
+
+Sent back 2026-10-16 from PR #4580 (branch claude/play-money-layout): Merging current main into claude/play-money-layout conflicts in src/bench/data/controls.json. Resolve and push these conflicts on this branch before local checks can run; finish on that branch, merge main into it first.

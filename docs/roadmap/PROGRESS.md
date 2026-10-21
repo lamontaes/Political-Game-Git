@@ -1,5 +1,7 @@
 # Progress
 
+> **History.** This describes the old engine or a process that ended in October 2026. Don't follow it; read `AGENTS.md`, `ARCHITECTURE.md` and `docs/README.md`.
+
 ## 2026-10-15 — Current-record unit checks (`pool/unit-suite`)
 
 Five changed test files pass all 35 cases after carrying forward #4309's checks of living plans, counted funds and news lifetime. Removed the retired board-text requirement, six old demo/snapshot cases, and two files for the deleted Mac launcher and source-domain scripts. No gameplay code changed. The full suite was not run and is not claimed green: sales-tax and housing defects remain with their active owners, and the second pool worker owns views ordering. The unchanged-production Easthampton year remains 80.20 seconds with 65 modules. Next: finish the remaining #4309 repairs without hiding current-engine failures.
@@ -15,6 +17,10 @@ Committee trades now recount support for every added section and keep each membe
 Newest first. One short entry per event: what changed for the player, the measured result, what failed and why, and what's next. Every session reads this, the package and the git log before starting (see `AGENTS.md`).
 
 Newest first. One short entry per event: what changed for the player, the measured result, what failed and why, and what's next. Every session reads this, the package and the git log before starting (see the repository guide).
+
+## October 15, 2026 — Session C officeholder record fixes (draft)
+
+The president can give a national interview and have official acts covered. In the drawn Homer world, a played year took 75.89 seconds. All 143 introduced bills had title records and provisions. Five national outlets published the interviews; a named resident received one the next day. Office-seeking now weighs a current mandate, and body names read collective records. Dual-office exceptions and unread municipal charter names remain registered estimates. The old press test has a missing-import failure also reproduced on main. Final gates precede the candidate-pool order; nothing merged.
 
 ## 2026-10-15 — Session B, unassigned households take new apartments (draft #4347)
 

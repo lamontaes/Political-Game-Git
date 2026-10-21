@@ -217,6 +217,12 @@
       "tag": "TUNABLE",
       "source": "How much a member of Congress weighs what a federal budget line sends their state against the national average, read on a doubling scale: twice the average per resident pulls a full point toward more for that line, half the average a full point toward less, capped there. The same scale as their district's lean (district weight 0.5 times a lean of up to 1), so pork and principle can pull against each other. Checked against studies of distributive voting (Lee 2003 on Senate transportation votes; Berry, Burden and Howell 2010 on federal outlays to members' districts).",
       "spread": [0.5, 2]
+    },
+    "statePartyLoyalty": {
+      "value": 1,
+      "tag": "ESTIMATED",
+      "source": "A state-chamber member feels the party's pressure at this multiple of a member of Congress's. One means the same weight. Eight chambers drawn in eight places (Oct 16) gave a mean party unity on party-splitting roll calls of 0.885, from 0.82 to 0.94 place by place, against the federal party-unity figure of about 0.90 (CQ Vote Studies); raising this to 1.2 moved the mean by 0.005, so the weight is left at one, and the test reads the pooled unity of four drawn places against the unchanged 0.85 to 0.98 band. The target stays the federal figure until the owner runs his state roll-call calibration input (Oct 15 ruling), which ships nothing.",
+      "spread": [0.6, 1.2]
     }
   },
   "loyalty": {

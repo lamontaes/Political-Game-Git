@@ -3648,6 +3648,276 @@
           "droppedRingCount": 64
         }
       }
+    },
+    {
+      "packId": "state-60",
+      "stateUsps": "AS",
+      "path": "src/maps/geometry/states/60-as.generated.json",
+      "bytes": 43719,
+      "sha256": "aad0068ac7ff3538bcc5e9801e92ccb4b7bdbf0f4e56092e589b4f497f1785ba",
+      "quantum": 0.0021,
+      "layers": {
+        "state": {
+          "featureCount": 1,
+          "arcCount": 9,
+          "sharedArcCount": 0,
+          "borderArcCount": 9,
+          "overusedArcCount": 0,
+          "sourcePointCount": 1008,
+          "keptPointCount": 866,
+          "droppedRingCount": 0
+        },
+        "congressional": {
+          "featureCount": 1,
+          "arcCount": 9,
+          "sharedArcCount": 0,
+          "borderArcCount": 9,
+          "overusedArcCount": 0,
+          "sourcePointCount": 1008,
+          "keptPointCount": 866,
+          "droppedRingCount": 0
+        },
+        "county": {
+          "featureCount": 5,
+          "arcCount": 14,
+          "sharedArcCount": 2,
+          "borderArcCount": 12,
+          "overusedArcCount": 0,
+          "sourcePointCount": 1018,
+          "keptPointCount": 880,
+          "droppedRingCount": 0
+        },
+        "place": {
+          "featureCount": 77,
+          "arcCount": 208,
+          "sharedArcCount": 138,
+          "borderArcCount": 70,
+          "overusedArcCount": 0,
+          "sourcePointCount": 1820,
+          "keptPointCount": 1517,
+          "droppedRingCount": 0
+        }
+      }
+    },
+    {
+      "packId": "state-66",
+      "stateUsps": "GU",
+      "path": "src/maps/geometry/states/66-gu.generated.json",
+      "bytes": 30345,
+      "sha256": "7e5cc9904ce73c00e9196c9df072d247d3ac656be116da359b8db8a551b6c95b",
+      "quantum": 0.0021,
+      "layers": {
+        "state": {
+          "featureCount": 1,
+          "arcCount": 2,
+          "sharedArcCount": 0,
+          "borderArcCount": 2,
+          "overusedArcCount": 0,
+          "sourcePointCount": 576,
+          "keptPointCount": 477,
+          "droppedRingCount": 0
+        },
+        "congressional": {
+          "featureCount": 1,
+          "arcCount": 2,
+          "sharedArcCount": 0,
+          "borderArcCount": 2,
+          "overusedArcCount": 0,
+          "sourcePointCount": 576,
+          "keptPointCount": 477,
+          "droppedRingCount": 0
+        },
+        "county": {
+          "featureCount": 1,
+          "arcCount": 2,
+          "sharedArcCount": 0,
+          "borderArcCount": 2,
+          "overusedArcCount": 0,
+          "sourcePointCount": 576,
+          "keptPointCount": 477,
+          "droppedRingCount": 0
+        },
+        "place": {
+          "featureCount": 57,
+          "arcCount": 165,
+          "sharedArcCount": 94,
+          "borderArcCount": 71,
+          "overusedArcCount": 0,
+          "sourcePointCount": 1589,
+          "keptPointCount": 1286,
+          "droppedRingCount": 0
+        }
+      }
+    },
+    {
+      "packId": "state-69",
+      "stateUsps": "MP",
+      "path": "src/maps/geometry/states/69-mp.generated.json",
+      "bytes": 68673,
+      "sha256": "da9d50b7824d249a0edc1fd41f977b80048a65a05939316257ae148f88424f66",
+      "quantum": 0.0021,
+      "layers": {
+        "state": {
+          "featureCount": 1,
+          "arcCount": 19,
+          "sharedArcCount": 0,
+          "borderArcCount": 19,
+          "overusedArcCount": 0,
+          "sourcePointCount": 1315,
+          "keptPointCount": 1170,
+          "droppedRingCount": 0
+        },
+        "congressional": {
+          "featureCount": 1,
+          "arcCount": 19,
+          "sharedArcCount": 0,
+          "borderArcCount": 19,
+          "overusedArcCount": 0,
+          "sourcePointCount": 1315,
+          "keptPointCount": 1170,
+          "droppedRingCount": 0
+        },
+        "county": {
+          "featureCount": 4,
+          "arcCount": 19,
+          "sharedArcCount": 0,
+          "borderArcCount": 19,
+          "overusedArcCount": 0,
+          "sourcePointCount": 1315,
+          "keptPointCount": 1170,
+          "droppedRingCount": 0
+        },
+        "place": {
+          "featureCount": 135,
+          "arcCount": 364,
+          "sharedArcCount": 282,
+          "borderArcCount": 82,
+          "overusedArcCount": 0,
+          "sourcePointCount": 3001,
+          "keptPointCount": 2400,
+          "droppedRingCount": 0
+        }
+      }
+    },
+    {
+      "packId": "state-72",
+      "stateUsps": "PR",
+      "path": "src/maps/geometry/states/72-pr.generated.json",
+      "bytes": 274846,
+      "sha256": "f32124d0c062edb0f445964ba765a615546e51a95413cb16058e913e1beaf667",
+      "quantum": 0.0021,
+      "layers": {
+        "state": {
+          "featureCount": 1,
+          "arcCount": 16,
+          "sharedArcCount": 0,
+          "borderArcCount": 16,
+          "overusedArcCount": 0,
+          "sourcePointCount": 2308,
+          "keptPointCount": 1625,
+          "droppedRingCount": 0
+        },
+        "congressional": {
+          "featureCount": 1,
+          "arcCount": 16,
+          "sharedArcCount": 0,
+          "borderArcCount": 16,
+          "overusedArcCount": 0,
+          "sourcePointCount": 2308,
+          "keptPointCount": 1625,
+          "droppedRingCount": 0
+        },
+        "county": {
+          "featureCount": 78,
+          "arcCount": 239,
+          "sharedArcCount": 182,
+          "borderArcCount": 57,
+          "overusedArcCount": 0,
+          "sourcePointCount": 14966,
+          "keptPointCount": 8056,
+          "droppedRingCount": 0
+        },
+        "state-upper": {
+          "featureCount": 9,
+          "arcCount": 39,
+          "sharedArcCount": 14,
+          "borderArcCount": 25,
+          "overusedArcCount": 0,
+          "sourcePointCount": 5952,
+          "keptPointCount": 3419,
+          "droppedRingCount": 0
+        },
+        "state-lower": {
+          "featureCount": 41,
+          "arcCount": 134,
+          "sharedArcCount": 92,
+          "borderArcCount": 42,
+          "overusedArcCount": 0,
+          "sourcePointCount": 12826,
+          "keptPointCount": 6798,
+          "droppedRingCount": 0
+        },
+        "place": {
+          "featureCount": 292,
+          "arcCount": 378,
+          "sharedArcCount": 64,
+          "borderArcCount": 314,
+          "overusedArcCount": 0,
+          "sourcePointCount": 9053,
+          "keptPointCount": 8326,
+          "droppedRingCount": 0
+        }
+      }
+    },
+    {
+      "packId": "state-78",
+      "stateUsps": "VI",
+      "path": "src/maps/geometry/states/78-vi.generated.json",
+      "bytes": 39390,
+      "sha256": "384e2b2154b6a2f822aad5d55356c8ae016ffe95d7ceab558abc593c2cfc9a45",
+      "quantum": 0.0021,
+      "layers": {
+        "state": {
+          "featureCount": 1,
+          "arcCount": 44,
+          "sharedArcCount": 0,
+          "borderArcCount": 44,
+          "overusedArcCount": 0,
+          "sourcePointCount": 2173,
+          "keptPointCount": 1838,
+          "droppedRingCount": 0
+        },
+        "congressional": {
+          "featureCount": 1,
+          "arcCount": 44,
+          "sharedArcCount": 0,
+          "borderArcCount": 44,
+          "overusedArcCount": 0,
+          "sourcePointCount": 2173,
+          "keptPointCount": 1838,
+          "droppedRingCount": 0
+        },
+        "county": {
+          "featureCount": 3,
+          "arcCount": 44,
+          "sharedArcCount": 0,
+          "borderArcCount": 44,
+          "overusedArcCount": 0,
+          "sourcePointCount": 2173,
+          "keptPointCount": 1838,
+          "droppedRingCount": 0
+        },
+        "place": {
+          "featureCount": 10,
+          "arcCount": 16,
+          "sharedArcCount": 3,
+          "borderArcCount": 13,
+          "overusedArcCount": 0,
+          "sourcePointCount": 490,
+          "keptPointCount": 400,
+          "droppedRingCount": 0
+        }
+      }
     }
   ],
   "excluded": [
@@ -3875,5 +4145,6 @@
       "count": 57,
       "reason": "Guam has no drawn pack in this map; its identities remain in their own catalogs."
     }
-  ]
+  ],
+  "territoryProjection": "Each territory pack is drawn in its own Lambert azimuthal equal-area projection centered on the territory, at the same scale as the state packs (one map unit is about 6 kilometers); the territories are not placed on the national canvas."
 }

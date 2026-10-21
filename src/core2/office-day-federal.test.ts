@@ -24,15 +24,19 @@ import {
   billOf,
   committeeRecords,
   draftBill,
+  floorAgendaOn,
   holdVote,
   LEGISLATURE_MODULE_ID,
   votesOn,
 } from "./modules/legislature";
 import { lawInForce } from "./modules/laws";
 import {
+  clearPrepared,
   deskWaiting,
   leaveDeskToCharacter,
   officeActsOf,
+  prepareAct,
+  preparedFor,
   setStops,
 } from "./modules/office-day";
 import {
@@ -45,6 +49,7 @@ import {
 import {
   chooseWeek,
   federalSeatOf,
+  OFFICE_DAY_FEDERAL_MODULE_ID,
   heldFederal,
   releaseFederal,
   voteOnFloor,
@@ -207,6 +212,21 @@ describe(`the federal day (${place.name}, seed ${seed})`, () => {
     }
   });
 
+  it("keeps what the player prepares for a federal act in the engine's own table, and spends it when the act is taken", () => {
+    // The federal day has no table of its own for it (SG-OFFICE-FED-prepared).
+    expect(() =>
+      api.moduleState(OFFICE_DAY_FEDERAL_MODULE_ID).table("prepared"),
+    ).toThrow();
+    const prepared = {
+      platform: [{ question: "local-policy:paid-family-leave", position: 1 }],
+      changes: { education: 100 },
+    };
+    prepareAct(api, president, "federal-file", prepared);
+    expect(preparedFor(api, president, "federal-file")).toMatchObject(prepared);
+    clearPrepared(api, president, "federal-file");
+    expect(preparedFor(api, president, "federal-file")).toBeNull();
+  });
+
   it("meets people in a town drawn at random, and has the brief each working day", () => {
     const town = drawPlace(`${seed}:trip`, "office-federal-trip");
     const tripId = travelToTown(api, president, town.key);
@@ -245,6 +265,9 @@ describe(`the federal day (${place.name}, seed ${seed})`, () => {
     // The second sitting: the first may fall on the day ahead, before any morning holds.
     const { bill, voteOn } = ownBill(1, nthSitting("house", core.date, 2));
     chooseWeek(api, member, voteOn, "washington");
+    // The floor's agenda for the vote's day lists the bill, read from the legislature.
+    if (bill.status === "drafted")
+      expect(floorAgendaOn(api, voteOn).map((b) => b.id)).toContain(bill.id);
     const held: string[] = [];
     playThrough(voteOn, (key) => {
       if (key !== `federal-floor:${bill.id}`) return;
@@ -297,7 +320,14 @@ describe(`the federal day (${place.name}, seed ${seed})`, () => {
   });
 
   it("casts and records the vote of a senator the player controls on a House bill", () => {
-    const seat = townSeats(api).find((s) => s.office.kind === "us-senate")!;
+    const seat = townSeats(api).find((s) => s.office.kind === "us-senate");
+    // A territory has no senators: its town has no Senate seat to play.
+    if (!seat) {
+      expect(place.state, `${place.name}, seed ${seed}`).toMatch(
+        /^US-(AS|GU|MP|PR|VI)$/,
+      );
+      return;
+    }
     const senator = holderOf(seat.seat.id)!;
     expect(senator, "the town's state has a sitting senator").toBeTruthy();
     // A bill filed in the House reaches the Senate in the same count; the

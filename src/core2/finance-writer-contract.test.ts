@@ -1458,6 +1458,40 @@ describe("shared funding and retained finance obligations", () => {
   });
 });
 
+describe("a firm's own pay in its price", () => {
+  it("prices a raise of its own workers into the next review, against the same firm without one", () => {
+    const raised = fixture();
+    const control = fixture();
+    for (const core of [raised, control]) {
+      advanceDate(core, "2021-01-10");
+      coreAPI(core).reviewBusiness(employer);
+    }
+    const jobIds = [...raised.finance.jobsByOrganization.get(employer)!];
+    expect(jobIds.length).toBeGreaterThan(p("zero"));
+    const total = cash(raised);
+    for (const jobId of jobIds)
+      coreAPI(raised).rerateJob(
+        jobId,
+        raised.jobs.get(jobId)!.hourlyMinor! * p("two"),
+        { ...source, asOf: raised.date },
+      );
+    for (const core of [raised, control]) {
+      advanceDate(core, "2021-02-10");
+      coreAPI(core).reviewBusiness(employer);
+    }
+    const book = raised.finance.businesses.get(employer)!;
+    const same = control.finance.businesses.get(employer)!;
+    // Doubled pay lifts the price by the pay share of costs, at most double.
+    expect(book.price).toBeGreaterThan(same.price);
+    expect(book.price).toBeLessThanOrEqual(same.price * p("two"));
+    for (const jobId of jobIds)
+      expect(book.lastHourlyByJob![jobId]).toBe(
+        same.lastHourlyByJob![jobId]! * p("two"),
+      );
+    expect(cash(raised)).toBe(total);
+  });
+});
+
 /** UNEXECUTED source-only correction cases; these are controlled records, not real-world loan authority. */
 describe("standalone current credit request and actual cause", () => {
   function rejectChangedLink(

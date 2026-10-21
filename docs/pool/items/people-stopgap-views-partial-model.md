@@ -4,10 +4,10 @@ title: "Stopgaps in views (partial-model): 1 open"
 area: people
 kind: stopgap
 priority: 3
-status: open
+status: dropped
 claimed-by:
 pr:
-blocked-on:
+blocked-on: research-people-sourced-parameters
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/modules/views.ts, kind partial-model"
 ---
@@ -21,3 +21,5 @@ source: "src/core2/data/stopgaps.json, src/core2/modules/views.ts, kind partial-
 **Files.** src/core2/modules/views.ts
 
 **Notes.** First row: Opening views read the person's state and age band (the CES cell), their education and faith profile (opening-profile.ts, itself a stopgap) and a household heritage; the 14 values and issue stances at the opening are not
+
+Folded into research-people-sourced-parameters (CTO, Oct 19, 2026).

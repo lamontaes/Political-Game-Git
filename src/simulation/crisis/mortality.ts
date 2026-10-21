@@ -43,7 +43,7 @@ import {
   FATAL_ILLNESS_ONSET_KEY,
   deathCauseSummary,
   seriousEpisodeOnsetStableKey,
-} from "./death-causes";
+} from "../../core2/death-causes";
 import {
   ensureHealthCoveragePass,
   HEALTH_COVERAGE_KEY,
@@ -84,7 +84,7 @@ import {
 
 export const MORTALITY_WINDOW_KEY = "crisis:mortality-window" as const;
 export const MORTALITY_DEATH_KEY = "crisis:mortality-death" as const;
-export { MORTALITY_CAUSE_KEY } from "./death-causes";
+export { MORTALITY_CAUSE_KEY } from "../../core2/death-causes";
 
 /**
  * The one strain threshold, in hazard units, the same for everyone. Ruling 29

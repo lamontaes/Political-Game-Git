@@ -1,5 +1,5 @@
 {
-  "note": "Which tagged place picture (art/backdrops/manifest.json) shows what a person is doing in the bench. Keys are core act ids; '@home', '@workplace' and '@target' resolve from the person's records; a list is tried in order until one has a picture. Organization classifications map to data/content/place-kinds.json business kinds when their suffix is not already one. filingOffices maps the office GOV names as taking a contest's filings (case-insensitive pattern on its name) to its picture; filingClerkOfficeKinds are the offices whose holder, if they live in town, is the clerk at the counter. sceneSettings maps a story scene's setting kind (OPUS-PEOPLE's composeScene) to its pictures; '@org' is the setting record's organization. situationPlaces picks a picture by the story situation and its setting (first one painted wins; @home is the person's own dwelling); schoolPlacesByAge picks a school picture by the person's age. electionNight is the results sheet's picture: where a candidate watches returns, and where a voter voted. dwellingPlaces gives each kind of dwelling its pictures by room (living, kitchen, bedroom) and by the household's standing among the town's homes of that kind (low, middle, high third by value for owners and rent for renters); homeRoomByHour says which room a person at home is in by the hour, and teenBedroom is the room for a person 13 to 19. officialResidences replaces the dwelling for a person serving in one of its offices (core2-offices-v1 terms).",
+  "note": "Which tagged place picture (art/backdrops/manifest.json) shows what a person is doing in the bench. Keys are core act ids; '@home', '@workplace' and '@target' resolve from the person's records; a list is tried in order until one has a picture. Organization classifications map to data/content/place-kinds.json business kinds when their suffix is not already one. filingOffices maps the office GOV names as taking a contest's filings (case-insensitive pattern on its name) to its picture. sceneSettings maps a story scene's setting kind (OPUS-PEOPLE's composeScene) to its pictures; '@org' is the setting record's organization. situationPlaces picks a picture by the story situation and its setting (first one painted wins; @home is the person's own dwelling); schoolPlacesByAge picks a school picture by the person's age. electionNight is the results sheet's picture: where a candidate watches returns, and where a voter voted. dwellingPlaces gives each kind of dwelling its pictures by room (living, kitchen, bedroom) and by the household's standing among the town's homes of that kind (low, middle, high third by value for owners and rent for renters); homeRoomByHour says which room a person at home is in by the hour, and teenBedroom is the room for a person 13 to 19. officialResidences replaces the dwelling for a person serving in one of its offices (core2-offices-v1 terms).",
   "actions": {
     "work-shift": ["@workplace"],
     "attend-scheduled-work-date-segment": ["@workplace"],
@@ -16,14 +16,7 @@
     "donate-to-cause": ["@home"],
     "volunteer-for-cause": ["@target", "community-room"],
     "confront-grudge-target": ["main-street"],
-    "seek-standing": ["city-hall-hallway"],
-    "testify-at-hearing": [
-      "hearing-room-paneled",
-      "committee-hearing-room",
-      "public-meeting-room"
-    ],
-    "run-for-office": ["county-clerk-office-urban", "clerk-counter"],
-    "lobby-legislator": ["capitol-hallway", "city-hall-hallway"]
+    "seek-standing": ["city-hall-hallway"]
   },
   "organizationKinds": {
     "service:municipal-government": "city-hall",
@@ -144,12 +137,6 @@
       "places": ["clerk-counter"]
     }
   ],
-  "filingClerkOfficeKinds": [
-    "county-clerk",
-    "municipal-clerk",
-    "registrar",
-    "election-administrator"
-  ],
   "sceneSettings": {
     "home": ["@home"],
     "other-home": ["@home"],
@@ -219,6 +206,14 @@
     "courthouse-steps",
     "courthouse-square"
   ],
+  "doorKnockingPlaces": {
+    "house": "door-knocking-suburban",
+    "rowhouse": "door-knocking-urban",
+    "apartment": "door-knocking-urban",
+    "mobile-home": "door-knocking-rural",
+    "farmhouse": "door-knocking-rural"
+  },
+  "phoneBankPlace": "phone-bank-room",
   "dwellingPlaces": {
     "about": "The home pictures for each kind of dwelling OPUS-WORLD's housing records (dwellingKind), by room and by the household's third among the town's homes of the same kind (value for owners, rent for renters). Each household gets one picture per room from its own id, so the same home always looks the same; a state's regional house styles join every third of 'house'. A list may name pictures still to be painted: the first painted ones are used.",
     "house": {

@@ -10,9 +10,9 @@ import {
   type BillRow,
   type Provision,
 } from "../core2/modules/legislature";
-import { placeOnAgenda } from "../core2/modules/office-day";
+import { placeOnAgenda, upcomingMeeting } from "../core2/modules/office-day";
 import type { TermRow } from "../core2/modules/offices";
-import billCatalog from "../core2/data/legislature/bill-catalog.json" with { type: "json" };
+import { billCatalog } from "../core2/bill-catalog";
 import type { CoreState } from "../core2/types";
 import { backdropFile, hasBackdrop, stagePeople } from "./scene";
 import scenePlaces from "./data/scene-places.json" with { type: "json" };
@@ -78,10 +78,47 @@ function bodiesOf(core: CoreState, personId: string) {
   });
 }
 
+/** The seats this person left on taking another, with the law that required it. */
+function incompatibilitiesOf(core: CoreState, personId: string) {
+  const offices = coreAPI(core).moduleState(OFFICES);
+  const officeTitle = (termId: string) => {
+    const term = terms(core).get(termId) as TermRow | undefined;
+    const office = term
+      ? (offices.table("offices").get(term.officeId) as
+          { title: string } | undefined)
+      : undefined;
+    return office?.title ?? termId;
+  };
+  return (
+    offices.table("incompatibilities").rows() as unknown as {
+      id: string;
+      personId: string;
+      previousTermId: string;
+      acceptedTermId: string;
+      date: string;
+      law: { citation: string };
+    }[]
+  )
+    .filter((row) => row.personId === personId)
+    .map((row) => ({
+      id: row.id,
+      date: row.date,
+      left: officeTitle(row.previousTermId),
+      took: officeTitle(row.acceptedTermId),
+      law: row.law.citation,
+    }));
+}
+
 /** Your seat: the bodies you sit on, what you could change, and your bills. */
 export function seatView(core: CoreState, personId: string) {
   if (!core.modules.has(LEGISLATURE))
-    return { bodies: [], bills: [], amounts: [], questions: [] };
+    return {
+      bodies: [],
+      bills: [],
+      amounts: [],
+      questions: [],
+      incompatibilities: [],
+    };
   const api = coreAPI(core);
   const bills = (
     api.moduleState(LEGISLATURE).table("bills").rows() as unknown as BillRow[]
@@ -94,21 +131,30 @@ export function seatView(core: CoreState, personId: string) {
         name: personName(core, row.memberId),
       })),
     }));
+  // Each body's own catalog: what its level can pass, with the amount in force.
+  const bodies = bodiesOf(core, personId).map((body) => ({
+    ...body,
+    menus: menusFor(api, body.level),
+  }));
   return {
-    bodies: bodiesOf(core, personId),
+    bodies,
+    // Seats the law made them leave on taking another (offices engine).
+    incompatibilities: incompatibilitiesOf(core, personId),
     amounts: lawHere(api).map((row) => ({
       series: row.series,
       unit: row.unit,
       current: currentAmount(api, row.series),
     })),
-    // Every law area on GOV's bill catalog: its policies and budget lines.
-    menus: catalogMenus(),
     questions: [
-      ...new Set([
-        ...catalogMenus().flatMap((menu) =>
-          menu.items.flatMap((item) => (item.question ? [item.question] : [])),
+      ...new Set(
+        bodies.flatMap((body) =>
+          body.menus.flatMap((menu) =>
+            menu.items.flatMap((item) =>
+              item.question ? [item.question] : [],
+            ),
+          ),
         ),
-      ]),
+      ),
     ],
     bills,
   };
@@ -166,7 +212,9 @@ export function seatAct(
       effective: form.effectiveSection,
       before: form.sections.map((section) => section.before),
     })?.text ?? [];
-  return bill.status === "drafted"
+  // A body with no regular meeting (a federal chamber votes on its floor
+  // calendar) keeps the drafted bill without an agenda date.
+  return bill.status === "drafted" && upcomingMeeting(api, bill.bodyOfficeId)
     ? { ...bill, text, agendaDate: placeOnAgenda(api, bill.id) }
     : { ...bill, text };
 }
@@ -219,38 +267,36 @@ export function bodyScene(
   };
 }
 
-interface CatalogPolicy {
-  kind: string;
-  name: string;
-  question?: string;
-  line?: string;
-}
-/** The bill catalog's subjects, each with its policy questions and budget lines. */
-function catalogMenus() {
-  const subjects = (
-    billCatalog as unknown as {
-      subjects: {
-        id: string;
-        name: string;
-        topics: { policies?: CatalogPolicy[] }[];
-      }[];
-    }
-  ).subjects;
-  return subjects.map((subject) => ({
-    id: subject.id,
-    name: subject.name,
-    items: subject.topics
-      .flatMap((topic) => topic.policies ?? [])
+/**
+ * The bill catalog for a body: each law area's policies and budget lines that
+ * its level can pass, with the amount in force today and whether the state
+ * lets a town act (`billCatalog`, never the raw catalog file).
+ */
+function menusFor(api: ReturnType<typeof coreAPI>, bodyLevel: string) {
+  const level =
+    bodyLevel === "federal" || bodyLevel === "state" ? bodyLevel : "city";
+  return billCatalog(api, level).map((menu) => ({
+    id: menu.id,
+    name: menu.name,
+    items: menu.topics
+      .flatMap((topic) => topic.policies)
       .filter(
         (row) =>
           (row.kind === "policy-question" && row.question) ||
-          (row.kind === "budget-line" && row.line),
+          (row.kind === "budget-line" && row.line) ||
+          (row.kind === "law-amount" && row.series),
       )
       .map((row) => ({
         kind: row.kind,
         name: row.name,
         ...(row.question ? { question: row.question } : {}),
         ...(row.line ? { line: row.line } : {}),
+        ...(row.series ? { series: row.series } : {}),
+        ...(row.unit ? { unit: row.unit } : {}),
+        inForce: row.inForce,
+        allowed: row.authority.allowed,
+        warning: row.authority.warning,
+        reason: row.authority.reason,
       })),
   }));
 }

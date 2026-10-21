@@ -1,17 +1,19 @@
-# Children go to school, a year runs faster, the town's population changes, and laws reach real people
+# Children go to school, real disasters strike, the town's population changes, and laws reach real people
 
-Before: Vonore, Tennessee's employers doubled their cash in a year ($43.6 million to $93.6 million). 8 of 46 workers the player can meet (three towns) never went to a shift, children never went to school, and sales taxes collected nothing.
+Before: Vonore, Tennessee's employers doubled their cash in a year, children never went to school, and sales taxes collected nothing.
 
-After: Vonore's employers end the year with $44.9 million of their own. Those workers work, children attend school, and sales taxes pay the treasury. A full-game year in Woodmere, New York takes 56 seconds, not 84.
+After: Vonore's employers end the year about where they started, children attend school, and sales taxes pay the treasury. FEMA's real disasters strike on their dates in worlds that open in 2021; the played game opens after the records end, so it gets none until you rule.
 
 **What you need to do:** after the merge, pass a sales tax in the evening build and watch the treasury.
 
-**Also read first:** three problems and one CTO call (next section). The evening build won't show public school teachers or the town sample yet.
+**Also read first:** three problems and two calls (next section). The evening build won't show school teachers, the town sample or disasters yet.
 
-## Known problems and a pending call
+## Known problems and pending calls
 
 - **On main, not fixed here:** Scenic, Arizona and Camp Pendleton Mainside, California won't open; the people team has the cause and is fixing it, so pick another town until then. A game year also runs slower on main than it did on October 12: 26.9 seconds in Vonore against 11.3, because every household now gets its relatives when a town opens. I've asked the people team to build relatives only when the player meets a household.
 - **The played game skips five of the core's opening steps:** the public school district, private-school families, the sample of the town, matching buyers from outside town to each business's industry, and custom-world settings. The play team's opening needs to call them (more under "What happens next").
+- **Your call:** what should cause a disaster after FEMA's records end. They run through October 9, 2026, and the played game opens on October 12, 2026, so today no disaster ever happens in play. Nothing is rolled, so none will until you rule: a weather record the game keeps, for example, or real dated records only.
+- **A failing speed check:** in Woodmere, New York, Election Day takes 5.5 seconds against a 3-second budget, mostly in the government team's voting (see Checks).
 - **Waiting on the CTO:** whether businesses should be staffed to match what their customers buy. I recommend leaving it off (details under "What happens next").
 
 ## What changed for the player
@@ -26,8 +28,10 @@ After: Vonore's employers end the year with $44.9 million of their own. Those wo
 - The people the game fully simulates now include a sample of the whole town (young and old, lower and higher pay), not only the player's circle. Also not in the evening build yet.
 - A saved game loads from a snapshot of the town instead of replaying every day since the start, so a year-old game loads in about a third of the time.
 - Children aged 5 to 17 go to school on school days.
-- In Woodmere, New York, with every team's engines running, a game year takes about 56 seconds instead of 84, and Election Day no longer stalls for 10 seconds.
+- Election Day in Woodmere, New York no longer stalls for 10 seconds on the core's side; the government team's voting still makes it the slowest day (see Checks).
 - The town's voters start from their county's 2024 vote and their town's own share of citizens, not the state's.
+- The disasters FEMA declared for the town's county or state happen in the game on their real dates. Each one is news. When it's declared, federal aid reaches the town's government and its households, and households pay the town's builders to repair their damaged homes. The played game opens after the records end, so it shows none of this until you rule on what causes a disaster (see the call above).
+- Social Security claims during play follow the law in force, so if Congress raises the full retirement age, people claim later. The played game runs the laws engine, so this holds there too.
 
 ## Why each fix works
 
@@ -76,12 +80,16 @@ Measured in Vonore: before, cash grew from $43.6 million to $93.6 million in a y
 
 **Voters start where their county does.** What the code did (inferred from the code): every counted voter group started at its state's 2024 presidential margin, with the state's share of adults who are citizens. Now each starts at its county's 2024 margin and its town's own citizen share from the Census Bureau's 2020–2024 survey (`src/core2/opening-voter-groups.ts:97`). Measured as the 2024 two-party margin in points: Oakvale, West Virginia (Mercer County) starts 58 points Republican, where West Virginia's 43 applied before. Windham County, Vermont starts 44 points Democratic, where Vermont's 33 applied before.
 
+**Disasters come from FEMA's records.** What the code does now (inferred from the code): a disaster happens only where and when FEMA declared one for the town's county or its whole state, from 50,883 declarations since 2000 (`src/core2/modules/disasters.ts:343`). On the day it begins, it's a public news event that says how many homes FEMA found damaged in the town. On the day it's declared, the U.S. Treasury makes two kinds of payment. First, the federal money FEMA committed to rebuilding public property goes to the county's government and to the town's government. Second, the housing aid FEMA approved for the town's households goes to them. The households then pay for repairing the damage FEMA inspected in owners' homes. That money is split among the town's builders by how many people each employs (`src/core2/modules/disasters.ts:268`). A game town can hold fewer people than the real one, so household amounts are cut to the game town's population divided by the Census Bureau's estimate for the real town. Measured over 2021 in Gonzales, Louisiana, where the game town has 1,500 people and the real town 13,930 (0.108): FEMA found 1,297 homes damaged by Hurricane Ida, which becomes 139 in the game town. Its households received $1.02 million of FEMA's housing aid. Of that, they paid $495,626 to the town's three builders for repairs. The rest is aid for rent and other needs, which they keep. The town's government received $2.23 million for public property, FEMA's full award to the real town's government, not scaled. The county's government lives outside the game town, so it received nothing in play. Money balanced.
+
+**Retirement follows the law in force.** What the code does now (inferred from the code): where the laws engine runs, as it does in the played game, a claim during play is dated from the government team's Social Security ages, not the core's own table (`src/core2/modules/retirement-claims.ts:88`). Measured in the test in Teaticket, Massachusetts. The game opens on January 1, 2021, and one adult is set up so that their award would start two months later. With the full retirement age raised to 68 on the opening day, their full age moves from 66 years 10 months to 68, so their claim moves about 14 months later. They had no award by June 2021 and had claimed by the end of 2022. The same rule applies to every claimant; the test follows this one.
+
 ## Checks
 
 - The blocking golden-path checks pass.
 - The year-long business check isn't blocking yet. It passes in 7 of 8 places: Interlochen, Michigan; Lavalette, West Virginia; Sherwood, North Dakota; Washington, D.C.; Las Piedras, Puerto Rico; Oneonta, Alabama; and Sunnyvale, California. Aniak, Alaska fails with 3 of 21 businesses closed (the limit is under 10%). Money balanced in all eight.
 - New golden-path checks. A custom world with different wages, household cash, outside demand, political lean and turnout showed each setting (Hopelawn, New Jersey). An old build's save loaded and played on (Greenville, Delaware).
-- Speed and memory, the new early-access check (cloud machine, not a minimum-spec PC): in Woodmere, New York, a new game loads in 55.7 seconds and a full year runs in 55.8, each against a two-minute budget. The slowest day takes 2.9 seconds against a 3-second budget, and a year-old save is 15.6 MB compressed against a 40 MB budget.
+- Speed and memory, the new early-access check (cloud machine, not a minimum-spec PC), in Woodmere, New York. A new game loads in 67.8 seconds and a full year runs in 108.6, each against a two-minute budget. A year-old save is 15.1 MB compressed against a 40 MB budget. The slowest day fails: Election Day takes 5.5 seconds against 3 seconds, mostly in the government team's voting.
 - Speed, earlier: a year in Vonore takes 27.3 seconds on this branch and 26.9 seconds on main (measured before the population changes and the sample were added). With both added, a year in Jacksonville, Georgia takes 35.0 seconds against 32.9 seconds without them, 6% slower.
 
 ## What happens next
@@ -94,6 +102,8 @@ Measured in Vonore: before, cash grew from $43.6 million to $93.6 million in a y
 - The played game's opening (the play team's `src/bench/world.ts`) builds without five of the core's steps. Without them it has no public school district, no private-school families, no representative sample and no custom-world settings. I've asked the play team, through the CTO, to build from the core's opening.
 - For saves to load from a snapshot in the full game, each team marks its engines' state as saved (`declareSnapshotCovered`). A round trip of the full game in two towns differed in one place: the people team's birth engine sets up opening pregnancies again after loading. The three-line fix is in `docs/coordination/core.md`.
 
+- A played year in Woodmere got much slower today. This morning's commit runs a year in 58.5 seconds (55.8 when first measured this morning). The 11:20 main merge, with other teams' new engines, made it 78.3 seconds, 34% slower. The 13:23 main merge made it 110.3 seconds from 80.8, 37% slower. Both are over the 20% speed limit, and I've asked the CTO to have the government and people teams look at their parts; it doesn't block this merge. With my later work the year reached 122.3 seconds. The core's share was filling a household in (inferred from the code): it copied a list of every counted household's purchases (about 24,500) for each of about 200 sellers. Now each list is copied once and then changed in place (`src/core2/modules/residents.ts:1193`). Measured: the year went from 122.3 to 108.6 seconds, 13.7 seconds faster.
+
 ## Method
 
-Measured on this branch on October 12 and 13, 2026, one run each, in the cloud. Vonore used seed hours-a, Jacksonville rs-speed-a, Finley snapm-a and Woodmere m701-a; details for every run are in `docs/coordination/core.md`.
+Measured on this branch on October 12 and 13, 2026, one run each, in the cloud. Woodmere's speed was measured on each commit in turn, one process at a time. Vonore used seed hours-a, Jacksonville rs-speed-a, Finley snapm-a and Woodmere m701-a; details for every run are in `docs/coordination/core.md`.

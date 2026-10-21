@@ -42,6 +42,9 @@
       "poorShareBase": 0.226,
       "poorShareOfReferenceRoads": 0.226,
       "elasticityParameter": "pricesElasticityVehicles"
+    },
+    "cannabis": {
+      "elasticityParameter": "pricesElasticityCannabis"
     }
   }
 }

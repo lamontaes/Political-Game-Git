@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 import {
   conditionHazard,
   startingConditionAssignments,
-} from "../simulation/crisis/condition-pack";
+} from "./condition-pack";
 import { MULTIPLIER_ONE } from "./health-hazard";
 import { doubledAgeYearHazard } from "./health-mortality-table";
 import { FIXED_SCALE } from "./kernel/fixed-point";

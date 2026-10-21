@@ -5,12 +5,13 @@ area: play
 kind: feature
 priority: 2
 size: L
-status: open
-claimed-by:
-pr:
+status: done
+claimed-by: claude/death-handoff
+pr: #4837
 blocked-on:
 milestone:
 source: "docs/coordination/play.md line 113 (unchecked checklist line)"
+claimed-at: 2026-10-16T21:43:11.890Z
 ---
 
 **What.** When the player's character dies or he chooses to step away, he should be able to continue as a connected person with their own life (a son, a protege, anyone eligible). The Carry-on-as sheet offers the household and closest ties and choosing one works while the character is alive; after a death it is blocked because every player-clock call (including `retirePlayerV1`) checks that the controlled person is alive (`src/core2/player-v1.ts:210`). Fix the clock to hand off after death, then make the sheet work at that moment. The player would notice a death that ends one life and starts the next without losing the game.

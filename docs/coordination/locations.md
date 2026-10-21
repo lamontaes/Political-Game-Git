@@ -1,5 +1,7 @@
 # LOCATIONS: every painted place in the game, used where it belongs
 
+> **History.** This describes the old engine or a process that ended in October 2026. Don't follow it; read `AGENTS.md`, `ARCHITECTURE.md` and `docs/README.md`.
+
 Owner: Lamontae. Written by the Opus CTO on Oct 13, 2026, from the code at main `d39511ac2` and a full listing of the Firefly library.
 
 You are the one session that owns **places**: the paintings behind every scene. Your job is to:
@@ -35,7 +37,7 @@ The 97 screenshots he reacted to are on branch `cto/ui-screens-2026-10-13`, fold
 - **`art/campuses/manifest.json`**: the 52 college campuses (`src/presentation/campus-backdrops.ts` chooses one). They have **midday only**.
 - **`src/presentation/place-backdrops.ts`**: `homePlaceFor`, `workplacePlaceFor`, `capitolPlaceFor`.
 - **`src/bench/data/scene-places.json`**: which picture shows what a person is doing. Its keys:
-  - `actions`, `organizationKinds`, `placesWithoutKind`, `variantByHour`, `filingOffices`, `filingClerkOfficeKinds`;
+  - `actions`, `organizationKinds`, `placesWithoutKind`, `variantByHour`, `filingOffices`;
   - `sceneSettings`, `bodyPlaces`, `speechPlaces`, `dwellingPlaces`, `regionalHouses`, `situationPlaces`, `schoolPlacesByAge`, `electionNight`.
 - **`src/bench/scene.ts`**:
   - `homeOf()` picks a home picture from the household's dwelling kind and the state.

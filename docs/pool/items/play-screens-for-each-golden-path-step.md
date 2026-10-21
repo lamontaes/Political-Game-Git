@@ -4,12 +4,13 @@ title: "Screens for each golden path step."
 area: play
 kind: feature
 priority: 2
-status: open
-claimed-by:
-pr:
+status: done
+claimed-by: claude/negotiate-screen
+pr: #4818
 blocked-on:
 milestone:
 source: "docs/coordination/play.md line 134 (unchecked checklist line)"
+claimed-at: 2026-10-16T20:38:59.320Z
 ---
 
 **What.** Checked against main on Oct 16: Most screens exist (campaign rows, election night, ordinance drafting, the meeting vote, what changed) and `path-check.ts` reports the furthest step. Missing: the person card, a negotiation screen (`seatAct` allows only "draft"), and a browser spec per screen. Next: A negotiate act and screen, then a browser spec per screen. The player would see it as a choice among people, never a form.

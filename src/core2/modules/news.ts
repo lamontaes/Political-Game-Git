@@ -29,6 +29,7 @@ import type {
 } from "../types";
 import { decisionLean } from "../trait-decisions";
 import { viewOf } from "./views";
+import { measureOfFactKey } from "../outcome-news";
 
 /** The press module's id (kept here so news does not import the press). */
 const PRESS_MODULE_ID = "core2-press-v1";
@@ -84,11 +85,38 @@ export interface Story {
 /** The event kind for one day's readers of a printed story. */
 export const NEWS_READ = "news.read";
 
+/** The story a read event is about: its id is `news.read:<story id>:<date>`. */
+export function storyOfReadEvent(eventId: string): string | null {
+  return eventId.startsWith(`${NEWS_READ}:`)
+    ? eventId.slice(NEWS_READ.length + 1, eventId.lastIndexOf(":"))
+    : null;
+}
+
 const stories = (api: CoreAPI) =>
   api.moduleState(NEWS_MODULE_ID).table("stories");
 const deliveries = (api: CoreAPI) =>
   api.moduleState(NEWS_MODULE_ID).table("deliveries");
 const heard = (api: CoreAPI) => api.moduleState(NEWS_MODULE_ID).table("heard");
+const delivered = (api: CoreAPI) =>
+  api.moduleState(NEWS_MODULE_ID).table("delivered");
+
+/**
+ * The first story carrying a measure that a resident of the place heard, or
+ * null: a change nobody in town has heard of is not one the town attributes
+ * to anything yet.
+ */
+export function storyDelivered(
+  api: CoreAPI,
+  placeId: string,
+  measure: string,
+): { storyId: string; date: string; personId: string } | null {
+  if (!api.state.modules.has(NEWS_MODULE_ID)) return null;
+  return (delivered(api).get(`${placeId}:${measure}`) ?? null) as unknown as {
+    storyId: string;
+    date: string;
+    personId: string;
+  } | null;
+}
 
 /**
  * Trust in the media from a person's lean, interpolated between Gallup's
@@ -312,6 +340,17 @@ function hear(
   learned(newsKey(story.id), story.kind);
   learned(`${newsKey(story.id)}:outlet`, story.outletId);
   for (const [key, value] of Object.entries(story.facts)) learned(key, value);
+  for (const key of Object.keys(story.facts)) {
+    const measure = measureOfFactKey(key);
+    const row = `${story.placeId}:${measure}`;
+    if (measure && !delivered(api).get(row))
+      delivered(api).put({
+        id: row,
+        storyId: story.id,
+        date: api.state.date,
+        personId,
+      });
+  }
   return true;
 }
 
@@ -422,6 +461,8 @@ export function createNewsModule(
         stories: {},
         deliveries: { indexes: { byDate: { fields: ["date"] } } },
         heard: { indexes: { byPerson: { fields: ["personId"] } } },
+        // The first story that reached someone in a place with a measure.
+        delivered: {},
       },
     },
     eventKinds: ["*"],
@@ -510,7 +551,11 @@ export function createNewsModule(
         a[0].localeCompare(b[0]),
       )) {
         const story = stories(api).get(storyId) as unknown as Story;
-        if (!story.topic || !story.desiredChange) continue;
+        // A story argues a change on a policy question; a law taking effect
+        // is also read and remembered with no side to take, so a reader can
+        // bring up the law in town.
+        if (!story.topic || (!story.desiredChange && !story.facts.lawId))
+          continue;
         api.emit({
           id: `${NEWS_READ}:${story.id}:${api.state.date}`,
           date: api.state.date,

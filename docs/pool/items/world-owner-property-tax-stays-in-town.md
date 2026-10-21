@@ -5,12 +5,12 @@ area: world
 kind: bug
 priority: 3
 size: S
-status: in-pr
-claimed-by: claude/owner-property-tax
+status: done
+claimed-by:
 pr: #4695
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-16T10:24:38.289Z
+claimed-at:
 ---
 
 **What.** The shelter note (housing-shelter.ts) says an owner's taxes still leave the town: the property tax is wired to the treasury but the outside shelter cost still includes it. Subtract the tax from the outside shelter cost so no dollar is taxed twice.
@@ -22,3 +22,5 @@ claimed-at: 2026-10-16T10:24:38.289Z
 **Files.** src/core2/housing-shelter.ts, src/core2/modules/budgets.ts
 
 **Notes.** Split out of world-needs-world-98 (the "Needs from other sessions" section of docs/coordination/world.md), checked against main on Oct 16, 2026.
+
+Sent back 2026-10-16 from PR #4695 (branch claude/owner-property-tax): The top of the PR body lacks a gate line naming the in-session checks on changed files and their results. Add the named checks and results at the top (a pool id may precede it); "Local checks pass" alone does not name the checks; finish on that branch, merge main into it first.

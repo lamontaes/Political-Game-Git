@@ -1,5 +1,5 @@
 import { coreAPI } from "../core2/state";
-import { townSeats } from "../core2/modules/offices";
+import { filingClerkFor } from "../core2/modules/filing-clerk";
 import {
   checkEligibility,
   filingOfficeFor,
@@ -105,12 +105,8 @@ export function openBenchFilingVisit(
       sourceIds: row.sources,
     }));
   if (!contests.length) throw new Error("No open contest files there.");
-  const clerk = townSeats(api).find(
-    (row) =>
-      scenePlaces.filingClerkOfficeKinds.includes(row.office.kind) &&
-      row.holder?.personId &&
-      core.people.get(row.holder.personId)?.alive,
-  )?.holder?.personId;
+  // The clerk the contest's filing office records name (none for a state or federal counter).
+  const clerk = filingClerkFor(api, contests[0]!.id)?.personId;
   const visit = openFilingVisit(core, playerId, contests, clerk ?? undefined);
   const place = officePlace(filedWith);
   const player = core.people.get(playerId)!;

@@ -4,6 +4,12 @@
   "flows": [
     {
       "kind": "accounts.transfer",
+      "idPrefix": "donation-outside",
+      "matchedBy": "own-money",
+      "what": "Gifts to a campaign for a seat wider than the town from the adults of its district or state outside the town, one record per place group."
+    },
+    {
+      "kind": "accounts.transfer",
       "idPrefix": "residents",
       "matchedBy": "goods-and-services",
       "what": "Counted households' purchases from outside sellers and pay from outside employers, through the residents engine's pooled account."
@@ -13,6 +19,12 @@
       "idPrefix": "salary",
       "matchedBy": "service",
       "what": "An official's salary for days in office, from the government that seats them (official-pay)."
+    },
+    {
+      "kind": "accounts.transfer",
+      "idPrefix": "premium",
+      "matchedBy": "service",
+      "what": "A policyholder's monthly worker share of an employer health plan's premium, paid to an insurer outside the town (coverage)."
     },
     {
       "kind": "accounts.transfer",
@@ -140,6 +152,12 @@
     },
     {
       "kind": "accounts.transfer",
+      "idPrefix": "compliance",
+      "matchedBy": "service",
+      "what": "A town business paying an outside provider for what a law requires of it (the data privacy duty), recorded as a row of the business engine's compliance table under the same id."
+    },
+    {
+      "kind": "accounts.transfer",
       "idPrefix": "property-tax",
       "matchedBy": "transfer-under-law",
       "what": "Property tax a household owes under the law in force, paid to a government whose books are outside the town (housing-property-tax)."
@@ -149,6 +167,11 @@
       "idPrefix": "treasury-tax",
       "matchedBy": "tax-payment",
       "what": "A tax with named payers (corporate income, customs, excise, estate and gift, selective sales, vehicle and other) paid to a treasury by its group of payers on the due date, one transfer per line and installment (taxPayments)."
+    },
+    {
+      "kind": "budgets:withholding",
+      "matchedBy": "tax-payment",
+      "what": "Income tax withheld from a paycheck and paid to a government with no treasury in the world (another state's, a county or city the world does not model), against the due record the withholding itself writes (budgets withholding)."
     },
     {
       "kind": "accounts.transfer",

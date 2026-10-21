@@ -338,6 +338,12 @@
       "source": "Youngest owners of a local outlet or station group (owners of U.S. newspapers and station groups are mostly past 50: Pew 2019 newspaper ownership study; Forbes 400 media owners).",
       "spread": [30, 50]
     },
+    "ownerHouseholdIncomeMinor": {
+      "value": 35000000,
+      "tag": "ESTIMATED",
+      "source": "The yearly household income of an outlet's owner, in cents, taken as the lower limit of the top 5 percent of U.S. households (Census Bureau, Historical Income Tables, Table H-1, recent years about $330,000 to $370,000), since the pool's press ruling has outlets owned by wealthy owners. It sets their living cost basket and the bank balance a family at that income keeps (SCF 2022).",
+      "spread": [25000000, 45000000]
+    },
     "ownerAgeMax": {
       "value": 85,
       "tag": "ESTIMATED",
@@ -463,6 +469,54 @@
       "tag": "TUNABLE",
       "source": "Days before an outlet sits down again with an officeholder between races (a local beat reporter's monthly check-in with a council member or mayor).",
       "spread": [14, 90]
+    },
+    "officeNewsworthiness:president": {
+      "value": 1,
+      "tag": "TUNABLE",
+      "source": "Authority and reach of the serving office alongside personal recognition; Gans, Deciding What’s News (1979), prominence of national political leaders. This weight changes editorial scoring, not a guaranteed invitation.",
+      "spread": [0.5, 1.5]
+    },
+    "officeNewsworthiness:vice-president": {
+      "value": 0.7,
+      "tag": "TUNABLE",
+      "source": "Authority and reach of the serving office alongside personal recognition; Gans, Deciding What’s News (1979), prominence of national political leaders. This weight changes editorial scoring, not a guaranteed invitation.",
+      "spread": [0.35, 1.0499999999999998]
+    },
+    "officeNewsworthiness:federal": {
+      "value": 0.5,
+      "tag": "TUNABLE",
+      "source": "Authority and reach of the serving office alongside personal recognition; Gans, Deciding What’s News (1979), prominence of national political leaders. This weight changes editorial scoring, not a guaranteed invitation.",
+      "spread": [0.25, 0.75]
+    },
+    "officeNewsworthiness:state": {
+      "value": 0.3,
+      "tag": "TUNABLE",
+      "source": "Authority and reach of the serving office alongside personal recognition; Gans, Deciding What’s News (1979), prominence of national political leaders. This weight changes editorial scoring, not a guaranteed invitation.",
+      "spread": [0.15, 0.44999999999999996]
+    },
+    "officeNewsworthiness:county": {
+      "value": 0.15,
+      "tag": "TUNABLE",
+      "source": "Authority and reach of the serving office alongside personal recognition; Gans, Deciding What’s News (1979), prominence of national political leaders. This weight changes editorial scoring, not a guaranteed invitation.",
+      "spread": [0.075, 0.22499999999999998]
+    },
+    "officeNewsworthiness:city": {
+      "value": 0.05,
+      "tag": "TUNABLE",
+      "source": "Authority and reach of the serving office alongside personal recognition; Gans, Deciding What’s News (1979), prominence of national political leaders. This weight changes editorial scoring, not a guaranteed invitation.",
+      "spread": [0.025, 0.07500000000000001]
+    },
+    "officeNewsworthiness:township": {
+      "value": 0.05,
+      "tag": "TUNABLE",
+      "source": "Authority and reach of the serving office alongside personal recognition; Gans, Deciding What’s News (1979), prominence of national political leaders. This weight changes editorial scoring, not a guaranteed invitation.",
+      "spread": [0.025, 0.07500000000000001]
+    },
+    "storyRenownWeight": {
+      "value": 1,
+      "tag": "TUNABLE",
+      "source": "Weight of how many public figures a story names (a president, a governor, a member of Congress) in what a reporter picks: elite persons are a news value in their own right (Galtung and Ruge 1965, The Structure of Foreign News, Journal of Peace Research 2(1):64-91). Spread 0.5 to 2.",
+      "spread": [0.5, 2]
     }
   }
 }

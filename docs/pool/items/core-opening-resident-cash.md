@@ -5,13 +5,13 @@ area: core
 kind: wiring
 priority: 2
 size: M
-status: open
-claimed-by:
-pr:
+status: done
+claimed-by: claude/core-opening-resident-cash
+pr: #4806
 blocked-on:
 milestone:
 source: "split from core-needs-core-91 (Oct 15, 2026)"
-claimed-at:
+claimed-at: 2026-10-16T18:37:09.853Z
 ---
 
 **What.** At the start of a small town (Kellogg, Idaho in an earlier run) only 44 of 276 residents held any cash in their own account (median $0, 90th percentile $702.89), so a resident's estate is nearly always empty and nothing passes by will or intestacy. Start each resident's cash from the Survey of Consumer Finances by age and household (average with a per-world spread, marked as an estimate with its source), so a death leaves something to inherit. The player notices that a small town's residents have money to leave.

@@ -200,6 +200,9 @@ describe("buying a home", () => {
     const buyer = {
       ...base.people[0]!,
       liquidMinor: 10_000_000,
+      // What the household spends a day, its rent among it: the bank keeps this
+      // many months of it in the wallet when it sweeps savings into deposits.
+      livingCostDailyMinor: 10_000,
       jobId: "job:payer",
     };
     const fixture = withCentralBank({

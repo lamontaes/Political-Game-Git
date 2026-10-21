@@ -105,6 +105,24 @@ describe("M2-08 parties", () => {
     expect(kinds.has("party")).toBe(true);
     expect(kinds.has("independent")).toBe(true);
     expect(kinds.has("no-party")).toBe(true);
+    // Careful thinkers lean toward calling themselves independent: a scale on
+    // deliberation and lean together, not a cut on either.
+    const mean = (kind: string) => {
+      const rows = ties.filter((t) => t.tie === kind);
+      return (
+        rows.reduce(
+          (n, t) =>
+            n +
+            (core.people.get(t.personId)?.traits[
+              "people-mind-v1:deliberation"
+            ] ?? 0),
+          0,
+        ) / Math.max(1, rows.length)
+      );
+    };
+    expect(mean("no-party"), `${place} seed ${seed}`).toBeLessThanOrEqual(
+      mean("independent"),
+    );
     const share = ties.filter((t) => t.tie === "party").length / ties.length;
     expect(share).toBeGreaterThan(0.4);
     expect(share).toBeLessThan(0.7);
@@ -165,6 +183,9 @@ describe("M2-08 parties", () => {
       // by standing, reach and the ballot itself, so the party's voters
       // beyond the town vote in it too (CTO, Oct 14).
       expect(total).toBeGreaterThan(namedVotes);
+      // Votes are whole numbers.
+      for (const n of Object.values(votes))
+        expect(Number.isInteger(n)).toBe(true);
       govReport(
         "parties",
         JSON.stringify({

@@ -14,7 +14,9 @@
     "town-hall": "Town hall",
     "interview": "Interview",
     "meet-department-head": "Meet",
+    "name-department-head": "Name a department head",
     "talk-to-colleague": "Talk about your bill",
+    "cut-ribbon": "Cut the ribbon",
     "vote": "Vote",
     "sign": "Sign",
     "veto": "Veto",
@@ -30,6 +32,44 @@
     "law": "A law took effect",
     "office-day.meeting": "The meeting",
     "office-day.desk": "Your desk"
+  },
+  "debate": {
+    "title": "Debate invitation",
+    "answer": "Answer",
+    "for": "For",
+    "against": "Against",
+    "pass": "Pass"
+  },
+  "campaignActs": {
+    "title": "What the race turns on",
+    "reached": "reached",
+    "door": "Doors",
+    "volunteer-door": "Volunteers' doors",
+    "speech": "Speeches",
+    "interview": "Interviews",
+    "town-hall": "Town halls",
+    "debate": "Debates",
+    "retold": "Retold",
+    "ad": "Ads",
+    "attack-ad": "Attack ads",
+    "endorsement": "Endorsements",
+    "donation-ask": "Asking for money",
+    "constituent-case": "Cases for constituents",
+    "mail": "Mail",
+    "event": "Events"
+  },
+  "speech": {
+    "begin": "Give a speech",
+    "give": "Give the speech",
+    "venue": "Where",
+    "retold": "retold"
+  },
+  "campaignOutings": {
+    "doors": "Knock on doors",
+    "calls": "Call donors",
+    "event": "Hold an event",
+    "interview": "Ask for an interview",
+    "hours": "hours"
   },
   "venues": {
     "rally-courthouse-square": "Courthouse square",
@@ -56,6 +96,14 @@
   "opening": {
     "news": "News"
   },
+  "person": {
+    "age": "Age",
+    "work": "Work",
+    "place": "Home",
+    "talk": "Talk",
+    "back": "Back",
+    "continue": "Continue"
+  },
   "options": {
     "version": "Version",
     "fullScreen": "Full screen",
@@ -81,6 +129,9 @@
     "speakFor": "Speak for",
     "speakAgainst": "Speak against"
   },
+  "filing": {
+    "file": "File for this office"
+  },
   "authority": {
     "level-lacks-power": "Not a power of this body",
     "state-preempts-question": "State law preempts this",
@@ -94,11 +145,27 @@
     "veto": "Veto",
     "own": "Decide for me"
   },
+  "budgetEditor": {
+    "title": "Budget lines to send",
+    "-20": "Cut 20%",
+    "-10": "Cut 10%",
+    "0": "No change",
+    "10": "Add 10%",
+    "20": "Add 20%"
+  },
+  "deals": {
+    "title": "Deal to offer when you talk",
+    "none": "No deal",
+    "favor": "A favor",
+    "back-their-item": "Back their item"
+  },
   "officeStops": {
     "own-bill-vote": "Your bill's vote",
     "every-meeting": "Every meeting",
     "desk": "Your desk",
-    "ownChoice": "Decided for me"
+    "ownChoice": "Decided for me",
+    "interviewOutlet": "Ask for an interview with",
+    "nameHeadPick": "Name to the post"
   },
   "titleUnavailable": {
     "watch": "Watching the world without a player is not on the new core yet.",
@@ -108,13 +175,15 @@
   "levels": {
     "local": "Local",
     "state": "State",
-    "federal": "Federal",
-    "county": "County",
-    "city": "City",
-    "township": "Township"
+    "federal": "Federal"
   },
   "travel": {
-    "staff": "staff"
+    "staff": "staff",
+    "search": "Search destinations",
+    "filing": "Filing office",
+    "go": "Go",
+    "back": "Back",
+    "next": "Continue"
   },
   "time": {
     "week": "Week"
@@ -128,6 +197,11 @@
     "back": "Back",
     "next": "Continue",
     "weekdays": ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
+  },
+  "party": {
+    "join": "Join",
+    "member": "Your party",
+    "agreement": "Views fit"
   },
   "leanWords": {
     "veryLiberal": "Very liberal",
@@ -164,13 +238,31 @@
     "back": "Back",
     "next": "Continue"
   },
-  "levels": {
-    "local": "Local",
-    "state": "State",
-    "federal": "Federal"
+  "news": {
+    "title": "News",
+    "records": "Public record",
+    "back": "Back to front page",
+    "previous": "Back",
+    "next": "Continue"
+  },
+  "jobs": {
+    "work": "Work",
+    "study": "Study",
+    "offers": "Job offers",
+    "pay": "Pay",
+    "hours": "Hours",
+    "daily": "per day",
+    "hourly": "per hour",
+    "deadline": "Answer by",
+    "accept": "Take it",
+    "decline": "Turn it down",
+    "noJob": "No current job",
+    "unavailable": "Offer no longer available",
+    "failed": "Could not send your answer. Try again."
   },
   "politics": {
     "seats": "Seats",
+    "notChosenHere": "Not chosen by this place's voters",
     "votes": "Votes",
     "yes": "Yes",
     "no": "No",
@@ -183,6 +275,45 @@
     "balance": "Balance",
     "budget": "Budget",
     "increase": "Increase",
-    "decrease": "Decrease"
+    "decrease": "Decrease",
+    "stateFilter": "State",
+    "ownState": "Your state"
+  },
+  "results": {
+    "turnout": "Turnout",
+    "exitPoll": "Exit poll",
+    "wonIn": "Where it was won",
+    "you": "You",
+    "unopposed": "Unopposed",
+    "abstained": "—"
+  },
+  "money": {
+    "cash": "Cash available",
+    "history": "Balance history",
+    "spending": "Where the money went",
+    "home": "Home",
+    "householdHome": "Your household’s home",
+    "tenure": "Tenure",
+    "owned": "Owned",
+    "rented": "Rented",
+    "value": "Value",
+    "rent": "Rent",
+    "monthly": "per month",
+    "deductions": "Paycheck deductions",
+    "assets": "Assets",
+    "debts": "Debts",
+    "lastMonth": "Last month",
+    "monthHousing": "Home costs",
+    "monthEveryday": "Everyday living",
+    "monthPaid": "Paid",
+    "monthUnpaid": "Left unpaid",
+    "loanPayments": "Loan payments",
+    "loanDue": "due",
+    "loanPaid": "paid"
+  },
+  "staffingNews": {
+    "jobsLost": "Jobs lost",
+    "sales": "Sales",
+    "costs": "Costs"
   }
 }

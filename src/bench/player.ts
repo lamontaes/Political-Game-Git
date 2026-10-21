@@ -73,7 +73,8 @@ export class BenchPlayer {
       throw new Error("Select a living resident.");
     if (this.personId === id) return;
     if (this.clockBound) {
-      this.finishDay();
+      // A character who has died has no day left to live out.
+      if (this.core.people.get(this.personId!)?.alive) this.finishDay();
       retirePlayerV1(this.core);
       this.clockBound = false;
       this.packet = undefined;

@@ -50,6 +50,7 @@ export const OFFICIALS_DATA = officialsData as unknown as {
     | "views"
     | "district"
     | "stateStake"
+    | "statePartyLoyalty"
     | "party"
     | "caucus"
     | "wing"

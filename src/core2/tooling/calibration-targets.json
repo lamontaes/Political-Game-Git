@@ -618,8 +618,8 @@
     },
     {
       "parameter": "stressBaseline",
-      "tag": "TUNABLE",
-      "currentValueForTraceabilityOnly": 0.25,
+      "tag": "ESTIMATED",
+      "currentValueForTraceabilityOnly": 0.314,
       "checkRange": {
         "ref": "P9-OUTCOME-WHOLE-LIFE"
       },
@@ -775,7 +775,7 @@
     {
       "parameter": "companyHorizonDays",
       "tag": "TUNABLE",
-      "currentValueForTraceabilityOnly": 7,
+      "currentValueForTraceabilityOnly": 14,
       "checkRange": {
         "ref": "P9-OUTCOME-WHOLE-LIFE"
       },
@@ -1065,10 +1065,9 @@
       },
       "mappingStatus": "target-reference-present; blocked by identifying evidence/crosswalk gap; not calibration",
       "productionPathOrGap": "Indexed scheduled work, time budget or bounded result retention; see src/core2/modules/work.ts and work-state.ts",
-      "proposal": "Keep TUNABLE/unmeasured and its associated stopgap open. Compare correctly denominated observable receipts before any coefficient search; do not copy target means into a person or force an outcome.",
+      "proposal": "An engineering memory budget the owner ruled on (Oct 12, running memory stays small): kept TUNABLE with a spread of one week to a quarter, not calibrated to any observable.",
       "calibrationRange": null,
       "calibrated": false,
-      "openStopgapId": "SG-P8-work-result-retention",
       "reviewNote": "Outcome reference present; applicability-blocked and unmeasured. Retained causal records can be inspected through the joint outcome suite, but a biography does not identify an implementation retention horizon; owner view/callback/resource constraints need their own evaluator."
     },
     {
@@ -1242,30 +1241,6 @@
       },
       "mappingStatus": "applicability-blocked; no valid parameter-specific calibration",
       "reviewNote": "Applicability-blocked. The official snippet average concerns retired-worker monthly benefits in late 2025, while this module generates fictional prior awards/fund accounts for a 2021 opening. It supplies no retirement participation, covered-career, trait, claiming, individual dispersion or cash-buffer parameter bound."
-    },
-    {
-      "parameter": "openingRetirementPayerReserveMonths",
-      "checkRange": {
-        "ref": "EMPIRICAL-OPENING-RETIREMENT-INCOME"
-      },
-      "mappingStatus": "applicability-blocked; no valid parameter-specific calibration",
-      "reviewNote": "Applicability-blocked. The official snippet average concerns retired-worker monthly benefits in late 2025, while this module generates fictional prior awards/fund accounts for a 2021 opening. It supplies no retirement participation, covered-career, trait, claiming, individual dispersion or cash-buffer parameter bound."
-    },
-    {
-      "parameter": "openingRetirementFundingEnvelopeShare",
-      "checkRange": {
-        "ref": "EMPIRICAL-RETIREMENT-FUNDING-FLOWS"
-      },
-      "mappingStatus": "applicability-blocked; no valid parameter-specific calibration",
-      "reviewNote": "Applicability-blocked: Treasury FY2025 national Social Security functional outlays identify a real aggregate annual flow, not retirement-only covered-person membership, a 2021 represented portfolio appropriation, opening liquid balances or either allocation coefficient."
-    },
-    {
-      "parameter": "openingRetirementFundingLiquidShare",
-      "checkRange": {
-        "ref": "EMPIRICAL-RETIREMENT-FUNDING-FLOWS"
-      },
-      "mappingStatus": "applicability-blocked; no valid parameter-specific calibration",
-      "reviewNote": "Applicability-blocked: Treasury FY2025 national Social Security functional outlays identify a real aggregate annual flow, not retirement-only covered-person membership, a 2021 represented portfolio appropriation, opening liquid balances or either allocation coefficient."
     },
     {
       "parameter": "openingCustomerPeriodMonths",
@@ -1608,7 +1583,7 @@
       "limitation": "P9 output comparison is a concrete end-to-end target. The target suite cannot identify this parameter separately and no numeric bound is asserted."
     },
     {
-      "parameter": "workWakingRecoveryHours",
+      "parameter": "restDayHours",
       "tag": "TUNABLE",
       "currentValueForTraceabilityOnly": 1,
       "checkRange": {
@@ -6736,7 +6711,7 @@
         "workEveningStartMinute": "blocked: normalized aggregate paid-work observability is useful but does not independently identify this parameter or its interval",
         "workNightStartMinute": "blocked: normalized aggregate paid-work observability is useful but does not independently identify this parameter or its interval",
         "workFireCycleDays": "blocked: normalized aggregate paid-work observability is useful but does not independently identify this parameter or its interval",
-        "workWakingRecoveryHours": "blocked: normalized aggregate paid-work observability is useful but does not independently identify this parameter or its interval"
+        "restDayHours": "blocked: normalized aggregate paid-work observability is useful but does not independently identify this parameter or its interval"
       },
       "adapterGaps": [
         "The unweighted one-locality initialized roster is not the U.S. ATUS civilian noninstitutional survey sample.",
@@ -7540,7 +7515,7 @@
       "reason": "Outcome reference present; applicability-blocked and unmeasured. Age-work diary means expose contextual activity totals, but not the parameter-specific attendance or schedule coefficient interval."
     },
     {
-      "parameter": "workWakingRecoveryHours",
+      "parameter": "restDayHours",
       "ref": "EMPIRICAL-PRIMARY-ACTIVITY-AGE",
       "reason": "Outcome reference present; applicability-blocked and unmeasured. Waking recovery is not an instrument-equivalent ATUS primary activity and its coefficient interval is unidentified."
     },
@@ -7593,21 +7568,6 @@
       "parameter": "openingRetirementBenefitFactorMaximum",
       "ref": "EMPIRICAL-OPENING-RETIREMENT-INCOME",
       "reason": "Applicability-blocked. The official snippet average concerns retired-worker monthly benefits in late 2025, while this module generates fictional prior awards/fund accounts for a 2021 opening. It supplies no retirement participation, covered-career, trait, claiming, individual dispersion or cash-buffer parameter bound."
-    },
-    {
-      "parameter": "openingRetirementPayerReserveMonths",
-      "ref": "EMPIRICAL-OPENING-RETIREMENT-INCOME",
-      "reason": "Applicability-blocked. The official snippet average concerns retired-worker monthly benefits in late 2025, while this module generates fictional prior awards/fund accounts for a 2021 opening. It supplies no retirement participation, covered-career, trait, claiming, individual dispersion or cash-buffer parameter bound."
-    },
-    {
-      "parameter": "openingRetirementFundingEnvelopeShare",
-      "ref": "EMPIRICAL-RETIREMENT-FUNDING-FLOWS",
-      "reason": "Applicability-blocked: Treasury FY2025 national Social Security functional outlays identify a real aggregate annual flow, not retirement-only covered-person membership, a 2021 represented portfolio appropriation, opening liquid balances or either allocation coefficient."
-    },
-    {
-      "parameter": "openingRetirementFundingLiquidShare",
-      "ref": "EMPIRICAL-RETIREMENT-FUNDING-FLOWS",
-      "reason": "Applicability-blocked: Treasury FY2025 national Social Security functional outlays identify a real aggregate annual flow, not retirement-only covered-person membership, a 2021 represented portfolio appropriation, opening liquid balances or either allocation coefficient."
     },
     {
       "parameter": "openingCustomerPeriodMonths",

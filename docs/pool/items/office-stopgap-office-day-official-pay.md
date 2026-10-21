@@ -4,12 +4,13 @@ title: "Stopgaps in office-day (official-pay): 1 open"
 area: office
 kind: stopgap
 priority: 3
-status: open
-claimed-by:
-pr:
+status: done
+claimed-by: claude/stipend-withholding
+pr: #4823
 blocked-on:
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/modules/office-day.ts, kind official-pay"
+claimed-at: 2026-10-16T21:07:25.734Z
 ---
 
 **What.** Replace or clear the 1 open official-pay stopgap row(s) in src/core2/modules/office-day.ts: SG-OFFICE-stipend-transfer. Each fake is replaced by the mechanic, or the feature that needs it is deleted.

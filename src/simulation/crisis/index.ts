@@ -40,7 +40,7 @@ import {
   CRIME_SAMPLE_TRANSITION_KEY,
   crimeSampleHandler,
 } from "../crime/producer";
-import { FATAL_ILLNESS_ONSET_KEY } from "./death-causes";
+import { FATAL_ILLNESS_ONSET_KEY } from "../../core2/death-causes";
 import { EPIDEMIC_PASS_KEY, epidemicPassHandler } from "./epidemic";
 import {
   OFFICIAL_FUNERAL_KEY,
@@ -63,9 +63,10 @@ export * from "./records";
 export * from "../../core2/health-mortality-table";
 export * from "../../core2/health-hazard";
 export * from "./mortality";
-export * from "./death-causes";
+export * from "../../core2/death-causes";
 export * from "./fatal-illness";
 export * from "./condition-pack";
+export * from "../../core2/condition-pack";
 export * from "./condition-onset";
 export * from "./health";
 export * from "./health-queries";

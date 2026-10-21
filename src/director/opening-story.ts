@@ -784,6 +784,8 @@ export function recordOpeningStory(
     publicRecord: true,
     news: true,
     facts: {
+      // National news on every town's wire.
+      level: "federal",
       [ADDRESS_FACT.event]: story.id,
       ...(core.eventIds.has(`${INAUGURATION_EVENT}:${core.date}`)
         ? { [ADDRESS_FACT.inauguration]: `${INAUGURATION_EVENT}:${core.date}` }

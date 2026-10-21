@@ -3,8 +3,10 @@ import { randomBytes } from "node:crypto";
 import { describe, expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { coreAPI } from "./state";
+import { holdoverRule } from "./office-holdover";
 import { standingPool, raceScope } from "./candidate-pool";
 import {
+  ballot,
   checkEligibility,
   ELECTIONS_MODULE_ID,
   type ContestRow,
@@ -132,13 +134,61 @@ describe("wide candidates and unfilled terms", () => {
         ?.vacancyId,
     ).toBeTruthy();
   });
+  it("edge fixture: one name on the ballot wins unopposed with whole vote totals", () => {
+    // A race whose serving incumbent has a filing (candidacy files them in
+    // play), then all but one withdraw. The state and county races go first; a
+    // place whose incumbents are refused for them takes any other race that
+    // obtains a filing, so the check holds in every drawn place.
+    const rank = (row: ContestRow) =>
+      row.family === "stateLegislative" || row.family === "countyOffice"
+        ? 0
+        : 1;
+    let contest: ContestRow | undefined;
+    for (const c of [...contests].sort((a, b) => rank(a) - rank(b))) {
+      const term = c.incumbentTermId
+        ? (api
+            .moduleState(OFFICES_MODULE_ID)
+            .table("terms")
+            .get(c.incumbentTermId) as unknown as TermRow | undefined)
+        : undefined;
+      // The fixture's own filing row, as the filing office would hold it.
+      if (term?.status === "serving" && term.personId)
+        elections.table("filings").put({
+          id: `filing:${c.id}:${term.personId}`,
+          contestId: c.id,
+          personId: term.personId,
+          filedOn: api.state.date,
+          filedWith: "fixture",
+          platform: [],
+          party: null,
+          status: "on-ballot",
+        } as unknown as never);
+      if (ballot(api, c.id).length) {
+        contest = c;
+        break;
+      }
+    }
+    expect(contest, JSON.stringify({ seed, place })).toBeDefined();
+    const filings = ballot(api, contest!.id);
+    for (const filing of filings.slice(1))
+      elections
+        .table("filings")
+        .put({ ...filing, status: "withdrawn" } as unknown as never);
+    const result = holdElection(api, contest!.id);
+    expect(result.winnerId, JSON.stringify({ seed, place })).toBe(
+      filings[0]!.personId,
+    );
+    for (const n of Object.values(result.totals))
+      expect(Number.isInteger(n)).toBe(true);
+  });
   it("edge fixture: an empty state or local race schedules its estimated holdover with a source the calendar accepts", () => {
     const contest = contests.find((c) => c.family === "usHouse")!;
-    // The same contest as a state race: the rule it reads is the default one.
+    // The same contest as a local race: the rule it reads is the place's own or the family default.
     const empty = {
       ...contest,
       id: `fixture:empty-state:${contest.id}`,
       level: "state",
+      family: "municipalOffice" as const,
     };
     elections.table("contests").put(empty);
     expect(() => holdElection(api, empty.id)).not.toThrow();
@@ -146,6 +196,10 @@ describe("wide candidates and unfilled terms", () => {
       .moduleState(VOTING_MODULE_ID)
       .table("emptyRaces")
       .get(`empty:${empty.id}`)!;
-    expect(row.method).toBe("holdover");
+    expect(row.method).toBe(
+      holdoverRule(place.state, "municipalOffice").rule === "holds-over"
+        ? "holdover"
+        : "vacancy",
+    );
   });
 });

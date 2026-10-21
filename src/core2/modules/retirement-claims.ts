@@ -17,7 +17,7 @@ import {
 import { LAWS_MODULE_ID, socialSecurityAges } from "./laws";
 import { addResidentFlow, endFlowPart } from "../residents-economy";
 import { decisionLean } from "../trait-decisions";
-import { residentPerson, residentsRuntime } from "./residents";
+import { residentsRuntime } from "./residents";
 import type {
   CoreAPI,
   CoreModule,
@@ -135,28 +135,36 @@ function index(api: CoreAPI, rt: Runtime): void {
   const year = core.date.slice(0, 4);
   if (rt.countedIndexedYear !== year) {
     rt.countedIndexedYear = year;
-    const [y, m] = core.date.split("-").map(Number) as [number, number];
+    const [year0, month0] = core.date.split("-").map(Number) as [
+      number,
+      number,
+    ];
     // The earliest claim age does not depend on the birth date.
     const soonest = agesFor(api, core.date).earliestMonths - 24;
-    for (const record of residentsRuntime(core)?.households.values() ?? [])
-      for (const person of record.people) {
-        if (rt.known.has(person.id)) continue;
-        const [by, bm] = person.birthDate.split("-").map(Number) as [
-          number,
-          number,
-        ];
-        if ((y - by) * 12 + (m - bm) < soonest) continue;
-        rt.known.add(person.id);
+    const store = residentsRuntime(core)?.store;
+    for (const h of store?.liveHouseholds() ?? [])
+      for (const member of store!.countedMembers(h)) {
+        const id = store!.ids[member]!;
+        if (rt.known.has(id)) continue;
+        const born = store!.born[member]!;
+        const [by, bm] = born.split("-").map(Number) as [number, number];
+        if ((year0 - by) * 12 + (month0 - bm) < soonest) continue;
+        rt.known.add(id);
         if (
-          record.contracts.some(
+          h.incomeContracts.some(
             (row) =>
               row.kind === "income.retirement" &&
-              row.recipientIncome?.personId === person.id,
+              row.recipientIncome?.personId === id,
           )
         )
           continue;
-        const date = claimDateOf(api, person);
-        if (date && date > core.date) schedule(rt, date, person.id);
+        const date = claimDateOf(api, {
+          birthDate: born,
+          liquidMinor: store!.liquid[member]!,
+          livingCostDailyMinor: store!.living[member]!,
+          traits: store!.packedTraits(member),
+        });
+        if (date && date > core.date) schedule(rt, date, id);
       }
   }
   if (
@@ -203,15 +211,27 @@ function moveToPerson(api: CoreAPI, rt: Runtime, personId: PersonId): void {
 
 function claim(api: CoreAPI, rt: Runtime, personId: PersonId): void {
   const core = api.state;
+  // One award a person: a claim made when work ended stands when the date comes.
+  if (rt.claimed.has(personId)) return;
   const full = core.people.get(personId);
-  const person = full ?? residentPerson(core, personId);
+  // A counted claimant is read from their group's columns, not built as a record.
+  const counted = full ? undefined : residentsRuntime(core);
+  const member = counted?.store.countedMember(personId);
+  const person =
+    full ??
+    (counted && member !== undefined
+      ? {
+          birthDate: counted.store.born[member]!,
+          placeId: counted.store.text(counted.store.placeIx[member]!)!,
+          traits: counted.store.packedTraits(member),
+        }
+      : undefined);
   if (!person || (full && (!full.alive || receivesRetirement(core, personId))))
     return;
   const residentsId = full
     ? undefined
-    : residentsRuntime(core)?.input.accounts.find(
-        (row) => row.placeId === person.placeId,
-      )?.accountId;
+    : counted?.input.accounts.find((row) => row.placeId === person.placeId)
+        ?.accountId;
   if (!full && !residentsId) return;
   const p = (key: string) => api.parameter(key);
   const keys = incomeData.parameters;
@@ -298,6 +318,23 @@ function claim(api: CoreAPI, rt: Runtime, personId: PersonId): void {
     counted: !full,
     obligationId: `retirement-claim:${personId}`,
   });
+}
+
+/**
+ * A worker who leaves work for good claims now, from their own record, rather
+ * than waiting for a claim date the index skipped because they were still
+ * working. Nothing happens without the module, or for someone already paid.
+ */
+export function claimRetirementNow(api: CoreAPI, personId: PersonId): boolean {
+  const core = api.state;
+  if (!core.modules.has(RETIREMENT_CLAIMS_MODULE_ID)) return false;
+  let rt = runtimes.get(core);
+  if (!rt) {
+    rt = { known: new Set(), byDate: new Map(), claimed: new Map() };
+    runtimes.set(core, rt);
+  }
+  claim(api, rt, personId);
+  return rt.claimed.has(personId);
 }
 
 export const RETIREMENT_CLAIMS_MODULE: CoreModule = {

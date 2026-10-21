@@ -163,12 +163,8 @@ function townHouseholdCount(api: CoreAPI): number {
     if (person?.alive && core.households.has(person.householdId))
       ids.add(person.householdId);
   }
-  for (const record of residentsRuntime(core)?.households.values() ?? [])
-    if (
-      record.household.placeId === town &&
-      !core.households.has(record.household.id)
-    )
-      ids.add(record.household.id);
+  for (const h of residentsRuntime(core)?.store.liveHouseholds() ?? [])
+    if (h.placeId === town && !core.households.has(h.id)) ids.add(h.id);
   return ids.size;
 }
 
@@ -209,6 +205,7 @@ function peopleToAsk(api: CoreAPI, campaign: CampaignRow) {
     const person = api.state.people.get(id);
     return (
       !!person?.alive &&
+      person.tier !== "husk" &&
       ageOn(person.birthDate, api.state.date) >= 18 &&
       !giftOf(api, campaign.filingId, id)
     );

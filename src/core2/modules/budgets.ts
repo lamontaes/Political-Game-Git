@@ -11,9 +11,8 @@
  *   resident times its residents, and the Treasury's fiscal 2025 statement for
  *   the federal government. Local spending divides between county and city
  *   by each function's real shares in the state (Census 2022). Each new fiscal year's
- *   budget is adopted on its start date by the old rule (carry the year's
- *   amounts forward) until a council or legislature votes it (M3):
- *   SG-GOV-budget-adopted-by-rule. A budget bill the legislature passes adds
+ *   budget is adopted on its start date by its council's or legislature's vote;
+ *   where no body votes it, the year's amounts carry forward. A budget bill the legislature passes adds
  *   its line changes to the government's enacted lines, which every later
  *   year's budget starts from.
  * - Withholding: each paycheck's income, Social Security and Medicare taxes,
@@ -27,6 +26,7 @@ import federal from "../../../data/research/money/federal-budget-fy2025.json" wi
 import localYears from "../data/budgets/local-fiscal-years.json" with { type: "json" };
 import localSplit from "../../../data/research/budgets/local-spending-by-type.json" with { type: "json" };
 import { coreAPI, registerModule } from "../state";
+import { keepsWhy } from "../why-kept";
 import type { CoreAPI, CoreModule, CoreState, Source } from "../types";
 import type { ModuleRow } from "../module-data";
 import type { ModuleCalendarWork } from "../module-calendar";
@@ -35,6 +35,7 @@ import type { WorkPayrollJournalReceipt } from "../work-payroll-cash";
 import { countyGovernmentUnit } from "../reference/government-units";
 import { LAWS_MODULE_ID, lawChain, lawInForce } from "./laws";
 import lawParameters from "../data/laws/reach-group-b-parameters.json" with { type: "json" };
+import propertyTaxCaps from "../data/laws/property-tax-caps.json" with { type: "json" };
 import { registerPropertyTax } from "../housing-property-tax";
 import {
   lawChainForPlace,
@@ -44,12 +45,19 @@ import {
 } from "../laws-starting";
 import { resolveLawInForce, type LawInForceAnswer } from "../laws-in-force";
 import { corePlaceByJurisdictionId } from "../place-lookup";
+import { outsideGovernment } from "../outside-governments";
 import { withholdingFor, type WithholdingLine } from "../tax-withholding";
 import {
   applySocialSecurityLevel,
   closeTreasuries,
   notePublicPay,
+  sameGovernment,
 } from "../budgets-treasury";
+import {
+  federalJurisdictionId,
+  stateJurisdictionId,
+} from "../government-jurisdictions";
+import { syncServiceCharges } from "../budgets-service-charges";
 
 export const BUDGETS_MODULE_ID = "core2-budgets-v1";
 const WITHHOLDING_KIND = "budgets:withholding";
@@ -125,15 +133,41 @@ function holdWithholdingSlot(api: CoreAPI, row: WithholdingRecord): void {
   slots.set(api.state, map);
   map.set(row.id, slotOf(row));
 }
+/** The accounts of outside governments a withholding pays: the tax owed them is the due record. */
+const OUTSIDE_GOVERNMENT_ACCOUNT = /^cash:organization:outside-government:/;
+const WITHHOLDING_DUE_KIND = "budgets:withholding-due";
 function slotOf(row: WithholdingRecord): CashJournalSourceSlot {
+  const outside = [
+    ...new Set(
+      row.postings
+        .map((p) => p.accountId)
+        .filter((id) => OUTSIDE_GOVERNMENT_ACCOUNT.test(id)),
+    ),
+  ];
+  const due = outside.map((accountId) => ({
+    kind: WITHHOLDING_DUE_KIND,
+    id: `${row.id}:due:${accountId}`,
+  }));
   const resolved = {
     kind: WITHHOLDING_KIND,
     id: row.id,
     date: row.date,
     source: row.source,
     expectedPostings: row.postings.map((p) => ({ ...p })),
-    requiredRelatedRefs: [],
-    relatedRecords: [],
+    requiredRelatedRefs: due,
+    relatedRecords: due.map((ref) => ({
+      ...ref,
+      date: row.date,
+      source: row.source,
+    })),
+    ...(outside.length
+      ? {
+          externalFlowAuthorizations: outside.map((accountId, index) => ({
+            accountId,
+            obligation: due[index]!,
+          })),
+        }
+      : {}),
   };
   return {
     resolved,
@@ -186,6 +220,8 @@ export const BUDGETS_MODULE: CoreModule = {
       },
       /** Pay each treasury paid on paydays since its last close, by line. */
       sinceClose: {},
+      /** What the town's own payers paid a treasury on a line with named outside payers since the last installment. */
+      townRevenue: {},
       /** What each treasury's lines fell short at its last close, owed at the next. */
       arrears: {},
       /** Each change to an award that landed on a person, and what told them why. */
@@ -194,6 +230,12 @@ export const BUDGETS_MODULE: CoreModule = {
       awardBase: {},
       /** What the federal treasury owes each group of lenders, and what it has borrowed and paid them. */
       federalDebt: {},
+      /** Each government's charges as a part of the town's living cost, for the next month. */
+      serviceCharges: {},
+      /** What households paid each government's charges in a month, by service. */
+      serviceChargeMonths: {
+        indexes: { byGovernment: { fields: ["governmentId"] } },
+      },
     },
   },
   journalSourceProviders: {
@@ -202,6 +244,8 @@ export const BUDGETS_MODULE: CoreModule = {
   onCalendarWork: (api, work) => {
     adoptBudget(api, work);
     closeMonth(api, work);
+    if (work.kind === "outside-revenue" || work.kind === "budget-adoption")
+      syncServiceCharges(api);
   },
   onWorkPayroll: withhold,
   eventKinds: ["law-took-effect", "budget-line-changed"],
@@ -209,6 +253,7 @@ export const BUDGETS_MODULE: CoreModule = {
     const series = event.facts?.series;
     if (series === "sales-tax" || series === GROCERY_EXEMPTION)
       syncSalesTax(api);
+    if (event.kind === "budget-line-changed") syncServiceCharges(api);
     // A change to the federal Social Security line reaches the next payment.
     if (
       event.kind === "budget-line-changed" &&
@@ -229,6 +274,10 @@ interface PlaceBases {
   name: string;
   fiscalYearStart: string;
   population2024?: number;
+  /** An island area's 2020 Census Island Areas count (Guam, the Virgin Islands, American Samoa, the Northern Marianas). */
+  islandAreaPopulation2020?: number;
+  /** Puerto Rico's Census population estimate. */
+  puertoRicoPopulation2025?: number;
   state?: { revenue: Record<string, number>; spending: Record<string, number> };
   local?: { revenue: Record<string, number>; spending: Record<string, number> };
 }
@@ -247,6 +296,12 @@ function government(
   // employers are outside payers with no cash; their pay should draw from
   // this treasury once the core links them (needs OPUS-CORE).
   const organizationId = `organization:treasury:${row.id}`;
+  const jurisdictionId =
+    row.level === "federal"
+      ? federalJurisdictionId()
+      : row.level === "state"
+        ? stateJurisdictionId(row.id)
+        : undefined;
   if (!api.state.organizations.has(organizationId))
     api.addOrganization({
       id: organizationId,
@@ -259,7 +314,11 @@ function government(
         citation: "U.S. Census Bureau, 2025 government units listing",
         asOf: api.state.date,
       },
-      governmentFacts: { governmentKey: unitId ?? row.id },
+      governmentFacts: {
+        governmentKey: unitId ?? row.id,
+        // A state's and the nation's offices name their government by jurisdiction.
+        ...(jurisdictionId ? { governmentJurisdictionId: jurisdictionId } : {}),
+      },
     });
   const full = { ...row, organizationId };
   table(api, "governments").put(full as unknown as ModuleRow);
@@ -392,7 +451,11 @@ export function openBudgets(core: CoreState): readonly GovernmentRow[] {
       level: "state",
       name: place?.name ?? chain.stateKey,
       fiscalYearStart: stateStart,
-      residents: place?.population2024 ?? 0,
+      residents:
+        place?.population2024 ??
+        place?.islandAreaPopulation2020 ??
+        place?.puertoRicoPopulation2025 ??
+        0,
     }),
   ];
   const county = chain.countyGeoids[0];
@@ -441,6 +504,18 @@ export function openBudgets(core: CoreState): readonly GovernmentRow[] {
         city.id,
       ),
     );
+  // The opening's public employers (the county's offices, schools, police)
+  // draw their wages from their own government's treasury; what it can't
+  // cover is a record the month's close reads (public-pay shortfall).
+  for (const employer of core.organizations.values()) {
+    const authority = employer.publicPayAuthority;
+    if (!authority) continue;
+    const treasury = govs.find((g) =>
+      sameGovernment(employer, core.organizations.get(g.organizationId)!),
+    );
+    if (treasury)
+      api.fundPublicPay(authority.id, treasury.organizationId, employer.source);
+  }
   const calendar = api.moduleCalendar(BUDGETS_MODULE_ID);
   for (const gov of govs) {
     const fy = fiscalYearOf(core.date, gov.fiscalYearStart);
@@ -462,12 +537,14 @@ export function openBudgets(core: CoreState): readonly GovernmentRow[] {
         citation:
           "Fiscal year start (data/research/money/public-budget-bases.json)",
         asOf: core.date,
-        estimatedFrom: "SG-GOV-budget-adopted-by-rule",
+        estimatedFrom:
+          "Fiscal year start of the state's sampled unit of the same type.",
       },
       sourceRecordIds: [gov.id],
     });
   }
   syncSalesTax(api);
+  syncServiceCharges(api);
   scheduleOutsideRevenue(api, core.date);
   return govs;
 }
@@ -508,8 +585,8 @@ function closeMonth(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
 
 const GROCERY_EXEMPTION =
   "us-policy-positions:fiscal.exempt-groceries-from-sales-tax";
-/** Grocery stores' classification (NAICS 445, food and beverage retailers). */
-const GROCERY_SELLERS = ["445"];
+/** Retail sellers' classification: where households buy food at home. */
+const GROCERY_SELLERS = "enterprise:retail";
 
 /**
  * The sales tax in force collected on every purchase in town (core2-api-v21):
@@ -526,22 +603,27 @@ export function syncSalesTax(api: CoreAPI): void {
   const town = lawChain(api).townPlaceId;
   const govs = governments(api);
   const payee = (level: string) =>
-    (level === "city"
+    (level === "city" || level === "township"
       ? (govs.find((g) => g.level === "city") ??
         govs.find((g) => g.level === "county"))
       : level === "county"
         ? govs.find((g) => g.level === "county")
         : undefined) ?? govs.find((g) => g.level === "state");
   const rates = new Map<string, number>();
+  const rows = new Map<string, { key: string; lawId: string }[]>();
   for (const l of answer.levels) {
     if (!l.row || l.setAside || l.level === "federal") continue;
     const gov = payee(l.level);
     const value = l.row.value ?? 0;
     if (!gov || !(value > 0)) continue;
     rates.set(gov.id, (rates.get(gov.id) ?? 0) + value);
+    rows.set(gov.id, [
+      ...(rows.get(gov.id) ?? []),
+      { key: l.row.series, lawId: l.row.id },
+    ]);
   }
   const total = [...rates.values()].reduce((a, b) => a + b, 0);
-  const exempt = groceryExemptionInForce(api) ? GROCERY_SELLERS : undefined;
+  const exemption = groceryExemption(api);
   for (const gov of govs) {
     const id = `sales-tax:${gov.id}`;
     const rate = rates.get(gov.id) ?? 0;
@@ -554,7 +636,19 @@ export function syncSalesTax(api: CoreAPI): void {
       placeId: town,
       ratePercent: effective,
       payeeAccountId: account,
-      ...(exempt ? { exemptClassificationPrefixes: exempt } : {}),
+      ...(exemption
+        ? {
+            exemptions: [
+              {
+                classificationPrefix: GROCERY_SELLERS,
+                share: lawParameters.parameters.groceryShareOfRetailSales.value,
+                lawKey: GROCERY_EXEMPTION,
+                lawId: exemption.id,
+              },
+            ],
+          }
+        : {}),
+      ...(rows.get(gov.id) ? { laws: rows.get(gov.id)! } : {}),
       from: api.state.date,
       source: {
         tag: answer.estimate ? "ESTIMATED" : "SOURCED",
@@ -586,23 +680,36 @@ function propertyTaxTerms(api: CoreAPI) {
     "us-policy-positions:fiscal.cap-property-tax-growth",
   );
   const capped = cap.value === 1 && cap.governing;
-  // stopgapId: SG-GOV-REACH-B-property-tax-bills — the catalog records a
-  // yes/no cap; its exact scope, exemptions and statutory size are pending.
-  if (capped) api.stopgap("SG-GOV-REACH-B-property-tax-bills");
+  // The state's own cap statute where its row is read; the generic estimate
+  // (stopgapId: SG-GOV-REACH-B-property-tax-bills) for a state without one.
+  const statute = capped
+    ? (
+        propertyTaxCaps.states as Record<
+          string,
+          { capShare: number; scope: string; source: string }
+        >
+      )[lawChain(api).stateKey.slice(3)]
+    : undefined;
+  if (capped && !statute) api.stopgap("SG-GOV-REACH-B-property-tax-bills");
+  const capShare = statute
+    ? statute.capShare
+    : lawParameters.parameters.propertyTaxGrowthCapShare.value;
+  const capSource = statute
+    ? `${statute.source} (${statute.scope} property)`
+    : lawParameters.parameters.propertyTaxGrowthCapShare.source;
   return {
     rate: answer.value / 100,
     lawRowId: row.id,
     ...(capped
       ? {
-          assessmentCapShare:
-            lawParameters.parameters.propertyTaxGrowthCapShare.value,
+          assessmentCapShare: capShare,
           assessmentLawRowId: capped.id,
         }
       : {}),
     payeeId: collector,
     source: {
       tag: "ESTIMATED" as const,
-      citation: `${row.id}: ${citation}${capped ? `; ${capped.id}: ${String(capped.source)}; ${lawParameters.parameters.propertyTaxGrowthCapShare.source}` : ""}`,
+      citation: `${row.id}: ${citation}${capped ? `; ${capped.id}: ${String(capped.source)}; ${capSource}` : ""}`,
       asOf: api.state.date,
       estimatedFrom:
         "Property tax in force, to the county's tax collector; a yes/no growth cap uses the registered assessment-cap estimate.",
@@ -695,10 +802,11 @@ function remitPropertyTax(api: CoreAPI, source: Source): void {
   });
 }
 
-function groceryExemptionInForce(api: CoreAPI): boolean {
+/** The grocery exemption law row in force for the town (the latest yes at any level), or null. */
+function groceryExemption(api: CoreAPI): LawRowInput | null {
   const laws = api.moduleState(LAWS_MODULE_ID).table("laws");
   const date = api.state.date;
-  return lawChain(api).levels.some(({ jurisdiction }) => {
+  for (const { jurisdiction } of lawChain(api).levels) {
     const latest = (
       laws.query("bySeries", [
         jurisdiction,
@@ -707,8 +815,9 @@ function groceryExemptionInForce(api: CoreAPI): boolean {
     )
       .filter((r) => r.effectiveDate <= date)
       .sort((a, b) => b.effectiveDate.localeCompare(a.effectiveDate))[0];
-    return latest?.value === 1;
-  });
+    if (latest?.value === 1) return latest;
+  }
+  return null;
 }
 
 /** The executive's budget priorities for the next fiscal year: changes to lines, by government. */
@@ -935,8 +1044,8 @@ function adoptBudget(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
   let budget: BudgetRow;
   if (voted) budget = voted;
   else {
-    // stopgapId: SG-GOV-budget-adopted-by-rule
-    api.stopgap("SG-GOV-budget-adopted-by-rule");
+    // No body votes it (no seated members, or nothing to vote on): the
+    // enacted lines carry, as a charter's carry-forward does.
     budget = carriedBudget(
       api,
       gov,
@@ -1134,6 +1243,8 @@ export function withholdPay(
     readonly paidMinor: number;
     readonly fromAt: string;
     readonly throughAt: string;
+    /** Pay no more than the payer's cash holds: an owner's estimated payment on profit that has not all reached them as cash. */
+    readonly limitToCash?: boolean;
   },
 ): void {
   const paid = pay.paidMinor;
@@ -1154,7 +1265,7 @@ export function withholdPay(
       (Date.parse(pay.throughAt) - Date.parse(pay.fromAt)) / 86_400_000,
     ) + 1,
   );
-  const lines = withholdingFor({
+  let lines = withholdingFor({
     paidMinor: paid,
     periodDays,
     yearToDateMinor: ytd,
@@ -1162,7 +1273,24 @@ export function withholdPay(
     socialSecurity: law("social-security-tax"),
     medicare: law("medicare-tax"),
   });
-  if (lines.some((l) => l.level === "county" || l.level === "city")) {
+  if (pay.limitToCash) {
+    const owed = lines.reduce((n, l) => n + l.minor, 0);
+    const held = Math.max(
+      0,
+      api.accounts().balance(`cash:${pay.personId}:residual`),
+    );
+    if (owed > held)
+      lines = lines.map((l) => ({
+        ...l,
+        minor: Math.floor((l.minor * held) / owed),
+      }));
+  }
+  if (
+    lines.some(
+      (l) =>
+        l.level === "county" || l.level === "township" || l.level === "city",
+    )
+  ) {
     // stopgapId: SG-WORLD-withholding-local-base
     api.stopgap("SG-WORLD-withholding-local-base");
   }
@@ -1205,16 +1333,14 @@ function postWithholding(
   const kept: WithholdingLine[] = [];
   let total = 0;
   for (const [index, line] of input.lines.entries()) {
-    const account = accountFor(api, line.jurisdiction);
     if (line.minor <= 0) continue;
-    if (!account) {
-      // A government with no treasury here (another state's, a county or city
-      // the world doesn't model) can't be paid: an outside account takes money
-      // only against a due obligation record, which doesn't exist yet.
-      // stopgapId: SG-WORLD-withholding-outside-governments
-      api.stopgap("SG-WORLD-withholding-outside-governments");
-      continue;
-    }
+    // A government with no treasury here (another state's, a county or city
+    // the world does not model) is paid as an outside government: the tax
+    // leaves the paycheck for its outside account, against the due record
+    // this withholding itself writes (see `slotOf`).
+    const account =
+      accountFor(api, line.jurisdiction) ??
+      `cash:${outsideGovernment(api, line.jurisdiction)}:residual`;
     kept.push(line);
     postings.push({
       id: `${input.id}:tax:${index}`,
@@ -1265,7 +1391,10 @@ function postWithholding(
     sourceRef: { kind: WITHHOLDING_KIND, id: record.id },
     postings,
   });
-  table(api, "withholding").put(record as unknown as ModuleRow);
+  if (keepsWhy(api.state as CoreState, input.payerId))
+    table(api, "withholding").put(record as unknown as ModuleRow);
+  // The entry is posted: the held slot (a second copy of every posting) is let go.
+  slots.get(api.state)?.delete(record.id);
   return record;
 }
 
@@ -1345,7 +1474,12 @@ export interface TaxPayment {
   readonly payerName: string;
   readonly dueOn: string;
   readonly date: string;
+  /** What the outside group paid. */
   readonly amountMinor: number;
+  /** The whole installment due from this line's payers. */
+  readonly installmentMinor?: number;
+  /** What the town's own payers paid on this line, taken off the installment. */
+  readonly townPaidMinor?: number;
 }
 
 /** A payment from a treasury to a named group of payees outside the town. */

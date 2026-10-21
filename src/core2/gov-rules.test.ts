@@ -94,7 +94,15 @@ function municipalProjection() {
         publisherId: government.identity?.publisherId || null,
         reading: {
           form: reading.form ?? null,
+          bodyName: reading.bodyName ?? null,
           bodySize: reading.bodySize ?? null,
+          composition: reading.composition
+            ? {
+                pattern: reading.composition.pattern,
+                districtSeats: reading.composition.districtSeats ?? null,
+                wardSeats: reading.composition.wardSeats ?? null,
+              }
+            : null,
           executiveSelection: reading.executiveSelection ?? null,
           mayor: reading.mayor
             ? {

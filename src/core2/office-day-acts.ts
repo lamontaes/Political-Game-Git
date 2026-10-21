@@ -21,7 +21,9 @@ import type {
 } from "./types";
 import type { ModuleRow } from "./module-data";
 import { extendData } from "./data";
+import { daysBetween, makeIsoDate } from "./kernel/dates";
 import { officeActKits, type OfficeActKit } from "./office-day-registry";
+import { reanswerLeaderRequest } from "./office-day-state";
 import { snapshotExplicitControlV1 } from "./player-control-state-v1";
 import {
   casesFor,
@@ -38,12 +40,21 @@ import {
   outletsHere,
   requestInterview,
 } from "./modules/press";
-import { appointmentsIn } from "./modules/executive";
+import { appoint, appointmentsIn, postsToFill } from "./modules/executive";
 import { lawChain } from "./modules/laws";
+import {
+  BUDGETS_MODULE_ID,
+  budgetPriorities,
+  governments,
+  setBudgetPriorities,
+} from "./modules/budgets";
 import { deliverSpeech } from "./modules/speech";
+import { cutRibbon, ribbonsToCut } from "./modules/projects";
 import { personLean, personStance, questionAxis } from "./campaign-views";
 import { POLICY_QUESTIONS } from "./policy-answers";
+import { adviseOnBudget, servingStaffOf } from "./modules/staff";
 import {
+  executiveBudgetChanges,
   learnStake,
   LEGISLATURE_MODULE_ID,
   memberKey,
@@ -54,7 +65,9 @@ import {
 
 export const OFFICE_DUTY = "office-duty";
 const DEPARTMENT_HEAD = "department-head";
+const TOWN_POST = "town-post";
 const COLLEAGUE = "colleague";
+const PUBLIC_PROJECT = "public-project";
 
 const act = (
   id: string,
@@ -96,11 +109,19 @@ export const OFFICE_ACTS: readonly ActionDefinition[] = [
     "take-risk",
   ]),
   act(
+    "name-department-head",
+    "nameHeadActHours",
+    ["cooperate", "follow-rules"],
+    TOWN_POST,
+  ),
+  act("propose-budget", "proposeBudgetActHours", ["follow-rules", "cooperate"]),
+  act(
     "talk-to-colleague",
     "colleagueActHours",
     ["cooperate", "engage", "speak-out"],
     COLLEAGUE,
   ),
+  act("cut-ribbon", "ribbonActHours", ["engage", "speak-out"], PUBLIC_PROJECT),
 ];
 
 const HOURS = (
@@ -136,6 +157,15 @@ const LOCAL_PARAMETERS = {
     "Typical annual address length.",
     [0.5, 1.5],
   ),
+  townHallIntervalDays: {
+    value: 146,
+    tag: "ESTIMATED",
+    citation:
+      "How often an official holds a town hall: LegiStorm counted 1,626 town halls held by members of Congress in 2022, 1,365 in 2023 and 1,023 in 2024 (https://www.legistorm.com/pro_news/4331/town-halls-climb-to-highest-level-since-2021.html), an average of 1,338 a year across 535 members, 2.5 a member a year, one every 146 days; Clarke and Markovits (2022, https://thelawmakers.org/wp-content/uploads/2022/07/ClarkeMarkovits2022_CEL.pdf) counted over 23,000 from August 2013 to December 2021, about 2,900 a year, 5.4 a member, one every 67 days.",
+    estimatedFrom:
+      "Members of Congress' town halls per member per year, applied to every local official: no count exists for councils and county boards.",
+    spread: [67, 191],
+  },
   stateOfCityLastMonth: {
     value: 4,
     tag: "ESTIMATED",
@@ -144,11 +174,38 @@ const LOCAL_PARAMETERS = {
     estimatedFrom: "The season most annual addresses fall in.",
     spread: [2, 6],
   },
+  proposeBudgetActHours: HOURS(
+    2,
+    "A mayor or county executive sending the budget to the council or board: the signing and transmittal take about two hours once the departments' requests are in.",
+    "Typical transmittal of an executive budget.",
+    [1, 6],
+  ),
+  budgetProposalLeadDays: {
+    value: 60,
+    tag: "ESTIMATED",
+    citation:
+      "How long before the fiscal year an executive sends the budget: the Government Finance Officers Association's budget-process practice has the proposal in the legislative body's hands well ahead of adoption, and city and county charters commonly set 60 to 90 days before the year starts.",
+    estimatedFrom:
+      "Common charter lead times before the fiscal year; no count of every place's charter exists.",
+    spread: [30, 120],
+  },
+  ribbonActHours: HOURS(
+    1,
+    "A ribbon-cutting ceremony: a short program, the cut and photographs, about an hour with travel.",
+    "Typical dedication or grand-opening ceremony length.",
+    [0.5, 2],
+  ),
   colleagueActHours: HOURS(
     0.5,
     "A member asking a colleague for their vote on a pending bill: a half-hour conversation, by phone or over coffee.",
     "Typical one-on-one conversation about a pending vote.",
     [0.25, 1.5],
+  ),
+  nameHeadActHours: HOURS(
+    1,
+    "An appointing official's choice of a department head: interviewing and checking the leading candidates takes about an hour for the final choice.",
+    "Typical final interview and decision for a local department head.",
+    [0.5, 3],
   ),
   meetHeadActHours: HOURS(
     1,
@@ -209,6 +266,8 @@ export interface OfficeActHost {
   clearPrepared(api: CoreAPI, personId: string, actId: string): void;
   /** Whether the person already took this act in the year given. */
   given(api: CoreAPI, personId: string, kind: string, year: string): boolean;
+  /** The date of the person's latest act of this kind, if any. */
+  lastGiven(api: CoreAPI, personId: string, kind: string): string | undefined;
 }
 
 export interface Prepared {
@@ -221,8 +280,18 @@ export interface Prepared {
     readonly question: string;
     readonly desiredChange: "enact" | "repeal";
   };
+  /** The outlet the player asks for an interview; left out, the widest-reaching outlet that has not had them on. */
+  readonly outletId?: string;
+  /** The person the player names to a vacant town post, and the post, in place of the appointer's own first choice. */
+  readonly nominee?: { readonly post: string; readonly personId: string };
+  /** The spending changes by budget line the executive sends with the budget. */
+  readonly budget?: { readonly changes: Readonly<Record<string, number>> };
   /** A deal to offer a colleague, by member, when talking about the player's bill. */
   readonly deals?: Readonly<Record<string, "favor" | "back-their-item">>;
+  /** Filing for re-election: the stances the member runs on. */
+  readonly platform?: readonly { question: string; position: number }[];
+  /** The budget request: line changes in minor units. */
+  readonly changes?: Readonly<Record<string, number>>;
 }
 
 export function officeActProviders(host: OfficeActHost) {
@@ -235,7 +304,10 @@ export function officeActProviders(host: OfficeActHost) {
       action: ActionDefinition,
     ): ActOffer[] =>
       holds(api, actor) &&
-      (action.id !== "state-of-the-city" || addressDue(api, host, actor.id))
+      (action.id !== "state-of-the-city" || addressDue(api, host, actor.id)) &&
+      (action.id !== "town-hall" || townHallDue(api, host, actor.id)) &&
+      (action.id !== "propose-budget" ||
+        budgetProposalDue(api, host, actor.id) !== null)
         ? [
             {
               definition: action,
@@ -261,6 +333,32 @@ export function officeActProviders(host: OfficeActHost) {
               targetId: row.holderId,
               availableHours: api.parameter(action.effortParameter),
             }))
+        : [],
+    // Each town post the actor appoints that nobody holds yet.
+    [TOWN_POST]: (
+      api: CoreAPI,
+      actor: Readonly<PersonState>,
+      action: ActionDefinition,
+    ): ActOffer[] =>
+      holds(api, actor)
+        ? postsToFill(api, actor.id).map((post) => ({
+            definition: action,
+            targetId: post.key,
+            availableHours: api.parameter(action.effortParameter),
+          }))
+        : [],
+    // Each finished public work of the town's governments whose ribbon is still open.
+    [PUBLIC_PROJECT]: (
+      api: CoreAPI,
+      actor: Readonly<PersonState>,
+      action: ActionDefinition,
+    ): ActOffer[] =>
+      holds(api, actor)
+        ? ribbonsToCut(api).map((project) => ({
+            definition: action,
+            targetId: project.id,
+            availableHours: api.parameter(action.effortParameter),
+          }))
         : [],
     // Each fellow member of a body where the actor's own bill waits for a vote.
     [COLLEAGUE]: (
@@ -309,6 +407,63 @@ function addressDue(
   return (
     executive &&
     !host.given(api, personId, "state-of-the-city", api.state.date.slice(0, 4))
+  );
+}
+
+/**
+ * The government whose budget a mayor or county executive sends, while the
+ * season is open: within the lead time before its fiscal year starts, with no
+ * proposal from them in that year. Null when it is not their season.
+ */
+export function budgetProposalDue(
+  api: CoreAPI,
+  host: OfficeActHost,
+  personId: string,
+): { governmentId: string; fiscalYearStarts: string } | null {
+  if (!api.state.modules.has(BUDGETS_MODULE_ID)) return null;
+  const offices = api.moduleState("core2-offices-v1").table("offices");
+  const kind = host
+    .officesOf(api, personId)
+    .map(
+      (id) =>
+        (offices.get(id) as unknown as { kind: string } | undefined)?.kind ??
+        "",
+    )
+    .find((k) => EXECUTIVE_KINDS.has(k));
+  if (!kind) return null;
+  const level = kind === "mayor" ? "city" : "county";
+  const gov = governments(api).find((g) => g.level === level);
+  if (!gov) return null;
+  const year = Number(api.state.date.slice(0, 4));
+  const starts =
+    `${year}-${gov.fiscalYearStart}` > api.state.date
+      ? `${year}-${gov.fiscalYearStart}`
+      : `${year + 1}-${gov.fiscalYearStart}`;
+  const days = daysBetween(makeIsoDate(api.state.date), makeIsoDate(starts));
+  if (days <= 0 || days > api.parameter("budgetProposalLeadDays")) return null;
+  // Sent already this season (the lead time is the season's length).
+  const last = host.lastGiven(api, personId, "propose-budget");
+  if (
+    last &&
+    daysBetween(makeIsoDate(last), makeIsoDate(api.state.date)) <=
+      api.parameter("budgetProposalLeadDays")
+  )
+    return null;
+  if (budgetPriorities(api, gov.id)?.setBy === personId) return null;
+  return { governmentId: gov.id, fiscalYearStarts: starts };
+}
+
+/** A town hall is held on a cadence: not again until the interval has passed since the official's last. */
+export function townHallDue(
+  api: CoreAPI,
+  host: OfficeActHost,
+  personId: string,
+): boolean {
+  const last = host.lastGiven(api, personId, "town-hall");
+  return (
+    !last ||
+    daysBetween(makeIsoDate(last), makeIsoDate(api.state.date)) >=
+      api.parameter("townHallIntervalDays")
   );
 }
 
@@ -385,18 +540,20 @@ export function officeActHandlers(host: OfficeActHost) {
       const had = new Set(
         interviewsFor(api, actorId).map((row) => row.outletId),
       );
-      const outlet = [...outletsHere(api)]
-        .filter((o) => !had.has(o.id))
-        .map((o) => ({ o, reach: followersOf(api, o.id).length }))
-        .sort(
-          (a, b) => b.reach - a.reach || a.o.id.localeCompare(b.o.id),
-        )[0]?.o;
+      const prepared = host.prepared(api, actorId, "interview");
+      const open = [...outletsHere(api)].filter((o) => !had.has(o.id));
+      // The player's pick where they made one; else the character's.
+      const outlet =
+        open.find((o) => o.id === prepared?.outletId) ??
+        open
+          .map((o) => ({ o, reach: followersOf(api, o.id).length }))
+          .sort((a, b) => b.reach - a.reach || a.o.id.localeCompare(b.o.id))[0]
+          ?.o;
       if (!outlet) return;
       const asked = requestInterview(api, {
         outletId: outlet.id,
         personId: actorId,
       });
-      const prepared = host.prepared(api, actorId, "interview");
       if (asked.status !== "invited") {
         host.keep(api, {
           personId: actorId,
@@ -462,6 +619,9 @@ export function officeActHandlers(host: OfficeActHost) {
               kind: deal,
             })
           : null;
+        // A leader who refused to schedule the bill hears what they were
+        // offered and answers again.
+        if (dealt?.accepted) reanswerLeaderRequest(api, actorId, bill.id);
         host.keep(api, {
           personId: actorId,
           kind: "talk-to-colleague",
@@ -522,6 +682,125 @@ export function officeActHandlers(host: OfficeActHost) {
         detail: `${topic.desiredChange} ${topic.question}; ${audience.size} heard it`,
       });
       host.clearPrepared(api, actorId, "state-of-the-city");
+    },
+    /**
+     * The executive sends the budget in its season: the player's changes by
+     * line where they made them, else the executive's own priorities by the
+     * budgets engine's rule (their lean on each line), which the council or
+     * board reads when it votes the budget at the year's start.
+     */
+    "propose-budget": (api: CoreAPI, actorId: string) => {
+      const due = budgetProposalDue(api, host, actorId);
+      if (!due) return;
+      const prepared = host.prepared(api, actorId, "propose-budget");
+      let changes: Readonly<Record<string, number>> | undefined =
+        prepared?.budget?.changes;
+      let advice = "";
+      if (!changes) {
+        // The character proposes their own priorities by the budgets rule;
+        // an aide who reads the council tells them which lines it will not
+        // pass, and each at-risk line is cut to the share of those read who
+        // favor it, so what they send is what the council can pass.
+        const own = executiveBudgetChanges(
+          api,
+          due.governmentId,
+          Number(due.fiscalYearStarts.slice(0, 4)),
+        );
+        if (own && Object.keys(own.changes).length) {
+          changes = own.changes;
+          const aide = servingStaffOf(api, actorId)[0];
+          const trimmed: Record<string, number> = {};
+          const advised: string[] = [];
+          for (const [line, delta] of Object.entries(own.changes).sort(
+            ([x], [y]) => x.localeCompare(y),
+          )) {
+            // One line at a time: a line the aide cannot read stays as proposed.
+            const heard = aide
+              ? adviseOnBudget(api, aide.id, due.governmentId, {
+                  [line]: delta,
+                })
+              : null;
+            const row = heard?.lines[0];
+            if (heard && row) advised.push(heard.work.id);
+            const share = row?.atRisk
+              ? Math.min(
+                  ...row.chambers.map((c) =>
+                    c.favor + c.oppose > 0 ? c.favor / (c.favor + c.oppose) : 1,
+                  ),
+                )
+              : 1;
+            const cut = Math.round(delta * share);
+            if (cut !== 0) trimmed[line] = cut;
+          }
+          changes = trimmed;
+          if (advised.length) advice = `; advice ${advised.join(",")}`;
+        }
+      }
+      if (changes)
+        setBudgetPriorities(api, {
+          governmentId: due.governmentId,
+          setBy: actorId,
+          changes,
+        });
+      host.keep(api, {
+        personId: actorId,
+        kind: "propose-budget",
+        how: prepared?.budget ? "did" : "own-choice",
+        recordId: changes
+          ? `priorities:${due.governmentId}`
+          : `priorities:${due.governmentId}:executive-rule`,
+        position: null,
+        detail: `${due.governmentId} budget for the year starting ${due.fiscalYearStarts}${advice}`,
+      });
+      host.clearPrepared(api, actorId, "propose-budget");
+    },
+    /**
+     * The appointing official fills a vacant town post: the candidate their
+     * own reasons rank first, confirmed by the council where the form asks it.
+     */
+    /** The ribbon of a finished public work is cut: a public record and a news item. */
+    "cut-ribbon": (api: CoreAPI, actorId: string, offer: ActOffer) => {
+      const ribbon = cutRibbon(api, {
+        projectId: offer.targetId,
+        cutBy: actorId,
+      });
+      if (!ribbon) return;
+      host.keep(api, {
+        personId: actorId,
+        kind: "cut-ribbon",
+        how: "did",
+        recordId: ribbon.projectId,
+        position: null,
+        detail: ribbon.projectId,
+      });
+    },
+    "name-department-head": (
+      api: CoreAPI,
+      actorId: string,
+      offer: ActOffer,
+    ) => {
+      // The player's pick where they made one for this post; else the
+      // candidate the official's own reasons rank first.
+      const prepared = host.prepared(api, actorId, "name-department-head");
+      const picked =
+        prepared?.nominee?.post === offer.targetId
+          ? prepared.nominee.personId
+          : undefined;
+      const row = appoint(api, {
+        post: offer.targetId,
+        ...(picked ? { personId: picked } : {}),
+      });
+      host.clearPrepared(api, actorId, "name-department-head");
+      host.keep(api, {
+        personId: actorId,
+        kind: "name-department-head",
+        how: picked ? "did" : "own-choice",
+        recordId: row?.id ?? `appointment:town:${offer.targetId}`,
+        position: null,
+        detail: row
+          ? `${row.holderId}${row.confirmation ? `; ${row.confirmation.yes} to ${row.confirmation.no}` : ""}`
+          : "no candidate confirmed",
+      });
     },
     /** An hour with a department head: they come to know each other. */
     "meet-department-head": (

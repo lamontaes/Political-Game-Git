@@ -31,12 +31,37 @@ export interface FinanceContractInput {
     householdId: string;
     kindId: string;
     sourceFactId: string;
+    /**
+     * A benefit level in force changed this award's amount from the date it
+     * names: the amount the saved award fact is checked against now, the
+     * measure behind it and the day it took effect.
+     */
+    adjustedMinor?: number;
+    adjustedBy?: string;
+    adjustedOn?: string;
+    /**
+     * The household the saved award names, kept when the person's home
+     * changes (`householdId` then names where they live now) and the day.
+     */
+    recordedHouseholdId?: string;
+    movedOn?: string;
   };
   externalInflow?: FinanceExternalInflow;
   source: Source;
 }
 
+/** A payer died or left the household and the obligation changed hands or ended, or a person joined the household and began paying it. */
+export interface PayerHandover {
+  readonly on: IsoDate;
+  /** The payer who died, left or joined. */
+  readonly from: string;
+  readonly to: readonly string[];
+  readonly outcome: "kept-by-co-payers" | "taken-over" | "ended" | "joined";
+}
+
 export interface FinanceContractState extends FinanceContractInput {
+  /** Dated record of each payer who died, left or joined and what became of the obligation. */
+  payerHandovers?: readonly PayerHandover[];
   /** Original admission date; dueAt advances and cannot define source validity. */
   firstDueAt: IsoDate;
   billingDay: number;
@@ -65,7 +90,7 @@ export interface CreditFacilityState extends CreditFacilityInput {
   interestRemainderMinor: number;
   unbilledInterestMinor: number;
   lastAccruedAt: IsoDate;
-  /** Dated repricing (core2-api-v11): replaces the parameter rate from ratedAt on. */
+  /** Dated repricing: replaces the parameter rate from ratedAt on. */
   annualInterestRate?: number;
   ratedAt?: IsoDate;
   rateSource?: Source;
@@ -98,7 +123,20 @@ export interface BusinessBooksState extends BusinessBooksInput {
   anchorAnnualOtherCostsMinor: number;
   anchorPrice: number;
   lastGeneralPriceFactor: number;
+  /** The outcome web's factor on household prices in the place at the last review (absent reads as one). */
+  lastWebPriceFactor?: number;
   lastWagePriceFactor: number;
+  /**
+   * Each current job's hourly pay at the last review, so the next review
+   * prices a raise in and leaves a hire's different pay out.
+   */
+  lastHourlyByJob?: Record<string, number>;
+  /**
+   * The town's measured income in the first full month the book saw, a
+   * year's worth: later months are read against it, so the opening's narrower
+   * payroll anchor never compares with income it didn't count.
+   */
+  incomeBasisMinor?: number;
   nextReviewedAt: IsoDate;
   receivedMinor: number;
   salesReceivedMinor: number;

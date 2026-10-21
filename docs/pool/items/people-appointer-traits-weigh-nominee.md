@@ -5,12 +5,13 @@ area: people
 kind: feature
 priority: 3
 size: M
-status: open
-claimed-by:
-pr:
+status: done
+claimed-by: claude/appointer-traits
+pr: #4802
 blocked-on:
 milestone:
 source: "split from people-needs-traits-29 (Oct 15, 2026)"
+claimed-at: 2026-10-16T19:09:25.366Z
 ---
 
 **What.** In `nominateAndConfirm` (`appointments.ts`) every appointer ranks nominees by the same sum of alignment, qualification and acquaintance. Add a decision row (loyalty against merit) to `data/content/trait-decisions.json` and weigh the three terms by the appointer's own traits through `decisionLean`, so a mayor who prizes loyalty picks a friend and one who prizes merit picks the better qualified. Keep the trait coverage check passing. Also show a played year's recall count against the `recallOrganizerEffort` spread (Ballotpedia: 150 to 250 local recall efforts a year across about 90,000 local governments).

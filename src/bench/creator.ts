@@ -1,3 +1,4 @@
+import { coreAPI } from "../core2/state";
 import type { CoreState } from "../core2/types";
 import { gameStartDate } from "../core2/game-start";
 import { ageOnDate, makeIsoDate } from "../core2/kernel/dates";
@@ -166,32 +167,25 @@ export function readChosenPerson(text: string): ChosenPerson {
 
 /**
  * Makes the new world's player the chosen person: name, birth date, gender
- * and appearance. The bench writes these person fields directly; stopgap
- * SG-PLAY-creator-direct-person-write. The life's generated past (school,
- * work, household) stays as drawn for the original age; stopgap
- * SG-PLAY-creator-age-keeps-past.
+ * and appearance, through the core's identity call. The life's generated past
+ * (school, work, household) stays as drawn for the original age.
+ * stopgapId: SG-PLAY-creator-age-keeps-past
  */
 export function applyChosenPerson(
   core: CoreState,
   id: string,
   chosen: ChosenPerson,
 ) {
-  const person = core.people.get(id) as unknown as
-    | {
-        givenName: string;
-        familyName: string;
-        birthDate: string;
-        looks?: Record<string, string>;
-      }
-    | undefined;
-  if (!person) throw new Error("No such person.");
   const pad = (n: number) => String(n).padStart(2, "0");
-  person.givenName = chosen.givenName;
-  person.familyName = chosen.familyName;
-  person.birthDate = `${chosen.birthYear}-${pad(chosen.birthMonth)}-${pad(chosen.birthDay)}`;
-  person.looks = {
-    ...(person.looks ?? {}),
-    gender: chosen.gender,
-    ...(chosen.recipe ? { recipe: JSON.stringify(chosen.recipe) } : {}),
-  };
+  coreAPI(core).chooseIdentityV1(id, {
+    givenName: chosen.givenName,
+    familyName: chosen.familyName,
+    birthDate: makeIsoDate(
+      `${chosen.birthYear}-${pad(chosen.birthMonth)}-${pad(chosen.birthDay)}`,
+    ),
+    looks: {
+      gender: chosen.gender,
+      ...(chosen.recipe ? { recipe: JSON.stringify(chosen.recipe) } : {}),
+    },
+  });
 }

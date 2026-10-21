@@ -5,11 +5,12 @@ area: people
 kind: feature
 priority: 2
 size: M
-status: open
-claimed-by:
-pr:
+status: done
+claimed-by: claude/counted-illness-s5
+pr: #4839
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-16T21:36:24.452Z
 ---
 
 **What.** The health engine books a serious illness for each full person from their conditions and their own resilience line, and a death follows. A counted person (most of a town) carries no health record: counted deaths come from the age-rate drift (`src/core2/modules/counted-drift.ts`) with no illness before them. So in a played year no counted resident is ever ill, and a person filled in later starts healthy from that day. Give counted groups the same rule: a group's illnesses in a month are its members by age and conditions times their count, and the one who dies was ill first. When a counted person is filled in, their record matches the group (ill if the group says they were).

@@ -165,6 +165,9 @@ export function researchReaders(
       readers.get(data)!.push(reader);
       return;
     }
+    // The bare research root is a prefix some checkers quote, not a read of
+    // everything under it.
+    if (data === "data/research") return;
     // A directory, or a template path chosen at run time inside one.
     const dir = join(REPO_ROOT, data);
     if (!existsSync(dir) || !statSync(dir).isDirectory()) return;

@@ -4,12 +4,13 @@ title: "Appointments:"
 area: office
 kind: feature
 priority: 2
-status: open
-claimed-by:
-pr:
+status: done
+claimed-by: claude/office-appoint-act
+pr: #4819
 blocked-on:
 milestone:
 source: "docs/coordination/OFFICE-LOCAL.md line 29 (unchecked checklist line)"
+claimed-at: 2026-10-16T20:56:37.435Z
 ---
 
 **What.** Checked against main on Oct 16: PARTLY. The engine takes an appointer's choice (`appoint()` in `modules/executive.ts`, `nominateAndConfirm` with the appointer's reasons and the council's confirmation), but nothing outside executive.ts calls it, and there is no removal. Next: A local "name a department head" act registered in `office-day-acts.ts` that calls `appoint`: the player picks among qualified candidates, the council confirms where the place requires, and the choice is a record the department and its hiring read. Removal is a second step. The player would notice the act on the politics screen as a choice among people, never a form.

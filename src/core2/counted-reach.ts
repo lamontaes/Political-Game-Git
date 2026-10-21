@@ -7,6 +7,7 @@
  * until it is rounded for show. Law reach, budgets and news call `reachOf`.
  */
 import { ageOn } from "./counted-groups";
+import { isNoncitizen } from "./citizenship";
 import { countedParameter, residentsRuntime } from "./modules/residents";
 import type { CoreState, PlaceId } from "./types";
 
@@ -15,6 +16,11 @@ export interface ReachRule {
   readonly ageBelow?: number;
   readonly employed?: boolean;
   readonly gender?: string;
+  /**
+   * Noncitizens only, given the share of the place's adults who are citizens
+   * (`isNoncitizen` reads each person, full or counted, the same way).
+   */
+  readonly noncitizen?: { readonly citizenShare: number };
   /** The household has a child younger than this. */
   readonly withChildBelow?: number;
   /** No child of the household is younger than this (an exemption). */
@@ -63,6 +69,7 @@ interface Member {
   readonly id: string;
   readonly age: number;
   readonly gender?: string;
+  readonly noncitizen?: boolean;
   /** Working: 1 with a job, a share for an unplaced worker, else 0. */
   readonly working: number;
   readonly weeklyMinutes: number;
@@ -78,6 +85,7 @@ function matches(
   if (rule.ageFrom !== undefined && member.age < rule.ageFrom) return 0;
   if (rule.ageBelow !== undefined && member.age >= rule.ageBelow) return 0;
   if (rule.gender !== undefined && member.gender !== rule.gender) return 0;
+  if (rule.noncitizen && !member.noncitizen) return 0;
   if (
     rule.hoursBelowWeekly !== undefined &&
     member.weeklyMinutes >= rule.hoursBelowWeekly * 60
@@ -168,6 +176,10 @@ export function reachOf(
         id,
         age: ageOn(person.birthDate, date),
         ...(person.looks?.gender ? { gender: person.looks.gender } : {}),
+        ...(rule.noncitizen &&
+        isNoncitizen(core.seed, id, rule.noncitizen.citizenShare)
+          ? { noncitizen: true }
+          : {}),
         working,
         weeklyMinutes: minutes,
         wageDollars: working ? (job!.wageDailyMinor * 365) / 100 : 0,
@@ -216,6 +228,10 @@ export function reachOf(
           id,
           age: ages[i]!,
           ...(gender ? { gender } : {}),
+          ...(rule.noncitizen &&
+          isNoncitizen(core.seed, id, rule.noncitizen.citizenShare)
+            ? { noncitizen: true }
+            : {}),
           working: job ? 1 : open ? share : 0,
           weeklyMinutes: job?.minutes ?? 0,
           wageDollars: job ? job.wage : open ? share * perUnplaced : 0,

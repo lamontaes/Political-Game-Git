@@ -8,6 +8,7 @@ import { parameter, parameterValues } from "../parameters";
 import { discretionaryHours } from "./work";
 import { closenessBetween } from "../closeness";
 import { bookkeeping } from "../bookkeeping";
+import { keepsWhy } from "../why-kept";
 import { adTimeForSale, buyAdTime } from "./campaigns";
 import { residentCounts, residentsAccountFor } from "./residents";
 import type { CashJournalPosting, ResolvedCashJournalSource } from "../journal";
@@ -1013,9 +1014,16 @@ function actEvent(
     },
     ...extra,
     facts: {
-      [`event:${id}:${data.factKeys.drive}`]: drive.id,
-      [`event:${id}:${data.factKeys.origin}`]: drive.sourceEventId,
-      [`event:${id}:${data.factKeys.strength}`]: `${currentStrength(api, drive)}`,
+      // Why the act was done (the drive, where it came from, how strong). Nobody
+      // reads these but the player's circle asking why, so everyone else's
+      // knowledge does not carry three facts for every act.
+      ...(keepsWhy(api.state as CoreState, actorId, targetId)
+        ? {
+            [`event:${id}:${data.factKeys.drive}`]: drive.id,
+            [`event:${id}:${data.factKeys.origin}`]: drive.sourceEventId,
+            [`event:${id}:${data.factKeys.strength}`]: `${currentStrength(api, drive)}`,
+          }
+        : {}),
       ...extra.facts,
     },
   };
@@ -1454,7 +1462,6 @@ export function createDrivesModule(
               out.push(driveOffer(api, action, id, drive));
         return out;
       },
-      "unbuilt-system": () => [],
     },
     eligibilityRules: {
       "no-known-group-on-topic": (api, actor, offer) => {
@@ -1683,11 +1690,6 @@ export function createDrivesModule(
             offer.targetId,
             [offer.targetId],
           ),
-        );
-      },
-      "unbuilt-system": () => {
-        throw new Error(
-          "No core2 system exists for this act; it is never offered.",
         );
       },
     },

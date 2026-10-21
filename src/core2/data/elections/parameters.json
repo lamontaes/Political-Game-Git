@@ -27,13 +27,6 @@
       "spread": [0.4, 0.6],
       "stopgapId": "SG-GOV-REACH-A-convictions"
     },
-    "tieSmallRaceVotes": {
-      "value": 1000,
-      "tag": "ESTIMATED",
-      "source": "Not read from a statute: the tie rows in data/research/elections/tie-rules-2026.json say 'new election for large races; lot for small' and name no line. The stand-in is the order of a small-town race (total votes cast).",
-      "spread": [500, 5000],
-      "stopgapId": "SG-GOV-tie-race-size"
-    },
     "ballotFirstPositionShare": {
       "value": 0.02,
       "tag": "ESTIMATED",

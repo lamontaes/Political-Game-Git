@@ -1,0 +1,9 @@
+{
+  "about": "Which web outcome stands for which ages in a person's death hazard (infants, ages 55 to 64). The causes of death, with their sourced shares by age, are in death-causes.json.",
+  "refreshDayOfMonth": 4,
+  "infantBelowAge": 1,
+  "mortality5564": {
+    "fromAge": 55,
+    "belowAge": 65
+  }
+}

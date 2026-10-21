@@ -26,11 +26,14 @@ import rows from "../data/moves/parameters.json" with { type: "json" };
 import { decisionFromScores, scoreOffers } from "../choice";
 import { decisionLean } from "../trait-decisions";
 import { MORTGAGE_PREFIX } from "../housing-mortgages";
+import { moveRecipientIncomeHome } from "../finance-state";
 import { sellHome } from "../housing-sale";
 import { endLivingPlan } from "../cost-of-living";
 import { OUTSIDE_MARKET_KIND } from "../opening-outside-market";
 import { currentCloseness } from "../closeness";
 import { regionalLevel, regionalRegistered } from "./regional";
+import { webReach, type Subject } from "../outcome-web-reach";
+import { registerModule } from "../state";
 import type { Parameter } from "../parameters";
 import type { EntityId } from "../kernel/brands";
 import type {
@@ -43,7 +46,6 @@ import type {
   PersonId,
   PersonState,
 } from "../types";
-import { pinnedJobs } from "../pinned-jobs";
 
 export const MOVES_MODULE_ID = "moves";
 export const MOVES_PARAMETERS = rows as unknown as Readonly<
@@ -52,9 +54,9 @@ export const MOVES_PARAMETERS = rows as unknown as Readonly<
 export const MOVED_AWAY_EVENT = "person.moved-away";
 const STOPGAP = "SG-P15-moves-weights";
 const OWNER_STOPGAP = "SG-P15-moves-owners-stay";
+const TAX_STOPGAP = "SG-WEB-moves-full-tax-pull";
+const DISASTER_STOPGAP = "SG-WEB-moves-disaster-severity";
 const INACTIVE_TIER = "husk";
-const PINNED_STOPGAP = "SG-P15-moves-pinned-jobs";
-const INCOME_STOPGAP = "SG-FIXER-moves-income-household";
 
 type Rates = Readonly<Record<string, number>>;
 const RATES = moverRates as unknown as {
@@ -119,6 +121,9 @@ interface Pull {
   pushes?: Record<string, number>;
   /** The region's conditions as they last scaled the pull. */
   placeFactor?: number;
+  /** The outcome web's factor on this person's leaving last month, and the web month row it stood on. */
+  webFactor?: number;
+  webRecord?: string;
   /** At the opening: the pushes less the holds the opening pull was ranked by. */
   openingNet?: number;
 }
@@ -559,7 +564,11 @@ function destinationFor(
   };
 }
 
-/** The people who go with a leaver: a householder's partner and children under the minimum age. */
+/**
+ * The people who go with a leaver: a householder's partner and children under
+ * the minimum age, and any minor who would otherwise be left in the household
+ * with no adult at home (they follow the guardian they live with).
+ */
 function goingWith(api: CoreAPI, person: Readonly<PersonState>): PersonId[] {
   const core = api.state as CoreState;
   const kin = kinOf(core);
@@ -567,21 +576,29 @@ function goingWith(api: CoreAPI, person: Readonly<PersonState>): PersonId[] {
   const members = new Set(
     (household?.memberIds ?? []).filter((id) => inTown(core, id)),
   );
-  // A grown child living with a parent leaves on their own.
-  if ((kin.parents.get(person.id) ?? []).some((id) => members.has(id)))
-    return [person.id];
-  const partner = kin.partner.get(person.id);
-  const going = [person.id];
-  if (partner && members.has(partner)) going.push(partner);
   const minimum = m(api, "movesMinimumAge");
-  for (const parent of [...going])
-    for (const child of kin.children.get(parent) ?? [])
-      if (
-        members.has(child) &&
-        !going.includes(child) &&
-        ageOf(api, core.people.get(child)!) < minimum
-      )
-        going.push(child);
+  const going = [person.id];
+  // A grown child living with a parent leaves on their own.
+  if (!(kin.parents.get(person.id) ?? []).some((id) => members.has(id))) {
+    const partner = kin.partner.get(person.id);
+    if (partner && members.has(partner)) going.push(partner);
+    for (const parent of [...going])
+      for (const child of kin.children.get(parent) ?? [])
+        if (
+          members.has(child) &&
+          !going.includes(child) &&
+          ageOf(api, core.people.get(child)!) < minimum
+        )
+          going.push(child);
+  }
+  // Whoever is left at home must not be minors alone: the leaver is the
+  // guardian they live with, whether or not the family links name the tie.
+  const left = [...members].filter((id) => !going.includes(id));
+  if (
+    left.length &&
+    left.every((id) => ageOf(api, core.people.get(id)!) < minimum)
+  )
+    going.push(...left);
   return going;
 }
 
@@ -704,20 +721,23 @@ function leave(
     citation: `${person.givenName} ${person.familyName} moved away (${where.destinationBasis}).`,
     estimatedFrom: STOPGAP,
   };
+  // A whole household moves as itself; those who leave others behind
+  // start a household at the new place.
+  const arrivalHousehold = household?.memberIds.every((id) =>
+    going.includes(id),
+  )
+    ? person.householdId
+    : `${person.householdId}:moved:${person.id}:${api.state.date}`;
   api.relocatePeopleV1({
     personIds: going,
     placeId: where.destinationId,
     ...(countyId ? { countyId } : {}),
-    // A whole household moves as itself; those who leave others behind
-    // start a household at the new place.
-    householdId: household?.memberIds.every((id) => going.includes(id))
-      ? person.householdId
-      : `${person.householdId}:moved:${person.id}:${api.state.date}`,
+    householdId: arrivalHousehold,
     source,
   });
-  store(api)
-    .table("departures")
-    .put(departure as unknown as { id: string });
+  // A recorded income award (a pension, Social Security) is paid into the
+  // household where its person lives now, the same amount from its next due date.
+  for (const id of going) moveRecipientIncomeHome(core, id, arrivalHousehold);
   api.emit({
     id: departure.id,
     date: api.state.date,
@@ -735,6 +755,7 @@ function leave(
       ),
       ...jobsLeft,
       ...(sale ? { homeSaleId: sale.id } : {}),
+      [DEPARTURE_FACT]: JSON.stringify(departure),
     },
   });
   return departure;
@@ -751,6 +772,67 @@ function netFactor(
   const pushes = pushesOf(api, person);
   const net = sum(pushes.parts, zero) - sum(holdsOf(api, person), zero);
   return { factor: Math.exp(net), net, pushes };
+}
+
+/** The outcome web's factors on leaving that apply to a kind of person, cached by place and circumstances for the month. */
+const webLeaving = new WeakMap<
+  object,
+  {
+    month: string;
+    rows: Map<string, { factor: number; record: string | null }>;
+  }
+>();
+
+/**
+ * How far the outcome web's links (a tax, a crime wave, a rent rule) speed or
+ * slow this person's leaving: the web's factor on out-migration for everyone,
+ * and on renters' moves for a renter, each landing by their age, tenure and
+ * household. The same factors move a counted household (counted-moves.ts).
+ */
+function webLeavingFor(
+  api: CoreAPI,
+  person: Readonly<PersonState>,
+): { factor: number; record: string | null } {
+  const core = api.state as CoreState;
+  const month = core.date.slice(0, 7);
+  let cache = webLeaving.get(core);
+  if (!cache || cache.month !== month) {
+    cache = { month, rows: new Map() };
+    webLeaving.set(core, cache);
+  }
+  const age = ageOf(api, person);
+  const tenure = ownsHome(api, person.householdId) ? "own" : "rent";
+  const children = (
+    core.households.get(person.householdId)?.memberIds ?? []
+  ).some((id) => {
+    const member = core.people.get(id);
+    return member?.alive && ageOf(api, member) < 18;
+  });
+  const householdKind: Subject["householdKind"] = children
+    ? "with-children"
+    : "adults";
+  const key = `${person.placeId}|${tenure}|${householdKind}|${age}`;
+  const held = cache.rows.get(key);
+  if (held) return held;
+  const subject: Subject = { age, tenure, householdKind };
+  api.stopgap(TAX_STOPGAP);
+  api.stopgap(DISASTER_STOPGAP);
+  const leaving = webReach(
+    api,
+    person.placeId,
+    "population.out-migration",
+    subject,
+  );
+  const renting =
+    tenure === "rent"
+      ? webReach(api, person.placeId, "housing.renter-moves", subject)
+      : undefined;
+  const row = {
+    factor: leaving.factor * (renting?.factor ?? 1),
+    record: leaving.recordId ?? renting?.recordId ?? null,
+  };
+  cache.rows.set(key, row);
+  return row;
 }
 
 /** One adult's pull builds by a month of their stage of life, weighed by their ties and pushes. */
@@ -771,11 +853,13 @@ function accumulate(
   // Records decide who of an age leaves, not how many: the person's pushes
   // over their ties against the town's typical for their age band. The
   // region's conditions move how many.
+  const web = webLeavingFor(api, person);
   const stage =
     (lifeStageRate(api, person, band) / api.parameter("monthsPerYear")) *
     m(api, "movesLifeStageScale") *
     (factor / (typical?.get(band) ?? factor)) *
-    conditions.factor;
+    conditions.factor *
+    web.factor;
   pull.value += stage;
   pull.causes = {
     ...pull.causes,
@@ -788,6 +872,10 @@ function accumulate(
   };
   pull.pushes = { ...pushes.parts };
   if (conditions.reads.length) pull.placeFactor = conditions.factor;
+  if (web.record) {
+    pull.webFactor = web.factor;
+    pull.webRecord = web.record;
+  }
   savePull(api, pull);
 }
 
@@ -906,38 +994,6 @@ function decide(api: CoreAPI, person: Readonly<PersonState>): Departure | null {
     !Object.keys(pull.causes).some((key) => EVENT_PULLS[key] !== undefined)
   )
     return null;
-  const pinned = pinnedJobs(api.state as CoreState);
-  if (
-    going.some((id) => {
-      const job = api.state.people.get(id)?.jobId;
-      return !!job && pinned.has(job);
-    })
-  ) {
-    api.stopgap(PINNED_STOPGAP);
-    return null;
-  }
-  // A recorded income award (a pension, Social Security) names the household
-  // it is paid into; a mover who would leave that household behind keeps
-  // it until an award can follow its person (registered stopgap).
-  const core = api.state as CoreState;
-  const home = core.households.get(person.householdId);
-  if (
-    home?.memberIds.some((id) => !going.includes(id)) &&
-    going.some((id) =>
-      [...(core.finance.incomeContractsByPerson.get(id) ?? [])].some(
-        (contractId) => {
-          const row = core.finance.contracts.get(contractId);
-          return (
-            !row?.endedAt &&
-            row?.recipientIncome?.householdId === person.householdId
-          );
-        },
-      ),
-    )
-  ) {
-    api.stopgap(INCOME_STOPGAP);
-    return null;
-  }
   pending.set(api.state, { pull });
   const offers: ActOffer[] = [STAY_PUT, MOVE_AWAY].map((definition) => ({
     definition,
@@ -1209,15 +1265,41 @@ function addEventPull(api: CoreAPI, event: CoreEventInput): void {
   }
 }
 
-export function departuresOf(api: CoreAPI): Departure[] {
-  return store(api).table("departures").rows() as unknown as Departure[];
+/** The departure record rides on its event, for tests and proofs that watch departures. */
+const DEPARTURE_FACT = "moves:departure";
+const watched = new WeakMap<object, Departure[]>();
+
+/**
+ * Starts recording each departure the engine emits (for tests and year proofs;
+ * no engine reads departures in play). Register it right after the world is
+ * built, before any day runs; the departures seen so far come from
+ * `departuresSeen`.
+ */
+export function watchDepartures(core: CoreState): void {
+  if (watched.has(core)) return;
+  const seen: Departure[] = [];
+  watched.set(core, seen);
+  registerModule(core, {
+    id: "moves:departures-watch",
+    eventKinds: [MOVED_AWAY_EVENT],
+    onEvent: (_api, event) => {
+      const record = event.facts?.[DEPARTURE_FACT];
+      if (record) seen.push(JSON.parse(record) as Departure);
+    },
+  });
+}
+
+export function departuresSeen(core: CoreState): Departure[] {
+  const seen = watched.get(core);
+  if (!seen) throw new Error("watchDepartures(core) was not called first");
+  return seen;
 }
 
 export const movesModule: CoreModule = {
   id: MOVES_MODULE_ID,
   state: {
     schemaVersion: 1,
-    tables: { state: {}, pulls: {}, departures: {} },
+    tables: { state: {}, pulls: {} },
   },
   eventKinds: Object.keys(EVENT_PULLS),
   onEvent(api, event) {

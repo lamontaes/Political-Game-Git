@@ -1,5 +1,5 @@
 /**
- * Writes src/simulation/bill-numbering-styles.generated.ts from the recorded
+ * Writes src/core2/bill-numbering-styles.generated.ts from the recorded
  * research: the verified enacted-bill samples for all 50 states, the state
  * legislature corpus's chamber names, and each chamber's recorded starting
  * number and numbering period where a source states them. Decisions OCD-LEG-NUM-001 and -002.
@@ -20,7 +20,7 @@ import {
   type BillSampleRow,
   type ChamberNameRow,
   type StateBillNumberingStyle,
-} from "../../src/simulation/bill-numbering-derivation";
+} from "../../src/core2/bill-numbering-derivation";
 
 const root = resolve(import.meta.dirname, "../..");
 const SAMPLES = resolve(root, "data/research/bill-samples/state");
@@ -28,7 +28,7 @@ const CORPUS = resolve(root, "data/source/state-legislatures/corpus.json");
 const STARTS = resolve(root, "data/research/bill-numbering-starts.json");
 export const OUTPUT = resolve(
   root,
-  "src/simulation/bill-numbering-styles.generated.ts",
+  "src/core2/bill-numbering-styles.generated.ts",
 );
 
 interface CorpusRecord {

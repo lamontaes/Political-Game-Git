@@ -659,7 +659,10 @@
           "opener": "host"
         },
         {
-          "awaitingProducer": "family-birth",
+          "match": {
+            "label": "feeling:event:person-birth",
+            "counterpart": "some"
+          },
           "bind": {
             "honoree": "subject",
             "host": "household",
@@ -1537,7 +1540,7 @@
     },
     {
       "key": "polling-place",
-      "note": "Election day is a scene (owner, Oct 14, 2026): the player goes to their precinct's polling place, sees the poll workers and neighbors the records place there, and casts their ballot as the scene's choice, never in a menu. The visit is the director's polling-place.ts: on the eve of an election the voter's day stops at the polls, with the household members who may vote; the ballot is the elections engine's, cast through the voting engine's castBallot. Waits on the elections engine's polling-place record for the poll workers (SG-PEOPLE-poll-workers).",
+      "note": "Election day is a scene (owner, Oct 14, 2026): the player goes to their precinct's polling place, sees the poll workers and neighbors the records place there, and casts their ballot as the scene's choice, never in a menu. The visit is the director's polling-place.ts: on the eve of an election the voter's day stops at the polls, with the household members who may vote; the ballot is the elections engine's, cast through the voting engine's castBallot. The poll workers are those the voting engine's polling-place record names for the voter's precinct.",
       "roles": [
         {
           "key": "voter",
@@ -1769,7 +1772,12 @@
         {
           "match": {
             "label": "cause:event:election-result",
-            "causeFact": { "key": "winnerId", "is": "subject" }
+            "causeFacts": [
+              {
+                "key": "winnerId",
+                "is": "subject"
+              }
+            ]
           },
           "causeEngine": "elections",
           "causeRecord": "election-result",
@@ -1828,7 +1836,12 @@
         {
           "match": {
             "label": "cause:event:election-result",
-            "causeFact": { "key": "winnerId", "is": "other" }
+            "causeFacts": [
+              {
+                "key": "winnerId",
+                "is": "other"
+              }
+            ]
           },
           "causeEngine": "elections",
           "causeRecord": "election-result",
@@ -1897,7 +1910,9 @@
       "timing": "at-cause",
       "causes": [
         {
-          "awaitingProducer": "legislative-vote",
+          "match": {
+            "label": "cause:event:legislative-vote"
+          },
           "causeEngine": "legislature",
           "causeRecord": "legislative-vote",
           "bind": {
@@ -1954,12 +1969,24 @@
       "timing": "at-cause",
       "causes": [
         {
-          "awaitingProducer": "bill-signed",
+          "match": {
+            "label": "cause:event:executive-action",
+            "causeFacts": [
+              {
+                "key": "action",
+                "equals": ["signed"]
+              },
+              {
+                "key": "executiveId",
+                "is": "other"
+              }
+            ]
+          },
           "causeEngine": "legislature",
-          "causeRecord": "legislature.sign-or-veto",
+          "causeRecord": "executive-action",
           "bind": {
             "sponsor": "subject",
-            "signer": "chair",
+            "signer": "executive",
             "press": "press"
           },
           "opener": "signer",
@@ -2010,9 +2037,36 @@
       "timing": "at-cause",
       "causes": [
         {
-          "awaitingProducer": "bill-vetoed",
+          "match": {
+            "label": "cause:event:executive-action",
+            "causeFacts": [
+              {
+                "key": "action",
+                "equals": ["vetoed"]
+              },
+              {
+                "key": "executiveId",
+                "is": "other"
+              }
+            ]
+          },
           "causeEngine": "legislature",
-          "causeRecord": "legislature.sign-or-veto",
+          "causeRecord": "executive-action",
+          "bind": {
+            "sponsor": "subject",
+            "executive": "executive",
+            "press": "press"
+          },
+          "opener": "executive",
+          "opening": "tell"
+        },
+        {
+          "match": {
+            "label": "cause:event:veto-override",
+            "causeFact": { "key": "sponsorId", "is": "subject" }
+          },
+          "causeEngine": "legislature",
+          "causeRecord": "veto-override",
           "bind": {
             "sponsor": "subject",
             "executive": "chair",
@@ -2041,7 +2095,7 @@
         },
         {
           "key": "appointer",
-          "fill": "counterpart",
+          "fill": "appointer",
           "count": "one",
           "moves": ["announce-result", "congratulate", "tell"],
           "wants": ["help-others"],
@@ -2060,12 +2114,12 @@
       "timing": "at-cause",
       "causes": [
         {
-          "awaitingProducer": "appointed",
-          "causeEngine": "offices",
+          "match": { "label": "cause:event:economy.board-appointment" },
+          "causeEngine": "macro",
           "causeRecord": "economy.board-appointment",
           "bind": {
             "appointee": "subject",
-            "appointer": "counterpart",
+            "appointer": "appointer",
             "family": "household"
           },
           "opener": "appointer",
@@ -2110,7 +2164,6 @@
       "timing": "at-cause",
       "causes": [
         {
-          "awaitingProducer": "recall-petition",
           "causeEngine": "recalls",
           "causeRecord": "recall-petition",
           "bind": {
@@ -2119,7 +2172,30 @@
             "family": "household"
           },
           "opener": "petitioners",
-          "opening": "blame"
+          "opening": "blame",
+          "match": {
+            "label": "cause:event:recall-petition",
+            "causeFacts": [
+              {
+                "key": "memberId",
+                "is": "subject"
+              }
+            ]
+          }
+        },
+        {
+          "match": {
+            "label": "cause:event:recall-outcome",
+            "counterpart": "some"
+          },
+          "causeEngine": "recalls",
+          "causeRecord": "recall-outcome",
+          "bind": {
+            "petitioners": "subject",
+            "official": "counterpart"
+          },
+          "opener": "petitioners",
+          "opening": "tell"
         }
       ],
       "tag": {
@@ -2160,9 +2236,9 @@
       "timing": "at-cause",
       "causes": [
         {
-          "awaitingProducer": "hearing-held",
-          "causeEngine": "legislature",
-          "causeRecord": "legislature.hold-hearing",
+          "match": { "label": "cause:event:public-comment" },
+          "causeEngine": "meetings",
+          "causeRecord": "public-comment",
           "bind": {
             "speaker": "subject",
             "chair": "chair",
@@ -2209,15 +2285,18 @@
       "timing": "at-cause",
       "causes": [
         {
-          "awaitingProducer": "press-approached",
           "causeEngine": "press",
-          "causeRecord": "office.approached",
+          "causeRecord": "interview-published",
           "bind": {
             "reporter": "press",
             "official": "subject"
           },
           "opener": "reporter",
-          "opening": "greet"
+          "opening": "greet",
+          "match": {
+            "label": "cause:event:interview-published",
+            "selfNamed": true
+          }
         }
       ],
       "tag": {
@@ -2258,7 +2337,6 @@
       "timing": "at-cause",
       "causes": [
         {
-          "awaitingProducer": "scandal-story-received",
           "causeEngine": "press",
           "causeRecord": "press.exposed",
           "bind": {
@@ -2267,7 +2345,11 @@
             "family": "household"
           },
           "opener": "reporter",
-          "opening": "confront"
+          "opening": "confront",
+          "match": {
+            "label": "feeling:event:press.exposed",
+            "selfNamed": true
+          }
         }
       ],
       "tag": {
@@ -2292,29 +2374,20 @@
           "moves": ["ask", "blame", "tell"],
           "wants": ["change"],
           "bearing": "anxious"
-        },
-        {
-          "key": "teller",
-          "fill": "counterpart",
-          "count": "one",
-          "moves": ["deliver-news", "tell", "blame"],
-          "wants": ["engage"],
-          "bearing": "calm"
         }
       ],
       "setting": ["home", "workplace", "public"],
       "timing": "effective-date",
       "causes": [
         {
-          "awaitingProducer": "law-reached-person",
+          "match": { "label": "cause:event:law.effect-learned" },
           "causeEngine": "budgets",
           "causeRecord": "law.effect-learned",
           "bind": {
-            "reached": "subject",
-            "teller": "counterpart"
+            "reached": "subject"
           },
-          "opener": "teller",
-          "opening": "deliver-news"
+          "opener": "reached",
+          "opening": "tell"
         }
       ],
       "tag": {
@@ -2343,7 +2416,7 @@
         },
         {
           "key": "voters",
-          "fill": "present",
+          "fill": "audience",
           "count": "some",
           "moves": ["ask", "agree", "disagree", "thank"],
           "wants": ["engage"],
@@ -2354,12 +2427,15 @@
       "timing": "at-cause",
       "causes": [
         {
-          "awaitingProducer": "campaign-event",
-          "causeEngine": "elections",
-          "causeRecord": "candidate-filed",
+          "match": {
+            "causeKind": "event:speech.heard",
+            "causeFact": { "key": "views:speaker", "is": "subject" }
+          },
+          "causeEngine": "speech",
+          "causeRecord": "speech.heard",
           "bind": {
             "candidate": "subject",
-            "voters": "present"
+            "voters": "audience"
           },
           "opener": "candidate",
           "opening": "greet"
@@ -2395,7 +2471,7 @@
       "timing": "at-cause",
       "causes": [
         {
-          "awaitingProducer": "filing-visit",
+          "match": { "label": "cause:event:candidate-filed" },
           "causeEngine": "elections",
           "causeRecord": "candidate-filed",
           "bind": {
@@ -2444,12 +2520,16 @@
       "timing": "at-cause",
       "causes": [
         {
-          "awaitingProducer": "job-ended-at-work",
+          "match": {
+            "label": "money:job-ended",
+            "counterpart": "none",
+            "causeFact": { "key": "decidedBy", "is": "other" }
+          },
           "causeEngine": "work",
           "causeRecord": "work.job-lost",
           "bind": {
             "worker": "subject",
-            "boss": "counterpart",
+            "boss": "decider",
             "coworkers": "coworkers"
           },
           "opener": "boss",

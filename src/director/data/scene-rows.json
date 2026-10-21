@@ -1,6 +1,6 @@
 {
   "version": "words-scene-v1",
-  "about": "The structure of scene narration: the setting kinds, the cause label prefixes and the word that joins several names. It holds no sentences; they come from the bank (data/english/parts/scene-words.json) through src/director/mined/scene-bank.ts. A setting or cause the bank has no sentence for is left out. The narrator opens a scene with one short paragraph: the day, the setting, who is there, what led here.",
+  "about": "The structure of scene narration: the setting kinds, the cause label prefixes and the word that joins several names. It holds no sentences; they come from the bank (data/english/parts/scene-words.json) through src/director/mined/scene-bank.ts. A setting or cause the bank has no sentence for is left out. The narrator opens a scene with one short paragraph: the day, the setting, who is there, what is happening, by the staged situation type, and what led here.",
   "and": "and",
   "settings": [
     "home",
@@ -24,6 +24,37 @@
     "feeling:event:justice.charged",
     "feeling:event:justice.convicted",
     "feeling:event:justice.acquitted",
-    "feeling:event:cause.shared"
+    "feeling:event:cause.shared",
+    "feeling:event:person-birth"
+  ],
+  "leads": [
+    "becoming-friends",
+    "news-arrives",
+    "argument",
+    "celebration",
+    "funeral",
+    "first-meeting",
+    "first-day",
+    "last-day",
+    "breakup",
+    "reunion",
+    "arrival",
+    "layoff",
+    "eviction-notice",
+    "law-takes-effect",
+    "polling-place",
+    "race-won",
+    "race-lost",
+    "floor-vote",
+    "bill-signed",
+    "veto",
+    "appointment",
+    "recall",
+    "public-hearing",
+    "press-interview",
+    "scandal",
+    "campaign-stop",
+    "hearing",
+    "verdict"
   ]
 }

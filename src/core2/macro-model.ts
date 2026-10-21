@@ -20,6 +20,12 @@ export interface MacroMonth {
   mortgage30Pct: number;
   /** The town's own paid-income growth that entered this month, annual percent; absent when no comparable paid-income history exists. */
   townIncomeGrowthPct?: number;
+  /** The nation's payroll-income growth the town was assumed to share, annual percent. */
+  townGrowthEstimatePct?: number;
+  /** The weight on the town's own paid-income growth in what the national step heard: 0 with no comparable months, 1 at twelve. */
+  townGrowthOwnWeight?: number;
+  /** The town's own paid-income growth over its comparable months, annual percent; absent until it has any. */
+  townGrowthOwnPct?: number;
 }
 
 interface HistoryRow {
@@ -170,6 +176,10 @@ export function stepMacroMonth(
   const month = shiftMonth(previous.month, one, p);
   const realRate = previous.policyRatePct - previous.inflationPct;
   // One town is its share of the nation: its own income growth over the trend.
+  // Public budgets reach the national step only here, as the wages, benefits
+  // and business receipts actually paid in town (no implicit
+  // multiplier; the federal-dollar report checks the response against
+  // macroFederalOutlayResponseBand).
   const town =
     townIncomeGrowthPct === undefined
       ? p("zero")
@@ -181,7 +191,6 @@ export function stepMacroMonth(
   const outputGapPct =
     p("macroOutputGapPersistence") * previous.outputGapPct -
     p("macroRealRateEffectOnGap") * (realRate - p("macroNeutralRealRatePct")) +
-    p("macroPublicBudgetImpulse") / months +
     town / months;
   const unemploymentPct =
     p("macroNaturalUnemploymentPct") -

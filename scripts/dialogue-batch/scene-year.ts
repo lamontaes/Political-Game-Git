@@ -25,6 +25,8 @@ import {
   say,
 } from "../../src/director/conversation";
 import { composeScene } from "../../src/director/scene";
+import { reachReport } from "../../src/director/reach";
+import { SITUATION_LIBRARY } from "../../src/director/scheduling";
 import { addDays, ageOnDate, makeIsoDate } from "../../src/core2/kernel/dates";
 import { drawPlace } from "../core2-year/place";
 import { OPENING_DATE } from "./play-lives";
@@ -79,6 +81,8 @@ const report = {
   scenes: [] as unknown[],
   /** Every moment the year recorded for the player, and what it became. */
   moments: [] as unknown[],
+  /** Every situation type: the scenes it fired from a cause record, or why not. */
+  reach: [] as ReturnType<typeof reachReport>,
 };
 // Watched as the bench watches a chosen resident: the player and their
 // household (src/bench/player.ts, select).
@@ -163,6 +167,14 @@ for (let day = 0; day < days; day += 1) {
   }
 }
 report.householdAtEnd = membersAt();
+report.reach = reachReport(
+  SITUATION_LIBRARY,
+  (household?.memberIds ?? [playerId]).flatMap((id) => {
+    const found = director.ledger.people.get(id);
+    return found ? [found] : [];
+  }),
+  core,
+);
 const summary = `${report.scenes.length} scenes in ${days} days (${report.quietDays} quiet days) for ${report.player} in ${place.name} (seed ${seed}, household ${household?.id})`;
 console.log(summary);
 console.log(
@@ -188,4 +200,11 @@ for (const row of report.scenes as {
   for (const line of row.talk?.lines ?? [])
     console.log(`    ${line.speaker}: ${line.text}`);
 }
+console.log("\nReach: each situation type, fired or why not");
+for (const row of report.reach)
+  console.log(
+    row.fired.length
+      ? `- ${row.typeKey}: fired ${row.fired.length}, from ${[...new Set(row.fired.map((f) => f.causeId))].join(", ")}`
+      : `- ${row.typeKey}: did not fire; ${row.reason}`,
+  );
 if (out) writeFileSync(out, JSON.stringify(report, null, 2));

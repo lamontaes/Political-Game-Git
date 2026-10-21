@@ -20,7 +20,15 @@ import {
 /** The parts of a government's primary reading the town readers use. */
 export interface MunicipalReading {
   readonly form: string | null;
+  /** The collective body as the charter names it ("Anchorage Assembly"). */
+  readonly bodyName: string | null;
   readonly bodySize: number | null;
+  /** How the body's seats are chosen, where the charter says. */
+  readonly composition: {
+    readonly pattern: string;
+    readonly districtSeats: number | null;
+    readonly wardSeats: number | null;
+  } | null;
   readonly executiveSelection: string | null;
   readonly mayor: {
     readonly title: string | null;

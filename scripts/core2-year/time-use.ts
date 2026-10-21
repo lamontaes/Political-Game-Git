@@ -3,17 +3,29 @@
  * calibration targets). Counts each full person's acts by action and month
  * and reports the share of person-days with each kind of activity.
  * Usage: node --import tsx scripts/core2-year/time-use.ts [seed] [through]
+ * (through defaults to ninety days after the world begins)
  */
 import { drawPlace } from "./place";
+import { parameter } from "../../src/core2/parameters";
 import { generatedOpening } from "../../src/core2/tooling/generated-world";
 import { advanceCore, createLifeCore } from "../../src/core2/life";
-import { daysBetween, makeIsoDate } from "../../src/core2/kernel/dates";
+import { peopleData, peopleModules } from "../../src/director/play-modules";
+import {
+  addDays,
+  daysBetween,
+  makeIsoDate,
+} from "../../src/core2/kernel/dates";
 
 const seed = process.argv[2] ?? "time-use-a";
-const through = process.argv[3] ?? "2021-03-01";
 const place = drawPlace(seed, "time-use");
-const core = createLifeCore(generatedOpening(place, { twoLevel: true }));
+// The people engines a played world installs (health, drives, views, news...).
+const core = createLifeCore(generatedOpening(place, { twoLevel: true }), {
+  data: peopleData(),
+  modules: peopleModules(),
+});
 const start = makeIsoDate(core.date);
+// Ninety days from the world's own first day unless a date is given.
+const through = process.argv[3] ?? addDays(start, 90);
 const t = performance.now();
 advanceCore(core, through);
 const days = daysBetween(start, makeIsoDate(through));
@@ -74,6 +86,18 @@ console.log(
 );
 console.log(
   `  civic (join, organize, approach): ${share(matching(/join|organiz|approach|civic/))}; ATUS 13.6% organizational, civic and religious (5.3% volunteering)`,
+);
+// Rest is the "recover" effect; one rest act takes the leisure total
+// (restDayHours, ATUS Table 3 leisure and sports 5.16 h a day) today,
+// so this line holds the leisure share still while that length is lowered.
+const restHours = parameter("restDayHours");
+const restActs = [...byAction]
+  .filter(([key]) =>
+    core.data.actions.some((row) => row.id === key && row.effect === "recover"),
+  )
+  .reduce((n, [, count]) => n + count, 0);
+console.log(
+  `  leisure hours a day (rest acts x ${restHours} h each): ${((restActs * restHours) / personDays).toFixed(2)} h; ATUS 5.16 h (leisure and sports, 15 and over)`,
 );
 console.log(
   "  Acts per person-day: a person can act more than once a day, so each is an upper bound on the share of days.",

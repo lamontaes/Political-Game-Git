@@ -15,6 +15,25 @@ import {
   shippingPolicy,
 } from "../../scripts/world/check-data-shipping.mjs";
 
+/**
+ * The same JSON without its provenance: a part's `source` (the document it was
+ * mined from) and the `bySource` and `read` counts of documents. A citation
+ * names the real archive a sentence came from ("Jimmy Carter Library (NARA)
+ * White House Exit Interview Project"); it is not authored text. Every other
+ * field is still scanned.
+ */
+const NOT_SHIPPED = new Set(["data/english/batches", "data/english/grades"]);
+const PROVENANCE_KEYS = new Set(["source", "bySource", "read"]);
+function withoutProvenance(text: string): Buffer {
+  return Buffer.from(
+    JSON.stringify(
+      JSON.parse(text),
+      (key, value) => (PROVENANCE_KEYS.has(key) ? undefined : value),
+      2,
+    ),
+  );
+}
+
 describe("shipped data regression check", () => {
   it("detects plain and JavaScript-escaped names in emitted assets", () => {
     const policy = shippingPolicy();
@@ -75,10 +94,14 @@ describe("shipped data regression check", () => {
     const walk = (dir: string) => {
       for (const entry of readdirSync(dir, { withFileTypes: true })) {
         const path = join(dir, entry.name);
-        if (entry.isDirectory()) walk(path);
-        else if (entry.name.endsWith(".json")) {
+        if (entry.isDirectory()) {
+          // Grading batches and the owner's grades are authoring records that
+          // no client file reads; their sample names (a made-up "James
+          // McCarthy") may match a real judge's by chance.
+          if (!NOT_SHIPPED.has(path)) walk(path);
+        } else if (entry.name.endsWith(".json")) {
           const failures = inspectShippingBytes(
-            readFileSync(path),
+            withoutProvenance(readFileSync(path, "utf8")),
             strict,
             "x",
           );

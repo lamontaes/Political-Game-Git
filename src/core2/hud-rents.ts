@@ -92,6 +92,31 @@ function loadRows() {
   stateRows = states;
 }
 
+/**
+ * A state's population-weighted HUD rents, marked estimated; a territory HUD
+ * has no row for takes the average of the states' rows.
+ */
+export function hudStateRentRow(stateKey: string): HudRentRow {
+  loadRows();
+  const own = stateRows!.get(stateKey.replace(/^US-/, ""));
+  if (own) return own;
+  const rows = [...stateRows!.values()];
+  return {
+    area: "states",
+    rents: [0, 1, 2, 3, 4].map((bedrooms) =>
+      Math.round(
+        rows.reduce((sum, row) => sum + row.rents[bedrooms]!, 0) / rows.length,
+      ),
+    ) as unknown as HudRentRow["rents"],
+    veryLow4: null,
+    low4: null,
+    population: null,
+    estimated: true,
+    estimateBasis:
+      "ESTIMATED FROM AVERAGE: HUD publishes no row for this place; the average of the states' population-weighted HUD rents.",
+  };
+}
+
 const TOWN_SUFFIX = / (town|city|village|plantation|borough|gore|grant)$/i;
 
 /**

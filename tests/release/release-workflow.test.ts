@@ -24,13 +24,16 @@ function job(name: string, next?: string): string {
 describe("the release event", () => {
   it("runs on main pushes with a manual final drain", () => {
     expect(workflow).toContain("push:\n    branches: [main]");
+    // Pool-only commits start no run; any push touching other files does.
+    expect(workflow).toMatch(/paths-ignore:\n\s+- "docs\/pool\/\*\*"/);
     expect(workflow).toContain("workflow_dispatch:");
     expect(workflow).not.toContain("pull_request_target");
   });
 
-  it("replaces a candidate still validating, never one publishing", () => {
-    // Per job, not per workflow: a newer push cancels building and
-    // validation, and waits behind publishing and packaging.
+  it("waits for a candidate still validating, never cancels one", () => {
+    // Per job, not per workflow: a newer push waits behind building,
+    // validation, publishing and packaging; GitHub keeps only the newest
+    // pending run, so nothing is canceled and every run finishes.
     expect(workflow).not.toMatch(/^concurrency:/m);
     for (const [name, next] of [
       ["build_candidate", "validate_candidate"],
@@ -38,7 +41,7 @@ describe("the release event", () => {
     ] as const) {
       const row = job(name, next);
       expect(row).toContain("group: release-main-validate");
-      expect(row).toContain("cancel-in-progress: true");
+      expect(row).toContain("cancel-in-progress: false");
     }
     for (const [name, next] of [
       ["publish_candidate", "desktop_package"],

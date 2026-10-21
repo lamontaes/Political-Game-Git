@@ -1,5 +1,6 @@
 import openingEmploymentData from "./data/opening-employment.json" with { type: "json" };
 import residentData from "./data/resident-employment.json" with { type: "json" };
+import countyEmployment from "./data/resident-employment-counties.json" with { type: "json" };
 import {
   addDays,
   ageOnDate,
@@ -7,30 +8,31 @@ import {
   isoDateFromParts,
 } from "./kernel/dates";
 import { createStableId, stableHash } from "./kernel/ids";
-import { jailTermOn } from "../simulation/justice/jail-terms";
 import { organizationProfileAt } from "../simulation/life-queries";
 import {
   activeWorkers,
   laborStatus,
+  townEmploymentMix,
+  townResidents,
+  townWorkplaceWeights,
+} from "../simulation/living-world/town-employment";
+import {
   TOWN_MEDIAN_TENURE_BY_AGE,
   TOWN_PART_TIME_DEFAULT,
   TOWN_PART_TIME_SHARE,
   TOWN_WORKPLACES,
-  townEmploymentMix,
-  townResidents,
   townWorkplaceFor,
-  townWorkplaceWeights,
   type Role,
   type Workplace,
-} from "../simulation/living-world/town-employment";
+} from "./town-workplaces";
 import { TOWN_EMPLOYMENT_META } from "../simulation/living-world/town-employment.generated";
 import {
   nationalMedianAnnualWage,
   townJobRate,
   townPayPercentile,
   weeklyHoursOf,
-} from "../simulation/living-world/town-pay";
-import { TOWN_PAY_META } from "../simulation/living-world/town-pay.generated";
+} from "./town-pay";
+import { TOWN_PAY_META } from "./reference/town-pay.generated";
 import type {
   EntityId,
   IsoDate as WorldDate,
@@ -90,7 +92,51 @@ export interface ResidentEmploymentData {
   countySource: { citation: string; asOf: string };
   countySources?: Readonly<Record<string, { citation: string; asOf: string }>>;
 }
-export const DEFAULT_RESIDENT_EMPLOYMENT: ResidentEmploymentData = residentData;
+/**
+ * The county table is stored compact ([population, employed] for each age row,
+ * ACS 2020-2024 B23001) and read in the shape the rate reader takes: the
+ * 65-and-over rows carry the age total, the rest the civilian population.
+ */
+function expandCountyCounts(): ResidentEmploymentData["countyCounts"] {
+  const kinds = countyEmployment.rows as Record<string, string>;
+  const out: Record<
+    string,
+    Record<
+      string,
+      {
+        civilianPopulation?: string;
+        residentPopulation?: string;
+        employed: string;
+        denominatorKind: string;
+      }
+    >
+  > = {};
+  for (const [geoid, rows] of Object.entries(
+    countyEmployment.counties as Record<string, Record<string, number[]>>,
+  )) {
+    const cells: (typeof out)[string] = {};
+    for (const [age, [population, employed]] of Object.entries(rows)) {
+      const kind = kinds[age]!;
+      cells[age] = {
+        ...(kind === "civilian-age-residents"
+          ? { civilianPopulation: String(population) }
+          : { residentPopulation: String(population) }),
+        employed: String(employed),
+        denominatorKind: kind,
+      };
+    }
+    out[geoid] = cells;
+  }
+  return out;
+}
+export const DEFAULT_RESIDENT_EMPLOYMENT: ResidentEmploymentData = {
+  ...residentData,
+  countySource: countyEmployment.source,
+  countyCounts: {
+    ...residentData.countyCounts,
+    ...expandCountyCounts(),
+  },
+};
 const inAgeRow = (age: number, row: EmploymentAgeRow) =>
   age >= p(row.minimumAgeParameter) &&
   (!row.maximumAgeParameter || age < p(row.maximumAgeParameter));
@@ -232,9 +278,12 @@ export function openingEmploymentFromRecordedRoles(
   data: OpeningEmploymentData = openingEmploymentData,
   countyGeoidByPerson: ReadonlyMap<string, string> = new Map(),
   rateData: ResidentEmploymentData = DEFAULT_RESIDENT_EMPLOYMENT,
+  /** The minimum wage in force on the start date, dollars an hour; the table's rate when omitted. */
+  minimumHourly?: number,
 ): OpeningEmploymentAllocation {
   stopgap("SG-P8-opening-employment");
   if (data.stopgapId !== "SG-P8-opening-employment") stopgap(data.stopgapId);
+  // No one is serving a sentence when the opening is built: sentences are written by play.
   const residents = townResidents(world, town);
   const employed = activeWorkers(world);
   const recordedPeople = new Set(
@@ -244,7 +293,6 @@ export function openingEmploymentFromRecordedRoles(
     .filter(
       (resident) =>
         !recordedPeople.has(resident.personId) &&
-        !jailTermOn(world, resident.personId) &&
         laborStatus(world, resident) === "employed",
     )
     .map((resident) => ({
@@ -405,6 +453,7 @@ export function openingEmploymentFromRecordedRoles(
         definition.occupation,
         town,
         townPayPercentile(p("zero")),
+        minimumHourly,
       );
       const nationalAnnual = nationalMedianAnnualWage(definition.occupation);
       const reason = !hasEmployer
@@ -522,7 +571,12 @@ export function openingEmploymentFromRecordedRoles(
     const percentile = townPayPercentile(
       daysBetween(startedAt, world.currentDate) / p("daysPerMeanYear"),
     );
-    const rate = townJobRate(selected.definition.occupation, town, percentile);
+    const rate = townJobRate(
+      selected.definition.occupation,
+      town,
+      percentile,
+      minimumHourly,
+    );
     const nationalAnnual = nationalMedianAnnualWage(
       selected.definition.occupation,
     );

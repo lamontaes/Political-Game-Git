@@ -39,11 +39,14 @@ import {
   FEDERAL_SENATE,
   LEGISLATURE_MODULE_ID,
   castMemberVote,
+  floorAgendaOn,
   memberPosition,
 } from "./modules/legislature";
 import {
+  clearPrepared,
   holdPlayerAt,
   officeHost,
+  preparedFor,
   releaseHold,
   stopsOf,
 } from "./modules/office-day";
@@ -103,17 +106,15 @@ registerStopKinds([
 ]);
 
 /**
- * The federal day's own records: the weeks a member chose, the cabinet, and
- * what the player prepared for a federal act. Stopgap
- * SG-OFFICE-FED-prepared: the engine's `prepareAct` takes only the local
- * acts, so what the player prepares for a federal act is kept here until it
- * takes a registered kit's acts.
+ * The federal day's own records: the weeks a member chose, the cabinet and
+ * the holds. What the player prepares for a federal act is the engine's
+ * `prepareAct`.
  */
 export const OFFICE_DAY_FEDERAL_MODULE: CoreModule = {
   id: OFFICE_DAY_FEDERAL_MODULE_ID,
   state: {
     schemaVersion: 1,
-    tables: { weeks: {}, cabinet: {}, prepared: {}, holds: {} },
+    tables: { weeks: {}, cabinet: {}, holds: {} },
   },
   onDay: (api) => {
     federalDay(api);
@@ -284,31 +285,14 @@ export function whereOn(api: CoreAPI, personId: string, date: string): Where {
 // ---- The floor ---------------------------------------------------------------
 
 /**
- * The bills a chamber's floor takes up on a date: federal bills whose vote is
- * on the legislature's calendar for the day. Stopgap
- * SG-OFFICE-FED-floor-agenda: the legislature keeps no floor agenda a member
- * can read ahead, so this reads its calendar keys (`meeting:<billId>`).
+ * The bills a chamber's floor takes up on a date: federal bills on the
+ * legislature's floor agenda for the day.
  */
 export function floorOn(api: CoreAPI, date: string): readonly string[] {
   if (!api.state.modules.has(LEGISLATURE_MODULE_ID)) return [];
-  // stopgapId: SG-OFFICE-FED-floor-agenda
-  api.stopgap("SG-OFFICE-FED-floor-agenda");
-  const calendar = api.moduleCalendar(LEGISLATURE_MODULE_ID);
-  return (
-    api.moduleState(LEGISLATURE_MODULE_ID).table("bills").rows() as unknown as {
-      id: string;
-      status: string;
-      bodyOfficeId: string;
-    }[]
-  )
-    .filter(
-      (b) =>
-        b.status === "drafted" &&
-        chamberOfBill(api, b.bodyOfficeId) !== null &&
-        calendar.get(`meeting:${b.id}`)?.date === date,
-    )
-    .map((b) => b.id)
-    .sort();
+  return floorAgendaOn(api, date)
+    .filter((b) => chamberOfBill(api, b.bodyOfficeId) !== null)
+    .map((b) => b.id);
 }
 
 function chamberOfBill(api: CoreAPI, bodyOfficeId: string): string | null {
@@ -612,52 +596,6 @@ export function openFiling(
 }
 
 /**
- * What the player prepared for a federal act, if anything (see
- * SG-OFFICE-FED-prepared on the module).
- */
-export interface FederalPrepared {
-  /** Filing: the stances the member runs on. */
-  readonly platform?: readonly { question: string; position: number }[];
-  /** The budget request: line changes in minor units. */
-  readonly changes?: Readonly<Record<string, number>>;
-  /** The joint address: positions by question; null declines. */
-  readonly answers?: Readonly<Record<string, number | null>>;
-}
-
-export function prepareFederal(
-  api: CoreAPI,
-  personId: string,
-  actId: string,
-  prepared: FederalPrepared,
-): void {
-  // stopgapId: SG-OFFICE-FED-prepared
-  api.stopgap("SG-OFFICE-FED-prepared");
-  table(api, "prepared").put({
-    id: `${personId}|${actId}`,
-    ...prepared,
-  } as unknown as ModuleRow);
-}
-
-export function preparedFederal(
-  api: CoreAPI,
-  personId: string,
-  actId: string,
-): FederalPrepared | null {
-  return (
-    (table(api, "prepared").get(`${personId}|${actId}`) as unknown as
-      FederalPrepared | undefined) ?? null
-  );
-}
-
-export function clearPreparedFederal(
-  api: CoreAPI,
-  personId: string,
-  actId: string,
-): void {
-  table(api, "prepared").remove(`${personId}|${actId}`);
-}
-
-/**
  * File for re-election to the member's own seat, where the place's records
  * say filings go, under the party they sit with, on the stances the player
  * prepared (none otherwise). A member who never takes the act is filed, or
@@ -667,7 +605,7 @@ export function clearPreparedFederal(
 function fileForReelection(api: CoreAPI, personId: string): void {
   const contest = openFiling(api, personId, api.state.date);
   if (!contest) return;
-  const prepared = preparedFederal(api, personId, "federal-file");
+  const prepared = preparedFor(api, personId, "federal-file");
   const result = fileCandidacy(api, {
     personId,
     contestId: contest.id,
@@ -684,7 +622,7 @@ function fileForReelection(api: CoreAPI, personId: string): void {
     position: null,
     detail: result.status,
   });
-  clearPreparedFederal(api, personId, "federal-file");
+  clearPrepared(api, personId, "federal-file");
 }
 
 // ---- The kit -------------------------------------------------------------------

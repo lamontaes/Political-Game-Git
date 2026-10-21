@@ -65,7 +65,9 @@ export function representativeSample(
       .find((band) => row.oldest >= band.minAge)!.label;
     const level = cuts.filter((value) => row.pay > value).length;
     const key = `${band}|pay-${level + 1}`;
-    strata.set(key, [...(strata.get(key) ?? []), row]);
+    const list = strata.get(key);
+    if (list) list.push(row);
+    else strata.set(key, [row]);
   }
   const sample: RepresentativeSample = {
     personIds: new Set(),

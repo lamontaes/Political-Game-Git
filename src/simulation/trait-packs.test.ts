@@ -9,7 +9,7 @@ import {
   strengthForMagnitude,
   type DecisionDeclaration,
   type TraitPack,
-} from "./trait-packs";
+} from "../core2/trait-packs";
 import { CLEMENCY_PETITION_DECISION } from "./justice/clemency-decisions";
 import { JURY_VOTE_DECISION, PLEA_DECISION } from "./justice/court-decisions";
 import { peopleTraitPack, PEOPLE_TRAIT_SCALE } from "./people-trait-pack";
@@ -162,7 +162,7 @@ describe("every reference resolves at load, or is rejected by name", () => {
           ],
         },
       ],
-      /must say why/,
+      /explanation may not be blank/,
     ],
   ];
 

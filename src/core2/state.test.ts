@@ -1021,3 +1021,35 @@ describe("retained counted family relationships", () => {
     expect(core.people.has(huskId)).toBe(true);
   });
 });
+
+describe("relocating a person who holds a job", () => {
+  const moveInput = (placeId: string) => ({
+    personIds: [player],
+    placeId,
+    countyId: county,
+    householdId: `household:${player}`,
+    source,
+  });
+
+  it("refuses a move to another place and allows a return to the place they are counted in", () => {
+    const core = createCore(input());
+    const api = coreAPI(core);
+    const job = core.people.get(player)!.jobId;
+    expect(job).toBe("job:player");
+    expect(() => api.relocatePeopleV1(moveInput(away))).toThrow(
+      "Invalid relocation",
+    );
+    // Counted in their own place: the return keeps the job.
+    core.people.get(player)!.placeId = `counted:${home}`;
+    api.relocatePeopleV1(moveInput(home));
+    const back = core.people.get(player)!;
+    expect(back.placeId).toBe(home);
+    expect(back.jobId).toBe(job);
+    expect(core.peopleByPlace.get(home)!.has(player)).toBe(true);
+    // Counted in another place, a return to this one still leaves a job behind.
+    core.people.get(player)!.placeId = `counted:${away}`;
+    expect(() => api.relocatePeopleV1(moveInput(home))).toThrow(
+      "Invalid relocation",
+    );
+  });
+});

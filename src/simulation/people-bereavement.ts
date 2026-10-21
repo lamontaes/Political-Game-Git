@@ -1,4 +1,4 @@
-import { deathCausePhrase } from "./crisis/death-causes";
+import { deathCausePhrase } from "../core2/death-causes";
 import { crisisPersonDeathRecipientNotices } from "./crisis/death-notices";
 import { eventById } from "./event-index";
 import { createStableId } from "../core2/kernel/ids";

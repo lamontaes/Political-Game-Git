@@ -5,14 +5,15 @@ area: play
 kind: feature
 priority: 2
 size: M
-status: open
-claimed-by:
-pr:
+status: done
+claimed-by: claude/campaign-day-controls
+pr: #4805
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-16T19:36:29.492Z
 ---
 
-**What.** Play has no controls for `campaignDayChoices` (src/core2/campaign-day.ts), the speech parts, or joining a party (`joinParty`, src/core2/modules/parties.ts), and the bench does not read `doorsKnockedCount`. Add the controls to src/bench/data/controls.json and the bench so a candidate can run a campaign day and join a party from the game.
+**What.** Play has no controls for `campaignDayChoices` (src/core2/campaign-day.ts), the speech parts, or joining a party (`joinParty`, src/core2/modules/parties.ts), and the bench does not read `doorsKnockedCount`. Add the controls to src/bench/data/controls.json and the bench so a candidate can run a campaign day and join a party from the game. Prove it in a one-year run of the played world in a drawn place and a seed the builder did not choose, naming the records the change touched. File anything found along the way as its own pool item.
 
 **Rules.** No hand-written player text (controls and lines come from controls.json and the English engine); an effect is a read; no dice; one rule, all 56 places; the chain is the acceptance.
 

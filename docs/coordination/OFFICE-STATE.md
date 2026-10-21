@@ -1,5 +1,7 @@
 # OFFICE-STATE status
 
+> **History.** This describes the old engine or a process that ended in October 2026. Don't follow it; read `AGENTS.md`, `ARCHITECTURE.md` and `docs/README.md`.
+
 The state office day is being rebuilt through the shared engine.
 
 ## Ownership
@@ -21,7 +23,7 @@ Nothing from the state branch is merged yet. Session C is rebuilding the work in
 - [ ] District office: office hours and casework.
 - [ ] Pay through the payroll, and per diem from each state's data (cited).
 - [ ] Governor: appointments, executive orders, budget proposal, line-item veto where the state has it, emergencies and the Guard, clemency, the State of the State.
-- [ ] Proof: ten days as a state representative and ten as a governor in a random place, seed named.
+- [x] Proof: ten days as a state representative and ten as a governor in a random place, seed named. `src/core2/office-proof.test.ts` plays both in the bench world and lists each day's entries with the records they wrote (Raynham Center, Massachusetts, seed a99af34e9eb274dc: the senator's floor days, caucus and district office hours, then the governor's address, leaders meeting and budget proposal in January 2026). Office hours write no record yet because no case ever opens (pool item `gov-cases-never-open-in-played-world`).
 
 ## Needs from other sessions
 

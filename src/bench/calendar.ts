@@ -1,4 +1,5 @@
 import { addDays, makeIsoDate } from "../core2/kernel/dates";
+import { wordArchiveStory } from "./archive-words";
 import { coreAPI } from "../core2/state";
 import { lawHere } from "../core2/modules/laws";
 import type { ContestRow } from "../core2/modules/elections";
@@ -79,6 +80,29 @@ export function calendarItems(
   );
 }
 
+/** Public employer data for the news surface, never a private benefit claim. */
+function staffingNews(
+  core: CoreState,
+  facts: Readonly<Record<string, unknown>>,
+) {
+  const organization = core.organizations.get(
+    String(facts.organizationId ?? ""),
+  );
+  if (!organization || facts.jobsLost === undefined) return undefined;
+  const number = (key: string) =>
+    facts[key] === undefined ? undefined : Number(facts[key]);
+  const jobsLost = number("jobsLost");
+  const salesMinor = number("salesMinor");
+  const costsMinor = number("costsMinor");
+  if (
+    !Number.isFinite(jobsLost) ||
+    (salesMinor !== undefined && !Number.isFinite(salesMinor)) ||
+    (costsMinor !== undefined && !Number.isFinite(costsMinor))
+  )
+    return undefined;
+  return { employer: organization.name, jobsLost, salesMinor, costsMinor };
+}
+
 /** Public records and news the player can know, newest first. */
 export function newsItems(core: CoreState) {
   return [...core.durableLog.values()]
@@ -90,6 +114,10 @@ export function newsItems(core: CoreState) {
       kind: row.kind,
       visibility: row.visibility,
       facts: (row as { facts?: Record<string, unknown> }).facts ?? {},
+      staffing: staffingNews(
+        core,
+        (row as { facts?: Record<string, unknown> }).facts ?? {},
+      ),
     }));
 }
 
@@ -103,5 +131,7 @@ export function heardItems(core: CoreState, personId: string) {
       date: story.date,
       kind: story.kind,
       facts: story.facts,
+      staffing: staffingNews(core, story.facts),
+      ...wordArchiveStory(core, story),
     }));
 }
