@@ -279,7 +279,7 @@ function tryPlace(where: string, seed: string, key: string): string | null {
     advance(core, DAYS_PER_MONTH);
   }
   for (const m of webMonths(api))
-    console.log("MDEBT", m.id, "law", m.values["law:us-policy-positions:health-human-services.expand-medicaid-eligibility"], "effects", JSON.stringify(Object.entries(m.effects).filter(([k]) => k.includes("medicaid"))));
+    console.log("MDEBT", m.date, m.id.slice(-7), "law", m.values["law:us-policy-positions:health-human-services.expand-medicaid-eligibility"], "effects", JSON.stringify(Object.entries(m.effects).filter(([k]) => k.includes("medicaid"))));
   const lags = [
     ["medicaid-expansion-to-coverage"],
     ["medicaid-expansion-to-medical-debt"],
