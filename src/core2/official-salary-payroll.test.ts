@@ -78,10 +78,14 @@ it(`pays officials by paycheck with withholding in ${place.name} (${place.key}),
     const record = pay.get(row.id) as unknown as
       { payerId: string; source: { tag: string } } | undefined;
     if (!record) continue;
-    // A territory's delegate sits in the House and is paid nationally too.
+    // A territory's delegate sits in the House and is paid nationally too, as is a cabinet secretary.
     const federalOffice =
-      ["president", "vice-president", "us-senate"].includes(row.officeKind) ||
-      row.officeKind.startsWith("us-house");
+      [
+        "president",
+        "vice-president",
+        "us-senate",
+        "cabinet-secretary",
+      ].includes(row.officeKind) || row.officeKind.startsWith("us-house");
     if (federalOffice) {
       expect(record.payerId, `${where}: ${row.id}`).not.toBe(
         federal.organizationId,
