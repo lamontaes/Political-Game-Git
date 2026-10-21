@@ -5,12 +5,12 @@ area: world
 kind: feature
 priority: 2
 size: M
-status: claimed
-claimed-by: claude/commuters-in-opening-s9
+status: open
+claimed-by:
 pr:
 blocked-on:
 source: "gov-stopgap-budgets-faked-mechanic, found claiming it"
-claimed-at: 2026-10-19T20:20:46.107Z
+claimed-at:
 ---
 
 **What.** Checked against main on Oct 16: OPEN. No full worker lives elsewhere and works in the town; the opening only notes that many unplaced workers commute, and the repository holds commute times (ACS B08303) but no commuting flows. Next: Commuting shares per place from flow data. The player would see it as a choice among people, never a form.
