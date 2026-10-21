@@ -5,12 +5,12 @@ area: docs
 kind: cleanup
 priority: 3
 size: S
-status: in-pr
-claimed-by: claude/political-game-pool-udtiwn
+status: open
+claimed-by:
 pr: #5217
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-19T23:10:56.112Z
+claimed-at:
 ---
 
 **What.** TODO
@@ -22,3 +22,5 @@ claimed-at: 2026-10-19T23:10:56.112Z
 **Files.** TODO
 
 **Notes.** TODO
+
+Sent back 2026-10-20 from PR #5283 (branch claude/pool-shell-specs): The diff edits eight pool specifications but contains no docs/release/changes declaration. Add the required impact-none declaration for the actual docs-only change, verify the eight-item list against the final diff, merge main and run changed-file checks.; finish on that branch, merge main into it first.
