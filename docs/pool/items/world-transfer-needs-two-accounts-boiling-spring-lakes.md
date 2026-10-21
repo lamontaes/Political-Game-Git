@@ -5,12 +5,12 @@ area: world
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/transfer-two-accounts
 pr:
 blocked-on:
 source: added with npm run pool -- add
-claimed-at:
+claimed-at: 2026-10-21T10:04:25.272Z
 ---
 
 **What.** Found Oct 21 by candidacy-calibration.test.ts: buildBenchWorld in Boiling Spring Lakes, North Carolina (3706760), seed 1dea15565d7e31d0fc767e3f58ca9b3ad3fb1f79ee62890d8909e5acd71841d2, a 400-day run from the game start, throws 'A transfer needs two different accounts.' Find which caller transfers from an account to itself (a payer that is also the payee) and make it skip the self-payment or name the right payee.
