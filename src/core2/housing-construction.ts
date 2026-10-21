@@ -18,18 +18,34 @@
 import construction from "./data/housing/construction.json" with { type: "json" };
 import type { ModuleTable } from "./module-state";
 import { residentsRuntime } from "./modules/residents";
+import { webFactorFor } from "./outcome-web-reach";
 import { stableHash } from "./kernel/ids";
 import { stopgap } from "./stopgaps";
 import { transferCash } from "./world-transfer";
+import { lawApplied } from "./law-reach/applied";
 import type { CoreAPI, CoreState, Source } from "./types";
 
+/** The policy keys the builders' decision reads, and the law row each was governed by this month. */
+export const CONSTRUCTION_LAW_KEYS = {
+  multifamily:
+    "us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones",
+  inclusionary: "us-policy-positions:housing-land-use.inclusionary-requirement",
+  allElectric: "us-policy-positions:environment-energy.ban-new-gas-hookups",
+  farmland:
+    "us-policy-positions:agriculture-natural-resources.protect-farmland-from-development",
+} as const;
+
+export type ConstructionLawIds = {
+  readonly [K in keyof typeof CONSTRUCTION_LAW_KEYS]?: string;
+};
+
 export interface Zoning {
-  /** The share of residential land where apartments may be built. */
-  multifamilyLandShare: number;
   /** The share of a new apartment building's units set aside below market. */
   inclusionaryShare: number;
   allElectric: boolean;
   farmlandProtected: boolean;
+  /** The law rows in force that set the fields above this month; absent where no law does. */
+  lawIds?: ConstructionLawIds;
 }
 
 interface StockRow {
@@ -61,6 +77,8 @@ interface ProjectRow {
   completesAt: string;
   payerId: string;
   builderId: string;
+  /** The laws that governed the project when it started. */
+  lawIds?: ConstructionLawIds;
   monthlyCostMinor: number;
   paidMinor: number;
   open: boolean;
@@ -71,10 +89,10 @@ const MONTHS = 12;
 
 export function openingZoning(): Zoning {
   return {
-    multifamilyLandShare: 1 - construction.zoning.singleFamilyOnlyShare,
     inclusionaryShare: 0,
     allElectric: false,
     farmlandProtected: false,
+    lawIds: {},
   };
 }
 
@@ -162,8 +180,9 @@ function residentsOf(c: CoreState, placeId: string): number {
   let n = 0;
   for (const person of c.people.values())
     if (person.alive && person.placeId === placeId) n += 1;
-  for (const row of residentsRuntime(c)?.households.values() ?? [])
-    if (row.household.placeId === placeId) n += row.household.memberIds.length;
+  const counted = residentsRuntime(c)?.store;
+  for (const h of counted?.liveHouseholds() ?? [])
+    if (h.placeId === placeId) n += counted!.countedCount(h);
   return n;
 }
 
@@ -200,8 +219,15 @@ export function buildMonth(
   const row = tables.stock.get(`stock:${input.placeId}`) as unknown as
     StockRow | undefined;
   if (!row) return;
-  const z = row.zoning,
-    opening = openingZoning();
+  // A town with no owned home or no rent at the opening has no opening figure
+  // to measure building against; the first month one exists is its base.
+  const openingHomeValueMinor =
+      row.openingHomeValueMinor > 0
+        ? row.openingHomeValueMinor
+        : input.homeValueMinor,
+    openingRentMinor =
+      row.openingRentMinor > 0 ? row.openingRentMinor : input.rentMinor;
+  const z = row.zoning;
   const elasticity = p("housingSupplyElasticity"),
     landElasticity = p("housingLandStartsElasticity");
   const rates = permitRates(input.usps);
@@ -211,7 +237,7 @@ export function buildMonth(
   const singleCost =
     priceLevel *
     (1 + (z.allElectric ? construction.single.allElectricCostChange : 0));
-  const singleValue = input.homeValueMinor / row.openingHomeValueMinor;
+  const singleValue = input.homeValueMinor / openingHomeValueMinor;
   const farmland = z.farmlandProtected
     ? 1 - construction.farmland.developmentShare
     : 1;
@@ -232,15 +258,57 @@ export function buildMonth(
     input.medianMonthlyPayMinor;
   const gap = Math.max(0, 1 - affordableRent / Math.max(1, input.rentMinor));
   const multiValue =
-    (input.rentMinor / row.openingRentMinor) * (1 - z.inclusionaryShare * gap);
+    (input.rentMinor / openingRentMinor) * (1 - z.inclusionaryShare * gap);
   const multiCost =
     priceLevel *
     (1 + (z.allElectric ? construction.multi.allElectricCostChange : 0));
+  const largeBuildings = webFactorFor(
+    api,
+    input.placeId,
+    "housing.new-large-buildings",
+  );
+  const rentalSupply = webFactorFor(
+    api,
+    input.placeId,
+    "housing.rental-supply",
+  );
+  if (largeBuildings !== 1) api.stopgap("SG-GOV-REACH-A-housing-supply");
   const multi =
     rates.multiPerThousand *
     perMonth *
     (multiValue / multiCost) ** elasticity *
-    (z.multifamilyLandShare / opening.multifamilyLandShare) ** landElasticity;
+    // The outcome web's researched effect of the law on large new buildings (by-right
+    // multifamily zoning) and on rental supply (rent stabilization), one factor per place a month.
+    largeBuildings *
+    rentalSupply;
+  // The builders' decision this month reads each law in force: record the organization it governed.
+  const laws = z.lawIds ?? {};
+  const ruleWhat = {
+    multifamily: "apartments-permitted",
+    inclusionary: "set-aside-required",
+    allElectric: "all-electric-required",
+    farmland: "land-restricted",
+  } as const;
+  const applyRule = (
+    rule: keyof typeof CONSTRUCTION_LAW_KEYS,
+    targetId: string,
+    amountMinor = 0,
+  ) => {
+    const lawId = laws[rule];
+    if (lawId)
+      lawApplied(api, {
+        key: CONSTRUCTION_LAW_KEYS[rule],
+        lawId,
+        targetId,
+        target: "organization",
+        engine: "housing",
+        what: ruleWhat[rule],
+        amountMinor,
+      });
+  };
+  if (input.landlordId)
+    for (const rule of Object.keys(ruleWhat) as (keyof typeof ruleWhat)[])
+      applyRule(rule, input.landlordId);
   const builder = [...c.finance.businesses.entries()]
     .filter(
       ([id, book]) =>
@@ -292,12 +360,43 @@ export function buildMonth(
       completesAt: done.toISOString().slice(0, "YYYY-MM-DD".length),
       payerId,
       builderId: builder ?? outside,
+      lawIds: laws,
       monthlyCostMinor: monthly,
       // Months already built before the opening were paid then, off these books.
       paidMinor: monthly * ago,
       open: true,
       isProject: true,
     } satisfies ProjectRow);
+    // Months built before the opening were decided before any law here; only a start today is the law's.
+    if (!ago) {
+      const affordableUnits =
+        kind === "multi" ? Math.floor(units * z.inclusionaryShare) : 0;
+      if (kind === "multi") {
+        applyRule("multifamily", payerId);
+        // The rent the set-aside units give up over a year, against the asking rent.
+        if (affordableUnits > 0)
+          applyRule(
+            "inclusionary",
+            payerId,
+            affordableUnits *
+              Math.max(0, input.rentMinor - affordableRent) *
+              MONTHS,
+          );
+      } else applyRule("farmland", payerId);
+      // The all-electric code's change to the project's cost, as a saving to the builder when negative.
+      if (z.allElectric)
+        applyRule(
+          "allElectric",
+          payerId,
+          -(
+            costMinor *
+            (kind === "single"
+              ? construction.single.allElectricCostChange /
+                (1 + construction.single.allElectricCostChange)
+              : construction.multi.allElectricCostChange)
+          ),
+        );
+    }
     return true;
   };
   // Houses are built for sale by the town's builder; apartment buildings by the town's landlord.
@@ -362,6 +461,8 @@ export function buildMonth(
   }
   tables.stock.put({
     ...row,
+    openingHomeValueMinor,
+    openingRentMinor,
     carrySingle,
     carryMulti,
     ...(input.backfill ? { backfilled: true } : {}),

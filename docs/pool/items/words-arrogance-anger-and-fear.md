@@ -4,13 +4,13 @@ title: "Arrogance, anger and fear:"
 area: words
 kind: feature
 priority: 2
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/fs11vb-stance
+pr: #5219
 blocked-on:
 milestone:
 source: "docs/coordination/words.md line 50 (unchecked checklist line)"
-claimed-at:
+claimed-at: 2026-10-20T05:01:27.337Z
 ---
 
 **What.** The English engine has plain and polite registers but no boasts, threats or alarms, so every angry, frightened or proud moment in a scene sounds the same. Mine boasts, threats and alarms from public-domain speech, in plain and rude versions, as bank parts with move tags, and have the director choose who says them from the speaker's traits and the situation. The player would notice a rival boasting after a win, a neighbor threatening over a bad law, and a worried person raising an alarm, each sounding like that person.
@@ -22,3 +22,4 @@ claimed-at:
 **Files.** scripts/english-corpus/shapes/, scripts/english-corpus/mine-shapes.py, data/english/parts/, src/director/conversation.ts, tests/english-parts-banks.test.ts
 
 **Notes.** Checklist line from words.md; verify against main before starting.
+Sent back 2026-10-20 from PR #5219 (branch claude/political-game-pool-a4tcd1): Parts in data/english/parts/stance.json have origin: authored and shippable: true; finish on that branch, merge main into it first.

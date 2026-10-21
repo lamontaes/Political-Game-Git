@@ -78,13 +78,14 @@ it(`pays officials by paycheck with withholding in ${place.name} (${place.key}),
     const record = pay.get(row.id) as unknown as
       { payerId: string; source: { tag: string } } | undefined;
     if (!record) continue;
-    const federalOffice = [
-      "president",
-      "vice-president",
-      "us-senate",
-      "us-house",
-      "cabinet-secretary",
-    ].includes(row.officeKind);
+    // A territory's delegate sits in the House and is paid nationally too, as is a cabinet secretary.
+    const federalOffice =
+      [
+        "president",
+        "vice-president",
+        "us-senate",
+        "cabinet-secretary",
+      ].includes(row.officeKind) || row.officeKind.startsWith("us-house");
     if (federalOffice) {
       expect(record.payerId, `${where}: ${row.id}`).not.toBe(
         federal.organizationId,
@@ -117,7 +118,13 @@ it(`pays officials by paycheck with withholding in ${place.name} (${place.key}),
     // (a state treasury before its first close) is owed and paid later.
     const annualMinor = (record as unknown as { annualMinor: number })
       .annualMinor;
-    if (seatedAtOpening.has(row.id) && annualMinor >= 3_000_000) {
+    // An official who died in the year is paid to the day of death and no
+    // further, so only those still living at the pay date are measured.
+    if (
+      seatedAtOpening.has(row.id) &&
+      annualMinor >= 3_000_000 &&
+      api.state.people.get(row.personId)?.alive
+    ) {
       // The days served run from the opening to the pay date now.
       const served =
         (Date.parse((record as unknown as { paidFrom: string }).paidFrom) -

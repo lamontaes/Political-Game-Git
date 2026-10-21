@@ -37,6 +37,7 @@ import {
   electionLawTurnoutCost,
 } from "../law-reach/group-a-voting";
 import { breakElectionTie } from "../election-ties";
+import { ageOnElection, turnoutWeb } from "../turnout-web";
 import {
   OPENING_CARRY,
   habitOf,
@@ -50,13 +51,13 @@ import {
 } from "../turnout";
 import { coreAPI, registerModule } from "../state";
 import { closenessBetween } from "../closeness";
-import { decisionLean } from "../trait-decisions";
+import { decisionLean, leanedYes } from "../trait-decisions";
 import { parameter } from "../parameters";
 import type { CoreAPI, CoreModule, CoreState, PersonState } from "../types";
 import type { ModuleCalendarWork } from "../module-calendar";
 import type { ModuleRow } from "../module-data";
 import { campaignParameter, personLean, type Stance } from "../campaign-views";
-import { townDistrict } from "../offices-state";
+import { basePlaces } from "../race-places";
 import { holdoverRule } from "../office-holdover";
 import electionParameters from "../data/elections/parameters.json" with { type: "json" };
 import {
@@ -103,14 +104,7 @@ import {
   VIEWS_SPEAKER_KEY,
   viewOf,
 } from "./views";
-import {
-  citizenShareOf,
-  countyPlaceIdOf,
-  housePlaceByGeoid,
-  legislativePlace,
-  statePlaces,
-  type ElectoratePlace,
-} from "../electorate-places";
+import { citizenShareOf } from "../electorate-places";
 import {
   appealOfShare,
   candidateInputs,
@@ -252,6 +246,11 @@ export interface TurnoutReasonsRecord {
   readonly reach?: number;
   readonly habit?: number;
   readonly propensity?: number;
+  /** The outcome web's month record that moved the propensity, and the links in it. */
+  readonly web?: {
+    readonly recordId: string;
+    readonly links: readonly string[];
+  };
 }
 
 /** One counted resident's ballot, with its reasons. */
@@ -306,6 +305,45 @@ const ageOn = (p: Readonly<Pick<PersonState, "birthDate">>, date: string) =>
   Number(date.slice(0, 4)) -
   Number(p.birthDate.slice(0, 4)) -
   (date.slice(5) < p.birthDate.slice(5) ? 1 : 0);
+
+/**
+ * Whether a serving incumbent who is a full person stands again: the base
+ * reason, less what their age takes from it, and the person's calibrated
+ * trait lean toward standing over retiring.
+ */
+export function standsAgain(
+  api: CoreAPI,
+  incumbent: Readonly<PersonState>,
+): boolean {
+  return leanedYes(
+    api.state,
+    incumbent,
+    "voting.stand-again",
+    "stand",
+    "retire",
+    standAgainReason(api, incumbent),
+  );
+}
+
+/** The reasons to stand again before personality: the base, less the weight of age past the pivot. */
+export function standAgainReason(
+  api: CoreAPI,
+  incumbent: Readonly<PersonState>,
+): number {
+  return (
+    campaignParameter("votingStandAgainBase") -
+    campaignParameter("votingStandAgainAgeWeight") *
+      Math.min(
+        1,
+        Math.max(
+          0,
+          (ageOn(incumbent, api.state.date) -
+            campaignParameter("votingStandAgainAgePivot")) /
+            campaignParameter("votingStandAgainAgeSpan"),
+        ),
+      )
+  );
+}
 
 /** Put every contest's election day and the winner's first day on the calendar. */
 export function openVoting(core: CoreState): void {
@@ -799,7 +837,7 @@ function heardScandal(
   return stories.some((storyId) => api.knows(personId, newsKey(storyId)));
 }
 
-function countedField(
+export function countedField(
   api: CoreAPI,
   contest: ContestRow,
   field: readonly FilingRow[],
@@ -940,6 +978,11 @@ export interface TurnoutDecision extends TurnoutParts {
   /** The gap between the candidates in their own eyes, across the day's races. */
   readonly interest: number;
   readonly propensity: number;
+  /** The web record behind the propensity's factor (absent where it did not move it). */
+  readonly web?: {
+    readonly recordId: string;
+    readonly links: readonly string[];
+  };
   /** A named voter's act; a counted voter votes at their propensity. */
   readonly votes: boolean;
 }
@@ -1000,7 +1043,16 @@ function decideTurnout(
     habit: record ? habitOf(record.voted, record.elections) : 0,
     cost,
   };
-  const propensity = propensityOf(parts);
+  // The web's links the engine does not read itself, by this voter's age and place.
+  const who = (api.state.people.get(voter.id) ?? voter) as {
+    readonly placeId?: string;
+    readonly birthDate?: string;
+  };
+  const web =
+    who.placeId && who.birthDate
+      ? turnoutWeb(api, who.placeId, ageOnElection(who.birthDate, input.date))
+      : null;
+  const propensity = Math.min(1, propensityOf(parts) * (web ? web.factor : 1));
   let votes = false;
   if (named) {
     const act = namedTurnout(record?.carry ?? OPENING_CARRY, propensity);
@@ -1013,7 +1065,15 @@ function decideTurnout(
       lastDate: input.date,
     } as unknown as ModuleRow);
   }
-  const decision = { ...parts, interest: input.interest, propensity, votes };
+  const decision = {
+    ...parts,
+    interest: input.interest,
+    propensity,
+    votes,
+    ...(web?.recordId && web.links.length
+      ? { web: { recordId: web.recordId, links: web.links } }
+      : {}),
+  };
   map.set(key, decision);
   return decision;
 }
@@ -1031,15 +1091,9 @@ export function fileStandingCandidates(api: CoreAPI, contestId: string): void {
     .moduleState(ELECTIONS_MODULE_ID)
     .table("contests")
     .get(contestId) as unknown as ContestRow;
-  if (
-    (contest.level === "state" || contest.level === "federal") &&
-    api.state.modules.has("candidacy")
-  )
-    return;
+  if (api.state.modules.has("candidacy")) return;
   const filings = api.moduleState(ELECTIONS_MODULE_ID).table("filings");
   const onBallot = ballot(api, contestId);
-  // stopgapId: SG-GOV-who-runs-stand-in
-  api.stopgap("SG-GOV-who-runs-stand-in");
   // Whoever holds the seat when filing closes stands as its incumbent: an
   // appointee to a vacancy, never a holder who died or moved away.
   const incumbent =
@@ -1068,6 +1122,10 @@ export function fileStandingCandidates(api: CoreAPI, contestId: string): void {
       )
     )
       return;
+    // Marked where the stand-in actually files someone: a candidate who
+    // weighed running on their own (candidacy) files before this runs.
+    // stopgapId: SG-GOV-who-runs-stand-in
+    api.stopgap("SG-GOV-who-runs-stand-in");
     const filing: FilingRow = {
       id: `filing:${contestId}:${personId}`,
       contestId,
@@ -1097,17 +1155,7 @@ export function fileStandingCandidates(api: CoreAPI, contestId: string): void {
     : undefined;
   // A full person stands from their own traits; a placeholder incumbent
   // keeps the standing rule.
-  const stands =
-    !incumbentPerson ||
-    campaignParameter("votingStandAgainBase") +
-      decisionLean(
-        api.state,
-        incumbentPerson,
-        "voting.stand-again",
-        "stand",
-        "retire",
-      ) >
-      0;
+  const stands = !incumbentPerson || standsAgain(api, incumbentPerson);
   if (
     incumbent &&
     alive &&
@@ -1553,6 +1601,7 @@ function turnoutRecord(t: TurnoutDecision): TurnoutReasonsRecord {
     reach: t.reach,
     habit: t.habit,
     propensity: t.propensity,
+    ...(t.web ? { web: t.web } : {}),
   };
 }
 
@@ -2545,69 +2594,6 @@ const STANDING_FAMILIES = new Set([
   "usHouse",
   "stateLegislative",
 ]);
-
-/**
- * The places a race's electorate lives in, before the town's own voters are
- * set apart: the state's counties (a statewide office, the presidency), the
- * House district or the legislative district; empty for a local race.
- * `home` is the place the town lies in, where one is recorded.
- */
-function basePlaces(
-  api: CoreAPI,
-  contest: ContestRow,
-): { places: readonly ElectoratePlace[]; home: string | null } {
-  const { stateKey, geoid } = town(api);
-  const usps = stateKey.slice(3);
-  if (contest.family === "statewideExecutive") {
-    const county = countyPlaceIdOf(
-      api.state.placeMetadata.countyNames as string | undefined,
-      usps,
-    );
-    const places = statePlaces(usps);
-    return {
-      places,
-      home: places.some((p) => p.id === county) ? county : null,
-    };
-  }
-  if (contest.family === "usHouse") {
-    const district = townDistrict(geoid, usps, "congressional", api.state.date);
-    const place = housePlaceByGeoid(usps, district?.geoid ?? null);
-    return place
-      ? { places: [place], home: place.id }
-      : { places: [], home: null };
-  }
-  if (contest.family === "stateLegislative") {
-    const seats = api
-      .moduleState(OFFICES_MODULE_ID)
-      .table("seats")
-      .query("byOffice", [contest.officeId]) as unknown as SeatInput[];
-    const districts = new Set(seats.map((s) => s.district)).size;
-    const holder = contest.incumbentTermId
-      ? (api
-          .moduleState(OFFICES_MODULE_ID)
-          .table("terms")
-          .get(contest.incumbentTermId) as unknown as TermRow | undefined)
-      : undefined;
-    const county = countyPlaceIdOf(
-      api.state.placeMetadata.countyNames as string | undefined,
-      usps,
-    );
-    const own = county
-      ? (statePlaces(usps).find((p) => p.id === county)?.rightShare ?? null)
-      : null;
-    const place = legislativePlace(
-      usps,
-      contest.seatId,
-      districts,
-      partySide(holder?.party ?? null),
-      own,
-    );
-    return place
-      ? { places: [place], home: place.id }
-      : { places: [], home: null };
-  }
-  return { places: [], home: null };
-}
 
 /**
  * The rest of a race's electorate, place by place: the town's own named and
