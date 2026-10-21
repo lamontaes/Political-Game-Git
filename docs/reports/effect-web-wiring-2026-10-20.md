@@ -88,7 +88,7 @@ The other four do not move in three months. The uninsured share, poverty and gra
 - **Merged to main:** per-person reach #5557, the audit #5564, health #5627, knowing #5637, moves #5612, births #5567, housing #5611, voting #5563, causes of death #5650, sizes #5624, prices #5618, moderators #5648 and poverty #5610.
 - **Still open, each merged with main and merging cleanly:**
   - schools #5609: holds the school outcome records, school spending, and the twin's re-shift;
-  - labor #5617: pay, participation, the low-wage stopgap and the retirement onset carried by the jobs engine;
+  - labor #5617 (merged): pay, participation, the low-wage stopgap and the retirement onset carried by the jobs engine;
   - crime #5619: holds the victimization records and the story-gated crime in the vote.
 - **The last piece:** #5639 carries the unwired list, the matrix, this report and the twin-check fixes.
 - **Golden-path specs that fail on main as well:** M2-01 (`gov-opening-past-terms-gap-a-day`), M3-09 (`gov-corruption-small-territory-bribe`), and M2-05 and M2-07 (`people-opening-stance-needs-views-module`).
@@ -97,9 +97,9 @@ The other four do not move in three months. The uninsured share, poverty and gra
 
 Start here, in this order:
 
-1. Read the latest "Cloud merger:" comment on each of #5609, #5617, #5619 and #5639, and fix whatever it names on that PR's own branch.
-   - Labor (#5617) now passes golden-path M0-13 ("taxes are withheld after January 1") in Huson, Montana (place key 3038275) and in Irvington, New York (place key 3637803), after a merge of current main with no source change. The earlier failure compared this branch against a main 211 commits newer, so the two runs were different worlds. The tax check depends on whether people the player knows are paid in January, because withholding rows are kept only for the player's circle. Labor's remaining open item is calibrating its participation scale (`web-calibrate-choice-terms`).
-   - Labor (#5617) also still fails its participation twin on some seeds. On seed 957b666a40b1beda (Stow, Ohio), mothers at work fell from 0.3209 to 0.3147 with the childcare effect at +0.6. The cause is the uncalibrated participation term (`SG-LABOR-participation-scale`): fit its weight (pool item `web-calibrate-choice-terms`) so the share moves by the researched size, then that twin passes. Do not loosen the assertion.
+1. Read the latest "Cloud merger:" comment on each of #5609, #5619 and #5639, and fix whatever it names on that PR's own branch.
+   - Labor is merged into main. It passed golden-path M0-13 after merging main, with no change to its code.
+   - The labor web still fails its participation twin on some seeds. On seed 957b666a40b1beda (Stow, Ohio), mothers at work fell from 0.3209 to 0.3147 with the childcare effect at +0.6. The cause is the uncalibrated participation term (`SG-LABOR-participation-scale`): fit its weight (pool item `web-calibrate-choice-terms`) so the share moves by the researched size, then that twin passes. Do not loosen the assertion. This is new work on its own branch from main.
 2. After any merge to main, merge main into the other open branches. The data files (stopgaps.json, links.json, parameters.json, the pool index) are additive on both sides: keep every row from both, and keep main's text for parameters.json. Never `commit -a` during a merge, and check that the branch's diff against the merge base deletes nothing.
 3. Land #5639 last. On its branch, regenerate the unwired list with `node --import tsx scripts/outcome-web/write-unwired.ts` (run it twice, then prettier), and rerun the matrix with `node --import tsx scripts/outcome-web/effect-matrix.ts`.
 4. Next work, from the pool:
