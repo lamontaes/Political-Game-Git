@@ -4,7 +4,7 @@ title: "Stopgaps in encounters (behavior-model-gap): 1 open"
 area: core
 kind: stopgap
 priority: 3
-status: claimed
+status: in-pr
 claimed-by: claude/pool-encounters-meetings
 pr: #5265
 blocked-on:
