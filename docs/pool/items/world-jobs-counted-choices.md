@@ -13,7 +13,7 @@ source: added with npm run pool -- add
 claimed-at:
 ---
 
-**What.** Counted workers retire, quit, start looking and stop looking by summed pulls rather than the shared chooser, and they apply to every opening in their place. Replace this with the same chooser full people use, applied to a counted group and multiplied by its count, or fill a counted person in at the moment they meet an employer. Nothing about a counted worker's choice may differ from a full person's with the same traits and money.
+**What.** Counted workers' retirement, quitting and job-search decisions must use the same rule as a full person's decisions with the same traits and money. Apply the shared chooser to a counted group and multiply by its count, or fill a counted person in when they meet an employer. Replace the stand-in apportionment rather than adding a second competing rule.
 
 **Rules.** One model, two tiers: counted people and full people are read by the same rule, times their count. No dice: hires, layoffs and retirements come from books, fit, need and the law in force, never a monthly chance. Replace, never layer: the fake is deleted in the same change and the row SG-WORLD-jobs-counted-choices is cleared in src/core2/data/stopgaps.json, never closed by deleting it alone.
 

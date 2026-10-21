@@ -13,7 +13,7 @@ source: added with npm run pool -- add
 claimed-at: 2026-10-21T12:38:34.871Z
 ---
 
-**What.** A job offer's deadline stops the player's clock once as a reminder instead of holding it until the player answers, and an unanswered offer lapses as the employer's withdrawal. Replace this with a held offer-deadline stop once the play screen shows the player's offers with accept and decline controls, so a lapse only happens when the player lets it. The player sees an offer arrive, a reminder before its deadline, and the choice.
+**What.** Replace a one-time offer-deadline reminder with a held stop once the play screen shows the player's offers with accept and decline controls. An unanswered offer should lapse only when the player lets it, rather than disappearing without a visible choice. The player sees the offer arrive, a reminder before its deadline, and the decision to accept or decline.
 
 **Rules.** One model, two tiers: counted people and full people are read by the same rule, times their count. No dice: hires, layoffs and retirements come from books, fit, need and the law in force, never a monthly chance. Replace, never layer: the fake is deleted in the same change and the row SG-WORLD-jobs-offer-deadline-reminder is cleared in src/core2/data/stopgaps.json, never closed by deleting it alone.
 
