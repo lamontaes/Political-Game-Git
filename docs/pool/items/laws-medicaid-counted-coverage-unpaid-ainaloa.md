@@ -5,9 +5,9 @@ area: laws
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/medicaid-ainaloa
-pr:
+pr: #5770
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-21T02:04:51.059Z
