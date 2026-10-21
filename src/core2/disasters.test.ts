@@ -185,7 +185,8 @@ describe(`disasters from the record (seed ${seed})`, () => {
     throw new Error(
       `no declared disaster paid repairs to an outside market in 12 draws:\n${tried.join("\n")}`,
     );
-    // One drawn town's year with a disaster took about 270 seconds on a
-    // 4-core container, past the 300 seconds the other case has; about twice that.
+    // Caldwell, Arkansas (seed 827d0cd921c4a46eb70d7a57308f7a1f) paid on the
+    // fifth draw after 401 seconds at one worker on a 4-core container shared
+    // with two other runs; the limit is that and half again.
   }, 600_000);
 });
