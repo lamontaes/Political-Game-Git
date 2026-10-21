@@ -5,11 +5,12 @@ area: world
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/admin-shift-pattern
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-21T01:11:12.858Z
 ---
 
 **What.** In the played world for Independence, Louisiana (key 2237025, world seed 7b7b07cc96aa225f55b6f8834881f44ed234811a577a1067e954be747cca333a) the city administrator's job job:public:town:city-administrator:person_0175403c4394037f has one 1,440-minute slot starting at 08:00 every third day (expectedWeeklyMinutes 3,360), the firefighters' cycle pattern in src/core2/work-patterns.ts. Every post GOV starts later copies the longest-hours job where its employer sits, and in this town that is the administrator's, so the governor's aides, the agriculture commissioner and the state budget post all get a day that crosses midnight as 960 and 480 minutes and that the person cannot attend. Find why the opening gives a city administrator the fire pattern (the workplace and title tables in src/core2/work-schedules.ts and the opening in src/core2/opening-work.ts) and give an administrator an office week.
