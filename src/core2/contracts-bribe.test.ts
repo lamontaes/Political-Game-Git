@@ -18,7 +18,7 @@ it("records each bribe offered for an award, and the taken ones by the votes the
   setBookkeeping(false);
   const tried: string[] = [];
   try {
-    for (let attempt = 0; attempt < 10; attempt += 1) {
+    for (let attempt = 0; attempt < 16; attempt += 1) {
       const draw = drawPlace(
         createHash("sha256").update(`${base}:${attempt}`).digest("hex"),
         "gov-bribe-buys-a-contract",
@@ -28,9 +28,25 @@ it("records each bribe offered for an award, and the taken ones by the votes the
         twoLevel: true,
         placeKey: draw.key,
       });
+      const api = coreAPI(core);
+      // Every journal entry by its source id, so a contract payment is read back from the books.
+      const entries = new Map<
+        string,
+        { accountId: string; deltaMinor: number }[]
+      >();
+      const post = api.postJournal.bind(api);
+      api.postJournal = (entry) => {
+        entries.set(
+          String(entry.sourceRef.id),
+          entry.postings.map((p) => ({
+            accountId: p.accountId,
+            deltaMinor: p.deltaMinor,
+          })),
+        );
+        return post(entry);
+      };
       for (let day = 0; day < 365; day++)
         advanceCore(core, addDays(makeIsoDate(core.date), 1));
-      const api = coreAPI(core);
       const awards = governments(api).flatMap((gov) =>
         contractsOf(api, gov.id),
       );
@@ -38,6 +54,12 @@ it("records each bribe offered for an award, and the taken ones by the votes the
         award.bribes.filter((b) => b.taken).map((b) => ({ award, bribe: b })),
       );
       if (!taken.length) continue;
+      // The chain: a taken bribe, the vote it took part in, the award, and the
+      // treasury's payment to the winner. A place without one is not a place to prove it in.
+      const bought = awards.filter(
+        (award) => award.boughtVotes.length && award.paymentIds.length,
+      );
+      if (!bought.length) continue;
       const crimes = api.moduleState(CORRUPTION_MODULE_ID).table("crimes");
       const where = tried.join("; ");
       for (const { award, bribe } of taken) {
@@ -55,13 +77,45 @@ it("records each bribe offered for an award, and the taken ones by the votes the
         if (award.withoutBribes)
           expect(award.withoutBribes, where).not.toBe(award.organizationId);
       }
+      const accounts = api.accounts();
+      for (const award of bought) {
+        const treasury = accounts.main(
+          governments(api).find((gov) => gov.id === award.governmentId)!
+            .organizationId,
+        );
+        const winner = accounts.main(award.organizationId);
+        let moved = 0;
+        for (const id of award.paymentIds) {
+          const postings = entries.get(id);
+          expect(
+            postings,
+            `${where}: payment ${id} is on the journal`,
+          ).toBeDefined();
+          const into = postings!.find((p) => p.accountId === winner);
+          const out = postings!.find((p) => p.accountId === treasury);
+          expect(
+            into?.deltaMinor,
+            `${where}: ${id} pays the winner`,
+          ).toBeGreaterThan(0);
+          expect(out?.deltaMinor, `${where}: ${id} leaves the treasury`).toBe(
+            -into!.deltaMinor,
+          );
+          moved += into!.deltaMinor;
+        }
+        expect(moved, `${where}: ${award.id}`).toBe(award.paidMinor);
+        for (const crimeId of award.boughtVotes)
+          expect(
+            award.bribes.find((b) => b.crimeId === crimeId)?.taken,
+            `${where}: ${crimeId}`,
+          ).toBe(true);
+      }
       expect(core.cashJournal.totals.grossDebitMinor, where).toBe(
         core.cashJournal.totals.grossCreditMinor,
       );
       return;
     }
     throw new Error(
-      `no bribe was taken in 10 drawn places: ${tried.join("; ")}`,
+      `no bribe was taken with a bought vote and a payment in 16 drawn places: ${tried.join("; ")}`,
     );
   } finally {
     setBookkeeping(true);
