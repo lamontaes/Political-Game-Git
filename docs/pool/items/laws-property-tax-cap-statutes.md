@@ -22,3 +22,5 @@ claimed-at:
 **Files.** src/core2/data/laws/reach-group-b.json, src/core2/law-reach/group-b-money.ts, src/core2/data/stopgaps.json
 
 **Notes.** Split from laws-stopgap-reach-group-b-faked-mechanic. Take one group of states per PR.
+
+Tried Oct 21 (claude): no state table could be fetched. The Montana legislature's 2020 summary of Lincoln Institute data (archive.legmt.gov/.../property-tax-limits.pdf) gives the types and examples (California the lesser of 2 percent or inflation, Minnesota 15 percent, eighteen states with assessment limits, reset on sale in some, transfer exceptions in California and Florida) but its state-by-state table is check marks that the text layer drops. Lincoln's policy download page states 47 states limit property taxes, 19 with assessment limits in 2024, but the per-state figures sit in the Significant Features of the Property Tax database (lincolninst.edu/research-data/data-toolkits/significant-features-property-tax/topics/property-tax-limits), which would not open. Start from that database (or each state's statute), one group of states per PR. Claim released.
