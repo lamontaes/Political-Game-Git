@@ -1,5 +1,5 @@
 /**
- * Business closures in the year before day one (owner, Oct 14, 2026): the
+ * Business closures in the year before day one: the
  * town's businesses start on day one, so the past carries the ones that
  * closed first, as records with a kind, a name, a former owner, the workers
  * and a date, for the news archive and for the people they touched.

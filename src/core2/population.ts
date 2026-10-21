@@ -50,7 +50,7 @@ import {
   livingCostsRegionForState,
   LIVING_COSTS_SOURCE,
 } from "./reference/living-costs-data";
-import { organizationProfileAt } from "../simulation/life-queries";
+import { openingOrganizationProfiles } from "./opening-org-profiles";
 import { ensureTownEmployment } from "../simulation/living-world/town-employment";
 import { TOWN_EMPLOYMENT_META } from "../simulation/living-world/town-employment.generated";
 import {
@@ -70,7 +70,7 @@ import {
 } from "./town-households";
 import { placeLocalGovernmentUnits } from "./gov-rules/local-governments";
 import { placeReferencePopulation } from "./gov-rules/place-population";
-import { PERSONALITY_PACK } from "../simulation/personality-catalogue";
+import { PERSONALITY_PACK } from "./personality-catalogue";
 import { PEOPLE_MIND_VERSION, PEOPLE_TRAITS } from "./people-mind";
 import {
   upbringingCoreValueFrom,
@@ -889,9 +889,10 @@ export function buildPopulation(options: PopulationOptions): CoreInput {
   const publicPayIdentities: OpeningPublicEmployerIdentity[] = [];
   const departmentOwners = departmentOwnersOf(place);
   const historicalCountyPayingOwnerIds: Record<string, string> = {};
+  const profiles = openingOrganizationProfiles(world);
   const organizations: OrganizationInput[] = world.history.organizations.map(
     (organization) => {
-      const profile = organizationProfileAt(world, organization.id)!;
+      const profile = profiles.get(organization.id)!;
       const publicOwner = openingHistoricalCountyOwnerFacts({
         organizationId: organization.id,
         organizationStableKey: organization.stableKey,

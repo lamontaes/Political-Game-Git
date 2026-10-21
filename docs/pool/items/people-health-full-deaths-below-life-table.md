@@ -7,7 +7,7 @@ priority: 2
 size: M
 status: in-pr
 claimed-by: claude/health-full-deaths
-pr: #5481
+pr: #5518
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-20T03:08:38.742Z
