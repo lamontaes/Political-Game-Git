@@ -5,9 +5,9 @@ area: core
 kind: cleanup
 priority: 2
 size: S
-status: open
+status: in-pr
 claimed-by: claude/stopgap-finance-policy
-pr:
+pr: #5375
 blocked-on:
 source: split from core-stopgap-parameters-authored-finance-policy for PR #5375
 ---
