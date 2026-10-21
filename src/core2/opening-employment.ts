@@ -228,6 +228,12 @@ interface OpeningRoleTarget {
 
 export interface OpeningEmploymentAllocation {
   jobs: readonly JobInput[];
+  /**
+   * Residents who work but whom no town role took: in industries or places
+   * the opening doesn't model. Each fills what its age cohort's target has
+   * left, taken in the same order as the jobs.
+   */
+  unplacedWorkerIds: readonly string[];
   startedAtByJob: ReadonlyMap<string, WorldDate>;
   templateJobIdByJob: ReadonlyMap<string, string>;
   receipt: {
@@ -623,10 +629,26 @@ export function openingEmploymentFromRecordedRoles(
       (staff.get(template.organization.id) ?? p("zero")) + p("one"),
     );
   }
+  // What each cohort's target still lacks is worked outside the town's
+  // modeled roles, by the next candidates in the same order.
+  const placed = new Set(jobs.map((job) => job.personId));
+  const outside = new Map<string, number>();
+  const unplaced: string[] = [];
+  for (const resident of candidates) {
+    if (placed.has(resident.personId)) continue;
+    const quotaKey = quotaByPerson.get(resident.personId);
+    const quota = quotaKey ? ageTargets.get(quotaKey) : undefined;
+    if (!quota || resident.age < p("employment-age-18-minimumAge")) continue;
+    const taken = outside.get(quota.key) ?? p("zero");
+    if (quota.recorded + quota.added + taken >= quota.target) continue;
+    outside.set(quota.key, taken + p("one"));
+    unplaced.push(resident.personId);
+  }
   return {
     jobs,
     startedAtByJob,
     templateJobIdByJob,
+    unplacedWorkerIds: unplaced,
     receipt: {
       tag: "ESTIMATED",
       version: data.version,

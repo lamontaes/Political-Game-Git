@@ -90,7 +90,7 @@ export interface ResidentFlowInput {
    * days worked since the opening, as full workers' earned pay does.
    */
   earnedDaysByDue?: Readonly<Record<string, number>>;
-  /** Unplaced-worker pay: how many counted workers it pays (the opening's employment target less recorded jobs). */
+  /** Unplaced-worker pay: how many counted workers it pays (the residents the opening named past the town's roles). */
   unplacedWorkers?: number;
   outsideId?: string;
   /** Purchase and retirement flows: each merged household contract's amount (fill-in takes it back). */
@@ -105,6 +105,8 @@ export interface ResidentHouseholdRecord {
   jobs: readonly JobInput[];
   workCommitments: readonly WorkCommitmentInput[];
   contracts: readonly FinanceContractInput[];
+  /** Its members who work outside the town's modeled roles (paid by the place's unplaced-workers flow). */
+  unplacedWorkerIds?: readonly PersonId[];
 }
 
 export interface ResidentsInput {
@@ -739,16 +741,14 @@ export function collapseToTwoLevels(
       );
   }
   // Workers the opening couldn't place in a town firm (other industries or
-  // jobs outside the town) still earn: the employment target from the
-  // opening's own ACS/CPS receipt, less recorded jobs, at the median recorded
-  // wage, paid every two weeks from outside.
-  const receipt = input.placeMetadata?.openingEmploymentReceipt;
-  const target = receipt
-    ? Number(
-        (JSON.parse(receipt) as { employmentTarget?: number }).employmentTarget,
-      )
-    : NaN;
-  const employed = new Set(input.jobs.map((row) => row.personId)).size;
+  // jobs outside the town) still earn: the counted residents the opening
+  // named to fill its ACS/CPS cohort targets past the town's roles, each a
+  // whole worker, at the place's median earnings, paid every two weeks from
+  // outside.
+  const named = input.placeMetadata?.openingUnplacedWorkerIds;
+  const unplacedIds = new Set<PersonId>(
+    named ? (JSON.parse(named) as PersonId[]) : [],
+  );
   const annualWages = input.jobs
     .map((row) => row.wageDailyMinor * DAYS_PER_YEAR)
     .sort((a, b) => a - b);
@@ -762,21 +762,8 @@ export function collapseToTwoLevels(
   const median = placeEarnings
     ? placeEarnings * 100
     : (annualWages[Math.floor(annualWages.length / 2)] ?? 0);
-  const adults = (ids: Iterable<PersonId>) => {
-    let n = 0;
-    for (const id of ids) {
-      const born = peopleById.get(id)?.birthDate;
-      if (born && Number(start.slice(0, 4)) - Number(born.slice(0, 4)) >= 18)
-        n++;
-    }
-    return n;
-  };
-  const countedAdults = adults(collapsed),
-    allAdults = adults(peopleById.keys());
-  const unplaced =
-    Number.isFinite(target) && allAdults > 0
-      ? Math.max(0, target - employed) * (countedAdults / allAdults)
-      : 0;
+  let unplaced = 0;
+  for (const id of unplacedIds) if (collapsed.has(id)) unplaced++;
   if (
     options.unplacedWorkerIncome !== false &&
     unplaced > 0 &&
@@ -808,9 +795,9 @@ export function collapseToTwoLevels(
         tag: "ESTIMATED",
         asOf: start,
         citation: placeEarnings
-          ? `Opening employment target (ACS county employed/civilian population by age, CPS where missing) less recorded jobs, at the place's median earnings. ${PLACE_EARNINGS.citation}`
-          : "Opening employment target (ACS county employed/civilian population by age, CPS where missing) less recorded jobs, at the town's median recorded wage (BLS OEWS-based job pay).",
-        estimatedFrom: `${Math.round(unplaced)} counted workers in industries or places the opening doesn't model, each earning $${Math.round(median / 100)} a year${placeEarnings ? " (the place's median earnings)" : " (the town's median recorded wage; no firm place estimate)"}; a labeled estimate for the modeled wider population.`,
+          ? `Opening employment targets by age cohort (ACS county employed/civilian population by age, CPS where missing) past the town's modeled roles, at the place's median earnings. ${PLACE_EARNINGS.citation}`
+          : "Opening employment targets by age cohort (ACS county employed/civilian population by age, CPS where missing) past the town's modeled roles, at the town's median recorded wage (BLS OEWS-based job pay).",
+        estimatedFrom: `${unplaced} counted workers in industries or places the opening doesn't model, each earning $${Math.round(median / 100)} a year${placeEarnings ? " (the place's median earnings)" : " (the town's median recorded wage; no firm place estimate)"}; a labeled estimate for the modeled wider population.`,
       },
     });
   }
@@ -879,6 +866,9 @@ export function collapseToTwoLevels(
       (id) => commitmentsByPerson.get(id) ?? [],
     ),
     contracts: contractsByHome.get(home.id) ?? [],
+    unplacedWorkerIds: home.memberIds.filter(
+      (id) => unplacedIds.has(id) && collapsed.has(id),
+    ),
   }));
   const accounts: OrganizationInput[] = [...accountByPlace].map(
     ([placeId, id]) => ({

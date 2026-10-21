@@ -857,6 +857,7 @@ export function buildPopulation(options: PopulationOptions): CoreInput {
     options.openingEmployment === false
       ? {
           jobs: [],
+          unplacedWorkerIds: [] as readonly string[],
           startedAtByJob: new Map<string, WorldDate>(),
           templateJobIdByJob: new Map<string, string>(),
           receipt: { enabled: false, omitted: [], ageTargets: [] },
@@ -1321,6 +1322,9 @@ export function buildPopulation(options: PopulationOptions): CoreInput {
     gaps: [...gaps, ...openingCapital.gaps, ...publicPay.gaps, ...payroll.gaps],
     placeMetadata: {
       openingEmploymentReceipt: JSON.stringify(openingAllocation.receipt),
+      openingUnplacedWorkerIds: JSON.stringify(
+        openingAllocation.unplacedWorkerIds,
+      ),
       openingPayrollCalendarReceipt: JSON.stringify({
         status: "MODELED_PAY_CALENDARS_ONLY_NO_EARNINGS_OR_CASH",
         estimates: payroll.estimates,

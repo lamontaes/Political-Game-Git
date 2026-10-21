@@ -407,25 +407,6 @@ export function householdCashReader(
   };
 }
 
-/** Working-age counted members without a recorded job. */
-function jobless(
-  store: CountedStore,
-  h: CountedHousehold,
-  date: string,
-): number {
-  const from = countedParameter("countedWorkingAgeFrom"),
-    below = countedParameter("countedWorkingAgeBelow");
-  const working = new Set(
-    h.jobs.filter((job) => job.endsAt === undefined).map((job) => job.personId),
-  );
-  let n = 0;
-  for (const m of store.countedMembers(h)) {
-    const age = ageOn(store.born[m]!, date);
-    if (age >= from && age < below && !working.has(store.ids[m]!)) n++;
-  }
-  return n;
-}
-
 export const DISTRICT_STOPGAP = "SG-CORE-district-placement";
 const FILLED_UNPLACED_STOPGAP = "SG-CORE-filled-unplaced-income";
 
@@ -540,7 +521,8 @@ function packOpening(
           : mortgaged.has(id)
             ? "mortgage"
             : "other",
-        unplacedWorkers: 0,
+        // Its members the opening named as working outside the town's roles.
+        unplacedWorkers: record.unplacedWorkerIds?.length ?? 0,
         ...weightOf(input.weights, placeId),
       }),
     );
@@ -553,26 +535,10 @@ function packOpening(
         record.people.reduce((n, row) => n + row.liquidMinor, 0),
     );
   }
-  // The place's unplaced workers, shared by its working-age members without a job.
-  const eligible = new Map<PlaceId, number>();
-  const open = new Map<number, number>();
-  for (const h of households) {
-    const n = jobless(store, h, date);
-    open.set(h.index, n);
-    // A record stands for as many households as its weight says.
-    eligible.set(
-      h.placeId,
-      (eligible.get(h.placeId) ?? 0) + n * store.weightOf(h),
-    );
-  }
-  for (const [placeId, row] of unplaced) {
-    const pool = eligible.get(placeId) ?? 0;
-    const workers = row.workers > 0 ? Math.min(row.workers, pool) : pool;
-    if (workers > 0) rt.unplacedPerWorker.set(placeId, row.yearMinor / workers);
-    const share = pool > 0 ? workers / pool : 0;
-    for (const h of households)
-      if (h.placeId === placeId) h.unplacedWorkers = open.get(h.index)! * share;
-  }
+  // What each of the place's unplaced workers earns (the flow pays them all, each record at its weight).
+  for (const [placeId, row] of unplaced)
+    if (row.workers > 0)
+      rt.unplacedPerWorker.set(placeId, row.yearMinor / row.workers);
   placeInDistricts(core, rt, households);
   for (const h of households) regroupHousehold(rt, h, date);
   store.openingMembers = store.memberCount;

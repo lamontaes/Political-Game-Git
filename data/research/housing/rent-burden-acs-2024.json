@@ -1,0 +1,338 @@
+{
+  "source": {
+    "tag": "SOURCED",
+    "citation": "U.S. Census Bureau, American Community Survey 2024 1-year estimates, tables B25071 (Median Gross Rent as a Percentage of Household Income), B25064 (Median Gross Rent) and B25119 (Median Household Income by Tenure, renter occupied), as served by Census Reporter.",
+    "fetchedAt": "2026-10-21",
+    "quote": "Puerto Rico: B25071001 28.4, B25064001 580, B25119003 18571; United States: B25071001 30.9, B25064001 1487, B25119003 54446 (release acs2024_1yr, \"ACS 2024 1-year\")",
+    "urls": [
+      "https://api.censusreporter.org/1.0/data/show/latest?table_ids=B25071,B25064,B25119&geo_ids=040|01000US,01000US",
+      "https://api.censusreporter.org/1.0/data/show/latest?table_ids=B25119,B25071,B25064,B23025&geo_ids=04000US72,01000US"
+    ]
+  },
+  "national": {
+    "medianRentShareOfIncomePct": 30.9,
+    "moePct": 0.1,
+    "medianGrossRentDollars": 1487.0,
+    "renterMedianIncomeDollars": 54446.0
+  },
+  "islandAreas": {
+    "tag": "ESTIMATED",
+    "note": "Guam, the U.S. Virgin Islands, American Samoa and the Northern Mariana Islands are outside the ACS; they read the national figure, with a spread of the states' range (24.2 to 36.1 percent).",
+    "lowPct": 24.2,
+    "highPct": 36.1
+  },
+  "byState": {
+    "AK": {
+      "medianRentShareOfIncomePct": 26.5,
+      "moePct": 1.5,
+      "medianGrossRentDollars": 1444.0,
+      "renterMedianIncomeDollars": 63891.0
+    },
+    "AL": {
+      "medianRentShareOfIncomePct": 29.3,
+      "moePct": 0.6,
+      "medianGrossRentDollars": 1077.0,
+      "renterMedianIncomeDollars": 41737.0
+    },
+    "AR": {
+      "medianRentShareOfIncomePct": 28.1,
+      "moePct": 0.8,
+      "medianGrossRentDollars": 982.0,
+      "renterMedianIncomeDollars": 40708.0
+    },
+    "AZ": {
+      "medianRentShareOfIncomePct": 31.2,
+      "moePct": 0.6,
+      "medianGrossRentDollars": 1672.0,
+      "renterMedianIncomeDollars": 60839.0
+    },
+    "CA": {
+      "medianRentShareOfIncomePct": 33.1,
+      "moePct": 0.2,
+      "medianGrossRentDollars": 2104.0,
+      "renterMedianIncomeDollars": 72161.0
+    },
+    "CO": {
+      "medianRentShareOfIncomePct": 31.2,
+      "moePct": 0.7,
+      "medianGrossRentDollars": 1822.0,
+      "renterMedianIncomeDollars": 65761.0
+    },
+    "CT": {
+      "medianRentShareOfIncomePct": 32.1,
+      "moePct": 0.8,
+      "medianGrossRentDollars": 1550.0,
+      "renterMedianIncomeDollars": 52652.0
+    },
+    "DC": {
+      "medianRentShareOfIncomePct": 29.0,
+      "moePct": 0.8,
+      "medianGrossRentDollars": 1931.0,
+      "renterMedianIncomeDollars": 75427.0
+    },
+    "DE": {
+      "medianRentShareOfIncomePct": 30.1,
+      "moePct": 1.6,
+      "medianGrossRentDollars": 1530.0,
+      "renterMedianIncomeDollars": 58145.0
+    },
+    "FL": {
+      "medianRentShareOfIncomePct": 36.1,
+      "moePct": 0.5,
+      "medianGrossRentDollars": 1812.0,
+      "renterMedianIncomeDollars": 56455.0
+    },
+    "GA": {
+      "medianRentShareOfIncomePct": 31.6,
+      "moePct": 0.5,
+      "medianGrossRentDollars": 1506.0,
+      "renterMedianIncomeDollars": 52364.0
+    },
+    "HI": {
+      "medianRentShareOfIncomePct": 32.6,
+      "moePct": 1.1,
+      "medianGrossRentDollars": 1942.0,
+      "renterMedianIncomeDollars": 69950.0
+    },
+    "IA": {
+      "medianRentShareOfIncomePct": 27.2,
+      "moePct": 0.7,
+      "medianGrossRentDollars": 981.0,
+      "renterMedianIncomeDollars": 43886.0
+    },
+    "ID": {
+      "medianRentShareOfIncomePct": 29.3,
+      "moePct": 0.8,
+      "medianGrossRentDollars": 1384.0,
+      "renterMedianIncomeDollars": 53955.0
+    },
+    "IL": {
+      "medianRentShareOfIncomePct": 29.4,
+      "moePct": 0.4,
+      "medianGrossRentDollars": 1322.0,
+      "renterMedianIncomeDollars": 50810.0
+    },
+    "IN": {
+      "medianRentShareOfIncomePct": 29.3,
+      "moePct": 0.5,
+      "medianGrossRentDollars": 1104.0,
+      "renterMedianIncomeDollars": 43560.0
+    },
+    "KS": {
+      "medianRentShareOfIncomePct": 27.1,
+      "moePct": 0.6,
+      "medianGrossRentDollars": 1079.0,
+      "renterMedianIncomeDollars": 47816.0
+    },
+    "KY": {
+      "medianRentShareOfIncomePct": 27.9,
+      "moePct": 0.6,
+      "medianGrossRentDollars": 998.0,
+      "renterMedianIncomeDollars": 41257.0
+    },
+    "LA": {
+      "medianRentShareOfIncomePct": 32.5,
+      "moePct": 0.9,
+      "medianGrossRentDollars": 1064.0,
+      "renterMedianIncomeDollars": 36862.0
+    },
+    "MA": {
+      "medianRentShareOfIncomePct": 31.1,
+      "moePct": 0.5,
+      "medianGrossRentDollars": 1848.0,
+      "renterMedianIncomeDollars": 63603.0
+    },
+    "MD": {
+      "medianRentShareOfIncomePct": 30.8,
+      "moePct": 0.6,
+      "medianGrossRentDollars": 1721.0,
+      "renterMedianIncomeDollars": 62329.0
+    },
+    "ME": {
+      "medianRentShareOfIncomePct": 30.1,
+      "moePct": 1.2,
+      "medianGrossRentDollars": 1210.0,
+      "renterMedianIncomeDollars": 45912.0
+    },
+    "MI": {
+      "medianRentShareOfIncomePct": 30.7,
+      "moePct": 0.5,
+      "medianGrossRentDollars": 1168.0,
+      "renterMedianIncomeDollars": 43209.0
+    },
+    "MN": {
+      "medianRentShareOfIncomePct": 29.1,
+      "moePct": 0.5,
+      "medianGrossRentDollars": 1291.0,
+      "renterMedianIncomeDollars": 51712.0
+    },
+    "MO": {
+      "medianRentShareOfIncomePct": 27.9,
+      "moePct": 0.6,
+      "medianGrossRentDollars": 1067.0,
+      "renterMedianIncomeDollars": 45023.0
+    },
+    "MS": {
+      "medianRentShareOfIncomePct": 30.2,
+      "moePct": 1.1,
+      "medianGrossRentDollars": 990.0,
+      "renterMedianIncomeDollars": 37417.0
+    },
+    "MT": {
+      "medianRentShareOfIncomePct": 27.0,
+      "moePct": 1.0,
+      "medianGrossRentDollars": 1177.0,
+      "renterMedianIncomeDollars": 53174.0
+    },
+    "NC": {
+      "medianRentShareOfIncomePct": 30.8,
+      "moePct": 0.5,
+      "medianGrossRentDollars": 1338.0,
+      "renterMedianIncomeDollars": 49875.0
+    },
+    "ND": {
+      "medianRentShareOfIncomePct": 24.2,
+      "moePct": 0.9,
+      "medianGrossRentDollars": 980.0,
+      "renterMedianIncomeDollars": 49766.0
+    },
+    "NE": {
+      "medianRentShareOfIncomePct": 28.5,
+      "moePct": 0.8,
+      "medianGrossRentDollars": 1102.0,
+      "renterMedianIncomeDollars": 48834.0
+    },
+    "NH": {
+      "medianRentShareOfIncomePct": 29.8,
+      "moePct": 1.1,
+      "medianGrossRentDollars": 1558.0,
+      "renterMedianIncomeDollars": 58715.0
+    },
+    "NJ": {
+      "medianRentShareOfIncomePct": 31.2,
+      "moePct": 0.5,
+      "medianGrossRentDollars": 1800.0,
+      "renterMedianIncomeDollars": 65930.0
+    },
+    "NM": {
+      "medianRentShareOfIncomePct": 29.3,
+      "moePct": 1.0,
+      "medianGrossRentDollars": 1117.0,
+      "renterMedianIncomeDollars": 45564.0
+    },
+    "NV": {
+      "medianRentShareOfIncomePct": 34.0,
+      "moePct": 0.8,
+      "medianGrossRentDollars": 1709.0,
+      "renterMedianIncomeDollars": 57223.0
+    },
+    "NY": {
+      "medianRentShareOfIncomePct": 30.9,
+      "moePct": 0.4,
+      "medianGrossRentDollars": 1634.0,
+      "renterMedianIncomeDollars": 58468.0
+    },
+    "OH": {
+      "medianRentShareOfIncomePct": 29.0,
+      "moePct": 0.4,
+      "medianGrossRentDollars": 1090.0,
+      "renterMedianIncomeDollars": 43537.0
+    },
+    "OK": {
+      "medianRentShareOfIncomePct": 28.4,
+      "moePct": 0.5,
+      "medianGrossRentDollars": 1044.0,
+      "renterMedianIncomeDollars": 43972.0
+    },
+    "OR": {
+      "medianRentShareOfIncomePct": 31.2,
+      "moePct": 0.7,
+      "medianGrossRentDollars": 1597.0,
+      "renterMedianIncomeDollars": 57498.0
+    },
+    "PA": {
+      "medianRentShareOfIncomePct": 29.7,
+      "moePct": 0.4,
+      "medianGrossRentDollars": 1252.0,
+      "renterMedianIncomeDollars": 47941.0
+    },
+    "PR": {
+      "medianRentShareOfIncomePct": 28.4,
+      "moePct": 0.9,
+      "medianGrossRentDollars": 580.0,
+      "renterMedianIncomeDollars": 18571.0
+    },
+    "RI": {
+      "medianRentShareOfIncomePct": 30.5,
+      "moePct": 1.2,
+      "medianGrossRentDollars": 1418.0,
+      "renterMedianIncomeDollars": 49031.0
+    },
+    "SC": {
+      "medianRentShareOfIncomePct": 31.4,
+      "moePct": 0.8,
+      "medianGrossRentDollars": 1272.0,
+      "renterMedianIncomeDollars": 45948.0
+    },
+    "SD": {
+      "medianRentShareOfIncomePct": 26.9,
+      "moePct": 1.2,
+      "medianGrossRentDollars": 999.0,
+      "renterMedianIncomeDollars": 46380.0
+    },
+    "TN": {
+      "medianRentShareOfIncomePct": 30.1,
+      "moePct": 0.6,
+      "medianGrossRentDollars": 1284.0,
+      "renterMedianIncomeDollars": 49183.0
+    },
+    "TX": {
+      "medianRentShareOfIncomePct": 31.4,
+      "moePct": 0.3,
+      "medianGrossRentDollars": 1475.0,
+      "renterMedianIncomeDollars": 54387.0
+    },
+    "UT": {
+      "medianRentShareOfIncomePct": 29.4,
+      "moePct": 0.6,
+      "medianGrossRentDollars": 1593.0,
+      "renterMedianIncomeDollars": 63564.0
+    },
+    "VA": {
+      "medianRentShareOfIncomePct": 29.7,
+      "moePct": 0.4,
+      "medianGrossRentDollars": 1646.0,
+      "renterMedianIncomeDollars": 61242.0
+    },
+    "VT": {
+      "medianRentShareOfIncomePct": 29.5,
+      "moePct": 1.3,
+      "medianGrossRentDollars": 1319.0,
+      "renterMedianIncomeDollars": 53641.0
+    },
+    "WA": {
+      "medianRentShareOfIncomePct": 30.4,
+      "moePct": 0.4,
+      "medianGrossRentDollars": 1824.0,
+      "renterMedianIncomeDollars": 68871.0
+    },
+    "WI": {
+      "medianRentShareOfIncomePct": 27.9,
+      "moePct": 0.4,
+      "medianGrossRentDollars": 1142.0,
+      "renterMedianIncomeDollars": 49446.0
+    },
+    "WV": {
+      "medianRentShareOfIncomePct": 28.4,
+      "moePct": 1.1,
+      "medianGrossRentDollars": 883.0,
+      "renterMedianIncomeDollars": 33383.0
+    },
+    "WY": {
+      "medianRentShareOfIncomePct": 26.5,
+      "moePct": 1.7,
+      "medianGrossRentDollars": 998.0,
+      "renterMedianIncomeDollars": 46071.0
+    }
+  }
+}

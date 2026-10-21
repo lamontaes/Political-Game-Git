@@ -396,7 +396,7 @@ function withKinds(
   return out;
 }
 
-/** Annual pay of a household's members from their recorded current jobs. */
+/** A day's pay of a household's members from their recorded current jobs. */
 function householdIncome(
   jobs: readonly JobInput[],
   memberIds: readonly string[],
@@ -424,6 +424,19 @@ export function withHousing(input: CoreInput): CoreInput {
   const [medianRent] = rentValueOf(town.county);
   if (!tenure || !medianRent) return input;
   const people = new Map(input.people.map((row) => [row.id, row]));
+  // A counted worker in an industry or place the opening doesn't model is
+  // paid from the place's unplaced-workers flow: a day's pay each.
+  const unplacedFlow = input.residents?.flows.find(
+    (row) =>
+      row.financeKind === "work.unplaced-residents" &&
+      row.placeId === town.placeId,
+  );
+  const unplacedDaily =
+    unplacedFlow?.unplacedWorkers && unplacedFlow.cadence.kind === "days"
+      ? unplacedFlow.amountMinor /
+        unplacedFlow.cadence.every /
+        unplacedFlow.unplacedWorkers
+      : 0;
   const oldestOf = (births: readonly string[]) =>
     Math.min(...births.map((date) => Number(date.slice(0, 4))));
   // Full households and the wider population's, ranked together for owning.
@@ -451,7 +464,9 @@ export function withHousing(input: CoreInput): CoreInput {
         id: row.household.id,
         counted: true,
         memberIds: row.household.memberIds,
-        income: householdIncome(row.jobs, row.household.memberIds),
+        income:
+          householdIncome(row.jobs, row.household.memberIds) +
+          (row.unplacedWorkerIds?.length ?? 0) * unplacedDaily,
         oldest: oldestOf(row.people.map((person) => person.birthDate)),
         liquidMinor: row.people.reduce(
           (n, person) => n + person.liquidMinor,
