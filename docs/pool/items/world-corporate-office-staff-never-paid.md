@@ -28,4 +28,3 @@ Body filled Oct 19 (claude) from the title and the repo's engine layout; the cla
 Earlier counted-staff reproductions from main (kept alongside the full-person search above): West Wendover, Nevada (seed f6): Elko County Business Services, 1 counted job, 1,853 asked per payday, nothing paid after four months; Sayreville, New Jersey (seed h8): Middlesex County Business Services, 4 counted jobs.
 
 Oct 21 (CTO merger, PR #5041): this consolidates the specification and findings only. The original one-year, all-staff, named-payer and wages-unpaid-check acceptance is preserved; the 120-day full-person search does not replace it. Payroll funding remains unfinished and this item stays open.
-
