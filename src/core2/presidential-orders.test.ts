@@ -33,7 +33,7 @@ const yearly = (wageDailyMinor: number) => (wageDailyMinor * 365) / 100;
 
 it("the federal pay floor order raises federal jobs paid under it and no state job", () => {
   const tried: string[] = [];
-  for (let draw = 0; draw < 6; draw += 1) {
+  for (let draw = 0; draw < 40; draw += 1) {
     const place = drawPlace(`${seed}:${draw}`, "presidential-orders");
     const where = `${place.name} (${place.key}), seed ${place.seed}`;
     const world = buildBenchWorld(place.seed, gameStartDate(), {
@@ -112,6 +112,6 @@ it("the federal pay floor order raises federal jobs paid under it and no state j
     return;
   }
   throw new Error(
-    `no federal job under the floor in 6 places: ${tried.join("; ")}; ${seed}`,
+    `no federal job under the floor in 40 places: ${tried.join("; ")}; ${seed}`,
   );
 }, 1_800_000);
