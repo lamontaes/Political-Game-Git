@@ -5,9 +5,9 @@ area: laws
 kind: bug
 priority: 3
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/gb-fixture
-pr: #5731
+pr: #5730
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-21T01:59:34.078Z
