@@ -5,12 +5,12 @@ area: people
 kind: research
 priority: 2
 size: M
-status: open
-claimed-by:
+status: in-pr
+claimed-by: claude/district-placement
 pr: #5698
 blocked-on:
 source: added with npm run pool -- add
-claimed-at:
+claimed-at: 2026-10-21T11:09:24.544Z
 ---
 
 **What.** Split from research-residents-sourced-parameters (row 3). SG-CORE-district-placement in src/core2/modules/residents.ts: a town split between state legislative districts places its counted households into the districts by income order, filling each in proportion to its Census population, so each district holds a slice of the town's income ladder. Replace it with each district's own Census tables (ACS by state legislative district: income, tenure, age) and its election results, so households are placed by the district's real mix. Open PR 5698 (claude/district-placement) works on this.
