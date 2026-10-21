@@ -5,9 +5,9 @@ area: laws
 kind: wiring
 priority: 2
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/outcome-health-fiscal
-pr: #5517
+pr: #5775
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-21T04:08:36.564Z
