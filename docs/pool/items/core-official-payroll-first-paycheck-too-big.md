@@ -13,12 +13,12 @@ source: added with npm run pool -- add
 claimed-at: 2026-10-20T01:06:50.224Z
 ---
 
-**What.** TODO
+**What.** Filed in error. The 7,295,261 gap in `official-salary-payroll.test.ts` (Willow Creek, Alaska, seed 162056d164d81980) is not a paycheck that is too big: the member is dead and unpaid after August 2025, so the paychecks add to less than the salary earned over the year. The cause is filed as gov-dead-official-still-seated and the test now checks only living officials. The CTO may drop this item.
 
-**Rules.** TODO
+**Rules.** None.
 
-**Done when.** TODO
+**Done when.** Dropped by the CTO.
 
-**Files.** TODO
+**Files.** src/core2/official-salary-payroll.test.ts
 
-**Notes.** TODO
+**Notes.** See gov-dead-official-still-seated.

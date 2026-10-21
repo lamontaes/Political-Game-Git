@@ -114,14 +114,17 @@ it(`pays officials by paycheck with withholding in ${place.name} (${place.key}),
     // (a state treasury before its first close) is owed and paid later.
     const annualMinor = (record as unknown as { annualMinor: number })
       .annualMinor;
-    // An official who died in the year is paid to the day of death and no
-    // further, so only those still living at the pay date are measured.
-    if (
-      seatedAtOpening.has(row.id) &&
-      annualMinor >= 3_000_000 &&
-      api.state.people.get(row.personId)?.alive
-    ) {
-      // The days served run from the opening to the pay date now.
+    if (seatedAtOpening.has(row.id) && annualMinor >= 3_000_000) {
+      // An official who died in the year is paid to the day of death and no
+      // further: their pay stopped before the year's end, and they are
+      // measured for the days served to then, like the living.
+      const paidFrom = (record as unknown as { paidFrom: string }).paidFrom;
+      if (!api.state.people.get(row.personId)?.alive)
+        expect(
+          paidFrom < api.state.date,
+          `${where}: ${row.id} paid after death`,
+        ).toBe(true);
+      // The days served run from the opening to the date pay reached.
       const served =
         (Date.parse((record as unknown as { paidFrom: string }).paidFrom) -
           Date.parse(openedOn)) /
