@@ -1,6 +1,6 @@
 /**
  * Which families choose the town's private school. Money alone ranked them
- * (best-off per child first); the owner ruled (Oct 20, #5483) that beliefs,
+ * (best-off per child first); beliefs (OWNER-DECISIONS.md, private schools),
  * the schools nearby and a child's needs decide too. This is the belief term:
  * a family's rank among the town's families by cash per child (0 to 1) is
  * scaled by how much its faith group favors private school, so a well-off

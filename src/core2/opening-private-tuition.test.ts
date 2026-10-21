@@ -55,8 +55,8 @@ describe(`private tuition in ${place.name}, ${place.state} (seed ${seed})`, () =
       ]);
     }
     // Who enrolls is a matter of means and beliefs: within a town, a family's
-    // cash per child as a rank in town times its faith's draw (the owner's
-    // Oct 20 ruling) puts every enrolled family at or above every family with
+    // cash per child as a rank in town times its faith's draw puts every
+    // enrolled family at or above every family with
     // children that did not enroll.
     for (const [placeId, enrolled] of enrolledByTown) {
       const inSchool = new Set(enrolled.map((row) => row.id));
