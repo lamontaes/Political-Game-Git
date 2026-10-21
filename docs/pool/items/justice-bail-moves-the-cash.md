@@ -22,3 +22,5 @@ claimed-at: 2026-10-20T00:52:41.074Z
 **Files.** src/core2/justice-pretrial.ts, src/core2/modules/justice.ts, src/core2/justice-pretrial.test.ts, src/core2/data/justice/parameters.json, src/core2/data/stopgaps.json
 
 **Notes.** Found from PR 5200, merged Oct 19 23:26 UTC. The files are the ones that PR touched: gh api repos/lamontaes/Political-Game-Git/pulls/5200/files. The id uses the justice prefix from the owner's ask; its area is gov.
+
+Built: posted bail posts a journal entry person to treasury (`bail:<case>`), returned at trial (`bail-return:<case>`); test in src/core2/justice-pretrial.test.ts. Held by the prosecuting government's treasury, not a separate court account (none exists).

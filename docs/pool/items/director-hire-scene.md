@@ -5,10 +5,10 @@ area: director
 kind: feature
 priority: 3
 size: M
-status: blocked
-claimed-by: claude/pool-hire-scene
+status: dropped
+claimed-by:
 pr:
-blocked-on: cto-close-duplicate-of-existing-first-day-scene
+blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-20T02:30:07.169Z
 ---
@@ -24,3 +24,5 @@ claimed-at: 2026-10-20T02:30:07.169Z
 **Notes.** TODO
 
 Checked Oct 20 (claude/political-game-pool-3xfqef-12), on reading `ledger.ts` and `data/english/parts/scene-words.json`: this item duplicates what exists. A hire already reaches the director as a `job-started` change (the household's pay changing, `ledger.ts` around line 926) and has worded scenes `lead-first-day-alone` and `lead-first-day-other`. It reaches only people the director watches (the player and their household and circle), which is the two-tier rule: everyone else gets no scene until they are filled in. So the chain test for a leaver's replacement cannot assert a director line for an arbitrary hire; a test that the player's own hire opens the first-day scene belongs to the player-offers test (`jobs-player-offers.test.ts`). The CTO can close this item as dropped.
+
+Oct 20: Dropped as a duplicate: a hire already reaches the director as a job-started change with worded first-day scenes for watched people.

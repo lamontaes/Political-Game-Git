@@ -24,6 +24,8 @@ function job(name: string, next?: string): string {
 describe("the release event", () => {
   it("runs on main pushes with a manual final drain", () => {
     expect(workflow).toContain("push:\n    branches: [main]");
+    // Pool-only commits start no run; any push touching other files does.
+    expect(workflow).toMatch(/paths-ignore:\n\s+- "docs\/pool\/\*\*"/);
     expect(workflow).toContain("workflow_dispatch:");
     expect(workflow).not.toContain("pull_request_target");
   });

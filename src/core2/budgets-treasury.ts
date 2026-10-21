@@ -16,7 +16,7 @@ import payeeData from "./data/budgets/spending-payees.json" with { type: "json" 
 import debtData from "./data/budgets/federal-debt.json" with { type: "json" };
 import federalBudget from "../../data/research/money/federal-budget-fy2025.json" with { type: "json" };
 import payerData from "./data/budgets/revenue-payers.json" with { type: "json" };
-import type { CoreAPI, CoreState, Source } from "./types";
+import type { CoreAPI, CoreState, OrganizationInput, Source } from "./types";
 import type { ModuleRow } from "./module-data";
 import {
   BUDGETS_MODULE_ID,
@@ -226,6 +226,26 @@ export function registerLinePayments(payer: LinePayer): void {
   if (!linePayers.includes(payer)) linePayers.push(payer);
 }
 
+/**
+ * Whether an employer and a treasury belong to one government: the same
+ * recorded government key, or, for a state's or the nation's office, the same
+ * jurisdiction.
+ */
+export function sameGovernment(
+  employer: Pick<OrganizationInput, "governmentFacts">,
+  treasury: Pick<OrganizationInput, "governmentFacts">,
+): boolean {
+  const facts = employer.governmentFacts;
+  if (facts?.governmentKey !== undefined)
+    return facts.governmentKey === treasury.governmentFacts?.governmentKey;
+  return (
+    facts?.governmentKind === "jurisdiction" &&
+    facts.governmentJurisdictionId !== undefined &&
+    facts.governmentJurisdictionId ===
+      treasury.governmentFacts?.governmentJurisdictionId
+  );
+}
+
 /** A payday from a treasury: the pay is that line's money spent in town. */
 export function notePublicPay(
   api: CoreAPI,
@@ -238,16 +258,17 @@ export function notePublicPay(
   },
 ): void {
   if (input.paidMinor <= 0) return;
-  const key = api.state.organizations.get(input.organizationId)?.governmentFacts
-    ?.governmentKey;
+  const employer = api.state.organizations.get(input.organizationId);
   // The treasury itself employs a post it hired; an opening employer of the
   // same government (the county's offices) is paid from that treasury.
   const gov = governments(api).find(
     (g) =>
       g.organizationId === input.organizationId ||
-      (key !== undefined &&
-        api.state.organizations.get(g.organizationId)?.governmentFacts
-          ?.governmentKey === key),
+      (employer !== undefined &&
+        sameGovernment(
+          employer,
+          api.state.organizations.get(g.organizationId)!,
+        )),
   );
   if (!gov) return;
   const line = lineForPost(gov.level, input.jobId);
@@ -262,19 +283,32 @@ export function notePublicPay(
   } as unknown as ModuleRow);
 }
 
-/** What a treasury keeps back at a close: its employees' wages for the coming month and what it still owes them. */
-function payrollReserve(api: CoreAPI, gov: GovernmentRow): number {
+/** What a treasury keeps back at a close: wages for the coming month of the employees it pays, and what it still owes them. */
+export function payrollReserve(api: CoreAPI, gov: GovernmentRow): number {
   const core = api.state as CoreState;
   const monthDays =
     treasuryParameter("daysPerYear") / treasuryParameter("monthsPerYear");
   let reserve = 0;
-  for (const jobId of core.finance.jobsByOrganization.get(gov.organizationId) ??
-    []) {
-    const job = core.jobs.get(jobId);
-    if (!job) continue;
-    reserve += core.work.totalsByJob.get(jobId)?.arrearsMinor ?? 0;
-    if (job.endsAt === undefined) reserve += job.wageDailyMinor * monthDays;
+  // Its own post-holders, and the employers of the same government whose
+  // payroll it funds (a town's departments): the close must leave their
+  // wages in the account, or the lines paid out first leave nothing to pay.
+  const funded = new Set<string>([gov.organizationId]);
+  const links = publicPayTreasuries(core);
+  for (const employer of core.organizations.values()) {
+    const authorityId = employer.publicPayAuthority?.id;
+    if (
+      authorityId !== undefined &&
+      links.get(authorityId)?.treasuryId === gov.organizationId
+    )
+      funded.add(employer.id);
   }
+  for (const employerId of funded)
+    for (const jobId of core.finance.jobsByOrganization.get(employerId) ?? []) {
+      const job = core.jobs.get(jobId);
+      if (!job) continue;
+      reserve += core.work.totalsByJob.get(jobId)?.arrearsMinor ?? 0;
+      if (job.endsAt === undefined) reserve += job.wageDailyMinor * monthDays;
+    }
   return Math.round(reserve);
 }
 

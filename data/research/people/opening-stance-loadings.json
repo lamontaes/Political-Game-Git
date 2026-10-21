@@ -1,0 +1,208 @@
+{
+  "id": "opening-stance-loadings",
+  "about": "How a person's lean, faith and four-year degree move their stance on a policy question, from the Cooperative Election Study 2020. Each loading is the average change in the stance (2 * P(support) - 1, the game's -1 to 1 scale) for a move across the whole predictor, holding the other two; lean runs from strong Democrat (-1) to strong Republican (+1), faith from never attending and unimportant (0) to weekly and very important (1), college is a four-year degree or more. Intervals are 95 percent from the weighted logit's covariance widened by the Kish design effect of the weights, with the standard error of the marginal effect scaled from the coefficient's (a delta-method shortcut). Questions with no survey item have no row: the engine starts them from the lean axis alone (ESTIMATED, zero loading). The CES has no personality measure, so there is no trait loading.",
+  "source": {
+    "title": "Cooperative Election Study 2020, Common Content",
+    "authors": "Schaffner, Ansolabehere, Luks",
+    "publisher": "Harvard Dataverse",
+    "url": "https://doi.org/10.7910/DVN/E9N6PH",
+    "year": 2021,
+    "weight": "commonweight",
+    "respondents": 57704
+  },
+  "script": "scripts/research/build-stance-loadings.py",
+  "questions": {
+    "civil-family-community.restrict-abortion": {
+      "item": "CC20_332c",
+      "itemText": "Prohibit all abortions after the 20th week",
+      "match": "direct",
+      "n": 57681,
+      "designEffect": 2.079,
+      "loadings": {
+        "lean": {
+          "value": 0.3838,
+          "low": 0.3691,
+          "high": 0.3985
+        },
+        "faith": {
+          "value": 0.6264,
+          "low": 0.5947,
+          "high": 0.658
+        },
+        "college": {
+          "value": -0.2384,
+          "low": -0.2601,
+          "high": -0.2168
+        }
+      }
+    },
+    "labor-workforce.raise-minimum-wage": {
+      "item": "CC20_350b",
+      "itemText": "Raise the minimum wage to $15 an hour",
+      "match": "direct",
+      "n": 57671,
+      "designEffect": 2.081,
+      "loadings": {
+        "lean": {
+          "value": -0.558,
+          "low": -0.573,
+          "high": -0.5429
+        },
+        "faith": {
+          "value": -0.151,
+          "low": -0.1809,
+          "high": -0.121
+        },
+        "college": {
+          "value": -0.149,
+          "low": -0.1699,
+          "high": -0.1282
+        }
+      }
+    },
+    "justice-public-safety.partner-with-federal-immigration-enforcement": {
+      "item": "CC20_331c",
+      "itemText": "Withhold federal funds from local police that do not report illegal immigrants",
+      "match": "close",
+      "n": 57662,
+      "designEffect": 2.081,
+      "loadings": {
+        "lean": {
+          "value": 0.4958,
+          "low": 0.4809,
+          "high": 0.5107
+        },
+        "faith": {
+          "value": 0.3566,
+          "low": 0.3248,
+          "high": 0.3883
+        },
+        "college": {
+          "value": -0.1544,
+          "low": -0.1767,
+          "high": -0.1322
+        }
+      }
+    },
+    "civil-family-community.ban-discrimination-in-housing-and-work": {
+      "item": "CC20_350a",
+      "itemText": "Prohibit discrimination on gender identity and sexual orientation (federal)",
+      "match": "proxy",
+      "n": 57651,
+      "designEffect": 2.079,
+      "loadings": {
+        "lean": {
+          "value": -0.3612,
+          "low": -0.3751,
+          "high": -0.3473
+        },
+        "faith": {
+          "value": -0.3546,
+          "low": -0.3849,
+          "high": -0.3244
+        },
+        "college": {
+          "value": 0.0237,
+          "low": 0.0031,
+          "high": 0.0442
+        }
+      }
+    },
+    "environment-energy.clean-electricity-standard": {
+      "item": "CC20_333b",
+      "itemText": "Each state must use a minimum amount of renewable fuels in electricity",
+      "match": "close",
+      "n": 57691,
+      "designEffect": 2.08,
+      "loadings": {
+        "lean": {
+          "value": -0.453,
+          "low": -0.4679,
+          "high": -0.4382
+        },
+        "faith": {
+          "value": -0.2858,
+          "low": -0.3178,
+          "high": -0.2537
+        },
+        "college": {
+          "value": 0.0653,
+          "low": 0.043,
+          "high": 0.0876
+        }
+      }
+    },
+    "environment-energy.price-carbon": {
+      "item": "CC20_333a",
+      "itemText": "Give the EPA power to regulate carbon dioxide emissions",
+      "match": "proxy",
+      "n": 57688,
+      "designEffect": 2.081,
+      "loadings": {
+        "lean": {
+          "value": -0.4785,
+          "low": -0.4933,
+          "high": -0.4637
+        },
+        "faith": {
+          "value": -0.2322,
+          "low": -0.2633,
+          "high": -0.2011
+        },
+        "college": {
+          "value": 0.0224,
+          "low": 0.0008,
+          "high": 0.044
+        }
+      }
+    },
+    "environment-energy.clean-air-plan-for-polluted-counties": {
+      "item": "CC20_333c",
+      "itemText": "Strengthen EPA enforcement of the Clean Air Act and Clean Water Act",
+      "match": "close",
+      "n": 57691,
+      "designEffect": 2.08,
+      "loadings": {
+        "lean": {
+          "value": -0.5253,
+          "low": -0.54,
+          "high": -0.5106
+        },
+        "faith": {
+          "value": -0.3015,
+          "low": -0.3323,
+          "high": -0.2706
+        },
+        "college": {
+          "value": 0.0864,
+          "low": 0.0648,
+          "high": 0.108
+        }
+      }
+    },
+    "justice-public-safety.civilian-oversight-of-police": {
+      "item": "CC20_334f",
+      "itemText": "Create a national registry of police investigated for misconduct",
+      "match": "proxy",
+      "n": 57681,
+      "designEffect": 2.081,
+      "loadings": {
+        "lean": {
+          "value": -0.2814,
+          "low": -0.2948,
+          "high": -0.2679
+        },
+        "faith": {
+          "value": -0.1449,
+          "low": -0.1737,
+          "high": -0.1162
+        },
+        "college": {
+          "value": -0.0337,
+          "low": -0.0531,
+          "high": -0.0143
+        }
+      }
+    }
+  }
+}
