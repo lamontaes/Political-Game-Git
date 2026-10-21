@@ -595,7 +595,16 @@ describe("audit 13, law breadth group A: every policy reaches people", () => {
         expect(funded[0]!.positions, where).toBeCloseTo(
           funded[0]!.baseStaff * ((2 * amount) / amount),
         );
-        expect(up, `${where}: ${key} no hires`).toBeGreaterThan(before);
+        // A town with no jobless adult to hire cannot fill the new positions:
+        // the staffing row says so, in place of hires.
+        if (up > before) expect(hired.length, where).toBeGreaterThan(0);
+        else {
+          const unfilled = employers.map((o) => staffingOf(api, key, o.id)!);
+          expect(
+            unfilled.some((r) => (r.unfilled ?? 0) > 0 && r.unfilledBecause),
+            `${where}: ${key} no hires and no recorded reason`,
+          ).toBe(true);
+        }
         for (const row of hired) {
           const jobId = core.people.get(row.targetId)?.jobId;
           expect(jobId, where).toBeDefined();
