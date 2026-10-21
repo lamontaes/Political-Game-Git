@@ -44,7 +44,7 @@ function amendSchoolsLine(direction: -1 | 1) {
           }
         : drawn;
     const where = `${place.name} (${place.key}), seed ${place.seed}`;
-    const { core, place: town } = buildBenchWorld(place.seed, gameStartDate(), {
+    const { core } = buildBenchWorld(place.seed, gameStartDate(), {
       twoLevel: true,
       placeKey: place.key,
     });
