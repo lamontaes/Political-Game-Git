@@ -7,8 +7,9 @@
  */
 import { countyPopulationSharesForPlace } from "../reference/government-units";
 import { corePlaceByKey } from "../place-lookup";
-import { addDays, daysBetween, makeIsoDate } from "../kernel/dates";
+import { addDays, ageOnDate, daysBetween, makeIsoDate } from "../kernel/dates";
 import countyNeighbors from "../data/housing/county-neighbors.json" with { type: "json" };
+import { decisionLean } from "../trait-decisions";
 import housingData from "../data/housing/housing.json" with { type: "json" };
 import housingParameters from "../data/housing/parameters.json" with { type: "json" };
 import type { Parameter } from "../parameters";
@@ -57,7 +58,6 @@ import {
 import { residentsRuntime } from "./residents";
 import { LAWS_MODULE_ID, lawChain, lawInForce } from "./laws";
 import { BUDGETS_MODULE_ID, governments } from "./budgets";
-import housingConstruction from "../data/housing/construction.json" with { type: "json" };
 import lawParameters from "../data/laws/reach-group-a-parameters.json" with { type: "json" };
 import { DEFAULT_HEALTH_DATA, severityImpulse } from "./health";
 import {
@@ -80,6 +80,7 @@ import type {
   CoreInput,
   CoreModule,
   CoreState,
+  PersonState,
   JobInput,
   Source,
 } from "../types";
@@ -257,7 +258,9 @@ function townOf(input: CoreInput): Town | undefined {
       ? [...countyPopulationSharesForPlace(geoid)].sort(
           (a, b) => (b[1] ?? 0) - (a[1] ?? 0),
         )[0]?.[0]
-      : geoid;
+      : geoid.length === "SSCCC".length
+        ? geoid
+        : undefined;
   const counts = new Map<string, number>();
   for (const row of input.households)
     counts.set(row.placeId, (counts.get(row.placeId) ?? 0) + 1);
@@ -894,6 +897,30 @@ function macroPrices(api: CoreAPI): PriceLevel | undefined {
     )?.priceIndex;
 }
 
+/** Members under 18, from their birth dates. */
+function childrenAt(
+  api: CoreAPI,
+  members: readonly (PersonState | undefined)[],
+): number {
+  const date = makeIsoDate(api.state.date);
+  return members.filter(
+    (row) =>
+      row &&
+      ageOnDate(makeIsoDate(row.birthDate), date) <
+        api.parameter("housingOwnerMinimumAge"),
+  ).length;
+}
+
+/** 0 to 1: rises through the late twenties and fades after the late fifties, each a smooth step. */
+function buyingAgeShape(api: CoreAPI, age: number): number {
+  const step = (center: number) =>
+    1 / (1 + Math.exp(-(age - center) / api.parameter("housingBuyAgeScale")));
+  return (
+    step(api.parameter("housingBuyAgeRiseCenter")) *
+    (1 - step(api.parameter("housingBuyAgeFadeCenter")))
+  );
+}
+
 function buyOffer(
   buy: boolean,
   targetId: string,
@@ -993,16 +1020,40 @@ function buyHomes(api: CoreAPI): void {
     // What it can put down: cash, and the savings the bank holds for it.
     const savings = depositsHeld(c, household.id);
     const means = cash + savings;
+    const reasons = {
+      baseline: p("housingBuyBaseline"),
+      cost:
+        -p("housingBuyCostWeight") * ((payment - lease.amountMinor) / income),
+      down:
+        -p("housingBuyDownWeight") *
+        Math.max(0, Math.log((down + 1) / (means + 1))),
+      // What really pulls a household toward owning, each sliding with the
+      // household's own record: children at home, the head's age, years in
+      // the lease and savings beyond the down payment.
+      children:
+        (p("housingBuyChildWeight") * Math.min(childrenAt(api, members), 3)) /
+        3,
+      age:
+        p("housingBuyAgeWeight") *
+        buyingAgeShape(
+          api,
+          ageOnDate(makeIsoDate(head!.birthDate), makeIsoDate(c.date)),
+        ),
+      tenure:
+        p("housingBuyTenureWeight") *
+        Math.min(
+          1,
+          daysBetween(makeIsoDate(lease.firstDueAt), makeIsoDate(c.date)) /
+            p("daysPerMeanYear") /
+            p("housingBuyTenureYears"),
+        ),
+      savings:
+        p("housingBuySavingsWeight") *
+        Math.min(1, Math.max(0, Math.log((means + 1) / (down + 1)))),
+    };
     const result = chooseAct(c, head!.id, [
       buyOffer(false, household.id, {}),
-      buyOffer(true, household.id, {
-        baseline: p("housingBuyBaseline"),
-        cost:
-          -p("housingBuyCostWeight") * ((payment - lease.amountMinor) / income),
-        down:
-          -p("housingBuyDownWeight") *
-          Math.max(0, Math.log((down + 1) / (means + 1))),
-      }),
+      buyOffer(true, household.id, reasons),
     ]);
     if (result.selected!.definition.id !== housingData.actions.buy.id) continue;
     if (means < down) continue;
@@ -1080,6 +1131,8 @@ function buyHomes(api: CoreAPI): void {
         rate,
         rentBeforeMinor: lease.amountMinor,
         monthlyIncomeMinor: Math.round(income),
+        // What decided it: each reason's contribution to the buy option.
+        reasons,
       });
     store(api)
       .table("dwellings")
@@ -1519,10 +1572,6 @@ function build(api: CoreAPI): void {
       c.modules.has(LAWS_MODULE_ID) &&
       landlord.placeId === lawChain(api).townPlaceId
     ) {
-      const multifamily = lawInForce(
-        api,
-        "us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones",
-      );
       const inclusionary = lawInForce(
         api,
         "us-policy-positions:housing-land-use.inclusionary-requirement",
@@ -1537,14 +1586,9 @@ function build(api: CoreAPI): void {
       );
       // These reads replace eligibility notices; remaining missing recipient
       // chains stay registered until construction and tenancy prove them.
-      if (multifamily.value === 1) api.stopgap("SG-GOV-REACH-A-housing-supply");
       if (inclusionary.value === 1)
         api.stopgap("SG-GOV-REACH-A-affordable-units");
       setZoning(store(api).table("stock"), landlord.placeId, {
-        multifamilyLandShare:
-          multifamily.value === 1
-            ? 1
-            : 1 - housingConstruction.zoning.singleFamilyOnlyShare,
         inclusionaryShare:
           inclusionary.value === 1
             ? lawParameters.parameters.inclusionaryAffordableShare.value
@@ -1801,6 +1845,67 @@ function remove(api: CoreAPI, caseId: string, owed: number): void {
   });
 }
 
+/**
+ * A filled-in household settles part of the arrears its group ran up: the
+ * cash its members hold beyond a month of living cost, times how far their
+ * traits lean toward settling what is owed over letting it lapse (a sliding
+ * scale, no fixed share). What it does not settle stays on the lease and goes
+ * to the cure deadline as any household's arrears do.
+ */
+function settleFilledInArrears(
+  api: CoreAPI,
+  leaseId: string,
+): {
+  paidMinor: number;
+  read: {
+    cashMinor: number;
+    livingMonthMinor: number;
+    willingness: number;
+    owedMinor: number;
+  };
+} {
+  const c = core(api);
+  const lease = c.finance.contracts.get(leaseId)!;
+  const members = lease.payerIds
+    .map((id) => c.people.get(id))
+    .filter((row): row is NonNullable<typeof row> => row !== undefined);
+  const cashMinor = members.reduce((sum, row) => sum + row.liquidMinor, 0);
+  const livingMonthMinor = Math.round(
+    (members.reduce((sum, row) => sum + row.livingCostDailyMinor, 0) *
+      api.parameter("jobsDaysPerYear")) /
+      api.parameter("macroMonthsPerYear"),
+  );
+  const lean = members.length
+    ? members.reduce(
+        (sum, row) =>
+          sum +
+          decisionLean(
+            c,
+            row,
+            "housing.settle-arrears",
+            "housing-settle-owed",
+            "housing-let-lapse",
+          ),
+        0,
+      ) / members.length
+    : api.parameter("zero");
+  const willingness = (api.parameter("one") + lean) / 2;
+  const owedMinor = lease.arrearsMinor;
+  const spare = Math.max(0, cashMinor - livingMonthMinor);
+  const paidMinor =
+    owedMinor > 0
+      ? payArrears(
+          api,
+          leaseId,
+          Math.min(owedMinor, Math.round(spare * willingness)),
+        )
+      : 0;
+  return {
+    paidMinor,
+    read: { cashMinor, livingMonthMinor, willingness, owedMinor },
+  };
+}
+
 export const HOUSING_MODULE: CoreModule = {
   id: HOUSING_MODULE_ID,
   state: {
@@ -1836,7 +1941,6 @@ export const HOUSING_MODULE: CoreModule = {
   // A counted household's open eviction case follows its people when they are
   // filled in: the lease becomes the household's own, with the arrears the
   // group had run up, and the case is no longer a counted one.
-  // stopgapId: SG-WORLD-housing-fill-in-arrears
   onFillIn(api, { householdId }) {
     const countedLease = `rent:${householdId}`;
     const lease = `lease:${householdId}`;
@@ -1849,8 +1953,11 @@ export const HOUSING_MODULE: CoreModule = {
       owedAtNoticeMinor: number;
       [key: string]: unknown;
     }[]) {
-      api.stopgap("SG-WORLD-housing-fill-in-arrears");
       api.carryStandingArrears(lease, row.owedAtNoticeMinor, row.noticeAt);
+      // The household settles part of it now, from its own cash and traits:
+      // what its members hold beyond a month's living, times how far their
+      // traits lean toward settling what is owed over letting it lapse.
+      const settled = settleFilledInArrears(api, lease);
       store(api)
         .table("cases")
         .put({
@@ -1858,6 +1965,8 @@ export const HOUSING_MODULE: CoreModule = {
           leaseId: lease,
           counted: false,
           filledInOn: api.state.date,
+          settledAtFillInMinor: settled.paidMinor,
+          settledFrom: settled.read,
         });
     }
   },

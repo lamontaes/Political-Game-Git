@@ -2,10 +2,7 @@
  * One conserving cash move between two recorded owners' main accounts, for
  * the economy engines' own payments (an owner's draw, founding capital, a
  * loan payment). It is the core's `accounts.transfer`, paying what the payer
- * holds; the reason is the id's leading part. When a place's counted
- * residents are on one side, `counted` names the person or household the
- * money belongs to, so that group pays or is paid rather than the place's
- * groups sharing it.
+ * holds; the reason is the id's leading part.
  */
 import { countedPayment } from "./counted-money";
 import { RESIDENTS_KIND } from "./residents";
@@ -19,7 +16,8 @@ export function transferCash(
   toOwnerId: string,
   amountMinor: number,
   source: Source,
-  counted?: { readonly personId?: PersonId; readonly householdId?: string },
+  /** The counted person or household the money is for, so their group's account takes it, not the place's groups by their people. */
+  counted: { personId?: PersonId; householdId?: string } = {},
 ): number {
   const amount = Math.floor(amountMinor);
   if (!(amount > 0)) return 0;

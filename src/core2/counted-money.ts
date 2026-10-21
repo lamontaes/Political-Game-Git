@@ -96,39 +96,6 @@ function householdById(
   return h && !h.gone ? h : undefined;
 }
 
-/**
- * The fund of the counted group a counted household belongs to, for an
- * engine that pays a household's own money (a benefit, a voucher), else
- * undefined when the household is not counted.
- */
-export function countedHouseholdFund(
-  api: CoreAPI,
-  rt: ResidentsRuntime,
-  householdId: string,
-): string | undefined {
-  const h = householdById(rt, householdId);
-  return h && h.group >= 0 ? fundOf(api, rt, h.group) : undefined;
-}
-
-/**
- * A whole amount a flow's counted parts earned, by the fund of each group
- * that earned it: the flow's own parts where keyed, else the place's groups
- * by their people.
- */
-export function splitToFunds(
-  api: CoreAPI,
-  rt: ResidentsRuntime,
-  flow: SplitFlow,
-  amountMinor: number,
-): Map<string, number> {
-  const out = new Map<string, number>();
-  const weights = flowWeights(rt, flow);
-  if (![...weights.values()].some((v) => v > 0)) return out;
-  for (const [group, share] of splitWhole(amountMinor, weights))
-    out.set(fundOf(api, rt, group), share);
-  return out;
-}
-
 /** The counted household a flow part belongs to, from its key. */
 function partHousehold(
   rt: ResidentsRuntime,
