@@ -5,8 +5,10 @@ area: world
 kind: wiring
 priority: 3
 size: M
-status: open
+status: claimed
 source: effect-web-poverty; stopgap SG-WEB-poverty-graduation-no-engine
+claimed-by: claude/schooling-to-pay
+claimed-at: 2026-10-21T16:18:11.006Z
 ---
 
 **What.** The jobs engine prices a hire from the occupation and the market, not from the person's schooling. Read each seeker's own schooling record when a wage is set, using the researched pay premium by level, so a place whose graduation rises hires better-paid adults a decade later. The poverty measure reads those incomes with no web link.
