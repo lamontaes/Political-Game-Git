@@ -5,11 +5,12 @@ area: world
 kind: bug
 priority: 2
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/pr-homeless-rent
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-21T10:05:57.453Z
 ---
 
 **What.** housing-calibration.test.ts fails on main in place 7237336 (Puerto Rico, world seed 63ef211a72f7f8d3519652d91152eaf5cda51a871ae2bed4e9221c537c7bd2f8): after a played year 110 of 2,253 people are homeless (488 per 10,000) against HUD's 6.5 per 10,000 for Puerto Rico, and every renter household starts above the 32 percent rent-burden line (188 of 188), 93 of them taken to court. Either the territory's rents or incomes are off by a large factor, or the eviction path has no brake there.
