@@ -5,12 +5,12 @@ area: world
 kind: stopgap
 priority: 2
 size: M
-status: claimed
-claimed-by: claude/counted-retiree-income
+status: open
+claimed-by:
 pr: #5455
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-21T14:02:40.040Z
+claimed-at:
 ---
 
 **What.** TODO
