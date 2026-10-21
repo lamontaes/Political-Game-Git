@@ -221,7 +221,7 @@
     "statePartyLoyalty": {
       "value": 1,
       "tag": "ESTIMATED",
-      "source": "A state-chamber member feels the party's pressure at this multiple of a member of Congress's, times their chamber's own multiple in state-chamber-loyalty.json (about one on average). Eight chambers drawn in eight places (Oct 16) gave a mean party unity on party-splitting roll calls of 0.885 against the federal party-unity figure of about 0.90 (CQ Vote Studies), so the base stays at one and each chamber's polarization sets its own multiple.",
+      "source": "A state-chamber member feels the party's pressure at this multiple of a member of Congress's, times their chamber's own multiple in state-chamber-loyalty.json (about one on average). Eight chambers drawn in eight places gave a mean party unity on party-splitting roll calls of 0.885 against the federal party-unity figure of about 0.90 (CQ Vote Studies), so the base stays at one and each chamber's polarization sets its own multiple.",
       "spread": [0.6, 1.2]
     }
   },
