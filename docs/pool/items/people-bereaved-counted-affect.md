@@ -7,10 +7,10 @@ priority: 2
 size: M
 status: claimed
 claimed-by: claude/bereaved-counted
-pr:
+pr: #5432
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-20T02:27:39.620Z
+claimed-at: 2026-10-21T04:16:42.971Z
 ---
 
 **What.** The health module's death event moves the mood and stress of the dead person's witnesses, but witnesses are only people in the full-person table, and in the two-level world most of a person's kin are counted people or husks that carry no mood. A run of Biggersville, Mississippi (seed hb1) for 700 days had 13 deaths and not one bereaved full person, so the effect of a death is nearly absent in play. A counted group should be moved by a death the way a full person is, times its count, so the town's bereaved show the sourced trajectories (about two thirds show no lasting rise, Bonanno 2002).
@@ -22,3 +22,9 @@ claimed-at: 2026-10-20T02:27:39.620Z
 **Files.** src/core2/modules/health.ts,scripts/health/bereavement-band.ts
 
 **Notes.** TODO
+
+Sent back 2026-10-20 from PR #5432 (branch claude/bereaved-counted): merge conflict with main in src/core2/modules/health.ts (code) after #5596; finish on that branch, merge main into it first.
+
+Sent back 2026-10-20 from PR #5432 (branch claude/bereaved-counted): Merging current origin/main conflicts again in src/core2/modules/health.ts. Resolve that code conflict on this branch, retaining both current health/trait behavior and the full/count death impulse paths, then rerun the changed-file gate and the ordinary counted-death proof. The earlier resolution is present, but the current merged result cannot be tested until this new conflict is resolved.; finish on that branch, merge main into it first.
+
+Sent back 2026-10-21 from PR #5432 (branch claude/bereaved-counted): The health conflict repair is present, but the item acceptance requires a named record chain from death to a bereaved persons mood and the directors line, and coverage of household and kin including counted people. The body gives aggregate band counts and says counted deaths still find kin only by familyIds; it supplies no named death/mood/director chain. Add the required Done when evidence table and that actual chain, or track the demonstrated bounded mechanism separately while keeping the remaining acceptance open. Keep both full and counted death paths and the ordinary drawn-world test. No local gate pass is claimed here.; finish on that branch, merge main into it first.

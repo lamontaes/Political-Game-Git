@@ -5,7 +5,7 @@ area: release
 kind: bug
 priority: 1
 size: S
-status: in-pr
+status: done
 claimed-by: claude/pool-quality-oct19
 pr: #5135
 blocked-on:
