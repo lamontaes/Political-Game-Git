@@ -26,11 +26,11 @@ import { lawChain } from "../modules/laws";
 import { residentsRuntime } from "../modules/residents";
 import { fillInPerson } from "../state";
 import { budgetToday } from "./group-a-money";
+import { onReachCalendar } from "./reach-workers";
 import {
   ageOn,
   currentStaff,
   ensureReachA,
-  onReachCalendar,
   reachParameter,
   reachTable,
   REACH_A_MODULE_ID,
@@ -40,6 +40,8 @@ import {
   townOrganizations,
   townPeople,
   writeRows,
+  endRows,
+  openReach,
 } from "./group-a-records";
 
 const STAFFING_KIND = "law-reach-a-staffing";
@@ -333,6 +335,18 @@ onReachCalendar(STAFFING_KIND, (api, work) => {
     row.lawId,
     specOf(row.key, "laid-off"),
     toTargets(laidOff),
+  );
+  // Someone hired on the line and now laid off no longer holds the job it funded.
+  const hiredSpec = specOf(row.key, "hired").id;
+  endRows(
+    api,
+    row.key,
+    hiredSpec,
+    new Set(
+      openReach(api, row.key)
+        .filter((r) => r.spec === hiredSpec && !laidOff.includes(r.targetId))
+        .map((r) => r.targetId),
+    ),
   );
   if (hired.length || laidOff.length)
     api.emit({
