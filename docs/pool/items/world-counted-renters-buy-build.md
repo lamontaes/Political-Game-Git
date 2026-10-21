@@ -7,7 +7,7 @@ priority: 2
 size: L
 status: open
 claimed-by:
-pr:
+pr: #5367
 blocked-on:
 source: added with npm run pool -- add
 claimed-at:
@@ -22,3 +22,5 @@ claimed-at:
 **Files.** src/core2/modules/housing.ts, src/core2/residents-economy.ts, src/core2/housing-mortgages.ts, src/core2/counted-money.ts, src/core2/housing.test.ts
 
 **Notes.** Found Oct 20 (claude/political-game-pool-yucp92-al): the diff of origin/claude/counted-renters-buy against main is two files, docs/pool/items/world-counted-renters-buy.md and a release note. Whoever owns world-counted-renters-buy can fold this item into it; until then this makes the work claimable.
+
+Sent back 2026-10-20 from PR #5367 (branch claude/housing-construction-stopgap): The date/ruling cleanup fixes the prior return. The body still explicitly reports zero ordinary-world purchases and says the test raises housingBuyBaseline to 30 and funds the group to obtain one. Both linked pool items require a positive one-year buildBenchWorld purchase through existing producers, naming the rent part, mortgage part, owner and balanced group/bank/seller records. That proof is not supplied by the forced calibration-and-cash fixture. Both items also prohibit scanning every counted renter monthly, which the body says remains unaddressed. Keep the edge-case fixture, supply the ordinary generated-world purchase and money chain, and satisfy the stated speed rule before completing these items.; finish on that branch, merge main into it first.

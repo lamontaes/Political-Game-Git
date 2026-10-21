@@ -5,9 +5,9 @@ area: world
 kind: stopgap
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/political-game-pool-yucp92-an
-pr:
+pr: #5651
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-20T10:18:07.870Z

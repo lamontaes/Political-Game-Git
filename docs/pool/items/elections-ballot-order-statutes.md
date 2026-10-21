@@ -10,7 +10,7 @@ claimed-by: claude/ballot-order-statutes
 pr: #5621
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-20T08:26:17.844Z
+claimed-at: 2026-10-21T02:36:44.774Z
 ---
 
 **What.** For 20 of the 56 places the ballot-order rule in data/research/elections/ballot-order-2026.json was read from Ballotpedia only or assumed (SG-GOV-ballot-order-estimates): five territories and fifteen states, mostly the primary rule or the order within a party. Read each place's statute from an official or code-publishing site, correct the rule where the text says otherwise, cite the section and URL, and clear the estimate flag on each row the text settles. A row the text does not settle stays an estimate with the reason written.
@@ -22,3 +22,9 @@ claimed-at: 2026-10-20T08:26:17.844Z
 **Files.** data/research/elections/ballot-order-2026.json, src/core2/modules/voting.ts, src/core2/data/stopgaps.json
 
 **Notes.** Split from research-elections-sourced-parameters on Oct 20; state code sites such as law.lis.virginia.gov were reachable from the cloud container, so the statutes can be read.
+
+Sent back 2026-10-20 from PR #5621 (branch claude/ballot-order-statutes): session and date notes (container fetch failures, 'searched Oct 20') in ballot-order-2026.json must not ship; finish on that branch, merge main into it first.
+
+Sent back 2026-10-20 from PR #5621 (branch claude/ballot-order-statutes): docs/pool/items/elections-ballot-order-statutes.md:20 requires voting.test.ts to pass in a drawn place with its seed named in the PR body. The body reports a pass but names neither that place nor seed. Supply the required replayable voting proof in the body and item Notes; the source-note cleanup commit fixes the earlier feedback, but this separately named proof is still absent.; finish on that branch, merge main into it first.
+
+Sent back 2026-10-21 from PR #5621 (branch claude/ballot-order-statutes): The replayable voting proof addresses the previous return, but the title and most of the body remain stale: they claim 12 confirmed and 8 estimated rows, eight changed rules in play, and a stopgap naming eight. The current diff and opening update retain only IN, PA, WI, AS, MP and VI, with Wisconsin confirmed and five estimated. Rewrite the title/body around that final scope and remove the abandoned eight-place claims. Also supply the required Done when evidence table mapping each acceptance line to the actual remaining rows and named voting run. No local gate pass is claimed here.; finish on that branch, merge main into it first.

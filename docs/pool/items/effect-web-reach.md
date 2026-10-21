@@ -5,7 +5,7 @@ area: core
 kind: wiring
 priority: 2
 size: M
-status: in-pr
+status: done
 claimed-by: effect-web-reach
 pr: #5557
 blocked-on:
