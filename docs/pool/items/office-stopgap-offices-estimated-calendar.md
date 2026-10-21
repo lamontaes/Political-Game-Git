@@ -4,10 +4,10 @@ title: "Stopgaps in offices (estimated-calendar): 1 open"
 area: office
 kind: stopgap
 priority: 3
-status: open
+status: dropped
 claimed-by:
 pr:
-blocked-on:
+blocked-on: research-offices-sourced-parameters
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/modules/offices.ts, kind estimated-calendar"
 ---
@@ -21,3 +21,5 @@ source: "src/core2/data/stopgaps.json, src/core2/modules/offices.ts, kind estima
 **Files.** src/core2/modules/offices.ts
 
 **Notes.** First row: The end of each term in progress at the opening for state and local offices: the seats of a body take turns over the years in one term that the office's calendar (the county schedule or the state's municipal election law
+
+Folded into research-offices-sourced-parameters (CTO, Oct 19, 2026).
