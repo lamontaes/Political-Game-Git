@@ -246,7 +246,7 @@
     }
   },
   "restingStressMoneyWeight": {
-    "value": 0.068,
+    "value": 0.087,
     "tag": "ESTIMATED",
     "citation": "Klein et al. (2016), 'Psychological stress in the German general population: PSS-10 norm values', BMC Psychiatry 16:159, N=2,463, Table 4 (https://pmc.ncbi.nlm.nih.gov/articles/PMC4877813), read in full on 2026-10-16.",
     "estimatedFrom": "The PSS-10 gap between the lowest and highest income group in the German norm: 13.83 against 11.36, 2.47 points of 40.",
@@ -4402,7 +4402,7 @@
     }
   },
   "resilienceBaseRateScale": {
-    "value": 0.068,
+    "value": 0.087,
     "tag": "ESTIMATED",
     "citation": "Scale at which the SSA 2023 period life table hazard counts against each person's resilience line, with the recorded chronic-condition weights (data/research/health/chronic-condition-pack-2026.json) multiplying it, chosen so expected yearly deaths match the life table applied to the same residents.",
     "estimatedFrom": "Calibration probe, October 9, 2026: two generated 10,000-resident towns (Sacramento, California, seed p10-drives-proof-2026-10-09: 0.1064; Kingsville, Texas, seed p10-probe: 0.1052) solved for equal expected deaths over 2021 against the SSA 2023 table. Totals only; no person's outcome is set by it.",
@@ -5375,7 +5375,7 @@
     }
   },
   "traitWeightCampaignsDonate": {
-    "value": 0.068,
+    "value": 0.087,
     "tag": "ESTIMATED",
     "citation": "Mondak, Hibbing, Canache, Seligson and Anderson (2010), Personality and Civic Engagement, American Political Science Review 104(1), Table 2, contributed money, openness logit 1.25 (interval 0.41 to 2.09): target odds ratio 1.72 between thirds. Found with the cross-product calibration of the played years of Newfane VT, Ute IA, Clifton KS and Cameron SC (seeds c1, d1, d3, d12, 365 days each, scripts/traits/trait-wiring-audit.ts): every kept reason total met with every kept trait lean, the weight at which the odds of the studied option between the top and bottom third of lean match the study's, with the threshold moved so the share who say yes is unchanged. Reached 1.72 on whether a person's reasons to give clear zero; no threshold moved because a gift grows with the reason.",
     "spread": {
