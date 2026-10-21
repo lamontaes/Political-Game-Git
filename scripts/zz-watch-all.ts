@@ -17,5 +17,5 @@ console.log("watched", n);
 for (let slice = 0; slice < 6; slice++) {
   const t0 = Date.now();
   advanceCore(core, addDays(makeIsoDate(core.date), 5));
-  console.log("SLICE", slice, core.date, "ms", Date.now() - t0, "imp", (globalThis as any).__imp, "rescore", (globalThis as any).__resc, "broadScan", (globalThis as any).__broad);
+  console.log("SLICE", slice, core.date, "ms", Date.now() - t0);
 }

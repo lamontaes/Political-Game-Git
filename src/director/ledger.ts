@@ -625,8 +625,6 @@ export function createDirector(
     thread: Thread,
     date: IsoDate,
   ): number {
-    (globalThis as any).__imp = ((globalThis as any).__imp ?? 0) + 1;
-    (globalThis as any).__broad = ((globalThis as any).__broad ?? 0) + broadMoments(book).length;
     const fading = fadingOf(thread, book, date);
     const discount = one - param("directorFadingDiscount") * fading;
     const forgotten =
@@ -729,14 +727,17 @@ export function createDirector(
     }
   }
 
+  /**
+   * Rescore the moments a pair shares by hindsight. `importance` holds each
+   * counterpart's importance for this pass, so a moment with many
+   * counterparts, stored for each of them, works each out once.
+   */
   function rescoreHindsight(
     book: PersonLedger,
     otherId: PersonId,
     date: IsoDate,
+    importance = new Map<PersonId, number>(),
   ) {
-    (globalThis as any).__resc = ((globalThis as any).__resc ?? 0) + 1;
-    // A counterpart's importance is the same for every moment in this pass.
-    const importance = new Map<PersonId, number>();
     const importanceFor = (id: PersonId) => {
       let value = importance.get(id);
       if (value === undefined) {
@@ -1242,8 +1243,12 @@ export function createDirector(
           momentId: moment.id,
           closeness: thread.closeness,
         });
-      rescoreHindsight(book, otherId, date);
     }
+    // Every counterpart holds the moment before any is rescored, and each
+    // counterpart's importance is worked out once for the moment.
+    const importance = new Map<PersonId, number>();
+    for (const otherId of counterpartIds)
+      rescoreHindsight(book, otherId, date, importance);
     const filter = ledger.sceneFilters.get(moment.personId);
     const entry = scheduleMoment(core, book, moment, {
       mode,
