@@ -116,7 +116,18 @@ function amendSchoolsLine(direction: -1 | 1) {
       budget: { changes: { schools: change } },
     });
     officeActHandlers(officeHost)["propose-budget"]!(api, mayorId, {} as never);
-    advanceCore(core, addDays(makeIsoDate(next), 10));
+    // The district's headcount each day: the engine funds the line change
+    // against the staff in place the day it takes effect, which ordinary
+    // turnover can move from what it was when the line was proposed.
+    const staffByDate = new Map<string, number>([[core.date, staffInPlace]]);
+    for (
+      let day = addDays(makeIsoDate(core.date), 1);
+      day <= addDays(makeIsoDate(next), 10);
+      day = addDays(makeIsoDate(day), 1)
+    ) {
+      advanceCore(core, day);
+      staffByDate.set(core.date, teachers(district.id).length);
+    }
     const adopted = budgetsOf(api, city.id).find(
       (b) => b.startsOn === next || b.adoptedOn === next,
     );
@@ -134,6 +145,7 @@ function amendSchoolsLine(direction: -1 | 1) {
       core,
       api,
       staffInPlace,
+      staffByDate,
       earlier,
       district,
       priorLine,
@@ -149,6 +161,17 @@ function amendSchoolsLine(direction: -1 | 1) {
   throw new Error(`no drawn place had the pieces: ${tried.join("; ")}`);
 }
 
+/** The headcount the engine funds against: the staff at the end of the day before it set the row (or that day's, when the day before was not recorded). */
+function baseDay(
+  r: { staffByDate: ReadonlyMap<string, number>; staffInPlace: number },
+  setOn: string,
+): number {
+  const before = addDays(makeIsoDate(setOn), -1);
+  return (
+    r.staffByDate.get(before) ?? r.staffByDate.get(setOn) ?? r.staffInPlace
+  );
+}
+
 it("a cut to the city's schools line ends named teachers' jobs at the public schools", () => {
   const r = amendSchoolsLine(-1);
   const laidOff = r.staffBefore.filter(
@@ -161,7 +184,7 @@ it("a cut to the city's schools line ends named teachers' jobs at the public sch
   expect(row!.baseStaff, r.where).toBe(
     r.earlier && r.earlier.fiscalYear === row!.fiscalYear
       ? r.earlier.baseStaff
-      : r.staffInPlace,
+      : baseDay(r, row!.setOn),
   );
   expect(row!.positions, r.where).toBeCloseTo(
     row!.baseStaff * ((r.priorLine + r.change) / r.priorLine),
@@ -187,7 +210,7 @@ it("a raise to the city's schools line hires named adults who had no work at the
   expect(row!.baseStaff, r.where).toBe(
     r.earlier && r.earlier.fiscalYear === row!.fiscalYear
       ? r.earlier.baseStaff
-      : r.staffInPlace,
+      : baseDay(r, row!.setOn),
   );
   expect(row!.positions, r.where).toBeCloseTo(
     row!.baseStaff * ((r.priorLine + r.change) / r.priorLine),
