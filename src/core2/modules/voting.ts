@@ -557,7 +557,10 @@ function appealFor(
     incumbentLean: incumbentLeanOf(api, voter),
     // The form of the ballot their own precinct prints.
     ballotForm: precinctIndexOf(api, voter),
-    profile: viewOf(api, voter.id),
+    // Their faith and degree, where the views engine runs in this world.
+    profile: api.state.modules.has(VIEWS_MODULE_ID)
+      ? viewOf(api, voter.id)
+      : undefined,
   });
   const tie = partyTie(api, voter.id);
   let heardPlatform = false;
