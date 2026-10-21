@@ -5,7 +5,7 @@ area: elections
 kind: bug
 priority: 3
 size: M
-status: in-pr
+status: done
 claimed-by: claude/challengers-term
 pr: #5756
 blocked-on:
