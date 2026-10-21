@@ -5,11 +5,12 @@ area: world
 kind: stopgap
 priority: 3
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/apply-stopgaps-d
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-21T23:06:03.721Z
 ---
 
 **What.** PR 5461 applies one row of the Oct 19 stopgap research: shelter-beds.json gives AS and MP, which no HUD Continuum of Care covers, the median of the three island areas the 2025 HIC does count (Guam 6.18, Puerto Rico 2.47, U.S. Virgin Islands 10.9 beds per 10,000) with that spread, ESTIMATED, instead of the nation's 14.56, read by shelterRateFor and shelterBeds (housing-homeless.ts), which the eviction path reads when it shelters a household. The umbrella research-stopgaps-oct19-apply (all 112 rows) stays open.
