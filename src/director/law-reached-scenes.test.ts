@@ -12,13 +12,14 @@ import { coreAPI } from "../core2/state";
 // A person who learns that a law took money from them has a moment the
 // director schedules from the learned-effect record (owner, Oct 15: scenes
 // fire from recorded causes). An heir told by the accounting of an estate was
-// told by a notice, which names no one, so no scene opens (the teller role is
-// left unbound by the record, not invented). A person told by a news story
-// has the story outlet's head as teller (civic-roles.test.ts); the played
-// year rarely lands a change that a story then explains.
+// told by a notice, which names no one, and no teller is invented (owner,
+// Oct 16: a person learns a law changed their money mostly from the news or
+// a feed, so the source is the record that reached them, and a person tells
+// only where a conversation record shows it): the scene is the reached
+// person's alone, citing the learned-effect record.
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(20).toString("hex");
 
-it(`an heir told by an estate notice has the moment and no teller (seed ${seed})`, () => {
+it(`an heir told by an estate notice has the scene alone, with no teller invented (seed ${seed})`, () => {
   const place = drawPlace(seed, "law-reached-scenes");
   setBookkeeping(false);
   const { core, director } = buildBenchWorld(place.seed, gameStartDate(), {
@@ -52,9 +53,19 @@ it(`an heir told by an estate notice has the moment and no teller (seed ${seed})
       const moment = book.momentsById.get(row.momentId);
       if (moment?.label !== "cause:event:law.effect-learned") continue;
       const here = `${where}, ${personId}, ${moment.causeId}`;
-      expect(row.bindings, here).toEqual([]);
-      expect(row.coverage?.reason, here).toBe("role-unbound");
-      expect(row.coverage?.detail, here).toContain("teller");
+      // Only the reached person is in it: nobody is made the teller.
+      expect(row.bindings.length, here).toBe(1);
+      const binding = row.bindings[0]!;
+      expect(binding.typeKey, here).toBe("law-takes-effect");
+      expect(
+        binding.presentIds.filter((id) => id !== personId),
+        here,
+      ).toEqual([]);
+      expect(
+        binding.roles.map((role) => role.role),
+        here,
+      ).toEqual(["reached"]);
+      expect(binding.roles[0]!.personIds, here).toEqual([personId]);
       moments += 1;
     }
   expect(

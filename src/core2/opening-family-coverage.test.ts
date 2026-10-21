@@ -3,7 +3,7 @@ import { expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { generatedOpening } from "./tooling/generated-world";
 
-// P10 (Oct 9) found only 6,481 of 10,001 residents with any recorded family and
+// P10 found only 6,481 of 10,001 residents with any recorded family and
 // 1.5 links per person. A generated opening now records family for nearly
 // everyone, and every link is mutual.
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(16).toString("hex");
