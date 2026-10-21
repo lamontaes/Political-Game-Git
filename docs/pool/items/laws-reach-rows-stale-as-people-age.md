@@ -5,7 +5,7 @@ area: laws
 kind: bug
 priority: 2
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/reach-rows-age
 pr: #5403
 blocked-on:
