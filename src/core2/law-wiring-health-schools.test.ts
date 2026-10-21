@@ -314,7 +314,15 @@ it("health, assistance and school laws reach people, move money and move outcome
   const tried: string[] = [];
   try {
     for (let n = 0; n < TRIES; n += 1) {
-      const draw = drawPlace(SEED, `law-wiring-health-schools-${n}`);
+      // GOLDEN_PATH_PLACE_KEY and GOLDEN_PATH_WORLD_SEED pin one place's world.
+      const draw = process.env.GOLDEN_PATH_PLACE_KEY
+        ? {
+            name: "pinned place",
+            state: "pinned",
+            key: process.env.GOLDEN_PATH_PLACE_KEY,
+            seed: process.env.GOLDEN_PATH_WORLD_SEED ?? SEED,
+          }
+        : drawPlace(SEED, `law-wiring-health-schools-${n}`);
       const where = `${draw.name} (${draw.state}, ${draw.key}), seed ${draw.seed}`;
       const why = tryPlace(where, draw.seed, draw.key);
       if (why === null) return;
