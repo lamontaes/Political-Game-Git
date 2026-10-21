@@ -44,7 +44,12 @@ describe("bring it up: a law taking effect", () => {
         });
       const reader = [...core.people.values()].find(
         (row) =>
-          row.alive && row.knownIds.size > 0 && lawStory(row.id).length > 0,
+          row.alive &&
+          row.knownIds.size > 0 &&
+          // The newest change they know of is the law's story, so it is the
+          // one they bring up.
+          lawStory(row.id)[0]?.eventId ===
+            changesKnownTo(core, row.id)[0]?.eventId,
       );
       if (!reader) continue;
       const [change] = lawStory(reader.id);
