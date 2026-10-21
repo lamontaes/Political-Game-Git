@@ -5,9 +5,9 @@ area: core
 kind: wiring
 priority: 2
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/labor-participation-web
-pr:
+pr: #5776
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-21T04:01:14.378Z
