@@ -11,6 +11,12 @@ on:
   pull_request:
   push:
     branches: [main]
+    # A commit that touches only the pool (a claim, a status change, an add)
+    # changes no code, so it starts no run: 93 of main's last 100 runs of this
+    # workflow were for such commits, filling the runners the Release run and
+    # pull requests wait for. A push that also changes anything else runs.
+    paths-ignore:
+      - "docs/pool/**"
 
 permissions:
   contents: read
