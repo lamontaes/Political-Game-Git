@@ -81,6 +81,19 @@ export function wordArchiveStory(
       date: fact(sayDate(story.date)),
       [recordKind === "law-enacted" ? "enacted" : "effective"]: fact("yes"),
     };
+  } else if (recordKind === "parent-died") {
+    // Reported once, to the survivor: the parent is named from the fact's own names.
+    const survivor = String(story.facts.survivorId ?? "");
+    const name = [story.facts.givenName, story.facts.familyName]
+      .filter(Boolean)
+      .join(" ");
+    if (!name) return null;
+    kind = "death";
+    speaker = survivor || story.id;
+    facts = {
+      name: fact(name, survivor ? [survivor] : []),
+      date: fact(sayDate(story.date)),
+    };
   } else return null;
   const packet: GroundedEnglishPacket = {
     surface: "dialogue",

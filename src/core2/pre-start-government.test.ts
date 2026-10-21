@@ -22,13 +22,19 @@ it("lists how an official reached their seat before the start, by record id", ()
   const rows = preStartHistory(core, { kind: "office.seat-reached" });
   expect(rows.length, label).toBeGreaterThan(0);
   const terms = coreAPI(core).moduleState(OFFICES_MODULE_ID).table("terms");
+  let carded = 0;
   for (const row of rows) {
     const term = terms.get(String(row.facts.termId));
     expect(term, row.id).toBeDefined();
     expect(row.facts.reached, row.id).toBe(term!.reached);
     expect(row.date < core.startedAt, row.id).toBe(true);
     const holder = row.personIds?.[0];
-    if (!holder) continue;
+    // A vacant seat's record names nobody, and its term has no holder either.
+    if (!holder) {
+      expect(term!.personId, `${row.id} names no holder`).toBeFalsy();
+      continue;
+    }
+    carded += 1;
     const seat = personCard(core, holder).seats.find(
       (s) => s.recordId === row.id,
     );
@@ -37,6 +43,9 @@ it("lists how an official reached their seat before the start, by record id", ()
       reached: String(term!.reached),
     });
   }
+  expect(carded, `${label}: no seat record names its holder`).toBeGreaterThan(
+    0,
+  );
   const phases = preStartHistory(core, { kind: "law.phase" });
   expect(phases.length, label).toBeGreaterThan(0);
   const laws = coreAPI(core).moduleState("core2-laws-v1").table("laws");
