@@ -295,7 +295,8 @@ export function pickLook(
   const pool = dressed.length ? near(dressed) : near(fits);
   if (!pool.length) return null;
   // The player's look family leads, whatever they wear (their identity holds
-  // across ages; stopgap SG-PEOPLE-one-look-per-activity).
+  // across ages).
+  // stopgapId: SG-PEOPLE-one-look-per-activity
   const lineage = person.player ? lineageOf(person, fits) : undefined;
   const family = lineage ? fits.filter((row) => row.family === lineage) : [];
   const own = family.length ? near(family) : [];
