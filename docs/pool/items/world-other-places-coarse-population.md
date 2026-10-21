@@ -5,12 +5,12 @@ area: world
 kind: feature
 priority: 2
 size: L
-status: in-pr
-claimed-by: claude/other-places-coarse
+status: open
+claimed-by:
 pr: #5555
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-20T13:48:40.091Z
+claimed-at:
 ---
 
 **What.** Only the player's town has counted people. A president who visits another town (SG-OFFICE-FED-trip-residents), a relative who lives elsewhere, a candidate from another district and any person the player meets outside the town are identities with no household, job or pay in that place. Keep each other place coarse, as the owner's Oct 11 two-level rule says: counts by age, household type, occupation and pay band from the same census tables buildPopulation already reads, held per place and stepped by the regional economy, not a second simulation. A person met there is filled in from those counts by the same fill-in rule as the player's town, matching the counts (a place whose counts show 12 bakers has a baker with the pay the counts say).
@@ -26,3 +26,5 @@ claimed-at: 2026-10-20T13:48:40.091Z
 Sent back 2026-10-20 from PR #5555 (branch claude/other-places-coarse): new Core coarse-place.ts imports old simulation population and town-employment runtime modules; read or port these inputs through Core-owned modules and data; finish on that branch, merge main into it first.
 
 Sent back 2026-10-20 from PR #5555 (branch claude/other-places-coarse): see the Cloud merger comment on that PR for the exact reason; finish on that branch, merge main into it first.
+
+Sent back 2026-10-21 from PR #5555 (branch claude/other-places-coarse): The import, generated-file formatting and D.C. Senate fixes are present. Acceptance is still incomplete: docs/pool/items/world-other-places-coarse-population.md:20 requires a one-year played-world trip whose resident has a household, job and pay matching held place counts, by record ids. The new SG-WORLD-coarse-place-no-payroll row in src/core2/data/stopgaps.json:5401 says the new identity:work fact has no employer, payroll or household and no engine reads it; the body also says counts are not stored or stepped and the money half is not done. That does not meet this item or justify resolving SG-OFFICE-FED-trip-residents. Please finish the named chain, or give this first slice a bounded pool item with its own acceptance and leave the broader trip/payroll item open. No local gates are claimed for this review.; finish on that branch, merge main into it first.
