@@ -199,10 +199,11 @@ export function birthCircumstances(
           ? currentCloseness(api.state, relationship)
           : p("renewalUnknownCloseness")) -
         p("one")),
-    partnership:
-      partner && mother.householdId === partner.householdId
+    partnership: partner
+      ? mother.householdId === partner.householdId
         ? p("one")
-        : -p("renewalWaitPull"),
+        : -p("renewalWaitPull")
+      : -p("renewalNoPartnerPull"),
   };
 }
 
