@@ -11,11 +11,15 @@ import { advanceCore } from "./life";
 // twenty school acquaintances on 134 to 236 days of a year. In the played
 // world the household is the daily company and acquaintances are rare.
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(20).toString("hex");
-const place = drawPlace(seed, "life-contact-frequency");
 const DAYS = 355;
+/** Places drawn at most to find a player with both housemates and acquaintances. */
+const DRAWS = 4;
 
-it(`the player's household is in contact most days and acquaintances rarely, in ${place.name}, seed ${seed}`, () => {
-  setBookkeeping(false);
+/** Days of contact over the year with each tie, split into the player's housemates and acquaintances. */
+function yearOf(draw: number) {
+  const drawSeed = draw ? `${seed}:${draw}` : seed;
+  const place = drawPlace(drawSeed, "life-contact-frequency");
+  const where = `${place.name} (${place.key}), draw seed ${drawSeed}, world seed ${place.seed}`;
   const { core } = buildBenchWorld(place.seed, gameStartDate(), {
     twoLevel: true,
     placeKey: place.key,
@@ -44,11 +48,27 @@ it(`the player's household is in contact most days and acquaintances rarely, in 
     );
   }
   console.log(
-    `CONTACT ${place.name} ${seed} household ${household.join(",")} others ${others.join(",")}`,
+    `CONTACT ${where} household ${household.join(",")} others ${others.join(",")}`,
   );
-  // Whoever lives with the player is in contact on a good share of days.
-  if (household.length)
-    expect(Math.max(...household)).toBeGreaterThan(DAYS / 4);
-  // Acquaintances outside the household and family are not in contact on most days.
-  for (const n of others) expect(n).toBeLessThan(DAYS / 4);
+  return { where, household, others };
+}
+
+it(`the player's household is in contact most days and acquaintances rarely (seed ${seed})`, () => {
+  setBookkeeping(false);
+  const tried: string[] = [];
+  for (let draw = 0; draw < DRAWS; draw += 1) {
+    const { where, household, others } = yearOf(draw);
+    tried.push(where);
+    // A player living alone or knowing no one outside the home can't show
+    // both halves; the next place is drawn.
+    if (!household.length || !others.length) continue;
+    // Whoever lives with the player is in contact on a good share of days.
+    expect(Math.max(...household), where).toBeGreaterThan(DAYS / 4);
+    // Acquaintances outside the household and family are not in contact on most days.
+    for (const n of others) expect(n, where).toBeLessThan(DAYS / 4);
+    return;
+  }
+  throw new Error(
+    `no drawn place had a player with both housemates and acquaintances: ${tried.join("; ")}`,
+  );
 }, 900_000);
