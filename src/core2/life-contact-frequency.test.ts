@@ -48,7 +48,7 @@ function yearOf(draw: number) {
     );
   }
   process.stdout.write(
-    `CONTACT ${where} household ${household.join(",")} others ${others.join(",")}\n`,
+    `CONTACT ${where} household ${household.join(",")} others ${others.join(",")}; relationship contact days ${JSON.stringify([...days])}\n`,
   );
   return { where, household, others };
 }
