@@ -5,12 +5,12 @@ area: world
 kind: stopgap
 priority: 2
 size: M
-status: open
-claimed-by:
+status: in-pr
+claimed-by: claude/offer-deadline
 pr: #5232
 blocked-on:
 source: added with npm run pool -- add
-claimed-at:
+claimed-at: 2026-10-21T12:38:34.871Z
 ---
 
 **What.** A job offer's deadline stops the player's clock once as a reminder instead of holding it until the player answers, and an unanswered offer lapses as the employer's withdrawal. Replace this with a held offer-deadline stop once the play screen shows the player's offers with accept and decline controls, so a lapse only happens when the player lets it. The player sees an offer arrive, a reminder before its deadline, and the choice.
