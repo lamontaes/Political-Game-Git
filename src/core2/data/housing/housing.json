@@ -60302,5 +60302,34 @@
         "2026-Q2": 526.96
       }
     }
+  },
+  "islandAreas": {
+    "source": {
+      "tag": "SOURCED",
+      "asOf": "2026-10-20",
+      "citation": "U.S. Census Bureau, 2020 Census Demographic and Housing Characteristics Summary File press releases for American Samoa, Guam, the Northern Mariana Islands and the U.S. Virgin Islands (https://census.gov/newsroom/press-releases/2023/2020-dhc-summary-file-american-samoa.html, .../2020-dhc-summary-file-guam.html, .../2020-dhc-summary-file-cnmi.html, .../2020-dhc-summary-file-usvi.html). Guam excludes military housing units. The releases give shares, not counts, so tenure is per thousand occupied units; rent is the median monthly gross rent (Guam's release says median monthly rent).",
+      "spread": {
+        "status": "unmeasured",
+        "reason": "The releases publish single medians with no margin of error; the full DHC tables hold them by municipality."
+      }
+    },
+    "places": {
+      "AS": {
+        "tenure": [1000, 711],
+        "rentValue": [601, 84400]
+      },
+      "GU": {
+        "tenure": [1000, 520],
+        "rentValue": [1057, 277800]
+      },
+      "MP": {
+        "tenure": [1000, 290],
+        "rentValue": [502, 184200]
+      },
+      "VI": {
+        "tenure": [1000, 478],
+        "rentValue": [926, 290600]
+      }
+    }
   }
 }
