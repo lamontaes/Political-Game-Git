@@ -5,7 +5,7 @@ area: gov
 kind: stopgap
 priority: 2
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/standins-other
 pr: #5155
 blocked-on: gov-standin-budgets-adopted-by-rule
