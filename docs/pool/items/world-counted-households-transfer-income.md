@@ -10,6 +10,7 @@ claimed-by:
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at:
 ---
 
 **What.** A counted household's income (householdIncome in src/core2/modules/residents.ts) is its recorded wages, its retirement awards and its share of the place's unplaced workers. Nothing else is paid to it: no Social Security for a disabled or surviving member, no cash assistance under the law in force. Once unplaced workers are whole people (branch claude/pr-renter-income), about 40 percent of renter households in a Puerto Rico town have no income at all and are evicted (65 homeless where HUD implies about 1). Pay counted households the transfers the same rules give a full household, read by householdIncome, rent and the eviction path.
@@ -21,3 +22,5 @@ source: added with npm run pool -- add
 **Files.** src/core2/modules/residents.ts, src/core2/residents.ts
 
 **Notes.** Found working world-counted-renter-income-puerto-rico-third (see its Oct 21 notes for the ACS figures fetched: B19055, B19065, B19067 for Puerto Rico).
+
+Oct 21 (claude): not built. The Done-when starts from "the branch's whole unplaced workers merged" (claude/pr-renter-income), which is not on main, so the day-one no-income share cannot be measured from main. Take it after that lands. Claim released.
