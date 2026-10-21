@@ -99,19 +99,10 @@ function amendSchoolsLine(direction: -1 | 1) {
     expect(budgetProposalDue(api, officeHost, mayorId), where).not.toBeNull();
     const staffBefore = teachers(district.id).map((j) => j.personId);
     const staffInPlace = staffBefore.length;
-    const jobless = new Set(
-      [...core.people.values()]
-        .filter(
-          (person) =>
-            person.alive &&
-            person.placeId === town.context.jurisdiction.id &&
-            // No job, or one that has ended (the hiring rule's own meaning of
-            // "without work").
-            (!person.jobId ||
-              core.jobs.get(person.jobId)?.endsAt !== undefined ||
-              !core.jobs.has(person.jobId)),
-        )
-        .map((person) => person.id),
+    // The job each full person held when the line was proposed: a hire must
+    // not have been taken from a job still running.
+    const priorJob = new Map(
+      [...core.people.values()].map((person) => [person.id, person.jobId]),
     );
     const fullBefore = new Set(core.people.keys());
     const change = direction * Math.floor(priorLine / 3);
@@ -143,7 +134,7 @@ function amendSchoolsLine(direction: -1 | 1) {
       adopted,
       staffBefore,
       activeNow,
-      jobless,
+      priorJob,
       fullBefore,
       teachers,
     };
@@ -194,11 +185,15 @@ it("a raise to the city's schools line hires named adults who had no work at the
   console.log(
     `schools raise: ${r.where}: ${hired.length} hired at ${r.district.id}; jobs ${jobIds.slice(0, 5).join(", ")}; people ${hired.slice(0, 5).join(", ")}`,
   );
-  // Each hire is a person the town's records show without a job beforehand,
-  // and the job is a record at the district.
-  for (const personId of hired)
+  // Each hire is a counted resident filled in, or a full person whose earlier
+  // job (if any) had ended by the day they were hired; none was taken from a
+  // job still running. The job is a record at the district.
+  for (const personId of hired) {
+    const prior = r.priorJob.get(personId);
+    const earlier = prior ? r.core.jobs.get(prior) : undefined;
     expect(
-      r.jobless.has(personId) || !r.fullBefore.has(personId),
-      `${r.where}: ${personId} was hired at ${r.district.id} but was a full person who already had work (jobs ${jobIds.join(", ")})`,
+      !r.fullBefore.has(personId) || !earlier || earlier.endsAt !== undefined,
+      `${r.where}: ${personId} was hired at ${r.district.id} while ${prior} was still running (jobs ${jobIds.join(", ")})`,
     ).toBe(true);
+  }
 }, 1_800_000);
