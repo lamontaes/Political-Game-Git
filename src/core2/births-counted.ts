@@ -35,16 +35,22 @@ import natality2024 from "../../data/research/renewal/natality-2024.json" with {
 import areaNames from "../../data/research/renewal/area-names.json" with { type: "json" };
 import lifeTables from "./data/ssa-cohort-life-tables.json" with { type: "json" };
 import stateMortality from "./data/state-mortality.json" with { type: "json" };
+import { bookkeeping } from "./bookkeeping";
 import { renewalParameter } from "./births-parameters";
 import { DEFAULT_HEALTH_DATA, severityImpulse } from "./modules/health";
 import { openingTemperaments } from "./opening-personality";
 import {
   addCountedPerson,
   countedHouseholdsByPlace,
+  householdIncome,
+  incomeBandOf,
   removeCountedPerson,
   residentsRuntime,
 } from "./modules/residents";
+import { assignDeathCause } from "./death-cause";
+import { deathWebFactor } from "./health-web";
 import type { ResidentHouseholdRecord } from "./residents";
+import { webFactorFor } from "./outcome-web-reach";
 import {
   OUTCOME_WEB_MODULE_ID,
   outcomeWebFactor,
@@ -302,13 +308,42 @@ export function applyCountedFlows(
     // (one model, two tiers): every expected count is in real people, and an
     // event in its record consumes that many.
     const weightOf = new Map<string, number>();
-    const counted = residentsRuntime(core)?.store;
+    /** Whether each counted household rents or owns, for the links that split on it. */
+    const tenureOf = new Map<string, "rent" | "own">();
+    const runtime = residentsRuntime(core);
+    const counted = runtime?.store;
+    // The household's income fifth, for the outcome web's factor on a death.
+    const fifthOf = new Map<string, number>();
     for (const record of households) {
       const at = counted?.householdOf.get(record.household.id);
       const weight =
         at === undefined ? 1 : counted!.weightOf(counted!.households[at]!);
-      for (const person of record.people) weightOf.set(person.id, weight);
+      if (at !== undefined)
+        tenureOf.set(
+          record.household.id,
+          counted!.households[at]!.tenure === "rent" ? "rent" : "own",
+        );
+      const fifth =
+        at === undefined
+          ? undefined
+          : incomeBandOf(householdIncome(runtime!, counted!.households[at]!));
+      for (const person of record.people) {
+        weightOf.set(person.id, weight);
+        if (fifth !== undefined) fifthOf.set(person.id, fifth);
+      }
     }
+    // The web's factor on each member's chance of a serious illness, by age and fifth.
+    const webDeath: { recordId: string | null } = { recordId: null };
+    const webDeaths = (person: PersonInput, on: string) => {
+      const found = deathWebFactor(
+        api,
+        placeId,
+        ageOf(person, on),
+        fifthOf.get(person.id),
+      );
+      webDeath.recordId ??= found.recordId;
+      return found.factor;
+    };
     const weightOfPerson = (person: PersonInput) =>
       weightOf.get(person.id) ?? 1;
     const start = { people: people.length, households: households.length };
@@ -321,6 +356,9 @@ export function applyCountedFlows(
       startHouseholds: start.households,
       births: [] as string[],
       deaths: [] as string[],
+      /** The cause of each death this month, in real people, and by the dead person's id. */
+      deathCauses: {} as Record<string, number>,
+      causeOf: {} as Record<string, string>,
       /** Counted people who fell seriously ill this month, and who is ill at its end. */
       fellIll: [] as string[],
       /** At a place's first month: those already ill, their illness begun before the opening. */
@@ -337,6 +375,8 @@ export function applyCountedFlows(
       // the web month record it was read from (null where the web is off).
       webBirths: webBirthsFactor,
       webRecordId: webBirths?.recordId ?? null,
+      /** The web month record the deaths' factor was read from (null where it is off or moved nothing). */
+      webDeathRecordId: null as string | null,
       endPeople: 0,
       endHouseholds: 0,
     };
@@ -371,6 +411,17 @@ export function applyCountedFlows(
       if (found.dueDate > date) continue;
       ill.delete(found.id);
       endCountedIllness(api, found.id);
+      // The cause the town's age band is owed the most; the counts row keeps
+      // it by cause (in real people) and by the person's id.
+      const died = assignDeathCause(api, {
+        placeId,
+        age: ageOf(person, date),
+        incomeFifth: fifthOf.get(person.id),
+        weight: weightOfPerson(person),
+      });
+      row.deathCauses[died.cause] =
+        (row.deathCauses[died.cause] ?? 0) + weightOfPerson(person);
+      row.causeOf[person.id] = died.cause;
       for (const heir of removeCountedPerson(core, person.id))
         row.estates.push({ deceasedId: person.id, ...heir });
       row.deaths.push(person.id);
@@ -405,7 +456,9 @@ export function applyCountedFlows(
                   member.looks?.gender,
                   Number(member.birthDate.slice(0, 4)),
                   ageOf(member, on),
-                ) * mortality,
+                ) *
+                  mortality *
+                  webDeaths(member, on),
               ),
               months,
             ) *
@@ -490,6 +543,7 @@ export function applyCountedFlows(
         delete owed[key];
       }
     row.ill = ill.size;
+    row.webDeathRecordId = webDeath.recordId;
 
     // Births: the state's rate for every counted woman of each age, summed;
     // the households whose circumstances stand best toward a child first.
@@ -514,8 +568,18 @@ export function applyCountedFlows(
           ([[low, high]]) => age >= low && age <= high,
         )?.[1];
         if (!rate) continue;
+        // The web's links land on each woman by her own age and home (a
+        // recession delays births most among women in their early twenties;
+        // dearer homes raise owners' births and lower renters').
+        const webFactor = webOn
+          ? webFactorFor(api, placeId, "births.rate", {
+              age,
+              sex: "female",
+              tenure: tenureOf.get(record.household.id),
+            })
+          : 1;
         row.expected.births +=
-          monthlyShare(rate * webBirthsFactor, months) * weightOfPerson(woman);
+          monthlyShare(rate * webFactor, months) * weightOfPerson(woman);
         const recent = record.people.some(
           (row) =>
             woman.familyIds.includes(row.id) &&
@@ -569,7 +633,9 @@ export function applyCountedFlows(
     const end = countedHouseholdsByPlace(core).get(placeId) ?? [];
     row.endHouseholds = end.length;
     row.endPeople = end.reduce((n, record) => n + record.people.length, 0);
-    store.table(rowsTable).put(row as unknown as ModuleRow);
+    // The month's record is bookkeeping: nothing in play reads it, only
+    // tests and the bench, which run with bookkeeping on.
+    if (bookkeeping()) store.table(rowsTable).put(row as unknown as ModuleRow);
     store.table(carryTable).put({ id: placeId, ...carry });
     notifyCountedDeaths(api, row);
   }

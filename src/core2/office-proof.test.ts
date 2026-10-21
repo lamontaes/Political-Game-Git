@@ -25,14 +25,14 @@ import {
 } from "./office-day-state";
 import { drawPlace } from "../../scripts/core2-year/place";
 
-// Territorial office data can have no state seat to play: draw places until
-// one seats both a legislator and a governor, and name every place passed over.
-function drawStateWorld() {
-  const passedOver: string[] = [];
-  for (let attempt = 0; attempt < 8; attempt++) {
-    const seed =
-      (attempt === 0 && process.env.OFFICE_STATE_SEED) ||
-      randomBytes(8).toString("hex");
+const baseSeed =
+  process.env.OFFICE_STATE_SEED || randomBytes(8).toString("hex");
+
+/** Build a played world; draw again, a bounded number of times, until the place has a governor and a legislator to play. */
+function drawWorld() {
+  const tried: string[] = [];
+  for (let attempt = 0; attempt < 6; attempt += 1) {
+    const seed = attempt ? `${baseSeed}:${attempt}` : baseSeed;
     const place = drawPlace(seed, "office-state");
     const world = buildBenchWorld(seed, gameStartDate(), {
       twoLevel: true,
@@ -44,17 +44,17 @@ function drawStateWorld() {
       ?.personId;
     const member = seats.find((s) => s.office.kind.startsWith("legislature-"))
       ?.holder?.personId;
-    if (governor && member) {
-      console.log(
-        `office-day-state: ${place.name} (${place.key}), seed ${seed}`,
-      );
+    console.log(
+      `office-day-state: ${place.name} (${place.key}), seed ${seed}${governor && member ? "" : ", no state seat to play"}`,
+    );
+    if (governor && member)
       return { seed, place, world, api, governor, member };
-    }
-    passedOver.push(`${place.name} (${place.key}), seed ${seed}`);
+    tried.push(`${place.name} (${place.key})`);
   }
-  throw new Error(`No drawn place seated both: ${passedOver.join("; ")}`);
+  throw new Error(`No drawn place has a seat to play: ${tried.join("; ")}`);
 }
-const { seed, place, world, api, governor, member } = drawStateWorld();
+
+const { seed, place, world, api, governor, member } = drawWorld();
 const core = world.core;
 const player = new BenchPlayer(core, world.director);
 
@@ -127,6 +127,6 @@ describe(`ten days in a state office (${place.name}, seed ${seed})`, () => {
       expect(core.date >= to).toBe(true);
       // The office day wrote something: an entry done or an act kept.
       expect(lines.length).toBeGreaterThan(0);
-    }, 1_800_000);
+    }, 1_800_000); // a full played world: building it and playing ten days of two offices takes minutes
   }
 });
