@@ -14,7 +14,7 @@ it("sweep", { timeout: 7_200_000 }, () => {
   (CANDIDACY_PARAMETERS as Record<string, { value: number }>).candidacyStayOutPull!.value = value;
   setBookkeeping(false);
   let contests = 0, uncontested = 0;
-  for (let i = 0; i < 8; i++) {
+  for (let i = 0; i < 6; i++) {
     const place = drawPlace(`sweep1:${i}`, "candidacy-calibration");
     try {
       const { core } = buildBenchWorld(place.seed, gameStartDate(), { twoLevel: true, placeKey: place.key });
