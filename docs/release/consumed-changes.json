@@ -1,6 +1,30 @@
 {
   "entries": [
     {
+      "version": "0.19.2",
+      "releasedOn": "2026-10-19",
+      "revision": "79442a1bf18f44ca63609862addb2bd4fb5c94e5",
+      "changeIds": [
+        "board-appointer-test-redraws",
+        "game-start-territory-president",
+        "office-day-federal-territory-senate",
+        "press-one-opening-buffer",
+        "press-outlet-working-capital",
+        "world-public-hire-joins-pay-authority"
+      ]
+    },
+    {
+      "version": "0.19.1",
+      "releasedOn": "2026-10-19",
+      "revision": "592c3ef884c1805f6e48242a522220fe23ffefa6",
+      "changeIds": [
+        "housing-no-opening-value",
+        "pool-jobless-households",
+        "pool-repair-bodies-2",
+        "pool-utility-staff"
+      ]
+    },
+    {
       "version": "0.19.0",
       "releasedOn": "2026-10-17",
       "revision": "c209b17547ae4f19c6bbf19b8eed7a119f5506f2",

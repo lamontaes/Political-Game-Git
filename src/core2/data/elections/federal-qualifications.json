@@ -1,0 +1,15 @@
+{
+  "about": "What the U.S. Constitution requires of a candidate for a federal office, whatever the state's own age for its statewide offices says. The office is the last part of its id (office:US-RI:us-senate, office:US:president). The House's 25 is in filing-fallbacks.json and the state rows, which already read it.",
+  "minimumAge": {
+    "us-senate": {
+      "value": 30,
+      "tag": "SOURCED",
+      "citation": "U.S. Const. art. I, sec. 3, cl. 3 (nine years a citizen; an inhabitant of the state chosen)"
+    },
+    "president": {
+      "value": 35,
+      "tag": "SOURCED",
+      "citation": "U.S. Const. art. II, sec. 1, cl. 5 (a natural-born citizen, fourteen years a resident)"
+    }
+  }
+}
