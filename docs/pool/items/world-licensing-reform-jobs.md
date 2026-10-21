@@ -5,10 +5,10 @@ area: world
 kind: wiring
 priority: 3
 size: M
-status: claimed
+status: open
 source: effect-web-poverty; stopgap SG-WEB-poverty-licensing-no-engine
-claimed-by: claude/licensing-reform-jobs
-claimed-at: 2026-10-21T12:35:06.517Z
+claimed-by:
+claimed-at:
 ---
 
 **What.** The jobs engine matches seekers to jobs without any licensing requirement, so the law "reduce occupational licensing" reaches no one's pay. Give licensed occupations a requirement row in the jobs data, and let the match read the law row in force: where the license is repealed, seekers without it are matched to those jobs and their pay enters household income. The poverty measure (world-metrics povertyShare) then moves from incomes with no web link.
