@@ -28,7 +28,12 @@ import { coreAPI } from "./state";
 import type { CoreState } from "./types";
 
 const seed = process.env.SCHOOL_SEED || randomBytes(8).toString("hex");
-const place = drawPlace(seed, "school-outcomes");
+// A drawn place whose eighth graders and seniors all sit in the upper income
+// fifths cannot show the funding effect, which reaches the low fifths; such a
+// place is drawn again, a bounded number of times.
+const REDRAWS = 5;
+let drawSeed = seed;
+let place = drawPlace(drawSeed, "school-outcomes");
 const SHIFT = 0.5;
 const LINKS = [
   "equalized-funding-to-math-proficiency",
@@ -37,7 +42,7 @@ const LINKS = [
 
 function play(shift: boolean) {
   const opening = gameStartDate();
-  const world = buildBenchWorld(seed, opening, {
+  const world = buildBenchWorld(drawSeed, opening, {
     twoLevel: true,
     placeKey: place.key,
   });
@@ -77,12 +82,30 @@ const rows = <T>(core: CoreState, name: string) =>
     .table(name)
     .rows() as unknown as T[];
 
-describe(`school outcomes (${place.name}, seed ${seed})`, () => {
+describe(`school outcomes (seed ${seed})`, () => {
   it("decides tests and graduation from the place's base, its web factor and each student's standing", () => {
-    const base = play(false);
-    const moved = play(true);
     const groupsOf = (core: CoreState, measure: string) =>
       rows<SchoolGroupRow>(core, "groups").filter((r) => r.measure === measure);
+    const hasLowFifths = (core: CoreState) =>
+      ["school.math-proficient-pct", "school.graduation-pct"].every((m) =>
+        groupsOf(core, m).some((g) => g.incomeFifth <= 1),
+      );
+    const tried: string[] = [];
+    let base = play(false);
+    for (let draw = 1; draw < REDRAWS && !hasLowFifths(base); draw += 1) {
+      tried.push(`${place.name}, ${place.state} (${drawSeed})`);
+      drawSeed = `${seed}-${draw}`;
+      place = drawPlace(drawSeed, "school-outcomes");
+      base = play(false);
+    }
+    if (!hasLowFifths(base))
+      throw new Error(
+        `no drawn place in ${REDRAWS} draws has eighth graders and seniors in the low income fifths (${[...tried, `${place.name}, ${place.state} (${drawSeed})`].join("; ")})`,
+      );
+    console.log(
+      `school: ${place.name}, ${place.state}, seed ${drawSeed}${tried.length ? `; drawn again after ${tried.join("; ")}` : ""}`,
+    );
+    const moved = play(true);
     for (const measure of [
       "school.math-proficient-pct",
       "school.reading-proficient-pct",
