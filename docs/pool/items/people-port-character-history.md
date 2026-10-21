@@ -5,7 +5,7 @@ area: people
 kind: wiring
 priority: 2
 size: M
-status: in-pr
+status: dropped
 claimed-by: claude/political-game-pool-6qjq1s
 pr: #5185
 blocked-on:

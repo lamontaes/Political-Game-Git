@@ -2,25 +2,25 @@
 id: people-unplanned-counted-tier
 title: "Counted women follow the unplanned-pregnancy rule times their count"
 area: people
-kind: wiring
+kind: feature
 priority: 3
 size: M
-status: open
+status: in-pr
 claimed-by:
-pr:
+pr: #5757
 blocked-on:
-after: people-unplanned-pregnancy-decision
-source: "split from people-unplanned-pregnancy-decision, Oct 19"
+source: added with npm run pool -- add
+claimed-at:
 ---
 
-**What.** The unplanned-pregnancy exposure, the law read and the decision apply to counted women of reproductive age in a household group at the group's weight, in the same monthly flows as counted births. A counted woman who is filled in matches what the counts said.
+**What.** Only full people in couples are covered by the unplanned-pregnancy exposure. Counted women need the same rule times their count (one model, two tiers).
 
-**Rules.** No dice. An effect is a read, not a record. One rule, all 56 places. One model, two tiers. No hand-written player text. Look before you ask: owner decisions are in SG-PEOPLE-unplanned-pregnancy.
+**Rules.** No dice. One rule, all 56 places. No hand-written player text. Replace, never layer.
 
-**Done when.** In a drawn place (name and seed in the PR body) a counted group's births and its unplanned endings in a played year are the full-person rule times the count, shown by record id in src/core2/births-counted.test.ts.
+**Done when.** In a drawn place a counted group's unplanned pregnancies and decisions match the rule applied to full women, shown in src/core2/renewal.test.ts.
 
-**Files.** src/core2/births-counted.ts, src/core2/births-unplanned.ts
+**Files.** src/core2/modules/renewal.ts, src/core2/births-unplanned.ts
 
-**Notes.** The first part (exposure, the decision, the law read) is in the people-unplanned-pregnancy-decision PR; see src/core2/births-unplanned.ts.
+**Notes.** Split from people-unplanned-pregnancy-decision (PR for claude/political-game-pool-yucp92-bg).
 
-Looked at Oct 19: counted births in `applyCountedFlows` (src/core2/births-counted.ts, lines 520 to 580) are already the state's real age rates times the outcome web's `births.rate` factor, which carries the abortion-law link; mothers are ranked by `birthStanding`, not decided by the full-person rule. `decideUnplanned` in src/core2/births-unplanned.ts reads `api.state.people` and a full household, so it cannot take a counted record as it stands. The build is to give `decideUnplanned` and `unplannedExposure` a record-based input (the counted woman's household record) and run them per counted woman at her group's weight, replacing the rate-only birth step for unplanned births so the law's effect is not counted twice.
+Sent back 2026-10-20 from PR #5757 (branch claude/unplanned-counted-tier): The new counted regression requires a delivered counted birth, which is useful, but this PR also imports the still-unfixed full-tier test from #5695/#5749. In src/core2/renewal.test.ts:34-107, plans may be empty, the only direct full-couple assertions are inside if (couple), the positive-plan assertion is inside if (waiting.length), and the payment check accepts paidMinor >= 0. Thus the purported full-tier side can check no pregnancy or payment at all; manually writing exposure carry is not the ordinary generated-world producer proof. Keep the counted case, repair the inherited full-tier test with bounded applicable draws and nonempty positive plan/payment assertions, and retain the player-household exclusion. The item asks for the counted rule matching the full rule, so an unchecked full side does not supply that comparison.; finish on that branch, merge main into it first.

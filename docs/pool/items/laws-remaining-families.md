@@ -5,10 +5,11 @@ area: laws
 kind: wiring
 priority: 1
 size: L
-status: blocked
-claimed-by: claude/laws-remaining-families
+status: open
+claimed-by:
 pr: "#4404"
-blocked-on: "laws-family-health-programs, laws-family-school-vouchers, laws-family-cannabis, laws-family-clean-air, laws-family-bargaining, laws-family-justice, laws-family-government-operations"
+blocked-on:
+after: laws-family-justice
 milestone:
 source: "reissue-2026-10-15 item 1 (Session A)"
 ---
@@ -24,3 +25,5 @@ source: "reissue-2026-10-15 item 1 (Session A)"
 **Notes.** Overnight Session A stopped when usage ran out. The assistance-work-requirement and highway-shift failures in law-reach-group-b.test.ts belong here (see bug item).
 
 **Split (Oct 15, claude/laws-remaining-families).** Seven bounded items, one per family: laws-family-health-programs, laws-family-school-vouchers, laws-family-cannabis, laws-family-clean-air, laws-family-bargaining, laws-family-justice, laws-family-government-operations. This item is done when all are.
+
+Oct 20: Switched from blocked to the automatic after: gate on laws-family-justice, so it opens by itself the moment those items are done.

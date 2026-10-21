@@ -71,6 +71,13 @@ it("an unplanned pregnancy is decided from her records and the law in force wher
           .table("pregnancies")
           .query("byMotherStatus", [c.motherId, "pregnant"]).length === 0,
     );
+  // One waiting couple's mother is the player: her household never has one
+  // (owner ruling), while every other waiting couple's next review settles it.
+  expect(waiting.length, `${label}: waiting couples`).toBeGreaterThan(1);
+  const mine = waiting[0]!;
+  core.playerId = String(mine.motherId) as typeof core.playerId;
+  const home = core.people.get(core.playerId!)!.householdId;
+  const switched = core.date;
   for (const c of waiting)
     renewal.table("exposure").put({ id: c.id, carry: 1 });
   const before = plans.length;
@@ -79,7 +86,15 @@ it("an unplanned pregnancy is decided from her records and the law in force wher
     .table("plans")
     .rows()
     .filter((row) => row.unplanned === true);
-  if (waiting.length) expect(after.length, label).toBeGreaterThan(before);
+  expect(after.length, label).toBeGreaterThan(before);
+  for (const plan of after.filter((row) => String(row.date) >= switched)) {
+    expect(plan.coupleId, label).not.toBe(mine.id);
+    for (const id of [plan.motherId, plan.otherParentId])
+      expect(
+        id && core.people.get(String(id))?.householdId,
+        `${label}: ${String(plan.id)} is in the player's household`,
+      ).not.toBe(home);
+  }
   for (const plan of after) {
     expect(plan.lawId, label).toBe(
       lawInForce(api, ABORTION_LAW_SERIES, String(plan.date)).governing?.id ??

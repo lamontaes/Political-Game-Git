@@ -9,16 +9,15 @@ status: open
 claimed-by:
 pr:
 blocked-on:
-after: people-unplanned-pregnancy-decision
-source: "split from people-unplanned-pregnancy-decision, Oct 19"
+source: added with npm run pool -- add
 ---
 
-**What.** A pregnancy-recorded event with unplanned set, and a pregnancy-ended event, produce a journal line and a scene for the people who deal with her, worded by the English engine, never a form. How it is told is the owner's call (SG-PEOPLE-unplanned-pregnancy); build the quietest version first.
+**What.** Per the owner's Oct 20 ruling nothing new is shown to the player, so this is only for people the player meets or hears of: when a background person's unplanned pregnancy and decision reach the player through a conversation, the English engine words it from the record.
 
-**Rules.** No dice. An effect is a read, not a record. One rule, all 56 places. One model, two tiers. No hand-written player text. Look before you ask: owner decisions are in SG-PEOPLE-unplanned-pregnancy.
+**Rules.** No dice. One rule, all 56 places. No hand-written player text. Replace, never layer.
 
-**Done when.** In a drawn place (name and seed in the PR body) an unplanned pregnancy in a played year gives the mother's partner a scene whose facts include the pregnancy record id and the law record id, and the director's test shows it.
+**Done when.** A scene or news line for a met person's unplanned pregnancy is worded by the English engine from the plan record, and nothing is shown for the player's own household.
 
-**Files.** src/director, data/english
+**Files.** data/english/parts/, src/director/
 
-**Notes.** The first part (exposure, the decision, the law read) is in the people-unplanned-pregnancy-decision PR; see src/core2/births-unplanned.ts.
+**Notes.** Split from people-unplanned-pregnancy-decision (PR for claude/political-game-pool-yucp92-bg).
