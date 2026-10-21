@@ -1,10 +1,10 @@
 /**
  * A handler whose mechanic is "none" or "records" is an unregistered
- * placeholder (owner, Oct 13: an effect is a read, not a record). This guard
- * lists every such law-reach policy and requires it to name a stopgap row
- * that is still open, so none can sit in the data unregistered. The only
- * exceptions are the two whose effect is read by another engine; each names
- * who reads it (the sales tax has a mechanic of its own now).
+ * placeholder (an effect is a read, not a record). This guard lists every
+ * such law-reach policy and requires it to name a stopgap row that is still
+ * open, so none can sit in the data unregistered. The only exceptions are the
+ * two whose effect is read by another engine; each names who reads it (the
+ * sales tax has a mechanic of its own now).
  */
 import { describe, expect, it } from "vitest";
 import groupA from "./data/laws/reach-group-a.json" with { type: "json" };
