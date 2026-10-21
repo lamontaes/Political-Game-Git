@@ -22,7 +22,7 @@ Bad:
 
 Rule breaks that reached main:
 
-5. **#5226:** nine hand-written journal lines are marked `origin: authored`, `shippable: true`. Set them to not shippable until graded, and make the test require the partners-met and parent-job lines.
+5. **#5226 (fixed in #5507):** nine hand-written journal lines are marked `origin: authored`, `shippable: true`. Set them to not shippable until graded, and make the test require the partners-met and parent-job lines.
 6. **#5093, #5097:** src/core2/town-workplaces.ts and src/core2/work-schedules.ts import types from src/simulation (the old engine). Move the types into core2; remove the dangling town-employment-mix.ts line from tsconfig.node.json; close #5084 (duplicate, carried in by #5097).
 7. **#5016, #4972:** pool items with pasted-twice sections (world-corporate-office-staff-never-paid, world-utility-staff-never-paid, people-press-turnover-no-leavers-no-openings). Remove the duplicates.
 8. **#5314, #5294:** owner and date notes added to data citations and stopgap text. Remove them (owner notes must not ship).
