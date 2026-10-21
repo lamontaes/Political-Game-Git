@@ -26,24 +26,30 @@ const START = "2026-10-20";
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
 
 it("an unmatched town's state legislature is elected in the world races", () => {
-  // Every locality the district files place in no district of either chamber.
+  // Every locality the district files place in no district of either chamber,
+  // in a state whose files place other towns: a territory with no district
+  // files elects its legislature at large, so every town is covered there.
   const unmatched = corePlaceStateIdentities()
-    .flatMap((state) =>
-      [
+    .flatMap((state) => {
+      const localities = [
         ...searchCorePlaces("", Number.MAX_SAFE_INTEGER, {
           stateJurisdictionKey: state.jurisdictionKey,
           scope: "locality",
         }),
-      ]
-        .filter((place) =>
-          (["state-lower", "state-upper"] as const).every(
-            (chamber) =>
-              placeDistrictJoin(place.sourceGeoid ?? place.key, chamber, START)
-                .kind === "unknown",
-          ),
-        )
-        .map((place) => ({ state: state.jurisdictionKey, key: place.key })),
-    )
+      ];
+      const unplaced = (place: (typeof localities)[number]) =>
+        (["state-lower", "state-upper"] as const).every(
+          (chamber) =>
+            placeDistrictJoin(place.sourceGeoid ?? place.key, chamber, START)
+              .kind === "unknown",
+        );
+      const missing = localities.filter(unplaced);
+      if (missing.length === localities.length) return [];
+      return missing.map((place) => ({
+        state: state.jurisdictionKey,
+        key: place.key,
+      }));
+    })
     .sort((a, b) => a.key.localeCompare(b.key));
   expect(unmatched.length).toBeGreaterThan(0);
   const hash = createHash("sha256").update(`${seed}:unmatched`).digest("hex");

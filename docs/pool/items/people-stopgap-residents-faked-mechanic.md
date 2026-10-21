@@ -4,12 +4,13 @@ title: "Stopgaps in residents (faked-mechanic): 1 open"
 area: people
 kind: stopgap
 priority: 2
-status: open
+status: in-pr
 claimed-by:
-pr:
-blocked-on:
+pr: #5076
+blocked-on: people-unplaced-fill-in-job
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/modules/residents.ts, kind faked-mechanic"
+claimed-at:
 ---
 
 **What.** A filled-in household keeps its share of the place's unplaced workers' pay (counted workers no employer's books hold) as its own flow, untaxed, until it returns to the counts (SG-CORE-filled-unplaced-income). The opening places only some counted workers in recorded jobs; the rest are paid from one place-level flow with no employer to file a W-2. Place every counted worker in a recorded job on an employer's books so a filled-in worker always gets a real job and withholding. The player would notice that everyone he meets has a boss and a paycheck with tax taken out.

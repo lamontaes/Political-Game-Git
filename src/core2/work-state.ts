@@ -323,7 +323,6 @@ export function recordDiscretionaryTime(
 export function compactQuietWorkResults(core: CoreState, api: CoreAPI): void {
   const data = core.data.work;
   if (!data) return;
-  api.stopgap("SG-P8-work-result-retention");
   const weeks = api.parameter(data.routineRetentionWeeksParameter);
   if (!Number.isSafeInteger(weeks) || weeks <= api.parameter("zero"))
     throw new Error("Invalid work retention weeks.");

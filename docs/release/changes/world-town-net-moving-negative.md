@@ -2,7 +2,7 @@
 id: world-town-net-moving-negative
 impact: patch
 section: Fixed
-title: A town no longer loses a twentieth of its people a year to moving
+title: Newcomers now arrive in towns in step with the people who live there, and every part of a state's people can move away.
 ---
 
-New households that move into a town were far fewer than the ones that left, and the full people who left were never replaced, so towns shrank three to four percent a year while their states stayed level. Newcomers now come in proportion to everyone modeled in each place, settle in the place most owed them, and are rounded to the nearest household like leavers.
+In most states the wider population around a town never moved away, while newcomers kept arriving in it, and a town made mostly of named people got too few newcomers. Newcomers now settle in proportion to everyone who lives in a place at their age, and every part of the state's people weighs the same moves. A newcomer household is also rounded to the nearest, as leavers are, so the part of a bucket that never reached a whole household is no longer dropped each year.

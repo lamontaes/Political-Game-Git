@@ -31,6 +31,13 @@ const post = (path) => api(path, "POST");
 function pageIn(box, pager) {
   box.scrollTo(0, 0);
   const [back, next] = pager.querySelectorAll("button");
+  // Measure with every row showing; a page then hides the rows that are not its own.
+  for (const hidden of box.querySelectorAll(".paged-out"))
+    hidden.classList.remove("paged-out");
+  const rows = [
+    ...box.querySelectorAll(":scope > *:not(.flow), :scope > .flow > *"),
+  ];
+  const tops = rows.map((row) => row.offsetTop);
   const stops = [0];
   let sideways = false;
   if (box.clientHeight > 0) {
@@ -41,20 +48,30 @@ function pageIn(box, pager) {
       for (let x = step; x < box.scrollWidth - 2; x += step) stops.push(x);
     } else if (box.scrollHeight > box.clientHeight + 2) {
       let top = 0;
-      for (const kid of box.querySelectorAll(
-        ":scope > *:not(.flow), :scope > .flow > *",
-      )) {
-        if (kid.offsetTop + kid.offsetHeight - top > box.clientHeight) {
-          top = kid.offsetTop;
+      rows.forEach((kid, index) => {
+        if (tops[index] + kid.offsetHeight - top > box.clientHeight) {
+          top = tops[index];
           stops.push(top);
         }
-      }
+      });
     }
   }
   let at = 0;
   const go = (index) => {
     at = index;
-    box.scrollTo(sideways ? stops[at] : 0, sideways ? 0 : stops[at]);
+    if (sideways) box.scrollTo(stops[at], 0);
+    else {
+      // A plain list shows one page of rows: the rest are out of the box, not scrolled past.
+      const from = stops[at];
+      const to = stops[at + 1] ?? Infinity;
+      rows.forEach((row, index) =>
+        row.classList.toggle(
+          "paged-out",
+          stops.length > 1 && (tops[index] < from || tops[index] >= to),
+        ),
+      );
+      box.scrollTo(0, 0);
+    }
     back.hidden = at === 0;
     next.hidden = at === stops.length - 1;
   };
@@ -973,6 +990,7 @@ function renderTalk(value) {
   if (value?.otherId !== talk?.otherId) lying = false;
   talk = value;
   show("talk", Boolean(value));
+  $("talk-gap").classList.remove("marked");
   if (!value) return;
   const other = value.lines.find((line) => line.speakerId === value.otherId);
   if (
@@ -1010,6 +1028,12 @@ async function talkTo(otherId, momentId) {
   );
 }
 // Saying nothing is a smaller control beside the four replies (owner, Oct 14).
+// A line that does not read right is marked where it is said; no time passes.
+$("talk-gap").addEventListener("click", async () => {
+  if (!talk) return;
+  await post("/api/gap");
+  $("talk-gap").classList.add("marked");
+});
 $("talk-silent").addEventListener("click", async () => {
   if (!talk) return;
   lying = false;
@@ -1092,7 +1116,7 @@ function renderFilingOverlay(value) {
     ...overlay.checks.map((check) => {
       const line = row(
         check.rule,
-        `${check.actual ?? ""}${check.required ? ` / ${check.required}` : ""}`,
+        `${check.actual ?? ""}${check.required ? ` / ${check.required}` : ""}${check.metOn ? ` · ${check.metOn}` : ""}`,
       );
       if (!check.met) line.classList.add("unmet");
       return line;
@@ -1265,19 +1289,40 @@ function speechPanel(filing, venue) {
 async function campaignRows() {
   const v = await api(`/api/campaign?id=${encodeURIComponent(me.id)}`);
   const rows = [];
-  for (const { filing, campaign, polls, day, causes, debates } of v.campaigns) {
-    const takeDay = async (kind) => {
+  for (const {
+    filing,
+    campaign,
+    polls,
+    outings,
+    causes,
+    debates,
+  } of v.campaigns) {
+    const goOut = async (outing, outletId) => {
+      const kindOf = {
+        doors: "canvass",
+        calls: "raise-money",
+        event: "event",
+        interview: "interview",
+      };
       const result = await post(
-        `/api/campaign/day?${new URLSearchParams({ filingId: filing.id, kind })}`,
+        `/api/campaign/day?${new URLSearchParams({ filingId: filing.id, kind: kindOf[outing], ...(outletId ? { outletId } : {}) })}`,
       );
       campaignResult = [
-        controls.campaignDay[kind],
+        controls.campaignOutings[outing],
         result.doorsKnocked ? `${result.doorsKnocked} doors` : "",
         result.reached ? `${result.reached} reached` : "",
         result.raisedMinor ? dollars(result.raisedMinor) : "",
       ]
         .filter(Boolean)
         .join(" · ");
+      // The doors and the calls are seen where they happen, with the people reached.
+      if (result.scene) {
+        closeSheet();
+        $("backdrop").src = result.scene.backdrop.url;
+        drawPeople(result.scene.people);
+        $("card-why").textContent = campaignResult;
+        return;
+      }
       openSheet("campaigns");
     };
     const act = async (kind, extra = {}) => {
@@ -1330,14 +1375,15 @@ async function campaignRows() {
         el(
           "div",
           {},
-          el("b", { textContent: controls.campaignDay.title }),
-          ...(day ?? []).map((choice) => {
+          ...(outings ?? []).map((choice) => {
             const b = el("button", {
               type: "button",
-              textContent: `${controls.campaignDay[choice.kind]} · ${choice.hours} ${controls.campaignDay.hours}`,
+              textContent: `${controls.campaignOutings[choice.outing]} · ${choice.hours} ${controls.campaignOutings.hours}`,
               disabled: !choice.available,
             });
-            b.addEventListener("click", () => takeDay(choice.kind));
+            b.addEventListener("click", () =>
+              goOut(choice.outing, choice.outletId),
+            );
             return b;
           }),
         ),
@@ -1640,6 +1686,41 @@ async function officeRows() {
         })(),
       ),
     ),
+    // The budget you may send now: the change to each line, in steps of its amount.
+    ...(v.budget
+      ? [
+          el(
+            "div",
+            { className: "row campaign" },
+            el("b", { textContent: controls.budgetEditor.title }),
+            ...v.budget.lines.map((row) => {
+              const pick = el(
+                "select",
+                {},
+                ...[-20, -10, 0, 10, 20].map((pct) => {
+                  const minor = Math.round((row.amountMinor * pct) / 100);
+                  return el("option", {
+                    value: String(minor),
+                    selected: row.changeMinor === minor,
+                    textContent: controls.budgetEditor[String(pct)],
+                  });
+                }),
+              );
+              pick.addEventListener("change", async () => {
+                await post(
+                  `/api/office/budget-line?${new URLSearchParams({ line: row.line, changeMinor: pick.value })}`,
+                );
+              });
+              return el(
+                "label",
+                {},
+                ` ${row.name} ${dollars(row.amountMinor)} `,
+                pick,
+              );
+            }),
+          ),
+        ]
+      : []),
     // The deal to offer each colleague who votes on a bill of yours when you talk to them.
     ...(v.deals ?? []).map((bill) =>
       el(
@@ -1816,8 +1897,10 @@ async function seatRows() {
 }
 
 /** A record kind as words: "filing-deadline" reads "Filing deadline". */
-const kindName = (kind) =>
-  `${kind.charAt(0).toUpperCase()}${kind.slice(1).replace(/-/g, " ")}`;
+const kindName = (kind) => {
+  const name = kind.split(":").pop();
+  return `${name.charAt(0).toUpperCase()}${name.slice(1).replace(/-/g, " ")}`;
+};
 
 /** The player's own picture: the look chosen in the creator, else their figure in the room. */
 function portraitUrl() {
@@ -2324,6 +2407,29 @@ const sheets = {
         );
       root.append(home);
     }
+    if (bank?.month)
+      root.append(
+        el(
+          "section",
+          { className: "money-month" },
+          el("h3", { textContent: `${labels.lastMonth} · ${bank.month.date}` }),
+          row(labels.monthHousing, dollars(bank.month.housingMinor)),
+          row(labels.monthEveryday, dollars(bank.month.everydayMinor)),
+          row(labels.monthPaid, dollars(bank.month.paidMinor)),
+          row(labels.monthUnpaid, dollars(bank.month.unpaidMinor)),
+          ...(bank.loanPayments?.length
+            ? [
+                el("h3", { textContent: labels.loanPayments }),
+                ...bank.loanPayments.map((payment) =>
+                  row(
+                    payment.date,
+                    `${dollars(payment.paidMinor)} ${labels.loanPaid} · ${dollars(payment.dueMinor)} ${labels.loanDue}`,
+                  ),
+                ),
+              ]
+            : []),
+        ),
+      );
     if (bank)
       root.append(
         el(
@@ -2548,6 +2654,17 @@ const sheets = {
             .map(([k, n]) => `${k} ${n}`)
             .join(" · "),
         ),
+        race.places.length
+          ? el(
+              "div",
+              {},
+              el("b", { textContent: `${labels.wonIn} ` }),
+              race.places
+                .slice(0, 6)
+                .map((p) => `${p.name} ${p.leader ?? ""} · ${number(p.cast)}`)
+                .join(" · "),
+            )
+          : "",
         race.ballot
           ? el(
               "div",
@@ -2920,6 +3037,7 @@ const sheets = {
     return [root];
   },
   async news() {
+    // The nation, region and job numbers above the paper, from the economy's records.
     const e = await api(`/api/economy?id=${encodeURIComponent(me.id)}`);
     const pct = (value) => (value === undefined ? "" : `${value.toFixed(1)}%`);
     const economy = e.nation
@@ -2950,44 +3068,238 @@ const sheets = {
             : []),
         ]
       : [];
-    const rows = await api(`/api/news?id=${encodeURIComponent(me.id)}`);
-    return [
-      ...economy,
-      ...rows.slice(0, 30).map((r) =>
-        r.staffing
-          ? row(
-              `${r.date} · ${r.staffing.employer}`,
-              [
-                `${controls.staffingNews.jobsLost}: ${r.staffing.jobsLost}`,
-                ...(r.staffing.salesMinor !== undefined
-                  ? [
-                      `${controls.staffingNews.sales}: ${dollars(r.staffing.salesMinor)}`,
-                    ]
-                  : []),
-                ...(r.staffing.costsMinor !== undefined
-                  ? [
-                      `${controls.staffingNews.costs}: ${dollars(r.staffing.costsMinor)}`,
-                    ]
-                  : []),
-              ].join(" · "),
-            )
-          : row(
-              `${r.date} · ${r.kind}`,
-              Object.entries(r.facts)
-                // Bare record ids are the bench's, not the reader's; a policy
-                // question is read by its name.
-                .map(([k, v]) => [
-                  k,
-                  String(v).startsWith("us-policy-positions:")
-                    ? policyLabel(v)
-                    : v,
-                ])
-                .filter(([k, v]) => !/Id$/.test(k) && plain(v) !== null)
-                .map(([k, v]) => `${k}: ${v}`)
-                .join(" · "),
-            ),
-      ),
-    ];
+    const [rows, opening] = await Promise.all([
+      api(`/api/news?id=${encodeURIComponent(me.id)}`),
+      api(`/api/opening?id=${encodeURIComponent(me.id)}`),
+    ]);
+    const labels = controls.news;
+    const stories = [
+      ...(opening?.news?.stories ?? []),
+      ...rows.filter((r) => r.headline || r.lede),
+    ].filter((s) => s.headline || s.lede);
+    const outlets = new Map();
+    for (const story of stories) {
+      const outlet = story.outlet ??
+        opening?.news?.outlet ?? {
+          id: "news",
+          name: labels.title,
+          layout: "broadsheet",
+        };
+      const key = outlet.id ?? outlet.name;
+      if (!outlets.has(key)) outlets.set(key, { ...outlet, stories: [] });
+      outlets.get(key).stories.push(story);
+    }
+    if (!outlets.size)
+      outlets.set("news", {
+        name: labels.title,
+        layout: "broadsheet",
+        stories: [],
+      });
+    let chosen = outlets.keys().next().value;
+    let page = 0;
+    let recordPage = 0;
+    const paper = el("section", { className: "paper" });
+    const outletPicker = el("nav", { className: "outlet-picker" });
+    const button = (label, fn) => {
+      const b = el("button", { type: "button", textContent: label });
+      b.onclick = fn;
+      return b;
+    };
+    const dateWords = (iso) =>
+      new Date(`${iso}T12:00:00`).toLocaleDateString("en-US", {
+        month: "long",
+        day: "numeric",
+        year: "numeric",
+      });
+    const imageFor = (story) => {
+      const url = story.presentation?.imageUrl ?? story.imageUrl;
+      if (!url) return [];
+      const image = el("img", {
+        className: "story-image",
+        src: url,
+        alt: story.presentation?.imageAlt ?? "",
+      });
+      image.onerror = () => image.remove();
+      return [image];
+    };
+    const article = (story) => {
+      let articlePage = 0;
+      const text =
+        story.paragraphs ??
+        story.broadcast?.map((line) => line.text) ??
+        [story.lede].filter(Boolean);
+      const chunks = text.flatMap((paragraph) => {
+        const tokens = paragraph.split(/\s+/);
+        const result = [];
+        for (let i = 0; i < tokens.length; i += 100)
+          result.push(tokens.slice(i, i + 100).join(" "));
+        return result;
+      });
+      const drawArticle = () => {
+        const back = button(labels.back, draw);
+        const body = el(
+          "div",
+          { className: "article-body" },
+          ...chunks
+            .slice(articlePage * 2, articlePage * 2 + 2)
+            .map((text) => el("p", { textContent: text })),
+        );
+        const prev = button(labels.previous, () => {
+          articlePage--;
+          drawArticle();
+        });
+        prev.disabled = articlePage === 0;
+        const next = button(labels.next, () => {
+          articlePage++;
+          drawArticle();
+        });
+        next.disabled = (articlePage + 1) * 2 >= chunks.length;
+        paper.replaceChildren(
+          back,
+          el("h2", {
+            className: "article-title",
+            textContent: story.headline ?? story.lede,
+          }),
+          body,
+          ...(chunks.length > 2
+            ? [el("nav", { className: "paper-pager" }, prev, next)]
+            : []),
+        );
+      };
+      drawArticle();
+    };
+    const publicRecords = () => {
+      const records = rows.filter((r) => !r.headline && !r.lede);
+      const block = el(
+        "section",
+        { className: "paper-records" },
+        el("h3", { textContent: labels.records }),
+      );
+      for (const record of records.slice(recordPage * 3, recordPage * 3 + 3))
+        block.append(
+          el(
+            "article",
+            {},
+            el("span", {
+              className: "label",
+              textContent: dateWords(record.date),
+            }),
+            // An employer's layoff shows its jobs lost, sales and costs.
+            el("h4", {
+              textContent: record.staffing
+                ? record.staffing.employer
+                : kindName(record.kind),
+            }),
+            el("p", {
+              textContent: record.staffing
+                ? [
+                    `${controls.staffingNews.jobsLost}: ${record.staffing.jobsLost}`,
+                    ...(record.staffing.salesMinor !== undefined
+                      ? [
+                          `${controls.staffingNews.sales}: ${dollars(record.staffing.salesMinor)}`,
+                        ]
+                      : []),
+                    ...(record.staffing.costsMinor !== undefined
+                      ? [
+                          `${controls.staffingNews.costs}: ${dollars(record.staffing.costsMinor)}`,
+                        ]
+                      : []),
+                  ].join(" · ")
+                : [
+                    ...new Set(
+                      Object.values(record.facts ?? {})
+                        .filter((v) => typeof v === "string" && me.names?.[v])
+                        .map((v) => me.names[v]),
+                    ),
+                  ].join(" · "),
+            }),
+          ),
+        );
+      if (records.length > 3) {
+        const back = button(labels.previous, () => {
+          recordPage--;
+          draw();
+        });
+        back.disabled = recordPage === 0;
+        const next = button(labels.next, () => {
+          recordPage++;
+          draw();
+        });
+        next.disabled = (recordPage + 1) * 3 >= records.length;
+        block.append(el("nav", { className: "paper-pager" }, back, next));
+      }
+      return block;
+    };
+    const draw = () => {
+      const outlet = outlets.get(chosen);
+      const layout = ["broadsheet", "modern", "tabloid", "weekly"].includes(
+        outlet.layout,
+      )
+        ? outlet.layout
+        : "broadsheet";
+      paper.className = `paper paper-${layout}`;
+      const section = el("div", { className: "paper-stories" });
+      outlet.stories.slice(page * 3, page * 3 + 3).forEach((story, index) => {
+        const headline = button(story.headline ?? story.lede, () =>
+          article(story),
+        );
+        headline.className = "story-headline";
+        section.append(
+          el(
+            "article",
+            { className: `paper-story${index === 0 ? " lead" : ""}` },
+            ...imageFor(story),
+            headline,
+            ...(story.lede && story.headline
+              ? [el("p", { className: "story-lede", textContent: story.lede })]
+              : []),
+          ),
+        );
+      });
+      paper.replaceChildren(
+        el(
+          "header",
+          { className: "paper-masthead" },
+          el("h2", { textContent: outlet.name ?? labels.title }),
+          el("span", {
+            className: "paper-date",
+            textContent: dateWords(me.date),
+          }),
+        ),
+        section,
+      );
+      if (outlet.stories.length > 3) {
+        const back = button(labels.previous, () => {
+          page--;
+          draw();
+        });
+        back.disabled = page === 0;
+        const next = button(labels.next, () => {
+          page++;
+          draw();
+        });
+        next.disabled = (page + 1) * 3 >= outlet.stories.length;
+        paper.append(el("nav", { className: "paper-pager" }, back, next));
+      }
+      paper.append(publicRecords());
+      for (const b of outletPicker.children) {
+        b.classList.toggle("on", b.dataset.outlet === chosen);
+        b.setAttribute("aria-pressed", String(b.dataset.outlet === chosen));
+      }
+    };
+    if (outlets.size > 1)
+      for (const [key, outlet] of outlets) {
+        const b = button(outlet.name, () => {
+          chosen = key;
+          page = 0;
+          draw();
+        });
+        b.dataset.outlet = key;
+        b.className = "tab";
+        outletPicker.append(b);
+      }
+    draw();
+    return [...economy, outletPicker, paper];
   },
   async law() {
     const v = await api(`/api/government?id=${encodeURIComponent(me.id)}`);
@@ -3362,20 +3674,20 @@ const sheets = {
                 const won = s.elections.find(
                   (e) => e.termId === s.holder.termId,
                 );
-                line.append(
-                  el("div", {
-                    className: "row",
-                    textContent: [
-                      `${s.holder.serviceStart} – ${s.holder.endDate ?? ""}`,
-                      s.holder.reached,
-                      won
-                        ? `${won.date} ${Math.round(won.share * 100)}% ${won.termId}`
-                        : null,
-                    ]
-                      .filter(Boolean)
-                      .join(" · "),
-                  }),
-                );
+                const history = el("div", {
+                  className: "row",
+                  textContent: [
+                    `${s.holder.serviceStart} – ${s.holder.endDate ?? ""}`,
+                    s.holder.reached,
+                    won ? `${won.date} ${Math.round(won.share * 100)}%` : null,
+                  ]
+                    .filter(Boolean)
+                    .join(" · "),
+                });
+                // The record the line reads, for the specs; never shown as text.
+                history.dataset.term = s.holder.termId;
+                if (won) history.dataset.election = won.termId;
+                line.append(history);
               }
               if (s.holder?.personId) {
                 const b = el("button", {
@@ -3445,6 +3757,14 @@ const sheets = {
     // The key people the opening names: one list for both screens.
     const keyPeople = v.keyPeople.map((k) => {
       const line = row(k.officeTitle, k.name);
+      // The President and Vice President a territory's voters do not choose.
+      if (k.chosenByHere === false)
+        line.append(
+          el("span", {
+            className: "label",
+            textContent: controls.politics.notChosenHere,
+          }),
+        );
       // Play anyone: a resident officeholder can be taken over (bench only).
       if (k.resident && k.personId !== me.id) {
         const b = el("button", {
