@@ -58,16 +58,21 @@
       "reference": "applicants aged 29 to 31",
       "callbackRatio": {
         "value": 0.65,
-        "low": 0.6,
+        "low": 0.53,
         "high": 0.82,
-        "tag": "ESTIMATED"
+        "tag": "SOURCED",
+        "boundsNote": "Value: all four occupations, applicants 64 to 66 (about 35% lower). High: all four occupations, applicants 49 to 51 (about 18% lower). Low: administrative jobs, applicants 64 to 66 (7.6% against 14.4%, 0.53)."
       },
-      "ratioMeaning": "Compared to the youngest group (29 to 31), older applicants received fewer callbacks, with the gap largest for women near retirement age; the 18% (age 49 to 51) and 35% (age 64 to 66) fewer-callback figures are unverified: no summary or table that states them was read, so they are carried as estimates and not quoted from the paper",
-      "source": "Neumark, Burn and Button 2019, Journal of Political Economy. Only the study's abstract was read (https://causalclaims.trfetzer.com/paper/w21669.html: robust evidence of age discrimination in hiring against older women, especially near retirement age; much weaker for men). The paper's own tables (online appendix https://admin.nber.org/data-appendix/w21669/On%20line%20appendix%20for%20JPE%2010-16%20final.pdf) have not been read, so the value, low and high of this row are ESTIMATED until they are.",
+      "ratioMeaning": "Callbacks for applicants aged 64 to 66 relative to applicants aged 29 to 31 with otherwise matched resumes, all four occupations combined; the study's middle-aged (49 to 51) figure and its lowest occupation ratio bound the spread.",
+      "source": "Neumark, Burn and Button, \"Is It Harder for Older Workers to Find Jobs? New and Improved Evidence from a Field Experiment\", NBER Working Paper 21669 (the version published in the Journal of Political Economy, 2019), p. 27, read from https://www.nber.org/system/files/working_papers/w21669/w21669.pdf",
       "spreadAcrossPlaces": {
         "note": "Study range, not a place measure. The study's design has been debated (identical resumes leave older applicants with gaps in their history).",
         "tag": "ESTIMATED"
-      }
+      },
+      "quotes": [
+        "Combining all four occupations, in Panel A we find strong overall evidence of age discrimination, with callback rates statistically significantly lower by about 18% for middle-aged workers, and about 35% for older workers.",
+        "the callback rate is 14.4% for young applicants aged 29-31. It is about 29% lower for 49-51 year-old applicants (10.3%), and about 47% lower for 64-66 year-old applicants (7.6%)."
+      ]
     },
     "applicants-with-a-criminal-record": {
       "reference": "the same applicant without a record",
