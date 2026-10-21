@@ -304,6 +304,26 @@ onReachCalendar(STAFFING_KIND, (api, work) => {
     if (!full.length) fillInPerson(state, counted[0]!.personId);
     const template = currentStaff(api, row.organizationId)[0];
     if (!template) return;
+    console.log(
+      "STAFFDBG",
+      row.organizationId,
+      "headcount",
+      headcount,
+      "target",
+      target,
+      "full",
+      full.length,
+      "counted",
+      counted.length,
+      "candidates",
+      candidates(api).length,
+      "countedCandidates",
+      countedCandidates(api).length,
+      "template",
+      template.jobId,
+      "commitment",
+      !![...state.work.commitments.values()].find((c) => c.jobId === template.jobId),
+    );
     for (const personId of [...candidates(api), ...countedCandidates(api)]) {
       if (headcount + hired.length >= target) break;
       // A counted adult becomes a full person from their records at hire.
