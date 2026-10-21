@@ -4,10 +4,10 @@ title: "Stopgaps in opening-kin (estimated-behavior): 2 open"
 area: people
 kind: stopgap
 priority: 3
-status: blocked
+status: dropped
 claimed-by:
 pr:
-blocked-on: research data: the row's replacement needs sourced data (A kin engine that matches relatives to residents across households and places, with partners, cousins and observed migration distances....)
+blocked-on: research-people-sourced-parameters
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/data/opening-kin.json, kind estimated-behavior"
 ---
@@ -21,3 +21,5 @@ source: "src/core2/data/stopgaps.json, src/core2/data/opening-kin.json, kind est
 **Files.** src/core2/data/opening-kin.json
 
 **Notes.** First row: Kin outside the household are generated per resident household as husk-tier people: every relative alive or not by the SSA cohort life table for their birth year (Actuarial Study No. 120, birth decades 1900-2010 interpol
+
+Folded into research-people-sourced-parameters (CTO, Oct 19, 2026).

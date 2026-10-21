@@ -930,7 +930,7 @@
           "preempts": true,
           "cite": "Mich. Const. art. IV, § 54",
           "source": "https://www.legislature.mi.gov/Laws/MCL?objectName=mcl-Article-IV-54",
-          "note": "Twelve years total in the House and Senate combined, lifetime (2022 Proposal 1, replacing the 1992 six-year House and eight-year Senate limits)."
+          "note": "Twelve years total in the House and Senate combined, lifetime (2022 Proposal 1, replacing the 1992 six-year House and eight-year Senate limits); the existing consecutive-terms parameter cannot encode this lifetime cap."
         },
         "US-MN": {
           "answer": "no",
@@ -1925,7 +1925,7 @@
           "preempts": true,
           "cite": "Ala. Code § 36-25-13(a)-(b)",
           "source": "https://alison.legislature.state.al.us/code-of-alabama?section=36-25-13",
-          "note": "Two years after the elected term: a former legislator may not lobby for a fee before the legislative body he or she served for two years after the term of office ends, even if he or she left early.",
+          "note": "A former legislator may not represent a person for compensation before the legislative body of which the legislator was a member for two years after leaving that membership.",
           "lawTerms": [
             {
               "questionKey": "us-policy-positions:government-operations.ban-lobbying-after-office",

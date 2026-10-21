@@ -4,10 +4,10 @@ title: "Stopgaps in campaigns (missing-data): 3 open"
 area: elections
 kind: stopgap
 priority: 3
-status: blocked
+status: dropped
 claimed-by:
 pr:
-blocked-on: research data: the row's replacement needs sourced data (The region's or state's real polling firms (County Business Patterns NAICS 541910 by county) as recorded organizations a campaign buys from....)
+blocked-on: research-elections-sourced-parameters
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/modules/campaigns.ts, kind missing-data"
 ---
@@ -21,3 +21,5 @@ source: "src/core2/data/stopgaps.json, src/core2/modules/campaigns.ts, kind miss
 **Files.** src/core2/modules/campaigns.ts
 
 **Notes.** First row: Where the town records no professional-services business (NAICS 5419 includes public opinion polling), a campaign's poll interviews are paid to a stand-in pollster organization in town.
+
+Folded into research-elections-sourced-parameters (CTO, Oct 19, 2026).
