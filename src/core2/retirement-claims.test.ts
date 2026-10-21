@@ -2,7 +2,6 @@ import { randomBytes } from "node:crypto";
 import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
-import { DEFAULT_DATA } from "./data";
 import { advanceCore, createLifeCore } from "./life";
 import { residentPerson, residentsRuntime } from "./modules/residents";
 import { enactLaw, openLaws } from "./modules/laws";
@@ -54,20 +53,22 @@ describe(`retirement claims during play in ${place.name}, ${place.state} (seed $
       fullBufferMonths:
         PARAMETERS.openingRetirementClaimFullBufferMonths!.value,
     };
-    // The birth year sets the full retirement age, so settle the two together.
-    let birthDate = "1959-01-01";
-    for (let pass = 0; pass < 4; pass++) {
-      const months = retirementClaimAgeMonths(
+    // The engine reads the person as the core holds them (cash swept into
+    // accounts leaves none in hand), not as the opening input lists them.
+    const live = createLifeCore(input);
+    const held = live.people.get(adult.id)!;
+    const dayOne = new Date(`${input.startedAt}T00:00:00Z`);
+    const claimMonths = (birth: string) =>
+      retirementClaimAgeMonths(
         {
-          ages: startingSocialSecurityAges(birthDate),
+          ages: startingSocialSecurityAges(birth),
           bufferMonths:
-            adult.livingCostDailyMinor > 0
-              ? adult.liquidMinor /
-                ((adult.livingCostDailyMinor * 365.2425) / 12)
+            held.livingCostDailyMinor > 0
+              ? held.liquidMinor / ((held.livingCostDailyMinor * 365.2425) / 12)
               : weights.fullBufferMonths,
           patience: decisionLean(
-            { data: DEFAULT_DATA },
-            adult,
+            live,
+            held,
             "retirement.claim-age",
             "wait-to-claim",
             "claim-now",
@@ -75,10 +76,25 @@ describe(`retirement claims during play in ${place.name}, ${place.state} (seed $
         },
         weights,
       );
-      const birth = new Date(`${input.startedAt}T00:00:00Z`);
-      birth.setUTCMonth(birth.getUTCMonth() + 2 - months);
-      birthDate = birth.toISOString().slice(0, 10);
+    // The birth year sets the full retirement age, which jumps at a year
+    // boundary, so the birth month is found by looking at each month in turn
+    // for the claim date nearest two months in, never by iterating to a fixed point.
+    let birthDate = "1959-01-01";
+    let best = Infinity;
+    for (let month = 0; month < 6 * 12; month++) {
+      const birth = new Date(Date.UTC(1957, month, 1));
+      const born = birth.toISOString().slice(0, 10);
+      const claim = new Date(birth);
+      claim.setUTCMonth(claim.getUTCMonth() + claimMonths(born));
+      const away = Math.abs(
+        (claim.getTime() - dayOne.getTime()) / 86_400_000 - 60,
+      );
+      if (away < best) {
+        best = away;
+        birthDate = born;
+      }
     }
+    expect(best).toBeLessThan(31);
     const core = createLifeCore({
       ...input,
       people: input.people.map((row) =>

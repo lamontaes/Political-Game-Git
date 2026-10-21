@@ -13,7 +13,7 @@ source: added with npm run pool -- add
 claimed-at: 2026-10-20T04:20:56.076Z
 ---
 
-**What.** Close #5019 as superseded by #5044 and correct the line number the stopgap row SG-WORLD-department-government names; check the marker is at that line with a test run of the stopgap tripwire.
+**What.** The Oct 20 merge audit (item 4) found that PR #4984 left the stopgap row SG-WORLD-department-government in src/core2/data/stopgaps.json naming a line where its marker no longer sits, and that PR #5019 is superseded by #5044. Correct the row's line to the marker's real line, and close #5019 with a one-line comment naming #5044. Run the stopgap tripwire test so it shows the marker at the named line and fails when the line is wrong.
 
 **Rules.** Replace, never layer: the fix replaces the faulty code, text or note in the same change, and a test asserts the feature and fails when nothing is found.
 
