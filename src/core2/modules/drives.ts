@@ -874,12 +874,16 @@ function recordAct(api: CoreAPI, drive: HeldDrive, row: DriveActTrace) {
   drive.actCount += api.parameter("one");
   drive.lastTracedAct = `${row.date}:${row.actionId}`;
   // The why of an act is kept whole for the player and the people they deal
-  // with; for anyone else only the latest few (owner, Oct 11: keep it simple).
+  // with; for anyone else only the latest few.
   retain(
     api,
     drive.acts,
     row,
-    keepsWhy(api.state as CoreState, drive.personId, row.targetId)
+    keepsWhy(
+      api.state as CoreState,
+      drive.personId,
+      ...(row.targetId ? [row.targetId] : []),
+    )
       ? "driveTraceRetention"
       : "driveActTraceRetention",
   );
