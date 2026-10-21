@@ -7,7 +7,7 @@ priority: 3
 status: blocked
 claimed-by:
 pr:
-blocked-on: research data: the row's replacement needs recorded, empirical or sourced data (Recorded firm-specific procurement/inventory terms or an independently validated procurement-to-actual-sales crosswalk and payment calendar; a funded ...)
+blocked-on: engine or design: The completed finance year exhausted retailers with forecast-based input budgets and left most other firms without customers. Industry-level IRS ratios exist, but individual invoices and a verified in
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/finance-state.ts, kind receipt-budget-proxy"
 ---

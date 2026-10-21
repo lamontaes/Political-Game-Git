@@ -7,7 +7,7 @@ priority: 3
 status: blocked
 claimed-by:
 pr:
-blocked-on: research data: the row's replacement needs recorded, empirical or sourced data (The outside-spending model (category location-quotient leakage) that pays the non-local basket to outside sellers by category. Rent and mortgages are ...)
+blocked-on: engine or design: Rent and non-local spending were never paid, so household cash grew without limit.
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/residents.ts, kind housing-and-leakage"
 ---

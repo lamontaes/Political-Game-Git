@@ -7,7 +7,7 @@ priority: 3
 status: blocked
 claimed-by:
 pr:
-blocked-on: research data: the row's replacement needs recorded, empirical or sourced data (Partnerships carry their own recorded start date from the opening's partnership model (OPUS-PEOPLE, opening-partnership)....)
+blocked-on: engine or design: The opening writes partnerships without a start date for many couples, so a long marriage looked brand new on the opening day.
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/births-plan.ts, kind estimated-record"
 ---

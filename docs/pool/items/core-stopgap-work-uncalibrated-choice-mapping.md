@@ -7,7 +7,7 @@ priority: 3
 status: blocked
 claimed-by:
 pr:
-blocked-on: research data: the row's replacement needs recorded, empirical or sourced data (Empirical attendance/absence evidence and causal counterfactual checks, without percentage rolls or desired outcomes....)
+blocked-on: engine or design: Commitment magnitude and daily segment attendance policy are uncalibrated; detailed health/care constraints are absent.
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/data/work.json, kind uncalibrated-choice-mapping"
 ---

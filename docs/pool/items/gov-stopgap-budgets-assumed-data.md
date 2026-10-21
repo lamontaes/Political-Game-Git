@@ -7,7 +7,7 @@ priority: 3
 status: blocked
 claimed-by:
 pr:
-blocked-on: research data: the row's replacement needs recorded, empirical or sourced data (Each place's law chain recorded in the laws module, enacted acts included, read for every worker's residence. Personal exemptions and adjustments read...)
+blocked-on: engine or design: Enacted laws are recorded only for the town's own chain; other places' chains are not opened as worlds yet.
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/modules/budgets.ts, kind assumed-data"
 claimed-at:

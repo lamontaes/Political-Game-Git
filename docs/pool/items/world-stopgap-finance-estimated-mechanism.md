@@ -7,7 +7,7 @@ priority: 3
 status: blocked
 claimed-by:
 pr:
-blocked-on: research data: the row's replacement needs recorded, empirical or sourced data (Recorded household contracts and institution accounts, tested bankruptcy/closure policy and matched economic observables....)
+blocked-on: engine or design: Prototype finance mechanism; real household purchase decisions, complete institutional accounts and jurisdiction-specific insolvency process remain absent.
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/data/finance.json, kind estimated-mechanism"
 ---
