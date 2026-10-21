@@ -625,6 +625,8 @@ export function createDirector(
     thread: Thread,
     date: IsoDate,
   ): number {
+    (globalThis as any).__imp = ((globalThis as any).__imp ?? 0) + 1;
+    (globalThis as any).__broad = ((globalThis as any).__broad ?? 0) + broadMoments(book).length;
     const fading = fadingOf(thread, book, date);
     const discount = one - param("directorFadingDiscount") * fading;
     const forgotten =
@@ -732,6 +734,7 @@ export function createDirector(
     otherId: PersonId,
     date: IsoDate,
   ) {
+    (globalThis as any).__resc = ((globalThis as any).__resc ?? 0) + 1;
     // A counterpart's importance is the same for every moment in this pass.
     const importance = new Map<PersonId, number>();
     const importanceFor = (id: PersonId) => {

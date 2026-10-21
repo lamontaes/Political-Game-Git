@@ -14,6 +14,8 @@ const { core, director } = world;
 let n = 0;
 for (const p of core.people.values()) if (p.alive && p.tier !== "husk") { director.watch(core, p.id); n++; }
 console.log("watched", n);
-const t0 = Date.now();
-advanceCore(core, addDays(makeIsoDate(core.date), 5));
-console.log("FIVE DAYS ms", Date.now() - t0, "imp", (globalThis as any).__imp, "rescore", (globalThis as any).__resc, "broadScan", (globalThis as any).__broad);
+for (let slice = 0; slice < 6; slice++) {
+  const t0 = Date.now();
+  advanceCore(core, addDays(makeIsoDate(core.date), 5));
+  console.log("SLICE", slice, core.date, "ms", Date.now() - t0, "imp", (globalThis as any).__imp, "rescore", (globalThis as any).__resc, "broadScan", (globalThis as any).__broad);
+}
