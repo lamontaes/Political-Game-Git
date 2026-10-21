@@ -7,9 +7,10 @@ priority: 2
 size: S
 status: open
 claimed-by:
-pr:
+pr: #5762
 blocked-on:
 source: added with npm run pool -- add
+claimed-at:
 ---
 
 **What.** In the played world for Independence, Louisiana (key 2237025, world seed 7b7b07cc96aa225f55b6f8834881f44ed234811a577a1067e954be747cca333a), the governor's aide :0 (job:public:staff:official:term:seat:US-LA:governor:2025-01-20:person:aide:...:0) shows plannedMinutes 12960, attendedMinutes 0 and missedDays 18 in work.totalsByJob, then their job ends a month after it starts, so they earn and are paid nothing; aide :2 attends and is paid. Find why the aide attends no scheduled day (the attendance read for a person on a government treasury job) and fix it at the root.
@@ -22,4 +23,4 @@ source: added with npm run pool -- add
 
 **Notes.** Found while finishing PR 5712 (staff-paid-territory-no-payroll-template): the merger's failing case was an aide who attended nothing, not a payroll gap.
 
-Looked at Oct 20 (claude/staff-aides-attendance), not a defect: in Independence, Louisiana (key 2237025, world seed 7b7b07cc96aa225f55b6f8834881f44ed234811a577a1067e954be747cca333a) after 120 days the governor's aides :0 and :1 each miss all 18 scheduled days and aide :2 attends 9 and misses 9. `reviewAttendance` in `src/core2/modules/staff.ts` reads each aide's missed share of scheduled days from `work.totalsByJob` once a month and ends the job (`staff:dismissed-absent:<staff id>:<date>`, with absentShare, the official's lean, worked and missed days on the dismissal row) when the share is above `staffAbsenceTolerance` stretched by the official's own lean. So an aide who attends nothing earns nothing, is dismissed at the next review, and is replaced: the engine working as designed (attendance is the aide's own decision from traits and needs, with the dismissal read from it). The payroll test therefore counts an aide as due only after attending (PR 5712). If the owner wants fewer no-show hires, that is a hiring question (who is picked), not an attendance one; no work is left here. CTO: drop.
+Sent back 2026-10-20 from PR #5762 (branch claude/staff-aides-attendance): The item already records that the job ends after a month. reviewAttendance dismissing the aide is the consequence of missing work, not the reason they missed all 18 scheduled days. Done when requires every scheduled aide to have attended time or a recorded reason for each missed day, shown by a test beside staff-paid-every-place.test.ts naming the full job id. This PR adds only aggregate totals and a dismissal description; no per-day reason records or that named test are supplied. Keep the finding, but do not mark the attendance question complete or ask to drop it until the required daily cause evidence and regression are present.; finish on that branch, merge main into it first.
