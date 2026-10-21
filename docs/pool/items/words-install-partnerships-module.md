@@ -8,7 +8,7 @@ size: S
 status: blocked
 claimed-by:
 pr:
-blocked-on: people-partnerships-form-and-end
+blocked-on: people-partnership-forms
 source: added with npm run pool -- add
 ---
 

@@ -4,12 +4,13 @@ title: "Stopgaps in ballot-measures (missing-data): 1 open"
 area: elections
 kind: stopgap
 priority: 3
-status: open
+status: blocked
 claimed-by:
 pr:
-blocked-on:
+blocked-on: engine or design: CORE's voter groups aren't populated in generated worlds, and OPUS-PEOPLE's views engine (with issue opinion beyond left-right) isn't built.
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/modules/ballot-measures.ts, kind missing-data"
+claimed-at:
 ---
 
 **What.** Replace or clear the 1 open missing-data stopgap row(s) in src/core2/modules/ballot-measures.ts: SG-GOV-measure-groups-stand-in. Each fake is replaced by the mechanic, or the feature that needs it is deleted.

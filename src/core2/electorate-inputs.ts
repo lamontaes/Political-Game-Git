@@ -8,6 +8,7 @@
  * appeal on the lean scale once. Pure readings: nothing here changes the
  * world.
  */
+import { storyDelivered } from "./modules/news";
 import data from "./data/electorate/parameters.json" with { type: "json" };
 import { partySide } from "./appointments";
 import { campaignParameter } from "./campaign-views";
@@ -74,6 +75,8 @@ export interface UnemploymentReading {
   readonly webRecordId: string;
   readonly engineRecordId: string | null;
   readonly openingRecordId: string;
+  /** The story that told the town of it. */
+  readonly heardInStoryId?: string;
 }
 
 /** The conditions every voter in the race sees. */
@@ -307,11 +310,20 @@ export function raceConditions(
   };
 }
 
-/** The town's unemployment (points) and crime (share above base) against the outcome web's base. */
+/**
+ * The town's unemployment (points) and crime (share above base) against the
+ * outcome web's base, as the town has heard of them: a measure counts only
+ * once a story carrying it has reached someone who lives there (the story is
+ * cited), since nobody attributes a change they have not learned of. Where
+ * the world keeps no news, nothing is heard and no change reaches the vote.
+ */
 function townConditions(api: CoreAPI, placeId: string) {
   if (!api.state.modules.has(OUTCOME_WEB_MODULE_ID))
     return { unemploymentChange: 0, crimeChange: 0 };
-  const jobs = placeOutcome(api, placeId, "labor.unemployment-pct");
+  const jobsStory = storyDelivered(api, placeId, "labor.unemployment-pct");
+  const jobs = jobsStory
+    ? placeOutcome(api, placeId, "labor.unemployment-pct")
+    : undefined;
   let crime = 0,
     counted = 0;
   for (const measure of [
@@ -320,6 +332,7 @@ function townConditions(api: CoreAPI, placeId: string) {
     "crime.assault",
     "crime.vandalism",
   ]) {
+    if (!storyDelivered(api, placeId, measure)) continue;
     const row = placeOutcome(api, placeId, measure);
     if (!row?.base) continue;
     crime += row.value / row.base - 1;
@@ -336,6 +349,7 @@ function townConditions(api: CoreAPI, placeId: string) {
             webRecordId: jobs.recordId,
             engineRecordId: jobs.engineRecordId,
             openingRecordId: placeId,
+            heardInStoryId: jobsStory!.storyId,
           },
         }
       : {}),
