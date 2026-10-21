@@ -2113,7 +2113,7 @@ export function strongestPulls<T extends { id: string; score: number }>(
  * employment, so the score falls by the weight times the log of the web's
  * factor for the worker's age and sex. Zero where no law moves it.
  */
-function retireWebTerm(
+export function retireWebTerm(
   api: CoreAPI,
   person: { placeId: string; looks?: { gender?: string } },
   age: number,
