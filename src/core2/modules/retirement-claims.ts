@@ -211,6 +211,8 @@ function moveToPerson(api: CoreAPI, rt: Runtime, personId: PersonId): void {
 
 function claim(api: CoreAPI, rt: Runtime, personId: PersonId): void {
   const core = api.state;
+  // One award a person: a claim made when work ended stands when the date comes.
+  if (rt.claimed.has(personId)) return;
   const full = core.people.get(personId);
   // A counted claimant is read from their group's columns, not built as a record.
   const counted = full ? undefined : residentsRuntime(core);
@@ -316,6 +318,23 @@ function claim(api: CoreAPI, rt: Runtime, personId: PersonId): void {
     counted: !full,
     obligationId: `retirement-claim:${personId}`,
   });
+}
+
+/**
+ * A worker who leaves work for good claims now, from their own record, rather
+ * than waiting for a claim date the index skipped because they were still
+ * working. Nothing happens without the module, or for someone already paid.
+ */
+export function claimRetirementNow(api: CoreAPI, personId: PersonId): boolean {
+  const core = api.state;
+  if (!core.modules.has(RETIREMENT_CLAIMS_MODULE_ID)) return false;
+  let rt = runtimes.get(core);
+  if (!rt) {
+    rt = { known: new Set(), byDate: new Map(), claimed: new Map() };
+    runtimes.set(core, rt);
+  }
+  claim(api, rt, personId);
+  return rt.claimed.has(personId);
 }
 
 export const RETIREMENT_CLAIMS_MODULE: CoreModule = {

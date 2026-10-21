@@ -5,19 +5,24 @@ area: core
 kind: bug
 priority: 2
 size: M
-status: open
-claimed-by:
-pr:
+status: claimed
+claimed-by: claude/relocation-job-held
+pr: #5149
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-21T02:26:14.306Z
 ---
 
-**What.** A played year stopped with "Invalid relocation: one living household, no job held" in a drawn place (seed not captured). Found by reading the callers of `relocatePeopleV1`: when an evicted household is doubled up with a relative in another town, `placeRemovedHousehold` in `src/core2/housing-homeless.ts` passed the household's whole roll as movers, and a member who has died stays on that roll (the health engine only sets `alive: false`), so the move was refused as a dead mover. The fix passes the living members and lets the core treat a household as moving whole when only the dead are left behind.
+**What.** One played year in a drawn place stopped with 'Invalid relocation: one living household, no job held', thrown by `relocatePeopleV1` in src/core2/state.ts when a mover still holds a job that has not ended. The place and seed were lost, and eight later runs of the same test did not reproduce it. Find which caller moves a person whose job is still live, reproduce it from a captured place and seed, and make that caller end the job first or not move the person.
 
-**Rules.** One model, two tiers: the same rule moves a full or counted household. No dice: who moves follows the household's living members and the relative's room.
+**Rules.** Wire to the world: a person who moves away leaves their job through the jobs engine's end record, never by the move erasing it. No dice: whether someone moves follows their own circumstances, and this item changes only the order of the job ending and the move.
 
-**Done when.** A test in `src/core2/state.test.ts` moves a household whose other member has died, as a whole, under its own id, and still refuses a move that names the dead member; the housing-homeless tests pass.
+**Done when.** With the place and seed captured by src/core2/agreement-jobs-free.test.ts (it now names both on failure), the failing year runs a full played year in buildBenchWorld without the error, and a test in src/core2 holds the case by person record id; the owner plays it: a year runs to its end.
 
-**Files.** src/core2/state.ts, src/core2/housing-homeless.ts, src/core2/state.test.ts
+**Files.** src/core2/state.ts, src/core2/modules/moves.ts, src/core2/modules/counted-moves.ts, src/core2/agreement-jobs-free.test.ts
 
-**Notes.** Cause inferred from the code and shown by the unit test, not by the original seed. If the same message ever appears with a living mover, the other branch of the check is a job held in another place.
+**Notes.** Seen Oct 19 once while testing branch claude/agreement-re-resolve-s7 (which deletes the pinned-job lookup); not reproduced in eight reruns there, so it may predate that branch. Run the test repeatedly on main and on that branch to compare.
+
+Sent back 2026-10-20 from PR #5404 (branch claude/relocation-moves-whole-s14): docs/pool/items/core-relocation-job-held-intermittent.md:20 requires the captured failing played year to finish and a regression held by person record id. This PR documents only an interrupted two-year Dover replay, and says it added no test for the moves.ts half. Passing the old stop is useful evidence, but does not show completion of the required year or a regression exercising this wrapper with the dead member. Add that record-id case and completed replay result; the open parent remains #5149.; finish on that branch, merge main into it first.
+
+Sent back 2026-10-20 from PR #5149 (branch claude/relocation-dead-member): The required played-world replay is still missing. The body says no seed was captured, but the PR comments supply Dover NH 3318820, seed ee04c2985f301a47, and report that this fix gets past Invalid relocation then stops at moves.ts with A whole household moves under its own id. Finish that ordinary generated-world route and name the moved household/records on a completed year; the hand-built one-living/one-dead state.test.ts fixture does not prove the eviction route stops crashing. Preserve the household identity and all living/dead membership invariants rather than narrowing the check.; finish on that branch, merge main into it first.

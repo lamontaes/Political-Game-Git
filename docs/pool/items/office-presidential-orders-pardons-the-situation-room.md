@@ -6,10 +6,11 @@ kind: feature
 priority: 2
 status: open
 claimed-by:
-pr:
+pr: #5184
 blocked-on:
 milestone:
 source: "docs/coordination/OFFICE-FEDERAL.md line 19 (unchecked checklist line)"
+claimed-at:
 ---
 
 **What.** Checked against main on Oct 16: OPEN. `presidentialOrders`, `pardonable` and `crisesToday` in `office-day-federal-president.ts` all return nothing, each registered as a stopgap (`SG-OFFICE-FED-presidential-orders`, `-pardons`, `-situation-room`); the justice engine has no federal sovereign to pardon. Next: A federal executive order whose law row an agency or the budget engine reads. Pardons and the situation room wait on a federal-sovereign record in justice and on crisis records. The player would notice the act on the politics screen as a choice among people, never a form.
@@ -21,3 +22,7 @@ source: "docs/coordination/OFFICE-FEDERAL.md line 19 (unchecked checklist line)"
 **Files.** src/core2/office-day-federal-president.ts, src/core2/modules/executive.ts, src/core2/modules/justice.ts, src/core2/data/office-day/federal-cabinet.json
 
 **Notes.** Checklist line from OFFICE-FEDERAL.md; verify against main before starting.
+
+Sent back 2026-10-20 from PR #5184 (branch claude/presidential-orders): a 'Resolved Oct 19' date note in the stopgap replacement text; finish on that branch, merge main into it first.
+
+Sent back 2026-10-20 from PR #5184 (branch claude/presidential-orders): The dated stopgap-note feedback is fixed, but docs/release/changes/office-presidential-orders-pardons-the-situation-room.md:3 still says impact none even though the order changes a law in force and the public-pay review raises actual federal paychecks. Use an accurate patch declaration for that simulation change. This PR also leaves pardons and the situation-room/player action unfinished; track the completed order under a bounded item or complete the original umbrella proof before marking it done.; finish on that branch, merge main into it first.

@@ -5,12 +5,13 @@ area: words
 kind: feature
 priority: 1
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/words-bench-datapoints
 pr:
 blocked-on:
 after: words-bench-compose
 source: added with npm run pool -- add
+claimed-at: 2026-10-19T23:11:26.070Z
 ---
 
 **What.** Make every composed line a data point and drop repeats. For each line record: move, register, bearing, key, the speaker's traits, lie or not, length in words, sentence count, the ids of the pieces used, and the record ids that filled the slots. Write `data/english/batches/batch-12.json`, one row per line grouped by item, with the item's situation type, cast record ids, profile and the cause record that fired it. Dedupe: no two items share (situation type, cast, pieces used); a profile that reads identically to another on one scene is dropped; no two choice sets share the same four replies; a situation type appears at most 3 times per profile (`--max-per-type`); a phrase appears once; the bench prints the count dropped under each rule.
