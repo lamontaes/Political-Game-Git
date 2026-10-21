@@ -4,10 +4,10 @@ title: "Stopgaps in opening-capital (unmeasured-opening-private-cash-buffer-dist
 area: core
 kind: stopgap
 priority: 3
-status: blocked
+status: dropped
 claimed-by:
 pr:
-blocked-on: research data: the row's replacement needs sourced data (Recorded individual firm liquidity/capital provenance or an independently observed matched ALL-cash-debit/balance cohort distribution with identified ...)
+blocked-on: research-opening-capital-sourced-parameters
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/data/opening-capital.json, kind unmeasured-opening-private-cash-buffer-distribution"
 ---
@@ -21,3 +21,5 @@ source: "src/core2/data/stopgaps.json, src/core2/data/opening-capital.json, kind
 **Files.** src/core2/data/opening-capital.json
 
 **Notes.** First row: A WHO-only stable per-firm startup cash-buffer rank and continuous quantile curve with one authored tail-span coefficient. Published q25/median/q75 are real observations; the full CDF and endpoints are estimates.
+
+Folded into research-opening-capital-sourced-parameters (CTO, Oct 19, 2026).

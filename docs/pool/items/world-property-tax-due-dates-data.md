@@ -5,7 +5,7 @@ area: world
 kind: research
 priority: 2
 size: M
-status: in-pr
+status: done
 claimed-by: claude/property-tax-data-g08lgv
 pr: #5230
 blocked-on:

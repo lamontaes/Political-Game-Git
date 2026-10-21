@@ -57,5 +57,949 @@
     "WV": 0.00483,
     "WI": 0.01188,
     "WY": 0.00582
+  },
+  "dueDates": {
+    "source": {
+      "tag": "ESTIMATED",
+      "asOf": "2026-10-19",
+      "citation": "propertytaxbystate.com, 'When Are Property Taxes Due? 2026 Deadlines for All 50 States' (https://propertytaxbystate.com/blog/when-are-property-taxes-due), read Oct 19, 2026; a commercial summary of state and county due dates, not a statute; cross-checked against Avalara's 2024 due-date table (https://www.avalara.com/blog/en/north-america/2024/01/state-property-tax-bill-due-dates.html), which disagrees on Alabama, Arizona, Arkansas and Connecticut.",
+      "note": "Delinquency dates are not recorded: the source lists due dates only."
+    },
+    "day": "A number is the day of the month; 'last' is the month's last day; nth and weekday (1 = Monday) name 'the nth Monday'.",
+    "byState": {
+      "AK": {
+        "installments": 2,
+        "dueDates": [
+          {
+            "month": 11,
+            "day": 1
+          },
+          {
+            "month": 5,
+            "day": 1
+          }
+        ],
+        "setLocally": true,
+        "tag": "ESTIMATED",
+        "estimatedFrom": "No single date found: the state leaves bill dates to each county or town. Two bills a year, in the spring and the fall, the pattern of the states that set dates by statute.",
+        "spread": "One to four bills a year, any month."
+      },
+      "AL": {
+        "installments": 1,
+        "dueDates": [
+          {
+            "month": 10,
+            "day": 1
+          }
+        ],
+        "setLocally": false,
+        "tag": "ESTIMATED",
+        "estimatedFrom": "The state's most common bill dates; a statewide statute or the state's collectors' common practice; a county can differ.",
+        "spread": "A county's own dates can sit weeks either side."
+      },
+      "AR": {
+        "installments": 1,
+        "dueDates": [
+          {
+            "month": 10,
+            "day": 15
+          }
+        ],
+        "setLocally": false,
+        "tag": "ESTIMATED",
+        "estimatedFrom": "The state's most common bill dates; a statewide statute or the state's collectors' common practice; a county can differ.",
+        "spread": "A county's own dates can sit weeks either side."
+      },
+      "AS": {
+        "installments": 2,
+        "dueDates": [
+          {
+            "month": 11,
+            "day": 1
+          },
+          {
+            "month": 5,
+            "day": 1
+          }
+        ],
+        "setLocally": true,
+        "tag": "ESTIMATED",
+        "estimatedFrom": "No single date found: no source found for the territory's collector. Two bills a year, in the spring and the fall, the pattern of the states that set dates by statute.",
+        "spread": "One to four bills a year, any month."
+      },
+      "AZ": {
+        "installments": 2,
+        "dueDates": [
+          {
+            "month": 10,
+            "day": 1
+          },
+          {
+            "month": 3,
+            "day": 1
+          }
+        ],
+        "setLocally": false,
+        "tag": "ESTIMATED",
+        "estimatedFrom": "The state's most common bill dates; a statewide statute or the state's collectors' common practice; a county can differ.",
+        "spread": "A county's own dates can sit weeks either side."
+      },
+      "CA": {
+        "installments": 2,
+        "dueDates": [
+          {
+            "month": 11,
+            "day": 1
+          },
+          {
+            "month": 2,
+            "day": 1
+          }
+        ],
+        "setLocally": false,
+        "tag": "ESTIMATED",
+        "estimatedFrom": "The state's most common bill dates; a statewide statute or the state's collectors' common practice; a county can differ.",
+        "spread": "A county's own dates can sit weeks either side."
+      },
+      "CO": {
+        "installments": 2,
+        "dueDates": [
+          {
+            "month": 2,
+            "day": "last"
+          },
+          {
+            "month": 6,
+            "day": 15
+          }
+        ],
+        "setLocally": false,
+        "tag": "ESTIMATED",
+        "estimatedFrom": "The state's most common bill dates; a statewide statute or the state's collectors' common practice; a county can differ.",
+        "spread": "A county's own dates can sit weeks either side."
+      },
+      "CT": {
+        "installments": 2,
+        "dueDates": [
+          {
+            "month": 7,
+            "day": 1
+          },
+          {
+            "month": 1,
+            "day": 1
+          }
+        ],
+        "setLocally": true,
+        "tag": "ESTIMATED",
+        "estimatedFrom": "Connecticut towns bill real estate in two halves, July 1 and January 1, with a single July 1 bill under $100 (Conn. Gen. Stat. 12-144 as towns apply it): the dates are read from town tax collectors' notices (North Stonington, Brookfield) and a town code (a town ordinance on ecode360), not from the statute text, which the General Assembly's site would not return (it returned HTTP 503). A town can set another date.",
+        "spread": "A town's own dates can differ; the grace period runs to about August 1 and February 1."
+      },
+      "DC": {
+        "installments": 2,
+        "dueDates": [
+          {
+            "month": 3,
+            "day": 31
+          },
+          {
+            "month": 9,
+            "day": 15
+          }
+        ],
+        "setLocally": false,
+        "tag": "ESTIMATED",
+        "estimatedFrom": "The state's most common bill dates; a statewide statute or the state's collectors' common practice; a county can differ.",
+        "spread": "A county's own dates can sit weeks either side."
+      },
+      "DE": {
+        "installments": 1,
+        "dueDates": [
+          {
+            "month": 9,
+            "day": 30
+          }
+        ],
+        "setLocally": false,
+        "tag": "ESTIMATED",
+        "estimatedFrom": "The state's most common bill dates; a statewide statute or the state's collectors' common practice; a county can differ.",
+        "spread": "A county's own dates can sit weeks either side."
+      },
+      "FL": {
+        "installments": 1,
+        "dueDates": [
+          {
+            "month": 11,
+            "day": 1
+          }
+        ],
+        "setLocally": false,
+        "tag": "ESTIMATED",
+        "estimatedFrom": "The state's most common bill dates; a statewide statute or the state's collectors' common practice; a county can differ.",
+        "spread": "A county's own dates can sit weeks either side."
+      },
+      "GA": {
+        "installments": 2,
+        "dueDates": [
+          {
+            "month": 11,
+            "day": 1
+          },
+          {
+            "month": 5,
+            "day": 1
+          }
+        ],
+        "setLocally": true,
+        "tag": "ESTIMATED",
+        "estimatedFrom": "No single date found: the state leaves bill dates to each county or town. Two bills a year, in the spring and the fall, the pattern of the states that set dates by statute.",
+        "spread": "One to four bills a year, any month."
+      },
+      "GU": {
+        "installments": 2,
+        "dueDates": [
+          {
+            "month": 11,
+            "day": 1
+          },
+          {
+            "month": 5,
+            "day": 1
+          }
+        ],
+        "setLocally": true,
+        "tag": "ESTIMATED",
+        "estimatedFrom": "No single date found: no source found for the territory's collector. Two bills a year, in the spring and the fall, the pattern of the states that set dates by statute.",
+        "spread": "One to four bills a year, any month."
+      },
+      "HI": {
+        "installments": 2,
+        "dueDates": [
+          {
+            "month": 8,
+            "day": 20
+          },
+          {
+            "month": 2,
+            "day": 20
+          }
+        ],
+        "setLocally": false,
+        "tag": "ESTIMATED",
+        "estimatedFrom": "The state's most common bill dates; a statewide statute or the state's collectors' common practice; a county can differ.",
+        "spread": "A county's own dates can sit weeks either side."
+      },
+      "IA": {
+        "installments": 2,
+        "dueDates": [
+          {
+            "month": 9,
+            "day": 30
+          },
+          {
+            "month": 3,
+            "day": 31
+          }
+        ],
+        "setLocally": false,
+        "tag": "ESTIMATED",
+        "estimatedFrom": "The state's most common bill dates; a statewide statute or the state's collectors' common practice; a county can differ.",
+        "spread": "A county's own dates can sit weeks either side."
+      },
+      "ID": {
+        "installments": 2,
+        "dueDates": [
+          {
+            "month": 12,
+            "day": 20
+          },
+          {
+            "month": 6,
+            "day": 20
+          }
+        ],
+        "setLocally": false,
+        "tag": "ESTIMATED",
+        "estimatedFrom": "The state's most common bill dates; a statewide statute or the state's collectors' common practice; a county can differ.",
+        "spread": "A county's own dates can sit weeks either side."
+      },
+      "IL": {
+        "installments": 2,
+        "dueDates": [
+          {
+            "month": 11,
+            "day": 1
+          },
+          {
+            "month": 5,
+            "day": 1
+          }
+        ],
+        "setLocally": true,
+        "tag": "ESTIMATED",
+        "estimatedFrom": "No single date found: the state leaves bill dates to each county or town. Two bills a year, in the spring and the fall, the pattern of the states that set dates by statute.",
+        "spread": "One to four bills a year, any month."
+      },
+      "IN": {
+        "installments": 2,
+        "dueDates": [
+          {
+            "month": 5,
+            "day": 10
+          },
+          {
+            "month": 11,
+            "day": 10
+          }
+        ],
+        "setLocally": false,
+        "tag": "ESTIMATED",
+        "estimatedFrom": "The state's most common bill dates; a statewide statute or the state's collectors' common practice; a county can differ.",
+        "spread": "A county's own dates can sit weeks either side."
+      },
+      "KS": {
+        "installments": 2,
+        "dueDates": [
+          {
+            "month": 12,
+            "day": 20
+          },
+          {
+            "month": 5,
+            "day": 10
+          }
+        ],
+        "setLocally": false,
+        "tag": "ESTIMATED",
+        "estimatedFrom": "The state's most common bill dates; a statewide statute or the state's collectors' common practice; a county can differ.",
+        "spread": "A county's own dates can sit weeks either side."
+      },
+      "KY": {
+        "installments": 2,
+        "dueDates": [
+          {
+            "month": 11,
+            "day": 1
+          },
+          {
+            "month": 12,
+            "day": 31
+          }
+        ],
+        "setLocally": false,
+        "tag": "ESTIMATED",
+        "estimatedFrom": "The state's most common bill dates; a statewide statute or the state's collectors' common practice; a county can differ.",
+        "spread": "A county's own dates can sit weeks either side."
+      },
+      "LA": {
+        "installments": 1,
+        "dueDates": [
+          {
+            "month": 12,
+            "day": 31
+          }
+        ],
+        "setLocally": false,
+        "tag": "ESTIMATED",
+        "estimatedFrom": "The state's most common bill dates; a statewide statute or the state's collectors' common practice; a county can differ.",
+        "spread": "A county's own dates can sit weeks either side."
+      },
+      "MA": {
+        "installments": 4,
+        "dueDates": [
+          {
+            "month": 8,
+            "day": 1
+          },
+          {
+            "month": 11,
+            "day": 1
+          },
+          {
+            "month": 2,
+            "day": 1
+          },
+          {
+            "month": 5,
+            "day": 1
+          }
+        ],
+        "setLocally": true,
+        "tag": "ESTIMATED",
+        "estimatedFrom": "The state's most common bill dates; counties or towns set their own, so these are the most common pattern.",
+        "spread": "A county's own dates can sit weeks either side."
+      },
+      "MD": {
+        "installments": 2,
+        "dueDates": [
+          {
+            "month": 9,
+            "day": 30
+          },
+          {
+            "month": 12,
+            "day": 31
+          }
+        ],
+        "setLocally": false,
+        "tag": "ESTIMATED",
+        "estimatedFrom": "The state's most common bill dates; a statewide statute or the state's collectors' common practice; a county can differ.",
+        "spread": "A county's own dates can sit weeks either side."
+      },
+      "ME": {
+        "installments": 2,
+        "dueDates": [
+          {
+            "month": 11,
+            "day": 1
+          },
+          {
+            "month": 5,
+            "day": 1
+          }
+        ],
+        "setLocally": true,
+        "tag": "ESTIMATED",
+        "estimatedFrom": "No single date found: the state leaves bill dates to each county or town. Two bills a year, in the spring and the fall, the pattern of the states that set dates by statute.",
+        "spread": "One to four bills a year, any month."
+      },
+      "MI": {
+        "installments": 2,
+        "dueDates": [
+          {
+            "month": 9,
+            "day": 14
+          },
+          {
+            "month": 2,
+            "day": 14
+          }
+        ],
+        "setLocally": true,
+        "tag": "ESTIMATED",
+        "estimatedFrom": "The state's most common bill dates; counties or towns set their own, so these are the most common pattern.",
+        "spread": "A county's own dates can sit weeks either side."
+      },
+      "MN": {
+        "installments": 2,
+        "dueDates": [
+          {
+            "month": 5,
+            "day": 15
+          },
+          {
+            "month": 10,
+            "day": 15
+          }
+        ],
+        "setLocally": false,
+        "tag": "ESTIMATED",
+        "estimatedFrom": "The state's most common bill dates; a statewide statute or the state's collectors' common practice; a county can differ.",
+        "spread": "A county's own dates can sit weeks either side."
+      },
+      "MO": {
+        "installments": 1,
+        "dueDates": [
+          {
+            "month": 12,
+            "day": 31
+          }
+        ],
+        "setLocally": false,
+        "tag": "ESTIMATED",
+        "estimatedFrom": "The state's most common bill dates; a statewide statute or the state's collectors' common practice; a county can differ.",
+        "spread": "A county's own dates can sit weeks either side."
+      },
+      "MP": {
+        "installments": 2,
+        "dueDates": [
+          {
+            "month": 11,
+            "day": 1
+          },
+          {
+            "month": 5,
+            "day": 1
+          }
+        ],
+        "setLocally": true,
+        "tag": "ESTIMATED",
+        "estimatedFrom": "No single date found: no source found for the territory's collector. Two bills a year, in the spring and the fall, the pattern of the states that set dates by statute.",
+        "spread": "One to four bills a year, any month."
+      },
+      "MS": {
+        "installments": 1,
+        "dueDates": [
+          {
+            "month": 2,
+            "day": 1
+          }
+        ],
+        "setLocally": false,
+        "tag": "ESTIMATED",
+        "estimatedFrom": "The state's most common bill dates; a statewide statute or the state's collectors' common practice; a county can differ.",
+        "spread": "A county's own dates can sit weeks either side."
+      },
+      "MT": {
+        "installments": 2,
+        "dueDates": [
+          {
+            "month": 11,
+            "day": 30
+          },
+          {
+            "month": 5,
+            "day": 31
+          }
+        ],
+        "setLocally": false,
+        "tag": "ESTIMATED",
+        "estimatedFrom": "The state's most common bill dates; a statewide statute or the state's collectors' common practice; a county can differ.",
+        "spread": "A county's own dates can sit weeks either side."
+      },
+      "NC": {
+        "installments": 1,
+        "dueDates": [
+          {
+            "month": 9,
+            "day": 1
+          }
+        ],
+        "setLocally": false,
+        "tag": "ESTIMATED",
+        "estimatedFrom": "The state's most common bill dates; a statewide statute or the state's collectors' common practice; a county can differ.",
+        "spread": "A county's own dates can sit weeks either side."
+      },
+      "ND": {
+        "installments": 2,
+        "dueDates": [
+          {
+            "month": 3,
+            "day": 1
+          },
+          {
+            "month": 10,
+            "day": 15
+          }
+        ],
+        "setLocally": false,
+        "tag": "ESTIMATED",
+        "estimatedFrom": "The state's most common bill dates; a statewide statute or the state's collectors' common practice; a county can differ.",
+        "spread": "A county's own dates can sit weeks either side."
+      },
+      "NE": {
+        "installments": 1,
+        "dueDates": [
+          {
+            "month": 12,
+            "day": 31
+          }
+        ],
+        "setLocally": true,
+        "tag": "ESTIMATED",
+        "estimatedFrom": "The state's most common bill dates; counties or towns set their own, so these are the most common pattern.",
+        "spread": "A county's own dates can sit weeks either side."
+      },
+      "NH": {
+        "installments": 2,
+        "dueDates": [
+          {
+            "month": 7,
+            "day": 1
+          },
+          {
+            "month": 12,
+            "day": 1
+          }
+        ],
+        "setLocally": true,
+        "tag": "ESTIMATED",
+        "estimatedFrom": "The state's most common bill dates; counties or towns set their own, so these are the most common pattern.",
+        "spread": "A county's own dates can sit weeks either side."
+      },
+      "NJ": {
+        "installments": 4,
+        "dueDates": [
+          {
+            "month": 2,
+            "day": 1
+          },
+          {
+            "month": 5,
+            "day": 1
+          },
+          {
+            "month": 8,
+            "day": 1
+          },
+          {
+            "month": 11,
+            "day": 1
+          }
+        ],
+        "setLocally": false,
+        "tag": "ESTIMATED",
+        "estimatedFrom": "The state's most common bill dates; a statewide statute or the state's collectors' common practice; a county can differ.",
+        "spread": "A county's own dates can sit weeks either side."
+      },
+      "NM": {
+        "installments": 2,
+        "dueDates": [
+          {
+            "month": 11,
+            "day": 10
+          },
+          {
+            "month": 4,
+            "day": 10
+          }
+        ],
+        "setLocally": false,
+        "tag": "ESTIMATED",
+        "estimatedFrom": "The state's most common bill dates; a statewide statute or the state's collectors' common practice; a county can differ.",
+        "spread": "A county's own dates can sit weeks either side."
+      },
+      "NV": {
+        "installments": 4,
+        "dueDates": [
+          {
+            "month": 8,
+            "nth": 3,
+            "weekday": 1
+          },
+          {
+            "month": 10,
+            "nth": 1,
+            "weekday": 1
+          },
+          {
+            "month": 1,
+            "nth": 1,
+            "weekday": 1
+          },
+          {
+            "month": 3,
+            "nth": 1,
+            "weekday": 1
+          }
+        ],
+        "setLocally": false,
+        "tag": "ESTIMATED",
+        "estimatedFrom": "The state's most common bill dates; a statewide statute or the state's collectors' common practice; a county can differ.",
+        "spread": "A county's own dates can sit weeks either side."
+      },
+      "NY": {
+        "installments": 2,
+        "dueDates": [
+          {
+            "month": 11,
+            "day": 1
+          },
+          {
+            "month": 5,
+            "day": 1
+          }
+        ],
+        "setLocally": true,
+        "tag": "ESTIMATED",
+        "estimatedFrom": "No single date found: the state leaves bill dates to each county or town. Two bills a year, in the spring and the fall, the pattern of the states that set dates by statute.",
+        "spread": "One to four bills a year, any month."
+      },
+      "OH": {
+        "installments": 2,
+        "dueDates": [
+          {
+            "month": 11,
+            "day": 1
+          },
+          {
+            "month": 5,
+            "day": 1
+          }
+        ],
+        "setLocally": true,
+        "tag": "ESTIMATED",
+        "estimatedFrom": "No single date found: the state leaves bill dates to each county or town. Two bills a year, in the spring and the fall, the pattern of the states that set dates by statute.",
+        "spread": "One to four bills a year, any month."
+      },
+      "OK": {
+        "installments": 2,
+        "dueDates": [
+          {
+            "month": 12,
+            "day": 31
+          },
+          {
+            "month": 3,
+            "day": 31
+          }
+        ],
+        "setLocally": false,
+        "tag": "ESTIMATED",
+        "estimatedFrom": "The state's most common bill dates; a statewide statute or the state's collectors' common practice; a county can differ.",
+        "spread": "A county's own dates can sit weeks either side."
+      },
+      "OR": {
+        "installments": 3,
+        "dueDates": [
+          {
+            "month": 11,
+            "day": 15
+          },
+          {
+            "month": 2,
+            "day": 15
+          },
+          {
+            "month": 5,
+            "day": 15
+          }
+        ],
+        "setLocally": false,
+        "tag": "ESTIMATED",
+        "estimatedFrom": "The state's most common bill dates; a statewide statute or the state's collectors' common practice; a county can differ.",
+        "spread": "A county's own dates can sit weeks either side."
+      },
+      "PA": {
+        "installments": 2,
+        "dueDates": [
+          {
+            "month": 11,
+            "day": 1
+          },
+          {
+            "month": 5,
+            "day": 1
+          }
+        ],
+        "setLocally": true,
+        "tag": "ESTIMATED",
+        "estimatedFrom": "No single date found: the state leaves bill dates to each county or town. Two bills a year, in the spring and the fall, the pattern of the states that set dates by statute.",
+        "spread": "One to four bills a year, any month."
+      },
+      "PR": {
+        "installments": 2,
+        "dueDates": [
+          {
+            "month": 11,
+            "day": 1
+          },
+          {
+            "month": 5,
+            "day": 1
+          }
+        ],
+        "setLocally": true,
+        "tag": "ESTIMATED",
+        "estimatedFrom": "No single date found: no source found for the territory's collector. Two bills a year, in the spring and the fall, the pattern of the states that set dates by statute.",
+        "spread": "One to four bills a year, any month."
+      },
+      "RI": {
+        "installments": 2,
+        "dueDates": [
+          {
+            "month": 11,
+            "day": 1
+          },
+          {
+            "month": 5,
+            "day": 1
+          }
+        ],
+        "setLocally": true,
+        "tag": "ESTIMATED",
+        "estimatedFrom": "No single date found: the state leaves bill dates to each county or town. Two bills a year, in the spring and the fall, the pattern of the states that set dates by statute.",
+        "spread": "One to four bills a year, any month."
+      },
+      "SC": {
+        "installments": 1,
+        "dueDates": [
+          {
+            "month": 1,
+            "day": 15
+          }
+        ],
+        "setLocally": false,
+        "tag": "ESTIMATED",
+        "estimatedFrom": "The state's most common bill dates; a statewide statute or the state's collectors' common practice; a county can differ.",
+        "spread": "A county's own dates can sit weeks either side."
+      },
+      "SD": {
+        "installments": 2,
+        "dueDates": [
+          {
+            "month": 4,
+            "day": 30
+          },
+          {
+            "month": 10,
+            "day": 31
+          }
+        ],
+        "setLocally": false,
+        "tag": "ESTIMATED",
+        "estimatedFrom": "The state's most common bill dates; a statewide statute or the state's collectors' common practice; a county can differ.",
+        "spread": "A county's own dates can sit weeks either side."
+      },
+      "TN": {
+        "installments": 1,
+        "dueDates": [
+          {
+            "month": 10,
+            "nth": 1,
+            "weekday": 1
+          }
+        ],
+        "setLocally": false,
+        "tag": "ESTIMATED",
+        "estimatedFrom": "The state's most common bill dates; a statewide statute or the state's collectors' common practice; a county can differ.",
+        "spread": "A county's own dates can sit weeks either side."
+      },
+      "TX": {
+        "installments": 1,
+        "dueDates": [
+          {
+            "month": 1,
+            "day": 31
+          }
+        ],
+        "setLocally": false,
+        "tag": "ESTIMATED",
+        "estimatedFrom": "The state's most common bill dates; a statewide statute or the state's collectors' common practice; a county can differ.",
+        "spread": "A county's own dates can sit weeks either side."
+      },
+      "UT": {
+        "installments": 1,
+        "dueDates": [
+          {
+            "month": 11,
+            "day": 30
+          }
+        ],
+        "setLocally": false,
+        "tag": "ESTIMATED",
+        "estimatedFrom": "The state's most common bill dates; a statewide statute or the state's collectors' common practice; a county can differ.",
+        "spread": "A county's own dates can sit weeks either side."
+      },
+      "VA": {
+        "installments": 2,
+        "dueDates": [
+          {
+            "month": 11,
+            "day": 1
+          },
+          {
+            "month": 5,
+            "day": 1
+          }
+        ],
+        "setLocally": true,
+        "tag": "ESTIMATED",
+        "estimatedFrom": "No single date found: the state leaves bill dates to each county or town. Two bills a year, in the spring and the fall, the pattern of the states that set dates by statute.",
+        "spread": "One to four bills a year, any month."
+      },
+      "VI": {
+        "installments": 2,
+        "dueDates": [
+          {
+            "month": 11,
+            "day": 1
+          },
+          {
+            "month": 5,
+            "day": 1
+          }
+        ],
+        "setLocally": true,
+        "tag": "ESTIMATED",
+        "estimatedFrom": "No single date found: no source found for the territory's collector. Two bills a year, in the spring and the fall, the pattern of the states that set dates by statute.",
+        "spread": "One to four bills a year, any month."
+      },
+      "VT": {
+        "installments": 2,
+        "dueDates": [
+          {
+            "month": 11,
+            "day": 1
+          },
+          {
+            "month": 5,
+            "day": 1
+          }
+        ],
+        "setLocally": true,
+        "tag": "ESTIMATED",
+        "estimatedFrom": "No single date found: the state leaves bill dates to each county or town. Two bills a year, in the spring and the fall, the pattern of the states that set dates by statute.",
+        "spread": "One to four bills a year, any month."
+      },
+      "WA": {
+        "installments": 2,
+        "dueDates": [
+          {
+            "month": 4,
+            "day": 30
+          },
+          {
+            "month": 10,
+            "day": 31
+          }
+        ],
+        "setLocally": false,
+        "tag": "ESTIMATED",
+        "estimatedFrom": "The state's most common bill dates; a statewide statute or the state's collectors' common practice; a county can differ.",
+        "spread": "A county's own dates can sit weeks either side."
+      },
+      "WI": {
+        "installments": 2,
+        "dueDates": [
+          {
+            "month": 1,
+            "day": 31
+          },
+          {
+            "month": 7,
+            "day": 31
+          }
+        ],
+        "setLocally": false,
+        "tag": "ESTIMATED",
+        "estimatedFrom": "The state's most common bill dates; a statewide statute or the state's collectors' common practice; a county can differ.",
+        "spread": "A county's own dates can sit weeks either side."
+      },
+      "WV": {
+        "installments": 2,
+        "dueDates": [
+          {
+            "month": 9,
+            "day": 1
+          },
+          {
+            "month": 3,
+            "day": 1
+          }
+        ],
+        "setLocally": false,
+        "tag": "ESTIMATED",
+        "estimatedFrom": "The state's most common bill dates; a statewide statute or the state's collectors' common practice; a county can differ.",
+        "spread": "A county's own dates can sit weeks either side."
+      },
+      "WY": {
+        "installments": 2,
+        "dueDates": [
+          {
+            "month": 11,
+            "day": 10
+          },
+          {
+            "month": 5,
+            "day": 10
+          }
+        ],
+        "setLocally": false,
+        "tag": "ESTIMATED",
+        "estimatedFrom": "The state's most common bill dates; a statewide statute or the state's collectors' common practice; a county can differ.",
+        "spread": "A county's own dates can sit weeks either side."
+      }
+    }
   }
 }

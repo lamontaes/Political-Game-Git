@@ -4,10 +4,10 @@ title: "Stopgaps in elections (missing-data): 1 open"
 area: elections
 kind: stopgap
 priority: 3
-status: blocked
+status: dropped
 claimed-by:
 pr:
-blocked-on: research data: the row's replacement needs sourced data (Each place's own rule read into data/research/elections/filing-requirements.json....)
+blocked-on: research-elections-sourced-parameters
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/modules/elections.ts, kind missing-data"
 ---
@@ -21,3 +21,5 @@ source: "src/core2/data/stopgaps.json, src/core2/modules/elections.ts, kind miss
 **Files.** src/core2/modules/elections.ts
 
 **Notes.** First row: Where a place's filing row carries no filing office, minimum age or voter-registration rule (county offices in Alaska, Connecticut, Rhode Island, D.C. and the territories; municipal offices in Hawaii and two territories;
+
+Folded into research-elections-sourced-parameters (CTO, Oct 19, 2026).
