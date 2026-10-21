@@ -16,7 +16,7 @@ source: added with npm run pool -- add
 
 **Rules.** Speed: a town's game year runs in under two minutes and no change makes it more than 20 percent slower; never scan or keep a whole history every day. Replace, never layer: the growing store is fixed at its source, not trimmed after.
 
-**Done when.** A sampling heap profile of the Opelika year (seed op1) before and after names the record that grows by file and function, the year runs in under two minutes with its heap flat after August, and npm run speed:year on the same seed is no slower; the PR names the place, seed and measurements.
+**Done when.** In a played world (buildBenchWorld, Opelika, Alabama, seed op1, default size), a sampling heap profile of the year before and after names the record that grows by file and function, the year runs in under two minutes with its heap flat after August, and npm run speed:year on the same seed is no slower; the PR names the place, seed and measurements.
 
 **Files.** src/core2/state.ts, src/core2/module-state.ts
 
