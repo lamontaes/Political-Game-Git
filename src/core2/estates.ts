@@ -31,8 +31,9 @@
  * the surplus goes into the estate, so the estate tax and the heirs' shares
  * count it (housing-sale.ts). A household whose last living member the
  * decedent was, and which owns its home, sells it; a counted household's
- * home is not yet sold (SG-CORE-estate-cash-only: loans, businesses and
- * counted homes are not settled).
+ * home is sold by the same rule when its last member dies
+ * (removeCountedPerson). SG-CORE-estate-cash-only: loans and businesses are
+ * not settled.
  */
 import data from "./data/estates.json" with { type: "json" };
 import { BUDGETS_MODULE_ID, governments } from "./modules/budgets";

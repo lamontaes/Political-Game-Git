@@ -422,7 +422,7 @@ export function applyCountedFlows(
       row.deathCauses[died.cause] =
         (row.deathCauses[died.cause] ?? 0) + weightOfPerson(person);
       row.causeOf[person.id] = died.cause;
-      for (const heir of removeCountedPerson(core, person.id))
+      for (const heir of removeCountedPerson(core, person.id, row.id))
         row.estates.push({ deceasedId: person.id, ...heir });
       row.deaths.push(person.id);
     }
