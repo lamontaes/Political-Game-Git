@@ -3,4 +3,4 @@ id: pool-notes-path-sweep
 impact: none
 ---
 
-Notes only: what a sweep of the headless golden-path check found across nineteen drawn places.
+Notes only: historical headless path checks, next-election traces and qualified year-speed measurements.
