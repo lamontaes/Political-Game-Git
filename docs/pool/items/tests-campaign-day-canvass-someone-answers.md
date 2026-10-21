@@ -5,9 +5,9 @@ area: play
 kind: bug
 priority: 3
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/canvass-answers
-pr:
+pr: #5793
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-21T10:41:58.049Z
