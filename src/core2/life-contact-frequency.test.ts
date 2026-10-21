@@ -47,8 +47,8 @@ function yearOf(draw: number) {
       days.get(id) ?? 0,
     );
   }
-  console.log(
-    `CONTACT ${where} household ${household.join(",")} others ${others.join(",")}`,
+  process.stdout.write(
+    `CONTACT ${where} household ${household.join(",")} others ${others.join(",")}\n`,
   );
   return { where, household, others };
 }
