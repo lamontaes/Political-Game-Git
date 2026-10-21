@@ -4854,14 +4854,14 @@
   },
   {
     "id": "SG-WORLD-business-union-members-rule",
-    "kind": "owner-decision",
+    "kind": "missing-mechanic",
     "file": "src/core2/membership-dues.ts",
     "line": 1,
     "whatItFakes": "Which workers hold a union membership is chosen by pay alone (the jobs nearest the place's median pay first, until the state's BLS rate is met), not by anything the worker chooses. Dues are still drawn from the wider population's pooled cash.",
-    "why": "No ruling exists on who joins a union (register and OWNER-DECISIONS searched Oct 19, 2026: no match). Owner rule: build the simplest version, flag it. No dice: the rate checks the count and picks no worker.",
+    "why": "Deferred to 1.0 by the owner's ruling on unions (OWNER-DECISIONS.md: unions, membership rules and strikes come after early access, and the union owner-decision rows do not block the early-access build), so the simplest version stands until then. No dice: the rate checks the count and picks no worker.",
     "addedBy": "claude/union-membership-record",
     "addedAt": "2026-10-19",
-    "replacement": "The owner's ruling on what makes a worker join or leave (pay, job, views), then each worker's choice through the shared chooser and dues from their own cash (pool items world-union-join-leave-choice and world-union-dues-from-own-cash).",
+    "replacement": "With 1.0: what makes a worker join or leave (pay, job, views), each worker's choice through the shared chooser, and every member's dues from their own cash.",
     "status": "open"
   },
   {
