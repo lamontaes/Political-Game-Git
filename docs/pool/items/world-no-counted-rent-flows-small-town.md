@@ -5,12 +5,12 @@ area: world
 kind: bug
 priority: 3
 size: S
-status: in-pr
-claimed-by: claude/world-no-counted-rent-flows-small-town
+status: open
+claimed-by:
 pr: #5351
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-20T00:33:48.906Z
+claimed-at:
 ---
 
 **What.** TODO
