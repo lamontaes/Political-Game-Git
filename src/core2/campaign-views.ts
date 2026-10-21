@@ -325,7 +325,8 @@ export interface StanceProfile {
   readonly collegeFromAverage?: number;
 }
 
-const LOADINGS = stanceLoadings.questions as unknown as Record<
+/** The survey's faith and degree loadings by question, read here and by the views engine's opening record. */
+export const STANCE_LOADINGS = stanceLoadings.questions as unknown as Record<
   string,
   { loadings: { faith: { value: number }; college: { value: number } } }
 >;
@@ -334,18 +335,20 @@ const LOADINGS = stanceLoadings.questions as unknown as Record<
  * What a person's faith and degree add to their opening stance on a question
  * the 2020 Cooperative Election Study asked (`opening-stance-loadings.json`):
  * each loading times how far they sit from the average of their age band. A
- * question with no survey item, or a person with no profile, adds nothing
- * (ESTIMATED).
+ * question with no survey item, or a person with no profile or no recorded
+ * faith, adds nothing (ESTIMATED), the same rule as the views engine's stored
+ * opening record (`openingRecord`), so a counted voter and the same person
+ * filled in stand alike.
  */
 export function loadingShift(
   profile: StanceProfile | null | undefined,
   question: string,
 ): number {
   const loadings =
-    LOADINGS[question.replace(/^us-policy-positions:/, "")]?.loadings;
-  if (!loadings || !profile) return 0;
+    STANCE_LOADINGS[question.replace(/^us-policy-positions:/, "")]?.loadings;
+  if (!loadings || !profile || profile.faithFromAverage === undefined) return 0;
   return (
-    loadings.faith.value * (profile.faithFromAverage ?? 0) +
+    loadings.faith.value * profile.faithFromAverage +
     loadings.college.value * (profile.collegeFromAverage ?? 0)
   );
 }
