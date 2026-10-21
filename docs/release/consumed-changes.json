@@ -1,6 +1,18 @@
 {
   "entries": [
     {
+      "version": "0.20.1",
+      "releasedOn": "2026-10-21",
+      "revision": "cd1eb3d4096390b30d94fdc30d015c24bc2b696c",
+      "changeIds": [
+        "law-reach-b-repoint",
+        "law-wiring-housing",
+        "trait-research-own-sd",
+        "trait-wiring-report-status",
+        "traits-campaigns"
+      ]
+    },
+    {
       "version": "0.20.0",
       "releasedOn": "2026-10-21",
       "revision": "0a7f7a5b85bc67db6a50e0838b3af5854b9636a5",

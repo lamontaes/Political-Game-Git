@@ -296,6 +296,32 @@ Repaired after an independent audit, before review:
 - A promise can only be conditioned on something the game can actually settle.
   One condition on the list could never come true and is gone.
 
+## PRE-ALPHA 0.20.1
+
+_Released October 21, 2026._
+
+### Improved
+
+- **Housing and lending laws reach households** Housing and lending laws now
+  reach real households and move real money. Rent stabilization, the
+  inclusionary requirement, the multifamily, all-electric and farmland rules,
+  right to counsel in eviction, the consumer loan rate cap and a bigger housing
+  budget line each record the households, builders and governments they touched,
+  the dollars involved, and stop when the law is repealed. A housing budget
+  increase now pays rent assistance to the town's lowest-income renters, and a
+  tenant with a lawyer in an eviction case can settle on a payment plan the city
+  has paid to support.
+
+- **Candidates ask for volunteers and endorsements, and personality moves the
+  answers** A candidate in a town with a race now asks the people they can reach
+  to give their evenings and the people closest to them to put their names
+  behind the campaign, and each person answers from their own record and
+  temperament: open and outgoing people say yes more often, at about the rates
+  real surveys find. Volunteers come to the campaign's events and an endorsement
+  reaches the endorser's circle. Giving, answering the door, running for office,
+  standing again and holding a party's line lean on personality by researched
+  amounts instead of hand-set ones, and older officials are likelier to retire.
+
 ## PRE-ALPHA 0.20.0
 
 _Released October 21, 2026._
