@@ -28,8 +28,8 @@ afterAll(() => {
   setBookkeeping(before);
 });
 
-for (const direction of ["cut"] as const)
-  it(`a ${direction} to the city's administration line ends named city employees' jobs and later pay`, () => {
+for (const direction of ["cut", "raise"] as const)
+  it(`a ${direction} to the city's administration line moves named city employees' jobs (a cut ends them, a raise hires)`, () => {
     const tried: string[] = [];
     for (let draw = 0; draw < 25; draw += 1) {
       const place = drawPlace(`${seed}:${draw}`, "admin-line");
