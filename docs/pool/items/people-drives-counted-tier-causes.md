@@ -5,11 +5,12 @@ area: people
 kind: wiring
 priority: 2
 size: L
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/pick-people-drives-counted-tier-causes
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-21T09:38:54.196Z
 ---
 
 **What.** A named adult's cause drive forms in play when they perceive an event with a role (respond and perceive in src/core2/modules/drives.ts): none exist at the opening, and after a played year about 4 percent of named adults hold one, at a mean strength near 0.8 (Garfield Heights, Ohio 112 of 2788; LaGrange, Georgia 179 of 2886; South Solon, Ohio 71 of 1996; seed cause1). Counted adults perceive no events, so no counted adult ever holds a cause and every reader of causes (candidacy, giving, groups) sees none in the counted tier. Have the events that form causes reach the counted groups they touch (a closure's counted workers, a law's counted reach) and record, per group, how many members formed a cause and how strong, by the same perception and response rule as a named person, times the count.
