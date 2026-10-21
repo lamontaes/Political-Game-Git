@@ -14,7 +14,13 @@ import {
   type ResidentHouseholdRecord,
   type ResidentsInput,
 } from "../residents";
-import { drawSavingsToCover, transfer, transferSplit } from "../accounts";
+import {
+  depositsHeld,
+  drawSavingsToCover,
+  transfer,
+  transferSplit,
+  withdrawSavings,
+} from "../accounts";
 import { livingCostParts } from "../living-cost-split";
 import { splitMarketDemand } from "../business-books";
 import { OUTSIDE_MARKET_KIND } from "../opening-outside-market";
@@ -175,7 +181,10 @@ export interface ResidentsRuntime {
   /** The month the groups' money was last closed for. */
   lastMonth?: string;
   /** A household being filled in: its share of its group's money, paid to its people on release. */
-  fillInCash: Map<string, { group: number; amount: number; unplaced: number }>;
+  fillInCash: Map<
+    string,
+    { group: number; amount: number; unplaced: number; weight: number }
+  >;
   /** Households released to full people so far: each release names its own transfers, since a household can return to the counts and be filled in again. */
   fillIns: number;
 }
@@ -1800,6 +1809,19 @@ export function releaseResidentHousehold(
         reasonKey: "residents.fill-in.cash",
         source: rt.input.source,
       });
+    // Its bank savings were banked for every household the record stood
+    // for: the one filled in keeps its own share, and the rest go back to
+    // its group, which still stands for the others.
+    const held = depositsHeld(core, householdId);
+    const others = Math.floor((held * (cash.weight - 1)) / cash.weight);
+    if (others > 0)
+      withdrawSavings(core, rt.api, {
+        id: `fill-in:${householdId}:${sequence}:deposits`,
+        holderId: householdId,
+        customerAccountId: fundOf(rt.api, rt, cash.group),
+        amountMinor: others,
+        source: rt.input.source,
+      });
   }
   const calendars = calendarsOf(rt);
   // The household now pays its own outside living costs from its payer.
@@ -1905,6 +1927,7 @@ export function takeResidentHousehold(
     group: h.group,
     amount: householdCash(rt, h),
     unplaced: unplacedShare(rt, h),
+    weight: store.weightOf(h),
   });
   // One real household is filled in; the rest it stood for stay counted.
   store.releaseWeight(h);

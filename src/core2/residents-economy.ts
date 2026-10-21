@@ -208,6 +208,24 @@ export function countedHeadcountOf(
 }
 
 /**
+ * How many businesses one business record stands for: its staff in heads
+ * over its job records, a counted worker's record standing for its
+ * household's weight (one with no staff, and one in a town whose households
+ * each stand for one). A full owner is one household and owns one of them.
+ */
+export function businessScaleOf(
+  core: CoreState,
+  organizationId: string,
+): number {
+  let rows = 0;
+  for (const jobId of core.finance.jobsByOrganization.get(organizationId) ?? [])
+    if (core.jobs.get(jobId)?.endsAt === undefined) rows += 1;
+  const full = rows;
+  rows += countedJobsOf(core, organizationId).length;
+  return rows ? (full + countedHeadcountOf(core, organizationId)) / rows : 1;
+}
+
+/**
  * An employer's annual payroll for the weight of its counted workers: the
  * book's payroll plus what each counted job's household stands for beyond one
  * (the book counts one worker per counted job). Readers that size a cushion

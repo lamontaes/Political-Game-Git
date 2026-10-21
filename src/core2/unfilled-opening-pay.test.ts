@@ -120,6 +120,29 @@ describe(`unfilled openings and their pay (seed ${seed})`, () => {
         expect(hourlyAfter(short.id), here).toBeLessThanOrEqual(
           raised.hourlyMinor,
         );
+        // An opening a counted worker will fill stands for their household's
+        // weight: its raise, over all the seats it stands for, never costs
+        // more than the room the month left.
+        const seats = 50;
+        const weighted = {
+          ...standing(`${row.id}:weighted`, 400),
+          heads: seats,
+        };
+        positions.put(weighted as unknown as { id: string });
+        raiseUnfilledPay(api, row.organizationId, [weighted], trading, heads);
+        const room =
+          (trading!.salesMinor -
+            trading!.payrollMinor -
+            trading!.costsMinor -
+            trading!.complianceMinor) *
+          perMonth;
+        expect(
+          (hourlyAfter(weighted.id) - row.hourlyMinor) *
+            hours *
+            monthDays *
+            seats,
+          here,
+        ).toBeLessThanOrEqual(room);
       } else {
         // A stubborn owner holds the pay.
         expect(raised.hourlyMinor, here).toBe(row.hourlyMinor);

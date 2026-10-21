@@ -23,7 +23,7 @@ import type { CashJournalSourceSlot } from "../journal-state";
 import { lawChain, lawInForce } from "./laws";
 import { ownerOf } from "./business";
 import { residentPerson, residentsRuntime } from "./residents";
-import { countedHeadsOf } from "../residents-economy";
+import { businessScaleOf, countedHeadsOf } from "../residents-economy";
 import { countedPayment, paydayLaw } from "../counted-money";
 import { withholdingFor } from "../tax-withholding";
 import { BUDGETS_MODULE_ID, governments, withholdPay } from "./budgets";
@@ -208,7 +208,14 @@ function payProfitTaxes(api: CoreAPI): void {
     // An owner-run business's profit is its owner's income: they pay the
     // income tax law in force where they live on it, as an estimated payment.
     if (owner && core.people.has(owner)) {
-      passThrough(api, id, owner, total - last.minor);
+      // A full owner owns one of the businesses the record stands for: their
+      // income is that one's profit (the rest is the counted owners').
+      passThrough(
+        api,
+        id,
+        owner,
+        Math.round((total - last.minor) / businessScaleOf(core, id)),
+      );
       continue;
     }
     if (owner && residentPerson(core, owner)) {

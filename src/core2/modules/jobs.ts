@@ -141,6 +141,13 @@ interface SeekerRow {
 interface EmployerRow {
   id: string;
   openingStaff: number;
+  /**
+   * How many jobs each of its opening job records stood for, on average (one
+   * at the sample size). Its books are kept at one worker per record, so
+   * receipts taken in at the town's weight are read against them divided by
+   * this.
+   */
+  openingScale?: number;
   /** Fractional staffing need carried between reviews: positive hires, negative lays off. */
   need: number;
   /** Sales-supported staff, smoothed as receipts arrive across paydays. */
@@ -779,19 +786,22 @@ function unemploymentGap(api: CoreAPI, placeId: string): number {
 
 function open(api: CoreAPI): void {
   const c = core(api);
-  for (const [id, book] of c.finance.businesses)
-    if (!book.closedAt)
-      store(api)
-        .table("employers")
-        .put({
-          id,
-          isEmployer: true,
-          openingStaff: staffHeads(c, currentJobs(api, id)),
-          need: 0,
-          mix: roleMix(currentJobs(api, id), fullJobs(api, id), (job) =>
-            headsOf(c, job),
-          ),
-        });
+  for (const [id, book] of c.finance.businesses) {
+    if (book.closedAt) continue;
+    const jobs = currentJobs(api, id);
+    const heads = staffHeads(c, jobs);
+    const scale = jobs.length ? heads / jobs.length : 1;
+    store(api)
+      .table("employers")
+      .put({
+        id,
+        isEmployer: true,
+        openingStaff: heads,
+        ...(scale !== 1 ? { openingScale: scale } : {}),
+        need: 0,
+        mix: roleMix(jobs, fullJobs(api, id), (job) => headsOf(c, job)),
+      });
+  }
   openCountedSeekers(api);
   openSeekers(api);
   store(api).table("state").put({ id: "jobs:state", openedAt: c.date });
@@ -881,7 +891,9 @@ export function affordableStaff(
  *   (`decisionLean`), scales what they will add; a stubborn owner adds
  *   nothing.
  * The added monthly cost is the least of those three and the room the last
- * month's trading left, which raises already given this review use up.
+ * month's trading left, which raises already given this review use up. An
+ * opening a counted worker will fill stands for their household's weight, so
+ * its raise costs that many seats' worth of the room.
  */
 export function raiseUnfilledPay(
   api: CoreAPI,
@@ -931,14 +943,15 @@ export function raiseUnfilledPay(
     // What the seat has cost standing empty since it was last priced.
     const lost = (waited * carriesMonthly) / monthDays;
     const paysMonthly = position.hourlyMinor * hours * monthDays;
+    const seats = positionHeads(position);
     const added = Math.min(
-      room,
+      room / seats,
       carriesMonthly - paysMonthly,
       lost * openHanded,
     );
     const next = position.hourlyMinor + Math.floor(added / (hours * monthDays));
     if (next <= position.hourlyMinor) continue;
-    room -= (next - position.hourlyMinor) * hours * monthDays;
+    room -= (next - position.hourlyMinor) * hours * monthDays * seats;
     const raised: PositionRow = {
       ...position,
       hourlyMinor: next,
@@ -988,7 +1001,8 @@ function reviewEmployers(api: CoreAPI): void {
         ? (row.openingStaff * trading.salesMinor * p("jobsDaysPerYear")) /
           (trading.days *
             (book.price / book.anchorPrice || 1) *
-            book.capacityMinor)
+            book.capacityMinor *
+            (row.openingScale ?? 1))
         : projected;
     const previousSalesStaff = row.salesStaff ?? projected;
     const salesStaff =
@@ -3250,12 +3264,20 @@ export function registerEmployer(
   templateFromId?: string,
 ): void {
   if (!store(api).table("state").get("jobs:state")) return;
+  // Its books are sized like its template's (a business of its kind in the same town), at the same scale.
+  const scale = templateFromId
+    ? (
+        store(api).table("employers").get(templateFromId) as
+          EmployerRow | undefined
+      )?.openingScale
+    : undefined;
   store(api)
     .table("employers")
     .put({
       id: organizationId,
       isEmployer: true,
       openingStaff,
+      ...(scale !== undefined ? { openingScale: scale } : {}),
       need: 0,
       // An employer registered after the opening keeps the roles its staff is
       // made of, so a role it loses is refilled as that role even when its

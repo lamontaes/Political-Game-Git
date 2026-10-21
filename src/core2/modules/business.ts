@@ -40,6 +40,7 @@ import { businessName, businessNameContext } from "../business-names";
 import type { BusinessBooksState } from "../finance-types";
 import {
   addResidentFlow,
+  businessScaleOf,
   countedHeadcountOf,
   countedHeadsOf,
   countedJobsOf,
@@ -1327,8 +1328,23 @@ function month(api: CoreAPI): void {
         // payment multiplies by the owner's household weight: ask for one
         // household's part so the group receives what the business pays.
         const heads = found.full ? 1 : countedHeadsOf(c, owner.id);
+        // A full owner is one household and owns one of the businesses the
+        // record stands for: the rest of the draw is the other owners', the
+        // counted households of the town.
+        const scale = found.full ? businessScaleOf(c, row.id) : 1;
+        const own = scale > 1 ? Math.floor(Math.floor(wanted) / scale) : wanted;
         drawn = found.full
-          ? transferCash(api, id, row.id, account, wanted, source)
+          ? transferCash(api, id, row.id, account, own, source) +
+            (scale > 1 && Math.floor(wanted) > own
+              ? countedPayment(api, {
+                  id: `${id}:others`,
+                  placeId: owner.placeId,
+                  otherOwnerId: row.id,
+                  amountMinor: -(Math.floor(wanted) - own),
+                  reasonKey: "owner-draw",
+                  source,
+                })
+              : 0)
           : heads *
             countedPayment(api, {
               id,
