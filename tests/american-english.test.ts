@@ -335,6 +335,12 @@ const ALLOWED_FILES: readonly {
       "research records of real charters, D.C. and a state constitution, where ward is the recorded seat type or wording",
   },
   {
+    file: /^data\/research\/elections\/ballot-order-2026\.json$/,
+    words: /^wards?$/i,
+    reason:
+      "research record of state ballot-order statutes; Nebraska's rotates candidates by precinct or ward (Neb. Rev. Stat. 32-815)",
+  },
+  {
     file: /^src\/simulation\/municipal-governments\.generated\.ts$/,
     words: /^(?:wards?|elected members?|councillors?)$/i,
     reason:

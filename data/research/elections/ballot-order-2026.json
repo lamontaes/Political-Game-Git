@@ -440,7 +440,7 @@
     "US-NE": {
       "primary": {
         "kind": "rotation",
-        "unit": "precinct or district, first precinct in order of filing"
+        "unit": "precinct or ward, first precinct in order of filing"
       },
       "general": {
         "kind": "party",
