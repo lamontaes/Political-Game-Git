@@ -1,5 +1,7 @@
 # OFFICE-FEDERAL status
 
+> **History.** This describes the old engine or a process that ended in October 2026. Don't follow it; read `AGENTS.md`, `ARCHITECTURE.md` and `docs/README.md`.
+
 Only OFFICE-FEDERAL writes this file. Package: `docs/packages/office-play.md` (federal part). The first build merged as #4220, with its test fix #4243. The move onto the office-day engine is on branch `office/federal-engine`.
 
 ## What the owner can play now

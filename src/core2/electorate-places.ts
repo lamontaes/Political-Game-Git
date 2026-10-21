@@ -13,9 +13,13 @@ import COUNTY_PRESIDENTIAL from "./data/county-presidential-2024.json" with { ty
 import PLACE_CITIZENSHIP from "./data/place-citizenship-2024.json" with { type: "json" };
 import calibration from "../../data/source/electoral-calibration-2024/corpus.json" with { type: "json" };
 import delegates from "../../data/research/elections/house-delegates-2024.json" with { type: "json" };
-import legislativeResults from "../../data/research/elections/state-legislative-results-2024.json" with { type: "json" };
 import { partySide } from "./appointments";
 import { campaignParameter } from "./campaign-views";
+import {
+  LEGISLATIVE_RESULTS_CITATION,
+  legislativeDistrictResult,
+  legislativeSeatParts,
+} from "./legislative-district-results";
 import { parameter } from "./parameters";
 import { corePlaceStateIdentities } from "./place-lookup";
 import { lazyValue, readJsonData } from "./reference/lazy-data";
@@ -213,6 +217,12 @@ const DELEGATES = (
   }
 ).places;
 
+/** Whether a state's voters choose the President: the 50 states and the District do; the territories do not. */
+export function choosesPresident(stateKey: string): boolean {
+  const usps = stateKey.replace(/^US-/, "");
+  return CAL.presidentialByState.some((s) => s.stateUsps === usps);
+}
+
 const statePlaceCache = new Map<string, readonly ElectoratePlace[]>();
 /**
  * A state's places: its counties' 2024 presidential vote, or the state's
@@ -352,10 +362,11 @@ export function housePlaceByGeoid(
 }
 
 /**
- * A state legislative district: the state's two-party vote over its
- * districts, leaning like the town's own county where the town votes in it,
- * else toward its holder's party at the typical margin (no district results
- * are read: SG-GOV-legislative-results-gaps), net of the holder's incumbency.
+ * A state legislative district: its own 2024 vote where the source has one
+ * with both parties contesting it, else the state's two-party vote over its
+ * districts leaning like the town's own county where the town votes in it,
+ * else toward its holder's party at the typical margin; net of the holder's
+ * incumbency.
  */
 export function legislativePlace(
   usps: string,
@@ -366,48 +377,28 @@ export function legislativePlace(
 ): ElectoratePlace | null {
   const votes = stateTwoPartyVotes(usps) / Math.max(1, districts);
   if (!votes) return null;
-  // stopgapId: SG-GOV-legislative-results-gaps
-  const own = legislativeDistrictShare(usps, seatKey);
-  const share =
-    own ??
-    ownRightShare ??
-    0.5 + holderSide * campaignParameter("legislativeSeatMargin");
-  return makePlace(
+  const parts = legislativeSeatParts(seatKey);
+  const own = parts
+    ? legislativeDistrictResult(usps, parts.chamber, parts.district)
+    : null;
+  const share = own
+    ? own.republican / (own.democratic + own.republican)
+    : (ownRightShare ??
+      0.5 + holderSide * campaignParameter("legislativeSeatMargin"));
+  const place = makePlace(
     `legislative:${seatKey}`,
     seatKey,
     usps,
     votes * (1 - share),
     votes * share,
-    own !== null
-      ? `${CLERK} (state two-party vote over its districts; the district's own 2024 general election result)`
+    own
+      ? `${LEGISLATIVE_RESULTS_CITATION} (the district's own 2024 vote)`
       : ownRightShare === null
         ? `${CLERK} (state two-party vote over its districts; the holder's party at the typical margin)`
         : `${CLERK} (state two-party vote over its districts; the town's county's 2024 lean)`,
     holderSide,
   );
-}
-
-/**
- * The Republican share of the two-party vote in a seat's own district at the
- * 2024 general election, from the district-by-district returns; null where
- * the district had none or only one major party ran (an unopposed seat's
- * count says nothing about how its voters split).
- * The seat key is `seat:<state>:<upper|lower|unicameral>:<district>:<member>`.
- */
-export function legislativeDistrictShare(
-  usps: string,
-  seatKey: string,
-): number | null {
-  const [, , chamber, district] = seatKey.split(":");
-  if (!chamber || district === undefined) return null;
-  const row = (
-    legislativeResults.states as unknown as Record<
-      string,
-      Record<string, Record<string, readonly number[]>> | undefined
-    >
-  )[usps]?.[chamber === "lower" ? "state-lower" : "state-upper"]?.[district];
-  if (!row || !row[0] || !row[1]) return null;
-  return row[1] / (row[0] + row[1]);
+  return place;
 }
 
 /** The county place a town's counties fall in, from its recorded county names. */

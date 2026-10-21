@@ -801,7 +801,7 @@ function seatRace(
     incumbentParty: holder?.party ?? null,
     leanSource: house
       ? "2024 House vote in the district"
-      : "the district's own 2024 general election, else the state's 2024 two-party vote over its districts at the holder's typical margin",
+      : "the state's 2024 two-party vote over its districts, the holder's party at the typical margin",
     seatedOn: house
       ? `${year + 1}-01-03`
       : (holder?.endDate ?? `${year + 1}-01-01`),
@@ -1013,8 +1013,8 @@ function decide(
   special?: SpecialRace,
 ): void {
   const side = sideOf(race.incumbentParty);
-  // stopgapId: SG-GOV-world-race-candidates
-  api.stopgap("SG-GOV-world-race-candidates");
+  // stopgapId: SG-GOV-world-race-lean
+  api.stopgap("SG-GOV-world-race-lean");
   const places = racePlaces(api, race);
   const date = api.state.date;
   const votesAt2024 = places.reduce((s, b) => s + b.votes2024, 0);
