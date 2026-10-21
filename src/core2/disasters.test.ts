@@ -7,9 +7,9 @@ import { advanceCore, createLifeCore } from "./life";
 import {
   disasterAssistancePaid,
   disasterRepairsPaid,
-  outsideBuildersFor,
   townDisasters,
 } from "./modules/disasters";
+import { OUTSIDE_MARKET_KIND } from "./opening-outside-market";
 import { coreAPI } from "./state";
 import { generatedOpening } from "./tooling/generated-world";
 import type { CoreState } from "./types";
@@ -115,14 +115,15 @@ describe(`disasters from the record (seed ${seed})`, () => {
     expect(total(core)).toBe(start);
   }, 300_000);
 
-  it("pays repairs to the outside market when the town has no builder (edge fixture)", () => {
-    let core: CoreState | undefined,
-      yearEnd = "",
-      where = "";
+  it("pays repairs to the town's outside market when no builder is open", () => {
+    // Draw places from the seed; the town's builders are closed to a trade
+    // other than building, so the repairs have only the outside market to go
+    // to. Every draw is listed if none yields a declared disaster that paid.
+    const tried: string[] = [];
     for (let draw = 0; draw < 12; draw++) {
       const place = drawPlace(`${seed}:edge:${draw}`, "core2-disasters");
-      where = `${place.name}, ${place.state} (draw ${draw})`;
-      core = createLifeCore(
+      const where = `${place.name}, ${place.state} (seed ${seed}:edge:${draw})`;
+      const core = createLifeCore(
         generatedOpening(place, {
           twoLevel: true,
           settings: { population: 1500 },
@@ -131,33 +132,55 @@ describe(`disasters from the record (seed ${seed})`, () => {
       const end = new Date(`${core.date}T00:00:00Z`);
       end.setUTCFullYear(end.getUTCFullYear() + 1);
       end.setUTCDate(end.getUTCDate() - 1);
-      yearEnd = end.toISOString().slice(0, 10);
-      if (
-        townDisasters(coreAPI(core)).some(
-          (row) => row.begins > core!.date && row.begins <= yearEnd,
-        )
-      )
-        break;
+      const yearEnd = end.toISOString().slice(0, 10);
+      const api = coreAPI(core);
+      const due = townDisasters(api).filter(
+        (row) => row.declared > core.date && row.declared <= yearEnd,
+      );
+      const town = core.people.get(core.playerId ?? "")?.placeId;
+      const market = [...core.organizations.values()].find(
+        (org) => org.kind === OUTSIDE_MARKET_KIND && org.placeId === town,
+      );
+      if (!due.length || !market) {
+        tried.push(
+          `${where}: ${due.length} disasters declared, outside market ${market ? "recorded" : "absent"}`,
+        );
+        continue;
+      }
+      for (const org of core.organizations.values())
+        if (org.classification === "enterprise:construction")
+          (org as { classification?: string }).classification =
+            "enterprise:other";
+      advanceCore(core, yearEnd);
+      const payee = api.accounts().main(market.id);
+      const repairs = disasterRepairsPaid(api).filter((row) => row.cents > 0);
+      if (!repairs.length) {
+        tried.push(`${where}: ${due.length} disasters declared, no repairs`);
+        continue;
+      }
+      const events = [...core.durableLog.values()].filter(
+        (row) => row.kind === "hazard.disaster",
+      );
+      expect(events.length, where).toBeGreaterThan(0);
+      for (const row of repairs) {
+        expect(row.to, `${where}: disaster ${row.disaster} payee`).toBe(payee);
+        expect(
+          events.some((e) => Number(e.facts?.disasterNumber) === row.disaster),
+          where,
+        ).toBe(true);
+      }
+      // The payment is in the journal: the payee's account took in at least
+      // what the repairs paid.
+      const credited = core.cashJournal.totalsByAccount.get(payee);
+      const paid = repairs.reduce((n, row) => n + row.cents, 0);
+      expect(credited?.grossCreditMinor ?? 0, where).toBeGreaterThanOrEqual(
+        paid,
+      );
+      expect(core.cashJournal.latestByAccount.get(payee), where).toBeDefined();
+      return;
     }
-    // The town's builders are gone: repairs go to the outside market. (Deleting
-    // the market itself breaks the payroll calendar, so the no-market branch,
-    // which returns without paying, has no fixture here.)
-    for (const org of core!.organizations.values())
-      if (org.classification === "enterprise:construction")
-        (org as { classification?: string }).classification =
-          "enterprise:other";
-    expect(() => advanceCore(core!, yearEnd), where).not.toThrow();
-  }, 300_000);
-});
-
-it("picks the town's outside market, else the world's first, else none", () => {
-  const rows = [
-    { id: "outside-market:b", kind: "outside-market", placeId: "b" },
-    { id: "outside-market:a", kind: "outside-market", placeId: "a" },
-    { id: "shop", kind: "business", placeId: "c" },
-  ];
-  expect(outsideBuildersFor(rows, "b")).toBe("outside-market:b");
-  expect(outsideBuildersFor(rows, "c")).toBe("outside-market:a");
-  expect(outsideBuildersFor(rows.slice(2), "c")).toBeUndefined();
-  expect(outsideBuildersFor([], "c")).toBeUndefined();
+    throw new Error(
+      `no declared disaster paid repairs to an outside market in 12 draws:\n${tried.join("\n")}`,
+    );
+  }, 600_000);
 });
