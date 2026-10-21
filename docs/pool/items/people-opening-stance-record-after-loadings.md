@@ -5,7 +5,7 @@ area: people
 kind: wiring
 priority: 2
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/stance-record
 pr: #5625
 blocked-on:
