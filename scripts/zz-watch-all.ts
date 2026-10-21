@@ -15,5 +15,5 @@ let n = 0;
 for (const p of core.people.values()) if (p.alive && p.tier !== "husk") { director.watch(core, p.id); n++; }
 console.log("watched", n);
 const t0 = Date.now();
-advanceCore(core, addDays(makeIsoDate(core.date), 30));
-console.log("THIRTY DAYS ms", Date.now() - t0);
+advanceCore(core, addDays(makeIsoDate(core.date), 5));
+console.log("FIVE DAYS ms", Date.now() - t0, "imp", (globalThis as any).__imp, "rescore", (globalThis as any).__resc, "broadScan", (globalThis as any).__broad);
