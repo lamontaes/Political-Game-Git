@@ -5,12 +5,12 @@ area: director
 kind: wiring
 priority: 2
 size: S
-status: done
-claimed-by:
-pr: #4747
+status: in-pr
+claimed-by: claude/director-law-reached-scene-teller
+pr: #5150
 blocked-on:
 source: added with npm run pool -- add
-claimed-at:
+claimed-at: 2026-10-19T19:29:03.213Z
 ---
 
 **What.** A law reaching a person opens a scene with the teller: the core records no officer who gave the notice. This work was sent back by the merger on 2026-10-16 and is open for any builder to finish. The reason it came back: GitHub refuses to merge a draft pull request (HTTP 405: "Pull Request is still a draft"). The merger skill's prescribed REST ready-for-review endpoint returns HTTP 404. Mark this PR ready for review, retain the named changed-file checks at the top, and push any needed corrections. Finish it on the existing branch claude/director-law-reached-scene-teller, after merging main into it with a plain merge.
@@ -28,3 +28,5 @@ Sent back 2026-10-16 from PR #4747 (branch claude/director-law-reached-scene-tel
 Sent back 2026-10-16 from PR #4747 (branch claude/director-law-reached-scene-teller): Merging current main into claude/director-law-reached-scene-teller conflicts in src/director/civic-roles.test.ts, src/director/civic-roles.ts, src/director/data/director.json, src/director/data/stopgaps.json. Resolve and push these conflicts on this branch before local checks can run; finish on that branch, merge main into it first.
 
 Sent back 2026-10-16 from PR #4747 (branch claude/director-law-reached-scene-teller): merging main conflicts in src/director/civic-roles.test.ts, src/director/civic-roles.ts, src/director/data/director.json, src/director/data/stopgaps.json (code or data, left for the author); resolve and push; finish on that branch, merge main into it first.
+
+Sent back 2026-10-19 from PR #4747 (branch claude/director-law-reached-scene-teller): The Oct 19 audit sends this back: it contradicts the Oct 16 ruling that news or social media teaches a person about a law, rather than an outlet head by default, and never fired in three towns; finish on that branch, merge main into it first.
