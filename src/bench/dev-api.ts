@@ -119,6 +119,7 @@ export async function handleDev(
         placeName: core.placeMetadata.placeName ?? null,
         playerId: mode.player?.personId ?? null,
         marks: mode.marks(),
+        journalChecks: mode.journalChecks(),
         pending: [...mode.pending],
       });
       return true;
