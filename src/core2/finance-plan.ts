@@ -150,15 +150,27 @@ function nativeSet(target: ReadonlySet<unknown>): void {
 
 /** Explicit substantive reads, separate from shallow writer metadata preimages. */
 export class FinanceReadGuard {
-  #reads: Read[] = [];
-  #fields = new Map<object, Map<PropertyKey, FieldRead>>();
-  #maps = new Map<ReadonlyMap<unknown, unknown>, Map<unknown, MapRead>>();
-  #sets = new Map<ReadonlySet<unknown>, Map<unknown, SetRead>>();
-  #sizes = new Map<ReadonlySet<unknown>, SizeRead>();
-  #contents = new Map<ReadonlySet<unknown>, SetContentsRead>();
+  // Built only while bookkeeping is on: a guard is made for every actor's
+  // day, and in play it records nothing.
+  #reads!: Read[];
+  #fields!: Map<object, Map<PropertyKey, FieldRead>>;
+  #maps!: Map<ReadonlyMap<unknown, unknown>, Map<unknown, MapRead>>;
+  #sets!: Map<ReadonlySet<unknown>, Map<unknown, SetRead>>;
+  #sizes!: Map<ReadonlySet<unknown>, SizeRead>;
+  #contents!: Map<ReadonlySet<unknown>, SetContentsRead>;
   #sealed = false;
   /** Off in play: reads pass straight through and nothing is recorded or replayed. */
   readonly #on = bookkeeping();
+
+  constructor() {
+    if (!this.#on) return;
+    this.#reads = [];
+    this.#fields = new Map();
+    this.#maps = new Map();
+    this.#sets = new Map();
+    this.#sizes = new Map();
+    this.#contents = new Map();
+  }
 
   #open(): void {
     if (this.#sealed) throw new Error("Finance read snapshot is sealed.");
