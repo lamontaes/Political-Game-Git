@@ -377,6 +377,9 @@ onReachCalendar(OWED_KIND, (api, work) => {
   if (left >= 1) scheduleOwed(api, id);
 });
 
+/** Election laws already applied to the roll, by law, moment and day or contest. */
+const charged = new WeakMap<object, Set<string>>();
+
 /**
  * Apply the election laws in force to the roll, at registration (the day a
  * law changes) or at the vote (an election day): each voter, named or
@@ -401,7 +404,15 @@ export function applyElectionLaws(
     if (!laws.has(spec.key) || (only && !only.includes(spec.key))) continue;
     const lawId = yesLevels(api, spec.key)[0]?.lawId;
     if (!lawId) continue;
-    const unit = spec.paidAt === moment ? reachParameter(spec.cost) : 0;
+    // A second change to the same law on one day brings the roll up to it
+    // again, but its registrations were processed and paid for the first time.
+    const done = charged.get(api.state) ?? new Set<string>();
+    charged.set(api.state, done);
+    const chargeId = `${spec.key}:${moment}:${contestId ?? api.state.date}`;
+    const again = done.has(chargeId);
+    done.add(chargeId);
+    const unit =
+      spec.paidAt === moment && !again ? reachParameter(spec.cost) : 0;
     const planned = roll.map((v) => unit * spec.share(api, v, laws) * v.count);
     const plannedTotal = planned.reduce((a, b) => a + b, 0);
     // The treasury pays what it holds and owes the rest (payElectionCost), so

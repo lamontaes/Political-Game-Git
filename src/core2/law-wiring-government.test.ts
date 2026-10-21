@@ -39,11 +39,7 @@ import {
   type TermRow,
 } from "./modules/offices";
 import { lobbyingBarredUntil } from "./law-reach/group-a-voting";
-import {
-  currentStaff,
-  townOrganizations,
-  yesLevels,
-} from "./law-reach/group-a-records";
+import { currentStaff, townOrganizations } from "./law-reach/group-a-records";
 import { drawPlace } from "../../tests/golden-path/place";
 
 const P = "us-policy-positions:government-operations.";
@@ -190,9 +186,23 @@ describe(`government operations laws are applied by their engines (seed ${seed})
         const lawIds = new Map<string, string[]>();
         for (const key of [...VOTING_LAWS, REDISTRICT, TERM, LOBBY, HOME_RULE])
           lawIds.set(key, setQuestion(api, key, 1, "enact"));
+        const enactedOn = api.state.date;
+        // The law the test enacted, or a later yes a body in play passed over it.
         const inForce = (key: string) => [
           ...(lawIds.get(key) ?? []),
-          ...yesLevels(api, key).map((l) => l.lawId),
+          ...(
+            api
+              .moduleState(LAWS_MODULE_ID)
+              .table("laws")
+              .rows() as unknown as LawRowInput[]
+          )
+            .filter(
+              (row) =>
+                row.series === key &&
+                row.value === 1 &&
+                row.effectiveDate >= enactedOn,
+            )
+            .map((row) => row.id),
         ];
         for (const [key, ids] of lawIds)
           expect(ids.length, `${where}: ${key} enacted`).toBeGreaterThan(0);
@@ -247,7 +257,6 @@ describe(`government operations laws are applied by their engines (seed ${seed})
             ).toBe(true);
           for (const r of rows) {
             expect(r.engine, r.id).toBe("core2-voting-v1");
-            // The law the test enacted, or a later yes a body in play passed over it.
             expect(
               inForce(key),
               `${where}: ${r.id} cites the enacted law`,
@@ -336,14 +345,28 @@ describe(`government operations laws are applied by their engines (seed ${seed})
         ).filter((m) => m.effects);
         const fired = (link: string) =>
           months.some((m) => (m.effects[link] ?? 0) !== 0);
-        expect(
-          fired("all-mail-voting-to-turnout"),
-          `${where}: all-mail web link`,
-        ).toBe(true);
-        expect(
-          fired("same-day-registration-to-youth-turnout"),
-          `${where}: same-day web link`,
-        ).toBe(true);
+        // A link moves its measure only where the law differs from the one
+        // the place really had: the research's base levels include that law.
+        const startedYes = (key: string) =>
+          (
+            api
+              .moduleState(LAWS_MODULE_ID)
+              .table("laws")
+              .rows() as unknown as LawRowInput[]
+          ).some(
+            (row) =>
+              row.series === key &&
+              row.value === 1 &&
+              row.id.endsWith(":starting"),
+          );
+        for (const [link, key] of [
+          ["all-mail-voting-to-turnout", ALL_MAIL],
+          ["same-day-registration-to-youth-turnout", SAME_DAY],
+        ] as const)
+          if (!startedYes(key))
+            expect(fired(link), `${where}: ${link} (law began as no)`).toBe(
+              true,
+            );
 
         // The lobbying ban: a council member resigns through the offices
         // engine, and the interest-groups engine's own question is asked.
