@@ -105,7 +105,11 @@ function amendSchoolsLine(direction: -1 | 1) {
           (person) =>
             person.alive &&
             person.placeId === town.context.jurisdiction.id &&
-            !person.jobId,
+            // No job, or one that has ended (the hiring rule's own meaning of
+            // "without work").
+            (!person.jobId ||
+              core.jobs.get(person.jobId)?.endsAt !== undefined ||
+              !core.jobs.has(person.jobId)),
         )
         .map((person) => person.id),
     );
