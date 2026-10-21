@@ -5,9 +5,9 @@ area: world
 kind: research
 priority: 2
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/employer-attitude
-pr: #5534
+pr: #5805
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-21T13:49:17.367Z
