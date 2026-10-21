@@ -2,8 +2,9 @@
  * A vacated local seat is not filled by the press, in the world the owner
  * plays: the bench world, a place and seed nobody chose, every module
  * installed. The town's reporters, editors and outlet owners live there and
- * would otherwise be among the best-suited residents; the rule that keeps
- * them off the ballot keeps them out of the appointment too. To make the
+ * would otherwise be among the best-suited residents. They may file and run
+ * (owner, Oct 16, 2026), but the stand-in that seats a vacant office without an
+ * election does not pick anyone because of a press job. To make the
  * check bite, every one of them is made the best-suited resident in town
  * before the seat is vacated.
  */

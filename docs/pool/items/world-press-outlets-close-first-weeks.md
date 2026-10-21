@@ -22,3 +22,5 @@ claimed-at:
 **Files.** src/core2/modules/press.ts, src/core2/data/press/parameters.json
 
 **Notes.** Remaining closure: see `world-press-outlet-revenue-wage-gap`.
+
+Correction in PR 5094: the existing opening buffer from 4999 and the schedule fix in 5013 already address this closure cause. Remove the additional enrollment payment added by 4988; keep this item done and leave gov-press-outlet-revenue open for the deeper revenue work.

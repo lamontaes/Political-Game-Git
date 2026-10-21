@@ -83,9 +83,13 @@ describe(`the game starts on Inauguration Day (${place}, seed ${seed})`, () => {
   it("records the president and vice president taking office as a public event", () => {
     expect(core.eventIds.has(`inauguration:${start}`)).toBe(true);
     const seats = townSeats(api);
+    // A territory has no presidential electors, so the president is not one of
+    // the offices its voters choose: it holds no town seat there.
+    const territory = /^US-(AS|GU|MP|PR|VI)$/.test(stateKey);
     for (const id of ["seat:US:president", "seat:US:vice-president"]) {
       const holder = seats.find((s) => s.seat.id === id)?.holder;
-      expect(holder?.startDate, id).toBe(start);
+      if (territory) expect(holder, `${id} in ${place}`).toBeUndefined();
+      else expect(holder?.startDate, `${id} in ${place}`).toBe(start);
     }
   });
 
