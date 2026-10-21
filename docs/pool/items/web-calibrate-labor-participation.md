@@ -22,3 +22,5 @@ claimed-at:
 **Files.** src/core2/modules/jobs.ts,src/core2/data/outcome-web/coverage.json,src/core2/data/outcome-web/outcome-web.json
 
 **Notes.** TODO
+
+Oct 21 (claude, claude/labor-participation-web): wired, not fitted. The jobs engine now adds `retireWebTerm` (weight `jobsRetireWebWeight`, TUNABLE, 1) to the retire offer of full workers and to the counted retirement score: the score falls by weight times ln of the web's factor on `labor.older-employment` for the worker's age and sex; zero when no law moves the link. Checked: with the web row for retirement-age-to-older-work set to 0.1, `webReach` gives factor 1.106 for a 64-year-old man (Pagai, American Samoa). It cannot be fitted yet: a one-year paired run (Cedro, New Mexico, seed 6688ecf3…, ages 62 to 74, web row 0.1 and 0.22) moved the working share by 0.4 percent for both, because retiring starts from a score of -4 and few people retire in a year, and because full people 62 to 67 work at 88 percent while counted people work at 10 percent (new item core-older-workers-full-vs-counted-gap). Fit the weight once the tiers agree, against the 0.04 to 0.22 range.
