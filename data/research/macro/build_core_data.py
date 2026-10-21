@@ -86,8 +86,6 @@ P = {
     "macroExperienceWeightShape": tunable(3.0, 1.0, 4.0, "weighting exponent", "Learning-from-experience weights on lifetime inflation, Malmendier and Nagel (2016), QJE 131; Malmendier, Nagel and Yan (2021)."),
     "macroExperienceLeanScale": tunable(1.0, 0.5, 2.0, "standard deviations of the board's experienced inflation", "A member's lean is their lived inflation's distance from the board's mean, in the board's own standard deviations (Malmendier, Nagel and Yan 2021 find votes move with that relative experience)."),
     "macroSmoothingBase": tunable(0.3, 0.15, 0.5, "share of the gap closed per meeting", "Estimated inertial policy rules close about 15 to 30 percent of the gap per quarter (Clarida, Gali and Gertler 2000, QJE)."),
-    "macroSmoothingPerPatience": tunable(0.05, 0.0, 0.1, "share per trait point", "Patient members move more gradually; traitScale 3."),
-    "macroMoveSizeCostPerRisk": tunable(0.1, 0.0, 0.3, "score per squared point per trait point", "Cautious members distrust large moves; traitScale 3."),
     "macroRatePullWeight": tunable(4.0, 1.0, 8.0, "score per pull", "Policy pulls outweigh one trait's pull on commit or delay in the shared chooser."),
     "macroGovernorTermYears": sourced(14, "12 U.S.C. 241: Board governors serve fourteen-year terms."),
     "macroPresidentTermYears": sourced(5, "12 U.S.C. 341: Reserve Bank presidents serve five-year terms."),
