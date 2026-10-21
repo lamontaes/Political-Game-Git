@@ -192,6 +192,7 @@ function runOnce(place: ReturnType<typeof drawPlace>): string[] {
       .table("projects")
       .rows() as unknown as {
       id: string;
+      payerId: string;
       lawIds?: Record<string, string>;
       affordableUnits: number;
       askingRentMinor: number;
@@ -202,9 +203,15 @@ function runOnce(place: ReturnType<typeof drawPlace>): string[] {
       "no project started with set-aside units under the inclusionary law",
     );
     // The set-aside rent is a share of the median pay; where that is at or above the asking rent, the unit gives up nothing.
+    // Only projects started under the law row each landlord's record cites now: where a body
+    // repealed the law and it was enacted again, the record follows the new row.
+    const cited = new Map(
+      rowsOn(api, KEYS.inclusionary).map((r) => [r.targetId, r.lawId]),
+    );
     const binding = projects.filter(
       (p) =>
         p.lawIds?.inclusionary &&
+        cited.get(p.payerId) === p.lawIds.inclusionary &&
         p.affordableUnits > 0 &&
         p.askingRentMinor >
           construction.inclusionary.rentShareOfIncome *
