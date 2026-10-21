@@ -4,10 +4,10 @@ title: "Stopgaps in legislature (assumed-data): 1 open"
 area: gov
 kind: stopgap
 priority: 3
-status: open
+status: dropped
 claimed-by:
 pr:
-blocked-on:
+blocked-on: research-legislature-sourced-parameters
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/modules/legislature.ts, kind assumed-data"
 ---
@@ -21,3 +21,5 @@ source: "src/core2/data/stopgaps.json, src/core2/modules/legislature.ts, kind as
 **Files.** src/core2/modules/legislature.ts
 
 **Notes.** First row: Every town's and county's body numbers its ordinances the same way, by the year and order of introduction ("2026-12"), and opens them with the same 'Be it ordained by' clause, not each place's own style.
+
+Folded into research-legislature-sourced-parameters (CTO, Oct 19, 2026).

@@ -4,12 +4,13 @@ title: "District projects (community project funding):"
 area: office
 kind: feature
 priority: 2
-status: open
-claimed-by:
-pr:
+status: done
+claimed-by: claude/community-projects
+pr: #5170
 blocked-on:
 milestone:
 source: "docs/coordination/OFFICE-FEDERAL.md line 20 (unchecked checklist line)"
+claimed-at: 2026-10-19T21:42:56.395Z
 ---
 
 **What.** Checked against main on Oct 16: OPEN. No earmark or community-project record exists; appropriations are budget-line changes only (`Provision.kind` budget-line in legislature.ts), and the federal office day has no request act. Next: A member's request for a named recipient: a request record, a line on the appropriations bill naming the recipient government and a grant that lands in its treasury. The player would notice the act on the politics screen as a choice among people, never a form.
@@ -21,3 +22,5 @@ source: "docs/coordination/OFFICE-FEDERAL.md line 20 (unchecked checklist line)"
 **Files.** src/core2/office-day-federal.ts, src/core2/modules/legislature.ts, src/core2/modules/budgets.ts, src/core2/data/legislature/bill-catalog.json
 
 **Notes.** Checklist line from OFFICE-FEDERAL.md; verify against main before starting.
+
+Oct 20: PR #5170 merged to main: a member's request becomes a bill line and a grant to the recipient's treasury; the politics-screen request act, its wording and the contractor-to-resident chain are left over.
