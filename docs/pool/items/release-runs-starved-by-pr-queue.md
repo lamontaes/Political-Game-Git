@@ -5,9 +5,9 @@ area: release
 kind: bug
 priority: 1
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/ci-skip-pool-pushes
-pr:
+pr: #5789
 blocked-on:
 source: added by the CTO from the Oct 20 night check
 claimed-at: 2026-10-21T09:07:29.797Z
