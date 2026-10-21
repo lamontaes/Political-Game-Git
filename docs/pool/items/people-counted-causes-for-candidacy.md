@@ -5,10 +5,10 @@ area: people
 kind: wiring
 priority: 2
 size: M
-status: claimed
+status: blocked
 claimed-by: claude/counted-candidacy-causes
 pr:
-blocked-on:
+blocked-on: people-drives-counted-tier-causes
 source: added with npm run pool -- add
 claimed-at: 2026-10-21T05:12:45.503Z
 ---
