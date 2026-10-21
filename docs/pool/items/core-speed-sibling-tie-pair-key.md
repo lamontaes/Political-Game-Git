@@ -5,9 +5,9 @@ area: core
 kind: cleanup
 priority: 3
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/speed-people-sort
-pr:
+pr: #5409
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-21T22:22:45.860Z
