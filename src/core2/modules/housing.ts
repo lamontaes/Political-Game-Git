@@ -7,7 +7,7 @@
  */
 import { countyPopulationSharesForPlace } from "../reference/government-units";
 import { corePlaceByKey } from "../place-lookup";
-import { addDays, daysBetween, makeIsoDate } from "../kernel/dates";
+import { addDays, ageOnDate, daysBetween, makeIsoDate } from "../kernel/dates";
 import countyNeighbors from "../data/housing/county-neighbors.json" with { type: "json" };
 import { decisionLean } from "../trait-decisions";
 import housingData from "../data/housing/housing.json" with { type: "json" };
@@ -80,6 +80,7 @@ import type {
   CoreInput,
   CoreModule,
   CoreState,
+  PersonState,
   JobInput,
   Source,
 } from "../types";
@@ -896,6 +897,30 @@ function macroPrices(api: CoreAPI): PriceLevel | undefined {
     )?.priceIndex;
 }
 
+/** Members under 18, from their birth dates. */
+function childrenAt(
+  api: CoreAPI,
+  members: readonly (PersonState | undefined)[],
+): number {
+  const date = makeIsoDate(api.state.date);
+  return members.filter(
+    (row) =>
+      row &&
+      ageOnDate(makeIsoDate(row.birthDate), date) <
+        api.parameter("housingOwnerMinimumAge"),
+  ).length;
+}
+
+/** 0 to 1: rises through the late twenties and fades after the late fifties, each a smooth step. */
+function buyingAgeShape(api: CoreAPI, age: number): number {
+  const step = (center: number) =>
+    1 / (1 + Math.exp(-(age - center) / api.parameter("housingBuyAgeScale")));
+  return (
+    step(api.parameter("housingBuyAgeRiseCenter")) *
+    (1 - step(api.parameter("housingBuyAgeFadeCenter")))
+  );
+}
+
 function buyOffer(
   buy: boolean,
   targetId: string,
@@ -995,16 +1020,40 @@ function buyHomes(api: CoreAPI): void {
     // What it can put down: cash, and the savings the bank holds for it.
     const savings = depositsHeld(c, household.id);
     const means = cash + savings;
+    const reasons = {
+      baseline: p("housingBuyBaseline"),
+      cost:
+        -p("housingBuyCostWeight") * ((payment - lease.amountMinor) / income),
+      down:
+        -p("housingBuyDownWeight") *
+        Math.max(0, Math.log((down + 1) / (means + 1))),
+      // What really pulls a household toward owning, each sliding with the
+      // household's own record: children at home, the head's age, years in
+      // the lease and savings beyond the down payment.
+      children:
+        (p("housingBuyChildWeight") * Math.min(childrenAt(api, members), 3)) /
+        3,
+      age:
+        p("housingBuyAgeWeight") *
+        buyingAgeShape(
+          api,
+          ageOnDate(makeIsoDate(head!.birthDate), makeIsoDate(c.date)),
+        ),
+      tenure:
+        p("housingBuyTenureWeight") *
+        Math.min(
+          1,
+          daysBetween(makeIsoDate(lease.firstDueAt), makeIsoDate(c.date)) /
+            p("daysPerMeanYear") /
+            p("housingBuyTenureYears"),
+        ),
+      savings:
+        p("housingBuySavingsWeight") *
+        Math.min(1, Math.max(0, Math.log((means + 1) / (down + 1)))),
+    };
     const result = chooseAct(c, head!.id, [
       buyOffer(false, household.id, {}),
-      buyOffer(true, household.id, {
-        baseline: p("housingBuyBaseline"),
-        cost:
-          -p("housingBuyCostWeight") * ((payment - lease.amountMinor) / income),
-        down:
-          -p("housingBuyDownWeight") *
-          Math.max(0, Math.log((down + 1) / (means + 1))),
-      }),
+      buyOffer(true, household.id, reasons),
     ]);
     if (result.selected!.definition.id !== housingData.actions.buy.id) continue;
     if (means < down) continue;
@@ -1082,6 +1131,8 @@ function buyHomes(api: CoreAPI): void {
         rate,
         rentBeforeMinor: lease.amountMinor,
         monthlyIncomeMinor: Math.round(income),
+        // What decided it: each reason's contribution to the buy option.
+        reasons,
       });
     store(api)
       .table("dwellings")

@@ -2237,7 +2237,7 @@ function weighTip(
 
 /**
  * A person who knows of a hidden act takes it to a reporter on purpose (a
- * leak, owner ruling on favors and leaks Oct 14): the tip is theirs to give,
+ * leak): the tip is theirs to give,
  * so the first step is not weighed; the reporter still decides to dig and the
  * outlet's owner and head still decide to run it. The leaker is named on the
  * tip and in what the reporter knows, and the two spend time together. A tip

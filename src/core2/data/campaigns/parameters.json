@@ -210,6 +210,12 @@
       "source": "Pew Research Center (2024), 'Changing Partisan Coalitions in a Politically Divided Nation': about 7% of adults neither identify with nor lean toward a party.",
       "spread": [0.05, 0.1]
     },
+    "noPartyDeliberationWeight": {
+      "value": 0.1,
+      "tag": "TUNABLE",
+      "source": "How far a careful thinker (deliberation, -2 to 2) sits from having no party: each point adds this much to how firmly they lean, so the people with no party are those who lean nowhere and think least, and independents are those who think it through. Independents are more often engaged and informed than people with no lean (Pew 2024, Changing Partisan Coalitions), but no study gives a size. The share with no party is fixed at noPartyShare; the weight only orders who they are.",
+      "spread": [0.05, 0.2]
+    },
     "partyLoyaltyWeight": {
       "value": 0.5,
       "tag": "TUNABLE",
@@ -353,6 +359,12 @@
       "tag": "TUNABLE",
       "source": "Days from a recall petition's certification to the recall vote (state laws commonly set 60 to 90 days, or the next regular election).",
       "spread": [45, 120]
+    },
+    "registeredShareOfEligible": {
+      "value": 0.736,
+      "tag": "ESTIMATED",
+      "source": "Census Bureau, voting topic page (census.gov/topics/public-sector/voting.html): \"In the 2024 presidential election, 73.6% of the voting-age population was registered to vote\". Applied to a town's eligible voters where the world keeps no voter rolls; states run roughly 65 to 85 percent.",
+      "spread": [0.65, 0.85]
     },
     "recallThresholdEstimate": {
       "value": 25,
@@ -503,6 +515,12 @@
       "tag": "TUNABLE",
       "source": "How readily an official takes on the aide their office allows before their trait lean toward hiring over doing it alone (scaled trait lean runs about -1 to 1): most do, the most self-reliant don't.",
       "spread": [0, 0.5]
+    },
+    "staffAbsenceTolerance": {
+      "value": 0.4,
+      "tag": "TUNABLE",
+      "source": "The share of an aide's scheduled days missed since the last look that an official puts up with before their trait lean toward letting someone go: an aide who comes in most days stays, one who never comes is let go.",
+      "spread": [0.2, 0.6]
     },
     "staffKnownWeight": {
       "value": 0.1,

@@ -5,7 +5,7 @@ area: gov
 kind: feature
 priority: 3
 size: M
-status: in-pr
+status: done
 claimed-by: claude/bail-escrow
 pr: #5467
 blocked-on:
