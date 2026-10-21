@@ -2,6 +2,24 @@
 
 Eight families of personality fixes are in review. Two towns drawn at random were played for a year before and after the first five families. In them, 6 and 7 more of the 84 personality decisions ran. Each decision now weighs personality at a size taken from a study, so some choices moved less, not more: missed work shifts went from mostly temperament to mostly illness. Two neighbors with opposite personalities still lived about the same year, because the choices that fill a day (work, school, the daily routine) are driven by needs and schedules. Nothing here needs the owner.
 
+## Status at 21:50 UTC, October 20 (handoff)
+
+Five pull requests hold every fix not yet on main. All five merge cleanly with main and pass their changed-file checks, and each has a "Ready again:" comment for the merger.
+
+| PR    | Branch                    | What it holds                                                                                                                                                                                                                                                    |
+| ----- | ------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| #5587 | claude/traits-money       | Borrowing, quitting, accepting, founding and moving at studied sizes, for named and counted people alike; borrowing keeps the general weight because its study measures a debt level, not a chance of borrowing                                                  |
+| #5597 | claude/traits-campaigns   | Volunteering, giving, door answering, running, polls, retelling and party firmness at Mondak's sizes; endorsing, a rival's hours and coming to an event read their own weights; volunteering's size waits on its reasons varying (gap row `campaigns.volunteer`) |
+| #5657 | claude/traits-civic       | Turnout, news telling, meetings, parties, interest groups, press and claims as one calibrated term each; persuasion and trust read the hearer                                                                                                                    |
+| #5715 | claude/traits-integrity   | Justice, tips, recalls, constituent cases and staff read their decision weights                                                                                                                                                                                  |
+| #5745 | claude/traits-research-sd | Mondak sizes use each trait's own standard deviation from the paper's Table 1 and quote their Table 2 cells; the calibration script refuses a level read as a probability                                                                                        |
+
+What the next session does first:
+
+1. Once these merge, rescale the weights calibrated against Mondak rows (campaigns, meetings, voting, parties) by each trait's own standard deviation over the old assumed 0.2 (openness and emotional stability 1.1, extraversion 1.3), or recalibrate them with `scripts/traits/trait-calibrate.ts`. Then rerun the one-town trait tests on fresh draws.
+2. Rerun the before and after in two drawn towns (`scripts/traits/trait-wiring-audit.ts` and `scripts/traits/trait-wiring-matrix.ts`), replace the table below, and give how many decision weights a played year actually reads from the probe.
+3. Take the open pool items listed under "What happens next".
+
 ## Before and after
 
 Places: Cedar Creek, Nebraska (locality key 3108185, seed cf03f753829c) and Bantam, Connecticut (0902690, seed c42beba65b5b), drawn by `drawPlace`, built by `buildBenchWorld(seed, start, { twoLevel: true })`, played January 20, 2025 to January 20, 2026. "Before" is main after the audit merged; "after" is main with the family, money, campaigns, health and life-and-work branches merged. The officials, civic and integrity branches were reviewed afterward and are measured in their own pull requests.
@@ -49,11 +67,11 @@ All measured. Work shifts moved the other way on purpose: at the general weight,
 
 ## What happens next
 
-1. Calibrate the corruption sums so low-integrity officials sometimes take a bribe (pool).
+1. Calibrate the corruption sums so low-integrity officials sometimes take a bribe (pool item `people-corruption-honest-pull-calibrated`, in review on `claude/honest-pull`).
 2. Give school attendance the child's illness and household circumstances, then calibrate (pool).
 3. Fix the apply-for-a-job and buy-a-home reasons so circumstances vary between people, then calibrate (pool).
 4. Replace the parties engine's hard split between "no party" and "independent" (`src/core2/modules/parties.ts:293`) with a sliding scale (pool).
-5. Move campaign endorsements and rival hours onto their calibrated weights once the open press-endorsement and rival-campaign changes land.
+5. Let a recorded scandal or crime start a recall where the state requires grounds, once bribes happen (pool item `gov-recall-for-cause-start`).
 6. Personality moderators on outcome-web links go to the outcome web's own pool items.
 
 ## The morning audit: opposite neighbors still live almost the same year, and 25 personality decisions never ran
