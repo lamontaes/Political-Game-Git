@@ -84,6 +84,7 @@ const states = [...corePlaceStateIdentities()]
  * so it alone keeps a pinned place (GOLDEN_PATH_PLACE_KEY).
  */
 function build(options: { pinned: boolean }): void {
+  const tried: string[] = [];
   for (let attempt = 0; attempt < 40; attempt += 1) {
     const state = pick(states, `state:${attempt}`);
     const places = [
@@ -132,13 +133,35 @@ function build(options: { pinned: boolean }): void {
       selectResidents(facts, groupBPolicy(Q(law))!.people!, stateKey).filter(
         (r) => r.named,
       );
+    // The assistance work requirement then stops a welfare head it reaches
+    // after the time limit: the town needs a named head both the welfare line
+    // pays and the requirement reaches.
+    const reachedByAssistanceWork = new Set(
+      selectResidents(
+        facts,
+        groupBPolicy(
+          Q("health-human-services.work-requirement-for-assistance"),
+        )!.people!,
+        stateKey,
+      ).map((r) => r.id),
+    );
+    const welfareHeadReached = selectResidents(
+      facts,
+      { incomeBelowPovertyShare: "assistanceIncomeShare", householdHead: true },
+      stateKey,
+    ).some((h) => h.named && reachedByAssistanceWork.has(h.id));
     if (
       !options.pinned &&
       (!covers("health-human-services.expand-medicaid-eligibility").length ||
         !covers("health-human-services.medicaid-work-requirement").length ||
-        !covers("education.universal-preschool").length)
-    )
+        !covers("education.universal-preschool").length ||
+        !welfareHeadReached)
+    ) {
+      tried.push(
+        `${key} (${core.placeMetadata.placeName}): Medicaid ${covers("health-human-services.expand-medicaid-eligibility").length}, work requirement ${covers("health-human-services.medicaid-work-requirement").length}, preschool ${covers("education.universal-preschool").length}, welfare head reached ${welfareHeadReached}`,
+      );
       continue;
+    }
     const levels = new Set(governments(api).map((g) => g.level));
     LOCAL = ["city", "county", "state"].find((l) => levels.has(l as "city"))!;
     where = `seed ${seed}, place ${key} (${core.placeMetadata.placeName})`;
@@ -148,7 +171,7 @@ function build(options: { pinned: boolean }): void {
     return;
   }
   throw new Error(
-    `no town with an employed adult, a Medicaid-eligible adult, a work-requirement adult and a preschool-age child in forty draws (seed ${seed})`,
+    `no town with an employed adult, a Medicaid-eligible adult, a work-requirement adult, a preschool-age child and a welfare head the assistance work requirement reaches in forty draws (seed ${seed}); tried: ${tried.join("; ")}`,
   );
 }
 
