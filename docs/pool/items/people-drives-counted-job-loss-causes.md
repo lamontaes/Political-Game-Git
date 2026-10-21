@@ -5,11 +5,12 @@ area: people
 kind: wiring
 priority: 2
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/counted-causes
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-21T15:41:40.689Z
 ---
 
 **What.** A named worker laid off or closed out forms a cause drive in play (respond in src/core2/modules/drives.ts), but the job-loss and closure events name only full people, so a counted worker who loses a job never perceives it. Have those events reach their counted subjects: the layoff names its counted worker as a fact and the closure record lists its counted jobs. Each counted subject then responds by the same perception, appraisal and shared chooser, read from their counted record, and a cause they take up is kept for them until they are filled in, when it becomes theirs.
