@@ -29,6 +29,7 @@
       "actionId": "approach-office"
     }
   ],
+  "closureEventKind": "organization.closed",
   "factKeys": {
     "responsible": "responsible",
     "drive": "drive",
@@ -41,7 +42,8 @@
     "strengthAdded": "strength-added",
     "response": "response",
     "role": "role",
-    "originEvent": "origin-event"
+    "originEvent": "origin-event",
+    "countedSubject": "counted-subject"
   },
   "driveKinds": [
     {

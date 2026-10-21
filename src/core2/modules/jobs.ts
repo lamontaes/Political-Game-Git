@@ -1369,7 +1369,13 @@ function layOff(
     // lands is the person's own appraisal (emotion.ts reads their traits).
     ...severityImpulse(api, DEFAULT_HEALTH_DATA.jobLossSeverity),
     // Who decided and where, for the scene at work: the director reads them.
-    facts: { decidedBy: decidedBy ?? organizationId, organizationId },
+    // A counted worker is named as the event's counted subject, so the people
+    // engines perceive it for them by the same rule (drives.ts).
+    facts: {
+      decidedBy: decidedBy ?? organizationId,
+      organizationId,
+      ...(counted ? { "counted-subject": job.personId } : {}),
+    },
   });
   // Laid off through no choice of their own: a claim under the state's program.
   fileClaim(
