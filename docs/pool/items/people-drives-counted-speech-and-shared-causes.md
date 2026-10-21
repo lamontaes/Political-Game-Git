@@ -1,6 +1,6 @@
 ---
 id: people-drives-counted-speech-and-shared-causes
-title: "Counted adults hear speeches and are told causes, so they form causes the way named people mostly do"
+title: "Public comment draws its speakers from counted town adults too, by the same rule, so a counted adult who feels strongly speaks and hears the room"
 area: people
 kind: wiring
 priority: 2
@@ -13,12 +13,12 @@ source: added with npm run pool -- add
 claimed-at: 2026-10-21T18:20:41.767Z
 ---
 
-**What.** Named adults form causes mostly from speech.heard and cause.shared: in Port Wentworth, Georgia (1362328, place seed 70b86923dd770297780580cb566840349af399702bdfb610c2994126dbe91442, drawn with seed sh2, purpose counted-share), one played year gives 11,142 speech.heard and 963 cause.shared formations against 10 job-lost, 4 serious-illness and 4 death ones, and 215 of 547 named adults in town hold a cause (39 percent) against 11 of 7,265 counted adults (0.15 percent). A speech's audience (campaigns.ts whoComes, meetings.ts, press.ts) and a shared cause's listener (drives.ts share act, a known person) are full people only, so the counted tier never perceives either event. Give a speech's counted audience (the town's counted adults who come, by the same rule whoComes applies, times their count) and a holder's counted contacts the same perception by the speech-heard and cause-shared rules, through the counted actor and fill-in hook built in #5816.
+**What.** Named adults form causes mostly from speeches heard at public comment: in Port Wentworth, Georgia (1362328, place seed 70b86923dd770297780580cb566840349af399702bdfb610c2994126dbe91442, drawn with seed sh2, purpose counted-share), one played year, 1,619 of the town's drives first formed from speech.heard and 41 from cause.shared; 215 of 547 named adults in town hold a cause (39 percent) against 11 of 7,265 counted adults (0.15 percent). The speeches are public comments (meetings.ts publicComment, `speech:remark:<bill>:<person>`), heard by the room: the body's members and the others who spoke. The speakers are the town adults who feel most strongly (view times civic temperament over commentBar), but `townAdults` lists full people only, so a counted adult who feels as strongly never stands up and never hears the room. Score the counted town adults by the same rule from their counted record (traits, lean, view) and fill in the ones who speak, since a speaker on the public record is a named person.
 
-**Rules.** One model, two tiers: a counted adult perceives a speech or a shared cause by the same rule as a named one, times its count; who comes reads records, never a roll. No dice. Speed: no per-member work for counted people who do not come; the year stays within 20 percent of its base.
+**Rules.** One model, two tiers: the counted adult is scored by the same rule as a named one, from their own record. No dice. Speed: the year stays within 20 percent of its base on the same machine.
 
-**Done when.** In a one-year buildBenchWorld run in a drawn place (seed named), counted adults hold causes formed from speech.heard and cause.shared events by record id, the share of town adults holding a cause is within 10 points between named and counted adults, a counted adult filled in carries the cause, and the year is no more than 20 percent slower than its base on the same machine.
+**Done when.** In a one-year buildBenchWorld run in a drawn place (seed named), public comment on a bill includes a speaker who was counted until then (named by remark id), filled in before speaking, who forms a cause from the room by record id; the year is no more than 20 percent slower than its base.
 
-**Files.** src/core2/modules/drives.ts, src/core2/modules/speech.ts, src/core2/modules/campaigns.ts, src/core2/modules/meetings.ts
+**Files.** src/core2/modules/meetings.ts
 
-**Notes.** TODO
+**Notes.** Filed Oct 21 measuring people-drives-counted-tier-causes. The parent's per-adult share comparison mostly measures who is named (speakers become named people), not a rule gap: only people in the room hear a public comment, and the room is named by construction. A fairer comparison is per perceived event of the same kind (the job-loss, death and illness PRs report it). Cause sharing (drives.ts share-drive) reaches a holder's known people, who are full; counted holders take no daily acts, so counted-to-counted sharing is a separate question for the owner.
