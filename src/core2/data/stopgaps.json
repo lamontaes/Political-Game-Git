@@ -32,7 +32,7 @@
     "why": "P13 reported that twenty school acquaintances contacted the player on 134 to 236 of 355 days in the measured year; these are P13 measurements, not independently rerun here.",
     "addedBy": "SOL-1258",
     "addedAt": "2026-10-09",
-    "replacement": "Measured Oct 19 in played worlds (src/core2/life-contact-frequency.test.ts, a drawn place and seed each run): over 355 days the player's acquaintances outside the household are in contact on 0 to 52 days (most on 0 to 3), against P13's 134 to 236; contact follows the company need and the tie, with no forced encounter schedule. The household's own contact is SG-P8-household-shared-time-contact.",
+    "replacement": "Measured in played worlds (src/core2/life-contact-frequency.test.ts, a drawn place and seed each run): over 355 days the player's acquaintances outside the household are in contact on 0 to 52 days (most on 0 to 3), against P13's 134 to 236; contact follows the company need and the tie, with no forced encounter schedule. The household's own contact is SG-P8-household-shared-time-contact.",
     "status": "resolved"
   },
   {

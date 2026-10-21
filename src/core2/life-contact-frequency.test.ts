@@ -11,7 +11,7 @@ import { advanceCore } from "./life";
 // twenty school acquaintances on 134 to 236 days of a year. In the played
 // world the household is the daily company and acquaintances are rare.
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(20).toString("hex");
-const DAYS = 355;
+const DAYS = 365;
 /** Places drawn at most to find a player with both housemates and acquaintances. */
 const DRAWS = 4;
 
