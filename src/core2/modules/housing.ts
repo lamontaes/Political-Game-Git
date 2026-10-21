@@ -500,23 +500,28 @@ export function withHousing(input: CoreInput): CoreInput {
   );
   // Each household's home: owners with today's value, renters with their rent.
   const dwellings: [string, "own" | "rent", number][] = [];
-  const ownerRows = households
-    .filter((row) => rank.get(row.id)! < owners)
-    .map((row) => ({
-      id: row.id,
-      counted: row.counted,
-      memberIds: row.memberIds,
-      payerIds: row.memberIds.filter((id) => people.has(id)),
-      oldest: row.oldest,
-      liquidMinor: row.liquidMinor,
-      valueMinor: Math.round(
-        medianValue *
-          100 *
-          // ACS values are dated mid-2022; the state's house price index moves them to the start.
-          homePriceRatio(town.usps, valueDateOf(town.county), input.startedAt) *
-          incomeScale(row.income),
-      ),
-    }));
+  const owning = households.filter((row) => rank.get(row.id)! < owners);
+  // The sourced value is the owners' median, so each home scales by its
+  // household's income relative to the owners' own median scale.
+  const ownerScales = owning
+    .map((row) => incomeScale(row.income))
+    .sort((a, b) => a - b);
+  const ownerMedianScale = ownerScales[Math.floor(ownerScales.length / 2)] || 1;
+  const ownerRows = owning.map((row) => ({
+    id: row.id,
+    counted: row.counted,
+    memberIds: row.memberIds,
+    payerIds: row.memberIds.filter((id) => people.has(id)),
+    oldest: row.oldest,
+    liquidMinor: row.liquidMinor,
+    valueMinor: Math.round(
+      medianValue *
+        100 *
+        // ACS values are dated mid-2022; the state's house price index moves them to the start.
+        homePriceRatio(town.usps, valueDateOf(town.county), input.startedAt) *
+        (incomeScale(row.income) / ownerMedianScale),
+    ),
+  }));
   for (const row of ownerRows) dwellings.push([row.id, "own", row.valueMinor]);
   const mortgages =
     bank && medianValue > 0
