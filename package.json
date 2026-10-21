@@ -80,7 +80,7 @@
     "dialogue:report": "node --max-old-space-size=8192 --expose-gc --import tsx scripts/dialogue-report/report.ts",
     "words:coverage": "node --import tsx scripts/dialogue-batch/coverage-table.ts",
     "words:bench": "node --max-old-space-size=8192 --expose-gc --import tsx scripts/dialogue-batch/grading-bench.ts",
-    "speed:year": "node --max-old-space-size=8192 --import tsx scripts/speed-years/run.ts",
+    "speed:year": "node --max-old-space-size=8192 --max-semi-space-size=64 --import tsx scripts/speed-years/run.ts",
     "dialogue:coverage": "node --max-old-space-size=8192 --expose-gc --import tsx scripts/dialogue-batch/coverage-batch.ts",
     "dialogue:batch": "node --max-old-space-size=8192 --expose-gc --import tsx scripts/dialogue-batch/grading-batch.ts",
     "dialogue:guard": "node --import tsx scripts/dialogue-batch/repetition-guard.ts",
