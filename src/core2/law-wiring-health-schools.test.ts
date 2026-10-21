@@ -278,10 +278,8 @@ function tryPlace(where: string, seed: string, key: string): string | null {
     }
     advance(core, DAYS_PER_MONTH);
   }
-  {
-    const last = webMonths(api).at(-1)!;
-    console.log("MDEBT keys", Object.keys(last.values).filter((k) => k.includes("medical") || k.includes("coverage") || k.includes("uninsured")), "effects", JSON.stringify(Object.entries(last.effects).filter(([k]) => k.includes("medicaid"))), "months", webMonths(api).length);
-  }
+  for (const m of webMonths(api))
+    console.log("MDEBT", m.id, "law", m.values["law:us-policy-positions:health-human-services.expand-medicaid-eligibility"], "effects", JSON.stringify(Object.entries(m.effects).filter(([k]) => k.includes("medicaid"))));
   const lags = [
     ["medicaid-expansion-to-coverage"],
     ["medicaid-expansion-to-medical-debt"],
