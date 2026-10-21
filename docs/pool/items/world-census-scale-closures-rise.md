@@ -5,12 +5,12 @@ area: world
 kind: bug
 priority: 2
 size: S
-status: in-pr
-claimed-by: claude/closures-rise
+status: open
+claimed-by:
 pr: #5553
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-21T02:20:22.255Z
+claimed-at:
 ---
 
 **What.** After outside demand was scaled by the count scale, a town opened at its Census size (Chantilly, Virginia) still shows 114 closure rows in the jobs engine in a played year, against none at the sample size. Closures remove the firm and its workers' jobs. Find why firms close at Census scale (their books, credit or owner draws read a figure that does not scale) and make the reads agree.
@@ -37,3 +37,5 @@ Every closure carries the reason `finance.unfunded-obligation-cash-and-credit-ex
 Sent back 2026-10-20 from PR #5553 (branch claude/closures-rise): its own census-scale closures test fails in Central Falls, Rhode Island (3 closures at Census size, none at sample size); finish on that branch, merge main into it first.
 
 Sent back 2026-10-20 from PR #5553 (branch claude/closures-rise): docs/pool/items/world-census-scale-closures-rise.md:20 requires Census-size closure rows to be within the same towns scale-one count. The latest Notes explicitly report Opelika, Alabama (0157048, seed 628a8831..., scale 3.5765) still has two Census-size closures against none at scale one after the latest fixes. That is still a failing acceptance case. Preserve the regression and complete the forecast/cost cause or an authorized specification change; do not narrow the test to the firms that happen to survive.; finish on that branch, merge main into it first.
+
+Sent back 2026-10-21 from PR #5553 (branch claude/closures-rise): src/core2/modules/business.ts:1332 reconstructs the total draw by multiplying a rounded per-household return, producing fractional drawnMinor and retained-profit values that disagree with the actual journal payment in 26 records in the 40-day Opelika op1 run; finish on that branch, merge main into it first.

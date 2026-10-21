@@ -4,7 +4,7 @@ title: "Stopgaps in life (contact-frequency-logic-gap): 1 open"
 area: core
 kind: stopgap
 priority: 3
-status: claimed
+status: in-pr
 claimed-by: claude/pool-contact-measured
 pr: #5281
 blocked-on:

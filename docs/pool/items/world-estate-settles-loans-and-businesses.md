@@ -5,12 +5,12 @@ area: core
 kind: feature
 priority: 3
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/estate-loans
 pr:
 blocked-on:
 source: added with npm run pool -- add
-claimed-at:
+claimed-at: 2026-10-21T17:29:28.384Z
 ---
 
 **What.** SG-CORE-estate-cash-only: an estate pays a dead person's cash, counted relatives now inherit, savings are on the way (PR 5316) and the home is sold by world-estate-sells-the-home, but a loan they owed or held and a business they owned are not settled by probate. Loans should be paid from the estate before heirs, and a business should pass to an heir, be sold or close, by the heir's own choice and the business's books.
