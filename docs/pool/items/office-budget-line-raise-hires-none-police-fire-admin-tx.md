@@ -5,9 +5,9 @@ area: office
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/budget-line-hires-tx
-pr:
+pr: #0
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-21T14:23:42.401Z
