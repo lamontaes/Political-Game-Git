@@ -5,12 +5,12 @@ area: core
 kind: bug
 priority: 2
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/older-workers-tiers
 pr:
 blocked-on:
 source: added with npm run pool -- add
-claimed-at:
+claimed-at: 2026-10-21T10:00:33.519Z
 ---
 
 **What.** In buildBenchWorld one year after the opening, Cedro, New Mexico (key 3513450, seed 6688ecf3fa1f22a83b3c21db8f19f866d6b21ebfd85a86b0623a3a7221c5c248) has 203 of 231 full people aged 62 to 67 working, 88 percent, but only 11 of 115 counted people of that age, 10 percent; Pagai, American Samoa shows 200 of 209 and 4 of 18, and Columbus, Kentucky 182 of 197 and 0 of 38. Real participation is about 57 percent at 62 to 64 and 26 percent at 65 to 69 (BLS CPS 2019). One model, two tiers says a counted group works at the rate the same rule gives a full person, so one tier is wrong. Find where the opening seeds each tier's older workers and which one departs from the records, and fix it at the cause.
