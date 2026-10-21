@@ -40,11 +40,15 @@
 - Thicker borders, corner ornaments inside the frame, outlines on unselected buttons.
 - A chevron appears only on an activated button.
 
-**The menu shell** (the Civilization VI concept):
+**The menu shell** (owner, Oct 20; replaces the Civilization VI shell of Oct 6):
 
-- Tabs at top left: Politics, News, Calendar, Journal, Travel.
-- A stack at bottom right: People, Who you are, Money and property, Jobs and study, Guide, Options.
-- Your player card at bottom left, with the clock and Day, Week and Until needed. The date and time appear only there.
+- The scene is home. Menus are overlays that pause time; the people in the room stay visible behind them.
+- Your player card at bottom left, with the clock and Day, Week and Until needed. The date and time appear only there. Clicking your portrait opens You (your character sheet), with Work and study as its second tab.
+- A vertical icon rail directly above the card, names on hover: Journal, Calendar, Money, Politics, News, People, Travel.
+- Politics tabs: Government, Issues, Budgets, Parties; Your office appears only while you hold a seat, Campaigns only once you've filed.
+- Options, the guide and Quit to title open from the Esc key and the title screen, not the rail.
+- Alerts: a toast top right for news that just reached you, a dot on a rail icon for something unread, a scene when something needs you. No top bar, no pop-up lists.
+- Actions start from people, places and scenes, not menu lists. The campaign day has no list of acts: speeches, doors, interviews and debates are scenes.
 - No scrolling on main screens.
 
 **The screens.**
@@ -108,7 +112,7 @@ You start a new game in a random place. The opening plays like a movie and ends 
   - Borders thicker, ornaments fixed, outlines on unselected buttons (Oct 8).
   - The chevron rule (Sept 29).
 - **The layout:**
-  - The Civilization VI menu shell (Oct 6).
+  - The menu shell: icon rail, portrait opens You, News on the rail, Options on Esc (Oct 20; replaces the Civilization VI shell of Oct 6).
   - No scrolling on main screens.
   - Date and time on the player card only (Oct 1).
 - **Individual screens:**

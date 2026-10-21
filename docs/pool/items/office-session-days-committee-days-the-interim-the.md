@@ -4,9 +4,9 @@ title: "Session days, committee days, the interim, the district week and the Sta
 area: office
 kind: feature
 priority: 2
-status: claimed
+status: done
 claimed-by: claude/political-game-pool-l9cym2-b
-pr:
+pr: #5172
 blocked-on:
 milestone:
 source: "docs/coordination/OFFICE-STATE.md line 18 (unchecked checklist line)"

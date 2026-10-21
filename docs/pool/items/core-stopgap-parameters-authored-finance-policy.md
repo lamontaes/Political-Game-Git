@@ -4,12 +4,13 @@ title: "Stopgaps in parameters (authored-finance-policy): 1 open"
 area: core
 kind: stopgap
 priority: 3
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/stopgap-finance-policy
+pr: #5375
 blocked-on:
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/data/parameters.json, kind authored-finance-policy"
+claimed-at: 2026-10-20T00:39:28.602Z
 ---
 
 **What.** Replace or clear the 1 open authored-finance-policy stopgap row(s) in src/core2/data/parameters.json: SG-P8-business-books-credit-policy. Each fake is replaced by the mechanic, or the feature that needs it is deleted.
