@@ -22,3 +22,5 @@ claimed-at:
 **Files.** src/core2/census-scale-closures-support.ts, src/core2/modules/business.ts
 
 **Notes.** Found working world-census-scale-closures-rise (PR #5553).
+
+Sent back 2026-10-21 from PR #5803 (branch claude/closures-large-cities): Merging current main conflicts in src/core2/modules/business.ts in the owner-draw block around line 1324. This is a money/units conflict: the branch splits a full owner draw through businessScaleOf and multiplies a counted payment by heads, while current main changed the counted-owner path to receive the whole group draw and record the journal amount. Reconcile the large-city share change with current countedPayment semantics and preserve conservation rather than taking one side blindly. Parent #5553 is now merged into main (23:10 UTC); this PR should describe the remaining slice against that main. I aborted the local merge without pushing; no integrated head or local gate pass exists. After resolving with a plain main merge, rerun the changed-file checks and the pinned DC plus drawn large-city proof.; finish on that branch, merge main into it first.
