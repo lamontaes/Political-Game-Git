@@ -1072,11 +1072,11 @@
     "kind": "missing-engine",
     "file": "src/core2/modules/campaigns.ts",
     "line": 292,
-    "whatItFakes": "A person's opening stance on a policy question is their lean times the question's measured left-right axis, plus, for the eight questions the CES 2020 has an item for, what their faith and four-year degree add beyond the lean (src/core2/modules/views.ts openingStance, data/research/people/opening-stance-loadings.json). The other questions take the lean alone, and no trait loading exists because the CES has no personality measure.",
+    "whatItFakes": "A person's opening stance on a policy question is their lean times the question's measured left-right axis, plus, for the eight questions the CES 2020 has an item for, a stored opening record with its reasons (src/core2/modules/views.ts openingRecord, data/research/people/opening-stance-loadings.json) holding what their faith and four-year degree add beyond the lean. Every other question, and every person with no recorded faith or schooling, opens as the lean alone, and no trait loading exists because the CES has no personality measure.",
     "why": "OPUS-PEOPLE's views engine (values and stances formed from each person's life) isn't on core2 yet.",
     "addedBy": "OPUS-GOV",
     "addedAt": "2026-10-12",
-    "replacement": "Per-question stances from PEOPLE's views engine, once it holds stances by question at the opening.",
+    "replacement": "Per-question opening records for the questions the survey did not ask (a source with loadings for each), until every question opens as a stored record formed from the person's life.",
     "status": "open"
   },
   {
@@ -1913,12 +1913,12 @@
     "id": "SG-GOV-ballot-order-estimates",
     "kind": "missing-data",
     "file": "src/core2/modules/voting.ts",
-    "line": 622,
-    "whatItFakes": "For 20 of the 56 places the ballot-order rule is read from a secondary source or assumed: the five territories' rules are guesses, and 15 states' primary rule or order within a party is assumed (the rows marked estimate in data/research/elections/ballot-order-2026.json).",
-    "why": "Ballotpedia's ballot-order page gives one rule per state, usually for the general election; NCSL's table and the state codes were not reachable from the research session.",
+    "line": 621,
+    "whatItFakes": "For 5 of the 56 places the ballot-order rule is read from a secondary source or assumed: American Samoa, Indiana's primary order, the Northern Mariana Islands, Pennsylvania's primary and general rules, the Virgin Islands (the rows marked estimate in data/research/elections/ballot-order-2026.json). The other 51 rows were checked against statute text.",
+    "why": "The statute text for these places has not been read, or does not state the rule; each row's note says what is known.",
     "addedBy": "OPUS-GOV-ELECTIONS",
     "addedAt": "2026-10-14",
-    "replacement": "Each estimated row checked against its statute (the state election code, or the territory's) and its estimate flag cleared.",
+    "replacement": "Each remaining estimated row checked against its statute (the state election code, or the territory's) and its estimate flag cleared.",
     "status": "open"
   },
   {
