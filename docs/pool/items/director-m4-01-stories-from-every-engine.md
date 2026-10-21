@@ -7,10 +7,11 @@ priority: 3
 size: L
 status: open
 claimed-by:
-pr:
+pr: #5336
 blocked-on:
 milestone: M4
 source: "docs/roadmap/later-specs-draft.md M4-01"
+claimed-at:
 ---
 
 **What.** The director turns campaigns, votes, laws and money into moments: big ones interrupt, smaller ones wait or become journal lines, and callbacks come through people. (Owner: OPUS-PEOPLE.)
@@ -22,3 +23,5 @@ source: "docs/roadmap/later-specs-draft.md M4-01"
 **Files.** see spec
 
 **Notes.** Priority 3 until scheduled. Verify how much is built before starting.
+
+Sent back 2026-10-20 from PR #5336 (branch claude/director-m4-01): merge conflict with main in code; merge main and resolve; finish on that branch, merge main into it first.

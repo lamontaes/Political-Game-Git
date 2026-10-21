@@ -4,13 +4,13 @@ title: "Money calibration sources without restricted originals (#713)"
 area: world
 kind: research
 priority: 2
-status: open
-claimed-by:
+status: in-pr
+claimed-by: codex/assignments-5-money-sources-safe
 pr: #713
 blocked-on:
 milestone:
 source: "open PR #713"
-claimed-at:
+claimed-at: 2026-10-19T21:55:20.016Z
 ---
 
 **What.** Money calibration sources without restricted originals (#713). This work was sent back by the merger on 2026-10-16 and is open for any builder to finish. The reason it came back: scripts/source/regional-money/missing-money-sources.test.ts fails: missing-money-sources.ts imports ../../../src/source/core/archive/zip, which main deleted in 'Delete unused files from the old game and tooling' (595b46a9d3). Replace the zip reader with one that exists on main (or write it fresh) and rerun the test; the PR body also lacks a gate line at the top. Finish it on the existing branch codex/assignments-5-money-sources-safe, after merging main into it with a plain merge.

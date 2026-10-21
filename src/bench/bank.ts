@@ -28,9 +28,50 @@ export function bankView(core: CoreState, personId: string) {
         equityMinor: Number(latest.equity),
       }
     : null;
+  // The household's last month as the credit engine kept it, and the latest
+  // payments on the loans it owes: why the cash fell short.
+  const months = store
+    .table("households")
+    .query("byHousehold", [person.householdId]) as unknown as Record<
+    string,
+    unknown
+  >[];
+  const month = [...months].sort((a, b) =>
+    String(b.date).localeCompare(String(a.date)),
+  )[0];
+  const payments = (
+    store
+      .table("loans")
+      .query("byHousehold", [person.householdId]) as unknown as {
+      id: string;
+    }[]
+  )
+    .flatMap(
+      (loan) =>
+        store.table("payments").query("byLoan", [loan.id]) as unknown as Record<
+          string,
+          unknown
+        >[],
+    )
+    .sort((a, b) => String(b.date).localeCompare(String(a.date)))
+    .slice(0, 3);
   return {
     id: bankId,
     name: organization.name,
+    month: month && {
+      id: String(month.id),
+      date: String(month.date),
+      housingMinor: Number(month.housingMinor),
+      everydayMinor: Number(month.everydayMinor),
+      paidMinor: Number(month.paidMinor),
+      unpaidMinor: Number(month.unpaidMinor),
+    },
+    loanPayments: payments.map((row) => ({
+      id: String(row.id),
+      date: String(row.date),
+      dueMinor: Number(row.dueMinor),
+      paidMinor: Number(row.paidMinor),
+    })),
     householdId: person.householdId,
     depositId: deposit?.id,
     savingsMinor: deposit?.balanceMinor ?? 0,

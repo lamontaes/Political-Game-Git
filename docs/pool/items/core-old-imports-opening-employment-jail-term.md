@@ -5,13 +5,14 @@ area: core
 kind: cleanup
 priority: 2
 size: S
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/old-imports-jail-term
+pr: #5073
 blocked-on:
-source: split from core-old-imports-opening-employment
----
+source: added with npm run pool -- add
+claimed-at: 2026-10-19T18:12:30.665Z
 
+---
 **What.** The opening's employment allocation asks the old engine whether a resident is serving a jail term (`jailTermOn` in src/simulation/justice/jail-terms.ts) before it marks them employable. Move that read into the core: the opening takes the sentence, clemency and reversal records it needs from the core's own opening history and answers the same question. Nothing new is added to the old engine, and nothing old is deleted until core-delete-old-engine.
 
 **Rules.** Replace, never layer: the jail-terms import is deleted from opening-employment.ts in the same change. One rule, all 56 places: the move names no state, city or GEOID. No dice: a jail term comes from the sentence record and its dates, never a roll.
