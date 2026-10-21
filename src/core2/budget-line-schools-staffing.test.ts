@@ -102,6 +102,9 @@ function amendSchoolsLine(direction: -1 | 1) {
     expect(budgetProposalDue(api, officeHost, mayorId), where).not.toBeNull();
     const staffBefore = teachers(district.id).map((j) => j.personId);
     const staffInPlace = staffBefore.length;
+    // A row set earlier in the same fiscal year keeps its base: the engine
+    // funds a line change against the staff the year began with.
+    const earlier = staffingOf(api, "budget-line:schools", district.id);
     // The job each full person held when the line was proposed: a hire must
     // not have been taken from a job still running.
     const priorJob = new Map(
@@ -131,6 +134,7 @@ function amendSchoolsLine(direction: -1 | 1) {
       core,
       api,
       staffInPlace,
+      earlier,
       district,
       priorLine,
       change,
@@ -154,11 +158,15 @@ it("a cut to the city's schools line ends named teachers' jobs at the public sch
   // or counted) times the line after the bill against the line before it.
   const row = staffingOf(r.api, "budget-line:schools", r.district.id);
   expect(row, r.where).not.toBeNull();
-  expect(row!.baseStaff, r.where).toBe(r.staffInPlace);
+  expect(row!.baseStaff, r.where).toBe(
+    r.earlier && r.earlier.fiscalYear === row!.fiscalYear
+      ? r.earlier.baseStaff
+      : r.staffInPlace,
+  );
   expect(row!.positions, r.where).toBeCloseTo(
     row!.baseStaff * ((r.priorLine + r.change) / r.priorLine),
   );
-  expect(row!.positions, r.where).toBeLessThan(r.staffInPlace);
+  expect(row!.positions, r.where).toBeLessThan(row!.baseStaff);
   expect(
     laidOff.length,
     `${r.where}: schools line ${r.priorLine} cut by ${-r.change}, adopted ${r.adopted?.id}; ${r.staffBefore.length} teachers before`,
@@ -176,11 +184,15 @@ it("a raise to the city's schools line hires named adults who had no work at the
     .map((j) => j.id);
   const row = staffingOf(r.api, "budget-line:schools", r.district.id);
   expect(row, r.where).not.toBeNull();
-  expect(row!.baseStaff, r.where).toBe(r.staffInPlace);
+  expect(row!.baseStaff, r.where).toBe(
+    r.earlier && r.earlier.fiscalYear === row!.fiscalYear
+      ? r.earlier.baseStaff
+      : r.staffInPlace,
+  );
   expect(row!.positions, r.where).toBeCloseTo(
     row!.baseStaff * ((r.priorLine + r.change) / r.priorLine),
   );
-  expect(row!.positions, r.where).toBeGreaterThan(r.staffInPlace);
+  expect(row!.positions, r.where).toBeGreaterThan(row!.baseStaff);
   expect(
     hired.length,
     `${r.where}: schools line ${r.priorLine} raised by ${r.change}, adopted ${r.adopted?.id}; ${r.staffBefore.length} teachers before`,
