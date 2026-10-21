@@ -3448,6 +3448,21 @@ function countVote(api: CoreAPI, billId: string): BillRow {
   bill = { ...bill, ...checkedText(api, bill.bodyOfficeId, bill.provisions) };
   table(api, "bills").put(bill as unknown as ModuleRow);
   if (bill.status === "blocked") return bill;
+  // A bill whose every section another act has already made the law at its
+  // level (passed while this one waited) changes nothing: it dies unvoted,
+  // as a bill a committee holds does.
+  if (
+    bill.provisions.every(
+      (p) =>
+        p.kind === "policy-question" &&
+        !!p.question &&
+        !changesLaw(api, bill, p.question, p.value),
+    )
+  ) {
+    const moot: BillRow = { ...bill, status: "failed" };
+    table(api, "bills").put(moot as unknown as ModuleRow);
+    return moot;
+  }
   runBeforeVote(api, billId, "floor");
   bill = table(api, "bills").get(billId) as unknown as BillRow;
   if (bill.status !== "drafted") return bill;
@@ -4281,7 +4296,13 @@ function enact(
           measureId: bill.number,
         });
     }
-    if (provision.kind === "policy-question" && provision.question)
+    // A section another act already made the law here (passed while this
+    // bill was pending) changes nothing and writes no law of its own.
+    if (
+      provision.kind === "policy-question" &&
+      provision.question &&
+      changesLaw(api, bill, provision.question, provision.value)
+    )
       enactLaw(api, {
         jurisdiction,
         level,

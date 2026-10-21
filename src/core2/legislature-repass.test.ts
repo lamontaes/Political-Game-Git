@@ -13,6 +13,7 @@ import { gameStartDate } from "./game-start";
 import { addDays, makeIsoDate } from "./kernel/dates";
 import { advanceCore } from "./life";
 import { LAWS_MODULE_ID } from "./modules/laws";
+import { LEGISLATURE_MODULE_ID, type BillRow } from "./modules/legislature";
 import { POLICY_QUESTIONS } from "./policy-answers";
 import { coreAPI } from "./state";
 import type { LawRowInput } from "./laws-starting";
@@ -63,6 +64,21 @@ it(
             ).not.toBe(before.value === 1);
         });
       }
+      // Every bill that passed changed some law: a bill of policy sections
+      // alone wrote at least one law row of its own.
+      const wrote = new Set(rows.map((r) => r.terms?.enactedByBill));
+      for (const bill of api
+        .moduleState(LEGISLATURE_MODULE_ID)
+        .table("bills")
+        .rows() as unknown as BillRow[])
+        if (
+          ["enacted", "signed", "overridden"].includes(bill.status) &&
+          bill.provisions.every((p) => p.kind === "policy-question")
+        )
+          expect(
+            wrote.has(bill.id),
+            `${label}: ${bill.number} (${bill.id}) passed and changed no law`,
+          ).toBe(true);
       tried.push(`${label}: ${enacted.length} policy laws enacted`);
       if (!enacted.length) continue;
       witnessed += 1;
